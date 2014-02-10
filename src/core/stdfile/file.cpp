@@ -30,7 +30,7 @@ int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR
 
 static HGENMENU hSRFileMenuItem;
 
-TCHAR *GetContactID(HCONTACT hContact)
+TCHAR *GetContactID(MCONTACT hContact)
 {
 	TCHAR *theValue = {0};
 	char *szProto = GetContactProto(hContact);
@@ -62,7 +62,7 @@ TCHAR *GetContactID(HCONTACT hContact)
 static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 {
 	struct FileSendData fsd;
-	fsd.hContact = (HCONTACT)wParam;
+	fsd.hContact = (MCONTACT)wParam;
 	fsd.ppFiles = NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
@@ -71,7 +71,7 @@ static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact = (HCONTACT)wParam;
+	fsd.hContact = (MCONTACT)wParam;
 
 	char** ppFiles = (char**)lParam;
 	int count = 0;
@@ -92,7 +92,7 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact = (HCONTACT)wParam;
+	fsd.hContact = (MCONTACT)wParam;
 	fsd.ppFiles = (const TCHAR**)lParam;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
@@ -101,7 +101,7 @@ static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR buf[MAX_PATH];
-	GetContactReceivedFilesDir((HCONTACT)wParam, buf, MAX_PATH, TRUE);
+	GetContactReceivedFilesDir((MCONTACT)wParam, buf, MAX_PATH, TRUE);
 	char* dir = mir_t2a(buf);
 	lstrcpynA((char*)lParam, dir, MAX_PATH);
 	mir_free(dir);
@@ -114,7 +114,7 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void PushFileEvent(HCONTACT hContact, HANDLE hdbe, LPARAM lParam)
+void PushFileEvent(MCONTACT hContact, HANDLE hdbe, LPARAM lParam)
 {
 	CLISTEVENT cle = {0};
 	cle.cbSize = sizeof(cle);
@@ -148,7 +148,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dbei.flags & (DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
 		return 0;
 
-	PushFileEvent((HCONTACT)wParam, (HANDLE)lParam, 0);
+	PushFileEvent((MCONTACT)wParam, (HANDLE)lParam, 0);
 	return 0;
 }
 
@@ -288,7 +288,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 
 static void RemoveUnreadFileEvents(void)
 {
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -303,12 +303,12 @@ static void RemoveUnreadFileEvents(void)
 static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 {
 	bool bEnabled = false;
-	char *szProto = GetContactProto((HCONTACT)wParam);
+	char *szProto = GetContactProto((MCONTACT)wParam);
 	if (szProto != NULL) {
 		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
 			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				bEnabled = true;
-			else if (db_get_w((HCONTACT)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+			else if (db_get_w((MCONTACT)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				bEnabled = true;
 		}
 	}
@@ -339,7 +339,7 @@ INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 INT_PTR openContRecDir(WPARAM wparam, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
-	HCONTACT hContact = (HCONTACT)wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	GetContactReceivedFilesDir(hContact, szContRecDir, SIZEOF(szContRecDir), TRUE);
 	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
 	return 0;

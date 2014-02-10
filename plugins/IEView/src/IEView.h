@@ -441,7 +441,7 @@ private:
 	bool clearRequired;
 	BSTR selectedText;
 	bool isContactSet;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	// IUnknown
 	STDMETHODIMP QueryInterface(REFIID riid, PVOID *ppv);
@@ -551,7 +551,7 @@ public:
 	void            navigate(IEVIEWNAVIGATE * nav);
 	void            saveDocument();
 
-	void			setContact(HCONTACT hContact);
+	void			setContact(MCONTACT hContact);
 
 	static IEView*	get(HWND);
 	static void		init();

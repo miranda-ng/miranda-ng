@@ -39,7 +39,7 @@ int debugLogA( const char *fmt, ... )
 	return CallService(MS_NETLIB_LOG, (WPARAM)g_hNetlibUser, (LPARAM)str);
 }
 
-DWORD CYahooProto::Set_Protocol(HCONTACT hContact, int protocol )
+DWORD CYahooProto::Set_Protocol(MCONTACT hContact, int protocol )
 {
 	char *s=NULL;
 	
@@ -59,11 +59,11 @@ DWORD CYahooProto::Set_Protocol(HCONTACT hContact, int protocol )
 	return 0;
 }
 
-int CYahooProto::GetStringUtf(HCONTACT hContact, const char* name, DBVARIANT* result)
+int CYahooProto::GetStringUtf(MCONTACT hContact, const char* name, DBVARIANT* result)
 {	return db_get_utf(hContact, m_szModuleName, name, result);
 }
 
-DWORD CYahooProto::SetStringUtf(HCONTACT hContact, const char* valueName, const char* parValue)
+DWORD CYahooProto::SetStringUtf(MCONTACT hContact, const char* valueName, const char* parValue)
 {	return db_set_utf(hContact, m_szModuleName, valueName, parValue);
 }
 
@@ -162,8 +162,8 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
-		if (!getString((HCONTACT)wParam, YAHOO_LOGINID, &dbv)) {
-			int iAdd = (ID_STATUS_OFFLINE == getWord((HCONTACT)wParam, "ApparentMode", 0));
+		if (!getString((MCONTACT)wParam, YAHOO_LOGINID, &dbv)) {
+			int iAdd = (ID_STATUS_OFFLINE == getWord((MCONTACT)wParam, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
 			db_free(&dbv);
 		}
@@ -171,7 +171,7 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-bool CYahooProto::IsMyContact(HCONTACT hContact)
+bool CYahooProto::IsMyContact(MCONTACT hContact)
 {
 	if (!hContact)
 		return false;

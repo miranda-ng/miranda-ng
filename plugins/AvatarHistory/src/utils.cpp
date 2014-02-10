@@ -34,7 +34,7 @@ BOOL ProtocolEnabled(const char *proto)
 	return (BOOL) db_get_b(NULL, MODULE_NAME, setting, TRUE);
 }
 
-BOOL ContactEnabled(HCONTACT hContact, char *setting, int def)
+BOOL ContactEnabled(MCONTACT hContact, char *setting, int def)
 {
 	if (hContact == NULL)
 		return FALSE;
@@ -77,7 +77,7 @@ void ConvertToFilename(TCHAR *str, size_t size)
 	}
 }
 
-int GetUIDFromHContact(HCONTACT contact, TCHAR* uinout, int uinout_len)
+int GetUIDFromHContact(MCONTACT contact, TCHAR* uinout, int uinout_len)
 {
 	bool found = true;
 
@@ -138,7 +138,7 @@ TCHAR* GetProtocolFolder(TCHAR *fn, char *proto)
 	return fn;
 }
 
-TCHAR* GetContactFolder(TCHAR *fn, HCONTACT hContact)
+TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	GetProtocolFolder(fn, proto);
@@ -158,7 +158,7 @@ TCHAR* GetContactFolder(TCHAR *fn, HCONTACT hContact)
 	return fn;
 }
 
-TCHAR* GetOldStyleAvatarName(TCHAR *fn, HCONTACT hContact)
+TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact)
 {
 	GetContactFolder(fn, hContact);
 
@@ -172,7 +172,7 @@ TCHAR* GetOldStyleAvatarName(TCHAR *fn, HCONTACT hContact)
 	return fn;
 }
 
-void CreateOldStyleShortcut(HCONTACT hContact, TCHAR *history_filename)
+void CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename)
 {
 	TCHAR shortcut[MAX_PATH] = _T("");
 

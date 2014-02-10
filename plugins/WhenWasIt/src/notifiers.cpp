@@ -64,14 +64,14 @@ TCHAR *BuildDABText(int dab, TCHAR *name, TCHAR *text, int size)
 	return text;
 }
 
-int PopupNotifyBirthday(HCONTACT hContact, int dtb, int age)
+int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
 	TCHAR text[MAX_SIZE];
 	//int bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
 	if (commonData.bIgnoreSubcontacts) {
-		HCONTACT hMetacontact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		MCONTACT hMetacontact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
 		if ((hMetacontact) && (hMetacontact != hContact)) //not main metacontact
 			return 0;
 	}
@@ -108,14 +108,14 @@ int PopupNotifyBirthday(HCONTACT hContact, int dtb, int age)
 	return 0;
 }
 
-int PopupNotifyMissedBirthday(HCONTACT hContact, int dab, int age)
+int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
 	TCHAR text[MAX_SIZE];
 	//int bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
 	if (commonData.bIgnoreSubcontacts) {
-		HCONTACT hMetacontact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		MCONTACT hMetacontact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
 		if (hMetacontact && hMetacontact != hContact) //not main metacontact
 			return 0;
 	}
@@ -152,7 +152,7 @@ int PopupNotifyMissedBirthday(HCONTACT hContact, int dab, int age)
 	return 0;
 }
 
-int DialogNotifyBirthday(HCONTACT hContact, int dtb, int age)
+int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
@@ -178,7 +178,7 @@ int DialogNotifyBirthday(HCONTACT hContact, int dtb, int age)
 	return 0;
 }
 
-int DialogNotifyMissedBirthday(HCONTACT hContact, int dab, int age)
+int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
@@ -218,7 +218,7 @@ int SoundNotifyBirthday(int dtb)
 //called with oldClistIcon != -1 from dlg_handlers whtn the extra icon slot changes.
 int RefreshAllContactListIcons(int oldClistIcon)
 {
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (oldClistIcon != -1)
 			ExtraIcon_Clear(hWWIExtraIcons, hContact);
 

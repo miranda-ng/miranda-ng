@@ -572,7 +572,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 TCHAR svcReturnText[MAX_TEXT_SIZE];
 INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam) 
 {
-	WEATHERINFO winfo = LoadWeatherInfo((HCONTACT)wParam);
+	WEATHERINFO winfo = LoadWeatherInfo((MCONTACT)wParam);
 	return (INT_PTR)GetDisplay(&winfo, (TCHAR*)lParam, svcReturnText);
 }
 

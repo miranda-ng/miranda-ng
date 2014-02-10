@@ -66,7 +66,7 @@ MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
 	return item;
 }
 
-MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, HCONTACT hContact)
+MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact)
 {
 	MessageSendQueueItem *item, *found = NULL;
 	EnterCriticalSection(&queueMutex);
@@ -79,7 +79,7 @@ MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, HCONTACT h
 	return found;
 }
 
-MessageSendQueueItem* FindSendQueueItem(HCONTACT hContact, HANDLE hSendId)
+MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)
 {
 	mir_cslock lock(queueMutex);
 	for (MessageSendQueueItem *item = global_sendQueue; item != NULL; item = item->next)
@@ -159,7 +159,7 @@ void ReleaseSendQueueItems(HWND hwndSender)
 	}
 }
 
-int ReattachSendQueueItems(HWND hwndSender, HCONTACT hContact)
+int ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact)
 {
 	int count = 0;
 

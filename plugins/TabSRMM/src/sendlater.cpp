@@ -269,7 +269,7 @@ int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
  * addJob() will deal with possible duplicates
  * @param hContact HANDLE: contact's handle
  */
-void CSendLater::processSingleContact(const HCONTACT hContact)
+void CSendLater::processSingleContact(const MCONTACT hContact)
 {
 	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
 
@@ -291,7 +291,7 @@ void CSendLater::processContacts()
 {
 	if (m_fAvail && m_sendLaterContactList.getCount() != 0) {
 		for (int i=0; i < m_sendLaterContactList.getCount(); i++)
-			processSingleContact((HCONTACT)m_sendLaterContactList[i]);
+			processSingleContact((MCONTACT)m_sendLaterContactList[i]);
 
 		m_sendLaterContactList.destroy();
 	}
@@ -310,7 +310,7 @@ void CSendLater::processContacts()
  */
 int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 {
-	HCONTACT	hContact = (HCONTACT)lParam;
+	MCONTACT	hContact = (MCONTACT)lParam;
 	DBVARIANT dbv = {0};
 	char *szOrig_Utf = 0;
 
@@ -395,7 +395,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
  */
 int CSendLater::sendIt(CSendLaterJob *job)
 {
-	HCONTACT hContact = job->hContact;
+	MCONTACT hContact = job->hContact;
 	time_t now = time(0);
 	DWORD dwFlags = 0;
 	DBVARIANT dbv = {0};
@@ -485,7 +485,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
  * and new jobs are created.
  */
 
-void CSendLater::addContact(const HCONTACT hContact)
+void CSendLater::addContact(const MCONTACT hContact)
 {
 	if (!m_fAvail)
 		return;
@@ -558,7 +558,7 @@ void CSendLater::qMgrUpdate(bool fReEnable)
 	}
 }
 
-LRESULT CSendLater::qMgrAddFilter(const HCONTACT hContact, const TCHAR* tszNick)
+LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick)
 {
 	LRESULT lr;
 
@@ -773,7 +773,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hwnd);
 		m_hwndList = ::GetDlgItem(m_hwndDlg, IDC_QMGR_LIST);
 		m_hwndFilter = ::GetDlgItem(m_hwndDlg, IDC_QMGR_FILTER);
-		m_hFilter = (HCONTACT)(db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0));
+		m_hFilter = (MCONTACT)(db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0));
 
 		::SetWindowLongPtr(m_hwndList, GWL_STYLE, ::GetWindowLongPtr(m_hwndList, GWL_STYLE) | LVS_SHOWSELALWAYS);
 		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_LABELTIP|LVS_EX_DOUBLEBUFFER);
@@ -832,7 +832,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (HIWORD(wParam) == CBN_SELCHANGE && reinterpret_cast<HWND>(lParam) == m_hwndFilter) {
 			LRESULT lr = ::SendMessage(m_hwndFilter, CB_GETCURSEL, 0, 0);
 			if (lr != CB_ERR) {
-				m_hFilter = (HCONTACT)::SendMessage(m_hwndFilter, CB_GETITEMDATA, lr, 0);
+				m_hFilter = (MCONTACT)::SendMessage(m_hwndFilter, CB_GETITEMDATA, lr, 0);
 				qMgrFillList();
 			}
 			break;

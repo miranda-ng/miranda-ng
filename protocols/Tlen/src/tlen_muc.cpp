@@ -69,7 +69,7 @@ static int stringToHex(const char *str)
 static char *getDisplayName(TlenProtocol *proto, const char *id)
 {
 	char jid[256];
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
@@ -101,7 +101,7 @@ BOOL TlenMUCInit(TlenProtocol *proto)
 
 int TlenProtocol::MUCHandleEvent(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int id;
 	MUCCEVENT *mucce=(MUCCEVENT *) lParam;
 	if (!strcmp(mucce->pszModule, m_szModuleName)) {
@@ -954,7 +954,7 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	queryResult.iItemsNum = 0;
 
 
-	for (HCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+	for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
 		if ( db_get_b(hContact, szProto, "bChat", FALSE))
 			continue;
 
@@ -970,7 +970,7 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	memset(queryResult.pItems, 0, sizeof(MUCCQUERYITEM) * queryResult.iItemsNum);
 	queryResult.iItemsNum = 0;
 
-	for (HCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+	for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
 		if ( db_get_b(hContact, szProto, "bChat", FALSE))
 			continue;
 
@@ -1025,13 +1025,13 @@ INT_PTR TlenProtocol::MUCMenuHandleChats(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DBVARIANT dbv;
 	TLEN_LIST_ITEM *item;
 	if (!isOnline)
 		return 1;
 
-	if ((hContact=(HCONTACT)wParam) != NULL && isOnline) {
+	if ((hContact=(MCONTACT)wParam) != NULL && isOnline) {
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
 			mir_snprintf(serialId, SIZEOF(serialId), TLEN_IQID"%d", TlenSerialNext(this));

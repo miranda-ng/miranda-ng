@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HCONTACT contact, DWORD flags, std::string *url, std::string *notification_id)
+void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id)
 {
 	char name[256];
 

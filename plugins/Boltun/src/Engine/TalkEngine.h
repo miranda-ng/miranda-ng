@@ -74,7 +74,7 @@ private:
 		}
 	};
 
-	PerContactData<Mind, ContactData, HCONTACT>* contactDatas;
+	PerContactData<Mind, ContactData, MCONTACT>* contactDatas;
 	const Mind mind;
 	bool beSilent;
 	bool makeLowercase;
@@ -103,9 +103,9 @@ public:
 	void SetLowercase(const bool isLowercase);
 	void SetUnderstandAlways(const bool understandAlways);
 	//const MindData *GetData();
-	std::tstring GetInitMessage(HCONTACT contact);
-	MessageInfo* Reply(HCONTACT contact, const std::tstring incomingMessage, bool saveChoice);
-	void AnswerGiven(HCONTACT contact, const MessageInfo &info);
+	std::tstring GetInitMessage(MCONTACT contact);
+	MessageInfo* Reply(MCONTACT contact, const std::tstring incomingMessage, bool saveChoice);
+	void AnswerGiven(MCONTACT contact, const MessageInfo &info);
 };
 
 #endif

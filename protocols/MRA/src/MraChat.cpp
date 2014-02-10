@@ -27,7 +27,7 @@ bool CMraProto::MraChatRegister()
 	return TRUE;
 }
 
-INT_PTR CMraProto::MraChatSessionNew(HCONTACT hContact)
+INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 {
 	if (bChatExists)
 	if (hContact) {
@@ -63,7 +63,7 @@ INT_PTR CMraProto::MraChatSessionNew(HCONTACT hContact)
 	return 1;
 }
 
-void CMraProto::MraChatSessionDestroy(HCONTACT hContact)
+void CMraProto::MraChatSessionDestroy(MCONTACT hContact)
 {
 	if (!bChatExists || hContact == NULL)
 		return;
@@ -79,7 +79,7 @@ void CMraProto::MraChatSessionDestroy(HCONTACT hContact)
 	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
 }
 
-INT_PTR CMraProto::MraChatSessionEventSendByHandle(HCONTACT hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
 {
 	if (!bChatExists)
 		return 1;
@@ -111,7 +111,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HCONTACT hContactChatSession,
 		gce.ptszNick = wszNick;
 	}
 	else {
-		HCONTACT hContactSender = MraHContactFromEmail(lpszUID, FALSE, TRUE, NULL);
+		MCONTACT hContactSender = MraHContactFromEmail(lpszUID, FALSE, TRUE, NULL);
 		wszUID = lpszUID;
 		if (hContactSender)
 			gce.ptszNick = GetContactNameW(hContactSender);
@@ -122,7 +122,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HCONTACT hContactChatSession,
 	return CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 }
 
-INT_PTR CMraProto::MraChatSessionInvite(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionInvite(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (!hContactChatSession)
 		return 1;
@@ -132,7 +132,7 @@ INT_PTR CMraProto::MraChatSessionInvite(HCONTACT hContactChatSession, const CMSt
 	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, wszBuff, 0, dwTime);
 }
 
-INT_PTR CMraProto::MraChatSessionMembersAdd(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionMembersAdd(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (!hContactChatSession)
 		return 1;
@@ -142,7 +142,7 @@ INT_PTR CMraProto::MraChatSessionMembersAdd(HCONTACT hContactChatSession, const 
 	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, wszBuff, 0, dwTime);
 }
 
-INT_PTR CMraProto::MraChatSessionJoinUser(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionJoinUser(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (hContactChatSession)
 		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], _T(""), 0, dwTime);
@@ -150,7 +150,7 @@ INT_PTR CMraProto::MraChatSessionJoinUser(HCONTACT hContactChatSession, const CM
 	return 1;
 }
 
-INT_PTR CMraProto::MraChatSessionLeftUser(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionLeftUser(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (hContactChatSession)
 		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_PART, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, NULL, 0, dwTime);
@@ -158,7 +158,7 @@ INT_PTR CMraProto::MraChatSessionLeftUser(HCONTACT hContactChatSession, const CM
 	return 1;
 }
 
-INT_PTR CMraProto::MraChatSessionSetIviter(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat)
+INT_PTR CMraProto::MraChatSessionSetIviter(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat)
 {
 	if (hContactChatSession && !lpszEMailInMultiChat.IsEmpty())
 		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ADDSTATUS, 0, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_INVITER], NULL, 0, 0);
@@ -166,7 +166,7 @@ INT_PTR CMraProto::MraChatSessionSetIviter(HCONTACT hContactChatSession, const C
 	return 1;
 }
 
-INT_PTR CMraProto::MraChatSessionSetOwner(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat)
+INT_PTR CMraProto::MraChatSessionSetOwner(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat)
 {
 	if (hContactChatSession && !lpszEMailInMultiChat.IsEmpty())
 		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ADDSTATUS, 0, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_OWNER], NULL, 0, 0);
@@ -175,7 +175,7 @@ INT_PTR CMraProto::MraChatSessionSetOwner(HCONTACT hContactChatSession, const CM
 }
 
 
-INT_PTR CMraProto::MraChatSessionMessageAdd(HCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, const CMStringW &lpwszMessage, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionMessageAdd(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, const CMStringW &lpwszMessage, DWORD dwTime)
 {
 	if (hContactChatSession)
 		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, lpwszMessage, 0, dwTime);
@@ -195,7 +195,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 				if (gch->ptszText && lstrlen(gch->ptszText)) {
 					size_t dwMessageSize = lstrlenW(gch->ptszText);
 					CMStringA szEmail = gch->pDest->ptszID;
-					HCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
+					MCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
 					BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 
 					DWORD dwFlags = 0;
@@ -236,7 +236,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 void CMraProto::MraChatSendPrivateMessage(LPSTR lpszEMail)
 {
 	BOOL bAdded;
-	HCONTACT hContact = MraHContactFromEmail(lpszEMail, TRUE, TRUE, &bAdded);
+	MCONTACT hContact = MraHContactFromEmail(lpszEMail, TRUE, TRUE, &bAdded);
 	if (bAdded)
 		db_set_b(hContact, "CList", "Hidden", 1);
 

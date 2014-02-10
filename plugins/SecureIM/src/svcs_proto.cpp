@@ -31,13 +31,13 @@ static void sttFakeAck(LPVOID param)
 	delete tParam;
 }
 
-int returnNoError(HCONTACT hContact)
+int returnNoError(MCONTACT hContact)
 {
 	mir_forkthread(sttFakeAck, new TFakeAckParams(hContact, 777, 0));
 	return 777;
 }
 
-int returnError(HCONTACT hContact, LPCSTR err)
+int returnError(MCONTACT hContact, LPCSTR err)
 {
 	mir_forkthread(sttFakeAck, new TFakeAckParams(hContact, 666, err));
 	return 666;

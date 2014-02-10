@@ -50,7 +50,7 @@ static void OptionsFrameEnableControls(HWND hwndDlg)
 */
 static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int idx;
 	switch (uMsg) {
 	case WM_INITDIALOG:	
@@ -144,9 +144,9 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_RADIO_ALL), BM_GETCHECK, 0, 0) == BST_CHECKED)
 					hForwardFrom = 0;
 				else
-					hForwardFrom = (HCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_GETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_GETCURSEL, 0, 0), 0);
+					hForwardFrom = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_GETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_GETCURSEL, 0, 0), 0);
 
-				hForwardTo = (HCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_GETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_GETCURSEL, 0, 0), 0);
+				hForwardTo = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_GETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_GETCURSEL, 0, 0), 0);
 				iForwardOnStatus = 0;
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_CHECK1), BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_OFFLINE;
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_CHECK2), BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_ONLINE;

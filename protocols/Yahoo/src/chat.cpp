@@ -244,7 +244,7 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const TC
 	TCHAR* idt = mir_a2t(room);
 	TCHAR* snt = mir_a2t(who);
 
-	HCONTACT hContact = getbuddyH(who);
+	MCONTACT hContact = getbuddyH(who);
 	TCHAR* nick = hContact ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR) : snt;
 
 	GCDEST gcd = { m_szModuleName, idt, evt };
@@ -395,17 +395,17 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Invite to chat dialog
 
-static void clist_chat_invite_send(HCONTACT hItem, HWND hwndList, YList* &who, char* room, CYahooProto* ppro, TCHAR *msg)
+static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, char* room, CYahooProto* ppro, TCHAR *msg)
 {
 	bool root = !hItem;
 	if (root)
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem)
 	{
 		if (IsHContactGroup(hItem))
 		{
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				clist_chat_invite_send(hItemT, hwndList, who, room, ppro, msg);
 		}
@@ -429,7 +429,7 @@ static void clist_chat_invite_send(HCONTACT hItem, HWND hwndList, YList* &who, c
 				}
 			}
 		}
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 
 	if (root && who)
@@ -451,23 +451,23 @@ static void clist_chat_invite_send(HCONTACT hItem, HWND hwndList, YList* &who, c
 	}
 }
 
-static void ClistValidateContact(HCONTACT hItem, HWND hwndList, CYahooProto* ppro)
+static void ClistValidateContact(MCONTACT hItem, HWND hwndList, CYahooProto* ppro)
 {
 	if (!ppro->IsMyContact(hItem) || ppro->isChatRoom(hItem) ||
 		ppro->getWord(hItem, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
-static void ClistChatPrepare(HCONTACT hItem, HWND hwndList, CYahooProto* ppro)
+static void ClistChatPrepare(MCONTACT hItem, HWND hwndList, CYahooProto* ppro)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
-		HCONTACT hItemN = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		MCONTACT hItemN = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				ClistChatPrepare(hItemT, hwndList, ppro);
 		}
@@ -516,7 +516,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 			case CLN_NEWCONTACT:
 				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					ClistValidateContact((HCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
+					ClistValidateContact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 				break;
 
 			case CLN_LISTREBUILT:

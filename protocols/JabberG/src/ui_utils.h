@@ -458,7 +458,7 @@ class CCtrlClc: public CCtrlBase
 public:
 	CCtrlClc(CDlgBase* dlg, int ctrlId);
 
-	void AddContact(HCONTACT hContact);
+	void AddContact(MCONTACT hContact);
 	void AddGroup(HANDLE hGroup);
 	void AutoRebuild();
 	void DeleteItem(HANDLE hItem);
@@ -466,7 +466,7 @@ public:
 	void EndEditLabel(bool save);
 	void EnsureVisible(HANDLE hItem, bool partialOk);
 	void Expand(HANDLE hItem, DWORD flags);
-	HANDLE FindContact(HCONTACT hContact);
+	HANDLE FindContact(MCONTACT hContact);
 	HANDLE FindGroup(HANDLE hGroup);
 	COLORREF GetBkColor();
 	bool GetCheck(HANDLE hItem);

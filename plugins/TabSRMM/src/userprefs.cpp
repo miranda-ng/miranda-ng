@@ -57,13 +57,13 @@ static int have_ieview = 0, have_hpp = 0;
 
 static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 		case WM_INITDIALOG: {
 			DWORD sCodePage;
 			int i;
-			hContact = (HCONTACT)lParam;
+			hContact = (MCONTACT)lParam;
 			DWORD maxhist = M.GetDword(hContact, "maxhist", 0);
 			BYTE bIEView = M.GetByte(hContact, "ieview", 0);
 			BYTE bHPP = M.GetByte(hContact, "hpplog", 0);
@@ -362,10 +362,10 @@ int TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat)
  */
 static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
-		hContact = (HCONTACT)lParam;
+		hContact = (MCONTACT)lParam;
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 		SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
@@ -457,14 +457,14 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
  */
 INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	TCITEM tci;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		hContact = (HCONTACT)lParam;
+		hContact = (MCONTACT)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 
 		WindowList_Add(PluginConfig.hUserPrefsWindowList, hwndDlg, hContact);

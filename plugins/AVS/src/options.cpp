@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_AVATARCHANGED (WM_USER + 12)
 #define DM_PROTOCOLCHANGED (WM_USER + 13)
 
-extern int _DebugPopup(HCONTACT hContact, const char *fmt, ...);
+extern int _DebugPopup(MCONTACT hContact, const char *fmt, ...);
 extern INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam);
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures;
 extern HANDLE hEventChanged;
@@ -41,7 +41,7 @@ extern BOOL ScreenToClient(HWND hWnd, LPRECT lpRect);
 static BOOL dialoginit = TRUE;
 
 struct WindowData {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hHook;
 };
 
@@ -423,7 +423,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					BOOL newVal = ListView_GetCheckState(hwndList, i);
 
 					if (oldVal && !newVal)
-						for (HCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
+						for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
 							DeleteAvatarFromCache(hContact, TRUE);
 
 					if (newVal)
@@ -440,7 +440,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void LoadTransparentData(HWND hwndDlg, HCONTACT hContact)
+static void LoadTransparentData(HWND hwndDlg, MCONTACT hContact)
 {
 	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)));
 	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)));
@@ -455,7 +455,7 @@ static void LoadTransparentData(HWND hwndDlg, HCONTACT hContact)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), transp_enabled);
 }
 
-static void SaveTransparentData(HWND hwndDlg, HCONTACT hContact)
+static void SaveTransparentData(HWND hwndDlg, MCONTACT hContact)
 {
 	BOOL transp = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
 	if (db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) == transp)
@@ -476,18 +476,18 @@ static void SaveTransparentData(HWND hwndDlg, HCONTACT hContact)
 		db_set_w(hContact, "ContactPhoto", "TranspBkgColorDiff", tmp);
 }
 
-static void SaveTransparentData(HWND hwndDlg, HCONTACT hContact, BOOL locked)
+static void SaveTransparentData(HWND hwndDlg, MCONTACT hContact, BOOL locked)
 {
 	SaveTransparentData(hwndDlg, hContact);
 
-	HCONTACT tmp = GetContactThatHaveTheAvatar(hContact, locked);
+	MCONTACT tmp = GetContactThatHaveTheAvatar(hContact, locked);
 	if (tmp != hContact)
 		SaveTransparentData(hwndDlg, tmp);
 }
 
 INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	struct WindowData *dat = (struct WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	if (dat)
@@ -501,10 +501,10 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			struct WindowData *dat = (struct WindowData *)malloc(sizeof(struct WindowData));
 
 			if (dat)
-				dat->hContact = (HCONTACT)lParam;
+				dat->hContact = (MCONTACT)lParam;
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			hContact = (HCONTACT)lParam;
+			hContact = (MCONTACT)lParam;
 			TranslateDialogDefault(hwndDlg);
 			if (hContact) {
 				szNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -759,7 +759,7 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	struct WindowData *dat = (struct WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	if (dat)
@@ -771,7 +771,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			dat = (struct WindowData *) malloc(sizeof(struct WindowData));
 			if (dat == NULL)
 				return FALSE;
-			dat->hContact = (HCONTACT)lParam;
+			dat->hContact = (MCONTACT)lParam;
 
 			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
 			SendMessage(protopic, AVATAR_SETCONTACT, 0, (LPARAM) dat->hContact);
@@ -781,7 +781,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM) FALSE);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			hContact = (HCONTACT)lParam;
+			hContact = (MCONTACT)lParam;
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
@@ -1148,7 +1148,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.pszTitle = LPGEN("Avatar");
 
-	HCONTACT hContact = (HCONTACT)lParam;
+	MCONTACT hContact = (MCONTACT)lParam;
 	if (hContact == NULL) {
 		// User dialog
 		odp.pfnDlgProc = DlgProcAvatarProtoInfo;

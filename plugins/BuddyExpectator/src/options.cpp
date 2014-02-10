@@ -25,9 +25,9 @@
 #define DEF_COLOR_FORE  0x000000
 
 extern HICON hIcon;
-extern time_t getLastSeen(HCONTACT);
-extern time_t getLastInputMsg(HCONTACT);
-extern bool isContactGoneFor(HCONTACT, int);
+extern time_t getLastSeen(MCONTACT);
+extern time_t getLastInputMsg(MCONTACT);
+extern bool isContactGoneFor(MCONTACT, int);
 Options options;
 
 void LoadOptions()
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				SaveOptions();
 
 				// clear all notified settings
-				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					if(db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
 						db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
 
@@ -458,7 +458,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 		{
 			time_t tmpTime;
 			TCHAR tmpBuf[51] = {0};
-			tmpTime = getLastSeen((HCONTACT)lparam);
+			tmpTime = getLastSeen((MCONTACT)lparam);
 			if (tmpTime == -1)
 				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
 			else {
@@ -466,7 +466,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);
 			}
 
-			tmpTime = getLastInputMsg((HCONTACT)lparam);
+			tmpTime = getLastInputMsg((MCONTACT)lparam);
 			if (tmpTime == -1)
 				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, TranslateT("not found"));
 			else {
@@ -474,19 +474,19 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 				SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
 			}
 
-			unsigned int AbsencePeriod = db_get_dw((HCONTACT)lparam, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
+			unsigned int AbsencePeriod = db_get_dw((MCONTACT)lparam, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
 
 			SendDlgItemMessage(hdlg, IDC_SPINABSENCE, UDM_SETRANGE, 0, MAKELONG(999, 1));
 			SetDlgItemInt(hdlg, IDC_EDITABSENCE, AbsencePeriod, FALSE);
 
-			if (isContactGoneFor((HCONTACT)lparam, options.iAbsencePeriod2))
+			if (isContactGoneFor((MCONTACT)lparam, options.iAbsencePeriod2))
 				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, TranslateT("This contact has been absent for an extended period of time."));
 			else
 				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, _T(""));
 
-			SendMessage(GetDlgItem(hdlg, IDC_CHECK_MISSYOU), BM_SETCHECK, db_get_b((HCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NOTIFYALWAYS), BM_SETCHECK, db_get_b((HCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NEVERHIDE), BM_SETCHECK, db_get_b((HCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendMessage(GetDlgItem(hdlg, IDC_CHECK_MISSYOU), BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NOTIFYALWAYS), BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NEVERHIDE), BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 
 			TranslateDialogDefault(hdlg);
 			return TRUE;
@@ -500,7 +500,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			{
 			case (PSN_APPLY):
 				{
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lparam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lparam)->lParam;
 					if (hContact)
 					{
 						db_set_dw(hContact, MODULE_NAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, 0, FALSE));

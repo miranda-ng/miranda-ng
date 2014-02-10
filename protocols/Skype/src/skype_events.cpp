@@ -65,7 +65,7 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact)
 	{
 		if (this->isChatRoom(hContact))
@@ -128,7 +128,7 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 
 int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if ((!this->IsProtoContact((HCONTACT)lParam)) && lParam)
+	if ((!this->IsProtoContact((MCONTACT)lParam)) && lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -138,7 +138,7 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -1900000000;
 	odp.ptszTitle = this->m_tszUserName;
 
-	HCONTACT hContact = (HCONTACT)lParam;
+	MCONTACT hContact = (MCONTACT)lParam;
 	if (hContact) {
 		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
@@ -192,7 +192,7 @@ int __cdecl CSkypeProto::OnSrmmWindowOpen(WPARAM, LPARAM lParam)
 
 int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 	
 	switch (cbcd->dwButtonId)

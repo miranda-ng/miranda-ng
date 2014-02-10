@@ -50,7 +50,7 @@ void CIcqProto::RemoveExpiredCookies()
 
 
 // Generate and allocate cookie
-DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, HCONTACT hContact, void *pvExtra)
+DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, MCONTACT hContact, void *pvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -96,7 +96,7 @@ int CIcqProto::GetCookieType(DWORD dwCookie)
 }
 
 
-int CIcqProto::FindCookie(DWORD dwCookie, HCONTACT *phContact, void **ppvExtra)
+int CIcqProto::FindCookie(DWORD dwCookie, MCONTACT *phContact, void **ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -115,7 +115,7 @@ int CIcqProto::FindCookie(DWORD dwCookie, HCONTACT *phContact, void **ppvExtra)
 }
 
 
-int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, HCONTACT *phContact)
+int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, MCONTACT *phContact)
 {
 	icq_lock l(cookieMutex);
 
@@ -137,7 +137,7 @@ int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, HCONTACT *phCon
 }
 
 
-int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, HCONTACT *phContact, void** ppvExtra)
+int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, MCONTACT *phContact, void** ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -161,7 +161,7 @@ int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, HCONTACT *phContac
 }
 
 
-int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCookie, HCONTACT *phContact, cookie_message_data **ppvExtra)
+int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCookie, MCONTACT *phContact, cookie_message_data **ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
@@ -277,7 +277,7 @@ cookie_message_data* CIcqProto::CreateMessageCookie(WORD bMsgType, BYTE bAckType
 }
 
 
-cookie_message_data* CIcqProto::CreateMessageCookieData(BYTE bMsgType, HCONTACT hContact, DWORD dwUin, int bUseSrvRelay)
+cookie_message_data* CIcqProto::CreateMessageCookieData(BYTE bMsgType, MCONTACT hContact, DWORD dwUin, int bUseSrvRelay)
 {
 	BYTE bAckType;
 	WORD wStatus = getContactStatus(hContact);

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "sessions.h"
 
-void AddSessionMark(HCONTACT hContact, int mode, char bit)
+void AddSessionMark(MCONTACT hContact, int mode, char bit)
 {
 	DBVARIANT dbv;
 	unsigned int i;
@@ -70,7 +70,7 @@ void AddSessionMark(HCONTACT hContact, int mode, char bit)
 	}
 }
 
-void RemoveSessionMark(HCONTACT hContact,int mode,int marknum)
+void RemoveSessionMark(MCONTACT hContact,int mode,int marknum)
 {
 	unsigned int i=1;
 	char temp_1[1]={'\0'},temp_2[1]={'\0'};
@@ -100,7 +100,7 @@ void RemoveSessionMark(HCONTACT hContact,int mode,int marknum)
 	}
 }
 
-void SetSessionMark(HCONTACT hContact,int mode,char bit,unsigned int marknum)
+void SetSessionMark(MCONTACT hContact,int mode,char bit,unsigned int marknum)
 {
 	DBVARIANT dbv;
 	char* pszBuffer=NULL;
@@ -124,7 +124,7 @@ void SetSessionMark(HCONTACT hContact,int mode,char bit,unsigned int marknum)
 	}
 }
 
-BOOL LoadContactsFromMask(HCONTACT hContact,int mode,int count)
+BOOL LoadContactsFromMask(MCONTACT hContact,int mode,int count)
 {	
 	DBVARIANT dbv;
 	if (mode == 0) {	
@@ -142,7 +142,7 @@ BOOL LoadContactsFromMask(HCONTACT hContact,int mode,int count)
 	return res;
 }
 
-void AddInSessionOrder(HCONTACT hContact,int mode,int ordernum,int writemode)
+void AddInSessionOrder(MCONTACT hContact,int mode,int ordernum,int writemode)
 {
 	int i;
 	char temp_1[2]={'\0'},temp_2[2]={'\0'};
@@ -233,7 +233,7 @@ void AddInSessionOrder(HCONTACT hContact,int mode,int ordernum,int writemode)
 	}
 }
 
-int GetInSessionOrder(HCONTACT hContact,int mode,int count)
+int GetInSessionOrder(MCONTACT hContact,int mode,int count)
 {
 	int iOrder = 0;
 	char szTemp[3]={'\0'};
@@ -258,7 +258,7 @@ int GetInSessionOrder(HCONTACT hContact,int mode,int count)
 	return iOrder;
 }
 
-void SetInSessionOrder(HCONTACT hContact,int mode,int count,unsigned int ordernum)
+void SetInSessionOrder(MCONTACT hContact,int mode,int count,unsigned int ordernum)
 {
 	int iOrder=0;
 	char szTemp[3]={'\0'};
@@ -319,7 +319,7 @@ BOOL ResaveSettings(char* szName,int iFirst,int iLimit,TCHAR* szBuffer)
 	return 1;
 }
 
-int AddToCurSession(HCONTACT wparam, LPARAM lparam)
+int AddToCurSession(MCONTACT wparam, LPARAM lparam)
 {
 	if (CheckForDuplicate(session_list, wparam) == -1) {
 		for (int i = 0;; i++) {
@@ -332,7 +332,7 @@ int AddToCurSession(HCONTACT wparam, LPARAM lparam)
 	return 0;
 }
 
-int DelFromCurSession(HCONTACT wparam,LPARAM lparam) 
+int DelFromCurSession(MCONTACT wparam,LPARAM lparam) 
 {
 	for (int i=0; session_list[i] != 0; i++) {
 		if (session_list[i] == wparam) {
@@ -346,10 +346,10 @@ int DelFromCurSession(HCONTACT wparam,LPARAM lparam)
 	return 0;
 }
 
-int CheckForDuplicate(HCONTACT contact_list[], HCONTACT lparam)
+int CheckForDuplicate(MCONTACT contact_list[], MCONTACT lparam)
 {
 	int i=0;
-	HCONTACT s_list[255] = {0};
+	MCONTACT s_list[255] = {0};
 	memcpy(s_list, contact_list, SIZEOF(s_list));
 	for (i=0;;i++) {
 		if (s_list[i] == lparam)
@@ -425,7 +425,7 @@ void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy)
 	SetWindowPos(hwnd, NULL, rc.left, rc.top,0, 0, SWP_NOZORDER |SWP_NOSIZE);
 }
 
-int CheckContactVisibility(HCONTACT hContact)
+int CheckContactVisibility(MCONTACT hContact)
 { 
 	if (db_get_b(hContact, "CList", "Hidden", 0))
 		return 0;

@@ -59,9 +59,9 @@ public:
 
 	size_t GetTokenFirst(const CHAR delim, CLineBuffer * pBuf);
 	size_t GetTokenNext(const CHAR delim, CLineBuffer * pBuf);
-	int	 DBWriteTokenFirst(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim);
-	int	 DBWriteTokenNext(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim);
-	int	 DBWriteSettingString(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting);
+	int	 DBWriteTokenFirst(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim);
+	int	 DBWriteTokenNext(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim);
+	int	 DBWriteSettingString(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting);
 };
 
 class CVCardFileVCF
@@ -69,7 +69,7 @@ class CVCardFileVCF
 private:
 	CLineBuffer		 _clVal;
 	FILE			*_pFile;
-	HCONTACT		 _hContact;
+	MCONTACT		 _hContact;
 	const CHAR		*_pszBaseProto;
 	WORD			 _cbRew;
 	BYTE			 _useUtf8;
@@ -87,7 +87,7 @@ private:
 public:
 	CVCardFileVCF();
 
-	BYTE Open(HCONTACT hContact, LPCSTR pszFileName, LPCSTR pszMode);
+	BYTE Open(MCONTACT hContact, LPCSTR pszFileName, LPCSTR pszMode);
 	void	Close(void);
 	BYTE Export(BYTE bExportUtf);
 	BYTE Import();

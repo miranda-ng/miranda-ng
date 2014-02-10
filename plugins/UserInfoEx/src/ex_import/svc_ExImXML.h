@@ -37,7 +37,7 @@ class CFileXml {
 	DWORD _numEventsDone;
 	DWORD _numEventsDuplicated;
 
-	HCONTACT _hContactToWorkOn;	// contact to ex/import (NULL=owner|INVALID_HANDLE_VALUE=all|HADNLE=one user)
+	MCONTACT _hContactToWorkOn;	// contact to ex/import (NULL=owner|INVALID_HANDLE_VALUE=all|HADNLE=one user)
 
 	WORD _wExport;
 
@@ -50,13 +50,13 @@ class CFileXml {
 
 	/*
 	int ExportOwner(FILE *xmlfile, BYTE bExportEvents);
-	int ExportContact(FILE *xmlfile, HCONTACT hContact, BYTE bExportEvents, LPENUMLIST pModules);
-	int ExportSubContact(TiXmlElement *xContact, HCONTACT hContact, BYTE bExportEvents);
+	int ExportContact(FILE *xmlfile, MCONTACT hContact, BYTE bExportEvents, LPENUMLIST pModules);
+	int ExportSubContact(TiXmlElement *xContact, MCONTACT hContact, BYTE bExportEvents);
 	*/
 
 public:
 	CFileXml();
-	int Import(HCONTACT hContact, LPCSTR pszFileName);
+	int Import(MCONTACT hContact, LPCSTR pszFileName);
 	int Export(lpExImParam ExImContact, LPCSTR pszFileName);
 };
 

@@ -134,10 +134,10 @@ public:
 
 	//update MirandaContact's state by id
 	//return 0 - ok,
-	int updateMirandaContactState(HCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState);
+	int updateMirandaContactState(MCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState);
 
 	//return MirandaContact* by HANDLE
-	MirandaContact* getMirandaContactPtrByHandle(HCONTACT contactHandle);
+	MirandaContact* getMirandaContactPtrByHandle(MCONTACT contactHandle);
 
 
 
@@ -256,11 +256,11 @@ class MirandaContact
 {
 public:
 
-	MirandaContact(HCONTACT contactHandleL);
+	MirandaContact(MCONTACT contactHandleL);
 	~MirandaContact(void);
 	MirandaContact*	getObjectPtr();
 
-	HCONTACT		contactHandle;		//HANDLE to contact in miranda (unikalne)
+	MCONTACT		contactHandle;		//HANDLE to contact in miranda (unikalne)
 	std::wstring				contactNameW;		//presented name
 	MFENUM_MIRANDACONTACT_STATE contactState;		//state in options
 	MirandaAccount*				mirandaAccountPtr;	//account of hContact

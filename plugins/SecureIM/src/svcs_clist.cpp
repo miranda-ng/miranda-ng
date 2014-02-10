@@ -3,7 +3,7 @@
 
 int __cdecl onContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 	if (!hContact || strcmp(cws->szSetting,"Status")) return 0;
 
@@ -37,7 +37,7 @@ int __cdecl onContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 //  lParam=0
 int __cdecl onContactAdded(WPARAM wParam,LPARAM lParam)
 {
-	addContact((HCONTACT)wParam);
+	addContact((MCONTACT)wParam);
 	return 0;
 }
 
@@ -46,7 +46,7 @@ int __cdecl onContactAdded(WPARAM wParam,LPARAM lParam)
 //  lParam=0
 int __cdecl onContactDeleted(WPARAM wParam,LPARAM lParam)
 {
-	delContact((HCONTACT)wParam);
+	delContact((MCONTACT)wParam);
 	return 0;
 }
 
@@ -59,15 +59,15 @@ int __cdecl onExtraImageListRebuilding(WPARAM, LPARAM)
 
 int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM)
 {
-	if (isSecureProtocol((HCONTACT)wParam))
-		ExtraIcon_SetIcon(g_hCLIcon, (HCONTACT)wParam, mode2clicon(isContactSecured((HCONTACT)wParam), 1));
+	if (isSecureProtocol((MCONTACT)wParam))
+		ExtraIcon_SetIcon(g_hCLIcon, (MCONTACT)wParam, mode2clicon(isContactSecured((MCONTACT)wParam), 1));
 
 	return 0;
 }
 
 int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	BOOL bMC = isProtoMetaContacts(hContact);
 	if (bMC ) hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	pUinKey ptr = getUinKey(hContact);

@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //lParam=0
 //returns a handle to the parent metacontact, or null if this contact is not a subcontact
 INT_PTR MetaAPI_GetMeta(WPARAM wParam, LPARAM lParam) {
-	return (INT_PTR)(HANDLE)db_get_dw((HCONTACT)wParam, META_PROTO, "Handle", 0);
+	return (INT_PTR)(HANDLE)db_get_dw((MCONTACT)wParam, META_PROTO, "Handle", 0);
 }
 
 //gets the handle for the default contact
@@ -40,9 +40,9 @@ INT_PTR MetaAPI_GetMeta(WPARAM wParam, LPARAM lParam) {
 //lParam=0
 //returns a handle to the default contact, or null on failure
 INT_PTR MetaAPI_GetDefault(WPARAM wParam, LPARAM lParam) {
-	DWORD default_contact_number = db_get_dw((HCONTACT)wParam, META_PROTO, "Default", -1);
+	DWORD default_contact_number = db_get_dw((MCONTACT)wParam, META_PROTO, "Default", -1);
 	if (default_contact_number != -1) {
-		return (INT_PTR)Meta_GetContactHandle((HCONTACT)wParam, default_contact_number);
+		return (INT_PTR)Meta_GetContactHandle((MCONTACT)wParam, default_contact_number);
 	}
 	return 0;
 }
@@ -52,7 +52,7 @@ INT_PTR MetaAPI_GetDefault(WPARAM wParam, LPARAM lParam) {
 //lParam=0
 //returns a DWORD contact number, or -1 on failure
 INT_PTR MetaAPI_GetDefaultNum(WPARAM wParam, LPARAM lParam) {
-	return db_get_dw((HCONTACT)wParam, META_PROTO, "Default", -1);
+	return db_get_dw((MCONTACT)wParam, META_PROTO, "Default", -1);
 }
 
 //gets the handle for the 'most online' contact
@@ -60,7 +60,7 @@ INT_PTR MetaAPI_GetDefaultNum(WPARAM wParam, LPARAM lParam) {
 //lParam=0
 //returns a handle to the 'most online' contact
 INT_PTR MetaAPI_GetMostOnline(WPARAM wParam, LPARAM lParam) {
-	return (INT_PTR)Meta_GetMostOnline((HCONTACT)wParam);
+	return (INT_PTR)Meta_GetMostOnline((MCONTACT)wParam);
 }
 
 //gets the number of subcontacts for a metacontact
@@ -68,7 +68,7 @@ INT_PTR MetaAPI_GetMostOnline(WPARAM wParam, LPARAM lParam) {
 //lParam=0
 //returns a DWORD representing the number of subcontacts for the given metacontact
 INT_PTR MetaAPI_GetNumContacts(WPARAM wParam, LPARAM lParam) {
-	DWORD num_contacts = db_get_dw((HCONTACT)wParam, META_PROTO, "NumContacts", -1);
+	DWORD num_contacts = db_get_dw((MCONTACT)wParam, META_PROTO, "NumContacts", -1);
 	return num_contacts;
 }
 
@@ -77,7 +77,7 @@ INT_PTR MetaAPI_GetNumContacts(WPARAM wParam, LPARAM lParam) {
 //lParam=(DWORD)contact number
 //returns a handle to the specified subcontact
 INT_PTR MetaAPI_GetContact(WPARAM wParam, LPARAM lParam) {
-	return (INT_PTR)Meta_GetContactHandle((HCONTACT)wParam, (DWORD)lParam);
+	return (INT_PTR)Meta_GetContactHandle((MCONTACT)wParam, (DWORD)lParam);
 }
 
 //sets the default contact, using the subcontact's contact number
@@ -85,15 +85,15 @@ INT_PTR MetaAPI_GetContact(WPARAM wParam, LPARAM lParam) {
 //lParam=(DWORD)contact number
 //returns 0 on success
 INT_PTR MetaAPI_SetDefaultContactNum(WPARAM wParam, LPARAM lParam) {
-	DWORD num_contacts = db_get_dw((HCONTACT)wParam, META_PROTO, "NumContacts", -1);
+	DWORD num_contacts = db_get_dw((MCONTACT)wParam, META_PROTO, "NumContacts", -1);
 	if (num_contacts == -1)
 		return 1;
 	if ((DWORD)lParam >= num_contacts || (DWORD)lParam < 0)
 		return 1;
-	if (db_set_dw((HCONTACT)wParam, META_PROTO, "Default", (DWORD)lParam))
+	if (db_set_dw((MCONTACT)wParam, META_PROTO, "Default", (DWORD)lParam))
 		return 1;
 
-	NotifyEventHooks(hEventDefaultChanged, wParam, (LPARAM)Meta_GetContactHandle((HCONTACT)wParam, (int)lParam));
+	NotifyEventHooks(hEventDefaultChanged, wParam, (LPARAM)Meta_GetContactHandle((MCONTACT)wParam, (int)lParam));
 	return 0;
 }
 
@@ -102,9 +102,9 @@ INT_PTR MetaAPI_SetDefaultContactNum(WPARAM wParam, LPARAM lParam) {
 //lParam=(HANDLE)hSubcontact
 //returns 0 on success
 INT_PTR MetaAPI_SetDefaultContact(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hMeta = (HCONTACT)db_get_dw((HCONTACT)lParam, META_PROTO, "Handle", 0);
-	DWORD contact_number = Meta_GetContactNumber((HCONTACT)lParam);
-	if (contact_number == -1 || !hMeta || hMeta != (HCONTACT)wParam) 
+	MCONTACT hMeta = (MCONTACT)db_get_dw((MCONTACT)lParam, META_PROTO, "Handle", 0);
+	DWORD contact_number = Meta_GetContactNumber((MCONTACT)lParam);
+	if (contact_number == -1 || !hMeta || hMeta != (MCONTACT)wParam) 
 		return 1;
 	if (db_set_dw(hMeta, META_PROTO, "Default", contact_number))
 		return 1;
@@ -118,9 +118,9 @@ INT_PTR MetaAPI_SetDefaultContact(WPARAM wParam, LPARAM lParam) {
 //lParam=(DWORD)contact number
 //returns 0 on success
 INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hContact = Meta_GetContactHandle((HCONTACT)wParam, (int)lParam);
-	HCONTACT hMeta = (HCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if (!hContact || !hMeta || hMeta != (HCONTACT)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
+	MCONTACT hContact = Meta_GetContactHandle((MCONTACT)wParam, (int)lParam);
+	MCONTACT hMeta = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
+	if (!hContact || !hMeta || hMeta != (MCONTACT)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	db_set_dw(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -134,9 +134,9 @@ INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 //lParam=(HANDLE)hSubcontact
 //returns 0 on success (will fail if 'force default' is in effect)
 INT_PTR MetaAPI_ForceSendContact(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hContact = (HCONTACT)lParam;
-	HCONTACT hMeta = (HCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if (!hContact || !hMeta || hMeta != (HCONTACT)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
+	MCONTACT hContact = (MCONTACT)lParam;
+	MCONTACT hMeta = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
+	if (!hContact || !hMeta || hMeta != (MCONTACT)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	db_set_dw(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -150,10 +150,10 @@ INT_PTR MetaAPI_ForceSendContact(WPARAM wParam, LPARAM lParam) {
 //lParam=0
 //returns 0 on success (will fail if 'force default' is in effect)
 INT_PTR MetaAPI_UnforceSendContact(WPARAM wParam, LPARAM lParam) {
-	if (db_get_b((HCONTACT)wParam, META_PROTO, "ForceDefault", 0))
+	if (db_get_b((MCONTACT)wParam, META_PROTO, "ForceDefault", 0))
 		return 1;
 
-	db_set_dw((HCONTACT)wParam, META_PROTO, "ForceSend", 0);
+	db_set_dw((MCONTACT)wParam, META_PROTO, "ForceSend", 0);
 		
 	NotifyEventHooks(hEventUnforceSend, wParam, lParam);
 	return 0;
@@ -169,7 +169,7 @@ INT_PTR MetaAPI_UnforceSendContact(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceDefault(WPARAM wParam, LPARAM lParam) {
 	// forward to menu function
 	Meta_ForceDefault(wParam, lParam);
-	return db_get_b((HCONTACT)wParam, META_PROTO, "ForceDefault", 0);
+	return db_get_b((MCONTACT)wParam, META_PROTO, "ForceDefault", 0);
 }
 	
 // method to get state of 'force' for a metacontact
@@ -179,15 +179,15 @@ INT_PTR MetaAPI_ForceDefault(WPARAM wParam, LPARAM lParam) {
 // or if none is in force, the value (DWORD)-1 will be copied
 // (v0.8.0.8+ returns 1 if 'force default' is true with *lParam == default contact number, else returns 0 with *lParam as above)
 INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hMeta = (HCONTACT)wParam;
+	MCONTACT hMeta = (MCONTACT)wParam;
 	if ( !hMeta) return 0;
 	
 	if (db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) {
-		if (lParam) *(DWORD *)lParam = db_get_dw((HCONTACT)wParam, META_PROTO, "Default", -1);
+		if (lParam) *(DWORD *)lParam = db_get_dw((MCONTACT)wParam, META_PROTO, "Default", -1);
 		return 1;
 	}
 
-	HCONTACT hContact = (HCONTACT)db_get_dw(hMeta, META_PROTO, "ForceSend", 0);
+	MCONTACT hContact = (MCONTACT)db_get_dw(hMeta, META_PROTO, "ForceSend", 0);
 	if ( !hContact) {
 		if (lParam) *(DWORD *)lParam = -1;
 	} else {
@@ -216,7 +216,7 @@ INT_PTR MetaAPI_ConvertToMeta(WPARAM wParam, LPARAM lParam) {
 // lParam=(HANDLE)hMeta
 // add an existing contact to a metacontact
 INT_PTR MetaAPI_AddToMeta(WPARAM wParam, LPARAM lParam) {
-	return Meta_Assign((HCONTACT)wParam, (HCONTACT)lParam, FALSE);
+	return Meta_Assign((MCONTACT)wParam, (MCONTACT)lParam, FALSE);
 }
 
 // added 0.9.5.0 (22/3/05)

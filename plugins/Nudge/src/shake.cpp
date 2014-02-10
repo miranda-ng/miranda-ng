@@ -50,7 +50,7 @@ INT_PTR ShakeChat(WPARAM wParam, LPARAM lParam)
 	MessageWindowInputData mwid;
 
 	mwd.cbSize = sizeof(MessageWindowData);
-	mwd.hContact = Nudge_GethContact((HCONTACT)wParam);
+	mwd.hContact = Nudge_GethContact((MCONTACT)wParam);
 	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	mwid.cbSize = sizeof(MessageWindowInputData);

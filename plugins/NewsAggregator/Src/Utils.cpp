@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 HANDLE hNetlibUser = NULL, hNetlibHttp;
 BOOL UpdateListFlag = FALSE;
 
-BOOL IsMyContact(HCONTACT hContact)
+BOOL IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(MODULE, szProto) == 0;
@@ -58,7 +58,7 @@ static void arrayToHex(BYTE *data, size_t datasz, char *res)
 	*resptr = '\0';
 } 
 
-VOID GetNewsData(TCHAR *tszUrl, char **szData, HCONTACT hContact, HWND hwndDlg)
+VOID GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
 
@@ -155,7 +155,7 @@ VOID UpdateList(HWND hwndList)
 	// Initialize LVITEM members that are common to all
 	// items.
 	int i = 0;
-	for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		UpdateListFlag = TRUE;
 		lvI.mask = LVIF_TEXT;
 		lvI.iSubItem = 0;
@@ -562,9 +562,9 @@ VOID ClearText(TCHAR *&message)
 	CoUninitialize();
 }
 
-HCONTACT GetContactByNick(const TCHAR *nick)
+MCONTACT GetContactByNick(const TCHAR *nick)
 {
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
@@ -574,9 +574,9 @@ HCONTACT GetContactByNick(const TCHAR *nick)
 	return hContact;
 }
 
-HCONTACT GetContactByURL(const TCHAR *url)
+MCONTACT GetContactByURL(const TCHAR *url)
 {
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactURL(::db_get_wsa(hContact, MODULE, "URL"));

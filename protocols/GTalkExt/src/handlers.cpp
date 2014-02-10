@@ -426,7 +426,7 @@ int OnExtListInit(WPARAM wParam, LPARAM lParam)
 
 int OnFilterPopup(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if ( !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		return 0;
 

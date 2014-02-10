@@ -413,7 +413,7 @@ char *SkypeRcv(char *what, DWORD maxwait)
 	return SkypeRcvTime(what, 0, maxwait);
 }
 
-char *SkypeRcvMsg(char *what, time_t st, HCONTACT hContact, DWORD maxwait)
+char *SkypeRcvMsg(char *what, time_t st, MCONTACT hContact, DWORD maxwait)
 {
 	char *msg, msgid[32]={0}, *pMsg, *pCurMsg;
 	struct MsgQueue *ptr;
@@ -612,10 +612,10 @@ INT_PTR SkypeCall(WPARAM wParam, LPARAM lParam) {
 	char *msg=0;
 	int res;
 
-	if (!db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+	if (!db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 		res = -1; // no direct return, because dbv needs to be freed
 	} else {
-		if (db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
+		if (db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 		msg=(char *)malloc(strlen(dbv.pszVal)+6);
 		strcpy(msg, "CALL ");
 		strcat(msg, dbv.pszVal);
@@ -644,13 +644,13 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
 	char *msg=0;
 	int res = -1;
 
-	if (!db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+	if (!db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 		msg=(char *)malloc(strlen(dbv.pszVal)+21);
 		sprintf(msg, "SET %s STATUS FINISHED", dbv.pszVal);
 		//sprintf(msg, "ALTER CALL %s HANGUP", dbv.pszVal);
 		res=SkypeSend(msg);
 #if _DEBUG
-		db_unset((HCONTACT)wParam, SKYPE_PROTONAME, "CallId");
+		db_unset((MCONTACT)wParam, SKYPE_PROTONAME, "CallId");
 #endif
 	//} else {
 	//	if (db_get((HANDLE)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
@@ -686,14 +686,14 @@ static void FixNumber(char *p) {
  * Purpose: Dialog procedure for the Dial-Dialog
  */
 static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	static HCONTACT hContact;
+	static MCONTACT hContact;
 	static unsigned int entries=0;
 	BOOL TempAdded=FALSE;
 	char number[64], *msg, *ptr=NULL;
 	
 	switch (uMsg){
 		case WM_INITDIALOG:	
-			hContact=(HCONTACT)lParam;
+			hContact=(MCONTACT)lParam;
 			Utils_RestoreWindowPosition(hwndDlg, NULL, SKYPE_PROTONAME, "DIALdlg");
 			TranslateDialogDefault(hwndDlg);
 
@@ -810,14 +810,14 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 	switch (uMsg){
 		case WM_INITDIALOG:	
 		{
-			HCONTACT hContact;
+			MCONTACT hContact;
 
-			if (!db_get_s((HCONTACT)lParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+			if (!db_get_s((MCONTACT)lParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 
 				// Check, if another call is in progress
 				for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
 					char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
-					if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact != (HCONTACT)lParam &&
+					if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact != (MCONTACT)lParam &&
 						db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0 &&
 						!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv2)) 
 					{
@@ -927,7 +927,7 @@ INT_PTR SkypeOutCall(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	int res = -1;
 
-	if (wParam && !db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+	if (wParam && !db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 		res=SkypeSend("SET %s STATUS FINISHED", dbv.pszVal);
 		pthread_create(( pThreadFunc )SkypeOutCallErrorCheck, _strdup(dbv.pszVal));
 		db_free(&dbv);
@@ -947,10 +947,10 @@ INT_PTR SkypeHoldCall(WPARAM wParam, LPARAM lParam) {
 	int retval;
 
 	LOG(("SkypeHoldCall started"));
-	if (!wParam || db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv))
+	if (!wParam || db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv))
 		return -1;
 	retval = SkypeSend ("SET %s STATUS %s", dbv.pszVal, 
-		db_get_b((HCONTACT)wParam, SKYPE_PROTONAME, "OnHold", 0)?"INPROGRESS":"ONHOLD");
+		db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "OnHold", 0)?"INPROGRESS":"ONHOLD");
 	db_free(&dbv);
 	return retval;
 }
@@ -1145,7 +1145,7 @@ INT_PTR SkypeSendFile(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	int retval;
 
-	if (!wParam || db_get_s((HCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
+	if (!wParam || db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
 		return -1;
 	retval=SkypeSend("OPEN FILETRANSFER %s", dbv.pszVal);
 	db_free(&dbv);
@@ -1162,7 +1162,7 @@ INT_PTR SkypeSendFile(WPARAM wParam, LPARAM lParam) {
  */
 INT_PTR SkypeChatCreate(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
-	HCONTACT hContact=(HCONTACT)wParam;
+	MCONTACT hContact=(MCONTACT)wParam;
 	char *ptr, *ptr2;
 
 	if (!hContact || db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv))

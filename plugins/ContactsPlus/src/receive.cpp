@@ -25,7 +25,7 @@
 
 /* TRecvContactsData */
 
-TRecvContactsData::TRecvContactsData(HCONTACT contact)
+TRecvContactsData::TRecvContactsData(MCONTACT contact)
 {
 	mhContact = contact;
 	hHook = NULL;
@@ -136,7 +136,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
 	}
 }
 
-static HCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *wndData, int iItem)
+static MCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *wndData, int iItem)
 {
 	TCHAR *caUIN = ListView_GetItemTextEx(GetDlgItem(hwndDlg, IDC_CONTACTS), iItem, 0);
 	char *szProto = GetContactProto(wndData->mhContact);
@@ -144,7 +144,7 @@ static HCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *w
 	replaceStrT(wndData->haUin, caUIN);
 	for (int j = 0; j < wndData->cbReceived; j++)
 		if (!lstrcmp(wndData->maReceived[j]->mcaUIN, caUIN))
-			return (HCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(PALF_TEMPORARY, j), (LPARAM)wndData->mhDbEvent);
+			return (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(PALF_TEMPORARY, j), (LPARAM)wndData->mhDbEvent);
 	return NULL;
 }
 
@@ -162,7 +162,7 @@ void RecvListView_AddColumn(HWND hList, int nWidth, TCHAR *szTitle, int nItem)
 INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TRecvContactsData *wndData = (TRecvContactsData*)GetWindowLongPtr(hwndDlg, DWLP_USER);
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -317,7 +317,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							for (int j = 0; j < wndData->cbReceived; j++)   // determine item index in packet
 								if (!lstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
 									char *szProto =GetContactProto(wndData->mhContact);
-									hContact = (HCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
+									hContact = (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
 									if (hContact && caGroup) {
 										// use newest group API if available
 										if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))

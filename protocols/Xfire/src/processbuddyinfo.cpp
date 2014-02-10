@@ -27,7 +27,7 @@ extern HANDLE	 XFireAvatarFolder;
   return h;
 }*/
 
-void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HCONTACT hcontact,char* username) {
+void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,MCONTACT hcontact,char* username) {
 	char temp[255] = "";
 	char filename[1024] = "";
 	BOOL dl=FALSE;

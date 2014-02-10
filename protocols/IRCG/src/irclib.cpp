@@ -457,7 +457,7 @@ void __cdecl CIrcProto::ThreadProc(void*)
 	m_info.Reset();
 }
 
-void CIrcProto::AddDCCSession(HCONTACT, CDccSession* dcc)
+void CIrcProto::AddDCCSession(MCONTACT, CDccSession* dcc)
 {
 	EnterCriticalSection(&m_dcc);
 
@@ -479,7 +479,7 @@ void CIrcProto::AddDCCSession(DCCINFO*, CDccSession* dcc)
 	LeaveCriticalSection(&m_dcc);
 }
 
-void CIrcProto::RemoveDCCSession(HCONTACT hContact)
+void CIrcProto::RemoveDCCSession(MCONTACT hContact)
 {
 	EnterCriticalSection(&m_dcc);
 
@@ -505,7 +505,7 @@ void CIrcProto::RemoveDCCSession(DCCINFO* pdci)
 	LeaveCriticalSection(&m_dcc);
 }
 
-CDccSession* CIrcProto::FindDCCSession(HCONTACT hContact)
+CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
 {
 	EnterCriticalSection(&m_dcc);
 

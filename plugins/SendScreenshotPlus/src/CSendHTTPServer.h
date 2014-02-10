@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CSendHTTPServer : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendHTTPServer(HWND Owner, HCONTACT hContact, bool bFreeOnExit);
+		CSendHTTPServer(HWND Owner, MCONTACT hContact, bool bFreeOnExit);
 		~CSendHTTPServer();
 
 		void					Send();

@@ -510,7 +510,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 
 int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	int res = -1;
 
 	if ((hContact != NULL || lParam != 0) && m_bJabberOnline) {

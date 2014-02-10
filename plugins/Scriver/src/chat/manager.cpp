@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 
-HWND SM_FindWindowByContact(HCONTACT hContact)
+HWND SM_FindWindowByContact(MCONTACT hContact)
 {
 	SESSION_INFO *pTemp = pci->wndList;
 

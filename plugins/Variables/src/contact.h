@@ -83,7 +83,7 @@ typedef struct {
     WCHAR *wszContact;
     TCHAR *tszContact;
   };
-  HCONTACT *hContacts;  // (output) Array of contacts found.
+  MCONTACT *hContacts;  // (output) Array of contacts found.
   DWORD flags;  // Contact details that will be matched with the search
                 // string (flags can be combined).
 } CONTACTSINFO;
@@ -115,5 +115,5 @@ typedef struct {
 #define CI_TCHAR    0
 #endif
 
-TCHAR *encodeContactToString(HCONTACT hContact);
-HCONTACT decodeContactFromString(TCHAR *tszContact);
+TCHAR *encodeContactToString(MCONTACT hContact);
+MCONTACT decodeContactFromString(TCHAR *tszContact);

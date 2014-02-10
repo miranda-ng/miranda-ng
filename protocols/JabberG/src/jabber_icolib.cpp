@@ -384,7 +384,7 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Prototype for Jabber and other protocols to return index of Advanced status
-// wParam - HCONTACT of called protocol
+// wParam - MCONTACT of called protocol
 // lParam - should be 0 (reserverd for futher usage)
 // return value: -1 - no Advanced status
 // : other - index of icons in clcimagelist.
@@ -393,7 +393,7 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (!hContact)
 		return -1;
 
@@ -415,7 +415,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Transport check functions
 
-BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HCONTACT hContact)
+BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, MCONTACT hContact)
 {
 	// check if transport is already set
 	if (!jid || !hContact)
@@ -455,7 +455,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HCONTACT hConta
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrT jid( getTStringA(hContact, "jid"));
 		if (jid)
 			DBCheckIsTransportedContact(jid, hContact);

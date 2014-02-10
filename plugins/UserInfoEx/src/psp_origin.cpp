@@ -72,7 +72,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			{
 			case 0:
 				{
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					LPCSTR pszProto;
 					
 					switch (((LPNMHDR) lParam)->code) 

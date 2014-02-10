@@ -55,7 +55,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bContactMenuItem = IsDlgButtonChecked(hwndDlg, IDC_ENABLEMENUITEM);
 				bIconsForRecentContacts = IsDlgButtonChecked(hwndDlg, IDC_ICONSFORRECENT);
 
-				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					onExtraImageApplying((WPARAM)hContact,0);
 
 				//Store options values to DB

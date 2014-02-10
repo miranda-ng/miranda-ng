@@ -29,7 +29,7 @@ static HWND hwndEventFrame = 0;
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
 extern struct CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
-extern int ( *saveRemoveEvent )(HCONTACT hContact, HANDLE hDbEvent);
+extern int ( *saveRemoveEvent )(MCONTACT hContact, HANDLE hDbEvent);
 extern FRAMEWND *wndFrameEventArea;
 
 extern HPEN g_hPenCLUIFrames;
@@ -333,7 +333,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 // wParam=(WPARAM)(HANDLE)hContact
 // lParam=(LPARAM)(HANDLE)hDbEvent
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
-int RemoveEvent(HCONTACT hContact, HANDLE hDbEvent)
+int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
 {
 	HANDLE hItem;
 	int i;

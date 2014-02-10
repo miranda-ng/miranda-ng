@@ -313,7 +313,7 @@ void CJabberProto::OnIqResultSession(HXML iqNode, CJabberIqInfo *pInfo)
 		OnLoggedIn();
 }
 
-void CJabberProto::GroupchatJoinByHContact(HCONTACT hContact, bool autojoin)
+void CJabberProto::GroupchatJoinByHContact(MCONTACT hContact, bool autojoin)
 {
 	ptrT roomjid( getTStringA(hContact, "ChatRoomID"));
 	if (roomjid == NULL)
@@ -425,7 +425,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			}
 		}
 
-		HCONTACT hContact = HContactFromJID(jid);
+		MCONTACT hContact = HContactFromJID(jid);
 		if (hContact == NULL) {
 			// Received roster has a new JID.
 			// Add the jid (with empty resource) to Miranda contact list.
@@ -496,8 +496,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 	// Delete orphaned contacts (if roster sync is enabled)
 	if (m_options.RosterSync == TRUE) {
-		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; ) {
-			HCONTACT hNext = db_find_next(hContact, m_szModuleName);
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; ) {
+			MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			ptrT jid( getTStringA(hContact, "jid"));
 			if (jid != NULL && !ListGetItemPtr(LIST_ROSTER, jid)) {
 				debugLogA("Syncing roster: preparing to delete %S (hContact=0x%x)", jid, hContact);
@@ -515,7 +515,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 	if (m_options.AutoJoinConferences)
 		for (i=0; i < chatRooms.getCount(); i++)
-			GroupchatJoinByHContact((HCONTACT)chatRooms[i], true);
+			GroupchatJoinByHContact((MCONTACT)chatRooms[i], true);
 
 	//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);
 	//UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_CHECK_ONLINE);
@@ -565,7 +565,7 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 	if ((from = xmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
 
 	if (!lstrcmp(type, _T("result"))) {
-		HCONTACT hContact = HContactFromJID(from);
+		MCONTACT hContact = HContactFromJID(from);
 		if (hContact != NULL)
 			setByte(hContact, "IsTransport", TRUE);
 
@@ -583,7 +583,7 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberIqResultGetVcard - processes the server-side v-card
 
-void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HCONTACT hContact, bool &hasPhoto)
+void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, MCONTACT hContact, bool &hasPhoto)
 {
 	debugLogA("JabberIqResultGetVcardPhoto: %d", hasPhoto);
 	if (hasPhoto)
@@ -661,7 +661,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 {
 	HXML vCardNode, m, n, o;
 	const TCHAR *type, *jid;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	TCHAR text[128];
 	DBVARIANT dbv;
 
@@ -1284,7 +1284,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo*)
 	if (from == NULL)
 		return;
 
-	HCONTACT hContact = HContactFromJID(from);
+	MCONTACT hContact = HContactFromJID(from);
 	if (hContact == NULL)
 		return;
 
@@ -1324,7 +1324,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo*)
 	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
-	HCONTACT hContact = HContactFromJID(from);
+	MCONTACT hContact = HContactFromJID(from);
 	if (hContact == NULL)
 		return;
 
@@ -1363,7 +1363,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 	if (from == NULL)
 		return;
 
-	HCONTACT hContact = HContactFromJID(from);
+	MCONTACT hContact = HContactFromJID(from);
 	if (hContact == NULL)
 		return;
 
@@ -1396,7 +1396,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 }
 
 
-void CJabberProto::OnIqResultGotAvatar(HCONTACT hContact, HXML n, const TCHAR *mimeType)
+void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, HXML n, const TCHAR *mimeType)
 {
 	unsigned resultLen;
 	ptrA body((char*)mir_base64_decode( _T2A(xmlGetText(n)), &resultLen));

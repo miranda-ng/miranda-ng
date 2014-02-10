@@ -140,7 +140,7 @@ void RegisterIcons()
 *	 3)Set ExtraImage for contact
 */
 
-static void SetSrmmIcon(HCONTACT hContact, LPTSTR ptszMirver)
+static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
@@ -156,7 +156,7 @@ static void SetSrmmIcon(HCONTACT hContact, LPTSTR ptszMirver)
 	Srmm_ModifyIcon(hContact, &sid);
 }
 
-int __fastcall ApplyFingerprintImage(HCONTACT hContact, LPTSTR szMirVer)
+int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)
 {
 	if (hContact == NULL)
 		return 0;
@@ -838,7 +838,7 @@ static int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 
 int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -862,7 +862,7 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 
 static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 

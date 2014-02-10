@@ -28,7 +28,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_USER + 1:
 		{
-			HCONTACT hContact = (HCONTACT)wParam;
+			MCONTACT hContact = (MCONTACT)wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *) lParam;
 			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL && 
 				 lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				pcli->pfnTrayIconIconsChanged();
 				pcli->pfnLoadContactTree();  /* this won't do job properly since it only really works when changes happen */
-				pcli->pfnInvalidateDisplayNameCacheEntry((HCONTACT)INVALID_HANDLE_VALUE);        /* force reshuffle */
+				pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
 				return TRUE;
 			}
 			break;

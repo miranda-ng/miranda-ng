@@ -1,6 +1,6 @@
 #include "skype.h"
 
-bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HCONTACT hContact)
+bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, MCONTACT hContact)
 {
 	bool result = false;
 
@@ -21,7 +21,7 @@ bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HCONTACT hContact)
 	return result;
 }
 
-wchar_t * CSkypeProto::GetContactAvatarFilePath(HCONTACT hContact)
+wchar_t * CSkypeProto::GetContactAvatarFilePath(MCONTACT hContact)
 {
 	TCHAR path[MAX_PATH];
 	::mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), this->m_szModuleName);

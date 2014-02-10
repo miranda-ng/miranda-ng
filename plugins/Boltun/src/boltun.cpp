@@ -178,7 +178,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 	return true;
 }*/
 
-static bool BoltunAutoChat(HCONTACT hContact)
+static bool BoltunAutoChat(MCONTACT hContact)
 {
 	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT
 		, FALSE) == TRUE)
@@ -212,7 +212,7 @@ static bool BoltunAutoChat(HCONTACT hContact)
 
 static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	HANDLE   hDbEvent = (HANDLE)lParam;
 	if (!BoltunAutoChat(hContact))
 		return 0;
@@ -501,7 +501,7 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 
 static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
 	BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
@@ -545,7 +545,7 @@ static INT_PTR ContactClickNotToChat(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactClickStartChatting(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	StartChatting(hContact);
 	return 0;
 }
@@ -554,7 +554,7 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (!blInit || (db_get_b(hContact,"CList","NotOnList",0) == 1))
 	{
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;

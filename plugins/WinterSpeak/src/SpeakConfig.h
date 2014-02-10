@@ -27,9 +27,9 @@ public:
 	// Returns     : true - speak successful
 	//               false - speak failed
 	//--------------------------------------------------------------------------
-	bool status(const std::wstring &sentence, HCONTACT user = NULL);
-	bool message(const std::wstring &sentence, HCONTACT user = NULL);
-	bool say(const std::wstring &sentence, HCONTACT user, bool message);
+	bool status(const std::wstring &sentence, MCONTACT user = NULL);
+	bool message(const std::wstring &sentence, MCONTACT user = NULL);
+	bool say(const std::wstring &sentence, MCONTACT user, bool message);
 
 private:
 	HINSTANCE                   m_instance;

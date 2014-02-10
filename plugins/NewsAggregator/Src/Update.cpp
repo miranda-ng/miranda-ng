@@ -30,7 +30,7 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_Terminated()) {
 		BOOL HaveUpdates = FALSE;
-		for (HCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
 				double diff = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
 				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
@@ -58,7 +58,7 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	}
 }
 
-void UpdateListAdd(HCONTACT hContact)
+void UpdateListAdd(MCONTACT hContact)
 {
 	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
@@ -74,9 +74,9 @@ void UpdateListAdd(HCONTACT hContact)
 	ReleaseMutex(hUpdateMutex);
 }
 
-HCONTACT UpdateGetFirst()
+MCONTACT UpdateGetFirst()
 {
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 

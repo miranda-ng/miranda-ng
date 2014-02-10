@@ -97,7 +97,7 @@ BOOL GetSettings(const char *section, char *buffer, size_t bufferSize);
 void DeleteFileOrFolder(const char *name);
 void DeleteSetting(const char *setting);
 void DeleteSettingEx(const char *szModule, const char *szSetting);
-BOOL isMetaContact(HCONTACT hContact);
+BOOL isMetaContact(MCONTACT hContact);
 
 
 
@@ -222,7 +222,7 @@ void SetProtocolsOffline()
 void RemoveUsers()
 {
 	if ( GetSettingBool("GlobalSettings", "RemoveAllUsers", TRUE) ) {
-		HCONTACT hContact, hContactOld;
+		MCONTACT hContact, hContactOld;
 		HANDLE hDbEvent;
 
 		// To be faster, remove first all metacontacts (because it syncs histories)
@@ -613,7 +613,7 @@ void DeleteFileOrFolder(const char *name)
 }
 
 
-BOOL isMetaContact(HCONTACT hContact)
+BOOL isMetaContact(MCONTACT hContact)
 {
 	return lstrcmpA(GetContactProto(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
 }

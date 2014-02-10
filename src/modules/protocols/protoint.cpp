@@ -47,14 +47,14 @@ void FreeFilesMatrix(TCHAR ***files)
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 {
-	HCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr)
+	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr)
 	{
-		return (HCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
+		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
 	}
 
-	HCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 	{
-		return (HCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), (LPARAM)hDbEvent);
+		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), (LPARAM)hDbEvent);
 	}
 
 	int __cdecl Authorize(HANDLE hDbEvent)
@@ -67,13 +67,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, (WPARAM)hDbEvent, (LPARAM)StrConvA(szReason));
 	}
 
-	int __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT* evt)
+	int __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_AUTH, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl AuthRequest(HCONTACT hContact, const TCHAR* szMessage)
+	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 	{
 		CCSDATA ccs = { hContact, PSS_AUTHREQUEST, 0, (LPARAM)szMessage };
 		ccs.lParam = (LPARAM)mir_t2a(szMessage);
@@ -87,7 +87,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_CHANGEINFO, iInfoType, (LPARAM)pInfoData);
 	}
 
-	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+	HANDLE __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
 
@@ -97,13 +97,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	int __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer)
+	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	{
 		CCSDATA ccs = { hContact, PSS_FILECANCEL, (WPARAM)hTransfer, 0 };
 		return (int)ProtoCallService(m_szModuleName, PSS_FILECANCEL, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+	int __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
 
@@ -125,7 +125,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact)
+	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact)
 	{
 		return (DWORD_PTR)ProtoCallService(m_szModuleName, PS_GETCAPS, type, (LPARAM)hContact);
 	}
@@ -135,7 +135,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HICON)ProtoCallService(m_szModuleName, PS_LOADICON, iconIndex, 0);
 	}
 
-	int __cdecl GetInfo(HCONTACT hContact, int flags)
+	int __cdecl GetInfo(MCONTACT hContact, int flags)
 	{
 		CCSDATA ccs = { hContact, PSS_GETINFO, flags, 0 };
 		return ProtoCallService(m_szModuleName, PSS_GETINFO, 0, (LPARAM)&ccs);
@@ -176,37 +176,37 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HWND)ProtoCallService(m_szModuleName, PS_CREATEADVSEARCHUI, 0, (LPARAM)owner);
 	}
 
-	int __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT* evt)
+	int __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_CONTACTS, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl RecvFile(HCONTACT hContact, PROTOFILEEVENT* evt)
+	int __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT* evt)
+	int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT* evt)
+	int __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_URL, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_URL, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
+	int __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
 	{
 		CCSDATA ccs = { hContact, PSS_CONTACTS, MAKEWPARAM(flags, nContacts), (LPARAM)hContactsList };
 		return (int)ProtoCallService(m_szModuleName, PSS_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	HANDLE __cdecl SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+	HANDLE __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 	{
 		CCSDATA ccs = { hContact, PSS_FILE, (WPARAM)szDescription, (LPARAM)ppszFiles };
 
@@ -218,19 +218,19 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	int __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg)
+	int __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg)
 	{
 		CCSDATA ccs = { hContact, PSS_MESSAGE, flags, (LPARAM)msg };
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl SendUrl(HCONTACT hContact, int flags, const char* url)
+	int __cdecl SendUrl(MCONTACT hContact, int flags, const char* url)
 	{
 		CCSDATA ccs = { hContact, PSS_URL, flags, (LPARAM)url };
 		return (int)ProtoCallService(m_szModuleName, PSS_URL, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl SetApparentMode(HCONTACT hContact, int mode)
+	int __cdecl SetApparentMode(MCONTACT hContact, int mode)
 	{
 		CCSDATA ccs = { hContact, PSS_SETAPPARENTMODE, mode, 0 };
 		return (int)ProtoCallService(m_szModuleName, PSS_SETAPPARENTMODE, 0, (LPARAM)&ccs);
@@ -241,13 +241,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, iNewStatus, 0);
 	}
 
-	HANDLE __cdecl GetAwayMsg(HCONTACT hContact)
+	HANDLE __cdecl GetAwayMsg(MCONTACT hContact)
 	{
 		CCSDATA ccs = { hContact, PSS_GETAWAYMSG, 0, 0 };
 		return (HANDLE)ProtoCallService(m_szModuleName, PSS_GETAWAYMSG, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl RecvAwayMsg(HCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
+	int __cdecl RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_AWAYMSG, statusMode, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
@@ -258,7 +258,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)StrConvA(msg));
 	}
 
-	int __cdecl UserIsTyping(HCONTACT hContact, int type)
+	int __cdecl UserIsTyping(MCONTACT hContact, int type)
 	{
 		CCSDATA ccs = { hContact, PSS_USERISTYPING, (WPARAM)hContact, type };
 		return ProtoCallService(m_szModuleName, PSS_USERISTYPING, 0, (LPARAM)&ccs);

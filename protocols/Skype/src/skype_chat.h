@@ -129,7 +129,7 @@ private:
 	
 	CConversation::Ref conversation;
 
-	HCONTACT hContact;	
+	MCONTACT hContact;	
 
 	OBJLIST<ChatMember> members;
 
@@ -158,7 +158,7 @@ public:
 	ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro);
 	~ChatRoom();
 
-	HCONTACT GetContactHandle() const;
+	MCONTACT GetContactHandle() const;
 
 	void SetTopic(const wchar_t *topic);
 	wchar_t *GetUri();

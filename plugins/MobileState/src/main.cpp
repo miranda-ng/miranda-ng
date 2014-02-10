@@ -50,7 +50,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-bool hasMobileClient(HCONTACT hContact, LPARAM lParam)
+bool hasMobileClient(MCONTACT hContact, LPARAM lParam)
 {
 	char *proto = GetContactProto(hContact);
 
@@ -71,10 +71,10 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL)
 		return 0;
 
-	if (hasMobileClient((HCONTACT)wParam, lParam))
-		ExtraIcon_SetIcon(hExtraIcon, (HCONTACT)wParam, "mobile_icon");
+	if (hasMobileClient((MCONTACT)wParam, lParam))
+		ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)wParam, "mobile_icon");
 	else
-		ExtraIcon_Clear(hExtraIcon, (HCONTACT)wParam);
+		ExtraIcon_Clear(hExtraIcon, (MCONTACT)wParam);
 
 	return 0;
 }
@@ -82,7 +82,7 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = GetContactProto((HCONTACT)wParam);
+	char *proto = GetContactProto((MCONTACT)wParam);
 	if (!proto)
 		return 0;
 
@@ -102,7 +102,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("mobilestate", LPGEN("Mobile State"), "mobile_icon");
 
 	// Set initial value for all contacts
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		ExtraIconsApply((WPARAM)hContact, 1);
 
 	return 0;

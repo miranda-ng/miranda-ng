@@ -82,7 +82,7 @@ int ExtraImage_ExtraIDToColumnNum(int extra)
 	return (extra < 1 || extra > EXTRA_ICON_COUNT) ? -1 : extra-1;
 }
 
-int Clist_SetExtraIcon(HCONTACT hContact, int slot, HANDLE hImage)
+int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 {
 	if (cli.hwndContactTree == 0)
 		return -1;
@@ -248,7 +248,7 @@ int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam)
 
 int ClistExtraImageApply(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -262,7 +262,7 @@ int ClistExtraImageApply(WPARAM wParam, LPARAM lParam)
 
 int ClistExtraClick(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -313,7 +313,7 @@ void fnReloadExtraIcons()
 	bImageCreated = true;
 }
 
-void fnSetAllExtraIcons(HCONTACT hContact)
+void fnSetAllExtraIcons(MCONTACT hContact)
 {
 	if (cli.hwndContactTree == 0)
 		return;

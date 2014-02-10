@@ -47,7 +47,7 @@ namespace xfirelib {
 		* (it will be set by the BuddyList, not when parsing the packet)
 		*/
 		std::string username;
-		HCONTACT handle; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
+		MCONTACT handle; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
 	};
 
 };

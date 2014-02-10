@@ -48,7 +48,7 @@ typedef struct {
 	char *id;				// Protocol especific ID for this call
 	int flags;				// Can be VOICE_CALL_CONTACT or VOICE_CALL_STRING (VOICE_UNICODE to say the string is unicode)
 	union {					// Who to call
-		HCONTACT hContact;
+		MCONTACT hContact;
 		TCHAR *ptszContact;
 		char *pszContact;
 		WCHAR *pwszContact;

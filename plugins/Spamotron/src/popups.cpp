@@ -192,7 +192,7 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 
 }
 
-int ShowPopup(HCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
+int ShowPopup(MCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 {
 	POPUPDATAT ppdp = {0};
 	switch (popupType)

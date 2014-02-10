@@ -2,7 +2,7 @@
 #include "image_utils.h"
 
 extern int _DebugTrace(const char *fmt, ...);
-extern int _DebugTrace(HCONTACT hContact, const char *fmt, ...);
+extern int _DebugTrace(MCONTACT hContact, const char *fmt, ...);
 
 #define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
 
@@ -410,7 +410,7 @@ DWORD GetImgHash(HBITMAP hBitmap)
 /*
  * Changes the handle to a grayscale image
  */
-HBITMAP MakeGrayscale(HCONTACT hContact, HBITMAP hBitmap)
+HBITMAP MakeGrayscale(MCONTACT hContact, HBITMAP hBitmap)
 {
 	if (hBitmap) {
 		FIBITMAP *dib = fei->FI_CreateDIBFromHBITMAP(hBitmap);
@@ -433,7 +433,7 @@ HBITMAP MakeGrayscale(HCONTACT hContact, HBITMAP hBitmap)
  * See if finds a transparent background in image, and set its transparency
  * Return TRUE if found a transparent background
  */
-BOOL MakeTransparentBkg(HCONTACT hContact, HBITMAP *hBitmap)
+BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 {
 	BYTE *p = NULL;
 	DWORD dwLen;

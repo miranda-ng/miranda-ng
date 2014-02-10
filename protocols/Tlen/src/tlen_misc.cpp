@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen.h"
 #include "tlen_list.h"
 
-void TlenDBAddEvent(TlenProtocol *proto, HCONTACT hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob)
+void TlenDBAddEvent(TlenProtocol *proto, MCONTACT hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
@@ -42,10 +42,10 @@ void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 	PBYTE pCurBlob;
 	PBYTE pBlob;
 	DWORD cbBlob;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
-		hContact = (HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
 		// strip resource if present
 		s = TlenLoginFromJID(jid);
@@ -72,7 +72,7 @@ void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 	TlenDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, pBlob, cbBlob);
 }
 
-char *TlenJIDFromHContact(TlenProtocol *proto, HCONTACT hContact)
+char *TlenJIDFromHContact(TlenProtocol *proto, MCONTACT hContact)
 {
 	char *p = NULL;
 	DBVARIANT dbv;
@@ -83,14 +83,14 @@ char *TlenJIDFromHContact(TlenProtocol *proto, HCONTACT hContact)
 	return p;
 }
 
-HCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid)
+MCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid)
 {
 	DBVARIANT dbv;
 	char *p;
 	if (jid == NULL)
 		return NULL;
 
-	for (HCONTACT hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
 		if ( db_get_s(hContact, proto->m_szModuleName, "jid", &dbv))
 			continue;
 
@@ -106,14 +106,14 @@ HCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid)
 	return NULL;
 }
 
-HCONTACT TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary)
+MCONTACT TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	if (jid == NULL || jid[0] == '\0')
 		return NULL;
 
 	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
-		hContact = (HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		if (nick != NULL && nick[0] != '\0')

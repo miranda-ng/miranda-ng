@@ -11,7 +11,7 @@ int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
 WatchListArrayStruct WatchListArray;
-HCONTACT hRestore;
+MCONTACT hRestore;
 HANDLE sMenuCommand, sImport, sServicemodeLaunch;
 HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook=NULL, hOptInitHook=NULL, hPreShutdownHook=NULL;
 
@@ -51,12 +51,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-void settingChanged(HWND hwnd2Settings, HCONTACT hContact, char* module, char* setting);
+void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting);
 
 int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *setting;
 	SettingListInfo* info;
 
@@ -106,7 +106,7 @@ int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (!hwnd2mainWindow) { // so only opens 1 at a time
-		hRestore = (HCONTACT)wParam;
+		hRestore = (MCONTACT)wParam;
 		SetCursor(LoadCursor(NULL,IDC_WAIT));
 		CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), 0, MainDlgProc);
 	}
@@ -114,7 +114,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM lParam)
 		ShowWindow(hwnd2mainWindow, SW_RESTORE);
 		SetForegroundWindow(hwnd2mainWindow);
 		if (!hRestore && wParam) {
-			hRestore = (HCONTACT)wParam;
+			hRestore = (MCONTACT)wParam;
 			refreshTree(4);
 		}
 	}
@@ -225,7 +225,7 @@ INT_PTR ServiceMode(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 {
-	ImportSettingsFromFileMenuItem((HCONTACT)wParam, (char*)lParam);
+	ImportSettingsFromFileMenuItem((MCONTACT)wParam, (char*)lParam);
 	return 0;
 }
 
@@ -267,7 +267,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 // db_get_s (prob shouldnt use this unless u know how big the string is gonna be..)
 //=======================================================
 
-int DBGetContactSettingStringStatic(HCONTACT hContact, char* szModule, char* szSetting, char* value, int maxLength)
+int DBGetContactSettingStringStatic(MCONTACT hContact, char* szModule, char* szSetting, char* value, int maxLength)
 {
 	DBVARIANT dbv;
 	if (!db_get(hContact, szModule, szSetting, &dbv)) {
@@ -283,7 +283,7 @@ int DBGetContactSettingStringStatic(HCONTACT hContact, char* szModule, char* szS
 	return 0;
 }
 
-int WriteBlobFromString(HCONTACT hContact,const char *szModule,const char *szSetting, const char *szValue, int len)
+int WriteBlobFromString(MCONTACT hContact,const char *szModule,const char *szSetting, const char *szValue, int len)
 {
 	int j=0, i = 0;
 	BYTE *data = NULL;
@@ -316,12 +316,12 @@ int WriteBlobFromString(HCONTACT hContact,const char *szModule,const char *szSet
 	return 0;
 }
 
-int GetSetting(HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+int GetSetting(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	return db_get_s(hContact, szModule, szSetting, dbv, 0);
 }
 
-int GetValue(HCONTACT hContact, const char* szModule, const char* szSetting, char* Value, int length)
+int GetValue(MCONTACT hContact, const char* szModule, const char* szSetting, char* Value, int length)
 {
 	DBVARIANT dbv = {0};
 
@@ -361,7 +361,7 @@ int GetValue(HCONTACT hContact, const char* szModule, const char* szSetting, cha
 	return 0;
 }
 
-int GetValueW(HCONTACT hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length)
+int GetValueW(MCONTACT hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length)
 {
 	DBVARIANT dbv = { 0 };
 	WCHAR *wc;
@@ -435,7 +435,7 @@ wchar_t* a2u(char* src, wchar_t *buffer, int len)
 	return result;
 }
 
-int GetDatabaseString(HCONTACT hContact, const char *szModule, const char* szSetting, WCHAR *Value, int length, BOOL unicode)
+int GetDatabaseString(MCONTACT hContact, const char *szModule, const char* szSetting, WCHAR *Value, int length, BOOL unicode)
 {
 	if (unicode)
 		return GetValueW(hContact, szModule, szSetting, Value, length);
@@ -443,7 +443,7 @@ int GetDatabaseString(HCONTACT hContact, const char *szModule, const char* szSet
 		return GetValue(hContact, szModule, szSetting, (char*)Value, length);
 }
 
-WCHAR* GetContactName(HCONTACT hContact, const char *szProto, int unicode)
+WCHAR* GetContactName(MCONTACT hContact, const char *szProto, int unicode)
 {
 	int i, r = 0;
 	static WCHAR res[512];

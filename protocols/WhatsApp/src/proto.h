@@ -32,23 +32,23 @@ public:
 
 	//PROTO_INTERFACE
 
-	virtual	HCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	HCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
+	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
 
    virtual	int      __cdecl Authorize( HANDLE hDbEvent );
    virtual	int      __cdecl AuthDeny( HANDLE hDbEvent, const PROTOCHAR* szReason )       { return 1; }
-   virtual	int      __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT* )                 { return 1; }
-   virtual	int      __cdecl AuthRequest(HCONTACT hContact, const PROTOCHAR* szMessage );
+   virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* )                 { return 1; }
+   virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage );
 
    virtual	HANDLE   __cdecl ChangeInfo( int iInfoType, void* pInfoData ) { return NULL; }
 
-   virtual	HANDLE   __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath )     { return NULL; }
-   virtual	int      __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer )                             { return 1; }             
-   virtual	int      __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason )    { return 1; }
+   virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath )     { return NULL; }
+   virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer )                             { return 1; }             
+   virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason )    { return 1; }
    virtual	int      __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename )   { return 1; }
 
-   virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL );
-   virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType )     { return 1; }
+   virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
+   virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType )     { return 1; }
 
    virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
    virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email )                                                      { return NULL; }
@@ -56,25 +56,25 @@ public:
 	virtual	HWND      __cdecl SearchAdvanced( HWND owner )                                                                 { return NULL; }
 	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner )                                                         { return NULL; }
 
-	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT* )   { return 1; }
-	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTOFILEEVENT* )       { return 1; }
-	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT* )        { return 1; }
+	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT* )   { return 1; }
+	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT* )       { return 1; }
+	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT* )        { return 1; }
 
-	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList) { return 1; }
-   virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles ) { return NULL; }
-   virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg );
-   virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char* url ) { return 1; }
+	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) { return 1; }
+   virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles ) { return NULL; }
+   virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
+   virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url ) { return 1; }
 
-   virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode ) { return 1; }
+   virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode ) { return 1; }
    virtual	int       __cdecl SetStatus( int iNewStatus );
 
-   virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact )                                        { return NULL; }
-   virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt )        { return 1; }
-	virtual	int       __cdecl SendAwayMsg(HCONTACT hContact, HANDLE hProcess, const char* msg )     { return 1; }
+   virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact )                                        { return NULL; }
+   virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt )        { return 1; }
+	virtual	int       __cdecl SendAwayMsg(MCONTACT hContact, HANDLE hProcess, const char* msg )     { return 1; }
 	virtual	int       __cdecl SetAwayMsg( int iStatus, const PROTOCHAR* msg )                      { return 1; }
 
-	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type );
+	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type );
 
    virtual	int       __cdecl OnEvent( PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam ) { return 1; }
 
@@ -120,18 +120,18 @@ public:
    void __cdecl SendCreateGroupWorker(void*);
 
    // Contacts handling
-	HCONTACT AddToContactList(const std::string& jid, BYTE type = 0, bool dont_check = false,
+	MCONTACT AddToContactList(const std::string& jid, BYTE type = 0, bool dont_check = false,
                            const char *new_name = NULL, bool isChatRoom = false, bool isHidden = false);
-	bool     IsMyContact(HCONTACT hContact, bool include_chat = false);
-	HCONTACT ContactIDToHContact(const std::string&);
+	bool     IsMyContact(MCONTACT hContact, bool include_chat = false);
+	MCONTACT ContactIDToHContact(const std::string&);
    void     SetAllContactStatuses(int status, bool reset_client = false);
-   void     UpdateStatusMsg(HCONTACT hContact);
-   string   GetContactDisplayName(HCONTACT hContact);
+   void     UpdateStatusMsg(MCONTACT hContact);
+   string   GetContactDisplayName(MCONTACT hContact);
    string   GetContactDisplayName(const string& jid);
    void     InitContactMenus();
    void     HandleReceiveGroups(const std::vector<string>& groups, bool isOwned);
    
-	bool IsGroupChat(HCONTACT hC, bool checkIsAdmin = false)
+	bool IsGroupChat(MCONTACT hC, bool checkIsAdmin = false)
    {
 		return getByte(hC, "SimpleChatRoom", 0) > (checkIsAdmin ? 1 : 0);
    }
@@ -165,8 +165,8 @@ public:
    string phoneNumber;
    string jid;
    string nick;
-	std::map<string, HCONTACT> hContactByJid;
-	map<HCONTACT, map<HCONTACT, bool>> isMemberByGroupContact;
+	std::map<string, MCONTACT> hContactByJid;
+	map<MCONTACT, map<MCONTACT, bool>> isMemberByGroupContact;
 
    // WhatsApp Events
    virtual void onMessageForMe(FMessage* paramFMessage, bool paramBoolean);
@@ -205,8 +205,8 @@ public:
 	virtual void onLeaveGroup(const std::string& paramString);
 
 	// Information providing
-	void NotifyEvent(TCHAR* title, TCHAR* info, HCONTACT contact, DWORD flags, TCHAR* url = NULL);
-	void NotifyEvent(const string& title, const string& info, HCONTACT contact, DWORD flags, TCHAR* url = NULL);
+	void NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, TCHAR* url = NULL);
+	void NotifyEvent(const string& title, const string& info, MCONTACT contact, DWORD flags, TCHAR* url = NULL);
 };
 
 #endif

@@ -36,7 +36,7 @@
 //buddylist verarbeitung von der main in buddylist verschoben, um doppelte schleifenverarbeitung zuunterbinden
 #include "baseProtocol.h"
 
-extern HCONTACT handlingBuddys(xfirelib::BuddyListEntry *entry, int clan=0,char* group=NULL,BOOL dontscan=FALSE);
+extern MCONTACT handlingBuddys(xfirelib::BuddyListEntry *entry, int clan=0,char* group=NULL,BOOL dontscan=FALSE);
 extern void setBuddyStatusMsg(xfirelib::BuddyListEntry *entry);
 
 namespace xfirelib {

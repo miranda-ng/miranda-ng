@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-INT_PTR getIconToUse(HCONTACT hContact, LPARAM lParam)
+INT_PTR getIconToUse(MCONTACT hContact, LPARAM lParam)
 {
 	char *proto = GetContactProto(hContact);
 //	if (lParam == 1) return icon_none;
@@ -94,7 +94,7 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL)
 		return 0;
 
-	int usedIcon = getIconToUse((HCONTACT)wParam, lParam);
+	int usedIcon = getIconToUse((MCONTACT)wParam, lParam);
 
 	const char *icon;
 	switch (usedIcon) {
@@ -103,14 +103,14 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 		case icon_auth:   icon = "auth_icon";  break;
 		default:          icon = NULL;  break;
 	}
-	ExtraIcon_SetIcon(hExtraIcon, (HCONTACT)wParam, icon);
+	ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)wParam, icon);
 	return 0;
 }
 
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = GetContactProto((HCONTACT)wParam);
+	char *proto = GetContactProto((MCONTACT)wParam);
 	if (!proto) return 0;
 
 	if (!lstrcmpA(cws->szModule,proto))
@@ -123,7 +123,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	// A new contact added, mark it as recent
-	db_set_b((HCONTACT)wParam, MODULENAME, "ShowIcons", 1);
+	db_set_b((MCONTACT)wParam, MODULENAME, "ShowIcons", 1);
 	onExtraImageApplying(wParam, 0);
 
 	return 0;
@@ -131,8 +131,8 @@ int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 
 INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 {
-	byte enabled = db_get_b((HCONTACT)wParam,"AuthState","ShowIcons",1);
-	db_set_b((HCONTACT)wParam, MODULENAME, "ShowIcons", !enabled);
+	byte enabled = db_get_b((MCONTACT)wParam,"AuthState","ShowIcons",1);
+	db_set_b((MCONTACT)wParam, MODULENAME, "ShowIcons", !enabled);
 
 	onExtraImageApplying(wParam, 0);
 	return 0;
@@ -140,7 +140,7 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;
@@ -173,7 +173,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("authstate", LPGEN("Auth State"), "authgrant_icon");
 
 	// Set initial value for all contacts
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		onExtraImageApplying((WPARAM)hContact, 1);
 
 	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);

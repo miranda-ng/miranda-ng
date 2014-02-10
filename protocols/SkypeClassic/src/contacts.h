@@ -1,10 +1,10 @@
 // Prototypes
-HANDLE add_contextmenu(HCONTACT hContact);
+HANDLE add_contextmenu(MCONTACT hContact);
 HANDLE add_mainmenu(void);
 
-HCONTACT find_contact(char *name);
-HCONTACT find_contactT(TCHAR *name);
-HCONTACT add_contact(char *name, DWORD flags);
+MCONTACT find_contact(char *name);
+MCONTACT find_contactT(TCHAR *name);
+MCONTACT add_contact(char *name, DWORD flags);
 
 CLISTMENUITEM HupItem(void);
 CLISTMENUITEM CallItem(void);

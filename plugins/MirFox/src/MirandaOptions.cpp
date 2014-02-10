@@ -169,7 +169,7 @@ static void setListContactIcons(HWND hwndList){
 	boost::ptr_list<MirandaContact>::iterator mirandaContactsIter;
 	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
 
-		HCONTACT hContact = mirandaContactsIter->contactHandle;
+		MCONTACT hContact = mirandaContactsIter->contactHandle;
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if(hItem) {
 			//if icon on 0th extracolumn is not set
@@ -484,7 +484,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				case PSN_APPLY:
 				{
 
-					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
+					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
 
 						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 						if(hItem) {

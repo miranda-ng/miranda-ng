@@ -29,7 +29,7 @@ int AlreadyDownloading = 0;
 /*******************/
 void GetData(void *param)
 {
-	HCONTACT hContact = (HCONTACT)param;
+	MCONTACT hContact = (MCONTACT)param;
 	int statpos = 0, dispos = 0, statposend = 0;
 	char*pos;
 	DBVARIANT       dbv;

@@ -72,7 +72,7 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Toggle(WPARAM w, LPARAM l)
 {
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 	BOOL on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	db_set_b(hContact, protocolname, "TurnedOn", on);
 	on = !on;
@@ -87,7 +87,7 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 
 INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
@@ -183,7 +183,7 @@ TCHAR* StrReplace (TCHAR* Search, TCHAR* Replace, TCHAR* Resource)
 
 INT addEvent(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	HANDLE hDBEvent = (HANDLE)lParam;
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 

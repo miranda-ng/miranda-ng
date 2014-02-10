@@ -43,7 +43,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 {
 	// see if the log path is set
 	DBVARIANT dbv;
-	if (!db_get_ts((HCONTACT)wParam, WEATHERPROTONAME, "Log", &dbv)) {
+	if (!db_get_ts((MCONTACT)wParam, WEATHERPROTONAME, "Log", &dbv)) {
 		if (dbv.pszVal[0] != 0)
 			ShellExecute((HWND)lParam, _T("open"), dbv.ptszVal, _T(""), _T(""), SW_SHOW);
 		db_free(&dbv);
@@ -59,10 +59,10 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam) 
 {
 	TCHAR id[256], loc2[256];
-	GetStationID((HCONTACT)wParam, id, SIZEOF(id));
+	GetStationID((MCONTACT)wParam, id, SIZEOF(id));
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
-		if (DBGetStaticString((HCONTACT)wParam, WEATHERPROTONAME, "InfoURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
+		if (DBGetStaticString((MCONTACT)wParam, WEATHERPROTONAME, "InfoURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
 			MessageBox(NULL, TranslateT("The URL for complete forcast have not been set. You can set it from the Edit Settings dialog."), 
 				TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
@@ -78,10 +78,10 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam)
 INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam) 
 {
 	TCHAR id[256], loc2[256];
-	GetStationID((HCONTACT)wParam, id, SIZEOF(id));
+	GetStationID((MCONTACT)wParam, id, SIZEOF(id));
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
-		if (DBGetStaticString((HCONTACT)wParam, WEATHERPROTONAME, "MapURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
+		if (DBGetStaticString((MCONTACT)wParam, WEATHERPROTONAME, "MapURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
 			MessageBox(NULL, TranslateT("The URL for weather map have not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -99,7 +99,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam)
 // wParam = current contact
 INT_PTR EditSettings(WPARAM wParam, LPARAM lParam) 
 {
-	HWND hEditDlg = WindowList_Find(hWindowList, (HCONTACT)wParam);
+	HWND hEditDlg = WindowList_Find(hWindowList, (MCONTACT)wParam);
 
 	// search the dialog list to prevent multiple instance of dialog for the same contact
 	if (hEditDlg != NULL) {
@@ -109,7 +109,7 @@ INT_PTR EditSettings(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// if the dialog box is not opened, open a new one
-		if (IsMyContact((HCONTACT)wParam))
+		if (IsMyContact((MCONTACT)wParam))
 			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT), NULL, DlgProcChange, (LPARAM)wParam);
 	}
 
@@ -118,7 +118,7 @@ INT_PTR EditSettings(WPARAM wParam, LPARAM lParam)
 
 typedef struct
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HICON  hRename;
 	HICON  hUserDetail;
 	HICON  hFile;
@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	TCHAR str[256], str2[256], city[256], filter[256], *pfilter, *chop;
 	char loc[512];
 	OPENFILENAME ofn;       // common dialog box structure
-	HCONTACT hContact;
+	MCONTACT hContact;
 	WIDATA *sData;
 	CntSetWndDataType *wndData = NULL;
 
@@ -142,7 +142,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		TranslateDialogDefault(hwndDlg);
 
 		wndData = ( CntSetWndDataType* )mir_alloc(sizeof(CntSetWndDataType));
-		wndData->hContact = hContact = (HCONTACT)lParam;
+		wndData->hContact = hContact = (MCONTACT)lParam;
 		wndData->hRename = LoadSkinnedIcon(SKINICON_OTHER_RENAME);
 		wndData->hUserDetail = LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS);
 		wndData->hFile = LoadSkinnedIcon(SKINICON_EVENT_FILE);
@@ -430,14 +430,14 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 // wParam = deleted contact
 int ContactDeleted(WPARAM wParam, LPARAM lParam) 
 {
-	if (!IsMyContact((HCONTACT)wParam))
+	if (!IsMyContact((MCONTACT)wParam))
 		return 0; 
 
-	removeWindow((HCONTACT)wParam);
+	removeWindow((MCONTACT)wParam);
 
 	// exit this function if it is not default station
 	DBVARIANT dbv;
-	if (!db_get_ts((HCONTACT)wParam, WEATHERPROTONAME, "ID", &dbv)) {
+	if (!db_get_ts((MCONTACT)wParam, WEATHERPROTONAME, "ID", &dbv)) {
 		if ( _tcscmp(dbv.ptszVal, opt.Default)) {
 			db_free(&dbv);
 			return 0;
@@ -448,7 +448,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
-	for (HCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			// if the station is not a default station, set it as the new default station
 			// this is the first weather station encountered from the search
@@ -475,7 +475,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BOOL IsMyContact(HCONTACT hContact)
+BOOL IsMyContact(MCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(WEATHERPROTONAME, szProto) == 0;

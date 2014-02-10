@@ -10,12 +10,12 @@ CQuotesProviderDukasCopy::~CQuotesProviderDukasCopy()
 
 namespace
 {
-	inline tstring get_quote_id(HCONTACT hContact)
+	inline tstring get_quote_id(MCONTACT hContact)
 	{
 		return Quotes_DBGetStringT(hContact,QUOTES_MODULE_NAME,DB_STR_QUOTE_ID);
 	}
 
-	inline bool is_quote_id_equal(HCONTACT hContact,const tstring& sID)
+	inline bool is_quote_id_equal(MCONTACT hContact,const tstring& sID)
 	{
 		return sID == get_quote_id(hContact);
 	}
@@ -36,7 +36,7 @@ bool CQuotesProviderDukasCopy::WatchForQuote(const CQuote& rQuote,bool bWatch)
 
 	if((false == bWatch) && (i != m_aContacts.end()))
 	{
-		HCONTACT hContact = *i;
+		MCONTACT hContact = *i;
 		{// for CCritSection
 			CGuard<CLightMutex> cs(m_cs);
 			m_aContacts.erase(i);
@@ -47,7 +47,7 @@ bool CQuotesProviderDukasCopy::WatchForQuote(const CQuote& rQuote,bool bWatch)
 	}
 	else if((true == bWatch) && (i == m_aContacts.end()))
 	{
-		HCONTACT hContact = CreateNewContact(rQuote.GetSymbol());
+		MCONTACT hContact = CreateNewContact(rQuote.GetSymbol());
 		if(hContact)
 		{
 			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_ID,sQuoteID.c_str());
@@ -72,7 +72,7 @@ tstring CQuotesProviderDukasCopy::BuildHTTPURL()const
 		CGuard<CLightMutex> cs(m_cs);
 		for(TContracts::const_iterator i = m_aContacts.begin();i != m_aContacts.end();++i)
 		{
-			HCONTACT hContact = *i;
+			MCONTACT hContact = *i;
 			tstring sID = get_quote_id(hContact);
 			if(false == sID.empty())
 			{
@@ -243,7 +243,7 @@ void CQuotesProviderDukasCopy::RefreshQuotes(TContracts& anContacts)
 								boost::bind(is_quote_id_equal,_1,ri.m_sID));
 							if(i != anContacts.end() && (true == IsOnline()))
 							{
-								HCONTACT hContact = *i;
+								MCONTACT hContact = *i;
 								anContacts.erase(i);
 
 								WriteContactRate(hContact,ri.m_dCurRate,ri.m_sName);
@@ -270,7 +270,7 @@ void CQuotesProviderDukasCopy::Accept(CQuotesProviderVisitor& visitor)const
 	visitor.Visit(*this);
 }
 
-HCONTACT CQuotesProviderDukasCopy::GetContactByQuoteID(const tstring& rsQuoteID)const
+MCONTACT CQuotesProviderDukasCopy::GetContactByQuoteID(const tstring& rsQuoteID)const
 {
 	CGuard<CLightMutex> cs(m_cs);
 

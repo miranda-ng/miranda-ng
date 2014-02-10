@@ -398,7 +398,7 @@ void CMenuBar::invoke(const int id)
 
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 
-	HCONTACT hContact = dat ? dat->hContact : 0;
+	MCONTACT hContact = dat ? dat->hContact : 0;
 
 	if (index == 3 && hContact != 0) {
 		hMenu = reinterpret_cast<HMENU>(::CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0));

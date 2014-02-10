@@ -28,7 +28,7 @@ typedef struct
 	TMsgQueue *item;
 } ErrorDlgParam;
 
-INT_PTR SendMessageCmd(HCONTACT hContact, char* msg, int isWchar);
+INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar);
 
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

@@ -140,9 +140,9 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case VARM_SETSUBJECT: {
 		LPARAM res = 0;
-		HCONTACT hItem, hContact = (HCONTACT)wParam;
+		MCONTACT hItem, hContact = (MCONTACT)wParam;
 		log_debugA("VARM_SETSUBJECT: %u", hContact);
-		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+		if (hContact == INVALID_CONTACT_ID) {
 			TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
 			log_debugA("VARM_SETSUBJECT: %s", tszContact);
 			if (tszContact != NULL) {
@@ -151,8 +151,8 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				mir_free(tszContact);
 		}	}
 
-		if ((hContact != (HCONTACT)INVALID_HANDLE_VALUE) && (hContact != NULL))
-			hItem = (HCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		if ((hContact != INVALID_CONTACT_ID) && (hContact != NULL))
+			hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		else
 			hItem = NULL;
 
@@ -223,7 +223,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 	case WM_DESTROY:
 		db_unset(NULL, MODULENAME, SETTING_SUBJECT);
 		{
-			HCONTACT hContact = (HCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
+			MCONTACT hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			if (hContact != NULL) {
 				TCHAR *tszContact = encodeContactToString(hContact);
 				if (tszContact != NULL) {
@@ -724,7 +724,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			else extraText = NULL;
 
 			if (string != NULL) {
-				TCHAR *newString = variables_parsedup(string, extraText, (HCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
+				TCHAR *newString = variables_parsedup(string, extraText, (MCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
 				if (newString != NULL) {
 					TCHAR *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
 					if (oldString == NULL || _tcscmp(oldString, newString))
@@ -1001,7 +1001,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 						SendMessageA(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->szExtraText);
 					}
 				}
-				dat->vhs->fi->hContact = (HCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
+				dat->vhs->fi->hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			}
 			// fall through
 

@@ -31,18 +31,18 @@ struct TemplateEditorInfo
 	int  inEdit;            // template currently in editor
 	BOOL updateInfo[TMPL_ERRMSG + 1];        // item states...
 	HWND hwndParent;
-	HCONTACT hContact;
+	MCONTACT hContact;
 };
 
 struct TemplateEditorNew
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	BOOL   rtl;
 	HWND   hwndParent;
 };
 
 BOOL CALLBACK DlgProcTemplateEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static void LoadTemplatesFrom(TTemplateSet *tSet, HCONTACT hContact, int rtl);
+static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl);
 void LoadDefaultTemplates();
 
 #define DM_UPDATETEMPLATEPREVIEW (WM_USER + 50)

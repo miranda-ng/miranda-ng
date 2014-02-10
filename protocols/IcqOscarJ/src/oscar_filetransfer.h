@@ -62,7 +62,7 @@ char *FindFilePathContainer(const char **files, int iFile, char *szContainer);
 
 struct oscar_filetransfer: public basic_filetransfer
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int flags; // combination of OFTF_*
 	int containerCount;
 	char **file_containers;
@@ -123,7 +123,7 @@ void SafeReleaseFileTransfer(void **ft);
 
 struct oscar_connection 
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hConnection;
 	int status;
 	DWORD dwUin;

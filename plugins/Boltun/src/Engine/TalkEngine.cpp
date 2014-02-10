@@ -76,7 +76,7 @@ TalkBot::TalkBot(const Mind& goodMind)
 	:mind(goodMind), beSilent(false), makeLowercase(false), 
 	understandAlways(false)
 {
-	contactDatas = new PerContactData<Mind, ContactData, HCONTACT>(mind);
+	contactDatas = new PerContactData<Mind, ContactData, MCONTACT>(mind);
 }
 
 TalkBot::~TalkBot()
@@ -84,7 +84,7 @@ TalkBot::~TalkBot()
 	delete contactDatas;
 }
 
-tstring TalkBot::GetInitMessage(HCONTACT contact)
+tstring TalkBot::GetInitMessage(MCONTACT contact)
 {
 	ContactData* d = contactDatas->GetData(contact);
 	tstring s = d->initial.GetString();
@@ -272,7 +272,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 	return tstring();
 }
 
-TalkBot::MessageInfo* TalkBot::Reply(HCONTACT contact, tstring incomingMessage, bool saveChoice)
+TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, tstring incomingMessage, bool saveChoice)
 {
 	TCHAR* str = new TCHAR[incomingMessage.length()+1];
 	_tcscpy(str, incomingMessage.c_str());
@@ -370,7 +370,7 @@ bool TalkBot::FindExact(ContactData *contactData, const tstring &incomingMessage
 	return true;
 }
 
-void TalkBot::AnswerGiven(HCONTACT contact, const TalkBot::MessageInfo& info)
+void TalkBot::AnswerGiven(MCONTACT contact, const TalkBot::MessageInfo& info)
 {
 	ContactData *contactData = contactDatas->GetData(contact);
 	RecordAnswer(contactData, info);

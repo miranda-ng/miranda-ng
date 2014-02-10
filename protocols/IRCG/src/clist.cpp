@@ -24,13 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask, unsigned long adr, int port)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	TCHAR szNick[256];
 	char szService[256];
 	bool bFlag = false;
 
 	CONTACT usertemp = { (TCHAR*)name.c_str(), NULL, NULL, false, false, true };
-	HCONTACT hc = CList_FindContact(&usertemp);
+	MCONTACT hc = CList_FindContact(&usertemp);
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
@@ -80,12 +80,12 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 	return TRUE;
 }
 
-HCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
+MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 {
 	if (user->name == NULL)
 		return 0;
 
-	HCONTACT hContact = CList_FindContact(user);
+	MCONTACT hContact = CList_FindContact(user);
 	if (hContact) {
 		if (InList)
 			db_unset(hContact, "CList", "NotOnList");
@@ -97,7 +97,7 @@ HCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 	}
 
 	// here we create a new one since no one is to be found
-	hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (hContact) {
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 
@@ -116,9 +116,9 @@ HCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 	return false;
 }
 
-HCONTACT CIrcProto::CList_SetOffline(CONTACT *user)
+MCONTACT CIrcProto::CList_SetOffline(CONTACT *user)
 {
-	HCONTACT hContact = CList_FindContact(user);
+	MCONTACT hContact = CList_FindContact(user);
 	if (hContact) {
 		DBVARIANT dbv;
 		if (!getTString(hContact, "Default", &dbv)) {
@@ -140,7 +140,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	DisconnectAllDCCSessions(false);
 
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
@@ -160,7 +160,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 	return true;
 }
 
-HCONTACT CIrcProto::CList_FindContact(CONTACT *user)
+MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 {
 	if (!user || !user->name)
 		return 0;
@@ -168,11 +168,11 @@ HCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 	TCHAR* lowercasename = mir_tstrdup(user->name);
 	CharLower(lowercasename);
 
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
-		HCONTACT  hContact_temp = NULL;
+		MCONTACT  hContact_temp = NULL;
 		ptrT DBNick(getTStringA(hContact, "Nick"));
 		ptrT DBUser(getTStringA(hContact, "UUser"));
 		ptrT DBHost(getTStringA(hContact, "UHost"));
@@ -183,7 +183,7 @@ HCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 			CharLower(DBWildcard);
 		if (IsChannel(user->name)) {
 			if (DBDefault && !lstrcmpi(DBDefault, user->name))
-				hContact_temp = (HCONTACT)-1;
+				hContact_temp = (MCONTACT)-1;
 		}
 		else if (user->ExactNick && DBNick && !lstrcmpi(DBNick, user->name))
 			hContact_temp = hContact;
@@ -208,7 +208,7 @@ HCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 
 		if (hContact_temp != NULL) {
 			mir_free(lowercasename);
-			if (hContact_temp != (HCONTACT)-1)
+			if (hContact_temp != (MCONTACT)-1)
 				return hContact_temp;
 			return 0;
 		}

@@ -433,7 +433,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 	return dst;
 } 
 
-int _notify(HCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
+int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
 {
 	char *tmp, *tmporig;
 	TCHAR msg[MAX_BUFFER_LENGTH];
@@ -484,7 +484,7 @@ int LogToSystemHistory(char *message, char *origmessage)
 	return 0;
 }
 
-void MarkUnread(HCONTACT hContact)
+void MarkUnread(MCONTACT hContact)
 {
 	// We're not actually marking anything. We just pushing saved events to the database from a temporary location
 	DBVARIANT _dbv = {0};

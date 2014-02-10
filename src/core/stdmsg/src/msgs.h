@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct NewMessageWindowLParam
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	const char *szInitialText;
 	int isWchar;
 	int noActivate;
@@ -35,7 +35,7 @@ struct NewMessageWindowLParam
 
 struct SrmmWindowData
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hDbEventFirst, hDbEventLast;
 	HBRUSH hBkgBrush;
 	int splitterPos, originalSplitterPos;
@@ -117,7 +117,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat);
 void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend);
-HANDLE SendMessageDirect(const TCHAR *szMsg, HCONTACT hContact, char *szProto);
+HANDLE SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto);
 
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);

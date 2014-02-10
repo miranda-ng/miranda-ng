@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-bool DBGetContactSettingAsString(HCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen)
+bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	buff[0] = 0;
@@ -63,7 +63,7 @@ bool DBGetContactSettingAsString(HCONTACT hContact, const char *szModuleName, co
 	return buff[0] ? true : false;
 }
 
-bool CheckContactType(HCONTACT hContact, const DISPLAYITEM &di)
+bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 {
 	if (di.type == DIT_ALL)
 		return true;
@@ -127,7 +127,7 @@ void StripBBCodesInPlace(TCHAR *swzText)
 	}
 }
 
-DWORD LastMessageTimestamp(HCONTACT hContact)
+DWORD LastMessageTimestamp(MCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_last(hContact);
 	while (hDbEvent) {
@@ -153,7 +153,7 @@ void FormatTimestamp(DWORD ts, char *szFormat, TCHAR *buff, int bufflen)
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ts, (LPARAM)&dbt);
 }
 
-bool Uid(HCONTACT hContact, char *szProto, TCHAR *buff, int bufflen)
+bool Uid(MCONTACT hContact, char *szProto, TCHAR *buff, int bufflen)
 {
 	char *tmpProto = NULL;
 
@@ -184,7 +184,7 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 	return false;
 }
 
-TCHAR *GetLastMessageText(HCONTACT hContact)
+TCHAR *GetLastMessageText(MCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_last(hContact);
 	while (hDbEvent) {
@@ -210,7 +210,7 @@ TCHAR *GetLastMessageText(HCONTACT hContact)
 	return 0;
 }
 
-bool CanRetrieveStatusMsg(HCONTACT hContact, char *szProto)
+bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
 {
 	if (opt.bGetNewStatusMsg)
 	{
@@ -242,7 +242,7 @@ bool CanRetrieveStatusMsg(HCONTACT hContact, char *szProto)
 	return false;
 }
 
-TCHAR *GetStatusMessageText(HCONTACT hContact)
+TCHAR *GetStatusMessageText(MCONTACT hContact)
 {
 	TCHAR *swzMsg = 0;
 	DBVARIANT dbv;
@@ -250,7 +250,7 @@ TCHAR *GetStatusMessageText(HCONTACT hContact)
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!strcmp(szProto, szMetaModuleName))
-			hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		else {
 			WORD wStatus = (int)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (wStatus == ID_STATUS_OFFLINE)
@@ -286,7 +286,7 @@ TCHAR *GetStatusMessageText(HCONTACT hContact)
 	return swzMsg;
 }
 
-bool GetSysSubstText(HCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int bufflen)
+bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int bufflen)
 {
 	if (!_tcscmp(swzRawSpec, _T("uid")))
 	{
@@ -361,7 +361,7 @@ bool GetSysSubstText(HCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	}
 	else if (!_tcscmp(swzRawSpec, _T("meta_subuid")))
 	{
-		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return Uid(hSubContact, 0, buff, bufflen);
@@ -369,7 +369,7 @@ bool GetSysSubstText(HCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	else if (!_tcscmp(swzRawSpec, _T("meta_subproto")))
 	{
 		// get protocol of active subcontact
-		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return GetSysSubstText(hSubContact, _T("account"), buff, bufflen);
@@ -409,18 +409,18 @@ bool GetSysSubstText(HCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		DWORD dwLastTs, dwNewTs, dwRecountTs;
 		DWORD dwTime, dwDiff;
 		int iNumber = 1;
-		HCONTACT hTmpContact = hContact;
+		MCONTACT hTmpContact = hContact;
 
 		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, szMetaModuleName))
 		{
 			iNumber = CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0);
-			hTmpContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, 0);
+			hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, 0);
 		}
 
 		for (int i = 0; i < iNumber; i++) {
 			if (i > 0)
-				hTmpContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
+				hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
 			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);
@@ -474,7 +474,7 @@ bool GetSysSubstText(HCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	return false;
 }
 
-bool GetSubstText(HCONTACT hContact, const DISPLAYSUBST &ds, TCHAR *buff, int bufflen)
+bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, TCHAR *buff, int bufflen)
 {
 	TranslateFunc *transFunc = 0;
 	for (int i = 0; i < iTransFuncsCount; i++)
@@ -509,7 +509,7 @@ bool GetSubstText(HCONTACT hContact, const DISPLAYSUBST &ds, TCHAR *buff, int bu
 	return false;
 }
 
-bool GetRawSubstText(HCONTACT hContact, char *szRawSpec, TCHAR *buff, int bufflen)
+bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, TCHAR *buff, int bufflen)
 {
 	size_t lenght = strlen(szRawSpec);
 	for (size_t i = 0; i < lenght; i++)
@@ -541,7 +541,7 @@ bool GetRawSubstText(HCONTACT hContact, char *szRawSpec, TCHAR *buff, int buffle
 	return false;
 }
 
-bool ApplySubst(HCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsFirst, TCHAR *swzDest, int iDestLen)
+bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsFirst, TCHAR *swzDest, int iDestLen)
 {
 	// hack - allow empty strings before passing to variables (note - zero length strings return false after this)
 	if (swzDest && swzSource && _tcslen(swzSource) == 0) {
@@ -785,12 +785,12 @@ error:
 	return true;
 }
 
-bool GetLabelText(HCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, int bufflen)
+bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, int bufflen)
 {
 	return ApplySubst(hContact, di.swzLabel, false, buff, bufflen);
 }
 
-bool GetValueText(HCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, int bufflen)
+bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, int bufflen)
 {
 	return ApplySubst(hContact, di.swzValue, di.bParseTipperVarsFirst, buff, bufflen);
 }
@@ -889,7 +889,7 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 		db_free(&dbv);
 
 		if (ServiceExists(MS_VARS_FORMATSTRING)) {
-			HCONTACT hContact = db_find_first();
+			MCONTACT hContact = db_find_first();
 			char *proto = GetContactProto(hContact);
 			while(!proto) {
 				hContact = db_find_next(hContact);
@@ -957,7 +957,7 @@ TCHAR *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szV
 	return swzText;
 }
 
-HICON GetJabberActivityIcon(HCONTACT hContact, char *szProto)
+HICON GetJabberActivityIcon(MCONTACT hContact, char *szProto)
 {
 	DBVARIANT dbv;
 	HICON hIcon = NULL;

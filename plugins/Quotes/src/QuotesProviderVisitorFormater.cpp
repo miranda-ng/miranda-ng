@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-CQuotesProviderVisitorFormater::CQuotesProviderVisitorFormater(HCONTACT hContact,TCHAR chr,int nWidth)
+CQuotesProviderVisitorFormater::CQuotesProviderVisitorFormater(MCONTACT hContact,TCHAR chr,int nWidth)
 							   : m_hContact(hContact),
 							     m_chr(chr),
 								 m_nWidth(nWidth)
@@ -45,7 +45,7 @@ void CQuotesProviderVisitorFormater::Visit(const CQuotesProviderGoogle& rProvide
 
 namespace
 {
-	bool get_fetch_time(HCONTACT hContact,time_t& rTime)
+	bool get_fetch_time(MCONTACT hContact,time_t& rTime)
 	{
 		DBVARIANT dbv;
 		if (db_get(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
@@ -55,7 +55,7 @@ namespace
 		return true;
 	}
 
-	tstring format_fetch_time(const CQuotesProviderBase& rProvider,HCONTACT hContact,const tstring& rsFormat)
+	tstring format_fetch_time(const CQuotesProviderBase& rProvider,MCONTACT hContact,const tstring& rsFormat)
 	{
 		time_t nTime;
 		if(true == get_fetch_time(hContact,nTime))

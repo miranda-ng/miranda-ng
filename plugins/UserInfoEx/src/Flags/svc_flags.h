@@ -33,11 +33,11 @@ extern bool g_eiGender, g_eiHome, g_eiEmail, g_eiPhone;
 
 struct MsgWndData
 {
-	HCONTACT m_hContact;
+	MCONTACT m_hContact;
 	HWND m_hwnd;
 	int m_countryID;
 
-	MsgWndData(HWND hwnd, HCONTACT hContact);
+	MsgWndData(HWND hwnd, MCONTACT hContact);
 	~MsgWndData();
 
 	void FlagsIconSet();

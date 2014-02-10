@@ -58,7 +58,7 @@ INT_PTR GetStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam);
 INT_PTR SetNickName(WPARAM newnick, LPARAM lparam);
 
-BOOL IsXFireContact(HCONTACT h);
+BOOL IsXFireContact(MCONTACT h);
 int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hhicon=NULL);
 BOOL CreateToolTip(int toolID, HWND hDlg, CHAR* pText);
 void EnableDlgItem(HWND hwndDlg, UINT control, int state);
@@ -155,7 +155,7 @@ struct XFire_FoundGame
 
 struct XFire_SetAvatar
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char* username;
 };
 

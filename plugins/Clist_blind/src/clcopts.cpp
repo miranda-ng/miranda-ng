@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-TCHAR* MyDBGetContactSettingTString(HCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def);
+TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def);
 
 
 #define DBFONTF_BOLD       1

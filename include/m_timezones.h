@@ -44,15 +44,15 @@ typedef struct
 	size_t cbSize;
 
 	HANDLE  (*createByName)(LPCTSTR tszName, DWORD dwFlags);
-	HANDLE  (*createByContact)(HCONTACT hContact, DWORD dwFlags);
-	void    (*storeByContact)(HCONTACT hContact, HANDLE hTZ);
+	HANDLE  (*createByContact)(MCONTACT hContact, DWORD dwFlags);
+	void    (*storeByContact)(MCONTACT hContact, HANDLE hTZ);
 
 	int     (*printDateTime)(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
 	int     (*printTimeStamp)(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
 
-	int     (*prepareList)(HCONTACT hContact, HWND hWnd, DWORD dwFlags);
-	int     (*selectListItem)(HCONTACT hContact, HWND hWnd, DWORD dwFlags);
-	void    (*storeListResults)(HCONTACT hContact, HWND hWnd, DWORD dwFlags);
+	int     (*prepareList)(MCONTACT hContact, HWND hWnd, DWORD dwFlags);
+	int     (*selectListItem)(MCONTACT hContact, HWND hWnd, DWORD dwFlags);
+	void    (*storeListResults)(MCONTACT hContact, HWND hWnd, DWORD dwFlags);
 
 	int     (*getTimeZoneTime)(HANDLE hTZ, SYSTEMTIME *st);
 	mir_time  (*timeStampToTimeZoneTimeStamp)(HANDLE hTZ, mir_time ts);
@@ -62,19 +62,19 @@ typedef struct
 	LPCTSTR (*getTzDescription)(LPCTSTR TZname);
 
 #ifdef __cplusplus
-	int printDateTimeByContact (HCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+	int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 	{ return printDateTime(createByContact(hContact, dwFlags), szFormat, szDest, cbDest, dwFlags); }
 
-	int printTimeStampByContact(HCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 	{ return printTimeStamp(createByContact(hContact, dwFlags), ts, szFormat, szDest, cbDest, dwFlags); }
 
-	LPTIME_ZONE_INFORMATION getTziByContact(HCONTACT hContact)
+	LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact)
 	{ return getTzi(createByContact(hContact, 0)); }
 
-	int getTimeZoneTimeByContact(HCONTACT hContact, SYSTEMTIME *st)
+	int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st)
 	{ return getTimeZoneTime(createByContact(hContact, 0), st); }
 
-	mir_time timeStampToTimeZoneTimeStampByContact(HCONTACT hContact, mir_time ts)
+	mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts)
 	{ return timeStampToTimeZoneTimeStamp(createByContact(hContact, 0), ts); }
 #endif
 

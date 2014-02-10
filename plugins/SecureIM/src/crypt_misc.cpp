@@ -2,7 +2,7 @@
 
 static void sttWaitForExchange(LPVOID param)
 {
-	HCONTACT hContact = (HCONTACT)param;
+	MCONTACT hContact = (MCONTACT)param;
 	pUinKey ptr = getUinKey(hContact);
 	if (!ptr)
 		return;

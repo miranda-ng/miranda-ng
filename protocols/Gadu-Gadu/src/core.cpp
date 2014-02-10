@@ -628,7 +628,7 @@ retry:
 						const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
 						uin_t uin = __fmnumber ? atoi(__fmnumber) : 0;
 
-						HCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, NULL);
+						MCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, NULL);
 						debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
 						if (res->seq == GG_SEQ_SEARCH)
 						{
@@ -766,7 +766,7 @@ retry:
 			// Status (version >= 6.0)
 			case GG_EVENT_STATUS60:
 				{
-					HCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, NULL);
+					MCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, NULL);
 					int oldstatus = getWord(hContact, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE);
 					uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
 
@@ -991,7 +991,7 @@ retry:
 				// Get rid of empty image
 				if (e->event.image_reply.size && e->event.image_reply.image)
 				{
-					HCONTACT hContact = getcontact(e->event.image_reply.sender, 1, 0, NULL);
+					MCONTACT hContact = getcontact(e->event.image_reply.sender, 1, 0, NULL);
 					void *img = (void *)img_loadpicture(e, 0);
 
 					if (!img)
@@ -1064,7 +1064,7 @@ retry:
 					pre.tszDescription = filenameT;
 					pre.ptszFiles = &filenameT;
 					pre.lParam = (LPARAM)dcc7;
-					ProtoChainRecvFile((HCONTACT)dcc7->contact, &pre);
+					ProtoChainRecvFile((MCONTACT)dcc7->contact, &pre);
 
 					mir_free(filenameT);
 					e->event.dcc7_new = NULL;
@@ -1078,7 +1078,7 @@ retry:
 					if (dcc7->type == GG_SESSION_DCC7_SEND)
 					{
 						debugLogA("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
-						ProtoBroadcastAck((HCONTACT)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
+						ProtoBroadcastAck((MCONTACT)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 
 						// Remove from watches and free
 						gg_EnterCriticalSection(&ft_mutex, "mainthread", 21, "ft_mutex", 1);
@@ -1139,7 +1139,7 @@ retry:
 					}
 
 					if (dcc7->contact)
-						ProtoBroadcastAck((HCONTACT)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
+						ProtoBroadcastAck((MCONTACT)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 
 					// Free dcc
 					gg_dcc7_free(dcc7);
@@ -1186,7 +1186,7 @@ retry:
 
 			case GG_EVENT_TYPING_NOTIFICATION:
 				{
-					HCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, NULL);
+					MCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, NULL);
 #ifdef DEBUGMODE
 					debugLogA("mainthread() (%x): Typing notification from %d (%d).", this,
 						e->event.typing_notification.uin, e->event.typing_notification.length);
@@ -1272,7 +1272,7 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 // When contact is deleted
 int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
 	// Terminate conference if contact is deleted
@@ -1327,7 +1327,7 @@ static TCHAR* sttSettingToTchar( DBVARIANT* value )
 int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *szProto = NULL;
 
 	debugLogA("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
@@ -1411,7 +1411,7 @@ void GGPROTO::setalloffline()
 	debugLogA("setalloffline(): started. Setting buddies offline");
 	setWord(GG_KEY_STATUS, ID_STATUS_OFFLINE);
 
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		setWord(hContact, GG_KEY_STATUS, ID_STATUS_OFFLINE);
 		// Clear IP and port settings
 		delSetting(hContact, GG_KEY_CLIENTIP);
@@ -1427,7 +1427,7 @@ void GGPROTO::setalloffline()
 ////////////////////////////////////////////////////////////
 // All users set offline
 
-void GGPROTO::notifyuser(HCONTACT hContact, int refresh)
+void GGPROTO::notifyuser(MCONTACT hContact, int refresh)
 {
 	uin_t uin;
 	if (!hContact) return;
@@ -1469,7 +1469,7 @@ void GGPROTO::notifyuser(HCONTACT hContact, int refresh)
 
 void GGPROTO::notifyall()
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int count = 0, cc = 0;
 	uin_t *uins;
 	char *types;
@@ -1522,13 +1522,13 @@ void GGPROTO::notifyall()
 ////////////////////////////////////////////////////////////
 // Get contact by uin
 
-HCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
+MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 {
 #ifdef DEBUGMODE
 	debugLogA("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
 #endif
 	// Look for contact in DB
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if ((uin_t)getDword(hContact, GG_KEY_UIN, 0) == uin && !isChatRoom(hContact)) {
 			if (inlist) {
 				db_unset(hContact, "CList", "NotOnList");
@@ -1540,7 +1540,7 @@ HCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	if (!create)
 		return NULL;
 
-	HCONTACT hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
 		debugLog(_T("getcontact(): Failed to create Gadu-Gadu contact %s"), szNick);
 		return NULL;
@@ -1698,7 +1698,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, in
 #ifdef DEBUGMODE
 	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);
 #endif
-	HCONTACT hContact = getcontact(uin, 0, 0, NULL);
+	MCONTACT hContact = getcontact(uin, 0, 0, NULL);
 
 	// Check if contact is on list
 	if (!hContact) return;

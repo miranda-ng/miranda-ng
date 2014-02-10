@@ -105,7 +105,7 @@ void CEditCtrl::OnReset()
  *
  * @return	nothing
  **/
-BOOL CEditCtrl::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
+BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
 	if (!_Flags.B.hasChanged)
 	{
@@ -165,7 +165,7 @@ BOOL CEditCtrl::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-void CEditCtrl::OnApply(HCONTACT hContact, LPCSTR pszProto)
+void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 {
 	if (_Flags.B.hasChanged)
 	{

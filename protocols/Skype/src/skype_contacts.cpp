@@ -1,6 +1,6 @@
 #include "skype.h"
 
-void CSkypeProto::UpdateContactAuthState(HCONTACT hContact, const ContactRef &contact)
+void CSkypeProto::UpdateContactAuthState(MCONTACT hContact, const ContactRef &contact)
 {
 	uint newTS = 0;
 	contact->GetPropAuthreqTimestamp(newTS);
@@ -23,7 +23,7 @@ void CSkypeProto::UpdateContactAuthState(HCONTACT hContact, const ContactRef &co
 	}
 }
 
-void CSkypeProto::UpdateContactStatus(HCONTACT hContact, const ContactRef &contact)
+void CSkypeProto::UpdateContactStatus(MCONTACT hContact, const ContactRef &contact)
 {
 	Contact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
@@ -40,7 +40,7 @@ void CSkypeProto::UpdateContactStatus(HCONTACT hContact, const ContactRef &conta
 	}
 }
 
-void CSkypeProto::UpdateContactClient(HCONTACT hContact, const ContactRef &contact)
+void CSkypeProto::UpdateContactClient(MCONTACT hContact, const ContactRef &contact)
 {
 	bool isMobile = false;
 	contact->HasCapability(Contact::CAPABILITY_MOBILE_DEVICE, isMobile/*, true*/);
@@ -48,7 +48,7 @@ void CSkypeProto::UpdateContactClient(HCONTACT hContact, const ContactRef &conta
 	this->setTString(hContact, "MirVer", isMobile ? L"SkypeMobile" : L"Skype");
 }
 
-void CSkypeProto::UpdateContactOnlineSinceTime(HCONTACT hContact, const ContactRef &contact)
+void CSkypeProto::UpdateContactOnlineSinceTime(MCONTACT hContact, const ContactRef &contact)
 {
 	uint newTS = 0;
 	contact->GetPropLastonlineTimestamp(newTS);
@@ -57,7 +57,7 @@ void CSkypeProto::UpdateContactOnlineSinceTime(HCONTACT hContact, const ContactR
 		this->setDword(hContact, "OnlineSinceTS", newTS);
 }
 
-void CSkypeProto::UpdateContactLastEventDate(HCONTACT hContact, const ContactRef &contact)
+void CSkypeProto::UpdateContactLastEventDate(MCONTACT hContact, const ContactRef &contact)
 {
 	uint newTS = 0;
 	contact->GetPropLastusedTimestamp(newTS);
@@ -71,7 +71,7 @@ void CSkypeProto::OnContactChanged(const ContactRef &contact, int prop)
 	SEString data;
 	contact->GetPropSkypename(data);
 	wchar_t *sid = ::mir_utf8decodeW(data);
-	HCONTACT hContact = this->GetContactBySid(sid);
+	MCONTACT hContact = this->GetContactBySid(sid);
 	::mir_free(sid);
 
 	SEObject *contactObj = contact.fetch();
@@ -148,14 +148,14 @@ void CSkypeProto::OnContactListChanged(const ContactRef &contact)
 	}
 }
 
-bool CSkypeProto::IsProtoContact(HCONTACT hContact)
+bool CSkypeProto::IsProtoContact(MCONTACT hContact)
 {
 	return ::lstrcmpiA(::GetContactProto(hContact), this->m_szModuleName) == 0;
 }
 
-HCONTACT CSkypeProto::GetContactBySid(const wchar_t *sid)
+MCONTACT CSkypeProto::GetContactBySid(const wchar_t *sid)
 {
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	::EnterCriticalSection(&this->contact_search_lock);
 
@@ -171,7 +171,7 @@ HCONTACT CSkypeProto::GetContactBySid(const wchar_t *sid)
 	return hContact;
 }
 
-HCONTACT CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
+MCONTACT CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 {
 	// db_event_getContact
 	DWORD body[3];
@@ -180,28 +180,28 @@ HCONTACT CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 	dbei.pBlob = (PBYTE)&body;
 
 	if (::db_event_get(hEvent, &dbei))
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	if (strcmp(dbei.szModule, this->m_szModuleName) != 0)
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	return ::DbGetAuthEventContact(&dbei);
 }
 
-HCONTACT CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
+MCONTACT CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
 {
 	ptrW sid(::mir_utf8decodeW(contact->GetSid()));
 
 	CContact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
 
-	HCONTACT hContact = this->GetContactBySid(sid);
+	MCONTACT hContact = this->GetContactBySid(sid);
 	if ( !hContact)
 	{
-		hContact = (HCONTACT)::CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (MCONTACT)::CallService(MS_DB_CONTACT_ADD, 0, 0);
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
 		ptrW nick(::mir_utf8decodeW(contact->GetNick()));
@@ -255,7 +255,7 @@ void __cdecl CSkypeProto::LoadContactList(void* data)
 	{
 		CContact::Ref contact = this->contactList[i];
 
-		HCONTACT hContact = this->AddContact(contact);
+		MCONTACT hContact = this->AddContact(contact);
 
 		if ( !isFirstLoad)
 		{
@@ -293,7 +293,7 @@ void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 	}
 }
 
-bool CSkypeProto::IsContactOnline(HCONTACT hContact)
+bool CSkypeProto::IsContactOnline(MCONTACT hContact)
 {
 	return this->getWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
 }
@@ -302,7 +302,7 @@ void CSkypeProto::SetAllContactStatus(int status)
 {
 	::EnterCriticalSection(&this->contact_search_lock);
 
-	for (HCONTACT hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
+	for (MCONTACT hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
 		if (this->getByte(hContact, "IsSkypeOut", 0) != 0)
 			continue;
@@ -355,7 +355,7 @@ void __cdecl CSkypeProto::SearchBySidAsync(void* arg)
 {
 	mir_ptr<wchar_t> sid((wchar_t*)arg);
 
-	HCONTACT hContact = this->GetContactBySid(sid);
+	MCONTACT hContact = this->GetContactBySid(sid);
 	if (hContact)
 	{
 		this->ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
@@ -462,7 +462,7 @@ void CSkypeProto::OnContactsReceived(const ConversationRef &conversation, const 
 	CContact::Ref author;
 	this->GetContact(data, author);
 
-	HCONTACT hContact = this->AddContact(author);
+	MCONTACT hContact = this->AddContact(author);
 
 	SEBinary guid;
 	message->GetPropGuid(guid);
@@ -518,7 +518,7 @@ void CSkypeProto::OnContactsSent(const ConversationRef &conversation, const Mess
 	CContact::Ref receiver;
 	this->GetContact(data, receiver);
 
-	HCONTACT hContact = this->AddContact(receiver);
+	MCONTACT hContact = this->AddContact(receiver);
 	this->SendBroadcast(
 		hContact,
 		ACKTYPE_CONTACTS,

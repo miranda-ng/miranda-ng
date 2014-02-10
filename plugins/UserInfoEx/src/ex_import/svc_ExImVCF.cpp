@@ -557,7 +557,7 @@ size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer * pBuf)
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteTokenFirst(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
 {
 	PBYTE here;
 	int iRet = 1;
@@ -594,7 +594,7 @@ int CLineBuffer::DBWriteTokenFirst(HCONTACT hContact, const CHAR* pszModule, con
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteTokenNext(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+int CLineBuffer::DBWriteTokenNext(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
 {
 	PBYTE here;
 	int iRet = 1;
@@ -628,7 +628,7 @@ int CLineBuffer::DBWriteTokenNext(HCONTACT hContact, const CHAR* pszModule, cons
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteSettingString(HCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting)
+int CLineBuffer::DBWriteSettingString(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting)
 {
 	if (_pVal && _cbUsed > 0)
 		return db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pVal);
@@ -650,7 +650,7 @@ int CLineBuffer::DBWriteSettingString(HCONTACT hContact, const CHAR* pszModule, 
 CVCardFileVCF::CVCardFileVCF()
 {
 	_pFile = NULL;
-	_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	_hContact = INVALID_CONTACT_ID;
 	_pszBaseProto = NULL;
 	_hasUtf8 = 0;
 	_useUtf8 = FALSE;
@@ -850,11 +850,11 @@ void CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
  *			pszMode		- the mode the file should be opened with
  * return	TRUE or FALSE
  **/
-BYTE CVCardFileVCF::Open(HCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
+BYTE CVCardFileVCF::Open(MCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
 {
 	if (!(_pFile = fopen(pszFileName, pszMode)))
 		return FALSE;
-	if ((_hContact = hContact) == (HCONTACT)INVALID_HANDLE_VALUE)
+	if ((_hContact = hContact) == INVALID_CONTACT_ID)
 		return FALSE;
 	if (!(_pszBaseProto = DB::Contact::Proto(_hContact)))
 		return FALSE;
@@ -874,7 +874,7 @@ void CVCardFileVCF::Close(void)
 	if (_pFile) 
 		fclose(_pFile);
 	_pFile = NULL;
-	_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	_hContact = INVALID_CONTACT_ID;
 	_pszBaseProto = NULL;
 }
 

@@ -74,7 +74,7 @@ public:
    const bool            isTopAligned() const { return(m_isTopAligned); }
    const HWND            getHwnd() const { return(m_hwnd); }
    const UINT            getID() const { return(m_id); }
-   const HCONTACT        getContactHandle() const { return(m_dat->hContact); }
+   const MCONTACT        getContactHandle() const { return(m_dat->hContact); }
    const TWindowData*    getDat() const { return(m_dat); }
    const TSideBarLayout* getLayout() const { return(m_sideBarLayout); }
 
@@ -194,7 +194,7 @@ private:
    void                  removeAll();
    void                  Invalidate();
    CSideBarButton*       findSession(const TWindowData *dat);
-   CSideBarButton*       findSession(const HCONTACT hContact);
+   CSideBarButton*       findSession(const MCONTACT hContact);
 
    LRESULT CALLBACK      wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

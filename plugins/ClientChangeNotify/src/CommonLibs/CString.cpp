@@ -272,19 +272,19 @@ template class TString<TCHAR>;
 template class TString<char>;
 template class TString<WCHAR>;
 
-CString db_get_s(HCONTACT hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
+CString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {
 	ptrA p( db_get_sa(hContact, szModule, szSetting));
 	return CString(p == NULL ? szDefaultValue : p);
 }
 
-TCString db_get_s(HCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
+TCString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
 {
 	ptrT p( db_get_tsa(hContact, szModule, szSetting));
 	return TCString(p == NULL ? szDefaultValue : p);
 }
 
-TCString DBGetContactSettingAsString(HCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
+TCString DBGetContactSettingAsString(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
 { // also converts numeric values to a string
 	DBVARIANT dbv = {0};
 	int iRes = db_get_ws(hContact, szModule, szSetting, &dbv);

@@ -1,6 +1,6 @@
 #include "common.h"
 
-BOOL DB_GetStaticStringW(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize)
+BOOL DB_GetStaticStringW(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize)
 {// sizes in wchars
 	BOOL bRet=FALSE;
 	SIZE_T dwReadedStringLen;
@@ -26,7 +26,7 @@ BOOL DB_GetStaticStringW(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 	return(bRet);
 }
 
-LPSTR GetModuleName(HCONTACT hContact)
+LPSTR GetModuleName(MCONTACT hContact)
 {
 	LPSTR lpszRet;
 
@@ -92,7 +92,7 @@ bool IsPhoneW(LPWSTR lpwszString,SIZE_T dwStringLen)
 }
 
 
-DWORD GetContactPhonesCountParam(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName)
+DWORD GetContactPhonesCountParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName)
 {
 	DWORD dwRet=0;
 	char szBuff[MAX_PATH];
@@ -113,7 +113,7 @@ DWORD GetContactPhonesCountParam(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszVa
 }
 
 
-DWORD GetContactPhonesCount(HCONTACT hContact)
+DWORD GetContactPhonesCount(MCONTACT hContact)
 {
 	DWORD dwRet = 0;
 	LPSTR lpszProto = GetContactProto(hContact);
@@ -130,7 +130,7 @@ DWORD GetContactPhonesCount(HCONTACT hContact)
 }
 
 
-BOOL IsContactPhoneParam(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
+BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 {
 	char szBuff[MAX_PATH];
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
@@ -157,7 +157,7 @@ BOOL IsContactPhoneParam(HCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 }
 
 
-BOOL IsContactPhone(HCONTACT hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
+BOOL IsContactPhone(MCONTACT hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 {
 	BOOL bRet=FALSE;
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
@@ -181,11 +181,11 @@ BOOL IsContactPhone(HCONTACT hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 //This function get a string cellular number and return the HANDLE of the contact that has this
 //number in the miranda phonebook (and marked as an SMS able) at the User Details.
 //If no one has this number function returns NULL.
-HCONTACT HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
+MCONTACT HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 {
 	if (lpwszPhone && dwPhoneSize) {
 		//check not already on list
-		for (HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			if (IsContactPhone(hContact,lpwszPhone,dwPhoneSize))
 				return hContact;
 	}

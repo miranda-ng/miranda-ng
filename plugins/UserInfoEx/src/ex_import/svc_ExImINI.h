@@ -25,6 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #pragma once
 
 	int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName);
-	int SvcExImINI_Import(HCONTACT hContact, LPCSTR pszFileName);
+	int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName);
 
 #endif /* _SVC_EXIMINI_H_ */

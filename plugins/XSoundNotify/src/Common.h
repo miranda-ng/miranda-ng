@@ -23,11 +23,11 @@
 
 struct XSN_Data
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	TCHAR path[MAX_PATH];
 	BYTE ignore;
 
-	__forceinline XSN_Data(HCONTACT _aContact, TCHAR *_path, BYTE _ignore) :
+	__forceinline XSN_Data(MCONTACT _aContact, TCHAR *_path, BYTE _ignore) :
 		hContact(_aContact)
 	{
 		_tcsncpy(path, _path, SIZEOF(path));

@@ -34,7 +34,7 @@ INT_PTR (*g_MirCallService)(const char *, WPARAM, LPARAM)=NULL;
 
 
 //---------------------------------------------------------------------------
-CSendHTTPServer::CSendHTTPServer(HWND Owner, HCONTACT hContact, bool bFreeOnExit)
+CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
 : CSend(Owner, hContact, bFreeOnExit){
 	m_EnableItem		= SS_DLG_DESCRIPTION ; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= _T("HTTPServer transfer");

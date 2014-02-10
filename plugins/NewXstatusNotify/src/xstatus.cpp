@@ -19,7 +19,7 @@
 
 #include "common.h"
 
-XSTATUSCHANGE *NewXSC(HCONTACT hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText)
+XSTATUSCHANGE *NewXSC(MCONTACT hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText)
 {
 	XSTATUSCHANGE *xsc = (XSTATUSCHANGE *)mir_alloc(sizeof(XSTATUSCHANGE));
 	xsc->hContact = hContact;
@@ -41,7 +41,7 @@ void FreeXSC(XSTATUSCHANGE *xsc)
 	}
 }
 
-void RemoveLoggedEvents(HCONTACT hContact)
+void RemoveLoggedEvents(MCONTACT hContact)
 {
 	for (int i = eventList.getCount()-1; i >= 0; i--) {
 		DBEVENT *dbevent = eventList[i];
@@ -351,7 +351,7 @@ TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int buffl
 	return buff;
 }
 
-TCHAR *GetIcqXStatus(HCONTACT hContact, char *szProto, char *szValue, TCHAR *buff, int bufflen)
+TCHAR *GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	buff[0] = 0;
@@ -372,7 +372,7 @@ TCHAR *GetIcqXStatus(HCONTACT hContact, char *szProto, char *szValue, TCHAR *buf
 	return buff;
 }
 
-TCHAR *GetJabberAdvStatusText(HCONTACT hContact, char *szProto, char *szSlot, char *szValue, TCHAR *buff, int bufflen)
+TCHAR *GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, char *szValue, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	char szSetting[128];
@@ -388,7 +388,7 @@ TCHAR *GetJabberAdvStatusText(HCONTACT hContact, char *szProto, char *szSlot, ch
 	return buff;
 }
 
-void LogXstatusChange(HCONTACT hContact, char *szProto, int xstatusType, TCHAR *stzTitle, TCHAR *stzText)
+void LogXstatusChange(MCONTACT hContact, char *szProto, int xstatusType, TCHAR *stzTitle, TCHAR *stzText)
 {
 	XSTATUSCHANGE *xsc = 
 		NewXSC(
@@ -406,7 +406,7 @@ void LogXstatusChange(HCONTACT hContact, char *szProto, int xstatusType, TCHAR *
 
 void AddEventThread(void *arg)
 {
-	HCONTACT hContact = (HCONTACT)arg;
+	MCONTACT hContact = (MCONTACT)arg;
 	TCHAR stzTitle[MAX_TITLE_LEN], stzText[MAX_TEXT_LEN];
 
 	char *szProto = GetContactProto(hContact);

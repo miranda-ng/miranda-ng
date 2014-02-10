@@ -1,3 +1,3 @@
 extern HINSTANCE hInstance;
-extern char *MsgServiceName(HCONTACT hContact,bool bIsUnicode);
+extern char *MsgServiceName(MCONTACT hContact,bool bIsUnicode);
 

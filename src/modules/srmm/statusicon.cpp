@@ -32,7 +32,7 @@ struct StatusIconChild : public MZeroedObject
 		mir_free(tszTooltip);
 	}
 
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HICON  hIcon, hIconDisabled;
 	int    flags;
 	TCHAR *tszTooltip;
@@ -88,7 +88,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	if (p == NULL)
 		return 1;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL) {
 		mir_free(p->sid.szModule);
 		mir_free(p->sid.szTooltip);

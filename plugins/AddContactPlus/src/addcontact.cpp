@@ -267,7 +267,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				psr->id = mir_tstrdup(szUserId);
 				acs->psr = psr;
 
-				HCONTACT hContact = (HCONTACT)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
+				MCONTACT hContact = (MCONTACT)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
 				if (hContact == NULL) {
 					MessageBox(NULL,
 						TranslateT("The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly."),

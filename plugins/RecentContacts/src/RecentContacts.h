@@ -71,13 +71,13 @@ struct TABSRMM_SessionInfo {
 };
 
 
-typedef std::multimap <__time64_t, HCONTACT, std::greater<__time64_t> > cmultimap;
-typedef std::pair <__time64_t, HCONTACT> cpair;
+typedef std::multimap <__time64_t, MCONTACT, std::greater<__time64_t> > cmultimap;
+typedef std::pair <__time64_t, MCONTACT> cpair;
 
 typedef struct LASTUC_DLG_DATA
 {
 	cmultimap *Contacts;
 	SIZE WindowMinSize;
 	RECT ListUCRect;
-	HCONTACT hContact;
+	MCONTACT hContact;
 } LASTUC_DLG_DATA;

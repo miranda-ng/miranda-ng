@@ -92,8 +92,8 @@ int AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
 void FreeContact(struct ClcContact *p);
 void RebuildEntireList(HWND hwnd,struct ClcData *dat);
 ClcGroup *RemoveItemFromGroup(HWND hwnd,ClcGroup *group,struct ClcContact *contact,int updateTotalCount);
-void DeleteItemFromTree(HWND hwnd, HCONTACT hItem);
-void AddContactToTree(HWND hwnd, struct ClcData *dat, HCONTACT hContact, int updateTotalCount, int checkHideOffline);
+void DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
+void AddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort);
 int GetGroupContentsCount(ClcGroup *group,int visibleOnly);
 int GetNewSelection(ClcGroup *group,int selection, int direction);
@@ -124,8 +124,8 @@ void UnregisterFileDropping(HWND hwnd);
 //cluiservices.c
 void FreeProtocolData( void );
 
-int GetContactCachedStatus(HCONTACT hContact);
-char *GetContactCachedProtocol(HCONTACT hContact);
+int GetContactCachedStatus(MCONTACT hContact);
+char *GetContactCachedProtocol(MCONTACT hContact);
 
 #define CLUI_SetDrawerService "CLUI/SETDRAWERSERVICE"
 typedef struct {

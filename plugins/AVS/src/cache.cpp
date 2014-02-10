@@ -88,7 +88,7 @@ static CacheNode* AddToList(CacheNode *node)
 	return pCurrent;
 }
 
-CacheNode *FindAvatarInCache(HCONTACT hContact, BOOL add, BOOL findAny)
+CacheNode *FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 {
 	if (g_shutDown)
 		return NULL;
@@ -143,7 +143,7 @@ CacheNode *FindAvatarInCache(HCONTACT hContact, BOOL add, BOOL findAny)
  * popup plugin.
  */
 
-void NotifyMetaAware(HCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)-1)
+void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)-1)
 {
 	if (g_shutDown)
 		return;
@@ -154,8 +154,8 @@ void NotifyMetaAware(HCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 	NotifyEventHooks(hEventChanged, (WPARAM)hContact, (LPARAM)ace);
 
 	if (g_MetaAvail && (node->dwFlags & MC_ISSUBCONTACT) && db_get_b(NULL, g_szMetaName, "Enabled", 0)) {
-		HCONTACT hMasterContact = (HCONTACT)db_get_dw(hContact, g_szMetaName, "Handle", 0);
-		if (hMasterContact && (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMasterContact, 0) == hContact &&
+		MCONTACT hMasterContact = (MCONTACT)db_get_dw(hContact, g_szMetaName, "Handle", 0);
+		if (hMasterContact && (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMasterContact, 0) == hContact &&
 			!db_get_b(hMasterContact, "ContactPhoto", "Locked", 0))
 			NotifyEventHooks(hEventChanged, (WPARAM)hMasterContact, (LPARAM)ace);
 	}
@@ -200,7 +200,7 @@ void NotifyMetaAware(HCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 // Just delete an avatar from cache
 // An cache entry is never deleted. What is deleted is the image handle inside it
 // This is done this way to keep track of which avatars avs have to keep track
-void DeleteAvatarFromCache(HCONTACT hContact, BOOL forever)
+void DeleteAvatarFromCache(MCONTACT hContact, BOOL forever)
 {
 	if (g_shutDown)
 		return;
@@ -222,7 +222,7 @@ void DeleteAvatarFromCache(HCONTACT hContact, BOOL forever)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int SetAvatarAttribute(HCONTACT hContact, DWORD attrib, int mode)
+int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 {
 	if (g_shutDown)
 		return 0;
@@ -305,7 +305,7 @@ void PicLoader(LPVOID param)
 				mir_sleep(dwDelay);
 			}
 			else if (node->mustLoad < 0 && node->ace.hContact) {         // delete this picture
-				HCONTACT hContact = node->ace.hContact;
+				MCONTACT hContact = node->ace.hContact;
 				EnterCriticalSection(&cachecs);
 				node->mustLoad = 0;
 				node->loaded = 0;

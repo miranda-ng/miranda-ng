@@ -26,13 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct UserDetailsDlgProcParam
 {
-	UserDetailsDlgProcParam(CIrcProto* _pro, HCONTACT _info) :
+	UserDetailsDlgProcParam(CIrcProto* _pro, MCONTACT _info) :
 		ppro(_pro),
 		hContact(_info)
 	{}
 
 	CIrcProto *ppro;
-	HCONTACT hContact;
+	MCONTACT hContact;
 };
 
 #define STR_BASIC LPGEN("Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.")
@@ -45,7 +45,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 	UserDetailsDlgProcParam *p = (UserDetailsDlgProcParam*)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
-		p = new UserDetailsDlgProcParam(NULL, (HCONTACT)lParam);
+		p = new UserDetailsDlgProcParam(NULL, (MCONTACT)lParam);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LPARAM)p);
 		break;
 
@@ -188,7 +188,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)lParam;
+	MCONTACT hContact = (MCONTACT)lParam;
 	char *szProto = GetContactProto(hContact);
 	if (!hContact || !szProto || lstrcmpiA(szProto, m_szModuleName))
 		return 0;

@@ -85,7 +85,7 @@ void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLen
 	debugLogA("Warning: Malformed SRV_PRIVACY_RIGHTS_REPLY");
 }
 
-void CIcqProto::makeContactTemporaryVisible(HCONTACT hContact)
+void CIcqProto::makeContactTemporaryVisible(MCONTACT hContact)
 {
 	DWORD dwUin;
 	uid_str szUid;

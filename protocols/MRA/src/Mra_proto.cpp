@@ -233,7 +233,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 			}
 			{
 				DWORD dwCMDNum, dwFlags, dwAckType;
-				HCONTACT hContact;
+				MCONTACT hContact;
 				LPBYTE lpbData;
 				size_t dwDataSize;
 				while (!MraSendQueueFindOlderThan(hSendQueueHandle, SEND_QUEUE_TIMEOUT, &dwCMDNum, &dwFlags, &hContact, &dwAckType, &lpbData, &dwDataSize)) {
@@ -430,7 +430,7 @@ bool CMraProto::CmdMessageAck(BinBuffer &buf)
 bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 {
 	DWORD dwAckType, dwTemp = buf.getDword();
-	HCONTACT hContact;
+	MCONTACT hContact;
 	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
 		switch (dwTemp) {
 		case MESSAGE_DELIVERED:// Message delivered directly to user
@@ -554,7 +554,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 	buf >> szEmail;
 
 	BOOL bAdded;
-	HCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded);
+	MCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded);
 	if (bAdded)
 		MraUpdateContactInfo(hContact);
 
@@ -613,7 +613,7 @@ bool CMraProto::CmdFileTransfer(BinBuffer &buf)
 	}
 
 	BOOL bAdded = FALSE;
-	HCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded);
+	MCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded);
 	if (bAdded)
 		MraUpdateContactInfo(hContact);
 
@@ -667,7 +667,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 	buf >> dwStatus >> szSpecStatusUri >> szStatusTitle >> szStatusDesc >> szEmail >> dwFutureFlags >> szUserAgentFormatted;
 
 	BOOL bAdded;
-	if (HCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded)) {
+	if (MCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded)) {
 		if (bAdded)
 			MraUpdateContactInfo(hContact);
 
@@ -705,7 +705,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 
 bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 {
-	DWORD dwAckType; HCONTACT hContact; LPBYTE pData; size_t dataLen;
+	DWORD dwAckType; MCONTACT hContact; LPBYTE pData; size_t dataLen;
 	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
 		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
@@ -753,7 +753,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 
 bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 {
-	DWORD dwAckType, dwFlags; HCONTACT hContact; LPBYTE pData; size_t dataLen;
+	DWORD dwAckType, dwFlags; MCONTACT hContact; LPBYTE pData; size_t dataLen;
 	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, &pData, &dataLen)) {
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_ANKETA_INFO: not found in queue"));
 		return true;
@@ -1002,7 +1002,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 
 bool CMraProto::CmdGame(BinBuffer &buf)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	CMStringA szEmail, szData;
 	DWORD dwGameSessionID, dwGameMsg, dwGameMsgID, dwTemp;
 	buf >> szEmail >> dwGameSessionID >> dwGameMsg >> dwGameMsgID >> dwTemp >> szData;
@@ -1241,7 +1241,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			if (dwControlParam > 5)// все параметры правильно инициализированны!
 			if ((dwContactFlag & (CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED)) == 0) {
 				BOOL bAdded;
-				HCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
+				MCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
 				if (hContact) {
 					// already in list, remove the duplicate
 					if (GetContactBasicInfoW(hContact, &dwTemp, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == NO_ERROR && dwTemp != -1) {
@@ -1309,7 +1309,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			if (mraGetStringW(NULL, "AuthMessage", wszAuthMessage) == FALSE) // def auth message
 				wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
-			for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &szEmail, NULL, NULL) == NO_ERROR)
 				if (dwID == -1) {
 					if (IsEMailChatAgent(szEmail)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
@@ -1338,7 +1338,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 	}
 	else { // контакт лист почемуто не получили
 		// всех в offline и id в нестандарт
-		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
 				-1, -2, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 			// request user info from server
@@ -1442,7 +1442,7 @@ bool CMraProto::CmdBlogStatus(BinBuffer &buf)
 
 	buf >> dwFlags >> szEmail >> dwBlogStatusID >> dwTime >> wszText >> szString;
 
-	if (HCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)) {
+	if (MCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)) {
 		if (dwFlags & MRIM_BLOG_STATUS_MUSIC)
 			mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, wszText);
 		else {
@@ -1459,7 +1459,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	WCHAR szBuff[4096] = { 0 };
 	DWORD dwTemp, dwAckType;
 	size_t dwSize;
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 	LPBYTE pByte;
 
 	debugLogA("Received packet %x\n", pmaHeader->msg);
@@ -1674,7 +1674,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 	}
 	else {
 		BOOL bAdded;
-		HCONTACT hContact = MraHContactFromEmail(plpsFrom, TRUE, TRUE, &bAdded);
+		MCONTACT hContact = MraHContactFromEmail(plpsFrom, TRUE, TRUE, &bAdded);
 		if (bAdded)
 			MraUpdateContactInfo(hContact);
 

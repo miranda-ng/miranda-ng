@@ -29,8 +29,8 @@ public:
 	int selected;
 
 	virtual void SelectEventGroup(int sel) = 0;
-	virtual HCONTACT GetNextContact(HCONTACT hContact, int adder) = 0;
-	virtual void SelectContact(HCONTACT _hContact) = 0;
+	virtual MCONTACT GetNextContact(MCONTACT hContact, int adder) = 0;
+	virtual void SelectContact(MCONTACT _hContact) = 0;
 
 	struct MessageData
 	{

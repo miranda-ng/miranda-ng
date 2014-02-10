@@ -18,8 +18,8 @@
 
 #include "commonheaders.h"
 
-void ShowStatusIcon(HCONTACT hContact);
-void setSrmmIcon(HCONTACT hContact);
+void ShowStatusIcon(MCONTACT hContact);
+void setSrmmIcon(MCONTACT hContact);
 
 int __cdecl onWindowEvent(WPARAM wParam, LPARAM lParam) {
 
@@ -34,8 +34,8 @@ int __cdecl onWindowEvent(WPARAM wParam, LPARAM lParam) {
 
 int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
-	HCONTACT hMeta = NULL;
+	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hMeta = NULL;
 	if(metaIsProtoMetaContacts(hContact))
 	{
 		hMeta = hContact;

@@ -165,7 +165,7 @@ typedef struct {
 	int iType;				 // one of IEE_* values
 	DWORD dwFlags;			 // one of IEEF_* values
 	HWND hwnd;            // HWND returned by IEW_CREATE
-	HCONTACT hContact;    // contact
+	MCONTACT hContact;    // contact
 	union {
 		HANDLE hDbEventFirst;   // first event to log, when IEE_LOG_EVENTS returns it will contain
 										// the last event actually logged or NULL if no event was logged (IEE_LOG_EVENTS)

@@ -37,7 +37,7 @@ private:
 	SmileyVectorType m_SmileyList;
 	SmileyLookupType m_SmileyLookup;
 
-	HCONTACT m_id;
+	MCONTACT m_id;
 
 	void InsertLookup(SmileyCType& sml, CMString& lk, bool first);
 	void AddTriggersToSmileyLookup(void);
@@ -50,8 +50,8 @@ public:
 
 	SmileyCType* GetSmiley(unsigned index) { return &m_SmileyList[index]; }
 
-	HCONTACT GetId(void) { return m_id; }
-	void SetId(HCONTACT id) { m_id = id; }
+	MCONTACT GetId(void) { return m_id; }
+	void SetId(MCONTACT id) { m_id = id; }
 
 	bool LoadSmileyDir(TCHAR* dir);
 	bool LoadSmiley(TCHAR* path);
@@ -69,12 +69,12 @@ private:
 public:
 	int NumberOfSmileyPacks(void) { return m_SmileyPacks.getCount(); }
 
-	bool AddSmileyPack(HCONTACT hContact, TCHAR* dir);
-	bool AddSmiley(HCONTACT hContact, TCHAR* path);
+	bool AddSmileyPack(MCONTACT hContact, TCHAR* dir);
+	bool AddSmiley(MCONTACT hContact, TCHAR* path);
 
 	void ClearAndFreeAll(void) { 	m_SmileyPacks.destroy(); }
 
-	SmileyPackCType* GetSmileyPack(HCONTACT id);
+	SmileyPackCType* GetSmileyPack(MCONTACT id);
 };
 
 extern SmileyPackCListType g_SmileyPackCStore;

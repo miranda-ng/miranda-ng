@@ -21,7 +21,7 @@ public:
 	static CExtraImages& GetInstance();
 
 	void RebuildExtraImages();
-	bool SetContactExtraImage(HCONTACT hContact,EImageIndex nIndex)const;
+	bool SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)const;
 
 private:
 	mutable CLightMutex m_lmExtraImages;

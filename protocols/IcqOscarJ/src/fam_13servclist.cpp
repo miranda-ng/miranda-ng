@@ -772,9 +772,9 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 }
 
 
-HCONTACT CIcqProto::HContactFromRecordName(const char* szRecordName, int *bAdded)
+MCONTACT CIcqProto::HContactFromRecordName(const char* szRecordName, int *bAdded)
 {
-	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	MCONTACT hContact = INVALID_CONTACT_ID;
 
 	if (!IsStringUIN(szRecordName))
 	{ // probably AIM contact
@@ -904,12 +904,12 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 		case SSI_ITEM_BUDDY:
 			{
 				/* this is a contact */
-				HCONTACT hContact;
+				MCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+				if (hContact != INVALID_CONTACT_ID)
 				{
 					int bRegroup = 0;
 					int bNicked = 0;
@@ -1172,12 +1172,12 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				/* item on visible list */
 				/* wItemId not related to contact ID */
 				/* pszRecordName is the UIN */
-				HCONTACT hContact;
+				MCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+				if (hContact != INVALID_CONTACT_ID)
 				{
 					if (bAdded)
 					{
@@ -1211,12 +1211,12 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				/* Item on invisible list */
 				/* wItemId not related to contact ID */
 				/* pszRecordName is the UIN */
-				HCONTACT hContact;
+				MCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+				if (hContact != INVALID_CONTACT_ID)
 				{
 					if (bAdded)
 					{
@@ -1269,12 +1269,12 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 				/* item on ignore list */
 				/* wItemId not related to contact ID */
 				/* pszRecordName is the UIN */
-				HCONTACT hContact;
+				MCONTACT hContact;
 				int bAdded;
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+				if (hContact != INVALID_CONTACT_ID)
 				{
 					if (bAdded)
 					{
@@ -1471,9 +1471,9 @@ void CIcqProto::handleServerCListItemAdd(const char *szRecordName, WORD wGroupId
 
 void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
 {
-	HCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
+	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
-	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
+	if (hContact != INVALID_CONTACT_ID && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was updated on server
 		if (pItemData)
 		{
@@ -1586,9 +1586,9 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 
 void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
 {
-	HCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
+	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
-	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
+	if (hContact != INVALID_CONTACT_ID && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was removed from our list
 		if (getWord(hContact, DBSETTING_SERVLIST_ID, 0) == wItemId)
 		{
@@ -1632,7 +1632,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	if (wReasonLen > wLen)
 		return;
 
-	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
+	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = time(NULL);
@@ -1720,7 +1720,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 		return;
 	}
 
-	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
+	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	cbBlob=sizeof(DWORD)*2+4;
 
@@ -1782,8 +1782,8 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 		return;
 	}
 
-	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
-	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
+	if (hContact != INVALID_CONTACT_ID)
 		szNick = NickFromHandle(hContact);
 
 	if (wLen > 0)

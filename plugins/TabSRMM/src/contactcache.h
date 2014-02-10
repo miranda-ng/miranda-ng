@@ -65,7 +65,7 @@ struct TSessionStats {
 struct CContactCache : public MZeroedObject
 {
 	CContactCache() {}
-	CContactCache(const HCONTACT hContact);
+	CContactCache(const MCONTACT hContact);
 	~CContactCache()
 	{
 		releaseAlloced();
@@ -77,8 +77,8 @@ struct CContactCache : public MZeroedObject
 	const WORD     getActiveStatus() const { return(m_isMeta ? m_wMetaStatus : m_wStatus); }
 	const WORD     getOldStatus() const { return(m_wOldStatus); }
 	const TCHAR*   getNick() const { return(m_szNick); }
-	const HCONTACT getContact() const { return(m_hContact); }
-	const HCONTACT getActiveContact() const { return(m_isMeta ? (m_hSubContact ? m_hSubContact : m_hContact) : m_hContact); }
+	const MCONTACT getContact() const { return(m_hContact); }
+	const MCONTACT getActiveContact() const { return(m_isMeta ? (m_hSubContact ? m_hSubContact : m_hContact) : m_hContact); }
 	const DWORD    getIdleTS() const { return(m_idleTS); }
 	const char*    getProto() const { return(m_szProto); }
 	const TCHAR*   getProtoT() const { return(m_tszProto); }
@@ -128,7 +128,7 @@ struct CContactCache : public MZeroedObject
 	void   saveHistory(WPARAM wParam, LPARAM lParam);
 	void   inputHistoryEvent(WPARAM wParam);
 
-	static CContactCache* getContactCache(HCONTACT hContact);
+	static CContactCache* getContactCache(MCONTACT hContact);
 	static void cacheUpdateMetaChanged();
 
 private:
@@ -137,8 +137,8 @@ private:
 	void   allocHistory();
 	void   releaseAlloced();
 
-	HCONTACT m_hContact;
-	HCONTACT m_hSubContact;
+	MCONTACT m_hContact;
+	MCONTACT m_hSubContact;
 	WORD     m_wStatus, m_wMetaStatus;
 	WORD     m_wOldStatus;
 	char*    m_szProto, *m_szMetaProto;

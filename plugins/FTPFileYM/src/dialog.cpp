@@ -229,7 +229,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 		case WM_COMMAND:
 		{
-			HCONTACT hContact = uDlg->tabs[uDlg->activeTab]->job->hContact;
+			MCONTACT hContact = uDlg->tabs[uDlg->activeTab]->job->hContact;
 			if (hContact != NULL)
 			{
 				if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), (LPARAM)hContact))

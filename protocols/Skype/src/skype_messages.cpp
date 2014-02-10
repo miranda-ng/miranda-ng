@@ -53,7 +53,7 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 	message->GetPropAuthor(data);
 	this->GetContact(data, author);
 
-	HCONTACT hContact = this->AddContact(author, true);
+	MCONTACT hContact = this->AddContact(author, true);
 	this->UserIsTyping(hContact, PROTOTYPE_SELFTYPING_OFF);
 
 	SEBinary guid;
@@ -103,7 +103,7 @@ void CSkypeProto::OnMessageSent(const ConversationRef &conversation, const Messa
 		
 	ptrW sid(::mir_utf8decodeW(data));
 
-	HCONTACT hContact = this->GetContactBySid(sid);
+	MCONTACT hContact = this->GetContactBySid(sid);
 	this->SendBroadcast(
 		hContact,
 		ACKTYPE_MESSAGE,
@@ -157,7 +157,7 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 			CContact::Ref author;
 			this->GetContact(identity, author);
 
-			HCONTACT hContact = this->AddContact(author);
+			MCONTACT hContact = this->AddContact(author);
 		
 			char *message = ::mir_utf8encode(::Translate("Incoming call started"));
 		
@@ -191,7 +191,7 @@ void CSkypeProto::OnMessageEvent(const ConversationRef &conversation, const Mess
 			CContact::Ref author;
 			this->GetContact(identity, author);
 
-			HCONTACT hContact = this->AddContact(author);
+			MCONTACT hContact = this->AddContact(author);
 		
 			char *message = ::mir_utf8encode(::Translate("Incoming call finished"));
 		
@@ -222,7 +222,7 @@ void CSkypeProto::SyncMessageHystory(const ConversationRef &conversation, const 
 	}
 }
 
-void CSkypeProto::SyncHistoryCommand(HCONTACT hContact, time_t timestamp)
+void CSkypeProto::SyncHistoryCommand(MCONTACT hContact, time_t timestamp)
 {
 	if (hContact)
 	{
@@ -250,7 +250,7 @@ int CSkypeProto::SyncLastDayHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
 	time_t timestamp = time(NULL);
 	timestamp -= 60*60*24;
-	this->SyncHistoryCommand((HCONTACT)wParam, timestamp);
+	this->SyncHistoryCommand((MCONTACT)wParam, timestamp);
 	return 0;
 }
 
@@ -258,7 +258,7 @@ int CSkypeProto::SyncLastWeekHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
 	time_t timestamp = time(NULL);
 	timestamp -= 60*60*24*7;
-	this->SyncHistoryCommand((HCONTACT)wParam, timestamp);
+	this->SyncHistoryCommand((MCONTACT)wParam, timestamp);
 	return 0;
 }
 
@@ -266,7 +266,7 @@ int CSkypeProto::SyncLastMonthHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
 	time_t timestamp = time(NULL);
 	timestamp -= 60*60*24*30;
-	this->SyncHistoryCommand((HCONTACT)wParam, timestamp);
+	this->SyncHistoryCommand((MCONTACT)wParam, timestamp);
 	return 0;
 }
 
@@ -274,7 +274,7 @@ int CSkypeProto::SyncLast3MonthHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
 	time_t timestamp = time(NULL);
 	timestamp -= 60*60*24*90;
-	this->SyncHistoryCommand((HCONTACT)wParam, timestamp);
+	this->SyncHistoryCommand((MCONTACT)wParam, timestamp);
 	return 0;
 }
 
@@ -282,13 +282,13 @@ int CSkypeProto::SyncLastYearHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
 	time_t timestamp = time(NULL);
 	timestamp -= 60*60*24*365;
-	this->SyncHistoryCommand((HCONTACT)wParam, timestamp);
+	this->SyncHistoryCommand((MCONTACT)wParam, timestamp);
 	return 0;
 }
 
 int CSkypeProto::SyncAllTimeHistoryCommand(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact)
 	{
 		ptrW sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));

@@ -71,7 +71,7 @@ static void _clrMsgFilter(LPARAM lParam)
 	m->wParam = 0;
 }
 
-BOOL TSAPI IsUtfSendAvailable(HCONTACT hContact)
+BOOL TSAPI IsUtfSendAvailable(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
@@ -2547,7 +2547,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case HM_DBEVENTADDED:
 		if (!dat)
 			return 0;
-		if ((HCONTACT)wParam != dat->hContact)
+		if ((MCONTACT)wParam != dat->hContact)
 			return 0;
 		if (dat->hContact == NULL)
 			return 0;
@@ -2693,7 +2693,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_QUERYHCONTACT:
 		{
-			HCONTACT *phContact = (HCONTACT*)lParam;
+			MCONTACT *phContact = (MCONTACT*)lParam;
 			if (phContact)
 				*phContact = dat->hContact;
 		}

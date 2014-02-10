@@ -3,18 +3,18 @@
 
 struct send_direct
 {
-	send_direct(HCONTACT hContact,const std::string &msg, HANDLE msgid, bool isChat = false)
+	send_direct(MCONTACT hContact,const std::string &msg, HANDLE msgid, bool isChat = false)
       : hContact(hContact), msg(msg), msgid(msgid)
       {}
-	HCONTACT hContact;
+	MCONTACT hContact;
 	std::string msg;
 	HANDLE msgid;
 };
 
 struct send_typing
 {
-	send_typing(HCONTACT hContact,const int status) : hContact(hContact), status(status) {}
-	HCONTACT hContact;
+	send_typing(MCONTACT hContact,const int status) : hContact(hContact), status(status) {}
+	MCONTACT hContact;
 	int status;
 };
 

@@ -83,7 +83,7 @@ typedef struct {
 	char* pszModule;   // button owners name
 	DWORD dwButtonId;  // registered button ID
 	HWND hwndFrom;     // button parents HWND
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DWORD flags;       // BBCF_ flags
 } CustomButtonClickData;
 

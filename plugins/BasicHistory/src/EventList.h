@@ -72,7 +72,7 @@ private:
 		std::wstring file;
 	};
 
-	static std::map<HCONTACT, ImportDiscData> contactFileMap;
+	static std::map<MCONTACT, ImportDiscData> contactFileMap;
 	static std::wstring contactFileDir;
 
 	bool CanShowHistory(DBEVENTINFO* dbei);
@@ -80,7 +80,7 @@ private:
 	void InitFilters();
 	void InitNames();
 	void AddGroup(const EventIndex& ev);
-	void GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, HCONTACT _hContact);
+	void GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, MCONTACT _hContact);
 	void ImportMessages(const std::vector<IImport::ExternalMessage>& messages);
 protected:
 	TCHAR contactName[256];
@@ -102,11 +102,11 @@ protected:
 	void RebuildGroup(int selected);
 public:
 	EventList();
-	EventList(HCONTACT _hContact, int filter);
+	EventList(MCONTACT _hContact, int filter);
 	~EventList();
 	
 	HWND hWnd;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	std::vector<std::deque<EventIndex> > eventList;
 	bool useImportedMessages;
 
@@ -116,7 +116,7 @@ public:
 	int GetFilterNr();
 	std::wstring GetFilterName();
 	void RefreshEventList();
-	bool SearchInContact(HCONTACT hContact, TCHAR *strFind, ComparatorInterface* compFun);
+	bool SearchInContact(MCONTACT hContact, TCHAR *strFind, ComparatorInterface* compFun);
 	std::wstring GetContactName();
 	std::wstring GetMyName();
 	std::wstring GetProtocolName();
@@ -124,10 +124,10 @@ public:
 	std::wstring GetContactId();
 	std::string GetBaseProtocol();
 	void MargeMessages(const std::vector<IImport::ExternalMessage>& messages);
-	static void AddImporter(HCONTACT hContact, IImport::ImportType type, const std::wstring& file);
-	static int GetContactMessageNumber(HCONTACT hContact);
-	static bool IsImportedHistory(HCONTACT hContact);
-	static void DeleteImporter(HCONTACT hContact);
+	static void AddImporter(MCONTACT hContact, IImport::ImportType type, const std::wstring& file);
+	static int GetContactMessageNumber(MCONTACT hContact);
+	static bool IsImportedHistory(MCONTACT hContact);
+	static void DeleteImporter(MCONTACT hContact);
 	static void GetObjectDescription( DBEVENTINFO *dbei, TCHAR* str, int cbStr );
 	bool GetEventData(const EventIndex& ev, EventData& data);
 	void GetExtEventDBei(const EventIndex& ev);

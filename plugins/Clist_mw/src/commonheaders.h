@@ -88,7 +88,7 @@ extern int __cdecl MyStrCmpiT(const TCHAR *a, const TCHAR *b);
 
 extern DWORD exceptFunction(LPEXCEPTION_POINTERS EP);
 
-extern int (*saveIconFromStatusMode)(const char *szProto, int nStatus, HCONTACT hContact);
+extern int (*saveIconFromStatusMode)(const char *szProto, int nStatus, MCONTACT hContact);
 
 //from bkg options
 

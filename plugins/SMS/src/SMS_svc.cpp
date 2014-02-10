@@ -54,7 +54,7 @@ int LoadModules(void)
 
 int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
-	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount((HCONTACT)wParam));
+	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount((MCONTACT)wParam));
 	return 0;
 }
 
@@ -65,11 +65,11 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 
 	// user clicked on the "SMS Message" on one of the users
 	if (wParam) {
-		hwndSendSms = SendSMSWindowIsOtherInstanceHContact((HCONTACT)wParam);
+		hwndSendSms = SendSMSWindowIsOtherInstanceHContact((MCONTACT)wParam);
 		if (hwndSendSms)
 			SetFocus(hwndSendSms);
 		else
-			hwndSendSms = SendSMSWindowAdd((HCONTACT)wParam);
+			hwndSendSms = SendSMSWindowAdd((MCONTACT)wParam);
 	}
 	// user clicked on the "SMS Send" in the Main Menu
 	else{
@@ -77,7 +77,7 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 		EnableWindow(GetDlgItem(hwndSendSms,IDC_NAME),TRUE);
 		EnableWindow(GetDlgItem(hwndSendSms,IDC_SAVENUMBER),FALSE);
 
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (GetContactPhonesCount(hContact)) {
 				SendDlgItemMessage(hwndSendSms,IDC_NAME,CB_ADDSTRING,0,(LPARAM)GetContactNameW(hContact));
 				SendSMSWindowSMSContactAdd(hwndSendSms,hContact);
@@ -134,7 +134,7 @@ void RestoreUnreadMessageAlerts(void)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
 			dbei.cbBlob = 0;
 			if (db_event_get(hDbEvent, &dbei) == 0)

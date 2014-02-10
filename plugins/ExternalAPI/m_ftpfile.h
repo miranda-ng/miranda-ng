@@ -44,7 +44,7 @@ Boston, MA 02111-1307, USA.
 typedef struct 
 {
 	int cbSize;				// size of the structure
-	HCONTACT hContact;			// contact handle, can be NULL
+	MCONTACT hContact;			// contact handle, can be NULL
 	BYTE ftpNum;				// number of the FTP server which will be used for upload, can be one of FNUM_* values
 	BYTE mode;				// upload mode, can be one of FMODE_* values
 	DWORD flags;				// bitwise OR of the FUPL_* flags above
@@ -66,7 +66,7 @@ typedef struct
 //
 #define MS_FTPFILE_UPLOAD		"FTPFile/Upload"
 
-__inline static INT_PTR FTPFileUploadA(HCONTACT hContact, BYTE ftpNum, BYTE mode, char **pszObjects, int objCount)
+__inline static INT_PTR FTPFileUploadA(MCONTACT hContact, BYTE ftpNum, BYTE mode, char **pszObjects, int objCount)
 {	
 	FTPUPLOAD ftpu = {0};
 	ftpu.cbSize = sizeof(ftpu);
@@ -78,7 +78,7 @@ __inline static INT_PTR FTPFileUploadA(HCONTACT hContact, BYTE ftpNum, BYTE mode
 	return CallService(MS_FTPFILE_UPLOAD, 0, (LPARAM)&ftpu);
 }
 
-__inline static INT_PTR FTPFileUploadW(HCONTACT hContact, BYTE ftpNum, BYTE mode, wchar_t **pswzObjects, int objCount)
+__inline static INT_PTR FTPFileUploadW(MCONTACT hContact, BYTE ftpNum, BYTE mode, wchar_t **pswzObjects, int objCount)
 {	
 	FTPUPLOAD ftpu = {0};
 	ftpu.cbSize = sizeof(ftpu);

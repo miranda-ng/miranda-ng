@@ -48,8 +48,8 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void SetDlgItemString(HWND hwndDlg, UINT idItem, std::string const &str);
 void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str);
 tstring &GetDlgItemString(HWND hwnd, int id);
-bool IsExistMyMessage(HCONTACT hContact);
-tstring variables_parse(tstring const &tstrFormat, HCONTACT hContact);
+bool IsExistMyMessage(MCONTACT hContact);
+tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact);
 tstring trim(tstring const &tstr, tstring const &trimChars = _T(" \f\n\r\t\v"));
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/);

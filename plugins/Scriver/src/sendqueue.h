@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct MessageSendQueueItem
 {
 	HWND	hwndSender;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char  *proto;
 	HANDLE hSendId;
 	int    timeout;
@@ -44,12 +44,12 @@ void InitSendQueue();
 void DestroySendQueue();
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender);
 TCHAR * GetSendBufferMsg(MessageSendQueueItem *item);
-MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, HCONTACT hContact);
-MessageSendQueueItem* FindSendQueueItem(HCONTACT hContact, HANDLE hSendId);
+MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact);
+MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId);
 BOOL RemoveSendQueueItem(MessageSendQueueItem* item);
 void ReportSendQueueTimeouts(HWND hwndSender);
 void ReleaseSendQueueItems(HWND hwndSender);
-int ReattachSendQueueItems(HWND hwndSender, HCONTACT hContact);
+int ReattachSendQueueItems(HWND hwndSender, MCONTACT hContact);
 void RemoveAllSendQueueItems();
 void SendSendQueueItem(MessageSendQueueItem* item);
 

@@ -768,7 +768,7 @@ ThumbList::~ThumbList()
 {
 }
 
-ThumbInfo *ThumbList::AddThumb(HWND hwnd, TCHAR *ptszName, HCONTACT hContact)
+ThumbInfo *ThumbList::AddThumb(HWND hwnd, TCHAR *ptszName, MCONTACT hContact)
 {
 	if (ptszName == NULL || hContact == NULL || hwnd == NULL)
 		return NULL;
@@ -813,7 +813,7 @@ ThumbInfo* ThumbList::FindThumb(HWND hwnd)
 	return NULL;
 }
 
-ThumbInfo *ThumbList::FindThumbByContact(HCONTACT hContact)
+ThumbInfo *ThumbList::FindThumbByContact(MCONTACT hContact)
 {
 	if (!hContact) return NULL;
 

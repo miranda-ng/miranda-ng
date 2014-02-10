@@ -66,7 +66,7 @@ void Xfire_avatar_loader::loadThread(LPVOID lparam) {
 	return;
 }
 
-BOOL Xfire_avatar_loader::loadAvatar(HCONTACT hcontact,char*username,unsigned int userid)
+BOOL Xfire_avatar_loader::loadAvatar(MCONTACT hcontact,char*username,unsigned int userid)
 {
 	Xfire_avatar_process process={0};
 

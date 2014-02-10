@@ -58,9 +58,9 @@ void fnFreeContact(ClcContact *p);
 void fnFreeGroup(ClcGroup *group);
 int  fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 int  fnAddItemToGroup(ClcGroup *group, int iAboveItem);
-void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HCONTACT hContact, int updateTotalCount, int checkHideOffline);
-int  fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HCONTACT hContact);
-void fnDeleteItemFromTree(HWND hwnd, HCONTACT hItem);
+void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+int  fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
+void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void fnRebuildEntireList(HWND hwnd, struct ClcData *dat);
 int  fnGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort);
@@ -86,7 +86,7 @@ int   fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 int   fnClcStatusToPf2(int status);
 int   fnIsHiddenMode(struct ClcData *dat, int status);
 void  fnHideInfoTip(HWND hwnd, struct ClcData *dat);
-void  fnNotifyNewContact(HWND hwnd, HCONTACT hContact);
+void  fnNotifyNewContact(HWND hwnd, MCONTACT hContact);
 DWORD fnGetDefaultExStyle(void);
 void  fnGetSetting(int i, LOGFONT* lf, COLORREF* colour);
 void  fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour);
@@ -120,12 +120,12 @@ void     RebuildMenuOrder(void);
 INT_PTR  MenuProcessCommand(WPARAM wParam, LPARAM lParam);
 
 /* clistsettings.c */
-TCHAR* fnGetContactDisplayName(HCONTACT hContact, int mode);
+TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode);
 void   fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
-void   fnInvalidateDisplayNameCacheEntry(HCONTACT hContact);
+void   fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 
-ClcCacheEntry* fnGetCacheEntry(HCONTACT hContact);
-ClcCacheEntry* fnCreateCacheItem (HCONTACT hContact);
+ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact);
+ClcCacheEntry* fnCreateCacheItem (MCONTACT hContact);
 void fnCheckCacheItem(ClcCacheEntry *p);
 void fnFreeCacheItem(ClcCacheEntry *p);
 
@@ -137,21 +137,21 @@ void   fnUnregisterFileDropping (HWND hwnd);
 
 /* clistevents.c */
 struct CListEvent* fnAddEvent(CLISTEVENT *cle);
-CLISTEVENT* fnGetEvent(HCONTACT hContact, int idx);
+CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx);
 
 struct CListEvent* fnCreateEvent(void);
 void fnFreeEvent(struct CListEvent* p);
 
-int   fnEventsProcessContactDoubleClick(HCONTACT hContact);
+int   fnEventsProcessContactDoubleClick(MCONTACT hContact);
 int   fnEventsProcessTrayDoubleClick(int);
 int   fnGetImlIconIndex(HICON hIcon);
-int   fnRemoveEvent(HCONTACT hContact, HANDLE dbEvent);
+int   fnRemoveEvent(MCONTACT hContact, HANDLE dbEvent);
 
 /* clistmod.c */
-int    fnGetContactIcon(HCONTACT hContact);
-int    fnIconFromStatusMode(const char *szProto, int status, HCONTACT hContact);
+int    fnGetContactIcon(MCONTACT hContact);
+int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
 int    fnShowHide(WPARAM wParam, LPARAM lParam);
-HICON  fnGetIconFromStatusMode(HCONTACT hContact, const char *szProto, int status);
+HICON  fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
 TCHAR* fnGetStatusModeDescription(int wParam, int lParam);
 int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 
@@ -186,7 +186,7 @@ void fnCluiProtocolStatusChanged(int, const char*);
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */
-void fnChangeContactIcon (HCONTACT hContact, int iIcon, int add);
+void fnChangeContactIcon (MCONTACT hContact, int iIcon, int add);
 void fnLoadContactTree (void);
 int  fnCompareContacts (const ClcContact *contact1, const ClcContact *contact2);
 void fnSortContacts (void);

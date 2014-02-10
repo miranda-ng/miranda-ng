@@ -82,7 +82,7 @@ OmegleProto::~OmegleProto( )
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR OmegleProto::GetCaps( int type, HCONTACT hContact )
+DWORD_PTR OmegleProto::GetCaps( int type, MCONTACT hContact )
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -210,7 +210,7 @@ int OmegleProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
 
 int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 {
-	//HCONTACT hContact = (HCONTACT)wparam;
+	//MCONTACT hContact = (MCONTACT)wparam;
 
 	OnLeaveChat(NULL, NULL);
 	return 0;

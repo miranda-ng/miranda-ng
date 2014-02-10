@@ -26,6 +26,6 @@ int onExtraImageListRebuilding(WPARAM, LPARAM)
 
 int onExtraImageApplying(WPARAM wParam, LPARAM) 
 {
-	setClistIcon((HCONTACT)wParam);
+	setClistIcon((MCONTACT)wParam);
 	return 0;
 }

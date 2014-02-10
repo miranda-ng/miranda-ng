@@ -363,7 +363,7 @@ struct ThreadData
 
 	// for nick names resolving
 	int      resolveID;
-	HCONTACT resolveContact;
+	MCONTACT resolveContact;
 
 	// features & registration
 	HWND  reg_hwndDlg;
@@ -760,7 +760,7 @@ void  strdel(char* parBuffer, int len);
 
 //---- jabber_userinfo.cpp --------------------------------------------------------------
 
-void JabberUserInfoUpdate(HCONTACT hContact);
+void JabberUserInfoUpdate(MCONTACT hContact);
 
 //---- jabber_iq_handlers.cpp
 BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE);

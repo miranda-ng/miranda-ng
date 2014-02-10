@@ -15,7 +15,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			HCONTACT hContact = (HCONTACT)lParam;
+			MCONTACT hContact = (MCONTACT)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			WindowList_Add(hChangeSoundDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
@@ -77,7 +77,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			{
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 				if (p != NULL) {
 					if (lstrcmpi(p->path, _T(""))) {
@@ -116,7 +116,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				ofn.lpstrDefExt = _T("");
 
 				if (GetOpenFileName(&ofn)) {
-					HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, PathFindFileName(FileName));
 					XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 					if (p == NULL)
@@ -134,7 +134,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_CONT_BUTTON_TEST_PLAY:
 			{
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 				isIgnoreSound = 0;
 				if (p == NULL) {
@@ -156,7 +156,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_CONT_BUTTON_RESET_SOUND:
 			{
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_TEST_PLAY), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_RESET_SOUND), FALSE);
 				CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, BST_UNCHECKED);
@@ -173,7 +173,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_CONT_IGNORE_SOUND:
 			{
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 				if (p == NULL) {
 					DBVARIANT dbv;
@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_DESTROY:
-		HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		Utils_SaveWindowPosition(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
 		WindowList_Remove(hChangeSoundDlgList, hwndDlg);
 	}
@@ -204,7 +204,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 
 INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 {
-	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, (HCONTACT)wParam);
+	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, (MCONTACT)wParam);
 	if (!hChangeSoundDlg) {
 		hChangeSoundDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACTS), 0, DlgProcContactsOptions, (LPARAM)wParam);
 		ShowWindow(hChangeSoundDlg, SW_SHOW);

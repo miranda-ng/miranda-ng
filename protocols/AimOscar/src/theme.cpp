@@ -120,7 +120,7 @@ static const char* extra_ES_icon_name[2] =
 	"hiptop",
 };
 
-static void set_AT_icon(CAimProto* ppro, HCONTACT hContact)
+static void set_AT_icon(CAimProto* ppro, MCONTACT hContact)
 {
 	if (ppro->isChatRoom(hContact)) return;
 
@@ -128,7 +128,7 @@ static void set_AT_icon(CAimProto* ppro, HCONTACT hContact)
 	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 5) ? GetIconHandle(extra_AT_icon_name[i]) : NULL);
 }
 
-static void set_ES_icon(CAimProto* ppro, HCONTACT hContact)
+static void set_ES_icon(CAimProto* ppro, MCONTACT hContact)
 {
 	if (ppro->isChatRoom(hContact)) return;
 
@@ -136,7 +136,7 @@ static void set_ES_icon(CAimProto* ppro, HCONTACT hContact)
 	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 2) ? GetIconHandle(extra_ES_icon_name[i]) : NULL);
 }
 
-void set_contact_icon(CAimProto* ppro, HCONTACT hContact)
+void set_contact_icon(CAimProto* ppro, MCONTACT hContact)
 {
 	if (!ppro->getByte(AIM_KEY_AT, 0)) set_AT_icon(ppro, hContact);
 	if (!ppro->getByte(AIM_KEY_ES, 0)) set_ES_icon(ppro, hContact);
@@ -144,27 +144,27 @@ void set_contact_icon(CAimProto* ppro, HCONTACT hContact)
 
 void remove_AT_icons(CAimProto* ppro)
 {
-	for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
+	for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
 		if (!ppro->isChatRoom(hContact)) 
 			ExtraIcon_Clear(hExtraAT, hContact);
 }
 
 void remove_ES_icons(CAimProto* ppro)
 {
-	for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
+	for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
 		if (!ppro->isChatRoom(hContact)) 
 			ExtraIcon_Clear(hExtraES, hContact);
 }
 
 void add_AT_icons(CAimProto* ppro)
 {
-	for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
+	for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
 		set_AT_icon(ppro, hContact);
 }
 
 void add_ES_icons(CAimProto* ppro)
 {
-	for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
+	for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
 		set_ES_icon(ppro, hContact);
 }
 
@@ -179,7 +179,7 @@ void InitExtraIcons(void)
 
 int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	bool bIsChatRoom = isChatRoom(hContact);
 
 	//see if we should add the html away message context menu items

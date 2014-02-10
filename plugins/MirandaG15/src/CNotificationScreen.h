@@ -14,7 +14,7 @@ public:
 	tm Time;
 	tstring strText;
 	tstring strTitle;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	EventType eType;
 };
 

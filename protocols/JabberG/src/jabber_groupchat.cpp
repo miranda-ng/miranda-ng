@@ -185,7 +185,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ptrT jid( getTStringA(hContact, "ChatRoomID"));
 	if (jid == NULL)
 		return 0;
@@ -210,7 +210,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ptrT jid(getTStringA(hContact, "ChatRoomID"));
 	if (jid != NULL) {
 		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
@@ -791,7 +791,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 	if (!lstrcmp(item->nick, oldNick)) {
 		replaceStrT(item->nick, newNick);
 
-		HCONTACT hContact = HContactFromJID(item->jid);
+		MCONTACT hContact = HContactFromJID(item->jid);
 		if (hContact != NULL)
 			setTString(hContact, "MyNick", newNick);
 	}
@@ -931,7 +931,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		if (r && bRoleChanged) GcLogShowInformation(item, r, INFO_ROLE);
 
 		// update clist status
-		HCONTACT hContact = HContactFromJID(from);
+		MCONTACT hContact = HContactFromJID(from);
 		if (hContact != NULL)
 			setWord(hContact, "Status", status);
 
@@ -992,7 +992,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		GcLogUpdateMemberStatus(item, resource, nick, str, GC_EVENT_PART, statusNode);
 		ListRemoveResource(LIST_CHATROOM, from);
 
-		HCONTACT hContact = HContactFromJID(from);
+		MCONTACT hContact = HContactFromJID(from);
 		if (hContact != NULL)
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 	}

@@ -6,7 +6,7 @@ static ModuleTreeInfoStruct contacts_mtis = {CONTACT_ROOT_ITEM, 0};
 static ModuleTreeInfoStruct settings_mtis = {CONTACT, 0};
 
 
-int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist, HCONTACT hSelectedContact, char *SelectedModule, char *SelectedSetting)
+int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelectedContact, char *SelectedModule, char *SelectedSetting)
 {
 	TVINSERTSTRUCT tvi;
 	HTREEITEM contact;
@@ -23,7 +23,7 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 	tvi.hInsertAfter = TVI_SORT;
 	tvi.item.cChildren = 1;
 
-	for (HCONTACT hContact = db_find_first(); hContact && hwnd2mainWindow; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact && hwnd2mainWindow; hContact = db_find_next(hContact)) {
 		char szProto[100];
 		if (DBGetContactSettingStringStatic(hContact, "Protocol", "p", szProto, SIZEOF(szProto))) {
 			icon = GetProtoIcon(szProto);
@@ -124,7 +124,7 @@ void doItems(HWND hwnd2Tree,ModuleSettingLL *modlist, int count)
 {
 	TVINSERTSTRUCT tvi;
 	TVITEM item ={0};
-	HCONTACT hContact;
+	MCONTACT hContact;
 	ModuleTreeInfoStruct *lParam;
 	ModSetLinkLinkItem *module;
 	char percent[96], title[64];
@@ -183,7 +183,7 @@ void doItems(HWND hwnd2Tree,ModuleSettingLL *modlist, int count)
 	SetWindowText(hwnd, TranslateT("Database Editor++"));
 }
 
-int findItemInTree(HWND hwnd2Tree, HCONTACT hContact, char* module)
+int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char* module)
 	/* the following code to go through the whole tree is nicked from codeguru..
 	http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680 */
 {
@@ -218,7 +218,7 @@ int findItemInTree(HWND hwnd2Tree, HCONTACT hContact, char* module)
 	return -1;
 }
 
-void freeTree(HWND hwnd2Tree, HCONTACT hContact)
+void freeTree(HWND hwnd2Tree, MCONTACT hContact)
 	/* the following code to go through the whole tree is nicked from codeguru..
 	http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680 */
 {
@@ -256,7 +256,7 @@ void freeTree(HWND hwnd2Tree, HCONTACT hContact)
 		while (item.hItem);
 }
 
-BOOL findAndRemoveDuplicates(HWND hwnd2Tree, HCONTACT hContact, char* module)
+BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char* module)
 	/* the following code to go through the whole tree is nicked from codeguru..
 	http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680 */
 {
@@ -306,7 +306,7 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, HCONTACT hContact, char* module)
 }
 
 
-void replaceTreeItem(HWND hwnd, HCONTACT hContact, const char *module, const char *newModule)
+void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const char *newModule)
 {
 	int hItem = findItemInTree(hwnd, hContact, (char*)module);
 	HTREEITEM hParent;
@@ -360,8 +360,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 	HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow,IDC_MODULES);
 	char SelectedModule[256] = {0};
 	char SelectedSetting[256] = {0};
-	HCONTACT hSelectedContact = hRestore;
-	HCONTACT hContact;
+	MCONTACT hSelectedContact = hRestore;
+	MCONTACT hContact;
 	HTREEITEM contact, contactsRoot;
 	int count;
 
@@ -402,8 +402,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 		}
 	case 2: // restore saved
 		if (GetValue(NULL,modname,"LastModule",SelectedModule,SIZEOF(SelectedModule))) {
-			hSelectedContact = (HCONTACT)db_get_dw(NULL, modname, "LastContact", (DWORD)INVALID_HANDLE_VALUE);
-			if (hSelectedContact != (HCONTACT)INVALID_HANDLE_VALUE)
+			hSelectedContact = (MCONTACT)db_get_dw(NULL, modname, "LastContact", (DWORD)INVALID_HANDLE_VALUE);
+			if (hSelectedContact != INVALID_CONTACT_ID)
 				Select = 1;
 			GetValue(NULL,modname,"LastSetting",SelectedSetting,SIZEOF(SelectedSetting));
 		}
@@ -411,7 +411,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	case 3: // restore from user menu
 	case 4: // jump from user menu
-		if (hSelectedContact && hSelectedContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hSelectedContact && hSelectedContact != INVALID_CONTACT_ID)
 			Select = 1;
 		break;
 	}
@@ -557,7 +557,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 				HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow,IDC_MODULES);
 				ModSetLinkLinkItem *module;
 				ModuleSettingLL modlist;
-				HCONTACT hContact = mtis->hContact;
+				MCONTACT hContact = mtis->hContact;
 
 				mtis->type = CONTACT;
 
@@ -598,7 +598,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
 			TVITEM tvi = {0};
 			char text[264];
-			HCONTACT hContact;
+			MCONTACT hContact;
 			HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT;
 			tvi.hItem = pnmtv->itemNew.hItem;
@@ -767,7 +767,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 			TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom,&tvi);
 			if (tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
-				HCONTACT hContact = mtis->hContact;
+				MCONTACT hContact = mtis->hContact;
 				GetCursorPos(&(hti.pt));
 				hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 				TranslateMenu(hMenu);
@@ -829,7 +829,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 							break;
 
 						case MENU_EXPORTDB:
-							exportDB((HCONTACT)INVALID_HANDLE_VALUE, module);
+							exportDB(INVALID_CONTACT_ID, module);
 							break;
 						}
 					}
@@ -907,7 +907,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 				case 4: // Contacts root
 					switch ( TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
 					case MENU_EXPORTCONTACT:
-						exportDB((HCONTACT)INVALID_HANDLE_VALUE, "");
+						exportDB(INVALID_CONTACT_ID, "");
 						break;
 					case MENU_IMPORTFROMTEXT:
 						ImportSettingsMenuItem(NULL);

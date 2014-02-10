@@ -135,7 +135,7 @@ static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 }
 
 typedef struct {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HWND hwnd;
 } THistoryThread;
 
@@ -201,12 +201,12 @@ static int HistoryDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		hContact = (HCONTACT)lParam;
+		hContact = (MCONTACT)lParam;
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 		Utils_RestoreWindowPosition(hwndDlg, hContact, "History", "");
 		{
@@ -376,7 +376,7 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, (HCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam);
 	if (hwnd) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
@@ -388,7 +388,7 @@ static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 
 static int HistoryContactDelete(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, (HCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam);
 	if (hwnd != NULL)
 		DestroyWindow(hwnd);
 	return 0;

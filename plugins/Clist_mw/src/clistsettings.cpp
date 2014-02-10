@@ -25,12 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include "clist.h"
 
-TCHAR *GetNameForContact(HCONTACT hContact,int flag,boolean *isUnknown);
-char *GetProtoForContact(HCONTACT hContact);
-int GetStatusForContact(HCONTACT hContact,char *szProto);
+TCHAR *GetNameForContact(MCONTACT hContact,int flag,boolean *isUnknown);
+char *GetProtoForContact(MCONTACT hContact);
+int GetStatusForContact(MCONTACT hContact,char *szProto);
 TCHAR *UnknownConctactTranslatedName;
 extern boolean OnModulesLoadedCalled;
-void InvalidateDisplayNameCacheEntryByPDNE(HCONTACT hContact,ClcCacheEntry *pdnce,int SettingType);
+void InvalidateDisplayNameCacheEntryByPDNE(MCONTACT hContact,ClcCacheEntry *pdnce,int SettingType);
 
 static int handleCompare( ClcCacheEntry* c1, ClcCacheEntry* c2 )
 {
@@ -46,7 +46,7 @@ void InitDisplayNameCache(SortedList *list)
 	list->increment = CallService(MS_DB_CONTACT_GETCOUNT,0,0)+1;
 
 	i = 0;
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *pdnce = (ClcCacheEntry *)mir_calloc(sizeof(ClcCacheEntry));
 		pdnce->hContact = hContact;
 		InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,0);
@@ -143,7 +143,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 		pdnce->IsExpanded = db_get_b(pdnce->hContact,"CList","Expanded",0);
 }
 
-void InvalidateDisplayNameCacheEntryByPDNE(HCONTACT hContact,ClcCacheEntry *pdnce,int SettingType)
+void InvalidateDisplayNameCacheEntryByPDNE(MCONTACT hContact,ClcCacheEntry *pdnce,int SettingType)
 {
 	if ( hContact == NULL || pdnce == NULL )
 		return;
@@ -192,7 +192,7 @@ void InvalidateDisplayNameCacheEntryByPDNE(HCONTACT hContact,ClcCacheEntry *pdnc
  	pdnce->IsExpanded = -1;
 }
 
-char *GetContactCachedProtocol(HCONTACT hContact)
+char *GetContactCachedProtocol(MCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry&&cacheEntry->szProto)
@@ -201,21 +201,21 @@ char *GetContactCachedProtocol(HCONTACT hContact)
 	return NULL;
 }
 
-char *GetProtoForContact(HCONTACT hContact)
+char *GetProtoForContact(MCONTACT hContact)
 {
 	return mir_strdup(GetContactProto(hContact));
 }
 
-int GetStatusForContact(HCONTACT hContact,char *szProto)
+int GetStatusForContact(MCONTACT hContact,char *szProto)
 {
 	int status = ID_STATUS_OFFLINE;
 	if (szProto)
-		status = db_get_w((HCONTACT)hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		status = db_get_w((MCONTACT)hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 	return (status);
 }
 
-TCHAR* GetNameForContact(HCONTACT hContact,int flag,boolean *isUnknown)
+TCHAR* GetNameForContact(MCONTACT hContact,int flag,boolean *isUnknown)
 {
 	TCHAR* result = pcli->pfnGetContactDisplayName(hContact, flag | GCDNF_NOCACHE);
 
@@ -229,7 +229,7 @@ TCHAR* GetNameForContact(HCONTACT hContact,int flag,boolean *isUnknown)
 	return result;
 }
 
-ClcCacheEntry *GetContactFullCacheEntry(HCONTACT hContact)
+ClcCacheEntry *GetContactFullCacheEntry(MCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry != NULL)
@@ -238,7 +238,7 @@ ClcCacheEntry *GetContactFullCacheEntry(HCONTACT hContact)
 	return NULL;
 }
 
-int GetContactInfosForSort(HCONTACT hContact,char **Proto,TCHAR **Name,int *Status)
+int GetContactInfosForSort(MCONTACT hContact,char **Proto,TCHAR **Name,int *Status)
 {
 	ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry != NULL)
@@ -250,7 +250,7 @@ int GetContactInfosForSort(HCONTACT hContact,char **Proto,TCHAR **Name,int *Stat
 	return 0;
 }
 
-int GetContactCachedStatus(HCONTACT hContact)
+int GetContactCachedStatus(MCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry&&cacheEntry->status != 0) return cacheEntry->status;
@@ -260,7 +260,7 @@ int GetContactCachedStatus(HCONTACT hContact)
 int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	// Early exit
 	if (hContact == NULL)
@@ -315,7 +315,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			if ( !strcmp(cws->szSetting,"Hidden")) {
 				InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,cws->value.type);
 				if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-					char *szProto = GetContactProto((HCONTACT)wParam);
+					char *szProto = GetContactProto((MCONTACT)wParam);
 					ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact, szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)), 1);  //by FYR
 				}
 			}

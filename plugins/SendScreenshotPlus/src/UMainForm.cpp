@@ -764,7 +764,7 @@ void TfrmMain::SaveOptions(void) {
 }
 
 //---------------------------------------------------------------------------
-void TfrmMain::Init(LPTSTR DestFolder, HCONTACT Contact) {
+void TfrmMain::Init(LPTSTR DestFolder, MCONTACT Contact) {
 	m_FDestFolder = mir_tstrdup(DestFolder);
 	m_hContact = Contact;
 	if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;

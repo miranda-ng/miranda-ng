@@ -81,7 +81,7 @@ static int                      helpActive = 0;
 * templates
 */
 
-static void LoadTemplatesFrom(TTemplateSet *tSet, HCONTACT hContact, int rtl)
+static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl)
 {
 	DBVARIANT dbv = {0};
 	int i;

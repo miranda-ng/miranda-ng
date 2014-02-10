@@ -178,7 +178,7 @@ int _DebugTraceA(const char *fmt, ...)
  * popup plugin.
  */
 
-int _DebugPopup(HCONTACT hContact, const TCHAR *fmt, ...)
+int _DebugPopup(MCONTACT hContact, const TCHAR *fmt, ...)
 {
 	va_list	va;
 	TCHAR		debug[1024];

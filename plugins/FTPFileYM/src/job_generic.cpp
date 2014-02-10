@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 extern UploadDialog *uDlg;
 extern ServerList &ftpList;
 
-GenericJob::GenericJob(HCONTACT _hContact, int _iFtpNum, EMode _mode) :
+GenericJob::GenericJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
 	hContact(_hContact),iFtpNum(_iFtpNum),mode(_mode),status(STATUS_CREATED),ftp(ftpList[iFtpNum])
 {
 	this->stzFilePath[0] = 0;

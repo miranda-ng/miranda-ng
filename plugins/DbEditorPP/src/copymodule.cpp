@@ -1,6 +1,6 @@
 #include "headers.h"
 
-void copyModule(char* module, HCONTACT hContactFrom, HCONTACT hContactTo)
+void copyModule(char* module, MCONTACT hContactFrom, MCONTACT hContactTo)
 {
 	ModuleSettingLL msll;
 
@@ -44,7 +44,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 		int index, loaded;
 		char szProto[256];
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (GetValue(hContact,"Protocol","p",szProto,SIZEOF(szProto)))
 				loaded = IsProtocolLoaded(szProto);
 			else
@@ -100,12 +100,12 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		case IDOK:
 			if (!IsDlgButtonChecked(hwnd,CHK_COPY2ALL)) {
-				HCONTACT hContact = (HCONTACT)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETITEMDATA, SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETCURSEL, 0, 0), 0);
+				MCONTACT hContact = (MCONTACT)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETITEMDATA, SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETCURSEL, 0, 0), 0);
 				copyModule(mac->module, mac->hContact, hContact);
 			}
 			else {
 				SetCursor(LoadCursor(NULL,IDC_WAIT));
-				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					copyModule(mac->module, mac->hContact, hContact);
 
 				SetCursor(LoadCursor(NULL,IDC_ARROW));
@@ -124,7 +124,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-void copyModuleMenuItem(char* module, HCONTACT hContact)
+void copyModuleMenuItem(char* module, MCONTACT hContact)
 {
 	ModuleAndContact *mac = (ModuleAndContact *)mir_calloc(sizeof(ModuleAndContact));
 	mac->hContact = hContact;

@@ -211,7 +211,7 @@ INT_PTR svcExIm_MainExport_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
 	ZeroMemory(&ExIm, sizeof(ExIm));
-	ExIm.hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	ExIm.hContact = INVALID_CONTACT_ID;
 	ExIm.Typ = EXIM_ALL;
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
 }
@@ -220,7 +220,7 @@ INT_PTR svcExIm_MainImport_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
 	ZeroMemory(&ExIm, sizeof(ExIm));
-	ExIm.hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	ExIm.hContact = INVALID_CONTACT_ID;
 	ExIm.Typ = EXIM_ALL;
 	return SvcExImport_Import(&ExIm, (HWND)lParam);
 }
@@ -233,7 +233,7 @@ INT_PTR svcExIm_ContactExport_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
 	ZeroMemory(&ExIm, sizeof(ExIm));
-	ExIm.hContact = (HCONTACT)wParam;
+	ExIm.hContact = (MCONTACT)wParam;
 	ExIm.Typ = EXIM_CONTACT;
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
 }
@@ -242,7 +242,7 @@ INT_PTR svcExIm_ContactImport_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
 	ZeroMemory(&ExIm, sizeof(ExIm));
-	ExIm.hContact = (HCONTACT)wParam;
+	ExIm.hContact = (MCONTACT)wParam;
 	ExIm.Typ = EXIM_CONTACT;
 	return SvcExImport_Import(&ExIm, (HWND)lParam);
 }

@@ -102,7 +102,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	CFM_WEIGHT			0x00400000
 #endif
 
-extern HWND SM_FindWindowByContact(HCONTACT hContact);
+extern HWND SM_FindWindowByContact(MCONTACT hContact);
 extern HINSTANCE g_hInst;
 extern CREOleCallback reOleCallback;
 extern void ChangeStatusIcons();

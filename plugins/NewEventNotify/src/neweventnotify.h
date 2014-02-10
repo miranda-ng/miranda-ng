@@ -193,7 +193,7 @@ struct EVENT_DATA_EX
 struct PLUGIN_DATA
 {
 	UINT eventType;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	PLUGIN_OPTIONS* pluginOptions;
 	HWND hWnd;
 	struct EVENT_DATA_EX* firstEventData;
@@ -207,8 +207,8 @@ struct PLUGIN_DATA
 //---------------------------
 //---External Procedure Definitions
 
-int PopupShow(PLUGIN_OPTIONS* pluginOptions, HCONTACT hContact, HANDLE hEvent, UINT eventType);
-int PopupUpdate(HCONTACT hContact, HANDLE hEvent);
+int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, HANDLE hEvent, UINT eventType);
+int PopupUpdate(MCONTACT hContact, HANDLE hEvent);
 int PopupPreview(PLUGIN_OPTIONS* pluginOptions);
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata);
 int OptionsInit(PLUGIN_OPTIONS* pluginOptions);
@@ -216,7 +216,7 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo);
 int Opt_DisableNEN(BOOL Status);
 int MenuitemInit(BOOL bStatus);
 int MenuitemUpdate(BOOL bStatus);
-int NumberPopupData(HCONTACT hContact, int eventType);
-int CheckMsgWnd(HCONTACT hContact);
+int NumberPopupData(MCONTACT hContact, int eventType);
+int CheckMsgWnd(MCONTACT hContact);
 
 extern HINSTANCE hInst;

@@ -117,7 +117,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 			if (dbv.ptszVal == NULL)
 				replyList.push_back(_T(""));
 			else
-				replyList.push_back((TCHAR*)variables_parsedup(dbv.ptszVal, 0, (HCONTACT)wParam));
+				replyList.push_back((TCHAR*)variables_parsedup(dbv.ptszVal, 0, (MCONTACT)wParam));
 
 			if (_tcscmp(dbv.ptszVal, _T("---")))
 				AppendMenu((HMENU)hMenu, MF_STRING,	i + 1, replyList[i].c_str());

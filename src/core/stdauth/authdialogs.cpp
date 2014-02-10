@@ -45,7 +45,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			db_event_get(hDbEvent, &dbei);
 
 			DWORD uin = *(PDWORD)dbei.pBlob;
-			HCONTACT hContact = DbGetAuthEventContact(&dbei);
+			MCONTACT hContact = DbGetAuthEventContact(&dbei);
 			char* nick = (char*)dbei.pBlob + sizeof(DWORD)*2;
 			char* first = nick  + strlen(nick)  + 1;
 			char* last = first + strlen(first) + 1;
@@ -96,7 +96,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA, (LONG_PTR)hContact);
 
-			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || !db_get_b(hContact, "CList", "NotOnList", 0))
+			if (hContact == INVALID_CONTACT_ID || !db_get_b(hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 		}
 		return TRUE;
@@ -111,14 +111,14 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			acs.szProto = "";
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 
-			HCONTACT hContact = (HCONTACT)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
-			if ((hContact == (HCONTACT)INVALID_HANDLE_VALUE) || !db_get_b(hContact, "CList", "NotOnList", 0))
+			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
+			if ((hContact == INVALID_CONTACT_ID) || !db_get_b(hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 			break;
 		}
 		case IDC_DETAILS:
 		{
-			HCONTACT hContact = (HCONTACT)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
+			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 			break;
 		}
@@ -168,7 +168,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			db_event_get(hDbEvent, &dbei);
 
 			DWORD uin = *(PDWORD)dbei.pBlob;
-			HCONTACT hContact = DbGetAuthEventContact(&dbei);
+			MCONTACT hContact = DbGetAuthEventContact(&dbei);
 			char *nick = (char*)dbei.pBlob + sizeof(DWORD)*2;
 			char *first = nick  + strlen(nick)  + 1;
 			char *last = first + strlen(first) + 1;
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 			SetDlgItemText(hwndDlg, IDC_REASON, reasonT);
 
-			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || !db_get_b(hContact, "CList", "NotOnList", 0))
+			if (hContact == INVALID_CONTACT_ID || !db_get_b(hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_DENYREASON, EM_LIMITTEXT, 255, 0);

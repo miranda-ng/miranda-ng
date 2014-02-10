@@ -44,23 +44,23 @@ public:
 	}
 
 	// PROTO_INTERFACE
-	virtual	HCONTACT __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	HCONTACT __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	MCONTACT __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
+	virtual	MCONTACT __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
 	virtual	int      __cdecl Authorize( HANDLE hDbEvent );
 	virtual	int      __cdecl AuthDeny( HANDLE hDbEvent, const PROTOCHAR* szReason );
-	virtual	int      __cdecl AuthRecv( HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int      __cdecl AuthRequest( HCONTACT hContact, const PROTOCHAR* szMessage );
+	virtual	int      __cdecl AuthRecv( MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int      __cdecl AuthRequest( MCONTACT hContact, const PROTOCHAR* szMessage );
 
 	virtual	HANDLE   __cdecl ChangeInfo( int iInfoType, void* pInfoData );
 
-	virtual	HANDLE   __cdecl FileAllow( HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
-	virtual	int      __cdecl FileCancel( HCONTACT hContact, HANDLE hTransfer );
-	virtual	int      __cdecl FileDeny( HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
+	virtual	HANDLE   __cdecl FileAllow( MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
+	virtual	int      __cdecl FileCancel( MCONTACT hContact, HANDLE hTransfer );
+	virtual	int      __cdecl FileDeny( MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
 	virtual	int      __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL );
-	virtual	int       __cdecl GetInfo( HCONTACT hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
+	virtual	int       __cdecl GetInfo( MCONTACT hContact, int infoType );
 
 	virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
 	virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email );
@@ -68,24 +68,24 @@ public:
 	virtual	HWND      __cdecl SearchAdvanced( HWND owner );
 	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner );
 
-	virtual	int       __cdecl RecvContacts( HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvFile( HCONTACT hContact, PROTOFILEEVENT* );
-	virtual	int       __cdecl RecvMsg( HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvUrl( HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvContacts( MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvFile( MCONTACT hContact, PROTOFILEEVENT* );
+	virtual	int       __cdecl RecvMsg( MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvUrl( MCONTACT hContact, PROTORECVEVENT* );
 
-	virtual	int       __cdecl SendContacts( HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList );
-	virtual	HANDLE    __cdecl SendFile( HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles );
-	virtual	int       __cdecl SendMsg( HCONTACT hContact, int flags, const char* msg );
-	virtual	int       __cdecl SendUrl( HCONTACT hContact, int flags, const char* url );
+	virtual	int       __cdecl SendContacts( MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList );
+	virtual	HANDLE    __cdecl SendFile( MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles );
+	virtual	int       __cdecl SendMsg( MCONTACT hContact, int flags, const char* msg );
+	virtual	int       __cdecl SendUrl( MCONTACT hContact, int flags, const char* url );
 
-	virtual	int       __cdecl SetApparentMode( HCONTACT hContact, int mode );
+	virtual	int       __cdecl SetApparentMode( MCONTACT hContact, int mode );
 	virtual	int       __cdecl SetStatus( int iNewStatus );
 
-	virtual	HANDLE    __cdecl GetAwayMsg( HCONTACT hContact );
-	virtual	int       __cdecl RecvAwayMsg( HCONTACT hContact, int mode, PROTORECVEVENT* evt );
+	virtual	HANDLE    __cdecl GetAwayMsg( MCONTACT hContact );
+	virtual	int       __cdecl RecvAwayMsg( MCONTACT hContact, int mode, PROTORECVEVENT* evt );
 	virtual	int       __cdecl SetAwayMsg( int iStatus, const PROTOCHAR* msg );
 
-	virtual	int       __cdecl UserIsTyping( HCONTACT hContact, int type );
+	virtual	int       __cdecl UserIsTyping( MCONTACT hContact, int type );
 
 	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam );
 
@@ -132,7 +132,7 @@ public:
 	void SetChatStatus(int);
 	void ClearChat();
 	void SetTopic(const TCHAR *topic = NULL);
-	HCONTACT GetChatHandle();
+	MCONTACT GetChatHandle();
 
 	// Connection client
 	Omegle_client facy;

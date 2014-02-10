@@ -63,7 +63,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // I can't think of a way around this - mental block
 
-INT_PTR TranslateMenuFunc(HCONTACT hContact, int i);
+INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
 extern HGENMENU hMenuContact[MAX_CONTACTS];
 
 extern HINSTANCE hInstance;
@@ -78,7 +78,7 @@ extern int mcStatus;
 INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_AddTo(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Edit(WPARAM wParam,LPARAM lParam);
-void Meta_RemoveContactNumber(HCONTACT hMeta, int number);
+void Meta_RemoveContactNumber(MCONTACT hMeta, int number);
 INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam);
@@ -87,32 +87,32 @@ INT_PTR Meta_IsEnabled();
 
 int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id);
 int Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
-BOOL Meta_Assign(HCONTACT src, HCONTACT dest, BOOL set_as_default);
-HCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id);
+BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default);
+MCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id);
 int Meta_SetNick(char *proto);
-HCONTACT Meta_GetMostOnline(HCONTACT hMeta);
-HCONTACT Meta_GetMostOnlineSupporting(HCONTACT hMeta, int pflagnum, unsigned long capability);
+MCONTACT Meta_GetMostOnline(MCONTACT hMeta);
+MCONTACT Meta_GetMostOnlineSupporting(MCONTACT hMeta, int pflagnum, unsigned long capability);
 int Meta_HideLinkedContacts(void);
 int Meta_SetHandles(void);
 int Meta_UnhideLinkedContacts(void);
-int Meta_GetContactNumber(HCONTACT hContact);
-HCONTACT Meta_GetContactHandle(HCONTACT hMeta, int contact_number);
-void Meta_RestoreGroup(HCONTACT hContact);
-void Meta_SetGroup(HCONTACT hContact);
+int Meta_GetContactNumber(MCONTACT hContact);
+MCONTACT Meta_GetContactHandle(MCONTACT hMeta, int contact_number);
+void Meta_RestoreGroup(MCONTACT hContact);
+void Meta_SetGroup(MCONTACT hContact);
 int Meta_HideMetaContacts(int hide);
 int Meta_SuppressStatus(int suppress);
-int Meta_CopyContactNick(HCONTACT hMeta, HCONTACT hContact);
-void Meta_CopyData(HCONTACT hMeta);
+int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact);
+void Meta_CopyData(MCONTACT hMeta);
 int Meta_SetAllNicks();
 int Meta_IsHiddenGroup(const char *group_name);
-int Meta_SwapContacts(HCONTACT hMeta, DWORD contact_number1, DWORD contact_number2);
+int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_number2);
 // function to copy history from one contact to another - courtesy JdGordon with mods (thx)
-void copyHistory(HCONTACT hContactFrom, HCONTACT hContactTo);
+void copyHistory(MCONTACT hContactFrom, MCONTACT hContactTo);
 // inverse
 //void Meta_RemoveHistory(HANDLE hContactRemoveFrom, HANDLE hContactSource);
-void Meta_FixStatus(HCONTACT hMeta);
+void Meta_FixStatus(MCONTACT hMeta);
 
-char *Meta_GetUniqueIdentifier(HCONTACT hContact, DWORD *pused);
+char *Meta_GetUniqueIdentifier(MCONTACT hContact, DWORD *pused);
 
 INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam);
@@ -187,7 +187,7 @@ INT_PTR MetaAPI_RemoveFromMeta(WPARAM wParam, LPARAM lParam);
 INT_PTR MetaAPI_DisableHiddenGroup(WPARAM wParam, LPARAM lParam);
 
 // extended db get/write setting functions, that handle unicode
-INT_PTR Mydb_get(HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+INT_PTR Mydb_get(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 
 // IcoLib support
 void InitIcons(void);

@@ -119,7 +119,7 @@ const LPWSTR lpcszXStatusNameDef[] =
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CMraProto::SetExtraIcons(HCONTACT hContact)
+void CMraProto::SetExtraIcons(MCONTACT hContact)
 {
 	DWORD dwID, dwGroupID, dwContactSeverFlags;
 	if (GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL))
@@ -168,7 +168,7 @@ INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)
 
 int CMraProto::MraContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (!m_bLoggedIn || !hContact)
 		return 0;
 
@@ -191,7 +191,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn || !lParam)
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -298,7 +298,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 
 int CMraProto::MraExtraIconsApply(WPARAM wParam, LPARAM lParam)
 {
-	SetExtraIcons((HCONTACT)wParam);
+	SetExtraIcons((MCONTACT)wParam);
 	return 0;
 }
 
@@ -449,7 +449,7 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
 	if (pData->cbSize < sizeof(CUSTOM_STATUS))
@@ -552,7 +552,7 @@ INT_PTR CMraProto::MraSendNudge(WPARAM wParam, LPARAM lParam)
 {
 	if (m_bLoggedIn && wParam) {
 		LPWSTR lpwszAlarmMessage = TranslateW(MRA_ALARM_MESSAGE);
-		HCONTACT hContact = (HCONTACT)wParam;
+		MCONTACT hContact = (MCONTACT)wParam;
 
 		CMStringA szEmail;
 		if (mraGetStringA(hContact, "e-mail", szEmail))
@@ -619,7 +619,7 @@ INT_PTR CMraProto::MraGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 int CMraProto::OnGroupChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL) {
 		CLISTGROUPCHANGE *cgc = (CLISTGROUPCHANGE*)lParam;
 		if (cgc->pszOldName == NULL)

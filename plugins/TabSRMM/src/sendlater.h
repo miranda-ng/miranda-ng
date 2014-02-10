@@ -70,8 +70,8 @@ public:
 	~CSendLaterJob();
 
 	char     szId[20];									// database key name (time stamp of original send)
-	HCONTACT hContact;									// original contact where the message has been assigned
-	HCONTACT hTargetContact;								// *real* contact (can be different for metacontacts, e.g).
+	MCONTACT hContact;									// original contact where the message has been assigned
+	MCONTACT hTargetContact;								// *real* contact (can be different for metacontacts, e.g).
 	HANDLE   hProcess;									// returned from the protocols sending service. needed to find it in the ACK handler
 	time_t   created;									// job was created at this time (important to kill jobs, that are too old)
 	time_t   lastSent;									// time at which the delivery was initiated. used to handle timeouts
@@ -110,7 +110,7 @@ public:
 	bool   processCurrentJob();
    void   processContacts();
    int    addJob(const char *szSetting, LPARAM lParam);
-   void   addContact(const HCONTACT hContact);
+   void   addContact(const MCONTACT hContact);
    HANDLE processAck(const ACKDATA *ack);
 
    void   invokeQueueMgrDlg();
@@ -118,7 +118,7 @@ public:
    static INT_PTR svcQMgr(WPARAM wParam, LPARAM lParam);
 
 private:
-   void    processSingleContact(const HCONTACT hContact);
+   void    processSingleContact(const MCONTACT hContact);
    int     sendIt(CSendLaterJob *job);
 
    INT_PTR CALLBACK DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -127,7 +127,7 @@ private:
 	void    qMgrFillList(bool fClear = true);
    void    qMgrSetupColumns();
    void    qMgrSaveColumns();
-   LRESULT qMgrAddFilter(const HCONTACT hContact, const TCHAR* tszNick);
+   LRESULT qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick);
 
    LIST<void> m_sendLaterContactList;
    LIST<CSendLaterJob> m_sendLaterJobList;
@@ -141,7 +141,7 @@ private:
 
    HWND     m_hwndDlg;
    HWND     m_hwndList, m_hwndFilter;
-   HCONTACT m_hFilter;      // contact handle to filter the qmgr list (0 = no filter, show all)
+   MCONTACT m_hFilter;      // contact handle to filter the qmgr list (0 = no filter, show all)
    LRESULT  m_sel;          // index of the combo box entry corresponding to the contact filter;
 };
 

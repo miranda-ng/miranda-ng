@@ -58,8 +58,8 @@ INT_PTR CloseCurrentSession(WPARAM ,LPARAM );
 int SaveSessionDate();
 
 extern HINSTANCE hinstance;
-extern HCONTACT session_list_recovered[255];
-extern HCONTACT session_list[255];
+extern MCONTACT session_list_recovered[255];
+extern MCONTACT session_list[255];
 extern unsigned int ses_limit;
 extern unsigned int g_ses_count;
 extern BOOL g_bExclHidden;	

@@ -38,7 +38,7 @@ static int AwayMsgHook(WPARAM wParam, LPARAM lParam, LPARAM pObj)
 	if (ack->result != ACKRESULT_SUCCESS)
 		return 0;
 
-	HCONTACT hContact = PUGetContact(pdp->hWnd);
+	MCONTACT hContact = PUGetContact(pdp->hWnd);
 	ptrT pstzLast( db_get_tsa(hContact, MODULE, "LastPopupText"));
 
 	TCHAR *tszStatus = (TCHAR*)ack->lParam;
@@ -58,7 +58,7 @@ static int AwayMsgHook(WPARAM wParam, LPARAM lParam, LPARAM pObj)
 
 void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 {
-	HCONTACT hContact = PUGetContact(hWnd);
+	MCONTACT hContact = PUGetContact(hWnd);
 	char *szProto = GetContactProto(hContact);
 	if (szProto)
 	{
@@ -76,8 +76,8 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 
 void PopupAction(HWND hWnd, BYTE action)
 {
-	HCONTACT hContact = PUGetContact(hWnd);
-	if (hContact && hContact != (HCONTACT)INVALID_HANDLE_VALUE) {
+	MCONTACT hContact = PUGetContact(hWnd);
+	if (hContact && hContact != INVALID_CONTACT_ID) {
 		switch (action) {
 		case PCA_OPENMESSAGEWND:
 			CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);

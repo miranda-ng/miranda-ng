@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	XmlNode *showNode, *statusNode;
 	TLEN_LIST_ITEM *item;
 	char *from, *type, *nick, *show;
@@ -178,7 +178,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 void setOwnStatusOnCList(TlenProtocol *proto, int status, char *statusMsg)
 {
 	ptrA ownJid(db_get_sa(NULL, proto->m_szModuleName, "jid"));
-	HCONTACT hContact = TlenHContactFromJID(proto, ownJid);
+	MCONTACT hContact = TlenHContactFromJID(proto, ownJid);
 	if(hContact){
 		if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
 			db_set_w(hContact, proto->m_szModuleName, "Status", (WORD)status);

@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class HistoryWindow : public SearchContext
 {
 private:
-	HistoryWindow(HCONTACT _hContact);
+	HistoryWindow(MCONTACT _hContact);
 	void Initialise();
 	void Destroy();
 	void SplitterMoved(HWND splitter, LONG pos, bool screenPos);
@@ -49,7 +49,7 @@ private:
 	void ReloadMainOptions();
 	void DoImport(IImport::ImportType type);
 
-	static std::map<HCONTACT, HistoryWindow*> windows;
+	static std::map<MCONTACT, HistoryWindow*> windows;
 	static std::vector<HistoryWindow*> freeWindows;
 	bool isDestroyed;
 	LONG splitterY;
@@ -67,7 +67,7 @@ private:
 	HIMAGELIST himlSmall, himlNone;
 	HBRUSH bkBrush;
 	HBRUSH bkFindBrush;
-	HCONTACT hSystem;
+	MCONTACT hSystem;
 	HWND splitterXhWnd, splitterYhWnd;
 	bool isStartSelect;
 protected:
@@ -75,9 +75,9 @@ protected:
 public:
 	~HistoryWindow();
 	static void Deinit();
-	static void Open(HCONTACT hContact);
-	static void Close(HCONTACT hContact);
-	static void RebuildEvents(HCONTACT hContact);
+	static void Open(MCONTACT hContact);
+	static void Close(MCONTACT hContact);
+	static void RebuildEvents(MCONTACT hContact);
 	static bool IsInList(HWND hWnd);
 	static int FontsChanged(WPARAM wParam, LPARAM lParam);
 	static INT_PTR DeleteAllUserHistory(WPARAM wParam, LPARAM lParam);
@@ -89,7 +89,7 @@ public:
 
 	// SearchContext interface
 	virtual void SelectEventGroup(int sel);
-	virtual HCONTACT GetNextContact(HCONTACT hContact, int adder);
-	virtual void SelectContact(HCONTACT _hContact);
+	virtual MCONTACT GetNextContact(MCONTACT hContact, int adder);
+	virtual void SelectContact(MCONTACT _hContact);
 };
 

@@ -44,9 +44,9 @@ public:
 	void OnSizeChanged();
 
 	// Set's the chat contact
-	bool SetContact(HCONTACT hContact);
+	bool SetContact(MCONTACT hContact);
 	// returns the chat contact
-	HCONTACT GetContact();
+	MCONTACT GetContact();
 	
 	// returns wether the input mode is active
 	bool IsInputActive();
@@ -92,7 +92,7 @@ protected:
 	DWORD	m_dwMaximizedTimer;
 	DWORD	m_dwMaximizedDuration;
 
-	HCONTACT m_hContact;
+	MCONTACT m_hContact;
 	HANDLE m_hMessage;
 
 	int m_iStatus;

@@ -151,7 +151,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	db_set_resident(META_PROTO, "WindowOpen");
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
-	for (HCONTACT hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {
+	for (MCONTACT hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {
 		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
 		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
 		db_set_b(hContact, META_PROTO, "ContactCountCheck", 0);

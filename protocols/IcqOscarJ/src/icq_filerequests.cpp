@@ -33,7 +33,7 @@ void CIcqProto::handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie,
 {
 	char* pszFileName = NULL;
 	DWORD dwFileSize;
-	HCONTACT hCookieContact;
+	MCONTACT hCookieContact;
 	WORD wPort;
 	WORD wFilenameLength;
 	filetransfer* ft;
@@ -107,7 +107,7 @@ void CIcqProto::handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie,
 	OpenDirectConnection(ft->hContact, DIRECTCONN_FILE, ft);
 }
 
-filetransfer* CIcqProto::CreateFileTransfer(HCONTACT hContact, DWORD dwUin, int nVersion)
+filetransfer* CIcqProto::CreateFileTransfer(MCONTACT hContact, DWORD dwUin, int nVersion)
 {
 	filetransfer *ft = CreateIcqFileTransfer();
 
@@ -154,7 +154,7 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	wLen -= 4;
 
 	int bAdded;
-	HCONTACT hContact = HContactFromUIN(dwUin, &bAdded);
+	MCONTACT hContact = HContactFromUIN(dwUin, &bAdded);
 
 	// Initialize a filetransfer struct
 	filetransfer *ft = CreateFileTransfer(hContact, dwUin, nVersion);
@@ -191,7 +191,7 @@ void CIcqProto::handleDirectCancel(directconnect *dc, PBYTE buf, WORD wLen, WORD
 
 // *******************************************************************************
 
-void CIcqProto::icq_CancelFileTransfer(HCONTACT hContact, filetransfer* ft)
+void CIcqProto::icq_CancelFileTransfer(MCONTACT hContact, filetransfer* ft)
 {
 	DWORD dwCookie;
 

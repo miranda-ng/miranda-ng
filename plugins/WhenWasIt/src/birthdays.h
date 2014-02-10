@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_WWI_BIRTHDAYS_H
 
 struct TBirthdayContact{
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hClistIcon;
 };
 
@@ -45,19 +45,19 @@ class CBirthdays
 		CBirthdays(int initialSize = 10);
 		~CBirthdays();
 		
-		int Add(HCONTACT hContact, HANDLE hClistIcon);
+		int Add(MCONTACT hContact, HANDLE hClistIcon);
 		int Remove(int index);
-		int Remove(HCONTACT hContact);
+		int Remove(MCONTACT hContact);
 		void Clear();
 		void Destroy();
 		
-		int Index(HCONTACT hContact) const;
-		int Contains(HCONTACT hContact) const;
+		int Index(MCONTACT hContact) const;
+		int Contains(MCONTACT hContact) const;
 		
 		void SetAdvancedIconIndex(int advIcon);
 		int GetAdvancedIconIndex() const;
 		
-		HANDLE GetClistIcon(HCONTACT hContact) const;
+		HANDLE GetClistIcon(MCONTACT hContact) const;
 		
 		int Count() const;
 		int Size() const;

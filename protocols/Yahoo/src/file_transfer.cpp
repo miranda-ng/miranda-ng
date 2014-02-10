@@ -19,7 +19,7 @@
 
 YList *file_transfers=NULL;
 
-static y_filetransfer* new_ft(CYahooProto* ppro, int id, HCONTACT hContact, const char *who, const char *msg,  
+static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, const char *who, const char *msg,  
 					const char *url, const char *ft_token, int y7, YList *fs, int sending)
 {
 	yahoo_file_info * fi;
@@ -478,7 +478,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 {
 	LOG(("[ext_yahoo_got_file] ident:%s, who: %s, url: %s, expires: %lu, msg: %s, fname: %s, fsize: %lu ftoken: %s y7: %d", me, who, url, expires, msg, fname, fesize, ft_token == NULL ? "NULL" : ft_token, y7));
 
-	HCONTACT hContact = getbuddyH(who);
+	MCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) 
 		hContact = add_buddy(who, who, 0 /* NO FT for other IMs */, PALF_TEMPORARY);
 
@@ -533,7 +533,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 
 void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_token, int y7, YList* files)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	y_filetransfer *ft;
 	YList *f;
 	char fn[4096];
@@ -699,7 +699,7 @@ void __cdecl CYahooProto::send_filethread(void *psf)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CYahooProto::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
+HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
 {
 	DBVARIANT dbv;
 	y_filetransfer *sf;
@@ -763,7 +763,7 @@ HANDLE __cdecl CYahooProto::SendFile(HCONTACT hContact, const PROTOCHAR* szDescr
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CYahooProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CYahooProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
 	size_t len;
@@ -792,7 +792,7 @@ HANDLE __cdecl CYahooProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CYahooProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
+int __cdecl CYahooProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	debugLogA("[YahooFileCancel]");
 
@@ -815,7 +815,7 @@ int __cdecl CYahooProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CYahooProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
+int __cdecl CYahooProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
 {
 	/* deny file receive request.. just ignore it! */
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;

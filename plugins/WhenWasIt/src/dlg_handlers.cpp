@@ -272,7 +272,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		case IDC_PREVIEW:
 			{
-				HCONTACT hContact = db_find_first();
+				MCONTACT hContact = db_find_first();
 				int dtb = rand() % 11; //0..10
 				int age = rand() % 50 + 1; //1..50
 				PopupNotifyBirthday(hContact, dtb, age);
@@ -391,14 +391,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, lParam);
 		{
-			HCONTACT hContact = (HCONTACT)lParam;
+			MCONTACT hContact = (MCONTACT)lParam;
 			WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
 			Utils_RestoreWindowPositionNoSize(hWnd,hContact,ModuleName,"BirthdayWnd");
 		}
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		case IDOK:
 			{
 				SYSTEMTIME st;
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				HWND hDate = GetDlgItem(hWnd, IDC_DATE);
 				if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID) {
 					int mode = SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_GETCURSEL, 0, 0); //SAVE modes  in date_utils.h are synced
@@ -519,7 +519,7 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 
 #define NA TranslateT("N/A")
 
-TCHAR *GetBirthdayModule(int module, HCONTACT hContact)
+TCHAR *GetBirthdayModule(int module, MCONTACT hContact)
 {
 	switch (module) {
 		case DOB_MBIRTHDAY:        return _T("mBirthday");
@@ -569,7 +569,7 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 }
 
 //only updates the birthday part of the list view entry. Won't update the szProto and the contact name (those shouldn't change anyway :))
-int UpdateBirthdayEntry(HWND hList, HCONTACT hContact, int entry, int bShowAll, int bShowCurrentAge, int bAdd)
+int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, int bShowCurrentAge, int bAdd)
 {
 	int currentMonth, currentDay;
 	int res = entry;
@@ -655,14 +655,14 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 	case WM_LBUTTONDBLCLK:
 		{
 			int count = ListView_GetItemCount(hWnd);
-			HCONTACT hContact;
+			MCONTACT hContact;
 			LVITEM item = {0};
 			item.mask = LVIF_PARAM;
 			for (int i = 0; i < count; i++) {
 				if (ListView_GetItemState(hWnd, i, LVIS_SELECTED)) {
 					item.iItem = i;
 					ListView_GetItem(hWnd, &item);
-					hContact = (HCONTACT)item.lParam;
+					hContact = (MCONTACT)item.lParam;
 					CallService(MS_WWI_ADD_BIRTHDAY, (WPARAM) hContact, 0);
 				}
 			}
@@ -686,7 +686,7 @@ int LoadBirthdays(HWND hWnd, int bShowAll)
 	ListView_DeleteAllItems(hList);
 
 	int count = 0;
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, commonData.cShowAgeMode, 1); 
 
 	SetBirthdaysCount(hWnd);
@@ -746,7 +746,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WWIM_UPDATE_BIRTHDAY:
 		{//wParam = hContact
 			HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
-			HCONTACT hContact = (HCONTACT)wParam;
+			MCONTACT hContact = (MCONTACT)wParam;
 			int i;
 			int count = ListView_GetItemCount(hList);
 			//int bShowCurrentAge = db_get_b(NULL, ModuleName, "ShowCurrentAge", 0);
@@ -757,7 +757,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			for (i = 0; (i < count) && (!found); i++) {
 				item.iItem = i;
 				ListView_GetItem(hList, &item);
-				if (hContact == (HCONTACT)item.lParam) {
+				if (hContact == (MCONTACT)item.lParam) {
 					UpdateBirthdayEntry(hList, hContact, i, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 0); 
 					found = 1;
 				}
@@ -938,7 +938,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 DWORD WINAPI OpenMessageWindowThread(void *data)
 {
-	HCONTACT hContact = (HCONTACT)data;
+	MCONTACT hContact = (MCONTACT)data;
 	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 	CallServiceSync("SRMsg/LaunchMessageWindow", (WPARAM)hContact, 0);
 	return 0;
@@ -949,7 +949,7 @@ int HandlePopupClick(HWND hWnd, int action)
 	switch (action) {
 	case 2: //OPEN MESSAGE WINDOW
 		{
-			HCONTACT hContact = (HCONTACT)PUGetContact(hWnd);
+			MCONTACT hContact = (MCONTACT)PUGetContact(hWnd);
 			if (hContact) {
 				DWORD threadID;
 				HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, 0, &threadID);

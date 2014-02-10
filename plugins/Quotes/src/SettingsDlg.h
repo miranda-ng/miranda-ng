@@ -25,8 +25,8 @@ public:
 	static COLORREF GetDefColourBk();
 	static COLORREF GetDefColourText();
 
-	void InitForContact(HCONTACT hContact);
-	void SaveForContact(HCONTACT hContact)const;
+	void InitForContact(MCONTACT hContact);
+	void SaveForContact(MCONTACT hContact)const;
 
 	EColourMode GetColourMode()const;
 	void SetColourMode(EColourMode nMode);
@@ -101,7 +101,7 @@ private:
 	mutable CPopupSettings* m_pPopupSettings;
 };
 
-void ShowSettingsDlg(HCONTACT hContact);
+void ShowSettingsDlg(MCONTACT hContact);
 bool ShowSettingsDlg(HWND hWndParent,CAdvProviderSettings* pAdvSettings);
 
 enum 
@@ -111,8 +111,8 @@ enum
 	glfnResolveAll = glfnResolveQuoteName|glfnResolveUserProfile,
 };
 tstring GenerateLogFileName(const tstring& rsLogFilePattern,const tstring& rsQuoteSymbol,int nFlags = glfnResolveAll);
-tstring GetContactLogFileName(HCONTACT hContact);
-tstring GetContactName(HCONTACT hContact);
+tstring GetContactLogFileName(MCONTACT hContact);
+tstring GetContactName(MCONTACT hContact);
 
 #endif //__E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 

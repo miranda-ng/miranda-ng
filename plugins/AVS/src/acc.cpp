@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char proto[64];
 	HANDLE hHook;
 	HANDLE hHookMy;
@@ -556,7 +556,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 		{
 			DestroyAnimation(hwnd, data);
 
-			data->hContact = (HCONTACT)lParam;
+			data->hContact = (MCONTACT)lParam;
 			if (lParam == NULL)
 				data->proto[0] = '\0';
 			else
@@ -708,7 +708,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 		}
 		case DM_AVATARCHANGED:
 		{
-			if (data->hContact == (HCONTACT)wParam)
+			if (data->hContact == (MCONTACT)wParam)
 			{
 				DestroyAnimation(hwnd, data);
 				StartAnimation(hwnd, data);

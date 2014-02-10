@@ -515,7 +515,7 @@ struct GC_INFO
 	int       iCount;       // count of users in the nicklist
 	LPSTR     pszUsers;     // space separated string containing the UID's of the users in the user list.
 	                        // NOTE. Use Mirandas mmi_free() on the returned string.
-	HCONTACT  hContact;     // hContact for the session (can be NULL)
+	MCONTACT  hContact;     // hContact for the session (can be NULL)
 };
 
 #define MS_GC_GETINFO  "GChat/GetInfo"

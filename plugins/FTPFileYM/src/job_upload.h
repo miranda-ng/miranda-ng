@@ -65,7 +65,7 @@ public:
 	char szFileLink[256];
 	static Event jobDone;
 
-	UploadJob(HCONTACT _hContact, int _iFtpNum, EMode _mode);
+	UploadJob(MCONTACT _hContact, int _iFtpNum, EMode _mode);
 	UploadJob(UploadJob *job);
 	UploadJob(PackerJob *job);
 	virtual ~UploadJob();

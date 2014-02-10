@@ -32,7 +32,7 @@ struct SmileyToolWindowParam
 	HWND hWndParent;
 	UINT targetMessage;
 	WPARAM targetWParam;
-	HCONTACT hContact;
+	MCONTACT hContact;
 };
 
 

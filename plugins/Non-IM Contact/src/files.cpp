@@ -14,7 +14,7 @@ INT_PTR exportContacts(WPARAM wParam,LPARAM lParam)
 	if (!file)
 		return 0;
 
-	for (HCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
+	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
 		int tmp;
 		char DBVar[1024];
 		if (db_get_static(hContact, MODNAME, "Name", DBVar)) {

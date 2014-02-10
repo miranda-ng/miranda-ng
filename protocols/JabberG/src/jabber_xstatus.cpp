@@ -616,7 +616,7 @@ CPepMood::~CPepMood()
 
 void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 {
-	HCONTACT hContact = NULL, hSelfContact = NULL;
+	MCONTACT hContact = NULL, hSelfContact = NULL;
 	if (!m_proto->IsMyOwnJID(from)) {
 		hContact = m_proto->HContactFromJID(from);
 		if (!hContact) return;
@@ -659,19 +659,19 @@ void CPepMood::CreateData(HXML n)
 		moodNode << XCHILD(_T("text"), m_text);
 }
 
-void CPepMood::ResetExtraIcon(HCONTACT hContact)
+void CPepMood::ResetExtraIcon(MCONTACT hContact)
 {
 	char *szMood = m_proto->ReadAdvStatusA(hContact, ADVSTATUS_MOOD, "id");
 	SetExtraIcon(hContact, szMood);
 	mir_free(szMood);
 }
 
-void CPepMood::SetExtraIcon(HCONTACT hContact, char *szMood)
+void CPepMood::SetExtraIcon(MCONTACT hContact, char *szMood)
 {
 	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : g_MoodIcons.GetIcolibHandle(szMood));
 }
 
-void CPepMood::SetMood(HCONTACT hContact, const TCHAR *szMood, const TCHAR *szText)
+void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szText)
 {
 	int mood = -1;
 	if (szMood) {
@@ -994,7 +994,7 @@ CPepActivity::~CPepActivity()
 
 void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 {
-	HCONTACT hContact = NULL, hSelfContact = NULL;
+	MCONTACT hContact = NULL, hSelfContact = NULL;
 	if (!m_proto->IsMyOwnJID(from)) {
 		hContact = m_proto->HContactFromJID(from);
 		if (!hContact) return;
@@ -1051,19 +1051,19 @@ void CPepActivity::CreateData(HXML n)
 		activityNode << XCHILD(_T("text"), m_text);
 }
 
-void CPepActivity::ResetExtraIcon(HCONTACT hContact)
+void CPepActivity::ResetExtraIcon(MCONTACT hContact)
 {
 	char *szActivity = m_proto->ReadAdvStatusA(hContact, ADVSTATUS_ACTIVITY, "id");
 	SetExtraIcon(hContact, szActivity);
 	mir_free(szActivity);
 }
 
-void CPepActivity::SetExtraIcon(HCONTACT hContact, char *szActivity)
+void CPepActivity::SetExtraIcon(MCONTACT hContact, char *szActivity)
 {
 	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : g_ActivityIcons.GetIcolibHandle(szActivity));
 }
 
-void CPepActivity::SetActivity(HCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)
+void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)
 {
 	int activity = -1;
 	if (szFirst || szSecond) {
@@ -1194,7 +1194,7 @@ BOOL CJabberProto::SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource
 	return TRUE;
 }
 
-void CJabberProto::SetContactTune(HCONTACT hContact, LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack)
+void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack)
 {
 	if (!szArtist && !szTitle) {
 		delSetting(hContact, "ListeningTo");
@@ -1342,7 +1342,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	if (pepMood == NULL)
 		return 1;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	// fill status member
 	if (pData->flags & CSSF_MASK_STATUS)
@@ -1451,7 +1451,7 @@ void CJabberProto::RegisterAdvStatusSlot(const char *pszSlot)
 	db_set_resident(szSetting, "text");
 }
 
-void CJabberProto::ResetAdvStatus(HCONTACT hContact, const char *pszSlot)
+void CJabberProto::ResetAdvStatus(MCONTACT hContact, const char *pszSlot)
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/id", m_szModuleName, pszSlot);
@@ -1467,7 +1467,7 @@ void CJabberProto::ResetAdvStatus(HCONTACT hContact, const char *pszSlot)
 	db_unset(hContact, "AdvStatus", szSetting);
 }
 
-void CJabberProto::WriteAdvStatus(HCONTACT hContact, const char *pszSlot, const TCHAR *pszMode, const char *pszIcon, const TCHAR *pszTitle, const TCHAR *pszText)
+void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const TCHAR *pszMode, const char *pszIcon, const TCHAR *pszTitle, const TCHAR *pszText)
 {
 	char szSetting[128];
 
@@ -1490,14 +1490,14 @@ void CJabberProto::WriteAdvStatus(HCONTACT hContact, const char *pszSlot, const 
 	}
 }
 
-char* CJabberProto::ReadAdvStatusA(HCONTACT hContact, const char *pszSlot, const char *pszValue)
+char* CJabberProto::ReadAdvStatusA(MCONTACT hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 	return db_get_sa(hContact, "AdvStatus", szSetting);
 }
 
-TCHAR* CJabberProto::ReadAdvStatusT(HCONTACT hContact, const char *pszSlot, const char *pszValue)
+TCHAR* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);

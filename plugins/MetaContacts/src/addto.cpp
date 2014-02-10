@@ -56,7 +56,7 @@ int FillList(HWND list, BOOL sort)
 	int i=0;
 
 	// The DB is searched through, to get all the metacontacts
-	for (HCONTACT hMetaUser = db_find_first(); hMetaUser; hMetaUser = db_find_next(hMetaUser)) {
+	for (MCONTACT hMetaUser = db_find_first(); hMetaUser; hMetaUser = db_find_next(hMetaUser)) {
 		// if it's not a MetaContact, go to the next
 		if ( db_get_dw(hMetaUser, META_PROTO, META_ID, (DWORD)-1) == (DWORD)-1)
 			continue;
@@ -124,7 +124,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 
-		if ( db_get_dw((HCONTACT)lParam, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
+		if ( db_get_dw((MCONTACT)lParam, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
 			MessageBox(hwndDlg,
 				TranslateT("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
 				TranslateT("MetaContact Conflict"),MB_ICONERROR);
@@ -132,7 +132,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 		}
 
-		if ( db_get_dw((HCONTACT)lParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
+		if ( db_get_dw((MCONTACT)lParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
 			MessageBox(hwndDlg,
 				TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
 				TranslateT("Multiple MetaContacts"),MB_ICONERROR);
@@ -155,7 +155,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		else {
 			// get contact display name from clist
-			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((HCONTACT)lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((MCONTACT)lParam, GCDNF_TCHAR);
 			if (!ptszCDN)
 				ptszCDN = TranslateT("a contact");
 
@@ -178,8 +178,8 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (item == -1)
 					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a MetaContact"), TranslateT("No MetaContact selected"), MB_ICONHAND);
 
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				HCONTACT hMeta = (HCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, (WPARAM)item, 0);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				MCONTACT hMeta = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, (WPARAM)item, 0);
 				if (!Meta_Assign(hContact, hMeta, FALSE))
 					MessageBox(hwndDlg, TranslateT("Assignment to the MetaContact failed."), TranslateT("Assignment failure"),MB_ICONERROR);
 			}

@@ -10,7 +10,7 @@ private:
 
 	struct TContactInfo
 	{
-		HCONTACT hContact;
+		MCONTACT hContact;
 		float rate;
 		TCHAR info[INFOSIZE];
 		bool infoLoaded;
@@ -52,7 +52,7 @@ public:
 	void Unlock() { LeaveCriticalSection(&m_cs); }
 	void Rebuild();
 
-	HCONTACT get(int rate);
+	MCONTACT get(int rate);
 	float getWeight(int rate);
 	bool filter(int rate, TCHAR *str);
 };

@@ -31,7 +31,7 @@ static BOOL bOptionsInit;
 int opses_count;
 BOOL bSesssionNameChanged=0;
 
-HCONTACT session_list_t[255]={0};
+MCONTACT session_list_t[255]={0};
 
 HWND g_opHdlg;
 
@@ -46,7 +46,7 @@ int OpLoadSessionContacts(WPARAM wparam,LPARAM lparam)
 {
 	ZeroMemory(session_list_t, sizeof(session_list_t));
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (LoadContactsFromMask(hContact,1,lparam)) {
 			int i = GetInSessionOrder(hContact,1, lparam);
 			session_list_t[i] = hContact;
@@ -277,7 +277,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			if (((LPNMHDR)lparam)->idFrom  == IDC_EMCLIST)
 			{
 				int iSelection = (int)((NMCLISTCONTROL *)lparam)->hItem;
-				HCONTACT hContact = db_find_first();
+				MCONTACT hContact = db_find_first();
 				for ( ; hContact; hContact = db_find_next(hContact))
 					if (SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection)
 						break;
@@ -319,11 +319,11 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						if (!hOpClistControl)
 							EnableWindow(GetDlgItem(hdlg,IDC_DEL),TRUE);
 						else {
-							for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact,0);
 
 							for (int i=0 ; session_list_t[i] > 0; i++) {
-								HCONTACT hContact = (HCONTACT)SendMessage(hOpClistControl, CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
+								MCONTACT hContact = (MCONTACT)SendMessage(hOpClistControl, CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
 								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact, 1);
 							}
 							EnableWindow(GetDlgItem(hdlg,IDC_SAVE),FALSE);
@@ -366,7 +366,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case IDC_SAVE:
 			{
 				int i=0;
-				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					BYTE res =(BYTE)SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_GETCHECKMARK,
 						SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 					if (res) {

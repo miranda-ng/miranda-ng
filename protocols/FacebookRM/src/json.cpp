@@ -424,7 +424,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 						participant = chatroom->second.participants.find(reader_id);
 						if (participant != chatroom->second.participants.end()) {
-							HCONTACT hChatContact = proto->ChatIDToHContact(tid);
+							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 							const char *participant_name = participant->second.c_str();
 
 							if (!chatroom->second.message_readers.empty())
@@ -438,7 +438,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						}
 					}
  				} else { // classic contact
-					HCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
+					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 					if (hContact) {
 						TCHAR ttime[64], tstr[100];
 						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
@@ -519,7 +519,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						}
 					}
 
-					HCONTACT hChatContact = NULL;
+					MCONTACT hChatContact = NULL;
 
 					// RM TODO: better use check if chatroom exists/is in db/is online... no?
 					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
@@ -627,7 +627,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			facebook_user fbu;
 			fbu.user_id = json_as_pstring(from);
 
-			HCONTACT hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
+			MCONTACT hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
 				
 			if (proto->isOnline() && proto->getWord(hContact, "Status", 0) == ID_STATUS_OFFLINE)
 				proto->setWord(hContact, "Status", ID_STATUS_ONLINE);

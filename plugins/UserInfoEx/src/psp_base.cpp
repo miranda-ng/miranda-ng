@@ -58,7 +58,7 @@ INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_NOTIFY:
 			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
-				HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				LPSTR pszProto;
 
 				switch (((LPNMHDR)lParam)->code) {

@@ -445,7 +445,7 @@ void CAppletManager::ActivateCListScreen()
 //************************************************************************
 // activates the chat screen
 //************************************************************************
-bool CAppletManager::ActivateChatScreen(HCONTACT hContact)
+bool CAppletManager::ActivateChatScreen(MCONTACT hContact)
 {
 	if(!m_ChatScreen.SetContact(hContact))
 		return false;
@@ -461,7 +461,7 @@ bool CAppletManager::ActivateChatScreen(HCONTACT hContact)
 //************************************************************************
 // returns the contacts displayname
 //************************************************************************
-tstring CAppletManager::GetContactDisplayname(HCONTACT hContact,bool bShortened)
+tstring CAppletManager::GetContactDisplayname(MCONTACT hContact,bool bShortened)
 {
 	if(!bShortened || !CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF))
 		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -476,7 +476,7 @@ tstring CAppletManager::GetContactDisplayname(HCONTACT hContact,bool bShortened)
 //************************************************************************
 // returns the contacts group
 //************************************************************************
-tstring CAppletManager::GetContactGroup(HCONTACT hContact)
+tstring CAppletManager::GetContactGroup(MCONTACT hContact)
 {
 	DBVARIANT dbv;
 	int res = db_get_ts(hContact, "CList", "Group",	&dbv);
@@ -649,7 +649,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 	}
 }
 
-bool CAppletManager::IsUtfSendAvailable(HCONTACT hContact) {
+bool CAppletManager::IsUtfSendAvailable(MCONTACT hContact) {
 	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if ( szProto == NULL )
 		return FALSE;
@@ -660,7 +660,7 @@ bool CAppletManager::IsUtfSendAvailable(HCONTACT hContact) {
 //************************************************************************
 // returns the contacts message service name
 //************************************************************************
-char *CAppletManager::GetMessageServiceName(HCONTACT hContact,bool bIsUnicode)
+char *CAppletManager::GetMessageServiceName(MCONTACT hContact,bool bIsUnicode)
 {
 	char szServiceName[100];
 	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
@@ -785,7 +785,7 @@ void CAppletManager::CancelMessageJob(SMessageJob *pJob)
 //************************************************************************
 // returns wether or not a contact is a subcontact
 //************************************************************************
-bool CAppletManager::IsSubContact(HCONTACT hContact)
+bool CAppletManager::IsSubContact(MCONTACT hContact)
 {
 	if(!db_get_b(0, "MetaContacts", "Enabled", 1))
 		return false;
@@ -798,7 +798,7 @@ bool CAppletManager::IsSubContact(HCONTACT hContact)
 //************************************************************************
 // sends typing notifications to the specified contact
 //************************************************************************
-void CAppletManager::SendTypingNotification(HCONTACT hContact,bool bEnable)
+void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
 {
 	DWORD protoStatus;
     DWORD protoCaps;
@@ -841,7 +841,7 @@ void CAppletManager::SendTypingNotification(HCONTACT hContact,bool bEnable)
 //************************************************************************
 // sends a message to the specified contact
 //************************************************************************
-HANDLE CAppletManager::SendMessageToContact(HCONTACT hContact,tstring strMessage)
+HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage)
 {
 	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
 	int bufSize = lstrlen(strAscii.c_str())+1;
@@ -924,7 +924,7 @@ HANDLE CAppletManager::SendMessageToContact(HCONTACT hContact,tstring strMessage
 //************************************************************************
 // check if a contacts message window is opened
 //************************************************************************
-bool CAppletManager::IsMessageWindowOpen(HCONTACT hContact)
+bool CAppletManager::IsMessageWindowOpen(MCONTACT hContact)
 {
 	MessageWindowInputData mwid;
 	mwid.cbSize = sizeof(MessageWindowInputData);
@@ -942,7 +942,7 @@ bool CAppletManager::IsMessageWindowOpen(HCONTACT hContact)
 //************************************************************************
 // marks the given message as read
 //************************************************************************
-void CAppletManager::MarkMessageAsRead(HCONTACT hContact,HANDLE hEvent)
+void CAppletManager::MarkMessageAsRead(MCONTACT hContact,HANDLE hEvent)
 {
 	db_event_markRead(hContact, hEvent);
 	CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hEvent);
@@ -953,7 +953,7 @@ void CAppletManager::MarkMessageAsRead(HCONTACT hContact,HANDLE hEvent)
 //************************************************************************
 bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	HANDLE hdbevent = (HANDLE)lParam;
 
 
@@ -1163,7 +1163,7 @@ CIRCConnection *CAppletManager::CreateIRCConnection(tstring strProtocol)
 //************************************************************************
 // returns the history class for the specified IRC channel
 //************************************************************************
-CIRCHistory *CAppletManager::GetIRCHistory(HCONTACT hContact)
+CIRCHistory *CAppletManager::GetIRCHistory(MCONTACT hContact)
 {
 	list<CIRCHistory*>::iterator iter = m_LIRCHistorys.begin();
 	while(iter != m_LIRCHistorys.end())
@@ -1190,7 +1190,7 @@ CIRCHistory *CAppletManager::GetIRCHistoryByName(tstring strProtocol,tstring str
 //************************************************************************
 // deletes the history class for the specified IRC channel
 //************************************************************************
-void CAppletManager::DeleteIRCHistory(HCONTACT hContact)
+void CAppletManager::DeleteIRCHistory(MCONTACT hContact)
 {
 	list<CIRCHistory*>::iterator iter = m_LIRCHistorys.begin();
 	while(iter != m_LIRCHistorys.end())
@@ -1214,7 +1214,7 @@ void CAppletManager::DeleteIRCHistory(HCONTACT hContact)
 //************************************************************************
 // creates a history class for the specified IRC channel
 //************************************************************************
-CIRCHistory *CAppletManager::CreateIRCHistory(HCONTACT hContact,tstring strChannel)
+CIRCHistory *CAppletManager::CreateIRCHistory(MCONTACT hContact,tstring strChannel)
 {
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if(!szProto)
@@ -1582,7 +1582,7 @@ int CAppletManager::HookMessageWindowEvent(WPARAM wParam, LPARAM lParam)
 //************************************************************************
 int CAppletManager::HookContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	int iState = (int)lParam;
 
 	CEvent Event;
@@ -1621,7 +1621,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	// Prepare message and append to queue
 	CEvent Event;
-	Event.hContact = (HCONTACT)wParam;
+	Event.hContact = (MCONTACT)wParam;
 	int iStatus = cws->value.wVal;
 	Event.iValue = iStatus;
 
@@ -1821,7 +1821,7 @@ int CAppletManager::HookContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	CEvent Event;
 	Event.eType = EVENT_CONTACT_ADDED;
-	Event.hContact = (HCONTACT)wParam;
+	Event.hContact = (MCONTACT)wParam;
 
 	CAppletManager::GetInstance()->HandleEvent(&Event);
 	return 0;
@@ -1834,7 +1834,7 @@ int CAppletManager::HookContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	CEvent Event;
 	Event.eType = EVENT_CONTACT_DELETED;
-	Event.hContact = (HCONTACT)wParam;
+	Event.hContact = (MCONTACT)wParam;
 	Event.bNotification = CConfig::GetBoolSetting(NOTIFY_CONTACTS);
 	Event.bLog = Event.bNotification;
 
@@ -1854,7 +1854,7 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	
 	CEvent Event;
-	Event.hContact = (HCONTACT)wParam;
+	Event.hContact = (MCONTACT)wParam;
 
 	if(!lstrcmpA(dbcws->szModule,"MetaContacts"))
 	{
@@ -1865,7 +1865,7 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 		if(!lstrcmpA(dbcws->szSetting,"IsSubcontact")) {
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts((HCONTACT)wParam, "CList", "Group",	&dbv);
+			int res = db_get_ts((MCONTACT)wParam, "CList", "Group",	&dbv);
 			if(!res)
 					Event.strValue = dbv.ptszVal;
 			db_free(&dbv);
@@ -1910,13 +1910,13 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 		if(!lstrcmpA(dbcws->szSetting,"Hidden"))
 		{
 			Event.eType = EVENT_CONTACT_HIDDEN;
-			Event.iValue = db_get_b((HCONTACT)wParam,"CList","Hidden",0);
+			Event.iValue = db_get_b((MCONTACT)wParam,"CList","Hidden",0);
 		}
 		else if(!lstrcmpA(dbcws->szSetting,"Group"))
 		{
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts((HCONTACT)wParam, "CList", "Group",	&dbv);
+			int res = db_get_ts((MCONTACT)wParam, "CList", "Group",	&dbv);
 			if(!res)
 					Event.strValue = dbv.ptszVal;
 			db_free(&dbv);

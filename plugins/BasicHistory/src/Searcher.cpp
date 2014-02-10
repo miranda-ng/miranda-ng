@@ -223,7 +223,7 @@ void Searcher::Find()
 				if (sel < 0) {
 					isFindContactChanged = true;
 					if (allUsers) {
-						HCONTACT hNext = context->hContact;
+						MCONTACT hNext = context->hContact;
 						do
 						{
 							hNext = context->GetNextContact(hNext, adder2);
@@ -237,7 +237,7 @@ void Searcher::Find()
 				else if (sel >= (int)context->eventList.size()) {
 					isFindContactChanged = true;
 					if (allUsers) {
-						HCONTACT hNext = context->hContact;
+						MCONTACT hNext = context->hContact;
 						do
 						{
 							hNext = context->GetNextContact(hNext, adder2);

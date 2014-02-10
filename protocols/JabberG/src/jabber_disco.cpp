@@ -406,7 +406,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 			{
 				if ((item=ListGetItemPtrFromIndex(i)) != NULL) {
 					if (_tcschr(item->jid, '@') == NULL && _tcschr(item->jid, '/') == NULL && item->subscription!=SUB_NONE) {
-						HCONTACT hContact = HContactFromJID(item->jid);
+						MCONTACT hContact = HContactFromJID(item->jid);
 						if (hContact != NULL)
 							setByte(hContact, "IsTransport", TRUE);
 
@@ -1237,7 +1237,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 		if (!items[i].feature) {
 			if (items[i].title) {
-				HCONTACT hContact;
+				MCONTACT hContact;
 				if ((items[i].action == SD_ACT_USERMENU) && (hContact = HContactFromJID(pNode->GetJid()))) {
 					HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 					AppendMenu(hMenu, MF_STRING|MF_POPUP, (UINT_PTR)hContactMenu, TranslateTS(items[i].title));
@@ -1397,7 +1397,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 	case SD_ACT_USERMENU:
 		{
-			HCONTACT hContact = HContactFromJID(pNode->GetJid());
+			MCONTACT hContact = HContactFromJID(pNode->GetJid());
 			if (!hContact) {
 				hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), TRUE, FALSE);
 				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
@@ -1413,12 +1413,12 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	case SD_ACT_VCARD:
 		{
 			TCHAR *jid = pNode->GetJid();
-			HCONTACT hContact = HContactFromJID(pNode->GetJid());
+			MCONTACT hContact = HContactFromJID(pNode->GetJid());
 			if (!hContact) {
 				JABBER_SEARCH_RESULT jsr={0};
 				mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s"), jid);
 				jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
-				hContact = (HCONTACT)CallProtoService(m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
+				hContact = (MCONTACT)CallProtoService(m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
 			}
 			if (ListGetItemPtr(LIST_VCARD_TEMP, pNode->GetJid()) == NULL) {
 				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
@@ -1432,7 +1432,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 	case SD_ACT_ROSTER:
 		{
-			HCONTACT hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), FALSE, FALSE);
+			MCONTACT hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), FALSE, FALSE);
 			db_unset(hContact, "CList", "NotOnList");
 			JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 			item->bUseResource = TRUE;
@@ -1453,7 +1453,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 	default:
 		if ((res >= CLISTMENUIDMIN) && (res <= CLISTMENUIDMAX)) {
-			HCONTACT hContact = HContactFromJID(pNode->GetJid());
+			MCONTACT hContact = HContactFromJID(pNode->GetJid());
 			if (hContact)
 				CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, MPCF_CONTACTMENU), (LPARAM)hContact);
 		}

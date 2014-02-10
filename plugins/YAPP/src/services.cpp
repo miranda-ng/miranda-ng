@@ -162,7 +162,7 @@ void ShowPopup(PopupData &pd_in)
 static INT_PTR GetContact(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndPop = (HWND)wParam;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	if (GetCurrentThreadId() == message_pump_thread_id)
 		SendMessage(hwndPop, PUM_GETCONTACT, (WPARAM)&hContact, 0);
 	else {

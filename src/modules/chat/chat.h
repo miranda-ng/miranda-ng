@@ -55,11 +55,11 @@ char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 char*  Log_SetStyle(int style);
 
 // clist.c
-BOOL     AddEvent(HCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
-HCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
-HCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom);
+BOOL     AddEvent(MCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
+MCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom);
 BOOL     SetAllOffline(BOOL bHide, const char *pszModule);
-BOOL     SetOffline(HCONTACT hContact, BOOL bHide);
+BOOL     SetOffline(MCONTACT hContact, BOOL bHide);
 
 int      RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
 INT_PTR  EventDoubleclicked(WPARAM wParam,LPARAM lParam);
@@ -99,7 +99,7 @@ BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);
 BOOL   DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);
 BOOL   DoPopup(SESSION_INFO *si, GCEVENT *gce);
-int    ShowPopup(HCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+int    ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 
 const TCHAR*  my_strstri(const TCHAR* s1, const TCHAR* s2);
 

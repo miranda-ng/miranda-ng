@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 struct QueueItem
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DWORD check_time;
 };
 
@@ -31,6 +31,6 @@ void InitPolls();
 void UninitPolls();
 
 // Add an contact to a queue
-void QueueAdd(HCONTACT hContact);
+void QueueAdd(MCONTACT hContact);
 
 #endif // __POLL_H__

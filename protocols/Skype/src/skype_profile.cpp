@@ -1,7 +1,7 @@
 #include "skype.h"
 #include <sstream>
 
-void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileAvatar(SEObject *obj, MCONTACT hContact)
 {
 	uint newTS = obj->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
 	//if (!newTS) return; //uncomment when skypekit will be work correctly
@@ -50,7 +50,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileAboutText(SEObject *obj, MCONTACT hContact)
 {
 	ptrW aboutText(::mir_utf8decodeW(obj->GetStrProp(/* *::P_ABOUT */ 18)));
 	if ( !::wcslen(aboutText))
@@ -59,7 +59,7 @@ void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "About", aboutText);
 }
 
-void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileBirthday(SEObject *obj, MCONTACT hContact)
 {
 	uint data = obj->GetUintProp(/* *::P_BIRTHDAY */ 7);
 	if (data > 0)
@@ -96,7 +96,7 @@ void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileCity(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileCity(SEObject *obj, MCONTACT hContact)
 {
 	ptrW city(::mir_utf8decodeW(obj->GetStrProp(/* *::P_CITY */ 12)));
 	if ( !::wcslen(city))
@@ -105,7 +105,7 @@ void CSkypeProto::UpdateProfileCity(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "City", city);
 }
 
-void CSkypeProto::UpdateProfileCountry(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileCountry(SEObject *obj, MCONTACT hContact)
 {
 	char *country;
 	ptrA isocode(::mir_strdup(obj->GetStrProp(/* *::P_COUNTRY */ 10)));
@@ -118,7 +118,7 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileEmails(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileEmails(SEObject *obj, MCONTACT hContact)
 {
 	ptrW emails(::mir_utf8decodeW(obj->GetStrProp(/* *::P_EMAILS */ 16)));
 	if (::wcscmp(emails, L"") == 0)
@@ -141,7 +141,7 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileFullName(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileFullName(SEObject *obj, MCONTACT hContact)
 {
 	ptrW fullname(::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5)));
 	if ( !::wcslen(fullname))
@@ -159,7 +159,7 @@ void CSkypeProto::UpdateProfileFullName(SEObject *obj, HCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileGender(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileGender(SEObject *obj, MCONTACT hContact)
 {
 	uint data = obj->GetUintProp(/* *::P_GENDER */ 8);
 	if (data)
@@ -168,7 +168,7 @@ void CSkypeProto::UpdateProfileGender(SEObject *obj, HCONTACT hContact)
 		this->delSetting(hContact, "Gender");
 }
 
-void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileHomepage(SEObject *obj, MCONTACT hContact)
 {
 	ptrW homepage(::mir_utf8decodeW(obj->GetStrProp(/* *::P_HOMEPAGE */ 17)));
 	if (::wcscmp(homepage, L"") == 0)
@@ -177,7 +177,7 @@ void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "Homepage", homepage);
 }
 
-void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileLanguages(SEObject *obj, MCONTACT hContact)
 {
 	ptrW isocodes(::mir_utf8decodeW(obj->GetStrProp(/* *::P_LANGUAGES */ 9)));
 
@@ -199,7 +199,7 @@ void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, MCONTACT hContact)
 {
 	ptrW phone(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PHONE_MOBILE */ 15)));
 	if ( !::wcslen(phone))
@@ -208,7 +208,7 @@ void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "Cellular", phone);
 }
 
-void CSkypeProto::UpdateProfileNick(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileNick(SEObject *obj, MCONTACT hContact)
 {
 	ptrW nick;
 	if (hContact)
@@ -225,7 +225,7 @@ void CSkypeProto::UpdateProfileNick(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "Nick", nick);
 }
 
-void CSkypeProto::UpdateProfilePhone(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfilePhone(SEObject *obj, MCONTACT hContact)
 {
 	ptrW phone(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PHONE_MOBILE */ 13)));
 	if ( !::wcslen(phone))
@@ -234,7 +234,7 @@ void CSkypeProto::UpdateProfilePhone(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "Phone", phone);
 }
 
-void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, MCONTACT hContact)
 {
 	ptrW phone(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PHONE_OFFICE */ 14)));
 	if ( !::wcslen(phone))
@@ -243,7 +243,7 @@ void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "CompanyPhone", phone);		
 }
 
-void CSkypeProto::UpdateProfileState(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileState(SEObject *obj, MCONTACT hContact)
 {
 	ptrW state(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PROVINCE */ 11)));
 	if ( !::wcslen(state))
@@ -252,7 +252,7 @@ void CSkypeProto::UpdateProfileState(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "State", state);		
 }
 
-void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, MCONTACT hContact)
 {
 	ptrW statusMessage(::mir_utf8decodeW(obj->GetStrProp(/* *::P_MOOD_TEXT */ 26)));
 	if ( !::wcslen(statusMessage))
@@ -261,7 +261,7 @@ void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HCONTACT hContact)
 		this->setTString(hContact, "XStatusMsg", statusMessage);
 }
 
-void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfileTimezone(SEObject *obj, MCONTACT hContact)
 {
 	LONG data = obj->GetUintProp(/* *::P_TIMEZONE */ 27);
 	if (data > 0)
@@ -286,7 +286,7 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HCONTACT hContact)
 	else this->delSetting(hContact, "Timezone");
 }
 
-void CSkypeProto::UpdateProfile(SEObject *obj, HCONTACT hContact)
+void CSkypeProto::UpdateProfile(SEObject *obj, MCONTACT hContact)
 {
 	this->debugLogW(L"Updating profile for %p", hContact);
 	this->UpdateProfileAvatar(obj, hContact);

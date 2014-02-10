@@ -31,7 +31,7 @@
 void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		setWord( hContact, "Status", ID_STATUS_OFFLINE );
 		setDword(hContact, "IdleTS", 0);
 		setDword(hContact, "PictLastCheck", 0);
@@ -83,7 +83,7 @@ void CYahooProto::BroadcastStatus(int s)
 int __cdecl CYahooProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	debugLogA("[YahooContactDeleted]");
 
@@ -254,11 +254,11 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM lParam)
 	/**
 	 * We don't show profile for users using other IM clients through the IM server bridge
 	 */
-	if (getWord((HCONTACT)wParam, "yprotoid", 0) != 0) {
+	if (getWord((MCONTACT)wParam, "yprotoid", 0) != 0) {
 		return 0;
 	}
 
-	if (getString((HCONTACT)wParam, YAHOO_LOGINID, &dbv))
+	if (getString((MCONTACT)wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 
 	mir_snprintf(tUrl, sizeof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
@@ -497,7 +497,7 @@ void CYahooProto::MenuUninit( void )
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	const HCONTACT hContact = (HCONTACT)wParam;
+	const MCONTACT hContact = (MCONTACT)wParam;
 	if (!IsMyContact(hContact)) {
 		debugLogA("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;

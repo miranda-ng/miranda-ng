@@ -23,22 +23,22 @@ Avatar History Plugin
 HGENMENU hMenu = NULL; 
 DWORD WINAPI AvatarDialogThread(LPVOID param);
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
-int ShowSaveDialog(HWND hwnd, TCHAR* fn,HCONTACT hContact = NULL);
+int ShowSaveDialog(HWND hwnd, TCHAR* fn,MCONTACT hContact = NULL);
 
 BOOL ProtocolEnabled(const char *proto);
-int FillAvatarListFromDB(HWND list, HCONTACT hContact);
-int FillAvatarListFromFolder(HWND list, HCONTACT hContact);
-int FillAvatarListFromFiles(HWND list, HCONTACT hContact);
+int FillAvatarListFromDB(HWND list, MCONTACT hContact);
+int FillAvatarListFromFolder(HWND list, MCONTACT hContact);
+int FillAvatarListFromFiles(HWND list, MCONTACT hContact);
 int CleanupAvatarPic(HWND hwnd);
 bool UpdateAvatarPic(HWND hwnd);
-TCHAR * GetContactFolder(TCHAR *fn, HCONTACT hContact);
+TCHAR * GetContactFolder(TCHAR *fn, MCONTACT hContact);
 BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file);
 
 static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam);
 
 struct AvatarDialogData
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	TCHAR fn[MAX_PATH];
 	HWND parent;
 };
@@ -65,7 +65,7 @@ public:
 	TCHAR *filelink;
 };
 
-int OpenAvatarDialog(HCONTACT hContact, char* fn)
+int OpenAvatarDialog(MCONTACT hContact, char* fn)
 {
 	HWND hAvatarWindow = WindowList_Find(hAvatarWindowsList, hContact);
 	if (hAvatarWindow)
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			DestroyMenu(menu);
 
 			ListEntry *le = (ListEntry*) SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
-			HCONTACT hContact = (HCONTACT) GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			MCONTACT hContact = (MCONTACT) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			switch(ret) {
 			case ID_AVATARLISTPOPUP_SAVEAS:
 				ShowSaveDialog(hwnd, le->filename, hContact);
@@ -302,7 +302,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 		switch(LOWORD(wParam)) {
 		case IDOK:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				HCONTACT hContact = (HCONTACT) GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				db_set_b(hContact, MODULE_NAME, "AvatarPopups", (BYTE) IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
 				db_set_b(hContact, MODULE_NAME, "LogToDisk", (BYTE) IsDlgButtonChecked(hwnd, IDC_LOGUSER));
 				db_set_b(hContact, MODULE_NAME, "LogToHistory", (BYTE) IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
@@ -324,7 +324,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 		case IDC_OPENFOLDER:
 			if (HIWORD(wParam) == BN_CLICKED && opts.log_per_contact_folders) {
 				TCHAR avfolder[MAX_PATH];
-				HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				GetContactFolder(avfolder, hContact);
 				ShellExecute(NULL, db_get_b(NULL, MODULE_NAME, "OpenFolderMethod", 0) ? _T("explore") : _T("open"), avfolder, NULL, NULL, SW_SHOWNORMAL);
 				return TRUE;
@@ -373,7 +373,7 @@ int AddFileToList(TCHAR *path,TCHAR *lnk,TCHAR *filename, HWND list)
 	return max_pos;
 }
 
-int FillAvatarListFromFiles(HWND list, HCONTACT hContact)
+int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
 	TCHAR dir[MAX_PATH], path[MAX_PATH];
@@ -400,7 +400,7 @@ int FillAvatarListFromFiles(HWND list, HCONTACT hContact)
 	return 0;
 }
 
-int FillAvatarListFromFolder(HWND list, HCONTACT hContact)
+int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
 	TCHAR dir[MAX_PATH], path[MAX_PATH];
@@ -429,7 +429,7 @@ int FillAvatarListFromFolder(HWND list, HCONTACT hContact)
 	return 0;
 }
 
-int FillAvatarListFromDB(HWND list, HCONTACT hContact)
+int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
 	BYTE blob[2048];
@@ -513,7 +513,7 @@ int CleanupAvatarPic(HWND hwnd)
 
 int PreBuildContactMenu(WPARAM wParam,LPARAM lParam) 
 {
-	char *proto = GetContactProto((HCONTACT)wParam);
+	char *proto = GetContactProto((MCONTACT)wParam);
 	Menu_ShowItem(hMenu, ProtocolEnabled(proto));
 	return 0;
 }
@@ -534,12 +534,12 @@ void InitMenuItem()
 
 static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 {
-	OpenAvatarDialog((HCONTACT)wParam, (char*)lParam);
+	OpenAvatarDialog((MCONTACT)wParam, (char*)lParam);
 	return 0;
 }
 
 
-int ShowSaveDialog(HWND hwnd, TCHAR* fn, HCONTACT hContact)
+int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 {
 	TCHAR filter[MAX_PATH];
 	TCHAR file[MAX_PATH];

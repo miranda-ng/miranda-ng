@@ -385,7 +385,7 @@ namespace popup_options
 		POPUPDATAT popup = {};
 
 		// Pick a random contact
-		HCONTACT hContact = 0;
+		MCONTACT hContact = 0;
 		int n_contacts = (int)CallService(MS_DB_CONTACT_GETCOUNT,0,0);
 
 		if(n_contacts != 0)

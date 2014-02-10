@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CSendEmail : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendEmail(HWND Owner, HCONTACT hContact, bool bFreeOnExit);
+		CSendEmail(HWND Owner, MCONTACT hContact, bool bFreeOnExit);
 		~CSendEmail();
 
 		void					Send();

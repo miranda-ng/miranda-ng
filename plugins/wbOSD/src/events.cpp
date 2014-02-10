@@ -23,7 +23,7 @@ void showmsgwnd(unsigned int param)
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)param, 0);
 }
 
-LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, HCONTACT user)
+LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, MCONTACT user)
 {
 	logmsg("ShowOSD");
 
@@ -72,7 +72,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 
 int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT) wParam;
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	logmsg("ContactSettingChanged1");
@@ -98,7 +98,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 
 int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT) wParam;
+	MCONTACT hContact = (MCONTACT) wParam;
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
 	DWORD ann=db_get_dw(NULL,THIS_MODULE,"announce", DEFAULT_ANNOUNCE);
@@ -196,7 +196,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 
 	TCHAR buffer[512];
 	mir_sntprintf(buffer, SIZEOF(buffer), buf, c1, c2);
-	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), (HCONTACT)wParam);
+	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), (MCONTACT)wParam);
 
 	mir_free( c1 );
 	mir_free( c2 );

@@ -255,7 +255,7 @@ void DisplayLastError(const TCHAR *pszError)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-const TCHAR* NickFromHandle(HCONTACT hContact)
+const TCHAR* NickFromHandle(MCONTACT hContact)
 {
 	const TCHAR *psz = (const TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 	if (psz )
@@ -279,7 +279,7 @@ const TCHAR* NickFromHandle(HCONTACT hContact)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring _DBGetStringW(HCONTACT hContact,const char *szModule,const char *szSetting, const TCHAR *pszError )
+tstring _DBGetStringW(MCONTACT hContact,const char *szModule,const char *szSetting, const TCHAR *pszError )
 {
 	tstring ret;
 	DBVARIANT dbv = {0};
@@ -302,7 +302,7 @@ tstring _DBGetStringW(HCONTACT hContact,const char *szModule,const char *szSetti
 	return ret;
 }
 
-string _DBGetStringA(HCONTACT hContact,const char *szModule,const char *szSetting, const char *pszError )
+string _DBGetStringA(MCONTACT hContact,const char *szModule,const char *szSetting, const char *pszError )
 {
 	string ret;
 	DBVARIANT dbv = {0};
@@ -596,7 +596,7 @@ void ReplaceDBPath( tstring &sRet )
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring GetFilePathFromUser( HCONTACT hContact )
+tstring GetFilePathFromUser( MCONTACT hContact )
 {
 	tstring sFilePath = sExportDir + _DBGetString( hContact, MODULE, "FileName", sDefaultFile.c_str());
 
@@ -707,7 +707,7 @@ tstring GetFilePathFromUser( HCONTACT hContact )
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring FileNickFromHandle( HCONTACT hContact)
+tstring FileNickFromHandle( MCONTACT hContact)
 {
 	tstring ret = NickFromHandle( hContact);
 	string::size_type nCur = 0;
@@ -754,7 +754,7 @@ void ReplaceAllNoColon( tstring &sSrc, const TCHAR *pszReplace, tstring &sNew)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceDefines( HCONTACT hContact, tstring & sTarget )
+void ReplaceDefines( MCONTACT hContact, tstring & sTarget )
 {
 	if (sTarget.find( _T("%nick%")) != string::npos )
 	{
@@ -899,7 +899,7 @@ void UpdateFileToColWidth()
 {
 	clFileTo1ColWidth.clear();
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		tstring sNick = NickFromHandle( hContact);
 		string::size_type &rnValue = clFileTo1ColWidth[ GetFilePathFromUser( hContact) ];
 		if (rnValue  < sNick.size())
@@ -997,7 +997,7 @@ void DisplayErrorDialog( const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO 
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ExportDBEventInfo(HCONTACT hContact, DBEVENTINFO &dbei )
+void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei )
 {
 	TCHAR szTemp[500];
 	tstring sFilePath = GetFilePathFromUser( hContact);
@@ -1410,7 +1410,7 @@ void ExportDBEventInfo(HCONTACT hContact, DBEVENTINFO &dbei )
 
 int nExportEvent(WPARAM wparam,LPARAM lparam)
 {
-	HCONTACT hContact = (HCONTACT)wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	HANDLE hDbEvent = (HANDLE)lparam;
 	if ( !db_get_b(hContact,MODULE,"EnableLog",1))
 		return 0;
@@ -1583,7 +1583,7 @@ SuperBreak:
 
 int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 {
-	HCONTACT hContact = (HCONTACT)wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	
 	HWND hInternalWindow = WindowList_Find(hInternalWindowList,hContact);
 	if(hInternalWindow)
@@ -1595,7 +1595,7 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 	tstring sFilePath = GetFilePathFromUser( hContact);
 
 	// Test if there is another user using this file
-	for(HCONTACT hOtherContact = db_find_first();hOtherContact;hOtherContact = db_find_next(hOtherContact))
+	for(MCONTACT hOtherContact = db_find_first();hOtherContact;hOtherContact = db_find_next(hOtherContact))
 		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser( hOtherContact))
 			return 0; // we found another contact abort mission :-)
 

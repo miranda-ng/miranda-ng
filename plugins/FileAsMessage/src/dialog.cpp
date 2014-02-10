@@ -64,7 +64,7 @@ char cCmdList[CMD_COUNT] =
 
 static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = PUGetContact(hWnd);
+	MCONTACT hContact = PUGetContact(hWnd);
 	HWND hDlg = (HWND)PUGetPluginData(hWnd);
 /*
 	if(hContact)
@@ -112,7 +112,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 //
 // Just create simple Popup for specified contact
 //
-void MakePopupMsg(HWND hDlg, HCONTACT hContact, char *msg)
+void MakePopupMsg(HWND hDlg, MCONTACT hContact, char *msg)
 {
 	HWND hFocused = GetForegroundWindow();
 	if(hDlg == hFocused || hDlg == GetParent(hFocused)) return;
@@ -156,7 +156,7 @@ int RetrieveFileSize(char *filename)
 	return handle;
 }
 
-FILEECHO::FILEECHO(HCONTACT Contact)
+FILEECHO::FILEECHO(MCONTACT Contact)
 {
 	hContact = Contact;
 	dwSendInterval = db_get_dw(NULL, SERVICE_NAME, "SendDelay", 6000);

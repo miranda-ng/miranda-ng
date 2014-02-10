@@ -7,7 +7,7 @@ static UINT_PTR timerId = 0;
 struct DeleteEventNode {
 	DeleteEventNode *next;
 	time_t timestamp;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hDbEvent;
 };
 struct DeleteEventHead {
@@ -45,7 +45,7 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 // add prefix to sent messages
 int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	if (!options.prefix_messages || !lParam) return 0;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->eventType != EVENTTYPE_MESSAGE) || !(dbei->flags & DBEF_SENT) || (dbei->flags & DBEF_OTR_PREFIXED))
 		return 0;
@@ -58,7 +58,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 		return 0;
 	
 	if(g_metaproto && strcmp(proto, g_metaproto) == 0) {
-		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (!hContact) return 0;
 		proto = contact_get_proto(hContact);
 		if (!proto )	return 0;
@@ -191,8 +191,8 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
 	if (!db_event_get((HANDLE)lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
-			HCONTACT hContact = (HCONTACT)wParam, hSub;
-			if(options.bHaveMetaContacts && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+			MCONTACT hContact = (MCONTACT)wParam, hSub;
+			if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 				hContact = hSub;
 
 			ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
@@ -223,7 +223,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void FinishSession(HCONTACT hContact) {
+void FinishSession(MCONTACT hContact) {
 	if (!hContact) return;
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
 	TrustLevel level = otr_context_get_trust(context);
@@ -247,8 +247,8 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 
 	if(mwd->uType != MSG_WINDOW_EVT_OPEN) return 0;
 
-	HCONTACT hContact = mwd->hContact, hTemp;
-	if(options.bHaveMetaContacts && (hTemp = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	MCONTACT hContact = mwd->hContact, hTemp;
+	if(options.bHaveMetaContacts && (hTemp = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hTemp;
 
 	if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME))
@@ -271,14 +271,14 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 	if(status != ID_STATUS_OFFLINE ) return 0;
 	
 	const char *proto = (char *)lParam;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	lib_cs_lock();
 	
 		ConnContext *context = otr_user_state->context_root;
 		while(context) {
 			if(context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == 0 || strcmp(proto, context->protocol) == 0)) {
-				hContact = (HCONTACT)context->app_data;
+				hContact = (MCONTACT)context->app_data;
 				
 				if(hContact) {
 					otrl_message_disconnect(otr_user_state, &ops, (void*)hContact, context->accountname, context->protocol, context->username);
@@ -296,7 +296,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	int status=0;
 	switch (cws->value.type){
 		case DBVT_WORD:

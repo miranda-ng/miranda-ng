@@ -1,6 +1,6 @@
 #include "headers.h"
 
-static BOOL Convert(HCONTACT hContact, char* module, char* setting, int value, int toType) // 0 = byte, 1 = word, 2 = dword, 3 = string
+static BOOL Convert(MCONTACT hContact, char* module, char* setting, int value, int toType) // 0 = byte, 1 = word, 2 = dword, 3 = string
 {
     int Result = 1;
 	char temp[64];
@@ -30,7 +30,7 @@ static BOOL Convert(HCONTACT hContact, char* module, char* setting, int value, i
 }
 
 
-BOOL convertSetting(HCONTACT hContact, char* module, char* setting, int toType) // 0 = byte, 1 = word, 2 = dword, 3 = string, 4 = unicode
+BOOL convertSetting(MCONTACT hContact, char* module, char* setting, int toType) // 0 = byte, 1 = word, 2 = dword, 3 = string, 4 = unicode
 {
 	DBVARIANT dbv = {0};
 	BOOL Result = 0;
@@ -419,7 +419,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
-void editSetting(HCONTACT hContact, char* module, char* setting)
+void editSetting(MCONTACT hContact, char* module, char* setting)
 {
 	DBVARIANT dbv = {0}; // freed in the dialog
 	if (!GetSetting(hContact,module, setting, &dbv))

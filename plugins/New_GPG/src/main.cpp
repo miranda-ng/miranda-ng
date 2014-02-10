@@ -1281,7 +1281,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	static MCONTACT hContact = INVALID_CONTACT_ID;
 	void ImportKey();
 	TCHAR *tmp = NULL;
 	switch (msg)
@@ -1314,8 +1314,8 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 		case IDC_IMPORT_AND_USE:
 			ImportKey();
 			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
-			void setSrmmIcon(HCONTACT hContact);
-			void setClistIcon(HCONTACT hContact);
+			void setSrmmIcon(MCONTACT hContact);
+			void setClistIcon(MCONTACT hContact);
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 			DestroyWindow(hwndDlg);
@@ -1899,7 +1899,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 
 static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	MCONTACT hContact = INVALID_CONTACT_ID;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -2274,7 +2274,7 @@ void InitCheck()
 
 void ImportKey()
 {
-	HCONTACT hContact = new_key_hcnt;
+	MCONTACT hContact = new_key_hcnt;
 	new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
 	if(metaIsProtoMetaContacts(hContact))
@@ -2287,7 +2287,7 @@ void ImportKey()
 			int count = metaGetContactsNum(hContact);
 			for(int i = 0; i < count; i++)
 			{
-				HCONTACT hcnt = metaGetSubcontact(hContact, i);
+				MCONTACT hcnt = metaGetSubcontact(hContact, i);
 				if(hcnt)
 					db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
 			}
@@ -2341,7 +2341,7 @@ void ImportKey()
 					int count = metaGetContactsNum(hContact);
 					for(int i = 0; i < count; i++)
 					{
-						HCONTACT hcnt = metaGetSubcontact(hContact, i);
+						MCONTACT hcnt = metaGetSubcontact(hContact, i);
 						if(hcnt)
 						{
 							char *tmp = NULL;

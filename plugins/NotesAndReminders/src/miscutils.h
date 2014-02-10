@@ -1,13 +1,13 @@
-void ReadSettingBlob(HCONTACT hContact, char *ModuleName,
+void ReadSettingBlob(MCONTACT hContact, char *ModuleName,
 					 char *SettingName, WORD *pSize, void **pbBlob);
 void FreeSettingBlob(WORD pSize,void * pbBlob);
-BOOL ReadSettingBool(HCONTACT hContact,char *ModuleName,
+BOOL ReadSettingBool(MCONTACT hContact,char *ModuleName,
 					 char *SettingName,BOOL Default);
-void WriteSettingBool(HCONTACT hContact,char *ModuleName,
+void WriteSettingBool(MCONTACT hContact,char *ModuleName,
 					  char *SettingName,BOOL Value);
-void WriteSettingIntArray(HCONTACT hContact,char *ModuleName,
+void WriteSettingIntArray(MCONTACT hContact,char *ModuleName,
 					 char *SettingName,const int *Value, int Size);
-bool ReadSettingIntArray(HCONTACT hContact,char *ModuleName,
+bool ReadSettingIntArray(MCONTACT hContact,char *ModuleName,
 				   char *SettingName,int *Value, int Size);
 
 WORD ConvertHotKeyToControl(WORD HK);

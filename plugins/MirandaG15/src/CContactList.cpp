@@ -78,12 +78,12 @@ CContactListEntry *CContactList::GetContactData(CListEntry<CContactListEntry*,CC
 //************************************************************************
 // returns the contacts group path
 //************************************************************************
-tstring CContactList::GetContactGroupPath(HCONTACT hContact)
+tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 {
 	tstring strGroup = _T("");
 	if(db_get_b(0, "MetaContacts", "Enabled", 1) && CAppletManager::IsSubContact(hContact))
 	{
-		HCONTACT hMetaContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL);
+		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL);
 		if(CConfig::GetBoolSetting(CLIST_USEGROUPS))
 			strGroup = CAppletManager::GetContactGroup(hMetaContact);
 
@@ -98,7 +98,7 @@ tstring CContactList::GetContactGroupPath(HCONTACT hContact)
 //************************************************************************
 // adds a contact to the list
 //************************************************************************
-void CContactList::AddContact(HCONTACT hContact)
+void CContactList::AddContact(MCONTACT hContact)
 {
 	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = NULL;
 
@@ -151,16 +151,16 @@ void CContactList::AddContact(HCONTACT hContact)
 
 		// check that all subcontacts exist
 		int numContacts = CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hContact,0);
-		HCONTACT hSubContact = NULL;
+		MCONTACT hSubContact = NULL;
 		for(int i=0;i<numContacts;i++) {
-			hSubContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, (LPARAM)i);
+			hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, (LPARAM)i);
 			RemoveContact(hSubContact);
 			AddContact(hSubContact);
 		}
 		return;
 	}
 	else if(CAppletManager::IsSubContact(hContact)) {
-		HCONTACT hMetaContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 		// check that the metacontact exists
 		if(!FindContact(hMetaContact)) {
 			AddContact(hMetaContact);
@@ -206,7 +206,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 		if(pEntry->iStatus == ID_STATUS_OFFLINE) {
 			DWORD dwNumContacts = (DWORD)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)pEntry->hHandle,0);
 			for(DWORD i = 0; i < dwNumContacts; i++) {
-				HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)pEntry->hHandle,i);
+				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)pEntry->hHandle,i);
 				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hSubContact,0);
 				if(db_get_w(hSubContact,szProto,"Status",ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 					return true;
@@ -222,7 +222,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 		if(db_get_b(pEntry->hHandle,"CList","Hidden",0))
 			return false;
 		else if(CAppletManager::IsSubContact(pEntry->hHandle)) {
-			HCONTACT hMetaContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)pEntry->hHandle, 0);
+			MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)pEntry->hHandle, 0);
 			if(db_get_b(hMetaContact,"CList","Hidden",0))
 				return false;
 		}
@@ -241,7 +241,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 //************************************************************************
 // removes a contact from the list
 //************************************************************************
-void CContactList::RemoveContact(HCONTACT hContact) {
+void CContactList::RemoveContact(MCONTACT hContact) {
 	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = NULL;
 	
 	///tstring strGroup = GetContactGroupPath(hContact);
@@ -281,7 +281,7 @@ void CContactList::RemoveContact(HCONTACT hContact) {
 			// Reenumerate all subcontacts (maybe MetaContacts was disabled
 			int numContacts = CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hContact,0);
 			for(int i=0;i<numContacts;i++) {
-				HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)hContact, (LPARAM)i);
+				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)hContact, (LPARAM)i);
 				if(!FindContact(hSubContact))
 					AddContact(hSubContact);
 			}
@@ -366,7 +366,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::AddGroupByS
 //************************************************************************
 // returns the contact's status
 //************************************************************************
-int CContactList::GetContactStatus(HCONTACT hContact)
+int CContactList::GetContactStatus(MCONTACT hContact)
 {
 	CListEntry<CContactListEntry *,CContactListGroup*> *pContactEntry = FindContact(hContact);
 	if(!pContactEntry)
@@ -550,7 +550,7 @@ void CContactList::RefreshList()
 	m_bUseMetaContacts = db_get_b(NULL,"MetaContacts","Enabled",1);
 
 	CListEntry<CContactListEntry*,CContactListGroup*> *pContactEntry = NULL;
-	HCONTACT hContact = db_find_first();
+	MCONTACT hContact = db_find_first();
     while(hContact != NULL)
 	{
 		pContactEntry = FindContact(hContact);
@@ -619,7 +619,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::FindGroupIn
 //************************************************************************
 // returns the entry for the specified handle
 //************************************************************************
-CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContact(HCONTACT hContact)
+CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContact(MCONTACT hContact)
 {
 	if(hContact == NULL)
 		return NULL;
@@ -630,7 +630,7 @@ CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContact(HCO
 //************************************************************************
 // returns the entry for the specified handle
 //************************************************************************
-CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContactInGroup(HCONTACT hContact,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup)
+CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContactInGroup(MCONTACT hContact,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup)
 {
 	if(hContact == NULL)
 		return NULL;
@@ -666,7 +666,7 @@ CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContactInGr
 //************************************************************************
 // called when a contacts hidden flag has changed
 //************************************************************************
-void CContactList::OnContactHiddenChanged(HCONTACT hContact, bool bHidden)
+void CContactList::OnContactHiddenChanged(MCONTACT hContact, bool bHidden)
 {
 	CListEntry<CContactListEntry*,CContactListGroup*> *pContactEntry =  FindContact(hContact);
 
@@ -685,7 +685,7 @@ void CContactList::OnContactHiddenChanged(HCONTACT hContact, bool bHidden)
 //************************************************************************
 // called when a contacts nickname has changed
 //************************************************************************
-void CContactList::OnContactNickChanged(HCONTACT hContact, tstring strNick)
+void CContactList::OnContactNickChanged(MCONTACT hContact, tstring strNick)
 {
 	CListEntry<CContactListEntry *,CContactListGroup*> *pContactEntry = FindContact(hContact);
 	if(!pContactEntry)
@@ -711,7 +711,7 @@ void CContactList::OnContactNickChanged(HCONTACT hContact, tstring strNick)
 //************************************************************************
 // called when a contacts status has changed
 //************************************************************************
-void CContactList::OnStatusChange(HCONTACT hContact,int iStatus)
+void CContactList::OnStatusChange(MCONTACT hContact,int iStatus)
 {
 	// find the entry in the list
 	CListEntry<CContactListEntry *,CContactListGroup*> *pContactEntry = FindContact(hContact);
@@ -764,7 +764,7 @@ void CContactList::OnStatusChange(HCONTACT hContact,int iStatus)
 //************************************************************************
 // called when the contacts message count has changed
 //************************************************************************
-void CContactList::OnMessageCountChanged(HCONTACT hContact)
+void CContactList::OnMessageCountChanged(MCONTACT hContact)
 {
 	CListEntry<CContactListEntry *,CContactListGroup*> *pContactEntry = FindContact(hContact);
 	if(!pContactEntry)
@@ -784,7 +784,7 @@ void CContactList::OnMessageCountChanged(HCONTACT hContact)
 //************************************************************************
 // called when a contact has been added
 //************************************************************************
-void CContactList::OnContactAdded(HCONTACT hContact)
+void CContactList::OnContactAdded(MCONTACT hContact)
 {
 	// Update the list
 	AddContact(hContact);
@@ -805,7 +805,7 @@ void CContactList::OnContactAdded(HCONTACT hContact)
 //************************************************************************
 // called when a contact has been deleted
 //************************************************************************
-void CContactList::OnContactDeleted(HCONTACT hContact)
+void CContactList::OnContactDeleted(MCONTACT hContact)
 {
 	// Update the list
 	RemoveContact(hContact);
@@ -829,7 +829,7 @@ void CContactList::OnContactDeleted(HCONTACT hContact)
 //************************************************************************
 // called when a contacts group has changed
 //************************************************************************
-void CContactList::OnContactGroupChanged(HCONTACT hContact,tstring strGroup)
+void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 {
 	bool bMetaContact = false;
 	
@@ -1013,7 +1013,7 @@ void CContactList::InitializeGroupObjects()
 	int res = 0;
 	CContactListGroup *pGroup = NULL;
 	
-	HCONTACT hContact =  db_find_first();
+	MCONTACT hContact =  db_find_first();
 	HANDLE hMetaContact = NULL;
 	char *szProto = NULL;
 	while(hContact != NULL)

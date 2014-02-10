@@ -253,7 +253,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	myGlobals.WantAeroAdaption = db_get_b(NULL, MODNAME, SET_PROPSHEET_AEROADAPTION, TRUE);
 
 	// allow only one dialog per user
-	if (HWND hWnd = WindowList_Find(ghWindowList, (HCONTACT)wParam)) {
+	if (HWND hWnd = WindowList_Find(ghWindowList, (MCONTACT)wParam)) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 		return 0;
@@ -285,7 +285,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	ImageList_AddIcon(psh._hImages, hDefIcon);
 
 	// init contact
-	psh._hContact = (HCONTACT)wParam;
+	psh._hContact = (MCONTACT)wParam;
 	if (psh._hContact == NULL) {
 		// mark owner icons as initiated
 		bInitIcons |= INIT_ICONS_OWNER;
@@ -294,7 +294,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// get contact's protocol
-		psh._pszPrefix = psh._pszProto = DB::Contact::Proto((HCONTACT)wParam);
+		psh._pszPrefix = psh._pszProto = DB::Contact::Proto((MCONTACT)wParam);
 		if (psh._pszProto == NULL) {
 			MsgErr(NULL, LPGENT("Could not find contact's protocol. Maybe it is not active!"));
 			return 1;
@@ -313,12 +313,12 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 
 	// metacontacts sub pages
 	if (bScanMetaSubContacts) {
-		int numSubs = DB::MetaContact::SubCount((HCONTACT)wParam);
+		int numSubs = DB::MetaContact::SubCount((MCONTACT)wParam);
 
 		psh._dwFlags &= ~PSF_PROTOPAGESONLY_INIT;
 		psh._dwFlags |= PSF_PROTOPAGESONLY;
 		for (int i = 0; i < numSubs; i++) {
-			psh._hContact = DB::MetaContact::Sub((HCONTACT)wParam, i);
+			psh._hContact = DB::MetaContact::Sub((MCONTACT)wParam, i);
 			psh._nSubContact = i;
 			if (psh._hContact) {
 				psh._pszProto = DB::Contact::Proto(psh._hContact);
@@ -326,7 +326,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 					NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 			}
 		}
-		psh._hContact = (HCONTACT)wParam;
+		psh._hContact = (MCONTACT)wParam;
 	}
 
 	// sort the pages by the position read from database
@@ -409,7 +409,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 **/
 static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 {
-	HWND hWnd = WindowList_Find(ghWindowList, (HCONTACT)wParam);
+	HWND hWnd = WindowList_Find(ghWindowList, (MCONTACT)wParam);
 	if (hWnd != NULL)
 		DestroyWindow(hWnd);
 	return 0;
@@ -986,15 +986,15 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				: pPs->pTree->CurrentItem();
 
 			// prefer to return the contact accociated with the current page
-			if (pti && pti->hContact() != (HCONTACT)INVALID_HANDLE_VALUE) {
-				*(HCONTACT*)lParam = pti->hContact();
+			if (pti && pti->hContact() != INVALID_CONTACT_ID) {
+				*(MCONTACT*)lParam = pti->hContact();
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pti->hContact());
 				return TRUE;
 			}
 
 			// return contact who owns the details dialog
-			if (pPs->hContact != (HCONTACT)INVALID_HANDLE_VALUE) {
-				*(HCONTACT*)lParam = pPs->hContact;
+			if (pPs->hContact != INVALID_CONTACT_ID) {
+				*(MCONTACT*)lParam = pPs->hContact;
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pPs->hContact);
 				return TRUE;
 			}
@@ -1356,13 +1356,13 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case HM_SETTING_CHANGED:
 		if (!(pPs->dwFlags & PSF_LOCKED)) {
-			HCONTACT hContact = (HCONTACT)wParam;
+			MCONTACT hContact = (MCONTACT)wParam;
 			DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
 			if (hContact != pPs->hContact) {
 				if (!myGlobals.szMetaProto)
 					break;
-				if (pPs->hContact != (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL))
+				if (pPs->hContact != (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL))
 					break;
 				if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))
 					break;
@@ -1593,7 +1593,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					// count valid subcontacts whose protocol supports the PSS_GETINFO service to update the information
 					int numSubs = DB::MetaContact::SubCount(pPs->hContact);
 					for (int i = 0; i < numSubs; i++) {
-						HCONTACT hSubContact = DB::MetaContact::Sub(pPs->hContact, i);
+						MCONTACT hSubContact = DB::MetaContact::Sub(pPs->hContact, i);
 						if (hSubContact != NULL) {
 							if (ProtoServiceExists(DB::Contact::Proto(hSubContact), PSS_GETINFO)) {
 								pPs->infosUpdated = (TAckInfo*)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo)* (pPs->nSubContacts + 1));

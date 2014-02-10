@@ -52,7 +52,7 @@ static HGENMENU g_hMenuItems[2];
 static HANDLE g_hMenuEvts[3];
 
 // Helper functions
-static TwitterProto * GetInstanceByHContact(HCONTACT hContact)
+static TwitterProto * GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if(!proto)
@@ -68,7 +68,7 @@ static TwitterProto * GetInstanceByHContact(HCONTACT hContact)
 template<INT_PTR (__cdecl TwitterProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
-	TwitterProto *proto = GetInstanceByHContact(HCONTACT(wParam));
+	TwitterProto *proto = GetInstanceByHContact(MCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
@@ -76,7 +76,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
 	ShowContactMenus(false);
 
-	TwitterProto *proto = GetInstanceByHContact(HCONTACT(wParam));
+	TwitterProto *proto = GetInstanceByHContact(MCONTACT(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 

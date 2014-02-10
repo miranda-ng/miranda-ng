@@ -41,7 +41,7 @@ INT_PTR GetContactTimeZoneInformation(WPARAM wParam,LPARAM lParam)
 {
 	//use new core tz interface
 	LPTIME_ZONE_INFORMATION pTimeZoneInformation = (LPTIME_ZONE_INFORMATION)lParam;
-	(*pTimeZoneInformation) = *tmi.getTzi(tmi.createByContact((HCONTACT)wParam, 0));
+	(*pTimeZoneInformation) = *tmi.getTzi(tmi.createByContact((MCONTACT)wParam, 0));
 	return (pTimeZoneInformation == NULL);
 }
 
@@ -58,7 +58,7 @@ INT_PTR GetContactLocalTime(WPARAM wParam, LPARAM lParam)
 {
 	//use new core tz interface
 	LPSYSTEMTIME pSystemTime = (LPSYSTEMTIME)lParam;
-	return (INT_PTR)tmi.getTimeZoneTimeByContact((HCONTACT)wParam, pSystemTime);
+	return (INT_PTR)tmi.getTimeZoneTimeByContact((MCONTACT)wParam, pSystemTime);
 }
 
 /***********************************************************************************************************

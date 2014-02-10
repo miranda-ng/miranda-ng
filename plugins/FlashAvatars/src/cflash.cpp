@@ -31,13 +31,13 @@ int __fastcall strcmpnull(const char *str1, const char *str2) {
 
 struct flash_avatar_item : public MZeroedObject
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	FLASHAVATAR hFA;
 	IShockwaveFlash* pFlash;
 
 	char* getProto() { return (hFA.cProto) ? hFA.cProto : GetContactProto(hFA.hContact); }
 
-	flash_avatar_item(HCONTACT contact, FLASHAVATAR& fa, IShockwaveFlash *flash) { hContact = contact; hFA = fa; pFlash = flash; }
+	flash_avatar_item(MCONTACT contact, FLASHAVATAR& fa, IShockwaveFlash *flash) { hContact = contact; hFA = fa; pFlash = flash; }
 };
 
 static int CompareFlashItems(const flash_avatar_item* p1, const flash_avatar_item* p2) {
@@ -477,13 +477,13 @@ static int statusChanged(WPARAM wParam, LPARAM lParam)
 	Lock l(cs);
 	for(int i = 0; i < FlashList.getCount(); i++) {
 		flash_avatar_item *item = FlashList[i];
-		if (item->hContact == (HCONTACT)wParam) {
+		if (item->hContact == (MCONTACT)wParam) {
   		IShockwaveFlash* flash = item->pFlash;
 			if (flash) {
 				getFace();
 				flash->SetVariable(L"face.emotion", _bstr_t(face).copy());
 			}
-		} else if (item->hContact > (HCONTACT)wParam)
+		} else if (item->hContact > (MCONTACT)wParam)
 			break; // the list is sorted by hContact
 	}
 	return 0;
@@ -542,7 +542,7 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 				face = AV_NORMAL;
 			}
 
-			HCONTACT hContact = (dbei.flags & DBEF_SENT) ? 0 : (HCONTACT)wParam;
+			MCONTACT hContact = (dbei.flags & DBEF_SENT) ? 0 : (MCONTACT)wParam;
 			for(int i=0; i<FlashList.getCount(); i++) {
 				flash_avatar_item *item = FlashList[i];
 				if (item->hContact == hContact && !strcmpnull(dbei.szModule, item->getProto())) {

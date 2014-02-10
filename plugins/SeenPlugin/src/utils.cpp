@@ -20,8 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "seen.h"
 
-void FileWrite(HCONTACT);
-void HistoryWrite(HCONTACT hcontact);
+void FileWrite(MCONTACT);
+void HistoryWrite(MCONTACT hcontact);
 
 extern HANDLE g_hShutdownEvent;
 char * courProtoName = 0;
@@ -96,7 +96,7 @@ BOOL isMSN(char *protoname)
 	return FALSE;
 }
 
-DWORD isSeen(HCONTACT hcontact, SYSTEMTIME *st)
+DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 {
 	FILETIME ft;
 	ULONGLONG ll;
@@ -142,7 +142,7 @@ TCHAR *wdays_short[] = { LPGENT("Sun."), LPGENT("Mon."), LPGENT("Tue."), LPGENT(
 TCHAR *monthnames[] = { LPGENT("January"), LPGENT("February"), LPGENT("March"), LPGENT("April"), LPGENT("May"), LPGENT("June"), LPGENT("July"), LPGENT("August"), LPGENT("September"), LPGENT("October"), LPGENT("November"), LPGENT("December") };
 TCHAR *mnames_short[] = { LPGENT("Jan."), LPGENT("Feb."), LPGENT("Mar."), LPGENT("Apr."), LPGENT("May"), LPGENT("Jun."), LPGENT("Jul."), LPGENT("Aug."), LPGENT("Sep."), LPGENT("Oct."), LPGENT("Nov."), LPGENT("Dec.") };
 
-TCHAR *ParseString(TCHAR *szstring, HCONTACT hcontact, BYTE isfile)
+TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 {
 #define MAXSIZE 1024
 	static TCHAR sztemp[MAXSIZE+1];
@@ -386,7 +386,7 @@ LBL_charPtr:
 	return sztemp;
 }
 
-void _DBWriteTime(SYSTEMTIME *st, HCONTACT hcontact)
+void _DBWriteTime(SYSTEMTIME *st, MCONTACT hcontact)
 {
 	db_set_w(hcontact,S_MOD,"Day",st->wDay);
 	db_set_w(hcontact,S_MOD,"Month",st->wMonth);
@@ -398,7 +398,7 @@ void _DBWriteTime(SYSTEMTIME *st, HCONTACT hcontact)
 
 }
 
-void DBWriteTimeTS(DWORD t, HCONTACT hcontact){
+void DBWriteTimeTS(DWORD t, MCONTACT hcontact){
 	SYSTEMTIME st;
 	FILETIME ft;
 	ULONGLONG ll = UInt32x32To64(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL,t,0), 10000000) + NUM100NANOSEC;
@@ -454,7 +454,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch(message) {
 		case WM_COMMAND: 
 			if (HIWORD(wParam) == STN_CLICKED){
-				HCONTACT hContact = PUGetContact(hwnd);
+				MCONTACT hContact = PUGetContact(hwnd);
 				if (hContact > 0) CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
 			}
 		case WM_CONTEXTMENU:
@@ -465,7 +465,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, message, wParam, lParam);
 };
 
-void ShowPopup(HCONTACT hcontact, const char * lpzProto, int newStatus)
+void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 {
 	if ( CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE))
 		return;
@@ -502,7 +502,7 @@ void ShowPopup(HCONTACT hcontact, const char * lpzProto, int newStatus)
 	PUAddPopupT(&ppd);
 }
 
-void myPlaySound(HCONTACT hcontact, WORD newStatus, WORD oldStatus)
+void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 {
 	if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
@@ -548,7 +548,7 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 	// to make this code faster
 	if (!wparam) return 0;
 
-	HCONTACT hContact = (HCONTACT)wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING *)lparam;
 	//if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE)) return 0;
 	BOOL isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
@@ -642,7 +642,7 @@ static void cleanThread(void *param)
 
 	// I hope in 10 secons all logged-in contacts will be listed
 	if ( WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
-		for (HCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+		for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
 			WORD oldStatus = db_get_w(hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
 			if (oldStatus > ID_STATUS_OFFLINE) {
 				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
@@ -711,7 +711,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-short int isDbZero(HCONTACT hContact, const char *module_name, const char *setting_name)
+short int isDbZero(MCONTACT hContact, const char *module_name, const char *setting_name)
 {
 	DBVARIANT dbv;
 	if ( !db_get(hContact, module_name, setting_name, &dbv)) {
@@ -729,7 +729,7 @@ short int isDbZero(HCONTACT hContact, const char *module_name, const char *setti
 	return -1;
 }
 
-TCHAR *any_to_IdleNotidleUnknown(HCONTACT hContact, const char *module_name, const char *setting_name, TCHAR *buff, int bufflen) {
+TCHAR *any_to_IdleNotidleUnknown(MCONTACT hContact, const char *module_name, const char *setting_name, TCHAR *buff, int bufflen) {
 	short int r = isDbZero(hContact, module_name, setting_name);
 	if (r==-1){
 		_tcsncpy(buff, TranslateT("Unknown"), bufflen);
@@ -740,7 +740,7 @@ TCHAR *any_to_IdleNotidleUnknown(HCONTACT hContact, const char *module_name, con
 	return buff;
 }
 
-TCHAR *any_to_Idle(HCONTACT hContact, const char *module_name, const char *setting_name, TCHAR *buff, int bufflen) {
+TCHAR *any_to_Idle(MCONTACT hContact, const char *module_name, const char *setting_name, TCHAR *buff, int bufflen) {
 	if (isDbZero(hContact, module_name, setting_name)==0) { //DB setting is NOT zero and exists
 		buff[0] = L'/';
 		_tcsncpy(&buff[1], TranslateT("Idle"), bufflen-1);

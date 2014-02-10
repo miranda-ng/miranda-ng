@@ -134,8 +134,8 @@ static int MetaChanged(WPARAM wParam, LPARAM lParam)
 
 	AVATARCACHEENTRY *ace;
 
-	HCONTACT hContact = (HCONTACT)wParam;
-	HCONTACT hSubContact = GetContactThatHaveTheAvatar(hContact);
+	MCONTACT hContact = (MCONTACT)wParam;
+	MCONTACT hSubContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hSubContact, TRUE);
@@ -190,7 +190,7 @@ static void LoadAccountInfo(PROTOACCOUNT *acc)
 	g_ProtoPictures.insert(pce);
 
 	pce = new protoPicCacheEntry;
-	CreateAvatarInCache((HCONTACT)-1, pce, acc->szModuleName);
+	CreateAvatarInCache((MCONTACT)-1, pce, acc->szModuleName);
 	pce->szProtoname = mir_strdup(acc->szModuleName);
 	pce->tszAccName = mir_tstrdup(acc->tszAccountName);
 	g_MyAvatars.insert(pce);
@@ -242,7 +242,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	DeleteAvatarFromCache((HCONTACT)wParam, TRUE);
+	DeleteAvatarFromCache((MCONTACT)wParam, TRUE);
 	return 0;
 }
 
@@ -401,7 +401,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// Load global avatar
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
-	CreateAvatarInCache((HCONTACT)-1, pce, "");
+	CreateAvatarInCache((MCONTACT)-1, pce, "");
 	pce->szProtoname = mir_strdup("");
 	g_MyAvatars.insert(pce);
 

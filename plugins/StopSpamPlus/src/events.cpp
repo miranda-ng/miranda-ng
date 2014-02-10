@@ -20,7 +20,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 
 	// event is an auth request
 	if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
-		HCONTACT hcntct = DbGetAuthEventContact(&dbei);
+		MCONTACT hcntct = DbGetAuthEventContact(&dbei);
 
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
@@ -48,7 +48,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 {
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 	DBEVENTINFO *dbei = (DBEVENTINFO*)l;
 	if (dbei == NULL) //fix potential DEP crash
 		return 0;
@@ -188,7 +188,7 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 
 MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 {
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)l;
 
 	// if CList/NotOnList is being deleted then remove answeredSetting

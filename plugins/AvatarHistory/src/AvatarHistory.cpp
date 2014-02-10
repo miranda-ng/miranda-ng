@@ -40,7 +40,7 @@ int OptInit(WPARAM wParam,LPARAM lParam);
 
 TCHAR* GetHistoryFolder(TCHAR *fn);
 TCHAR* GetProtocolFolder(TCHAR *fn, char *proto);
-TCHAR* GetOldStyleAvatarName(TCHAR *fn, HCONTACT hContact);
+TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact);
 
 void InitMenuItem();
 
@@ -84,7 +84,7 @@ static INT_PTR GetCachedAvatar(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR IsEnabled(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT) wParam;
+	MCONTACT hContact = (MCONTACT) wParam;
 	return ContactEnabled(hContact, "LogToDisk", AVH_DEF_LOGTODISK) 
 		|| ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS)
 		|| ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY);
@@ -105,11 +105,11 @@ static INT_PTR IsEnabled(WPARAM wParam, LPARAM lParam)
 
 static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = GetContactProto((HCONTACT)wParam);
+	char *proto = GetContactProto((MCONTACT)wParam);
 	if (proto == NULL)
 		return 0;
 
@@ -158,7 +158,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
 
 					if (ServiceExists(MS_MC_GETMETACONTACT)) {
-						HCONTACT hMetaContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, wParam, 0);
+						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, wParam, 0);
 
 						if (hMetaContact != NULL && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
 							TCHAR filename[MAX_PATH] = _T("");
@@ -203,7 +203,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 					CreateOldStyleShortcut(hContact, history_filename);
 
 					if (ServiceExists(MS_MC_GETMETACONTACT)) {
-						HCONTACT hMetaContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, wParam, 0);
+						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, wParam, 0);
 						if (hMetaContact != NULL && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY))
 							CreateOldStyleShortcut(hMetaContact, history_filename);
 					}

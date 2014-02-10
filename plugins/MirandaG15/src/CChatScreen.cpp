@@ -216,7 +216,7 @@ bool CChatScreen::IsInputActive()
 //************************************************************************
 // returns the chat contact
 //************************************************************************
-HCONTACT CChatScreen::GetContact()
+MCONTACT CChatScreen::GetContact()
 {
 	return m_hContact;
 }
@@ -224,7 +224,7 @@ HCONTACT CChatScreen::GetContact()
 //************************************************************************
 // sets the screen's chat contact
 //************************************************************************
-bool CChatScreen::SetContact(HCONTACT hContact)
+bool CChatScreen::SetContact(MCONTACT hContact)
 {
 	if(hContact == NULL)
 	{

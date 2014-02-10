@@ -44,9 +44,9 @@ HWND g_hSDlg;
 BOOL DONT = FALSE;
 BOOL StartUp, isLastTRUE = FALSE, g_mode,bSC = FALSE;
 
-HCONTACT session_list[255] = { 0 };
-HCONTACT user_session_list[255] = { 0 };
-HCONTACT session_list_recovered[255];
+MCONTACT session_list[255] = { 0 };
+MCONTACT user_session_list[255] = { 0 };
+MCONTACT session_list_recovered[255];
 
 int count = 0;
 unsigned int ses_count = 0;
@@ -227,7 +227,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						GetWindowText(GetDlgItem(hdlg, IDC_LIST), szUserSessionName, SIZEOF(szUserSessionName));
 						szUserSessionName[lenght+1]='\0';
 						if (IsDlgButtonChecked(hdlg,IDC_SELCONTACTS)&&bSC) {
-							for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 								BYTE res =(BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 								if (res) {
 									user_session_list[i] = hContact;
@@ -468,7 +468,7 @@ int SaveSessionHandles(WPARAM wparam,LPARAM lparam)
 		return 1;
 
 	int k=0;
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if ((k=CheckForDuplicate(session_list,hContact)) != -1 && !(g_bExclHidden && !CheckContactVisibility(hContact))) {
 			AddSessionMark(hContact,lparam,'1');
 			AddInSessionOrder(hContact,lparam,k,1);
@@ -597,8 +597,8 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 {
 	int dup=0;
 	int hidden[255]={'0'};
-	HCONTACT hContact;
-	HCONTACT session_list_t[255] = { 0 };
+	MCONTACT hContact;
+	MCONTACT session_list_t[255] = { 0 };
 	int mode=0;
 	int i=0,j=0;
 	if ((UINT)lparam>=ses_limit&&lparam!=256)
@@ -672,7 +672,7 @@ int LoadSession(WPARAM wparam,LPARAM lparam)
 int DelUserDefSession(int ses_count)
 {
 	int i=0;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char szSessionName[256]={0};
 	TCHAR *szSessionNameBuf=NULL;
 
@@ -713,7 +713,7 @@ int DelUserDefSession(int ses_count)
 int DeleteAutoSession(int ses_count)
 {
 	int i=0;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char szSessionName[256]={0};
 
 	TCHAR *szSessionNameBuf=NULL;
@@ -964,7 +964,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		int i=0;
 		ZeroMemory(session_list_recovered, sizeof(session_list_recovered));
 
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, MODNAME, "wasInLastSession", 0))
 				session_list_recovered[i++] = hContact;
 	}

@@ -29,12 +29,12 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-int CIcqProto::getSetting(HCONTACT hContact, const char *szSetting, DBVARIANT *dbv)
+int CIcqProto::getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *dbv)
 {
 	return db_get_s(hContact, m_szModuleName, szSetting, dbv, 0);
 }
 
-double CIcqProto::getSettingDouble(HCONTACT hContact, const char *szSetting, double dDef)
+double CIcqProto::getSettingDouble(MCONTACT hContact, const char *szSetting, double dDef)
 {
 	DBVARIANT dbv = {DBVT_DELETED};
 	double dRes;
@@ -51,12 +51,12 @@ double CIcqProto::getSettingDouble(HCONTACT hContact, const char *szSetting, dou
 	return dRes;
 }
 
-DWORD CIcqProto::getContactUin(HCONTACT hContact)
+DWORD CIcqProto::getContactUin(MCONTACT hContact)
 {
 	return getDword(hContact, UNIQUEIDSETTING, 0);
 }
 
-int CIcqProto::getContactUid(HCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
+int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 {
 	DBVARIANT dbv = {DBVT_DELETED};
 	int iRes = 1;
@@ -82,7 +82,7 @@ int CIcqProto::getContactUid(HCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 	return iRes;
 }
 
-char* CIcqProto::getSettingStringUtf(HCONTACT hContact, const char *szModule, const char *szSetting, char *szDef)
+char* CIcqProto::getSettingStringUtf(MCONTACT hContact, const char *szModule, const char *szSetting, char *szDef)
 {
 	DBVARIANT dbv = {DBVT_DELETED};
 	if ( db_get_utf(hContact, szModule, szSetting, &dbv)) {
@@ -95,17 +95,17 @@ char* CIcqProto::getSettingStringUtf(HCONTACT hContact, const char *szModule, co
 	return szRes;
 }
 
-char* CIcqProto::getSettingStringUtf(HCONTACT hContact, const char *szSetting, char *szDef)
+char* CIcqProto::getSettingStringUtf(MCONTACT hContact, const char *szSetting, char *szDef)
 {
 	return getSettingStringUtf(hContact, m_szModuleName, szSetting, szDef);
 }
 
-WORD CIcqProto::getContactStatus(HCONTACT hContact)
+WORD CIcqProto::getContactStatus(MCONTACT hContact)
 {
 	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-int CIcqProto::getSettingStringStatic(HCONTACT hContact, const char *szSetting, char *dest, int dest_len)
+int CIcqProto::getSettingStringStatic(MCONTACT hContact, const char *szSetting, char *dest, int dest_len)
 {
 	if (!db_get_static(hContact, m_szModuleName, szSetting, dest, dest_len))
 		return 0;
@@ -113,17 +113,17 @@ int CIcqProto::getSettingStringStatic(HCONTACT hContact, const char *szSetting, 
 	return db_get_static_utf(hContact, m_szModuleName, szSetting, dest, dest_len);
 }
 
-int CIcqProto::setSettingDouble(HCONTACT hContact, const char *szSetting, double dValue)
+int CIcqProto::setSettingDouble(MCONTACT hContact, const char *szSetting, double dValue)
 {
 	return setSettingBlob(hContact, szSetting, (BYTE*)&dValue, sizeof(double));
 }
 
-int CIcqProto::setSettingBlob(HCONTACT hContact, const char *szSetting, const BYTE *pValue, const int cbValue)
+int CIcqProto::setSettingBlob(MCONTACT hContact, const char *szSetting, const BYTE *pValue, const int cbValue)
 {
 	return db_set_blob(hContact, m_szModuleName, szSetting, (void*)pValue, cbValue);
 }
 
-int CIcqProto::setContactHidden(HCONTACT hContact, BYTE bHidden)
+int CIcqProto::setContactHidden(MCONTACT hContact, BYTE bHidden)
 {
 	int nResult = db_set_b(hContact, "CList", "Hidden", bHidden);
 	if (!bHidden) // clear zero setting
@@ -132,7 +132,7 @@ int CIcqProto::setContactHidden(HCONTACT hContact, BYTE bHidden)
 	return nResult;
 }
 
-void CIcqProto::setStatusMsgVar(HCONTACT hContact, char* szStatusMsg, bool isAnsi)
+void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAnsi)
 {
 	if (szStatusMsg && szStatusMsg[0]) {
 		if (isAnsi) {
@@ -171,14 +171,14 @@ void CIcqProto::setStatusMsgVar(HCONTACT hContact, char* szStatusMsg, bool isAns
 	else db_unset(hContact, "CList", "StatusMsg");
 }
 
-int CIcqProto::IsICQContact(HCONTACT hContact)
+int CIcqProto::IsICQContact(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 
 	return !strcmpnull(szProto, m_szModuleName);
 }
 
-HANDLE CIcqProto::AddEvent(HCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+HANDLE CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
@@ -190,9 +190,9 @@ HANDLE CIcqProto::AddEvent(HCONTACT hContact, WORD wType, DWORD dwTime, DWORD fl
 	return db_event_add(hContact, &dbei);
 }
 
-HCONTACT CIcqProto::FindFirstContact()
+MCONTACT CIcqProto::FindFirstContact()
 {
-	HCONTACT hContact = db_find_first(m_szModuleName);
+	MCONTACT hContact = db_find_first(m_szModuleName);
 
 	if (IsICQContact(hContact))
 		return hContact;
@@ -200,7 +200,7 @@ HCONTACT CIcqProto::FindFirstContact()
 	return FindNextContact(hContact);
 }
 
-HCONTACT CIcqProto::FindNextContact(HCONTACT hContact)
+MCONTACT CIcqProto::FindNextContact(MCONTACT hContact)
 {
 	hContact = db_find_next(hContact, m_szModuleName);
 	while (hContact != NULL)
@@ -212,7 +212,7 @@ HCONTACT CIcqProto::FindNextContact(HCONTACT hContact)
 	return hContact;
 }
 
-char* CIcqProto::getContactCListGroup(HCONTACT hContact)
+char* CIcqProto::getContactCListGroup(MCONTACT hContact)
 {
 	return getSettingStringUtf(hContact, "CList", "Group", NULL);
 }

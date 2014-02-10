@@ -34,7 +34,7 @@ void MRadio::EnableDisable()
 
 int MRadio::GetData()
 {
-	for (HCONTACT hContact = db_find_first("mRadio"); hContact; hContact = db_find_next(hContact, "mRadio")) {
+	for (MCONTACT hContact = db_find_first("mRadio"); hContact; hContact = db_find_next(hContact, "mRadio")) {
 		WORD status = db_get_w(hContact, "mRadio", "Status", ID_STATUS_OFFLINE); 
 		if (status != ID_STATUS_ONLINE)
 			continue;

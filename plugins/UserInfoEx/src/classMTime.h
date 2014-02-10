@@ -90,7 +90,7 @@ public:
 	// get current time
 	void	GetTimeUTC();
 	void	GetLocalTime();
-	void	GetLocalTime(HCONTACT hContact);
+	void	GetLocalTime(MCONTACT hContact);
 
 	// conversions
 	void	UTCToLocal();
@@ -100,8 +100,8 @@ public:
 	void	TzSpecificLocalToUTC(TIME_ZONE_INFORMATION *tzi);
 
 	// read and write from and to db
-	int		DBGetStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	int		DBWriteStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int		DBGetStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int		DBWriteStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
 
 	// operatoren
 	void operator = (DWORD& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };

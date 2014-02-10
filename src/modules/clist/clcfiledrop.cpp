@@ -70,7 +70,7 @@ ULONG CDropTarget::Release(void)
 	return InterlockedDecrement(&refCount);
 }
 
-static HCONTACT HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, int *hitLine)
+static MCONTACT HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, int *hitLine)
 {
 	DWORD hitFlags;
 	ClcContact *contact;
@@ -98,7 +98,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 	struct ClcData *dat;
 	RECT clRect;
 	int hit;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	if (pDropTargetHelper && hwndCurrentDrag)
 		pDropTargetHelper->DragOver((POINT*)&pt, *pdwEffect);
@@ -220,7 +220,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	ScreenToClient(hwndCurrentDrag, &shortPt);
-	HCONTACT hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, NULL);
+	MCONTACT hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, NULL);
 	if (hContact != NULL) {
 		TCHAR **ppFiles = NULL;
 		TCHAR szFilename[MAX_PATH];

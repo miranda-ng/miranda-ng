@@ -50,7 +50,7 @@ namespace
 
 	typedef std::vector<tstring> TStrings;
 
-	bool get_double_from_parsed_line(HCONTACT hContact,const TStrings& rasParsedLine,size_t nIndex,const char* pszDbName)
+	bool get_double_from_parsed_line(MCONTACT hContact,const TStrings& rasParsedLine,size_t nIndex,const char* pszDbName)
 	{
 		if(rasParsedLine.size() > nIndex)
 		{
@@ -71,13 +71,13 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 	tstring sURL = GetURL();
 	bool bUseExtendedStatus = CModuleInfo::GetInstance().GetExtendedStatusFlag();
 
-	typedef std::map<tstring,HCONTACT> TQuoteID2ContractHandles;
+	typedef std::map<tstring,MCONTACT> TQuoteID2ContractHandles;
 	TQuoteID2ContractHandles aQuoteID2Handles;
 	tostringstream oURL;
 	oURL << sURL << _T("dioksin.txt?s=");
 	for(TContracts::const_iterator i = anContacts.begin();i != anContacts.end() && IsOnline();++i)
 	{
-		HCONTACT hContact = *i;
+		MCONTACT hContact = *i;
 		if(bUseExtendedStatus)
 		{
 			SetContactStatus(hContact,ID_STATUS_OCCUPIED);
@@ -151,7 +151,7 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 							auto it3 = aQuoteID2Handles.find(asStrings[indexSymbol]);
 							if(it3 != aQuoteID2Handles.end())
 							{
-								HCONTACT hContact = it3->second;
+								MCONTACT hContact = it3->second;
 								double dRate = 0.0;
 								if(true == t2d(asStrings[indexLastTrade],dRate))
 								{

@@ -39,7 +39,7 @@ CExImContactBase::CExImContactBase()
 	_pszUIDKey = NULL;
 	_dbvUIDHash = NULL;
 	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
-	_hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	_hContact = INVALID_CONTACT_ID;
 	_isNewContact = FALSE;
 }
 
@@ -69,7 +69,7 @@ CExImContactBase::~CExImContactBase()
  * param:	hContact	- handle to contact whose information to read
  * return:	TRUE if successful or FALSE otherwise
  **/
-BYTE CExImContactBase::fromDB(HCONTACT hContact)
+BYTE CExImContactBase::fromDB(MCONTACT hContact)
 {
 	BYTE		ret			= FALSE;
 	BYTE		isChatRoom	= FALSE;
@@ -224,14 +224,14 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
  * param:	hMetaContact - a meta contact to add this contact to
  * return:	handle of the contact if successful
  **/
-HCONTACT CExImContactBase::toDB()
+MCONTACT CExImContactBase::toDB()
 {
 	// create new contact if none exists
-	if (_hContact == (HCONTACT)INVALID_HANDLE_VALUE && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
+	if (_hContact == INVALID_CONTACT_ID && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
 		PROTOACCOUNT* pszAccount = 0;
 		if (NULL == (pszAccount = ProtoGetAccount( _pszProto ))) {
 			//account does not exist
-			return _hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+			return _hContact = INVALID_CONTACT_ID;
 		}
 		if (!IsAccountEnabled(pszAccount)) {
 			;
@@ -239,17 +239,17 @@ HCONTACT CExImContactBase::toDB()
 		// create new contact
 		_hContact = DB::Contact::Add();
 		if (!_hContact) {
-			return _hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+			return _hContact = INVALID_CONTACT_ID;
 		}
 		// Add the protocol to the new contact
 		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)_hContact, (LPARAM)_pszProto)) {
 			DB::Contact::Delete(_hContact);
-			return _hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+			return _hContact = INVALID_CONTACT_ID;
 		}
 		// write uid to protocol module
 		if (db_set(_hContact, _pszProto, _pszUIDKey, &_dbvUID)) {
 			DB::Contact::Delete(_hContact);
-			return _hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+			return _hContact = INVALID_CONTACT_ID;
 		}
 		// write nick and display name
 		if (_pszNick) db_set_utf(_hContact, _pszProto, SET_CONTACT_NICK, _pszNick);
@@ -473,7 +473,7 @@ BYTE CExImContactBase::isMeta() const
 	return DB::Module::IsMeta(_pszProto);
 }
 
-BYTE CExImContactBase::isHandle(HCONTACT hContact)
+BYTE CExImContactBase::isHandle(MCONTACT hContact)
 {
 	LPCSTR pszProto;
 	DBVARIANT dbv;
@@ -521,9 +521,9 @@ BYTE CExImContactBase::isHandle(HCONTACT hContact)
  * param:	none
  * return:	handle if successful, INVALID_HANDLE_VALUE otherwise
  **/
-HCONTACT CExImContactBase::findHandle()
+MCONTACT CExImContactBase::findHandle()
 {
-	for (HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		if (isHandle(hContact)) {
 			_hContact = hContact;
 			_isNewContact = FALSE;
@@ -531,5 +531,5 @@ HCONTACT CExImContactBase::findHandle()
 		}
 	}
 	_isNewContact = TRUE;
-	return _hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	return _hContact = INVALID_CONTACT_ID;
 }

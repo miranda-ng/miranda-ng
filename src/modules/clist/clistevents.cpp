@@ -200,7 +200,7 @@ struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 
 // Removes an event from the contact list's queue
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
-int fnRemoveEvent(HCONTACT hContact, HANDLE dbEvent)
+int fnRemoveEvent(MCONTACT hContact, HANDLE dbEvent)
 {
 	int i;
 	char *szProto;
@@ -257,9 +257,9 @@ int fnRemoveEvent(HCONTACT hContact, HANDLE dbEvent)
 	return 0;
 }
 
-CLISTEVENT* fnGetEvent(HCONTACT hContact, int idx)
+CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+	if (hContact == INVALID_CONTACT_ID) {
 		if (idx >= cli.events.count)
 			return NULL;
 		return &cli.events.items[idx]->cle;
@@ -272,7 +272,7 @@ CLISTEVENT* fnGetEvent(HCONTACT hContact, int idx)
 	return NULL;
 }
 
-int fnEventsProcessContactDoubleClick(HCONTACT hContact)
+int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 {
 	for (int i=0; i < cli.events.count; i++) {
 		if (cli.events.items[i]->cle.hContact == hContact) {
@@ -290,7 +290,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 {
 	BOOL click_in_first_icon = FALSE;
 	if (cli.events.count) {
-		HCONTACT hContact;
+		MCONTACT hContact;
 		HANDLE hDbEvent;
 		int eventIndex = 0;
 		cli.pfnLockTray();
@@ -370,8 +370,8 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 
 	for (; cli.events.count > 0;) {
 		for (hit = 0, j = 0; j < cli.events.count; j++) {
-			if (cli.events.items[j]->cle.hContact == (HCONTACT)wParam) {
-				cli.pfnRemoveEvent((HCONTACT)wParam, cli.events.items[j]->cle.hDbEvent);
+			if (cli.events.items[j]->cle.hContact == (MCONTACT)wParam) {
+				cli.pfnRemoveEvent((MCONTACT)wParam, cli.events.items[j]->cle.hDbEvent);
 				hit = 1;
 			}
 		}
@@ -384,7 +384,7 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 
 static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
 		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)
@@ -399,8 +399,8 @@ static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 INT_PTR AddEventSyncStub(WPARAM wParam, LPARAM lParam) { return CallServiceSync(MS_CLIST_ADDEVENT"_SYNC", wParam, lParam); }
 INT_PTR AddEventStub(WPARAM, LPARAM lParam) { return cli.pfnAddEvent((CLISTEVENT*)lParam) == NULL; }
-INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent((HCONTACT)wParam, (HANDLE)lParam); }
-INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent((HCONTACT)wParam, (int)lParam); }
+INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent((MCONTACT)wParam, (HANDLE)lParam); }
+INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent((MCONTACT)wParam, (int)lParam); }
 
 int InitCListEvents(void)
 {

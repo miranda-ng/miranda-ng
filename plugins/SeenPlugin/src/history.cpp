@@ -31,7 +31,7 @@ char* BuildSetting(int historyLast) {
 	return setting;
 }
 
-void HistoryWrite(HCONTACT hContact)
+void HistoryWrite(MCONTACT hContact)
 {
 	int historyMax = db_get_w(NULL, S_MOD, "HistoryMax", 10);
 	if (historyMax < 0)
@@ -64,7 +64,7 @@ void HistoryWrite(HCONTACT hContact)
 		db_set_w(hContact, S_MOD, "HistoryFirst", (historyFirst+1) % historyMax);
 }
 
-void LoadHistoryList(HCONTACT hContact, HWND hwnd, int nList)
+void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 {
 	SendDlgItemMessage(hwnd, nList, LB_RESETCONTENT, 0, 0);
 	int historyMax = db_get_w(NULL,S_MOD,"HistoryMax",10);
@@ -161,13 +161,13 @@ void MyResizeGetOffset (HWND hwndDlg, HWND hwndControl, int nWidth, int nHeight,
 
 INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARAM lparam)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	TCHAR sztemp[1024];
 
 	switch(Message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		hContact = (HCONTACT)lparam;
+		hContact = (MCONTACT)lparam;
 		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lparam);
 		mir_sntprintf(sztemp, SIZEOF(sztemp), _T("%s: %s"),
 			CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR),
@@ -199,7 +199,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		return CallService(MS_CLIST_MENUDRAWITEM,wparam,lparam);
 
 	case WM_COMMAND:
-		hContact=(HCONTACT)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
+		hContact=(MCONTACT)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 		if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wparam),MPCF_CONTACTMENU),(LPARAM)hContact))
 			break;
 
@@ -278,7 +278,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 	return FALSE;
 }
 
-void ShowHistory(HCONTACT hContact, BYTE isAlert)
+void ShowHistory(MCONTACT hContact, BYTE isAlert)
 {
 	HWND hHistoryDlg = WindowList_Find(hWindowList,hContact);
 	if (hHistoryDlg == NULL) {

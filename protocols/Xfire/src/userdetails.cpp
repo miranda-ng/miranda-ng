@@ -61,7 +61,7 @@ void LoadProfilStatus(LPVOID lparam) {
 	delete[] lparam;
 }
 
-void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HCONTACT hcontact,int type)
+void SetItemTxt(HWND hwndDlg,int feldid,char*feld,MCONTACT hcontact,int type)
 {
 	DBVARIANT dbv;
 	if (!db_get(hcontact,protocolname,feld,&dbv)) {
@@ -85,20 +85,20 @@ void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HCONTACT hcontact,int type)
 	}
 }
 
-static int GetIPPortUDetails(HCONTACT wParam,char* feld1,char* feld2)
+static int GetIPPortUDetails(MCONTACT wParam,char* feld1,char* feld2)
 {
 	char temp[255];
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if (db_get_w((HCONTACT)wParam, protocolname, feld2, -1)==0)
+	if (db_get_w((MCONTACT)wParam, protocolname, feld2, -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s((HCONTACT)wParam, protocolname, feld1,&dbv))
+	if (db_get_s((MCONTACT)wParam, protocolname, feld1,&dbv))
 		return 0;
 
-	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((HCONTACT)wParam, protocolname, feld2, -1));
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((MCONTACT)wParam, protocolname, feld2, -1));
 
 	db_free(&dbv);
 
@@ -118,7 +118,7 @@ static int GetIPPortUDetails(HCONTACT wParam,char* feld1,char* feld2)
 	return 0;
 }
 
-void addToList(HWND listbox,HCONTACT hContact,char*key,char*val)
+void addToList(HWND listbox,MCONTACT hContact,char*key,char*val)
 {
 	DBVARIANT dbv;
 	if (!db_get(hContact,protocolname,val,&dbv))
@@ -185,7 +185,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 	static WCHAR wpath[256];
 	static HICON gameicon=0;
 	static HICON voiceicon=0;
-	static HCONTACT uhandle=0;
+	static MCONTACT uhandle=0;
 	static HWND listbox;
 	LVCOLUMNA pcol;
 
@@ -245,7 +245,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 				  case PSN_INFOCHANGED:
 					{
 					  char* szProto;
-					  HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					  MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					  uhandle=hContact; //handle sichern
 
 					  if (hContact == NULL)
@@ -370,7 +370,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 						case PSN_INFOCHANGED:
 						{
 							char* szProto;
-							HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+							MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 
 							if (hContact == NULL)
 								szProto = protocolname;
@@ -429,7 +429,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 {
-	if (!IsXFireContact((HCONTACT)lParam))
+	if (!IsXFireContact((MCONTACT)lParam))
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

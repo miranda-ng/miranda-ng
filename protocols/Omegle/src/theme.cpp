@@ -47,7 +47,7 @@ HANDLE GetIconHandle(const char* name)
 }
 
 // Helper functions
-static OmegleProto * GetInstanceByHContact(HCONTACT hContact)
+static OmegleProto * GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if (!proto)

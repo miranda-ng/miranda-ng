@@ -12,12 +12,12 @@ public:
 	//--------------------------------------------------------------------------
 	// Description : handle a status change
 	//--------------------------------------------------------------------------
-	void statusChange(DBCONTACTWRITESETTING *write_setting, HCONTACT user);
+	void statusChange(DBCONTACTWRITESETTING *write_setting, MCONTACT user);
 
 	//--------------------------------------------------------------------------
 	// Description : handle an event
 	//--------------------------------------------------------------------------
-	void incomingEvent(HCONTACT user, HANDLE event);
+	void incomingEvent(MCONTACT user, HANDLE event);
 
 	//--------------------------------------------------------------------------
 	// Description : handle a protocol state change
@@ -31,8 +31,8 @@ public:
 	// Returns     : true - speak successful
 	//               false - speak failed
 	//--------------------------------------------------------------------------
-	void message(const std::wstring &sentence, HCONTACT user);
-	void status(const std::wstring &sentence, HCONTACT user);
+	void message(const std::wstring &sentence, MCONTACT user);
+	void status(const std::wstring &sentence, MCONTACT user);
 
 private:
 	//--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ private:
 	// Returns     : true = message window is open
 	//               false = message window not open
 	//--------------------------------------------------------------------------
-	bool readMessage(HCONTACT contact);
+	bool readMessage(MCONTACT contact);
 
 	HINSTANCE           m_instance;
 

@@ -35,7 +35,7 @@ BOOL IsProtocolLoaded(char* pszProtocolName)
 // If contact is specified adds it to group
 // ------------------------------------------------
 // Returns 1 if successful and 0 when it fails.
-int CreateGroup(const TCHAR* group, HCONTACT hContact)
+int CreateGroup(const TCHAR* group, MCONTACT hContact)
 {
 	if (group == NULL)
 		return 0;
@@ -75,10 +75,10 @@ int CreateGroup(const TCHAR* group, HCONTACT hContact)
 }
 
 // Returns TRUE if the event already exist in the database
-BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO dbei)
+BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 {
 	static DWORD dwPreviousTimeStamp = -1;
-	static HCONTACT hPreviousContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
 	static HANDLE hPreviousDbEvent = NULL;
 
 	HANDLE hExistingDbEvent;
@@ -220,6 +220,6 @@ BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO dbei)
 		}
 	}
 	// reset last event
-	hPreviousContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	hPreviousContact = INVALID_CONTACT_ID;
 	return FALSE;
 }

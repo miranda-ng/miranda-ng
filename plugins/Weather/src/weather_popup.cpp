@@ -36,13 +36,13 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-		!db_get_b((HCONTACT)wParam, WEATHERPROTONAME, "DPopUp", 0))
+		!db_get_b((MCONTACT)wParam, WEATHERPROTONAME, "DPopUp", 0))
 	{
-		WEATHERINFO winfo = LoadWeatherInfo((HCONTACT)wParam);
+		WEATHERINFO winfo = LoadWeatherInfo((MCONTACT)wParam);
 
 		// setup the popup
 		POPUPDATAT ppd = { 0 };
-		ppd.lchContact = (HCONTACT)wParam;
+		ppd.lchContact = (MCONTACT)wParam;
 		ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
 		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
 		GetDisplay(&winfo, opt.pText, ppd.lptzText);
@@ -120,7 +120,7 @@ int WPShowMessage(TCHAR* lpzText, WORD kind)
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 {
 	DWORD ID = 0;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	hContact = PUGetContact(hWnd);
 
 	switch(message) {
@@ -248,7 +248,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	HMENU hMenu, hMenu1;
 	RECT pos;
 	HWND button;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	switch (msg) {
 	case WM_INITDIALOG:

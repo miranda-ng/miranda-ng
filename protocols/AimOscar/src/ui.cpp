@@ -1326,14 +1326,14 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Invite to chat dialog
 
-static void clist_chat_invite_send(HCONTACT hItem, HWND hwndList, chat_list_item* item, CAimProto* ppro, char *msg)
+static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, chat_list_item* item, CAimProto* ppro, char *msg)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				clist_chat_invite_send(hItemT, hwndList, item, ppro, msg);
 		}
@@ -1359,26 +1359,26 @@ static void clist_chat_invite_send(HCONTACT hItem, HWND hwndList, chat_list_item
 				}
 			}
 		}
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 }
 
-static void clist_validate_contact(HCONTACT hItem, HWND hwndList, CAimProto* ppro)
+static void clist_validate_contact(MCONTACT hItem, HWND hwndList, CAimProto* ppro)
 {
 	if (!ppro->is_my_contact(hItem) || ppro->isChatRoom(hItem) ||
 			ppro->getWord(hItem, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
-static void clist_chat_prepare(HCONTACT hItem, HWND hwndList, CAimProto* ppro)
+static void clist_chat_prepare(MCONTACT hItem, HWND hwndList, CAimProto* ppro)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
-		HCONTACT hItemN = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		MCONTACT hItemN = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				clist_chat_prepare(hItemT, hwndList, ppro);
 		}
@@ -1423,7 +1423,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 			case CLN_NEWCONTACT:
 				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					clist_validate_contact((HCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
+					clist_validate_contact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 				break;
 
 			case CLN_LISTREBUILT:

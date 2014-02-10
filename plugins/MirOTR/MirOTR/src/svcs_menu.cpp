@@ -5,7 +5,7 @@ static HGENMENU hStopItem, hStartItem;
 ////////////////////////////////
 ///////// Menu Services ////////
 ///////////////////////////////
-int StartOTR(HCONTACT hContact) {
+int StartOTR(MCONTACT hContact) {
 	
 	const char *proto = contact_get_proto(hContact);
 	if (!proto) return 1; // error
@@ -24,8 +24,8 @@ int StartOTR(HCONTACT hContact) {
 }
 
 INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hContact = (HCONTACT)wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
+	MCONTACT hContact = (MCONTACT)wParam, hSub;
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
 		hContact = hSub;
 	}
 
@@ -47,8 +47,8 @@ INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SVC_RefreshOTR(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hContact = (HCONTACT)wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
+	MCONTACT hContact = (MCONTACT)wParam, hSub;
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
 		hContact = hSub;
 	}
 
@@ -69,10 +69,10 @@ INT_PTR SVC_RefreshOTR(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int otr_disconnect_contact(HCONTACT hContact)
+int otr_disconnect_contact(MCONTACT hContact)
 {
-	HCONTACT hSub;
-	if(ServiceExists(MS_MC_GETMOSTONLINECONTACT) && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	MCONTACT hSub;
+	if(ServiceExists(MS_MC_GETMOSTONLINECONTACT) && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
 	
 	const char *proto = contact_get_proto(hContact);
@@ -89,7 +89,7 @@ int otr_disconnect_contact(HCONTACT hContact)
 
 INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	
 	// prevent this filter from acting on injeceted messages for metas, when they are passed though the subcontact's proto send chain
 	if (otr_disconnect_contact(hContact)) return 0;
@@ -104,11 +104,11 @@ INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam)
 }
 
 INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hContact = (HCONTACT)wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	MCONTACT hContact = (MCONTACT)wParam, hSub;
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
 
-	ConnContext *context = otrl_context_find_miranda(otr_user_state, (HCONTACT)wParam);
+	ConnContext *context = otrl_context_find_miranda(otr_user_state, (MCONTACT)wParam);
 	if (!context) return 1;
 	//VerifyContextDialog(context);	
 	SMPInitDialog(context);
@@ -116,7 +116,7 @@ INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SVC_ToggleHTMLOTR(WPARAM wParam, LPARAM lParam) {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
 		db_set_b(hContact, MODULENAME, "HTMLConv", 0);
 	else
@@ -154,7 +154,7 @@ void InitMenu()
 
 int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR;
@@ -171,7 +171,7 @@ hide_all:
 	
 	if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) {
 		// make menu act as per most online subcontact
-		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		if (!hContact)
 			goto hide_all;
 		proto = contact_get_proto(hContact);

@@ -76,8 +76,8 @@ public:
 	static	void 				TSAPI RTF_ColorAdd					(const TCHAR *tszColname, size_t length);
 	static	void 				TSAPI CreateColorMap				(TCHAR *Text);
 	static	int 				TSAPI RTFColorToIndex				(int iCol);
-	static	int					TSAPI ReadContainerSettingsFromDB	(const HCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
-	static	int 				TSAPI WriteContainerSettingsToDB	(const HCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
+	static	int					TSAPI ReadContainerSettingsFromDB	(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
+	static	int 				TSAPI WriteContainerSettingsToDB	(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
 	static  void 				TSAPI SettingsToContainer			(TContainerData *pContainer);
 	static	void 				TSAPI ContainerToSettings			(TContainerData *pContainer);
 	static	void 				TSAPI ReadPrivateContainerSettings	(TContainerData *pContainer, bool fForce = false);
@@ -97,7 +97,7 @@ public:
 																	 const TCHAR *tszFilename, bool fForceOverwrite);
 	static	void				TSAPI scaleAvatarHeightLimited		(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, const LONG maxHeight);
 
-	static	AVATARCACHEENTRY*	TSAPI loadAvatarFromAVS				(const HCONTACT hContact);
+	static	AVATARCACHEENTRY*	TSAPI loadAvatarFromAVS				(const MCONTACT hContact);
 	static	void				TSAPI sanitizeFilename				(wchar_t *tszFilename);
 	static	void				TSAPI ensureTralingBackslash		(wchar_t *szPathname);
 

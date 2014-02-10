@@ -41,7 +41,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 
 INT_PTR NudgeSend(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *protoName = GetContactProto(hContact);
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
@@ -81,7 +81,7 @@ void OpenContactList()
 
 int NudgeReceived(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *protoName = GetContactProto(hContact);
 
 	DWORD currentTimestamp = time(NULL);
@@ -253,7 +253,7 @@ static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void HideNudgeButton(HCONTACT hContact)
+void HideNudgeButton(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (!ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
@@ -379,7 +379,7 @@ void LoadPopupClass()
 
 int Preview()
 {
-	HCONTACT hContact = db_find_first();
+	MCONTACT hContact = db_find_first();
 	if (GlobalNudge.useByProtocol) {
 		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next) {
 			if (n->item.enabled) {
@@ -415,7 +415,7 @@ int Preview()
 	return 0;
 }
 
-void Nudge_ShowPopup(CNudgeElement n, HCONTACT hContact, TCHAR * Message)
+void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
 {
 	hContact = Nudge_GethContact(hContact);
 	TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
@@ -449,7 +449,7 @@ void Nudge_ShowPopup(CNudgeElement n, HCONTACT hContact, TCHAR * Message)
 	else MessageBox(NULL, Message, lpzContactName, 0);
 }
 
-void Nudge_SentStatus(CNudgeElement n, HCONTACT hContact)
+void Nudge_SentStatus(CNudgeElement n, MCONTACT hContact)
 {
 	char *buff = mir_utf8encodeT(n.senText);
 
@@ -463,7 +463,7 @@ void Nudge_SentStatus(CNudgeElement n, HCONTACT hContact)
 
 	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0); //try to retrieve the metacontact if some
 	if (res != CALLSERVICE_NOTFOUND) {
-		HCONTACT hMetaContact = (HCONTACT)res;
+		MCONTACT hMetaContact = (MCONTACT)res;
 		if (hMetaContact != NULL) // metacontact
 			db_event_add(hMetaContact, &dbei);
 	}
@@ -472,7 +472,7 @@ void Nudge_SentStatus(CNudgeElement n, HCONTACT hContact)
 	mir_free(buff);
 }
 
-void Nudge_ShowStatus(CNudgeElement n, HCONTACT hContact, DWORD timestamp)
+void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 {
 	char *buff = mir_utf8encodeT(n.recText);
 
@@ -486,7 +486,7 @@ void Nudge_ShowStatus(CNudgeElement n, HCONTACT hContact, DWORD timestamp)
 
 	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0); //try to retrieve the metacontact if some
 	if (res != CALLSERVICE_NOTFOUND) {
-		HCONTACT hMetaContact = (HCONTACT)res;
+		MCONTACT hMetaContact = (MCONTACT)res;
 		if (hMetaContact != NULL) { //metacontact
 			db_event_add(hMetaContact, &dbei);
 			dbei.flags |= DBEF_READ;
@@ -497,11 +497,11 @@ void Nudge_ShowStatus(CNudgeElement n, HCONTACT hContact, DWORD timestamp)
 	mir_free(buff);
 }
 
-HCONTACT Nudge_GethContact(HCONTACT hContact)
+MCONTACT Nudge_GethContact(MCONTACT hContact)
 {
 	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 	if (res != CALLSERVICE_NOTFOUND) {
-		HCONTACT hMetaContact = (HCONTACT)res;
+		MCONTACT hMetaContact = (MCONTACT)res;
 		if (hMetaContact != NULL)
 			return hMetaContact;
 	}

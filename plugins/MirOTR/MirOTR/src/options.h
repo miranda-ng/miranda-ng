@@ -51,7 +51,7 @@ struct CONTACT_DATA {
 	OtrlPolicy policy;
 	int htmlconv;
 };
-typedef std::map<HCONTACT, CONTACT_DATA> ContactPolicyMap;
+typedef std::map<MCONTACT, CONTACT_DATA> ContactPolicyMap;
 typedef enum {FPM_VERIFY, FPM_NOTRUST, FPM_DELETE } FPModify;
 typedef std::map<Fingerprint*, FPModify> FPModifyMap;
 

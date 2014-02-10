@@ -32,7 +32,7 @@ static char szInvalidChars[] = { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' }
 int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	// We can't upload changes to NULL contact
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -60,7 +60,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			for (int i=0; i < SIZEOF(szInvalidChars); i++ ) {
 				TCHAR *p = _tcschr(nick, szInvalidChars[i]);
 				if (p != NULL) {
-					WErrorPopup((HCONTACT)"ERROR", TranslateT("Invalid symbol present in contact name."));
+					WErrorPopup((MCONTACT)"ERROR", TranslateT("Invalid symbol present in contact name."));
 					*p = '_';
 					invalidpresent =1;
 				}
@@ -111,7 +111,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int SiteDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (lstrcmpA(GetContactProto(hContact), MODULENAME))
 		return 0;
 
@@ -152,7 +152,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\%s"), cachepath, cacheend);
 
 	if( _taccess(cachedirectorypath, 0) != 0)
-		WErrorPopup((HCONTACT)"ERROR", TranslateT("Cache folder does not exist."));
+		WErrorPopup((MCONTACT)"ERROR", TranslateT("Cache folder does not exist."));
 	else
 		ShellExecute(NULL, _T("open"), cachedirectorypath, NULL, NULL, SW_SHOWNORMAL);
 	return 0;
@@ -163,11 +163,11 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	FILE *pfile = fopen("psite.bat", "r");
 	if (pfile == NULL) {
-		WErrorPopup((HCONTACT)"ERROR", TranslateT("Missing \"psite.bat\" file."));
+		WErrorPopup((MCONTACT)"ERROR", TranslateT("Missing \"psite.bat\" file."));
 		return 0;
 	}
 
-	ptrT url( db_get_tsa((HCONTACT)wParam, MODULENAME, "URL"));
+	ptrT url( db_get_tsa((MCONTACT)wParam, MODULENAME, "URL"));
 	if (url == NULL)
 		return 0;
 
@@ -188,7 +188,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM)
 {
-	db_set_b((HCONTACT)wParam, MODULENAME, STOP_KEY, 1);  
+	db_set_b((MCONTACT)wParam, MODULENAME, STOP_KEY, 1);  
 	return 0;
 }
 
@@ -251,7 +251,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 
 	// Make sure no contact has offline status for any reason on first time run     
 	if ( db_get_b(NULL, MODULENAME, "FirstTime", 100) == 100) {
-		for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
+		for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 
 		db_set_b(NULL, MODULENAME, "FirstTime", 1);
@@ -341,7 +341,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	int samename = 0;
 
 	// search for existing contact
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		// check ID to see if the contact already exist in the database
 		if (!db_get_ts(hContact, MODULENAME, "URL", &dbv)) {
 			if (!lstrcmpi(psr->nick, dbv.ptszVal)) {
@@ -359,7 +359,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (psr->nick == NULL) {
-		WErrorPopup((HCONTACT)"ERROR", TranslateT("Please select site in Find/Add contacts..."));
+		WErrorPopup((MCONTACT)"ERROR", TranslateT("Please select site in Find/Add contacts..."));
 		return 0;
 	}   
 
@@ -367,7 +367,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return NULL;
 
-	HCONTACT hContact = (HCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) MODULENAME);
 
 	/////////write to db
@@ -403,7 +403,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	TCHAR *Nend = _tcschr(Newnick, '.');
 	if (Nend) *Nend = '\0';
 
-	for (HCONTACT hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
+	for (MCONTACT hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
 		if (!db_get_ts(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			if (!lstrcmpi(Newnick, dbv.ptszVal)) {
 				// remove the flag for not on list and hidden, thus make the
@@ -461,6 +461,6 @@ INT_PTR GetInfo(WPARAM, LPARAM)
 /*****************************************************************************/
 void AckFunc(void *dummy)
 {
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
 		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }

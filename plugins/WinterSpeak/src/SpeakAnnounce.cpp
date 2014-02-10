@@ -12,7 +12,7 @@ SpeakAnnounce::~SpeakAnnounce()
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HCONTACT user)
+void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, MCONTACT user)
 {
 	const std::string STATUS = "Status";
 
@@ -66,7 +66,7 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HCONTACT 
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::incomingEvent(HCONTACT user, HANDLE event)
+void SpeakAnnounce::incomingEvent(MCONTACT user, HANDLE event)
 {
 	if (!m_event_info.isValidEvent(event))
 		return;
@@ -131,18 +131,18 @@ void SpeakAnnounce::protocolAck(ACKDATA *ack)
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::message(const std::wstring &sentence, HCONTACT user)
+void SpeakAnnounce::message(const std::wstring &sentence, MCONTACT user)
 {
 	CallService(MS_SPEAK_MESSAGE, LPARAM(user), reinterpret_cast<WPARAM>(sentence.c_str()));
 }
 
-void SpeakAnnounce::status(const std::wstring &sentence, HCONTACT user)
+void SpeakAnnounce::status(const std::wstring &sentence, MCONTACT user)
 {
 	CallService(MS_SPEAK_STATUS, LPARAM(user), reinterpret_cast<WPARAM>(sentence.c_str()));
 }
 
 //------------------------------------------------------------------------------
-bool SpeakAnnounce::readMessage(HCONTACT contact)
+bool SpeakAnnounce::readMessage(MCONTACT contact)
 {
 	std::wstring title = m_user_info.nameString(contact) + L" (" + m_user_info.statusModeString(contact) + L"): ";
 

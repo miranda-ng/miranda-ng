@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "clist.h"
 
 extern HANDLE hContactIconChangedEvent;
-extern int GetContactCachedStatus(HCONTACT hContact);
-extern char *GetContactCachedProtocol(HCONTACT hContact);
+extern int GetContactCachedStatus(MCONTACT hContact);
+extern char *GetContactCachedProtocol(MCONTACT hContact);
 
 int sortByStatus;
 static int sortByProto;
@@ -47,7 +47,7 @@ struct {
 	{ID_STATUS_ONTHEPHONE,150},
 	{ID_STATUS_OUTTOLUNCH,425}};
 
-static int GetContactStatus(HCONTACT hContact)
+static int GetContactStatus(MCONTACT hContact)
 {
 	/*
 
@@ -60,7 +60,7 @@ static int GetContactStatus(HCONTACT hContact)
 	return (GetContactCachedStatus(hContact));
 }
 
-void ChangeContactIcon(HCONTACT hContact,int iIcon,int add)
+void ChangeContactIcon(MCONTACT hContact,int iIcon,int add)
 {
 	//clui MS_CLUI_CONTACTADDED MS_CLUI_CONTACTSETICON this methods is null
 	//CallService(add?MS_CLUI_CONTACTADDED:MS_CLUI_CONTACTSETICON,(WPARAM)hContact,iIcon);
@@ -87,7 +87,7 @@ void LoadContactTree(void)
 
 	int hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(hContact);
 		if (cacheEntry == NULL) {
 			MessageBoxA(0,"Fail To Get CacheEntry for hContact","!!!!!",0);
@@ -114,7 +114,7 @@ void LoadContactTree(void)
 
 int CompareContacts( const struct ClcContact *contact1, const struct ClcContact *contact2 )
 {
-	HCONTACT a = contact1->hContact, b = contact2->hContact;
+	MCONTACT a = contact1->hContact, b = contact2->hContact;
 	TCHAR *namea,*nameb;
 	int statusa,statusb;
 	char *szProto1,*szProto2;
@@ -167,7 +167,7 @@ void SortContacts(void)
 
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
 	if ((HANDLE)lParam == NULL)

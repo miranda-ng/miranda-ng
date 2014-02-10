@@ -44,11 +44,11 @@ HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
 	return HookEvent(ME_SKIN2_ICONSCHANGED, hook);
 }
 
-void setClistIcon(HCONTACT hContact)
+void setClistIcon(MCONTACT hContact)
 {
 	bool enabled = isContactSecured(hContact);
 	extern HANDLE g_hCLIcon;
-	HCONTACT hMC = hContact;
+	MCONTACT hMC = hContact;
 	if(metaIsSubcontact(hContact))
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
@@ -59,11 +59,11 @@ void setClistIcon(HCONTACT hContact)
 		ExtraIcon_SetIcon(g_hCLIcon, hMC, szIconId);
 }
 
-void setSrmmIcon(HCONTACT h)
+void setSrmmIcon(MCONTACT h)
 {
-	HCONTACT hContact = metaIsProtoMetaContacts(h) ? metaGetMostOnline(h) : h;
+	MCONTACT hContact = metaIsProtoMetaContacts(h) ? metaGetMostOnline(h) : h;
 	bool enabled = isContactSecured(hContact);	
-	HCONTACT hMC = NULL;
+	MCONTACT hMC = NULL;
 	if(metaIsSubcontact(hContact))
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
@@ -91,7 +91,7 @@ void RefreshContactListIcons()
 {
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		setClistIcon(hContact);
 
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);

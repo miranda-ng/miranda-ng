@@ -159,7 +159,7 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				case IDC_PREVIEW:
 				{
-					HCONTACT hContact;
+					MCONTACT hContact;
 					TCHAR * lpzContactName;
 
 					hContact = db_find_first();
@@ -750,7 +750,7 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 {
 	OPTIONSDIALOGPAGE odp = {0};
-	HCONTACT hContact = (HCONTACT)lParam;
+	MCONTACT hContact = (MCONTACT)lParam;
 
 	odp.cbSize = sizeof(odp);
 	odp.hIcon = NULL;

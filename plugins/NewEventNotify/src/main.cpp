@@ -62,7 +62,7 @@ HANDLE hHookedDeletedEvent;
 
 int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	PLUGIN_DATA* pdata;
 
 	//are popups currently enabled?
@@ -181,7 +181,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 //	1 - Split-mode window found
 //	2 - Single-mode window found
 
-int CheckMsgWnd(HCONTACT hContact)
+int CheckMsgWnd(MCONTACT hContact)
 {
 	if (g_IsSrmmWindowAPI) {
 		MessageWindowData mwd;

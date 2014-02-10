@@ -633,7 +633,7 @@ void fnHideInfoTip(HWND, struct ClcData *dat)
 	NotifyEventHooks(hHideInfoTipEvent, 0, (LPARAM) & it);
 }
 
-void fnNotifyNewContact(HWND hwnd, HCONTACT hContact)
+void fnNotifyNewContact(HWND hwnd, MCONTACT hContact)
 {
 	NMCLISTCONTROL nm;
 	nm.hdr.code = CLN_NEWCONTACT;

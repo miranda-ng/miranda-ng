@@ -112,7 +112,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		// EVENTTYPE_AUTHREQUEST: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 		// EVENTTYPE_ADDED: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 		DWORD  uin = *(DWORD*)dbei->pBlob;
-		HCONTACT hContact = (HCONTACT)*(DWORD*)(dbei->pBlob + sizeof(DWORD));
+		MCONTACT hContact = (MCONTACT)*(DWORD*)(dbei->pBlob + sizeof(DWORD));
 		char  *buf = LPSTR(dbei->pBlob) + sizeof(DWORD)*2;
 		ptrT tszNick(getEventString(dbei, buf));
 		ptrT tszFirst(getEventString(dbei, buf));

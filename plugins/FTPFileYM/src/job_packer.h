@@ -46,7 +46,7 @@ private:
 	bool isCanceled();
 
 public:
-	PackerJob(HCONTACT hContact, int iFtpNum, EMode mode);
+	PackerJob(MCONTACT hContact, int iFtpNum, EMode mode);
 	virtual ~PackerJob() {};
 
 	virtual void start();

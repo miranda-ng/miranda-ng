@@ -41,7 +41,7 @@ static const UINT infoLineControls[] = { IDC_PROTOCOL, IDC_NAME };
 static const UINT buttonLineControls[] = { IDC_ADD, IDC_USERMENU, IDC_DETAILS, IDC_HISTORY };
 static const UINT sendControls[] = { IDC_MESSAGE };
 
-static void NotifyLocalWinEvent(HCONTACT hContact, HWND hwnd, unsigned int type)
+static void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
 	if (hContact == NULL || hwnd == NULL)
 		return;
@@ -58,7 +58,7 @@ static void NotifyLocalWinEvent(HCONTACT hContact, HWND hwnd, unsigned int type)
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 
-static BOOL IsUtfSendAvailable(HCONTACT hContact)
+static BOOL IsUtfSendAvailable(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if ( szProto == NULL )
@@ -80,7 +80,7 @@ static int RTL_Detect(const TCHAR *ptszText)
 	return 0;
 }
 
-HANDLE SendMessageDirect(const TCHAR *szMsg, HCONTACT hContact, char *szProto)
+HANDLE SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
 {
 	if (hContact == NULL)
 		return NULL;
@@ -1308,7 +1308,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case HM_DBEVENTADDED:
-		if ((HCONTACT)wParam == dat->hContact) {
+		if ((MCONTACT)wParam == dat->hContact) {
 			HANDLE hDbEvent = (HANDLE)lParam;
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;
@@ -1751,7 +1751,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (hFont != NULL && hFont != (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))
 			DeleteObject(hFont);
 
-		HCONTACT hContact;
+		MCONTACT hContact;
 		if (db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT))
 			hContact = dat->hContact;
 		else

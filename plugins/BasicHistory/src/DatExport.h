@@ -34,7 +34,7 @@ public:
 	virtual void WriteFooter();
 	virtual void WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText);
 	virtual void WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei);
-	virtual int IsContactInFile(const std::vector<HCONTACT>& contacts);
+	virtual int IsContactInFile(const std::vector<MCONTACT>& contacts);
 	virtual bool GetEventList(std::vector<IImport::ExternalMessage>& eventList);
 	
 	DatExport()
@@ -45,7 +45,7 @@ public:
 	virtual ~DatExport();
 private:
 	int dataSize;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	std::string memBuf;
 	inline int WriteString(const std::wstring &str);
 	//inline bool ReadString(std::wstring &str, int size);

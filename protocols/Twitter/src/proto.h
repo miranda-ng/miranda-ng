@@ -36,23 +36,23 @@ public:
 
 	//PROTO_INTERFACE
 
-	virtual	HCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);
-	virtual	HCONTACT  __cdecl AddToListByEvent(int,int,HANDLE);
+	virtual	MCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);
+	virtual	MCONTACT  __cdecl AddToListByEvent(int,int,HANDLE);
 
 	virtual	int       __cdecl Authorize(HANDLE);
 	virtual	int       __cdecl AuthDeny(HANDLE,const TCHAR *);
-	virtual	int       __cdecl AuthRecv(HCONTACT, PROTORECVEVENT *);
-	virtual	int       __cdecl AuthRequest(HCONTACT, const TCHAR *);
+	virtual	int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl AuthRequest(MCONTACT, const TCHAR *);
 
 	virtual	HANDLE    __cdecl ChangeInfo(int,void *);
 
-	virtual	HANDLE    __cdecl FileAllow(HCONTACT, HANDLE, const TCHAR *);
-	virtual	int       __cdecl FileCancel(HCONTACT, HANDLE);
-	virtual	int       __cdecl FileDeny(HCONTACT, HANDLE, const TCHAR *);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT, HANDLE, const TCHAR *);
+	virtual	int       __cdecl FileCancel(MCONTACT, HANDLE);
+	virtual	int       __cdecl FileDeny(MCONTACT, HANDLE, const TCHAR *);
 	virtual	int       __cdecl FileResume(HANDLE, int *, const TCHAR **);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int, HCONTACT = 0);
-	virtual	int       __cdecl GetInfo(HCONTACT, int);
+	virtual	DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0);
+	virtual	int       __cdecl GetInfo(MCONTACT, int);
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *);
 	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *);
@@ -60,24 +60,24 @@ public:
 	virtual	HWND      __cdecl SearchAdvanced(HWND);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND);
 
-	virtual	int       __cdecl RecvContacts(HCONTACT, PROTORECVEVENT *);
-	virtual	int       __cdecl RecvFile(HCONTACT, PROTORECVFILET *);
-	virtual	int       __cdecl RecvMsg(HCONTACT, PROTORECVEVENT *);
-	virtual	int       __cdecl RecvUrl(HCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl RecvContacts(MCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl RecvFile(MCONTACT, PROTORECVFILET *);
+	virtual	int       __cdecl RecvMsg(MCONTACT, PROTORECVEVENT *);
+	virtual	int       __cdecl RecvUrl(MCONTACT, PROTORECVEVENT *);
 
-	virtual	int       __cdecl SendContacts(HCONTACT, int, int, HCONTACT*);
-	virtual	HANDLE    __cdecl SendFile(HCONTACT, const TCHAR *, TCHAR **);
-	virtual	int       __cdecl SendMsg(HCONTACT, int, const char *);
-	virtual	int       __cdecl SendUrl(HCONTACT, int, const char *);
+	virtual	int       __cdecl SendContacts(MCONTACT, int, int, MCONTACT*);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT, const TCHAR *, TCHAR **);
+	virtual	int       __cdecl SendMsg(MCONTACT, int, const char *);
+	virtual	int       __cdecl SendUrl(MCONTACT, int, const char *);
 
-	virtual	int       __cdecl SetApparentMode(HCONTACT, int);
+	virtual	int       __cdecl SetApparentMode(MCONTACT, int);
 	virtual	int       __cdecl SetStatus(int);
 
-	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT);
-	virtual	int       __cdecl RecvAwayMsg(HCONTACT, int, PROTORECVEVENT *);
+	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT);
+	virtual	int       __cdecl RecvAwayMsg(MCONTACT, int, PROTORECVEVENT *);
 	virtual	int       __cdecl SetAwayMsg(int,const TCHAR *);
 
-	virtual	int       __cdecl UserIsTyping(HCONTACT, int);
+	virtual	int       __cdecl UserIsTyping(MCONTACT, int);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE,WPARAM,LPARAM);
 
@@ -123,16 +123,16 @@ private:
 	void UpdateStatuses(bool pre_read,bool popups, bool tweetToMsg);
 	void UpdateMessages(bool pre_read);
 	void UpdateFriends();
-	void UpdateAvatar(HCONTACT, const std::string &, bool force = false);
+	void UpdateAvatar(MCONTACT, const std::string &, bool force = false);
 
 	int ShowPinDialog();
 	void ShowPopup(const wchar_t *, int Error = 0);
 	void ShowPopup(const char *, int Error = 0);
-	void ShowContactPopup(HCONTACT, const std::string &);
+	void ShowContactPopup(MCONTACT, const std::string &);
 
-	bool IsMyContact(HCONTACT, bool include_chat = false);
-	HCONTACT UsernameToHContact(const char *);
-	HCONTACT AddToClientList(const char *, const char *);
+	bool IsMyContact(MCONTACT, bool include_chat = false);
+	MCONTACT UsernameToHContact(const char *);
+	MCONTACT AddToClientList(const char *, const char *);
 	void SetAllContactStatuses(int);
 
 	void debugLogA(TCHAR *fmt,...);

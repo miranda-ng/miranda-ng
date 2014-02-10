@@ -340,7 +340,7 @@ BOOL CIcqProto::IsOnSpammerList(DWORD dwUIN)
 
 // ICQ contacts cache
 
-void CIcqProto::AddToContactsCache(HCONTACT hContact, DWORD dwUin, const char *szUid)
+void CIcqProto::AddToContactsCache(MCONTACT hContact, DWORD dwUin, const char *szUid)
 {
 	if (!hContact || (!dwUin && !szUid))
 		return;
@@ -372,7 +372,7 @@ void CIcqProto::InitContactsCache()
 	// build cache
 	icq_lock l(contactsCacheMutex);
 
-	HCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = FindFirstContact();
 
 	while (hContact) {
 		DWORD dwUin;
@@ -411,7 +411,7 @@ void CIcqProto::UninitContactsCache(void)
 }
 
 
-void CIcqProto::DeleteFromContactsCache(HCONTACT hContact)
+void CIcqProto::DeleteFromContactsCache(MCONTACT hContact)
 {
 	icq_lock l(contactsCacheMutex);
 
@@ -432,7 +432,7 @@ void CIcqProto::DeleteFromContactsCache(HCONTACT hContact)
 }
 
 
-HCONTACT CIcqProto::HandleFromCacheByUid(DWORD dwUin, const char *szUid)
+MCONTACT CIcqProto::HandleFromCacheByUid(DWORD dwUin, const char *szUid)
 {
 	icq_contacts_cache cache_item = { NULL, dwUin, szUid };
 
@@ -446,11 +446,11 @@ HCONTACT CIcqProto::HandleFromCacheByUid(DWORD dwUin, const char *szUid)
 }
 
 
-HCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
+MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 {
 	if (Added) *Added = 0;
 
-	HCONTACT hContact = HandleFromCacheByUid(dwUin, NULL);
+	MCONTACT hContact = HandleFromCacheByUid(dwUin, NULL);
 	if (hContact)
 		return hContact;
 
@@ -469,17 +469,17 @@ HCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 
 	//not present: add
 	if (Added) {
-		hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (!hContact) {
 			debugLogA("Failed to create ICQ contact %u", dwUin);
-			return (HCONTACT)INVALID_HANDLE_VALUE;
+			return INVALID_CONTACT_ID;
 		}
 
 		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) != 0) {
 			// For some reason we failed to register the protocol to this contact
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 			debugLogA("Failed to register ICQ contact %u", dwUin);
-			return (HCONTACT)INVALID_HANDLE_VALUE;
+			return INVALID_CONTACT_ID;
 		}
 
 		setDword(hContact, UNIQUEIDSETTING, dwUin);
@@ -505,11 +505,11 @@ HCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (getContactUin(NULL) == dwUin)
 		return NULL;
 
-	return (HCONTACT)INVALID_HANDLE_VALUE;
+	return INVALID_CONTACT_ID;
 }
 
 
-HCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
+MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 {
 	if (dwUin)
 		return HContactFromUIN(dwUin, Added);
@@ -517,9 +517,9 @@ HCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	if (Added) *Added = 0;
 
 	if (!m_bAimEnabled)
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
-	HCONTACT hContact = HandleFromCacheByUid(dwUin, szUid);
+	MCONTACT hContact = HandleFromCacheByUid(dwUin, szUid);
 	if (hContact) return hContact;
 
 	hContact = FindFirstContact();
@@ -540,7 +540,7 @@ HCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 
 	//not present: add
 	if (Added) {
-		hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 
 		setString(hContact, UNIQUEIDSETTING, szUid);
@@ -560,11 +560,11 @@ HCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 		return hContact;
 	}
 
-	return (HCONTACT)INVALID_HANDLE_VALUE;
+	return INVALID_CONTACT_ID;
 }
 
 
-HCONTACT CIcqProto::HContactFromAuthEvent(HANDLE hEvent)
+MCONTACT CIcqProto::HContactFromAuthEvent(HANDLE hEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	DWORD body[3];
@@ -573,28 +573,28 @@ HCONTACT CIcqProto::HContactFromAuthEvent(HANDLE hEvent)
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hEvent, &dbei))
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	if (strcmpnull(dbei.szModule, m_szModuleName))
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	return DbGetAuthEventContact(&dbei);
 }
 
-char *NickFromHandle(HCONTACT hContact)
+char *NickFromHandle(MCONTACT hContact)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+	if (hContact == INVALID_CONTACT_ID)
 		return null_strdup(Translate("<invalid>"));
 
 	return null_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
 }
 
-char *NickFromHandleUtf(HCONTACT hContact)
+char *NickFromHandleUtf(MCONTACT hContact)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+	if (hContact == INVALID_CONTACT_ID)
 		return ICQTranslateUtf(LPGEN("<invalid>"));
 
 	return tchar_to_utf8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
@@ -888,7 +888,7 @@ void CIcqProto::ResetSettingsOnListReload()
 	setWord("SrvRecordCount", 0);
 	delSetting(DBSETTING_SERVLIST_UNHANDLED);
 
-	HCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = FindFirstContact();
 
 	while (hContact) {
 		// All these values will be restored during the serv-list receive
@@ -912,7 +912,7 @@ void CIcqProto::ResetSettingsOnConnect()
 	setByte("SrvVisibility", 0);
 	setDword("IdleTS", 0);
 
-	HCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = FindFirstContact();
 
 	while (hContact) {
 		setDword(hContact, "LogonTS", 0);
@@ -933,7 +933,7 @@ void CIcqProto::ResetSettingsOnLoad()
 	setDword("IdleTS", 0);
 	setDword("LogonTS", 0);
 
-	HCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = FindFirstContact();
 
 	while (hContact) {
 		setDword(hContact, "LogonTS", 0);
@@ -989,7 +989,7 @@ void __cdecl CIcqProto::ProtocolAckThread(icq_ack_args* pArguments)
 	SAFE_FREE((void**)&pArguments);
 }
 
-void CIcqProto::SendProtoAck(HCONTACT hContact, DWORD dwCookie, int nAckResult, int nAckType, char* pszMessage)
+void CIcqProto::SendProtoAck(MCONTACT hContact, DWORD dwCookie, int nAckResult, int nAckType, char* pszMessage)
 {
 	icq_ack_args* pArgs = (icq_ack_args*)SAFE_MALLOC(sizeof(icq_ack_args)); // This will be freed in the new thread
 	pArgs->hContact = hContact;
@@ -1010,7 +1010,7 @@ void CIcqProto::SetCurrentStatus(int nStatus)
 }
 
 
-int CIcqProto::IsMetaInfoChanged(HCONTACT hContact)
+int CIcqProto::IsMetaInfoChanged(MCONTACT hContact)
 {
 	DBVARIANT infoToken = { DBVT_DELETED };
 	int res = 0;
@@ -1250,7 +1250,7 @@ int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 }
 
 
-void CIcqProto::writeDbInfoSettingTLVStringUtf(HCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
+void CIcqProto::writeDbInfoSettingTLVStringUtf(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	oscar_tlv *pTLV = chain->getTLV(wTlv, 1);
 
@@ -1265,7 +1265,7 @@ void CIcqProto::writeDbInfoSettingTLVStringUtf(HCONTACT hContact, const char *sz
 }
 
 
-void CIcqProto::writeDbInfoSettingTLVWord(HCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
+void CIcqProto::writeDbInfoSettingTLVWord(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	int num = chain->getNumber(wTlv, 1);
 	if (num > 0)
@@ -1275,7 +1275,7 @@ void CIcqProto::writeDbInfoSettingTLVWord(HCONTACT hContact, const char *szSetti
 }
 
 
-void CIcqProto::writeDbInfoSettingTLVByte(HCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
+void CIcqProto::writeDbInfoSettingTLVByte(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	int num = chain->getNumber(wTlv, 1);
 
@@ -1286,7 +1286,7 @@ void CIcqProto::writeDbInfoSettingTLVByte(HCONTACT hContact, const char *szSetti
 }
 
 
-void CIcqProto::writeDbInfoSettingTLVDouble(HCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
+void CIcqProto::writeDbInfoSettingTLVDouble(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	double num = chain->getDouble(wTlv, 1);
 	if (num > 0)
@@ -1295,7 +1295,7 @@ void CIcqProto::writeDbInfoSettingTLVDouble(HCONTACT hContact, const char *szSet
 		delSetting(hContact, szSetting);
 }
 
-void CIcqProto::writeDbInfoSettingTLVDate(HCONTACT hContact, const char* szSettingYear, const char* szSettingMonth, const char* szSettingDay, oscar_tlv_chain* chain, WORD wTlv)
+void CIcqProto::writeDbInfoSettingTLVDate(MCONTACT hContact, const char* szSettingYear, const char* szSettingMonth, const char* szSettingDay, oscar_tlv_chain* chain, WORD wTlv)
 {
 	double time = chain->getDouble(wTlv, 1);
 
@@ -1320,7 +1320,7 @@ void CIcqProto::writeDbInfoSettingTLVDate(HCONTACT hContact, const char* szSetti
 }
 
 
-void CIcqProto::writeDbInfoSettingTLVBlob(HCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
+void CIcqProto::writeDbInfoSettingTLVBlob(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	oscar_tlv *pTLV = chain->getTLV(wTlv, 1);
 
@@ -1331,7 +1331,7 @@ void CIcqProto::writeDbInfoSettingTLVBlob(HCONTACT hContact, const char *szSetti
 }
 
 
-BOOL CIcqProto::writeDbInfoSettingString(HCONTACT hContact, const char* szSetting, char** buf, WORD* pwLength)
+BOOL CIcqProto::writeDbInfoSettingString(MCONTACT hContact, const char* szSetting, char** buf, WORD* pwLength)
 {
 	if (*pwLength < 2)
 		return FALSE;
@@ -1364,7 +1364,7 @@ BOOL CIcqProto::writeDbInfoSettingString(HCONTACT hContact, const char* szSettin
 	return TRUE;
 }
 
-BOOL CIcqProto::writeDbInfoSettingWord(HCONTACT hContact, const char *szSetting, char **buf, WORD* pwLength)
+BOOL CIcqProto::writeDbInfoSettingWord(MCONTACT hContact, const char *szSetting, char **buf, WORD* pwLength)
 {
 	if (*pwLength < 2)
 		return FALSE;
@@ -1381,7 +1381,7 @@ BOOL CIcqProto::writeDbInfoSettingWord(HCONTACT hContact, const char *szSetting,
 	return TRUE;
 }
 
-BOOL CIcqProto::writeDbInfoSettingWordWithTable(HCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength)
+BOOL CIcqProto::writeDbInfoSettingWordWithTable(MCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength)
 {
 	if (*pwLength < 2)
 		return FALSE;
@@ -1400,7 +1400,7 @@ BOOL CIcqProto::writeDbInfoSettingWordWithTable(HCONTACT hContact, const char *s
 	return TRUE;
 }
 
-BOOL CIcqProto::writeDbInfoSettingByte(HCONTACT hContact, const char *pszSetting, char **buf, WORD* pwLength)
+BOOL CIcqProto::writeDbInfoSettingByte(MCONTACT hContact, const char *pszSetting, char **buf, WORD* pwLength)
 {
 	if (*pwLength < 1)
 		return FALSE;
@@ -1417,7 +1417,7 @@ BOOL CIcqProto::writeDbInfoSettingByte(HCONTACT hContact, const char *pszSetting
 	return TRUE;
 }
 
-BOOL CIcqProto::writeDbInfoSettingByteWithTable(HCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength)
+BOOL CIcqProto::writeDbInfoSettingByteWithTable(MCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength)
 {
 	if (*pwLength < 1)
 		return FALSE;
@@ -1450,12 +1450,12 @@ char* time2text(time_t time)
 }
 
 
-bool CIcqProto::validateStatusMessageRequest(HCONTACT hContact, WORD byMessageType)
+bool CIcqProto::validateStatusMessageRequest(MCONTACT hContact, WORD byMessageType)
 {
 	// Privacy control
 	if (getByte("StatusMsgReplyCList", 0)) {
 		// Don't send statusmessage to unknown contacts
-		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hContact == INVALID_CONTACT_ID)
 			return false;
 
 		// Don't send statusmessage to temporary contacts or hidden contacts
@@ -1472,7 +1472,7 @@ bool CIcqProto::validateStatusMessageRequest(HCONTACT hContact, WORD byMessageTy
 	}
 
 	// Dont send messages to people you are hiding from
-	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE &&
+	if (hContact != INVALID_CONTACT_ID &&
 		getWord(hContact, "ApparentMode", 0) == ID_STATUS_OFFLINE) {
 		return false;
 	}
@@ -1487,7 +1487,7 @@ bool CIcqProto::validateStatusMessageRequest(HCONTACT hContact, WORD byMessageTy
 		return false;
 	}
 
-	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && m_iStatus == ID_STATUS_INVISIBLE &&
+	if (hContact != INVALID_CONTACT_ID && m_iStatus == ID_STATUS_INVISIBLE &&
 		getWord(hContact, "ApparentMode", 0) != ID_STATUS_ONLINE) {
 		if (!getByte(hContact, "TemporaryVisible", 0)) { // Allow request to temporary visible contacts
 			return false;
@@ -1904,7 +1904,7 @@ int MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uTy
 	return res;
 }
 
-char* CIcqProto::ConvertMsgToUserSpecificAnsi(HCONTACT hContact, const char* szMsg)
+char* CIcqProto::ConvertMsgToUserSpecificAnsi(MCONTACT hContact, const char* szMsg)
 { // this takes utf-8 encoded message
 	WORD wCP = getWord(hContact, "CodePage", m_wAnsiCodepage);
 	char* szAnsi = NULL;
@@ -1917,7 +1917,7 @@ char* CIcqProto::ConvertMsgToUserSpecificAnsi(HCONTACT hContact, const char* szM
 }
 
 // just broadcast generic send error with dummy cookie and return that cookie
-DWORD CIcqProto::ReportGenericSendError(HCONTACT hContact, int nType, const char* szErrorMsg)
+DWORD CIcqProto::ReportGenericSendError(MCONTACT hContact, int nType, const char* szErrorMsg)
 {
 	DWORD dwCookie = GenerateCookie(0);
 	SendProtoAck(hContact, dwCookie, ACKRESULT_FAILED, nType, Translate(szErrorMsg));

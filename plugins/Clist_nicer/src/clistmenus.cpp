@@ -68,7 +68,7 @@ static HANDLE hWindowListIGN = 0;
 
 static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -78,7 +78,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			int pCaps;
 			HWND hwndAdd;
 
-			hContact = (HCONTACT)lParam;
+			hContact = (MCONTACT)lParam;
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)hContact);
 			dwMask = cfg::getDword(hContact, "Ignore", "Mask1", 0);
 			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, dwMask);
@@ -365,7 +365,7 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
 	if (hWindowListIGN == 0)
 		hWindowListIGN = WindowList_Create();
 
-	hWnd = WindowList_Find(hWindowListIGN, (HCONTACT)wParam);
+	hWnd = WindowList_Find(hWindowListIGN, (MCONTACT)wParam);
 	if ( wParam ) {
 		if ( hWnd == 0 )
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_QUICKIGNORE), 0, IgnoreDialogProc, (LPARAM)wParam);

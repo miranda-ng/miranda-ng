@@ -26,7 +26,7 @@ public:
 		bool message;
 	};
 
-	typedef std::map<HCONTACT, act> ActiveUsersMap;
+	typedef std::map<MCONTACT, act> ActiveUsersMap;
 
 	//--------------------------------------------------------------------------
 	// Description : get/set the voice description
@@ -49,8 +49,8 @@ public:
 	//--------------------------------------------------------------------------
 	// Description : get/set the user active flag
 	//--------------------------------------------------------------------------
-	act getActiveUser(HCONTACT user) const;
-	void setActiveUser(HCONTACT user, act state);
+	act getActiveUser(MCONTACT user) const;
+	void setActiveUser(MCONTACT user, act state);
 	ActiveUsersMap getActiveUsers() const { return m_active_users; }
 
 	//--------------------------------------------------------------------------

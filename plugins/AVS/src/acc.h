@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __ACC_H__
 # define __ACC_H__
 
-INT_PTR avSetAvatar(HCONTACT hContact, TCHAR* tszPath );
+INT_PTR avSetAvatar(MCONTACT hContact, TCHAR* tszPath );
 INT_PTR avSetMyAvatar( char* szProto, TCHAR* tszPath );
 
 int LoadACC();

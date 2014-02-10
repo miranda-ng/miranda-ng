@@ -58,9 +58,9 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						dbei.cbBlob = db_event_getBlobSize(acs->hDbEvent);
 						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 						db_event_get(acs->hDbEvent, &dbei);
-						HCONTACT hcontact = *(HCONTACT*)(dbei.pBlob + sizeof(DWORD));
+						MCONTACT hcontact = *(MCONTACT*)(dbei.pBlob + sizeof(DWORD));
 						mir_free(dbei.pBlob);
-						if (hcontact != (HCONTACT)INVALID_HANDLE_VALUE) {
+						if (hcontact != INVALID_CONTACT_ID) {
 							szName = cli.pfnGetContactDisplayName(hcontact, 0);
 							isSet = 1;
 						}
@@ -147,18 +147,18 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			break;
 		case IDOK:
 			{
-				HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+				MCONTACT hContact = INVALID_CONTACT_ID;
 				switch (acs->handleType) {
 				case HANDLE_EVENT:
 					{
 						DBEVENTINFO dbei = { sizeof(dbei) };
 						db_event_get(acs->hDbEvent, &dbei);
-						hContact = (HCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->hDbEvent);
+						hContact = (MCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->hDbEvent);
 					}
 					break;
 
 				case HANDLE_SEARCHRESULT:
-					hContact = (HCONTACT)CallProtoServiceInt(NULL, acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
+					hContact = (MCONTACT)CallProtoServiceInt(NULL, acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
 					break;
 
 				case HANDLE_CONTACT:

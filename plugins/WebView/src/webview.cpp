@@ -104,7 +104,7 @@ void FillFontListThread(void *param)
 /*****************************************************************************/
 void TxtclrLoop()
 {
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
 		InvalidateRect(hwndDlg, NULL, 1);
@@ -114,7 +114,7 @@ void TxtclrLoop()
 /*****************************************************************************/
 void BGclrLoop()
 {
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
 		SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_SETBKGNDCOLOR, 0, BackgoundClr);
@@ -128,7 +128,7 @@ void StartUpdate(void *dummy)
 	StartUpDelay = 1;
 	Sleep(((db_get_dw(NULL, MODULENAME, START_DELAY_KEY, 0)) * SECOND));
 
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
 		GetData((void*)hContact);
 
 	StartUpDelay = 0;
@@ -138,7 +138,7 @@ void StartUpdate(void *dummy)
 void ContactLoop(void *dummy)
 {
 	if (StartUpDelay == 0) {
-		for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+		for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 			GetData((void*)hContact);
 			Sleep(10); // avoid 100% CPU
 		}
@@ -176,7 +176,7 @@ void InitialiseGlobals(void)
 /*****************************************************************************/
 int Doubleclick(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *szProto = GetContactProto(hContact);
 	if ( lstrcmpA(MODULENAME, szProto))
 		return 0;
@@ -371,7 +371,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 /*****************************************************************************/
 INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 	if (hwndDlg != NULL) {
 		DestroyWindow(hwndDlg);
@@ -432,7 +432,7 @@ INT_PTR AddContactMenuCommand(WPARAM, LPARAM)
 }
 
 /*****************************************************************************/
-int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact)
+int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
 {
 	int ontop = 0;
 	int done = 0;
@@ -455,7 +455,7 @@ int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact)
 /*****************************************************************************/
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ptrT url( db_get_tsa(hContact, MODULENAME, "URL"));
 	if (url)
 		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
@@ -465,7 +465,7 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-int UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact)
+int UpdateMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
 {
 	mir_forkthread(GetData, (void*)singlecontact);
 	return 0;
@@ -474,14 +474,14 @@ int UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact)
 /*****************************************************************************/
 int ContactMenuItemUpdateData(WPARAM wParam, LPARAM lParam)
 {
-	UpdateMenuCommand(wParam, lParam, (HCONTACT)wParam);
+	UpdateMenuCommand(wParam, lParam, (MCONTACT)wParam);
 	return 0;
 }
 
 /*****************************************************************************/
 INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwndDlg = WindowList_Find(hWindowList, (HCONTACT)wParam);
+	HWND hwndDlg = WindowList_Find(hWindowList, (MCONTACT)wParam);
 	if (hwndDlg) {
 		DestroyWindow(hwndDlg);
 		return 0;
@@ -496,7 +496,7 @@ INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwndDlg = WindowList_Find(hWindowList, (HCONTACT) wParam);
+	HWND hwndDlg = WindowList_Find(hWindowList, (MCONTACT) wParam);
 	if (hwndDlg) {
 		DestroyWindow(hwndDlg);
 		return 0;

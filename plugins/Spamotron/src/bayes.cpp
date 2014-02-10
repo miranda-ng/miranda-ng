@@ -221,7 +221,7 @@ double get_msg_score(TCHAR *msg)
 	return tmp1 / (tmp1 + tmp2);
 }
 
-void queue_message(HCONTACT hContact, DWORD msgtime, TCHAR *message)
+void queue_message(MCONTACT hContact, DWORD msgtime, TCHAR *message)
 {
 	char *tmp;
 	sqlite3_stmt *stmt;
@@ -245,7 +245,7 @@ void queue_message(HCONTACT hContact, DWORD msgtime, TCHAR *message)
 	sqlite3_finalize(stmt);
 }
 
-void bayes_approve_contact(HCONTACT hContact)
+void bayes_approve_contact(MCONTACT hContact)
 {
 	const char *message;
 	TCHAR *messageW;
@@ -353,7 +353,7 @@ void learn(int type, TCHAR *msg)
 
 #ifdef _DEBUG
 		sqlite3_prepare_v2(bayesdbg, sql_select, -1, &stmtdbg, NULL);
-		sqlite3_bind_text(stmtdbg, 1, tok, strlen(tok), NULL);
+		sqlite3_bind_text(stmtdbg, 1, tok, (int)strlen(tok), NULL);
 		if (SQLITE_ROW == sqlite3_step(stmtdbg)) {
 			sqlite3_finalize(stmtdbg);
 			sqlite3_prepare_v2(bayesdbg, sql_update, -1, &stmtdbg, NULL);
@@ -361,7 +361,7 @@ void learn(int type, TCHAR *msg)
 			sqlite3_finalize(stmtdbg);
 			sqlite3_prepare_v2(bayesdbg, sql_insert, -1, &stmtdbg, NULL);
 		}
-		sqlite3_bind_text(stmtdbg, 1, tok, strlen(tok), SQLITE_STATIC);
+		sqlite3_bind_text(stmtdbg, 1, tok, (int)strlen(tok), SQLITE_STATIC);
 		sqlite3_step(stmtdbg);
 		sqlite3_finalize(stmtdbg);
 #endif

@@ -173,7 +173,7 @@ static HICON GetAnnivIcon(const CEvent &evt)
 * @return	nothing
 **/
 
-static void NotifyWithExtraIcon(HCONTACT hContact, const CEvent &evt)
+static void NotifyWithExtraIcon(MCONTACT hContact, const CEvent &evt)
 {
 	if (gRemindOpts.bCListExtraIcon) {
 		char szIcon[MAXSETTING], *icoName;
@@ -244,7 +244,7 @@ static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 * @return	return value of the popup service
 **/
 
-static int NotifyWithPopup(HCONTACT hContact, CEvent::EType eventType, int DaysToAnniv, LPCTSTR pszDesc, LPCTSTR pszMsg)
+static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysToAnniv, LPCTSTR pszDesc, LPCTSTR pszMsg)
 {
 	if (!gRemindOpts.bPopups)
 		return 1;
@@ -304,7 +304,7 @@ static int NotifyWithPopup(HCONTACT hContact, CEvent::EType eventType, int DaysT
 * @return	nothing
 **/
 
-static void NotifyFlashCListIcon(HCONTACT hContact, const CEvent &evt)
+static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 {
 	if (!gRemindOpts.bFlashCList || evt._wDaysLeft != 0)
 		return;
@@ -369,7 +369,7 @@ static BYTE NotifyWithSound(const CEvent &evt)
  * "check for anniversary" functions
  ***********************************************************************************************************/
 
-static LPCTSTR ContactGender(HCONTACT hContact)
+static LPCTSTR ContactGender(MCONTACT hContact)
 {
 	switch (GenderOf(hContact)) {
 		case 'M': return TranslateT("He");
@@ -378,7 +378,7 @@ static LPCTSTR ContactGender(HCONTACT hContact)
 	return TranslateT("He/She");
 }
 
-static BYTE CheckAnniversaries(HCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify)
+static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify)
 {
 	int numAnniversaries = 0;
 	int Diff;
@@ -466,7 +466,7 @@ static BYTE CheckAnniversaries(HCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 * @retval	FALSE			- contact has no birthday or it is not within the desired period of time.
 **/
 
-static BYTE CheckBirthday(HCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer)
+static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer)
 {
 	BYTE result = FALSE;
 
@@ -534,7 +534,7 @@ static BYTE CheckBirthday(HCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 * @return	nothing
 **/
 
-static void CheckContact(HCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = 0)
+static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = 0)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
 	if (hContact &&
@@ -570,7 +570,7 @@ void SvcReminderCheckAll(const ENotify notify)
 		now.GetLocalTime();
 
 		//walk through all the contacts stored in the DB
-		for (HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
 
 		if (notify != NOTIFY_CLIST) {
@@ -623,7 +623,7 @@ static int OnCListRebuildIcons(WPARAM, LPARAM)
 * @return	This function must return 0 in order to continue in the notification chain.
 **/
 
-int OnCListApplyIcon(HCONTACT hContact, LPARAM)
+int OnCListApplyIcon(MCONTACT hContact, LPARAM)
 {
 	if (gRemindOpts.RemindState != REMIND_OFF) {
 		CEvent evt;
@@ -645,7 +645,7 @@ int OnCListApplyIcon(HCONTACT hContact, LPARAM)
 * @return	This function must return 0 in order to continue in the notification chain.
 **/
 
-static int OnContactSettingChanged(HCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact &&										// valid contact not owner!
 			ghCListIA &&								// extraicons active
@@ -656,7 +656,7 @@ static int OnContactSettingChanged(HCONTACT hContact, DBCONTACTWRITESETTING* pdb
 			 !strncmp(pdbcws->szSetting, "Anniv", 5) ||
 			 !strncmp(pdbcws->szSetting, "DOB", 3)))
 	{
-		HCONTACT hMeta = DB::MetaContact::GetMeta(hContact);
+		MCONTACT hMeta = DB::MetaContact::GetMeta(hContact);
 		WORD LastAnswer = IDNONE;
 		CEvent evt;
 		MTime now;
@@ -727,7 +727,7 @@ static INT_PTR CheckService(WPARAM, LPARAM)
 
 static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	MAnnivDate mdb;
 
 	if (hContact) {
@@ -872,7 +872,7 @@ void SvcReminderEnable(BYTE bEnable)
 		UpdateTimer(TRUE);
 	}
 	else { // Reminder is off
-		for (HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			NotifyWithExtraIcon(hContact, CEvent());
 
 		gRemindOpts.RemindState	= REMIND_OFF;

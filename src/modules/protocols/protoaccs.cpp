@@ -199,7 +199,7 @@ void WriteDbAccounts()
 /////////////////////////////////////////////////////////////////////////////////////////
 static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
@@ -210,7 +210,7 @@ static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static int OnDbSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
@@ -317,7 +317,7 @@ static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub12(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)ppi->GetCaps(wParam, (HCONTACT)lParam);
+	return (INT_PTR)ppi->GetCaps(wParam, (MCONTACT)lParam);
 }
 
 static INT_PTR stub13(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
@@ -550,9 +550,9 @@ void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 void EraseAccount(const char* pszModuleName)
 {
 	// remove protocol contacts first
-	HCONTACT hContact = db_find_first();
+	MCONTACT hContact = db_find_first();
 	while (hContact != NULL) {
-		HCONTACT h1 = hContact;
+		MCONTACT h1 = hContact;
 		hContact = db_find_next(h1);
 
 		char *szProto = GetContactProto(hContact);

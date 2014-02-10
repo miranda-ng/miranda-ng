@@ -1252,7 +1252,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 
 	case 1356003: // Contact is offline
 	{
-		HCONTACT hContact = parent->ContactIDToHContact(message_recipient);
+		MCONTACT hContact = parent->ContactIDToHContact(message_recipient);
 		if (hContact != NULL)
   			parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		return false;

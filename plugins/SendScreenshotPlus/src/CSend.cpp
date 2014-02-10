@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSend::CSend(HWND Owner, HCONTACT hContact, bool bFreeOnExit) {
+CSend::CSend(HWND Owner, MCONTACT hContact, bool bFreeOnExit) {
 	m_hWndO			= Owner;
 	m_bFreeOnExit	= bFreeOnExit;
 	m_pszFile		= NULL;
@@ -59,7 +59,7 @@ CSend::~CSend(){
 }
 
 //---------------------------------------------------------------------------
-void CSend::SetContact(HCONTACT hContact) {
+void CSend::SetContact(MCONTACT hContact) {
 	m_hContact		= hContact;
 	m_pszProto		= GetContactProto(hContact);
 	m_ChatRoom		= db_get_b(hContact, m_pszProto, "ChatRoom", 0);

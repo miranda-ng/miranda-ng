@@ -41,7 +41,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (pCtrlList)
 			{
 				TCHAR szAddr[MAX_PATH];
-				HCONTACT hContact = (HCONTACT)lParam;
+				MCONTACT hContact = (MCONTACT)lParam;
 				LPIDSTRLIST pList;
 				UINT nList;
 
@@ -74,7 +74,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			{
 			case 0:
 				{
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					LPCSTR pszProto;
 					HWND hCtrl;
 			
@@ -196,7 +196,7 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (pCtrlList)
 			{
 				TCHAR szAddr[MAX_PATH];
-				HCONTACT hContact = (HCONTACT)lParam;
+				MCONTACT hContact = (MCONTACT)lParam;
 				LPIDSTRLIST pList;
 				UINT nList;
 
@@ -227,7 +227,7 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			{
 			case 0:
 				{
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					LPCSTR pszProto;
 					HWND hCtrl;
 			

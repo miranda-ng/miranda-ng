@@ -46,7 +46,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// check if it is a weather contact
-		if (IsMyContact((HCONTACT)lParam)) {
+		if (IsMyContact((MCONTACT)lParam)) {
 			// register the contact info page
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
@@ -64,16 +64,16 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	WEATHERINFO w;
 	TCHAR str[MAX_TEXT_SIZE];
 
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(GetDlgItem(hwndDlg,IDC_MOREDETAIL), BUTTONSETASFLATBTN, TRUE, 0);
 		// save the contact handle for later use
-		hContact = (HCONTACT)lParam;
+		hContact = (MCONTACT)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 		// load weather info for the contact
-		w = LoadWeatherInfo((HCONTACT)lParam);
+		w = LoadWeatherInfo((MCONTACT)lParam);
 		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
 		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 
@@ -158,12 +158,12 @@ static int BriefDlgResizer(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
 INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	static const unsigned tabstops = 48;
-	HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		// save the contact handle for later use
-		hContact = (HCONTACT)lParam;
+		hContact = (MCONTACT)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 
 		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_AUTOURLDETECT, (WPARAM) TRUE, 0);
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 // set the title of the dialog and on the which rectangle
 // also load brief info into message box
-void LoadBriefInfoText(HWND hwndDlg, HCONTACT hContact) 
+void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact) 
 {
 	WEATHERINFO winfo;
 	TCHAR str[4096], str2[4096];
@@ -354,8 +354,8 @@ void LoadBriefInfoText(HWND hwndDlg, HCONTACT hContact)
 int BriefInfo(WPARAM wParam, LPARAM lParam) 
 {
 	// make sure that the contact is actually a weather one
-	if (IsMyContact((HCONTACT)wParam)) {
-		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, (HCONTACT)wParam);
+	if (IsMyContact((MCONTACT)wParam)) {
+		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, (MCONTACT)wParam);
 		if (hMoreDataDlg != NULL) {
 			SetForegroundWindow(hMoreDataDlg);
 			SetFocus(hMoreDataDlg);

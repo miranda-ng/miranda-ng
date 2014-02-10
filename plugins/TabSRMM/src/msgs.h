@@ -194,7 +194,7 @@ struct TContainerData
 	LONG     uChildMinHeight;
 	int      tBorder;
 	int	   tBorder_outer_left, tBorder_outer_right, tBorder_outer_top, tBorder_outer_bottom;
-	HCONTACT hContactFrom;
+	MCONTACT hContactFrom;
 	BOOL     isCloned;
 	HWND     hwndStatus;
 	int      statusBarHeight;
@@ -243,7 +243,7 @@ struct TWindowData
    HWND     hwnd;
    DWORD    dwFlags;
    DWORD    dwFlagsEx;
-	HCONTACT hContact;
+	MCONTACT hContact;
    char    *szProto;
    TCHAR    szMyNickname[130];
    TCHAR    szStatusBar[100];
@@ -417,7 +417,7 @@ struct TIconDescW
 
 struct TNewWindowData
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int      isWchar;
 	LPCSTR   szInitialText;
 	int      iTabID;
@@ -895,7 +895,7 @@ struct TABSRMM_SessionInfo {
 
 typedef struct {
 	int cbSize;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int uFlags;  // should be same as input data unless 0, then it will be the actual type
 	HWND hwndWindow; //top level window for the contact or NULL if no window exists
 	int uState; // see window states

@@ -123,7 +123,7 @@ void CContactQueue::RemoveAll()
  *
  * @return	nothing
  **/
-void CContactQueue::RemoveAll(HCONTACT hContact)
+void CContactQueue::RemoveAll(MCONTACT hContact)
 {
 	Lock();
 
@@ -149,7 +149,7 @@ void CContactQueue::RemoveAll(HCONTACT hContact)
  *
  * @return	nothing
  **/
-void CContactQueue::RemoveAllConsiderParam(HCONTACT hContact, PVOID param)
+void CContactQueue::RemoveAllConsiderParam(MCONTACT hContact, PVOID param)
 {
 	Lock();
 
@@ -177,7 +177,7 @@ void CContactQueue::RemoveAllConsiderParam(HCONTACT hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::Add(int waitTime, HCONTACT hContact, PVOID param)
+BOOL CContactQueue::Add(int waitTime, MCONTACT hContact, PVOID param)
 {
 	BOOL rc;
 
@@ -201,7 +201,7 @@ BOOL CContactQueue::Add(int waitTime, HCONTACT hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::AddIfDontHave(int waitTime, HCONTACT hContact, PVOID param)
+BOOL CContactQueue::AddIfDontHave(int waitTime, MCONTACT hContact, PVOID param)
 {
 	int i;
 	BOOL rc;
@@ -235,7 +235,7 @@ BOOL CContactQueue::AddIfDontHave(int waitTime, HCONTACT hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::AddUnique(int waitTime, HCONTACT hContact, PVOID param)
+BOOL CContactQueue::AddUnique(int waitTime, MCONTACT hContact, PVOID param)
 {
 	BOOL rc;
 
@@ -261,7 +261,7 @@ BOOL CContactQueue::AddUnique(int waitTime, HCONTACT hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::AddUniqueConsiderParam(int waitTime, HCONTACT hContact, PVOID param)
+BOOL CContactQueue::AddUniqueConsiderParam(int waitTime, MCONTACT hContact, PVOID param)
 {
 	BOOL rc;
 
@@ -285,7 +285,7 @@ BOOL CContactQueue::AddUniqueConsiderParam(int waitTime, HCONTACT hContact, PVOI
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::InternalAdd(int waitTime, HCONTACT hContact, PVOID param)
+BOOL CContactQueue::InternalAdd(int waitTime, MCONTACT hContact, PVOID param)
 {
 	BOOL rc;
 	CQueueItem *qi = (CQueueItem *) mir_alloc(sizeof(CQueueItem));

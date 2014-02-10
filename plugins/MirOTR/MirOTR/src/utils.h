@@ -7,8 +7,8 @@
 void lib_cs_lock();
 void lib_cs_unlock();
 
-HCONTACT find_contact(const char* userid, const char* protocol);
-ConnContext * otrl_context_find_miranda(OtrlUserState us, HCONTACT hContact);
+MCONTACT find_contact(const char* userid, const char* protocol);
+ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact);
 
 typedef enum {
 	TRUST_NOT_PRIVATE,
@@ -22,23 +22,23 @@ void VerifyFingerprintMessage(ConnContext *context, bool verify);
 
 void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20]);
 
-char* contact_get_id(HCONTACT hContact, bool bNameOnError=true);
-__inline const char* contact_get_proto(HCONTACT hContact);
-__inline const char* contact_get_account(HCONTACT hContact);
-extern __inline const TCHAR* contact_get_nameT(HCONTACT hContact);
+char* contact_get_id(MCONTACT hContact, bool bNameOnError=true);
+__inline const char* contact_get_proto(MCONTACT hContact);
+__inline const char* contact_get_account(MCONTACT hContact);
+extern __inline const TCHAR* contact_get_nameT(MCONTACT hContact);
 
-void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HCONTACT hContact = NULL);
+void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact = NULL);
 void ShowWarning(TCHAR* msg);
 void ShowError(TCHAR* msg);
-void ShowPopupUtf(const char* line1, const char* line2, int timeout, const HCONTACT hContact = NULL);
+void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact = NULL);
 void ShowWarningUtf(char* msg);
 void ShowErrorUtf(char* msg);
 
-void ShowMessageInline(const HCONTACT hContact, const TCHAR *msg);
-void ShowMessageInlineUtf(const HCONTACT hContact, const char *msg);
+void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg);
+void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg);
 
-void ShowMessage(const HCONTACT hContact, const TCHAR *msg);
-void ShowMessageUtf(const HCONTACT hContact, const char *msg);
+void ShowMessage(const MCONTACT hContact, const TCHAR *msg);
+void ShowMessageUtf(const MCONTACT hContact, const char *msg);
 
 void InitUtils();
 void DeinitUtils();

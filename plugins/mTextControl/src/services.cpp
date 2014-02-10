@@ -169,7 +169,7 @@ INT_PTR MText_CreateW(WPARAM wParam, LPARAM lParam) {
 //---------------------------------------------------------------------------
 // allocate text object (advanced)
 HANDLE DLL_CALLCONV 
-MTI_MTextCreateEx (HANDLE userHandle, HCONTACT hContact, void *text, DWORD flags) {
+MTI_MTextCreateEx (HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags) {
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
 	result->ftd = new CFormattedTextDraw;

@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // we are not supposed to use this object, so be aware
 typedef struct NewMessageWindowLParam 
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int isSend;
 	const char *szInitialText;
 } 
@@ -56,7 +56,7 @@ public:
 	mutable HBITMAP hSmlBmp;
 	mutable HICON hSmlIco;
 	int idxLastChar;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	bool doSmileyReplace;
 	bool doSmileyButton;
 	bool OldButtonPlace;
@@ -267,7 +267,7 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM /* lParam */)
 {
 	WaitForSingleObject(g_hMutex, 2000);
 	for (int i=0; i < g_MsgWndList.getCount(); ++i) {
-		if (wParam == 0 || g_MsgWndList[i]->hContact == (HCONTACT)wParam) {
+		if (wParam == 0 || g_MsgWndList[i]->hContact == (MCONTACT)wParam) {
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, FALSE, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, DM_OPTIONSAPPLIED, 0, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, TRUE, 0);
@@ -290,7 +290,7 @@ static MsgWndData* IsMsgWnd(HWND hwnd)
 }
 
 
-static void MsgWndDetect(HWND hwndDlg, HCONTACT hContact, msgData* datm)
+static void MsgWndDetect(HWND hwndDlg, MCONTACT hContact, msgData* datm)
 {
 	MsgWndData dat;
 

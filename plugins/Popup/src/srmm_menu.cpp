@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HANDLE hDialogsList = NULL;
 
-static void SrmmMenu_UpdateIcon(HCONTACT hContact)
+static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 {
 	if (!hContact)
 		return;
@@ -73,7 +73,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 	if (lstrcmpA(sicd->szModule, MODULNAME))
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (!hContact)
 		return 0;
 

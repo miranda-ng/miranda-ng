@@ -39,7 +39,7 @@ struct {
 	{ID_STATUS_OUTTOLUNCH,425}
 };
 
-static int GetContactStatus(HCONTACT hContact)
+static int GetContactStatus(MCONTACT hContact)
 {
 	char *szProto;
 
@@ -61,7 +61,7 @@ int __forceinline GetStatusModeOrdering(int statusMode)
 int mf_updatethread_running = TRUE;
 HANDLE hThreadMFUpdate = 0;
 
-static void MF_CalcFrequency(HCONTACT hContact, DWORD dwCutoffDays, int doSleep)
+static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 {
     DWORD  curTime = time(NULL);
     DWORD  frequency, eventCount;
@@ -109,7 +109,7 @@ void MF_UpdateThread(LPVOID)
 	ResetEvent(hEvent);
 
 	while(mf_updatethread_running) {
-		for (HCONTACT hContact = db_find_first(); hContact && mf_updatethread_running; hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first(); hContact && mf_updatethread_running; hContact = db_find_next(hContact)) {
 			MF_CalcFrequency(hContact, 50, 1);
 			if (mf_updatethread_running)
 				WaitForSingleObject(hEvent, 5000);
@@ -140,7 +140,7 @@ void LoadContactTree(void)
 
 	hideOffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
 			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
@@ -162,7 +162,7 @@ void LoadContactTree(void)
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 
-DWORD INTSORT_GetLastMsgTime(HCONTACT hContact)
+DWORD INTSORT_GetLastMsgTime(MCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_last(hContact);
 	while(hDbEvent) {

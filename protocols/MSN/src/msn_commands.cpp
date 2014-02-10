@@ -46,7 +46,7 @@ void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* ext
 	}
 }
 
-void CMsnProto::sttSetMirVer(HCONTACT hContact, DWORD dwValue, bool always)
+void CMsnProto::sttSetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 {
 	static const char* MirVerStr[] =
 	{
@@ -253,7 +253,7 @@ void CMsnProto::sttInviteMessage(ThreadData* info, char* msgBody, char* email, c
 
 void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType)
 {
-	HCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
+	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
 
 	char smileyList[500] = "";
 
@@ -389,7 +389,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		tFileInfo.readFromBuffer(msgBody);
 		info->firstMsgRecv = true;
 
-		HCONTACT hContact = MSN_HContactFromEmail(email);
+		MCONTACT hContact = MSN_HContactFromEmail(email);
 		const char* mirver = tFileInfo["Client-Name"];
 		if (hContact != NULL && mirver != NULL) {
 			setString(hContact, "MirVer", mirver);
@@ -404,7 +404,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 
 	if (!_strnicmp(tContentType, "text/plain", 10)) {
-		HCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
+		MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
 
 		const char* p = tHeader["X-MMS-IM-Format"];
 		bool isRtl = p != NULL && strstr(p, "RL=1") != NULL;
@@ -490,13 +490,13 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		const char* tTypingUser = tHeader["TypingUser"];
 
 		if (tTypingUser != NULL && info->mChatID[0] == 0 && _stricmp(email, MyOptions.szEmail)) {
-			HCONTACT hContact = MSN_HContactFromEmail(tTypingUser, tTypingUser);
+			MCONTACT hContact = MSN_HContactFromEmail(tTypingUser, tTypingUser);
 			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 7);
 		}
 	}
 	else if (!_strnicmp(tContentType, "text/x-msnmsgr-datacast", 23)) {
 		if (info->mJoinedContactsWLID.getCount()) {
-			HCONTACT tContact;
+			MCONTACT tContact;
 
 			if (info->mChatID[0]) {
 				GC_INFO gci = { 0 };
@@ -602,7 +602,7 @@ void CMsnProto::sttProcessYFind(char* buf, size_t len)
 	else {
 		if (szNetId != NULL) {
 			int netId = atol(szNetId);
-			HCONTACT hContact = MSN_HContactFromEmail(szEmail, szEmail, true, false);
+			MCONTACT hContact = MSN_HContactFromEmail(szEmail, szEmail, true, false);
 			if (MSN_AddUser(hContact, szEmail, netId, LIST_FL)) {
 				MSN_AddUser(hContact, szEmail, netId, LIST_PL + LIST_REMOVE);
 				MSN_AddUser(hContact, szEmail, netId, LIST_BL + LIST_REMOVE);
@@ -640,7 +640,7 @@ void CMsnProto::sttProcessAdd(char* buf, size_t len)
 			UrlDecode((char*)szNick);
 
 			if (listId == LIST_FL) {
-				HCONTACT hContact = MSN_HContactFromEmail(szEmail, szNick, true, false);
+				MCONTACT hContact = MSN_HContactFromEmail(szEmail, szNick, true, false);
 				MSN_SetContactDb(hContact, szEmail);
 			}
 
@@ -706,7 +706,7 @@ void CMsnProto::sttProcessRemove(char* buf, size_t len)
 
 void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wlid)
 {
-	HCONTACT hContact = MSN_HContactFromEmail(wlid);
+	MCONTACT hContact = MSN_HContactFromEmail(wlid);
 	if (hContact == NULL) return;
 
 	ezxml_t xmli = ezxml_parse_str(buf, len);
@@ -1048,12 +1048,12 @@ LBL_InvalidCommand:
 
 			if (strchr(data.userEmail, ';')) {
 				if (info->mJoinedContactsWLID.getCount() == 1)
-					p2p_clearThreadSessions((HCONTACT)info->mJoinedContactsWLID[0], info->mType);
+					p2p_clearThreadSessions((MCONTACT)info->mJoinedContactsWLID[0], info->mType);
 				info->contactLeft(data.userEmail);
 				break;
 			}
 
-			HCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
+			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
 
 			if (getByte("EnableSessionPopup", 0))
 				MSN_ShowPopup(hContact, TranslateT("Contact left channel"), 0);
@@ -1098,7 +1098,7 @@ LBL_InvalidCommand:
 						MSN_KillChatSession(info->mChatID);
 
 						// open up srmm dialog when quit while 1 person left
-						HCONTACT hContact = info->getContactHandle();
+						MCONTACT hContact = info->getContactHandle();
 						if (hContact) CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 					}
 				}
@@ -1162,7 +1162,7 @@ LBL_InvalidCommand:
 			if (tArgs < 2)
 				goto LBL_InvalidCommand;
 
-			HCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
+			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
 			if (hContact != NULL) {
 				setWord(hContact, "Status", MSN_GetThreadByContact(data.userEmail) ? ID_STATUS_INVISIBLE : ID_STATUS_OFFLINE);
 				setDword(hContact, "IdleTS", 0);
@@ -1203,7 +1203,7 @@ LBL_InvalidCommand:
 
 			MsnContact *cont = Lists_Get(szEmail);
 
-			HCONTACT hContact = NULL;
+			MCONTACT hContact = NULL;
 			if (!cont && !isMe) {
 				hContact = MSN_HContactFromEmail(data.wlid, data.userNick, true, true);
 				cont = Lists_Get(szEmail);
@@ -1293,7 +1293,7 @@ remove:
 
 			if (!strchr(data.userEmail, ';')) {
 				UrlDecode(data.userNick);
-				HCONTACT hContact = MSN_HContactFromEmail(data.userEmail, data.userNick, true, true);
+				MCONTACT hContact = MSN_HContactFromEmail(data.userEmail, data.userNick, true, true);
 
 				if (tNumTokens == 5 && strcmp(data.flags, "0:0")) {
 					MsnContact *cont = Lists_Get(data.userEmail);
@@ -1385,7 +1385,7 @@ remove:
 			stripBBCode(data.userNick);
 			stripColorCode(data.userNick);
 
-			HCONTACT hContact = MSN_HContactFromEmail(data.userEmail, data.userNick, true, true);
+			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail, data.userNick, true, true);
 			if (tNumTokens == 3) {
 				MsnContact *cont = Lists_Get(data.userEmail);
 				if (cont) {

@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *			file		- file to write the settings to
  * return	nothing
  **/
-static void ExportModule(HCONTACT hContact, LPCSTR pszModule, FILE* file)
+static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE* file)
 {
 	DB::CEnumList	Settings;
 
@@ -126,7 +126,7 @@ static void ExportModule(HCONTACT hContact, LPCSTR pszModule, FILE* file)
  *			pModules	- module to export, NULL to export all modules of a contact
  *			file		- ini file to write the contact to
  **/
-static BYTE ExportContact(HCONTACT hContact, DB::CEnumList* pModules, FILE* file)
+static BYTE ExportContact(MCONTACT hContact, DB::CEnumList* pModules, FILE* file)
 {
 	CExImContactBase vcc;
 
@@ -167,7 +167,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 	errno_t err;
 	DB::CEnumList Modules;
 	SYSTEMTIME now;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	if (!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, NULL))
 	{
@@ -298,12 +298,12 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
  *			cchBuf		- character count of the buffer
  * return:	handle to the contact that matches the information or NULL if no match
  **/
-static HCONTACT ImportFindContact(HCONTACT hContact, LPSTR &strBuf, BYTE bCanCreate)
+static MCONTACT ImportFindContact(MCONTACT hContact, LPSTR &strBuf, BYTE bCanCreate)
 {
 	CExImContactBase vcc;
 
 	vcc.fromIni(strBuf);
-	if (vcc.handle() != (HCONTACT)INVALID_HANDLE_VALUE) {
+	if (vcc.handle() != INVALID_CONTACT_ID) {
 		//if (vcc.isHandle(hContact))
 		//	return hContact;
 		return vcc.handle();
@@ -322,7 +322,7 @@ static HCONTACT ImportFindContact(HCONTACT hContact, LPSTR &strBuf, BYTE bCanCre
  *			strLine		- string with the setting and its value to write to db
  * return:	0 if writing was ok, 1 otherwise
  **/
-int ImportSetting(HCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
+int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 {
 	DBVARIANT dbv;
 	LPSTR end, value;
@@ -433,10 +433,10 @@ int ImportSetting(HCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
  *			strLine		- string with the setting and its value to write to db
  * return:	0 if writing was ok, 1 otherwise
  **/
-int SvcExImINI_Import(HCONTACT hContact, LPCSTR pszFileName)
+int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName)
 {
 	FILE	*file;
-	HCONTACT hNewContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	MCONTACT hNewContact = INVALID_CONTACT_ID;
 	DWORD	end,
 			numLines				= 0;
 	CHAR	szModule[MAXSETTING]	= {0};
@@ -452,11 +452,11 @@ int SvcExImINI_Import(HCONTACT hContact, LPCSTR pszFileName)
 			numLines++;
 
 			// contact was found and imported
-			if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && hNewContact != (HCONTACT)INVALID_HANDLE_VALUE)
+			if (hContact != INVALID_CONTACT_ID && hNewContact != INVALID_CONTACT_ID)
 				break;
 
 			// importing settings is only valid vor the main menu item
-			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+			if (hContact == INVALID_CONTACT_ID) {
 				if (!strncmp(strBuf, "SETTINGS:", 9)) {
 					*szModule = 0;
 					hNewContact = NULL;
@@ -471,7 +471,7 @@ int SvcExImINI_Import(HCONTACT hContact, LPCSTR pszFileName)
 					strBuf = mir_strnerase(strBuf, 0, 1);
 
 				numContactsInFile++;
-				if ((hNewContact = ImportFindContact(hContact, strBuf, FALSE)) != (HCONTACT)INVALID_HANDLE_VALUE)
+				if ((hNewContact = ImportFindContact(hContact, strBuf, FALSE)) != INVALID_CONTACT_ID)
 					numContactsAdded++;
 				continue;
 			}
@@ -484,13 +484,13 @@ int SvcExImINI_Import(HCONTACT hContact, LPCSTR pszFileName)
 
 				*szModule = 0;
 				numContactsInFile++;
-				if ((hNewContact = ImportFindContact(hContact, strBuf, TRUE)) != (HCONTACT)INVALID_HANDLE_VALUE)
+				if ((hNewContact = ImportFindContact(hContact, strBuf, TRUE)) != INVALID_CONTACT_ID)
 					numContactsAdded++;
 				continue;
 			}
 
 			// read modules and settings only for valid contacts
-			if (hNewContact != (HCONTACT)INVALID_HANDLE_VALUE) {
+			if (hNewContact != INVALID_CONTACT_ID) {
 				// found a module line
 				if (strBuf[0] == '[' && (end = (strchr(strBuf, ']') - strBuf)) > 0) {
 					mir_strncpy(szModule, &strBuf[1], end);

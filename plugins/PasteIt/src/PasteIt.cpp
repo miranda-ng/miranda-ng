@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 PasteToWeb* pasteToWebs[PasteToWeb::pages];
-std::map<HCONTACT, HWND>* contactWindows;
+std::map<MCONTACT, HWND>* contactWindows;
 DWORD gMirandaVersion;
 
 HANDLE hModulesLoaded, hTabsrmmButtonPressed;
@@ -94,7 +94,7 @@ std::wstring GetFile()
 	return L"";
 }
 
-void PasteIt(HCONTACT hContact, int mode)
+void PasteIt(MCONTACT hContact, int mode)
 {
 	PasteToWeb* pasteToWeb = pasteToWebs[Options::instance->defWeb];
 	if(mode == FROM_CLIPBOARD)
@@ -184,7 +184,7 @@ void PasteIt(HCONTACT hContact, int mode)
 					// contactWindows map contains all opened hContact
 					// with assaigned to them chat windows. 
 					// This map is prepared in ME_MSG_WINDOWEVENT event. 
-					std::map<HCONTACT, HWND>::iterator it = contactWindows->find(hContact);
+					std::map<MCONTACT, HWND>::iterator it = contactWindows->find(hContact);
 					if(it != contactWindows->end())
 					{
 						// it->second is imput window, so now I can send to them 
@@ -212,7 +212,7 @@ void PasteIt(HCONTACT hContact, int mode)
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -274,7 +274,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 	
-	char *szProto = GetContactProto((HCONTACT)wParam);
+	char *szProto = GetContactProto((MCONTACT)wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) != 0;
 
@@ -287,7 +287,7 @@ INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam)
 	if(lParam >= DEF_PAGES_START)
 		Options::instance->SetDefWeb(lParam - DEF_PAGES_START);
 	else {
-		HCONTACT hContact = (HCONTACT)wParam;
+		MCONTACT hContact = (MCONTACT)wParam;
 		PasteIt(hContact, lParam);
 	}
 	return 0;
@@ -384,7 +384,7 @@ int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 	}
 	else if(lParam->uType == MSG_WINDOW_EVT_CLOSE)
 	{
-		std::map<HCONTACT, HWND>::iterator it = contactWindows->find(lParam->hContact);
+		std::map<MCONTACT, HWND>::iterator it = contactWindows->find(lParam->hContact);
 		if(it != contactWindows->end())
 		{
 			contactWindows->erase(it);
@@ -429,7 +429,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hOptionsInit = HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 	hTabsrmmButtonPressed = NULL;
 	hServiceContactMenu = CreateServiceFunction(MS_PASTEIT_CONTACTMENU, ContactMenuService);
-	contactWindows = new std::map<HCONTACT, HWND>();
+	contactWindows = new std::map<MCONTACT, HWND>();
 	return 0;
 }
 

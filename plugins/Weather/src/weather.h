@@ -226,7 +226,7 @@ struct MYOPTIONS
 
 	// other misc stuff
 	TCHAR Default[64];
-	HCONTACT DefStn;
+	MCONTACT DefStn;
 };
 
 void DestroyOptions(void);
@@ -234,7 +234,7 @@ void DestroyOptions(void);
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
 
 struct WCONTACTLIST {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	struct WCONTACTLIST *next;
 };
 
@@ -395,7 +395,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 int ContactDeleted(WPARAM wParam,LPARAM lParam);
 
-BOOL IsMyContact(HCONTACT hContact);
+BOOL IsMyContact(MCONTACT hContact);
 
 // functions in weather_conv.c
 BOOL is_number(char *s);
@@ -422,10 +422,10 @@ void GetID(TCHAR *pszID);
 TCHAR *GetError(int code);
 
 // functions in weather_data.c
-void GetStationID(HCONTACT hContact, TCHAR* id, size_t idlen);
-WEATHERINFO LoadWeatherInfo(HCONTACT Change);
-int DBGetData(HCONTACT hContact, char *setting, DBVARIANT *dbv);
-int DBGetStaticString(HCONTACT hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len);
+void GetStationID(MCONTACT hContact, TCHAR* id, size_t idlen);
+WEATHERINFO LoadWeatherInfo(MCONTACT Change);
+int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
+int DBGetStaticString(MCONTACT hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len);
 
 void EraseAllInfo(void);
 
@@ -438,7 +438,7 @@ void wSetData(WCHAR **Data, const WCHAR *Value);
 void wfree(char **Data);
 void wfree(WCHAR **Data);
 
-void DBDataManage(HCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
+void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_http.c
 int InternetDownloadFile (char *szUrl, char *cookie, TCHAR** szData);
@@ -498,12 +498,12 @@ INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM lParam);
 void UpdateMenu(BOOL State);
 void UpdatePopupMenu(BOOL State);
 void AddMenuItems();
-void AvatarDownloaded(HCONTACT hContact);
+void AvatarDownloaded(MCONTACT hContact);
 
 // functions in weather_update.c
-int UpdateWeather(HCONTACT hContact);
+int UpdateWeather(MCONTACT hContact);
 
-int RetrieveWeather(HCONTACT hContact, WEATHERINFO *winfo);
+int RetrieveWeather(MCONTACT hContact, WEATHERINFO *winfo);
 
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveOld);
 void UpdateThreadProc(LPVOID hWnd);
@@ -512,7 +512,7 @@ INT_PTR UpdateAllInfo(WPARAM wParam,LPARAM lParam);
 INT_PTR UpdateSingleRemove(WPARAM wParam,LPARAM lParam);
 INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam);
 
-int GetWeatherData(HCONTACT hContact);
+int GetWeatherData(MCONTACT hContact);
 
 void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
@@ -522,8 +522,8 @@ void InitMwin(void);
 void DestroyMwin(void);
 INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM lParam);
 int BuildContactMenu(WPARAM wparam, LPARAM lparam);
-void UpdateMwinData(HCONTACT hContact);
-void removeWindow(HCONTACT hContact);
+void UpdateMwinData(MCONTACT hContact);
+void removeWindow(MCONTACT hContact);
 
 // functions in weather_userinfo.c
 int UserInfoInit(WPARAM wParam, LPARAM lParam);
@@ -535,7 +535,7 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int BriefInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
-void LoadBriefInfoText(HWND hwndDlg, HCONTACT hContact);
+void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact);
 INT_PTR CALLBACK DlgProcBrief(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void InitIcons(void);

@@ -41,14 +41,14 @@ ExtraIcon * GetExtraIconBySlot(int slot);
 int GetNumberOfSlots();
 int ConvertToClistSlot(int slot);
 
-int Clist_SetExtraIcon(HCONTACT hContact, int slot, HANDLE hImage);
+int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage);
 
 void DefaultExtraIcons_Load();
 
 HANDLE ExtraIcon_Add(HICON hIcon);
 
 void fnReloadExtraIcons();
-void fnSetAllExtraIcons(HCONTACT hContact);
+void fnSetAllExtraIcons(MCONTACT hContact);
 
 static inline BOOL IsEmpty(const char *str)
 {

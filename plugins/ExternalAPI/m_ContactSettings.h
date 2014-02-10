@@ -26,7 +26,7 @@ typedef struct {
 	int Type; // one of CSIT_ constants; value of this field depends on what settings dialog was opened: contact settings or group settings
 	union
 	{
-		HCONTACT hContact; // used when Type == CSIT_CONTACT
+		MCONTACT hContact; // used when Type == CSIT_CONTACT
 		int groupID; // used when Type == CSIT_GROUP
 	};
 } CONTACTSETTINGSINIT;

@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0x1B2A39E5, 0xE2F6, 0x494D, {0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5}}
 };
 
-LPSTR myDBGetStringDecode(HCONTACT hContact,const char *szModule,const char *szSetting)
+LPSTR myDBGetStringDecode(MCONTACT hContact,const char *szModule,const char *szSetting)
 {
 	char *val = db_get_sa(hContact,szModule,szSetting);
 	if (!val) return NULL;
@@ -47,7 +47,7 @@ LPSTR myDBGetStringDecode(HCONTACT hContact,const char *szModule,const char *szS
 	return buf;
 }
 
-int myDBWriteStringEncode(HCONTACT hContact,const char *szModule,const char *szSetting,const char *val)
+int myDBWriteStringEncode(MCONTACT hContact,const char *szModule,const char *szSetting,const char *val)
 {
 	int len = (int)strlen(val)+64;
 	char *buf = (LPSTR)alloca(len);

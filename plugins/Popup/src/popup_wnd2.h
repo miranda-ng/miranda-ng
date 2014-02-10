@@ -68,7 +68,7 @@ private:
 
 	// other data
 	Formula::Args m_args;
-	HCONTACT    m_hContact, m_hContactPassed;
+	MCONTACT    m_hContact, m_hContactPassed;
 	WNDPROC     m_PluginWindowProc;
 	void       *m_PluginData;
 	
@@ -162,8 +162,8 @@ public:
 
 	char    *getTime()          { return m_time; }
 	HICON    getIcon()          { return m_hIcon; }
-	HCONTACT getContact()       { return m_hContact; }
-	HCONTACT getContactPassed() { return m_hContactPassed; }
+	MCONTACT getContact()       { return m_hContact; }
+	MCONTACT getContactPassed() { return m_hContactPassed; }
 	int      getTimeout()       { return m_iTimeout; }
 	HWND     getHwnd()          { return m_hwnd; }
 	void    *getData()          { return m_PluginData; }

@@ -252,7 +252,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case M_REMAKELISTS:
 		{
-			HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hContact != NULL) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto == NULL)
@@ -436,7 +436,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					NMLISTVIEW *nm = (NMLISTVIEW*)lParam;
 					LVITEM lvi;
 					TCHAR szEmail[256];
-					HCONTACT hContact = (HCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					char *szIdTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "MyPhone%d" : "Mye-mail%d";
 					LVHITTESTINFO hti;
 

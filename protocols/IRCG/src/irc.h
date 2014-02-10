@@ -214,23 +214,23 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 				// Protocol interface
 
-	virtual	HCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	HCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
+	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
 	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
 	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR* szReason);
-	virtual	int       __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
+	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
 
 	virtual	HANDLE    __cdecl ChangeInfo( int iInfoType, void *pInfoData);
 
-	virtual	HANDLE    __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
-	virtual	int       __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
 	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const TCHAR **szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType);
+	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL);
+	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
 	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR* email);
@@ -238,24 +238,24 @@ struct CIrcProto : public PROTO<CIrcProto>
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
-	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
+	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
-	virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg);
-	virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char* url);
+	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
+	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url);
 
-	virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode);
+	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact);
-	virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt);
+	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
+	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
 	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type);
+	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
@@ -389,18 +389,18 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CDlgBase::CreateParam OptCreateAccount, OptCreateConn, OptCreateIgnore, OptCreateOther;
 
 	//clist.cpp
-	HCONTACT CList_AddContact(CONTACT *user, bool InList, bool SetOnline);
+	MCONTACT CList_AddContact(CONTACT *user, bool InList, bool SetOnline);
 	bool     CList_SetAllOffline(BYTE ChatsToo);
-	HCONTACT CList_SetOffline(CONTACT *user);
+	MCONTACT CList_SetOffline(CONTACT *user);
 
 	bool     CList_AddEvent(CONTACT *user, HICON Icon, HANDLE event, const char *tooltip, int type ) ;
-	HCONTACT CList_FindContact(CONTACT *user);
+	MCONTACT CList_FindContact(CONTACT *user);
 	BOOL     CList_AddDCCChat(const CMString &name, const CMString &hostmask, unsigned long adr, int port) ;
 
 	//commandmonitor.cpp
 	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
 
-	int  AddOutgoingMessageToDB(HCONTACT hContact, TCHAR *msg);
+	int  AddOutgoingMessageToDB(MCONTACT hContact, TCHAR *msg);
 	bool DoOnConnect(const CIrcMessage *pmsg);
 	int  DoPerform(const char *event);
 	void __cdecl ResolveIPThread(void *di);
@@ -412,10 +412,10 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	//input.cpp
 	CMString DoAlias( const TCHAR *text, TCHAR *window);
-	BOOL     DoHardcodedCommand(CMString text, TCHAR *window, HCONTACT hContact);
+	BOOL     DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hContact);
 	CMString DoIdentifiers(CMString text, const TCHAR *window);
 	void     FormatMsg(CMString &text);
-	bool     PostIrcMessageWnd(TCHAR *pszWindow, HCONTACT hContact, const TCHAR *szBuf);
+	bool     PostIrcMessageWnd(TCHAR *pszWindow, MCONTACT hContact, const TCHAR *szBuf);
 	bool     PostIrcMessage(const TCHAR *fmt, ...);
 
 	// irclib.cpp
@@ -501,12 +501,12 @@ struct CIrcProto : public PROTO<CIrcProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// former CIrcSession class
 
-	void AddDCCSession(HCONTACT hContact, CDccSession* dcc);
+	void AddDCCSession(MCONTACT hContact, CDccSession* dcc);
 	void AddDCCSession(DCCINFO*  pdci, CDccSession* dcc);
-	void RemoveDCCSession(HCONTACT hContact);
+	void RemoveDCCSession(MCONTACT hContact);
 	void RemoveDCCSession(DCCINFO*  pdci);
 
-	CDccSession* FindDCCSession(HCONTACT hContact);
+	CDccSession* FindDCCSession(MCONTACT hContact);
 	CDccSession* FindDCCSession(DCCINFO* pdci);
 	CDccSession* FindDCCSendByPort(int iPort);
 	CDccSession* FindDCCRecvByPortAndName(int iPort, const TCHAR* szName);

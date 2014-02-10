@@ -37,7 +37,7 @@ int _DebugTrace(const char *fmt, ...)
 	return 0;
 }
 
-int _DebugTrace(HCONTACT hContact, const char *fmt, ...)
+int _DebugTrace(MCONTACT hContact, const char *fmt, ...)
 {
 	char text[1024];
 	size_t len;
@@ -119,7 +119,7 @@ size_t AVS_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
  * convert the avatar image path to a relative one...
  * given: contact handle, path to image
  */
-void MakePathRelative(HCONTACT hContact, TCHAR *path)
+void MakePathRelative(MCONTACT hContact, TCHAR *path)
 {
 	TCHAR szFinalPath[MAX_PATH];
 	szFinalPath[0] = '\0';
@@ -137,7 +137,7 @@ void MakePathRelative(HCONTACT hContact, TCHAR *path)
  * given: contact handle
  */
 
-void MakePathRelative(HCONTACT hContact)
+void MakePathRelative(MCONTACT hContact)
 {
 	DBVARIANT dbv;
 	if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
@@ -148,7 +148,7 @@ void MakePathRelative(HCONTACT hContact)
 
 // create the avatar in cache
 // returns 0 if not created (no avatar), iIndex otherwise, -2 if has to request avatar, -3 if avatar too big
-int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
+int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
 	DBVARIANT dbv = {0};
 	char *szExt = NULL;
@@ -212,7 +212,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				}
 			}
 		}
-		else if (hContact == (HCONTACT)-1) {	// create own picture - note, own avatars are not on demand, they are loaded once at
+		else if (hContact == (MCONTACT)-1) {	// create own picture - note, own avatars are not on demand, they are loaded once at
 			// startup and everytime they are changed.
 			if (szProto[0] == '\0') {
 				// Global avatar
@@ -274,7 +274,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
 
 		// Calc image hash
-		if (hContact != 0 && hContact != (HCONTACT)-1) {
+		if (hContact != 0 && hContact != (MCONTACT)-1) {
 			// Have to reset settings? -> do it if image changed
 			DWORD imgHash = GetImgHash(ace->hbmPic);
 			if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
@@ -297,7 +297,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				}
 			}
 		}
-		else if (hContact == (HCONTACT)-1) { // My avatars
+		else if (hContact == (MCONTACT)-1) { // My avatars
 			if (!noTransparency && !isTransparentImage
 				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
 				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0))
@@ -329,7 +329,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 			protoPicCacheEntry *pAce = (protoPicCacheEntry *)ace;
 			if (hContact == 0)
 				pAce->dwFlags |= AVS_PROTOPIC;
-			else if (hContact == (HCONTACT)-1)
+			else if (hContact == (MCONTACT)-1)
 				pAce->dwFlags |= AVS_OWNAVATAR;
 		}
 
@@ -493,7 +493,7 @@ BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-protoPicCacheEntry *GetProtoDefaultAvatar(HCONTACT hContact)
+protoPicCacheEntry *GetProtoDefaultAvatar(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
@@ -506,7 +506,7 @@ protoPicCacheEntry *GetProtoDefaultAvatar(HCONTACT hContact)
 	return NULL;
 }
 
-HCONTACT GetContactThatHaveTheAvatar(HCONTACT hContact, int locked)
+MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked)
 {
 	if (g_MetaAvail && db_get_b(NULL, g_szMetaName, "Enabled", 0)) {
 		if (db_get_dw(hContact, g_szMetaName, "NumContacts", 0) >= 1) {
@@ -514,13 +514,13 @@ HCONTACT GetContactThatHaveTheAvatar(HCONTACT hContact, int locked)
 				locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 			if (!locked)
-				hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+				hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 		}
 	}
 	return hContact;
 }
 
-int ChangeAvatar(HCONTACT hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
+int ChangeAvatar(MCONTACT hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
 {
 	if (g_shutDown)
 		return 0;

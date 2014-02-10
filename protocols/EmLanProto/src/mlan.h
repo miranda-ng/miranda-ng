@@ -30,7 +30,7 @@ public:
 	long id;
 	long op;
 
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char* const msg;
 	CMLan* lan;
 
@@ -101,7 +101,7 @@ private:
 	CRITICAL_SECTION m_csAccessAwayMes;
 
 	void RequestStatus(bool answer=false, u_long m_addr=INADDR_BROADCAST);
-	HCONTACT FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
+	MCONTACT FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
 	void DeleteCache();
 
 	void StartChecking();
@@ -176,7 +176,7 @@ private:
 		int m_cid;
 		SOCKET m_socket;
 		u_long m_addr;
-		HCONTACT m_hContact;
+		MCONTACT m_hContact;
 
 		char* m_szDescription;
 		char** m_szFiles;

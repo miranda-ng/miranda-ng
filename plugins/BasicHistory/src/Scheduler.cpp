@@ -219,7 +219,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 
 static void CALLBACK DoRebuildEventsInMainAPCFunc(ULONG_PTR dwParam)
 {
-	HCONTACT *contacts = (HCONTACT*)dwParam;
+	MCONTACT *contacts = (MCONTACT*)dwParam;
 	size_t size = (size_t)contacts[0];
 	for (size_t i = 1; i <= size; ++i)
 		HistoryWindow::RebuildEvents(contacts[i]);
@@ -277,7 +277,7 @@ bool DoTask(TaskOptions& to)
 		std::wstring filePath = to.filePath;
 		std::wstring dir;
 		std::list<std::wstring> files;
-		std::vector<HCONTACT> contacts;
+		std::vector<MCONTACT> contacts;
 		if (to.useFtp || to.compress) {
 			std::map<std::wstring, bool> existingContacts;
 			TCHAR temp[MAX_PATH];
@@ -352,7 +352,7 @@ bool DoTask(TaskOptions& to)
 		}
 
 		if (!error) {
-			std::list<HCONTACT> contactList;
+			std::list<MCONTACT> contactList;
 			for (std::list<std::wstring>::iterator it = files.begin(); it != files.end(); ++it) {
 				mExp.SetAutoImport(*it);
 				int ret = mExp.Import(to.importType, contacts);
@@ -410,10 +410,10 @@ bool DoTask(TaskOptions& to)
 			}
 			
 			if (contactList.size() > 0) {
-				HCONTACT *contacts = new HCONTACT[contactList.size() + 1];
-				contacts[0] = (HCONTACT)contactList.size();
+				MCONTACT *contacts = new MCONTACT[contactList.size() + 1];
+				contacts[0] = (MCONTACT)contactList.size();
 				int i = 1;
-				for (std::list<HCONTACT>::iterator it = contactList.begin(); it != contactList.end(); ++it)
+				for (std::list<MCONTACT>::iterator it = contactList.begin(); it != contactList.end(); ++it)
 					contacts[i++] = *it;
 
 				QueueUserAPC(DoRebuildEventsInMainAPCFunc, g_hMainThread, (ULONG_PTR) contacts);

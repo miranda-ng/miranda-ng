@@ -18,14 +18,14 @@
 
 
 wstring new_key;
-HCONTACT new_key_hcnt = NULL;
+MCONTACT new_key_hcnt = NULL;
 boost::mutex new_key_hcnt_mutex;
 bool _terminate = false;
-int returnNoError(HCONTACT hContact);
+int returnNoError(MCONTACT hContact);
 
 std::list<HANDLE> sent_msgs;
 
-void RecvMsgSvc_func(HCONTACT hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
+void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
 {		
 	DWORD dbflags = DBEF_UTF;
 	{ //check for gpg related data
@@ -598,7 +598,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		return 0;
 }
 
-void SendMsgSvc_func(HCONTACT hContact, char *msg, DWORD flags)
+void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 {
 	bool isansi = false;
 	DWORD dbflags = 0;
@@ -838,7 +838,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
 	if(dbei->eventType != EVENTTYPE_MESSAGE)
 		return 0;
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 	if(dbei->flags & DBEF_SENT)
 	{
 		if(isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.t.c.
@@ -986,7 +986,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" is unsecured");
 		return 0;
 	}
-	if(!(dbei->flags & DBEF_SENT) && metaIsProtoMetaContacts((HCONTACT)w))
+	if(!(dbei->flags & DBEF_SENT) && metaIsProtoMetaContacts((MCONTACT)w))
 	{
 		char tmp[29];
 		strncpy(tmp, (char*)dbei->pBlob, 27);

@@ -45,7 +45,7 @@ static const struct {
 	{ID_STATUS_ONTHEPHONE, 150},
 	{ID_STATUS_OUTTOLUNCH, 425}};
 
-static int GetContactStatus(HCONTACT hContact)
+static int GetContactStatus(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
@@ -53,7 +53,7 @@ static int GetContactStatus(HCONTACT hContact)
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
-void fnChangeContactIcon(HCONTACT hContact, int iIcon, int add)
+void fnChangeContactIcon(MCONTACT hContact, int iIcon, int add)
 {
 	CallService(add ? MS_CLUI_CONTACTADDED : MS_CLUI_CONTACTSETICON, (WPARAM) hContact, iIcon);
 	NotifyEventHooks(hContactIconChangedEvent, (WPARAM) hContact, iIcon);
@@ -78,7 +78,7 @@ void fnLoadContactTree(void)
 	}
 
 	int hideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
 			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact), 1);
@@ -90,7 +90,7 @@ void fnLoadContactTree(void)
 
 int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 {
-	HCONTACT a = c1->hContact, b = c2->hContact;
+	MCONTACT a = c1->hContact, b = c2->hContact;
 	TCHAR namea[128], *nameb;
 	int statusa, statusb;
 	int rc;
@@ -144,13 +144,13 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 
 	CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
 	if ((HANDLE) lParam == NULL)
-		db_unset((HCONTACT)wParam, "CList", "Group");
+		db_unset((MCONTACT)wParam, "CList", "Group");
 	else {
 		grpChg.pszNewName = cli.pfnGetGroupName(lParam, NULL);
-		db_set_ts((HCONTACT)wParam, "CList", "Group", grpChg.pszNewName);
+		db_set_ts((MCONTACT)wParam, "CList", "Group", grpChg.pszNewName);
 	}
 	CallService(MS_CLUI_CONTACTADDED, wParam,
-		cli.pfnIconFromStatusMode(GetContactProto((HCONTACT)wParam), GetContactStatus((HCONTACT)wParam), (HCONTACT)wParam));
+		cli.pfnIconFromStatusMode(GetContactProto((MCONTACT)wParam), GetContactStatus((MCONTACT)wParam), (MCONTACT)wParam));
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);
 	return 0;

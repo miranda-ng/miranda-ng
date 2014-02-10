@@ -101,17 +101,17 @@ __forceinline HANDLE CreateProtoServiceFunction(const char *szModule, const char
 //differences between threads the functions are in.
 #define MS_PROTO_CHAINRECV       "Proto/ChainRecv"
 
-__forceinline INT_PTR ProtoChainRecv(HCONTACT hContact, char *szService, WPARAM wParam, LPARAM lParam)
+__forceinline INT_PTR ProtoChainRecv(MCONTACT hContact, char *szService, WPARAM wParam, LPARAM lParam)
 {	CCSDATA ccs = { hContact, szService, wParam, lParam };
 	return CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 }
 
-__forceinline INT_PTR ProtoChainRecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
+__forceinline INT_PTR ProtoChainRecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
 	return CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 }
 
-__forceinline INT_PTR ProtoChainRecvFile(HCONTACT hContact, PROTORECVFILET *pre)
+__forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILET *pre)
 {	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pre };
 	return CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 }

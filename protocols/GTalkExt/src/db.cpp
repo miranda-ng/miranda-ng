@@ -42,7 +42,7 @@ void RenewPseudocontactHandles()
 		db_unset(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
 	}
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 			LPCSTR proto = (LPCSTR)GetContactProto(hContact);
 			db_set_dw(NULL, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);

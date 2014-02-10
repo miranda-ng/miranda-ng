@@ -12,7 +12,7 @@ DockOpt;
 
 struct ThumbInfo
 {
-	HCONTACT     hContact;
+	MCONTACT     hContact;
 	HWND         hwnd;
 	TCHAR        ptszName[USERNAME_LEN];
 	int          iIcon;
@@ -60,11 +60,11 @@ public:
 	ThumbList();
 	~ThumbList();
 
-	ThumbInfo* AddThumb(HWND hwnd, TCHAR *ptszName, HCONTACT hContact);
+	ThumbInfo* AddThumb(HWND hwnd, TCHAR *ptszName, MCONTACT hContact);
 	void       RemoveThumb(ThumbInfo *pThumb);
 
 	ThumbInfo* FindThumb(HWND hwnd);
-	ThumbInfo* FindThumbByContact(HCONTACT hContact);
+	ThumbInfo* FindThumbByContact(MCONTACT hContact);
 };
 
 extern ThumbList thumbList;

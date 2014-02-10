@@ -377,13 +377,13 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 		}
 		case IDC_DETAILS:
 		{
-			HCONTACT hContact = (HCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 			break;
 		}
 		case IDC_SENDMESSAGE:
 		{
-			HCONTACT hContact = (HCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)(const char*)NULL);
 			break;
 		}

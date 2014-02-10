@@ -6,7 +6,7 @@
 class CEventLogEntry
 {
 public:
-	HCONTACT hContact;
+	MCONTACT hContact;
 	tstring strValue;
 	tstring strTimestamp;
 	tm Time;

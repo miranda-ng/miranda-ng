@@ -57,7 +57,7 @@ HICON LoadSkinnedDBEIcon(int icon);
 int AddIconToList(HIMAGELIST hil, HICON hIcon);
 void AddProtoIconsToList(HIMAGELIST hil, int newshift);
 int GetProtoIcon(char *szProto);
-extern HCONTACT hRestore;
+extern MCONTACT hRestore;
 extern HGENMENU hUserMenu;
 /////////////////////
 
@@ -109,11 +109,11 @@ extern HGENMENU hUserMenu;
 
 typedef struct {
 	int type; // from above types
-	HCONTACT hContact;
+	MCONTACT hContact;
 } ModuleTreeInfoStruct;
 
 typedef struct {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char* module;
 	HWND hwnd2Edit;
 	int selectedItem; // item that is currently selected
@@ -125,7 +125,7 @@ typedef struct {
 
 struct DBsetting {
 	DBVARIANT dbv;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char *module;
 	char *setting;
 	int WatchModule; // above defines
@@ -133,7 +133,7 @@ struct DBsetting {
 
 typedef struct {
 	char module[256];
-	HCONTACT hContact;
+	MCONTACT hContact;
 } ModuleAndContact;
 
 // find window
@@ -143,7 +143,7 @@ typedef struct {
 
 typedef struct {
 	int type; // above types
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char module[256];
 	char setting[256];
 } ItemInfo;
@@ -182,67 +182,67 @@ extern BOOL usePopups;
 #define HEX_DWORD      4
 
 //main.c
-int DBGetContactSettingStringStatic(HCONTACT hContact, char* szModule, char* szSetting, char* value, int maxLength);
-int WriteBlobFromString(HCONTACT hContact,const char *szModule,const char *szSetting, const char *Value, int len);
-int GetSetting(HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-int GetValue(HCONTACT hContact, const char* szModule, const char* szSetting, char* Value, int length);
-int GetValueW(HCONTACT hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length);
+int DBGetContactSettingStringStatic(MCONTACT hContact, char* szModule, char* szSetting, char* value, int maxLength);
+int WriteBlobFromString(MCONTACT hContact,const char *szModule,const char *szSetting, const char *Value, int len);
+int GetSetting(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+int GetValue(MCONTACT hContact, const char* szModule, const char* szSetting, char* Value, int length);
+int GetValueW(MCONTACT hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length);
 char* u2a( wchar_t* src );
 wchar_t *a2u( char* src , wchar_t *buffer, int len );
-WCHAR *GetContactName(HCONTACT hContact, const char *szProto, int unicode);
+WCHAR *GetContactName(MCONTACT hContact, const char *szProto, int unicode);
 BOOL IsProtocolLoaded(char* pszProtocolName);
 
 // main_window.c
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // modules.c
-int deleteModule(char* module, HCONTACT hContact, int fromMenu);
+int deleteModule(char* module, MCONTACT hContact, int fromMenu);
 void deleteModuleGui();
-void renameModule(char* oldName, char* newName, HCONTACT hContact);
+void renameModule(char* oldName, char* newName, MCONTACT hContact);
 INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-int CloneContact(HCONTACT hContact);
+int CloneContact(MCONTACT hContact);
 
 // moduletree.c
-void replaceTreeItem(HWND hwnd, HCONTACT hContact, const char *module, const char *newModule);
+void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const char *newModule);
 void refreshTree(BOOL restore);
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID di);
-void freeTree(HWND hwnd2Tree, HCONTACT hContact);
-int findItemInTree(HWND hwnd2Tree, HCONTACT hContact, char* module);
+void freeTree(HWND hwnd2Tree, MCONTACT hContact);
+int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char* module);
 
 // settinglist.c
 void setupSettingsList(HWND hwnd2List);
 void saveListSettings(HWND hwnd2List);
 void ClearListview(HWND hwnd2Settings);
-void DeleteSettingsFromList(HWND hSettings, HCONTACT hContact, char *module, char *setting);
-void PopulateSettings(HWND hwnd2Settings, HCONTACT hContact, char* module);
+void DeleteSettingsFromList(HWND hSettings, MCONTACT hContact, char *module, char *setting);
+void PopulateSettings(HWND hwnd2Settings, MCONTACT hContact, char* module);
 void SelectSetting(char* setting);
 
 // addeditsettingsdlg.c
 INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void editSetting(HCONTACT hContact, char* module, char* setting);
-BOOL convertSetting(HCONTACT hContact, char* module, char* setting, int toType); // 0 = byte, 1 = word, 2 = dword, 3 = string
+void editSetting(MCONTACT hContact, char* module, char* setting);
+BOOL convertSetting(MCONTACT hContact, char* module, char* setting, int toType); // 0 = byte, 1 = word, 2 = dword, 3 = string
 
 // exportimport.c
-void exportDB(HCONTACT hContact, char* module); // hContact == -1 export entire db. module == NULL export entire contact
-void ImportSettingsMenuItem(HCONTACT hContact);
-void ImportSettingsFromFileMenuItem(HCONTACT hContact, char* FilePath);
+void exportDB(MCONTACT hContact, char* module); // hContact == -1 export entire db. module == NULL export entire contact
+void ImportSettingsMenuItem(MCONTACT hContact);
+void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath);
 
 // find window.c
 INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // copymodule.c
-void copyModuleMenuItem(char* module, HCONTACT hContact);
-void copyModule(char* module, HCONTACT hContactFrom, HCONTACT hContactTo);
+void copyModuleMenuItem(char* module, MCONTACT hContact);
+void copyModule(char* module, MCONTACT hContactFrom, MCONTACT hContactTo);
 
 // options.c
 int OptInit(WPARAM wParam,LPARAM lParam);
 
 // watchlist
-int addSettingToWatchList(HCONTACT hContact, char* module, char* setting);
+int addSettingToWatchList(MCONTACT hContact, char* module, char* setting);
 void freeWatchListItem(int item);
 void PopulateWatchedWindow(HWND hwnd);
 void freeAllWatches();
 INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void popupWatchedVar(HCONTACT hContact,const char* module,const char* setting);
+void popupWatchedVar(MCONTACT hContact,const char* module,const char* setting);
 
 #endif //_COMMONHEADERS_H

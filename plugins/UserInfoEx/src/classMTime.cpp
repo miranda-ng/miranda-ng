@@ -408,7 +408,7 @@ void	MTime::GetLocalTime()
 	::GetLocalTime(&_SysTime);
 }
 
-void	MTime::GetLocalTime(HCONTACT hContact)
+void	MTime::GetLocalTime(MCONTACT hContact)
 {
 	TIME_ZONE_INFORMATION tzi;
 
@@ -423,9 +423,9 @@ void	MTime::GetLocalTime(HCONTACT hContact)
  * read and write time to miranda's database
  *********************************************/
 
-int MTime::DBGetStamp  (HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int MTime::DBGetStamp  (MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0) {
+	if (hContact == INVALID_CONTACT_ID || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0) {
 		ZeroDate();
 		return 1;
 	}
@@ -440,9 +440,9 @@ int MTime::DBGetStamp  (HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 	return 0;
 }
 
-int MTime::DBWriteStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int MTime::DBWriteStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0)
+	if (hContact == INVALID_CONTACT_ID || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0)
 		return 1;
 
 	return db_set_dw(hContact, pszModule, pszSetting, TimeStamp());

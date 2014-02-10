@@ -93,7 +93,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 	LONG cbHeader;
 	SYSTEMTIME now;
 	DWORD result;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	result = (DWORD)DialogBox(ghInst, 
 							MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY),
@@ -139,7 +139,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		}
 		else {
 			// other export mode
-			_hContactToWorkOn = (HCONTACT)INVALID_HANDLE_VALUE;
+			_hContactToWorkOn = INVALID_CONTACT_ID;
 #ifdef _DEBUG
 			LARGE_INTEGER freq, t1, t2;
 
@@ -265,8 +265,8 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 				switch (result) {
 					case ERROR_OK:
 						// init contact class and import if matches the user desires
-						if (_hContactToWorkOn == (HCONTACT)INVALID_HANDLE_VALUE || vContact.handle() == _hContactToWorkOn) {
-							result = vContact.Import(_hContactToWorkOn != (HCONTACT)INVALID_HANDLE_VALUE);
+						if (_hContactToWorkOn == INVALID_CONTACT_ID || vContact.handle() == _hContactToWorkOn) {
+							result = vContact.Import(_hContactToWorkOn != INVALID_CONTACT_ID);
 							switch (result) {
 								case ERROR_OK:
 									_numContactsDone++;
@@ -295,7 +295,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 			if (pszNick) mir_free(pszNick);
 		}
 		// import owner contact
-		else if (_hContactToWorkOn == (HCONTACT)INVALID_HANDLE_VALUE && !mir_stricmp(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
+		else if (_hContactToWorkOn == INVALID_CONTACT_ID && !mir_stricmp(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
 			result = vContact.Import();
 			switch (result) {
 				case ERROR_OK:
@@ -346,7 +346,7 @@ DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
  *			pszFileName	- full qualified path to the xml file which is to import
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-int CFileXml::Import(HCONTACT hContact, LPCSTR pszFileName)
+int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 {
 	TiXmlDocument doc;
 	TiXmlElement *xmlCard = NULL;

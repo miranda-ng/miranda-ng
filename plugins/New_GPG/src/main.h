@@ -22,7 +22,7 @@ struct contact_data
 	string key_in_prescense;
 };
 
-extern std::map<HCONTACT, contact_data> hcontact_data;
+extern std::map<MCONTACT, contact_data> hcontact_data;
 extern bool bAutoExchange;
 extern RECT key_from_keyserver_rect, firstrun_rect, new_key_rect, key_gen_rect, load_key_rect, import_key_rect, key_password_rect, load_existing_key_rect;
 

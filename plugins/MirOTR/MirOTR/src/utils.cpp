@@ -22,9 +22,9 @@ void lib_cs_unlock()
 	LeaveCriticalSection(&lib_cs);
 }
 
-HCONTACT find_contact(const char* userid, const char* protocol)
+MCONTACT find_contact(const char* userid, const char* protocol)
 {
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		const char *proto = contact_get_proto(hContact);
 		if(proto && strcmp(proto, protocol) == 0) {
 			char *name = contact_get_id(hContact);
@@ -44,7 +44,7 @@ HCONTACT find_contact(const char* userid, const char* protocol)
 * context if one does not currently exist.  In that event, call
 * add_app_data(data, context) so that app_data and app_data_free can be
 * filled in by the application, and set *addedp to 1. */
-ConnContext * otrl_context_find_miranda(OtrlUserState us, HCONTACT hContact)
+ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact)
 {
 	ConnContext ** curp;
 	if (!hContact) return NULL;
@@ -85,10 +85,10 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 
 void VerifyFingerprintMessage(ConnContext *context, bool verify) {
 	TCHAR msg[1024];
-	mir_sntprintf(msg, 1024, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((HCONTACT)context->app_data));
+	mir_sntprintf(msg, 1024, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((MCONTACT)context->app_data));
 	msg[1023] = '\0';
-	ShowMessage((HCONTACT)context->app_data, msg);
-	SetEncryptionStatus((HCONTACT)context->app_data, otr_context_get_trust(context));
+	ShowMessage((MCONTACT)context->app_data, msg);
+	SetEncryptionStatus((MCONTACT)context->app_data, otr_context_get_trust(context));
 }
 
 /* Convert a 20-byte hash value to a 45-byte human-readable value */
@@ -109,7 +109,7 @@ void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
 	*p = '\0';
 }
 
-char* contact_get_id(HCONTACT hContact, bool bNameOnError) {
+char* contact_get_id(MCONTACT hContact, bool bNameOnError) {
 	char* pszUniqueID = NULL;
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
@@ -142,21 +142,21 @@ char* contact_get_id(HCONTACT hContact, bool bNameOnError) {
 	return pszUniqueID;
 }
 
-__inline const TCHAR* contact_get_nameT(HCONTACT hContact) {
+__inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
 	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 }
 
-__inline const char* contact_get_proto(HCONTACT hContact) {
+__inline const char* contact_get_proto(MCONTACT hContact) {
 	char *uproto = GetContactProto(hContact);
 	return uproto;
 }
 
-__inline const char* contact_get_account(HCONTACT hContact) {
+__inline const char* contact_get_account(MCONTACT hContact) {
 	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
 	return uacc;
 }
 
-void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HCONTACT hContact) {
+void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact) {
 	if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
 
 	if ( !options.bHavePopups) {	
@@ -298,7 +298,7 @@ void ShowError(TCHAR *msg) {
 }
 
 
-void ShowPopupUtf(const char* line1, const char* line2, int timeout, const HCONTACT hContact) {
+void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact) {
 	TCHAR* l1 = (line1) ? mir_utf8decodeT(line1) : NULL;
 	TCHAR* l2 = (line2) ? mir_utf8decodeT(line2) : NULL;
 	ShowPopup(l1, l2, timeout, hContact);
@@ -317,7 +317,7 @@ void ShowErrorUtf(char* msg) {
 	if (m) mir_free(m);
 }
 
-void ShowMessageInline(const HCONTACT hContact, const TCHAR *msg) {
+void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg) {
 	TCHAR buff[1024];
 	mir_sntprintf(buff, 1024, _T("%s%s"), TranslateT(LANG_INLINE_PREFIX), msg);
 
@@ -331,7 +331,7 @@ void ShowMessageInline(const HCONTACT hContact, const TCHAR *msg) {
 	mir_free(utf);
 }
 
-void ShowMessageInlineUtf(const HCONTACT hContact, const char *msg) {
+void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg) {
 	char buff[1024];
 	mir_snprintf(buff, 1024, "%s%s", Translate(LANG_INLINE_PREFIX), msg);
 
@@ -342,14 +342,14 @@ void ShowMessageInlineUtf(const HCONTACT hContact, const char *msg) {
 	ProtoChainRecvMsg(hContact, &pre);
 }
 
-void ShowMessageUtf(const HCONTACT hContact, const char *msg) {
+void ShowMessageUtf(const MCONTACT hContact, const char *msg) {
 	if(options.msg_inline)
 		ShowMessageInlineUtf(hContact, msg);
 	if(options.msg_popup)
 		ShowPopupUtf(Translate(LANG_OTR_INFO), msg, 0, hContact);
 }
 
-void ShowMessage(const HCONTACT hContact, const TCHAR *msg) {
+void ShowMessage(const MCONTACT hContact, const TCHAR *msg) {
 	if(options.msg_inline)
 		ShowMessageInline(hContact, msg);
 	if(options.msg_popup)
@@ -358,7 +358,7 @@ void ShowMessage(const HCONTACT hContact, const TCHAR *msg) {
 
 
 /*
-bool GetEncryptionStatus(HCONTACT hContact) {
+bool GetEncryptionStatus(MCONTACT hContact) {
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
 

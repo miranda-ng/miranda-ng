@@ -840,7 +840,7 @@ CSideBarButton* CSideBar::findSession(const TWindowData *dat)
  * @return CSideBarButtonItem*: pointer to the found item. Zero, if none was found
  */
 
-CSideBarButton* CSideBar::findSession(const HCONTACT hContact)
+CSideBarButton* CSideBar::findSession(const MCONTACT hContact)
 {
 	if (hContact == NULL)
 		return NULL;

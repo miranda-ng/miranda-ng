@@ -200,7 +200,7 @@ void CIcqProto::handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef
 }
 
 
-char* CIcqProto::convertMsgToUserSpecificUtf(HCONTACT hContact, const char *szMsg)
+char* CIcqProto::convertMsgToUserSpecificUtf(MCONTACT hContact, const char *szMsg)
 {
 	WORD wCP = getWord(hContact, "CodePage", m_wAnsiCodepage);
 	char *usMsg = NULL;
@@ -268,7 +268,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 				PROTORECVEVENT pre = {0};
 				int bAdded;
 
-				HCONTACT hContact = HContactFromUID(dwUin, szUID, &bAdded);
+				MCONTACT hContact = HContactFromUID(dwUin, szUID, &bAdded);
 
 				while (pMessageTLV = pChain->getTLV(0x0101, wMsgPart))
 				{ // Loop thru all message parts
@@ -468,7 +468,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 		if (CompareGUIDs(q1,q2,q3,q4, MCAP_SRV_RELAY_FMT))
 		{ // we surely have at least 4 bytes for TLV chain
-			HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
+			MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 			if (wCommand == 1)
 			{
@@ -504,7 +504,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 			WORD wAckType = chain->getWord(0x0A, 1);
 
 			// Update the saved DC info (if contact already exists)
-			if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+			if (hContact != INVALID_CONTACT_ID)
 			{
 				DWORD dwIP, dwExternalIP;
 				WORD wPort;
@@ -575,8 +575,8 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 					unpackLEDWord(&buf, &dwUin);
 
-					HCONTACT hContact = HContactFromUIN(dwUin, NULL);
-					if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+					MCONTACT hContact = HContactFromUIN(dwUin, NULL);
+					if (hContact == INVALID_CONTACT_ID)
 					{
 						debugLogA("Error: %s from unknown contact %u", "Reverse Connect Request", dwUin);
 					}
@@ -648,7 +648,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 }
 
 
-void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType)
+void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType)
 {
 	WORD wId;
 
@@ -677,7 +677,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact,
 		unpackLEWord(&pDataBuf, &wVersion);
 		wLen -= 2;
 
-		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hContact != INVALID_CONTACT_ID)
 			setWord(hContact, "Version", wVersion);
 
 		unpackDWord(&pDataBuf, &dwGuid1); // plugin type GUID
@@ -886,7 +886,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact,
 }
 
 
-void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion)
+void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion)
 {
 	int nTypeId;
 	WORD wFunction;
@@ -1020,7 +1020,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, HCONTACT hCo
 
 void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
 {
-	HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
+	MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 	if (wCommand == 0)
 	{ // received contacts
@@ -1231,7 +1231,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 	else if (wCommand == 2)
 	{ // acknowledgement
 		DWORD dwCookie;
-		HCONTACT hCookieContact;
+		MCONTACT hCookieContact;
 		if (FindMessageCookie(dwID1, dwID2, &dwCookie, &hCookieContact, NULL)) {
 			if (hCookieContact != hContact)
 				debugLogA("Warning: Ack Contact does not match Cookie Contact(0x%x != 0x%x)", hContact, hCookieContact);
@@ -1619,9 +1619,9 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 }
 
 
-void CIcqProto::handleStatusMsgReply(const char *szPrefix, HCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
+void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+	if (hContact == INVALID_CONTACT_ID) {
 		debugLogA("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
 		return;
 	}
@@ -1649,10 +1649,10 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 {
 	if (bFlags == 3)
 	{
-		HCONTACT hCookieContact;
+		MCONTACT hCookieContact;
 		cookie_message_data *pCookieData = NULL;
 
-		HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
+		MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
 		{
@@ -1684,7 +1684,7 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 
 
 /* this function send all acks from handleMessageTypes */
-void CIcqProto::sendMessageTypesAck(HCONTACT hContact, int bUnicode, message_ack_params *pArgs)
+void CIcqProto::sendMessageTypesAck(MCONTACT hContact, int bUnicode, message_ack_params *pArgs)
 {
 	if (pArgs)
 	{
@@ -1709,7 +1709,7 @@ void CIcqProto::sendMessageTypesAck(HCONTACT hContact, int bUnicode, message_ack
 /* pMsg points to the beginning of the message */
 void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, DWORD dwDataLen, WORD wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams)
 {
-	HCONTACT hContact = (HCONTACT)INVALID_HANDLE_VALUE;
+	MCONTACT hContact = INVALID_CONTACT_ID;
 	BOOL bThruDC = (nMsgFlags & MTF_DIRECT) == MTF_DIRECT;
 	int bAdded;
 
@@ -2205,12 +2205,12 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
 
-	HCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
+	MCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
 
 	buf += 2;   // 3. unknown
 	wLen -= 2;
 
-	HCONTACT hCookieContact;
+	MCONTACT hCookieContact;
 	if (!FindMessageCookie(dwMsgID1, dwMsgID2, &dwCookie, &hCookieContact, &pCookieData)) {
 		debugLogA("SNAC(4.B) Received an ack that I did not ask for from (%u)", dwUin);
 		return;
@@ -2307,7 +2307,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 		// An ack of some kind
 		int ackType;
 
-		if (hContact == NULL || hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+		if (hContact == NULL || hContact == INVALID_CONTACT_ID) {
 			debugLogA("SNAC(4.B) Message from unknown contact (%u)", dwUin);
 			ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 			return;
@@ -2522,7 +2522,7 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 {
 	WORD wError;
 	char *pszErrorMessage;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	cookie_message_data *pCookieData = NULL;
 	int nMessageType;
 
@@ -2690,7 +2690,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 	// Sender
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUID)) return;
 
-	HCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
+	MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
 	if (FindCookie((WORD)dwSequence, NULL, (void**)&pCookieData))
 	{
@@ -2698,7 +2698,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 		// server ack should be ignored here.
 		if (pCookieData && (pCookieData->nAckType == ACKTYPE_SERVER))
 		{
-			if ((hContact != NULL) && (hContact != (HCONTACT)INVALID_HANDLE_VALUE))
+			if ((hContact != NULL) && (hContact != INVALID_CONTACT_ID))
 			{
 				int ackType;
 				int ackRes = ACKRESULT_SUCCESS;
@@ -2889,9 +2889,9 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 	// Sender
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
 
-	HCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
+	MCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
 
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) return;
+	if (hContact == INVALID_CONTACT_ID) return;
 
 	// Typing notification code
 	unpackWord(&buf, &wNotification);
@@ -2934,7 +2934,7 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 }
 
 
-void CIcqProto::sendTypingNotification(HCONTACT hContact, WORD wMTNCode)
+void CIcqProto::sendTypingNotification(MCONTACT hContact, WORD wMTNCode)
 {
 	_ASSERTE((wMTNCode == MTN_FINISHED) || (wMTNCode == MTN_TYPED) || (wMTNCode == MTN_BEGUN) || (wMTNCode == MTN_WINDOW_CLOSED));
 

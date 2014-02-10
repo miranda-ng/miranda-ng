@@ -13,7 +13,7 @@ INT_PTR CSkypeProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 
 int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if ( !hContact)
 		return 0;
 
@@ -66,19 +66,19 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 template<int (__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto *ppro = CSkypeProto::GetContactInstance((HCONTACT)wParam);
+	CSkypeProto *ppro = CSkypeProto::GetContactInstance((MCONTACT)wParam);
 	return ppro ? (ppro->*Service)(wParam, lParam) : 0;
 }
 
 int CSkypeProto::RequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	return this->AuthRequest((HCONTACT)wParam, LPGENT("Hi! I\'d like to add you to my contact list"));
+	return this->AuthRequest((MCONTACT)wParam, LPGENT("Hi! I\'d like to add you to my contact list"));
 }
 
 int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 {
 	CContact::Ref contact;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
 	if (this->GetContact(sid, contact))
 	{
@@ -95,7 +95,7 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 {
 	CContact::Ref contact;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	SEString sid(_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
 	if (this->GetContact(sid, contact))
 	{
@@ -112,7 +112,7 @@ int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < SIZEOF(CSkypeProto::contactMenuItems); i++)
 		::Menu_ShowItem(CSkypeProto::contactMenuItems[i], false);
 
-	CSkypeProto* ppro = CSkypeProto::GetContactInstance((HCONTACT)wParam);
+	CSkypeProto* ppro = CSkypeProto::GetContactInstance((MCONTACT)wParam);
 	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
 }
 

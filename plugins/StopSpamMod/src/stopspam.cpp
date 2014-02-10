@@ -26,7 +26,7 @@ MIRANDA_HOOK_EVENT(ME_DB_CONTACT_ADDED, w, l)
 
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -44,7 +44,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	// event is an auth request
 	if(gbHandleAuthReq) {
 		if(!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
-			HCONTACT hcntct = DbGetAuthEventContact(&dbei);
+			MCONTACT hcntct = DbGetAuthEventContact(&dbei);
 
 			// if request is from unknown or not marked Answered contact
 			int a = db_get_b(hcntct, "CList", "NotOnList", 0);
@@ -83,7 +83,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 {
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 	if(!l) //fix potential DEP crash
 		return 0;
 	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
@@ -345,7 +345,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 {
-	HCONTACT hContact = (HCONTACT)w;
+	MCONTACT hContact = (MCONTACT)w;
 	DBCONTACTWRITESETTING * cws = (DBCONTACTWRITESETTING*)l;
 
 	// if CList/NotOnList is being deleted then remove answeredSetting

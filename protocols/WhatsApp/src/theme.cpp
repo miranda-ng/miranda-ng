@@ -40,7 +40,7 @@ char *GetIconDescription(const char* name)
 HGENMENU g_hContactMenuItems[CMITEMS_COUNT];
 
 // Helper functions
-static WhatsAppProto* GetInstanceByHContact(HCONTACT hContact)
+static WhatsAppProto* GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if( !proto )
@@ -56,14 +56,14 @@ static WhatsAppProto* GetInstanceByHContact(HCONTACT hContact)
 template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
-	WhatsAppProto *proto = GetInstanceByHContact(HCONTACT(wParam));
+	WhatsAppProto *proto = GetInstanceByHContact(MCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
 template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM,LPARAM)>
 INT_PTR GlobalServiceParam(WPARAM wParam,LPARAM lParam, LPARAM lParam2)
 {
-	WhatsAppProto *proto = GetInstanceByHContact(HCONTACT(wParam));
+	WhatsAppProto *proto = GetInstanceByHContact(MCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam,lParam2) : 0;
 }
 
@@ -72,7 +72,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
 		Menu_ShowItem(g_hContactMenuItems[i], false);
 
-	WhatsAppProto *proto = GetInstanceByHContact(HCONTACT(wParam));
+	WhatsAppProto *proto = GetInstanceByHContact(MCONTACT(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 
@@ -104,7 +104,7 @@ void WhatsAppProto::InitContactMenus()
 
 int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 	if (hContact)
 		debugLogA(this->GetContactDisplayName(hContact).c_str());
 	else
@@ -144,10 +144,10 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		svcName += "/AddContactToGroup_";
 		DBVARIANT dbv;
 
-		for (map<HCONTACT, map<HCONTACT, bool>>::iterator it = this->isMemberByGroupContact.begin();
+		for (map<MCONTACT, map<MCONTACT, bool>>::iterator it = this->isMemberByGroupContact.begin();
 			it != this->isMemberByGroupContact.end(); ++it)
 		{
-			map<HCONTACT, bool>::iterator memberIt = it->second.find(hContact);
+			map<MCONTACT, bool>::iterator memberIt = it->second.find(hContact);
 			// Only, if current contact is not already member of this group
 			if ((memberIt == it->second.end() || memberIt->second == false) && !getString(it->first, "ID", &dbv))
 			{
@@ -184,7 +184,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		bool bShow = false;
 		if (isOnline() && getByte(hContact, "IsGroupMember", 0) == 1)
 		{
-			map<HCONTACT, map<HCONTACT, bool>>::iterator groupsIt = this->isMemberByGroupContact.find(hContact);
+			map<MCONTACT, map<MCONTACT, bool>>::iterator groupsIt = this->isMemberByGroupContact.find(hContact);
 			if (groupsIt == this->isMemberByGroupContact.end())
 			{
 				debugLogA("Group exists only on contact list");
@@ -199,7 +199,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 				svcName += "/RemoveContactFromGroup_";
 				DBVARIANT dbv;
 
-				for (map<HCONTACT, bool>::iterator it = groupsIt->second.begin(); it != groupsIt->second.end(); ++it)
+				for (map<MCONTACT, bool>::iterator it = groupsIt->second.begin(); it != groupsIt->second.end(); ++it)
 				{
 					if (!getString(it->first, "ID", &dbv))
 					{

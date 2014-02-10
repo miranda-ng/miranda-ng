@@ -22,8 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_SVCGENDER_H_INCLUDED_
 #define _UINFOEX_SVCGENDER_H_INCLUDED_
 
-BYTE GenderOf(HCONTACT hContact, LPCSTR pszProto);
-BYTE GenderOf(HCONTACT hContact);
+BYTE GenderOf(MCONTACT hContact, LPCSTR pszProto);
+BYTE GenderOf(MCONTACT hContact);
 
 bool SvcGenderEnableExtraIcons(bool bEnable = false, bool bUpdateDB = false);
 void SvcGenderUnloadModule();

@@ -20,16 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __UTILS_H__
 # define __UTILS_H__
 
-void SetInSessionOrder(HCONTACT hContact,int mode,int count,unsigned int ordernum);
-void AddInSessionOrder(HCONTACT hContact,int mode,int ordernum,int writemode);
-int GetInSessionOrder(HCONTACT hContact,int mode,int count);
-void AddSessionMark(HCONTACT hContact,int mode,char bit);
-void RemoveSessionMark(HCONTACT hContact,int mode,int marknum);
-void SetSessionMark(HCONTACT hContact,int mode,char bit,unsigned int marknum);
-BOOL LoadContactsFromMask(HCONTACT hContact,int mode,int count);
-int AddToCurSession(HCONTACT hContact, LPARAM lparam);
-int DelFromCurSession(HCONTACT hContact,LPARAM lparam);
-int CheckForDuplicate(HCONTACT contact_list[], HCONTACT lparam);
+void SetInSessionOrder(MCONTACT hContact,int mode,int count,unsigned int ordernum);
+void AddInSessionOrder(MCONTACT hContact,int mode,int ordernum,int writemode);
+int GetInSessionOrder(MCONTACT hContact,int mode,int count);
+void AddSessionMark(MCONTACT hContact,int mode,char bit);
+void RemoveSessionMark(MCONTACT hContact,int mode,int marknum);
+void SetSessionMark(MCONTACT hContact,int mode,char bit,unsigned int marknum);
+BOOL LoadContactsFromMask(MCONTACT hContact,int mode,int count);
+int AddToCurSession(MCONTACT hContact, LPARAM lparam);
+int DelFromCurSession(MCONTACT hContact,LPARAM lparam);
+int CheckForDuplicate(MCONTACT contact_list[], MCONTACT lparam);
 BOOL ResaveSettings(char* szName,int iFirst,int iLimit,TCHAR* pszPrevSetting);
 void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy);
 int LoadSessionToCombobox (HWND hdlg,BOOL mode,int iLimit,char* pszSetting,int iFirstNum);
@@ -37,7 +37,7 @@ int MarkUserDefSession(int ses_count,BYTE bCheck);
 BYTE IsMarkedUserDefSession(int ses_count);
 void SavePosition(HWND hWnd, char *wndName);
 void LoadPosition(HWND hWnd, char *wndName);
-int CheckContactVisibility(HCONTACT hContact);
+int CheckContactVisibility(MCONTACT hContact);
 void RenameUserDefSession(int ses_count,TCHAR* ptszNewName);
 int FillFavoritesMenu (HMENU hMenu,int iLimit);
 

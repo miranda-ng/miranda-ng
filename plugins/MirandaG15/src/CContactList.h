@@ -8,7 +8,7 @@ class CContactListEntry
 public:
 	int iMessages;
 	tstring strMessages;
-	HCONTACT hHandle;
+	MCONTACT hHandle;
 	tstring strName;
 	tstring strProto;
 	tstring strStatus;
@@ -25,7 +25,7 @@ public:
 	int iOnline;
 	int iEvents;
 
-	HCONTACT hMetaContact;
+	MCONTACT hMetaContact;
 	CContactListEntry *pContactListEntry;
 };
 
@@ -43,23 +43,23 @@ public:
 	bool Shutdown();
 	
 	// called when a contact has been added
-	void OnContactAdded(HCONTACT hContact);
+	void OnContactAdded(MCONTACT hContact);
 	// called when a contact has been deleted
-	void OnContactDeleted(HCONTACT hContact);
+	void OnContactDeleted(MCONTACT hContact);
 	// called when the configuration has changed
 	void OnConfigChanged();
 	// called when a contacts group has changed
-	void OnContactGroupChanged(HCONTACT hContact,tstring strGroup);
+	void OnContactGroupChanged(MCONTACT hContact,tstring strGroup);
 	// called when a contacts hidden flag has changed
-	void OnContactHiddenChanged(HCONTACT hContact, bool bVisibility);	
+	void OnContactHiddenChanged(MCONTACT hContact, bool bVisibility);	
 	// called when a contacts nickname has changed
-	void OnContactNickChanged(HCONTACT hContact, tstring strNick);
+	void OnContactNickChanged(MCONTACT hContact, tstring strNick);
 	// called when a contacts status has changed
-	void OnStatusChange(HCONTACT hContact,int iStatus);
+	void OnStatusChange(MCONTACT hContact,int iStatus);
 	// called when the contacts message count has changed
-	void OnMessageCountChanged(HCONTACT hContact);
+	void OnMessageCountChanged(MCONTACT hContact);
 	// returns the contact's status
-	int GetContactStatus(HCONTACT hContact);
+	int GetContactStatus(MCONTACT hContact);
 
 	// Called to compare two entrys
 	static bool CompareEntries(CListEntry<CContactListEntry*,CContactListGroup*> *pLeft,CListEntry<CContactListEntry*,CContactListGroup*> *pRight);
@@ -72,12 +72,12 @@ public:
 	bool SetFont(LOGFONT &lf);
 protected:	
 	// returns the contacts group path
-	tstring GetContactGroupPath(HCONTACT hContact);
+	tstring GetContactGroupPath(MCONTACT hContact);
 
 	// adds a contact to the list
-	void AddContact(HCONTACT hContact);
+	void AddContact(MCONTACT hContact);
 	// removes a contact from the list
-	void RemoveContact(HCONTACT hContact);
+	void RemoveContact(MCONTACT hContact);
 	
 	// uninitializes the group objects
 	void UninitializeGroupObjects();
@@ -101,7 +101,7 @@ protected:
 	void SortGroup(CListContainer<CContactListEntry*,CContactListGroup*> *pGroup);
 
 	// tries to find a contact in the specified group
-	CListEntry<CContactListEntry*,CContactListGroup*> *FindContactInGroup(HCONTACT hContact,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup);
+	CListEntry<CContactListEntry*,CContactListGroup*> *FindContactInGroup(MCONTACT hContact,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup);
 	
 	// tries to find a group in the specified group
 	CListContainer<CContactListEntry*,CContactListGroup*> *FindGroupInGroup(tstring strGroup,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup);
@@ -117,7 +117,7 @@ protected:
 	void RefreshList();
 
 	// returns the entry for the specified handle
-	CListEntry<CContactListEntry*,CContactListGroup*> *FindContact(HCONTACT hContact);
+	CListEntry<CContactListEntry*,CContactListGroup*> *FindContact(MCONTACT hContact);
 	
 	// returns the entry for the specified group name
 	CListContainer<CContactListEntry*,CContactListGroup*> *FindGroup(tstring strGroup);

@@ -17,7 +17,7 @@ namespace
 		return o.str();
 	}
 
-	inline bool is_rate_watched(HCONTACT hContact,
+	inline bool is_rate_watched(MCONTACT hContact,
 								const CQuotesProviderBase::CQuote& from,
 								const CQuotesProviderBase::CQuote& to)
 	{
@@ -36,7 +36,7 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 	if ((true == bWatch) && (i == m_aContacts.end()))
 	{
 		tstring sName = make_contact_name(ri.m_from.GetSymbol(),ri.m_to.GetSymbol());
-		HCONTACT hContact = CreateNewContact(sName);
+		MCONTACT hContact = CreateNewContact(sName);
 		if(hContact)
 		{
 			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_ID,ri.m_from.GetID().c_str());
@@ -55,7 +55,7 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 	}
 	else if ((false == bWatch) && (i != m_aContacts.end()))
 	{
-		HCONTACT hContact = *i;
+		MCONTACT hContact = *i;
 		{// for CCritSection
 			CGuard<CLightMutex> cs(m_cs);
 			m_aContacts.erase(i);
@@ -77,7 +77,7 @@ bool CQuotesProviderGoogle::GetWatchedRateInfo(size_t nIndex,CRateInfo& rRateInf
 {
 	if(nIndex < m_aContacts.size())
 	{
-		HCONTACT hContact = m_aContacts[nIndex];
+		MCONTACT hContact = m_aContacts[nIndex];
 		tstring sSymbolFrom = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_ID);
 		tstring sSymbolTo = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_ID);
 		tstring sDescFrom = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_DESCRIPTION);
@@ -101,7 +101,7 @@ namespace
 		o << rsURL << _T("?a=") << std::fixed << dAmount << _T("&from=") << from << _T("&to=") << to;
 		return o.str();
 	}
-	tstring build_url(HCONTACT hContact,const tstring& rsURL,double dAmount = 1.0)
+	tstring build_url(MCONTACT hContact,const tstring& rsURL,double dAmount = 1.0)
 	{
 		tstring sFrom = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_ID);
 		tstring sTo = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_ID);
@@ -168,7 +168,7 @@ void CQuotesProviderGoogle::RefreshQuotes(TContracts& anContacts)
 
 	for(TContracts::const_iterator i = anContacts.begin();i != anContacts.end() && IsOnline();++i)
 	{
-		HCONTACT hContact = *i;
+		MCONTACT hContact = *i;
 
 		if(bUseExtendedStatus)
 		{
@@ -497,7 +497,7 @@ double CQuotesProviderGoogle::Convert(double dAmount,const CQuote& from,const CQ
 
 namespace
 {
-	bool is_equal_ids(HCONTACT hContact,const tstring& rsFromID,const tstring& rsToID)
+	bool is_equal_ids(MCONTACT hContact,const tstring& rsFromID,const tstring& rsToID)
 	{
 		tstring sFrom = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_ID);
 		tstring sTo = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_ID);
@@ -506,7 +506,7 @@ namespace
 	}
 }
 
-HCONTACT CQuotesProviderGoogle::GetContactByID(const tstring& rsFromID,const tstring& rsToID)const
+MCONTACT CQuotesProviderGoogle::GetContactByID(const tstring& rsFromID,const tstring& rsToID)const
 {
 	CGuard<CLightMutex> cs(m_cs);
 

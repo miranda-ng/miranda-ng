@@ -77,7 +77,7 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 	return NULL;
 }
 
-VOID CheckCurrentFeed(HCONTACT hContact)
+VOID CheckCurrentFeed(MCONTACT hContact)
 {
 	char *szData = NULL;
 	DBVARIANT dbURL = {0};
@@ -599,7 +599,7 @@ VOID CheckCurrentFeed(HCONTACT hContact)
 	}
 }
 
-VOID CheckCurrentFeedAvatar(HCONTACT hContact)
+VOID CheckCurrentFeedAvatar(MCONTACT hContact)
 {
 	char *szData = NULL;
 	DBVARIANT dbURL = {0};

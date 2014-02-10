@@ -133,7 +133,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer;
 
-	HWND hwnd = M.FindWindow((HCONTACT)wParam);
+	HWND hwnd = M.FindWindow((MCONTACT)wParam);
 	if (hwnd != NULL) {
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		if (dat == NULL || (pContainer = dat->pContainer) == NULL)
@@ -150,7 +150,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 			return 1;
 	}
 	else {
-		SESSION_INFO *si = SM_FindSessionByHCONTACT((HCONTACT)wParam);
+		SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)wParam);
 		if (si == NULL || si->hWnd == 0 || (pContainer = si->pContainer) == NULL || pContainer->hwndActive != si->hWnd)
 			return 1;
 	}
@@ -166,7 +166,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 {
-	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, (HCONTACT)wParam);
+	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, (MCONTACT)wParam);
 	if (hWnd) {
 		SetForegroundWindow(hWnd);			// already open, bring it to front
 		return 0;
@@ -197,7 +197,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 	HWND hwndTarget = (HWND)lParam;
 
 	if (hwndTarget == 0)
-		hwndTarget = M.FindWindow((HCONTACT)wParam);
+		hwndTarget = M.FindWindow((MCONTACT)wParam);
 
 	if (hwndTarget == 0)
 		return 0;
@@ -234,7 +234,7 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	TContainerData *pContainer = NULL;
 
 	if (wParam)
-		hwnd = M.FindWindow((HCONTACT)wParam);
+		hwnd = M.FindWindow((MCONTACT)wParam);
 	else if (lParam)
 		hwnd = (HWND) lParam;
 	else
@@ -271,7 +271,7 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
-	HCONTACT hContact = ((CLISTEVENT *) lParam)->hContact;
+	MCONTACT hContact = ((CLISTEVENT *) lParam)->hContact;
 
 	HWND hwndExisting = M.FindWindow(hContact);
 	if (hwndExisting != 0)
@@ -296,7 +296,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
@@ -315,7 +315,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	/* does the HCONTACT's protocol support IM messages? */
+	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
@@ -355,7 +355,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
@@ -371,7 +371,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	/* does the HCONTACT's protocol support IM messages? */
+	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
@@ -391,7 +391,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);          // ask the message window about its parent...
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
-		GetContainerNameForContact((HCONTACT)wParam, szName, CONTAINER_NAMELEN);
+		GetContainerNameForContact((MCONTACT)wParam, szName, CONTAINER_NAMELEN);
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
@@ -465,7 +465,7 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	avatarCacheEntry *ace = (avatarCacheEntry *)lParam;
-	HWND hwnd = M.FindWindow((HCONTACT)wParam);
+	HWND hwnd = M.FindWindow((MCONTACT)wParam);
 
 	if (wParam == 0) {			// protocol picture has changed...
 		M.BroadcastMessage(DM_PROTOAVATARCHANGED, wParam, lParam);
@@ -660,7 +660,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
  * bPopupContainer: restore container if it was minimized, otherwise flash it...
  */
 
-HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
+HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
 {
 	TCHAR  newcontactname[128], tabtitle[128];
 	int		newItem;
@@ -832,7 +832,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HCONTACT hContact,
  * a new (cloned) one.
  */
 
-TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, HCONTACT hContact)
+TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hContact)
 {
 	int iMaxTabs = M.GetDword("maxtabs", 0);
 	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !_tcsncmp(szName, _T("default"), 6)) {
@@ -880,7 +880,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
 
-int TABSRMM_FireEvent(HCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType)
+int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType)
 {
 	if (hContact == NULL || hwnd == NULL || !M.GetByte("_eventapi", 1))
 		return 0;

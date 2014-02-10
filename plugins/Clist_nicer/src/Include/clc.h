@@ -103,7 +103,7 @@ typedef struct _OrderTreeData
 
 struct TExtraCache
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE   hTimeZone;
 	BYTE     valid;
 	TCHAR   *statusMsg;
@@ -121,7 +121,7 @@ struct ClcContact : public ClcContactBase
 	BOOL     bIsMeta;
 	BYTE     xStatus;
 	int      xStatusIcon;
-	HCONTACT hSubContact;
+	MCONTACT hSubContact;
 	char    *metaProto;
 	DWORD    codePage;
 	WORD     wStatus;
@@ -233,7 +233,7 @@ struct TCluiData {
 	HMENU hMenuNotify;
 	int iLastEventAdded;
 	int wNextMenuID;
-	HCONTACT hUpdateContact;
+	MCONTACT hUpdateContact;
 	DWORD sortTimer;
 	TCHAR *szNoEvents;
 	BOOL forceResize;
@@ -329,7 +329,7 @@ struct IconDesc {
 };
 
 struct NotifyMenuItemExData {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
 	HANDLE hDbEvent;
@@ -357,7 +357,7 @@ HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
 //clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
-DWORD INTSORT_GetLastMsgTime(HCONTACT hContact);
+DWORD INTSORT_GetLastMsgTime(MCONTACT hContact);
 
 //clcmsgs.c
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -409,10 +409,10 @@ void ConfigureEventArea(HWND hwnd);
 void ClearIcons(int mode);
 void SkinDrawBg(HWND hwnd, HDC hdc);
 int GetBasicFontID(ClcContact * contact);
-extern int __fastcall CLVM_GetContactHiddenStatus(HCONTACT hContact, char *szStatus, struct ClcData *dat);
+extern int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, struct ClcData *dat);
 void CreateViewModeFrame();
-int GetExtraCache(HCONTACT hContact, char *szProto);
-void ReloadExtraInfo(HCONTACT hContact);
+int GetExtraCache(MCONTACT hContact, char *szProto);
+void ReloadExtraInfo(MCONTACT hContact);
 void LoadAvatarForContact(ClcContact *p);
 void ApplyViewMode(const char *name);
 
@@ -425,7 +425,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 void Reload3dBevelColors();
 void ReloadThemedOptions();
 void SetButtonToSkinned();
-void RTL_DetectAndSet(ClcContact *contact, HCONTACT hContact);
+void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact);
 void RTL_DetectGroupName(ClcContact *group);
 void CLN_LoadAllIcons(BOOL mode);
 void ReloadSkinItemsToCache();

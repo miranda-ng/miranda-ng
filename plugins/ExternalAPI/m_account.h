@@ -187,7 +187,7 @@ typedef struct CAccount
 	PSWMRG MessagesAccessSO;
 
 //For clist contact notification
-	HCONTACT hContact; 
+	MCONTACT hContact; 
 	BOOL isCounting;
 
 	struct CAccount *Next;

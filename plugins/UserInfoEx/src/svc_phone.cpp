@@ -47,7 +47,7 @@ bool g_eiPhone = false;
 * @retval	PHONE_NONE:		The contact does not provide any phone number
 **/
 
-static INT_PTR Get(HCONTACT hContact)
+static INT_PTR Get(MCONTACT hContact)
 {
 	INT_PTR nType = PHONE_NONE;
 
@@ -86,7 +86,7 @@ static INT_PTR Get(HCONTACT hContact)
 * @param	lParam			- not used
 **/
 
-static int OnCListApplyIcons(HCONTACT hContact, LPARAM)
+static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 {
 	char *icoName;
 	switch (Get(hContact)) {
@@ -105,7 +105,7 @@ static int OnCListApplyIcons(HCONTACT hContact, LPARAM)
 * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
 **/
 
-static int OnContactSettingChanged(HCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&

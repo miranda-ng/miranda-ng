@@ -122,13 +122,13 @@ typedef struct
 
 struct GGREQUESTAVATARDATA
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int iWaitFor;
 };
 
 struct GGGETAVATARDATA
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char *szAvatarURL;
 };
 

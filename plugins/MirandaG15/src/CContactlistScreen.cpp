@@ -85,7 +85,7 @@ bool CContactlistScreen::Draw(CLCDGfx *pGfx)
 //************************************************************************
 // returns the online status of the specified contact
 //************************************************************************
-int CContactlistScreen::GetContactStatus(HCONTACT hContact)
+int CContactlistScreen::GetContactStatus(MCONTACT hContact)
 {
 	return m_ContactList.GetContactStatus(hContact);
 }
@@ -182,7 +182,7 @@ void CContactlistScreen::OnEventReceived(CEvent *pEvent)
 //************************************************************************
 // Called when a chat session was opened
 //************************************************************************
-void CContactlistScreen::OnSessionOpened(HCONTACT hContact)
+void CContactlistScreen::OnSessionOpened(MCONTACT hContact)
 {
 	m_ContactList.OnMessageCountChanged(hContact);
 }

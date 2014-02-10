@@ -11,10 +11,10 @@ INT_PTR CALLBACK	SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 HTREEITEM SendSMSWindowHItemSendGet(HWND hWndDlg);
 HTREEITEM SendSMSWindowNextHItemGet(HWND hWndDlg,HTREEITEM hItem);
 
-HWND     SendSMSWindowAdd(HCONTACT hContact);
+HWND     SendSMSWindowAdd(MCONTACT hContact);
 void     SendSMSWindowRemove(HWND hWndDlg);
-HCONTACT SendSMSWindowHContactGet(HWND hWndDlg);
-void     SendSMSWindowHContactSet(HWND hWndDlg,HCONTACT hContact);
+MCONTACT SendSMSWindowHContactGet(HWND hWndDlg);
+void     SendSMSWindowHContactSet(HWND hWndDlg,MCONTACT hContact);
 HWND     SendSMSWindowHwndByHProcessGet(HANDLE hProcess);
 void     SendSMSWindowHProcessSet(HWND hWndDlg,HANDLE hProcess);
 BOOL     SendSMSWindowMultipleGet(HWND hWndDlg);
@@ -24,11 +24,11 @@ void     SendSMSWindowAsSentSet(HWND hWndDlg);
 void     SendSMSWindowDbeiSet(HWND hWndDlg,DBEVENTINFO *pdbei);
 void     SendSMSWindowDBAdd(HWND hWndDlg);
 void     SendSMSWindowHItemSendSet(HWND hWndDlg,HTREEITEM hItemSend);
-HWND     SendSMSWindowIsOtherInstanceHContact(HCONTACT hContact);
+HWND     SendSMSWindowIsOtherInstanceHContact(MCONTACT hContact);
 void     SendSMSWindowNext(HWND hWndDlg);
 
-void     SendSMSWindowSMSContactAdd(HWND hWndDlg,HCONTACT hContact);
-HCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum);
+void     SendSMSWindowSMSContactAdd(HWND hWndDlg,MCONTACT hContact);
+MCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum);
 void     SendSMSWindowSMSContactsRemove(HWND hWndDlg);
 void     SendSMSWindowUpdateAccountList(HWND hWndDlg);
 void     SendSMSWindowsUpdateAllAccountLists();

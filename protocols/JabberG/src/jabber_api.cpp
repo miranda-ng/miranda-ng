@@ -56,13 +56,13 @@ int CJabberProto::CompareJIDs(LPCTSTR jid1, LPCTSTR jid2)
 	return JabberCompareJids(jid1, jid2);
 }
 
-HCONTACT CJabberProto::ContactFromJID(LPCTSTR jid)
+MCONTACT CJabberProto::ContactFromJID(LPCTSTR jid)
 {
 	if (jid == NULL) return NULL;
 	return HContactFromJID(jid);
 }
 
-LPTSTR CJabberProto::ContactToJID(HCONTACT hContact)
+LPTSTR CJabberProto::ContactToJID(MCONTACT hContact)
 {
 	return getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid");
 }

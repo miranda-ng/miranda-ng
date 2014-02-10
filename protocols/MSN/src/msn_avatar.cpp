@@ -34,7 +34,7 @@ void CMsnProto::AvatarQueue_Uninit()
 	::CloseHandle(hevAvatarQueue);
 }
 
-void CMsnProto::pushAvatarRequest(HCONTACT hContact, LPCSTR pszUrl)
+void CMsnProto::pushAvatarRequest(MCONTACT hContact, LPCSTR pszUrl)
 {
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 

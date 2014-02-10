@@ -65,8 +65,8 @@ static MCONTACT HContactFromNumericID(char *pszProtoName, char *pszSetting, DWOR
 {
 	MCONTACT hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
-		if ( db_get_dw((HCONTACT)hContact, pszProtoName, pszSetting, 0) == dwID) {
-			char* szProto = GetContactProto((HCONTACT)hContact);
+		if ( db_get_dw((MCONTACT)hContact, pszProtoName, pszSetting, 0) == dwID) {
+			char* szProto = GetContactProto((MCONTACT)hContact);
 			if (szProto != NULL && !lstrcmpA(szProto, pszProtoName))
 				return hContact;
 		}
@@ -79,9 +79,9 @@ static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, TCHAR *pwsz
 {
 	MCONTACT hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
-		char* szProto = GetContactProto((HCONTACT)hContact);
+		char* szProto = GetContactProto((MCONTACT)hContact);
 		if ( !lstrcmpA(szProto, pszProtoName)) {
-			ptrW id(db_get_tsa((HCONTACT)hContact, pszProtoName, pszSetting));
+			ptrW id(db_get_tsa((MCONTACT)hContact, pszProtoName, pszSetting));
 			if ( !lstrcmp(pwszID, id))
 				return hContact;
 		}
@@ -107,7 +107,7 @@ static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, 
 
 	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)szModuleName);
-	db_set_dw((HCONTACT)hContact, szModuleName, "UIN", uin);
+	db_set_dw((MCONTACT)hContact, szModuleName, "UIN", uin);
 	AddMessage( LPGENT("Added contact %u (found in history)"), uin );
 	return hContact;
 }
@@ -125,10 +125,10 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 
 	mySet(hContact, szProto, pszUniqueSetting, id);
 
-	CreateGroup(group, (HCONTACT)hContact);
+	CreateGroup(group, (MCONTACT)hContact);
 
 	if (nick && *nick) {
-		db_set_ws((HCONTACT)hContact, "CList", "MyHandle", nick);
+		db_set_ws((MCONTACT)hContact, "CList", "MyHandle", nick);
 		AddMessage(LPGENT("Added %S contact %s, '%s'"), szProto, pszUserID, nick);
 	}
 	else AddMessage(LPGENT("Added %S contact %s"), szProto, pszUserID);
@@ -404,7 +404,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 			if (!skip) {
 				// Check for duplicate entries
-				if (!IsDuplicateEvent((HCONTACT)hDst, dbei)) {
+				if (!IsDuplicateEvent((MCONTACT)hDst, dbei)) {
 					// Add dbevent
 					if (!bIsVoidContact)
 						dbei.flags &= ~DBEF_FIRST;

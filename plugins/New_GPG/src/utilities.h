@@ -16,22 +16,22 @@
 
 #ifndef UTILITIES_H
 #define UTILITIES_H
-TCHAR* __stdcall UniGetContactSettingUtf(HCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef);
-char* __stdcall UniGetContactSettingUtf(HCONTACT hContact, const char *szModule,const char* szSetting, char* szDef);
+TCHAR* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef);
+char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, char* szDef);
 void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szExtDesc);
 TCHAR *GetFilePath(TCHAR *WindowTittle, TCHAR *szExt, TCHAR *szExtDesc, bool save_file = false);
 void GetFolderPath(TCHAR *WindowTittle, char *szSetting);
 
 void storeOutput(HANDLE ahandle, string *output);
 
-void setSrmmIcon(HCONTACT);
-void setClistIcon(HCONTACT);
+void setSrmmIcon(MCONTACT);
+void setClistIcon(MCONTACT);
 
 void send_encrypted_msgs_thread(void*);
 
 int ComboBoxAddStringUtf(HWND hCombo, const TCHAR *szString, DWORD data);
-bool isContactSecured(HCONTACT hContact);
-bool isContactHaveKey(HCONTACT hContact);
+bool isContactSecured(MCONTACT hContact);
+bool isContactHaveKey(MCONTACT hContact);
 bool isTabsrmmUsed();
 bool isGPGKeyExist();
 bool isGPGValid();
@@ -104,7 +104,7 @@ public:
 		cbSize = 0;
 	}
 };
-void HistoryLog(HCONTACT, db_event);
+void HistoryLog(MCONTACT, db_event);
 void fix_line_term(std::string &s);
 void fix_line_term(std::wstring &s);
 void strip_line_term(std::wstring &s);

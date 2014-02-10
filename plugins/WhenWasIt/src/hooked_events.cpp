@@ -68,7 +68,7 @@ static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
 	DBVARIANT dv = dw->value;
 	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
-		RefreshContactListIcons((HCONTACT)wParam);
+		RefreshContactListIcons((MCONTACT)wParam);
 	
 	return 0;
 }
@@ -152,7 +152,7 @@ int UnhookEvents()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int RefreshContactListIcons(HCONTACT hContact)
+int RefreshContactListIcons(MCONTACT hContact)
 {
 	if (hContact == 0)
 		return 0;

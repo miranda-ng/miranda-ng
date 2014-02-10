@@ -70,7 +70,7 @@ typedef struct
 	DWORD flags;
 
 	// miranda bindings
-	HCONTACT lchContact;
+	MCONTACT lchContact;
 	HANDLE lchEvent;
 
 	// style
@@ -123,7 +123,7 @@ typedef struct
 // Unicode version of POPUPDATAEX_V2
 typedef struct
 {
-	HCONTACT lchContact;
+	MCONTACT lchContact;
 	HICON lchIcon;
 	union
 	{

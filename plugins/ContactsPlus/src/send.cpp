@@ -60,7 +60,7 @@ void TSendProcessList::Remove(HANDLE hProcc)
 
 /* TSendContactsData */
 
-TSendContactsData::TSendContactsData(HCONTACT contact) : uacklist()
+TSendContactsData::TSendContactsData(MCONTACT contact) : uacklist()
 {
 	hContact = contact;
 	hHook = NULL;
@@ -107,14 +107,14 @@ void TSendContactsData::ClearContacts()
 	nContacts = 0;
 }
 
-void TSendContactsData::AddContact(HCONTACT hContact)
+void TSendContactsData::AddContact(MCONTACT hContact)
 {
-	aContacts = (HCONTACT*)mir_realloc(aContacts, (nContacts + 1)*sizeof(HCONTACT));
+	aContacts = (MCONTACT*)mir_realloc(aContacts, (nContacts + 1)*sizeof(MCONTACT));
 	aContacts[nContacts] = hContact;
 	nContacts++;
 }
 
-int TSendContactsData::SendContactsPacket(HWND hwndDlg, HCONTACT *phContacts, int nContacts)
+int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, int nContacts)
 {
 	HANDLE hProcc = (HANDLE)CallContactService(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts), (LPARAM)phContacts);
 	if (!hProcc) {
@@ -126,8 +126,8 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, HCONTACT *phContacts, in
 	TAckData *ackData = gaAckData.Add(hProcc, new TAckData(hContact));
 	uacklist.Add(hProcc);
 	ackData->nContacts = nContacts;
-	ackData->aContacts = (HCONTACT*)mir_alloc(nContacts*sizeof(HCONTACT));
-	memmove(ackData->aContacts, phContacts, nContacts*sizeof(HCONTACT)); // copy the array of hContact for ack array
+	ackData->aContacts = (MCONTACT*)mir_alloc(nContacts*sizeof(MCONTACT));
+	memmove(ackData->aContacts, phContacts, nContacts*sizeof(MCONTACT)); // copy the array of hContact for ack array
 	EnableDlgItem(hwndDlg, IDOK, FALSE);
 	EnableDlgItem(hwndDlg, IDC_LIST, FALSE);
 	return TRUE; // Success
@@ -179,12 +179,12 @@ static void ResetListOptions(HWND hwndList)
 	}
 }
 
-static HCONTACT FindNextClistContact(HWND hList, HCONTACT hContact, HCONTACT *phItem)
+static MCONTACT FindNextClistContact(HWND hList, MCONTACT hContact, MCONTACT *phItem)
 {
-	HCONTACT hNextContact = db_find_next(hContact);
-	HCONTACT hNextItem = NULL;
+	MCONTACT hNextContact = db_find_next(hContact);
+	MCONTACT hNextItem = NULL;
 
-	while (hNextContact && !(hNextItem = (HCONTACT)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hNextContact, 0)))
+	while (hNextContact && !(hNextItem = (MCONTACT)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hNextContact, 0)))
 		hNextContact = db_find_next(hNextContact);
 
 	if (phItem)
@@ -194,10 +194,10 @@ static HCONTACT FindNextClistContact(HWND hList, HCONTACT hContact, HCONTACT *ph
 }
 
 
-static HCONTACT FindFirstClistContact(HWND hList, HCONTACT *phItem)
+static MCONTACT FindFirstClistContact(HWND hList, MCONTACT *phItem)
 {
-	HCONTACT hContact = db_find_first();
-	HCONTACT hItem = (HCONTACT)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	MCONTACT hContact = db_find_first();
+	MCONTACT hItem = (MCONTACT)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 
 	if (hContact && !hItem)
 		return FindNextClistContact(hList, hContact, phItem);
@@ -211,7 +211,7 @@ static HCONTACT FindFirstClistContact(HWND hList, HCONTACT *phItem)
 
 bool binListEvent = FALSE;
 
-static void SetAllContactChecks(HWND hwndList, HCONTACT hReceiver) // doubtful name
+static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful name
 {
 	if (binListEvent)
 		return;
@@ -226,7 +226,7 @@ static void SetAllContactChecks(HWND hwndList, HCONTACT hReceiver) // doubtful n
 	else
 		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM)FALSE, 0);
 
-	HCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
+	MCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
 	while (hContact) {
 		char* szProto2 = GetContactProto(hContact);
 
@@ -251,9 +251,9 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
 		ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
-		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), (HCONTACT)lParam);
-		WindowList_Add(ghSendWindowList, hwndDlg, (HCONTACT)lParam);
-		wndData = new TSendContactsData((HCONTACT)lParam);
+		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), (MCONTACT)lParam);
+		WindowList_Add(ghSendWindowList, hwndDlg, (MCONTACT)lParam);
+		wndData = new TSendContactsData((MCONTACT)lParam);
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)wndData);
 		// new dlg init 
 		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, MAKEINTRESOURCEA(IDI_ADDCONTACT), LPGEN("Add Contact Permanently to List"));
@@ -342,7 +342,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDOK))) {
-				HCONTACT hContact, hItem;
+				MCONTACT hContact, hItem;
 				wndData->ClearContacts(); // do not include contacts twice
 
 				HWND hList = GetDlgItem(hwndDlg, IDC_LIST);
@@ -370,7 +370,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			{
 				// select all contacts
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
-				HCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
+				MCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
 				while (hContact) {
 					SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 					hContact = FindNextClistContact(hwndList, hContact, &hItem);

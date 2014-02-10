@@ -26,7 +26,7 @@ HANDLE hHookIconPressedEvt;
 
 static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {
@@ -37,7 +37,7 @@ static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void DrawStatusIcons(HCONTACT hContact, HDC hDC, RECT r, int gap)
+void DrawStatusIcons(MCONTACT hContact, HDC hDC, RECT r, int gap)
 {
 	HICON hIcon;
 	int x = r.left;
@@ -55,7 +55,7 @@ void DrawStatusIcons(HCONTACT hContact, HDC hDC, RECT r, int gap)
 	}
 }
 
-void CheckIconClick(HCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
+void CheckIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
 {
 	int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
 	StatusIconData *sid = Srmm_GetNthIcon(hContact, iconNum);
@@ -88,7 +88,7 @@ int DeinitStatusIcons()
 	return 0;
 }
 
-int GetStatusIconsCount(HCONTACT hContact)
+int GetStatusIconsCount(MCONTACT hContact)
 {
 	int nIcon = 0;
 	while ( Srmm_GetNthIcon(hContact, nIcon) != NULL)

@@ -893,7 +893,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 	//set all contacts to offline
 
-	for (HCONTACT hContact = db_find_first(PLUGINNAME); hContact != NULL; hContact = db_find_next(hContact,PLUGINNAME))
+	for (MCONTACT hContact = db_find_first(PLUGINNAME); hContact != NULL; hContact = db_find_next(hContact,PLUGINNAME))
 		db_set_w(hContact,PLUGINNAME,"status",ID_STATUS_OFFLINE);
 
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETCAPS);

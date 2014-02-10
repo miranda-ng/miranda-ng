@@ -80,7 +80,7 @@ int GetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 	return -1;
 }
 
-ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,HCONTACT hContact)
+ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,MCONTACT hContact)
 {
 	if (hContact == 0)
 		return NULL;
@@ -107,11 +107,11 @@ ClcCacheEntry *GetCLCFullCacheEntry(struct ClcData *dat,HCONTACT hContact)
 	return (pdnce);
 }
 
-void ClearClcContactCache(struct ClcData *dat,HCONTACT hContact)
+void ClearClcContactCache(struct ClcData *dat,MCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry;
 
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+	if (hContact == INVALID_CONTACT_ID) {
 		int i,tick;
 		tick = GetTickCount();
 
@@ -133,7 +133,7 @@ void ClearClcContactCache(struct ClcData *dat,HCONTACT hContact)
 	}
 }
 
-void SetClcContactCacheItem(struct ClcData *dat, HCONTACT hContact, void *contact)
+void SetClcContactCacheItem(struct ClcData *dat, MCONTACT hContact, void *contact)
 {
 	ClcCacheEntry *cacheEntry;
 	if ( !IsHContactGroup(hContact) && !IsHContactInfo(hContact)) {
@@ -153,7 +153,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 
 	if (isVisible == NULL && hItem != NULL && subgroup == NULL && !IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
 		//try use cache
-		ClcCacheEntry *cacheEntry = GetCLCFullCacheEntry(dat, (HCONTACT)hItem);
+		ClcCacheEntry *cacheEntry = GetCLCFullCacheEntry(dat, (MCONTACT)hItem);
 		if (cacheEntry != NULL) {
 			if (cacheEntry->ClcContact == NULL) {
 				int *isv = {0};
@@ -216,7 +216,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 		if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
 			group->cl.items[group->scanIndex]->SubAllocated>0)
 			for (i = 1; i<=group->cl.items[group->scanIndex]->SubAllocated; i++)
-				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == (HCONTACT)hItem) {
+				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == (MCONTACT)hItem) {
 					if (contact) *contact = &group->cl.items[group->scanIndex]->subcontacts[i-1];
 					if (subgroup) *subgroup = group;
 					return 1;

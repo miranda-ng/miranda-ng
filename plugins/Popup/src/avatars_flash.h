@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class FlashAvatar: public PopupAvatar
 {
 public:
-	FlashAvatar(HCONTACT hContact);
+	FlashAvatar(MCONTACT hContact);
 	virtual ~FlashAvatar();
 	virtual int activeFrameDelay() = 0;
 	virtual void draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *options) = 0;

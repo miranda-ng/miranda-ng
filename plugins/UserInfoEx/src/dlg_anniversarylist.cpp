@@ -91,12 +91,12 @@ class CAnnivList
 
 	struct CItemData 
 	{
-		HCONTACT	_hContact;
+		MCONTACT	_hContact;
 		MAnnivDate*	_pDate;
 		WORD		_wDaysBefore;
 		BYTE		_wReminderState;
 
-		CItemData(HCONTACT hContact, MAnnivDate &date) 
+		CItemData(MCONTACT hContact, MAnnivDate &date) 
 		{
 			_hContact = hContact;
 			_wReminderState = date.RemindOption();
@@ -740,7 +740,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/
-	BYTE AddRow(HCONTACT hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
+	BYTE AddRow(MCONTACT hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
 	{
 		TCHAR szText[MAX_PATH];
 		int diff, iItem = -1;
@@ -826,7 +826,7 @@ class CAnnivList
 		mtNow.GetLocalTime();
 
 		// insert the items into the list
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		{
 			// ignore meta subcontacts here, as they are not interesting.
 			if (!DB::MetaContact::IsSub(hContact)) {

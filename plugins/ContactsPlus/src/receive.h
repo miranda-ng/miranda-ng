@@ -43,11 +43,11 @@ struct TReceivedItem {
 
 struct TRecvContactsData
 {
-	TRecvContactsData(HCONTACT contact);
+	TRecvContactsData(MCONTACT contact);
 	~TRecvContactsData();
 
 	HANDLE     mhDbEvent;    // handle to recv DB event
-	HCONTACT   mhContact;    // from whom we received this
+	MCONTACT   mhContact;    // from whom we received this
 	HIMAGELIST mhListIcon;// icons for listview
 	HMENU      mhPopup;      // popup menu for listview
 	HANDLE     hHook;        // hook to event

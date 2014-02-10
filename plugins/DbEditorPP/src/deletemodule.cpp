@@ -3,7 +3,7 @@
 static int working;
 static HWND hwnd2Delete = NULL;
 
-int deleteModule(char* module, HCONTACT hContact, int fromMenu)
+int deleteModule(char* module, MCONTACT hContact, int fromMenu)
 {
 	char msg[1024];
 	ModuleSettingLL settinglist;
@@ -47,7 +47,7 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 			module = module->next;
 			continue;
 		}
-		for (HCONTACT hContact = db_find_first();moduleEmpty && hContact;hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first();moduleEmpty && hContact;hContact = db_find_next(hContact)) {
 			if (!IsModuleEmpty(hContact,module->name)) {
 				SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_ADDSTRING,0,(LPARAM)module->name);
 				moduleEmpty = 0;
@@ -94,7 +94,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				char text[128];
 				GetDlgItemText(hwnd,IDC_CONTACTS,text,128);
 				SetCursor(LoadCursor(NULL,IDC_WAIT));
-				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					deleteModule(text,hContact,1);
 
 				// do the null

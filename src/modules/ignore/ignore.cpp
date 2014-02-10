@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF1_FILERECV, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
 static const DWORD ignoreIdToPf4[IGNOREEVENT_MAX] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, PF4_SUPPORTTYPING};
 
-static DWORD GetMask(HCONTACT hContact)
+static DWORD GetMask(MCONTACT hContact)
 {
 	DWORD mask = db_get_dw(hContact, "Ignore", "Mask1", (DWORD)(-1));
 	if (mask == (DWORD)(-1)) {
@@ -145,7 +145,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	}
 }
 
-static void InitialiseItem(HWND hwndList, HCONTACT hContact, HANDLE hItem, DWORD proto1Caps, DWORD proto4Caps)
+static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD proto1Caps, DWORD proto4Caps)
 {
 	DWORD mask = GetMask(hContact);
 	for (int i=0; i < IGNOREEVENT_MAX; i++)
@@ -156,7 +156,7 @@ static void InitialiseItem(HWND hwndList, HCONTACT hContact, HANDLE hItem, DWORD
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX+1, 2));
 }
 
-static void SaveItemMask(HWND hwndList, HCONTACT hContact, HANDLE hItem, const char *pszSetting)
+static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const char *pszSetting)
 {
 	DWORD mask = 0;
 	for (int i=0; i < IGNOREEVENT_MAX; i++) {
@@ -169,7 +169,7 @@ static void SaveItemMask(HWND hwndList, HCONTACT hContact, HANDLE hItem, const c
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			DWORD proto1Caps, proto4Caps;
@@ -296,7 +296,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 					if (hItem) SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
 					if (SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
@@ -338,7 +338,7 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 
 static INT_PTR IsIgnored(WPARAM wParam, LPARAM lParam)
 {
-	DWORD mask = GetMask((HCONTACT)wParam);
+	DWORD mask = GetMask((MCONTACT)wParam);
 	if (lParam < 1 || lParam > IGNOREEVENT_MAX)
 		return 1;
 	return (mask >> (lParam-1))&1;
@@ -346,20 +346,20 @@ static INT_PTR IsIgnored(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR Ignore(WPARAM wParam, LPARAM lParam)
 {
-	DWORD mask = GetMask((HCONTACT)wParam);
+	DWORD mask = GetMask((MCONTACT)wParam);
 	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
 		return 1;
 	if (lParam == IGNOREEVENT_ALL)
 		mask = (1 << IGNOREEVENT_MAX)-1;
 	else
 		mask |= 1 << (lParam-1);
-	db_set_dw((HCONTACT)wParam, "Ignore", "Mask1", mask);
+	db_set_dw((MCONTACT)wParam, "Ignore", "Mask1", mask);
 	return 0;
 }
 
 static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
 {
-	DWORD mask = GetMask((HCONTACT)wParam);
+	DWORD mask = GetMask((MCONTACT)wParam);
 	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
 		return 1;
 
@@ -367,7 +367,7 @@ static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
 		mask = 0;
 	else
 		mask &= ~(1 << (lParam-1));
-	db_set_dw((HCONTACT)wParam, "Ignore", "Mask1", mask);
+	db_set_dw((MCONTACT)wParam, "Ignore", "Mask1", mask);
 	return 0;
 }
 
@@ -403,7 +403,7 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
 	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != NULL) {
-		HCONTACT hContact = DbGetAuthEventContact(dbei);
+		MCONTACT hContact = DbGetAuthEventContact(dbei);
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)hContact, 0) && IsIgnored((WPARAM)hContact, IGNOREEVENT_YOUWEREADDED))
 			return 1;
 	}

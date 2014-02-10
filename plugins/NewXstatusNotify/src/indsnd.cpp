@@ -107,14 +107,14 @@ HIMAGELIST GetStatusIconsImgList(char *szProto)
 
 INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	static HCONTACT hContact = NULL;
+	static MCONTACT hContact = NULL;
 	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			hContact = (HCONTACT)lParam;
+			hContact = (MCONTACT)lParam;
 			char *szProto = GetContactProto(hContact);
 
 			ListView_SetImageList(hList, GetStatusIconsImgList(szProto), LVSIL_SMALL);
@@ -331,7 +331,7 @@ void SetAllContactsIcons(HWND hwndList)
 {
 	BYTE EnableSounds, EnablePopups, EnableXStatus, EnableLogging;
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) {
 			char *szProto = GetContactProto(hContact);
@@ -570,7 +570,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY: 
-					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						HANDLE hItem = (HANDLE)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 						if (hItem) {
 							if (GetExtraImage(hList, hItem, EXTRA_IMAGE_SOUND) == EXTRA_IMAGE_SOUND) 

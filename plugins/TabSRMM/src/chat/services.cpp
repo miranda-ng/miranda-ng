@@ -35,7 +35,7 @@
 
 HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup)
 {
-	HCONTACT hContact = si->hContact;
+	MCONTACT hContact = si->hContact;
 	if (M.FindWindow(hContact) != 0)
 		return 0;
 

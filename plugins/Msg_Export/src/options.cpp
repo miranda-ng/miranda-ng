@@ -56,10 +56,10 @@ class CLDBEvent
 {
 	DWORD time;
 public:
-	HCONTACT hUser;
+	MCONTACT hUser;
 	HANDLE hDbEvent;
 
-	CLDBEvent(HCONTACT hU, HANDLE hDBE )
+	CLDBEvent(MCONTACT hU, HANDLE hDBE )
 	{
 		hUser = hU;
 		hDbEvent = hDBE;
@@ -92,15 +92,15 @@ public:
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	if (lParamSort == 1 )
-		return _tcsicmp( NickFromHandle((HCONTACT)lParam1), NickFromHandle((HCONTACT)lParam2));
+		return _tcsicmp( NickFromHandle((MCONTACT)lParam1), NickFromHandle((MCONTACT)lParam2));
 	
 	if (lParamSort == 2 )
-		return _DBGetString((HCONTACT)lParam1, "Protocol", "p", _T("")).compare(_DBGetString((HCONTACT)lParam2, "Protocol", "p", _T("")));
+		return _DBGetString((MCONTACT)lParam1, "Protocol", "p", _T("")).compare(_DBGetString((MCONTACT)lParam2, "Protocol", "p", _T("")));
 
 	if (lParamSort == 3 )
 	{
-		DWORD dwUin1 = db_get_dw((HCONTACT)lParam1, _DBGetStringA((HCONTACT)lParam1, "Protocol", "p", "" ).c_str(), "UIN", 0);
-		DWORD dwUin2 = db_get_dw((HCONTACT)lParam2, _DBGetStringA((HCONTACT)lParam2, "Protocol", "p", "" ).c_str(), "UIN", 0);
+		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, _DBGetStringA((MCONTACT)lParam1, "Protocol", "p", "" ).c_str(), "UIN", 0);
+		DWORD dwUin2 = db_get_dw((MCONTACT)lParam2, _DBGetStringA((MCONTACT)lParam2, "Protocol", "p", "" ).c_str(), "UIN", 0);
 		if (dwUin1 == dwUin2 )
 			return 0;
 		if (dwUin1 > dwUin2 )
@@ -221,7 +221,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 				continue;
 			}
 
-			HCONTACT hContact = (HCONTACT)sItem.lParam;
+			MCONTACT hContact = (MCONTACT)sItem.lParam;
 
 			list< CLDBEvent > & rclCurList = AllEvents[ GetFilePathFromUser( hContact) ];
 			
@@ -315,7 +315,7 @@ void SetToDefault( HWND hParent )
 			continue;
 
 		tstring sFileName = szTemp;
-		ReplaceDefines((HCONTACT)sItem.lParam, sFileName);
+		ReplaceDefines((MCONTACT)sItem.lParam, sFileName);
 		ReplaceTimeVariables( sFileName);
 
 		sItem.mask = LVIF_TEXT;
@@ -400,7 +400,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 
 		if (ListView_GetItem( hMapUser, &sItem))
 		{
-			HCONTACT hUser = (HCONTACT)sItem.lParam;
+			MCONTACT hUser = (MCONTACT)sItem.lParam;
 			if (_tcslen( szTemp) > 0 )
 				db_set_ts(hUser, MODULE, "FileName", szTemp);
 			else
@@ -493,7 +493,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		}
 
 		int nShortestMatch = 0xFFFF;
-		HCONTACT hStortest = 0;
+		MCONTACT hStortest = 0;
 		int nStortestIndex = -1;
 		for (int nSubCur = 0 ; nSubCur < nCount ; nSubCur++ )
 		{
@@ -514,7 +514,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 					{
 						nShortestMatch = (int)nLen;
 						nStortestIndex = nSubCur;
-						hStortest = (HCONTACT)sItem.lParam;
+						hStortest = (MCONTACT)sItem.lParam;
 					}
 				}
 			}
@@ -678,7 +678,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			{		
 				tstring sTmp;
 				LVITEM sItem = { 0 };
-				HCONTACT hContact = db_find_first();
+				MCONTACT hContact = db_find_first();
 				for (int nUser = 0; /*hContact*/ ; nUser++ )
 				{
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;

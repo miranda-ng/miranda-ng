@@ -172,7 +172,7 @@ int __stdcall EnterBitmapFileName( char* szDest );
 void CleanupNicknames(char *dummy);
 int InitVSApi();
 int FreeVSApi();
-HCONTACT GetMetaHandle(DWORD dwId);
+MCONTACT GetMetaHandle(DWORD dwId);
 void LaunchSkypeAndSetStatusThread(void *newStatus);
 
 // Structs

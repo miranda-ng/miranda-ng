@@ -104,7 +104,7 @@ FacebookProto::~FacebookProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR FacebookProto::GetCaps(int type, HCONTACT hContact)
+DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch(type)
 	{
@@ -238,7 +238,7 @@ HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* first
 	return SearchByEmail(arg); // Facebook is using one search method for everything (except IDs)
 }
 
-HCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	ptrA id( mir_t2a_cp(psr->id, CP_UTF8));
 	ptrA name( mir_t2a_cp(psr->firstName, CP_UTF8));
@@ -261,7 +261,7 @@ HCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		return NULL;
 	}
 
-	HCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
+	MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
 	if (hContact) {
 		if (flags & PALF_TEMPORARY) {
 			db_set_b(hContact, "Clist", "Hidden", 1);
@@ -276,7 +276,7 @@ HCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-int FacebookProto::AuthRequest(HCONTACT hContact,const PROTOCHAR *message)
+int FacebookProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)
 {
 	return RequestFriendship((WPARAM)hContact, NULL);
 }
@@ -286,8 +286,8 @@ int FacebookProto::Authorize(HANDLE hDbEvent)
 	if (!hDbEvent || isOffline())
 		return 1;
 
-	HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+	MCONTACT hContact = HContactFromAuthEvent(hDbEvent);
+	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
 	return ApproveFriendship((WPARAM)hContact, NULL);
@@ -298,8 +298,8 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	if (!hDbEvent || isOffline())
 		return 1;
 
-	HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+	MCONTACT hContact = HContactFromAuthEvent(hDbEvent);
+	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
 	// TODO: hide from facebook requests list
@@ -450,7 +450,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	if (!isOnline())
 		return 1;
 
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 
 	wall_data *wall = new wall_data();
 	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
@@ -504,7 +504,7 @@ INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 
 INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
@@ -527,7 +527,7 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 
 INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 
 	if (wParam == 0 || !IsMyContact(hContact))
 		return 1;
@@ -547,7 +547,7 @@ INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
@@ -564,7 +564,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 
 	bool deleting = (lParam == 1);
 
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
 	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
@@ -601,7 +601,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HCONTACT hContact = HCONTACT(wParam);
+	MCONTACT hContact = MCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
@@ -633,7 +633,7 @@ INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-HCONTACT FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
+MCONTACT FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 {
 	DWORD body[2];
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -641,13 +641,13 @@ HCONTACT FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hEvent, &dbei))
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	if (strcmp(dbei.szModule, m_szModuleName))
-		return (HCONTACT)INVALID_HANDLE_VALUE;
+		return INVALID_CONTACT_ID;
 
 	return DbGetAuthEventContact(&dbei);
 }

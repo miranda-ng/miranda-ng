@@ -375,7 +375,7 @@ static TZ_MAP MirTZ2WinTZ(const CHAR MirTz)
 * @retval	CTimeZone*		- Pointer to the timezone.
 **/
 
-CTimeZone* GetContactTimeZone(HCONTACT hContact, LPCSTR pszProto)
+CTimeZone* GetContactTimeZone(MCONTACT hContact, LPCSTR pszProto)
 {
 	LPTSTR ptszName;
 	CTimeZone* pTimeZone = NULL;
@@ -410,7 +410,7 @@ CTimeZone* GetContactTimeZone(HCONTACT hContact, LPCSTR pszProto)
 *
 **/
 
-CTimeZone* GetContactTimeZone(HCONTACT hContact)
+CTimeZone* GetContactTimeZone(MCONTACT hContact)
 {
 	return GetContactTimeZone(hContact, DB::Contact::Proto(hContact));
 }
@@ -431,7 +431,7 @@ CTimeZone* GetContactTimeZone(HCONTACT hContact)
 *							  @e dwIndex retrieved its value. If not, dwIndex is -100 (unspecified).
 **/
 
-WORD GetContactTimeZoneCtrl(HCONTACT hContact, LPCSTR pszProto, CTimeZone** pTimeZone)
+WORD GetContactTimeZoneCtrl(MCONTACT hContact, LPCSTR pszProto, CTimeZone** pTimeZone)
 {
 	WORD flags;
 	DBVARIANT dbv;
@@ -476,7 +476,7 @@ WORD GetContactTimeZoneCtrl(HCONTACT hContact, LPCSTR pszProto, CTimeZone** pTim
 * @return	String containing display name.
 **/
 
-LPCTSTR GetContactTimeZoneDisplayName(HCONTACT hContact)
+LPCTSTR GetContactTimeZoneDisplayName(MCONTACT hContact)
 {
 	CTimeZone *pTimeZone;
 	
@@ -561,7 +561,7 @@ INT_PTR GetContactTimeZoneInformation_old(WPARAM wParam,LPARAM lParam)
 	CTimeZone *pTimeZone;
 	TIME_ZONE_INFORMATION* pTimeZoneInformation = (TIME_ZONE_INFORMATION*)lParam;
 	
-	pTimeZone = GetContactTimeZone((HCONTACT)wParam);
+	pTimeZone = GetContactTimeZone((MCONTACT)wParam);
 	if (pTimeZone && pTimeZoneInformation)
 		(*pTimeZoneInformation) = *pTimeZone;
 
@@ -580,7 +580,7 @@ INT_PTR GetContactTimeZoneInformation_old(WPARAM wParam,LPARAM lParam)
 INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
 {
 	MTime	now;
-	now.GetLocalTime((HCONTACT)wParam);
+	now.GetLocalTime((MCONTACT)wParam);
 
 	LPSYSTEMTIME pSystemTime = (LPSYSTEMTIME)lParam;
 	*pSystemTime = now.SystemTime();

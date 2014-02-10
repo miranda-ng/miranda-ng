@@ -39,7 +39,7 @@ TCHAR *db2t(DBVARIANT *dbv)
 	return buff;
 }
 
-int DBGetStringDefault(HCONTACT hContact, const char *szModule, const char *szSetting, TCHAR *setting, int size, const TCHAR *defaultValue)
+int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, TCHAR *setting, int size, const TCHAR *defaultValue)
 {
 	DBVARIANT dbv;
 	if ( !db_get_ts(hContact, szModule, szSetting, &dbv)) {

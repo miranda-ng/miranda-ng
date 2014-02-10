@@ -62,7 +62,7 @@ void freeSupportedProtocols()
 	arProto.destroy();
 }
 
-pSupPro getSupPro(HCONTACT hContact)
+pSupPro getSupPro(MCONTACT hContact)
 {
 	for (int j=0; j < arProto.getCount(); j++)
 		if (CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)arProto[j]->name))
@@ -72,7 +72,7 @@ pSupPro getSupPro(HCONTACT hContact)
 }
 
 // add contact in the list of secureIM users
-pUinKey addContact(HCONTACT hContact)
+pUinKey addContact(MCONTACT hContact)
 {
 	if (hContact == NULL) return NULL;
 		
@@ -99,7 +99,7 @@ pUinKey addContact(HCONTACT hContact)
 }
 
 // delete contact from the list of secureIM users
-void delContact(HCONTACT hContact)
+void delContact(MCONTACT hContact)
 {
 	pUinKey p = arClist.find((pUinKey)&hContact);
 	if (p) {
@@ -118,7 +118,7 @@ void loadContactList()
 	freeContactList();
 	loadSupportedProtocols();
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		addContact(hContact);
 }
 
@@ -138,12 +138,12 @@ void freeContactList()
 }
 
 // find user in the list of secureIM users and add him, if unknow
-pUinKey findUinKey(HCONTACT hContact)
+pUinKey findUinKey(MCONTACT hContact)
 {
 	return arClist.find((pUinKey)&hContact);
 }
 
-pUinKey getUinKey(HCONTACT hContact)
+pUinKey getUinKey(MCONTACT hContact)
 {
 	pUinKey p = arClist.find((pUinKey)&hContact);
 	return (p) ? p : addContact(hContact);
@@ -198,16 +198,16 @@ void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg)
 	LeaveCriticalSection(&localQueueMutex);
 }
 
-void getContactNameA(HCONTACT hContact, LPSTR szName) {
+void getContactNameA(MCONTACT hContact, LPSTR szName) {
 	strcpy(szName,(LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
 }
 
-void getContactName(HCONTACT hContact, LPSTR szName)
+void getContactName(MCONTACT hContact, LPSTR szName)
 {
 	wcscpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_UNICODE));
 }
 
-void getContactUinA(HCONTACT hContact, LPSTR szUIN)
+void getContactUinA(MCONTACT hContact, LPSTR szUIN)
 {
 	*szUIN = 0;
 
@@ -233,7 +233,7 @@ void getContactUinA(HCONTACT hContact, LPSTR szUIN)
 	db_free(&dbv_uniqueid);
 }
 
-void getContactUin(HCONTACT hContact, LPSTR szUIN)
+void getContactUin(MCONTACT hContact, LPSTR szUIN)
 {
 	getContactUinA(hContact, szUIN);
 	if (*szUIN) {

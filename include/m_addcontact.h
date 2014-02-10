@@ -29,7 +29,7 @@ typedef struct{
 	int handleType;         // one of the HANDLE_ constants
 	union {
 		HANDLE hDbEvent;     // hDbEvent if acs.handleType == HANDLE_EVENT
-		HCONTACT hContact;   // hContact if acs.handleType == HANDLE_CONTACT
+		MCONTACT hContact;   // hContact if acs.handleType == HANDLE_CONTACT
 		                     // ignored if acs.handleType == HANDLE_SEARCHRESULT
 	};
 	const char *szProto;    // ignored if acs.handleType != HANDLE_SEARCHRESULT

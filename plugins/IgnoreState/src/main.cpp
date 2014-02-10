@@ -79,7 +79,7 @@ inline BOOL checkState(int type)
 	return ((currentFilter>>(type-1))&1);
 }
 
-INT_PTR isIgnored(HCONTACT hContact, int type)
+INT_PTR isIgnored(MCONTACT hContact, int type)
 {
 	int all = 0, filtered = 0;
 
@@ -93,7 +93,7 @@ INT_PTR isIgnored(HCONTACT hContact, int type)
 	return (all+filtered == SIZEOF(ii)-1) ? 1 : (all > 0 ? -1 : 0) ;
 }
 
-void applyExtraImage(HCONTACT hContact)
+void applyExtraImage(MCONTACT hContact)
 {
 	int ignore = isIgnored(hContact, IGNOREEVENT_ALL);
 	if (ignore == 1)
@@ -141,7 +141,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hExtraIcon = ExtraIcon_Register("ignore", LPGEN("Ignore State"), "ignore_full");
 
 	// Set initial value for all contacts
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		applyExtraImage(hContact);
 
 	return 0;
@@ -150,7 +150,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	if ( !lstrcmpA(cws->szModule, "Ignore") && !lstrcmpA(cws->szSetting, "Mask1"))
 		applyExtraImage(hContact);

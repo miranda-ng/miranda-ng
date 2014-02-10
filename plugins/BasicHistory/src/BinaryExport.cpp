@@ -22,8 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define EXP_FILE (*((std::ofstream*)IExport::stream))
 #define IMP_FILE (*((std::ifstream*)IImport::stream))
 
-std::wstring GetProtocolName(HCONTACT hContact);
-std::wstring GetContactId(HCONTACT hContact);
+std::wstring GetProtocolName(MCONTACT hContact);
+std::wstring GetContactId(MCONTACT hContact);
 
 #pragma pack(push, 1)
 
@@ -158,7 +158,7 @@ bool ReadHeader(BinaryFileHeader& header, std::istream* stream)
 	return true;
 }
 
-int BinaryExport::IsContactInFile(const std::vector<HCONTACT>& contacts)
+int BinaryExport::IsContactInFile(const std::vector<MCONTACT>& contacts)
 {
 	BinaryFileHeader header;
 	if (!ReadHeader(header, IImport::stream))

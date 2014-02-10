@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSendImageShack::CSendImageShack(HWND Owner, HCONTACT hContact, bool bFreeOnExit)
+CSendImageShack::CSendImageShack(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
 : CSend(Owner, hContact, bFreeOnExit) {
 	m_EnableItem		= SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION;
 	m_pszSendTyp		= _T("Image upload");

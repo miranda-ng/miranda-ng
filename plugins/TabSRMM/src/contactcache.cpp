@@ -37,7 +37,7 @@
 
 static OBJLIST<CContactCache> arContacts(50, HandleKeySortT);
 
-CContactCache::CContactCache(const HCONTACT hContact)
+CContactCache::CContactCache(const MCONTACT hContact)
 {
 	m_hContact = hContact;
 	m_wOldStatus = m_wStatus = m_wMetaStatus = ID_STATUS_OFFLINE;
@@ -156,7 +156,7 @@ bool CContactCache::updateStatus()
 void CContactCache::updateMeta(bool fForce)
 {
 	if (m_Valid) {
-		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)m_hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)m_hContact, 0);
 		if (hSubContact && (hSubContact != m_hSubContact || fForce)) {
 			m_hSubContact = hSubContact;
 			m_szMetaProto = GetContactProto(m_hSubContact);
@@ -442,7 +442,7 @@ void CContactCache::deletedHandler()
 		::SendMessage(m_hwnd, WM_CLOSE, 1, 2);
 
 	releaseAlloced();
-	m_hContact = (HCONTACT)-1;
+	m_hContact = (MCONTACT)-1;
 }
 
 /**
@@ -512,7 +512,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
  * @return	CContactCache*		pointer to the cache entry for this contact
  */
 
-CContactCache* CContactCache::getContactCache(HCONTACT hContact)
+CContactCache* CContactCache::getContactCache(MCONTACT hContact)
 {
 	CContactCache *cc = arContacts.find((CContactCache*)&hContact);
 	if (cc == NULL) {
@@ -622,7 +622,7 @@ HICON CContactCache::getIcon(int& iSize) const
 
 int CContactCache::getMaxMessageLength()
 {
-	HCONTACT hContact = getActiveContact();
+	MCONTACT hContact = getActiveContact();
 	LPCSTR szProto = getActiveProto();
 	if (szProto) {
 		m_nMax = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)hContact);

@@ -52,34 +52,34 @@ class cfg
 public:
 	static void    init();
 
-   static DWORD   getDword(const HCONTACT hContact, const char *szModule, const char *szSetting, DWORD uDefault);
+   static DWORD   getDword(const MCONTACT hContact, const char *szModule, const char *szSetting, DWORD uDefault);
    static DWORD   getDword(const char *szModule, const char *szSetting, DWORD uDefault);
    static DWORD   getDword(const char *szSetting, DWORD uDefault);
 
-   static WORD    getWord(const HCONTACT hContact, const char *szModule, const char *szSetting, WORD uDefault);
+   static WORD    getWord(const MCONTACT hContact, const char *szModule, const char *szSetting, WORD uDefault);
    static WORD    getWord(const char *szModule, const char *szSetting, WORD uDefault);
    static WORD    getWord(const char *szSetting, WORD uDefault);
 
-   static int     getByte(const HCONTACT hContact, const char *szModule, const char *szSetting, int uDefault);
+   static int     getByte(const MCONTACT hContact, const char *szModule, const char *szSetting, int uDefault);
    static int     getByte(const char *szModule, const char *szSetting, int uDefault);
    static int     getByte(const char *szSetting, int uDefault);
 
-   static INT_PTR getTString(const HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-   static INT_PTR getString(const HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+   static INT_PTR getTString(const MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+   static INT_PTR getString(const MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 
-   static INT_PTR writeDword(const HCONTACT hContact, const char *szModule, const char *szSetting, DWORD value);
+   static INT_PTR writeDword(const MCONTACT hContact, const char *szModule, const char *szSetting, DWORD value);
    static INT_PTR writeDword(const char *szModule, const char *szSetting, DWORD value);
 
-   static INT_PTR writeWord(const HCONTACT hContact, const char *szModule, const char *szSetting, WORD value);
+   static INT_PTR writeWord(const MCONTACT hContact, const char *szModule, const char *szSetting, WORD value);
    static INT_PTR writeWord(const char *szModule, const char *szSetting, WORD value);
 
-   static INT_PTR writeByte(const HCONTACT hContact, const char *szModule, const char *szSetting, BYTE value);
+   static INT_PTR writeByte(const MCONTACT hContact, const char *szModule, const char *szSetting, BYTE value);
    static INT_PTR writeByte(const char *szModule, const char *szSetting, BYTE value);
 
-   static INT_PTR writeTString(const HCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *st);
-   static INT_PTR writeString(const HCONTACT hContact, const char *szModule, const char *szSetting, const char *st);
+   static INT_PTR writeTString(const MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *st);
+   static INT_PTR writeString(const MCONTACT hContact, const char *szModule, const char *szSetting, const char *st);
 
-	static TExtraCache* getCache(const HCONTACT hContact, const char *szProto);
+	static TExtraCache* getCache(const MCONTACT hContact, const char *szProto);
 
 public:
    static TCluiData dat;

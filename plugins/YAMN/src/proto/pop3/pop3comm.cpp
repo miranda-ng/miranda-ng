@@ -276,7 +276,7 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 
 	for (Finder=POP3Plugin->FirstAccount;Finder != NULL;Finder=Finder->Next) {
 		Finder->hContact = NULL;
-		for (HCONTACT hContact = db_find_first(YAMN_DBMODULE); hContact; hContact = db_find_next(hContact, YAMN_DBMODULE)) {
+		for (MCONTACT hContact = db_find_first(YAMN_DBMODULE); hContact; hContact = db_find_next(hContact, YAMN_DBMODULE)) {
 			if (!db_get_s(hContact,YAMN_DBMODULE,"Id",&dbv)) {
 				if ( strcmp( dbv.pszVal, Finder->Name) == 0) {
 					Finder->hContact = hContact;
@@ -294,7 +294,7 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 
 		if (Finder->hContact == NULL && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			//No account contact found, have to create one
-			Finder->hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+			Finder->hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)Finder->hContact,(LPARAM)YAMN_DBMODULE);
 			db_set_s(Finder->hContact,YAMN_DBMODULE,"Id",Finder->Name);
 			db_set_s(Finder->hContact,YAMN_DBMODULE,"Nick",Finder->Name);

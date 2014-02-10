@@ -933,17 +933,17 @@ LRESULT CALLBACK NullWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 struct ReplyEditData
 {
 	HWND hwndPopup;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	WNDPROC oldWndProc;
 };
 
-BOOL	IsUtfSendAvailable(HCONTACT hContact)
+BOOL	IsUtfSendAvailable(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
 	if (strcmp(szProto, gszMetaProto)==0) {
-		HCONTACT hSubContact = (HCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
 		if (!hSubContact)
 			return FALSE;
 		szProto = GetContactProto(hSubContact);
@@ -951,7 +951,7 @@ BOOL	IsUtfSendAvailable(HCONTACT hContact)
 	return(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
 }
 
-void	AddMessageToDB(HCONTACT hContact, char *msg, int flag/*bool utf*/)
+void	AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
@@ -1078,7 +1078,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 	case UM_AVATARCHANGED:
-		if ((HCONTACT)wParam == m_hContact)
+		if ((MCONTACT)wParam == m_hContact)
 		{
 			m_avatar->invalidate();
 			update();
@@ -1492,13 +1492,13 @@ void	WindowThread(void *arg)
 // Menu Host
 LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static HCONTACT hContact = NULL;
+	static MCONTACT hContact = NULL;
 
 	switch (message)
 	{
 		case UM_SHOWMENU:
 		{
-			hContact = (HCONTACT)lParam;
+			hContact = (MCONTACT)lParam;
 			POINT pt = {0};
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
 			GetCursorPos(&pt);

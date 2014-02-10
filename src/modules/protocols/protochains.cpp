@@ -56,7 +56,7 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CallContactService(HCONTACT hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
+INT_PTR CallContactService(MCONTACT hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret;
 	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
@@ -161,7 +161,7 @@ static INT_PTR Proto_RecvChain(WPARAM wParam, LPARAM lParam)
 	return ret;
 }
 
-PROTOACCOUNT* __fastcall Proto_GetAccount(HCONTACT hContact)
+PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
 {
 	if (hContact == NULL)
 		return NULL;
@@ -175,13 +175,13 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(HCONTACT hContact)
 
 static INT_PTR Proto_GetContactBaseProto(WPARAM wParam, LPARAM)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount((HCONTACT)wParam);
+	PROTOACCOUNT *pa = Proto_GetAccount((MCONTACT)wParam);
 	return (INT_PTR)(Proto_IsAccountEnabled(pa) ? pa->szModuleName : NULL);
 }
 
 static INT_PTR Proto_GetContactBaseAccount(WPARAM wParam, LPARAM)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount((HCONTACT)wParam);
+	PROTOACCOUNT *pa = Proto_GetAccount((MCONTACT)wParam);
 	return (INT_PTR)(pa ? pa->szModuleName : NULL);
 }
 
@@ -210,14 +210,14 @@ static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 	if (pd == NULL) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
-			db_set_s((HCONTACT)wParam, "Protocol", "p", szProto);
+			db_set_s((MCONTACT)wParam, "Protocol", "p", szProto);
 			return 0;
 		}
 		return 1;
 	}
 
 	if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL)
-		db_set_s((HCONTACT)wParam, "Protocol", "p", szProto);
+		db_set_s((MCONTACT)wParam, "Protocol", "p", szProto);
 
 	return 0;
 }
@@ -228,7 +228,7 @@ static INT_PTR Proto_RemoveFromContact(WPARAM wParam, LPARAM lParam)
 	case 0:
 		return 1;
 	case -1:
-		db_unset((HCONTACT)wParam, "Protocol", "p");
+		db_unset((MCONTACT)wParam, "Protocol", "p");
 	}
 
 	return 0;

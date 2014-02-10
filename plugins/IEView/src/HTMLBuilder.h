@@ -50,19 +50,19 @@ protected:
 		ENF_CHAT_FORMATTING = 256
 	};
 //	virtual char *encode(const char *text, const char *proto, bool replaceSmiley);
-	virtual char *encodeUTF8(HCONTACT hContact, const char *proto, const wchar_t *text, int flags, bool isSent);
-	virtual char *encodeUTF8(HCONTACT hContact, const char *proto, const char *text, int flags, bool isSent);
-	virtual char *encodeUTF8(HCONTACT hContact, const char *proto, const char *text, int cp, int flags, bool isSent);
-	virtual wchar_t *encode(HCONTACT hContact, const char *proto, const wchar_t *text, int flags, bool isSent);
-	virtual bool encode(HCONTACT hContact, const char *proto, const wchar_t *text, wchar_t **output, int *outputSize,  int level, int flags, bool isSent);
-	virtual char* getProto(HCONTACT hContact);
-	virtual char* getProto(const char *proto, HCONTACT hContact);
-	virtual char* getRealProto(HCONTACT hContact);
-	virtual char* getRealProto(HCONTACT hContact, const char *proto);
-	virtual wchar_t *getContactName(HCONTACT hContact, const char* szProto);
-	virtual char *getEncodedContactName(HCONTACT hContact, const char *szProto, const char *szSmileyProto);
-	virtual void getUINs(HCONTACT hContact, char *&uinIn, char *&uinOut);
-	virtual HCONTACT getRealContact(HCONTACT hContact);
+	virtual char *encodeUTF8(MCONTACT hContact, const char *proto, const wchar_t *text, int flags, bool isSent);
+	virtual char *encodeUTF8(MCONTACT hContact, const char *proto, const char *text, int flags, bool isSent);
+	virtual char *encodeUTF8(MCONTACT hContact, const char *proto, const char *text, int cp, int flags, bool isSent);
+	virtual wchar_t *encode(MCONTACT hContact, const char *proto, const wchar_t *text, int flags, bool isSent);
+	virtual bool encode(MCONTACT hContact, const char *proto, const wchar_t *text, wchar_t **output, int *outputSize,  int level, int flags, bool isSent);
+	virtual char* getProto(MCONTACT hContact);
+	virtual char* getProto(const char *proto, MCONTACT hContact);
+	virtual char* getRealProto(MCONTACT hContact);
+	virtual char* getRealProto(MCONTACT hContact, const char *proto);
+	virtual wchar_t *getContactName(MCONTACT hContact, const char* szProto);
+	virtual char *getEncodedContactName(MCONTACT hContact, const char *szProto, const char *szSmileyProto);
+	virtual void getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut);
+	virtual MCONTACT getRealContact(MCONTACT hContact);
 	virtual DWORD getLastEventTime();
 	virtual void setLastEventTime(DWORD);
 	virtual int getLastEventType();
@@ -70,11 +70,11 @@ protected:
 	virtual bool isSameDate(time_t time1, time_t time2);
 	virtual bool isDbEventShown(DBEVENTINFO * dbei)=0;
 	virtual ProtocolSettings *getSRMMProtocolSettings(const char *protocolName);
-	virtual ProtocolSettings *getSRMMProtocolSettings(HCONTACT hContact);
+	virtual ProtocolSettings *getSRMMProtocolSettings(MCONTACT hContact);
 	virtual ProtocolSettings *getHistoryProtocolSettings(const char *protocolName);
-	virtual ProtocolSettings *getHistoryProtocolSettings(HCONTACT hContact);
+	virtual ProtocolSettings *getHistoryProtocolSettings(MCONTACT hContact);
 	virtual ProtocolSettings *getChatProtocolSettings(const char *protocolName);
-	virtual ProtocolSettings *getChatProtocolSettings(HCONTACT hContact);
+	virtual ProtocolSettings *getChatProtocolSettings(MCONTACT hContact);
 	void	setLastIEViewEvent(IEVIEWEVENT *event);
 	virtual void buildHead(IEView *, IEVIEWEVENT *event)=0;
 public:

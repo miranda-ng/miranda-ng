@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CQuotesProviderVisitorTendency::CQuotesProviderVisitorTendency(HCONTACT hContact,TCHAR chr)
+CQuotesProviderVisitorTendency::CQuotesProviderVisitorTendency(MCONTACT hContact,TCHAR chr)
 	: m_hContact(hContact),m_chr(chr),m_bValid(false),m_dResult(0.0)
 {
 }

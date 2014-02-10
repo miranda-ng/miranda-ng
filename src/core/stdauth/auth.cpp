@@ -57,7 +57,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 	db_event_get(hDbEvent, &dbei);
 
-	HCONTACT hContact = DbGetAuthEventContact(&dbei);
+	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 
 	CLISTEVENT cli = {0};
 	cli.cbSize = sizeof(cli);

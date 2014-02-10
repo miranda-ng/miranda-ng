@@ -42,7 +42,7 @@
 #define _getOptD(a,b) _getCOptD(NULL, a, b)
 #define _setOptD(a,b) _setCOptD(NULL, a, b)
 
-TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, HCONTACT hContact, const char* option, const TCHAR *def);
+TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char* option, const TCHAR *def);
 #define _getOptS(a,b,c,d) _getCOptS(a, b, NULL, c, d)
 #define _setCOptTS(a,b,c) db_set_ts(a, PLUGIN_NAME, b, c)
 #define _setCOptS(a,b,c) db_set_s(a, PLUGIN_NAME, b, c)
@@ -105,11 +105,11 @@ BOOL _isvalidregex(TCHAR* strSearch);
 BOOL _regmatch(TCHAR* str, TCHAR* strSearch);
 BOOL Contains(TCHAR* dst, TCHAR* src);
 BOOL isOneDay(DWORD timestamp1, DWORD timestamp2);
-void MarkUnread(HCONTACT hContact);
+void MarkUnread(MCONTACT hContact);
 
-int ShowPopup(HCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2);
+int ShowPopup(MCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2);
 int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2);
-int _notify(HCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage);
+int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage);
 int LogToSystemHistory(char *message, char *origmessage);
 #define POPUP_DEFAULT 0
 #define POPUP_BLOCKED 1
@@ -151,8 +151,8 @@ void learn_spam(TCHAR *msg);
 int get_token_count(int type);
 int get_msg_count(int type);
 double get_msg_score(TCHAR *msg);
-void queue_message(HCONTACT hContact, DWORD msgtime, TCHAR *message);
-void bayes_approve_contact(HCONTACT hContact);
+void queue_message(MCONTACT hContact, DWORD msgtime, TCHAR *message);
+void bayes_approve_contact(MCONTACT hContact);
 void dequeue_messages();
 
 #ifdef _DEBUG

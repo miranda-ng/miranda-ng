@@ -99,7 +99,7 @@ void ShowExamplePopups()
 	pd.ptzText = TranslateT("Thequickbrownfoxjumpedoverthelazydog.");
 	ShowPopup(pd);
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
 			AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 			if (ace && (ace->dwFlags & AVS_BITMAP_VALID)) {

@@ -233,10 +233,10 @@ public:
 	HRESULT Init();
 	HRESULT Clear();
 
-	static BYTE  SpiGetSkinByte (HCONTACT hContact, const char * szSection, const char * szKey, const BYTE defValue );
-	static WORD  SpiGetSkinWord (HCONTACT hContact, const char * szSection, const char * szKey, const WORD defValue );
-	static DWORD SpiGetSkinDword(HCONTACT hContact, const char * szSection, const char * szKey, const DWORD defValue );
-	static BOOL  SpiCheckSkinned(HCONTACT hContact, const char * szSection, const char * szKey );
+	static BYTE  SpiGetSkinByte (MCONTACT hContact, const char * szSection, const char * szKey, const BYTE defValue );
+	static WORD  SpiGetSkinWord (MCONTACT hContact, const char * szSection, const char * szKey, const WORD defValue );
+	static DWORD SpiGetSkinDword(MCONTACT hContact, const char * szSection, const char * szKey, const DWORD defValue );
+	static BOOL  SpiCheckSkinned(MCONTACT hContact, const char * szSection, const char * szKey );
 
 };
 

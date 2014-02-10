@@ -96,7 +96,7 @@ void ChangeContactStatus(int con_stat)
    if (con_stat == 3)
       status_code = ID_STATUS_NA;
 
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
 		db_set_w(hContact, MODULENAME, "Status", status_code);
 }
 

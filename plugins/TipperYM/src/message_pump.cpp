@@ -48,14 +48,14 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 	if (opt.bWaitForContent && IsContactTooltip(clcitex))
 	{
-		char *szProto = GetContactProto((HCONTACT)clcitex->hItem);
+		char *szProto = GetContactProto((MCONTACT)clcitex->hItem);
 		if (!szProto) return false;
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
-			db_unset((HCONTACT)clcitex->hItem, MODULE, "TempStatusMsg");
-			if (CanRetrieveStatusMsg((HCONTACT)clcitex->hItem, szProto) &&
-				CallContactService((HCONTACT)clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
+			db_unset((MCONTACT)clcitex->hItem, MODULE, "TempStatusMsg");
+			if (CanRetrieveStatusMsg((MCONTACT)clcitex->hItem, szProto) &&
+				CallContactService((MCONTACT)clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
 			{
 				if (WaitForContentTimerID)
 					KillTimer(0, WaitForContentTimerID);
@@ -69,7 +69,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0))
 		{
 			DBVARIANT dbv;
-			if (!db_get_s((HCONTACT)clcitex->hItem, "ContactPhoto", "File", &dbv))
+			if (!db_get_s((MCONTACT)clcitex->hItem, "ContactPhoto", "File", &dbv))
 			{
 				if (!strstr(dbv.pszVal, ".xml"))
 				{
@@ -153,7 +153,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				}
 				case MUM_GOTSTATUS:
 				{
-					HCONTACT hContact = (HCONTACT)hwndMsg.wParam;
+					MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
 					TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
 
 					if (opt.bWaitForContent && bStatusMsgReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
@@ -163,7 +163,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 						}
 
 						if (swzMsg) {
-							db_set_ts((HCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+							db_set_ts((MCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
 							mir_free(swzMsg);
 						}
 
@@ -185,7 +185,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				}
 				case MUM_GOTAVATAR:
 				{
-					HCONTACT hContact = (HCONTACT)hwndMsg.wParam;
+					MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
 					if (opt.bWaitForContent && bAvatarReady == false && clcitex && clcitex->hItem == (HANDLE)hContact)
 					{
 						if (WaitForContentTimerID)
@@ -340,7 +340,7 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	PostMPMessage(MUM_GOTAVATAR, (WPARAM)hContact, 0);
 	return 0;
 }

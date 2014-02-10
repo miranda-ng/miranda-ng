@@ -74,7 +74,7 @@ struct UserInfoStringBuf
 
 struct JabberUserInfoDlgData
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	CJabberProto *ppro;
 	JABBER_LIST_ITEM *item;
 	int resourcesCount;
@@ -311,7 +311,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 		sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda core version"), r->m_tszXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 }
 
-static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM htiRoot, DWORD dwInfoLine, HCONTACT hContact, TCHAR *szTitle, char *pszSlot)
+static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM htiRoot, DWORD dwInfoLine, MCONTACT hContact, TCHAR *szTitle, char *pszSlot)
 {
 	char *szAdvStatusIcon = ppro->ReadAdvStatusA(hContact, pszSlot, ADVSTATUS_VAL_ICON);
 	TCHAR *szAdvStatusTitle = ppro->ReadAdvStatusT(hContact, pszSlot, ADVSTATUS_VAL_TITLE);
@@ -340,7 +340,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	HTREEITEM htiRoot = sttFillInfoLine(hwndTree, NULL, ppro->LoadIconEx("main"), _T("JID"), item->jid, sttInfoLineId(0, INFOLINE_NAME), true);
 	TCHAR buf[256];
 
-	if (HCONTACT hContact = ppro->HContactFromJID(item->jid)) {
+	if (MCONTACT hContact = ppro->HContactFromJID(item->jid)) {
 		sttFillAdvStatusInfo(ppro, hwndTree, htiRoot, sttInfoLineId(0, INFOLINE_MOOD), hContact, TranslateT("Mood"), ADVSTATUS_MOOD);
 		sttFillAdvStatusInfo(ppro, hwndTree, htiRoot, sttInfoLineId(0, INFOLINE_ACTIVITY), hContact, TranslateT("Activity"), ADVSTATUS_ACTIVITY);
 		sttFillAdvStatusInfo(ppro, hwndTree, htiRoot, sttInfoLineId(0, INFOLINE_TUNE), hContact, TranslateT("Tune"), ADVSTATUS_TUNE);
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		dat->resourcesCount = -1;
 
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)lParam, 0))
-			dat->hContact = (HCONTACT)lParam;
+			dat->hContact = (MCONTACT)lParam;
 		else if (!IsBadReadPtr((void*)lParam, sizeof(JABBER_LIST_ITEM))) {
 			dat->hContact = NULL;
 			dat->item = (JABBER_LIST_ITEM *)lParam;
@@ -550,7 +550,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_INFOCHANGED:
 				{
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					SendMessage(hwndDlg, WM_JABBER_REFRESH, 0, (LPARAM)hContact);
 				}
 				break;
@@ -589,7 +589,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 struct USER_PHOTO_INFO
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HBITMAP hBitmap;
 	CJabberProto *ppro;
 };
@@ -605,7 +605,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		// lParam is hContact
 		TranslateDialogDefault(hwndDlg);
 		photoInfo = (USER_PHOTO_INFO *) mir_alloc(sizeof(USER_PHOTO_INFO));
-		photoInfo->hContact = (HCONTACT)lParam;
+		photoInfo->hContact = (MCONTACT)lParam;
 		photoInfo->ppro = NULL;
 		photoInfo->hBitmap = NULL;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) photoInfo);
@@ -800,7 +800,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)lParam;
+	MCONTACT hContact = (MCONTACT)lParam;
 	if (hContact == NULL) {
 		// Show our vcard
 		OnUserInfoInit_VCard(wParam, lParam);
@@ -844,7 +844,7 @@ void JabberUserInfoUninit()
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserInfoUpdate
 
-void JabberUserInfoUpdate(HCONTACT hContact)
+void JabberUserInfoUpdate(MCONTACT hContact)
 {
 	if (!hContact)
 		WindowList_BroadcastAsync(hUserInfoList, WM_JABBER_REFRESH, 0, 0);

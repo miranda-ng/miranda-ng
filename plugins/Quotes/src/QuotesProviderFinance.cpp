@@ -3,7 +3,7 @@
 void CQuotesProviderFinance::GetWatchedQuotes(TQuotes& raQuotes)const
 {
 	raQuotes.clear();
-	BOOST_FOREACH(HCONTACT hContact,m_aContacts)
+	BOOST_FOREACH(MCONTACT hContact,m_aContacts)
 	{
 		tstring sID = Quotes_DBGetStringT(hContact,QUOTES_MODULE_NAME,DB_STR_QUOTE_ID);
 		tstring sSymbol = Quotes_DBGetStringT(hContact,QUOTES_MODULE_NAME,DB_STR_QUOTE_SYMBOL,sID.c_str());
@@ -16,12 +16,12 @@ void CQuotesProviderFinance::GetWatchedQuotes(TQuotes& raQuotes)const
 
 namespace
 {
-	inline tstring get_quote_id(HCONTACT hContact)
+	inline tstring get_quote_id(MCONTACT hContact)
 	{
 		return Quotes_DBGetStringT(hContact,QUOTES_MODULE_NAME,DB_STR_QUOTE_ID);
 	}
 
-	inline bool is_quote_id_equal(HCONTACT hContact,const tstring& sID)
+	inline bool is_quote_id_equal(MCONTACT hContact,const tstring& sID)
 	{
 		return sID == get_quote_id(hContact);
 	}
@@ -35,7 +35,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote,bool bWatch)
 
 	if ((false == bWatch) && (i != m_aContacts.end()))
 	{
-		HCONTACT hContact = *i;
+		MCONTACT hContact = *i;
 		{// for CCritSection
 			CGuard<CLightMutex> cs(m_cs);
 			m_aContacts.erase(i);
@@ -46,7 +46,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote,bool bWatch)
 	}
 	else if ((true == bWatch) && (i == m_aContacts.end()))
 	{
-		HCONTACT hContact = CreateNewContact(rQuote.GetSymbol());
+		MCONTACT hContact = CreateNewContact(rQuote.GetSymbol());
 		if(hContact)
 		{
 			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_ID,sQuoteID.c_str());
@@ -62,7 +62,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote,bool bWatch)
 	return false;
 }
 
-HCONTACT CQuotesProviderFinance::GetContactByQuoteID(const tstring& rsQuoteID)const
+MCONTACT CQuotesProviderFinance::GetContactByQuoteID(const tstring& rsQuoteID)const
 {
 	CGuard<CLightMutex> cs(m_cs);
 

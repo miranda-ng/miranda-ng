@@ -2,6 +2,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-bool ModuleSettingsExists(HCONTACT hContact, const char* pszModuleName);
-void DeleteModuleSettings(HCONTACT hContact, const char* pszModuleName);
-void RenameModule(HCONTACT hContact, const char* pszOldName, const char* pszNewName);
+bool ModuleSettingsExists(MCONTACT hContact, const char* pszModuleName);
+void DeleteModuleSettings(MCONTACT hContact, const char* pszModuleName);
+void RenameModule(MCONTACT hContact, const char* pszOldName, const char* pszNewName);

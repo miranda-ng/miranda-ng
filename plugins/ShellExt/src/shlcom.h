@@ -86,7 +86,7 @@ struct TSlotIPC
 	BYTE cbSize;
 	int  fType; // a REQUEST_* type
 	TSlotIPC *Next;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	UINT hProto; // hash of the protocol the user is on
 	UINT hGroup; // hash of the entire path (not defined for REQUEST_GROUPS slots)
 	WORD Status;
@@ -207,7 +207,7 @@ struct TMenuDrawInfo
 	int cch;
 	int wID; // should be the same as the menu item's ID
    TSlotDrawTypes fTypes;
-   HCONTACT hContact;
+   MCONTACT hContact;
 	HICON hStatusIcon; // HICON from Self->ProtoIcons[index].hIcons[status]; Do not DestroyIcon()
    HBITMAP hStatusBitmap; // HBITMAP, don't free.
    int pid;

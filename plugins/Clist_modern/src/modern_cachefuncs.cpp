@@ -54,7 +54,7 @@ void CListSettings_FreeCacheItemDataOption( ClcCacheEntry *pDst, DWORD flag );
 /*
  *	Get time zone for contact
  */
-void Cache_GetTimezone(ClcData *dat, HCONTACT hContact)
+void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 {
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
 	if (dat == NULL && pcli->hwndContactTree)
@@ -205,7 +205,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, 
 		sp.Protocolname = pdnce->m_cache_cszProto;
 
 		if ( db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0) {
-			HCONTACT hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->hContact, 0);
+			MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->hContact, 0);
 			if (hContact != 0)
 				sp.Protocolname = GetContactProto(hContact);
 		}

@@ -131,7 +131,7 @@ static TCHAR *GetQuotedTextW(TCHAR * text)
 	return out;
 }
 
-static void saveDraftMessage(HWND hwnd, HCONTACT hContact, int codepage)
+static void saveDraftMessage(HWND hwnd, MCONTACT hContact, int codepage)
 {
 	char *textBuffer = GetRichTextEncoded(hwnd, codepage);
 	if (textBuffer != NULL) {
@@ -141,7 +141,7 @@ static void saveDraftMessage(HWND hwnd, HCONTACT hContact, int codepage)
 	else g_dat.draftList = tcmdlist_remove2(g_dat.draftList, hContact);
 }
 
-void NotifyLocalWinEvent(HCONTACT hContact, HWND hwnd, unsigned int type)
+void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
 	if (hContact == NULL || hwnd == NULL)
 		return;
@@ -158,7 +158,7 @@ void NotifyLocalWinEvent(HCONTACT hContact, HWND hwnd, unsigned int type)
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 
-static BOOL IsUtfSendAvailable(HCONTACT hContact)
+static BOOL IsUtfSendAvailable(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if ( szProto == NULL )
@@ -255,12 +255,12 @@ void SetStatusIcon(struct SrmmWindowData *dat)
 		return;
 
 	char *szProto = dat->szProto;
-	HCONTACT hContact = dat->windowData.hContact;
+	MCONTACT hContact = dat->windowData.hContact;
 
 	char* szMetaProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	if ((INT_PTR)szMetaProto != CALLSERVICE_NOTFOUND && strcmp(dat->szProto, szMetaProto) == 0 &&
 		db_get_b(NULL,"CLC","Meta",0) == 0) {
-		hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
+		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
 		if (hContact != NULL)
 			szProto = GetContactProto(hContact);
 		else
@@ -1093,7 +1093,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_CLISTSETTINGSCHANGED:
-		if ((HCONTACT)wParam == dat->windowData.hContact) {
+		if ((MCONTACT)wParam == dat->windowData.hContact) {
 			if (dat->windowData.hContact && dat->szProto) {
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 				char idbuf[128];
@@ -1353,7 +1353,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_REMAKELOG:
 		dat->lastEventType = -1;
-		if (wParam == 0 || (HCONTACT)wParam == dat->windowData.hContact)
+		if (wParam == 0 || (MCONTACT)wParam == dat->windowData.hContact)
 			StreamInEvents(hwndDlg, dat->hDbEventFirst, -1, 0);
 
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
@@ -1390,7 +1390,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case HM_DBEVENTADDED:
-		if ((HCONTACT)wParam == dat->windowData.hContact) {
+		if ((MCONTACT)wParam == dat->windowData.hContact) {
 			HANDLE hDbEvent = (HANDLE)lParam;
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
@@ -1773,7 +1773,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				smaddInfo.targetWParam = TRUE;
 				smaddInfo.Protocolname = dat->szProto;
 				if (dat->szProto!=NULL && strcmp(dat->szProto,"MetaContacts") == 0) {
-					HCONTACT hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
+					MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
 					if (hContact!=NULL) {
 						smaddInfo.Protocolname = GetContactProto(hContact);
 					}

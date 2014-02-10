@@ -18,7 +18,7 @@
 
 #include "headers.h"
 
-tstring DBGetContactSettingStringPAN(HCONTACT hContact, char const * szModule, char const * szSetting, tstring errorValue)
+tstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, tstring errorValue)
 {
 	DBVARIANT dbv;
 	//if(db_get(hContact, szModule, szSetting, &dbv))
@@ -30,7 +30,7 @@ tstring DBGetContactSettingStringPAN(HCONTACT hContact, char const * szModule, c
 	return errorValue;
 }
 
-std::string DBGetContactSettingStringPAN_A(HCONTACT hContact, char const * szModule, char const * szSetting, std::string errorValue)
+std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szModule, char const * szSetting, std::string errorValue)
 {
 	DBVARIANT dbv;
 	//if(db_get(hContact, szModule, szSetting, &dbv))
@@ -97,7 +97,7 @@ int RemoveTmp(WPARAM,LPARAM)
 	return 0;
 }
 
-tstring variables_parse(tstring const &tstrFormat, HCONTACT hContact){
+tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 	if (gbVarsServiceExist) {
 		FORMATINFO fi;
 		TCHAR *tszParsed;
@@ -201,7 +201,7 @@ BOOL IsUrlContains(TCHAR * Str)
 	return 0;
 }
 
-tstring GetContactUid(HCONTACT hContact, tstring Protocol)
+tstring GetContactUid(MCONTACT hContact, tstring Protocol)
 {
 	tstring Uid;
 	TCHAR dUid[32]={0};
@@ -235,7 +235,7 @@ tstring GetContactUid(HCONTACT hContact, tstring Protocol)
 	return Uid;
 }
 
-void LogSpamToFile(HCONTACT hContact, tstring message)
+void LogSpamToFile(MCONTACT hContact, tstring message)
 {
 	if (!gbLogToFile) return;
 
@@ -293,15 +293,15 @@ void CleanProtocolTmpThread(std::string proto)
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
 
-	std::list<HCONTACT> contacts;
-	for(HCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
+	std::list<MCONTACT> contacts;
+	for(MCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
 		if(db_get_b(hContact, "CList", "NotOnList", 0)|| (_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T(""))))
 			contacts.push_back(hContact);
 
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
-	std::list<HCONTACT>::iterator end = contacts.end();
-	for(std::list<HCONTACT>::iterator i = contacts.begin(); i != end; ++i)
+	std::list<MCONTACT>::iterator end = contacts.end();
+	for(std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i)
 	{
 		LogSpamToFile(*i, _T("Deleted"));
 		HistoryLogFunc(*i, "Deleted");
@@ -320,15 +320,15 @@ void CleanProtocolExclThread(std::string proto)
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
 
-	std::list<HCONTACT> contacts;
-	for(HCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
+	std::list<MCONTACT> contacts;
+	for(MCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
 		if(db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
 			contacts.push_back(hContact);
 
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
-	std::list<HCONTACT>::iterator end = contacts.end();
-	for(std::list<HCONTACT>::iterator i = contacts.begin(); i != end; ++i)
+	std::list<MCONTACT>::iterator end = contacts.end();
+	for(std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i)
 	{
 		LogSpamToFile(*i, _T("Deleted"));
 		HistoryLogFunc(*i, "Deleted");
@@ -358,7 +358,7 @@ void CleanThread()
 	}
 }
 
-void HistoryLog(HCONTACT hContact, char *data, int event_type, int flags)
+void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 {
 	DBEVENTINFO Event = { sizeof(Event) };
 	Event.szModule = pluginName;
@@ -370,11 +370,11 @@ void HistoryLog(HCONTACT hContact, char *data, int event_type, int flags)
 	db_event_add(hContact, &Event);
 }
 
-void HistoryLogFunc(HCONTACT hContact, std::string message)
+void HistoryLogFunc(MCONTACT hContact, std::string message)
 {
 	if(gbHistoryLog)
 	{
-		if(hContact == (HCONTACT)INVALID_HANDLE_VALUE)
+		if(hContact == INVALID_CONTACT_ID)
 			return;
 
 		std::string msg = message;

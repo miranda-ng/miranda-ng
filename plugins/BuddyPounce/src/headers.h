@@ -47,14 +47,14 @@
 
 struct windowInfo
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HWND SendIfMy;
 	HWND SendWhenThey;
 };
 
 struct SendPounceDlgProcStruct
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int timer;
 	TCHAR *message;
 };
@@ -66,13 +66,13 @@ extern HINSTANCE hInst;
 //=======================================================
 
 // main.c
-void SendPounce(TCHAR* text, HCONTACT hContact);
+void SendPounce(TCHAR* text, MCONTACT hContact);
 
 //dialog.c
 INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void CreateMessageAcknowlegedWindow(HCONTACT hContact, int SentSuccess);
+void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess);
 
 #endif //_COMMONHEADERS_H

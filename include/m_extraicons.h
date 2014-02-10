@@ -95,14 +95,14 @@ typedef struct {
 	MIRANDAHOOK RebuildIcons;
 
 	// Callback to set the icon to clist, calling MS_CLIST_EXTRA_SET_ICON or MS_EXTRAICON_SET_ICON
-	// wParam = HCONTACT hContact
+	// wParam = MCONTACT hContact
 	// lParam = 0
 	MIRANDAHOOK ApplyIcon;
 
 	// Other optional callbacks
 
 	// [Optional] Callback called when extra icon was clicked
-	// wParam = HCONTACT hContact
+	// wParam = MCONTACT hContact
 	// lParam = int slot
 	// param = onClickParam
 	MIRANDAHOOKPARAM OnClick;
@@ -122,7 +122,7 @@ typedef struct {
 typedef struct {
 	int cbSize;
 	HANDLE hExtraIcon;      // Value returned by MS_EXTRAICON_REGISTER
-	HCONTACT hContact;        // Contact to set the extra icon
+	MCONTACT hContact;        // Contact to set the extra icon
 	union {                 // The icon to be set. This depends on the type of the extra icon:
 		HANDLE hImage;       // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)
 		                     // or the icolib icon handle (if EXTRAICON_TYPE_ICOLIB)
@@ -185,7 +185,7 @@ static HANDLE ExtraIcon_Register(
 	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, hLangpack);
 }
 
-static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HCONTACT hContact, HANDLE hImage)
+static int ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, HANDLE hImage)
 {
 	EXTRAICON ei = { sizeof(ei) };
 	ei.hExtraIcon = hExtraIcon;
@@ -195,7 +195,7 @@ static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HCONTACT hContact, HANDLE hImage
 	return CallService(MS_EXTRAICON_SET_ICON, (WPARAM) &ei, 0);
 }
 
-static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HCONTACT hContact, const char *icoName)
+static int ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName)
 {
 	EXTRAICON ei = { sizeof(ei) };
 	ei.hExtraIcon = hExtraIcon;
@@ -205,7 +205,7 @@ static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HCONTACT hContact, const char *i
 	return CallService(MS_EXTRAICON_SET_ICON_BY_NAME, (WPARAM) &ei, 0);
 }
 
-static int ExtraIcon_Clear(HANDLE hExtraIcon, HCONTACT hContact)
+static int ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
 {
 	EXTRAICON ei = { sizeof(ei) };
 	ei.hExtraIcon = hExtraIcon;

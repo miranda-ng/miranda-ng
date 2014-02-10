@@ -42,7 +42,7 @@ public:
 	inline int getWidth() { return width; }
 	inline int getHeight() { return height; }
 	
-	static PopupAvatar *create(HCONTACT hContact);
+	static PopupAvatar *create(MCONTACT hContact);
 };
 
 #endif // __avatars_h__

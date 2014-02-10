@@ -24,7 +24,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
@@ -40,7 +40,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+	hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 	if (hContact == NULL)
 		return NULL;
 
@@ -79,7 +79,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
@@ -95,7 +95,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (HCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+	hContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
 	if (hContact == NULL)
 		return NULL;
 
@@ -134,7 +134,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 
 	CONTACTSINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
@@ -150,7 +150,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+	hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 	if (hContact == NULL)
 		return NULL;
 

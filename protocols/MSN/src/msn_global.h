@@ -167,7 +167,7 @@ template <class chartype> void UrlDecode(chartype* str);
 void		__cdecl MSN_ConnectionProc(HANDLE hNewConnection, DWORD dwRemoteIP, void*);
 
 char*		MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
-bool		MSN_MsgWndExist(HCONTACT hContact);
+bool		MSN_MsgWndExist(MCONTACT hContact);
 
 #define		MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))
 
@@ -542,7 +542,7 @@ struct ThreadData
 
    int           contactJoined(const char* email);
    int           contactLeft(const char* email);
-   HCONTACT      getContactHandle(void);
+   MCONTACT      getContactHandle(void);
 };
 
 
@@ -569,7 +569,7 @@ struct ThreadData
 
 
 
-inline bool IsChatHandle(HCONTACT hContact) { return (INT_PTR)hContact < 0; }
+inline bool IsChatHandle(MCONTACT hContact) { return (INT_PTR)hContact < 0; }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -596,10 +596,10 @@ struct MsgQueueEntry
 
 struct AvatarQueueEntry
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char *pszUrl;
 
-	__forceinline AvatarQueueEntry(HCONTACT _contact, LPCSTR _url) :
+	__forceinline AvatarQueueEntry(MCONTACT _contact, LPCSTR _url) :
 		hContact(_contact),
 		pszUrl( mir_strdup(_url))
 	{}
@@ -639,7 +639,7 @@ struct MsnContact
 	char *email;
 	char *invite;
 	char *nick;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int list;
 	int netId;
 	int p2pMsgId;
@@ -863,7 +863,7 @@ struct chunkedmsg
 struct DeleteParam
 {
 	CMsnProto *proto;
-	HCONTACT hContact;
+	MCONTACT hContact;
 };
 
 INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -871,10 +871,10 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 struct InviteChatParam
 {
 	TCHAR* id;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	CMsnProto* ppro;
 
-	InviteChatParam(const TCHAR* id, HCONTACT hContact, CMsnProto* ppro)
+	InviteChatParam(const TCHAR* id, MCONTACT hContact, CMsnProto* ppro)
 		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
 
 	~InviteChatParam()

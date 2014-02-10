@@ -41,7 +41,7 @@ extern const char *nameXStatus[];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HCONTACT hContact, char* szModule, char* szSetting, int special)
+static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContact, char* szModule, char* szSetting, int special)
 {
 	DBVARIANT dbv = {0};
 	char str[MAX_PATH];
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						break;
 
 					char* szProto;
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 
 					if (hContact == NULL)
 						szProto = ppro->m_szModuleName;
@@ -284,7 +284,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if ((!IsICQContact((HCONTACT)lParam)) && lParam)
+	if ((!IsICQContact((MCONTACT)lParam)) && lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

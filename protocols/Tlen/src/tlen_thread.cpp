@@ -352,7 +352,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			ProtoBroadcastAck(szProto, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 
 			// Set all contacts to offline
-			for (HCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
+			for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
 				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 					db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
@@ -595,7 +595,7 @@ static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 
 static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	XmlNode *bodyNode, *subjectNode, *xNode, *n;
 	char *from, *type, *nick, *p, *localMessage, *idStr;
 	DWORD msgTime;
@@ -728,7 +728,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 
 static void TlenProcessIq(XmlNode *node, ThreadData *info)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	XmlNode *queryNode = NULL;
 	char *type, *jid, *nick;
 	char *xmlns = NULL;
@@ -960,7 +960,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
  */
 static void TlenProcessW(XmlNode *node, ThreadData *info)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char *f, *e, *s, *body;
 	char *str, *localMessage;
 	int strSize;
@@ -1007,7 +1007,7 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
  */
 static void TlenProcessM(XmlNode *node, ThreadData *info)
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char *f;//, *from;//username
 	char *tp;//typing start/stop
 	char *p, *n, *r, *s, *str, *localMessage;

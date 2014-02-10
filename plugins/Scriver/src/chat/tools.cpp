@@ -152,7 +152,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int 
 	return TRUE;
 }
 
-TCHAR* GetChatLogsFilename(HCONTACT hContact, time_t tTime)
+TCHAR* GetChatLogsFilename(MCONTACT hContact, time_t tTime)
 {
 	REPLACEVARSARRAY rva[11];
 	TCHAR *p = { 0 }, *tszParsedName = { 0 };

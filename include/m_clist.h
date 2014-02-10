@@ -237,7 +237,7 @@ lParam = 0
 
 Event is fired when there is a double click on a CList contact,
 it is upto the caller to check for the protocol & status
-of the HCONTACT, it's not done for you anymore since it didn't make
+of the MCONTACT, it's not done for you anymore since it didn't make
 sense to store all this information in memory, etc.
 
 */
@@ -285,7 +285,7 @@ sense to store all this information in memory, etc.
 //bypasses the double-click.
 typedef struct {
 	int cbSize;          //size in bytes of this structure
-	HCONTACT hContact;	 //handle to the contact to put the icon by
+	MCONTACT hContact;	 //handle to the contact to put the icon by
 	HICON hIcon;		 //icon to flash
 	DWORD flags;		 //...of course
 	union

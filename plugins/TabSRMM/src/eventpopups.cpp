@@ -44,7 +44,7 @@ static LIST<PLUGIN_DATAT> arPopupList(10, HandleKeySortT);
 
 BOOL bWmNotify = TRUE;
 
-static PLUGIN_DATAT* PU_GetByContact(const HCONTACT hContact)
+static PLUGIN_DATAT* PU_GetByContact(const MCONTACT hContact)
 {
 	return arPopupList.find((PLUGIN_DATAT*)&hContact);
 }
@@ -559,7 +559,7 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 	}
 }
 
-static int PopupUpdateT(HCONTACT hContact, HANDLE hEvent)
+static int PopupUpdateT(MCONTACT hContact, HANDLE hEvent)
 {
 	PLUGIN_DATAT *pdata = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact));
 	if (!pdata)
@@ -630,7 +630,7 @@ static int PopupUpdateT(HCONTACT hContact, HANDLE hEvent)
 	return 0;
 }
 
-static int PopupShowT(NEN_OPTIONS *pluginOptions, HCONTACT hContact, HANDLE hEvent, UINT eventType, HWND hContainer)
+static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, HANDLE hEvent, UINT eventType, HWND hContainer)
 {
 	//there has to be a maximum number of popups shown at the same time
 	if (arPopupList.getCount() >= MAX_POPUPS)
@@ -759,7 +759,7 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
  * if we want tray support, add the contact to the list of unread sessions in the tray menu
  */
 
-int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, HCONTACT hContact, DWORD fromEvent)
+int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, MCONTACT hContact, DWORD fromEvent)
 {
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
 		return 0;
@@ -823,7 +823,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	return 0;
 }
 
-int tabSRMM_ShowPopup(HCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat)
+int tabSRMM_ShowPopup(MCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;
@@ -883,7 +883,7 @@ passed:
 * remove all popups for hContact, but only if the mask matches the current "mode"
 */
 
-void TSAPI DeletePopupsForContact(HCONTACT hContact, DWORD dwMask)
+void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
 {
 	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_PopupAvail)
 		return;

@@ -65,12 +65,12 @@ static int Service_ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((HCONTACT)wParam);
+	char *szProto = GetContactProto((MCONTACT)wParam);
 	if ( lstrcmpA(szProto, YAMN_DBMODULE))
 		return 0;
 
 	DBVARIANT dbv;
-	if ( db_get((HCONTACT)wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get((MCONTACT)wParam, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -168,12 +168,12 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((HCONTACT)wParam);
+	char *szProto = GetContactProto((MCONTACT)wParam);
 	if ( lstrcmpA(szProto, YAMN_DBMODULE))
 		return 0;
 
 	DBVARIANT dbv;
-	if ( db_get((HCONTACT) wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get((MCONTACT) wParam, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -227,12 +227,12 @@ void MainMenuAccountClicked(WPARAM wParam, LPARAM lParam)
 
 /*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto = GetContactProto((HCONTACT)wParam);
+	char *szProto = GetContactProto((MCONTACT)wParam);
 	if ( lstrcmpA(szProto, YAMN_DBMODULE))
 		return;
 
 	DBVARIANT dbv;
-	if ( db_get((HCONTACT)wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get((MCONTACT)wParam, YAMN_DBMODULE, "Id", &dbv))
 		return;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -483,7 +483,7 @@ void RefreshContact(void)
 				db_set_b(Finder->hContact, "CList", "Hidden", 1);
 		}
 		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
-			Finder->hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+			Finder->hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)Finder->hContact, (LPARAM)YAMN_DBMODULE);
 			db_set_s(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
 			db_set_s(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);

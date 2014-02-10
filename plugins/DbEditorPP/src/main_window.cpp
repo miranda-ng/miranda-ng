@@ -113,7 +113,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			tvi.cchTextMax = 255;
 			if (TreeView_GetItem(hwnd,&tvi) && tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct*)tvi.lParam;
-				HCONTACT hContact = mtis->hContact;
+				MCONTACT hContact = mtis->hContact;
 				if (wParam == VK_DELETE) {
 					if ((mtis->type) & MODULE) {
 						if (deleteModule(module, hContact,0)) {
@@ -161,7 +161,7 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 	case WM_KEYDOWN:
 		if (wParam == VK_DELETE || wParam == VK_F5 || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
 			char *module, setting[256];
-			HCONTACT hContact;
+			MCONTACT hContact;
 			SettingListInfo* sli = (SettingListInfo*)GetWindowLongPtr(hwnd,GWLP_USERDATA);
 			if (!sli) break;
 			hContact = sli->hContact;
@@ -369,7 +369,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (item = TreeView_GetSelection(hwnd2Tree)) {
 				int type = MODULE;
 				TVITEM tvi = {0};
-				HCONTACT hContact = NULL;
+				MCONTACT hContact = NULL;
 				tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT;
 				tvi.pszText = module;
 				tvi.cchTextMax = 255;
@@ -470,10 +470,10 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			freeAllWatches();
 			break;
 		case MENU_EXPORTDB: // all db
-			exportDB((HCONTACT)INVALID_HANDLE_VALUE, 0);
+			exportDB(INVALID_CONTACT_ID, 0);
 			break;
 		case MENU_EXPORTCONTACT: // all contacts
-			exportDB((HCONTACT)INVALID_HANDLE_VALUE, "");
+			exportDB(INVALID_CONTACT_ID, "");
 			break;
 		case MENU_EXPORTMODULE: // all settings
 			exportDB(NULL, 0);

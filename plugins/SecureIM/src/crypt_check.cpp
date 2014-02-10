@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-int getContactStatus(HCONTACT hContact)
+int getContactStatus(MCONTACT hContact)
 {
 	pSupPro ptr = getSupPro(hContact);
 	if (ptr)
@@ -9,7 +9,7 @@ int getContactStatus(HCONTACT hContact)
 	return -1;
 }
 
-bool isSecureProtocol(HCONTACT hContact)
+bool isSecureProtocol(MCONTACT hContact)
 {
 	pSupPro ptr = getSupPro(hContact);
 	if (!ptr)
@@ -18,7 +18,7 @@ bool isSecureProtocol(HCONTACT hContact)
 	return ptr->inspecting != 0;
 }
 
-BYTE isContactSecured(HCONTACT hContact)
+BYTE isContactSecured(MCONTACT hContact)
 {
 	// нужна проверка на Offline и в этом случае другие статусы
 	if (!arClist.getCount()) return 0;
@@ -76,7 +76,7 @@ bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda)
 	return isMiranda;
 }
 
-bool isClientMiranda(HCONTACT hContact, BOOL emptyMirverAsMiranda)
+bool isClientMiranda(MCONTACT hContact, BOOL emptyMirverAsMiranda)
 {
 	if (!bMCD) return true;
 	if (!arClist.getCount()) return false;
@@ -85,7 +85,7 @@ bool isClientMiranda(HCONTACT hContact, BOOL emptyMirverAsMiranda)
 	return (p) ? isClientMiranda(p, emptyMirverAsMiranda) : false;
 }
 
-bool isProtoSmallPackets(HCONTACT hContact)
+bool isProtoSmallPackets(MCONTACT hContact)
 {
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting)
@@ -94,7 +94,7 @@ bool isProtoSmallPackets(HCONTACT hContact)
 	return strstr(p->proto->name,"IRC") != NULL || strstr(p->proto->name,"WinPopup") != NULL || strstr(p->proto->name,"VyChat") != NULL;
 }
 
-bool isContactInvisible(HCONTACT hContact)
+bool isContactInvisible(MCONTACT hContact)
 {
 	if (db_get_b(hContact, "CList", "Hidden", 0))
 		return true;
@@ -114,12 +114,12 @@ bool isContactInvisible(HCONTACT hContact)
 	return false;
 }
 
-bool isNotOnList(HCONTACT hContact)
+bool isNotOnList(MCONTACT hContact)
 {
 	return db_get_b(hContact, "CList", "NotOnList", 0) != 0;
 }
 
-bool isContactNewPG(HCONTACT hContact)
+bool isContactNewPG(MCONTACT hContact)
 {
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting || !p->cntx)
@@ -128,7 +128,7 @@ bool isContactNewPG(HCONTACT hContact)
 	return (p->features & CPP_FEATURES_NEWPG) != 0;
 }
 
-bool isContactPGP(HCONTACT hContact)
+bool isContactPGP(MCONTACT hContact)
 {
 	if (!bPGPloaded || (!bPGPkeyrings && !bPGPprivkey)) return false;
 
@@ -142,7 +142,7 @@ bool isContactPGP(HCONTACT hContact)
 	return true;
 }
 
-bool isContactGPG(HCONTACT hContact)
+bool isContactGPG(MCONTACT hContact)
 {
 	if (!bGPGloaded || !bGPGkeyrings) return false;
 
@@ -156,7 +156,7 @@ bool isContactGPG(HCONTACT hContact)
 	return true;
 }
 
-bool isContactRSAAES(HCONTACT hContact)
+bool isContactRSAAES(MCONTACT hContact)
 {
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting)
@@ -165,7 +165,7 @@ bool isContactRSAAES(HCONTACT hContact)
 	return p->mode == MODE_RSAAES;
 }
 
-bool isContactRSA(HCONTACT hContact)
+bool isContactRSA(MCONTACT hContact)
 {
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting)
@@ -174,7 +174,7 @@ bool isContactRSA(HCONTACT hContact)
 	return p->mode == MODE_RSA;
 }
 
-bool isChatRoom(HCONTACT hContact)
+bool isChatRoom(MCONTACT hContact)
 {
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting)
@@ -205,7 +205,7 @@ bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
 	return isSecureIM;
 }
 
-bool isSecureIM(HCONTACT hContact, BOOL emptyMirverAsSecureIM)
+bool isSecureIM(MCONTACT hContact, BOOL emptyMirverAsSecureIM)
 {
 	if (!bAIP) return false;
 

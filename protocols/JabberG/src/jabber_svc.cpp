@@ -449,7 +449,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			return 1;
 
 		TCHAR *szMsgBody = NULL;
-		HCONTACT hContact = HContactFromJID(szJid, TRUE);
+		MCONTACT hContact = HContactFromJID(szJid, TRUE);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
 		if (hContact == NULL)
@@ -520,7 +520,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		if (!ServiceExists(MS_FILE_SENDFILE))
 			return 1;
 
-		HCONTACT hContact = HContactFromJID(szJid, TRUE);
+		MCONTACT hContact = HContactFromJID(szJid, TRUE);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
 		if (hContact == NULL)
@@ -538,7 +538,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 	if (!m_bJabberOnline)
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ptrT jid( getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return 0;

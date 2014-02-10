@@ -20,11 +20,11 @@ extern bool bAppendTags, bPresenceSigning, bStripTags, gpg_valid, gpg_keyexist, 
 extern TCHAR *inopentag, *inclosetag, *outopentag, *outclosetag;
 extern logtofile debuglog;
 
-extern map<int, HCONTACT> user_data;
+extern map<int, MCONTACT> user_data;
 extern int item_num;
 
 extern bool _terminate;
 extern wstring new_key;
-extern HCONTACT new_key_hcnt;
+extern MCONTACT new_key_hcnt;
 extern boost::mutex new_key_hcnt_mutex;
 #endif

@@ -23,7 +23,7 @@ void CExtraImages::RebuildExtraImages()
 {
 }
 
-bool CExtraImages::SetContactExtraImage(HCONTACT hContact,EImageIndex nIndex)const
+bool CExtraImages::SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)const
 {
 	if (!m_hExtraIcons)
 		return false;
@@ -47,7 +47,7 @@ bool CExtraImages::SetContactExtraImage(HCONTACT hContact,EImageIndex nIndex)con
 
 int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp)
 {
-	HCONTACT hContact = HCONTACT(wp);
+	MCONTACT hContact = MCONTACT(wp);
 
 	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 	CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);

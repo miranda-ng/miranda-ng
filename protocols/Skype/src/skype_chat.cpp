@@ -140,7 +140,7 @@ ChatRoom::~ChatRoom()
 	this->members.destroy();
 }
 
-HCONTACT ChatRoom::GetContactHandle() const
+MCONTACT ChatRoom::GetContactHandle() const
 {
 	return this->hContact;
 }
@@ -982,7 +982,7 @@ void ChatRoom::OnParticipantChanged(const ParticipantRef &participant, int prop)
 
 ///
 
-void CSkypeProto::ChatValidateContact(HCONTACT hItem, HWND hwndList, const StringList &contacts)
+void CSkypeProto::ChatValidateContact(MCONTACT hItem, HWND hwndList, const StringList &contacts)
 {
 	if (this->IsProtoContact(hItem) && !this->isChatRoom(hItem))
 	{
@@ -994,16 +994,16 @@ void CSkypeProto::ChatValidateContact(HCONTACT hItem, HWND hwndList, const Strin
 		::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
-void CSkypeProto::ChatPrepare(HCONTACT hItem, HWND hwndList, const StringList &contacts)
+void CSkypeProto::ChatPrepare(MCONTACT hItem, HWND hwndList, const StringList &contacts)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
-		HCONTACT hItemN = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		MCONTACT hItemN = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				this->ChatPrepare(hItemT, hwndList, contacts);
 		}
@@ -1014,14 +1014,14 @@ void CSkypeProto::ChatPrepare(HCONTACT hItem, HWND hwndList, const StringList &c
 	}
 }
 
-void CSkypeProto::GetInvitedContacts(HCONTACT hItem, HWND hwndList, StringList &chatTargets)
+void CSkypeProto::GetInvitedContacts(MCONTACT hItem, HWND hwndList, StringList &chatTargets)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				this->GetInvitedContacts(hItemT, hwndList, chatTargets);
 		}
@@ -1040,7 +1040,7 @@ void CSkypeProto::GetInvitedContacts(HCONTACT hItem, HWND hwndList, StringList &
 				}
 			}
 		}
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 }
 
@@ -1088,7 +1088,7 @@ INT_PTR CALLBACK CSkypeProto::ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				switch (nmc->hdr.code) {
 				case CLN_NEWCONTACT:
 					if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-						param->ppro->ChatValidateContact((HCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->invitedContacts);
+						param->ppro->ChatValidateContact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->invitedContacts);
 					break;
 
 				case CLN_LISTREBUILT:
@@ -1192,7 +1192,7 @@ INT_PTR CSkypeProto::CreateChatRoomCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::ChatRoomInvite(HCONTACT hContact)
+void CSkypeProto::ChatRoomInvite(MCONTACT hContact)
 {
 	ptrT chat_id(::db_get_tsa(hContact, this->m_szModuleName, "ChatRoomID"));
 
@@ -1384,7 +1384,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 
 		case CHAT_LIST_MENU::ICM_COPY_SID:
 			{
-				HCONTACT hContact = this->GetContactBySid(gch->ptszUID);
+				MCONTACT hContact = this->GetContactBySid(gch->ptszUID);
 				if (!hContact)
 				{
 					ptrW sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
@@ -1456,7 +1456,7 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		if (member->GetRank() > Participant::SPECTATOR)
 			DisableChatMenuItem(ICM_ROLE);
 
-		HCONTACT hContact = this->GetContactBySid(gcmi->pszUID);
+		MCONTACT hContact = this->GetContactBySid(gcmi->pszUID);
 		if (hContact == NULL)
 			DisableChatMenuItem(ICM_DETAILS);
 		else if(this->getByte(hContact, "Auth", 0) == 0)
@@ -1539,7 +1539,7 @@ void CSkypeProto::UpdateChatUserNick(const ContactRef &contact)
 
 INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact)
 	{
 		ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
@@ -1567,7 +1567,7 @@ INT_PTR __cdecl CSkypeProto::OnJoinChat(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CSkypeProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact) {
 		ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, "ChatRoomID"));
 		

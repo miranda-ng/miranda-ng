@@ -65,7 +65,7 @@ MsnContact* CMsnProto::Lists_Get(const char* email)
 	return p;
 }
 
-MsnContact* CMsnProto::Lists_Get(HCONTACT hContact)
+MsnContact* CMsnProto::Lists_Get(MCONTACT hContact)
 {
 	EnterCriticalSection(&csLists);
 
@@ -188,7 +188,7 @@ unsigned CMsnProto::p2p_getPktNum(const char* wlid)
 	return res;
 }
 
-int CMsnProto::Lists_Add(int list, int netId, const char* email, HCONTACT hContact, const char* nick, const char* invite)
+int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hContact, const char* nick, const char* invite)
 {
 	EnterCriticalSection(&csLists);
 
@@ -238,9 +238,9 @@ void CMsnProto::Lists_Remove(int list, const char* email)
 
 void CMsnProto::Lists_Populate(void)
 {
-	HCONTACT hContact = db_find_first(m_szModuleName);
+	MCONTACT hContact = db_find_first(m_szModuleName);
 	while (hContact) {
-		HCONTACT hNext = db_find_next(hContact, m_szModuleName);
+		MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 		char szEmail[MSN_MAX_EMAIL_LEN] = "";
 		if (db_get_static(hContact, m_szModuleName, "wlid", szEmail, sizeof(szEmail)))
 			db_get_static(hContact, m_szModuleName, "e-mail", szEmail, sizeof(szEmail));
@@ -439,7 +439,7 @@ static void ResetListOptions(HWND hwndList)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
-static void SetContactIcons(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
+static void SetContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 {
 	if (!proto->MSN_IsMyContact(hItem)) {
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
@@ -460,17 +460,17 @@ static void SetContactIcons(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4,(dwMask & LIST_RL)?5:0));
 }
 
-static void SetAllContactIcons(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
+static void SetAllContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem)
 	{
-		HCONTACT hItemN = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		MCONTACT hItemN = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				SetAllContactIcons(hItemT, hwndList, proto);
 		}
@@ -481,7 +481,7 @@ static void SetAllContactIcons(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
 	}
 }
 
-static void SaveListItem(HCONTACT hContact, const char* szEmail, int list, int iPrevValue, int iNewValue, CMsnProto* proto)
+static void SaveListItem(MCONTACT hContact, const char* szEmail, int list, int iPrevValue, int iNewValue, CMsnProto* proto)
 {
 	if (iPrevValue == iNewValue)
 		return;
@@ -499,15 +499,15 @@ static void SaveListItem(HCONTACT hContact, const char* szEmail, int list, int i
 	proto->MSN_AddUser(hContact, szEmail, proto->Lists_GetNetId(szEmail), list);
 }
 
-static void SaveSettings(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
+static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem)
 	{
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				SaveSettings(hItemT, hwndList, proto);
 		}
@@ -536,7 +536,7 @@ static void SaveSettings(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
 
 			if (xorMask && newMask & (LIST_FL | LIST_LL))
 			{
-				HCONTACT hContact = IsHContactInfo(hItem) ? proto->MSN_HContactFromEmail(szEmail, szEmail, true, false) : hItem;
+				MCONTACT hContact = IsHContactInfo(hItem) ? proto->MSN_HContactFromEmail(szEmail, szEmail, true, false) : hItem;
 				proto->MSN_SetContactDb(hContact, szEmail);
 			}
 
@@ -550,7 +550,7 @@ static void SaveSettings(HCONTACT hItem, HWND hwndList, CMsnProto* proto)
 				}
 			}
 		}
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 }
 
@@ -632,7 +632,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 			case CLN_NEWCONTACT:
 				if ((nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					SetContactIcons((HCONTACT)nmc->hItem, nmc->hdr.hwndFrom, proto);
+					SetContactIcons((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, proto);
 				break;
 
 			case CLN_LISTREBUILT:

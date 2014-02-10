@@ -42,7 +42,7 @@ int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
 #define gtaunlock LeaveCriticalSection( &gtaCS )
 
 typedef struct _GetTextAsyncItem {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	ClcData *dat;
 	struct _GetTextAsyncItem *Next;
 } GTACHAINITEM;
@@ -134,7 +134,7 @@ BOOL gtaWakeThread()
 	return FALSE;
 }
 
-int gtaAddRequest(ClcData *dat,ClcContact *contact,HCONTACT hContact)
+int gtaAddRequest(ClcData *dat,ClcContact *contact,MCONTACT hContact)
 {
 	if (MirandaExiting()) return 0;
 	gtalock;
@@ -159,7 +159,7 @@ int gtaAddRequest(ClcData *dat,ClcContact *contact,HCONTACT hContact)
 	return FALSE;
 }
 
-void gtaRenewText(HCONTACT hContact)
+void gtaRenewText(MCONTACT hContact)
 {
 	gtaAddRequest(NULL,NULL, hContact);
 }

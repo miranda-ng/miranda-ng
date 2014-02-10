@@ -54,7 +54,7 @@ void FreeDisplayNameCache(void)
 
 // default handlers for the cache item creation and destruction
 
-ClcCacheEntry* fnCreateCacheItem(HCONTACT hContact)
+ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 {
 	ClcCacheEntry* p = (ClcCacheEntry*)mir_calloc(sizeof(ClcCacheEntry));
 	if (p == NULL)
@@ -86,14 +86,14 @@ void fnFreeCacheItem(ClcCacheEntry *p)
 	p->bIsHidden = -1;
 }
 
-ClcCacheEntry* fnGetCacheEntry(HCONTACT hContact)
+ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact)
 {
 	ClcCacheEntry *p;
 	int idx;
 	if (!List_GetIndex(clistCache, &hContact, &idx)) {
 		if ((p = cli.pfnCreateCacheItem(hContact)) != NULL) {
 			List_Insert(clistCache, p, idx);
-			cli.pfnInvalidateDisplayNameCacheEntry((HCONTACT)p);
+			cli.pfnInvalidateDisplayNameCacheEntry((MCONTACT)p);
 		}
 	}
 	else p = (ClcCacheEntry*)clistCache->items[idx];
@@ -102,9 +102,9 @@ ClcCacheEntry* fnGetCacheEntry(HCONTACT hContact)
 	return p;
 }
 
-void fnInvalidateDisplayNameCacheEntry(HCONTACT hContact)
+void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+	if (hContact == INVALID_CONTACT_ID) {
 		FreeDisplayNameCache();
 		InitDisplayNameCache();
 		SendMessage(cli.hwndContactTree, CLM_AUTOREBUILD, 0, 0);
@@ -116,7 +116,7 @@ void fnInvalidateDisplayNameCacheEntry(HCONTACT hContact)
 	}
 }
 
-TCHAR* fnGetContactDisplayName(HCONTACT hContact, int mode)
+TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 {
 	ClcCacheEntry *cacheEntry = NULL;
 
@@ -160,7 +160,7 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 {
 	static char retVal[200];
 	ClcCacheEntry *cacheEntry = NULL;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	if (lParam & GCDNF_UNICODE)
 		return (INT_PTR)cli.pfnGetContactDisplayName(hContact, lParam & ~GCDNF_UNICODE);
@@ -209,13 +209,13 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 
 INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM)
 {
-	cli.pfnInvalidateDisplayNameCacheEntry((HCONTACT)wParam);
+	cli.pfnInvalidateDisplayNameCacheEntry((MCONTACT)wParam);
 	return 0;
 }
 
 int ContactAdded(WPARAM wParam, LPARAM)
 {
-	cli.pfnChangeContactIcon((HCONTACT)wParam, cli.pfnIconFromStatusMode(GetContactProto((HCONTACT)wParam), ID_STATUS_OFFLINE, NULL), 1);
+	cli.pfnChangeContactIcon((MCONTACT)wParam, cli.pfnIconFromStatusMode(GetContactProto((MCONTACT)wParam), ID_STATUS_OFFLINE, NULL), 1);
 	cli.pfnSortContacts();
 	return 0;
 }
@@ -230,7 +230,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	DBVARIANT dbv;
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	// Early exit
 	if (hContact == NULL)
@@ -270,7 +270,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = GetContactProto((HCONTACT)wParam);
+				char *szProto = GetContactProto((MCONTACT)wParam);
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
 			}
 			else

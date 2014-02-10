@@ -168,7 +168,7 @@ static HANDLE timeapiGetInfoByName(LPCTSTR tszName, DWORD dwFlags)
 	return tz;
 }
 
-static HANDLE timeapiGetInfoByContact(HCONTACT hContact, DWORD dwFlags)
+static HANDLE timeapiGetInfoByContact(MCONTACT hContact, DWORD dwFlags)
 {
 	if (hContact == NULL)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
@@ -227,7 +227,7 @@ static HANDLE timeapiGetInfoByContact(HCONTACT hContact, DWORD dwFlags)
 	return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 }
 
-static void timeapiSetInfoByContact(HCONTACT hContact, HANDLE hTZ)
+static void timeapiSetInfoByContact(MCONTACT hContact, HANDLE hTZ)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 
@@ -354,7 +354,7 @@ static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
 }
 
 
-static int timeapiSelectListItem(HCONTACT hContact, HWND hWnd, DWORD dwFlags)
+static int timeapiSelectListItem(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
 {
 	if (hWnd == NULL)	   // nothing to do
 		return -1;
@@ -386,7 +386,7 @@ static int timeapiSelectListItem(HCONTACT hContact, HWND hWnd, DWORD dwFlags)
 }
 
 
-static int timeapiPrepareList(HCONTACT hContact, HWND hWnd, DWORD dwFlags)
+static int timeapiPrepareList(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
 {
 	if (hWnd == NULL)	   // nothing to do
 		return 0;
@@ -408,7 +408,7 @@ static int timeapiPrepareList(HCONTACT hContact, HWND hWnd, DWORD dwFlags)
 }
 
 
-static void timeapiStoreListResult(HCONTACT hContact, HWND hWnd, DWORD dwFlags)
+static void timeapiStoreListResult(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
 {
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
 	if (lstMsg == NULL) return;

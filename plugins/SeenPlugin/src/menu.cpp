@@ -30,14 +30,14 @@ Handles the messages sent by clicking the contact's menu item
 */
 INT_PTR MenuitemClicked(WPARAM wparam,LPARAM)
 {
-	ShowHistory((HCONTACT)wparam, 0);
+	ShowHistory((MCONTACT)wparam, 0);
 	return 0;
 }
 
 int BuildContactMenu(WPARAM wparam,LPARAM)
 {
 	int id = -1, isetting;
-	HCONTACT hContact = (HCONTACT)wparam;
+	MCONTACT hContact = (MCONTACT)wparam;
 	char *szProto = GetContactProto(hContact);
 
 	CLISTMENUITEM cmi = { sizeof(cmi) };
@@ -49,10 +49,10 @@ int BuildContactMenu(WPARAM wparam,LPARAM)
 
 		DBVARIANT dbv;
 		if ( !db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
-			cmi.ptszName = ParseString(dbv.ptszVal, (HCONTACT)wparam, 0);
+			cmi.ptszName = ParseString(dbv.ptszVal, (MCONTACT)wparam, 0);
 			db_free(&dbv);
 		}
-		else cmi.ptszName = ParseString(DEFAULT_MENUSTAMP, (HCONTACT)wparam, 0);
+		else cmi.ptszName = ParseString(DEFAULT_MENUSTAMP, (MCONTACT)wparam, 0);
 		
 		if ( !_tcscmp(cmi.ptszName, TranslateT("<unknown>"))) {	
 			if ( IsWatchedProtocol(szProto))

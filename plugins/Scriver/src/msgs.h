@@ -61,7 +61,7 @@ struct TabCtrlData
 struct ParentWindowData
 {
 	HWND	hwnd;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int	    childrenCount;
 	HWND	hwndActive;
 	HWND	hwndStatus;
@@ -84,7 +84,7 @@ struct ParentWindowData
 struct MessageWindowTabData
 {
 	HWND   hwnd;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	char  *szProto;
 	ParentWindowData *parent;
 	HICON	hIcon;
@@ -94,7 +94,7 @@ struct MessageWindowTabData
 
 struct NewMessageWindowLParam
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	BOOL isChat;
 	int isWchar;
 	LPCSTR szInitialText;
@@ -105,7 +105,7 @@ struct NewMessageWindowLParam
 
 struct CommonWindowData
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int    codePage;
 	DWORD  flags;
 	HWND   hwndLog;
@@ -230,8 +230,8 @@ int safe_wcslen(wchar_t *msg, int maxLen);
 void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
-TCHAR *GetNickname(HCONTACT hContact, const char* szProto);
-int IsAutoPopup(HCONTACT hContact);
+TCHAR *GetNickname(MCONTACT hContact, const char* szProto);
+int IsAutoPopup(MCONTACT hContact);
 
 #define MSGFONTID_MYMSG		  0
 #define MSGFONTID_YOURMSG	  1

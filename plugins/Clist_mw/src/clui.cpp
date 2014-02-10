@@ -93,7 +93,7 @@ static int CluiModulesLoaded(WPARAM wParam,LPARAM lParam)
 	PostMessage(pcli->hwndContactList,M_CREATECLC,0,0);
 
 	OnModulesLoadedCalled = TRUE;
-	pcli->pfnInvalidateDisplayNameCacheEntry((HCONTACT)INVALID_HANDLE_VALUE);
+	pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);
 	InitGroupMenus();
 	RegisterProtoIconsForAllProtoIconLib();
 	return 0;

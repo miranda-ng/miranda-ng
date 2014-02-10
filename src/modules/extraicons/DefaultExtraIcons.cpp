@@ -33,7 +33,7 @@ ExtraIcon* GetExtraIcon(HANDLE id);
 
 HANDLE hExtraVisibility, hExtraChat, hExtraGender, hExtraProto;
 
-static void SetVisibility(HCONTACT hContact, int apparentMode, bool clear)
+static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 {
 	if (hContact == NULL)
 		return;
@@ -69,7 +69,7 @@ static void SetVisibility(HCONTACT hContact, int apparentMode, bool clear)
 	}
 }
 
-static void SetGender(HCONTACT hContact, int gender, bool clear)
+static void SetGender(MCONTACT hContact, int gender, bool clear)
 {
 	if (hContact == NULL)
 		return;
@@ -134,7 +134,7 @@ static Info infos[] =
 		&EmailOnClick },
 };
 
-static void SetExtraIcons(HCONTACT hContact)
+static void SetExtraIcons(MCONTACT hContact)
 {
 	if (hContact == NULL)
 		return;
@@ -161,7 +161,7 @@ static void SetExtraIcons(HCONTACT hContact)
 
 static int SettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -209,7 +209,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 	if (p == NULL)
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -279,7 +279,7 @@ static ProtoInfo* FindProto(const char *proto)
 
 static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	char *proto = GetContactProto(hContact);
 	if (IsEmpty(proto))
 		return 0;
@@ -319,7 +319,7 @@ void DefaultExtraIcons_Load()
 			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, LoadSkinnedIconName(p.iSkinIcon));
 	}
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		SetExtraIcons(hContact);
 		SetVisibility(hContact, -1, false);
 		SetGender(hContact, -1, false);

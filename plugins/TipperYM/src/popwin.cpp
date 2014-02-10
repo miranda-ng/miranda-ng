@@ -305,7 +305,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->bIsTextTip = false;
 				pwd->iIndent = opt.iTextIndent;
 				pwd->iSidebarWidth= opt.iSidebarWidth;
-				pwd->hContact = (HCONTACT)pwd->clcit.hItem;
+				pwd->hContact = (MCONTACT)pwd->clcit.hItem;
 				pwd->iIconIndex = (int)CallService(MS_CLIST_GETCONTACTICON, (WPARAM)pwd->hContact, 0);
 
 				// don't use stored status message
@@ -976,7 +976,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case PUM_SETSTATUSTEXT:
-		if (pwd && (HCONTACT)wParam == pwd->hContact) {
+		if (pwd && (MCONTACT)wParam == pwd->hContact) {
 			db_set_ts(pwd->hContact, MODULE, "TempStatusMsg", (TCHAR *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
@@ -988,7 +988,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_SHOWXSTATUS:
-		if (pwd && (HCONTACT)wParam == pwd->hContact) {
+		if (pwd && (MCONTACT)wParam == pwd->hContact) {
 			// in case we have retrieve xstatus
 			pwd->bIsPainted = false;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
@@ -997,7 +997,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_SETAVATAR:
-		if (pwd && (HCONTACT)wParam == pwd->hContact) {
+		if (pwd && (MCONTACT)wParam == pwd->hContact) {
 			pwd->bIsPainted = false;
 			SendMessage(hwnd, PUM_GETHEIGHT, 0, 0);
 			SendMessage(hwnd, PUM_CALCPOS, 0, 0);
@@ -1528,7 +1528,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (dwItems & TRAYTIP_NUMCONTACTS) {
 					int iCount = 0, iCountOnline = 0;
-					for (HCONTACT hContact = db_find_first(pa->szModuleName); hContact; hContact = db_find_next(hContact, pa->szModuleName)) {
+					for (MCONTACT hContact = db_find_first(pa->szModuleName); hContact; hContact = db_find_next(hContact, pa->szModuleName)) {
 						if (db_get_w(hContact, pa->szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 							iCountOnline++;
 						iCount++;
@@ -1646,7 +1646,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bool bTitlePainted = false;
 					int iCount = 0, iCountOnline = 0;
 
-					for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 						if (db_get_b(hContact, MODULE, "FavouriteContact", 0)) {
 							char *proto = GetContactProto(hContact);
 							if (proto == NULL)

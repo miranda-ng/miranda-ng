@@ -212,9 +212,9 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 struct JABBER_HTTP_AVATARS
 {
 	char * Url;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
-	JABBER_HTTP_AVATARS(const TCHAR *tUrl, HCONTACT thContact)
+	JABBER_HTTP_AVATARS(const TCHAR *tUrl, MCONTACT thContact)
 		: Url(mir_t2a(tUrl)), hContact(thContact) {}
 
 	~JABBER_HTTP_AVATARS() { mir_free(Url); }

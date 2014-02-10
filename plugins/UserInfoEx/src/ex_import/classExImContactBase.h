@@ -37,17 +37,17 @@ protected:
 	LPSTR _pszUIDKey;
 	DWORD _dbvUIDHash;
 	DBVARIANT _dbvUID;
-	HCONTACT _hContact;
+	MCONTACT _hContact;
 	BYTE _isNewContact;	// is this contact a new one?
 
-	HCONTACT findHandle();
+	MCONTACT findHandle();
 
 public:
 	CExImContactBase();
 	~CExImContactBase();
 
 	__inline DBVARIANT& uid()		{ return _dbvUID;	}
-	__inline HCONTACT handle() const { return _hContact; }
+	__inline MCONTACT handle() const { return _hContact; }
 	
 	__inline void	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): NULL; }
 	__inline void	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): NULL; }
@@ -72,16 +72,16 @@ public:
 		mir_free(temp);
 	}
 
-	BYTE isHandle(HCONTACT hContact);
+	BYTE isHandle(MCONTACT hContact);
 	BYTE isMeta() const;
 
 	LPSTR uid2String(BYTE bPrependType);
 
-	BYTE fromDB(HCONTACT hContact);
+	BYTE fromDB(MCONTACT hContact);
 	BYTE fromIni(LPSTR& row);
 
-	HCONTACT toDB();
+	MCONTACT toDB();
 	void toIni(FILE* file, int modCount);
 
-	BYTE operator = (HCONTACT hContact)	{ return fromDB(hContact);	}
+	BYTE operator = (MCONTACT hContact)	{ return fromDB(hContact);	}
 };

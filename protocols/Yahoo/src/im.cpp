@@ -100,7 +100,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	/* Need to strip off formatting stuff first. Then do all decoding/converting */
 	LOG(("%s: %s", who, umsg));
 
-	HCONTACT hContact = add_buddy(who, who, protocol, PALF_TEMPORARY);
+	MCONTACT hContact = add_buddy(who, who, protocol, PALF_TEMPORARY);
 	//setWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
@@ -154,24 +154,24 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 
 void __cdecl CYahooProto::im_sendacksuccess(void *hContact)
 {
-	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 void __cdecl CYahooProto::im_sendackfail(void *hContact)
 {
 	SleepEx(1000, TRUE);
-	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1,
+	ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1,
 		(LPARAM)Translate("The message send timed out."));
 }
 
 void __cdecl CYahooProto::im_sendackfail_longmsg(void *hContact)
 {
 	SleepEx(1000, TRUE);
-	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1,
+	ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1,
 		(LPARAM)Translate("Message is too long: Yahoo messages are limited by 800 UTF8 chars"));
 }
 
-int __cdecl CYahooProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CYahooProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 {
 	if (!m_bLoggedIn) {/* don't send message if we not connected! */
 		ForkThread(&CYahooProto::im_sendackfail, (void*)hContact);
@@ -207,7 +207,7 @@ int __cdecl CYahooProto::SendMsg(HCONTACT hContact, int flags, const char* pszSr
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
-int __cdecl CYahooProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
+int __cdecl CYahooProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	db_unset(hContact, "CList", "Hidden");
 
@@ -227,7 +227,7 @@ int __cdecl CYahooProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
 
 INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	debugLogA("[YAHOO_SENDNUDGE]");
 

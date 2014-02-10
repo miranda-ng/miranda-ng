@@ -67,8 +67,8 @@ void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort);
 INT_PTR ( *saveTrayIconProcessMessage )(WPARAM wParam,LPARAM lParam);
 INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam);
 
-int  (*saveIconFromStatusMode)(const char *szProto,int nStatus, HCONTACT hContact);
-int  cli_IconFromStatusMode(const char *szProto,int nStatus, HCONTACT hContact);
+int  (*saveIconFromStatusMode)(const char *szProto,int nStatus, MCONTACT hContact);
+int  cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact);
 
 //from clcfonts
 void RegisterCListFonts( void );
@@ -140,7 +140,7 @@ static struct ClcContact* fnCreateClcContact( void )
 	return (struct ClcContact*)mir_calloc( sizeof( struct ClcContact ));
 }
 
-static ClcCacheEntry *fnCreateCacheItem(HCONTACT hContact )
+static ClcCacheEntry *fnCreateCacheItem(MCONTACT hContact )
 {
 	ClcCacheEntry *p = (ClcCacheEntry *)mir_calloc( sizeof( ClcCacheEntry ));
 	if ( p )

@@ -30,7 +30,7 @@ private:
 protected:
 	virtual void AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico);
 public:
-	ExportManager(HWND _hwnd, HCONTACT _hContact, int filter);
+	ExportManager(HWND _hwnd, MCONTACT _hContact, int filter);
 
 	void SetAutoExport(const std::wstring _file, int _deltaTime, DWORD _now)
 	{
@@ -52,8 +52,8 @@ public:
 	bool Export(IExport::ExportType type);
 	void SetDeleteWithoutExportEvents(int _deltaTime, DWORD _now);
 	void DeleteExportedEvents();
-	int Import(IImport::ImportType type, const std::vector<HCONTACT>& contacts);
-	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err = NULL, bool* differentContact = NULL, std::vector<HCONTACT>* contacts = NULL);
+	int Import(IImport::ImportType type, const std::vector<MCONTACT>& contacts);
+	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err = NULL, bool* differentContact = NULL, std::vector<MCONTACT>* contacts = NULL);
 	static const TCHAR* GetExt(IImport::ImportType type);
 };
 

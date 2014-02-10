@@ -181,7 +181,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		}
 
 		logger->log_p(L"SMTC: mirandaSendModeFlag = [%d]  bufSize = [%d]", mirandaSendModeFlag, bufSize);
-		HANDLE hProcess = sendMessageMiranda((HCONTACT)args->targetHandle, mirandaSendModeFlag, msgBuffer);
+		HANDLE hProcess = sendMessageMiranda((MCONTACT)args->targetHandle, mirandaSendModeFlag, msgBuffer);
 		logger->log_p(L"SMTC: hProcess = [" SCNuPTR L"]", hProcess);
 
 		MIRFOXACKDATA* myMfAck = NULL;
@@ -213,7 +213,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 
 		}
 
-		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle((HCONTACT)args->targetHandle);
+		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle((MCONTACT)args->targetHandle);
 		const wchar_t* contactNameW = NULL;
 		TCHAR* tszAccountName = NULL;
 		if (mirandaContact){
@@ -226,7 +226,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 
 		if(myMfAck != NULL && myMfAck->result == ACKRESULT_SUCCESS){
 
-			addMessageToDB((HCONTACT)args->targetHandle, mirandaSendModeFlag, msgBuffer, bufSize, targetHandleSzProto);
+			addMessageToDB((MCONTACT)args->targetHandle, mirandaSendModeFlag, msgBuffer, bufSize, targetHandleSzProto);
 
 			if (mode == MFENUM_SMM_ONLY_SEND){
 
@@ -346,12 +346,12 @@ int MirandaUtils::getMirandaSendModeFlag(char* targetHandleSzProto)
 
 }
 
-HANDLE MirandaUtils::sendMessageMiranda(HCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer)
+HANDLE MirandaUtils::sendMessageMiranda(MCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer)
 {
 	return (HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)mirandaSendModeFlag, (LPARAM)msgBuffer);
 }
 
-void MirandaUtils::addMessageToDB(HCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto)
+void MirandaUtils::addMessageToDB(MCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
@@ -405,12 +405,12 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 
 	MessageWindowData mwd;
 	mwd.cbSize = sizeof(MessageWindowData);
-	mwd.hContact = (HCONTACT)param->targetHandle;
+	mwd.hContact = (MCONTACT)param->targetHandle;
 	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowInputData mwid;
 	mwid.cbSize = sizeof(MessageWindowInputData);
-	mwid.hContact = (HCONTACT)param->targetHandle;
+	mwid.hContact = (MCONTACT)param->targetHandle;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	delete param;
@@ -580,7 +580,7 @@ void MirandaUtils::translateOldDBNames() {
 	}
 
 	//contacts		"state"
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
 
 		logger->log_p(L"TranslateOldDBNames: found CONTACT: [" SCNuPTR L"]", hContact);
 

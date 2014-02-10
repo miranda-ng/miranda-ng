@@ -232,7 +232,7 @@ void checkStringForcompare(char *str)
 }
 
 // do save("A","B") A is DBVar name, B is value
-void checkStringForSave(HCONTACT hContact, char* str)
+void checkStringForSave(MCONTACT hContact, char* str)
 {
 	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
@@ -258,7 +258,7 @@ void checkStringForSave(HCONTACT hContact, char* str)
 }
 
 // do load("A") A is DBVar name
-void checkStringForLoad(HCONTACT hContact, char* str)
+void checkStringForLoad(MCONTACT hContact, char* str)
 {
 	char *A,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
@@ -432,7 +432,7 @@ int lastChecked(char *newStr, const char *str)
 
 
 // do icon(x) 0=offline, 1=online, 10=lunch
-void checkIcon(HCONTACT hContact, char* string)
+void checkIcon(MCONTACT hContact, char* string)
 {
 	char* str = strstr(string,"icon(");
 	if (str) {
@@ -442,7 +442,7 @@ void checkIcon(HCONTACT hContact, char* string)
 	}
 }
 
-int stringReplacer(const char* oldString, char* newString, HCONTACT hContact)
+int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 {
 	char var_file[8];
 	int tempInt;
@@ -602,7 +602,7 @@ void stripWhiteSpace(char* string)
 		i++;
 	}
 }
-void WriteSetting(HCONTACT hContact, char* module1, char* setting1 , char* module2, char* setting2)
+void WriteSetting(MCONTACT hContact, char* module1, char* setting1 , char* module2, char* setting2)
 {
 	char text[MAX_STRING_LENGTH], newString[MAX_STRING_LENGTH];
 	int error = 0, status = GetLCStatus(0,0);
@@ -641,7 +641,7 @@ void WriteSetting(HCONTACT hContact, char* module1, char* setting1 , char* modul
 	else db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
 }
 
-void replaceAllStrings(HCONTACT hContact)
+void replaceAllStrings(MCONTACT hContact)
 {
 	char tmp1[256], tmp2[256], tmp3[256];
 	WriteSetting(hContact, MODNAME, "Name", MODNAME, "Nick");

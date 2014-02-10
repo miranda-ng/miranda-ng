@@ -42,4 +42,4 @@ typedef struct {
 void InitMirOTRMenu(void);
 void UninitMirOTRMenu(void);
 
-void ShowOTRMenu(HCONTACT hContact, POINT pt);
+void ShowOTRMenu(MCONTACT hContact, POINT pt);

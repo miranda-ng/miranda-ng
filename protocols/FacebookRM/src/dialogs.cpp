@@ -120,17 +120,17 @@ void RefreshPrivacy(HWND hwnd, post_status_data *data)
 	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
 }
 
-void ClistPrepare(FacebookProto *proto, HCONTACT hItem, HWND hwndList)
+void ClistPrepare(FacebookProto *proto, MCONTACT hItem, HWND hwndList)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) 
 	{
-		HCONTACT hItemN = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		MCONTACT hItemN = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				ClistPrepare(proto, hItemT, hwndList);
 		}
@@ -143,14 +143,14 @@ void ClistPrepare(FacebookProto *proto, HCONTACT hItem, HWND hwndList)
 	}
 }
 
-void GetSelectedContacts(FacebookProto *proto, HCONTACT hItem, HWND hwndList, std::vector<facebook_user*> *contacts)
+void GetSelectedContacts(FacebookProto *proto, MCONTACT hItem, HWND hwndList, std::vector<facebook_user*> *contacts)
 {
 	if (hItem == NULL)
-		hItem = (HCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
 		if (IsHContactGroup(hItem)) {
-			HCONTACT hItemT = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				GetSelectedContacts(proto, hItemT, hwndList, contacts);
 		} else {
@@ -161,7 +161,7 @@ void GetSelectedContacts(FacebookProto *proto, HCONTACT hItem, HWND hwndList, st
 				contacts->push_back(fu);
 			}
 		}
-		hItem = (HCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 }
 

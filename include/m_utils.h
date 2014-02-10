@@ -160,10 +160,10 @@ __forceinline HANDLE WindowList_Destroy(HANDLE hList)
 typedef struct {
 	HANDLE hList;
 	HWND hwnd;
-	HCONTACT hContact;
+	MCONTACT hContact;
 } WINDOWLISTENTRY;
 #define MS_UTILS_ADDTOWINDOWLIST "Utils/AddToWindowList"
-__forceinline INT_PTR WindowList_Add(HANDLE hList, HWND hwnd, HCONTACT hContact) {
+__forceinline INT_PTR WindowList_Add(HANDLE hList, HWND hwnd, MCONTACT hContact) {
 	WINDOWLISTENTRY wle;
 	wle.hList = hList; wle.hwnd = hwnd; wle.hContact = hContact;
 	return CallService(MS_UTILS_ADDTOWINDOWLIST, 0, (LPARAM)&wle);
@@ -183,7 +183,7 @@ __forceinline INT_PTR WindowList_Remove(HANDLE hList, HWND hwnd) {
 // lParam = (WPARAM)(HANDLE)hContact
 // returns the window handle on success, or NULL on failure
 #define MS_UTILS_FINDWINDOWINLIST "Utils/FindWindowInList"
-__forceinline HWND WindowList_Find(HANDLE hList, HCONTACT hContact) {
+__forceinline HWND WindowList_Find(HANDLE hList, MCONTACT hContact) {
 	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, (LPARAM)hContact);
 }
 
@@ -236,12 +236,12 @@ __forceinline INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPAR
 //returns 0 on success, nonzero on failure
 typedef struct {
 	HWND hwnd;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	const char *szModule;		//module name to store the setting in
 	const char *szNamePrefix;	//text to prefix on "x", "width", etc, to form setting names
 } SAVEWINDOWPOS;
 #define MS_UTILS_SAVEWINDOWPOSITION  "Utils/SaveWindowPos"
-__forceinline INT_PTR Utils_SaveWindowPosition(HWND hwnd, HCONTACT hContact, const char *szModule, const char *szNamePrefix) {
+__forceinline INT_PTR Utils_SaveWindowPosition(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix) {
 	SAVEWINDOWPOS swp;
 	swp.hwnd = hwnd; swp.hContact = hContact; swp.szModule = szModule; swp.szNamePrefix = szNamePrefix;
 	return CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, (LPARAM)&swp);
@@ -260,18 +260,18 @@ __forceinline INT_PTR Utils_SaveWindowPosition(HWND hwnd, HCONTACT hContact, con
 #define RWPF_NOACTIVATE 4  //show but don't activate v0.3.3.0+
 #define RWPF_HIDDEN		8  //make it hidden
 #define MS_UTILS_RESTOREWINDOWPOSITION	"Utils/RestoreWindowPos"
-__forceinline INT_PTR Utils_RestoreWindowPositionEx(HWND hwnd, int flags, HCONTACT hContact, const char *szModule, const char *szNamePrefix) {
+__forceinline INT_PTR Utils_RestoreWindowPositionEx(HWND hwnd, int flags, MCONTACT hContact, const char *szModule, const char *szNamePrefix) {
 	SAVEWINDOWPOS swp;
 	swp.hwnd = hwnd; swp.hContact = hContact; swp.szModule = szModule; swp.szNamePrefix = szNamePrefix;
 	return CallService(MS_UTILS_RESTOREWINDOWPOSITION, flags, (LPARAM)&swp);
 }
-__forceinline INT_PTR Utils_RestoreWindowPosition(HWND hwnd, HCONTACT hContact, const char *szModule, const char *szNamePrefix) {
+__forceinline INT_PTR Utils_RestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix) {
 	return Utils_RestoreWindowPositionEx(hwnd, 0, hContact, szModule, szNamePrefix);
 }
-__forceinline INT_PTR Utils_RestoreWindowPositionNoSize(HWND hwnd, HCONTACT hContact, const char *szModule, const char *szNamePrefix) {
+__forceinline INT_PTR Utils_RestoreWindowPositionNoSize(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix) {
 	return Utils_RestoreWindowPositionEx(hwnd, RWPF_NOSIZE, hContact, szModule, szNamePrefix);
 }
-__forceinline INT_PTR Utils_RestoreWindowPositionNoMove(HWND hwnd, HCONTACT hContact, const char *szModule, const char *szNamePrefix) {
+__forceinline INT_PTR Utils_RestoreWindowPositionNoMove(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix) {
 	return Utils_RestoreWindowPositionEx(hwnd, RWPF_NOMOVE, hContact, szModule, szNamePrefix);
 }
 
@@ -409,7 +409,7 @@ typedef struct
 {
 	int cbSize;
 	DWORD dwFlags;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	REPLACEVARSARRAY *variables;
 } REPLACEVARSDATA;
 

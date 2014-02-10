@@ -192,7 +192,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	StopAvatarThread();
 
 	// Offline all contacts
-	HCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = FindFirstContact();
 	while (hContact)
 	{
 		DWORD dwUIN;

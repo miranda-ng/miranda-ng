@@ -306,7 +306,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 	case IDC_SMILEYBTN:
 		if (dat->doSmileys && PluginConfig.g_SmileyAddAvail) {
-			HCONTACT hContact = dat->cache->getActiveContact();
+			MCONTACT hContact = dat->cache->getActiveContact();
 			if (CheckValidSmileyPack(dat->cache->getActiveProto(), hContact) != 0) {
 				SMADD_SHOWSEL3 smaddInfo = {0};
 
@@ -875,7 +875,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 {
 	ButtonItem *buttonItem = dat->pContainer->buttonItems;
-	HCONTACT hContact = dat->hContact, hFinalContact = 0;
+	MCONTACT hContact = dat->hContact, hFinalContact = 0;
 	char *szModule, *szSetting;
 	HWND hwndContainer = dat->pContainer->hwnd;
 
@@ -978,7 +978,7 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 static void LoadKLThread(LPVOID _param)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts((HCONTACT)_param, SRMSGMOD_T, "locale", &dbv)) {
+	if (!db_get_ts((MCONTACT)_param, SRMSGMOD_T, "locale", &dbv)) {
 		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)_param, (LPARAM)hkl);
 		db_free(&dbv);
@@ -1278,7 +1278,7 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 	DWORD 	protoCaps;
 	DWORD 	typeCaps;
 	const 	char *szProto = 0;
-	HCONTACT	hContact = 0;
+	MCONTACT	hContact = 0;
 
 	if (!dat || !dat->hContact)
 		return;
@@ -1626,7 +1626,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 			}
 		}
-		tabSRMM_ShowPopup((HCONTACT)wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
+		tabSRMM_ShowPopup((MCONTACT)wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
 		if (IsWindowVisible(m_pContainer->hwnd))
 			m_pContainer->fHidden = false;
 	}
@@ -1789,7 +1789,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 		if (dat->szProto) {
 			szActProto = dat->cache->getActiveProto();
-			HCONTACT hActContact = dat->hContact;
+			MCONTACT hActContact = dat->hContact;
 
 			bool bHasName = (dat->cache->getUIN()[0] != 0);
 			dat->idle = dat->cache->getIdleTS();
@@ -1895,7 +1895,7 @@ static HANDLE hHookIconPressedEvt;
 
 static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		M.BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
 	else {

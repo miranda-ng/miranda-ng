@@ -67,7 +67,7 @@ private:
 		CTooltip *pTooltip;
 		UINT_PTR idTimer;
 		UINT uiTimeout;
-		HCONTACT hContact;
+		MCONTACT hContact;
 		int iStatus;
 	};
 
@@ -88,7 +88,7 @@ private:
 	MapTimerIdProtoIter FindProtoByTimer(UINT idTimer);
 	template<typename T> TooltipsListIter FindBy(T STooltipData::* m, const T& value);
 	TCHAR *StatusToString(int iStatus, TCHAR *szStatus, int iBufSize);
-	TCHAR *MakeTooltipString(HCONTACT hContact, int iStatus, TCHAR *szString, int iBufSize);
+	TCHAR *MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *szString, int iBufSize);
 	void MigrateSettings();
 	void RegisterFonts();
 	void GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF* bg);

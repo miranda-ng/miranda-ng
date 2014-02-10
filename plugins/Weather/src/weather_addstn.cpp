@@ -40,7 +40,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// search for existing contact
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// check if it is a weather contact
 		if ( IsMyContact(hContact)) {
 			DBVARIANT dbv;
@@ -64,7 +64,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 
 	// if contact with the same ID was not found, add it
 	if (psr->cbSize < sizeof(PROTOSEARCHRESULT)) return 0;
-	HCONTACT hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)WEATHERPROTONAME);
 	// suppress online notification for the new contact
 	CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);

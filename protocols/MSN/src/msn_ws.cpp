@@ -67,7 +67,7 @@ bool ThreadData::isTimeout(void)
 	}
 	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0)
 	{
-		HCONTACT hContact = getContactHandle();
+		MCONTACT hContact = getContactHandle();
 
 		if (mJoinedContactsWLID.getCount() == 0 || termPending)
 			res = true;
@@ -96,7 +96,7 @@ bool ThreadData::isTimeout(void)
 
 		if (proto->getByte("EnableSessionPopup", 0))
 		{
-			HCONTACT hContact = NULL;
+			MCONTACT hContact = NULL;
 			if (mJoinedContactsWLID.getCount())
 				hContact = proto->MSN_HContactFromEmail(mJoinedContactsWLID[0]);
 			else if (mInitialContactWLID)

@@ -101,7 +101,7 @@ static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam)
 	return 0;
 }
 
-static int Hlp_RemoveDatabaseSettings(HCONTACT hContact, char *szModule, char *szPrefix)
+static int Hlp_RemoveDatabaseSettings(MCONTACT hContact, char *szModule, char *szPrefix)
 {
 	RemoveSettings rs;
 	int i, count;
@@ -350,7 +350,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 
 	if (!realbutton)
 		return 1;
-	HWND hwndDlg = M.FindWindow((HCONTACT)wParam);
+	HWND hwndDlg = M.FindWindow((MCONTACT)wParam);
 	if(!hwndDlg)
 		return 1;
 	HWND hwndBtn = GetDlgItem(hwndDlg, tempCID);
@@ -385,7 +385,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	if (!realbutton)
 		return 1;
 
-	HWND hwndDlg = M.FindWindow((HCONTACT)wParam);
+	HWND hwndDlg = M.FindWindow((MCONTACT)wParam);
 	if(!hwndDlg)
 		return 1;
 
@@ -856,7 +856,7 @@ void TSAPI BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, B
 }
 
 
-void CB_GetButtonSettings(HCONTACT hContact, CustomButtonData *cbd)
+void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 {
 	DBVARIANT  dbv = {0};
 	char SettingName[1024] = {'\0'};
@@ -884,7 +884,7 @@ void CB_GetButtonSettings(HCONTACT hContact, CustomButtonData *cbd)
 	}
 }
 
-void CB_WriteButtonSettings(HCONTACT hContact, CustomButtonData *cbd)
+void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 {
 	char SettingName[1024] = {'\0'};
 	char SettingParameter[1024] = {'\0'};

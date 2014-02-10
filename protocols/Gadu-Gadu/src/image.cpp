@@ -49,7 +49,7 @@ typedef struct _GGIMAGEENTRY
 
 typedef struct
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hEvent;
 	HWND hWnd;
 	uin_t uin;
@@ -730,7 +730,7 @@ void __cdecl GGPROTO::img_dlgcallthread(void *param)
 
 ////////////////////////////////////////////////////////////////////////////
 // Open dialog receive for specified contact
-GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, HCONTACT hContact)
+GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, MCONTACT hContact)
 {
 	// Create dialog data
 	GGIMAGEDLGDATA *dat = (GGIMAGEDLGDATA *)calloc(1, sizeof(GGIMAGEDLGDATA));
@@ -804,7 +804,7 @@ TCHAR *gg_img_hasextension(TCHAR *filename)
 ////////////////////////////////////////////////////////////////////////////////
 // Display received image using message with [img] BBCode
 
-int GGPROTO::img_displayasmsg(HCONTACT hContact, void *img)
+int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 {
 	GGIMAGEENTRY *dat = (GGIMAGEENTRY *)img;
 	TCHAR szPath[MAX_PATH], path[MAX_PATH], *pImgext, imgext[6];
@@ -896,7 +896,7 @@ BOOL GGPROTO::img_opened(uin_t uin)
 ////////////////////////////////////////////////////////////////////////////
 // Image Module : Looking for window entry, create if not found
 
-int GGPROTO::img_display(HCONTACT hContact, void *img)
+int GGPROTO::img_display(MCONTACT hContact, void *img)
 {
 	list_t l = imagedlgs;
 	GGIMAGEDLGDATA *dat;
@@ -1173,7 +1173,7 @@ BOOL GGPROTO::img_sendonrequest(gg_event* e)
 
 INT_PTR GGPROTO::img_sendimg(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	GGIMAGEDLGDATA *dat = NULL;
 
 	gg_EnterCriticalSection(&img_mutex, "img_sendimg", 64, "img_mutex", 1);

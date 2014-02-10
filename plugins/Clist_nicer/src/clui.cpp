@@ -400,10 +400,10 @@ void ConfigureCLUIGeometry(int mode)
  * set the states of defined database action buttons (only if button is a toggle)
 */
 
-void SetDBButtonStates(HCONTACT hPassedContact)
+void SetDBButtonStates(MCONTACT hPassedContact)
 {
 	ButtonItem *buttonItem = g_ButtonItems;
-	HCONTACT hContact = 0, hFinalContact = 0;
+	MCONTACT hContact = 0, hFinalContact = 0;
 	char *szModule, *szSetting;
 	int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 	ClcContact *contact = 0;
@@ -714,7 +714,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 
 extern LRESULT(CALLBACK *saveContactListWndProc)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HCONTACT hContact)
+static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCONTACT hContact)
 {
 	if (item->dwFlags & BUTTON_PASSHCONTACTW || item->dwFlags & BUTTON_PASSHCONTACTL || item->dwFlags & BUTTON_ISCONTACTDBACTION) {
 		if (hContact == 0)
@@ -1344,7 +1344,7 @@ skipbg:
 					ButtonItem *item = g_ButtonItems;
 					WPARAM wwParam = 0;
 					LPARAM llParam = 0;
-					HCONTACT hContact = 0;
+					MCONTACT hContact = 0;
 					ClcContact *contact = 0;
 					int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 					int serviceFailure = FALSE;
@@ -1378,7 +1378,7 @@ skipbg:
 								BYTE *pValue;
 								char *szModule = item->szModule;
 								char *szSetting = item->szSetting;
-								HCONTACT finalhContact = 0;
+								MCONTACT finalhContact = 0;
 
 								if (item->dwFlags & BUTTON_ISCONTACTDBACTION || item->dwFlags & BUTTON_DBACTIONONCONTACT) {
 									contactOK = ServiceParamsOK(item, &wwParam, &llParam, hContact);

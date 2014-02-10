@@ -75,7 +75,7 @@ void CIcqProto::icq_sendDirectMsgAck(directconnect* dc, WORD wCookie, BYTE bMsgT
 }
 
 
-DWORD CIcqProto::icq_sendGetAwayMsgDirect(HCONTACT hContact, int type)
+DWORD CIcqProto::icq_sendGetAwayMsgDirect(MCONTACT hContact, int type)
 {
 	icq_packet packet;
 	DWORD dwCookie;
@@ -123,7 +123,7 @@ void CIcqProto::icq_sendAwayMsgReplyDirect(directconnect* dc, WORD wCookie, BYTE
 }
 
 
-void CIcqProto::icq_sendFileAcceptDirect(HCONTACT hContact, filetransfer* ft)
+void CIcqProto::icq_sendFileAcceptDirect(MCONTACT hContact, filetransfer* ft)
 {
 	// v7 packet
 	icq_packet packet;
@@ -144,7 +144,7 @@ void CIcqProto::icq_sendFileAcceptDirect(HCONTACT hContact, filetransfer* ft)
 }
 
 
-void CIcqProto::icq_sendFileDenyDirect(HCONTACT hContact, filetransfer *ft, const char *szReason)
+void CIcqProto::icq_sendFileDenyDirect(MCONTACT hContact, filetransfer *ft, const char *szReason)
 {
 	// v7 packet
 	icq_packet packet;
@@ -233,7 +233,7 @@ int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 }
 
 
-DWORD CIcqProto::icq_SendDirectMessage(HCONTACT hContact, const char *szMessage, int nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
+DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, int nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
 {
 	icq_packet packet;
 	DWORD dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
@@ -257,7 +257,7 @@ DWORD CIcqProto::icq_SendDirectMessage(HCONTACT hContact, const char *szMessage,
 	return 0; // Failure
 }
 
-void CIcqProto::icq_sendXtrazRequestDirect(HCONTACT hContact, DWORD dwCookie, char* szBody, int nBodyLen, WORD wType)
+void CIcqProto::icq_sendXtrazRequestDirect(MCONTACT hContact, DWORD dwCookie, char* szBody, int nBodyLen, WORD wType)
 {
 	icq_packet packet;
 
@@ -272,7 +272,7 @@ void CIcqProto::icq_sendXtrazRequestDirect(HCONTACT hContact, DWORD dwCookie, ch
 	SendDirectMessage(hContact, &packet);
 }
 
-void CIcqProto::icq_sendXtrazResponseDirect(HCONTACT hContact, WORD wCookie, char* szBody, int nBodyLen, WORD wType)
+void CIcqProto::icq_sendXtrazResponseDirect(MCONTACT hContact, WORD wCookie, char* szBody, int nBodyLen, WORD wType)
 {
 	icq_packet packet;
 

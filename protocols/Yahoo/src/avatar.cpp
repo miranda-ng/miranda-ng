@@ -171,7 +171,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 
 	LOG(("yahoo_recv_avatarthread who:%s url:%s checksum: %d", avt->who, avt->pic_url, avt->cksum));
 
-	HCONTACT hContact = getbuddyH(avt->who);
+	MCONTACT hContact = getbuddyH(avt->who);
 
 	if (!hContact) {
 		LOG(("ERROR: Can't find buddy: %s", avt->who));
@@ -258,7 +258,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 
 void CYahooProto::ext_got_picture(const char *me, const char *who, const char *pic_url, int cksum, int type)
 {
-	HCONTACT hContact = 0;
+	MCONTACT hContact = 0;
 
 	LOG(("[ext_yahoo_got_picture] for %s with url %s (checksum: %d) type: %d", who, pic_url, cksum, type));
 
@@ -450,7 +450,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 
 void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int cksum)
 {
-	HCONTACT hContact = 0;
+	MCONTACT hContact = 0;
 
 	LOG(("ext_yahoo_got_picture_checksum for %s checksum: %d", who, cksum));
 
@@ -488,7 +488,7 @@ void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int 
 
 void CYahooProto::ext_got_picture_update(const char *me, const char *who, int buddy_icon)
 {
-	HCONTACT hContact = 0;
+	MCONTACT hContact = 0;
 
 	LOG(("ext_got_picture_update for %s buddy_icon: %d", who, buddy_icon));
 
@@ -506,7 +506,7 @@ void CYahooProto::ext_got_picture_update(const char *me, const char *who, int bu
 
 void CYahooProto::ext_got_picture_status(const char *me, const char *who, int buddy_icon)
 {
-	HCONTACT hContact = 0;
+	MCONTACT hContact = 0;
 
 	LOG(("ext_yahoo_got_picture_status for %s buddy_icon: %d", who, buddy_icon));
 
@@ -572,7 +572,7 @@ void CYahooProto::ext_got_avatar_share(int buddy_icon)
 	setByte("ShareAvatar", buddy_icon );
 }
 
-void CYahooProto::reset_avatar(HCONTACT hContact)
+void CYahooProto::reset_avatar(MCONTACT hContact)
 {
 	LOG(("[YAHOO_RESET_AVATAR]"));
 
@@ -586,7 +586,7 @@ void CYahooProto::request_avatar(const char* who)
 		return;
 	}
 
-	HCONTACT hContact = getbuddyH(who);
+	MCONTACT hContact = getbuddyH(who);
 
 	if (!hContact)
 		return;
@@ -606,7 +606,7 @@ void CYahooProto::request_avatar(const char* who)
 	else LOG(("Avatar Not Available for: %s Last Check: %ld Current: %ld (Flood Check in Effect)", who, last_chk, cur_time));
 }
 
-void CYahooProto::GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, int cbLen, int type)
+void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen, int type)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
 

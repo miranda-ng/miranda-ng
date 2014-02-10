@@ -73,7 +73,7 @@ void CSkypeProto::UninitInstances()
 	instanceList.destroy();
 }
 
-CSkypeProto* CSkypeProto::GetContactInstance(HCONTACT hContact)
+CSkypeProto* CSkypeProto::GetContactInstance(MCONTACT hContact)
 {
 	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 

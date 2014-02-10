@@ -77,7 +77,7 @@ typedef struct {
     WCHAR *wszExtraText;
     TCHAR *tszExtraText;
   };
-  HCONTACT hContact;  // Handle to contact (can be NULL) -> The field "subject"
+  MCONTACT hContact;  // Handle to contact (can be NULL) -> The field "subject"
                     // represents this contact.
   int pCount;  // (output) Number of succesful parsed tokens, needs to be set
                // to 0 before the call
@@ -110,7 +110,7 @@ typedef struct {
 // The returned string needs to be freed using mir_free.
 
 #ifndef VARIABLES_NOHELPER
-__inline static TCHAR *variables_parse(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact)
+__inline static TCHAR *variables_parse(TCHAR *tszFormat, TCHAR *tszExtraText, MCONTACT hContact)
 {
 	FORMATINFO fi = { sizeof(fi) };
 	fi.tszFormat = tszFormat;
@@ -121,7 +121,7 @@ __inline static TCHAR *variables_parse(TCHAR *tszFormat, TCHAR *tszExtraText, HC
 }
 #endif
 
-__inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact,
+__inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText, MCONTACT hContact,
  										  TCHAR **tszaTemporaryVars, int cbTemporaryVarsSize) {
 
 	FORMATINFO fi = { 0 };
@@ -145,7 +145,7 @@ __inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText,
 // Note: The returned pointer needs to be released using your own free().
 
 #ifndef VARIABLES_NOHELPER
-__inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact)
+__inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText, MCONTACT hContact)
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi = { sizeof(fi) };
@@ -160,7 +160,7 @@ __inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText,
 	return tszFormat ? mir_tstrdup(tszFormat) : tszFormat;
 }
 
-__inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HCONTACT hContact,
+__inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraText, MCONTACT hContact,
 										  TCHAR **tszaTemporaryVars, int cbTemporaryVarsSize)
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {

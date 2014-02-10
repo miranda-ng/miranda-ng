@@ -136,7 +136,7 @@ int DisablePopup(WPARAM wParam, LPARAM lParam)
 		|| ((DefPopup == 1 && DefEnabled == 1) && timer !=2) ) //also filtered only: We do not run next lines every time
 		                                                     //if "Filtered only..." is unchecked --->
 		{
-			HCONTACT hContact = (HCONTACT)wParam;
+			MCONTACT hContact = (MCONTACT)wParam;
 			if (hContact != NULL)
 			{
 				char* cp = GetContactProto(hContact);

@@ -23,22 +23,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class DB
 {
 public:
-	static int setByteF(HCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
-	static int setWordF(HCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
-	static int setDwordF(HCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
+	static int setByteF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
+	static int setWordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
+	static int setDwordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
 
-	static int setAStringF(HCONTACT hContact, char *szModule, char *szSetting, int id, char *szValue);
-	static int setStringF(HCONTACT hContact, char *szModule, char *szSetting, int id, TCHAR *stzValue);
+	static int setAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, char *szValue);
+	static int setStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, TCHAR *stzValue);
 
-	static int getByteF(HCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
-	static int getWordF(HCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
-	static int getDwordF(HCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
+	static int getByteF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
+	static int getWordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
+	static int getDwordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
 
 	// !!!!!!!!!!!!!!!!!!! dangerous as hell
-	static int getAString(HCONTACT hContact, char *szModule, char *szSetting, char *buff); 
-	static int getAStringF(HCONTACT hContact, char *szModule, char *szSetting, int id, char *buff);
-	static int getString(HCONTACT hContact, char *szModule, char *szSetting, TCHAR *buff);
-	static int getStringF(HCONTACT hContact, char *szModule, char *szSetting, int id, TCHAR *buff);
+	static int getAString(MCONTACT hContact, char *szModule, char *szSetting, char *buff); 
+	static int getAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, char *buff);
+	static int getString(MCONTACT hContact, char *szModule, char *szSetting, TCHAR *buff);
+	static int getStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, TCHAR *buff);
 
-	static int deleteSettingF(HCONTACT hContact, char *szModule, char *szSetting, int id);
+	static int deleteSettingF(MCONTACT hContact, char *szModule, char *szSetting, int id);
 };

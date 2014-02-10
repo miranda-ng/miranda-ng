@@ -27,7 +27,7 @@ public:
 	size_t GetWatchedRateCount()const;
 	bool GetWatchedRateInfo(size_t nIndex,CRateInfo& rRateInfo);
 
-	HCONTACT GetContactByID(const tstring& rsFromID,const tstring& rsToID)const;
+	MCONTACT GetContactByID(const tstring& rsFromID,const tstring& rsToID)const;
 
 	double Convert(double dAmount,const CQuote& from,const CQuote& to)const;
 

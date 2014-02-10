@@ -31,7 +31,7 @@ XML_API xi = {0};
 int hLangpack = 0;
 logtofile debuglog;
 bool gpg_valid = false, gpg_keyexist = false;
-std::map<HCONTACT, contact_data> hcontact_data;
+std::map<MCONTACT, contact_data> hcontact_data;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),

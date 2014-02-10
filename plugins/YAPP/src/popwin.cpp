@@ -566,7 +566,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_GETCONTACT:
 		{
-			HCONTACT *phContact = (HCONTACT*)wParam;
+			MCONTACT *phContact = (MCONTACT*)wParam;
 			*phContact = pd->hContact;
 			if (lParam)
 				SetEvent((HANDLE)lParam);
@@ -695,7 +695,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pd->colorBack = MNotifyGetDWord(pwd->hNotify, NFOPT_BACKCOLOR, colBg);
 			pd->colorText = MNotifyGetDWord(pwd->hNotify, NFOPT_TEXTCOLOR, colSecondLine);
 			pd->timeout = MNotifyGetDWord(pwd->hNotify, NFOPT_TIMEOUT, options.default_timeout);
-			pd->hContact = (HCONTACT)MNotifyGetDWord(pwd->hNotify, NFOPT_CONTACT, 0);
+			pd->hContact = (MCONTACT)MNotifyGetDWord(pwd->hNotify, NFOPT_CONTACT, 0);
 			pd->hIcon = (HICON)MNotifyGetDWord(pwd->hNotify, NFOPT_ICON, 0);
 
 			const wchar_t *swzName = MNotifyGetWString(pwd->hNotify, NFOPT_TITLEW, 0);

@@ -87,7 +87,7 @@ int DestroyServices()
 returns -1 if notify is not necesarry
 returns daysToBirthday if it should notify
 */
-int NotifyContactBirthday(HCONTACT hContact, time_t now, int daysInAdvance)
+int NotifyContactBirthday(MCONTACT hContact, time_t now, int daysInAdvance)
 {
 	int year, month, day;
 	GetContactDOB(hContact, year, month, day);
@@ -100,7 +100,7 @@ int NotifyContactBirthday(HCONTACT hContact, time_t now, int daysInAdvance)
 
 // returns -1 if notify is not necessary
 // returns daysAfterBirthday if it should notify
-int NotifyMissedContactBirthday(HCONTACT hContact, time_t now, int daysAfter)
+int NotifyMissedContactBirthday(MCONTACT hContact, time_t now, int daysAfter)
 {
 	if (daysAfter > 0)
 	{
@@ -169,7 +169,7 @@ INT_PTR ShowListService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR AddBirthdayService(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
 	if ( !hWnd) {
 		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, (LPARAM) hContact);
@@ -194,7 +194,7 @@ DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
 	int delay = db_get_w(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
 	int res;
 
-	HCONTACT hContact = db_find_first();
+	MCONTACT hContact = db_find_first();
 	while (hContact != NULL) {
 		res = CallContactService(hContact, PSS_GETINFO, 0, 0);
 		hContact = db_find_next(hContact);
@@ -301,7 +301,7 @@ int DoImport(TCHAR *fileName)
 
 				TCHAR *szHandle = buffer;
 				TCHAR *szProto = delProto + 1;
-				HCONTACT hContact = GetContactFromID(szHandle, szProto);
+				MCONTACT hContact = GetContactFromID(szHandle, szProto);
 				if (hContact) {
 					delProto[0] = tmp;
 					delAccount[0] = tmp;
@@ -334,7 +334,7 @@ int DoExport(TCHAR *fileName)
 	_ftprintf(fout, _T("%c%s"), _T(COMMENT_CHAR), TranslateT("Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n"));
 	_ftprintf(fout, _T("%c%s"), _T(COMMENT_CHAR), TranslateT("This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n"));
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int year, month, day;
 		GetContactDOB(hContact, year, month, day);
 		if ( IsDOBValid(year, month, day)) {

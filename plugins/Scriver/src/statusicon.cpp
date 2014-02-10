@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hHookIconPressedEvt;
 
-void DrawStatusIcons(HCONTACT hContact, HDC hDC, RECT r, int gap)
+void DrawStatusIcons(MCONTACT hContact, HDC hDC, RECT r, int gap)
 {
 	HICON hIcon;
 	int x = r.left;
@@ -42,7 +42,7 @@ void DrawStatusIcons(HCONTACT hContact, HDC hDC, RECT r, int gap)
 	}
 }
 
-void CheckStatusIconClick(HCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
+void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
 {
 	unsigned int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
 	StatusIconData *si = Srmm_GetNthIcon(hContact, iconNum);
@@ -61,7 +61,7 @@ void CheckStatusIconClick(HCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, in
 
 static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {
@@ -88,7 +88,7 @@ int DeinitStatusIcons()
 	return 0;
 }
 
-int GetStatusIconsCount(HCONTACT hContact)
+int GetStatusIconsCount(MCONTACT hContact)
 {
 	int nIcon = 0;
 	while ( Srmm_GetNthIcon(hContact, nIcon) != NULL)

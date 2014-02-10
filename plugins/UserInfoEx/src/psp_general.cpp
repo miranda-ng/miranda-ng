@@ -77,7 +77,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{
 			case 0:
 				{
-					HCONTACT hContact = (HCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					char* pszProto;
 
 					switch (((LPNMHDR)lParam)->code) 
@@ -149,7 +149,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_COMMAND:
 		{
-			HCONTACT hContact;
+			MCONTACT hContact;
 			LPCSTR pszProto;
 
 			switch (LOWORD(wParam))

@@ -20,7 +20,7 @@ UserInformation::~UserInformation()
 }
 
 //------------------------------------------------------------------------------
-bool UserInformation::updateStatus(HCONTACT user, int status)
+bool UserInformation::updateStatus(MCONTACT user, int status)
 {
 	bool ret = false;
 
@@ -38,13 +38,13 @@ bool UserInformation::updateStatus(HCONTACT user, int status)
 }
 
 //------------------------------------------------------------------------------
-std::wstring UserInformation::statusString(HCONTACT user)
+std::wstring UserInformation::statusString(MCONTACT user)
 {
 	return m_status_strings[m_status_info[user]];
 }
 
 //------------------------------------------------------------------------------
-std::wstring UserInformation::statusModeString(HCONTACT user)
+std::wstring UserInformation::statusModeString(MCONTACT user)
 {
 	int status = CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, m_status_info[user], 0);
 
@@ -57,14 +57,14 @@ std::wstring UserInformation::statusModeString(HCONTACT user)
 }
 
 //------------------------------------------------------------------------------
-void UserInformation::insertName(std::wstring &str, HCONTACT user) const
+void UserInformation::insertName(std::wstring &str, MCONTACT user) const
 {
 	// insert the user's name into the string
 	str.replace(str.find(L"%u"), 2, nameString(user));
 }
 
 //------------------------------------------------------------------------------
-std::wstring UserInformation::nameString(HCONTACT user) const
+std::wstring UserInformation::nameString(MCONTACT user) const
 {
 	//WCHAR *ret = reinterpret_cast<WCHAR *>(CallService(MS_CLIST_GETCONTACTDISPLAYNAME, reinterpret_cast<unsigned int>(user), 0));
 	char* ret = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(user), 0);

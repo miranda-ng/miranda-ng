@@ -33,13 +33,13 @@ void SpeakConfig::update(Subject &subject)
 }
 
 //------------------------------------------------------------------------------
-bool SpeakConfig::status(const std::wstring &sentence, HCONTACT user) {
+bool SpeakConfig::status(const std::wstring &sentence, MCONTACT user) {
 	return say(sentence, user, false);
 }
-bool SpeakConfig::message(const std::wstring &sentence, HCONTACT user) {
+bool SpeakConfig::message(const std::wstring &sentence, MCONTACT user) {
 	return say(sentence, user, true);
 }
-bool SpeakConfig::say(const std::wstring &sentence, HCONTACT user, bool message)
+bool SpeakConfig::say(const std::wstring &sentence, MCONTACT user, bool message)
 {
 	if (!m_tts.get()){
 		return false;

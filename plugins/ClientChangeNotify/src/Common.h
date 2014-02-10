@@ -138,7 +138,7 @@ struct PLUGIN_DATA
 
 struct SHOWPOPUP_DATA
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	TCString OldMirVer;
 	TCString MirVer;
 	COptPage *PopupOptPage;

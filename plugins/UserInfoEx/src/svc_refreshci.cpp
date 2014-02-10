@@ -485,7 +485,7 @@ class CContactUpdater : public CContactQueue
 {
 	CUpdProgress*		_pProgress;			// pointer to the progress dialog/popup
 	HANDLE				_hProtoAckEvent;	// handle to protocol ack notification
-	HCONTACT				_hContact;			// current contact being refreshed
+	MCONTACT				_hContact;			// current contact being refreshed
 	PBYTE				_hContactAcks;		// array of acknoledgements for the current contact to wait for
 	INT_PTR				_nContactAcks;		// number of acknoledgements for the current contact to wait for
 
@@ -627,7 +627,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	virtual void Callback(HCONTACT hContact, PVOID param)
+	virtual void Callback(MCONTACT hContact, PVOID param)
 	{
 		LPSTR	pszProto	= DB::Contact::Proto(hContact);
 
@@ -687,7 +687,7 @@ public:
 	 *
 	 *
 	 **/
-	BOOL QueueAddRefreshContact(HCONTACT hContact, int iWait)
+	BOOL QueueAddRefreshContact(MCONTACT hContact, int iWait)
 	{
 		LPSTR pszProto = DB::Contact::Proto(hContact);
 
@@ -708,7 +708,7 @@ public:
 	{
 		int iWait = 100;
 
-		for (HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			if (QueueAddRefreshContact(hContact, iWait))
 				iWait += 5000;
 
@@ -840,13 +840,13 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	try
 	{
-		DWORD dwStmp = db_get_dw((HCONTACT)wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
+		DWORD dwStmp = db_get_dw((MCONTACT)wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
 		if (!dwStmp)
 		{
 			MTime mt;
 			
 			mt.GetLocalTime();
-			mt.DBWriteStamp((HCONTACT)wParam, USERINFO, SET_CONTACT_ADDEDTIME);
+			mt.DBWriteStamp((MCONTACT)wParam, USERINFO, SET_CONTACT_ADDEDTIME);
 
 			// create updater, if not yet exists
 			if (!ContactUpdater)
@@ -858,7 +858,7 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 			ContactUpdater->AddIfDontHave(
 				(ContactUpdater->Size() > 0) 
 					? max(ContactUpdater->Get(ContactUpdater->Size() - 1)->check_time + 15000, 4000) 
-					: 4000, (HCONTACT)wParam);
+					: 4000, (MCONTACT)wParam);
 		}
 	}
 	catch(...)

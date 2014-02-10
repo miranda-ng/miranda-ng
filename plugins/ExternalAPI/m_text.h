@@ -47,7 +47,7 @@ typedef struct _tagMTEXT_interface {
 	#else
 	HANDLE	(DLL_CALLCONV *CreateT)		(HANDLE userHandle, char *text);
 	#endif
-	HANDLE	(DLL_CALLCONV *CreateEx)	(HANDLE userHandle, HCONTACT hContact, void *text, DWORD flags);
+	HANDLE	(DLL_CALLCONV *CreateEx)	(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags);
 	int		(DLL_CALLCONV *Measure)		(HDC dc, SIZE *sz, HANDLE text);
 	int		(DLL_CALLCONV *Display)		(HDC dc, POINT pos, SIZE sz, HANDLE text);
 	int		(DLL_CALLCONV *SetParent)	(HANDLE text, HWND hwnd, RECT rect);
@@ -109,7 +109,7 @@ enum
 typedef struct tagMTEXTCREATE
 {
 	DWORD cbSize;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	void *text; // this is 'char *' or 'WCHAR *'
 	DWORD flags;
 

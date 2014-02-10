@@ -24,8 +24,8 @@ void Uninitilize();
 
 void UpdateFileViews( const TCHAR *pszFile);
 
-bool bOpenExternaly( HCONTACT hContact);
-bool bShowFileViewer( HCONTACT hContact);
+bool bOpenExternaly( MCONTACT hContact);
+bool bShowFileViewer( MCONTACT hContact);
 
 bool bUseInternalViewer( bool bNew);
 bool bUseInternalViewer();

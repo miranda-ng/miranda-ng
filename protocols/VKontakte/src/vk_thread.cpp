@@ -249,7 +249,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (userid == 0)
 			return;
 
-		HCONTACT hContact;
+		MCONTACT hContact;
 		if (userid == m_myUserId)
 			hContact = NULL;
 		else if ((hContact = FindUser(userid, false)) == NULL)
@@ -311,7 +311,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	bool bCleanContacts = getByte("AutoClean", 0) != 0;
 	LIST<void> arContacts(10, PtrKeySortT);
 	if (bCleanContacts)
-		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 			if (!isChatRoom(hContact))
 				arContacts.insert((HANDLE)hContact);
 
@@ -321,7 +321,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			continue;
 
 		CMString tszNick;
-		HCONTACT hContact = FindUser(_ttoi(szValue), true);
+		MCONTACT hContact = FindUser(_ttoi(szValue), true);
 		arContacts.remove(hContact);
 		szValue = json_as_string(json_get(pInfo, "first_name"));
 		if (szValue) {
@@ -468,7 +468,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (pAttachments != NULL)
 			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments));
 
-		HCONTACT hContact = FindUser(uid, true);
+		MCONTACT hContact = FindUser(uid, true);
 
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_TCHAR;
@@ -523,7 +523,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 
 	CMStringA mids;
 	int msgid, uid, flags;
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	JSONNODE *pChild;
 	for (int i = 0; (pChild = json_at(pUpdates, i)) != NULL; i++) {

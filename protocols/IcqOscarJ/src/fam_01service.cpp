@@ -528,10 +528,10 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 }
 
 
-char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, HCONTACT *hContactResume)
+char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResume)
 {
 	char* szList;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	WORD wCurrentLen = 0;
 	DWORD dwUIN;
 	uid_str szUID;
@@ -611,7 +611,7 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, HCONTACT *hContactResum
 
 void CIcqProto::sendEntireListServ(WORD wFamily, WORD wSubtype, int listType)
 {
-	HCONTACT hResumeContact = NULL;
+	MCONTACT hResumeContact = NULL;
 
 	do
 	{ // server doesn't seem to be able to cope with packets larger than 8k

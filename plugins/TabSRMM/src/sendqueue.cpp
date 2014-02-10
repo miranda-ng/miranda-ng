@@ -127,7 +127,7 @@ entry_found:
 
 #define SPLIT_WORD_CUTOFF 20
 
-static int SendChunkW(WCHAR *chunk, HCONTACT hContact, DWORD dwFlags)
+static int SendChunkW(WCHAR *chunk, MCONTACT hContact, DWORD dwFlags)
 {
 	int wLen = lstrlenW(chunk);
 	DWORD	memRequired = (wLen + 1) * sizeof(WCHAR);
@@ -142,7 +142,7 @@ static int SendChunkW(WCHAR *chunk, HCONTACT hContact, DWORD dwFlags)
 	return CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)pBuf);
 }
 
-static int SendChunkA(char *chunk, HCONTACT hContact, char *szSvc, DWORD dwFlags)
+static int SendChunkA(char *chunk, MCONTACT hContact, char *szSvc, DWORD dwFlags)
 {
 	return(CallContactService(hContact, szSvc, dwFlags, (LPARAM)chunk));
 }
@@ -154,7 +154,7 @@ static void DoSplitSendW(LPVOID param)
 	WCHAR   *wszSaved, savedChar;
 	int      iCur = 0, iSavedCur = 0, i;
 	BOOL     fSplitting = TRUE;
-	HCONTACT hContact = job->hOwner;
+	MCONTACT hContact = job->hOwner;
 	DWORD    dwFlags = job->dwFlags;
 	int      chunkSize = job->chunkSize / 2;
 	char    *szProto = GetContactProto(hContact);
@@ -229,7 +229,7 @@ static void DoSplitSendA(LPVOID param)
 	char    *szBegin, *szTemp, *szSaved, savedChar;
 	int      iLen, iCur = 0, iSavedCur = 0, i;
 	BOOL     fSplitting = TRUE;
-	HCONTACT hContact = job->hOwner;
+	MCONTACT hContact = job->hOwner;
 	DWORD    dwFlags = job->dwFlags;
 	int      chunkSize = job->chunkSize;
 
@@ -322,7 +322,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 		int iSendLength = getSendLength(iEntry, dat->sendMode);
 
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				CContactCache *c = CContactCache::getContactCache(hContact);
@@ -339,7 +339,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			return 0;
 		}
 
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				doSendLater(iEntry, 0, hContact, false);
@@ -804,7 +804,7 @@ LRESULT SendQueue::WarnPendingJobs(unsigned int uNrMessages)
  *
  * @return the index on success, -1 on failure
  */
-int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HCONTACT hContact, bool fIsSendLater)
+int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, bool fIsSendLater)
 {
 	bool  fAvail = sendLater->isAvail();
 

@@ -140,7 +140,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	if (name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
-		for (HCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+		for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
 			if (ppro->isChatRoom(hContact))
 				continue;
 
@@ -215,7 +215,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 		ppro->SetChatTimer(ppro->OnlineNotifTimer, ppro->m_onlineNotificationTime * 1000, OnlineNotifTimerProc);
 }
 
-int CIrcProto::AddOutgoingMessageToDB(HCONTACT hContact, TCHAR* msg)
+int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, TCHAR* msg)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
@@ -582,7 +582,7 @@ bool CIrcProto::OnIrc_NICK(const CIrcMessage* pmsg)
 		DoEvent(GC_EVENT_CHUID, NULL, pmsg->prefix.sNick.c_str(), pmsg->parameters[0].c_str(), NULL, NULL, NULL, true, false);
 
 		struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false };
-		HCONTACT hContact = CList_FindContact(&user);
+		MCONTACT hContact = CList_FindContact(&user);
 		if (hContact) {
 			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
@@ -696,12 +696,12 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 				return true;
 
 			if ((m_ignore && IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'q'))) {
-				HCONTACT hContact = CList_FindContact(&user);
+				MCONTACT hContact = CList_FindContact(&user);
 				if (!hContact || (hContact && db_get_b(hContact, "CList", "Hidden", 0) == 1))
 					return true;
 			}
 
-			HCONTACT hContact = CList_AddContact(&user, false, true);
+			MCONTACT hContact = CList_AddContact(&user, false, true);
 
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = (DWORD)time(NULL);
@@ -1066,7 +1066,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			// incoming chat request
 			if (bIsChat) {
 				CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), 0, 0, false, false, true };
-				HCONTACT hContact = CList_FindContact(&user);
+				MCONTACT hContact = CList_FindContact(&user);
 
 				// check if it should be ignored
 				if (m_DCCChatIgnore == 1 ||
@@ -1139,7 +1139,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 					if (!CList_FindContact(&user))
 						return true;
 
-					HCONTACT hContact = CList_AddContact(&user, false, true);
+					MCONTACT hContact = CList_AddContact(&user, false, true);
 					if (hContact) {
 						DCCINFO* di = new DCCINFO;
 						di->hContact = hContact;
@@ -1188,7 +1188,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 		//if we got incoming CTCP Version for contact in CList - then write its as MirVer for that contact!
 		if (pmsg->m_bIncoming && command == _T("version")) {
 			struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false };
-			HCONTACT hContact = CList_FindContact(&user);
+			MCONTACT hContact = CList_FindContact(&user);
 			if (hContact)
 				setTString(hContact, "MirVer", DoColorCodes(GetWordAddress(mess.c_str(), 1), TRUE, FALSE));
 		}
@@ -1688,7 +1688,7 @@ bool CIrcProto::OnIrc_WHOIS_END(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1 && m_manualWhoisCount < 1) {
 		CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, true };
-		HCONTACT hContact = CList_FindContact(&user);
+		MCONTACT hContact = CList_FindContact(&user);
 		if (hContact)
 			ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)WhoisAwayReply.c_str());
 	}
@@ -1767,7 +1767,7 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER(const CIrcMessage* pmsg)
 			m_whoisDlg->ShowMessageNoUser(pmsg);
 
 		CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, false };
-		HCONTACT hContact = CList_FindContact(&user);
+		MCONTACT hContact = CList_FindContact(&user);
 		if (hContact) {
 			AddOutgoingMessageToDB(hContact, (TCHAR*)((CMString)_T("> ") + pmsg->parameters[2] + (CMString)_T(": ") + pmsg->parameters[1]).c_str());
 
@@ -1949,7 +1949,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 			const TCHAR* p1 = UserList;
 			m_whoReply = _T("");
 			CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, true, false };
-			HCONTACT hContact = CList_FindContact(&user);
+			MCONTACT hContact = CList_FindContact(&user);
 
 			if (hContact && getByte(hContact, "AdvancedMode", 0) == 1) {
 				ptrT DBHost(getTStringA(hContact, "UHost"));
@@ -2118,7 +2118,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 						finduser.host = (TCHAR*)host.c_str();
 						finduser.user = (TCHAR*)user.c_str();
 
-						HCONTACT hContact = CList_FindContact(&finduser);
+						MCONTACT hContact = CList_FindContact(&finduser);
 						if (hContact && getByte(hContact, "AdvancedMode", 0) == 0) {
 							setWord(hContact, "Status", awaystatus == '-' ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
 							setTString(hContact, "User", user.c_str());

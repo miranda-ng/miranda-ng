@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF1_FILERECV, 0xFFFFFFFF};
 
-static DWORD GetMask(HCONTACT hContact)
+static DWORD GetMask(MCONTACT hContact)
 {
 	DWORD mask = db_get_dw(hContact, KEYBDMODULE, "Mask1", (DWORD)(-1));
 	if(mask == (DWORD)(-1)) {
@@ -156,7 +156,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	}
 }
 
-static void InitialiseItem(HWND hwndList, HCONTACT hContact, HANDLE hItem, DWORD protoCaps)
+static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD protoCaps)
 {
 	DWORD mask;
 	int i;
@@ -169,7 +169,7 @@ static void InitialiseItem(HWND hwndList, HCONTACT hContact, HANDLE hItem, DWORD
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX+1, 2));
 }
 
-static void SaveItemMask(HWND hwndList, HCONTACT hContact, HANDLE hItem, const char *pszSetting)
+static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const char *pszSetting)
 {
 	DWORD mask;
 	int i, iImage;
@@ -186,7 +186,7 @@ static void SetAllContactIcons(HWND hwndList)
 {
 	DWORD protoCaps;
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if(hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			char *szProto = GetContactProto(hContact);
@@ -310,7 +310,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					{
 						case PSN_APPLY:
 						{
-							for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 								HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 								if(hItem)
 									SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
@@ -336,7 +336,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-BOOL IsIgnored(HCONTACT hContact, WORD eventType)
+BOOL IsIgnored(MCONTACT hContact, WORD eventType)
 {
 	WORD ignoreID = 0;
 	DWORD mask = GetMask(hContact);

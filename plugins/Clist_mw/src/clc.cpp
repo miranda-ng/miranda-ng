@@ -48,7 +48,7 @@ static int stopStatusUpdater = 0;
 void StatusUpdaterThread(void*)
 {
 	int i,curdelay,lastcheck = 0;
-	HCONTACT hContact = db_find_first();
+	MCONTACT hContact = db_find_first();
 
 	SetThreadPriority(GetCurrentThread(),THREAD_PRIORITY_LOWEST);
 
@@ -143,9 +143,9 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case INTM_ICONCHANGED:
 	{
 		int recalcScrollBar = 0,shouldShow;
-		HCONTACT hSelItem = NULL;
+		MCONTACT hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
-		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry((HCONTACT)wParam);
+		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry((MCONTACT)wParam);
 
 		WORD status;
 		int needsResort = 0;
@@ -158,21 +158,21 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		// this means an offline msg is flashing, so the contact should be shown
 		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE) & CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) &&
-			(!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon((HCONTACT)wParam) != LOWORD(lParam));
+			(!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon((MCONTACT)wParam) != LOWORD(lParam));
 
 		ClcContact *contact;
 		ClcGroup *group;
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
-					hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
-				AddContactToTree(hwnd, dat, (HCONTACT)wParam, 0, 0);
+					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+				AddContactToTree(hwnd, dat, (MCONTACT)wParam, 0, 0);
 				needsResort = 1;
 				recalcScrollBar = 1;
 				FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL);
 				if (contact) {
 					contact->iImage = (WORD)lParam;
-					pcli->pfnNotifyNewContact(hwnd, (HCONTACT)wParam);
+					pcli->pfnNotifyNewContact(hwnd, (MCONTACT)wParam);
 					dat->needsResort = 1;
 				}
 			}
@@ -185,7 +185,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
-					hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
+					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
 				RemoveItemFromGroup(hwnd,group,contact,0);
 				recalcScrollBar = 1;
 				dat->needsResort = 1;
@@ -222,7 +222,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		ClcGroup *group;
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
-			if (!db_get_ts((HCONTACT)wParam, "CList", "StatusMsg", &dbv)) {
+			if (!db_get_ts((MCONTACT)wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
 				if (dbv.ptszVal == NULL || _tcslen(dbv.ptszVal) == 0) break;
 				lstrcpyn(contact->szStatusMsg, dbv.ptszVal, SIZEOF(contact->szStatusMsg));

@@ -93,7 +93,7 @@ static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void TSAPI HandleMenuEntryFromhContact(HCONTACT hContact)
+void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 {
 	if (hContact == 0)
 		return;
@@ -203,11 +203,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return TRUE;
 			}
 			else if (dis->CtlType == ODT_MENU) {
-				HWND hWnd = M.FindWindow((HCONTACT)dis->itemID);
+				HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
 				DWORD idle = 0;
 
 				if (hWnd == NULL) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((HCONTACT)dis->itemID);
+					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
 					hWnd = si ? si->hWnd : 0;
 				}
 
@@ -243,7 +243,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						SetForegroundWindow(hwndDlg);
 					if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
 						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-						HandleMenuEntryFromhContact((HCONTACT)iSelection);
+						HandleMenuEntryFromhContact((MCONTACT)iSelection);
 					}
 					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 
@@ -268,7 +268,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
 							if (mii.dwItemData > 0) {
 								UINT uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
-								HandleMenuEntryFromhContact((HCONTACT)uid);
+								HandleMenuEntryFromhContact((MCONTACT)uid);
 								break;
 							}
 						}
@@ -318,7 +318,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						mii.fMask = MIIM_DATA | MIIM_ID;
 						GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);
 						if (mii.dwItemData != 0)  // this must be an itm of the fav or recent menu
-							HandleMenuEntryFromhContact((HCONTACT)iSelection);
+							HandleMenuEntryFromhContact((MCONTACT)iSelection);
 						else {
 							switch (iSelection) {
 							case ID_TRAYCONTEXT_SHOWTHETRAYICON:
@@ -372,7 +372,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 * if lParam == NULL, don't consider clist events, just open the message tab
 		 */
 		if (lParam == 0)
-			HandleMenuEntryFromhContact((HCONTACT)wParam);
+			HandleMenuEntryFromhContact((MCONTACT)wParam);
 		else {
 			CLISTEVENT *cle = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, wParam, 0);
 			if (cle) {
@@ -382,13 +382,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 			}
 			// still, we got that message posted.. the event may be waiting in tabSRMMs tray...
-			else HandleMenuEntryFromhContact((HCONTACT)wParam);
+			else HandleMenuEntryFromhContact((MCONTACT)wParam);
 		}
 		break;
 
 	case DM_DOCREATETAB:
 		{
-			HWND hWnd = M.FindWindow((HCONTACT)lParam);
+			HWND hWnd = M.FindWindow((MCONTACT)lParam);
 			if (hWnd && IsWindow(hWnd)) {
 				TContainerData *pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -399,7 +399,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					CreateNewTabForContact((TContainerData*)wParam, (HCONTACT)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+					CreateNewTabForContact((TContainerData*)wParam, (MCONTACT)lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
 				}
 			}
 		}
@@ -441,13 +441,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 */
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
-		db_event_markRead((HCONTACT)wParam, (HANDLE)lParam);
+		db_event_markRead((MCONTACT)wParam, (HANDLE)lParam);
 		return 0;
 
 	case DM_SETLOCALE:
 		{
 			HKL hkl = (HKL)lParam;
-			HCONTACT hContact = (HCONTACT)wParam;
+			MCONTACT hContact = (MCONTACT)wParam;
 
 			HWND	hWnd = M.FindWindow(hContact);
 			if (hWnd) {

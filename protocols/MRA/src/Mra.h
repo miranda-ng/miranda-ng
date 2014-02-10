@@ -146,16 +146,16 @@ __forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringW &sVar)  { buf.get
 
 /////////////////////////////////////////////////////////////////////////////
 
-bool DB_GetStaticStringA(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
-bool DB_GetStaticStringW(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+bool DB_GetStaticStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+bool DB_GetStaticStringW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 	  
-bool DB_GetStringA(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
-bool DB_GetStringW(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
+bool DB_GetStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
+bool DB_GetStringW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
 	  
-bool DB_SetStringExA(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
-bool DB_SetStringExW(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
+bool DB_SetStringExA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
+bool DB_SetStringExW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
 	  
-bool DB_GetContactSettingBlob(HCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+bool DB_GetContactSettingBlob(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
 #include "MraConstans.h"
 #include "MraProto.h"
@@ -227,16 +227,16 @@ CMStringW DecodeXML(const CMStringW &lptszMessage);
 CMStringW EncodeXML(const CMStringW &lptszMessage);
 
 bool      IsHTTPSProxyUsed(HANDLE m_hNetlibUser);
-bool      IsContactMraProto(HCONTACT hContact);
+bool      IsContactMraProto(MCONTACT hContact);
 bool      IsEMailMR(const CMStringA& szEmail);
 bool      GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail);
 
 bool      IsPhone(LPSTR lpszString, size_t dwStringSize);
-bool      IsContactPhone(HCONTACT hContact, LPSTR lpszPhone, size_t dwPhoneSize);
+bool      IsContactPhone(MCONTACT hContact, LPSTR lpszPhone, size_t dwPhoneSize);
 HANDLE    MraHContactFromPhone(LPSTR lpszPhone, size_t dwPhoneSize, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
 void      EnableControlsArray(HWND hWndDlg, WORD *pwControlsList, size_t dwControlsListCount, BOOL bEnabled);
 bool      MraRequestXStatusDetails(DWORD dwXStatus);
-bool      MraSendReplyBlogStatus(HCONTACT hContact);
+bool      MraSendReplyBlogStatus(MCONTACT hContact);
 DWORD     GetYears(CONST PSYSTEMTIME pcstSystemTime);
 DWORD     FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen);
 DWORD     MemFillRandom(LPVOID lpBuff, size_t dwBuffSize);

@@ -210,7 +210,7 @@ INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
 		delete frmMain;
 		return -1;
 	}
-	HCONTACT hContact = (HCONTACT) wParam;
+	MCONTACT hContact = (MCONTACT) wParam;
 	LPSTR  pszProto = GetContactProto(hContact);
 	bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
 	frmMain->m_opt_chkTimed			= false;
@@ -239,7 +239,7 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam){
 		delete frmMain;
 		return -1;
 	}
-	frmMain->Init(pszPath, (HCONTACT)wParam);
+	frmMain->Init(pszPath, (MCONTACT)wParam);
 	mir_free(pszPath);
 	if(lParam==0xFFFF){
 		frmMain->SetTargetWindow(NULL);
@@ -276,7 +276,7 @@ INT_PTR service_EditBitmap(WPARAM wParam, LPARAM lParam) {
 // lParam = (HANDLE)contact (can be null)
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam) {
 	LPSTR result = NULL;
-	CSendImageShack* cSend = new CSendImageShack(NULL, (HCONTACT)lParam, false);
+	CSendImageShack* cSend = new CSendImageShack(NULL, (MCONTACT)lParam, false);
 	cSend->m_pszFile = mir_a2t((char*)wParam);
 	cSend->m_bDeleteAfterSend = FALSE;
 	if (lParam != NULL) {

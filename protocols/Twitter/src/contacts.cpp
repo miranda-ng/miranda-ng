@@ -32,7 +32,7 @@ void TwitterProto::AddToListWorker(void *p)
 		twitter_user user = twit_.add_friend(name);
 		s.Unlock();
 
-		HCONTACT hContact = UsernameToHContact(name);
+		MCONTACT hContact = UsernameToHContact(name);
 		UpdateAvatar(hContact,user.profile_image_url);
 	}
 	catch(const std::exception &e)
@@ -43,7 +43,7 @@ void TwitterProto::AddToListWorker(void *p)
 	mir_free(name);
 }
 
-HCONTACT TwitterProto::AddToList(int flags,PROTOSEARCHRESULT *result)
+MCONTACT TwitterProto::AddToList(int flags,PROTOSEARCHRESULT *result)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
@@ -60,7 +60,7 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 	std::string username;
 
 	DBVARIANT dbv;
-	if (!db_get_s((HCONTACT)hContact, m_szModuleName, TWITTER_KEY_UN, &dbv))
+	if (!db_get_s((MCONTACT)hContact, m_szModuleName, TWITTER_KEY_UN, &dbv))
 	{
 		username = dbv.pszVal;
 		db_free(&dbv);
@@ -73,11 +73,11 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 		twit_.get_info(username,&user);
 	}
 
-	UpdateAvatar((HCONTACT)hContact, user.profile_image_url, true);
-	ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0, 0);
+	UpdateAvatar((MCONTACT)hContact, user.profile_image_url, true);
+	ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0, 0);
 }
 
-int TwitterProto::GetInfo(HCONTACT hContact,int info_type)
+int TwitterProto::GetInfo(MCONTACT hContact,int info_type)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 1;
@@ -170,14 +170,14 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 		return;
 
 	DBVARIANT dbv;
-	if (!db_get_ts((HCONTACT)hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+	if (!db_get_ts((MCONTACT)hContact, "CList", "StatusMsg", &dbv)) {
+		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else ProtoBroadcastAck((HCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)1, 0);
+	else ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)1, 0);
 }
 
-HANDLE TwitterProto::GetAwayMsg(HCONTACT hContact)
+HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)
 {
 	ForkThread(&TwitterProto::GetAwayMsgWorker, (void*)hContact);
 	return (HANDLE)1;
@@ -188,7 +188,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	const HCONTACT hContact = (HCONTACT)wParam;
+	const MCONTACT hContact = (MCONTACT)wParam;
 
 	if(!IsMyContact(hContact))
 		return 0;
@@ -208,7 +208,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 
 // *************************
 
-bool TwitterProto::IsMyContact(HCONTACT hContact,bool include_chat)
+bool TwitterProto::IsMyContact(MCONTACT hContact,bool include_chat)
 {
 	char *proto = GetContactProto(hContact);
 	if(proto && strcmp(m_szModuleName,proto) == 0) {
@@ -219,9 +219,9 @@ bool TwitterProto::IsMyContact(HCONTACT hContact,bool include_chat)
 	else return false;
 }
 
-HCONTACT TwitterProto::UsernameToHContact(const char *name)
+MCONTACT TwitterProto::UsernameToHContact(const char *name)
 {
-	for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for(MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		if( db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 			continue;
@@ -242,10 +242,10 @@ HCONTACT TwitterProto::UsernameToHContact(const char *name)
 	return 0;
 }
 
-HCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
+MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 {
 	// First, check if this contact exists
-	HCONTACT hContact = UsernameToHContact(name);
+	MCONTACT hContact = UsernameToHContact(name);
 	if(hContact)
 		return hContact;
 
@@ -253,7 +253,7 @@ HCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 		AddChatContact(name);
 
 	// If not, make a new contact!
-	hContact = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if(hContact)
 	{
 		if(CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0)
@@ -282,7 +282,7 @@ HCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 
 void TwitterProto::SetAllContactStatuses(int status)
 {
-	for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for(MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		if( !db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 			db_set_w(hContact,m_szModuleName,"Status",status);
 

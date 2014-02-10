@@ -46,8 +46,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //============  WEATHER CONDITION STRUCT  ============
 
 // weather conditions  (added in v0.1.2.0)
-typedef struct {
-	HCONTACT hContact;
+typedef struct
+{
+	MCONTACT hContact;
 	TCHAR id[128];
 	TCHAR city[128];
 	TCHAR update[64];

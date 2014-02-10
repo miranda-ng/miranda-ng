@@ -715,7 +715,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 	return -1;
 }
 
-void GetUserProtoLanguageSetting(Dialog *dlg, HCONTACT hContact, char *group, char *setting, BOOL isProtocol = TRUE)
+void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, char *setting, BOOL isProtocol = TRUE)
 {
 	DBVARIANT dbv = {0};
 	dbv.type = DBVT_TCHAR;
@@ -776,7 +776,7 @@ void GetUserLanguageSetting(Dialog *dlg, char *setting)
 		if (metacontacts_proto != NULL) {
 			mc = CallService(MS_MC_GETMETACONTACT, (WPARAM) dlg->hContact, 0);
 			if (mc != CALLSERVICE_NOTFOUND) {
-				HCONTACT hMetaContact = (HCONTACT)mc;
+				MCONTACT hMetaContact = (MCONTACT)mc;
 				if (hMetaContact != NULL) {
 					GetUserProtoLanguageSetting(dlg, hMetaContact, metacontacts_proto, setting);
 					if (dlg->lang_name[0] != _T('\0'))
@@ -816,7 +816,7 @@ void GetContactLanguage(Dialog *dlg)
 		if (dlg->lang_name[0] == _T('\0')) {
 			INT_PTR mc = CallService(MS_MC_GETMETACONTACT, (WPARAM) dlg->hContact, 0);
 			if (mc != CALLSERVICE_NOTFOUND) {
-				HCONTACT hMetaContact = (HCONTACT)mc;
+				MCONTACT hMetaContact = (MCONTACT)mc;
 				if (hMetaContact != NULL) {
 					if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
 						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
@@ -899,7 +899,7 @@ void NotifyWrongSRMM()
 	notified = TRUE;
 }
 
-int AddContactTextBox(HCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner)
+int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner)
 {
 	if (languages.getCount() <= 0)
 		return 0;
@@ -1406,7 +1406,7 @@ int IconPressed(WPARAM wParam, LPARAM lParam)
 	if (sicd == NULL || strcmp(sicd->szModule, MODULE_NAME) != 0)
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact == NULL)
 		return 0;
 

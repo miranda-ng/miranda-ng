@@ -188,7 +188,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	if ( lstrcmp( _T(CLISTCONTROL_CLASS), cls))
 		hwndClist = pcli->hwndContactList;
 
-	HCONTACT hItem = (HCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
+	MCONTACT hItem = (MCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 
 	if (!hItem || !IsHContactContact(hItem) || !db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) {
@@ -240,7 +240,7 @@ INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	db_set_b(hContact, "CList", "HideContactAvatar", 0);
 
@@ -250,7 +250,7 @@ INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 
 	db_set_b(hContact, "CList", "HideContactAvatar", 1);
 

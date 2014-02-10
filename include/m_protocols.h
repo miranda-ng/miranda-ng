@@ -37,7 +37,7 @@ struct PROTO_INTERFACE;
 //returns the value as documented in the PS_ definition (m_protosvc.h)
 
 typedef struct {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	const char *szProtoService;   //a PS_ constant
 	WPARAM wParam;
 	LPARAM lParam;
@@ -54,7 +54,7 @@ typedef struct {
 typedef struct {
 	int cbSize;
 	const char *szModule;  //the name of the protocol module which initiated this ack
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int type;     //an ACKTYPE_ constant
 	int result; 	//an ACKRESULT_ constant
 	HANDLE hProcess;   //a caller-defined process code
@@ -120,7 +120,7 @@ typedef struct {
 typedef struct tagPROTOFILETRANSFERSTATUS
 {
 	size_t cbSize;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DWORD  flags;      // one of PFTS_* constants
 
 	union {
@@ -232,7 +232,7 @@ typedef struct {
 //contact.
 #define MS_PROTO_GETCONTACTBASEPROTO  "Proto/GetContactBaseProto"
 
-__forceinline char* GetContactProto(HCONTACT hContact)
+__forceinline char* GetContactProto(MCONTACT hContact)
 {	return (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 }
 
@@ -404,7 +404,7 @@ ProtoBroadcastAck(), listeners must hook ME_PROTO_ACK, note that lParam = ACKDAT
 
 typedef struct {
 	int cbSize;                // sizeof()
-	HCONTACT hContact;           // this might have to be set by the caller too
+	MCONTACT hContact;           // this might have to be set by the caller too
 	int format;                // PA_FORMAT_*
 	char filename[MAX_PATH];   // full path to filename which contains the avatar
 } PROTO_AVATAR_INFORMATION;
@@ -412,7 +412,7 @@ typedef struct {
 #ifdef _UNICODE
 typedef struct {
 	int cbSize;                // sizeof()
-	HCONTACT hContact;           // this might have to be set by the caller too
+	MCONTACT hContact;           // this might have to be set by the caller too
 	int format;                // PA_FORMAT_*
 	WCHAR filename[MAX_PATH];  // full path to filename which contains the avatar
 } PROTO_AVATAR_INFORMATIONW;

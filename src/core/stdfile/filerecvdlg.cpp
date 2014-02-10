@@ -131,7 +131,7 @@ static void patchDir(TCHAR *str, size_t strSize)
 		lstrcpy(str+len, _T("\\"));
 }
 
-void GetContactReceivedFilesDir(HCONTACT hContact, TCHAR *szDir, int cchDir, BOOL patchVars)
+void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOOL patchVars)
 {
 	DBVARIANT dbv;
 	TCHAR szTemp[MAX_PATH];

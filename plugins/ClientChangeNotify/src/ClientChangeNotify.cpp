@@ -83,25 +83,25 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 
 void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 {
-	HCONTACT hContact = (HCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
+	MCONTACT hContact = (MCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
 	switch (Action) {
 	case PCA_OPENMESSAGEWND: // open message window
-		if (hContact && hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hContact && hContact != INVALID_CONTACT_ID)
 			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 		break;
 
 	case PCA_OPENMENU: // open contact menu
-		if (hContact && hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hContact && hContact != INVALID_CONTACT_ID)
 			QueueUserAPC(ShowContactMenu, g_hMainThread, (ULONG_PTR)hContact);
 		break;
 
 	case PCA_OPENDETAILS: // open contact details window
-		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hContact != INVALID_CONTACT_ID)
 			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 		break;
 
 	case PCA_OPENHISTORY: // open contact history
-		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		if (hContact != INVALID_CONTACT_ID)
 			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
 		break;
 
@@ -201,7 +201,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (lstrcmpA(cws->szSetting, DB_MIRVER))
 		return 0;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	SHOWPOPUP_DATA sd = {0};
 	char *szProto = GetContactProto(hContact);
 	if (g_PreviewOptPage)
@@ -231,7 +231,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		PopupOptPage.DBToMem();
 	}
 
-	HCONTACT hContactOrMeta = (hContact && bMetaContactsExists) ? (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
+	MCONTACT hContactOrMeta = (hContact && bMetaContactsExists) ? (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
 	if (!hContactOrMeta)
 		hContactOrMeta = hContact;
 

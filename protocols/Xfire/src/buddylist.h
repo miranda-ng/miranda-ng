@@ -83,7 +83,7 @@ namespace xfirelib {
 	  string gameinfo;
 	  long game;
 	  long game2;
-	  HCONTACT hcontact;
+	  MCONTACT hcontact;
 	  int clanid;
 
 	  //lastpopup

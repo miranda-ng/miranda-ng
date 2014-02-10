@@ -47,7 +47,7 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header
 	case ICQ_ERROR:
 		{ 
 			WORD wError;
-			HCONTACT hCookieContact;
+			MCONTACT hCookieContact;
 			cookie_fam15_data *pCookieData;
 
 
@@ -124,17 +124,17 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 	wLen -= 2;
 
 	// Determine contact
-	HCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
+	MCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
 
 	// Ignore away status if the user is not already on our list
-	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
+	if (hContact == INVALID_CONTACT_ID) {
 #ifdef _DEBUG
 		debugLogA("Ignoring away reply (%s)", strUID(dwUIN, szUID));
 #endif
 		return;
 	}
 
-	HCONTACT hCookieContact;
+	MCONTACT hCookieContact;
 	if (!FindCookie(dwCookie, &hCookieContact, (void**)&pCookieData)) {
 		debugLogA("Error: Received unexpected away reply from %s", strUID(dwUIN, szUID));
 		return;

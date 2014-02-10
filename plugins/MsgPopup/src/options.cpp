@@ -28,7 +28,7 @@ int idOptionControls[4][3] = {
 	IDC_QUESTION_FG,IDC_QUESTION_BG,IDC_TIMEOUT4
 };
 
-static int __inline DBWriteContactSettingDwordDef(HCONTACT hContact,const char *szModule,const char *szSetting,DWORD val, DWORD defValue)
+static int __inline DBWriteContactSettingDwordDef(MCONTACT hContact,const char *szModule,const char *szSetting,DWORD val, DWORD defValue)
 {
 	if(val == db_get_dw(hContact, szModule, szSetting, defValue))
 		return 0;

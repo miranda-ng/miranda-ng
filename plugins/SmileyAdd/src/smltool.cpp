@@ -45,7 +45,7 @@ private:
 	int m_Direction;
 	UINT m_TargetMessage;
 	WPARAM m_TargetWParam;
-	HCONTACT m_hContact;
+	MCONTACT m_hContact;
 	int rowSel;
 	bool m_Choosing;
 
@@ -171,10 +171,10 @@ LRESULT SmileyToolWindowType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lP
 
 struct smlsrvstruct
 {
-	smlsrvstruct(SmileyType *tsml, HCONTACT thContact)
+	smlsrvstruct(SmileyType *tsml, MCONTACT thContact)
 		: sml(tsml), hContact(thContact) {}
 	SmileyType *sml;
-	HCONTACT hContact;
+	MCONTACT hContact;
 };
 
 void CALLBACK smileyServiceCallback(void* arg)

@@ -28,23 +28,23 @@ struct CAimProto : public PROTO<CAimProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	HCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	HCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
+	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
 	virtual	int       __cdecl Authorize( HANDLE hDbEvent );
 	virtual	int       __cdecl AuthDeny( HANDLE hDbEvent, const TCHAR* szReason );
-	virtual	int       __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl AuthRequest(HCONTACT hContact, const TCHAR* szMessage );
+	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
 
 	virtual	HANDLE    __cdecl ChangeInfo( int iInfoType, void* pInfoData );
 
-	virtual	HANDLE    __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
-	virtual	int       __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
+	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
 	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HCONTACT hContact = NULL );
-	virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
+	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType );
 
 	virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
 	virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email );
@@ -52,24 +52,24 @@ struct CAimProto : public PROTO<CAimProto>
 	virtual	HWND      __cdecl SearchAdvanced( HWND owner );
 	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner );
 
-	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTOFILEEVENT* );
-	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT* );
+	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT* );
 
-	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
-	virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char* msg );
-	virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char* url );
+	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
+	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url );
 
-	virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode );
+	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode );
 	virtual	int       __cdecl SetStatus( int iNewStatus );
 
-	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact );
-	virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt );
+	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact );
+	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt );
 	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const TCHAR* msg );
 
-	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type );
+	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type );
 
 	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
@@ -213,9 +213,9 @@ struct CAimProto : public PROTO<CAimProto>
 	void   __cdecl avatar_request_thread( void* param );
 	void   __cdecl avatar_upload_thread( void* param );
 
-	void   avatar_request_handler(HCONTACT hContact, char* hash, unsigned char type);
+	void   avatar_request_handler(MCONTACT hContact, char* hash, unsigned char type);
 	void   avatar_retrieval_handler(const char* sn, const char* hash, const char* data, int data_len);
-	int    get_avatar_filename(HCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
+	int    get_avatar_filename(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// away.cpp
@@ -414,37 +414,37 @@ struct CAimProto : public PROTO<CAimProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// utilities.cpp
 
-	struct msg_ack_param { HCONTACT hContact; const char *msg; int id; bool success; };
+	struct msg_ack_param { MCONTACT hContact; const char *msg; int id; bool success; };
 
 	void   __cdecl msg_ack_success(void*);
 	void   __cdecl start_connection(void*);
 
-	HCONTACT find_chat_contact(const char * room);
-	HCONTACT contact_from_sn(const char* sn, bool addIfNeeded = false, bool temporary = false);
+	MCONTACT find_chat_contact(const char * room);
+	MCONTACT contact_from_sn(const char* sn, bool addIfNeeded = false, bool temporary = false);
 
 	void   broadcast_status(int status);
 	bool   wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service);
-	bool   is_my_contact(HCONTACT hContact);
-	void   add_contact_to_group(HCONTACT hContact, const char* group);
-	void   set_local_nick(HCONTACT hContact, char* nick, char* note);
+	bool   is_my_contact(MCONTACT hContact);
+	void   add_contact_to_group(MCONTACT hContact, const char* group);
+	void   set_local_nick(MCONTACT hContact, char* nick, char* note);
 	void   upload_nicks(void);
 	void   update_server_group(const char* group, unsigned short group_id);
 	void   offline_contacts(void);
-	void   offline_contact(HCONTACT hContact, bool remove_settings);
+	void   offline_contact(MCONTACT hContact, bool remove_settings);
 	unsigned short get_default_port(void);
 
 	int    open_contact_file(const char* sn, const TCHAR* file, const char* mode, TCHAR* &path, bool contact_dir);
 	void   write_away_message(const char* sn, const char* msg, bool utf);
 	void   write_profile(const char* sn, const char* msg, bool utf);
 
-	unsigned short getBuddyId(HCONTACT hContact, int i);
-	unsigned short getGroupId(HCONTACT hContact, int i);
-	void setBuddyId(HCONTACT hContact, int i, unsigned short id);
-	void setGroupId(HCONTACT hContact, int i, unsigned short id);
-	int deleteBuddyId(HCONTACT hContact, int i);
-	int deleteGroupId(HCONTACT hContact, int i);
+	unsigned short getBuddyId(MCONTACT hContact, int i);
+	unsigned short getGroupId(MCONTACT hContact, int i);
+	void setBuddyId(MCONTACT hContact, int i, unsigned short id);
+	void setGroupId(MCONTACT hContact, int i, unsigned short id);
+	int deleteBuddyId(MCONTACT hContact, int i);
+	int deleteGroupId(MCONTACT hContact, int i);
 
-	unsigned short search_for_free_item_id(HCONTACT hbuddy);
+	unsigned short search_for_free_item_id(MCONTACT hbuddy);
 	unsigned short* get_members_of_group(unsigned short group_id, unsigned short& size);
 
 	void   ShowPopup( const char* msg, int flags, char* url = 0 );

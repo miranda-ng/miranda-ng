@@ -293,7 +293,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 	ShowPopup &= mUnreadMessages != 0 || (mUnreadJunkEmails != 0 && !getByte("DisableHotmailJunk", 0));
 
-	HCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
+	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
 	if (hContact)
 	{
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
@@ -398,7 +398,7 @@ static void TruncUtf8(char *str, size_t sz)
 	str[cntl] = 0;
 }
 
-void CMsnProto::displayEmailCount(HCONTACT hContact)
+void CMsnProto::displayEmailCount(MCONTACT hContact)
 {
 	if (!emailEnabled || getByte("DisableHotmailCL", 0)) return;
 

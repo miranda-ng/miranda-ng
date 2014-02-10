@@ -71,7 +71,7 @@ TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n)
 	return list;
 }
 
-TCmdList *tcmdlist_append2(TCmdList *list, HCONTACT hContact, const char *data)
+TCmdList *tcmdlist_append2(TCmdList *list, MCONTACT hContact, const char *data)
 {
 	TCmdList *new_list = (TCmdList *)mir_alloc(sizeof(TCmdList));
 	TCmdList *attach_to = NULL;
@@ -98,7 +98,7 @@ TCmdList *tcmdlist_append2(TCmdList *list, HCONTACT hContact, const char *data)
 	return list;
 }
 
-TCmdList *tcmdlist_remove2(TCmdList *list, HCONTACT hContact)
+TCmdList *tcmdlist_remove2(TCmdList *list, MCONTACT hContact)
 {
 	for (TCmdList *n = list; n != NULL; n = n->next) {
 		if (n->hContact == hContact) {
@@ -113,7 +113,7 @@ TCmdList *tcmdlist_remove2(TCmdList *list, HCONTACT hContact)
 	return list;
 }
 
-TCmdList *tcmdlist_get2(TCmdList *list, HCONTACT hContact)
+TCmdList *tcmdlist_get2(TCmdList *list, MCONTACT hContact)
 {
 	for (TCmdList *n = list; n != NULL; n = n->next)
 		if (n->hContact == hContact)

@@ -51,7 +51,7 @@ struct DetailsPageData
 
 struct DetailsData
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hProtoAckEvent;
 	HINSTANCE hInstIcmp;
 	HFONT hBoldFont;
@@ -95,7 +95,7 @@ static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
 static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
-	if (hwnd = WindowList_Find(hWindowList, (HCONTACT)wParam)) {
+	if (hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 		return 0;
@@ -222,7 +222,7 @@ static void CreateDetailsPageWindow(HWND hwndDlg, DetailsData *dat, DetailsPageD
 
 static int UserInfoContactDelete(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hWindowList, (HCONTACT)wParam);
+	HWND hwnd = WindowList_Find(hWindowList, (MCONTACT)wParam);
 	if (hwnd != NULL)
 		DestroyWindow(hwnd);
 	return 0;
@@ -245,7 +245,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			PROPSHEETHEADER *psh = (PROPSHEETHEADER*)lParam;
 			dat = (DetailsData*)mir_calloc(sizeof(DetailsData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			dat->hContact = (HCONTACT)psh->pszCaption;
+			dat->hContact = (MCONTACT)psh->pszCaption;
 			dat->hProtoAckEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_PROTOACK);
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 

@@ -80,7 +80,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	LoadOptions();
 
-	for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		delSetting(hContact, "Status");
 		delSetting(hContact, "IdleTS");
 		delSetting(hContact, "p2pMsgId");
@@ -216,9 +216,9 @@ int CMsnProto::OnPreShutdown(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnAddToList - adds contact to the server list
 
-HCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD flags)
+MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD flags)
 {
-	HCONTACT hContact = MSN_HContactFromEmail(email, nick, true, flags & PALF_TEMPORARY);
+	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, flags & PALF_TEMPORARY);
 
 	if (flags & PALF_TEMPORARY)
 	{
@@ -249,7 +249,7 @@ HCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 	return hContact;
 }
 
-HCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	TCHAR *id = psr->id ? psr->id : psr->email;
 	return AddToListByEmail(
@@ -258,7 +258,7 @@ HCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		flags);
 }
 
-HCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -277,7 +277,7 @@ HCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 	return AddToListByEmail(email, nick, flags);
 }
 
-int CMsnProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* pre)
+int CMsnProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
@@ -286,7 +286,7 @@ int CMsnProto::AuthRecv(HCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CMsnProto::AuthRequest(HCONTACT hContact, const TCHAR* szMessage)
+int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
 	if (msnLoggedIn)
 	{
@@ -349,7 +349,7 @@ int CMsnProto::Authorize(HANDLE hDbEvent)
 	char* lastName = firstName + strlen(firstName) + 1;
 	char* email = lastName + strlen(lastName) + 1;
 
-	HCONTACT hContact = MSN_HContactFromEmail(email, nick, true, 0);
+	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, 0);
 	int netId = Lists_GetNetId(email);
 
 	MSN_AddUser(hContact, email, netId, LIST_AL);
@@ -398,7 +398,7 @@ int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 	{
 		if (msc->hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
 		msc->hContact = NULL;
-		HCONTACT hContact = MSN_HContactFromEmail(email);
+		MCONTACT hContact = MSN_HContactFromEmail(email);
 		if (hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 	}
 
@@ -518,7 +518,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 }
 
-HANDLE __cdecl CMsnProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CMsnProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -546,7 +546,7 @@ HANDLE __cdecl CMsnProto::FileAllow(HCONTACT hContact, HANDLE hTransfer, const P
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileCancel - cancels the active file transfer
 
-int __cdecl CMsnProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
+int __cdecl CMsnProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -579,7 +579,7 @@ int __cdecl CMsnProto::FileCancel(HCONTACT hContact, HANDLE hTransfer)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileDeny - rejects the file transfer request
 
-int __cdecl CMsnProto::FileDeny(HCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
+int __cdecl CMsnProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -650,7 +650,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 typedef struct AwayMsgInfo_tag
 {
 	INT_PTR id;
-	HCONTACT hContact;
+	MCONTACT hContact;
 } AwayMsgInfo;
 
 void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
@@ -668,7 +668,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 	mir_free(inf);
 }
 
-HANDLE __cdecl CMsnProto::GetAwayMsg(HCONTACT hContact)
+HANDLE __cdecl CMsnProto::GetAwayMsg(MCONTACT hContact)
 {
 	AwayMsgInfo* inf = (AwayMsgInfo*)mir_alloc(sizeof(AwayMsgInfo));
 	inf->hContact = hContact;
@@ -681,7 +681,7 @@ HANDLE __cdecl CMsnProto::GetAwayMsg(HCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetCaps - obtain the protocol capabilities
 
-DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HCONTACT hContact)
+DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -718,7 +718,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetInfo - nothing to do, cause we cannot obtain information from the server
 
-int __cdecl CMsnProto::GetInfo(HCONTACT hContact, int infoType)
+int __cdecl CMsnProto::GetInfo(MCONTACT hContact, int infoType)
 {
 	return 1;
 }
@@ -726,7 +726,7 @@ int __cdecl CMsnProto::GetInfo(HCONTACT hContact, int infoType)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CMsnProto::RecvContacts(HCONTACT hContact, PROTORECVEVENT*)
+int __cdecl CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -735,7 +735,7 @@ int __cdecl CMsnProto::RecvContacts(HCONTACT hContact, PROTORECVEVENT*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnRecvFile - creates a database event from the file request been received
 
-int __cdecl CMsnProto::RecvFile(HCONTACT hContact, PROTOFILEEVENT* evt)
+int __cdecl CMsnProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -743,7 +743,7 @@ int __cdecl CMsnProto::RecvFile(HCONTACT hContact, PROTOFILEEVENT* evt)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnRecvMessage - creates a database event from the message been received
 
-int __cdecl CMsnProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
+int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
@@ -757,7 +757,7 @@ int __cdecl CMsnProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CMsnProto::RecvUrl(HCONTACT hContact, PROTORECVEVENT*)
+int __cdecl CMsnProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -765,7 +765,7 @@ int __cdecl CMsnProto::RecvUrl(HCONTACT hContact, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CMsnProto::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList)
+int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
 {
 	return 1;
 }
@@ -773,7 +773,7 @@ int __cdecl CMsnProto::SendContacts(HCONTACT hContact, int flags, int nContacts,
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendFile - initiates a file transfer
 
-HANDLE __cdecl CMsnProto::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 {
 	if (!msnLoggedIn)
 		return 0;
@@ -826,14 +826,14 @@ HANDLE __cdecl CMsnProto::SendFile(HCONTACT hContact, const PROTOCHAR* szDescrip
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams(HCONTACT p2, long p3, const char* p4, CMsnProto *p5) :
+	inline TFakeAckParams(MCONTACT p2, long p3, const char* p4, CMsnProto *p5) :
 		hContact(p2),
 		id(p3),
 		msg(p4),
 		proto(p5)
 		{}
 
-	HCONTACT hContact;
+	MCONTACT hContact;
 	long	id;
 	const char*	msg;
 	CMsnProto *proto;
@@ -851,7 +851,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 	delete tParam;
 }
 
-int __cdecl CMsnProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 {
 	const char *errMsg = NULL;
 
@@ -1002,7 +1002,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const TCHAR* msg)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CMsnProto::RecvAwayMsg(HCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
+int __cdecl CMsnProto::RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
 {
 	return 1;
 }
@@ -1065,7 +1065,7 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnUserIsTyping - notify another contact that we're typing a message
 
-int __cdecl CMsnProto::UserIsTyping(HCONTACT hContact, int type)
+int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (!msnLoggedIn) return 0;
 
@@ -1108,7 +1108,7 @@ int __cdecl CMsnProto::UserIsTyping(HCONTACT hContact, int type)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CMsnProto::SendUrl(HCONTACT hContact, int flags, const char* url)
+int __cdecl CMsnProto::SendUrl(MCONTACT hContact, int flags, const char* url)
 {
 	return 1;
 }
@@ -1116,7 +1116,7 @@ int __cdecl CMsnProto::SendUrl(HCONTACT hContact, int flags, const char* url)
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MsnSetApparentMode - controls contact visibility
 
-int __cdecl CMsnProto::SetApparentMode(HCONTACT hContact, int mode)
+int __cdecl CMsnProto::SetApparentMode(MCONTACT hContact, int mode)
 {
 	if (mode && mode != ID_STATUS_OFFLINE)
 	  return 1;

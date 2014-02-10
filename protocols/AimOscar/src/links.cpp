@@ -113,7 +113,7 @@ static INT_PTR ServiceParseAimLink(WPARAM /*wParam*/,LPARAM lParam)
 
 		if (!proto->contact_from_sn(sn)) /* does not yet check if sn is current user */
 		{
-			HCONTACT hContact = proto->contact_from_sn(sn, true);
+			MCONTACT hContact = proto->contact_from_sn(sn, true);
 			proto->add_contact_to_group(hContact, group && group[0] ? group : AIM_DEFAULT_GROUP);
 		}
 		mir_free(group);
@@ -137,7 +137,7 @@ static INT_PTR ServiceParseAimLink(WPARAM /*wParam*/,LPARAM lParam)
 		}
 		if (sn == NULL) return 1; /* parse failed */
 
-		HCONTACT hContact = proto->contact_from_sn(sn, true, true);
+		MCONTACT hContact = proto->contact_from_sn(sn, true, true);
 		if (hContact)
 			CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, (LPARAM)msg);
 

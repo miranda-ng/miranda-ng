@@ -42,7 +42,7 @@ struct POPUP_DATA_HEADER
 {
 	BOOL   MarkRead;
 	HANDLE hDbEvent;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	LPTSTR jid;
 	LPTSTR url;
 };
@@ -65,7 +65,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	return NULL;
 }
 
-void MarkEventRead(HCONTACT hCnt, HANDLE hEvt)
+void MarkEventRead(MCONTACT hCnt, HANDLE hEvt)
 {
 	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
 	if ( ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
@@ -77,7 +77,7 @@ void MarkEventRead(HCONTACT hCnt, HANDLE hEvt)
 
 int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent, LPARAM wnd)
 {
-	if (db_get_b((HCONTACT)hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+	if (db_get_b((MCONTACT)hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		CallService(MS_CLIST_REMOVEEVENT, hContact, hDbEvent);
 		PostMessage((HWND)wnd, EVENT_DELETED_MSG, hContact, hDbEvent);
 	}
@@ -166,11 +166,11 @@ void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCoun
 		wsprintf(buff, _T("%s"), jid); //!!!!!!!!!!!
 }
 
-HCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR displayName)
+MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR displayName)
 {
-	HCONTACT result = (HCONTACT)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
+	MCONTACT result = (MCONTACT)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
 	if (!result || !db_get_b(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-		result = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		result = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		db_set_dw(0, acc, PSEUDOCONTACT_LINK, (DWORD)result);
 		db_set_b(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)result, (LPARAM)acc);
@@ -191,7 +191,7 @@ HCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	return result;
 }
 
-HANDLE AddCListNotification(HCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
+HANDLE AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
 {
 	mir_ptr<char> szUrl( mir_utf8encodeT(url)), szText( mir_utf8encodeT(data->lptzText));
 
@@ -216,7 +216,7 @@ BOOL UsePopups()
 
 void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
 {
-	HCONTACT hCnt = SetupPseudocontact(jid, unreadCount, acc, &data->lptzContactName[0]);
+	MCONTACT hCnt = SetupPseudocontact(jid, unreadCount, acc, &data->lptzContactName[0]);
 	HANDLE hEvt = ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, (DWORD)TlsGetValue(itlsSettings))
 		? AddCListNotification(hCnt, acc, data, jid, url, unreadCount) : NULL;
 
@@ -287,7 +287,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 
 void ClearNotificationContactHistory(LPCSTR acc)
 {
-	HCONTACT hContact = (HCONTACT)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
+	MCONTACT hContact = (MCONTACT)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
 	if (!hContact || !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		return;
 

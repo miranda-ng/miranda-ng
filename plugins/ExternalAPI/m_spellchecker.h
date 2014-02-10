@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 typedef struct {
 	int cbSize;
-	HCONTACT hContact;	// The contact to get the settings from, or NULL
+	MCONTACT hContact;	// The contact to get the settings from, or NULL
 	HWND hwnd;			// The hwnd of the richedit
 	char *window_name;	// A name for this richedit
 } SPELLCHECKER_ITEM;

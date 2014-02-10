@@ -212,7 +212,7 @@ static void __stdcall sttSetTimerOff(void* _pro)
 	ppro->KillChatTimer(ppro->OnlineNotifTimer3);
 }
 
-BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, HCONTACT hContact)
+BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hContact)
 {
 	TCHAR temp[30];
 	lstrcpyn(temp, GetWord(text.c_str(), 0).c_str(), 29);
@@ -555,7 +555,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, HCONTACT hConta
 			return true;
 
 		CONTACT user = { (TCHAR*)one.c_str(), NULL, NULL, false, false, false };
-		HCONTACT hContact2 = CList_AddContact(&user, false, false);
+		MCONTACT hContact2 = CList_AddContact(&user, false, false);
 		if (hContact2) {
 			if (getByte(hContact, "AdvancedMode", 0) == 0)
 				DoUserhostWithReason(1, (_T("S") + one).c_str(), true, one.c_str());
@@ -628,7 +628,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, HCONTACT hConta
 
 			if (ulAdr) {
 				CONTACT user = { (TCHAR*)two.c_str(), NULL, NULL, false, false, true };
-				HCONTACT hContact = CList_AddContact(&user, false, false);
+				MCONTACT hContact = CList_AddContact(&user, false, false);
 				if (hContact) {
 					CMString s;
 
@@ -679,7 +679,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, HCONTACT hConta
 			if (ulAdr) {
 				CMString contact = two;  contact += _T(DCCSTRING);
 				CONTACT user = { (TCHAR*)contact.c_str(), NULL, NULL, false, false, true };
-				HCONTACT hContact = CList_AddContact(&user, false, false);
+				MCONTACT hContact = CList_AddContact(&user, false, false);
 				setByte(hContact, "DCC", 1);
 
 				int iPort = 0;
@@ -805,7 +805,7 @@ bool CIrcProto::PostIrcMessage(const TCHAR* fmt, ...)
 	return PostIrcMessageWnd(NULL, NULL, szBuf);
 }
 
-bool CIrcProto::PostIrcMessageWnd(TCHAR* window, HCONTACT hContact, const TCHAR* szBuf)
+bool CIrcProto::PostIrcMessageWnd(TCHAR* window, MCONTACT hContact, const TCHAR* szBuf)
 {
 	DBVARIANT dbv;
 	TCHAR windowname[256];

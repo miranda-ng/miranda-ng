@@ -46,8 +46,8 @@ public:
 
 	virtual void	Release();
 //	virtual void	OnReset() {};
-	virtual BOOL	OnInfoChanged(HCONTACT hContact, LPCSTR pszProto);
-	virtual void	OnApply(HCONTACT hContact, LPCSTR pszProto);
+	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
+	virtual void	OnApply(MCONTACT hContact, LPCSTR pszProto);
 	virtual void	OnChangedByUser(WORD wChangedMsg);
 
 	void			GetTime(LPTSTR szTime, WORD cchTime);

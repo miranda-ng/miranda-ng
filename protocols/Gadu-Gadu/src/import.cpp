@@ -26,7 +26,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 	char *contacts;
 
 	// Readup contacts
-	for (HCONTACT hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
+	for (MCONTACT hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
 		if (gg->isChatRoom(hContact))
 			continue;
 
@@ -210,7 +210,7 @@ void GGPROTO::parsecontacts(char *contacts)
 		// Loadup contact
 		if (uin && strNick)
 		{
-			HCONTACT hContact = getcontact(uin, 1, 1, _A2T(strNick));
+			MCONTACT hContact = getcontact(uin, 1, 1, _A2T(strNick));
 #ifdef DEBUGMODE
 			debugLogA("parsecontacts(): Found contact %d with nickname \"%s\".", uin, strNick);
 #endif

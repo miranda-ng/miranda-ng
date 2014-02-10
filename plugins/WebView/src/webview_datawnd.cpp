@@ -119,16 +119,16 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 static TCHAR tszSizeString[] = _T("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-static HCONTACT FindContactByUrl(HWND hwndDlg)
+static MCONTACT FindContactByUrl(HWND hwndDlg)
 {
-	HCONTACT res = NULL;
+	MCONTACT res = NULL;
 	TCHAR urltext[300], titlebartxt[300];
 	int contactcount = 0;
 
 	GetDlgItemText(hwndDlg, IDC_OPEN_URL, urltext, SIZEOF(urltext));
 	GetWindowText(hwndDlg, titlebartxt, SIZEOF(titlebartxt));
 
-	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		ptrT db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
 		ptrT db2( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 
@@ -149,13 +149,13 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	DBVARIANT dbv;
 	RECT rc;
 	TCHAR url[300];
-	HCONTACT hContact;
+	MCONTACT hContact;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			HCONTACT hContact2 = (HCONTACT)lParam;
+			MCONTACT hContact2 = (MCONTACT)lParam;
 
 			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact2);
 			WindowList_Add(hWindowList, hwndDlg, hContact2);
@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_OPEN_URL:
 			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, SIZEOF(url));
 			CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);  
-			db_set_w((HCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
+			db_set_w((MCONTACT)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			break;
 
 		case IDC_UPDATE_BUTTON:

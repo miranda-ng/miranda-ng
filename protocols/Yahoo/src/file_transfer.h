@@ -22,7 +22,7 @@ typedef struct {
 	char *msg;
 	char *ftoken;
 	char *relay;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	int  cancel;
 	char *url;
 	HANDLE hWaitEvent;

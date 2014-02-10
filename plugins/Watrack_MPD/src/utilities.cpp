@@ -17,7 +17,7 @@
 
 #include "commonheaders.h"
 
-TCHAR* __stdcall UniGetContactSettingUtf(HCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
+TCHAR* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
 {
   DBVARIANT dbv = {DBVT_DELETED};
   TCHAR* szRes = NULL;

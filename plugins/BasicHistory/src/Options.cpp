@@ -562,7 +562,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		db_set_s(0, MODULE, buf, it->zipPassword.c_str());
 
 		mir_snprintf(buf, SIZEOF(buf), "IsInTask_%d", i);
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			db_unset(hContact, MODULE, buf);
 
 		for (size_t j = 0; j < it->contacts.size(); ++j)
@@ -617,7 +617,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		db_unset(NULL, MODULE, buf);
 
 		mir_snprintf(buf, SIZEOF(buf), "IsInTask_%d", i);
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			db_unset(hContact, MODULE, buf);
 	}
 
@@ -705,7 +705,7 @@ void Options::LoadTasks()
 		}
 
 		mir_snprintf(buf, SIZEOF(buf), "IsInTask_%d", i);
-		for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, MODULE, buf, 0) == 1)
 				to.contacts.push_back(hContact);
 
@@ -1568,7 +1568,7 @@ void ResetListOptions(HWND hwnd)
 		SendMessage(hwnd, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
-void RebuildList(HWND hwnd, HCONTACT hSystem, TaskOptions* to)
+void RebuildList(HWND hwnd, MCONTACT hSystem, TaskOptions* to)
 {
 	HANDLE hItem;
 	if (to->isSystem && hSystem)
@@ -1581,13 +1581,13 @@ void RebuildList(HWND hwnd, HCONTACT hSystem, TaskOptions* to)
 	}
 }
 
-void SaveList(HWND hwnd, HCONTACT hSystem, TaskOptions* to)
+void SaveList(HWND hwnd, MCONTACT hSystem, TaskOptions* to)
 {
 	to->contacts.clear();
 	if (hSystem)
 		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM)hSystem, 0) != 0;
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem && SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hItem, 0))
 			to->contacts.push_back(hContact);
@@ -1602,7 +1602,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstri
 
 INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static HCONTACT hSystem;
+	static MCONTACT hSystem;
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1738,7 +1738,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			cii.cbSize = sizeof(cii);
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
 			cii.pszText = TranslateT("System");
-			hSystem = (HCONTACT)SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+			hSystem = (MCONTACT)SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 			SendMessage(contactList, CLM_AUTOREBUILD, 0, 0);
 			ResetListOptions(contactList);
 			RebuildList(contactList, hSystem, to);

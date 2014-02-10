@@ -22,18 +22,18 @@ No warranty for any misbehaviour.
 
 // TODO: move to some more approriate place, probably part of Thumbs manager
 static void	LoadContacts(void);
-static void LoadContact(HCONTACT hContact);
+static void LoadContact(MCONTACT hContact);
 
 // Internal funcs
 static void	RepaintWindow(HWND hwnd, HDC hdc);
 static void	LoadMenus();
-static void	CreateThumbWnd(TCHAR *ptszName, HCONTACT hContact, int nX, int nY);
+static void	CreateThumbWnd(TCHAR *ptszName, MCONTACT hContact, int nX, int nY);
 static void	RegisterWindowClass(void);
 static void	UnregisterWindowClass(void);
 static void LoadDBSettings(void);
 static void CreateThumbsFont(void);
 static void CreateBackgroundBrush(void);
-static int  GetContactStatus(HCONTACT hContact);
+static int  GetContactStatus(MCONTACT hContact);
 static void GetScreenRect(void);
 extern void SetThumbsOpacity(BYTE btAlpha);
 static int  ClcStatusToPf2(int status);
@@ -44,7 +44,7 @@ HINSTANCE  hInst;
 HFONT      hFont[FLT_FONTIDS];
 COLORREF   tColor[FLT_FONTIDS];
 HIMAGELIST himlMiranda;
-HCONTACT   hNewContact;
+MCONTACT   hNewContact;
 
 HPEN       hLTEdgesPen;
 HPEN       hRBEdgesPen;
@@ -136,7 +136,7 @@ static LPCTSTR s_fonts[FLT_FONTIDS]  =
 
 static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
 		pThumb->DeleteContactPos();
@@ -147,7 +147,7 @@ static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static int OnContactIconChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
 		pThumb->RefreshContactIcon((int)lParam);
@@ -163,7 +163,7 @@ static int OnContactDrag(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	GetCursorPos(&pt);
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb == NULL) {
 		int idStatus = GetContactStatus(hContact);
@@ -188,7 +188,7 @@ static int OnContactDrop(WPARAM wParam, LPARAM lParam)
 	RECT rcMiranda;
 	RECT rcThumb;
 
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 
 	if (hNewContact == hContact && pThumb != NULL) {
@@ -204,7 +204,7 @@ static int OnContactDrop(WPARAM wParam, LPARAM lParam)
 
 static int OnContactDragStop(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL && hNewContact == hContact) {
 		thumbList.RemoveThumb(pThumb);
@@ -228,7 +228,7 @@ static int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
 
 static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	int idStatus = ID_STATUS_OFFLINE;
 	BOOL bRefresh = TRUE;
@@ -292,7 +292,7 @@ static int OnStatusModeChange(WPARAM wParam, LPARAM lParam)
 
 static int OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	ThumbInfo *pThumb = thumbList.FindThumbByContact((HCONTACT)wParam);
+	ThumbInfo *pThumb = thumbList.FindThumbByContact((MCONTACT)wParam);
 
 	Menu_ShowItem(hMenuItemRemove, pThumb != NULL);
 	Menu_ShowItem(hMenuItemHideAll, !fcOpt.bHideAll);
@@ -516,7 +516,7 @@ static void UnregisterWindowClass()
 	UnregisterClass(WND_CLASS, hInst);
 }
 
-static void CreateThumbWnd(TCHAR *ptszName, HCONTACT hContact, int nX, int nY)
+static void CreateThumbWnd(TCHAR *ptszName, MCONTACT hContact, int nX, int nY)
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL)
@@ -609,7 +609,7 @@ static void CreateBackgroundBrush()
 	SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)hBkBrush);
 }
 
-static int GetContactStatus(HCONTACT hContact)
+static int GetContactStatus(MCONTACT hContact)
 {
 	if (hContact == NULL) {
 		assert( !"Contact is NULL" );
@@ -646,7 +646,7 @@ BOOL IsStatusVisible(int status)
 	return (0 == (dwOfflineModes & ClcStatusToPf2(status)));
 }
 
-void RegHotkey(HCONTACT hContact, HWND hwnd)
+void RegHotkey(MCONTACT hContact, HWND hwnd)
 {
 	char szBuf[MAX_PATH] = {0};
 
@@ -696,7 +696,7 @@ void SaveContactsPos()
 
 static void LoadContacts()
 {
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		LoadContact(hContact);
 }
 
@@ -719,7 +719,7 @@ static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR OnContactMenu_Remove(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = (HCONTACT)wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
 		pThumb->DeleteContactPos();
@@ -777,7 +777,7 @@ static void LoadMenus()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void LoadContact( HCONTACT hContact )
+static void LoadContact( MCONTACT hContact )
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (hContact == NULL)

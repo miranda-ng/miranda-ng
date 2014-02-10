@@ -132,7 +132,7 @@ int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
 		return 0;
 
-	HCONTACT hContact = (HCONTACT) lParam;
+	MCONTACT hContact = (MCONTACT) lParam;
 	char *szProto = GetContactProto(hContact);
 	if ((szProto != NULL && !strcmp(szProto, m_szModuleName)) || !lParam) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -155,7 +155,7 @@ int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 
 typedef struct {
 	TlenProtocol *proto;
-	HCONTACT hContact;
+	MCONTACT hContact;
 }TLENUSERINFODLGDATA;
 
 
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WM_INITDIALOG:
 
 		data = (TLENUSERINFODLGDATA*)mir_alloc(sizeof(TLENUSERINFODLGDATA));
-		data->hContact = (HCONTACT) lParam;
+		data->hContact = (MCONTACT) lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)data);
 		// lParam is hContact
 		TranslateDialogDefault(hwndDlg);
@@ -286,7 +286,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_INFOCHANGED:
 				{
-					HCONTACT hContact = (HCONTACT) ((LPPSHNOTIFY) lParam)->lParam;
+					MCONTACT hContact = (MCONTACT) ((LPPSHNOTIFY) lParam)->lParam;
 					SendMessage(hwndDlg, WM_TLEN_REFRESH, 0, (LPARAM) hContact);
 				}
 				break;

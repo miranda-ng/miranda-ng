@@ -1096,7 +1096,7 @@ int RegisterAllIconsInIconLib()
 	return 0;
 }
 
-int TryProcessDoubleClick(HCONTACT hContact)
+int TryProcessDoubleClick(MCONTACT hContact)
 {
 	int iMenuID = GetMenuObjbyId((int)hContactMenuObject);
 	if (iMenuID != -1) {

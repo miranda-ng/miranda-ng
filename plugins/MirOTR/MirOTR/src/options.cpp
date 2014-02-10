@@ -158,7 +158,7 @@ void SaveOptions() {
 
 extern "C" void set_context_contact(void *data, ConnContext *context)
 {
-	HCONTACT hContact = find_contact(context->username, context->protocol);
+	MCONTACT hContact = find_contact(context->username, context->protocol);
 	context->app_data = (void*)hContact;
 }
 
@@ -557,7 +557,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 
 			const char *proto;
 			TCHAR *proto_t;
-			for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				proto = contact_get_proto(hContact);
 				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME) // ignore chatrooms
 					&& (g_metaproto  == 0 || strcmp(proto, g_metaproto) != 0)) // and MetaContacts
@@ -586,7 +586,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 				switch ( LOWORD( wParam )) {
 					case IDC_CMB_CONT_POLICY:
 						{
-							HCONTACT hContact = 0;
+							MCONTACT hContact = 0;
 							int iUser = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS));
 							if (iUser == -1) break;
 							int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETCURSEL, 0, 0);
@@ -604,7 +604,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 							lvi.iSubItem = 0;
 							ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), &lvi);
 							ContactPolicyMap* cpm = (ContactPolicyMap*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-							hContact = (HCONTACT)lvi.lParam;
+							hContact = (MCONTACT)lvi.lParam;
 							(*cpm)[hContact].policy = policy;
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}break;
@@ -650,7 +650,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					lvi.iSubItem = 0;
 					SendDlgItemMessage(hwndDlg, IDC_LV_CONT_CONTACTS, LVM_GETITEM, 0, (LPARAM)&lvi);
 
-					HCONTACT hContact = (HCONTACT)lvi.lParam;
+					MCONTACT hContact = (MCONTACT)lvi.lParam;
 					ContactPolicyMap *cp = (ContactPolicyMap *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					TCHAR buff[50];
 					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, buff, 50);
@@ -743,7 +743,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 			Fingerprint *fp;
 			while (context) {
 				if (context->app_data) {
-					user = (TCHAR*)contact_get_nameT((HCONTACT)context->app_data);
+					user = (TCHAR*)contact_get_nameT((MCONTACT)context->app_data);
 					if (user) {
 						proto = mir_a2t(context->protocol);
 						fp = context->fingerprint_root.next;
@@ -819,7 +819,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 								if (fp->context->active_fingerprint == fp) {
 									TCHAR buff[1024], hash[45];
 									otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-									mir_sntprintf(buff, 1024, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT((HCONTACT)fp->context->app_data));
+									mir_sntprintf(buff, 1024, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT((MCONTACT)fp->context->app_data));
 									ShowError(buff);
 								} else {
 									FPModifyMap* fpm = (FPModifyMap*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -848,7 +848,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						if (it->first->context->active_fingerprint == it->first) {
 							TCHAR buff[1024], hash[45];
 							otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-							mir_sntprintf(buff, 1024, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT((HCONTACT)it->first->context->app_data));
+							mir_sntprintf(buff, 1024, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT((MCONTACT)it->first->context->app_data));
 							ShowError(buff);
 						} else {
 							otrl_context_forget_fingerprint(it->first, 1);

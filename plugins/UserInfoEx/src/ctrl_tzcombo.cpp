@@ -157,7 +157,7 @@ void CTzCombo::Release()
  *
  * @return	_Flags.B.hasChanged member
  **/
-BOOL CTzCombo::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
+BOOL CTzCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
 	if (!_Flags.B.hasChanged) {
 		//use new core tz interface to change the cbbox
@@ -198,7 +198,7 @@ BOOL CTzCombo::OnInfoChanged(HCONTACT hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-void CTzCombo::OnApply(HCONTACT hContact, LPCSTR pszProto)
+void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 {
 	if (_Flags.B.hasChanged)
 	{

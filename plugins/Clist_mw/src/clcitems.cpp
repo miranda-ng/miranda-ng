@@ -36,7 +36,7 @@ extern void (*saveFreeGroup)(ClcGroup *p);
 
 //routines for managing adding/removal of items in the list, including sorting
 
-extern void ClearClcContactCache(struct ClcData *dat,HCONTACT hContact);
+extern void ClearClcContactCache(struct ClcData *dat,MCONTACT hContact);
 
 void AddSubcontacts(struct ClcContact * cont)
 {
@@ -51,7 +51,7 @@ void AddSubcontacts(struct ClcContact * cont)
 	cont->SubAllocated = subcount;
 	i = 0;
 	for (j = 0; j<subcount; j++) {
-		HCONTACT hsub = (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)cont->hContact, j);
+		MCONTACT hsub = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)cont->hContact, j);
 		cacheEntry = GetContactFullCacheEntry(hsub);
 		if ( !(db_get_b(NULL,"CLC","MetaHideOfflineSub",1) && db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) ||
 			cacheEntry->status != ID_STATUS_OFFLINE )
@@ -114,7 +114,7 @@ static struct ClcContact* AddContactToGroup(struct ClcData *dat,ClcGroup *group,
 	char *szProto;
 	WORD apparentMode;
 	DWORD idleMode;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DBVARIANT dbv;
 	int i;
 	int img  = -1;
@@ -182,7 +182,7 @@ static struct ClcContact* AddContactToGroup(struct ClcData *dat,ClcGroup *group,
 	return group->cl.items[i];
 }
 
-void AddContactToTree(HWND hwnd, ClcData *dat, HCONTACT hContact, int updateTotalCount, int checkHideOffline)
+void AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	if ( FindItem(hwnd,dat,(HANDLE)hContact,NULL,NULL,NULL) == 1)
 		return;
@@ -274,7 +274,7 @@ ClcGroup *RemoveItemFromGroup(HWND hwnd,ClcGroup *group,struct ClcContact *conta
 	return group;
 }
 
-void DeleteItemFromTree(HWND hwnd, HCONTACT hItem)
+void DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 {
 	struct ClcContact *contact;
 	ClcGroup *group;
@@ -326,7 +326,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	int tick = GetTickCount();
 
 	ClearRowByIndexCache();
-	ClearClcContactCache(dat, (HCONTACT)INVALID_HANDLE_VALUE);
+	ClearClcContactCache(dat, INVALID_CONTACT_ID);
 
 	dat->list.expanded = 1;
 	dat->list.hideOffline = db_get_b(NULL,"CLC","HideOfflineRoot",0);
@@ -348,7 +348,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 		}
 	}
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cacheEntry;
 		cont = NULL;
 		cacheEntry = GetContactFullCacheEntry(hContact);
@@ -513,7 +513,7 @@ void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort)
 
 struct SavedContactState_t
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	WORD iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };

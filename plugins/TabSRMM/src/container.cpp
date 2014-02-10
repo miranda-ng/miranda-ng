@@ -39,7 +39,7 @@ TContainerData *pLastActiveContainer = NULL;
 
 static  bool	fForceOverlayIcons = false;
 
-static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HCONTACT hContact)
+static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCONTACT hContact)
 {
 	if (item->dwFlags & BUTTON_PASSHCONTACTW || item->dwFlags & BUTTON_PASSHCONTACTL || item->dwFlags & BUTTON_ISCONTACTDBACTION) {
 		if (hContact == 0)
@@ -135,7 +135,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
  * pointer and for removing the struct from the linked list.
  */
 
-TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HCONTACT hContactFrom)
+TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom)
 {
 	if (CMimAPI::m_shutDown)
 		return NULL;
@@ -873,7 +873,7 @@ panel_found:
 				}
 				else if (((LPNMHDR)lParam)->code == NM_RCLICK) {
 					POINT pt;
-					HCONTACT hContact = 0;
+					MCONTACT hContact = 0;
 					HMENU hMenu;
 
 					GetCursorPos(&pt);
@@ -1013,7 +1013,7 @@ panel_found:
 			bool fProcessMainMenu = pContainer->MenuBar->isMainMenu();
 			pContainer->MenuBar->Cancel();
 
-			HCONTACT hContact;
+			MCONTACT hContact;
 			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			DWORD dwOldFlags = pContainer->dwFlags;
 			ButtonItem *pItem = pContainer->buttonItems;
@@ -1175,7 +1175,7 @@ panel_found:
 
 	case DM_UPDATETITLE:
 		{
-			HCONTACT hContact = 0;
+			MCONTACT hContact = 0;
 			const TCHAR *szNewTitle = NULL;
 			TWindowData *dat = NULL;
 
@@ -1197,15 +1197,15 @@ panel_found:
 				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			}
 			else {
-				HWND hwnd = M.FindWindow((HCONTACT)wParam);
+				HWND hwnd = M.FindWindow((MCONTACT)wParam);
 				if (hwnd == 0) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((HCONTACT)wParam);
+					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)wParam);
 					if (si) {
 						SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
 						return 0;
 					}
 				}
-				hContact = (HCONTACT)wParam;
+				hContact = (MCONTACT)wParam;
 				if (hwnd && hContact)
 					dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			}
@@ -1392,7 +1392,7 @@ panel_found:
 				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 			}
 			if (pContainer->dwFlags & CNT_NEED_UPDATETITLE) {
-				HCONTACT hContact = 0;
+				MCONTACT hContact = 0;
 				pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;
 				if (pContainer->hwndActive) {
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
@@ -1550,7 +1550,7 @@ panel_found:
 		{
 			DWORD ws, wsold, ex = 0, exold = 0;
 			HMENU hSysmenu = GetSystemMenu(hwndDlg, FALSE);
-			HCONTACT hContact = 0;
+			MCONTACT hContact = 0;
 			int i=0;
 			UINT sBarHeight;
 			bool bAero = M.isAero();
@@ -1897,7 +1897,7 @@ panel_found:
 						item.mask = TCIF_PARAM;
 						TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &item);
 
-						HCONTACT hContact;
+						MCONTACT hContact;
 						SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 						db_set_b(hContact, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
 
@@ -1934,7 +1934,7 @@ panel_found:
 				pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
 				for (int i=0; i < TabCtrl_GetItemCount(hwndTab); i++) {
 					if (TabCtrl_GetItem(hwndTab, i, &item)) {
-						HCONTACT hContact;
+						MCONTACT hContact;
 						SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 
 						char szCName[40];
@@ -2215,7 +2215,7 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 * if none is assigned, return the name of the default container
 */
 
-int TSAPI GetContainerNameForContact(HCONTACT hContact, TCHAR *szName, int iNameLen)
+int TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iNameLen)
 {
 	// single window mode using cloned (temporary) containers
 	if (M.GetByte("singlewinmode", 0)) {
@@ -2255,7 +2255,7 @@ void TSAPI DeleteContainer(int iIndex)
 
 	db_set_ts(NULL, CONTAINER_KEY, szIndex, _T("**mir_free**"));
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 		if (!lstrcmp(tszValue, tszContainerName))
 			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
@@ -2289,7 +2289,7 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 
 	db_set_ts(NULL, CONTAINER_KEY, szIndex, szNew);
 
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 		if (!lstrcmp(tszValue, tszContainerName))
 			db_set_ts(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);
@@ -2347,7 +2347,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 
 	int iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)dat->hContact, 0);
 	int iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)dat->hContact, 0);
-	HCONTACT hContactMostOnline = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
+	MCONTACT hContactMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
 	char *szProtoMostOnline = GetContactProto(hContactMostOnline);
 	int isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1);
 
@@ -2364,8 +2364,8 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 			mir_snprintf(szTemp, sizeof(szTemp), "Handle%d", i);
 
 			TCHAR *nick = NULL, *szStatusText = NULL;
-			HCONTACT hContact;
-			if ((hContact = (HCONTACT)db_get_dw(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
+			MCONTACT hContact;
+			if ((hContact = (MCONTACT)db_get_dw(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
 				nick = pcli->pfnGetContactDisplayName(hContact, 0);
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
 				WORD wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);

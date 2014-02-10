@@ -52,7 +52,7 @@ void cfg::init()
 	InitializeCriticalSection(&cachecs);
 }
 
-DWORD cfg::getDword(const HCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0)
+DWORD cfg::getDword(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0)
 {
 	return((DWORD)db_get_dw(hContact, szModule, szSetting, uDefault));
 }
@@ -76,7 +76,7 @@ DWORD cfg::getDword(const char *szModule, const char *szSetting, DWORD uDefault)
 }
 
 
-WORD cfg::getWord(const HCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD uDefault = 0)
+WORD cfg::getWord(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD uDefault = 0)
 {
 	return((WORD)db_get_w(hContact, szModule, szSetting, uDefault));
 }
@@ -102,7 +102,7 @@ WORD cfg::getWord(const char *szModule, const char *szSetting, WORD uDefault)
 /*
  * same for bytes now
  */
-int cfg::getByte(const HCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, int uDefault = 0)
+int cfg::getByte(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, int uDefault = 0)
 {
 	return(db_get_b(hContact, szModule, szSetting, uDefault));
 }
@@ -117,12 +117,12 @@ int cfg::getByte(const char *szModule, const char *szSetting, int uDefault)
 	return(db_get_b(0, szModule, szSetting, uDefault));
 }
 
-INT_PTR cfg::getTString(const HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+INT_PTR cfg::getTString(const MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	return(db_get_ts(hContact, szModule, szSetting, dbv));
 }
 
-INT_PTR cfg::getString(const HCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+INT_PTR cfg::getString(const MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	return(db_get_s(hContact, szModule, szSetting, dbv));
 }
@@ -131,7 +131,7 @@ INT_PTR cfg::getString(const HCONTACT hContact, const char *szModule, const char
  * writer functions
  */
 
-INT_PTR cfg::writeDword(const HCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD value = 0)
+INT_PTR cfg::writeDword(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD value = 0)
 {
 	return(db_set_dw(hContact, szModule, szSetting, value));
 }
@@ -141,7 +141,7 @@ INT_PTR cfg::writeDword(const char *szModule = 0, const char *szSetting = 0, DWO
 	return(db_set_dw(0, szModule, szSetting, value));
 }
 
-INT_PTR cfg::writeWord(const HCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD value = 0)
+INT_PTR cfg::writeWord(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD value = 0)
 {
 	return(db_set_w(hContact, szModule, szSetting, value));
 }
@@ -151,7 +151,7 @@ INT_PTR cfg::writeWord(const char *szModule = 0, const char *szSetting = 0, WORD
 	return(db_set_w(0, szModule, szSetting, value));
 }
 
-INT_PTR cfg::writeByte(const HCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, BYTE value = 0)
+INT_PTR cfg::writeByte(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, BYTE value = 0)
 {
 	return(db_set_b(hContact, szModule, szSetting, value));
 }
@@ -161,17 +161,17 @@ INT_PTR cfg::writeByte(const char *szModule = 0, const char *szSetting = 0, BYTE
 	return(db_set_b(0, szModule, szSetting, value));
 }
 
-INT_PTR cfg::writeTString(const HCONTACT hContact, const char *szModule = 0, const char *szSetting = 0, const TCHAR *str = 0)
+INT_PTR cfg::writeTString(const MCONTACT hContact, const char *szModule = 0, const char *szSetting = 0, const TCHAR *str = 0)
 {
 	return(db_set_ts(hContact, szModule, szSetting, str));
 }
 
-INT_PTR cfg::writeString(const HCONTACT hContact, const char *szModule = 0, const char *szSetting = 0, const char *str = 0)
+INT_PTR cfg::writeString(const MCONTACT hContact, const char *szModule = 0, const char *szSetting = 0, const char *str = 0)
 {
 	return(db_set_s(hContact, szModule, szSetting, str));
 }
 
-TExtraCache* cfg::getCache(const HCONTACT hContact, const char *szProto)
+TExtraCache* cfg::getCache(const MCONTACT hContact, const char *szProto)
 {
 	int idx = cfg::arCache.getIndex((TExtraCache*)&hContact);
 	if (idx != -1)

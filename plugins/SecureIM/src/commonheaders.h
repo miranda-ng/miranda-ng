@@ -102,7 +102,7 @@ int onModulesLoaded(WPARAM, LPARAM);
 int onShutdown(WPARAM, LPARAM);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
-__forceinline int SendBroadcast(HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+__forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
 }

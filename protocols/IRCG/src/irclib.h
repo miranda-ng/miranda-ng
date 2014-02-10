@@ -48,7 +48,7 @@ struct DCCINFO : public MZeroedObject
 	CMString sFile;
 	CMString sFileAndPath;
 	CMString sHostmask;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	CMString sContactName;
 };
 

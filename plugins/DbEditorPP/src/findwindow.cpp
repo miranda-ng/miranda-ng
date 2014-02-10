@@ -178,7 +178,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return 0;
 }
 
-void ItemFound(HWND hwnd, HCONTACT hContact,const char *module,const char *setting,const char* value,int type)
+void ItemFound(HWND hwnd, MCONTACT hContact,const char *module,const char *setting,const char* value,int type)
 {
 	ItemInfo *ii = (ItemInfo*)mir_calloc(sizeof(ItemInfo));
 	if (!ii) return;
@@ -262,7 +262,7 @@ char* multiReplace(const char* value, const char *find, const char *replace, int
 	return mir_tstrdup(value);
 }
 
-int replaceValue(HWND hwnd, HCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv, const char *find, const char *replace, int mode)
+int replaceValue(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv, const char *find, const char *replace, int mode)
 {
 	int count = 0;
 	DWORD num = 0;
@@ -334,7 +334,7 @@ int replaceValue(HWND hwnd, HCONTACT hContact, const char *module, const char *s
 	return count;
 }
 
-int replaceSetting(HWND hwnd, HCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv, const char *find, const char *replace, int mode)
+int replaceSetting(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv, const char *find, const char *replace, int mode)
 {
 	char *szSetting;
 	ptrA myreplace;
@@ -370,7 +370,7 @@ int replaceSetting(HWND hwnd, HCONTACT hContact, const char *module, const char 
 }
 
 
-int replaceModule(HWND hwnd, HCONTACT hContact, const char *module, const char *find, const char *replace, int mode)
+int replaceModule(HWND hwnd, MCONTACT hContact, const char *module, const char *find, const char *replace, int mode)
 {
 	ModuleSettingLL msll;
 	ModSetLinkLinkItem *setting;
@@ -468,7 +468,7 @@ void __cdecl FindSettings(LPVOID di)
 	int options = ((FindInfo*)di)->options;
 	ModuleSettingLL ModuleList, SettingList;
 	ModSetLinkLinkItem *module, *setting;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	DBVARIANT dbv = { 0 };
 	int caseSensitive = options & FW_CASE;
 	int exactMatch = options & FW_EXACT;

@@ -38,7 +38,7 @@ class DialogConfigActive : public MirandaDialog
 	void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int iColumn, int iImage);
 	void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int iImage);
 	void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount);
-	void SaveItemMask(HWND hwndList, HCONTACT hContact, HANDLE hItem);
+	void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem);
     
     static DialogConfigActive *m_instance;
     ConfigDatabase            &m_db;

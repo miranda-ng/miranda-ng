@@ -74,7 +74,7 @@ struct EventData
 struct LogStreamData
 {
 	int stage;
-	HCONTACT hContact;
+	MCONTACT hContact;
 	HANDLE hDbEvent, hDbEventLast;
 	char *buffer;
 	int bufferOffset, bufferLen;
@@ -85,7 +85,7 @@ struct LogStreamData
 	EventData *events;
 };
 
-TCHAR *GetNickname(HCONTACT hContact, const char* szProto)
+TCHAR *GetNickname(MCONTACT hContact, const char* szProto)
 {
 	CONTACTINFO ci = { sizeof(ci) };
 	ci.hContact = hContact;
@@ -151,7 +151,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 	return DbEventIsCustomForMsgWindow(dbei);
 }
 
-EventData* getEventFromDB(struct SrmmWindowData *dat, HCONTACT hContact, HANDLE hDbEvent)
+EventData* getEventFromDB(struct SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -922,7 +922,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		smre.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
 		smre.Protocolname = dat->szProto;
 		if (dat->szProto != NULL && strcmp(dat->szProto, "MetaContacts") == 0) {
-			HCONTACT hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
+			MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
 			if (hContact != NULL)
 				smre.Protocolname = GetContactProto(hContact);
 		}

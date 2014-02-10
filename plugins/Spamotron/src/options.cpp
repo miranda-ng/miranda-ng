@@ -2,7 +2,7 @@
 
 TCHAR currentResponse[256] = {0};
 
-TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, HCONTACT hContact, const char* option, const TCHAR *def)
+TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char* option, const TCHAR *def)
 {
 	DBVARIANT dbv = {0};
 	_tcsnset(buf, 0, buflen);

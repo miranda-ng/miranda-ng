@@ -711,7 +711,7 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
  * checks, if there is a valid smileypack installed for the given protocol
  */
 
-int TSAPI CheckValidSmileyPack(const char *szProto, HCONTACT hContact)
+int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 {
 	SMADD_INFO2 smainfo = {0};
 
@@ -894,7 +894,7 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTIN
 	if ((GetForegroundWindow() != dat->pContainer->hwnd || dat->pContainer->hwndActive != hwndDlg) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(dat->dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
 		ZeroMemory(&cle, sizeof(cle));
 		cle.cbSize = sizeof(cle);
-		cle.hContact = (HCONTACT)dat->hContact;
+		cle.hContact = (MCONTACT)dat->hContact;
 		cle.hDbEvent = hEvent;
 		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
@@ -1214,7 +1214,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 static int g_IEViewAvail = -1;
 static int g_HPPAvail = -1;
 
-UINT TSAPI GetIEViewMode(HWND hwndDlg, HCONTACT hContact)
+UINT TSAPI GetIEViewMode(HWND hwndDlg, MCONTACT hContact)
 {
 	int iWantIEView = 0, iWantHPP = 0;
 

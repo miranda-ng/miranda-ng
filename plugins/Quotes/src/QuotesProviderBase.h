@@ -50,7 +50,7 @@ public:
 	};
 
 protected:
-	typedef std::vector<HCONTACT> TContracts;
+	typedef std::vector<MCONTACT> TContracts;
 
 public:
 	struct CXMLFileInfo;
@@ -65,20 +65,20 @@ public:
 
 	virtual bool Init();
 	virtual const CProviderInfo& GetInfo()const;
-	virtual void AddContact(HCONTACT hContact);
-	virtual void DeleteContact(HCONTACT hContact);
+	virtual void AddContact(MCONTACT hContact);
+	virtual void DeleteContact(MCONTACT hContact);
 	virtual void Run();
 	virtual void Accept(CQuotesProviderVisitor& visitor)const;
 	virtual void RefreshAll();
-	virtual void RefreshContact(HCONTACT hContact);
-	virtual void SetContactExtraIcon(HCONTACT hContact)const;
+	virtual void RefreshContact(MCONTACT hContact);
+	virtual void SetContactExtraIcon(MCONTACT hContact)const;
 
 protected:
 	const tstring& GetURL()const;
-	HCONTACT CreateNewContact(const tstring& rsName);
+	MCONTACT CreateNewContact(const tstring& rsName);
 	static bool IsOnline();
-	static void SetContactStatus(HCONTACT hContact,int nNewStatus);
-	void WriteContactRate(HCONTACT hContact,double dRate,const tstring& rsSymbol = _T(""));
+	static void SetContactStatus(MCONTACT hContact,int nNewStatus);
+	void WriteContactRate(MCONTACT hContact,double dRate,const tstring& rsSymbol = _T(""));
 
 private:
 	virtual void RefreshQuotes(TContracts& anContacts) = 0;

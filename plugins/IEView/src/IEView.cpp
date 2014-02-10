@@ -1016,7 +1016,7 @@ HWND IEView::getHWND()
 	return hwnd;
 }
 
-void IEView::setContact(HCONTACT hContact)
+void IEView::setContact(MCONTACT hContact)
 {
 	this->hContact = hContact;
 	isContactSet = true;

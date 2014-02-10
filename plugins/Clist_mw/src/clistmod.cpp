@@ -42,17 +42,17 @@ extern BYTE nameOrder[];
 static HANDLE hSettingChanged, hProtoAckHook;
 
 /////////// End by FYR ////////
-int cli_IconFromStatusMode(const char *szProto,int nStatus, HCONTACT hContact)
+int cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact)
 {
 	int result = -1;
 	if (hContact && szProto) {
 		char * szActProto = (char*)szProto;
 		int  nActStatus = nStatus;
-		HCONTACT hActContact = hContact;
+		MCONTACT hActContact = hContact;
 		if ( !db_get_b(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
 			// substitute params by mostonline contact datas
-			HCONTACT hMostOnlineContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hActContact, 0);
-			if (hMostOnlineContact && hMostOnlineContact != (HCONTACT)CALLSERVICE_NOTFOUND) {
+			MCONTACT hMostOnlineContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hActContact, 0);
+			if (hMostOnlineContact && hMostOnlineContact != (MCONTACT)CALLSERVICE_NOTFOUND) {
 				ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->szProto) {
 					szActProto = cacheEntry->szProto;
@@ -75,14 +75,14 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HCONTACT hContact)
 
 
 ////////// By FYR/////////////
-int ExtIconFromStatusMode(HCONTACT hContact, const char *szProto,int status)
+int ExtIconFromStatusMode(MCONTACT hContact, const char *szProto,int status)
 {
 /*	if ( db_get_b( NULL, "CLC", "Meta", 0 ) == 1 )
 		return pcli->pfnIconFromStatusMode(szProto,status,hContact);
 
 	if ( szProto != NULL ) {
 		if (strcmp(szProto,"MetaContacts") == 0 ) {
-			hContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
+			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
 			if ( hContact != 0 ) {
 				szProto = GetContactProto((UINT)hContact,0);
 				status = db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
@@ -128,7 +128,7 @@ static int ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 
 int LoadContactListModule(void)
 {
-	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		db_set_s(hContact, "CList", "StatusMsg", "");
 
 	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);

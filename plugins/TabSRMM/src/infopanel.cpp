@@ -1364,7 +1364,7 @@ void CInfoPanel::dismissConfig(bool fForced)
 * @param panel			CInfoPanel* the panel which owns it
 */
 
-CTip::CTip(const HWND hwndParent, const HCONTACT hContact, const TCHAR *pszText, const CInfoPanel* panel)
+CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText, const CInfoPanel* panel)
 {
 	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, _T("RichEditTipClass"), _T(""), (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		0, 0, 40, 40, 0, 0, g_hInst, this);

@@ -207,21 +207,21 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //RowTemplate.c
 BOOL    FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);   //GenMenu.c
 BOOL    MatchMask(char *name, char *mask);                                    //mod_skin_selector.c
-char*   GetContactCachedProtocol(HCONTACT hContact);                                 //clistsettings.c
+char*   GetContactCachedProtocol(MCONTACT hContact);                                 //clistsettings.c
 char*   GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
 WCHAR*  GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces);
-DWORD   CompareContacts2_getLMTime(HCONTACT u);                                    //contact.c
+DWORD   CompareContacts2_getLMTime(MCONTACT u);                                    //contact.c
 DWORD   mod_CalcHash(const char * a);                                          //mod_skin_selector.c
-HICON   cliGetIconFromStatusMode(HCONTACT hContact, const char *szProto,int status);            //clistmod.c
+HICON   cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto,int status);            //clistmod.c
 HICON   GetMainStatusOverlay(int STATUS);                                       //clc.c
-int     __fastcall CLVM_GetContactHiddenStatus(HCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
+int     __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
 int     BgStatusBarChange(WPARAM wParam,LPARAM lParam);                              //clcopts.c
-int     ClcDoProtoAck(HCONTACT wParam, ACKDATA *ack);                                 //clc.c
+int     ClcDoProtoAck(MCONTACT wParam, ACKDATA *ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
-int     GetContactCachedStatus(HCONTACT hContact);                                 //clistsettings.c
+int     GetContactCachedStatus(MCONTACT hContact);                                 //clistsettings.c
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
 int     GetContactIndex(ClcGroup *group,ClcContact *contact);               //clcidents.c
-int     GetStatusForContact(HCONTACT hContact,char *szProto);                           //clistsettings.c
+int     GetStatusForContact(MCONTACT hContact,char *szProto);                           //clistsettings.c
 int     InitCustomMenus(void);                                                //clistmenus.c
 int     InitFramesMenus(void);                                                //framesmenus.c
 int     LoadMoveToGroup();                                                   //movetogroup.c
@@ -247,7 +247,7 @@ void    Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);                   
 void    DrawAvatarImageWithGDIp(HDC hDestDC,int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1,DWORD flag,BYTE alpha);   //gdiplus.cpp
 void    FreeRowCell();                                                      //RowHeight
 void    InitGdiPlus();                                                      //gdiplus.cpp
-void    InvalidateDNCEbyPointer(HCONTACT hContact,ClcCacheEntry *pdnce,int SettingType);  //clistsettings.c
+void    InvalidateDNCEbyPointer(MCONTACT hContact,ClcCacheEntry *pdnce,int SettingType);  //clistsettings.c
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
 void    UninitCustomMenus();                                                //clistmenus.c
 void    UnloadAvatarOverlayIcon();                                             //clc.c
@@ -255,7 +255,7 @@ void    UnLoadContactListModule();                                             /
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
 //cluiframes.c
-void    gtaRenewText(HCONTACT hContact);
+void    gtaRenewText(MCONTACT hContact);
 int     ExtraImage_ExtraIDToColumnNum(int extra);
 
 int     LoadSkinButtonModule();
@@ -281,15 +281,15 @@ int     cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
 int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int     cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk);
 int     cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
-int     cli_IconFromStatusMode(const char *szProto,int nStatus, HCONTACT hContact);
-int     cli_GetContactIcon(HCONTACT hContact);
-int     cli_RemoveEvent(HCONTACT hContact, HANDLE hDbEvent);
-void    cli_AddContactToTree(HWND hwnd,ClcData *dat,HCONTACT hContact,int updateTotalCount,int checkHideOffline);
-void    cli_DeleteItemFromTree(HWND hwnd, HCONTACT hItem);
+int     cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact);
+int     cli_GetContactIcon(MCONTACT hContact);
+int     cli_RemoveEvent(MCONTACT hContact, HANDLE hDbEvent);
+void    cli_AddContactToTree(HWND hwnd,ClcData *dat,MCONTACT hContact,int updateTotalCount,int checkHideOffline);
+void    cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void    cli_FreeContact( ClcContact* );
 void    cli_FreeGroup( ClcGroup* );
 char*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
-void    cli_ChangeContactIcon(HCONTACT hContact,int iIcon,int add);
+void    cli_ChangeContactIcon(MCONTACT hContact,int iIcon,int add);
 LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
 struct  CListEvent* cliCreateEvent( void );
 struct  CListEvent* cli_AddEvent(CLISTEVENT *cle);
@@ -302,7 +302,7 @@ int     cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netP
 int     cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status,const char * proto);
 HMENU   cliBuildGroupPopupMenu(ClcGroup *group);
-void    cliInvalidateDisplayNameCacheEntry(HCONTACT hContact);
+void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 void    cliCheckCacheItem(ClcCacheEntry *pdnce);
 void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 void    CLUI_cli_LoadCluiGlobalOpts(void);
@@ -310,8 +310,8 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 
 ClcContact*    cliCreateClcContact( void );
-ClcCacheEntry* cliCreateCacheItem(HCONTACT hContact);
-ClcCacheEntry* cliGetCacheEntry(HCONTACT hContact);
+ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact);
+ClcCacheEntry* cliGetCacheEntry(MCONTACT hContact);
 
 #define WM_DWMCOMPOSITIONCHANGED  0x031E
 
@@ -332,7 +332,7 @@ extern tPaintCallbackProc CLCPaint_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *r
 /* SkinEngine.c */
 
 
-BYTE SkinDBGetContactSettingByte(HCONTACT hContact, const char* szSection, const char*szKey, BYTE bDefault);
+BYTE SkinDBGetContactSettingByte(MCONTACT hContact, const char* szSection, const char*szKey, BYTE bDefault);
 
 extern OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1];
 extern OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1];

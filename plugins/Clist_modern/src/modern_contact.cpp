@@ -42,13 +42,13 @@ struct
 	{ID_STATUS_ONTHEPHONE,150},
 	{ID_STATUS_OUTTOLUNCH,425}};
 
-static int GetContactStatus(HCONTACT hContact)
+static int GetContactStatus(MCONTACT hContact)
 {
 	return (GetContactCachedStatus(hContact));
 }
 
 
-void cli_ChangeContactIcon(HCONTACT hContact, int iIcon, int add)
+void cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add)
 {
 	corecli.pfnChangeContactIcon(hContact, iIcon, add);
 }
@@ -62,7 +62,7 @@ static int GetStatusModeOrdering(int statusMode)
 }
 
 
-DWORD CompareContacts2_getLMTime(HCONTACT hContact)
+DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_last(hContact);
 	while(hDbEvent) {
@@ -101,8 +101,8 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 
 	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100) return 0;
 
-	HCONTACT a = contact1->hContact;
-	HCONTACT b = contact2->hContact;
+	MCONTACT a = contact1->hContact;
+	MCONTACT b = contact2->hContact;
 
 	namea = (TCHAR *)contact1->szText;
 	statusa = GetContactCachedStatus(contact1->hContact);

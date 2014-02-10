@@ -103,7 +103,7 @@ struct TMUCSettings : public GlobalLogSettingsBase
 
 struct FLASH_PARAMS
 {
-	HCONTACT hContact;
+	MCONTACT hContact;
 	const char* sound;
 	int   iEvent;
 	HICON hNotifyIcon;
@@ -151,7 +151,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 // manager.c
 SESSION_INFO* SM_FindSessionByHWND(HWND h);
-SESSION_INFO* SM_FindSessionByHCONTACT(HCONTACT h);
+SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 
 void SM_RemoveContainer(TContainerData *pContainer);
@@ -173,7 +173,7 @@ void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 void          Chat_SetFilters(SESSION_INFO *si);
 void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
 BOOL          DoPopup(SESSION_INFO *si, GCEVENT* gce);
-int           ShowPopup(HCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 // message.c

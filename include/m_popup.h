@@ -32,7 +32,7 @@ mi.position = 0; //You don't need it and it's better if you put it to zero.
 // Extended popup data
 typedef struct
 {
-	HCONTACT lchContact;
+	MCONTACT lchContact;
 	HICON lchIcon;
 	union
 	{
@@ -55,7 +55,7 @@ typedef struct
 // Unicode version of POPUPDATA
 typedef struct
 {
-	HCONTACT lchContact;
+	MCONTACT lchContact;
 	HICON lchIcon;
 	union
 	{
@@ -130,9 +130,9 @@ lParam = 0;
 Returns: the HANDLE of the contact. Can return NULL, meaning it's the main contact. -1 means failure.
 */
 #define MS_POPUP_GETCONTACT "Popup/GetContact"
-static HCONTACT __inline PUGetContact(HWND hPopupWindow)
+static MCONTACT __inline PUGetContact(HWND hPopupWindow)
 {
-	return (HCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hPopupWindow, 0);
+	return (MCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hPopupWindow, 0);
 }
 
 /* Popup/GetPluginData
@@ -375,7 +375,7 @@ typedef struct {
 		const TCHAR *ptszText;
 	};
 	void *PluginData;
-	HCONTACT hContact;
+	MCONTACT hContact;
 } POPUPDATACLASS;
 
 // wParam = 0

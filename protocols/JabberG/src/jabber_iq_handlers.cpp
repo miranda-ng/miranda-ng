@@ -525,7 +525,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 	}
 
 	JABBER_LIST_ITEM *item;
-	HCONTACT hContact = NULL;
+	MCONTACT hContact = NULL;
 	const TCHAR *jid, *str, *name;
 	TCHAR *nick;
 

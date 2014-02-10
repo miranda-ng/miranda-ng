@@ -89,7 +89,7 @@ static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 		MessageFailureProcess(tmlst[i], LPGEN("The message send timed out."));
 }
 
-void msgQueue_add(HCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent)
+void msgQueue_add(MCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent)
 {
 	TMsgQueue *item = (TMsgQueue*)mir_alloc(sizeof(TMsgQueue));
 	item->hContact = hContact;
@@ -106,7 +106,7 @@ void msgQueue_add(HCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent
 
 }
 
-void msgQueue_processack(HCONTACT hContact, int id, BOOL success, const char* szErr)
+void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* szErr)
 {
 	int i;
 	TMsgQueue* item = NULL;

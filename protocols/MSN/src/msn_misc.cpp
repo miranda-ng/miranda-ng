@@ -88,7 +88,7 @@ void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const ch
 {
 	//blob is: UIN=0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
 
-	HCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
+	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
 
 	int emaillen = (int)strlen(email);
 
@@ -176,7 +176,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
 
-void CMsnProto::MSN_GetAvatarFileName(HCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
+void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
 {
 	size_t tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
@@ -321,7 +321,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GetCustomSmileyFileName - gets a file name for an contact's custom smiley
 
-void CMsnProto::MSN_GetCustomSmileyFileName(HCONTACT hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int type)
+void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int type)
 {
 	size_t tPathLen;
 
@@ -834,7 +834,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_COMMAND:
 		if (tData != NULL) {
 			if (tData->flags & MSN_HOTMAIL_POPUP) {
-				HCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
+				MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
 				if (hContact) CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
 				if (tData->flags & MSN_ALLOW_ENTER)
 					tData->proto->MsnInvokeMyURL(true, tData->url);
@@ -847,7 +847,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_CONTEXTMENU:
 		if (tData != NULL && tData->flags & MSN_HOTMAIL_POPUP) {
-			HCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
+			MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
 			if (hContact)
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
 		}
@@ -946,7 +946,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
-void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url, HCONTACT hContact)
+void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url, MCONTACT hContact)
 {
 	if (Miranda_Terminated()) return;
 
@@ -961,7 +961,7 @@ void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags
 }
 
 
-void CMsnProto::MSN_ShowPopup(const HCONTACT hContact, const TCHAR* msg, int flags)
+void CMsnProto::MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int flags)
 {
 	const TCHAR* nickname = hContact ? GetContactNameT(hContact) : _T("Me");
 	MSN_ShowPopup(nickname, msg, flags, NULL, hContact);
@@ -1194,13 +1194,13 @@ char* TWinErrorCode::getText()
 	return mErrorText;
 }
 
-bool CMsnProto::MSN_IsMyContact(HCONTACT hContact)
+bool CMsnProto::MSN_IsMyContact(MCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
 }
 
-bool CMsnProto::MSN_IsMeByContact(HCONTACT hContact, char* szEmail)
+bool CMsnProto::MSN_IsMeByContact(MCONTACT hContact, char* szEmail)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	char *emailPtr = szEmail ? szEmail : tEmail;
@@ -1212,7 +1212,7 @@ bool CMsnProto::MSN_IsMeByContact(HCONTACT hContact, char* szEmail)
 	return _stricmp(emailPtr, MyOptions.szEmail) == 0;
 }
 
-bool MSN_MsgWndExist(HCONTACT hContact)
+bool MSN_MsgWndExist(MCONTACT hContact)
 {
 	MessageWindowInputData msgWinInData =
 	{ sizeof(MessageWindowInputData), hContact, MSG_WINDOW_UFLAG_MSG_BOTH };
@@ -1222,7 +1222,7 @@ bool MSN_MsgWndExist(HCONTACT hContact)
 	bool res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 	res = res || msgWinData.hwndWindow;
 	if (res) {
-		msgWinInData.hContact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		msgWinInData.hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 		if (msgWinInData.hContact != NULL) {
 			res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 			res |= (msgWinData.hwndWindow == NULL);

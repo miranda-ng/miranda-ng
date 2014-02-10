@@ -190,8 +190,8 @@ INT_PTR ShowHideContactCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM lParam);
 
-int  UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact);
-int  OnTopMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact);
+int  UpdateMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact);
+int  OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact);
 
 //
 void ChangeContactStatus(int con_stat);
@@ -206,7 +206,7 @@ void RemoveTabs(char *truncated);
 void FastTagFilter(char *truncated);
 void EraseBlock(char *truncated);
 void EraseSymbols(char *truncated);
-int  ProcessAlerts(HCONTACT hContact, char *truncated, char *tstr, char *contactname, int notpresent);
+int  ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactname, int notpresent);
 
 INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -223,8 +223,8 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 void AckFunc(void *dummy);
 int  SiteDeleted(WPARAM wParam, LPARAM lParam);
 
-int  WErrorPopup(HCONTACT hContact, TCHAR *textdisplay);
-int  WAlertPopup(HCONTACT hContact, TCHAR *displaytext);
+int  WErrorPopup(MCONTACT hContact, TCHAR *textdisplay);
+int  WAlertPopup(MCONTACT hContact, TCHAR *displaytext);
 
 //////////////////////
 // wrappers

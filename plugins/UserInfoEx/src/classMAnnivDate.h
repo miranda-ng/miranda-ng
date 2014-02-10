@@ -50,8 +50,8 @@ private:
 	BYTE	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
 	WORD	_wDaysEarlier;	// number of days to the anniversary the user wants to be reminded of this anniversary
 
-	int DBWriteDate(HCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
-	int DBDeleteDate(HCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const;
+	int DBWriteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
+	int DBDeleteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const;
 
 public:
 	MAnnivDate();
@@ -93,23 +93,23 @@ public:
 	void	Clear();
 
 	// read date from database
-	int DBGetDate(HCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
-	int DBGetDateStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	int DBGetAnniversaryDate(HCONTACT hContact, WORD iIndex);
-	int DBGetBirthDate(HCONTACT hContact, LPSTR pszProto = NULL);
-	int DBGetReminderOpts(HCONTACT hContact);
+	int DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
+	int DBGetDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int DBGetAnniversaryDate(MCONTACT hContact, WORD iIndex);
+	int DBGetBirthDate(MCONTACT hContact, LPSTR pszProto = NULL);
+	int DBGetReminderOpts(MCONTACT hContact);
 
 	// write date to database
-	int DBWriteDateStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	int DBWriteAnniversaryDate(HCONTACT hContact, WORD wIndex);
-	int DBWriteBirthDate(HCONTACT hContact);
-	int DBWriteReminderOpts(HCONTACT hContact);
+	int DBWriteDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int DBWriteAnniversaryDate(MCONTACT hContact, WORD wIndex);
+	int DBWriteBirthDate(MCONTACT hContact);
+	int DBWriteReminderOpts(MCONTACT hContact);
 
 	// delete date from database
-	int DBDeleteBirthDate(HCONTACT hContact);
+	int DBDeleteBirthDate(MCONTACT hContact);
 
-	int DBMoveBirthDate(HCONTACT hContact, BYTE bOld, BYTE bNew);
-	int BackupBirthday (HCONTACT hContact, LPSTR pszProto = NULL, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = NULL);
+	int DBMoveBirthDate(MCONTACT hContact, BYTE bOld, BYTE bNew);
+	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = NULL, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = NULL);
 
 	// setting values
 	void	SetDate(SYSTEMTIME &st);

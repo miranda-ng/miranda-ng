@@ -70,9 +70,10 @@ unless AF_FETCHIFPROTONOTVISIBLE is set.
 #define AVS_OWNAVATAR 128           // is own avatar entry
 #define AVS_NOTREADY  4096
 
-typedef struct avatarCacheEntry {
+typedef struct avatarCacheEntry
+{
 	DWORD cbSize;                    // set to sizeof(struct)
-	HCONTACT hContact;               // contacts handle, 0, if it is a protocol avatar
+	MCONTACT hContact;               // contacts handle, 0, if it is a protocol avatar
 	HBITMAP hbmPic;                  // bitmap handle of the picutre itself
 	DWORD dwFlags;                   // see above for flag values
 	LONG bmHeight, bmWidth;          // bitmap dimensions
@@ -81,7 +82,8 @@ typedef struct avatarCacheEntry {
 	                                 // to implement cache expiration
 	LPVOID lpDIBSection;             // unused field
 	TCHAR szFilename[MAX_PATH];      // filename of the avatar (absolute path)
-} AVATARCACHEENTRY;
+}
+	AVATARCACHEENTRY;
 
 #define AVDRQ_FALLBACKPROTO            0x0001        // use the protocol picture as fallback (currently not used)
 #define AVDRQ_FAILIFNOTCACHED          0x0002        // don't create a cache entry if it doesn't already exist. (currently not working)
@@ -98,21 +100,22 @@ typedef struct avatarCacheEntry {
 
 // request to draw a contacts picture. See MS_AV_DRAWAVATAR service description
 
-typedef struct _avatarDrawRequest {
-	DWORD  cbSize;                  // set this to sizeof(AVATARDRAWREQUEST) - mandatory, service will return failure code if
-	                                // cbSize is wrong
-	HCONTACT hContact;              // the contact for which the avatar should be drawn. set it to 0 to draw a protocol picture
-	HDC    hTargetDC;               // target device context
-	RECT   rcDraw;                  // target rectangle. The avatar will be centered within the rectangle and scaled to fit.
-	DWORD  dwFlags;                 // flags (see above for valid bitflags)
-	DWORD  dwReserved;              // for future use
-	DWORD  dwInternal;              // don't use it
-	COLORREF clrBorder;             // color for the border  (used with AVDRQ_DRAWBORDER)
-	UCHAR  radius;                  // radius (used with AVDRQ_ROUNDEDCORNER)
-	UCHAR  alpha;                   // alpha value for semi-transparent avatars (valid values form 1 to 255, if it is set to 0
-	                                // the avatar won't be transparent.
-	char   *szProto;                // only used when AVDRQ_PROTOPICT or AVDRQ_OWNPIC is set
-} AVATARDRAWREQUEST;
+typedef struct _avatarDrawRequest
+{
+	DWORD    cbSize;                 // set this to sizeof(AVATARDRAWREQUEST) - mandatory, service will return failure code if cbSize is wrong
+	MCONTACT hContact;               // the contact for which the avatar should be drawn. set it to 0 to draw a protocol picture
+	HDC      hTargetDC;              // target device context
+	RECT     rcDraw;                 // target rectangle. The avatar will be centered within the rectangle and scaled to fit.
+	DWORD    dwFlags;                // flags (see above for valid bitflags)
+	DWORD    dwReserved;             // for future use
+	DWORD    dwInternal;             // don't use it
+	COLORREF clrBorder;              // color for the border  (used with AVDRQ_DRAWBORDER)
+	UCHAR    radius;                 // radius (used with AVDRQ_ROUNDEDCORNER)
+	UCHAR    alpha;                  // alpha value for semi-transparent avatars (valid values form 1 to 255, if it is set to 0
+	                                 // the avatar won't be transparent.
+	char    *szProto;                // only used when AVDRQ_PROTOPICT or AVDRQ_OWNPIC is set
+}
+	AVATARDRAWREQUEST;
 
 #define CACHE_BLOCKSIZE 20
 
@@ -212,7 +215,7 @@ typedef struct _avatarDrawRequest {
 
 typedef struct _contactAvatarChangedNotification {
 	int      cbSize;             // sizeof()
-	HCONTACT hContact;           // this might have to be set by the caller too
+	MCONTACT hContact;           // this might have to be set by the caller too
 	int      format;             // PA_FORMAT_*
 	TCHAR    filename[MAX_PATH]; // full path to filename which contains the avatar
 	TCHAR    hash[128];          // avatar hash
