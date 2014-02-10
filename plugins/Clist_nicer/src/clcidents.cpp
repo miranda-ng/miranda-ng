@@ -65,7 +65,10 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact,
 		}
 		if (nowVisible)
 			index++;
-		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR) hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) || (IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == hItem) || (IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (HANDLE)((UINT_PTR) hItem & ~HCONTACT_ISINFO))) {
+		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR) hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) ||
+			 (IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == (HCONTACT)hItem) || 
+			 (IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (HCONTACT)((UINT_PTR) hItem & ~HCONTACT_ISINFO)))
+		{
 			if (isVisible) {
 				if ( !nowVisible)
 					*isVisible = 0;

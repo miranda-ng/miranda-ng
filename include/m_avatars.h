@@ -101,7 +101,7 @@ typedef struct avatarCacheEntry {
 typedef struct _avatarDrawRequest {
 	DWORD  cbSize;                  // set this to sizeof(AVATARDRAWREQUEST) - mandatory, service will return failure code if
 	                                // cbSize is wrong
-	HANDLE hContact;                // the contact for which the avatar should be drawn. set it to 0 to draw a protocol picture
+	HCONTACT hContact;              // the contact for which the avatar should be drawn. set it to 0 to draw a protocol picture
 	HDC    hTargetDC;               // target device context
 	RECT   rcDraw;                  // target rectangle. The avatar will be centered within the rectangle and scaled to fit.
 	DWORD  dwFlags;                 // flags (see above for valid bitflags)
@@ -212,7 +212,7 @@ typedef struct _avatarDrawRequest {
 
 typedef struct _contactAvatarChangedNotification {
 	int      cbSize;             // sizeof()
-	HANDLE   hContact;           // this might have to be set by the caller too
+	HCONTACT hContact;           // this might have to be set by the caller too
 	int      format;             // PA_FORMAT_*
 	TCHAR    filename[MAX_PATH]; // full path to filename which contains the avatar
 	TCHAR    hash[128];          // avatar hash

@@ -42,7 +42,7 @@ bool CQuotesProviderDukasCopy::WatchForQuote(const CQuote& rQuote,bool bWatch)
 			m_aContacts.erase(i);
 		}
 
-		CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
+		CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
 		return true;
 	}
 	else if((true == bWatch) && (i == m_aContacts.end()))

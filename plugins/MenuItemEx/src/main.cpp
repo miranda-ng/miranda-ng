@@ -752,7 +752,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-int isIgnored(HANDLE  hContact, int type)
+int isIgnored(HCONTACT hContact, int type)
 {
 	if (type != IGNOREEVENT_ALL)
 		return CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, (LPARAM)type);
@@ -768,9 +768,9 @@ int isIgnored(HANDLE  hContact, int type)
 INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 {
 	if (db_get_b(NULL, MODULENAME, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL))
-		db_set_b((HCONTACT)wparam, "CList", "Hidden", (isIgnored((HANDLE)wparam, lparam) ? (byte)0 : (byte)1));
+		db_set_b((HCONTACT)wparam, "CList", "Hidden", (isIgnored((HCONTACT)wparam, lparam) ? (byte)0 : (byte)1));
 
-	CallService(isIgnored((HANDLE)wparam, lparam) ? MS_IGNORE_UNIGNORE : MS_IGNORE_IGNORE, wparam, lparam);
+	CallService(isIgnored((HCONTACT)wparam, lparam) ? MS_IGNORE_UNIGNORE : MS_IGNORE_IGNORE, wparam, lparam);
 	return 0;
 }
 

@@ -93,7 +93,7 @@ SESSION_INFO* SM_FindSessionByHWND(HWND hWnd)
 	return NULL;
 }
 
-SESSION_INFO* SM_FindSessionByHCONTACT(HANDLE h)
+SESSION_INFO* SM_FindSessionByHCONTACT(HCONTACT h)
 {
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
 		if (si->hContact == h)

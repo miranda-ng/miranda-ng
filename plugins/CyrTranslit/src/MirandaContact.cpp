@@ -80,7 +80,7 @@ void MirandaContact::addMenuItem()
 
 INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0))
 		return 0;
 
@@ -93,7 +93,7 @@ INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	if (!hTransliterateCmdMenuItem) return 0;
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };

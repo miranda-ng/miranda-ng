@@ -733,7 +733,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(HCONTACT hContact)
 	switch (status) {
 	case ID_STATUS_AWAY:
 	case ID_STATUS_ONLINE:
-		ForkThread(&CAimProto::get_online_msg_thread, hContact);
+		ForkThread(&CAimProto::get_online_msg_thread, (void*)hContact);
 		break;
 
 	default:

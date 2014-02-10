@@ -1829,7 +1829,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 						if (ContactMatchSearch(hContact, contact, id, protocol, &argv[3], argc - 3))
 						{
 							DWORD threadID;
-							HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, NULL, &threadID);
+							HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, NULL, &threadID);
 						}
 						
 						free(contact);
@@ -1844,7 +1844,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 						HANDLE hUnreadEvent = db_event_firstUnread(hContact);
 						if (hUnreadEvent != NULL) {
 							DWORD threadID;
-							HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, NULL, &threadID);
+							HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, NULL, &threadID);
 						}
 					}
 				}

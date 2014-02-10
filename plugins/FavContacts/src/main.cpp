@@ -75,7 +75,7 @@ TCHAR g_filter[1024] = {0};
 Options g_Options = {0};
 
 static HANDLE hDialogsList = NULL;
-static HANDLE hContactToActivate = NULL;
+static HCONTACT hContactToActivate = NULL;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -892,7 +892,7 @@ INT_PTR svcShowMenuCentered(WPARAM wParam, LPARAM lParam)
 
 INT_PTR svcOpenContact(WPARAM wParam, LPARAM lParam)
 {
-	hContactToActivate = (HANDLE)wParam;
+	hContactToActivate = (HCONTACT)wParam;
 	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContactToActivate, 0);
 	return 0;
 }
@@ -977,7 +977,7 @@ static void sttResetListOptions(HWND hwndList)
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bInitialized = false;
-	static HANDLE hSelectedContact = 0;
+	static HCONTACT hSelectedContact = 0;
 
 	switch (msg) {
 	case WM_INITDIALOG:

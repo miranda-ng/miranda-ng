@@ -282,7 +282,7 @@ LBL_Def:
 	{
 		WORD iExtraImage[EXTRA_ICON_COUNT];
 		BYTE flags = 0;
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 		else {
 			memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
@@ -291,7 +291,7 @@ LBL_Def:
 		pcli->pfnDeleteItemFromTree(hwnd, (HCONTACT)wParam);
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((HCONTACT)wParam, NULL, dat)) {
 			pcli->pfnAddContactToTree(hwnd, dat, (HCONTACT)wParam, 1, 1);
-			if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL)) {
+			if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 				memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 				if (flags & CONTACTF_CHECKED)
 					contact->flags |= CONTACTF_CHECKED;
@@ -329,13 +329,13 @@ LBL_Def:
 			!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) ||
 			pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
-		if (!FindItem(hwnd, dat, hContact, &contact, &group, NULL)) {
+		if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 					hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
 				pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
 				recalcScrollBar = 1;
-				FindItem(hwnd, dat, hContact, &contact, NULL, NULL);
+				FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL);
 				if (contact) {
 					contact->iImage = (WORD)lParam;
 					pcli->pfnNotifyNewContact(hwnd, hContact);
@@ -364,7 +364,7 @@ LBL_Def:
 		}
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+			if (pcli->pfnFindItem(hwnd, dat, (HANDLE)hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)& selgroup->cl, selcontact));
 			else
 				dat->selection = -1;
@@ -378,7 +378,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_METACHANGED:
-		if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
@@ -388,7 +388,7 @@ LBL_Def:
 			if (contact->pExtra) {
 				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
 				ClcContact *subContact;
-				if (!pcli->pfnFindItem(hwnd, dat, (HCONTACT)contact->hSubContact, &subContact, NULL, NULL))
+				if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)contact->hSubContact, &subContact, NULL, NULL))
 					break;
 
 				contact->pExtra->proto_status_item = GetProtocolStatusItem(contact->metaProto);
@@ -402,7 +402,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_METACHANGEDEVENT:
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		if (lParam == 0)
 			SendMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
@@ -410,7 +410,7 @@ LBL_Def:
 
 	case INTM_NAMECHANGED:
 		ClcContact *contact;
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HCONTACT)wParam, 0), SIZEOF(contact->szText));
 
@@ -421,7 +421,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_CODEPAGECHANGED:
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		contact->codePage = cfg::getDword((HCONTACT)wParam, "Tab_SRMsg", "ANSIcodepage", cfg::getDword((HCONTACT)wParam, "UserInfo", "ANSIcodepage", CP_ACP));
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
@@ -440,7 +440,7 @@ LBL_Def:
 			goto LBL_Def;
 		}
 
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			return 0;
 		contact->ace = cEntry;
 		if (cEntry == NULL)
@@ -466,7 +466,7 @@ LBL_Def:
 		TExtraCache *p;
 		char *szProto = NULL;
 
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			p = cfg::getCache((HCONTACT)wParam, NULL);
 		else {
 			p = contact->pExtra;
@@ -478,7 +478,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_STATUSCHANGED:
-		if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL)) {
+		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 			WORD wStatus = cfg::getWord((HCONTACT)wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
 			if (cfg::dat.bNoOfflineAvatars && wStatus != ID_STATUS_OFFLINE && contact->wStatus == ID_STATUS_OFFLINE) {
 				contact->wStatus = wStatus;
@@ -491,7 +491,7 @@ LBL_Def:
 		break;
 
 	case INTM_PROTOCHANGED:
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		contact->proto = GetContactProto((HCONTACT)wParam);
@@ -513,7 +513,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_INVALIDATECONTACT:
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL))
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL))
 			break;
 
 		if (contact == 0 || group == 0)
@@ -538,7 +538,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_IDLECHANGED:
-		if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL)) {
+		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 			char *szProto = (char*)cws->szModule;
 			if (szProto == NULL)
@@ -560,7 +560,7 @@ LBL_Def:
 			HCONTACT hContact = (HCONTACT)wParam;
 			TExtraCache *p;
 
-			if (!FindItem(hwnd, dat, hContact, &contact, NULL, NULL)) {
+			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				p = cfg::getCache(hContact, szProto);
 				if (!dat->bisEmbedded && cfg::dat.bMetaAvail && szProto) {				// may be a subcontact, forward the xstatus
 					if (cfg::getByte(hContact, cfg::dat.szMetaName, "IsSubcontact", 0)) {

@@ -78,7 +78,7 @@ int CreateGroup(const TCHAR* group, HCONTACT hContact)
 BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO dbei)
 {
 	static DWORD dwPreviousTimeStamp = -1;
-	static HANDLE hPreviousContact = INVALID_HANDLE_VALUE;
+	static HCONTACT hPreviousContact = (HCONTACT)INVALID_HANDLE_VALUE;
 	static HANDLE hPreviousDbEvent = NULL;
 
 	HANDLE hExistingDbEvent;
@@ -220,6 +220,6 @@ BOOL IsDuplicateEvent(HCONTACT hContact, DBEVENTINFO dbei)
 		}
 	}
 	// reset last event
-	hPreviousContact = INVALID_HANDLE_VALUE;
+	hPreviousContact = (HCONTACT)INVALID_HANDLE_VALUE;
 	return FALSE;
 }

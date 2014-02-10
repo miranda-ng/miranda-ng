@@ -206,7 +206,7 @@ int GGPROTO::GetInfo(HCONTACT hContact, int infoType)
 #ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 6 GGPROTO::cmdgetinfothread");
 #endif
-			ForkThread(&GGPROTO::cmdgetinfothread, hContact);
+			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
 
@@ -224,7 +224,7 @@ int GGPROTO::GetInfo(HCONTACT hContact, int infoType)
 #ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 7 GGPROTO::cmdgetinfothread");
 #endif
-				ForkThread(&GGPROTO::cmdgetinfothread, hContact);
+				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 2, "sess_mutex", 1);
@@ -238,7 +238,7 @@ int GGPROTO::GetInfo(HCONTACT hContact, int infoType)
 #ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 8 GGPROTO::cmdgetinfothread");
 #endif
-			ForkThread(&GGPROTO::cmdgetinfothread, hContact);
+			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
 
@@ -255,7 +255,7 @@ int GGPROTO::GetInfo(HCONTACT hContact, int infoType)
 #ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 9 GGPROTO::cmdgetinfothread");
 #endif
-				ForkThread(&GGPROTO::cmdgetinfothread, hContact);
+				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 2, "sess_mutex", 1);
@@ -686,7 +686,7 @@ HANDLE GGPROTO::GetAwayMsg(HCONTACT hContact)
 #ifdef DEBUGMODE
 	debugLogA("GetAwayMsg(): ForkThread 17 GGPROTO::getawaymsgthread");
 #endif
-	ForkThread(&GGPROTO::getawaymsgthread, hContact);
+	ForkThread(&GGPROTO::getawaymsgthread, (void*)hContact);
 	return (HANDLE)1;
 }
 

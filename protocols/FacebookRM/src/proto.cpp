@@ -287,7 +287,7 @@ int FacebookProto::Authorize(HANDLE hDbEvent)
 		return 1;
 
 	HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
-	if (hContact == INVALID_HANDLE_VALUE)
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		return 1;
 
 	return ApproveFriendship((WPARAM)hContact, NULL);
@@ -299,7 +299,7 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 		return 1;
 
 	HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
-	if (hContact == INVALID_HANDLE_VALUE)
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		return 1;
 
 	// TODO: hide from facebook requests list
@@ -450,7 +450,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	if (!isOnline())
 		return 1;
 
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	wall_data *wall = new wall_data();
 	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
@@ -504,7 +504,7 @@ INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 
 INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
@@ -527,7 +527,7 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 
 INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	if (wParam == 0 || !IsMyContact(hContact))
 		return 1;
@@ -547,7 +547,7 @@ INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
@@ -564,7 +564,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 
 	bool deleting = (lParam == 1);
 
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
 	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
@@ -601,7 +601,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)

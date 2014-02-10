@@ -74,27 +74,26 @@ private:
 		}
 	};
 
-	PerContactData<Mind, ContactData, void*>* contactDatas;
+	PerContactData<Mind, ContactData, HCONTACT>* contactDatas;
 	const Mind mind;
 	bool beSilent;
 	bool makeLowercase;
 	bool understandAlways;
-	void UpdateStartChar(std::tstring& str);
+	void UpdateStartChar(std::tstring &str);
 	typedef std::multimap<std::tstring, std::tstring>::const_iterator mm_cit; 
-	bool FindExact(ContactData* contactData, const std::tstring &incomingMessage,
-		const std::multimap<std::tstring, std::tstring>& map, std::tstring& res);
-	bool FindAny(ValueChooser<> &ch, std::tstring& res);
-	void FindByKeywords(ContactData* contactData, const std::vector<std::tstring> &keywords, std::tstring& res/*, std::tstring& ures*/, bool isQuestion);
-	bool FindByOthers(ContactData* contactData, const std::vector<std::tstring> &otherwords, std::tstring& res, bool isQuestion);
-	std::tstring AllReplies(const std::tstring &incomingMessage, ContactData* contactData, Level &maxValue, std::multimap<Level, std::tstring> &mm);
+	bool FindExact(ContactData *contactData, const std::tstring &incomingMessage, const std::multimap<std::tstring, std::tstring> &map, std::tstring &res);
+	bool FindAny(ValueChooser<> &ch, std::tstring &res);
+	void FindByKeywords(ContactData *contactData, const std::vector<std::tstring> &keywords, std::tstring &res/*, std::tstring& ures*/, bool isQuestion);
+	bool FindByOthers(ContactData *contactData, const std::vector<std::tstring> &otherwords, std::tstring &res, bool isQuestion);
+	std::tstring AllReplies(const std::tstring &incomingMessage, ContactData *contactData, Level &maxValue, std::multimap<Level, std::tstring> &mm);
 	std::tstring ReplaceAliases(const std::tstring &message);
-	std::tstring ChooseResult(ContactData* contactData, Level maxValue, const std::multimap<Level, std::tstring> &mm);
-	void RecordAnswer(ContactData *contactData, const TalkBot::MessageInfo& info);
+	std::tstring ChooseResult(ContactData *contactData, Level maxValue, const std::multimap<Level, std::tstring> &mm);
+	void RecordAnswer(ContactData *contactData, const TalkBot::MessageInfo &info);
 #ifdef _DEBUG
 public:
 #endif
-	void SplitSectences(const std::tstring &incomingMessage, std::vector<std::tstring>& vec);
-	void SplitAndSortWords(std::tstring sentence, std::vector<std::tstring>& keywords,
+	void SplitSectences(const std::tstring &incomingMessage, std::vector<std::tstring> &vec);
+	void SplitAndSortWords(std::tstring sentence, std::vector<std::tstring> &keywords,
 		std::vector<std::tstring>& otherwords, bool& isQuestion);
 public:
 	TalkBot(const Mind& goodMind);
@@ -104,9 +103,9 @@ public:
 	void SetLowercase(const bool isLowercase);
 	void SetUnderstandAlways(const bool understandAlways);
 	//const MindData *GetData();
-	std::tstring GetInitMessage(void* contact);
-	MessageInfo* Reply(void* contact, const std::tstring incomingMessage, bool saveChoice);
-	void AnswerGiven(void* contact, const MessageInfo& info);
+	std::tstring GetInitMessage(HCONTACT contact);
+	MessageInfo* Reply(HCONTACT contact, const std::tstring incomingMessage, bool saveChoice);
+	void AnswerGiven(HCONTACT contact, const MessageInfo &info);
 };
 
 #endif

@@ -423,20 +423,14 @@ void	MTime::GetLocalTime(HCONTACT hContact)
  * read and write time to miranda's database
  *********************************************/
 
-int		MTime::DBGetStamp  (HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int MTime::DBGetStamp  (HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	DWORD dwTimeStamp;
-
-	if (hContact == INVALID_HANDLE_VALUE ||
-			pszModule == NULL || pszModule[0] == 0 ||
-			pszSetting == NULL || pszSetting[0] == 0)
-	{
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0) {
 		ZeroDate();
 		return 1;
 	}
 
-	dwTimeStamp = db_get_dw(hContact, pszModule, pszSetting, 0);
-
+	DWORD dwTimeStamp = db_get_dw(hContact, pszModule, pszSetting, 0);
 	if (dwTimeStamp == 0) {
 		ZeroDate();
 		return 1;
@@ -448,11 +442,8 @@ int		MTime::DBGetStamp  (HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 
 int MTime::DBWriteStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == INVALID_HANDLE_VALUE ||
-			pszModule == NULL || pszModule[0] == 0 ||
-			pszSetting == NULL || pszSetting[0] == 0)
-	{
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0)
 		return 1;
-	}
+
 	return db_set_dw(hContact, pszModule, pszSetting, TimeStamp());
 }

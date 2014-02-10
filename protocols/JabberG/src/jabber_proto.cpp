@@ -1276,7 +1276,7 @@ HANDLE __cdecl CJabberProto::GetAwayMsg(HCONTACT hContact)
 {
 	debugLogA("GetAwayMsg called, hContact=%08X", hContact);
 
-	ForkThread(&CJabberProto::GetAwayMsgThread, hContact);
+	ForkThread(&CJabberProto::GetAwayMsgThread, (void*)hContact);
 	return (HANDLE)1;
 }
 

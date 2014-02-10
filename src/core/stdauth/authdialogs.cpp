@@ -96,7 +96,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA, (LONG_PTR)hContact);
 
-			if (hContact == INVALID_HANDLE_VALUE || !db_get_b(hContact, "CList", "NotOnList", 0))
+			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || !db_get_b(hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 		}
 		return TRUE;
@@ -106,14 +106,14 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case IDC_ADD:
 		{
 			ADDCONTACTSTRUCT acs = {0};
-			acs.handle = hDbEvent;
+			acs.hDbEvent = hDbEvent;
 			acs.handleType = HANDLE_EVENT;
 			acs.szProto = "";
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 
 			HCONTACT hContact = (HCONTACT)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
-               if ((hContact == INVALID_HANDLE_VALUE) || !db_get_b(hContact, "CList", "NotOnList", 0))
-                  ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
+			if ((hContact == (HCONTACT)INVALID_HANDLE_VALUE) || !db_get_b(hContact, "CList", "NotOnList", 0))
+				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 			break;
 		}
 		case IDC_DETAILS:
@@ -126,7 +126,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case IDOK:
 		{
 			ADDCONTACTSTRUCT acs = {0};
-			acs.handle = hDbEvent;
+			acs.hDbEvent = hDbEvent;
 			acs.handleType = HANDLE_EVENT;
 			acs.szProto = "";
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 			SetDlgItemText(hwndDlg, IDC_REASON, reasonT);
 
-			if (hContact == INVALID_HANDLE_VALUE || !db_get_b(hContact, "CList", "NotOnList", 0))
+			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || !db_get_b(hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_DENYREASON, EM_LIMITTEXT, 255, 0);
@@ -250,7 +250,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ADDCHECK)) {
 					ADDCONTACTSTRUCT acs = {0};
-					acs.handle = hDbEvent;
+					acs.hDbEvent = hDbEvent;
 					acs.handleType = HANDLE_EVENT;
 					acs.szProto = "";
 					CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);

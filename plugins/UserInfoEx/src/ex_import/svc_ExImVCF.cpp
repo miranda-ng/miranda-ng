@@ -854,7 +854,7 @@ BYTE CVCardFileVCF::Open(HCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
 {
 	if (!(_pFile = fopen(pszFileName, pszMode)))
 		return FALSE;
-	if ((_hContact = hContact) == INVALID_HANDLE_VALUE)
+	if ((_hContact = hContact) == (HCONTACT)INVALID_HANDLE_VALUE)
 		return FALSE;
 	if (!(_pszBaseProto = DB::Contact::Proto(_hContact)))
 		return FALSE;

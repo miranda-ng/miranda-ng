@@ -846,7 +846,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 	Sleep(150);
 	tParam->proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE,
 		tParam->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-		(HCONTACT)tParam->id, LPARAM(tParam->msg));
+		(HANDLE)tParam->id, LPARAM(tParam->msg));
 
 	delete tParam;
 }

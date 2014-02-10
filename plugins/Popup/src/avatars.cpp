@@ -47,5 +47,5 @@ PopupAvatar *PopupAvatar::create(HCONTACT hContact)
 		}
 	}
 
-	return new SimpleAvatar(hContact);
+	return new SimpleAvatar((HANDLE)hContact);
 }

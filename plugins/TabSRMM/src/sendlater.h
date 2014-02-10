@@ -132,17 +132,17 @@ private:
    LIST<void> m_sendLaterContactList;
    LIST<CSendLaterJob> m_sendLaterJobList;
 
-	bool    m_fAvail;
-   bool    m_fIsInteractive;
-   bool    m_fErrorPopups;
-   bool    m_fSuccessPopups;
-   time_t  m_last_sendlater_processed;
-   int     m_currJob;
+	bool     m_fAvail;
+   bool     m_fIsInteractive;
+   bool     m_fErrorPopups;
+   bool     m_fSuccessPopups;
+   time_t   m_last_sendlater_processed;
+   int      m_currJob;
 
-   HWND    m_hwndDlg;
-   HWND    m_hwndList, m_hwndFilter;
-   HANDLE  m_hFilter;      // contact handle to filter the qmgr list (0 = no filter, show all)
-   LRESULT m_sel;         // index of the combo box entry corresponding to the contact filter;
+   HWND     m_hwndDlg;
+   HWND     m_hwndList, m_hwndFilter;
+   HCONTACT m_hFilter;      // contact handle to filter the qmgr list (0 = no filter, show all)
+   LRESULT  m_sel;          // index of the combo box entry corresponding to the contact filter;
 };
 
 extern CSendLater* sendLater;

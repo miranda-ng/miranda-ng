@@ -143,7 +143,7 @@ struct EVENT_DATAT
 
 struct PLUGIN_DATAT
 {
-	HANDLE       hContact;
+	HCONTACT     hContact;
 	UINT         eventType;
 	NEN_OPTIONS *pluginOptions;
 	POPUPDATAT  *pud;

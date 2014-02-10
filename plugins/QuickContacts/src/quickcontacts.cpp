@@ -571,15 +571,12 @@ HCONTACT GetSelectedContact(HWND hwndDlg)
 }
 
 // get array position from handle
-int GetItemPos(HANDLE hcontact)
+int GetItemPos(HCONTACT hcontact)
 {
-	int loop;
-
-	for(loop=0;loop<contacts.getCount();loop++)
-	{
-		if(hcontact==contacts[loop]->hcontact)
+	for(int loop=0; loop < contacts.getCount(); loop++)
+		if(hcontact == contacts[loop]->hcontact)
 			return loop;
-	}
+
 	return -1;
 }
 
@@ -819,12 +816,9 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			LoadContacts(hwndDlg, FALSE);
 
 			EnableButtons(hwndDlg, NULL);
-			if (db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0))
-			{
-				int pos = GetItemPos((HANDLE) db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1));
-
-				if (pos != -1)
-				{
+			if (db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0)) {
+				int pos = GetItemPos((HCONTACT)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1));
+				if (pos != -1) {
 					SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETCURSEL, (WPARAM) pos, 0);
 					EnableButtons(hwndDlg, contacts[pos]->hcontact);
 				}

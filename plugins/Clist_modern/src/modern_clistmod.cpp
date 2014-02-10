@@ -86,7 +86,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HCONTACT hContact)
 	if (hContact && szProto) {
 		char *szActProto = (char*)szProto;
 		int nActStatus = nStatus;
-		HANDLE hActContact = hContact;
+		HCONTACT hActContact = hContact;
 		if (!db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) && g_szMetaModuleName && !mir_strcmp(szActProto,g_szMetaModuleName)) {
 			// substitute params by mostonline contact datas
 			HCONTACT hMostOnlineContact = (HCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hActContact, 0);

@@ -87,13 +87,11 @@ TCHAR* GetContactUID(HCONTACT hContact)
 	return NULL;
 }
 
-void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact)
+void DialogAddContactExecute(HWND hwndDlg, HCONTACT hNewContact)
 {
 	ADDCONTACTSTRUCT acs = { 0 };
-
-	acs.handle = hNewContact;
+	acs.hContact = hNewContact;
 	acs.handleType = HANDLE_CONTACT;
-
 	CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 }
 

@@ -212,7 +212,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				}
 			}
 		}
-		else if (hContact == (HANDLE)-1) {	// create own picture - note, own avatars are not on demand, they are loaded once at
+		else if (hContact == (HCONTACT)-1) {	// create own picture - note, own avatars are not on demand, they are loaded once at
 			// startup and everytime they are changed.
 			if (szProto[0] == '\0') {
 				// Global avatar
@@ -274,7 +274,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
 
 		// Calc image hash
-		if (hContact != 0 && hContact != (HANDLE)-1) {
+		if (hContact != 0 && hContact != (HCONTACT)-1) {
 			// Have to reset settings? -> do it if image changed
 			DWORD imgHash = GetImgHash(ace->hbmPic);
 			if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
@@ -297,7 +297,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				}
 			}
 		}
-		else if (hContact == (HANDLE)-1) { // My avatars
+		else if (hContact == (HCONTACT)-1) { // My avatars
 			if (!noTransparency && !isTransparentImage
 				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
 				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0))
@@ -329,7 +329,7 @@ int CreateAvatarInCache(HCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 			protoPicCacheEntry *pAce = (protoPicCacheEntry *)ace;
 			if (hContact == 0)
 				pAce->dwFlags |= AVS_PROTOPIC;
-			else if (hContact == (HANDLE)-1)
+			else if (hContact == (HCONTACT)-1)
 				pAce->dwFlags |= AVS_OWNAVATAR;
 		}
 

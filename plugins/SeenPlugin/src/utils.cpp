@@ -502,7 +502,7 @@ void ShowPopup(HCONTACT hcontact, const char * lpzProto, int newStatus)
 	PUAddPopupT(&ppd);
 }
 
-void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus)
+void myPlaySound(HCONTACT hcontact, WORD newStatus, WORD oldStatus)
 {
 	if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
@@ -562,11 +562,11 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 		}
 		if ((cws->value.wVal|0x8000)<=ID_STATUS_OFFLINE)
 		{
-			char * proto;
 			// avoid repeating the offline status
 			if ((prevStatus|0x8000)<=ID_STATUS_OFFLINE)
 				return 0;
-			proto = GetContactProto(hContact);
+
+			char *proto = GetContactProto(hContact);
 			db_set_b(hContact, S_MOD, "Offline", 1);
 			{
 				DWORD t;
@@ -606,14 +606,14 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 
 			//db_set_w(hContact,S_MOD,"StatusTriger",(WORD)cws->value.wVal);
 
-			if ( db_get_b(NULL, S_MOD, "FileOutput", 0)) FileWrite(hContact);
+			if (db_get_b(NULL, S_MOD, "FileOutput", 0)) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
-			if ( db_get_b(NULL, S_MOD, "UsePopups", 0))
+			if (db_get_b(NULL, S_MOD, "UsePopups", 0))
 				if (prevStatus != cws->value.wVal)
 					ShowPopup(hContact, GetContactProto(hContact), cws->value.wVal|0x8000);
 
-			if ( db_get_b(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite(hContact);
-			if ( db_get_b(hContact, S_MOD, "OnlineAlert", 0)) ShowHistory(hContact, 1);
+			if (db_get_b(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite(hContact);
+			if (db_get_b(hContact, S_MOD, "OnlineAlert", 0)) ShowHistory(hContact, 1);
 			db_set_b(hContact, S_MOD, "Offline", 0);
 		}
 	}

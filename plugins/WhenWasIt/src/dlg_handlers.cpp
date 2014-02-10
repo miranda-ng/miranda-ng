@@ -757,7 +757,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			for (i = 0; (i < count) && (!found); i++) {
 				item.iItem = i;
 				ListView_GetItem(hList, &item);
-				if (hContact == (HANDLE) item.lParam) {
+				if (hContact == (HCONTACT)item.lParam) {
 					UpdateBirthdayEntry(hList, hContact, i, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 0); 
 					found = 1;
 				}
@@ -939,8 +939,8 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 DWORD WINAPI OpenMessageWindowThread(void *data)
 {
 	HCONTACT hContact = (HCONTACT)data;
-	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM) hContact, 0);
-	CallServiceSync("SRMsg/LaunchMessageWindow", (WPARAM) hContact, 0);
+	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+	CallServiceSync("SRMsg/LaunchMessageWindow", (WPARAM)hContact, 0);
 	return 0;
 }
 
@@ -952,7 +952,7 @@ int HandlePopupClick(HWND hWnd, int action)
 			HCONTACT hContact = (HCONTACT)PUGetContact(hWnd);
 			if (hContact) {
 				DWORD threadID;
-				HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, 0, &threadID);
+				HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, 0, &threadID);
 			}
 		}//fallthrough
 

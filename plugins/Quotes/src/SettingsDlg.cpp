@@ -268,7 +268,7 @@ namespace
 		{
 		case WM_INITDIALOG:
 			{
-				HCONTACT hContact = reinterpret_cast<HCONTACT>(lp);
+				HCONTACT hContact = HCONTACT(lp);
 				TranslateDialogDefault(hWnd);
 
 				HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS,false);
@@ -519,7 +519,7 @@ void ShowSettingsDlg(HCONTACT hContact)
 	}
 	else
 	{
-		CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_CONTACT_SETTINGS),NULL,EditSettingsPerContactDlgProc,reinterpret_cast<LPARAM>(hContact));
+		CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_CONTACT_SETTINGS),NULL,EditSettingsPerContactDlgProc, LPARAM(hContact));
 	}
 }
 

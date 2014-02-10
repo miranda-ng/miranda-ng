@@ -49,7 +49,8 @@ ConnContext * otrl_context_find_miranda(OtrlUserState us, HCONTACT hContact)
 	ConnContext ** curp;
 	if (!hContact) return NULL;
 	for (curp = &(us->context_root); *curp; curp = &((*curp)->next)) {
-		if ((*curp)->app_data == hContact ) return *curp;
+		if ((*curp)->app_data == (void*)hContact)
+			return *curp;
 	}
 	return NULL;
 }

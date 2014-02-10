@@ -5,14 +5,14 @@
 
 class SpeakAnnounce
 {
-  public:
+public:
 	SpeakAnnounce(HINSTANCE instance);
 	~SpeakAnnounce();
 
 	//--------------------------------------------------------------------------
 	// Description : handle a status change
 	//--------------------------------------------------------------------------
-	void statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE user);
+	void statusChange(DBCONTACTWRITESETTING *write_setting, HCONTACT user);
 
 	//--------------------------------------------------------------------------
 	// Description : handle an event
@@ -22,33 +22,32 @@ class SpeakAnnounce
 	//--------------------------------------------------------------------------
 	// Description : handle a protocol state change
 	//--------------------------------------------------------------------------
-    void protocolAck(ACKDATA *ack);
+	void protocolAck(ACKDATA *ack);
 
 	//--------------------------------------------------------------------------
 	// Description : speak a sentence
 	// Parameters  : sentence - the sentence to speak
-    //               user - the user who is speaking, or NULL for no user
+	//               user - the user who is speaking, or NULL for no user
 	// Returns     : true - speak successful
 	//               false - speak failed
 	//--------------------------------------------------------------------------
-    void message(const std::wstring &sentence, HANDLE user);
-	void status(const std::wstring &sentence, HANDLE user);
+	void message(const std::wstring &sentence, HCONTACT user);
+	void status(const std::wstring &sentence, HCONTACT user);
 
-  private:
+private:
 	//--------------------------------------------------------------------------
 	// Description : check if the users message window is open and focused
 	// Parameters  : contact - the user to check for
 	// Returns     : true = message window is open
 	//               false = message window not open
 	//--------------------------------------------------------------------------
-    bool readMessage(HANDLE contact);
+	bool readMessage(HCONTACT contact);
 
-    HINSTANCE           m_instance;
+	HINSTANCE           m_instance;
 
 	AnnounceDatabase    m_db;
-    AnnounceDialog      m_dialog;
-    UserInformation     m_user_info;
+	AnnounceDialog      m_dialog;
+	UserInformation     m_user_info;
 	EventInformation    m_event_info;
-    ProtocolInformation m_protocol_info;
+	ProtocolInformation m_protocol_info;
 };
-

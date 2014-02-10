@@ -159,7 +159,7 @@ void SaveOptions() {
 extern "C" void set_context_contact(void *data, ConnContext *context)
 {
 	HCONTACT hContact = find_contact(context->username, context->protocol);
-	context->app_data = hContact;
+	context->app_data = (void*)hContact;
 }
 
 void ReadPrivkeyFiles() {

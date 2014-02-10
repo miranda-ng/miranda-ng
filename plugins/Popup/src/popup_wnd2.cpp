@@ -1078,7 +1078,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 	case UM_AVATARCHANGED:
-		if ((HANDLE)wParam == m_hContact)
+		if ((HCONTACT)wParam == m_hContact)
 		{
 			m_avatar->invalidate();
 			update();
@@ -1142,7 +1142,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		case ACT_DEF_ADD:
 			{
 				ADDCONTACTSTRUCT acs = {0};
-				acs.handle = m_hContact;
+				acs.hContact = m_hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;
 				CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);

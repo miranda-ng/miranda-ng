@@ -1035,7 +1035,7 @@ retry:
 				{
 					struct gg_dcc7 *dcc7 = e->event.dcc7_new;
 					debugLogA("mainthread() (%x): Incoming direct connection.", this);
-					dcc7->contact = getcontact(dcc7->peer_uin, 0, 0, NULL);
+					dcc7->contact = (void*)getcontact(dcc7->peer_uin, 0, 0, NULL);
 
 					// Check if user is on the list and if it is my uin
 					if (!dcc7->contact || getDword(GG_KEY_UIN, -1) != dcc7->uin) {

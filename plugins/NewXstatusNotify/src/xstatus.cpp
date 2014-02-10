@@ -449,7 +449,7 @@ int OnWindowEvent(WPARAM wParam, LPARAM lParam)
 	   (templates.LogFlags & NOTIFY_OPENING_ML) &&
 	   (db_get_b(mwed->hContact, MODULE, "EnableLogging", 1) == 1))
 	{
-		mir_forkthread(AddEventThread, mwed->hContact);
+		mir_forkthread(AddEventThread, (void*)mwed->hContact);
 	}
 
 	return 0;

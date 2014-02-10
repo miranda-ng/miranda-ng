@@ -316,7 +316,7 @@ void fnDeleteItemFromTree(HWND hwnd, HCONTACT hItem)
 	struct ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
 
 	dat->needsResort = 1;
-	if (!cli.pfnFindItem(hwnd, dat, hItem, &contact, &group, NULL)) {
+	if (!cli.pfnFindItem(hwnd, dat, (HANDLE)hItem, &contact, &group, NULL)) {
 		DBVARIANT dbv;
 		int i, nameOffset;
 		if (!IsHContactContact(hItem))
@@ -569,7 +569,7 @@ void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 			group->scanIndex++;
 		}
 		if (hSelItem)
-			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+			if (cli.pfnFindItem(hwnd, dat, (HANDLE)hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 
 		cli.pfnRecalcScrollBar(hwnd, dat);
@@ -685,7 +685,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		if (saveInfo[i].parentId == -1)
 			group = &dat->list;
 		else {
-			if (!cli.pfnFindItem(hwnd, dat, (HCONTACT)(saveInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
+			if (!cli.pfnFindItem(hwnd, dat, (HANDLE)(saveInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}

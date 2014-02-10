@@ -211,7 +211,7 @@ void exportDB(HCONTACT hContact, char* module) // hContact == -1 export entire d
 		SetCursor(LoadCursor(NULL,IDC_WAIT));
 
 		// exporting entire db
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		{
 			hContact = NULL;
 
@@ -403,7 +403,7 @@ void importSettings(HCONTACT hContact, char *importstring )
 				}
 			}
 
-			if (hContact == INVALID_HANDLE_VALUE)
+			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			{
 				HCONTACT temp = (HCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				if (temp)

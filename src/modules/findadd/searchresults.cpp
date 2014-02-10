@@ -368,9 +368,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	switch(commandId) {
 		case IDC_ADD:
 		{
-			ADDCONTACTSTRUCT acs;
-
-			acs.handle = NULL;
+			ADDCONTACTSTRUCT acs = { 0 };
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = lsr->szProto;
 			acs.psr = &lsr->psr;

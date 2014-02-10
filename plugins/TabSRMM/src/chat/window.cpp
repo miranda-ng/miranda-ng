@@ -3332,7 +3332,7 @@ LABEL_SHOWWINDOW:
 
 	case DM_QUERYHCONTACT:
 		if (lParam)
-			*(HANDLE*)lParam = dat->hContact;
+			*(HCONTACT*)lParam = dat->hContact;
 		return 0;
 
 	case GC_CLOSEWINDOW:

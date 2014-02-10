@@ -216,7 +216,7 @@ HICON   cliGetIconFromStatusMode(HCONTACT hContact, const char *szProto,int stat
 HICON   GetMainStatusOverlay(int STATUS);                                       //clc.c
 int     __fastcall CLVM_GetContactHiddenStatus(HCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
 int     BgStatusBarChange(WPARAM wParam,LPARAM lParam);                              //clcopts.c
-int     ClcDoProtoAck(HANDLE wParam,ACKDATA * ack);                                 //clc.c
+int     ClcDoProtoAck(HCONTACT wParam, ACKDATA *ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
 int     GetContactCachedStatus(HCONTACT hContact);                                 //clistsettings.c
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c

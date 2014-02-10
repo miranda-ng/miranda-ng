@@ -156,19 +156,13 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 					HCONTACT hContact = (HCONTACT)hwndMsg.wParam;
 					TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
 
-					if (opt.bWaitForContent &&
-						bStatusMsgReady == false &&
-						clcitex &&
-						clcitex->hItem == hContact)
-					{
-						if (WaitForContentTimerID)
-						{
+					if (opt.bWaitForContent && bStatusMsgReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
+						if (WaitForContentTimerID) {
 							KillTimer(0, WaitForContentTimerID);
 							WaitForContentTimerID = 0;
 						}
 
-						if (swzMsg)
-						{
+						if (swzMsg) {
 							db_set_ts((HCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
 							mir_free(swzMsg);
 						}
@@ -192,11 +186,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				case MUM_GOTAVATAR:
 				{
 					HCONTACT hContact = (HCONTACT)hwndMsg.wParam;
-
-					if (opt.bWaitForContent &&
-						bAvatarReady == false &&
-						clcitex &&
-						clcitex->hItem == hContact)
+					if (opt.bWaitForContent && bAvatarReady == false && clcitex && clcitex->hItem == (HANDLE)hContact)
 					{
 						if (WaitForContentTimerID)
 						{

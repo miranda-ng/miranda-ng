@@ -31,7 +31,7 @@ static BOOL bOptionsInit;
 int opses_count;
 BOOL bSesssionNameChanged=0;
 
-HANDLE session_list_t[255]={0};
+HCONTACT session_list_t[255]={0};
 
 HWND g_opHdlg;
 

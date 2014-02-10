@@ -225,7 +225,7 @@ char *oauth_generate_nonce()
 	mir_snprintf(timestamp, sizeof(timestamp), "%ld", time(NULL)); 
 	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
 
-	int strSizeB = strlen(timestamp) + sizeof(randnum);
+	int strSizeB = int(strlen(timestamp) + sizeof(randnum));
 	ptrA str((char *)mir_calloc(strSizeB + 1));
 	strcpy(str, timestamp);
 	strncat(str, randnum, sizeof(randnum));

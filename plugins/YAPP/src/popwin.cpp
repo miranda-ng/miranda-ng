@@ -566,7 +566,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_GETCONTACT:
 		{
-			HANDLE *phContact = (HANDLE*)wParam;
+			HCONTACT *phContact = (HCONTACT*)wParam;
 			*phContact = pd->hContact;
 			if (lParam)
 				SetEvent((HANDLE)lParam);

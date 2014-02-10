@@ -46,7 +46,7 @@ public:
 	// Set's the chat contact
 	bool SetContact(HCONTACT hContact);
 	// returns the chat contact
-	HANDLE GetContact();
+	HCONTACT GetContact();
 	
 	// returns wether the input mode is active
 	bool IsInputActive();

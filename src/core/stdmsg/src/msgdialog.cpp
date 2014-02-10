@@ -1308,7 +1308,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case HM_DBEVENTADDED:
-		if ((HANDLE)wParam == dat->hContact) {
+		if ((HCONTACT)wParam == dat->hContact) {
 			HANDLE hDbEvent = (HANDLE)lParam;
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;
@@ -1531,7 +1531,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_ADD:
 			{
 				ADDCONTACTSTRUCT acs = { 0 };
-				acs.handle = dat->hContact;
+				acs.hContact = dat->hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM) hwndDlg, (LPARAM) & acs);

@@ -708,7 +708,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 		}
 		case DM_AVATARCHANGED:
 		{
-			if (data->hContact == (HANDLE) wParam)
+			if (data->hContact == (HCONTACT)wParam)
 			{
 				DestroyAnimation(hwnd, data);
 				StartAnimation(hwnd, data);

@@ -29,24 +29,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CFileXml {
 	friend class CExImContactXML;
 
-	DWORD		_numContactsTodo;
-	DWORD		_numContactsDone;
-	DWORD		_numSettingsTodo;
-	DWORD		_numSettingsDone;
-	DWORD		_numEventsTodo;
-	DWORD		_numEventsDone;
-	DWORD		_numEventsDuplicated;
+	DWORD	_numContactsTodo;
+	DWORD	_numContactsDone;
+	DWORD	_numSettingsTodo;
+	DWORD	_numSettingsDone;
+	DWORD	_numEventsTodo;
+	DWORD _numEventsDone;
+	DWORD _numEventsDuplicated;
 
-	HANDLE		_hContactToWorkOn;	// contact to ex/import (NULL=owner|INVALID_HANDLE_VALUE=all|HADNLE=one user)
+	HCONTACT _hContactToWorkOn;	// contact to ex/import (NULL=owner|INVALID_HANDLE_VALUE=all|HADNLE=one user)
 
-	WORD		_wExport;
+	WORD _wExport;
 
-	CProgress	_progress;
+	CProgress _progress;
 
-	int		ImportOwner(TiXmlElement* xmlContact);
-	int		ImportContacts(TiXmlElement* xmlParent);
+	int ImportOwner(TiXmlElement* xmlContact);
+	int ImportContacts(TiXmlElement* xmlParent);
 	
-	DWORD	CountContacts(TiXmlElement* xmlParent);
+	DWORD CountContacts(TiXmlElement* xmlParent);
 
 	/*
 	int ExportOwner(FILE *xmlfile, BYTE bExportEvents);
@@ -56,8 +56,8 @@ class CFileXml {
 
 public:
 	CFileXml();
-	int		Import(HCONTACT hContact, LPCSTR pszFileName);
-	int		Export(lpExImParam ExImContact, LPCSTR pszFileName);
+	int Import(HCONTACT hContact, LPCSTR pszFileName);
+	int Export(lpExImParam ExImContact, LPCSTR pszFileName);
 };
 
 #endif /* _SVC_FILEXML_INCLUDED_ */

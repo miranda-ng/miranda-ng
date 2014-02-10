@@ -723,7 +723,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 
 			fTipActive = TRUE;
 			ti.isGroup = 0;
-			ti.hItem = hContact;
+			ti.hItem = (HANDLE)hContact;
 			ti.isTreeFocused = 0;
 			CallService("mToolTip/ShowTip", 0, (LPARAM)&ti);
 		}

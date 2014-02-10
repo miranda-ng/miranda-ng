@@ -458,7 +458,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 			db_unset(hContact, "CList", "Hidden");
-			chatRooms.insert(hContact);
+			chatRooms.insert((HANDLE)hContact);
 		}
 		else UpdateSubscriptionInfo(hContact, item);
 

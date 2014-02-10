@@ -23,34 +23,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 HANDLE CListFindGroup(LPCSTR pszGroup);
 
-class CExImContactBase {
-	BYTE		compareUID(DBVARIANT *dbv);
+class CExImContactBase
+{
+	BYTE compareUID(DBVARIANT *dbv);
 
 protected:
-	LPSTR		_pszNick;		// utf8 encoded
-	LPSTR		_pszDisp;		// utf8 encoded
-	LPSTR		_pszGroup;		// utf8 encoded
-	LPSTR		_pszAMPro;
-	LPSTR		_pszProto;
-	LPSTR		_pszProtoOld;
-	LPSTR		_pszUIDKey;
-	DWORD		_dbvUIDHash;
-	DBVARIANT	_dbvUID;
-	HCONTACT	_hContact;
-	BYTE		_isNewContact;	// is this contact a new one?
+	LPSTR _pszNick;		// utf8 encoded
+	LPSTR _pszDisp;		// utf8 encoded
+	LPSTR _pszGroup;		// utf8 encoded
+	LPSTR _pszAMPro;
+	LPSTR _pszProto;
+	LPSTR _pszProtoOld;
+	LPSTR _pszUIDKey;
+	DWORD _dbvUIDHash;
+	DBVARIANT _dbvUID;
+	HCONTACT _hContact;
+	BYTE _isNewContact;	// is this contact a new one?
 
-	HANDLE		findHandle();
+	HCONTACT findHandle();
 
 public:
 	CExImContactBase();
 	~CExImContactBase();
 
-//	__inline LPCSTR disp() const	{ return mir_strcmp(_pszDisp,"")? _pszDisp : NULL;		}
-//	__inline LPCSTR group() const	{ return mir_strcmp(_pszGroup,"")? _pszGroup : NULL;	}
-//	__inline LPCSTR nick() const	{ return mir_strcmp(_pszNick,"")? _pszNick : NULL;		}
-//	__inline LPCSTR proto() const	{ return mir_strcmp(_pszProto,"")? _pszProto : NULL;	}
-//	__inline LPCSTR ampro() const	{ return mir_strcmp(_pszAMPro,"")? _pszAMPro : NULL;	}
-//	__inline LPCSTR uidk() const	{ return mir_strcmp(_pszUIDKey,"")? _pszUIDKey : NULL;	}
 	__inline DBVARIANT& uid()		{ return _dbvUID;	}
 	__inline HCONTACT handle() const { return _hContact; }
 	

@@ -150,7 +150,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 			return 1;
 	}
 	else {
-		SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)wParam);
+		SESSION_INFO *si = SM_FindSessionByHCONTACT((HCONTACT)wParam);
 		if (si == NULL || si->hWnd == 0 || (pContainer = si->pContainer) == NULL || pContainer->hwndActive != si->hWnd)
 			return 1;
 	}

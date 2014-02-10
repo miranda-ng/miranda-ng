@@ -811,14 +811,13 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 		case WM_INITDIALOG:	
 		{
 			HCONTACT hContact;
-			char *szProto;
 
 			if (!db_get_s((HCONTACT)lParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 
 				// Check, if another call is in progress
 				for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-					szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
-					if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact!=(HANDLE)lParam &&
+					char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+					if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact != (HCONTACT)lParam &&
 						db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0 &&
 						!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv2)) 
 					{

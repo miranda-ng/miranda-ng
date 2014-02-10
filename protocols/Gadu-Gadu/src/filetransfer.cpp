@@ -381,7 +381,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							// Add file recv request
 							{
 								// Make new ggtransfer struct
-								local_dcc->contact = getcontact(local_dcc->peer_uin, 0, 0, NULL);
+								local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, NULL);
 								TCHAR* filenameT = mir_utf8decodeT((char*)dcc->file_info.filename);
 
 								PROTORECVFILET pre = {0};
@@ -952,7 +952,7 @@ HANDLE GGPROTO::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROT
 		list_add(&watches, dcc7, 0);
 
 		// Store handle
-		dcc7->contact = hContact;
+		dcc7->contact = (void*)hContact;
 		dcc7->folder = _strdup(filename);
 		dcc7->tick = 0;
 		// Make folder name
@@ -1006,7 +1006,7 @@ HANDLE GGPROTO::SendFile(HCONTACT hContact, const PROTOCHAR* szDescription, PROT
 	if (dcc->fd != -1) list_add(&watches, dcc, 0);
 
 	// Store handle
-	dcc->contact = hContact;
+	dcc->contact = (void*)hContact;
 	dcc->folder = _strdup(filename);
 	dcc->tick = 0;
 	// Make folder name

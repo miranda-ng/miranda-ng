@@ -89,7 +89,7 @@ __inline static INT_PTR logservice_register(char *szID, TCHAR *tszTitle, TCHAR *
 typedef struct {
 	int cbSize; // sizeof(LS_MSGINFO)
 	char *szID;
-	HANDLE hContact; // may be NULL if no contact is associated with the message
+	HCONTACT hContact; // may be NULL if no contact is associated with the message
 	union
 	{
 		char *szMsg; // the message
@@ -106,7 +106,7 @@ typedef struct {
 // returns 0 on success
 #define MS_LOGSERVICE_LOG "LogService/Log"
 
-__inline static INT_PTR logservice_log(char *szID, HANDLE hContact, TCHAR *tszMsg)
+__inline static INT_PTR logservice_log(char *szID, HCONTACT hContact, TCHAR *tszMsg)
 {
 	LS_MSGINFO mi;
 	ZeroMemory(&mi, sizeof(LS_MSGINFO));
@@ -131,7 +131,7 @@ __inline static INT_PTR logservice_log(char *szID, HANDLE hContact, TCHAR *tszMs
 typedef struct {
 	int cbSize; // [in]; sizeof(LS_LOGINFO)
 	char *szID; // [in]
-	HANDLE hContact; // [in]; may be NULL
+	HCONTACT hContact; // [in]; may be NULL
 	union
 	{
 		char *szLogPath; // [in]; pointer to a string to receive log file name, including full path. May be NULL. The string must be at least MAX_PATH characters long

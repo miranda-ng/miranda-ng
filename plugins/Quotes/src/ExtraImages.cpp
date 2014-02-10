@@ -47,7 +47,7 @@ bool CExtraImages::SetContactExtraImage(HCONTACT hContact,EImageIndex nIndex)con
 
 int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
+	HCONTACT hContact = HCONTACT(wp);
 
 	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 	CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);

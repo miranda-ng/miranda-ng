@@ -790,7 +790,8 @@ static int GetContactHandle(WPARAM wparam,LPARAM lParam)
 		if (g_bCrashRecovery) db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 1);
 	}
 	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
-		if (!DONT) DelFromCurSession(MWeventdata->hContact,0);
+		if (!DONT)
+			DelFromCurSession(MWeventdata->hContact,0);
 		if (g_bCrashRecovery) db_set_b(MWeventdata->hContact, MODNAME, "wasInLastSession", 0);
 	}
 

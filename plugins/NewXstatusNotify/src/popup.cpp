@@ -77,7 +77,7 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 void PopupAction(HWND hWnd, BYTE action)
 {
 	HCONTACT hContact = PUGetContact(hWnd);
-	if (hContact && hContact != INVALID_HANDLE_VALUE) {
+	if (hContact && hContact != (HCONTACT)INVALID_HANDLE_VALUE) {
 		switch (action) {
 		case PCA_OPENMESSAGEWND:
 			CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);

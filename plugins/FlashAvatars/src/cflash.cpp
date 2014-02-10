@@ -477,13 +477,13 @@ static int statusChanged(WPARAM wParam, LPARAM lParam)
 	Lock l(cs);
 	for(int i = 0; i < FlashList.getCount(); i++) {
 		flash_avatar_item *item = FlashList[i];
-		if (item->hContact == (HANDLE)wParam) {
+		if (item->hContact == (HCONTACT)wParam) {
   		IShockwaveFlash* flash = item->pFlash;
 			if (flash) {
 				getFace();
 				flash->SetVariable(L"face.emotion", _bstr_t(face).copy());
 			}
-		} else if (item->hContact > (HANDLE)wParam)
+		} else if (item->hContact > (HCONTACT)wParam)
 			break; // the list is sorted by hContact
 	}
 	return 0;

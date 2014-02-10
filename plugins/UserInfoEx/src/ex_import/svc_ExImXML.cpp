@@ -139,7 +139,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		}
 		else {
 			// other export mode
-			_hContactToWorkOn = INVALID_HANDLE_VALUE;
+			_hContactToWorkOn = (HCONTACT)INVALID_HANDLE_VALUE;
 #ifdef _DEBUG
 			LARGE_INTEGER freq, t1, t2;
 
@@ -265,8 +265,8 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 				switch (result) {
 					case ERROR_OK:
 						// init contact class and import if matches the user desires
-						if (_hContactToWorkOn == INVALID_HANDLE_VALUE || vContact.handle() == _hContactToWorkOn) {
-							result = vContact.Import(_hContactToWorkOn != INVALID_HANDLE_VALUE);
+						if (_hContactToWorkOn == (HCONTACT)INVALID_HANDLE_VALUE || vContact.handle() == _hContactToWorkOn) {
+							result = vContact.Import(_hContactToWorkOn != (HCONTACT)INVALID_HANDLE_VALUE);
 							switch (result) {
 								case ERROR_OK:
 									_numContactsDone++;
@@ -295,7 +295,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 			if (pszNick) mir_free(pszNick);
 		}
 		// import owner contact
-		else if (_hContactToWorkOn == INVALID_HANDLE_VALUE && !mir_stricmp(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
+		else if (_hContactToWorkOn == (HCONTACT)INVALID_HANDLE_VALUE && !mir_stricmp(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
 			result = vContact.Import();
 			switch (result) {
 				case ERROR_OK:

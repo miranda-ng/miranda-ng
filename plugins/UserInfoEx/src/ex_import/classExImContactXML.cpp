@@ -207,7 +207,7 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 	if (!xmlfile) 
 		return ERROR_INVALID_PARAMS;
 
-	if (_hContact == INVALID_HANDLE_VALUE)
+	if (_hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		return ERROR_INVALID_CONTACT;
 
 	if (!CreateXmlElement()) 
@@ -510,7 +510,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			CExImContactXML vSub(_pXmlFile);
 			if (vSub = xSub) {
 				// identify metacontact by the first valid subcontact in xmlfile
-				if (_hContact == INVALID_HANDLE_VALUE && vSub.handle() != INVALID_HANDLE_VALUE) {
+				if (_hContact == (HCONTACT)INVALID_HANDLE_VALUE && vSub.handle() != (HCONTACT)INVALID_HANDLE_VALUE) {
 					HCONTACT hMeta = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)vSub.handle(), NULL);
 					if (hMeta != NULL) {
 						_hContact = hMeta;
@@ -520,7 +520,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			}
 		}
 		// if no handle was found, this is a new meta contact
-		_isNewContact = _hContact == INVALID_HANDLE_VALUE;
+		_isNewContact = _hContact == (HCONTACT)INVALID_HANDLE_VALUE;
 	}
 	// entry is a default contact
 	else {
@@ -588,7 +588,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 int CExImContactXML::ImportContact()
 {
 	// create the contact if not yet exists
-	if (toDB() != INVALID_HANDLE_VALUE) {
+	if (toDB() != (HCONTACT)INVALID_HANDLE_VALUE) {
 		_hEvent = NULL;
 
 		// count settings and events and init progress dialog
@@ -736,7 +736,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 		return err;
 
 	// check if contact is subcontact of the desired meta contact
-	if ((HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)_hContact, NULL) != pMetaContact->handle()) {
+	if ((HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)_hContact, NULL) != pMetaContact->handle()) {
 		// add contact to the metacontact (this service returns TRUE if successful)	
 		err = CallService(MS_MC_ADDTOMETA, (WPARAM)_hContact, (LPARAM)pMetaContact->handle());
 		if (err == FALSE) {

@@ -140,11 +140,9 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case VARM_SETSUBJECT: {
 		LPARAM res = 0;
-		HCONTACT hContact, hItem;
-
-		hContact = (HCONTACT)wParam;
+		HCONTACT hItem, hContact = (HCONTACT)wParam;
 		log_debugA("VARM_SETSUBJECT: %u", hContact);
-		if (hContact == INVALID_HANDLE_VALUE) {
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 			TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
 			log_debugA("VARM_SETSUBJECT: %s", tszContact);
 			if (tszContact != NULL) {
@@ -153,7 +151,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				mir_free(tszContact);
 		}	}
 
-		if ((hContact != INVALID_HANDLE_VALUE) && (hContact != NULL))
+		if ((hContact != (HCONTACT)INVALID_HANDLE_VALUE) && (hContact != NULL))
 			hItem = (HCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		else
 			hItem = NULL;

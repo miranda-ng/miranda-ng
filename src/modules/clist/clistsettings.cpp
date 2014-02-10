@@ -104,7 +104,7 @@ ClcCacheEntry* fnGetCacheEntry(HCONTACT hContact)
 
 void fnInvalidateDisplayNameCacheEntry(HCONTACT hContact)
 {
-	if (hContact == INVALID_HANDLE_VALUE) {
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 		FreeDisplayNameCache();
 		InitDisplayNameCache();
 		SendMessage(cli.hwndContactTree, CLM_AUTOREBUILD, 0, 0);

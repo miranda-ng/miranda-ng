@@ -392,7 +392,7 @@ INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (state == 1)
 	{
-		ForkThread(&CAimProto::avatar_request_thread, AI->hContact);
+		ForkThread(&CAimProto::avatar_request_thread, (void*)AI->hContact);
 		return GAIR_WAITFOR;
 	}
 

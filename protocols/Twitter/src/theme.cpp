@@ -68,7 +68,7 @@ static TwitterProto * GetInstanceByHContact(HCONTACT hContact)
 template<INT_PTR (__cdecl TwitterProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
-	TwitterProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	TwitterProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
@@ -76,7 +76,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
 	ShowContactMenus(false);
 
-	TwitterProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	TwitterProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 

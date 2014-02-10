@@ -810,11 +810,11 @@ int __cdecl CIrcProto::SendMsg(HCONTACT hContact, int flags, const char* pszSrc)
 	BYTE bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (bDcc && wStatus != ID_STATUS_ONLINE) {
-		ForkThread(&CIrcProto::AckMessageFailDcc, hContact);
+		ForkThread(&CIrcProto::AckMessageFailDcc, (void*)hContact);
 		return 0;
 	}
 	if (!bDcc && (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)) {
-		ForkThread(&CIrcProto::AckMessageFail, hContact);
+		ForkThread(&CIrcProto::AckMessageFail, (void*)hContact);
 		return 0;
 	}
 

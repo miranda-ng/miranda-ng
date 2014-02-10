@@ -212,10 +212,8 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_ADD:
 			{
 				ADDCONTACTSTRUCT acs = {0};
-
-				acs.handle = dat->hContact;
+				acs.hContact = dat->hContact;
 				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = 0;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 			}
 			if ( !db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
@@ -608,7 +606,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_ADD:
 			ADDCONTACTSTRUCT acs = {0};
-			acs.handle = dat->hContact;
+			acs.hContact = dat->hContact;
 			acs.handleType = HANDLE_CONTACT;
 			acs.szProto = 0;
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);

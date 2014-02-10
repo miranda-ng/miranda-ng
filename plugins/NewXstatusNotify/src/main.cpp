@@ -694,7 +694,7 @@ void BlinkIcon(HCONTACT hContact, char* szProto, WORD status)
 	cle.cbSize = sizeof(cle);
 	cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 	cle.hContact = hContact;
-	cle.hDbEvent = hContact;
+	cle.hDbEvent = (HANDLE)hContact;
 	cle.hIcon = (opt.BlinkIcon_Status ? LoadSkinnedProtoIcon(szProto, status) : LoadSkinnedIcon(SKINICON_OTHER_USERONLINE));
 	cle.pszService = "UserOnline/Description";
 	cle.ptszTooltip = stzTooltip;

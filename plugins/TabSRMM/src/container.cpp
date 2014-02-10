@@ -1199,7 +1199,7 @@ panel_found:
 			else {
 				HWND hwnd = M.FindWindow((HCONTACT)wParam);
 				if (hwnd == 0) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)wParam);
+					SESSION_INFO *si = SM_FindSessionByHCONTACT((HCONTACT)wParam);
 					if (si) {
 						SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
 						return 0;

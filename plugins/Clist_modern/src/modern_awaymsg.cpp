@@ -48,10 +48,10 @@ static DWORD   amRequestTick = 0;
 static int amAddHandleToChain(HCONTACT hContact)
 {
 	mir_cslockfull lck(amCS);
-	if (amItems.find(hContact) != NULL)
+	if (amItems.find((HANDLE)hContact) != NULL)
 		return 0;
 
-	amItems.insert(hContact);
+	amItems.insert((HANDLE)hContact);
 	lck.unlock();
 	SetEvent(hamProcessEvent);
 	return 1;

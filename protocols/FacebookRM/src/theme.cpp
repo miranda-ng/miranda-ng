@@ -69,7 +69,7 @@ static FacebookProto * GetInstanceByHContact(HCONTACT hContact)
 template<INT_PTR (__cdecl FacebookProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
-	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	FacebookProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
 }
 
@@ -78,7 +78,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
 		Menu_ShowItem(g_hContactMenuItems[i], false);
 
-	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HCONTACT>(wParam));
+	FacebookProto *proto = GetInstanceByHContact(HCONTACT(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 
@@ -152,7 +152,7 @@ void UninitContactMenus()
 
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = HCONTACT(wParam);
 	bool bIsChatroom = isChatRoom(hContact);
 
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);

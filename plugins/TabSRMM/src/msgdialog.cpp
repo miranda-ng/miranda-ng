@@ -2547,7 +2547,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case HM_DBEVENTADDED:
 		if (!dat)
 			return 0;
-		if ((HANDLE)wParam != dat->hContact)
+		if ((HCONTACT)wParam != dat->hContact)
 			return 0;
 		if (dat->hContact == NULL)
 			return 0;
@@ -2693,7 +2693,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_QUERYHCONTACT:
 		{
-			HANDLE *phContact = (HANDLE*) lParam;
+			HCONTACT *phContact = (HCONTACT*)lParam;
 			if (phContact)
 				*phContact = dat->hContact;
 		}
@@ -3084,7 +3084,7 @@ quote_from_last:
 		case IDC_ADD:
 			{
 				ADDCONTACTSTRUCT acs = {0};
-				acs.handle = dat->hContact;
+				acs.hContact = dat->hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);

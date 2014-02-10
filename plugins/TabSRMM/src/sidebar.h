@@ -74,7 +74,7 @@ public:
    const bool            isTopAligned() const { return(m_isTopAligned); }
    const HWND            getHwnd() const { return(m_hwnd); }
    const UINT            getID() const { return(m_id); }
-   const HANDLE          getContactHandle() const { return(m_dat->hContact); }
+   const HCONTACT        getContactHandle() const { return(m_dat->hContact); }
    const TWindowData*    getDat() const { return(m_dat); }
    const TSideBarLayout* getLayout() const { return(m_sideBarLayout); }
 

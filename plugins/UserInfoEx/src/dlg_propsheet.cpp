@@ -986,15 +986,15 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				: pPs->pTree->CurrentItem();
 
 			// prefer to return the contact accociated with the current page
-			if (pti && pti->hContact() != INVALID_HANDLE_VALUE) {
-				*(HANDLE*)lParam = pti->hContact();
+			if (pti && pti->hContact() != (HCONTACT)INVALID_HANDLE_VALUE) {
+				*(HCONTACT*)lParam = pti->hContact();
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pti->hContact());
 				return TRUE;
 			}
 
 			// return contact who owns the details dialog
-			if (pPs->hContact != INVALID_HANDLE_VALUE) {
-				*(HANDLE*)lParam = pPs->hContact;
+			if (pPs->hContact != (HCONTACT)INVALID_HANDLE_VALUE) {
+				*(HCONTACT*)lParam = pPs->hContact;
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pPs->hContact);
 				return TRUE;
 			}
@@ -1362,7 +1362,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (hContact != pPs->hContact) {
 				if (!myGlobals.szMetaProto)
 					break;
-				if (pPs->hContact != (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL))
+				if (pPs->hContact != (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL))
 					break;
 				if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))
 					break;

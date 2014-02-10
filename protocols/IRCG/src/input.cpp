@@ -555,7 +555,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, HCONTACT hConta
 			return true;
 
 		CONTACT user = { (TCHAR*)one.c_str(), NULL, NULL, false, false, false };
-		HANDLE hContact2 = CList_AddContact(&user, false, false);
+		HCONTACT hContact2 = CList_AddContact(&user, false, false);
 		if (hContact2) {
 			if (getByte(hContact, "AdvancedMode", 0) == 0)
 				DoUserhostWithReason(1, (_T("S") + one).c_str(), true, one.c_str());

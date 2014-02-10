@@ -162,14 +162,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		ClcContact *contact;
 		ClcGroup *group;
-		if (!FindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL)) {
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = (HCONTACT)pcli->pfnContactToHItem(selcontact);
 				AddContactToTree(hwnd, dat, (HCONTACT)wParam, 0, 0);
 				needsResort = 1;
 				recalcScrollBar = 1;
-				FindItem(hwnd, dat, (HCONTACT)wParam, &contact, NULL, NULL);
+				FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL);
 				if (contact) {
 					contact->iImage = (WORD)lParam;
 					pcli->pfnNotifyNewContact(hwnd, (HCONTACT)wParam);
@@ -201,7 +201,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}	}
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if ( FindItem(hwnd,dat,hSelItem,&selcontact,&selgroup,NULL))
+			if ( FindItem(hwnd, dat, (HANDLE)hSelItem,&selcontact,&selgroup,NULL))
 				dat->selection = GetRowsPriorTo(&dat->list,selgroup,List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 			else
 				dat->selection = -1;
@@ -220,7 +220,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		ClcContact *contact;
 		ClcGroup *group;
-		if (FindItem(hwnd, dat, (HCONTACT)wParam, &contact, &group, NULL) && contact != NULL) {
+		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
 			if (!db_get_ts((HCONTACT)wParam, "CList", "StatusMsg", &dbv)) {
 				int j;

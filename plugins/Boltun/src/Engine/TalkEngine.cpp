@@ -76,7 +76,7 @@ TalkBot::TalkBot(const Mind& goodMind)
 	:mind(goodMind), beSilent(false), makeLowercase(false), 
 	understandAlways(false)
 {
-	contactDatas = new PerContactData<Mind, ContactData, void*>(mind);
+	contactDatas = new PerContactData<Mind, ContactData, HCONTACT>(mind);
 }
 
 TalkBot::~TalkBot()
@@ -84,7 +84,7 @@ TalkBot::~TalkBot()
 	delete contactDatas;
 }
 
-tstring TalkBot::GetInitMessage(void* contact)
+tstring TalkBot::GetInitMessage(HCONTACT contact)
 {
 	ContactData* d = contactDatas->GetData(contact);
 	tstring s = d->initial.GetString();
@@ -108,8 +108,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 		for (unsigned j = max; j > 0; j--)
 		{
 			tstring item = sentence.substr(i, j);
-			if (mind.GetData()->smiles.find(item)
-				!= mind.GetData()->smiles.end())
+			if (mind.GetData()->smiles.find(item) != mind.GetData()->smiles.end())
 			{
 				sm[i] = item;
 				sentence.replace(i, j, _T("\1"));
@@ -160,7 +159,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 	return result;
 }
 
-tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData* contactData, Level &maxValue, std::multimap<Level, tstring> &mm)
+tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contactData, Level &maxValue, std::multimap<Level, tstring> &mm)
 {
 	tstring res;
     //Part 1
@@ -273,14 +272,14 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData* contact
 	return tstring();
 }
 
-TalkBot::MessageInfo* TalkBot::Reply(void* contact, tstring incomingMessage, bool saveChoice)
+TalkBot::MessageInfo* TalkBot::Reply(HCONTACT contact, tstring incomingMessage, bool saveChoice)
 {
 	TCHAR* str = new TCHAR[incomingMessage.length()+1];
 	_tcscpy(str, incomingMessage.c_str());
 	CharLower(str);
 	incomingMessage = str;
 	delete [] str;
-	ContactData* contactData = contactDatas->GetData(contact);
+	ContactData *contactData = contactDatas->GetData(contact);
 
 	if (incomingMessage == contactData->lastMessage && GetTickCount() < contactData->lastMessageTime + 30*60*1000)
 	{
@@ -353,7 +352,7 @@ TalkBot::MessageInfo* TalkBot::Reply(void* contact, tstring incomingMessage, boo
 	return info;
 }
 
-bool TalkBot::FindExact(ContactData* contactData, const tstring &incomingMessage,
+bool TalkBot::FindExact(ContactData *contactData, const tstring &incomingMessage,
 	const multimap<tstring, tstring>& map, tstring& res)
 {
 	int max = (int)map.count(incomingMessage);
@@ -371,9 +370,9 @@ bool TalkBot::FindExact(ContactData* contactData, const tstring &incomingMessage
 	return true;
 }
 
-void TalkBot::AnswerGiven(void* contact, const TalkBot::MessageInfo& info)
+void TalkBot::AnswerGiven(HCONTACT contact, const TalkBot::MessageInfo& info)
 {
-	ContactData* contactData = contactDatas->GetData(contact);
+	ContactData *contactData = contactDatas->GetData(contact);
 	RecordAnswer(contactData, info);
 	contactDatas->PutData(contact);
 }
@@ -441,7 +440,7 @@ tstring LevelToStr(TalkBot::Level target)
 }
 #endif
 
-tstring TalkBot::ChooseResult(ContactData* contactData, Level maxValue, const multimap<Level, tstring> &mm)
+tstring TalkBot::ChooseResult(ContactData *contactData, Level maxValue, const multimap<Level, tstring> &mm)
 {
 #ifdef DEBUG_SHOW_VARIANTS
 	AddBotMessage(_T(">>Availabe:"));
@@ -470,7 +469,7 @@ tstring TalkBot::ChooseResult(ContactData* contactData, Level maxValue, const mu
 #endif
 }
 
-void TalkBot::FindByKeywords(ContactData* contactData, const vector<tstring> &keywords, tstring& res/*, tstring& ures*/, 
+void TalkBot::FindByKeywords(ContactData *contactData, const vector<tstring> &keywords, tstring& res/*, tstring& ures*/, 
 	bool isQuestion)
 {
 	if (keywords.size() == 0)
@@ -490,7 +489,7 @@ void TalkBot::FindByKeywords(ContactData* contactData, const vector<tstring> &ke
 	res = contactData->chooser.Choose();
 }
 
-bool TalkBot::FindByOthers(ContactData* contactData, const vector<tstring> &otherwords, tstring& res, bool isQuestion)
+bool TalkBot::FindByOthers(ContactData *contactData, const vector<tstring> &otherwords, tstring& res, bool isQuestion)
 {
 	//vector<tstring> results;
 	const multimap<WordsList, tstring> &specs = isQuestion ? mind.GetData()->qspecialEscapes : 

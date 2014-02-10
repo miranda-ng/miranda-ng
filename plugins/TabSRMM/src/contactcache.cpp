@@ -622,15 +622,10 @@ HICON CContactCache::getIcon(int& iSize) const
 
 int CContactCache::getMaxMessageLength()
 {
-	HANDLE 	hContact;
-	const 	char*		szProto;
-
-	hContact = getActiveContact();
-	szProto = getActiveProto();
-
+	HCONTACT hContact = getActiveContact();
+	LPCSTR szProto = getActiveProto();
 	if (szProto) {
-
-		m_nMax = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, reinterpret_cast<LPARAM>(hContact));
+		m_nMax = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)hContact);
 		if (m_nMax) {
 			if (M.GetByte("autosplit", 0)) {
 				if (m_hwnd)
@@ -640,7 +635,8 @@ int CContactCache::getMaxMessageLength()
 				if (m_hwnd)
 					::SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXLIMITTEXT, 0, (LPARAM)m_nMax);
 			}
-		} else {
+		}
+		else {
 			if (m_hwnd)
 				::SendDlgItemMessage(m_hwnd, IDC_MESSAGE, EM_EXLIMITTEXT, 0, 20000);
 			m_nMax = 20000;

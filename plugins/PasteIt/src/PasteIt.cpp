@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 PasteToWeb* pasteToWebs[PasteToWeb::pages];
-std::map<HANDLE, HWND>* contactWindows;
+std::map<HCONTACT, HWND>* contactWindows;
 DWORD gMirandaVersion;
 
 HANDLE hModulesLoaded, hTabsrmmButtonPressed;
@@ -184,7 +184,7 @@ void PasteIt(HCONTACT hContact, int mode)
 					// contactWindows map contains all opened hContact
 					// with assaigned to them chat windows. 
 					// This map is prepared in ME_MSG_WINDOWEVENT event. 
-					std::map<HANDLE, HWND>::iterator it = contactWindows->find(hContact);
+					std::map<HCONTACT, HWND>::iterator it = contactWindows->find(hContact);
 					if(it != contactWindows->end())
 					{
 						// it->second is imput window, so now I can send to them 
@@ -384,7 +384,7 @@ int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 	}
 	else if(lParam->uType == MSG_WINDOW_EVT_CLOSE)
 	{
-		std::map<HANDLE, HWND>::iterator it = contactWindows->find(lParam->hContact);
+		std::map<HCONTACT, HWND>::iterator it = contactWindows->find(lParam->hContact);
 		if(it != contactWindows->end())
 		{
 			contactWindows->erase(it);
@@ -429,7 +429,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hOptionsInit = HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 	hTabsrmmButtonPressed = NULL;
 	hServiceContactMenu = CreateServiceFunction(MS_PASTEIT_CONTACTMENU, ContactMenuService);
-	contactWindows = new std::map<HANDLE, HWND>();
+	contactWindows = new std::map<HCONTACT, HWND>();
 	return 0;
 }
 

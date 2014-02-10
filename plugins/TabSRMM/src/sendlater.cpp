@@ -491,7 +491,7 @@ void CSendLater::addContact(const HCONTACT hContact)
 		return;
 
 	if (m_sendLaterContactList.getCount() == 0) {
-		m_sendLaterContactList.insert(hContact);
+		m_sendLaterContactList.insert((HANDLE)hContact);
 		m_last_sendlater_processed = 0;								// force processing at next tick
 		return;
 	}
@@ -500,10 +500,10 @@ void CSendLater::addContact(const HCONTACT hContact)
 	 * this list should not have duplicate entries
 	 */
 
-	if (m_sendLaterContactList.find(hContact))
+	if (m_sendLaterContactList.find((HANDLE)hContact))
 		return;
 
-	m_sendLaterContactList.insert(hContact);
+	m_sendLaterContactList.insert((HANDLE)hContact);
 	m_last_sendlater_processed = 0;								// force processing at next tick
 }
 
@@ -565,7 +565,7 @@ LRESULT CSendLater::qMgrAddFilter(const HCONTACT hContact, const TCHAR* tszNick)
 	lr = ::SendMessage(m_hwndFilter, CB_FINDSTRING, 0, reinterpret_cast<LPARAM>(tszNick));
 	if (lr == CB_ERR) {
 		lr = ::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1, reinterpret_cast<LPARAM>(tszNick));
-		::SendMessage(m_hwndFilter, CB_SETITEMDATA, lr, reinterpret_cast<LPARAM>(hContact));
+		::SendMessage(m_hwndFilter, CB_SETITEMDATA, lr, (LPARAM)hContact);
 		if (hContact == m_hFilter)
 			m_sel = lr;
 	}
@@ -773,7 +773,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hwnd);
 		m_hwndList = ::GetDlgItem(m_hwndDlg, IDC_QMGR_LIST);
 		m_hwndFilter = ::GetDlgItem(m_hwndDlg, IDC_QMGR_FILTER);
-		m_hFilter = reinterpret_cast<HANDLE>(db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0));
+		m_hFilter = (HCONTACT)(db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0));
 
 		::SetWindowLongPtr(m_hwndList, GWL_STYLE, ::GetWindowLongPtr(m_hwndList, GWL_STYLE) | LVS_SHOWSELALWAYS);
 		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_LABELTIP|LVS_EX_DOUBLEBUFFER);
@@ -832,7 +832,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (HIWORD(wParam) == CBN_SELCHANGE && reinterpret_cast<HWND>(lParam) == m_hwndFilter) {
 			LRESULT lr = ::SendMessage(m_hwndFilter, CB_GETCURSEL, 0, 0);
 			if (lr != CB_ERR) {
-				m_hFilter = reinterpret_cast<HANDLE>(::SendMessage(m_hwndFilter, CB_GETITEMDATA, lr, 0));
+				m_hFilter = (HCONTACT)::SendMessage(m_hwndFilter, CB_GETITEMDATA, lr, 0);
 				qMgrFillList();
 			}
 			break;
@@ -923,7 +923,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NCDESTROY:
 		m_hwndDlg = 0;
-		db_set_dw(0, SRMSGMOD_T, "qmgrFilterContact", reinterpret_cast<DWORD>(m_hFilter));
+		db_set_dw(0, SRMSGMOD_T, "qmgrFilterContact", DWORD(m_hFilter));
 		break;
 	}
 	return FALSE;

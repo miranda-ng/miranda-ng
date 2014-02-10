@@ -93,13 +93,12 @@ static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void TSAPI HandleMenuEntryFromhContact(int iSelection)
+void TSAPI HandleMenuEntryFromhContact(HCONTACT hContact)
 {
-	HWND hWnd = M.FindWindow((HCONTACT)iSelection);
-
-	if (iSelection == 0)
+	if (hContact == 0)
 		return;
 
+	HWND hWnd = M.FindWindow(hContact);
 	if (hWnd && IsWindow(hWnd)) {
 		TContainerData *pContainer = 0;
 		SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
@@ -108,11 +107,11 @@ void TSAPI HandleMenuEntryFromhContact(int iSelection)
 			pContainer->hwndSaved = 0;
 			SetForegroundWindow(pContainer->hwnd);
 		}
-		else CallService(MS_MSG_SENDMESSAGE, (WPARAM)iSelection, 0);
+		else CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 		return;
 	}
 	
-	SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)iSelection);
+	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
 	if (si != NULL) {
 		// session does exist, but no window is open for it
 		if (si->hWnd) {
@@ -128,7 +127,7 @@ void TSAPI HandleMenuEntryFromhContact(int iSelection)
 		}
 	}
 
-	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)iSelection, 0);
+	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
 }
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle)
@@ -153,7 +152,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	}
 
 	TContainerData *p;
-	int iSelection;
 
 	switch (msg) {
 	case WM_CREATE:
@@ -209,7 +207,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DWORD idle = 0;
 
 				if (hWnd == NULL) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)dis->itemID);
+					SESSION_INFO *si = SM_FindSessionByHCONTACT((HCONTACT)dis->itemID);
 					hWnd = si ? si->hWnd : 0;
 				}
 
@@ -244,8 +242,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (wParam == 100)
 						SetForegroundWindow(hwndDlg);
 					if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
-						iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-						HandleMenuEntryFromhContact(iSelection);
+						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+						HandleMenuEntryFromhContact((HCONTACT)iSelection);
 					}
 					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 
@@ -269,8 +267,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						do {
 							GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
 							if (mii.dwItemData > 0) {
-								uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
-								HandleMenuEntryFromhContact(uid);
+								UINT uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
+								HandleMenuEntryFromhContact((HCONTACT)uid);
 								break;
 							}
 						}
@@ -312,7 +310,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					CheckMenuItem(submenu, ID_TRAYCONTEXT_DON, MF_BYCOMMAND | (nen_options.iNoAutoPopup ? MF_CHECKED : MF_UNCHECKED));
 					EnableMenuItem(submenu, ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS, MF_BYCOMMAND | (nen_options.bTraySupport) ? MF_ENABLED : MF_GRAYED);
 					CheckMenuItem(submenu, ID_TRAYCONTEXT_SHOWTHETRAYICON, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_CHECKED : MF_UNCHECKED));
-					iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+					BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 					if (iSelection) {
 						MENUITEMINFO mii = {0};
 
@@ -320,7 +318,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						mii.fMask = MIIM_DATA | MIIM_ID;
 						GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);
 						if (mii.dwItemData != 0)  // this must be an itm of the fav or recent menu
-							HandleMenuEntryFromhContact(iSelection);
+							HandleMenuEntryFromhContact((HCONTACT)iSelection);
 						else {
 							switch (iSelection) {
 							case ID_TRAYCONTEXT_SHOWTHETRAYICON:
@@ -374,7 +372,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		 * if lParam == NULL, don't consider clist events, just open the message tab
 		 */
 		if (lParam == 0)
-			HandleMenuEntryFromhContact((int)wParam);
+			HandleMenuEntryFromhContact((HCONTACT)wParam);
 		else {
 			CLISTEVENT *cle = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, wParam, 0);
 			if (cle) {
@@ -384,7 +382,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 			}
 			// still, we got that message posted.. the event may be waiting in tabSRMMs tray...
-			else HandleMenuEntryFromhContact((int)wParam);
+			else HandleMenuEntryFromhContact((HCONTACT)wParam);
 		}
 		break;
 

@@ -247,25 +247,25 @@ struct TPropSheet
 {
 	// dialogs owner
 	HCONTACT	hContact;
-	CHAR		pszProto[MAXMODULELABELLENGTH];
+	CHAR pszProto[MAXMODULELABELLENGTH];
 
-	HANDLE		hProtoAckEvent;		// eventhook for protocol acks
-	HANDLE		hSettingChanged;	// eventhook searching for changed contact information
-	HANDLE		hIconsChanged;		// eventhook for changed icons in icolib
-	HFONT		hCaptionFont;
-	HFONT		hBoldFont;
-	RECT		rcDisplay;
-	BYTE		updateAnimFrame;
-	CHAR		szUpdating[64];
-	DWORD		dwFlags;
+	HANDLE hProtoAckEvent;		// eventhook for protocol acks
+	HANDLE hSettingChanged;	// eventhook searching for changed contact information
+	HANDLE hIconsChanged;		// eventhook for changed icons in icolib
+	HFONT hCaptionFont;
+	HFONT hBoldFont;
+	RECT rcDisplay;
+	BYTE updateAnimFrame;
+	CHAR szUpdating[64];
+	DWORD dwFlags;
 
 	TAckInfo	*infosUpdated;
-	int			nSubContacts;
+	int nSubContacts;
 	
 	// controls
-	HWND		hDlg;
-	CPsTree		*pTree;
-	CPsUpload	*pUpload;
+	HWND hDlg;
+	CPsTree *pTree;
+	CPsUpload *pUpload;
 };
 
 void	DlgContactInfoInitTreeIcons();

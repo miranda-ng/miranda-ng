@@ -1010,7 +1010,7 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 		}
 	}
 
-	mir_forkthread(LoadKLThread, dat->hContact);
+	mir_forkthread(LoadKLThread, (void*)dat->hContact);
 }
 
 LRESULT TSAPI DM_RecalcPictureSize(TWindowData *dat)
@@ -1768,7 +1768,6 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	TCHAR 					newcontactname[128];
 	DWORD 					dwOldIdle = dat->idle;
 	const char*				szActProto = 0;
-	HANDLE 					hActContact = 0;
 
 	HWND 					hwndDlg = dat->hwnd;
 	HWND					hwndTab = GetParent(hwndDlg);
@@ -1790,7 +1789,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 		if (dat->szProto) {
 			szActProto = dat->cache->getActiveProto();
-			hActContact = dat->hContact;
+			HCONTACT hActContact = dat->hContact;
 
 			bool bHasName = (dat->cache->getUIN()[0] != 0);
 			dat->idle = dat->cache->getIdleTS();

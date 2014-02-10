@@ -257,8 +257,9 @@ MZodiac MAnnivDate::Zodiac()
  **/
 int MAnnivDate::DBGetReminderOpts(HCONTACT hContact)
 {
-	if (!hContact || hContact == INVALID_HANDLE_VALUE)
+	if (!hContact || hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		return 1;
+
 	if (_wID == ANID_BIRTHDAY) {
 		_bRemind = db_get_b(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, BST_INDETERMINATE);
 		_wDaysEarlier = db_get_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, (WORD)-1);
@@ -289,8 +290,9 @@ int MAnnivDate::DBGetReminderOpts(HCONTACT hContact)
  **/
 int MAnnivDate::DBWriteReminderOpts(HCONTACT hContact)
 {
-	if (!hContact || hContact == INVALID_HANDLE_VALUE)
+	if (!hContact || hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		return 1;
+
 	if (_wID == ANID_BIRTHDAY) {
 		if (_bRemind == BST_INDETERMINATE)
 			db_unset(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED);
@@ -438,7 +440,7 @@ int MAnnivDate::DBGetDateStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSe
  **/
 int MAnnivDate::DBWriteDateStamp(HCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == INVALID_HANDLE_VALUE || pszModule == 0 || *pszModule	== 0 || pszSetting == 0 || *pszSetting == 0)
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE || pszModule == 0 || *pszModule	== 0 || pszSetting == 0 || *pszSetting == 0)
 		return 1;
 
 	DWORD dwStamp = DateStamp();

@@ -640,7 +640,7 @@ void fnNotifyNewContact(HWND hwnd, HCONTACT hContact)
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 	nm.flags = 0;
-	nm.hItem = hContact;
+	nm.hItem = (HANDLE)hContact;
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
 }
 

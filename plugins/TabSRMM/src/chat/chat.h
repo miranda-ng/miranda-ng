@@ -151,7 +151,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 // manager.c
 SESSION_INFO* SM_FindSessionByHWND(HWND h);
-SESSION_INFO* SM_FindSessionByHCONTACT(HANDLE h);
+SESSION_INFO* SM_FindSessionByHCONTACT(HCONTACT h);
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
 
 void SM_RemoveContainer(TContainerData *pContainer);

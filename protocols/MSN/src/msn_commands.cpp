@@ -496,7 +496,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 	else if (!_strnicmp(tContentType, "text/x-msnmsgr-datacast", 23)) {
 		if (info->mJoinedContactsWLID.getCount()) {
-			HANDLE tContact;
+			HCONTACT tContact;
 
 			if (info->mChatID[0]) {
 				GC_INFO gci = { 0 };

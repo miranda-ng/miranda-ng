@@ -191,7 +191,7 @@ namespace
 
 	int QuotesEventFunc_OnContactDeleted(WPARAM wParam, LPARAM)
 	{
-		HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+		HCONTACT hContact = HCONTACT(wParam);
 
 		const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 		CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);

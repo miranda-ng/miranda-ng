@@ -128,7 +128,6 @@ namespace
 
 	int EnumDbModules(const char* szModuleName, DWORD ofsModuleName, LPARAM lp)
 	{
-// 		USES_CONVERSION;
 		CEnumContext* ctx = reinterpret_cast<CEnumContext*>(lp);
 		IXMLNode::TXMLNodePtr pXml = ctx->m_pNode;
 		IXMLNode::TXMLNodePtr pModule = ctx->m_pXmlEngine->CreateNode(g_pszXmlModule,quotes_a2t(szModuleName)/*A2CT(szModuleName)*/);
@@ -142,11 +141,10 @@ namespace
 			dbces.szModule = szModuleName;
 			dbces.lParam = reinterpret_cast<LPARAM>(ctx);
 
-			CallService(MS_DB_CONTACT_ENUMSETTINGS,reinterpret_cast<WPARAM>(ctx->m_hContact),reinterpret_cast<LPARAM>(&dbces));
+			CallService(MS_DB_CONTACT_ENUMSETTINGS, WPARAM(ctx->m_hContact),reinterpret_cast<LPARAM>(&dbces));
 			if(pModule->GetChildCount() > 0)
-			{
 				pXml->AddChild(pModule);
-			}
+
 			ctx->m_pNode = pXml;
 		}
 
@@ -273,7 +271,7 @@ INT_PTR Quotes_Export(WPARAM wp,LPARAM lp)
 	CModuleInfo::TXMLEnginePtr pXmlEngine = CModuleInfo::GetInstance().GetXMLEnginePtr();
 	CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetInstance().GetQuoteProvidersPtr();
 	IXMLNode::TXMLNodePtr pRoot = pXmlEngine->CreateNode(g_pszXmlContacts,tstring());
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wp);
+	HCONTACT hContact = HCONTACT(wp);
 	if(hContact)
 	{
 		CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
@@ -676,7 +674,7 @@ namespace
 		{
 			if(NULL == cst.m_hContact)
 			{
-				cst.m_hContact = reinterpret_cast<HCONTACT>(CallService(MS_DB_CONTACT_ADD,0,0));
+				cst.m_hContact = HCONTACT(CallService(MS_DB_CONTACT_ADD,0,0));
 				cst.m_bNewContact = true;
 			}
 			else if(impctx.m_nFlags&QUOTES_IMPORT_SKIP_EXISTING_CONTACTS)

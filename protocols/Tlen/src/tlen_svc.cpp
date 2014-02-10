@@ -219,7 +219,7 @@ HCONTACT TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	HCONTACT hContact;
 	TLEN_SEARCH_RESULT *jsr = (TLEN_SEARCH_RESULT*)psr;
 	if (jsr->hdr.cbSize != sizeof(TLEN_SEARCH_RESULT))
-		return (int) NULL;
+		return NULL;
 	hContact = AddToListByJID(this, jsr->jid, flags);	// wParam is flag e.g. PALF_TEMPORARY
 	return hContact;
 }
@@ -228,16 +228,16 @@ HCONTACT TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEven
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return (HANDLE) NULL;
+		return NULL;
 	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
-		return (HANDLE) NULL;
+		return NULL;
 	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
-		return (HANDLE) NULL;
+		return NULL;
 	}
 	if (strcmp(dbei.szModule, m_szModuleName)) {
 		mir_free(dbei.pBlob);
-		return (HANDLE) NULL;
+		return NULL;
 	}
 
 /*
@@ -249,7 +249,7 @@ HCONTACT TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEven
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
 		mir_free(dbei.pBlob);
-		return (HANDLE) NULL;
+		return NULL;
 	}
 
 	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;

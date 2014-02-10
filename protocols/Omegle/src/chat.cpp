@@ -361,7 +361,7 @@ void OmegleProto::ClearChat()
 }
 
 // TODO: Could this be done better?
-HANDLE OmegleProto::GetChatHandle()
+HCONTACT OmegleProto::GetChatHandle()
 {
 	/*if (facy.chatHandle_ != NULL)
 		return facy.chatHandle_;

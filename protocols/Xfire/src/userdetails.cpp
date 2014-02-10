@@ -85,7 +85,7 @@ void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HCONTACT hcontact,int type)
 	}
 }
 
-static int GetIPPortUDetails(HANDLE wParam,char* feld1,char* feld2)
+static int GetIPPortUDetails(HCONTACT wParam,char* feld1,char* feld2)
 {
 	char temp[255];
     HGLOBAL clipbuffer;
@@ -185,7 +185,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 	static WCHAR wpath[256];
 	static HICON gameicon=0;
 	static HICON voiceicon=0;
-	static HANDLE uhandle=0;
+	static HCONTACT uhandle=0;
 	static HWND listbox;
 	LVCOLUMNA pcol;
 

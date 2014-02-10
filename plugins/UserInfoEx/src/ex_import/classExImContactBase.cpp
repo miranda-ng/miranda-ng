@@ -227,7 +227,7 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
 HCONTACT CExImContactBase::toDB()
 {
 	// create new contact if none exists
-	if (_hContact == INVALID_HANDLE_VALUE && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
+	if (_hContact == (HCONTACT)INVALID_HANDLE_VALUE && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
 		PROTOACCOUNT* pszAccount = 0;
 		if (NULL == (pszAccount = ProtoGetAccount( _pszProto ))) {
 			//account does not exist
@@ -521,7 +521,7 @@ BYTE CExImContactBase::isHandle(HCONTACT hContact)
  * param:	none
  * return:	handle if successful, INVALID_HANDLE_VALUE otherwise
  **/
-HANDLE CExImContactBase::findHandle()
+HCONTACT CExImContactBase::findHandle()
 {
 	for (HCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		if (isHandle(hContact)) {

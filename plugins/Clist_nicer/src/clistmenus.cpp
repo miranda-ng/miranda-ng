@@ -109,7 +109,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed by status message"));
 
 			if (cfg::clcdat) {
-				FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL);
+				FindItem(pcli->hwndContactTree, cfg::clcdat, (HANDLE)hContact, &contact, NULL, NULL);
 				if (contact && contact->type != CLCIT_CONTACT) {
 					DestroyWindow(hWnd);
 					return FALSE;
@@ -189,9 +189,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case IDC_IGN_ADDPERMANENTLY:
 			{
 				ADDCONTACTSTRUCT acs = {0};
-				acs.handle = hContact;
+				acs.hContact = hContact;
 				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = 0;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hWnd, (LPARAM)&acs);
 				Utils::enableDlgControl(hWnd, IDC_IGN_ADDPERMANENTLY, cfg::getByte(hContact, "CList", "NotOnList", 0));
 				break;
@@ -221,7 +220,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					LRESULT  checked = 0;
 					int      i = 0;
 
-					FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL);
+					FindItem(pcli->hwndContactTree, cfg::clcdat, (HANDLE)hContact, &contact, NULL, NULL);
 					if (iSel != CB_ERR) {
 						dwFlags &= ~(ECF_FORCEAVATAR | ECF_HIDEAVATAR);
 
@@ -308,8 +307,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_USER + 120:                                         // set visibility status
 		{
 			ClcContact *contact = NULL;
-
-			if (FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
+			if (FindItem(pcli->hwndContactTree, cfg::clcdat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				if (contact) {
 					WORD wApparentMode = cfg::getWord(contact->hContact, contact->proto, "ApparentMode", 0);
 
@@ -323,7 +321,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		{
 			ClcContact *contact = NULL;
 
-			if (FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
+			if (FindItem(pcli->hwndContactTree, cfg::clcdat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				if (contact) {
 					WORD wApparentMode = 0, oldApparentMode = cfg::getWord(hContact, contact->proto, "ApparentMode", 0);
 

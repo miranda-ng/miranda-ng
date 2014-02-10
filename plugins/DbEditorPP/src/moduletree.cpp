@@ -403,7 +403,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 	case 2: // restore saved
 		if (GetValue(NULL,modname,"LastModule",SelectedModule,SIZEOF(SelectedModule))) {
 			hSelectedContact = (HCONTACT)db_get_dw(NULL, modname, "LastContact", (DWORD)INVALID_HANDLE_VALUE);
-			if (hSelectedContact != INVALID_HANDLE_VALUE)
+			if (hSelectedContact != (HCONTACT)INVALID_HANDLE_VALUE)
 				Select = 1;
 			GetValue(NULL,modname,"LastSetting",SelectedSetting,SIZEOF(SelectedSetting));
 		}
@@ -411,7 +411,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	case 3: // restore from user menu
 	case 4: // jump from user menu
-		if (hSelectedContact && hSelectedContact != INVALID_HANDLE_VALUE)
+		if (hSelectedContact && hSelectedContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			Select = 1;
 		break;
 	}

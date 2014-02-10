@@ -831,36 +831,36 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	if (msg != NULL)
 		pre.lParam += lstrlenA(msg);
 
-	pCurBlob=(PBYTE)malloc(pre.lParam);
+	pCurBlob = (PBYTE)malloc(pre.lParam);
 	pre.szMessage = (char *)pCurBlob;
 
 	// UIN
-	*( PDWORD )pCurBlob = 0;
-	pCurBlob+=sizeof(DWORD);
+	*(PDWORD)pCurBlob = 0;
+	pCurBlob += sizeof(DWORD);
 
 	// hContact
-	*( PHANDLE )pCurBlob = hContact; 
-	pCurBlob+=sizeof(HANDLE);
+	*(PDWORD)pCurBlob = (DWORD)hContact; 
+	pCurBlob += sizeof(DWORD);
 
 	// NICK
-	lstrcpyA((char *)pCurBlob, nick); 
+	lstrcpyA((char*)pCurBlob, nick); 
 
 	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
 
 	// FIRST
-	lstrcpyA((char *)pCurBlob, (fname != NULL) ? fname : ""); 
+	lstrcpyA((char*)pCurBlob, (fname != NULL) ? fname : ""); 
 	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
 
 	// LAST
-	lstrcpyA((char *)pCurBlob, (lname != NULL) ? lname : ""); 
+	lstrcpyA((char*)pCurBlob, (lname != NULL) ? lname : ""); 
 	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
 
 	// E-mail    
-	lstrcpyA((char *)pCurBlob,who); 
+	lstrcpyA((char*)pCurBlob,who); 
 	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
 
 	// Reason
-	lstrcpyA((char *)pCurBlob, (msg != NULL) ? msg : "");
+	lstrcpyA((char*)pCurBlob, (msg != NULL) ? msg : "");
 
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }

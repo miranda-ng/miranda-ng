@@ -118,7 +118,7 @@ static void __cdecl AckThreadProc(HANDLE param)
 INT_PTR WeatherGetInfo(WPARAM wParam,LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *) lParam;
-	mir_forkthread(AckThreadProc, ccs->hContact);
+	mir_forkthread(AckThreadProc, (void*)ccs->hContact);
 	return 0;
 }
 
@@ -194,7 +194,7 @@ static INT_PTR WeatherGetAwayMsg(WPARAM wParam, LPARAM lParam)
 	if (ccs == NULL)
 		return 0;
 
-	mir_forkthread(WeatherGetAwayMsgThread, ccs->hContact);
+	mir_forkthread(WeatherGetAwayMsgThread, (void*)ccs->hContact);
 	return 1;
 }
 

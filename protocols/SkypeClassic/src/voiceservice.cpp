@@ -40,14 +40,11 @@ static INT_PTR VoiceGetInfo(WPARAM wParam, LPARAM lParam)
 	return VOICE_SUPPORTED | VOICE_CALL_CONTACT | VOICE_CAN_HOLD;
 }
 
-static HANDLE FindContactByCallId(char *callId)
+static HCONTACT FindContactByCallId(char *callId)
 {
 	HCONTACT hContact;
 	int iCmpRes;
-	for (hContact = db_find_first();
-			hContact != NULL;
-			hContact = db_find_next(hContact))
-	{
+	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
 		DBVARIANT dbv;
@@ -58,7 +55,8 @@ static HANDLE FindContactByCallId(char *callId)
 		{
 			iCmpRes = strcmp(callId, dbv.pszVal);
 			db_free(&dbv);
-			if (iCmpRes == 0) return hContact;
+			if (iCmpRes == 0)
+				return hContact;
 		}
 	}
 

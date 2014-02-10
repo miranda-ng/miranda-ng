@@ -1186,7 +1186,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 						mir_free (ci.pszVal);
 					}
 				}
-				newlen = strlen(msgptr) + (pszUTFnick?strlen(pszUTFnick):0) + 9;
+				newlen = int(strlen(msgptr) + (pszUTFnick?strlen(pszUTFnick):0) + 9);
 				if (pMsg = (char *)malloc(newlen)) {
 					sprintf (pMsg, "** %s%s%s **", (pszUTFnick?pszUTFnick:""),(pszUTFnick?" ":""),(char*)msgptr);
 					free (ptr);
@@ -1211,9 +1211,9 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 					__leave;
 				}
 #ifdef _UNICODE
-				msglen = strlen(msg)+1;
+				msglen = (int)strlen(msg)+1;
 				msgptr = (char*)make_unicode_string ((const unsigned char*)msgptr);
-				wcLen  = (_tcslen((TCHAR*)msgptr)+1)*sizeof(TCHAR);
+				wcLen  = int(_tcslen((TCHAR*)msgptr)+1)*sizeof(TCHAR);
 				msg=(char*)realloc(msg, msglen+wcLen);
 				memcpy (msg+msglen, msgptr, wcLen);
 				free(msgptr);
@@ -1222,8 +1222,9 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				msgptr = msg;
 				free (ptr);
 			}
-			msglen = strlen(msgptr)+1;
-		} else {
+			msglen = (int)strlen(msgptr)+1;
+		}
+		else {
 			free (ptr);
 			__leave;
 		}
@@ -1258,7 +1259,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			gce.ptszText = (TCHAR*)(msgptr+msglen);
 			gce.dwFlags = GCEF_ADDTOLOG;
 			CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
-			MsgList_Add (pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
+			MsgList_Add(pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
 			if (ci.pszVal) mir_free (ci.pszVal);
 			free_nonutf_tchar_string((void*)gce.ptszUID);
 			free_nonutf_tchar_string((void*)gcd.ptszID);
@@ -1298,7 +1299,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				if (pre.flags & PREF_CREATEREAD) dbei.flags|=DBEF_READ;
 				if (pre.flags & PREF_UTF) dbei.flags|=DBEF_UTF;
 				dbei.eventType=EVENTTYPE_MESSAGE;
-				pme = MsgList_Add (pre.lParam, db_event_add(hContact, &dbei));
+				pme = MsgList_Add(pre.lParam, db_event_add(hContact, &dbei));
 
 				// We could call MS_PROTO_CHAINSEND if we want to have MetaContact adding the history for us,
 				// however we all know that CCSDATA doesn't contain timestamp-information which is
@@ -1877,7 +1878,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							if((WORD)SkypeStatusToMiranda(ptr+13) != ID_STATUS_OFFLINE)
 							{
 								LOG(("WndProc Status is not offline so get user info"));
-								pthread_create(GetInfoThread, hContact);
+								pthread_create(GetInfoThread, (void*)hContact);
 							}
 						}
 					}
@@ -2273,7 +2274,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				break;
 		 }
 		 --iReentranceCnt;
-		 return (DefWindowProc(hWndDlg, message, wParam, lParam)); 
+		 return DefWindowProc(hWndDlg, message, wParam, lParam);
     }
 	LOG(("WM_COPYDATA exit (%08X)", message));
 	if (szSkypeMsg) free(szSkypeMsg);
@@ -2358,17 +2359,16 @@ INT_PTR SkypeSetStatus(WPARAM wParam, LPARAM lParam)
    return iRet;
 }
 
-int __stdcall SendBroadcast( HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam )
+int __stdcall SendBroadcast(HCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA ack = {0};
-	ack.cbSize = sizeof( ACKDATA );
+	ACKDATA ack = { sizeof( ACKDATA ) };
 	ack.szModule = SKYPE_PROTONAME;
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;
 	ack.hProcess = hProcess;
 	ack.lParam = lParam;
-	return CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
+	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack );
 }
 
 static void __cdecl SkypeGetAwayMessageThread(void *hContact)
@@ -2387,7 +2387,7 @@ INT_PTR SkypeGetAwayMessage(WPARAM wParam,LPARAM lParam)
 
 	UNREFERENCED_PARAMETER(wParam);
 
-	pthread_create(SkypeGetAwayMessageThread, ccs->hContact);
+	pthread_create(SkypeGetAwayMessageThread, (void*)ccs->hContact);
 	return 1;
 }
 
@@ -2649,7 +2649,7 @@ INT_PTR SkypeGetInfo(WPARAM wParam,LPARAM lParam) {
 	
 	UNREFERENCED_PARAMETER(wParam);
 
-	pthread_create(GetInfoThread, ccs->hContact);
+	pthread_create(GetInfoThread, (void*)ccs->hContact);
 	return 0;
 }
 
@@ -2932,7 +2932,7 @@ void CleanupNicknames(char *dummy) {
 				continue;
 			}
 			db_unset(hContact, SKYPE_PROTONAME, "Nick");
-			GetInfoThread(hContact);
+			GetInfoThread((void*)hContact);
 			db_free(&dbv);
 			db_free(&dbv2);
 		}

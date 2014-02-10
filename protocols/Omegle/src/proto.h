@@ -132,7 +132,7 @@ public:
 	void SetChatStatus(int);
 	void ClearChat();
 	void SetTopic(const TCHAR *topic = NULL);
-	HANDLE GetChatHandle();
+	HCONTACT GetChatHandle();
 
 	// Connection client
 	Omegle_client facy;

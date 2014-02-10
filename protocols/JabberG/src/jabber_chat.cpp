@@ -1328,7 +1328,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 	case IDM_PRESENCE_NA:
 	case IDM_PRESENCE_DND:
 	case IDM_PRESENCE_FREE4CHAT:
-		if (HANDLE h = ppro->HContactFromJID(item->jid))
+		if (HCONTACT h = ppro->HContactFromJID(item->jid))
 			ppro->OnMenuHandleDirectPresence((WPARAM)h, 0, gch->dwData);
 		break;
 

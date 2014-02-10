@@ -128,7 +128,7 @@ BOOL isMetaContactsSubContact(HCONTACT hMetaContact, HCONTACT hContact)
 	char *szProto = GetContactProto(hMetaContact);
 	if (szProto && !strcmp(szMetaProto, szProto)) { // Safety check
 		int i = db_get_dw(hContact, szMetaProto, "ContactNumber", -1);
-		if (i >= 0 && hContact == (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i))
+		if (i >= 0 && hContact == (HCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i))
 			return TRUE;
 	}
 	return FALSE;

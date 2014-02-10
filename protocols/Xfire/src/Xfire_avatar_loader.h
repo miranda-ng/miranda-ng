@@ -37,7 +37,7 @@
 using namespace xfirelib;
 
 struct Xfire_avatar_process {
-	HANDLE hcontact;
+	HCONTACT hcontact;
 	char username[128];
 	unsigned int userid;
 };
@@ -50,7 +50,7 @@ private:
 public:
 	vector<Xfire_avatar_process> list;
 	BOOL threadrunning;
-	BOOL loadAvatar(HANDLE hcontact,char*username,unsigned int userid);
+	BOOL loadAvatar(HCONTACT hcontact,char*username,unsigned int userid);
 	Xfire_avatar_loader(xfirelib::Client* client);
 	~Xfire_avatar_loader();
 };

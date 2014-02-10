@@ -51,7 +51,7 @@ bool SmileyPackCListType::AddSmiley(HCONTACT hContact, TCHAR* path)
 }
 
 
-SmileyPackCType* SmileyPackCListType::GetSmileyPack(HANDLE id)
+SmileyPackCType* SmileyPackCListType::GetSmileyPack(HCONTACT id)
 {
 	for (int i = 0; i < m_SmileyPacks.getCount(); i++)
 		if (m_SmileyPacks[i].GetId() == id)

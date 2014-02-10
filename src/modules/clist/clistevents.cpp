@@ -259,7 +259,7 @@ int fnRemoveEvent(HCONTACT hContact, HANDLE dbEvent)
 
 CLISTEVENT* fnGetEvent(HCONTACT hContact, int idx)
 {
-	if (hContact == INVALID_HANDLE_VALUE) {
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 		if (idx >= cli.events.count)
 			return NULL;
 		return &cli.events.items[idx]->cle;

@@ -1325,7 +1325,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					if (dat) {
 						tabdat->fTipActive = TRUE;
 						ti.isGroup = 0;
-						ti.hItem = dat->hContact;
+						ti.hItem = (HANDLE)dat->hContact;
 						ti.isTreeFocused = 0;
 						CallService("mToolTip/ShowTip", 0, (LPARAM)&ti);
 					}

@@ -12,7 +12,7 @@ SpeakAnnounce::~SpeakAnnounce()
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE user)
+void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HCONTACT user)
 {
 	const std::string STATUS = "Status";
 
@@ -20,15 +20,11 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE us
 	// if it's not a status change then return
 	// check and update the user's status, if status didn't change the return
 	if ((NULL == user) || (STATUS != write_setting->szSetting) || (!m_user_info.updateStatus(user, write_setting->value.wVal)))
-	{
 		return;
-	}
 
 	// check if we just connected, and want to suppress status changes
 	if (!m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) && m_protocol_info.isDisabled((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)user, 0)))
-	{
 		return;
-	}
 
 	bool speak = false;
 
@@ -61,9 +57,7 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE us
 	}
 
 	if (!speak)
-	{
 		return;
-	}
 
 	// translate, insert name then speak
 	std::wstring status_str = TranslateW(m_user_info.statusString(user).c_str());
@@ -74,61 +68,50 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, HANDLE us
 //------------------------------------------------------------------------------
 void SpeakAnnounce::incomingEvent(HCONTACT user, HANDLE event)
 {
-	if (m_event_info.isValidEvent(event))
-	{
-		bool speak = false;
-		switch (m_event_info.getLastEvent())
-		{
-		  case EVENTTYPE_MESSAGE:
-			speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Message);
-			break;
+	if (!m_event_info.isValidEvent(event))
+		return;
 
-		  case EVENTTYPE_URL:
-			speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Url);
-			break;
+	bool speak = false;
+	switch (m_event_info.getLastEvent()) {
+	case EVENTTYPE_MESSAGE:
+		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Message);
+		break;
 
-		  case EVENTTYPE_ADDED:
-			speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Added);
-			break;
+	case EVENTTYPE_URL:
+		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Url);
+		break;
 
-		  case EVENTTYPE_AUTHREQUEST:
-			speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_AuthRequest);
-			break;
+	case EVENTTYPE_ADDED:
+		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_Added);
+		break;
 
-		  case EVENTTYPE_FILE:
-			speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_File);
-			break;
+	case EVENTTYPE_AUTHREQUEST:
+		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_AuthRequest);
+		break;
 
-		}
-
-		if (!speak)
-		{
-			return;
-		}
-		std::wstring event_str = L"";
-
-		if (EVENTTYPE_MESSAGE == m_event_info.getLastEvent())
-		{
-			if (!readMessage(user))
-			{
-				return; // message dialog is open so just leave without saying anything
-			}
-			if ((m_db.getEventFlag(AnnounceDatabase::EventFlag_ReadMsgLength)) && (m_event_info.getMessageSize() <= m_db.getMaxMsgSize()))
-			{
-				event_str = m_event_info.getMessage(); // conditions met to read the message
-			}
-			else
-			{
-				event_str = m_event_info.eventString();
-			}
-		}
-		else
-		{
-			event_str = m_event_info.eventString();
-		}
-		m_user_info.insertName(event_str, user); // translate the string, insert the name, then speak it
-		message(event_str, user);
+	case EVENTTYPE_FILE:
+		speak = m_db.getEventFlag(AnnounceDatabase::EventFlag_File);
+		break;
 	}
+
+	if (!speak)
+		return;
+
+	std::wstring event_str = L"";
+
+	if (EVENTTYPE_MESSAGE == m_event_info.getLastEvent()) {
+		if (!readMessage(user))
+			return; // message dialog is open so just leave without saying anything
+
+		if ((m_db.getEventFlag(AnnounceDatabase::EventFlag_ReadMsgLength)) && (m_event_info.getMessageSize() <= m_db.getMaxMsgSize()))
+			event_str = m_event_info.getMessage(); // conditions met to read the message
+		else
+			event_str = m_event_info.eventString();
+	}
+	else event_str = m_event_info.eventString();
+
+	m_user_info.insertName(event_str, user); // translate the string, insert the name, then speak it
+	message(event_str, user);
 }
 
 //------------------------------------------------------------------------------
@@ -148,52 +131,41 @@ void SpeakAnnounce::protocolAck(ACKDATA *ack)
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::message(const std::wstring &sentence, HANDLE user)
+void SpeakAnnounce::message(const std::wstring &sentence, HCONTACT user)
 {
-	CallService(MS_SPEAK_MESSAGE, reinterpret_cast<LPARAM>(user), reinterpret_cast<WPARAM>(sentence.c_str()));
+	CallService(MS_SPEAK_MESSAGE, LPARAM(user), reinterpret_cast<WPARAM>(sentence.c_str()));
 }
-void SpeakAnnounce::status(const std::wstring &sentence, HANDLE user)
+
+void SpeakAnnounce::status(const std::wstring &sentence, HCONTACT user)
 {
-	CallService(MS_SPEAK_STATUS, reinterpret_cast<LPARAM>(user), reinterpret_cast<WPARAM>(sentence.c_str()));
+	CallService(MS_SPEAK_STATUS, LPARAM(user), reinterpret_cast<WPARAM>(sentence.c_str()));
 }
 
 //------------------------------------------------------------------------------
-bool SpeakAnnounce::readMessage(HANDLE contact)
+bool SpeakAnnounce::readMessage(HCONTACT contact)
 {
 	std::wstring title = m_user_info.nameString(contact) + L" (" + m_user_info.statusModeString(contact) + L"): ";
 
-	HWND window = NULL;
-
-	window = FindWindow(L"#32770", (title + TranslateW(L"Message Session")).c_str());
-	if (window)
-	{
+	HWND window = FindWindow(L"#32770", (title + TranslateW(L"Message Session")).c_str());
+	if (window) {
 		// check if we dont want to read message if dialog is open
 		if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
-		{
 			return false;
-		}
 
 		// check if we dont want to read message if dialog if focused
 		if ((window == GetForegroundWindow()) && m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused))
-		{
 			return false;
-		}
 	}
 
 	window = FindWindow(L"#32770", (title + TranslateW(L"Message Received")).c_str());
-	if (window)
-	{
+	if (window) {
 		// check if we dont want to read message if dialog is open
 		if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
-		{
 			return false;
-		}
 
 		// check if we dont want to read message if dialog if focused
 		if ((window == GetForegroundWindow()) && m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused))
-		{
 			return false;
-		}
 	}
 
 	return true;

@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct _TCmdList {
 	struct _TCmdList *next;
 	struct _TCmdList *prev;
-	HANDLE  hContact;
+	HCONTACT hContact;
 	char *szCmd;
 	BOOL   temporary;
 } TCmdList;

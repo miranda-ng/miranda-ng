@@ -339,7 +339,7 @@ void __cdecl CYahooProto::get_info_thread(void *hContact)
 
 int __cdecl CYahooProto::GetInfo(HCONTACT hContact, int /*infoType*/ )
 {
-	ForkThread(&CYahooProto::get_info_thread, hContact);
+	ForkThread(&CYahooProto::get_info_thread, (void*)hContact);
 	return 0;
 }
 
@@ -591,7 +591,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg(HCONTACT hContact)
 		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			return 0; /* user offline, what Status message? */
 
-		ForkThread(&CYahooProto::get_status_thread, hContact);
+		ForkThread(&CYahooProto::get_status_thread, (void*)hContact);
 		return (HANDLE)1; //Success
 	}
 

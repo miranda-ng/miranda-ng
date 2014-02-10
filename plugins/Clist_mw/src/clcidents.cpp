@@ -111,7 +111,7 @@ void ClearClcContactCache(struct ClcData *dat,HCONTACT hContact)
 {
 	ClcCacheEntry *cacheEntry;
 
-	if (hContact == INVALID_HANDLE_VALUE) {
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 		int i,tick;
 		tick = GetTickCount();
 
@@ -193,9 +193,10 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 			continue;
 		}
 		if (nowVisible) index++;
-		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR)hItem&~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) ||
-			(IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == hItem) ||
-			(IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (HANDLE)((UINT_PTR)hItem&~HCONTACT_ISINFO))) {
+		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR)hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) ||
+			 (IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && (HANDLE)group->cl.items[group->scanIndex]->hContact == hItem) ||
+			 (IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && (HANDLE)group->cl.items[group->scanIndex]->hContact == (HANDLE)((UINT_PTR)hItem & ~HCONTACT_ISINFO)))
+		{
 			if (isVisible) {
 				if ( !nowVisible) *isVisible = 0;
 				else {
@@ -215,7 +216,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 		if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
 			group->cl.items[group->scanIndex]->SubAllocated>0)
 			for (i = 1; i<=group->cl.items[group->scanIndex]->SubAllocated; i++)
-				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == hItem) {
+				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == (HCONTACT)hItem) {
 					if (contact) *contact = &group->cl.items[group->scanIndex]->subcontacts[i-1];
 					if (subgroup) *subgroup = group;
 					return 1;

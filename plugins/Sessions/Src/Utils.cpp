@@ -332,7 +332,7 @@ int AddToCurSession(HCONTACT wparam, LPARAM lparam)
 	return 0;
 }
 
-int DelFromCurSession(HANDLE wparam,LPARAM lparam) 
+int DelFromCurSession(HCONTACT wparam,LPARAM lparam) 
 {
 	for (int i=0; session_list[i] != 0; i++) {
 		if (session_list[i] == wparam) {
@@ -346,11 +346,11 @@ int DelFromCurSession(HANDLE wparam,LPARAM lparam)
 	return 0;
 }
 
-int CheckForDuplicate(HCONTACT contact_list[], HANDLE lparam)
+int CheckForDuplicate(HCONTACT contact_list[], HCONTACT lparam)
 {
 	int i=0;
-	HANDLE s_list[255] = {0};
-	memcpy(s_list, contact_list,SIZEOF(s_list));
+	HCONTACT s_list[255] = {0};
+	memcpy(s_list, contact_list, SIZEOF(s_list));
 	for (i=0;;i++) {
 		if (s_list[i] == lparam)
 			return i;

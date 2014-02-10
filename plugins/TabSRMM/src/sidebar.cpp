@@ -75,7 +75,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 CSideBarButton::CSideBarButton(const TWindowData *dat, CSideBar *sideBar)
 {
 	m_dat = dat;
-	m_id = reinterpret_cast<UINT>(dat->hContact);								// set the control id
+	m_id = UINT(dat->hContact);  // set the control id
 	m_sideBar = sideBar;
 	_create();
 }

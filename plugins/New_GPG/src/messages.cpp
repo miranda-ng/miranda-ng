@@ -883,7 +883,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 						CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
-						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, hContact));
+						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
 						//TODO: wait for message
 						return 0;
 					}
@@ -918,7 +918,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 									debuglog<<std::string(time_str()+": info(autoexchange, jabber): autoexchange capability found, sending key request, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 								CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
 								hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
-								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, hContact));
+								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
 								//mir_free((char*)dbei->pBlob);
 								//TODO: wait for message
 								return 0;

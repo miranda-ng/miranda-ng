@@ -424,24 +424,24 @@ private:
 	static IEView *list;
 	static CRITICAL_SECTION mutex;
 	static bool isInited;
-	HWND 		parent;
-	HWND		hwnd;
-	IEView		*prev, *next;
-	int			m_cRef;
-	RECT		rcClient;
-	BOOL		m_bInPlaceActive;
-	DWORD 		m_dwCookie;
-	IConnectionPoint* m_pConnectionPoint;
-	IEViewSink 	*sink;
-	IWebBrowser2* pWebBrowser;
+	HWND parent;
+	HWND hwnd;
+	IEView *prev, *next;
+	int m_cRef;
+	RECT rcClient;
+	BOOL m_bInPlaceActive;
+	DWORD m_dwCookie;
+	IConnectionPoint *m_pConnectionPoint;
+	IEViewSink *sink;
+	IWebBrowser2 *pWebBrowser;
 	HTMLBuilder *builder;
 
-	WNDPROC    	mainWndProc, docWndProc, serverWndProc;
-	bool        getFocus;
-	bool		clearRequired;
-	BSTR		selectedText;
-	bool		isContactSet;
-	HANDLE		hContact;
+	WNDPROC mainWndProc, docWndProc, serverWndProc;
+	bool getFocus;
+	bool clearRequired;
+	BSTR selectedText;
+	bool isContactSet;
+	HCONTACT hContact;
 
 	// IUnknown
 	STDMETHODIMP QueryInterface(REFIID riid, PVOID *ppv);

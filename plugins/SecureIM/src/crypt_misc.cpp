@@ -86,7 +86,7 @@ void waitForExchange(pUinKey ptr, int flag)
 			break;
 
 		ptr->waitForExchange = 1;
-		mir_forkthread(sttWaitForExchange, ptr->hContact);
+		mir_forkthread(sttWaitForExchange, (void*)ptr->hContact);
 		break;
 	}
 }

@@ -70,14 +70,11 @@ int PopupNotifyBirthday(HCONTACT hContact, int dtb, int age)
 	const int MAX_SIZE = 1024;
 	TCHAR text[MAX_SIZE];
 	//int bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
-	if (commonData.bIgnoreSubcontacts)
-		{
-			HANDLE hMetacontact = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
-			if ((hMetacontact) && (hMetacontact != hContact)) //not main metacontact
-				{
-					return 0;
-				}
-		}
+	if (commonData.bIgnoreSubcontacts) {
+		HCONTACT hMetacontact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		if ((hMetacontact) && (hMetacontact != hContact)) //not main metacontact
+			return 0;
+	}
 	BuildDTBText(dtb, name, text, MAX_SIZE);
 	int gender = GetContactGender(hContact);
 	
@@ -118,7 +115,7 @@ int PopupNotifyMissedBirthday(HCONTACT hContact, int dab, int age)
 	TCHAR text[MAX_SIZE];
 	//int bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
 	if (commonData.bIgnoreSubcontacts) {
-		HANDLE hMetacontact = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		HCONTACT hMetacontact = (HCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
 		if (hMetacontact && hMetacontact != hContact) //not main metacontact
 			return 0;
 	}

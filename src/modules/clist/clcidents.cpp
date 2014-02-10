@@ -96,12 +96,12 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contac
 		}
 		if (nowVisible)
 			index++;
-		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP
-			&& ((unsigned) hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) || (IsHContactContact(hItem)
-			&& group->cl.items[group->scanIndex]->type == CLCIT_CONTACT
-			&& group->cl.items[group->scanIndex]->hContact == hItem) || (IsHContactInfo(hItem)
-			&& group->cl.items[group->scanIndex]->type == CLCIT_INFO
-			&& group->cl.items[group->scanIndex]->hContact == (HANDLE) ((UINT_PTR)hItem & ~HCONTACT_ISINFO)))
+		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP &&
+			 ((unsigned) hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) || (IsHContactContact(hItem) &&
+			 group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
+			 group->cl.items[group->scanIndex]->hContact == (HCONTACT)hItem) || (IsHContactInfo(hItem) &&
+			 group->cl.items[group->scanIndex]->type == CLCIT_INFO &&
+			 group->cl.items[group->scanIndex]->hContact == (HCONTACT)((UINT_PTR)hItem & ~HCONTACT_ISINFO)))
 		{
 			if (isVisible) {
 				if (!nowVisible)
@@ -180,11 +180,11 @@ HANDLE fnContactToHItem(ClcContact *contact)
 {
 	switch (contact->type) {
 	case CLCIT_CONTACT:
-		return contact->hContact;
+		return (HANDLE)contact->hContact;
 	case CLCIT_GROUP:
-		return (HCONTACT)(contact->groupId | HCONTACT_ISGROUP);
+		return (HANDLE)(contact->groupId | HCONTACT_ISGROUP);
 	case CLCIT_INFO:
-		return (HCONTACT)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
+		return (HANDLE)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
 	}
 	return NULL;
 }
@@ -193,15 +193,15 @@ HANDLE fnContactToItemHandle(ClcContact *contact, DWORD *nmFlags)
 {
 	switch (contact->type) {
 	case CLCIT_CONTACT:
-		return contact->hContact;
+		return (HANDLE)contact->hContact;
 	case CLCIT_GROUP:
 		if (nmFlags)
 			*nmFlags |= CLNF_ISGROUP;
-		return (HCONTACT)contact->groupId;
+		return (HANDLE)contact->groupId;
 	case CLCIT_INFO:
 		if (nmFlags)
 			*nmFlags |= CLNF_ISINFO;
-		return (HCONTACT)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
+		return (HANDLE)((UINT_PTR)contact->hContact | HCONTACT_ISINFO);
 	}
 	return NULL;
 }

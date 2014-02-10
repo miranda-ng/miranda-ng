@@ -221,7 +221,7 @@ class XFireClient : public PacketListener {
 	void getBuddyList();
 	void sendmsg(char*usr,char*msg);
 	void setNick(char*nnick);
-	void handlingBuddy(HANDLE handle);
+	void handlingBuddy(HCONTACT handle);
 	void CheckAvatar(BuddyListEntry* entry);
 
   private:
@@ -259,11 +259,12 @@ void XFireClient::CheckAvatar(BuddyListEntry* entry) {
 	}
 }
 
-void XFireClient::handlingBuddy(HANDLE handle){
+void XFireClient::handlingBuddy(HCONTACT handle)
+{
 	vector<BuddyListEntry*> *entries = client->getBuddyList()->getEntries();
 	for(uint i = 0 ; i < entries->size() ; i ++) {
 		BuddyListEntry *entry = entries->at(i);
-		if (entry->hcontact==handle)
+		if (entry->hcontact == handle)
 		{
 			handlingBuddys(entry,0,NULL);
 			break;
@@ -1373,10 +1374,10 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 		if (myClient->client->connected&&db_get_w(ccs->hContact, protocolname, "Status", -1)!=ID_STATUS_OFFLINE)
 		{
 			myClient->sendmsg(dbv.pszVal, ptrA( mir_utf8encode((char*)ccs->lParam)));
-			mir_forkthread(SendAck,ccs->hContact);
+			mir_forkthread(SendAck, (void*)ccs->hContact);
 			sended=1;
 		}
-		else mir_forkthread(SendBadAck,ccs->hContact);
+		else mir_forkthread(SendBadAck, (void*)ccs->hContact);
 
 	db_free(&dbv);
 	return sended;
@@ -1684,7 +1685,7 @@ HCONTACT CList_FindContact (int uid)
 
 void CList_MakeAllOffline()
 {
-	vector<HANDLE> fhandles;
+	vector<HCONTACT> fhandles;
 	for (HCONTACT hContact = db_find_first(protocolname); hContact; hContact = db_find_next(hContact, protocolname)) {
 		//freunde von freunden in eine seperate liste setzen
 		//nur wenn das nicht abgestellt wurde

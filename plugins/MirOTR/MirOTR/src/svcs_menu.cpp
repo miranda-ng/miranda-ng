@@ -16,7 +16,7 @@ int StartOTR(HCONTACT hContact) {
 	
 	lib_cs_lock();
 	char *msg = otrl_proto_default_query_msg(MODULENAME, pol);
-	otr_gui_inject_message(hContact, proto, proto, uname, msg ? msg : "?OTRv2?");
+	otr_gui_inject_message((void*)hContact, proto, proto, uname, msg ? msg : "?OTRv2?");
 	lib_cs_unlock();
 	otrl_message_free(msg);
 	mir_free(uname);
@@ -81,7 +81,7 @@ int otr_disconnect_contact(HCONTACT hContact)
 	if (!uname) return 1; // error
 
 	lib_cs_lock();
-	otrl_message_disconnect(otr_user_state, &ops, hContact, proto, proto, uname);
+	otrl_message_disconnect(otr_user_state, &ops, (void*)hContact, proto, proto, uname);
 	lib_cs_unlock();
 	mir_free(uname);
 	return 0;

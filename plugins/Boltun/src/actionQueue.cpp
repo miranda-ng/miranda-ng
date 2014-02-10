@@ -44,7 +44,7 @@ typedef struct _QueueElement {
 } QueueElement;
 
 static list<QueueElement> actionQueue;
-static set<HANDLE> typingContacts;
+static set<HCONTACT> typingContacts;
 UINT_PTR timerID = 0;
 
 CriticalSection cs;

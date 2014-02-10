@@ -86,22 +86,22 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 	HCONTACT hContact = (HCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
 	switch (Action) {
 	case PCA_OPENMESSAGEWND: // open message window
-		if (hContact && hContact != INVALID_HANDLE_VALUE)
+		if (hContact && hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 		break;
 
 	case PCA_OPENMENU: // open contact menu
-		if (hContact && hContact != INVALID_HANDLE_VALUE)
+		if (hContact && hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			QueueUserAPC(ShowContactMenu, g_hMainThread, (ULONG_PTR)hContact);
 		break;
 
 	case PCA_OPENDETAILS: // open contact details window
-		if (hContact != INVALID_HANDLE_VALUE)
+		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 		break;
 
 	case PCA_OPENHISTORY: // open contact history
-		if (hContact != INVALID_HANDLE_VALUE)
+		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
 		break;
 

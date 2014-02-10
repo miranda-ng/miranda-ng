@@ -388,7 +388,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = hMeta;
 			cle.flags = CLEF_TCHAR;
-			cle.hDbEvent = ccs->hContact;	// use subcontact handle as key - then we can remove all events if the subcontact window is opened
+			cle.hDbEvent = (HANDLE)ccs->hContact;	// use subcontact handle as key - then we can remove all events if the subcontact window is opened
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "MetaContacts/CListMessageEvent";
 			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hMeta, GCDNF_TCHAR));
@@ -1124,7 +1124,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 
 	} else if (options.menu_function == FT_MENU) {
 		// show contact's context menu
-		CallFunctionAsync(sttMenuThread, hContact);
+		CallFunctionAsync(sttMenuThread, (void*)hContact);
 	} else if (options.menu_function == FT_INFO) {
 		// show user info for subcontact
 		CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);

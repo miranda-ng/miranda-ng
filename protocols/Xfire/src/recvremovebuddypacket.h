@@ -29,26 +29,26 @@
 #define XFIRE_RECVREMOVEBUDDYPACKET 139
 
 namespace xfirelib {
-  class RecvRemoveBuddyPacket : public XFireRecvPacketContent {
-  public:
-    virtual ~RecvRemoveBuddyPacket() { }
-    int getPacketId() { return XFIRE_RECVREMOVEBUDDYPACKET; }
+	class RecvRemoveBuddyPacket : public XFireRecvPacketContent {
+	public:
+		virtual ~RecvRemoveBuddyPacket() { }
+		int getPacketId() { return XFIRE_RECVREMOVEBUDDYPACKET; }
 
-    XFirePacketContent *newPacket() { return new RecvRemoveBuddyPacket(); }
-    void parseContent(char *buf, int length, int numberOfAtts);
+		XFirePacketContent *newPacket() { return new RecvRemoveBuddyPacket(); }
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    long userid;
+		long userid;
 
-    /**
-     * I've added this attribute altough it is not part of the actual packet
-     * because by the time the packet content reaches the client
-     * application the user will no longer be in the BuddyList .. so no
-     * way for the client application to know which buddy was just removed.
-     * (it will be set by the BuddyList, not when parsing the packet)
-     */
-    std::string username;
-	void* handle; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
-  };
+		/**
+		* I've added this attribute altough it is not part of the actual packet
+		* because by the time the packet content reaches the client
+		* application the user will no longer be in the BuddyList .. so no
+		* way for the client application to know which buddy was just removed.
+		* (it will be set by the BuddyList, not when parsing the packet)
+		*/
+		std::string username;
+		HCONTACT handle; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
+	};
 
 };
 

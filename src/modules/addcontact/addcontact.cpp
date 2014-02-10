@@ -42,25 +42,25 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.cbBlob = sizeof(DWORD);
 				dbei.pBlob = (PBYTE)&dwUin;
-				db_event_get(acs->handle, &dbei);
+				db_event_get(acs->hDbEvent, &dbei);
 				_ltoa(dwUin, szUin, 10);
 				acs->szProto = dbei.szModule;
 			}
 			{
 				TCHAR *szName = NULL, *tmpStr = NULL;
 				if (acs->handleType == HANDLE_CONTACT)
-					szName = cli.pfnGetContactDisplayName((HCONTACT)acs->handle, GCDNF_TCHAR);
+					szName = cli.pfnGetContactDisplayName(acs->hContact, GCDNF_TCHAR);
 				else {
 					int isSet = 0;
 
 					if (acs->handleType == HANDLE_EVENT) {
 						DBEVENTINFO dbei = { sizeof(dbei) };
-						dbei.cbBlob = db_event_getBlobSize(acs->handle);
+						dbei.cbBlob = db_event_getBlobSize(acs->hDbEvent);
 						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-						db_event_get(acs->handle, &dbei);
+						db_event_get(acs->hDbEvent, &dbei);
 						HCONTACT hcontact = *(HCONTACT*)(dbei.pBlob + sizeof(DWORD));
 						mir_free(dbei.pBlob);
-						if (hcontact != INVALID_HANDLE_VALUE) {
+						if (hcontact != (HCONTACT)INVALID_HANDLE_VALUE) {
 							szName = cli.pfnGetContactDisplayName(hcontact, 0);
 							isSet = 1;
 						}
@@ -81,9 +81,9 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			}
 		}
 
-		if (acs->handleType == HANDLE_CONTACT && acs->handle)
+		if (acs->handleType == HANDLE_CONTACT && acs->hContact)
 			if (acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0))
-				acs->szProto = GetContactProto((HCONTACT)acs->handle);
+				acs->szProto = GetContactProto(acs->hContact);
 
 		{
 			TCHAR *grpName;
@@ -152,8 +152,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				case HANDLE_EVENT:
 					{
 						DBEVENTINFO dbei = { sizeof(dbei) };
-						db_event_get(acs->handle, &dbei);
-						hContact = (HCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->handle);
+						db_event_get(acs->hDbEvent, &dbei);
+						hContact = (HCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->hDbEvent);
 					}
 					break;
 
@@ -162,7 +162,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					break;
 
 				case HANDLE_CONTACT:
-					hContact = (HCONTACT)acs->handle;
+					hContact = acs->hContact;
 					break;
 				}
 

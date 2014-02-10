@@ -827,24 +827,19 @@ void CQuotesProviderBase::WriteContactRate(HCONTACT hContact,double dRate,const 
 
 HCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(CallService(MS_DB_CONTACT_ADD,0,0));
-	if(hContact)
-	{
-		if(0 == CallService(MS_PROTO_ADDTOCONTACT,reinterpret_cast<WPARAM>(hContact),(LPARAM)QUOTES_PROTOCOL_NAME))
-		{
+	HCONTACT hContact = HCONTACT(CallService(MS_DB_CONTACT_ADD,0,0));
+	if(hContact) {
+		if(0 == CallService(MS_PROTO_ADDTOCONTACT, WPARAM(hContact), (LPARAM)QUOTES_PROTOCOL_NAME)) {
 			tstring sProvName = GetInfo().m_sName;
 			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_PROVIDER,sProvName.c_str());
 			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_SYMBOL,rsName.c_str());
 			db_set_ts(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME,rsName.c_str());
 
-			{// for CCritSection
-				CGuard<CLightMutex> cs(m_cs);
-				m_aContacts.push_back(hContact);
-			}
+			CGuard<CLightMutex> cs(m_cs);
+			m_aContacts.push_back(hContact);
 		}
-		else
-		{
-			CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
+		else {
+			CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
 			hContact = NULL;
 		}
 	}
@@ -979,14 +974,11 @@ void CQuotesProviderBase::Run()
 			{
 				DWORD dwTimeRest = ::GetTickCount()-dwBegin;
 				if(dwTimeRest < nTimeout)
-				{
 					nTimeout -= dwTimeRest;
-				}
-				{
-					CGuard<CLightMutex> cs(m_cs);
-					anContacts = m_aRefreshingContacts;
-					m_aRefreshingContacts.clear();
-				}
+
+				CGuard<CLightMutex> cs(m_cs);
+				anContacts = m_aRefreshingContacts;
+				m_aRefreshingContacts.clear();
 			}
 			break;
 		case WAIT_TIMEOUT:

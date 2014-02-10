@@ -54,24 +54,24 @@ BOOL bUnaplyedChanges = FALSE;
 
 class CLDBEvent
 {
-		DWORD time;
-	public:
-		HANDLE hUser;
-		HANDLE hDbEvent;
+	DWORD time;
+public:
+	HCONTACT hUser;
+	HANDLE hDbEvent;
 
-		CLDBEvent( HANDLE hU, HANDLE hDBE )
-		{
-			hUser = hU;
-			hDbEvent = hDBE;
+	CLDBEvent(HCONTACT hU, HANDLE hDBE )
+	{
+		hUser = hU;
+		hDbEvent = hDBE;
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			db_event_get(hDbEvent, &dbei);
-			time = dbei.timestamp;
-		}
-		bool operator <(const CLDBEvent& rOther) const
-		{
-			return time < rOther.time;
-		}
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDbEvent, &dbei);
+		time = dbei.timestamp;
+	}
+	bool operator <(const CLDBEvent& rOther) const
+	{
+		return time < rOther.time;
+	}
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -227,7 +227,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 			
 			HANDLE hDbEvent = db_event_first(hContact);
 			while( hDbEvent) {
-				rclCurList.push_back( CLDBEvent( hContact, hDbEvent));
+				rclCurList.push_back(CLDBEvent(hContact, hDbEvent));
 				hDbEvent = db_event_next(hDbEvent);
 			}
 

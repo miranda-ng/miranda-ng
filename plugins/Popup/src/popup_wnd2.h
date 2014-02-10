@@ -162,8 +162,8 @@ public:
 
 	char    *getTime()          { return m_time; }
 	HICON    getIcon()          { return m_hIcon; }
-	HANDLE   getContact()       { return m_hContact; }
-	HANDLE   getContactPassed() { return m_hContactPassed; }
+	HCONTACT getContact()       { return m_hContact; }
+	HCONTACT getContactPassed() { return m_hContactPassed; }
 	int      getTimeout()       { return m_iTimeout; }
 	HWND     getHwnd()          { return m_hwnd; }
 	void    *getData()          { return m_PluginData; }

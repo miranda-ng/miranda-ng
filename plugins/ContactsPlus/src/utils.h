@@ -40,7 +40,7 @@ void UpdateDialogAddButton(HWND hwndDlg, HCONTACT hContact);
 
 HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip);
 
-void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact);
+void DialogAddContactExecute(HWND hwndDlg, HCONTACT hNewContact);
 
 HICON LoadContactProtoIcon(HCONTACT hContact);
 

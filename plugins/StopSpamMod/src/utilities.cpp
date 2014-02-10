@@ -374,8 +374,9 @@ void HistoryLogFunc(HCONTACT hContact, std::string message)
 {
 	if(gbHistoryLog)
 	{
-		if(hContact == INVALID_HANDLE_VALUE)
+		if(hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			return;
+
 		std::string msg = message;
 		msg.append("\n");
 		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");

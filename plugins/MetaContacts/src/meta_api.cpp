@@ -104,7 +104,7 @@ INT_PTR MetaAPI_SetDefaultContactNum(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_SetDefaultContact(WPARAM wParam, LPARAM lParam) {
 	HCONTACT hMeta = (HCONTACT)db_get_dw((HCONTACT)lParam, META_PROTO, "Handle", 0);
 	DWORD contact_number = Meta_GetContactNumber((HCONTACT)lParam);
-	if (contact_number == -1 || !hMeta || hMeta != (HANDLE)wParam) 
+	if (contact_number == -1 || !hMeta || hMeta != (HCONTACT)wParam) 
 		return 1;
 	if (db_set_dw(hMeta, META_PROTO, "Default", contact_number))
 		return 1;
@@ -120,7 +120,7 @@ INT_PTR MetaAPI_SetDefaultContact(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 	HCONTACT hContact = Meta_GetContactHandle((HCONTACT)wParam, (int)lParam);
 	HCONTACT hMeta = (HCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if (!hContact || !hMeta || hMeta != (HANDLE)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
+	if (!hContact || !hMeta || hMeta != (HCONTACT)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	db_set_dw(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -136,7 +136,7 @@ INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceSendContact(WPARAM wParam, LPARAM lParam) {
 	HCONTACT hContact = (HCONTACT)lParam;
 	HCONTACT hMeta = (HCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if ( !hContact || !hMeta || hMeta != (HANDLE)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
+	if (!hContact || !hMeta || hMeta != (HCONTACT)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	db_set_dw(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);

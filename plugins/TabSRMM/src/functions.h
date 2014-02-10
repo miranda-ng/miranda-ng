@@ -68,7 +68,7 @@ void  TSAPI LoadFavoritesAndRecent();
 void  TSAPI AddContactToFavorites(HCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus,
                                      WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu);
 void  TSAPI CreateTrayMenus(int mode);
-void  TSAPI HandleMenuEntryFromhContact(int iSelection);
+void  TSAPI HandleMenuEntryFromhContact(HCONTACT iSelection);
 
 /*
  * gneric msgwindow functions(creation, container management etc.)

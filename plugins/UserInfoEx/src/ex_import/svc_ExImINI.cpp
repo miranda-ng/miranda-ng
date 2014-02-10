@@ -303,7 +303,7 @@ static HCONTACT ImportFindContact(HCONTACT hContact, LPSTR &strBuf, BYTE bCanCre
 	CExImContactBase vcc;
 
 	vcc.fromIni(strBuf);
-	if (vcc.handle() != INVALID_HANDLE_VALUE) {
+	if (vcc.handle() != (HCONTACT)INVALID_HANDLE_VALUE) {
 		//if (vcc.isHandle(hContact))
 		//	return hContact;
 		return vcc.handle();
@@ -452,11 +452,11 @@ int SvcExImINI_Import(HCONTACT hContact, LPCSTR pszFileName)
 			numLines++;
 
 			// contact was found and imported
-			if (hContact != INVALID_HANDLE_VALUE && hNewContact != INVALID_HANDLE_VALUE)
+			if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && hNewContact != (HCONTACT)INVALID_HANDLE_VALUE)
 				break;
 
 			// importing settings is only valid vor the main menu item
-			if (hContact == INVALID_HANDLE_VALUE) {
+			if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 				if (!strncmp(strBuf, "SETTINGS:", 9)) {
 					*szModule = 0;
 					hNewContact = NULL;

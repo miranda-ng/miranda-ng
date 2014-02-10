@@ -44,7 +44,7 @@ HINSTANCE  hInst;
 HFONT      hFont[FLT_FONTIDS];
 COLORREF   tColor[FLT_FONTIDS];
 HIMAGELIST himlMiranda;
-HANDLE     hNewContact;
+HCONTACT   hNewContact;
 
 HPEN       hLTEdgesPen;
 HPEN       hRBEdgesPen;

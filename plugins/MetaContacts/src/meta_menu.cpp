@@ -117,7 +117,7 @@ void Meta_RemoveContactNumber(HCONTACT hMeta, int number)
 	HCONTACT hContact = Meta_GetContactHandle(hMeta, number);
 
 	// make sure this contact thinks it's part of this metacontact
-	if ((HANDLE)db_get_dw(hContact, META_PROTO, "Handle", 0) == hMeta) {
+	if ((HCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0) == hMeta) {
 		// remove link to meta contact
 		db_unset(hContact, META_PROTO, "IsSubcontact");
 		db_unset(hContact, META_PROTO, META_LINK);
