@@ -57,17 +57,6 @@ const
   ACF_CACHE_NOW   = $00000002;
   ACF_CACHE_MACRO = $00000004;
 
-// param flags, same as for service
-const
-  ACF_RSTRING  = $00010000; // Service result is string
-  ACF_RUNICODE = $00020000; // Service result is Widestring
-  ACF_RSTRUCT  = $00040000; // Service result in structure
-  ACF_RFREEMEM = $00080000; // Need to free memory
-
-  ACF_SCRIPT_PARAM   = $00001000;
-  // dummy
-  ACF_STRING = 0;
-
 type
   sp0 = function:int_ptr; stdcall;
   sp1 = function(arg1:int_ptr):int_ptr; stdcall;
@@ -144,7 +133,7 @@ begin
       for i:=0 to argcount-1 do
       begin
         largv[i]:=argv[i];
-        PreProcess(argf[i],LPARAM(largv[i]),WorkData);
+//!!        PreProcess(argf[i],LPARAM(largv[i]),WorkData);
       end;
       // call function
       case argcount of
@@ -206,7 +195,7 @@ begin
 
       ClearResult(WorkData);
     // result type processing
-      if (flags and ACF_RSTRING)<>0 then
+      if (flags and (ACF_RSTRING or ACF_UNICODE))<>0 then
       begin
         if (flags and ACF_RUNICODE)=0 then
           AnsiToWide(pAnsiChar(res),pWideChar(WorkData.LastResult),MirandaCP)
@@ -659,7 +648,8 @@ begin
       pt.x:=rc.left;
       pt.y:=rc.bottom;
       ScreenToClient(Dialog,pt);
-      SetWindowLongPtrW(wnd1,GWLP_USERDATA,CreateParamBlock(Dialog,0,pt.y+2,168));
+      GetClientRect(wnd1,rc);
+      SetWindowLongPtrW(wnd1,GWLP_USERDATA,CreateParamBlock(Dialog,0,pt.y+2,rc.right));
 
       CheckDlgButton(Dialog,IDC_CLOSE_RES,BST_UNCHECKED);
       wnd:=GetDlgItem(Dialog,IDC_CLOSE_RES); // count offset from initial pos
@@ -668,7 +658,7 @@ begin
       pt.x:=rc.left;
       pt.y:=rc.bottom;
       ScreenToClient(Dialog,pt);
-      wnd1:=CreateResultBlock(Dialog,0,pt.y+2,168);
+      wnd1:=CreateResultBlock(Dialog,0,pt.y+2,rc.right-rc.left,ACF_NOVISUAL);
       SetWindowLongPtrW(wnd,GWLP_USERDATA,wnd1);
       ShowWindow(wnd1,SW_HIDE);
 

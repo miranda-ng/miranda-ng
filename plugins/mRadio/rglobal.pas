@@ -6,6 +6,7 @@ interface
 uses
   windows,
   Dynamic_Bass,
+  m_api,
   playlist;
 
 {$include m_radio.inc}
@@ -20,7 +21,7 @@ const
 
 const
   chan         :HSTREAM = 0;
-  ActiveContact:THANDLE = 0;
+  ActiveContact:HCONTACT = 0;
   ActiveURL    :PWideChar = nil;
 
 const
@@ -158,7 +159,7 @@ const
 
 
 function MakeMessage:pWideChar;
-procedure SetStatus(hContact:THANDLE;status:integer);
+procedure SetStatus(hContact:HCONTACT;status:integer);
 function GetDefaultRecPath:pWideChar;
 function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
 
@@ -166,9 +167,9 @@ function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
 implementation
 
 uses
-  m_api, common, dbsettings;
+  common, dbsettings;
 
-procedure SetStatus(hContact:THANDLE;status:integer);
+procedure SetStatus(hContact:HCONTACT;status:integer);
 begin
 //  if Status=ID_STATUS_OFFLINE then
 //    MyStopBass;

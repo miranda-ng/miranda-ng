@@ -28,8 +28,8 @@ library actman;
 
 uses
 //  fastmm4,
-  m_api,
   Windows,
+  m_api,
   messages,
   commctrl,
   common,

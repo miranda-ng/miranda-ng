@@ -27,7 +27,7 @@ begin
   result:=0;
 end;
 
-procedure GetAwayMsgProc(hContact:THANDLE); cdecl;
+procedure GetAwayMsgProc(hContact:HCONTACT); cdecl;
 var
   buf,p:PWideChar;
 begin
@@ -131,7 +131,7 @@ begin
   if wParam<>ID_STATUS_OFFLINE then
     wParam:=ID_STATUS_ONLINE;
 
-  if wParam=PluginStatus then
+  if wParam=TWPARAM(PluginStatus) then
     exit;
 
   PluginStatus:=ID_STATUS_OFFLINE;

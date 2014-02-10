@@ -78,13 +78,13 @@ type
   TWINDOWLISTENTRY = record
     hList   : THANDLE;
     hWnd    : HWND;
-    hContact: THANDLE;
+    hContact: HCONTACT;
   end;
 
   PSAVEWINDOWPOS = ^TSAVEWINDOWPOS;
   TSAVEWINDOWPOS = record
     hWnd        : HWND;
-    hContact    : THANDLE;
+    hContact    : HCONTACT;
     szModule    : PAnsiChar;        // module name eto store the settings in
     szNamePrefix: PAnsiChar;        // text to prefix on 'x', 'width', etc
   end;
@@ -349,7 +349,7 @@ type
   TREPLACEVARSDATA = record
     cbSize   :int;
     dwFlags  :dword;
-    hContact :THANDLE;
+    hContact :HCONTACT;
     variables:PREPLACEVARSARRAY;
   end;
 

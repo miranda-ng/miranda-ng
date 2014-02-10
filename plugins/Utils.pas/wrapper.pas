@@ -540,11 +540,13 @@ var
   hfo :HFONT;
   tm  :TTEXTMETRIC;
   size:TSIZE;
+  tmp :pWideChar;
 begin
   dc:=GetDC(wnd);
   hfo:=SelectObject(dc,SendMessage(wnd,WM_GETFONT,0,0));
   GetTextMetrics(dc,tm);
-  GetTextExtentPoint32(dc,'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',52,size);
+  tmp:='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  GetTextExtentPoint32W(dc,tmp,52,size);
   SelectObject(dc,hfo);
   ReleaseDC(wnd,dc);
   baseUnitX:=(size.cx div 26+1) div 2;

@@ -157,7 +157,7 @@ procedure CheckButtons(Dialog:HWND);
 var
   b:bool;
 begin
-  b:=ListView_GetItemCount(GetDlgItem(Dialog,IDC_HOOKLIST))>0;
+  b:=SendDlgItemMessage(Dialog,IDC_HOOKLIST,LVM_GETITEMCOUNT, 0, 0)>0;
 
   EnableWindow(GetDlgItem(Dialog,IDC_EVENTLIST  ),b);
   EnableWindow(GetDlgItem(Dialog,IDC_ACTIONLIST ),b);
@@ -190,13 +190,14 @@ end;
 function DeleteHook(Dialog:HWND):integer;
 var
   wnd:HWND;
-  i:integer;
+  i,j:integer;
 begin
   result:=0;
   wnd:=GetDlgItem(Dialog,IDC_HOOKLIST);
-  for i:=ListView_GetItemCount(wnd)-1 downto 0 do
+  j:=SendMessage(wnd,LVM_GETITEMCOUNT,0,0);
+  for i:=j-1 downto 0 do
   begin
-    if ListView_GetItemState(wnd,i,LVIS_SELECTED)<>0 then
+    if SendMessage(wnd,LVM_GETITEMSTATE,i,LVIS_SELECTED)<>0 then
       SendMessage(wnd,LVM_DELETEITEM,i,0);
   end;
   Listview_SetItemState(wnd,0,
@@ -302,8 +303,6 @@ end;
 
 function DlgProcOpt(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
 var
-  wnd:HWND;
-  lv:LV_COLUMNW;
   i:integer;
   tmp:pAnsiChar;
   buf:array [0..255] of AnsiChar;
@@ -330,7 +329,7 @@ begin
       FillActionList(GetDlgItem(Dialog,IDC_ACTIONLIST));
 
       CreateHKTable(Dialog);
-      FillHookList(wnd);
+      FillHookList(GetDlgItem(Dialog,IDC_HOOKLIST));
       ShowHookData(Dialog);
 
       CheckButtons(Dialog);

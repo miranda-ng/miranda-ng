@@ -23,7 +23,7 @@ type
   TCONTACTINFO = record
     cbSize  : int;
     dwFlag  : Byte;
-    hContact: THandle;
+    hContact: HCONTACT;
     szProto : PAnsiChar;
     _type   : Byte;
     retval: record // in C this is a nameless union

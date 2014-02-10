@@ -226,15 +226,15 @@ const
 type
   PCLISTEVENT = ^TCLISTEVENT;
   TCLISTEVENT = record
-    cbSize    : int;     // size in bytes
-    hContact  : THANDLE; // handle to the contact to put the icon by
-    hIcon     : HICON;   // icon to flash!
+    cbSize    : int;       // size in bytes
+    hContact  : HCONTACT;  // handle to the contact to put the icon by
+    hIcon     : HICON;     // icon to flash!
     flags     : DWORD;
-    hDBEvent  : THANDLE; // caller defined, but should be unique for hContact
-                         // or pszProtocol:PAnsiChar
+    hDBEvent  : THANDLE;   // caller defined, but should be unique for hContact
+                           // or pszProtocol:PAnsiChar
     lParam    : LPARAM;
-    pszService: PAnsiChar;   // name of service to call on activation
-    szTooltip : TChar;   // short description of the event to display as a tooltip on the systray
+    pszService: PAnsiChar; // name of service to call on activation
+    szTooltip : TChar;     // short description of the event to display as a tooltip on the systray
   end;
 
 const

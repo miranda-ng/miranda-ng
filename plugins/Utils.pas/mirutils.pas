@@ -20,10 +20,10 @@ function RegisterSingleIcon(resname,ilname,descr,group:PAnsiChar):int;
 
 // others
 
-function ConvertFileName(src:pAnsiChar;hContact:THANDLE=0):pAnsiChar; overload;
-function ConvertFileName(src:pWideChar;hContact:THANDLE=0):pWideChar; overload;
-function ConvertFileName(src:pAnsiChar;dst:pAnsiChar;hContact:THANDLE=0):pAnsiChar; overload;
-function ConvertFileName(src:pWideChar;dst:pWideChar;hContact:THANDLE=0):pWideChar; overload;
+function ConvertFileName(src:pAnsiChar;hContact:HCONTACT=0):pAnsiChar; overload;
+function ConvertFileName(src:pWideChar;hContact:HCONTACT=0):pWideChar; overload;
+function ConvertFileName(src:pAnsiChar;dst:pAnsiChar;hContact:HCONTACT=0):pAnsiChar; overload;
+function ConvertFileName(src:pWideChar;dst:pWideChar;hContact:HCONTACT=0):pWideChar; overload;
 
 procedure ShowPopupW(text:pWideChar;title:pWideChar=nil);
 function GetAddonFileName(prefix,altname,path:PAnsiChar;ext:PAnsiChar):PAnsiChar;
@@ -31,31 +31,31 @@ function TranslateA2W(sz:PAnsiChar):PWideChar;
 function MirandaCP:integer;
 
 function isVarsInstalled:bool;
-function ParseVarString(astr:pAnsiChar;aContact:THANDLE=0;extra:pAnsiChar=nil):pAnsiChar; overload;
-function ParseVarString(astr:pWideChar;aContact:THANDLE=0;extra:pWideChar=nil):pWideChar; overload;
+function ParseVarString(astr:pAnsiChar;aContact:HCONTACT=0;extra:pAnsiChar=nil):pAnsiChar; overload;
+function ParseVarString(astr:pWideChar;aContact:HCONTACT=0;extra:pWideChar=nil):pWideChar; overload;
 function ShowVarHelp(dlg:HWND;id:integer=0):integer;
 
-function  IsChat(hContact:THANDLE):bool;
-procedure SendToChat(hContact:THANDLE;pszText:PWideChar);
+function  IsChat(hContact:HCONTACT):bool;
+procedure SendToChat(hContact:HCONTACT;pszText:PWideChar);
 
-function LoadContact(group,setting:PAnsiChar):THANDLE;
-function SaveContact(hContact:THANDLE;group,setting:PAnsiChar):integer;
+function LoadContact(group,setting:PAnsiChar):HCONTACT;
+function SaveContact(hContact:HCONTACT;group,setting:PAnsiChar):integer;
 
-function SetCListSelContact(hContact:THANDLE):THANDLE;
-function GetCListSelContact:THANDLE; {$IFDEF DELPHI_10_UP}inline;{$ENDIF}
-function GetContactProtoAcc(hContact:THANDLE):PAnsiChar;
-function  IsMirandaUser(hContact:THANDLE):integer; // >0=Miranda; 0=Not miranda; -1=unknown
-procedure ShowContactDialog(hContact:THANDLE;DblClk:boolean=true;anystatus:boolean=true);
-function  FindContactHandle(proto:pAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):THANDLE;
-function  WndToContact(wnd:hwnd):THANDLE; overload;
-function  WndToContact:THANDLE; overload;
-function  GetContactStatus(hContact:THANDLE):integer;
+function SetCListSelContact(hContact:HCONTACT):HCONTACT;
+function GetCListSelContact:HCONTACT; {$IFDEF DELPHI_10_UP}inline;{$ENDIF}
+function GetContactProtoAcc(hContact:HCONTACT):PAnsiChar;
+function  IsMirandaUser(hContact:HCONTACT):integer; // >0=Miranda; 0=Not miranda; -1=unknown
+procedure ShowContactDialog(hContact:HCONTACT;DblClk:boolean=true;anystatus:boolean=true);
+function  FindContactHandle(proto:pAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):HCONTACT;
+function  WndToContact(wnd:hwnd):HCONTACT; overload;
+function  WndToContact:HCONTACT; overload;
+function  GetContactStatus(hContact:HCONTACT):integer;
 // -2 - deleted account, -1 - disabled account, 0 - hidden
 // 1 - metacontact, 2 - submetacontact, positive - active
 // proto - ASSIGNED buffer
-function  IsContactActive(hContact:THANDLE;proto:pAnsiChar=nil):integer;
+function  IsContactActive(hContact:HCONTACT;proto:pAnsiChar=nil):integer;
 
-function CreateGroupW(name:pWideChar;hContact:THANDLE):integer;
+function CreateGroupW(name:pWideChar;hContact:HCONTACT):integer;
 
 function MakeGroupMenu(idxfrom:integer=100):HMENU;
 function GetNewGroupName(parent:HWND):pWideChar;
@@ -95,7 +95,7 @@ begin
   SendMessage(btn,BM_SETIMAGE,IMAGE_ICON,result);
 end;
 
-function ConvertFileName(src:pWideChar;dst:pWideChar;hContact:THANDLE=0):pWideChar; overload;
+function ConvertFileName(src:pWideChar;dst:pWideChar;hContact:HCONTACT=0):pWideChar; overload;
 var
   pc:pWideChar;
 begin
@@ -115,7 +115,7 @@ begin
   end;
 end;
 
-function ConvertFileName(src:pWideChar;hContact:THANDLE=0):pWideChar; overload;
+function ConvertFileName(src:pWideChar;hContact:HCONTACT=0):pWideChar; overload;
 var
   buf1:array [0..511] of WideChar;
 begin
@@ -125,7 +125,7 @@ begin
     result:=nil;
 end;
 
-function ConvertFileName(src:pAnsiChar;dst:pAnsiChar;hContact:THANDLE=0):pAnsiChar; overload;
+function ConvertFileName(src:pAnsiChar;dst:pAnsiChar;hContact:HCONTACT=0):pAnsiChar; overload;
 var
   pc:pAnsiChar;
 begin
@@ -145,7 +145,7 @@ begin
   end;
 end;
 
-function ConvertFileName(src:pAnsiChar;hContact:THANDLE=0):pAnsiChar; overload;
+function ConvertFileName(src:pAnsiChar;hContact:HCONTACT=0):pAnsiChar; overload;
 var
   buf1:array [0..511] of AnsiChar;
 begin
@@ -165,7 +165,7 @@ begin
   result:=MirCP;
 end;
 
-function IsChat(hContact:THANDLE):bool;
+function IsChat(hContact:HCONTACT):bool;
 begin
   result:=DBReadByte(hContact,
     PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),
@@ -173,16 +173,19 @@ begin
 end;
 
 function isVarsInstalled:bool;
+{$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=ServiceExists(MS_VARS_FORMATSTRING)<>0;
 end;
 
-function ParseVarString(astr:pAnsiChar;aContact:THANDLE=0;extra:pAnsiChar=nil):pAnsiChar;
+function ParseVarString(astr:pAnsiChar;aContact:HCONTACT=0;extra:pAnsiChar=nil):pAnsiChar;
 var
   tfi:TFORMATINFO;
   tmp,pc:pAnsiChar;
   dat:TREPLACEVARSDATA;
 begin
+  if (astr=nil) or (astr^=#0) then exit;
+
   if ServiceExists(MS_UTILS_REPLACEVARS)<>0 then
   begin
     FillChar(dat,SizeOf(TREPLACEVARSDATA),0);
@@ -214,12 +217,14 @@ begin
   mir_free(pc);
 end;
 
-function ParseVarString(astr:pWideChar;aContact:THANDLE=0;extra:pWideChar=nil):pWideChar;
+function ParseVarString(astr:pWideChar;aContact:HCONTACT=0;extra:pWideChar=nil):pWideChar;
 var
   tfi:TFORMATINFO;
   tmp,pc:pWideChar;
   dat:TREPLACEVARSDATA;
 begin
+  if (astr=nil) or (astr^=#0) then exit;
+
   if ServiceExists(MS_UTILS_REPLACEVARS)<>0 then
   begin
     FillChar(dat,SizeOf(TREPLACEVARSDATA),0);
@@ -251,7 +256,6 @@ begin
     StrDupW(result,astr);
   end;
   mir_free(pc); // forced!
-//  mFreeMem(pc);
 end;
 
 function ShowVarHelp(dlg:HWND;id:integer=0):integer;
@@ -310,7 +314,7 @@ begin
   end;
 end;
 
-function GetContactProtoAcc(hContact:THANDLE):PAnsiChar;
+function GetContactProtoAcc(hContact:HCONTACT):PAnsiChar;
 begin
   if ServiceExists(MS_PROTO_GETCONTACTBASEACCOUNT)<>0 then
     result:=PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEACCOUNT,hContact,0))
@@ -318,7 +322,7 @@ begin
     result:=PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0));
 end;
 
-function IsMirandaUser(hContact:THANDLE):integer; // >0=Miranda; 0=Not miranda; -1=unknown
+function IsMirandaUser(hContact:HCONTACT):integer; // >0=Miranda; 0=Not miranda; -1=unknown
 var
   sz:PAnsiChar;
 begin
@@ -333,7 +337,7 @@ begin
     result:=-1;
 end;
 
-function SetCListSelContact(hContact:THANDLE):THANDLE;
+function SetCListSelContact(hContact:HCONTACT):HCONTACT;
 var
   wnd:HWND;
 begin
@@ -349,7 +353,7 @@ begin
   result:=SendMessageW(CallService(MS_CLUI_GETHWNDTREE,0,0),CLM_GETSELECTION,0,0);
 end;
 
-function LoadContact(group,setting:PAnsiChar):THANDLE;
+function LoadContact(group,setting:PAnsiChar):HCONTACT;
 var
   p,proto:pAnsiChar;
   section:array [0..63] of AnsiChar;
@@ -374,7 +378,7 @@ begin
     mFreeMem(dbv.szVal.W);
 end;
 
-function SaveContact(hContact:THANDLE;group,setting:PAnsiChar):integer;
+function SaveContact(hContact:HCONTACT;group,setting:PAnsiChar):integer;
 var
   p,proto,uid:pAnsiChar;
   cws:TDBVARIANT;
@@ -416,9 +420,9 @@ begin
   end;
 end;
 
-function WndToContact(wnd:hwnd):THANDLE; overload;
+function WndToContact(wnd:hwnd):HCONTACT; overload;
 var
-  hContact:THANDLE;
+  hContact:THCONTACT;
   mwid:TMessageWindowInputData;
   mwod:TMessageWindowOutputData;
 begin
@@ -446,7 +450,7 @@ begin
   result:=0;
 end;
 
-function WndToContact:THANDLE; overload;
+function WndToContact:HCONTACT; overload;
 var
   wnd:HWND;
 begin
@@ -461,7 +465,7 @@ begin
     result:=GetCListSelContact;
 end;
 
-function GetContactStatus(hContact:THANDLE):integer;
+function GetContactStatus(hContact:HCONTACT):integer;
 var
   szProto:PAnsiChar;
 begin
@@ -551,7 +555,7 @@ begin
   end;
 end;
 
-procedure ShowContactDialog(hContact:THANDLE;DblClk:boolean=true;anystatus:boolean=true);
+procedure ShowContactDialog(hContact:HCONTACT;DblClk:boolean=true;anystatus:boolean=true);
 var
   pc:array [0..127] of AnsiChar;
 begin
@@ -605,7 +609,7 @@ begin
   CallServiceSync(MS_GC_EVENT,0,lparam(@gce));
 end;
 
-procedure SendToChat(hContact:THANDLE;pszText:PWideChar);
+procedure SendToChat(hContact:HCONTACT;pszText:PWideChar);
 var
   gci:TGC_INFO;
   pszModule:PAnsiChar;
@@ -618,7 +622,7 @@ begin
   while i<cnt do
   begin
     gci.iItem:=i;
-    gci.Flags:=GCI_BYINDEX+GCI_HCONTACT+GCI_ID;
+    gci.Flags:=GCF_BYINDEX+GCF_HCONTACT+GCF_ID;
     CallService(MS_GC_GETINFO,0,lparam(@gci));
     if gci.hContact=hContact then
     begin
@@ -629,11 +633,11 @@ begin
   end;
 end;
 
-function FindContactHandle(proto:pAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):THANDLE;
+function FindContactHandle(proto:pAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):HCONTACT;
 var
   uid:pAnsiChar;
   ldbv:TDBVARIANT;
-  hContact:THANDLE;
+  hContact:THCONTACT;
   pw:pWideChar;
 begin
   result:=0;
@@ -688,7 +692,7 @@ begin
   end;
 end;
 
-function IsContactActive(hContact:THANDLE;proto:pAnsiChar=nil):integer;
+function IsContactActive(hContact:HCONTACT;proto:pAnsiChar=nil):integer;
 var
   p:PPROTOACCOUNT;
   name: array [0..31] of AnsiChar;
@@ -737,7 +741,7 @@ begin
 end;
 
 // Import plugin function adaptation
-function CreateGroupW(name:pWideChar;hContact:THANDLE):integer;
+function CreateGroupW(name:pWideChar;hContact:HCONTACT):integer;
 var
   groupId:integer;
   groupIdStr:array [0..10] of AnsiChar;

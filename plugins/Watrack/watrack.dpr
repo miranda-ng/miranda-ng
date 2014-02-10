@@ -113,7 +113,7 @@ begin
   result:=int_ptr(ReturnInfo(wParam,lParam));
 end;
 
-function WATGetFileInfo(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+function WATGetFileInfo(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
 var
 //  si:TSongInfo;
   dst:pSongInfo;
@@ -163,7 +163,7 @@ begin
   end;
 end;
 
-function WATGetMusicInfo(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+function WATGetMusicInfo(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
 type
   ppointer = ^pointer;
 const

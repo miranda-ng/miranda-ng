@@ -83,7 +83,7 @@ type
     GetBlobSize:function(hDbEvent:THANDLE):long; stdcall;
     GetEvent:function(hDbEvent:THANDLE; dbe:PDBEVENTINFO):bool; stdcall;
     MarkEventRead:function(contactID:MCONTACT; hDbEvent:THANDLE):bool; stdcall;
-    GetEventContact:function(hDbEvent:THANDLE):THANDLE; stdcall;
+    GetEventContact:function(hDbEvent:THANDLE):MCONTACT; stdcall;
     FindFirstEvent:function(contactID:MCONTACT):THANDLE; stdcall;
     FindFirstUnreadEvent:function(contactID:MCONTACT):THANDLE; stdcall;
     FindLastEvent:function(contactID:MCONTACT):THANDLE; stdcall;

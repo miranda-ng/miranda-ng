@@ -220,7 +220,7 @@ begin
       height  :=tr.bottom-tr.top+2;
       Flags   :=F_VISIBLE or F_NOBORDER or F_UNICODE;
       name.w  :=cPluginName;
-      TBName.w:=cPluginName + ' volume control';
+      TBName.w:=TranslateW(cPluginName + ' volume control');
     end;
 
     FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,wparam(@Frame),0);

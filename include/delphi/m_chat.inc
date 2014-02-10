@@ -493,15 +493,15 @@ const
 }
 
 // Flags
-  GCI_BYINDEX  = $0001; // iItem is valid and should contain the index of the session to get
-  GCI_BYID     = $0002; // pszID is valid and should contain the ID of the session to get. This is the default if no
-  GCI_HCONTACT = $0004; // hContact is valid
-  GCI_DATA     = $0008; // wItemData is valid
-  GCI_ID       = $0010; // pszID is valid.
-  GCI_NAME     = $0020; // pszName is valid
-  GCI_ITYPE    = $0040; // iType is valid
-  GCI_COUNT    = $0080; // iCount is valid
-  GCI_USERS    = $0100; // pszUsers is valid
+  GCF_BYINDEX  = $0001; // iItem is valid and should contain the index of the session to get
+  GCF_BYID     = $0002; // pszID is valid and should contain the ID of the session to get. This is the default if no
+  GCF_HCONTACT = $0004; // hContact is valid
+  GCF_DATA     = $0008; // wItemData is valid
+  GCF_ID       = $0010; // pszID is valid.
+  GCF_NAME     = $0020; // pszName is valid
+  GCF_ITYPE    = $0040; // iType is valid
+  GCF_COUNT    = $0080; // iCount is valid
+  GCF_USERS    = $0100; // pszUsers is valid
 
 // The GC_INFO structure
 type
@@ -516,7 +516,7 @@ type
     iCount    :int;       // count of users in the nicklist
     pszUsers  :PAnsiChar; // space separated string containing the UID's of the users in the user list.
                           // NOTE. Use Mirandas mmi_free() on the returned string.
-    hContact  :THANDLE;   // hContact for the session (can be NULL)
+    hContact  :HCONTACT;  // hContact for the session (can be NULL)
   end;
 
 const

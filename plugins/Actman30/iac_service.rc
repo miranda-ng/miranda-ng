@@ -1,4 +1,3 @@
-#include "i_cnst_service.inc"
 
 LANGUAGE 0,0
 
@@ -7,26 +6,6 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE  WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0
 {
-  GROUPBOX     "Result"        , -1,              1,  0, 166, 64, WS_GROUP
-  RTEXT        "Result type"   , -1             , 4, 10, 159, 11
-  COMBOBOX                       IDC_SRV_RESULT , 4, 21, 159, 76, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL
-  AUTOCHECKBOX "Free memory"   , IDC_RES_FREEMEM, 4, 38, 159, 11
-  AUTOCHECKBOX "Unicode string", IDC_RES_UNICODE, 4, 50, 159, 11
-
-  RTEXT    "Service name", -1, 1, 68, 160,  8
-  COMBOBOX IDC_EDIT_SERVICE  , 1, 78, 166, 96, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL | CBS_SORT
-
-  RTEXT      "wParam type", -1,             1, 101,  63, 14, SS_CENTERIMAGE
-  COMBOBOX                  IDC_FLAG_WPAR, 66, 101, 102, 56, CBS_DROPDOWNLIST | WS_VSCROLL
-//  RTEXT      "wParam"     , -1,             1, 116, 160,  8
-  COMBOBOX                  IDC_EDIT_WPAR,  1, 116, 166, 76, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL
-  PUSHBUTTON "Structure"  , IDC_WSTRUCT  ,  1, 116, 166, 14
-
-  RTEXT      "lParam type", -1,             1, 142,  63, 14, SS_CENTERIMAGE
-  COMBOBOX                  IDC_FLAG_LPAR, 66, 142, 102, 56, CBS_DROPDOWNLIST | WS_VSCROLL
-//  RTEXT      "lParam"     , -1,             1, 157, 160,  8
-  COMBOBOX                  IDC_EDIT_LPAR,  1, 157, 166, 76, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL
-  PUSHBUTTON "Structure"  , IDC_LSTRUCT  ,  1, 157, 166, 14
 }
 
 IDI_SERVICE ICON "ico\service.ico"

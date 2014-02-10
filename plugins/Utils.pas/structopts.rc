@@ -45,9 +45,10 @@ FONT 8, "MS Shell Dlg", 0, 0
   EDITTEXT                      IDC_DATA_EDTN, 186,  55, 160, 11
 #ifdef Miranda
   CONTROL "V"  ,IDC_VAR_HELP   ,"MButtonClass",WS_TABSTOP,328,137,16,16,$18000000
-  AUTOCHECKBOX "Use Variables", IDC_DATA_VARS, 186, 138, 142, 14
-  AUTOCHECKBOX "Use MMI"      , IDC_DATA_MMI , 186, 152, 160, 14
+  AUTOCHECKBOX "Use Variables", IDC_DATA_VARS , 186, 138, 142, 14
+  AUTOCHECKBOX "Use MMI"      , IDC_DATA_MMI  , 186, 153, 160, 14
 #endif
+  AUTOCHECKBOX "Structure size", IDC_DATA_SIZE, 186, 153, 160, 14
 
   DEFPUSHBUTTON   "&Change", IDC_DATA_CHANGE, 186, 168,  46, 14//, WS_GROUP
   PUSHBUTTON      "&OK"    , IDOK           , 250, 168,  46, 14

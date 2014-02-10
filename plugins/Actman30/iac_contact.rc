@@ -7,7 +7,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE  WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0
 {
-  RTEXT           "Choose Contact", -1   , 0, 2, 160, 10
+  RTEXT           "Choose contact", -1   , 0, 2, 160, 10
   CONTROL         "Refresh",IDC_CNT_REFRESH,"MButtonClass",WS_TABSTOP,1,12,16,16,$18000000
   COMBOBOX        IDC_CONTACTLIST, 19, 14, 148, 128, CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL
   AUTOCHECKBOX    "Keep handle only", IDC_CNT_KEEP  , 1, 31, 160, 11

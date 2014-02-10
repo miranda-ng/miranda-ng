@@ -80,7 +80,7 @@ type
     pszModule :PAnsiChar; // button owners name 
     dwButtonId:DWORD;     // registered button ID
     hwndFrom  :HWND;      // button parents HWND
-    hContact  :THANDLE;   //
+    hContact  :HCONTACT;
     flags     :DWORD;     // BBCF_ flags
   end;
 

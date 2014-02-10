@@ -4,14 +4,14 @@ unit rccenter;
 interface
 
 uses
-  windows;
+  windows,m_api;
 
 function ControlCenter(code:WPARAM;arg:LPARAM):int_ptr; cdecl;
 
 implementation
 
 uses
-  common, m_api,
+  common,
   dbsettings, playlist, mirutils,
   rglobal, rbass,
   Dynamic_Bass,

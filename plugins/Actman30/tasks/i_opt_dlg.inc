@@ -275,13 +275,14 @@ function DeleteTask(Dialog:HWND):integer;
 var
   li:LV_ITEM;
   wnd:HWND;
-  i:integer;
+  i,j:integer;
 begin
   result:=0;
   wnd:=GetDlgItem(Dialog,IDC_TASK_NAME);
-  for i:=ListView_GetItemCount(wnd)-1 downto 0 do
+  j:=SendMessage(wnd,LVM_GETITEMCOUNT,0,0);
+  for i:=j-1 downto 0 do
   begin
-    if ListView_GetItemState(wnd,i,LVIS_SELECTED)<>0 then
+    if SendMessage(wnd,LVM_GETITEMSTATE,i,LVIS_SELECTED)<>0 then
     begin
       li.iItem     :=i;
       li.mask      :=LVIF_PARAM;

@@ -10,9 +10,9 @@ uses
   m_api,
   sedit,strans,mApiCardM,
   mirutils,dbsettings, editwrapper,
+  sparam,srvblock,
   syswin,wrapper,common;
 
-{$include i_cnst_service.inc}
 {$resource iac_service.res}
 
 const
@@ -254,7 +254,7 @@ begin
     ClearResult(WorkData);
 
     // result type processing
-    if (flags and ACF_RSTRING)<>0 then
+    if (flags and (ACF_RSTRING or ACF_UNICODE))<>0 then
     begin
 //!! delete old or not?
       if (flags and ACF_RUNICODE)=0 then
@@ -467,420 +467,62 @@ end;
 
 //----- Dialog realization -----
 
-const
-  ptNumber  = 0;
-  ptString  = 1;
-  ptUnicode = 2;
-  ptCurrent = 3;
-  ptResult  = 4;
-  ptParam   = 5;
-  ptStruct  = 6;
-const
-  sresInt    = 0;
-  sresString = 1;
-  sresStruct = 2;
-
-procedure MakeResultTypeList(wnd:HWND);
-begin
-  SendMessage(wnd,CB_RESETCONTENT,0,0);
-  InsertString(wnd,sresInt   ,'Integer');
-  InsertString(wnd,sresString,'String');
-  InsertString(wnd,sresStruct,'Structure');
-  SendMessage(wnd,CB_SETCURSEL,0,0);
-end;
-
-procedure MakeParamTypeList(wnd:HWND);
-begin
-  SendMessage(wnd,CB_RESETCONTENT,0,0);
-  InsertString(wnd,ptNumber ,'number value');
-  InsertString(wnd,ptString ,'ANSI string');
-  InsertString(wnd,ptUnicode,'Unicode string');
-  InsertString(wnd,ptCurrent,'current contact');
-  InsertString(wnd,ptResult ,'last result');
-  InsertString(wnd,ptParam  ,'parameter');
-  InsertString(wnd,ptStruct ,'structure');
-  SendMessage(wnd,CB_SETCURSEL,0,0);
-end;
-
-var
-  ApiCard:tmApiCard;
-  
-function FixParam(Dialog:HWND;buf:PAnsiChar;flag:integer):integer;
-begin
-  if      StrCmp(buf,Translate('hContact'    ))=0 then result:=ptCurrent
-  else if StrCmp(buf,Translate('parameter'   ))=0 then result:=ptParam
-  else if StrCmp(buf,Translate('result'      ))=0 then result:=ptResult
-  else if StrCmp(buf,Translate('structure'   ))=0 then result:=ptStruct
-  else if StrCmp(buf,Translate('Unicode text'))=0 then result:=ptUnicode
-  else
-  begin
-    if (buf[0] in ['0'..'9']) or ((buf[0]='-') and (buf[1] in ['0'..'9'])) or
-      ((buf[0]='$') and (buf[1] in sHexNum)) or
-      ((buf[0]='0') and (buf[1]='x') and (buf[2] in sHexNum)) then
-      result:=ptNumber
-    else
-      result:=ptString;
-  end;
-
-  CB_SelectData(Dialog,flag,result);
-//    SendDlgItemMessage(Dialog,flag,CB_SETCURSEL,result,0);
-  SendMessage(Dialog,WM_COMMAND,(CBN_SELCHANGE shl 16) or flag,GetDlgItem(Dialog,flag));
-end;
-
-procedure ReloadService(Dialog:HWND;setvalue:boolean);
-var
-  pc:pAnsiChar;
-  buf,buf1:array [0..127] of AnsiChar;
-  wnd:hwnd;
-  i:integer;
-  struct:pAnsiChar;
-//    bufw:array [0..MaxDescrLen] of WideChar;
-begin
-  wnd:=GetDlgItem(Dialog,IDC_EDIT_SERVICE);
-  SendMessageA(wnd,CB_GETLBTEXT,SendMessage(wnd,CB_GETCURSEL,0,0),tlparam(@buf));
-  ApiCard.Service:=@buf;
-
-  pc:=ApiCard.FillParams(GetDlgItem(Dialog,IDC_EDIT_WPAR),true);
-  if pc<>nil then
-  begin
-    if GetDlgItemTextA(Dialog,IDC_EDIT_WPAR,buf1,SizeOf(buf1))>0 then
-      case FixParam(Dialog,@buf1,IDC_FLAG_WPAR) of
-        ptStruct: begin
-          if setvalue then
-          begin
-            struct:=pAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,
-            long_ptr(StrDup(struct,StrScan(pc,'|')+1))));
-            mFreeMem(struct);
-          end;
-
-{          struct:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA));
-          mFreeMem(struct);
-          StrDup(struct,StrScan(pc,'|')+1);
-          SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,long_ptr(struct));
-//            AnsiToWide(StrScan(pc,'|')+1,wstruct,MirandaCP);
-}
-        end;
-      end;
-    mFreeMem(pc);
-  end;
-
-  pc:=ApiCard.FillParams(GetDlgItem(Dialog,IDC_EDIT_LPAR),false);
-  if pc<>nil then
-  begin
-    if GetDlgItemTextA(Dialog,IDC_EDIT_LPAR,buf1,SizeOf(buf1))>0 then
-      case FixParam(Dialog,@buf1,IDC_FLAG_LPAR) of
-        ptStruct: begin
-          if setvalue then
-          begin
-            struct:=pAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA,
-            long_ptr(StrDup(struct,StrScan(pc,'|')+1))));
-            mFreeMem(struct);
-          end;
-{
-          struct:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA));
-          mFreeMem(struct);
-          StrDup(struct,StrScan(pc,'|')+1);
-          SetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA,long_ptr(struct));
-//            AnsiToWide(StrScan(pc,'|')+1,lstruct,MirandaCP);
-}
-        end;
-      end;
-    mFreeMem(pc);
-  end;
-
-  pc:=ApiCard.ResultType;
-  i:=sresInt;
-  if pc<>nil then
-  begin
-    if      lstrcmpia(pc,'struct')=0 then i:=sresStruct
-    else if lstrcmpia(pc,'str')=0 then
-    begin
-      i:=sresString;
-      CheckDlgButton(Dialog,IDC_RES_UNICODE,BST_UNCHECKED);
-    end
-    else if lstrcmpia(pc,'wide')=0 then
-    begin
-      i:=sresString;
-      CheckDlgButton(Dialog,IDC_RES_UNICODE,BST_CHECKED);
-    end;
-    mFreeMem(pc);
-  end;
-  CB_SelectData(Dialog,IDC_SRV_RESULT,i);
-//    ApiCard.Show;
-end;
-
-// true - need to show structure
-function SetParam(Dialog:HWND; aflags:dword; id:integer; aparam:pWideChar):integer;
-var
-  wnd:HWND;
-begin
-  wnd:=GetDlgItem(Dialog,id);
-  if (aflags and ACF_PARAM)<>0 then
-  begin
-    EnableWindow(wnd,false);
-    result:=ptParam;
-  end
-  else if (aflags and ACF_RESULT)<>0 then
-  begin
-    EnableWindow(wnd,false);
-    result:=ptResult;
-  end
-  else if (aflags and ACF_CURRENT)<>0 then
-  begin
-    EnableWindow(wnd,false);
-    result:=ptCurrent;
-  end
-  else if (aflags and ACF_PARNUM)<>0 then
-  begin
-    result:=ptNumber;
-    SetDlgItemTextW(Dialog,id,aparam);
-  end
-  else if (aflags and ACF_STRUCT)<>0 then
-  begin
-    result:=ptStruct;
-  end
-  else if (aflags and ACF_UNICODE)<>0 then
-  begin
-    result:=ptUnicode;
-    SetDlgItemTextW(Dialog,id,aparam);
-  end
-  else
-  begin
-    result:=ptString;
-    SetDlgItemTextW(Dialog,id,aparam);
-  end;
-  SetEditFlags(wnd,EF_SCRIPT,ord((aflags and ACF_SCRIPT_PARAM)<>0));
-end;
-
-procedure ClearFields(Dialog:HWND);
-var
-  wnd:HWND;
-begin
-  ShowWindow(GetDlgItem(Dialog,IDC_WSTRUCT),SW_HIDE);
-  wnd:=GetDlgItem(Dialog,IDC_EDIT_WPAR);
-  ShowEditField  (wnd,SW_SHOW);
-  EnableEditField(wnd,true);
-  SendMessage    (wnd,CB_RESETCONTENT,0,0);
-//??  SetDlgItemTextW(Dialog,IDC_EDIT_WPAR,nil);
-  CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_WPAR),ptNumber);
-  SetEditFlags(wnd,EF_ALL,0);
-
-  ShowWindow  (GetDlgItem(Dialog,IDC_LSTRUCT),SW_HIDE);
-  wnd:=GetDlgItem(Dialog,IDC_EDIT_LPAR);
-  ShowEditField  (wnd,SW_SHOW);
-  EnableEditField(wnd,true);
-  SendMessage    (wnd,CB_RESETCONTENT,0,0);
-//??  SetDlgItemTextW(Dialog,IDC_EDIT_LPAR,nil);
-  CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_LPAR),ptNumber);
-  SetEditFlags(wnd,EF_ALL,0);
-
-  ShowWindow(GetDlgItem(Dialog,IDC_RES_FREEMEM),SW_HIDE);
-  ShowWindow(GetDlgItem(Dialog,IDC_RES_UNICODE),SW_HIDE);
-  CheckDlgButton(Dialog,IDC_RES_FREEMEM,BST_UNCHECKED);
-  CheckDlgButton(Dialog,IDC_RES_UNICODE,BST_UNCHECKED);
-
-  CB_SelectData(Dialog,IDC_SRV_RESULT,sresInt);
-end;
-
 function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
-const
-  NoProcess:boolean=true;
 var
-  i:integer;
-  pc,pc1:pAnsiChar;
-  wnd,wnd1:HWND;
-  pcw:PWideChar;
+  ServiceBlock:HWND;
+  rc:TRECT;
+  sv:tServiceValue;
 begin
   result:=0;
 
   case hMessage of
     WM_DESTROY: begin
-      ApiCard.Free;
-      pc:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA));
-      mFreeMem(pc);
-      pc:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA));
-      mFreeMem(pc);
     end;
     
     WM_INITDIALOG: begin
-      MakeResultTypeList(GetDlgItem(Dialog,IDC_SRV_RESULT));
-      MakeParamTypeList(GetDlgItem(Dialog,IDC_FLAG_WPAR));
-      MakeParamTypeList(GetDlgItem(Dialog,IDC_FLAG_LPAR));
+      GetClientRect(Dialog,rc);
+      ServiceBlock:=CreateServiceBlock(Dialog,0,0,rc.right,rc.bottom,ACF_NOVISUAL or ACF_SCRIPT_EXPAND);
+      SetWindowLongPtrW(Dialog,GWLP_USERDATA,ServiceBlock);
+      SetServiceListMode(ServiceBlock,DBReadByte(0,DBBranch,'SrvListMode'));
 
       TranslateDialogDefault(Dialog);
-
-//??
-      MakeEditField(Dialog,IDC_EDIT_SERVICE);
-      MakeEditField(Dialog,IDC_EDIT_WPAR);
-      MakeEditField(Dialog,IDC_EDIT_LPAR);
-
-      ApiCard:=CreateServiceCard(Dialog);
-      ApiCard.FillList(GetDlgItem(Dialog,IDC_EDIT_SERVICE),
-        DBReadByte(0,DBBranch,'SrvListMode'));
     end;
 
     WM_ACT_SETVALUE: begin
-      NoProcess:=true;
-      ClearFields(Dialog);
-
+      ServiceBlock:=GetWindowLongPtrW(Dialog,GWLP_USERDATA);
       with tServiceAction(lParam) do
       begin
-        if CB_SelectData(Dialog,IDC_EDIT_SERVICE,Hash(service,StrLen(service)))<>CB_ERR then
-//        if SendDlgItemMessageA(Dialog,IDC_EDIT_SERVICE,CB_SELECTSTRING,twparam(-1),tlparam(service))<>CB_ERR then
-          ReloadService(Dialog,false)
-        else
-          SetDlgItemTextA(Dialog,IDC_EDIT_SERVICE,service);
-//!!
-        SetEditFlags(GetDlgItem(Dialog,IDC_EDIT_SERVICE),EF_SCRIPT,
-              ord((flags and ACF_SCRIPT_SERVICE)<>0));
-
-        // RESULT
-        if (flags and ACF_RSTRUCT)<>0 then
-          i:=sresStruct
-        else if (flags and ACF_RSTRING)<>0 then
-        begin
-          i:=sresString;
-          if (flags and ACF_RUNICODE)<>0 then CheckDlgButton(Dialog,IDC_RES_UNICODE,BST_CHECKED);
-          if (flags and ACF_RFREEMEM)<>0 then CheckDlgButton(Dialog,IDC_RES_FREEMEM,BST_CHECKED);
-        end
-        else
-        begin
-          i:=sresInt;
-        end;
-        CB_SelectData(Dialog,IDC_SRV_RESULT,i);
-
-        // WPARAM
-        i:=SetParam(Dialog,flags,IDC_EDIT_WPAR,pWideChar(wparam));
-        if i=ptStruct then
-        begin
-          ShowEditField(GetDlgItem(Dialog,IDC_EDIT_WPAR),SW_HIDE);
-          ShowWindow   (GetDlgItem(Dialog,IDC_WSTRUCT  ),SW_SHOW);
-
-{
-          p:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA));
-          mFreeMem(p);
-}
-          SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,
-            long_ptr(StrDup(pc,pAnsiChar(wparam))));
-        end;
-        CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_WPAR),i);
-
-        // LPARAM
-        i:=SetParam(Dialog,flags2,IDC_EDIT_LPAR,pWideChar(lparam));
-        if i=ptStruct then
-        begin
-          ShowEditField(GetDlgItem(Dialog,IDC_EDIT_LPAR),SW_HIDE);
-          ShowWindow   (GetDlgItem(Dialog,IDC_LSTRUCT  ),SW_SHOW);
-
-{
-          p:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA));
-          mFreeMem(p);
-}
-          SetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA,
-            long_ptr(StrDup(pc,pAnsiChar(lparam))));
-        end;
-        CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_LPAR),i);
-
+        sv.service:=service;
+        sv.w_flag :=flags;
+        sv.wparam :=wparam;
+        sv.l_flag :=flags2;
+        sv.lparam :=lparam;
+        sv.flags  :=flags;
       end;
-      NoProcess:=false;
+      SetSrvBlockValue(ServiceBlock,sv);
     end;
 
     WM_ACT_RESET: begin
-      NoProcess:=true;
-      ClearFields(Dialog);
-      SetDlgItemTextW(Dialog,IDC_EDIT_SERVICE,nil);
-      SetDlgItemTextW(Dialog,IDC_EDIT_WPAR,'0');
-      SetDlgItemTextW(Dialog,IDC_EDIT_LPAR,'0');
-{
-      ShowWindow(GetDlgItem(Dialog,IDC_WSTRUCT),SW_HIDE);
-      ShowWindow(GetDlgItem(Dialog,IDC_LSTRUCT),SW_HIDE);
-}
-      NoProcess:=false;
+      ClearServiceBlock(GetWindowLongPtrW(Dialog,GWLP_USERDATA));
     end;
 
     WM_ACT_SAVE: begin
       with tServiceAction(lParam) do
       begin
-        //WPARAM
-        wnd:=GetDlgItem(Dialog,IDC_EDIT_WPAR);
-        case CB_GetData(GetDlgItem(Dialog,IDC_FLAG_WPAR)) of
-          ptParam: begin
-            flags:=flags or ACF_PARAM
-          end;
-          ptResult: begin
-            flags:=flags or ACF_RESULT
-          end;
-          ptCurrent: begin
-            flags:=flags or ACF_CURRENT
-          end;
-          ptNumber: begin
-            flags:=flags or ACF_PARNUM;
-            wparam:=GetDlgText(wnd);
-          end;
-          ptStruct: begin
-            flags:=flags or ACF_STRUCT;
-            StrDup(pAnsiChar(wparam),
-                pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA)));
-          end;
-          ptUnicode: begin
-            flags:=flags or ACF_UNICODE;
-            wparam:=GetDlgText(wnd);
-          end;
-          ptString: wparam:=GetDlgText(wnd);
-        end;
-        if (GetEditFlags(wnd) and EF_SCRIPT)<>0 then
-           flags:=flags or ACF_SCRIPT_PARAM;
+        ServiceBlock:=GetWindowLongPtrW(Dialog,GWLP_USERDATA);
+        GetSrvBlockValue(ServiceBlock,sv);
 
-        // LPARAM
-        wnd:=GetDlgItem(Dialog,IDC_EDIT_LPAR);
-        case CB_GetData(GetDlgItem(Dialog,IDC_FLAG_LPAR)) of
-          ptParam: begin
-            flags2:=flags2 or ACF_PARAM
-          end;
-          ptResult: begin
-            flags2:=flags2 or ACF_RESULT
-          end;
-          ptCurrent: begin
-            flags2:=flags2 or ACF_CURRENT
-          end;
-          ptNumber: begin
-            flags2:=flags2 or ACF_PARNUM;
-            lparam:=GetDlgText(wnd);
-          end;
-          ptStruct: begin
-            flags2:=flags2 or ACF_STRUCT;
-            StrDup(pAnsiChar(lparam),
-                pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA)));
-          end;
-          ptUnicode: begin
-            flags2:=flags2 or ACF_UNICODE;
-            lparam:=GetDlgText(wnd);
-          end;
-          ptString: lparam:=GetDlgText(wnd);
-        end;
-        if (GetEditFlags(wnd) and EF_SCRIPT)<>0 then
-           flags2:=flags2 or ACF_SCRIPT_PARAM;
-
-        // RESULT
-        case CB_GetData(GetDlgItem(Dialog,IDC_SRV_RESULT)) of
-          sresString: begin
-            flags:=flags or ACF_RSTRING;
-            if IsDlgButtonChecked(Dialog,IDC_RES_UNICODE)=BST_CHECKED then
-              flags:=flags or ACF_RUNICODE;
-            if IsDlgButtonChecked(Dialog,IDC_RES_FREEMEM)=BST_CHECKED then
-              flags:=flags or ACF_RFREEMEM;
-          end;
-          sresStruct: flags:=flags or ACF_RSTRUCT;
-        end;
-
-        service:=ApiCard.NameFromList(GetDlgItem(Dialog,IDC_EDIT_SERVICE));
-//!!
-        if (GetEditFlags(Dialog,IDC_EDIT_SERVICE) and EF_SCRIPT)<>0 then
-           flags:=flags or ACF_SCRIPT_SERVICE;
+        service:=sv.service;
+        wparam :=sv.wparam;
+        lparam :=sv.lparam;
+        flags2 :=sv.l_flag;
+        flags  :=sv.flags or sv.w_flag;
       end;
     end;
 
+    //??
     WM_SHOWWINDOW: begin
+{
       // hide window by ShowWindow function
       if (lParam=0) and (wParam=0) then
       begin
@@ -889,100 +531,15 @@ begin
         pc:=pAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_LSTRUCT),GWLP_USERDATA,0));
         mFreeMem(pc);
       end;
-    end;
-
-    WM_COMMAND: begin
-      case wParam shr 16 of
-{        CBN_EDITUPDATE,
 }
-        CBN_EDITCHANGE,
-        EN_CHANGE: if not NoProcess then
-            SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
-
-        CBN_SELCHANGE:  begin
-          case loword(wParam) of
-            IDC_SRV_RESULT: begin
-              i:=CB_GetData(lParam);
-              case i of
-                sresInt,sresStruct: begin
-                  ShowWindow(GetDlgItem(Dialog,IDC_RES_FREEMEM),SW_HIDE);
-                  ShowWindow(GetDlgItem(Dialog,IDC_RES_UNICODE),SW_HIDE);
-                end;
-                sresString: begin
-                  ShowWindow(GetDlgItem(Dialog,IDC_RES_FREEMEM),SW_SHOW);
-                  ShowWindow(GetDlgItem(Dialog,IDC_RES_UNICODE),SW_SHOW);
-                end;
-              end;
-            end;
-
-            IDC_FLAG_WPAR,IDC_FLAG_LPAR: begin
-              if loword(wParam)=IDC_FLAG_WPAR then
-              begin
-                wnd :=GetDlgItem(Dialog,IDC_EDIT_WPAR);
-                wnd1:=GetDlgItem(Dialog,IDC_WSTRUCT);
-              end
-              else
-              begin
-                wnd :=GetDlgItem(Dialog,IDC_EDIT_LPAR);
-                wnd1:=GetDlgItem(Dialog,IDC_LSTRUCT);
-              end;
-              i:=CB_GetData(GetDlgItem(Dialog,loword(wParam)));
-
-              if i=ptStruct then
-              begin
-                ShowEditField(wnd,SW_HIDE);
-                ShowWindow(wnd1,SW_SHOW);
-              end
-              else
-              begin
-                ShowEditField(wnd,SW_SHOW);
-                ShowWindow(wnd1,SW_HIDE);
-                if i in [ptCurrent,ptResult,ptParam] then
-                  EnableEditField(wnd,false)
-                else
-                begin
-                  if i=ptNumber then
-                  begin
-                    pcw:='0';
-                    SendMessageW(wnd,WM_SETTEXT,0,TLParam(pcw));
-                  end;
-                  EnableEditField(wnd,true);
-                end;
-              end;
-            end;
-
-            IDC_EDIT_SERVICE: ReloadService(Dialog,true);
-          end;
-          if not NoProcess then
-            SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
-        end;
-
-        BN_CLICKED: begin
-          case loword(wParam) of
-            IDC_WSTRUCT, IDC_LSTRUCT: begin
-              pc:=pAnsiChar(GetWindowLongPtrW(lParam,GWLP_USERDATA));
-//!!!!
-              pc1:=EditStructure(pAnsiChar(pc),Dialog);
-              if pc1<>nil then
-              begin
-                mFreeMem(pc);
-                SetWindowLongPtrW(lParam,GWLP_USERDATA,long_ptr(pc1));
-                SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
-              end;
-            end;
-          else
-            SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
-          end;
-        end;
-
-      end;
     end;
-
+{
+    WM_COMMAND: begin
+    end;
+}
     WM_HELP: begin
-      pc:=ApiCard.NameFromList(GetDlgItem(Dialog,IDC_EDIT_SERVICE));
-      ApiCard.Service:=pc;
-      mFreeMem(pc);
-      ApiCard.Show;
+      ServiceBlock:=GetWindowLongPtrW(Dialog,GWLP_USERDATA);
+      SendMessage(ServiceBlock,WM_HELP,0,0);
 
       result:=1;
     end;

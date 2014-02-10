@@ -33,15 +33,15 @@ type
     cbSize             :uint;       // size of the structure
     hwndRichEditControl:HWND;       // handle to the rich edit control
     rangeToReplace     :PCHARRANGE; // same meaning as for normal Richedit use (NULL = replaceall)
-    Protocolname       :PAnsiChar;      // protocol to use... if you have defined a
+    Protocolname       :PAnsiChar;  // protocol to use... if you have defined a
        // protocol, u can use your own protocol name. SmileyAdd will
        // automatically select the smileypack that is defined for your protocol.
        // Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
        // if you prefer those icons.
        // If not found or NULL, "Standard" will be used
-    flags              :uint;    // Flags (SAFLRE_*) that define the behaivior
-    disableRedraw      :BOOL;    // Parameter have been depricated, have no effect on operation
-    hContact           :THANDLE; // Contact handle
+    flags              :uint;       // Flags (SAFLRE_*) that define the behaivior
+    disableRedraw      :BOOL;       // Parameter have been depricated, have no effect on operation
+    hContact           :HCONTACT;   // Contact handle
   end;
 
 {
@@ -63,17 +63,15 @@ type
       // Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
       // if you prefer those icons.
       // If not found or NULL: "Standard" will be used
-    xPosition    : int;     // Postition to place the selectwindow
+    xPosition    : int;       // Postition to place the selectwindow
     yPosition    : int;
-    Direction    : int;     // Direction (i.e. size upwards/downwards/etc) of
-                            // the window 0, 1, 2, 3
-    hwndTarget   : HWND;    // Window, where to send the message when smiley
-                            // is selected.
-    targetMessage: uint;    // Target message, to be sent.
-    targetWParam : LPARAM;  // Target WParam to be sent (LParam will be PAnsiChar to
-                            // select smiley) see the example file.
-    hwndParent   : HWND;    // Parent window for smiley dialog
-    hContact     : THANDLE; // Contact handle
+    Direction    : int;       // Direction (i.e. size upwards/downwards/etc) of the window 0, 1, 2, 3
+    hwndTarget   : HWND;      // Window, where to send the message when smiley is selected.
+    targetMessage: uint;      // Target message, to be sent.
+    targetWParam : LPARAM;    // Target WParam to be sent (LParam will be PAnsiChar to
+                              // select smiley) see the example file.
+    hwndParent   : HWND;      // Parent window for smiley dialog
+    hContact     : HCONTACT;  // Contact handle
   end;
 
 {
@@ -93,14 +91,14 @@ const
 type
   PSMADD_INFO2 = ^TSMADD_INFO2;
   TSMADD_INFO2 = record
-    cbSize                : int;     // size of the structure
+    cbSize                : int;       // size of the structure
     Protocolname          : PAnsiChar;
-    ButtonIcon            : HICON;   // RETURN VALUE: this is filled with the
+    ButtonIcon            : HICON;     // RETURN VALUE: this is filled with the
      // icon handle of the smiley that can be used on the button
      // do not destroy! NULL if the buttonicon is not defined...
-    NumberOfVisibleSmileys: int;     // Number of visible smileys defined.
-    NumberOfSmileys       : int;     // Number of total smileys defined
-    hContact              : THANDLE; //Contact handle
+    NumberOfVisibleSmileys: int;       // Number of visible smileys defined.
+    NumberOfSmileys       : int;       // Number of total smileys defined
+    hContact              : HCONTACT;  //Contact handle
   end;
 
 const
@@ -120,18 +118,18 @@ type
   TSMADD_BATCHPARSE2 = record
     cbSize      :uint;      // size of the structure
     Protocolname:PAnsiChar; // protocol to use... if you have defined a protocol, u can
-                          // use your own protocol name. Smiley add wil automatically
-                          // select the smileypack that is defined for your protocol.
-                          // Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
-                          // if you prefer those icons.
-                          // If not found or NULL: "Standard" will be used
-    str         :TChar;   // String to parse
-    flag        :uint;    // One of the SAFL_ flags specifies parsing requirements
-                          // This parameter should be filled by the user
-    numSmileys  :uint;    // Number of Smileys found, this parameter filled by SmileyAdd
-    oflag       :uint;    // One of the SAFL_ flags specifies content of the parse results
-                          // this parameter filled by SmileyAdd
-    hContact    :THANDLE; // Contact handle
+                            // use your own protocol name. Smiley add wil automatically
+                            // select the smileypack that is defined for your protocol.
+                            // Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
+                            // if you prefer those icons.
+                            // If not found or NULL: "Standard" will be used
+    str         :TChar;     // String to parse
+    flag        :uint;      // One of the SAFL_ flags specifies parsing requirements
+                            // This parameter should be filled by the user
+    numSmileys  :uint;      // Number of Smileys found, this parameter filled by SmileyAdd
+    oflag       :uint;      // One of the SAFL_ flags specifies content of the parse results
+                            // this parameter filled by SmileyAdd
+    hContact    :HCONTACT;  // Contact handle
   end;
 
 type
@@ -239,9 +237,9 @@ const
 type
   SMADD_CONT = record
     cbSize  :uint;
-    hContact:THANDLE;
-    _type   :int;     // 0 - directory, 1 - file;
-    path    :TChar;   // smiley category name for reference
+    hContact:HCONTACT;
+    _type   :int;      // 0 - directory, 1 - file;
+    path    :TChar;    // smiley category name for reference
   end;
 const
 //Loads all smileys for the contact

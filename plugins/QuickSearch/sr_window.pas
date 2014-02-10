@@ -51,7 +51,7 @@ type
   end;
   pQSFRec = ^tQSFRec;
   tQSFRec = record // row (contact)
-    contact:THANDLE;
+    contact:HCONTACT;
     proto  :uint_ptr;
     flags  :dword;
     status :dword;
@@ -115,7 +115,7 @@ begin
   end;
 end;
 
-procedure AddContactToList(hContact:THANDLE;num:integer);
+procedure AddContactToList(hContact:HCONTACT;num:integer);
 var
   li:LV_ITEMW;
   i:integer;
@@ -337,7 +337,7 @@ end;
 
 //----- contacts actions -----
 
-function GetFocusedhContact:THANDLE;
+function GetFocusedhContact:HCONTACT;
 var
   i:integer;
 begin
@@ -348,7 +348,7 @@ begin
     result:=FlagBuf[i].contact;
 end;
 
-procedure ShowContactMsgDlg(hContact:THANDLE);
+procedure ShowContactMsgDlg(hContact:HCONTACT);
 begin
   if hContact<>0 then
   begin
@@ -357,7 +357,7 @@ begin
   end;
 end;
 
-procedure DeleteOneContact(hContact:THANDLE);
+procedure DeleteOneContact(hContact:HCONTACT);
 begin
   if ServiceExists(strCListDel)>0 then
     CallService(strCListDel,hContact,0)
@@ -388,8 +388,8 @@ end;
 
 procedure ConvertToMeta;
 var
-  hMeta:THANDLE;
-  tmp:THANDLE;
+  hMeta:HCONTACT;
+  tmp:HCONTACT;
   i,j:integer;
 begin
   j:=ListView_GetItemCount(grid)-1;
@@ -438,7 +438,7 @@ end;
 procedure UpdateLVCell(item,column:integer;text:pWideChar=pWideChar(-1));
 var
   li:LV_ITEMW;
-  contact:THANDLE;
+  contact:HCONTACT;
   row:integer;
 begin
   contact:=FlagBuf[LV_GetLParam(grid,item)].contact;
@@ -469,7 +469,7 @@ end;
 
 procedure MoveToGroup(group:PWideChar);
 var
-  contact:THANDLE;
+  contact:HCONTACT;
   i,j,grcol,row:integer;
 begin
   j:=ListView_GetItemCount(grid)-1;
@@ -512,7 +512,7 @@ end;
 
 procedure MoveToContainer(container:PWideChar);
 var
-  contact:THANDLE;
+  contact:HCONTACT;
   i,j,grcol,row:integer;
 begin
   j:=ListView_GetItemCount(grid)-1;
@@ -784,7 +784,7 @@ begin
   UpdateLVCell(SendMessage(grid,LVM_GETNEXTITEM,-1,LVNI_FOCUSED),cmcolumn,qsr.text);
 end;
 
-function ShowContactMenu(wnd:HWND;hContact:THANDLE;col:integer=-1):HMENU;
+function ShowContactMenu(wnd:HWND;hContact:HCONTACT;col:integer=-1):HMENU;
 var
   mi:TCListMenuItem;
   pt:tpoint;

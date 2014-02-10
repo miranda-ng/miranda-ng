@@ -56,7 +56,7 @@ type
 type
   PPOPUPDATA = ^TPOPUPDATA;
   TPOPUPDATA = record
-    lchContact      : THANDLE;
+    lchContact      : HCONTACT;
     lchIcon         : HICON;
     lpszContactName : array [0..MAX_CONTACTNAME-1] of AnsiChar;
     lpszText        : array [0..MAX_SECONDLINE -1] of AnsiChar;
@@ -81,7 +81,7 @@ type
 type
   PPOPUPDATAW = ^TPOPUPDATAW;
   TPOPUPDATAW = record
-    lchContact      : THANDLE;
+    lchContact      : HCONTACT;
     lchIcon         : HICON;
     lpwzContactName : array [0..MAX_CONTACTNAME-1] of WideChar;
     lpwzText        : array [0..MAX_SECONDLINE -1] of WideChar;
@@ -344,7 +344,7 @@ const
 
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc
-  MS_POPUP_REGISTERCLASS = 'Popup/RegisterClass';
+  MS_POPUP_REGISTERCLASS   = 'Popup/RegisterClass';
   MS_POPUP_UNREGISTERCLASS = 'Popup/UnregisterClass';
 
 type
@@ -354,7 +354,7 @@ type
 		szTitle     :TChar;
 		szText      :TChar;
 	  PluginData  :pointer;
-	  hContact    :THANDLE;
+	  hContact    :HCONTACT;
   end;
   POPUPDATACLASS = TPOPUPDATACLASS;
 

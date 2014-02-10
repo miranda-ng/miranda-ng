@@ -2,7 +2,7 @@ unit EditWrapper;
 
 interface
 
-uses windows;
+uses windows,m_api;
 
 // exported flags
 const
@@ -32,7 +32,7 @@ function ShowEditBox(parent:HWND;var text:pWideChar;title:pWideChar):int_ptr;
 
 implementation
 
-uses messages,commctrl,common,wrapper,m_api;
+uses messages,commctrl,common,wrapper;
 
 {$R editwrapper.res}
 {$include 'i_text_const.inc'}

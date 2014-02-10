@@ -56,7 +56,7 @@ type
     szExtraText:TCHAR;       // Extra, context-specific string (can be NULL) ->
                              // The field "extratext" will be replaced by this
                              // string. (Previously szSource).
-    hContact   :THANDLE;     // Handle to contact (can be NULL) -> The field "subject"
+    hContact   :HCONTACT;    // Handle to contact (can be NULL) -> The field "subject"
                              // represents this contact.
     pCount     :int;         // (output) Number of succesful parsed tokens, needs to
                              // be set to 0 before the call
@@ -67,13 +67,6 @@ type
     cbTemporaryVarsSize:int; // Number of elements in szaTemporaryVars array
   end;
 
-const
-//  FORMATINFOV2_SIZE = (SizeOf(int)*4+SizeOf(pointer)*2 + SizeOf(THANDLE));
-  {$IFNDEF WIN64}
-  FORMATINFOV2_SIZE = 28;
-  {$ELSE}
-  FORMATINFOV2_SIZE = SIZEOF(TFORMATINFO);
-  {$ENDIF}
 
 const
 // Possible flags:

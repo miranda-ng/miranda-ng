@@ -51,7 +51,7 @@ type
     value    : TDBVARIANT; // variant containing value to set
   end;
 
-  {
+{
     wParam : Handle of a contact to enum settings for
     lParam : Pointer to a TDBCONTACTENUMSETTINGS structure, must be initalised
     affect : Enumerates all settings for a given contact under a module,
@@ -69,7 +69,7 @@ type
              it is unclear how you stop the enumeration once it is started, maybe
              possible to return -1 to stop it.
     vesion : only valid for 0.1.0.1+
-  }
+}
 
 type
   TDBSETTINGENUMPROC = function(const szSetting: PAnsiChar; lParam: LPARAM): int; cdecl;

@@ -32,7 +32,7 @@
 type
   PCCSDATA = ^TCCSDATA;
   TCCSDATA = record
-    hContact      : THANDLE;
+    hContact      : HCONTACT;
     szProtoService: PAnsiChar;      // a PS_* constant
     wParam        : WPARAM;
     lParam        : LPARAM;
@@ -51,12 +51,12 @@ type
   PACKDATA = ^TACKDATA;
   TACKDATA = record
     cbSize  : int;
-    szModule: PAnsiChar;   // the name of the protocol module which initiated this ack
-    hContact: THANDLE;
-    _type   : int;     // an ACKTYPE_* constant
-    _result : int;     // an ACKRESULT_* constant
-    hProcess: THANDLE; // caller defined seq, I mean process code
-    lParam  : LPARAM;  // caller defined data
+    szModule: PAnsiChar; // the name of the protocol module which initiated this ack
+    hContact: HCONTACT;
+    _type   : int;       // an ACKTYPE_* constant
+    _result : int;       // an ACKRESULT_* constant
+    hProcess: THANDLE;   // caller defined seq, I mean process code
+    lParam  : LPARAM;    // caller defined data
   end;
 
 const
@@ -123,7 +123,7 @@ type
   PPROTOFILETRANSFERSTATUS = ^TPROTOFILETRANSFERSTATUS;
   TPROTOFILETRANSFERSTATUS = record
     cbSize             : size_t;
-    hContact           : THANDLE;
+    hContact           : HCONTACT;
     flags              : dword;     // one of PFTS_* constants
     files              : ^TCHAR;
     totalFiles         : int;
@@ -388,18 +388,18 @@ const
 type
   PPROTO_AVATAR_INFORMATIONW = ^TPROTO_AVATAR_INFORMATIONW;
   TPROTO_AVATAR_INFORMATIONW = record
-    cbSize  : int;     // sizeof()
-    hContact: THANDLE; // this might have to be set by the caller too
-    format  : int;     // PA_FORMAT_*
+    cbSize  : int;      // sizeof()
+    hContact: HCONTACT; // this might have to be set by the caller too
+    format  : int;      // PA_FORMAT_*
     // full path to filename which contains the avatar
     filename: array[0..(MAX_PATH)-1] of WideChar;
   end;
 
   PPROTO_AVATAR_INFORMATION = ^TPROTO_AVATAR_INFORMATION;
   TPROTO_AVATAR_INFORMATION = record
-    cbSize  : int;     // sizeof()
-    hContact: THANDLE; // this might have to be set by the caller too
-    format  : int;     // PA_FORMAT_*
+    cbSize  : int;      // sizeof()
+    hContact: HCONTACT; // this might have to be set by the caller too
+    format  : int;      // PA_FORMAT_*
     // full path to filename which contains the avatar
     filename: array[0..(MAX_PATH)-1] of AnsiChar;
   end;

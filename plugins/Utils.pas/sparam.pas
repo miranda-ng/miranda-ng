@@ -2,7 +2,7 @@ unit sparam;
 
 interface
 
-uses windows;
+uses windows, m_api;
 
 const
   // parameter flags
@@ -50,7 +50,7 @@ function SetParamLabel   (Dialog:HWND; lbl:pWideChar):HWND;
 
 procedure ClearParam    (flags:dword; var param);
 function  DuplicateParam(flags:dword; var sparam,dparam):dword;
-function  TranslateParam(param:uint_ptr;flags:dword;hContact:THANDLE):uint_ptr;
+function  TranslateParam(param:uint_ptr;flags:dword;hContact:HCONTACT):uint_ptr;
 
 function CreateResultBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
 function ClearResultFields(Dialog:HWND):HWND;
@@ -62,7 +62,7 @@ implementation
 uses
   messages,
   common, editwrapper, wrapper, syswin,
-  m_api, sedit, strans,
+  sedit, strans,
   mirutils;
 
 const
@@ -651,7 +651,7 @@ begin
   result:=flags;
 end;
 
-function TranslateParam(param:uint_ptr;flags:dword;hContact:THANDLE):uint_ptr;
+function TranslateParam(param:uint_ptr;flags:dword;hContact:HCONTACT):uint_ptr;
 var
   tmp1:pWideChar;
 begin

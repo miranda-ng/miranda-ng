@@ -57,7 +57,7 @@ var
 {$include i_proto_opt.inc}
 {$include i_proto_dlg.inc}
 
-procedure AddEvent(hContact:THANDLE;atype,flag:integer;data:pointer;size:integer;time:dword=0);
+procedure AddEvent(hContact:HCONTACT;atype,flag:integer;data:pointer;size:integer;time:dword=0);
 var
   dbeo:TDBEVENTINFO;
 begin
@@ -206,7 +206,7 @@ begin
 end;
 *)
 
-function ReceiveMessageProcW(wParam:WPARAM; lParam:LPARAM):integer; cdecl;
+function ReceiveMessageProcW(wParam:WPARAM; lParam:LPARAM):int_ptr; cdecl;
 const
   bufsize = 4096*SizeOf(WideChar);
 var
@@ -390,7 +390,7 @@ begin
   mFreeMem(buf);
 end;
 
-function SendRequest(hContact:WPARAM;lParam:LPARAM):integer; cdecl;
+function SendRequest(hContact:WPARAM;lParam:LPARAM):int_ptr; cdecl;
 var
   buf:array [0..2047] of AnsiChar;
 begin
@@ -404,7 +404,7 @@ end;
 
 procedure RegisterContacts;
 var
-  hContact:integer;
+  hContact:THCONTACT;
 begin
   hContact:=db_find_first();
   while hContact<>0 do
@@ -415,7 +415,7 @@ begin
   end;
 end;
 
-function HookAddUser(hContact:WPARAM;lParam:LPARAM):integer; cdecl;
+function HookAddUser(hContact:WPARAM;lParam:LPARAM):int; cdecl;
 begin
   result:=0;
   if not IsChat(hContact) then

@@ -66,14 +66,14 @@ type
     RebuildIcons:TMIRANDAHOOK;
 
     // Callback to set the icon to clist, calling MS_CLIST_EXTRA_SET_ICON or MS_EXTRAICON_SET_ICON
-    // wParam = HANDLE hContact
+    // wParam = hContact
     // lParam = int slot
     ApplyIcon:TMIRANDAHOOK;
 
     // Other optional callbacks
 
     // [Optional] Callback called when extra icon was clicked
-    // wParam = HANDLE hContact
+    // wParam = hContact
     // lParam = int slot
     // param = onClickParam
     OnClick:TMIRANDAHOOKPARAM;
@@ -91,8 +91,8 @@ const
 type
   TEXTRAICON = record
     cbSize    :int;
-    hExtraIcon:THANDLE; // Value returned by MS_EXTRAICON_REGISTER
-    hContact  :THANDLE; // Contact to set the extra icon
+    hExtraIcon:THANDLE;  // Value returned by MS_EXTRAICON_REGISTER
+    hContact  :HCONTACT; // Contact to set the extra icon
     // The icon to be set. This depends on the type of the extra icon:
 	  case boolean of
       false:(hImage :THANDLE);   // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)

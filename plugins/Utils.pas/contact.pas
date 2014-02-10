@@ -3,21 +3,21 @@ unit contact;
 
 interface
 
-uses windows;
+uses windows, m_api;
 
 procedure FillContactList(list:hwnd; filter:boolean=true;format:pWideChar=nil);
-function FindContact(list:hwnd;contact:THANDLE):integer;
+function FindContact(list:hwnd;contact:HCONTACT):integer;
 
 implementation
 
-uses messages, common, m_api, dbsettings, mirutils;
+uses messages, common, dbsettings, mirutils;
 
 const
   defformat = '%name% - %uid% (%account%:%group%)';
 
 procedure FillContactList(list:hwnd; filter:boolean=true;format:pWideChar=nil);
 var
-  hContact:THANDLE;
+  hContact:THCONTACT;
   buf:array [0..511] of WideChar;
   buf1:array [0..63] of WideChar;
   p:PWideChar;
@@ -109,7 +109,7 @@ begin
   end;
 end;
 
-function FindContact(list:hwnd;contact:THANDLE):integer;
+function FindContact(list:hwnd;contact:HCONTACT):integer;
 var
   j:integer;
 begin
