@@ -639,7 +639,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			if (dc->dwRemoteUin || !dc->dwReqId)
 			{ // OMG! Licq sends on reverse connection empty uin
 				hContact = HContactFromUIN(dc->dwRemoteUin, NULL);
-				if (hContact == INVALID_HANDLE_VALUE)
+				if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 				{
 					NetLog_Direct("Error: Received PEER_INIT from %u not on my list", dwUin);
 					CloseDirectConnection(dc);

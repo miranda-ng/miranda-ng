@@ -862,7 +862,7 @@ void CIcqProto::parseDirectoryUserDetailsData(HCONTACT hContact, oscar_tlv_chain
 			dwUin = atoi(szUid);
 
 		hContact = HContactFromUID(dwUin, szUid, NULL);
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 		{
 			debugLogA("Error: Received details for unknown contact \"%s\"", szUid);
 			SAFE_FREE(&szUid);

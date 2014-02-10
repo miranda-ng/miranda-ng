@@ -738,7 +738,6 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 				msg += (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, 0);
 				SetWindowTextA(hwndDlg, msg.c_str());
 			}
-			bool isContactSecured(HANDLE);
 			if(!hcnt)
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SELECT_EXISTING), 0);
@@ -1182,8 +1181,6 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					key_buf.clear();
 					if(IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ENCRYPTION))
 					{
-						void setSrmmIcon(HANDLE);
-						void setClistIcon(HANDLE);
 						if(hContact)
 						{
 							if(metaIsProtoMetaContacts(hContact))

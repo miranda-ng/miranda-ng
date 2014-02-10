@@ -46,14 +46,14 @@ CSkypeProto::~CSkypeProto()
 	}
 }
 
-HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	CContact::Ref contact;
 	this->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(psr->id)), contact);
 	return this->AddContact(contact);
 }
 
-HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+HCONTACT __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);

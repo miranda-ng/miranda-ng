@@ -82,50 +82,50 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	HANDLE __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	HANDLE __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
+	virtual	HCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	HCONTACT  __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
 
-	virtual	int    __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int    __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
-	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
+	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
+	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
 
-	virtual	HANDLE __cdecl ChangeInfo(int iInfoType, void* pInfoData);
+	virtual	HANDLE    __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
-	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
-	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
-	virtual	int    __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
+	virtual	HANDLE    __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int       __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
+	virtual	int       __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL);
-	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType);
+	virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType);
 
-	virtual	HANDLE __cdecl SearchBasic(const TCHAR *id);
-	virtual	HANDLE __cdecl SearchByEmail(const TCHAR *email);
-	virtual	HANDLE __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
-	virtual	HWND   __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND owner);
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
+	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *email);
+	virtual	HANDLE    __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
+	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
-	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
-	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
-	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char *msg);
-	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char *url);
+	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char *msg);
+	virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char *url);
 
-	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
-	virtual	int    __cdecl SetStatus(int iNewStatus);
+	virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode);
+	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
-	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt);
-	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
+	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT* evt);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
+	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type);
 
-	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	//====| Services |====================================================================
 	INT_PTR  __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);

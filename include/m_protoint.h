@@ -150,8 +150,8 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) = 0;
-	virtual	HANDLE   __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) = 0;
+	virtual	HCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) = 0;
+	virtual	HCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) = 0;
 
 	virtual	int      __cdecl Authorize(HANDLE hDbEvent) = 0;
 	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason) = 0;

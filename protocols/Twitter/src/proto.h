@@ -36,8 +36,8 @@ public:
 
 	//PROTO_INTERFACE
 
-	virtual	HANDLE    __cdecl AddToList(int,PROTOSEARCHRESULT *);
-	virtual	HANDLE    __cdecl AddToListByEvent(int,int,HANDLE);
+	virtual	HCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);
+	virtual	HCONTACT  __cdecl AddToListByEvent(int,int,HANDLE);
 
 	virtual	int       __cdecl Authorize(HANDLE);
 	virtual	int       __cdecl AuthDeny(HANDLE,const TCHAR *);

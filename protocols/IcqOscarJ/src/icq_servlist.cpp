@@ -807,7 +807,7 @@ void CIcqProto::AddJustAddedContact(HCONTACT hContact)
 	if (nJustAddedCount >= nJustAddedSize)
 	{
 		nJustAddedSize += 10;
-		pdwJustAddedList = (HANDLE*)SAFE_REALLOC(pdwJustAddedList, nJustAddedSize * sizeof(HANDLE));
+		pdwJustAddedList = (HCONTACT*)SAFE_REALLOC(pdwJustAddedList, nJustAddedSize * sizeof(HCONTACT));
 	}
 
 	pdwJustAddedList[nJustAddedCount] = hContact;

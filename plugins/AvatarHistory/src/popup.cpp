@@ -70,7 +70,7 @@ void ShowTestPopup(HCONTACT hContact,const TCHAR *title, const TCHAR *descriptio
 
 void ShowPopup(HCONTACT hContact, const TCHAR *title, const TCHAR *description)
 {
-	ShowPopupEx(hContact, title, description, hContact, POPUP_TYPE_NORMAL, &opts);
+	ShowPopupEx(hContact, title, description, (void*)hContact, POPUP_TYPE_NORMAL, &opts);
 }
 
 void ShowDebugPopup(HCONTACT hContact, const TCHAR *title, const TCHAR *description)

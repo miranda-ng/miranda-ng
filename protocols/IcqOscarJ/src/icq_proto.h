@@ -54,50 +54,50 @@ struct CIcqProto : public PROTO<CIcqProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	HANDLE __cdecl AddToList( int flags, PROTOSEARCHRESULT *psr);
-	virtual	HANDLE __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent);
+	virtual	HCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT *psr);
+	virtual	HCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent);
 
-	virtual	int    __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int    __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
-	virtual	int    __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
+	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
+	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl AuthRecv(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl AuthRequest(HCONTACT hContact, const TCHAR *szMessage);
 
-	virtual	HANDLE __cdecl ChangeInfo( int iInfoType, void *pInfoData);
+	virtual	HANDLE    __cdecl ChangeInfo( int iInfoType, void *pInfoData);
 
-	virtual	HANDLE __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
-	virtual	int    __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
-	virtual	int    __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
-	virtual	int    __cdecl FileResume( HANDLE hTransfer, int *action, const TCHAR **szFilename);
+	virtual	HANDLE    __cdecl FileAllow(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int       __cdecl FileCancel(HCONTACT hContact, HANDLE hTransfer);
+	virtual	int       __cdecl FileDeny(HCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const TCHAR **szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, HCONTACT hContact = NULL);
-	virtual	int    __cdecl GetInfo(HCONTACT hContact, int infoType);
+	virtual	int       __cdecl GetInfo(HCONTACT hContact, int infoType);
 
-	virtual	HANDLE __cdecl SearchBasic(const PROTOCHAR *id);
-	virtual	HANDLE __cdecl SearchByEmail(const PROTOCHAR *email);
-	virtual	HANDLE __cdecl SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, const PROTOCHAR *lastName);
-	virtual	HWND   __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND owner);
+	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR *id);
+	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR *email);
+	virtual	HANDLE    __cdecl SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, const PROTOCHAR *lastName);
+	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int    __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
-	virtual	int    __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
-	virtual	int    __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvContacts(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvFile(HCONTACT hContact, PROTORECVFILET*);
+	virtual	int       __cdecl RecvMsg(HCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvUrl(HCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int    __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
-	virtual	HANDLE __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
-	virtual	int    __cdecl SendMsg(HCONTACT hContact, int flags, const char *msg);
-	virtual	int    __cdecl SendUrl(HCONTACT hContact, int flags, const char *url);
+	virtual	int       __cdecl SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList);
+	virtual	HANDLE    __cdecl SendFile(HCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int       __cdecl SendMsg(HCONTACT hContact, int flags, const char *msg);
+	virtual	int       __cdecl SendUrl(HCONTACT hContact, int flags, const char *url);
 
-	virtual	int    __cdecl SetApparentMode(HCONTACT hContact, int mode);
-	virtual	int    __cdecl SetStatus(int iNewStatus);
+	virtual	int       __cdecl SetApparentMode(HCONTACT hContact, int mode);
+	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE __cdecl GetAwayMsg(HCONTACT hContact);
-	virtual	int    __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt);
-	virtual	int    __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
+	virtual	HANDLE    __cdecl GetAwayMsg(HCONTACT hContact);
+	virtual	int       __cdecl RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int    __cdecl UserIsTyping(HCONTACT hContact, int type);
+	virtual	int       __cdecl UserIsTyping(HCONTACT hContact, int type);
 
-	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	//====| Services |====================================================================
 	INT_PTR  __cdecl AddServerContact(WPARAM wParam, LPARAM lParam);
@@ -620,7 +620,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	// server-list support functions
 	int    nJustAddedCount;
 	int    nJustAddedSize;
-	HANDLE* pdwJustAddedList;
+	HCONTACT* pdwJustAddedList;
 
 	void   AddJustAddedContact(HCONTACT hContact);
 	BOOL   IsContactJustAdded(HCONTACT hContact);
@@ -766,8 +766,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   oft_sendFileRedirect(DWORD dwUin, char *szUid, oscar_filetransfer *ft, DWORD dwIP, WORD wPort, int bProxy);
 
 	//---- | icq_svcs.cpp |----------------------------------------------------------------
-	HANDLE AddToListByUIN(DWORD dwUin, DWORD dwFlags);
-	HANDLE AddToListByUID(const char *szUID, DWORD dwFlags);
+	HCONTACT AddToListByUIN(DWORD dwUin, DWORD dwFlags);
+	HCONTACT AddToListByUID(const char *szUID, DWORD dwFlags);
 
 	void   ICQAddRecvEvent(HCONTACT hContact, WORD wType, PROTORECVEVENT* pre, DWORD cbBlob, PBYTE pBlob, DWORD flags);
 	INT_PTR __cdecl IcqAddCapability(WPARAM wParam, LPARAM lParam);

@@ -485,8 +485,6 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					}
 					db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
 					db_set_b(ccs->hContact, szGPGModuleName, "bAlwatsTrust", 1);
-					void setSrmmIcon(HANDLE);
-					void setClistIcon(HANDLE);
 					setSrmmIcon(ccs->hContact);
 					setClistIcon(ccs->hContact);
 					if(metaIsSubcontact(ccs->hContact))

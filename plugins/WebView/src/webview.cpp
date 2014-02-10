@@ -129,7 +129,7 @@ void StartUpdate(void *dummy)
 	Sleep(((db_get_dw(NULL, MODULENAME, START_DELAY_KEY, 0)) * SECOND));
 
 	for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
-		GetData(hContact);
+		GetData((void*)hContact);
 
 	StartUpDelay = 0;
 }
@@ -139,7 +139,7 @@ void ContactLoop(void *dummy)
 {
 	if (StartUpDelay == 0) {
 		for (HCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-			GetData(hContact);
+			GetData((void*)hContact);
 			Sleep(10); // avoid 100% CPU
 		}
 	}
@@ -212,11 +212,11 @@ int Doubleclick(WPARAM wParam, LPARAM lParam)
 		ShowWindow(hwndDlg, SW_SHOW);
 		SetActiveWindow(hwndDlg);
 
-		if ( db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
-			if ( db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
-				mir_forkthread(ReadFromFile, hContact);
+		if (db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
+			if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
+				mir_forkthread(ReadFromFile, (void*)hContact);
 			else
-				mir_forkthread(GetData, hContact);
+				mir_forkthread(GetData, (void*)hContact);
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
 		}
 	}
@@ -395,9 +395,9 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam)
 
 	if ( db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
 		if ( db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
-			mir_forkthread(ReadFromFile, hContact);
+			mir_forkthread(ReadFromFile, (void*)hContact);
 		else
-			mir_forkthread(GetData, hContact);
+			mir_forkthread(GetData, (void*)hContact);
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
 	}
 
@@ -467,7 +467,7 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HCONTACT singlecontact)
 {
-	mir_forkthread(GetData, singlecontact);
+	mir_forkthread(GetData, (void*)singlecontact);
 	return 0;
 }
 

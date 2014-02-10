@@ -23,7 +23,7 @@ void showmsgwnd(unsigned int param)
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)param, 0);
 }
 
-LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, HANDLE user)
+LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, HCONTACT user)
 {
 	logmsg("ShowOSD");
 
@@ -196,7 +196,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 
 	TCHAR buffer[512];
 	mir_sntprintf(buffer, SIZEOF(buffer), buf, c1, c2);
-	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), (HANDLE)wParam);
+	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), (HCONTACT)wParam);
 
 	mir_free( c1 );
 	mir_free( c2 );

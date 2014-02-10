@@ -72,7 +72,7 @@ private:
 		std::wstring file;
 	};
 
-	static std::map<HANDLE, ImportDiscData> contactFileMap;
+	static std::map<HCONTACT, ImportDiscData> contactFileMap;
 	static std::wstring contactFileDir;
 
 	bool CanShowHistory(DBEVENTINFO* dbei);

@@ -49,12 +49,12 @@ int GetStringFromDatabase(HCONTACT hContact, char *szModule, char *szSettingName
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, int size);
 int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, int count);
 
-TCHAR *GetContactName(HCONTACT hContact, char *szProto);
-TCHAR *GetContactID(HCONTACT hContact);
-TCHAR *GetContactID(HCONTACT hContact, char *szProto);
-HANDLE GetContactFromID(TCHAR *szID, char *szProto);
-HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto);
-void GetContactProtocol(HCONTACT hContact, char *szProto, int size);
+TCHAR   *GetContactName(HCONTACT hContact, char *szProto);
+TCHAR   *GetContactID(HCONTACT hContact);
+TCHAR   *GetContactID(HCONTACT hContact, char *szProto);
+HCONTACT GetContactFromID(TCHAR *szID, char *szProto);
+HCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto);
+void     GetContactProtocol(HCONTACT hContact, char *szProto, int size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);
 

@@ -633,7 +633,7 @@ INT_PTR CIcqProto::SetPassword(WPARAM wParam, LPARAM lParam)
 
 // TODO: Adding needs some more work in general
 
-HANDLE CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)
+HCONTACT CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)
 {
 	int bAdded;
 	HCONTACT hContact = HContactFromUIN(dwUin, &bAdded);
@@ -652,7 +652,7 @@ HANDLE CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)
 }
 
 
-HANDLE CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
+HCONTACT CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 {
 	int bAdded;
 	HCONTACT hContact = HContactFromUID(0, szUID, &bAdded);

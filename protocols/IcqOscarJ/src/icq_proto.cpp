@@ -316,7 +316,7 @@ int CIcqProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AddToList - adds a contact to the contact list
 
-HANDLE CIcqProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	if (psr) {
 		if (psr->cbSize == sizeof(ICQSEARCHRESULT)) {
@@ -354,7 +354,7 @@ HANDLE CIcqProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return 0; // Failure
 }
 
-HANDLE __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+HCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	DWORD uin = 0;
 	uid_str uid = { 0 };
@@ -374,24 +374,24 @@ HANDLE __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEv
 
 	switch (dbei.eventType) {
 	case EVENTTYPE_CONTACTS:
-	{
-									  char *pbOffset = (char*)dbei.pBlob;
-									  char *pbEnd = pbOffset + dbei.cbBlob;
-									  for (int i = 0; i <= iContact; i++) {
-										  pbOffset += strlennull(pbOffset) + 1;  // Nick
-										  if (pbOffset >= pbEnd) break;
-										  if (i == iContact) { // we found the contact, get uid
-											  if (IsStringUIN((char*)pbOffset))
-												  uin = atoi((char*)pbOffset);
-											  else {
-												  uin = 0;
-												  strcpy(uid, (char*)pbOffset);
-											  }
-										  }
-										  pbOffset += strlennull(pbOffset) + 1;  // Uin
-										  if (pbOffset >= pbEnd) break;
-									  }
-	}
+		{
+			char *pbOffset = (char*)dbei.pBlob;
+			char *pbEnd = pbOffset + dbei.cbBlob;
+			for (int i = 0; i <= iContact; i++) {
+				pbOffset += strlennull(pbOffset) + 1;  // Nick
+				if (pbOffset >= pbEnd) break;
+				if (i == iContact) { // we found the contact, get uid
+					if (IsStringUIN((char*)pbOffset))
+						uin = atoi((char*)pbOffset);
+					else {
+						uin = 0;
+						strcpy(uid, (char*)pbOffset);
+					}
+				}
+				pbOffset += strlennull(pbOffset) + 1;  // Uin
+				if (pbOffset >= pbEnd) break;
+			}
+		}
 		break;
 
 	case EVENTTYPE_AUTHREQUEST:
@@ -421,7 +421,7 @@ int CIcqProto::Authorize(HANDLE hDbEvent)
 {
 	if (icqOnline() && hDbEvent) {
 		HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			return 1;
 
 		DWORD uin;
@@ -447,7 +447,7 @@ int CIcqProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 {
 	if (icqOnline() && hDbEvent) {
 		HCONTACT hContact = HContactFromAuthEvent(hDbEvent);
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			return 1;
 
 		DWORD uin;

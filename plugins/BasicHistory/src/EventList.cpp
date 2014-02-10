@@ -237,7 +237,7 @@ void EventList::RefreshEventList()
 		std::vector<IImport::ExternalMessage> messages;
 
 		EnterCriticalSection(&criticalSection);
-		std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+		std::map<HCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 		if (it != contactFileMap.end()) {
 			ExportManager imp(hWnd, hContact, 1);
 			imp.SetAutoImport(it->second.file);
@@ -307,7 +307,7 @@ bool EventList::SearchInContact(HCONTACT hContact, TCHAR *strFind, ComparatorInt
 		std::vector<IImport::ExternalMessage> messages;
 
 		EnterCriticalSection(&criticalSection);
-		std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+		std::map<HCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 		if (it != contactFileMap.end()) {
 			ExportManager imp(hWnd, hContact, 1);
 			imp.SetAutoImport(it->second.file);
@@ -640,7 +640,7 @@ void EventList::RebuildGroup(int selected)
 }
 
 CRITICAL_SECTION EventList::criticalSection;
-std::map<HANDLE, EventList::ImportDiscData> EventList::contactFileMap;
+std::map<HCONTACT, EventList::ImportDiscData> EventList::contactFileMap;
 std::wstring EventList::contactFileDir;
 
 void EventList::AddImporter(HCONTACT hContact, IImport::ImportType type, const std::wstring& file)
@@ -677,7 +677,7 @@ int EventList::GetContactMessageNumber(HCONTACT hContact)
 {
 	int count = db_event_count(hContact);
 	EnterCriticalSection(&criticalSection);
-	std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+	std::map<HCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if (it != contactFileMap.end())
 		++count;
 
@@ -689,7 +689,7 @@ bool EventList::IsImportedHistory(HCONTACT hContact)
 {
 	bool count = false;
 	EnterCriticalSection(&criticalSection);
-	std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+	std::map<HCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if (it != contactFileMap.end())
 		count = true;
 
@@ -700,7 +700,7 @@ bool EventList::IsImportedHistory(HCONTACT hContact)
 void EventList::DeleteImporter(HCONTACT hContact)
 {
 	EnterCriticalSection(&criticalSection);
-	std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+	std::map<HCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if (it != contactFileMap.end()) {
 		DeleteFile(it->second.file.c_str());
 		contactFileMap.erase(it);

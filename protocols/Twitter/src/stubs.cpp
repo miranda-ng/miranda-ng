@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "proto.h"
 
-HANDLE TwitterProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+HCONTACT TwitterProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
 	return NULL;
 }

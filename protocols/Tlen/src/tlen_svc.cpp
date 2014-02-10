@@ -214,7 +214,7 @@ static HCONTACT AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD fl
 	return hContact;
 }
 
-HANDLE TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
+HCONTACT TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 	HCONTACT hContact;
 	TLEN_SEARCH_RESULT *jsr = (TLEN_SEARCH_RESULT*)psr;
@@ -224,7 +224,7 @@ HANDLE TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-HANDLE TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent )
+HCONTACT TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent )
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))

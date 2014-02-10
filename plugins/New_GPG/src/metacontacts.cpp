@@ -32,7 +32,7 @@ bool metaIsProtoMetaContacts(HCONTACT hContact)
 bool metaIsDefaultSubContact(HCONTACT hContact) 
 {
 	if(bMetaContacts)
-		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0),0)==hContact;
+		return (HCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0),0)==hContact;
 	return false;
 }
 

@@ -124,24 +124,24 @@ GGPROTO::~GGPROTO()
 //////////////////////////////////////////////////////////
 // Dummies for function that have to be implemented
 
-HANDLE GGPROTO::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
-int    GGPROTO::Authorize(HANDLE hDbEvent) { return 1; }
-int    GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 1; }
-int    GGPROTO::AuthRecv(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
-int    GGPROTO::AuthRequest(HCONTACT hContact, const TCHAR *szMessage) { return 1; }
-HANDLE GGPROTO::ChangeInfo(int iInfoType, void *pInfoData) { return NULL; }
-int    GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }
-HANDLE GGPROTO::SearchByEmail(const PROTOCHAR *email) { return NULL; }
-int    GGPROTO::RecvContacts(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
-int    GGPROTO::RecvUrl(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
-int    GGPROTO::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList) { return 1; }
-int    GGPROTO::SendUrl(HCONTACT hContact, int flags, const char *url) { return 1; }
-int    GGPROTO::RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt) { return 1; }
+HCONTACT GGPROTO::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
+int      GGPROTO::Authorize(HANDLE hDbEvent) { return 1; }
+int      GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 1; }
+int      GGPROTO::AuthRecv(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
+int      GGPROTO::AuthRequest(HCONTACT hContact, const TCHAR *szMessage) { return 1; }
+HANDLE   GGPROTO::ChangeInfo(int iInfoType, void *pInfoData) { return NULL; }
+int      GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }
+HANDLE   GGPROTO::SearchByEmail(const PROTOCHAR *email) { return NULL; }
+int      GGPROTO::RecvContacts(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
+int      GGPROTO::RecvUrl(HCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
+int      GGPROTO::SendContacts(HCONTACT hContact, int flags, int nContacts, HCONTACT *hContactsList) { return 1; }
+int      GGPROTO::SendUrl(HCONTACT hContact, int flags, const char *url) { return 1; }
+int      GGPROTO::RecvAwayMsg(HCONTACT hContact, int mode, PROTORECVEVENT *evt) { return 1; }
 
 //////////////////////////////////////////////////////////
 // when contact is added to list
 
-HANDLE GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *psr)
+HCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 #ifdef DEBUGMODE
 	debugLogA("AddToList(): id=%s");

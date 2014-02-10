@@ -424,7 +424,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 						participant = chatroom->second.participants.find(reader_id);
 						if (participant != chatroom->second.participants.end()) {
-							HANDLE hChatContact = proto->ChatIDToHContact(tid);
+							HCONTACT hChatContact = proto->ChatIDToHContact(tid);
 							const char *participant_name = participant->second.c_str();
 
 							if (!chatroom->second.message_readers.empty())
@@ -560,7 +560,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?)
 					proto->UpdateChat(thread_id.c_str(), id.c_str(), senderName.c_str(), message_text.c_str(), utils::time::fix_timestamp(json_as_float(timestamp)));
 					proto->setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, message_id.c_str());
-					proto->ForkThread(&FacebookProto::ReadMessageWorker, hChatContact);
+					proto->ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
 				} else {
 					facebook_message* message = new facebook_message();
 					

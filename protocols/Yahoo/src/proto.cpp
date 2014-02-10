@@ -99,7 +99,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
+HCONTACT CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 {
 	debugLogA("[YahooAddToList] Flags: %d", flags);
 
@@ -119,12 +119,14 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
 			debugLogA("[YahooAddToList] Temporary Buddy:%s already on our buddy list", id);
 			//return 0;
-		} else {
+		}
+		else {
 			debugLogA("[YahooAddToList] Buddy:%s already on our buddy list", id);
 			mir_free(id);
 			return 0;
 		}
-	} else if (flags & PALF_TEMPORARY) { /* not on our list */
+	}
+	else if (flags & PALF_TEMPORARY) { /* not on our list */
 		debugLogA("[YahooAddToList] Adding Temporary Buddy:%s ", id);
 	}
 
@@ -135,7 +137,7 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 	return hContact;
 }
 
-HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDLE hDbEvent )
+HCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDLE hDbEvent )
 {
 	debugLogA("[YahooAddToListByEvent]");
 	if (!m_bLoggedIn)

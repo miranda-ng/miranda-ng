@@ -30,7 +30,7 @@ public:
 
 	virtual void SelectEventGroup(int sel) = 0;
 	virtual HCONTACT GetNextContact(HCONTACT hContact, int adder) = 0;
-	virtual void SelectContact(HANDLE _hContact) = 0;
+	virtual void SelectContact(HCONTACT _hContact) = 0;
 
 	struct MessageData
 	{

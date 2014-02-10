@@ -145,7 +145,7 @@ static void __cdecl AckThreadProc(void *param)
 INT_PTR NewsAggrGetInfo(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	mir_forkthread(AckThreadProc, ccs->hContact);
+	mir_forkthread(AckThreadProc, (void*)ccs->hContact);
 	return 0;
 }
 

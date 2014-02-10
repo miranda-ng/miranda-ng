@@ -95,7 +95,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			GetWindowRect(hwnd, &ti.rcItem);
 
 			ti.cbSize = sizeof(ti);
-			ti.hItem = data->hContact;
+			ti.hItem = (HANDLE)data->hContact;
 			ti.ptCursor = pt;
 			ti.isTreeFocused = 1;
 			CallService(MS_TOOLTIP_SHOWTIP, 0, (LPARAM)&ti);
@@ -256,7 +256,7 @@ static void addWindow(HCONTACT hContact)
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE,
-		0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, hContact);
+		0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, (void*)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = {0};

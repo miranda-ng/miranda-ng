@@ -10,7 +10,7 @@ void populateSettingsList(HWND hwnd2List)
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Confirmation Window"));
 }
 
-void populateContacts(HANDLE BPhContact,HWND hwnd2CB)
+void populateContacts(HCONTACT BPhContact, HWND hwnd2CB)
 {
 	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);

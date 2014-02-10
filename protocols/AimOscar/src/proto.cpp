@@ -126,7 +126,7 @@ int CAimProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-HANDLE CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	if (state != 1) return 0;
 	TCHAR *id = psr->id ? psr->id : psr->nick;
@@ -136,7 +136,7 @@ HANDLE CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact; //See authrequest for serverside addition
 }
 
-HANDLE __cdecl CAimProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+HCONTACT __cdecl CAimProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	return NULL;
 }

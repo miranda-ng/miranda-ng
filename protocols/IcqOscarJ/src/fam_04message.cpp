@@ -504,7 +504,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 			WORD wAckType = chain->getWord(0x0A, 1);
 
 			// Update the saved DC info (if contact already exists)
-			if (hContact != INVALID_HANDLE_VALUE)
+			if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			{
 				DWORD dwIP, dwExternalIP;
 				WORD wPort;
@@ -576,7 +576,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 					unpackLEDWord(&buf, &dwUin);
 
 					HCONTACT hContact = HContactFromUIN(dwUin, NULL);
-					if (hContact == INVALID_HANDLE_VALUE)
+					if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 					{
 						debugLogA("Error: %s from unknown contact %u", "Reverse Connect Request", dwUin);
 					}
@@ -677,7 +677,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, HCONTACT hContact,
 		unpackLEWord(&pDataBuf, &wVersion);
 		wLen -= 2;
 
-		if (hContact != INVALID_HANDLE_VALUE)
+		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 			setWord(hContact, "Version", wVersion);
 
 		unpackDWord(&pDataBuf, &dwGuid1); // plugin type GUID
@@ -1621,7 +1621,7 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 
 void CIcqProto::handleStatusMsgReply(const char *szPrefix, HCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
 {
-	if (hContact == INVALID_HANDLE_VALUE) {
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 		debugLogA("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
 		return;
 	}
@@ -2307,7 +2307,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 		// An ack of some kind
 		int ackType;
 
-		if (hContact == NULL || hContact == INVALID_HANDLE_VALUE) {
+		if (hContact == NULL || hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 			debugLogA("SNAC(4.B) Message from unknown contact (%u)", dwUin);
 			ReleaseCookie(dwCookie); // This could be a bad idea, but I think it is safe
 			return;
@@ -2698,7 +2698,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 		// server ack should be ignored here.
 		if (pCookieData && (pCookieData->nAckType == ACKTYPE_SERVER))
 		{
-			if ((hContact != NULL) && (hContact != INVALID_HANDLE_VALUE))
+			if ((hContact != NULL) && (hContact != (HCONTACT)INVALID_HANDLE_VALUE))
 			{
 				int ackType;
 				int ackRes = ACKRESULT_SUCCESS;
@@ -2891,7 +2891,7 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 
 	HCONTACT hContact = HContactFromUID(dwUin, szUid, NULL);
 
-	if (hContact == INVALID_HANDLE_VALUE) return;
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) return;
 
 	// Typing notification code
 	unpackWord(&buf, &wNotification);

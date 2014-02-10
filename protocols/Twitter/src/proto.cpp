@@ -246,7 +246,7 @@ INT_PTR TwitterProto::GetStatus(WPARAM,LPARAM)
 INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 {
 	// TODO: support replying to tweets instead of just users
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET),0,tweet_proc,reinterpret_cast<LPARAM>(this));
 
@@ -264,7 +264,7 @@ INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 
 INT_PTR TwitterProto::VisitHomepage(WPARAM wParam,LPARAM)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = (HCONTACT)wParam;
 
 	DBVARIANT dbv;
 	// TODO: remove this
@@ -398,7 +398,7 @@ int TwitterProto::OnPreShutdown(WPARAM,LPARAM)
 
 int TwitterProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM)
 {
-	HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	HCONTACT hContact = (HCONTACT)wParam;
 	if(IsMyContact(hContact))
 		ShowContactMenus(true);
 
@@ -498,7 +498,7 @@ void TwitterProto::UpdateSettings()
 		for(HCONTACT hContact = db_find_first(m_szModuleName); hContact; ) {
 			HCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			if(isChatRoom(hContact))
-				CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
+				CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
 			hContact = hNext;
 		}
 	}

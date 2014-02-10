@@ -112,23 +112,23 @@ HistoryWindow::~HistoryWindow()
 		DeleteObject(bkFindBrush);
 }
 
-std::map<HANDLE, HistoryWindow*> HistoryWindow::windows;
+std::map<HCONTACT, HistoryWindow*> HistoryWindow::windows;
 std::vector<HistoryWindow*> HistoryWindow::freeWindows;
 
 void HistoryWindow::Deinit()
 {
 	bool destroyed = true;
-	std::vector<HANDLE> keys;
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	std::vector<HCONTACT> keys;
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (!it->second->isDestroyed)
 		{
 			keys.push_back(it->first);
 		}
 	}
-	for (std::vector<HANDLE>::iterator it = keys.begin(); it != keys.end(); ++it)
+	for (std::vector<HCONTACT>::iterator it = keys.begin(); it != keys.end(); ++it)
 	{
-		std::map<HANDLE, HistoryWindow*>::iterator it1 = windows.find(*it);
+		std::map<HCONTACT, HistoryWindow*>::iterator it1 = windows.find(*it);
 		if (it1 != windows.end())
 		{
 			DestroyWindow(it1->second->hWnd);
@@ -160,7 +160,7 @@ void HistoryWindow::Deinit()
 
 	if (destroyed)
 	{
-		for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+		for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 		{
 			delete it->second;
 		}
@@ -186,7 +186,7 @@ void HistoryWindow::Open(HCONTACT hContact)
 	}
 	else
 	{
-		std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(hContact);
+		std::map<HCONTACT, HistoryWindow*>::iterator it = windows.find(hContact);
 		if (it != windows.end())
 		{
 			it->second->Focus();
@@ -201,7 +201,7 @@ void HistoryWindow::Open(HCONTACT hContact)
 
 void HistoryWindow::Close(HCONTACT hContact)
 {
-	std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(hContact);
+	std::map<HCONTACT, HistoryWindow*>::iterator it = windows.find(hContact);
 	if (it != windows.end())
 	{
 		if (it->second->isDestroyed)
@@ -223,7 +223,7 @@ void  HistoryWindow::Close(HistoryWindow* historyWindow)
 		DestroyWindow(historyWindow->hWnd);
 		return;
 	}
-	std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(historyWindow->hContact);
+	std::map<HCONTACT, HistoryWindow*>::iterator it = windows.find(historyWindow->hContact);
 	if (it != windows.end() && it->second == historyWindow)
 	{
 		delete it->second;
@@ -247,7 +247,7 @@ void HistoryWindow::RebuildEvents(HCONTACT hContact)
 {
 	if (hContact != NULL)
 	{
-		std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(hContact);
+		std::map<HCONTACT, HistoryWindow*>::iterator it = windows.find(hContact);
 		if (it != windows.end() && !it->second->isDestroyed)
 		{
 			SendMessage(it->second->hWnd,DM_HREBUILD,0,0);
@@ -265,7 +265,7 @@ void HistoryWindow::RebuildEvents(HCONTACT hContact)
 
 void HistoryWindow::ChangeToFreeWindow(HistoryWindow* historyWindow)
 {
-	std::map<HANDLE, HistoryWindow*>::iterator it = windows.find(historyWindow->hContact);
+	std::map<HCONTACT, HistoryWindow*>::iterator it = windows.find(historyWindow->hContact);
 	if (it != windows.end() && it->second == historyWindow)
 	{
 		windows.erase(it);
@@ -294,7 +294,7 @@ void HistoryWindow::Focus()
 
 int HistoryWindow::FontsChanged(WPARAM wParam, LPARAM lParam)
 {
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (!it->second->isDestroyed)
 		{
@@ -345,7 +345,7 @@ void OptionsGroupChanged()
 
 void HistoryWindow::OptionsGroupChanged()
 {
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (!it->second->isDestroyed)
 		{
@@ -371,7 +371,7 @@ void OptionsMainChanged()
 
 void HistoryWindow::OptionsMainChanged()
 {
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (!it->second->isDestroyed)
 		{
@@ -406,7 +406,7 @@ void OptionsSearchingChanged()
 
 void HistoryWindow::OptionsSearchingChanged()
 {
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (!it->second->isDestroyed)
 		{
@@ -435,7 +435,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM)
 	if (!count)
 		return FALSE;
 	
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (!it->second->isDestroyed)
 		{
@@ -495,7 +495,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM)
 
 bool HistoryWindow::IsInList(HWND hWnd)
 {
-	for (std::map<HANDLE, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
+	for (std::map<HCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 		if (!it->second->isDestroyed)
 			if (it->second->hWnd == hWnd)
 				return true;
@@ -1643,7 +1643,7 @@ void HistoryWindow::ReloadContacts()
 			cii.cbSize = sizeof(cii);
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_BELOWCONTACTS;
 			cii.pszText = TranslateT("System");
-			hSystem = (HANDLE) SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+			hSystem = (HCONTACT)SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 		}
 	}
 	else
@@ -2333,7 +2333,7 @@ HCONTACT HistoryWindow::GetNextContact(HCONTACT hContact, int adder)
 	return hContact;
 }
 
-void HistoryWindow::SelectContact(HANDLE _hContact)
+void HistoryWindow::SelectContact(HCONTACT _hContact)
 {
 	if (hContact != _hContact) {
 		HWND contactList = GetDlgItem(hWnd,IDC_LIST_CONTACTS);

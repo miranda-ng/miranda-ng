@@ -410,8 +410,8 @@ bool DoTask(TaskOptions& to)
 			}
 			
 			if (contactList.size() > 0) {
-				HANDLE* contacts = new HANDLE[contactList.size() + 1];
-				contacts[0] = (HANDLE)contactList.size();
+				HCONTACT *contacts = new HCONTACT[contactList.size() + 1];
+				contacts[0] = (HCONTACT)contactList.size();
 				int i = 1;
 				for (std::list<HCONTACT>::iterator it = contactList.begin(); it != contactList.end(); ++it)
 					contacts[i++] = *it;

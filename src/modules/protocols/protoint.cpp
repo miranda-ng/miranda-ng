@@ -47,14 +47,14 @@ void FreeFilesMatrix(TCHAR ***files)
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 {
-	HANDLE __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr)
+	HCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr)
 	{
-		return (HANDLE)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
+		return (HCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
 	}
 
-	HANDLE __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+	HCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 	{
-		return (HANDLE)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), (LPARAM)hDbEvent);
+		return (HCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), (LPARAM)hDbEvent);
 	}
 
 	int __cdecl Authorize(HANDLE hDbEvent)

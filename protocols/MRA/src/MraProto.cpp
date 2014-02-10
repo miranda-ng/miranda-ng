@@ -126,7 +126,7 @@ int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags)
+HCONTACT CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags)
 {
 	if (!plpsEMail)
 		return NULL;
@@ -153,7 +153,7 @@ HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR 
 	return hContact;
 }
 
-HANDLE CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+HCONTACT CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
@@ -161,7 +161,7 @@ HANDLE CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddToListByEmail(psr->email, psr->nick, psr->firstName, psr->lastName, flags);
 }
 
-HANDLE CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+HCONTACT CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);

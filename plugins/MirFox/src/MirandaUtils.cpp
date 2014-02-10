@@ -213,8 +213,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 
 		}
 
-
-		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle(args->targetHandle);
+		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle((HCONTACT)args->targetHandle);
 		const wchar_t* contactNameW = NULL;
 		TCHAR* tszAccountName = NULL;
 		if (mirandaContact){

@@ -37,7 +37,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				// open data window
 				if ( db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0)) {
 					NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
-					mir_forkthread(GetData, hContact);
+					mir_forkthread(GetData, (void*)hContact);
 					PUDeletePopup(hWnd);
 				}
 				// open url
@@ -58,7 +58,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				// open datA window
 				if ( db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0)) {
 					NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
-					mir_forkthread(GetData, hContact);
+					mir_forkthread(GetData, (void*)hContact);
 					PUDeletePopup(hWnd);
 				}
 				// open url
@@ -81,9 +81,9 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-int WDisplayDataAlert(void *hContact)
+int WDisplayDataAlert(HCONTACT hContact)
 {
-	NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
+	NotifyEventHooks(hHookDisplayDataAlert, (WPARAM)hContact, 0);
 	return 0;
 }
 

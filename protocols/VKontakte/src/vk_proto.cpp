@@ -273,7 +273,7 @@ HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName,
 	return 0;
 }
 
-HANDLE CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	return NULL;
 }
@@ -300,7 +300,7 @@ int CVkProto::UserIsTyping(HCONTACT hContact, int type)
 	return 0;
 }
 
-HANDLE CVkProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+HCONTACT CVkProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
 	return NULL;
 }

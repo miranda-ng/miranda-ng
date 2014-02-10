@@ -218,8 +218,8 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	HANDLE   __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	HANDLE   __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	HCONTACT __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
+	virtual	HCONTACT __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
 
 	virtual	int	     __cdecl Authorize(HANDLE hDbEvent);
 	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason);

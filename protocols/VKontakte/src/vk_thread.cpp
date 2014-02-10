@@ -313,7 +313,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (bCleanContacts)
 		for (HCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 			if (!isChatRoom(hContact))
-				arContacts.insert(hContact);
+				arContacts.insert((HANDLE)hContact);
 
 	for (int i = 0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
 		ptrT szValue(json_as_string(json_get(pInfo, "uid")));

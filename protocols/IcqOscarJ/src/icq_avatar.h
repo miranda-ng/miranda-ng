@@ -69,10 +69,10 @@ protected:
 	rates *m_rates;
 	icq_critical_section *m_ratesMutex;
 
-	HANDLE runContact[4];
-	DWORD  runTime[4];
-	int    runCount;
-	void   checkRequestQueue();
+	HCONTACT runContact[4];
+	DWORD    runTime[4];
+	int      runCount;
+	void     checkRequestQueue();
 
 public:
 	avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, WORD wCookieLen);

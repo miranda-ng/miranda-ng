@@ -358,7 +358,7 @@ HCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 	return hContact;
 }
 
-HANDLE CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	if (psr->cbSize != sizeof(JABBER_SEARCH_RESULT) && psr->id == NULL)
 		return NULL;
@@ -368,7 +368,7 @@ HANDLE CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddToListByJID(jid, flags);
 }
 
-HANDLE __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDLE hDbEvent)
+HCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDLE hDbEvent)
 {
 	debugLogA("AddToListByEvent");
 

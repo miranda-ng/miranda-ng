@@ -909,7 +909,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != INVALID_HANDLE_VALUE)
+				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 				{
 					int bRegroup = 0;
 					int bNicked = 0;
@@ -1177,7 +1177,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != INVALID_HANDLE_VALUE)
+				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 				{
 					if (bAdded)
 					{
@@ -1216,7 +1216,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != INVALID_HANDLE_VALUE)
+				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 				{
 					if (bAdded)
 					{
@@ -1274,7 +1274,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 
 				hContact = HContactFromRecordName(szRecordName, &bAdded);
 
-				if (hContact != INVALID_HANDLE_VALUE)
+				if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 				{
 					if (bAdded)
 					{
@@ -1473,7 +1473,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 {
 	HCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
-	if (hContact != INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
+	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was updated on server
 		if (pItemData)
 		{
@@ -1588,7 +1588,7 @@ void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGrou
 {
 	HCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
-	if (hContact != INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
+	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && wItemType == SSI_ITEM_BUDDY)
 	{ // a contact was removed from our list
 		if (getWord(hContact, DBSETTING_SERVLIST_ID, 0) == wItemId)
 		{
@@ -1783,8 +1783,8 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 	}
 
 	HCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
-
-	if (hContact != INVALID_HANDLE_VALUE) szNick = NickFromHandle(hContact);
+	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
+		szNick = NickFromHandle(hContact);
 
 	if (wLen > 0)
 	{

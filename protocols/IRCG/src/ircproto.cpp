@@ -318,7 +318,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-HANDLE __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
+HCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
@@ -359,7 +359,7 @@ HANDLE __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-HANDLE __cdecl CIrcProto::AddToListByEvent(int, int, HANDLE)
+HCONTACT __cdecl CIrcProto::AddToListByEvent(int, int, HANDLE)
 {
 	return NULL;
 }

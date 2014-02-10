@@ -249,7 +249,7 @@ HCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 	return hContact;
 }
 
-HANDLE __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	TCHAR *id = psr->id ? psr->id : psr->email;
 	return AddToListByEmail(
@@ -258,7 +258,7 @@ HANDLE __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		flags);
 }
 
-HANDLE __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+HCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))

@@ -1568,7 +1568,7 @@ void ResetListOptions(HWND hwnd)
 		SendMessage(hwnd, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
-void RebuildList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
+void RebuildList(HWND hwnd, HCONTACT hSystem, TaskOptions* to)
 {
 	HANDLE hItem;
 	if (to->isSystem && hSystem)
@@ -1581,11 +1581,11 @@ void RebuildList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
 	}
 }
 
-void SaveList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
+void SaveList(HWND hwnd, HCONTACT hSystem, TaskOptions* to)
 {
 	to->contacts.clear();
 	if (hSystem)
-		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hSystem, 0) != 0;
+		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM)hSystem, 0) != 0;
 
 	for (HCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) hContact, 0);
@@ -1602,7 +1602,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstri
 
 INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static HANDLE hSystem;
+	static HCONTACT hSystem;
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1738,7 +1738,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			cii.cbSize = sizeof(cii);
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
 			cii.pszText = TranslateT("System");
-			hSystem = (HANDLE) SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+			hSystem = (HCONTACT)SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 			SendMessage(contactList, CLM_AUTOREBUILD, 0, 0);
 			ResetListOptions(contactList);
 			RebuildList(contactList, hSystem, to);

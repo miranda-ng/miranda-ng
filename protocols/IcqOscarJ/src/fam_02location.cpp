@@ -127,7 +127,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 	HCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
 
 	// Ignore away status if the user is not already on our list
-	if (hContact == INVALID_HANDLE_VALUE) {
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
 		debugLogA("Ignoring away reply (%s)", strUID(dwUIN, szUID));
 #endif

@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-HANDLE OmegleProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT OmegleProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	return NULL;
 };
 
-HANDLE OmegleProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+HCONTACT OmegleProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
 	return NULL;
 };

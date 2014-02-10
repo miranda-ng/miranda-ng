@@ -1754,7 +1754,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 						string output;
 						DWORD exitcode;
 						{
-							HANDLE hcnt = hContact;
+							HCONTACT hcnt = hContact;
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 							path = ptmp;
 							mir_free(ptmp);

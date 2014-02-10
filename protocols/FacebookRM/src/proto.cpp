@@ -238,7 +238,7 @@ HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* first
 	return SearchByEmail(arg); // Facebook is using one search method for everything (except IDs)
 }
 
-HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+HCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	ptrA id( mir_t2a_cp(psr->id, CP_UTF8));
 	ptrA name( mir_t2a_cp(psr->firstName, CP_UTF8));

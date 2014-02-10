@@ -411,7 +411,7 @@ void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, 
 	char *szBody = (char*)_alloca(nBodyLen);
 	HCONTACT hContact = HContactFromUIN(dwUin, NULL);
 
-	if (hContact != INVALID_HANDLE_VALUE && !CheckContactCapabilities(hContact, CAPF_XTRAZ)) {
+	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && !CheckContactCapabilities(hContact, CAPF_XTRAZ)) {
 		SAFE_FREE(&szResBody);
 		return; // Contact does not support xtraz, do not send anything
 	}

@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::RecvMsg(HCONTACT hContact, PROTORECVEVENT *pre)
 {
-	ForkThread(&FacebookProto::ReadMessageWorker, hContact);
+	ForkThread(&FacebookProto::ReadMessageWorker, (void*)hContact);
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 
 	return Proto_RecvMessage(hContact, pre);
@@ -168,7 +168,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	if (p == NULL)
 		return;
 	
-	HCONTACT hContact = static_cast<HCONTACT>(p);
+	HCONTACT hContact = (HCONTACT)p;
 	
 	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0) || getBool(hContact, FACEBOOK_KEY_KEEP_UNREAD, 0))
 		return;

@@ -134,10 +134,10 @@ public:
 
 	//update MirandaContact's state by id
 	//return 0 - ok,
-	int updateMirandaContactState(HANDLE contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState);
+	int updateMirandaContactState(HCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState);
 
 	//return MirandaContact* by HANDLE
-	MirandaContact* getMirandaContactPtrByHandle(HANDLE contactHandle);
+	MirandaContact* getMirandaContactPtrByHandle(HCONTACT contactHandle);
 
 
 

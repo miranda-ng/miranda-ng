@@ -49,7 +49,7 @@ void MirfoxData::clearMirandaContacts(){
 }
 
 int
-MirfoxData::updateMirandaContactState(HANDLE contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState)
+MirfoxData::updateMirandaContactState(HCONTACT contactHandle, MFENUM_MIRANDACONTACT_STATE & contactState)
 {
 
 	boost::ptr_list<MirandaContact>* mirandaContactsPtr = getMirandaContacts();
@@ -65,7 +65,7 @@ MirfoxData::updateMirandaContactState(HANDLE contactHandle, MFENUM_MIRANDACONTAC
 }
 
 MirandaContact*
-MirfoxData::getMirandaContactPtrByHandle(HANDLE contactHandle){
+MirfoxData::getMirandaContactPtrByHandle(HCONTACT contactHandle){
 
 	MFLogger* logger = MFLogger::getInstance();
 

@@ -167,7 +167,7 @@ int __fastcall ApplyFingerprintImage(HCONTACT hContact, LPTSTR szMirVer)
 
 	ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
 
-	if (arMonitoredWindows.getIndex(hContact) != -1)
+	if (arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
 		SetSrmmIcon(hContact, szMirVer);
 	return 0;
 }
@@ -905,7 +905,7 @@ static int OnSrmmWindowEvent(WPARAM wParam, LPARAM lParam)
 		if (szProto != NULL)
 			ptszMirVer = db_get_tsa(event->hContact, szProto, "MirVer");
 		SetSrmmIcon(event->hContact, ptszMirVer);
-		arMonitoredWindows.insert(event->hContact);
+		arMonitoredWindows.insert((HANDLE)event->hContact);
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSE)
 		arMonitoredWindows.remove(event->hContact);

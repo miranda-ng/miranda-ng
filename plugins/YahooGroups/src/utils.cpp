@@ -314,7 +314,7 @@ TCHAR *GetContactID(HCONTACT hContact, char *szProto)
 		}
 }
 
-HANDLE GetContactFromID(TCHAR *szID, char *szProto)
+HCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 {
 	TCHAR *szHandle;
 	TCHAR dispName[1024];
@@ -330,12 +330,12 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 		_tcsncpy(dispName, tmp, SIZEOF(dispName));
 		
 		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
-		{
 			found = 1;
-		}
+
 		if (szHandle) { free(szHandle); }
 	
-		if (found) return hContact;
+		if (found)
+			return hContact;
 	}
 	
 	return NULL;
@@ -343,7 +343,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312)
-HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto)
+HCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto)
 {
 	char protocol[1024];
 	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), NULL, NULL);

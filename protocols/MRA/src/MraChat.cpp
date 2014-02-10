@@ -111,7 +111,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HCONTACT hContactChatSession,
 		gce.ptszNick = wszNick;
 	}
 	else {
-		HANDLE hContactSender = MraHContactFromEmail(lpszUID, FALSE, TRUE, NULL);
+		HCONTACT hContactSender = MraHContactFromEmail(lpszUID, FALSE, TRUE, NULL);
 		wszUID = lpszUID;
 		if (hContactSender)
 			gce.ptszNick = GetContactNameW(hContactSender);

@@ -1455,7 +1455,7 @@ bool CIcqProto::validateStatusMessageRequest(HCONTACT hContact, WORD byMessageTy
 	// Privacy control
 	if (getByte("StatusMsgReplyCList", 0)) {
 		// Don't send statusmessage to unknown contacts
-		if (hContact == INVALID_HANDLE_VALUE)
+		if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 			return false;
 
 		// Don't send statusmessage to temporary contacts or hidden contacts
@@ -1472,7 +1472,7 @@ bool CIcqProto::validateStatusMessageRequest(HCONTACT hContact, WORD byMessageTy
 	}
 
 	// Dont send messages to people you are hiding from
-	if (hContact != INVALID_HANDLE_VALUE &&
+	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE &&
 		getWord(hContact, "ApparentMode", 0) == ID_STATUS_OFFLINE) {
 		return false;
 	}
@@ -1487,7 +1487,7 @@ bool CIcqProto::validateStatusMessageRequest(HCONTACT hContact, WORD byMessageTy
 		return false;
 	}
 
-	if (hContact != INVALID_HANDLE_VALUE && m_iStatus == ID_STATUS_INVISIBLE &&
+	if (hContact != (HCONTACT)INVALID_HANDLE_VALUE && m_iStatus == ID_STATUS_INVISIBLE &&
 		getWord(hContact, "ApparentMode", 0) != ID_STATUS_ONLINE) {
 		if (!getByte(hContact, "TemporaryVisible", 0)) { // Allow request to temporary visible contacts
 			return false;

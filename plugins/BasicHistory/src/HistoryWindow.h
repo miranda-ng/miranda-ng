@@ -49,7 +49,7 @@ private:
 	void ReloadMainOptions();
 	void DoImport(IImport::ImportType type);
 
-	static std::map<HANDLE, HistoryWindow*> windows;
+	static std::map<HCONTACT, HistoryWindow*> windows;
 	static std::vector<HistoryWindow*> freeWindows;
 	bool isDestroyed;
 	LONG splitterY;
@@ -67,7 +67,7 @@ private:
 	HIMAGELIST himlSmall, himlNone;
 	HBRUSH bkBrush;
 	HBRUSH bkFindBrush;
-	HANDLE hSystem;
+	HCONTACT hSystem;
 	HWND splitterXhWnd, splitterYhWnd;
 	bool isStartSelect;
 protected:
@@ -90,6 +90,6 @@ public:
 	// SearchContext interface
 	virtual void SelectEventGroup(int sel);
 	virtual HCONTACT GetNextContact(HCONTACT hContact, int adder);
-	virtual void SelectContact(HANDLE _hContact);
+	virtual void SelectContact(HCONTACT _hContact);
 };
 

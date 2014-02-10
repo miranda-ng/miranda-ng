@@ -197,7 +197,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 
 	// Ignore status notification if the user is not already on our list
 	HCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
-	if (hContact == INVALID_HANDLE_VALUE)
+	if (hContact == (HCONTACT)INVALID_HANDLE_VALUE)
 	{
 #ifdef _DEBUG
 		debugLogA("Ignoring user online (%s)", strUID(dwUIN, szUID));
@@ -621,7 +621,7 @@ void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 		HCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
 
 		// Skip contacts that are not already on our list or are already offline
-		if (hContact != INVALID_HANDLE_VALUE)
+		if (hContact != (HCONTACT)INVALID_HANDLE_VALUE)
 		{
 			WORD wOldStatus = getContactStatus(hContact);
 

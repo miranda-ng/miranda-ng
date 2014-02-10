@@ -43,7 +43,7 @@ void TwitterProto::AddToListWorker(void *p)
 	mir_free(name);
 }
 
-HANDLE TwitterProto::AddToList(int flags,PROTOSEARCHRESULT *result)
+HCONTACT TwitterProto::AddToList(int flags,PROTOSEARCHRESULT *result)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
@@ -87,7 +87,7 @@ int TwitterProto::GetInfo(HCONTACT hContact,int info_type)
 
 	if(info_type == 0) // From clicking "Update" in the Userinfo dialog
 	{
-		ForkThread(&TwitterProto::UpdateInfoWorker, hContact);
+		ForkThread(&TwitterProto::UpdateInfoWorker, (void*)hContact);
 		return 0;
 	}
 
@@ -179,7 +179,7 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 
 HANDLE TwitterProto::GetAwayMsg(HCONTACT hContact)
 {
-	ForkThread(&TwitterProto::GetAwayMsgWorker, hContact);
+	ForkThread(&TwitterProto::GetAwayMsgWorker, (void*)hContact);
 	return (HANDLE)1;
 }
 
@@ -188,7 +188,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	const HCONTACT hContact = reinterpret_cast<HCONTACT>(wParam);
+	const HCONTACT hContact = (HCONTACT)wParam;
 
 	if(!IsMyContact(hContact))
 		return 0;

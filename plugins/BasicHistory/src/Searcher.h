@@ -26,7 +26,7 @@ private:
 	int lastFindSelection;
 	int startFindPos;
 	int startFindSel;
-	HANDLE startFindContact;
+	HCONTACT startFindContact;
 	bool isFindSelChanged;
 	bool isFindContactChanged;
 	bool findBack, matchCase, matchWholeWords, onlyIn, onlyOut, onlyGroup, allUsers, searchForInLG, searchForInMes;
