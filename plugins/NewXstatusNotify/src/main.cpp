@@ -149,7 +149,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			return 1;
 		}
 	}
-	else if (strstr(cws->szSetting, "XStatus") || strcmp(cws->szSetting, "StatusNote") == 0) {
+	else if (strstr(cws->szSetting, "XStatus")/* || strcmp(cws->szSetting, "StatusNote") == 0*/) {
 		if (strcmp(cws->szSetting, "XStatusName") == 0) {
 			if (cws->value.type == DBVT_DELETED)
 				xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, NOTIFY_REMOVE, NULL, NULL);
@@ -167,7 +167,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 			ExtraStatusChanged(xsc);
 		}
-		else if (strstr(cws->szSetting, "XStatusMsg") || strcmp(cws->szSetting, "StatusNote") == 0) {
+		else if (strstr(cws->szSetting, "XStatusMsg")/* || strcmp(cws->szSetting, "StatusNote") == 0*/) {
 			if (cws->value.type == DBVT_DELETED)
 				return 1;
 
@@ -541,8 +541,9 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	return 0;
 }
 
-int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
+int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
+	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -746,10 +747,11 @@ void PlayChangeSound(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		SkinPlaySound(szSoundFile);
 }
 
-int ContactStatusChanged(WPARAM hContact, LPARAM lParam)
+int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
+	MCONTACT hContact = wParam;
 	bool bEnablePopup = true, bEnableSound = true;
 
 	char *hlpProto = GetContactProto(hContact);
