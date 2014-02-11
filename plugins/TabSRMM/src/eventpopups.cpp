@@ -40,7 +40,7 @@
 
 #include "commonheaders.h"
 
-static LIST<PLUGIN_DATAT> arPopupList(10, HandleKeySortT);
+static LIST<PLUGIN_DATAT> arPopupList(10, NumericKeySortT);
 
 BOOL bWmNotify = TRUE;
 

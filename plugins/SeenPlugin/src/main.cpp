@@ -47,7 +47,7 @@ DBVTranslation idleTr[TRANSNUMBER]={
 };
 
 BOOL includeIdle;
-LIST<logthread_info> arContacts(16, HandleKeySortT);
+LIST<logthread_info> arContacts(16, NumericKeySortT);
 CRITICAL_SECTION csContacts;
 
 void UninitHistoryDialog(void);

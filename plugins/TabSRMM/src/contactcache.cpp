@@ -35,7 +35,7 @@
 
 #include "commonheaders.h"
 
-static OBJLIST<CContactCache> arContacts(50, HandleKeySortT);
+static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 
 CContactCache::CContactCache(const MCONTACT hContact)
 {

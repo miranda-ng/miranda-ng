@@ -28,7 +28,7 @@ TCluiData cfg::dat = {0};
 ClcData*  cfg::clcdat = 0;
 
 static CRITICAL_SECTION cachecs;
-LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(HandleKeySortT));
+LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(NumericKeySortT));
 
 bool cfg::shutDown = false;
 

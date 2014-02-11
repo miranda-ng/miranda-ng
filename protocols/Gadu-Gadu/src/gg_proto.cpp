@@ -23,8 +23,8 @@
 
 GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	PROTO<GGPROTO>(pszProtoName, tszUserName),
-	avatar_requests(1, HandleKeySortT),
-	avatar_transfers(1, HandleKeySortT)
+	avatar_requests(1, NumericKeySortT),
+	avatar_transfers(1, NumericKeySortT)
 {
 #ifdef DEBUGMODE
 	extendedLogging = 0;

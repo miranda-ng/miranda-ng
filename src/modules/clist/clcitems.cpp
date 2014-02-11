@@ -608,7 +608,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 	KillTimer(hwnd, TIMERID_RENAME);
 	cli.pfnEndRename(hwnd, dat, 1);
 
-	OBJLIST<SavedContactState_t> saveContact(10, HandleKeySortT);
+	OBJLIST<SavedContactState_t> saveContact(10, NumericKeySortT);
 	OBJLIST<SavedGroupState_t> saveGroup(100, NumericKeySortT);
 	OBJLIST<SavedInfoState_t> saveInfo(10, NumericKeySortT);
 

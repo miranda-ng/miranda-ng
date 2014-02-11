@@ -50,7 +50,7 @@ struct StatusIconChild : public MZeroedObject
 struct StatusIconMain : public MZeroedObject
 {
 	StatusIconMain() :
-		arChildren(3, HandleKeySortT)
+		arChildren(3, NumericKeySortT)
 		{}
 
 	~StatusIconMain()

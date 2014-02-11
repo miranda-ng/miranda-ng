@@ -760,7 +760,7 @@ void UndockThumbs(ThumbInfo *pThumb1, ThumbInfo *pThumb2)
 /////////////////////////////////////////////////////////////////////////////
 // ThumbList
 
-ThumbList::ThumbList(): OBJLIST<ThumbInfo>(1, HandleKeySortT)
+ThumbList::ThumbList(): OBJLIST<ThumbInfo>(1, NumericKeySortT)
 {
 }
 

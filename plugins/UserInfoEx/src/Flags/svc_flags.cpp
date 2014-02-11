@@ -35,7 +35,7 @@ static	HANDLE hExtraIconSvc;
 
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
 
-static LIST<MsgWndData> gMsgWndList(10, HandleKeySortT);
+static LIST<MsgWndData> gMsgWndList(10, NumericKeySortT);
 
 /***********************************************************************************************************
  * service functions
