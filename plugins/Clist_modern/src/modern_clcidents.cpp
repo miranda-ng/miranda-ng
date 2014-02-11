@@ -104,12 +104,12 @@ int cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 	return -1;
 }
 
-int cliFindItem(HWND hwnd, ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
+int cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
-	return FindItem(hwnd, dat, (MCONTACT)hItem, contact, subgroup, isVisible, FALSE);
+	return FindItem(hwnd, dat, dwItem, contact, subgroup, isVisible, FALSE);
 }
 
-int FindItem(HWND hwnd, ClcData *dat, MCONTACT hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts)
+int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, BOOL isIgnoreSubcontacts)
 {
 	int index = 0, i;
 	int nowVisible = 1;
@@ -138,9 +138,9 @@ int FindItem(HWND hwnd, ClcData *dat, MCONTACT hItem, ClcContact **contact, ClcG
 			continue;
 		}
 		if (nowVisible) index++;
-		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR)hItem&~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId)  ||
-			(IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == hItem)  ||
-			(IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (MCONTACT)((UINT_PTR)hItem&~HCONTACT_ISINFO)))
+		if ((IsHContactGroup(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId)  ||
+			 (IsHContactContact(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == dwItem) ||
+			 (IsHContactInfo(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (dwItem & ~HCONTACT_ISINFO)))
 		{
 			if (isVisible) {
 				if (!nowVisible) *isVisible = 0;
@@ -161,14 +161,11 @@ int FindItem(HWND hwnd, ClcData *dat, MCONTACT hItem, ClcContact **contact, ClcG
 
 			return 1;
 		}
-		if (!isIgnoreSubcontacts &&
-			IsHContactContact(hItem)  &&
-			group->cl.items[group->scanIndex]->type == CLCIT_CONTACT  &&
-			group->cl.items[group->scanIndex]->SubAllocated > 0)
+		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->SubAllocated > 0)
 		{
 			for (i=0; i < group->cl.items[group->scanIndex]->SubAllocated; i++)
 			{
-				if (group->cl.items[group->scanIndex]->subcontacts[i].hContact == hItem)
+				if (group->cl.items[group->scanIndex]->subcontacts[i].hContact == dwItem)
 				{
 #ifdef _DEBUG
 					if (IsBadWritePtr(&group->cl.items[group->scanIndex]->subcontacts[i], sizeof(ClcContact)))

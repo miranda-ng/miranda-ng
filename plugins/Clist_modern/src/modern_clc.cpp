@@ -1470,7 +1470,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	BYTE flags = 0;
 
 	ClcContact *contact;
-	if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 		memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 	else {
 		memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
@@ -1480,7 +1480,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
 		pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-		if (pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
+		if (pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
 				contact->flags |= CONTACTF_CHECKED;
@@ -1528,14 +1528,14 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 
 	// XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
-	if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
+	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			recalcScrollBar = 1;
 			needRepaint = TRUE;
-			pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL);
+			pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
 			if (contact) {
 				contact->iImage = lParam;
 				contact->image_is_special = image_is_special;
@@ -1577,7 +1577,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 
 	if (hSelItem) {
 		ClcGroup *selgroup;
-		if (pcli->pfnFindItem(hwnd, dat, (HANDLE)hSelItem, &selcontact, &selgroup, NULL))
+		if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf(( SortedList* )&selgroup->cl, selcontact));
 		else
 			dat->selection = -1;

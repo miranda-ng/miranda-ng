@@ -81,7 +81,7 @@ struct ClcData : public ClcDataBase
 
 //clcidents.c
 int GetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
-int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+int FindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 int GetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,ClcGroup **subgroup);
 void ClearRowByIndexCache();
 

@@ -143,7 +143,7 @@ void SetClcContactCacheItem(struct ClcData *dat, MCONTACT hContact, void *contac
 	}
 }
 
-int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible)
+int FindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
 	int index = 0, i;
 	int nowVisible = 1;
@@ -151,15 +151,15 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 
 	group->scanIndex = 0;
 
-	if (isVisible == NULL && hItem != NULL && subgroup == NULL && !IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
+	if (isVisible == NULL && dwItem != NULL && subgroup == NULL && !IsHContactGroup(dwItem) && !IsHContactInfo(dwItem)) {
 		//try use cache
-		ClcCacheEntry *cacheEntry = GetCLCFullCacheEntry(dat, (MCONTACT)hItem);
+		ClcCacheEntry *cacheEntry = GetCLCFullCacheEntry(dat, dwItem);
 		if (cacheEntry != NULL) {
 			if (cacheEntry->ClcContact == NULL) {
 				int *isv = {0};
 				void *z = {0};
 				int ret;
-				ret = FindItem(hwnd,dat,hItem,(struct ClcContact ** )&z,(struct  ClcGroup** )&isv,NULL);
+				ret = FindItem(hwnd,dat,dwItem,(struct ClcContact ** )&z,(struct  ClcGroup** )&isv,NULL);
 				if (ret == 0) {return 0;}
 				cacheEntry->ClcContact = (void *)z;
 			}
@@ -193,9 +193,9 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 			continue;
 		}
 		if (nowVisible) index++;
-		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR)hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) ||
-			 (IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && (HANDLE)group->cl.items[group->scanIndex]->hContact == hItem) ||
-			 (IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && (HANDLE)group->cl.items[group->scanIndex]->hContact == (HANDLE)((UINT_PTR)hItem & ~HCONTACT_ISINFO)))
+		if ((IsHContactGroup(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) ||
+			 (IsHContactContact(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == dwItem) ||
+			 (IsHContactInfo(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (dwItem & ~HCONTACT_ISINFO)))
 		{
 			if (isVisible) {
 				if ( !nowVisible) *isVisible = 0;
@@ -216,7 +216,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **c
 		if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
 			group->cl.items[group->scanIndex]->SubAllocated>0)
 			for (i = 1; i<=group->cl.items[group->scanIndex]->SubAllocated; i++)
-				if (IsHContactContact(hItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == (MCONTACT)hItem) {
+				if (IsHContactContact(dwItem)  && group->cl.items[group->scanIndex]->subcontacts[i-1].hContact == dwItem) {
 					if (contact) *contact = &group->cl.items[group->scanIndex]->subcontacts[i-1];
 					if (subgroup) *subgroup = group;
 					return 1;

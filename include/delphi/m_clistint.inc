@@ -1,20 +1,20 @@
 {
   Miranda IM: the free IM client for Microsoft* Windows*
-  
+
   Copyright 2000-2008 Miranda ICQ/IM project,
   all portions of this codebase are copyrighted to the people
   listed in contributors.txt.
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -197,7 +197,7 @@ type
     needsResort           :int;
     filterSearch          :int;
   end;
-  
+
   PtrayIconInfo_t = ^trayIconInfo_t;
   trayIconInfo_t = record
     id          : int;
@@ -328,9 +328,8 @@ type
   (* clcidents.c *)
     pfnGetRowsPriorTo      : function (var group:ClcGroup; var subgroup:ClcGroup;
                              contactIndex:int):int; cdecl;
-    pfnFindItem            : function (hwnd:HWND; var dat:ClcData; hItem:THANDLE;
-                             var contact:PClcContact; var subgroup:PClcGroup; 
-                             var isVisible:int):int; cdecl;
+    pfnFindItem            : function (hwnd:HWND; var dat:ClcData; dwItem:DWORD;
+                             var contact:PClcContact; var subgroup:PClcGroup; var isVisible:int):int; cdecl;
     pfnGetRowByIndex       : function (var dat:ClcData; testindex:int;
                              var contact:PClcContact; var subgroup:PClcGroup):int; cdecl;
     pfnContactToHItem      : function (var contact:ClcContact):THANDLE;cdecl;
@@ -431,7 +430,7 @@ type
     pfnContactListWndProc:function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):int; stdcall;
 
     pfnCluiProtocolStatusChanged : procedure (status:int; szProto:PAnsiChar); cdecl;
-    pfnDrawMenuItem              : procedure (_para1:PDRAWITEMSTRUCT; _para2:HICON; 
+    pfnDrawMenuItem              : procedure (_para1:PDRAWITEMSTRUCT; _para2:HICON;
                                    _para3:HICON); cdecl;
     pfnLoadCluiGlobalOpts        : procedure ; cdecl;
     pfnInvalidateRect            : function (hwnd:HWND; var lpRect:TRECT; bErase:BOOL):BOOL; cdecl;

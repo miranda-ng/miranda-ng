@@ -184,7 +184,7 @@ static struct ClcContact* AddContactToGroup(struct ClcData *dat,ClcGroup *group,
 
 void AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
-	if ( FindItem(hwnd,dat,(HANDLE)hContact,NULL,NULL,NULL) == 1)
+	if (FindItem(hwnd, dat, hContact, NULL, NULL, NULL) == 1)
 		return;
 
 	ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(hContact);
@@ -283,7 +283,7 @@ void DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClearRowByIndexCache();
 	dat->needsResort = 1;
 
-	if ( !FindItem(hwnd,dat,(HANDLE)hItem,&contact,&group,NULL)) {
+	if (!FindItem(hwnd, dat, hItem, &contact, &group, NULL)) {
 		DBVARIANT dbv;
 		int i,nameOffset;
 		if ( !IsHContactContact(hItem)) return;
@@ -653,7 +653,7 @@ void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat)
 	for (i = 0;i<savedInfoCount;i++) {
 		if (savedInfo[i].parentId == -1) group = &dat->list;
 		else {
-			if (!FindItem(hwnd, dat, (HANDLE)(savedInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
+			if (!FindItem(hwnd, dat, savedInfo[i].parentId | HCONTACT_ISGROUP, &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}

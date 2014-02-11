@@ -314,7 +314,7 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 	ClcContact *selcontact = NULL;
 	ClcGroup *selgroup = NULL;
 
-	if (!hSelected || !pcli->pfnFindItem(dat->hWnd, dat, (HANDLE)hSelected, &selcontact, &selgroup, NULL)) {
+	if (!hSelected || !pcli->pfnFindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL)) {
 		dat->selection = -1;
 		return dat->selection;
 	}
@@ -579,7 +579,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		if (savedInfo[i].parentId == -1)
 			group = &dat->list;
 		else {
-			if (!pcli->pfnFindItem(hwnd, dat, HANDLE(savedInfo[i].parentId | HCONTACT_ISGROUP), &contact, NULL, NULL))
+			if (!pcli->pfnFindItem(hwnd, dat, savedInfo[i].parentId | HCONTACT_ISGROUP, &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}

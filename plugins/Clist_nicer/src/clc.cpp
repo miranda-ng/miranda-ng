@@ -364,7 +364,7 @@ LBL_Def:
 		}
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if (pcli->pfnFindItem(hwnd, dat, (HANDLE)hSelItem, &selcontact, &selgroup, NULL))
+			if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)& selgroup->cl, selcontact));
 			else
 				dat->selection = -1;
@@ -378,7 +378,7 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_METACHANGED:
-		if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
 		if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
@@ -388,7 +388,7 @@ LBL_Def:
 			if (contact->pExtra) {
 				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
 				ClcContact *subContact;
-				if (!pcli->pfnFindItem(hwnd, dat, (HANDLE)contact->hSubContact, &subContact, NULL, NULL))
+				if (!pcli->pfnFindItem(hwnd, dat, contact->hSubContact, &subContact, NULL, NULL))
 					break;
 
 				contact->pExtra->proto_status_item = GetProtocolStatusItem(contact->metaProto);
