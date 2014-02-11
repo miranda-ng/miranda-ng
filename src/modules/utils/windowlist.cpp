@@ -39,7 +39,7 @@ typedef OBJLIST<TWindowListItem> TWindowList;
 
 static INT_PTR AllocWindowList(WPARAM, LPARAM)
 {
-	return (INT_PTR)new TWindowList(10, HandleKeySortT);
+	return (INT_PTR)new TWindowList(10, NumericKeySortT);
 }
 
 static INT_PTR DestroyWindowList(WPARAM wParam, LPARAM)
