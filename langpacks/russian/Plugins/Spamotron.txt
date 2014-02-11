@@ -160,6 +160,16 @@ Cообщение временно заблокировано. Напишите 
 [Sending plain challenge to %s.]
 Отправка контрольного вопроса %s.
 [Sending math expression challenge to %s.]
+Отправка математического контрольного вопроса %s.
+[Sending round-robin challenge to %s.]
 Отправка контрольного вопроса %s.
+[Sending random challenge to %s.]
+Отправка случайного контрольного вопроса %s.
 [Their message was]
 Сообщение было
+[Message blocked due to preview action]
+Сообщение заблокировано для примера
+[Contact approved due to preview action]
+Контакт подтвержден для примера
+[Challenge sent to preview contact]
+Отправка контрольного вопроса для примера

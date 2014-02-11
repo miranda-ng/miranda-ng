@@ -108,9 +108,9 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 						return FALSE;
 					break;
 				case IDC_OPT_POPUPS_PREVIEW:
-					ShowPopupPreview(optDlg, POPUP_BLOCKED, NULL, LPGENT("Message blocked due to preview action"));
-					ShowPopupPreview(optDlg, POPUP_APPROVED, NULL, LPGENT("Message approved due to preview action"));
-					ShowPopupPreview(optDlg, POPUP_CHALLENGE, NULL, LPGENT("Challenge sent to preview contact"));
+					ShowPopupPreview(optDlg, POPUP_BLOCKED, NULL, TranslateT("Message blocked due to preview action"));
+					ShowPopupPreview(optDlg, POPUP_APPROVED, NULL, TranslateT("Contact approved due to preview action"));
+					ShowPopupPreview(optDlg, POPUP_CHALLENGE, NULL, TranslateT("Challenge sent to preview contact"));
 					return FALSE;
 			}
 			SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);

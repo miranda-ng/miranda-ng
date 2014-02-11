@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION            0
 #define __MINOR_VERSION            0
 #define __RELEASE_NUM            4
-#define __BUILD_NUM               6
+#define __BUILD_NUM               7
 
 #include <stdver.h>
 
@@ -11,4 +11,4 @@
 #define __AUTHOR               "vu1tur"
 #define __AUTHOREMAIL            "to@vu1tur.eu.org"
 #define __AUTHORWEB               "http://miranda-ng.org/p/Spamotron/"
-#define __COPYRIGHT               "© 2010-2013 vu1tur"
+#define __COPYRIGHT               "© 2010 vu1tur"
