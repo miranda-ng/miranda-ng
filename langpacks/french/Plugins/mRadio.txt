@@ -197,5 +197,3 @@ Avancé
 
 [New]
 Nouveau
-[cPluginName + ' volume control']
-

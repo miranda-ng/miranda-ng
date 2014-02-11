@@ -101,4 +101,3 @@
 [Device list]
 [Equalizer]
 [New]
-[cPluginName + ' volume control']

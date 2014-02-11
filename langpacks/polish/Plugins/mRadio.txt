@@ -197,5 +197,3 @@ Lista urządzeń
 Equalizer
 [New]
 Nowy
-[cPluginName + ' volume control']
-

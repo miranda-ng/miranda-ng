@@ -90,4 +90,3 @@
 [Volume]
 [Device list]
 [Equalizer]
-[cPluginName + ' volume control']
