@@ -271,6 +271,8 @@ Gibt Anzahl Kontakte, ohne Benutzerkonto, zurück
 Ansi-Text
 [Removes all settings for the specified module]
 Entfernt alle Einstellungen im angegebenen Modul
+[Show window for new/changed profile password]
+
 [int 0]
 int 0
 [Import settings/contacts from file]
@@ -383,8 +385,12 @@ Nur YAPP
 Unicode-Text
 [result of protocol service call]
 Ergebnis des Protokollserviceaufrufes
-[send a general request through the protocol chain for a contact]
+[Send a general request through the protocol chain for a contact]
 Stellt eine generelle Anfrage durch die Protokollkette für einen Kontakt
+[str, account name]
+
+[Return account name associated to contact (no need to free it)]
+
 [displays the Account Manager]
 Zeigt den Kontenmanager an
 [Show the dialog to select the contact]
@@ -728,8 +734,6 @@ Gepackte Struktur
 [Registered actions]
 Eingetragene Aktionen
 ; Actman30
-[No Description]
-Keine Beschreibung
 [INI]
 
 [INI file name]
@@ -754,8 +758,6 @@ Argumente
 Anzahl Argumente
 [Result]
 Ergebnis
-[Wide String]
-Wide String
 [DLL Handle Cache]
 DLL Handle Cache
 [Keep to end]
@@ -764,8 +766,6 @@ Am Ende behalten
 Sofort schließen
 [Close for macro]
 Für Makro schließen
-[Choose Contact]
-Kontakt wählen
 [Refresh]
 Aktualisieren
 [Get from active window]
@@ -778,8 +778,6 @@ Altes Ergebnis behalten
 Selber Thread
 [Do not wait until the end of execution]
 Nicht auf das Ende der Ausführung warten
-[Result type]
-Ergebnistyp
 [In/Out]
 Ein/Aus
 [Autosend]
@@ -868,8 +866,6 @@ Ausgewähltes Makro
 Für FirstRun auswählen
 [Miranda event help]
 
-[Double click on the CList]
-Doppelklick auf Kontaktliste
 [contact list]
 
 [database driver]

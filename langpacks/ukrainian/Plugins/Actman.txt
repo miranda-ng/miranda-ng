@@ -545,8 +545,6 @@ UTF16+сигнатури
 Упакована структура
 [Registered actions]
 Зареєстровані дії
-[No Description]
-Без опису
 [Function call]
 Виклик функції
 [Function name]
@@ -561,8 +559,6 @@ UTF16+сигнатури
 Кількість аргументів
 [Result]
 Результат
-[Wide String]
-Рядок Unicode
 [DLL Handle Cache]
 Кеш дескрипторів DLL
 [Keep to end]
@@ -571,8 +567,6 @@ UTF16+сигнатури
 Закрити негайно
 [Close for macro]
 Закрити для макроса
-[Choose Contact]
-Виберіть контакт
 [Refresh]
 Оновити
 [Get from active window]
@@ -585,8 +579,6 @@ UTF16+сигнатури
 У тому ж потоці
 [Do not wait until the end of execution]
 Не чекати до закінчення виконання
-[Result type]
-Результат виклику служби
 [In/Out]
 Ввід/Вивід
 [Autosend]
@@ -671,8 +663,6 @@ UTF16+сигнатури
 Поточний макрос
 [Select for FirstRun]
 Вибрати для першого запуску
-[Double click on the CList]
-Подвійне клацання у списку контактів
 [Text Editor]
 Текстовий редактор
 [Script]

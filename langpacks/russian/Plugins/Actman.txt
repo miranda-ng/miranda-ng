@@ -263,6 +263,8 @@
 Возвращает кол-во контактов за исключением учетной записи пользователя
 [Removes all settings for the specified module]
 Удаляет все настройки, относящиеся к указанному модулю
+[Show window for new/changed profile password]
+Показывает окно для установки/изменения пароля профиля
 [int 0]
 целочисленный 0
 [System]
@@ -559,8 +561,6 @@ UTF16+сигнатура
 Упакованная структура
 [Registered actions]
 Зарегистрированные действия
-[No Description]
-Нет описания
 [INI]
 Файл INI
 [INI file name]
@@ -585,8 +585,6 @@ UTF16+сигнатура
 Количество аргументов
 [Result]
 Результат
-[Wide String]
-Юникодная строка
 [DLL Handle Cache]
 Кэш дескрипторов DLL
 [Keep to end]
@@ -595,8 +593,6 @@ UTF16+сигнатура
 Закрыть немедленно
 [Close for macro]
 Закрыть для макроса
-[Choose Contact]
-Выберите контакт
 [Refresh]
 Обновить
 [Get from active window]
@@ -609,8 +605,6 @@ UTF16+сигнатура
 В том же потоке
 [Do not wait until the end of execution]
 Не дожидаться окончания выполнения
-[Result type]
-Тип результата
 [In/Out]
 Ввод/Вывод
 [Autosend]
@@ -699,8 +693,6 @@ UTF16+сигнатура
 Выбрать для первого запуска
 [Miranda event help]
 Помощь по событиям
-[Double click on the CList]
-Двойной щелчок по списку контактов
 [contact list]
 список контактов
 [database driver]

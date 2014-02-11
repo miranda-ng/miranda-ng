@@ -271,6 +271,8 @@ Pokaż wszystkie paski tytułów
 
 [Removes all settings for the specified module]
 
+[Show window for new/changed profile password]
+
 [int 0]
 
 [Import settings/contacts from file]
@@ -383,7 +385,11 @@ Wyskakujące okno
 
 [result of protocol service call]
 
-[send a general request through the protocol chain for a contact]
+[Send a general request through the protocol chain for a contact]
+
+[str, account name]
+
+[Return account name associated to contact (no need to free it)]
 
 [displays the Account Manager]
 
@@ -728,8 +734,6 @@ Użyj Bajt tablicy/wskaźnika dla stringów ANSI\n\Użyj tablicy/wskaźnika Word
 [Registered actions]
 Zarejestrowane akcje
 ; Actman30
-[No Description]
-Brak opisu
 [INI]
 
 [INI file name]
@@ -754,8 +758,6 @@ Argumenty
 Liczba argumentów
 [Result]
 Wynik
-[Wide String]
-
 [DLL Handle Cache]
 
 [Keep to end]
@@ -764,8 +766,6 @@ Wynik
 
 [Close for macro]
 
-[Choose Contact]
-Wybierz kontakt
 [Refresh]
 Odśwież
 [Get from active window]
@@ -777,8 +777,6 @@ Odśwież
 [Same thread]
 
 [Do not wait until the end of execution]
-
-[Result type]
 
 [In/Out]
 
@@ -867,8 +865,6 @@ nazwa 'wartość'
 [Select for FirstRun]
 
 [Miranda event help]
-
-[Double click on the CList]
 
 [contact list]
 

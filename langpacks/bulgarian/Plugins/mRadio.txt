@@ -193,3 +193,5 @@ mRadio - управление силата на звука
 Еквалайзер
 [New]
 Ново
+[cPluginName + ' volume control']
+

@@ -556,8 +556,6 @@ UTF16+сігнатура
 [Registered actions]
 Зарэгістраваныя дзеянні
 ; Actman30
-[No Description]
-Без апісання
 [Function call]
 Вызаў функцыі
 [Function name]
@@ -572,8 +570,6 @@ UTF16+сігнатура
 Колькасць аргументаў
 [Result]
 Вынік
-[Wide String]
-Wide String
 [DLL Handle Cache]
 Кэш дэскрыптараў DLL
 [Keep to end]
@@ -582,8 +578,6 @@ Wide String
 Зачыніць адразу
 [Close for macro]
 Зачыніць да макраса
-[Choose Contact]
-Абярыце кантакт
 [Refresh]
 Абнавіць
 [Get from active window]
@@ -596,8 +590,6 @@ Wide String
 У тым жа патоке
 [Do not wait until the end of execution]
 Не чакаць сканчэння выканання
-[Result type]
-Вынік вызаву службы
 [In/Out]
 Увод/Вывад
 [Autosend]
@@ -682,8 +674,6 @@ Wide String
 Цяперашні макрас
 [Select for FirstRun]
 Абраць для першага запуска
-[Double click on the CList]
-Двайная пстрычка па спісу кантактаў
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Тэкставы рэдактар
