@@ -44,7 +44,7 @@
 [Invisible]
 Невидимый
 [Occurring Events]
-Произошедшие события
+События
 [Incoming message]
 Входящее сообщение
 [Incoming URL]
@@ -54,7 +54,7 @@
 [Authorization request]
 Запрос авторизации
 [Added to contact list]
-Добавлен в список контактов
+"Вас добавили"
 [Status messages]
 Сообщения статуса
 [Announce status changes on connect]
@@ -94,13 +94,13 @@
 [incoming message from %u]
 Сообщение от пользователя %u.
 [incoming URL from %u]
-ссылка от %u.
+Ссылка от %u.
 [you have been added to %u's contact list]
 Вы добавлены к списку контактов пользователя %u.
 [%u requests your authorization]
 %u запрашивает у вас авторизацию
 [there is an incoming file from %u]
-Есть файл от пользователя %u.
+Файл от пользователя %u.
 [%u says]
 %u пишет:
 [Speak]
@@ -108,7 +108,7 @@
 [Engine/Voice]
 Движок/Голос
 [Announce]
-Анонс
+Уведомление
 [Message Session]
 Сообщение сессии
 [Message Received]

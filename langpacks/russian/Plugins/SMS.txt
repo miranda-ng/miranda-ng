@@ -38,7 +38,7 @@
 [&Send]
 &Отправить
 [SMS Message Didn't Send]
-СМС сообщение не послано
+SMS сообщение не послано
 [&Try again]
 &Попытаться еще
 [&Cancel]
@@ -62,7 +62,7 @@
 [Save window position per contact]
 Сохранять позицию окна поконтактно
 [SMS Message Sent]
-СМС сообщение послано
+SMS сообщение послано
 [Message ID:]
 ID сообщения:
 [Source:]
@@ -73,6 +73,8 @@ ID сообщения:
 От %s:\r\n\r\n
 [Events]
 События
+[SMS message didn't send by %S to %s because: %S]
+SMS сообщение по %S для %s не отправлено: %S
 [SMS Message from %s]
 SMS от %s
 [SMS Confirmation from %s]
@@ -86,11 +88,11 @@ SMS подтверждение от %s
 [Save Number To The User's Details Phonebook]
 Сохранить номер в списке телефонов профиля
 [Show/Hide Multiple List]
-показывает/убирает список телефонов для отправки
+Показывает/убирает список телефонов для отправки
 [Shows How Much Chars You've Typed]
 Показывает, сколько знаков набрано
 [The SMS message send to %s timed out.]
-Истекло время посылки SMS к %s,
+Истекло время посылки SMS к %s.
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Телефон должен начинаться с + и состоять только из цифр, пробелов, скобок и тире.
 [Invalid Phone Number]
@@ -104,7 +106,7 @@ SMS подтверждение от %s
 [No Numbers]
 Нет номеров
 [Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-Правильные номера телефонов должны быть в форме '+(код страны)(номер телефона)'. содержимое части 'номер телефона' зависит от национальных стандартов, но часто первый ноль опускается.
+Правильные номера телефонов должны быть в форме '+(код страны)(номер телефона)'. Содержимое части 'номер телефона' зависит от национальных стандартов, но часто первый ноль опускается.
 [Invalid phone number]
 Неверный номер телефона
 [<< Single]

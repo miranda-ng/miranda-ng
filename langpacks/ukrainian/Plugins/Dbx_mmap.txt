@@ -64,7 +64,7 @@
 [Password is too short!]
 Пароль занадто короткий!
 [Passwords do not match!]
-Паролі не співпадають!
+Паролі не збігаються!
 [Database]
 Профіль
 [Performing aggressive pass]

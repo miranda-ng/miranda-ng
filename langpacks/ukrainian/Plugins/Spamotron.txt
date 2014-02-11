@@ -1,14 +1,46 @@
-#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
-;  File: spamotron.dll
-;  Module: Spam-o-tron
-;  Versions: 0.4.6
-;  URL: http://vu1tur.eu.org/spamotron/
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
 Антиспам з капчею та Байєсівською фільтрацією.
-; Settings tab
+[Enabled]
+Ввімкнений
+[Learned ham messages:]
+Не спам повідомлень у базі:
+[Learned spam messages:]
+Спам повідомлень у базі:
+[Filtering options]
+Налаштування фільтрації:
+[Do not send challenge request if message score above]
+Блокувати повідомлення, якщо спам-рейтинг вище
+[Auto approve contact if message score below]
+Схвалювати контакт при рейтингу нижче
+[and learn as ham]
+і вважати не спамом
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
+Не вмикайте ці опції, поки в базі не буде як мінімум 20 не спам і 50 спам повідомлень.
+[Learning options]
+Опції навчання
+[Auto-learn messages from approved contacts as ham]
+Вважати повідомлення від схвалених контактів не спамом
+[Auto-learn messages from contacts if not approved in]
+Вважати повідомлення спамом, якщо не схвалено за
+[days as spam]
+дні
+[Auto-learn outgoing messages as ham]
+Вважати вихідні повідомлення не спамом
+[Learn message:]
+Додати повідомлення до бази:
+[Spam]
+Спам
+[Ham]
+Не спам
+[Analyze]
+Перевірити
 [Settings]
 Налаштування
 [Enabled accounts:]
@@ -21,8 +53,8 @@
 Вхідному повідомленні з будь-яким зі слів:
 [Hide contact until verified]
 Ховати контакт до підтвердження
-[Add to permanently list on verified]
-Додавати у список контактів при підтвердженні
+[Add permanently to list on verified]
+Додавати до списку контактів при підтвердженні
 [Log actions to system history]
 Вести журнал
 [Flood protection]
@@ -34,34 +66,21 @@
 [Do not reply to the same message more than]
 Не відповідати на повідомлення-дублі більше
 [times a day]
-раз на день
+разів на день
 [Do not reply to messages with words in this list:]
 Чорний список слів у вхідних повідомленнях:
-; Messages tab
-[Messages]
-Повідомлення
-[Mode]
+[Mode:]
 Режим:
-[Simple]
-Простий
-[Math expression]
-Математичний
-[Round-robin]
-Циклічний
-[Random]
-Випадковий
-[will be saved in %mathexpr%]
-знаходиться в %mathexpr%
 [Case-sensitive]
 Враховувати регістр
+[will be saved in %mathexpr%]
+знаходиться в %mathexpr%
 [Send challenge on incoming message:]
-Надсилати запитання за вхідне повідомлення:
+Надсилати запитання при вхідному повідомленні:
 [Responses: (saved in %response%, %response-n% variables)]
 Відповіді: (знаходяться в змінних %response%, %response-n%)
-[Will be automatically evaluated from %mathexpr%]
-Буде автоматично обчислений виходячи з %mathexpr%
 [Reply on success:]
-Повідомляти при підтвердженні:
+Сповіщати при підтвердженні:
 [Send challenge on authorization request:]
 Надсилати запитання при запиті авторизації:
 [Keep blocked messages in contact history]
@@ -70,62 +89,22 @@
 і позначати непрочитаними при підтвердженні
 [Reset to defaults]
 За замовчанням
-; Bayes tab
-[Bayes]
-Байєсівської
-[Enabled]
-Ввімкнений
-[Learned spam messages:]
-Спам повідомлень у базі:
-[Learned ham messages:]
-Не спам повідомлень у базі:
-[Filtering options]
-Налаштування фільтрації:
-[Do not send challenge request if message score above]
-Блокувати повідомлення, якщо спам-рейтинг вище
-[Auto approve contact if message score below]
-Схвалювати контакт при спам-рейтингу нижче
-[and learn as ham]
-і вважати не спамом
-[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-Не вмикайте ці опції, поки в базі не буде як мінімум 20 не спам і 50 спам повідомлень.
-[Learning options]
-Опції навчання
-[Auto-learn messages from approved contacts as ham]
-Вважати повідомлення від схвалених контактів не спамом
-[Auto-learn messages from contacts if not approved in]
-Вважати повідомлення спамом, якщо не схвалено за
-[days as spam]
-дня
-[Auto-learn outgoing messages as ham]
-Вважати вихідні повідомлення не є спамом
-[Learn message:]
-Додати повідомлення до бази:
-[Spam]
-Спам
-[Ham]
-Не спам
-[Analyze]
-Перевірити
-[Message score]
-Спам-рейтинг
-; Popups tab
 [Enable popup notifications]
 Ввімк. сповіщення у спливаючих вікнах
 [Appearance]
 Зовнішній вигляд
-[Contact blocked]
-Контакт заблокований
-[Contact approved]
-Контакт підтверджено
-[Challenge sent]
-Відправлено питання
 [Foreground]
 Текст
 [Background]
 Фон
 [Timeout]
 Час
+[Contact blocked]
+Контакт заблоковано
+[Contact approved]
+Контакт підтверджено
+[Challenge sent]
+Відправлено питання
 [Default colors]
 Кольори за замовчуванням
 [Windows colors]
@@ -133,8 +112,9 @@
 [Default timeout]
 За замовчанням
 [Preview]
-Попередній перегляд
-; Default Messages
+Тест
+[Bayes database path]
+Розташування бази Байєса
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
 Повідомлення тимчасово заблоковано. Напишіть "%response%" без лапок.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
@@ -145,24 +125,51 @@
 Запит авторизації тимчасово заблокований. Напишіть "%response%" без лапок.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 Запит авторизації тимчасово заблокований. Скільки буде %mathexpr%?
-; Notifications
+[Simple]
+Простий
+[Math expression]
+Математичний
+[Round-robin]
+Циклічний
+[Random]
+Випадковий
+[Will be automatically evaluated from %mathexpr%]
+Буде автоматично обчислена виходячи з %mathexpr%
+[Invalid regular expression.\nKeeping previous value.]
+Помилка в регулярному виразі.\nБуде використано старе значення.
+[Message score]
+Спам-рейтинг
+[Message Sessions]
+Беседи
+[Messages]
+Повідомлення
+[Bayes]
+Байєс
+[Popups]
+Спливаючі вікна
+[Message blocked due to preview action]
+Повідомлення заблоковано для прикладу
+[Contact approved due to preview action]
+Контакт підтверджено для прикладу
+[Challenge sent to preview contact]
+Відправка контрольного питання для прикладу
 [Contact %s approved.]
 Контакт %s підтверджений.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
-Повідомлення від %s заблоковано, тому перевищено максимальну кількість контрольних питань у день.
+Повідомлення від %s заблоковано, оскільки перевищено максимальну кількість контрольних питань на день.
 [Message from %s rejected because it reached a maximum for same responses per day.]
-Повідомлення від %s заблоковано, тому перевищено максимальну кількість однакових повідомлень в день.
+Повідомлення від %s заблоковано, оскільки перевищено максимальну кількість однакових повідомлень на день.
 [Message from %s dropped because it has a word from black list.]
 Повідомлення від %s заблоковано, оскільки містить слово з чорного списку.
 [Message from %s dropped because of high spam score.]
 Повідомлення від %s заблоковано, тому що у нього висока ймовірність спаму.
 [Sending plain challenge to %s.]
 Відправка контрольного питання %s.
+[Sending round-robin challenge to %s.]
+Відправка контрольного питання %s.
+[Sending random challenge to %s.]
+Відправка випадкового контрольного питання %s.
 [Sending math expression challenge to %s.]
 Відправка контрольного питання %s.
 [Their message was]
 Повідомлення було
-[Invalid regular expression.\nKeeping previous value.]
-Помилка в регулярному виразі.\nБудет використано старе значення.
-[Bayes database path]
-Розташування бази Байєса

@@ -1648,7 +1648,7 @@ ID користувача
 [File transfer negotiation failed for unknown reason.]
 Передача файлу не вдалася з невідомої причини.
 [The checksum of file "%s" does not match, the file is probably damaged.]
-Контрольна сума файла "%s" не співпадає, можливо файл пошкоджений.
+Контрольна сума файла "%s" не збігається, можливо файл пошкоджений.
 [<invalid>]
 <неправильно>
 [GMT-12:00 Eniwetok; Kwajalein]
@@ -1844,11 +1844,11 @@ GMT+12:00 Камчатка, Фіджі, Маршаллові о-ви, Оклен
 [Interest areas 4]
 Цікавлюся 4
 [The password does not match your current password. Check Caps Lock and try again.]
-Пароль не співпадає з наявним. Перевірте Caps Lock і спробуйте знову.
+Пароль не збігається з наявним. Перевірте Caps Lock і спробуйте знову.
 [Change ICQ Details]
 Змінити дані ICQ
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не співпадає з паролем, введеним раніше. Перевірте Caps Lock і спробуйте знову.
+Пароль не збігається з паролем, введеним раніше. Перевірте Caps Lock і спробуйте знову.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 Сервер ICQ не підтримує паролі довжиною більше 8 символів. Використовуйте коротший пароль.
 [<unremovable once applied>]

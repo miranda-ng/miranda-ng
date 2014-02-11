@@ -70,7 +70,7 @@
 [The correction can't be empty!]
 Виправлення не може бути порожнім!
 [The correction can't be equal to the wrong word!]
-Виправлення та слово з помилкою не можуть співпадати!
+Виправлення та слово з помилкою не можуть збігатися!
 [Tagalog (Philippines)]
 Тагальська (Філіппіни)
 [German (Germany)]

@@ -108,7 +108,7 @@ AIM Встановити Instant Idle
 [Repeat]
 Повторити
 [*Passwords don't match.]
-*Паролі не співпадають.
+*Паролі не збігаються.
 [Screen Name]
 Ім'я AIM
 [Confirm Account]

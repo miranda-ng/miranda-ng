@@ -247,14 +247,12 @@ SkypeKit.exe не распакован.
 Привет! Я хотел бы добавить вас в свой список контактов
 [Contact already in your contact list]
 Контакт уже в списке контактов
-[Contacts received]
-Входящий групповой звонок
 [Enter a password for %s:]
 Введите пароль для %s:
 [New password is same as old password.]
 Новый и старый пароль одинаковы
 [New password and confirmation must be same.]
-Новый и старый пароль одинаковы
+Новый пароль и подтверждение должны совпадать.
 [<not specified>]
 <не указано>
 [Male]

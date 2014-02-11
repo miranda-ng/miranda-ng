@@ -6,7 +6,7 @@
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
-Skype протокол для Miranda NG.
+Підтримка протоколу Skype в Miranda NG.
 [Invite contacts to conference]
 Запросити у конференцію
 [Skype name:]
@@ -19,6 +19,8 @@ Skype протокол для Miranda NG.
 Додати
 [Create conference]
 Створити конференцію
+[&Create]
+&Створити
 [Topic:]
 Тема:
 [Guideline:]
@@ -35,6 +37,10 @@ Skype протокол для Miranda NG.
 Підтвердження:
 [Password hint:]
 Підказка пароля:
+[Set password]
+Встановити пароль
+[Hint:]
+!!!
 [Enter password]
 Введіть пароль
 [Remember this session password]
@@ -46,9 +52,9 @@ Skype протокол для Miranda NG.
 [Online since:]
 Онлайн з:
 [Last event date:]
-Дата останнього події:
-[Last change profile:]
-Дата останнього зміни профілю:
+Дата останньої події:
+[Last profile change:]
+Дата останньої зміни профілю:
 [Full name:]
 Повне ім'я:
 [Date of birth:]
@@ -56,7 +62,7 @@ Skype протокол для Miranda NG.
 [Gender:]
 Стать:
 [Homepage:]
-Дом. сторінка:
+Сайт:
 [Language:]
 Мова:
 [About:]
@@ -70,15 +76,15 @@ Skype протокол для Miranda NG.
 [E-mail 3:]
 Пошта 3:
 [Mobile phone:]
-Моб. телефон:
+Мобільний:
 [Home phone:]
 Домашній телефон:
 [Office phone:]
-Робочій телефон:
+Робочий телефон:
 [City:]
 Місто:
 [State:]
-Штат:
+Область:
 [Country:]
 Країна:
 [Timezone:]
@@ -119,14 +125,14 @@ Skype протокол для Miranda NG.
 Автоматично показувати екран і приймати відео від...
 [No one]
 Нікого
-[Allow my online status to be shown on the web]
-Дозволити показ мого онлайн статусу в інтернеті
 [Show avatars]
 Показувати аватари
 [Contacts count]
 Лічильник контактів
 [Local time]
 Місцевий час
+[Allow my online status to be shown on the web]
+Дозволити показ мого онлайн-статусу в інтернеті
 [Block this person]
 Блокувати користувача
 [Remove from your Contact List]
@@ -138,7 +144,7 @@ Skype протокол для Miranda NG.
 [Report abuse]
 Повідомити про порушення
 [Did not unpack SkypeKit.exe.]
-Баланс Skype:
+SkypeKit.exe не розпакований.
 [HTTPS proxy authentication failed]
 Аутентифікація по HTTP-проксі не вдалася
 [SOCKS proxy authentication failed]
@@ -150,15 +156,15 @@ Skype протокол для Miranda NG.
 [SkypeKit database already in use]
 База даних SkypeKit вже використовується
 [Invalid Skype name]
-Невірний логін Skype
+Неправильний логін Skype
 [Invalid email]
 Неправильний E-mail
 [Unacceptable password]
-Неправильний пароль
+Недопустимий пароль
 [Skype name is taken]
 Логін Skype зайнятий
 [Incorrect password]
-Невірний пароль
+Неправильний пароль
 [Too many login attempts]
 Занадто багато спроб входу
 [Password has changed]
@@ -166,9 +172,11 @@ Skype протокол для Miranda NG.
 [SkypeKit database is corrupt]
 База даних SkypeKit пошкоджена
 [Invalid application ID]
-Невірний ID додатки
+Неправильний ID додатку
 [Version is unsupported]
 Версія не підтримується
+[Account blocked]
+Обліковий запис заблоковано
 [Logout from another instance]
 Вихід на інших пристроях
 [Password successfully changed]
@@ -176,25 +184,27 @@ Skype протокол для Miranda NG.
 [Password changing]
 Зміна пароля
 [Old password was incorrect]
-Старий пароль не вірний
+Старий пароль неправильний
 [Failed to verify password. No connection to server]
 Неможливо перевірити пароль. Немає підключення до сервера
 [Password was set but server didn't like it much]
-Пароль був відкинутий сервером
+Пароль відхилений сервером
 [New password was exactly the same as old one]
 Введений пароль точно такий же, як старий
 [The new password was unacceptable]
-Новий пароль неприйнятний
+Новий пароль недопустимий
 [Account was currently not logged in]
 Обліковий запис не в мережі
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 Ви не ввели Skype ID.\nНастройте це в Налаштування->Мережа->%s і спробуйте знову.
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-Ви дійсно хочете блокувати "%s" (%s)? Блоковані користувачі зможуть зв'язатися з вами і не будуть відображатися у вашому списку контактів.
+Ви дійсно хочете блокувати "%s" (%s)? Блоковані користувачі не зможуть зв'язатися з вами і не будуть відображатися у списку контактів.
 [Name]
 Ім'я
 [Conferences]
 Конференції
+[&User details]
+Інформація про &користувача
 [&Request auth]
 &Запитати авторизацію
 [Invite to conference]
@@ -212,37 +222,49 @@ Skype протокол для Miranda NG.
 [&Add]
 &Додати
 [&Kick]
-&Викинути
+&Вигнати
 [Outlaw (&ban)]
-Забанити
+&Забанити
 [Copy &skypename]
 Копіювати &Skype ID
 [Copy room &uri]
 Копіювати URI конференції
 [Creator]
 Творець
+[Master]
+Модератор
+[Helper]
+Помічник
+[User]
+Користувач
+[Listener]
+Слухач
+[me]
+Я
 [Incoming group call finished]
-Вхідний груповий дзвінок закінчений
+Вхідний груповий дзвінок завершено
 [The password is incorrect]
-Невірний пароль
+Неправильний пароль
 [Your application to join the conference was denied]
-Ваше прохання про присоеденении до конференції відхилено
+Ваше прохання про приєднання до конференції відхилено
 [Incoming group call started]
 Вхідний груповий дзвінок
 [You did not select any contact]
 Ви не вибрали контакт
 [Hi! I'd like to add you to my contact list]
-Привіт! Я хотів би додати Вас в свій список контактів
+Привіт! Я хотів би додати вас у свій список контактів
 [Contact already in your contact list]
 Контакт вже в списку
-[Contacts received]
-Вхідний груповий дзвінок
 [Enter a password for %s:]
 Введіть пароль для %s:
+[Password can't be empty.]
+Пароль не може бути порожнім.
+[Old password is not correct.]
+Старий пароль неправильний.
 [New password is same as old password.]
 Новий і старий пароль однакові
-[New and password confirmation must be same.]
-Новий і старий пароль однакові
+[New password and confirmation must be same.]
+Новий пароль і підтвердження повинні збігатися.
 [<not specified>]
 <не вказано>
 [Male]
@@ -259,12 +281,16 @@ Skype протокол для Miranda NG.
 Блоковані контакти
 [Privacy]
 Приватність
-[Архів]
+[Contacts]
 Контакти
 [Home]
-Будинок
+Дім
 [General]
-Загальна
+Загальне
+[Skype account]
+Обліковий запис
+[Protocol icon]
+Значок протоколу
 [Call]
 Дзвінок
 [Conference]
@@ -277,16 +303,20 @@ Skype протокол для Miranda NG.
 Видалити
 [Protocols]
 Протоколи
-[Initialization key or corrupted not valid.]
-Ключ ініціалізації пошкоджений або не дійсний.
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+Підтримується вхід тільки в один обліковий запис Skype. Одночасне використання кількох облікових записів забороняється ліцензією та умовами розповсюдження SkypeKit.
+[Initialization key corrupted or not valid.]
+Ключ ініціалізації пошкоджений або недійсний.
 [SkypeKit did not initialize (%d).]
-SkypeKit did not initialize (%d).
+Ініціалізація SkypeKit не вдалася (%d).
 [SkypeKit did not start.]
 SkypeKit не запустився.
 [Unblock this person...]
 Розблокувати користувача...
 [Block this person...]
 Блокувати користувача...
+[Skype menu chooser]
+Вибір облікового запису Skype
 [Request authorization]
 Запросити авторизацію
 [Grant authorization]
@@ -301,7 +331,7 @@ SkypeKit не запустився.
 за останній тиждень
 [for last month]
 за останній місяць
-[for last month 3]
+[for last 3 month]
 за останні 3 місяці
 [for last year]
 за останній рік
@@ -323,13 +353,13 @@ SkypeKit не запустився.
 Валідація пройдена
 [Password is too short]
 Пароль занадто короткий
+[Password cannot be the same as Skype name]
+Логін Skype і пароль не можуть збігатися
 [Value has invalid format]
-Значення має невірний формат
+Значення має неправильний формат
 [Value contains invalid word]
 Значення має неприпустиме слово
 [Password is too simple]
-Пароль надто простий
-[Avatars]
-Аватари
-[Command%s is unsupported]
+Пароль занадто простий
+[Command "%s" is unsupported]
 Команда "%s" не підтримується

@@ -6,27 +6,27 @@
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
-Додає веб-сторінку, як контакт до списку контактів і може відображати текст і/або видавати попередження про зміни цих сторінок у вікно.
+Додає веб-сторінки як контакти до списку контактів і відображає текст і/або видаває сповіщення про зміни цих сторінок у вікно.
 [Webview]
 WebView
 [Update data every]
 Оновлювати дані кожні
 [minutes]
-хвилин(и)
+хвилин
 [Delay update on start]
-Затримка оновлення на старті
+Затримка на старті
 [seconds]
-секунд(и)
+секунд
 [Hide icon on status bar]
 Ховати значок на панелі статусів
 [Disable main menu items]
-Відключити елементи у головному меню
+Вимк. пункти у головному меню
 [Load page on window open]
-Завантажити сторінку, у відкритому вікні
+Завантажити сайт при відкритті
 [Update data on startup]
 Оновлювати дані при старті
 [Only update window on alert]
-Тільки попередження оновлення вікна
+Оновлювати вікно при сповіщенні
 [Window appearance]
 Зовнішній вигляд вікна
 [Background color:]
@@ -34,7 +34,7 @@ WebView
 [Text color:]
 Колір тексту:
 [Bold]
-Напівжирний
+Жирний
 [Italic]
 Курсив
 [Underline]
@@ -42,19 +42,19 @@ WebView
 [Save individual window positions]
 Зберігати позицію для кожного вікна
 [Error messages]
-Повідомлення помилки
+Помилки
 [Suppress error messages]
-Ігнорувати повідомлення про помилки
-[Display using popup or OSD plugin]
-Показати, використовуючи модуль сплив. вікон або OSD
+Ігнорувати помилки
+[Display using Popup or OSD plugin]
+Викор. плагін Popup або OSD
 [Expert options]
-Режим експерту
+Режим експерта
 [Disable download protection]
 Відключити захист завантаження
 [(not recommended)]
 (не рекомендовано)
 [Display data in popup on alert]
-Попередження відображення даних у сплив. вікні
+Дані у сплив. вікні при сповіщенні
 [Display data in popup]
 Показувати дані у сплив. вікні
 [You may need to restart Miranda NG for this change to take effect.]
@@ -106,7 +106,7 @@ WebView
 [Always log to file]
 Завжди записувати в файл
 [Add time and date of alert to contact name]
-Занесення часу і дати попередження в ім'я контакту
+Додавати час і дату сповіщення до імені контакту
 [Use 24 hour time format instead of 12 hour]
 Використовувати 24-годинний формат часу замість 12-годинного
 [Add as prefix]
@@ -114,31 +114,31 @@ WebView
 [Add as suffix]
 Додавати суфікс
 [Alert when:]
-Попередження якщо:
+Сповіщення, якщо:
 [Alert type:]
-Тип попередження:
+Тип сповіщення:
 [Test conditions]
 Умови випробування
 [Alert when string is present on web page]
-Попередження, якщо рядок присутній на веб-сторінці
+Сповіщення, якщо рядок присутній на веб-сторінці
 [String:]
 Рядок:
 [Alert when specific area of web page changes]
-Попередження при зміни конкретної області на веб-сторінці
+Сповіщення при зміні конкретної області на веб-сторінці
 [Log to file]
 Журнал у файл
 [Log file:]
 Файл журналу:
 [Append data to file]
-Додавання даних в файл
+Додавання даних у файл
 [Save as raw data]
 Зберігати "сирі" дані
 [Popup delay]
 Затримка сплив. вікна
 [Delay]
 Затримка
-[From popup plugin]
-З плагіну сплив. вікон
+[From Popup plugin]
+За замовчуванням
 [Permanent]
 Постійно
 [Preview]
@@ -146,23 +146,23 @@ WebView
 [Colors]
 Кольори
 [Use custom colors]
-Користувальницькі кольори
+Вказати кольори
 [Background]
 Фон
 [Text]
 Текст
-[Use windows colors]
-Використовувати кольори Windows
+[Use Windows colors]
+Кольори Windows
 [Use same colors as data window]
-Використовувати ті ж кольори у вікні даних
+Використовувати кольори з вікна даних
 [Left click action]
 Дія лівого кліку
 [Open data display window]
-Відкрити вікно відображення даних
+Відкрити вікно даних
 [Open web page]
 Відкрити веб-сторінку
 [Dismiss popup]
-Прибрати сплив. вікно
+Закрити сплив. вікно
 [Right click action]
 Дія правого кліку
 [Log]
@@ -187,8 +187,8 @@ WebView
 Автооновлення вимкнено
 [Auto update enabled]
 Автооновлення ввімкнено
-[Update all webview sites]
-Оновити всі сторінки WebView
+[Update all Webview sites]
+Оновити всі сторінки
 [Mark all Webview sites as read]
 Позначити всі сторінки як прочитані
 [Open cache folder]
@@ -206,9 +206,9 @@ WebView
 [Ping web site]
 Пінгувати веб-сторінку
 [Stop data processing]
-Припинити розбір інформації
-[All webview sites have been updated.]
-Усі сайти WebView були оновлені.
+Припинити обробку даних
+[All Webview sites have been updated.]
+Усі сторінки оновлено.
 [Network]
 Мережа
 [Popups]
@@ -220,11 +220,11 @@ WebView
 [Start/end strings not found or strings not set.]
 Початок/кінець рядка не знайдені або рядка не встановлено.
 [Alert start/end strings not found or strings not set.]
-Попередження початку/кінця рядка не знайдені або рядка не встановлено.
+Сповіщення початку/кінця рядка не знайдені або рядка не встановлено.
 [The string]
 Рядок
 [has been found on the web page]
-була знайдена на веб-сторінці
+був знайдений на веб-сторінці
 [Download successful; about to process data...]
 Завантаження завершено; обробка даних...
 [Unknown alert type.]
@@ -244,15 +244,15 @@ WebView
 [Loaded from cache]
 Завантажено з кешу
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
-ПОМИЛКА: У Вас є два або більше контактів WebView з однаковою URL-адресою та ім'ям контакту.
+ПОМИЛКА: У вас є два або більше контактів WebView з однаковою URL-адресою та ім'ям контакту.
 [Stop processing]
 Зупинити обробку
 [Click here to open this URL in a browser window.]
-Клікніть тут для видкриття цого посилання у вікні браузеру.
+Клікніть тут для видкриття цього посилання у браузері.
 [Stick to the front]
-Прилипати попереду
+Поверх усіх вікон
 [Disable stick to the front]
-Вимкнути прилипання попереду
+Вимкнути "Поверх усіх вікон"
 [URL not supplied]
 URL-адреса не поставляється
 [Download in progress, please wait...]
@@ -264,7 +264,7 @@ URL-адреса не поставляється
 [The server is down or lagging.]
 Сервер не працює.
 [Invalid search parameters.]
-Невірні параметри пошуку.
+Неправильні параметри пошуку.
 [Both search strings not found or strings not set.]
 Обидва рядки пошуку не знайдено або рядка не встановлено.
 [at the time]
@@ -292,7 +292,9 @@ URL-адреса не поставляється
 [Online]
 В мережі
 [A site is already downloading, try again in a moment.]
-Сайт вже завантаження, спробуйте ще раз в хвилину.
+Сайт вже завантажується, спробуйте пізніше.
+[Bytes in display]
+Байтів відображено
 [Bytes downloaded]
 Скачано байтів
 [Alert test conditions not met; press the refresh button to view content.]
@@ -316,19 +318,19 @@ URL-адреса не поставляється
 [The web page changes]
 Веб-сторінка змінилася
 [A specific part of web page changes]
-Змінилися певні частині веб-сторінки
+Змінилися певні частини веб-сторінки
 [This is a preview popup.]
 Це сплив. вікно попереднього перегляду.
 [You need to supply a search string.]
-Вам необхідно ввести в пошуковий рядок.
+Необхідно ввести в пошуковий рядок.
 [You need to supply a start string.]
-Ви повинні вказати початок рядка.
+Необхідно вказати початок рядка.
 [You need to supply an end string.]
-Ви повинні вказати кінець рядка.
+Необхідно вказати кінець рядка.
 [You need to supply a file name and path.]
-Ви повинні вказати ім'я файлу і шлях до нього.
+Необхідно вказати ім'я файлу та шлях до нього.
 [You need to supply a URL.]
-Вам необхідно ввести URL-адресу.
+Необхідно ввести URL-адресу.
 [You need to supply a name for the contact.]
 Необхідно вказати ім'я контакту.
 [Invalid symbol present in contact name.]
@@ -340,6 +342,4 @@ URL-адреса не поставляється
 [Site URL]
 Посилання на сайт
 [Please select site in Find/Add contacts...]
-Будь ласка виберіть сайт у Знайти/Додати контакт...
-[Bytes in display]
-Байтів відображено
+Будь ласка, виберіть сайт у Знайти/додати контакти

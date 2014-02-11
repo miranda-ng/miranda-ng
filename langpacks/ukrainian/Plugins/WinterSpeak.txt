@@ -1,4 +1,4 @@
-#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
 ;  File: WinterSpeak.dll
 ;  Plugin: WinterSpeak
@@ -7,44 +7,6 @@
 ;============================================================
 [Miranda interface to the Microsoft Speech API.]
 Інтерфейс розпізнавання мови Microsoft.
-; Зміни статусу
-[%u is now offline]
-%u не в мережі
-[%u is now online]
-%u в мережі
-[%u is away]
-%u відсутній
-[%u is invisible]
-%u невидимий
-[%u is not available]
-%u не доступний
-[%u does not want to be disturbed]
-%u не хочете, щоб вас турбували
-[%u is occupied]
-%u зайнятий
-[%u is free for chat]
-%u готовий базікати
-; Події
-[incoming message from %u]
-Вхідне повідомлення від %u
-[incoming URL from %u]
-Вхідне посилання (URL) від %u
-[you have been added to %u's contact list]
-Ви були додані до списку контактів %u
-[%u requests your authorization]
-%u запитує авторизацію
-[there is an incoming file from %u]
-там вхідний файл від %u
-[%u says]
-%u сказав
-; Налаштування заголовку
-[Engine/Voice]
-Знаряддя/Голос
-[Announce]
-Анонс
-[Active Modes]
-Активні режими
-; Сторінка налаштувань Знаряддя/голосу
 [Engine Settings]
 Налаштування знаряддя
 [Engine]
@@ -54,16 +16,17 @@
 [Volume]
 Гучність
 [Rate]
-Нормалізація
+Швидкість
 [Pitch]
-Cтупінь
-[testing testing 1 2 3]
-Переірка перевірка 1 2 3
+Висота звуку
+[Test]
+Тест
+[Lexicon]
+Лексикон
 [Welcome Message]
 Вітальне повідомлення
-; Налаштування сповіщення
 [Status Changes]
-Зміна статусу
+Зміни статусу
 [Offline]
 Не в мережі
 [Online]
@@ -81,7 +44,7 @@ Cтупінь
 [Invisible]
 Невидимий
 [Occurring Events]
-Подій, що відбуваються
+Події
 [Incoming message]
 Вхідне повідомлення
 [Incoming URL]
@@ -91,33 +54,78 @@ Cтупінь
 [Authorization request]
 Запит авторизації
 [Added to contact list]
-Додавання у список контактів
+"Вас додали"
 [Status messages]
-Статусне повідомлення
+Статусні повідомлення
 [Announce status changes on connect]
-Сповіщати про зміни статусу
+Сповіщати про зміни статусу після з'єднання
 [Message Events]
-Події повідомлення
+Повідомлення
 [Read message if less characters than]
-Читати повідомлення, якщо символів менш ніж
+Читати, якщо символів менше ніж:
 [Ignore event if message dialog is open]
-Ігнорувати події, якщо повідомлення відкриті у діалоговому вікні
+Ігнорувати події, якщо вікно відкрите
 [Ignore event if message dialog is focused]
-Ігнорувати події, якщо діалогове вікно повідомлень у фокусі
-; Налаштування активного режиму
+Ігнорувати події, якщо вікно активне
+[Active Modes]
+Активні режими
 [Active Users]
 Активні користувачі
 [The following events are being ignored:]
-Наступні події будуть ігноруватися:
+Ці події ігноруватимуться:
 [Messages]
 Повідомлення
 [Online Notification]
 Сповіщення "Онлайн"
 [All Events]
-Всі події
+Усі події
 [None]
-Нічого
-[Lexicon]
-Лексикон
+Жодної
+[Add]
+Додати
+[Remove]
+Видалити
+[** All contacts **]
+** Усі контакти **
+[** Unknown contacts **]
+** Невідомі контакти **
+[testing testing 1 2 3]
+Перевірка перевірка 1 2 3
+[incoming message from %u]
+Вхідне повідомлення від %u
+[incoming URL from %u]
+Вхідне посилання від %u
+[you have been added to %u's contact list]
+Користувач %u додав вас до свого списку контактів
+[%u requests your authorization]
+%u запитує авторизацію
+[there is an incoming file from %u]
+Вхідний файл від %u
+[%u says]
+%u пише:
+[Speak]
+Озвучення
+[Engine/Voice]
+Знаряддя/Голос
+[Announce]
+Сповіщення
+[Message Session]
+Бесіда
 [Message Received]
 Отримане повідомлення
+[%u is now offline]
+%u не в мережі
+[%u is now online]
+%u в мережі
+[%u is away]
+%u відсутній
+[%u is invisible]
+%u невидимий
+[%u is not available]
+%u недоступний
+[%u does not want to be disturbed]
+%u не хоче, щоб його турбували
+[%u is occupied]
+%u зайнятий
+[%u is free for chat]
+%u готовий базікати

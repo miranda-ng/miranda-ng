@@ -1,102 +1,121 @@
 ﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: SMS.dll
-;  Module: SMS
-;  Versions: 0.2.4.8
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
-Відсилання SMS повідомлень на мобільні телефони за допомогою IM мереж.
+Надсилання SMS-повідомлень на мобільні телефони за допомогою IM-мереж.
+[Received SMS]
+Отримане SMS
+[&Reply]
+&Відповісти
+[&Close]
+&Закрити
+[Read Next]
+Наступне
+[From:]
+Від:
+[Message received:]
+Повідомлення прийнято:
+[Number:]
+Номер:
+[Send SMS]
+Надіслати SMS
+[To:]
+Для:
+[Add number to list]
+Додати номер до списку
+[Save number]
+Зберегти номер
+[Multiple >>]
+Кільком >>
+[Enter message:]
+Повідомлення:
+[Chars:]
+Знаки:
+[&Send]
+&Надіслати
+[SMS Message Didn't Send]
+SMS-повідомлення не надіслано
+[&Try again]
+&Спробувати ще
+[&Cancel]
+С&касувати
+[The SMS message send timed out]
+Ліміт часу відправлення SMS
+[SMS Plugin]
+Плагін SMS
+[Begining]
+початок
+[End]
+кінець
+[Put signature at the:]
+Поставити підпис у:
+[Use Signature]
+Використовувати підпис
+[Show server notifications]
+Показати відповідь сервера
+[Auto popup on new message]
+Автовікно на нове повідомлення
+[Save window position per contact]
+Зберігати позицію вікна поконтактно
+[SMS Message Sent]
+SMS-повідомлення надіслано
+[Message ID:]
+ID повідомлення:
+[Source:]
+Джерело:
+[Network:]
+Оператор:
+[From %s:\r\n\r\n]
+Від %s:\r\n\r\n
+[Events]
+Події
+[SMS message didn't send by %S to %s because: %S]
+SMS-повідомлення по %S для %s не надіслано: %S
+[SMS Message from %s]
+SMS від %s
+[SMS Confirmation from %s]
+SMS підтвердження від %s
+[Received SMS Confirmation]
+Отримане SMS підтвердження
+[View User's History]
+Історія повідомлень
+[Add Number To The Multiple List]
+Додати номер до списку телефонів для відправки
+[Save Number To The User's Details Phonebook]
+Зберегти номер у списку телефонів профилю
+[Show/Hide Multiple List]
+Показує/ховає список телефонів для відправки
+[Shows How Much Chars You've Typed]
+Показує, скільки знаків набрано
+[The SMS message send to %s timed out.]
+Час надсилання SMS для %s вичерпано.
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Телефон повинен починатися з "+" і містити лише цифри, пробіли, дужки і тире.
+[Invalid Phone Number]
+Неправильний номер телефону
+[Message is too long, press OK to continue.]
+Повідомлення дуже довге, натисніть OK для продовження
+[Error - Message too long]
+Помилка - повідомлення дуже довге
+[There must be numbers in the list first.]
+У списку повинні бути номери.
+[No Numbers]
+Немає номерів
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+Правильні номери телефонів мають бути у формі '+(код країни)(номер телефону)'. Вміст частини 'номер телефону' залежить від національних стандартів, але часто перший нуль опускається.
+[Invalid phone number]
+Неправильний номер телефону
+[<< Single]
+<< Одному
 [Send &SMS...]
 Надіслати SMS
 [&SMS Message]
 Повідомлення SMS
-[Can't load SMS Plugin, ICQ protocol must be loaded.]
-Неможливо завантажити плагін SMS. Повинен бути запущений ICQ протокол.
-[SMS Plugin Error]
-Помилка плагіна SMS
-[From %s on ICQ:\r\n\r\n]
-Від %s ICQ:\r\n\r\n
-[SMS Plugin]
-Плагін SMS
-[Multiple >>]
-Кільком >>
-[<< Single]
-<< Одному
-[SMS message didn't send by ICQ to %s because:\r\n]
-SMS через ICQ для %s не було надіслано причини:\r\n
-[SMS Confirmation from %s]
-SMS підтвердження від %s
-[SMS Message from %s]
-SMS від %s
-[Add Number To The Multiple List]
-Додати номер до списку телефонів для відправки
-[Save Number To The user's Details Phonebook]
-Зберегти номер у списку телефонів профілю
-[Show/Hide Multiple List]
-показує/прибирає список телефонів для відправки
-[Shows How Much Chars you've Typed]
-Показує, скільки знаків набрано
-[The SMS send message to %s timed out.]
-Минув час посилки SMS до %s,
-[Error - Message too long]
-Помилка - повідомлення дуже довге
-[Message is too long press OK to continue.]
-Повідомлення дуже довге, натисніть OK для продовження
-[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-Правильні номери телефонів мають бути у формі '+(код країни)(номер телефону)'. вміст частини 'номер телефону' залежить від національних стандартів, але часто перший нуль опускається.
-[No Numbers]
-Немає номерів
-[There must be numbers in the list first.]
-У списку повинні бути номери.
-[Use Signature?]
-Поставити підпис?
-[Put signature at the:]
-Поставити підпис у:
-[Begining]
-початок
-[End]
-Кінець
-[Show server notifications]
-Показати відповідь сервера
-[Chars:]
-Знаки:
-[Save number]
-Зберегти номер
-[Add number to list]
-Додати номер до списку
-[Message received:]
-Повідомлення прийнято:
-[Message ID:]
-ID повідомлення:
-[Network:]
-Оператор:
-[&Try again]
-&Спробувати ще
-[Enter message:]
-Повідомлення:
+[Incoming SMS Message]
+Вхідне SMS
 [Incoming SMS Confirmation]
-Підтвердження SMS доставки
-[The SMS message send timed out]
-Ліміт часу відправлення SMS
-[Invalid phone number]
-Невірний номер телефону
-[Received SMS]
-Отримане SMS
-[Received SMS Confirmation]
-Отримане SMS підтвердження
-[Read Next]
-Наступне
-[SMS message didn't send by ICQ to %s because :\r\n]
-SMS для %s не відправлено через ICQ через:\r\n
-[SMS Message didn't Send]
-SMS-повідомлення не надіслано
-[SMS Message Sent]
-SMS-повідомлення надіслано
-[Save window position per contact]
-Зберігати позицію вікна поконтактно
-[Auto popup on new message]
-Автовікно на нове повідомлення
-[Use Signature]
-Використовувати підпис
-[From %s:\r\n\r\n]
-Від %s:\r\n\r\n
+Підтвердження доставки SMS

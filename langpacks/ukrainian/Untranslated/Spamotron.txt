@@ -1,8 +1,0 @@
-﻿[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-[Add permanently to list on verified]
-[Mode:]
-[Message blocked due to preview action]
-[Message approved due to preview action]
-[Challenge sent to preview contact]
-[Sending round-robin challenge to %s.]
-[Sending random challenge to %s.]
