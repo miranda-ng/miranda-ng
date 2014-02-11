@@ -1270,9 +1270,8 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 
 ////////////////////////////////////////////////////////////
 // When contact is deleted
-int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
+int GGPROTO::contactdeleted(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
 	// Terminate conference if contact is deleted
@@ -1324,10 +1323,9 @@ static TCHAR* sttSettingToTchar( DBVARIANT* value )
 	return NULL;
 }
 
-int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
+int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	MCONTACT hContact = wParam;
 	char *szProto = NULL;
 
 	debugLogA("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);

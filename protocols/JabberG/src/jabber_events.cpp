@@ -31,12 +31,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnContactDeleted - processes a contact deletion
 
-int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
+int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (!m_bJabberOnline)	// should never happen
 		return 0;
 
-	MCONTACT hContact = wParam;
 	ptrT jid(getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	if (jid == NULL)
 		return 0;
@@ -157,9 +156,8 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONT
 	db_unset(hContact, "CList", "Hidden");
 }
 
-int __cdecl CJabberProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
+int __cdecl CJabberProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL || !m_bJabberOnline)
 		return 0;
 

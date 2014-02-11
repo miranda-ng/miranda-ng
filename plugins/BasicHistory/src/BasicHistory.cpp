@@ -194,9 +194,8 @@ HICON LoadIconEx(int iconId, int big)
 	return 0;
 }
 
-INT_PTR ShowContactHistory(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowContactHistory(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HistoryWindow::Open(hContact);
 	return 0;
 }

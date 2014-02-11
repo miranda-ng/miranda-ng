@@ -766,7 +766,7 @@ int CAimProto::OnUserInfoInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CAimProto::EditProfile(WPARAM /*wParam*/, LPARAM /*lParam*/)
+INT_PTR CAimProto::EditProfile(WPARAM, LPARAM)
 {
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_AIM), NULL, userinfo_dialog, LPARAM(this));
 	return 0;

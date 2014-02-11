@@ -424,10 +424,9 @@ int OnExtListInit(WPARAM wParam, LPARAM lParam)
 // for our pseudo contact only our own popups are allowed
 // 0 = allowed, 1 = disallowed
 
-int OnFilterPopup(WPARAM wParam, LPARAM lParam)
+int OnFilterPopup(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	if ( !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
+	if (!db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		return 0;
 
 	return (lParam != (LPARAM)&PopupProc);

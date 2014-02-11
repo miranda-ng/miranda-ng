@@ -30,11 +30,9 @@ HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Block command callback function
 
-INT_PTR CMsnProto::MsnBlockCommand(WPARAM wParam, LPARAM)
+INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 {
 	if (msnLoggedIn) {
-		MCONTACT hContact = wParam;
-
 		char tEmail[MSN_MAX_EMAIL_LEN];
 		db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
 
@@ -58,11 +56,9 @@ INT_PTR CMsnProto::MsnGotoInbox(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR CMsnProto::MsnSendHotmail(WPARAM wParam, LPARAM)
+INT_PTR CMsnProto::MsnSendHotmail(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	char szEmail[MSN_MAX_EMAIL_LEN];
-
 	if (MSN_IsMeByContact(hContact, szEmail))
 		MsnGotoInbox(0, 0);
 	else if (msnLoggedIn)
@@ -83,15 +79,13 @@ INT_PTR CMsnProto::MsnSetupAlerts(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnViewProfile - view a contact's profile
 
-INT_PTR CMsnProto::MsnViewProfile(WPARAM wParam, LPARAM)
+INT_PTR CMsnProto::MsnViewProfile(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	char buf[64], *cid;
 
 	if (hContact == NULL)
 		cid = mycid;
-	else
-	{
+	else {
 		cid = buf;
 		if (db_get_static(hContact, m_szModuleName, "CID", buf, 30))
 			return 0;
@@ -125,14 +119,12 @@ INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnRebuildContactMenu - gray or ungray the block menus according to contact's status
 
-int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
+int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
-	char szEmail[MSN_MAX_EMAIL_LEN];
-
 	if ( !MSN_IsMyContact(hContact))
 		return 0;
 
+	char szEmail[MSN_MAX_EMAIL_LEN];
 	bool isMe = MSN_IsMeByContact(hContact, szEmail);
 	if (szEmail[0]) {
 		int listId = Lists_GetMask(szEmail);
@@ -155,12 +147,10 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int CMsnProto::OnContactDoubleClicked(WPARAM wParam, LPARAM)
+int CMsnProto::OnContactDoubleClicked(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
-
 	if (emailEnabled && MSN_IsMeByContact(hContact)) {
-		MsnSendHotmail(wParam, 0);
+		MsnSendHotmail(hContact, 0);
 		return 1;
 	}
 	return 0;

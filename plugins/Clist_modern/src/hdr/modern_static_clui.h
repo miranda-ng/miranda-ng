@@ -58,14 +58,14 @@ int ClcUnloadModule();
 int ClcGetShortData(ClcData* pData, struct SHORTDATA *pShortData);
 int ClcEnterDragToScroll(HWND hwnd, int Y);
 
-int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam);
+int CListMod_ContactListShutdownProc(WPARAM wParam, LPARAM lParam);
 int CListMod_HideWindow(HWND hwndContactList, int mode);
 
 int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag);
 int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
 
 int CLUIServices_LoadModule(void);
-INT_PTR CLUIServices_SortList(WPARAM wParam,LPARAM lParam);
+INT_PTR CLUIServices_SortList(WPARAM wParam, LPARAM lParam);
 
 void Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);
 
@@ -100,7 +100,7 @@ int CLUI_SizingOnBorder(POINT pt, int size);
 int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam);
 int CLUI_TestCursorOnBorders();
 
-static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam);
+static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam, LPARAM lParam);
 static int CLUI_SmoothAlphaThreadTransition(HWND hwnd);
 
 /*      structs         */

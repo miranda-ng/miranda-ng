@@ -126,7 +126,7 @@ int LoadStatusBarData()
 	return 1;
 }
 
-int BgStatusBarChange(WPARAM wParam,LPARAM lParam)
+int BgStatusBarChange(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting())
 		return 0;
@@ -612,7 +612,7 @@ static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 }
 
 #define TOOLTIP_TOLERANCE 5
-LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam, LPARAM lParam)
 {
     static POINT ptToolTipShow = {0};
     switch (msg)  {

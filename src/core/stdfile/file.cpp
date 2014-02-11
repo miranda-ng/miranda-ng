@@ -59,19 +59,19 @@ TCHAR *GetContactID(MCONTACT hContact)
 	return NULL;
 }
 
-static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
+static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 {
 	struct FileSendData fsd;
-	fsd.hContact = wParam;
+	fsd.hContact = hContact;
 	fsd.ppFiles = NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
 
-static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
+static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact = wParam;
+	fsd.hContact = hContact;
 
 	char** ppFiles = (char**)lParam;
 	int count = 0;
@@ -89,10 +89,10 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
+static INT_PTR SendSpecificFilesT(WPARAM hContact, LPARAM lParam)
 {
 	FileSendData fsd;
-	fsd.hContact = wParam;
+	fsd.hContact = hContact;
 	fsd.ppFiles = (const TCHAR**)lParam;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;

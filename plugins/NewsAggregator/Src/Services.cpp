@@ -170,9 +170,8 @@ INT_PTR AddFeed(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
+INT_PTR ChangeFeed(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
 	if (!hChangeFeedDlg) {
 		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
@@ -196,9 +195,8 @@ INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam)
+INT_PTR CheckFeed(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
 	if ( !ThreadRunning)

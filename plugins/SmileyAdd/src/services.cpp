@@ -354,11 +354,9 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 	return TRUE;
 }
 
-INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 {
-	const MCONTACT hContact = wParam;
-	if (lParam != 0) 
-	{
+	if (lParam != 0) {
 		SmileyCategoryType* smct = g_SmileyCategories.GetSmileyCategory((unsigned)lParam - 3);
 		if (smct != NULL) 
 			opt.WriteContactCategory(hContact, smct->GetName());
@@ -538,16 +536,16 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int DbSettingChanged(WPARAM wParam, LPARAM lParam)
+int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
+	if (hContact == NULL)
+		return 0;
+
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
+	if (cws->value.type == DBVT_DELETED)
+		return 0; 
 
-	if (hContact == NULL) return 0;
-	if (cws->value.type == DBVT_DELETED) return 0; 
-
-	if (strcmp(cws->szSetting, "Transport") == 0) 
-	{
+	if (strcmp(cws->szSetting, "Transport") == 0) {
 		CMString catname(_T("Standard"));
 		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(catname);
 		if (smc != NULL)

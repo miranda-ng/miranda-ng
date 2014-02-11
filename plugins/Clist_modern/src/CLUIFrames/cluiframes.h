@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadCLUIFramesModule(void);
 int UnLoadCLUIFramesModule(void);
 int CLUIFramesGetMinHeight();
-int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam);
+int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
 int CLUIFrames_GetTotalHeight();
 
 typedef struct tagProtocolData {

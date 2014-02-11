@@ -414,19 +414,17 @@ int GetContactCachedStatus(MCONTACT hContact)
 	return pdnce___GetStatus( cacheEntry );
 }
 
-int ContactAdded(WPARAM wParam,LPARAM lParam)
+int ContactAdded(WPARAM hContact, LPARAM lParam)
 {
 	if (!MirandaExiting()) {
-		MCONTACT hContact = wParam;
 		cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact),ID_STATUS_OFFLINE,hContact),1); ///by FYR
 		pcli->pfnSortContacts();
 	}
 	return 0;
 }
 
-int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
+int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (MirandaExiting() || !pcli || !clistCache || hContact == NULL)
 		return 0;
 
@@ -467,7 +465,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				if ((db_get_w(NULL,"CList","SecondLineType",0) == TEXT_STATUS_MESSAGE || db_get_w(NULL,"CList","ThirdLineType",0) == TEXT_STATUS_MESSAGE)  && pdnce->hContact && pdnce->m_cache_cszProto)
 					amRequestAwayMsg(hContact);
 
-				pcli->pfnClcBroadcast(INTM_STATUSCHANGED, wParam, 0);
+				pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
 				cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0); //by FYR
 				pcli->pfnSortContacts();
 			}
@@ -494,7 +492,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		else if (!strcmp(cws->szSetting,"Hidden")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = GetContactProto(wParam);
+				char *szProto = GetContactProto(hContact);
 				cli_ChangeContactIcon(hContact,pcli->pfnIconFromStatusMode(szProto,
 					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE), hContact),1);  //by FYR
 			}

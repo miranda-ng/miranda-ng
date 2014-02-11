@@ -67,13 +67,12 @@ static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
+static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (lstrcmpA(sicd->szModule, MODULNAME))
 		return 0;
 
-	MCONTACT hContact = wParam;
 	if (!hContact)
 		return 0;
 

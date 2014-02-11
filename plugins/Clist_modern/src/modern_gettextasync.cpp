@@ -164,7 +164,7 @@ void gtaRenewText(MCONTACT hContact)
 	gtaAddRequest(NULL,NULL, hContact);
 }
 
-int gtaOnModulesUnload(WPARAM wParam,LPARAM lParam)
+int gtaOnModulesUnload(WPARAM wParam, LPARAM lParam)
 {
 	SetEvent(hgtaWakeupEvent);
 	return 0;

@@ -413,7 +413,7 @@ void    cli_SortCLC(HWND hwnd,ClcData *dat,int useInsertionSort);
 int     GetNewSelection(ClcGroup *group,int selection, int direction);
 
 //clcmsgs.c
-LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam, LPARAM lParam);
 
 //clcutils.c
 void    cliRecalcScrollBar(HWND hwnd,ClcData *dat);
@@ -428,7 +428,7 @@ void    LoadCLCOptions(HWND hwnd,ClcData *dat);
 void    CLCPaint_cliPaintClc(HWND hwnd,ClcData *dat,HDC hdc,RECT *rcPaint);
 
 //clcopts.c
-int     ClcOptInit(WPARAM wParam,LPARAM lParam);
+int     ClcOptInit(WPARAM wParam, LPARAM lParam);
 DWORD   GetDefaultExStyle(void);
 void    GetFontSetting(int i,LOGFONT *lf,COLORREF *colour,BYTE *effect, COLORREF *eColour1,COLORREF *eColour2);
 

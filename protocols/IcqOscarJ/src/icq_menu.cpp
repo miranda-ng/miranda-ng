@@ -175,9 +175,8 @@ void g_MenuUninit(void)
 }
 
 
-INT_PTR CIcqProto::OpenWebProfile(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::OpenWebProfile(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	DWORD dwUin = getContactUin(hContact);
 	char url[256];
 	mir_snprintf(url, sizeof(url), "http://www.icq.com/people/%d",dwUin);
@@ -185,9 +184,8 @@ INT_PTR CIcqProto::OpenWebProfile(WPARAM wParam, LPARAM lParam)
 }
 
 
-int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
+int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

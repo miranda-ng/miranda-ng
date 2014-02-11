@@ -725,9 +725,8 @@ static INT_PTR CheckService(WPARAM, LPARAM)
 * return:	0
 **/
 
-static INT_PTR BackupBirthdayService(WPARAM wParam, LPARAM lParam)
+static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	MAnnivDate mdb;
 
 	if (hContact) {

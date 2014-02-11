@@ -94,12 +94,12 @@ static void Docking_AdjustPosition(HWND hwnd,RECT *rcDisplay,RECT *rc)
 	*rc = abd.rc;
 }
 
-int Docking_IsDocked(WPARAM wParam,LPARAM lParam)
+int Docking_IsDocked(WPARAM wParam, LPARAM lParam)
 {
 	return g_CluiData.fDocked;
 }
 
-int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
+int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 {
 	APPBARDATA abd;
 	static int draggingTitle;

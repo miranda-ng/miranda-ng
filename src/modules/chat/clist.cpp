@@ -101,9 +101,8 @@ BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 	return TRUE;
 }
 
-int RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
+int RoomDoubleclicked(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (!hContact)
 		return 0;
 
@@ -139,37 +138,34 @@ INT_PTR EventDoubleclicked(WPARAM wParam,LPARAM lParam)
 	return RoomDoubleclicked((WPARAM)((CLISTEVENT*)lParam)->hContact, 0);
 }
 
-INT_PTR JoinChat(WPARAM wParam, LPARAM lParam)
+INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
-				CallProtoService(szProto, PS_JOINCHAT, wParam, lParam);
+				CallProtoService(szProto, PS_JOINCHAT, hContact, lParam);
 			else
-				RoomDoubleclicked(wParam, 0);
+				RoomDoubleclicked(hContact, 0);
 		}
 	}
 
 	return 0;
 }
 
-INT_PTR LeaveChat(WPARAM wParam, LPARAM lParam)
+INT_PTR LeaveChat(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto)
-			CallProtoService(szProto, PS_LEAVECHAT, wParam, lParam);
+			CallProtoService(szProto, PS_LEAVECHAT, hContact, lParam);
 	}
 	return 0;
 }
 
-int PrebuildContactMenu(WPARAM wParam, LPARAM)
+int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
-	if (hContact == NULL)
+	if (hContact == 0)
 		return 0;
 
 	bool bEnabled = false;

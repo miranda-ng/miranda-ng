@@ -329,13 +329,12 @@ void CMimAPI::InitAPI()
  * hook subscriber function for incoming message typing events
  */
 
-int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
+int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 {
 	HWND   hwnd = 0;
 	int    issplit = 1, foundWin = 0, preTyping = 0;
 	BOOL   fShowOnClist = TRUE;
 
-	MCONTACT hContact = wParam;
 	if (hContact) {
 		if ((hwnd = M.FindWindow(hContact)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
@@ -407,14 +406,14 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 			}
 			if (fShowOnClist) {
 				CLISTEVENT cle = { sizeof(cle) };
-				cle.hContact = wParam;
+				cle.hContact = hContact;
 				cle.hDbEvent = (HANDLE)1;
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 				cle.pszService = "SRMsg/TypingMessage";
 				cle.ptszTooltip = szTip;
-				CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
-				CallServiceSync(MS_CLIST_ADDEVENT, wParam, (LPARAM)&cle);
+				CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
+				CallServiceSync(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 			}
 		}
 	}
@@ -466,9 +465,8 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return NULL;
 
@@ -512,7 +510,7 @@ int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
  * if a session is already created, it just does nothing and DispatchNewEvent() will take care.
  */
 
-int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
+int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	BYTE bAutoPopup = FALSE, bAutoCreate = FALSE, bAutoContainer = FALSE, bAllowAutoCreate = 0;
 	TCHAR szName[CONTAINER_NAMELEN + 1];
@@ -522,7 +520,6 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 
-	MCONTACT hContact = wParam;
 	HWND hwnd = M.FindWindow(hContact);
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
@@ -530,7 +527,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if ((dbei.flags & (DBEF_READ | DBEF_SENT)) || (isCustomEvent && !isShownCustomEvent))
 		return 0;
 
-	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, 1);
+	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
 
 	if (hwnd) {
 		TContainerData *pTargetContainer = 0;
@@ -614,7 +611,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (PluginConfig.g_MetaContactsAvail && szProto && !strcmp(szProto, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
-			MCONTACT hSubconttact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
+			MCONTACT hSubconttact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 			szProto = GetContactProto(hSubconttact);
 		}
 		if (szProto) {

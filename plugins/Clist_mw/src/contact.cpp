@@ -165,16 +165,14 @@ void SortContacts(void)
 	sortByProto = db_get_b(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
 }
 
-INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
+INT_PTR ContactChangeGroup(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-
-	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
+	CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 	if ((HANDLE)lParam == NULL)
 		db_unset(hContact, "CList", "Group");
 	else
 		db_set_s(hContact, "CList", "Group", (char*)CallService(MS_CLIST_GROUPGETNAME2, lParam, (LPARAM)(int*)NULL));
 
-	CallService(MS_CLUI_CONTACTADDED, wParam, ExtIconFromStatusMode(hContact, GetContactProto(hContact), GetContactStatus(hContact)));
+	CallService(MS_CLUI_CONTACTADDED, hContact, ExtIconFromStatusMode(hContact, GetContactProto(hContact), GetContactStatus(hContact)));
 	return 0;
 }

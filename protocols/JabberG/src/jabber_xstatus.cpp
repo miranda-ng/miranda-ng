@@ -1329,7 +1329,7 @@ void CJabberProto::XStatusInit()
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetXStatus - sets the extended status info (mood)
 
-INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 {
 	if (!m_bPepSupported || !m_bJabberOnline)
 		return 1;
@@ -1341,8 +1341,6 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD);
 	if (pepMood == NULL)
 		return 1;
-
-	MCONTACT hContact = wParam;
 
 	// fill status member
 	if (pData->flags & CSSF_MASK_STATUS)

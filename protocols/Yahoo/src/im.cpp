@@ -225,10 +225,8 @@ int __cdecl CYahooProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 // Send a nudge
 //=======================================================
 
-INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::SendNudge(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-
 	debugLogA("[YAHOO_SENDNUDGE]");
 
 	if (!m_bLoggedIn) {/* don't send nudge if we not connected! */

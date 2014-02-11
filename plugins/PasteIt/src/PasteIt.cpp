@@ -209,10 +209,9 @@ void PasteIt(MCONTACT hContact, int mode)
 	}
 }
 
-int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
+int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	MCONTACT hContact = wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -282,14 +281,12 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam) 
+INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam) 
 {
 	if(lParam >= DEF_PAGES_START)
 		Options::instance->SetDefWeb(lParam - DEF_PAGES_START);
-	else {
-		MCONTACT hContact = wParam;
+	else
 		PasteIt(hContact, lParam);
-	}
 	return 0;
 }
 

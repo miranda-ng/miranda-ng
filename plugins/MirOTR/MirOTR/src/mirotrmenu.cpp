@@ -47,13 +47,11 @@ static INT_PTR AddMirOTRMenuItem(WPARAM, LPARAM lParam)
 	return menuHandle;
 }
 
-static INT_PTR BuildMirOTRMenu(WPARAM wParam, LPARAM)
+static INT_PTR BuildMirOTRMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
-
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hMirOTRMenuObject;
-	param.wParam = (WPARAM)hContact;
+	param.wParam = hContact;
 	HMENU hMenu = CreatePopupMenu();
 	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
 

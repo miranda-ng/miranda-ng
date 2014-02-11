@@ -139,7 +139,7 @@ private:
 
 int ske_UnloadSkin(SKINOBJECTSLIST * Skin);
 int ske_AddDescriptorToSkinObjectList (SKINOBJECTDESCRIPTOR *lpDescr, SKINOBJECTSLIST* Skin);
-INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam);
+INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam);
 
 
 

@@ -294,9 +294,8 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
  * for filling the message input box with a passed message
  */
 
-INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
+INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
@@ -309,9 +308,9 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 			wchar_t *tszText = (wchar_t *)mir_alloc((iLen + 1) * sizeof(wchar_t));
 			wcsncpy(tszText, (wchar_t *)lParam, iLen + 1);
 			tszText[iLen] = 0;
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, wParam, (LPARAM)tszText);
-		} else
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, wParam, 0);
+			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, (LPARAM)tszText);
+		}
+		else PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, 0);
 		return 0;
 	}
 
@@ -353,9 +352,8 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
  * contacts handle must be passed in wParam.
  */
 
-INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
@@ -365,9 +363,9 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 			char *szText = (char *)mir_alloc(iLen + 1);
 			strncpy(szText, (char *)lParam, iLen + 1);
 			szText[iLen] = 0;
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, wParam, (LPARAM)szText);
+			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, (LPARAM)szText);
 		} else
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, wParam, 0);
+			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, 0);
 		return 0;
 	}
 
@@ -389,9 +387,10 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char *) lParam);
 		}
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);          // ask the message window about its parent...
-	} else {
+	}
+	else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
-		GetContainerNameForContact(wParam, szName, CONTAINER_NAMELEN);
+		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);

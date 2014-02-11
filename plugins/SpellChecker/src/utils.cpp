@@ -1400,13 +1400,12 @@ int MsgWindowEvent(WPARAM wParam, LPARAM lParam)
 }
 
 
-int IconPressed(WPARAM wParam, LPARAM lParam)
+int IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *) lParam;
 	if (sicd == NULL || strcmp(sicd->szModule, MODULE_NAME) != 0)
 		return 0;
 
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

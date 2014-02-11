@@ -78,7 +78,7 @@ static OBJLIST<StatusIconMain> arIcons(3, CompareIcons);
 
 static HANDLE hHookIconsChanged;
 
-INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR ModifyStatusIcon(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconData *sid = (StatusIconData *)lParam;
 	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
@@ -88,7 +88,6 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	if (p == NULL)
 		return 1;
 
-	MCONTACT hContact = wParam;
 	if (hContact == NULL) {
 		mir_free(p->sid.szModule);
 		mir_free(p->sid.szTooltip);
@@ -115,7 +114,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	mir_free(pc->tszTooltip);
 	pc->tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
 
-	NotifyEventHooks(hHookIconsChanged, wParam, (LPARAM)p);
+	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 	return 0;
 }
 

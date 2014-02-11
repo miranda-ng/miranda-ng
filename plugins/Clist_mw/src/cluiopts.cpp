@@ -33,7 +33,7 @@ extern int UseOwnerDrawStatusBar;
 void CluiProtocolStatusChanged(int parStatus, const char* szProto);
 int OnStatusBarBackgroundChange();
 
-int CluiOptInit(WPARAM wParam,LPARAM lParam)
+int CluiOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;

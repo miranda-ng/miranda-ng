@@ -119,9 +119,8 @@ void ReloadGlobals()
 	if (g_dat.msgTimeout < SRMSGSET_MSGTIMEOUT_MIN) g_dat.msgTimeout = SRMSGDEFSET_MSGTIMEOUT;
 }
 
-static int dbaddedevent(WPARAM wParam, LPARAM lParam)
+static int dbaddedevent(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact) {
 		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
 		if (h)
@@ -142,10 +141,10 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int AvatarChanged(WPARAM wParam, LPARAM lParam)
+int AvatarChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
-	if (h) SendMessage(h, HM_AVATARACK, wParam, lParam);
+	if (h)
+		SendMessage(h, HM_AVATARACK, hContact, lParam);
 	return 0;
 }

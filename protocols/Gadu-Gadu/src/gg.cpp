@@ -211,9 +211,8 @@ static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 
 //////////////////////////////////////////////////////////
 // Handles PrebuildContactMenu event
-static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
+static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM lParam)
 {
-	const MCONTACT hContact = wParam;
    GGPROTO* gg = gg_getprotoinstance(hContact);
    if (gg == NULL)
       return 0;
@@ -230,9 +229,8 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // Contact block service function
-INT_PTR GGPROTO::blockuser(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 {
-	const MCONTACT hContact = wParam;
    setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
    notifyuser(hContact, 1);
    return 0;

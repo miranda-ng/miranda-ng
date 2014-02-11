@@ -43,17 +43,21 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 
 
 // add prefix to sent messages
-int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
-	if (!options.prefix_messages || !lParam) return 0;
-	MCONTACT hContact = wParam;
+int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
+{
+	if (!options.prefix_messages || !lParam)
+		return 0;
+
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->eventType != EVENTTYPE_MESSAGE) || !(dbei->flags & DBEF_SENT) || (dbei->flags & DBEF_OTR_PREFIXED))
 		return 0;
+
 	if(dbei->cbBlob == 0 || dbei->pBlob == 0)
 		return 0; // just to be safe
 
 	const char *proto = contact_get_proto(hContact);
-	if (!proto )	return 0;
+	if (!proto)
+		return 0;
 	if (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		return 0;
 	
@@ -177,7 +181,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	return 1;
 }
 
- int OnDatabaseEventAdded(WPARAM wParam, LPARAM lParam)
+ int OnDatabaseEventAdded(WPARAM hContact, LPARAM lParam)
  {
 	if (!options.delete_history) return 0;
 
@@ -191,7 +195,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
 	if (!db_event_get((HANDLE)lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
-			MCONTACT hContact = wParam, hSub;
+			MCONTACT hSub;
 			if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 				hContact = hSub;
 
@@ -293,10 +297,10 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int OnContactSettingChanged(WPARAM wParam, LPARAM lParam) {
+int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
+{
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
-	MCONTACT hContact = wParam;
 	int status=0;
 	switch (cws->value.type){
 		case DBVT_WORD:

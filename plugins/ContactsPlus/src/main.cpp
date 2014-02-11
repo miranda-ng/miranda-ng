@@ -57,9 +57,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
+static int HookDBEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 	//process the event
 	DBEVENTINFO dbe = { sizeof(dbe) };
@@ -115,9 +114,8 @@ static bool CheckContactsServiceSupport(const char* szProto)
 		return false;
 }
 
-static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
+static int HookPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	char *szProto = GetContactProto(hContact);
 	int bVisible = FALSE;
 

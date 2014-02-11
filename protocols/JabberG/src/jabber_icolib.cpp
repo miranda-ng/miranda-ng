@@ -391,9 +391,8 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 // if imagelist require advanced painting status overlay(like xStatus)
 // index should be shifted to HIWORD, LOWORD should be 0
 
-INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
+INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	if (!hContact)
 		return -1;
 

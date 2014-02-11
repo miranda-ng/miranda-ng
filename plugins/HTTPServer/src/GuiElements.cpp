@@ -1013,9 +1013,8 @@ void SendLinkToUser(WPARAM wParam, char *pszSrvPath) {
 // Developer       : KN, Houdini
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR nShareNewFile(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = wParam;
-
+static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
+{
 	// used to be _MAX_PATH
 	// changed it since selecting multiple files requires a bigger buffer
 	char szNewFile[10000] = {0};

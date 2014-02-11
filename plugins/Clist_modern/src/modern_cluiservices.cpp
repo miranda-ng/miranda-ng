@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam);
 
-int CLUIUnreadEmailCountChanged(WPARAM wParam,LPARAM lParam)
+int CLUIUnreadEmailCountChanged(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, 0 ,0);
 	return 0;
@@ -40,7 +40,7 @@ void cliCluiProtocolStatusChanged(int status,const char * proto)
 		pcli->pfnTrayIconUpdateBase(proto);
 }
 
-static INT_PTR MetaSupportCheck(WPARAM wParam,LPARAM lParam)
+static INT_PTR MetaSupportCheck(WPARAM wParam, LPARAM lParam)
 {
 	return 1;
 }

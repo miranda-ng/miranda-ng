@@ -23,11 +23,11 @@ int StartOTR(MCONTACT hContact) {
 	return 0;
 }
 
-INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
+INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
+{
+	MCONTACT hSub;
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
-	}
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", (WPARAM)hContact, 0) != 0 ) {
 		TCHAR msg[512];
@@ -35,22 +35,19 @@ INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam) {
 		ShowError(msg);
 		return 0;
 	}
-	
+
 	TCHAR buff[512];
 	mir_sntprintf(buff, 512, TranslateT(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
-	int res = StartOTR(hContact);
-	if (res) return res;
-
-	return 0;
+	return StartOTR(hContact);
 }
 
-INT_PTR SVC_RefreshOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
+INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
+{
+	MCONTACT hSub;
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
-	}
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", (WPARAM)hContact, 0) != 0 ) {
 		TCHAR msg[512];
@@ -87,10 +84,8 @@ int otr_disconnect_contact(MCONTACT hContact)
 	return 0;
 }
 
-INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam)
+INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	
 	// prevent this filter from acting on injeceted messages for metas, when they are passed though the subcontact's proto send chain
 	if (otr_disconnect_contact(hContact)) return 0;
 
@@ -99,24 +94,26 @@ INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam)
 	TCHAR buff[512];
 	mir_sntprintf(buff, 512, TranslateT(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
-	
 	return 0;
 }
 
-INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = wParam, hSub;
+INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
+{
+	MCONTACT hSub;
 	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hSub;
 
-	ConnContext *context = otrl_context_find_miranda(otr_user_state, wParam);
-	if (!context) return 1;
+	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
+	if (!context)
+		return 1;
+	
 	//VerifyContextDialog(context);	
 	SMPInitDialog(context);
 	return 0;
 }
 
-INT_PTR SVC_ToggleHTMLOTR(WPARAM wParam, LPARAM lParam) {
-	MCONTACT hContact = wParam;
+INT_PTR SVC_ToggleHTMLOTR(WPARAM hContact, LPARAM lParam)
+{
 	if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
 		db_set_b(hContact, MODULENAME, "HTMLConv", 0);
 	else
@@ -152,10 +149,8 @@ void InitMenu()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SVC_PrebuildContactMenu);
 }
 
-int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR;
 	

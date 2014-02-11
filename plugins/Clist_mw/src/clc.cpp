@@ -29,10 +29,10 @@ HIMAGELIST himlCListClc;
 
 static HANDLE hSettingChanged1;
 
-int BgStatusBarChange(WPARAM wParam,LPARAM lParam);
+int BgStatusBarChange(WPARAM wParam, LPARAM lParam);
 
-int BgClcChange(WPARAM wParam,LPARAM lParam);
-int OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam);
+int BgClcChange(WPARAM wParam, LPARAM lParam);
+int OnFrameTitleBarBackgroundChange(WPARAM wParam, LPARAM lParam);
 
 void InitDisplayNameCache(SortedList *list);
 void FreeDisplayNameCache(SortedList *list);
@@ -109,7 +109,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ClcModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int ClcModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Status bar background")"/StatusBar"),0);
 	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("List background")"/CLC"),0);
@@ -300,7 +300,7 @@ int LoadCLCModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CLUIGetCapsService(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIGetCapsService(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
 	case CLUICAPS_FLAGS1:

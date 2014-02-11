@@ -907,12 +907,12 @@ void InitXStatusIcons()
 	memset(hXStatusCListIcons, -1, sizeof(hXStatusCListIcons));
 }
 
-INT_PTR CIcqProto::ShowXStatusDetails(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::ShowXStatusDetails(WPARAM hContact, LPARAM lParam)
 {
 	InitXStatusData init;
 	init.ppro = this;
 	init.bAction = 1; // retrieve
-	init.hContact = wParam;
+	init.hContact = hContact;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)&init);
 
 	return 0;
@@ -968,14 +968,14 @@ INT_PTR CIcqProto::SetXStatusEx(WPARAM wParam, LPARAM lParam)
 	return 0; // Success
 }
 
-INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 {
+	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
+		return 1;
+
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
-	MCONTACT hContact = wParam;
-
-	if (!m_bXStatusEnabled && !m_bMoodsEnabled) return 1;
-
-	if (pData->cbSize < sizeof(CUSTOM_STATUS)) return 1; // Failure
+	if (pData->cbSize < sizeof(CUSTOM_STATUS))
+		return 1; // Failure
 
 	// fill status member
 	if (pData->flags & CSSF_MASK_STATUS)
@@ -1086,10 +1086,8 @@ INT_PTR CIcqProto::GetXStatusIcon(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CIcqProto::RequestXStatusDetails(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::RequestXStatusDetails(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-
 	if (!m_bXStatusEnabled)
 		return 0;
 

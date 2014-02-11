@@ -1,8 +1,7 @@
 #include "headers.h"
 
-int __cdecl CContactCache::OnDbEventAdded(WPARAM wParam, LPARAM lParam)
+int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HANDLE hEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = {0};

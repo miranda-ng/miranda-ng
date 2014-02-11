@@ -127,14 +127,13 @@ static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int MetaChanged(WPARAM wParam, LPARAM lParam)
+static int MetaChanged(WPARAM hContact, LPARAM lParam)
 {
-	if (wParam == 0 || g_shutDown)
+	if (hContact == 0 || g_shutDown)
 		return 0;
 
 	AVATARCACHEENTRY *ace;
 
-	MCONTACT hContact = wParam;
 	MCONTACT hSubContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node

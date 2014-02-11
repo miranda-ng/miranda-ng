@@ -1171,9 +1171,8 @@ BOOL GGPROTO::img_sendonrequest(gg_event* e)
 ////////////////////////////////////////////////////////////////////////////
 // Send Image : Run (Thread and main)
 
-INT_PTR GGPROTO::img_sendimg(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::img_sendimg(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	GGIMAGEDLGDATA *dat = NULL;
 
 	gg_EnterCriticalSection(&img_mutex, "img_sendimg", 64, "img_mutex", 1);

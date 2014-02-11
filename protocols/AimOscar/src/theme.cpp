@@ -177,9 +177,8 @@ void InitExtraIcons(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnPreBuildContactMenu
 
-int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
+int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	bool bIsChatRoom = isChatRoom(hContact);
 
 	//see if we should add the html away message context menu items

@@ -425,9 +425,8 @@ BOOL checkXstatus(char *szProto)
 
 
 // 'Pings' the FlashThread to keep the LEDs flashing.
-static int PluginMessageEventHook(WPARAM wParam, LPARAM lParam)
+static int PluginMessageEventHook(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HANDLE hEvent = (HANDLE)lParam;
 
 	//get DBEVENTINFO without pBlob

@@ -40,7 +40,7 @@ void DestroyTrayMenu(HMENU hMenu)
 	 DestroyMenu(hMenu);
 }
 
-INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
+INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
 {
 	if ( CallService(MS_SYSTEM_OKTOEXIT,0,0))
 		DestroyWindow(pcli->hwndContactList);

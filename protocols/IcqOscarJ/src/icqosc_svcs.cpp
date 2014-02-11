@@ -710,11 +710,10 @@ INT_PTR __cdecl CIcqProto::IcqAddCapability(WPARAM wParam, LPARAM lParam)
 }
 
 
-INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM hContact, LPARAM lParam)
 {
     int res = 0;
     DBVARIANT dbvariant;
-	 MCONTACT hContact = wParam;
     ICQ_CUSTOMCAP *icqCustomCap = (ICQ_CUSTOMCAP *)lParam;
 
 	 db_get(hContact, m_szModuleName, "CapBuf", &dbvariant);

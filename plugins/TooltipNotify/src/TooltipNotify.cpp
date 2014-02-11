@@ -154,25 +154,21 @@ int CTooltipNotify::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 
-int CTooltipNotify::ProtoContactIsTyping(WPARAM wParam, LPARAM lParam)
+int CTooltipNotify::ProtoContactIsTyping(WPARAM hContact, LPARAM lParam)
 {
 	if (!m_sOptions.bTyping) return 0;
 
-	if (lParam>0)
-	{
+	if (lParam > 0) {
 		STooltipData *pTooltipData = new STooltipData;
 		pTooltipData->uiTimeout = lParam*1000;
-		pTooltipData->hContact = wParam;
+		pTooltipData->hContact = hContact;
 		pTooltipData->iStatus = ID_TTNTF_STATUS_TYPING;
 
 		EndNotifyAll();
 		SkinPlaySound(SND_TYPING);
 		BeginNotify(pTooltipData);
 	}
-	else
-	{
-		EndNotifyAll();
-	}
+	else EndNotifyAll();
 
 	return 0;
 }
@@ -208,11 +204,11 @@ int CTooltipNotify::ProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
+int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = wParam;
-	if(hContact==NULL) return 0;
+	if (!hContact)
+		return 0;
 	
 	bool idle = false;
 	if (lstrcmpA(cws->szSetting,"Status")==0)
@@ -221,25 +217,21 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		idle = true;
 	else return 0;
 	
-	if(db_get_b(hContact, "CList", "Hidden", 0)) return 0;
+	if(db_get_b(hContact, "CList", "Hidden", 0))
+		return 0;
 	
 	const char *pszProto = cws->szModule;
 	if (db_get_b(NULL, MODULENAME, pszProto, ProtoUserBit|ProtoIntBit) != (ProtoUserBit|ProtoIntBit))
-	{
 		return 0;
-	}
 
 	if (db_get_b(hContact, "CList", "NotOnList", 0) && m_sOptions.bIgnoreUnknown)
-	{
 		return 0;
-	}
 
 	if (db_get_b(hContact, MODULENAME, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
-	{
 		return 0;
-	}
 
-	if (idle && !m_sOptions.bIdle) return 0;
+	if (idle && !m_sOptions.bIdle)
+		return 0;
 
 	WORD wNewStatus = cws->value.wVal; 
 	switch(wNewStatus)

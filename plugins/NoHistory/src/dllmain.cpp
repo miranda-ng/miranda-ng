@@ -112,9 +112,8 @@ void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	RemoveReadEvents();
 }
 
-int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
+int OnDatabaseEventAdd(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	HANDLE hDBEvent = (HANDLE)lParam;
 	
 	// history not disabled for this contact
@@ -138,20 +137,16 @@ int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceClear(WPARAM wParam, LPARAM lParam)
+INT_PTR ServiceClear(WPARAM hContact, LPARAM lParam)
 {
-	if (MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES) {
-		MCONTACT hContact = wParam;
+	if (MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		RemoveAllEvents(hContact);
-	}
 	
 	return 0;
 }
 
-int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	
 	bool remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
@@ -170,10 +165,8 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceToggle(WPARAM wParam, LPARAM lParam)
+INT_PTR ServiceToggle(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-
 	int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	remove = !remove;
 	db_set_b(hContact, MODULE, DBSETTING_REMOVE, remove != 0);
@@ -216,9 +209,8 @@ int WindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 										  
-int IconPressed(WPARAM wParam, LPARAM lParam)
+int IconPressed(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;

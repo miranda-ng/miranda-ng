@@ -3,9 +3,8 @@
 HICON hIconNotSecure, hIconFinished, hIconPrivate, hIconUnverified;
 BBButton OTRButton;
 
-int SVC_IconPressed(WPARAM wParam, LPARAM lParam)
+int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if(sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;

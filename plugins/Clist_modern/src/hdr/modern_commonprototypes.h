@@ -102,7 +102,7 @@ HANDLE  RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * sz
 void    CLUI_UpdateAeroGlass();
 void    CLUI_ChangeWindowMode();
 BOOL    CLUI_CheckOwnedByClui(HWND hwnd);
-INT_PTR CLUI_GetConnectingIconService(WPARAM wParam,LPARAM lParam);
+INT_PTR CLUI_GetConnectingIconService(WPARAM wParam, LPARAM lParam);
 int     CLUI_HideBehindEdge();
 int     CLUI_IconsChanged(WPARAM,LPARAM);
 int     CLUI_IsInMainWindow(HWND hwnd);
@@ -118,7 +118,7 @@ void    CLUI_UpdateLayeredMode();
 UINT_PTR CLUI_SafeSetTimer(HWND hwnd, int ID, int Timeout, TIMERPROC proc);
 
 /* CLUIServices */
-int     CLUIUnreadEmailCountChanged(WPARAM wParam,LPARAM lParam);
+int     CLUIUnreadEmailCountChanged(WPARAM wParam, LPARAM lParam);
 
 /* GDIPlus */
 BOOL    GDIPlus_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc, BLENDFUNCTION * blendFunction);
@@ -165,7 +165,7 @@ int     ske_ReCreateBackImage(BOOL Erase,RECT *w);
 int     ske_RedrawCompleteWindow();
 bool    ske_ResetTextEffect(HDC);
 bool    ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
-INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam);
+INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam);
 BOOL    ske_SetRectOpaque(HDC memdc,RECT *fr, BOOL force = FALSE );
 BOOL    ske_SetRgnOpaque(HDC memdc,HRGN hrgn, BOOL force = FALSE );
 BOOL    ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount);
@@ -182,12 +182,12 @@ __forceinline BOOL ske_DrawTextA(HDC hdc, char *lpString, int nCount, RECT *lpRe
 /* CLUIFrames.c PROXIED */
 
 int CLUIFrames_ActivateSubContainers(BOOL wParam);
-int CLUIFrames_OnClistResize_mod(WPARAM wParam,LPARAM lParam);
+int CLUIFrames_OnClistResize_mod(WPARAM wParam, LPARAM lParam);
 int CLUIFrames_OnMoving( HWND, RECT *);
 int CLUIFrames_OnShowHide( HWND hwnd, int mode );
 int CLUIFrames_SetLayeredMode( BOOL fLayeredMode, HWND hwnd );
 int CLUIFrames_SetParentForContainers( HWND parent );
-int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam);
+int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
 
 FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd);                  //cluiframes.c
 
@@ -199,7 +199,7 @@ int SetAlpha(BYTE Alpha);
 
 
 /* others TODO: move above */
-int     Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam);
+int     Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 void    DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, DWORD backgroundBmpUse );
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
@@ -215,7 +215,7 @@ DWORD   mod_CalcHash(const char * a);                                          /
 HICON   cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto,int status);            //clistmod.c
 HICON   GetMainStatusOverlay(int STATUS);                                       //clc.c
 int     __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, ClcData *dat);  //clcitems.c
-int     BgStatusBarChange(WPARAM wParam,LPARAM lParam);                              //clcopts.c
+int     BgStatusBarChange(WPARAM wParam, LPARAM lParam);                              //clcopts.c
 int     ClcDoProtoAck(MCONTACT wParam, ACKDATA *ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
 int     GetContactCachedStatus(MCONTACT hContact);                                 //clistsettings.c
@@ -226,10 +226,10 @@ int     InitCustomMenus(void);                                                //
 int     InitFramesMenus(void);                                                //framesmenus.c
 int     LoadMoveToGroup();                                                   //movetogroup.c
 int     LoadStatusBarData();                                                //modern_statusbar.c
-int     MenuModulesLoaded(WPARAM wParam,LPARAM lParam);                              //clistmenu.c
-int     MenuModulesShutdown(WPARAM wParam,LPARAM lParam);                           //clistmenu.c
-int     MenuProcessCommand(WPARAM wParam,LPARAM lParam);                           //clistmenu.c
-int     OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam);                  //cluiframes.c
+int     MenuModulesLoaded(WPARAM wParam, LPARAM lParam);                              //clistmenu.c
+int     MenuModulesShutdown(WPARAM wParam, LPARAM lParam);                           //clistmenu.c
+int     MenuProcessCommand(WPARAM wParam, LPARAM lParam);                           //clistmenu.c
+int     OnFrameTitleBarBackgroundChange(WPARAM wParam, LPARAM lParam);                  //cluiframes.c
 int     QueueAllFramesUpdating (BYTE);                                          //cluiframes.c
 int     RecursiveDeleteMenu(HMENU hMenu);                                       //clistmenus.c
 int     ModernSkinButtonRedrawAll(HDC hdc);                                                //modern_button.c
@@ -238,10 +238,10 @@ int     RestoreAllContactData(ClcData *dat);                                 //c
 
 int     SkinSelector_DeleteMask(MODERNMASK *mm);                                 //mod_skin_selector.c
 int     StoreAllContactData(ClcData *dat);                                 //cache_func.c
-INT_PTR ToggleHideOffline(WPARAM wParam,LPARAM lParam);                              //contact.c
-INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam);                                 //contact.c
-INT_PTR SetUseGroups(WPARAM wParam,LPARAM lParam);                                 //contact.c
-INT_PTR ToggleSounds(WPARAM wParam,LPARAM lParam);                                 //contact.c
+INT_PTR ToggleHideOffline(WPARAM wParam, LPARAM lParam);                              //contact.c
+INT_PTR ToggleGroups(WPARAM wParam, LPARAM lParam);                                 //contact.c
+INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam);                                 //contact.c
+INT_PTR ToggleSounds(WPARAM wParam, LPARAM lParam);                                 //contact.c
 void    ClcOptionsChanged();                                                //clc.c
 void    Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);                        //Docking.c
 void    DrawAvatarImageWithGDIp(HDC hDestDC,int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1,DWORD flag,BYTE alpha);   //gdiplus.cpp
@@ -290,23 +290,23 @@ void    cli_FreeContact( ClcContact* );
 void    cli_FreeGroup( ClcGroup* );
 char*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
 void    cli_ChangeContactIcon(MCONTACT hContact,int iIcon,int add);
-LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam, LPARAM lParam);
 struct  CListEvent* cliCreateEvent( void );
 struct  CListEvent* cli_AddEvent(CLISTEVENT *cle);
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-int     cliShowHide(WPARAM wParam,LPARAM lParam);
+int     cliShowHide(WPARAM wParam, LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 int     cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2);
 int     cliFindItem(HWND hwnd, ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 int     cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
-int     cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
+int     cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status,const char * proto);
 HMENU   cliBuildGroupPopupMenu(ClcGroup *group);
 void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 void    cliCheckCacheItem(ClcCacheEntry *pdnce);
 void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 void    CLUI_cli_LoadCluiGlobalOpts(void);
-INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam);
+INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 
 ClcContact*    cliCreateClcContact( void );

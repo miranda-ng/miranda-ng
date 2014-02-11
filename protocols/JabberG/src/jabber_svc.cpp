@@ -533,12 +533,11 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 }
 
 // XEP-0224 support (Attention/Nudge)
-INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
+INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 {
 	if (!m_bJabberOnline)
 		return 0;
 
-	MCONTACT hContact = wParam;
 	ptrT jid( getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return 0;

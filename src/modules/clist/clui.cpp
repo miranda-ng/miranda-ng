@@ -73,9 +73,8 @@ static int CluiModulesLoaded(WPARAM, LPARAM)
 // Happens on shutdown and standby.
 static void DisconnectAll()
 {
-	int nProto;
-	for (nProto = 0; nProto < accounts.getCount(); nProto++)
-		CallProtoServiceInt(NULL,accounts[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+	for (int i = 0; i < accounts.getCount(); i++)
+		CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 
 static int CluiIconsChanged(WPARAM, LPARAM)
@@ -89,12 +88,10 @@ static HGENMENU hRenameMenuItem;
 static int MenuItem_PreBuild(WPARAM, LPARAM)
 {
 	TCHAR cls[128];
-	HANDLE hItem;
 	HWND hwndClist = GetFocus();
-
 	GetClassName(hwndClist, cls, SIZEOF(cls));
 	hwndClist = (!lstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
-	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
+	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 	return 0;
 }
@@ -102,12 +99,11 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 {
 	TCHAR cls[128];
-	HANDLE hItem;
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, SIZEOF(cls));
 	// worst case scenario, the rename is sent to the main contact list
 	hwndClist = (!lstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
-	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
+	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if (hItem) {
 		SetFocus(hwndClist);
 		SendMessage(hwndClist, CLM_EDITLABEL, (WPARAM) hItem, 0);
@@ -122,17 +118,12 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 		TranslateDialogDefault(hWnd);
 		{
 			LOGFONT lf;
-			HFONT hFont;
-
-			hFont = (HFONT) SendDlgItemMessage(hWnd, IDYES, WM_GETFONT, 0, 0);
+			HFONT hFont = (HFONT)SendDlgItemMessage(hWnd, IDYES, WM_GETFONT, 0, 0);
 			GetObject(hFont, sizeof(lf), &lf);
 			lf.lfWeight = FW_BOLD;
 			SendDlgItemMessage(hWnd, IDC_TOPLINE, WM_SETFONT, (WPARAM) CreateFontIndirect(&lf), 0);
-		}
-		{
-			TCHAR szFormat[256];
-			TCHAR szFinal[256];
-
+		
+			TCHAR szFormat[256], szFinal[256];
 			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, SIZEOF(szFormat));
 			mir_sntprintf(szFinal, SIZEOF(szFinal), szFormat, cli.pfnGetContactDisplayName(lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
@@ -173,56 +164,46 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	//see notes about deleting contacts on PF1_SERVERCLIST servers in m_protosvc.h
 	UINT_PTR action;
 
-	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) &&
-		!(GetKeyState(VK_SHIFT)&0x8000))
+	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) && !(GetKeyState(VK_SHIFT) & 0x8000))
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
 		action = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND) lParam, AskForConfirmationDlgProc, wParam);
 	else
 		action = IDYES;
 
 	switch (action) {
-
-	// Delete contact
-	case IDYES:
-		{
-			char *szProto = GetContactProto(wParam);
-			if (szProto != NULL) {
-				// Check if protocol uses server side lists
-				DWORD caps;
-
-				caps = (DWORD) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				if (caps & PF1_SERVERCLIST) {
-					int status;
-
-					status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
-					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
-						// Set a flag so we remember to delete the contact when the protocol goes online the next time
-						db_set_b(wParam, "CList", "Delete", 1);
-						MessageBox(NULL,
-							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
-							TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
-						return 0;
-					}
+	case IDC_HIDE: // Archive contact
+		db_set_b(wParam, "CList", "Hidden", 1);
+		break;
+		
+	case IDYES: // Delete contact
+		char *szProto = GetContactProto(wParam);
+		if (szProto != NULL) {
+			// Check if protocol uses server side lists
+			DWORD caps = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			if (caps & PF1_SERVERCLIST) {
+				int status = CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0);
+				if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+					// Set a flag so we remember to delete the contact when the protocol goes online the next time
+					db_set_b(wParam, "CList", "Delete", 1);
+					MessageBox(NULL,
+						TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
+						TranslateT("Delete contact"), MB_ICONINFORMATION | MB_OK);
+					return 0;
 				}
 			}
-
-			CallService(MS_DB_CONTACT_DELETE, wParam, 0);
 		}
-		break;
 
-	// Archive contact
-	case IDC_HIDE:
-		db_set_b(wParam, "CList", "Hidden", 1);
+		CallService(MS_DB_CONTACT_DELETE, wParam, 0);
 		break;
 	}
 
 	return 0;
 }
 
-static INT_PTR MenuItem_AddContactToList(WPARAM wParam, LPARAM)
+static INT_PTR MenuItem_AddContactToList(WPARAM hContact, LPARAM)
 {
 	ADDCONTACTSTRUCT acs = { 0 };
-	acs.hContact = wParam;
+	acs.hContact = hContact;
 	acs.handleType = HANDLE_CONTACT;
 	acs.szProto = "";
 	CallService(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);

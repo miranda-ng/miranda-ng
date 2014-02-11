@@ -170,7 +170,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 ///	IMPLEMENTATION
 
-int _AniAva_OnModulesUnload(WPARAM wParam,LPARAM lParam)
+int _AniAva_OnModulesUnload(WPARAM wParam, LPARAM lParam)
 {
 	SetEvent(s_hExitEvent);
 	return 0;

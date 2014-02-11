@@ -318,10 +318,9 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 	return (INT_PTR)menuHandle;
 }
 
-static INT_PTR BuildContactMenu(WPARAM wParam, LPARAM)
+static INT_PTR BuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
-	NotifyEventHooks(hPreBuildContactMenuEvent, (WPARAM)hContact, 0);
+	NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
 	char *szProto = GetContactProto(hContact);
 

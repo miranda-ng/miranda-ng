@@ -33,7 +33,7 @@ int UnloadFavoriteContactMenu();
 
 #pragma hdrstop
 
-INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
+INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
 {
 	int k;
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
@@ -92,7 +92,7 @@ static IconItem iconList[] =
 	{ LPGEN("Contact rate High"),   "Rate4",  IDI_FAVORITE_3 }
 };
 
-static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
+static int FAV_OnContactMenuBuild(WPARAM wParam, LPARAM lParam)
 {
 	BYTE bContactRate = db_get_b(wParam, "CList", "Rate", 0);
 	if ( bContactRate > SIZEOF(rates)-1)

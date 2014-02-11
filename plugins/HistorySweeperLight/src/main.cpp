@@ -46,14 +46,14 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-int OnIconPressed(WPARAM wParam, LPARAM lParam) 
+int OnIconPressed(WPARAM hContact, LPARAM lParam) 
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
 	if ( !(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) 
 		&& db_get_b(NULL, ModuleName, "ChangeInMW", 0))
 	{
-		int nh = sicd->dwId; MCONTACT hContact = wParam; 
+		int nh = sicd->dwId; 
 		
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = ModuleName;
@@ -62,7 +62,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 		Srmm_ModifyIcon(hContact, &sid);	
 		
 		nh = (nh + 1) % 4;
-		db_set_b(wParam, ModuleName, "SweepHistory", (BYTE)nh);
+		db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)nh);
 
 		sid.dwId = nh;
 		sid.flags = 0;

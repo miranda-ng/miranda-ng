@@ -246,9 +246,8 @@ int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ClistExtraImageApply(WPARAM wParam, LPARAM lParam)
+int ClistExtraImageApply(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -260,9 +259,8 @@ int ClistExtraImageApply(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ClistExtraClick(WPARAM wParam, LPARAM lParam)
+int ClistExtraClick(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

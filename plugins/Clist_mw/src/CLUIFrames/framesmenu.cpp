@@ -88,7 +88,7 @@ static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
+static INT_PTR BuildContextFrameMenu(WPARAM wParam, LPARAM lParam)
 {
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hFrameMenuObject;

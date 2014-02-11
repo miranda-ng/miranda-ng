@@ -277,8 +277,8 @@ typedef struct
 	int    (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 	int    (*pfnFindItem)(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 	int    (*pfnGetRowByIndex)(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
-	HANDLE (*pfnContactToHItem)(ClcContact* contact);
-	HANDLE (*pfnContactToItemHandle)(ClcContact * contact, DWORD * nmFlags);
+	HANDLE (*pfnContactToHItem)(ClcContact *contact);
+	HANDLE (*pfnContactToItemHandle)(ClcContact *contact, DWORD *nmFlags);
 
 	/* clcitems.c */
 	ClcContact* (*pfnCreateClcContact)(void);

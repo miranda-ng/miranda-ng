@@ -1893,9 +1893,8 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 static HANDLE hHookIconPressedEvt;
 
-static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
+static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		M.BroadcastMessage(DM_STATUSICONCHANGE, 0, 0);
 	else {

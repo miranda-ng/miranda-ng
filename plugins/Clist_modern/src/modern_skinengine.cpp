@@ -77,8 +77,8 @@ static LISTMODERNMASK *MainModernMaskList = NULL;
 
 /* Private module procedures */
 static BOOL ske_GetMaskBit(BYTE *line, int x);
-static INT_PTR  ske_Service_AlphaTextOut(WPARAM wParam,LPARAM lParam);
-static INT_PTR ske_Service_DrawIconEx(WPARAM wParam,LPARAM lParam);
+static INT_PTR  ske_Service_AlphaTextOut(WPARAM wParam, LPARAM lParam);
+static INT_PTR ske_Service_DrawIconEx(WPARAM wParam, LPARAM lParam);
 
 static int  ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor);
 static void ske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineString,SKINOBJECTSLIST *Skin);
@@ -1550,7 +1550,7 @@ LPSKINOBJECTDESCRIPTOR ske_FindObjectByName(const char * szName, BYTE objType, S
 // lParam - possible direct pointer to modern mask
 //////////////////////////////////////////////////////////////////////////
 
-INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam)
+INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam)
 {
 	LPSKINDRAWREQUEST preq;
 	LPSKINOBJECTDESCRIPTOR pgl;
@@ -2313,7 +2313,7 @@ BOOL ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount)
 	return 1;
 }
 
-static INT_PTR ske_Service_AlphaTextOut(WPARAM wParam,LPARAM lParam)
+static INT_PTR ske_Service_AlphaTextOut(WPARAM wParam, LPARAM lParam)
 {
 	if (!wParam) return 0;
 
@@ -2904,7 +2904,7 @@ BOOL ske_ImageList_DrawEx( HIMAGELIST himl,int i,HDC hdcDst,int x,int y,int dx,i
 	return TRUE;
 }
 
-static INT_PTR ske_Service_DrawIconEx(WPARAM wParam,LPARAM lParam)
+static INT_PTR ske_Service_DrawIconEx(WPARAM wParam, LPARAM lParam)
 {
 	DrawIconFixParam *p = (DrawIconFixParam*)wParam;
 	if (!p)

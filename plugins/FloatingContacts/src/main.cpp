@@ -134,9 +134,8 @@ static LPCTSTR s_fonts[FLT_FONTIDS]  =
 ///////////////////////////////////////////////////////
 // Hooked events
 
-static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
+static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
 		pThumb->DeleteContactPos();
@@ -145,9 +144,8 @@ static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnContactIconChanged(WPARAM wParam, LPARAM lParam)
+static int OnContactIconChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
 		pThumb->RefreshContactIcon((int)lParam);
@@ -158,12 +156,11 @@ static int OnContactIconChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnContactDrag(WPARAM wParam, LPARAM lParam)
+static int OnContactDrag(WPARAM hContact, LPARAM lParam)
 {
 	POINT pt;
 	GetCursorPos(&pt);
 
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb == NULL) {
 		int idStatus = GetContactStatus(hContact);
@@ -183,12 +180,11 @@ static int OnContactDrag(WPARAM wParam, LPARAM lParam)
 	return hNewContact != NULL;
 }
 
-static int OnContactDrop(WPARAM wParam, LPARAM lParam)
+static int OnContactDrop(WPARAM hContact, LPARAM lParam)
 {
 	RECT rcMiranda;
 	RECT rcThumb;
 
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 
 	if (hNewContact == hContact && pThumb != NULL) {
@@ -202,9 +198,8 @@ static int OnContactDrop(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-static int OnContactDragStop(WPARAM wParam, LPARAM lParam)
+static int OnContactDragStop(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL && hNewContact == hContact) {
 		thumbList.RemoveThumb(pThumb);
@@ -226,9 +221,8 @@ static int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	int idStatus = ID_STATUS_OFFLINE;
 	BOOL bRefresh = TRUE;
@@ -717,9 +711,8 @@ static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR OnContactMenu_Remove(WPARAM wParam, LPARAM lParam)
+static INT_PTR OnContactMenu_Remove(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
 		pThumb->DeleteContactPos();

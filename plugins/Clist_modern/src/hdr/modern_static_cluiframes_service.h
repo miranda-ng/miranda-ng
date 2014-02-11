@@ -4,28 +4,28 @@
 // TO BE INCLUDED ONLY TO modern_cluiframes.cpp
 //////////////////////////////////////////////////////////////////////////
 
-static int _us_DoSetFramePaintProc(WPARAM wParam,LPARAM lParam);
-static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoRemoveFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam);
-static INT_PTR _us_DoGetFrameOptions(WPARAM wParam,LPARAM lParam);
-static int _us_DoUpdateFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoShowHideFrameTitle(WPARAM wParam,LPARAM lParam);
-static int _us_DoShowTitles(WPARAM wParam,LPARAM lParam);
-static int _us_DoHideTitles(WPARAM wParam,LPARAM lParam);
-static int _us_DoShowHideFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoShowAllFrames(WPARAM wParam,LPARAM lParam);
-static int _us_DoLockFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoCollapseFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoSetFrameBorder(WPARAM wParam,LPARAM lParam);
-static int _us_DoSetFrameAlign(WPARAM wParam,LPARAM lParam);
-static int _us_DoMoveFrame(WPARAM wParam,LPARAM lParam);
-static int _us_DoMoveFrameUp(WPARAM wParam,LPARAM lParam);
-static int _us_DoMoveFrameDown(WPARAM wParam,LPARAM lParam);
-static int _us_DoAlignFrameTop(WPARAM wParam,LPARAM lParam);
-static int _us_DoAlignFrameClient(WPARAM wParam,LPARAM lParam);
-static int _us_DoAlignFrameBottom(WPARAM wParam,LPARAM lParam);
-static int _us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam);
+static int _us_DoSetFramePaintProc(WPARAM wParam, LPARAM lParam);
+static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoRemoveFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam);
+static INT_PTR _us_DoGetFrameOptions(WPARAM wParam, LPARAM lParam);
+static int _us_DoUpdateFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoShowHideFrameTitle(WPARAM wParam, LPARAM lParam);
+static int _us_DoShowTitles(WPARAM wParam, LPARAM lParam);
+static int _us_DoHideTitles(WPARAM wParam, LPARAM lParam);
+static int _us_DoShowHideFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoShowAllFrames(WPARAM wParam, LPARAM lParam);
+static int _us_DoLockFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoCollapseFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoSetFrameBorder(WPARAM wParam, LPARAM lParam);
+static int _us_DoSetFrameAlign(WPARAM wParam, LPARAM lParam);
+static int _us_DoMoveFrame(WPARAM wParam, LPARAM lParam);
+static int _us_DoMoveFrameUp(WPARAM wParam, LPARAM lParam);
+static int _us_DoMoveFrameDown(WPARAM wParam, LPARAM lParam);
+static int _us_DoAlignFrameTop(WPARAM wParam, LPARAM lParam);
+static int _us_DoAlignFrameClient(WPARAM wParam, LPARAM lParam);
+static int _us_DoAlignFrameBottom(WPARAM wParam, LPARAM lParam);
+static int _us_DoSetFrameFloat(WPARAM wParam, LPARAM lParam);
 
 enum { 
 	CFM_FIRST_MGS= WM_USER + 0x2FF,
@@ -92,70 +92,70 @@ BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LP
 	return TRUE;
 }
 
-static INT_PTR CLUIFrames_SetFramePaintProc(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_SetFramePaintProc(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SETFRAMEPAINTPROC, wParam,lParam) : 0; }
 
-static INT_PTR CLUIFrames_AddFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_AddFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_ADDFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_RemoveFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_RemoveFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_REMOVEFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_SetFrameOptions(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_SetFrameOptions(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SETFRAMEOPTIONS, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_GetFrameOptions(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_GetFrameOptions(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_GETFRAMEOPTIONS, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_UpdateFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_UpdateFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_UPDATEFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_ShowHideFrameTitle(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_ShowHideFrameTitle(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SHOWHIDEFRAMETITLE, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_ShowTitles(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_ShowTitles(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SHOWTITLES, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_HideTitles(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_HideTitles(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_HIDETITLES, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_ShowHideFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_ShowHideFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SHOWHIDEFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_ShowAllFrames(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_ShowAllFrames(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SHOWALL, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_LockFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_LockFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_LOCKFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_CollapseFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_CollapseFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_COLLAPSEFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_SetFrameBorder(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_SetFrameBorder(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SETFRAMEBORDER, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_SetFrameAlign(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_SetFrameAlign(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SETFRAMEALIGN, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_MoveFrame(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_MoveFrame(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_MOVEFRAME, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_MoveFrameUp(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_MoveFrameUp(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_MOVEFRAMEUP, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_MoveFrameDown(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_MoveFrameDown(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_MOVEFRAMEDOWN, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_AlignFrameTop(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_AlignFrameTop(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_ALIGNFRAMETOP, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_AlignFrameClient(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_AlignFrameClient(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_ALIGNFRAMEBOTTOM, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_AlignFrameBottom(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_AlignFrameBottom(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_ALIGNFRAMECLIENT, wParam, lParam) : 0; }
 
-static INT_PTR CLUIFrames_SetFrameFloat(WPARAM wParam,LPARAM lParam)
+static INT_PTR CLUIFrames_SetFrameFloat(WPARAM wParam, LPARAM lParam)
 {  return ( pcli->hwndContactList ) ? SendMessage( pcli->hwndContactList, CFM_SETFRAMEFLOAT, wParam, lParam) : 0; }
 
 static void CreateCluiFramesServices()

@@ -197,24 +197,22 @@ void WriteDbAccounts()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
+static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact) {
-		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
+		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
-			pa->ppro->OnEvent(EV_PROTO_ONCONTACTDELETED, wParam, lParam);
+			pa->ppro->OnEvent(EV_PROTO_ONCONTACTDELETED, hContact, lParam);
 	}
 	return 0;
 }
 
-static int OnDbSettingsChanged(WPARAM wParam, LPARAM lParam)
+static int OnDbSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
-			pa->ppro->OnEvent(EV_PROTO_DBSETTINGSCHANGED, wParam, lParam);
+			pa->ppro->OnEvent(EV_PROTO_DBSETTINGSCHANGED, hContact, lParam);
 	}
 	return 0;
 }

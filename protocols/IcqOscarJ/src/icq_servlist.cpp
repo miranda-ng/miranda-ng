@@ -2618,23 +2618,20 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 }
 
 
-int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
+int CIcqProto::ServListDbContactDeleted(WPARAM hContact, LPARAM lParam)
 {
 #ifdef _DEBUG
-	debugLogA("DB-Events: Contact %x deleted.", wParam);
+	debugLogA("DB-Events: Contact %x deleted.", hContact);
 #endif
 
-	DeleteFromContactsCache(wParam);
+	DeleteFromContactsCache(hContact);
 
 	if ( !icqOnline() && m_bSsiEnabled)
-	{ // contact was deleted only locally - retrieve full list on next connect
-		setWord(wParam, "SrvRecordCount", 0);
-	}
+		// contact was deleted only locally - retrieve full list on next connect
+		setWord(hContact, "SrvRecordCount", 0);
 
 	if ( !icqOnline() || !m_bSsiEnabled)
 		return 0;
-
-	MCONTACT hContact = wParam;
 
 	// we need all server contacts on local buddy list
 	DWORD dwUIN;
@@ -2672,9 +2669,8 @@ int CIcqProto::ServListDbContactDeleted(WPARAM wParam, LPARAM lParam)
 }
 
 
-int CIcqProto::ServListCListGroupChange(WPARAM wParam, LPARAM lParam)
+int CIcqProto::ServListCListGroupChange(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	CLISTGROUPCHANGE *grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (!icqOnline() || !m_bSsiEnabled || bIsSyncingCL)

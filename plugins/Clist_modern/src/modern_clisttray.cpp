@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_statusbar.h"
 
-int cliShowHide(WPARAM wParam,LPARAM lParam);
+int cliShowHide(WPARAM wParam, LPARAM lParam);
 int g_mutex_bOnTrayRightClick = 0;
 
 BOOL g_bMultiConnectionMode = FALSE;
@@ -286,7 +286,7 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEve
 	SetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 }
 
-int cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
+int cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam)
 {
 	if ( db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 		if (GetActiveWindow() != pcli->hwndContactList && GetWindow(GetParent(GetActiveWindow()),GW_OWNER) != pcli->hwndContactList) {
@@ -309,7 +309,7 @@ void DestroyTrayMenu(HMENU hMenu)
 	DestroyMenu(hMenu);
 }
 
-INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
+INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 {
 	MSG *msg = (MSG*)wParam;
 	switch(msg->message) {
@@ -399,13 +399,13 @@ wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
 return 0 on success.
 */
 
-static INT_PTR RemoveTrayMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR RemoveTrayMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MO_REMOVEMENUITEM,wParam,0);
 	return 0;
 }
 
-static INT_PTR BuildTrayMenu(WPARAM wParam,LPARAM lParam)
+static INT_PTR BuildTrayMenu(WPARAM wParam, LPARAM lParam)
 {
 	HMENU hMenu = CreatePopupMenu();
 	int tick = GetTickCount();
@@ -420,7 +420,7 @@ static INT_PTR BuildTrayMenu(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)hMenu;
 }
 
-static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR AddTrayMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
@@ -445,7 +445,7 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
+INT_PTR TrayMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL)
@@ -474,7 +474,7 @@ INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam)
+INT_PTR TrayMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
@@ -487,7 +487,7 @@ INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam)
 	return(1);
 }
 
-INT_PTR FreeOwnerDataTrayMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR FreeOwnerDataTrayMenu(WPARAM wParam, LPARAM lParam)
 {
 	lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)lParam;
 	if (mmep != NULL) {

@@ -32,7 +32,7 @@ void SortContacts(void);
 
 static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int CListOptInit(WPARAM wParam,LPARAM lParam)
+int CListOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -1000000000;

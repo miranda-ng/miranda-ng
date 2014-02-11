@@ -138,9 +138,8 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int onPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;

@@ -28,10 +28,10 @@ extern int DefaultImageListColorDepth;
 
 int InitCustomMenus(void);
 void UninitCustomMenus(void);
-int ContactSettingChanged(WPARAM wParam,LPARAM lParam);
-int CListOptInit(WPARAM wParam,LPARAM lParam);
-INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam);
-INT_PTR HotkeysProcessMessage(WPARAM wParam,LPARAM lParam) { return pcli->pfnHotkeysProcessMessage(wParam, lParam); }
+int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
+int CListOptInit(WPARAM wParam, LPARAM lParam);
+INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam);
+INT_PTR HotkeysProcessMessage(WPARAM wParam, LPARAM lParam) { return pcli->pfnHotkeysProcessMessage(wParam, lParam); }
 void InitTrayMenus(void);
 
 HIMAGELIST hCListImages;
@@ -95,7 +95,7 @@ int ExtIconFromStatusMode(MCONTACT hContact, const char *szProto,int status)
 
 /////////// End by FYR ////////
 
-static int ProtocolAck(WPARAM wParam,LPARAM lParam)
+static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_AWAYMSG && ack->lParam) {
@@ -119,7 +119,7 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 	return pcli->currentDesiredStatusMode;
 }
 
-static int ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
+static int ContactListShutdownProc(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(hProtoAckHook);
 	UninitCustomMenus();

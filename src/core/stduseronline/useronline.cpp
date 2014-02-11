@@ -31,24 +31,24 @@ static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
 }
 
-static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
+static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if ((HANDLE)wParam == NULL || strcmp(cws->szSetting, "Status"))
+	if (hContact == NULL || strcmp(cws->szSetting, "Status"))
 		return 0;
 
 	int newStatus = cws->value.wVal;
-	int oldStatus = db_get_w(wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
-	db_set_w(wParam, "UserOnline", "OldStatus", (WORD)newStatus);
-	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
-	if (db_get_b(wParam, "CList", "Hidden", 0)) return 0;
+	int oldStatus = db_get_w(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
+	db_set_w(hContact, "UserOnline", "OldStatus", (WORD)newStatus);
+	if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE)) return 0;
+	if (db_get_b(hContact, "CList", "Hidden", 0)) return 0;
     if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
        // Remove the event from the queue if it exists since they are now offline
-		 int lastEvent = (int)db_get_dw(wParam, "UserOnline", "LastEvent", 0);
+		 int lastEvent = (int)db_get_dw(hContact, "UserOnline", "LastEvent", 0);
 
        if (lastEvent) {
-           CallService(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)lastEvent);
-			  db_set_dw(wParam, "UserOnline", "LastEvent", 0);
+           CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)lastEvent);
+			  db_set_dw(hContact, "UserOnline", "LastEvent", 0);
        }
     }
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
@@ -63,11 +63,11 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 				ZeroMemory(&cle, sizeof(cle));
 				cle.cbSize = sizeof(cle);
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
-				cle.hContact = wParam;
+				cle.hContact = hContact;
 				cle.hDbEvent = (HANDLE)(uniqueEventId++);
 				cle.hIcon = LoadSkinIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
-				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName(wParam, 0));
+				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);

@@ -541,9 +541,8 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	return 0;
 }
 
-int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
+int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -747,11 +746,10 @@ void PlayChangeSound(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		SkinPlaySound(szSoundFile);
 }
 
-int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
+int ContactStatusChanged(WPARAM hContact, LPARAM lParam)
 {
 	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
-	MCONTACT hContact = wParam;
 	bool bEnablePopup = true, bEnableSound = true;
 
 	char *hlpProto = GetContactProto(hContact);

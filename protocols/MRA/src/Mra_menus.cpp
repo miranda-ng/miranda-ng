@@ -78,9 +78,8 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (!hContact)
 		return 0;
 
@@ -236,12 +235,11 @@ INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	BOOL bIsContactMRA, bHasEMail, bHasEMailMR, bChatAgent;
 	DWORD dwContactSeverFlags = 0;
 	CMStringW blogStatusMsgSize;
-	MCONTACT hContact = wParam;
 
 	// proto own contact
 	bIsContactMRA = IsContactMra(hContact);

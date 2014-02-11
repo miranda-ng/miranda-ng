@@ -242,11 +242,9 @@ INT_PTR CMsnProto::SetNickName(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendNudge - Sending a nudge
 
-INT_PTR CMsnProto::SendNudge(WPARAM wParam, LPARAM lParam)
+INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM lParam)
 {
 	if (!msnLoggedIn) return 0;
-
-	MCONTACT hContact = wParam;
 
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (MSN_IsMeByContact(hContact, tEmail)) return 0;
@@ -378,10 +376,8 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnContactDeleted - called when a contact is deleted from list
 
-int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	const MCONTACT hContact = wParam;
-
 	if (!msnLoggedIn)  //should never happen for MSN contacts
 		return 0;
 
@@ -420,11 +416,10 @@ int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 }
 
 
-int CMsnProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
+int CMsnProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 {
 	if (!msnLoggedIn || !MyOptions.ManageServer) return 0;
 
-	const MCONTACT hContact = wParam;
 	const CLISTGROUPCHANGE* grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (hContact == NULL)
@@ -456,9 +451,8 @@ int CMsnProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnDbSettingChanged - look for contact's settings changes
 
-int CMsnProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
+int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (!msnLoggedIn)
@@ -617,9 +611,8 @@ INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLeaveChat - closes MSN chat window
 
-INT_PTR CMsnProto::OnLeaveChat(WPARAM wParam,LPARAM lParam)
+INT_PTR CMsnProto::OnLeaveChat(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (isChatRoom(hContact) != 0) {
 		DBVARIANT dbv;
 		if (getTString(hContact, "ChatRoomID", &dbv) == 0) {

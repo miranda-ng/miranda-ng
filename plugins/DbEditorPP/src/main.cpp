@@ -53,10 +53,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting);
 
-int DBSettingChanged(WPARAM wParam,LPARAM lParam)
+int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = wParam;
 	char *setting;
 	SettingListInfo* info;
 

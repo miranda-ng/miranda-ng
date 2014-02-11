@@ -248,7 +248,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-static INT_PTR BkgrCfg_Register(WPARAM wParam,LPARAM lParam)
+static INT_PTR BkgrCfg_Register(WPARAM wParam, LPARAM lParam)
 {
 	char *szSetting = (char *)wParam;
 	char *value, *tok;
@@ -271,7 +271,7 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;

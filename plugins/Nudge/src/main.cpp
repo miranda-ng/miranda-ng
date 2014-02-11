@@ -39,9 +39,8 @@ INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR NudgeSend(WPARAM wParam, LPARAM lParam)
+INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	char *protoName = GetContactProto(hContact);
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
@@ -68,7 +67,7 @@ INT_PTR NudgeSend(WPARAM wParam, LPARAM lParam)
 	else if (DefaultNudge.showStatus)
 		Nudge_SentStatus(DefaultNudge, hContact);
 
-	CallProtoService(protoName, PS_SEND_NUDGE, wParam, lParam);
+	CallProtoService(protoName, PS_SEND_NUDGE, hContact, lParam);
 	return 0;
 }
 
@@ -79,9 +78,8 @@ void OpenContactList()
 	ShowWindow(hWnd, SW_SHOW);
 }
 
-int NudgeReceived(WPARAM wParam, LPARAM lParam)
+int NudgeReceived(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	char *protoName = GetContactProto(hContact);
 
 	DWORD currentTimestamp = time(NULL);
@@ -100,7 +98,7 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 			if (!strcmp(protoName, n->item.ProtocolName)) {
 
 				if (n->item.enabled) {
-					if (n->item.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE))
+					if (n->item.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
 						return 0;
 
 					DWORD Status = CallProtoService(protoName, PS_GETSTATUS, 0, 0);
@@ -122,13 +120,13 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 							if (n->item.openContactList)
 								OpenContactList();
 							if (n->item.shakeClist)
-								ShakeClist(wParam, lParam);
+								ShakeClist(hContact, lParam);
 							if (n->item.openMessageWindow)
-								CallService(MS_MSG_SENDMESSAGET, wParam, 0);
+								CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 							if (n->item.shakeChat)
-								ShakeChat(wParam, lParam);
+								ShakeChat(hContact, lParam);
 							if (n->item.autoResend)
-								mir_forkthread(AutoResendNudge, (void *)wParam);
+								mir_forkthread(AutoResendNudge, (void*)hContact);
 
 							SkinPlaySound(n->item.NudgeSoundname);
 						}
@@ -144,7 +142,7 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		if (DefaultNudge.enabled) {
-			if (DefaultNudge.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE))
+			if (DefaultNudge.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
 				return 0;
 
 			DWORD Status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
@@ -165,13 +163,13 @@ int NudgeReceived(WPARAM wParam, LPARAM lParam)
 					if (DefaultNudge.openContactList)
 						OpenContactList();
 					if (DefaultNudge.shakeClist)
-						ShakeClist(wParam, lParam);
+						ShakeClist(hContact, lParam);
 					if (DefaultNudge.openMessageWindow)
-						CallService(MS_MSG_SENDMESSAGET, wParam, 0);
+						CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 					if (DefaultNudge.shakeChat)
-						ShakeChat(wParam, lParam);
+						ShakeChat(hContact, lParam);
 					if (DefaultNudge.autoResend)
-						mir_forkthread(AutoResendNudge, (void *)wParam);
+						mir_forkthread(AutoResendNudge, (void*)hContact);
 
 					SkinPlaySound(DefaultNudge.NudgeSoundname);
 				}

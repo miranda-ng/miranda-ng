@@ -23,10 +23,8 @@ MIRANDA_HOOK_EVENT(ME_DB_CONTACT_ADDED, w, l)
 	return 0;
 }
 
-
-MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
+MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, hContact, lParam)
 {
-	MCONTACT hContact = wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };

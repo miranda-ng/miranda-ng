@@ -1,20 +1,21 @@
 #include "headers.h"
 
-INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
+INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 {
-	MCONTACT hContact = wParam;
-	std::string proto = GetContactProto(hContact);
-	
-	if ( !plSets->ProtoDisabled( proto.c_str()))
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL)
 		return CS_PASSED;
 
-	if ( db_get_b(hContact, pluginName, answeredSetting, 0))
+	if (!plSets->ProtoDisabled(szProto))
 		return CS_PASSED;
 
-	if ( !db_get_b(hContact, "CList", "NotOnList", 0) && db_get_w( hContact, proto.c_str(), "SrvGroupId", -1 ) != 1)
+	if (db_get_b(hContact, pluginName, answeredSetting, 0))
 		return CS_PASSED;
 
-	if ( IsExistMyMessage(hContact))
+	if (!db_get_b(hContact, "CList", "NotOnList", 0) && db_get_w(hContact, szProto, "SrvGroupId", -1) != 1)
+		return CS_PASSED;
+
+	if (IsExistMyMessage(hContact))
 		return CS_PASSED;
 
 	return CS_NOTPASSED;
@@ -26,12 +27,12 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 		MCONTACT hNext = db_find_next(hContact);
 		ptrT szGroup( db_get_tsa( hContact, "CList", "Group"));
 
-		if ( db_get_b(hContact, "CList", "NotOnList", 0) || db_get_b(hContact, "CList", "Hidden", 0 ) || (szGroup != NULL && (_tcsstr(szGroup, _T("Not In List")) || _tcsstr(szGroup, TranslateT("Not In List"))))) {
+		if (db_get_b(hContact, "CList", "NotOnList", 0) || db_get_b(hContact, "CList", "Hidden", 0) || (szGroup != NULL && (_tcsstr(szGroup, _T("Not In List")) || _tcsstr(szGroup, TranslateT("Not In List"))))) {
 			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL) {
 				// Check if protocol uses server side lists
 				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				if ( caps & PF1_SERVERCLIST ) {
+				if (caps & PF1_SERVERCLIST) {
 					int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time

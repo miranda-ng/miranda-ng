@@ -321,27 +321,24 @@ int HideTipHook(WPARAM wParam, LPARAM lParam)
 
 int ProtoAck(WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA *)lParam;
+	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->result != ACKRESULT_SUCCESS)
 		return 0;
 
 	if (ack->type == ACKTYPE_AWAYMSG) {
-		TCHAR* tszMsg = ( TCHAR* )ack->lParam;
-		if ( lstrlen(tszMsg))
+		TCHAR *tszMsg = (TCHAR*)ack->lParam;
+		if (lstrlen(tszMsg))
 			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_tstrdup(tszMsg));
 	}
 	else if (ack->type == ICQACKTYPE_XSTATUS_RESPONSE)
-	{
 		PostMPMessage(MUM_GOTXSTATUS, (WPARAM)ack->hContact, 0);
-	}
 
 	return 0;
 }
 
-int AvatarChanged(WPARAM wParam, LPARAM lParam)
+int AvatarChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	PostMPMessage(MUM_GOTAVATAR, (WPARAM)hContact, 0);
+	PostMPMessage(MUM_GOTAVATAR, hContact, 0);
 	return 0;
 }
 

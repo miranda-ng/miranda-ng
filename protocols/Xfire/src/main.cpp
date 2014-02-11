@@ -1335,9 +1335,8 @@ static void SendBadAck( LPVOID param )
 	ProtoBroadcastAck(protocolname, (MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 0, LPARAM(Translate("XFire does not support offline messaging!")));
 }
 
-static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam)
+static INT_PTR UserIsTyping(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	DBVARIANT dbv;
 
 	if (lParam==PROTOTYPE_SELFTYPING_ON)
@@ -2069,9 +2068,8 @@ static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
+int RebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	bool bEnabled = true, bEnabled2 = true;
 
 	DBVARIANT dbv;

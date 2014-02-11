@@ -36,20 +36,20 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int OnStatusBarBackgroundChange();
 
-int BgClcChange(WPARAM wParam,LPARAM lParam)
+int BgClcChange(WPARAM wParam, LPARAM lParam)
 {
 	pcli->pfnClcOptionsChanged();
 	return 0;
 }
 
-int BgStatusBarChange(WPARAM wParam,LPARAM lParam)
+int BgStatusBarChange(WPARAM wParam, LPARAM lParam)
 {
 	pcli->pfnClcOptionsChanged();
 	OnStatusBarBackgroundChange();
 	return 0;
 }
 
-int ClcOptInit(WPARAM wParam,LPARAM lParam)
+int ClcOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;

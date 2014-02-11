@@ -25,13 +25,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include <m_hotkeys.h>
 
-INT_PTR hkCloseMiranda(WPARAM wParam,LPARAM lParam)
+INT_PTR hkCloseMiranda(WPARAM wParam, LPARAM lParam)
 {
 	CallService("CloseAction", 0, 0);
 	return 0;
 }
 
-INT_PTR hkRestoreStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR hkRestoreStatus(WPARAM wParam, LPARAM lParam)
 {
 	int nStatus = db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE);
 	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);

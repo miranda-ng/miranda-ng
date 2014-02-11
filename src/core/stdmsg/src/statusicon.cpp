@@ -24,9 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hHookIconPressedEvt;
 
-static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
+static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {

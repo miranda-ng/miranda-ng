@@ -144,7 +144,7 @@ void CLUI::cliOnCreateClc(void)
 	m_pCLUI->CreateCluiFrames();
 }
 
-int CLUI::OnEvent_ModulesLoaded(WPARAM wParam,LPARAM lParam)
+int CLUI::OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	g_CluiData.bMetaAvail = ServiceExists(MS_MC_GETDEFAULTCONTACT) ? TRUE : FALSE;
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
@@ -167,7 +167,7 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int CLUI::OnEvent_FontReload(WPARAM wParam,LPARAM lParam)
+int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 {
 	pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, wParam, lParam);
 
@@ -218,7 +218,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam, LPARAM lParam)
 {
 	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 
@@ -228,7 +228,7 @@ INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
 {
 	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 
@@ -238,23 +238,19 @@ INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM wParam,LPARAM lParam)
+INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-
 	db_set_b(hContact, "CList", "HideContactAvatar", 0);
 
-	pcli->pfnClcBroadcast( INTM_AVATARCHANGED,wParam,0);
+	pcli->pfnClcBroadcast( INTM_AVATARCHANGED, hContact, 0);
 	return 0;
 }
 
-INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM wParam,LPARAM lParam)
+INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-
 	db_set_b(hContact, "CList", "HideContactAvatar", 1);
 
-	pcli->pfnClcBroadcast( INTM_AVATARCHANGED,wParam,0);
+	pcli->pfnClcBroadcast( INTM_AVATARCHANGED, hContact, 0);
 	return 0;
 }
 
@@ -1010,7 +1006,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	return LoadSmallIcon(g_hInst, -IDI_ICQC1-idx);
 }
 
-INT_PTR CLUI_GetConnectingIconService(WPARAM wParam,LPARAM lParam)
+INT_PTR CLUI_GetConnectingIconService(WPARAM wParam, LPARAM lParam)
 {
 	HICON hIcon = NULL;
 
@@ -1036,7 +1032,7 @@ INT_PTR CLUI_GetConnectingIconService(WPARAM wParam,LPARAM lParam)
 	return NULL;
 }
 
-static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
+static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam, LPARAM lParam)
 {
 	int status = (int)wParam;
 	char *szProto = (char*)lParam;
@@ -1295,7 +1291,7 @@ int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
 	return ClcGetShortData(dat,(struct SHORTDATA *)lParam);
 }
 
-int CLUI_IconsChanged(WPARAM wParam,LPARAM lParam)
+int CLUI_IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting())
 		return 0;

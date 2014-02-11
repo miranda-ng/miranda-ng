@@ -156,11 +156,10 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
 }
 
-INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
+INT_PTR GetContactDisplayName(WPARAM hContact, LPARAM lParam)
 {
 	static char retVal[200];
 	ClcCacheEntry *cacheEntry = NULL;
-	MCONTACT hContact = wParam;
 
 	if (lParam & GCDNF_UNICODE)
 		return (INT_PTR)cli.pfnGetContactDisplayName(hContact, lParam & ~GCDNF_UNICODE);
@@ -226,11 +225,10 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
+int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	DBVARIANT dbv;
-	MCONTACT hContact = wParam;
 
 	// Early exit
 	if (hContact == NULL)
@@ -242,7 +240,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 			if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")
 				 ||  !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
-					CallService(MS_CLUI_CONTACTRENAMED, wParam, 0);
+					CallService(MS_CLUI_CONTACTRENAMED, hContact, 0);
 				}
 			else if (!strcmp(cws->szSetting, "Status")) {
 				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
@@ -250,7 +248,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 						// User's state is changing, and we are hideOffline-ing
 						if (cws->value.wVal == ID_STATUS_OFFLINE) {
 							cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact), 0);
-							CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
+							CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 							mir_free(dbv.pszVal);
 							return 0;
 						}
@@ -270,11 +268,11 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = GetContactProto(wParam);
+				char *szProto = GetContactProto(hContact);
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
 			}
 			else
-				CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
+				CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 		}
 		if (!strcmp(cws->szSetting, "MyHandle"))
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);

@@ -195,13 +195,12 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	PUAddPopupT(&ppd);
 }
 
-int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
+int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (lstrcmpA(cws->szSetting, DB_MIRVER))
 		return 0;
 
-	MCONTACT hContact = wParam;
 	SHOWPOPUP_DATA sd = {0};
 	char *szProto = GetContactProto(hContact);
 	if (g_PreviewOptPage)

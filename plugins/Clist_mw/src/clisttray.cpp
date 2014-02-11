@@ -28,10 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TIM_CALLBACK   (WM_USER+1857)
 #define TIM_CREATE     (WM_USER+1858)
 
-extern INT_PTR ( *saveTrayIconProcessMessage )(WPARAM wParam,LPARAM lParam);
+extern INT_PTR ( *saveTrayIconProcessMessage )(WPARAM wParam, LPARAM lParam);
 void DestroyTrayMenu(HMENU hMenu);
 
-INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
+INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 {
 	MSG *msg = (MSG*)wParam;
 	switch(msg->message) {
@@ -83,13 +83,13 @@ typedef struct
 wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
 return 0 on success.
 */
-static INT_PTR RemoveTrayMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR RemoveTrayMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MO_REMOVEMENUITEM,wParam,0);
 	return 0;
 }
 
-static INT_PTR BuildTrayMenu(WPARAM wParam,LPARAM lParam)
+static INT_PTR BuildTrayMenu(WPARAM wParam, LPARAM lParam)
 {
 	int tick;
 	HMENU hMenu;
@@ -109,7 +109,7 @@ static INT_PTR BuildTrayMenu(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)hMenu;
 }
 
-static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR AddTrayMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
@@ -132,12 +132,12 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-INT_PTR TrayMenuCheckService(WPARAM wParam,LPARAM lParam)
+INT_PTR TrayMenuCheckService(WPARAM wParam, LPARAM lParam)
 {
 	return 0;
 }
 
-INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
+INT_PTR TrayMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL) return 0;
@@ -164,7 +164,7 @@ INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam)
+INT_PTR TrayMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0)
 	{
@@ -179,7 +179,7 @@ INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam)
 	return(1);
 }
 
-INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam,LPARAM lParam)
+INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam, LPARAM lParam)
 {
 
 	lpTrayMenuExecParam mmep;

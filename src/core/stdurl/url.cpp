@@ -39,21 +39,21 @@ static INT_PTR ReadUrlCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
+static int UrlEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get((HANDLE)lParam, &dbei);
-	if (dbei.flags&(DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_URL)
+	if (dbei.flags & (DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_URL)
 		return 0;
 
 	SkinPlaySound("RecvUrl");
 
 	TCHAR szTooltip[256];
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(wParam, 0));
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags = CLEF_TCHAR;
-	cle.hContact = wParam;
+	cle.hContact = hContact;
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";

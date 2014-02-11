@@ -147,10 +147,9 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
+int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	MCONTACT hContact = wParam;
 
 	if ( !lstrcmpA(cws->szModule, "Ignore") && !lstrcmpA(cws->szSetting, "Mask1"))
 		applyExtraImage(hContact);

@@ -163,12 +163,12 @@ int cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2)
 
 #undef SAFESTRING
 
-INT_PTR ToggleHideOffline(WPARAM wParam,LPARAM lParam)
+INT_PTR ToggleHideOffline(WPARAM wParam, LPARAM lParam)
 {
 	return pcli->pfnSetHideOffline((WPARAM)-1,0);
 }
 
-INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam)
+INT_PTR ToggleGroups(WPARAM wParam, LPARAM lParam)
 {
 	db_set_b(NULL, "CList", "UseGroups",
 				(BYTE) !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
@@ -189,7 +189,7 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ToggleSounds(WPARAM wParam,LPARAM lParam)
+INT_PTR ToggleSounds(WPARAM wParam, LPARAM lParam)
 {
 	db_set_b(NULL, "Skin", "UseSound",
 		(BYTE) !db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));

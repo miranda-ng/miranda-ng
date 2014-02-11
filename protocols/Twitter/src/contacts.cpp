@@ -183,12 +183,10 @@ HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
-
-	const MCONTACT hContact = wParam;
 
 	if(!IsMyContact(hContact))
 		return 0;

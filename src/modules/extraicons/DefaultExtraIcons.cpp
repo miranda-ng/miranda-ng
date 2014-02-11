@@ -159,9 +159,8 @@ static void SetExtraIcons(MCONTACT hContact)
 	}
 }
 
-static int SettingChanged(WPARAM wParam, LPARAM lParam)
+static int SettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -203,13 +202,12 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
+static int DefaultOnClick(WPARAM hContact, LPARAM lParam, LPARAM param)
 {
 	Info *p = (Info*)param;
 	if (p == NULL)
 		return 0;
 
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -277,9 +275,8 @@ static ProtoInfo* FindProto(const char *proto)
 	return p;
 }
 
-static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
+static int ProtocolApplyIcon(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	char *proto = GetContactProto(hContact);
 	if (IsEmpty(proto))
 		return 0;

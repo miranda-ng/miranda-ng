@@ -1,9 +1,8 @@
 #include "commonheaders.h"
 
 
-int __cdecl onContactSettingChanged(WPARAM wParam,LPARAM lParam) {
-
-	MCONTACT hContact = wParam;
+int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
+{
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 	if (!hContact || strcmp(cws->szSetting,"Status")) return 0;
 
@@ -65,9 +64,8 @@ int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam)
+int __cdecl onRebuildContactMenu(WPARAM hContact,LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	BOOL bMC = isProtoMetaContacts(hContact);
 	if (bMC ) hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	pUinKey ptr = getUinKey(hContact);

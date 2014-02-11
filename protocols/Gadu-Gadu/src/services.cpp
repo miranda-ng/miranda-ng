@@ -380,9 +380,8 @@ INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM wParam, LPARAM lParam)
 // leaves (terminates) conference
 // registered as ProtoService PS_LEAVECHAT
 
-INT_PTR GGPROTO::leavechat(WPARAM wParam, LPARAM lParam)
+INT_PTR GGPROTO::leavechat(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact)
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 

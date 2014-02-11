@@ -57,14 +57,14 @@ typedef struct
 wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
 return 0 on success.
 */
-static INT_PTR RemoveGroupMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR RemoveGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MO_REMOVEMENUITEM,wParam,0);
 	return 0;
 }
 
 
-INT_PTR BuildGroupMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR BuildGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hGroupMenuObject;
@@ -82,7 +82,7 @@ INT_PTR BuildGroupMenu(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)hMenu;
 }
 
-static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
@@ -114,12 +114,12 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-int GroupMenuCheckService(WPARAM wParam,LPARAM lParam) {
+int GroupMenuCheckService(WPARAM wParam, LPARAM lParam) {
 //not used
 	return 0;
 };
 
-INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
+INT_PTR GroupMenuonAddService(WPARAM wParam, LPARAM lParam) {
 
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL)
@@ -146,7 +146,7 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam)
+INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)wParam;
@@ -160,7 +160,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam)
 	return 1;
 }
 
-INT_PTR FreeOwnerDataGroupMenu (WPARAM wParam,LPARAM lParam)
+INT_PTR FreeOwnerDataGroupMenu (WPARAM wParam, LPARAM lParam)
 {
 	lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)lParam;
 	if (mmep != NULL) {
@@ -171,7 +171,7 @@ INT_PTR FreeOwnerDataGroupMenu (WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
+INT_PTR HideGroupsHelper(WPARAM wParam, LPARAM lParam)
 {
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS);
 	db_set_b(NULL,"CList","HideEmptyGroups",(BYTE)newVal);
@@ -179,7 +179,7 @@ INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR UseGroupsHelper(WPARAM wParam,LPARAM lParam)
+INT_PTR UseGroupsHelper(WPARAM wParam, LPARAM lParam)
 {
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
 	db_set_b(NULL,"CList","UseGroups",(BYTE)newVal);
@@ -187,7 +187,7 @@ INT_PTR UseGroupsHelper(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR HideOfflineRootHelper(WPARAM wParam,LPARAM lParam)
+INT_PTR HideOfflineRootHelper(WPARAM wParam, LPARAM lParam)
 {
 	SendMessage(
 		(HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0),
@@ -197,7 +197,7 @@ INT_PTR HideOfflineRootHelper(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CreateGroupHelper(WPARAM wParam,LPARAM lParam)
+INT_PTR CreateGroupHelper(WPARAM wParam, LPARAM lParam)
 {
 	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETHIDEEMPTYGROUPS, 0, 0);
 	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETUSEGROUPS, 1, 0);
@@ -205,7 +205,7 @@ INT_PTR CreateGroupHelper(WPARAM wParam,LPARAM lParam)
 	return 0;
 };
 
-static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
+static int OnBuildGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting()) return 0;
 
@@ -226,7 +226,7 @@ static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
 
 static IconItem iconItem = { "New Group", "NewGroup", IDI_NEWGROUP2 };
 
-int static OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
+int static OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting()) return 0;
 
@@ -371,13 +371,13 @@ int Param1,Param2;
 wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
 return 0 on success.
 */
-static INT_PTR RemoveSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR RemoveSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MO_REMOVEMENUITEM,wParam,0);
 	return 0;
 }
 
-static int OnBuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
+static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	BOOL gray1 = FALSE;
 	BOOL gray2 = FALSE;
@@ -404,7 +404,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR BuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR BuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hSubGroupMenuObject;
@@ -430,7 +430,7 @@ HMENU cliBuildGroupPopupMenu(ClcGroup *group)
 	return (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP,(WPARAM)group,0);
 }
 
-static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
+static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
@@ -462,7 +462,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-INT_PTR SubGroupMenuCheckService(WPARAM wParam,LPARAM lParam)
+INT_PTR SubGroupMenuCheckService(WPARAM wParam, LPARAM lParam)
 {
 	TCheckProcParam * CParam = (TCheckProcParam*)wParam;
 	if (CParam) {
@@ -473,7 +473,7 @@ INT_PTR SubGroupMenuCheckService(WPARAM wParam,LPARAM lParam)
 	return 1;
 }
 
-INT_PTR SubGroupMenuonAddService(WPARAM wParam,LPARAM lParam)
+INT_PTR SubGroupMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL)
@@ -485,7 +485,7 @@ INT_PTR SubGroupMenuonAddService(WPARAM wParam,LPARAM lParam)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam)
+INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)wParam;
@@ -499,7 +499,7 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam)
 	return 1;
 }
 
-INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam,LPARAM lParam)
+INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam, LPARAM lParam)
 {
 	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)lParam;
 	if (mmep != NULL){
@@ -512,7 +512,7 @@ INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam,LPARAM lParam)
 
 //wparam menu handle to pass to clc.c
 //lparam WM_COMMAND HWND
-INT_PTR GroupMenuExecProxy(WPARAM wParam,LPARAM lParam)
+INT_PTR GroupMenuExecProxy(WPARAM wParam, LPARAM lParam)
 {
 	SendMessage(lParam?(HWND)lParam:(HWND)pcli->hwndContactTree,WM_COMMAND,wParam,0);
 	return 0;

@@ -36,8 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_modernopt.h"
 
-int ModernOptInit(WPARAM wParam,LPARAM lParam);
-int ModernSkinOptInit(WPARAM wParam,LPARAM lParam);
+int ModernOptInit(WPARAM wParam, LPARAM lParam);
+int ModernSkinOptInit(WPARAM wParam, LPARAM lParam);
 
 /*
 *	Private module variables
@@ -57,9 +57,9 @@ static ClcContact *hitcontact = NULL;
 HANDLE hSkinFolder;
 TCHAR SkinsFolder[MAX_PATH];
 
-static int clcHookSmileyAddOptionsChanged(WPARAM wParam,LPARAM lParam);
+static int clcHookSmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
 static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam);
-static int clcHookBkgndConfigChanged(WPARAM wParam,LPARAM lParam);
+static int clcHookBkgndConfigChanged(WPARAM wParam, LPARAM lParam);
 static int clcProceedDragToScroll(HWND hwnd, int Y);
 static int clcExitDragToScroll();
 
@@ -152,7 +152,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int clcHookSmileyAddOptionsChanged(WPARAM wParam,LPARAM lParam)
+static int clcHookSmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting()) return 0;
 	pcli->pfnClcBroadcast( CLM_AUTOREBUILD, 0, 0);
@@ -194,7 +194,7 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
+static int clcHookSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting())
 		return 0;
@@ -267,7 +267,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int clcHookDbEventAdded(WPARAM wParam,LPARAM lParam)
+static int clcHookDbEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	g_CluiData.t_now = time(NULL);
 	if (wParam && lParam) {
@@ -283,7 +283,7 @@ static int clcHookDbEventAdded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int clcHookBkgndConfigChanged(WPARAM wParam,LPARAM lParam)
+static int clcHookBkgndConfigChanged(WPARAM wParam, LPARAM lParam)
 {
 	pcli->pfnClcOptionsChanged();
 	return 0;
@@ -1650,21 +1650,20 @@ static LRESULT clcOnIntmApparentModeChanged(ClcData *dat, HWND hwnd, UINT msg, W
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
 
-static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM hContact, LPARAM lParam)
 {
 	ClcContact *contact;
-	MCONTACT hContact = wParam;
 	if (hContact == NULL || IsHContactInfo(hContact) || IsHContactGroup(hContact))
-		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 	if (!FindItem(hwnd,dat,hContact,&contact,NULL,NULL,FALSE))
-		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 	if (contact)//!IsBadWritePtr(contact, sizeof(ClcContact)))
 	{
 		Cache_GetText(dat,contact,1);
 		cliRecalcScrollBar(hwnd,dat);
 		PostMessage(hwnd,INTM_INVALIDATE, 0, 0);
 	}
-	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+	return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 }
 
 static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

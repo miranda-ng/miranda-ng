@@ -597,9 +597,8 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 	delete data;
 }
 
-INT_PTR TlenProtocol::SendAlert(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::SendAlert(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	DBVARIANT dbv;
 	if (isOnline && !db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);

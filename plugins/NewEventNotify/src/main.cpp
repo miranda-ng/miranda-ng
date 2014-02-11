@@ -60,11 +60,8 @@ HANDLE hHookedDeletedEvent;
 //wParam: contact-handle
 //lParam: dbevent-handle
 
-int HookedNewEvent(WPARAM wParam, LPARAM lParam)
+int HookedNewEvent(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	PLUGIN_DATA* pdata;
-
 	//are popups currently enabled?
 	if (pluginOptions.bDisable)
 		return 0;
@@ -93,15 +90,14 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	if (dbe.flags & DBEF_SENT) {
 		// JK, only message event, do not influence others
 		if (pluginOptions.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1) {
-			pdata = PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
+			PLUGIN_DATA *pdata = PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		}		
 		return 0; 
 	}
-	//which status do we have, are we allowed to post popups?
-	//UNDER CONSTRUCTION!!!
+	// which status do we have, are we allowed to post popups?
+	// UNDER CONSTRUCTION!!!
 	CallService(MS_CLIST_GETSTATUSMODE, 0, 0); /// TODO: JK: ????
-	
 	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMsgWindowCheck && hContact && CheckMsgWnd(hContact)))
 		return 0;
 

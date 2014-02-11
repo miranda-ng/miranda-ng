@@ -26,12 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam)
+INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM lParam)
 {
-	if (wParam == 0 || g_shutDown || fei == NULL)
+	if (hContact == 0 || g_shutDown || fei == NULL)
 		return 0;
 
-	MCONTACT hContact = wParam;
 	hContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
@@ -44,9 +43,8 @@ INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	BYTE was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	if (fei == NULL || was_locked == (BYTE)lParam)      // no need for redundant lockings...

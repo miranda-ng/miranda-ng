@@ -233,10 +233,9 @@ void PrebuildMainMenu()
 			Menu_ShowItem(hMainSubMenu[i], ftpList[i]->bEnabled);
 }
 
-int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
+int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam) 
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	MCONTACT hContact = wParam;
 
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
 	{
@@ -361,9 +360,8 @@ INT_PTR ShowManagerService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam) 
+INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam) 
 {
-	MCONTACT hContact = wParam;
 	int ftpNum = lParam & (1|2|4);
 	int mode = lParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
 	return UploadFile(hContact, ftpNum, (UploadJob::EMode)mode);

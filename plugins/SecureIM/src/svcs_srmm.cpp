@@ -9,9 +9,8 @@ int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
+int __cdecl onIconPressed(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (isProtoMetaContacts(hContact))
 		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
@@ -21,9 +20,9 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 
 	if (!isContactPGP(hContact) && !isContactGPG(hContact) && !isChatRoom(hContact)) {
 		if (isContactSecured(hContact) & SECURED)
-			Service_DisableIM(wParam,0);
+			Service_DisableIM(hContact, 0);
 		else
-			Service_CreateIM(wParam,0);
+			Service_CreateIM(hContact, 0);
 	}
 
 	return 0;

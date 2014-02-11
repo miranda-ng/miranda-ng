@@ -508,14 +508,13 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 	return FALSE;
 }
 
-int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
+int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	int res = -1;
 
 	if ((hContact != NULL || lParam != 0) && m_bJabberOnline) {
 		ptrT szJid(getTStringA(hContact, "jid"));
-		if (wParam && szJid != NULL) {
+		if (hContact && szJid != NULL) {
 			JABBER_LIST_ITEM *item = NULL;
 			int selected = 0;
 			TCHAR jid[JABBER_MAX_JID_LEN];

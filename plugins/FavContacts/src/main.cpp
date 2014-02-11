@@ -935,12 +935,11 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-int ProcessSrmmIconClick( WPARAM wParam, LPARAM lParam )
+int ProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (lstrcmpA(sicd->szModule, "FavContacts")) return 0;
 
-	MCONTACT hContact = wParam;
 	if (!hContact)
 		return 0;
 

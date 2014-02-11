@@ -931,10 +931,9 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
+int __cdecl CIrcProto::OnMenuPreBuild(WPARAM hContact, LPARAM)
 {
 	DBVARIANT dbv;
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -976,9 +975,8 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int __cdecl CIrcProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
+int __cdecl CIrcProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL || !IsConnected())
 		return 0;
 

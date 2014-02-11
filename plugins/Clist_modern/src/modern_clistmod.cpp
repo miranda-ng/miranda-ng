@@ -34,17 +34,17 @@ int OnLoadLangpack(WPARAM, LPARAM);
 int CListMod_HideWindow(HWND hwndContactList, int mode);
 
 void GroupMenus_Init(void);
-int AddMainMenuItem(WPARAM wParam,LPARAM lParam);
-int AddContactMenuItem(WPARAM wParam,LPARAM lParam);
+int AddMainMenuItem(WPARAM wParam, LPARAM lParam);
+int AddContactMenuItem(WPARAM wParam, LPARAM lParam);
 void UninitCListEvents(void);
-int ContactAdded(WPARAM wParam,LPARAM lParam);
-int GetContactDisplayName(WPARAM wParam,LPARAM lParam);
-int CListOptInit(WPARAM wParam,LPARAM lParam);
-int SkinOptInit(WPARAM wParam,LPARAM lParam);
-int ModernSkinOptInit(WPARAM wParam,LPARAM lParam);
+int ContactAdded(WPARAM wParam, LPARAM lParam);
+int GetContactDisplayName(WPARAM wParam, LPARAM lParam);
+int CListOptInit(WPARAM wParam, LPARAM lParam);
+int SkinOptInit(WPARAM wParam, LPARAM lParam);
+int ModernSkinOptInit(WPARAM wParam, LPARAM lParam);
 int EventsProcessContactDoubleClick(MCONTACT hContact);
 
-INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
+INT_PTR TrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 
 void InitTrayMenus(void);
 void UninitTrayMenu();
@@ -140,7 +140,7 @@ void UnLoadContactListModule()  //unhooks noncritical events
 	UninitCustomMenus();
 }
 
-int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
+int CListMod_ContactListShutdownProc(WPARAM wParam, LPARAM lParam)
 {
 	FreeDisplayNameCache();
 	return 0;
@@ -342,7 +342,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 BYTE g_bCalledFromShowHide = 0;
 
-int cliShowHide(WPARAM wParam,LPARAM lParam)
+int cliShowHide(WPARAM wParam, LPARAM lParam)
 {
 	BOOL bShow = FALSE;
 

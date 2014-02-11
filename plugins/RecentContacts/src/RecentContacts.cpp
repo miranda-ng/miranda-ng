@@ -512,10 +512,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleIgnore (WPARAM hContact, LPARAM lParam)
 {
-	if (wParam != NULL) {
-		MCONTACT hContact = wParam;
+	if (hContact != NULL) {
 		int state = db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;
 		db_set_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, state);
 		return state;

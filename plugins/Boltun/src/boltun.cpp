@@ -210,10 +210,8 @@ static bool BoltunAutoChat(MCONTACT hContact)
 	return false;
 }
 
-static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
+static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
-	HANDLE   hDbEvent = (HANDLE)lParam;
 	if (!BoltunAutoChat(hContact))
 		return 0;
 
@@ -222,6 +220,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = 0;
 
+	HANDLE hDbEvent = (HANDLE)lParam;
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1)
 		return 0;
@@ -499,10 +498,8 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
+static int ContactClick(WPARAM hContact, LPARAM lParam, BOOL clickNotToChat)
 {
-	MCONTACT hContact = wParam;
-
 	BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
 	BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
@@ -533,37 +530,33 @@ static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 	return 0;
 }
 
-static INT_PTR ContactClickAutoChat(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactClickAutoChat(WPARAM hContact, LPARAM lParam)
 {
-	return ContactClick(wParam, lParam, 0);
+	return ContactClick(hContact, lParam, 0);
 }
 
-static INT_PTR ContactClickNotToChat(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactClickNotToChat(WPARAM hContact, LPARAM lParam)
 {
-	return ContactClick(wParam, lParam, 1);
+	return ContactClick(hContact, lParam, 1);
 }
 
-static INT_PTR ContactClickStartChatting(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	StartChatting(hContact);
 	return 0;
 }
 
-static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
+static int MessagePrebuild(WPARAM hContact, LPARAM lParam)
 {
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
-	MCONTACT hContact = wParam;
-	if (!blInit || (db_get_b(hContact,"CList","NotOnList",0) == 1))
-	{
+	if (!blInit || (db_get_b(hContact,"CList","NotOnList",0) == 1)) {
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
 		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
 		Menu_ModifyItem(hMenuItemNotToChat, &clmi);
 	}
-	else
-	{
+	else {
 		BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
 		BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 

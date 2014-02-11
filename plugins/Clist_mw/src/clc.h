@@ -100,7 +100,7 @@ int GetNewSelection(ClcGroup *group,int selection, int direction);
 void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat);
 
 //clcmsgs.c
-LRESULT ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wParam, LPARAM lParam);
 
 //clcutils.c
 void RecalcScrollBar(HWND hwnd,struct ClcData *dat);
@@ -113,7 +113,7 @@ void LoadClcOptions(HWND hwnd,struct ClcData *dat);
 void PaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint);
 
 //clcopts.c
-int ClcOptInit(WPARAM wParam,LPARAM lParam);
+int ClcOptInit(WPARAM wParam, LPARAM lParam);
 
 //clcfiledrop.c
 void InitFileDropping(void);

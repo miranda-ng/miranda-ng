@@ -103,13 +103,12 @@ static INT_PTR IsEnabled(WPARAM wParam, LPARAM lParam)
 // It is also possible that this event passes 0 as wParam (hContact), in which case,
 // a protocol picture (pseudo - avatar) has been changed. 
 
-static int AvatarChanged(WPARAM wParam, LPARAM lParam)
+static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = GetContactProto(wParam);
+	char *proto = GetContactProto(hContact);
 	if (proto == NULL)
 		return 0;
 
@@ -158,7 +157,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
 
 					if (ServiceExists(MS_MC_GETMETACONTACT)) {
-						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, wParam, 0);
+						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 
 						if (hMetaContact != NULL && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
 							TCHAR filename[MAX_PATH] = _T("");
@@ -203,7 +202,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 					CreateOldStyleShortcut(hContact, history_filename);
 
 					if (ServiceExists(MS_MC_GETMETACONTACT)) {
-						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, wParam, 0);
+						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 						if (hMetaContact != NULL && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY))
 							CreateOldStyleShortcut(hMetaContact, history_filename);
 					}

@@ -59,9 +59,8 @@ void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, in
 	NotifyEventHooks(hHookIconPressedEvt, (WPARAM)hContact, (LPARAM)&sicd);
 }
 
-static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
+static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {

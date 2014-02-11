@@ -80,11 +80,8 @@ void CYahooProto::BroadcastStatus(int s)
 //=======================================================
 //Contact deletion event
 //=======================================================
-int __cdecl CYahooProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
+int __cdecl CYahooProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	DBVARIANT dbv;
-	MCONTACT hContact = wParam;
-
 	debugLogA("[YahooContactDeleted]");
 
 	if (!m_bLoggedIn)  {//should never happen for Yahoo contacts
@@ -98,6 +95,7 @@ int __cdecl CYahooProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
+	DBVARIANT dbv;
 	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		debugLogA("[YahooContactDeleted] Removing %s", dbv.pszVal);
 		remove_buddy(dbv.pszVal, getWord(hContact, "yprotoid", 0));
@@ -495,9 +493,8 @@ void CYahooProto::MenuUninit( void )
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
 }
 
-int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
+int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	const MCONTACT hContact = wParam;
 	if (!IsMyContact(hContact)) {
 		debugLogA("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;

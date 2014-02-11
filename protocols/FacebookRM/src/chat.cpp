@@ -246,10 +246,8 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
 }
 
-INT_PTR FacebookProto::OnJoinChat(WPARAM wParam,LPARAM suppress)
+INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 {	
-	MCONTACT hContact = wParam;
-
 	// TODO: load info from server + old history,...
 
 	ptrT idT( getTStringA(hContact, "ChatRoomID"));

@@ -59,15 +59,15 @@ int CycleTimeInterval = 2000;
 int CycleIconCount = 8;
 int DefaultStep = 100;
 
-int CluiOptInit(WPARAM wParam,LPARAM lParam);
-int SortList(WPARAM wParam,LPARAM lParam);
+int CluiOptInit(WPARAM wParam, LPARAM lParam);
+int SortList(WPARAM wParam, LPARAM lParam);
 
 void CluiProtocolStatusChanged(int parStatus, const char* szProto);
 
 extern void ReloadExtraIcons();
 extern HWND CreateStatusBarhWnd(HWND parent);
 extern HANDLE CreateStatusBarFrame();
-extern int CLUIFramesUpdateFrame(WPARAM wParam,LPARAM lParam);
+extern int CLUIFramesUpdateFrame(WPARAM wParam, LPARAM lParam);
 extern void DrawDataForStatusBar(LPDRAWITEMSTRUCT dis);
 extern void InitGroupMenus();
 extern int UseOwnerDrawStatusBar;
@@ -77,7 +77,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b);
 
 void RegisterProtoIconsForAllProtoIconLib();
 
-static int CluiModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU;
@@ -278,7 +278,7 @@ HICON GetConnectingIconForProto(char *szProto,int b)
 }
 
 //wParam == szProto
-INT_PTR GetConnectingIconService(WPARAM wParam,LPARAM lParam)
+INT_PTR GetConnectingIconService(WPARAM wParam, LPARAM lParam)
 {
 	int b;
 	ProtoTicks *pt = NULL;
@@ -299,7 +299,7 @@ INT_PTR GetConnectingIconService(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)hIcon;
 }
 
-int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
+int CreateTimerForConnectingIcon(WPARAM wParam, LPARAM lParam)
 {
 	int status = (int)wParam;
 	char *szProto = (char *)lParam;
@@ -334,7 +334,7 @@ int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 // Restore protocols to the last global status.
 // Used to reconnect on restore after standby.
 
-int OnSettingChanging(WPARAM wParam,LPARAM lParam)
+int OnSettingChanging(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
 	if (wParam == 0) {

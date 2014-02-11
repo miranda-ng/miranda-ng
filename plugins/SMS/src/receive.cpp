@@ -207,11 +207,10 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 }
 
 //Handles new SMS messages added to the database
-int handleNewMessage(WPARAM wParam, LPARAM lParam)
+int handleNewMessage(WPARAM hContact, LPARAM lParam)
 {
 	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 	TCHAR szToolTip[MAX_PATH];
-	MCONTACT hContact = wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };

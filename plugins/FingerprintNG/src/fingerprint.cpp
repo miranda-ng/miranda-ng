@@ -836,9 +836,8 @@ static int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 *	 Try to get MirVer value from db for contact and if success calls ApplyFingerprintImage
 */
 
-int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
+int OnExtraImageApply(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -860,9 +859,8 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 *	 if contact settings changed apply new image or remove it
 */
 
-static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	if (hContact == NULL)
 		return 0;
 

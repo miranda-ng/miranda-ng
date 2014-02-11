@@ -382,9 +382,8 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
+static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
 		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)

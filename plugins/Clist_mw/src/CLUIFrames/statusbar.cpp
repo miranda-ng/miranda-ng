@@ -8,7 +8,7 @@ HANDLE hFrameHelperStatusBar;
 
 void CluiProtocolStatusChanged(int parStatus, const char* szProto);
 
-INT_PTR GetConnectingIconService (WPARAM wParam,LPARAM lParam);
+INT_PTR GetConnectingIconService (WPARAM wParam, LPARAM lParam);
 
 int RecreateStatusBar(HWND);
 int UseOwnerDrawStatusBar;

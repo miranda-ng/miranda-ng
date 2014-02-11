@@ -151,18 +151,17 @@ void SendPounce(TCHAR *text, MCONTACT hContact)
 
 }
 
-int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
+int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	char *szProto = GetContactProto(hContact);
-	if((HANDLE)wParam == NULL || strcmp(cws->szSetting,"Status")) return 0;
+	if(hContact == NULL || strcmp(cws->szSetting,"Status")) return 0;
 	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 		int newStatus = cws->value.wVal;
-		int oldStatus = db_get_w(wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
+		int oldStatus = db_get_w(hContact,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 		
-		if (newStatus != oldStatus && wParam != NULL && newStatus != ID_STATUS_OFFLINE) {
+		if (newStatus != oldStatus && hContact != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
 			if (!db_get_ts(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 				// check my status
