@@ -177,11 +177,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="MimCmd\MimCmd.vcxproj">
-      <Project>{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -206,6 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="MimCmd\MimCmd_10.vcxproj">
+      <Project>{1e3bb48a-ffbc-4a03-8c43-9124a484be51}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
