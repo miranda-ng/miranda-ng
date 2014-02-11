@@ -322,7 +322,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 		CMString tszNick;
 		MCONTACT hContact = FindUser(_ttoi(szValue), true);
-		arContacts.remove(hContact);
+		arContacts.remove((HANDLE)hContact);
 		szValue = json_as_string(json_get(pInfo, "first_name"));
 		if (szValue) {
 			setTString(hContact, "FirstName", szValue);
