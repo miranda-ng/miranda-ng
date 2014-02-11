@@ -147,6 +147,12 @@ Cообщение временно заблокировано. Напишите 
 Байес
 [Popups]
 Всплывающие окна
+[Message blocked due to preview action]
+Сообщение заблокировано для примера
+[Contact approved due to preview action]
+Контакт подтвержден для примера
+[Challenge sent to preview contact]
+Отправка контрольного вопроса для примера
 [Contact %s approved.]
 Контакт %s подтвержден.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
@@ -159,17 +165,11 @@ Cообщение временно заблокировано. Напишите 
 Сообщение от %s заблокировано, т.к. у него высокая вероятность спама.
 [Sending plain challenge to %s.]
 Отправка контрольного вопроса %s.
-[Sending math expression challenge to %s.]
-Отправка математического контрольного вопроса %s.
 [Sending round-robin challenge to %s.]
 Отправка контрольного вопроса %s.
 [Sending random challenge to %s.]
 Отправка случайного контрольного вопроса %s.
+[Sending math expression challenge to %s.]
+Отправка математического контрольного вопроса %s.
 [Their message was]
 Сообщение было
-[Message blocked due to preview action]
-Сообщение заблокировано для примера
-[Contact approved due to preview action]
-Контакт подтвержден для примера
-[Challenge sent to preview contact]
-Отправка контрольного вопроса для примера
