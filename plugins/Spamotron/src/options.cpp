@@ -561,7 +561,7 @@ int OnOptInitialize(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
-	odp.ptszGroup = LPGENT("Message Sessions");
+	odp.ptszGroup = LPGENT("Message sessions");
 	odp.ptszTitle = _T(PLUGIN_NAME);
 	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
 

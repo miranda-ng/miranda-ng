@@ -206,7 +206,7 @@ BEGIN
     GROUPBOX        "Appearance",IDC_STATIC,8,41,293,181
     CTEXT           "Foreground",IDC_STATIC,126,54,50,8
     CTEXT           "Background",IDC_STATIC,184,54,50,8
-    CTEXT           "Timeout",IDC_STATIC,242,54,40,8
+    CTEXT           "Timeout (sec)",IDC_STATIC,235,54,54,8
     CONTROL         "Contact blocked",IDC_OPT_POPUPS_NOTIFY_BLOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,67,105,10
     CONTROL         "",IDC_OPT_POPUPS_BLOCKED_FOREGROUND,"ColourPicker",WS_TABSTOP,126,67,50,10
     CONTROL         "",IDC_OPT_POPUPS_BLOCKED_BACKGROUND,"ColourPicker",WS_TABSTOP,184,67,50,10
