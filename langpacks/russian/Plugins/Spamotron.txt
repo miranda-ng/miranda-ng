@@ -10,9 +10,9 @@
 [Enabled]
 Включен
 [Learned ham messages:]
-Не спам сообщений в базе:
+Не спамерских сообщений в базе:
 [Learned spam messages:]
-Спам сообщений в базе:
+Спамерских сообщений в базе:
 [Filtering options]
 Настройки фильтрации:
 [Do not send challenge request if message score above]
@@ -22,7 +22,7 @@
 [and learn as ham]
 и считать не спамом
 [Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-Не включайте эти опции, пока в базе не будет как минимум 20 не спам и 50 спам сообщений.
+Не включайте эти опции, пока в базе не будет как минимум 20 не спамерских и 50 спамерских сообщений.
 [Learning options]
 Опции обучения
 [Auto-learn messages from approved contacts as ham]
@@ -54,7 +54,7 @@
 [Hide contact until verified]
 Прятать контакт до подтверждения
 [Add permanently to list on verified]
-Добавлять в список контактов при подтверждении
+Добавлять контакт при подтверждении
 [Log actions to system history]
 Вести журнал действий
 [Flood protection]
@@ -97,8 +97,8 @@
 Текст
 [Background]
 Фон
-[Timeout]
-Время
+[Timeout (sec)]
+Время (сек)
 [Contact blocked]
 Контакт заблокирован
 [Contact approved]
@@ -110,7 +110,7 @@
 [Windows colors]
 Цвета Windows
 [Default timeout]
-По умолчанию
+Время по умолчанию
 [Preview]
 Предпросмотр
 [Bayes database path]
@@ -139,7 +139,7 @@ Cообщение временно заблокировано. Напишите 
 Ошибка в регулярном выражении.\nБудет использовано старое значение.
 [Message score]
 Спам-рейтинг
-[Message Sessions]
+[Message sessions]
 Беседы
 [Messages]
 Сообщения
