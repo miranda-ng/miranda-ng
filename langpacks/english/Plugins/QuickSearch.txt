@@ -68,6 +68,8 @@
 [last result]
 [parameter]
 [Result]
+[Result type]
+[Free memory]
 [Save]
 [All]
 [Close]
