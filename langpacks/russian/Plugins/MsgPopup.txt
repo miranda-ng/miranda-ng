@@ -32,7 +32,7 @@
 [Error]
 Ошибка
 [MessagePopup]
-Предупреждения
+Диалоговые окна
 [Popups]
 Всплывающие окна
 [Message with question]

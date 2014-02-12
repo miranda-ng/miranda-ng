@@ -74,11 +74,11 @@ HTTP-подключение SmileyAdd
 [Customize]
 Тонкая настройка
 [Off]
-Выкл.
+Отсутствует
 [Top]
-Верх
+Вверху
 [Bottom]
-Низ
+Внизу
 [Smiley packs]
 Наборы смайлов
 [All files]
