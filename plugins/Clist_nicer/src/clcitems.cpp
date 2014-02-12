@@ -105,7 +105,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	else
 		p->bIsMeta = FALSE;
 	if (p->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
-		p->hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		p->hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		p->metaProto = GetContactProto(p->hSubContact);
 		p->iImage = pcli->pfnGetContactIcon(p->hSubContact);
 	}
@@ -266,11 +266,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			CUSTOM_STATUS cst = { sizeof(cst) };
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
-			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !ProtoCallService(szProto, PS_GETCUSTOMSTATUSEX, (WPARAM)hContact, (LPARAM)&cst) && xStatus > 0) {
+			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !ProtoCallService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst) && xStatus > 0) {
 				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
  				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
-				if ( !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, (WPARAM)hContact, (LPARAM)&cst)) {
+				if ( !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
 					TCHAR *szwXstatusName = TranslateTS(xStatusName);
 					p->statusMsg = (TCHAR *)realloc(p->statusMsg, (lstrlen(szwXstatusName) + 2) * sizeof(TCHAR));
 					_tcsncpy(p->statusMsg, szwXstatusName, lstrlen(szwXstatusName) + 1);

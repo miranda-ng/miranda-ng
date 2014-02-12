@@ -1688,8 +1688,8 @@ void CIcqProto::sendMessageTypesAck(MCONTACT hContact, int bUnicode, message_ack
 {
 	if (pArgs)
 	{
-		if ((pArgs->msgType == MTYPE_PLAIN && !CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, IGNOREEVENT_MESSAGE))
-			|| (pArgs->msgType == MTYPE_URL && !CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, IGNOREEVENT_URL))
+		if ((pArgs->msgType == MTYPE_PLAIN && !CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_MESSAGE))
+			|| (pArgs->msgType == MTYPE_URL && !CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_URL))
 			|| pArgs->msgType == MTYPE_CONTACTS)
 		{
 			if (pArgs->bType == MAT_SERVER_ADVANCED)
@@ -2904,12 +2904,12 @@ void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWOR
 
 	case MTN_FINISHED:
 	case MTN_TYPED:
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 		debugLogA("%s has stopped typing (ch %u).", strUID(dwUin, szUid), wChannel);
 		break;
 
 	case MTN_BEGUN:
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)60);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)60);
 		debugLogA("%s is typing a message (ch %u).", strUID(dwUin, szUid), wChannel);
 		break;
 

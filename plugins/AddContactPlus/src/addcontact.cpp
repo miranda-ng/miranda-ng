@@ -282,7 +282,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
 				if (item > 0) {
 					item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETITEMDATA, item, 0);
-					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, item);
+					CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, item);
 				}
 
 				if (!IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
@@ -304,7 +304,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				}
 
 				if (GetAsyncKeyState(VK_CONTROL))
-					CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)(const char*)NULL);
+					CallService(MS_MSG_SENDMESSAGE, hContact, (LPARAM)(const char*)NULL);
 			}
 			// fall through
 		case IDCANCEL:

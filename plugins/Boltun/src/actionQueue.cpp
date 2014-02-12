@@ -120,7 +120,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 
 static void StartTyping(MCONTACT hContact, const TalkBot::MessageInfo*)
 {
-	CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, 
+	CallService(MS_PROTO_SELFISTYPING, hContact, 
 		(LPARAM)PROTOTYPE_SELFTYPING_ON);
 	typingContactsLock.Enter();
 	typingContacts.insert(hContact);
@@ -192,7 +192,7 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 	typingContactsLock.Enter();
 	if (typingContacts.find(hContact) != typingContacts.end())
 	{
-		CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_SELFTYPING_OFF);
+		CallService(MS_PROTO_SELFISTYPING, hContact, (LPARAM)PROTOTYPE_SELFTYPING_OFF);
 		typingContacts.erase(hContact);
 	}
 	typingContactsLock.Leave();

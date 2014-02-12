@@ -101,7 +101,7 @@ void ShowExamplePopups()
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (options.av_layout != PAV_NONE && ServiceExists(MS_AV_DRAWAVATAR)) {
-			AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
+			AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			if (ace && (ace->dwFlags & AVS_BITMAP_VALID)) {
 				pd.hContact = hContact;
 				pd.ptzText = TranslateT("An avatar.");

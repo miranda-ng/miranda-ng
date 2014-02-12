@@ -366,7 +366,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		if (metacontactsEnabled)
 		{
 			if ((!show_all && opts.hide_subcontacts) || opts.group_append)
-				hMeta = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+				hMeta = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 		}
 		else
 		{
@@ -489,7 +489,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 			caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
 
 		BOOL voice = (ServiceExists(MS_VOICESERVICE_CAN_CALL) 
-			&& CallService(MS_VOICESERVICE_CAN_CALL, (WPARAM)hContact, 0) > 0);
+			&& CallService(MS_VOICESERVICE_CAN_CALL, hContact, 0) > 0);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), caps & PF1_IMSEND ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_VOICE), voice);

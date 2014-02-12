@@ -176,7 +176,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
 				if (item > 0) {
 					item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETITEMDATA, item, 0);
-					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, item);
+					CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, item);
 				}
 
 				db_unset(hContact, "CList", "NotOnList");
@@ -196,7 +196,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				}
 
 				if (IsDlgButtonChecked(hdlg, IDC_OPEN_WINDOW))
-					CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
+					CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
 			}
 			// fall through
 		case IDCANCEL:

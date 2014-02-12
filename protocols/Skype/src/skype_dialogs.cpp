@@ -408,7 +408,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					if (hContact == NULL)
 						szProto = ppro->m_szModuleName;
 					else
-						szProto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 
 					if (!szProto)
 						break;

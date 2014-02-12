@@ -315,7 +315,7 @@ void ThumbInfo::ResizeThumb()
 void ThumbInfo::RefreshContactIcon(int iIcon)
 {
 	if (iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himlMiranda) <= iIcon)
-		this->iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);	
+		this->iIcon = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);	
 	else
 		this->iIcon = iIcon;
 
@@ -689,7 +689,7 @@ void ThumbInfo::UpdateContent()
 
 void ThumbInfo::PopupMessageDialog( )
 {
-	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
+	CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
 }
 
 void ThumbInfo::OnTimer(BYTE idTimer)

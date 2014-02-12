@@ -233,7 +233,7 @@ typedef struct {
 #define MS_PROTO_GETCONTACTBASEPROTO  "Proto/GetContactBaseProto"
 
 __forceinline char* GetContactProto(MCONTACT hContact)
-{	return (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+{	return (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 }
 
 //determines whether the specified contact has the given protocol in its chain

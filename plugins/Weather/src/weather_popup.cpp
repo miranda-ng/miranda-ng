@@ -127,13 +127,13 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		ID = opt.LeftClickAction;
 		if (ID != IDM_M7)  PUDeletePopup(hWnd);
-		SendMessage(hPopupWindow, ID, (WPARAM)hContact, 0);
+		SendMessage(hPopupWindow, ID, hContact, 0);
 		return TRUE;
 
 	case WM_CONTEXTMENU:
 		ID = opt.RightClickAction;
 		if (ID != IDM_M7)  PUDeletePopup(hWnd);
-		SendMessage(hPopupWindow, ID, (WPARAM)hContact, 0);
+		SendMessage(hPopupWindow, ID, hContact, 0);
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:

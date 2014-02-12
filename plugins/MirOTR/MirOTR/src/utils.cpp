@@ -136,14 +136,14 @@ char* contact_get_id(MCONTACT hContact, bool bNameOnError) {
 		}
 	}
 	if (!pszUniqueID && bNameOnError) {
-		char *name = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
+		char *name = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0);
 		if (name) pszUniqueID = mir_strdup(name);
 	}
 	return pszUniqueID;
 }
 
 __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
-	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 }
 
 __inline const char* contact_get_proto(MCONTACT hContact) {
@@ -152,7 +152,7 @@ __inline const char* contact_get_proto(MCONTACT hContact) {
 }
 
 __inline const char* contact_get_account(MCONTACT hContact) {
-	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
+	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 	return uacc;
 }
 
@@ -364,7 +364,7 @@ bool GetEncryptionStatus(MCONTACT hContact) {
 
 	if (!chat_room) {
 		if (options.bHaveMetaContacts) {
-			HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+			HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 			if(hMeta && hContact == (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0)) {
 				//strcat(dbg_msg, "\nrecursing for meta");
 				return GetEncryptionStatus(hMeta);

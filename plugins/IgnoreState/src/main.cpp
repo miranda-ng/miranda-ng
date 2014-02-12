@@ -84,7 +84,7 @@ INT_PTR isIgnored(MCONTACT hContact, int type)
 	int all = 0, filtered = 0;
 
 	if (type != IGNOREEVENT_ALL)
-		return CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, (LPARAM)type);
+		return CallService(MS_IGNORE_ISIGNORED, hContact, (LPARAM)type);
 
 	for (int i = 1; i < nII; i++)
 		if (isIgnored(hContact, ii[i].type))

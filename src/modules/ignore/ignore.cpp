@@ -170,7 +170,7 @@ static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const c
 static void SetAllContactIcons(HWND hwndList)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			DWORD proto1Caps, proto4Caps;
 			char *szProto = GetContactProto(hContact);
@@ -297,7 +297,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
 					if (SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 						db_unset(hContact, "CList", "Hidden");
@@ -404,7 +404,7 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
 	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != NULL) {
 		MCONTACT hContact = DbGetAuthEventContact(dbei);
-		if (CallService(MS_DB_CONTACT_IS, (WPARAM)hContact, 0) && IsIgnored((WPARAM)hContact, IGNOREEVENT_YOUWEREADDED))
+		if (CallService(MS_DB_CONTACT_IS, hContact, 0) && IsIgnored(hContact, IGNOREEVENT_YOUWEREADDED))
 			return 1;
 	}
 	return 0;

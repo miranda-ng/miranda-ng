@@ -65,7 +65,7 @@ void freeSupportedProtocols()
 pSupPro getSupPro(MCONTACT hContact)
 {
 	for (int j=0; j < arProto.getCount(); j++)
-		if (CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)arProto[j]->name))
+		if (CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)arProto[j]->name))
 			return arProto[j];
 	
 	return NULL;
@@ -199,12 +199,12 @@ void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg)
 }
 
 void getContactNameA(MCONTACT hContact, LPSTR szName) {
-	strcpy(szName,(LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
+	strcpy(szName,(LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,0));
 }
 
 void getContactName(MCONTACT hContact, LPSTR szName)
 {
-	wcscpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_UNICODE));
+	wcscpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_UNICODE));
 }
 
 void getContactUinA(MCONTACT hContact, LPSTR szUIN)

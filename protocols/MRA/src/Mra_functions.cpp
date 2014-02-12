@@ -361,7 +361,7 @@ DWORD CMraProto::GetContactFlags(MCONTACT hContact)
 			break;
 		}
 
-		if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, IGNOREEVENT_MESSAGE)) dwRet |= CONTACT_FLAG_IGNORE;
+		if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_MESSAGE)) dwRet |= CONTACT_FLAG_IGNORE;
 	}
 	return(dwRet);
 }
@@ -391,9 +391,9 @@ DWORD CMraProto::SetContactFlags(MCONTACT hContact, DWORD dwContactFlag)
 	}
 
 	if (dwContactFlag & CONTACT_FLAG_IGNORE)
-		CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_MESSAGE);
+		CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_MESSAGE);
 	else
-		CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, IGNOREEVENT_MESSAGE);
+		CallService(MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_MESSAGE);
 
 	return 0;
 }
@@ -542,7 +542,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 		}
 		else {
 			hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+			CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 		}
 
 		if (hContact) {
@@ -711,7 +711,7 @@ bool IsHTTPSProxyUsed(HANDLE m_hNetlibUser)
 // определяет принадлежность контакта данной копии плагина
 bool CMraProto::IsContactMra(MCONTACT hContact)
 {
-	return CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) != 0;
+	return CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)m_szModuleName) != 0;
 }
 
 // определяется является ли контакт контактом MRA протокола, не зависимо от того какому плагину он принадлежит

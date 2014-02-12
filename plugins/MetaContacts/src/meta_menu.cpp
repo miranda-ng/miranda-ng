@@ -129,7 +129,7 @@ void Meta_RemoveContactNumber(MCONTACT hMeta, int number)
 
 		// stop ignoring, if we were
 		if (options.suppress_status)
-			CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+			CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 	}
 
 	// each contact from 'number' upwards will be moved down one
@@ -229,7 +229,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 
 				// stop ignoring, if we were
 				if (options.suppress_status)
-					CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+					CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 			}
 		}
 
@@ -379,7 +379,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 
 			mi.flags |= CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 
-			int iconIndex = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
+			int iconIndex = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
 			mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
 
 			Menu_ModifyItem(hMenuContact[i], &mi);

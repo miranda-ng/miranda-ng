@@ -1239,7 +1239,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 			if (items[i].title) {
 				MCONTACT hContact;
 				if ((items[i].action == SD_ACT_USERMENU) && (hContact = HContactFromJID(pNode->GetJid()))) {
-					HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+					HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 					AppendMenu(hMenu, MF_STRING|MF_POPUP, (UINT_PTR)hContactMenu, TranslateTS(items[i].title));
 				}
 				else AppendMenu(hMenu, MF_STRING, items[i].action, TranslateTS(items[i].title));
@@ -1403,7 +1403,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 				item->bUseResource = TRUE;
 			}
-			HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+			HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 			GetCursorPos(&pt);
 			int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_pDlgServiceDiscovery->GetHwnd(), NULL);
 			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, MPCF_CONTACTMENU), (LPARAM)hContact);
@@ -1426,7 +1426,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 				if (item->arResources.getCount() == 0)
 					ListAddResource(LIST_VCARD_TEMP, jid, ID_STATUS_OFFLINE, NULL, 0);
 			}
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 

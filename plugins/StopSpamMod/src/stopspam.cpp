@@ -316,7 +316,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				{
 					int i;
 					i = rand()%255*13;
-					CallService(MS_DOS_SERVICE, (WPARAM)hContact, (LPARAM)i);
+					CallService(MS_DOS_SERVICE, hContact, (LPARAM)i);
 				}
 			} */
 			if(gbIgnoreContacts)

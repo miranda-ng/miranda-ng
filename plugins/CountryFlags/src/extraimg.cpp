@@ -50,7 +50,7 @@ static void CALLBACK SetExtraImage(MCONTACT hContact)
 	if (!bShowExtraIcon)
 		return;
 		
-	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)hContact, 0);
+	int countryNumber = ServiceDetectContactOriginCountry(hContact, 0);
 	if (countryNumber == 0xFFFF && !bUseUnknown)
 		ExtraIcon_Clear(hExtraIcon, hContact);
 	else {

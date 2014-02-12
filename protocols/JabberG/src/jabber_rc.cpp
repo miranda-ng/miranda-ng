@@ -605,7 +605,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 
 				db_event_markRead(hContact, hDbEvent);
 				if (bRemoveCListEvents)
-					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
+					CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)hDbEvent);
 			}
 		}
 

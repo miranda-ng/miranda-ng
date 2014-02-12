@@ -475,7 +475,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	switch (gch->dwData) {
 	case IDM_INFO:
 		if (MCONTACT hContact = FindUser(cu->m_uid))
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		break;
 		
 	case IDM_KICK:
@@ -530,7 +530,7 @@ static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
 		if (lstrcmpA(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
-			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)hContact, 0))
+			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0))
 				SendMessage(hwndClist, CLM_DELETEITEM, (WPARAM)hItem, 0);
 	}
 }
@@ -589,7 +589,7 @@ static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (ppro->isChatRoom(hContact))
 					continue;
 
-				if (int hItem = SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)hContact, 0)) {
+				if (int hItem = SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0)) {
 					if (SendMessage(hwndClist, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 						int uid = ppro->getDword(hContact, "ID", 0);
 						if (uid != NULL) {

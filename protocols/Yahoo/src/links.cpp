@@ -150,7 +150,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM wParam, LPARAM lParam)
 			
 		MCONTACT hContact = proto->add_buddy(id, id, 0, PALF_TEMPORARY); /* ensure contact is on list */
 		if (hContact)
-			CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, (LPARAM)msg);
+			CallService(MS_MSG_SENDMESSAGET, hContact, (LPARAM)msg);
 
 		mir_free(id);
 		return 0;

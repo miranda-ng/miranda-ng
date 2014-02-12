@@ -35,7 +35,7 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 
 	if (hContact == NULL && addIfNeeded) {
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 		setString(hContact, "e-mail", szEmail);
 		setStringUtf(hContact, "Nick", msnNick ? msnNick : wlid);
 		if (temporary)

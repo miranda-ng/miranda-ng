@@ -125,7 +125,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 		if (hContact != NULL)
 		{
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
 		}
 	}
@@ -137,7 +137,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 		if (hContact != NULL)
 		{
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
 		}
 	}
@@ -149,7 +149,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 		if (hContact != NULL)
 		{
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
 		}
 	}

@@ -226,7 +226,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 		mir_free(newPounce);
 		db_free(&dbv);
 	}
-	else AddSimpleMessage((WPARAM)hContact, (LPARAM)message);
+	else AddSimpleMessage(hContact, (LPARAM)message);
 	return 0;
 }
 

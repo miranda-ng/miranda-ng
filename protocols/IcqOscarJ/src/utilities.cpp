@@ -475,9 +475,9 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 			return INVALID_CONTACT_ID;
 		}
 
-		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) != 0) {
+		if (CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) != 0) {
 			// For some reason we failed to register the protocol to this contact
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 			debugLogA("Failed to register ICQ contact %u", dwUin);
 			return INVALID_CONTACT_ID;
 		}
@@ -541,7 +541,7 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	//not present: add
 	if (Added) {
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
 		setString(hContact, UNIQUEIDSETTING, szUid);
 
@@ -589,7 +589,7 @@ char *NickFromHandle(MCONTACT hContact)
 	if (hContact == INVALID_CONTACT_ID)
 		return null_strdup(Translate("<invalid>"));
 
-	return null_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
+	return null_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 }
 
 char *NickFromHandleUtf(MCONTACT hContact)
@@ -597,7 +597,7 @@ char *NickFromHandleUtf(MCONTACT hContact)
 	if (hContact == INVALID_CONTACT_ID)
 		return ICQTranslateUtf(LPGEN("<invalid>"));
 
-	return tchar_to_utf8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+	return tchar_to_utf8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 }
 
 char *strUID(DWORD dwUIN, char *pszUID)

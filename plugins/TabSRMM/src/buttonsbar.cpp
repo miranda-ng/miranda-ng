@@ -113,7 +113,7 @@ static int Hlp_RemoveDatabaseSettings(MCONTACT hContact, char *szModule, char *s
 	dbces.pfnEnumProc = DBRemoveEnumProc;
 	dbces.lParam = (LPARAM)&rs;
 	dbces.szModule = szModule;
-	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces) == -1)
+	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces) == -1)
 		return -1;
 
 	count = 0;

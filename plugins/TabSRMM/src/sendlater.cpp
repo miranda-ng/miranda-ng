@@ -279,7 +279,7 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 		ces.szModule = "SendLater";
 		ces.lParam = (LPARAM)hContact;
 
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&ces);
+		CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&ces);
 	}
 }
 

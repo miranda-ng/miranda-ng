@@ -491,7 +491,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 		if (tTypingUser != NULL && info->mChatID[0] == 0 && _stricmp(email, MyOptions.szEmail)) {
 			MCONTACT hContact = MSN_HContactFromEmail(tTypingUser, tTypingUser);
-			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 7);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 7);
 		}
 	}
 	else if (!_strnicmp(tContentType, "text/x-msnmsgr-datacast", 23)) {
@@ -1099,7 +1099,7 @@ LBL_InvalidCommand:
 
 						// open up srmm dialog when quit while 1 person left
 						MCONTACT hContact = info->getContactHandle();
-						if (hContact) CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+						if (hContact) CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
 					}
 				}
 			}

@@ -1167,15 +1167,15 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 
 	// chatstates composing event
 	if (hContact && xmlGetChildByTag(node, "composing", "xmlns", JABBER_FEAT_CHATSTATES))
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 60);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, 60);
 
 	// chatstates paused event
 	if (hContact && xmlGetChildByTag(node, "paused", "xmlns", JABBER_FEAT_CHATSTATES))
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	// chatstates inactive event
 	if (hContact && xmlGetChildByTag(node, "inactive", "xmlns", JABBER_FEAT_CHATSTATES)) {
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 		if (pFromResource)
 			pFromResource->m_bMessageSessionActive = false;
 	}
@@ -1196,7 +1196,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		if (!hContact)
 			hContact = CreateTemporaryContact(from, chatItem);
 		if (hContact)
-			NotifyEventHooks(m_hEventNudge, (WPARAM)hContact, 0);
+			NotifyEventHooks(m_hEventNudge, hContact, 0);
 	}
 
 	// chatstates gone event
@@ -1290,12 +1290,12 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				}
 
 				if (hContact && xmlGetChild(xNode, "composing") != NULL)
-					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 60);
+					CallService(MS_PROTO_CONTACTISTYPING, hContact, 60);
 
 				// Maybe a cancel to the previous composing
 				HXML child = xmlGetChild(xNode, 0);
 				if (hContact && (!child || (child && idNode != NULL)))
-					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+					CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 			}
 			else {
 				// Check whether any event is requested
@@ -1360,7 +1360,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 					else if (!_tcscmp(action, _T("delete"))) {
 						MCONTACT hContact = HContactFromJID(jid);
 						if (hContact)
-							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+							CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 					}
 				}
 			}
@@ -1418,7 +1418,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	// Create a temporary contact, if needed
 	if (hContact == NULL)
 		hContact = CreateTemporaryContact(from, chatItem);
-	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	time_t now = time(NULL);
 	if (!msgTime)

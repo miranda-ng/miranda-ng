@@ -458,7 +458,7 @@ int CIcqProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 		icq_sendAuthResponseServ(uin, uid, 0, szReason);
 
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 
 		return 0; // Success
 	}
@@ -1000,7 +1000,7 @@ int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 
 	// stop contact from typing - some clients do not sent stop notify
 	if (CheckContactCapabilities(hContact, CAPF_TYPING))
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	return 0;
 }

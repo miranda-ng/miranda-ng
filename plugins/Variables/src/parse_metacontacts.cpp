@@ -40,7 +40,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+	hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 	if (hContact == NULL)
 		return NULL;
 
@@ -95,7 +95,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+	hContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
 	if (hContact == NULL)
 		return NULL;
 
@@ -150,7 +150,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+	hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 	if (hContact == NULL)
 		return NULL;
 

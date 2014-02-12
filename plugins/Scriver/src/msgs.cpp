@@ -63,7 +63,7 @@ int IsAutoPopup(MCONTACT hContact) {
 	if (g_dat.flags & SMF_AUTOPOPUP) {
 		char *szProto = GetContactProto(hContact);
 		if (strcmp(szProto, "MetaContacts") == 0 ) {
-			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 			if (hContact != NULL)
 				szProto = GetContactProto(hContact);
 		}

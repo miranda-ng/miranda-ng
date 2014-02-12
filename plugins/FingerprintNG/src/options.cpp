@@ -104,7 +104,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			RegisterIcons();
 
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-				OnExtraImageApply((WPARAM)hContact, 0);
+				OnExtraImageApply(hContact, 0);
 		}
 		break;
 	}

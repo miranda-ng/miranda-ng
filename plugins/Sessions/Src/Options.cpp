@@ -279,7 +279,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				int iSelection = (int)((NMCLISTCONTROL *)lparam)->hItem;
 				MCONTACT hContact = db_find_first();
 				for ( ; hContact; hContact = db_find_next(hContact))
-					if (SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection)
+					if (SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, hContact, 0) == iSelection)
 						break;
 				if (hContact)
 					EnableWindow(GetDlgItem(hdlg,IDC_SAVE),TRUE);
@@ -320,11 +320,11 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 							EnableWindow(GetDlgItem(hdlg,IDC_DEL),TRUE);
 						else {
 							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact,0);
+								SendMessage(hOpClistControl, CLM_SETCHECKMARK, hContact,0);
 
 							for (int i=0 ; session_list_t[i] > 0; i++) {
 								MCONTACT hContact = (MCONTACT)SendMessage(hOpClistControl, CLM_FINDCONTACT, (WPARAM)session_list_t[i], 0);
-								SendMessage(hOpClistControl, CLM_SETCHECKMARK, (WPARAM)hContact, 1);
+								SendMessage(hOpClistControl, CLM_SETCHECKMARK, hContact, 1);
 							}
 							EnableWindow(GetDlgItem(hdlg,IDC_SAVE),FALSE);
 						}
@@ -368,7 +368,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				int i=0;
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					BYTE res =(BYTE)SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_GETCHECKMARK,
-						SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
+						SendMessage(GetDlgItem(hdlg,IDC_EMCLIST), CLM_FINDCONTACT, hContact, 0), 0);
 					if (res) {
 						SetSessionMark(hContact,1,'1',opses_count);
 						SetInSessionOrder(hContact,1,opses_count,i);

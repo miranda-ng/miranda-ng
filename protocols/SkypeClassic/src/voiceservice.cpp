@@ -45,7 +45,7 @@ static MCONTACT FindContactByCallId(char *callId)
 	MCONTACT hContact;
 	int iCmpRes;
 	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
-		char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 
 		DBVARIANT dbv;
 		if (szProto != NULL 

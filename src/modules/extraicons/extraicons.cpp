@@ -91,7 +91,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 	if (icol == -1)
 		return -1;
 
-	HANDLE hItem = (HANDLE)SendMessage(cli.hwndContactTree, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	HANDLE hItem = (HANDLE)SendMessage(cli.hwndContactTree, CLM_FINDCONTACT, hContact, 0);
 	if (hItem == 0)
 		return -1;
 
@@ -332,7 +332,7 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 		if (pdnce == NULL)
 			continue;
 
-		NotifyEventHooks(hEventExtraImageApplying, (WPARAM)hContact, 0);
+		NotifyEventHooks(hEventExtraImageApplying, hContact, 0);
 		if (hcontgiven) break;
 		Sleep(0);
 	}

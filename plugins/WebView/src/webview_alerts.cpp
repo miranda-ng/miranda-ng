@@ -83,28 +83,28 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int WDisplayDataAlert(MCONTACT hContact)
 {
-	NotifyEventHooks(hHookDisplayDataAlert, (WPARAM)hContact, 0);
+	NotifyEventHooks(hHookDisplayDataAlert, hContact, 0);
 	return 0;
 }
 
 /*****************************************************************************/
 int WAlertPopup(MCONTACT hContact, TCHAR *displaytext)
 {
-	NotifyEventHooks(hHookAlertPopup, (WPARAM)hContact, (LPARAM)displaytext);
+	NotifyEventHooks(hHookAlertPopup, hContact, (LPARAM)displaytext);
 	return 0;
 }
 
 /*****************************************************************************/
 int WErrorPopup(MCONTACT hContact, TCHAR *textdisplay)
 {
-	NotifyEventHooks(hHookErrorPopup, (WPARAM)hContact, (LPARAM) textdisplay);
+	NotifyEventHooks(hHookErrorPopup, hContact, (LPARAM) textdisplay);
 	return 0;
 }
 
 /*****************************************************************************/
 int WAlertOSD(MCONTACT hContact, TCHAR *displaytext)
 {
-	NotifyEventHooks(hHookAlertOSD, (WPARAM)hContact, (LPARAM) displaytext);
+	NotifyEventHooks(hHookAlertOSD, hContact, (LPARAM) displaytext);
 	return 0;
 }
 

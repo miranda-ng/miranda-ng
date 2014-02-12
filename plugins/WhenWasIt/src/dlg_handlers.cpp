@@ -939,8 +939,8 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 DWORD WINAPI OpenMessageWindowThread(void *data)
 {
 	MCONTACT hContact = (MCONTACT)data;
-	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
-	CallServiceSync("SRMsg/LaunchMessageWindow", (WPARAM)hContact, 0);
+	CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
+	CallServiceSync("SRMsg/LaunchMessageWindow", hContact, 0);
 	return 0;
 }
 

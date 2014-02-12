@@ -83,7 +83,7 @@ int __cdecl CSkypeProto::Authorize(HANDLE hDbEvent)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		return CSkypeProto::GrantAuth((WPARAM)hContact, NULL);
+		return CSkypeProto::GrantAuth(hContact, NULL);
 	}
 
 	return 1;
@@ -97,7 +97,7 @@ int __cdecl CSkypeProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		return CSkypeProto::RevokeAuth((WPARAM)hContact, NULL);
+		return CSkypeProto::RevokeAuth(hContact, NULL);
 	}
 
 	return 1;

@@ -233,7 +233,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 		ppd.lchIcon = Skin_GetIcon("enabled_icon");
 
 		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, TranslateT("Hiding %s (%S)"), 
-			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), 
+			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), 
 			GetContactProto(hContact));
 
 		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d days since last message"), daysSinceMessage);
@@ -269,7 +269,7 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
@@ -288,7 +288,7 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 		cle.pszService = "BuddyExpectator/actionReturned";
 		cle.flags = CLEF_TCHAR;
 
-		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
+		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
 		TCHAR tmpMsg[512];
 		mir_sntprintf(tmpMsg, 512, _T("%s %s"), nick, message);
 		cle.ptszTooltip = tmpMsg;
@@ -307,7 +307,7 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 		POPUPDATAT ppd = {0};
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
@@ -326,7 +326,7 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 		cle.hIcon = hIcon;
 		cle.pszService = "BuddyExpectator/actionStillAbsent";
 
-		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
+		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
 		TCHAR tmpMsg[512];
 		mir_sntprintf(tmpMsg, 512, _T("%s %s"), nick, message);
 		cle.ptszTooltip = tmpMsg;
@@ -350,7 +350,7 @@ INT_PTR MissYouAction(WPARAM wParam, LPARAM lParam)
 	}
 	else hContact = wParam;
 
-	CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
+	CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 	return 0;
 }
 
@@ -369,10 +369,10 @@ INT_PTR ContactReturnedAction(WPARAM wParam, LPARAM lParam)
 	else hContact = wParam;
 
 	if (options.iShowMessageWindow>0)
-		CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
+		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 
 	if (options.iShowUDetails>0)
-		CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 
 	setLastSeen(hContact);
 	return 0;
@@ -394,13 +394,13 @@ INT_PTR ContactStillAbsentAction(WPARAM wParam, LPARAM lParam)
 
 	switch (options.action2) {
 	case GCA_DELETE:
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		break;
 	case GCA_UDETAILS:
-		CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		break;
 	case GCA_MESSAGE:
-		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		break;
 	case GCA_NOACTION:
 		break;
@@ -505,7 +505,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 			ppd.lchContact = hContact;
 			ppd.lchIcon = Skin_GetIcon("enabled_icon");
-			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
+			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors) {
 				ppd.colorBack = options.iPopupColorBack;

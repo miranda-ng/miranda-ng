@@ -323,7 +323,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		int iSendLength = getSendLength(iEntry, dat->sendMode);
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				CContactCache *c = CContactCache::getContactCache(hContact);
 				if (c)
@@ -340,7 +340,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		}
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				doSendLater(iEntry, 0, hContact, false);
 				iJobs++;

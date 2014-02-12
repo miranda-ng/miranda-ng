@@ -17,7 +17,7 @@ bool ModuleSettingsExists(MCONTACT hContact, const char* pszModuleName)
 	dbces.szModule = pszModuleName;
 	dbces.pfnEnumProc = EnumSettingsProc1;
 
-	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 	return (nResult != -1);
 }
 
@@ -36,7 +36,7 @@ void DeleteModuleSettings(MCONTACT hContact, const char* pszModuleName)
 	dbces.lParam = (LPARAM)&settingsList;
 	dbces.pfnEnumProc = EnumSettingsProc2;
 
-	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 	if (nResult != -1)
 	{
 		for(unsigned i=0; i<settingsList.size(); i++)
@@ -65,7 +65,7 @@ void RenameModule(MCONTACT hContact, const char* pszOldName, const char* pszNewN
 	dbces.lParam = (LPARAM)&settingsList;
 	dbces.pfnEnumProc = EnumSettingsProc2;
 
-	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 	if (nResult != -1)
 	{
 		DBVARIANT dbv;

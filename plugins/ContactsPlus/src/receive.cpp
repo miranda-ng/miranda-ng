@@ -321,7 +321,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 									if (hContact && caGroup) {
 										// use newest group API if available
 										if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
-											CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, (LPARAM)nGroupId);
+											CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, (LPARAM)nGroupId);
 										else
 											db_set_ts(hContact, "CList", "Group", caGroup);
 									}
@@ -340,7 +340,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						if (ListView_GetItemState(hLV, i, LVIS_SELECTED)) {
 							hContact = CreateTemporaryContactForItem(hwndDlg, wndData, i);
 							if (hContact)
-								CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+								CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 						}
 				}
 				break;
@@ -368,13 +368,13 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case ID_POPUP_USERDETAILS:
 				hContact = CreateTemporaryContactForItem(hwndDlg, wndData, wndData->iPopupItem);
 				if (hContact)
-					CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0 );
+					CallService(MS_USERINFO_SHOWDIALOG, hContact, 0 );
 				break;
 
 			case ID_POPUP_SENDMESSAGE:
 				hContact = CreateTemporaryContactForItem(hwndDlg, wndData, wndData->iPopupItem);
 				if (hContact)
-					CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+					CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 				break;   
 
 			case IDC_USERMENU:

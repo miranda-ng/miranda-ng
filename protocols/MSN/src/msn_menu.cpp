@@ -50,7 +50,7 @@ INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 INT_PTR CMsnProto::MsnGotoInbox(WPARAM, LPARAM)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
-	if (hContact) CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
+	if (hContact) CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
 
 	MsnInvokeMyURL(true, "http://mail.live.com?rru=inbox");
 	return 0;

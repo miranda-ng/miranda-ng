@@ -999,7 +999,7 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 			}
 		}
 		if (i == 1)
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		break;
 
 	case 0x0001: //group record
@@ -1594,11 +1594,11 @@ void CAimProto::snac_typing_notification(SNAC &snac)//family 0x004
 		{
 			unsigned short type=snac.ushort(11+sn_length);
 			if (type==0x0000)//typing finished
-				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(WPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+				CallService(MS_PROTO_CONTACTISTYPING,hContact,(WPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 			else if (type==0x0001)//typed
-				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,PROTOTYPE_CONTACTTYPING_INFINITE);
+				CallService(MS_PROTO_CONTACTISTYPING,hContact,PROTOTYPE_CONTACTTYPING_INFINITE);
 			else if (type==0x0002)//typing
-				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(LPARAM)60);
+				CallService(MS_PROTO_CONTACTISTYPING,hContact,(LPARAM)60);
 		}
 		mir_free(sn);
 	}
@@ -2313,11 +2313,11 @@ void CAimProto::snac_admin_account_confirm(SNAC &snac)//family 0x0007
 			unsigned short* type=(unsigned short*)&buf[SNAC_SIZE*2+1+sn_length];
 			*type=htons(*type);
 			if (*type==0x0000)//typing finished
-				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(WPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+				CallService(MS_PROTO_CONTACTISTYPING,hContact,(WPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 			else if (*type==0x0001)//typed
-				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,PROTOTYPE_CONTACTTYPING_INFINITE);
+				CallService(MS_PROTO_CONTACTISTYPING,hContact,PROTOTYPE_CONTACTTYPING_INFINITE);
 			else if (*type==0x0002)//typing
-				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(LPARAM)60);
+				CallService(MS_PROTO_CONTACTISTYPING,hContact,(LPARAM)60);
 		}
 	}
 }*/

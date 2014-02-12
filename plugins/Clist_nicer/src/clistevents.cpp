@@ -375,10 +375,10 @@ int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
 	if (bUnstick) {
 		// clear "sticky" (sort) status
 
-		hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM) hItem, 0);
-			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM)hContact, 0);
+			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, 0);
 	}	}
 
 	if (hContact == cfg::dat.hUpdateContact || (INT_PTR)hDbEvent == 1)

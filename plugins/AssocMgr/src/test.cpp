@@ -145,7 +145,7 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
 	                db_set_b(hContact,MOD_KEY_CL,AIM_KEY_NL,1);
             }
             if(hContact!=NULL)
-                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)msg);
+                CallService(MS_MSG_SENDMESSAGE,hContact,(LPARAM)msg);
 		}
 		return 0;
     }
@@ -304,7 +304,7 @@ static void MessageIcqUser(ICQFILEINFO *info)
 	if(ServiceExists(MS_MSG_SENDMESSAGE)) {
 		hContact=HContactFromUIN(atoi(info->uin),NULL); /* adds the contact if needed */
 		if(hContact!=NULL)
-			CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
+			CallService(MS_MSG_SENDMESSAGE,hContact,0);
 	}
 }
 
@@ -458,7 +458,7 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) { /* does not yet check if sn is current user */
 	        hContact=add_buddy(id,id,PALF_TEMPORARY); /* ensure contact is on list */
 		    if(hContact!=NULL)
-			    CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)msg);
+			    CallService(MS_MSG_SENDMESSAGE,hContact,(LPARAM)msg);
 		}
 		return 0;
 	}
@@ -575,7 +575,7 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) {
             hContact=MSN_HContactFromEmail(email,email,TRUE,TRUE); /* does not yet check if email is current user */
             if(hContact!=NULL)
-                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
+                CallService(MS_MSG_SENDMESSAGE,hContact,0);
 		}
 		return 0;
     }
@@ -641,7 +641,7 @@ static int ServiceParseLink(WPARAM wParam,LPARAM lParam)
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) {
             hContact=gg_getcontact(atoi(arg),TRUE,FALSE,arg);
             if(hContact!=NULL)
-                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
+                CallService(MS_MSG_SENDMESSAGE,hContact,0);
 		}
     }
     return 0;
@@ -733,7 +733,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 				body=msg;
 			} else if(body==NULL) body=subj;
             if(hContact!=NULL)
-                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)body);
+                CallService(MS_MSG_SENDMESSAGE,hContact,(LPARAM)body);
 		}
 		return 0;
     }
@@ -757,7 +757,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 		MCONTACT hContact;
 		hContact=JabberHContactFromJID(jid);
         if(hContact==NULL) /* not yet implemented: show standard miranda dialog here */
-			CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
+			CallService(MS_DB_CONTACT_DELETE,hContact,0);
 		return 0;
     }
     /* add user subscription */

@@ -59,7 +59,7 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 	if ((hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
 		return NULL;
 
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszModule);
+	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)pszModule);
 	if (pszGroup && lstrlen(pszGroup) > 0)
 		db_set_ts(hContact, "CList", "Group", pszGroup);
 	else
@@ -121,7 +121,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM lParam)
 		// is the "toggle visibility option set, so we need to close the window?
 		if (si->hWnd != NULL &&
 			 db_get_b(NULL, CHAT_MODULE, "ToggleVisibility", 0) == 1 &&
-			 !CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0) &&
+			 !CallService(MS_CLIST_GETEVENT, hContact, 0) &&
 			 IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
 		{
 			if (ci.OnDblClickSession)
@@ -218,13 +218,13 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fm
 	cle.pszService = "GChat/DblClickEvent" ;
 	cle.ptszTooltip = TranslateTS(szBuf);
 	if (type) {
-		if (!CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
+		if (!CallService(MS_CLIST_GETEVENT, hContact, 0))
 			CallService(MS_CLIST_ADDEVENT, (WPARAM) hContact, (LPARAM) &cle);
 	}
 	else {
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)GC_FAKE_EVENT);
-		CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);
+		if (CallService(MS_CLIST_GETEVENT, hContact, 0))
+			CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)GC_FAKE_EVENT);
+		CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 	}
 	return TRUE;
 }

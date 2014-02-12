@@ -67,7 +67,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 void ShowPopup(MCONTACT hContact, const TCHAR *msg)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.

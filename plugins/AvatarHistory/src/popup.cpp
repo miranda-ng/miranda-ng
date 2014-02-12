@@ -107,7 +107,7 @@ void ShowPopupEx(MCONTACT hContact, const TCHAR *title, const TCHAR *description
 		if (title != NULL)
 			lstrcpyn(ppd.lptzContactName, title, SIZEOF(ppd.lptzContactName));
 		else if (hContact != NULL)
-			lstrcpyn(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR),
+			lstrcpyn(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR),
 					SIZEOF(ppd.lptzContactName));
 
 		if (description != NULL)
@@ -174,7 +174,7 @@ void ShowPopupEx(MCONTACT hContact, const TCHAR *title, const TCHAR *description
 	}
 	else
 	{
-		MessageBox(NULL, description, title ? title : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR),
+		MessageBox(NULL, description, title ? title : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR),
 			MB_OK);
 	}
 

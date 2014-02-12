@@ -649,14 +649,14 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hConta
 					}
 
 					if (three.IsEmpty())
-						CallService(MS_FILE_SENDFILE, (WPARAM)hContact, 0);
+						CallService(MS_FILE_SENDFILE, hContact, 0);
 					else {
 						CMString temp = GetWordAddress(text.c_str(), 3);
 						TCHAR* pp[2];
 						TCHAR* p = (TCHAR*)temp.c_str();
 						pp[0] = p;
 						pp[1] = NULL;
-						CallService(MS_FILE_SENDSPECIFICFILES, (WPARAM)hContact, (LPARAM)pp);
+						CallService(MS_FILE_SENDSPECIFICFILES, hContact, (LPARAM)pp);
 					}
 				}
 			}

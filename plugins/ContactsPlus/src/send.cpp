@@ -197,7 +197,7 @@ static MCONTACT FindNextClistContact(HWND hList, MCONTACT hContact, MCONTACT *ph
 static MCONTACT FindFirstClistContact(HWND hList, MCONTACT *phItem)
 {
 	MCONTACT hContact = db_find_first();
-	MCONTACT hItem = (MCONTACT)SendMessage(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	MCONTACT hItem = (MCONTACT)SendMessage(hList, CLM_FINDCONTACT, hContact, 0);
 
 	if (hContact && !hItem)
 		return FindNextClistContact(hList, hContact, phItem);

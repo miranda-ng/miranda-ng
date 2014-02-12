@@ -891,7 +891,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 					#endif
 				}
 				if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT)) {
-					CallService(MS_CLIST_REMOVEEVENT,(WPARAM)hContact,(LPARAM)hContact);
+					CallService(MS_CLIST_REMOVEEVENT,hContact,(LPARAM)hContact);
 				}
 			}
 			// fall through

@@ -171,7 +171,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 						PostMPMessage(MUM_CREATEPOPUP, 0, 0);
 					}
 					else if (!opt.bWaitForContent && hwndTip)
-						SendMessage(hwndTip, PUM_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)swzMsg);
+						SendMessage(hwndTip, PUM_SETSTATUSTEXT, hContact, (LPARAM)swzMsg);
 					else if (swzMsg)
 						mir_free(swzMsg);
 

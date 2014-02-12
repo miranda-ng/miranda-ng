@@ -98,7 +98,7 @@ static void ProcessUnreadEvents(void)
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_CONTACTS) {
 				//process the event
-				HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);
+				HookDBEventAdded(hContact, (LPARAM)hDbEvent);
 			}
 			hDbEvent = db_event_next(hDbEvent);
 		}

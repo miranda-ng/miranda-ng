@@ -1191,7 +1191,7 @@ retry:
 					debugLogA("mainthread() (%x): Typing notification from %d (%d).", this,
 						e->event.typing_notification.uin, e->event.typing_notification.length);
 #endif
-					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact,
+					CallService(MS_PROTO_CONTACTISTYPING, hContact,
 						e->event.typing_notification.length > 0 ? 7 : PROTOTYPE_CONTACTTYPING_OFF);
 				}
 				break;

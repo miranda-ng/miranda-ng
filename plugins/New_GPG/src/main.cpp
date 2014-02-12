@@ -1299,7 +1299,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			mir_free(tmp);
 			tmp = new TCHAR [256];
 			_tcscpy(tmp, TranslateT("Received key from "));
-			_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR));
+			_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, (LPARAM)GCDNF_TCHAR));
 			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
 			delete [] tmp;
 		}

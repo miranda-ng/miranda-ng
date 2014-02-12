@@ -270,12 +270,12 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				lvi.iItem = ListView_InsertItem(hList, &lvi);
 				lvi.pszText = TranslateT("Retrieving new data, please wait...");
 				ListView_SetItemText(hList, lvi.iItem, 1, lvi.pszText);
-				UpdateSingleStation((WPARAM)hContact, 0);
+				UpdateSingleStation(hContact, 0);
 				break;
 			}
 
 		case IDC_MWEBPAGE:
-			LoadForecast((WPARAM)hContact, 0);	// read complete forecast
+			LoadForecast(hContact, 0);	// read complete forecast
 			break;
 
 		case IDC_MTOGGLE:

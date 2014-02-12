@@ -202,7 +202,7 @@ MCONTACT CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
 	if ( !hContact)
 	{
 		hContact = (MCONTACT)::CallService(MS_DB_CONTACT_ADD, 0, 0);
-		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
+		::CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)this->m_szModuleName);
 
 		ptrW nick(::mir_utf8decodeW(contact->GetNick()));
 

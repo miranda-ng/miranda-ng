@@ -260,7 +260,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl UserIsTyping(MCONTACT hContact, int type)
 	{
-		CCSDATA ccs = { hContact, PSS_USERISTYPING, (WPARAM)hContact, type };
+		CCSDATA ccs = { hContact, PSS_USERISTYPING, hContact, type };
 		return ProtoCallService(m_szModuleName, PSS_USERISTYPING, 0, (LPARAM)&ccs);
 	}
 

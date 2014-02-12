@@ -116,7 +116,7 @@ static __forceinline char *mir_a2x(char *, char *s) { return mir_strdup(s); }
 
 static __forceinline char *GetContactNickX(char *, MCONTACT hContact)
 {
-	return mir_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
+	return mir_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 }
 
 static __forceinline char *GetContactIDX(char *, MCONTACT hContact)
@@ -203,7 +203,7 @@ static __forceinline TCHAR *mir_a2x(TCHAR *, char *s) { return mir_a2t(s); }
 
 static __forceinline TCHAR *GetContactNickX(TCHAR *, MCONTACT hContact)
 {
-	return mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+	return mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 }
 
 static __forceinline TCHAR *GetContactIDX(TCHAR *, MCONTACT hContact)

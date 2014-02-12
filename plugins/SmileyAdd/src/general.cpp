@@ -214,7 +214,7 @@ void DestroyGdiPlus(void)
 MCONTACT DecodeMetaContact(MCONTACT hContact)
 {
 	if (hContact == NULL) return NULL;
-	MCONTACT hReal = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+	MCONTACT hReal = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 	if (hReal == NULL || hReal == (MCONTACT)CALLSERVICE_NOTFOUND)
 		hReal = hContact;
 

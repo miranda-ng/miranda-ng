@@ -1076,7 +1076,7 @@ bool isContactSecured(MCONTACT hContact)
 	if(!gpg_enc)
 	{
 		if(bDebugLog)
-			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 		return false;
 	}
 	if(!metaIsProtoMetaContacts(hContact))
@@ -1086,13 +1086,13 @@ bool isContactSecured(MCONTACT hContact)
 		{
 			mir_free(key);
 			if(bDebugLog)
-				debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			return false;
 		}
 		mir_free(key);
 	}
 	if(bDebugLog)
-		debuglog<<std::string(time_str()+": encryption is turned on for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+		debuglog<<std::string(time_str()+": encryption is turned on for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 	return true;
 }
 

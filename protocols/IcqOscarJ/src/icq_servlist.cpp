@@ -1583,7 +1583,7 @@ int CIcqProto::moveContactToCListGroup(MCONTACT hContact, const char *szGroup)
 	HANDLE hGroup = Clist_CreateGroup(0, ptrT( mir_utf8decodeT(szGroup)));
 
 	if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
-		return CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, (LPARAM)hGroup);
+		return CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, (LPARAM)hGroup);
 	else /// TODO: is this neccessary ?
 		return db_set_utf(hContact, "CList", "Group", szGroup);
 }

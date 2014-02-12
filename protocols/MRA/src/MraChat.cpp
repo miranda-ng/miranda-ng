@@ -240,6 +240,6 @@ void CMraProto::MraChatSendPrivateMessage(LPSTR lpszEMail)
 	if (bAdded)
 		db_set_b(hContact, "CList", "Hidden", 1);
 
-	CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, IGNOREEVENT_ALL);
-	CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+	CallService(MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_ALL);
+	CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 }

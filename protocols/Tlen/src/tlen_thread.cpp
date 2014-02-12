@@ -1024,13 +1024,13 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 				if (!strcmp(tp, "t")) { //contact is writing
 					if (item != NULL ) {
 						item->isTyping = TRUE;
-						CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_INFINITE);
+						CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_INFINITE);
 					}
 				}
 				else if (!strcmp(tp, "u")) {//contact stopped writing
 					if (item != NULL) {
 						item->isTyping = FALSE;
-						CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+						CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 					}
 				}
 				else if (!strcmp(tp, "a")) {//alert was received

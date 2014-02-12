@@ -50,7 +50,7 @@ static void ResetListOptions(HWND hwndList)
 static void SetAllContactIcons(HWND hwndList, int count)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		DWORD hItem = SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
+		DWORD hItem = SendMessage(hwndList,CLM_FINDCONTACT,hContact,0);
 		for (int i = 0; i < count; ++i)
 			SendMessage(hwndList,CLM_SETEXTRAIMAGE,hItem,MAKELPARAM(i, i+1));
 		if (!db_get_b(hContact,"CList","Hidden",0))

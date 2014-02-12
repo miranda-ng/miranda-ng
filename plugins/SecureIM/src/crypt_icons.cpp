@@ -100,7 +100,7 @@ void ShowStatusIcon(MCONTACT hContact)
 void ShowStatusIconNotify(MCONTACT hContact)
 {
 	BYTE mode = isContactSecured(hContact);
-	NotifyEventHooks(g_hEvent[(mode&SECURED) != 0], (WPARAM)hContact, 0);
+	NotifyEventHooks(g_hEvent[(mode&SECURED) != 0], hContact, 0);
 	ShowStatusIcon(hContact,mode);
 }
 

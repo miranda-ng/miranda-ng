@@ -221,7 +221,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 	if (!chat_room)
-		ServiceToggle((WPARAM)hContact, 0);
+		ServiceToggle(hContact, 0);
 
 	return 0;
 }

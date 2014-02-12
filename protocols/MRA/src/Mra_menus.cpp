@@ -72,7 +72,7 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL) == NO_ERROR)
 			if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)
-				MraRequestAuthorization((WPARAM)hContact, 0);
+				MraRequestAuthorization(hContact, 0);
 		}
 	}
 	return 0;

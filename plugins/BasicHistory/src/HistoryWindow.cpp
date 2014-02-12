@@ -1668,7 +1668,7 @@ void HistoryWindow::ReloadContacts()
 	}
 
 	if (hContact != NULL) {
-		HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem != NULL) {
 			SendMessage(contactList, CLM_ENSUREVISIBLE, (WPARAM)hItem, 0);
 			SendMessage(contactList, CLM_SELECTITEM, (WPARAM)hItem, 0);
@@ -2130,7 +2130,7 @@ void HistoryWindow::Delete(int what)
 		toDelete = (int)end;
 	}
 	else {
-		DeleteAllUserHistory((WPARAM)hContact, 0);
+		DeleteAllUserHistory(hContact, 0);
 		return;
 	}
 

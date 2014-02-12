@@ -320,7 +320,7 @@ MCONTACT CYahooProto::add_buddy(const char *yahoo_id, const char *yahoo_name, in
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
 	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact,(LPARAM)m_szModuleName);
+	CallService(MS_PROTO_ADDTOCONTACT, hContact,(LPARAM)m_szModuleName);
 	setString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
 
@@ -872,7 +872,7 @@ void CYahooProto::ext_typing_notify(const char *me, const char *who, int protoco
 	MCONTACT hContact = getbuddyH(who);
 	
 	if (hContact) 
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)stat?10:0);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)stat?10:0);
 }
 
 void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, const char *msg)

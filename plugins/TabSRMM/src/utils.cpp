@@ -621,11 +621,11 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 
 	switch (message) {
 	case WM_COMMAND:
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)hContact, 0);
+		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, hContact, 0);
 		PUDeletePopup(hWnd);
 		break;
 	case WM_CONTEXTMENU:
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)hContact, 0);
+		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, hContact, 0);
 		PUDeletePopup(hWnd);
 		break;
 	case WM_MOUSEWHEEL:
@@ -828,7 +828,7 @@ AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const MCONTACT hContact)
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		return 0;
 
-	return (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
+	return (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 }
 
 void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)

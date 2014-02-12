@@ -326,7 +326,7 @@ MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 		GetContactProtocol(hContact, cProtocol, sizeof(cProtocol));
 		szHandle = GetContactID(hContact, cProtocol);
 		
-		tmp = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		tmp = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 		_tcsncpy(dispName, tmp, SIZEOF(dispName));
 		
 		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))

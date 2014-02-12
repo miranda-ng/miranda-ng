@@ -83,7 +83,7 @@ tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 	tstring strGroup = _T("");
 	if(db_get_b(0, "MetaContacts", "Enabled", 1) && CAppletManager::IsSubContact(hContact))
 	{
-		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL);
+		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, NULL);
 		if(CConfig::GetBoolSetting(CLIST_USEGROUPS))
 			strGroup = CAppletManager::GetContactGroup(hMetaContact);
 
@@ -150,17 +150,17 @@ void CContactList::AddContact(MCONTACT hContact)
 		pGroup->sort(CContactList::CompareEntries);
 
 		// check that all subcontacts exist
-		int numContacts = CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hContact,0);
+		int numContacts = CallService(MS_MC_GETNUMCONTACTS,hContact,0);
 		MCONTACT hSubContact = NULL;
 		for(int i=0;i<numContacts;i++) {
-			hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, (LPARAM)i);
+			hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, (LPARAM)i);
 			RemoveContact(hSubContact);
 			AddContact(hSubContact);
 		}
 		return;
 	}
 	else if(CAppletManager::IsSubContact(hContact)) {
-		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 		// check that the metacontact exists
 		if(!FindContact(hMetaContact)) {
 			AddContact(hMetaContact);
@@ -279,9 +279,9 @@ void CContactList::RemoveContact(MCONTACT hContact) {
 		else {
 			pGroup->RemoveGroup(((CListContainer<CContactListEntry*,CContactListGroup*>*)pContactEntry)->GetGroupData());
 			// Reenumerate all subcontacts (maybe MetaContacts was disabled
-			int numContacts = CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hContact,0);
+			int numContacts = CallService(MS_MC_GETNUMCONTACTS,hContact,0);
 			for(int i=0;i<numContacts;i++) {
-				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)hContact, (LPARAM)i);
+				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,hContact, (LPARAM)i);
 				if(!FindContact(hSubContact))
 					AddContact(hSubContact);
 			}

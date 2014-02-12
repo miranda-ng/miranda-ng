@@ -198,7 +198,7 @@ int UpdateWeather(MCONTACT hContact)
 		}
 
 		// show the popup
-		NotifyEventHooks(hHookWeatherUpdated, (WPARAM)hContact, (LPARAM)Ch);
+		NotifyEventHooks(hHookWeatherUpdated, hContact, (LPARAM)Ch);
 	}
 
 	Netlib_LogfT(hNetlibUser, _T("Update Completed - Start to free memory"));

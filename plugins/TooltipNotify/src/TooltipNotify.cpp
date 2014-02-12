@@ -242,7 +242,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			break;
 
 		case ID_STATUS_ONLINE:
-			if(CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE) && m_sOptions.bConjSOLN) return 0;
+			if(CallService(MS_IGNORE_ISIGNORED,hContact,IGNOREEVENT_USERONLINE) && m_sOptions.bConjSOLN) return 0;
 			if (!m_sOptions.bOnline) return 0;
 			SkinPlaySound(SND_ONLINE);
 			break;
@@ -916,7 +916,7 @@ TCHAR *CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *
 	const char* szProto = 
 		hContact==0 ? "Proto" : (char*)::GetContactProto(hContact);
 	const TCHAR* szContactName = 
-		(TCHAR *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		(TCHAR *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 
 	memset(szString, 0, iBufSize*sizeof(TCHAR));
 

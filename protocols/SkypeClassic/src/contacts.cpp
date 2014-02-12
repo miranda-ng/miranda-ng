@@ -314,7 +314,7 @@ MCONTACT find_contact(char *name)
 	// already on list?
 	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact=db_find_next(hContact)) 
 	{
-		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&	db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==0)	
 		{
 			if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
@@ -335,7 +335,7 @@ MCONTACT find_contactT(TCHAR *name)
 	// already on list?
 	for (MCONTACT hContact=db_find_first(); hContact != NULL; hContact=db_find_next(hContact)) 
 	{
-		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&	db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==0)	
 		{
 			if (db_get_ts(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
@@ -367,9 +367,9 @@ MCONTACT add_contact(char *name, DWORD flags)
 	LOG(("add_contact: Adding %s", name));
 	hContact=(MCONTACT)CallServiceSync(MS_DB_CONTACT_ADD, 0, 0);
 	if (hContact) {
-		if (CallServiceSync(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact,(LPARAM)SKYPE_PROTONAME)!=0) {
+		if (CallServiceSync(MS_PROTO_ADDTOCONTACT, hContact,(LPARAM)SKYPE_PROTONAME)!=0) {
 			LOG(("add_contact: Ouch! MS_PROTO_ADDTOCONTACT failed for some reason"));
-			CallServiceSync(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallServiceSync(MS_DB_CONTACT_DELETE, hContact, 0);
 			return NULL;
 		}
 		if (name[0]) db_set_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, name);
@@ -393,7 +393,7 @@ void logoff_contacts(BOOL bCleanup) {
 
 	LOG(("logoff_contacts: Logging off contacts."));
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME))
 		{
 			if (db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE)

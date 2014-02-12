@@ -81,7 +81,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			hContact = lParam;
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)hContact);
 			dwMask = cfg::getDword(hContact, "Ignore", "Mask1", 0);
-			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, dwMask);
+			SendMessage(hWnd, WM_USER + 100, hContact, dwMask);
 			SendMessage(hWnd, WM_USER + 120, 0, 0);
 			TranslateDialogDefault(hWnd);
 			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
@@ -121,7 +121,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					DWORD dwXMask = cfg::getDword(hContact, "CList", "CLN_xmask", 0);
 					int   i = 0;
 
-					mir_sntprintf(szTitle, 512, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+					mir_sntprintf(szTitle, 512, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 
 					SetWindowText(hWnd, szTitle);
 					SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
@@ -167,13 +167,13 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_IGN_PRIORITY:
-			SendMessage(pcli->hwndContactTree, CLM_TOGGLEPRIORITYCONTACT, (WPARAM)hContact, 0);
+			SendMessage(pcli->hwndContactTree, CLM_TOGGLEPRIORITYCONTACT, hContact, 0);
 			return 0;
 		case IDC_IGN_ALL:
-			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, (LPARAM)0xffffffff);
+			SendMessage(hWnd, WM_USER + 100, hContact, (LPARAM)0xffffffff);
 			return 0;
 		case IDC_IGN_NONE:
-			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, 0);
+			SendMessage(hWnd, WM_USER + 100, hContact, 0);
 		  	return 0;
 		case IDC_IGN_ALWAYSONLINE:
 			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))

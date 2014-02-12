@@ -499,7 +499,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 					int NameLenght=0;
 					TCHAR* ptszName=NULL;
 
-					ptszName=(TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+					ptszName=(TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 					NameLenght=(int)_tcslen(ptszName);
 					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){

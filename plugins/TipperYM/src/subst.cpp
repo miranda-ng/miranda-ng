@@ -250,7 +250,7 @@ TCHAR *GetStatusMessageText(MCONTACT hContact)
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!strcmp(szProto, szMetaModuleName))
-			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		else {
 			WORD wStatus = (int)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (wStatus == ID_STATUS_OFFLINE)
@@ -303,7 +303,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	}
 	else if (!_tcscmp(swzRawSpec, _T("account")))
 	{
-		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
+		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 		if ((INT_PTR)szProto == CALLSERVICE_NOTFOUND)
 		{
 			return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
@@ -353,7 +353,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	else if (!_tcscmp(swzRawSpec, _T("meta_subname")))
 	{
 		// get contact list name of active subcontact
-		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND) return false;
 		TCHAR *swzNick = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hSubContact, GCDNF_TCHAR);
 		if (swzNick) _tcsncpy(buff, swzNick, bufflen);
@@ -361,7 +361,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	}
 	else if (!_tcscmp(swzRawSpec, _T("meta_subuid")))
 	{
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return Uid(hSubContact, 0, buff, bufflen);
@@ -369,7 +369,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	else if (!_tcscmp(swzRawSpec, _T("meta_subproto")))
 	{
 		// get protocol of active subcontact
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return GetSysSubstText(hSubContact, _T("account"), buff, bufflen);
@@ -414,13 +414,13 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, szMetaModuleName))
 		{
-			iNumber = CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0);
-			hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, 0);
+			iNumber = CallService(MS_MC_GETNUMCONTACTS, hContact, 0);
+			hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, 0);
 		}
 
 		for (int i = 0; i < iNumber; i++) {
 			if (i > 0)
-				hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
+				hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, i);
 			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);

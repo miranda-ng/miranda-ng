@@ -261,7 +261,7 @@ BOOL metaCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 	MCONTACT hSubContact=NULL;
 
 	if (szMetaProto && bMetaProtoEnabled && szProto && !strcmp(szMetaProto, szProto))
-		if (hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0))
+		if (hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0))
 			szProto = GetContactProto(hSubContact);
 
 	return checkProtocol(szProto) && checkIgnore(hSubContact?hSubContact:hContact, eventType);

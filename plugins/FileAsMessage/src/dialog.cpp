@@ -73,7 +73,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		int indx = 0;
 		for(;;)
 		{
-			if((lpcle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, indx)) == NULL)
+			if((lpcle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, indx)) == NULL)
 				break;
 			if(lstrcmp(lpcle->pszService, SERVICE_NAME "/FERecvFile") == 0)
 			{
@@ -88,7 +88,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		case WM_COMMAND:
 		{
 			PUDeletePopup(hWnd);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, 0);
+			CallService(MS_CLIST_REMOVEEVENT, hContact, 0);
 
 			if(IsWindow(hDlg))
 			{
@@ -123,7 +123,7 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, char *msg)
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
-	lstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
+	lstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 	lstrcpy(ppd.lpzText, msg);
 	ppd.colorBack = GetSysColor(COLOR_INFOBK);
 	ppd.colorText = GetSysColor(COLOR_INFOTEXT);
@@ -258,7 +258,7 @@ void FILEECHO::updateTitle()
 {
 	char newtitle[256], *contactName;
 
-	contactName=(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
+	contactName=(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,0);
 	if(iState == STATE_OPERATE && chunkCount != 0)
 		mir_snprintf(newtitle, sizeof(newtitle), "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
 	else
@@ -445,7 +445,7 @@ void FILEECHO::incomeRequest(char *param)
 	// param == &filename
 	char *p = strchr(param, '?');
 	if(p == NULL) return; *p++ = 0;
-	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, (WPARAM)hContact, (LPARAM)buf);
+	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
 	strncat(buf, param, sizeof(buf));
 	free(filename);
 	filename = strdup(buf);
@@ -565,7 +565,7 @@ void FILEECHO::onRecvTimer()
 		if(db_get_b(NULL,"SRFile","AutoClose",0))
 		{
 			PostMessage(hDlg, WM_CLOSE, 0,0);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, 0);
+			CallService(MS_CLIST_REMOVEEVENT, hContact, 0);
 		}
 		SkinPlaySound("FileDone");
 		destroyTransfer();

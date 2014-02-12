@@ -86,7 +86,7 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 		char* sn = mir_t2a(hook->ptszUID);
 		MCONTACT hContact = ContactIDToHContact(sn);
 		mir_free(sn);
-		CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
+		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 		
 		break;
 	}
@@ -118,11 +118,11 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 		switch (hook->dwData) 
 		{
 		case 10:
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 			break;
 
 		case 20:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 			break;
 
 		case 110:

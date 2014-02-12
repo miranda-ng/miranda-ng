@@ -444,7 +444,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
 						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
 
-						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
+						CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)tstr);
 					}
 				}
 			} else if (t == "deliver") {
@@ -634,9 +634,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 			JSONNODE *st = json_get(it, "st");
 			if (json_as_int(st) == 1)
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)60);
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)60);
 			else
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 		} else if (t == "privacy_changed") {
 			// settings changed
 

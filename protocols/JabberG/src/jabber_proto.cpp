@@ -326,7 +326,7 @@ MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 		jid = mir_tstrdup(newJid);
 		debugLogA("Add new jid to contact jid = %S", jid);
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 		setTString(hContact, "jid", jid);
 		if ((nick=JabberNickFromJID(newJid)) == NULL)
 			nick = mir_tstrdup(newJid);
@@ -1427,7 +1427,7 @@ void CJabberProto::InfoFrame_OnTransport(CJabberInfoFrame_Event *evt)
 {
 	if (evt->m_event == CJabberInfoFrame_Event::CLICK) {
 		MCONTACT hContact = (MCONTACT)evt->m_pUserData;
-		HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+		HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 		POINT pt;
 		GetCursorPos(&pt);
 		int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);

@@ -356,7 +356,7 @@ char *GetContactCachedProtocol(MCONTACT hContact)
 
 char* GetProtoForContact(MCONTACT hContact)
 {
-	return (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT,(WPARAM)hContact,0);
+	return (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT,hContact,0);
 }
 
 int GetStatusForContact(MCONTACT hContact,char *szProto)

@@ -70,7 +70,7 @@ namespace NServices
 					//GetIconInfo(zodiac.hIcon, &iinfo);
 
 					// save the bitmap to a file used as avatar later
-					if (!CallService(MS_AV_SETAVATAR, (WPARAM)hContact, (LPARAM)szFileName))
+					if (!CallService(MS_AV_SETAVATAR, hContact, (LPARAM)szFileName))
 						db_set_b(hContact, "ContactPhoto", "IsZodiac", 1);
 				}
 			}

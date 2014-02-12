@@ -149,7 +149,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									}
 
 									MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-									CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
+									CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULE);
 									db_set_ts(hContact, MODULE, "Nick", title);
 									db_set_ts(hContact, MODULE, "URL", url);
 									db_set_ts(hContact, MODULE, "Homepage", siteurl);

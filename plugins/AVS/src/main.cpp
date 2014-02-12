@@ -144,7 +144,7 @@ static int MetaChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else ace = &node->ace;
 
-	NotifyEventHooks(hEventChanged, (WPARAM)hContact, (LPARAM)ace);
+	NotifyEventHooks(hEventChanged, hContact, (LPARAM)ace);
 	return 0;
 }
 

@@ -122,7 +122,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		int i = 1, iRow = 0;
 		for(MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 			if(isContactHaveKey(hContact)) {
-				TCHAR *name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+				TCHAR *name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 				item.mask = LVIF_TEXT;
 				item.iItem = i;
 				item.iSubItem = 0;

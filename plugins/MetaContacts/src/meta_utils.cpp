@@ -719,7 +719,7 @@ int Meta_SetHandles(void)
 				MessageBox(0, TranslateT("Subcontact contact number < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
 				hNextContact = db_find_next(hContact);
-				Meta_Delete((WPARAM)hContact, (LPARAM)1);
+				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
 				//return 1;
@@ -758,7 +758,7 @@ int Meta_SetHandles(void)
 						MessageBox(0, buff, nick_buffer, MB_OK | MB_ICONERROR);
 
 						hNextContact = db_find_next(hContact);
-						Meta_Delete((WPARAM)hContact, (LPARAM)1);
+						Meta_Delete(hContact, (LPARAM)1);
 						hContact = hNextContact;
 						continue;		
 					}
@@ -781,7 +781,7 @@ int Meta_SetHandles(void)
 
 				// stop ignoring, if we were
 				if (options.suppress_status)
-					CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+					CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 
 			}
 			else {
@@ -809,7 +809,7 @@ int Meta_SetHandles(void)
 				// problem
 				MessageBox(0, TranslateT("MetaContact number of contacts < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				hNextContact = db_find_next(hContact);
-				Meta_Delete((WPARAM)hContact, (LPARAM)1);
+				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
 			}
@@ -818,7 +818,7 @@ int Meta_SetHandles(void)
 				// problem
 				MessageBox(0, TranslateT("MetaContact default contact number out of range - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
 				hNextContact = db_find_next(hContact);
-				Meta_Delete((WPARAM)hContact, (LPARAM)1);
+				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
 			}
@@ -841,7 +841,7 @@ int Meta_SetHandles(void)
 				_tcscat(nick_buffer, _itot(meta_id, buffer2, 10));
 				MessageBox(0, TranslateT("MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact."), nick_buffer, MB_OK | MB_ICONERROR);
 				
-				Meta_Delete((WPARAM)hContact, (LPARAM)1);
+				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
 				continue;		
 			}
@@ -950,7 +950,7 @@ int Meta_HideLinkedContacts(void) {
 			}
 
 			if (options.suppress_status)
-				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+				CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
 
 		hContact = db_find_next(hContact);
@@ -1122,9 +1122,9 @@ int Meta_SuppressStatus(BOOL suppress)
 		if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// is a subcontact
 			if (suppress)
-				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+				CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 			else
-				CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+				CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
 	}	
 

@@ -52,7 +52,7 @@ int ResetMissed(void)
 int CheckIfOnline(void)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		if ( CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0) != ICON_OFFLINE)
+		if ( CallService(MS_CLIST_GETCONTACTICON, hContact, 0) != ICON_OFFLINE)
 			db_set_b(hContact, S_MOD, "Missed", 2);
 
 	return 0;

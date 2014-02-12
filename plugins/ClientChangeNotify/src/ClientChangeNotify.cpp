@@ -87,7 +87,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 	switch (Action) {
 	case PCA_OPENMESSAGEWND: // open message window
 		if (hContact && hContact != INVALID_CONTACT_ID)
-			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, hContact, 0);
 		break;
 
 	case PCA_OPENMENU: // open contact menu
@@ -97,12 +97,12 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 
 	case PCA_OPENDETAILS: // open contact details window
 		if (hContact != INVALID_CONTACT_ID)
-			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallServiceSync(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		break;
 
 	case PCA_OPENHISTORY: // open contact history
 		if (hContact != INVALID_CONTACT_ID)
-			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 		break;
 
 	case PCA_OPENLOG: // open log file
@@ -230,7 +230,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		PopupOptPage.DBToMem();
 	}
 
-	MCONTACT hContactOrMeta = (hContact && bMetaContactsExists) ? (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
+	MCONTACT hContactOrMeta = (hContact && bMetaContactsExists) ? (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0) : hContact;
 	if (!hContactOrMeta)
 		hContactOrMeta = hContact;
 
@@ -286,7 +286,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND)
 				szUID = DBGetContactSettingAsString(hContact, szProto, uid, _T(""));
 
-			logservice_log(LOG_ID, hContact, TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)) + _T(" (") + szUID + TranslateT(") changed client to ") + ClientName);
+			logservice_log(LOG_ID, hContact, TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)) + _T(" (") + szUID + TranslateT(") changed client to ") + ClientName);
 		}
 	}
 	_ASSERT(sd.MirVer.GetLen()); // save the last known MirVer value even if the new one is empty

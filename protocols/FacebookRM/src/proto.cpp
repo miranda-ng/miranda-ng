@@ -278,7 +278,7 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 int FacebookProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)
 {
-	return RequestFriendship((WPARAM)hContact, NULL);
+	return RequestFriendship(hContact, NULL);
 }
 
 int FacebookProto::Authorize(HANDLE hDbEvent)
@@ -290,7 +290,7 @@ int FacebookProto::Authorize(HANDLE hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	return ApproveFriendship((WPARAM)hContact, NULL);
+	return ApproveFriendship(hContact, NULL);
 }
 
 int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
@@ -305,7 +305,7 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	// TODO: hide from facebook requests list
 
 	if (db_get_b(hContact, "CList", "NotOnList", 0))
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 
 	return 0;
 }

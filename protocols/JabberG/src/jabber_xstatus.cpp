@@ -729,7 +729,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 		m_proto->ResetAdvStatus(hContact, ADVSTATUS_MOOD);
 	}
 
-	NotifyEventHooks(m_proto->m_hEventXStatusChanged, (WPARAM)hContact, 0);
+	NotifyEventHooks(m_proto->m_hEventXStatusChanged, hContact, 0);
 }
 
 void CPepMood::ShowSetDialog(BYTE bQuiet)

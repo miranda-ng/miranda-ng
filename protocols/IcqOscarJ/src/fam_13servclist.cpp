@@ -1295,7 +1295,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 					// Set apparent mode & ignore
 					setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 					// set ignore all events
-					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_ALL);
+					CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_ALL);
 					debugLogA("Ignore-contact (%s)", szRecordName);
 				}
 				else

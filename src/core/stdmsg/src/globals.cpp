@@ -124,7 +124,7 @@ static int dbaddedevent(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
 		if (h)
-			SendMessage(h, HM_DBEVENTADDED, (WPARAM)hContact, lParam);
+			SendMessage(h, HM_DBEVENTADDED, hContact, lParam);
 	}
 	return 0;
 }

@@ -433,7 +433,7 @@ void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 	dbces.lParam = (LPARAM)&arSettings;
 	dbces.pfnEnumProc = GetWeatherDataFromDB;
 	dbces.szModule = WEATHERCONDITION;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 
 	// begin deleting settings
 	for (int i = arSettings.getCount() - 1; i >= 0; i--) {

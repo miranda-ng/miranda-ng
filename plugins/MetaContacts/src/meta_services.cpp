@@ -793,7 +793,7 @@ int Meta_ContactDeleted(WPARAM wParam, LPARAM lParam)
 
 			// stop ignoring, if we were
 			if (options.suppress_status)
-				CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+				CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
 	}
 	return 0;
@@ -945,7 +945,7 @@ int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
 INT_PTR Meta_ClistMessageEventClicked(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
-	return Meta_ClistDoubleClicked((WPARAM)hContact, (LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
+	return Meta_ClistDoubleClicked(hContact, (LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
 }
 
 int NudgeRecieved(WPARAM wParam, LPARAM lParam)
@@ -1117,17 +1117,17 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 				CallService(MS_MSG_SENDMESSAGE, wParam, 0);
 			} else
 				// protocol does not support messaging - simulate double click
-				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
+				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
 		} else
 			// protocol does not support messaging - simulate double click
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
 
 	} else if (options.menu_function == FT_MENU) {
 		// show contact's context menu
 		CallFunctionAsync(sttMenuThread, (void*)hContact);
 	} else if (options.menu_function == FT_INFO) {
 		// show user info for subcontact
-		CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 	}
 
 	return 0;

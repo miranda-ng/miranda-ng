@@ -466,7 +466,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			}
 		}
 
-		CallService(MS_MSG_SENDMESSAGEW, (WPARAM)hContact, (LPARAM)szMsgBody);
+		CallService(MS_MSG_SENDMESSAGEW, hContact, (LPARAM)szMsgBody);
 		return 0;
 	}
 	
@@ -525,7 +525,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
 		if (hContact == NULL)
 			return 1;
-		CallService(MS_FILE_SENDFILE, (WPARAM)hContact, (LPARAM)NULL);
+		CallService(MS_FILE_SENDFILE, hContact, (LPARAM)NULL);
 		return 0;
 	}
 

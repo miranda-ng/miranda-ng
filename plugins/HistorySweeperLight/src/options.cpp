@@ -108,7 +108,7 @@ static void ShowAllContactIcons(HWND hwndList)
 											MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepSHistory", 0)));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem,
 											MAKELPARAM(0, db_get_b(hContact, ModuleName, "SweepHistory", 0)));
 	}
@@ -175,7 +175,7 @@ void SaveSettings(HWND hwndDlg)
 											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 
 		st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
 		if ( st != 0 )	db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)st);

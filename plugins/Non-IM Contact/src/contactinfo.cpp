@@ -635,8 +635,8 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					msg("contact did get created","");
 					continue;
 				}
-				CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
-				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
+				CallService(MS_PROTO_ADDTOCONTACT,hContact,(LPARAM)MODNAME);
+				CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 				db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
 				db_set_s(hContact, MODNAME, "Name", name);
 				db_set_s(hContact, MODNAME, "ProgramString", program);

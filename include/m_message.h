@@ -214,7 +214,7 @@ __forceinline void Srmm_RemoveIcon(StatusIconData *sid)
 #define MS_MSG_MODIFYICON "MessageAPI/ModifyIcon"
 
 __forceinline void Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
-{	CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)sid);
+{	CallService(MS_MSG_MODIFYICON, hContact, (LPARAM)sid);
 }
 
 // wParam = (HANDLE)hContact
@@ -223,7 +223,7 @@ __forceinline void Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
 // don't free this memory.
 
 __forceinline StatusIconData* Srmm_GetNthIcon(MCONTACT hContact, int index)
-{	return (StatusIconData*)CallService("MessageAPI/GetNthIcon", (WPARAM)hContact, index);
+{	return (StatusIconData*)CallService("MessageAPI/GetNthIcon", hContact, index);
 }
 
 // wParam = (HANDLE)hContact;

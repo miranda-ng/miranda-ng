@@ -394,7 +394,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			// re-enable the protocol and update the data for the station
 			db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
-			UpdateSingleStation((WPARAM)hContact, 0);
+			UpdateSingleStation(hContact, 0);
 
 		case IDCANCEL:		// fall through
 			// remove the dialog from window list and close it

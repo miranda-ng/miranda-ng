@@ -257,7 +257,7 @@ void DisplayLastError(const TCHAR *pszError)
 
 const TCHAR* NickFromHandle(MCONTACT hContact)
 {
-	const TCHAR *psz = (const TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+	const TCHAR *psz = (const TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 	if (psz )
 		return psz;
 	return pszNickError;

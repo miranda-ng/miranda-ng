@@ -173,7 +173,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		onExtraImageApplying((WPARAM)hContact, 1);
+		onExtraImageApplying(hContact, 1);
 
 	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	if (bContactMenuItem)

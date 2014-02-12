@@ -51,7 +51,7 @@ char *TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char* szProto)
 		if (hContact == NULL) {
 			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);
 		} else {
-			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
+			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 		}
 		if (ace!=NULL) {
 			if ( ace->cbSize == sizeof(avatarCacheEntry))

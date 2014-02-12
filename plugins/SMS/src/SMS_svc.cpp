@@ -140,7 +140,7 @@ void RestoreUnreadMessageAlerts(void)
 			if (db_event_get(hDbEvent, &dbei) == 0)
 			if ((dbei.flags & (DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
 			if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
-				handleNewMessage((WPARAM)hContact,(LPARAM)hDbEvent);
+				handleNewMessage(hContact,(LPARAM)hDbEvent);
 		}
 
 	for (HANDLE hDbEvent = db_event_firstUnread(NULL); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {

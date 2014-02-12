@@ -119,7 +119,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case IDC_DETAILS:
 		{
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 			break;
 		}
 

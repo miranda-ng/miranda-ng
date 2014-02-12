@@ -1294,7 +1294,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 						if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
 						if (getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON))
-							CallProtoService(m_szModuleName, MRA_REQ_AUTH, (WPARAM)hContact, 0);
+							CallProtoService(m_szModuleName, MRA_REQ_AUTH, hContact, 0);
 					}
 				}
 			}
@@ -1680,9 +1680,9 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 
 		// user typing
 		if (dwFlags & MESSAGE_FLAG_NOTIFY)
-			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, MAILRU_CONTACTISTYPING_TIMEOUT);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, MAILRU_CONTACTISTYPING_TIMEOUT);
 		else { // text/contact/auth // typing OFF
-			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 			if (dwFlags & MESSAGE_FLAG_MULTICHAT) {
 				DWORD dwMultiChatEventType;
@@ -1787,7 +1787,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 				}
 				else if (dwFlags & MESSAGE_FLAG_ALARM) { // alarm
 					if (m_heNudgeReceived)
-						NotifyEventHooks(m_heNudgeReceived, (WPARAM)hContact, NULL);
+						NotifyEventHooks(m_heNudgeReceived, hContact, NULL);
 					else {
 						pre.flags = PREF_UNICODE;
 						pre.szMessage = (LPSTR)TranslateTS(MRA_ALARM_MESSAGE);

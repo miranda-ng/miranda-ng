@@ -238,7 +238,7 @@ void RemoveUsers()
 		// Now delete all left-overs
 		hContact = db_find_first();
 		while(hContact != NULL) {
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 
 			hContact = db_find_first();
 		}

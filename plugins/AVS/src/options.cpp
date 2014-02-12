@@ -507,7 +507,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			hContact = lParam;
 			TranslateDialogDefault(hwndDlg);
 			if (hContact) {
-				szNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+				szNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 				mir_sntprintf(szTitle, 500, TranslateT("Set avatar options for %s"), szNick);
 				SetWindowText(hwndDlg, szTitle);
 			}
@@ -564,12 +564,12 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_PROTECTAVATAR:
 			{
 				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
-				ProtectAvatar((WPARAM)hContact, locked ? 1 : 0);
+				ProtectAvatar(hContact, locked ? 1 : 0);
 			}
 			break;
 
 		case IDC_CHANGE:
-			SetAvatar((WPARAM)hContact, 0);
+			SetAvatar(hContact, 0);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
 			break;
@@ -598,7 +598,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				char *szProto = GetContactProto(hContact);
 				DBVARIANT dbv = {0};
 
-				ProtectAvatar((WPARAM)hContact, 0);
+				ProtectAvatar(hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
@@ -623,7 +623,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_DELETE:
 			{
 				DBVARIANT dbv = {0};
-				ProtectAvatar((WPARAM)hContact, 0);
+				ProtectAvatar(hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
@@ -812,7 +812,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			break;
 
 		case IDC_CHANGE:
-			SetAvatar((WPARAM)hContact, 0);
+			SetAvatar(hContact, 0);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
 			break;
@@ -830,7 +830,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			{
 				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
 				SaveTransparentData(hwndDlg, hContact, locked);
-				ProtectAvatar((WPARAM)hContact, locked ? 1 : 0);
+				ProtectAvatar(hContact, locked ? 1 : 0);
 
 				break;
 			}
@@ -856,7 +856,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 				char *szProto = GetContactProto(hContact);
 				DBVARIANT dbv = {0};
 
-				ProtectAvatar((WPARAM)hContact, 0);
+				ProtectAvatar(hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
@@ -879,7 +879,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			{
 				DBVARIANT dbv = {0};
 
-				ProtectAvatar((WPARAM)hContact, 0);
+				ProtectAvatar(hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);

@@ -75,7 +75,7 @@ void CSkypeProto::UninitInstances()
 
 CSkypeProto* CSkypeProto::GetContactInstance(MCONTACT hContact)
 {
-	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 
 	if (proto == NULL)
 		return NULL;

@@ -101,7 +101,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	{
 		MCONTACT hContact = gg->getcontact(uin, 1, 0, NULL);
 		if (hContact != NULL)
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
 
 	return 0;

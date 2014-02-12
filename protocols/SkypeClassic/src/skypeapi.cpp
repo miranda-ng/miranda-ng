@@ -782,7 +782,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 								OUTPUTA(ptr);
 								free(ptr);
 							}
-							if (TempAdded) CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+							if (TempAdded) CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 						}
 						free(msg);
 					}
@@ -816,7 +816,7 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 
 				// Check, if another call is in progress
 				for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-					char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+					char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 					if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact != (MCONTACT)lParam &&
 						db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0 &&
 						!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv2)) 
@@ -831,7 +831,7 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				if (dbv2.pszVal)
 				{
 					char buf[256], buf2[256];
-					char *szOtherCaller=(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
+					char *szOtherCaller=(char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,0);
 
 					Utils_RestoreWindowPosition(hwndDlg, NULL, SKYPE_PROTONAME, "CALLSTATdlg");
 					TranslateDialogDefault(hwndDlg);

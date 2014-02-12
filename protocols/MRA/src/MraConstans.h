@@ -84,7 +84,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_FORGOT_PASSWORD_URL              _T("http://win.mail.ru/cgi-bin/passremind")
 
 
-// wParam = (WPARAM)hContact
+// wParam = hContact
 #define MRA_REQ_AUTH                         "/ReqAuth"
 #define MRA_REQ_AUTH_STR                     LPGEN("Request authorization")
 #define MRA_GRANT_AUTH                       "/GrantAuth"

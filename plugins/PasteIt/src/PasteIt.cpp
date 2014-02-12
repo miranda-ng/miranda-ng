@@ -172,7 +172,7 @@ void PasteIt(MCONTACT hContact, int mode)
 				}
 				
 				// Send message to focus window
-				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+				CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
 			}
 			else
 			{
@@ -192,17 +192,17 @@ void PasteIt(MCONTACT hContact, int mode)
 						// to focus window.
 						SendMessage(it->second, EM_SETSEL, -1, SendMessage(it->second, WM_GETTEXTLENGTH, 0, 0));
 						SendMessageA(it->second, EM_REPLACESEL, FALSE, (LPARAM)pasteToWeb->szFileLink);
-						CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
+						CallServiceSync(MS_MSG_SENDMESSAGE, hContact, NULL);
 					}
 					else
 					{
 						// If window do not exist, maybe it is not chat
-						CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)pasteToWeb->szFileLink);
+						CallServiceSync(MS_MSG_SENDMESSAGE, hContact, (LPARAM)pasteToWeb->szFileLink);
 					}
 				}
 				else
 				{
-					CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)pasteToWeb->szFileLink);
+					CallServiceSync(MS_MSG_SENDMESSAGE, hContact, (LPARAM)pasteToWeb->szFileLink);
 				}
 			}
 		}

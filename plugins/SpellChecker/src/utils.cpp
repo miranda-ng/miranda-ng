@@ -731,7 +731,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 	if (caps & PF4_INFOSETTINGSVC)
 		rc = CallProtoService(group, PS_GETINFOSETTING, (WPARAM) hContact, (LPARAM) &cgs);
 	else {
-		rc = CallService(MS_DB_CONTACT_GETSETTING_STR_EX, (WPARAM)hContact, (LPARAM)&cgs);
+		rc = CallService(MS_DB_CONTACT_GETSETTING_STR_EX, hContact, (LPARAM)&cgs);
 		if (rc == CALLSERVICE_NOTFOUND)
 			rc = db_get_ts(hContact, group, setting, &dbv);
 	}

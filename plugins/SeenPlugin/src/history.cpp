@@ -170,7 +170,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		hContact = (MCONTACT)lparam;
 		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lparam);
 		mir_sntprintf(sztemp, SIZEOF(sztemp), _T("%s: %s"),
-			CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR),
+			CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR),
 			TranslateT("last seen history"));
 		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)sztemp);
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
@@ -217,17 +217,17 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		case IDC_USERMENU:
 			{	
 				RECT rc;
-				HMENU hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
+				HMENU hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,hContact,0);
 				GetWindowRect(GetDlgItem(hwndDlg,IDC_USERMENU),&rc);
 				TrackPopupMenu(hMenu,0,rc.left,rc.bottom,0,hwndDlg,NULL);
 				DestroyMenu(hMenu);
 			}
 			break;
 		case IDC_DETAILS:
-			CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)hContact,0);
+			CallService(MS_USERINFO_SHOWDIALOG,hContact,0);
 			break;
 		case IDC_SENDMSG:
-			CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
+			CallService(MS_MSG_SENDMESSAGE,hContact,0);
 			break;
 		case IDC_TEST:
 			debug( ParseString( LPGENT("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r"), hContact, 0));

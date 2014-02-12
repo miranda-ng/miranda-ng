@@ -65,9 +65,9 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 	// if contact with the same ID was not found, add it
 	if (psr->cbSize < sizeof(PROTOSEARCHRESULT)) return 0;
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)WEATHERPROTONAME);
+	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)WEATHERPROTONAME);
 	// suppress online notification for the new contact
-	CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
+	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 
 	// set contact info and settings
 	TCHAR svc[256];
@@ -117,7 +117,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
 	}
 	// display the Edit Settings dialog box
-	EditSettings((WPARAM)hContact, 0);
+	EditSettings(hContact, 0);
 	return (INT_PTR)hContact;
 }
 

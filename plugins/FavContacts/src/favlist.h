@@ -19,7 +19,7 @@ public:
 		this->hContact = hContact;
 		this->bManual = bManual;
 		this->fRate = fRate;
-		name = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+		name = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 		if (g_Options.bUseGroups && !db_get_ts(hContact, "CList", "Group", &dbv))
 		{
 			group = mir_tstrdup(dbv.ptszVal);

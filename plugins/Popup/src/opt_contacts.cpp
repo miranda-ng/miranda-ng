@@ -86,7 +86,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			case PSN_APPLY:
 				HWND hwndList = GetDlgItem(hwnd, IDC_LIST);
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i) {
 						if (SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,0))) {
 							db_set_b(hContact, MODULNAME, "ShowMode", i);
@@ -118,7 +118,7 @@ static void sttResetListOptions(HWND hwndList)
 static void sttSetAllContactIcons(HWND hwndList)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
 		for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
 			//hIml element [0]    = SKINICON_OTHER_SMALLDOT

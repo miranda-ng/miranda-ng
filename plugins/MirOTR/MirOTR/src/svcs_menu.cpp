@@ -26,10 +26,10 @@ int StartOTR(MCONTACT hContact) {
 INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 
-	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", (WPARAM)hContact, 0) != 0 ) {
+	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
 		TCHAR msg[512];
 		mir_sntprintf(msg, 512, TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
 		ShowError(msg);
@@ -46,10 +46,10 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 
-	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", (WPARAM)hContact, 0) != 0 ) {
+	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
 		TCHAR msg[512];
 		mir_sntprintf(msg, 512, TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
 		ShowError(msg);
@@ -69,7 +69,7 @@ INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 int otr_disconnect_contact(MCONTACT hContact)
 {
 	MCONTACT hSub;
-	if(ServiceExists(MS_MC_GETMOSTONLINECONTACT) && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	if(ServiceExists(MS_MC_GETMOSTONLINECONTACT) && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 	
 	const char *proto = contact_get_proto(hContact);
@@ -100,7 +100,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
@@ -166,7 +166,7 @@ hide_all:
 	
 	if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) {
 		// make menu act as per most online subcontact
-		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		if (!hContact)
 			goto hide_all;
 		proto = contact_get_proto(hContact);

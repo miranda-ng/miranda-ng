@@ -147,7 +147,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 			 !mir_strncmp(pdbcws->szSetting, SET_CONTACT_COMPANY_EMAIL, 13) ||
 			 !mir_strncmp(pdbcws->szSetting, "mye-mail0", 9)))
 	{
-		OnCListApplyIcons((WPARAM)hContact, 0);
+		OnCListApplyIcons(hContact, 0);
 	}
 	return 0;
 }

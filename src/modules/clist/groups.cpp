@@ -227,7 +227,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 			db_unset(hContact, "CList", "Group");
 			grpChg.pszNewName = NULL;
 		}
-		NotifyEventHooks(hGroupChangeEvent, (WPARAM)hContact, (LPARAM)&grpChg);
+		NotifyEventHooks(hGroupChangeEvent, hContact, (LPARAM)&grpChg);
 	}
 	//shuffle list of groups up to fill gap
 	for (i = wParam - 1;; i++) {

@@ -1064,7 +1064,7 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 	else
 		db_unset(hContact, MODULE, "LastUsedMask");
 
-	SendLinkToUser((WPARAM)hContact, stNewShare.pszSrvPath);
+	SendLinkToUser(hContact, stNewShare.pszSrvPath);
 	return 0;
 }
 

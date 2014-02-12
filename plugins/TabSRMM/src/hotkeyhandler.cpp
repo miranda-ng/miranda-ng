@@ -107,7 +107,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 			pContainer->hwndSaved = 0;
 			SetForegroundWindow(pContainer->hwnd);
 		}
-		else CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+		else CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		return;
 	}
 	
@@ -127,7 +127,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 		}
 	}
 
-	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0);
+	CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
 }
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle)

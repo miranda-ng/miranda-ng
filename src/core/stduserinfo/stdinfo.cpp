@@ -40,7 +40,7 @@ static int Proto_GetContactInfoSetting(MCONTACT hContact, const char *szProto, c
 	DBCONTACTGETSETTING cgs = {szModule, szSetting, dbv};
 	dbv->type = (BYTE)nType;
 
-	return CallProtoService(szProto, PS_GETINFOSETTING, (WPARAM)hContact, (LPARAM)&cgs);
+	return CallProtoService(szProto, PS_GETINFOSETTING, hContact, (LPARAM)&cgs);
 }
 
 static void Proto_FreeInfoVariant(DBVARIANT *dbv)

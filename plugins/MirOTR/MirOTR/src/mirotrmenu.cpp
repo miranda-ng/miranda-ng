@@ -86,7 +86,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 		return TRUE;
 
 	MCONTACT hContact = (MCONTACT)pcpp->wParam, hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 	
 	TrustLevel level = ( TrustLevel )otr_context_get_trust(otrl_context_find_miranda(otr_user_state, hContact));
@@ -177,7 +177,7 @@ LRESULT CALLBACK PopupMenuWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 }
 
 void ShowOTRMenu(MCONTACT hContact, POINT pt){
-	HMENU menu = (HMENU) CallService(MS_MIROTR_MENUBUILDMIROTR, (WPARAM)hContact, 0);
+	HMENU menu = (HMENU) CallService(MS_MIROTR_MENUBUILDMIROTR, hContact, 0);
 	SetWindowLongPtr(hDummyPaintWin, GWLP_USERDATA, (LONG_PTR)hContact);
 	TrackPopupMenu(menu, 0, pt.x, pt.y, 0, hDummyPaintWin, 0);
 	DestroyMenu(menu);

@@ -847,13 +847,13 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 							char msg[1024];
 							mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete contact \"%s\"?"), module);
 							if (MessageBox(0,msg, Translate("Confirm Contact Delete"), MB_YESNO|MB_ICONEXCLAMATION) == IDYES) {
-								CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact,0);
+								CallService(MS_DB_CONTACT_DELETE, hContact,0);
 								freeTree(((LPNMHDR)lParam)->hwndFrom,hContact);
 								TreeView_DeleteItem(((LPNMHDR)lParam)->hwndFrom,tvi.hItem);
 							}
 						}
 						else {
-							CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact,0);
+							CallService(MS_DB_CONTACT_DELETE, hContact,0);
 							freeTree(((LPNMHDR)lParam)->hwndFrom,hContact);
 							TreeView_DeleteItem(((LPNMHDR)lParam)->hwndFrom,tvi.hItem);
 						}

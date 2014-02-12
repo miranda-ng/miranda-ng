@@ -103,7 +103,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		ExtraIconsApply((WPARAM)hContact, 1);
+		ExtraIconsApply(hContact, 1);
 
 	return 0;
 }

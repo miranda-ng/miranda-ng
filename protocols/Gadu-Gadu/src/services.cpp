@@ -383,7 +383,7 @@ INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM wParam, LPARAM lParam)
 INT_PTR GGPROTO::leavechat(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact)
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 
 	return 0;
 }

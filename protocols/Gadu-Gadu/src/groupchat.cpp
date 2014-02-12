@@ -143,7 +143,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 			DBVARIANT dbv;
 			if (!getTString(hContact, "ChatRoomID", &dbv)) {
 				if (dbv.ptszVal && !_tcscmp(gch->pDest->ptszID, dbv.ptszVal))
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 				db_free(&dbv);
 			}
 			hContact = hNext;
@@ -195,7 +195,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 	{
 		MCONTACT hContact = NULL;
 		if ((uin = _ttoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
 	debugLog(_T("gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\"."), gch->pDest->iType, chat, uin, gch->ptszText);
 
@@ -396,9 +396,9 @@ static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
 
 	if (szProto && szMetaProto && (INT_PTR)szMetaProto != CALLSERVICE_NOTFOUND && !lstrcmpA(szProto, szMetaProto))
 	{
-		int nSubContacts = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0), i;
+		int nSubContacts = (int)CallService(MS_MC_GETNUMCONTACTS, hContact, 0), i;
 		for (i = 0; i < nSubContacts; i++) {
-			MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
+			MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, i);
 			szProto = GetContactProto(hMetaContact);
 			if (szProto && !lstrcmpA(szProto, gg->m_szModuleName))
 				return hMetaContact;
@@ -424,7 +424,7 @@ static int gg_gc_countcheckmarks(HWND hwndList)
 {
 	int count = 0;
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 			count++;
 	}
@@ -476,7 +476,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
 						gg->debugLogA("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
 						for (MCONTACT hContact = db_find_first(); hContact && i < count; hContact = db_find_next(hContact)) {
-							HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+							HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 							if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 								MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
 								participants[i++] = db_get_dw(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
@@ -525,7 +525,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 
 							// Delete non-gg contacts
 							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-								MCONTACT hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+								MCONTACT hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 								if (hItem) {
 									MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
 									if (hMetaContact) {

@@ -58,7 +58,7 @@ void CallbackExtraIcon::applyIcon(MCONTACT hContact)
 	if (needToRebuild)
 		rebuildIcons();
 
-	ApplyIcon((WPARAM)hContact, 0);
+	ApplyIcon(hContact, 0);
 }
 
 int CallbackExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE icon)

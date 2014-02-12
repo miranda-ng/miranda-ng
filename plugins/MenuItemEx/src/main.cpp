@@ -168,7 +168,7 @@ void RenameDbProto(MCONTACT hContact, MCONTACT hContactNew, char* oldName, char*
 	dbces.lParam = (LPARAM)&settinglist;
 	settinglist.first = 0;
 	settinglist.last = 0;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact,(LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact,(LPARAM)&dbces);
 
 	setting = settinglist.first;
 	while (setting) {
@@ -215,7 +215,7 @@ void ShowPopup(char* szText, TCHAR* tszText, MCONTACT hContact)
 
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
-	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), MAX_CONTACTNAME - 1);
+	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME - 1);
 	_tcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
 
@@ -227,7 +227,7 @@ BOOL DirectoryExists(MCONTACT hContact)
 {
 	int attr;
 	char path[MAX_PATH];
-	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, (WPARAM)hContact, (LPARAM)&path);
+	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
 	attr = GetFileAttributesA(path);
 	return (attr != -1) && (attr&FILE_ATTRIBUTE_DIRECTORY);
 }
@@ -274,14 +274,14 @@ BOOL isMetaContact(MCONTACT hContact)
 MCONTACT getDefaultContact(MCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
 	return 0;
 }
 
 MCONTACT getMostOnline(MCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 	return 0;
 }
 
@@ -731,7 +731,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 	if (CTRL_IS_PRESSED) {
 		hContactNew = hContact;
 		RenameDbProto(hContact, hContactNew, GetContactProto(hContact), (char*)lparam, 1);
-		CallService(MS_PROTO_REMOVEFROMCONTACT, (WPARAM)hContact, (LPARAM)GetContactProto(hContact));
+		CallService(MS_PROTO_REMOVEFROMCONTACT, hContact, (LPARAM)GetContactProto(hContact));
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContactNew, lparam);
 	}
 	else {
@@ -755,7 +755,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 int isIgnored(MCONTACT hContact, int type)
 {
 	if (type != IGNOREEVENT_ALL)
-		return CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, (LPARAM)type);
+		return CallService(MS_IGNORE_ISIGNORED, hContact, (LPARAM)type);
 
 	int i = 0, all = 0;
 	for (i = 1; i < SIZEOF(ii); i++)
@@ -963,7 +963,7 @@ static void TabsrmmButtonsModify(MCONTACT hContact)
 		bbd.dwButtonID = 0;
 		bbd.pszModuleName = MODULENAME;
 		bbd.bbbFlags = BBSF_DISABLED | BBSF_HIDDEN;
-		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd);
+		CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 	}
 }
 

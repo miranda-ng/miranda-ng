@@ -172,7 +172,7 @@ MCONTACT find_chat(LPCTSTR chatname) {
 	DBVARIANT dbv;
 
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
 			db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==1)
 		{
@@ -194,7 +194,7 @@ MCONTACT find_chatA(char *chatname) {
 	DBVARIANT dbv;
 
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
 			db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==1)
 		{
@@ -494,7 +494,7 @@ void InviteUser(const TCHAR *szChatId)
     
 	// generate a list of contact
 	while (hContact) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact,0 );
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact,0 );
 		if (szProto && !strcmp(SKYPE_PROTONAME, szProto) &&
 			!db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) &&
 			 db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE) 
@@ -508,7 +508,7 @@ void InviteUser(const TCHAR *szChatId)
 			}
             if (!alreadyInSession)
 				AppendMenu(tMenu, MF_STRING, (UINT_PTR)hContact, 
-					(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+					(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
         }
 		hContact = db_find_next(hContact);
 	}
@@ -622,7 +622,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				}
 				// Delete Chatroom from Contact list, as we don't need it anymore...?
 				if (hContact = find_chat(gc->szChatName))
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0); 
+					CallService(MS_DB_CONTACT_DELETE, hContact, 0); 
 				RemChat(gc->szChatName);
 
 				break;
@@ -692,7 +692,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				break;
 			case GC_USER_PRIVMESS: {
 				MCONTACT hContact = find_contactT(gch->ptszUID);
-				if (hContact) CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+				if (hContact) CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 				break;
 
 			}
@@ -717,8 +717,8 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				MCONTACT hContact = find_contactT(gch->ptszUID);
 
 				switch(gch->dwData) {
-				case 10:CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0); break;
-				case 20:CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0); break;
+				case 10:CallService(MS_USERINFO_SHOWDIALOG, hContact, 0); break;
+				case 20:CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0); break;
 				case 30: KickUser(hContact, gch); break;
 				case 110: KillChatSession(gch->pDest); break;
 				}

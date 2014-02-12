@@ -68,7 +68,7 @@ void CheckIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap,
 	sicd.szModule = sid->szModule;
 	sicd.flags = click_flags;
 
-	NotifyEventHooks(hHookIconPressedEvt, (WPARAM)hContact, (LPARAM)&sicd);
+	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)&sicd);
 }
 
 HANDLE hServiceIcon[3];

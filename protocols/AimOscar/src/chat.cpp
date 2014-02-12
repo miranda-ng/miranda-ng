@@ -139,7 +139,7 @@ int CAimProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 				char* sn = mir_t2a(gch->ptszUID);
 				MCONTACT hContact = contact_from_sn(sn);
 				mir_free(sn);
-				CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+				CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			}
 			break;
 
@@ -166,11 +166,11 @@ int CAimProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 				switch (gch->dwData) 
 				{
 				case 10:
-					CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+					CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 					break;
 
 				case 20:
-					CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+					CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 					break;
 
 				case 110:

@@ -13,7 +13,7 @@ BOOL isProtoMetaContacts(MCONTACT hContact)
 BOOL isDefaultSubContact(MCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0),0) == hContact;
+		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,hContact,0),0) == hContact;
 
 	return false;
 }
@@ -21,7 +21,7 @@ BOOL isDefaultSubContact(MCONTACT hContact)
 MCONTACT getMetaContact(MCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		return (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 
 	return 0;
 }
@@ -29,7 +29,7 @@ MCONTACT getMetaContact(MCONTACT hContact)
 MCONTACT getMostOnline(MCONTACT hContact)
 {
 	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 
 	return 0;
 }

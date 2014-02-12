@@ -556,7 +556,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	lstrcpyn(file, _tcsrchr(fn, '\\')+1, sizeof(file));
 	ofn.lpstrFile = file;
 
-	TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
+	TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
 	if (displayName)
 	{
 		TCHAR title[MAX_PATH];

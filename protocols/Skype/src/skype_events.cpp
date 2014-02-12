@@ -140,7 +140,7 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = (MCONTACT)lParam;
 	if (hContact) {
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			odp.pfnDlgProc = SkypeDlgProc;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);

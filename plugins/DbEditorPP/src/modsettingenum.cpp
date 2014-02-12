@@ -65,7 +65,7 @@ int EnumSettings(MCONTACT hContact, char* module, ModuleSettingLL *msll)
 	dbces.lParam = (LPARAM)msll;
 	msll->first = 0;
 	msll->last = 0;
-	return !CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	return !CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 }
 
 int CheckIfModuleIsEmptyProc(const char *szSetting, LPARAM lParam)
@@ -78,7 +78,7 @@ int IsModuleEmpty(MCONTACT hContact, char* szModule)
 	DBCONTACTENUMSETTINGS dbces;
 	dbces.pfnEnumProc = CheckIfModuleIsEmptyProc;
 	dbces.szModule = szModule;
-	int retVal = CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	int retVal = CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 	if (retVal >= 0)
 		return 0;
 	return 1;

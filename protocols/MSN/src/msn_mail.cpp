@@ -296,7 +296,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
 	if (hContact)
 	{
-		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
+		CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
 		displayEmailCount(hContact);
 
 		if (ShowPopup && !getByte("DisableHotmailTray", 1))
@@ -313,7 +313,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			mir_snprintf(buf, SIZEOF(buf), "%s%s", m_szModuleName, MS_GOTO_INBOX);
 			cle.pszService = buf;
 
-			CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);
+			CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 		}
 	}
 

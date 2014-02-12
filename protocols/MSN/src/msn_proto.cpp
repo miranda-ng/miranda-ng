@@ -399,7 +399,7 @@ int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 		if (msc->hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
 		msc->hContact = NULL;
 		MCONTACT hContact = MSN_HContactFromEmail(email);
-		if (hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		if (hContact) CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	}
 
 	return 0;

@@ -1288,7 +1288,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				TYP_MSGLENTRY *pme;
 
 				LOG(("FetchMessageThread Adding event"));
-				if (!(dbei.szModule=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)))
+				if (!(dbei.szModule=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0)))
 					dbei.szModule=SKYPE_PROTONAME;
 				dbei.cbBlob=msglen;
 				if (pre.flags & PREF_UNICODE)
@@ -1366,7 +1366,7 @@ void FetchMessageThreadSync(fetchmsg_arg *pargs) {
 		{
 			MCONTACT hContact;
 			if ((int)(hContact = (MCONTACT)CallService (MS_DB_EVENT_GETCONTACT, (WPARAM)pMsgEntry->hEvent, 0)) != -1)
-				CallService (MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDBEvent);
+				CallService (MS_DB_EVENT_MARKREAD, hContact, (LPARAM)hDBEvent);
 		}
 		*/
 		free (pargs);
@@ -1445,7 +1445,7 @@ MCONTACT GetCallerContact(char *szSkypeMsg)
 MCONTACT GetMetaHandle(DWORD dwId)
 {
 	for (MCONTACT hContact=db_find_first(); hContact != NULL; hContact=db_find_next(hContact)) {
-		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, "MetaContacts") &&
 			db_get_dw(hContact, "MetaContacts", "MetaID", MAXDWORD)==dwId)
 			return hContact;
@@ -1559,7 +1559,7 @@ void RingThread(char *szSkypeMsg) {
 			unsigned int popupBackColor, popupTextColor;
 			int popupTimeSec;
 			POPUPDATAT InCallPopup;
-			TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
+			TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
 
 			popupTimeSec = db_get_dw(NULL, SKYPE_PROTONAME, "popupTimeSec", 4);
 			popupTextColor = db_get_dw(NULL, SKYPE_PROTONAME, "popupTextColor", GetSysColor(COLOR_WINDOWTEXT));
@@ -1589,7 +1589,7 @@ void RingThread(char *szSkypeMsg) {
 		dbei.flags=DBEF_READ;
 		cle.hContact=hContact;
 		cle.hDbEvent=db_event_add(hContact, &dbei);
-		_snprintf(toolTip,sizeof(toolTip),Translate("Incoming call from %s"),(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
+		_snprintf(toolTip,sizeof(toolTip),Translate("Incoming call from %s"),(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,0));
 		cle.pszTooltip=toolTip;
 		CallServiceSync(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
 	} 
@@ -1649,7 +1649,7 @@ void EndCallThread(char *szSkypeMsg) {
 				db_event_get(hDbEvent, &dbei);
 					if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CALL) {
 					db_event_markRead(hContact,hDbEvent);
-					CallService(MS_CLIST_REMOVEEVENT,(WPARAM)hContact,(LPARAM)hDbEvent);
+					CallService(MS_CLIST_REMOVEEVENT,hContact,(LPARAM)hDbEvent);
 				}
 				if (dbei.pBlob) free(dbei.pBlob);
 				hDbEvent=db_event_next(hDbEvent);
@@ -1658,10 +1658,10 @@ void EndCallThread(char *szSkypeMsg) {
 
 		if (!db_get_s(hContact, SKYPE_PROTONAME, "SkypeOutNr", &dbv)) {
 			db_free(&dbv);
-			if (!strcmp((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), SKYPE_PROTONAME) && 
+			if (!strcmp((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0), SKYPE_PROTONAME) && 
 				db_get_b(hContact, "CList", "NotOnList", 0)
 			   )
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		}
 	}
 	free(szSkypeMsg);
@@ -1842,7 +1842,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 										LPARAM lTyping = PROTOTYPE_CONTACTTYPING_OFF;
 
 										if (!strcmp(p, "PURPLE_TYPING")) lTyping=PROTOTYPE_CONTACTTYPING_INFINITE;
-										CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, lTyping);
+										CallService(MS_PROTO_CONTACTISTYPING, hContact, lTyping);
 										break;
 									}
 								}
@@ -2048,7 +2048,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				} else { // BUDDYSTATUS:
 					flag=0;
 					switch(atoi(ptr+12)) {
-						case 1: if (hContact=find_contact(nick)) CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0); break;
+						case 1: if (hContact=find_contact(nick)) CallService(MS_DB_CONTACT_DELETE, hContact, 0); break;
 						case 0: break;
 						case 2: flag=PALF_TEMPORARY;
 						case 3: add_contact(nick, flag); 
@@ -2922,7 +2922,7 @@ void CleanupNicknames(char *dummy) {
 
 	LOG(("CleanupNicknames Cleaning up..."));
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
 			db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==0)	
 		{
@@ -3052,7 +3052,7 @@ int AnySkypeusers(void)
 
 	for ( ;; ) {
 		memset(&pdi,0,sizeof(pdi));
-		CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)hContact,(LPARAM)&cns);
+		CallService(MS_DB_CONTACT_ENUMSETTINGS,hContact,(LPARAM)&cns);
 		// Upgrade Protocol settings to new string
 		if (pdi.szSettings) {
 			int i;
@@ -3063,7 +3063,7 @@ int AnySkypeusers(void)
 					cws.szModule=SKYPE_PROTONAME;
 					cws.szSetting=pdi.szSettings[i];
 					cws.value=dbv;
-					if (!CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws))
+					if (!CallService(MS_DB_CONTACT_WRITESETTING,hContact,(LPARAM)&cws))
 						db_unset(hContact,OldName,pdi.szSettings[i]);
 					db_free(&dbv);
 				}		

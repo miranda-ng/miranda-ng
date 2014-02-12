@@ -602,7 +602,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 
 				if (MCONTACT hContact = HContactFromJID(him->m_tszRealJid)) {
 					gcmi->Item[3].uType = MENU_HMENU;
-					gcmi->Item[3].dwID = CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+					gcmi->Item[3].dwID = CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 					sttShowGcMenuItems(gcmi, sttRJidItems, 0);
 				}
 				else {
@@ -743,7 +743,7 @@ public:
 		MCONTACT hContact = m_proto->HContactFromJID(buf);
 		if (hContact)
 		{
-			int hItem = SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			int hItem = SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem)
 				SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, hItem, 1);
 			return;
@@ -780,7 +780,7 @@ public:
 			if (m_proto->isChatRoom(hContact))
 				continue;
 
-			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0)) {
+			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0)) {
 				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 					ptrT jid(m_proto->getTStringA(hContact, "jid"));
 					if (jid != NULL)
@@ -1040,7 +1040,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
 			MCONTACT hContact = (MCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 
@@ -1212,7 +1212,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
 			hContact = (MCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		}
 		break;
 
@@ -1378,7 +1378,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 		db_set_b(hContact, "CList", "Hidden", 1);
 		ppro->setTString(hContact, "Nick", nick);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
-		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
 }
 

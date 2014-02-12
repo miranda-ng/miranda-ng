@@ -228,7 +228,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						szUserSessionName[lenght+1]='\0';
 						if (IsDlgButtonChecked(hdlg,IDC_SELCONTACTS)&&bSC) {
 							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-								BYTE res =(BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
+								BYTE res =(BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, hContact, 0), 0);
 								if (res) {
 									user_session_list[i] = hContact;
 									i++;

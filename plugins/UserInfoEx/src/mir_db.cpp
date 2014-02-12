@@ -58,7 +58,7 @@ MCONTACT GetMeta(MCONTACT hContact)
 	if (!myGlobals.szMetaProto)
 		return NULL;
 
-	MCONTACT result = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+	MCONTACT result = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 	return (result == (MCONTACT)CALLSERVICE_NOTFOUND) ? NULL : result;
 }
 
@@ -192,7 +192,7 @@ bool IsEmpty(MCONTACT hContact, LPCSTR pszModule)
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = IsEmptyEnumProc;
 	dbces.szModule = pszModule;
-	return (0 > CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces));
+	return (0 > CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces));
 }
 
 /**
@@ -832,7 +832,7 @@ INT_PTR CEnumList::EnumSettings(MCONTACT hContact, LPCSTR pszModule)
 	dbces.pfnEnumProc = (DBSETTINGENUMPROC)CEnumList::EnumSettingsProc;
 	dbces.szModule = pszModule;
 	dbces.lParam = (LPARAM)this;
-	return CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact, (LPARAM)&dbces);
+	return CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 }
 
 } /* namespace DB */

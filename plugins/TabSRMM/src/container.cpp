@@ -45,7 +45,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 		if (hContact == 0)
 			return 0;
 		if (item->dwFlags & BUTTON_PASSHCONTACTW)
-			*wParam = (WPARAM)hContact;
+			*wParam = hContact;
 		else if (item->dwFlags & BUTTON_PASSHCONTACTL)
 			*lParam = (LPARAM)hContact;
 		return 1;
@@ -880,7 +880,7 @@ panel_found:
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 					if (hContact) {
 						int iSel = 0;
-						hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+						hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 						iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 						if (iSel)
 							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), (LPARAM)hContact);
@@ -1397,7 +1397,7 @@ panel_found:
 				if (pContainer->hwndActive) {
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 					if (hContact)
-						SendMessage(hwndDlg, DM_UPDATETITLE, (WPARAM)hContact, 0);
+						SendMessage(hwndDlg, DM_UPDATETITLE, hContact, 0);
 				}
 			}
 			ZeroMemory(&item, sizeof(item));
@@ -1635,7 +1635,7 @@ panel_found:
 				hContact = 0;
 				SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 				if (hContact)
-					SendMessage(hwndDlg, DM_UPDATETITLE, (WPARAM)hContact, 0);
+					SendMessage(hwndDlg, DM_UPDATETITLE, hContact, 0);
 			}
 			SendMessage(hwndDlg, WM_SIZE, 0, 1);
 			BroadCastContainer(pContainer, DM_CONFIGURETOOLBAR, 0, 1);

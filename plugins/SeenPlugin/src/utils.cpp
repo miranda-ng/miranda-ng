@@ -455,7 +455,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		case WM_COMMAND: 
 			if (HIWORD(wParam) == STN_CLICKED){
 				MCONTACT hContact = PUGetContact(hwnd);
-				if (hContact > 0) CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
+				if (hContact > 0) CallService(MS_MSG_SENDMESSAGE,hContact,0);
 			}
 		case WM_CONTEXTMENU:
 			PUDeletePopup(hwnd);
@@ -550,7 +550,7 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 
 	MCONTACT hContact = (MCONTACT)wparam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING *)lparam;
-	//if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE)) return 0;
+	//if (CallService(MS_IGNORE_ISIGNORED,hContact,IGNOREEVENT_USERONLINE)) return 0;
 	BOOL isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
 	if (strcmp(cws->szSetting,"Status") && strcmp(cws->szSetting,"StatusTriger") && (isIdleEvent==0)) return 0;
 	if (!strcmp(cws->szModule,S_MOD)) {

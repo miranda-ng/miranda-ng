@@ -414,7 +414,7 @@ void	MTime::GetLocalTime(MCONTACT hContact)
 
 	GetTimeUTC();
 
-	if (!GetContactTimeZoneInformation((WPARAM)hContact, (LPARAM)&tzi)) {
+	if (!GetContactTimeZoneInformation(hContact, (LPARAM)&tzi)) {
 		UTCToTzSpecificLocal(&tzi);
 	}
 }

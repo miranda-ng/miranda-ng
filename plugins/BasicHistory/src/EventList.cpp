@@ -433,7 +433,7 @@ std::wstring EventList::GetMyName()
 
 inline std::wstring GetProtocolName(MCONTACT hContact)
 {
-	char* ac = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
+	char* ac = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 	std::wstring proto1;
 	if (ac != NULL) {
 		PROTOACCOUNT* acnt = ProtoGetAccount(ac);

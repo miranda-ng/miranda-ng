@@ -148,7 +148,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		//TODO - metacontacts support - C:\MIRANDA\SOURCES\PLUGINS\popup_trunk\src\popup_wnd2.cpp : 1083
 		//	//check for MetaContact and get szProto from subcontact
 		//	if(strcmp(targetHandleSzProto, gszMetaProto)==0) {
-		//		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+		//		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
 		//		if(!hSubContact) return FALSE;
 		//		targetHandleSzProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hSubContact, 0);
 		//	}

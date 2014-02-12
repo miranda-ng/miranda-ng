@@ -464,7 +464,7 @@ bool CAppletManager::ActivateChatScreen(MCONTACT hContact)
 tstring CAppletManager::GetContactDisplayname(MCONTACT hContact,bool bShortened)
 {
 	if(!bShortened || !CConfig::GetBoolSetting(NOTIFY_NICKCUTOFF))
-		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 	
 	tstring strNick = GetContactDisplayname(hContact,false);
 	if(strNick.length() > (tstring::size_type)CConfig::GetIntSetting(NOTIFY_NICKCUTOFF_OFFSET))
@@ -791,7 +791,7 @@ bool CAppletManager::IsSubContact(MCONTACT hContact)
 		return false;
 	bool bIsSubcontact = db_get_b(hContact,"MetaContacts","IsSubcontact",0);
 	return bIsSubcontact;
-	// HANDLE hMetaContact = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, NULL);
+	// HANDLE hMetaContact = (HANDLE)CallService(MS_MC_GETMETACONTACT, hContact, NULL);
 	// return hMetaContact != NULL;
 }
 
@@ -815,7 +815,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
     if (!db_get_b(hContact, "SRMsg", "SupportTyping", db_get_b(NULL, "SRMsg", "DefaultTyping", 1)))
         return;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
     if (!szProto)
         return;
 
@@ -849,7 +849,7 @@ HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 	pJob->dwTimestamp = GetTickCount();
 	pJob->hContact = hContact;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 	tstring strProto = toTstring(szProto);
 
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
@@ -945,7 +945,7 @@ bool CAppletManager::IsMessageWindowOpen(MCONTACT hContact)
 void CAppletManager::MarkMessageAsRead(MCONTACT hContact,HANDLE hEvent)
 {
 	db_event_markRead(hContact, hEvent);
-	CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hEvent);
+	CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)hEvent);
 }
 
 //************************************************************************
@@ -1216,7 +1216,7 @@ void CAppletManager::DeleteIRCHistory(MCONTACT hContact)
 //************************************************************************
 CIRCHistory *CAppletManager::CreateIRCHistory(MCONTACT hContact,tstring strChannel)
 {
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 	if(!szProto)
 		return NULL;
 

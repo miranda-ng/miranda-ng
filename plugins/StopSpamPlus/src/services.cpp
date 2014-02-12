@@ -38,7 +38,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						db_set_b( hContact, "CList", "Delete", 1 );
 					else
-						CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0 );
+						CallService(MS_DB_CONTACT_DELETE, hContact, 0 );
 				}
 			}
 		}

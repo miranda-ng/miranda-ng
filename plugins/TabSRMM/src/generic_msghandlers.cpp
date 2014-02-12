@@ -1339,7 +1339,7 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 		return;
 	// End user check
 	dat->nTypeMode = mode;
-	CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, dat->nTypeMode);
+	CallService(MS_PROTO_SELFISTYPING, hContact, dat->nTypeMode);
 }
 
 void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)

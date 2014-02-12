@@ -29,7 +29,7 @@ PopupAvatar *PopupAvatar::create(MCONTACT hContact)
 	{
 		if (ServiceExists(MS_AV_GETAVATARBITMAP))
 		{
-			avatarCacheEntry *av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
+			avatarCacheEntry *av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 //			MessageBox(NULL, _T("00"), _T(MODULNAME_LONG), MB_OK);
 			if (av && (_tcslen(av->szFilename) > 4))
 			{

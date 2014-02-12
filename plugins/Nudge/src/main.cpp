@@ -259,7 +259,7 @@ void HideNudgeButton(MCONTACT hContact)
 		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
 		bbd.pszModuleName = "Nudge";
 		bbd.dwButtonID = 6000;
-		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd);
+		CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 	}
 }
 
@@ -389,9 +389,9 @@ int Preview()
 				if (n->item.shakeClist)
 					ShakeClist(0, 0);
 				if (n->item.openMessageWindow)
-					CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, NULL);
+					CallService(MS_MSG_SENDMESSAGET, hContact, NULL);
 				if (n->item.shakeChat)
-					ShakeChat((WPARAM)hContact, (LPARAM)time(NULL));
+					ShakeChat(hContact, (LPARAM)time(NULL));
 			}
 		}
 	}
@@ -405,9 +405,9 @@ int Preview()
 			if (DefaultNudge.shakeClist)
 				ShakeClist(0, 0);
 			if (DefaultNudge.openMessageWindow)
-				CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, NULL);
+				CallService(MS_MSG_SENDMESSAGET, hContact, NULL);
 			if (DefaultNudge.shakeChat)
-				ShakeChat((WPARAM)hContact, (LPARAM)time(NULL));
+				ShakeChat(hContact, (LPARAM)time(NULL));
 		}
 	}
 	return 0;
@@ -416,7 +416,7 @@ int Preview()
 void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
 {
 	hContact = Nudge_GethContact(hContact);
-	TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+	TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		POPUPDATACLASS NudgePopup = { 0 };
@@ -459,7 +459,7 @@ void Nudge_SentStatus(CNudgeElement n, MCONTACT hContact)
 	dbei.cbBlob = (DWORD)strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
 
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0); //try to retrieve the metacontact if some
+	INT_PTR res = CallService(MS_MC_GETMETACONTACT, hContact, 0); //try to retrieve the metacontact if some
 	if (res != CALLSERVICE_NOTFOUND) {
 		MCONTACT hMetaContact = (MCONTACT)res;
 		if (hMetaContact != NULL) // metacontact
@@ -482,7 +482,7 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 	dbei.cbBlob = (DWORD)strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
 
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0); //try to retrieve the metacontact if some
+	INT_PTR res = CallService(MS_MC_GETMETACONTACT, hContact, 0); //try to retrieve the metacontact if some
 	if (res != CALLSERVICE_NOTFOUND) {
 		MCONTACT hMetaContact = (MCONTACT)res;
 		if (hMetaContact != NULL) { //metacontact
@@ -497,7 +497,7 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 
 MCONTACT Nudge_GethContact(MCONTACT hContact)
 {
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+	INT_PTR res = CallService(MS_MC_GETMETACONTACT, hContact, 0);
 	if (res != CALLSERVICE_NOTFOUND) {
 		MCONTACT hMetaContact = (MCONTACT)res;
 		if (hMetaContact != NULL)

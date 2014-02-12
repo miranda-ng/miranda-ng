@@ -80,13 +80,13 @@ void PopupAction(HWND hWnd, BYTE action)
 	if (hContact && hContact != INVALID_CONTACT_ID) {
 		switch (action) {
 		case PCA_OPENMESSAGEWND:
-			CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
+			CallServiceSync(MS_MSG_SENDMESSAGET, hContact, 0);
 			break;
 
 		case PCA_OPENMENU:
 			{
 				POINT pt = {0};
-				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 				GetCursorPos(&pt);
 				TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, NULL);
 				DestroyMenu(hMenu);
@@ -94,11 +94,11 @@ void PopupAction(HWND hWnd, BYTE action)
 			return;
 
 		case PCA_OPENDETAILS:
-			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+			CallServiceSync(MS_USERINFO_SHOWDIALOG, hContact, 0);
 			break;
 
 		case PCA_OPENHISTORY:
-			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
+			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 			break;
 
 		case PCA_CLOSEPOPUP:

@@ -434,11 +434,11 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		db_set_w(hContact, "UserOnline", "OldStatus", newStatus);
 
 		//If *Miranda* ignores the UserOnline event, exit!
-		if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, IGNOREEVENT_USERONLINE))
+		if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
 			return 0;
 
 		//If we get here, we have to notify the Hooks.
-		NotifyEventHooks(hHookContactStatusChanged, (WPARAM)hContact, (LPARAM)MAKELPARAM(oldStatus, newStatus));
+		NotifyEventHooks(hHookContactStatusChanged, hContact, (LPARAM)MAKELPARAM(oldStatus, newStatus));
 		return 1;
 	}
 	else if ( !strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg")) {
@@ -619,7 +619,7 @@ void ShowStatusChangePopup(MCONTACT hContact, char *szProto, WORD oldStatus, WOR
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadSkinnedProtoIcon(szProto, newStatus);
-	_tcsncpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_TCHAR), MAX_CONTACTNAME);
+	_tcsncpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_TCHAR), MAX_CONTACTNAME);
 
 	if (opt.ShowGroup) { //add group name to popup title
 		DBVARIANT dbv;
@@ -698,7 +698,7 @@ void BlinkIcon(MCONTACT hContact, char* szProto, WORD status)
 	cle.pszService = "UserOnline/Description";
 	cle.ptszTooltip = stzTooltip;
 
-	TCHAR *hlpName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+	TCHAR *hlpName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 	mir_sntprintf(stzTooltip, SIZEOF(stzTooltip), TranslateT("%s is now %s"), hlpName, StatusList[Index(status)].lpzStandardText);
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 }
@@ -776,7 +776,7 @@ int ContactStatusChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		hlpProto = GetContactProto(hSubContact);
 		if (hlpProto == NULL)
 			return 0;
@@ -842,7 +842,7 @@ int ContactStatusChanged(WPARAM hContact, LPARAM lParam)
 		TCHAR stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT];
 		TCHAR stzText[1024];
 
-		_tcscpy(stzName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+		_tcscpy(stzName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 		_tcsncpy(stzStatus, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
 		_tcsncpy(stzOldStatus, StatusList[Index(oldStatus)].lpzStandardText, MAX_STATUSTEXT);
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("HH':'mm"), stzTime, SIZEOF(stzTime));

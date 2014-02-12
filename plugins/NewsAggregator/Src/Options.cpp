@@ -58,7 +58,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 				
 				MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
+				CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULE);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
 				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -518,7 +518,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					if ( lstrcmp(dbURL, url))
 						continue;
 
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 					ListView_DeleteItem(hwndList, sel);
 					break;
 				}

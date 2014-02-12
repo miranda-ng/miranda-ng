@@ -559,7 +559,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			TCHAR *proto_t;
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				proto = contact_get_proto(hContact);
-				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME) // ignore chatrooms
+				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME) // ignore chatrooms
 					&& (g_metaproto  == 0 || strcmp(proto, g_metaproto) != 0)) // and MetaContacts
 				{
 					lvI.iItem = 0;

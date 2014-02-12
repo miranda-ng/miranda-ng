@@ -170,7 +170,7 @@ static void setListContactIcons(HWND hwndList){
 	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
 
 		MCONTACT hContact = mirandaContactsIter->contactHandle;
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if(hItem) {
 			//if icon on 0th extracolumn is not set
 			if(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,0)) == 0xFF){ 
@@ -486,7 +486,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
 
-						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_FINDCONTACT, hContact, 0);
 						if(hItem) {
 
 							int iImage = SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,0));

@@ -557,7 +557,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 		case VKPOLL_USR_UTN:
 			uid = json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, 5);
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 			break;
 
 		case VKPOLL_CHAT_CHANGED:

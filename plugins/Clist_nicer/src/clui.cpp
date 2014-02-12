@@ -721,7 +721,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 			return 0;
 
 		if (item->dwFlags & BUTTON_PASSHCONTACTW)
-			*wParam = (WPARAM)hContact;
+			*wParam = hContact;
 		else if (item->dwFlags & BUTTON_PASSHCONTACTL)
 			*lParam = (LPARAM)hContact;
 	}

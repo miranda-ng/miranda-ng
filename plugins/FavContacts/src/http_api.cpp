@@ -47,7 +47,7 @@ public:
 		int hContact;
 		sscanf(s, "/fav/open/%d", &hContact);
 		if (CallService(MS_DB_CONTACT_IS, hContact, 0))
-			CallServiceSync(MS_FAVCONTACTS_OPEN_CONTACT, (WPARAM)hContact, 0);
+			CallServiceSync(MS_FAVCONTACTS_OPEN_CONTACT, hContact, 0);
 	}
 
 	void SendList()
@@ -68,8 +68,8 @@ public:
 		for (int i = 0; i < favList.getCount(); ++i)
 		{
 			MCONTACT hContact = favList[i]->getHandle();
-			TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-			AVATARCACHEENTRY *avatar = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
+			TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+			AVATARCACHEENTRY *avatar = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			int status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 
 			Send("SetContact(");

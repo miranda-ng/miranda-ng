@@ -1100,7 +1100,7 @@ int TryProcessDoubleClick(MCONTACT hContact)
 {
 	int iMenuID = GetMenuObjbyId((int)hContactMenuObject);
 	if (iMenuID != -1) {
-		NotifyEventHooks(hPreBuildContactMenuEvent, (WPARAM)hContact, 0);
+		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
 		PMO_IntMenuItem pimi = (PMO_IntMenuItem)MO_GetDefaultMenuItem((WPARAM)g_menus[ iMenuID ]->m_items.first, 0);
 		if (pimi != NULL) {

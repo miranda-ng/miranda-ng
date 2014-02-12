@@ -365,7 +365,7 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 			if (lParam == 1) empty = _T("<None>");
 			opt.WriteContactCategory(hContact, empty);
 		}
-		NotifyEventHooks(hEvent1, (WPARAM)hContact, 0);
+		NotifyEventHooks(hEvent1, hContact, 0);
 	}
 
 	for (int i=0; i < menuHandleArray.getCount(); i++)

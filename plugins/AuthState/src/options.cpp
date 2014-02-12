@@ -56,7 +56,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bIconsForRecentContacts = IsDlgButtonChecked(hwndDlg, IDC_ICONSFORRECENT);
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-					onExtraImageApplying((WPARAM)hContact,0);
+					onExtraImageApplying(hContact,0);
 
 				//Store options values to DB
 				db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);

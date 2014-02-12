@@ -65,7 +65,7 @@ static void UpdateAllContactsCheckmark(HWND hwndList, CIcqProto* ppro, HANDLE ph
 	MCONTACT hContact = ppro->FindFirstContact();
 	while (hContact)
 	{
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 		{
 			if (!SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
@@ -90,7 +90,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 	MCONTACT hContact = ppro->FindFirstContact();
 	while (hContact)
 	{
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 		{
 			if (ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0))
@@ -113,7 +113,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 			if (!ppro->IsICQContact(hContact))
 				SendMessage(hCtrl, CLM_DELETEITEM, (WPARAM)hItem, 0);
@@ -551,7 +551,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 				{
 					hCurrentContact = hContact;
 
-					hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+					hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem)
 					{
 						isChecked = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0) != 0;
@@ -947,7 +947,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg,UINT message,WPARAM wPara
 							hContact = ppro->FindFirstContact();
 							while (hContact)
 							{
-								hItem = (HANDLE)SendMessage(hClist, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+								hItem = (HANDLE)SendMessage(hClist, CLM_FINDCONTACT, hContact, 0);
 								if (hItem)
 									SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItem, check);
 								hContact = ppro->FindNextContact(hContact);

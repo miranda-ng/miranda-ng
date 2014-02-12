@@ -205,7 +205,7 @@ MCONTACT CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempo
 					db_set_b(hContact, "CList", "NotOnList", 1);
 				return hContact;
 			}
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		}
 	}
 

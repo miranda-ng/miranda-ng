@@ -835,7 +835,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		if (tData != NULL) {
 			if (tData->flags & MSN_HOTMAIL_POPUP) {
 				MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
-				if (hContact) CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
+				if (hContact) CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
 				if (tData->flags & MSN_ALLOW_ENTER)
 					tData->proto->MsnInvokeMyURL(true, tData->url);
 			}
@@ -849,7 +849,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		if (tData != NULL && tData->flags & MSN_HOTMAIL_POPUP) {
 			MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
 			if (hContact)
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
+				CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
 		}
 		PUDeletePopup(hWnd);
 		break;
@@ -1222,7 +1222,7 @@ bool MSN_MsgWndExist(MCONTACT hContact)
 	bool res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 	res = res || msgWinData.hwndWindow;
 	if (res) {
-		msgWinInData.hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		msgWinInData.hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 		if (msgWinInData.hContact != NULL) {
 			res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 			res |= (msgWinData.hwndWindow == NULL);

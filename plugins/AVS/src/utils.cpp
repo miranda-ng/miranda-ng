@@ -47,7 +47,7 @@ int _DebugTrace(MCONTACT hContact, const char *fmt, ...)
 	char *proto = NULL;
 	if (hContact != NULL)
 	{
-		name = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
+		name = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0);
 		proto = GetContactProto(hContact);
 	}
 
@@ -514,7 +514,7 @@ MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked)
 				locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 			if (!locked)
-				hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+				hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		}
 	}
 	return hContact;

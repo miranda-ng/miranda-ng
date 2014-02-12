@@ -38,7 +38,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 			if(!isContactSecured(hContact))
 			{
 				if(bDebugLog)
-					debuglog<<std::string(time_str()+": info: received encrypted message from: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with turned off encryption");
+					debuglog<<std::string(time_str()+": info: received encrypted message from: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" with turned off encryption");
 				if(MessageBox(0, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 				{
 					if(!isContactHaveKey(hContact))
@@ -70,7 +70,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 			}
 			else if(bDebugLog)
 			{
-				debuglog<<std::string(time_str()+": info: received encrypted message from: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": info: received encrypted message from: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			}
 			boost::algorithm::erase_all(str, "\r");
 			s2 += _tcslen(_T("-----END PGP MESSAGE-----"));
@@ -104,13 +104,13 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						dbsetting += "_Password";
 						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
 						if(pass[0] && bDebugLog)
-							debuglog<<std::string(time_str()+": info: found password in database for key ID: "+inkeyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with password");
+							debuglog<<std::string(time_str()+": info: found password in database for key ID: "+inkeyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" with password");
 					}
 					else
 					{
 						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
 						if(pass[0] && bDebugLog)
-							debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with password");
+							debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" with password");
 					}
 					if(pass && pass[0])
 					{
@@ -120,12 +120,12 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					else if(password && password[0])
 					{
 						if(bDebugLog)
-							debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with password");
+							debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" with password");
 						cmd.push_back(L"--passphrase");
 						cmd.push_back(password);
 					}
 					else if (bDebugLog)
-						debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with out password");
+						debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" with out password");
 					mir_free(pass);
 					mir_free(inkeyid);
 				}
@@ -175,7 +175,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 				while(out.find("public key decryption failed: bad passphrase") != string::npos)
 				{
 					if(bDebugLog)
-						debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" password needed, trying to get one");
+						debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" password needed, trying to get one");
 					if(_terminate)
 					{
 						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -200,7 +200,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					if(password)
 					{
 						if(bDebugLog)
-							debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+							debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 						std::vector<wstring> tmp;
 						tmp.push_back(L"--passphrase");
 						tmp.push_back(password);
@@ -608,7 +608,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	if(bStripTags && bAppendTags)
 	{
 		if(bDebugLog)
-			debuglog<<std::string(time_str()+": info: stripping tags in outgoing message, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+			debuglog<<std::string(time_str()+": info: stripping tags in outgoing message, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 		strip_tags(str);
 	}
 /*	for(std::wstring::size_type i = str.find(_T("\r\n")); i != std::wstring::npos; i = str.find(_T("\r\n"), i+1))
@@ -772,14 +772,14 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		hcontact_data[metaGetContact(hContact)].msgs_to_pass.push_back(str_event);
 		if(bDebugLog)
 		{
-			debuglog<<std::string(time_str() + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)) +"is subcontact of" + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR)));
+			debuglog<<std::string(time_str() + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)) +"is subcontact of" + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR)));
 			debuglog<<std::string(time_str()+": adding event to metacontact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR))+" on send message.");
 		}
 		HistoryLog(metaGetContact(hContact), db_event((char*)str_event.c_str(), 0,0, DBEF_SENT|dbflags));
 	}*/  //unneeded ?
 //	hcontact_data[hContact].msgs_to_pass.push_back(str_event);
 	if(bDebugLog)
-		debuglog<<std::string(time_str()+": adding event to contact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" on send message.");
+		debuglog<<std::string(time_str()+": adding event to contact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" on send message.");
 	//HistoryLog(hContact, db_event((char*)str_event.c_str(), 0,0, dbflags|DBEF_SENT));
 	if(!(flags & PREF_UTF))
 		flags |= PREF_UTF; 
@@ -844,13 +844,13 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		if(isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.t.c.
 		{
 			if(bDebugLog)
-				debuglog<<std::string(time_str()+": info(send handler): block pgp message event, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": info(send handler): block pgp message event, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			return 1;
 		}
 		if(bAutoExchange && (strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----"))) ///do not show service data in history
 		{
 			if(bDebugLog)
-				debuglog<<std::string(time_str()+": info(send handler): block pgp key request/response event, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": info(send handler): block pgp key request/response event, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			return 1;
 		}
 	}
@@ -860,27 +860,27 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	if(!isContactHaveKey(hContact))
 	{
 		if(bDebugLog)
-			debuglog<<std::string(time_str()+": info: contact have not key, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+			debuglog<<std::string(time_str()+": info: contact have not key, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 		if(bAutoExchange && !strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----") && !strstr((char*)dbei->pBlob, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && gpg_valid)
 		{
 			if(bDebugLog)
-				debuglog<<std::string(time_str()+": info: checking for autoexchange possibility, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": info: checking for autoexchange possibility, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			LPSTR proto = GetContactProto(hContact);
 			DWORD uin = db_get_dw(hContact, proto, "UIN", 0);
 			if(uin)
 			{
 				if(bDebugLog)
-					debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like icq, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+					debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like icq, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 
 				char *proto = GetContactProto(hContact);
 				if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					if(bDebugLog)
-						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 					ICQ_CUSTOMCAP cap = {0};
 					strcpy(cap.caps, "GPG AutoExchange");
-					if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)hContact, (LPARAM)&cap)) {
+					if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, hContact, (LPARAM)&cap)) {
 						if(bDebugLog)
-							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 						CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
 						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
@@ -895,7 +895,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 				if(jid[0])
 				{
 					if(bDebugLog)
-						debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like jabber, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+						debuglog<<std::string(time_str()+": info(autoexchange): protocol looks like jabber, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 					extern list <JabberAccount*> Accounts;
 					list<JabberAccount*>::iterator end = Accounts.end();
 					for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
@@ -915,7 +915,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 							if(str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
 							{
 								if(bDebugLog)
-									debuglog<<std::string(time_str()+": info(autoexchange, jabber): autoexchange capability found, sending key request, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+									debuglog<<std::string(time_str()+": info(autoexchange, jabber): autoexchange capability found, sending key request, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 								CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
 								hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
 								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
@@ -968,7 +968,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					{
 						hcontact_data[hContact].msgs_to_pass.erase(i);
 						if(bDebugLog)
-							debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+", message is in allowed list");
+							debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+", message is in allowed list");
 						event_processing_mutex.unlock();
 						return 0;
 					}
@@ -983,7 +983,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	if(!isContactSecured(hContact))
 	{
 		if(bDebugLog)
-			debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" is unsecured");
+			debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" is unsecured");
 		return 0;
 	}
 	if(!(dbei->flags & DBEF_SENT) && metaIsProtoMetaContacts((MCONTACT)w))
@@ -994,7 +994,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		if(strstr(tmp, "-----BEGIN PGP MESSAGE-----"))
 		{
 			if(bDebugLog)
-				debuglog<<std::string(time_str()+": info(send handler): block pgp message event, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": info(send handler): block pgp message event, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			return 1;
 		}
 	}

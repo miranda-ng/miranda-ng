@@ -66,11 +66,11 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 	Srmm_ModifyIcon(hContact, &sid);
 	Srmm_ModifyIcon(hContact, &sid2);
 
-	if (options.bHaveButtonsBar) CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&button);
+	if (options.bHaveButtonsBar) CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&button);
 	db_set_dw(hContact, MODULENAME, "TrustLevel", level);
 
 	if (!chat_room && options.bHaveMetaContacts) {
-		MCONTACT hMeta = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
+		MCONTACT hMeta = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 		MCONTACT hMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0);
 		if(hMeta && hContact == hMostOnline)
 			SetEncryptionStatus(hMeta, level);

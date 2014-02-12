@@ -943,7 +943,7 @@ BOOL	IsUtfSendAvailable(MCONTACT hContact)
 	if (szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
 	if (strcmp(szProto, gszMetaProto)==0) {
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
+		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
 		if (!hSubContact)
 			return FALSE;
 		szProto = GetContactProto(hSubContact);
@@ -1500,7 +1500,7 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		{
 			hContact = lParam;
 			POINT pt = {0};
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,(WPARAM)hContact,0);
+			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,hContact,0);
 			GetCursorPos(&pt);
 			HWND hwndSave = GetForegroundWindow();
 			SetForegroundWindow(hwnd);

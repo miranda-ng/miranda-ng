@@ -142,7 +142,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 			for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 				MCONTACT hNext = db_find_next(hContact, ack->szModule);
 				if (db_get_b(hContact, "CList", "Delete", 0))
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 				hContact = hNext;
 			}
 		}

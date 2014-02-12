@@ -259,7 +259,7 @@ void DialogConfigActive::SetAllContactIcons(HWND hwndList, HWND window) {
 		if(hContact == 0) {
 			
 		} else {
-			HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, 0)) == EMPTY_EXTRA_ICON) {
 				this->InitialiseItem(hwndList, hItem, iter->second.message, iter->second.status);
 			}
@@ -332,7 +332,7 @@ void DialogConfigActive::save(HWND window)
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Invisible, 		(IsDlgButtonChecked(window, IDC_ACTIVE_INVISIBLE) != 0));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) 
 			SaveItemMask(GetDlgItem(window, IDC_ACTIVE_USERS), hContact, hItem);
 	}

@@ -391,7 +391,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 	else {
 		char szEmail[MSN_MAX_EMAIL_LEN];
 		if (MSN_IsMeByContact(hContact, szEmail))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
+			CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
 
 		if (szEmail[0])
 		{

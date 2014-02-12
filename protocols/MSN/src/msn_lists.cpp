@@ -251,7 +251,7 @@ void CMsnProto::Lists_Populate(void)
 			else
 				Lists_Add(0, NETID_UNKNOWN, szEmail, hContact);
 		}
-		else CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		else CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		hContact = hNext;
 	}
 }

@@ -151,7 +151,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 	if (ace == (AVATARCACHEENTRY *)-1)
 		ace = &node->ace;
 
-	NotifyEventHooks(hEventChanged, (WPARAM)hContact, (LPARAM)ace);
+	NotifyEventHooks(hEventChanged, hContact, (LPARAM)ace);
 
 	if (g_MetaAvail && (node->dwFlags & MC_ISSUBCONTACT) && db_get_b(NULL, g_szMetaName, "Enabled", 0)) {
 		MCONTACT hMasterContact = (MCONTACT)db_get_dw(hContact, g_szMetaName, "Handle", 0);
@@ -192,7 +192,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 
 			NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)cacn.hContact, (LPARAM)&cacn);
 		}
-		else NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)hContact, NULL);
+		else NotifyEventHooks(hEventContactAvatarChanged, hContact, NULL);
 	}
 }
 
