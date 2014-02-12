@@ -615,7 +615,7 @@ Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
-Niedostępny
+Wrócę później
 [Occ&upied\tCtrl+4]
 Zajęty
 [&DND\tCtrl+5]
@@ -713,7 +713,7 @@ Kontakty "Zaraz wracam"
 [DND contacts]
 Kontakty "Nie przeszkadzać"
 [NA contacts]
-Kontakty "Niedostępne"
+Kontakty "Wrócę później"
 [Occupied contacts]
 Kontakty "Zajęte"
 [Free for chat contacts]

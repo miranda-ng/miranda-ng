@@ -880,7 +880,7 @@ Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
-Niedostępny
+Wrócę później
 [Occ&upied\tCtrl+4]
 Zajęty
 [&DND\tCtrl+5]
@@ -2272,7 +2272,7 @@ niewyraźny zarys
 [Contour heavy]
 silny zarys
 [Configuration files]
-Konfiguracja pliku
+Pliki konfiguracyjne
 [Text files]
 Pliki tekstowe
 [Error writing file]
