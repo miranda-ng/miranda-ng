@@ -131,6 +131,10 @@ ostatni wynik
 parametry
 [Result]
 WYNIK
+[Result type]
+
+[Free memory]
+Wolna pamięć
 [Save]
 Zapisz
 [All]

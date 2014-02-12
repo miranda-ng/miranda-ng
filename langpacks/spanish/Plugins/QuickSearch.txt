@@ -131,6 +131,10 @@
 
 [Result]
 
+[Result type]
+
+[Free memory]
+Memoria libre
 [Save]
 
 [All]

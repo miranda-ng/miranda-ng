@@ -94,7 +94,7 @@
 [Structure]
 Структура
 [Free memory]
-Очищати пам'ять
+очищати пам'ять
 [Signed value]
 Значення зі знаком
 [wParam type]

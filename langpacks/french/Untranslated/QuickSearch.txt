@@ -32,6 +32,8 @@
 [last result]
 [parameter]
 [Result]
+[Result type]
+[Free memory]
 [All]
 [Refresh]
 [ContactInfo]

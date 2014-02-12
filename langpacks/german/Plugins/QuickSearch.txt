@@ -131,6 +131,10 @@ Letzes Ergebnis
 Parameter
 [Result]
 Ergebnis
+[Result type]
+Ergebnistyp
+[Free memory]
+Speicher freigeben
 [Save]
 Speichern
 [All]

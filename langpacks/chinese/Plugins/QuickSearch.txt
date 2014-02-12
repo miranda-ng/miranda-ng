@@ -41,6 +41,8 @@
 时间戳
 [Setting:]
 设置:
+[Free memory]
+释放内存
 [QuickSearch]
 快速搜索
 [Show Offline contacts]

@@ -131,6 +131,10 @@ contact actuel
 
 [Result]
 
+[Result type]
+
+[Free memory]
+
 [Save]
 Sauver
 [All]

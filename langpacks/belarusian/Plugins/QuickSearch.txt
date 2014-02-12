@@ -129,6 +129,10 @@ Unicode радок
 параметр
 [Result]
 Вынік
+[Result type]
+Вынік вызаву службы
+[Free memory]
+чысціць памяць
 [Save]
 Захаваць
 [All]

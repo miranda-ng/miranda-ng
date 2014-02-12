@@ -131,6 +131,10 @@
 
 [Result]
 
+[Result type]
+
+[Free memory]
+Свободна памет
 [Save]
 
 [All]
