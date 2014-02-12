@@ -469,7 +469,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 
 			DWORD dwFlags = MAPI_EXPLICIT_PROFILE|MAPI_EXTENDED|MAPI_NEW_SESSION|MAPI_NO_MAIL ;
 			
-			hr = MAPILogonEx( 0, szPIDandName, m_szPassword, dwFlags, &m_lpMAPISession );
+			hr = MAPILogonEx( 0, (LPTSTR)mir_t2a(szPIDandName), (LPTSTR)mir_t2a(m_szPassword), dwFlags, &m_lpMAPISession );
 
 			if (FAILED(hr)) {
 				//Log( _T("MAPI Logon failed: 0x%08X"), hr );
@@ -484,7 +484,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 				//Log("Admin profile interface creation failed: 0x%08X", hr);
 			}
 			else {
-				hr = pProfAdmin->DeleteProfile( szPIDandName, 0 );
+				hr = pProfAdmin->DeleteProfile( (LPTSTR)mir_t2a(szPIDandName), 0 );
 				if ( FAILED(hr) )
 				{
 					//Log( "Failed to delete the profile: 0x%08X", hr );
@@ -534,7 +534,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	CMAPIInterface<LPSERVICEADMIN>	pMsgSvcAdmin	=	NULL;
 	CMAPIInterface<LPMAPITABLE>		pMsgSvcTable	=	NULL;
 	LPSRowSet		pRows			=	NULL;
-	
+	ULONG ulFlags=0;
 	enum {iSvcName, iSvcUID, cptaSvc};
 	
 	SizedSPropTagArray(cptaSvc, sptCols) = 
@@ -543,20 +543,20 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 			PR_SERVICE_NAME,
 			PR_SERVICE_UID
 	};
-	
-	hr = MAPIAdminProfiles(0, &pProfAdmin);
+	ulFlags &= ~MAPI_UNICODE;
+	hr = MAPIAdminProfiles(ulFlags, &pProfAdmin);
 	
 	if (!(FAILED(hr)) || (pProfAdmin)) 
 	{	
-		hr = pProfAdmin->CreateProfile(szProfileName, NULL, NULL, 0);
+		hr = pProfAdmin->CreateProfile((LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags);
 		
 		if (!FAILED(hr)) 
 		{
-			hr = pProfAdmin->AdminServices( szProfileName, NULL, NULL, 0, &pMsgSvcAdmin);
+			hr = pProfAdmin->AdminServices( (LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags, &pMsgSvcAdmin);
 			
 			if ( !(FAILED(hr)) || (pMsgSvcAdmin) ) 
 			{
-				hr = pMsgSvcAdmin->CreateMsgService(_T("MSEMS"), _T("")/*"Microsoft Exchange Server"*/, NULL, 0);
+				hr = pMsgSvcAdmin->CreateMsgService((LPTSTR)("MSEMS"), (LPTSTR)("")/*"Microsoft Exchange Server"*/, NULL, 0);
 				
 				if (!FAILED(hr)) 
 				{
@@ -609,7 +609,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 		}
 		else
 		{
-			pProfAdmin->DeleteProfile(szProfileName, 0);
+			pProfAdmin->DeleteProfile((LPTSTR)mir_t2a(szProfileName), ulFlags);
 		}
 	}	
 	

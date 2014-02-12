@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <richedit.h>
-#include "src\resource.h"
+#include "..\src\resource.h"
 
 
 
@@ -60,8 +60,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 1
 // Icon resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-IDI_MAIL           ICON           "res\\mail.ico"
+IDI_MAIL           ICON           "..\\res\\mail.ico"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-IDI_UNREAD         ICON           "res\\unread.ico"
+IDI_UNREAD         ICON           "..\\res\\unread.ico"
