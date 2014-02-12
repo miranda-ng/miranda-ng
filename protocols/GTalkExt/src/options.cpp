@@ -145,7 +145,7 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case WM_NOTIFY:
-		if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
+		if (!((LPNMHDR)lParam)->idFrom && ((LPNMHDR)lParam)->code == PSN_APPLY)
 			SaveControls(wnd, (LPCSTR)GetProp(wnd, ACCOUNT_PROP_NAME));
 		break;
 	}
@@ -156,7 +156,7 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 void ShowTestPopup(HWND wnd)
 {
-	POPUPDATAT data = {0};
+	POPUPDATAT data = { 0 };
 	mir_sntprintf(data.lptzContactName, MAX_CONTACTNAME, TranslateTS(TEST_LETTER_INBOX));
 	mir_sntprintf(data.lptzText, MAX_SECONDLINE, TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
 
@@ -191,7 +191,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
 		SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
 
-		_itot( db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0), timeout, 10);
+		_itot(db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0), timeout, 10);
 		SetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout);
 
 		SetProp(wnd, DIALOG_INITIALIZED_PROP_NAME, (HANDLE)TRUE);
@@ -214,7 +214,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
+		if (!((LPNMHDR)lParam)->idFrom && ((LPNMHDR)lParam)->code == PSN_APPLY)
 			db_set_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 

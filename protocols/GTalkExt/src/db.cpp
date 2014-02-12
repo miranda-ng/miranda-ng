@@ -31,21 +31,3 @@ void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting)
 {
 	db_set_ts(0, name, _T2A(jid), setting);
 }
-
-void RenewPseudocontactHandles()
-{
-	int count = 0;
-	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
-	for (int i = 0; i < count; i++) {
-		db_unset(0, protos[i]->szModuleName, PSEUDOCONTACT_LINK);
-		db_unset(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
-	}
-
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-			LPCSTR proto = (LPCSTR)GetContactProto(hContact);
-			db_set_dw(NULL, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);
-		}
-	}
-}

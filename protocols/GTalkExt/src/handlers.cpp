@@ -465,8 +465,6 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	RenewPseudocontactHandles();
-
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);

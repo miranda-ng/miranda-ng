@@ -27,5 +27,3 @@
 
 LPTSTR ReadJidSetting(LPCSTR name, LPCTSTR jid);
 void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting);
-
-void RenewPseudocontactHandles();

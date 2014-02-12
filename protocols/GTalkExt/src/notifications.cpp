@@ -168,27 +168,26 @@ void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCoun
 
 MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR displayName)
 {
-	MCONTACT result = (MCONTACT)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
-	if (!result || !db_get_b(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-		result = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		db_set_dw(0, acc, PSEUDOCONTACT_LINK, (DWORD)result);
-		db_set_b(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)result, (LPARAM)acc);
+	MCONTACT hContact = db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
+	if (!hContact || !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		db_set_dw(0, acc, PSEUDOCONTACT_LINK, hContact);
+		db_set_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)acc);
 	}
 
-	// SetAvatar(result);
+	// SetAvatar(hContact);
 
 	if (displayName == NULL) {
 		TCHAR *tszTemp = (TCHAR*)alloca((lstrlen(jid) + lstrlen(unreadCount) + 3 + 1) * sizeof(TCHAR));
 		FormatPseudocontactDisplayName(tszTemp, jid, unreadCount);
-		db_set_ts(result, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
+		db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
 	}
-	else db_set_ts(result, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, displayName);
+	else db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, displayName);
 
-	db_set_ts(result, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateTS(MAIL_NOTIFICATIONS));
-	db_set_ts(result, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
-
-	return result;
+	db_set_ts(hContact, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateTS(MAIL_NOTIFICATIONS));
+	db_set_ts(hContact, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
+	return hContact;
 }
 
 HANDLE AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
@@ -287,7 +286,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 
 void ClearNotificationContactHistory(LPCSTR acc)
 {
-	MCONTACT hContact = (MCONTACT)db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
+	MCONTACT hContact = db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
 	if (!hContact || !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		return;
 
