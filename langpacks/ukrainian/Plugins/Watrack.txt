@@ -6,19 +6,19 @@
 ;  Authors: Awkward
 ;============================================================
 [Clear xStatus before set new one]
-Очищати хСтатус перед встановленні нового
+Очищати хСтатус перед встановленням нового
 [Emulate Multimedia keys]
 Емуляція мультимедійних клавіш
-[xStatus will cleared before text changing and down with new text later.]
+[xStatus will cleared before text changing and restored with new text later.]
 хСтатус буде очищено перед зміною тексту і відновлено з новим текстом пізніше
 [Paste played music info into message window or status text]
-Вставляє інформацію про відтворюваної музики у вікно повідомлення або в статусне повідомлення.
+Вставляє інформацію про відтворювану музику у вікно повідомлень або в статусне повідомлення.
 [Use XStatus]
 Використовувати хСтатус
-[If this option is "ON", XStatus doesn't depend of status protocol.]
+[If this option is "ON", XStatus doesn't depend on protocol status.]
 Якщо опція ввімкнена, хСтатус не буде залежати від статусу протоколу.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
-Використовувати плагін "Variables" чи ні. Цей плагін дозволяє вам трансформувативати рядки, використовувати математичні функції і функції дати. Без цього плагіна WATrack буде працювати швидше.
+Використовувати плагін Variables чи ні. Цей плагін дозволяє трансформувати рядки, використовувати математичні функції і функції дати. Без цього плагіна WATrack буде працювати швидше.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
 Замінювати "_" (підкреслення) пропусками в тексті, іноді може бути корисно.
 [Check file date and time to tag updates while playing.]
@@ -26,9 +26,9 @@
 [Report on some errors.]
 Показувати інформацію про помилки.
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Намагатися використовувати OLE інтерфейс, щоб отримати більше інформації з програвача. Якщо ця опція вимкнена, WATrack повинен працювати швидше.
+Намагатися використовувати інтерфейс OLE, щоб отримати більше інформації з плеєрів. Якщо ця опція вимкнена, WATrack повинен працювати швидше.
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
-Час оновлення інформації про музику, статистики, і повідомлень статусу в секундах. Якщо дорівнює 0, автоматичне оновлення вимкнено. Якщо значення > 499, час буде вважатися в мс.
+Час оновлення інформації про музику, статистики і повідомлень статусу в секундах. Якщо дорівнює 0, автоматичне оновлення вимкнено. Якщо значення > 499, час буде вважатися в мс.
 [Text insertion to other Apps]
 Вставити в інші програми
 [Share music list]
@@ -44,7 +44,7 @@
 [Answer to ignored requests]
 Відповіді на запити ігноруються
 [Use frame]
-Використовувати кадр
+Використовувати фрейм
 [Show info in the frame]
 Показувати інформацію
 [Show controls in the frame]
@@ -60,9 +60,9 @@
 [Cover padding]
 Краї обкладинки
 [Frame refresh time]
-Оновлення фрейму, сек
+Оновлення фрейму, с
 [Hide frame when no music played]
-Ховати фрейм коли нічого не грає
+Ховати фрейм, коли нічого не грає
 [Center horizontally]
 Центрувати горизонтально
 [Center vertically]
@@ -92,7 +92,7 @@
 [PingPong]
 ПингПонг
 [Hide frame when player not found]
-Ховати фрейм коли програвач не знайдено
+Ховати фрейм коли плеєр не знайдено
 [Pause Hovered]
 Пауза наведена
 [Prev Hovered]
@@ -126,23 +126,23 @@
 [song year (date)]
 Рік пісні (дата)
 [player window title]
-Заголовок вікна програвача
+Заголовок вікна плеєра
 [width, video only]
 Ширина вікна, тільки для відео
 [player version]
-Версія програвача
+Версія плеєра
 [VBR or not (empty)]
-Змінний бітрейт чи ні (буде порожньо)
+Змінний бітрейт чи ні (буде порожній)
 [player version in text format]
-Версія програвача в текстовому форматі
-[player status (stopped,playing,призупинено)]
-Статус програвача (зупинено, грає, пауза)
+Версія плеєра в текстовому форматі
+[player status (stopped,playing,paused)]
+Стан плеєра (зупинений, грає, на паузі)
 [player name]
-Назва програвача
+Назва плеєра
 [time/length * 100%]
 Час/довжина x 100%
 ["mono"/"stereo"]
-"моно"/"стерео"
+моно/стерео
 [height, video only]
 Висота вікна, тільки для відео
 [FPS (frames per second), video only]
@@ -172,7 +172,7 @@ FPS (кадрів в секунду), тільки для відео
 [Postfix]
 Вид
 [Refresh time, sec]
-Час оновлення, сек
+Час оновлення, с
 [Report]
 Звіт
 [Report Items]
@@ -200,11 +200,11 @@ FPS (кадрів в секунду), тільки для відео
 [by Length]
 по довжині
 [Unicode to Ansi translation codepage:]
-Кодова сторінка перекладу юнікод - ANSI:
+Кодова сторінка переводу Юнікод - ANSI:
 [VBR macro]
 Відображення VBR
 [\[X\]Status Title / Text]
-Заголовок і текст хСтатуса
+Заголовок і текст хСтатусу
 [Insert in messages]
 Вставляти в повідомлення
 [Use status messages]
@@ -224,7 +224,7 @@ FPS (кадрів в секунду), тільки для відео
 [Replace underlines with spaces]
 Замінювати підкреслення пробілами
 [Check file time]
-Перевірити позначки часу для файла
+Перевіряти позначки часу для файла
 [Other thread handle check]
 Перевірка в окремому потоці
 [Keep old file]
@@ -235,10 +235,10 @@ FPS (кадрів в секунду), тільки для відео
 Немає плеєра
 [User message]
 Користувачеві
-[Message Channel]
+[Channel message]
 У чат
 [If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
-Якщо опція ввімкнена, хСтатус не зміниться, але повідомлення хСтатуса буде замінено за шаблоном WATrack
+Якщо опція ввімкнена, хСтатус не зміниться, але повідомлення хСтатусу буде замінено за шаблоном WATrack
 [Keep 'Music' XStatus]
 Залишати хСтатус "Музика"
 [No-music text]
@@ -268,7 +268,7 @@ FPS (кадрів в секунду), тільки для відео
 [VBR or CBR]
 VBR або CBR
 [VBR or empty]
-VBR або пусто
+VBR або порожній
 [Show file name in info]
 Показувати ім'я файлу
 [Global hotkey]
@@ -284,29 +284,29 @@ VBR або пусто
 [Do not change]
 Не змінювати
 [All lowercase]
-Всі рядкові
+Всі малі
 [lowercase %type%]
 рядковий %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
 Якщо опція ввімкнена, ви можете вставляти інформацію про музику у вікно повідомлень, натиснувши на гарячі клавіші.
 [If this option is "ON", status text will be replaced by music info.]
-Якщо опція ввімкнена, текст статусів буде заміщений на інформацію про музику.
+Якщо опція ввімкнена, текст статусів буде заміщений інформацією про музику.
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
 Якщо опція ввімкнена, усі налаштування зберігаються в INI-файлі і зітруться з бази Miranda, інакше буде видалено INI-файл (якщо був).
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Якщо опція ввімкнена, плагін спробує отримати інформацію про музику від плеєра (працює не з усіма плеєрами)
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Якщо опція ввімкнена, хСтатус змінюється тільки при вже встановленому в "Музика" статус.
+Якщо опція ввімкнена, хСтатус змінюється тільки при вже встановленому статусі "Музика".
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Якщо опція ввімкнена, хСтатус не залежить від статусу ICQ.
 [If this option is "ON", XStatus not changed when player shutdowned.]
 Якщо опція ввімкнена, хСтатус не зміниться при вимкненні плеєра.
-[If this option is "ON", XStatus will be changed to "Music and status text will be replaced by music info.]
-Якщо опція ввімкнена, хСтатус для ICQ заміниться на "Музика" і його текст зміниться на інформацію про музику.
+[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+Якщо опція ввімкнена, xСтатус для ICQ зміниться на "Музика" а його текст зміниться на інформацію про музику.
 [If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Якщо опція ввімкнена, то буде застосовано один шаблон для всіх протоколів, а також плеєрів і статусів. Сторінка налаштування шаблонів зміниться після перезавантаження.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
-Вбудовуватися в процес програвача для полегшення отримання інформації. Може спровокувати тривогу фаєрволу або антивірусу.
+Вбудовуватися в процес плеєра для полегшення отримання інформації. Може спровокувати тривогу фаєрволу або антивірусу.
 [Keep opened file as active, not newly founded.]
 Використовувати відкритий файл в якості активного, а не новостворений.
 [Use this option if WATrack freeze while player running. Slower processing.]
@@ -326,7 +326,7 @@ VBR або пусто
 [by Date]
 за датою
 [by Path]
-по розміщенням
+за розміщенням
 [by Title]
 за назвою
 [comment from tag]
@@ -344,7 +344,7 @@ VBR або пусто
 [media file type]
 Тип медіафайлу
 [media file]
-ім'я медіафайлу
+Ім'я медіафайлу
 [No Player]
 Немає плеєра
 [number of channels]
@@ -358,15 +358,15 @@ VBR або пусто
 [song title]
 Назва пісні
 [song year]
-рік пісні
+Рік пісні
 [total song length (sec)]
 Тривалість пісні/відео (с)
 [track number]
 Номер треку
 [Try to use OLE interface]
 Використовувати метод OLE
-[player status (stopped, playing, призупинено)]
-статус плеєра (зупинено, грає, на паузі)
+[player status (stopped, playing, paused)]
+стан плеєра (зупинений, грає, на паузі)
 [player]
 плеєр
 [Independed Xstatus]
@@ -376,7 +376,7 @@ VBR або пусто
 [FPS (Frames per second)]
 FPS (кадрів в секунду)
 [If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Якщо використовується плагін Variables, що повертаються значення будуть в кодуванні ANSI (за замовчуванням - UTF8)
+Якщо використовується плагін Variables, значення, що повертаються, будуть в кодуванні ANSI (за замовчуванням - UTF8)
 [Save settings in INI-file]
 Зберігати налаштування в файл
 [VBR or not]
@@ -428,17 +428,17 @@ VBR чи ні
 [Context menu]
 Контекстне меню
 [/me listening "%title%"]
-/я слухаю "%title%"
+/me слухає "%title%"
 [Report file name not defined]
 Назва файлу звіту не вказана
 [Status Template]
-Шаблон хСтатуса
+Шаблон хСтатусу
 [XStatus Title]
-Повідомлення хСтатуса
+Повідомлення хСтатусу
 ['mono' / 'stereo']
 моно/стерео
 [- "mono" / "stereo"]
-- моно / стерео
+- моно/стерео
 [- artist]
 - артист
 [- bitrate]
@@ -458,7 +458,7 @@ VBR чи ні
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 Час оновлення (с) - оновлення інформації в статусних повідомленнях. Якщо нуль, автооновлення вимкнено\nПрацює тільки якщо хСтатус "Музика".\nЯкщо плеєр вимкнений або зупинений, хСтатус прибирається.\nЯкщо текст порожній, статусне повідомлення не змінюється.\nЯкщо налаштування зберігаються в ini-файлі, вони будуть видалені з бази Miranda, інакше буде видалено ini-файл.
 ["Variables" module use]
-Використовувати "Variables"
+Використовувати Variables
 [Acoustic]
 Акустика
 [Use ICQ XStatus]
@@ -484,9 +484,9 @@ VBR чи ні
 [Export text template]
 Шаблон тексту експорту
 [Use listening info]
-Використовувати "Listening To"
+Використовувати Listening To
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-Якщо опція ввімкнена, то поле "Listening To" буде заповнене інформацією про музику.
+Якщо опція ввімкнена, то поле Listening To буде заповнене інформацією про музику.
 [Enable Status message]
 Додати повідомлення статусу
 [Enable XStatus message]
@@ -495,12 +495,12 @@ VBR чи ні
 Додати повідомлення мелодії
 [Tunes]
 Мелодії
-[Check all marked players for active (failure and playing) or stop at first founded]
-Перевіряє всі вибрані плеєри на предмет активності (запуску і програвання) або зупиняється на першому знайденому
+[Check all marked players for active (started and playing) or stop at first founded]
+Перевіряє всі позначені плеєри на активність (запуск, відтворення) або зупиняється на першому знайденому
 [Check all players]
 Перевіряти всі плеєри
 [Emulate multimedia keys presses to control palyer]
-Емуляція натискань мультимедійних клавіш, для управління програвачем
+Емуляція натискань мультимедійних клавіш для управління плеєром
 [User music info text]
 Інформація про музику користувача
 [(%artist%, %title%, %album% and %year% macros can be used only)]
@@ -521,7 +521,7 @@ VBR чи ні
 Увімкнути скробблінг
 [no language]
 не вибрано
-[Content-language]
+[Content language]
 Мова вмісту
 [Artist]
 Артист
@@ -530,7 +530,7 @@ VBR чи ні
 [Track]
 Трек
 [Get Artist Info]
-Інфо про артиста
+Інформація про артиста
 [Get Track Info]
 Інформація про трек
 [Get Album Info]
@@ -542,7 +542,7 @@ VBR чи ні
 [Status (templates)]
 Статус (шаблони)
 [Set XStatus when...]
-Встановлювати хСтатус коли...
+Встановлювати хСтатус, коли...
 [XStatus is empty or 'Music']
 немає хСтатуса або хСтатус "Музика"
 ['Music' status is set]
@@ -568,49 +568,77 @@ VBR чи ні
 [Alpha]
 Альфа
 [Hide when no player]
-Ховати якщо плеєр не знайдено
+Ховати, якщо плеєр не знайдено
 [Hide when no music]
-Ховати якщо нічого не програється
+Ховати, якщо нічого не програється
 [Use popup action buttons]
 Використовувати кнопки дій
+[Left click]
+Ліве клацання
+[Right click]
+Праве клацання
+[Default colors]
+За замовчуванням
+[Windows colors]
+Кольори Windows
+[Custom colors]
+Вказати кольори
+[artist]
+виконавець
+[album]
+альбом
+[genre]
+жанр
 [Picture transform]
 Трансформація зображення
+[Kilobytes]
+Килобайт
+[Megabytes]
+Мегабайт
+[Precision]
+знаків після коми
 [none]
 немає
 [kb]
 кб
+[Kb]
+Кб
 [KB]
 КБ
+[Color]
+Колір
+[Output]
+Вивід
+[Check]
+Позначити
+[Choose font...]
+Шрифт...
 [Genres]
 Жанри
 [[X]Status Title / Text]
 Заголовок/текст статусів
 [Scrobble at]
-Скроббліть з
+Скробблити з
 [Timeout, ms]
 Таймаут, мс
 [Get Series Info]
 Інформація про серії
 [Episode]
 Епізод
-[Kinopoisk info page]
-Інформація з КиноПошук
 [Last.fm error: ]
 Помилка Last.fm:\s
 [Client is banned]
 Клієнт заблокований
-[Bad Autorization. Check login and password]
-Невірна авторизація. Перевірте логін і пароль
+[Bad Auth. Check login and password]
+Помилка авторизації. Перевірте логін і пароль.
 [Bad TimeStamp]
-Неправильне час
+Неправильний час
 [Similar artists]
 Схожі виконавці
 [Music Info from ]
 Інформація про музику від\s
-[ answer you]
- відповів
 [You Get Error]
-У Вас помилка
+У вас помилка
 [Slider]
 Бігунок
 [Slider Hovered]

@@ -76,9 +76,9 @@ HTTP-з'єднання SmileyAdd
 [Off]
 Вимк.
 [Top]
-Верх
+Вгорі
 [Bottom]
-Низ
+Внизу
 [Smiley packs]
 Набір смайлів
 [All files]

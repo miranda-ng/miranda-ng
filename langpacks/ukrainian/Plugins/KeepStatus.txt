@@ -12,7 +12,7 @@
 [Max. retries]
 Макс. спроб
 [Account connection]
-Підключень облікового запису
+З'єднання
 [Delay between retries (secs)]
 Затримка між спробами (с)
 [Show popups]
@@ -20,7 +20,7 @@
 [General]
 Загальне
 [Accounts to check]
-Облікові записи для перевірки
+Перевіряти облікові записи
 [Dial-Up]
 Віддалений доступ
 [Don't reconnect if no internet connection seems available]
@@ -30,7 +30,7 @@
 [Do so by pinging host]
 Пінгувати хост
 [Confirm status]
-Підтвердити статус
+Підтвердіть статус
 [Close]
 Закрити
 [Cancel]
@@ -46,77 +46,77 @@
 [when full-screen mode is active]
 у повноекранному режимі
 [when screen saver engages]
-коли працює заставка
+при запуску заставки
 [when workstation is locked]
-коли комп'ютер заблоковано
+при блокуванні комп'ютера
 [after]
-після
+через
 [minutes of inactivity]
 хвилин неактивності
 [minutes of level 1 mode]
-хвилин рівня у 1 рівні
+хвилин режиму 1
 [only set when inactive]
-тільки тоді, коли неактивні
+тільки при неактивності
 [Monitor Miranda's activity only]
-Перевіряти тільки активність Miranda
+Стежити тільки за Miranda
 [Reset status on return]
-Скинути стан після повернення
+Відновити статус при поверненні
 [Confirm resetting status]
-Підтвердити відновлення статусу
+Підтвердити скидання статусу
 [Only set if current status is]
-Тільки якщо поточний статус
+Тільки якщо статус:
 [Command line]
 Ком. рядок
 [Copy to clipboard]
-Копіювати в буфер
+Копіювати в буфер обміну
 [Command line:]
 Ком. рядок:
 [Create shortcut]
 Створити ярлик
 [Add new profile]
-Додати новий профіль
+Додати профіль
 [Profile name]
 Ім'я профілю
 [Set window state]
-Встановити позицію вікна
+Стан вікна
 [Show dialog]
-Показати діалог
+Показувати діалог
 [Set status to offline before exit]
-Встановити статус офлайн перед виходом.
+"Від'єднаний" при виході
 [Show CMDL]
 Ком. рядок
 [Activate status profile]
-Активувати профіль статусу
+Статус-профіль
 [Set docked]
 Паркувати
 [Other]
 Інше
 [Status on startup]
-Статус на старті
+Статус при запуску
 [ms]
 мс
 [Set after]
-Встановити потім
+через
 [Timeout]
 Таймаут
 [s]
 с
 [Set window location]
-Вказати позицію вікна
+Позиція вікна
 [Set window size]
-Вказати розмір вікна
+Розмір вікна
 [Allow override]
-Перевизначати
+Змінювати
 [Note: status profiles can be created in the 'Status profiles' options screen]
-Примітка: профіль статусів можна створити на сторінці налаштувань "Профілі статусу"
+Статус-профіль можна створити у вкладці "Профілі статусів".
 [Window on startup]
-Вікно при старті
+Вікно при запуску
 [Automatically dial on startup]
-Автоматично встановлювати з'єднання при запуску
+Підключатися при старті
 [Automatically hang up on exit]
-Розривати зв'язок (Dial-Up) при виході
+Розривати зв'язок при виході
 [Dial-up (experimental)]
-Dial-up (експериментальна)
+Від. доступ (експериментально)
 [Background color]
 Колір фону
 [Text color]
@@ -152,15 +152,15 @@ Dial-up (експериментальна)
 [Show other messages]
 Інші
 [From Popup plugin]
-З плагіна спливаючих вікон
+За замовчанням
 [Custom]
-Налаштувати
+Вказати
 [Permanent]
 Постійно
 [Show additional information in popups]
 Додаткова інформація
 [Use Miranda's message setting]
-Використовувати повідомлення Miranda
+Використовувати налаштування Miranda
 [Use this message:]
 Використовувати повідомлення:
 [Use %time% for the current time, %date% for the current date]
@@ -168,25 +168,25 @@ Dial-up (експериментальна)
 [Variables...]
 Змінні...
 [Specify settings for each account]
-Вкажіть параметри для кожного облікового запису
+Налаштування для кожного облікового запису
 [Use same settings for all accounts]
-Використовувати однакові параметри для всіх облікових записів
+Спільні налаштування для всіх облікових записів
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Ігнорувати клавіші Caps Lock, Num Lock та Scroll Lock
 [Check interval (secs)]
 Інтервал перевірки (с)
 [Confirm dialog timeout (secs)]
-Затримка діалогу підтвердження (с)
+Інтервал підтвердження (с)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Ви ввімкнули опцію "Змінити мій статус в режим" в діалозі "Очікування", опції AdvancedAutoAway ігноруються.
+Ви ввімкнули функцію "Змінити статус" у розділі налаштувань "Очікування", налаштування AdvancedAutoAway ігноруються.
 [Monitor keyboard activity]
-Відслідковувати активність клавіатури
+Стежити за активністю клавіатури
 [Monitor mouse activity]
-Відслідковувати активність миші
+Стежити за активністю миші
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
-Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc та Win
+Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
-Ігнорувати будь-які комбінації з клавіш, вказаних вище
+Ігнорувати комбінації з зазначеними клавішами
 [Accounts]
 Облікові записи
 [Enable checking]
@@ -202,29 +202,29 @@ Dial-up (експериментальна)
 [Delete]
 Видалити
 [Create a TopToolBar button]
-Створити кнопку TopToolBar
+Створити кнопку в Панелі кнопок
 [Show confirm dialog when loading]
-Показати діалог підтвердження при завантаженні
+Підтверджувати при завантаженні
 [Create a main menu item]
 Пункт у головному меню
 [Status profiles]
-Профілі статусу
+Профілі статусів
 [Hotkey]
 Гаряча клавіша
 [In submenu]
-У субменю
+У підменю
 [Max. delay (secs)]
 Макс. затримка (с)
 [Increase delay exponential]
 Збільшити експоненціально
 [Cancel all if an account connects from another location]
-Скасувати, якщо обліковий запис підключений з іншого місця
+Скасувати, якщо обліковий запис підключено з іншого місця
 [Reconnect on APM resume]
 Перепідключатися після сплячого режиму
 [Stop trying to reconnect]
 Припинити підключення
 [Set delay to]
-Почекати
+Зачекати
 [React on login errors]
 Враховувати помилки входу
 [seconds]
@@ -320,12 +320,12 @@ Dial-up (експериментальна)
 [idleeeeeeee]
 очікування...
 [Set %s message for %s.]
-Встановлення повідомлення %s для %s.
+Встановити повідомлення %s для %s.
 [<last>]
 <останній>
 [<current>]
 <поточний>
 [<n/a>]
-<немає>
+<невідомо>
 [Closing in %d]
 Закрити (%d)

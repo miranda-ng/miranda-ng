@@ -125,6 +125,8 @@
 Допомога по сервісам
 [Name]
 Ім'я
+[Alias]
+Аліас
 [Plugin]
 Плагін
 [Return]
@@ -135,6 +137,12 @@
 '<proto>' в назві служби буде замінятися ім'ям протоколу з параметрів контакту
 [Undefined]
 Не визначено
+[Manage Jabber Bookmarks]
+Керує закладками Jabber
+[Offline]
+Не в мережі
+[Online]
+В мережі
 [Away]
 Відсутній
 [DND]
@@ -203,6 +211,8 @@
 Сплю
 [Surfing]
 Серфінг
+[Browsing]
+Інтернет
 [Working]
 Працюю
 [Typing]
@@ -225,6 +235,8 @@
 Любов
 [Sets owner current custom status]
 Встановлює xСтатус
+[Display XStatus detail]
+Показує докладний хСтатус
 [Show All Users]
 Показувати всіх користувачів
 [Show only Online Users]
@@ -251,12 +263,42 @@
 Текст Ansi
 [Removes all settings for the specified module]
 Видаляє всі налаштування вказаного модуля
+[Show window for new/changed profile password]
+Показує вікно для установки/зміни пароля профілю
 [System]
 Система
+[Ignore all]
+Ігнорувати все
+[Ignore messages]
+Ігнорувати повідомлення
+[Ignore URLs]
+Ігнорувати URL
+[Ignore files]
+Ігнорувати файли
+[Ignore User Online]
+Ігнорувати "Користувач у мережі"
+[Ignore requests]
+Ігнорувати запити
+[Ignore 'You were added']
+Ігнорувати "Вас додали"
+[Ignore Contact]
+Ігнорувати контакт
+[Unignore Contact]
+Зняти ігнорування
+[restart in default profile or profile manager]
+з профілем за замовчуванням або менеджером профілів
+[restart with current profile]
+з поточним профілем
+[Restarts Miranda]
+Перезапускає Miranda
 [All protocols]
 Усі протоколи
 [Protocol]
 Протокол
+[with confirmation]
+з підтвердженням
+[without confirmation]
+без підтвердження
 [YAPP or Popup]
 YAPP або Popup
 [Warning]
@@ -269,8 +311,16 @@ YAPP або Popup
 Тільки YAPP
 [Unicode Text]
 Текст Unicode
+[displays the Account Manager]
+показує менеджер облікових записів
 [Avatar service (AVS.dll)]
 Служба аватарів (AVS.dll)
+[Filename]
+Ім'я файлу
+[With formating]
+З форматуванням
+[Don't use formating]
+Без форматування
 [int 0, if unsuccessful]
 0 якщо невдало
 [Structure editor]
@@ -545,6 +595,16 @@ UTF16+сигнатури
 Упакована структура
 [Registered actions]
 Зареєстровані дії
+[INI]
+Файл INI
+[INI file name]
+Ім'я файлу INI
+[Section]
+Розділ
+[Use LastResult]
+Використ. останній результат
+[UTF8 encoding]
+В кодуванні UTF-8
 [Function call]
 Виклик функції
 [Function name]
@@ -609,6 +669,8 @@ UTF16+сигнатури
 Скрипт після макроса
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(имя[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
+[RTL]
+Справа наліво
 [Right justified text]
 Вирівнювання праворуч
 [Database]
@@ -663,6 +725,12 @@ UTF16+сигнатури
 Поточний макрос
 [Select for FirstRun]
 Вибрати для першого запуску
+[Miranda event help]
+Допомога по подіям
+[contact list]
+список контактів
+[database driver]
+драйвер бази
 [Text Editor]
 Текстовий редактор
 [Script]

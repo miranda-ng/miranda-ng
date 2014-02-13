@@ -428,7 +428,7 @@ VBR или нет
 [Context menu]
 Контекстное меню
 [/me listening "%title%"]
-/я слушаю "%title%"
+/me слушает "%title%"
 [Report file name not defined]
 Название файла отчёта не указано
 [Status Template]

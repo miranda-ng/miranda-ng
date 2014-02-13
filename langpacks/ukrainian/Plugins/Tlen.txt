@@ -7,200 +7,335 @@
 ;============================================================
 [Tlen protocol support for Miranda NG.]
 Підтримка протоколу Tlen в Miranda NG.
-[%s Web Messages]
-%s Web повідомлень
-[...Connecting...]
-...Підключення...
-[...Denied...]
-...Заборонено...
-[...Error...]
-...Помилка...
-[...Finished...]
-...Завершено...
-[...Waiting for connection...]
-...Очікування з'єднання...
-[<Ask me>]
-<Запитай мене>
-[<Last message>]
-(Останнє повідомлення)
-[Accept all alerts]
-Приймати всі повідомлення
-[Accept all invitations]
-Приймати всі запрошення
-[Accept invitations from authorized contacts]
-Приймати запрошення від авторизованих контактів
-[Alert]
-Попередження
-[Ignore advertisements]
-Ігнорувати рекламу
-[Plan:]
-План:
-[Looking for:]
-Шукаю:
-[Clerk]
-Клерк
-[Enable incoming mail notification]
-Ввімк. сповіщення про вхідну пошту
-[Friendship]
-Дружба
-[Connection Host:]
-Вузол підключення:
-[Tlen login:]
-Вхід Tlen:
-[Unemployed]
-Безробітний
-[You cannot create more than %s chat rooms.]
-Ви не можете створити більше ніж %s кімнат.
-[Nickname '%s' is already registered.]
-Псевдонім '%s' вже зареєстрований.
-[You cannot send any message unless you join this chat room.]
-Ви не можете посилати повідомлення, поки Ви не ввійшли в кімнату.
-[Ignore all invitation]
-Ігнорувати всі запрошення
-[Subscription:]
-Підписка:
-[Tlen Voice Chat Invitation]
-Tlen запрошення до голосового чату
-[Expert Options]
-Налаштування Експерта
-[Ignore all alerts]
-Ігнорувати всі повідомлення
-[You cannot register more than %s nicknames.]
-Ви не можете зареєструвати більше ніж %s псевдонімів.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Псевдонім вже використовується, виберіть інший. Підказка: '%s' вільний.
-[Manager]
-Менеджер
-[Send and receive client version information]
-Відправляти і отримувати версії клієнтів
-[Teacher]
-Вчитель
-[Voice chat policy]
-Політика групових чатів
-[Group chat policy]
-Політика чатів
-[Ignore invitations from unauthorized contacts]
-Ігнорувати запрошення від неавторизованих контактів
-[Pensioner]
-Пенсіонер
-[School:]
-Школа:
-[Tlen Protocol Option]
-Налаштування протоколу Tlen
-[Alert policy]
-Політика повідомлення
-[These changes will take effect the next time you connect to the Tlen network.]
-Зміни вступлять в силу після того, як ви перепідключитесь до мережі Tlen.
-[Voice Chat]
-Голосовий чат
-[Voice chat]
-Голосовий чат
-[Voice Chats]
-Голосові чати
-[Voice chats]
-Голосові чати
-[Always ask me]
-Завжди питати
-[Show offline users with status messages as invisible in contact list]
-Показувати відключених користувачів з повідомленнями статусу як невидимі
-[Use Nudge plugin]
-Вик. Тряску
-[Somebody to talk]
-Поговорити з будь-яким
-[Housekeeper]
-Домработница
-[Chat room with already created.]
-Кімната вже створена.
-[Log alerts messages as]
-Зберегти поперед. як повід.
-[Ignore alerts from unauthorized contacts]
-Ігнорувати повідомлення від неавторизованих контактів
-[You have been kicked. Reason: %s ]
-Вас викинули. Причина: %s\s
-[P2P Connections]
-P2P з'єднання
-[Enable Always Visible and Never Visible]
-Ввімк. Завжди бачимо і Завжди невидимий
-[Incoming mail]
-Вхідна пошта
-[You cannot join more than %s chat rooms.]
-Ви не можете увійти в більше ніж %s кімнат.
-[This is a private chat room and you are not one of the members.]
-Це приватна чат-кімната, і ви не її член.
-[Playback device:]
-Пристрій відтворення:
-[Flirt/romance]
-Флірт/Романтика
-[Private conference]
-Особиста конференція
-[You cannot join this chat room, because you are banned.]
-Ви не можете увійти в кімнату, тому що Ви заблоковані.
-[Use proxy for incoming connections]
-Вик. проксі для вхідних підключень
-[Specialist]
-Спеціаліст
-[Chat room not found.]
-Кімната чату не знайдено.
-[The following invitation to join a voice chat is received.]
-Отримано запрошення увійти в голосовий чат.
-[Student]
-Студент
-[Recording device:]
-Пристрій запису:
-[An alert has been received.]
-Повідомлення прийнято.
-[Forwarding]
-Перенаправлення
-[Farmer]
-Фермер
-[Doctor]
-Доктор
-[Year of birth:]
-Рік народження:
-[Personal Information]
-Персональні дані
-[Unknown error code: %d]
-Невідома помилка: %d
-[Extra Search Criterias]
-Дод. критерії пошуку
+[Username:]
+Користувач:
+[Password:]
+Пароль:
+[Save password]
+Зберегти пароль
+[Create new account]
+Новий обліковий запис
+[Options]
+Налаштування
+[Automatically reconnect after unintentional disconnection]
+Перепідключитися після несподіваного розриву
 [Leave status message after disconnection]
 Залишити повідомлення статусу після відключення
-[Anonymous nicknames are not allowed in this chat room.]
-Анонімні псевдоніми заборонені в цій кімнаті.
-;no translation
-[I'd like to go downtown]
-[I'd like to go on a blind date]
-[I'd like to go to the cinema]
-[I'd like to go to the disco]
-[I'd like to take a walk]
+[Ignore advertisements]
+Ігнорувати рекламу
+[Automatically delete contacts not in my roster]
+Автоматично видаляти контакти поза списком
+[Show offline users with status messages as invisible in contact list]
+Показувати відключених користувачів з повідомленнями статусу як невидимих
+[Enable avatars]
+Ввімкнути аватари
+[Send and receive client version information]
+Відправляти і отримувати версії клієнтів
+[Alert policy]
+Політика сповіщення
+[Use Nudge plugin]
+Вик. тряску
+[Log alerts as messages]
+Збер. сповіщ. як повід.
+[Group chat policy]
+Політика чатів
+[Image transfer policy]
+Політика обміну зображеннями
+[Voice Chats]
+Голосові чати
+[Voice chat policy]
+Політика групових чатів
+[Recording device:]
+Пристрій запису:
+[Playback device:]
+Пристрій відтворення:
+[Expert Options]
+Налаштування експерта
+[Login server:]
+Сервер:
+[Connection Host:]
+Вузол підключення:
+[Port:]
+Порт:
+[Keep connection alive]
+Підтримувати з'єднання
+[Enable encryption]
+Ввімкнути шифрування
+[Enable Always Visible and Never Visible]
+Ввімк. Завжди видимий і Завжди невидимий
+[P2P Connections]
+З'єднання P2P
+[Use proxy for incoming connections]
+Вик. проксі для вхідних підключень
+[Proxy type:]
+Тип проксі:
+[Proxy server:]
+Проксі-сервер:
+[Proxy requires authorization]
+Проксі вимагає авторизації
 [Mail Notification]
-[Public avatar]
+Сповіщення про пошту
+[Enable incoming mail notification]
+Ввімк. сповіщення про вхідну пошту
+[Colors]
+Кольори
+[Background]
+Фон
+[Text]
+Текст
+[Delay]
+Затримка
+[&From Popup plugin]
+&За замовчуванням
+[&Custom]
+&Вказати
+[P&ermanent]
+Пос&тійно
+[Preview]
+Тест
+[Tlen Password]
+Пароль Tlen
+[Cancel]
+Скасувати
+[Nickname:]
+Псевдонім:
+[First name:]
+Ім'я:
+[Last name:]
+Прізвище:
+[E-mail:]
+Пошта:
+[Gender:]
+Стать:
+[Year of birth:]
+Рік народження:
+[City:]
+Місто:
+[School:]
+Школа:
+[Occupation:]
+Заняття:
+[Looking for:]
+Шукаю:
+[Voice chats]
+Голосові чати
 [Publicly visible status]
-[Tlen Chats]
-[Tlen Inbox]
-[Tlen login]
-[Tlen Protocol Plugin]
+Публічний статус
+[Save changes]
+Зберегти зміни
+[Avatar]
+Аватар
+[Avatar Options]
+Налаштування аватару
+[Public avatar]
+Публічний аватар
+[Tlen login:]
+Вхід Tlen:
+[Subscription:]
+Підписка:
+[Software:]
+Клієнт:
+[Version:]
+Версія:
+[System:]
+Система:
+[Personal Information]
+Персональні дані
+[Age:]
+Вік:
+[to]
+в
+[Extra Search Criterias]
+Дод. критерії пошуку
+[Status:]
+Статус:
+[Plan:]
+План:
 [Tlen Voice Chat]
-[Waiting for suggestion]
-[Web message]
-[Available]
-[College student]
-[Send picture]
-[...Status...]
-...Статус...
-[Event Filter]
-Фільтр подій
-[Topic:]
-Тема:
-[User JID:]
-Користувач:
+Голосовий чат Tlen
+[Quality]
+Якість
+[In]
+Вхідне
+[Out]
+Вихідне
+[Finish]
+Завершити
+[Tlen Voice Chat Invitation]
+Запрошення до голосового чату Tlen
+[&Accept]
+&Прийняти
+[From:]
+Від:
+[The following invitation to join a voice chat is received.]
+Отримано запрошення в голосовий чат.
+[Protocol icon]
+Значок протоколу
 [Tlen inbox]
-Tlen вхідні
+Вхідні Tlen
+[Group chats]
+Чати
 [Tlen chats]
-Tlen чати
+Чати Tlen
+[Voice chat]
+Голосовий чат
 [Microphone]
 Мікрофон
 [Speaker]
 Динамік
-[Tlen Password]
-Пароль Tlen
+[Send image]
+Надіслати зображення
+[Incoming mail]
+Вхідна пошта
+[Alert]
+Попередження
+[Tlen Chats]
+Чати Tlen
+[Multi-User Conference]
+Кімната чату
+[Tlen Mail]
+Пошта Tlen
+[Send picture]
+Надіслати зображення
+[Voice Chat]
+Голосовий чат
+[Request authorization]
+Запитати авторизацію
+[Grant authorization]
+Авторизувати
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+Не вдалося створити папку для кешу аватарів. Помилка: %d: %s\n%s
+[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+Не вдалося зберегти файл аватару "%s". Помилка:\n\t%s (Помилка: %d)
+[Error while setting avatar on Tlen account (no response)]
+Помилка встановлення аватару Tlen (немає відповіді)
+[Error while setting avatar on Tlen account (invalid response)]
+Помилка встановлення аватару Tlen (неправильна відповідь)
+[Error while setting avatar on Tlen account]
+Помилка встановлення аватару Tlen
+[1 File]
+1 файл
+[%d Files]
+%d файлів
+[Authentication failed for %s@%s.]
+Аутентифікація не пройдена для %s@%s
+[Tlen Authentication]
+Аутентифікація Tlen
+[You have been kicked. Reason: %s ]
+Вас вигнали. Причина: %s\s
+[You cannot join this chat room, because you are banned.]
+Ви не можете увійти в кімнату, тому що ви заблоковані.
+[Chat room not found.]
+Чат-кімнату не знайдено.
+[This is a private chat room and you are not one of the members.]
+Це приватна чат-кімната, і ви не її член.
+[You cannot send any message unless you join this chat room.]
+Ви не можете надсилати повідомлення, поки ви не ввійшли в кімнату.
+[Chat room with already created.]
+Кімната вже створена.
+[Nickname '%s' is already registered.]
+Псевдонім '%s' вже зареєстрований.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Псевдонім вже використовується, виберіть інший. Підказка: '%s' вільний.
+[You cannot register more than %s nicknames.]
+Ви не можете зареєструвати більше ніж %s псевдонімів.
+[You cannot create more than %s chat rooms.]
+Ви не можете створити більше ніж %s кімнат.
+[You cannot join more than %s chat rooms.]
+Ви не можете увійти більше ніж до %s кімнат.
+[Anonymous nicknames are not allowed in this chat room.]
+Анонімні псевдоніми заборонені в цій кімнаті.
+[Unknown error code: %d]
+Невідома помилка: %d
+[General]
+Загальне
+[Advanced]
+Додатково
+[Notifications]
+Сповіщення
+[Network]
+Мережа
+[These changes will take effect the next time you connect to the Tlen network.]
+Зміни вступлять в силу при наступному вході в мережу Tlen.
+[Tlen Protocol Option]
+Налаштування протоколу Tlen
+[Accept all alerts]
+Приймати всі сповіщення
+[Ignore alerts from unauthorized contacts]
+Ігнорувати сповіщення від неавторизованих контактів
+[Ignore all alerts]
+Ігнорувати всі сповіщення
+[Always ask me]
+Завжди питати
+[Accept invitations from authorized contacts]
+Приймати запрошення від авторизованих контактів
+[Accept all invitations]
+Приймати всі запрошення
+[Ignore invitations from unauthorized contacts]
+Ігнорувати запрошення від неавторизованих контактів
+[Ignore all invitation]
+Ігнорувати всі запрошення
+[Accept all images]
+Приймати всі зображення
+[Ignore images from unauthorized contacts]
+Ігнорувати зображення від неавторизованих контактів
+[Ignore all images]
+Ігнорувати всі зображення
+[<Last message>]
+(Останнє повідомлення)
+[Forwarding]
+Перенаправлення
+[%s mail]
+%s пошта
+[Image sent file://%s]
+Зображення надіслано://%s
+[Image received file://%s]
+Отримано зображення://%s
+[Tlen login]
+Вхід Tlen
+[You need to be connected to Tlen account to set avatar.]
+Ви повинні бути в мережі, щоб встановити аватар.
+[Enter password for %s]
+Введіть пароль для %s
+[Tlen Connection Error]
+Помилка підключення Tlen
+[%s Web Messages]
+%s Web-повідомлень
+[Web message]
+Web-повідомлення
+[From]
+Від
+[E-mail]
+Пошта
+[An alert has been received.]
+Сповіщення прийнято.
+[Private conference]
+Особиста конференція
+[Subject]
+Тема
+[Account]
+Обліковий запис
+[both]
+обидві
+[from]
+з
+[none]
+немає
+[not on roster]
+не в ростері
+[...Connecting...]
+...Підключення...
+[...Waiting for connection...]
+...Очікування з'єднання...
+[...Finished...]
+...Завершено...
+[...Error...]
+...Помилка...
+[...Denied...]
+...Заборонено...
+[Default]
+За замовчуванням
+[%s connection]
+%s з'єднання 
+[%s SOCKS connection]
+%s SOCKS з'єднання

@@ -34,7 +34,7 @@
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
 Щось не ладиться. Я не можу писати в пам'ять.\nІ, як бачите, немає ніяких винятків...\nСпробуйте зв'язатися з автором.
 [MessagePopup]
-Попередження
+Діалогові вікна
 [Popups]
 Спливаючі вікна
 [Message with question]

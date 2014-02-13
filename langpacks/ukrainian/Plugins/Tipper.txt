@@ -21,8 +21,8 @@
 Макс. висота:
 [Avatar size:]
 Аватар:
-[Show if not list focused]
-Список не в фокусі
+[Show if list not focused]
+Список не у фокусі
 [General padding:]
 Основний відступ:
 [Hover time:]
@@ -46,11 +46,11 @@
 [Outer avatar padding:]
 Зовнішній відступ аватара:
 [Round corners (avatar)]
-Округляти кути аватар
+Заокруглені кути аватарів
 [Keep original avatar size]
 Зберігати розмір аватара
 [Avatar border]
-Рамка аватар
+Рамка аватара
 [Title indent:]
 Відступ заголовків:
 [Value indent:]
@@ -99,6 +99,8 @@
 Вниз
 [Edit]
 Змінити
+[Separator]
+Роздільник
 [Advanced options]
 Додатково
 [Retrieve XStatus details if auto-retrieve is disabled]
@@ -140,7 +142,7 @@
 [Shadow]
 Тінь
 [Round corners (window)]
-Округляти кути вікна
+Заокруглені кути вікна
 [Aero Glass (Vista+)]
 Ефект Aero Glass (Vista+)
 [Animation speed:]
@@ -180,7 +182,7 @@
 [Hide offline protocols]
 Ховати відключені протоколи
 [Hide offline]
-Приховувати відключених
+Ховати відключених
 [Append protocol name]
 Додати ім'я протоколу
 [Tipper smileys]
@@ -210,25 +212,25 @@
 [Bottom right]
 Внизу праворуч
 [Bottom left]
-Внизу зліва
+Внизу ліворуч
 [Top right]
 Вгорі праворуч
 [Top left]
-Вгорі зліва
+Вгорі ліворуч
 [Top]
 Верх
-[Centre]
+[Center]
 Центр
 [Bottom]
 Низ
 [Left]
-Зліва
+Ліворуч
 [Right]
 Праворуч
 [No avatar]
 Без аватара
 [Left avatar]
-Аватар зліва
+Аватар ліворуч
 [Right avatar]
 Аватар праворуч
 [Max avatar size:]
@@ -238,19 +240,25 @@
 [Animation]
 Анімація
 [Fade]
-Загасання
+Згасання
 [Appearance]
 Зовнішній вигляд
 [Tooltips]
 Підказки
 [Customize]
-Тонка налаштування
+Тонке налаштування
 [Content]
 Вміст
 [Tray tooltip]
 Підказки в треї
 [Extra]
 Інше
+[Show for all contact types]
+Показувати для всіх типів контактів
+[Show only for contacts]
+Показувати тільки для контактів
+[Show only for chatrooms]
+Показувати тільки для чат-кімнат
 [Number of contacts]
 Кількість контактів
 [Protocol lock status]
@@ -285,8 +293,6 @@
 %s тому
 [Log on:]
 В мережі:
-[Log off:]
-Не в мережі:
 [Unread emails:]
 Непрочитаних листів:
 [Status:]
@@ -304,21 +310,33 @@
 [Copy all items with labels]
 Копіювати всі з мітками
 [Copy all items]
-Копіювати все
+Копіювати всі
 [Copy avatar]
 Копіювати аватар
+[<No Label>: ]
+<Без мітки>\s
+[<No Value>]
+<Без значення>
 [Fav. contacts]
 Обрані
 [Other]
 Інше
 [Miranda uptime:]
 Час роботи Miranda NG:
+[Account]
+Обліковий запис
+[Account:]
+Обліковий запис:
 [Birthday]
 День народження
 [Birthday:]
 День народження:
 [Client:]
 Клієнт:
+[Email]
+Пошта
+[Email:]
+Пошта:
 [Gender:]
 Стать:
 [Homepage]
@@ -338,7 +356,7 @@
 [Last message]
 Остан. повідом.
 [Last message: (%sys:last_msg_reltime% ago)]
-Останні повідомлення: (%sys:last_msg_reltime%)
+Останнє повідомлення: (%sys:last_msg_reltime%)
 [Name]
 Ім'я
 [Name:]
@@ -356,13 +374,13 @@
 [Time:]
 Час:
 [XStatus title]
-Заголовок хСтатуса
+Заголовок хСтатусу
 [XStatus title:]
-Заголовок хСтатуса:
+Заголовок хСтатусу:
 [XStatus text]
-Текст хСтатуса
+Текст хСтатусу
 [XStatus text:]
-Текст хСтатуса:
+Текст хСтатусу:
 [[jabber.dll] Activity title]
 (jabber.dll) Заголовок заняття
 [Activity title:]
@@ -371,14 +389,6 @@
 (jabber.dll Текст заняття
 [Activity text:]
 Текст заняття:
-[[menuex.dll] Logon time]
-(menuex.dll) Час входу
-[Logon time:]
-В мережі:
-[[menuex.dll] Logoff time]
-(menuex.dll Час виходу
-[Logoff time:]
-Не в мережі:
 [[seenplugin.dll] Last seen time]
 (seenplugin.dll) Остання поява
 [Last seen time:]
@@ -396,13 +406,13 @@
 [Humidity:]
 Вологість:
 [[weather.dll] Max/Min temperature]
-(weather.dll) Макс/хв температура
+(weather.dll) Макс./мін. температура
 [Max/Min:]
 Макс./мін. температура:
 [[weather.dll] Moon]
 (weather.dll) Місяць
 [Moon:]
-Луна:
+Місяць:
 [[weather.dll] Pressure]
 (weather.dll) Тиск
 [Pressure:]
@@ -436,7 +446,7 @@
 [Wind:]
 Вітер:
 [# Solid color fill]
-\# заливка кольором
+\# Заливка кольором
 [Background]
 Фон
 [Dividers]
@@ -460,47 +470,47 @@
 [[No translation]]
 (без перетворення)
 [WORD to status description]
-Слово - опис статусу
+Слово - в опис статусу
 [DWORD timestamp to time]
-Дв. слово - під час
+Подв. слово - у час
 [DWORD timestamp to time difference]
-Дв. слово - різницю часу
+Подв. слово - в різницю часу
 [BYTE to Yes/No]
-Байт - в значення Так/Немає
+Байт - в значення Так/Ні
 [BYTE to Male/Female (ICQ)]
-Байт - стать (ч/Ж) (ICQ)
+Байт - в стать (Ч/Ж) (ICQ)
 [WORD to country name]
-Слово - назва країни
+Слово - в назву країни
 [DWORD to ip address]
-Дв. слово - в IP-адресу
+Подв. слово - в IP-адресу
 [<prefix>Day|Month|Year to date]
 <префікс>день|місяць|рік - у дату
 [<prefix>Day|Month|Year to age]
 <префікс>день|місяць|рік - у вік
 [<prefix>Hours|Minutes|Seconds to time]
-<префікс>години|хвилини|секунди - під час
+<префікс>години|хвилини|секунди - у час
 [<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<префікс>день|місяць|рік|години|хв|сек - різницю часу
+<префікс>день|місяць|рік|години|хв|сек - в різницю часу
 [<prefix>Day|Month to days to next birthday]
 <префікс>день|місяць - в днях до наступного дня народження
 [DWORD timestamp to time (no seconds)]
-Дв. слово - в дату (без секунд)
+Подв. слово - в дату (без секунд)
 [<prefix>Hours|Minutes to time]
-<префікс>години|хвилини - під час
+<префікс>години|хвилини - у час
 [DWORD timestamp to date (short)]
-Дв. слово - в дату (коротку)
+Подв. слово - в дату (коротку)
 [DWORD timestamp to date (long)]
-Дв. слово - в дату (довгу)
+Подв. слово - в дату (довгу)
 [xStatus: empty xStatus name to default name]
-хСтатус: пусте ім'я в ім'я за промовчанням
+хСтатус: порожнє ім'я в ім'я за замовчанням
 [DWORD seconds to time difference]
-Дв. слово секунд у тимчасову різницю
+Подв. слово секунд у часову різницю
 [BYTE timezone to time]
-Байт зона часу під час
+Байт зона часу в час
 [WORD to name of a day (0..6, 0 is Sunday)]
-Слово - назву дня тижня (0..6, 0 - неділя)
+Слово - в назву дня тижня (0..6, 0 - неділя)
 [WORD to name of a month (1..12, 1 is January)]
-Слово - назва місяця (1..12, 1 - січень)
+Слово - в назву місяця (1..12, 1 - січень)
 [BYTE to language (ICQ)]
 Байт - в мову (ICQ)
 [Afrikaans]
@@ -510,27 +520,27 @@
 [Arabic]
 Арабська
 [Armenian]
-Вірменський
+Вірменська
 [Azerbaijani]
-Азербайджанський
+Азербайджанська
 [Belorussian]
-Білоруський
+Білоруська
 [Bhojpuri]
-Хойпурийский
-[Мо]
+Бходжпурі
+[Bosnian]
 Боснійська
 [Bulgarian]
 Болгарська
 [Burmese]
-Бурмезский
+Бірманська
 [Cantonese]
-Катонезийский
+Кантонська
 [Catalan]
 Каталонська
 [Chamorro]
-Чаморрский
+Чаморро
 [Chinese]
-Китайський
+Китайська
 [Croatian]
 Хорватська
 [Czech]
@@ -538,7 +548,7 @@
 [Danish]
 Данська
 [Dutch]
-Голландський
+Голландська
 [English]
 Англійська
 [Esperanto]
@@ -548,17 +558,17 @@
 [Farsi]
 Фарсі
 [Finnish]
-Фінський
+Фінська
 [French]
 Французька
 [Gaelic]
-Гайський
+Гельська
 [German]
-Німецький
+Німецька
 [Greek]
 Грецька
 [Gujarati]
-Гуджаратский
+Гуджаратська
 [Hebrew]
 Іврит
 [Hindi]
@@ -572,9 +582,9 @@
 [Italian]
 Італійська
 [Japanese]
-Японський
+Японська
 [Khmer]
-Хмерский
+Кхмерська
 [Korean]
 Корейська
 [Kurdish]
@@ -584,7 +594,7 @@
 [Latvian]
 Латвійська
 [Lithuanian]
-Литовський
+Литовська
 [Macedonian]
 Македонська
 [Malay]
@@ -598,7 +608,7 @@
 [Persian]
 Перська
 [Polish]
-Польський
+Польська
 [Portuguese]
 Португальська
 [Punjabi]
@@ -616,37 +626,37 @@
 [Slovenian]
 Словенська
 [Somali]
-Сомалійський
+Сомалійська
 [Spanish]
 Іспанська
 [Swahili]
 Суахілі
 [Swedish]
-Шведський
+Шведська
 [Tagalog]
 Тагальська
 [Taiwanese]
-Тайванський
+Тайванська
 [Tamil]
 Тамільська
 [Tatar]
-Татарський
+Татарська
 [Thai]
-Тайський
+Тайська
 [Turkish]
-Турецький
+Турецька
 [Ukrainian]
-Український
+Українська
 [Urdu]
 Урду
 [Vietnamese]
-В'єтнамський
+В'єтнамська
 [Welsh]
-Уельський
+Уельська
 [Yiddish]
 Ідиш
 [Yoruba]
-Ерубский
+Йоруба
 [Sunday]
 Неділя
 [Monday]
@@ -659,11 +669,11 @@
 Четвер
 [Friday]
 П'ятниця
-[Субота]
+[Saturday]
 Субота
 [January]
 Січень
-[Лютий]
+[February]
 Лютий
 [March]
 Березень

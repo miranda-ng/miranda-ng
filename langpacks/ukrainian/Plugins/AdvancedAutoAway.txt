@@ -8,17 +8,17 @@
 [An Auto Away module with some more options than the original.]
 Плагін управління режимом очікування з розширеним набором функцій.
 [Check connection]
-Перевіряти наявність з'єднання
+Перевіряти
 [Max. retries]
 Макс. спроб
 [Account connection]
-Підключення до облікового запису
+З'єднання
 [Delay between retries (secs)]
 Затримка між спробами (с)
 [Show popups]
 Показувати спливаючі вікна
 [General]
-Загальна
+Загальне
 [Accounts to check]
 Перевіряти облікові записи
 [Dial-Up]
@@ -82,7 +82,7 @@
 [Show dialog]
 Показувати діалог
 [Set status to offline before exit]
-"Відключений" при виході
+"Від'єднаний" при виході
 [Show CMDL]
 Ком. рядок
 [Activate status profile]
@@ -124,7 +124,7 @@
 [Use Windows colors]
 Кольори Windows
 [Use default colors]
-Кольори за замовчанням
+Кольори за замовчуванням
 [Delay]
 Затримка
 [On left click]
@@ -154,13 +154,13 @@
 [From Popup plugin]
 За замовчанням
 [Custom]
-Налаштувати
+Вказати
 [Permanent]
 Постійно
 [Show additional information in popups]
-Додаткова інформація у сплив. вікнах
+Додаткова інформація
 [Use Miranda's message setting]
-Використовувати установки Miranda
+Використовувати налаштування Miranda
 [Use this message:]
 Використовувати повідомлення:
 [Use %time% for the current time, %date% for the current date]
@@ -170,15 +170,15 @@
 [Specify settings for each account]
 Налаштування для кожного облікового запису
 [Use same settings for all accounts]
-Загальні налаштування для всіх облікових записів
+Спільні налаштування для всіх облікових записів
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
-Ігнорувати клавіші Caps Lock, Num Lock і Scroll Lock
+Ігнорувати клавіші Caps Lock, Num Lock та Scroll Lock
 [Check interval (secs)]
 Інтервал перевірки (с)
 [Confirm dialog timeout (secs)]
 Інтервал підтвердження (с)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Ви ввімкнули функцію зміни статусу в розділі налаштувань "Режим очікування", налаштування ААА будуть ігноруватися.
+Ви ввімкнули функцію "Змінити статус" у розділі налаштувань "Очікування", налаштування AdvancedAutoAway ігноруються.
 [Monitor keyboard activity]
 Стежити за активністю клавіатури
 [Monitor mouse activity]
@@ -186,7 +186,7 @@
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
 Ігнорувати клавіші Ctrl, Alt, Shift, Tab, Esc, Win
 [Ignore any key combination with above keys]
-Ігнор. комбінації із зазначеними клавішами
+Ігнорувати комбінації з зазначеними клавішами
 [Accounts]
 Облікові записи
 [Enable checking]
@@ -194,7 +194,7 @@
 [Disable checking]
 Вимкнути перевірку
 [Set status message]
-Встановити повідомлення статусу
+Встановити статусне повідомлення
 [Status]
 Статус
 [Add...]
@@ -202,7 +202,7 @@
 [Delete]
 Видалити
 [Create a TopToolBar button]
-Створити кнопку на Панелі кнопок
+Створити кнопку в Панелі кнопок
 [Show confirm dialog when loading]
 Підтверджувати при завантаженні
 [Create a main menu item]
@@ -212,7 +212,7 @@
 [Hotkey]
 Гаряча клавіша
 [In submenu]
-В підменю
+У підменю
 [Max. delay (secs)]
 Макс. затримка (с)
 [Increase delay exponential]
@@ -224,13 +224,13 @@
 [Stop trying to reconnect]
 Припинити підключення
 [Set delay to]
-Почекати
+Зачекати
 [React on login errors]
 Враховувати помилки входу
 [seconds]
 секунд
 [Set account offline before a connection attempt]
-Відключати обліковий запис перед підключенням
+Перемикати обліковий запис в офлайн перед спробою з'єднання
 [Max. account connecting time (secs)]
 Макс. час підключення (с)
 [Timers]
@@ -284,7 +284,7 @@
 [Nope, not here.]
 Ні, мене тут немає.
 [I'm hiding from the mafia.]
-Я ховаюся від мафії.
+Я переховуюсь від мафії.
 [That'll be the phone.]
 Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
@@ -292,7 +292,7 @@
 [idleeeeeeee]
 очікування...
 [Set %s message for %s.]
-Встановити %s повідомлення для %s.
+Встановити повідомлення %s для %s.
 [<last>]
 <останній>
 [<current>]

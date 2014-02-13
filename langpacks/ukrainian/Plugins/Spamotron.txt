@@ -54,7 +54,7 @@
 [Hide contact until verified]
 Ховати контакт до підтвердження
 [Add permanently to list on verified]
-Додавати до списку контактів при підтвердженні
+Додавати контакт при підтвердженні
 [Log actions to system history]
 Вести журнал
 [Flood protection]
@@ -97,8 +97,8 @@
 Текст
 [Background]
 Фон
-[Timeout]
-Час
+[Timeout (sec)]
+Час (с)
 [Contact blocked]
 Контакт заблоковано
 [Contact approved]
@@ -110,7 +110,7 @@
 [Windows colors]
 Кольори Windows
 [Default timeout]
-За замовчанням
+Час за замовчанням
 [Preview]
 Тест
 [Bayes database path]
@@ -139,7 +139,7 @@
 Помилка в регулярному виразі.\nБуде використано старе значення.
 [Message score]
 Спам-рейтинг
-[Message Sessions]
+[Message sessions]
 Беседи
 [Messages]
 Повідомлення

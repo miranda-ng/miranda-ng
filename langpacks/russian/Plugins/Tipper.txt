@@ -255,6 +255,8 @@
 Другое
 [Show for all contact types]
 Показывать для всех типов контактов
+[Show only for contacts]
+Показывать только для контактов
 [Show only for chatrooms]
 Показывать только для комнат чата
 [Number of contacts]
@@ -309,6 +311,10 @@ xСтатус
 Копировать все
 [Copy avatar]
 Копировать аватар
+[<No Label>: ]
+<Без метки>\s
+[<No Value>]
+<Без значения>
 [Fav. contacts]
 Избранные
 [Other]

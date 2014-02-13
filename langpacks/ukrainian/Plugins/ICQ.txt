@@ -1126,7 +1126,7 @@ Web-дизайн
 [Yiddish]
 Ідиш
 [Yoruba]
-Ерубский
+Йоруба
 [Elementary School]
 Початкова школа
 [High School]
@@ -1306,7 +1306,7 @@ Web-служби
 [Add to server list]
 Додати в список на сервері
 [Show custom status details]
-Детальний хСтатус
+Докладний хСтатус
 [Open ICQ profile]
 Профіль на сайті ICQ
 [Display all problems]
