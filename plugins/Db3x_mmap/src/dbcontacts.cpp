@@ -55,7 +55,7 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::FindFirstContact(const char *szProto)
 
 	if (!szProto || CheckProto(cc, szProto))
 		return cc->contactID;
-		
+
 	return FindNextContact(cc->contactID, szProto);
 }
 
@@ -82,7 +82,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 		return 1;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DBCachedContact *cc = m_cache->GetNextContact(contactID);
+	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	if (cc == NULL)
 		return 1;
 
@@ -104,29 +104,26 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	// get back in
 	lck.lock();
 
-	m_cache->FreeCachedContact(contactID);
-	if (contactID == m_hLastCachedContact)
-		m_hLastCachedContact = NULL;
-
 	// delete settings chain
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	DWORD ofsFirstEvent = dbc->ofsFirstEvent;
 	while (ofsThis) {
-		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis,sizeof(DBContactSettings),NULL);
+		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, sizeof(DBContactSettings), NULL);
 		DWORD ofsNext = dbcs->ofsNext;
-		DeleteSpace(ofsThis,offsetof(DBContactSettings,blob)+dbcs->cbBlob);
+		DeleteSpace(ofsThis, offsetof(DBContactSettings, blob) + dbcs->cbBlob);
 		ofsThis = ofsNext;
 	}
+
 	// delete event chain
 	ofsThis = ofsFirstEvent;
 	while (ofsThis) {
-		DBEvent *dbe = (DBEvent*)DBRead(ofsThis,sizeof(DBEvent),NULL);
+		DBEvent *dbe = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
 		DWORD ofsNext = dbe->ofsNext;
-		DeleteSpace(ofsThis,offsetof(DBEvent,blob)+dbe->cbBlob);
+		DeleteSpace(ofsThis, offsetof(DBEvent, blob) + dbe->cbBlob);
 		ofsThis = ofsNext;
 	}
-	//find previous contact in chain and change ofsNext
-	dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+
+	// find previous contact in chain and change ofsNext
 	if (m_dbHeader.ofsFirstContact == cc->dwDriverData) {
 		m_dbHeader.ofsFirstContact = dbc->ofsNext;
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
@@ -134,22 +131,28 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	else {
 		DWORD ofsNext = dbc->ofsNext;
 		ofsThis = m_dbHeader.ofsFirstContact;
-		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
+		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis, sizeof(DBContact), NULL);
 		while (dbcPrev->ofsNext != cc->dwDriverData) {
 			if (dbcPrev->ofsNext == 0) DatabaseCorruption(NULL);
 			ofsThis = dbcPrev->ofsNext;
-			dbcPrev = (DBContact*)DBRead(ofsThis,sizeof(DBContact),NULL);
+			dbcPrev = (DBContact*)DBRead(ofsThis, sizeof(DBContact), NULL);
 		}
 		dbcPrev->ofsNext = ofsNext;
-		DBWrite(ofsThis,dbcPrev,sizeof(DBContact));
+		DBWrite(ofsThis, dbcPrev, sizeof(DBContact));
 	}
 
-	//delete contact
+	// delete contact
 	DeleteSpace(cc->dwDriverData, sizeof(DBContact));
-	//decrement contact count
+
+	// decrement contact count
 	m_dbHeader.contactCount--;
 	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	DBFlush(0);
+
+	// free cache item
+	m_cache->FreeCachedContact(contactID);
+	if (contactID == m_hLastCachedContact)
+		m_hLastCachedContact = NULL;
 	return 0;
 }
 
@@ -172,7 +175,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddContact()
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 		DBFlush(0);
 	}
-	
+
 	DBCachedContact *cc = m_cache->AddContactToCache(dbc.dwContactID);
 	cc->dwDriverData = ofsNew;
 
