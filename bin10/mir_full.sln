@@ -57,8 +57,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSList", "..\plugins\CSList
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Db_autobackups", "..\plugins\Db_autobackups\db_autobackups_10.vcxproj", "{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree", "..\plugins\Dbx_tree\dbx_tree_10.vcxproj", "{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FavContacts", "..\plugins\FavContacts\favcontacts_10.vcxproj", "{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FirstRun", "..\plugins\FirstRun\FirstRun_10.vcxproj", "{2CBA4321-8FA3-4385-BAB6-5387668FBBC4}"
@@ -634,14 +632,6 @@ Global
 		{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}.Release|Win32.Build.0 = Release|Win32
 		{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}.Release|x64.ActiveCfg = Release|x64
 		{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}.Release|x64.Build.0 = Release|x64
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Debug|Win32.Build.0 = Debug|Win32
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Debug|x64.ActiveCfg = Debug|x64
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Debug|x64.Build.0 = Debug|x64
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|Win32.ActiveCfg = Release|Win32
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|Win32.Build.0 = Release|Win32
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|x64.ActiveCfg = Release|x64
-		{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}.Release|x64.Build.0 = Release|x64
 		{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}.Debug|Win32.Build.0 = Debug|Win32
 		{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}.Debug|x64.ActiveCfg = Debug|x64
