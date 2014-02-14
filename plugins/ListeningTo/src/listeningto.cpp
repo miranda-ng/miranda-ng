@@ -235,7 +235,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);
 
 			CLISTMENUITEM clmi = { sizeof(clmi) };
-			clmi.flags = CMIM_NAME | CMIF_TCHAR;
+			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			clmi.ptszName = text;
 			Menu_ModifyItem(info->hMenu, &clmi);
 		}
@@ -275,7 +275,7 @@ static IconItem iconList[] =
 	{ LPGEN("Listening to (disabled)"), "listening_off_icon", IDI_LISTENINGOFF },
 };
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	EnableDisablePlayers();
 
@@ -333,12 +333,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	int count;
 	ProtoEnumAccounts(&count,&protos);
 
-	for (int i = 0; i < count; i++) {
-		if (!protos[i]->bIsEnabled)
-			continue;
-
-		RegisterProtocol(protos[i]->szModuleName, protos[i]->tszAccountName);
-	}
+	for (int i = 0; i < count; i++)
+		if (protos[i]->bIsEnabled)
+			RegisterProtocol(protos[i]->szModuleName, protos[i]->tszAccountName);
 
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
 
@@ -434,7 +431,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 
-int PreShutdown(WPARAM wParam, LPARAM lParam)
+int PreShutdown(WPARAM, LPARAM)
 {
 	loaded = FALSE;
 
@@ -453,14 +450,14 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR TopToolBarClick(WPARAM wParam, LPARAM lParam)
+static INT_PTR TopToolBarClick(WPARAM, LPARAM)
 {
 	EnableListeningTo(NULL, !ListeningToEnabled(NULL, TRUE));
 	return 0;
 }
 
 // Toptoolbar hook to put an icon in the toolbar
-int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
+int TopToolBarLoaded(WPARAM, LPARAM)
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
@@ -535,11 +532,8 @@ ProtocolInfo *GetProtoInfo(char *proto)
 
 void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 {
-	if (proto == NULL)
+	if (proto == NULL || !ListeningToEnabled(proto))
 		return;
-
-	if (!ListeningToEnabled(proto))
-		lti = NULL;
 
 	if (ProtoServiceExists(proto, PS_SET_LISTENINGTO))
 		CallProtoService(proto, PS_SET_LISTENINGTO, 0, (LPARAM) lti);
@@ -688,7 +682,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			mir_free(fr[1]);
 		}
 	}
-	else if (ProtoServiceExists(proto, PS_SETAWAYMSGT) || ProtoServiceExists(proto, PS_SETAWAYMSG))
+	else if (db_get_b(0,MODULE_NAME,"UseStatusMessage",1) && (ProtoServiceExists(proto, PS_SETAWAYMSGT) || ProtoServiceExists(proto, PS_SETAWAYMSG)))
 	{
 		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
 		if (lti == NULL)
@@ -768,7 +762,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 	return EnableListeningTo((char*)wParam,(BOOL)lParam);
 }
 
-INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam)
+INT_PTR HotkeysEnable(WPARAM,LPARAM lParam)
 {
 	return EnableListeningTo(lParam, TRUE);
 }
@@ -778,12 +772,12 @@ INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam)
 	return EnableListeningTo(lParam, FALSE);
 }
 
-INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam)
+INT_PTR HotkeysToggle(WPARAM,LPARAM lParam)
 {
 	return EnableListeningTo(lParam, !ListeningToEnabled((char *)lParam, TRUE));
 }
 
-INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam)
+INT_PTR GetTextFormat(WPARAM,LPARAM)
 {
 	if (!loaded)
 		return NULL;
@@ -813,18 +807,18 @@ TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 	return ret.detach();
 }
 
-INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
+INT_PTR GetParsedFormat(WPARAM,LPARAM lParam)
 {
 	return ( INT_PTR )GetParsedFormat((LISTENINGTOINFO *) lParam);
 }
 
-INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam)
+INT_PTR GetOverrideContactOption(WPARAM,LPARAM)
 {
 	return ( INT_PTR )opts.override_contact_template;
 }
 
 
-INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam)
+INT_PTR GetUnknownText(WPARAM,LPARAM)
 {
 	return ( INT_PTR )opts.unknown;
 }
@@ -891,8 +885,7 @@ void StartTimer()
 		{
 			// See if any player needs it
 			BOOL needPoll = FALSE;
-			int i;
-			for (i = FIRST_PLAYER; i < NUM_PLAYERS; i++)
+			for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++)
 			{
 				if (players[i]->needPoll)
 				{
@@ -963,10 +956,7 @@ int SettingChanged(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	char *proto = GetContactProto(hContact);
-	if (proto == NULL)
-		return 0;
-
-	if (strcmp(cws->szModule, proto) != 0)
+	if (proto == NULL || strcmp(cws->szModule, proto) != 0)
 		return 0;
 
 	if (cws->value.type == DBVT_DELETED || cws->value.ptszVal == NULL || cws->value.ptszVal[0] == 0)
@@ -1024,7 +1014,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 }
 
 #define VARIABLES_PARSE_BODY(__field__) \
-	if (ai->cbSize < sizeof(ARGUMENTSINFO)) \
+	if (ai == NULL || ai->cbSize < sizeof(ARGUMENTSINFO)) \
 		return NULL; \
 	\
 	LISTENINGTOINFO *lti = GetListeningInfo(); \
