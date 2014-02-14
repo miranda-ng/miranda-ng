@@ -3204,14 +3204,15 @@ quote_from_last:
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
 			if (!_tcsncmp(m_pContainer->szName, szNewName, CONTAINER_NAMELEN))
 				break;
-			
+
 			TContainerData *pNewContainer = FindContainerByName(szNewName);
 			if (pNewContainer == NULL)
 				if ((pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact)) == NULL)
 					break;
+
 			db_set_ts(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
 			dat->fIsReattach = TRUE;
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, (LPARAM)dat->hContact);
+			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, dat->hContact);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
 				SendMessage(m_pContainer->hwndActive, WM_SIZE, 0, 0);
 			SetForegroundWindow(pNewContainer->hwnd);

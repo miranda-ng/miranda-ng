@@ -267,12 +267,12 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						do {
 							GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
 							if (mii.dwItemData > 0) {
-								UINT uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
+								uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
 								HandleMenuEntryFromhContact((MCONTACT)uid);
 								break;
 							}
 						}
-						while (--i >= 0);
+							while (--i >= 0);
 
 						if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
 							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
