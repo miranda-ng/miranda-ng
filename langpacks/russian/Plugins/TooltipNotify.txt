@@ -56,7 +56,7 @@
 [Auto positioning]
 Автопозиция
 [Transparent input]
-Прозрачный вход
+Прозрачный клик
 [Preview]
 Просмотр
 [Translucency options]
