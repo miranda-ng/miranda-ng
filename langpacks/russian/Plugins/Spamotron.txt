@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Spamotron.dll
 ;  Plugin: Spam-o-tron
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]

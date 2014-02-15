@@ -561,6 +561,7 @@ UTF16+сигнатура
 Упакованная структура
 [Registered actions]
 Зарегистрированные действия
+; Actman30
 [INI]
 Файл INI
 [INI file name]
@@ -697,6 +698,7 @@ UTF16+сигнатура
 список контактов
 [database driver]
 драйвер базы
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Текстовый редактор
 [Script]
