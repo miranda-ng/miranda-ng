@@ -40,6 +40,8 @@ Całkowity
 Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa  itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Wszystkie wpisy ustawień oraz zdarzenia historii są szyfrowane. Sprawia to, że Miranda działa wolniej oraz stwarza zagrożenie utraty wszystkiego co zapisane jest w profilu w przypadku utraty hasła. Zalecane tylko mającym obsesję na punkcie bezpieczeństwa.
+[Set password]
+Ustaw/Zmień hasło
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shut down.]
 Dysk jest pełny. Miranda zostanie zamknięta.
@@ -54,8 +56,6 @@ Panika profilu
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Zmień/usuń hasło
-[Set password]
-Ustaw/Zmień hasło
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo

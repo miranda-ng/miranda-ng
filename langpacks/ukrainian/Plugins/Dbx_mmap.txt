@@ -35,6 +35,8 @@
 Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
+[Set password]
+Встановити пароль
 [Disk is full. Miranda will now shut down.]
 Диск переповнений. Miranda NG буде закрита.
 [Database failure. Miranda will now shut down.]
@@ -47,8 +49,6 @@
 Проблема з базою
 [Change/remove password]
 Змінити/видалити пароль
-[Set password]
-Встановити пароль
 [Logo]
 Профіль
 [Password]

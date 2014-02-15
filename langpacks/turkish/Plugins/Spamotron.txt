@@ -2,14 +2,14 @@
 ;============================================================
 ;  File: Spamotron.dll
 ;  Plugin: Spam-o-tron
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
 [Outgoing message]
 Gönderilen ileti
 [Background]
 Art Alan
-[Message Sessions]
+[Message sessions]
 İleti Oturumları
 [Messages]
 İletiler

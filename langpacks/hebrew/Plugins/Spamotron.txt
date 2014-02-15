@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Spamotron.dll
 ;  Plugin: Spam-o-tron
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
 [Outgoing message]
@@ -11,7 +11,7 @@
 רקע
 [Simple]
 פשוט
-[Message Sessions]
+[Message sessions]
 חלון הודעות
 [Messages]
 הודעות

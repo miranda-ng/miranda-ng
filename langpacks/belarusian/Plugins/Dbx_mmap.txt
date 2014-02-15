@@ -36,6 +36,8 @@
 Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе. Хуткі і эфектыўны, падыходзіць для большасці выпадкаў
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў профілі ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
+[Set password]
+Усталяваць пароль
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shut down.]
 Дыск перапоўнены. Miranda будзе зачынена.
@@ -50,8 +52,6 @@
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Змяніць/выдаліць пароль
-[Set password]
-Усталяваць пароль
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Меню

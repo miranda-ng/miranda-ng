@@ -40,6 +40,8 @@ Eliminar
 
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 
+[Set password]
+
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shut down.]
 
@@ -53,8 +55,6 @@ Eliminar
 
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
-
-[Set password]
 
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]

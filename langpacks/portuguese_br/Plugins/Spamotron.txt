@@ -2,14 +2,14 @@
 ;============================================================
 ;  File: Spamotron.dll
 ;  Plugin: Spam-o-tron
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
 [Outgoing message]
 Enviando mensagem
 [Background]
 Fundo
-[Message Sessions]
+[Message sessions]
 Sessões de mensagem
 [Messages]
 Mensagens
