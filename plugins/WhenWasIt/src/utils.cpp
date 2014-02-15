@@ -31,36 +31,30 @@ int LogInit()
 
 int Log(char *format, ...)
 {
-#ifdef _DEBUG
-	char		str[4096];
-	va_list	vararg;
-	int tBytes;
-	FILE *fout = fopen(LOG_FILE, "at");
-	if ( !fout)
-		{
-//			MessageBox(0, "can't open file", NULL, MB_OK);
+	#ifdef _DEBUG
+		char		str[4096];
+		va_list	vararg;
+		int tBytes;
+		FILE *fout = fopen(LOG_FILE, "at");
+		if (!fout)
 			return -1;
-		}
-	time_t tNow = time(NULL);
-	struct tm *now = localtime(&tNow);
-	strftime(str, sizeof(str), "%d %b %Y @ %H:%M:%S: ", now);
-	fputs(str, fout);
-	va_start(vararg, format);
-	
-	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
-	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
 
-	va_end(vararg);
-	if (str[strlen(str) - 1] != '\n')
-		{
+		time_t tNow = time(NULL);
+		struct tm *now = localtime(&tNow);
+		strftime(str, sizeof(str), "%d %b %Y @ %H:%M:%S: ", now);
+		fputs(str, fout);
+		va_start(vararg, format);
+
+		tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
+		if (tBytes > 0)
+			str[tBytes] = 0;
+
+		va_end(vararg);
+		if (str[strlen(str) - 1] != '\n')
 			strcat(str, "\n");
-		}
-	fputs(str, fout);
-	fclose(fout);
-#endif
+		fputs(str, fout);
+		fclose(fout);
+	#endif
 	return 0;
 }
 
@@ -72,80 +66,70 @@ int Info(char *title, char *format, ...)
 	va_start(vararg, format);
 	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
+		str[tBytes] = 0;
 	va_end(vararg);
-	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);		
+	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
 #define HEX_SIZE 8
 
-char *BinToHex(int size, PBYTE data)
+char* BinToHex(int size, PBYTE data)
 {
 	char *szresult = NULL;
-	char buffer[32] = {0}; //should be more than enough
+	char buffer[32] = { 0 }; //should be more than enough
 	int maxSize = size * 2 + HEX_SIZE + 1;
-	szresult = (char *) new char[ maxSize ];
+	szresult = (char *) new char[maxSize];
 	memset(szresult, 0, maxSize);
 	mir_snprintf(buffer, SIZEOF(buffer), "%0*X", HEX_SIZE, size);
 	strcpy(szresult, buffer);
-	int i;
-	for (i = 0; i < size; i++)
-		{
-			mir_snprintf(buffer, SIZEOF(buffer), "%02X", data[i]);
-			strcpy(szresult + (HEX_SIZE + i * 2), buffer);
-		}
-	return szresult; 
+
+	for (int i = 0; i < size; i++) {
+		mir_snprintf(buffer, SIZEOF(buffer), "%02X", data[i]);
+		strcpy(szresult + (HEX_SIZE + i * 2), buffer);
+	}
+	return szresult;
 }
 
 void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 {
-	char buffer[32] = {0};
+	char buffer[32] = { 0 };
 	strcpy(buffer, "0x");
 	strncpy(buffer + 2, inData, HEX_SIZE);
 	sscanf(buffer, "%x", &size);
-	outData = (unsigned char*)new char[size*2];
-	UINT i;
-	//size = i;
+	outData = (unsigned char*)new char[size * 2];
+
 	char *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
-	for (i = 0; i < size; i++)
-		{
-			strncpy(buffer + 2, &tmp[i * 2], 2);
-			sscanf(buffer, "%x", &outData[i]);
-		}
-	i = size;
+	for (UINT i = 0; i < size; i++) {
+		strncpy(buffer + 2, &tmp[i * 2], 2);
+		sscanf(buffer, "%x", &outData[i]);
+	}
 }
 
 int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	int res = 1;
 	size_t len;
 	dbv.type = DBVT_ASCIIZ;
-	if (db_get(hContact, szModule, szSettingName, &dbv) == 0)
-		{
-			res = 0;
-			size_t tmp = strlen(dbv.pszVal);
+	if (db_get(hContact, szModule, szSettingName, &dbv) == 0) {
+		res = 0;
+		size_t tmp = strlen(dbv.pszVal);
+		len = (tmp < size - 1) ? tmp : size - 1;
+		strncpy(szResult, dbv.pszVal, len);
+		szResult[len] = '\0';
+		mir_free(dbv.pszVal);
+	}
+	else {
+		res = 1;
+		if (szError) {
+			size_t tmp = strlen(szError);
 			len = (tmp < size - 1) ? tmp : size - 1;
-			strncpy(szResult, dbv.pszVal, len);
+			strncpy(szResult, szError, len);
 			szResult[len] = '\0';
-			mir_free(dbv.pszVal);
 		}
-		else{
-			res = 1;
-			if (szError)
-				{
-					size_t tmp = strlen(szError);
-					len = (tmp < size - 1) ? tmp : size - 1;
-					strncpy(szResult, szError, len);
-					szResult[len] = '\0';
-				}
-				else{
-					szResult[0] = '\0';
-				}
-		}
+		else szResult[0] = '\0';
+	}
 	return res;
 }
 
@@ -154,42 +138,20 @@ int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, si
 	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, size);
 }
 
-
-#pragma warning (disable: 4312) 
-TCHAR *GetContactName(MCONTACT hContact, char *szProto)
-{
-	CONTACTINFO ctInfo = { sizeof(ctInfo) };
-	ctInfo.szProto = (szProto) ? szProto : GetContactProto(hContact);
-	ctInfo.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	ctInfo.hContact = hContact;
-	//_debug_message("retrieving contact name for %d", hContact);
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
-	//_debug_message("	contact name %s", ctInfo.pszVal);
-	TCHAR *buffer;
-	if ( !ret)
-		buffer = _tcsdup(ctInfo.pszVal);
-
-	mir_free(ctInfo.pszVal);
-	if (ret)
-		return NULL;
-	
-	return buffer;
-}
-
-TCHAR *GetContactID(MCONTACT hContact)
+TCHAR* GetContactID(MCONTACT hContact)
 {
 	return GetContactID(hContact, GetContactProto(hContact));
 }
 
-TCHAR *GetContactID(MCONTACT hContact, char *szProto)
+TCHAR* GetContactID(MCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo = { sizeof(ctInfo) };
 	ctInfo.szProto = szProto;
 	ctInfo.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
 	ctInfo.hContact = hContact;
-	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
+	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ctInfo);
 	TCHAR *buffer;
-	if ( !ret) {
+	if (!ret) {
 		TCHAR tmp[16];
 		switch (ctInfo.type) {
 		case CNFT_BYTE:
@@ -241,11 +203,9 @@ MCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto)
 
 void ScreenToClient(HWND hWnd, LPRECT rect)
 {
-	POINT pt;
 	int cx = rect->right - rect->left;
 	int cy = rect->bottom - rect->top;
-	pt.x = rect->left;
-	pt.y = rect->top;
+	POINT pt = { rect->left, rect->top };
 	ScreenToClient(hWnd, &pt);
 	rect->left = pt.x;
 	rect->top = pt.y;
@@ -284,10 +244,10 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	rTmp.right = (parentPos->x + parentPos->cx) - rParent->right;
 	rTmp.bottom = (parentPos->y + parentPos->cy) - rParent->bottom;
 	rTmp.top = parentPos->y - rParent->top;
-	
+
 	cx = (rTmp.left) ? -rTmp.left : rTmp.right;
-	cy = (rTmp.top) ? -rTmp.top : rTmp.bottom;	
-	
+	cy = (rTmp.top) ? -rTmp.top : rTmp.bottom;
+
 	rChild.right += cx;
 	rChild.bottom += cy;
 	//expanded the window accordingly, now we need to enforce the anchors
