@@ -260,8 +260,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus()) {
+			if (LOWORD(wParam) == IDC_USERPASS)
+				CallService(MS_DB_CHANGEPASSWORD, 0, 0);
+			else
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
 		break;
 
 	case WM_NOTIFY:
