@@ -419,9 +419,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	HANDLE AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	int    IsICQContact(MCONTACT hContact);
 
-	MCONTACT FindFirstContact();
-	MCONTACT FindNextContact(MCONTACT hContact);
-
 	int    getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *dbv);
 	double getSettingDouble(MCONTACT hContact, const char *szSetting, double dDef);
 	int    getSettingStringStatic(MCONTACT hContact, const char *szSetting, char *dest, int dest_len);

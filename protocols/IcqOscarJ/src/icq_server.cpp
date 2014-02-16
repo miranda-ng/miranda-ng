@@ -192,7 +192,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	StopAvatarThread();
 
 	// Offline all contacts
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 	while (hContact)
 	{
 		DWORD dwUIN;
@@ -210,7 +210,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 			}
 		}
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	setDword("LogonTS", 0); // clear logon time

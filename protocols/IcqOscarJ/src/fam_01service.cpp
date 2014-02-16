@@ -544,7 +544,7 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 	if (*hContactResume)
 		hContact = *hContactResume;
 	else
-		hContact = FindFirstContact();
+		hContact = db_find_first(m_szModuleName);
 
 	while (hContact != NULL)
 	{
@@ -601,7 +601,7 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 			}
 		}
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 	*hContactResume = NULL;
 

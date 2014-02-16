@@ -372,7 +372,7 @@ void CIcqProto::InitContactsCache()
 	// build cache
 	icq_lock l(contactsCacheMutex);
 
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 
 	while (hContact) {
 		DWORD dwUin;
@@ -381,7 +381,7 @@ void CIcqProto::InitContactsCache()
 		if (!getContactUid(hContact, &dwUin, &szUid))
 			AddToContactsCache(hContact, dwUin, szUid);
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 }
 
@@ -454,7 +454,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (hContact)
 		return hContact;
 
-	hContact = FindFirstContact();
+	hContact = db_find_first(m_szModuleName);
 	while (hContact) {
 		DWORD dwContactUin;
 
@@ -464,7 +464,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 			return hContact;
 		}
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	//not present: add
@@ -522,7 +522,7 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	MCONTACT hContact = HandleFromCacheByUid(dwUin, szUid);
 	if (hContact) return hContact;
 
-	hContact = FindFirstContact();
+	hContact = db_find_first(m_szModuleName);
 	while (hContact) {
 		DWORD dwContactUin;
 		uid_str szContactUid;
@@ -535,7 +535,7 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 				return hContact;
 			}
 		}
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	//not present: add
@@ -888,7 +888,7 @@ void CIcqProto::ResetSettingsOnListReload()
 	setWord("SrvRecordCount", 0);
 	delSetting(DBSETTING_SERVLIST_UNHANDLED);
 
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 
 	while (hContact) {
 		// All these values will be restored during the serv-list receive
@@ -900,7 +900,7 @@ void CIcqProto::ResetSettingsOnListReload()
 		setByte(hContact, "Auth", 0);
 		delSetting(hContact, DBSETTING_SERVLIST_DATA);
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	FlushSrvGroupsCache();
@@ -912,7 +912,7 @@ void CIcqProto::ResetSettingsOnConnect()
 	setByte("SrvVisibility", 0);
 	setDword("IdleTS", 0);
 
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 
 	while (hContact) {
 		setDword(hContact, "LogonTS", 0);
@@ -924,7 +924,7 @@ void CIcqProto::ResetSettingsOnConnect()
 		if (getContactStatus(hContact) != ID_STATUS_OFFLINE)
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 }
 
@@ -933,7 +933,7 @@ void CIcqProto::ResetSettingsOnLoad()
 	setDword("IdleTS", 0);
 	setDword("LogonTS", 0);
 
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 
 	while (hContact) {
 		setDword(hContact, "LogonTS", 0);
@@ -948,7 +948,7 @@ void CIcqProto::ResetSettingsOnLoad()
 		}
 		setByte(hContact, "DCStatus", 0);
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 }
 

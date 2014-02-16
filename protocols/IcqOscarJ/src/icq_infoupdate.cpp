@@ -155,7 +155,7 @@ void CIcqProto::icq_RescanInfoUpdate()
 	bInfoUpdateEnabled = 0; // freeze thread
 
 	// Queue all outdated users
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 	while (hContact != NULL)
 	{
 		if (IsMetaInfoChanged(hContact))
@@ -166,7 +166,7 @@ void CIcqProto::icq_RescanInfoUpdate()
 				break; 
 			}
 		}
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	bInfoUpdateEnabled = TRUE;

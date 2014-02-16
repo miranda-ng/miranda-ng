@@ -190,27 +190,6 @@ HANDLE CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD fl
 	return db_event_add(hContact, &dbei);
 }
 
-MCONTACT CIcqProto::FindFirstContact()
-{
-	MCONTACT hContact = db_find_first(m_szModuleName);
-
-	if (IsICQContact(hContact))
-		return hContact;
-
-	return FindNextContact(hContact);
-}
-
-MCONTACT CIcqProto::FindNextContact(MCONTACT hContact)
-{
-	hContact = db_find_next(hContact, m_szModuleName);
-	while (hContact != NULL) {
-		if (IsICQContact(hContact))
-			return hContact;
-		hContact = db_find_next(hContact, m_szModuleName);
-	}
-	return hContact;
-}
-
 char* CIcqProto::getContactCListGroup(MCONTACT hContact)
 {
 	return getSettingStringUtf(hContact, "CList", "Group", NULL);

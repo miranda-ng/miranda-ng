@@ -975,7 +975,7 @@ void CIcqProto::LoadServerIDs()
 
 	nGroups = nServerIDListCount - nStart;
 
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 
 	while (hContact)
 	{ // search all our contacts, reserve their server IDs
@@ -1000,7 +1000,7 @@ void CIcqProto::LoadServerIDs()
 			nIgnores++;
 		}
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 	servlistMutex->Leave();
 
@@ -1363,7 +1363,7 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 	MCONTACT hContact;
 	WORD wItemID;
 
-	hContact = FindFirstContact();
+	hContact = db_find_first(m_szModuleName);
 
 	while (hContact)
 	{ // search all contacts
@@ -1380,7 +1380,7 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 			}
 		}
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	if (count)
@@ -1398,7 +1398,7 @@ void* CIcqProto::collectGroups(int *count)
 	MCONTACT hContact;
 	WORD wGroupID;
 
-	hContact = FindFirstContact();
+	hContact = db_find_first(m_szModuleName);
 
 	while (hContact)
 	{ // search all contacts
@@ -1417,7 +1417,7 @@ void* CIcqProto::collectGroups(int *count)
 			}
 		}
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	*count = cnt<<1;

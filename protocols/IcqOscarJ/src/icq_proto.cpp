@@ -35,7 +35,7 @@ extern PLUGININFOEX pluginInfo;
 
 #pragma warning(disable:4355)
 
-static int CompareConns(const directconnect* p1, const directconnect* p2)
+static int CompareConns(const directconnect *p1, const directconnect *p2)
 {
 	if (p1 < p2)
 		return -1;
@@ -43,7 +43,7 @@ static int CompareConns(const directconnect* p1, const directconnect* p2)
 	return (p1 == p2) ? 0 : 1;
 }
 
-static int CompareCookies(const icq_cookie_info* p1, const icq_cookie_info* p2)
+static int CompareCookies(const icq_cookie_info *p1, const icq_cookie_info *p2)
 {
 	if (p1->dwCookie < p2->dwCookie)
 		return -1;
@@ -51,7 +51,7 @@ static int CompareCookies(const icq_cookie_info* p1, const icq_cookie_info* p2)
 	return (p1->dwCookie == p2->dwCookie) ? 0 : 1;
 }
 
-static int CompareFT(const filetransfer* p1, const filetransfer* p2)
+static int CompareFT(const filetransfer *p1, const filetransfer *p2)
 {
 	if (p1->dwCookie < p2->dwCookie)
 		return -1;
@@ -71,12 +71,12 @@ static int CompareContactsCache(const icq_contacts_cache *p1, const icq_contacts
 }
 
 CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
-PROTO<CIcqProto>(aProtoName, aUserName),
-cookies(10, CompareCookies),
-directConns(10, CompareConns),
-expectedFileRecvs(10, CompareFT),
-contactsCache(10, CompareContactsCache),
-cheekySearchId(-1)
+	PROTO<CIcqProto>(aProtoName, aUserName),
+	cookies(10, CompareCookies),
+	directConns(10, CompareConns),
+	expectedFileRecvs(10, CompareFT),
+	contactsCache(10, CompareContactsCache),
+	cheekySearchId(-1)
 {
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
@@ -291,13 +291,13 @@ int CIcqProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ModuleLoad(0, 0);
 	InitXStatusItems(FALSE);
 
-	MCONTACT hContact = FindFirstContact();
+	MCONTACT hContact = db_find_first(m_szModuleName);
 	while (hContact != NULL) {
 		DWORD bXStatus = getContactXStatus(hContact);
 		if (bXStatus > 0)
 			setContactExtraIcon(hContact, bXStatus);
 
-		hContact = FindNextContact(hContact);
+		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	return 0;
