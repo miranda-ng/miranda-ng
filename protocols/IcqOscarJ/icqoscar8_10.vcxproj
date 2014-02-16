@@ -269,7 +269,6 @@
     <ClCompile Include="src\changeinfo\dlgproc.cpp" />
     <ClCompile Include="src\changeinfo\editlist.cpp" />
     <ClCompile Include="src\changeinfo\editstring.cpp" />
-    <ClCompile Include="src\changeinfo\main.cpp" />
     <ClCompile Include="src\changeinfo\upload.cpp" />
     <ClCompile Include="src\capabilities.cpp" />
     <ClCompile Include="src\cookies.cpp" />

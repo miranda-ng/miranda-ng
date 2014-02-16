@@ -234,9 +234,6 @@
     <ClCompile Include="src\changeinfo\editstring.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
-    <ClCompile Include="src\changeinfo\main.cpp">
-      <Filter>Changeinfo</Filter>
-    </ClCompile>
     <ClCompile Include="src\changeinfo\upload.cpp">
       <Filter>Changeinfo</Filter>
     </ClCompile>
