@@ -689,7 +689,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			dat->hContact = newData->hContact;
-			dat->hTimeZone = tmi.createByContact(dat->hContact, TZF_KNOWNONLY);
+			dat->hTimeZone = tmi.createByContact(dat->hContact, 0, TZF_KNOWNONLY);
 			dat->wMinute = 61;
 
 			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
@@ -1161,7 +1161,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 
 	case DM_NEWTIMEZONE:
-		dat->hTimeZone = tmi.createByContact(dat->hContact, TZF_KNOWNONLY);
+		dat->hTimeZone = tmi.createByContact(dat->hContact, 0, TZF_KNOWNONLY);
 		dat->wMinute = 61;
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;

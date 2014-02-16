@@ -59,7 +59,7 @@ CBaseCtrl* CTzCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 			//set the adress of our timezone handle as itemdata
 			//caller can obtain the handle htz to extract all relevant information
 			ctrl->_curSel = 0;
-			tmi.prepareList(NULL, hCtrl, TZF_PLF_CB);
+			tmi.prepareList(NULL, NULL, hCtrl, TZF_PLF_CB);
 		}
 		//fallback use old UIEX method
 		else {
@@ -206,7 +206,7 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 		if (_Flags.B.hasCustom || !hContact) {
 			//use new core tz interface
 			if (tmi.storeListResults) {
-				tmi.storeListResults(hContact, _hwnd, TZF_PLF_CB);
+				tmi.storeListResults(hContact, NULL, _hwnd, TZF_PLF_CB);
 				if (!hContact) {
 					_Flags.B.hasCustom = 0;
 					_Flags.B.hasProto = 1;

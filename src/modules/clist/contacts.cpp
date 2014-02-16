@@ -335,7 +335,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			break;
 
 		case CNF_TIMEZONE: {
-			HANDLE hTz = tmi.createByContact(ci->hContact, TZF_KNOWNONLY);
+			HANDLE hTz = tmi.createByContact(ci->hContact, 0, TZF_KNOWNONLY);
 			if (hTz)
 			{
 				LPTIME_ZONE_INFORMATION tzi = tmi.getTzi(hTz);

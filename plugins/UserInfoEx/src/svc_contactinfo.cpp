@@ -565,7 +565,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 		case CNF_TIMEZONE:
 			//use new core tz interface
 			if (tmi.prepareList) {
-				HANDLE hTz = tmi.createByContact(ci->hContact, TZF_KNOWNONLY);
+				HANDLE hTz = tmi.createByContact(ci->hContact, 0, TZF_KNOWNONLY);
 				if (hTz) {
 					LPTIME_ZONE_INFORMATION tzi = tmi.getTzi(hTz);
 					int offset = tzi->Bias + tzi->StandardBias;

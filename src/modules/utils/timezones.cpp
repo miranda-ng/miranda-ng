@@ -32,14 +32,14 @@ TIME_API tmi;
 typedef DWORD 	(WINAPI *pfnGetDynamicTimeZoneInformation_t)(DYNAMIC_TIME_ZONE_INFORMATION *pdtzi);
 static pfnGetDynamicTimeZoneInformation_t pfnGetDynamicTimeZoneInformation;
 
-typedef struct _REG_TZI_FORMAT
+struct REG_TZI_FORMAT
 {
 	LONG Bias;
 	LONG StandardBias;
 	LONG DaylightBias;
 	SYSTEMTIME StandardDate;
 	SYSTEMTIME DaylightDate;
-} REG_TZI_FORMAT;
+};
 
 #define MIM_TZ_DISPLAYLEN 128
 
@@ -48,27 +48,27 @@ struct MIM_TIMEZONE
 	unsigned hash;
 	int offset;
 
-	TCHAR	tszName[MIM_TZ_NAMELEN];			// windows name for the time zone
-	wchar_t	szDisplay[MIM_TZ_DISPLAYLEN];		// more descriptive display name (that's what usually appears in dialogs)
-												// every hour should be sufficient.
+	TCHAR	tszName[MIM_TZ_NAMELEN];            // windows name for the time zone
+	wchar_t	szDisplay[MIM_TZ_DISPLAYLEN];    // more descriptive display name (that's what usually appears in dialogs)
+	                                          // every hour should be sufficient.
 	TIME_ZONE_INFORMATION tzi;
 
 	static int compareBias(const MIM_TIMEZONE* p1, const MIM_TIMEZONE* p2)
 	{ return p2->tzi.Bias - p1->tzi.Bias; }
 };
 
-typedef struct
+struct TZ_INT_INFO
 {
-	DWORD		timestamp;					// last time updated
-	MIM_TIMEZONE myTZ;						// set to my own timezone
-} TZ_INT_INFO;
+	DWORD		timestamp;  // last time updated
+	MIM_TIMEZONE myTZ;   // set to my own timezone
+};
 
 static TZ_INT_INFO myInfo;
 
 static OBJLIST<MIM_TIMEZONE>  g_timezones(55, NumericKeySortT);
 static LIST<MIM_TIMEZONE>     g_timezonesBias(55, MIM_TIMEZONE::compareBias);
 
-void FormatTime (const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int cbDest);
+void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int cbDest);
 void UnixTimeToFileTime(mir_time ts, LPFILETIME pft);
 mir_time FileTimeToUnixTime(LPFILETIME pft);
 
@@ -81,8 +81,7 @@ static int timeapiGetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz == UTC_TIME_HANDLE)
 		GetSystemTime(st);
-	else if (tz && tz != &myInfo.myTZ)
-	{
+	else if (tz && tz != &myInfo.myTZ) {
 		SYSTEMTIME sto;
 		GetSystemTime(&sto);
 		return !fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &sto, st);
@@ -106,8 +105,7 @@ static LPCTSTR timeapiGetTzName(HANDLE hTZ)
 
 static LPCTSTR timeapiGetTzDescription(LPCTSTR TZname)
 {
-	for (int i=0; i < g_timezonesBias.getCount(); i++)
-	{
+	for (int i = 0; i < g_timezonesBias.getCount(); i++) {
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
 		if (!lstrcmp(tz->tszName, TZname))
@@ -168,25 +166,24 @@ static HANDLE timeapiGetInfoByName(LPCTSTR tszName, DWORD dwFlags)
 	return tz;
 }
 
-static HANDLE timeapiGetInfoByContact(MCONTACT hContact, DWORD dwFlags)
+static HANDLE timeapiGetInfoByContact(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags)
 {
 	if (hContact == NULL)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
+	if (szModule == NULL) szModule = "UserInfo";
+
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, "UserInfo", "TzName", &dbv))
-	{
+	if (!db_get_ts(hContact, szModule, "TzName", &dbv)) {
 		HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 		db_free(&dbv);
 		if (res) return res;
 	}
 
-	signed char timezone = (signed char)db_get_b(hContact, "UserInfo", "Timezone", -1);
-	if (timezone == -1)
-	{
+	signed char timezone = (signed char)db_get_b(hContact, szModule, "Timezone", -1);
+	if (timezone == -1) {
 		char *szProto = GetContactProto(hContact);
-		if (!db_get_ts(hContact, szProto, "TzName", &dbv))
-		{
+		if (!db_get_ts(hContact, szProto, "TzName", &dbv)) {
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 			db_free(&dbv);
 			if (res) return res;
@@ -194,12 +191,10 @@ static HANDLE timeapiGetInfoByContact(MCONTACT hContact, DWORD dwFlags)
 		timezone = (signed char)db_get_b(hContact, szProto, "Timezone", -1);
 	}
 
-	if (timezone != -1)
-	{
+	if (timezone != -1) {
 		MIM_TIMEZONE tzsearch;
 		tzsearch.tzi.Bias = timezone * 30;
-		if (myInfo.myTZ.tzi.Bias == tzsearch.tzi.Bias)
-		{
+		if (myInfo.myTZ.tzi.Bias == tzsearch.tzi.Bias) {
 			if (dwFlags & TZF_DIFONLY) return NULL;
 			return &myInfo.myTZ;
 		}
@@ -208,18 +203,15 @@ static HANDLE timeapiGetInfoByContact(MCONTACT hContact, DWORD dwFlags)
 		while (i >= 0 && g_timezonesBias[i]->tzi.Bias == tzsearch.tzi.Bias) --i;
 
 		int delta = LONG_MAX;
-		for (int j = ++i; j < g_timezonesBias.getCount() && g_timezonesBias[j]->tzi.Bias == tzsearch.tzi.Bias; ++j)
-		{
+		for (int j = ++i; j < g_timezonesBias.getCount() && g_timezonesBias[j]->tzi.Bias == tzsearch.tzi.Bias; ++j) {
 			int delta1 = abs(g_timezonesBias[j]->tzi.DaylightDate.wMonth - myInfo.myTZ.tzi.DaylightDate.wMonth);
-			if (delta1 <= delta)
-			{
+			if (delta1 <= delta) {
 				delta = delta1;
 				i = j;
 			}
 		}
 
-		if (i >= 0)
-		{
+		if (i >= 0) {
 			MIM_TIMEZONE *tz = g_timezonesBias[i];
 			return ((dwFlags & TZF_DIFONLY) && IsSameTime(tz)) ? NULL : tz;
 		}
@@ -227,21 +219,18 @@ static HANDLE timeapiGetInfoByContact(MCONTACT hContact, DWORD dwFlags)
 	return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 }
 
-static void timeapiSetInfoByContact(MCONTACT hContact, HANDLE hTZ)
+static void timeapiSetInfoByContact(MCONTACT hContact, LPCSTR szModule, HANDLE hTZ)
 {
+	if (szModule == NULL) szModule = "UserInfo";
+
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
-
-	if (hContact == NULL) return;
-
-	if (tz)
-	{
-		db_set_ts(hContact, "UserInfo", "TzName", tz->tszName);
-		db_set_b(hContact, "UserInfo", "Timezone", (char)((tz->tzi.Bias + tz->tzi.StandardBias) / 30));
+	if (tz) {
+		db_set_ts(hContact, szModule, "TzName", tz->tszName);
+		db_set_b(hContact, szModule, "Timezone", (char)((tz->tzi.Bias + tz->tzi.StandardBias) / 30));
 	}
-	else
-	{
-		db_unset(hContact, "UserInfo", "TzName");
-		db_unset(hContact, "UserInfo", "Timezone");
+	else {
+		db_unset(hContact, szModule, "TzName");
+		db_unset(hContact, szModule, "Timezone");
 	}
 }
 
@@ -256,7 +245,6 @@ static int timeapiPrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, int
 		return 1;
 
 	FormatTime(&st, szFormat, szDest, cbDest);
-
 	return 0;
 }
 
@@ -269,8 +257,7 @@ static int timeapiPrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTS
 	FILETIME ft;
 
 	if (tz == NULL) tz = &myInfo.myTZ;
-	if (tz == NULL)
-	{
+	if (tz == NULL) {
 		FILETIME lft;
 
 		UnixTimeToFileTime(ts, &lft);
@@ -278,8 +265,7 @@ static int timeapiPrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTS
 	}
 	else if (tz == UTC_TIME_HANDLE)
 		UnixTimeToFileTime(ts, &ft);
-	else
-	{
+	else {
 		if (tz->offset == INT_MIN)
 			CalcTsOffset(tz);
 
@@ -300,14 +286,12 @@ static LPTIME_ZONE_INFORMATION timeapiGetTzi(HANDLE hTZ)
 	return tz ? &tz->tzi : &myInfo.myTZ.tzi;
 }
 
-
 static mir_time timeapiTimeStampToTimeZoneTimeStamp(HANDLE hTZ, mir_time ts)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 
 	if (tz == NULL) tz = &myInfo.myTZ;
-	if (tz == NULL)
-	{
+	if (tz == NULL) {
 		FILETIME ft, lft;
 
 		UnixTimeToFileTime(ts, &ft);
@@ -323,21 +307,20 @@ static mir_time timeapiTimeStampToTimeZoneTimeStamp(HANDLE hTZ, mir_time ts)
 	return ts + tz->offset;
 }
 
-typedef struct
+struct ListMessages
 {
 	UINT addStr, getSel, setSel, getData, setData;
-} ListMessages;
+};
 
-static const ListMessages lbMessages =
-{ LB_ADDSTRING, LB_GETCURSEL, LB_SETCURSEL, LB_GETITEMDATA, LB_SETITEMDATA };
+static const ListMessages lbMessages = { LB_ADDSTRING, LB_GETCURSEL, LB_SETCURSEL, LB_GETITEMDATA, LB_SETITEMDATA };
+static const ListMessages cbMessages = { CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSEL, CB_GETITEMDATA, CB_SETITEMDATA };
 
-static const ListMessages cbMessages =
-{ CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSEL, CB_GETITEMDATA, CB_SETITEMDATA };
-
-static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
+static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 {
-	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB)))
-	{
+	if (hWnd == NULL)
+		return NULL;
+
+	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
 		TCHAR	tszClassName[128];
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
 		if (!_tcsicmp(tszClassName, _T("COMBOBOX")))
@@ -346,38 +329,44 @@ static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
 			dwFlags |= TZF_PLF_LB;
 	}
 	if (dwFlags & TZF_PLF_CB)
-		return & cbMessages;
+		return &cbMessages;
 	else if (dwFlags & TZF_PLF_LB)
-		return & lbMessages;
+		return &lbMessages;
 	else
 		return NULL;
 }
 
+///////////////////////////////////////////////////////////////////////////////
 
-static int timeapiSelectListItem(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
+static int timeapiSelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
 {
-	if (hWnd == NULL)	   // nothing to do
+	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
+	if (lstMsg == NULL)
 		return -1;
 
-	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
-	if (lstMsg == NULL) return -1;
+	if (szModule == NULL) szModule = "UserInfo";
 
 	int iSelection = 0;
-	if (hContact)
-	{
-		DBVARIANT dbv;
-		if (!db_get_ts(hContact, "UserInfo", "TzName", &dbv))
-		{
-			unsigned hash = mir_hashstrT(dbv.ptszVal);
-			for (int i=0; i < g_timezonesBias.getCount(); i++)
-			{
-				if (hash == g_timezonesBias[i]->hash)
-				{
+	ptrT tszName(db_get_tsa(hContact, szModule, "TzName"));
+	if (tszName != NULL) {
+		unsigned hash = mir_hashstrT(tszName);
+		for (int i = 0; i < g_timezonesBias.getCount(); i++) {
+			if (hash == g_timezonesBias[i]->hash) {
+				iSelection = i + 1;
+				break;
+			}
+		}
+	}
+	else {
+		signed char cBias = db_get_b(hContact, szModule, "Timezone", -100);
+		if (cBias != -100) {
+			int iBias = cBias * 30;
+			for (int i = 0; i < g_timezonesBias.getCount(); i++) {
+				if (iBias == g_timezonesBias[i]->tzi.Bias) {
 					iSelection = i + 1;
 					break;
 				}
 			}
-			db_free(&dbv);
 		}
 	}
 
@@ -385,45 +374,41 @@ static int timeapiSelectListItem(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
 	return iSelection;
 }
 
-
-static int timeapiPrepareList(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
+static int timeapiPrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
 {
-	if (hWnd == NULL)	   // nothing to do
-		return 0;
-
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
-	if (lstMsg == NULL) return 0;
+	if (lstMsg == NULL)
+		return 0;
 
 	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateT("<unspecified>"));
 
-	for (int i=0; i < g_timezonesBias.getCount(); i++)
-	{
+	for (int i = 0; i < g_timezonesBias.getCount(); i++) {
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
 		SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)tz->szDisplay);
 		SendMessage(hWnd, lstMsg->setData, i + 1, (LPARAM)tz);
 	}
 
-	return timeapiSelectListItem(hContact, hWnd, dwFlags);
+	return timeapiSelectListItem(hContact, szModule, hWnd, dwFlags);
 }
 
-
-static void timeapiStoreListResult(MCONTACT hContact, HWND hWnd, DWORD dwFlags)
+static void timeapiStoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
 {
-	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
-	if (lstMsg == NULL) return;
+	if (szModule == NULL) szModule = "UserInfo";
 
-	LRESULT offset = SendMessage(hWnd, lstMsg->getSel, 0, 0);
-	if (offset > 0)
-	{
-		MIM_TIMEZONE *tz = (MIM_TIMEZONE*)SendMessage(hWnd, lstMsg->getData, offset, 0);
-		if ((INT_PTR)tz != CB_ERR && tz != NULL)
-			timeapiSetInfoByContact(hContact, tz);
+	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
+	if (lstMsg) {
+		LRESULT offset = SendMessage(hWnd, lstMsg->getSel, 0, 0);
+		if (offset > 0) {
+			MIM_TIMEZONE *tz = (MIM_TIMEZONE*)SendMessage(hWnd, lstMsg->getData, offset, 0);
+			if ((INT_PTR)tz != CB_ERR && tz != NULL)
+				timeapiSetInfoByContact(hContact, szModule, tz);
+		}
+		else timeapiSetInfoByContact(hContact, szModule, NULL);
 	}
-	else
-		timeapiSetInfoByContact(hContact, NULL);
 }
 
+///////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR GetTimeApi(WPARAM, LPARAM lParam)
 {
@@ -462,20 +447,19 @@ static INT_PTR TimestampToLocal(WPARAM wParam, LPARAM)
 static INT_PTR TimestampToStringT(WPARAM wParam, LPARAM lParam)
 {
 	DBTIMETOSTRINGT *tts = (DBTIMETOSTRINGT*)lParam;
-	if (tts == NULL) return 0;
-
-	timeapiPrintTimeStamp(NULL, (mir_time)wParam, tts->szFormat, tts->szDest, tts->cbDest, 0);
+	if (tts != NULL)
+		timeapiPrintTimeStamp(NULL, (mir_time)wParam, tts->szFormat, tts->szDest, tts->cbDest, 0);
 	return 0;
 }
 
 static INT_PTR TimestampToStringA(WPARAM wParam, LPARAM lParam)
 {
 	DBTIMETOSTRING *tts = (DBTIMETOSTRING*)lParam;
-	if (tts == NULL) return 0;
-
-	TCHAR *szDest = (TCHAR*)alloca(tts->cbDest);
-	timeapiPrintTimeStamp(NULL, (mir_time)wParam, StrConvT(tts->szFormat), szDest, tts->cbDest, 0);
-	WideCharToMultiByte(CP_ACP, 0, szDest, -1, tts->szDest, tts->cbDest, NULL, NULL);
+	if (tts != NULL) {
+		TCHAR *szDest = (TCHAR*)alloca(tts->cbDest);
+		timeapiPrintTimeStamp(NULL, (mir_time)wParam, StrConvT(tts->szFormat), szDest, tts->cbDest, 0);
+		WideCharToMultiByte(CP_ACP, 0, szDest, -1, tts->szDest, tts->cbDest, NULL, NULL);
+	}
 	return 0;
 }
 
@@ -495,24 +479,19 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 	bool found = false;
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 
-	if (pfnGetDynamicTimeZoneInformation && pfnGetDynamicTimeZoneInformation(&dtzi) != TIME_ZONE_ID_INVALID)
-	{
+	if (pfnGetDynamicTimeZoneInformation && pfnGetDynamicTimeZoneInformation(&dtzi) != TIME_ZONE_ID_INVALID) {
 		TCHAR *myTzKey = mir_u2t(dtzi.TimeZoneKeyName);
 		_tcscpy(myInfo.myTZ.tszName, myTzKey);
 		mir_free(myTzKey);
 		found = true;
 	}
 
-	for (int i=0; i < g_timezones.getCount(); i++)
-	{
+	for (int i = 0; i < g_timezones.getCount(); i++) {
 		MIM_TIMEZONE &tz = g_timezones[i];
 		if (tz.offset != INT_MIN) tz.offset = INT_MIN;
 
-		if (!found)
-		{
-			if (!wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName)  ||
-				!wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName))
-			{
+		if (!found) {
+			if (!wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
 				_tcscpy(myInfo.myTZ.tszName, tz.tszName);
 				found = true;
 			}
@@ -535,17 +514,14 @@ void InitTimeZones(void)
 	if (IsWinVerVistaPlus())
 		pfnGetDynamicTimeZoneInformation = (pfnGetDynamicTimeZoneInformation_t)GetProcAddress(GetModuleHandle(_T("kernel32")), "GetDynamicTimeZoneInformation");
 
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, tszKey, 0, KEY_ENUMERATE_SUB_KEYS, &hKey))
-	{
+	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, tszKey, 0, KEY_ENUMERATE_SUB_KEYS, &hKey)) {
 		DWORD	dwIndex = 0;
 		HKEY	hSubKey;
 		TCHAR	tszName[MIM_TZ_NAMELEN];
 
 		DWORD dwSize = SIZEOF(tszName);
-		while (ERROR_NO_MORE_ITEMS != RegEnumKeyEx(hKey, dwIndex++, tszName, &dwSize, NULL, NULL, 0, NULL))
-		{
-			if (ERROR_SUCCESS == RegOpenKeyEx(hKey, tszName, 0, KEY_QUERY_VALUE, &hSubKey))
-			{
+		while (ERROR_NO_MORE_ITEMS != RegEnumKeyEx(hKey, dwIndex++, tszName, &dwSize, NULL, NULL, 0, NULL)) {
+			if (ERROR_SUCCESS == RegOpenKeyEx(hKey, tszName, 0, KEY_QUERY_VALUE, &hSubKey)) {
 				dwSize = sizeof(tszName);
 
 				DWORD dwLength = sizeof(tzi);
@@ -586,8 +562,6 @@ void InitTimeZones(void)
 	CreateServiceFunction(MS_DB_TIME_TIMESTAMPTOSTRINGT, TimestampToStringT);
 
 	CreateServiceFunction(MS_DB_TIME_TIMESTAMPTOSTRING, TimestampToStringA);
-
-
 
 	tmi.cbSize = sizeof(tmi);
 	GetTimeApi(0, (LPARAM)&tmi);

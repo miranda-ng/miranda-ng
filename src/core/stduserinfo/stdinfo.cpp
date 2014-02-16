@@ -244,7 +244,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		TranslateDialogDefault(hwndDlg);
 		SetTimer(hwndDlg, 1, 1000, NULL);
 
-		tmi.prepareList(lParam, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
+		tmi.prepareList(lParam, NULL, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
 		SendMessage(hwndDlg, WM_TIMER, 0, 0);
 		break;
 
@@ -300,7 +300,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				tmi.storeListResults(hContact, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
+				tmi.storeListResults(hContact, NULL, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
 			}
 		}
 		break;

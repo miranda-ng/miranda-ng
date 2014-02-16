@@ -43,17 +43,17 @@ type
     cbSize:size_t;
 
     createByName   :function (tszName:TChar; dwFlags:dword):THANDLE; cdecl;
-    createByContact:function (hContact:HCONTACT; dwFlags:dword):THANDLE;
-    storeByContact :procedure(hContact:HCONTACT; hTZ:THANDLE); cdecl;
+    createByContact:function (hContact:HCONTACT; szModule:pAnsiChar; dwFlags:dword):THANDLE;
+    storeByContact :procedure(hContact:HCONTACT; szModule:pAnsiChar; hTZ:THANDLE); cdecl;
 
     printDateTime:function(hTZ:THANDLE; szFormat:TChar; szDest:TChar;
           cbDest:int; dwFlags:dword):int; cdecl;
     printTimeStamp:function(hTZ:THANDLE; ts:mir_time; szFormat:TChar; szDest:TChar;
           cbDest:int; dwFlags:dword):int; cdecl;
 
-    prepareList     :function (hContact:HCONTACT; hWnd:HWND; dwFlags:dword):int; cdecl;
-    selectListItem  :function (hContact:HCONTACT; hWnd:HWND; dwFlags:dword):int; cdecl;
-    storeListResults:procedure(hContact:HCONTACT; hWnd:HWND; dwFlags:dword); cdecl;
+    prepareList     :function (hContact:HCONTACT; szModule:pAnsiChar; hWnd:HWND; dwFlags:dword):int; cdecl;
+    selectListItem  :function (hContact:HCONTACT; szModule:pAnsiChar; hWnd:HWND; dwFlags:dword):int; cdecl;
+    storeListResults:procedure(hContact:HCONTACT; szModule:pAnsiChar; hWnd:HWND; dwFlags:dword); cdecl;
 
     getTimeZoneTime:function(hTZ:THANDLE; var st:SYSTEMTIME):int; cdecl;
     timeStampToTimeZoneTimeStamp:function(hTZ:THANDLE; ts:mir_time):time_t; cdecl;
@@ -61,29 +61,13 @@ type
     getTzi          :function(hTZ:THANDLE):PTimeZoneInformation; cdecl;
     getTzName       :function(hTZ:THANDLE):TChar; cdecl;
     getTzDescription:function(TZName:TChar):TChar; cdecl;
-(*
-	int printDateTimeByContact (HCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
-	{ return printDateTime(createByContact(hContact, dwFlags), szFormat, szDest, cbDest, dwFlags); }
-
-	int printTimeStampByContact(HCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
-	{ return printTimeStamp(createByContact(hContact, dwFlags), ts, szFormat, szDest, cbDest, dwFlags); }
-
-	LPTIME_ZONE_INFORMATION getTziByContact(HCONTACT hContact)
-	{ return getTzi(createByContact(hContact, 0)); }
-
-	int getTimeZoneTimeByContact(HCONTACT hContact, SYSTEMTIME *st)
-	{ return getTimeZoneTime(createByContact(hContact, 0), st); }
-
-	mir_time timeStampToTimeZoneTimeStampByContact(HCONTACT hContact, mir_time ts)
-	{ return timeStampToTimeZoneTimeStamp(createByContact(hContact, 0), ts); }
-*)
   end;
 
 // every protocol should declare this variable to use the Time API
 //extern TIME_API tmi;
 
 {
-a service to obtain the Time API 
+a service to obtain the Time API
 
 wParam = 0;
 lParam = (LPARAM)(TIME_API*).

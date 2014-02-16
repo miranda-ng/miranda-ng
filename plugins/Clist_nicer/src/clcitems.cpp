@@ -325,8 +325,9 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c, const char *szProto)
 {
 	DWORD flags = 0;
-	if (cfg::dat.bShowLocalTimeSelective) flags |= TZF_DIFONLY;
-		c->hTimeZone = tmi.createByContact(hContact, flags);
+	if (cfg::dat.bShowLocalTimeSelective)
+		flags |= TZF_DIFONLY;
+	c->hTimeZone = tmi.createByContact(hContact, 0, flags);
 }
 
 void ReloadExtraInfo(MCONTACT hContact)
