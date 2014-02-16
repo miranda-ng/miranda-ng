@@ -168,7 +168,7 @@ static HANDLE timeapiGetInfoByName(LPCTSTR tszName, DWORD dwFlags)
 
 static HANDLE timeapiGetInfoByContact(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags)
 {
-	if (hContact == NULL)
+	if (hContact == NULL && szModule == NULL)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
 	if (szModule == NULL) szModule = "UserInfo";
