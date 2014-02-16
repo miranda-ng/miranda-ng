@@ -171,53 +171,50 @@ static LRESULT CALLBACK StringEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,
 	return mir_callNextSubclass(hwnd, StringEditSubclassProc, msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK ExpandButtonSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK ExpandButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_LBUTTONUP:
-		if(GetCapture()==hwnd) 
-		{
+		if (GetCapture() == hwnd) {
 			//do expand
-			RECT rcStart,rcEnd;
-			DWORD selStart,selEnd;
+			RECT rcStart, rcEnd;
+			DWORD selStart, selEnd;
 			WCHAR *text;
-			BOOL animEnabled=TRUE;
+			BOOL animEnabled = TRUE;
 
-			GetWindowRect(hwndEdit,&rcStart);
-			InflateRect(&rcStart,2,2);
+			GetWindowRect(hwndEdit, &rcStart);
+			InflateRect(&rcStart, 2, 2);
 
 			text = GetWindowTextUcs(hwndEdit);
-			SendMessage(hwndEdit,EM_GETSEL,(WPARAM)&selStart,(LPARAM)&selEnd);
+			SendMessage(hwndEdit, EM_GETSEL, (WPARAM)&selStart, (LPARAM)&selEnd);
 			DestroyWindow(hwndEdit);
-			EscapesToMultiline(text,&selStart,&selEnd);
-			hwndEdit=CreateWindowExA(WS_EX_TOOLWINDOW,"EDIT","",WS_POPUP|WS_BORDER|WS_VISIBLE|ES_WANTRETURN|ES_AUTOVSCROLL|WS_VSCROLL|ES_MULTILINE,rcStart.left,rcStart.top,rcStart.right-rcStart.left,rcStart.bottom-rcStart.top,NULL,NULL,hInst,NULL);
+			EscapesToMultiline(text, &selStart, &selEnd);
+			hwndEdit = CreateWindowExA(WS_EX_TOOLWINDOW, "EDIT", "", WS_POPUP | WS_BORDER | WS_VISIBLE | ES_WANTRETURN | ES_AUTOVSCROLL | WS_VSCROLL | ES_MULTILINE, rcStart.left, rcStart.top, rcStart.right - rcStart.left, rcStart.bottom - rcStart.top, NULL, NULL, hInst, NULL);
 			SetWindowTextUcs(hwndEdit, text);
 			mir_subclassWindow(hwndEdit, StringEditSubclassProc);
-			SendMessage(hwndEdit,WM_SETFONT,(WPARAM)dataStringEdit->hListFont,0);
-			SendMessage(hwndEdit,EM_SETSEL,selStart,selEnd);
+			SendMessage(hwndEdit, WM_SETFONT, (WPARAM)dataStringEdit->hListFont, 0);
+			SendMessage(hwndEdit, EM_SETSEL, selStart, selEnd);
 			SetFocus(hwndEdit);
 
-			rcEnd.left=rcStart.left; rcEnd.top=rcStart.top;
-			rcEnd.right=rcEnd.left+350;
-			rcEnd.bottom=rcEnd.top+150;
-			if (LOBYTE(LOWORD(GetVersion()))>4 || HIBYTE(LOWORD(GetVersion()))>0)
-				SystemParametersInfo(SPI_GETCOMBOBOXANIMATION,0,&animEnabled,FALSE);
-			if(animEnabled) 
-			{
-				DWORD startTime,timeNow;
-				startTime=GetTickCount();
-				for (;;) 
-				{
+			rcEnd.left = rcStart.left; rcEnd.top = rcStart.top;
+			rcEnd.right = rcEnd.left + 350;
+			rcEnd.bottom = rcEnd.top + 150;
+			if (LOBYTE(LOWORD(GetVersion())) > 4 || HIBYTE(LOWORD(GetVersion())) > 0)
+				SystemParametersInfo(SPI_GETCOMBOBOXANIMATION, 0, &animEnabled, FALSE);
+			if (animEnabled) {
+				DWORD startTime, timeNow;
+				startTime = GetTickCount();
+				for (;;) {
 					UpdateWindow(hwndEdit);
-					timeNow=GetTickCount();
-					if(timeNow>startTime+200) break;
-					SetWindowPos(hwndEdit,0,rcEnd.left,rcEnd.top,(rcEnd.right-rcStart.right)*(timeNow-startTime)/200+rcStart.right-rcEnd.left,(rcEnd.bottom-rcStart.bottom)*(timeNow-startTime)/200+rcStart.bottom-rcEnd.top,SWP_NOZORDER);
+					timeNow = GetTickCount();
+					if (timeNow > startTime + 200) break;
+					SetWindowPos(hwndEdit, 0, rcEnd.left, rcEnd.top, (rcEnd.right - rcStart.right)*(timeNow - startTime) / 200 + rcStart.right - rcEnd.left, (rcEnd.bottom - rcStart.bottom)*(timeNow - startTime) / 200 + rcStart.bottom - rcEnd.top, SWP_NOZORDER);
 				}
 			}
-			SetWindowPos(hwndEdit,0,rcEnd.left,rcEnd.top,rcEnd.right-rcEnd.left,rcEnd.bottom-rcEnd.top,SWP_NOZORDER);
+			SetWindowPos(hwndEdit, 0, rcEnd.left, rcEnd.top, rcEnd.right - rcEnd.left, rcEnd.bottom - rcEnd.top, SWP_NOZORDER);
 
 			DestroyWindow(hwnd);
-			hwndExpandButton=NULL;
+			hwndExpandButton = NULL;
 
 			SAFE_FREE((void**)&text);
 		}
@@ -230,57 +227,57 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 {
 	char *szValue;
 	char str[80];
-	int alloced=0;
+	int alloced = 0;
 
 	EndStringEdit(0);
-	InflateRect(rc,-2,-2);
-	rc->left-=2;
-	if (setting[i].displayType & LIF_PASSWORD && !settingData[i].changed)
+	InflateRect(rc, -2, -2);
+	rc->left -= 2;
+
+	const SettingItem &si = setting[i];
+	SettingItemData &sid = settingData[i];
+
+	if (si.displayType & LIF_PASSWORD && !sid.changed)
 		szValue = "                ";
-	else if ((setting[i].displayType & LIM_TYPE) == LI_NUMBER) 
-	{
+	else if ((si.displayType & LIM_TYPE) == LI_NUMBER) {
 		szValue = str;
-		mir_snprintf(str, sizeof(str), "%d", settingData[i].value );
+		mir_snprintf(str, sizeof(str), "%d", sid.value);
 	}
-	else if (settingData[i].value) 
-	{
-		szValue = BinaryToEscapes((char*)settingData[i].value);
+	else if (sid.value) {
+		szValue = BinaryToEscapes((char*)sid.value);
 		alloced = 1;
 	}
 	else szValue = "";
 
 	iEditItem = iItem;
 
-	if ((setting[i].displayType & LIM_TYPE)==LI_LONGSTRING) 
-	{
-		rc->right-=rc->bottom-rc->top;
-		hwndExpandButton=CreateWindowA("BUTTON","",WS_VISIBLE|WS_CHILD|BS_PUSHBUTTON|BS_ICON,rc->right,rc->top,rc->bottom-rc->top,rc->bottom-rc->top,hwndList,NULL,hInst,NULL);
-		SendMessage(hwndExpandButton,BM_SETIMAGE,IMAGE_ICON,(LPARAM)LoadImage(hInst,MAKEINTRESOURCE(IDI_EXPANDSTRINGEDIT),IMAGE_ICON,0,0,LR_SHARED));
+	if ((si.displayType & LIM_TYPE) == LI_LONGSTRING) {
+		rc->right -= rc->bottom - rc->top;
+		hwndExpandButton = CreateWindowA("BUTTON", "", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_ICON, rc->right, rc->top, rc->bottom - rc->top, rc->bottom - rc->top, hwndList, NULL, hInst, NULL);
+		SendMessage(hwndExpandButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_EXPANDSTRINGEDIT), IMAGE_ICON, 0, 0, LR_SHARED));
 		mir_subclassWindow(hwndExpandButton, ExpandButtonSubclassProc);
 	}
 
 	dataStringEdit = this;
-	hwndEdit = CreateWindow(_T("EDIT"),_T(""),WS_VISIBLE|WS_CHILD|ES_AUTOHSCROLL|((setting[i].displayType&LIM_TYPE)==LI_NUMBER?ES_NUMBER:0)|(setting[i].displayType&LIF_PASSWORD?ES_PASSWORD:0),rc->left,rc->top,rc->right-rc->left,rc->bottom-rc->top,hwndList,NULL,hInst,NULL);
+	hwndEdit = CreateWindow(_T("EDIT"), _T(""), WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL | ((si.displayType&LIM_TYPE) == LI_NUMBER ? ES_NUMBER : 0) | (si.displayType&LIF_PASSWORD ? ES_PASSWORD : 0), rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, hwndList, NULL, hInst, NULL);
 	SetWindowTextUtf(hwndEdit, szValue);
 	if (alloced) SAFE_FREE(&szValue);
 	mir_subclassWindow(hwndEdit, StringEditSubclassProc);
-	SendMessage(hwndEdit,WM_SETFONT,(WPARAM)hListFont,0);
-	if ((setting[i].displayType & LIM_TYPE) == LI_NUMBER) 
-	{
-		int *range= (int*)setting[i].pList;
+	SendMessage(hwndEdit, WM_SETFONT, (WPARAM)hListFont, 0);
+	if ((si.displayType & LIM_TYPE) == LI_NUMBER) {
+		int *range = (int*)si.pList;
 		RECT rcUpDown;
-		hwndUpDown=CreateWindow(UPDOWN_CLASS,_T(""),WS_VISIBLE|WS_CHILD|UDS_AUTOBUDDY|UDS_ALIGNRIGHT|UDS_HOTTRACK|UDS_NOTHOUSANDS|UDS_SETBUDDYINT,0,0,0,0,hwndList,NULL,hInst,NULL);
+		hwndUpDown = CreateWindow(UPDOWN_CLASS, _T(""), WS_VISIBLE | WS_CHILD | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_HOTTRACK | UDS_NOTHOUSANDS | UDS_SETBUDDYINT, 0, 0, 0, 0, hwndList, NULL, hInst, NULL);
 		SendMessage(hwndUpDown, UDM_SETRANGE32, range[0], range[1]);
-		SendMessage(hwndUpDown, UDM_SETPOS32, 0, settingData[i].value);
-		if (!(setting[i].displayType & LIF_ZEROISVALID) && settingData[i].value==0)
+		SendMessage(hwndUpDown, UDM_SETPOS32, 0, sid.value);
+		if (!(si.displayType & LIF_ZEROISVALID) && sid.value == 0)
 			SetWindowTextA(hwndEdit, "");
 		GetClientRect(hwndUpDown, &rcUpDown);
 		rc->right -= rcUpDown.right;
-		SetWindowPos(hwndEdit,0,0,0,rc->right-rc->left,rc->bottom-rc->top,SWP_NOZORDER|SWP_NOMOVE);
+		SetWindowPos(hwndEdit, 0, 0, 0, rc->right - rc->left, rc->bottom - rc->top, SWP_NOZORDER | SWP_NOMOVE);
 	}
-	SendMessage(hwndEdit,EM_SETSEL,0,(LPARAM)-1);
+	SendMessage(hwndEdit, EM_SETSEL, 0, (LPARAM)-1);
 	SetFocus(hwndEdit);
-	PostMessage(hwndEdit,WM_KEYDOWN,wVKey,0);
+	PostMessage(hwndEdit, WM_KEYDOWN, wVKey, 0);
 }
 
 void ChangeInfoData::EndStringEdit(int save)
@@ -289,45 +286,44 @@ void ChangeInfoData::EndStringEdit(int save)
 		return;
 
 	if (save) {
-		char *text = (char*)SAFE_MALLOC(GetWindowTextLength(hwndEdit)+1);
+		char *text = (char*)SAFE_MALLOC(GetWindowTextLength(hwndEdit) + 1);
+		const SettingItem &si = setting[iEditItem];
+		SettingItemData &sid = settingData[iEditItem];
 
-		GetWindowTextA(hwndEdit,(char*)text,GetWindowTextLength(hwndEdit)+1);
+		GetWindowTextA(hwndEdit, (char*)text, GetWindowTextLength(hwndEdit) + 1);
 		EscapesToBinary(text);
-		if ((setting[iEditItem].displayType&LIM_TYPE)==LI_NUMBER)
-		{
+		if ((si.displayType & LIM_TYPE) == LI_NUMBER) {
 			LPARAM newValue;
-			int *range=(int*)setting[iEditItem].pList;
+			int *range = (int*)si.pList;
 			newValue = atoi(text);
-			if (newValue) 
-			{
-				if (newValue<range[0]) newValue=range[0];
-				if (newValue>range[1]) newValue=range[1];
+			if (newValue) {
+				if (newValue<range[0]) newValue = range[0];
+				if (newValue>range[1]) newValue = range[1];
 			}
-			settingData[iEditItem].changed = settingData[iEditItem].value != newValue;
-			settingData[iEditItem].value = newValue;
+			sid.changed = sid.value != newValue;
+			sid.value = newValue;
 			SAFE_FREE(&text);
 		}
 		else {
-			if (!(setting[iEditItem].displayType & LIF_PASSWORD)) {
+			if (!(si.displayType & LIF_PASSWORD)) {
 				SAFE_FREE(&text);
 				text = GetWindowTextUtf(hwndEdit);
 				EscapesToBinary(text);
 			}
-			if ((setting[iEditItem].displayType & LIF_PASSWORD && strcmpnull(text,"                ")) ||
-				(!(setting[iEditItem].displayType & LIF_PASSWORD) && strcmpnull(text, (char*)settingData[iEditItem].value) && (strlennull(text) + strlennull((char*)settingData[iEditItem].value))))
-			{
-				SAFE_FREE((void**)&settingData[iEditItem].value);
+			if ((si.displayType & LIF_PASSWORD && strcmpnull(text, "                ")) ||
+				 (!(si.displayType & LIF_PASSWORD) && strcmpnull(text, (char*)sid.value) && (strlennull(text) + strlennull((char*)sid.value)))) {
+				SAFE_FREE((void**)&sid.value);
 				if (strlennull(text))
-					settingData[iEditItem].value = (LPARAM)text;
+					sid.value = (LPARAM)text;
 				else {
-					settingData[iEditItem].value = 0; 
+					sid.value = 0;
 					SAFE_FREE(&text);
 				}
-				settingData[iEditItem].changed = 1;
+				sid.changed = 1;
 			}
 		}
 
-		if (settingData[iEditItem].changed) {
+		if (sid.changed) {
 			TCHAR tbuf[MAX_PATH];
 
 			GetWindowText(hwndEdit, tbuf, SIZEOF(tbuf));

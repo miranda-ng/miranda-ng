@@ -84,6 +84,7 @@
 #include <m_icolib.h>
 #include <m_avatars.h>
 #include <m_xstatus.h>
+#include <m_timezones.h>
 #include <win2k.h>
 
 // Project resources

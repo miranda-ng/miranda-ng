@@ -29,43 +29,48 @@
 
 void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 {
-	for (int i=0; i < settingCount; i++) 
-  {
-		if (setting[i].displayType == LI_DIVIDER) continue;
-		if (keepChanged && settingData[i].changed) continue;
-		if (setting[i].dbType == DBVT_ASCIIZ || setting[i].dbType == DBVT_UTF8) 
-			SAFE_FREE((void**)(char**)&settingData[i].value);
+	for (int i = 0; i < settingCount; i++) {
+		const SettingItem &si = setting[i];
+		if (si.displayType == LI_DIVIDER)
+			continue;
+		
+		SettingItemData &sid = settingData[i];
+		if (keepChanged && sid.changed)
+			continue;
+		
+		if (si.dbType == DBVT_ASCIIZ || si.dbType == DBVT_UTF8)
+			SAFE_FREE((void**)(char**)&sid.value);
 		else if (!keepChanged)
-			settingData[i].value = 0;
+			sid.value = 0;
 
-		settingData[i].changed = 0;
+		sid.changed = 0;
 
-		if (setting[i].displayType & LIF_PASSWORD) continue;
+		if (si.displayType & LIF_PASSWORD)
+			continue;
 
-    DBVARIANT dbv = {DBVT_DELETED};
-		if (!ppro->getSetting(NULL, setting[i].szDbSetting, &dbv))
-    {
-			switch(dbv.type) {
+		DBVARIANT dbv = { DBVT_DELETED };
+		if (!ppro->getSetting(NULL, si.szDbSetting, &dbv)) {
+			switch (dbv.type) {
 			case DBVT_ASCIIZ:
-				settingData[i].value = (LPARAM)ppro->getSettingStringUtf(NULL, setting[i].szDbSetting, NULL);
-        break;
+				sid.value = (LPARAM)ppro->getSettingStringUtf(NULL, si.szDbSetting, NULL);
+				break;
 
 			case DBVT_UTF8:
-				settingData[i].value = (LPARAM)null_strdup(dbv.pszVal);
+				sid.value = (LPARAM)null_strdup(dbv.pszVal);
 				break;
 
 			case DBVT_WORD:
-				if (setting[i].displayType & LIF_SIGNED) 
-					settingData[i].value = dbv.sVal;
-				else 
-					settingData[i].value = dbv.wVal;
+				if (si.displayType & LIF_SIGNED)
+					sid.value = dbv.sVal;
+				else
+					sid.value = dbv.wVal;
 				break;
 
 			case DBVT_BYTE:
-				if (setting[i].displayType & LIF_SIGNED) 
-					settingData[i].value = dbv.cVal;
-				else 
-					settingData[i].value = dbv.bVal;
+				if (si.displayType & LIF_SIGNED)
+					sid.value = dbv.cVal;
+				else
+					sid.value = dbv.bVal;
 				break;
 
 #ifdef _DEBUG
@@ -77,24 +82,24 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 			db_free(&dbv);
 		}
 
-    char buf[MAX_PATH];
-    TCHAR tbuf[MAX_PATH];
+		char buf[MAX_PATH];
+		TCHAR tbuf[MAX_PATH];
 
-    if (utf8_to_tchar_static(GetItemSettingText(i, buf, SIZEOF(buf)), tbuf, SIZEOF(tbuf)))
-      ListView_SetItemText(hwndList, i, 1, tbuf);
+		if (utf8_to_tchar_static(GetItemSettingText(i, buf, SIZEOF(buf)), tbuf, SIZEOF(tbuf)))
+			ListView_SetItemText(hwndList, i, 1, tbuf);
 	}
 }
 
 void ChangeInfoData::FreeStoredDbSettings(void)
 {
-	for (int i=0; i < settingCount; i++ )
+	for (int i = 0; i < settingCount; i++)
 		if (setting[i].dbType == DBVT_ASCIIZ || setting[i].dbType == DBVT_UTF8)
 			SAFE_FREE((void**)&settingData[i].value);
 }
 
 int ChangeInfoData::ChangesMade(void)
 {
-	for (int i=0; i < settingCount; i++ )
+	for (int i = 0; i < settingCount; i++)
 		if (settingData[i].changed)
 			return 1;
 	return 0;
@@ -102,7 +107,7 @@ int ChangeInfoData::ChangesMade(void)
 
 void ChangeInfoData::ClearChangeFlags(void)
 {
-	for (int i=0; i < settingCount; i++)
+	for (int i = 0; i < settingCount; i++)
 		settingData[i].changed = 0;
 }
 
@@ -118,40 +123,38 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	PwConfirmDlgParam* dat = (PwConfirmDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		SendDlgItemMessage(hwndDlg,IDC_PASSWORD,EM_LIMITTEXT,15,0);
+		SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 15, 0);
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
-			{  
+			{
 				char szTest[16];
 
-				GetDlgItemTextA(hwndDlg,IDC_OLDPASS,szTest,sizeof(szTest));
+				GetDlgItemTextA(hwndDlg, IDC_OLDPASS, szTest, sizeof(szTest));
 
-				if (strcmpnull(szTest, dat->ppro->GetUserPassword(TRUE))) 
-				{
+				if (strcmpnull(szTest, dat->ppro->GetUserPassword(TRUE))) {
 					MessageBox(hwndDlg, TranslateT("The password does not match your current password. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
-					SendDlgItemMessage(hwndDlg,IDC_OLDPASS,EM_SETSEL,0,(LPARAM)-1);
-					SetFocus(GetDlgItem(hwndDlg,IDC_OLDPASS));
+					SendDlgItemMessage(hwndDlg, IDC_OLDPASS, EM_SETSEL, 0, (LPARAM)-1);
+					SetFocus(GetDlgItem(hwndDlg, IDC_OLDPASS));
 					break;
 				}
 
-				GetDlgItemTextA(hwndDlg,IDC_PASSWORD,szTest,sizeof(szTest));
-				if(strcmpnull(szTest, dat->Pass)) 
-				{
+				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szTest, sizeof(szTest));
+				if (strcmpnull(szTest, dat->Pass)) {
 					MessageBox(hwndDlg, TranslateT("The password does not match the password you originally entered. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
-					SendDlgItemMessage(hwndDlg,IDC_PASSWORD,EM_SETSEL,0,(LPARAM)-1);
-					SetFocus(GetDlgItem(hwndDlg,IDC_PASSWORD));
+					SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETSEL, 0, (LPARAM)-1);
+					SetFocus(GetDlgItem(hwndDlg, IDC_PASSWORD));
 					break;
 				}
 			}
 		case IDCANCEL:
-			EndDialog(hwndDlg,wParam);
+			EndDialog(hwndDlg, wParam);
 			break;
 		}
 		break;
@@ -163,55 +166,54 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 {
 	int ret = 1;
 
-	for (int i = 0; i < settingCount; i++) 
-	{
-		if (!settingData[i].changed) continue;
-		if (!(setting[i].displayType & LIF_ZEROISVALID) && settingData[i].value==0)
-		{
-			ppro->delSetting(setting[i].szDbSetting);
+	for (int i = 0; i < settingCount; i++) {
+		SettingItemData &sid = settingData[i];
+		if (!sid.changed)
+			continue;
+
+		const SettingItem &si = setting[i];
+		if (!(si.displayType & LIF_ZEROISVALID) && sid.value == 0) {
+			ppro->delSetting(si.szDbSetting);
 			continue;
 		}
-		switch(setting[i].dbType) {
+		switch (si.dbType) {
 		case DBVT_ASCIIZ:
-			if (setting[i].displayType & LIF_PASSWORD)
-			{
-				int nSettingLen = strlennull((char*)settingData[i].value);
+			if (si.displayType & LIF_PASSWORD) {
+				int nSettingLen = strlennull((char*)sid.value);
 
-				if (nSettingLen > 8 || nSettingLen < 1)
-				{
+				if (nSettingLen > 8 || nSettingLen < 1) {
 					MessageBox(hwndDlg, TranslateT("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), TranslateT("Change ICQ Details"), MB_OK);
-					ret=0;
-					break;
-				}
-				PwConfirmDlgParam param = { ppro, (char*)settingData[i].value };
-				if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PWCONFIRM), hwndDlg, PwConfirmDlgProc, (LPARAM)&param))
-				{
 					ret = 0;
 					break;
 				}
-				strcpy(ppro->m_szPassword, (char*)settingData[i].value);
+				PwConfirmDlgParam param = { ppro, (char*)sid.value };
+				if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PWCONFIRM), hwndDlg, PwConfirmDlgProc, (LPARAM)&param)) {
+					ret = 0;
+					break;
+				}
+				strcpy(ppro->m_szPassword, (char*)sid.value);
 			}
 			else {
-				if (*(char*)settingData[i].value)
-					db_set_utf(NULL, ppro->m_szModuleName, setting[i].szDbSetting, (char*)settingData[i].value);
+				if (*(char*)sid.value)
+					db_set_utf(NULL, ppro->m_szModuleName, si.szDbSetting, (char*)sid.value);
 				else
-					ppro->delSetting(setting[i].szDbSetting);
+					ppro->delSetting(si.szDbSetting);
 			}
 			break;
 
 		case DBVT_UTF8:
-			if (*(char*)settingData[i].value)
-				db_set_utf(NULL, ppro->m_szModuleName, setting[i].szDbSetting, (char*)settingData[i].value);
+			if (*(char*)sid.value)
+				db_set_utf(NULL, ppro->m_szModuleName, si.szDbSetting, (char*)sid.value);
 			else
-				ppro->delSetting(setting[i].szDbSetting);
+				ppro->delSetting(si.szDbSetting);
 			break;
 
 		case DBVT_WORD:
-			ppro->setWord(setting[i].szDbSetting, (WORD)settingData[i].value);
+			ppro->setWord(si.szDbSetting, (WORD)sid.value);
 			break;
 
 		case DBVT_BYTE:
-			ppro->setByte(setting[i].szDbSetting, (BYTE)settingData[i].value);
+			ppro->setByte(si.szDbSetting, (BYTE)sid.value);
 			break;
 		}
 	}

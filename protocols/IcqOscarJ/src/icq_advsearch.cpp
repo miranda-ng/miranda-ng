@@ -31,32 +31,25 @@
 
 static void InitComboBox(HWND hwndCombo, const FieldNamesItem *names)
 {
-	int iItem;
-	int i;
+	SendMessage(hwndCombo, CB_SETCURSEL, ComboBoxAddStringUtf(hwndCombo, NULL, 0), 0);
 
-	iItem = ComboBoxAddStringUtf(hwndCombo, NULL, 0);
-	SendMessage(hwndCombo, CB_SETCURSEL, iItem, 0);
-
-	if (names){
-		for (i = 0; names[i].text; i++) {
-			iItem = ComboBoxAddStringUtf(hwndCombo, names[i].text, names[i].code);
-		}
+	if (names) {
+		for (int i = 0; names[i].text; i++)
+			ComboBoxAddStringUtf(hwndCombo, names[i].text, names[i].code);
 	}
 	else {
 		int ctryCount;
 		struct CountryListEntry *countries;
 		CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&ctryCount, (LPARAM)&countries);
-		for (i = 0; i < ctryCount; i++)	{
+		for (int i = 0; i < ctryCount; i++)
 			if (countries[i].id != 0xFFFF && countries[i].id != 0)
-				iItem = ComboBoxAddStringUtf(hwndCombo, LPGEN(countries[i].szName), countries[i].id);
-		}
+				ComboBoxAddStringUtf(hwndCombo, LPGEN(countries[i].szName), countries[i].id);
 	}
 }
 
 INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message)
-	{
+	switch(message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		InitComboBox(GetDlgItem(hwndDlg, IDC_GENDER), genderField);
@@ -68,10 +61,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		InitComboBox(GetDlgItem(hwndDlg, IDC_COUNTRY), countryField);
 		InitComboBox(GetDlgItem(hwndDlg, IDC_INTERESTSCAT), interestsField);
 		InitComboBox(GetDlgItem(hwndDlg, IDC_PASTCAT), pastField);
-
 		return TRUE;
-	default:
-		break;
 	}
 
 	return FALSE;
@@ -122,10 +112,10 @@ static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, int *length)
 
 	BYTE b = (BYTE)getCurItemData(hwndDlg,  IDC_GENDER);
 	switch (b) {
-	case 'F': b = 1; break;
-	case 'M': b = 2; break;
-	default: b = 0;
-	};
+		case 'F': b = 1; break;
+		case 'M': b = 2; break;
+		default: b = 0;
+	}
 	ppackLETLVByte(&buf,  &buflen, b, TLV_GENDER, 0);
 	ppackLETLVByte(&buf,  &buflen, (BYTE)getCurItemData(hwndDlg,  IDC_MARITALSTATUS), TLV_MARITAL,   0);
 	ppackLETLVWord(&buf,  &buflen, (WORD)getCurItemData(hwndDlg,  IDC_LANGUAGE),      TLV_LANGUAGE,  0);

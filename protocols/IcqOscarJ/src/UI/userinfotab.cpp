@@ -43,7 +43,7 @@ extern const char *nameXStatus[];
 
 static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContact, char* szModule, char* szSetting, int special)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	char str[MAX_PATH];
 	char* pstr = NULL;
 	int unspecified = 0;
@@ -51,11 +51,10 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 
 	dbv.type = DBVT_DELETED;
 
-	if ((hContact == NULL) && ((int)szModule<0x100))
-	{
+	if ((hContact == NULL) && ((int)szModule < 0x100)) {
 		dbv.type = (BYTE)szModule;
 
-		switch((int)szModule) {
+		switch ((int)szModule) {
 		case DBVT_BYTE:
 			dbv.cVal = (BYTE)szSetting;
 			break;
@@ -82,26 +81,22 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 		}
 	}
 
-	if (!unspecified)
-	{
+	if (!unspecified) {
 		switch (dbv.type) {
 		case DBVT_BYTE:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-			pstr = _itoa(special == SVS_SIGNED ? dbv.cVal:dbv.bVal, str, 10);
+			pstr = _itoa(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
 			break;
 
 		case DBVT_WORD:
-			if (special == SVS_ICQVERSION)
-			{
-				if (dbv.wVal != 0)
-				{
+			if (special == SVS_ICQVERSION) {
+				if (dbv.wVal != 0) {
 					char szExtra[80];
 
 					mir_snprintf(str, 250, "%d", dbv.wVal);
 					pstr = str;
 
-					if (hContact && ppro->IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 1))
-					{
+					if (hContact && ppro->IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 1)) {
 						ICQTranslateUtfStatic(LPGEN(" (DC Established)"), szExtra, 80);
 						strcat(str, (char*)szExtra);
 						bUtf = 1;
@@ -110,18 +105,15 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 				else
 					unspecified = 1;
 			}
-			else if (special == SVS_STATUSID)
-			{
+			else if (special == SVS_STATUSID) {
 				char *pXName;
 				char *pszStatus = MirandaStatusToStringUtf(dbv.wVal);
 				BYTE bXStatus = ppro->getContactXStatus(hContact);
 
-				if (bXStatus)
-				{
+				if (bXStatus) {
 					pXName = ppro->getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
-					if (!strlennull(pXName))
-					{ // give default name
-						pXName = ICQTranslateUtf(nameXStatus[bXStatus-1]);
+					if (!strlennull(pXName)) { // give default name
+						pXName = ICQTranslateUtf(nameXStatus[bXStatus - 1]);
 					}
 					mir_snprintf(str, sizeof(str), "%s (%s)", pszStatus, pXName);
 					SAFE_FREE((void**)&pXName);
@@ -134,39 +126,35 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 				pstr = str;
 				unspecified = 0;
 			}
-			else
-			{
+			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-				pstr = _itoa(special == SVS_SIGNED ? dbv.sVal:dbv.wVal, str, 10);
+				pstr = _itoa(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
 			}
 			break;
 
 		case DBVT_DWORD:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
-			if (special == SVS_IP)
-			{
+			if (special == SVS_IP) {
 				struct in_addr ia;
 				ia.S_un.S_addr = htonl(dbv.dVal);
 				pstr = inet_ntoa(ia);
 				if (dbv.dVal == 0)
-					unspecified=1;
+					unspecified = 1;
 			}
-			else if (special == SVS_TIMESTAMP)
-			{
+			else if (special == SVS_TIMESTAMP) {
 				if (dbv.dVal == 0)
 					unspecified = 1;
 				else
 					pstr = time2text(dbv.dVal);
 			}
 			else
-				pstr = _itoa(special == SVS_SIGNED ? dbv.lVal:dbv.dVal, str, 10);
+				pstr = _itoa(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			break;
 
 		case DBVT_ASCIIZ:
 		case DBVT_WCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-			if (!unspecified && pstr != szSetting)
-			{
+			if (!unspecified && pstr != szSetting) {
 				pstr = ppro->getSettingStringUtf(hContact, szModule, szSetting, NULL);
 				bUtf = 1;
 				bAlloc = 1;
@@ -177,7 +165,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 
 		default:
 			pstr = str;
-			strcpy(str,"???");
+			strcpy(str, "???");
 			break;
 		}
 	}
@@ -211,67 +199,61 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, ((PSHNOTIFY*)lParam)->lParam);
 				break;
 
 			case PSN_INFOCHANGED:
-				{
-					CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					if (!ppro)
-						break;
+				CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				if (!ppro)
+					break;
 
-					char* szProto;
-					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+				char* szProto;
+				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 
-					if (hContact == NULL)
-						szProto = ppro->m_szModuleName;
-					else
-						szProto = GetContactProto(hContact);
+				if (hContact == NULL)
+					szProto = ppro->m_szModuleName;
+				else
+					szProto = GetContactProto(hContact);
 
-					if (!szProto)
-						break;
+				if (!szProto)
+					break;
 
-					SetValue(ppro, hwndDlg, IDC_UIN, hContact, szProto, UNIQUEIDSETTING, SVS_NORMAL);
-					SetValue(ppro, hwndDlg, IDC_ONLINESINCE, hContact, szProto, "LogonTS", SVS_TIMESTAMP);
-					SetValue(ppro, hwndDlg, IDC_IDLETIME, hContact, szProto, "IdleTS", SVS_TIMESTAMP);
-					SetValue(ppro, hwndDlg, IDC_IP, hContact, szProto, "IP", SVS_IP);
-					SetValue(ppro, hwndDlg, IDC_REALIP, hContact, szProto, "RealIP", SVS_IP);
+				SetValue(ppro, hwndDlg, IDC_UIN, hContact, szProto, UNIQUEIDSETTING, SVS_NORMAL);
+				SetValue(ppro, hwndDlg, IDC_ONLINESINCE, hContact, szProto, "LogonTS", SVS_TIMESTAMP);
+				SetValue(ppro, hwndDlg, IDC_IDLETIME, hContact, szProto, "IdleTS", SVS_TIMESTAMP);
+				SetValue(ppro, hwndDlg, IDC_IP, hContact, szProto, "IP", SVS_IP);
+				SetValue(ppro, hwndDlg, IDC_REALIP, hContact, szProto, "RealIP", SVS_IP);
 
-					if (hContact)
-					{
-						SetValue(ppro, hwndDlg, IDC_PORT, hContact, szProto, "UserPort", SVS_ZEROISUNSPEC);
-						SetValue(ppro, hwndDlg, IDC_VERSION, hContact, szProto, "Version", SVS_ICQVERSION);
-						SetValue(ppro, hwndDlg, IDC_MIRVER, hContact, szProto, "MirVer", SVS_ZEROISUNSPEC);
-						if (ppro->getByte(hContact, "ClientID", 0))
-							ppro->setDword(hContact, "TickTS", 0);
-						SetValue(ppro, hwndDlg, IDC_SYSTEMUPTIME, hContact, szProto, "TickTS", SVS_TIMESTAMP);
-						SetValue(ppro, hwndDlg, IDC_STATUS, hContact, szProto, "Status", SVS_STATUSID);
-					}
-					else
-					{
-						char str[MAX_PATH];
-						WORD v[4];
-						CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
-						mir_snprintf(str, SIZEOF(str), "Miranda NG %d.%d.%d.%d (ICQ %s)", v[0], v[1], v[2], v[3], __VERSION_STRING_DOTS);
-
-						SetValue(ppro, hwndDlg, IDC_PORT, hContact, (char*)DBVT_WORD, (char*)ppro->wListenPort, SVS_ZEROISUNSPEC);
-						SetValue(ppro, hwndDlg, IDC_VERSION, hContact, (char*)DBVT_WORD, (char*)ICQ_VERSION, SVS_ICQVERSION);
-						SetValue(ppro, hwndDlg, IDC_MIRVER, hContact, (char*)DBVT_ASCIIZ, str, SVS_ZEROISUNSPEC);
-						SetDlgItemText(hwndDlg, IDC_SUPTIME, TranslateT("Member since:"));
-						SetValue(ppro, hwndDlg, IDC_SYSTEMUPTIME, hContact, szProto, "MemberTS", SVS_TIMESTAMP);
-						SetValue(ppro, hwndDlg, IDC_STATUS, hContact, (char*)DBVT_WORD, (char*)ppro->m_iStatus, SVS_STATUSID);
-					}
+				if (hContact) {
+					SetValue(ppro, hwndDlg, IDC_PORT, hContact, szProto, "UserPort", SVS_ZEROISUNSPEC);
+					SetValue(ppro, hwndDlg, IDC_VERSION, hContact, szProto, "Version", SVS_ICQVERSION);
+					SetValue(ppro, hwndDlg, IDC_MIRVER, hContact, szProto, "MirVer", SVS_ZEROISUNSPEC);
+					if (ppro->getByte(hContact, "ClientID", 0))
+						ppro->setDword(hContact, "TickTS", 0);
+					SetValue(ppro, hwndDlg, IDC_SYSTEMUPTIME, hContact, szProto, "TickTS", SVS_TIMESTAMP);
+					SetValue(ppro, hwndDlg, IDC_STATUS, hContact, szProto, "Status", SVS_STATUSID);
 				}
-				break;
+				else {
+					char str[MAX_PATH];
+					WORD v[4];
+					CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
+					mir_snprintf(str, SIZEOF(str), "Miranda NG %d.%d.%d.%d (ICQ %s)", v[0], v[1], v[2], v[3], __VERSION_STRING_DOTS);
+
+					SetValue(ppro, hwndDlg, IDC_PORT, hContact, (char*)DBVT_WORD, (char*)ppro->wListenPort, SVS_ZEROISUNSPEC);
+					SetValue(ppro, hwndDlg, IDC_VERSION, hContact, (char*)DBVT_WORD, (char*)ICQ_VERSION, SVS_ICQVERSION);
+					SetValue(ppro, hwndDlg, IDC_MIRVER, hContact, (char*)DBVT_ASCIIZ, str, SVS_ZEROISUNSPEC);
+					SetDlgItemText(hwndDlg, IDC_SUPTIME, TranslateT("Member since:"));
+					SetValue(ppro, hwndDlg, IDC_SYSTEMUPTIME, hContact, szProto, "MemberTS", SVS_TIMESTAMP);
+					SetValue(ppro, hwndDlg, IDC_STATUS, hContact, (char*)DBVT_WORD, (char*)ppro->m_iStatus, SVS_STATUSID);
+				}
 			}
-			break;
 		}
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDCANCEL:
-			SendMessage(GetParent(hwndDlg),msg,wParam,lParam);
+			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
 			break;
 		}
 		break;

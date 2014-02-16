@@ -61,14 +61,14 @@ static void OptDlgChanged(HWND hwndDlg)
 
 static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+	CIcqProto *ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CIcqProto*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
 			DWORD dwUin = ppro->getContactUin(NULL);
 			if (dwUin)
@@ -96,15 +96,15 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetDlgItemInt(hwndDlg, IDC_ICQPORT, ppro->getWord("OscarPort", IsDlgButtonChecked(hwndDlg, IDC_SSL) ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT), FALSE);
 			LoadDBCheckState(ppro, hwndDlg, IDC_KEEPALIVE, "KeepAlive", DEFAULT_KEEPALIVE_ENABLED);
 			SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_SETRANGE, FALSE, MAKELONG(0, 4));
-			SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_SETPOS, TRUE, 4-ppro->getByte("ShowLogLevel", LOG_WARNING));
-			SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
+			SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_SETPOS, TRUE, 4 - ppro->getByte("ShowLogLevel", LOG_WARNING));
+			SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
 			ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_HIDE);
 			LoadDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox", 0);
 		}
 		return TRUE;
 
 	case WM_HSCROLL:
-		SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL,TBM_GETPOS, 0, 0)]));
+		SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
 		OptDlgChanged(hwndDlg);
 		break;
 
@@ -136,9 +136,8 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_SHOW);
 		}
 
-		if ((LOWORD(wParam)==IDC_ICQNUM || LOWORD(wParam)==IDC_PASSWORD || LOWORD(wParam)==IDC_ICQSERVER || LOWORD(wParam)==IDC_ICQPORT) &&
-			(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()))
-		{
+		if ((LOWORD(wParam) == IDC_ICQNUM || LOWORD(wParam) == IDC_PASSWORD || LOWORD(wParam) == IDC_ICQSERVER || LOWORD(wParam) == IDC_ICQPORT) &&
+			 (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) {
 			return 0;
 		}
 
@@ -159,7 +158,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else ppro->m_bRememberPwd = ppro->getByte("RememberPass", 0);
 			ppro->setString("Password", str);
 
-			GetDlgItemTextA(hwndDlg,IDC_ICQSERVER, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_ICQSERVER, str, sizeof(str));
 			ppro->setString("OscarServer", str);
 
 			ppro->setWord("OscarPort", (WORD)GetDlgItemInt(hwndDlg, IDC_ICQPORT, NULL, FALSE));
@@ -169,7 +168,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			StoreDBCheckState(ppro, hwndDlg, IDC_MD5LOGIN, "SecureLogin");
 			StoreDBCheckState(ppro, hwndDlg, IDC_LEGACY, "LegacyFix");
 			StoreDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox");
-			ppro->setByte("ShowLogLevel", (BYTE)(4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)));
+			ppro->setByte("ShowLogLevel", (BYTE)(4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)));
 			return TRUE;
 		}
 		break;
@@ -199,13 +198,11 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			int nDcType = ppro->getByte("DCType", 0);
 			int nAddAuth = ppro->getByte("Auth", 1);
 
-			if (!ppro->icqOnline())
-			{
+			if (!ppro->icqOnline()) {
 				icq_EnableMultipleControls(hwndDlg, icqPrivacyControls, SIZEOF(icqPrivacyControls), FALSE);
 				ShowDlgItem(hwndDlg, IDC_STATIC_NOTONLINE, SW_SHOW);
 			}
-			else
-				ShowDlgItem(hwndDlg, IDC_STATIC_NOTONLINE, SW_HIDE);
+			else ShowDlgItem(hwndDlg, IDC_STATIC_NOTONLINE, SW_HIDE);
 
 			CheckDlgButton(hwndDlg, IDC_DCALLOW_ANY, (nDcType == 0));
 			CheckDlgButton(hwndDlg, IDC_DCALLOW_CLIST, (nDcType == 1));
@@ -234,13 +231,11 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			if ((HWND)lParam != GetFocus())  return 0;
 			break;
 		case IDC_STATUSMSG_CLIST:
-			if (IsDlgButtonChecked(hwndDlg, IDC_STATUSMSG_CLIST))
-			{
+			if (IsDlgButtonChecked(hwndDlg, IDC_STATUSMSG_CLIST)) {
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG_VISIBLE, TRUE);
 				LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_VISIBLE, "StatusMsgReplyVisible", 0);
 			}
-			else
-			{
+			else {
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
 				CheckDlgButton(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
 			}
@@ -266,10 +261,9 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				ppro->setByte("DCType", 0);
 			StoreDBCheckState(ppro, hwndDlg, IDC_ADD_AUTH, "Auth");
 
-			if (ppro->icqOnline())
-			{
-				PBYTE buf=NULL;
-				int buflen=0;
+			if (ppro->icqOnline()) {
+				PBYTE buf = NULL;
+				int buflen = 0;
 
 				ppackTLVWord(&buf, &buflen, 0x19A, !ppro->getByte("Auth", 1));
 				ppackTLVByte(&buf, &buflen, 0x212, ppro->getByte("WebAware", 0));
@@ -283,14 +277,12 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				{
 					WORD wStatus = MirandaStatusToIcq(ppro->m_iStatus);
 
-					if (ppro->m_iStatus == ID_STATUS_INVISIBLE)
-					{
+					if (ppro->m_iStatus == ID_STATUS_INVISIBLE) {
 						if (ppro->m_bSsiEnabled)
 							ppro->updateServVisibilityCode(3);
 						ppro->icq_setstatus(wStatus, NULL);
 					}
-					else
-					{
+					else {
 						ppro->icq_setstatus(wStatus, NULL);
 						if (ppro->m_bSsiEnabled)
 							ppro->updateServVisibilityCode(4);
@@ -315,22 +307,22 @@ struct CPTABLE {
 };
 
 struct CPTABLE cpTable[] = {
-	{  874,  LPGEN("Thai") },
-	{  932,  LPGEN("Japanese") },
-	{  936,  LPGEN("Simplified Chinese") },
-	{  949,  LPGEN("Korean") },
-	{  950,  LPGEN("Traditional Chinese") },
-	{  1250, LPGEN("Central European") },
-	{  1251, LPGEN("Cyrillic") },
-	{  1252, LPGEN("Latin I") },
-	{  1253, LPGEN("Greek") },
-	{  1254, LPGEN("Turkish") },
-	{  1255, LPGEN("Hebrew") },
-	{  1256, LPGEN("Arabic") },
-	{  1257, LPGEN("Baltic") },
-	{  1258, LPGEN("Vietnamese") },
-	{  1361, LPGEN("Korean (Johab)") },
-	{   -1,  NULL}
+	{ 874, LPGEN("Thai") },
+	{ 932, LPGEN("Japanese") },
+	{ 936, LPGEN("Simplified Chinese") },
+	{ 949, LPGEN("Korean") },
+	{ 950, LPGEN("Traditional Chinese") },
+	{ 1250, LPGEN("Central European") },
+	{ 1251, LPGEN("Cyrillic") },
+	{ 1252, LPGEN("Latin I") },
+	{ 1253, LPGEN("Greek") },
+	{ 1254, LPGEN("Turkish") },
+	{ 1255, LPGEN("Hebrew") },
+	{ 1256, LPGEN("Arabic") },
+	{ 1257, LPGEN("Baltic") },
+	{ 1258, LPGEN("Vietnamese") },
+	{ 1361, LPGEN("Korean (Johab)") },
+	{ -1, NULL }
 };
 
 static BOOL CALLBACK FillCpCombo(LPSTR str)
@@ -339,7 +331,7 @@ static BOOL CALLBACK FillCpCombo(LPSTR str)
 	UINT cp;
 
 	cp = atoi(str);
-	for (i=0; cpTable[i].cpName != NULL && cpTable[i].cpId!=cp; i++);
+	for (i = 0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName)
 		ComboBoxAddStringUtf(hCpCombo, cpTable[i].cpName, cpTable[i].cpId);
 
@@ -348,34 +340,34 @@ static BOOL CALLBACK FillCpCombo(LPSTR str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const UINT icqUnicodeControls[] = {IDC_UTFALL,IDC_UTFSTATIC,IDC_UTFCODEPAGE};
-static const UINT icqDCMsgControls[] = {IDC_DCPASSIVE};
-static const UINT icqXStatusControls[] = {IDC_XSTATUSAUTO};
-static const UINT icqCustomStatusControls[] = {IDC_XSTATUSRESET};
-static const UINT icqAimControls[] = {IDC_AIMENABLE};
+static const UINT icqUnicodeControls[] = { IDC_UTFALL, IDC_UTFSTATIC, IDC_UTFCODEPAGE };
+static const UINT icqDCMsgControls[] = { IDC_DCPASSIVE };
+static const UINT icqXStatusControls[] = { IDC_XSTATUSAUTO };
+static const UINT icqCustomStatusControls[] = { IDC_XSTATUSRESET };
+static const UINT icqAimControls[] = { IDC_AIMENABLE };
 
 static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CIcqProto*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
 			BYTE byData = ppro->getByte("UtfEnabled", DEFAULT_UTF_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_UTFENABLE, byData?TRUE:FALSE);
-			CheckDlgButton(hwndDlg, IDC_UTFALL, byData==2?TRUE:FALSE);
-			icq_EnableMultipleControls(hwndDlg, icqUnicodeControls, SIZEOF(icqUnicodeControls), byData?TRUE:FALSE);
-			LoadDBCheckState(ppro, hwndDlg, IDC_TEMPVISIBLE, "TempVisListEnabled",DEFAULT_TEMPVIS_ENABLED);
+			CheckDlgButton(hwndDlg, IDC_UTFENABLE, byData ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_UTFALL, byData == 2 ? TRUE : FALSE);
+			icq_EnableMultipleControls(hwndDlg, icqUnicodeControls, SIZEOF(icqUnicodeControls), byData ? TRUE : FALSE);
+			LoadDBCheckState(ppro, hwndDlg, IDC_TEMPVISIBLE, "TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
 			LoadDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend", DEFAULT_SLOWSEND);
 			LoadDBCheckState(ppro, hwndDlg, IDC_ONLYSERVERACKS, "OnlyServerAcks", DEFAULT_ONLYSERVERACKS);
 			byData = ppro->getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_DCENABLE, byData?TRUE:FALSE);
-			CheckDlgButton(hwndDlg, IDC_DCPASSIVE, byData==1?TRUE:FALSE);
-			icq_EnableMultipleControls(hwndDlg, icqDCMsgControls, SIZEOF(icqDCMsgControls), byData?TRUE:FALSE);
+			CheckDlgButton(hwndDlg, IDC_DCENABLE, byData ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_DCPASSIVE, byData == 1 ? TRUE : FALSE);
+			icq_EnableMultipleControls(hwndDlg, icqDCMsgControls, SIZEOF(icqDCMsgControls), byData ? TRUE : FALSE);
 			BYTE byXStatusEnabled = ppro->getByte("XStatusEnabled", DEFAULT_XSTATUS_ENABLED);
 			CheckDlgButton(hwndDlg, IDC_XSTATUSENABLE, byXStatusEnabled);
 			BYTE byMoodsEnabled = ppro->getByte("MoodsEnabled", DEFAULT_MOODS_ENABLED);
@@ -386,20 +378,17 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			LoadDBCheckState(ppro, hwndDlg, IDC_XSTATUSRESET, "XStatusReset", DEFAULT_XSTATUS_RESET);
 			LoadDBCheckState(ppro, hwndDlg, IDC_KILLSPAMBOTS, "KillSpambots", DEFAULT_KILLSPAM_ENABLED);
 			LoadDBCheckState(ppro, hwndDlg, IDC_AIMENABLE, "AimEnabled", DEFAULT_AIM_ENABLED);
-			icq_EnableMultipleControls(hwndDlg, icqAimControls, SIZEOF(icqAimControls), ppro->icqOnline()?FALSE:TRUE);
+			icq_EnableMultipleControls(hwndDlg, icqAimControls, SIZEOF(icqAimControls), ppro->icqOnline() ? FALSE : TRUE);
 
 			hCpCombo = GetDlgItem(hwndDlg, IDC_UTFCODEPAGE);
 			int sCodePage = ppro->getWord("AnsiCodePage", CP_ACP);
 			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_UTFCODEPAGE), LPGEN("System default codepage"), 0);
 			EnumSystemCodePagesA(FillCpCombo, CP_INSTALLED);
-			if(sCodePage == 0)
+			if (sCodePage == 0)
 				SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_SETCURSEL, 0, 0);
-			else
-			{
-				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETCOUNT, 0, 0); i++)
-				{
-					if (SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETITEMDATA, (WPARAM)i, 0) == sCodePage)
-					{
+			else {
+				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETCOUNT, 0, 0); i++) {
+					if (SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETITEMDATA, (WPARAM)i, 0) == sCodePage) {
 						SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_SETCURSEL, (WPARAM)i, 0);
 						break;
 					}
@@ -415,7 +404,7 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			OptDlgChanged(hwndDlg);
 			break;
 		case IDC_UTFCODEPAGE:
-			if(HIWORD(wParam)==CBN_SELCHANGE)
+			if (HIWORD(wParam) == CBN_SELCHANGE)
 				OptDlgChanged(hwndDlg);
 			break;
 		case IDC_DCENABLE:
@@ -425,7 +414,7 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_XSTATUSENABLE:
 			icq_EnableMultipleControls(hwndDlg, icqXStatusControls, SIZEOF(icqXStatusControls), IsDlgButtonChecked(hwndDlg, IDC_XSTATUSENABLE));
 		case IDC_MOODSENABLE:
-      	icq_EnableMultipleControls(hwndDlg, icqCustomStatusControls, SIZEOF(icqCustomStatusControls), IsDlgButtonChecked(hwndDlg, IDC_XSTATUSENABLE) || IsDlgButtonChecked(hwndDlg, IDC_MOODSENABLE));
+			icq_EnableMultipleControls(hwndDlg, icqCustomStatusControls, SIZEOF(icqCustomStatusControls), IsDlgButtonChecked(hwndDlg, IDC_XSTATUSENABLE) || IsDlgButtonChecked(hwndDlg, IDC_MOODSENABLE));
 		default:
 			OptDlgChanged(hwndDlg);
 			break;
@@ -436,7 +425,7 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			if (IsDlgButtonChecked(hwndDlg, IDC_UTFENABLE))
-				ppro->m_bUtfEnabled = IsDlgButtonChecked(hwndDlg, IDC_UTFALL)?2:1;
+				ppro->m_bUtfEnabled = IsDlgButtonChecked(hwndDlg, IDC_UTFALL) ? 2 : 1;
 			else
 				ppro->m_bUtfEnabled = 0;
 			{
@@ -450,7 +439,7 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			StoreDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend");
 			StoreDBCheckState(ppro, hwndDlg, IDC_ONLYSERVERACKS, "OnlyServerAcks");
 			if (IsDlgButtonChecked(hwndDlg, IDC_DCENABLE))
-				ppro->m_bDCMsgEnabled = IsDlgButtonChecked(hwndDlg, IDC_DCPASSIVE)?1:2;
+				ppro->m_bDCMsgEnabled = IsDlgButtonChecked(hwndDlg, IDC_DCPASSIVE) ? 1 : 2;
 			else
 				ppro->m_bDCMsgEnabled = 0;
 			ppro->setByte("DirectMessaging", ppro->m_bDCMsgEnabled);
@@ -460,7 +449,7 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			ppro->setByte("MoodsEnabled", ppro->m_bMoodsEnabled);
 			StoreDBCheckState(ppro, hwndDlg, IDC_XSTATUSAUTO, "XStatusAuto");
 			StoreDBCheckState(ppro, hwndDlg, IDC_XSTATUSRESET, "XStatusReset");
-			StoreDBCheckState(ppro, hwndDlg, IDC_KILLSPAMBOTS , "KillSpambots");
+			StoreDBCheckState(ppro, hwndDlg, IDC_KILLSPAMBOTS, "KillSpambots");
 			StoreDBCheckState(ppro, hwndDlg, IDC_AIMENABLE, "AimEnabled");
 			return TRUE;
 		}
@@ -469,19 +458,19 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 	return FALSE;
 }
 
-static const UINT icqContactsControls[] = {IDC_ADDSERVER,IDC_LOADFROMSERVER,IDC_SAVETOSERVER,IDC_UPLOADNOW};
-static const UINT icqAvatarControls[] = {IDC_AUTOLOADAVATARS,IDC_STRICTAVATARCHECK};
+static const UINT icqContactsControls[] = { IDC_ADDSERVER, IDC_LOADFROMSERVER, IDC_SAVETOSERVER, IDC_UPLOADNOW };
+static const UINT icqAvatarControls[] = { IDC_AUTOLOADAVATARS, IDC_STRICTAVATARCHECK };
 
 static INT_PTR CALLBACK DlgProcIcqContactsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CIcqProto*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		LoadDBCheckState(ppro, hwndDlg, IDC_ENABLE, "UseServerCList", DEFAULT_SS_ENABLED);
 		LoadDBCheckState(ppro, hwndDlg, IDC_ADDSERVER, "ServerAddRemove", DEFAULT_SS_ADDSERVER);
@@ -491,11 +480,10 @@ static INT_PTR CALLBACK DlgProcIcqContactsOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		LoadDBCheckState(ppro, hwndDlg, IDC_AUTOLOADAVATARS, "AvatarsAutoLoad", DEFAULT_LOAD_AVATARS);
 		LoadDBCheckState(ppro, hwndDlg, IDC_STRICTAVATARCHECK, "StrictAvatarCheck", DEFAULT_AVATARS_CHECK);
 
-		icq_EnableMultipleControls(hwndDlg, icqContactsControls, SIZEOF(icqContactsControls), ppro->getByte("UseServerCList", DEFAULT_SS_ENABLED)?TRUE:FALSE);
-		icq_EnableMultipleControls(hwndDlg, icqAvatarControls, SIZEOF(icqAvatarControls), ppro->getByte("AvatarsEnabled", DEFAULT_AVATARS_ENABLED)?TRUE:FALSE);
+		icq_EnableMultipleControls(hwndDlg, icqContactsControls, SIZEOF(icqContactsControls), ppro->getByte("UseServerCList", DEFAULT_SS_ENABLED) ? TRUE : FALSE);
+		icq_EnableMultipleControls(hwndDlg, icqAvatarControls, SIZEOF(icqAvatarControls), ppro->getByte("AvatarsEnabled", DEFAULT_AVATARS_ENABLED) ? TRUE : FALSE);
 
-		if (ppro->icqOnline())
-		{
+		if (ppro->icqOnline()) {
 			ShowDlgItem(hwndDlg, IDC_OFFLINETOENABLE, SW_SHOW);
 			EnableDlgItem(hwndDlg, IDC_ENABLE, FALSE);
 			EnableDlgItem(hwndDlg, IDC_ENABLEAVATARS, FALSE);
@@ -525,8 +513,7 @@ static INT_PTR CALLBACK DlgProcIcqContactsOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY )
-		{
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			StoreDBCheckState(ppro, hwndDlg, IDC_ENABLE, "UseServerCList");
 			StoreDBCheckState(ppro, hwndDlg, IDC_ADDSERVER, "ServerAddRemove");
 			StoreDBCheckState(ppro, hwndDlg, IDC_LOADFROMSERVER, "LoadServerDetails");

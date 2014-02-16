@@ -25,8 +25,8 @@
 //  ChangeInfo Plugin stuff
 //
 // -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 static ChangeInfoData *dataListEdit = NULL;
 static HWND hwndListEdit = NULL;
@@ -80,43 +80,51 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 	UpdateWindow(hwndList);
 
 	dataListEdit = this;
-	hwndListEdit = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, _T("LISTBOX"), _T(""), WS_POPUP | WS_BORDER | WS_VSCROLL, rc->left, rc->bottom, rc->right - rc->left, 150, NULL, NULL, hInst, NULL);
+	hwndListEdit = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, _T("LISTBOX"), _T(""), WS_POPUP | WS_BORDER | WS_VSCROLL,
+											rc->left, rc->bottom, rc->right - rc->left, 150, NULL, NULL, hInst, NULL);
 	SendMessage(hwndListEdit, WM_SETFONT, (WPARAM)hListFont, 0);
 	int itemHeight = SendMessage(hwndListEdit, LB_GETITEMHEIGHT, 0, 0);
 
-	FieldNamesItem *list = (FieldNamesItem*)setting[iSetting].pList;
+	const SettingItem &si = setting[iSetting];
+	SettingItemData &sid = settingData[iSetting];
+	FieldNamesItem *list = (FieldNamesItem*)si.pList;
 
 	// some country codes were changed leaving old details uknown, convert it for the user
 	if (list == countryField) {
-		if (settingData[iSetting].value == 420)
-			settingData[iSetting].value = 42; // conversion of obsolete codes (OMG!)
-		else if (settingData[iSetting].value == 421)
-			settingData[iSetting].value = 4201;
-		else if (settingData[iSetting].value == 102)
-			settingData[iSetting].value = 1201;
+		if (sid.value == 420)
+			sid.value = 42; // conversion of obsolete codes (OMG!)
+		else if (sid.value == 421)
+			sid.value = 4201;
+		else if (sid.value == 102)
+			sid.value = 1201;
 	}
 
-	int j, n = ListBoxAddStringUtf(hwndListEdit, "Unspecified");
-	for (j = 0;; j++)
-		if (!list[j].text) {
+	if (list == timezonesField) {
+		tmi.prepareList(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
+	}
+	else {
+		int j, n = ListBoxAddStringUtf(hwndListEdit, "Unspecified");
+		for (j = 0;; j++)
+			if (!list[j].text) {
+				SendMessage(hwndListEdit, LB_SETITEMDATA, n, j);
+				if ((sid.value == 0 && list[j].code == 0) || (si.dbType != DBVT_ASCIIZ && sid.value == list[j].code))
+					SendMessage(hwndListEdit, LB_SETCURSEL, n, 0);
+				break;
+			}
+
+		for (j = 0; list[j].text; j++) {
+			char str[MAX_PATH];
+			n = ListBoxAddStringUtf(hwndListEdit, list[j].text);
 			SendMessage(hwndListEdit, LB_SETITEMDATA, n, j);
-			if ((settingData[iSetting].value == 0 && list[j].code == 0)
-				|| (setting[iSetting].dbType != DBVT_ASCIIZ && settingData[iSetting].value == list[j].code))
+			if ((si.dbType == DBVT_ASCIIZ && (!strcmpnull((char*)sid.value, list[j].text))
+				|| (si.dbType == DBVT_ASCIIZ && (!strcmpnull((char*)sid.value, ICQTranslateUtfStatic(list[j].text, str, MAX_PATH))))
+				|| ((char*)sid.value == NULL && list[j].code == 0))
+				|| (si.dbType != DBVT_ASCIIZ && sid.value == list[j].code))
 				SendMessage(hwndListEdit, LB_SETCURSEL, n, 0);
-			break;
 		}
-
-	for (j = 0; list[j].text; j++) {
-		char str[MAX_PATH];
-		n = ListBoxAddStringUtf(hwndListEdit, list[j].text);
-		SendMessage(hwndListEdit, LB_SETITEMDATA, n, j);
-		if ((setting[iSetting].dbType == DBVT_ASCIIZ && (!strcmpnull((char*)settingData[iSetting].value, list[j].text))
-			|| (setting[iSetting].dbType == DBVT_ASCIIZ && (!strcmpnull((char*)settingData[iSetting].value, ICQTranslateUtfStatic(list[j].text, str, MAX_PATH))))
-			|| ((char*)settingData[iSetting].value == NULL && list[j].code == 0))
-			|| (setting[iSetting].dbType != DBVT_ASCIIZ && settingData[iSetting].value == list[j].code))
-			SendMessage(hwndListEdit, LB_SETCURSEL, n, 0);
+		SendMessage(hwndListEdit, LB_SETTOPINDEX, SendMessage(hwndListEdit, LB_GETCURSEL, 0, 0) - 3, 0);
 	}
-	SendMessage(hwndListEdit, LB_SETTOPINDEX, SendMessage(hwndListEdit, LB_GETCURSEL, 0, 0) - 3, 0);
+
 	int listCount = SendMessage(hwndListEdit, LB_GETCOUNT, 0, 0);
 	if (itemHeight * listCount < 150)
 		SetWindowPos(hwndListEdit, 0, 0, 0, rc->right - rc->left, itemHeight * listCount + GetSystemMetrics(SM_CYBORDER) * 2, SWP_NOZORDER | SWP_NOMOVE);
@@ -132,37 +140,45 @@ void ChangeInfoData::EndListEdit(int save)
 {
 	if (hwndListEdit == NULL || iEditItem == -1 || this != dataListEdit)
 		return;
-	
+
 	if (save) {
+		const SettingItem &si = setting[iEditItem];
+		SettingItemData &sid = settingData[iEditItem];
+
 		int iItem = SendMessage(hwndListEdit, LB_GETCURSEL, 0, 0);
 		int i = SendMessage(hwndListEdit, LB_GETITEMDATA, iItem, 0);
 		if (iItem != -1 && i != -1) {
-			FieldNamesItem &pItem = ((FieldNamesItem*)setting[iEditItem].pList)[i];
+			FieldNamesItem *list = (FieldNamesItem*)si.pList;
+			if (list == timezonesField)
+				tmi.storeListResults(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
+			else {
+				FieldNamesItem &pItem = list[i];
 
-			if (setting[iEditItem].dbType == DBVT_ASCIIZ) {
-				char *szNewValue = pItem.text;
-				if (pItem.code || (setting[iEditItem].displayType & LIF_ZEROISVALID)) {
-					settingData[iEditItem].changed = strcmpnull(szNewValue, (char*)settingData[iEditItem].value);
-					SAFE_FREE((void**)&settingData[iEditItem].value);
-					settingData[iEditItem].value = (LPARAM)null_strdup(szNewValue);
+				if (si.dbType == DBVT_ASCIIZ) {
+					char *szNewValue = pItem.text;
+					if (pItem.code || (si.displayType & LIF_ZEROISVALID)) {
+						sid.changed = strcmpnull(szNewValue, (char*)sid.value);
+						SAFE_FREE((void**)&sid.value);
+						sid.value = (LPARAM)null_strdup(szNewValue);
+					}
+					else {
+						sid.changed = (char*)sid.value != NULL;
+						SAFE_FREE((void**)&sid.value);
+					}
 				}
 				else {
-					settingData[iEditItem].changed = (char*)settingData[iEditItem].value != NULL;
-					SAFE_FREE((void**)&settingData[iEditItem].value);
+					sid.changed = pItem.code != sid.value;
+					sid.value = pItem.code;
 				}
-			}
-			else {
-				settingData[iEditItem].changed = pItem.code != settingData[iEditItem].value;
-				settingData[iEditItem].value = pItem.code;
-			}
-		
-			if (settingData[iEditItem].changed) {
-				char buf[MAX_PATH];
-				TCHAR tbuf[MAX_PATH];
-				if (utf8_to_tchar_static(ICQTranslateUtfStatic(pItem.text, buf, SIZEOF(buf)), tbuf, SIZEOF(buf)))
-					ListView_SetItemText(hwndList, iEditItem, 1, tbuf);
 
-				EnableDlgItem(GetParent(hwndList), IDC_SAVE, TRUE);
+				if (sid.changed) {
+					char buf[MAX_PATH];
+					TCHAR tbuf[MAX_PATH];
+					if (utf8_to_tchar_static(ICQTranslateUtfStatic(pItem.text, buf, SIZEOF(buf)), tbuf, SIZEOF(buf)))
+						ListView_SetItemText(hwndList, iEditItem, 1, tbuf);
+
+					EnableDlgItem(GetParent(hwndList), IDC_SAVE, TRUE);
+				}
 			}
 		}
 	}
@@ -172,7 +188,6 @@ void ChangeInfoData::EndListEdit(int save)
 	DestroyWindow(hwndListEdit);
 	hwndListEdit = NULL;
 }
-
 
 int IsListEditWindow(HWND hwnd)
 {

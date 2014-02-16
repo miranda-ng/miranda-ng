@@ -34,10 +34,12 @@
 
 HINSTANCE hInst;
 int hLangpack;
+TIME_API tmi;
 CLIST_INTERFACE *pcli;
+
 BOOL bPopupService = FALSE;
 
-HANDLE   hExtraXStatus;
+HANDLE hExtraXStatus;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -49,7 +51,7 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,   //doesn't replace anything built-in
-	{0x73a9615c, 0x7d4e, 0x4555, {0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff}} // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}
+	{ 0x73a9615c, 0x7d4e, 0x4555, { 0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff } } // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}
 };
 
 extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -57,9 +59,9 @@ extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -67,17 +69,17 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTO_INTERFACE* icqProtoInit( const char* pszProtoName, const TCHAR* tszUserName )
+static PROTO_INTERFACE* icqProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
 	CIcqProto *ppro = new CIcqProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);
 	return ppro;
 }
 
-static int icqProtoUninit( PROTO_INTERFACE* ppro )
+static int icqProtoUninit(PROTO_INTERFACE* ppro)
 {
-	g_Instances.remove(( CIcqProto* )ppro);
-	delete ( CIcqProto* )ppro;
+	g_Instances.remove((CIcqProto*)ppro);
+	delete (CIcqProto*)ppro;
 	return 0;
 }
 
@@ -89,17 +91,18 @@ int ModuleLoad(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getCLI();
+	mir_getTMI(&tmi);
 
 	srand(time(NULL));
 	_tzset();
 
 	// Register the module
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName   = ICQ_PROTOCOL_NAME;
-	pd.type     = PROTOTYPE_PROTOCOL;
-	pd.fnInit   = icqProtoInit;
+	pd.szName = ICQ_PROTOCOL_NAME;
+	pd.type = PROTOTYPE_PROTOCOL;
+	pd.fnInit = icqProtoInit;
 	pd.fnUninit = icqProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
@@ -121,7 +124,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_MenuInit();
 	return 0;
 }
-
 
 extern "C" int __declspec(dllexport) Unload(void)
 {

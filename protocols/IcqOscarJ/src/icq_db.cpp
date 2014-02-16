@@ -136,13 +136,13 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 {
 	if (szStatusMsg && szStatusMsg[0]) {
 		if (isAnsi) {
-			char* szStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, "");
-			wchar_t* szStatusNoteW = make_unicode_string(szStatusNote);
+			char *szStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, "");
+			wchar_t *szStatusNoteW = make_unicode_string(szStatusNote);
 			int len = (int)wcslen(szStatusNoteW) * 3 + 1;
-			char* szStatusNoteAnsi = (char*)alloca(len);
+			char *szStatusNoteAnsi = (char*)alloca(len);
 			WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, szStatusNoteW, -1, szStatusNoteAnsi, len, NULL, NULL);
 			bool notmatch = false;
-			for (int i=0; ;++i) {
+			for (int i = 0;; ++i) {
 				if (szStatusNoteAnsi[i] != szStatusMsg[i] && szStatusNoteAnsi[i] != '?' && szStatusMsg[i] != '?') {
 					notmatch = true;
 					break;
@@ -156,7 +156,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 				SAFE_FREE(&szStatusNote);
 		}
 
-		char* oldStatusMsg = NULL;
+		char *oldStatusMsg = NULL;
 		DBVARIANT dbv;
 		if ( !db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
 			oldStatusMsg = make_utf8_string(dbv.ptszVal);
@@ -203,8 +203,7 @@ MCONTACT CIcqProto::FindFirstContact()
 MCONTACT CIcqProto::FindNextContact(MCONTACT hContact)
 {
 	hContact = db_find_next(hContact, m_szModuleName);
-	while (hContact != NULL)
-	{
+	while (hContact != NULL) {
 		if (IsICQContact(hContact))
 			return hContact;
 		hContact = db_find_next(hContact, m_szModuleName);

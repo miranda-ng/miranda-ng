@@ -122,47 +122,47 @@ WORD MirandaStatusToIcq(int nMirandaStatus)
 	WORD nIcqStatus;
 
 	switch (nMirandaStatus) {
-case ID_STATUS_ONLINE:
-	nIcqStatus = ICQ_STATUS_ONLINE;
-	break;
+	case ID_STATUS_ONLINE:
+		nIcqStatus = ICQ_STATUS_ONLINE;
+		break;
 
-case ID_STATUS_AWAY:
-	nIcqStatus = ICQ_STATUS_AWAY;
-	break;
+	case ID_STATUS_AWAY:
+		nIcqStatus = ICQ_STATUS_AWAY;
+		break;
 
-case ID_STATUS_OUTTOLUNCH:
-case ID_STATUS_NA:
-	nIcqStatus = ICQ_STATUS_NA;
-	break;
+	case ID_STATUS_OUTTOLUNCH:
+	case ID_STATUS_NA:
+		nIcqStatus = ICQ_STATUS_NA;
+		break;
 
-case ID_STATUS_ONTHEPHONE:
-case ID_STATUS_OCCUPIED:
-	nIcqStatus = ICQ_STATUS_OCCUPIED;
-	break;
+	case ID_STATUS_ONTHEPHONE:
+	case ID_STATUS_OCCUPIED:
+		nIcqStatus = ICQ_STATUS_OCCUPIED;
+		break;
 
-case ID_STATUS_DND:
-	nIcqStatus = ICQ_STATUS_DND;
-	break;
+	case ID_STATUS_DND:
+		nIcqStatus = ICQ_STATUS_DND;
+		break;
 
-case ID_STATUS_INVISIBLE:
-	nIcqStatus = ICQ_STATUS_INVISIBLE;
-	break;
+	case ID_STATUS_INVISIBLE:
+		nIcqStatus = ICQ_STATUS_INVISIBLE;
+		break;
 
-case ID_STATUS_FREECHAT:
-	nIcqStatus = ICQ_STATUS_FFC;
-	break;
+	case ID_STATUS_FREECHAT:
+		nIcqStatus = ICQ_STATUS_FFC;
+		break;
 
-case ID_STATUS_OFFLINE:
-	// Oscar doesnt have anything that maps to this status. This should never happen.
-	_ASSERTE(nMirandaStatus != ID_STATUS_OFFLINE);
-	nIcqStatus = 0;
-	break;
+	case ID_STATUS_OFFLINE:
+		// Oscar doesnt have anything that maps to this status. This should never happen.
+		_ASSERTE(nMirandaStatus != ID_STATUS_OFFLINE);
+		nIcqStatus = 0;
+		break;
 
-default:
-	// Online seems to be a good default.
-	// Since it cant be offline, it must be a new type of online status.
-	nIcqStatus = ICQ_STATUS_ONLINE;
-	break;
+	default:
+		// Online seems to be a good default.
+		// Since it cant be offline, it must be a new type of online status.
+		nIcqStatus = ICQ_STATUS_ONLINE;
+		break;
 	}
 
 	return nIcqStatus;
@@ -175,36 +175,36 @@ int MirandaStatusToSupported(int nMirandaStatus)
 	switch (nMirandaStatus) {
 
 		// These status mode does not need any mapping
-case ID_STATUS_ONLINE:
-case ID_STATUS_AWAY:
-case ID_STATUS_NA:
-case ID_STATUS_OCCUPIED:
-case ID_STATUS_DND:
-case ID_STATUS_INVISIBLE:
-case ID_STATUS_OFFLINE:
-	nSupportedStatus = nMirandaStatus;
-	break;
+	case ID_STATUS_ONLINE:
+	case ID_STATUS_AWAY:
+	case ID_STATUS_NA:
+	case ID_STATUS_OCCUPIED:
+	case ID_STATUS_DND:
+	case ID_STATUS_INVISIBLE:
+	case ID_STATUS_OFFLINE:
+		nSupportedStatus = nMirandaStatus;
+		break;
 
-case ID_STATUS_FREECHAT:
-	nSupportedStatus = ID_STATUS_ONLINE;
-	break;
+	case ID_STATUS_FREECHAT:
+		nSupportedStatus = ID_STATUS_ONLINE;
+		break;
 
-	// This mode is not support and must be mapped to something else
-case ID_STATUS_OUTTOLUNCH:
-	nSupportedStatus = ID_STATUS_NA;
-	break;
+		// This mode is not support and must be mapped to something else
+	case ID_STATUS_OUTTOLUNCH:
+		nSupportedStatus = ID_STATUS_NA;
+		break;
 
-	// This mode is not support and must be mapped to something else
-case ID_STATUS_ONTHEPHONE:
-	nSupportedStatus = ID_STATUS_OCCUPIED;
-	break;
+		// This mode is not support and must be mapped to something else
+	case ID_STATUS_ONTHEPHONE:
+		nSupportedStatus = ID_STATUS_OCCUPIED;
+		break;
 
-	// This is not supposed to happen.
-default:
-	_ASSERTE(0);
-	// Online seems to be a good default.
-	nSupportedStatus = ID_STATUS_ONLINE;
-	break;
+		// This is not supposed to happen.
+	default:
+		_ASSERTE(0);
+		// Online seems to be a good default.
+		nSupportedStatus = ID_STATUS_ONLINE;
+		break;
 	}
 
 	return nSupportedStatus;
@@ -212,7 +212,7 @@ default:
 
 char* MirandaStatusToStringUtf(int mirandaStatus)
 { // return miranda status description in utf-8, use unicode service is possible
-	return tchar_to_utf8( pcli->pfnGetStatusModeDescription(mirandaStatus, 0));
+	return tchar_to_utf8(pcli->pfnGetStatusModeDescription(mirandaStatus, 0));
 }
 
 char** CIcqProto::MirandaStatusToAwayMsg(int nStatus)
