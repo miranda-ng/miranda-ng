@@ -203,11 +203,8 @@ public:
 	**/
 	int UploadNext()
 	{
-		CHAR str[MAXMODULELABELLENGTH];
 		while (_pPd && *_pPd && _numProto-- > 0) {
-			mir_strncpy(str, (*_pPd)->szModuleName, MAXMODULELABELLENGTH);
-			mir_strncat(str, PS_CHANGEINFOEX, MAXMODULELABELLENGTH);
-			if (ServiceExists(str) && !Upload()) {
+			if (ProtoServiceExists((*_pPd)->szModuleName, PS_CHANGEINFOEX) && !Upload()) {
 				_pPd++;
 				return UPLOAD_CONTINUE;
 			}
@@ -642,23 +639,14 @@ void DlgContactInfoLoadModule()
 	ghWindowList = WindowList_Create();
 
 	// check whether changing my details via UserInfoEx is basically possible
-	{
-		PROTOACCOUNT **pAcc;
-		int i, nAccCount;
-		
-		myGlobals.CanChangeDetails = FALSE;
-		if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
-		{
-			for (i = 0; (i < nAccCount) && !myGlobals.CanChangeDetails; i++) 
-			{
-				if (IsProtoAccountEnabled(pAcc[i])) 
-				{
-					// update my contact information on icq server
-					myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, NULL, NULL));
-				}
-			}
-		}
-	}
+	myGlobals.CanChangeDetails = FALSE;
+
+	PROTOACCOUNT **pAcc;
+	int nAccCount;
+	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
+		for (int i = 0; (i < nAccCount) && !myGlobals.CanChangeDetails; i++)
+			if (IsProtoAccountEnabled(pAcc[i])) // update my contact information on icq server
+				myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, NULL, NULL));
 }
 
 static void ResetUpdateInfo(LPPS pPs)
@@ -1682,4 +1670,3 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	}
 	return FALSE;
 }
-

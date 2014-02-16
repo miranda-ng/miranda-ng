@@ -104,7 +104,7 @@ using namespace std;
 
 #define MIRSUCCEEDED(f)		((f)==MIR_OK)
 #define MIRFAILED(f)		((f)!=MIR_OK)
-#define MIREXISTS(f)		((int)(f)!=CALLSERVICE_NOTFOUND)
+#define MIREXISTS(f)		((INT_PTR)(f)!=CALLSERVICE_NOTFOUND)
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define FREE(p)				{if (PtrIsValid(p)){free((void*)p);(p)=NULL;}}
