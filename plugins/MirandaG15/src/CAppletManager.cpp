@@ -1849,38 +1849,29 @@ int CAppletManager::HookContactDeleted(WPARAM wParam, LPARAM lParam)
 //************************************************************************
 // setting changed hook function
 //************************************************************************
-int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
+int CAppletManager::HookSettingChanged(WPARAM hContact,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	
 	CEvent Event;
-	Event.hContact = wParam;
+	Event.hContact = hContact;
 
-	if(!lstrcmpA(dbcws->szModule,"MetaContacts"))
-	{
-		//if(!lstrcmpA(dbcws->szSetting,"Enabled")) {
-		//	CAppletManager::GetInstance()->OnConfigChanged();
-		//	return 0;
-		//} else
+	if(!lstrcmpA(dbcws->szModule,"MetaContacts")) {
 		if(!lstrcmpA(dbcws->szSetting,"IsSubcontact")) {
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts(wParam, "CList", "Group",	&dbv);
+			int res = db_get_ts(hContact, "CList", "Group",	&dbv);
 			if(!res)
 					Event.strValue = dbv.ptszVal;
 			db_free(&dbv);
-		} else {
-			return 0;
 		}
+		else return 0;
 	}
-	else if(!lstrcmpA(dbcws->szSetting,"Nick") || !lstrcmpA(dbcws->szSetting,"MyHandle"))
-	{
+	else if(!lstrcmpA(dbcws->szSetting,"Nick") || !lstrcmpA(dbcws->szSetting,"MyHandle")) {
 		DBVARIANT dbv={0};
 		// if the protocol nick has changed, check if a custom handle is set
-		if(!lstrcmpA(dbcws->szSetting,"Nick"))
-		{
-			if (!db_get_ts(Event.hContact, "CList", "MyHandle", &dbv)) 
-			{
+		if(!lstrcmpA(dbcws->szSetting,"Nick")) {
+			if (!db_get_ts(Event.hContact, "CList", "MyHandle", &dbv)) {
 				// handle found, ignore this event
 				if(dbv.pszVal && strlen(dbv.pszVal)>0)
 					return 0;
@@ -1889,15 +1880,13 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 
 		Event.eType = EVENT_CONTACT_NICK;
-		if(dbcws->value.type != DBVT_DELETED && dbcws->value.pszVal && strlen(dbcws->value.pszVal)>0)
-		{
+		if(dbcws->value.type != DBVT_DELETED && dbcws->value.pszVal && strlen(dbcws->value.pszVal)>0) {
 			if(dbcws->value.type == DBVT_UTF8)
 				Event.strValue = Utf8_Decode(dbcws->value.pszVal);
 			else
 				Event.strValue = toTstring(dbcws->value.pszVal);
 		}
-		else
-		{
+		else {
 			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Event.hContact, 0);
 			if (db_get_ts(Event.hContact, szProto, "Nick", &dbv)) 
 				return 0;
@@ -1905,27 +1894,23 @@ int CAppletManager::HookSettingChanged(WPARAM wParam,LPARAM lParam)
 			db_free(&dbv);
 		}
 	}
-	else if(!lstrcmpA(dbcws->szModule,"CList"))
-	{
-		if(!lstrcmpA(dbcws->szSetting,"Hidden"))
-		{
+	else if(!lstrcmpA(dbcws->szModule,"CList")) {
+		if(!lstrcmpA(dbcws->szSetting,"Hidden")) {
 			Event.eType = EVENT_CONTACT_HIDDEN;
-			Event.iValue = db_get_b(wParam,"CList","Hidden",0);
+			Event.iValue = db_get_b(hContact,"CList","Hidden",0);
 		}
-		else if(!lstrcmpA(dbcws->szSetting,"Group"))
-		{
+		else if(!lstrcmpA(dbcws->szSetting,"Group")) {
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts(wParam, "CList", "Group",	&dbv);
+			int res = db_get_ts(hContact, "CList", "Group",	&dbv);
 			if(!res)
 					Event.strValue = dbv.ptszVal;
 			db_free(&dbv);
 		}
-		else
-			return 0;
+		else return 0;
 	}
-	else
-		return 0;
+	else return 0;
+
 	CAppletManager::GetInstance()->HandleEvent(&Event);
 	return 0;
 }

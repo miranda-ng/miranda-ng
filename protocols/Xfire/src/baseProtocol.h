@@ -51,11 +51,11 @@ extern HINSTANCE hinstance;
 extern int bpStatus;
 
 //Services.c
-INT_PTR GetCaps(WPARAM wParam,LPARAM lParam);
-INT_PTR GetName(WPARAM wParam,LPARAM lParam);
-INT_PTR SetStatus(WPARAM wParam,LPARAM lParam);
-INT_PTR GetStatus(WPARAM wParam,LPARAM lParam);
-INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam);
+INT_PTR GetCaps(WPARAM wParam, LPARAM lParam);
+INT_PTR GetName(WPARAM wParam, LPARAM lParam);
+INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
+INT_PTR GetStatus(WPARAM wParam, LPARAM lParam);
+INT_PTR TMLoadIcon(WPARAM wParam, LPARAM lParam);
 INT_PTR SetNickName(WPARAM newnick, LPARAM lparam);
 
 BOOL IsXFireContact(MCONTACT h);

@@ -84,11 +84,11 @@ static int LookupDatabaseSetting(const FieldNamesItem* table, int code, DBVARIAN
 	return 0; // Success
 }
 
-INT_PTR CIcqProto::GetInfoSetting(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::GetInfoSetting(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTGETSETTING *cgs = (DBCONTACTGETSETTING*)lParam;
 	BYTE type = cgs->pValue->type;
-	INT_PTR rc = db_get_s(wParam, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
+	INT_PTR rc = db_get_s(hContact, cgs->szModule, cgs->szSetting, cgs->pValue, 0);
 	if (rc)
 		return rc;
 	

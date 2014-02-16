@@ -24,18 +24,18 @@ static HANDLE hServiceDetectContactOrigin;
 
 /************************* Services *******************************/
 
-static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceDetectContactOriginCountry(WPARAM hContact, LPARAM lParam)
 {
 	int countryNumber = 0xFFFF;
-	char *pszProto = GetContactProto(wParam);
+	char *pszProto = GetContactProto(hContact);
 	/* ip detect */
 	if (bUseIpToCountry)
-		countryNumber = ServiceIpToCountry(db_get_dw(wParam,pszProto,"RealIP",0),0);
+		countryNumber = ServiceIpToCountry(db_get_dw(hContact, pszProto, "RealIP", 0), 0);
 	/* fallback */
 	if (countryNumber == 0xFFFF)
-		countryNumber = db_get_w(wParam,pszProto,"Country",0);
+		countryNumber = db_get_w(hContact, pszProto, "Country", 0);
 	if (countryNumber == 0 || countryNumber == 0xFFFF)
-		countryNumber = db_get_w(wParam,pszProto,"CompanyCountry",0);
+		countryNumber = db_get_w(hContact, pszProto, "CompanyCountry", 0);
 	return (countryNumber == 0) ? 0xFFFF : countryNumber;
 }
 

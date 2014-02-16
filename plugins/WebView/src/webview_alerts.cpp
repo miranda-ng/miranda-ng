@@ -153,12 +153,12 @@ int WPopupAlert(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-int PopupAlert(WPARAM wParam, LPARAM lParam)
+int PopupAlert(WPARAM hContact, LPARAM lParam)
 {
 	POPUPDATA ppd = { 0 };
-	if (((HANDLE)wParam) != NULL) {
+	if (hContact != NULL) {
 		DBVARIANT dbv;
-		if ( !db_get_s(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			lstrcpynA(ppd.lptzContactName, dbv.pszVal, SIZEOF(ppd.lptzContactName));
 			db_free(&dbv);
 		}
@@ -166,7 +166,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	if (ppd.lptzContactName[0] == 0)
 		strncpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), MODULENAME, _TRUNCATE);
 
-	ppd.lchContact = wParam;
+	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	char *displaytext = (char*)lParam;
@@ -198,14 +198,14 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-int OSDAlert(WPARAM wParam, LPARAM lParam)
+int OSDAlert(WPARAM hContact, LPARAM lParam)
 {
 	char contactname[255], newdisplaytext[2000];
 	contactname[0] = 0;
 
-	if (((HANDLE)wParam) != NULL) {
+	if (hContact != NULL) {
 		DBVARIANT dbv;
-		if ( !db_get_s(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
@@ -228,7 +228,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	TCHAR newdisplaytext[2000], *displaytext = (TCHAR*)lParam;
 
-	if ( db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
+	if (db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
 		return 0;
 
 	TCHAR *ptszContactName = pcli->pfnGetContactDisplayName(hContact, 0);
@@ -264,7 +264,7 @@ void SaveToFile(MCONTACT hContact, char *truncated)
 
 	char url[300]; url[0] = '\0';
 	DBVARIANT dbv;
-	if ( !db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
+	if (!db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
 		strncpy_s(url, SIZEOF(url), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
@@ -327,10 +327,10 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 	ZeroMemory(&cachecompare, sizeof(cachecompare));
 
 	// alerts
-	if ( db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) { // ALERTS
+	if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) { // ALERTS
 		alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
 		eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
-		if ((notpresent)) {
+		if (notpresent) {
 			if (alertIndex == 0) { // Popup
 				Sleep(1000);
 				WAlertPopup(hContact, TranslateT("Start/end strings not found or strings not set."));
@@ -339,10 +339,10 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					db_set_s(hContact, "CList", "MyHandle", tstr);
 			}
 			else if (alertIndex == 1) { // log to file
-				if ( !db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+				if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 					int AmountWspcRem = 0;
 
-					if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+					if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 						CodetoSymbol(tempraw);
 						Sleep(100); // avoid 100% CPU
 
@@ -374,7 +374,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			} 
 			else if (alertIndex == 3) {
 				WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
-				if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+				if (db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 					db_set_s(hContact, "CList", "MyHandle", tstr);
 			}
 			else if (eventIndex == 2) {
@@ -391,7 +391,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 		}
 
 		if (eventIndex == 0) { // string present
-			if ( !db_get_s(hContact, MODULENAME, ALERT_STRING_KEY, &tdbv)) {
+			if (!db_get_s(hContact, MODULENAME, ALERT_STRING_KEY, &tdbv)) {
 				strncpy_s(alertstring, SIZEOF(alertstring), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 
@@ -414,7 +414,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						else if (alertIndex == 1) {
 							if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 								int AmountWspcRem = 0;
-								if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+								if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 									CodetoSymbol(tempraw);
 									Sleep(100); // avoid 100% CPU
 
@@ -519,7 +519,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 							int AmountWspcRem = 0;
 
-							if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+							if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 								CodetoSymbol(tempraw);
 								Sleep(100); // avoid 100% CPU
 
@@ -562,11 +562,11 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 		if (eventIndex == 2) { // part of webpage changed
 			Alerttempstring[0] = Alerttempstring2[0] = 0;
-			if ( !db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv)) {
+			if (!db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv)) {
 				strncpy_s(Alerttempstring, SIZEOF(Alerttempstring), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 			}
-			if ( !db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv)) {
+			if (!db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv)) {
 				strncpy_s(Alerttempstring2, SIZEOF(Alerttempstring2), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 			}
@@ -623,9 +623,9 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				}
 				else if (alertIndex == 1) { // LOG
 					if (!notpresent) { // dont log to file twice if both types of start/end strings not present
-						if ( !db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+						if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 							int AmountWspcRem = 0;
-							if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+							if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 								CodetoSymbol(tempraw);
 								Sleep(100); // avoid 100% CPU
 
@@ -729,7 +729,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						else if (alertIndex == 1) { // log to file
 							if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 								int AmountWspcRem = 0;
-								if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+								if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 									CodetoSymbol(tempraw);
 									Sleep(100); // avoid 100% CPU
 
@@ -779,7 +779,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 				int AmountWspcRem = 0;
 
-				if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+				if (!db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 					CodetoSymbol(tempraw);
 					Sleep(100); // avoid 100% CPU
 
@@ -848,7 +848,7 @@ void ReadFromFile(void *param)
 	HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 
 	char contactname[100]; contactname[0] = 0;
-	if ( !db_get_s(hContact, "CList", "MyHandle", &dbv)) {
+	if (!db_get_s(hContact, "CList", "MyHandle", &dbv)) {
 		strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}

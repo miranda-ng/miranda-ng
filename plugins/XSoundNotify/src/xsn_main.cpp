@@ -108,14 +108,14 @@ static bool isReceiveMessage(HANDLE hDbEvent)
 	return !(((info.eventType != EVENTTYPE_MESSAGE) && !(info.flags & DBEF_READ)) || (info.flags & DBEF_SENT));
 }
 
-static int ProcessEvent(WPARAM wParam, LPARAM lParam)
+static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 {
 	if (!isReceiveMessage(HANDLE(lParam)))
 		return 0;
 
-	isIgnoreSound = db_get_b(wParam, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
+	isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
-	if ( !isIgnoreSound && !db_get_ts(wParam, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+	if (!isIgnoreSound && !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 		TCHAR PlaySoundPath[MAX_PATH] = {0};
 		PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
 		SkinPlaySoundFile(PlaySoundPath);

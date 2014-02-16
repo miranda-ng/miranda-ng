@@ -72,13 +72,13 @@ void GetData(void *param)
 	db_set_b(hContact, MODULENAME, STOP_KEY, 0);  
 
 	if (db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-		if ( !db_get_s(hContact, "CList", "MyHandle", &dbv)) {
+		if (!db_get_s(hContact, "CList", "MyHandle", &dbv)) {
 			db_set_s(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 
-	if ( !db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+	if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 		strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
@@ -88,17 +88,17 @@ void GetData(void *param)
 	if (!Startingup)
 		db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
 
-	if ( !db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
+	if (!db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
 		strncpy_s(tempstring, SIZEOF(tempstring), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	if ( !db_get_s(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
+	if (!db_get_s(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
 		strncpy_s(tempstring2, SIZEOF(tempstring2), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	if ( !db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
+	if (!db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
 		strncpy_s(url, SIZEOF(url), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
@@ -349,11 +349,11 @@ void GetData(void *param)
 					strncpy(buff, truncated, SIZEOF(buff));
 					Filter(buff);
 
-					if ( !db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
+					if (!db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
 						strncpy_s(Alerttempstring, SIZEOF(Alerttempstring), dbv.pszVal, _TRUNCATE);
 						db_free(&dbv);
 					}
-					if ( !db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
+					if (!db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
 						strncpy_s(Alerttempstring2, SIZEOF(Alerttempstring2), dbv.pszVal, _TRUNCATE);
 						db_free(&dbv);
 					}

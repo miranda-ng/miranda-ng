@@ -132,7 +132,7 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 		ptrT db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
 		ptrT db2( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 
-		if ( !lstrcmp(urltext, db1) && !lstrcmp(titlebartxt, db2)) {
+		if (!lstrcmp(urltext, db1) && !lstrcmp(titlebartxt, db2)) {
 			contactcount++;
 			if (contactcount > 1) {
 				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
@@ -161,14 +161,14 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			WindowList_Add(hWindowList, hwndDlg, hContact2);
 
 			url[0] = '\0';
-			if ( !db_get_ts(hContact2, MODULENAME, URL_KEY, &dbv)) {
+			if (!db_get_ts(hContact2, MODULENAME, URL_KEY, &dbv)) {
 				_tcsncpy_s(url, SIZEOF(url), dbv.ptszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
 			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, SIZEOF(url)));
 
 			char preservename[100];
-			if ( !db_get_s(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+			if (!db_get_s(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 				strncpy_s(preservename, SIZEOF(preservename), dbv.pszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
@@ -199,7 +199,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendDlgItemMessage(hwndDlg, IDC_OPEN_URL, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Click here to open this URL in a browser window."), BATF_TCHAR);
 
-			if ( !db_get_b(hContact2, MODULENAME, ON_TOP_KEY, 0)) {
+			if (!db_get_b(hContact2, MODULENAME, ON_TOP_KEY, 0)) {
 				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Stick to the front"), BATF_TCHAR);
 			}
@@ -360,7 +360,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				TCHAR *ptszToolTip;
 				HWND hTopmost;
-				if ( !db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0)) {
+				if (!db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0)) {
 					hTopmost = HWND_NOTOPMOST;
 					ptszToolTip = TranslateT("Stick to the front");
 				}
@@ -452,7 +452,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_MOVE:
-		if ( !IsIconic(hwndDlg) && !IsZoomed(hwndDlg)) {
+		if (!IsIconic(hwndDlg) && !IsZoomed(hwndDlg)) {
 			GetWindowRect(hwndDlg, &rc);
 			// global
 			Xposition = rc.left;

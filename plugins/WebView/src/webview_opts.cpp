@@ -424,7 +424,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			}
 		}
 
-		if ( !db_get_ts(hContact, MODULENAME, FILE_KEY, &dbv)) {
+		if (!db_get_ts(hContact, MODULENAME, FILE_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
 			db_free(&dbv);
 		}

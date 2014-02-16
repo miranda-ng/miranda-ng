@@ -131,18 +131,18 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
+static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 {
 	TCHAR str[128];
-	char *szProto = GetContactProto(wParam);
+	char *szProto = GetContactProto(hContact);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (szProto != NULL) {
-		int chatRoom = szProto ? db_get_b(wParam, szProto, "ChatRoom", 0) : 0;
+		int chatRoom = szProto ? db_get_b(hContact, szProto, "ChatRoom", 0) : 0;
 		if ( !chatRoom) {
-			int status = db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE);
+			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
 			mi.ptszName = str;
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {

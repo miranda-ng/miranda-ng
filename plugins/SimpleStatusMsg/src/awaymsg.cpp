@@ -351,11 +351,11 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
+static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 {
 	TCHAR str[128];
-	char *szProto = GetContactProto(wParam);
-	int iHidden = szProto ? db_get_b(wParam, szProto, "ChatRoom", 0) : 0;
+	char *szProto = GetContactProto(hContact);
+	int iHidden = szProto ? db_get_b(hContact, szProto, "ChatRoom", 0) : 0;
 	int iStatus;
 
 	CLISTMENUITEM clmi = { sizeof(clmi) };
@@ -363,7 +363,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden) {
 		iHidden = 1;
-		iStatus = db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE);
+		iStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1,0) & PF1_MODEMSGRECV) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3,0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 				iHidden = 0;
@@ -377,7 +377,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ModifyItem(hAwayMsgMenuItem, &clmi);
 	Skin_ReleaseIcon(clmi.hIcon);
 
-	ptrA szMsg(db_get_sa(wParam, "CList", "StatusMsg"));
+	ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
 
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden && szMsg != NULL) {

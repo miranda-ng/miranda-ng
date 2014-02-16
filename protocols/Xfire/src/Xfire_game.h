@@ -37,7 +37,7 @@
 using namespace std;
 
 //externe funktion die das spielstarten steuern
-extern INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam);
+extern INT_PTR StartGame(WPARAM wParam, LPARAM lParam,LPARAM fParam);
 
 class Xfire_game : public Xfire_base {
 public:

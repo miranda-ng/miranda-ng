@@ -32,17 +32,17 @@ static HANDLE hPopupContact;
 // display weather popups
 // wParam = the contact to display popup
 // lParam = whether the weather data is changed or not
-int WeatherPopup(WPARAM wParam, LPARAM lParam) 
+int WeatherPopup(WPARAM hContact, LPARAM lParam) 
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-		!db_get_b(wParam, WEATHERPROTONAME, "DPopUp", 0))
+		!db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0))
 	{
-		WEATHERINFO winfo = LoadWeatherInfo(wParam);
+		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
 		POPUPDATAT ppd = { 0 };
-		ppd.lchContact = wParam;
+		ppd.lchContact = hContact;
 		ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
 		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
 		GetDisplay(&winfo, opt.pText, ppd.lptzText);

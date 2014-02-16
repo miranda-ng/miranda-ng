@@ -479,12 +479,12 @@ int OnMsgEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
+static int OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_NAME | CMIF_TCHAR;
 
-	if ( db_get_b(wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
+	if (db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
 		clmi.ptszName = TranslateT("Ignore Contact");
 	else
 		clmi.ptszName = TranslateT("Show Contact");
@@ -500,15 +500,13 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	LoadDBSettings();
 
 	// hotkeys
-	HOTKEYDESC hk = {0};
-	hk.cbSize = sizeof(hk);
+	HOTKEYDESC hk = { sizeof(hk) };
 	hk.pszName = msLastUC_ShowList;
 	hk.pszDescription = LPGEN("Show Recent Contacts");
 	hk.pszSection = "Contacts";
 	hk.pszService = msLastUC_ShowList;
 	hk.DefHotKey = MAKEWORD('R', HOTKEYF_CONTROL | HOTKEYF_SHIFT);
 	Hotkey_Register(&hk);
-
 	return 0;
 }
 

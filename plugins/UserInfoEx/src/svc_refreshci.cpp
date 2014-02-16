@@ -836,17 +836,17 @@ static INT_PTR RefreshService(WPARAM wParam, LPARAM lParam)
  *
  *
  **/
-static int OnContactAdded(WPARAM wParam, LPARAM lParam)
+static int OnContactAdded(WPARAM hContact, LPARAM lParam)
 {
 	try
 	{
-		DWORD dwStmp = db_get_dw(wParam, USERINFO, SET_CONTACT_ADDEDTIME, 0);
+		DWORD dwStmp = db_get_dw(hContact, USERINFO, SET_CONTACT_ADDEDTIME, 0);
 		if (!dwStmp)
 		{
 			MTime mt;
 			
 			mt.GetLocalTime();
-			mt.DBWriteStamp(wParam, USERINFO, SET_CONTACT_ADDEDTIME);
+			mt.DBWriteStamp(hContact, USERINFO, SET_CONTACT_ADDEDTIME);
 
 			// create updater, if not yet exists
 			if (!ContactUpdater)
@@ -858,7 +858,7 @@ static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 			ContactUpdater->AddIfDontHave(
 				(ContactUpdater->Size() > 0) 
 					? max(ContactUpdater->Get(ContactUpdater->Size() - 1)->check_time + 15000, 4000) 
-					: 4000, wParam);
+					: 4000, hContact);
 		}
 	}
 	catch(...)

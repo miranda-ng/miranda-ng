@@ -32,12 +32,12 @@ void SendEmailThread(void *szUrl)
 	return;
 }
 
-static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR SendEMailCommand(WPARAM hContact, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	char *szProto = GetContactProto(wParam);
-	if (szProto == NULL || db_get_s(wParam, szProto, "e-mail", &dbv)) {
-		if (db_get_s(wParam, "UserInfo", "Mye-mail0", &dbv)) {
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL || db_get_s(hContact, szProto, "e-mail", &dbv)) {
+		if (db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv)) {
 			MessageBox((HWND)lParam, TranslateT("User has not registered an e-mail address"), TranslateT("Send e-mail"), MB_OK);
 			return 1;
 		}
@@ -50,13 +50,13 @@ static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int EMailPreBuildMenu(WPARAM wParam, LPARAM)
+static int EMailPreBuildMenu(WPARAM hContact, LPARAM)
 {
 	bool bEnabled = true;
 	DBVARIANT dbv = { 0 };
-	char *szProto = GetContactProto(wParam);
-	if (szProto == NULL || db_get_s(wParam, szProto, "e-mail", &dbv))
-		if (db_get_s(wParam, "UserInfo", "Mye-mail0", &dbv))
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL || db_get_s(hContact, szProto, "e-mail", &dbv))
+		if (db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv))
 			bEnabled = false;
 
 	Menu_ShowItem(hEMailMenuItem, bEnabled);

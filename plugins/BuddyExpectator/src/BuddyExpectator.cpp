@@ -359,14 +359,12 @@ INT_PTR MissYouAction(WPARAM wParam, LPARAM lParam)
  *  when called from popup, wParam = (HANDLE)hContact and lParam == 0,
  *  when called from clist event, wParam = hWndCList, lParam = &CLISTEVENT
  */
-INT_PTR ContactReturnedAction(WPARAM wParam, LPARAM lParam)
+INT_PTR ContactReturnedAction(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact;
 	if (lParam) {
-		CLISTEVENT* cle = (CLISTEVENT*)lParam;
+		CLISTEVENT *cle = (CLISTEVENT*)lParam;
 		hContact = cle->hContact;
 	}
-	else hContact = wParam;
 
 	if (options.iShowMessageWindow>0)
 		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
@@ -383,14 +381,12 @@ INT_PTR ContactReturnedAction(WPARAM wParam, LPARAM lParam)
  *  when called from popup, wParam = (HANDLE)hContact and lParam == 0,
  *  when called from clist event, wParam = hWndCList, lParam = &CLISTEVENT
  */
-INT_PTR ContactStillAbsentAction(WPARAM wParam, LPARAM lParam)
+INT_PTR ContactStillAbsentAction(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact;
 	if (lParam) {
 		CLISTEVENT* cle = (CLISTEVENT*)lParam;
 		hContact = cle->hContact;
 	}
-	else hContact = wParam;
 
 	switch (options.action2) {
 	case GCA_DELETE:
@@ -412,7 +408,7 @@ INT_PTR ContactStillAbsentAction(WPARAM wParam, LPARAM lParam)
 /**
  * Load icons either from icolib or built in
  */
-int onIconsChanged(WPARAM wParam, LPARAM lParam)
+int onIconsChanged(WPARAM, LPARAM)
 {
 	hIcon = Skin_GetIcon("main_icon");
 	return 0;
@@ -421,17 +417,17 @@ int onIconsChanged(WPARAM wParam, LPARAM lParam)
 /**
  * Menu item click action
  */
-INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
+INT_PTR MenuMissYouClick(WPARAM hContact, LPARAM)
 {
-	if (db_get_b(wParam, MODULE_NAME, "MissYou", 0)) {
-		db_set_b(wParam, MODULE_NAME, "MissYou", 0);
+	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
+		db_set_b(hContact, MODULE_NAME, "MissYou", 0);
 		if (options.MissYouIcon)
-			ExtraIcon_Clear(hExtraIcon, wParam);
+			ExtraIcon_Clear(hExtraIcon, hContact);
 	}
 	else {
-		db_set_b(wParam, MODULE_NAME, "MissYou", 1);
+		db_set_b(hContact, MODULE_NAME, "MissYou", 1);
 		if (options.MissYouIcon)
-			ExtraIcon_SetIcon(hExtraIcon, wParam, "enabled_icon");
+			ExtraIcon_SetIcon(hExtraIcon, hContact, "enabled_icon");
 	}
 
 	return 0;
@@ -440,15 +436,15 @@ INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
 /**
  * Menu is about to appear
  */
-int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-   char *proto = GetContactProto(wParam);
+   char *proto = GetContactProto(hContact);
    if (!proto)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-   if (db_get_b(wParam, MODULE_NAME, "MissYou", 0)) {
+   if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
 		mi.ptszName = LPGENT("Disable Miss You");
 		mi.icolibItem = iconList[1].hIcolib;
    }
@@ -457,14 +453,14 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		mi.icolibItem = iconList[2].hIcolib;
    }
 	Menu_ModifyItem(hContactMenu, &mi);
-	Menu_ShowItem(hContactMenu, !db_get_b(wParam, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
+	Menu_ShowItem(hContactMenu, !db_get_b(hContact, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
    return 0;
 }
 
-int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
+int onExtraImageApplying(WPARAM hContact, LPARAM)
 {
-	if ( db_get_b(wParam, MODULE_NAME, "MissYou", 0))
-		ExtraIcon_SetIcon(hExtraIcon, wParam, "enabled_icon");
+	if ( db_get_b(hContact, MODULE_NAME, "MissYou", 0))
+		ExtraIcon_SetIcon(hExtraIcon, hContact, "enabled_icon");
 
    return 0;
 }
@@ -472,11 +468,9 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 /**
  * ContactSettingChanged callback
  */
-int SettingChanged(WPARAM wParam, LPARAM lParam)
+int SettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT) wParam;
-	DBCONTACTWRITESETTING *inf = (DBCONTACTWRITESETTING *) lParam;
-
+	DBCONTACTWRITESETTING *inf = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL || inf->value.type == DBVT_DELETED || strcmp(inf->szSetting, "Status") != 0)
 		return 0;
 
@@ -536,8 +530,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	unsigned int AbsencePeriod = db_get_dw(hContact, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
-	if (isContactGoneFor(hContact, AbsencePeriod))
-	{
+	if (isContactGoneFor(hContact, AbsencePeriod)) {
 		TCHAR* message = TranslateT("has returned after a long absence.");
 		TCHAR tmpBuf[251] = {0};
 		time_t tmpTime = getLastSeen(hContact);
@@ -598,11 +591,10 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 /**
  * Called when all the modules have had their modules loaded event handlers called (dependence of popups on fontservice :( )
  */
-int ModulesLoaded2(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded2(WPARAM, LPARAM)
 {
 	// check for 'still absent' contacts  on startup
 	TimerProc(0, 0, 0, 0);
-
 	return 0;
 }
 
@@ -610,7 +602,7 @@ int ModulesLoaded2(WPARAM wParam, LPARAM lParam)
  * Called when all the modules are loaded
  */
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 
@@ -669,13 +661,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-int ContactAdded(WPARAM wParam, LPARAM lParam)
+int ContactAdded(WPARAM hContact, LPARAM)
 {
-	db_set_dw(wParam, MODULE_NAME, "CreationTime", (DWORD)time(0));
+	db_set_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)time(0));
 	return 0;
 }
 
-int onShutdown(WPARAM wParam,LPARAM lParam)
+int onShutdown(WPARAM, LPARAM)
 {
 	DestroyServiceFunction(hContactReturnedAction);
 	DestroyServiceFunction(hContactStillAbsentAction);

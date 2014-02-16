@@ -189,11 +189,12 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR BuddyPounceMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM lParam)
 {
-	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b(wParam, modname, "UseAdvanced", 0))
-		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),0,BuddyPounceDlgProc, wParam);
-	else CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE_SIMPLE),0,BuddyPounceSimpleDlgProc, wParam);
+	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b(hContact, modname, "UseAdvanced", 0))
+		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),0,BuddyPounceDlgProc, hContact);
+	else
+		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE_SIMPLE),0,BuddyPounceSimpleDlgProc, hContact);
 	return 0;
 }
 

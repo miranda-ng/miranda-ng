@@ -67,7 +67,7 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra )
 }
 
 //inits nachdem alle module geladen wurden
-int AfterSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
+int AfterSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	//init netlib handle
 	NETLIBUSER nlu = {0};

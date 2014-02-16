@@ -89,12 +89,12 @@ INT_PTR getIconToUse(MCONTACT hContact, LPARAM lParam)
 	return icon_none;
 }
 
-int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
+int onExtraImageApplying(WPARAM hContact, LPARAM lParam)
 {
-	if (wParam == NULL)
+	if (hContact == NULL)
 		return 0;
 
-	int usedIcon = getIconToUse(wParam, lParam);
+	int usedIcon = getIconToUse(hContact, lParam);
 
 	const char *icon;
 	switch (usedIcon) {
@@ -103,38 +103,38 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 		case icon_auth:   icon = "auth_icon";  break;
 		default:          icon = NULL;  break;
 	}
-	ExtraIcon_SetIcon(hExtraIcon, wParam, icon);
+	ExtraIcon_SetIcon(hExtraIcon, hContact, icon);
 	return 0;
 }
 
-int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
+int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = GetContactProto(wParam);
+	char *proto = GetContactProto(hContact);
 	if (!proto) return 0;
 
 	if (!lstrcmpA(cws->szModule,proto))
 		if (!lstrcmpA(cws->szSetting,"Auth") || !lstrcmpA(cws->szSetting,"Grant") || !lstrcmpA(cws->szSetting,"ServerId") || !lstrcmpA(cws->szSetting,"ContactType"))
-			onExtraImageApplying(wParam, 1);
+			onExtraImageApplying(hContact, 1);
 
 	return 0;
 }
 
-int onDBContactAdded(WPARAM wParam, LPARAM lParam)
+int onDBContactAdded(WPARAM hContact, LPARAM lParam)
 {
 	// A new contact added, mark it as recent
-	db_set_b(wParam, MODULENAME, "ShowIcons", 1);
-	onExtraImageApplying(wParam, 0);
+	db_set_b(hContact, MODULENAME, "ShowIcons", 1);
+	onExtraImageApplying(hContact, 0);
 
 	return 0;
 }
 
-INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
+INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM lParam)
 {
-	byte enabled = db_get_b(wParam,"AuthState","ShowIcons",1);
-	db_set_b(wParam, MODULENAME, "ShowIcons", !enabled);
+	byte enabled = db_get_b(hContact,"AuthState","ShowIcons",1);
+	db_set_b(hContact, MODULENAME, "ShowIcons", !enabled);
 
-	onExtraImageApplying(wParam, 0);
+	onExtraImageApplying(hContact, 0);
 	return 0;
 }
 
@@ -163,7 +163,7 @@ static IconItem iconList[] =
 	{ LPGEN("Auth & Grant"), "authgrant_icon", IDI_AUTHGRANT }
 };
 
-int onModulesLoaded(WPARAM wParam,LPARAM lParam)
+int onModulesLoaded(WPARAM, LPARAM)
 {
 	// IcoLib support
 	Icon_Register(g_hInst, "Auth State", iconList, SIZEOF(iconList));
@@ -182,7 +182,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int onShutdown(WPARAM wParam,LPARAM lParam)
+static int onShutdown(WPARAM, LPARAM)
 {
 	DestroyServiceFunction(hAuthMenuSelected);
 	return 0;
@@ -203,8 +203,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
 
-	if (bContactMenuItem)
-	{
+	if (bContactMenuItem) {
 		hAuthMenuSelected = CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
 		CLISTMENUITEM mi = { sizeof(mi) };

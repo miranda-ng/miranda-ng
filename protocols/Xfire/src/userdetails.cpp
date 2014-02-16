@@ -85,29 +85,24 @@ void SetItemTxt(HWND hwndDlg,int feldid,char*feld,MCONTACT hcontact,int type)
 	}
 }
 
-static int GetIPPortUDetails(MCONTACT wParam,char* feld1,char* feld2)
+static int GetIPPortUDetails(MCONTACT hContact,char* feld1,char* feld2)
 {
-	char temp[255];
-    HGLOBAL clipbuffer;
-	char* buffer;
-
-	if (db_get_w(wParam, protocolname, feld2, -1)==0)
+	if (db_get_w(hContact, protocolname, feld2, -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if (db_get_s(wParam, protocolname, feld1,&dbv))
+	if (db_get_s(hContact, protocolname, feld1,&dbv))
 		return 0;
 
-	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w(wParam, protocolname, feld2, -1));
-
+	char temp[255];
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, feld2, -1));
 	db_free(&dbv);
 
-	if (OpenClipboard(NULL))
-	{
+	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 
-		clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(temp)+1);
-		buffer = (char*)GlobalLock(clipbuffer);
+		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(temp)+1);
+		char *buffer = (char*)GlobalLock(clipbuffer);
 		strcpy(buffer, LPCSTR(temp));
 		GlobalUnlock(clipbuffer);
 
@@ -121,16 +116,13 @@ static int GetIPPortUDetails(MCONTACT wParam,char* feld1,char* feld2)
 void addToList(HWND listbox,MCONTACT hContact,char*key,char*val)
 {
 	DBVARIANT dbv;
-	if (!db_get(hContact,protocolname,val,&dbv))
-	{
-		LVITEMA lvitem;
-		memset(&lvitem,0,sizeof(lvitem));
+	if (!db_get_s(hContact,protocolname,val,&dbv)) {
+		LVITEMA lvitem = { 0 };
 		lvitem.mask=LVIF_TEXT;
 		lvitem.cchTextMax=255;
-		lvitem.iItem=0;
-		lvitem.iSubItem=0;
 		lvitem.pszText=key;
 		SendMessageA(listbox,LVM_INSERTITEM,0,(LPARAM)&lvitem);
+
 		lvitem.iSubItem++;
 		lvitem.pszText=dbv.pszVal;
 		SendMessageA(listbox,LVM_SETITEM,0,(LPARAM)&lvitem);
@@ -427,7 +419,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }*/
 
-int OnDetailsInit(WPARAM wParam,LPARAM lParam)
+int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 {
 	if (!IsXFireContact(lParam))
 		return 0;

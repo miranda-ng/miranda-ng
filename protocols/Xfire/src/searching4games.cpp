@@ -34,7 +34,7 @@ using std::string;
 extern int foundgames;
 extern HANDLE	 XFireAvatarFolder;
 extern HANDLE	 XFireWorkingFolder;
-extern INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam);
+extern INT_PTR StartGame(WPARAM wParam, LPARAM lParam,LPARAM fParam);
 extern Xfire_gamelist xgamelist;
 
 //versucht die * in den pfaden der ini mit dem korrekten eintrag zu ersetzen
