@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_10.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\plugins\MetaContacts\proto_metacontacts\Proto_MetaContacts_10.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugins\SecureIM\SecureIM_icons\secureim_icons_10.vcxproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags_10.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
@@ -88,14 +86,6 @@ Global
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.Build.0 = Release|Win32
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.ActiveCfg = Release|x64
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.Build.0 = Release|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.ActiveCfg = Debug|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.Build.0 = Debug|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.ActiveCfg = Debug|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.Build.0 = Debug|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.ActiveCfg = Release|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
 		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Debug|Win32.Build.0 = Debug|Win32
 		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Debug|x64.ActiveCfg = Debug|x64
