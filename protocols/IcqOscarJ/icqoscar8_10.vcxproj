@@ -258,7 +258,6 @@
     <ClCompile Include="src\icqosc_svcs.cpp" />
     <ClCompile Include="src\init.cpp" />
     <ClCompile Include="src\log.cpp" />
-    <ClCompile Include="src\icqoscar.cpp" />
     <ClCompile Include="src\UI\askauthentication.cpp" />
     <ClCompile Include="src\icq_firstrun.cpp" />
     <ClCompile Include="src\icq_opts.cpp" />

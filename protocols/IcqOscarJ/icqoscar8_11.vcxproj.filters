@@ -254,7 +254,6 @@
     <ClCompile Include="src\icq_server.cpp" />
     <ClCompile Include="src\icq_servlist.cpp" />
     <ClCompile Include="src\icq_xtraz.cpp" />
-    <ClCompile Include="src\icqoscar.cpp" />
     <ClCompile Include="src\stdpackets.cpp" />
     <ClCompile Include="src\tlv.cpp" />
     <ClCompile Include="src\utilities.cpp" />
