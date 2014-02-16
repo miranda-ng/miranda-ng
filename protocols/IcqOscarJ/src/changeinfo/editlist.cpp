@@ -149,36 +149,37 @@ void ChangeInfoData::EndListEdit(int save)
 		int i = SendMessage(hwndListEdit, LB_GETITEMDATA, iItem, 0);
 		if (iItem != -1 && i != -1) {
 			FieldNamesItem *list = (FieldNamesItem*)si.pList;
-			if (list == timezonesField)
+			if (list == timezonesField) {
 				tmi.storeListResults(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
-			else {
-				FieldNamesItem &pItem = list[i];
+				list[i = 0].code = ppro->getDword("Timezone", 0);
+			}
 
-				if (si.dbType == DBVT_ASCIIZ) {
-					char *szNewValue = pItem.text;
-					if (pItem.code || (si.displayType & LIF_ZEROISVALID)) {
-						sid.changed = strcmpnull(szNewValue, (char*)sid.value);
-						SAFE_FREE((void**)&sid.value);
-						sid.value = (LPARAM)null_strdup(szNewValue);
-					}
-					else {
-						sid.changed = (char*)sid.value != NULL;
-						SAFE_FREE((void**)&sid.value);
-					}
+			FieldNamesItem &pItem = list[i];
+
+			if (si.dbType == DBVT_ASCIIZ) {
+				char *szNewValue = pItem.text;
+				if (pItem.code || (si.displayType & LIF_ZEROISVALID)) {
+					sid.changed = strcmpnull(szNewValue, (char*)sid.value);
+					SAFE_FREE((void**)&sid.value);
+					sid.value = (LPARAM)null_strdup(szNewValue);
 				}
 				else {
-					sid.changed = pItem.code != sid.value;
-					sid.value = pItem.code;
+					sid.changed = (char*)sid.value != NULL;
+					SAFE_FREE((void**)&sid.value);
 				}
+			}
+			else {
+				sid.changed = pItem.code != sid.value;
+				sid.value = pItem.code;
+			}
 
-				if (sid.changed) {
-					char buf[MAX_PATH];
-					TCHAR tbuf[MAX_PATH];
-					if (utf8_to_tchar_static(ICQTranslateUtfStatic(pItem.text, buf, SIZEOF(buf)), tbuf, SIZEOF(buf)))
-						ListView_SetItemText(hwndList, iEditItem, 1, tbuf);
+			if (sid.changed) {
+				char buf[MAX_PATH];
+				TCHAR tbuf[MAX_PATH];
+				if (utf8_to_tchar_static(ICQTranslateUtfStatic(pItem.text, buf, SIZEOF(buf)), tbuf, SIZEOF(buf)))
+					ListView_SetItemText(hwndList, iEditItem, 1, tbuf);
 
-					EnableDlgItem(GetParent(hwndList), IDC_SAVE, TRUE);
-				}
+				EnableDlgItem(GetParent(hwndList), IDC_SAVE, TRUE);
 			}
 		}
 	}

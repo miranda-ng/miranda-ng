@@ -33,7 +33,7 @@ struct FieldNamesItem
   char *text;
 };
 
-extern const FieldNamesItem timezonesField[];
+extern       FieldNamesItem timezonesField[];
 extern const FieldNamesItem countryField[];
 extern const FieldNamesItem interestsField[];
 extern const FieldNamesItem languageField[];

@@ -30,7 +30,7 @@
 
 #include "icqoscar.h"
 
-const FieldNamesItem timezonesField[] =
+FieldNamesItem timezonesField[] =
 {
 	{ -100, NULL }
 };
