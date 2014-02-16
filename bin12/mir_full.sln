@@ -79,8 +79,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IgnoreState", "..\plugins\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuEx", "..\plugins\MenuItemEx\menuex_12.vcxproj", "{210DD88D-649B-4695-8C5F-898A4F60A8CE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MetaContacts", "..\plugins\MetaContacts\MetaContacts_12.vcxproj", "{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mTextControl", "..\plugins\mTextControl\mtextcontrol_12.vcxproj", "{E26D2311-C164-48CF-BA24-5CEDA873D1B2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewXstatusNotify", "..\plugins\NewXstatusNotify\NewXstatusNotify_12.vcxproj", "{D726A7E5-CF4C-4CF2-A2D3-073DECEC0260}"
@@ -714,14 +712,6 @@ Global
 		{210DD88D-649B-4695-8C5F-898A4F60A8CE}.Release|Win32.Build.0 = Release|Win32
 		{210DD88D-649B-4695-8C5F-898A4F60A8CE}.Release|x64.ActiveCfg = Release|x64
 		{210DD88D-649B-4695-8C5F-898A4F60A8CE}.Release|x64.Build.0 = Release|x64
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|Win32.Build.0 = Debug|Win32
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|x64.ActiveCfg = Debug|x64
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|x64.Build.0 = Debug|x64
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|Win32.ActiveCfg = Release|Win32
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|Win32.Build.0 = Release|Win32
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|x64.ActiveCfg = Release|x64
-		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|x64.Build.0 = Release|x64
 		{E26D2311-C164-48CF-BA24-5CEDA873D1B2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E26D2311-C164-48CF-BA24-5CEDA873D1B2}.Debug|Win32.Build.0 = Debug|Win32
 		{E26D2311-C164-48CF-BA24-5CEDA873D1B2}.Debug|x64.ActiveCfg = Debug|x64
