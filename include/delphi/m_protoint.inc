@@ -51,88 +51,9 @@ type
     szModuleName  :PAnsiChar;
     hProtoIcon    :THandle;
     hNetlibUser   :THandle;
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Helpers
-(*!!
-	__forceinline void debugLogA(LPCSTR szFormat, ...)
-	{
-		va_list args;
-		va_start(args, szFormat);
-		ProtoLogA(this, szFormat, args);
-	}
-	__forceinline void debugLogW(LPCWSTR wszFormat, ...)
-	{
-		va_list args;
-		va_start(args, wszFormat);
-		ProtoLogW(this, wszFormat, args);
-	}
 
-	__forceinline INT_PTR ProtoBroadcastAck(HCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam) {
-		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
-
-	__forceinline INT_PTR delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
-	__forceinline INT_PTR delSetting(HCONTACT hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
-
-	__forceinline bool getBool(const char *name, bool defaultValue) {
-		return db_get_b(NULL, m_szModuleName, name, defaultValue) != 0; }
-	__forceinline bool getBool(HCONTACT hContact, const char *name, bool defaultValue) {
-		return db_get_b(hContact, m_szModuleName, name, defaultValue) != 0; }
-
-	__forceinline bool isChatRoom(HCONTACT hContact) { return getBool(hContact, "ChatRoom", false); }
-
-	__forceinline int getByte(const char *name, BYTE defaultValue) {
-		return db_get_b(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline int getByte(HCONTACT hContact, const char *name, BYTE defaultValue) {
-		return db_get_b(hContact, m_szModuleName, name, defaultValue); }
-
-	__forceinline int getWord(const char *name, WORD defaultValue) {
-		return db_get_w(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline int getWord(HCONTACT hContact, const char *name, WORD defaultValue) {
-		return db_get_w(hContact, m_szModuleName, name, defaultValue); }
-
-	__forceinline DWORD getDword(const char *name, DWORD defaultValue)  {
-		return db_get_dw(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline DWORD getDword(HCONTACT hContact, const char *name, DWORD defaultValue) {
-		return db_get_dw(hContact, m_szModuleName, name, defaultValue); }
-
-	__forceinline INT_PTR getString(const char *name, DBVARIANT *result) {
-		return db_get_s(NULL, m_szModuleName, name, result); }
-	__forceinline INT_PTR getString(HCONTACT hContact, const char *name, DBVARIANT *result) {
-		return db_get_s(hContact, m_szModuleName, name, result); }
-
-	__forceinline INT_PTR getWString(const char *name, DBVARIANT *result) {
-		return db_get_ws(NULL, m_szModuleName, name, result); }
-	__forceinline INT_PTR getWString(HCONTACT hContact, const char *name, DBVARIANT *result) {
-		return db_get_ws(hContact, m_szModuleName, name, result); }
-
-	__forceinline char* getStringA(const char *name) {
-		return db_get_sa(NULL, m_szModuleName, name); }
-	__forceinline char* getStringA(HCONTACT hContact, const char *name) {
-		return db_get_sa(hContact, m_szModuleName, name); }
-
-	__forceinline WCHAR* getWStringA(const char *name) {
-		return db_get_wsa(NULL, m_szModuleName, name); }
-	__forceinline WCHAR* getWStringA(HCONTACT hContact, const char *name) {
-		return db_get_wsa(hContact, m_szModuleName, name); }
-
-	__forceinline void setByte(const char *name, BYTE value) { db_set_b(NULL, m_szModuleName, name, value); }
-	__forceinline void setByte(HCONTACT hContact, const char *name, BYTE value) { db_set_b(hContact, m_szModuleName, name, value); }
-
-	__forceinline void setWord(const char *name, WORD value) { db_set_w(NULL, m_szModuleName, name, value); }
-	__forceinline void setWord(HCONTACT hContact, const char *name, WORD value) { db_set_w(hContact, m_szModuleName, name, value); }
-
-	__forceinline void setDword(const char *name, DWORD value) { db_set_dw(NULL, m_szModuleName, name, value); }
-	__forceinline void setDword(HCONTACT hContact, const char *name, DWORD value) { db_set_dw(hContact, m_szModuleName, name, value); }
-
-	__forceinline void setString(const char *name, const char* value) { db_set_s(NULL, m_szModuleName, name, value); }
-	__forceinline void setString(HCONTACT hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }
-
-	__forceinline void setWString(const char *name, const WCHAR* value) { db_set_ws(NULL, m_szModuleName, name, value); }
-	__forceinline void setWString(HCONTACT hContact, const char *name, const WCHAR* value) { db_set_ws(hContact, m_szModuleName, name, value); }
-
-*)
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Virtual functions
+    //////////////////////////////////////////////////////////////////////////////////////
+	 // Virtual functions
 
     AddToList       :function(intf:PPROTO_INTERFACE;flags:int; var psr:TPROTOSEARCHRESULT):HCONTACT; cdecl;
     AddToListByEvent:function(intf:PPROTO_INTERFACE;flags:int; iContact:int; hDbEvent:THANDLE):HCONTACT; cdecl;
@@ -141,8 +62,6 @@ type
     AuthDeny   :function(intf:PPROTO_INTERFACE;hDbEvent:THANDLE;const szReason:TChar):int; cdecl;
     AuthRecv   :function(intf:PPROTO_INTERFACE;hContact:HCONTACT;var ptr:TPROTORECVEVENT):int; cdecl;
     AuthRequest:function(intf:PPROTO_INTERFACE;hContact:HCONTACT;szMessage:TChar):int; cdecl;
-
-    ChangeInfo:function(intf:PPROTO_INTERFACE;iInfoType:int; var pInfoData:pointer):THANDLE; cdecl;
 
     FileAllow :function(intf:PPROTO_INTERFACE;hContact:HCONTACT;hTransfer:THANDLE; szPath:PROTOCHAR):THANDLE; cdecl;
     FileCancel:function(intf:PPROTO_INTERFACE;hContact:HCONTACT;hTransfer:THANDLE):int; cdecl;
