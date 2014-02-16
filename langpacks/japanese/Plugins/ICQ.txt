@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.1.0
+;  Version: 0.11.2.0
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ Number:]
@@ -1189,104 +1189,6 @@ Miranda はサーバー名から IP アドレスへの解決ができません�
 ファイル転送ネゴシエーションは不明な理由で失敗しました
 [<invalid>]
 < 不正 >
-[GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 エニウェトク ; クワゼリン
-[GMT-11:30]
-GMT-11:30
-[GMT-11:00 Midway Island; Samoa]
-GMT-11:00 ミッドウェー諸島 ; サモア
-[GMT-10:30]
-GMT-10:30
-[GMT-10:00 Hawaii]
-GMT-10:00 ハワイ
-[GMT-9:30]
-GMT-9:30
-[GMT-9:00 Alaska]
-GMT-9:00 アラスカ州
-[GMT-8:30]
-GMT-8:30
-[GMT-8:00 Pacific Time; Tijuana]
-GMT-8:00 太平洋標準時 ; ティフアナ
-[GMT-7:30]
-GMT-7:30
-[GMT-7:00 Arizona; Mountain Time]
-GMT-7:00 アリゾナ州 ; 山岳部標準時
-[GMT-6:30]
-GMT-6:30
-[GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-6:00 中央標準時 ; 中央アメリカ ; サスカチュワン州
-[GMT-5:30]
-GMT-5:30
-[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-5:00 東部標準時 ; ボゴタ ; リマ ; キト
-[GMT-4:30]
-GMT-4:30
-[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-4:00 大西洋標準時 ; サンティエゴ ; カラカス ; ラパス
-[GMT-3:30 Newfoundland]
-GMT-3:30 ニューファンドランド島
-[GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-3:00 グリーンランド ; ブエノスアイレス ; ジョージタウン
-[GMT-2:30]
-GMT-2:30
-[GMT-2:00 Mid-Atlantic]
-GMT-2:00 中部大西洋
-[GMT-1:30]
-GMT-1:30
-[GMT-1:00 Cape Verde Islands; Azores]
-GMT-1:00 カーボベルデ諸島 ; アゾレス諸島
-[GMT-0:30]
-GMT-0:30
-[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-GMT+0:00 ロンドン ; ダブリン ; エジンバラ ; リスボン ; カサブランカ
-[GMT+0:30]
-GMT+0:30
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+1:00 中央ヨーロッパ標準時 ; 西中央アフリカ ; ワルシャワ
-[GMT+1:30]
-GMT+1:30
-[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+2:00 エルサレム ; ヘルシンキ ; ハラレ ; カイロ ; ブカレスト ; アテネ
-[GMT+2:30]
-GMT+2:30
-[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+3:00 モスクワ ; サンクト・ペテルブルグ ; ナイロビ ; クウェート ; バグダッド
-[GMT+3:30 Tehran]
-GMT+3:30 テヘラン
-[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+4:00 バクー ; トビリシ ; エレバン ; アブダビ ; マスカット
-[GMT+4:30 Kabul]
-GMT+4:30 カブール
-[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-GMT+5:00 カルカッタ ; チェンナイ ; ムンバイ ; ニューデリー ; エカチェリンブルグ
-[GMT+5:30]
-GMT+5:30
-[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-GMT+6:00 アスタナ ; ダッカ ; アルマトイ ; ノボシビルスク ; スリ・ジャヤワルダナプラ・コッテ
-[GMT+6:30 Rangoon]
-GMT+6:30 ラングーン
-[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-GMT+7:00 バンコク ; ハノイ ; ジャカルタ ; クラスノヤルスク
-[GMT+7:30]
-GMT+7:30
-[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-GMT+8:00 パース ; 台北 ; シンガポール ; 香港 ; 北京
-[GMT+8:30]
-GMT+8:30
-[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-GMT+9:00 東京 ; 大阪 ; ソウル ; 札幌 ; ヤクーツク
-[GMT+9:30 Darwin; Adelaide]
-GMT+9:30 ダーウィン ; アデレード
-[GMT+10:00 East Australia; Guam; Vladivostok]
-GMT+10:00 東オーストラリア ; グアム ; ウラジオストク
-[GMT+10:30]
-GMT+10:30
-[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-GMT+11:00 マガダン ; ソロモン諸島 ; ニューカレドニア
-[GMT+11:30]
-GMT+11:30
-[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 オークランド ; ウェリントン ; フィジー ; カムチャッカ半島 ; マーシャル諸島
 [Personal]
 パーソナル
 [Nickname]

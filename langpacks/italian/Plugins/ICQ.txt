@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.1.0
+;  Version: 0.11.2.0
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ Number:]
@@ -479,8 +479,6 @@ Il server a cui stai tentando di collegarti non esiste. Controlla lo spelling in
 errore
 [%d Files]
 %d file
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+1:00 Ora dell'Europa Centrale; Roma; Africa Centro Occidentale; Varsavia
 [Personal]
 Personale
 [First name]

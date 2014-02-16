@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.1.0
+;  Version: 0.11.2.0
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ Number:]
@@ -953,104 +953,6 @@ Falha ao inicializar Transferência de Arquivos. Não é possível vincular port
 Conexão perdida durante a transferência de arquivo.
 [File transfer negotiation failed for unknown reason.]
 Arquivo negociação falhada transferência por motivo desconhecido.
-[GMT-12:00 Eniwetok; Kwajalein]
-GMT-12: 00 Eniwetok; Kwajalein
-[GMT-11:30]
-GMT-11: 30
-[GMT-11:00 Midway Island; Samoa]
-GMT-11: 00 Ilhas Midway, Samoa
-[GMT-10:30]
-GMT-10: 30
-[GMT-10:00 Hawaii]
-GMT-10: 00 Hawaii
-[GMT-9:30]
-GMT-9: 30
-[GMT-9:00 Alaska]
-GMT-9: 00 Alasca
-[GMT-8:30]
-GMT-8: 30
-[GMT-8:00 Pacific Time; Tijuana]
-GMT-8: 00 Hora do Pacífico; Tijuana
-[GMT-7:30]
-GMT-7: 30
-[GMT-7:00 Arizona; Mountain Time]
-GMT-7: 00 Arizona; Mountain Time
-[GMT-6:30]
-GMT-6: 30
-[GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-6: 00 Hora Central, América Central; Saskatchewan
-[GMT-5:30]
-GMT-5: 30
-[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-5: 00 Hora do Leste, Bogotá, Lima, Quito
-[GMT-4:30]
-GMT-4: 30
-[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-4: 00 Horário do Atlântico, Santiago, Caracas, La Paz
-[GMT-3:30 Newfoundland]
-GMT-3: 30 Terra Nova
-[GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-3: 00 Groelândia; Buenos Aires, Georgetown
-[GMT-2:30]
-GMT-2: 30
-[GMT-2:00 Mid-Atlantic]
-GMT-2: 00 Meio do Atlântico
-[GMT-1:30]
-GMT-1: 30
-[GMT-1:00 Cape Verde Islands; Azores]
-GMT-1: 00 Ilhas de Cabo Verde, Açores
-[GMT-0:30]
-GMT-0: 30
-[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-0:00 GMT Londres, Dublin, Edimburgo, Lisboa, Casablanca
-[GMT+0:30]
-0:30 GMT
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-1:00 GMT Hora da Europa Central, Centro-Oeste da África; Varsóvia
-[GMT+1:30]
-1:30 GMT
-[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-2:00 GMT Jerusalém, Helsínquia; Harare; Cairo; Bucareste; Atenas
-[GMT+2:30]
-2:30 GMT
-[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-3:00 GMT Moscou, São Petersburgo; Nairobi; Kuwait; Bagdá
-[GMT+3:30 Tehran]
-3:30 GMT Teerã
-[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-4:00 GMT Baku, Tbilisi, Yerevan, Abu Dhabi, Mascate
-[GMT+4:30 Kabul]
-4:30 GMT Cabul
-[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-5:00 GMT Calcutá, Chennai, Mumbai, Nova Deli; Ekaterinburg
-[GMT+5:30]
-5:30 GMT
-[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-6:00 GMT Astana, Dhaka, Almaty, Novosibirsk, Sri Jayawardenepura
-[GMT+6:30 Rangoon]
-6:30 GMT Rangun
-[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-7:00 GMT Bangkok, Hanói, Jacarta, Krasnoyarsk
-[GMT+7:30]
-7:30 GMT
-[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-8:00 GMT Perth; Taipei, Singapura, Hong Kong, Pequim
-[GMT+8:30]
-8:30 GMT
-[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-9:00 GMT Tóquio, Osaka, Seul, Sapporo, Yakutsk
-[GMT+9:30 Darwin; Adelaide]
-9:30 GMT Darwin; Adelaide
-[GMT+10:00 East Australia; Guam; Vladivostok]
-10:00 GMT Leste da Austrália, Guam, Vladivostok
-[GMT+10:30]
-GMT 10:30
-[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-11:00 GMT Magadan, Ilhas Salomão; Nova Caledônia
-[GMT+11:30]
-GMT 11:30
-[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-12:00 GMT Auckland, Wellington, Fiji, Kamchatka, Ilhas Marshall.
 [Personal]
 Pessoal
 [Nickname]

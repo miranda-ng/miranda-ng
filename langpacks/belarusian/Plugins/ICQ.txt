@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.1.0
+;  Version: 0.11.2.0
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -1678,104 +1678,6 @@ xСтатус %s
 [<invalid>]
 <памылкова>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
-[GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 Эневеток, Кваджалейн
-[GMT-11:30]
-GMT-11:30
-[GMT-11:00 Midway Island; Samoa]
-GMT-11:00 в. Мідуэй, Самоа
-[GMT-10:30]
-GMT-10:30
-[GMT-10:00 Hawaii]
-GMT-10:00 Гаваі
-[GMT-9:30]
-GMT-9:30
-[GMT-9:00 Alaska]
-GMT-09:00 Аляска
-[GMT-8:30]
-GMT-8:30
-[GMT-8:00 Pacific Time; Tijuana]
-GMT-08:00 Ціхаакіянскі час; Тыхуана
-[GMT-7:30]
-GMT-7:30
-[GMT-7:00 Arizona; Mountain Time]
-GMT-07:00 Горны час (ЗША і Канада)
-[GMT-6:30]
-GMT-6:30
-[GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-06:00 Цэнтральны час; Цэнтральная Амерыка; Саскачеван
-[GMT-5:30]
-GMT-5:30
-[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-05:00 Усходні час; Багота, Ліма, Кіто; Індыяна (усход)
-[GMT-4:30]
-GMT-4:30
-[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-04:00 Атлантычны гадзіна; Сант'яга; Каракас, Ла Пас
-[GMT-3:30 Newfoundland]
-GMT-03:30 Ньюфаўндленд
-[GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-03:00 Грэнландыя; Буэнас-Айрэс, Джорджтаун
-[GMT-2:30]
-GMT-2:30
-[GMT-2:00 Mid-Atlantic]
-GMT-02:00 Сярэдняатлантычны час
-[GMT-1:30]
-GMT-1:30
-[GMT-1:00 Cape Verde Islands; Azores]
-GMT-01:00 в-пы Зяленага мыса, Азорскія а-вы
-[GMT-0:30]
-GMT-0:30
-[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-GMT+00:00 Гадзіна па Грынвічы: Дублін, Лондан, Лісабон, Эдынбург
-[GMT+0:30]
-GMT+0:30
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+01:00 Цэнтральна-еўрапейскі час; Зап. Цэнтр. Афрыка; Варшава
-[GMT+1:30]
-GMT+1:30
-[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+02:00 Афіны; Бухарэст; Каір; Іерусалім; Хельсінкі; Хараре
-[GMT+2:30]
-GMT+2:30
-[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+03:00 Масква, Санкт-Пецярбург, Багдад, Найробі, Кувейт
-[GMT+3:30 Tehran]
-GMT+03:30 Тэгеран
-[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+04:00 Баку, Ерэван, Тбілісі; Абу-Дабі, Мушкат
-[GMT+4:30 Kabul]
-GMT+04:30 Кабул
-[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-GMT+05:00 Екацярынбург; Ісламабад, Карачы, Ташкент
-[GMT+5:30]
-GMT+5:30
-[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-GMT+06:00 Омск, Новасібірск, Алма-Ата; Астана, Дхака; Шры Джаяварденепура
-[GMT+6:30 Rangoon]
-GMT+06:30 Рангун
-[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-GMT+07:00 Краснаярск; Бангкок, Джакарта, Ханой
-[GMT+7:30]
-GMT+7:30
-[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-GMT+08:00 Іркуцк, Улан-Батор; Перт; Тайпей; Сінгапур; Ганконг, Пекін
-[GMT+8:30]
-GMT+8:30
-[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-GMT+09:00 Якуцк; Сеўл; Асака, Саппоро, Токіо
-[GMT+9:30 Darwin; Adelaide]
-GMT+09:30 Дарвін; Адэлаіда
-[GMT+10:00 East Australia; Guam; Vladivostok]
-GMT+10:00 Уладзівасток; Гуам; Усходняя Аўстралія
-[GMT+10:30]
-GMT+10:30
-[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-GMT+11:00 Магадан, Сахалін, Саламонавы в-пы
-[GMT+11:30]
-GMT+11:30
-[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 Камчатка, Фіджы, Маршалавы в-пы, Окленд, Велінгтон
 [January]
 Студзень
 [February]

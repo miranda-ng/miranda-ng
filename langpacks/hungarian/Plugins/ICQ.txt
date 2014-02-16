@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.1.0
+;  Version: 0.11.2.0
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ Number:]
@@ -973,104 +973,6 @@ A kapcsolat megszakadt fájlátvitel során.
 Fájlátviteli párbeszéd sikertelen ismeretlen okból.
 [<invalid>]
 <érvénytelen>
-[GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 Eniwetok; Kwajalein
-[GMT-11:30]
-GMT-11:30
-[GMT-11:00 Midway Island; Samoa]
-GMT-11:00 Midway-szigetek; Szamoa
-[GMT-10:30]
-GMT-10:30
-[GMT-10:00 Hawaii]
-GMT-10:00 Hawaii
-[GMT-9:30]
-GMT-9:30
-[GMT-9:00 Alaska]
-GMT-9:00 Alaszka
-[GMT-8:30]
-GMT-8:30
-[GMT-8:00 Pacific Time; Tijuana]
-GMT-8:00 Csendes óceáni idõ; Tijuana
-[GMT-7:30]
-GMT-7:30
-[GMT-7:00 Arizona; Mountain Time]
-GMT-7:00 Arizona; Hegyi idõ
-[GMT-6:30]
-GMT-6:30
-[GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-6:00 Középidõ; Közép-Amerika; Saskatchewan
-[GMT-5:30]
-GMT-5:30
-[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-5:00 Keleti parti idõ; Bogotá; Lima; Quito
-[GMT-4:30]
-GMT-4:30
-[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-4:00 Santiago; Caracas; La Paz
-[GMT-3:30 Newfoundland]
-GMT-3:30 Újfundland
-[GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-3:00 Grönland; Buenos Aires; Georgetown
-[GMT-2:30]
-GMT-2:30
-[GMT-2:00 Mid-Atlantic]
-GMT-2:00 Közép-atlanti
-[GMT-1:30]
-GMT-1:30
-[GMT-1:00 Cape Verde Islands; Azores]
-GMT-1:00 Zöld-foki Köztársaság; Azori-szigetek
-[GMT-0:30]
-GMT-0:30
-[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-GMT+0:00 London; Dublin; Edinburgh; Lisszabon; Casablanca
-[GMT+0:30]
-GMT+0:30
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+1:00 Közép-európai idõ; Közép-nyugat Afrika; Varsó
-[GMT+1:30]
-GMT+1:30
-[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+2:00 Jeruzsálem; Helsinki; Harar; Kairó; Bukarest; Athén
-[GMT+2:30]
-GMT+2:30
-[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+3:00 Moszkva; Szentpétervár; Nairobi; Kuvait; Bagdad
-[GMT+3:30 Tehran]
-GMT+3:30 Teherán
-[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+4:00 Baku; Tbiliszi; Jereván; Abu-Dzabi; Maszkat
-[GMT+4:30 Kabul]
-GMT+4:30 Kabul
-[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-GMT+5:00 Kalkutta; Csennaj; Mumbai; Új-Delhi; Jekatyerinburg
-[GMT+5:30]
-GMT+5:30
-[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-GMT+6:00 Astana; Dhaka; Almati; Novoszibirszk; Sri Jawardenapura
-[GMT+6:30 Rangoon]
-GMT+6:30 Rangoon
-[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-GMT+7:00 Bangkok; Hanoi; Dzsakarta; Krasnojarszk
-[GMT+7:30]
-GMT+7:30
-[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-GMT+8:00 Perth; Taipei; Szingapúr; Hongkong; Beijing
-[GMT+8:30]
-GMT+8:30
-[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-GMT+9:00 Tokió; Oszaka; Szöul; Szapporo; Jakutszk
-[GMT+9:30 Darwin; Adelaide]
-GMT+9:30 Darwin; Adelaide
-[GMT+10:00 East Australia; Guam; Vladivostok]
-GMT+10:00 Kelet-Ausztrália; Guam; Vlagyivosztok 
-[GMT+10:30]
-GMT+10:30
-[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-GMT+11:00 Magadan; Salamon-szigetek; Új-Kaledónia
-[GMT+11:30]
-GMT+11:30
-[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 Auckland; Wellington; Fidzsi-szigetek; Kamcsatka; Marshall-szigetek
 [Personal]
 Személyes
 [Nickname]

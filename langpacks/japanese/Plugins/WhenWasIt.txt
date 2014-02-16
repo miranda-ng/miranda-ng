@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.4
+;  Version: 0.3.3.5
 ;  Authors: Cristian Libotean
 ;============================================================
 [Popups]
