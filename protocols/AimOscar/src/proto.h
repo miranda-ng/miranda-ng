@@ -36,8 +36,6 @@ struct CAimProto : public PROTO<CAimProto>
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* );
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
 
-	virtual	HANDLE    __cdecl ChangeInfo( int iInfoType, void* pInfoData );
-
 	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
 	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );

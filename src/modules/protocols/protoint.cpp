@@ -82,11 +82,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	HANDLE __cdecl ChangeInfo(int iInfoType, void* pInfoData)
-	{
-		return (HANDLE)ProtoCallService(m_szModuleName, PS_CHANGEINFO, iInfoType, (LPARAM)pInfoData);
-	}
-
 	HANDLE __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };

@@ -397,14 +397,6 @@ int __cdecl CIrcProto::AuthRequest(MCONTACT, const TCHAR*)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo
-
-HANDLE __cdecl CIrcProto::ChangeInfo(int, void*)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
 HANDLE __cdecl CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)

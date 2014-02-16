@@ -411,26 +411,21 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 4:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam,  StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, (PROTOCHAR*)lParam);
+				return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, (PROTOCHAR*)lParam);
 			case 5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT*)lParam);
 			case 6:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->AuthRequest(hContact,  StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->AuthRequest(hContact, (PROTOCHAR*)lParam);
-			case 7: return (INT_PTR)ppi->ChangeInfo(wParam, (void*)lParam);
+				return (INT_PTR)ppi->AuthRequest(hContact, (PROTOCHAR*)lParam);
 			case 8:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam,  StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
+				return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
 			case 9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
 			case 10:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam,  StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
+				return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
 			case 11: {
 				PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
 				if (ppi->m_iVersion > 1) {
@@ -448,13 +443,11 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 15:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchBasic(StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->SearchBasic((TCHAR*)lParam);
+				return (INT_PTR)ppi->SearchBasic((TCHAR*)lParam);
 			case 16:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchByEmail(StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->SearchByEmail((TCHAR*)lParam);
+				return (INT_PTR)ppi->SearchByEmail((TCHAR*)lParam);
 			case 17: {
 				PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
 				if (ppi->m_iVersion > 1)
@@ -477,7 +470,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 					if (res == 0) FreeFilesMatrix(&files);
 					return res;
 				}
-				else return (INT_PTR)ppi->SendFile(hContact, (TCHAR*)wParam, (TCHAR**)lParam);
+				return (INT_PTR)ppi->SendFile(hContact, (TCHAR*)wParam, (TCHAR**)lParam);
 
 			case 26: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
 			case 27: return (INT_PTR)ppi->SendUrl(hContact, wParam, (const char*)lParam);
@@ -488,8 +481,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 33:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((char*)lParam));
-				else
-					return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
+				return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
 			case 34: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
 			case 35: lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam); return 0;
 			case 36: return ppi->m_iStatus;
@@ -497,8 +489,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 100:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvA((TCHAR*)lParam));
+				return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvA((TCHAR*)lParam));
 			case 102:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SendFile(hContact, (TCHAR*)wParam, (TCHAR**)lParam);
@@ -511,13 +502,11 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 103:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, StrConvA((TCHAR*)lParam));
+				return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, StrConvA((TCHAR*)lParam));
 			case 104:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, StrConvA((TCHAR*)lParam));
+				return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, StrConvA((TCHAR*)lParam));
 			case 105: {
 				PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
 				if (ppi->m_iVersion > 1)
@@ -533,31 +522,26 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 106:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->AuthRequest(hContact, (const TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->AuthRequest(hContact, StrConvA((const TCHAR*)lParam));
+				return (INT_PTR)ppi->AuthRequest(hContact, StrConvA((const TCHAR*)lParam));
 			case 107:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, (const TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvA((const TCHAR*)lParam));
+				return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvA((const TCHAR*)lParam));
 			case 108:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchBasic((const TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->SearchBasic(StrConvA((const TCHAR*)lParam));
+				return (INT_PTR)ppi->SearchBasic(StrConvA((const TCHAR*)lParam));
 			case 109: {
 				PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
-				else
-					return (INT_PTR)ppi->SearchByName(StrConvA((TCHAR*)psbn->pszNick),
-						StrConvA((TCHAR*)psbn->pszFirstName), StrConvA((TCHAR*)psbn->pszLastName));
+				return (INT_PTR)ppi->SearchByName(StrConvA((TCHAR*)psbn->pszNick),
+					StrConvA((TCHAR*)psbn->pszFirstName), StrConvA((TCHAR*)psbn->pszLastName));
 			}
 			case 110:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchByEmail((const TCHAR*)lParam);
-				else
-					return (INT_PTR)ppi->SearchByEmail(StrConvA((const TCHAR*)lParam));
+				return (INT_PTR)ppi->SearchByEmail(StrConvA((const TCHAR*)lParam));
 			}
 		}
 	}
@@ -651,7 +635,6 @@ int LoadProtocolsModule(void)
 	InsertServiceListItem( 4, PS_AUTHDENY);
 	InsertServiceListItem( 5, PSR_AUTH);
 	InsertServiceListItem( 6, PSS_AUTHREQUEST);
-	InsertServiceListItem( 7, PS_CHANGEINFO);
 	InsertServiceListItem( 8, PSS_FILEALLOW);
 	InsertServiceListItem( 9, PSS_FILECANCEL);
 	InsertServiceListItem(10, PSS_FILEDENY);

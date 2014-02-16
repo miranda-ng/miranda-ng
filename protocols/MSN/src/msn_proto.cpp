@@ -314,14 +314,6 @@ int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 	return 1;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo
-
-HANDLE __cdecl CMsnProto::ChangeInfo(int iInfoType, void* pInfoData)
-{
-	return NULL;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnAuthAllow - called after successful authorization
 

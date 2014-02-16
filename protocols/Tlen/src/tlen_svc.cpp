@@ -1210,12 +1210,6 @@ int TlenProtocol::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
 	return 1;
 }
 
-HANDLE TlenProtocol::ChangeInfo(int iInfoType, void* pInfoData)
-{
-	return NULL;
-}
-
-
 int TlenProtocol::RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt)
 {
 	return 1;

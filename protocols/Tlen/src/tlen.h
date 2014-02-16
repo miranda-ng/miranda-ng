@@ -226,8 +226,6 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage);
 
-	virtual	HANDLE   __cdecl ChangeInfo(int iInfoType, void* pInfoData);
-
 	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
 	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
 	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);

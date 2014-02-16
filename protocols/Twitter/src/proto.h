@@ -44,8 +44,6 @@ public:
 	virtual	int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT *);
 	virtual	int       __cdecl AuthRequest(MCONTACT, const TCHAR *);
 
-	virtual	HANDLE    __cdecl ChangeInfo(int,void *);
-
 	virtual	HANDLE    __cdecl FileAllow(MCONTACT, HANDLE, const TCHAR *);
 	virtual	int       __cdecl FileCancel(MCONTACT, HANDLE);
 	virtual	int       __cdecl FileDeny(MCONTACT, HANDLE, const TCHAR *);

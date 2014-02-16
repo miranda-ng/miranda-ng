@@ -110,10 +110,10 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
 		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_MODEMSG;
 
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE; // | PF2_SHORTAWAY;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
 
 	case PFLAGNUM_3:
-		return PF2_ONLINE; // | PF2_SHORTAWAY;
+		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
 		return PF4_NOCUSTOMAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE;
@@ -285,13 +285,11 @@ int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)
 
 int CVkProto::Authorize(HANDLE hDbEvent)
 {
-	//if (!hDbEvent)
 	return 1;
 }
 
 int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
-	//if (!hDbEvent || isOffline())
 	return 1;
 }
 
@@ -308,12 +306,6 @@ MCONTACT CVkProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 int CVkProto::AuthRecv(MCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
-}
-
-HANDLE CVkProto::ChangeInfo(int type,void *info_data)
-{
-	MessageBoxA(0,"ChangeInfo","",0);
-	return NULL;
 }
 
 HANDLE CVkProto::FileAllow(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)

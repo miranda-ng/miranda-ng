@@ -32,12 +32,6 @@ int FacebookProto::AuthRecv(MCONTACT hContact,PROTORECVEVENT *)
 	return 1;
 }
 
-HANDLE FacebookProto::ChangeInfo(int type,void *info_data)
-{
-	MessageBoxA(0,"ChangeInfo","",0);
-	return NULL;
-}
-
 HANDLE FacebookProto::FileAllow(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
 	return NULL;

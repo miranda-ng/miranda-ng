@@ -42,12 +42,6 @@ int TwitterProto::AuthRequest(MCONTACT hContact,const TCHAR *message)
 	return 1;
 }
 
-HANDLE TwitterProto::ChangeInfo(int type,void *info_data)
-{
-	MessageBoxA(0,"ChangeInfo","",0);
-	return NULL;
-}
-
 HANDLE TwitterProto::FileAllow(MCONTACT hContact,HANDLE hTransfer,const TCHAR *path)
 {
 	return NULL;

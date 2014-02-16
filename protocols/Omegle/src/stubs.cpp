@@ -52,11 +52,6 @@ int OmegleProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)
 	return 1;
 }
 
-HANDLE OmegleProto::ChangeInfo(int type,void *info_data)
-{
-	return NULL;
-}
-
 HANDLE OmegleProto::FileAllow(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
 {
 	return NULL;

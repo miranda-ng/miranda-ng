@@ -40,8 +40,6 @@ public:
    virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* )                 { return 1; }
    virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage );
 
-   virtual	HANDLE   __cdecl ChangeInfo( int iInfoType, void* pInfoData ) { return NULL; }
-
    virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath )     { return NULL; }
    virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer )                             { return 1; }             
    virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason )    { return 1; }

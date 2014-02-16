@@ -504,15 +504,6 @@ int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo
-
-HANDLE __cdecl CIcqProto::ChangeInfo(int iInfoType, void* pInfoData)
-{
-	return NULL;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileAllow - starts a file transfer
 
 HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)

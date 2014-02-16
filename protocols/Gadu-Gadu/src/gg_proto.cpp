@@ -129,7 +129,6 @@ int      GGPROTO::Authorize(HANDLE hDbEvent) { return 1; }
 int      GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 1; }
 int      GGPROTO::AuthRecv(MCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
 int      GGPROTO::AuthRequest(MCONTACT hContact, const TCHAR *szMessage) { return 1; }
-HANDLE   GGPROTO::ChangeInfo(int iInfoType, void *pInfoData) { return NULL; }
 int      GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }
 HANDLE   GGPROTO::SearchByEmail(const PROTOCHAR *email) { return NULL; }
 int      GGPROTO::RecvContacts(MCONTACT hContact, PROTORECVEVENT *pre) { return 1; }

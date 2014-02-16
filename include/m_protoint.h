@@ -158,8 +158,6 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*) = 0;
 	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage) = 0;
 
-	virtual	HANDLE   __cdecl ChangeInfo(int iInfoType, void* pInfoData) = 0;
-
 	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath) = 0;
 	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer) = 0;
 	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason) = 0;

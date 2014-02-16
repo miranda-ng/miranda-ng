@@ -186,14 +186,6 @@ int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo
-
-HANDLE __cdecl CAimProto::ChangeInfo(int iInfoType, void* pInfoData)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
 HANDLE __cdecl CAimProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)

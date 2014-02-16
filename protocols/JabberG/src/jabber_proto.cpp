@@ -506,14 +506,6 @@ int __cdecl CJabberProto::AuthRequest(MCONTACT, const TCHAR*)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo
-
-HANDLE __cdecl CJabberProto::ChangeInfo(int /*iInfoType*/, void*)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileAllow - starts a file transfer
 
 HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const TCHAR *szPath)

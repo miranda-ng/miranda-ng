@@ -302,11 +302,6 @@ static INT_PTR stub4(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvT((const char*)lParam));
 }
 
-static INT_PTR stub7(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)ppi->ChangeInfo(wParam, (void*)lParam);
-}
-
 static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
 	PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
@@ -445,7 +440,6 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 	CreateProtoServiceEx(pa->szModuleName, PS_ADDTOLISTBYEVENT, (MIRANDASERVICEOBJ)stub2, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_AUTHALLOW, (MIRANDASERVICEOBJ)stub3, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_AUTHDENY, (MIRANDASERVICEOBJ)stub4, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_CHANGEINFO, (MIRANDASERVICEOBJ)stub7, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_FILERESUME, (MIRANDASERVICEOBJ)stub11, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_GETCAPS, (MIRANDASERVICEOBJ)stub12, pa->ppro);
 	CreateProtoServiceEx(pa->szModuleName, PS_LOADICON, (MIRANDASERVICEOBJ)stub13, pa->ppro);
@@ -461,15 +455,15 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 	CreateProtoServiceEx(pa->szModuleName, PS_GETSTATUS, (MIRANDASERVICEOBJ)stub42, pa->ppro);
 
 	if (!ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFO))
-		if ( ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFOW))
+		if (ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFOW))
 			CreateProtoServiceEx(pa->szModuleName, PS_GETAVATARINFO, (MIRANDASERVICEOBJ)stub43, pa->ppro);
 
 	if (!ProtoServiceExists(pa->szModuleName, PS_GETMYAVATAR))
-		if ( ProtoServiceExists(pa->szModuleName, PS_GETMYAVATARW))
+		if (ProtoServiceExists(pa->szModuleName, PS_GETMYAVATARW))
 			CreateProtoServiceEx(pa->szModuleName, PS_GETMYAVATAR, (MIRANDASERVICEOBJ)stub44, pa->ppro);
 
 	if (!ProtoServiceExists(pa->szModuleName, PS_SETMYAVATAR))
-		if ( ProtoServiceExists(pa->szModuleName, PS_SETMYAVATARW))
+		if (ProtoServiceExists(pa->szModuleName, PS_SETMYAVATARW))
 			CreateProtoServiceEx(pa->szModuleName, PS_SETMYAVATAR, (MIRANDASERVICEOBJ)stub45, pa->ppro);
 
 	return TRUE;
@@ -480,19 +474,18 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 struct DeactivationThreadParam
 {
 	PROTO_INTERFACE *ppro;
-	pfnUninitProto   fnUninit;
-	bool             bIsDynamic;
-	bool             bErase;
+	pfnUninitProto fnUninit;
+	bool bIsDynamic, bErase;
 };
 
 pfnUninitProto GetProtocolDestructor(char *szProto);
 
 static int DeactivationThread(DeactivationThreadParam* param)
 {
-	PROTO_INTERFACE* p = (PROTO_INTERFACE*)param->ppro;
+	PROTO_INTERFACE *p = (PROTO_INTERFACE*)param->ppro;
 	p->SetStatus(ID_STATUS_OFFLINE);
 
-	char * szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);
+	char *szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);
 
 	if (param->bIsDynamic) {
 		p->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0);
@@ -531,7 +524,7 @@ void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 		pa->bAccMgrUIChanged = FALSE;
 	}
 
-	DeactivationThreadParam* param = new DeactivationThreadParam;
+	DeactivationThreadParam *param = new DeactivationThreadParam;
 	param->ppro = pa->ppro;
 	param->fnUninit = GetProtocolDestructor(pa->szProtoName);
 	param->bIsDynamic = bIsDynamic;

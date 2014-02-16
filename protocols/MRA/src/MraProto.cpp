@@ -184,7 +184,6 @@ MCONTACT CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Stubs
 
-HANDLE CMraProto::ChangeInfo(int, void*) { return NULL; }
 int    CMraProto::FileResume(HANDLE, int*, const TCHAR**) { return 1; }
 int    CMraProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 1; }
 int    CMraProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 1; }

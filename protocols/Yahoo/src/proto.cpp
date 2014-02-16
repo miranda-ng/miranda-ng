@@ -289,14 +289,6 @@ int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const TCHAR* msg )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo
-
-HANDLE __cdecl CYahooProto::ChangeInfo( int /*iInfoType*/, void* )
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
 DWORD_PTR __cdecl CYahooProto::GetCaps(int type, MCONTACT hContact)

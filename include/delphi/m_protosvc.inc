@@ -514,23 +514,6 @@ const
   PS_ADDTOLISTBYEVENT = '/AddToListByEvent';
 
   {
-    wParam : InfoType
-    lParam : Pointer to InfoData
-    Affect : Changes user details as stored on the server, see notes
-    Returns: A Handle to the change request or NULL(0) on failure
-    Notes  : the details stored on the server are very protocol spec'd
-             so this service just supplies an outline for protocols to use.
-             See protocol-specific documentation for what infoTypes are available
-             and what InfoData should be for each infoTypes.
-             -
-             Sends an ack type=ACKTYPE_SETINFO, result=ACKRESULT_SUCCESS/FAILURE, lParam=0
-             -
-             This description just leaves me cold.
-    Version: v0.1.2.0+
-  }
-  PS_CHANGEINFO = '/ChangeInfo';
-
-  {
     wParam : HFILETRANSFER
     lParam : Pointer to a initalised TPROTOFILERESUME
     Affect : Informs the protocol of the user's chosen resume behaviour, see notes

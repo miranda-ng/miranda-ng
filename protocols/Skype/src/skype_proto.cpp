@@ -142,8 +142,6 @@ int __cdecl CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 	return 1;
 }
 
-HANDLE __cdecl CSkypeProto::ChangeInfo( int iInfoType, void* pInfoData ) { return 0; }
-
 HANDLE __cdecl CSkypeProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath ) 
 { 
 	uint oid = (uint)hTransfer;

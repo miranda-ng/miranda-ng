@@ -421,18 +421,6 @@ typedef struct {
 //once, you should just do lots of calls.
 #define PS_ADDTOLISTBYEVENT  "/AddToListByEvent"
 
-//Changes our user details as stored on the server   v0.1.2.0+
-//wParam = infoType
-//lParam = (LPARAM)(void*)pInfoData
-//Returns a HANDLE to the change request, or NULL on failure
-//The details information that is stored on the server is very protocol-
-//specific, so this service just supplies an outline for protocols to use.
-//See protocol-specific documentation for what infoTypes are available and
-//what pInfoData should be for each infoType.
-//Sends an ack type = ACKTYPE_SETINFO, result = ACKRESULT_SUCCESS/FAILURE,
-//lParam = 0 on completion.
-#define PS_CHANGEINFO     "/ChangeInfo"
-
 //Informs the protocol of the users chosen resume behaviour   v0.1.2.2+
 //wParam = (WPARAM)(HANDLE)hFileTransfer
 //lParam = (LPARAM)(PROTOFILERESUME*)&pfr
