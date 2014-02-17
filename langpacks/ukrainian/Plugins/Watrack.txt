@@ -376,7 +376,7 @@ VBR або порожній
 [FPS (Frames per second)]
 FPS (кадрів в секунду)
 [If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Якщо використовується плагін Variables, значення, що повертаються, будуть в кодуванні ANSI (за замовчуванням - UTF8)
+Якщо використовується плагін Variables, значення, що повертаються, будуть в кодуванні ANSI (за замовчанням - UTF-8)
 [Save settings in INI-file]
 Зберігати налаштування в файл
 [VBR or not]
@@ -578,7 +578,7 @@ VBR чи ні
 [Right click]
 Праве клацання
 [Default colors]
-За замовчуванням
+За замовчанням
 [Windows colors]
 Кольори Windows
 [Custom colors]

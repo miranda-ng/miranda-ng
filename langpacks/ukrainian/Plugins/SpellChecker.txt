@@ -34,7 +34,7 @@
 [Spell Checker]
 Орфографія
 [Default language:]
-Мова за замовчуванням:
+Мова за замовчанням:
 [Auto-replace words with dictionary suggestions]
 Автоматична заміна словами зі словника
 [Ignore words with numbers]

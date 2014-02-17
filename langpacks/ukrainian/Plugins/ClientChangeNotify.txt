@@ -36,7 +36,7 @@
 [Sec]
 с
 [0 = Default]
-0=Умовчання
+0=Замовчання
 [-1 = Infinite]
 -1=Нескінченно
 [Colors]
@@ -44,7 +44,7 @@
 [Background]
 Фон
 [Use default]
-За замовчуванням
+За замовчанням
 [Text]
 Текст
 [Preview]
@@ -70,7 +70,7 @@
 [Always, even when client change notifications are disabled globally]
 Завжди, навіть коли сповіщення зміни клієнта відключені глобально
 [Use global settings (default)]
-Використовувати загальні параметри (за замовчуванням)
+Використовувати загальні параметри (за замовчанням)
 [Disable c&lient change notification]
 Вимкнути сповіщення про зміну к&лієнта
 [Enable c&lient change notification]

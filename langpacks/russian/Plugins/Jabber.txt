@@ -102,9 +102,9 @@ Jabber форма
 [Submit]
 Передать
 [Next]
-Вперёд
+Далее
 [Back]
-Фон
+Назад
 [Complete]
 Готово
 [Jabber Password]
@@ -150,7 +150,7 @@ Jabber Пароль
 [Department:]
 Отдел:
 [Title:]
-Заголовок:
+Должность:
 [E-mail:]
 E-mail:
 [Phone:]
@@ -1024,7 +1024,7 @@ Jabber ошибка
 [Bulgarian]
 Болгарский
 [Burmese]
-Бурмезский
+Бирманский
 [Catalan; Valencian]
 Каталонский
 [Chamorro]
@@ -1094,7 +1094,7 @@ Jabber ошибка
 [Haitian; Haitian Creole]
 Гаитянский
 [Hausa]
-Науса
+Хауса
 [Hebrew]
 Иврит
 [Herero]
@@ -1164,7 +1164,7 @@ Jabber ошибка
 [Latvian]
 Латышский
 [Limburgan; Limburger; Limburgish]
-Лимбургийский
+Лимбургский
 [Lingala]
 Лингала
 [Lithuanian]
@@ -1184,7 +1184,7 @@ Jabber ошибка
 [Maori]
 Маорийский
 [Marathi]
-Марахатский
+Маратхи
 [Malay]
 Малайский
 [Malagasy]
@@ -1256,7 +1256,7 @@ Jabber ошибка
 [Croatian]
 Хорватский
 [Sinhala; Sinhalese]
-Сингальсткий
+Сингальский
 [Slovak]
 Словацкий
 [Slovenian]
@@ -1272,7 +1272,7 @@ Jabber ошибка
 [Somali]
 Сомалийский
 [Sotho, Southern]
-Суто
+Сото
 [Spanish; Castilian]
 Кастильский
 [Sardinian]
@@ -1934,7 +1934,7 @@ Cмущённый
 [Hungry]
 Голодный
 [Hurt]
-Раненный
+Раненый
 [Impressed]
 Впечатлённый
 [In awe]

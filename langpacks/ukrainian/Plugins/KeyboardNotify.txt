@@ -64,7 +64,7 @@
 [DND]
 Не турбувати
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [On the phone]

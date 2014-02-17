@@ -68,7 +68,7 @@
 [Online]
 В мережі
 [Away]
-Відійшов
+Відсутній
 [NA]
 Недоступний
 [Occupied]
@@ -76,7 +76,7 @@
 [DND]
 Не турбувати
 [Free For Chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [On The Phone]
@@ -90,7 +90,7 @@
 [To Online]
 -> В мережі
 [To Away]
--> Відійшов
+-> Відсутній
 [To NA]
 -> Недоступний
 [To Occupied]
@@ -98,11 +98,11 @@
 [To DND]
 -> Не турбувати
 [To Free For Chat]
--> Готовий базікати
+-> Готовий до чату
 [To Invisible]
 -> Невидимий
 [To On The Phone]
--> На телефоні
+-> Телефоную
 [To Out To Lunch]
 -> Обідаю
 [The Message    (%d Characters)]

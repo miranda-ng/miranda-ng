@@ -38,11 +38,11 @@
 [DND]
 Не турбувати
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [On the phone]
-На телефоні
+Телефоную
 [Out to lunch]
 Обідаю
 [Preview]

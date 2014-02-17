@@ -24,7 +24,7 @@
 [Timeout]
 Таймаут
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-Спеціальні значення "Тайм-аут":\n-1 - нескінченність, 0 - значення за замовчуванням
+Спеціальні значення "Тайм-аут":\n-1 - нескінченність, 0 - значення за замовчанням
 [Emit a sound]
 Використовувати звук
 [VirtualProtect failed. Code %d\nTry to call the author]

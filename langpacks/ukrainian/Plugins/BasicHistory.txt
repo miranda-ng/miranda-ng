@@ -168,7 +168,7 @@
 [All events]
 Всі події
 [Default history events]
-Події за замовчуванням
+Події за замовчанням
 [History for %s]
 Історія для %s
 [System]

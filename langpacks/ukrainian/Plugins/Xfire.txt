@@ -188,7 +188,7 @@ IP сервера
 [Buddy start a game]
 Початок гри
 [&XFire Online Profile]
-&Онлайн профіль XFire
+&Онлайн-профіль XFire
 [XFire &Clan Site]
 Сайт клану Xfire
 [C&opy Server Address and Port]
@@ -218,7 +218,7 @@ IP сервера
 [XFire voice icon]
 Значок голосу XFire
 [XFire does not support offline messaging!]
-XFire не підтримує надсилання офлайнових повідомлень!
+XFire не підтримує надсилання офлайн-повідомлень!
 [Username]
 Користувач
 [Unable to connect to XFire.]

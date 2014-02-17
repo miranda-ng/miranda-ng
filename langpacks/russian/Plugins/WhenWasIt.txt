@@ -188,9 +188,9 @@
 [He/She]
 Ему/ей
 [%s\n%s will be %d years old.]
-%s\n%s исполнится %d .
+%s\n%s исполнится %d.
 [%s\n%s just turned %d.]
-%s\n%s исполнилось %d
+%s\n%s исполнилось %d.
 [Starting to refresh user details]
 Начало обновления информации о пользователях
 [Done refreshing user details]

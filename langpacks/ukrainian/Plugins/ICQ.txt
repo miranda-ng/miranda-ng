@@ -42,7 +42,7 @@
 [Port:]
 Порт:
 [Default]
-За замовчуванням
+За замовчанням
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through an http proxy server.]
 Для підключення до випадкового порту вкажіть порт 0. Пробуйте порти 443 або 80, якщо у вас проблеми з підключенням через проксі.
 [Secure Connection (SSL)]
@@ -162,7 +162,7 @@
 [Timeout]
 Таймаут
 [Note]
-Замітка
+Примітка
 [Warning]
 Попередження
 [Error]
@@ -178,7 +178,7 @@
 [Previe&w]
 &Тест
 [Use default colors]
-Кольори за замовчуванням
+Кольори за замовчанням
 [UIN:]
 Номер:
 [External IP:]
@@ -308,7 +308,7 @@
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Перехід з сервера на сервер не вдався, тому що сервер повернув неправильні дані. Вам потрібно підключитися вручну.
 [Failed to request offline messages. They may be received next time you log in.]
-Помилка запиту оффлайн-повідомлень. Вони можуть бути отримані при наступному підключенні.
+Помилка запиту офлайн-повідомлень. Вони можуть бути отримані при наступному підключенні.
 [Spambot Detected]
 Виявлено спам-бот
 [Contact deleted & further events blocked.]
@@ -320,9 +320,9 @@
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
 Ви надсилаєте занадто швидко. Спробуйте надіслати повідомлення пізніше.\r\nSNAC(4.1) помилка x03
 [The contact does not support receiving offline messages.]
-Контакт не підтримує прийом оффлайн-повідомлень.
+Контакт не підтримує прийом офлайн-повідомлень.
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Цей користувач пішов з мережі. Спробуйте надіслати оффлайн-повідомлення.\r\nSNAC(4.1) помилка x04
+Цей користувач пішов з мережі. Спробуйте надіслати офлайн-повідомлення.\r\nSNAC(4.1) помилка x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
 Служба відправки повідомлень тимчасово не доступна. Спробуйте пізніше.\r\nSNAC(4.1) Помилка x05
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
@@ -1350,7 +1350,7 @@ Web-служби
 [Popup Title]
 Заголовок вікна
 [Sample Note]
-Приклад нотатки
+Приклад примітки
 [Sample Warning]
 Приклад попередження
 [Sample Error]

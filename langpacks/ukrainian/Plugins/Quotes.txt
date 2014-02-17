@@ -64,7 +64,7 @@
 [Colors]
 Кольори
 [Use default colors]
-За замовчуванням
+За замовчанням
 [Use user-defined colors]
 Вказати кольори
 [Background color]
@@ -74,7 +74,7 @@
 [Delay]
 Затримка
 [From Popup plugin]
-За замовчуванням
+За замовчанням
 [Custom]
 Налаштувати
 [Permanent]

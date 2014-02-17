@@ -82,7 +82,7 @@
 [Show dialog]
 Показувати діалог
 [Set status to offline before exit]
-"Від'єднаний" при виході
+"Не в мережі" при виході
 [Show CMDL]
 Ком. рядок
 [Activate status profile]
@@ -124,7 +124,7 @@
 [Use Windows colors]
 Кольори Windows
 [Use default colors]
-Кольори за замовчуванням
+Кольори за замовчанням
 [Delay]
 Затримка
 [On left click]
@@ -292,7 +292,7 @@
 [Give a guy some peace, would ya?]
 Дайте спокій, я зайнятий.
 [I'm a chatbot!]
-Я - робот-базікало!
+Вільний.
 [Yep, I'm here.]
 Так, я тут.
 [Nope, not here.]

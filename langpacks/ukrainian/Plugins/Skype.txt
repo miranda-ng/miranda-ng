@@ -50,7 +50,7 @@
 [Status text:]
 Текст статусу:
 [Online since:]
-Онлайн з:
+В мережі з:
 [Last event date:]
 Дата останньої події:
 [Last profile change:]
@@ -272,7 +272,7 @@ SkypeKit.exe не розпакований.
 [Female]
 Жіноча
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-Ви не підключені в даний час. Ви повинні бути онлайн, щоб оновити інформацію на сервері.
+Ви не підключені в даний час. Ви повинні бути в мережі, щоб оновити інформацію на сервері.
 [Spawn conference]
 Створити конференцію
 [Network]

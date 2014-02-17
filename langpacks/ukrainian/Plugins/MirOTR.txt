@@ -168,7 +168,7 @@ OTR не є безпечним
 [Conv. HTML]
 Конв. HTML
 [Default]
-За замовчуванням
+За замовчанням
 [Generating new key for '%s'. Continue?]
 Генерація нового ключа для '%s'. Продовжити?
 [Removing key for '%s'. Continue?]

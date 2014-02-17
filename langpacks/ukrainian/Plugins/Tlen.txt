@@ -86,7 +86,7 @@
 [Delay]
 Затримка
 [&From Popup plugin]
-&За замовчуванням
+&За замовчанням
 [&Custom]
 &Вказати
 [P&ermanent]
@@ -144,7 +144,7 @@
 [Age:]
 Вік:
 [to]
-в
+до
 [Extra Search Criterias]
 Дод. критерії пошуку
 [Status:]
@@ -318,7 +318,7 @@ Web-повідомлення
 [both]
 обидві
 [from]
-з
+від
 [none]
 немає
 [not on roster]
@@ -334,7 +334,7 @@ Web-повідомлення
 [...Denied...]
 ...Заборонено...
 [Default]
-За замовчуванням
+За замовчанням
 [%s connection]
 %s з'єднання 
 [%s SOCKS connection]

@@ -16,7 +16,7 @@
 [Contact list docking]
 Парковка
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Неможливо паркувати список контактів при використанні кордону і заголовка за замовчуванням. Використовуйте стиль "Без кордонів" або "Панель"
+Неможливо паркувати список контактів при використанні кордону і заголовка за замовчанням. Використовуйте стиль "Без кордонів" або "Панель"
 [Add New...]
 Додати...
 [Always Left]
@@ -94,7 +94,7 @@
 [Set status modes]
 Встановити режими статусу
 [Show / hide offline contacts]
-Показати/приховати оффлайн контакти
+Показати/сховати від'єднаних
 [Show menu]
 Меню
 [Show TabSRMM menu]
@@ -488,7 +488,7 @@
 [Some text colors may be overriden by the contact list skin configuration.]
 Деякі налаштування кольору можуть перекриватися налаштуваннями скіна.
 [Sunken frame]
-Втоплений кадр
+Втоплений фрейм
 [Use Overlay icons]
 Показувати значки на аватарах
 [Use contact groups]

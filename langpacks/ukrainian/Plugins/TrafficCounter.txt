@@ -32,7 +32,7 @@
 [Popup timeout]
 Тривалість вікна
 [From Popup plugin]
-За замовчуванням
+За замовчанням
 [Custom]
 Налаштувати
 [Test]

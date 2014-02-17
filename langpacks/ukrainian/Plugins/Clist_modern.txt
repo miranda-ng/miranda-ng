@@ -179,7 +179,7 @@ Ctrl+Лівий клік - ввімк. фільтр за протоколом, �
 [Allow internal requesting of status message text]
 Вирішити внутрішні запити статусних повідомлень
 [Remove status message if contact became offline]
-Видалити статусне повідомлення, якщо контакт оффлайн
+Видалити статусне повідомлення, якщо контакт офлайн
 [Use improved search method in contact list]
 Пошук за списком з фільтрацією результатів
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
@@ -527,7 +527,7 @@ Ctrl+Лівий клік - ввімк. фільтр за протоколом, �
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Хочете конвертувати '%s' в метаконтакт і додати '%s' у нього?
 [Do you want contact '%s' to be default?]
-Хочете зробити '%s' контактом за замовчуванням?
+Хочете зробити '%s' контактом за замовчанням?
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 Хочете видалити '%s' з метаконтакту '%s' і додати в '%s'?
 [Do you want contact '%s' to be added to metacontact '%s'?]

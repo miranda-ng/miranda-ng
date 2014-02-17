@@ -38,7 +38,7 @@
 [Incoming messages]
 Вхідні повідомлення
 [Plugin Default]
-За замовчуванням
+За замовчанням
 [Preview]
 Тест
 [Outgoing messages]

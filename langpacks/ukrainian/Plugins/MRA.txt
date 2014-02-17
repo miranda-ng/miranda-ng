@@ -20,7 +20,7 @@
 [Port:]
 Порт:
 [Default]
-За замовчуванням
+За замовчанням
 [Automatically request authorization on logon]
 Автоматично запитувати авторизацію при підключенні
 [Automatically add contacts to server list on logon]

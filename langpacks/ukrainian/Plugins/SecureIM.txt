@@ -10,7 +10,7 @@
 [User List]
 Список
 [Enable Secure Offline messages]
-Ввімкнути оффлайн-повідомлення
+Ввімкнути офлайн-повідомлення
 [Enable Secure File Transfer]
 Ввімкнути шифрування файлів
 [Always show status icons in contact list]
@@ -276,7 +276,7 @@ Keyrings відключені!
 [Delete RSA Key]
 Видалити ключ RSA
 [SecureIM mode (Native)]
-Шифрування (за замовчуванням)
+Шифрування (за замовчанням)
 [SecureIM mode (PGP)]
 Шифрування (PGP)
 [SecureIM mode (GPG)]
@@ -396,7 +396,7 @@ SecureIM: отримано зашифроване повідомлення:\n
 [Message Popup]
 Спливаюче вікно повідомлення
 [SecureIM [Native]]
-Шифрування (за замовчуванням)
+Шифрування (за замовчанням)
 [SecureIM [PGP]]
 Шифрування (PGP)
 [SecureIM [GPG]]

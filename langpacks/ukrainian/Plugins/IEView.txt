@@ -104,7 +104,7 @@
 [History]
 Історія
 [Default]
-За замовчуванням
+За замовчанням
 [Message Sessions]
 Бесіди
 [IEView]

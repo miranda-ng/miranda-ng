@@ -71,7 +71,7 @@
 [Allow TAB key typing in area (this will disable focus selection by TAB key)]
 Дозволити табуляцію в поле вводу (відключить перемикання фокусу по клавіші Tab)
 [Add offline contacts to multisend list]
-Додати в список розсилки оффлайн контакти
+Додати в список розсилки офлайн-контакти
 [ESC key behavior]
 Поведінка при натисканні Esc
 [Normal - close tab, if last tab is closed also close the window]
@@ -145,7 +145,7 @@
 [Only place a separator when an incoming event is announced with a popup]
 Ставити роздільник тільки при події, супроводжуваній сплив. вікном
 [RTL is default text direction]
-RTL за замовчуванням
+RTL за замовчанням
 [Use normal templates (uncheck simple to use templates if your template set supports them)]
 Звичайні шаблони (вимкніть для спрощених шаблонів)
 [Support for external plugins]
@@ -235,7 +235,7 @@ RTL шаблони
 [Define up to 5 colors which you can use with some variables]
 Виберіть до 5 кольорів для використання з змінними
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Ви вибрали зовнішній плагін для відображення повідомлень у журналі. Більшість налаштувань на цій сторінці журналу за замовчуванням і не матимуть ефекту. Для зміни зовнішнього вигляду журналу повідомлень Ви повинні налаштувати IEView або History++.
+Ви вибрали зовнішній плагін для відображення повідомлень у журналі. Більшість налаштувань на цій сторінці журналу за замовчанням і не матимуть ефекту. Для зміни зовнішнього вигляду журналу повідомлень Ви повинні налаштувати IEView або History++.
 ; Панель кнопок
 [Insert Separator]
 Вставити роздільник
@@ -319,7 +319,7 @@ RTL шаблони
 [More about advanced tweaks]
 Детальніше про додаткових настройках
 [Revert to (safe) defaults]
-Налаштування за замовчуванням
+Налаштування за замовчанням
 ;-ПОВІДОМЛЕННЯ-
 ;Повідомлення
 [Event notifications]
@@ -1363,9 +1363,9 @@ ID користувача в панелі статусу
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Проблема з налаштуваннями|Опція \\b1 Історія -> Імітувати API IEView\\b0 активна і плагін History++ активний. Це може викликати проблеми, при використанні IEView в якості журналу повідомлень.\n\nПотрібно скоригувати налаштування (потрібен перезапуск)?
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Редагування нотаток про користувача|Ви знаходитесь в режимі редагування нотаток про користувача, натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчуванням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень
+Редагування нотаток про користувача|Ви знаходитесь в режимі редагування нотаток про користувача, натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень
 [Missing component|The icon pack is missing. Please install it to the default folder icons.\n\nNo icons will be available]
-Компонент відсутній|Набір значків не знайдено. Будь ласка, встановіть його в директорію значків за замовчуванням.\n\nНа даний момент значки недоступні.
+Компонент відсутній|Набір значків не знайдено. Будь ласка, встановіть його в директорію значків за замовчанням.\n\nНа даний момент значки недоступні.
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 Плагін спливаючих вікон не знайдено. Сповіщення недоступні.
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
@@ -1401,7 +1401,7 @@ ID користувача в панелі статусу
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Шаблони скинуті. Будь ласка, закрийте і знову відкрийте всі вікна повідомлень. Це вікно буде закрито.
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Видалення всіх шаблонів і скидання на шаблони за замовчуванням. Ви впевнені, що хочете цього?
+Видалення всіх шаблонів і скидання на шаблони за замовчанням. Ви впевнені, що хочете цього?
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 У черзі є ненадіслані повідомлення, що чекають підтвердження.\nЯкщо ви закриєте вікно, Miranda спробує відправити їх, але не зможе попередити про можливі помилки.\nВи дійсно хочете закрити вікно(а)?
 [You haven't any selected contacts from the list. Click the checkbox box next to a name to send the message to that person.]

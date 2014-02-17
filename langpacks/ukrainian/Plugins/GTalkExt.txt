@@ -42,7 +42,7 @@
 [If both colors set to the same value, default colors will be used]
 Якщо обидва кольори однакові, будуть використані кольору за замовчанням
 [0 means default timeout,\n-1 means no timeout]
-0 = Умовчання,\n-1 = Нескінченно
+0 = замовчання,\n-1 = нескінченно
 [Test]
 Тест
 [Open mailbox]

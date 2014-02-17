@@ -276,7 +276,7 @@ History++ для історії вікон
 [Add Contact Permanently]
 Додати контакт постійно
 [Dismiss Popup]
-Прибрати вікно
+Закрити вікно
 [Classes]
 Класи
 [Actions]
@@ -320,7 +320,7 @@ History++ для історії вікон
 [DND]
 Не турбувати
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Out to lunch]
 Обідаю
 [On the phone]
@@ -384,7 +384,7 @@ History++ для історії вікон
 [Block]
 Заблокувати
 [Popup Mode: Auto]
-Режим спливаючих вікон: за замовчуванням
+Режим спливаючих вікон: за замовчанням
 [Popup Mode: Favorite]
 Режим спливаючих вікон: обране
 [Popup Mode: Ignore fullscreen]

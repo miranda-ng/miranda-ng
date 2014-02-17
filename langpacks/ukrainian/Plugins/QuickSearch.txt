@@ -26,7 +26,7 @@
 [Delete]
 Видалити
 [Default]
-За замовчуванням
+За замовчанням
 [Additional Options]
 Додаткові параметри
 [Tool Window Style]
@@ -258,7 +258,7 @@ ID користувача
 [Change setting through QS]
 Змінити за допомогою QuickSearch
 [default]
-за замовчуванням
+за замовчанням
 [Selected]
 Вибране
 [contacts]

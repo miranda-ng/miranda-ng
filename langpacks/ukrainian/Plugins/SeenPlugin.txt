@@ -56,7 +56,7 @@
 [Out to lunch]
 Обідаю
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [Offline]

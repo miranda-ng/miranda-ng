@@ -58,7 +58,7 @@
 [Set timeout]
 Встановити таймаут
 [Timeout value (0 = default):]
-Таймаут (0 = за замовчуванням):
+Таймаут (0 = за замовчанням):
 [Popups are enabled]
 Спливаючі вікна ввімкнені
 [Popups are disabled]
@@ -114,7 +114,7 @@
 [Vertical animate]
 Вертикальна анімація
 [You cannot set a default timeout of 0.\nValue has been reset.]
-Ви не можете встановити час очікування за замовчуванням на 0.\nЗначення скинуто.
+Ви не можете встановити час очікування за замовчанням на 0.\nЗначення скинуто.
 [Error]
 Помилка
 [Popups]

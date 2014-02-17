@@ -230,7 +230,7 @@
 [&Offline\tCtrl+0]
 Не в м&ережі\tCtrl+0
 [On&line\tCtrl+1]
-У &мережі\tCtrl+1
+В &мережі\tCtrl+1
 [&Away\tCtrl+2]
 &Відсутній\tCtrl+2
 [&NA\tCtrl+3]
@@ -240,11 +240,11 @@
 [&DND\tCtrl+5]
 Не &турбувати\tCtrl+5
 [&Free for chat\tCtrl+6]
-&Готовий базікати\tCtrl+7
+&Готовий до чату\tCtrl+7
 [&Invisible\tCtrl+7]
 &Невидимий\tCtrl+7
 [On the &Phone\tCtrl+8]
-На &телефоні\tCtrl+8
+&Телефоную\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Обід&аю\tCtrl+9
 [Tray]
@@ -334,7 +334,7 @@
 [DND]
 Не турбувати
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [Out to lunch]
@@ -364,7 +364,7 @@ _БезПротоколу_
 [Restore last status]
 Відновити останній статус
 [&FrameTitle]
-&Заголовок кадру
+&Заголовок фрейму
 [&Visible]
 Показувати
 [&Show title bar]

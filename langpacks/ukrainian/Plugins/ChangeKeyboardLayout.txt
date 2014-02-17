@@ -30,7 +30,7 @@
 [Strings for keyboard layouts]
 Рядки для розкладок клавіатури
 [Default]
-За замовчуванням
+За замовчанням
 [Invert current state]
 Інвертувати поточний стан
 [Switch off]

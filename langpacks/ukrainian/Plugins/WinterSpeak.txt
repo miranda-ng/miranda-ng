@@ -40,7 +40,7 @@
 [Occupied]
 Зайнятий
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [Occurring Events]
@@ -76,7 +76,7 @@
 [Messages]
 Повідомлення
 [Online Notification]
-Сповіщення "Онлайн"
+Сповіщення "В мережі"
 [All Events]
 Усі події
 [None]
@@ -128,4 +128,4 @@
 [%u is occupied]
 %u зайнятий
 [%u is free for chat]
-%u готовий базікати
+%u готовий поговорити

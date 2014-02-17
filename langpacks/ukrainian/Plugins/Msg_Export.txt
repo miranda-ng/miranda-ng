@@ -68,7 +68,7 @@ UTF8 у нових файлах
 [Export selected]
 Експорт вибраного
 [Set to default filename]
-Ім'я файлу за замовчуванням
+Ім'я файлу за замовчанням
 [Copy]
 Копіювати
 [Search string was not found!]

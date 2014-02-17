@@ -182,7 +182,7 @@
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Зовнішній хост для прямих підключень %s неправильний. Перенаправлення на зовнішній хост вимкнено.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
-Неправильне ім'я сервера %s. Використовується сервер мережі за замовчуванням.
+Неправильне ім'я сервера %s. Використовується сервер мережі за замовчанням.
 [Connection cannot be established. errno=%d: %s]
 Не вдалося встановити з'єднання. errno=%d: %s
 [Age:]

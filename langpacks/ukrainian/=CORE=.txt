@@ -200,7 +200,7 @@
 [Files]
 Файли
 [Online notification]
-Сповіщення "Онлайн"
+Сповіщення "В мережі"
 [Auth requests]
 Запити авторизації
 [All events]
@@ -758,7 +758,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Items]
 Елементи
 [Show divider between online and offline contacts]
-Розділяти користувачів онлайн та від'єднаних
+Розділяти користувачів у мережі та від'єднаних
 [Hot track items as mouse passes over]
 Підсвітка під курсором миші
 [Disable drag and drop of items]
@@ -780,7 +780,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Show counts of number of contacts in a group]
 Показувати кількість користувачів у групах
 [Hide group counts when there are none online]
-Ховати лічильник, якщо нема користувачів онлайн
+Ховати лічильник, якщо нема користувачів у мережі
 [Sort groups alphabetically]
 Впорядкувати групи за абеткою
 [Quick search in open groups only]
@@ -864,9 +864,9 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Status]
 Статус
 [&Offline\tCtrl+0]
-Від'єднаний\tCtrl+0
+Не в мережі\tCtrl+0
 [On&line\tCtrl+1]
-Онлайн\tCtrl+1
+В мережі\tCtrl+1
 [&Away\tCtrl+2]
 Відсутній\tCtrl+2
 [&NA\tCtrl+3]
@@ -1252,7 +1252,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Give a guy some peace, would ya?]
 Дайте спокій, я зайнятий.
 [I'm a chatbot!]
-Я - робот-базікало!
+Вільний.
 [Yep, I'm here.]
 Так, я тут.
 [Nope, not here.]
@@ -1572,7 +1572,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Standard contacts]
 Звичайні контакти
 [Online contacts to whom you have a different visibility]
-Контакти зі зміненою видимістю (онлайн)
+Контакти зі зміненою видимістю (в мережі)
 [Offline contacts]
 Від'єднані контакти
 [Contacts which are 'not on list']
@@ -1592,9 +1592,9 @@ Cповіщати про друк, коли вікно повідомлень з
 [Not focused]
 Cписок неактивний
 [Offline]
-Від'єднаний
+Не в мережі
 [Online]
-Онлайн
+В мережі
 [Away]
 Відсутній
 [NA]
@@ -1828,7 +1828,7 @@ URL від %s
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Телефон повинен починатися з "+" і містити лише цифри, пробіли, дужки і тире.
 [Invalid phone number]
-Хибний номер телефону
+Неправильний номер телефону
 [Primary]
 Основний
 [Custom %d]
@@ -1864,7 +1864,7 @@ URL від %s
 [View/change my &details...]
 Особисті дані
 [%s is online]
-%s онлайн
+%s в мережі
 [Add contact]
 Додати контакт
 [Please authorize my request and add me to your contact list.]
@@ -1898,7 +1898,7 @@ URL від %s
 [Highlighted message]
 Підсвічені повідомлення
 [Nick list members (online)]
-Користувачі (онлайн)
+Користувачі (в мережі)
 [Nick list members (away)]
 Користувачі (відсутні)
 [Message typing area]
@@ -2090,7 +2090,7 @@ Miranda не може відкрити цей профіль
 [This change is not known to be safe.]
 Невідомо, чи є ця зміна налаштувань безпечною.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Хибний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
+Неправильний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
 [Authorization request from %s%s: %s]
 Запит авторизації від %s%s: %s
 [You were added by %s%s]
@@ -2312,7 +2312,7 @@ ID облікового запису
 [Account %s is being disabled]
 Відключення облікового запису %s
 [Account is online. Disable account?]
-Обліковий запис онлайн. Відключити?
+Обліковий запис у мережі. Відключити?
 [Account %s is being deleted]
 Видалення облікового запису %s
 [You need to disable plugin to delete this account]
@@ -2338,7 +2338,7 @@ ID облікового запису
 [Miranda scope]
 Miranda
 [User online]
-Користувач онлайн
+Користувач у мережі
 [Group (open)]
 Група (розгорнута)
 [Group (closed)]

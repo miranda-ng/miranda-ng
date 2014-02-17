@@ -238,7 +238,7 @@ Wildcard пошук по мережі
 [Enable (*)]
 Активувати (*)
 [Ignore channel messages by default]
-Ігнорувати повідомлення чат-кімнати за замовчуванням
+Ігнорувати повідомлення чат-кімнати за замовчанням
 [Ignore filetransfer requests]
 Ігнорувати передачі файлів
 [Ignore DCC Chat requests]
@@ -354,7 +354,7 @@ DCC: Запит на продовження закачування файлу в
 [Outgoing commands are not shown]
 Вихідні команди не показані
 [The time interval for the buddy check function is now at default setting]
-Інтервал перевірки приятелів встановлений за замовчуванням
+Інтервал перевірки приятелів встановлений за замовчанням
 [The time interval for the buddy check function is now %u seconds]
 Інтервал перевірки приятелів становить %u секунд
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
@@ -402,7 +402,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 [The dcc chat connection is not active]
 З'єднання DCC-чату неактивне
 [Please choose an IRC-network to go online. This network will be the default.]
-Виберіть мережу IRC. Ця мережа буде встановлена за замовчуванням.
+Виберіть мережу IRC. Ця мережа буде встановлена за замовчанням.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Неможливо встановити підключення. Ви не ввели всі необхідні дані (нік, ID користувача та ім'я)
 [Main]
@@ -488,7 +488,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 [Click to delete the commands for this event]
 Клацніть для видалення команд цієї події
 [Default ANSI codepage]
-Сторінка ANSI за замовчуванням
+Сторінка ANSI за замовчанням
 [Add new ignore]
 Додати нове правило
 [Edit this ignore]
@@ -708,7 +708,7 @@ Nickserv вбити фантома
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 Повільніше! Шукає в мережі ніки відповідно до шаблону. Хостмаска є обов'язковою, а поле "Нік" має містити не менше 4-х символів. Дозволені символи підстановки (? і *).
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Налаштування не збережені.\n\nПоле "Нік" має містити як мінімум чотири знаки (включаючи маски) і збігатися з псевдонімом за замовчуванням для цього контакту.
+Налаштування не збережені.\n\nПоле "Нік" має містити як мінімум чотири знаки (включаючи маски) і збігатися з псевдонімом за замовчанням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна хостмаска.
 [Please wait...]

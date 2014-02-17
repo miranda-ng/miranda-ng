@@ -18,7 +18,7 @@
 [Change only if current status is Online]
 Змінювати тільки при статусі "В мережі"
 [Use default status message]
-Статусне повідомлення за замовчуванням
+Статусне повідомлення за замовчанням
 [Disable Sounds]
 Вимкнути звуки
 [Show the Tray Icon]

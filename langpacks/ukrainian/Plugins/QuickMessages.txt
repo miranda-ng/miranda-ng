@@ -40,7 +40,7 @@
 [- Contacts Protocol name (upper case)]
 - Ім'я контакту (Великі літери)
 [- Contact display name]
-- Ім'я контакту за замовчуванням
+- Ім'я контакту за замовчанням
 [Tips:]
 Підказки:
 [*Rename menu item into "---" to insert separator]

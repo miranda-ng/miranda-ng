@@ -106,7 +106,7 @@
 [Challenge sent]
 Відправлено питання
 [Default colors]
-Кольори за замовчуванням
+Кольори за замовчанням
 [Windows colors]
 Кольори Windows
 [Default timeout]

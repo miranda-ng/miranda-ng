@@ -68,9 +68,9 @@
 [Use secure connection also for channel requests]
 Безпечне з'єднання для запитів каналу
 [Also disconnect chat when going to offline]
-Відключати чат на сайті при виході в оффлайн
+Відключати чат на сайті при виході в офлайн
 [Map non-standard statuses to Invisible (instead of Online)]
-Нестандартні статуси як "Невидимий" (замість "Онлайн")
+Нестандартні статуси як "Невидимий" (замість "В мережі")
 [Allow posting statuses to my pages (may slow down login)]
 Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
 [Use this server for opening links:]

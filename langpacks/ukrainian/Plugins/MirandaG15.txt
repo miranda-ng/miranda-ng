@@ -82,7 +82,7 @@
 [Incoming file transfers]
 Прийом файлів
 [Protocol disconnected]
-Протокол від'єднано
+Протокол відключений
 [Protocol connected]
 Протокол приєднано
 [Protocol status changes]

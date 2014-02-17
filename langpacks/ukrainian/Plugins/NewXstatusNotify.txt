@@ -16,7 +16,7 @@
 [Invisible]
 Невидимий
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Away]
 Відсутній
 [NA]
@@ -188,7 +188,7 @@
 [Sound for the status]
 Звук для статусу
 [From offline]
-З оффлайну
+З офлайну
 [** All contacts **]
 ** Усі контакти **
 [(default sound)]
@@ -238,7 +238,7 @@
 [(U) feels talkative!]
 готовий поговорити!
 [User: Free For Chat]
-Користувач: готовий базікати
+Користувач: готовий до чату
 [(M) went Away]
 відійшов
 [(F) went Away]
@@ -298,7 +298,7 @@
 [New Status Notify]
 Зміна статусу
 [User: from offline (has priority!)]
-Користувач: з оффлайну (має пріоритет!)
+Користувач: з офлайну (має пріоритет!)
 [Extra status changed]
 хСтатус змінено
 [Extra status message changed]

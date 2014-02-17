@@ -128,7 +128,7 @@
 [Show counts of number of contacts in a group]
 Показувати кількість користувачів у групах
 [Hide group counts when there are none online]
-Ховати лічильник, якщо нема користувачів онлайн
+Ховати лічильник, якщо нема користувачів у мережі
 [Sort groups alphabetically]
 Впорядкувати групи за абеткою
 [Quicksearch in open groups only]
@@ -170,9 +170,9 @@
 [&Status]
 Статус
 [&Offline\tCtrl+0]
-Від'єднаний\tCtrl+0
+Не в мережі\tCtrl+0
 [On&line\tCtrl+1]
-Онлайн\tCtrl+1
+В мережі\tCtrl+1
 [&Away\tCtrl+2]
 Відсутній\tCtrl+2
 [&NA\tCtrl+3]
@@ -220,9 +220,9 @@
 [Not focused]
 Cписок неактивний
 [Offline]
-Від'єднаний
+Не в мережі
 [Online]
-Онлайн
+В мережі
 [Away]
 Відсутній
 [NA]

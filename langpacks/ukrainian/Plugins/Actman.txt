@@ -286,7 +286,7 @@
 [Unignore Contact]
 Зняти ігнорування
 [restart in default profile or profile manager]
-з профілем за замовчуванням або менеджером профілів
+з профілем за замовчанням або менеджером профілів
 [restart with current profile]
 з поточним профілем
 [Restarts Miranda]

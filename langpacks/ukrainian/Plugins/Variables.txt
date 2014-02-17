@@ -154,7 +154,7 @@ x - y - ...
 [get parent metacontact of contact x]
 повертає батьківський метаконтакт субконтакта x
 [get default subcontact x]
-повертає субконтакт за замовчуванням метаконтакту x
+повертає субконтакт за замовчанням метаконтакту x
 [get the 'most online' subcontact x]
 повертає субконтакт "у мережі" метаконтакту x
 [Miranda Core Global]

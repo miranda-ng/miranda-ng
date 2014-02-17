@@ -250,7 +250,7 @@
 [Use same style as in the message log]
 Той же стиль, що і в журналі
 [Use default colours]
-Кольори за замовчуванням
+Кольори за замовчанням
 [Use custom colours]
 Задати кольору
 [Text]
@@ -580,13 +580,13 @@ Unicode вимкнено
 [DND]
 Не турбувати
 [Free for chat]
-Готовий базікати
+Готовий до чату
 [Invisible]
 Невидимий
 [Out to lunch]
 Обідаю
 [On the phone]
-На телефоні
+Телефоную
 [** New contacts **]
 ** Нові контакти **
 [** Unknown contacts **]
