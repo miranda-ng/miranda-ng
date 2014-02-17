@@ -132,7 +132,7 @@ parametry
 [Result]
 WYNIK
 [Result type]
-
+Typ wyniku
 [Free memory]
 Wolna pamięć
 [Save]
