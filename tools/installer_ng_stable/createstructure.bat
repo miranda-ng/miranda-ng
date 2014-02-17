@@ -34,6 +34,8 @@ Tools\wget.exe -O tmp\cln_skinedit_x32.zip http://miranda-ng.org/distr/stable/x3
 Tools\wget.exe -O tmp\cln_skinedit_x64.zip http://miranda-ng.org/distr/stable/x64/Plugins/cln_skinedit.zip
 Tools\wget.exe -O tmp\scriver_x32.zip http://miranda-ng.org/distr/stable/x32/Plugins/scriver.zip
 Tools\wget.exe -O tmp\scriver_x64.zip http://miranda-ng.org/distr/stable/x64/Plugins/scriver.zip
+Tools\wget.exe -O tmp\dbchecker_x32.zip http://miranda-ng.org/distr/installer/dbchecker_x32.zip
+Tools\wget.exe -O tmp\dbchecker_x64.zip http://miranda-ng.org/distr/installer/dbchecker_x64.zip
 Tools\wget.exe -O tmp\langpack_czech.zip http://miranda-ng.org/distr/stable/x32/langpack_czech.zip
 Tools\wget.exe -O tmp\langpack_german.zip http://miranda-ng.org/distr/stable/x32/langpack_german.zip
 Tools\wget.exe -O tmp\langpack_polish.zip http://miranda-ng.org/distr/stable/x32/langpack_polish.zip
@@ -49,11 +51,13 @@ rem Extract
 ..\7-zip\7z.exe x tmp\clist_nicer_x32.zip -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\cln_skinedit_x32.zip -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
+..\7-zip\7z.exe x tmp\dbchecker_x32.zip -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\miranda-ng-v%MirVer%_x64.7z -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\clist_nicer_x64.zip -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\cln_skinedit_x64.zip -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+..\7-zip\7z.exe x tmp\dbchecker_x64.zip -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
 ..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
 ..\7-zip\7z.exe x tmp\lang*.zip -y -oInnoNG_32\Files
