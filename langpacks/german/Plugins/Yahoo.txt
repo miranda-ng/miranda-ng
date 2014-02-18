@@ -212,7 +212,7 @@ Die ID, die Sie versuchen hinzuzufügen, ist ungültig.
 Unbekannter Fehler.
 [New Mail]
 Neue E-Mail
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Sie haben %i ungelesene Nachr.
 [New Mail (%i msgs)]
 Neue E-Mail (%i Nachr.)

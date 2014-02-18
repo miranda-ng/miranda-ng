@@ -43,8 +43,8 @@
 删除
 [Status Notify]
 状态通知
-[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-个性声音被禁用.\n\n启用他们, 可至选项 - 状态 - 通知, 启用 \n"使用个性声音" 选择框, 并重新打开此对话框.
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
+个性声音被禁用.\n\n启用他们, 可至选项 - 状态 - 通知, 启用\n"使用个性声音" 选择框, 并重新打开此对话框.
 [Sounds]
 声音
 [Popups]

@@ -260,5 +260,5 @@ Globalne
 Nieznany protokół
 [Expanded]
 Rozwinięta
-[Colapsed]
+[Collapsed]
 Zwinięta

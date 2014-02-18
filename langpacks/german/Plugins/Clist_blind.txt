@@ -260,5 +260,5 @@ Global
 Unbekanntes Protokoll
 [Expanded]
 Ausgeklappt
-[Colapsed]
+[Collapsed]
 Eingeklappt

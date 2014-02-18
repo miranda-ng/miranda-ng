@@ -107,7 +107,7 @@ Profili Gö&ster
 Takvim Anımsatıcı
 [%s has rejected your request and sent the following message:]
 %s isteğinizi red etti ve şu iletiyi gönderdi:
-[You Have %i unread msgs]
+[You have %i unread msgs]
 %i okunmamış iletiniz var
 [New Mail (%i msgs)]
 Yeni Posta (%i ileti)

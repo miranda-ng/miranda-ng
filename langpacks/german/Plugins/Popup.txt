@@ -359,8 +359,8 @@ Globaler Status
 Protokoll Status
 [You cannot specify a value lower than %d and higher than %d.]
 Werte kleiner als %d und größer als %d sind nicht zulässig.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-'Popups neu ordnen' ist momentan deaktiviert.\r\nDies kann Popups falsch darstellen, wenn Avatare\r\nund Textersetzungen verwendet werden (hauptsächlich NewStatusNotify).\r\nWollen Sie die Popup Neuanordnung jetzt aktivieren?
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+'Popups neu ordnen' ist momentan deaktiviert.\r\nDies kann Popups falsch darstellen, wenn Avatare\r\nund Textersetzungen verwendet werden (hauptsächlich NewXstatusNotify).\r\nWollen Sie die Popup Neuanordnung jetzt aktivieren?
 [Popup Plus Warning]
 Popup Plus Warnung
 ;file \plugins\Popup\src\opt_skins.cpp

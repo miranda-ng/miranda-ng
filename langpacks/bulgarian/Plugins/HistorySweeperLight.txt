@@ -10,7 +10,7 @@
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 History Sweeper Light
-[Sweep history for this contacts:]
+[Sweep history for these contacts:]
 Изчистване на историята за следните контакти:
 [Action 1]
 Действие 1
@@ -20,7 +20,7 @@ History Sweeper Light
 Изчистване при затваряне на прозореца за съобщения
 [Clicking on the icon in the status bar will change settings]
 
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 Ползване на НЕСИГУРЕН режим (опасен е за БД, но изчиства по-бързо)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]

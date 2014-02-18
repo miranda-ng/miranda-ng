@@ -237,5 +237,5 @@
 全局
 [Expanded]
 展开
-[Colapsed]
+[Collapsed]
 关闭

@@ -195,8 +195,8 @@ YAMN (内置 POP3) 读取错误
 文件读取时发生错误. 文件已在使用中? 
 [Error while copying data to disk occurred. Is file in use?]
 复制资料至磁盘时发生错误. 文件正在使用中? 
-[POP3 plugin- write file error]
-POP3 插件- 读取文件错误
+[POP3 plugin - write file error]
+POP3 插件 - 读取文件错误
 [Connecting to server]
 正在连接至服务器
 [Entering POP3 account]

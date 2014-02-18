@@ -260,5 +260,5 @@ Global
 Protocolo desconocido
 [Expanded]
 Expandido
-[Colapsed]
+[Collapsed]
 Colapsado

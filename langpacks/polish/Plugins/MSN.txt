@@ -263,7 +263,7 @@ Powiadomienia
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Kontakt chciał przesłać dane webcam (obecnie niewspierane)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Kontakt chciał zobaczyć twoje dane webcam (obecnie niewspierane)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

@@ -1,7 +1,7 @@
 ﻿[Failed to write to the RichEdit the buffer was to small.]
 [Error: Optimal buffer size decrecied to a to low size!]
 [Internal error! (lExtraRead >= 0)]
-[Faile to execute external file view]
+[Failed to execute external file view]
 [Failed to load Rich Edit ( RICHED32.DLL )]
 [Failed to get handle to RichEdit!]
 [Failed to open file\r\n%s\r\n\r\nContact handle is invalid]

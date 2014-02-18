@@ -258,5 +258,5 @@ ms времетраене
 Непознат протокол
 [Expanded]
 Разгърната
-[Colapsed]
+[Collapsed]
 

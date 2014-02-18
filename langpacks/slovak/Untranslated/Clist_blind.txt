@@ -36,4 +36,4 @@
 [Global]
 [Unknown Protocol]
 [Expanded]
-[Colapsed]
+[Collapsed]

@@ -119,7 +119,7 @@ Hálózat
 Szerver lista
 [Contact tried to send its webcam data (not currently supported)]
 Partner megpróbálta elküldeni a webkamerája adatait (jelenleg nem támogatott)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Partner megpróbálta megtekinteni a webkamerád adatait (jelenleg nem támogatott)
 [Live Mail]
 Live Mail

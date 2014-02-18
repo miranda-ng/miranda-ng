@@ -69,7 +69,7 @@ Netwerk
 Server lijst
 [Contact tried to send its webcam data (not currently supported)]
 Persoon heeft geprobeerd zijn webcam gegevens te versturen (nog niet ondersteund)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Persoon heeft geprobeerd onze webcam gegevens te bekijken (nog niet ondersteund)
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Bericht is te lang: MSN berichten zijn gelimiteerd tot 1202 UTF8 karakters

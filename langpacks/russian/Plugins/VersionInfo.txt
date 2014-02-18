@@ -75,7 +75,7 @@ UUID плагина
 Информация успешно скопирована в буфер обмена.
 [Customize using folders plugin]
 Настройка с помощью плагина folders
-[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+[Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Вы уверены, что хотите включить эту опцию?\nПожалуйста, используйте её, только если понимаете, для чего она или если кто-либо попросил вас включить её.
 [Show plugin UUIDs?]
 UUID плагинов

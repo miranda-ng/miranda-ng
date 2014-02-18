@@ -113,7 +113,7 @@ Nettverk
 Serverliste
 [Contact tried to send its webcam data (not currently supported)]
 Kontakten forsøkte å sende webcam data.(ikke støttet for øyeblikket)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Kontakten forsøkte å se din webcam data (ikke støttet for øyeblikket)
 [Live Mail]
 Live E-post

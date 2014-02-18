@@ -46,7 +46,7 @@ Powiadamiaj gdy
 Tryb pełnoekranowy
 [Screen Saver is running]
 Wygaszacz jest włączony
-[Workstation is Locked]
+[Workstation is locked]
 Komputer jest zablokowany
 [Defined programs are running]
 Zdefiniowane programy są uruchomione

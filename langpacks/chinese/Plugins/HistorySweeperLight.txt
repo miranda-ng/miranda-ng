@@ -7,11 +7,11 @@
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
 此插件可清除系统历史, 所有联系人历史或仅选定者; 也可清除旧于某段时间历史; 并可设定在 Miranda NG 启动/关闭时执行这些操作.
-[Sweep history for this contacts:]
+[Sweep history for these contacts:]
 清除以下联系人历史:
 [Sweep on closing message window]
 关闭窗口时清理
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 使用 UNSAFE 模式 (可更快速清除, 但对数据库有危害)
 [*** System History ***]
 *** 系统历史 ***

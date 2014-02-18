@@ -117,7 +117,7 @@ Definir &Status Padrão
 Relembrar Calendário
 [%s has rejected your request and sent the following message:]
 %s rejeitou seu pedido e enviou a seguinte mensagem:
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Você tem %i mensagens não lidas
 [New Mail (%i msgs)]
 Novo E-mail (i% msgs)

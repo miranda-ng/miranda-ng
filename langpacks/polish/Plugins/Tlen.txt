@@ -212,7 +212,7 @@ Udziel autoryzacji
 ;file \protocols\Tlen\src\tlen_avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Nie można utworzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
-[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
 Nie można zapisać pliku nowego awataru "%s". Błąd:\n\t%s (Błąd: %d)
 [Error while setting avatar on Tlen account (no response)]
 Błąd podczas ustawiania awatara na koncie Tlen (brak odpowiedzi)

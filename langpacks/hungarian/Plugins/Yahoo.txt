@@ -111,7 +111,7 @@ Webkamerameghívásod érkezett. (jelenleg nem támogatott)
 Naptár Emlékeztetõ
 [%s has rejected your request and sent the following message:]
 %s visszautasította a kérelmedet és a következõ üzenetet küldte:
-[You Have %i unread msgs]
+[You have %i unread msgs]
 %i olvasatlan leveled van
 [New Mail (%i msgs)]
 Új levél (%i üzenet)

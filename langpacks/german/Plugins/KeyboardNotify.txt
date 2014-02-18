@@ -46,7 +46,7 @@ Blinken wenn
 Vollbildmodus
 [Screen Saver is running]
 Bildschirmschoner läuft
-[Workstation is Locked]
+[Workstation is locked]
 Arbeitsstation gesperrt ist
 [Defined programs are running]
 Bestimmte Programme laufen

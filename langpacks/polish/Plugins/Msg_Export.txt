@@ -5,7 +5,7 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-[Exports every message, URL or File you receive to a text file.]
+[Exports every message, URL or file you receive to a text file.]
 Eksportuje każdą wiadomość, URL lub plik jaki otrzymasz do pliku tekstowego.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
@@ -79,7 +79,7 @@ Nie udało się zapisać do pola edycji z formatowaniem, zbyt mały bufor.
 Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
 [Internal error! (lExtraRead >= 0)]
 Błąd wewnętrzny! (lExtraRead >= 0)
-[Faile to execute external file view]
+[Failed to execute external file view]
 Nie udało się wykonać zewnętrznego widoku pliku
 [Failed to load Rich Edit ( RICHED32.DLL )]
 Nie udało się załadować pola edycji z formatowaniem ( RICHED32.dll )
@@ -124,13 +124,13 @@ Nie znaleziono kontaktów do eksportu
 Odczyt informacji z bazy danych (etap 1 z 2)
 [Failed to export at least one contact]
 Nie udało się eksportować co najmniej jednego kontaktu
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 Sortowanie i zapisywanie informacji z profilu ( Etap 2 z 2 )
 [Max line width must be at least %d]
 Szerokość linii musi mieć co najmniej %d
 [You need to restart Miranda to change the history function]
 Musisz zrestartować Mirandę aby zmienić funkcję historii
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 Nie udało się pobrać ścieżki Msg_Export.dll\nProszę samemu wskazać Msg_Export.txt
 [File]
 Plik

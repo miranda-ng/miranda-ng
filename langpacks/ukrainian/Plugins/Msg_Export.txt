@@ -5,7 +5,7 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-[Exports every message, URL or File you receive to a text file.]
+[Exports every message, URL or file you receive to a text file.]
 Експорт повідомлень, посилань чи отриманих файлів у текстовий файл.
 [Browse]
 Огляд
@@ -93,13 +93,13 @@ UTF8 у нових файлах
 Крок 1: Читання бази даних
 [Failed to export at least one contact]
 Не вдалося експортувати як мінімум 1 контакт
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 Крок 2: Сортування і запис інформації
 [Max line width must be at least %d]
 Макс. ширина рядка повинна бути не менше %d
 [You need to restart Miranda to change the history function]
 Зміни функції історії набудуть чинності після перезапуску Miranda
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 Не вдалося отримати шлях до Msg_Export.dll\nБудь ласка, знайдіть Msg_Export.txt самостійно.
 [File]
 Файл

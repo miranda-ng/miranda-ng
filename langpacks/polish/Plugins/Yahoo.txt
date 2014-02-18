@@ -212,7 +212,7 @@ ID, które próbowałeś dodać jest niepoprawne.
 Nieznany błąd.
 [New Mail]
 Nowy mail
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Masz %s nieprzeczytanych wiad.
 [New Mail (%i msgs)]
 Nowy mail (%i wiad.)

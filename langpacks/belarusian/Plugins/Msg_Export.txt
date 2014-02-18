@@ -5,7 +5,7 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-[Exports every message, URL or File you receive to a text file.]
+[Exports every message, URL or file you receive to a text file.]
 Экспарт паведамленняў, спасылак і прынятых файлаў у тэкставы файл.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
@@ -98,13 +98,13 @@ Miranda NG (Плагін экспарту паведамленняў)
 Няма кантактаў для экспарту
 [Failed to export at least one contact]
 Не атрымалася экспартаваць прынамсі 1 кантакт
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 Крок 2: Сартаванне і запіс інфармацыі
 [Max line width must be at least %d]
 Макс шырыня радка павінна быць не меней %d
 [You need to restart Miranda to change the history function]
 Змены функцыі гісторыі адбудуцца пасля перазапуску
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 Не атрымалася атрымаць шлях да Msg_Export.dll\n Калі ласка знайдзіце Msg_Export.txt самастойна
 [File]
 Файл

@@ -46,7 +46,7 @@
 
 [Screen Saver is running]
 Стартира Screen Saver
-[Workstation is Locked]
+[Workstation is locked]
 
 [Defined programs are running]
 

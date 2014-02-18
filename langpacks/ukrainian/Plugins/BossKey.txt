@@ -35,7 +35,7 @@
 Пароль:
 [Cancel]
 Скасувати
-[Workstation is Locked]
+[Workstation is locked]
 Комп'ютер заблоковано
 [Screen Saver is running]
 Запущена заставка

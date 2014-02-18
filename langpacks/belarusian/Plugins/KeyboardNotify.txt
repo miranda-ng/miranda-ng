@@ -46,7 +46,7 @@
 Поўнаэкранны рэжым
 [Screen Saver is running]
 Запушчана застаўка
-[Workstation is Locked]
+[Workstation is locked]
 Камп'ютар заблакаваны
 [Defined programs are running]
 Запушчана ўказ. праграма

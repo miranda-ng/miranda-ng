@@ -40,7 +40,7 @@ OK
 Anuluj
 [EN]
 EN
-[Workstation is Locked]
+[Workstation is locked]
 Komputer jest zablokowany
 [Screen Saver is running]
 Wygaszacz jest włączony

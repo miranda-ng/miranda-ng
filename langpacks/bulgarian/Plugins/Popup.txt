@@ -359,7 +359,7 @@ Popup група
 Състояния на протоколите
 [You cannot specify a value lower than %d and higher than %d.]
 Не е възможно задаването на стойност по-малка от %d и по-голяма от %d.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 
 [Popup Plus Warning]
 Popup Plus Предупреждение

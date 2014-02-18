@@ -117,7 +117,7 @@ Rede
 Lista de servidor
 [Contact tried to send its webcam data (not currently supported)]
 O Contato tentou enviar seus dados de webcam (atualmente não suportada)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 O Contato tentou visualizar os dados da nossa webcam (atualmente não suportado)
 [Live Mail]
 Live Mail

@@ -212,7 +212,7 @@ Yahoo поща
 Непозната грешка.
 [New Mail]
 Нов имейл
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Имате %i непрочетени съобщения
 [New Mail (%i msgs)]
 Ново писмо (%i съобщения)

@@ -70,7 +70,7 @@ Klänge aktivieren
 Popups aktivieren
 [Status Notify]
 Status-Benachrichtigung
-[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
 Individuelle Klänge sind deaktiviert.\n\nUm diese einzuschalten, aktiviere unter Einstellungen -> Status -> Statusmeldungen die Option "Individuelle Klänge nutzen" und öffne anschließend diesen Dialog erneut.
 [Sounds]
 Klänge

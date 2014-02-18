@@ -212,7 +212,7 @@ Accorder l'autorisation
 ;file \protocols\Tlen\src\tlen_avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 
-[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
 
 [Error while setting avatar on Tlen account (no response)]
 

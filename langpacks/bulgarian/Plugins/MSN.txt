@@ -263,7 +263,7 @@ IP информацията е налична само след вписване
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Контакт се опита да изпрати данни от web камера (не се поддържа)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Контакт се опита да види данните от вашата web камера (не се поддържа)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]

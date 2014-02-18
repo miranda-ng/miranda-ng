@@ -129,7 +129,7 @@ Yahoo 邮箱(&Y)
 日历提醒
 [%s has rejected your request and sent the following message:]
 %s 已拒绝您的请求, 并发送了以下消息: 
-[You Have %i unread msgs]
+[You have %i unread msgs]
 您有 %i 个未读消息
 [New Mail (%i msgs)]
 新邮件 (%i 个消息)

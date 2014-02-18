@@ -262,7 +262,7 @@ Błąd alokacji pamięci podczas odczytu danych
 Błąd odczytu pliku. Plik jest obecnie w użyciu?
 [Error while copying data to disk occurred. Is file in use?]
 Błąd podczas kopiowania danych na dysk. Czy plik jest w użyciu?
-[POP3 plugin- write file error]
+[POP3 plugin - write file error]
 Wtyczka POP3 - bład zapisu pliku
 [Connecting to server]
 Łączenie do serwera

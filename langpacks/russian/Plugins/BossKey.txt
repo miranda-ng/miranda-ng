@@ -35,7 +35,7 @@
 Пароль:
 [Cancel]
 Отмена
-[Workstation is Locked]
+[Workstation is locked]
 Компьютер заблокирован
 [Screen Saver is running]
 Запущена заставка

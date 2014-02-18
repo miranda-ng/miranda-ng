@@ -256,7 +256,7 @@ YAMN (унутраны POP3) памылка чытання
 Памылка чытання файла. Файл ужо выкарыстоўваецца?
 [Error while copying data to disk occurred. Is file in use?]
 Памылка капіявання дадзеных на дыску. Файл ужо выкарыстоўваецца?
-[POP3 plugin- write file error]
+[POP3 plugin - write file error]
 POP3 плагін - памылка пры запісе ў файл
 [Connecting to server]
 Злучаюся з серверам

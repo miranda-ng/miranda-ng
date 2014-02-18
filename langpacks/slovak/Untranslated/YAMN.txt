@@ -96,7 +96,7 @@
 [Memory allocation error while data reading]
 [Reading file error. File already in use?]
 [Error while copying data to disk occurred. Is file in use?]
-[POP3 plugin- write file error]
+[POP3 plugin - write file error]
 [Connecting to server]
 [Entering POP3 account]
 [Searching for new mail message]

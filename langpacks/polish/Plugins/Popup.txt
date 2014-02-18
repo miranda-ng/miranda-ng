@@ -359,8 +359,8 @@ Globalny status
 Status protokołu
 [You cannot specify a value lower than %d and higher than %d.]
 Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Opcja zmiany kolejności popupów jest obecnie wyłączona.\r\nMoże to spowodować źle ułożone popupy w połączeniu z\r\nawatarami i zamianami tekstu (głównie NewStatusNotify)\r\n\r\nCzy chcesz włączyć zmianę kolejności popupów teraz?\r
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Opcja zmiany kolejności popupów jest obecnie wyłączona.\r\nMoże to spowodować źle ułożone popupy w połączeniu z\r\nawatarami i zamianami tekstu (głównie NewXstatusNotify)\r\n\r\nCzy chcesz włączyć zmianę kolejności popupów teraz?\r
 [Popup Plus Warning]
 Ostrzeżenie Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp

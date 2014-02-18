@@ -131,7 +131,7 @@ Ağ
 Sunucudaki liste
 [Contact tried to send its webcam data (not currently supported)]
 Kişi webcam görüntüsü yollamaya çalıştı (şu anda desteklenmiyor)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Kişi webcam görüntünüzü almaya çalıştı (şu anda desteklenmiyor)
 [Live Mail]
 Live Posta

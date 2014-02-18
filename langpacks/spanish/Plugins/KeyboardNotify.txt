@@ -46,7 +46,7 @@ segundos
 
 [Screen Saver is running]
 
-[Workstation is Locked]
+[Workstation is locked]
 
 [Defined programs are running]
 

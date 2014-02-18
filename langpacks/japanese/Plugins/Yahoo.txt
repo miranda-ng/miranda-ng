@@ -139,7 +139,7 @@ Yahoo メール (&Y)
 カレンダーリマインダー
 [%s has rejected your request and sent the following message:]
 %s はあなたのリクエストを拒否し , 次のメッセージを送信:
-[You Have %i unread msgs]
+[You have %i unread msgs]
 %i 通の未読メッセージ
 [New Mail (%i msgs)]
 新着メール ( %i 通 )

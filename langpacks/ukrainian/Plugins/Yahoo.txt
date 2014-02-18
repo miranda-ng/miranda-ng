@@ -193,7 +193,7 @@ HTTP-з'єднання Yahoo
 Невідома помилка.
 [New Mail]
 Нова пошта
-[You Have %i unread msgs]
+[You have %i unread msgs]
 У вас %i непрочитаних повідомлень
 [New Mail (%i msgs)]
 Нова пошта (%i листів)

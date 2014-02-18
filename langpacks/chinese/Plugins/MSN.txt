@@ -177,7 +177,7 @@ MSN 协议要求消息超时不低于 60 秒. 请修正超时值.
 服务器列表
 [Contact tried to send its webcam data (not currently supported)]
 联系人尝试发送视频资料 (暂不支持)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 联系人尝试查看我方视频情况 (暂不支持)
 [Live Mail]
 Live 邮件

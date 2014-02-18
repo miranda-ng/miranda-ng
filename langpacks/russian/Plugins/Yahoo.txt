@@ -183,7 +183,7 @@ ID
 Неизвестная ошибка.
 [New Mail]
 Новая почта
-[You Have %i unread msgs]
+[You have %i unread msgs]
 У вас %i не прочитанных сообщений
 [New Mail (%i msgs)]
 Новая почта (%i писем)

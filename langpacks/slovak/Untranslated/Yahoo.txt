@@ -83,7 +83,7 @@
 [The ID you tried to add is invalid.]
 [Unknown Error.]
 [New Mail]
-[You Have %i unread msgs]
+[You have %i unread msgs]
 [New Mail (%i msgs)]
 [From: %s\nSubject: %s]
 [Yahoo System Message]

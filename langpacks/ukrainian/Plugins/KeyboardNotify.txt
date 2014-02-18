@@ -45,7 +45,7 @@
 Повноекранний режим
 [Screen Saver is running]
 Запущена заставка
-[Workstation is Locked]
+[Workstation is locked]
 Комп'ютер заблоковано
 [Defined programs are running]
 Запущена вказ. програма

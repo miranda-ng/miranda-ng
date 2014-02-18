@@ -17,7 +17,7 @@
 [Notify when]
 [Full Screen mode]
 [Screen Saver is running]
-[Workstation is Locked]
+[Workstation is locked]
 [Defined programs are running]
 [All other situations]
 [Only notify if status is]

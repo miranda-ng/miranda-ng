@@ -51,7 +51,7 @@ Imposta Stati Personalizzati
 Posta &Yahoo
 [%s has rejected your request and sent the following message:]
 %s ha respinto la vostra richiesta ed ha inviato il seguente messaggio:
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Ci sono %i msg non letti
 [New Mail (%i msgs)]
 Nuova Posta (%i msg)

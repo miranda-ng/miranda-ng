@@ -75,5 +75,5 @@ Võrgustik
 Serveri nimekiri
 [Contact tried to send its webcam data (not currently supported)]
 Kontakt proovis saata veebikaamera andmeid (ei toetata)
-[Contact tried to view our webcam data (not currently supported)]
+[Contact tried to view your webcam data (not currently supported)]
 Kontakt proovis vaadata meie veebikaamera andmeid (ei toetata)

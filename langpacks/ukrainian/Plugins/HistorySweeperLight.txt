@@ -9,7 +9,7 @@
 Очистка системної історії, історії всіх контактів або лише вказаних; може видаляти історію старішу за вказаний час; видалення можливе при запуску або виході з програми.
 [History Sweeper Light]
 Очистка історії
-[Sweep history for this contacts:]
+[Sweep history for these contacts:]
 Очистити історію для цих контактів:
 [Action 1]
 Дія 1
@@ -19,7 +19,7 @@
 Очищати при закритті вікна повідомлень
 [Clicking on the icon in the status bar will change settings]
 Клацання по значкові на панелі статусів змінює налаштування
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 Режим НЕБЕЗПЕЧНИЙ (швидший, але є ризик пошкодження профілю)
 [Keep all events]
 Усі події зберігаються в історії

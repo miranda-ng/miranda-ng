@@ -27,7 +27,7 @@
 Закачати на сайт
 [Forum style formatting]
 Форматувати для форуму
-[Aditional options:]
+[Additional options:]
 Додаткові налаштування:
 [Do it now]
 Зробити
@@ -77,7 +77,7 @@ UUID плагіна
 Інформацію успішно скопійовано в буфер обміну.
 [Customize using folders plugin]
 Налаштування за допомогою плагіна Folders
-[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+[Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Ви впевнені, що хочете ввімкнути цю опцію?\nБудь ласка, використовуйте її лише якщо розумієте, для чого вона, або якщо хто-небудь попросив вас увімкнути її.
 [Show plugin UUIDs?]
 UUID плагінів

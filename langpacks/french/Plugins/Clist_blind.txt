@@ -260,5 +260,5 @@ Général
 Protocole inconnu
 [Expanded]
 Étendu
-[Colapsed]
+[Collapsed]
 Réduit

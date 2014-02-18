@@ -9,7 +9,7 @@
 Этот плагин может чистить системную историю, историю всех контактов или только выбранного; чистить историю более старую чем определённое время; также при запуске/выключении программы.
 [History Sweeper Light]
 Чистка истории
-[Sweep history for this contacts:]
+[Sweep history for these contacts:]
 Очистить историю для этих контактов:
 [Action 1]
 Действие 1
@@ -19,7 +19,7 @@
 Очищать при закрытии окна сообщений
 [Clicking on the icon in the status bar will change settings]
 Щелчок по иконке в панели статусов меняет настройки
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 Использовать НЕБЕЗОПАСНЫЙ режим (быстрее, но опаснее для профиля)
 [Keep all events]
 Все события сохраняются в истории

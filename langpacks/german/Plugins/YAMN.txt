@@ -262,7 +262,7 @@ Speicher-Zuordnungsfehler während des Lesens der Daten
 Datei-Lesefehler. Datei bereits in Benutzung?
 [Error while copying data to disk occurred. Is file in use?]
 Ein Fehler trat beim Kopieren der Datei auf. Datei in Benutzung?
-[POP3 plugin- write file error]
+[POP3 plugin - write file error]
 POP3-Plugin - Datei-Schreibfehler
 [Connecting to server]
 Verbinde zum Server

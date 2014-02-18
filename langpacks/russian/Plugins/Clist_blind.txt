@@ -255,5 +255,5 @@ URL:
 Неизвестный протокол
 [Expanded]
 развернута
-[Colapsed]
+[Collapsed]
 свернута

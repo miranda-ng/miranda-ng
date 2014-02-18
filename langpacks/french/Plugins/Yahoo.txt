@@ -212,7 +212,7 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 
 [New Mail]
 
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Vous avez %i msg non lus
 [New Mail (%i msgs)]
 Nouveau e-mail (%i msgs)

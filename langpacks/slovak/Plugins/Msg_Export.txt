@@ -59,13 +59,13 @@ Otvoriť exportovanú históriu
 Žiadne kontakty na export.
 [Failed to export at least one contact]
 Chyba pri exporte kontaktu
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 Triedim a zapisujem databázové informácie (Časť 2 z 2)
 [Max line width must be at least %d]
 Maximálna dľžka riadku musí byť do %d
 [You need to restart Miranda to change the history function]
 Musíte reštartovať Mirandu pre zmenu funkcií histórie
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 Chyba v ceste ku Msg_Export.dll
 [File]
 Súbor

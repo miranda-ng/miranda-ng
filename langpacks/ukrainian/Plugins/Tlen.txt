@@ -205,7 +205,7 @@
 Авторизувати
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Не вдалося створити папку для кешу аватарів. Помилка: %d: %s\n%s
-[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
 Не вдалося зберегти файл аватару "%s". Помилка:\n\t%s (Помилка: %d)
 [Error while setting avatar on Tlen account (no response)]
 Помилка встановлення аватару Tlen (немає відповіді)

@@ -40,7 +40,7 @@ Aceptar
 Cancelar
 [EN]
 
-[Workstation is Locked]
+[Workstation is locked]
 
 [Screen Saver is running]
 

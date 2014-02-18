@@ -212,7 +212,7 @@ Cuenta
 
 [New Mail]
 
-[You Have %i unread msgs]
+[You have %i unread msgs]
 
 [New Mail (%i msgs)]
 

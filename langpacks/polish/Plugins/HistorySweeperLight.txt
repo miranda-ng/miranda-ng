@@ -10,7 +10,7 @@ Pozwala na uprzątnięcie historii systemowej, historii wszystkich kontaktów lu
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 Menedżer historii
-[Sweep history for this contacts:]
+[Sweep history for these contacts:]
 Usuń historię dla tych kontaktów:
 [Action 1]
 Akcja 1
@@ -20,7 +20,7 @@ Akcja 2
 Usuwaj przy zamykaniu okna rozmowy
 [Clicking on the icon in the status bar will change settings]
 Kliknięcie na ikonę na pasku statusu będzie zmieniać ustawienia
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 Użyj trybu UNSAFE (najszybszy, lecz niebezpieczny dla profilu)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]

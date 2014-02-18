@@ -5,9 +5,9 @@
 ;  Version: 0.0.0.7
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
-[Sweep history for this contacts:]
+[Sweep history for these contacts:]
 :מחק הסטוריה לאנשי הקשר האלה
-[Use UNSAFE mode (sweep fastest as possible, but dangerous for database)]
+[Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 השתמש במצב לא בטוח מנקה מהר ככל האפשר אבל מסוכן לבסיס נתונים
 [History]
 היסטוריה\n

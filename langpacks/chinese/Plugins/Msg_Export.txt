@@ -79,13 +79,13 @@
 未找到导出联系人
 [Failed to export at least one contact]
 导出失败, 至少要有一个联系人
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 排序并写入数据库信息 ( 阶段 2 of 2 )
 [Max line width must be at least %d]
 最大行宽必须至少 %d
 [You need to restart Miranda to change the history function]
 您需要重启 Miranda 以改变历史功能
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 无法取得 Msg_Export.dll 路径\n请您自行定位 Msg_Export.txt
 [File]
 文件

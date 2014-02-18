@@ -36,7 +36,7 @@
 Пароль:
 [Cancel]
 Скасаваць
-[Workstation is Locked]
+[Workstation is locked]
 Кампутар заблакаваны
 [Screen Saver is running]
 Запушчана застаўка

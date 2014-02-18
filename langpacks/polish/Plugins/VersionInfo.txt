@@ -30,7 +30,7 @@ Wybierz wyjście:
 Prześlij na stronę
 [Forum style formatting]
 Styl formatowania jak na forum
-[Aditional options:]
+[Additional options:]
 Dodatkowe opcje:
 [Do it now]
 Zrób to teraz
@@ -84,7 +84,7 @@ Informacje pomyślnie skopiowano do schowka.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Customize using folders plugin]
 Dostosuj używając wtyczki 'folders'
-[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+[Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Czy na pewno chcesz włączyć tę opcję?\nNie jest to zalecane.
 [Show plugin UUIDs?]
 Pokaż UUID wtyczki?

@@ -70,8 +70,8 @@
 Уключыць вокны
 [Status Notify]
 Змена статусу
-[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Абвесткі, уключыце \n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
+Асабістыя гукі выключаны.\n\nКаб іх уключыць, ідзіце ў Налады - Статус - Абвесткі, уключыце\n"Індывідуальныя гукі", і зноў адчыніце гэта вакно.
 [Sounds]
 Гукі
 [Popups]

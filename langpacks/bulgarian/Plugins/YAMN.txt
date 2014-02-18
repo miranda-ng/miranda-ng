@@ -262,7 +262,7 @@ SSL
 
 [Error while copying data to disk occurred. Is file in use?]
 
-[POP3 plugin- write file error]
+[POP3 plugin - write file error]
 
 [Connecting to server]
 

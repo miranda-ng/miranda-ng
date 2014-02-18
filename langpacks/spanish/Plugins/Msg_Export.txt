@@ -5,7 +5,7 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-[Exports every message, URL or File you receive to a text file.]
+[Exports every message, URL or file you receive to a text file.]
 
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
@@ -79,7 +79,7 @@ Copiar
 
 [Internal error! (lExtraRead >= 0)]
 
-[Faile to execute external file view]
+[Failed to execute external file view]
 
 [Failed to load Rich Edit ( RICHED32.DLL )]
 
@@ -124,13 +124,13 @@ No se pudo crear el archivo
 
 [Failed to export at least one contact]
 
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 
 [Max line width must be at least %d]
 
 [You need to restart Miranda to change the history function]
 
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 
 [File]
 Archivo

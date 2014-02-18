@@ -8,7 +8,7 @@
 [Tlen Mail]
 [Send picture]
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-[Can not save new avatar file "%s" Error:\n\t%s (Error: %d)]
+[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
 [Error while setting avatar on Tlen account (no response)]
 [Error while setting avatar on Tlen account (invalid response)]
 [Error while setting avatar on Tlen account]

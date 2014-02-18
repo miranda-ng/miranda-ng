@@ -69,7 +69,7 @@
 Спливаючі вікна
 [Status Notify]
 Зміна статусу
-[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
 Індивідуальні звуки вимкнено.\n\nЩоб увімкнути, пройдіть у Налаштування -> Статус -> Зміна статусу, ввімкніть\n"Індивідуальні звуки" і відкрийте це вікно знову.
 [Sounds]
 Звуки

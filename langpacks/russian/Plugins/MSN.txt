@@ -235,8 +235,8 @@ MSN Чат
 Уведомления
 [Contact tried to send its webcam data (not currently supported)]
 Контакт пытался отправить данные с веб-камеры (не поддерживается)
-[Contact tried to view our webcam data (not currently supported)]
-Контакт пытался просмотреть нашу веб-камеру (не поддерживается)
+[Contact tried to view your webcam data (not currently supported)]
+Контакт пытался просмотреть вашу веб-камеру (не поддерживается)
 [Live Mail]
 Live почта
 [Live Alert]

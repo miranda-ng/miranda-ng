@@ -40,7 +40,7 @@ OK
 Annuler
 [EN]
 EN
-[Workstation is Locked]
+[Workstation is locked]
 Poste de travail est verrouillé
 [Screen Saver is running]
 Économiseur d'écran est en cours d'exécution

@@ -345,7 +345,7 @@ History++ для історії вікон
 Статус протоколу
 [You cannot specify a value lower than %d and higher than %d.]
 Значення менше %d або більше %d не допускається.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nВвімкнути впорядкування (зсув) вікон?\r\n
 [Popup Plus Warning]
 Попередження Popup Plus

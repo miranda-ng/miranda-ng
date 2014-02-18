@@ -40,7 +40,7 @@ OK
 Abbrechen
 [EN]
 EN
-[Workstation is Locked]
+[Workstation is locked]
 Arbeitsstation gesperrt ist
 [Screen Saver is running]
 Bildschirmschoner läuft
