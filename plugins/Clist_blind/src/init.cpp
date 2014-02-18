@@ -583,7 +583,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				const TCHAR *v[] = {
 					item->szText,
 					count,
-					item->group->expanded ? TranslateT("Expanded") : TranslateT("Colapsed")
+					item->group->expanded ? TranslateT("Expanded") : TranslateT("Collapsed")
 				};
 				TCHAR *txt;
 

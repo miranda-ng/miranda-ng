@@ -525,7 +525,7 @@ bool bOpenExternaly( MCONTACT hContact )
 				&sStartupInfo,
 				&stProcesses))
 	{
-		DisplayLastError( LPGENT("Faile to execute external file view"));
+		DisplayLastError( LPGENT("Failed to execute external file view"));
 	}
 	return true;
 }

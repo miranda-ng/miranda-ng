@@ -147,7 +147,7 @@ BEGIN
     CONTROL         "Enable sounds",IDC_CHECK_NOTIFYSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,117,131,96,10
     CONTROL         "Enable popups",IDC_CHECK_NOTIFYPOPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,131,101,10
     GROUPBOX        "Status Notify",IDC_STATIC,4,119,213,29
-    CTEXT           "Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n""Use individual sounds"" checkbox, and then reopen this dialog.",IDC_TEXT_ENABLE_IS,5,22,210,56
+    CTEXT           "Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n""Use individual sounds"" checkbox, and then reopen this dialog.",IDC_TEXT_ENABLE_IS,5,22,210,56
 END
 
 IDD_OPT_FILTERS DIALOGEX 0, 0, 300, 230

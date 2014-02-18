@@ -734,7 +734,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			ShowFormattedErrorMessage(_T("Invalid user name"), NO_ERROR);
 			break;
 		case CONTACT_OPER_USER_EXISTS:// ## пользователь уже есть в контакт-листе
-			ShowFormattedErrorMessage(_T("User allready added"), NO_ERROR);
+			ShowFormattedErrorMessage(_T("User already added"), NO_ERROR);
 			break;
 		case CONTACT_OPER_GROUP_LIMIT:// ## превышено максимально допустимое количество групп (20)
 			ShowFormattedErrorMessage(_T("Group limit is 20"), NO_ERROR);

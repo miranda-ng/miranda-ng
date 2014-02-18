@@ -111,7 +111,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat",  format);
 	} else {
 		TCHAR buffer[128];
-		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Can not save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _tcserror(errno), errno);
+		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _tcserror(errno), errno);
 		PUShowMessageT(buffer, SM_WARNING);
 		proto->debugLog(buffer);
 		return;

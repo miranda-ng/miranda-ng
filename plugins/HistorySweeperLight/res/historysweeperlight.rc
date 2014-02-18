@@ -30,7 +30,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "History Sweeper Light",IDC_STATIC,0,0,313,240
-    LTEXT           "Sweep history for this contacts:",IDC_STATIC,8,12,296,10
+    LTEXT           "Sweep history for these contacts:",IDC_STATIC,8,12,296,10
     CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d2,8,22,297,139,WS_EX_CLIENTEDGE
     ICON            "",IDC_ACT1,8,164,20,20
     LTEXT           "Action 1",IDC_STATIC,22,164,118,10
@@ -42,7 +42,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,197,294,10
     CONTROL         "Clicking on the icon in the status bar will change settings",IDC_HISTMW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,211,294,10
-    CONTROL         "Use UNSAFE mode (sweep fastest as possible, but dangerous for database)",IDC_UNSAFEMODE,
+    CONTROL         "Use UNSAFE mode (sweep as fast as possible, but dangerous for database)",IDC_UNSAFEMODE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,225,294,10
 END
 

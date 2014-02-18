@@ -1341,7 +1341,7 @@ void CMsnProto::p2p_InitFileTransfer(
 		}
 		if (!_stricmp(szEufGuid, "{1C9AA97E-9C05-4583-A3BD-908A196F1E92}")) {
 			MSN_ShowPopup(ft->std.hContact,
-				TranslateT("Contact tried to view our webcam data (not currently supported)"),
+				TranslateT("Contact tried to view your webcam data (not currently supported)"),
 				MSN_ALLOW_MSGBOX | MSN_SHOW_ERROR);
 		}
 		p2p_sendStatus(ft, 603);

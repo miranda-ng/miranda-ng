@@ -244,7 +244,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 
 	{ // window text update 
 
-		SetWindowText( hStatus, TranslateT("Sorting and writing database information ( Phase 2 of 2 )"));
+		SetWindowText( hStatus, TranslateT("Sorting and writing database information (Phase 2 of 2)"));
 		SendMessage( hProg, PBM_SETRANGE, 0, MAKELPARAM( 0, AllEvents.size()));
 		SendMessage( hProg, PBM_SETPOS, 0, 0);
 	}
@@ -594,7 +594,7 @@ void OpenHelp(HWND hwndDlg)
 		}
 	}
 
-	MessageBox(hwndDlg, TranslateT("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self"), MSG_BOX_TITEL, MB_OK);
+	MessageBox(hwndDlg, TranslateT("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself"), MSG_BOX_TITEL, MB_OK);
 }
 
 /////////////////////////////////////////////////////////////////////

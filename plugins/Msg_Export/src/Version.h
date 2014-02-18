@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Message export"
 #define __FILENAME               "Msg_Export.dll"
-#define __DESCRIPTION             "Exports every message, URL or File you receive to a text file."
+#define __DESCRIPTION             "Exports every message, URL or file you receive to a text file."
 #define __AUTHOR               "Kennet Nielsen, mod by ring0"
 #define __AUTHOREMAIL            "Kennet_N@ofir.dk"
 #define __AUTHORWEB               "http://miranda-ng.org/p/Msg_Export/"
