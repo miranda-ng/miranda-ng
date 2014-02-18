@@ -25,7 +25,7 @@ SMS-код:
 Нужен только для регистрации
 [Use SSL connection (443 port)]
 Подключение по SSL (порт 443)
-[Paste password from WART  utility]
+[Paste password from WART utility]
 Вставьте пароль из программы WART
 [Use WART utility from Plugins folder for registering your number and generating password]
 Для регистрации номера и получения пароля воспользуйтесь программой WART из папки Plugins

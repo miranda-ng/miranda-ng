@@ -26,7 +26,7 @@ Pseudo
 
 [Use SSL connection (443 port)]
 
-[Paste password from WART  utility]
+[Paste password from WART utility]
 
 [Use WART utility from Plugins folder for registering your number and generating password]
 

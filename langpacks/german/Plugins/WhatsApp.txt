@@ -26,7 +26,7 @@ SMS-Code:
 Wird nur zur Registrierung verwendet
 [Use SSL connection (443 port)]
 SSL-Verbindung verwenden (Port 443)
-[Paste password from WART  utility]
+[Paste password from WART utility]
 Passwort aus WART-Utility einfügen
 [Use WART utility from Plugins folder for registering your number and generating password]
 Verwenden Sie das WART-Utility aus dem Plugins-Verzeichnis um Ihre Nummer zu registrieren und ein Passwort zu erzeugen

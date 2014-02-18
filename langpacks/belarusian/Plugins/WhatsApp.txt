@@ -26,7 +26,7 @@
 Патрэбны толькі для рэгістрацыі
 [Use SSL connection (443 port)]
 Далучэнне па SSL (порт 443)
-[Paste password from WART  utility]
+[Paste password from WART utility]
 Устаўце пароль з праграмы WART
 [Use WART utility from Plugins folder for registering your number and generating password]
 Для рэгістрацыі нумара і атрымання паролю скарыстайцеся праграмай WART з тэчкі Plugins
