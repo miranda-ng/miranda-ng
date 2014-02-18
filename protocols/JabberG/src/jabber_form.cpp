@@ -625,14 +625,14 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 			id++;
 		}
 		else if (!_tcscmp(type, _T("boolean"))) {
-			TCHAR buf[ 10 ];
+			TCHAR buf[10];
 			_itot(IsDlgButtonChecked(hFrame, id) == BST_CHECKED ? 1 : 0, buf, 10);
 			field << XCHILD(_T("value"), buf);
 			id++;
 		}
 		else if (!_tcscmp(type, _T("list-single"))) {
 			len = GetWindowTextLength(GetDlgItem(hFrame, id));
-			str = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len+1));
+			str = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len + 1));
 			GetDlgItemText(hFrame, id, str, len+1);
 			v = NULL;
 			for (j=0; ; j++) {

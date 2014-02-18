@@ -430,7 +430,8 @@ struct filetransfer
 	JABBER_SOCKET s;
 	JABBER_FILE_STATE state;
 	TCHAR *jid;
-	int    fileId, iqId;
+	int    fileId;
+	TCHAR* szId;
 	TCHAR *sid;
 	int    bCompleted;
 	HANDLE hWaitEvent;
@@ -740,6 +741,7 @@ void          __stdcall JabberUtfToTchar(const char* str, size_t cbLen, LPTSTR& 
 time_t        __stdcall JabberIsoToUnixTime(const TCHAR *stamp);
 TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen);
 int           __stdcall JabberGetPacketID(HXML n);
+TCHAR*        __stdcall JabberId2string(int id);
 
 LPCTSTR       __stdcall JabberGetPictureType(HXML node, const char *picBuf);
 

@@ -1282,8 +1282,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				if (xmlGetChild(xNode, "delivered") != NULL || xmlGetChild(xNode, "offline") != NULL) {
 					int id = -1;
 					if (idNode != NULL && xmlGetText(idNode) != NULL)
-					if (!_tcsncmp(xmlGetText(idNode), _T(JABBER_IQID), strlen(JABBER_IQID)))
-						id = _ttoi((xmlGetText(idNode)) + strlen(JABBER_IQID));
+						if (!_tcsncmp(xmlGetText(idNode), _T(JABBER_IQID), strlen(JABBER_IQID)))
+							id = _ttoi((xmlGetText(idNode)) + strlen(JABBER_IQID));
 
 					if (id != -1)
 						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);
@@ -1860,12 +1860,15 @@ void CJabberProto::OnProcessIq(HXML node)
 
 	// RECVED: <iq type='error'> ...
 	if (!_tcscmp(type, _T("error"))) {
+		TCHAR tszBuf[20];
+		_itot(id, tszBuf, 10);
+
 		debugLogA("XXX on entry");
 		// Check for file transfer deny by comparing idStr with ft->iqId
 		LISTFOREACH(i, this, LIST_FILE)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item->ft != NULL && item->ft->state == FT_CONNECTING && id == item->ft->iqId) {
+			if (item->ft != NULL && item->ft->state == FT_CONNECTING && !lstrcmp(tszBuf, item->ft->szId)) {
 				debugLogA("Denying file sending request");
 				item->ft->state = FT_DENIED;
 				if (item->ft->hFileEvent != NULL)

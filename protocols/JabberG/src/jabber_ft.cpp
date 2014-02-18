@@ -354,7 +354,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				ft->jid = mir_tstrdup(from);
 				ft->std.hContact = HContactFromJID(from);
 				ft->sid = mir_tstrdup(sid);
-				ft->iqId = _ttoi(szId+4);
+				ft->szId = mir_tstrdup(szId);
 				ft->type = ftType;
 				ft->std.totalFiles = 1;
 				ft->std.tszCurrentFile = mir_tstrdup(filename);
@@ -399,7 +399,7 @@ void CJabberProto::FtAcceptSiRequest(filetransfer *ft)
 		item->ft = ft;
 
 		m_ThreadInfo->send(
-			XmlNodeIq(_T("result"), ft->iqId, ft->jid)
+			XmlNodeIq(_T("result"), ft->szId, ft->jid)
 				<< XCHILDNS(_T("si"), JABBER_FEAT_SI)
 				<< XCHILDNS(_T("feature"), JABBER_FEAT_FEATURE_NEG)
 				<< XCHILDNS(_T("x"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"))
@@ -416,7 +416,7 @@ void CJabberProto::FtAcceptIbbRequest(filetransfer *ft)
 		item->ft = ft;
 
 		m_ThreadInfo->send(
-			XmlNodeIq(_T("result"), ft->iqId, ft->jid)
+			XmlNodeIq(_T("result"), ft->szId, ft->jid)
 				<< XCHILDNS(_T("si"), JABBER_FEAT_SI)
 				<< XCHILDNS(_T("feature"), JABBER_FEAT_FEATURE_NEG)
 				<< XCHILDNS(_T("x"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"))

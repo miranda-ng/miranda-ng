@@ -285,7 +285,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 
 			char *pFileName = mir_urlEncode( ptrA( mir_utf8encodeT(p)));
 			if (pFileName != NULL) {
-				ft->iqId = SerialNext();
+				ft->szId = JabberId2string(SerialNext());
 
 				ptrA myAddr;
 				if (m_options.BsDirect && m_options.BsDirectManual)
@@ -302,7 +302,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
 				mir_sntprintf(fulljid, len, _T("%s/%s"), ft->jid, ptszResource);
 
-				XmlNodeIq iq(_T("set"), ft->iqId, fulljid);
+				XmlNodeIq iq(_T("set"), ft->szId, fulljid);
 				HXML query = iq << XQUERY(JABBER_FEAT_OOB);
 				query << XCHILD(_T("url"), _A2T(szAddr));
 				query << XCHILD(_T("desc"), ft->szDescription);
@@ -468,6 +468,7 @@ filetransfer::~filetransfer()
 	if (hWaitEvent != INVALID_HANDLE_VALUE)
 		CloseHandle(hWaitEvent);
 
+	mir_free(szId);
 	mir_free(jid);
 	mir_free(sid);
 	mir_free(fileSize);

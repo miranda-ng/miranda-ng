@@ -153,8 +153,8 @@ void __fastcall xmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value)
 
 void __fastcall xmlAddAttrID(HXML hXml, int id)
 {
-	TCHAR text[ 100 ];
-	mir_sntprintf(text, SIZEOF(text), _T("mir_%d"), id);
+	TCHAR text[100];
+	mir_sntprintf(text, SIZEOF(text), _T(JABBER_IQID) _T("%d"), id);
 	xmlAddAttr(hXml, _T("id"), text);
 }
 

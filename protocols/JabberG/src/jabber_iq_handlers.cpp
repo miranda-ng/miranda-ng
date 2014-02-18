@@ -659,7 +659,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 	}
 
 	if (pInfo->GetIdStr())
-		ft->iqId = pInfo->GetIqId();
+		ft->szId = JabberId2string(pInfo->GetIqId());
 
 	if (ft->httpHostName && ft->httpPath) {
 		TCHAR *desc = NULL;

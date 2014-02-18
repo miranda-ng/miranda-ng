@@ -714,14 +714,19 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 
 int __stdcall JabberGetPacketID(HXML n)
 {
-	int result = -1;
-
 	const TCHAR *str = xmlGetAttrValue(n, _T("id"));
 	if (str)
 		if (!_tcsncmp(str, _T(JABBER_IQID), SIZEOF(JABBER_IQID)-1))
-			result = _ttoi(str + SIZEOF(JABBER_IQID)-1);
+			return _ttoi(str + SIZEOF(JABBER_IQID)-1);
 
-	return result;
+	return -1;
+}
+
+TCHAR* __stdcall JabberId2string(int id)
+{
+	TCHAR text[100];
+	mir_sntprintf(text, SIZEOF(text), _T(JABBER_IQID) _T("%d"), id);
+	return mir_tstrdup(text);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
