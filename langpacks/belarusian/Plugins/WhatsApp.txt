@@ -12,10 +12,10 @@
 Тэлефон
 [Including country code, without '+' or '00']
 Уключаючы код краіны, без '+' ці '00'
-[Password]
-Пароль
 [Nickname]
 Мянушка
+[Password]
+Пароль
 [Request Code]
 Код запыту
 [Register Code]
@@ -24,12 +24,12 @@
 Смс-код:
 [Will only be used for registration]
 Патрэбны толькі для рэгістрацыі
-[Use SSL connection (443 port)]
-Далучэнне па SSL (порт 443)
 [Paste password from WART utility]
 Устаўце пароль з праграмы WART
 [Use WART utility from Plugins folder for registering your number and generating password]
 Для рэгістрацыі нумара і атрымання паролю скарыстайцеся праграмай WART з тэчкі Plugins
+[Use SSL connection (443 port)]
+Далучэнне па SSL (порт 443)
 [Cancel]
 Скасаваць
 ;file \protocols\WhatsApp\src\connection.cpp

@@ -12,10 +12,10 @@
 
 [Including country code, without '+' or '00']
 
-[Password]
-Mot de passe
 [Nickname]
 Pseudo
+[Password]
+Mot de passe
 [Request Code]
 
 [Register Code]
@@ -24,11 +24,11 @@ Pseudo
 
 [Will only be used for registration]
 
-[Use SSL connection (443 port)]
-
 [Paste password from WART utility]
 
 [Use WART utility from Plugins folder for registering your number and generating password]
+
+[Use SSL connection (443 port)]
 
 [WhatsApp]
 

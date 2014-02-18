@@ -12,10 +12,10 @@ WhatsApp-Protokollunterstützung für Miranda NG.
 Telefonnummer
 [Including country code, without '+' or '00']
 Inklusive Landescode, ohne '+' oder '00'
-[Password]
-Passwort
 [Nickname]
 Nickname
+[Password]
+Passwort
 [Request Code]
 Code anfordern
 [Register Code]
@@ -24,12 +24,12 @@ Code registrieren
 SMS-Code:
 [Will only be used for registration]
 Wird nur zur Registrierung verwendet
-[Use SSL connection (443 port)]
-SSL-Verbindung verwenden (Port 443)
 [Paste password from WART utility]
 Passwort aus WART-Utility einfügen
 [Use WART utility from Plugins folder for registering your number and generating password]
 Verwenden Sie das WART-Utility aus dem Plugins-Verzeichnis um Ihre Nummer zu registrieren und ein Passwort zu erzeugen
+[Use SSL connection (443 port)]
+SSL-Verbindung verwenden (Port 443)
 [WhatsApp]
 WhatsApp
 [Cancel]

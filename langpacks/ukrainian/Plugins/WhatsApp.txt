@@ -11,10 +11,10 @@
 Телефон
 [Including country code, without '+' or '00']
 З кодом країни, без "+" чи "00"
-[Password]
-Пароль
 [Nickname]
 Нік
+[Password]
+Пароль
 [Request Code]
 Запросити код
 [Register Code]
@@ -23,12 +23,12 @@
 SMS-код:
 [Will only be used for registration]
 Потрібен тільки для реєстрації
-[Use SSL connection (443 port)]
-Підключення по SSL (порт 443)
 [Paste password from WART utility]
 Вставте пароль з програми WART
 [Use WART utility from Plugins folder for registering your number and generating password]
 Для реєстрації номеру та отримання паролю скористайтеся програмою WART з папки Plugins
+[Use SSL connection (443 port)]
+Підключення по SSL (порт 443)
 [Cancel]
 Скасувати
 [Please enter a country-code.]

@@ -14,6 +14,8 @@
 
 [Nickname]
 Прякор
+[Password]
+
 [Request Code]
 
 [Register Code]
@@ -21,6 +23,10 @@
 [SMS-Code:]
 
 [Will only be used for registration]
+
+[Paste password from WART utility]
+
+[Use WART utility from Plugins folder for registering your number and generating password]
 
 [Use SSL connection (443 port)]
 
