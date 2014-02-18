@@ -270,7 +270,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 {
-	mir_cslock lck(m_csDbAccess);
+	mir_cslockfull lck(m_csDbAccess);
 	DWORD ofsContact = GetContactOffset(contactID);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
@@ -302,6 +302,9 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 	}
 	DBWrite(ofsContact, &dbc, sizeof(DBContact));
 	DBFlush(0);
+	
+	lck.unlock();
+	NotifyEventHooks(hEventMarkedRead, contactID, (LPARAM)hDbEvent);
 	return ret;
 }
 

@@ -267,7 +267,7 @@ public:
 
 protected:
 	DWORD    m_dwFileSize, m_dwMaxContactId;
-	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent;
+	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
 	CRITICAL_SECTION m_csDbAccess;
 

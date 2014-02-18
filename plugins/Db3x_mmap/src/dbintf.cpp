@@ -94,6 +94,7 @@ CDb3Mmap::~CDb3Mmap()
 	DestroyHookableEvent(hContactDeletedEvent);
 	DestroyHookableEvent(hContactAddedEvent);
 	DestroyHookableEvent(hSettingChangeEvent);
+	DestroyHookableEvent(hEventMarkedRead);
 
 	DestroyHookableEvent(hEventAddedEvent);
 	DestroyHookableEvent(hEventDeletedEvent);
@@ -149,6 +150,7 @@ int CDb3Mmap::Load(bool bSkipInit)
 			hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
 			hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
 			hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+			hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
 
 			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
 			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
