@@ -336,18 +336,15 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 
 	default:
 		if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
-			DBEVENTTYPEDESCR* pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+			DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 			// support for custom database event types
-			if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE_V1) {
-				// preview requested
-				if (dbei->pBlob) {
-					DBEVENTGETTEXT svc = {dbei, DBVT_TCHAR, CP_ACP};
-					TCHAR *pet = (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
-					if (pet) {
-						// we've got event text, move to our memory space
-						comment1 = mir_tstrdup(pet);
-						mir_free(pet);
-					}
+			if (pei && dbei->pBlob) {
+				DBEVENTGETTEXT svc = {dbei, DBVT_TCHAR, CP_ACP};
+				TCHAR *pet = (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
+				if (pet) {
+					// we've got event text, move to our memory space
+					comment1 = mir_tstrdup(pet);
+					mir_free(pet);
 				}
 				commentFix = pei->descr;
 			}

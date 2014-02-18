@@ -25,10 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_DATABASE_H__
 #define M_DATABASE_H__ 1
 
-#ifndef M_CORE_H__
-	#include <m_core.h>
-#endif
-
 /******************* DATABASE MODULE ***************************/
 
 /*	Notes (as I think of them):
@@ -68,8 +64,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 /******************** GENERALLY USEFUL STUFF***********************/
-
-#include <tchar.h>
 
 #if !defined(M_SYSTEM_H__)
 	#include "m_system.h"
@@ -142,23 +136,23 @@ Implemented in the dbchecker plugins, thus it might not exist
 /************************* Contact ********************************/
 
 typedef struct {
-	const char *szModule;	// pointer to name of the module that wrote the
+	const char *szModule;   // pointer to name of the module that wrote the
 	                        // setting to get
-	const char *szSetting;	// pointer to name of the setting to get
-	DBVARIANT *pValue;		// pointer to variant to receive the value
+	const char *szSetting;  // pointer to name of the setting to get
+	DBVARIANT *pValue;      // pointer to variant to receive the value
 } DBCONTACTGETSETTING;
 
 typedef struct {
-	const char *szModule;	// pointer to name of the module that wrote the
+	const char *szModule;   // pointer to name of the module that wrote the
 	                        // setting to get
-	const char *szSetting;	// pointer to name of the setting to get
-	DBVARIANT value;		// variant containing the value to set
+	const char *szSetting;  // pointer to name of the setting to get
+	DBVARIANT value;        // variant containing the value to set
 } DBCONTACTWRITESETTING;
 
 /* db/contact/enumsettings    v0.1.0.1+
 Lists all the settings a specific modules has stored in the database for a
 specific contact.
-wParam = (WPARAM)(HANDLE)hContact
+wParam = (WPARAM)(MCONTACT)hContact
 lParam = (LPARAM)(DBCONTACTENUMSETTINGS*)&dbces
 Returns the return value of the last call to pfnEnumProc, or -1 if there are
 no settings for that module/contact pair
@@ -171,10 +165,10 @@ you want to keep it for longer you must allocation your own storage.
 typedef int (*DBSETTINGENUMPROC)(const char *szSetting, LPARAM lParam);
 typedef struct {
 	DBSETTINGENUMPROC pfnEnumProc;
-	LPARAM lParam;    //passed direct to pfnEnumProc
-	const char *szModule;    //name of the module to get settings for
-	DWORD ofsSettings;   //filled by the function to contain the offset from
-	       //the start of the database of the requested settings group.
+	LPARAM lParam;        // passed direct to pfnEnumProc
+	const char *szModule; // name of the module to get settings for
+	DWORD ofsSettings;    // filled by the function to contain the offset from
+	                      // the start of the database of the requested settings group.
 } DBCONTACTENUMSETTINGS;
 #define MS_DB_CONTACT_ENUMSETTINGS   "DB/Contact/EnumSettings"
 
@@ -189,7 +183,7 @@ and contact/findnext
 /* DB/Contact/Delete
 Deletes the contact hContact from the database and all events and settings
 associated with it.
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = 0
 Returns 0 on success or nonzero if hContact was invalid
 Please don't try to delete the user contact (hContact = NULL)
@@ -234,19 +228,16 @@ Always returns 0.
 
 typedef struct
 {
-	int   cbSize;      // structure size in bytes
-	char* module;      // event module name
-	int   eventType;   // event id, unique for this module
-	char* descr;       // event type description (i.e. "File Transfer")
-	char* textService; // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
-	char* iconService; // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
+	int    cbSize;      // structure size in bytes
+	LPSTR  module;      // event module name
+	int    eventType;   // event id, unique for this module
+	LPSTR  descr;       // event type description (i.e. "File Transfer")
+	LPSTR  textService; // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
+	LPSTR  iconService; // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
 	HANDLE eventIcon;  // icolib handle to eventicon (0.8+, default 'eventicon_'+Module+EvtID)
-	DWORD flags;       // flags, combination of the DETF_*
+	DWORD  flags;       // flags, combination of the DETF_*
 }
 	DBEVENTTYPEDESCR;
-
-#define DBEVENTTYPEDESCR_SIZE    sizeof(DBEVENTTYPEDESCR)
-#define DBEVENTTYPEDESCR_SIZE_V1 (offsetof(DBEVENTTYPEDESCR, textService))
 
 // constants for default event behaviour
 #define DETF_HISTORY    1   // show event in history
@@ -447,7 +438,7 @@ lParam = (LPARAM)(char*)szModuleName - the module name to be deleted
 
 /* DB/Event/Added event
 Called when a new event has been added to the event chain for a contact
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = (LPARAM)(HANDLE)hDbEvent
 hDbEvent is a valid handle to the event. hContact is a valid handle to the
 contact to which hDbEvent refers.
@@ -465,7 +456,7 @@ passed to db_event_add.
 The point of this hook is to stop any unwanted database events, to stop
 an event being added, return 1, to allow the event to pass through return
 0.
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = (LPARAM)&DBEVENTINFO
 
 Any changed made to the said DBEVENTINFO are also passed along to the database,
@@ -473,9 +464,19 @@ therefore it is possible to shape the data, however DO NOT DO THIS.
 */
 #define ME_DB_EVENT_FILTER_ADD "DB/Event/FilterAdd"
 
+/* DB/Event/Marked/Read event
+Called when an event is marked read
+wParam = (WPARAM)(MCONTACT)hContact
+lParam = (LPARAM)(HANDLE)hDbEvent
+hDbEvent is a valid handle to the event.
+hContact is a valid handle to the contact to which hDbEvent refers, and will
+remain valid.
+*/
+#define ME_DB_EVENT_MARKED_READ "DB/Event/Marked/Read"
+
 /* DB/Event/Deleted event
 Called when an event is about to be deleted from the event chain for a contact
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = (LPARAM)(HANDLE)hDbEvent
 hDbEvent is a valid handle to the event which is about to be deleted, but it
 won't be once your hook has returned.
@@ -488,7 +489,7 @@ usual, stop other hooks from being called.
 
 /* DB/Contact/Added event
 Called when a new contact has been added to the database
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = 0
 hContact is a valid handle to the new contact.
 Contacts are initially created without any settings, so if you hook this event
@@ -498,7 +499,7 @@ you will almost certainly also want to hook db/contact/settingchanged as well.
 
 /* DB/Contact/Deleted event
 Called when an contact is about to be deleted
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = 0
 hContact is a valid handle to the contact which is about to be deleted, but it
 won't be once your hook has returned.
@@ -510,7 +511,7 @@ Deleting a contact invalidates all events in its chain.
 
 /* DB/Contact/SettingChanged event
 Called when a contact has had one of its settings changed
-  wParam = (WPARAM)(HANDLE)hContact
+  wParam = (WPARAM)(MCONTACT)hContact
   lParam = (LPARAM)(DBCONTACTWRITESETTING*)&dbcws
 hContact is a valid handle to the contact that has changed.
 This event will be triggered many times rapidly when a whole bunch of values

@@ -78,7 +78,7 @@ int HookedNewEvent(WPARAM hContact, LPARAM lParam)
 	if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
 		DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
 		// ignore events according to flags
-		if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE && pei->flags & DETF_NONOTIFY)
+		if (pei && pei->flags & DETF_NONOTIFY)
 			return 0;
     }
 

@@ -245,8 +245,8 @@ static char *SetToStyle(int style)
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
-	return et && ( et->flags & DETF_MSGWINDOW );
+	DBEVENTTYPEDESCR *et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
+	return et && (et->flags & DETF_MSGWINDOW);
 }
 
 int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)

@@ -374,7 +374,7 @@ int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 	gcr.iMaxText = 159;
 	CallService(MS_GC_REGISTER,0,reinterpret_cast<LPARAM>(&gcr));
 
-	DBEVENTTYPEDESCR evt = {sizeof(evt)};
+	DBEVENTTYPEDESCR evt = { sizeof(evt) };
 	evt.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 	evt.module = m_szModuleName;
 	evt.descr = "Tweet";

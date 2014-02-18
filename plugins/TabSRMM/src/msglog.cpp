@@ -552,8 +552,8 @@ int TSAPI DbEventIsShown(TWindowData *dat, DBEVENTINFO *dbei)
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
-	return et && ( et->flags & DETF_MSGWINDOW );
+	DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	return et && (et->flags & DETF_MSGWINDOW);
 }
 
 static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, int prefixParaBreak, LogStreamData *streamData)

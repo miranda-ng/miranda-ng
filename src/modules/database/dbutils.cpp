@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "profilemanager.h"
 
-static int CompareEventTypes(const DBEVENTTYPEDESCR* p1, const DBEVENTTYPEDESCR* p2)
+static int CompareEventTypes(const DBEVENTTYPEDESCR *p1, const DBEVENTTYPEDESCR *p2)
 {
 	int result = strcmp(p1->module, p2->module);
 	if (result)
@@ -40,44 +40,46 @@ static BOOL bModuleInitialized = FALSE;
 
 static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 {
-	DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)lParam;
-	if (eventTypes.getIndex(et) == -1) {
-		DBEVENTTYPEDESCR* p = (DBEVENTTYPEDESCR*)mir_calloc(sizeof(DBEVENTTYPEDESCR));
-		p->cbSize = DBEVENTTYPEDESCR_SIZE;
-		p->module = mir_strdup(et->module);
-		p->eventType = et->eventType;
-		p->descr = mir_strdup(et->descr);
-		if (et->cbSize == DBEVENTTYPEDESCR_SIZE) {
-			if (et->textService)
-				p->textService = mir_strdup(et->textService);
-			if (et->iconService)
-				p->iconService = mir_strdup(et->iconService);
-			p->eventIcon = et->eventIcon;
-			p->flags = et->flags;
-		}
-		if (!p->textService) {
-			char szServiceName[100];
-			mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventText%d", p->module, p->eventType);
-			p->textService = mir_strdup(szServiceName);
-		}
-		if (!p->iconService) {
-			char szServiceName[100];
-			mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventIcon%d", p->module, p->eventType);
-			p->iconService = mir_strdup(szServiceName);
-		}
-		eventTypes.insert(p);
-	}
+	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)lParam;
+	if (et == NULL || et->cbSize != sizeof(DBEVENTTYPEDESCR))
+		return 0;
 
+	if (eventTypes.getIndex(et) != -1)
+		return 0;
+
+	DBEVENTTYPEDESCR *p = (DBEVENTTYPEDESCR*)mir_calloc(sizeof(DBEVENTTYPEDESCR));
+	p->cbSize = sizeof(DBEVENTTYPEDESCR);
+	p->module = mir_strdup(et->module);
+	p->eventType = et->eventType;
+	p->descr = mir_strdup(et->descr);
+	if (et->textService)
+		p->textService = mir_strdup(et->textService);
+	if (et->iconService)
+		p->iconService = mir_strdup(et->iconService);
+	p->eventIcon = et->eventIcon;
+	p->flags = et->flags;
+
+	if (!p->textService) {
+		char szServiceName[100];
+		mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventText%d", p->module, p->eventType);
+		p->textService = mir_strdup(szServiceName);
+	}
+	if (!p->iconService) {
+		char szServiceName[100];
+		mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventIcon%d", p->module, p->eventType);
+		p->iconService = mir_strdup(szServiceName);
+	}
+	eventTypes.insert(p);
 	return 0;
 }
 
 static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTTYPEDESCR tmp;
-	int idx;
-
 	tmp.module = (char*)wParam;
 	tmp.eventType = lParam;
+
+	int idx;
 	if (!List_GetIndex((SortedList*)&eventTypes, &tmp, &idx))
 		return 0;
 
@@ -358,7 +360,7 @@ void UnloadEventsModule()
 		return;
 
 	for (int i=0; i < eventTypes.getCount(); i++) {
-		DBEVENTTYPEDESCR* p = eventTypes[i];
+		DBEVENTTYPEDESCR *p = eventTypes[i];
 		mir_free(p->module);
 		mir_free(p->descr);
 		mir_free(p->textService);

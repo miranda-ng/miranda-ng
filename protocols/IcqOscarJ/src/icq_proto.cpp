@@ -197,8 +197,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	m_hDirectNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	// Register custom database events
-	DBEVENTTYPEDESCR eventType = { 0 };
-	eventType.cbSize = DBEVENTTYPEDESCR_SIZE;
+	DBEVENTTYPEDESCR eventType = { sizeof(eventType) };
 	eventType.eventType = ICQEVENTTYPE_MISSEDMESSAGE;
 	eventType.module = m_szModuleName;
 	eventType.descr = "Missed message notifications";

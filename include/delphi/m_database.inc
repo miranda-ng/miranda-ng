@@ -363,6 +363,13 @@ const
   {
     wParam : HCONTACT
     lParam : HANDLE
+    Affect : Called when an event is marked read
+  }
+  ME_DB_EVENT_MARKED_READ:PAnsiChar = 'DB/Event/Marked/Read';
+
+  {
+    wParam : HCONTACT
+    lParam : HANDLE
     Affect : Called when an event is about to be deleted from the event chain
              for a contact, see notes
     notes  : Returning non zero from your hook will NOT stop the deletion,
