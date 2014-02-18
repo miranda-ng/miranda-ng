@@ -1,5 +1,4 @@
-//#include "dropBox_proto.h"
-#include "dropBox_proto.h"
+#include "common.h"
 
 int hLangpack;
 HINSTANCE g_hInstance;

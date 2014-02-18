@@ -20,8 +20,9 @@
 #include <m_langpack.h>
 #include <m_string.h>
 
+#include "dropBox_proto.h"
 #include "version.h"
-#include "..\res\resource.h"
+#include "resource.h"
 
 #define MODULE "DropBox"
 
