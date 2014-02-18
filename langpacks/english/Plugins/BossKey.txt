@@ -23,7 +23,7 @@
 [OK]
 [Cancel]
 [EN]
-[Workstation is Locked]
+[Workstation is locked]
 [Screen Saver is running]
 [Windows is inactive]
 [Hide Miranda when:]

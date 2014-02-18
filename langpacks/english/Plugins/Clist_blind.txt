@@ -135,4 +135,4 @@
 ;file \plugins\Clist_blind\src\init.cpp
 [Unknown Protocol]
 [Expanded]
-[Colapsed]
+[Collapsed]
