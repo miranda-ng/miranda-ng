@@ -52,7 +52,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateProtoServiceFunction(MODULE, PSS_FILE, DropBoxSendFile);
 
 	CreateProtoServiceFunction(MODULE, PSS_MESSAGE, DropBoxSendMessage);
-	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, DropBoxReceiveMessage);
 
 	return 0;
 }

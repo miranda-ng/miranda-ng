@@ -3,6 +3,11 @@
 HANDLE g_hNetlibUser;
 ULONG  g_fileId = 1;
 
+bool HasAccessToken()
+{
+	return db_get_sa(NULL, MODULE, "TokenSecret") != NULL;
+}
+
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
@@ -57,7 +62,7 @@ HttpRequest *DropBoxCreateFileChunkedRequest(const char *data, int length)
 	request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
 	if (length > 0)
 	{
-		//request->AddHeader("Content-Type", "application/octet-stream");
+		request->AddHeader("Content-Type", "application/octet-stream");
 		request->dataLength = length;
 		request->pData = (char*)mir_alloc(sizeof(char) * (length + 1));
 		memcpy(request->pData, data, length);
@@ -123,8 +128,9 @@ bool DropBoxSendFileChunkedEnd(const char *fileName, const char *uploadId, MCONT
 	mir_snprintf(
 		url,
 		SIZEOF(url),
-		"%s/commit_chunked_upload/sandbox/%s",
+		"%s/commit_chunked_upload/%s/%s",
 		DROPBOX_APICONTENT_URL,
+		DROPBOX_API_ROOT,
 		fileName);
 
 	HttpRequest *request = new HttpRequest(g_hNetlibUser, REQUEST_POST, url);
@@ -137,20 +143,37 @@ bool DropBoxSendFileChunkedEnd(const char *fileName, const char *uploadId, MCONT
 
 	if (response && response->resultCode == 200)
 	{
-		//char message[MAX_PATH];
-		//mir_snprintf(
-		//	message,
-		//	SIZEOF(message),
-		//	"%s/files/sandbox/%s",
-		//	DROPBOX_APICONTENT_URL,
-		//	fileName);
+		mir_snprintf(
+			url,
+			SIZEOF(url),
+			"%s/shares/%s/%s",
+			DROPBOX_API_URL,
+			DROPBOX_API_ROOT,
+			fileName);
 
-		//PROTORECVEVENT recv = { 0 };
-		////recv.flags = flags;
-		////recv.lParam = (LPARAM)&param;
-		//recv.timestamp = time(NULL);
-		//recv.szMessage = ::mir_strdup(message);
-		//::ProtoChainRecvMsg(hContact, &recv);
+		request = new HttpRequest(g_hNetlibUser, REQUEST_POST, url);
+		request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+
+		response = request->Send();
+
+		if (response && response->resultCode == 200)
+		{
+			JSONNODE *root = json_parse(response->pData);
+			if (root != NULL)
+			{
+				JSONNODE *node = json_get(root, "url");
+				char *message = mir_utf8encodeW(json_as_string(node));
+
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.szModule = MODULE;
+				dbei.timestamp = time(NULL);
+				dbei.eventType = EVENTTYPE_MESSAGE;
+				dbei.cbBlob = strlen(message);
+				dbei.pBlob = (PBYTE)mir_strdup(message);
+				dbei.flags = DBEF_UTF;
+				::db_event_add(hContact, &dbei);
+			}
+		}
 
 		return true;
 	}
@@ -158,76 +181,106 @@ bool DropBoxSendFileChunkedEnd(const char *fileName, const char *uploadId, MCONT
 	return false;
 }
 
-void DropBoxAsyncFileSend(void *args)
+void DropBoxAsyncFileSend(void *arg)
 {
-}
+	FileTransferParam *ftp = (FileTransferParam *)arg;
 
-INT_PTR DropBoxSendFile(WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA *pccsd=(CCSDATA*)lParam;
+	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
-	char **files = (char**)pccsd->lParam;
-	for (int i = 0; files[i]; i++)
+	for (int i = 0; ftp->pfts.pszFiles[i]; i++)
 	{
-		FILE *file = fopen(files[i], "rb");
+		FILE *file = fopen(ftp->pfts.pszFiles[i], "rb");
 		if (file != NULL)
 		{
 			int offset = 0;
-			bool isFirstChunk = true;
 			char *uploadId = new char[32];
 
-			const char *fileName = strrchr(files[i], '\\') + 1;
+			const char *fileName = strrchr(ftp->pfts.pszFiles[i], '\\') + 1;
+
+			fseek(file, 0, SEEK_END);
+			DWORD fileSize = ftell(file);
+			fseek(file, 0, SEEK_SET);
+
+			ftp->pfts.currentFileNumber = i;
+			ftp->pfts.currentFileSize = fileSize;
+			ftp->pfts.currentFileProgress = 0;
+			ftp->pfts.szCurrentFile = strrchr(ftp->pfts.pszFiles[i], '\\') + 1;
+
+			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 
 			while (!feof(file) && !ferror(file))
 			{
-				char *data = new char[DROPBOX_FILE_CHUNK_SIZE + 1];
-				size_t count = fread(data, sizeof(char), DROPBOX_FILE_CHUNK_SIZE, file);
+				int chunkSize = DROPBOX_FILE_CHUNK_SIZE;
+				if (fileSize < 1024*1024)
+					chunkSize = DROPBOX_FILE_CHUNK_SIZE / 5;
+				else if (fileSize > 20*1024*1024)
+					chunkSize = DROPBOX_FILE_CHUNK_SIZE * 4;
 
-				if (isFirstChunk)
-				{
+				char *data = new char[chunkSize + 1];
+				size_t count = fread(data, sizeof(char), chunkSize, file);
+
+				if (!offset)
 					DropBoxSendFileChunkedStart(data, count, uploadId, offset);
-					isFirstChunk = false;
-				}
 				else
-				{
 					DropBoxSendFileChunkedNext(data, count, uploadId, offset);
-				}
+
+				ftp->pfts.currentFileProgress += count;
+				ftp->pfts.totalProgress += count;
+
+				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 			}
 
 			fclose(file);
 
-			return DropBoxSendFileChunkedEnd(fileName, uploadId, pccsd->hContact);
+			DropBoxSendFileChunkedEnd(fileName, uploadId, ftp->pfts.hContact);
+			ftp->pfts.currentFileProgress = ftp->pfts.currentFileSize;
 
+			if (i < ftp->pfts.totalFiles - 1)
+				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
 		}
-
-		//ULONG fileId = ::InterlockedIncrement(&g_fileId);
-
-		//return fileId;
 	}
 
-	return 0;
+	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
+
+	delete ftp;
+}
+
+INT_PTR DropBoxSendFile(WPARAM wParam, LPARAM lParam)
+{
+	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	FileTransferParam *ftp = new FileTransferParam();
+	ftp->pfts.flags = PFTS_SENDING | PFTS_UTF;
+	ftp->pfts.hContact = pccsd->hContact;
+
+	char **files = (char**)pccsd->lParam;
+	
+	for (ftp->pfts.totalFiles = 0; files[ftp->pfts.totalFiles]; ftp->pfts.totalFiles++);
+	ftp->pfts.pszFiles = new char*[ftp->pfts.totalFiles + 1];
+	ftp->pfts.pszFiles[ftp->pfts.totalFiles] = NULL;
+	for (int i = 0; i < ftp->pfts.totalFiles; i++)
+	{
+		ftp->pfts.pszFiles[i] = mir_strdup(files[i]);
+
+		FILE *file = fopen(files[i], "rb");
+		if (file != NULL)
+		{
+			fseek(file, 0, SEEK_END);
+			ftp->pfts.totalBytes += ftell(file);
+			fseek(file, 0, SEEK_SET);
+			fclose(file);
+		}
+	}
+	ULONG fileId = ::InterlockedIncrement(&g_fileId);
+	ftp->hProcess = (HANDLE)fileId;
+
+	mir_forkthread(DropBoxAsyncFileSend, ftp);
+
+	return fileId;
 }
 
 INT_PTR DropBoxSendMessage(WPARAM wParam, LPARAM lParam)
 {
-	return 0;
-}
-
-INT_PTR DropBoxReceiveMessage(WPARAM wParam, LPARAM lParam)
-{
-	/*CCSDATA *pccsd = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = (PROTORECVEVENT *)pccsd->lParam;
-	return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = MODULE;
-	dbei.timestamp = ppre->timestamp;
-	dbei.eventType = type;
-	dbei.cbBlob = ppre->cbCustomDataSize;
-	dbei.pBlob = ppre->szMessage;
-	dbei.flags = flags;
-	return ::db_event_add(pccsd->hContact, &dbei);*/
-
 	return 0;
 }
 
