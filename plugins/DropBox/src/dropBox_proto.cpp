@@ -162,7 +162,13 @@ bool DropBoxSendFileChunkedEnd(const char *fileName, const char *uploadId, MCONT
 			if (root != NULL)
 			{
 				JSONNODE *node = json_get(root, "url");
-				char *message = mir_utf8encodeW(json_as_string(node));
+				char message[1024];
+				mir_snprintf(
+					message,
+					SIZEOF(message),
+					Translate("Link to download file \"%s\": %s"),
+					fileName,
+					mir_utf8encodeW(json_as_string(node)));
 
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.szModule = MODULE;
@@ -254,7 +260,7 @@ INT_PTR DropBoxSendFile(WPARAM wParam, LPARAM lParam)
 	ftp->pfts.hContact = pccsd->hContact;
 
 	char **files = (char**)pccsd->lParam;
-	
+
 	for (ftp->pfts.totalFiles = 0; files[ftp->pfts.totalFiles]; ftp->pfts.totalFiles++);
 	ftp->pfts.pszFiles = new char*[ftp->pfts.totalFiles + 1];
 	ftp->pfts.pszFiles[ftp->pfts.totalFiles] = NULL;

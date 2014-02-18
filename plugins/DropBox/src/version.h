@@ -8,7 +8,7 @@
 #define __PLUGIN_NAME              "DropBox"
 #define __INTERNAL_NAME            "DropBox"
 #define __FILENAME                 "DropBox.dll"
-#define __DESCRIPTION              "Provide ability to load file on DropBox."
+#define __DESCRIPTION              "Provides ability to upload files on DropBox."
 #define __AUTHOR                   "unsane"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/DropBox/"
