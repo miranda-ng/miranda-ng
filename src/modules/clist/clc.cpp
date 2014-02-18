@@ -37,6 +37,7 @@ static BOOL bModuleInitialized = FALSE;
 static HANDLE hClcWindowList;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
+static LIST<void> arEvents(10);
 
 int g_IconWidth, g_IconHeight;
 
@@ -220,14 +221,14 @@ int LoadCLCModule(void)
 
 	InitFileDropping();
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
-	HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded);
-	HookEvent(ME_DB_CONTACT_DELETED, ClcContactDeleted);
-	HookEvent(ME_CLIST_CONTACTICONCHANGED, ClcContactIconChanged);
-	HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged);
-	HookEvent(ME_PROTO_ACK, ClcProtoAck);
+	arEvents.insert(HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded));
+	arEvents.insert(HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged));
+	arEvents.insert(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged));
+	arEvents.insert(HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded));
+	arEvents.insert(HookEvent(ME_DB_CONTACT_DELETED, ClcContactDeleted));
+	arEvents.insert(HookEvent(ME_CLIST_CONTACTICONCHANGED, ClcContactIconChanged));
+	arEvents.insert(HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged));
+	arEvents.insert(HookEvent(ME_PROTO_ACK, ClcProtoAck));
 
 	InitCustomMenus();
 	return 0;
@@ -237,8 +238,11 @@ void UnloadClcModule()
 {
 	if (!bModuleInitialized) return;
 
+	for (int i = 0; i < arEvents.getCount(); i++)
+		UnhookEvent(arEvents[i]);
+
 	mir_free(cli.clcProto);
-	WindowList_Destroy(hClcWindowList);
+	WindowList_Destroy(hClcWindowList); hClcWindowList = NULL;
 
 	FreeDisplayNameCache();
 
@@ -251,13 +255,12 @@ void UnloadClcModule()
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ClcData *dat;
 	ClcGroup *group;
 	ClcContact *contact;
 	DWORD hitFlags;
 	int hit;
 
-	dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
+	ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
 	if (msg >= CLM_FIRST && msg < CLM_LAST)
 		return cli.pfnProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
 
@@ -1216,20 +1219,17 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_CONTEXTMENU:
+		cli.pfnEndRename(hwnd, dat, 1);
+		cli.pfnHideInfoTip(hwnd, dat);
+		KillTimer(hwnd, TIMERID_RENAME);
+		KillTimer(hwnd, TIMERID_INFOTIP);
+		if (GetFocus() != hwnd)
+			SetFocus(hwnd);
+		dat->iHotTrack = -1;
+		if (!dat->filterSearch)
+			dat->szQuickSearch[0] = 0;
 		{
-			HMENU hMenu = NULL;
-
-			cli.pfnEndRename(hwnd, dat, 1);
-			cli.pfnHideInfoTip(hwnd, dat);
-			KillTimer(hwnd, TIMERID_RENAME);
-			KillTimer(hwnd, TIMERID_INFOTIP);
-			if (GetFocus() != hwnd)
-				SetFocus(hwnd);
-			dat->iHotTrack = -1;
-			if (!dat->filterSearch)
-				dat->szQuickSearch[0] = 0;
-
-			POINT pt = { (short) LOWORD(lParam), (short) HIWORD(lParam) };
+			POINT pt = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 				if (dat->selection != -1)
@@ -1247,6 +1247,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 			UpdateWindow(hwnd);
 
+			HMENU hMenu = NULL;
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
 				if (contact->type == CLCIT_GROUP) {
 					hMenu = cli.pfnBuildGroupPopupMenu(contact->group);
@@ -1256,7 +1257,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					return 0;
 				}
 				if (contact->type == CLCIT_CONTACT)
-					hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) contact->hContact, 0);
+					hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)contact->hContact, 0);
 			}
 			else {
 				//call parent for new group/hide offline menu
@@ -1281,7 +1282,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (hit == -1)
 			break;
 		if (contact->type == CLCIT_CONTACT)
-			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) contact->hContact))
+			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)contact->hContact))
 				break;
 		switch (LOWORD(wParam)) {
 		case POPUP_NEWSUBGROUP:
@@ -1309,11 +1310,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_DESTROY:
 		cli.pfnHideInfoTip(hwnd, dat);
-		{
-			for (int i=0; i <= FONTID_MAX; i++)
-				if (!dat->fontInfo[i].changed)
-					DeleteObject(dat->fontInfo[i].hFont);
-		}
+
+		for (int i = 0; i <= FONTID_MAX; i++)
+			if (!dat->fontInfo[i].changed)
+				DeleteObject(dat->fontInfo[i].hFont);
+
 		if (dat->himlHighlight)
 			ImageList_Destroy(dat->himlHighlight);
 		if (dat->hwndRenameEdit)
