@@ -72,9 +72,10 @@ INT_PTR CDropbox::SendMessage( WPARAM wParam, LPARAM lParam)
 INT_PTR  CDropbox::RequeriedApiAccess(WPARAM wParam, LPARAM lParam)
 {
 	int result = MessageBox(NULL, TranslateT("Are you sure you want to requeried access?"), TranslateT("Requeried access"), MB_YESNO | MB_ICONQUESTION);
-	if (result == IDYES  && g_dropbox->HasAccessToken())
+	if (result == IDYES)
 	{
-		g_dropbox->DestroyAcceessToken();
+		if (HasAccessToken())
+			g_dropbox->DestroyAcceessToken();
 		g_dropbox->RequestAcceessToken();
 	}
 

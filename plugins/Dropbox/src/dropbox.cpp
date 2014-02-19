@@ -30,10 +30,9 @@ bool CDropbox::HasAccessToken()
 
 void CDropbox::RequestAcceessToken()
 {
-	ShellExecuteA(NULL, "open", DROPBOX_WWW_URL "/" DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY, NULL, NULL, SW_SHOWDEFAULT);
+	ShellExecuteA(NULL, "open", DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY, NULL, NULL, SW_SHOWDEFAULT);
 
 	char request_token[128] = { 0 };
-	//request_token[0] = 0;
 
 	if (DialogBoxParam(
 		g_hInstance,
@@ -110,7 +109,6 @@ void CDropbox::RequestAcceessToken()
 
 void CDropbox::DestroyAcceessToken()
 {
-
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/disable_access_token");
 	//request->SendAsync(&CDropboxProto::AsyncFunc);
 	NETLIBHTTPREQUEST *response = request->Send();

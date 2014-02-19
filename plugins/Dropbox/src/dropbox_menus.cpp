@@ -11,7 +11,7 @@ void CDropbox::InitMenus()
 	mi.pszService = MODULE"/RequeriedAccess";
 	mi.ptszName = LPGENT("Requeried access");
 	mi.position = -201001000 + CMI_API_ACCESS_REQUERIED;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_API_ACCESS_REQUERIED] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, RequeriedApiAccess);
 }
