@@ -1,7 +1,7 @@
-#ifndef _Dropbox_PROTO_H_
-#define _Dropbox_PROTO_H_
+#ifndef _DROPBOX_PROTO_H_
+#define _DROPBOX_PROTO_H_
 
-//#include "common.h"
+#include "singleton.h"
 #include "http_request.h"
 
 #define DROPBOX_API_VER "1"
@@ -18,7 +18,6 @@
 enum
 {
 	CMI_API_ACCESS_REQUERIED,
-	CMI_URL_OPEN_ROOT,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -27,36 +26,56 @@ struct FileTransferParam
 	HANDLE hProcess;
 	PROTOFILETRANSFERSTATUS pfts;
 
-	FileTransferParam() 
+	int totalFolders;
+	char **pszFolders;
+	int relativePathStart;
+
+	FileTransferParam()
 	{
+		totalFolders = 0;
+		pszFolders = NULL;
+		relativePathStart = 0;
+
 		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_UTF;
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;
-		pfts.currentFileTime = 0;
 		pfts.totalBytes = 0;
 		pfts.totalFiles = 0;
 		pfts.totalProgress = 0;
+		pfts.pszFiles = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.wszCurrentFile = NULL;
 	}
 
-	~FileTransferParam() 
+	~FileTransferParam()
 	{
-		for (int i = 0; pfts.pszFiles[pfts.totalFiles]; i++)
+		/*if (pfts.pszFiles)
 		{
-			delete pfts.pszFiles[i];
+			for (int i = 0; pfts.pszFiles[i]; i++)
+			{
+				if (pfts.pszFiles[i]) delete pfts.pszFiles[i];
+			}
+			delete pfts.pszFiles;
 		}
-		delete pfts.pszFiles;
+
+		if (pszFolders)
+		{
+			for (int i = 0; pszFolders[i]; i++)
+			{
+				if (pszFolders[i]) delete pszFolders[i];
+			}
+			delete pszFolders;
+		}*/
 	}
 };
 
 class CDropbox
 {
 public:
-	CDropbox();
-	~CDropbox() { }
+	void Init();
+	void Uninit() { };
 
 private:
 	HANDLE hNetlibUser;
@@ -78,14 +97,18 @@ private:
 	// access token
 	static bool HasAccessToken();
 
-	void RequestAcceessToken();
-	void DestroyAcceessToken();
+	void RequestAcceessToken(MCONTACT hContact);
+	void DestroyAcceessToken(MCONTACT hContact);
+
+	static void RequeriedAccessAsync(void *arg);
 
 	// transrers
 	HttpRequest *CreateFileSendChunkedRequest(const char *data, int length);
 	void SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset);
 	void SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
 	void SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact);
+
+	void CreateFolder(const char *folderName);
 
 	static void _cdecl SendFileAsync(void *arg);
 
@@ -107,4 +130,4 @@ private:
 	void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 };
 
-#endif //_Dropbox_PROTO_H_
+#endif //_DROPBOX_PROTO_H_

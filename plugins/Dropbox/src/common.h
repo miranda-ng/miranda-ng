@@ -29,11 +29,6 @@
 
 #define MODULE "Dropbox"
 
-class CDropbox;
-
 extern HINSTANCE g_hInstance;
-extern CDropbox *g_dropbox;
-
-HANDLE CreateProtoServiceFunctionObj(const char *szModule, const char *szService, MIRANDASERVICEOBJ serviceProc, void* obj);
 
 #endif //_COMMON_H_

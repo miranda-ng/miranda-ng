@@ -1,9 +1,7 @@
-//#include "common.h"
 #include "dropbox.h"
 
 int hLangpack;
 HINSTANCE g_hInstance;
-CDropbox *g_dropbox;
 
 PLUGININFOEX pluginInfo =
 {
@@ -33,20 +31,18 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	g_dropbox = new CDropbox();
+	Singleton<CDropbox>::GetInstance()->Init();
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	delete g_dropbox;
+	Singleton<CDropbox>::GetInstance()->Uninit();
 
 	return 0;
 }

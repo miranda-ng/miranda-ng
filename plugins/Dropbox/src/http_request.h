@@ -43,7 +43,7 @@ public:
 
 	void AddParameter(LPCSTR szName, LPCSTR szValue)
 	{
-		if(m_szUrl.Find('?') == -1)
+		if (m_szUrl.Find('?') == -1)
 			m_szUrl.AppendFormat("?%s=%s", szName, szValue);
 		else
 			m_szUrl.AppendFormat("&%s=%s", szName, szValue);
@@ -51,7 +51,7 @@ public:
 
 	void AddParameter(LPCSTR szName, int value)
 	{
-		if(m_szUrl.Find('?') == -1)
+		if (m_szUrl.Find('?') == -1)
 			m_szUrl.AppendFormat("?%s=%i", szName, value);
 		else
 			m_szUrl.AppendFormat("&%s=%i", szName, value);
@@ -63,30 +63,9 @@ public:
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
 	}
 
-	//void SendAsync(typename CBaseProto<T>::AsyncHttpRequest callback)
-	//{
-	//	szUrl = m_szUrl.GetBuffer();
-	//	AsyncParam param = { this, proto, callback };
-	//	/*HANDLE hThread = */mir_forkthread(SendAsync, &param);
-	//	//WaitForSingleObject(hThread, INFINITE);
-	//}
-
 private:
-
 	CMStringA m_szUrl;
 	HANDLE m_hNetlibUser;
-
-	/*static void SendAsync(void *arg)
-	{
-		AsyncParam *param = (AsyncParam*)arg;
-		NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)param->m_proto->m_hNetlibUser, (LPARAM)param->m_request);
-		
-		CBaseProto<T> *proto = param->m_proto;
-		AsyncRequestCallback callback = param->m_callback;
-		proto->*callback(response);
-
-		delete response;
-	}*/
 };
 
 #endif //_HTTP_REQUEST_H_

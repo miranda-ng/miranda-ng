@@ -8,7 +8,7 @@ int CDropbox::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = L"Dropbox";
 
-	g_dropbox->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	Singleton<CDropbox>::GetInstance()->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	MCONTACT hContact = GetDefaultContact();
 	if (!hContact)

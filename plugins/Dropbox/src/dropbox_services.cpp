@@ -32,31 +32,53 @@ INT_PTR CDropbox::SendFile(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; files[i]; i++)
 	{
 		if (PathIsDirectoryA(files[i]))
-			continue;
-		ftp->pfts.totalFiles++;
+			ftp->totalFolders++;
+		else
+			ftp->pfts.totalFiles++;
 	}
+
+	ftp->pszFolders = new char*[ftp->totalFolders + 1];
+	ftp->pszFolders[ftp->totalFolders] = NULL;
 
 	ftp->pfts.pszFiles = new char*[ftp->pfts.totalFiles + 1];
 	ftp->pfts.pszFiles[ftp->pfts.totalFiles] = NULL;
-	for (int i = 0, j = 0; files[i]; i++)
+
+	for (int i = 0, j = 0, k = 0; files[i]; i++)
 	{
 		if (PathIsDirectoryA(files[i]))
-			continue;
-
-		ftp->pfts.pszFiles[j] = mir_strdup(files[i]);
-
-		FILE *file = fopen(files[j], "rb");
-		if (file != NULL)
 		{
-			fseek(file, 0, SEEK_END);
-			ftp->pfts.totalBytes += ftell(file);
-			fseek(file, 0, SEEK_SET);
-			fclose(file);
-		}
+			if (!ftp->relativePathStart)
+			{
+				char *rootFolder = files[j];
+				char *relativePath = strrchr(rootFolder, '\\') + 1;
+				ftp->relativePathStart = relativePath - rootFolder;
+			}
 
-		j++;
+			ftp->pszFolders[j] = mir_strdup(&files[i][ftp->relativePathStart]);
+
+			j++;
+		}
+		else
+		{
+			//if (!relativePathStart)
+				ftp->pfts.pszFiles[k] = mir_strdup(files[i]);
+			/*else
+			{
+				ftp->pfts.pszFiles[k] = mir_strdup(&files[i][relativePathStart]);
+			}*/
+
+			FILE *file = fopen(files[i], "rb");
+			if (file != NULL)
+			{
+				fseek(file, 0, SEEK_END);
+				ftp->pfts.totalBytes += ftell(file);
+				fseek(file, 0, SEEK_SET);
+				fclose(file);
+			}
+			k++;
+		}
 	}
-	ULONG fileId = InterlockedIncrement(&g_dropbox->hFileProcess);
+	ULONG fileId = InterlockedIncrement(&Singleton<CDropbox>::GetInstance()->hFileProcess);
 	ftp->hProcess = (HANDLE)fileId;
 
 	mir_forkthread(CDropbox::SendFileAsync, ftp);
@@ -71,13 +93,7 @@ INT_PTR CDropbox::SendMessage( WPARAM wParam, LPARAM lParam)
 
 INT_PTR  CDropbox::RequeriedApiAccess(WPARAM wParam, LPARAM lParam)
 {
-	int result = MessageBox(NULL, TranslateT("Are you sure you want to requeried access?"), TranslateT("Requeried access"), MB_YESNO | MB_ICONQUESTION);
-	if (result == IDYES)
-	{
-		if (HasAccessToken())
-			g_dropbox->DestroyAcceessToken();
-		g_dropbox->RequestAcceessToken();
-	}
+	mir_forkthread(CDropbox::RequeriedAccessAsync, (void*)wParam);
 
 	return 0;
 }

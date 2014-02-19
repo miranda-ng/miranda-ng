@@ -45,6 +45,9 @@
     <ClInclude Include="src\dropbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

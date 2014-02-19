@@ -1,6 +1,6 @@
 #include "dropbox.h"
 
-CDropbox::CDropbox()
+void CDropbox::Init()
 {
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = MODULE;
@@ -28,7 +28,7 @@ bool CDropbox::HasAccessToken()
 	return db_get_sa(NULL, MODULE, "TokenSecret") != NULL;
 }
 
-void CDropbox::RequestAcceessToken()
+void CDropbox::RequestAcceessToken(MCONTACT hContact)
 {
 	ShellExecuteA(NULL, "open", DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY, NULL, NULL, SW_SHOWDEFAULT);
 
@@ -71,7 +71,6 @@ void CDropbox::RequestAcceessToken()
 					ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
 					db_set_s(NULL, MODULE, "TokenSecret", access_token);
 
-					MCONTACT hContact = GetDefaultContact();
 					if (hContact)
 					{
 						node = json_get(root, "uid");
@@ -107,20 +106,34 @@ void CDropbox::RequestAcceessToken()
 	}
 }
 
-void CDropbox::DestroyAcceessToken()
+void CDropbox::DestroyAcceessToken(MCONTACT hContact)
 {
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/disable_access_token");
-	//request->SendAsync(&CDropboxProto::AsyncFunc);
 	NETLIBHTTPREQUEST *response = request->Send();
 
 	delete request;
 	mir_free(response);
 
 	db_unset(NULL, MODULE, "TokenSecret");
-	MCONTACT hContact = GetDefaultContact();
 	if (hContact)
 	{
 		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) == ID_STATUS_ONLINE)
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE);
+	}
+}
+
+void CDropbox::RequeriedAccessAsync(void *arg)
+{
+	MCONTACT hContact = (MCONTACT)arg;
+
+	if (hContact && MessageBox(
+		NULL, 
+		TranslateT("Are you sure you want to requeried access?"), 
+		TranslateT("Requeried access"), 
+		MB_YESNO | MB_ICONQUESTION) == IDYES)
+	{
+		if (HasAccessToken())
+			Singleton<CDropbox>::GetInstance()->DestroyAcceessToken(hContact);
+		Singleton<CDropbox>::GetInstance()->RequestAcceessToken(hContact);
 	}
 }
