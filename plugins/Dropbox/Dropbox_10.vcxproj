@@ -186,6 +186,7 @@
     <ClInclude Include="src\dropbox.h" />
     <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\singleton.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
