@@ -1,7 +1,9 @@
-#include "common.h"
+//#include "common.h"
+#include "dropbox.h"
 
 int hLangpack;
 HINSTANCE g_hInstance;
+CDropbox *g_dropbox;
 
 PLUGININFOEX pluginInfo =
 {
@@ -37,25 +39,14 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-	pd.szName = MODULE;
-	pd.type = PROTOTYPE_VIRTUAL;
-
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	CreateProtoServiceFunction(MODULE, PS_GETCAPS, DropBoxGetCaps);
-
-	CreateProtoServiceFunction(MODULE, PSS_FILE, DropBoxSendFile);
-
-	CreateProtoServiceFunction(MODULE, PSS_MESSAGE, DropBoxSendMessage);
+	g_dropbox = new CDropbox();
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	delete g_dropbox;
+
 	return 0;
 }

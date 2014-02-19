@@ -3,6 +3,11 @@
 
 #include "common.h"
 
+enum HttpStatus
+{
+	OK = 200
+};
+
 class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 public:

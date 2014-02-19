@@ -1,14 +1,18 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-//#include <winsock2.h>
 #include <windows.h>
+#include <Shlwapi.h>
 #include <time.h>
 
 #include <newpluginapi.h>
 
 #include <m_options.h>
 #include <m_database.h>
+#include <m_clist.h>
+#include <m_skin.h>
+#include <m_icolib.h>
+#include <m_popup.h>
 
 #include <m_protoint.h>
 #include <m_protomod.h>
@@ -20,13 +24,16 @@
 #include <m_langpack.h>
 #include <m_string.h>
 
-#include "dropBox_proto.h"
 #include "version.h"
 #include "resource.h"
 
-#define MODULE "DropBox"
+#define MODULE "Dropbox"
 
-extern HINSTANCE     g_hInstance;
-extern HANDLE        g_hNetlibUser;
+class CDropbox;
+
+extern HINSTANCE g_hInstance;
+extern CDropbox *g_dropbox;
+
+HANDLE CreateProtoServiceFunctionObj(const char *szModule, const char *szService, MIRANDASERVICEOBJ serviceProc, void* obj);
 
 #endif //_COMMON_H_
