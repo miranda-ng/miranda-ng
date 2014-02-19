@@ -128,6 +128,9 @@ int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
 
 int CDb3Mmap::InitCrypt()
 {
+	if (m_dbHeader.version == DB_OLD_VERSION)
+		return 0;
+
 	CRYPTO_PROVIDER *pProvider;
 
 	DBVARIANT dbv = { 0 };

@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DWORD GetModuleNameOfs(const char *szName);
-char *GetModuleNameByOfs(DWORD ofs);
-
 static HANDLE hEventDeletedEvent, hEventAddedEvent, hEventFilterAddedEvent;
 
 STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(MCONTACT contactID)

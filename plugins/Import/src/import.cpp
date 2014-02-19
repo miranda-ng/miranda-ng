@@ -451,13 +451,13 @@ void MirandaImport(HWND hdlg)
 		return;
 	}
 
-	DATABASELINK* dblink = FindDatabasePlugin(importFile);
+	DATABASELINK *dblink = FindDatabasePlugin(importFile);
 	if (dblink == NULL) {
 		AddMessage(LPGENT("There's no database driver to open the input file, exiting."));
 		return;
 	}
 
-	if ((srcDb = dblink->Load(importFile)) == NULL) {
+	if ((srcDb = dblink->Load(importFile, TRUE)) == NULL) {
 		AddMessage(LPGENT("Error loading source file, exiting."));
 		return;
 	}

@@ -76,21 +76,22 @@ DWORD CDb3Mmap::FindExistingModuleNameOfs(const char *szName)
 	return 0;
 }
 
-//will create the offset if it needs to
+// will create the offset if it needs to
 DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 {
-	struct DBModuleName dbmn;
-	int nameLen;
-	DWORD ofsNew,ofsExisting;
-	char *mod;
+	DWORD ofsExisting = FindExistingModuleNameOfs(szName);
+	if (ofsExisting)
+		return ofsExisting;
 
-	ofsExisting = FindExistingModuleNameOfs(szName);
-	if (ofsExisting) return ofsExisting;
+	if (m_bReadOnly)
+		return 0;
 
-	nameLen = (int)strlen(szName);
+	int nameLen = (int)strlen(szName);
 
-	//need to create the module name
-	ofsNew = CreateNewSpace(nameLen+offsetof(struct DBModuleName,name));
+	// need to create the module name
+	DWORD ofsNew = CreateNewSpace(nameLen + offsetof(struct DBModuleName, name));
+
+	DBModuleName dbmn;
 	dbmn.signature = DBMODULENAME_SIGNATURE;
 	dbmn.cbName = nameLen;
 	dbmn.ofsNext = m_dbHeader.ofsFirstModuleName;
@@ -100,12 +101,12 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 	DBWrite(ofsNew + offsetof(struct DBModuleName, name), (PVOID)szName, nameLen);
 	DBFlush(0);
 
-	//add to cache
-	mod = (char*)HeapAlloc(m_hModHeap,0,nameLen+1);
+	// add to cache
+	char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);
 	strcpy(mod,szName);
 	AddToList(mod, nameLen, ofsNew);
 
-	//quit
+	// quit
 	return ofsNew;
 }
 

@@ -157,7 +157,7 @@ struct DBEvent
 
 struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
-	CDb3Mmap(const TCHAR* tszFileName);
+	CDb3Mmap(const TCHAR* tszFileName, bool bReadOnly);
 	~CDb3Mmap();
 
 	int Load(bool bSkipInit);

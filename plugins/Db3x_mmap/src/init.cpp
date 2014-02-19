@@ -49,7 +49,7 @@ LIST<CDb3Mmap> g_Dbs(1, HandleKeySortT);
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, false));
 	if (db->Create() != ERROR_SUCCESS)
 		return EMKPRF_CREATEFAILED;
 
@@ -59,7 +59,7 @@ static int makeDatabase(const TCHAR *profile)
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile)
 {
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, true));
 	if (db->Load(true) != ERROR_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
@@ -67,12 +67,12 @@ static int grokHeader(const TCHAR *profile)
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MIDatabase* LoadDatabase(const TCHAR *profile)
+static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 {
 	// set the memory, lists & UTF8 manager
 	mir_getLP(&pluginInfo);
 
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, bReadOnly != 0));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
 
@@ -89,7 +89,7 @@ static int UnloadDatabase(MIDatabase* db)
 
 MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile));
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, true));
 	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = EGROKPRF_CANTREAD;
 		return NULL;

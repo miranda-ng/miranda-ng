@@ -43,10 +43,10 @@ static int stringCompare2(const char *p1, const char *p2)
 	return strcmp(p1, p2);
 }
 
-CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName) :
+CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName, bool bReadOnly) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(true),
-	m_bReadOnly(true),
+	m_bReadOnly(bReadOnly),
 	m_dwMaxContactId(1),
 	m_lMods(50, ModCompare),
 	m_lOfs(50, OfsCompare),
@@ -113,7 +113,7 @@ int CDb3Mmap::Load(bool bSkipInit)
 	log0("DB logging running");
 	
 	DWORD dummy = 0;
-	if (bSkipInit)
+	if (m_bReadOnly)
 		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	else
 		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
@@ -129,33 +129,33 @@ int CDb3Mmap::Load(bool bSkipInit)
 		memcpy(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature));
 
 	if (!bSkipInit) {
-		m_bReadOnly = false;
-
 		if (InitMap()) return 1;
 		if (InitModuleNames()) return 1;
 		if (InitCrypt()) return EGROKPRF_CANTREAD;
 
 		// everything is ok, go on
-		if (m_dbHeader.version < DB_095_VERSION) {
-			ConvertContacts();
+		if (!m_bReadOnly) {
+			if (m_dbHeader.version < DB_095_VERSION) {
+				ConvertContacts();
 
-			m_dbHeader.version = DB_095_VERSION;
-			DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
+				m_dbHeader.version = DB_095_VERSION;
+				DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
+			}
+
+			// we don't need events in the service mode
+			if (ServiceExists(MS_DB_SETSAFETYMODE)) {
+				hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+				hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+				hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+				hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
+
+				hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+				hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
+				hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+			}
 		}
 
 		FillContacts();
-
-		// we don't need events in the service mode
-		if (ServiceExists(MS_DB_SETSAFETYMODE)) {
-			hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-			hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-			hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-			hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
-
-			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
-		}
 	}
 
 	return ERROR_SUCCESS;

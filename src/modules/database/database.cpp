@@ -363,7 +363,7 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 		bWasOpened = true;
 
 		// try to load database
-		MIDatabase *pDb = p->Load(tszProfile);
+		MIDatabase *pDb = p->Load(tszProfile, FALSE);
 		if (pDb) {
 			fillProfileName(tszProfile);
 			currDblink = p;
@@ -387,7 +387,7 @@ static int tryCreateDatabase(const TCHAR* ptszProfile)
 		int err = p->makeDatabase(tszProfile);
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;
-			MIDatabase *pDb = p->Load(tszProfile);
+			MIDatabase *pDb = p->Load(tszProfile, FALSE);
 			if (pDb != NULL) {
 				fillProfileName(tszProfile);
 				currDblink = p;

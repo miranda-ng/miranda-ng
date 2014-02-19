@@ -181,7 +181,7 @@ struct DATABASELINK
 		which is a PLUGINLINK structure
 	Returns: 0 on success, nonzero on failure
 	*/
-	MIDatabase* (*Load) (const TCHAR *profile);
+	MIDatabase* (*Load)(const TCHAR *profile, BOOL bReadOnly);
 
 	/*
 	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
@@ -194,7 +194,7 @@ struct DATABASELINK
 	Returns a pointer to the database checker or NULL if a database doesn't support checking
 	When you don't need this object aanymore,  call its Destroy() method
 	*/
-	MIDatabaseChecker* (*CheckDB) (const TCHAR *profile, int *error);
+	MIDatabaseChecker* (*CheckDB)(const TCHAR *profile, int *error);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
