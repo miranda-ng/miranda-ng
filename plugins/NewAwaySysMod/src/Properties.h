@@ -115,12 +115,12 @@ class CIconList
 public:
 	~CIconList()
 	{
-		int I;
-		for (I = 0; I < IconList.GetSize(); I++)
+		int i;
+		for (i = 0; i < IconList.GetSize(); i++)
 		{
-			if (IconList[I])
+			if (IconList[i])
 			{
-				DestroyIcon(IconList[I]);
+				DestroyIcon(IconList[i]);
 			}
 		}
 	}
@@ -130,22 +130,22 @@ public:
 	{
 		int cxIcon = GetSystemMetrics(SM_CXSMICON);
 		int cyIcon = GetSystemMetrics(SM_CYSMICON);
-		int I;
-		for (I = 0; I < lengthof(Icons); I++)
+		int i;
+		for (i = 0; i < SIZEOF(Icons); i++)
 		{
-			if (IconList.GetSize() > I && IconList[I])
+			if (IconList.GetSize() > i && IconList[i])
 			{
-				DestroyIcon(IconList[I]);
+				DestroyIcon(IconList[i]);
 			}
-			if (Icons[I] & IL_SKINICON)
+			if (Icons[i] & IL_SKINICON)
 			{
-				IconList.SetAtGrow(I) = (HICON)CopyImage(LoadSkinnedIcon(Icons[I] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
-			} else if (Icons[I] & IL_PROTOICON)
+				IconList.SetAtGrow(i) = (HICON)CopyImage(LoadSkinnedIcon(Icons[i] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
+			} else if (Icons[i] & IL_PROTOICON)
 			{
-				IconList.SetAtGrow(I) = (HICON)CopyImage(LoadSkinnedProtoIcon(NULL, Icons[I] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
+				IconList.SetAtGrow(i) = (HICON)CopyImage(LoadSkinnedProtoIcon(NULL, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
 			} else
 			{
-				IconList.SetAtGrow(I) = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(Icons[I]), IMAGE_ICON, cxIcon, cyIcon, 0);
+				IconList.SetAtGrow(i) = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(Icons[i]), IMAGE_ICON, cxIcon, cyIcon, 0);
 			}
 		}
 	}
@@ -199,7 +199,7 @@ public:
 			CurStatusMsg = Msg;
 			SYSTEMTIME st;
 			GetLocalTime(&st);
-			SystemTimeToFileTime(&st, (LPFILETIME)&LastUpdateTime); // I'm too lazy to declare FILETIME structure and then copy its data to absolutely equivalent ULARGE_INTEGER structure, so we'll just pass a pointer to the ULARGE_INTEGER directly ;-P
+			SystemTimeToFileTime(&st, (LPFILETIME)&LastUpdateTime); // i'm too lazy to declare FILETIME structure and then copy its data to absolutely equivalent ULARGE_INTEGER structure, so we'll just pass a pointer to the ULARGE_INTEGER directly ;-P
 			return *this;
 		}
 		operator TCString() {return CurStatusMsg;}
@@ -260,22 +260,22 @@ public:
 	CProtoStates& operator = (const CProtoStates& States)
 	{
 		ProtoStates = States.ProtoStates;
-		int I;
-		for (I = 0; I < ProtoStates.GetSize(); I++)
+		int i;
+		for (i = 0; i < ProtoStates.GetSize(); i++)
 		{
-			ProtoStates[I].SetParent(this);
+			ProtoStates[i].SetParent(this);
 		}
 		return *this;
 	}
 
 	CProtoState& operator[](const char *szProto)
 	{
-		int I;
-		for (I = 0; I < ProtoStates.GetSize(); I++)
+		int i;
+		for (i = 0; i < ProtoStates.GetSize(); i++)
 		{
-			if (ProtoStates[I].GetProto() == szProto)
+			if (ProtoStates[i].GetProto() == szProto)
 			{
-				return ProtoStates[I];
+				return ProtoStates[i];
 			}
 		}
 		if (!szProto) // we need to be sure that we have _all_ protocols in the list, before dealing with global status, so we're adding them here.
@@ -283,12 +283,12 @@ public:
 			int ProtoCount;
 			PROTOCOLDESCRIPTOR **proto;
 			CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
-			int I;
-			for (I = 0; I < ProtoCount; I++)
+			int i;
+			for (i = 0; i < ProtoCount; i++)
 			{
-				if (proto[I]->type == PROTOTYPE_PROTOCOL)
+				if (proto[i]->type == PROTOTYPE_PROTOCOL)
 				{
-					(*this)[proto[I]->szName]; // add a protocol if it isn't in the list yet
+					(*this)[proto[i]->szName]; // add a protocol if it isn't in the list yet
 				}
 			}
 		}
@@ -340,12 +340,12 @@ public:
 	{
 		if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID))
 		{
-			int I;
-			for (I = 0; I < lengthof(StatusSettings); I++)
+			int i;
+			for (i = 0; i < SIZEOF(StatusSettings); i++)
 			{
-				if (Status == StatusSettings[I].Status)
+				if (Status == StatusSettings[i].Status)
 				{
-					return szProto ? (CString(Prefix) + "_" + szProto + "_" + StatusSettings[I].Setting) : (CString(Prefix) + StatusSettings[I].Setting);
+					return szProto ? (CString(Prefix) + "_" + szProto + "_" + StatusSettings[i].Setting) : (CString(Prefix) + StatusSettings[i].Setting);
 				}
 			}
 		}
@@ -419,12 +419,12 @@ __inline CString StatusToDBSetting(int Status, const char *Prefix, int MoreOpt_P
 {
 	if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID))
 	{
-		int I;
-		for (I = 0; I < lengthof(StatusSettings); I++)
+		int i;
+		for (i = 0; i < SIZEOF(StatusSettings); i++)
 		{
-			if (Status == StatusSettings[I].Status)
+			if (Status == StatusSettings[i].Status)
 			{
-				return CString(Prefix) + StatusSettings[I].Setting;
+				return CString(Prefix) + StatusSettings[i].Setting;
 			}
 		}
 	}

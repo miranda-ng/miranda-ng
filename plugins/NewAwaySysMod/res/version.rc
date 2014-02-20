@@ -1,58 +1,38 @@
-//
-// version.rc - resources Microsoft Visual C++ does not edit directly
+// Microsoft Visual C++ generated resource script.
 //
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
+#include "afxres.h"
+#include "..\src\version.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// Add manually edited resources here...
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-#include "VersionNo.h"
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION FILEVER
- PRODUCTVERSION PRODUCTVER
- FILEFLAGSMASK 0x3fL
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
- FILEFLAGS 0x21L
+ FILEFLAGS 0x1L
 #else
- FILEFLAGS 0x20L
+ FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x2L
+ FILEOS 0x4L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName", "NightFox; Deathdemon; XF007; Goblineye Entertainment"
-            VALUE "FileDescription", "New Away System plugin for Miranda NG"
-            VALUE "FileVersion", STRFILEVER
-            VALUE "LegalCopyright", "© 2010 NightFox; © 2005-2006 Chervov Dmitry; © 2004-2005 Iksaif Entertainment; © 2002-2003 Goblineye Entertainment"
-#ifdef _UNICODE
-            VALUE "InternalName", "NewAwaySysW"
-            VALUE "OriginalFilename", "NewAwaySysW.dll"
-            VALUE "ProductName", "New Away System (Unicode)"
-#else
-            VALUE "InternalName", "NewAwaySys"
-            VALUE "OriginalFilename", "NewAwaySys.dll"
-            VALUE "ProductName", "New Away System (ANSI)"
-#endif
-            VALUE "ProductVersion", STRPRODUCTVER
-            VALUE "SpecialBuild", STRSPECIALBUILD
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1200
+        VALUE "Translation", 0x0, 1200
     END
 END
-
-/////////////////////////////////////////////////////////////////////////////

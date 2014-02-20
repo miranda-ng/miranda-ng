@@ -22,11 +22,6 @@
 #include "CString.h"
 #include "TMyArray.h"
 
-#ifndef lengthof
-#define lengthof(s) (sizeof(s) / sizeof(*s))
-#endif
-
-
 class COptItem
 {
 public:
@@ -399,7 +394,7 @@ public:
 	int TreeFlags;
 
 protected:
-	void RecursiveDelete(HWND hWnd, int I);
+	void RecursiveDelete(HWND hWnd, int i);
 	int RecursiveMove(int ItemOrder, int ParentID, int InsertAtOrder);
 };
 

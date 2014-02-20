@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Miranda's built-in CListControl is very slow and it has too limited functionality... 8( So I had to use my own control instead.
+// Miranda's built-in CListControl is very slow and it has too limited functionality... 8( So i had to use my own control instead.
 
 #pragma once
 

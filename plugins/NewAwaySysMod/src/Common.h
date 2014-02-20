@@ -109,30 +109,7 @@
 #define SF_OTP 0x100
 #define SF_OTL 0x200
 #define SF_OTHER 0x80000000
-/*
-// Actions on popup click
-#define PCA_OPENMESSAGEWND	0	// open message window
-#define PCA_CLOSEPOPUP			1	// close popup
-#define PCA_OPENDETAILS			2	// open contact details window
-#define PCA_OPENMENU				3	// open contact menu
-#define PCA_OPENHISTORY			4	// open contact history
-#define PCA_OPENLOG					5	// open log file
-#define PCA_DONOTHING				6 // do nothing
 
-// Notification options defaults
-#define POPUP_DEF_POPUP_FORMAT TranslateT("?cinfo(%subject%,display) (?cinfo(%subject%,id)) is reading your %nas_statdesc% message:\r\n%extratext%")
-#define POPUP_DEF_USEPOPUPS 0
-#define POPUP_DEF_LCLICKACTION PCA_OPENMESSAGEWND
-#define POPUP_DEF_RCLICKACTION PCA_CLOSEPOPUP
-#define POPUP_DEF_POPUP_BGCOLOUR 0xFFB5BC
-#define POPUP_DEF_POPUP_TEXTCOLOUR 0
-#define POPUP_DEF_USEDEFBGCOLOUR 0
-#define POPUP_DEF_USEDEFTEXTCOLOUR 0
-#define POPUP_DEF_POPUPNOTIFYFLAGS (SF_ONL | SF_AWAY | SF_NA | SF_OCC | SF_DND | SF_FFC | SF_INV | SF_OTP | SF_OTL)
-#define POPUP_DEF_POPUPDELAY 0
-
-#define POPUP_MAXPOPUPDELAY 9999
-*/
 #define MOREOPTDLG_DEF_DONTPOPDLG (SF_ONL | SF_INV)
 #define MOREOPTDLG_DEF_USEBYDEFAULT 0
 
@@ -177,8 +154,8 @@
 
 #define DB_SETTINGSVER "SettingsVer"
 
-#ifndef lengthof
-#define lengthof(s) (sizeof(s) / sizeof(*s))
+#ifndef SIZEOF
+#define SIZEOF(s) (sizeof(s) / sizeof(*s))
 #endif
 
 #define MS_NETLIB_LOG "Netlib/Log"
@@ -249,52 +226,52 @@ int ICQStatusToGeneralStatus(int bICQStat); // TODO: get rid of these protocol-s
 #define MS_AWAYSYS_SETSTATUSMODE "AwaySys/SetStatusMode" // change the status mode. wParam is new mode, lParam is new status message (AwaySys will interpret variables out of it), may be NULL.
 #define MS_AWAYSYS_IGNORENEXT "AwaySys/IgnoreNextStatusChange" //ignore nest status change
 
-typedef struct SetAwayMsgData_type
+struct SetAwayMsgData
 {
 	CString szProtocol;
 	MCONTACT hInitContact; // initial contact (filled by caller)
 	TCString Message; // initial message, NULL means default
 	bool IsModeless; // means the dialog was created with the CreateDialogParam function, not DialogBoxParam
 	int ISW_Flags; // InvokeStatusWindow service flags
-} SetAwayMsgData;
+};
 
-typedef struct READAWAYMSGDATA_TYPE
+struct READAWAYMSGDATA
 {
 	MCONTACT hContact; // contact
 	HANDLE hSeq; // sequence for stat msg request
 	HANDLE hAwayMsgEvent; // hooked
-} READAWAYMSGDATA;
+};
 
-typedef struct
+struct VAR_PARSE_DATA
 {
 	char *szProto;
 	TCString Message;
 	DWORD UIN;
 	int Flags; // a combination of VPF_ flags
-} VAR_PARSE_DATA;
+};
 
-typedef struct
+struct DYNAMIC_NOTIFY_DATA
 {
 	MCONTACT hContact;
 	int iStatusMode;
 	TCString Proto;
-} DYNAMIC_NOTIFY_DATA;
+};
 
-typedef struct
+struct PLUGIN_DATA
 {
 	BYTE PopupLClickAction, PopupRClickAction;
 	MCONTACT hContact;
 	HICON hStatusIcon; // needed here to destroy its handle on UM_FREEPLUGINDATA
-} PLUGIN_DATA;
+};
 
-typedef struct
+struct NAS_ISWINFOv1
 {
 	int cbSize;
 	char *szProto;
 	MCONTACT hContact;
 	char *szMsg;
 	WORD status;
-} NAS_ISWINFOv1;
+};
 
 #define MTYPE_AUTOONLINE 0xE7 // required to support ICQ Plus online status messages
 
@@ -358,7 +335,7 @@ static __inline int LogMessage(const char *Format, ...)
 	char szText[8096];
 	strcpy(szText, LOG_PREFIX);
 	va_start(va, Format);
-	mir_vsnprintf(szText + (lengthof(LOG_PREFIX) - 1), sizeof(szText) - (lengthof(LOG_PREFIX) - 1), Format, va);
+	mir_vsnprintf(szText + (SIZEOF(LOG_PREFIX) - 1), sizeof(szText) - (SIZEOF(LOG_PREFIX) - 1), Format, va);
 	va_end(va);
 	return CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
 }
@@ -381,8 +358,7 @@ static __inline void my_variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton)
 
 static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags = 0, char *szSubjectDesc = NULL, char *szExtraDesc = NULL)
 {
-	if (ServiceExists(MS_VARS_SHOWHELPEX))
-	{
+	if (ServiceExists(MS_VARS_SHOWHELPEX)) {
 		VARHELPINFO vhi = {0};
 		vhi.cbSize = sizeof(VARHELPINFO);
 		vhi.flags = flags ? flags : (VHF_FULLDLG | VHF_SETLASTSUBJECT);
@@ -391,8 +367,7 @@ static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags 
 		vhi.szExtraTextDesc = szExtraDesc;
 		return CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwndDlg, (LPARAM)&vhi);
 	}
-	else
-	{
+	else {
 		ShowMsg(TranslateT("New Away System"), TranslateT("Variables plugin is not installed"), true);
 		return -1;
 	}

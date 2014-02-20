@@ -201,7 +201,6 @@
     <ClInclude Include="src\ContactList.h" />
     <ClInclude Include="src\CString.h" />
     <ClInclude Include="src\MsgTree.h" />
-    <ClInclude Include="..\CommonLibs\Options.h" />
     <ClInclude Include="src\Options.h" />
     <ClInclude Include="src\Path.h" />
     <ClInclude Include="src\Properties.h" />
@@ -215,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\NewAwaySys.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

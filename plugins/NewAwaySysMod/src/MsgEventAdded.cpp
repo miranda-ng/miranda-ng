@@ -22,8 +22,6 @@
 #include "Common.h"
 #include "Properties.h"
 
-// stupid compiler.. kept returning me an "INTERNAL COMPILER ERROR" on almost every line of MsgEventAdded function with Release mode and unicode enabled >:( even disabling optimization through #pragma optimize didn't help.. The only acceptable solution I found is to move this function to a separate file and to disable optimization for the whole file in the project properties.
-
 static struct
 {
 	int Status, DisableReplyCtlID, DontShowDialogCtlID;
@@ -55,21 +53,19 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 	CAutoreplyData *ad = (CAutoreplyData*)_ad;
 	_ASSERT(ad && ad->hContact && ad->Reply.GetLen());
 	char *szProto = GetContactProto(ad->hContact);
-	if (!szProto)
-	{
+	if (!szProto) {
 		_ASSERT(0);
 		return;
 	}
 
-	int ReplyLen = (ad->Reply.GetLen() + 1) * (sizeof(char) + sizeof(WCHAR));
+	int ReplyLen = (ad->Reply.GetLen() + 1) * (sizeof(char)+sizeof(WCHAR));
 	PBYTE pBuf = (PBYTE)malloc(ReplyLen);
 	memcpy(pBuf, _T2A(ad->Reply), ad->Reply.GetLen() + 1);
 	memcpy(pBuf + ad->Reply.GetLen() + 1, ad->Reply, (ad->Reply.GetLen() + 1) * sizeof(WCHAR));
 	CallContactService(ad->hContact, ServiceExists(CString(szProto) + PSS_MESSAGE "W") ? (PSS_MESSAGE "W") : PSS_MESSAGE, PREF_UNICODE, (LPARAM)pBuf);
 
-	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY))
-	{ // store in the history
-		DBEVENTINFO dbeo = {0};
+	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY)) { // store in the history
+		DBEVENTINFO dbeo = { 0 };
 		dbeo.cbSize = sizeof(dbeo);
 		dbeo.eventType = EVENTTYPE_MESSAGE;
 		dbeo.flags = DBEF_SENT;
@@ -90,19 +86,17 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 
 int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
 {
-	if (ServiceExists(MS_MSG_GETWINDOWDATA))
-	{
-		MessageWindowData mwd = {0};
+	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {
+		MessageWindowData mwd = { 0 };
 		mwd.cbSize = sizeof(mwd);
-		MessageWindowInputData mwid = {0};
+		MessageWindowInputData mwid = { 0 };
 		mwid.cbSize = sizeof(mwid);
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwid.hContact = hContact;
 		return !CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) && mwd.hwndWindow;
-	} else
-	{
-		return DefaultRetVal;
 	}
+
+	return DefaultRetVal;
 }
 
 
@@ -112,7 +106,7 @@ int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
 class CMetacontactEvent
 {
 public:
-	CMetacontactEvent(MCONTACT hMetaContact, DWORD timestamp, int bMsgWindowIsOpen): hMetaContact(hMetaContact), timestamp(timestamp), bMsgWindowIsOpen(bMsgWindowIsOpen) {};
+	CMetacontactEvent(MCONTACT hMetaContact, DWORD timestamp, int bMsgWindowIsOpen) : hMetaContact(hMetaContact), timestamp(timestamp), bMsgWindowIsOpen(bMsgWindowIsOpen) {};
 
 	MCONTACT hMetaContact;
 	DWORD timestamp;
@@ -144,146 +138,116 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 
 	int bMsgWindowIsOpen = MSGWNDOPEN_UNDEFINED;
 	if (dbei->flags & DBEF_READ) {
+		// if it's a subcontact of a metacontact
 		MCONTACT hMetaContact;
-		if (ServiceExists(MS_MC_GETMETACONTACT) && (hMetaContact = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0))) // if it's a subcontact of a metacontact
-		{ // ugly workaround for metacontacts, part II
-		// remove outdated events first
+		if (ServiceExists(MS_MC_GETMETACONTACT) && (hMetaContact = CallService(MS_MC_GETMETACONTACT, hContact, 0))) { // ugly workaround for metacontacts, part II
+			// remove outdated events first
 			DWORD CurTime = time(NULL);
-			int I;
-			for (I = MetacontactEvents.GetSize() - 1; I >= 0; I--)
-			{
-				if (CurTime - MetacontactEvents[I].timestamp > MAX_REPLY_TIMEDIFF)
-				{
-					MetacontactEvents.RemoveElem(I);
-				}
-			}
-		// we compare only event timestamps, and do not look at the message itself. it's unlikely that there'll be two events from a contact at the same second, so it's a trade-off between speed and reliability
-			for (I = MetacontactEvents.GetSize() - 1; I >= 0; I--)
-			{
-				if (MetacontactEvents[I].timestamp == dbei->timestamp && MetacontactEvents[I].hMetaContact == hMetaContact)
-				{
-					bMsgWindowIsOpen = MetacontactEvents[I].bMsgWindowIsOpen;
+			int i;
+			for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
+				if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
+					MetacontactEvents.RemoveElem(i);
+
+			// we compare only event timestamps, and do not look at the message itself. it's unlikely that there'll be two events from a contact at the same second, so it's a trade-off between speed and reliability
+			for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--) {
+				if (MetacontactEvents[i].timestamp == dbei->timestamp && MetacontactEvents[i].hMetaContact == hMetaContact) {
+					bMsgWindowIsOpen = MetacontactEvents[i].bMsgWindowIsOpen;
 					break;
 				}
 			}
-			if (I < 0)
-			{
+			if (i < 0) {
 				_ASSERT(0);
 				return 0;
 			}
-		} else
-		{
-			return 0;
 		}
+		else return 0;
 	}
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME) && !lstrcmpA(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0)))
-	{ // ugly workaround for metacontacts, part I; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly
-	// remove outdated events first
+
+	// ugly workaround for metacontacts, part i; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly
+	if (ServiceExists(MS_MC_GETPROTOCOLNAME) && !lstrcmpA(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
+		// remove outdated events first
 		DWORD CurTime = time(NULL);
-		int I;
-		for (I = MetacontactEvents.GetSize() - 1; I >= 0; I--)
-		{
-			if (CurTime - MetacontactEvents[I].timestamp > MAX_REPLY_TIMEDIFF)
-			{
-				MetacontactEvents.RemoveElem(I);
-			}
-		}
-	// add the new event and wait for a subcontact's event
+		for (int i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
+			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
+				MetacontactEvents.RemoveElem(i);
+
+		// add the new event and wait for a subcontact's event
 		MetacontactEvents.AddElem(CMetacontactEvent(hContact, dbei->timestamp, IsSRMsgWindowOpen(hContact, false)));
 		return 0;
 	}
+
 	unsigned int iMode = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-	int I;
-	for (I = lengthof(StatusModeList) - 1; I >= 0; I--)
-	{
-		if (iMode == StatusModeList[I].Status)
-		{
+	int i;
+	for (i = SIZEOF(StatusModeList) - 1; i >= 0; i--)
+		if (iMode == StatusModeList[i].Status)
 			break;
-		}
-	}
-	if (I < 0)
-	{
+
+	if (i < 0)
 		return 0;
-	}
+
 	COptPage AutoreplyOptData(g_AutoreplyOptPage);
 	AutoreplyOptData.DBToMem();
 	if (dbei->eventType == EVENTTYPE_MESSAGE)
-	{
 		db_set_w(hContact, MOD_NAME, DB_MESSAGECOUNT, db_get_w(hContact, MOD_NAME, DB_MESSAGECOUNT, 0) + 1); // increment message counter
-	}
-	if (AutoreplyOptData.GetValue(StatusModeList[I].DisableReplyCtlID))
-	{
+
+	if (AutoreplyOptData.GetValue(StatusModeList[i].DisableReplyCtlID))
 		return 0;
-	}
+
 	MCONTACT hContactForSettings = hContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
 	if (hContactForSettings != INVALID_CONTACT_ID && db_get_b(hContactForSettings, "CList", "NotOnList", 0))
-	{
 		hContactForSettings = INVALID_CONTACT_ID; // INVALID_HANDLE_VALUE means the contact is not-on-list
-	}
+
 	if (!CContactSettings(iMode, hContactForSettings).Autoreply.IncludingParents(szProto) || CContactSettings(iMode, hContactForSettings).Ignore)
-	{
 		return 0;
-	}
-	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTREPLYINVISIBLE))
-	{
+
+	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTREPLYINVISIBLE)) {
 		WORD ApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
-		if ((iMode == ID_STATUS_INVISIBLE && (!(Flags1 & PF1_INVISLIST) || ApparentMode != ID_STATUS_ONLINE)) ||
-			(Flags1 & PF1_VISLIST && ApparentMode == ID_STATUS_OFFLINE))
-		{
+		if ((iMode == ID_STATUS_INVISIBLE && (!(Flags1 & PF1_INVISLIST) || ApparentMode != ID_STATUS_ONLINE)) || (Flags1 & PF1_VISLIST && ApparentMode == ID_STATUS_OFFLINE))
 			return 0;
-		}
 	}
-	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_ONLYCLOSEDDLGREPLY))
-	{
+	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_ONLYCLOSEDDLGREPLY)) {
 		if (bMsgWindowIsOpen && bMsgWindowIsOpen != MSGWNDOPEN_UNDEFINED)
-		{
 			return 0;
-		}
-	// we never get here for a metacontact; we did check for metacontact's window earlier, and here we need to check only for subcontact's window
+
+		// we never get here for a metacontact; we did check for metacontact's window earlier, and here we need to check only for subcontact's window
 		if (IsSRMsgWindowOpen(hContact, false))
-		{
 			return 0;
-		}
 	}
 	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_ONLYIDLEREPLY) && !g_bIsIdle)
-	{
 		return 0;
-	}
+
 	int UIN = 0;
 	if (IsAnICQProto(szProto))
-	{
 		UIN = db_get_dw(hContact, szProto, "UIN", 0);
-	}
+
 	int SendCount = AutoreplyOptData.GetValue(IDC_REPLYDLG_SENDCOUNT);
 	if ((AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTSENDTOICQ) && UIN) || // an icq contact
-		(SendCount != -1 && db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) >= SendCount))
-	{
+		 (SendCount != -1 && db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) >= SendCount))
 		return 0;
-	}
-	if ((dbei->eventType == EVENTTYPE_MESSAGE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTMSG)) || (dbei->eventType == EVENTTYPE_URL && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTURL)) || (dbei->eventType == EVENTTYPE_FILE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTFILE)))
-	{
+
+	if ((dbei->eventType == EVENTTYPE_MESSAGE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTMSG)) || 
+		 (dbei->eventType == EVENTTYPE_URL && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTURL)) || 
+		 (dbei->eventType == EVENTTYPE_FILE && !AutoreplyOptData.GetValue(IDC_REPLYDLG_EVENTFILE)))
 		return 0;
-	}
+
 	db_set_b(hContact, MOD_NAME, DB_SENDCOUNT, db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) + 1);
 	GetDynamicStatMsg(hContact); // it updates VarParseData.Message needed for %extratext% in the format
 	TCString Reply(*(TCString*)AutoreplyOptData.GetValue(IDC_REPLYDLG_PREFIX));
-	if (Reply != NULL && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES))
-	{
-		FORMATINFO fi = {0};
+	if (Reply != NULL && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
+		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(FORMATINFO);
 		fi.tszFormat = Reply;
 		fi.hContact = hContact;
 		fi.flags = FIF_TCHAR;
 		fi.tszExtraText = VarParseData.Message;
 		TCHAR *szResult = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
-		if (szResult != NULL)
-		{
+		if (szResult != NULL) {
 			Reply = szResult;
 			mir_free(szResult);
 		}
 	}
-	if (Reply.GetLen())
-	{
+	
+	if (Reply.GetLen()) {
 		CAutoreplyData *ad = new CAutoreplyData(hContact, Reply);
 		mir_forkthread(AutoreplyDelayThread, ad);
 	}

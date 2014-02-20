@@ -25,35 +25,27 @@
 
 HANDLE g_hReadWndList = NULL;
 
-
 static int ReadAwayMsgDlgResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
-	switch (urc->wId)
-	{
-		case IDC_READAWAYMSG_MSG:
-		{
-			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-		}
-		case IDC_READAWAYMSG_RETRIEVE:
-		{
-			return RD_ANCHORX_CENTRE | RD_ANCHORY_CENTRE;
-		}
-		case IDOK:
-		{
-			return RD_ANCHORX_CENTRE | RD_ANCHORY_BOTTOM;
-		}
+	switch (urc->wId) {
+	case IDC_READAWAYMSG_MSG:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+	case IDC_READAWAYMSG_RETRIEVE:
+		return RD_ANCHORX_CENTRE | RD_ANCHORY_CENTRE;
+
+	case IDOK:
+		return RD_ANCHORX_CENTRE | RD_ANCHORY_BOTTOM;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-
 static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			HICON hTitleIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIcon);
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
@@ -70,26 +62,25 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)awayData->hContact, GCDNF_TCHAR);
 			char *szProto = GetContactProto(awayData->hContact);
 			status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
-			GetWindowText(hwndDlg, format, lengthof(format));
-			_sntprintf(str, lengthof(str), format, status, contactName);
+			GetWindowText(hwndDlg, format, SIZEOF(format));
+			_sntprintf(str, SIZEOF(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);
 			GetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, format, sizeof(format));
-			_sntprintf(str, lengthof(str), format, status);
+			_sntprintf(str, SIZEOF(str), format, status);
 			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, str);
-			return true;
-		} break;
-		case UM_RAM_AWAYMSGACK: // got away msg
+		}
+		return true;
+
+	case UM_RAM_AWAYMSGACK: // got away msg
 		{
 			ACKDATA *ack = (ACKDATA*)lParam;
 			READAWAYMSGDATA *awayData = (READAWAYMSGDATA*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			// make sure everything is ok, and this is our ack
 			if (ack->hContact != awayData->hContact || ack->type != ACKTYPE_AWAYMSG || ack->hProcess != awayData->hSeq || ack->result != ACKRESULT_SUCCESS)
-			{
 				break;
-			}
+
 			// done with the event
-			if (awayData->hAwayMsgEvent)
-			{
+			if (awayData->hAwayMsgEvent) {
 				UnhookEvent(awayData->hAwayMsgEvent);
 				awayData->hAwayMsgEvent = NULL;
 			}
@@ -98,55 +89,48 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
 			db_set_s(awayData->hContact, "CList", "StatusMsg", (const char*)ack->lParam);
-		} break;
-		case WM_COMMAND:
-		{
-			switch (HIWORD(wParam))
-			{
-				case BN_CLICKED:
-				{
-					switch(LOWORD(wParam))
-					{
-						case IDCANCEL:
-						case IDOK:
-						{
-							DestroyWindow(hwndDlg);
-						} break;
-					}
-				} break;
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (HIWORD(wParam)) {
+		case BN_CLICKED:
+			switch (LOWORD(wParam)) {
+			case IDCANCEL:
+			case IDOK:
+				DestroyWindow(hwndDlg);
+				break;
 			}
-		} break;
-		case WM_SIZE:
+		}
+		break;
+
+	case WM_SIZE:
 		{
-			UTILRESIZEDIALOG urd = {0};
-			urd.cbSize = sizeof(urd);
+			UTILRESIZEDIALOG urd = { sizeof(urd) };
 			urd.hInstance = g_hInstance;
 			urd.hwndDlg = hwndDlg;
 			urd.lpTemplate = MAKEINTRESOURCEA(IDD_READAWAYMSG);
 			urd.pfnResizer = ReadAwayMsgDlgResize;
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			break;
 		}
-		case WM_CLOSE:
-		{
-			DestroyWindow(hwndDlg);
-		} break;
-		case WM_DESTROY:
-		{
-			READAWAYMSGDATA *awayData = (READAWAYMSGDATA*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (awayData->hAwayMsgEvent)
-			{
-				UnhookEvent(awayData->hAwayMsgEvent);
-				awayData->hAwayMsgEvent = NULL;
-			}
-			delete awayData;
-			Utils_SaveWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
-			WindowList_Remove(g_hReadWndList, hwndDlg);
-		} break;
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		READAWAYMSGDATA *awayData = (READAWAYMSGDATA*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		if (awayData->hAwayMsgEvent) {
+			UnhookEvent(awayData->hAwayMsgEvent);
+			awayData->hAwayMsgEvent = NULL;
+		}
+		delete awayData;
+		Utils_SaveWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
+		WindowList_Remove(g_hReadWndList, hwndDlg);
 	}
 	return false;
 }
-
 
 INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam)
 {

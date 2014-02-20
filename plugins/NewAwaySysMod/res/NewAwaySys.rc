@@ -155,7 +155,7 @@ BEGIN
                     BS_ICON | WS_TABSTOP,180,17,29,12
     CONTROL         "Don't reply to ICQ contacts",IDC_REPLYDLG_DONTSENDTOICQ,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,119,275,10
-    CONTROL         "Don't reply when I'm invisible to the contact",
+    CONTROL         "Don't reply when i'm invisible to the contact",
                     IDC_REPLYDLG_DONTREPLYINVISIBLE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,21,107,275,10
     CONTROL         "Save autoreply to the history",IDC_REPLYDLG_LOGREPLY,
@@ -172,7 +172,7 @@ BEGIN
                     UDS_ARROWKEYS | UDS_NOTHOUSANDS,156,70,12,12
     LTEXT           "times (-1=infinite)",IDC_REPLYDLG_STATIC_TIMES,172,72,
                     124,8
-    CONTROL         "Reset this counter also when I just change my status text\n(when status icon remains the same)",
+    CONTROL         "Reset this counter also when i just change my status text\n(when status icon remains the same)",
                     IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON,"Button",
                     BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,34,
                     84,262,18
