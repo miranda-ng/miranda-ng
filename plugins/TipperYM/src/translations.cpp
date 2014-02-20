@@ -704,7 +704,7 @@ static DBVTranslation internalTranslations[] =
 	{	ByteToYesNo,                   LPGENT("BYTE to Yes/No")                                                  },
 	{	ByteToGender,                  LPGENT("BYTE to Male/Female (ICQ)")                                       },
 	{	WordToCountry,                 LPGENT("WORD to country name")                                            },
-	{	DwordToIp,                     LPGENT("DWORD to ip address")                                             },
+	{	DwordToIp,                     LPGENT("DWORD to IP address")                                             },
 	{	DayMonthYearToDate,            LPGENT("<prefix>Day|Month|Year to date")                                  },
 	{  DayMonthYearToAge,             LPGENT("<prefix>Day|Month|Year to age")                                   },
 	{	HoursMinutesSecondsToTime,     LPGENT("<prefix>Hours|Minutes|Seconds to time")                           },

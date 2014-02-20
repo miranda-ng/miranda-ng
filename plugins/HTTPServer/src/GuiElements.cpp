@@ -1219,7 +1219,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, sizeof(szKeyWord));
 							DWORD dwExternalIP = GetExternIP(szUrl, szKeyWord);
 
-							mir_snprintf(szKeyWord, sizeof(szKeyWord), Translate("You external ip was detected as %d.%d.%d.%d\r\nby: %s") ,
+							mir_snprintf(szKeyWord, sizeof(szKeyWord), Translate("You external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
 							    SplitIpAddress(dwExternalIP) ,
 							    szUrl);
 							MessageBox(hwndDlg, szKeyWord, MSG_BOX_TITEL, MB_OK);
