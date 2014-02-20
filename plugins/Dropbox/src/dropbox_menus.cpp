@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 HGENMENU CDropbox::ContactMenuItems[CMI_MAX];
 

@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 void CDropbox::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {

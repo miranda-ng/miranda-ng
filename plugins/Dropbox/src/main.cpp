@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 int hLangpack;
 HINSTANCE g_hInstance;

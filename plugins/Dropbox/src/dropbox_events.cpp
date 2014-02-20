@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 int CDropbox::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {

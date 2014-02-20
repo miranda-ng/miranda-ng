@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 INT_PTR CALLBACK CDropbox::TokenRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

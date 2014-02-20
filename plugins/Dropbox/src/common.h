@@ -26,6 +26,7 @@
 
 #include "version.h"
 #include "resource.h"
+#include "dropbox.h"
 
 #define MODULE "Dropbox"
 

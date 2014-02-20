@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 INT_PTR CDropbox::GetCaps(WPARAM wParam, LPARAM lParam)
 {

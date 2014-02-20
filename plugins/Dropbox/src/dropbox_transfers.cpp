@@ -1,4 +1,4 @@
-#include "dropbox.h"
+#include "common.h"
 
 HttpRequest *CDropbox::CreateFileSendChunkedRequest(const char *data, int length)
 {
