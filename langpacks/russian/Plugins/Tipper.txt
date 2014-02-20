@@ -479,7 +479,7 @@ IP
 Байт - в пол (М/Ж) (ICQ)
 [WORD to country name]
 Слово - в название страны
-[DWORD to ip address]
+[DWORD to IP address]
 Дв. слово - в IP-адрес
 [<prefix>Day|Month|Year to date]
 <префикс>день|месяц|год - в дату
