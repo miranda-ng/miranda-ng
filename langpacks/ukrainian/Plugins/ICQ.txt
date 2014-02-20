@@ -904,7 +904,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Cars]
 Машини
 [Celebrity Fans]
-Фанат знаменитостей
+Знаменитості
 [Clothing]
 Одяг
 [Collections]
@@ -918,7 +918,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Entertainment]
 Розваги
 [Finance and Corporate]
-Фінанси і корпорація
+Фінанси
 [Fitness]
 Фітнес
 [Health and Beauty]
@@ -926,7 +926,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Hobbies]
 Хобі
 [Home Automation]
-Домашня автоматизація
+Побутова автоматизація
 [Household Products]
 Домашні продукти
 [Games]
@@ -934,7 +934,7 @@ SNAC(4.1) Помилка SENDMSG (x%02x)
 [Government]
 Уряд
 [ICQ - Help]
-ICQ-допомога
+ICQ - підтримка
 [Internet]
 Інтернет
 [Lifestyle]
@@ -964,7 +964,7 @@ ICQ-допомога
 [Religion]
 Релігія
 [Retail Stores]
-Роздрібна торгівля
+Покупки
 [Science]
 Наука
 [Skills]
@@ -1132,11 +1132,11 @@ Web-дизайн
 [High School]
 Середня школа
 [College]
-ВНЗ
+Коледж
 [University]
 Університет
 [Military]
-Військовий
+Військова служба
 [Past Work Place]
 Минула робота
 [Past Organization]
@@ -1192,11 +1192,11 @@ Web-дизайн
 [Transportation]
 Транспорт
 [Academic]
-Академія
+Викладач
 [Administrative]
 Адміністрування
 [Art/Entertainment]
-Розваги
+Мистецтво
 [College Student]
 Студент коледжу
 [Community & Social]
@@ -1212,15 +1212,15 @@ Web-дизайн
 [ICQ - Providing Help]
 ICQ - підтримка
 [Law]
-Закон
+Юриспруденція
 [Managerial]
 Управління
 [Medical/Health]
-Медицина/Здоров'я
+Медицина і охорона здоров'я
 [Non-Government Organization]
 Неурядова організація
 [Professional]
-Професіонал
+Профспілка
 [Retail]
 Роздрібний торговець
 [Retired]
@@ -1232,11 +1232,11 @@ ICQ - підтримка
 [University Student]
 Студент університету
 [Web Building]
-Web-служби
+Web-дизайн
 [Other Services]
 Інше
 [Alumni Org.]
-Випускники
+Організація випускників
 [Charity Org.]
 Благодійна організація
 [Club/Social Org.]
@@ -1248,7 +1248,7 @@ Web-служби
 [Fan Clubs]
 Фан-клуб
 [Fraternity/Sorority]
-Клуб за інтересами/Жіночий клуб
+Студентська організація
 [Hobbyists Org.]
 Організація за захопленнями
 [International Org.]
@@ -1260,7 +1260,7 @@ Web-служби
 [Scientific/Technical Org.]
 Науково-технічна організація
 [Self Improvement Group]
-Самовдосконалююча група
+Група самовдосконалення
 [Spiritual/Religious Org.]
 Релігійна організація
 [Sports Org.]
@@ -1806,9 +1806,9 @@ ID користувача
 [Upload complete]
 Завантаження завершено
 [Upload FAILED]
-Завантаження не вдалася
+Завантаження не вдалося
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
-Ви не підключені до мережі ICQ. Щоб оновлювати дані, потрібно підключитися до мережі ICQ.
+Ви не підключені до мережі ICQ. Щоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.
 [Please authorize me to add you to my contact list.]
 Дозвольте, будь ласка, додати вас до списку.
 [Enter a password for UIN %u:]

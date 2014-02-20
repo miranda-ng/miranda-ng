@@ -100,7 +100,7 @@ IP адрес 2
 [No share selected]
 Папка не выбрана
 [You external ip was detected as %d.%d.%d.%d\r\nby: %s]
-Ваш внешний ip определен как %d.%d.%d.%d\r\nс: %s
+Ваш внешний IP определен как %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]
 Изменения в меню вступят в силу после перезапуска программы.
 [HTTP Server]

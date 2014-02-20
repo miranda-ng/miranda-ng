@@ -38,13 +38,13 @@
 [Entirely]
 Повністю
 [Restore last opened position]
-Відновити останнє положення
+Відновлювати останнє положення
 [Automatically expand "settings" when Database Editor ++ starts]
-Автоматично розкривати "налаштування" при запуску
+Автоматично розкривати "Налаштування" при запуску
 [Warn when deleting modules]
 Попереджати при видаленні модулів
 ["Open user tree in DBE++" menu item]
-Пункт меню "Відкрити в редакторі бази" у кожного контакту
+Пункт "Відкрити в редакторі бази" у меню контакту
 [Use popups when watched settings change values]
 Спливаючі вікна при зміні спостережуваних значень
 [Popup timeout (0 for infinite)]

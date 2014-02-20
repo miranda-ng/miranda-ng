@@ -1138,9 +1138,9 @@ Cповіщати про друк, коли вікно повідомлень з
 [Add phone number]
 Додати номер телефону
 [Enter country, area code and phone number:]
-Вкажіть країну, код міста і номер телефону
+Вкажіть країну, код міста і номер телефону:
 [Or enter a full international number:]
-Або вкажіть повний міжнародний номер
+Або вкажіть повний міжнародний номер:
 [Phone can receive SMS text messages]
 Телефон може отримувати SMS
 [Add e-mail address]

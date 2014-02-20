@@ -28,7 +28,7 @@
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Если вам в будущем понадобится этот мастер, отметьте плагин import.dll в настройках (раздел "Плагины").
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Miranda нашла следующие профили. Выберите профиль из списка, или нажмите "Другой профиль", если Вашего профиля нет в списке или список пустой.
+Miranda нашла следующие профили. Выберите профиль из списка, или нажмите "Другой профиль", если вашего профиля нет в списке или список пустой.
 [&Other Profile...]
 &Другой профиль..
 [&Filename:]

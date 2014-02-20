@@ -44,7 +44,7 @@
 [Database Error]
 Ошибка базы
 [Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda нашла повреждения в Вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
+Miranda нашла повреждения в вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
 [Database Panic]
 Проблема с базой
 [Change/remove password]

@@ -160,7 +160,7 @@
 [<current>]
 <поточний>
 [Add to Predefined]
-У передвстановлені
+У передустановлені
 [Delete Selected]
 Видалити вибране
 [Global]

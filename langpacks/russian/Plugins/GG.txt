@@ -200,7 +200,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 [You need to specify your registration e-mail first.]
 Необходимо указать ваш e-mail.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Ваш пароль будет выслан на регистрационный e-mail .\nПродолжить?
+Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
 [Allow]

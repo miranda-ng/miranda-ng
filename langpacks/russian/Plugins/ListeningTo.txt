@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
-Отправляет информацию о прослушиваемой музыке Вашим контактам.
+Отправляет информацию о прослушиваемой музыке вашим контактам.
 [Listening to information]
 Информация о прослушиваемой музыке
 [Enable sending listening information to contacts:]

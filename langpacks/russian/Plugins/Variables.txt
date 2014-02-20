@@ -26,7 +26,7 @@
 [Parse]
 Анализ
 [Please enter your input below]
-Вводите Вашу строку ниже
+Вводите вашу строку ниже
 [Don't set a contact]
 Не устанавливать контакт
 [Set to the following contact]

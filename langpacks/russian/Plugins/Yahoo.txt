@@ -128,7 +128,7 @@ Yahoo Игнор
 [Please enter a valid buddy name to ignore.]
 Введите правильное имя контакта для игнорирования.
 [The buddy is already on your ignore list.]
-Этот контакт уже в Вашем списке игнора.
+Этот контакт уже в вашем списке игнора.
 [You need to be connected to Yahoo to remove from the ignore list.]
 Вы должны быть в сети для удаления из списка игнорирования.
 [Please select a buddy on the ignore list to remove.]
@@ -192,7 +192,7 @@ ID
 [Yahoo Ping Error]
 Yahoo ошибка пинга
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
-Не могу авторизоваться в Yahoo - имя не распознано. Проверьте Ваше имя пользователя.
+Не могу авторизоваться в Yahoo - имя не распознано. Проверьте ваше имя пользователя.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Не могу авторизоваться в Yahoo - пароль неверен. Проверьте ваши имя пользователя и пароль.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]

@@ -89,6 +89,8 @@
 Телефон может получать SMS
 [Add E-Mail]
 Добавить E-mail
+[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
+Введите адрес E-mail\n(например, john.doe@provider.com)
 [Enter a representitive name for the e-mail address here.]
 Введите имя для электронного адреса
 [Enter the e-mail address here.]
@@ -166,7 +168,7 @@
 [Anniversary list]
 Список праздников
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
-Предстоящие праздники\nСписок содержит все праздники Ваших контактов.
+Предстоящие праздники\nСписок содержит все праздники ваших контактов.
 [Statistics:]
 Статистика:
 [with birthday:]
@@ -283,6 +285,8 @@ E-Mail
 Прочее
 [Show 'Restart' menu item]
 Пункт меню "Перезапуск"
+[Use Zodiac as default avatar]
+Использовать знак зодиака как аватар
 [Country Flags]
 Флаги стран
 [Use &unknown flag if country cannot be determined]
@@ -364,7 +368,7 @@ E-Mail
 [Reset to defaults]
 Стандартные
 [Creating unique name for a page failed with %d and error code %d]
-Ошибка при создании имя для страницы с %d, код ошибки %d
+Ошибка при создании имени для страницы с %d, код ошибки %d
 [Creating the label for a page failed with %d and error code %d]
 Ошибка при создании названия для страницы с %d, код ошибки %d
 [The dialog template type is no longer supported]
@@ -447,6 +451,8 @@ E-Mail
 Страницы не были добавлены. Отмена создания диалога!
 [Details dialog failed to be created. Returning error is %d.]
 Ошибка создания диалога деталей. Ошибка %d.
+[The Page to add has invalid size %d bytes!]
+Неправильный размер страницы для добавления: %d байт
 [General]
 Общее
 [Contact (private)]
@@ -475,6 +481,8 @@ E-Mail
 Загрузка не удалась
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Ваши детали не загружены.\nОни сохранены локально.
+[Fatal error, image services not found. Flags Module will be disabled.]
+Фатальная ошибка: служба изображений не найдена. Плагин Flags будет отключён.
 [IM Naming]
 Имя в IM
 [Password]
@@ -574,7 +582,7 @@ E-Mail
 [Anniversary later]
 Праздник позже
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Внимание: Версия Вашего текущего набора значков отличается от версии UserInfoEx.\nНекоторые значки могут быть не отображены правильно
+Внимание: Версия вашего текущего набора значков отличается от версии UserInfoEx.\nНекоторые значки могут быть отображены неправильно
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Внимание: Набор значков не найден ни в одной из папок: 'customize\\icons', 'icons' или 'plugins'!
 [Main]
@@ -603,6 +611,8 @@ E-Mail
 Проверить праздники
 [Extended UserInfo]
 Личные данные
+[Ex-/Import Group]
+Экспорт/Импорт группы
 [&Export Group]
 &Экспортировать группу
 [&Import Group]
@@ -627,6 +637,8 @@ E-Mail
 Вторичный e-mail
 [Tertiary e-mail]
 Третий e-mail
+[Address & Contact]
+Контакты
 [Company]
 Компания
 [Question]
@@ -1069,6 +1081,12 @@ Web Дизайн
 Ей
 [He/She]
 Ему/ей
+[%d. %s today\0]
+%d. %s сегодня\0
+[%d. %s tomorrow\0]
+%d. %s завтра\0
+[%d. %s in %d days\0]
+%d. %s через %d дней\0
 [%s has birthday today.]
 %s отмечает День рождения сегодня.
 [%s has birthday tomorrow.]
@@ -1139,6 +1157,8 @@ INI файл "%s"\nдля чтения контакта не может быть
 Импорт деталей пользователя из vCard
 [Can't create xml file!\n%S]
 Невозможно создать XML файл!\n%S
+[Export took %f ms]
+Экспорт занял %f мс
 [Contact: %s (%S)]
 Контакт: %s (%S)
 [Importing %s caused error %d]
@@ -1159,6 +1179,8 @@ INI файл "%s"\nдля чтения контакта не может быть
 Информация Владельца импортирована удачно.
 [Selected XMLCard does not contain an owner contact!]
 Выбранная XML карточка не содержит информации владельца!
+[Import took %f ms]
+Импорт занял %f мс
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Добавлено контактов: %u / %u\nДобавлено настроек: %u / %u\nДобавлено событий: %u / %u\nДублирующих событий: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]

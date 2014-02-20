@@ -864,7 +864,7 @@ Jabber ошибка
 [Registration successful]
 Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учётной записи Jabber.
+Пароль успешно изменен. Не забудьте обновить ваш пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
 Пароль не может быть изменен
 [Jabber Bookmarks Error]
@@ -1352,7 +1352,7 @@ Jabber ошибка
 [Confirm password]
 Введите пароль
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
-Эта операция удалит Вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
+Эта операция удалит вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
 [Account removal warning]
 Удаление учётной записи
 [You can change your password only when you are online]
