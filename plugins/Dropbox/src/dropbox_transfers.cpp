@@ -76,15 +76,6 @@ void CDropbox::SendFileChunkedNext(const char *data, int length, const char *upl
 
 void CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact)
 {
-	/*char url[MAX_PATH];
-	mir_snprintf(
-		url,
-		SIZEOF(url),
-		"%s/commit_chunked_upload/%s/%s",
-		DROPBOX_APICONTENT_URL,
-		DROPBOX_API_ROOT,
-		fileName);*/
-
 	CMStringA url;
 	url.AppendFormat(
 		"%s/commit_chunked_upload/%s/%s",
@@ -92,7 +83,6 @@ void CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, M
 		DROPBOX_API_ROOT,
 		fileName);
 	url.Replace('\\', '/');
-	
 
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
 	request->AddParameter("upload_id", uploadId);
@@ -104,7 +94,7 @@ void CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, M
 
 	if (response)
 	{
-		if (response->resultCode == HttpStatus::OK)
+		if (response->resultCode == HttpStatus::OK && !strchr(fileName, '\\'))
 		{
 			url.Replace(DROPBOX_APICONTENT_URL, DROPBOX_API_URL);
 			url.Replace("commit_chunked_upload", "shares");
@@ -154,8 +144,11 @@ void CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, M
 	}
 }
 
-void CDropbox::CreateFolder(const char *folderName)
+void CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 {
+	CMStringA folder = folderName;
+	folder.Replace('\\', '/');
+
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder");
 	request->AddParameter("root", DROPBOX_API_ROOT);
 	request->AddParameter("path", folderName);
@@ -167,11 +160,59 @@ void CDropbox::CreateFolder(const char *folderName)
 
 	if (response)
 	{
-		/*if (response->resultCode == HttpStatus::OK)
+		if (response->resultCode == HttpStatus::OK && !strchr(folderName, '\\'))
 		{
-		}*/
+			char url[MAX_PATH];
+			mir_snprintf(
+				url,
+				SIZEOF(url),
+				"%s/shares/%s/%s",
+				DROPBOX_API_URL,
+				DROPBOX_API_ROOT,
+				folder.GetBuffer());
 
-		mir_free(response);
+			request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
+			request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+
+			mir_free(response);
+
+			response = request->Send();
+
+			if (response)
+			{
+				if (response->resultCode == HttpStatus::OK)
+				{
+					JSONNODE *root = json_parse(response->pData);
+					if (root != NULL)
+					{
+						JSONNODE *node = json_get(root, "url");
+						char message[1024];
+						mir_snprintf(
+							message,
+							SIZEOF(message),
+							Translate("Link to download folder \"%s\": %s"),
+							folderName,
+							mir_utf8encodeW(json_as_string(node)));
+
+						DBEVENTINFO dbei = { sizeof(dbei) };
+						dbei.szModule = MODULE;
+						dbei.timestamp = time(NULL);
+						dbei.eventType = EVENTTYPE_MESSAGE;
+						dbei.cbBlob = strlen(message);
+						dbei.pBlob = (PBYTE)mir_strdup(message);
+						dbei.flags = DBEF_UTF;
+						::db_event_add(hContact, &dbei);
+
+						delete node;
+						delete root;
+					}
+				}
+
+				mir_free(response);
+			}
+		}
+		else
+			mir_free(response);
 	}
 }
 
@@ -182,7 +223,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
 	for (int i = 0; ftp->pszFolders[i]; i++)
-		Singleton<CDropbox>::GetInstance()->CreateFolder(ftp->pszFolders[i]);
+		Singleton<CDropbox>::GetInstance()->CreateFolder(ftp->pszFolders[i], ftp->pfts.hContact);
 
 	for (int i = 0; ftp->pfts.pszFiles[i]; i++)
 	{

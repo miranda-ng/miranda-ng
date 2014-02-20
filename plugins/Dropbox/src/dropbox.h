@@ -51,11 +51,11 @@ struct FileTransferParam
 
 	~FileTransferParam()
 	{
-		/*if (pfts.pszFiles)
+		if (pfts.pszFiles)
 		{
 			for (int i = 0; pfts.pszFiles[i]; i++)
 			{
-				if (pfts.pszFiles[i]) delete pfts.pszFiles[i];
+				if (pfts.pszFiles[i]) mir_free(pfts.pszFiles[i]);
 			}
 			delete pfts.pszFiles;
 		}
@@ -64,10 +64,10 @@ struct FileTransferParam
 		{
 			for (int i = 0; pszFolders[i]; i++)
 			{
-				if (pszFolders[i]) delete pszFolders[i];
+				if (pszFolders[i]) mir_free(pszFolders[i]);
 			}
 			delete pszFolders;
-		}*/
+		}
 	}
 };
 
@@ -108,7 +108,7 @@ private:
 	void SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
 	void SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact);
 
-	void CreateFolder(const char *folderName);
+	void CreateFolder(const char *folderName, MCONTACT hContact);
 
 	static void _cdecl SendFileAsync(void *arg);
 
