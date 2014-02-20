@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -600,20 +600,20 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MSGICON             ICON    DISCARDABLE     "Images\\MsgIcon.ico"
-IDI_SOE_ENABLED         ICON    DISCARDABLE     "Images\\on.ico"
-IDI_SOE_DISABLED        ICON    DISCARDABLE     "Images\\off.ico"
-IDI_DOT                 ICON    DISCARDABLE     "Images\\Dot.ico"
-IDI_IGNORE              ICON    DISCARDABLE     "Images\\Ignore.ico"
-IDI_SAVE                ICON    DISCARDABLE     "Images\\SaveMsg.ico"
-IDI_SAVEASNEW           ICON    DISCARDABLE     "Images\\SaveAsNew.ico"
-IDI_DELETE              ICON    DISCARDABLE     "Images\\Delete.ico"
-IDI_NEWCATEGORY         ICON    DISCARDABLE     "Images\\NewCat.ico"
-IDI_VARIABLES           ICON    DISCARDABLE     "Images\\Variables.ico"
-IDI_NEWMESSAGE          ICON    DISCARDABLE     "Images\\NewMessage.ico"
-IDI_SETTINGS            ICON    DISCARDABLE     "Images\\Settings.ico"
-IDI_STATUS_OTHER        ICON    DISCARDABLE     "Images\\Status_Other.ico"
-IDI_INDEFINITE          ICON    DISCARDABLE     "Images\\Indefinite.ico"
+IDI_MSGICON             ICON    DISCARDABLE     "res\\MsgIcon.ico"
+IDI_SOE_ENABLED         ICON    DISCARDABLE     "res\\on.ico"
+IDI_SOE_DISABLED        ICON    DISCARDABLE     "res\\off.ico"
+IDI_DOT                 ICON    DISCARDABLE     "res\\Dot.ico"
+IDI_IGNORE              ICON    DISCARDABLE     "res\\Ignore.ico"
+IDI_SAVE                ICON    DISCARDABLE     "res\\SaveMsg.ico"
+IDI_SAVEASNEW           ICON    DISCARDABLE     "res\\SaveAsNew.ico"
+IDI_DELETE              ICON    DISCARDABLE     "res\\Delete.ico"
+IDI_NEWCATEGORY         ICON    DISCARDABLE     "res\\NewCat.ico"
+IDI_VARIABLES           ICON    DISCARDABLE     "res\\Variables.ico"
+IDI_NEWMESSAGE          ICON    DISCARDABLE     "res\\NewMessage.ico"
+IDI_SETTINGS            ICON    DISCARDABLE     "res\\Settings.ico"
+IDI_STATUS_OTHER        ICON    DISCARDABLE     "res\\Status_Other.ico"
+IDI_INDEFINITE          ICON    DISCARDABLE     "res\\Indefinite.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -682,8 +682,8 @@ END
 // Bitmap
 //
 
-IDB_SOE_ENABLED         BITMAP  MOVEABLE PURE   "Images\\on.bmp"
-IDB_SOE_DISABLED        BITMAP  MOVEABLE PURE   "Images\\off.bmp"
+IDB_SOE_ENABLED         BITMAP  MOVEABLE PURE   "res\\on.bmp"
+IDB_SOE_DISABLED        BITMAP  MOVEABLE PURE   "res\\off.bmp"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

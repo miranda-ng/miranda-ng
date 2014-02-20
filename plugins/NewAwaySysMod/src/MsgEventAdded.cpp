@@ -43,9 +43,9 @@ static struct
 class CAutoreplyData
 {
 public:
-	CAutoreplyData(HANDLE hContact, TCString Reply): hContact(hContact), Reply(Reply) {}
+	CAutoreplyData(MCONTACT hContact, TCString Reply): hContact(hContact), Reply(Reply) {}
 
-	HANDLE hContact;
+	MCONTACT hContact;
 	TCString Reply;
 };
 
@@ -54,7 +54,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 { // _ad must be allocated using "new CAutoreplyData()"
 	CAutoreplyData *ad = (CAutoreplyData*)_ad;
 	_ASSERT(ad && ad->hContact && ad->Reply.GetLen());
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ad->hContact, 0);
+	char *szProto = GetContactProto(ad->hContact);
 	if (!szProto)
 	{
 		_ASSERT(0);
@@ -63,7 +63,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 
 	int ReplyLen = (ad->Reply.GetLen() + 1) * (sizeof(char) + sizeof(WCHAR));
 	PBYTE pBuf = (PBYTE)malloc(ReplyLen);
-	memcpy(pBuf, TCHAR2ANSI(ad->Reply), ad->Reply.GetLen() + 1);
+	memcpy(pBuf, _T2A(ad->Reply), ad->Reply.GetLen() + 1);
 	memcpy(pBuf + ad->Reply.GetLen() + 1, ad->Reply, (ad->Reply.GetLen() + 1) * sizeof(WCHAR));
 	CallContactService(ad->hContact, ServiceExists(CString(szProto) + PSS_MESSAGE "W") ? (PSS_MESSAGE "W") : PSS_MESSAGE, PREF_UNICODE, (LPARAM)pBuf);
 
@@ -80,33 +80,15 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		dbeo.pBlob = pBuf;
 
 		SleepEx(1000, true); // delay before sending the reply, as we need it to be later than the message we're replying to (without this delay, srmm puts the messages in a wrong order)
-		CallService(MS_DB_EVENT_ADD, (WPARAM)ad->hContact, (LPARAM)&dbeo);
+		db_event_add(ad->hContact, &dbeo);
 	}
 
 	free(pBuf);
-
-/*
-	char *utf8Reply = mir_utf8encodeT(ad->Reply); // todo: use this instead of the code above, when 0.7 will be released
-	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY))
-	{ // store in the history
-		DBEVENTINFO dbeo = {0};
-		dbeo.cbSize = sizeof(dbeo);
-		dbeo.eventType = EVENTTYPE_MESSAGE;
-		dbeo.flags = DBEF_SENT | DBEF_UTF;
-		dbeo.szModule = szProto;
-		dbeo.timestamp = time(NULL);
-		dbeo.cbBlob = strlen(utf8Reply);
-		dbeo.pBlob = utf8Reply;
-		CallService(MS_DB_EVENT_ADD, (WPARAM)ad->hContact, (LPARAM)&dbeo);
-	}
-	CallContactService(ad->hContact, ServiceExists(CString(szProto) + PSS_MESSAGE "W") ? (PSS_MESSAGE "W") : PSS_MESSAGE, PREF_UTF, (LPARAM)utf8Reply);
-	mir_free(utf8Reply);
-*/
 	delete ad;
 }
 
 
-int IsSRMsgWindowOpen(HANDLE hContact, int DefaultRetVal)
+int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
 {
 	if (ServiceExists(MS_MSG_GETWINDOWDATA))
 	{
@@ -130,9 +112,9 @@ int IsSRMsgWindowOpen(HANDLE hContact, int DefaultRetVal)
 class CMetacontactEvent
 {
 public:
-	CMetacontactEvent(HANDLE hMetaContact, DWORD timestamp, int bMsgWindowIsOpen): hMetaContact(hMetaContact), timestamp(timestamp), bMsgWindowIsOpen(bMsgWindowIsOpen) {};
+	CMetacontactEvent(MCONTACT hMetaContact, DWORD timestamp, int bMsgWindowIsOpen): hMetaContact(hMetaContact), timestamp(timestamp), bMsgWindowIsOpen(bMsgWindowIsOpen) {};
 
-	HANDLE hMetaContact;
+	MCONTACT hMetaContact;
 	DWORD timestamp;
 	int bMsgWindowIsOpen;
 };
@@ -140,37 +122,30 @@ public:
 TMyArray<CMetacontactEvent> MetacontactEvents;
 
 
-int MsgEventAdded(WPARAM wParam, LPARAM lParam)
+int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
 	if (!hContact)
-	{
 		return 0;
-	}
+
 	if (dbei->flags & DBEF_SENT || (dbei->eventType != EVENTTYPE_MESSAGE && dbei->eventType != EVENTTYPE_URL && dbei->eventType != EVENTTYPE_FILE))
-	{
 		return 0;
-	}
-	if (time(NULL) - dbei->timestamp > MAX_REPLY_TIMEDIFF)
-	{ // don't reply to offline messages
+
+	if (time(NULL) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
 		return 0;
-	}
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+
+	char *szProto = GetContactProto(hContact);
 	if (!szProto)
-	{
 		return 0;
-	}
+
 	DWORD Flags1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	if (!(Flags1 & PF1_IMSEND))
-	{ // don't reply to protocols that don't support outgoing messages
+	if (!(Flags1 & PF1_IMSEND)) // don't reply to protocols that don't support outgoing messages
 		return 0;
-	}
+
 	int bMsgWindowIsOpen = MSGWNDOPEN_UNDEFINED;
-	if (dbei->flags & DBEF_READ)
-	{
-		HANDLE hMetaContact;
-		if (ServiceExists(MS_MC_GETMETACONTACT) && (hMetaContact = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0))) // if it's a subcontact of a metacontact
+	if (dbei->flags & DBEF_READ) {
+		MCONTACT hMetaContact;
+		if (ServiceExists(MS_MC_GETMETACONTACT) && (hMetaContact = CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0))) // if it's a subcontact of a metacontact
 		{ // ugly workaround for metacontacts, part II
 		// remove outdated events first
 			DWORD CurTime = time(NULL);
@@ -234,16 +209,16 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam)
 	AutoreplyOptData.DBToMem();
 	if (dbei->eventType == EVENTTYPE_MESSAGE)
 	{
-		DBWriteContactSettingWord(hContact, MOD_NAME, DB_MESSAGECOUNT, DBGetContactSettingWord(hContact, MOD_NAME, DB_MESSAGECOUNT, 0) + 1); // increment message counter
+		db_set_w(hContact, MOD_NAME, DB_MESSAGECOUNT, db_get_w(hContact, MOD_NAME, DB_MESSAGECOUNT, 0) + 1); // increment message counter
 	}
 	if (AutoreplyOptData.GetValue(StatusModeList[I].DisableReplyCtlID))
 	{
 		return 0;
 	}
-	HANDLE hContactForSettings = hContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
-	if (hContactForSettings != INVALID_HANDLE_VALUE && DBGetContactSettingByte(hContactForSettings, "CList", "NotOnList", 0))
+	MCONTACT hContactForSettings = hContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
+	if (hContactForSettings != INVALID_CONTACT_ID && db_get_b(hContactForSettings, "CList", "NotOnList", 0))
 	{
-		hContactForSettings = INVALID_HANDLE_VALUE; // INVALID_HANDLE_VALUE means the contact is not-on-list
+		hContactForSettings = INVALID_CONTACT_ID; // INVALID_HANDLE_VALUE means the contact is not-on-list
 	}
 	if (!CContactSettings(iMode, hContactForSettings).Autoreply.IncludingParents(szProto) || CContactSettings(iMode, hContactForSettings).Ignore)
 	{
@@ -251,7 +226,7 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam)
 	}
 	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTREPLYINVISIBLE))
 	{
-		WORD ApparentMode = DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
+		WORD ApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 		if ((iMode == ID_STATUS_INVISIBLE && (!(Flags1 & PF1_INVISLIST) || ApparentMode != ID_STATUS_ONLINE)) ||
 			(Flags1 & PF1_VISLIST && ApparentMode == ID_STATUS_OFFLINE))
 		{
@@ -277,11 +252,11 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam)
 	int UIN = 0;
 	if (IsAnICQProto(szProto))
 	{
-		UIN = DBGetContactSettingDword(hContact, szProto, "UIN", 0);
+		UIN = db_get_dw(hContact, szProto, "UIN", 0);
 	}
 	int SendCount = AutoreplyOptData.GetValue(IDC_REPLYDLG_SENDCOUNT);
 	if ((AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTSENDTOICQ) && UIN) || // an icq contact
-		(SendCount != -1 && DBGetContactSettingByte(hContact, MOD_NAME, DB_SENDCOUNT, 0) >= SendCount))
+		(SendCount != -1 && db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) >= SendCount))
 	{
 		return 0;
 	}
@@ -289,7 +264,7 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam)
 	{
 		return 0;
 	}
-	DBWriteContactSettingByte(hContact, MOD_NAME, DB_SENDCOUNT, DBGetContactSettingByte(hContact, MOD_NAME, DB_SENDCOUNT, 0) + 1);
+	db_set_b(hContact, MOD_NAME, DB_SENDCOUNT, db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) + 1);
 	GetDynamicStatMsg(hContact); // it updates VarParseData.Message needed for %extratext% in the format
 	TCString Reply(*(TCString*)AutoreplyOptData.GetValue(IDC_REPLYDLG_PREFIX));
 	if (Reply != NULL && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES))

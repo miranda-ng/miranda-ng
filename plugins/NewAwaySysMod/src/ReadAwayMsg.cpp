@@ -60,7 +60,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			Utils_RestoreWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
 			READAWAYMSGDATA *awayData = new READAWAYMSGDATA;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)awayData);
-			awayData->hContact = (HANDLE)lParam;
+			awayData->hContact = lParam;
 			awayData->hAwayMsgEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, UM_RAM_AWAYMSGACK);
 			awayData->hSeq = (HANDLE)CallContactService(awayData->hContact, PSS_GETAWAYMSG, 0, 0);
 			WindowList_Add(g_hReadWndList, hwndDlg, awayData->hContact);
@@ -68,8 +68,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			TCHAR str[256], format[128];
 			TCHAR *status, *contactName;
 			contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)awayData->hContact, GCDNF_TCHAR);
-			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)awayData->hContact, 0);
-			status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DBGetContactSettingWord(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
+			char *szProto = GetContactProto(awayData->hContact);
+			status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
 			GetWindowText(hwndDlg, format, lengthof(format));
 			_sntprintf(str, lengthof(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);
@@ -97,7 +97,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_RETRIEVE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
-			DBWriteContactSettingString(awayData->hContact, "CList", "StatusMsg", (const char*)ack->lParam);
+			db_set_s(awayData->hContact, "CList", "StatusMsg", (const char*)ack->lParam);
 		} break;
 		case WM_COMMAND:
 		{
@@ -150,12 +150,9 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam)
 {
-	if (HWND hWnd = WindowList_Find(g_hReadWndList, (HANDLE)wParam)) // already have it
-	{
+	if (HWND hWnd = WindowList_Find(g_hReadWndList, wParam)) // already have it
 		SetForegroundWindow(hWnd);
-	} else
-	{
+	else
 		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
-	}
 	return 0;
 }

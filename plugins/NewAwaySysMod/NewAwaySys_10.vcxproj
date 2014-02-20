@@ -20,6 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A516E27-AC50-5374-756B-A1558DB2EFA9}</ProjectGuid>
+    <ProjectName>NewAwaySys</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -174,67 +175,44 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AwayOpt.cpp" />
-    <ClCompile Include="AwaySys.cpp">
+    <ClCompile Include="src\AwayOpt.cpp" />
+    <ClCompile Include="src\AwaySys.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ContactList.cpp" />
-    <ClCompile Include="..\CommonLibs\CString.cpp" />
-    <ClCompile Include="..\CommonLibs\GroupCheckbox.cpp" />
-    <ClCompile Include="MsgEventAdded.cpp" />
-    <ClCompile Include="MsgTree.cpp" />
-    <ClCompile Include="Notification.cpp" />
-    <ClCompile Include="..\CommonLibs\Options.cpp" />
-    <ClCompile Include="Properties.cpp" />
-    <ClCompile Include="ReadAwayMsg.cpp" />
-    <ClCompile Include="Services.cpp" />
-    <ClCompile Include="SetAwayMsg.cpp" />
-    <ClCompile Include="..\CommonLibs\ThemedImageCheckbox.cpp" />
-    <ClCompile Include="..\CommonLibs\Themes.cpp" />
+    <ClCompile Include="src\Client.cpp" />
+    <ClCompile Include="src\ContactList.cpp" />
+    <ClCompile Include="src\CString.cpp" />
+    <ClCompile Include="src\GroupCheckbox.cpp" />
+    <ClCompile Include="src\MsgEventAdded.cpp" />
+    <ClCompile Include="src\MsgTree.cpp" />
+    <ClCompile Include="src\Notification.cpp" />
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\Properties.cpp" />
+    <ClCompile Include="src\ReadAwayMsg.cpp" />
+    <ClCompile Include="src\Services.cpp" />
+    <ClCompile Include="src\SetAwayMsg.cpp" />
+    <ClCompile Include="src\ThemedImageCheckbox.cpp" />
+    <ClCompile Include="src\Themes.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AggressiveOptimize.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="ContactList.h" />
-    <ClInclude Include="..\CommonLibs\CString.h" />
-    <ClInclude Include="..\CommonLibs\GroupCheckbox.h" />
-    <ClInclude Include="MsgTree.h" />
+    <ClInclude Include="src\Common.h" />
+    <ClInclude Include="src\ContactList.h" />
+    <ClInclude Include="src\CString.h" />
+    <ClInclude Include="src\MsgTree.h" />
     <ClInclude Include="..\CommonLibs\Options.h" />
-    <ClInclude Include="Path.h" />
-    <ClInclude Include="Properties.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Services.h" />
-    <ClInclude Include="..\CommonLibs\ThemedImageCheckbox.h" />
-    <ClInclude Include="..\CommonLibs\Themes.h" />
-    <ClInclude Include="..\CommonLibs\TMyArray.h" />
-    <ClInclude Include="VersionNo.h" />
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\Path.h" />
+    <ClInclude Include="src\Properties.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Services.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\Delete.ico" />
-    <None Include="Images\DisableNotify.ico" />
-    <None Include="Images\Dot.ico" />
-    <None Include="Images\EnableNotify.ico" />
-    <None Include="Images\Ignore.ico" />
-    <None Include="Images\Indefinite.ico" />
-    <None Include="Images\MsgIcon.ico" />
-    <None Include="Images\NewCat.ico" />
-    <None Include="Images\NewMessage.ico" />
-    <None Include="Images\off.bmp" />
-    <None Include="Images\off.ico" />
-    <None Include="Images\on.bmp" />
-    <None Include="Images\on.ico" />
-    <None Include="Images\SaveAsNew.ico" />
-    <None Include="Images\SaveMsg.ico" />
-    <None Include="Images\Settings.ico" />
-    <None Include="Images\Status_Other.ico" />
-    <None Include="Images\Variables.ico" />
     <None Include="copying.txt" />
     <None Include="nas_readme.txt" />
-    <None Include="nas_translation.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="NewAwaySys.rc" />
+    <ResourceCompile Include="res\NewAwaySys.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

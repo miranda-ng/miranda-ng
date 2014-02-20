@@ -22,16 +22,18 @@
 #pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
-#define WIN32_LEAN_AND_MEAN
 #define _WIN32_WINNT 0x0500
 
-#define MIRANDA_VER 0x0600
+#define MIRANDA_VER 0x0A00
 
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <CommCtrl.h>
 #include <commdlg.h>
+#include <Uxtheme.h>
+#include <vsstyle.h>
+
 #include <time.h>
 #include <shellapi.h>
 #include <crtdbg.h>
@@ -46,7 +48,7 @@
 #include "m_langpack.h"
 #include "m_protosvc.h"
 #include "m_options.h"
-#include "..\..\protocols\IcqOscarJ\icq_constants.h"
+#include "..\..\protocols\IcqOscarJ\src\icq_constants.h"
 #include "m_skin.h"
 #include "m_awaymsg.h"
 #include "m_utils.h"
@@ -55,9 +57,7 @@
 #include "m_message.h"
 #include "m_userinfo.h"
 #include "m_icq.h"
-#define THEMEAPI // we don't need no uxtheme defines :-/ they break everything when trying to include tmschema.h later
 #include "win2k.h"
-#undef THEMEAPI
 
 #include "resource.h"
 
@@ -67,11 +67,19 @@
 //#include "m_popupw.h"
 #include "m_metacontacts.h"
 #include "m_LogService.h"
-#include "..\CommonLibs\CString.h"
-#include "..\CommonLibs\Options.h"
-
 
 #pragma comment(lib,"comctl32.lib")
+
+#include "CString.h"
+#include "Options.h"
+
+#define CBSCHECK_UNCHECKED 1
+#define CBSCHECK_CHECKED 5
+#define CBSCHECK_MIXED 9
+#define CBSSTATE_NORMAL 0
+#define CBSSTATE_HOT 1
+#define CBSSTATE_PRESSED 2
+#define CBSSTATE_DISABLED 3
 
 #define VAR_AWAYSINCE_TIME "nas_awaysince_time"
 #define VAR_AWAYSINCE_DATE "nas_awaysince_date"
@@ -244,7 +252,7 @@ int ICQStatusToGeneralStatus(int bICQStat); // TODO: get rid of these protocol-s
 typedef struct SetAwayMsgData_type
 {
 	CString szProtocol;
-	HANDLE hInitContact; // initial contact (filled by caller)
+	MCONTACT hInitContact; // initial contact (filled by caller)
 	TCString Message; // initial message, NULL means default
 	bool IsModeless; // means the dialog was created with the CreateDialogParam function, not DialogBoxParam
 	int ISW_Flags; // InvokeStatusWindow service flags
@@ -252,7 +260,7 @@ typedef struct SetAwayMsgData_type
 
 typedef struct READAWAYMSGDATA_TYPE
 {
-	HANDLE hContact; // contact
+	MCONTACT hContact; // contact
 	HANDLE hSeq; // sequence for stat msg request
 	HANDLE hAwayMsgEvent; // hooked
 } READAWAYMSGDATA;
@@ -267,7 +275,7 @@ typedef struct
 
 typedef struct
 {
-	HANDLE hContact;
+	MCONTACT hContact;
 	int iStatusMode;
 	TCString Proto;
 } DYNAMIC_NOTIFY_DATA;
@@ -275,7 +283,7 @@ typedef struct
 typedef struct
 {
 	BYTE PopupLClickAction, PopupRClickAction;
-	HANDLE hContact;
+	MCONTACT hContact;
 	HICON hStatusIcon; // needed here to destroy its handle on UM_FREEPLUGINDATA
 } PLUGIN_DATA;
 
@@ -283,32 +291,13 @@ typedef struct
 {
 	int cbSize;
 	char *szProto;
-	HANDLE hContact;
+	MCONTACT hContact;
 	char *szMsg;
 	WORD status;
 } NAS_ISWINFOv1;
 
 #define MTYPE_AUTOONLINE 0xE7 // required to support ICQ Plus online status messages
-/*
-// additional m_popup.h declarations
 
-	typedef struct
-	{
-		HANDLE lchContact;
-		HICON lchIcon;
-		WCHAR lpzContactName[MAX_CONTACTNAME];
-		WCHAR lpzText[MAX_SECONDLINE];
-		COLORREF colorBack;                   
-		COLORREF colorText;
-		WNDPROC PluginWindowProc;
-		void * PluginData;
-		int iSeconds;
-		char cZero[16];
-	} POPUPDATAT;
-
-	#define MS_POPUP_ADDPOPUPT MS_POPUP_ADDPOPUPW
-
-*/
 // Beware of conflicts between two different windows trying to use the same page at a time!
 // Other windows than the owner of the Page must copy the page to their own memory,
 // or use GetDBValueCopy to retrieve values
@@ -326,7 +315,7 @@ extern bool g_fNoProcessing;
 extern int g_bIsIdle;
 
 // AwaySys.cpp
-TCString GetDynamicStatMsg(HANDLE hContact, char *szProto = NULL, DWORD UIN = 0, int iStatus = 0);
+TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto = NULL, DWORD UIN = 0, int iStatus = 0);
 int IsAnICQProto(char *szProto);
 
 // Client.cpp
@@ -346,7 +335,7 @@ INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam);
 int OptsDlgInit(WPARAM wParam, LPARAM lParam); // called on opening of the options dialog
 void InitOptions(); // called once when plugin is loaded
 
-//int ShowPopupNotification(COptPage &PopupNotifyData, HANDLE hContact, int iStatusMode);
+//int ShowPopupNotification(COptPage &PopupNotifyData, MCONTACT hContact, int iStatusMode);
 void ShowLog(TCString &LogFilePath);
 void ShowMsg(TCHAR *szFirstLine, TCHAR *szSecondLine = _T(""), bool IsErrorMsg = false, int Timeout = 0);
 
@@ -358,7 +347,7 @@ int _Workaround_CallService(const char *name, WPARAM wParam, LPARAM lParam);
 int MsgEventAdded(WPARAM wParam, LPARAM lParam);
 
 // buttons
-//void UpdateSOEButtons(HANDLE hContact = NULL);
+//void UpdateSOEButtons(MCONTACT hContact = NULL);
 INT_PTR ToggleSendOnEvent(WPARAM wParam, LPARAM lParam);
 //int Create_TopToolbar(WPARAM wParam, LPARAM lParam);
 
@@ -387,9 +376,7 @@ static __inline void my_variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton)
 {
 	HICON hIcon = ServiceExists(MS_VARS_GETSKINITEM) ? (HICON)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPICON) : NULL;
 	if (hIcon)
-	{
 		SendDlgItemMessage(hwndDlg, uIDButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-	}
 }
 
 static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags = 0, char *szSubjectDesc = NULL, char *szExtraDesc = NULL)
@@ -403,7 +390,8 @@ static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags 
 		vhi.szSubjectDesc = szSubjectDesc;
 		vhi.szExtraTextDesc = szExtraDesc;
 		return CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwndDlg, (LPARAM)&vhi);
-	} else
+	}
+	else
 	{
 		ShowMsg(TranslateT("New Away System"), TranslateT("Variables plugin is not installed"), true);
 		return -1;

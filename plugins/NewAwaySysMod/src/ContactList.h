@@ -33,10 +33,10 @@ typedef TREEITEMARRAY* PTREEITEMARRAY;
 class CCLItemData // internal CCList's class
 {
 public:
-	CCLItemData(HANDLE hContact = INVALID_HANDLE_VALUE): hContact(hContact) {FillMemory(ExtraIcons, sizeof(ExtraIcons), CLC_EXTRAICON_EMPTY);};
+	CCLItemData(MCONTACT hContact = INVALID_CONTACT_ID): hContact(hContact) {FillMemory(ExtraIcons, sizeof(ExtraIcons), CLC_EXTRAICON_EMPTY);};
 
 	BYTE ExtraIcons[MAXEXTRAICONS];
-	HANDLE hContact;
+	MCONTACT hContact;
 	LPARAM lParam;
 };
 
@@ -49,7 +49,7 @@ public:
 	CCList(HWND hTreeView);
 	~CCList();
 
-	HTREEITEM AddContact(HANDLE hContact);
+	HTREEITEM AddContact(MCONTACT hContact);
 	HTREEITEM AddGroup(TCString GroupName);
 	HTREEITEM AddInfo(TCString Title, HTREEITEM hParent, HTREEITEM hInsertAfter, LPARAM lParam = NULL, HICON hIcon = NULL);
 	void SetInfoIcon(HTREEITEM hItem, HICON hIcon);
@@ -59,7 +59,7 @@ public:
 	int GetItemType(HTREEITEM hItem); // returns a MCLCIT_ (see below)
 	HTREEITEM GetNextItem(DWORD Flags, HTREEITEM hItem);
 	void SortContacts();
-	HANDLE GethContact(HTREEITEM hItem); // returns hContact, hGroup or hInfo
+	MCONTACT GethContact(HTREEITEM hItem); // returns hContact, hGroup or hInfo
 	HTREEITEM HitTest(LPPOINT pt, PDWORD hitFlags); // pt is relative to control; returns hItem or NULL
 	void EnsureVisible(HTREEITEM hItem) {TreeView_EnsureVisible(hTreeView, hItem); InvalidateRect(hTreeView, NULL, false);} // sometimes horizontal scrollbar position changes too, so we must redraw extra icons - that's why here is InvalidateRect. TODO: try to find a way to invalidate it on _every_ horizontal scrollbar position change, instead of just here - unfortunately the scrollbar doesn't notify the tree control of its position change through WM_HSCROLL in some cases
 	int SelectItem(HTREEITEM hItem) {return TreeView_SelectItem(hTreeView, hItem);}
@@ -76,7 +76,7 @@ private:
 	int Array_SetItemState(HTREEITEM hItem, bool bSelected);
 	CCLItemData& GetItemData(HTREEITEM hItem);
 	HTREEITEM TreeView_GetLastChild(HWND hTreeView, HTREEITEM hItem);
-	HTREEITEM FindContact(HANDLE hContact); // returns NULL if not found
+	HTREEITEM FindContact(MCONTACT hContact); // returns NULL if not found
 	void SelectGroups(HTREEITEM hCurItem, bool bSelected);
 	DWORD GetItemTypeAsCLGNFlag(HTREEITEM hItem); // returns MCLGN_CONTACT, MCLGN_GROUP or MCLGN_INFO
 

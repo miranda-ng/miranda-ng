@@ -269,7 +269,7 @@ __inline int DBValueToReplyIcon(int Value)
 int GetRealReplyIcon(CCList *CList, HTREEITEM hItem)
 {
 	_ASSERT(CList);
-	HANDLE hContact = CList->GethContact(hItem);
+	MCONTACT hContact = CList->GethContact(hItem);
 	int ItemType = CList->GetItemType(hItem);
 	char *szProto = (char*)CList->GetItemParam(hItem);
 	return (ItemType == MCLCIT_GROUP) ? CList->GetItemParam(hItem) : DBValueToReplyIcon((ItemType == MCLCIT_CONTACT) ? (int)CContactSettings(0, hContact).Autoreply : CProtoSettings(szProto).Autoreply);
@@ -280,7 +280,7 @@ void SetExtraIcon(CCList *CList, int nColumn, HTREEITEM hItem, int nIcon)
 {
 	_ASSERT(CList);
 	int ItemType = CList->GetItemType(hItem);
-	HANDLE hContact = CList->GethContact(hItem);
+	MCONTACT hContact = CList->GethContact(hItem);
 	if (ItemType == MCLCIT_CONTACT)
 	{
 		if (nIcon == -1) // means we need to retrieve it from the db by ourselves
@@ -465,7 +465,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 			int ItemType = CList->GetItemType(hItem);
 			if (ItemType == MCLCIT_CONTACT)
 			{
-				HANDLE hContact = CList->GethContact(hItem);
+				MCONTACT hContact = CList->GethContact(hItem);
 				CContactSettings(0, hContact).SetMsgFormat(SMF_PERSONAL, Message);
 			} else if (ItemType == MCLCIT_INFO)
 			{
@@ -480,12 +480,9 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 	} else if (Selection != CLSEL_DAT_NOTHING)
 	{
 		if (dat->hInitContact)
-		{
 			CContactSettings(0, dat->hInitContact).SetMsgFormat(SMF_PERSONAL, Message);
-		} else
-		{
+		else
 			CProtoSettings(dat->szProtocol).SetMsgFormat(SMF_PERSONAL, (dat->szProtocol || Message != NULL) ? Message : _T(""));
-		}
 	}
 	SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_SETMODIFY, false, 0);
 	SetDlgItemText(hwndDlg, IDC_OK, TranslateT("OK"));
@@ -565,15 +562,10 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			g_SetAwayMsgPage.SetWnd(hwndDlg);
 			g_SetAwayMsgPage.DBToMemToPage();
-/*
-			HICON hTitleIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-			HICON hTitleIconBig = LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA);
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBig);
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
-*/
+
 			HICON hTitleIconBigElse = LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA);
 
-			char *szProto = dat->hInitContact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hInitContact, 0) : dat->szProtocol;
+			char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
 			int Status = 0;
 			Status = g_ProtoStates[dat->szProtocol].Status;
 			HICON hTitleIcon = LoadSkinnedProtoIcon(szProto, Status);
@@ -669,12 +661,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 
 		// [try] getting dialog position
-			int DlgPosX = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGPOSX, -1);
-			int DlgPosY = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGPOSY, -1);
-			int DlgSizeX = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGSIZEX, -1);
-			int DlgSizeY = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGSIZEY, -1);
-			int MsgSplitterX = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_MSGSPLITTERPOS, -1);
-			int ContactSplitterX = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_CONTACTSPLITTERPOS, -1);
+			int DlgPosX = db_get_dw(NULL, MOD_NAME, SAM_DB_DLGPOSX, -1);
+			int DlgPosY = db_get_dw(NULL, MOD_NAME, SAM_DB_DLGPOSY, -1);
+			int DlgSizeX = db_get_dw(NULL, MOD_NAME, SAM_DB_DLGSIZEX, -1);
+			int DlgSizeY = db_get_dw(NULL, MOD_NAME, SAM_DB_DLGSIZEY, -1);
+			int MsgSplitterX = db_get_dw(NULL, MOD_NAME, SAM_DB_MSGSPLITTERPOS, -1);
+			int ContactSplitterX = db_get_dw(NULL, MOD_NAME, SAM_DB_CONTACTSPLITTERPOS, -1);
 			if (DlgPosX >= 0 && DlgPosY >= 0 && DlgSizeX > 0 && DlgSizeY > 0 && MsgSplitterX > 0 && ContactSplitterX > 0)
 			{
 				RECT rcWorkArea, rcIntersect;
@@ -713,7 +705,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		// init message tree
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT) && g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSMRM))
 			{
-				char *szProto = dat->hInitContact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hInitContact, 0) : dat->szProtocol;
+				char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
 				int ID = GetRecentGroupID((szProto || !dat->hInitContact) ? g_ProtoStates[szProto].Status : ID_STATUS_AWAY);
 				CBaseTreeItem* pTreeItem = MsgTree->GetNextItem(MTGN_CHILD | MTGN_BYID, (CBaseTreeItem*)g_Messages_RecentRootID);
 				while (pTreeItem)
@@ -908,14 +900,14 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								for (I = 0; I < nm->NewSelection->GetSize(); I++)
 								{
 									HTREEITEM hItem = (*nm->NewSelection)[I];
-									HANDLE hContact;
+									MCONTACT hContact;
 									char *szProto;
 									int ItemType = CList->GetItemType(hItem);
 									if (ItemType == MCLCIT_CONTACT)
 									{
 										hContact = CList->GethContact(hItem);
 										_ASSERT(hContact);
-										szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+										szProto = GetContactProto(hContact);
 										_ASSERT(szProto);
 									} else if (ItemType == MCLCIT_INFO)
 									{
@@ -973,7 +965,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							if (nNewContacts == 1)
 							{
 								WindowTitle += TCString(TranslateT("\" ("));
-								HANDLE hContact = NULL;
+								MCONTACT hContact = NULL;
 								char *szProto = NULL;
 								if (CList)
 								{
@@ -1000,7 +992,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								if (hContact)
 								{
 
-									if (IsAnICQProto((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0))) {
+									if (IsAnICQProto(GetContactProto(hContact))) {
 										WindowTitle += TranslateT("message for");
 										WindowTitle += _T(" ");
 									} else {
@@ -1010,7 +1002,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 
 									WindowTitle += (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-									if (!IsAnICQProto((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)))
+									if (!IsAnICQProto(GetContactProto(hContact)))
 									{
 										//WindowTitle += TranslateT(" (autoreply only)");
 										WindowTitle += _T(" ");
@@ -1035,7 +1027,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 											//ProtoTitle[0] = '\0';
 										}*/
 										//ProtoTitle.ReleaseBuffer();
-										//WindowTitle += ANSI2TCHAR(ProtoTitle) + TranslateT(" protocol");
+										//WindowTitle += _A2T(ProtoTitle) + TranslateT(" protocol");
 
 										PROTOACCOUNT * acc = ProtoGetAccount(szProto);
 
@@ -1101,7 +1093,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 		// init contact tree
 			HIMAGELIST hil;
-			hil = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 5, 2);
+			hil = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
 			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)));
 			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_IGNORE)));
 			ImageList_AddIcon(hil, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_MSGICON)));
@@ -1113,7 +1105,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, LoadSkinnedProtoIcon(NULL, g_ProtoStates[(char*)NULL].Status));
 			int ProtoCount;
 			PROTOCOLDESCRIPTOR **proto;
-			CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+			CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
 			int I;
 			for (I = 0; I < ProtoCount; I++)
 			{
@@ -1125,7 +1117,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 					PROTOACCOUNT * acc = ProtoGetAccount(proto[I]->szName);
 					//NightFox: protocols -> accounts
-					//hItem = CList->AddInfo(TCString(_T("* ")) + ANSI2TCHAR(ProtoTitle) + TranslateT(" contacts *"), CLC_ROOT, hItem, (LPARAM)proto[I]->szName, LoadSkinnedProtoIcon(proto[I]->szName, g_ProtoStates[proto[I]->szName].Status));
+					//hItem = CList->AddInfo(TCString(_T("* ")) + _A2T(ProtoTitle) + TranslateT(" contacts *"), CLC_ROOT, hItem, (LPARAM)proto[I]->szName, LoadSkinnedProtoIcon(proto[I]->szName, g_ProtoStates[proto[I]->szName].Status));
 					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName/* + TranslateT(" contacts *")*/ + _T(" *"), CLC_ROOT, hItem, (LPARAM)proto[I]->szName, LoadSkinnedProtoIcon(proto[I]->szName, g_ProtoStates[proto[I]->szName].Status));
 					if (dat->szProtocol && !strcmp(proto[I]->szName, dat->szProtocol))
 					{
@@ -1134,11 +1126,11 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				}
 			}
 
-			HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			MCONTACT hContact = db_find_first();
 			CList->SetRedraw(false);
 			do
 			{
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *szProto = GetContactProto(hContact);
 				if (szProto)
 				{
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -1151,7 +1143,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						}
 					}
 				}
-			} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+			} while (hContact = db_find_next(hContact));
 			CList->SortContacts();
 			hItem = CLC_ROOT;
 			while (hItem = CList->GetNextItem(MCLGN_NEXT | MCLGN_CONTACT | MCLGN_INFO | MCLGN_MULTILEVEL, hItem))
@@ -1183,7 +1175,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		// save Recent Messages
 			int ProtoCount;
 			PROTOCOLDESCRIPTOR **proto;
-			CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+			CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
 			int I;
 			for (I = 0; I < ProtoCount; I++)
 			{
@@ -1219,12 +1211,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		{
 			RECT rcRect;
 			GetWindowRect(hwndDlg, &rcRect);
-			DBWriteContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGPOSX, rcRect.left);
-			DBWriteContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGPOSY, rcRect.top);
-			DBWriteContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGSIZEX, rcRect.right - rcRect.left);
-			DBWriteContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGSIZEY, rcRect.bottom - rcRect.top);
-			DBWriteContactSettingDword(NULL, MOD_NAME, SAM_DB_MSGSPLITTERPOS, g_MsgSplitterX);
-			DBWriteContactSettingDword(NULL, MOD_NAME, SAM_DB_CONTACTSPLITTERPOS, g_ContactSplitterX);
+			db_set_dw(NULL, MOD_NAME, SAM_DB_DLGPOSX, rcRect.left);
+			db_set_dw(NULL, MOD_NAME, SAM_DB_DLGPOSY, rcRect.top);
+			db_set_dw(NULL, MOD_NAME, SAM_DB_DLGSIZEX, rcRect.right - rcRect.left);
+			db_set_dw(NULL, MOD_NAME, SAM_DB_DLGSIZEY, rcRect.bottom - rcRect.top);
+			db_set_dw(NULL, MOD_NAME, SAM_DB_MSGSPLITTERPOS, g_MsgSplitterX);
+			db_set_dw(NULL, MOD_NAME, SAM_DB_CONTACTSPLITTERPOS, g_ContactSplitterX);
 			g_SetAwayMsgPage.PageToMemToDB();
 		} break;
 		case UM_SAM_REPLYSETTINGCHANGED:
@@ -1246,8 +1238,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				{ // it's a contact's autoreply setting
 					while (hItem = CList->GetNextItem(MCLGN_NEXT | MCLGN_CONTACT | MCLGN_MULTILEVEL, hItem))
 					{
-						HANDLE hContact = CList->GethContact(hItem);
-						if (CList->GethContact(hItem) == (HANDLE)wParam)
+						MCONTACT hContact = CList->GethContact(hItem);
+						if (CList->GethContact(hItem) == wParam)
 						{ // we found the item
 							SetExtraIcon(CList, EXTRACOLUMN_REPLY, hItem, -1); // update it
 							break;

@@ -40,7 +40,7 @@
 #include "Properties.h"
 #include "Path.h"
 #include "Services.h"
-#include "VersionNo.h"
+#include "version.h"
 
 //NightFox
 #include <m_modernopt.h>
@@ -109,18 +109,16 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 //NightFox
 int ModernOptInitialise(WPARAM wParam,LPARAM lParam);
 
-TCString GetDynamicStatMsg(HANDLE hContact, char *szProto, DWORD UIN, int iStatus)
+TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iStatus)
 {
 // hContact is the contact that requests the status message
-	if (hContact != INVALID_HANDLE_VALUE)
-	{
+	if (hContact != INVALID_CONTACT_ID)
 		VarParseData.Message = CContactSettings(iStatus, hContact).GetMsgFormat(GMF_ANYCURRENT, NULL, szProto);
-	} else
-	{ // contact is unknown
+	else // contact is unknown
 		VarParseData.Message = CProtoSettings(szProto, iStatus).GetMsgFormat(iStatus ? GMF_LASTORDEFAULT : GMF_ANYCURRENT);
-	}
+
 	TCString sTime;
-	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_HANDLE_VALUE) ? (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : NULL);
+	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : NULL);
 	VarParseData.UIN = UIN;
 	VarParseData.Flags = 0;
 	if (ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES))
@@ -147,37 +145,29 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 	LogMessage("ME_ICQ_STATUSMSGREQ called. szProto=%s, Status=%d, UIN=%d", (char*)szProto, wParam, lParam);
 // find the contact
 	char *szFoundProto;
-	HANDLE hFoundContact = NULL; // if we'll find the contact only on some other protocol, but not on szProto, then we'll use that hContact.
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while (hContact)
-	{
+	MCONTACT hFoundContact = NULL; // if we'll find the contact only on some other protocol, but not on szProto, then we'll use that hContact.
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szCurProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if (DBGetContactSettingDword(hContact, szCurProto, "UIN", 0) == lParam)
-		{
+		if (db_get_dw(hContact, szCurProto, "UIN", 0) == lParam) {
 			szFoundProto = szCurProto;
 			hFoundContact = hContact;
 			if (!strcmp(szCurProto, szProto))
-			{
 				break;
-			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
+
 	int iMode = ICQStatusToGeneralStatus(wParam);
 	if (!hFoundContact)
-	{
-		hFoundContact = INVALID_HANDLE_VALUE;
-	} else if (iMode >= ID_STATUS_ONLINE && iMode <= ID_STATUS_OUTTOLUNCH)
-	{ // don't count xstatus requests
-		DBWriteContactSettingWord(hFoundContact, MOD_NAME, DB_REQUESTCOUNT, DBGetContactSettingWord(hFoundContact, MOD_NAME, DB_REQUESTCOUNT, 0) + 1);
-	}
-	HANDLE hContactForSettings = hFoundContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
-	if (hContactForSettings != INVALID_HANDLE_VALUE && DBGetContactSettingByte(hContactForSettings, "CList", "NotOnList", 0))
-	{
-		hContactForSettings = INVALID_HANDLE_VALUE; // INVALID_HANDLE_VALUE means the contact is not-on-list
-	}
-	if (g_SetAwayMsgPage.GetWnd())
-	{
+		hFoundContact = INVALID_CONTACT_ID;
+	else if (iMode >= ID_STATUS_ONLINE && iMode <= ID_STATUS_OUTTOLUNCH)
+		// don't count xstatus requests
+		db_set_w(hFoundContact, MOD_NAME, DB_REQUESTCOUNT, db_get_w(hFoundContact, MOD_NAME, DB_REQUESTCOUNT, 0) + 1);
+
+	MCONTACT hContactForSettings = hFoundContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
+	if (hContactForSettings != INVALID_CONTACT_ID && db_get_b(hContactForSettings, "CList", "NotOnList", 0))
+		hContactForSettings = INVALID_CONTACT_ID; // INVALID_HANDLE_VALUE means the contact is not-on-list
+
+	if (g_SetAwayMsgPage.GetWnd()) {
 		CallAllowedPS_SETAWAYMSG(szProto, iMode, NULL); // we can set status messages to NULL here, as they'll be changed again when the SAM dialog closes.
 		return 0;
 	}
@@ -189,7 +179,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 
 	if (iMode)
 	{ // if it's not an xstatus message request
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, (char*)TCHAR2ANSI(GetDynamicStatMsg(hFoundContact, szProto, lParam)));
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, (char*)_T2A(GetDynamicStatMsg(hFoundContact, szProto, lParam)));
 	}
 //	COptPage PopupNotifyData(g_PopupOptPage);
 //	PopupNotifyData.DBToMem();
@@ -222,8 +212,8 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 		TCString LogMsg;
 		if (!iMode)
 		{ // if it's an xstatus message request
-			LogMsg = DBGetContactSettingString(NULL, szProto, "XStatusName", _T(""));
-			TCString XMsg(DBGetContactSettingString(NULL, szProto, "XStatusMsg", _T("")));
+			LogMsg = db_get_s(NULL, szProto, "XStatusName", _T(""));
+			TCString XMsg(db_get_s(NULL, szProto, "XStatusMsg", _T("")));
 			if (XMsg.GetLen())
 			{
 				if (LogMsg.GetLen())
@@ -285,30 +275,24 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 	LogMessage("MS_CLIST_SETSTATUSMODE called. szProto=%s, Status=%d", lParam ? (char*)lParam : "NULL", wParam);
 	g_ProtoStates[(char*)lParam].Status = wParam;
 // let's check if we handle this thingy
-	if (g_fNoProcessing) // we're told not to do anything
-	{
+	if (g_fNoProcessing) { // we're told not to do anything
 		g_fNoProcessing = false; // take it off
 		return 0;
 	}
 	DWORD Flag1 = 0;
 	DWORD Flag3 = 0;
-	if (lParam)
-	{
+	if (lParam) {
 		Flag1 = CallProtoService((char*)lParam, PS_GETCAPS, PFLAGNUM_1, 0);
 		Flag3 = CallProtoService((char*)lParam, PS_GETCAPS, PFLAGNUM_3, 0);
-	} else
-	{
-		PROTOCOLDESCRIPTOR **proto;
+	}
+	else {
+		PROTOACCOUNT **proto;
 		int iProtoCount = 0;
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&iProtoCount, (LPARAM)&proto);
+		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&iProtoCount, (LPARAM)&proto);
 		int i;
-		for (i = 0; i < iProtoCount; i++)
-		{
-			if (proto[i]->type == PROTOTYPE_PROTOCOL)
-			{
-				Flag1 |= CallProtoService(proto[i]->szName, PS_GETCAPS, PFLAGNUM_1, 0);
-				Flag3 |= CallProtoService(proto[i]->szName, PS_GETCAPS, PFLAGNUM_3, 0);
-			}
+		for (i = 0; i < iProtoCount; i++) {
+			Flag1 |= CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			Flag3 |= CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 		}
 	}
 	if (!(Flag1 & PF1_MODEMSGSEND || Flag3 & Proto_Status2Flag(wParam) || (Flag1 & PF1_IM) == PF1_IM))
@@ -365,14 +349,14 @@ int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (Startu
 	int i;
 	for (i = 0; i < g_CSProtoCount; i++)
 	{
-		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : "NULL");
+		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : _T("NULL"));
 		if (ps[i]->status != ID_STATUS_DISABLED)
 		{
 			if (ps[i]->status != ID_STATUS_CURRENT)
 			{
 				g_ProtoStates[ps[i]->szName].Status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
 			}
-			CProtoSettings(ps[i]->szName).SetMsgFormat(SMF_TEMPORARY, ps[i]->szMsg ? ANSI2TCHAR(ps[i]->szMsg) : CProtoSettings(ps[i]->szName).GetMsgFormat(GMF_LASTORDEFAULT));
+			CProtoSettings(ps[i]->szName).SetMsgFormat(SMF_TEMPORARY, ps[i]->szMsg ? ps[i]->szMsg : CProtoSettings(ps[i]->szName).GetMsgFormat(GMF_LASTORDEFAULT));
 		}
 	}
 	return 0;
@@ -395,10 +379,9 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam) // StartupStatus and AdvancedAu
 }
 
 
-int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)wParam;
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	CLISTMENUITEM miSetMsg = {0};
 	miSetMsg.cbSize = sizeof(miSetMsg);
 	miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
@@ -407,7 +390,7 @@ int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 	miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
 	int iMode = szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
-	int iContactMode = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	TCHAR szSetStr[256], szReadStr[256];
 	if (szProto)
 	{
@@ -469,7 +452,7 @@ int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 }
 
 
-static INT_PTR SetContactStatMsg(WPARAM wParam, LPARAM lParam)
+static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM lParam)
 {
 	if (g_SetAwayMsgPage.GetWnd()) // already setting something
 	{
@@ -478,15 +461,15 @@ static INT_PTR SetContactStatMsg(WPARAM wParam, LPARAM lParam)
 	}
 	SetAwayMsgData *dat = new SetAwayMsgData;
 	ZeroMemory(dat, sizeof(SetAwayMsgData));
-	dat->hInitContact = (HANDLE)wParam;
-	dat->szProtocol = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	dat->hInitContact = hContact;
+	dat->szProtocol = GetContactProto(hContact);
 	dat->IsModeless = false;
 	DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)dat);
 	return 0;
 }
 
 /* //NightFox: deleted used-to-be support
-void UpdateSOEButtons(HANDLE hContact)
+void UpdateSOEButtons(MCONTACT hContact)
 {
 	if (!hContact)
 	{
@@ -507,37 +490,33 @@ void UpdateSOEButtons(HANDLE hContact)
 }
 */
 
-INT_PTR ToggleSendOnEvent(WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM lParam)
 { // used only for the global setting
-	HANDLE hContact = (HANDLE)wParam;
-	CContactSettings(g_ProtoStates[hContact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : (char*)NULL].Status, hContact).Autoreply.Toggle();
+	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].Status, hContact).Autoreply.Toggle();
 	//UpdateSOEButtons();
 	return 0;
 }
 
 
-INT_PTR srvAutoreplyOn(WPARAM wParam, LPARAM lParam)
-{ // wParam = hContact
-	HANDLE hContact = (HANDLE)wParam;
-	CContactSettings(g_ProtoStates[(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)].Status, hContact).Autoreply = 1;
+INT_PTR srvAutoreplyOn(WPARAM hContact, LPARAM lParam)
+{
+	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = 1;
 	//UpdateSOEButtons(hContact);
 	return 0;
 }
 
 
-INT_PTR srvAutoreplyOff(WPARAM wParam, LPARAM lParam)
-{ // wParam = hContact
-	HANDLE hContact = (HANDLE)wParam;
-	CContactSettings(g_ProtoStates[(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)].Status, hContact).Autoreply = 0;
+INT_PTR srvAutoreplyOff(WPARAM hContact, LPARAM lParam)
+{
+	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = 0;
 	//UpdateSOEButtons(hContact);
 	return 0;
 }
 
 
-INT_PTR srvAutoreplyUseDefault(WPARAM wParam, LPARAM lParam)
-{ // wParam = hContact
-	HANDLE hContact = (HANDLE)wParam;
-	CContactSettings(g_ProtoStates[(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)].Status, hContact).Autoreply = VAL_USEDEFAULT;
+INT_PTR srvAutoreplyUseDefault(WPARAM hContact, LPARAM lParam)
+{
+	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = VAL_USEDEFAULT;
 	//UpdateSOEButtons(hContact);
 	return 0;
 }
@@ -589,7 +568,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 {
 	CONTACTSETTINGSINIT *csi = (CONTACTSETTINGSINIT*)wParam;
-	char *szProto = (csi->Type == CSIT_CONTACT) ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)csi->hContact, 0) : NULL;
+	char *szProto = (csi->Type == CSIT_CONTACT) ? GetContactProto(csi->hContact) : NULL;
 	if ((csi->Type == CSIT_GROUP) || szProto)
 	{
 		int Flag1 = (csi->Type == CSIT_CONTACT) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : PF1_IM; // we assume that there can be some contacts in the group with PF1_IM capability
@@ -685,7 +664,7 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 	{
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
 		{
-			Result = DBGetContactSettingString(NULL, VarParseData.szProto, "Nick", (TCHAR*)NULL);
+			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (TCHAR*)NULL);
 		}
 		if (Result == NULL)
 		{
@@ -697,11 +676,11 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		}
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_REQUESTCOUNT)))
 	{
-		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), DBGetContactSettingWord(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
+		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_MESSAGENUM)))
 	{
-		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), DBGetContactSettingWord(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
+		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_TIMEPASSED)))
 	{
@@ -754,7 +733,7 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 			CString AnsiResult;
 			CallProtoService(VarParseData.szProto, PS_GETNAME, 256, (LPARAM)AnsiResult.GetBuffer(256));
 			AnsiResult.ReleaseBuffer();
-			Result = ANSI2TCHAR(AnsiResult);
+			Result = _A2T(AnsiResult);
 		}
 		if (Result == NULL)
 		{ // if we didn't find a message with specified title
@@ -799,17 +778,18 @@ static INT_PTR MyCallService(const char *name, WPARAM wParam, LPARAM lParam)
 				{
 					g_ProtoStates[Proto].Status = wParam;
 					TCString Msg(CProtoSettings(Proto).GetMsgFormat(GMF_LASTORDEFAULT));
-					LogMessage("Detected a PS_SETSTATUS call with Status different from the one known to NAS. szProto=%s, NewStatus=%d, NewMsg:\n%s", (char*)Proto, wParam, (Msg != NULL) ? TCHAR2ANSI(Msg) : "NULL");
+					LogMessage("Detected a PS_SETSTATUS call with Status different from the one known to NAS. szProto=%s, NewStatus=%d, NewMsg:\n%s", (char*)Proto, wParam, (Msg != NULL) ? _T2A(Msg) : "NULL");
 					CProtoSettings(Proto).SetMsgFormat(SMF_TEMPORARY, Msg);
 				}
-			} else if (!lstrcmpA(pProtoNameEnd, PS_SETAWAYMSG))
-			{
-			// PS_SETAWAYMSG service; wParam = status; lParam = (const char*)szMessage
-			// returns 0 on success, nonzero on failure
-        CString Proto("");
+			}
+			else if (!lstrcmpA(pProtoNameEnd, PS_SETAWAYMSG)) {
+				// PS_SETAWAYMSG service; wParam = status; lParam = (const char*)szMessage
+				// returns 0 on success, nonzero on failure
+				CString Proto("");
 				Proto.DiffCat(name, pProtoNameEnd);
-				LogMessage("Someone else than NAS called PS_SETAWAYMSG. szProto=%s, Status=%d, Msg:\n%s", (char*)Proto, wParam, lParam ? (char*)lParam : "NULL");
-				CProtoSettings(Proto).SetMsgFormat(SMF_TEMPORARY, lParam ? ((ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) ? VariablesEscape(ANSI2TCHAR((char*)lParam)) : ANSI2TCHAR((char*)lParam)) : TCString(_T("")));
+				char *param = (char*)lParam;
+				LogMessage("Someone else than NAS called PS_SETAWAYMSG. szProto=%s, Status=%d, Msg:\n%s", (char*)Proto, wParam, param ? param : "NULL");
+				CProtoSettings(Proto).SetMsgFormat(SMF_TEMPORARY, lParam ? ((ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) ? VariablesEscape((TCHAR*)_A2T(param)) : (TCHAR*)_A2T(param)) : TCString(_T("")));
 				ChangeProtoMessages(Proto, wParam, TCString());
 				return 0;
 			}
@@ -829,7 +809,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	PROTOCOLDESCRIPTOR **proto;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, false, 0);
 	int iProtoCount = 0;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&iProtoCount, (LPARAM)&proto);
+	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&iProtoCount, (LPARAM)&proto);
 	int i;
 	int CurProtoIndex;
 	for (i = 0, CurProtoIndex = 0; i < iProtoCount && CurProtoIndex < MAXICQACCOUNTS; i++)
@@ -976,36 +956,35 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP( &pluginInfo );
 
 	hHooks.insert(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));
-	if (DBGetContactSettingString(NULL, "KnownModules", "New Away System", (char*)NULL) == NULL)
-		DBWriteContactSettingString(NULL, "KnownModules", "New Away System", MOD_NAME);
+	if (db_get_s(NULL, "KnownModules", "New Away System", (char*)NULL) == NULL)
+		db_set_s(NULL, "KnownModules", "New Away System", MOD_NAME);
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
 
 	logservice_register(LOG_ID, LPGENT("New Away System"), _T("NewAwaySys?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateTS(_T("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %") _T(VAR_STATDESC) _T("% message:\r\n%extratext%\r\n\r\n")));
 
-	if (DBGetContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1)
+	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1)
 	{ // change all %nas_message% variables to %extratext% if it wasn't done before
 		TCString Str;
-		Str = DBGetContactSettingString(NULL, MOD_NAME, "PopupsFormat", _T(""));
+		Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", _T(""));
 		if (Str.GetLen())
 		{
-			DBWriteContactSettingTString(NULL, MOD_NAME, "PopupsFormat", Str.Replace(_T("nas_message"), _T("extratext")));
+			db_set_ts(NULL, MOD_NAME, "PopupsFormat", Str.Replace(_T("nas_message"), _T("extratext")));
 		}
-		Str = DBGetContactSettingString(NULL, MOD_NAME, "ReplyPrefix", _T(""));
+		Str = db_get_s(NULL, MOD_NAME, "ReplyPrefix", _T(""));
 		if (Str.GetLen())
 		{
-			DBWriteContactSettingTString(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(_T("nas_message"), _T("extratext")));
+			db_set_ts(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(_T("nas_message"), _T("extratext")));
 		}
 	}
-	if (DBGetContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 2)
+	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 2)
 	{ // disable autoreply for not-on-list contacts, as such contact may be a spam bot
-		DBWriteContactSettingByte(NULL, MOD_NAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_HANDLE_VALUE), 0);
-		DBWriteContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 2);
+		db_set_b(NULL, MOD_NAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);
+		db_set_b(NULL, MOD_NAME, DB_SETTINGSVER, 2);
 	}
 	return 0;
 }

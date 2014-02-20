@@ -142,7 +142,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 							nm.OldSelection = &OldSelection;
 							nm.NewSelection = &dat->SelectedItems;
 							SendMessage(hWnd, WM_NOTIFY, 0, (LPARAM)&nm);
-							dat->Items[pnmtv->itemOld.lParam].hContact = INVALID_HANDLE_VALUE;
+							dat->Items[pnmtv->itemOld.lParam].hContact = INVALID_CONTACT_ID;
 						}
 					} break;
 					case NM_CUSTOMDRAW:
@@ -191,16 +191,14 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 	{
 		case INTM_CONTACTDELETED: // wParam = (HANDLE)hContact
 		{
-			HTREEITEM hItem = dat->FindContact((HANDLE)wParam);
+			HTREEITEM hItem = dat->FindContact(wParam);
 			if (hItem)
-			{
 				TreeView_DeleteItem(hWnd, hItem);
-			}
 		} break;
 		case INTM_ICONCHANGED: // wParam = (HANDLE)hContact, lParam = IconID
 		{
 			TVITEM tvi;
-			tvi.hItem = dat->FindContact((HANDLE)wParam);
+			tvi.hItem = dat->FindContact(wParam);
 			if (tvi.hItem)
 			{
 				tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
@@ -371,7 +369,7 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 			}
 			if (hItem)
 			{
-				HANDLE hContact = dat->GetItemData(hItem).hContact;
+				MCONTACT hContact = dat->GetItemData(hItem).hContact;
 				if (IsHContactContact(hContact))
 				{
 					HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
@@ -420,7 +418,7 @@ CCList::~CCList()
 }
 
 
-HTREEITEM CCList::AddContact(HANDLE hContact)
+HTREEITEM CCList::AddContact(MCONTACT hContact)
 // adds a new contact if it doesn't exist yet; returns its hItem
 {
 	_ASSERT(IsHContactContact(hContact));
@@ -431,7 +429,7 @@ HTREEITEM CCList::AddContact(HANDLE hContact)
 	}
 	TVINSERTSTRUCT tvIns;
 	ZeroMemory(&tvIns, sizeof(tvIns));
-	tvIns.hParent = AddGroup(DBGetContactSettingString(hContact, "CList", "Group", _T("")));
+	tvIns.hParent = AddGroup(db_get_s(hContact, "CList", "Group", _T("")));
 /*	if (!tvIns.hParent)
 	{
 		return NULL;
@@ -454,7 +452,7 @@ typedef struct
 int GroupEnum(const char *szSetting, LPARAM lParam)
 {
 	sGroupEnumData *GroupEnumData = (sGroupEnumData*)lParam;
-	TCString GroupName = DBGetContactSettingString(NULL, "CListGroups", szSetting, _T(" "));
+	TCString GroupName = db_get_s(NULL, "CListGroups", szSetting, _T(" "));
 	if (!lstrcmp(GroupEnumData->GroupName, &GroupName[1]))
 	{
 		GroupEnumData->hGroup = (HANDLE)(atol(szSetting) | HCONTACT_ISGROUP);
@@ -482,7 +480,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	{
 		return NULL;
 	}
-	HTREEITEM hGroupItem = FindContact(GroupEnumData.hGroup);
+	HTREEITEM hGroupItem = FindContact((MCONTACT)GroupEnumData.hGroup);
 	if (hGroupItem)
 	{
 		return hGroupItem; // exists already, just return its handle
@@ -503,7 +501,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	tvIns.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvIns.item.state = tvIns.item.stateMask = TVIS_BOLD | TVIS_EXPANDED;
 	tvIns.item.iImage = tvIns.item.iSelectedImage = IMAGE_GROUPOPEN;
-	tvIns.item.lParam = Items.AddElem(CCLItemData(GroupEnumData.hGroup));
+	tvIns.item.lParam = Items.AddElem(CCLItemData((MCONTACT)GroupEnumData.hGroup));
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }
 
@@ -611,14 +609,14 @@ void CCList::SetExtraImageList(HIMAGELIST hImgList)
 
 int CCList::GetItemType(HTREEITEM hItem) // returns a MCLCIT_ (see below)
 {
-	HANDLE hContact = GetItemData(hItem).hContact;
+	MCONTACT hContact = GetItemData(hItem).hContact;
 	return (IsHContactInfo(hContact)) ? MCLCIT_INFO : ((IsHContactGroup(hContact)) ? MCLCIT_GROUP : MCLCIT_CONTACT);
 }
 
 
 DWORD CCList::GetItemTypeAsCLGNFlag(HTREEITEM hItem)
 {
-	HANDLE hContact = GetItemData(hItem).hContact;
+	MCONTACT hContact = GetItemData(hItem).hContact;
 	return (IsHContactInfo(hContact)) ? MCLGN_INFO : ((IsHContactGroup(hContact)) ? MCLGN_GROUP : MCLGN_CONTACT);
 }
 
@@ -727,19 +725,14 @@ HTREEITEM CCList::GetNextItem(DWORD Flags, HTREEITEM hItem)
 }
 
 
-HANDLE CCList::GethContact(HTREEITEM hItem) // returns hContact, hGroup or hInfo
+MCONTACT CCList::GethContact(HTREEITEM hItem) // returns hContact, hGroup or hInfo
 {
-	HANDLE hContact = GetItemData(hItem).hContact;
+	MCONTACT hContact = GetItemData(hItem).hContact;
 	if (IsHContactContact(hContact))
-	{
 		return hContact;
-	} else if (IsHContactGroup(hContact))
-	{
-		return (HANDLE)((int)hContact & ~HCONTACT_ISGROUP);
-	} else
-	{
-		return (HANDLE)((int)hContact & ~HCONTACT_ISINFO);
-	}
+	if (IsHContactGroup(hContact))
+		return hContact & ~HCONTACT_ISGROUP;
+	return hContact & ~HCONTACT_ISINFO;
 }
 
 
@@ -843,7 +836,7 @@ HTREEITEM CCList::TreeView_GetLastChild(HWND hTreeView, HTREEITEM hItem)
 }
 
 
-HTREEITEM CCList::FindContact(HANDLE hContact)
+HTREEITEM CCList::FindContact(MCONTACT hContact)
 {
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;

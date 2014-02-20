@@ -554,7 +554,7 @@ CMsgTree::CMsgTree(HWND hTreeView): MsgTreePage(g_MsgTreePage), hTreeView(hTreeV
 	MsgTreePage.SetWnd(GetParent(hTreeView));
 	COptItem_TreeCtrl* TreeCtrl = (COptItem_TreeCtrl*)MsgTreePage.Find(IDV_MSGTREE);
 	TreeCtrl->SetDlgItemID(GetDlgCtrlID(hTreeView));
-	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 5, 2);
+	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_NEWMESSAGE)));
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_NEWCATEGORY)));
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DELETE)));

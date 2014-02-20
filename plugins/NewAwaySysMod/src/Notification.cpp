@@ -24,22 +24,18 @@
 
 void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine, bool IsErrorMsg, int Timeout)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPEX))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		POPUPDATAT ppd = {0};
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-//		lstrcpy(ppd.lpzContactName, FirstLine);
-//		lstrcpy(ppd.lpzText, SecondLine);
 		lstrcpy(ppd.lptzContactName, FirstLine);
 		lstrcpy(ppd.lptzText, SecondLine);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
-	} else
-	{
-		MessageBox(NULL, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));
 	}
+	else MessageBox(NULL, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));
 }
 
 
@@ -78,7 +74,7 @@ static VOID CALLBACK ShowContactMenu(DWORD wParam)
 /*
 void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
+	MCONTACT hContact = (HANDLE)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
 	switch (Action)
 	{
 		case PCA_OPENMESSAGEWND: // open message window
@@ -181,7 +177,7 @@ static int CALLBACK ReqNotifyPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam
 }
 
 
-int ShowPopupNotification(COptPage &PopupNotifyData, HANDLE hContact, int iStatusMode)
+int ShowPopupNotification(COptPage &PopupNotifyData, MCONTACT hContact, int iStatusMode)
 { // returns TRUE if popup was shown
 // we take szProto, UIN and Message from VarParseData
 	POPUPDATAT ppd = {0};
@@ -189,8 +185,8 @@ int ShowPopupNotification(COptPage &PopupNotifyData, HANDLE hContact, int iStatu
 	TCString ExtraText;
 	if (!iStatusMode)
 	{ // if it's an xstatus message request
-		ExtraText = DBGetContactSettingString(NULL, VarParseData.szProto, "XStatusName", _T(""));
-		TCString XMsg(DBGetContactSettingString(NULL, VarParseData.szProto, "XStatusMsg", _T("")));
+		ExtraText = db_get_s(NULL, VarParseData.szProto, "XStatusName", _T(""));
+		TCString XMsg(db_get_s(NULL, VarParseData.szProto, "XStatusMsg", _T("")));
 		if (XMsg.GetLen())
 		{
 			if (ExtraText.GetLen())

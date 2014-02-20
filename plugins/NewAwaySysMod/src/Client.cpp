@@ -32,7 +32,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 {
 	int ProtoCount;
 	PROTOCOLDESCRIPTOR **proto;
-	CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
 	int I;
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_Terminated())
 	{
@@ -48,11 +48,11 @@ void __cdecl UpdateMsgsThreadProc(void *)
 				}
 				if (CallProtoService(proto[I]->szName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(Status) && g_ProtoStates[proto[I]->szName].CurStatusMsg.GetUpdateTimeDifference() >= MinUpdateTimeDifference)
 				{
-					TCString CurMsg(GetDynamicStatMsg(INVALID_HANDLE_VALUE, proto[I]->szName));
+					TCString CurMsg(GetDynamicStatMsg(INVALID_CONTACT_ID, proto[I]->szName));
 					if ((TCString)g_ProtoStates[proto[I]->szName].CurStatusMsg != (const TCHAR*)CurMsg) // if the message has changed
 					{
 						g_ProtoStates[proto[I]->szName].CurStatusMsg = CurMsg;
-						CallAllowedPS_SETAWAYMSG(proto[I]->szName, Status, (char*)TCHAR2ANSI(CurMsg));
+						CallAllowedPS_SETAWAYMSG(proto[I]->szName, Status, (char*)_T2A(CurMsg));
 					}
 				}
 			}
@@ -94,25 +94,25 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 	{
 		if (Msg == NULL)
 		{
-			CurMsg = GetDynamicStatMsg(INVALID_HANDLE_VALUE, szProto);
+			CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, szProto);
 		}
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, (char*)TCHAR2ANSI(CurMsg));
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, (char*)_T2A(CurMsg));
 		g_ProtoStates[szProto].CurStatusMsg = CurMsg;
 	} else // change message of all protocols
 	{
 		int ProtoCount;
 		PROTOCOLDESCRIPTOR **proto;
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
 		int I;
 		for (I = 0; I < ProtoCount; I++)
 		{
-			if (proto[I]->type == PROTOTYPE_PROTOCOL && !DBGetContactSettingByte(NULL, proto[I]->szName, "LockMainStatus", 0))
+			if (proto[I]->type == PROTOTYPE_PROTOCOL && !db_get_b(NULL, proto[I]->szName, "LockMainStatus", 0))
 			{
 				if (Msg == NULL)
 				{
-					CurMsg = GetDynamicStatMsg(INVALID_HANDLE_VALUE, proto[I]->szName);
+					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, proto[I]->szName);
 				}
-				CallAllowedPS_SETAWAYMSG(proto[I]->szName, iMode, (char*)TCHAR2ANSI(CurMsg));
+				CallAllowedPS_SETAWAYMSG(proto[I]->szName, iMode, (char*)_T2A(CurMsg));
 				g_ProtoStates[proto[I]->szName].CurStatusMsg = CurMsg;
 			}
 		}
@@ -139,8 +139,8 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 	{
 		if (iMode == StatusSettings[I].Status)
 		{
-			DBWriteContactSettingTString(NULL, "SRAway", CString(StatusSettings[I].Setting) + "Msg", CurMsg);
-			DBWriteContactSettingTString(NULL, "SRAway", CString(StatusSettings[I].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
+			db_set_ts(NULL, "SRAway", CString(StatusSettings[I].Setting) + "Msg", CurMsg);
+			db_set_ts(NULL, "SRAway", CString(StatusSettings[I].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
 			break;
 		}
 	}

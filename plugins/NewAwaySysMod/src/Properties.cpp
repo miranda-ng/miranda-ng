@@ -22,11 +22,11 @@
 
 CProtoStates g_ProtoStates;
 
-void ResetContactSettingsOnStatusChange(HANDLE hContact)
+void ResetContactSettingsOnStatusChange(MCONTACT hContact)
 {
-	DBDeleteContactSetting(hContact, MOD_NAME, DB_REQUESTCOUNT);
-	DBDeleteContactSetting(hContact, MOD_NAME, DB_SENDCOUNT);
-	DBDeleteContactSetting(hContact, MOD_NAME, DB_MESSAGECOUNT);
+	db_unset(hContact, MOD_NAME, DB_REQUESTCOUNT);
+	db_unset(hContact, MOD_NAME, DB_SENDCOUNT);
+	db_unset(hContact, MOD_NAME, DB_MESSAGECOUNT);
 }
 
 
@@ -36,7 +36,7 @@ void ResetSettingsOnStatusChange(const char *szProto = NULL, int bResetPersonalM
 	{ // bResetPersonalMsgs &&= g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_SAVEPERSONALMSGS);
 		bResetPersonalMsgs = !g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_SAVEPERSONALMSGS);
 	}
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	MCONTACT hContact = db_find_first();
 	while (hContact)
 	{
 		const char *szCurProto;
@@ -48,7 +48,7 @@ void ResetSettingsOnStatusChange(const char *szProto = NULL, int bResetPersonalM
 				CContactSettings(Status, hContact).SetMsgFormat(SMF_PERSONAL, NULL); // TODO: delete only when SAM dialog opens?
 			}
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 }
 
@@ -82,7 +82,7 @@ CProtoState::CStatus& CProtoState::CStatus::operator = (int Status)
 		for (I = 0; I < GrandParent->GetSize(); I++)
 		{
 			CProtoState &State = (*GrandParent)[I];
-			if (!DBGetContactSettingByte(NULL, State.GetProto(), "LockMainStatus", 0)) // if the protocol isn't locked
+			if (!db_get_b(NULL, State.GetProto(), "LockMainStatus", 0)) // if the protocol isn't locked
 			{
 				if (State.Status != Status)
 				{
@@ -141,10 +141,10 @@ void CContactSettings::SetMsgFormat(int Flags, TCString Message)
 		}
 		if (Message != NULL)
 		{
-			DBWriteContactSettingTString(hContact, MOD_NAME, DBSetting, Message);
+			db_set_ts(hContact, MOD_NAME, DBSetting, Message);
 		} else
 		{
-			DBDeleteContactSetting(hContact, MOD_NAME, DBSetting);
+			db_unset(hContact, MOD_NAME, DBSetting);
 		}
 	}
 	if (Flags & (SMF_LAST | SMF_TEMPORARY))
@@ -166,11 +166,11 @@ TCString CContactSettings::GetMsgFormat(int Flags, int *pOrder, char *szProtoOve
 	}
 	if (Flags & GMF_PERSONAL)
 	{ // try getting personal message (it overrides global)
-		Message = DBGetContactSettingString(hContact, MOD_NAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (TCHAR*)NULL);
+		Message = db_get_s(hContact, MOD_NAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (TCHAR*)NULL);
 	}
 	if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL | GMF_TEMPORARY) && Message.IsEmpty())
 	{
-		char *szProto = szProtoOverride ? szProtoOverride : (hContact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : NULL);
+		char *szProto = szProtoOverride ? szProtoOverride : (hContact ? GetContactProto(hContact) : NULL);
 		if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL))
 		{ // we mustn't pass here by GMF_TEMPORARY flag, as otherwise we'll handle GMF_TEMPORARY | GMF_PERSONAL combination incorrectly, which is supposed to get only per-contact messages, and at the same time also may be used with NULL contact to get the global status message
 			Message = CProtoSettings(szProto).GetMsgFormat(Flags, pOrder);
@@ -204,15 +204,15 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		CString DBSetting(ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS));
 		if (Message != NULL)
 		{
-			DBWriteContactSettingTString(NULL, MOD_NAME, DBSetting, Message);
+			db_set_ts(NULL, MOD_NAME, DBSetting, Message);
 		} else
 		{
 			if (!szProto)
 			{
-				DBWriteContactSettingTString(NULL, MOD_NAME, DBSetting, CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
+				db_set_ts(NULL, MOD_NAME, DBSetting, CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
 			} else
 			{
-				DBDeleteContactSetting(NULL, MOD_NAME, DBSetting);
+				db_unset(NULL, MOD_NAME, DBSetting);
 			}
 		}
 	}
@@ -325,7 +325,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 	}
 	if (Flags & GMF_PERSONAL && Message == NULL)
 	{ // try getting personal message (it overrides global)
-		Message = DBGetContactSettingString(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (TCHAR*)NULL);
+		Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (TCHAR*)NULL);
 	}
 	if (Flags & GMF_PROTOORGLOBAL && Message == NULL)
 	{
@@ -340,7 +340,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 		Message = NULL;
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USELASTMSG)) // if using last message by default...
 		{
-			Message = DBGetContactSettingString(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (TCHAR*)NULL); // try per-protocol message first
+			Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (TCHAR*)NULL); // try per-protocol message first
 			if (Message.IsEmpty())
 			{
 				Message = NULL; // to be sure it's NULL, not "" - as we're checking 'Message == NULL' later

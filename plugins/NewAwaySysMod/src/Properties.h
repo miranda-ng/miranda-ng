@@ -282,7 +282,7 @@ public:
 		{
 			int ProtoCount;
 			PROTOCOLDESCRIPTOR **proto;
-			CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+			CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
 			int I;
 			for (I = 0; I < ProtoCount; I++)
 			{
@@ -358,16 +358,16 @@ public:
 		CAutoreply& operator = (const int Value)
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
-			if (DBGetContactSettingByte(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
+			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
 			{
 				return *this; // prevent deadlocks when calling UpdateSOEButtons
 			}
 			if (Value != VAL_USEDEFAULT)
 			{
-				DBWriteContactSettingByte(NULL, MOD_NAME, Setting, Value != 0);
+				db_set_b(NULL, MOD_NAME, Setting, Value != 0);
 			} else
 			{
-				DBDeleteContactSetting(NULL, MOD_NAME, Setting);
+				db_unset(NULL, MOD_NAME, Setting);
 			}
 			/*if (!Parent->szProto)
 			{
@@ -375,7 +375,7 @@ public:
 			}*/
 			return *this;
 		}
-		operator int() {return DBGetContactSettingByte(NULL, MOD_NAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
+		operator int() {return db_get_b(NULL, MOD_NAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
 		int IncludingParents() // takes into account global data also, if per-protocol setting is not defined
 		{
 			_ASSERT(Parent->szProto);
@@ -432,9 +432,9 @@ __inline CString StatusToDBSetting(int Status, const char *Prefix, int MoreOpt_P
 }
 
 
-__inline CString ContactStatusToDBSetting(int Status, const char *Prefix, int MoreOpt_PerStatusID, HANDLE hContact)
+__inline CString ContactStatusToDBSetting(int Status, const char *Prefix, int MoreOpt_PerStatusID, MCONTACT hContact)
 {
-	if (hContact == INVALID_HANDLE_VALUE)
+	if (hContact == INVALID_CONTACT_ID)
 	{ // it's a not-on-list contact
 		return CString(DB_UNK_CONTACT_PREFIX) + Prefix;
 	}
@@ -449,7 +449,7 @@ __inline CString ContactStatusToDBSetting(int Status, const char *Prefix, int Mo
 class CContactSettings
 {
 public:
-	CContactSettings(int iStatus = 0, HANDLE hContact = NULL): Status(iStatus, hContact), hContact(hContact)
+	CContactSettings(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus, hContact), hContact(_hContact)
 	{
 		Ignore.Parent = this;
 		Autoreply.Parent = this;
@@ -458,7 +458,7 @@ public:
 
 	CString ContactStatusToDBSetting(const char *Prefix, int MoreOpt_PerStatusID = 0)
 	{
-		return ::ContactStatusToDBSetting((hContact != INVALID_HANDLE_VALUE) ? Status : NULL, Prefix, MoreOpt_PerStatusID, hContact);
+		return ::ContactStatusToDBSetting((hContact != INVALID_CONTACT_ID) ? Status : NULL, Prefix, MoreOpt_PerStatusID, hContact);
 	}
 
 	class CIgnore
@@ -467,17 +467,17 @@ public:
 		CIgnore& operator = (const int Value)
 		{
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
-			HANDLE hContact = (Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL;
+			MCONTACT hContact = (Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL;
 			if (Value)
 			{
-				DBWriteContactSettingByte(hContact, MOD_NAME, Setting, 1);
+				db_set_b(hContact, MOD_NAME, Setting, 1);
 			} else
 			{
-				DBDeleteContactSetting(hContact, MOD_NAME, Setting);
+				db_unset(hContact, MOD_NAME, Setting);
 			}
 			return *this;
 		}
-		operator int() {return DBGetContactSettingByte((Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);}
+		operator int() {return db_get_b((Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);}
 		friend class CContactSettings;
 	private:
 		CContactSettings *Parent;
@@ -489,32 +489,24 @@ public:
 		CAutoreply& operator = (const int Value)
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
-			HANDLE hContact = (Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL;
-			if (DBGetContactSettingByte(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
-			{
+			MCONTACT hContact = (Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL;
+			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
 				return *this; // prevent deadlocks when calling UpdateSOEButtons
-			}
+
 			if (Value != VAL_USEDEFAULT)
-			{
-				DBWriteContactSettingByte(hContact, MOD_NAME, Setting, Value != 0);
-			} else
-			{
-				DBDeleteContactSetting(hContact, MOD_NAME, Setting);
-			}
-			/*if (Parent->hContact != INVALID_HANDLE_VALUE)
-			{
-				UpdateSOEButtons(Parent->hContact);
-			}*/
+				db_set_b(hContact, MOD_NAME, Setting, Value != 0);
+			else
+				db_unset(hContact, MOD_NAME, Setting);
 			return *this;
 		}
-		operator int() {return DBGetContactSettingByte((Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
+		operator int() {return db_get_b((Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
 		int IncludingParents(const char *szProtoOverride = NULL) // takes into account protocol and global data also, if per-contact setting is not defined
 		{
-			_ASSERT((Parent->hContact && Parent->hContact != INVALID_HANDLE_VALUE) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
+			_ASSERT((Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
 			int Value = *this;
 			if (Value == VAL_USEDEFAULT)
 			{
-				const char *szProto = (Parent->hContact && Parent->hContact != INVALID_HANDLE_VALUE) ? (const char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Parent->hContact, 0) : szProtoOverride;
+				const char *szProto = (Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) ? (const char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Parent->hContact, 0) : szProtoOverride;
 				return CProtoSettings(szProto).Autoreply.IncludingParents();
 			}
 			return Value;
@@ -540,17 +532,17 @@ public:
 		CPopupNotify& operator = (const int Value)
 		{
 			//CString Setting(Parent->ContactStatusToDBSetting(DB_POPUPNOTIFY, 0)); //IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS
-			HANDLE hContact = (Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL;
-			if (DBGetContactSettingByte(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
+			MCONTACT hContact = (Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL;
+			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
 			{
 				return *this; // prevent deadlocks when calling UpdateSOEButtons
 			}
 			if (Value != VAL_USEDEFAULT)
 			{
-				DBWriteContactSettingByte(hContact, MOD_NAME, Setting, Value != 0);
+				db_set_b(hContact, MOD_NAME, Setting, Value != 0);
 			} else
 			{
-				DBDeleteContactSetting(hContact, MOD_NAME, Setting);
+				db_unset(hContact, MOD_NAME, Setting);
 			}
 			if (!Parent->hContact)
 			{
@@ -558,7 +550,7 @@ public:
 			}
 			return *this;
 		}
-		operator int() {return DBGetContactSettingByte((Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_POPUPNOTIFY, 0), Parent->hContact ? VAL_USEDEFAULT : POPUP_DEF_USEPOPUPS);} //IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS
+		operator int() {return db_get_b((Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_POPUPNOTIFY, 0), Parent->hContact ? VAL_USEDEFAULT : POPUP_DEF_USEPOPUPS);} //IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS
 		int IncludingParents() // takes into account protocol and global data also, if per-contact setting is not defined
 		{
 			int Value = *this;
@@ -576,14 +568,14 @@ public:
 	class CStatus
 	{
 	public:
-		CStatus(int iStatus = 0, HANDLE hContact = NULL): Status(iStatus), hContact(hContact) {}
+		CStatus(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus), hContact(_hContact) {}
 		CStatus& operator = (int Status) {this->Status = Status; return *this;}
 		operator int()
 		{
 			if (!Status)
 			{
-				_ASSERT(hContact != INVALID_HANDLE_VALUE);
-				char *szProto = hContact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : NULL;
+				_ASSERT(hContact != INVALID_CONTACT_ID);
+				char *szProto = hContact ? GetContactProto(hContact) : NULL;
 				Status = (szProto || !hContact) ? g_ProtoStates[szProto].Status : ID_STATUS_AWAY;
 			}
 			return Status;
@@ -592,7 +584,7 @@ public:
 		friend class CAutoreply;
 	private:
 		int Status;
-		HANDLE hContact;
+		MCONTACT hContact;
 	} Status;
 
 	void SetMsgFormat(int Flags, TCString Message);
@@ -601,5 +593,5 @@ public:
 //NightFox: fix?
 //private:
 public:
-	HANDLE hContact;
+	MCONTACT hContact;
 };

@@ -46,7 +46,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 	{
 /*		int ProtoCount;
 		PROTOCOLDESCRIPTOR **proto;
-		CallService(MS_PROTO_ENUMPROTOCOLS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
 		int i;
 		for (i = 0; i < ProtoCount; i++)
 		{
@@ -68,7 +68,7 @@ INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam) // called by GamerStatus and 
 // MS_AWAYMSG_GETSTATUSMSG "SRAway/GetStatusMessage"
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSG called. status=%d", wParam);
-	CString Msg(TCHAR2ANSI(GetDynamicStatMsg(INVALID_HANDLE_VALUE, NULL, 0, wParam)));
+	CString Msg(_T2A(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam)));
 	char *szMsg;
 	if (Msg == NULL)
 	{ // it's ok to return NULL, so we'll do it
@@ -95,7 +95,7 @@ INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and
 //	}
 	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].Status == wParam);
 	g_fNoProcessing = false;
-	CProtoSettings(NULL, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? ANSI2TCHAR((char*)lParam) : CProtoSettings(NULL, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
+	CProtoSettings(NULL, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? (TCHAR*)_A2T((char*)lParam) : CProtoSettings(NULL, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
 	ChangeProtoMessages(NULL, wParam, TCString());
 	return 0;
 }
@@ -123,9 +123,9 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 				pi->szMsg = (char*)mir_alloc(Msg.GetLen() + 1);
 				_ASSERT(pi->szMsg);
 				if (Widechar)
-					lstrcpyW(pi->wszMsg, TCHAR2WCHAR(Msg));
+					lstrcpyW(pi->wszMsg, Msg);
 				else
-					lstrcpyA(pi->szMsg, TCHAR2ANSI(Msg));
+					lstrcpyA(pi->szMsg, _T2A(Msg));
 			}
 			else pi->szMsg = NULL;
 
@@ -134,7 +134,7 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 		}
 		else pi->szMsg = NULL;
 
-		LogMessage("%d (returned): status=%d, Flags=0x%x, szMsg:\n%s", i + 1, pi->status, (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0, pi->szMsg ? (Widechar ? WCHAR2ANSI(pi->wszMsg) : pi->szMsg) : "NULL");
+		LogMessage("%d (returned): status=%d, Flags=0x%x, szMsg:\n%s", i + 1, pi->status, (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0, pi->szMsg ? (Widechar ? _T2A(pi->wszMsg) : pi->szMsg) : "NULL");
 		*(char**)&pi += pi->cbSize;
 	}
 	return 0;
@@ -167,13 +167,13 @@ int SetState(WPARAM wParam, LPARAM lParam, int Widechar)
 			return 1;
 
 		int Flags = (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0;
-		LogMessage("%d: cbSize=%d, status=%d, szProto=%s, Flags=0x%x, szMsg:\n%s", i + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags, pi->szMsg ? (Widechar ? WCHAR2ANSI(pi->wszMsg) : pi->szMsg) : "NULL");
+		LogMessage("%d: cbSize=%d, status=%d, szProto=%s, Flags=0x%x, szMsg:\n%s", i + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags, pi->szMsg ? (Widechar ? _T2A(pi->wszMsg) : pi->szMsg) : "NULL");
 		if (pi->status)
 			PSSetStatus(pi->szProto, pi->status, Flags & PIF_NO_CLIST_SETSTATUSMODE);
 		else
 			pi->status = g_ProtoStates[pi->szProto].Status;
 
-		CProtoSettings(pi->szProto).SetMsgFormat((Flags & PIF_NOTTEMPORARY) ? SMF_PERSONAL : SMF_TEMPORARY, Widechar ? WCHAR2TCHAR(pi->wszMsg) : ANSI2TCHAR(pi->szMsg));
+		CProtoSettings(pi->szProto).SetMsgFormat((Flags & PIF_NOTTEMPORARY) ? SMF_PERSONAL : SMF_TEMPORARY, Widechar ? pi->wszMsg : _A2T(pi->szMsg));
 		if (pi->szMsg || !(Flags & PIF_NO_CLIST_SETSTATUSMODE))
 			ChangeProtoMessages(pi->szProto, pi->status, TCString());
 
@@ -207,7 +207,7 @@ INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM lParam)
 	{
 		return NULL;
 	}
-	LogMessage("MS_NAS_INVOKESTATUSWINDOW called. cbSize=%d, status=%d, szProto=%s, hContact=0x%08x, Flags=0x%x, szMsg:\n%s", iswi->cbSize, iswi->status, iswi->szProto ? iswi->szProto : "NULL", iswi->hContact, (iswi->cbSize < sizeof(NAS_ISWINFO)) ? 0 : iswi->Flags, iswi->szMsg ? ((iswi->Flags & ISWF_UNICODE) ? WCHAR2ANSI(iswi->wszMsg) : iswi->szMsg) : "NULL");
+	LogMessage("MS_NAS_INVOKESTATUSWINDOW called. cbSize=%d, status=%d, szProto=%s, hContact=0x%08x, Flags=0x%x, szMsg:\n%s", iswi->cbSize, iswi->status, iswi->szProto ? iswi->szProto : "NULL", iswi->hContact, (iswi->cbSize < sizeof(NAS_ISWINFO)) ? 0 : iswi->Flags, iswi->szMsg ? ((iswi->Flags & ISWF_UNICODE) ? _T2A(iswi->wszMsg) : iswi->szMsg) : "NULL");
 	if (iswi->status)
 	{
 		PSSetStatus(iswi->szProto, iswi->status);
@@ -221,7 +221,7 @@ INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM lParam)
 	ZeroMemory(dat, sizeof(SetAwayMsgData));
 	dat->hInitContact = iswi->hContact;
 	dat->szProtocol = iswi->szProto;
-	dat->Message = (iswi->Flags & ISWF_UNICODE) ? WCHAR2TCHAR(iswi->wszMsg) : ANSI2TCHAR(iswi->szMsg);
+	dat->Message = (iswi->Flags & ISWF_UNICODE) ? iswi->wszMsg : _A2T(iswi->szMsg);
 	dat->IsModeless = true;
 	if (iswi->cbSize > sizeof(NAS_ISWINFOv1))
 	{

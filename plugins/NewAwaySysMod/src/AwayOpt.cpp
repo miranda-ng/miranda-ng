@@ -23,9 +23,8 @@
 #include "Path.h"
 #include "m_button.h"
 #include "m_clc.h"
-#include "..\CommonLibs\Themes.h"
-#include "..\CommonLibs\GroupCheckbox.h"
-#include "..\CommonLibs\ThemedImageCheckbox.h"
+#include "GroupCheckbox.h"
+#include "ThemedImageCheckbox.h"
 
 //NightFox
 #include <m_modernopt.h>
@@ -1020,8 +1019,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							ood.cbSize = sizeof(ood);
 							ood.pszPage = "Status";
 							ood.pszTab = "Autoreply";
-							//CallService( MS_OPT_OPENOPTIONS, 0, (LPARAM)&ood );
-							CallService( MS_OPT_OPENOPTIONSPAGE, 0, (LPARAM)&ood );
+							Options_OpenPage(&ood);
 							break;
 						}
 						
@@ -1279,7 +1277,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	}
 }
 
-static void SaveItemState(HWND hwndList, HANDLE hContact, HANDLE hItem)
+static void SaveItemState(HWND hwndList, MCONTACT hContact, HANDLE hItem)
 { // hContact == INVALID_HANDLE_VALUE means that hItem is hItemUnknown
 	int Ignore = IgnoreIconToDBValue(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNORECOLUMN, 0)));
 	int Reply = ReplyIconToDBValue(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(AUTOREPLYCOLUMN, 0)));
@@ -1296,7 +1294,7 @@ static void SaveItemState(HWND hwndList, HANDLE hContact, HANDLE hItem)
 	{
 		CContactSettings(ID_STATUS_ONLINE, hContact).PopupNotify = Notify;
 	}*/
-	if (hContact != INVALID_HANDLE_VALUE && g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
+	if (hContact != INVALID_CONTACT_ID && g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
 	{
 		int iMode;
 		for (iMode = ID_STATUS_AWAY; iMode < ID_STATUS_OUTTOLUNCH; iMode++)
@@ -1315,43 +1313,32 @@ static void SaveItemState(HWND hwndList, HANDLE hContact, HANDLE hItem)
 
 static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 {
-	HANDLE hContact, hItem;
-	char *szProto;
-// set values for hItemUnknown first
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(IGNORECOLUMN, DBValueToIgnoreIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_HANDLE_VALUE).Ignore)));
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_HANDLE_VALUE).Autoreply)));
-//	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(NOTIFYCOLUMN, DBValueToNotifyIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_HANDLE_VALUE).PopupNotify)));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(IGNORECOLUMN, DBValueToIgnoreIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_CONTACT_ID).Ignore)));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_CONTACT_ID).Autoreply)));
 
-	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	do
-	{
-		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		if (hItem)// && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == 0xFF)
-		{
-			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	MCONTACT hContact = db_find_first();
+	do {
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		if (hItem) {
+			char *szProto = GetContactProto(hContact);
 			int Ignore = CContactSettings(ID_STATUS_ONLINE, hContact).Ignore;
 			int Reply = CContactSettings(ID_STATUS_ONLINE, hContact).Autoreply;
 //			int Notify = CContactSettings(ID_STATUS_ONLINE, hContact).PopupNotify;
-			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
-			{
+			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS)) {
 				int iMode;
-				for (iMode = ID_STATUS_AWAY; iMode < ID_STATUS_OUTTOLUNCH; iMode++)
-				{
+				for (iMode = ID_STATUS_AWAY; iMode < ID_STATUS_OUTTOLUNCH; iMode++) {
 					if (CContactSettings(iMode, hContact).Ignore != Ignore)
-					{
 						Ignore = VAL_INDEFINITE;
-					}
+
 					if (CContactSettings(iMode, hContact).Autoreply != Reply)
-					{
 						Reply = VAL_INDEFINITE;
-					} // Notify is not per-status, so we're not checking it here
 				}
 			}
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNORECOLUMN, DBValueToIgnoreIcon(Ignore)));
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(Reply)));
-//			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(NOTIFYCOLUMN, (szProto && IsAnICQProto(szProto)) ? DBValueToNotifyIcon(Notify) : 0xFF));
 		}
-	} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+	} 
+		while (hContact = db_find_next(hContact));
 }
 
 static LRESULT CALLBACK ContactsSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -1376,19 +1363,16 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	static HANDLE hItemAll, hItemUnknown;
 	switch (msg)
 	{
-		case WM_INITDIALOG:
+	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
 			MySetPos(hwndDlg);
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
-			HIMAGELIST hIml;
-			hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR8) | ILC_MASK, 5, 2);
+			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_IGNORE)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED)));
-			//ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_ENABLENOTIFY)));
-			//ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DISABLENOTIFY)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_INDEFINITE)));
 			SendMessage(hwndList, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendMessage(hwndDlg, UM_CONTACTSDLG_RESETLISTOPTIONS, 0, 0);
@@ -1400,10 +1384,10 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hItemAll = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 			cii.pszText = TranslateT("** Not-on-list contacts **"); // == Unknown contacts
 			hItemUnknown = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			MCONTACT hContact = db_find_first();
 			do
 			{
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *szProto = GetContactProto(hContact);
 				if (szProto)
 				{
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -1412,12 +1396,13 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						SendMessage(hwndList, CLM_DELETEITEM, SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
 					}
 				}
-			} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
+			}
+			while (hContact = db_find_next(hContact));
 			SetAllContactIcons(hwndList, hItemUnknown);
 			SetListGroupIcons(hwndList, (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll);
 			g_OrigContactsProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)ContactsSubclassProc);
 		} break;
-		case UM_CONTACTSDLG_RESETLISTOPTIONS:
+	case UM_CONTACTSDLG_RESETLISTOPTIONS:
 		{
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
 			SendMessage(hwndList, CLM_SETBKBITMAP, 0, NULL);
@@ -1432,33 +1417,33 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(hwndList, CLM_SETTEXTCOLOR, I, GetSysColor(COLOR_WINDOWTEXT));
 			}
 		} break;
-		case WM_SETFOCUS:
+	case WM_SETFOCUS:
 		{
 			SetFocus(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST));
 		} break;
-		case WM_NOTIFY:
+	case WM_NOTIFY:
 		{
 			switch (((LPNMHDR)lParam)->idFrom)
 			{
-				case IDC_CONTACTSDLG_LIST:
+			case IDC_CONTACTSDLG_LIST:
 				{
 					switch (((LPNMHDR)lParam)->code)
 					{
-						case CLN_NEWCONTACT:
-						case CLN_LISTREBUILT:
+					case CLN_NEWCONTACT:
+					case CLN_LISTREBUILT:
 						{
 							SetAllContactIcons(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), hItemUnknown);
 						} // fall through
-						case CLN_CONTACTMOVED:
+					case CLN_CONTACTMOVED:
 						{
 							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll);
 						} break;
-						case CLN_OPTIONSCHANGED:
+					case CLN_OPTIONSCHANGED:
 						{
 							SendMessage(hwndDlg, UM_CONTACTSDLG_RESETLISTOPTIONS, 0, 0);
 						} break;
-						case NM_CLICK:
-						case NM_DBLCLK:
+					case NM_CLICK:
+					case NM_DBLCLK:
 						{
 							NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 							HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
@@ -1476,27 +1461,27 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
 							switch (nm->iColumn)
 							{
-								case AUTOREPLYCOLUMN:
+							case AUTOREPLYCOLUMN:
 								{
 									switch (iImage)
 									{
-										case EXTRAICON_DOT: iImage = EXTRAICON_AUTOREPLYOFF; break;
-										case EXTRAICON_AUTOREPLYOFF: iImage = EXTRAICON_AUTOREPLYON; break;
-										default: iImage = EXTRAICON_DOT; // EXTRAICON_AUTOREPLYON and EXTRAICON_INDEFINITE
+									case EXTRAICON_DOT: iImage = EXTRAICON_AUTOREPLYOFF; break;
+									case EXTRAICON_AUTOREPLYOFF: iImage = EXTRAICON_AUTOREPLYON; break;
+									default: iImage = EXTRAICON_DOT; // EXTRAICON_AUTOREPLYON and EXTRAICON_INDEFINITE
 									}
 								} break;
-								case IGNORECOLUMN:
+							case IGNORECOLUMN:
 								{
 									iImage = (iImage == EXTRAICON_DOT) ? EXTRAICON_IGNORE : EXTRAICON_DOT;
 								} break;
 								/*case NOTIFYCOLUMN:
 								{
-									switch (iImage)
-									{
-										case EXTRAICON_DOT: iImage = EXTRAICON_DISABLENOTIFY; break;
-										case EXTRAICON_DISABLENOTIFY: iImage = EXTRAICON_ENABLENOTIFY; break;
-										default: iImage = EXTRAICON_DOT; // EXTRAICON_ENABLENOTIFY and EXTRAICON_INDEFINITE
-									}
+								switch (iImage)
+								{
+								case EXTRAICON_DOT: iImage = EXTRAICON_DISABLENOTIFY; break;
+								case EXTRAICON_DISABLENOTIFY: iImage = EXTRAICON_ENABLENOTIFY; break;
+								default: iImage = EXTRAICON_DOT; // EXTRAICON_ENABLENOTIFY and EXTRAICON_INDEFINITE
+								}
 								}*/ break;
 							}
 							SetIconsForColumn(hwndList, hItem, hItemAll, nm->iColumn, iImage);
@@ -1504,37 +1489,28 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						} break;
 					}
-				} break;
-				case 0:
-				{
-					switch (((LPNMHDR)lParam)->code)
-					{
-						case PSN_APPLY:
-						{
-							HANDLE hContact, hItem;
-							hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-							do
-							{
-								hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-								if (hItem)
-								{
-									SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), hContact, hItem);
-								}
-							} while (hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
-//							SaveItemMask(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), NULL, hItemAll, "Default1"); // TODO: store All Contacts setting here too, - change global Notify and Autoreply settings? (& set the All Contacts icons to "?" initially if the global setting doesn't coincide with the setting calculated in the _current_ way); and also make sure that these settings will be refreshed in the other windows too
-							SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), INVALID_HANDLE_VALUE, hItemUnknown);
-							return true;
-						} break;
+				}
+				break;
+			case 0:
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_APPLY:
+					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+						if (hItem)
+							SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), hContact, hItem);
 					}
-				} break;
+
+					SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), INVALID_CONTACT_ID, hItemUnknown);
+					return true;
+				}
+				break;
 			}
 		} break;
-		case WM_DESTROY:
-		{
-			HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
-			_ASSERT(hIml);
-			ImageList_Destroy(hIml);
-		} break;
+	case WM_DESTROY:
+		HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
+		_ASSERT(hIml);
+		ImageList_Destroy(hIml);
+		break;
 	}
 	return 0;
 }
@@ -1577,7 +1553,6 @@ COptPage g_MsgTreePage(MOD_NAME, NULL);
 
 void InitOptions()
 {
-	InitThemes();
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_VARS, IDC_MESSAGEDLG_MSGTREE));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_DEL));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_MSGTITLE));

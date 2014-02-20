@@ -20,24 +20,24 @@
 #pragma once
 
 #include "m_utils.h"
-#include "..\CommonLibs\CString.h"
+#include "CString.h"
 
 
 __inline TCString Path_ToRelative(TCString &Path)
 {
-	CString Str;
+	TCString Str;
 	Str.GetBuffer(MAX_PATH);
-	CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)(const char*)TCHAR2ANSI(Path), (LPARAM)(char*)Str);
+	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)(TCHAR*)Path, (LPARAM)(TCHAR*)Str);
 	Str.ReleaseBuffer();
-	return ANSI2TCHAR(Str);
+	return Str;
 }
 
 
 __inline TCString Path_ToAbsolute(TCString &Path)
 {
-	CString Str;
+	TCString Str;
 	Str.GetBuffer(MAX_PATH);
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)(const char*)TCHAR2ANSI(Path), (LPARAM)(char*)Str);
+	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)(TCHAR*)Path, (LPARAM)(TCHAR*)Str);
 	Str.ReleaseBuffer();
-	return ANSI2TCHAR(Str);
+	return Str;
 }
