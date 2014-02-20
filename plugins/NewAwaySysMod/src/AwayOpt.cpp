@@ -628,12 +628,13 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			HWND hButton = GetDlgItem(hwndDlg, IDC_REPLYDLG_VARS);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
-			MakeThemedImageCheckbox(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTMSG));
-			MakeThemedImageCheckbox(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTURL));
-			MakeThemedImageCheckbox(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTFILE));
+
+			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTMSG), BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTURL), BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTFILE), BUTTONSETASTHEMEDBTN, TRUE, 0);
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
 
-		// init tooltips
+			// init tooltips
 			struct {
 				int DlgItemID;
 				TCHAR* Text;

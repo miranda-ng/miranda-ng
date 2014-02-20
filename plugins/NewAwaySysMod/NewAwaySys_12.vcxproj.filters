@@ -16,6 +16,9 @@
     <Filter Include="Documentation">
       <UniqueIdentifier>{b1737ff9-4769-4f5b-b414-ee0f5256de7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CommonLibs">
+      <UniqueIdentifier>{ce0f339c-23a2-46b5-9000-81e923ac9be6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AwayOpt.cpp">
@@ -52,13 +55,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CString.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Options.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\CommonLibs</Filter>
     </ClCompile>
     <ClCompile Include="src\GroupCheckbox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\CommonLibs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Options.cpp">
+      <Filter>Source Files\CommonLibs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
