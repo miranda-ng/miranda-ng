@@ -24,7 +24,6 @@
 #include "m_button.h"
 #include "m_clc.h"
 #include "GroupCheckbox.h"
-#include "ThemedImageCheckbox.h"
 
 //NightFox
 #include <m_modernopt.h>

@@ -44,7 +44,6 @@
 
 //NightFox
 #include <m_modernopt.h>
-#include <process.h> // needed for MSVC 7 msvcr7*.dll patch
 
 HINSTANCE g_hInstance;
 
