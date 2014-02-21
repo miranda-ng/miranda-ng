@@ -17,7 +17,8 @@
 
 enum
 {
-	CMI_API_ACCESS_REQUERIED,
+	CMI_API_REQUEST_AUTH,
+	CMI_SEND_FILES,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -88,11 +89,13 @@ private:
 	static int OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// services
-	static INT_PTR GetCaps(WPARAM wParam, LPARAM lParam);
-	static INT_PTR SendFile(WPARAM wParam, LPARAM lParam);
-	static INT_PTR SendMessage(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoSendFile(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoSendMessage(WPARAM wParam, LPARAM lParam);
 
-	static INT_PTR RequeriedApiAccess(WPARAM wParam, LPARAM lParam);
+	static INT_PTR RequestApiAuthorization(WPARAM wParam, LPARAM lParam);
+
+	static INT_PTR SendFilesToDropbox(WPARAM wParam, LPARAM lParam);
 
 	// access token
 	static bool HasAccessToken();
@@ -100,7 +103,7 @@ private:
 	void RequestAcceessToken(MCONTACT hContact);
 	void DestroyAcceessToken(MCONTACT hContact);
 
-	static void RequeriedAccessAsync(void *arg);
+	static void RequestApiAuthorizationAsync(void *arg);
 
 	// transrers
 	HttpRequest *CreateFileSendChunkedRequest(const char *data, int length);

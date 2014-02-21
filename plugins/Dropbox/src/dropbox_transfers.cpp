@@ -3,7 +3,7 @@
 HttpRequest *CDropbox::CreateFileSendChunkedRequest(const char *data, int length)
 {
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_PUT, DROPBOX_APICONTENT_URL "/chunked_upload");
-	request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 	if (length > 0)
 	{
 		request->AddHeader("Content-Type", "application/octet-stream");
@@ -86,7 +86,7 @@ void CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, M
 
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
 	request->AddParameter("upload_id", uploadId);
-	request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 
 	NETLIBHTTPREQUEST *response = request->Send();
 
@@ -100,7 +100,7 @@ void CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, M
 			url.Replace("commit_chunked_upload", "shares");
 
 			request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
-			request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+			request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 
 			mir_free(response);
 
@@ -152,7 +152,7 @@ void CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder");
 	request->AddParameter("root", DROPBOX_API_ROOT);
 	request->AddParameter("path", folderName);
-	request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 
 	NETLIBHTTPREQUEST *response = request->Send();
 
@@ -172,7 +172,7 @@ void CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 				folder.GetBuffer());
 
 			request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
-			request->AddParameter("access_token", db_get_sa(NULL, MODULE, "TokenSecret"));
+			request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 
 			mir_free(response);
 
@@ -233,8 +233,11 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 			int offset = 0;
 			char *uploadId = new char[32];
 
-			//const char *fileName = strrchr(ftp->pfts.pszFiles[i], '\\') + 1;
-			const char *fileName = &ftp->pfts.pszFiles[i][ftp->relativePathStart];
+			const char *fileName = NULL;
+			if (!ftp->relativePathStart)
+				fileName = strrchr(ftp->pfts.pszFiles[i], '\\') + 1;
+			else
+				fileName = &ftp->pfts.pszFiles[i][ftp->relativePathStart];
 
 			fseek(file, 0, SEEK_END);
 			DWORD fileSize = ftell(file);
@@ -256,7 +259,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 					chunkSize = DROPBOX_FILE_CHUNK_SIZE * 4;
 
 				char *data = new char[chunkSize + 1];
-				size_t count = fread(data, sizeof(char), chunkSize, file);
+				int count = fread(data, sizeof(char), chunkSize, file);
 
 				if (!offset)
 					Singleton<CDropbox>::GetInstance()->SendFileChunkedFirst(data, count, uploadId, offset);

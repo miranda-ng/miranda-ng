@@ -41,6 +41,48 @@ public:
 		headersCount++;
 	}
 
+	void AddBasicAuthHeader(LPCSTR szLogin, LPCSTR szPassword)
+	{
+		char cPair[128];
+		mir_snprintf(
+			cPair,
+			SIZEOF(cPair),
+			"%s:%s",
+			szLogin,
+			szPassword);
+
+		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, strlen(cPair));
+
+		char value[128];
+		mir_snprintf(
+			value,
+			SIZEOF(value),
+			"Basic %s",
+			ePair);
+
+		mir_free(ePair);
+
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+		headers[headersCount].szName = mir_strdup("Authorization");
+		headers[headersCount].szValue = mir_strdup(value);
+		headersCount++;
+	}
+
+	void AddBearerAuthHeader(LPCSTR szValue)
+	{
+		char value[128];
+		mir_snprintf(
+			value,
+			SIZEOF(value),
+			"Bearer %s",
+			szValue);
+
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+		headers[headersCount].szName = mir_strdup("Authorization");
+		headers[headersCount].szValue = mir_strdup(value);
+		headersCount++;
+	}
+
 	void AddParameter(LPCSTR szName, LPCSTR szValue)
 	{
 		if (m_szUrl.Find('?') == -1)
