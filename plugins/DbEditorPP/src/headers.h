@@ -58,7 +58,6 @@ int AddIconToList(HIMAGELIST hil, HICON hIcon);
 void AddProtoIconsToList(HIMAGELIST hil, int newshift);
 int GetProtoIcon(char *szProto);
 extern MCONTACT hRestore;
-extern HGENMENU hUserMenu;
 /////////////////////
 
 #ifndef NDEBUG

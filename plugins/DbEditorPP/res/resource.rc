@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -54,7 +54,7 @@ BEGIN
     CONTROL         "Entirely",IDC_ENTIRELY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,262,74,67,10
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 314, 239
+IDD_OPTIONS DIALOGEX 0, 0, 314, 92
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -64,13 +64,12 @@ BEGIN
     CONTROL         "Automatically expand ""settings"" when Database Editor ++ starts",IDC_EXPANDSETTINGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,283,10
     CONTROL         "Warn when deleting modules",IDC_WARNONDEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,39,280,10
-    CONTROL         """Open user tree in DBE++"" menu item",IDC_MENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,280,10
     CONTROL         "Use popups when watched settings change values",IDC_POPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,65,275,10
-    EDITTEXT        IDC_POPUPTIMEOUT,144,76,20,12,ES_NUMBER
-    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,257,76,26,12
-    RTEXT           "Popup timeout (0 for infinite)",IDC_STATIC,35,78,103,8
-    RTEXT           "Background color",IDC_STATIC,177,78,77,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,57,275,10
+    EDITTEXT        IDC_POPUPTIMEOUT,144,68,20,12,ES_NUMBER
+    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,257,68,26,12
+    RTEXT           "Popup timeout (0 for infinite)",IDC_STATIC,35,70,103,8
+    RTEXT           "Background color",IDC_STATIC,177,70,77,8
 END
 
 IDD_ADD_MODULE DIALOGEX 0, 0, 186, 67
@@ -186,7 +185,7 @@ BEGIN
         RIGHTMARGIN, 307
         VERTGUIDE, 12
         TOPMARGIN, 7
-        BOTTOMMARGIN, 232
+        BOTTOMMARGIN, 85
         HORZGUIDE, 68
     END
 
@@ -246,11 +245,11 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+ICO_REGEDIT             ICON                    "Icon_1.ico"
 ICO_KNOWN               ICON                    "Yellow.ico"
 ICO_KNOWNOPEN           ICON                    "Yellow_open.ico"
 ICO_SETTINGS            ICON                    "Icon_4.ico"
 ICO_ONLINE              ICON                    "online2.ico"
-ICO_REGEDIT             ICON                    "Icon_1.ico"
 ICO_DBE_BUTT            ICON                    "dbepp.ico"
 ICO_REGUSER             ICON                    "usermenu.ico"
 ICO_STRING              ICON                    "Icon_14.ico"
@@ -262,10 +261,6 @@ ICO_WORD                ICON                    "Icon_18.ico"
 ICO_OFFLINE             ICON                    "offline2.ico"
 ICO_UNICODE             ICON                    "unicode.ico"
 ICO_HANDLE              ICON                    "handle.ico"
-
-#endif    // Английский (США) resources
-/////////////////////////////////////////////////////////////////////////////
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -458,6 +453,10 @@ BEGIN
         MENUITEM "E&xit",                       MENU_EXIT
     END
 END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
 
 
 #ifndef APSTUDIO_INVOKED

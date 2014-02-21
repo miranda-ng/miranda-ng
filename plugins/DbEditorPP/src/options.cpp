@@ -11,7 +11,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckDlgButton(hwnd,IDC_EXPANDSETTINGS,db_get_b(NULL,modname,"ExpandSettingsOnOpen",0));
 			CheckDlgButton(hwnd,IDC_RESTORESETTINGS,db_get_b(NULL,modname,"RestoreOnOpen",1));
 			CheckDlgButton(hwnd,IDC_WARNONDEL,db_get_b(NULL,modname,"WarnOnDelete",1));
-			CheckDlgButton(hwnd,IDC_MENU,db_get_b(NULL,modname,"UserMenuItem",0));
 			CheckDlgButton(hwnd,IDC_POPUPS,usePopups);
 			SetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,db_get_w(NULL,modname,"PopupDelay",4),0);
 			SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(NULL,modname,"PopupColour",RGB(255,0,0)));
@@ -24,7 +23,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				case IDC_RESTORESETTINGS:
 				case IDC_EXPANDSETTINGS:
-				case IDC_MENU:
 				case IDC_POPUPS:
 				case IDC_WARNONDEL:
 				case IDC_COLOUR:
@@ -47,13 +45,10 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								db_set_b(NULL,modname,"ExpandSettingsOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_EXPANDSETTINGS));
 								db_set_b(NULL,modname,"RestoreOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_RESTORESETTINGS));
 								db_set_b(NULL,modname,"WarnOnDelete",(BYTE)IsDlgButtonChecked(hwnd,IDC_WARNONDEL));
-								db_set_b(NULL,modname,"UserMenuItem",(BYTE)IsDlgButtonChecked(hwnd,IDC_MENU));
 								usePopups = IsDlgButtonChecked(hwnd,IDC_POPUPS);
 								db_set_b(NULL,modname,"UsePopUps",(BYTE)usePopups);
 								db_set_w(NULL,modname,"PopupDelay",(WORD)GetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,NULL,0));
 								db_set_dw(NULL,modname,"PopupColour",(DWORD)SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_GETCOLOUR, 0, 0));
-
-								Menu_ShowItem(hUserMenu, IsDlgButtonChecked(hwnd,IDC_MENU));
 							}
 							return TRUE;
 					}
@@ -64,7 +59,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-INT OptInit(WPARAM wParam,LPARAM lParam)
+INT OptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;

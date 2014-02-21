@@ -158,7 +158,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
-	mi.flags = db_get_b(NULL, modname, "UserMenuItem", 0) ? 0 : CMIF_HIDDEN;
+	mi.flags = 0;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGUSER));
 	mi.pszName = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";

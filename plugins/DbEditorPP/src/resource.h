@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by ..\res\resource.rc
 //
 #define ICO_REGEDIT                     1
 #define ICO_UNICODE                     2
@@ -33,7 +33,6 @@
 #define ICO_ONLINE                      129
 #define IDC_MODULES                     1000
 #define IDC_SETTINGS                    1001
-#define IDC_MENU                        1002
 #define IDC_MODNAME                     1004
 #define CHK_ADD2ALL                     1005
 #define IDC_MODNAME2                    1005
