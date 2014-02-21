@@ -52,6 +52,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit);
 	HookProtoEvent(ME_GC_EVENT,					&FacebookProto::OnGCEvent);
 	HookProtoEvent(ME_GC_BUILDMENU,				&FacebookProto::OnGCMenuHook);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ,		&FacebookProto::OnDbEventRead);
 
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
@@ -471,6 +472,14 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(data));
 	ShowWindow(hDlg, SW_SHOW);
 
+	return 0;
+}
+
+int FacebookProto::OnDbEventRead(WPARAM contactID, LPARAM dbei)
+{
+	if (!isOffline()) {
+		ForkThread(&FacebookProto::ReadMessageWorker, (void*)contactID);
+	}
 	return 0;
 }
 

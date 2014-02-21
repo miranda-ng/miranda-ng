@@ -146,6 +146,7 @@ public:
 	int  __cdecl OnIdleChanged(WPARAM,LPARAM);
 	int  __cdecl OnGCEvent(WPARAM,LPARAM);
 	int  __cdecl OnGCMenuHook(WPARAM,LPARAM);
+	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 
 	// Loops
 	bool    NegotiateConnection();
