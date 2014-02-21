@@ -4,7 +4,6 @@
 class CIRCConnection
 {
 public:
-	HANDLE hEventHook;
 	tstring strProtocol;
 	tstring strNetwork;
 };

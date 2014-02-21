@@ -183,7 +183,7 @@ void CEventScreen::OnLCDButtonDown(int iButton)
 			return;
 		
 		// if the contact is an irc chatroom, check if it is hidden (user left the channel)
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)pEntry->hContact, 0);
+		char *szProto = GetContactProto(pEntry->hContact);
 		CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(szProto));
 
 		if(pIRCCon && db_get_b(pEntry->hContact, szProto, "ChatRoom", 0) != 0 &&

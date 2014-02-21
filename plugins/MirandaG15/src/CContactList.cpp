@@ -103,7 +103,7 @@ void CContactList::AddContact(MCONTACT hContact)
 	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = NULL;
 
 	tstring strName = CAppletManager::GetContactDisplayname(hContact);
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
+	char *szProto = GetContactProto(hContact);
 	
 	tstring strGroup = GetContactGroupPath(hContact);
 	// ignore contacts without a valid protocoll
@@ -207,7 +207,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 			DWORD dwNumContacts = (DWORD)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)pEntry->hHandle,0);
 			for(DWORD i = 0; i < dwNumContacts; i++) {
 				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)pEntry->hHandle,i);
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hSubContact,0);
+				char *szProto = GetContactProto(hSubContact);
 				if(db_get_w(hSubContact,szProto,"Status",ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 					return true;
 				}
@@ -540,14 +540,14 @@ bool CContactList::CompareEntries(CListEntry<CContactListEntry*,CContactListGrou
 //************************************************************************
 void CContactList::RefreshList()
 {
-	if(db_get_b(NULL,"MetaContacts","Enabled",1) != m_bUseMetaContacts ||
+	if((db_get_b(NULL,"MetaContacts","Enabled",1) != 0) != m_bUseMetaContacts ||
 		CConfig::GetBoolSetting(CLIST_USEGROUPS) != m_bUseGroups)
 	{
 		InitializeGroupObjects();
 		Clear();
 	}
 	m_bUseGroups = CConfig::GetBoolSetting(CLIST_USEGROUPS);
-	m_bUseMetaContacts = db_get_b(NULL,"MetaContacts","Enabled",1);
+	m_bUseMetaContacts = db_get_b(NULL,"MetaContacts","Enabled",1) != 0;
 
 	CListEntry<CContactListEntry*,CContactListGroup*> *pContactEntry = NULL;
 	MCONTACT hContact = db_find_first();
@@ -1019,7 +1019,7 @@ void CContactList::InitializeGroupObjects()
 	while(hContact != NULL)
 	{
 		tstring strGroup = GetContactGroupPath(hContact);
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
+		szProto = GetContactProto(hContact);
 		if(szProto && db_get_b(NULL,"MetaContacts","Enabled",1) && !stricmp(szProto,"MetaContacts"))
 		{
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);

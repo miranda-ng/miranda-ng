@@ -171,7 +171,7 @@ void CContactlistScreen::OnEventReceived(CEvent *pEvent)
 		m_ContactList.OnMessageCountChanged(pEvent->hContact);
 		break;
 	case EVENT_CONTACT_HIDDEN:
-		m_ContactList.OnContactHiddenChanged(pEvent->hContact,pEvent->iValue);
+		m_ContactList.OnContactHiddenChanged(pEvent->hContact,pEvent->iValue != 0);
 		break;
 	case EVENT_CONTACT_GROUP:
 		m_ContactList.OnContactGroupChanged(pEvent->hContact,pEvent->strValue);

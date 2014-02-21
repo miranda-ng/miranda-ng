@@ -78,6 +78,7 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	m_hMIHookContactAdded = HookEvent(ME_DB_CONTACT_ADDED,  CAppletManager::HookContactAdded);
 	m_hMIHookSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,CAppletManager::HookSettingChanged);
 	m_hMIHookContactIsTyping = HookEvent(ME_PROTO_CONTACTISTYPING,CAppletManager::HookContactIsTyping);
+	m_hMIHookChatEvent = HookEvent(ME_GC_HOOK_EVENT,CAppletManager::HookChatInbound);
 	
 	// enumerate protocols
 	int iCount;
@@ -86,7 +87,7 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	CProtocolData *pProtoData = NULL;
 	CIRCConnection *pIRCConnection = NULL;
 
-	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&iCount,(LPARAM)&ppAccounts);
+	ProtoEnumAccounts(&iCount, &ppAccounts);
 	for(int i=0;i<iCount;i++)
 	{
 		/**if(ppProtocolDescriptor[i]->type != PROTOTYPE_PROTOCOL)
@@ -107,46 +108,27 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	}
 
 	// load status bitmaps
-	m_ahStatusBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_OFFLINE),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_ONLINE),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_AWAY),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_NA),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[4] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_OCCUPIED),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[5] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_DND),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[6] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_INVISIBLE),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
-	m_ahStatusBitmaps[7] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_FFC),
-												IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_OFFLINE),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_ONLINE),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_AWAY),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_NA),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[4] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_OCCUPIED),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[5] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_DND),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[6] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_INVISIBLE),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
+	m_ahStatusBitmaps[7] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_STATUS_FFC),IMAGE_BITMAP,5, 5, LR_MONOCHROME);
 	// Load event bitmaps
-	m_ahEventBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_MSG),
-												IMAGE_BITMAP,6, 6, LR_MONOCHROME);
-	m_ahEventBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_CON),
-												IMAGE_BITMAP,6, 6, LR_MONOCHROME);
-	m_ahEventBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_USER),
-												IMAGE_BITMAP,6, 6, LR_MONOCHROME);
-	m_ahEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO),
-												IMAGE_BITMAP,6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_MSG),IMAGE_BITMAP,6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_CON),IMAGE_BITMAP,6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_USER),IMAGE_BITMAP,6, 6, LR_MONOCHROME);
+	m_ahEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO),IMAGE_BITMAP,6, 6, LR_MONOCHROME);
 	
-	m_ahLargeEventBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_MSG_LARGE),
-												IMAGE_BITMAP,8, 8, LR_MONOCHROME);
-	m_ahLargeEventBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_CON_LARGE),
-												IMAGE_BITMAP,8, 8, LR_MONOCHROME);
-	m_ahLargeEventBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_USER_LARGE),
-												IMAGE_BITMAP,8, 8, LR_MONOCHROME);
-	m_ahLargeEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO_LARGE),
-												IMAGE_BITMAP,8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[0] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_MSG_LARGE),IMAGE_BITMAP,8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[1] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_CON_LARGE),IMAGE_BITMAP,8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[2] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_USER_LARGE),IMAGE_BITMAP,8, 8, LR_MONOCHROME);
+	m_ahLargeEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO_LARGE),IMAGE_BITMAP,8, 8, LR_MONOCHROME);
 
-	
 	// start the update timer
 	m_uiTimer = SetTimer(0,0,1000/10,CAppletManager::UpdateTimer);
-
-		
 
 	return true;
 }
@@ -181,12 +163,12 @@ bool CAppletManager::Shutdown()
 	UnhookEvent(m_hMIHookContactDeleted);
 	UnhookEvent(m_hMIHookContactAdded);
 	UnhookEvent(m_hMIHookSettingChanged);
+	UnhookEvent(m_hMIHookChatEvent);
 
 	// unhook all irc protocols, and delete the classes
 	vector<CIRCConnection*>::iterator iter = m_vIRCConnections.begin();
 	while(iter != m_vIRCConnections.end())
 	{
-		UnhookEvent((*iter)->hEventHook);
 		delete *iter;
 		iter++;
 	}
@@ -602,7 +584,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 	// check for protocol filters
 	if(pEvent->hContact != NULL && pEvent->eType != EVENT_CONTACT_ADDED)
 	{
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)pEvent->hContact, 0);
+		char *szProto = GetContactProto(pEvent->hContact);
 		if(szProto == NULL || !CConfig::GetProtocolNotificationFilter(toTstring(szProto)))
 			pEvent->bNotification = false;
 	}
@@ -650,7 +632,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 }
 
 bool CAppletManager::IsUtfSendAvailable(MCONTACT hContact) {
-	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if ( szProto == NULL )
 		return FALSE;
 
@@ -662,20 +644,12 @@ bool CAppletManager::IsUtfSendAvailable(MCONTACT hContact) {
 //************************************************************************
 char *CAppletManager::GetMessageServiceName(MCONTACT hContact,bool bIsUnicode)
 {
-	char szServiceName[100];
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *szProto = GetContactProto(hContact);
 		
 	if(szProto == NULL)
 		return NULL;
 
-	if (!bIsUnicode)
-		return PSS_MESSAGE;
-
-	_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-	if (ServiceExists(szServiceName))
-		return PSS_MESSAGE "W";
-
-	return NULL;
+	return PSS_MESSAGE;
 }
 
 //************************************************************************
@@ -727,7 +701,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 	{
 		if((*iter) == pJob)
 		{
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)pJob->hContact, 0);
+			char *szProto = GetContactProto(pJob->hContact);
 			tstring strProto = toTstring(szProto);
 			CIRCConnection *pIRCCon = GetIRCConnection(strProto);
 
@@ -789,7 +763,7 @@ bool CAppletManager::IsSubContact(MCONTACT hContact)
 {
 	if(!db_get_b(0, "MetaContacts", "Enabled", 1))
 		return false;
-	bool bIsSubcontact = db_get_b(hContact,"MetaContacts","IsSubcontact",0);
+	bool bIsSubcontact = db_get_b(hContact,"MetaContacts","IsSubcontact",0) != 0;
 	return bIsSubcontact;
 	// HANDLE hMetaContact = (HANDLE)CallService(MS_MC_GETMETACONTACT, hContact, NULL);
 	// return hMetaContact != NULL;
@@ -800,10 +774,6 @@ bool CAppletManager::IsSubContact(MCONTACT hContact)
 //************************************************************************
 void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
 {
-	DWORD protoStatus;
-    DWORD protoCaps;
-    DWORD typeCaps;
-
 	if (!hContact)
         return;
 
@@ -815,18 +785,19 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
     if (!db_get_b(hContact, "SRMsg", "SupportTyping", db_get_b(NULL, "SRMsg", "DefaultTyping", 1)))
         return;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+	char *szProto = GetContactProto(hContact);
     if (!szProto)
         return;
 
-    protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-    protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-    typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-
+    DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
     if (!(typeCaps & PF4_SUPPORTTYPING))
         return;
+
+    DWORD protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
     if (protoStatus < ID_STATUS_ONLINE)
         return;
+
+    DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
     if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
         return;
     if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
@@ -849,7 +820,7 @@ HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 	pJob->dwTimestamp = GetTickCount();
 	pJob->hContact = hContact;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	tstring strProto = toTstring(szProto);
 
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
@@ -911,7 +882,7 @@ HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 		if(szService == NULL)
 		{
 			free(pJob->pcBuffer);
-			pJob->pcBuffer == NULL;
+			pJob->pcBuffer = NULL;
 			return NULL;
 		}
 		pJob->hEvent = (HANDLE) CallContactService(pJob->hContact, szService , pref, (LPARAM)pJob->pcBuffer );
@@ -1062,7 +1033,7 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lPara
 
 	if(CConfig::GetBoolSetting(NOTIFY_SHOWPROTO))
 	{
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)pEvent->hContact, 0);
+		char *szProto = GetContactProto(pEvent->hContact);
 		pEvent->strDescription = _T("(")+toTstring(szProto)+_T(") ") + pEvent->strDescription;
 	}
 
@@ -1140,19 +1111,8 @@ CIRCConnection *CAppletManager::GetIRCConnection(tstring strProtocol)
 //************************************************************************
 CIRCConnection *CAppletManager::CreateIRCConnection(tstring strProtocol)
 {
-	char buffer[128];
-	sprintf(buffer,"%s/HookableEvents",toNarrowString(strProtocol).c_str());
-
-	// try to hook the events
-	HANDLE hEventHook = HookEvent(buffer,CAppletManager::HookChatInbound);
-	// if the hook could not be established, the protocol is not an IRC instance
-	if(!hEventHook)
-		return NULL;
-	
-	TRACE(_T("Patched IRC-Connection found: %s\n"),strProtocol.c_str());
 	CIRCConnection *pIRCCon = new CIRCConnection();
 	pIRCCon->strProtocol = strProtocol;
-	pIRCCon->hEventHook = hEventHook;
 	pIRCCon->strNetwork = _T("");
 	
 	m_vIRCConnections.push_back(pIRCCon);
@@ -1216,7 +1176,7 @@ void CAppletManager::DeleteIRCHistory(MCONTACT hContact)
 //************************************************************************
 CIRCHistory *CAppletManager::CreateIRCHistory(MCONTACT hContact,tstring strChannel)
 {
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if(!szProto)
 		return NULL;
 
@@ -1266,15 +1226,15 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	GCDEST *gcd = (GCDEST*)gce->pDest;
 	
 	if(gce == NULL || gcd == NULL)
-		TRACE(_T("<< [%s] skipping invalid IRC event\n"));
+		TRACE(_T("<< [%s] skipping invalid event\n"));
 
-	TRACE(_T("<< [%s:%s] IRC event %04X\n"),toTstring(gcd->pszModule).c_str(), gcd->ptszID, gcd->iType);
+	TRACE(_T("<< [%s:%s] event %04X\n"),toTstring(gcd->pszModule).c_str(), gcd->ptszID, gcd->iType);
 	
 	// get the matching irc connection entry
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gcd->pszModule));
 	if(!pIRCCon)
 	{
-		TRACE(_T("<< [%s] IRC connection not found, skipping event\n"),toTstring(gcd->pszModule).c_str());
+		TRACE(_T("<< [%s] connection not found, skipping event\n"),toTstring(gcd->pszModule).c_str());
 		return 0;
 	}
 
@@ -1485,7 +1445,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	localtime_s(&Event.Time,&now);
 	
 	SIRCMessage IRCMsg;
-	IRCMsg.bIsMe = gce->bIsMe;
+	IRCMsg.bIsMe = (gce->bIsMe != 0);
 	IRCMsg.strMessage = Event.strValue;
 	IRCMsg.Time = Event.Time;
 
@@ -1627,7 +1587,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	int iOldStatus = CAppletManager::GetInstance()->m_ContactlistScreen.GetContactStatus(Event.hContact);
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Event.hContact, 0);
+	char *szProto = GetContactProto(Event.hContact);
 	tstring strProto = toTstring(szProto);
 
 	CProtocolData *pProtocolData = CAppletManager::GetInstance()->GetProtocolData(toTstring(szProto));
@@ -1887,7 +1847,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact,LPARAM lParam)
 				Event.strValue = toTstring(dbcws->value.pszVal);
 		}
 		else {
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Event.hContact, 0);
+			char *szProto = GetContactProto(Event.hContact);
 			if (db_get_ts(Event.hContact, szProto, "Nick", &dbv)) 
 				return 0;
 			Event.strValue = dbv.ptszVal;

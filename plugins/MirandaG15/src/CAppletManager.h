@@ -177,6 +177,7 @@ private:
 	HANDLE m_hMIHookSettingChanged;
 	HANDLE m_hMIHookContactDeleted;
 	HANDLE m_hMIHookContactAdded;
+	HANDLE m_hMIHookChatEvent;
 
 	vector<CIRCConnection*> m_vIRCConnections;
 
