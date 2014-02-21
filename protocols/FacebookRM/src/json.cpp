@@ -319,11 +319,11 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			}
 		}
 
-		if (!attachments_text.empty()) {
-			// TODO: have this as extra event, not replace or append message content
-			if (!message_text->empty())
-				*message_text += "\n\n";
-			
+		// TODO: have this as extra event, not replace or append message content
+		if (!message_text->empty())
+			*message_text += "\n\n";
+
+		if (!attachments_text.empty()) {			
 			// we can't use this as offline messages doesn't have it
 			/* JSONNODE *admin_snippet = json_get(it, "admin_snippet");
 			if (admin_snippet != NULL) {
@@ -345,6 +345,9 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 
 			*message_text += ptrA(mir_utf8encodeT(title));
 			*message_text += attachments_text;
+		} else {
+			// TODO: better support for these attachments (parse it from "m_messaging" instead of "messaging"
+			*message_text += Translate("User sent you an unsupported attachment. Open your browser to actually see it.")
 		}
 	}
 }
