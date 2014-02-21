@@ -39,7 +39,8 @@ static HANDLE
    hEventPrebuildMenu = NULL,
    hEventDoubleclicked = NULL,
    hEventJoinChat = NULL,
-   hEventLeaveChat = NULL;
+   hEventLeaveChat = NULL,
+   hHookEvent = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Post-load event hooks
@@ -70,7 +71,7 @@ void LoadChatIcons(void)
 	LoadMsgLogBitmaps();
 }
 
-static int FontsChanged(WPARAM wParam, LPARAM lParam)
+static int FontsChanged(WPARAM, LPARAM)
 {
 	LoadGlobalSettings();
 	LoadLogFonts();
@@ -87,7 +88,7 @@ static int FontsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int IconsChanged(WPARAM wParam, LPARAM lParam)
+static int IconsChanged(WPARAM, LPARAM)
 {
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
@@ -97,7 +98,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int PreShutdown(WPARAM wParam, LPARAM lParam)
+static int PreShutdown(WPARAM, LPARAM)
 {
 	ci.SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
 
@@ -109,13 +110,13 @@ static int PreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int SmileyOptionsChanged(WPARAM wParam, LPARAM lParam)
+static int SmileyOptionsChanged(WPARAM, LPARAM)
 {
 	ci.SM_BroadcastMessage(NULL, GC_REDRAWLOG, 0, 1, FALSE);
 	return 0;
 }
 
-static INT_PTR Service_GetCount(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_GetCount(WPARAM, LPARAM lParam)
 {
 	if (!lParam)
 		return -1;
@@ -124,7 +125,7 @@ static INT_PTR Service_GetCount(WPARAM wParam, LPARAM lParam)
 	return ci.SM_GetCount((char *)lParam);
 }
 
-static INT_PTR Service_GetInfo(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
 {
 	GC_INFO *gci = (GC_INFO *)lParam;
 	if (!gci || !gci->pszModule)
@@ -150,7 +151,7 @@ static INT_PTR Service_GetInfo(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_Register(WPARAM, LPARAM lParam)
 {
 	GCREGISTER *gcr = (GCREGISTER *)lParam;
 	if (gcr == NULL)
@@ -188,7 +189,7 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 {
 	GCSESSION *gcw = (GCSESSION *)lParam;
 	if (gcw == NULL)
@@ -392,14 +393,13 @@ static void AddUser(GCEVENT *gce)
 static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
-	GCDEST *gcd = NULL;
 	BOOL bIsHighlighted = FALSE;
 	BOOL bRemoveFlag = FALSE;
 
 	if (gce == NULL)
 		return GC_EVENT_ERROR;
 
-	gcd = gce->pDest;
+	GCDEST *gcd = gce->pDest;
 	if (gcd == NULL)
 		return GC_EVENT_ERROR;
 
@@ -408,6 +408,8 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
+
+	NotifyEventHooks(hHookEvent,wParam,lParam);
 
 	SESSION_INFO *si;
 	mir_cslock lck(cs);
@@ -538,7 +540,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	return GC_EVENT_ERROR;
 }
 
-static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_GetAddEventPtr(WPARAM, LPARAM lParam)
 {
 	GCPTRS *gp = (GCPTRS *)lParam;
 
@@ -547,15 +549,12 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	LoadChatIcons();
 
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
-
-	char* mods[3] = { CHAT_MODULE, CHATFONT_MODULE };
-	CallService("DBEditorpp/RegisterModule", (WPARAM)mods, 2);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090001;
@@ -602,6 +601,7 @@ int LoadChatModule(void)
 
 	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
@@ -616,4 +616,5 @@ void UnloadChatModule(void)
 
 	DestroyHookableEvent(ci.hSendEvent);
 	DestroyHookableEvent(ci.hBuildMenuEvent);
+	DestroyHookableEvent(hHookEvent);
 }

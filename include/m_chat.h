@@ -464,6 +464,10 @@ struct GCEVENT
 
 #define MS_GC_EVENT  "GChat/NewEvent"
 
+// This hook is fired when MS_GC_EVENT is called, with the same wParam and lParam as above.
+// It allows external plugins to intercept chat events and display then in other ways
+#define ME_GC_HOOK_EVENT "GChat/HookEvent"
+
 #define GCEF_ADDTOLOG       0x0001
 #define GCEF_REMOVECONTACT  0x0002
 // Added in Miranda NG 0.94.4+
