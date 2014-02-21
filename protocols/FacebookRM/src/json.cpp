@@ -347,7 +347,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			*message_text += attachments_text;
 		} else {
 			// TODO: better support for these attachments (parse it from "m_messaging" instead of "messaging"
-			*message_text += Translate("User sent you an unsupported attachment. Open your browser to actually see it.")
+			*message_text += Translate("User sent you an unsupported attachment. Open your browser to actually see it.");
 		}
 	}
 }
