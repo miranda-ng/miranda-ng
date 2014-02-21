@@ -1330,7 +1330,6 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						iImage = (iImage == EXTRAICON_DOT) ? EXTRAICON_IGNORE : EXTRAICON_DOT;
 						break;
 					}
-					break;
 				
 					SetIconsForColumn(hwndList, hItem, hItemAll, nm->iColumn, iImage);
 					SetListGroupIcons(hwndList, (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll);
