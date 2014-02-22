@@ -67,6 +67,7 @@ HFONT hFont[NUM_FONTS];
 COLORREF font_colour[NUM_FONTS];
 
 // Defaults
+char *font_settings[] = { "NicknameFont", "AccountFont", "StatusFont", "StatusMessageFont", "ListeningToFont" };
 TCHAR *font_names[] = { LPGENT("Nickname"), LPGENT("Account"), LPGENT("Status"), LPGENT("Status Message"), LPGENT("Listening To") };
 char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
@@ -239,9 +240,7 @@ int CreateFrame()
 		_tcsncpy(font_id[i].backgroundName, LPGENT("Background"), SIZEOF(font_id[i].backgroundName));
 		_tcsncpy(font_id[i].backgroundGroup, LPGENT("My Details"), SIZEOF(font_id[i].backgroundGroup));
 
-		char tmp[128];
-		mir_snprintf(tmp, sizeof(tmp), "%sFont", font_names[i]);
-		strncpy(font_id[i].prefix, tmp, SIZEOF(font_id[i].prefix));
+		strncpy(font_id[i].prefix, font_settings[i], SIZEOF(font_id[i].prefix));
 
 		font_id[i].deffontsettings.colour = font_colors[i];
 		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
