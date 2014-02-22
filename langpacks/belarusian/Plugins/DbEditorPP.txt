@@ -44,8 +44,6 @@
 Адкрываць галінку "налады" пры запуску
 [Warn when deleting modules]
 Папярэджваць пры выдаленні плагінаў
-["Open user tree in DBE++" menu item]
-Пункт меню "Рэдактар базы" ў кожнага кантакту
 [Use popups when watched settings change values]
 Усплывальныя вокны пры змене назіраных значэнняў
 [Popup timeout (0 for infinite)]

@@ -133,7 +133,7 @@ BYTE para Sim/Não
 BYTE para Homem/Mulher (ICQ)
 [WORD to country name]
 WORD para nome de país
-[DWORD to ip address]
+[DWORD to IP address]
 DWORD para endereço IP
 [<prefix>Day|Month|Year to date]
 <prefixo>Dia|Mês|Ano para data

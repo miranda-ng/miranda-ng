@@ -44,8 +44,6 @@ Texto:
 
 [Warn when deleting modules]
 
-["Open user tree in DBE++" menu item]
-
 [Use popups when watched settings change values]
 
 [Popup timeout (0 for infinite)]

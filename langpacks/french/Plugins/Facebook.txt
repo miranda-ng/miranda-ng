@@ -195,6 +195,8 @@ Fichiers
 
 [User sent you %s:]
 
+[User sent you an unsupported attachment. Open your browser to actually see it.]
+
 [Message read: %s by %s]
 
 [Message read: %s]

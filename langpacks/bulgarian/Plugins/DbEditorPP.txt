@@ -44,8 +44,6 @@ Database Editor++ Търсене и заместване
 Автоматично разгръщане на настройките при стартиране на Database Editor++
 [Warn when deleting modules]
 Предупреждение при изтриване на модул
-["Open user tree in DBE++" menu item]
-Елемент "Отваряне на контакта в DBE++" в менюто на контактите
 [Use popups when watched settings change values]
 Уведомяване с Popup при промяна на наблюдавана стойност
 [Popup timeout (0 for infinite)]

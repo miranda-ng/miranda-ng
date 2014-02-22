@@ -183,7 +183,7 @@ Jabber 活动
 字节至男/女 (ICQ)
 [WORD to country name]
 字至国家名
-[DWORD to ip address]
+[DWORD to IP address]
 双字至 IP 地址
 [<prefix>Day|Month|Year to date]
 <前缀>天|月|年至日期

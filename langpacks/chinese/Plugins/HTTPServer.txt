@@ -97,7 +97,7 @@ URL 地址
 IP 地址: 
 [You are browsing from]
 您正浏览从
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 您的外部 IP 被检测出是 %d.%d.%d.%d\r\n来源: %s
 [You need to restart Miranda to change the main menu]
 您需要重启 Miranda 以改变主菜单

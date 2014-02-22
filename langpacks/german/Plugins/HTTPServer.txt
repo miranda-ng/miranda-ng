@@ -130,7 +130,7 @@ Geschwindigkeit
 
 [You are browsing from]
 
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Deine externe IP wurde als %d.%d.%d.%d erkannt\r\nvon: %s
 [You need to restart Miranda to change the main menu]
 Um die Änderungen zu übernehmen, ist ein Neustart von Miranda NG erforderlich

@@ -14,7 +14,6 @@
 [Restore last opened position]
 [Automatically expand "settings" when Database Editor ++ starts]
 [Warn when deleting modules]
-["Open user tree in DBE++" menu item]
 [Use popups when watched settings change values]
 [Popup timeout (0 for infinite)]
 [Add a module to contact]

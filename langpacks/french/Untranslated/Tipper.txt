@@ -158,7 +158,7 @@
 [BYTE to Yes/No]
 [BYTE to Male/Female (ICQ)]
 [WORD to country name]
-[DWORD to ip address]
+[DWORD to IP address]
 [<prefix>Day|Month|Year to date]
 [<prefix>Day|Month|Year to age]
 [<prefix>Hours|Minutes|Seconds to time]

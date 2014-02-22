@@ -113,7 +113,7 @@ IP-адреса 2
 Поточна адреса:\s
 [IP Adress: ]
 IP-адреса:\s
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]
 Зміни в меню набудуть чинності після перезапуску програми.

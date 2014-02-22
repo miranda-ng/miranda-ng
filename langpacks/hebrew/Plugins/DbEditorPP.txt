@@ -13,8 +13,6 @@
 אוטומטית הרחב אפשרויות כאשר עורך בסיס נתונים ++ מתחיל
 [Warn when deleting modules]
 הזהר כשמוחקים מודול
-["Open user tree in DBE++" menu item]
-פתח עץ משתמש ב DBE++ פריט תפריט  
 [Use popups when watched settings change values]
 השתמש בפופאפים כאשר הגדרות נצפות משנות ערכים
 [Popup timeout (0 for infinite)]

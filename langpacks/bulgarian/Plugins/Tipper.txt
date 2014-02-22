@@ -486,7 +486,7 @@ Miranda работи от:
 
 [WORD to country name]
 
-[DWORD to ip address]
+[DWORD to IP address]
 
 [<prefix>Day|Month|Year to date]
 

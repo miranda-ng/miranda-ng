@@ -1,7 +1,6 @@
 ﻿[Advanced Database Editor.]
 [Setting Value]
 [Text:]
-["Open user tree in DBE++" menu item]
 [Add to all contacts (Includes Settings)]
 [Byte]
 [Word]

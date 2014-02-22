@@ -186,6 +186,8 @@ URL:
 
 [User sent you %s:]
 
+[User sent you an unsupported attachment. Open your browser to actually see it.]
+
 [Message read: %s]
 
 ;file \protocols\FacebookRM\src\messages.cpp

@@ -44,8 +44,6 @@ Sauver la position de la fenêtre
 Étendre automatiquement les réglages quand Database Editor++ démarre
 [Warn when deleting modules]
 Avertir avant la suppression d'un ou plusieurs modules
-["Open user tree in DBE++" menu item]
-
 [Use popups when watched settings change values]
 Afficher un popup quand les réglages sous surveillance sont modifiés
 [Popup timeout (0 for infinite)]

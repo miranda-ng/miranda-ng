@@ -43,8 +43,6 @@
 Автоматично розкривати "Налаштування" при запуску
 [Warn when deleting modules]
 Попереджати при видаленні модулів
-["Open user tree in DBE++" menu item]
-Пункт "Відкрити в редакторі бази" у меню контакту
 [Use popups when watched settings change values]
 Спливаючі вікна при зміні спостережуваних значень
 [Popup timeout (0 for infinite)]

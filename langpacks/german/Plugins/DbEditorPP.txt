@@ -44,8 +44,6 @@ Zuletzt geöffnete Position wiederherstellen
 Einstellungszweig beim Starten automatisch öffnen
 [Warn when deleting modules]
 Beim Löschen von Modulen warnen
-["Open user tree in DBE++" menu item]
-"Benutzerzweig in DBE++ öffnen"-Eintrag im Kontaktmenü
 [Use popups when watched settings change values]
 Popups verwenden, wenn beobachtete Einstellungen den Wert ändern
 [Popup timeout (0 for infinite)]

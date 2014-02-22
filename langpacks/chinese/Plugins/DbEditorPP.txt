@@ -37,8 +37,6 @@
 数据库编辑器启动时自动扩展 "设置"
 [Warn when deleting modules]
 删除模块时警告
-["Open user tree in DBE++" menu item]
-"在数据库编辑器中打开用户树" 菜单项
 [Use popups when watched settings change values]
 当被监视设置值变更时使用弹出窗口提示
 [Popup timeout (0 for infinite)]

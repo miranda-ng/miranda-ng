@@ -494,7 +494,7 @@ IP:
 Байт - у падлогу (М/Ж) (ICQ)
 [WORD to country name]
 Слова - у назву краіны
-[DWORD to ip address]
+[DWORD to IP address]
 Дв. слова - у IP-адрас
 [<prefix>Day|Month|Year to date]
 <прэфікс>дзень|месяц|год - у дату

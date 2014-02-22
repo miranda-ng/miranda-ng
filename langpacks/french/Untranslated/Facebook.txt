@@ -76,6 +76,7 @@
 [photos]
 [a photo]
 [User sent you %s:]
+[User sent you an unsupported attachment. Open your browser to actually see it.]
 [Message read: %s by %s]
 [This message is no longer available, because it was marked as abusive or spam.]
 [%s and more (%d)]

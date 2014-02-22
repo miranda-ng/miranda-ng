@@ -130,7 +130,7 @@ Aktualny adres:
 Adres IP:
 [You are browsing from]
 Przeglądasz z
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Twoje IP zewnętrzne zostało wykryte jako %d.%d.%d.%d\r\nprzez: %s
 [You need to restart Miranda to change the main menu]
 Musisz zrestartować Mirandę, by dokonać zmian w menu głównym

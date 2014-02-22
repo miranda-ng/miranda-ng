@@ -44,8 +44,6 @@ Przywróć ostatnią otwartą pozycję
 Automatycznie rozwiń "ustawienia" podczas włączania edytora profilu
 [Warn when deleting modules]
 Ostrzeż przed usuwaniem modułów
-["Open user tree in DBE++" menu item]
-Dodaj do menu kontaktu element "Otwórz w edytorze profilu"
 [Use popups when watched settings change values]
 Użyj popupów kiedy oglądane ustawienia zmieniają wartość.
 [Popup timeout (0 for infinite)]

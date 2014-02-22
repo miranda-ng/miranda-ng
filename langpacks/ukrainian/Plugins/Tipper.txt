@@ -481,7 +481,7 @@
 Байт - в стать (Ч/Ж) (ICQ)
 [WORD to country name]
 Слово - в назву країни
-[DWORD to ip address]
+[DWORD to IP address]
 Подв. слово - в IP-адресу
 [<prefix>Day|Month|Year to date]
 <префікс>день|місяць|рік - у дату

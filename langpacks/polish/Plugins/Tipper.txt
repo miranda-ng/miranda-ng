@@ -496,7 +496,7 @@ BYTE dla Tak/Nie
 BYTE dla Płci (ICQ)
 [WORD to country name]
 WORD dla nazwy kraju
-[DWORD to ip address]
+[DWORD to IP address]
 DWORD dla adresu IP
 [<prefix>Day|Month|Year to date]
 <prefiks>Dzień|Miesiąc|Rok dla daty

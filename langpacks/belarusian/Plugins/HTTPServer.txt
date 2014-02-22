@@ -130,7 +130,7 @@ Miranda NG HTTP-сервер
 Адрас IP:
 [You are browsing from]
 Вы праглядаеце з
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш вонкавы ip вызначаны як %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]
 Змены ў меню адбудуцца пасля перазапуску

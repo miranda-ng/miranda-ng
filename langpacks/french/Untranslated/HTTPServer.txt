@@ -32,7 +32,7 @@
 [Current Address: ]
 [IP Adress: ]
 [You are browsing from]
-[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+[Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 [You need to restart Miranda to change the main menu]
 [Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
 [Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
