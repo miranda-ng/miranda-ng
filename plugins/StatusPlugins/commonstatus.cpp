@@ -23,10 +23,10 @@
 // handles for hooks and other Miranda thingies
 static HANDLE hCSStatusChangedExEvent;
 
-OBJLIST<PROTOCOLSETTINGEX>* protoList;
+OBJLIST<PROTOCOLSETTINGEX> *protoList;
 
 // prototypes
-char *StatusModeToDbSetting(int status,const char *suffix);
+char* StatusModeToDbSetting(int status,const char *suffix);
 DWORD StatusModeToProtoFlag(int status);
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
 int InitCommonStatus();
@@ -79,14 +79,14 @@ DWORD StatusModeToProtoFlag(int status)
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 {
 	if (protoSetting->status == ID_STATUS_LAST) {
-		if ( (protoSetting->lastStatus < MIN_STATUS) || (protoSetting->lastStatus > MAX_STATUS))
+		if ((protoSetting->lastStatus < MIN_STATUS) || (protoSetting->lastStatus > MAX_STATUS))
 			return CallProtoService(protoSetting->szName, PS_GETSTATUS, 0, 0);
 		return protoSetting->lastStatus;
 	}
 	if (protoSetting->status == ID_STATUS_CURRENT)
 		return CallProtoService(protoSetting->szName, PS_GETSTATUS, 0, 0);
 
-	if ( (protoSetting->status < ID_STATUS_OFFLINE) || (protoSetting->status > ID_STATUS_OUTTOLUNCH)) {
+	if ((protoSetting->status < ID_STATUS_OFFLINE) || (protoSetting->status > ID_STATUS_OUTTOLUNCH)) {
 		log_debugA("invalid status detected: %d", protoSetting->status);
 		return 0;
 	}
@@ -94,7 +94,7 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 }
 
 // helper, from core
-static TCHAR *GetDefaultMessage(int status)
+static TCHAR* GetDefaultMessage(int status)
 {
 	switch(status) {
 		case ID_STATUS_AWAY:       return TranslateT("I've been away since %time%.");
@@ -112,29 +112,29 @@ static TCHAR *GetDefaultMessage(int status)
 	return NULL;
 }
 
-TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
+TCHAR* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	if (ps->szMsg != NULL) {// custom message set
 		log_infoA("CommonStatus: Status message set by calling plugin");
-		return mir_tstrdup( ps->szMsg );
+		return mir_tstrdup(ps->szMsg);
 	}
 
-	if ( ServiceExists( MS_AWAYMSG_GETSTATUSMSGT )) {
-		TCHAR* tMsg = ( TCHAR* )CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName );
+	if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
+		TCHAR* tMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
 		log_debugA("CommonStatus: Status message retrieved from general awaysys (TCHAR)");
 		return tMsg;
 	}
 
-	if ( ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
+	if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
 		char *tMsg;
-		if ( ServiceExists(MS_SA_ISSARUNNING) && CallService(MS_SA_ISSARUNNING, 0, 0))
+		if (ServiceExists(MS_SA_ISSARUNNING) && CallService(MS_SA_ISSARUNNING, 0, 0))
 			tMsg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)newstatus, (LPARAM)ps->szName);
 		else
-      	tMsg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)newstatus, 0);
+			tMsg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)newstatus, 0);
 
 		log_debugA("CommonStatus: Status message retrieved from general awaysys");
 
-		TCHAR* result = mir_a2t( tMsg );
+		TCHAR* result = mir_a2t(tMsg);
 		mir_free(tMsg);
 		return result;
 	}
@@ -149,31 +149,32 @@ TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 	return NULL;
 }
 
-static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps) {
+static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
+{
 
 	int i, j, pstatus = 0, gstatus = 0;
 
-	for ( i=0; i < protoList->getCount(); i++ )
-		if ( ps[i]->szMsg != NULL && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE )
+	for (i = 0; i < protoList->getCount(); i++)
+		if (ps[i]->szMsg != NULL && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
 			return 0;
 
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
 
-	for (i=0; i < count; i++) {
-		if ( !IsSuitableProto(protos[i]))
+	for (i = 0; i < count; i++) {
+		if (!IsSuitableProto(protos[i]))
 			continue;
 
 		pstatus = 0;
-		for ( j=0; j < protoList->getCount(); j++ )
+		for (j = 0; j < protoList->getCount(); j++)
 			if (!strcmp(protos[i]->szModuleName, ps[j]->szName))
 				pstatus = GetActualStatus(ps[j]);
 
 		if (pstatus == 0)
 			pstatus = CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0);
 
-		if ( db_get_b(NULL, protos[i]->szModuleName, "LockMainStatus", 0)) {
+		if (db_get_b(NULL, protos[i]->szModuleName, "LockMainStatus", 0)) {
 			// if proto is locked, pstatus must be the current status
 			if (pstatus != CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))
 				return 0;
@@ -192,63 +193,60 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps) {
 
 static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 {
-	TCHAR* tszMsg = GetDefaultStatusMessage( ps, newstatus );
-	if ( tszMsg ) {
-			/* replace the default vars in msg  (I believe this is from core) */
-		for ( int j=0; tszMsg[j]; j++ ) {
-			TCHAR substituteStr[128];
-
-			if ( tszMsg[j] != '%' )
+	TCHAR* tszMsg = GetDefaultStatusMessage(ps, newstatus);
+	if (tszMsg) {
+		/* replace the default vars in msg  (I believe this is from core) */
+		for (int j = 0; tszMsg[j]; j++) {
+			if (tszMsg[j] != '%')
 				continue;
 
-			if ( !_tcsnicmp( tszMsg+j, _T("%time%"), 6 ))
-				GetTimeFormat( LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, SIZEOF(substituteStr));
-			else if ( !_tcsnicmp( tszMsg+j, _T("%date%"), 6 ))
-				GetDateFormat( LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, SIZEOF(substituteStr));
+			TCHAR substituteStr[128];
+			if (!_tcsnicmp(tszMsg + j, _T("%time%"), 6))
+				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, SIZEOF(substituteStr));
+			else if (!_tcsnicmp(tszMsg + j, _T("%date%"), 6))
+				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, SIZEOF(substituteStr));
 			else
 				continue;
 
-			if ( lstrlen( substituteStr ) > 6 )
-				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(lstrlen(tszMsg)+1+lstrlen(substituteStr)-6));
-			MoveMemory( tszMsg + j + lstrlen(substituteStr), tszMsg+j+6, sizeof(TCHAR)*(lstrlen(tszMsg)-j-5));
-			CopyMemory( tszMsg + j, substituteStr, sizeof(TCHAR)*lstrlen( substituteStr ));
+			if (lstrlen(substituteStr) > 6)
+				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(lstrlen(tszMsg) + 1 + lstrlen(substituteStr) - 6));
+			MoveMemory(tszMsg + j + lstrlen(substituteStr), tszMsg + j + 6, sizeof(TCHAR)*(lstrlen(tszMsg) - j - 5));
+			CopyMemory(tszMsg + j, substituteStr, sizeof(TCHAR)*lstrlen(substituteStr));
 		}
 
-		TCHAR* szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
+		TCHAR *szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
 		if (szFormattedMsg != NULL) {
 			mir_free(tszMsg);
 			tszMsg = szFormattedMsg;
 		}
 	}
 	log_debugA("CommonStatus sets status message for %s directly", ps->szName);
-	if ( CALLSERVICE_NOTFOUND == CallProtoService(ps->szName, PS_SETAWAYMSGT, newstatus, (LPARAM)tszMsg )) {
-		char* sMsg = mir_t2a( tszMsg );
-		CallProtoService(ps->szName, PS_SETAWAYMSG, newstatus, (LPARAM)sMsg );
-		mir_free( sMsg );
+	if (CALLSERVICE_NOTFOUND == CallProtoService(ps->szName, PS_SETAWAYMSGT, newstatus, (LPARAM)tszMsg)) {
+		char* sMsg = mir_t2a(tszMsg);
+		CallProtoService(ps->szName, PS_SETAWAYMSG, newstatus, (LPARAM)sMsg);
+		mir_free(sMsg);
 	}
-	mir_free( tszMsg );
+	mir_free(tszMsg);
 }
 
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	PROTOCOLSETTINGEX** protoSettings = *(PROTOCOLSETTINGEX***)wParam;
-	if ( protoSettings == NULL )
+	if (protoSettings == NULL)
 		return -1;
 
-	int globStatus = equalsGlobalStatus( protoSettings );
+	int globStatus = equalsGlobalStatus(protoSettings);
 
-	/*
-		issue with setting global status;
-		things get messy because SRAway hooks ME_CLIST_STATUSMODECHANGE, so the status messages of SRAway and
-		commonstatus will clash
-	*/
+	// issue with setting global status;
+	// things get messy because SRAway hooks ME_CLIST_STATUSMODECHANGE, so the status messages of SRAway and
+	// commonstatus will clash
 	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, 0);
 
 	// set all status messages first
-	for (int i=0; i < protoList->getCount(); i++) {
-		char* szProto = protoSettings[i]->szName;
-		if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto)) {
-			log_debugA( "CommonStatus: %s is not loaded", szProto );
+	for (int i = 0; i < protoList->getCount(); i++) {
+		char *szProto = protoSettings[i]->szName;
+		if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto)) {
+			log_debugA("CommonStatus: %s is not loaded", szProto);
 			continue;
 		}
 		// some checks
@@ -266,10 +264,10 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 		}
 
 		// status checks
-		long protoFlag = Proto_Status2Flag( newstatus );
+		long protoFlag = Proto_Status2Flag(newstatus);
 		int b_Caps2 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) & protoFlag;
 		int b_Caps5 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_5, 0) & protoFlag;
-		if (newstatus != ID_STATUS_OFFLINE && ( !b_Caps2 || b_Caps5)) {
+		if (newstatus != ID_STATUS_OFFLINE && (!b_Caps2 || b_Caps5)) {
 			// status and status message for this status not supported
 			//log_debug("CommonStatus: status not supported %s", szProto);
 			continue;
@@ -285,17 +283,17 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 
 		// set status message first
 		if (b_Caps1 && b_Caps3)
-			SetStatusMsg( protoSettings[i], newstatus );
+			SetStatusMsg(protoSettings[i], newstatus);
 
 		// set the status
-		if (newstatus != oldstatus) {
+		if (newstatus != oldstatus && !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))) {
 			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
 			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)newstatus, 0);
 		}
 	}
 
-	if ( globStatus != 0 ) {
-		if ( !ServiceExists( MS_CLIST_SETSTATUSMODE )) {
+	if (globStatus != 0) {
+		if (!ServiceExists(MS_CLIST_SETSTATUSMODE)) {
 			log_debugA("CommonStatus: MS_CLIST_SETSTATUSMODE not available!");
 			return -1;
 		}
@@ -322,10 +320,10 @@ int GetProtoCount()
 
 	int count;
 	PROTOACCOUNT **protos;
-	ProtoEnumAccounts( &count, &protos );
+	ProtoEnumAccounts(&count, &protos);
 
-	for (int i=0; i < count; i++)
-		if ( IsSuitableProto(protos[i]))
+	for (int i = 0; i < count; i++)
+		if (IsSuitableProto(protos[i]))
 			pCount++;
 
 	return pCount;
@@ -353,7 +351,7 @@ static int onShutdown(WPARAM wParam, LPARAM lParam)
 int InitCommonStatus()
 {
 	if (!CreateServices())
-	  	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
+		HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 
 	return 0;
 }

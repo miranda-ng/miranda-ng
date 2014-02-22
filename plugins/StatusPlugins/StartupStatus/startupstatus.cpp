@@ -228,7 +228,7 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 	if ( !db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
 		return 0;
 
-	char* szProto = (char *)lParam;
+	char *szProto = (char *)lParam;
 	if (szProto == NULL) { // global status change
 		for ( int i=0; i < startupSettings.getCount(); i++ ) {
 			startupSettings[i].szName = "";
@@ -307,9 +307,23 @@ static int OnOkToExit(WPARAM, LPARAM)
 
 			if ( !(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(status)))
 				continue;
-	}	}
 
-	if ( (db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1)) || (db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))) {
+			// NewAwaySys
+			if (ServiceExists(MS_NAS_GETSTATE)) {
+				NAS_PROTOINFO npi = { sizeof(npi) };
+				npi.szProto = protos[i]->szModuleName;
+				CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
+				if (npi.szMsg == NULL) {
+					npi.status = 0;
+					npi.szProto = NULL;
+					CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
+				}
+				if (npi.szMsg != NULL) {
+					db_set_ts(NULL, MODULENAME, lastMsg, npi.tszMsg);
+					mir_free(npi.tszMsg);
+	}	}	}	}
+
+	if (db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1) || db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0)) {
 		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
 			CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
 		else

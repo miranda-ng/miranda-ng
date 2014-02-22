@@ -45,6 +45,7 @@
 #include <m_netlib.h>
 #include "m_statusplugins.h"
 #include <m_utils.h>
+#include <m_NewAwaySys.h>
 #include <win2k.h>
 
 #if defined( _WIN64 )
