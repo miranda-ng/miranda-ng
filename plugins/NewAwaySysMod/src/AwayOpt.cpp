@@ -98,35 +98,39 @@ static LRESULT CALLBACK DefStatusButtonSubclassProc(HWND hWnd, UINT Msg, WPARAM 
 	return CallWindowProc(g_OrigDefStatusButtonMsgProc, hWnd, Msg, wParam, lParam);
 }
 
-INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+struct {
+	int DlgItem, Status, IconIndex;
+}
+static Dlg1DefMsgDlgItems[] = {
+	IDC_MESSAGEDLG_DEF_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
+	IDC_MESSAGEDLG_DEF_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
+	IDC_MESSAGEDLG_DEF_NA, ID_STATUS_NA, ILI_PROTO_NA,
+	IDC_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
+	IDC_MESSAGEDLG_DEF_DND, ID_STATUS_DND, ILI_PROTO_DND,
+	IDC_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
+	IDC_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
+	IDC_MESSAGEDLG_DEF_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
+	IDC_MESSAGEDLG_DEF_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
+};
+
+struct {
+	int DlgItem, IconIndex;
+	TCHAR* Text;
+}
+static Dlg1Buttons[] = {
+	IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENT("Create new message"),
+	IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENT("Create new category"),
+	IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENT("Delete"),
+	IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
+};
+
+static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static CMsgTree* MsgTree = NULL;
-	static struct {
-		int DlgItem, Status, IconIndex;
-	} DefMsgDlgItems[] = {
-		IDC_MESSAGEDLG_DEF_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
-		IDC_MESSAGEDLG_DEF_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
-		IDC_MESSAGEDLG_DEF_NA, ID_STATUS_NA, ILI_PROTO_NA,
-		IDC_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
-		IDC_MESSAGEDLG_DEF_DND, ID_STATUS_DND, ILI_PROTO_DND,
-		IDC_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
-		IDC_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
-		IDC_MESSAGEDLG_DEF_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
-		IDC_MESSAGEDLG_DEF_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
-	};
-	static struct {
-		int DlgItem, IconIndex;
-		TCHAR* Text;
-	} Buttons[] = {
-		IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENT("Create new message"),
-		IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENT("Create new category"),
-		IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENT("Delete"),
-		IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
-	};
+	
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 		MySetPos(hwndDlg);
 		ChangeLock++;
@@ -134,17 +138,16 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE), EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGDATA), EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 		// init image buttons
-		int i;
-		for (i = 0; i < SIZEOF(Buttons); i++) {
-			HWND hButton = GetDlgItem(hwndDlg, Buttons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[i].Text), BATF_TCHAR);
+		for (int i = 0; i < SIZEOF(Dlg1Buttons); i++) {
+			HWND hButton = GetDlgItem(hwndDlg, Dlg1Buttons[i].DlgItem);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Dlg1Buttons[i].Text), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 		// now default status message buttons
-		for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-			HWND hButton = GetDlgItem(hwndDlg, DefMsgDlgItems[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[i].Status, GSMDF_TCHAR), BATF_TCHAR);
-			SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
+		for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+			HWND hButton = GetDlgItem(hwndDlg, Dlg1DefMsgDlgItems[i].DlgItem);
+			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg1DefMsgDlgItems[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
 		}
@@ -152,30 +155,25 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		g_MessagesOptPage.DBToMemToPage();
 		_ASSERT(!MsgTree);
 		MsgTree = new CMsgTree(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTREE));
-		if (!MsgTree->SetSelection(MsgTree->GetDefMsg(ID_STATUS_AWAY), MTSS_BYID)) {
+		if (!MsgTree->SetSelection(MsgTree->GetDefMsg(ID_STATUS_AWAY), MTSS_BYID))
 			MsgTree->SetSelection(g_Messages_PredefinedRootID, MTSS_BYID);
-		}
+
 		ChangeLock--;
 		return true;
-	} break;
+
 	case UM_ICONSCHANGED:
-	{
-		int i;
-		for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-			SendDlgItemMessage(hwndDlg, DefMsgDlgItems[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[DefMsgDlgItems[i].IconIndex]);
-		}
-		for (i = 0; i < SIZEOF(Buttons); i++) {
-			if (Buttons[i].IconIndex != ILI_NOICON) {
-				SendDlgItemMessage(hwndDlg, Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Buttons[i].IconIndex]);
-			}
-		}
+		for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++)
+			SendDlgItemMessage(hwndDlg, Dlg1DefMsgDlgItems[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg1DefMsgDlgItems[i].IconIndex]);
+
+		for (int i = 0; i < SIZEOF(Dlg1Buttons); i++)
+			if (Dlg1Buttons[i].IconIndex != ILI_NOICON)
+				SendDlgItemMessage(hwndDlg, Dlg1Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg1Buttons[i].IconIndex]);
+
 		my_variables_skin_helpbutton(hwndDlg, IDC_MESSAGEDLG_VARS);
-	} break;
+		break;
+	
 	case WM_NOTIFY:
-	{
-		switch (((NMHDR*)lParam)->code) {
-		case PSN_APPLY:
-		{
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			HWND hTreeView = GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTREE);
 			HTREEITEM hSelectedItem = TreeView_GetSelection(hTreeView);
 			ChangeLock++;
@@ -184,14 +182,12 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ChangeLock--;
 			MsgTree->Save();
 			return true;
-		} break;
 		}
+
 		if (((LPNMHDR)lParam)->idFrom == IDC_MESSAGEDLG_MSGTREE) {
-			switch (((LPNMHDR)lParam)->code) {
+			PNMMSGTREE pnm = (PNMMSGTREE)lParam;
+			switch (pnm->hdr.code) {
 			case MTN_SELCHANGED:
-			{
-				PNMMSGTREE pnm = (PNMMSGTREE)lParam;
-				int i;
 				if (pnm->ItemOld && !(pnm->ItemOld->Flags & (TIF_ROOTITEM | TIF_GROUP))) {
 					TCString Msg;
 					GetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, Msg.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
@@ -209,72 +205,63 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					}
 					else {
 						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, _T(""));
-						if (pnm->ItemNew->ID == g_Messages_RecentRootID) {
+						if (pnm->ItemNew->ID == g_Messages_RecentRootID)
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages."));
-						}
 						else {
 							_ASSERT(pnm->ItemNew->ID == g_Messages_PredefinedRootID);
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("You can put your frequently used and favorite messages in this category."));
 						}
 					}
-					for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-						COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(DefMsgDlgItems[i].DlgItem);
-						Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(DefMsgDlgItems[i].Status) == pnm->ItemNew->ID);
+					for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+						COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg1DefMsgDlgItems[i].DlgItem);
+						Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg1DefMsgDlgItems[i].Status) == pnm->ItemNew->ID);
 					}
 					ChangeLock--;
 				}
 				EnableMessagesOptDlgControls(MsgTree);
 				return 0;
-			} break;
+
 			case MTN_DEFMSGCHANGED:
-			{
-				PNMMSGTREE pnm = (PNMMSGTREE)lParam;
 				if (!ChangeLock) {
-					CBaseTreeItem* SelectedItem = MsgTree->GetSelection();
+					CBaseTreeItem *SelectedItem = MsgTree->GetSelection();
 					_ASSERT(SelectedItem);
-					if ((pnm->ItemOld && pnm->ItemOld->ID == SelectedItem->ID) || (pnm->ItemNew && pnm->ItemNew->ID == SelectedItem->ID)) { // SelectedItem contains the same info as one of ItemOld or ItemNew - so we'll just use SelectedItem and won't bother with identifying which of ItemOld or ItemNew is currently selected
-						int i;
-						for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-							COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(DefMsgDlgItems[i].DlgItem);
-							Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(DefMsgDlgItems[i].Status) == SelectedItem->ID);
+					// SelectedItem contains the same info as one of ItemOld or ItemNew - so we'll just use SelectedItem and won't bother with identifying which of ItemOld or ItemNew is currently selected
+					if ((pnm->ItemOld && pnm->ItemOld->ID == SelectedItem->ID) || (pnm->ItemNew && pnm->ItemNew->ID == SelectedItem->ID)) {
+						for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+							COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg1DefMsgDlgItems[i].DlgItem);
+							Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg1DefMsgDlgItems[i].Status) == SelectedItem->ID);
 						}
 					}
 				}
-				if (!ChangeLock) {
+				if (!ChangeLock)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-				}
 				return 0;
-			} break;
+
 			case MTN_ITEMRENAMED:
-			{
-				PNMMSGTREE pnm = (PNMMSGTREE)lParam;
-				CBaseTreeItem* SelectedItem = MsgTree->GetSelection();
-				_ASSERT(SelectedItem);
-				if (pnm->ItemNew->ID == SelectedItem->ID && !ChangeLock) {
-					ChangeLock++;
-					SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, pnm->ItemNew->Title);
-					ChangeLock--;
-				}
-			} // go through
+				{
+					CBaseTreeItem *SelectedItem = MsgTree->GetSelection();
+					_ASSERT(SelectedItem);
+					if (pnm->ItemNew->ID == SelectedItem->ID && !ChangeLock) {
+						ChangeLock++;
+						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, pnm->ItemNew->Title);
+						ChangeLock--;
+					}
+				} // go through
 			case MTN_ENDDRAG:
 			case MTN_NEWCATEGORY:
 			case MTN_NEWMESSAGE:
 			case MTN_DELETEITEM:
 			case TVN_ITEMEXPANDED:
-			{
-				if (!ChangeLock) {
+				if (!ChangeLock)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-				}
 				return 0;
-			} break;
 			}
 		}
-	} break;
+		break;
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
-		{
 			switch (LOWORD(wParam)) {
 			case IDC_MESSAGEDLG_DEF_ONL:
 			case IDC_MESSAGEDLG_DEF_AWAY:
@@ -285,38 +272,32 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			case IDC_MESSAGEDLG_DEF_INV:
 			case IDC_MESSAGEDLG_DEF_OTP:
 			case IDC_MESSAGEDLG_DEF_OTL:
-			{
-				int i;
-				for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-					if (LOWORD(wParam) == DefMsgDlgItems[i].DlgItem) {
-						MsgTree->SetDefMsg(DefMsgDlgItems[i].Status, MsgTree->GetSelection()->ID); // PSM_CHANGED is sent here through MTN_DEFMSGCHANGED, so we don't need to send it once more
+				for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+					if (LOWORD(wParam) == Dlg1DefMsgDlgItems[i].DlgItem) {
+						MsgTree->SetDefMsg(Dlg1DefMsgDlgItems[i].Status, MsgTree->GetSelection()->ID); // PSM_CHANGED is sent here through MTN_DEFMSGCHANGED, so we don't need to send it once more
 						break;
 					}
 				}
-			} break;
+				break;
 			case IDC_MESSAGEDLG_VARS:
-			{
 				my_variables_showhelp(hwndDlg, IDC_MESSAGEDLG_MSGDATA);
-			} break;
+				break;
 			case IDC_MESSAGEDLG_DEL:
-			{
 				MsgTree->EnsureVisible(MsgTree->GetSelection()->hItem);
 				MsgTree->DeleteSelectedItem();
-			} break;
+				break;
 			case IDC_MESSAGEDLG_NEWCAT:
-			{
 				MsgTree->AddCategory();
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE));
-			} break;
+				break;
 			case IDC_MESSAGEDLG_NEWMSG:
-			{
 				MsgTree->AddMessage();
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE));
-			} break;
+				break;
 			}
-		} break;
+			break;
+
 		case EN_CHANGE:
-		{
 			if (LOWORD(wParam) == IDC_MESSAGEDLG_MSGDATA || LOWORD(wParam) == IDC_MESSAGEDLG_MSGTITLE) {
 				if (!ChangeLock) {
 					if (LOWORD(wParam) == IDC_MESSAGEDLG_MSGTITLE) {
@@ -333,24 +314,22 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				}
 			}
-		} break;
+			break;
 		}
-	} break;
+		break;
+
 	case WM_DESTROY:
-	{
 		delete MsgTree;
 		MsgTree = NULL;
 		g_MessagesOptPage.SetWnd(NULL);
-	} break;
+		break;
 	}
 	return 0;
 }
 
 // ================================================ Main options ================================================
 
-
 COptPage g_MoreOptPage(MOD_NAME, NULL);
-
 
 void EnableMoreOptDlgControls()
 {
@@ -365,26 +344,26 @@ void EnableMoreOptDlgControls()
 	g_MoreOptPage.MemToPage(true);
 }
 
+struct {
+	int DlgItem, Status, IconIndex;
+}
+static Dlg2StatusButtons[] = {
+	IDC_MOREOPTDLG_DONTPOPDLG_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
+	IDC_MOREOPTDLG_DONTPOPDLG_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
+	IDC_MOREOPTDLG_DONTPOPDLG_NA, ID_STATUS_NA, ILI_PROTO_NA,
+	IDC_MOREOPTDLG_DONTPOPDLG_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
+	IDC_MOREOPTDLG_DONTPOPDLG_DND, ID_STATUS_DND, ILI_PROTO_DND,
+	IDC_MOREOPTDLG_DONTPOPDLG_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
+	IDC_MOREOPTDLG_DONTPOPDLG_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
+	IDC_MOREOPTDLG_DONTPOPDLG_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
+	IDC_MOREOPTDLG_DONTPOPDLG_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
+};
 
-INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
-	static struct {
-		int DlgItem, Status, IconIndex;
-	} StatusButtons[] = {
-		IDC_MOREOPTDLG_DONTPOPDLG_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
-		IDC_MOREOPTDLG_DONTPOPDLG_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
-		IDC_MOREOPTDLG_DONTPOPDLG_NA, ID_STATUS_NA, ILI_PROTO_NA,
-		IDC_MOREOPTDLG_DONTPOPDLG_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
-		IDC_MOREOPTDLG_DONTPOPDLG_DND, ID_STATUS_DND, ILI_PROTO_DND,
-		IDC_MOREOPTDLG_DONTPOPDLG_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
-		IDC_MOREOPTDLG_DONTPOPDLG_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
-		IDC_MOREOPTDLG_DONTPOPDLG_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
-		IDC_MOREOPTDLG_DONTPOPDLG_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
-	};
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 		MySetPos(hwndDlg);
 		ChangeLock++;
@@ -394,10 +373,9 @@ INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_WAITFORMSG_SPIN, UDM_SETRANGE32, -1, 9999);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_RECENTMSGSCOUNT_SPIN, UDM_SETRANGE32, 0, 99);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN, UDM_SETRANGE32, 30, 99999);
-		int i;
-		for (i = 0; i < SIZEOF(StatusButtons); i++) {
-			HWND hButton = GetDlgItem(hwndDlg, StatusButtons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+		for (int i = 0; i < SIZEOF(Dlg2StatusButtons); i++) {
+			HWND hButton = GetDlgItem(hwndDlg, Dlg2StatusButtons[i].DlgItem);
+			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg2StatusButtons[i].Status, GSMDF_TCHAR), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
@@ -406,38 +384,30 @@ INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		EnableMoreOptDlgControls();
 		ChangeLock--;
 		return true;
-	} break;
+
 	case UM_ICONSCHANGED:
-	{
-		int i;
-		for (i = 0; i < SIZEOF(StatusButtons); i++) {
-			SendDlgItemMessage(hwndDlg, StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[StatusButtons[i].IconIndex]);
-		}
-	} break;
+		for (int i = 0; i < SIZEOF(Dlg2StatusButtons); i++)
+			SendDlgItemMessage(hwndDlg, Dlg2StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg2StatusButtons[i].IconIndex]);
+		break;
+
 	case WM_NOTIFY:
-	{
-		switch (((NMHDR*)lParam)->code) {
-		case PSN_APPLY:
-		{
+		if (((NMHDR*)lParam)->code == PSN_APPLY) {
 			g_MoreOptPage.PageToMemToDB();
 			InitUpdateMsgs();
 			return true;
-		} break;
 		}
-	} break;
+		break;
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
-		{
 			switch (LOWORD(wParam)) {
 
 			case IDC_MOREOPTDLG_RESETPROTOMSGS:
 			case IDC_MOREOPTDLG_SAVEPERSONALMSGS:
 			case IDC_MOREOPTDLG_UPDATEMSGS:
-			{
 				EnableMoreOptDlgControls();
-			} // go through
+				// go through
 			case IDC_MOREOPTDLG_PERSTATUSMRM:
 			case IDC_MOREOPTDLG_PERSTATUSPROTOMSGS:
 			case IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS:
@@ -456,189 +426,177 @@ INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			case IDC_MOREOPTDLG_DONTPOPDLG_INV:
 			case IDC_MOREOPTDLG_DONTPOPDLG_OTP:
 			case IDC_MOREOPTDLG_DONTPOPDLG_OTL:
-			{
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				return 0;
-			} break;
 			}
-		} break;
+			break;
 		case EN_CHANGE:
-		{
 			if (!ChangeLock && g_MoreOptPage.GetWnd()) {
-				if (LOWORD(wParam) == IDC_MOREOPTDLG_RECENTMSGSCOUNT) {
+				if (LOWORD(wParam) == IDC_MOREOPTDLG_RECENTMSGSCOUNT)
 					EnableMoreOptDlgControls();
-				}
+
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 			}
-		} break;
 		}
-	} break;
+		break;
+
 	case WM_DESTROY:
-	{
 		g_MoreOptPage.SetWnd(NULL);
-	} break;
+		break;
 	}
 	return 0;
 }
 
-
 // ================================================ Autoreply options ================================================
-
 
 COptPage g_AutoreplyOptPage(MOD_NAME, NULL);
 
-
 void EnableAutoreplyOptDlgControls()
 {
-	int i;
 	g_AutoreplyOptPage.PageToMem();
 	int Autoreply = g_AutoreplyOptPage.GetValue(IDC_REPLYDLG_ENABLEREPLY);
 
-	for (i = 0; i < g_AutoreplyOptPage.Items.GetSize(); i++) {
+	for (int i = 0; i < g_AutoreplyOptPage.Items.GetSize(); i++) {
 		switch (g_AutoreplyOptPage.Items[i]->GetParam()) {
 		case IDC_REPLYDLG_ENABLEREPLY:
-		{
 			g_AutoreplyOptPage.Items[i]->Enable(Autoreply);
-		} break;
+			break;
 		case IDC_REPLYDLG_SENDCOUNT:
-		{
 			g_AutoreplyOptPage.Items[i]->Enable(Autoreply && g_AutoreplyOptPage.GetValue(IDC_REPLYDLG_SENDCOUNT) > 0);
-		} break;
+			break;
 		}
 	}
 	g_AutoreplyOptPage.MemToPage(true);
 	InvalidateRect(GetDlgItem(g_AutoreplyOptPage.GetWnd(), IDC_REPLYDLG_SENDCOUNT_SPIN), NULL, 0); // update spin control
 }
 
+static struct {
+	int DlgItem, Status, IconIndex;
+}
+Dlg3StatusButtons[] = {
+	IDC_REPLYDLG_DISABLE_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
+	IDC_REPLYDLG_DISABLE_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
+	IDC_REPLYDLG_DISABLE_NA, ID_STATUS_NA, ILI_PROTO_NA,
+	IDC_REPLYDLG_DISABLE_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
+	IDC_REPLYDLG_DISABLE_DND, ID_STATUS_DND, ILI_PROTO_DND,
+	IDC_REPLYDLG_DISABLE_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
+	IDC_REPLYDLG_DISABLE_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
+	IDC_REPLYDLG_DISABLE_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
+	IDC_REPLYDLG_DISABLE_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
+};
+
 INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static HWND hWndTooltips;
 	static HFONT s_hDrawFont;
-	static struct {
-		int DlgItem, Status, IconIndex;
-	} StatusButtons[] = {
-		IDC_REPLYDLG_DISABLE_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
-		IDC_REPLYDLG_DISABLE_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
-		IDC_REPLYDLG_DISABLE_NA, ID_STATUS_NA, ILI_PROTO_NA,
-		IDC_REPLYDLG_DISABLE_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
-		IDC_REPLYDLG_DISABLE_DND, ID_STATUS_DND, ILI_PROTO_DND,
-		IDC_REPLYDLG_DISABLE_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
-		IDC_REPLYDLG_DISABLE_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
-		IDC_REPLYDLG_DISABLE_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
-		IDC_REPLYDLG_DISABLE_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
-	};
+
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		ChangeLock++;
 		TranslateDialogDefault(hwndDlg);
-		MySetPos(hwndDlg);
-		g_AutoreplyOptPage.SetWnd(hwndDlg);
+		{
+			ChangeLock++;
+			MySetPos(hwndDlg);
+			g_AutoreplyOptPage.SetWnd(hwndDlg);
 
-		LOGFONT logFont;
-		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_STATIC_DISABLEWHENSTATUS, WM_GETFONT, 0, 0); // try getting the font used by the control
-		if (!hFont) {
-			hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-		}
-		GetObject(hFont, sizeof(logFont), &logFont);
-		logFont.lfWeight = FW_BOLD;
-		s_hDrawFont = CreateFontIndirect(&logFont); // recreate the font
-		SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_STATIC_DISABLEWHENSTATUS, WM_SETFONT, (WPARAM)s_hDrawFont, true);
-		SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_STATIC_FORMAT, WM_SETFONT, (WPARAM)s_hDrawFont, true);
+			LOGFONT logFont;
+			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_STATIC_DISABLEWHENSTATUS, WM_GETFONT, 0, 0); // try getting the font used by the control
+			if (!hFont)
+				hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
-		SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_SENDCOUNT, EM_LIMITTEXT, 3, 0);
-		SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_SENDCOUNT_SPIN, UDM_SETRANGE32, -1, 999);
+			GetObject(hFont, sizeof(logFont), &logFont);
+			logFont.lfWeight = FW_BOLD;
+			s_hDrawFont = CreateFontIndirect(&logFont); // recreate the font
+			SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_STATIC_DISABLEWHENSTATUS, WM_SETFONT, (WPARAM)s_hDrawFont, true);
+			SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_STATIC_FORMAT, WM_SETFONT, (WPARAM)s_hDrawFont, true);
 
-		HWND hCombo = GetDlgItem(hwndDlg, IDC_REPLYDLG_ONLYIDLEREPLY_COMBO);
-		static struct {
-			TCHAR *Text;
-			int Meaning;
-		} IdleComboValues[] = {
-			LPGENT("Windows"), AUTOREPLY_IDLE_WINDOWS,
-			LPGENT("Miranda"), AUTOREPLY_IDLE_MIRANDA
-		};
-		int i;
-		for (i = 0; i < SIZEOF(IdleComboValues); i++) {
-			SendMessage(hCombo, CB_SETITEMDATA, SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(IdleComboValues[i].Text)), IdleComboValues[i].Meaning);
-		}
+			SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_SENDCOUNT, EM_LIMITTEXT, 3, 0);
+			SendDlgItemMessage(hwndDlg, IDC_REPLYDLG_SENDCOUNT_SPIN, UDM_SETRANGE32, -1, 999);
 
-		for (i = 0; i < SIZEOF(StatusButtons); i++) {
-			HWND hButton = GetDlgItem(hwndDlg, StatusButtons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[i].Status, GSMDF_TCHAR), BATF_TCHAR);
-			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
+			HWND hCombo = GetDlgItem(hwndDlg, IDC_REPLYDLG_ONLYIDLEREPLY_COMBO);
+			struct {
+				TCHAR *Text;
+				int Meaning;
+			}
+			static IdleComboValues[] = {
+				LPGENT("Windows"), AUTOREPLY_IDLE_WINDOWS,
+				LPGENT("Miranda"), AUTOREPLY_IDLE_MIRANDA
+			};
+
+			for (int i = 0; i < SIZEOF(IdleComboValues); i++)
+				SendMessage(hCombo, CB_SETITEMDATA, SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(IdleComboValues[i].Text)), IdleComboValues[i].Meaning);
+
+			for (int i = 0; i < SIZEOF(Dlg3StatusButtons); i++) {
+				HWND hButton = GetDlgItem(hwndDlg, Dlg3StatusButtons[i].DlgItem);
+				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg3StatusButtons[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
+			}
+			HWND hButton = GetDlgItem(hwndDlg, IDC_REPLYDLG_VARS);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
+
+			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTMSG), BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTURL), BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTFILE), BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
+
+			// init tooltips
+			struct {
+				int DlgItemID;
+				TCHAR *Text;
+			}
+			Tooltips[] = {
+				IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON, LPGENT("When this checkbox is ticked, NewAwaySys counts \"send times\" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, \"send times\" are counted from last status mode change (i.e. disabled state is more restrictive)."),
+				IDC_MOREOPTDLG_EVNTMSG, LPGENT("Message"),
+				IDC_MOREOPTDLG_EVNTURL, LPGENT("URL"),
+				IDC_MOREOPTDLG_EVNTFILE, LPGENT("File")
+			};
+			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
+			TOOLINFO ti = { 0 };
+			ti.cbSize = sizeof(ti);
+			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+			ti.hwnd = hwndDlg;
+			for (int i = 0; i < SIZEOF(Tooltips); i++) {
+				ti.uId = (UINT)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
+				ti.lpszText = TranslateTS(Tooltips[i].Text);
+				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
+			}
+			SendMessage(hWndTooltips, TTM_SETMAXTIPWIDTH, 0, 500);
+			SendMessage(hWndTooltips, TTM_SETDELAYTIME, TTDT_AUTOPOP, 32767); // tooltip hide time; looks like 32 seconds is the maximum
+
+			g_AutoreplyOptPage.DBToMemToPage();
+			EnableAutoreplyOptDlgControls();
+			ChangeLock--;
+			MakeGroupCheckbox(GetDlgItem(hwndDlg, IDC_REPLYDLG_ENABLEREPLY));
 		}
-		HWND hButton = GetDlgItem(hwndDlg, IDC_REPLYDLG_VARS);
-		SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_TCHAR);
-		SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
-
-		SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTMSG), BUTTONSETASTHEMEDBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTURL), BUTTONSETASTHEMEDBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTFILE), BUTTONSETASTHEMEDBTN, TRUE, 0);
-		SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
-
-		// init tooltips
-		struct {
-			int DlgItemID;
-			TCHAR* Text;
-		} Tooltips[] = {
-			IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON, LPGENT("When this checkbox is ticked, NewAwaySys counts \"send times\" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, \"send times\" are counted from last status mode change (i.e. disabled state is more restrictive)."),
-			IDC_MOREOPTDLG_EVNTMSG, LPGENT("Message"),
-			IDC_MOREOPTDLG_EVNTURL, LPGENT("URL"),
-			IDC_MOREOPTDLG_EVNTFILE, LPGENT("File")
-		};
-		TOOLINFO ti = { 0 };
-		hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
-		ti.cbSize = sizeof(ti);
-		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
-		ti.hwnd = hwndDlg;
-		for (i = 0; i < SIZEOF(Tooltips); i++) {
-			ti.uId = (UINT)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
-			ti.lpszText = TranslateTS(Tooltips[i].Text);
-			SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
-		}
-		SendMessage(hWndTooltips, TTM_SETMAXTIPWIDTH, 0, 500);
-		SendMessage(hWndTooltips, TTM_SETDELAYTIME, TTDT_AUTOPOP, 32767); // tooltip hide time; looks like 32 seconds is the maximum
-
-		g_AutoreplyOptPage.DBToMemToPage();
-		EnableAutoreplyOptDlgControls();
-		ChangeLock--;
-		MakeGroupCheckbox(GetDlgItem(hwndDlg, IDC_REPLYDLG_ENABLEREPLY));
 		return true;
-	} break;
+
 	case UM_ICONSCHANGED:
-	{
-		int i;
-		for (i = 0; i < SIZEOF(StatusButtons); i++) {
-			SendDlgItemMessage(hwndDlg, StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[StatusButtons[i].IconIndex]);
-		}
+		for (int i = 0; i < SIZEOF(Dlg3StatusButtons); i++)
+			SendDlgItemMessage(hwndDlg, Dlg3StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg3StatusButtons[i].IconIndex]);
+
 		my_variables_skin_helpbutton(hwndDlg, IDC_REPLYDLG_VARS);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTMSG, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_MESSAGE]);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTURL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_URL]);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTFILE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_FILE]);
-	} break;
+		break;
+	
 	case WM_NOTIFY:
-	{
-		switch (((NMHDR*)lParam)->code) {
-		case PSN_APPLY:
-		{
+		if (((NMHDR*)lParam)->code == PSN_APPLY) {
 			g_AutoreplyOptPage.PageToMemToDB();
 			//UpdateSOEButtons();
 			return true;
-		} break;
 		}
-	} break;
+		break;
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
-		{
 			switch (LOWORD(wParam)) {
 			case IDC_REPLYDLG_ENABLEREPLY:
-			{
 				EnableAutoreplyOptDlgControls();
-			} // go through
+				// go through
 			case IDC_REPLYDLG_DONTSENDTOICQ:
 			case IDC_REPLYDLG_DONTREPLYINVISIBLE:
 			case IDC_REPLYDLG_ONLYCLOSEDDLGREPLY:
@@ -657,95 +615,94 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			case IDC_REPLYDLG_DISABLE_INV:
 			case IDC_REPLYDLG_DISABLE_OTP:
 			case IDC_REPLYDLG_DISABLE_OTL:
-			{
-				if (!ChangeLock) {
+				if (!ChangeLock)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-				}
-			} break;
+				break;
 			case IDC_REPLYDLG_VARS:
-			{
 				my_variables_showhelp(hwndDlg, IDC_REPLYDLG_PREFIX);
-			} break;
+				break;
 			}
-		} break;
+			break;
+
 		case EN_CHANGE:
-		{
 			if ((LOWORD(wParam) == IDC_REPLYDLG_SENDCOUNT) || (LOWORD(wParam) == IDC_REPLYDLG_PREFIX)) {
 				if (!ChangeLock && g_AutoreplyOptPage.GetWnd()) {
-					if (LOWORD(wParam) == IDC_REPLYDLG_SENDCOUNT) {
+					if (LOWORD(wParam) == IDC_REPLYDLG_SENDCOUNT)
 						EnableAutoreplyOptDlgControls();
-					}
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				}
 			}
-		} break;
+			break;
 		case CBN_SELCHANGE:
-		{
-			if (LOWORD(wParam) == IDC_REPLYDLG_ONLYIDLEREPLY_COMBO) {
+			if (LOWORD(wParam) == IDC_REPLYDLG_ONLYIDLEREPLY_COMBO)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-			}
-		} break;
+			break;
 		}
-	} break;
+		break;
+
 	case WM_DESTROY:
-	{
 		g_AutoreplyOptPage.SetWnd(NULL);
-		if (s_hDrawFont) {
+		if (s_hDrawFont)
 			DeleteObject(s_hDrawFont);
-		}
+
 		DestroyWindow(hWndTooltips);
-	} break;
+		break;
 	}
 	return 0;
 }
-// ================================================ Modern options ==============================================
+
+//================================================ Modern options ==============================================
+
+static struct {
+	int DlgItem, Status, IconIndex;
+}
+Dlg4DefMsgDlgItems[] = {
+	IDC_MESSAGEDLG_DEF_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
+	IDC_MESSAGEDLG_DEF_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
+	IDC_MESSAGEDLG_DEF_NA, ID_STATUS_NA, ILI_PROTO_NA,
+	IDC_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
+	IDC_MESSAGEDLG_DEF_DND, ID_STATUS_DND, ILI_PROTO_DND,
+	IDC_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
+	IDC_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
+	IDC_MESSAGEDLG_DEF_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
+	IDC_MESSAGEDLG_DEF_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
+};
+
+static struct {
+	int DlgItem, IconIndex;
+	TCHAR* Text;
+}
+Dlg4Buttons[] = {
+	IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENT("Create new message"),
+	IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENT("Create new category"),
+	IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENT("Delete"),
+	IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
+};
 
 INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static CMsgTree* MsgTree = NULL;
-	static struct {
-		int DlgItem, Status, IconIndex;
-	} DefMsgDlgItems[] = {
-		IDC_MESSAGEDLG_DEF_ONL, ID_STATUS_ONLINE, ILI_PROTO_ONL,
-		IDC_MESSAGEDLG_DEF_AWAY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
-		IDC_MESSAGEDLG_DEF_NA, ID_STATUS_NA, ILI_PROTO_NA,
-		IDC_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
-		IDC_MESSAGEDLG_DEF_DND, ID_STATUS_DND, ILI_PROTO_DND,
-		IDC_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT, ILI_PROTO_FFC,
-		IDC_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE, ILI_PROTO_INV,
-		IDC_MESSAGEDLG_DEF_OTP, ID_STATUS_ONTHEPHONE, ILI_PROTO_OTP,
-		IDC_MESSAGEDLG_DEF_OTL, ID_STATUS_OUTTOLUNCH, ILI_PROTO_OTL
-	};
-	static struct {
-		int DlgItem, IconIndex;
-		TCHAR* Text;
-	} Buttons[] = {
-		IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENT("Create new message"),
-		IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENT("Create new category"),
-		IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENT("Delete"),
-		IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
-	};
+
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 		MySetPos(hwndDlg);
 		ChangeLock++;
 		g_MessagesOptPage.SetWnd(hwndDlg);
 		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE), EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGDATA), EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
+
 		// init image buttons
-		int i;
-		for (i = 0; i < SIZEOF(Buttons); i++) {
-			HWND hButton = GetDlgItem(hwndDlg, Buttons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[i].Text), BATF_TCHAR);
+		for (int i = 0; i < SIZEOF(Dlg4Buttons); i++) {
+			HWND hButton = GetDlgItem(hwndDlg, Dlg4Buttons[i].DlgItem);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Dlg4Buttons[i].Text), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 		// now default status message buttons
-		for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-			HWND hButton = GetDlgItem(hwndDlg, DefMsgDlgItems[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+		for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+			HWND hButton = GetDlgItem(hwndDlg, Dlg4DefMsgDlgItems[i].DlgItem);
+			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg4DefMsgDlgItems[i].Status, GSMDF_TCHAR), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
@@ -754,31 +711,25 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		g_MessagesOptPage.DBToMemToPage();
 		_ASSERT(!MsgTree);
 		MsgTree = new CMsgTree(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTREE));
-		if (!MsgTree->SetSelection(MsgTree->GetDefMsg(ID_STATUS_AWAY), MTSS_BYID)) {
+		if (!MsgTree->SetSelection(MsgTree->GetDefMsg(ID_STATUS_AWAY), MTSS_BYID))
 			MsgTree->SetSelection(g_Messages_PredefinedRootID, MTSS_BYID);
-		}
+
 		ChangeLock--;
-		//MakeGroupCheckbox(GetDlgItem(hwndDlg, IDC_REPLYDLG_ENABLEREPLY));
 		return true;
-	} break;
+
 	case UM_ICONSCHANGED:
-	{
-		int i;
-		for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-			SendDlgItemMessage(hwndDlg, DefMsgDlgItems[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[DefMsgDlgItems[i].IconIndex]);
-		}
-		for (i = 0; i < SIZEOF(Buttons); i++) {
-			if (Buttons[i].IconIndex != ILI_NOICON) {
-				SendDlgItemMessage(hwndDlg, Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Buttons[i].IconIndex]);
-			}
-		}
+		for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++)
+			SendDlgItemMessage(hwndDlg, Dlg4DefMsgDlgItems[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg4DefMsgDlgItems[i].IconIndex]);
+
+		for (int i = 0; i < SIZEOF(Dlg4Buttons); i++)
+			if (Dlg4Buttons[i].IconIndex != ILI_NOICON)
+				SendDlgItemMessage(hwndDlg, Dlg4Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg4Buttons[i].IconIndex]);
+
 		my_variables_skin_helpbutton(hwndDlg, IDC_MESSAGEDLG_VARS);
-	} break;
+		break;
+
 	case WM_NOTIFY:
-	{
-		switch (((NMHDR*)lParam)->code) {
-		case PSN_APPLY:
-		{
+		if (((NMHDR*)lParam)->code == PSN_APPLY) {
 			HWND hTreeView = GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTREE);
 			HTREEITEM hSelectedItem = TreeView_GetSelection(hTreeView);
 			ChangeLock++;
@@ -787,14 +738,12 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			ChangeLock--;
 			MsgTree->Save();
 			return true;
-		} break;
 		}
+
 		if (((LPNMHDR)lParam)->idFrom == IDC_MESSAGEDLG_MSGTREE) {
+			PNMMSGTREE pnm = (PNMMSGTREE)lParam;
 			switch (((LPNMHDR)lParam)->code) {
 			case MTN_SELCHANGED:
-			{
-				PNMMSGTREE pnm = (PNMMSGTREE)lParam;
-				int i;
 				if (pnm->ItemOld && !(pnm->ItemOld->Flags & (TIF_ROOTITEM | TIF_GROUP))) {
 					TCString Msg;
 					GetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, Msg.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
@@ -812,76 +761,63 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					}
 					else {
 						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, _T(""));
-						if (pnm->ItemNew->ID == g_Messages_RecentRootID) {
+						if (pnm->ItemNew->ID == g_Messages_RecentRootID)
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages."));
-						}
 						else {
 							_ASSERT(pnm->ItemNew->ID == g_Messages_PredefinedRootID);
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("You can put your frequently used and favorite messages in this category."));
 						}
 					}
-					for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-						COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(DefMsgDlgItems[i].DlgItem);
-						Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(DefMsgDlgItems[i].Status) == pnm->ItemNew->ID);
+					for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+						COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg4DefMsgDlgItems[i].DlgItem);
+						Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg4DefMsgDlgItems[i].Status) == pnm->ItemNew->ID);
 					}
 					ChangeLock--;
 				}
 				EnableMessagesOptDlgControls(MsgTree);
 				return 0;
-			} break;
+
 			case MTN_DEFMSGCHANGED:
-			{
-				PNMMSGTREE pnm = (PNMMSGTREE)lParam;
 				if (!ChangeLock) {
 					CBaseTreeItem* SelectedItem = MsgTree->GetSelection();
 					_ASSERT(SelectedItem);
 					if ((pnm->ItemOld && pnm->ItemOld->ID == SelectedItem->ID) || (pnm->ItemNew && pnm->ItemNew->ID == SelectedItem->ID)) { // SelectedItem contains the same info as one of ItemOld or ItemNew - so we'll just use SelectedItem and won't bother with identifying which of ItemOld or ItemNew is currently selected
-						int i;
-						for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-							COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(DefMsgDlgItems[i].DlgItem);
-							Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(DefMsgDlgItems[i].Status) == SelectedItem->ID);
+						for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+							COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg4DefMsgDlgItems[i].DlgItem);
+							Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg4DefMsgDlgItems[i].Status) == SelectedItem->ID);
 						}
 					}
 				}
-				if (!ChangeLock) {
+				if (!ChangeLock)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-				}
 				return 0;
-			} break;
+
 			case MTN_ITEMRENAMED:
-			{
-				PNMMSGTREE pnm = (PNMMSGTREE)lParam;
-				CBaseTreeItem* SelectedItem = MsgTree->GetSelection();
-				_ASSERT(SelectedItem);
-				if (pnm->ItemNew->ID == SelectedItem->ID && !ChangeLock) {
-					ChangeLock++;
-					SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, pnm->ItemNew->Title);
-					ChangeLock--;
-				}
-			} // go through
+				{
+					CBaseTreeItem *SelectedItem = MsgTree->GetSelection();
+					_ASSERT(SelectedItem);
+					if (pnm->ItemNew->ID == SelectedItem->ID && !ChangeLock) {
+						ChangeLock++;
+						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, pnm->ItemNew->Title);
+						ChangeLock--;
+					}
+				} // go through
 			case MTN_ENDDRAG:
 			case MTN_NEWCATEGORY:
 			case MTN_NEWMESSAGE:
 			case MTN_DELETEITEM:
 			case TVN_ITEMEXPANDED:
-			{
-				if (!ChangeLock) {
+				if (!ChangeLock)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-				}
 				return 0;
-			} break;
 			}
 		}
-	} break;
+		break;
+
 	case WM_COMMAND:
-	{
 		switch (HIWORD(wParam)) {
 		case BN_CLICKED:
-		{
-
-
 			switch (LOWORD(wParam)) {
-
 			case IDC_MESSAGEDLG_DEF_ONL:
 			case IDC_MESSAGEDLG_DEF_AWAY:
 			case IDC_MESSAGEDLG_DEF_NA:
@@ -891,52 +827,37 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case IDC_MESSAGEDLG_DEF_INV:
 			case IDC_MESSAGEDLG_DEF_OTP:
 			case IDC_MESSAGEDLG_DEF_OTL:
-			{
-				int i;
-				for (i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
-					if (LOWORD(wParam) == DefMsgDlgItems[i].DlgItem) {
-						MsgTree->SetDefMsg(DefMsgDlgItems[i].Status, MsgTree->GetSelection()->ID); // PSM_CHANGED is sent here through MTN_DEFMSGCHANGED, so we don't need to send it once more
+				for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+					if (LOWORD(wParam) == Dlg4DefMsgDlgItems[i].DlgItem) {
+						// PSM_CHANGED is sent here through MTN_DEFMSGCHANGED, so we don't need to send it once more
+						MsgTree->SetDefMsg(Dlg4DefMsgDlgItems[i].Status, MsgTree->GetSelection()->ID);
 						break;
 					}
 				}
-			} break;
+				break;
 			case IDC_MESSAGEDLG_VARS:
-			{
 				my_variables_showhelp(hwndDlg, IDC_MESSAGEDLG_MSGDATA);
-			} break;
+				break;
 			case IDC_MESSAGEDLG_DEL:
-			{
 				MsgTree->EnsureVisible(MsgTree->GetSelection()->hItem);
 				MsgTree->DeleteSelectedItem();
-			} break;
+				break;
 			case IDC_MESSAGEDLG_NEWCAT:
-			{
 				MsgTree->AddCategory();
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE));
-			} break;
+				break;
 			case IDC_MESSAGEDLG_NEWMSG:
-			{
 				MsgTree->AddMessage();
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE));
-			} break;
-
-			//NightFox:
+				break;
 			case IDC_LNK_AUTOAWAY:
-			{
-				OPENOPTIONSDIALOG ood = { 0 };
-				ood.cbSize = sizeof(ood);
+				OPENOPTIONSDIALOG ood = { sizeof(ood) };
 				ood.pszPage = "Status";
 				ood.pszTab = "Autoreply";
 				Options_OpenPage(&ood);
-				break;
 			}
-
-			}
-
-
-		} break;
+			break;
 		case EN_CHANGE:
-		{
 			if (LOWORD(wParam) == IDC_MESSAGEDLG_MSGDATA || LOWORD(wParam) == IDC_MESSAGEDLG_MSGTITLE) {
 				if (!ChangeLock) {
 					if (LOWORD(wParam) == IDC_MESSAGEDLG_MSGTITLE) {
@@ -953,20 +874,16 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				}
 			}
-		} break;
 		}
-	} break;
+		break;
+
 	case WM_DESTROY:
-	{
 		delete MsgTree;
 		MsgTree = NULL;
 		g_MessagesOptPage.SetWnd(NULL);
-	} break;
 	}
 	return 0;
 }
-
-
 
 // ================================================ Contact list ================================================
 // Based on the code from built-in Miranda ignore module
@@ -982,9 +899,6 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 #define EXTRAICON_IGNORE 1
 #define EXTRAICON_AUTOREPLYON 2
 #define EXTRAICON_AUTOREPLYOFF 3
-//#define EXTRAICON_ENABLENOTIFY 4
-//#define EXTRAICON_DISABLENOTIFY 5
-//#define EXTRAICON_INDEFINITE 6
 #define EXTRAICON_INDEFINITE 4
 
 #define VAL_INDEFINITE (-2)
@@ -994,136 +908,103 @@ static WNDPROC g_OrigContactsProc;
 __inline int DBValueToIgnoreIcon(int Value)
 {
 	switch (Value) {
-	case VAL_INDEFINITE: return EXTRAICON_INDEFINITE;
-	case 0: return EXTRAICON_DOT;
-	default: return EXTRAICON_IGNORE;
+		case VAL_INDEFINITE: return EXTRAICON_INDEFINITE;
+		case 0: return EXTRAICON_DOT;
+		default: return EXTRAICON_IGNORE;
 	}
 }
 
 __inline int IgnoreIconToDBValue(int Value)
 {
 	switch (Value) {
-	case EXTRAICON_DOT: return 0;
-	case EXTRAICON_IGNORE: return 1;
-	default: return VAL_INDEFINITE; // EXTRAICON_INDEFINITE and 0xFF
+		case EXTRAICON_DOT: return 0;
+		case EXTRAICON_IGNORE: return 1;
+		default: return VAL_INDEFINITE; // EXTRAICON_INDEFINITE and 0xFF
 	}
 }
 
 __inline int DBValueToOptReplyIcon(int Value)
 {
 	switch (Value) {
-	case VAL_INDEFINITE: return EXTRAICON_INDEFINITE;
-	case VAL_USEDEFAULT: return EXTRAICON_DOT;
-	case 0: return EXTRAICON_AUTOREPLYOFF;
-	default: return EXTRAICON_AUTOREPLYON;
+		case VAL_INDEFINITE: return EXTRAICON_INDEFINITE;
+		case VAL_USEDEFAULT: return EXTRAICON_DOT;
+		case 0: return EXTRAICON_AUTOREPLYOFF;
+		default: return EXTRAICON_AUTOREPLYON;
 	}
 }
 
 __inline int ReplyIconToDBValue(int Value)
 {
 	switch (Value) {
-	case EXTRAICON_DOT: return VAL_USEDEFAULT;
-	case EXTRAICON_AUTOREPLYOFF: return 0;
-	case EXTRAICON_AUTOREPLYON: return 1;
-	default: return VAL_INDEFINITE; // EXTRAICON_INDEFINITE and 0xFF
+		case EXTRAICON_DOT: return VAL_USEDEFAULT;
+		case EXTRAICON_AUTOREPLYOFF: return 0;
+		case EXTRAICON_AUTOREPLYON: return 1;
+		default: return VAL_INDEFINITE; // EXTRAICON_INDEFINITE and 0xFF
 	}
 }
-/*
-__inline int DBValueToNotifyIcon(int Value)
-{
-switch (Value)
-{
-case VAL_INDEFINITE: return EXTRAICON_INDEFINITE;
-case VAL_USEDEFAULT: return EXTRAICON_DOT;
-case 0: return EXTRAICON_DISABLENOTIFY;
-default: return EXTRAICON_ENABLENOTIFY;
-}
-}
-
-__inline int NotifyIconToDBValue(int Value)
-{
-switch (Value)
-{
-case EXTRAICON_DOT: return VAL_USEDEFAULT;
-case EXTRAICON_DISABLENOTIFY: return 0;
-case EXTRAICON_ENABLENOTIFY: return 1;
-default: return VAL_INDEFINITE; // EXTRAICON_INDEFINITE and 0xFF
-}
-}*/
 
 static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem)
 {
 	int Icons[EXTRACOLUMNSCOUNT] = { 0xFF, 0xFF, 0xFF };
-	int i;
-	HANDLE hItem;
 	int FirstItemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
-	hItem = (FirstItemType == CLCIT_GROUP) ? hFirstItem : (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
+	HANDLE hItem = (FirstItemType == CLCIT_GROUP) ? hFirstItem : (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
 	while (hItem) {
 		HANDLE hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-		if (hChildItem) {
+		if (hChildItem)
 			SetListGroupIcons(hwndList, hChildItem, hItem);
-		}
-		for (i = 0; i < SIZEOF(Icons); i++) {
+
+		for (int i = 0; i < SIZEOF(Icons); i++) {
 			int Icon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
-			if (Icons[i] == 0xFF) {
+			if (Icons[i] == 0xFF)
 				Icons[i] = Icon;
-			}
-			else if (Icon != 0xFF && Icons[i] != Icon) {
+			else if (Icon != 0xFF && Icons[i] != Icon)
 				Icons[i] = EXTRAICON_INDEFINITE;
-			}
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
 	hItem = (FirstItemType == CLCIT_CONTACT) ? hFirstItem : (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for (i = 0; i < SIZEOF(Icons); i++) {
+		for (int i = 0; i < SIZEOF(Icons); i++) {
 			int Icon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
-			if (Icons[i] == 0xFF) {
+			if (Icons[i] == 0xFF)
 				Icons[i] = Icon;
-			}
-			else if (Icon != 0xFF && Icons[i] != Icon) {
+			else if (Icon != 0xFF && Icons[i] != Icon)
 				Icons[i] = EXTRAICON_INDEFINITE;
-			}
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
+	
 	// set icons
-	for (i = 0; i < SIZEOF(Icons); i++) {
+	for (int i = 0; i < SIZEOF(Icons); i++)
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, Icons[i]));
-	}
 }
 
 static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int iImage)
 {
-	int typeOfFirst, iOldIcon;
 	HANDLE hItem, hChildItem;
-	typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
+	int typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
 	//check groups
-	if (typeOfFirst == CLCIT_GROUP) {
+	if (typeOfFirst == CLCIT_GROUP)
 		hItem = hFirstItem;
-	}
-	else {
+	else
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
-	}
+
 	while (hItem) {
 		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-		if (hChildItem) {
+		if (hChildItem)
 			SetAllChildIcons(hwndList, hChildItem, iColumn, iImage);
-		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
 	//check contacts
-	if (typeOfFirst == CLCIT_CONTACT) {
+	if (typeOfFirst == CLCIT_CONTACT)
 		hItem = hFirstItem;
-	}
-	else {
+	else
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
-	}
+
 	while (hItem) {
-		iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if (iOldIcon != 0xFF && iOldIcon != iImage) {
+		int iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
+		if (iOldIcon != 0xFF && iOldIcon != iImage)
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
-		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 }
@@ -1133,56 +1014,45 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	int itemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 	switch (itemType) {
 	case CLCIT_CONTACT:
-	{
-		int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if (oldiImage != 0xFF && oldiImage != iImage) {
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
+		{
+			int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
+			if (oldiImage != 0xFF && oldiImage != iImage)
+				SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
 		}
-	} break;
+		break;
 	case CLCIT_INFO:
-	{
-		if (hItem == hItemAll) {
+		if (hItem == hItemAll)
 			SetAllChildIcons(hwndList, hItem, iColumn, iImage);
-		}
-		else {
-			//				_ASSERT(hItem == hItemUnknown);
+		else
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
-		}
-	} break;
+		break;
 	case CLCIT_GROUP:
-	{
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-		if (hItem) {
+		if (hItem)
 			SetAllChildIcons(hwndList, hItem, iColumn, iImage);
-		}
-	} break;
+		break;
 	}
 }
 
 static void SaveItemState(HWND hwndList, MCONTACT hContact, HANDLE hItem)
-{ // hContact == INVALID_HANDLE_VALUE means that hItem is hItemUnknown
+{
 	int Ignore = IgnoreIconToDBValue(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNORECOLUMN, 0)));
 	int Reply = ReplyIconToDBValue(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(AUTOREPLYCOLUMN, 0)));
-	//	int Notify = NotifyIconToDBValue(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(NOTIFYCOLUMN, 0)));
-	if (Ignore != VAL_INDEFINITE) {
+	if (Ignore != VAL_INDEFINITE)
 		CContactSettings(ID_STATUS_ONLINE, hContact).Ignore = Ignore;
-	}
-	if (Reply != VAL_INDEFINITE) {
+
+	if (Reply != VAL_INDEFINITE)
 		CContactSettings(ID_STATUS_ONLINE, hContact).Autoreply = Reply;
-	}
-	/*	if (Notify != VAL_INDEFINITE)
-		{
-		CContactSettings(ID_STATUS_ONLINE, hContact).PopupNotify = Notify;
-		}*/
+
 	if (hContact != INVALID_CONTACT_ID && g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS)) {
 		int iMode;
 		for (iMode = ID_STATUS_AWAY; iMode < ID_STATUS_OUTTOLUNCH; iMode++) {
-			if (Ignore != VAL_INDEFINITE) {
+			if (Ignore != VAL_INDEFINITE)
 				CContactSettings(iMode, hContact).Ignore = Ignore;
-			}
-			if (Reply != VAL_INDEFINITE) {
+
+			// Notify is not per-status, so we're not setting it here
+			if (Reply != VAL_INDEFINITE)
 				CContactSettings(iMode, hContact).Autoreply = Reply;
-			} // Notify is not per-status, so we're not setting it here
 		}
 	}
 }
@@ -1199,7 +1069,6 @@ static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 			char *szProto = GetContactProto(hContact);
 			int Ignore = CContactSettings(ID_STATUS_ONLINE, hContact).Ignore;
 			int Reply = CContactSettings(ID_STATUS_ONLINE, hContact).Autoreply;
-			//			int Notify = CContactSettings(ID_STATUS_ONLINE, hContact).PopupNotify;
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS)) {
 				int iMode;
 				for (iMode = ID_STATUS_AWAY; iMode < ID_STATUS_OUTTOLUNCH; iMode++) {
@@ -1213,7 +1082,8 @@ static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNORECOLUMN, DBValueToIgnoreIcon(Ignore)));
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(Reply)));
 		}
-	} while (hContact = db_find_next(hContact));
+	}
+		while (hContact = db_find_next(hContact));
 }
 
 static LRESULT CALLBACK ContactsSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -1245,9 +1115,11 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_INDEFINITE)));
+			
 			SendMessage(hwndList, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendMessage(hwndDlg, UM_CONTACTSDLG_RESETLISTOPTIONS, 0, 0);
 			SendMessage(hwndList, CLM_SETEXTRACOLUMNS, EXTRACOLUMNSCOUNT, 0);
+			
 			CLCINFOITEM cii = { 0 };
 			cii.cbSize = sizeof(cii);
 			cii.flags = CLCIIF_GROUPFONT;
@@ -1392,7 +1264,6 @@ int OptsDlgInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 COptPage g_SetAwayMsgPage(MOD_NAME, NULL);
 COptPage g_MsgTreePage(MOD_NAME, NULL);
 
@@ -1500,7 +1371,7 @@ void InitOptions()
 	g_AutoreplyOptPage.Items.AddElem(new COptItem_Generic(IDC_REPLYDLG_STATIC_EXTRATEXT, IDC_REPLYDLG_ENABLEREPLY));
 }
 
-//NightFox
+// NightFox
 int ModernOptInitialise(WPARAM wParam, LPARAM lParam)
 {
 	static int iBoldControls[] =
