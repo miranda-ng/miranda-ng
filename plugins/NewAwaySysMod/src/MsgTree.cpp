@@ -334,9 +334,9 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 			hitTest.pt.x = (short)LOWORD(lParam);
 			hitTest.pt.y = (short)HIWORD(lParam);
 			TreeView_HitTest(hWnd, &hitTest);
-			if (hitTest.hItem && hitTest.flags & TVHT_ONITEM) {
+			if (hitTest.hItem && hitTest.flags & TVHT_ONITEM)
 				TreeView_SelectItem(hWnd, hitTest.hItem);
-			}
+
 			return DefWindowProc(hWnd, Msg, wParam, lParam);
 		}
 		break;
@@ -477,9 +477,9 @@ CMsgTree::CMsgTree(HWND hTreeView) : MsgTreePage(g_MsgTreePage), hTreeView(hTree
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_NEWCATEGORY)));
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DELETE)));
 	MsgTreePage.DBToMemToPage();
-	if (!g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT)) { // show "Recent messages" group only when RECENTMSGSCOUNT is not set to 0.
+	if (!g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT)) // show "Recent messages" group only when RECENTMSGSCOUNT is not set to 0.
 		TreeView_DeleteItem(hTreeView, TreeCtrl->RootItems[g_Messages_RecentRootID].hItem);
-	}
+
 	WindowList_Add(hMTWindowList, hTreeView, NULL);
 }
 
@@ -596,8 +596,8 @@ bool CMsgTree::DeleteSelectedItem() // returns true if the item was deleted
 	int Order = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hTreeView)));
 	_ASSERT(Order >= 0);
 	CTreeItem *SelectedItem = &TreeCtrl->Value[Order];
+
 	//NightFox: fix for langpack and fix cut char space in text
-	//if (MessageBox(GetParent(hTreeView), TCString(TranslateT("Do you really want to delete this ")) + ((SelectedItem->Flags & TIF_GROUP) ? TranslateT("category with its messages?") : TranslateT("message?")), TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDYES)
 	if (MessageBox(GetParent(hTreeView),
 		((SelectedItem->Flags & TIF_GROUP) ?
 			TranslateT("Do you really want to delete this category with its messages?") :
