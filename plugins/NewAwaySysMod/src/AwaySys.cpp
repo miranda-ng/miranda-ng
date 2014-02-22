@@ -59,19 +59,9 @@ int g_CSProtoCount = 0; // CommonStatus - StartupStatus and AdvancedAutoAway
 VAR_PARSE_DATA VarParseData;
 INT_PTR (*g_OldCallService)(const char *, WPARAM, LPARAM) = NULL;
 
-static struct
-{
-	int Status, DisableReplyCtlID, DontShowDialogCtlID;
-} StatusModeList[] = {
-	ID_STATUS_ONLINE, IDC_REPLYDLG_DISABLE_ONL, IDC_MOREOPTDLG_DONTPOPDLG_ONL,
-	ID_STATUS_AWAY, IDC_REPLYDLG_DISABLE_AWAY, IDC_MOREOPTDLG_DONTPOPDLG_AWAY,
-	ID_STATUS_NA, IDC_REPLYDLG_DISABLE_NA, IDC_MOREOPTDLG_DONTPOPDLG_NA,
-	ID_STATUS_OCCUPIED, IDC_REPLYDLG_DISABLE_OCC, IDC_MOREOPTDLG_DONTPOPDLG_OCC,
-	ID_STATUS_DND, IDC_REPLYDLG_DISABLE_DND, IDC_MOREOPTDLG_DONTPOPDLG_DND,
-	ID_STATUS_FREECHAT, IDC_REPLYDLG_DISABLE_FFC, IDC_MOREOPTDLG_DONTPOPDLG_FFC,
-	ID_STATUS_INVISIBLE, IDC_REPLYDLG_DISABLE_INV, IDC_MOREOPTDLG_DONTPOPDLG_INV,
-	ID_STATUS_ONTHEPHONE, IDC_REPLYDLG_DISABLE_OTP, IDC_MOREOPTDLG_DONTPOPDLG_OTP,
-	ID_STATUS_OUTTOLUNCH, IDC_REPLYDLG_DISABLE_OTL, IDC_MOREOPTDLG_DONTPOPDLG_OTL
+static IconItem iconList[] = {
+	{ LPGEN("Toggle On"),  "on",  IDI_SOE_DISABLED },
+	{ LPGEN("Toggle Off"), "off", IDI_SOE_ENABLED  }
 };
 
 PLUGININFOEX pluginInfo = {
@@ -227,6 +217,23 @@ int IsAnICQProto(char *szProto)
 
 // wParam = iMode
 // lParam = (char*)szProto
+
+struct
+{
+	int Status, DisableReplyCtlID, DontShowDialogCtlID;
+}
+static StatusModeList[] = {
+	ID_STATUS_ONLINE, IDC_REPLYDLG_DISABLE_ONL, IDC_MOREOPTDLG_DONTPOPDLG_ONL,
+	ID_STATUS_AWAY, IDC_REPLYDLG_DISABLE_AWAY, IDC_MOREOPTDLG_DONTPOPDLG_AWAY,
+	ID_STATUS_NA, IDC_REPLYDLG_DISABLE_NA, IDC_MOREOPTDLG_DONTPOPDLG_NA,
+	ID_STATUS_OCCUPIED, IDC_REPLYDLG_DISABLE_OCC, IDC_MOREOPTDLG_DONTPOPDLG_OCC,
+	ID_STATUS_DND, IDC_REPLYDLG_DISABLE_DND, IDC_MOREOPTDLG_DONTPOPDLG_DND,
+	ID_STATUS_FREECHAT, IDC_REPLYDLG_DISABLE_FFC, IDC_MOREOPTDLG_DONTPOPDLG_FFC,
+	ID_STATUS_INVISIBLE, IDC_REPLYDLG_DISABLE_INV, IDC_MOREOPTDLG_DONTPOPDLG_INV,
+	ID_STATUS_ONTHEPHONE, IDC_REPLYDLG_DISABLE_OTP, IDC_MOREOPTDLG_DONTPOPDLG_OTP,
+	ID_STATUS_OUTTOLUNCH, IDC_REPLYDLG_DISABLE_OTL, IDC_MOREOPTDLG_DONTPOPDLG_OTL
+};
+
 int StatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	LogMessage("MS_CLIST_SETSTATUSMODE called. szProto=%s, Status=%d", lParam ? (char*)lParam : "NULL", wParam);
@@ -365,8 +372,8 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 			mi.flags = CMIM_ICON | CMIM_FLAGS | CMIF_TCHAR;
 			switch (iAutoreply) {
 				case VAL_USEDEFAULT: mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)); break;
-				case 0: mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED)); break;
-				default: iAutoreply = 1; mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED)); break;
+				case 0: mi.icolibItem = iconList[0].hIcolib; break;
+				default: iAutoreply = 1; mi.icolibItem = iconList[1].hIcolib; break;
 			}
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEContactMenuItem, (LPARAM)&mi);
 			mi.flags = CMIM_FLAGS | CMIF_TCHAR | (iAutoreply == 1 ? CMIF_CHECKED : 0);
@@ -409,11 +416,16 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM lParam)
 	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].Status, hContact).Autoreply.Toggle();
 
 	if (hContact == NULL) {
-		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply;
-
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIM_NAME | CMIF_TCHAR;
-		mi.ptszName = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
+		mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
+		if (CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply) {
+			mi.ptszName = ENABLE_SOE_COMMAND;
+			mi.icolibItem = iconList[1].hIcolib;
+		}
+		else {
+			mi.ptszName = DISABLE_SOE_COMMAND;
+			mi.icolibItem = iconList[0].hIcolib;
+		}
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEMenuItem, (LPARAM)&mi);
 	}
 
@@ -443,11 +455,13 @@ static int Create_TopToolbar(WPARAM wParam, LPARAM lParam)
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 	if (ServiceExists(MS_TTB_REMOVEBUTTON)) {
 		TTBButton ttbb = { sizeof(ttbb) };
-		ttbb.hIconUp = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED));
-		ttbb.hIconDn = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED));
+		ttbb.name = LPGEN("Toggle autoreply on/off");;
+		ttbb.hIconHandleUp = iconList[0].hIcolib;
+		ttbb.hIconHandleDn = iconList[1].hIcolib;
 		ttbb.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
-		ttbb.dwFlags = TTBBF_SHOWTOOLTIP;
-		ttbb.name = "Toggle autoreply on/off";
+		ttbb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+		ttbb.pszTooltipDn = LPGEN("Toggle autoreply off");
+		ttbb.pszTooltipUp = LPGEN("Toggle autoreply on");
 		g_hTopToolbarbutton = TopToolbar_AddButton(&ttbb);
 		
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : TTBST_RELEASED);
@@ -736,7 +750,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000020000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
-	mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(SendOnEvent ? IDI_SOE_ENABLED : IDI_SOE_DISABLED));
+	mi.icolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
 	mi.ptszName = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
@@ -773,12 +787,12 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		mi.popupPosition = 1000020000;
 		mi.position = 1000020000;
 
-		mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED));
+		mi.icolibItem = iconList[1].hIcolib;
 		mi.ptszName = LPGENT("On");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
 		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED));
+		mi.icolibItem = iconList[0].hIcolib;
 		mi.ptszName = LPGENT("Off");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
 		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
@@ -822,6 +836,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	if (db_get_s(NULL, "KnownModules", "New Away System", (char*)NULL) == NULL)
 		db_set_s(NULL, "KnownModules", "New Away System", MOD_NAME);
+
+	Icon_Register(g_hInstance, MOD_NAME, iconList, SIZEOF(iconList), "nas");
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
