@@ -9,8 +9,6 @@
 #define IDI_SOE_ENABLED                 110
 #define IDD_READAWAYMSG                 111
 #define IDI_SOE_DISABLED                111
-#define IDB_SOE_ENABLED                 112
-#define IDB_SOE_DISABLED                114
 #define IDD_NOTIFYOPTDLG                115
 #define IDD_NOTIFYVARSDLG               116
 #define IDD_AUTOREPLY                   121

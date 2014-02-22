@@ -62,9 +62,8 @@
 #include "resource.h"
 
 #include "m_variables.h"
-//#include "m_toptoolbar.h"
+#include "m_toptoolbar.h"
 #include "m_popup.h"
-//#include "m_popupw.h"
 #include "m_metacontacts.h"
 #include "m_LogService.h"
 
@@ -317,10 +316,7 @@ int _Workaround_CallService(const char *name, WPARAM wParam, LPARAM lParam);
 int MsgEventAdded(WPARAM wParam, LPARAM lParam);
 
 // buttons
-//void UpdateSOEButtons(MCONTACT hContact = NULL);
 INT_PTR ToggleSendOnEvent(WPARAM wParam, LPARAM lParam);
-//int Create_TopToolbar(WPARAM wParam, LPARAM lParam);
-
 
 static __inline int LogMessage(const char *Format, ...)
 {

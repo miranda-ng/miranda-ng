@@ -585,7 +585,6 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		if (((NMHDR*)lParam)->code == PSN_APPLY) {
 			g_AutoreplyOptPage.PageToMemToDB();
-			//UpdateSOEButtons();
 			return true;
 		}
 		break;

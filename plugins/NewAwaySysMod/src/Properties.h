@@ -331,7 +331,7 @@ public:
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
 			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
-				return *this; // prevent deadlocks when calling UpdateSOEButtons
+				return *this;
 
 			if (Value != VAL_USEDEFAULT)
 				db_set_b(NULL, MOD_NAME, Setting, Value != 0);
@@ -450,7 +450,7 @@ public:
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL;
 			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
-				return *this; // prevent deadlocks when calling UpdateSOEButtons
+				return *this;
 
 			if (Value != VAL_USEDEFAULT)
 				db_set_b(hContact, MOD_NAME, Setting, Value != 0);

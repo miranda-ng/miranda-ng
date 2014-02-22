@@ -48,8 +48,10 @@
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 
-int hLangpack = 0;
-HANDLE g_hContactMenuItem = NULL, g_hReadStatMenuItem = NULL, /*g_hTopToolbarbutton = NULL, */g_hToggleSOEMenuItem = NULL, g_hToggleSOEContactMenuItem = NULL, g_hAutoreplyOnContactMenuItem = NULL, g_hAutoreplyOffContactMenuItem = NULL, g_hAutoreplyUseDefaultContactMenuItem = NULL;
+int hLangpack;
+HANDLE g_hContactMenuItem, g_hReadStatMenuItem, g_hTopToolbarbutton;
+HANDLE g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem;
+HANDLE g_hAutoreplyOnContactMenuItem, g_hAutoreplyOffContactMenuItem, g_hAutoreplyUseDefaultContactMenuItem;
 bool g_fNoProcessing = false; // tells the status change proc not to do anything
 int g_bIsIdle = false;
 HANDLE hMainThread;
@@ -289,7 +291,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 // wParam = PROTOCOLSETTINGEX** protoSettings
 int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (StartupStatus and AdvancedAutoAway)
 {
-	PROTOCOLSETTINGEX** ps = *(PROTOCOLSETTINGEX***)wParam;
+	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 	if (!ps)
 		return -1;
 
@@ -324,11 +326,9 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam) // StartupStatus and AdvancedAu
 int PreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	char *szProto = GetContactProto(hContact);
-	CLISTMENUITEM miSetMsg = { 0 };
-	miSetMsg.cbSize = sizeof(miSetMsg);
+	CLISTMENUITEM miSetMsg = { sizeof(miSetMsg) };
 	miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
-	CLISTMENUITEM miReadMsg = { 0 };
-	miReadMsg.cbSize = sizeof(miReadMsg);
+	CLISTMENUITEM miReadMsg = { sizeof(miReadMsg) };
 	miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
 	int iMode = szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
@@ -377,8 +377,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hAutoreplyUseDefaultContactMenuItem, (LPARAM)&mi);
 		}
 		else { // hide the Autoreply menu item
-			CLISTMENUITEM mi = { 0 };
-			mi.cbSize = sizeof(mi);
+			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEContactMenuItem, (LPARAM)&mi);
 		}
@@ -405,8 +404,19 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM lParam)
 }
 
 INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM lParam)
-{ // used only for the global setting
+{
+	// used only for the global setting
 	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].Status, hContact).Autoreply.Toggle();
+
+	if (hContact == NULL) {
+		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply;
+
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.flags = CMIM_NAME | CMIF_TCHAR;
+		mi.ptszName = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEMenuItem, (LPARAM)&mi);
+	}
+
 	return 0;
 }
 
@@ -428,26 +438,22 @@ INT_PTR srvAutoreplyUseDefault(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/* //NightFox: deleted used-to-be support
-int Create_TopToolbar(WPARAM wParam, LPARAM lParam)
+static int Create_TopToolbar(WPARAM wParam, LPARAM lParam)
 {
-int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
-if (ServiceExists(MS_TTB_ADDBUTTON))
-{
-TTBButton ttbb = {0};
-ttbb.cbSize = sizeof(ttbb);
-ttbb.hbBitmapUp = LoadBitmap(g_hInstance, MAKEINTRESOURCE(IDB_SOE_DISABLED));
-ttbb.hbBitmapDown = LoadBitmap(g_hInstance, MAKEINTRESOURCE(IDB_SOE_ENABLED));
-ttbb.pszServiceUp = MS_AWAYSYS_AUTOREPLY_TOGGLE;
-ttbb.pszServiceDown = MS_AWAYSYS_AUTOREPLY_TOGGLE;
-ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-ttbb.name = Translate("Toggle autoreply on/off");
-g_hTopToolbarbutton = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
-CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : TTBST_RELEASED);
+	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
+	if (ServiceExists(MS_TTB_REMOVEBUTTON)) {
+		TTBButton ttbb = { sizeof(ttbb) };
+		ttbb.hIconUp = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED));
+		ttbb.hIconDn = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED));
+		ttbb.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
+		ttbb.dwFlags = TTBBF_SHOWTOOLTIP;
+		ttbb.name = "Toggle autoreply on/off";
+		g_hTopToolbarbutton = TopToolbar_AddButton(&ttbb);
+		
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : TTBST_RELEASED);
+	}
+	return 0;
 }
-return 0;
-}
-*/
 
 static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -713,7 +719,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	// and old AwaySysMod service, for compatibility reasons
 	CreateServiceFunction(MS_AWAYSYS_SETSTATUSMODE, SetStatusMode);
 
-	//	hHooks.insert(HookEvent(ME_TTB_MODULELOADED, Create_TopToolbar);
+	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbar);
 	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChanged);
 	HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange); // for compatibility with StartupStatus and AdvancedAutoAway
@@ -742,6 +748,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	mi.ptszName = LPGENT("Read status message"); // never seen...
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
+	
 	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
 		ZeroMemory(&mi, sizeof(mi));
 		mi.cbSize = sizeof(mi);
@@ -791,8 +798,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		CreateServiceFunction(MS_AWAYSYS_FREEVARMEM, srvFreeVarMem);
 		CreateServiceFunction(MS_AWAYSYS_VARIABLESHANDLER, srvVariablesHandler);
 
-		TOKENREGISTER tr = { 0 };
-		tr.cbSize = sizeof(TOKENREGISTER);
+		TOKENREGISTER tr = { sizeof(tr) };
 		tr.szService = MS_AWAYSYS_VARIABLESHANDLER;
 		tr.szCleanupService = MS_AWAYSYS_FREEVARMEM;
 		tr.memType = TR_MEM_OWNER;
