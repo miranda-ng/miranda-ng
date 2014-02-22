@@ -86,7 +86,7 @@ notes.ini модифіковано коректно. Необхідно пере
 [Now checking Lotus, try again later]
 Триває перевірка Lotus, повторіть спробу пізніше
 [Attachments: %d bytes]
-Додаток: %d байт
+Вкладення: %d байт
 [Status]
 Статус
 [Plugins]

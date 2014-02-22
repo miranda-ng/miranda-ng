@@ -188,7 +188,7 @@
 [User sent you %s:]
 Контакт надіслав вам %s:
 [User sent you an unsupported attachment. Open your browser to actually see it.]
-Контакт надіслав вам прикріплення, що не підримується. Для перегляду перейдіть на сайт.
+Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
 [Message read: %s by %s]
 Повідомлення прочитане о: %s користувачем %s
 [Message read: %s]

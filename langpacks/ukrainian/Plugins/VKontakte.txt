@@ -84,7 +84,7 @@
 [Create new chat]
 Створити новий чат
 [Attachments:]
-Прикріплення:
+Вкладення:
 [Photo]
 Фото
 [Audio]
@@ -94,4 +94,4 @@
 [Document]
 Документ
 [Unsupported or unknown attachment type: %s]
-Цей тип прикріплень не підтримується: %s 
+Цей тип вкладень не підтримується: %s 
