@@ -196,7 +196,7 @@ zdjęcie
 [User sent you %s:]
 Użytkownik wysłał Ci %s:
 [User sent you an unsupported attachment. Open your browser to actually see it.]
-
+Użytkownik wysłał Ci niewspierany załącznik. Otwórz przeglądarkę aby go zobaczyć.
 [Message read: %s by %s]
 Wiadomość odczytana: %s przez %s
 [Message read: %s]
@@ -268,7 +268,7 @@ Cofnij znajomość
 [Cancel friendship request]
 Cofnij zaproszenie
 [Request friendship]
-Wyślij zaproszenie do grona znajomych
+Zaproś do grona znajomych
 [Approve friendship]
 Zatwierdź znajomość
 [Services...]
