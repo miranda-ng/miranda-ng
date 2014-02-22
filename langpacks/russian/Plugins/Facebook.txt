@@ -158,7 +158,7 @@ URL:
 [User sent you %s:]
 Контакт послал вам %s:
 [User sent you an unsupported attachment. Open your browser to actually see it.]
-Контакт послал вам неподдерживаемое прикрепление. Для просмотра перейдите на сайт.
+Контакт послал вам неподдерживаемое вложение. Для просмотра перейдите на сайт.
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
