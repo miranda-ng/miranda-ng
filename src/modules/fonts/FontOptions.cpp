@@ -134,107 +134,100 @@ void WriteLine(HANDLE fhand, char *line)
 
 BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<FontInternal>& flist, OBJLIST<ColourInternal>& clist, OBJLIST<EffectInternal>& elist)
 {
-	int i;
-	char header[512], buff[1024], abuff[1024];
-
 	HANDLE fhand = CreateFile(filename, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
 	if (fhand == INVALID_HANDLE_VALUE) {
 		MessageBox(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
 		return FALSE;
 	}
 
+	char header[512], buff[1024], abuff[1024];
 	header[0] = 0;
 
-	strcpy(buff, "SETTINGS:\r\n");
+	strncpy(buff, "SETTINGS:\r\n", SIZEOF(buff));
 	WriteLine(fhand, buff);
 
-	for (i=0; i < flist.getCount(); i++) {
+	for (int i=0; i < flist.getCount(); i++) {
 		FontInternal& F = flist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", F.dbSettingsGroup);
 		if (strcmp(buff, header) != 0) {
-			strcpy(header, buff);
+			strncpy(header, buff, SIZEOF(header));
 			WriteLine(fhand, buff);
 		}
 
-		if (F.flags & FIDF_APPENDNAME)
-			mir_snprintf(buff, SIZEOF(buff), "%sName = s", F.prefix);
-		else
-			mir_snprintf(buff, SIZEOF(buff), "%s = s", F.prefix);
+		mir_snprintf(buff, SIZEOF(buff),(F.flags & FIDF_APPENDNAME) ? "%sName=s" : "%s=s", F.prefix);
 
 		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, abuff, 1024, 0, 0);
 		abuff[1023] = 0;
-		strcat(buff, abuff);
+		strncat(buff, abuff, SIZEOF(buff));
 		WriteLine(fhand, buff);
 
-		mir_snprintf(buff, SIZEOF(buff), "%sSize = b", F.prefix);
+		mir_snprintf(buff, SIZEOF(buff), "%sSize=b", F.prefix);
 		if (F.flags & FIDF_SAVEACTUALHEIGHT) {
-			HDC hdc;
 			SIZE size;
-			HFONT hFont, hOldFont;
 			LOGFONT lf;
 			CreateFromFontSettings(&F.value, &lf);
-			hFont = CreateFontIndirect(&lf);
+			HFONT hFont = CreateFontIndirect(&lf);
 
-			hdc = GetDC(hwndDlg);
-			hOldFont = (HFONT)SelectObject(hdc, hFont);
+			HDC hdc = GetDC(hwndDlg);
+			HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 			GetTextExtentPoint32(hdc, _T("_W"), 2, &size);
 			ReleaseDC(hwndDlg, hdc);
 			SelectObject(hdc, hOldFont);
 			DeleteObject(hFont);
 
-			strcat(buff, _itoa((BYTE)size.cy, abuff, 10));
+			strncat(buff, _itoa((BYTE)size.cy, abuff, 10), SIZEOF(buff));
 		}
 		else if (F.flags & FIDF_SAVEPOINTSIZE) {
 			HDC hdc = GetDC(hwndDlg);
-			strcat(buff, _itoa((BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)), abuff, 10));
+			strncat(buff, _itoa((BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)), abuff, 10), SIZEOF(buff));
 			ReleaseDC(hwndDlg, hdc);
 		}
-		else strcat(buff, _itoa((BYTE)F.value.size, abuff, 10));
+		else strncat(buff, _itoa((BYTE)F.value.size, abuff, 10), SIZEOF(buff));
 
 		WriteLine(fhand, buff);
 
-		mir_snprintf(buff, SIZEOF(buff), "%sSty = b%d", F.prefix, (BYTE)F.value.style);
+		mir_snprintf(buff, SIZEOF(buff), "%sSty=b%d", F.prefix, (BYTE)F.value.style);
 		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sSet = b%d", F.prefix, (BYTE)F.value.charset);
+		mir_snprintf(buff, SIZEOF(buff), "%sSet=b%d", F.prefix, (BYTE)F.value.charset);
 		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sCol = d%d", F.prefix, (DWORD)F.value.colour);
+		mir_snprintf(buff, SIZEOF(buff), "%sCol=d%d", F.prefix, (DWORD)F.value.colour);
 		WriteLine(fhand, buff);
 		if (F.flags & FIDF_NOAS) {
-			mir_snprintf(buff, SIZEOF(buff), "%sAs = w%d", F.prefix, (WORD)0x00FF);
+			mir_snprintf(buff, SIZEOF(buff), "%sAs=w%d", F.prefix, (WORD)0x00FF);
 			WriteLine(fhand, buff);
 		}
-		mir_snprintf(buff, SIZEOF(buff), "%sFlags = w%d", F.prefix, (WORD)F.flags);
+		mir_snprintf(buff, SIZEOF(buff), "%sFlags=w%d", F.prefix, (WORD)F.flags);
 		WriteLine(fhand, buff);
 	}
 
 	header[0] = 0;
-	for (i=0; i < clist.getCount(); i++) {
+	for (int i=0; i < clist.getCount(); i++) {
 		ColourInternal& C = clist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", C.dbSettingsGroup);
 		if (strcmp(buff, header) != 0) {
-			strcpy(header, buff);
+			strncpy(header, buff, SIZEOF(header));
 			WriteLine(fhand, buff);
 		}
-		mir_snprintf(buff, SIZEOF(buff), "%s = d%d", C.setting, (DWORD)C.value);
+		mir_snprintf(buff, SIZEOF(buff), "%s=d%d", C.setting, (DWORD)C.value);
 		WriteLine(fhand, buff);
 	}
 
 	header[0] = 0;
-	for (i=0; i < elist.getCount(); i++) {
+	for (int i=0; i < elist.getCount(); i++) {
 		EffectInternal& E = elist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", E.dbSettingsGroup);
 		if (strcmp(buff, header) != 0) {
-			strcpy(header, buff);
+			strncpy(header, buff, SIZEOF(header));
 			WriteLine(fhand, buff);
 		}
-		mir_snprintf(buff, SIZEOF(buff), "%sEffect = b%d", E.setting, E.value.effectIndex);
+		mir_snprintf(buff, SIZEOF(buff), "%sEffect=b%d", E.setting, E.value.effectIndex);
 		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sEffectCol1 = d%d", E.setting, E.value.baseColour);
+		mir_snprintf(buff, SIZEOF(buff), "%sEffectCol1=d%d", E.setting, E.value.baseColour);
 		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sEffectCol2 = d%d", E.setting, E.value.secondaryColour);
+		mir_snprintf(buff, SIZEOF(buff), "%sEffectCol2=d%d", E.setting, E.value.secondaryColour);
 		WriteLine(fhand, buff);
 	}
 
@@ -279,9 +272,8 @@ struct FSUIListItemData
 
 static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const TCHAR *name, const TCHAR *backgroundGroup, const TCHAR *backgroundName, int colourId)
 {
-	int i;
 	BOOL res = FALSE;
-	for (i = SendMessage(hwndList, LB_GETCOUNT, 0, 0); i--;)
+	for (int i = SendMessage(hwndList, LB_GETCOUNT, 0, 0); i--;)
 	{
 		FSUIListItemData *itemData = (FSUIListItemData *)SendMessage(hwndList, LB_GETITEMDATA, i, 0);
 		if (itemData && itemData->font_id >= 0) {
@@ -474,15 +466,14 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		TranslateDialogDefault(hwndDlg);
 		pEffect = (FONTEFFECT*) lParam;
 		{
-			int i;
-			for (i=0; i < SIZEOF(ModernEffectNames); i++) {
+			for (int i=0; i < SIZEOF(ModernEffectNames); i++) {
 				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(ModernEffectNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETITEMDATA, itemid, i);
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, 0, 0);
 			}
 
 			int cnt = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETCOUNT, 0, 0);
-			for (i=0; i < cnt; i++) {
+			for (int i=0; i < cnt; i++) {
 				if (SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETITEMDATA, i, 0) == pEffect->effectIndex) {
 					SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, i, 0);
 					break;
