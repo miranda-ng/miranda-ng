@@ -21,6 +21,13 @@
 
 #include "Common.h"
 
+struct READAWAYMSGDATA
+{
+	MCONTACT hContact; // contact
+	HANDLE hSeq; // sequence for stat msg request
+	HANDLE hAwayMsgEvent; // hooked
+};
+
 #define RAMDLGSIZESETTING "ReadAwayMsgDlg"
 
 HANDLE g_hReadWndList = NULL;
@@ -50,6 +57,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIcon);
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
 			Utils_RestoreWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
+			
 			READAWAYMSGDATA *awayData = new READAWAYMSGDATA;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)awayData);
 			awayData->hContact = lParam;
@@ -58,10 +66,9 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			WindowList_Add(g_hReadWndList, hwndDlg, awayData->hContact);
 
 			TCHAR str[256], format[128];
-			TCHAR *status, *contactName;
-			contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)awayData->hContact, GCDNF_TCHAR);
+			TCHAR *contactName = pcli->pfnGetContactDisplayName(awayData->hContact, 0);
 			char *szProto = GetContactProto(awayData->hContact);
-			status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
+			TCHAR *status = pcli->pfnGetStatusModeDescription(db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			GetWindowText(hwndDlg, format, SIZEOF(format));
 			_sntprintf(str, SIZEOF(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);

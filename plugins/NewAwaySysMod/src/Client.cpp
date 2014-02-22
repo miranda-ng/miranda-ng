@@ -30,22 +30,24 @@ HANDLE g_hUpdateMsgsThread = NULL;
 
 void __cdecl UpdateMsgsThreadProc(void *)
 {
-	int ProtoCount;
-	PROTOCOLDESCRIPTOR **proto;
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
+	int numAccs;
+	PROTOACCOUNT **accs;
+	ProtoEnumAccounts(&numAccs, &accs);
+
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_Terminated()) {
 		DWORD MinUpdateTimeDifference = g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
-		for (int i = 0; i < ProtoCount; i++) {
-			if (proto[i]->type == PROTOTYPE_PROTOCOL && CallProtoService(proto[i]->szName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND && !IsAnICQProto(proto[i]->szName)) {
-				int Status = CallProtoService(proto[i]->szName, PS_GETSTATUS, 0, 0);
+		for (int i = 0; i < numAccs; i++) {
+			PROTOACCOUNT *p = accs[i];
+			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND && !IsAnICQProto(p->szModuleName)) {
+				int Status = CallProtoService(p->szModuleName, PS_GETSTATUS, 0, 0);
 				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH) {
-					Status = g_ProtoStates[proto[i]->szName].Status;
+					Status = g_ProtoStates[p->szModuleName].Status;
 				}
-				if (CallProtoService(proto[i]->szName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(Status) && g_ProtoStates[proto[i]->szName].CurStatusMsg.GetUpdateTimeDifference() >= MinUpdateTimeDifference) {
-					TCString CurMsg(GetDynamicStatMsg(INVALID_CONTACT_ID, proto[i]->szName));
-					if ((TCString)g_ProtoStates[proto[i]->szName].CurStatusMsg != (const TCHAR*)CurMsg) { // if the message has changed
-						g_ProtoStates[proto[i]->szName].CurStatusMsg = CurMsg;
-						CallAllowedPS_SETAWAYMSG(proto[i]->szName, Status, (char*)_T2A(CurMsg));
+				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(Status) && g_ProtoStates[p->szModuleName].CurStatusMsg.GetUpdateTimeDifference() >= MinUpdateTimeDifference) {
+					TCString CurMsg(GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName));
+					if ((TCString)g_ProtoStates[p->szModuleName].CurStatusMsg != (const TCHAR*)CurMsg) { // if the message has changed
+						g_ProtoStates[p->szModuleName].CurStatusMsg = CurMsg;
+						CallAllowedPS_SETAWAYMSG(p->szModuleName, Status, (char*)_T2A(CurMsg));
 					}
 				}
 			}
@@ -88,16 +90,17 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 		g_ProtoStates[szProto].CurStatusMsg = CurMsg;
 	}
 	else { // change message of all protocols
-		int ProtoCount;
-		PROTOCOLDESCRIPTOR **proto;
-		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
-		for (int i = 0; i < ProtoCount; i++) {
-			if (proto[i]->type == PROTOTYPE_PROTOCOL && !db_get_b(NULL, proto[i]->szName, "LockMainStatus", 0)) {
+		int numAccs;
+		PROTOACCOUNT **accs;
+		ProtoEnumAccounts(&numAccs, &accs);
+		for (int i = 0; i < numAccs; i++) {
+			PROTOACCOUNT *p = accs[i];
+			if (!db_get_b(NULL, p->szModuleName, "LockMainStatus", 0)) {
 				if (Msg == NULL)
-					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, proto[i]->szName);
+					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName);
 
-				CallAllowedPS_SETAWAYMSG(proto[i]->szName, iMode, (char*)_T2A(CurMsg));
-				g_ProtoStates[proto[i]->szName].CurStatusMsg = CurMsg;
+				CallAllowedPS_SETAWAYMSG(p->szModuleName, iMode, (char*)_T2A(CurMsg));
+				g_ProtoStates[p->szModuleName].CurStatusMsg = CurMsg;
 			}
 		}
 	}
@@ -143,7 +146,7 @@ int GetRecentGroupID(int iMode)
 		return g_Messages_RecentRootID;
 
 	for (int Order = 0; Order < TreeCtrl->Value.GetSize(); Order++) // find a group named accordingly to the current status
-		if (TreeCtrl->Value[Order].ParentID == g_Messages_RecentRootID && TreeCtrl->Value[Order].Flags & TIF_GROUP && !_tcsicmp(TreeCtrl->Value[Order].Title, iMode ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GSMDF_TCHAR) : MSGTREE_RECENT_OTHERGROUP))
+		if (TreeCtrl->Value[Order].ParentID == g_Messages_RecentRootID && TreeCtrl->Value[Order].Flags & TIF_GROUP && !_tcsicmp(TreeCtrl->Value[Order].Title, iMode ? pcli->pfnGetStatusModeDescription(iMode, 0) : MSGTREE_RECENT_OTHERGROUP))
 			return TreeCtrl->Value[Order].ID;
 
 	return -1;

@@ -27,7 +27,7 @@
 #define DB_STATUSMSG "StatusMsg"
 #define DB_ENABLEREPLY "EnableReply"
 #define DB_IGNOREREQUESTS "IgnoreRequests"
-//#define DB_POPUPNOTIFY "UsePopups"
+
 #define DB_UNK_CONTACT_PREFIX "Unk" // DB_ENABLEREPLY, DB_IGNOREREQUESTS and DB_POPUPNOTIFY settings prefix for not-on-list contacts
 
 class _CWndUserData
@@ -39,16 +39,14 @@ public:
 	CCList *CList;
 };
 
-
 class CWndUserData
 {
 public:
-	CWndUserData(HWND hWnd): hWnd(hWnd)
+	CWndUserData(HWND hWnd) : hWnd(hWnd)
 	{
 		_ASSERT(hWnd);
 		dat = (_CWndUserData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-		if (!dat)
-		{
+		if (!dat) {
 			dat = new _CWndUserData;
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)dat);
 		}
@@ -57,8 +55,7 @@ public:
 	~CWndUserData()
 	{
 		_ASSERT(dat == (_CWndUserData*)GetWindowLongPtr(hWnd, GWLP_USERDATA));
-		if (!dat->MsgTree && !dat->CList) // TODO: Uninitialized Memory Read on closing the options dialog - fix it
-		{
+		if (!dat->MsgTree && !dat->CList) {
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, NULL);
 			delete dat; // TODO: memory leak - this is never executed - fix it
 		}
@@ -115,14 +112,9 @@ class CIconList
 public:
 	~CIconList()
 	{
-		int i;
-		for (i = 0; i < IconList.GetSize(); i++)
-		{
+		for (int i = 0; i < IconList.GetSize(); i++)
 			if (IconList[i])
-			{
 				DestroyIcon(IconList[i]);
-			}
-		}
 	}
 
 	HICON& operator [] (int nIndex) {return IconList[nIndex];}
@@ -131,22 +123,16 @@ public:
 		int cxIcon = GetSystemMetrics(SM_CXSMICON);
 		int cyIcon = GetSystemMetrics(SM_CYSMICON);
 		int i;
-		for (i = 0; i < SIZEOF(Icons); i++)
-		{
+		for (i = 0; i < SIZEOF(Icons); i++) {
 			if (IconList.GetSize() > i && IconList[i])
-			{
 				DestroyIcon(IconList[i]);
-			}
+
 			if (Icons[i] & IL_SKINICON)
-			{
 				IconList.SetAtGrow(i) = (HICON)CopyImage(LoadSkinnedIcon(Icons[i] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
-			} else if (Icons[i] & IL_PROTOICON)
-			{
+			else if (Icons[i] & IL_PROTOICON)
 				IconList.SetAtGrow(i) = (HICON)CopyImage(LoadSkinnedProtoIcon(NULL, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
-			} else
-			{
+			else
 				IconList.SetAtGrow(i) = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(Icons[i]), IMAGE_ICON, cxIcon, cyIcon, 0);
-			}
 		}
 	}
 
@@ -247,7 +233,7 @@ public:
 //private:
 public:
 	CString szProto;
-	CProtoStates* Parent;
+	CProtoStates *Parent;
 };
 
 
@@ -260,37 +246,24 @@ public:
 	CProtoStates& operator = (const CProtoStates& States)
 	{
 		ProtoStates = States.ProtoStates;
-		int i;
-		for (i = 0; i < ProtoStates.GetSize(); i++)
-		{
+		for (int i = 0; i < ProtoStates.GetSize(); i++)
 			ProtoStates[i].SetParent(this);
-		}
 		return *this;
 	}
 
 	CProtoState& operator[](const char *szProto)
 	{
-		int i;
-		for (i = 0; i < ProtoStates.GetSize(); i++)
-		{
+		for (int i = 0; i < ProtoStates.GetSize(); i++)
 			if (ProtoStates[i].GetProto() == szProto)
-			{
 				return ProtoStates[i];
-			}
-		}
-		if (!szProto) // we need to be sure that we have _all_ protocols in the list, before dealing with global status, so we're adding them here.
-		{
-			int ProtoCount;
-			PROTOCOLDESCRIPTOR **proto;
-			CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&proto);
-			int i;
-			for (i = 0; i < ProtoCount; i++)
-			{
-				if (proto[i]->type == PROTOTYPE_PROTOCOL)
-				{
-					(*this)[proto[i]->szName]; // add a protocol if it isn't in the list yet
-				}
-			}
+
+		// we need to be sure that we have _all_ protocols in the list, before dealing with global status, so we're adding them here.
+		if (!szProto) { 
+			int numAccs;
+			PROTOACCOUNT **accs;
+			ProtoEnumAccounts(&numAccs, &accs);
+			for (int i = 0; i < numAccs; i++)
+				(*this)[accs[i]->szModuleName]; // add a protocol if it isn't in the list yet
 		}
 		return ProtoStates[ProtoStates.AddElem(CProtoState(szProto, this))];
 	}
@@ -313,7 +286,8 @@ static struct
 {
 	int Status;
 	char *Setting;
-} StatusSettings[] = {
+}
+StatusSettings[] = {
 	ID_STATUS_OFFLINE, "Off",
 	ID_STATUS_ONLINE, "Onl",
 	ID_STATUS_AWAY, "Away",
@@ -330,24 +304,22 @@ static struct
 
 class CProtoSettings
 {
+	LPCSTR szProto;
+
 public:
-	CProtoSettings(const char *szProto = NULL, int iStatus = 0): szProto(szProto), Status(iStatus, szProto)
+	CProtoSettings(LPCSTR szProto = NULL, int iStatus = 0) :
+		szProto(szProto),
+		Status(iStatus, szProto)
 	{
 		Autoreply.Parent = this;
 	}
 
 	CString ProtoStatusToDBSetting(const char *Prefix, int MoreOpt_PerStatusID = 0)
 	{
-		if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID))
-		{
-			int i;
-			for (i = 0; i < SIZEOF(StatusSettings); i++)
-			{
+		if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID)) {
+			for (int i = 0; i < SIZEOF(StatusSettings); i++)
 				if (Status == StatusSettings[i].Status)
-				{
 					return szProto ? (CString(Prefix) + "_" + szProto + "_" + StatusSettings[i].Setting) : (CString(Prefix) + StatusSettings[i].Setting);
-				}
-			}
 		}
 		return szProto ? (CString(Prefix) + "_" + szProto) : CString(Prefix);
 	}
@@ -359,23 +331,21 @@ public:
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
 			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
-			{
 				return *this; // prevent deadlocks when calling UpdateSOEButtons
-			}
+
 			if (Value != VAL_USEDEFAULT)
-			{
 				db_set_b(NULL, MOD_NAME, Setting, Value != 0);
-			} else
-			{
+			else
 				db_unset(NULL, MOD_NAME, Setting);
-			}
-			/*if (!Parent->szProto)
-			{
-				UpdateSOEButtons();
-			}*/
 			return *this;
 		}
-		operator int() {return db_get_b(NULL, MOD_NAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
+		
+		operator int()
+		{
+			return db_get_b(NULL, MOD_NAME, Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, 
+				Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);
+		}
+		
 		int IncludingParents() // takes into account global data also, if per-protocol setting is not defined
 		{
 			_ASSERT(Parent->szProto);
@@ -395,9 +365,7 @@ public:
 		operator int()
 		{
 			if (!Status)
-			{
 				Status = g_ProtoStates[szProto].Status;
-			}
 			return Status;
 		}
 	private:
@@ -407,53 +375,41 @@ public:
 
 	void SetMsgFormat(int Flags, TCString Message);
 	TCString GetMsgFormat(int Flags, int *pOrder = NULL);
-
-//NightFox: fix?
-//private:
-public:
-	const char *szProto;
 };
 
 
 __inline CString StatusToDBSetting(int Status, const char *Prefix, int MoreOpt_PerStatusID = 0)
 {
 	if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID))
-	{
-		int i;
-		for (i = 0; i < SIZEOF(StatusSettings); i++)
-		{
+		for (int i = 0; i < SIZEOF(StatusSettings); i++)
 			if (Status == StatusSettings[i].Status)
-			{
 				return CString(Prefix) + StatusSettings[i].Setting;
-			}
-		}
-	}
+
 	return CString(Prefix);
 }
 
 
 __inline CString ContactStatusToDBSetting(int Status, const char *Prefix, int MoreOpt_PerStatusID, MCONTACT hContact)
 {
+	// it's a not-on-list contact
 	if (hContact == INVALID_CONTACT_ID)
-	{ // it's a not-on-list contact
 		return CString(DB_UNK_CONTACT_PREFIX) + Prefix;
-	}
+
 	if (hContact)
-	{
 		StatusToDBSetting(Status, Prefix, MoreOpt_PerStatusID);
-	}
 	return CString(Prefix);
 }
 
 
 class CContactSettings
 {
+	MCONTACT hContact;
+
 public:
 	CContactSettings(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus, hContact), hContact(_hContact)
 	{
 		Ignore.Parent = this;
 		Autoreply.Parent = this;
-//		PopupNotify.Parent = this;
 	}
 
 	CString ContactStatusToDBSetting(const char *Prefix, int MoreOpt_PerStatusID = 0)
@@ -469,15 +425,18 @@ public:
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL;
 			if (Value)
-			{
 				db_set_b(hContact, MOD_NAME, Setting, 1);
-			} else
-			{
+			else
 				db_unset(hContact, MOD_NAME, Setting);
-			}
 			return *this;
 		}
-		operator int() {return db_get_b((Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);}
+
+		operator int() 
+		{
+			return db_get_b((Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL, MOD_NAME, 
+				Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);
+		}
+
 		friend class CContactSettings;
 	private:
 		CContactSettings *Parent;
@@ -504,8 +463,7 @@ public:
 		{
 			_ASSERT((Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
 			int Value = *this;
-			if (Value == VAL_USEDEFAULT)
-			{
+			if (Value == VAL_USEDEFAULT) {
 				const char *szProto = (Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) ? (const char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Parent->hContact, 0) : szProtoOverride;
 				return CProtoSettings(szProto).Autoreply.IncludingParents();
 			}
@@ -513,8 +471,7 @@ public:
 		}
 		int GetNextToggleValue()
 		{
-			switch ((int)*this)
-			{
+			switch ((int)*this) {
 				case VAL_USEDEFAULT: return 0; break;
 				case 0: return 1; break;
 				default: return Parent->hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY; break;
@@ -526,45 +483,6 @@ public:
 		CContactSettings *Parent;
 	} Autoreply;
 
-/*	class CPopupNotify
-	{
-	public:
-		CPopupNotify& operator = (const int Value)
-		{
-			//CString Setting(Parent->ContactStatusToDBSetting(DB_POPUPNOTIFY, 0)); //IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS
-			MCONTACT hContact = (Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL;
-			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
-			{
-				return *this; // prevent deadlocks when calling UpdateSOEButtons
-			}
-			if (Value != VAL_USEDEFAULT)
-			{
-				db_set_b(hContact, MOD_NAME, Setting, Value != 0);
-			} else
-			{
-				db_unset(hContact, MOD_NAME, Setting);
-			}
-			if (!Parent->hContact)
-			{
-				//UpdateSOEButtons();
-			}
-			return *this;
-		}
-		operator int() {return db_get_b((Parent->hContact != INVALID_HANDLE_VALUE) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_POPUPNOTIFY, 0), Parent->hContact ? VAL_USEDEFAULT : POPUP_DEF_USEPOPUPS);} //IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS
-		int IncludingParents() // takes into account protocol and global data also, if per-contact setting is not defined
-		{
-			int Value = *this;
-			if (Value == VAL_USEDEFAULT)
-			{ // PopupNotify setting is not per-status
-				return CContactSettings(ID_STATUS_ONLINE).PopupNotify;
-			}
-			return Value;
-		}
-		friend class CContactSettings;
-	private:
-		CContactSettings *Parent;
-	} PopupNotify;
-*/
 	class CStatus
 	{
 	public:
@@ -572,8 +490,7 @@ public:
 		CStatus& operator = (int Status) {this->Status = Status; return *this;}
 		operator int()
 		{
-			if (!Status)
-			{
+			if (!Status) {
 				_ASSERT(hContact != INVALID_CONTACT_ID);
 				char *szProto = hContact ? GetContactProto(hContact) : NULL;
 				Status = (szProto || !hContact) ? g_ProtoStates[szProto].Status : ID_STATUS_AWAY;
@@ -589,9 +506,4 @@ public:
 
 	void SetMsgFormat(int Flags, TCString Message);
 	TCString GetMsgFormat(int Flags, int *pOrder = NULL, char *szProtoOverride = NULL);
-
-//NightFox: fix?
-//private:
-public:
-	MCONTACT hContact;
 };

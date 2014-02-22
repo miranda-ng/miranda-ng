@@ -44,7 +44,7 @@
 #include "m_clist.h"
 #include "m_system.h"
 #include "m_database.h"
-#include "m_clui.h"
+#include "m_clistint.h"
 #include "m_langpack.h"
 #include "m_protosvc.h"
 #include "m_options.h"
@@ -233,13 +233,6 @@ struct SetAwayMsgData
 	TCString Message; // initial message, NULL means default
 	bool IsModeless; // means the dialog was created with the CreateDialogParam function, not DialogBoxParam
 	int ISW_Flags; // InvokeStatusWindow service flags
-};
-
-struct READAWAYMSGDATA
-{
-	MCONTACT hContact; // contact
-	HANDLE hSeq; // sequence for stat msg request
-	HANDLE hAwayMsgEvent; // hooked
 };
 
 struct VAR_PARSE_DATA

@@ -146,7 +146,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// now default status message buttons
 		for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg1DefMsgDlgItems[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg1DefMsgDlgItems[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg1DefMsgDlgItems[i].Status, 0), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
@@ -375,7 +375,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN, UDM_SETRANGE32, 30, 99999);
 		for (int i = 0; i < SIZEOF(Dlg2StatusButtons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg2StatusButtons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg2StatusButtons[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg2StatusButtons[i].Status, 0), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
@@ -528,7 +528,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			for (int i = 0; i < SIZEOF(Dlg3StatusButtons); i++) {
 				HWND hButton = GetDlgItem(hwndDlg, Dlg3StatusButtons[i].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg3StatusButtons[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg3StatusButtons[i].Status, 0), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
@@ -702,7 +702,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		// now default status message buttons
 		for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg4DefMsgDlgItems[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Dlg4DefMsgDlgItems[i].Status, GSMDF_TCHAR), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg4DefMsgDlgItems[i].Status, 0), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);

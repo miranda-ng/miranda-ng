@@ -182,7 +182,7 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		TreeCtrl->DBToMem(CString(MOD_NAME));
 		int RecentGroupID = GetRecentGroupID(Status);
 		if (RecentGroupID == -1) { // we didn't find the group, it also means that we're using per status messages; so we need to create it
-			TreeCtrl->Value.AddElem(CTreeItem(Status ? (const TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Status, GSMDF_TCHAR) : MSGTREE_RECENT_OTHERGROUP, g_Messages_RecentRootID, RecentGroupID = TreeCtrl->GenerateID(), TIF_GROUP));
+			TreeCtrl->Value.AddElem(CTreeItem(Status ? pcli->pfnGetStatusModeDescription(Status, 0) : MSGTREE_RECENT_OTHERGROUP, g_Messages_RecentRootID, RecentGroupID = TreeCtrl->GenerateID(), TIF_GROUP));
 			TreeCtrl->SetModified(true);
 		}
 		int i;

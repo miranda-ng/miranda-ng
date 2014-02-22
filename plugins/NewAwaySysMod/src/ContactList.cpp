@@ -21,16 +21,6 @@
 #include "ContactList.h"
 #include "Properties.h"
 
-#define INTM_CONTACTDELETED (WM_USER + 1)
-#define INTM_ICONCHANGED (WM_USER + 2)
-#define INTM_INVALIDATE (WM_USER + 3)
-
-#define HCONTACT_ISGROUP 0x80000000
-#define HCONTACT_ISINFO 0xFFFF0000
-#define IsHContactInfo(h) (((unsigned)(h) & HCONTACT_ISINFO) == HCONTACT_ISINFO)
-#define IsHContactGroup(h) (!IsHContactInfo(h) && ((unsigned)(h) & HCONTACT_ISGROUP))
-#define IsHContactContact(h) (((unsigned)(h) & HCONTACT_ISGROUP) == 0)
-
 #define EXTRAICON_XSTEP (GetSystemMetrics(SM_CXSMICON) + 1)
 
 static HANDLE hCLWindowList;
@@ -164,7 +154,9 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 
 static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
+	TVITEM tvi;
 	CCList *dat = CWndUserData(GetParent(hWnd)).GetCList();
+
 	switch (Msg) {
 	case INTM_CONTACTDELETED: // wParam = (HANDLE)hContact
 		{
@@ -173,17 +165,15 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 				TreeView_DeleteItem(hWnd, hItem);
 		}
 		break;
+
 	case INTM_ICONCHANGED: // wParam = (HANDLE)hContact, lParam = IconID
-		{
-			TVITEM tvi;
-			tvi.hItem = dat->FindContact(wParam);
-			if (tvi.hItem) {
-				tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-				tvi.iImage = tvi.iSelectedImage = lParam;
-				TreeView_SetItem(hWnd, &tvi);
-				dat->SortContacts();
-				InvalidateRect(hWnd, NULL, false);
-			}
+		tvi.hItem = dat->FindContact(wParam);
+		if (tvi.hItem) {
+			tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvi.iImage = tvi.iSelectedImage = lParam;
+			TreeView_SetItem(hWnd, &tvi);
+			dat->SortContacts();
+			InvalidateRect(hWnd, NULL, false);
 		}
 		break;
 
@@ -350,7 +340,9 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 	return CallWindowProc(dat->OrigTreeViewProc, hWnd, Msg, wParam, lParam);
 }
 
-CCList::CCList(HWND hTreeView) : hTreeView(hTreeView), ExtraImageList(NULL)
+CCList::CCList(HWND hTreeView) : 
+	hTreeView(hTreeView), 
+	ExtraImageList(NULL)
 {
 	CWndUserData(GetParent(hTreeView)).SetCList(this);
 	OrigTreeViewProc = (WNDPROC)SetWindowLongPtr(hTreeView, GWLP_WNDPROC, (LONG_PTR)ContactListSubclassProc);
@@ -380,7 +372,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 	TVINSERTSTRUCT tvIns;
 	ZeroMemory(&tvIns, sizeof(tvIns));
 	tvIns.hParent = AddGroup(db_get_s(hContact, "CList", "Group", _T("")));
-	tvIns.item.pszText = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+	tvIns.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 	tvIns.hInsertAfter = TVI_ROOT;
 	tvIns.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvIns.item.iImage = tvIns.item.iSelectedImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
@@ -388,11 +380,11 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }
 
-typedef struct
+struct sGroupEnumData
 {
 	HANDLE hGroup;
 	TCString GroupName;
-} sGroupEnumData;
+};
 
 int GroupEnum(const char *szSetting, LPARAM lParam)
 {
@@ -497,8 +489,7 @@ static int CALLBACK CompareItemsCallback(LPARAM lParam1, LPARAM lParam2, LPARAM 
 
 void CCList::SortContacts()
 {
-	TVSORTCB tvSort;
-	ZeroMemory(&tvSort, sizeof(tvSort));
+	TVSORTCB tvSort = { 0 };
 	tvSort.lpfnCompare = CompareItemsCallback;
 	tvSort.hParent = TVI_ROOT;
 	tvSort.lParam = (LPARAM)this;
