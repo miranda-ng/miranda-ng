@@ -406,6 +406,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\Mi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_10.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys_10.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1806,6 +1808,14 @@ Global
 		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|Win32.Build.0 = Release|Win32
 		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|x64.ActiveCfg = Release|x64
 		{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}.Release|x64.Build.0 = Release|x64
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.Build.0 = Debug|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.ActiveCfg = Debug|x64
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.Build.0 = Debug|x64
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.ActiveCfg = Release|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.Build.0 = Release|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.ActiveCfg = Release|x64
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
