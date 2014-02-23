@@ -398,15 +398,15 @@ Tekst xStatus:
 [Activity title:]
 Tytuł aktywności:
 [[jabber.dll] Activity text]
-[jabber.dll] tekst aktywności
+[jabber.dll] Tekst aktywności
 [Activity text:]
 Tekst aktywności:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] ostatnio widziano o
+[seenplugin.dll] Ostatnio widziano o
 [Last seen time:]
 Czas:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] ostatnio widziany status
+[seenplugin.dll] Ostatnio widziany status
 [Last seen status:]
 Status:
 [[weather.dll] Condition]
@@ -418,7 +418,7 @@ Warunki:
 [Humidity:]
 Wilgotność
 [[weather.dll] Max/Min temperature]
-[weather.dll] maks./min. temperatura
+[weather.dll] Maks./Min. temperatura
 [Max/Min:]
 Maks/Min:
 [[weather.dll] Moon]
@@ -434,7 +434,7 @@ Ciśnienie:
 [Sunrise:]
 Wschód słońca:
 [[weather.dll] Sunset]
-[weather.dll] zachód słońca
+[weather.dll] Zachód słońca
 [Sunset:]
 Zachód słońca:
 [[weather.dll] Temperature]
@@ -442,19 +442,19 @@ Zachód słońca:
 [Temperature:]
 Temperatura:
 [[weather.dll] Update time]
-[weather.dll] zaktualizowano o
+[weather.dll] Czas aktualizacji
 [Update time:]
 Czas aktualizacji:
 [[weather.dll] UV Index]
-[weather.dll] współczynnik UV
+[weather.dll] Współczynnik UV
 [UV Index:]
 Indeks UV:
 [[weather.dll] Visibility]
-[weather.dll] widoczność
+[weather.dll] Widoczność
 [Visibility:]
 Widoczność:
 [[weather.dll] Wind]
-[weather.dll] wiatr
+[weather.dll] Wiatr
 [Wind:]
 Wiatr:
 ;file \plugins\TipperYM\src\skin_parser.cpp

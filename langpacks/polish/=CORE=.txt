@@ -454,7 +454,7 @@ Możesz grupować wyświetlane ikony (CTRL+LPM) i użyć menu popup (PPM)
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/ukryj
+Pokaż/Ukryj
 [E&xit]
 Wyjdź
 [Nowhere]
@@ -694,7 +694,7 @@ Sortowanie po statusie
 [Sort contacts by protocol]
 Sortowanie po protokole
 [Single click interface]
-Pokaż/ukryj listę po pojedynczym kliknięciu
+Pokaż/Ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]
@@ -1581,7 +1581,7 @@ Wybierz kolor dla tekstu (Ctrl+K)
 [Show the history (CTRL+H)]
 Pokaż historię (Ctrl+H)
 [Show/hide the nick list (CTRL+N)]
-Pokaż/ukryj listę nazw (Ctrl+N)
+Pokaż/Ukryj listę nazw (Ctrl+N)
 [Control this room (CTRL+O)]
 Kontroluj ten pokój (Ctrl + O)
 [Enable/disable the event filter (CTRL+F)]
@@ -2123,7 +2123,7 @@ Zmień nazwę grupy
 Ta grupa
 ;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
-Pokaż/ukryj listę kontaktów
+Pokaż/Ukryj listę kontaktów
 [Read message]
 Przeczytaj wiadomość
 [Open Options page]
@@ -2488,7 +2488,7 @@ Uruchomione wtyczki
 [Unloaded plugin]
 Niezaładowane wtyczki
 [Show/Hide]
-Pokaż/ukryj
+Pokaż/Ukryj
 [Exit]
 Wyłącz
 [Join chat]

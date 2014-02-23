@@ -77,7 +77,7 @@ Róż. koloru:
 [Set]
 Ustaw
 [Use per protocol avatars]
-Użyj na protokole awataru
+Ustaw awatary dla protokołów
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokoły mają różne awatary

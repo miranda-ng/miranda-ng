@@ -310,7 +310,7 @@ Przełącz wielkość liter
 [Switch Match Whole Word]
 Przełącz całe wyrazy
 [Show/Hide Contacts]
-Pokaż/ukryj kontakty
+Pokaż/Ukryj kontakty
 [Switch Only Incoming Messages]
 Przełącz na przychodzące wiadomości
 [Switch Only Outgoing Messages]

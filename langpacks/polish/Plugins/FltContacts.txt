@@ -43,7 +43,7 @@ s
 [Hide when contact list is shown]
 Ukryj, gdy lista kontaktów jest wyświetlana
 [Single click interface]
-Pokaż/ukryj listę po pojedynczym kliknięciu
+Pokaż/Ukryj listę po pojedynczym kliknięciu
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 [Idle contacts]

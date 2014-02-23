@@ -25,7 +25,7 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Hotkeys]
 Skróty
 [Show/Hide:]
-Pokaż/ukryj:
+Pokaż/Ukryj:
 [Read Message:]
 Czytaj wiadomość:
 [Web Search:]
@@ -51,7 +51,7 @@ Sortowanie po statusie
 [Sort contacts by protocol]
 Sortowanie po protokole
 [Single click interface]
-Pokaż/ukryj listę po pojedynczym kliknięciu
+Pokaż/Ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]
@@ -195,7 +195,7 @@ Poszedłem na obiad\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/ukryj
+Pokaż/Ukryj
 [Nowhere]
 Nigdzie
 [&New Group]

@@ -70,7 +70,7 @@ Ukryj Mirandę NG
 [Hide]
 Ukryj
 [Hide/Show Miranda]
-Pokaż/ukryj Mirandę
+Pokaż/Ukryj Mirandę
 [get the BossKey name]
 pobierz nazwę BossKey
 ;file \plugins\BossKeyPlus\src\Options.cpp

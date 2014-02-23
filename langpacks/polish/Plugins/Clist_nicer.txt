@@ -67,7 +67,7 @@ Rysuj wtopione krawędzie
 [System tray icon]
 Ikona w zasobniku
 [Single click interface]
-Pokaż/ukryj listę po pojedynczym kliknięciu
+Pokaż/Ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [ms]
@@ -469,7 +469,7 @@ Poszedłem na obiad\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/ukryj
+Pokaż/Ukryj
 [Nowhere]
 Nigdzie
 [&New Group]
@@ -570,7 +570,7 @@ Wypukłe na zewnątrz, wklęsłe wewnątrz
 [Show menu]
 Pokaż menu
 [Show / hide offline contacts]
-Pokaż/ukryj rozłączonych
+Pokaż/Ukryj rozłączonych
 [Toggle group mode]
 Włącz/wyłącz grupy
 [Find and add contacts]
@@ -688,7 +688,7 @@ Ustawienia kontaktu...
 Globalne
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
-Pokaż/ukryj rozłączonych
+Pokaż/Ukryj rozłączonych
 [Toggle groups]
 Włącz/wyłącz grupy
 [Find contacts]

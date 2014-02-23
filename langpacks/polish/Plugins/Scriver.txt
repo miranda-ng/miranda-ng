@@ -683,7 +683,7 @@ Nie odtwarzaj dźwięków, jeśli okno jest aktywne
 [Do not pop up when joining]
 Nie aktywuj okna przy dołączaniu
 [Show and hide by double clicking in the contact list]
-Pokaż/ukryj okno przy podwójnym kliknięciu na liście kontaktów
+Pokaż/Ukryj okno przy podwójnym kliknięciu na liście kontaktów
 [Show contact statuses (if supported)]
 Pokaż statusy kontaktów (jeśli obsługiwane)
 [Display contact status icon before role icon]
@@ -867,7 +867,7 @@ Wybierz kolor dla tekstu (Ctrl+K)
 [Show the history (CTRL+H)]
 Pokaż historię (Ctrl+H)
 [Show/hide the nick list (CTRL+N)]
-Pokaż/ukryj listę nazw (Ctrl+N)
+Pokaż/Ukryj listę nazw (Ctrl+N)
 [Control this room (CTRL+O)]
 Kontroluj ten pokój (Ctrl + O)
 [Enable/disable the event filter (CTRL+F)]
