@@ -5,7 +5,7 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
-[Exports every message, URL or File you receive to a text file.]
+[Exports every message, URL or file you receive to a text file.]
 
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
@@ -79,7 +79,7 @@ Zkopírovat
 
 [Internal error! (lExtraRead >= 0)]
 
-[Faile to execute external file view]
+[Failed to execute external file view]
 
 [Failed to load Rich Edit ( RICHED32.DLL )]
 
@@ -124,14 +124,14 @@ Nenalezeny žádné kontakty
 
 [Failed to export at least one contact]
 Chyba při exportu; nenalezeny žádné kontakty.
-[Sorting and writing database information ( Phase 2 of 2 )]
+[Sorting and writing database information (Phase 2 of 2)]
 Třídění a zápis do databáze (fáze č.2)
 [Max line width must be at least %d]
 Šířka sloupce musí být nejméně %d znaků!
 [You need to restart Miranda to change the history function]
 Nahrazení historie vyžaduje restart Mirandy.
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
-Neplatná cesta ke knihovně Msg_Export.dll
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
+Neplatná cesta ke knihovně Msg_Export.dll\nNajděte prosím Msg_Export.txt ručně
 [File]
 Soubor
 [Nick]

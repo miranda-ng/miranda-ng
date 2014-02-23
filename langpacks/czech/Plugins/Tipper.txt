@@ -496,7 +496,7 @@ definice ano/ne (BYTE)
 rozlišení pohlaví v síti ICQ (BYTE)
 [WORD to country name]
 název země (WORD)
-[DWORD to ip address]
+[DWORD to IP address]
 IP adresa (DWORD)
 [<prefix>Day|Month|Year to date]
 <prefix>den|měsíc|rok pro datum

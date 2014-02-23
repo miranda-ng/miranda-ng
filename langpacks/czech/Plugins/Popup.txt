@@ -359,8 +359,8 @@ Globální stav
 Stav protokolu
 [You cannot specify a value lower than %d and higher than %d.]
 Nelze zadat hodnotu nižší než %d a vyšší než %d.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Upozorňujeme, že volba 'Obrátit pořadí' není zapnutá.\r\nTento fakt může způsobit nekorektní zarovnávání oznámení,\r\nkteré obsahují avatary zároveň s doplňkem NewStatusNotify.\r\nNechcete zapnout uvedenou funkci pro obrácení pořadí?\r\n
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Upozorňujeme, že volba 'Obrátit pořadí' není zapnutá.\r\nTento fakt může způsobit nekorektní zarovnávání oznámení,\r\nkteré obsahují avatary zároveň s doplňkem NewXStatusNotify.\r\nNechcete zapnout uvedenou funkci pro obrácení pořadí?\r\n
 [Popup Plus Warning]
 Varování doplňku Oznámení plus
 ;file \plugins\Popup\src\opt_skins.cpp

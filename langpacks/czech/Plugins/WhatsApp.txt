@@ -12,10 +12,10 @@ WhatsApp protokol pro Mirandu NG.
 Telefonní číslo
 [Including country code, without '+' or '00']
 Včetně kódu oblasti, bez '+' či '00'
-[Password]
-Heslo
 [Nickname]
 Přezdívka
+[Password]
+Heslo
 [Request Code]
 Vyžádat kód
 [Register Code]
@@ -24,12 +24,12 @@ Zaregistrovat kód
 Kód ze SMS:
 [Will only be used for registration]
 Bude použit pouze pro registraci
-[Use SSL connection (443 port)]
-Použít SSL připojení (port 443)
 [Paste password from WART utility]
 Zadejte heslo vygenerované nástrojem WART
 [Use WART utility from Plugins folder for registering your number and generating password]
 Použijte nástroj WART ze složky Plugins pro zaregistrování vašeho čísla a vygenerování hesla
+[Use SSL connection (443 port)]
+Použít SSL připojení (port 443)
 [WhatsApp]
 WhatsApp
 [Cancel]

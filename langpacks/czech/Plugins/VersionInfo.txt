@@ -30,8 +30,8 @@ Vyberte výstup
 Poslat na server
 [Forum style formatting]
 Zformátovat výstup pomocí BBCode
-[Aditional options:]
-Ostatní možnosti
+[Additional options:]
+Ostatní možnosti:
 [Do it now]
 Provést nyní
 [Show window in taskbar]
@@ -84,7 +84,7 @@ Požadované informace byly zkopírovány do schránky.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Customize using folders plugin]
 Určit pomocí doplňku Folders
-[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+[Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 
 [Show plugin UUIDs?]
 Zobrazit UUID doplňků

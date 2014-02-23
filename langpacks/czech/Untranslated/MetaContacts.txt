@@ -1,6 +1,0 @@
-﻿[Subcontact contact number < 0 - deleting MetaContact]
-[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-[Subcontact's MetaContact not found - deleting MetaContact data]
-[MetaContact number of contacts < 0 - deleting MetaContact]
-[MetaContact default contact number out of range - deleting MetaContact]
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]

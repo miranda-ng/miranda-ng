@@ -260,5 +260,5 @@ Globální
 neznámý protokol
 [Expanded]
 Rozbalený
-[Colapsed]
+[Collapsed]
 Sbalený

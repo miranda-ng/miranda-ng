@@ -70,7 +70,7 @@ Povolit zvuky
 Povolit oznámení
 [Status Notify]
 Oznámení stavu
-[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
 Individuální zvuky jsou vypnuty.\n\nZapnete je v sekci Stavy -> Oznámení stavu\n, kde povolte "Použít individální zvuky". Poté se vraťte na tento dialog.
 [Sounds]
 Zvuky

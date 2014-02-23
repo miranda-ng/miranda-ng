@@ -131,6 +131,10 @@ poslední výsledek
 parametr
 [Result]
 VÝSLEDEK
+[Result type]
+
+[Free memory]
+
 [Save]
 Uložit
 [All]

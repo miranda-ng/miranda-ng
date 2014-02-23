@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Spamotron.dll
 ;  Plugin: Spam-o-tron
-;  Version: 0.0.4.6
+;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
@@ -98,8 +98,8 @@ Vzhled
 Popředí
 [Background]
 Pozadí
-[Timeout]
-Doba zobrazení
+[Timeout (sec)]
+Doba zobrazení (sek.)
 [Contact blocked]
 Kontakt zablokován
 [Contact approved]
@@ -143,7 +143,7 @@ Bude automaticky vyhodnocen z %mathexpr%
 
 [Message score]
 
-[Message Sessions]
+[Message sessions]
 Komunikace
 [Messages]
 Zprávy
@@ -154,7 +154,7 @@ Oznámení
 ;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
 
-[Message approved due to preview action]
+[Contact approved due to preview action]
 
 [Challenge sent to preview contact]
 

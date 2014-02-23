@@ -212,7 +212,7 @@ Zadané ID je neplatné.
 Neznámá chyba.
 [New Mail]
 Nová pošta
-[You Have %i unread msgs]
+[You have %i unread msgs]
 Nepřečtených zpráv: %i
 [New Mail (%i msgs)]
 Nová pošta (zpráv: %i)

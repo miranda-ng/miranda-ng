@@ -1,5 +1,7 @@
 ﻿[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
 [UserID]
+[Result type]
+[Free memory]
 [Attach to &Tab container]
 [Some of selected contacts in different metacontacts already]
 [One or more contacts in same Meta already. Try to convert anyway?]

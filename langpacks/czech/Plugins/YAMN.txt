@@ -262,7 +262,7 @@ Chyba alokace paměti při čtení dat
 Chyba při čtení ze souboru. Nepoužívá soubor jiná aplikace?
 [Error while copying data to disk occurred. Is file in use?]
 Chyba při zápisu dat na disk. Nepoužívá soubor jiná aplikace?
-[POP3 plugin- write file error]
+[POP3 plugin - write file error]
 Chyba při zápisu dat (interní chyba POP3)
 [Connecting to server]
 Připojování k serveru

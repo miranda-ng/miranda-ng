@@ -44,8 +44,6 @@ Zapamatovat pozici okna
 Při spuštění automaticky rozbalit větev 'Nastavení'
 [Warn when deleting modules]
 Upozornit před smazáním modulu
-["Open user tree in DBE++" menu item]
-Přidat do menu 'Upravit položky v DBE++'
 [Use popups when watched settings change values]
 Oznámit změnu sledované hodnoty
 [Popup timeout (0 for infinite)]

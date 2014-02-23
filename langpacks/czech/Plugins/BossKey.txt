@@ -40,7 +40,7 @@ OK
 Zrušit
 [EN]
 EN
-[Workstation is Locked]
+[Workstation is locked]
 Pracovní stanice je uzamčena
 [Screen Saver is running]
 Běžící spořič obrazovky

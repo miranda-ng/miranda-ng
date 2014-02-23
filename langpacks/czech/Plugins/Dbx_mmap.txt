@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.0.1
+;  Version: 0.95.0.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -40,6 +40,8 @@ Kompletní
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné ve většině případů.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Všechny řetězce a události v historii jsou šifrovány. To v důsledku způsobí pomalejší běh Mirandy a riziko ztráty veškerých dat v profilu při zapomenutí hesla. Doporučeno pouze pro paranoidní uživatele.
+[Set password]
+Nastavit heslo
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shut down.]
 Disk je plný. Miranda bude nyní ukončena.
@@ -54,8 +56,6 @@ Poškození databáze
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Změnit/zrušit heslo
-[Set password]
-Nastavit heslo
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo

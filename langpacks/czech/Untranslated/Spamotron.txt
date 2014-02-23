@@ -12,7 +12,7 @@
 [Message score]
 [Bayes]
 [Message blocked due to preview action]
-[Message approved due to preview action]
+[Contact approved due to preview action]
 [Challenge sent to preview contact]
 [Contact %s approved.]
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
