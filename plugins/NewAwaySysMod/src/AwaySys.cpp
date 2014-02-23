@@ -351,7 +351,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
-			mir_sntprintf(szReadStr, SIZEOF(szReadStr), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
+			mir_sntprintf(szReadStr, SIZEOF(szReadStr), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
 			miReadMsg.ptszName = szReadStr;
 			miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 			miReadMsg.hIcon = LoadSkinnedProtoIcon(szProto, iContactMode);

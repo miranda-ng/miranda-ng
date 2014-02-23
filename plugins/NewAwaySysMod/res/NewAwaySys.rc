@@ -192,9 +192,9 @@ BEGIN
                     WS_TABSTOP,101,146,16,14,0x18000000L
     CONTROL         "&Invisible",IDC_REPLYDLG_DISABLE_INV,"MButtonClass",
                     WS_TABSTOP,117,146,16,14,0x18000000L
-    CONTROL         "On the &Phone",IDC_REPLYDLG_DISABLE_OTP,"MButtonClass",
+    CONTROL         "On the &phone",IDC_REPLYDLG_DISABLE_OTP,"MButtonClass",
                     WS_TABSTOP,133,146,16,14,0x18000000L
-    CONTROL         "Out to &Lunch",IDC_REPLYDLG_DISABLE_OTL,"MButtonClass",
+    CONTROL         "Out to &lunch",IDC_REPLYDLG_DISABLE_OTL,"MButtonClass",
                     WS_TABSTOP,149,146,16,14,0x18000000L
     LTEXT           "Autoreply format:",IDC_REPLYDLG_STATIC_FORMAT,13,168,
                     283,8
@@ -237,9 +237,9 @@ BEGIN
                     WS_TABSTOP,1,1,112,114
     CONTROL         "&Delete",IDC_SAWAYMSG_DELETE,"MButtonClass",WS_TABSTOP,
                     58,116,16,14,0x18000000L
-    CONTROL         "New &Category",IDC_SAWAYMSG_NEWCATEGORY,"MButtonClass",
+    CONTROL         "New &category",IDC_SAWAYMSG_NEWCATEGORY,"MButtonClass",
                     WS_TABSTOP,2,116,16,14,0x18000000L
-    CONTROL         "Save As &New",IDC_SAWAYMSG_SAVEASNEW,"MButtonClass",
+    CONTROL         "Save as &new",IDC_SAWAYMSG_SAVEASNEW,"MButtonClass",
                     WS_TABSTOP,18,116,16,14,0x18000000L
     CONTROL         "&Save",IDC_SAWAYMSG_SAVEMSG,"MButtonClass",WS_TABSTOP,
                     34,116,16,14,0x18000000L
@@ -277,9 +277,9 @@ BEGIN
                     WS_TABSTOP,229,197,16,14,0x18000000L
     CONTROL         "&Invisible",IDC_MESSAGEDLG_DEF_INV,"MButtonClass",
                     WS_TABSTOP,245,197,16,14,0x18000000L
-    CONTROL         "On the &Phone",IDC_MESSAGEDLG_DEF_OTP,"MButtonClass",
+    CONTROL         "On the &phone",IDC_MESSAGEDLG_DEF_OTP,"MButtonClass",
                     WS_TABSTOP,261,197,16,14,0x18000000L
-    CONTROL         "Out to &Lunch",IDC_MESSAGEDLG_DEF_OTL,"MButtonClass",
+    CONTROL         "Out to &lunch",IDC_MESSAGEDLG_DEF_OTL,"MButtonClass",
                     WS_TABSTOP,277,197,16,14,0x18000000L
     CONTROL         "New message",IDC_MESSAGEDLG_NEWMSG,"MButtonClass",
                     WS_TABSTOP,138,166,16,14,0x18000000L
@@ -319,9 +319,9 @@ BEGIN
                     WS_TABSTOP,224,122,16,14,0x18000000L
     CONTROL         "&Invisible",IDC_MESSAGEDLG_DEF_INV,"MButtonClass",
                     WS_TABSTOP,240,122,16,14,0x18000000L
-    CONTROL         "On the &Phone",IDC_MESSAGEDLG_DEF_OTP,"MButtonClass",
+    CONTROL         "On the &phone",IDC_MESSAGEDLG_DEF_OTP,"MButtonClass",
                     WS_TABSTOP,256,122,16,14,0x18000000L
-    CONTROL         "Out to &Lunch",IDC_MESSAGEDLG_DEF_OTL,"MButtonClass",
+    CONTROL         "Out to &lunch",IDC_MESSAGEDLG_DEF_OTL,"MButtonClass",
                     WS_TABSTOP,272,122,16,14,0x18000000L
     CONTROL         "New message",IDC_MESSAGEDLG_NEWMSG,"MButtonClass",
                     WS_TABSTOP,138,95,16,14,0x18000000L
@@ -413,16 +413,16 @@ BEGIN
                     "MButtonClass",WS_TABSTOP,92,212,16,14,0x18000000L
     CONTROL         "&Invisible",IDC_MOREOPTDLG_DONTPOPDLG_INV,"MButtonClass",
                     WS_TABSTOP,108,212,16,14,0x18000000L
-    CONTROL         "On the &Phone",IDC_MOREOPTDLG_DONTPOPDLG_OTP,
+    CONTROL         "On the &phone",IDC_MOREOPTDLG_DONTPOPDLG_OTP,
                     "MButtonClass",WS_TABSTOP,124,212,16,14,0x18000000L
-    CONTROL         "Out to &Lunch",IDC_MOREOPTDLG_DONTPOPDLG_OTL,
+    CONTROL         "Out to &lunch",IDC_MOREOPTDLG_DONTPOPDLG_OTL,
                     "MButtonClass",WS_TABSTOP,140,212,16,14,0x18000000L
 END
 
 IDD_READAWAYMSG DIALOGEX 0, 0, 186, 72
 STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
     WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "%s Message for %s"
+CAPTION "%s message for %s"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     EDITTEXT        IDC_READAWAYMSG_MSG,5,5,177,43,ES_MULTILINE | 
@@ -498,9 +498,9 @@ BEGIN
                     WS_TABSTOP,1,1,112,114
     CONTROL         "&Delete",IDC_SAWAYMSG_DELETE,"MButtonClass",WS_TABSTOP,
                     2,117,16,14,0x18000000L
-    CONTROL         "New &Category",IDC_SAWAYMSG_NEWCATEGORY,"MButtonClass",
+    CONTROL         "New &category",IDC_SAWAYMSG_NEWCATEGORY,"MButtonClass",
                     WS_TABSTOP,18,117,16,14,0x18000000L
-    CONTROL         "Save As &New",IDC_SAWAYMSG_SAVEASNEW,"MButtonClass",
+    CONTROL         "Save as &new",IDC_SAWAYMSG_SAVEASNEW,"MButtonClass",
                     WS_TABSTOP,34,117,16,14,0x18000000L
     CONTROL         "&Save",IDC_SAWAYMSG_SAVEMSG,"MButtonClass",WS_TABSTOP,
                     50,117,16,14,0x18000000L
@@ -665,8 +665,8 @@ BEGIN
             MENUITEM "&DND",                        IDR_MSGTREEMENU_DEF_DND
             MENUITEM "&Free for chat",              IDR_MSGTREEMENU_DEF_FFC
             MENUITEM "&Invisible",                  IDR_MSGTREEMENU_DEF_INV
-            MENUITEM "On the &Phone",               IDR_MSGTREEMENU_DEF_OTP
-            MENUITEM "Out to &Lunch",               IDR_MSGTREEMENU_DEF_OTL
+            MENUITEM "On the &phone",               IDR_MSGTREEMENU_DEF_OTP
+            MENUITEM "Out to &lunch",               IDR_MSGTREEMENU_DEF_OTL
         END
         MENUITEM SEPARATOR
         MENUITEM "Create new &message",         40022

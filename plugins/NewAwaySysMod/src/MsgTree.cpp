@@ -274,7 +274,7 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 				} while (hCurWnd && !GetWindowText(hCurWnd, WndTitle, 256));
 				WndTitle.ReleaseBuffer();
 			}
-			if (!Modified || MessageBox(GetParent(hWnd), TCString(TranslateT("You've made changes to multiple Message trees at a time.\r\nDo you want to leave changes in \"")) + WndTitle + TranslateT("\" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other Message tree instead."), WndTitle + _T(" - ") + TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDNO) {
+			if (!Modified || MessageBox(GetParent(hWnd), TCString(TranslateT("You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in \"")) + WndTitle + TranslateT("\" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead."), WndTitle + _T(" - ") + TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDNO) {
 				COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 				TCString OldTitle, OldMsg, NewTitle, NewMsg;
 				int OldOrder = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hWnd)));
