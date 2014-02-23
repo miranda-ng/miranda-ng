@@ -5,7 +5,7 @@
 ;  Version: 0.4.0.1
 ;  Authors: NightFox; Deathdemon; XF007; Goblineye Entertainment
 ;============================================================
-[New Away System Mod plugin for Miranda IM.]
+[New Away System Mod plugin for Miranda NG.]
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
 [Popup text format]

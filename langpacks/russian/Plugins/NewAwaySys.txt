@@ -1,311 +1,369 @@
 ﻿#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
 ;============================================================
-;  File: NewAwaySys.dll, NewAwaySysW.dll
-;  Module: NewAwaySys
-;  Versions: 0.3.8.2
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=2626
+;  File: NewAwaySys.dll
+;  Plugin: New Away System Mod
+;  Version: 0.4.0.1
+;  Authors: NightFox; Deathdemon; XF007; Goblineye Entertainment
 ;============================================================
-[ message:\r\n]
- сообщение:\r\n
-[Autoreply]
-Автоответчик
-[Create new category]
-Новая категория
-[Don't send status message]
-Не показ. статус. сообщение
-[Enable autoreply]
-Включить автоответчик
-[New Away System]
-Система сообщений
-[New category]
-Новая категория
-[Open Variables help dialog]
-Открыть диалог Variables
-[Toggle autoreply on/off]
-Автоответчик вкл/выкл 
-[** Not-on-list contacts **]
-** Контакты не в списке **
-[Been gone since %nas_awaysince_time%, will be back later.]
-Ушел с %nas_awaysince_time%, буду позже.
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-Сейчас ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,ужинаю,обедаю),завтракаю),ужинаю) с %nas_awaysince_time%.
-[Create new message]
-Новое сообщение
-[Default messages]
-Сообщения по умолчанию
-[Edit status messages]
-Статусные сообщения
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-Разговариваю по телефону с %nas_awaysince_time%, подождите немного!
-[Other (XStatus)]
-Другое (хСтатус)
-[Predefined messages]
-Предустановленные сообщения
-[Recent messages]
-Последние сообщения
-[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).]
-Когда эта галочка установлена, плагин NAS считает количество отправок начиная с последнего изменения сообщения статуса, даже если статус не менялся.\nКогда не установлена, количество отправок считается с последнего изменения статуса (выключенное состояние более ограничено).
-[You can put your frequently used and favorite messages in this category.]
-Вы можете разместить часто используемые и любимые сообщения в этой категории.
-[Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, I'll tell him you dropped by...]
-Мой хозяин, %nas_mynick%, был %nas_statdesc% начиная с этого дня и даты ?nas_awaysince_date(dddd)... Когда он вернется, я ему передам, чтобы он с Вами связался...
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
-Ваши последние статусные сообщения находятся в этой категории. Не рекомендуется обновлять их здесь, т.к. они будут заменены более новыми сообщениями.
-[) read your ]
-) читает Ваше 
-[Don't send status message when you are %s]
-Не отправлять сообщение статуса когда вы %s
-[Enable autoreply when you are %s]
-Включить автоответчик когда вы %s
-[Ignore status message requests from this contact and don't send an autoreply]
-Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик
-[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик.\r\n"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" если включено, эта настройка будет для каждого контакта и для каждого статуса своя.
-[New Away System plugin requires Miranda version 0.6.0.0 or above.]
-Плагину системы сообщений NAS нужна Miranda версии 0.6.0.0 или выше.
-[New Away System: Status message request notifications]
-Система сообщений: Уведомление запроса статусного сообщения
-[New Away System\t(x)\tAway since date in format x (x is optional)]
-Система сообщений\t(x)\tОтсутствую с даты в формате x (x необязателен)
-[New Away System\t(x)\tAway since time in format x (x is optional)]
-Система сообщений\t(x)\tОтсутствую с времени в формате x (x необязателен)
-[New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-Система сообщений\t(x)\tВозвращает одно из Ваших установленых сообщений по заголовку: ?nas_predefinedmessage(creepy)
-[New Away System\tCurrent protocol name]
-Система сообщений\tТекущее имя протокола
-[New Away System\tNumber of messages from the contact]
-Система сообщений\tНомер сообщения от контакта
-[New Away System\tNumber of status message requests from the contact]
-Система сообщений\tНомер запроса статусного сообщения от контакта
-[New Away System\tStatus description]
-Система сообщений\tОписание статуса
-[New Away System\tTime passed until request]
-Система сообщений\tВремя до следующего запроса
-[New Away System\tYour nick for current protocol]
-Система сообщений\tВаш ник для текущего протокола
-[NewAwaySys: Incoming status message request]
-NewAwaySys: Входящий запрос статусного сообщения
-[Set %s message for the contact]
-Уст. %s сообщение для контакта
-[Set status message]
-Установить статусное сообщение
-[Use the default setting]
-Использовать по умолчанию
-["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" включено, так что эта настройка действует для контакта и для статуса.
-[?cinfo(%subject%,display) (?cinfo(%subject%,id)) is reading your %nas_statdesc% message:\r\n%extratext%]
-?cinfo(%subject%,display) (?cinfo(%subject%,id)) читает Ваше %nas_statdesc% сообщение:\r\n%extratext%
-[Miranda IM autoreply >\r\n%extratext%]
-Автоответ Miranda IM >\r\n%extratext%
-[Toggle autoreply off]
-Выключить автоответчик
-[Toggle autoreply on]
-Включить автоответчик
-[Variables plugin is not installed]
-Плагин Variables неустановлен
-[extended status]
-расширенный статус
-[Do you really want to delete this ]
-Вы действительно хотите удалить это 
-[You've made changes to multiple Message trees at a time.\r\nDo you want to leave changes in "]
-Вы изменили несколько деревьев сразу.\r\nВы хотите сохранить изменения в "
-[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other Message tree instead.]
-" диалог?\r\b\n"Да" для сохранения, "Нет" для  отмены изменений.
-[category with its messages?]
-категория с сообщениями?
-[message?]
-сообщение?
-[) is reading your ]
-) читает Ваше 
-[%extratext% is your status message]
-%extratext% это Ваше сообщение статуса
-[&Other]
-&Другое
-[&Save current window settings as default]
-&Сохранить текущие настройки окна по умолчанию
-[...for each status separately]
-для кажд. статуса отдельно
-[Autoreply format:]
-Формат автоответа:
-[Autoreply off]
-Автоответ выкл.
-[Autoreply on]
-Автоответ вкл.
-[Create new &category]
-Создать новую категорию
-[Create new &message]
-Создать новое сообщение
-[Disable autoreply when...]
-Отключить автоответчик когда...
-[Disable parsing of status messages by Variables plugin]
-Отключить обработку статусного сообщения плагином Variables
-[Don't notify of requests]
-Не уведомлять о запросе
-[Don't reply to ICQ contacts]
-Не отвечать ICQ контактам
-[Don't reply when I'm invisible to the contact]
-Не отвечать, когда я невидим для контакта
-[Don't show the message dialog for]
-Не показывать диалог выбора для
-[Enable contact menu items]
-Включить меню контакта
-[Ignore requests]
-Игнорир. запросы
-[Log to a file only when popup notification for a contact is enabled]
-Записывать в файл, только если уведомление окном включено
-[Means the setting is different for different status modes / contacts]
-Означает, что настройки разные для разных типов статусов / контактов
-[Message tree category menu]
-Категория меню дерева сообщений
-[Message tree menu]
-Меню дерева сообщений
-[New &Category]
-Новая категория
-[Note: these settings are applied to all status modes at once.]
-Подсказка: Эти настройки применяются сразу ко всем типам статусов
-[Notify of requests]
-Уведомлять о запросе
-[Only notify when:]
-Уведомлять, только если:
+[New Away System Mod plugin for Miranda NG.]
+Плагин New Away System Mod для Miranda NG. 
+[Popup notification]
+Всплывающее окно
 [Popup text format]
 Формат сообщения во вспл. окне
-[Remember last message used for a contact...]
-Запоминать последнее сообщение для контакта
+[Preview]
+Тест
+[%extratext% is your status message]
+%extratext% это Ваше сообщение статуса
+[Click action]
+Действия по щелчку
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Delay]
+Задержка
+[Sec]
+сек.
+[0 = Default]
+0=Умолчание
+[-1 = Infinite]
+-1=Бесконечно
+[Colours]
+Цвета
+[Background]
+Фон
+[Use default]
+По умолчанию
+[Text]
+Текст
+[Only notify when:]
+Уведомлять, только если:
+[On&line]
+В с&ети
+[&Away]
+&Отсутствую
+[&NA]
+&Недоступен
+[Occ&upied]
+Зан&ят
+[&DND]
+&Не беспокоить
+[&Free for chat]
+&Готов болтать
+[&Other]
+&Другое
+[Log to a file only when popup notification for a contact is enabled]
+Записывать в файл, только если уведомление окном включено
+[Enable autoreply]
+Включить автоответчик
+[On event...]
+При:
+[Don't reply to ICQ contacts]
+Не отвечать ICQ контактам
+[Don't reply when i'm invisible to the contact]
+Не отвечать, когда я невидим для контакта
+[Save autoreply to the history]
+Сохранять сообщение автоответчика в истории
 [Reply only when Idle]
 Отвечать только в простое
 [Reply only when contact's message window is closed]
 Отвечать, только если окно беседы закрыто
-[Reset per-protocol messages when changing global status]
-Переустановить сообщения для кажд. протокола при смене глоб. статуса
-[Reset this counter also when I just change my status text\n(when status icon remains the same)]
-Сбросить этот счётчик после смены статусного сообщения (но не статуса)
-[Save As &New]
-Сохранить &как
-[Save autoreply to the history]
-Сохранять сообщение автоответчика в истории
-[Save default window settings &automatically]
-Сохранять настройки окна &автоматически
-[Se&ttings]
-Настройки
-[Send an autoreply]
-Автоответчик
 [Send maximum]
 Посылать макс.
-[Set as &default for]
-Уст. по &умолчанию для
-[Set away message window options]
-Настройки окна сообщения недоступности
-[Show &contacts]
-Показывать &контакты
-[Show predefined &messages]
-Показывать предустановленные &сообщения
-[Store]
-Хранить
-[Store contact autoreply/ignore settings for each status separately]
-Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно
-[Store protocol autoreply settings for each status separately]
-Хранить настройки автоответчика для каждого статуса отдельно
-[Store protocol messages for each status separately]
-Хранить сообщения протокола для кажд. статуса отдельно
-[Update status messages for non-ICQ protocols every]
-Обновл. сообщения для не-ICQ протоколов каждые
-[Use protocol specific nick for %nas_mynick%]
-Использовать особый псевдоним протокола для %nas_mynick%
-[Use the most recent message]
-Использовать наиболее свежее сообщение
-[Use this message as default for]
-Использовать по умолчанию для
-[most recent messages (0=disable)]
-последних сообщений (0=отключить)
-[seconds before closing the status message dialog (-1=don't close)]
-секунд перед закрытием окна выбора статусов(-1=не закрывать)
 [times (-1=infinite)]
 раз(-1=бесконечно)
-[ (autoreply only)]
- (только автоответчик)
-[ contacts *]
-_контакты *
-[ for ]
- для
-[ message]
- сообщение
-[ protocol]
- протокола
-[Do you want to apply the message?]
-Хотите принять сообщение?
-[Don't send the status message to selected contact(s)]
-Не посылать статусное сообщение выбранным контактам
-[Save as a new message]
-Сохранить как новое сообщение
+[Reset this counter also when i just change my status text\n(when status icon remains the same)]
+Сбросить этот счётчик после смены статусного сообщения (но не статуса)
+[Disable autoreply when...]
+Отключить автоответчик когда...
+[&Invisible]
+&Невидимый
+[On the &Phone]
+На телефоне
+[Out to &Lunch]
+Обедаю
+[Autoreply format:]
+Формат автоответа:
+[&Variables]
+&Переменные
+[Se&ttings]
+Настройки
+[Ignore requests]
+Игнорир. запросы
+[Send an autoreply]
+Автоответчик
+[&Delete]
+&Удалить
+[New &Category]
+Новая категория
+[Save As &New]
+Сохранить &как
+[&Save]
+&Сохранить
+[Title:]
+Заголовок:
+[Use this message as default for]
+Использовать по умолчанию для
+[New message]
+Новое сообщение
+[New category]
+Новая категория
+[Delete]
+Удалить
+[Wait]
+Ждём
+[seconds before closing the status message dialog (-1=don't close)]
+секунд перед закрытием окна выбора статусов(-1=не закрывать)
+[Store]
+Хранить
+[most recent messages (0=disable)]
+последних сообщений (0=отключить)
+[Use the most recent message]
+Использовать наиболее свежее сообщение
+[Use the default message]
+Стандартное сообщение
+[Reset per-protocol messages when changing global status]
+Переустановить сообщения для кажд. протокола при смене глоб. статуса
+[Store protocol messages for each status separately]
+Хранить сообщения протокола для кажд. статуса отдельно
+[Store protocol autoreply settings for each status separately]
+Хранить настройки автоответчика для каждого статуса отдельно
+[Remember last message used for a contact...]
+Запоминать последнее сообщение для контакта
+[Store contact autoreply/ignore settings for each status separately]
+Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно
+[Enable contact menu items]
+Включить меню контакта
+[Use protocol specific nick for %nas_mynick%]
+Использовать особый псевдоним протокола для %nas_mynick%
+[Update status messages for non-ICQ protocols every]
+Обновл. сообщения для не-ICQ протоколов каждые
+[seconds]
+секунд(ы)
+[Don't show the message dialog for]
+Не показывать диалог выбора для
+[%s Message for %s]
+%s (%s)
+[Retrieving %s message...]
+Загрузка сообщения "%s"...
+[&Cancel]
+О&тмена
+[Notify of requests]
+Уведомлять о запросе
+[Don't notify of requests]
+Не уведомлять о запросе
+[Autoreply on]
+Автоответ вкл.
+[Autoreply off]
+Автоответ выкл.
+[Don't send status message]
+Не показ. статус. сообщение
+[Note: these settings are applied to all status modes at once.]
+Подсказка: Эти настройки применяются сразу ко всем типам статусов
+[Means the setting is different for different status modes / contacts]
+Означает, что настройки разные для разных типов статусов / контактов
+[Set away message window options]
+Настройки окна сообщения недоступности
+[Show predefined &messages]
+Показывать предустановленные &сообщения
+[Show &contacts]
+Показывать &контакты
+[Save default window settings &automatically]
+Сохранять настройки окна &автоматически
+[&Save current window settings as default]
+&Сохранить текущие настройки окна по умолчанию
+[Disable parsing of status messages by Variables plugin]
+Отключить обработку статусного сообщения плагином Variables
+[Create new &message]
+Создать новое сообщение
+[Create new &category]
+Создать новую категорию
+[&Rename]
+&Переименовать
+[Set as &default for]
+Уст. по &умолчанию для
+[Create new message]
+Новое сообщение
+[Create new category]
+Новая категория
+[Open Variables help dialog]
+Открыть диалог Variables
+[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+Ваши последние статусные сообщения находятся в этой категории. Не рекомендуется обновлять их здесь, т.к. они будут заменены более новыми сообщениями.
+[You can put your frequently used and favorite messages in this category.]
+Вы можете разместить часто используемые и любимые сообщения в этой категории.
+[Windows]
+Windows
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).]
+Когда эта галочка установлена, плагин NAS считает количество отправок начиная с последнего изменения сообщения статуса, даже если статус не менялся.\nКогда не установлена, количество отправок считается с последнего изменения статуса (выключенное состояние более ограничено).
+[Message]
+Сообщение
+[URL]
+Ссылка
+[File]
+Файл
+[** All contacts **]
+** Все контакты **
+[** Not-on-list contacts **]
+** Контакты не в списке **
+[Main options]
+Основные настройки
+[Autoreply]
+Автоответчик
+[Contacts]
+Контакты
+[Predefined messages]
+Предустановленные сообщения
+[Recent messages]
+Последние сообщения
+[Gone fragging]
+Занят
+[Creepy]
+(по умолчанию)
+[Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
+Мой хозяин, %nas_mynick%, был %nas_statdesc% начиная с этого дня и даты ?nas_awaysince_date(dddd)... Когда он вернется, я ему передам, чтобы он с Вами связался...
+[Default messages]
+Сообщения по умолчанию
+[Online]
+В сети
+[Yep, i'm here.]
+Да, я здесь.
+[Away]
+Отсутствую
+[Been gone since %nas_awaysince_time%, will be back later.]
+Ушел с %nas_awaysince_time%, буду позже.
+[NA]
+Недоступен
+[Give it up, i'm not in!]
+Ну нет меня сейчас, нет...
+[Occupied]
+Занят
+[Not right now.]
+Не сейчас...
+[DND]
+Не беспокоить
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[Free for chat]
+Готов болтать
+[i'm a chatbot!]
+Я - робот-болтун!
+[Invisible]
+Невидимый
+[i'm hiding from the mafia.]
+Я прячусь от мафии.
+[On the phone]
+На телефоне
+[i've been on the phone since %nas_awaysince_time%, give me a sec!]
+Разговариваю по телефону с %nas_awaysince_time%, подождите немного!
+[Out to lunch]
+Обедаю
+[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
+Сейчас ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,ужинаю,обедаю),завтракаю),ужинаю) с %nas_awaysince_time%.
+[Toggle On]
+Включить
+[Toggle Off]
+Выключить
+[) read your ]
+) читает Ваше 
+[ message:\r\n]
+ сообщение:\r\n
+[Set %s message for the contact]
+Уст. %s сообщение для контакта
+[Re&ad %s Message]
+&Прочитать сообщение "%s"
+[Toggle autoreply on/off]
+Автоответчик вкл/выкл 
+[Toggle autoreply off]
+Выключить автоответчик
+[Toggle autoreply on]
+Включить автоответчик
+[New Away System]
+Система сообщений
+[Enable autoreply when you are %s]
+Включить автоответчик когда вы %s
+["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" включено, так что эта настройка действует для контакта и для статуса.
+[Don't send status message when you are %s]
+Не отправлять сообщение статуса когда вы %s
+[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик.\r\n"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" если включено, эта настройка будет для каждого контакта и для каждого статуса своя.
+[Ignore status message requests from this contact and don't send an autoreply]
+Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик
+[Stranger]
+Новичок
+[%d hours]
+%d ч.
+[%d minutes]
+%d мин.
+[%d seconds]
+%d сек.
+[New Away System\tStatus description]
+Система сообщений\tОписание статуса
+[New Away System\tYour nick for current protocol]
+Система сообщений\tВаш ник для текущего протокола
+[New Away System\tNumber of status message requests from the contact]
+Система сообщений\tНомер запроса статусного сообщения от контакта
+[New Away System\tNumber of messages from the contact]
+Система сообщений\tНомер сообщения от контакта
+[New Away System\tTime passed until request]
+Система сообщений\tВремя до следующего запроса
+[New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+Система сообщений\t(x)\tВозвращает одно из Ваших установленых сообщений по заголовку: ?nas_predefinedmessage(creepy)
+[New Away System\tCurrent protocol name]
+Система сообщений\tТекущее имя протокола
+[Read status message]
+Читать статусное сообщение
+[Set status message]
+Установить статусное сообщение
+[On]
+Вкл
+[Off]
+Откл.
+[Use the default setting]
+Использовать по умолчанию
+[NewAwaySys: Incoming status message request]
+NewAwaySys: Входящий запрос статусного сообщения
+[Miranda IM autoreply >\r\n%extratext%]
+Автоответ Miranda IM >\r\n%extratext%
+[extended status]
+расширенный статус
+[Away System]
+Система сообщений
+[Status]
+Статус
+[Popups]
+Всплывающие окна
+[Variables plugin is not installed]
+Плагин Variables неустановлен
+[You've made changes to multiple Message trees at a time.\r\nDo you want to leave changes in "]
+Вы изменили несколько деревьев сразу.\r\nВы хотите сохранить изменения в "
+[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other Message tree instead.]
+" диалог?\r\b\n"Да" для сохранения, "Нет" для  отмены изменений.
+[Error #%d]
+Ошибка #%d
+[Can't open log file ]
+Невозможно открыть файл журнала
+[&Close]
+&Закрыть
 [Save, replacing the selected message]
 Сохранить, заменив выделенное сообщение
-[Send an autoreply to selected contact(s)]
-Посылать автоответ выбранным контактам
-[Set ]
-Установить 
+[Save as a new message]
+Сохранить как новое сообщение
 [Show settings menu]
 Меню настроек
-[      Popup notification]
-      Уведомление всплывающим окном
-[?cinfo(%subject%,display) (?cinfo(%subject%,id)) is reading your %nas_statdesc% message:\r\n%nas_message%]
-?cinfo(%subject%,display) (?cinfo(%subject%,id)) читает Ваше %nas_statdesc% сообщение:\r\n%nas_message%
-[Away since date in format x (x is optional)]
-"Отсутствует с" дата в формате х (опционально)
-[Away since time in format x (x is optional)]
-"Отсутствует с" время в формате х (опционально)
-[Been fragging since %nas_awaysince_time%, I'll msg you later when the adrenaline wears off.]
-Копычу фраги с %nas_awaysince_time%. Отвечу позже, когда адреналин кончитцо.
-[contacts *]
-контакты *
-[for ]
-для
-[Gone since %nas_awaysince_time%, will be back later.]
-Отсутствую с %nas_awaysince_time%, буду позже.
-[message:\r\n]
-сообщение:\r\n
-[Miranda IM autoreply >\r\n%nas_message%]
-Автоответчик >\r\n%nas_message%
-[Number of messages from the contact]
-Количество сообщений от контакта
-[Number of status message requests from the contact]
-Количество запросов статусных сообщений от контакта
-[protocol]
-протокол
-[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-Возвращает одно из сообщений по заголовку: ?nas_predefinedmessage(creepy)
-[Save as new message]
-Сохранить как новое сообщение
-[Status description]
-Описание статуса
-[Time passed until request]
-Прошло времени после запроса
-[You may put your frequently used and favorite messages in this category.]
-Вы можете поместить сюда часто используемые и любимые сообщения.
-[Your nick for current protocol]
-Ваш ник для этого протокола
-[Your status message (this variable is used in log and popup format strings only)]
-Ваше статусное сообщение (эта переменная используется в логе и формате вспл. окна)
-[Your master, %nas_mynick%, is %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, I'll tell him you dropped by...]
-%nas_mynick%, сейчас %nas_statdesc% со дня ?nas_awaysince_date(dddd)... Когда он вернется, я ему сообщу о вас...
-[I'm on the phone since %nas_awaysince_time%, give me a sec!]
-Я говорю по телефону с %nas_awaysince_time%, секундочку!
-[Having my ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-Я ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,ужинаю,обедаю),завтракаю),ужинаю) с %nas_awaysince_time%.
-[`[`?cdate()-?ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%nas_message%\r\n\r\n]
-`[`?cdate()-?ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) читает %nas_statdesc% сообщение:\r\n%nas_message%\r\n\r\n
-[      Log status requests to a file]
-      Записывать запрос статуса в файл
-[Append UIN to file name]
-Прибавить UIN к имени файла
-[Log requests only if popup notification for a contact is enabled]
-Записывать запросы, только если вспл. окна включены для него
-[Autoreply format]
-Формат сообщения автоответчика
-[Disable autoreply when]
-Отключить автоответчик для
-[      Autoreply]
-      Автоответчик
-[Store protocol autoreply/ignore settings for each status separately]
-Хранить настройки автоответчика/игнора протокола для кажд. статуса отдельно
-[Write in unicode]
-Записывать в кодировке юникод
+[Don't send the status message to selected contact(s)]
+Не посылать статусное сообщение выбранным контактам
+[Send an autoreply to selected contact(s)]
+Посылать автоответ выбранным контактам
+[Apply]
+Применить
+[Do you want to apply the message?]
+Хотите принять сообщение?
+[Statuses]
+Статусы
+[for]
+в течение
+[Closing in %d]
+Закрыть (%d)

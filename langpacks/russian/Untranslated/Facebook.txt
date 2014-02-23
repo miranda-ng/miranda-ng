@@ -13,6 +13,7 @@
 [Request for friendship was canceled.]
 [Error occurred when canceling friendship request.]
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+[User sent you an unsupported attachment. Open your browser to see it.]
 [%s and more (%d)]
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]

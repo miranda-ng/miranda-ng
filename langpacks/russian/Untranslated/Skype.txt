@@ -20,6 +20,7 @@
 [Retried]
 [Outlaw]
 [waits to join]
+[Contacts received]
 [Password can't be empty.]
 [Old password is not correct.]
 [Skype account]
