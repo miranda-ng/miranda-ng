@@ -1966,7 +1966,7 @@ Zmień status i opis
 [Status]
 Status
 [Extended Away (N/A)]
-Niedostępny
+Wrócę później
 [Do Not Disturb]
 Nie przeszkadzać
 [Invisible]

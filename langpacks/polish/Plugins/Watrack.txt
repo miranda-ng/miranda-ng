@@ -436,7 +436,7 @@ Szablon statusu
 [XStatus Title]
 Nazwa xStatus
 ['mono' / 'stereo']
-'mono'/'stereo'
+"mono"/"stereo"
 [- "mono" / "stereo"]
 - "mono"/"stereo"
 [- artist]

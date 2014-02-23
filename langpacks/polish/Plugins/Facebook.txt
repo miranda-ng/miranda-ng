@@ -195,7 +195,7 @@ zdjęcia
 zdjęcie
 [User sent you %s:]
 Użytkownik wysłał Ci %s:
-[User sent you an unsupported attachment. Open your browser to actually see it.]
+[User sent you an unsupported attachment. Open your browser to see it.]
 Użytkownik wysłał Ci niewspierany załącznik. Otwórz przeglądarkę aby go zobaczyć.
 [Message read: %s by %s]
 Wiadomość odczytana: %s przez %s
