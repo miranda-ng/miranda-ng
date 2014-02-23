@@ -139,7 +139,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	return false;
 }
 
-INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam)
+INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM)
 {
 	if (HWND hWnd = WindowList_Find(g_hReadWndList, wParam)) // already have it
 		SetForegroundWindow(hWnd);

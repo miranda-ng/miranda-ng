@@ -464,7 +464,7 @@ public:
 			_ASSERT((Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
 			int Value = *this;
 			if (Value == VAL_USEDEFAULT) {
-				const char *szProto = (Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) ? (const char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)Parent->hContact, 0) : szProtoOverride;
+				const char *szProto = (Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) ? GetContactProto(Parent->hContact) : szProtoOverride;
 				return CProtoSettings(szProto).Autoreply.IncludingParents();
 			}
 			return Value;

@@ -37,7 +37,7 @@ static int CLContactIconChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int CLIconsChanged(WPARAM wParam, LPARAM lParam)
+static int CLIconsChanged(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hCLWindowList, INTM_INVALIDATE, 0, 0);
 	return 0;
@@ -45,7 +45,7 @@ static int CLIconsChanged(WPARAM wParam, LPARAM lParam)
 
 void LoadCListModule()
 {
-	hCLWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hCLWindowList = WindowList_Create();
 	HookEvent(ME_DB_CONTACT_DELETED, CLContactDeleted);
 	HookEvent(ME_CLIST_CONTACTICONCHANGED, CLContactIconChanged);
 	HookEvent(ME_SKIN_ICONSCHANGED, CLIconsChanged);

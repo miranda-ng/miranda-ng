@@ -220,12 +220,11 @@ void COptItem_BitDBSetting::MemToDB(CString &sModule, CString *sDBSettingPrefix)
 
 int COptItem_TreeCtrl::IDToOrder(int ID)
 {
-	int i;
-	for (i = 0; i < RootItems.GetSize(); i++)
+	for (int i = 0; i < RootItems.GetSize(); i++)
 		if (RootItems[i].ID == ID)
 			return ROOT_INDEX_TO_ORDER(i);
 
-	for (i = 0; i < Value.GetSize(); i++)
+	for (int i = 0; i < Value.GetSize(); i++)
 		if (Value[i].ID == ID)
 			return i;
 
@@ -234,12 +233,11 @@ int COptItem_TreeCtrl::IDToOrder(int ID)
 
 int COptItem_TreeCtrl::hItemToOrder(HTREEITEM hItem)
 {
-	int i;
-	for (i = 0; i < RootItems.GetSize(); i++)
+	for (int i = 0; i < RootItems.GetSize(); i++)
 		if (RootItems[i].hItem == hItem)
 			return ROOT_INDEX_TO_ORDER(i);
 
-	for (i = 0; i < Value.GetSize(); i++)
+	for (int i = 0; i < Value.GetSize(); i++)
 		if (Value[i].hItem == hItem)
 			return i;
 
@@ -308,8 +306,7 @@ void COptItem_TreeCtrl::DBToMem(CString &sModule, CString *sDBSettingPrefix)
 		Value = DefValue;
 	}
 	else {
-		int i;
-		for (i = 0; i < Value.GetSize(); i++) {
+		for (int i = 0; i < Value.GetSize(); i++) {
 			if (Value[i].Title == NULL) {
 				Value.RemoveElem(i);
 				i--;
@@ -559,8 +556,7 @@ CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 		}
 	}
 	tvIn.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
-	tvIn.item.state = tvIn.item.stateMask = (Item.Flags & TIF_GROUP) ? (TVIS_BOLD |
-																							  ((Item.Flags & TIF_EXPANDED) ? TVIS_EXPANDED : 0)) : 0;
+	tvIn.item.state = tvIn.item.stateMask = (Item.Flags & TIF_GROUP) ? (TVIS_BOLD | ((Item.Flags & TIF_EXPANDED) ? TVIS_EXPANDED : 0)) : 0;
 	if (TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES) {
 		tvIn.item.stateMask |= TVIS_STATEIMAGEMASK;
 		tvIn.item.state |= INDEXTOSTATEIMAGEMASK((Item.Flags & TIF_ENABLED) ? 2 : 1);

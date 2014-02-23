@@ -1017,7 +1017,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (Buttons[i].IconIndex != ILI_NOICON)
 				SendDlgItemMessage(hwndDlg, Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Buttons[i].IconIndex]);
 
-		my_variables_skin_helpbutton(hwndDlg, IDC_SAWAYMSG_VARS);
+		variables_skin_helpbutton(hwndDlg, IDC_SAWAYMSG_VARS);
 		break;
 
 	case WM_COMMAND:

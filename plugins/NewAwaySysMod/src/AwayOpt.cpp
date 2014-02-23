@@ -169,7 +169,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (Dlg1Buttons[i].IconIndex != ILI_NOICON)
 				SendDlgItemMessage(hwndDlg, Dlg1Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg1Buttons[i].IconIndex]);
 
-		my_variables_skin_helpbutton(hwndDlg, IDC_MESSAGEDLG_VARS);
+		variables_skin_helpbutton(hwndDlg, IDC_MESSAGEDLG_VARS);
 		break;
 	
 	case WM_NOTIFY:
@@ -576,7 +576,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		for (int i = 0; i < SIZEOF(Dlg3StatusButtons); i++)
 			SendDlgItemMessage(hwndDlg, Dlg3StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg3StatusButtons[i].IconIndex]);
 
-		my_variables_skin_helpbutton(hwndDlg, IDC_REPLYDLG_VARS);
+		variables_skin_helpbutton(hwndDlg, IDC_REPLYDLG_VARS);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTMSG, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_MESSAGE]);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTURL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_URL]);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTFILE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[ILI_EVENT_FILE]);
@@ -724,7 +724,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			if (Dlg4Buttons[i].IconIndex != ILI_NOICON)
 				SendDlgItemMessage(hwndDlg, Dlg4Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg4Buttons[i].IconIndex]);
 
-		my_variables_skin_helpbutton(hwndDlg, IDC_MESSAGEDLG_VARS);
+		variables_skin_helpbutton(hwndDlg, IDC_MESSAGEDLG_VARS);
 		break;
 
 	case WM_NOTIFY:
@@ -1233,7 +1233,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	return 0;
 }
 
-int OptsDlgInit(WPARAM wParam, LPARAM lParam)
+int OptsDlgInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
 	optDi.position = 920000000;
@@ -1287,7 +1287,7 @@ void InitOptions()
 	TreeRootItemArray RootItems;
 	RootItems.AddElem(CTreeRootItem(TranslateT("Predefined messages"), g_Messages_PredefinedRootID = ID++, TIF_EXPANDED));
 	RootItems.AddElem(CTreeRootItem(TranslateT("Recent messages"), g_Messages_RecentRootID = ID++, TIF_EXPANDED));
-	DefMsgTree.AddElem(CTreeItem(TranslateT("Gone fragging"), g_Messages_PredefinedRootID, ID++, 0, TranslateTS(_T("Been fragging since %") _T(VAR_AWAYSINCE_TIME) _T("%, i'll msg you later when the adrenaline wears off."))));
+	DefMsgTree.AddElem(CTreeItem(TranslateT("Gone fragging"), g_Messages_PredefinedRootID, ID++, 0, TranslateT("Been fragging since %nas_awaysince_time%, i'll msg you later when the adrenaline wears off.")));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Creepy"), g_Messages_PredefinedRootID, ID++, 0, TranslateT("Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...")));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Default messages"), g_Messages_PredefinedRootID, ParentID1 = ID++, TIF_GROUP | TIF_EXPANDED));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_ONL, StatusToDBSetting(ID_STATUS_ONLINE, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));

@@ -50,7 +50,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 // called by GamerStatus and built-in miranda autoaway module
 // wParam = (int)status, lParam = 0
 // MS_AWAYMSG_GETSTATUSMSG "SRAway/GetStatusMessage"
-INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam)
+INT_PTR GetStatusMsg(WPARAM wParam, LPARAM)
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSG called. status=%d", wParam);
 	CString Msg(_T2A(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam)));
@@ -62,7 +62,7 @@ INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam)
 		lstrcpyA(szMsg, Msg);
 	}
 	LogMessage("returned szMsg:\n%s", szMsg ? szMsg : "NULL");
-	return (int)szMsg;
+	return (INT_PTR)szMsg;
 }
 
 // wParam = int iMode
@@ -167,7 +167,7 @@ INT_PTR SetStateW(WPARAM wParam, LPARAM lParam)
 // wParam = (WPARAM)(NAS_ISWINFO*)iswi - pointer to a NAS_ISWINFO structure.
 // lParam = 0
 // returns HWND of the window on success, or NULL on failure.
-INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM lParam)
+INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM)
 {
 	NAS_ISWINFO *iswi = (NAS_ISWINFO*)wParam;
 	if (iswi->cbSize != sizeof(NAS_ISWINFOv1) && iswi->cbSize < sizeof(NAS_ISWINFO))
@@ -189,5 +189,5 @@ INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM lParam)
 	dat->IsModeless = true;
 	if (iswi->cbSize > sizeof(NAS_ISWINFOv1))
 		dat->ISW_Flags = iswi->Flags;
-	return (int)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)dat);
+	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)dat);
 }

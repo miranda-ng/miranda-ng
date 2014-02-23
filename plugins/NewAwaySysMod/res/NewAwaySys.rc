@@ -600,20 +600,20 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MSGICON             ICON    DISCARDABLE     "res\\MsgIcon.ico"
-IDI_SOE_ENABLED         ICON    DISCARDABLE     "res\\on.ico"
-IDI_SOE_DISABLED        ICON    DISCARDABLE     "res\\off.ico"
-IDI_DOT                 ICON    DISCARDABLE     "res\\Dot.ico"
-IDI_IGNORE              ICON    DISCARDABLE     "res\\Ignore.ico"
-IDI_SAVE                ICON    DISCARDABLE     "res\\SaveMsg.ico"
-IDI_SAVEASNEW           ICON    DISCARDABLE     "res\\SaveAsNew.ico"
-IDI_DELETE              ICON    DISCARDABLE     "res\\Delete.ico"
-IDI_NEWCATEGORY         ICON    DISCARDABLE     "res\\NewCat.ico"
-IDI_VARIABLES           ICON    DISCARDABLE     "res\\Variables.ico"
-IDI_NEWMESSAGE          ICON    DISCARDABLE     "res\\NewMessage.ico"
-IDI_SETTINGS            ICON    DISCARDABLE     "res\\Settings.ico"
-IDI_STATUS_OTHER        ICON    DISCARDABLE     "res\\Status_Other.ico"
-IDI_INDEFINITE          ICON    DISCARDABLE     "res\\Indefinite.ico"
+IDI_MSGICON             ICON    DISCARDABLE     "MsgIcon.ico"
+IDI_SOE_ENABLED         ICON    DISCARDABLE     "on.ico"
+IDI_SOE_DISABLED        ICON    DISCARDABLE     "off.ico"
+IDI_DOT                 ICON    DISCARDABLE     "Dot.ico"
+IDI_IGNORE              ICON    DISCARDABLE     "Ignore.ico"
+IDI_SAVE                ICON    DISCARDABLE     "SaveMsg.ico"
+IDI_SAVEASNEW           ICON    DISCARDABLE     "SaveAsNew.ico"
+IDI_DELETE              ICON    DISCARDABLE     "Delete.ico"
+IDI_NEWCATEGORY         ICON    DISCARDABLE     "NewCat.ico"
+IDI_VARIABLES           ICON    DISCARDABLE     "Variables.ico"
+IDI_NEWMESSAGE          ICON    DISCARDABLE     "NewMessage.ico"
+IDI_SETTINGS            ICON    DISCARDABLE     "Settings.ico"
+IDI_STATUS_OTHER        ICON    DISCARDABLE     "Status_Other.ico"
+IDI_INDEFINITE          ICON    DISCARDABLE     "Indefinite.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

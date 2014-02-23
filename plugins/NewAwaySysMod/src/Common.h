@@ -48,6 +48,7 @@
 #include "m_langpack.h"
 #include "m_protosvc.h"
 #include "m_options.h"
+#include "m_netlib.h"
 #include "..\..\protocols\IcqOscarJ\src\icq_constants.h"
 #include "m_skin.h"
 #include "m_awaymsg.h"
@@ -81,15 +82,15 @@
 #define CBSSTATE_PRESSED 2
 #define CBSSTATE_DISABLED 3
 
-#define VAR_AWAYSINCE_TIME "nas_awaysince_time"
-#define VAR_AWAYSINCE_DATE "nas_awaysince_date"
-#define VAR_STATDESC "nas_statdesc"
-#define VAR_MYNICK "nas_mynick"
-#define VAR_REQUESTCOUNT "nas_requestcount"
-#define VAR_MESSAGENUM "nas_messagecount"
-#define VAR_TIMEPASSED "nas_timepassed"
-#define VAR_PREDEFINEDMESSAGE "nas_predefinedmessage"
-#define VAR_PROTOCOL "nas_protocol"
+#define VAR_AWAYSINCE_TIME _T("nas_awaysince_time")
+#define VAR_AWAYSINCE_DATE _T("nas_awaysince_date")
+#define VAR_STATDESC _T("nas_statdesc")
+#define VAR_MYNICK _T("nas_mynick")
+#define VAR_REQUESTCOUNT _T("nas_requestcount")
+#define VAR_MESSAGENUM _T("nas_messagecount")
+#define VAR_TIMEPASSED _T("nas_timepassed")
+#define VAR_PREDEFINEDMESSAGE _T("nas_predefinedmessage")
+#define VAR_PROTOCOL _T("nas_protocol")
 
 #define SENDSMSG_EVENT_MSG 0x1
 #define SENDSMSG_EVENT_URL 0x2
@@ -120,7 +121,7 @@
 
 #define AUTOREPLY_DEF_REPLY 0
 #define AUTOREPLY_DEF_REPLYONEVENT (EF_MSG | EF_URL | EF_FILE)
-#define AUTOREPLY_DEF_PREFIX TranslateT("Miranda IM autoreply >\r\n%extratext%")
+#define AUTOREPLY_DEF_PREFIX TranslateT("Miranda NG autoreply >\r\n%extratext%")
 #define AUTOREPLY_DEF_DISABLEREPLY (SF_ONL | SF_INV)
 
 #define AUTOREPLY_IDLE_WINDOWS 0
@@ -157,8 +158,6 @@
 #ifndef SIZEOF
 #define SIZEOF(s) (sizeof(s) / sizeof(*s))
 #endif
-
-#define MS_NETLIB_LOG "Netlib/Log"
 
 #define UM_ICONSCHANGED (WM_USER + 121)
 
@@ -302,7 +301,7 @@ extern HANDLE g_hReadWndList;
 INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam);
 
 // AwayOpt.cpp
-int OptsDlgInit(WPARAM wParam, LPARAM lParam); // called on opening of the options dialog
+int OptsDlgInit(WPARAM wParam, LPARAM); // called on opening of the options dialog
 void InitOptions(); // called once when plugin is loaded
 
 //int ShowPopupNotification(COptPage &PopupNotifyData, MCONTACT hContact, int iStatusMode);
@@ -339,23 +338,10 @@ __inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const char
 	return CallService(str, (WPARAM)iMode, (LPARAM)szMsg);
 }
 
-static __inline void my_variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton)
-{
-	HICON hIcon = ServiceExists(MS_VARS_GETSKINITEM) ? (HICON)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPICON) : NULL;
-	if (hIcon)
-		SendDlgItemMessage(hwndDlg, uIDButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-}
-
 static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags = 0, char *szSubjectDesc = NULL, char *szExtraDesc = NULL)
 {
 	if (ServiceExists(MS_VARS_SHOWHELPEX)) {
-		VARHELPINFO vhi = {0};
-		vhi.cbSize = sizeof(VARHELPINFO);
-		vhi.flags = flags ? flags : (VHF_FULLDLG | VHF_SETLASTSUBJECT);
-		vhi.hwndCtrl = GetDlgItem(hwndDlg, uIDEdit);
-		vhi.szSubjectDesc = szSubjectDesc;
-		vhi.szExtraTextDesc = szExtraDesc;
-		return CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwndDlg, (LPARAM)&vhi);
+		return variables_showhelp(hwndDlg, uIDEdit, flags, szSubjectDesc,szExtraDesc);
 	}
 	else {
 		ShowMsg(TranslateT("New Away System"), TranslateT("Variables plugin is not installed"), true);

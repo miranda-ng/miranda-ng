@@ -102,16 +102,11 @@ TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iSta
 		VarParseData.Message = CProtoSettings(szProto, iStatus).GetMsgFormat(iStatus ? GMF_LASTORDEFAULT : GMF_ANYCURRENT);
 
 	TCString sTime;
-	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : NULL);
+	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? GetContactProto(hContact) : NULL);
 	VarParseData.UIN = UIN;
 	VarParseData.Flags = 0;
 	if (ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
-		FORMATINFO fi = { 0 };
-		fi.cbSize = sizeof(fi);
-		fi.tszFormat = VarParseData.Message;
-		fi.hContact = hContact;
-		fi.flags = FIF_TCHAR;
-		TCHAR *szResult = (TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		TCHAR *szResult = variables_parse(VarParseData.Message,  0, hContact);
 		if (szResult) {
 			VarParseData.Message = szResult;
 			mir_free(szResult);
@@ -129,7 +124,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 	char *szFoundProto;
 	MCONTACT hFoundContact = NULL; // if we'll find the contact only on some other protocol, but not on szProto, then we'll use that hContact.
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *szCurProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szCurProto = GetContactProto(hContact);
 		if (db_get_dw(hContact, szCurProto, "UIN", 0) == lParam) {
 			szFoundProto = szCurProto;
 			hFoundContact = hContact;
@@ -296,7 +291,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 #define ID_STATUS_DISABLED 41083
 
 // wParam = PROTOCOLSETTINGEX** protoSettings
-int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (StartupStatus and AdvancedAutoAway)
+int CSStatusChange(WPARAM wParam, LPARAM) // CommonStatus plugins (StartupStatus and AdvancedAutoAway)
 {
 	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 	if (!ps)
@@ -316,7 +311,7 @@ int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (Startu
 	return 0;
 }
 
-static int IdleChangeEvent(WPARAM wParam, LPARAM lParam)
+static int IdleChangeEvent(WPARAM, LPARAM lParam)
 {
 	LogMessage("ME_IDLE_CHANGED event. lParam=0x%x", lParam); // yes, we don't do anything with status message changes on idle.. there seems to be no any good solution for the wrong status message issue :(
 	g_bIsIdle = lParam & IDF_ISIDLE;
@@ -324,13 +319,13 @@ static int IdleChangeEvent(WPARAM wParam, LPARAM lParam)
 }
 
 // wParam = numAccs
-int CSModuleLoaded(WPARAM wParam, LPARAM lParam) // StartupStatus and AdvancedAutoAway
+int CSModuleLoaded(WPARAM wParam, LPARAM) // StartupStatus and AdvancedAutoAway
 {
 	g_CSProtoCount = wParam;
 	return 0;
 }
 
-int PreBuildContactMenu(WPARAM hContact, LPARAM lParam)
+int PreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
 	CLISTMENUITEM miSetMsg = { sizeof(miSetMsg) };
@@ -394,7 +389,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 }
 
 
-static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM lParam)
+static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 {
 	if (g_SetAwayMsgPage.GetWnd()) { // already setting something
 		SetForegroundWindow(g_SetAwayMsgPage.GetWnd());
@@ -410,7 +405,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM lParam)
+INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 {
 	// used only for the global setting
 	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].Status, hContact).Autoreply.Toggle();
@@ -432,25 +427,25 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR srvAutoreplyOn(WPARAM hContact, LPARAM lParam)
+INT_PTR srvAutoreplyOn(WPARAM hContact, LPARAM)
 {
 	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = 1;
 	return 0;
 }
 
-INT_PTR srvAutoreplyOff(WPARAM hContact, LPARAM lParam)
+INT_PTR srvAutoreplyOff(WPARAM hContact, LPARAM)
 {
 	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = 0;
 	return 0;
 }
 
-INT_PTR srvAutoreplyUseDefault(WPARAM hContact, LPARAM lParam)
+INT_PTR srvAutoreplyUseDefault(WPARAM hContact, LPARAM)
 {
 	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = VAL_USEDEFAULT;
 	return 0;
 }
 
-static int Create_TopToolbar(WPARAM wParam, LPARAM lParam)
+static int Create_TopToolbar(WPARAM, LPARAM)
 {
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 	if (ServiceExists(MS_TTB_REMOVEBUTTON)) {
@@ -469,7 +464,7 @@ static int Create_TopToolbar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int IconsChanged(WPARAM wParam, LPARAM lParam)
+static int IconsChanged(WPARAM, LPARAM)
 {
 	g_IconList.ReloadIcons();
 	
@@ -484,7 +479,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
+static int ContactSettingsInit(WPARAM wParam, LPARAM)
 {
 	CONTACTSETTINGSINIT *csi = (CONTACTSETTINGSINIT*)wParam;
 	char *szProto = (csi->Type == CSIT_CONTACT) ? GetContactProto(csi->hContact) : NULL;
@@ -548,23 +543,23 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
+INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 {
 	ARGUMENTSINFO *ai = (ARGUMENTSINFO*)lParam;
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
-	if (!lstrcmp(ai->targv[0], _T(VAR_AWAYSINCE_TIME))) {
+	if (!lstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
 		GetTimeFormat(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT), 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_AWAYSINCE_DATE))) {
+	else if (!lstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
 		GetDateFormat(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT), 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_STATDESC))) {
+	else if (!lstrcmp(ai->targv[0], VAR_STATDESC)) {
 		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : pcli->pfnGetStatusModeDescription(g_ProtoStates[VarParseData.szProto].Status, 0);
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_MYNICK))) {
+	else if (!lstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
 			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (TCHAR*)NULL);
 
@@ -574,15 +569,15 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		if (Result == NULL)
 			Result = TranslateT("Stranger");
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_REQUESTCOUNT))) {
+	else if (!lstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
 		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_MESSAGENUM))) {
+	else if (!lstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
 		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_TIMEPASSED))) {
+	else if (!lstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
 		ULARGE_INTEGER ul_AwaySince, ul_Now;
 		SYSTEMTIME st;
 		GetLocalTime(&st);
@@ -599,7 +594,7 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 			mir_sntprintf(Result, 256, TranslateT("%d seconds"), ul_Now.LowPart);
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_PREDEFINEDMESSAGE))) {
+	else if (!lstrcmp(ai->targv[0], VAR_PREDEFINEDMESSAGE)) {
 		ai->flags = 0; // reset AIF_DONTPARSE flag
 		if (ai->argc != 2)
 			return NULL;
@@ -617,7 +612,7 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		if (Result == NULL) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
-	else if (!lstrcmp(ai->targv[0], _T(VAR_PROTOCOL))) {
+	else if (!lstrcmp(ai->targv[0], VAR_PROTOCOL)) {
 		if (VarParseData.szProto) {
 			CString AnsiResult;
 			CallProtoService(VarParseData.szProto, PS_GETNAME, 256, (LPARAM)AnsiResult.GetBuffer(256));
@@ -627,15 +622,15 @@ INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		if (Result == NULL) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
-	TCHAR *szResult;
-	if (!(szResult = (TCHAR*)malloc((Result.GetLen() + 1) * sizeof(TCHAR))))
+	TCHAR *szResult = (TCHAR*)malloc((Result.GetLen() + 1) * sizeof(TCHAR));
+	if (!szResult)
 		return NULL;
 
 	_tcscpy(szResult, (Result != NULL) ? Result : _T(""));
-	return (int)szResult;
+	return (INT_PTR)szResult;
 }
 
-INT_PTR srvFreeVarMem(WPARAM wParam, LPARAM lParam)
+INT_PTR srvFreeVarMem(WPARAM, LPARAM lParam)
 {
 	if (!lParam)
 		return -1;
@@ -687,18 +682,18 @@ struct
 }
 static Variables[] =
 {
-	{ _T(VAR_AWAYSINCE_TIME), LPGEN("New Away System\t(x)\tAway since time in default format; ?nas_awaysince_time(x) in format x"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_AWAYSINCE_DATE), LPGEN("New Away System\t(x)\tAway since date in default format; ?nas_awaysince_date(x) in format x"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_STATDESC), LPGEN("New Away System\tStatus description"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_MYNICK), LPGEN("New Away System\tYour nick for current protocol"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_REQUESTCOUNT), LPGEN("New Away System\tNumber of status message requests from the contact"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_MESSAGENUM), LPGEN("New Away System\tNumber of messages from the contact"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_TIMEPASSED), LPGEN("New Away System\tTime passed until request"), TRF_FIELD | TRF_FUNCTION },
-	{ _T(VAR_PREDEFINEDMESSAGE), LPGEN("New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION },
-	{ _T(VAR_PROTOCOL), LPGEN("New Away System\tCurrent protocol name"), TRF_FIELD | TRF_FUNCTION }
+	{ VAR_AWAYSINCE_TIME, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since time in default format; ?nas_awaysince_time(x) in format x"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_AWAYSINCE_DATE, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since date in default format; ?nas_awaysince_date(x) in format x"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_STATDESC, LPGEN("New Away System")"\t"LPGEN("Status description"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_MYNICK, LPGEN("New Away System")"\t"LPGEN("Your nick for current protocol"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_REQUESTCOUNT, LPGEN("New Away System")"\t"LPGEN("Number of status message requests from the contact"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_MESSAGENUM, LPGEN("New Away System")"\t"LPGEN("Number of messages from the contact"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_TIMEPASSED, LPGEN("New Away System")"\t"LPGEN("Time passed until request"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_PREDEFINEDMESSAGE, LPGEN("New Away System")"\t(x)\t"LPGEN("Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION },
+	{ VAR_PROTOCOL, LPGEN("New Away System")"\t"LPGEN("Current protocol name"), TRF_FIELD | TRF_FUNCTION }
 };
 
-int MirandaLoaded(WPARAM wParam, LPARAM lParam)
+int MirandaLoaded(WPARAM, LPARAM)
 {
 	LoadMsgTreeModule();
 	LoadCListModule();
@@ -743,7 +738,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_IDLE_CHANGED, IdleChangeEvent);
 	HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit);
 	
-	g_hReadWndList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	g_hReadWndList = WindowList_Create();
 	
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 
@@ -834,15 +829,13 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
-	if (db_get_s(NULL, "KnownModules", "New Away System", (char*)NULL) == NULL)
-		db_set_s(NULL, "KnownModules", "New Away System", MOD_NAME);
 
 	Icon_Register(g_hInstance, MOD_NAME, iconList, SIZEOF(iconList), "nas");
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
 
-	logservice_register(LOG_ID, LPGENT("New Away System"), _T("NewAwaySys?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateTS(_T("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %") _T(VAR_STATDESC) _T("% message:\r\n%extratext%\r\n\r\n")));
+	logservice_register(LOG_ID, LPGENT("New Away System"), _T("NewAwaySys?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateT("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n"));
 
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
 		TCString Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", _T(""));
@@ -862,6 +855,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
+	WindowList_Destroy(g_hReadWndList);
 	CloseHandle(hMainThread);
 	return 0;
 }
