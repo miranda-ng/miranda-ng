@@ -108,7 +108,7 @@ BEGIN
                     8
     CTEXT           "-1 = Infinite",IDC_POPUPOPTDLG_STATIC_INFINITE,224,140,
                     70,8
-    GROUPBOX        "Colours",IDC_STATIC,12,160,155,48
+    GROUPBOX        "Colors",IDC_STATIC,12,160,155,48
     CONTROL         "",IDC_POPUPOPTDLG_BGCOLOUR,"ColourPicker",WS_TABSTOP,19,
                     172,19,12
     LTEXT           "Background",IDC_POPUPOPTDLG_STATIC_BGCOLOUR,43,175,39,8
@@ -172,7 +172,7 @@ BEGIN
                     UDS_ARROWKEYS | UDS_NOTHOUSANDS,156,70,12,12
     LTEXT           "times (-1=infinite)",IDC_REPLYDLG_STATIC_TIMES,172,72,
                     124,8
-    CONTROL         "Reset this counter also when i just change my status text\n(when status icon remains the same)",
+    CONTROL         "Reset this counter also when I just change my status text\n(when status icon remains the same)",
                     IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON,"Button",
                     BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,34,
                     84,262,18
