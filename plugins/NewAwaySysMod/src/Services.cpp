@@ -96,12 +96,10 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 		if ((pi->status >= ID_STATUS_ONLINE && pi->status <= ID_STATUS_OUTTOLUNCH) || !pi->status) {
 			TCString Msg(pi->status ? CProtoSettings(pi->szProto, pi->status).GetMsgFormat(GMF_LASTORDEFAULT) : CProtoSettings(pi->szProto).GetMsgFormat(((Flags & PIF_NOTTEMPORARY) ? 0 : GMF_TEMPORARY) | GMF_PERSONAL));
 			if (Msg != NULL) {
-				pi->szMsg = (char*)mir_alloc(Msg.GetLen() + 1);
-				_ASSERT(pi->szMsg);
 				if (Widechar)
-					lstrcpyW(pi->wszMsg, Msg);
+					pi->tszMsg = mir_tstrdup(Msg);
 				else
-					lstrcpyA(pi->szMsg, _T2A(Msg));
+					pi->szMsg = mir_strdup(_T2A(Msg));
 			}
 			else pi->szMsg = NULL;
 

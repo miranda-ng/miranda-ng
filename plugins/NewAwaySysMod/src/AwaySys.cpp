@@ -50,8 +50,8 @@ CLIST_INTERFACE *pcli;
 
 int hLangpack;
 HANDLE g_hContactMenuItem, g_hReadStatMenuItem, g_hTopToolbarbutton;
-HANDLE g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem;
-HANDLE g_hAutoreplyOnContactMenuItem, g_hAutoreplyOffContactMenuItem, g_hAutoreplyUseDefaultContactMenuItem;
+HGENMENU g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem;
+HGENMENU g_hAutoreplyOnContactMenuItem, g_hAutoreplyOffContactMenuItem, g_hAutoreplyUseDefaultContactMenuItem;
 bool g_fNoProcessing = false; // tells the status change proc not to do anything
 int g_bIsIdle = false;
 HANDLE hMainThread;
@@ -783,7 +783,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		mi.flags = CMIF_TCHAR | CMIF_CHILDPOPUP;
-		mi.pszPopupName = (char*)g_hToggleSOEContactMenuItem;
+		mi.hParentMenu = g_hToggleSOEContactMenuItem;
 		mi.popupPosition = 1000020000;
 		mi.position = 1000020000;
 
