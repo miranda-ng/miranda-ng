@@ -186,7 +186,7 @@ URL:
 
 [User sent you %s:]
 
-[User sent you an unsupported attachment. Open your browser to actually see it.]
+[User sent you an unsupported attachment. Open your browser to see it.]
 
 [Message read: %s]
 

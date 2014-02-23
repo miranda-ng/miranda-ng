@@ -1,4 +1,4 @@
 ﻿[Message sessions]
 [Keep messages as unread on server (don't send "seen" info)]
 [Receive messages from "inbox" folder only]
-[User sent you an unsupported attachment. Open your browser to actually see it.]
+[User sent you an unsupported attachment. Open your browser to see it.]
