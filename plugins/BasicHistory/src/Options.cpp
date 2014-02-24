@@ -118,7 +118,7 @@ Options::~Options()
 {
 }
 
-int Options::InitOptions(WPARAM wParam, LPARAM lParam)
+int Options::InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;

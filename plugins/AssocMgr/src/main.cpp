@@ -76,10 +76,8 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 	}
 }
 
-static int AssocMgrModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int AssocMgrModulesLoaded(WPARAM,LPARAM)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	InitTest();
 	return 0;
 }

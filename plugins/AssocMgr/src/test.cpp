@@ -83,10 +83,9 @@ static __inline void aim_gchat_joinrequest(const char *room, int exchange) { roo
 static HANDLE hHookModulesLoaded;
 static HANDLE hServiceParseLink;
 
-static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
+static int ServiceParseAimLink(WPARAM,LPARAM lParam)
 {
     char *arg=(char*)lParam;
-	UNREFERENCED_PARAMETER(wParam);
     if(arg==NULL) return 1; /* sanity check */
 	/* skip leading prefix */
 	arg=strchr(arg,':');

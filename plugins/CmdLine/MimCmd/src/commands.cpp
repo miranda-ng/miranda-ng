@@ -139,8 +139,7 @@ void HandleHelpCommand(PCommand helpCommand, char *argv[], int argc, PReply repl
 		reply->code = MIMRES_SUCCESS;
 		STRNCPY(reply->message, Translate("Available commands: "), size);
 		
-		int i;
-		for (i = 0; i < cKnownCommands - 1; i++)
+		for (int i = 0; i < cKnownCommands - 1; i++)
 		{
 			strncat(reply->message, knownCommands[i].command, size);
 			strncat(reply->message, ", ", size);
@@ -173,8 +172,7 @@ PReply ParseCommand(char *argv[], int argc)
 
 void FillSharedDataStruct(PCommand command, char *arguments[], int count)
 {
-	int i;
-	for (i = 0; i < count; i++)
+	for (int i = 0; i < count; i++)
 	{
 		STRNCPY(sdCmdLine->arguments[i], arguments[i], ARGUMENT_SIZE);
 	}

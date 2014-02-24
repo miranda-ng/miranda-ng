@@ -171,10 +171,8 @@ void CleanupMimeTypeAddedSettings(void)
 static UINT nNotifyTimerID; /* protected by csNotifyTimer */
 static CRITICAL_SECTION csNotifyTimer;
 
-static void CALLBACK NotifyTimerProc(HWND hwnd, UINT msg, UINT_PTR nTimerID, DWORD dwTime)
+static void CALLBACK NotifyTimerProc(HWND hwnd, UINT, UINT_PTR nTimerID, DWORD)
 {
-	UNREFERENCED_PARAMETER(msg);
-	UNREFERENCED_PARAMETER(dwTime);
 	EnterCriticalSection(&csNotifyTimer);
 	KillTimer(hwnd, nTimerID);
 	if(nNotifyTimerID == nTimerID) /* might be stopped previously */
@@ -272,8 +270,10 @@ static int ReplaceImageListAssocIcon(HIMAGELIST himl, const ASSOCDATA *assoc, in
 static TCHAR* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static TCHAR szDesc[32];
-	if(assoc->pszFileExt == NULL) mir_sntprintf(szDesc, SIZEOF(szDesc), TranslateT("%hs:"), assoc->pszClassName);
-	else mir_sntprintf(szDesc, SIZEOF(szDesc), TranslateT("%hs files"), assoc->pszFileExt);
+	if(assoc->pszFileExt == NULL)
+		mir_sntprintf(szDesc, SIZEOF(szDesc), _T("%hs:"), assoc->pszClassName);
+	else
+		mir_sntprintf(szDesc, SIZEOF(szDesc), TranslateT("%hs files"), assoc->pszFileExt);
 	return szDesc;
 }
 
@@ -281,13 +281,12 @@ static TCHAR* GetAssocTypeDesc(const ASSOCDATA *assoc)
 static BOOL IsAssocRegistered(const ASSOCDATA *assoc)
 {
 	BOOL fSuccess = FALSE, fIsUrl, fUseMainCmdLine;
-	TCHAR *pszRunCmd;
 
 	fIsUrl = (assoc->pszFileExt == NULL);
 	fUseMainCmdLine = (assoc->pszService == NULL);
 
 	/* class */
-	pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
+	TCHAR *pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
 	if(pszRunCmd!= NULL)
 		fSuccess = IsRegClass(assoc->pszClassName, pszRunCmd);
 	mir_free(pszRunCmd); /* does NULL check */
@@ -348,13 +347,13 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 {
 	BOOL fIsUrl, fUseMainCmdLine;
-	TCHAR *pszAppFileName, *pszRunCmd;
+	TCHAR *pszAppFileName;
 
 	fIsUrl = (assoc->pszFileExt == NULL);
 	fUseMainCmdLine = (assoc->pszService == NULL);
 
 	/* class might have been registered by another instance */
-	pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
+	TCHAR *pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
 	if(pszRunCmd!= NULL && !IsRegClass(assoc->pszClassName, pszRunCmd)) {
 		mir_free(pszRunCmd);
 		return TRUE; /* succeed anyway */
@@ -399,11 +398,10 @@ typedef struct {
 static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, char *pszFileExt, TCHAR *pszVerbDesc, char *pszMimeType)
 {
 	ASSOCDATA *pAssocListBuf, *assoc;
-	int index;
 	
 	/* is already in list? */
 	EnterCriticalSection(&csAssocList);
-	index = FindAssocItem(pszClassName);
+	int index = FindAssocItem(pszClassName);
 	if(index!= -1) return FALSE;
 
 	/* resize storage array */
@@ -447,11 +445,10 @@ static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, 
 static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 {
 	ASSOCDATA *pAssocListBuf, *assoc;
-	int index;
 
 	/* find index */
 	EnterCriticalSection(&csAssocList);
-	index = FindAssocItem(pszClassName);
+	int index = FindAssocItem(pszClassName);
 	if(index == -1) {
 		LeaveCriticalSection(&csAssocList);
 		return FALSE;
@@ -509,13 +506,10 @@ static INT_PTR ServiceAddNewFileType(WPARAM, LPARAM lParam)
 	return 3;
 }
 
-static INT_PTR ServiceRemoveFileType(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceRemoveFileType(WPARAM, LPARAM lParam)
 {
-	char *pszClassName;
-	UNREFERENCED_PARAMETER(wParam);
-
 	if ((char*)lParam == NULL) return 2;
-	pszClassName = MakeFileClassName((char*)lParam);
+	char *pszClassName = MakeFileClassName((char*)lParam);
 	if(pszClassName!= NULL)
 		if(RemoveAssocItem_Worker(pszClassName)) {
 			mir_free(pszClassName);
@@ -525,11 +519,9 @@ static INT_PTR ServiceRemoveFileType(WPARAM wParam, LPARAM lParam)
 	return 3;
 }
 
-static INT_PTR ServiceAddNewUrlType(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceAddNewUrlType(WPARAM, LPARAM lParam)
 {
 	const URLTYPEDESC *utd = (URLTYPEDESC*)lParam;
-	char *pszClassName;
-	UNREFERENCED_PARAMETER(wParam);
 
 	if(utd->cbSize < sizeof(URLTYPEDESC))
 		return 1;
@@ -538,7 +530,7 @@ static INT_PTR ServiceAddNewUrlType(WPARAM wParam, LPARAM lParam)
  	if(utd->pszProtoPrefix == NULL || utd->pszProtoPrefix[lstrlenA(utd->pszProtoPrefix)-1]!= ':') 
 		return 2;
 
-	pszClassName = MakeUrlClassName(utd->pszProtoPrefix);
+	char *pszClassName = MakeUrlClassName(utd->pszProtoPrefix);
 	if(pszClassName!= NULL)
 		if(AddNewAssocItem_Worker(pszClassName, (TYPEDESCHEAD*)utd, NULL, NULL, NULL))
 			/* no need to free pszClassName,  as its 
@@ -548,13 +540,10 @@ static INT_PTR ServiceAddNewUrlType(WPARAM wParam, LPARAM lParam)
 	return 3;
 }
 
-static INT_PTR ServiceRemoveUrlType(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceRemoveUrlType(WPARAM, LPARAM lParam)
 {
-	char *pszClassName;
-	UNREFERENCED_PARAMETER(wParam);
-
 	if ((char*)lParam == NULL) return 2;
-	pszClassName = MakeUrlClassName((char*)lParam);
+	char *pszClassName = MakeUrlClassName((char*)lParam);
 	if(pszClassName!= NULL)
 		if(RemoveAssocItem_Worker(pszClassName)) {
 			mir_free(pszClassName);
@@ -570,17 +559,15 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam
 {
 	void *pvParam;
 	char *pszService;
-	int index;
-	ASSOCDATA *assoc;
 
 	/* find it in list */
 	EnterCriticalSection(&csAssocList);
-	index = FindAssocItem(pszClassName);
+	int index = FindAssocItem(pszClassName);
 	if(index == -1) {
 		LeaveCriticalSection(&csAssocList);
 		return FALSE;
 	}
-	assoc = &pAssocList[index];
+	ASSOCDATA *assoc = &pAssocList[index];
 	/* no service specified? correct registry to use main commandline */
 	if(assoc->pszService == NULL) {
 		EnsureAssocRegistered(assoc);
@@ -606,11 +593,10 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam
 INT_PTR InvokeFileHandler(const TCHAR *pszFileName)
 {
 	char *pszClassName, *pszFileExt;
-	TCHAR *p;
 	INT_PTR res = CALLSERVICE_NOTFOUND;
 
 	/* find extension */
-	p = (TCHAR*)_tcsrchr(pszFileName, _T('.'));
+	TCHAR *p = (TCHAR*)_tcsrchr(pszFileName, _T('.'));
 	if(p!= NULL) {
 		pszFileExt = t2a(p);
 		if(pszFileExt!= NULL) {
@@ -675,14 +661,14 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 {
 	switch(msg) {
 		case WM_INITDIALOG:
-		{	HWND hwndList;
+		{
 			HIMAGELIST himl;
 			LVITEM lvi;
 			ASSOCDATA *assoc;
 			int i;
 			TranslateDialogDefault(hwndDlg);
 			CoInitialize(NULL);
-			hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+			HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
 
 			ListView_SetUnicodeFormat(hwndList, TRUE);
 
@@ -778,12 +764,11 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		}
 		case WM_SETTINGCHANGE:
 		case M_REFRESH_ICONS:
-		{	LVITEM lvi;
-			HIMAGELIST himl;
+		{
+			LVITEM lvi;
 			ASSOCDATA *assoc;
-			HWND hwndList;
-			hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
-			himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
+			HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+			HIMAGELIST himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
 			/* enum items */
 			lvi.iSubItem = 0;
 			lvi.mask = LVIF_PARAM|LVIF_IMAGE;
@@ -826,12 +811,14 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			return TRUE;
 
 		case WM_NOTIFY:
-		{	NMHDR *nmhdr = (NMHDR*)lParam;
+		{
+			NMHDR *nmhdr = (NMHDR*)lParam;
 			switch(nmhdr->idFrom) {
 				case IDC_ASSOCLIST:
 					switch(nmhdr->code) {
 						case LVN_DELETEITEM: /* also called on WM_DESTROY */
-						{	LVITEM lvi;
+						{
+							LVITEM lvi;
 							lvi.mask = LVIF_PARAM;
 							lvi.iSubItem = 0;
 							lvi.iItem = ((NMLISTVIEW*)lParam)->iItem;
@@ -852,7 +839,8 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 							 * bug should not be present using WinVista and higher */
 							switch(((NMLVKEYDOWN*)lParam)->wVKey) {
 								case VK_UP:
-								{	LVITEM lvi;
+								{
+									LVITEM lvi;
 									lvi.iSubItem = 0;
 									lvi.mask = LVIF_PARAM;
 									lvi.iItem = ListView_GetNextItem(nmhdr->hwndFrom, -1, LVNI_FOCUSED);
@@ -868,7 +856,8 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 									break;
 								}
 								case VK_PRIOR:
-								{	LVITEM lvi;
+								{
+									LVITEM lvi;
 									lvi.iSubItem = 0;
 									lvi.mask = LVIF_PARAM;
 									lvi.iItem = ListView_GetNextItem(nmhdr->hwndFrom, -1, LVNI_FOCUSED);
@@ -891,7 +880,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				case 0:
 					switch(nmhdr->code) {
 						case PSN_APPLY:
-						{	HWND hwndList;
+						{
 							LVITEM lvi;
 							BOOL fEnabled, fRegFailed = FALSE;
 							ASSOCDATA *assoc;
@@ -900,7 +889,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 							db_set_b(NULL, "AssocMgr", "OnlyWhileRunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONLYWHILERUNNING)!= 0));
 
 							/* save enabled assoc items */
-							hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+							HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
 							lvi.iSubItem = 0;
 							lvi.mask = LVIF_PARAM;
 							EnterCriticalSection(&csAssocList);
@@ -912,8 +901,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 								/* re-register registery keys */
 								if(fEnabled?!EnsureAssocRegistered(assoc):!UnregisterAssoc(assoc)) {
-									char *pszErr;
-									pszErr = GetWinErrorDescription(GetLastError());
+									char *pszErr = GetWinErrorDescription(GetLastError());
 									ShowInfoMessage(NIIF_ERROR, Translate("File association error"), Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
 									mir_free(pszErr); /* does NULL check */
 									fRegFailed = TRUE; /* just show one time */
@@ -922,11 +910,9 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 							LeaveCriticalSection(&csAssocList);
 							NotifyAssocChange(TRUE);
 							PostMessage(hwndDlg, M_REFRESH_ICONS, 0, 0);
-							if(fRegFailed) {
-							}
 							/* autostart */
-							{	TCHAR *pszRunCmd;
-								pszRunCmd = MakeRunCommand(TRUE, TRUE);
+							{
+								TCHAR *pszRunCmd = MakeRunCommand(TRUE, TRUE);
 								fRegFailed = FALSE;
 								if(pszRunCmd!= NULL) {
 									fEnabled = IsDlgButtonChecked(hwndDlg, IDC_AUTOSTART);
@@ -951,7 +937,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	return FALSE;
 }
 
-static int AssocListOptInit(WPARAM wParam, LPARAM lParam)
+static int AssocListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -992,7 +978,8 @@ void InitAssocList(void)
 	InitializeCriticalSection(&csNotifyTimer);
 
 	/* register open-with app */
-	{	TCHAR *pszAppFileName, *pszIconLoc, *pszRunCmd;
+	{
+		TCHAR *pszAppFileName, *pszIconLoc, *pszRunCmd;
 		pszIconLoc = MakeIconLocation(NULL, 0);
 
 		// miranda32.exe
@@ -1014,7 +1001,8 @@ void InitAssocList(void)
 	}
 
 	/* default items */
-	{	FILETYPEDESC ftd;
+	{
+		FILETYPEDESC ftd;
 		ftd.cbSize = sizeof(FILETYPEDESC);
 		ftd.pszFileExt = ".dat";
 		ftd.pszMimeType = NULL;
@@ -1032,7 +1020,6 @@ void UninitAssocList(void)
 {
 	BYTE fOnlyWhileRunning;
 	ASSOCDATA *assoc;
-	int i;
 
 	/* Options */
 	UnhookEvent(hHookOptInit);
@@ -1045,7 +1032,7 @@ void UninitAssocList(void)
 
 	/* Assoc List */
 	fOnlyWhileRunning = db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
-	for(i = 0;i<nAssocListCount;++i) {
+	for(int i = 0;i<nAssocListCount;++i) {
 		assoc = &pAssocList[i];
 
 		/* remove registry keys */

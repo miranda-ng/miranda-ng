@@ -1355,7 +1355,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 							if (ParseDatabaseData(&var, buffer, sizeof(buffer), TRUE))
 							{
 								reply->code = MIMRES_SUCCESS;
-								mir_snprintf(reply->message, reply->cMessage, Translate("'%s/%s' - %s."), module, key, buffer); 
+								mir_snprintf(reply->message, reply->cMessage, "'%s/%s' - %s.", module, key, buffer); 
 							}
 							else{
 								reply->code = MIMRES_FAILURE;
@@ -1397,23 +1397,17 @@ int ParseProxyType(char *type)
 	{
 		proxy = PROXY_SOCKS4;
 	}
-	else{
-		if (strcmp(lower, "socks5") == 0)
-		{
-			proxy = PROXY_SOCKS5;
-		}
-		else{
-			if (strcmp(lower, "http") == 0)
-			{
-				proxy = PROXY_HTTP;
-			}
-			else{
-				if (strcmp(lower, "https") == 0)
-				{
-					proxy = PROXY_HTTPS;
-				}
-			}
-		}
+	else if (strcmp(lower, "socks5") == 0)
+	{
+		proxy = PROXY_SOCKS5;
+	}
+	else if (strcmp(lower, "http") == 0)
+	{
+		proxy = PROXY_HTTP;
+	}
+	else if (strcmp(lower, "https") == 0)
+	{
+		proxy = PROXY_HTTPS;
 	}
 	
 	return proxy;	
@@ -1554,11 +1548,9 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 			{
 				case 4:
 				{
-					char host[256];
-					int port;
-					char type[256];
+					char host[256], type[256];
 					GetStringFromDatabase(NULL, module, "NLProxyServer", "<unknown>", host, sizeof(host));
-					port = db_get_w(NULL, module, "NLProxyPort", 0);
+					int port = db_get_w(NULL, module, "NLProxyPort", 0);
 					PrettyProxyType(db_get_b(NULL, module, "NLProxyType", 0), type, sizeof(type));
 					
 					reply->code = MIMRES_SUCCESS;
@@ -1760,8 +1752,7 @@ DWORD WINAPI OpenMessageWindowThread(void *data)
 	MCONTACT hContact = (MCONTACT) data;
 	if (hContact)
 	{
-		CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
-		CallServiceSync("SRMsg/LaunchMessageWindow", hContact, 0);
+		CallServiceSync(MS_MSG_SENDMESSAGET, hContact, 0);
 	}
 	
 	return 0;
@@ -2149,7 +2140,7 @@ void HandleIgnoreCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 			if (hContact)
 			{
-				CallService(block ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_ALL);
+				CallService(block ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, (WPARAM) hContact, IGNOREEVENT_ALL);
 			}
 		}
 

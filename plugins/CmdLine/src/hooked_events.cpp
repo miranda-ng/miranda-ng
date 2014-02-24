@@ -66,8 +66,7 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 
 int QueueAck(ACKDATA *ack)
 {
-	int i;
-	for (i = cAcks - 1; i > 0; i--)
+	for (int i = cAcks - 1; i > 0; i--)
 	{
 		acks[i] = acks[i - 1];
 	}
@@ -86,8 +85,7 @@ int ClearAckQueue()
 
 ACKDATA *GetAck(HANDLE hProcess)
 {
-	int i;
-	for (i = 0; i < cAcks; i++)
+	for (int i = 0; i < cAcks; i++)
 	{
 		if (acks[i].hProcess == hProcess)
 		{

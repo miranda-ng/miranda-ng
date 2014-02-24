@@ -251,8 +251,7 @@ static LONG DeleteRegSubTree(HKEY hKey,const TCHAR *pszSubKey)
 static LONG SetRegSubKeyStrDefValue(HKEY hMainKey,const TCHAR *pszSubKey,const TCHAR *pszVal)
 {
 	HKEY hSubKey;
-	LONG res;
-	res=RegCreateKeyEx(hMainKey,pszSubKey,0,NULL,0,KEY_SET_VALUE|KEY_QUERY_VALUE,NULL,&hSubKey,NULL);
+	LONG res=RegCreateKeyEx(hMainKey,pszSubKey,0,NULL,0,KEY_SET_VALUE|KEY_QUERY_VALUE,NULL,&hSubKey,NULL);
 	if (!res) {
 		res=RegSetValueEx(hSubKey,NULL,0,REG_SZ,(BYTE*)pszVal,(lstrlen(pszVal)+1)*sizeof(TCHAR));
 		RegCloseKey(hSubKey);
@@ -263,10 +262,8 @@ static LONG SetRegSubKeyStrDefValue(HKEY hMainKey,const TCHAR *pszSubKey,const T
 // hKey must have been opened with KEY_SET_VALUE access right
 static void SetRegStrPrefixValue(HKEY hKey,const TCHAR *pszValPrefix,const TCHAR *pszVal)
 {
-	TCHAR *pszStr;
-	DWORD dwSize;
-	dwSize=(lstrlen(pszVal)+lstrlen(pszValPrefix)+1)*sizeof(TCHAR);
-	pszStr=(TCHAR*)mir_alloc(dwSize);
+	DWORD dwSize=(lstrlen(pszVal)+lstrlen(pszValPrefix)+1)*sizeof(TCHAR);
+	TCHAR *pszStr=(TCHAR*)mir_alloc(dwSize);
 	if (pszStr==NULL) return;
 	lstrcat(lstrcpy(pszStr,pszValPrefix),pszVal); /* buffer safe */
 	RegSetValueEx(hKey,NULL,0,REG_SZ,(BYTE*)pszStr,dwSize);
@@ -307,8 +304,7 @@ static TCHAR *GetRegStrValue(HKEY hKey,const TCHAR *pszValName)
 static BOOL IsRegStrValue(HKEY hKey,const TCHAR *pszValName,const TCHAR *pszCmpVal)
 {
 	BOOL fSame=FALSE;
-	TCHAR *pszVal;
-	pszVal=GetRegStrValue(hKey,pszValName);
+	TCHAR *pszVal=GetRegStrValue(hKey,pszValName);
 	if (pszVal!=NULL) {
 		fSame=!lstrcmp(pszVal,pszCmpVal);
 		mir_free(pszVal);
@@ -320,9 +316,8 @@ static BOOL IsRegStrValue(HKEY hKey,const TCHAR *pszValName,const TCHAR *pszCmpV
 static BOOL IsRegStrValueA(HKEY hKey,const TCHAR *pszValName,const char *pszCmpVal)
 {
 	BOOL fSame=FALSE;
-	TCHAR *pszVal;
 	char *pszValA;
-	pszVal=GetRegStrValue(hKey,pszValName);
+	TCHAR *pszVal=GetRegStrValue(hKey,pszValName);
 	if (pszVal!=NULL) {
 		pszValA=t2a(pszVal);
 		if (pszValA!=NULL)
@@ -457,22 +452,21 @@ static void BackupRegTree(HKEY hKey,const char *pszSubKey,const char *pszDbPrefi
 
 static LONG RestoreRegTree(HKEY hKey,const char *pszSubKey,const char *pszDbPrefix)
 {
-	char **ppszSettings,*pszSuffix,*pszPrefixWithSubKey;
-	int nSettingsCount,i,nDbPrefixLen,nPrefixWithSubKeyLen;
+	char **ppszSettings,*pszSuffix;
+	int nSettingsCount,i;
 	char *pslash=NULL,*pnext,*pkeys;
 	char *pszValName;
 	WCHAR *pwszValName;
 	HKEY hSubKey;
 	DWORD dwType,cbData;
 	BYTE *pData;
-	LONG res;
 
-	nDbPrefixLen=lstrlenA(pszDbPrefix);
-	nPrefixWithSubKeyLen=nDbPrefixLen+lstrlenA(pszSubKey)+1;
-	pszPrefixWithSubKey=(char*)mir_alloc(nPrefixWithSubKeyLen+1);
+	int nDbPrefixLen=lstrlenA(pszDbPrefix);
+	int nPrefixWithSubKeyLen=nDbPrefixLen+lstrlenA(pszSubKey)+1;
+	char *pszPrefixWithSubKey=(char*)mir_alloc(nPrefixWithSubKeyLen+1);
 	if (pszPrefixWithSubKey==NULL) return ERROR_OUTOFMEMORY;
 	lstrcatA(lstrcatA(lstrcpyA(pszPrefixWithSubKey,pszDbPrefix),pszSubKey),"\\"); /* buffer safe */
-	res=ERROR_NO_MORE_ITEMS;
+	LONG res=ERROR_NO_MORE_ITEMS;
 	if (pszPrefixWithSubKey!=NULL) {
 		if (EnumDbPrefixSettings("AssocMgr",pszPrefixWithSubKey,&ppszSettings,&nSettingsCount)) {
 			for(i=0;i<nSettingsCount;++i) {
@@ -515,10 +509,10 @@ static LONG RestoreRegTree(HKEY hKey,const char *pszSubKey,const char *pszDbPref
 
 static void DeleteRegTreeBackup(const char *pszSubKey,const char *pszDbPrefix)
 {
-	char **ppszSettings,*pszPrefixWithSubKey;
+	char **ppszSettings;
 	int nSettingsCount,i;
 
-	pszPrefixWithSubKey=(char*)mir_alloc(lstrlenA(pszDbPrefix)+lstrlenA(pszSubKey)+2);
+	char *pszPrefixWithSubKey=(char*)mir_alloc(lstrlenA(pszDbPrefix)+lstrlenA(pszSubKey)+2);
 	if (pszPrefixWithSubKey==NULL) return;
 	lstrcatA(lstrcatA(lstrcpyA(pszPrefixWithSubKey,pszDbPrefix),pszSubKey),"\\"); /* buffer safe */
 	if (pszPrefixWithSubKey!=NULL) {
@@ -914,13 +908,12 @@ BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *p
 
 	/* file ext */
 	if (!RegCreateKeyExA(hRootKey,pszFileExt,0,NULL,0,KEY_SET_VALUE|KEY_QUERY_VALUE|KEY_CREATE_SUB_KEY,NULL,&hExtKey,NULL)) {
-		TCHAR *pszPrevClass;
 		/* backup previous app */
 		BackupRegTree(hRootKey,pszFileExt,"bak_");
 		/* remove any no-open flag */
 		RegDeleteValue(hExtKey,_T("NoOpen"));
 		/* open with progids */
-		pszPrevClass=GetRegStrValue(hExtKey,NULL);
+		TCHAR *pszPrevClass=GetRegStrValue(hExtKey,NULL);
 		if (pszPrevClass!=NULL && !IsRegStrValueA(hExtKey,NULL,pszClassName))
 			if (!RegCreateKeyEx(hExtKey,_T("OpenWithProgids"),0,NULL,0,KEY_SET_VALUE,NULL,&hOpenWithKey,NULL)) {
 				/* previous class (backup) */

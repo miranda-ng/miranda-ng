@@ -89,9 +89,9 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 {
 	switch(msg) {
 		case WM_DDE_INITIATE:
-		{	ATOM hSzApp,hSzTopic;
-			hSzApp=LOWORD(lParam); /* no UnpackDDElParam() here */
-			hSzTopic=HIWORD(lParam);
+		{
+			ATOM hSzApp=LOWORD(lParam); /* no UnpackDDElParam() here */
+			ATOM hSzTopic=HIWORD(lParam);
 			if ((hSzApp==GlobalFindAtom(DDEAPP) && hSzTopic==GlobalFindAtom(DDETOPIC)) || !hSzApp) {
 				hSzApp=GlobalAddAtom(DDEAPP);
 				hSzTopic=GlobalAddAtom(DDETOPIC);
@@ -104,15 +104,14 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			return 0;
 		}
 		case WM_DDE_EXECUTE: /* posted message */
-		{	HGLOBAL hCommand;
+		{
+			HGLOBAL hCommand;
 			TCHAR *pszCommand;
 			DDEACK ack;
 			ZeroMemory(&ack,sizeof(ack));
 			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hCommand)) {
-				
 				/* ANSI execute command can't happen for shell */
 				if(IsWindowUnicode((HWND)wParam)) {
-				
 					pszCommand = (TCHAR*)GlobalLock(hCommand);
 					if(pszCommand!=NULL) {
 						TCHAR *pszAction,*pszArg;
@@ -147,7 +146,8 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 		case WM_DDE_UNADVISE:
 		case WM_DDE_POKE:
 		/* fail safely for those to avoid memory leak in lParam */
-		{	ATOM hSzItem;
+		{
+			ATOM hSzItem;
 			DDEACK ack;
 			ZeroMemory(&ack,sizeof(ack));
 			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hSzItem)) {
@@ -167,8 +167,6 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 {
 	TCHAR *p,szPath[MAX_PATH];
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si;
 
 	/* we are inside RunDll32 here */
 	if (!GetModuleFileName(hInst,szPath,SIZEOF(szPath))) return NULL;
@@ -178,7 +176,9 @@ static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 	lstrcpy(++p,_T("miranda32.exe"));
 
 	/* inherit startup data from RunDll32 process */
+	STARTUPINFO si;
 	GetStartupInfo(&si);
+	PROCESS_INFORMATION pi;
 	if (!CreateProcess(szPath,pszDatabasePath,NULL,NULL,TRUE,GetPriorityClass(GetCurrentProcess()),NULL,NULL,&si,&pi))
 		return NULL;
 	CloseHandle(pi.hThread);
@@ -190,13 +190,10 @@ extern "C" {
 #endif 
 
 // entry point for RunDll32, this is also WaitForDDEW
-__declspec(dllexport) void CALLBACK WaitForDDE(HWND hwnd,HINSTANCE hinstExe,TCHAR *pszCmdLine,int nCmdShow)
+__declspec(dllexport) void CALLBACK WaitForDDE(HWND,HINSTANCE,TCHAR *pszCmdLine,int)
 {
 	HANDLE pHandles[2];
 	DWORD dwTick;
-	UNREFERENCED_PARAMETER(hinstExe);
-	UNREFERENCED_PARAMETER(nCmdShow); /* obeys nCmdShow using GetStartupInfo() */
-	UNREFERENCED_PARAMETER(hwnd);
 	
 	/* wait for dde window to be available (avoiding race condition) */
 	pHandles[0]=CreateEvent(NULL,TRUE,FALSE,WNDCLASS_DDEMSGWINDOW);
@@ -224,24 +221,18 @@ __declspec(dllexport) void CALLBACK WaitForDDE(HWND hwnd,HINSTANCE hinstExe,TCHA
 
 /************************* Misc ***********************************/
 
-static int DdePreShutdown(WPARAM wParam,LPARAM lParam)
+static int DdePreShutdown(WPARAM,LPARAM)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	/* dde needs to be stopped before any plugins are unloaded */
 	if(hwndDdeMsg!=NULL) DestroyWindow(hwndDdeMsg);
 	UnregisterClass(WNDCLASS_DDEMSGWINDOW,hInst);
 	return 0;
 }
 
-static int DdeModulesLoaded2(WPARAM wParam,LPARAM lParam)
+static int DdeModulesLoaded2(WPARAM,LPARAM)
 {
-	WNDCLASS wcl;
-	HANDLE hEvent;
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
-
 	/* create message window */
+	WNDCLASS wcl;
 	wcl.lpfnWndProc=DdeMessageWindow;
 	wcl.cbClsExtra=0;
 	wcl.cbWndExtra=0;
@@ -257,7 +248,7 @@ static int DdeModulesLoaded2(WPARAM wParam,LPARAM lParam)
 	hwndDdeMsg=CreateWindow(WNDCLASS_DDEMSGWINDOW,NULL,0,0,0,0,0,NULL,NULL,hInst,NULL);
 
 	/* make known dde startup code is passed */
-	hEvent=OpenEvent(EVENT_MODIFY_STATE,FALSE,WNDCLASS_DDEMSGWINDOW);
+	HANDLE hEvent=OpenEvent(EVENT_MODIFY_STATE,FALSE,WNDCLASS_DDEMSGWINDOW);
 	if(hEvent!=NULL) {
 		SetEvent(hEvent);
 		CloseHandle(hEvent);
@@ -269,10 +260,8 @@ static int DdeModulesLoaded2(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int DdeModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int DdeModulesLoaded(WPARAM,LPARAM)
 {
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
 	/* dde needs to be loaded after all the other plugins got loaded,
 	 * hook again to get the latest position in chain */
 	UnhookEvent(hHookModulesLoaded);

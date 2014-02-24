@@ -67,8 +67,7 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk, COLORREF clrText)
 						HBITMAP hbmMono, hbmPrevMono;
 						RECT rcRadio;
 						COLORREF clrPrevText, clrPrevBk;
-						HBRUSH hbrBk;
-						hbrBk = CreateSolidBrush(clrBk);
+						HBRUSH hbrBk = CreateSolidBrush(clrBk);
 						if (hbrBk!=NULL) {
 							FillRect(hdc, &rc, hbrBk);
 							DeleteObject(hbrBk);
@@ -133,7 +132,6 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk, COLORREF clrText)
 static void CleanupPluginName(char *szShortName)
 {
 	char *p;
-	int len;
 	/* strip-off anything in brackets */
 	for(p = szShortName;*p!='\0';++p)
 		if (*p == '(' || *p == '[') {
@@ -141,21 +139,17 @@ static void CleanupPluginName(char *szShortName)
 			break;
 		}
 	/* remove trailing space */
-	len = lstrlenA(szShortName);
+	int len = lstrlenA(szShortName);
 	while(szShortName[0]!='\0' && szShortName[len-1] == ' ')
 		szShortName[--len] = 0;
 }
 
 static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pack)
 {
-	WIN32_FIND_DATA wfd;
-	HANDLE hFind;
 	TCHAR szSearch[MAX_PATH], szDir[MAX_PATH], *p;
-	HMODULE hModule;
 	BOOL fNeedsFree;
 	char buf[128];
 	TCHAR buf2[128];
-	DWORD mirandaVersion;
 	PLUGININFOEX *pluginInfo;
 	PLUGININFOEX *(__cdecl *MirandaPluginInfo)(DWORD);
 
@@ -163,10 +157,12 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pac
 	if (!(pack->flags&LPF_DEFAULT) && GetModuleFileName(NULL, szDir, SIZEOF(szDir))) {
 		p = _tcsrchr(szDir, _T('\\'));
 		if (p!=NULL) *p = _T('\0');
+		TCHAR szSearch[MAX_PATH];
 		mir_sntprintf(szSearch, SIZEOF(szSearch), _T("%s\\Plugins\\*.dll"), szDir);
-		hFind = FindFirstFile(szSearch, &wfd);
+		WIN32_FIND_DATA wfd;
+		HANDLE hFind = FindFirstFile(szSearch, &wfd);
 		if (hFind!=INVALID_HANDLE_VALUE) {
-			mirandaVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
+			DWORD mirandaVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
 			SendMessage(hwndListBox, LB_SETLOCALE, CallService(MS_LANGPACK_GETLOCALE, 0, 0), 0); /* for sort order */
 			SendMessage(hwndListBox, LB_INITSTORAGE, 128, lstrlenA(pack->szPluginsIncluded)); /* speed up */
 			do {
@@ -177,15 +173,17 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pac
 				p = _tcsrchr(szSearch, _T('.'));
 				if (p!=NULL) *p = _T('\0');
 
-				{	char cFileNameA[MAX_PATH];
+				{
+					char cFileNameA[MAX_PATH];
 					cFileNameA[0] = '\0';
 					WideCharToMultiByte(CP_ACP, 0, szSearch, -1, cFileNameA, sizeof(cFileNameA), NULL, NULL);
-					if (IsPluginIncluded(pack, cFileNameA)) continue;
+					if (IsPluginIncluded(pack, cFileNameA))
+						continue;
 				}
 
 				/* friendly name of the plugin */
 				mir_sntprintf(szSearch, SIZEOF(szSearch), _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
-				hModule = GetModuleHandle(szSearch);
+				HMODULE hModule = GetModuleHandle(szSearch);
 				fNeedsFree = (hModule == NULL);
 				if (hModule == NULL) {
 					hModule = LoadLibrary(szSearch);
@@ -198,7 +196,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pac
 					if (pluginInfo!=NULL && pluginInfo->cbSize >= sizeof(PLUGININFOEX) && pluginInfo->shortName!=NULL) {
 						lstrcpynA(buf, pluginInfo->shortName, sizeof(buf)); /* buffer safe */
 						CleanupPluginName(buf);
-						mir_sntprintf(buf2, SIZEOF(buf2), TranslateT("%hs (%s)"), buf, CharLower(wfd.cFileName));
+						mir_sntprintf(buf2, SIZEOF(buf2), _T("%hs (%s)"), buf, CharLower(wfd.cFileName));
 						SendMessage(hwndListBox, LB_ADDSTRING, 0, (LPARAM)buf2);
 					}
 				}

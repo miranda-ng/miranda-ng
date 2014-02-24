@@ -317,12 +317,12 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 				if (cell->type == 0)
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont == TC_COL?TranslateT("column"):TranslateT("line"));
 				else
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s"), TranslateTS(types[cell->type]));
+					mir_sntprintf(buf, SIZEOF(buf), _T("%s"), TranslateTS(types[cell->type]));
 			}
 			else
 			{
 				if (cell->type == 0)
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s"), cell->cont != TC_COL?TranslateT("columns"):TranslateT("lines"));
+					mir_sntprintf(buf, SIZEOF(buf), _T("%s"), cell->cont != TC_COL?TranslateT("columns"):TranslateT("lines"));
 				else
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s, contain %s"), TranslateTS(types[cell->type]),cell->cont != TC_COL?TranslateT("columns"):TranslateT("lines"));
 			}

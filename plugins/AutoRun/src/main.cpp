@@ -100,7 +100,7 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
+static int AutorunOptInitialise(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100100000;
@@ -109,7 +109,7 @@ static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.pszTitle = ModuleName;
 	odp.pszGroup = LPGEN("Services");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
-	odp.flags = ODPF_BOLDGROUPS;	
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

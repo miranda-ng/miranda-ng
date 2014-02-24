@@ -1000,7 +1000,7 @@ void RebuildMenuOrder(void)
 				TCHAR buf[ 256 ], hotkeyName[ 100 ];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s\t%s"),
+				mir_sntprintf(buf, SIZEOF(buf), _T("%s\t%s"),
 					cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				tmi.ptszName = buf;
 				tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1030,7 +1030,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		TCHAR buf[ 256 ], hotkeyName[ 100 ];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+		mir_sntprintf(buf, SIZEOF(buf), _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		tmi.ptszName = buf;
 		tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
 		MO_ModifyMenuItem(hStatusMainMenuHandles[j], &tmi);
