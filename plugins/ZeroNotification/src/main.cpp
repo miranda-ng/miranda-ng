@@ -105,10 +105,11 @@ static void UpdateMenuItem()
 }
 
 //Called when the sound setting in the database is changed
-static int SoundSettingChanged(WPARAM wParam,LPARAM lParam)
+static int SoundSettingChanged(WPARAM hContact,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	if(lstrcmpA(cws->szModule, "Skin") || lstrcmpA(cws->szSetting, "UseSound")) return 0;
+	if(lstrcmpA(cws->szModule, "Skin") || lstrcmpA(cws->szSetting, "UseSound"))
+		return 0;
 
 	UpdateMenuItem();
 	return 0;

@@ -2572,7 +2572,7 @@ void CIcqProto::resetServContactAuthState(MCONTACT hContact, DWORD dwUin)
 *
 */
 
-int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
+int CIcqProto::ServListDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 
@@ -2590,28 +2590,19 @@ int CIcqProto::ServListDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!strcmpnull(cws->szModule, "CList"))
 	{
 		// Has contact been renamed?
-		if (!strcmpnull(cws->szSetting, "MyHandle") &&
-			getByte("StoreServerDetails", DEFAULT_SS_STORE))
-		{ // Update contact's details in server-list
-			servlistUpdateContact(wParam);
-		}
+		if (!strcmpnull(cws->szSetting, "MyHandle") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
+			servlistUpdateContact(hContact); // Update contact's details in server-list
 
 		// Has contact been moved to another group?
-		if (!strcmpnull(cws->szSetting, "Group") &&
-			getByte("StoreServerDetails", DEFAULT_SS_STORE))
-		{ // Read group from DB
-			char* szNewGroup = getContactCListGroup(wParam);
-
+		if (!strcmpnull(cws->szSetting, "Group") && getByte("StoreServerDetails", DEFAULT_SS_STORE)) {
+			char* szNewGroup = getContactCListGroup(hContact); // Read group from DB
 			SAFE_FREE(&szNewGroup);
 		}
 	}
-	else if (!strcmpnull(cws->szModule, "UserInfo"))
-	{
-		if (!strcmpnull(cws->szSetting, "MyNotes") &&
-			getByte("StoreServerDetails", DEFAULT_SS_STORE))
-		{ // Update contact's details in server-list
-			servlistUpdateContact(wParam);
-		}
+	else if (!strcmpnull(cws->szModule, "UserInfo")) {
+		// Update contact's details in server-list
+		if (!strcmpnull(cws->szSetting, "MyNotes") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
+			servlistUpdateContact(hContact);
 	}
 
 	return 0;

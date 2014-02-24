@@ -242,7 +242,7 @@ INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM lParam)
 {
 	db_set_b(hContact, "CList", "HideContactAvatar", 0);
 
-	pcli->pfnClcBroadcast( INTM_AVATARCHANGED, hContact, 0);
+	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, hContact, 0);
 	return 0;
 }
 
@@ -250,7 +250,7 @@ INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM lParam)
 {
 	db_set_b(hContact, "CList", "HideContactAvatar", 1);
 
-	pcli->pfnClcBroadcast( INTM_AVATARCHANGED, hContact, 0);
+	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, hContact, 0);
 	return 0;
 }
 
@@ -2176,7 +2176,7 @@ LRESULT CLUI::OnDelayedSizingTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (mutex_bDelayedSizing && !mutex_bDuringSizing) {
 		mutex_bDelayedSizing = 0;
 		KillTimer( m_hWnd,TM_DELAYEDSIZING );
-		pcli->pfnClcBroadcast( INTM_SCROLLBARCHANGED, 0, 0 );
+		pcli->pfnClcBroadcast(INTM_SCROLLBARCHANGED, 0, 0 );
 	}
 	return TRUE;
 }

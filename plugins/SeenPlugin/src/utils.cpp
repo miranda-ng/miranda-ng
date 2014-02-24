@@ -543,12 +543,12 @@ static void waitThread(void *param)
 	mir_free(infoParam);
 }
 
-int UpdateValues(WPARAM wparam,LPARAM lparam)
+int UpdateValues(WPARAM hContact,LPARAM lparam)
 {
 	// to make this code faster
-	if (!wparam) return 0;
+	if (!hContact)
+		return 0;
 
-	MCONTACT hContact = (MCONTACT)wparam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING *)lparam;
 	//if (CallService(MS_IGNORE_ISIGNORED,hContact,IGNOREEVENT_USERONLINE)) return 0;
 	BOOL isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;

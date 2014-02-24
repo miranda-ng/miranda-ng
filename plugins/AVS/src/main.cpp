@@ -220,21 +220,21 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	if (cws == NULL || g_shutDown)
 		return 0;
 
-	if (wParam == 0) {
+	if (hContact == 0) {
 		if (!strcmp(cws->szSetting, "AvatarFile") || !strcmp(cws->szSetting, "PictObject") || !strcmp(cws->szSetting, "AvatarHash") || !strcmp(cws->szSetting, "AvatarSaved"))
-			ReportMyAvatarChanged((WPARAM) cws->szModule, 0);
+			ReportMyAvatarChanged((WPARAM)cws->szModule, 0);
 		return 0;
 	}
 
 	if (g_MetaAvail && !strcmp(cws->szModule, g_szMetaName)) {
 		if (lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 5))
-			MetaChanged(wParam, 0);
+			MetaChanged(hContact, 0);
 	}
 	return 0;
 }

@@ -112,12 +112,12 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
+int onContactSettingChanged(WPARAM hContact,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
-	if (wParam != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
-		setExtraIcon(wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
+	if (hContact != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
+		setExtraIcon(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;
 }

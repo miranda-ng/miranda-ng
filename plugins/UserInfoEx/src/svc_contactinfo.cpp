@@ -717,9 +717,9 @@ static INT_PTR GetContactSettingStrExService(WPARAM wParam, LPARAM lParam)
 * @return	0
 **/
 
-static int OnSettingChanged(WPARAM wParam, LPARAM lParam)
+static int OnSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	if ((HANDLE)wParam == NULL) {
+	if (hContact == NULL) {
 		DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*) lParam;
 		if (!mir_strcmp(pdbcws->szModule, "Contact") && !mir_strcmp(pdbcws->szSetting, "NameOrder"))
 			memcpy(gNameOrder, pdbcws->value.pbVal, pdbcws->value.cpbVal);

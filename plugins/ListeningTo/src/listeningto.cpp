@@ -945,9 +945,8 @@ void SetExtraIcon(MCONTACT hContact, BOOL set)
 	ExtraIcon_SetIcon(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
 }
 
-int SettingChanged(WPARAM wParam,LPARAM lParam)
+int SettingChanged(WPARAM hContact,LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT) wParam;
 	if (hContact == NULL)
 		return 0;
 

@@ -28,10 +28,10 @@ static stdButtons[] =
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int OnSettingChanging(WPARAM wParam, LPARAM lParam)
+int OnSettingChanging(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-	if (wParam != 0 || dbcws == NULL)
+	if (hContact != 0 || dbcws == NULL)
 		return 0;
 
 	if ( !strcmp(dbcws->szModule, "CList")) {

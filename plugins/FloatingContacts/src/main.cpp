@@ -226,7 +226,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	int idStatus = ID_STATUS_OFFLINE;
 	BOOL bRefresh = TRUE;
-	DBCONTACTWRITESETTING* pdbcws = (DBCONTACTWRITESETTING*)lParam;
+	DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	if (hContact == NULL) {
 		if (( 0 == _stricmp( pdbcws->szModule, "CLC" )) || ( 0 == _stricmp( pdbcws->szModule, MODULE )) ) {
@@ -242,25 +242,15 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	// Only on these 2 events we need to refresh
 	if (0 == _stricmp(pdbcws->szSetting, "Status"))
-	{
 		idStatus = pdbcws->value.wVal;
-	}
 	else if (0 == _stricmp(pdbcws->szSetting, "Nick"))
-	{
 		idStatus = GetContactStatus(hContact);
-	}
 	else if (0 == _stricmp(pdbcws->szSetting, "MyHandle"))
-	{
 		idStatus = GetContactStatus(hContact);
-	}
 	else if (fcOpt.bShowIdle && 0 == _stricmp( pdbcws->szSetting, "IdleTS"))
-	{
 		idStatus = GetContactStatus(hContact);
-	}
 	else
-	{
 		bRefresh = FALSE;
-	}
 
 	// Detach call
 	if (bRefresh)

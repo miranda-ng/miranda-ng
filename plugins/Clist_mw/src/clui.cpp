@@ -334,12 +334,12 @@ int CreateTimerForConnectingIcon(WPARAM wParam, LPARAM lParam)
 // Restore protocols to the last global status.
 // Used to reconnect on restore after standby.
 
-int OnSettingChanging(WPARAM wParam, LPARAM lParam)
+int OnSettingChanging(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-	if (wParam == 0) {
-		if ((dbcws->value.type == DBVT_BYTE)&&!strcmp(dbcws->szModule,"CLUI")) {
-			if ( !strcmp(dbcws->szSetting,"SBarShow")) {
+	if (hContact == 0) {
+		if ((dbcws->value.type == DBVT_BYTE) && !strcmp(dbcws->szModule,"CLUI")) {
+			if (!strcmp(dbcws->szSetting,"SBarShow")) {
 				showOpts = dbcws->value.bVal;
 				return 0;
 			}

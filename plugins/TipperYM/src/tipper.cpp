@@ -94,7 +94,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 }
 
 // hack to hide tip when clist hides from timeout
-int SettingChanged(WPARAM wParam, LPARAM lParam)
+int SettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	if (strcmp(dcws->szModule, "CList") != 0 || strcmp(dcws->szSetting, "State") != 0)

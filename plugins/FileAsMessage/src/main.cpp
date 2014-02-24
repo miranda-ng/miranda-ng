@@ -50,15 +50,12 @@ int OnSkinIconsChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnSettingChanged(WPARAM wParam,LPARAM lParam)
+int OnSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
-	HWND hwnd = WindowList_Find(hFileList,wParam);
+	HWND hwnd = WindowList_Find(hFileList, hContact);
 	PostMessage(hwnd, WM_FE_STATUSCHANGE, 0,0);
-	//OnSkinIconsChanged(0,0);
-	//PostMessage(hwnd, WM_FE_SKINCHANGE, 0,0);
-
 	return 0;
 }
 

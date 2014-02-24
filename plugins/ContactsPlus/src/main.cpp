@@ -151,12 +151,12 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int HookContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = GetContactProto(wParam);
-
-	if (strcmpnull(cws->szModule, "CList") && strcmpnull(cws->szModule, szProto)) return 0;
+	char *szProto = GetContactProto(hContact);
+	if (strcmpnull(cws->szModule, "CList") && strcmpnull(cws->szModule, szProto))
+		return 0;
 
 	WindowList_Broadcast(ghSendWindowList, DM_UPDATETITLE, 0, 0);
 	WindowList_Broadcast(ghRecvWindowList, DM_UPDATETITLE, 0, 0);

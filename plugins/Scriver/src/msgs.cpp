@@ -242,13 +242,12 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
+static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	char *szProto = GetContactProto(wParam);
-	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
-		return 0;
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, wParam, lParam);
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
+	char *szProto = GetContactProto(hContact);
+	if (!lstrcmpA(cws->szModule, "CList") && !lstrcmpA(cws->szModule, szProto))
+		WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
 	return 0;
 }
 

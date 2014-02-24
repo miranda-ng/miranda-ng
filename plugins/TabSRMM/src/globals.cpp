@@ -393,20 +393,19 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 // needed to catch status, nickname and other changes in order to update open message
 // sessions.
 
-int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
+int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	const char 	*szProto = NULL;
 	const char  *setting = cws->szSetting;
-	HWND		hwnd = 0;
 	CContactCache* c = 0;
-	bool		fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
+	bool fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
 
-	hwnd = M.FindWindow(wParam);
+	HWND hwnd = M.FindWindow(hContact);
 
-	if (hwnd == 0 && wParam != 0) {     // we are not interested in this event if there is no open message window/tab
+	if (hwnd == 0 && hContact != 0) {     // we are not interested in this event if there is no open message window/tab
 		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
-			c = CContactCache::getContactCache(wParam);
+			c = CContactCache::getContactCache(hContact);
 			if (c) {
 				fChanged = c->updateStatus();
 				if (strcmp(setting, "Status"))
@@ -418,13 +417,13 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	if (wParam == 0 && !strcmp("Nick", setting)) {
+	if (hContact == 0 && !strcmp("Nick", setting)) {
 		M.BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
 		return 0;
 	}
 
-	if (wParam) {
-		c = CContactCache::getContactCache(wParam);
+	if (hContact) {
+		c = CContactCache::getContactCache(hContact);
 		if (c) {
 			szProto = c->getProto();
 			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
@@ -434,7 +433,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (wParam == 0 && !lstrcmpA(setting, "Enabled")) {
+	if (hContact == 0 && !lstrcmpA(setting, "Enabled")) {
 		if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) { 		// catch the disabled meta contacts
 			PluginConfig.bMetaEnabled = abs(M.GetByte(PluginConfig.szMetaName, "Enabled", -1));
 			CContactCache::cacheUpdateMetaChanged();
@@ -445,7 +444,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName))
-		if (wParam != 0 && !lstrcmpA(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
+		if (hContact != 0 && !lstrcmpA(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
 
 	if (hwnd) {
@@ -497,10 +496,10 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // event fired when a contact has been deleted. Make sure to close its message session
 
-int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
+int CGlobals::DBContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	if (wParam) {
-		CContactCache *c = CContactCache::getContactCache(wParam);
+	if (hContact) {
+		CContactCache *c = CContactCache::getContactCache(hContact);
 		if (c)
 			c->deletedHandler();
 	}
@@ -512,10 +511,10 @@ int CGlobals::DBContactDeleted(WPARAM wParam, LPARAM lParam)
 // our contact cache and, if a message window exists, tell it to update
 // relevant information.
 
-int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
+int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM lParam)
 {
-	if (wParam) {
-		CContactCache *c = CContactCache::getContactCache(wParam);
+	if (hContact) {
+		CContactCache *c = CContactCache::getContactCache(hContact);
 		if (c) {
 			c->updateMeta(true);
 			if (c->getHwnd()) {

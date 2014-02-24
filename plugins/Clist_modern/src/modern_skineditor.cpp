@@ -747,7 +747,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					StoreTreeToDB(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),SKIN);
 					//ReloadSkin
 					ske_LoadSkinFromDB();
-					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0);
+					pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
 					Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 					ske_RedrawCompleteWindow();
 					Sync(CLUIFrames_OnClistResize_mod, 0, 0);

@@ -163,9 +163,9 @@ static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
  * misc functions
  ***********************************************************************************************************/
 
-static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	if ((HANDLE)wParam == NULL)
+	if (hContact == NULL)
 		return 0;
 
 	/* user details update */
@@ -175,12 +175,12 @@ static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		 !lstrcmpA(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
 	{
 		/* Extra Image */
-		SetExtraImage(wParam);
+		SetExtraImage(hContact);
 
 		/* Status Icon */
-		int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
+		int i = gMsgWndList.getIndex((MsgWndData*)&hContact);
 		if (i != -1) {
-			gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(wParam, 0));
+			gMsgWndList[i]->ContryIDchange((int)ServiceDetectContactOriginCountry(hContact, 0));
 			gMsgWndList[i]->FlagsIconSet();
 		}
 	}

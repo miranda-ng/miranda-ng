@@ -63,12 +63,12 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
 	DBVARIANT dv = dw->value;
 	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
-		RefreshContactListIcons(wParam);
+		RefreshContactListIcons(hContact);
 	
 	return 0;
 }

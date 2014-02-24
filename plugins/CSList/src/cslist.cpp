@@ -65,9 +65,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 // ====[ LOADER ]=============================================================
 
-static int OnDbChanged(WPARAM wparam, LPARAM lparam)
+static int OnDbChanged(WPARAM hContact, LPARAM lparam)
 {
-	MCONTACT hContact = (MCONTACT)wparam;
 	DBCONTACTWRITESETTING *cws = ( DBCONTACTWRITESETTING* )lparam;
 
 	// if user changes his UIN or JID on any account

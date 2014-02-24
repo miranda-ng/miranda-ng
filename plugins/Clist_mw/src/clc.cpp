@@ -93,18 +93,18 @@ void SortClcByTimer (HWND hwnd)
 	SetTimer(hwnd,TIMERID_DELAYEDRESORTCLC,db_get_b(NULL,"CLUI","DELAYEDTIMER",200),NULL);
 }
 
-static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
+static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"MetaContacts") && !strcmp(cws->szSetting,"Handle"))
+	if (hContact != NULL && !strcmp(cws->szModule,"MetaContacts") && !strcmp(cws->szSetting,"Handle"))
 		pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0 );
 
-	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"CList")) {
+	if (hContact != NULL && !strcmp(cws->szModule,"CList")) {
 		if ( !strcmp( cws->szSetting, "noOffline" ))
-			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, wParam, lParam );
+			pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
 		else if ( !strcmp(cws->szSetting,"StatusMsg"))
-			pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED, wParam, lParam );
+			pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, lParam);
 	}
 	return 0;
 }

@@ -415,11 +415,9 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
+static int OnContactSettingChanged( WPARAM hContact, LPARAM lParam )
 {
-	HANDLE		hContact	= ( HANDLE )wParam;
 	DBCONTACTWRITESETTING* pdbcws = ( DBCONTACTWRITESETTING* )lParam;
-
 	if ( hContact == NULL )
 		if ( !stricmp( pdbcws->szModule, dbLastUC_ModuleName))
 			LoadDBSettings();

@@ -114,10 +114,10 @@ static tbdat = { NULL, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEW
 
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 
-static int ehhToolBarSettingsChanged(WPARAM wParam, LPARAM lParam)
+static int ehhToolBarSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if ((HANDLE)wParam != NULL)
+	if (hContact != NULL)
 		return 0;
 
 	if (!mir_strcmp(cws->szModule,"CList")) {

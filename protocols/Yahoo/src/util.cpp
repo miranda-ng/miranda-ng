@@ -152,18 +152,18 @@ void CYahooProto::ShowError(const TCHAR *title, const TCHAR *buff)
 			ShowNotification(title, buff, NIIF_ERROR);
 }
 
-int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
+int __cdecl CYahooProto::OnSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	if (!wParam || !m_bLoggedIn)
+	if (!hContact || !m_bLoggedIn)
 		return 0;
 
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*) lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if ( !strcmp(cws->szSetting, "ApparentMode")) {
 		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
-		if (!getString(wParam, YAHOO_LOGINID, &dbv)) {
-			int iAdd = (ID_STATUS_OFFLINE == getWord(wParam, "ApparentMode", 0));
+		if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
+			int iAdd = (ID_STATUS_OFFLINE == getWord(hContact, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
 			db_free(&dbv);
 		}

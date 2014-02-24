@@ -160,14 +160,14 @@ static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
+static int ExtraImgSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (wParam != NULL) {
+	if (hContact) {
 		/* user details update */
 		if (!lstrcmpA(dbcws->szSetting,"RealIP") || !lstrcmpA(dbcws->szSetting,"Country") || !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
 			/* Extra Image */
-			SetExtraImage(wParam);
+			SetExtraImage(hContact);
 			/* Status Icon */
 			if (ServiceExists(MS_MSG_REMOVEICON))
 				CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
