@@ -244,7 +244,7 @@ int TlenProtocol::MUCHandleEvent(WPARAM wParam, LPARAM lParam)
 							mir_snprintf(str, SIZEOF(str), "%s/%s", mucce->pszID, nick);
 							hContact = TlenDBCreateContact(this, str, nick, TRUE); //(char *)mucce->pszUID
 							db_set_b(hContact, m_szModuleName, "bChat", TRUE);
-							CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
+							CallService(MS_MSG_SENDMESSAGE, hContact, NULL);
 						}
 						else {
 							DBVARIANT dbv;
@@ -253,7 +253,7 @@ int TlenProtocol::MUCHandleEvent(WPARAM wParam, LPARAM lParam)
 								mir_snprintf(str, sizeof(str), "%s@%s", nick, dbv.pszVal);
 								db_free(&dbv);
 								hContact = TlenDBCreateContact(this, str, nick, TRUE);
-								CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
+								CallService(MS_MSG_SENDMESSAGE, hContact, NULL);
 							}
 						}
 					}
@@ -977,7 +977,7 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 		if (!db_get(hContact, szProto, "jid", &dbv)) {
 			if (strcmp(dbv.pszVal, "b73@tlen.pl")) {
 				queryResult.pItems[queryResult.iItemsNum].pszID = mir_strdup(dbv.pszVal);
-				queryResult.pItems[queryResult.iItemsNum].pszName = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
+				queryResult.pItems[queryResult.iItemsNum].pszName = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 				queryResult.iItemsNum++;
 			}
 			db_free(&dbv);

@@ -25,18 +25,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include "file.h"
 
+HANDLE hDlgSucceeded, hDlgCanceled;
+
 TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s);
 int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR *r);
 
 static HGENMENU hSRFileMenuItem;
 
-TCHAR *GetContactID(MCONTACT hContact)
+TCHAR* GetContactID(MCONTACT hContact)
 {
-	TCHAR *theValue = {0};
+	TCHAR *theValue = 0;
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
-		if ( !db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
+		if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 			return theValue;
@@ -47,12 +49,12 @@ TCHAR *GetContactID(MCONTACT hContact)
 		ci.hContact = hContact;
 		ci.szProto = szProto;
 		ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-		if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
 				return (TCHAR *)ci.pszVal;
 			case CNFT_DWORD:
-				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
+				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)* 32), 10);
 			}
 		}
 	}
@@ -64,8 +66,7 @@ static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 	struct FileSendData fsd;
 	fsd.hContact = hContact;
 	fsd.ppFiles = NULL;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
-	return 0;
+	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }
 
 static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
@@ -78,15 +79,15 @@ static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
 	while (ppFiles[count] != NULL)
 		count++;
 
-	fsd.ppFiles = (const TCHAR**)alloca((count+1) * sizeof(void*));
-	for (int i=0; i < count; i++)
-		fsd.ppFiles[i] = (const TCHAR*)mir_a2t(ppFiles[i]);
-	fsd.ppFiles[ count ] = NULL;
+	fsd.ppFiles = (const TCHAR**)alloca((count + 1) * sizeof(void*));
+	for (int i = 0; i < count; i++)
+		fsd.ppFiles[i] = mir_a2t(ppFiles[i]);
+	fsd.ppFiles[count] = NULL;
 
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	HWND hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	for (int j = 0; j < count; j++)
 		mir_free((void*)fsd.ppFiles[j]);
-	return 0;
+	return (INT_PTR)hWnd;
 }
 
 static INT_PTR SendSpecificFilesT(WPARAM hContact, LPARAM lParam)
@@ -94,8 +95,7 @@ static INT_PTR SendSpecificFilesT(WPARAM hContact, LPARAM lParam)
 	FileSendData fsd;
 	fsd.hContact = hContact;
 	fsd.ppFiles = (const TCHAR**)lParam;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
-	return 0;
+	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }
 
 static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
@@ -116,7 +116,7 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 
 void PushFileEvent(MCONTACT hContact, HANDLE hdbe, LPARAM lParam)
 {
-	CLISTEVENT cle = {0};
+	CLISTEVENT cle = { 0 };
 	cle.cbSize = sizeof(cle);
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
@@ -135,7 +135,8 @@ void PushFileEvent(MCONTACT hContact, HANDLE hdbe, LPARAM lParam)
 		cle.hIcon = LoadSkinIcon(SKINICON_EVENT_FILE);
 		cle.pszService = "SRFile/RecvFile";
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-	}	}
+	}
+}
 
 static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
@@ -145,7 +146,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 	dbei.cbBlob = sizeof(DWORD);
 	dbei.pBlob = (PBYTE)&dwSignature;
 	db_event_get((HANDLE)lParam, &dbei);
-	if (dbei.flags & (DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
+	if (dbei.flags & (DBEF_SENT | DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
 		return 0;
 
 	PushFileEvent(wParam, (HANDLE)lParam, 0);
@@ -171,20 +172,20 @@ int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValu
 
 void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed)
 {
-	if ( !unitsOverride) {
-		if (size<1000) unitsOverride = UNITS_BYTES;
-		else if (size<100*1024) unitsOverride = UNITS_KBPOINT1;
-		else if (size<1024*1024) unitsOverride = UNITS_KBPOINT0;
-		else if (size<1024*1024*1024) unitsOverride = UNITS_MBPOINT2;
+	if (!unitsOverride) {
+		if (size < 1000) unitsOverride = UNITS_BYTES;
+		else if (size < 100 * 1024) unitsOverride = UNITS_KBPOINT1;
+		else if (size < 1024 * 1024) unitsOverride = UNITS_KBPOINT0;
+		else if (size < 1024 * 1024 * 1024) unitsOverride = UNITS_MBPOINT2;
 		else unitsOverride = UNITS_GBPOINT3;
 	}
 	if (unitsUsed) *unitsUsed = unitsOverride;
-	switch(unitsOverride) {
-	case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits?_T(" "):_T(""), appendUnits?TranslateT("bytes"):_T("")); break;
-	case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size/1024.0, appendUnits?_T(" KB"):_T("")); break;
-	case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, _T("%u%s"), (int)(size/1024), appendUnits?_T(" KB"):_T("")); break;
-	case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, _T("%.3f%s"), (size >> 20)/1024.0, appendUnits?_T(" GB"):_T("")); break;
-	default: mir_sntprintf(szOut, cchOut, _T("%.2lf%s"), size/1048576.0, appendUnits?_T(" MB"):_T("")); break;
+	switch (unitsOverride) {
+		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits ? _T(" ") : _T(""), appendUnits ? TranslateT("bytes") : _T("")); break;
+		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size / 1024.0, appendUnits ? _T(" KB") : _T("")); break;
+		case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, _T("%u%s"), (int)(size / 1024), appendUnits ? _T(" KB") : _T("")); break;
+		case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, _T("%.3f%s"), (size >> 20) / 1024.0, appendUnits ? _T(" GB") : _T("")); break;
+		default: mir_sntprintf(szOut, cchOut, _T("%.2lf%s"), size / 1048576.0, appendUnits ? _T(" MB") : _T("")); break;
 	}
 }
 
@@ -196,8 +197,7 @@ void FreeFilesMatrix(TCHAR ***files)
 
 	// Free each filename in the pointer array
 	TCHAR **pFile = *files;
-	while (*pFile != NULL)
-	{
+	while (*pFile != NULL) {
 		mir_free(*pFile);
 		*pFile = NULL;
 		pFile++;
@@ -212,7 +212,7 @@ void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
 {
 	mir_free(fts->tszCurrentFile);
 	if (fts->ptszFiles) {
-		for (int i=0;i<fts->totalFiles;i++) mir_free(fts->ptszFiles[i]);
+		for (int i = 0; i < fts->totalFiles; i++) mir_free(fts->ptszFiles[i]);
 		mir_free(fts->ptszFiles);
 	}
 	mir_free(fts->tszWorkingDir);
@@ -224,7 +224,7 @@ void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFE
 	if (src->tszCurrentFile) dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
 	if (src->ptszFiles) {
 		dest->ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*src->totalFiles);
-		for (int i=0; i < src->totalFiles; i++)
+		for (int i = 0; i < src->totalFiles; i++)
 			dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i]);
 	}
 	if (src->tszWorkingDir) dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir);
@@ -237,16 +237,16 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->hContact = src->hContact;
 	dest->flags = src->flags;
 	if (dest->totalFiles != src->totalFiles) {
-		for (int i=0;i<dest->totalFiles;i++) mir_free(dest->ptszFiles[i]);
+		for (int i = 0; i < dest->totalFiles; i++) mir_free(dest->ptszFiles[i]);
 		mir_free(dest->ptszFiles);
 		dest->ptszFiles = NULL;
 		dest->totalFiles = src->totalFiles;
 	}
 	if (src->ptszFiles) {
-		if ( !dest->ptszFiles)
+		if (!dest->ptszFiles)
 			dest->ptszFiles = (TCHAR**)mir_calloc(sizeof(TCHAR*)*src->totalFiles);
-		for (int i=0; i < src->totalFiles; i++)
-			if ( !dest->ptszFiles[i] || !src->ptszFiles[i] || PFTS_CompareWithTchar(src, src->ptszFiles[i], dest->ptszFiles[i])) {
+		for (int i = 0; i < src->totalFiles; i++)
+			if (!dest->ptszFiles[i] || !src->ptszFiles[i] || PFTS_CompareWithTchar(src, src->ptszFiles[i], dest->ptszFiles[i])) {
 				mir_free(dest->ptszFiles[i]);
 				if (src->ptszFiles[i])
 					dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i]);
@@ -255,7 +255,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 			}
 	}
 	else if (dest->ptszFiles) {
-		for (int i=0; i < dest->totalFiles; i++)
+		for (int i = 0; i < dest->totalFiles; i++)
 			mir_free(dest->ptszFiles[i]);
 		mir_free(dest->ptszFiles);
 		dest->ptszFiles = NULL;
@@ -264,7 +264,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->currentFileNumber = src->currentFileNumber;
 	dest->totalBytes = src->totalBytes;
 	dest->totalProgress = src->totalProgress;
-	if (src->tszWorkingDir && ( !dest->tszWorkingDir || PFTS_CompareWithTchar(src, src->tszWorkingDir, dest->tszWorkingDir))) {
+	if (src->tszWorkingDir && (!dest->tszWorkingDir || PFTS_CompareWithTchar(src, src->tszWorkingDir, dest->tszWorkingDir))) {
 		mir_free(dest->tszWorkingDir);
 		if (src->tszWorkingDir)
 			dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir);
@@ -272,7 +272,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 			dest->tszWorkingDir = NULL;
 	}
 
-	if ( !dest->tszCurrentFile || !src->tszCurrentFile || PFTS_CompareWithTchar(src, src->tszCurrentFile, dest->tszCurrentFile)) {
+	if (!dest->tszCurrentFile || !src->tszCurrentFile || PFTS_CompareWithTchar(src, src->tszCurrentFile, dest->tszCurrentFile)) {
 		mir_free(dest->tszCurrentFile);
 		if (src->tszCurrentFile)
 			dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
@@ -293,7 +293,7 @@ static void RemoveUnreadFileEvents(void)
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
-			if ( !(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
+			if (!(dbei.flags&(DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
 				db_event_markRead(hContact, hDbEvent);
 			hDbEvent = db_event_next(hDbEvent);
 		}
@@ -336,10 +336,9 @@ INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR openContRecDir(WPARAM wparam, LPARAM)
+INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
-	MCONTACT hContact = (MCONTACT)wparam;
 	GetContactReceivedFilesDir(hContact, szContRecDir, SIZEOF(szContRecDir), TRUE);
 	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
 	return 0;
@@ -355,13 +354,12 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void sttRecvCreateBlob(DBEVENTINFO& dbei, int fileCount, char** pszFiles, char* szDescr)
+static void sttRecvCreateBlob(DBEVENTINFO &dbei, int fileCount, char **pszFiles, char *szDescr)
 {
 	dbei.cbBlob = sizeof(DWORD);
-	{
-		for (int i=0; i < fileCount; i++)
-			dbei.cbBlob += lstrlenA(pszFiles[i]) + 1;
-	}
+
+	for (int i = 0; i < fileCount; i++)
+		dbei.cbBlob += lstrlenA(pszFiles[i]) + 1;
 
 	dbei.cbBlob += lstrlenA(szDescr) + 1;
 
@@ -370,7 +368,7 @@ static void sttRecvCreateBlob(DBEVENTINFO& dbei, int fileCount, char** pszFiles,
 
 	*(DWORD*)dbei.pBlob = 0;
 	BYTE* p = dbei.pBlob + sizeof(DWORD);
-	for (int i=0; i < fileCount; i++) {
+	for (int i = 0; i < fileCount; i++) {
 		strcpy((char*)p, pszFiles[i]);
 		p += lstrlenA(pszFiles[i]) + 1;
 	}
@@ -379,30 +377,27 @@ static void sttRecvCreateBlob(DBEVENTINFO& dbei, int fileCount, char** pszFiles,
 
 static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 {
-	CCSDATA* ccs = (CCSDATA*)lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVFILET* pre = (PROTORECVFILET*)ccs->lParam;
 	if (pre->fileCount == 0)
 		return 0;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	dbei.eventType = EVENTTYPE_FILE;
 
-	char** pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
-	{
-		for (int i=0; i < pre->fileCount; i++)
-			pszFiles[i] = Utf8EncodeT(pre->ptszFiles[i]);
-	}
-	char* szDescr = Utf8EncodeT(pre->tszDescription);
+	char **pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
+	for (int i = 0; i < pre->fileCount; i++)
+		pszFiles[i] = Utf8EncodeT(pre->ptszFiles[i]);
+
+	char *szDescr = Utf8EncodeT(pre->tszDescription);
 	dbei.flags |= DBEF_UTF;
 	sttRecvCreateBlob(dbei, pre->fileCount, pszFiles, szDescr);
-	{
-		for (int i=0; i < pre->fileCount; i++)
-			mir_free(pszFiles[i]);
-	}
+
+	for (int i = 0; i < pre->fileCount; i++)
+		mir_free(pszFiles[i]);
 	mir_free(szDescr);
 
 	HANDLE hdbe = db_event_add(ccs->hContact, &dbei);
@@ -428,6 +423,9 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 
+	hDlgSucceeded = CreateHookableEvent(ME_FILEDLG_SUCCEEDED);
+	hDlgCanceled = CreateHookableEvent(ME_FILEDLG_CANCELED);
+
 	CreateServiceFunction(MS_PROTO_RECVFILET, Proto_RecvFileT);
 
 	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);
@@ -439,8 +437,8 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);
 	CreateServiceFunction("SRFile/OpenRecDir", openRecDir);
 
-	SkinAddNewSoundEx("RecvFile",   LPGEN("File"), LPGEN("Incoming"));
-	SkinAddNewSoundEx("FileDone",   LPGEN("File"), LPGEN("Complete"));
+	SkinAddNewSoundEx("RecvFile", LPGEN("File"), LPGEN("Incoming"));
+	SkinAddNewSoundEx("FileDone", LPGEN("File"), LPGEN("Complete"));
 	SkinAddNewSoundEx("FileFailed", LPGEN("File"), LPGEN("Error"));
 	SkinAddNewSoundEx("FileDenied", LPGEN("File"), LPGEN("Denied"));
 	return 0;

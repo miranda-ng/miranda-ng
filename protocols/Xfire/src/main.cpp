@@ -1604,7 +1604,7 @@ MCONTACT CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan
 	// here we create a new one since no one is to be found
 	hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if ( hContact ) {
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM)protocolname );
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)protocolname);
 
 		if ( InList )
 			db_unset(hContact, "CList", "NotOnList");
@@ -3307,7 +3307,7 @@ INT_PTR BlockFriend(WPARAM hContact, LPARAM lParam)
 				}
 			}
 		}
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 1);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 1);
 		db_free(&dbv);
 	}
 	return 0;

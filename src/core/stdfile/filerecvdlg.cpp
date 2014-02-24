@@ -204,9 +204,9 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct FileDlgData *dat;
+	FileDlgData *dat;
 
-	dat = (struct FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -215,7 +215,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			CLISTEVENT* cle = (CLISTEVENT*)lParam;
 
 
-			dat = (struct FileDlgData*)mir_calloc(sizeof(struct FileDlgData));
+			dat = (FileDlgData*)mir_calloc(sizeof(FileDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = cle->hContact;
 			dat->hDbEvent = cle->hDbEvent;

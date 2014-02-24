@@ -1949,41 +1949,6 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							if (sex) db_set_b(hContact, SKYPE_PROTONAME, "Gender", sex);
 						} else db_unset(hContact, SKYPE_PROTONAME, "Gender");
 					} else
-	/*				if (!strcmp(ptr, "AVATAR" )){
-						LOG("WndProc", "AVATAR");
-						if (!(hContact=find_contact(nick)))
-							SkypeSend("GET USER %s BUDDYSTATUS", nick);
-						else
-						{
-							TCHAR *unicode = NULL;
-							
-							if(utf8_decode((ptr+9), &Avatar)==-1) break;
-
-							if( ServiceExists(MS_AV_SETAVATAR) )
-							{
-								CallService(MS_AV_SETAVATAR,(WPARAM) hContact,(LPARAM) Avatar);
-							}
-							else
-							{
-
-								if(db_set_ts(hContact, "ContactPhoto", "File", Avatar)) 
-								{
-									#if defined( _UNICODE )
-										char buff[TEXT_LEN];
-										WideCharToMultiByte(code_page, 0, Avatar, -1, buff, TEXT_LEN, 0, 0);
-										buff[TEXT_LEN] = 0;
-										db_set_s(hContact, "ContactPhoto", "File", buff);
-									#endif
-								}
-
-							}
-														
-							
-						}
-						free(buf);
-						break;
-					}
-					*/
 					if (!strcmp(ptr, "MOOD_TEXT")){
 
 						LOG(("WndProc MOOD_TEXT"));

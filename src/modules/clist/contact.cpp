@@ -55,8 +55,8 @@ static int GetContactStatus(MCONTACT hContact)
 
 void fnChangeContactIcon(MCONTACT hContact, int iIcon, int add)
 {
-	CallService(add ? MS_CLUI_CONTACTADDED : MS_CLUI_CONTACTSETICON, (WPARAM) hContact, iIcon);
-	NotifyEventHooks(hContactIconChangedEvent, (WPARAM) hContact, iIcon);
+	CallService(add ? MS_CLUI_CONTACTADDED : MS_CLUI_CONTACTSETICON, hContact, iIcon);
+	NotifyEventHooks(hContactIconChangedEvent, hContact, iIcon);
 }
 
 int GetStatusModeOrdering(int statusMode)

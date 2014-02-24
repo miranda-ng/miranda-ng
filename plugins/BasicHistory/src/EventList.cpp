@@ -344,7 +344,7 @@ void EventList::InitNames()
 {
 	TCHAR str[200];
 	if (hContact) {
-		_tcscpy_s(contactName, 256, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR ));
+		_tcscpy_s(contactName, 256, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR ));
 		mir_sntprintf(str,200,TranslateT("History for %s"),contactName);
 	}
 	else {
@@ -390,7 +390,7 @@ void EventList::AddGroup(const EventIndex& ev)
 std::wstring EventList::GetContactName()
 {
 	if (hContact)
-		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR );
+		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR );
 
 	return TranslateT("System");
 }

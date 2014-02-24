@@ -806,7 +806,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
         && !db_get_b(NULL, "SRMsg", "UnknownTyping", 1))
         return;
     // End user check
-	CallService(MS_PROTO_SELFISTYPING, (WPARAM) hContact, bEnable?PROTOTYPE_SELFTYPING_ON:PROTOTYPE_SELFTYPING_OFF);
+	CallService(MS_PROTO_SELFISTYPING, hContact, bEnable ? PROTOTYPE_SELFTYPING_ON : PROTOTYPE_SELFTYPING_OFF);
 }
 
 //************************************************************************

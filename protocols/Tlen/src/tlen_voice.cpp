@@ -947,9 +947,8 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
-		if ((hContact=TlenHContactFromJID(proto, jid)) != NULL) {
-			return mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
-		}
+		if ((hContact=TlenHContactFromJID(proto, jid)) != NULL)
+			return mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 	}
 	return mir_strdup(id);
 }

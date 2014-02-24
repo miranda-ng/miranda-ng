@@ -67,7 +67,7 @@ TCHAR *BuildDABText(int dab, TCHAR *name, TCHAR *text, int size)
 int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
 	if (commonData.bIgnoreSubcontacts) {
-		MCONTACT hMetacontact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		MCONTACT hMetacontact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 		if ((hMetacontact) && (hMetacontact != hContact)) //not main metacontact
 			return 0;
 	}
@@ -110,7 +110,7 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
 	if (commonData.bIgnoreSubcontacts) {
-		MCONTACT hMetacontact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		MCONTACT hMetacontact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
 		if (hMetacontact && hMetacontact != hContact) //not main metacontact
 			return 0;
 	}

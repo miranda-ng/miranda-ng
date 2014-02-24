@@ -292,7 +292,7 @@ static void RestoreUnreadMessageAlerts(void)
 				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
-					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), (char*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
+					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
 				}
 			}

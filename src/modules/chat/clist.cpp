@@ -219,7 +219,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fm
 	cle.ptszTooltip = TranslateTS(szBuf);
 	if (type) {
 		if (!CallService(MS_CLIST_GETEVENT, hContact, 0))
-			CallService(MS_CLIST_ADDEVENT, (WPARAM) hContact, (LPARAM) &cle);
+			CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 	}
 	else {
 		if (CallService(MS_CLIST_GETEVENT, hContact, 0))

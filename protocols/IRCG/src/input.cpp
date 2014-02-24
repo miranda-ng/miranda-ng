@@ -656,7 +656,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hConta
 						TCHAR* p = (TCHAR*)temp.c_str();
 						pp[0] = p;
 						pp[1] = NULL;
-						CallService(MS_FILE_SENDSPECIFICFILES, hContact, (LPARAM)pp);
+						CallService(MS_FILE_SENDSPECIFICFILEST, hContact, (LPARAM)pp);
 					}
 				}
 			}

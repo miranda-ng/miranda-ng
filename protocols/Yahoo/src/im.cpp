@@ -132,7 +132,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	pre.lParam = 0;
 
 	// Turn off typing
-	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, PROTOTYPE_CONTACTTYPING_OFF);
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	ProtoChainRecvMsg(hContact, &pre);
 
 	// ack the message we just got

@@ -184,7 +184,7 @@ static MCONTACT AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD fl
 		// not already there: add
 		jid = mir_strdup(newJid); _strlwr(jid);
 		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM) proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		if ((nick=TlenNickFromJID(newJid)) == NULL)
 			nick = mir_strdup(newJid);
@@ -963,7 +963,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				jid = dbv.pszVal;
 				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					if (cws->value.type == DBVT_DELETED) {
-						newNick = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_NOMYHANDLE));
+						newNick = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_NOMYHANDLE));
 					} else if (cws->value.pszVal != NULL) {
 						newNick = settingToChar(cws);
 					} else {

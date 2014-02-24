@@ -46,7 +46,7 @@ void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 
 	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
 		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)proto->m_szModuleName);
 		// strip resource if present
 		s = TlenLoginFromJID(jid);
 		_strlwr(s);
@@ -114,7 +114,7 @@ MCONTACT TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL te
 
 	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
 		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		if (nick != NULL && nick[0] != '\0')
 			db_set_s(hContact, proto->m_szModuleName, "Nick", nick);

@@ -91,7 +91,7 @@ LPSTR	Proto(MCONTACT hContact)
 {
 	if (hContact) {
 		INT_PTR result;
-		result = CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM) hContact, NULL);
+		result = CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, NULL);
 		return (LPSTR) ((result == CALLSERVICE_NOTFOUND) ? NULL : result);
 	}
 	return NULL;
@@ -123,7 +123,7 @@ MCONTACT Add()
  **/
 BYTE Delete(MCONTACT hContact)
 {
-	return CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0) != 0;
+	return CallService(MS_DB_CONTACT_DELETE, hContact, 0) != 0;
 }
 
 /**

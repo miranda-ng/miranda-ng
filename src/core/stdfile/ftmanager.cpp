@@ -231,7 +231,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		{
 			TFtProgressData *prg = (TFtProgressData *)wParam;
 			for (i=0; i < dat->wnds->realCount; ++i) {
-				struct FileDlgData *trdat = (struct FileDlgData *)GetWindowLongPtr(dat->wnds->items[i]->hwnd, GWLP_USERDATA);
+				FileDlgData *trdat = (FileDlgData *)GetWindowLongPtr(dat->wnds->items[i]->hwnd, GWLP_USERDATA);
 				if (trdat->transferStatus.totalBytes && trdat->fs && !trdat->send && (trdat->transferStatus.totalBytes == trdat->transferStatus.totalProgress))
 					prg->scan++;
 				else if (trdat->transferStatus.totalBytes && trdat->fs) { // in progress

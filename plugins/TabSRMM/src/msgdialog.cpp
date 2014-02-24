@@ -1830,13 +1830,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						switch (mim_hotkey_check) {
 						case TABSRMM_HK_SETUSERPREFS:
-							CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)dat->hContact, 0);
+							CallService(MS_TABMSG_SETUSERPREFS, dat->hContact, 0);
 							return(_dlgReturn(hwndDlg, 1));
 						case TABSRMM_HK_NUDGE:
 							SendNudge(dat);
 							return(_dlgReturn(hwndDlg, 1));
 						case TABSRMM_HK_SENDFILE:
-							CallService(MS_FILE_SENDFILE, (WPARAM)dat->hContact, 0);
+							CallService(MS_FILE_SENDFILE, dat->hContact, 0);
 							return(_dlgReturn(hwndDlg, 1));
 						case TABSRMM_HK_QUOTEMSG:
 							SendMessage(hwndDlg, WM_COMMAND, IDC_QUOTE, 0);

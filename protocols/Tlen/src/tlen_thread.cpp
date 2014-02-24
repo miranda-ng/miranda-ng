@@ -676,7 +676,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 							if (item->isTyping) {
 								item->isTyping = FALSE;
 								if ((hContact=TlenHContactFromJID(info->proto, fromJid)) != NULL)
-									CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, PROTOTYPE_CONTACTTYPING_OFF);
+									CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 							}
 						}
 
@@ -1041,12 +1041,11 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 						bAlert = IsAuthorized(info->proto, fLogin);
 					}
 					if (bAlert) {
-						if (info->proto->tlenOptions.useNudge) {
-							NotifyEventHooks(info->proto->hTlenNudge,(WPARAM) hContact,0);
-						} else {
-							if (info->proto->tlenOptions.logAlerts) {
+						if (info->proto->tlenOptions.useNudge)
+							NotifyEventHooks(info->proto->hTlenNudge, hContact, 0);
+						else {
+							if (info->proto->tlenOptions.logAlerts)
 								TlenLogMessage(info->proto, hContact, 0, Translate("An alert has been received."));
-							}
 							SkinPlaySound("TlenAlertNotify");
 						}
 					}

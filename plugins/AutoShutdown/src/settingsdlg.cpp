@@ -166,7 +166,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE),FALSE);
 			}
 			/* check if proto is installed that supports file transfers and check if a file transfer dialog is available */
-			if ((!AnyProtoHasCaps(PF1_FILESEND) && !AnyProtoHasCaps(PF1_FILERECV)) || !ServiceExists(MS_FILE_SENDFILE)) {  /* no srfile present? */
+			if (!AnyProtoHasCaps(PF1_FILESEND) && !AnyProtoHasCaps(PF1_FILERECV)) {  /* no srfile present? */
 				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_FILETRANSFER),FALSE);
 			}

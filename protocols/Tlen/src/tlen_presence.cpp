@@ -146,7 +146,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					}
 					if (item != NULL && item->isTyping) {
 						item->isTyping = FALSE;
-						CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, PROTOTYPE_CONTACTTYPING_OFF);
+						CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 					}
 					proto->debugLogA("%s offline, set contact status to %d", from, status);
 				}

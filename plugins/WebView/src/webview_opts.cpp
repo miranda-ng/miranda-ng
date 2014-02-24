@@ -722,7 +722,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				//if alerts is unticked delete the cache
 				if (!(IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)))
-					SiteDeleted((WPARAM) hContact, 0);
+					SiteDeleted(hContact, 0);
 
 				if (eventIndex == 0) // string present
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_ALERT_STRING))))

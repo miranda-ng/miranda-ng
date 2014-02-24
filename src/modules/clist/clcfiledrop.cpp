@@ -233,7 +233,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 			AddToFileList(&ppFiles, &totalCount, szFilename);
 		}
 
-		if (!CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM) hContact, (LPARAM) ppFiles))
+		if (!CallService(MS_FILE_SENDSPECIFICFILEST, hContact, (LPARAM)ppFiles))
 			*pdwEffect = DROPEFFECT_COPY;
 
 		for (i=0; ppFiles[i]; i++)

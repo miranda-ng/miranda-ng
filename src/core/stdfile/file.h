@@ -37,13 +37,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_FILEEXISTSDLGREPLY   (WM_USER+200)
 #define M_PRESHUTDOWN		   (WM_USER+201)
 
-struct FileSendData {
+struct FileSendData
+{
 	MCONTACT hContact;
 	const TCHAR **ppFiles;
 };
 
 #define BYTESRECVEDHISTORYCOUNT  10   //the number of bytes recved is sampled once a second and the last 10 are used to get the transfer speed
-struct FileDlgData {
+struct FileDlgData
+{
 	HWND hwndTransfer;
 	HANDLE fs;
 	MCONTACT hContact;
@@ -109,8 +111,10 @@ int FileOptInitialise(WPARAM wParam, LPARAM lParam);
 
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu);
 void FtMgr_Destroy();
-HWND FtMgr_AddTransfer(struct FileDlgData *dat);
+HWND FtMgr_AddTransfer(FileDlgData *dat);
 
 void FreeFileDlgData(FileDlgData* dat);
 
 TCHAR *GetContactID(MCONTACT hContact);
+
+extern HANDLE hDlgSucceeded, hDlgCanceled;

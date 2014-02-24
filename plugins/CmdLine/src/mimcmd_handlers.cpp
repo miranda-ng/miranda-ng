@@ -1760,8 +1760,8 @@ DWORD WINAPI OpenMessageWindowThread(void *data)
 	MCONTACT hContact = (MCONTACT) data;
 	if (hContact)
 	{
-		CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM) hContact, 0);
-		CallServiceSync("SRMsg/LaunchMessageWindow", (WPARAM) hContact, 0);
+		CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
+		CallServiceSync("SRMsg/LaunchMessageWindow", hContact, 0);
 	}
 	
 	return 0;
@@ -2149,7 +2149,7 @@ void HandleIgnoreCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 			if (hContact)
 			{
-				CallService(block ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, (WPARAM) hContact, IGNOREEVENT_ALL);
+				CallService(block ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_ALL);
 			}
 		}
 

@@ -264,7 +264,7 @@ void LogSpamToFile(MCONTACT hContact, tstring message)
 
 	// Name, UID and Protocol Log line
 	LogProtocol=DBGetContactSettingStringPAN(hContact,"Protocol","p",_T(""));
-	LogContactName=(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
+	LogContactName=(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 	LogContactId=(LogProtocol==_T(""))?_T(""):GetContactUid(hContact,LogProtocol);
 	// Name, UID  and Protocol Log line
 
@@ -380,7 +380,7 @@ void HistoryLogFunc(MCONTACT hContact, std::string message)
 		std::string msg = message;
 		msg.append("\n");
 		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");
-		msg.append(toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR))).append(" ID: ");
+		msg.append(toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))).append(" ID: ");
 		msg.append(toUTF8(GetContactUid(hContact,toUTF16(GetContactProto(hContact)))));
 		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}

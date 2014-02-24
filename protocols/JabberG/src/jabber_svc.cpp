@@ -517,15 +517,12 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	
 	// send file
 	if (!_tcsicmp(szCommand, _T("sendfile"))) {
-		if (!ServiceExists(MS_FILE_SENDFILE))
-			return 1;
-
 		MCONTACT hContact = HContactFromJID(szJid, TRUE);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);
 		if (hContact == NULL)
 			return 1;
-		CallService(MS_FILE_SENDFILE, hContact, (LPARAM)NULL);
+		CallService(MS_FILE_SENDFILE, hContact, NULL);
 		return 0;
 	}
 

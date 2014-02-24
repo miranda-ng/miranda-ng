@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define HM_RECVEVENT    (WM_USER+10)
 
-static int CheckVirusScanned(HWND hwnd, struct FileDlgData *dat, int i)
+static int CheckVirusScanned(HWND hwnd, FileDlgData *dat, int i)
 {
 	if (dat->send) return 1;
 	if (dat->fileVirusScanned == NULL) return 0;
@@ -48,10 +48,9 @@ TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s)
 {
 	if (flags & PFTS_UTF)
 		return Utf8DecodeW((char*)s);
-	else if (flags & PFTS_UNICODE)
+	if (flags & PFTS_UNICODE)
 		return mir_tstrdup(s);
-	else
-		return mir_a2t((char*)s);
+	return mir_a2t((char*)s);
 }
 
 int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR *r)
@@ -62,14 +61,13 @@ int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR
 		mir_free(ts);
 		return res;
 	}
-	else if (ft->flags & PFTS_UNICODE)
+	if (ft->flags & PFTS_UNICODE)
 		return _tcscmp(s, r);
-	else {
-	  TCHAR *ts = mir_a2t((char*)s);
-	  int res = _tcscmp(ts, r);
-	  mir_free(ts);
-	  return res;
-	}
+	
+	TCHAR *ts = mir_a2t((char*)s);
+	int res = _tcscmp(ts, r);
+	mir_free(ts);
+	return res;
 }
 
 static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
@@ -131,7 +129,7 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 	mir_free(info);
 }
 
-static void SetFilenameControls(HWND hwndDlg, struct FileDlgData *dat, PROTOFILETRANSFERSTATUS *fts)
+static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFERSTATUS *fts)
 {
 	TCHAR msg[MAX_PATH];
 	TCHAR *fnbuf = NULL, *fn = NULL;

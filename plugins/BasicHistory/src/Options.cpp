@@ -1588,7 +1588,7 @@ void SaveList(HWND hwnd, MCONTACT hSystem, TaskOptions* to)
 		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM)hSystem, 0) != 0;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) hContact, 0);
+		HANDLE hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM) hItem, 0))
 			to->contacts.push_back(hContact);
 	} 

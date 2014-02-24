@@ -536,7 +536,7 @@ void UnloadContactListModule()
 	for (MCONTACT hContact = db_find_first(); hContact != NULL; ) {
 		MCONTACT hNext = db_find_next(hContact);
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		hContact = hNext;
 	}
 	ImageList_Destroy(hCListImages);

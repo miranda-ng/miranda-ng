@@ -1544,9 +1544,9 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 		return NULL;
 	}
 
-	if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) != 0) {
+	if (CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) != 0) {
 		// For some reason we failed to register the protocol for this contact
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		debugLogA("getcontact(): Failed to register GG contact %d", uin);
 		return NULL;
 	}

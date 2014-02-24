@@ -282,7 +282,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	}
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(hContact, hDbEvent);
-		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM) hDbEvent);
+		CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) hDbEvent);
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(hContact, hDbEvent);

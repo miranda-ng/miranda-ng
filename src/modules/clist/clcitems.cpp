@@ -186,7 +186,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	i = cli.pfnAddItemToGroup(group, index + 1);
 	char *szProto = GetContactProto(hContact);
 	group->cl.items[i]->type = CLCIT_CONTACT;
-	group->cl.items[i]->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) hContact, 0);
+	group->cl.items[i]->iImage = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
 	group->cl.items[i]->hContact = hContact;
 	group->cl.items[i]->proto = szProto;
 	if (szProto != NULL && !cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
