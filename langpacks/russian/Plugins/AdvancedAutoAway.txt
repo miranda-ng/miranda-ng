@@ -258,13 +258,13 @@ Cтатус-профиль
 [I've been away since %time%.]
 Отошел в %time%. Скоро вернусь.
 [Give it up, I'm not in!]
-Меня нет.
+Ну нет меня сейчас, нет...
 [Not right now.]
 Не сейчас.
 [Give a guy some peace, would ya?]
 Прошу не тревожить...
 [I'm a chatbot!]
-Свободен
+Свободен.
 [Yep, I'm here.]
 Да, я здесь.
 [Nope, not here.]
@@ -272,9 +272,9 @@ Cтатус-профиль
 [I'm hiding from the mafia.]
 Я прячусь от мафии.
 [That'll be the phone.]
-Да дайте же человеку поговорить по телефону...
+Дайте же человеку поговорить по телефону.
 [Mmm... food.]
-Ммм... поесть бы...
+Ммм... поесть бы.
 [idleeeeeeee]
 ожидание...
 [Set %s message for %s.]

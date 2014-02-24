@@ -144,7 +144,7 @@ exe игры:
 [I've been away since %time%.]
 Отошел в %time%.
 [Give it up, I'm not in!]
-Меня нет.
+Ну нет меня сейчас, нет...
 [Not right now.]
 Не сейчас.
 [Give a guy some peace, would ya?]
