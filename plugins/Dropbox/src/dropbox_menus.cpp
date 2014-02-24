@@ -40,17 +40,18 @@ int CDropbox::OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	//bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-	WORD status = CallContactService(hContact, PS_GETSTATUS, 0, 0);
+	char *module = GetContactProto(hContact);
+	WORD status = db_get_w(hContact, module, "Status", ID_STATUS_OFFLINE);
+	CallContactService(hContact, PS_GETSTATUS, 0, 0);
 
 	if (hContact == INSTANCE->GetDefaultContact() || status == ID_STATUS_OFFLINE)
 		Menu_ShowItem(INSTANCE->ContactMenuItems[CMI_SEND_FILES], FALSE);
 	else
-	{
 		Menu_DisableItem(INSTANCE->ContactMenuItems[CMI_SEND_FILES], INSTANCE->hContactTransfer);
-		if (strcmp(GetContactProto(hContact), MODULE))
-		{
-			Menu_ShowItem(INSTANCE->ContactMenuItems[CMI_API_REQUEST_AUTH], FALSE);
-		}
+	
+	if (strcmp(module, MODULE))
+	{
+		Menu_ShowItem(INSTANCE->ContactMenuItems[CMI_API_REQUEST_AUTH], FALSE);
 	}
 
 	return 0;

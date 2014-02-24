@@ -69,16 +69,19 @@ int CDropbox::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnSrmmWindowOpened(WPARAM hContact, LPARAM lParam)
+int CDropbox::OnSrmmWindowOpened(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
 	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact)
 	{
-		WORD status = CallContactService(hContact, PS_GETSTATUS, 0, 0);
+		WORD status = db_get_w(ev->hContact, GetContactProto(ev->hContact), "Status", ID_STATUS_OFFLINE);
 
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
-		bbd.bbbFlags = (ev->hContact != INSTANCE->GetDefaultContact() || status == ID_STATUS_OFFLINE) ? 0 : BBSF_HIDDEN | BBSF_DISABLED;
+		if (ev->hContact == INSTANCE->GetDefaultContact())
+			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+		else if (status == ID_STATUS_OFFLINE)
+			bbd.bbbFlags = BBSF_DISABLED;
 
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
@@ -87,16 +90,16 @@ int CDropbox::OnSrmmWindowOpened(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnSrmmButtonPressed(WPARAM hContact, LPARAM lParam)
+int CDropbox::OnSrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && hContact)
+	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact)
 	{
-		INSTANCE->hContactTransfer = hContact;
+		INSTANCE->hContactTransfer = cbc->hContact;
 
 		HWND hwnd =  (HWND)CallService(MS_FILE_SENDFILE, INSTANCE->GetDefaultContact(), 0);
 
-		dcftp[hwnd] = hContact;
+		dcftp[hwnd] = cbc->hContact;
 	}
 
 	return 0; 
