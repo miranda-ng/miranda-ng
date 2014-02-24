@@ -288,7 +288,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 		// set the status
 		if (newstatus != oldstatus && !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))) {
 			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
-			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)newstatus, 0);
+			CallProtoService(szProto, PS_SETSTATUS, newstatus, 0);
 		}
 	}
 
@@ -298,13 +298,13 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 			return -1;
 		}
 		log_debugA("CommonStatus: setting global status %u", globStatus);
-		CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)globStatus, 0);
+		CallService(MS_CLIST_SETSTATUSMODE, globStatus, 0);
 	}
 
 	return 0;
 }
 
-static INT_PTR GetProtocolCountService(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 {
 	return GetProtoCount();
 }
@@ -316,14 +316,12 @@ bool IsSuitableProto(PROTOACCOUNT *pa)
 
 int GetProtoCount()
 {
-	int pCount = 0;
-
-	int count;
-	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
+	int pCount = 0, count;
+	PROTOACCOUNT **accs;
+	ProtoEnumAccounts(&count, &accs);
 
 	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
+		if (IsSuitableProto(accs[i]))
 			pCount++;
 
 	return pCount;

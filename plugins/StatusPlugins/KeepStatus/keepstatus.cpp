@@ -40,8 +40,7 @@ extern PLUGININFOEX pluginInfoEx;
 
 static HWND hMessageWindow = NULL;
 
-// variables (general)
-static int CompareConnections( const TConnectionSettings* p1, const TConnectionSettings* p2 )
+static int CompareConnections( const TConnectionSettings *p1, const TConnectionSettings *p2 )
 {
 	return lstrcmpA( p1->szName, p2->szName );
 }
@@ -910,15 +909,14 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
-		else {
-			hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-			if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
-				mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
-			else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-				mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
-			else
-				return -1;
-		}
+
+		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+		if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
+			mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
+		else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
+			mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+		else
+			return -1;
 		break;
 
 	case KS_CONN_STATE_LOST: // lParam = 1 proto, or NULL
@@ -996,28 +994,27 @@ static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon)
 	ppd.lchIcon = hIcon;
 	_tcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
 	_tcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
-	if ( db_get_b(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0))
-	{
+	if (db_get_b(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	else if ( !db_get_b(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
-	{
+	else if (!db_get_b(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0)) {
 		ppd.colorBack = db_get_dw(NULL, MODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
 		ppd.colorText = db_get_dw(NULL, MODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
 	}
 	ppd.PluginWindowProc = PopupDlgProc;
 
-	switch ( db_get_b(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
+	switch (db_get_b(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 	case POPUP_DELAYCUSTOM:
 		ppd.iSeconds = (int)db_get_dw(NULL, MODULENAME, SETTING_POPUP_TIMEOUT, 0);
-		if (ppd.iSeconds == 0) {
-			ppd.iSeconds = currentDelay/1000-1;
-		}
+		if (ppd.iSeconds == 0)
+			ppd.iSeconds = currentDelay / 1000 - 1;
 		break;
+
 	case POPUP_DELAYPERMANENT:
 		ppd.iSeconds = -1;
 		break;
+
 	case POPUP_DELAYFROMPU:
 	default:
 		ppd.iSeconds = 0;
@@ -1028,12 +1025,12 @@ static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon)
 
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_CONTEXTMENU: // right
 	case WM_COMMAND: // left
-		switch( db_get_b( NULL, MODULENAME, 
-						(message == WM_COMMAND) ? SETTING_POPUP_LEFTCLICK : SETTING_POPUP_RIGHTCLICK,
-						POPUP_ACT_CLOSEPOPUP )) {
+		switch (db_get_b(NULL, MODULENAME,
+			(message == WM_COMMAND) ? SETTING_POPUP_LEFTCLICK : SETTING_POPUP_RIGHTCLICK,
+			POPUP_ACT_CLOSEPOPUP)) {
 		case POPUP_ACT_CANCEL:
 			// cancel timer
 			StopChecking();
@@ -1046,9 +1043,6 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 			break;
 		}
 		break;
-
-	case UM_FREEPLUGINDATA:
-		break;
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -1057,7 +1051,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 // =============== services ===================
 INT_PTR StopReconnectingService(WPARAM wParam, LPARAM lParam)
 {
-	int ret = StartTimer(IDT_CHECKCONN|IDT_AFTERCHECK, -1, FALSE);
+	int ret = StartTimer(IDT_CHECKCONN | IDT_AFTERCHECK, -1, FALSE);
 	StopChecking();
 	return ret;
 }
@@ -1074,7 +1068,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	int ret = -2;
-	for ( int i=0; i < connectionSettings.getCount(); i++ ) {
+	for (int i = 0; i < connectionSettings.getCount(); i++) {
 		TConnectionSettings& cs = connectionSettings[i];
 		if (!strcmp(szProto, cs.szName)) {
 			if (wParam) {
@@ -1097,12 +1091,12 @@ INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam)
 
 	char dbSetting[128];
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", szProto);
-	if ( !db_get_b(NULL, MODULENAME, dbSetting, 1 ))
+	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return FALSE;
 
-	for ( int i=0; i < connectionSettings.getCount(); i++ ) {
+	for (int i = 0; i < connectionSettings.getCount(); i++) {
 		TConnectionSettings& cs = connectionSettings[i];
-		if ( !strcmp(szProto, cs.szName ))
+		if (!strcmp(szProto, cs.szName))
 			return GetStatus(cs) != ID_STATUS_DISABLED;
 	}
 
@@ -1129,27 +1123,27 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 {
 	static PROTOCOLSETTINGEX** ps = NULL;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_POWERBROADCAST:
 		switch (wParam) {
-		case PBT_APMSUSPEND: 
+		case PBT_APMSUSPEND:
 			log_infoA("KeepStatus: suspend state detected: %08X %08X", wParam, lParam);
 			if (ps == NULL) {
 				ps = GetCurrentProtoSettingsCopy();
-				for ( int i=0; i < connectionSettings.getCount(); i++)
-					EnableProtocolService( 0, (LPARAM)ps[i]->szName );
+				for (int i = 0; i < connectionSettings.getCount(); i++)
+					EnableProtocolService(0, (LPARAM)ps[i]->szName);
 
 				// set proto's offline, the clist will not try to reconnect in that case
 				CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
 			}
 			break;
 
-		//case PBT_APMRESUMEAUTOMATIC: ?
+			//case PBT_APMRESUMEAUTOMATIC: ?
 		case PBT_APMRESUMESUSPEND:
 		case PBT_APMRESUMECRITICAL:
 			log_infoA("KeepStatus: resume from suspend state");
 			if (ps != NULL) {
-				for (int i=0;i<connectionSettings.getCount();i++)
+				for (int i = 0; i < connectionSettings.getCount(); i++)
 					AssignStatus(&connectionSettings[i], ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg);
 				FreeProtoSettings(ps);
 				ps = NULL;
@@ -1160,7 +1154,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		if ( ps != NULL ) {
+		if (ps != NULL) {
 			FreeProtoSettings(ps);
 			ps = NULL;
 		}
@@ -1173,37 +1167,36 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account control event
 
-int OnAccChanged(WPARAM wParam,LPARAM lParam)
+int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = ( PROTOACCOUNT* )lParam;
-	switch( wParam ) {
+	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
+	switch (wParam) {
 	case PRAC_ADDED:
-		connectionSettings.insert( new TConnectionSettings( pa ));
-		return 0;
+		connectionSettings.insert(new TConnectionSettings(pa));
+		break;
 
 	case PRAC_REMOVED:
-		for ( int i=0; i < connectionSettings.getCount(); i++ ) {
-			if ( !lstrcmpA( connectionSettings[i].szName, pa->szModuleName )) {
-				connectionSettings.remove( i );
+		for (int i = 0; i < connectionSettings.getCount(); i++) {
+			if (!lstrcmpA(connectionSettings[i].szName, pa->szModuleName)) {
+				connectionSettings.remove(i);
 				break;
 			}
 		}
-		return 0;
-	default:
-		return 0;
+		break;
 	}
+	return 0;
 }
 
 // =============== init stuff =================
 
-static int onShutdown(WPARAM,LPARAM)
+static int onShutdown(WPARAM, LPARAM)
 {
 	UnhookEvent(hStatusChangeHook);
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hCSStatusChangeHook);
 	UnhookEvent(hCSStatusChangeExHook);
 
-	StopTimer(IDT_CHECKCONN|IDT_PROCESSACK|IDT_AFTERCHECK|IDT_CHECKCONTIN);
+	StopTimer(IDT_CHECKCONN | IDT_PROCESSACK | IDT_AFTERCHECK | IDT_CHECKCONTIN);
 	if (IsWindow(hMessageWindow))
 		DestroyWindow(hMessageWindow);
 
@@ -1215,17 +1208,17 @@ static int onShutdown(WPARAM,LPARAM)
 	return 0;
 }
 
-int CSModuleLoaded(WPARAM,LPARAM)
+int CSModuleLoaded(WPARAM, LPARAM)
 {
 	InitializeCriticalSection(&GenTimerCS);
 	InitializeCriticalSection(&GenStatusCS);
 	InitializeCriticalSection(&CheckContinueslyCS);
 
-	protoList = ( OBJLIST<PROTOCOLSETTINGEX>* )&connectionSettings;
+	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&connectionSettings;
 
 	hMessageWindow = NULL;
 	LoadMainOptions();
-	
+
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);

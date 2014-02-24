@@ -32,17 +32,17 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CompareSettings( const TAAAProtoSetting* p1, const TAAAProtoSetting* p2 )
+int CompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
 {
-	return lstrcmpA( p1->szName, p2->szName );
+	return lstrcmpA(p1->szName, p2->szName);
 }
 
 TAAAProtoSettingList autoAwaySettings(10, CompareSettings);
 
-TAAAProtoSetting::TAAAProtoSetting( PROTOACCOUNT* pa )
+TAAAProtoSetting::TAAAProtoSetting(PROTOACCOUNT *pa)
 {
 	cbSize = sizeof(PROTOCOLSETTINGEX);
-	szName =  pa->szModuleName;
+	szName = pa->szModuleName;
 	tszAccName = pa->tszAccountName;
 	lastStatus = status = originalStatusMode = ID_STATUS_CURRENT;
 	szMsg = NULL;
@@ -117,25 +117,26 @@ void LoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 	monitorKeyboard = db_get_b(NULL, MODULENAME, SETTING_MONITORKEYBOARD, TRUE);
 	lastInput = lastMirandaInput = GetTickCount();
 
-	for ( int i=0; i < loadSettings.getCount(); i++ ) {
+	for (int i = 0; i < loadSettings.getCount(); i++) {
 		char* protoName;
 		if ((db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
 			protoName = SETTING_ALL;
 		else
 			protoName = loadSettings[i].szName;
-		LoadAutoAwaySetting( loadSettings[i], protoName);
+		LoadAutoAwaySetting(loadSettings[i], protoName);
 		if (!override) {
 			if (loadSettings[i].optionFlags & FLAG_MONITORMIRANDA)
 				monitorMiranda = TRUE;
 			else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
 				monitorAll = TRUE;
-	}	}
+		}
+	}
 
 	if (db_get_b(NULL, "Idle", "AAEnable", 0))
 		return;
 
 	HookWindowsHooks(monitorMiranda, monitorAll);
-	hAutoAwayTimer = SetTimer(NULL,0, db_get_w(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5)*1000,AutoAwayTimer);
+	hAutoAwayTimer = SetTimer(NULL, 0, db_get_w(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
 }
 
 int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
@@ -154,16 +155,16 @@ int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
 	if (db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, 0))
 		flags = 0xFFFFFF;
 	else
-		flags = CallProtoService(protoName, PS_GETCAPS,PFLAGNUM_2,0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 	mir_snprintf(setting, sizeof(setting), "%s_Lv1Status", protoName);
-	autoAwaySetting.lv1Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY))?ID_STATUS_AWAY:ID_STATUS_OFFLINE);
+	autoAwaySetting.lv1Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
 	mir_snprintf(setting, sizeof(setting), "%s_Lv2Status", protoName);
-	autoAwaySetting.lv2Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA))?ID_STATUS_NA:ID_STATUS_OFFLINE);
+	autoAwaySetting.lv2Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
 
 	return 0;
 }
 
-static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
+static int ProcessProtoAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS)
@@ -188,7 +189,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account control event
 
-int OnAccChanged(WPARAM wParam,LPARAM lParam)
+int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 	switch (wParam) {
@@ -221,7 +222,7 @@ static char* status2descr(int status)
 	return "ERROR";
 }
 
-static int changeState(TAAAProtoSetting& setting, STATES newState)
+static int changeState(TAAAProtoSetting &setting, STATES newState)
 {
 	if (setting.curState == newState)
 		return 0;
@@ -229,8 +230,7 @@ static int changeState(TAAAProtoSetting& setting, STATES newState)
 	setting.oldState = setting.curState;
 	setting.curState = newState;
 
-	log_debugA("%s state change: %s -> %s", setting.szName,
-		status2descr(setting.oldState), status2descr(setting.curState));
+	log_debugA("%s state change: %s -> %s", setting.szName, status2descr(setting.oldState), status2descr(setting.curState));
 
 	NotifyEventHooks(hStateChangedEvent, 0, (LPARAM)(AUTOAWAYSETTING*)&setting);
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
@@ -314,8 +314,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 				aas.lastStatus = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
 			}
 			else if (((mouseStationaryTimer < sts1Time) && !bTrigger) &&
-				((aas.optionFlags & FLAG_LV2ONINACTIVE) || (!(aas.optionFlags&FLAG_SETNA))) &&
-				(aas.optionFlags & FLAG_RESET)) {
+						((aas.optionFlags & FLAG_LV2ONINACTIVE) || (!(aas.optionFlags&FLAG_SETNA))) &&
+						(aas.optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to SET_ORGSTATUS */
 				changeState(aas, SET_ORGSTATUS);
 			}
@@ -351,8 +351,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 				aas.mStatus = FALSE;
 			}
 			else if ((aas.optionFlags & FLAG_SETNA) && currentMode == aas.lv1Status &&
-				currentMode != aas.lv2Status && (aas.statusFlags & StatusModeToProtoFlag(currentMode)) &&
-				(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(aas.optionFlags & FLAG_LV2ONINACTIVE)))) {
+						currentMode != aas.lv2Status && (aas.statusFlags & StatusModeToProtoFlag(currentMode)) &&
+						(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(aas.optionFlags & FLAG_LV2ONINACTIVE)))) {
 				/* HIDDEN_ACTIVE to STATUS2_SET */
 				aas.lastStatus = aas.originalStatusMode = CallProtoService(aas.szName, PS_GETSTATUS, 0, 0);
 				aas.status = aas.lv2Status;
@@ -447,11 +447,11 @@ static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPA
 	if (code >= 0) {
 		if (ignoreAltCombo) {
 			if (((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
-				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
-				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
-				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
-				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
-				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
+				 ((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
+				 ((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
+				 ((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
+				 ((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
+				 ((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
 				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)))
 			{
 				return CallNextHookEx(hMirandaKeyBoardHook, code, wParam, lParam);
@@ -510,11 +510,11 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 	if (code >= 0) {
 		if (ignoreAltCombo) {
 			if (((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
-				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
-				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
-				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
-				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
-				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
+				 ((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
+				 ((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
+				 ((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
+				 ((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
+				 ((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
 				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)))
 			{
 				return CallNextHookEx(hKeyBoardHook, code, wParam, lParam);

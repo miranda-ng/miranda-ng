@@ -21,14 +21,14 @@
 
 static UINT_PTR setStatusTimerId = 0;
 
-int CompareSettings(const TSSSetting* p1, const TSSSetting* p2)
+int CompareSettings(const TSSSetting *p1, const TSSSetting *p2)
 {
 	return lstrcmpA(p1->szName, p2->szName);
 }
 
 static TSettingsList startupSettings(10, CompareSettings);
 
-TSSSetting::TSSSetting(PROTOACCOUNT* pa)
+TSSSetting::TSSSetting(PROTOACCOUNT *pa)
 {
 	cbSize = sizeof(PROTOCOLSETTINGEX);
 	szName = pa->szModuleName;
@@ -67,16 +67,12 @@ TSSSetting::TSSSetting(int profile, PROTOACCOUNT* pa)
 
 TSSSetting::~TSSSetting()
 {
-	if (szMsg != NULL)
-		free(szMsg);
+	free(szMsg);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HANDLE
-hProtoAckHook,
-hCSStatusChangeHook,
-hStatusChangeHook;
+static HANDLE hProtoAckHook, hCSStatusChangeHook, hStatusChangeHook;
 
 static HWND hMessageWindow;
 
@@ -330,7 +326,9 @@ static int OnOkToExit(WPARAM, LPARAM)
 			if (npi.szMsg != NULL) {
 				db_set_ts(NULL, MODULENAME, lastMsg, npi.tszMsg);
 				mir_free(npi.tszMsg);
-	}	}	}
+			}
+		}
+	}
 
 	if (db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1) || db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0)) {
 		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
