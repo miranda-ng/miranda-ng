@@ -13,16 +13,18 @@
 #include <m_skin.h>
 #include <m_icolib.h>
 #include <m_popup.h>
+#include <m_file.h>
+#include <m_json.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_string.h>
+#include <m_msg_buttonsbar.h>
 
 #include <m_protoint.h>
 #include <m_protomod.h>
 #include <m_protosvc.h>
 
 #include <m_netlib.h>
-
-#include <m_json.h>
-#include <m_langpack.h>
-#include <m_string.h>
 
 #include "version.h"
 #include "resource.h"

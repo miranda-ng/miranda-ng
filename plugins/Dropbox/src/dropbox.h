@@ -1,8 +1,10 @@
 #ifndef _DROPBOX_PROTO_H_
 #define _DROPBOX_PROTO_H_
 
+#include <map>
 #include "singleton.h"
 #include "http_request.h"
+#include "file_transfer.h"
 
 #define DROPBOX_API_VER "1"
 #define DROPBOX_API_ROOT "sandbox"
@@ -15,61 +17,15 @@
 
 #define DROPBOX_FILE_CHUNK_SIZE 1024 * 1024 //1 MB
 
+#define BBB_ID_FILE_SEND 10001
+
+#define INSTANCE Singleton<CDropbox>::GetInstance()
+
 enum
 {
 	CMI_API_REQUEST_AUTH,
 	CMI_SEND_FILES,
 	CMI_MAX   // this item shall be the last one
-};
-
-struct FileTransferParam
-{
-	HANDLE hProcess;
-	PROTOFILETRANSFERSTATUS pfts;
-
-	int totalFolders;
-	char **pszFolders;
-	int relativePathStart;
-
-	FileTransferParam()
-	{
-		totalFolders = 0;
-		pszFolders = NULL;
-		relativePathStart = 0;
-
-		pfts.cbSize = sizeof(this->pfts);
-		pfts.flags = PFTS_UTF;
-		pfts.currentFileNumber = 0;
-		pfts.currentFileProgress = 0;
-		pfts.currentFileSize = 0;
-		pfts.totalBytes = 0;
-		pfts.totalFiles = 0;
-		pfts.totalProgress = 0;
-		pfts.pszFiles = NULL;
-		pfts.tszWorkingDir = NULL;
-		pfts.wszCurrentFile = NULL;
-	}
-
-	~FileTransferParam()
-	{
-		if (pfts.pszFiles)
-		{
-			for (int i = 0; pfts.pszFiles[i]; i++)
-			{
-				if (pfts.pszFiles[i]) mir_free(pfts.pszFiles[i]);
-			}
-			delete pfts.pszFiles;
-		}
-
-		if (pszFolders)
-		{
-			for (int i = 0; pszFolders[i]; i++)
-			{
-				if (pszFolders[i]) mir_free(pszFolders[i]);
-			}
-			delete pszFolders;
-		}
-	}
 };
 
 class CDropbox
@@ -81,12 +37,22 @@ public:
 private:
 	HANDLE hNetlibUser;
 	ULONG  hFileProcess;
+	MCONTACT hContactTransfer;
+
+	static MCONTACT hContactDefault;
+	static std::map<HWND, MCONTACT> dcftp;
 
 	static HGENMENU ContactMenuItems[CMI_MAX];
 
 	// hooks
 	static int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 	static int OnOptionsInit(WPARAM wParam, LPARAM lParam);
+	static int OnContactDeleted(WPARAM wParam, LPARAM lParam);
+	static int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+	static int OnSrmmWindowOpened(WPARAM wParam, LPARAM);
+	static int OnSrmmButtonPressed(WPARAM wParam, LPARAM);
+	static int OnFileDoalogCancelled(WPARAM wParam, LPARAM);
+	static int OnFileDoalogSuccessed(WPARAM wParam, LPARAM);
 
 	// services
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
@@ -106,7 +72,6 @@ private:
 	static void RequestApiAuthorizationAsync(void *arg);
 
 	// transrers
-	HttpRequest *CreateFileSendChunkedRequest(const char *data, int length);
 	void SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset);
 	void SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
 	void SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact);
@@ -123,12 +88,15 @@ private:
 
 	// menus
 	static void InitMenus();
+	static void Menu_DisableItem(HGENMENU hMenuItem, BOOL bDisable);
 
 	// dialogs
 	static INT_PTR CALLBACK TokenRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// utils
+	static wchar_t *HttpStatusToText(HTTP_STATUS status);
+
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 };

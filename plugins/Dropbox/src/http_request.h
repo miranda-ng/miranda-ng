@@ -3,9 +3,17 @@
 
 #include "common.h"
 
-enum HttpStatus
+enum HTTP_STATUS
 {
-	OK = 200
+	OK = 200,
+	BAD_REQUEST = 400,
+	UNAUTHORIZED = 401,
+	FORBIDDEN = 403,
+	NOT_FOUND = 404,
+	METHOD_NOT_ALLOWED = 405,
+	TOO_MANY_REQUESTS = 429,
+	SERVICE_UNAVAILABLE = 503,
+	INSUFICIENTE_STORAGE = 507
 };
 
 class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
@@ -83,7 +91,7 @@ public:
 		headersCount++;
 	}
 
-	void AddParameter(LPCSTR szName, LPCSTR szValue)
+	/*void AddParameter(LPCSTR szName, LPCSTR szValue)
 	{
 		if (m_szUrl.Find('?') == -1)
 			m_szUrl.AppendFormat("?%s=%s", szName, szValue);
@@ -97,7 +105,7 @@ public:
 			m_szUrl.AppendFormat("?%s=%i", szName, value);
 		else
 			m_szUrl.AppendFormat("&%s=%i", szName, value);
-	}
+	}*/
 
 	NETLIBHTTPREQUEST *Send()
 	{

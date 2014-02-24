@@ -9,6 +9,8 @@ void CDropbox::Init()
 
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CDropbox::OnModulesLoaded);
+	HookEvent(ME_DB_CONTACT_DELETED, CDropbox::OnContactDeleted);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CDropbox::OnPrebuildContactMenu);
 
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, CDropbox::ProtoGetCaps);
 	CreateProtoServiceFunction(MODULE, PSS_FILE, CDropbox::ProtoSendFile);
@@ -16,11 +18,18 @@ void CDropbox::Init()
 
 	InitIcons();
 	InitMenus();
+
+	INSTANCE->hContactTransfer = 0;
 }
+
+MCONTACT CDropbox::hContactDefault = 0;
 
 MCONTACT CDropbox::GetDefaultContact()
 {
-	return db_find_first(MODULE);
+	if (!hContactDefault)
+		hContactDefault = db_find_first(MODULE);
+
+	return hContactDefault;
 }
 
 bool CDropbox::HasAccessToken()
@@ -41,9 +50,17 @@ void CDropbox::RequestAcceessToken(MCONTACT hContact)
 		CDropbox::TokenRequestProc,
 		(LPARAM)&request_token) == IDOK)
 	{
+		char data[1024];
+		mir_snprintf(
+			data,
+			SIZEOF(data),
+			Translate("grant_type=authorization_code&code=%s"),
+			request_token);
+
 		HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
-		request->AddParameter("grant_type", "authorization_code");
-		request->AddParameter("code", request_token);
+		request->pData = mir_strdup(data);
+		request->dataLength = strlen(data);
+		request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 		request->AddBasicAuthHeader(DROPBOX_API_KEY, DROPBOX_API_SECRET);
 
 		NETLIBHTTPREQUEST *response = request->Send();
@@ -52,7 +69,7 @@ void CDropbox::RequestAcceessToken(MCONTACT hContact)
 
 		if (response)
 		{
-			if (response->resultCode == HttpStatus::OK)
+			if (response->resultCode == HTTP_STATUS::OK)
 			{
 				JSONNODE *root = json_parse(response->pData);
 				if (root != NULL)
@@ -122,9 +139,9 @@ void CDropbox::RequestApiAuthorizationAsync(void *arg)
 		TranslateT("Request athorization"), 
 		MB_YESNO | MB_ICONQUESTION) == IDYES)
 	{
-		Singleton<CDropbox>::GetInstance()->DestroyAcceessToken(hContact);
-		Singleton<CDropbox>::GetInstance()->RequestAcceessToken(hContact);
+		INSTANCE->DestroyAcceessToken(hContact);
+		INSTANCE->RequestAcceessToken(hContact);
 	}
 	else
-		Singleton<CDropbox>::GetInstance()->RequestAcceessToken(hContact);
+		INSTANCE->RequestAcceessToken(hContact);
 }

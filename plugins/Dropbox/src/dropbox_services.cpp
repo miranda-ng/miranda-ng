@@ -23,9 +23,11 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	FileTransferParam *ftp = new FileTransferParam();
+	FileTransfer *ftp = new FileTransfer();
 	ftp->pfts.flags = PFTS_SENDING | PFTS_UTF;
 	ftp->pfts.hContact = pccsd->hContact;
+	ftp->hContact = (INSTANCE->hContactTransfer) ? INSTANCE->hContactTransfer : pccsd->hContact;
+	INSTANCE->hContactTransfer = 0;
 
 	char **files = (char**)pccsd->lParam;
 
@@ -73,7 +75,8 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 			k++;
 		}
 	}
-	ULONG fileId = InterlockedIncrement(&Singleton<CDropbox>::GetInstance()->hFileProcess);
+
+	ULONG fileId = InterlockedIncrement(&INSTANCE->hFileProcess);
 	ftp->hProcess = (HANDLE)fileId;
 
 	mir_forkthread(CDropbox::SendFileAsync, ftp);
@@ -83,6 +86,19 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CDropbox::ProtoSendMessage( WPARAM wParam, LPARAM lParam)
 {
+	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	char *message = (char*)pccsd->lParam;
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = MODULE;
+	dbei.timestamp = time(NULL);
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = strlen(message);
+	dbei.pBlob = (PBYTE)mir_strdup(message);
+	//dbei.flags = DBEF_UTF;
+	db_event_add(pccsd->hContact, &dbei);
+
 	return 0;
 }
 
@@ -93,73 +109,33 @@ INT_PTR  CDropbox::RequestApiAuthorization(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CDropbox::SendFilesToDropbox(WPARAM wParam, LPARAM lParam)
+std::map<HWND, MCONTACT> CDropbox::dcftp;
+
+INT_PTR CDropbox::SendFilesToDropbox(WPARAM hContact, LPARAM lParam)
 {
-	TCHAR filter[128], *pfilter;
-	wchar_t buffer[4096] = {0};
+	INSTANCE->hContactTransfer = hContact;
 
-	OPENFILENAME ofn = {0};
-	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	//ofn.hwndOwner = hwndDlg;
-	lstrcpy(filter, TranslateT("All files"));
-	lstrcat(filter, _T(" (*)"));
-	pfilter = filter + lstrlen(filter)+1;
-	lstrcpy(pfilter, _T("*"));
-	pfilter = filter + lstrlen(filter)+1;
-	pfilter[ 0 ] = '\0';
-	ofn.lpstrFilter = filter;
-	ofn.lpstrFile = buffer;
-	ofn.nMaxFile = 4096;
-	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-	if (GetOpenFileName(&ofn))
-	{
-		wchar_t **files = NULL;
+	HWND hwnd =  (HWND)CallService(MS_FILE_SENDFILE, INSTANCE->GetDefaultContact(), 0);
 
-		if (buffer[ofn.nFileOffset - 1] != '\0')
-		{
-			// Single-Select
-			files = (wchar_t**)mir_alloc(sizeof(wchar_t*) * 2);
+	dcftp[hwnd] = hContact;
 
-			files[0] = mir_wstrdup(buffer);
-			files[1] = NULL;
-		}
-		else
-		{
-			// Multi-Select
-			int i = 0;
-			wchar_t *p = buffer;
+	return 0;
+}
 
-			while (*p)
-			{
-				p += lstrlen(p) + 1;
-				i++;
-			}
+int CDropbox::OnFileDoalogCancelled(WPARAM hContact, LPARAM lParam)
+{
+	HWND hwnd = (HWND)lParam;
+	if (INSTANCE->hContactTransfer == dcftp[hwnd])
+		dcftp.erase((HWND)lParam);
 
-			files = (wchar_t**)mir_alloc(sizeof(wchar_t*) * i);
-			p = buffer; i = 0;
+	return 0;
+}
 
-			while (*p)
-			{
-				p += lstrlen(p) + 1;
-				if (lstrlen(p) > 0)
-				{
-					int len = lstrlen(buffer) + lstrlen(p) + 1;
-					files[i] = (wchar_t*)mir_alloc(sizeof(wchar_t) * len);
-					lstrcpy(files[i], buffer);
-					lstrcat(files[i], L"\\");
-					lstrcat(files[i], p);
-					files[i++][len] = '\0';
-				}
-			}
-			files[i] = NULL;
-		}
-
-		/*char *cHandle = (char*)wParam;
-		char hHandle[16]= { 0 };
-		strcat(&hHandle[1], cHandle);*/
-
-		CallContactService(wParam, PSS_FILET, wParam, (LPARAM)files);
-	}
+int CDropbox::OnFileDoalogSuccessed(WPARAM hContact, LPARAM lParam)
+{
+	HWND hwnd = (HWND)lParam;
+	if (INSTANCE->hContactTransfer == dcftp[hwnd])
+		dcftp.erase((HWND)lParam);
 
 	return 0;
 }
