@@ -294,7 +294,9 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			mir_free((TCHAR*)lParam);
 			dat->closeIfFileChooseCancelled = 0;
 		}
-		else if (dat->closeIfFileChooseCancelled) DestroyWindow(hwndDlg);
+		else if (dat->closeIfFileChooseCancelled)
+			PostMessage(hwndDlg, WM_COMMAND, IDCANCEL, 0);
+
 		EnableWindow(hwndDlg, TRUE);
 		break;
 
