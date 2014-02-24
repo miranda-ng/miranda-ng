@@ -155,7 +155,7 @@ BEGIN
                     BS_ICON | WS_TABSTOP,180,17,29,12
     CONTROL         "Don't reply to ICQ contacts",IDC_REPLYDLG_DONTSENDTOICQ,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,119,275,10
-    CONTROL         "Don't reply when i'm invisible to the contact",
+    CONTROL         "Don't reply when I'm invisible to the contact",
                     IDC_REPLYDLG_DONTREPLYINVISIBLE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,21,107,275,10
     CONTROL         "Save autoreply to the history",IDC_REPLYDLG_LOGREPLY,
@@ -331,7 +331,7 @@ BEGIN
                     170,95,16,14,0x18000000L
     CONTROL         "V",IDC_MESSAGEDLG_VARS,"MButtonClass",WS_TABSTOP,350,95,
                     16,14,0x18000000L
-    LTEXT           "Statuses messages:",IDC_TXT_TITLE1,0,2,99,9
+    LTEXT           "Status messages:",IDC_TXT_TITLE1,0,2,99,9
     CONTROL         "Configure autoaway",IDC_LNK_AUTOAWAY,"Hyperlink",
                     WS_TABSTOP,6,142,126,11
 END

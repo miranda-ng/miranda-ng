@@ -1243,7 +1243,7 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.pszTitle = OPT_MAINGROUP;
 	optDi.pfnDlgProc = MessagesOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
-	optDi.pszTab = LPGEN("Statuses messages");
+	optDi.pszTab = LPGEN("Status messages");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = MoreOptDlg;
@@ -1291,7 +1291,7 @@ void InitOptions()
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Creepy"), g_Messages_PredefinedRootID, ID++, 0, TranslateT("Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...")));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Default messages"), g_Messages_PredefinedRootID, ParentID1 = ID++, TIF_GROUP | TIF_EXPANDED));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_ONL, StatusToDBSetting(ID_STATUS_ONLINE, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
-	DefMsgTree.AddElem(CTreeItem(TranslateT("Online"), ParentID1, ID++, 0, TranslateT("Yep, i'm here.")));
+	DefMsgTree.AddElem(CTreeItem(TranslateT("Online"), ParentID1, ID++, 0, TranslateT("Yep, I'm here.")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_AWAY, StatusToDBSetting(ID_STATUS_AWAY, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));
 	DefMsgTree.AddElem(CTreeItem(TranslateT("Away"), ParentID1, ID++, 0, TranslateT("Been gone since %nas_awaysince_time%, will be back later.")));
 	g_MsgTreePage.Items.AddElem(new COptItem_IntDBSetting(IDS_MESSAGEDLG_DEF_NA, StatusToDBSetting(ID_STATUS_NA, MESSAGES_DB_MSGTREEDEF), DBVT_WORD, false, ID));

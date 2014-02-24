@@ -1,0 +1,381 @@
+﻿#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
+;============================================================
+;  File: NewAwaySys.dll
+;  Plugin: New Away System Mod
+;  Version: 0.4.0.1
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
+;============================================================
+[New Away System Mod plugin for Miranda NG.]
+Плагін New Away System Mod для Miranda NG. 
+[Popup notification]
+Спливаюче вікно
+[Popup text format]
+Формат повідомлення у сплив. вікні
+[Preview]
+Тест
+[%extratext% is your status message]
+%extratext% - ваше статусне повідомлення
+[Click action]
+Дії по клацанню
+[On left click]
+Лівий клік
+[On right click]
+Правий клік
+[Delay]
+Затримка
+[Sec]
+с
+[0 = Default]
+0=Замовчання
+[-1 = Infinite]
+-1=Нескінченно
+[Colors]
+Кольори
+[Background]
+Фон
+[Use default]
+За замовчанням
+[Text]
+Текст
+[Only notify when:]
+Сповіщати, коли:
+[On&line]
+В &мережі
+[&Away]
+&Відсутній
+[&NA]
+Не&доступний
+[Occ&upied]
+&Зайнятий
+[&DND]
+Не т&урбувати
+[&Free for chat]
+&Готовий до чату
+[&Other]
+&Інше
+[Log to a file only when popup notification for a contact is enabled]
+Записувати у файл тільки якщо сповіщення вікнами ввімкнено
+[Enable autoreply]
+Увімкнути автовідповідач
+[On event...]
+При:
+[Don't reply to ICQ contacts]
+Не відповідати контактам ICQ
+[Don't reply when I'm invisible to the contact]
+Не відповідати, коли я невидимий для користувача
+[Save autoreply to the history]
+Зберігати повідомлення автовідповідача в історії
+[Reply only when Idle]
+Відповідати лише в очікуванні
+[Reply only when contact's message window is closed]
+Відповідати лише коли вікно повідомлень закрите
+[Send maximum]
+Надсилати макс.
+[times (-1=infinite)]
+разів (-1=нескінченно)
+[Reset this counter also when I just change my status text\n(when status icon remains the same)]
+Скинути цей лічильник при зміні статусного повідомлення (але не статусу)
+[Disable autoreply when...]
+Вимкнути, коли
+[&Invisible]
+&Невидимий
+[On the &phone]
+&Телефоную
+[Out to &lunch]
+Обід&аю
+[Autoreply format:]
+Формат автовідповіді:
+[&Variables]
+&Змінні
+[Se&ttings]
+Налаштування
+[Ignore requests]
+Ігнорувати запити
+[Send an autoreply]
+Автовідповідач
+[&Delete]
+&Видалити
+[New &category]
+Нова &категорія
+[Save as &new]
+Зберегти &як
+[&Save]
+&Зберегти
+[Title:]
+Заголовок:
+[Use this message as default for]
+Використовувати за замовчанням для
+[New message]
+Нове повідомлення
+[New category]
+Нова категорія
+[Delete]
+Видалити
+[Status messages:]
+Статусні повідомлення:
+[Wait]
+Чекати
+[seconds before closing the status message dialog (-1=don't close)]
+секунд перед закриттям вікна вибору статусів (-1=не закривати)
+[Store]
+Зберігати
+[most recent messages (0=disable)]
+останніх повідомлень (0=вимкнути)
+[Store for each status separately]
+Зберігати окремо для кожного статусу
+[Use default...]
+За замовчанням
+[Use the most recent message]
+Останнє повідомлення
+[Use the default message]
+Стандартне повідомлення
+[Reset per-protocol messages when changing global status]
+Перевстановити повідомл. для кожного протоколу при зміні глоб. статусу
+[Store protocol messages for each status separately]
+Зберігати повідомл. протоколу окремо для кожного статусу
+[Store protocol autoreply settings for each status separately]
+Зберігати налаштування автовідповідача окремо для кожного статусу
+[Remember last message used for a contact...]
+Пам'ятати останнє повідомлення для контакту
+[Store contact autoreply/ignore settings for each status separately]
+Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу
+[Enable contact menu items]
+Ввімкнути меню контакту
+[Use protocol specific nick for %nas_mynick%]
+Використовувати нік протоколу для %nas_mynick%
+[Update status messages for non-ICQ protocols every]
+Оновл. повідомлення для не-ICQ протоколів кожні
+[seconds]
+секунд
+[Don't show the message dialog for]
+Не показувати вікно вибору для
+[%s message for %s]
+%s (%s)
+[Retrieving %s message...]
+Завантаження повідомлення "%s"...
+[&Cancel]
+С&касувати
+[Notify of requests]
+Сповіщати про запити
+[Don't notify of requests]
+Не сповіщати про запити
+[Autoreply on]
+Автовідповідач увімк.
+[Autoreply off]
+Автовідповідач вимк.
+[Don't send status message]
+Не показ. стат. повідомлення
+[Note: these settings are applied to all status modes at once.]
+Примітка: ці налаштування застосовуються одразу до всіх типів статусів
+[Means the setting is different for different status modes / contacts]
+означає різні налаштування для різних типів статусів/контактів.
+[Set away message window options]
+Налаштування вікна вибору повідомлень
+[Show predefined &messages]
+Показувати передустановлені &повідомлення
+[Show &contacts]
+Показувати &контакти
+[Save default window settings &automatically]
+Зберігати налаштування вікна &автоматично
+[&Save current window settings as default]
+&Встановити поточні налаштування вікна за замовчанням
+[Disable parsing of status messages by Variables plugin]
+Вимкнути обробку статусних повідомлень плагіном Variables
+[Create new &message]
+Створити нове &повідомлення
+[Create new &category]
+Створити нову &категорію
+[&Rename]
+&Перейменувати
+[Set as &default for]
+Вст. за &замовчанням для
+[Create new message]
+Додати повідомлення
+[Create new category]
+Додати категорію
+[Open Variables help dialog]
+Допомога по змінним
+[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+До цієї категорії потрапляють ваші останні статусні повідомлення. Не рекомендується оновлювати їх вручну, тому що вони автоматично заміюються новішими.
+[You can put your frequently used and favorite messages in this category.]
+Улюблені повідомлення та повідомлення, що часто використовуються, додавайте до цієї категорії.
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
+Якщо опція ввімкнена, NewAwaySys рахує "надсилання", починаючи з останньої зміни статусного повідомлення, навіть коли сам статус не змінився.\nЯкщо опція вимкнена, "надсилання" рахуються від останньої зміни статусу.
+[Message]
+Повідомлення
+[URL]
+Посилання
+[File]
+Файл
+[** All contacts **]
+** Усі контакти **
+[** Not-on-list contacts **]
+** Контакти поза списком **
+[Status messages]
+Статусні повідомлення
+[Main options]
+Основне
+[Autoreply]
+Автовідповідач
+[Contacts]
+Контакти
+[Predefined messages]
+Передустановлені повідомлення
+[Recent messages]
+Останнє повідомлення
+[Creepy]
+(за замовчанням)
+[Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
+Мій хазяїн, %nas_mynick%, був %nas_statdesc%, починаючи з цього дня і дати ?nas_awaysince_date(dddd)... Коли він повернеться, я передам йому, щоб він вам відповів.
+[Default messages]
+Повідомлення за замовчанням
+[Online]
+В мережі
+[Yep, I'm here.]
+Так, я тут.
+[Away]
+Відсутній
+[Been gone since %nas_awaysince_time%, will be back later.]
+Відійшов о %nas_awaysince_time%. Скоро повернуся.
+[NA]
+Недоступний
+[Give it up, I'm not in!]
+Мене немає.
+[Occupied]
+Зайнятий
+[Not right now.]
+Не зараз.
+[DND]
+Не турбувати
+[Give a guy some peace, would ya?]
+Дайте спокій, я зайнятий.
+[Free for chat]
+Готовий до чату
+[I'm a chatbot!]
+Вільний.
+[Invisible]
+Невидимий
+[I'm hiding from the mafia.]
+Я переховуюсь від мафії.
+[On the phone]
+Телефоную
+[I've been on the phone since %nas_awaysince_time%, give me a sec!]
+Говорю по телефону з %nas_awaysince_time%, зачекайте.
+[Out to lunch]
+Обідаю
+[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
+Зараз ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,вечеряю,обідаю),снідаю),вечеряю) з %nas_awaysince_time%.
+[Toggle On]
+Увімкнути
+[Toggle Off]
+Вимкнути
+[) read your ]
+) читає ваше\s
+[ message:\r\n]
+ повідомлення:\r\n
+[Set %s message for the contact]
+Вст. повідомлення %s для контакта
+[Re&ad %s message]
+&Прочитати повідомлення "%s"
+[Toggle autoreply on/off]
+Автовідповідач ввімк./вимк.
+[Toggle autoreply off]
+Вимкнути автовідповідач
+[Toggle autoreply on]
+Увімкнути автовідповідач
+[New Away System]
+Статусні повідомлення
+[Enable autoreply when you are %s]
+Увімкнути автовідповідач, коли %s
+["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+"Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу" ввімкнено, тому ця опція діє для контакту і для статусу.
+[Don't send status message when you are %s]
+Не надсилати статусне повідомлення, коли %s
+[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач.\r\n"Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу" ввімкнено, тому ця опція діє для контакту і для статусу.
+[Ignore status message requests from this contact and don't send an autoreply]
+Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач
+[Stranger]
+Незнайомець
+[%d hours]
+%d год.
+[%d minutes]
+%d хв.
+[%d seconds]
+%d с
+[Away since time in default format; ?nas_awaysince_time(x) in format x]
+"відійшов о" (час у форматі за замовчанням); ?nas_awaysince_time(x) у форматі X
+[Away since date in default format; ?nas_awaysince_date(x) in format x]
+"відійшов о" (дата у форматі за замовчанням); ?nas_awaysince_date(x) у форматі X
+[Status description]
+опис статусу
+[Your nick for current protocol]
+ваш нік для поточного протоколу
+[Number of status message requests from the contact]
+кількість запитів статусного повідомлення від користувача
+[Number of messages from the contact]
+кількість повідомлень від користувача
+[Time passed until request]
+часу минуло до запиту
+[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+повертає передустановлене повідомлення за його заголовком: ?nas_predefinedmessage(creepy)
+[Current protocol name]
+ім'я поточного профілю
+[Read status message]
+Прочитати статусне повідомлення
+[Set status message]
+Встановити статусне повідомлення
+[On]
+Ввімк.
+[Off]
+Вимк.
+[Use the default setting]
+Використовувати за замовчанням
+[NewAwaySys: Incoming status message request]
+NewAwaySys: Вхідний запит статусного повідомлення
+[Miranda NG autoreply >\r\n%extratext%]
+Автовідповідь Miranda NG >\r\n%extratext%
+[extended status]
+розширений статус
+[Away System]
+Статусні повідомлення
+[Status]
+Статус
+[Popups]
+Спливаючі вікна
+[Variables plugin is not installed]
+Плагін Variables не встановлений
+[You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
+Ви змінили одразу кілька дерев повідомлень.\r\nЗберегти зміни в діалозі "
+[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
+"?\r\nНатисніть "Так", щоб зберегти, або "Ні", щоб скасувати зміни.
+[Do you really want to delete this category with its messages?]
+Справді видалити цю категорію з усіма її повідомленнями?
+[Do you really want to delete this message?]
+Справді видалити це повідомлення?
+[Error #%d]
+Помилка #%d
+[Can't open log file ]
+Неможливо відкрити файл журналу
+[&Close]
+&Закрити
+[Save, replacing the selected message]
+Зберегти, замінивши виділене повідомлення
+[Save as a new message]
+Зберегти як нове повідомлення
+[Show settings menu]
+Меню налаштувань
+[Don't send the status message to selected contact(s)]
+Не надсилати статусне повідомлення вибраним контактам
+[Send an autoreply to selected contact(s)]
+Надсилати автовідповідь вибраним контактам
+[Apply]
+Застосувати
+[Do you want to apply the message?]
+Прийняти повідомлення?
+[Statuses]
+Статуси
+[for]
+протягом
+[Closing in %d]
+Закрити (%d)
