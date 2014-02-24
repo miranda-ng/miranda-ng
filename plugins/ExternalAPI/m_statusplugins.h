@@ -47,7 +47,7 @@ typedef struct {
 #define MS_CS_GETPROTOCOUNT				"CommonStatus/GetProtocolCount" // added dec '04
 
 // wParam = PROTOCOLSETTINGEX*** (keep it like this for compatibility)
-// lParam = 0
+// lParam = (int) settings count
 #define ME_CS_STATUSCHANGEEX			"CommonStatus/StatusChangeEx"
 
 // -- startup status --

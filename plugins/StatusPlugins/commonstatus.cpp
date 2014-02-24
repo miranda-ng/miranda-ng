@@ -240,7 +240,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 	// issue with setting global status;
 	// things get messy because SRAway hooks ME_CLIST_STATUSMODECHANGE, so the status messages of SRAway and
 	// commonstatus will clash
-	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, 0);
+	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, protoList->getCount());
 
 	// set all status messages first
 	for (int i = 0; i < protoList->getCount(); i++) {
@@ -286,7 +286,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 			SetStatusMsg(protoSettings[i], newstatus);
 
 		// set the status
-		if (newstatus != oldstatus) {
+		if (newstatus != oldstatus && !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))) {
 			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
 			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)newstatus, 0);
 		}

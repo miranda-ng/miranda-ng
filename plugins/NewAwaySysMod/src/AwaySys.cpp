@@ -42,7 +42,6 @@
 #include "Services.h"
 #include "version.h"
 
-//NightFox
 #include <m_modernopt.h>
 
 HINSTANCE g_hInstance;
@@ -54,10 +53,7 @@ HGENMENU g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem;
 HGENMENU g_hAutoreplyOnContactMenuItem, g_hAutoreplyOffContactMenuItem, g_hAutoreplyUseDefaultContactMenuItem;
 bool g_fNoProcessing = false; // tells the status change proc not to do anything
 int g_bIsIdle = false;
-HANDLE hMainThread;
-int g_CSProtoCount = 0; // CommonStatus - StartupStatus and AdvancedAutoAway
 VAR_PARSE_DATA VarParseData;
-INT_PTR (*g_OldCallService)(const char *, WPARAM, LPARAM) = NULL;
 
 static IconItem iconList[] = {
 	{ LPGEN("Toggle On"),  "on",  IDI_SOE_DISABLED },
@@ -90,8 +86,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-//NightFox
-int ModernOptInitialise(WPARAM wParam, LPARAM lParam);
+/////////////////////////////////////////////////////////////////////////////////////////
 
 TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iStatus)
 {
@@ -291,7 +286,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 #define ID_STATUS_DISABLED 41083
 
 // wParam = PROTOCOLSETTINGEX** protoSettings
-int CSStatusChange(WPARAM wParam, LPARAM) // CommonStatus plugins (StartupStatus and AdvancedAutoAway)
+int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (StartupStatus and AdvancedAutoAway)
 {
 	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 	if (!ps)
@@ -299,8 +294,9 @@ int CSStatusChange(WPARAM wParam, LPARAM) // CommonStatus plugins (StartupStatus
 
 	LogMessage("ME_CS_STATUSCHANGEEX event:");
 
-	for (int i = 0; i < g_CSProtoCount; i++) {
-		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : _T("NULL"));
+	for (int i = 0; i < lParam; i++) {
+		LogMessage("%d: cbSize=%d, szProto=%s, status=%d, lastStatus=%d, szMsg:", 
+			i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : _T("NULL"));
 		if (ps[i]->status != ID_STATUS_DISABLED) {
 			if (ps[i]->status != ID_STATUS_CURRENT)
 				g_ProtoStates[ps[i]->szName].Status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
@@ -315,13 +311,6 @@ static int IdleChangeEvent(WPARAM, LPARAM lParam)
 {
 	LogMessage("ME_IDLE_CHANGED event. lParam=0x%x", lParam); // yes, we don't do anything with status message changes on idle.. there seems to be no any good solution for the wrong status message issue :(
 	g_bIsIdle = lParam & IDF_ISIDLE;
-	return 0;
-}
-
-// wParam = numAccs
-int CSModuleLoaded(WPARAM wParam, LPARAM) // StartupStatus and AdvancedAutoAway
-{
-	g_CSProtoCount = wParam;
 	return 0;
 }
 
@@ -548,6 +537,28 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// variables
+
+struct
+{
+	TCHAR *Name;
+	char *Descr;
+	int Flags;
+}
+static Variables[] =
+{
+	{ VAR_AWAYSINCE_TIME, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since time in default format; ?nas_awaysince_time(x) in format x"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_AWAYSINCE_DATE, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since date in default format; ?nas_awaysince_date(x) in format x"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_STATDESC, LPGEN("New Away System")"\t"LPGEN("Status description"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_MYNICK, LPGEN("New Away System")"\t"LPGEN("Your nick for current protocol"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_REQUESTCOUNT, LPGEN("New Away System")"\t"LPGEN("Number of status message requests from the contact"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_MESSAGENUM, LPGEN("New Away System")"\t"LPGEN("Number of messages from the contact"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_TIMEPASSED, LPGEN("New Away System")"\t"LPGEN("Time passed until request"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_PREDEFINEDMESSAGE, LPGEN("New Away System")"\t(x)\t"LPGEN("Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION },
+	{ VAR_PROTOCOL, LPGEN("New Away System")"\t"LPGEN("Current protocol name"), TRF_FIELD | TRF_FUNCTION }
+};
+
 INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 {
 	ARGUMENTSINFO *ai = (ARGUMENTSINFO*)lParam;
@@ -644,59 +655,7 @@ INT_PTR srvFreeVarMem(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR MyCallService(const char *name, WPARAM wParam, LPARAM lParam)
-{
-	// wParam conditions here are distinctive "features" of PS_SETSTATUS and PS_SETAWAYMSG services, 
-	// so if wParam does not suit them, we'll pass the control to the old CallService function as soon as possible
-	if (name && wParam <= ID_STATUS_OUTTOLUNCH && wParam >= ID_STATUS_OFFLINE) {
-		const char *pProtoNameEnd = strrchr(name, '/');
-		if (pProtoNameEnd) {
-			if (!lstrcmpA(pProtoNameEnd, PS_SETSTATUS)) {
-				// it's PS_SETSTATUS service; wParam = status; lParam = 0
-				// returns 0 on success, nonzero on failure
-				CString Proto("");
-				Proto.DiffCat(name, pProtoNameEnd);
-				if (wParam != g_ProtoStates[Proto].Status) {
-					g_ProtoStates[Proto].Status = wParam;
-					TCString Msg(CProtoSettings(Proto).GetMsgFormat(GMF_LASTORDEFAULT));
-					LogMessage("Detected a PS_SETSTATUS call with Status different from the one known to NAS. szProto=%s, NewStatus=%d, NewMsg:\n%s", (char*)Proto, wParam, (Msg != NULL) ? _T2A(Msg) : "NULL");
-					CProtoSettings(Proto).SetMsgFormat(SMF_TEMPORARY, Msg);
-				}
-			}
-			else if (!lstrcmpA(pProtoNameEnd, PS_SETAWAYMSG)) {
-				// PS_SETAWAYMSG service; wParam = status; lParam = (const char*)szMessage
-				// returns 0 on success, nonzero on failure
-				CString Proto("");
-				Proto.DiffCat(name, pProtoNameEnd);
-				char *param = (char*)lParam;
-				LogMessage("Someone else than NAS called PS_SETAWAYMSG. szProto=%s, Status=%d, Msg:\n%s", (char*)Proto, wParam, param ? param : "NULL");
-				CProtoSettings(Proto).SetMsgFormat(SMF_TEMPORARY, lParam ? ((ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) ? VariablesEscape((TCHAR*)_A2T(param)) : (TCHAR*)_A2T(param)) : TCString(_T("")));
-				ChangeProtoMessages(Proto, wParam, TCString());
-				return 0;
-			}
-		}
-	}
-	return g_OldCallService(name, wParam, lParam);
-}
-
-struct
-{
-	TCHAR *Name;
-	char *Descr;
-	int Flags;
-}
-static Variables[] =
-{
-	{ VAR_AWAYSINCE_TIME, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since time in default format; ?nas_awaysince_time(x) in format x"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_AWAYSINCE_DATE, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since date in default format; ?nas_awaysince_date(x) in format x"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_STATDESC, LPGEN("New Away System")"\t"LPGEN("Status description"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_MYNICK, LPGEN("New Away System")"\t"LPGEN("Your nick for current protocol"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_REQUESTCOUNT, LPGEN("New Away System")"\t"LPGEN("Number of status message requests from the contact"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_MESSAGENUM, LPGEN("New Away System")"\t"LPGEN("Number of messages from the contact"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_TIMEPASSED, LPGEN("New Away System")"\t"LPGEN("Time passed until request"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_PREDEFINEDMESSAGE, LPGEN("New Away System")"\t(x)\t"LPGEN("Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION },
-	{ VAR_PROTOCOL, LPGEN("New Away System")"\t"LPGEN("Current protocol name"), TRF_FIELD | TRF_FUNCTION }
-};
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int MirandaLoaded(WPARAM, LPARAM)
 {
@@ -704,8 +663,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	LoadCListModule();
 	InitUpdateMsgs();
 	g_IconList.ReloadIcons();
-
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, false, 0);
 
 	int numAccs = 0;
 	PROTOACCOUNT **accs;
@@ -828,6 +785,8 @@ int MirandaLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -858,9 +817,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" int __declspec(dllexport) Unload()
 {
 	WindowList_Destroy(g_hReadWndList);
-	CloseHandle(hMainThread);
 	return 0;
 }

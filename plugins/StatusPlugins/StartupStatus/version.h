@@ -8,7 +8,7 @@
 #define __MAJOR_VERSION            0
 #define __MINOR_VERSION            8
 #define __RELEASE_NUM              0
-#define __BUILD_NUM               46
+#define __BUILD_NUM               47
 
 // other stuff for Version resource
 #include <stdver.h>
