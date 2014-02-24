@@ -286,7 +286,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 			SetStatusMsg(protoSettings[i], newstatus);
 
 		// set the status
-		if (newstatus != oldstatus && !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))) {
+		if (newstatus != oldstatus /*&& !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))*/ ) {
 			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
 			CallProtoService(szProto, PS_SETSTATUS, newstatus, 0);
 		}
