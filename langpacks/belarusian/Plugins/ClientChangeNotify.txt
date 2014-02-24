@@ -89,7 +89,7 @@
 [Error #%d]
 Памылка #%d
 [Can't open log file ]
-Немагчыма адкрыць файл лога
+Немагчыма адкрыць файл лога\s
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (Вы можаце выкарыстоўваць тут рэгулярныя выразы)
