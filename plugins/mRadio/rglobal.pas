@@ -21,7 +21,7 @@ const
 
 const
   chan         :HSTREAM = 0;
-  ActiveContact:HCONTACT = 0;
+  ActiveContact:MCONTACT = 0;
   ActiveURL    :PWideChar = nil;
 
 const
@@ -159,7 +159,7 @@ const
 
 
 function MakeMessage:pWideChar;
-procedure SetStatus(hContact:HCONTACT;status:integer);
+procedure SetStatus(hContact:MCONTACT;status:integer);
 function GetDefaultRecPath:pWideChar;
 function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
 
@@ -169,7 +169,7 @@ implementation
 uses
   common, dbsettings;
 
-procedure SetStatus(hContact:HCONTACT;status:integer);
+procedure SetStatus(hContact:MCONTACT;status:integer);
 begin
 //  if Status=ID_STATUS_OFFLINE then
 //    MyStopBass;

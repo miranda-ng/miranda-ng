@@ -516,7 +516,7 @@ type
     iCount    :int;       // count of users in the nicklist
     pszUsers  :PAnsiChar; // space separated string containing the UID's of the users in the user list.
                           // NOTE. Use Mirandas mmi_free() on the returned string.
-    hContact  :HCONTACT;  // hContact for the session (can be NULL)
+    hContact  :MCONTACT;  // hContact for the session (can be NULL)
   end;
 
 const

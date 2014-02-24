@@ -36,7 +36,7 @@ type
     PADDCONTACTSTRUCT = ^TADDCONTACTSTRUCT;
 	TADDCONTACTSTRUCT = record
         handleType: Integer;
-        handle: THandle;    // HDBEVENT, HCONTACT, SearchResult
+        handle: THandle;    // HDBEVENT, MCONTACT, SearchResult
         szProto: PChar;     // used by search result only
         psr: Pointer;       // @PROTOSEARCHRESULT
 	end;

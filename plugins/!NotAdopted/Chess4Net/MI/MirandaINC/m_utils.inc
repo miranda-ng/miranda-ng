@@ -187,7 +187,7 @@ const
 
     {
         wParam : Handle to the window list to look in
-        lParam : Handle to a HCONTACT to find in the window list
+        lParam : Handle to a MCONTACT to find in the window list
         Affect : Find a window handle given the hContact
         Returns: The found window handle or NULL(0) on failure
         Version: v0.1.0.1+

@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 const
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : 0
         Affects: Show the user details dialog box for a contact, see notes
         Notes  : I think this can be used to display "My User Details"... if NULL(0) is used
@@ -37,7 +37,7 @@ const
 
     {
         wParam : 0
-        lParam : HCONTACT
+        lParam : MCONTACT
         Affects: The details dialog box was opened for a contact maybe NULL(0)
                  showing the user details -- see notes
         Notes  : The module should do whatever initialisation they need and
@@ -58,7 +58,7 @@ const
         lParam : pointer to an initialised OPTIONSDIALOGPAGE (see m_options.inc)
         Affects: Adds a page to the details dialog, see notes
         Notes  : this service should only be called within the ME_USERINFO_INITIALISE
-                 event -- when the pages get (WM_INITDIALOG lParam=HCONTACT) strings
+                 event -- when the pages get (WM_INITDIALOG lParam=MCONTACT) strings
                  in the passed dialog structure can be freed soon as the service returns
                  icons must be kept around (not a problem if you're loading from resource).
                  -

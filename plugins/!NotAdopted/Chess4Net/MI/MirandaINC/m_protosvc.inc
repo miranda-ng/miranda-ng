@@ -396,12 +396,12 @@ const
         wParam : flags
         lParam : Pointer to a TPROTOSEARCHRESULT structure
         Affect : Adds a search result to the contact list, see notes
-        Returns: A handle to the new contact (HCONTACT) or NULL(0) on failure
+        Returns: A handle to the new contact (MCONTACT) or NULL(0) on failure
         Notes  : The pointer MUST be a result returned by a search function
                  since there maybe extra protocol-spec data required by the protocol.
                  -
                  the protocol module should not allow duplicate contains to be added,
-                 but if such a request *is* received it should return a HCONTACT
+                 but if such a request *is* received it should return a MCONTACT
                  to the original user,
                  -
                  If flags is PALF_TEMPORARY set, the contact should be added
@@ -414,7 +414,7 @@ const
         wParam : MAKEWPARAM(flags, iContact)
         lParam : HDBEVENT
         Affects: Add a contact to the contact list given an auth/added/contacts events, see notes
-        Returns: A HCONTACT or NULL(0) on failure
+        Returns: A MCONTACT or NULL(0) on failure
         Notes  : HDBEVENT must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
                  flags are the same as PS_ADDTOLIST,
                  -
@@ -501,7 +501,7 @@ const
                  flags which may have SGIF_MINIMAL set to only get
                  "basic" information, such as nickname, email address.
 
-                 PCCSDATA(lParam)^.hContact has the HCONTACT handle to get user
+                 PCCSDATA(lParam)^.hContact has the MCONTACT handle to get user
                  information for.
 
                  Will update all the information in the database and then
@@ -582,7 +582,7 @@ const
         CCSDATA: Yes
         wParam : 0
         lParam : 0
-        Affect : Send a request to retrieve HCONTACT's mode message, see notes
+        Affect : Send a request to retrieve MCONTACT's mode message, see notes
         Returns: a hProcess which will be ack'd later, NULL(0) on failure
         Notes  : the reply will come in a form of an ack :
 

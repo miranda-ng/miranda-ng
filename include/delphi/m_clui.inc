@@ -58,7 +58,7 @@ const
   MS_CLUI_GROUPADDED:PAnsiChar = 'CLUI/GroupCreated';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : ICON_ID
     Affect : Change the icon for a contact, see notes
     Returns: 0 on success, [non zero] on failure
@@ -67,7 +67,7 @@ const
   MS_CLUI_CONTACTSETICON:PAnsiChar = 'CLUI/ContactSetIcon';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Remove a contact from the list, see notes
     Returns: 0 on success, [non zereo] on failure
@@ -78,7 +78,7 @@ const
   MS_CLUI_CONTACTDELETED:PAnsiChar = 'CLUI/ContactDeleted';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : ICON_ID
     Affect : Add a contact to the list, see note
     returns: 0 on success, [non zero] on failure
@@ -103,7 +103,7 @@ const
   MS_CLUI_CONTACTADDED:PAnsiChar = 'CLUI/ContactAdded';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Reename a contact in the lists, see notes
     Returns: 0 on success, [non zero] on failure
@@ -177,7 +177,7 @@ const
   MS_CLUI_GETCAPS:PAnsiChar = 'CLUI/GetCaps';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : MAKELPARAM(screenX, screenY)
     Affect : A contact is being dragged outside the main window
     Return : return [non zero] to show the drag cursor as "accepting" the drag
@@ -187,7 +187,7 @@ const
   ME_CLUI_CONTACTDRAGGING:PAnsiChar = 'CLUI/ContactDragging';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : MAKELPARAM(screenX, screenY)
     Affect : a contact has just been dropped outside the main window, see notes
     Notes  : return non zero to stop other hooks processing this event.
@@ -196,7 +196,7 @@ const
   ME_CLUI_CONTACTDROPPED:PAnsiChar = 'CLUI/ContactDropped';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : A contact that *was* being dragged outside the main window
              has gone back to the main window

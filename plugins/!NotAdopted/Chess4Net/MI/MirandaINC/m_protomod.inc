@@ -47,7 +47,7 @@ const
     MS_PROTO_REGISTERMODULE             = 'Proto/RegisterModule';
 
   {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : protocol_name_string
         Affect : Add the given protocol module to the chain for a contact, see notes
         Returns: 0 success, [non zero] on failure
@@ -57,7 +57,7 @@ const
     MS_PROTO_ADDTOCONTACT               = 'Proto/AddToContact';
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : protocol_name_string
         Affect : Remove the given protocol name from the chain for the given contact
         Returns: 0 on success, [non zero] on failure

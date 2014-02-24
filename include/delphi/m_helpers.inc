@@ -16,12 +16,12 @@ function Netlib_Send(hConn: THandle; const buf: PAnsiChar; len: int; flags: int)
 function Netlib_Recv(hConn: THandle; const buf: PAnsiChar; len: int; flags: int): int_ptr;
 procedure Netlib_Log(hNetLib: THandle; const sz: PAnsiChar);
 
-function WindowList_Add      (hList:THandle; hWnd:HWND; hContact:HCONTACT): int_ptr;
+function WindowList_Add      (hList:THandle; hWnd:HWND; hContact:MCONTACT): int_ptr;
 function WindowList_Remove   (hList:THandle; hWnd:THandle): int_ptr;
-function WindowList_Find     (hList:THandle; hContact:HCONTACT): int_ptr;
+function WindowList_Find     (hList:THandle; hContact:MCONTACT): int_ptr;
 function WindowList_Broadcast(hList:THandle; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
-function Utils_SaveWindowPosition   (hWnd:THandle; hContact:HCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
-function Utils_RestoreWindowPosition(hWnd:THandle; hContact:HCONTACT; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_SaveWindowPosition   (hWnd:THandle; hContact:MCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_RestoreWindowPosition(hWnd:THandle; hContact:MCONTACT; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 
 function mir_hashstr (const key:pAnsiChar):uint; {inline;}
 function mir_hashstrW(const key:pWideChar):uint; {inline;}
@@ -42,8 +42,8 @@ function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; servic
 
 function  Srmm_AddIcon   (sid: PStatusIconData):int_ptr;
 procedure Srmm_RemoveIcon(sid: PStatusIconData);
-procedure Srmm_ModifyIcon(hContact:HCONTACT; sid:PStatusIconData);
-function  Srmm_GetNthIcon(hContact:HCONTACT; index:int):pStatusIconData;
+procedure Srmm_ModifyIcon(hContact:MCONTACT; sid:PStatusIconData);
+function  Srmm_GetNthIcon(hContact:MCONTACT; index:int):pStatusIconData;
 
 function LoadSkinnedIcon      (id: int): HICON;
 function LoadSkinnedIconHandle(id: int): THandle;
@@ -185,7 +185,7 @@ begin
 end;
 
 
-function WindowList_Add(hList: THandle; hWnd: hWnd; hContact: HCONTACT): int_ptr;
+function WindowList_Add(hList: THandle; hWnd: hWnd; hContact: MCONTACT): int_ptr;
 var
   wle: TWINDOWLISTENTRY;
 begin
@@ -201,7 +201,7 @@ begin
   Result := CallService(MS_UTILS_REMOVEFROMWINDOWLIST, hList, hWnd);
 end;
 
-function WindowList_Find(hList: THandle; hContact: HCONTACT): int_ptr;
+function WindowList_Find(hList: THandle; hContact: MCONTACT): int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_UTILS_FINDWINDOWINLIST, hList, hContact);
@@ -217,7 +217,7 @@ begin
   Result := CallService(MS_UTILS_BROADCASTTOWINDOWLIST, hList, tLparam(@Msg));
 end;
 
-function Utils_SaveWindowPosition(hWnd:THandle; hContact:HCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_SaveWindowPosition(hWnd:THandle; hContact:MCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 var
   swp: TSAVEWINDOWPOS;
 begin
@@ -228,7 +228,7 @@ begin
   Result := CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, lParam(@swp));
 end;
 
-function Utils_RestoreWindowPosition(hWnd:THandle; hContact:HCONTACT; Flags:int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_RestoreWindowPosition(hWnd:THandle; hContact:MCONTACT; Flags:int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 var
   swp: TSAVEWINDOWPOS;
 begin
@@ -356,13 +356,13 @@ begin
   CallService(MS_MSG_REMOVEICON, 0, LPARAM(sid));
 end;
 
-procedure Srmm_ModifyIcon(hContact:HCONTACT; sid:PStatusIconData);
+procedure Srmm_ModifyIcon(hContact:MCONTACT; sid:PStatusIconData);
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   CallService(MS_MSG_GETNTHICON, hContact, LPARAM(sid));
 end;
 
-function Srmm_GetNthIcon(hContact:HCONTACT; index:int):PStatusIconData;
+function Srmm_GetNthIcon(hContact:MCONTACT; index:int):PStatusIconData;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=PStatusIconData(CallService(MS_MSG_GETNTHICON, hContact, index));

@@ -6,7 +6,7 @@ interface
 uses windows, m_api;
 
 procedure FillContactList(list:hwnd; filter:boolean=true;format:pWideChar=nil);
-function FindContact(list:hwnd;contact:HCONTACT):integer;
+function FindContact(list:hwnd;contact:MCONTACT):integer;
 
 implementation
 
@@ -17,7 +17,7 @@ const
 
 procedure FillContactList(list:hwnd; filter:boolean=true;format:pWideChar=nil);
 var
-  hContact:THCONTACT;
+  hContact:MCONTACT;
   buf:array [0..511] of WideChar;
   buf1:array [0..63] of WideChar;
   p:PWideChar;
@@ -109,7 +109,7 @@ begin
   end;
 end;
 
-function FindContact(list:hwnd;contact:HCONTACT):integer;
+function FindContact(list:hwnd;contact:MCONTACT):integer;
 var
   j:integer;
 begin

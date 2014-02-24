@@ -325,7 +325,7 @@ UI   : displays the modes that the channel is in, the modes still have to be abs
 PROTO: sends a CHANNEL_DONE
 UI   : the UI is now sure that no more messages are expected.
 
-UI   : sends a UI_TEXT message, with optional source HCONTACT and of course the message.
+UI   : sends a UI_TEXT message, with optional source MCONTACT and of course the message.
 PROTO: picks up on this message and transmits it, it must return
        a HPROCESS code that is later acknowledged.
 
@@ -339,8 +339,8 @@ UI   : sends UI_IAMTYPING
 PROTO: the protocol may or may not send this message to the other parties
        but it must process it, this message is also optional.
 
-PROTO: sends UI_CONTACT_ISTYPING (source HCONTACT)
-UI   : an HCONTACT within the session is typing, the UI may elect to show this
+PROTO: sends UI_CONTACT_ISTYPING (source MCONTACT)
+UI   : an MCONTACT within the session is typing, the UI may elect to show this
        message in a status bar, or with a visual effect.	    	
 }
 

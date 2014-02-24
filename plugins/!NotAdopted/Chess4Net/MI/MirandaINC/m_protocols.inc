@@ -156,7 +156,7 @@ const
     MS_PROTO_ISPROTOCOLLOADED           = 'Proto/IsProtocolLoaded';
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : Pointer to a null terminated string containing a name
         Affect : Determine whether the given contact has the given protocol
                  in it's chain.
@@ -165,7 +165,7 @@ const
     MS_PROTO_ISPROTOONCONTACT           = 'Proto/IsProtoOnContact';
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : 0
         Affect : Gets the network-level protocol associated with a contact
         Returns: a PChar pointing to the ASCIIZ name of the protocol or NULL(0)

@@ -10,7 +10,7 @@
 {$IFNDEF M_TIPPER}
 {$DEFINE M_TIPPER}
 type
-  TranslateFunc = function (hContact:HCONTACT;module:PAnsiChar;setting_or_prefix:PAnsiChar;
+  TranslateFunc = function (hContact:MCONTACT;module:PAnsiChar;setting_or_prefix:PAnsiChar;
        buff:pWideChar;bufflen:int):pWideChar; cdecl;
 
 type

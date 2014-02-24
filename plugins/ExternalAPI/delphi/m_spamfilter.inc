@@ -362,7 +362,7 @@ type
                                // checked for spam. Can be NULL.
     dwFlags          :DWORD;   // Flags for the spam checking.  (For more details see below.)
     case LongInt of
-     0: (hContact: HCONTACT);  // Handle to the sending contact (use pszUserName
+     0: (hContact: MCONTACT);  // Handle to the sending contact (use pszUserName
                                // instead if no hContact is available)
      1: (UserName: TChar);     // Name of the user, e.g. nick (set SCDF_NO_CONTACT
                                // in the flags to use this parameter) -> should

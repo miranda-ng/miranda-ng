@@ -98,33 +98,37 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 }
 
 // dialog box for the %subject% selection
-void ResetCList(HWND hwndDlg) {
+void ResetCList(HWND hwndDlg)
+{
 	if ((CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT)) || !(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE)&CLS_USEGROUPS))
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
 	else
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);
+
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, NULL);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM) (HBITMAP) NULL);
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT, 10, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+
 	for (int i = 0; i <= FONTID_MAX; i++)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
-static int clistDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc) {
-
-	switch(urc->wId) {
+static int clistDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
 	case IDC_ABOUT:
 	case IDC_ABOUTFRAME:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_TOP;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
 	case IDC_NULL:
 	case IDC_CONTACT:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
-	return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+	return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 }
 
 static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -138,33 +142,34 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CLIST), IsDlgButtonChecked(hwndDlg, IDC_CONTACT));
 		break;
 
-	case VARM_SETSUBJECT: {
-		LPARAM res = 0;
-		MCONTACT hItem, hContact = wParam;
-		log_debugA("VARM_SETSUBJECT: %u", hContact);
-		if (hContact == INVALID_CONTACT_ID) {
-			TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
-			log_debugA("VARM_SETSUBJECT: %s", tszContact);
-			if (tszContact != NULL) {
-				hContact = decodeContactFromString(tszContact);
-				log_debugA("VARM_SETSUBJECT decoded: %u", hContact);
-				mir_free(tszContact);
-		}	}
+	case VARM_SETSUBJECT:
+		{
+			LPARAM res = 0;
+			MCONTACT hItem, hContact = wParam;
+			log_debugA("VARM_SETSUBJECT: %u", hContact);
+			if (hContact == INVALID_CONTACT_ID) {
+				TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
+				log_debugA("VARM_SETSUBJECT: %s", tszContact);
+				if (tszContact != NULL) {
+					hContact = decodeContactFromString(tszContact);
+					log_debugA("VARM_SETSUBJECT decoded: %u", hContact);
+					mir_free(tszContact);
+			}	}
 
-		if ((hContact != INVALID_CONTACT_ID) && (hContact != NULL))
-			hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-		else
-			hItem = NULL;
+			if ((hContact != INVALID_CONTACT_ID) && (hContact != NULL))
+				hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+			else
+				hItem = NULL;
 
-		if (hItem != NULL)
-			res = (LPARAM)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SELECTITEM, (WPARAM)hItem, 0);
+			if (hItem != NULL)
+				res = (LPARAM)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SELECTITEM, (WPARAM)hItem, 0);
 
-		CheckRadioButton(hwndDlg, IDC_NULL, IDC_CONTACT, hItem==NULL?IDC_NULL:IDC_CONTACT);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CLIST), IsDlgButtonChecked(hwndDlg, IDC_CONTACT));
-		SetFocus(GetDlgItem(hwndDlg, IDC_CLIST));
-		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LPARAM)res);
+			CheckRadioButton(hwndDlg, IDC_NULL, IDC_CONTACT, hItem==NULL?IDC_NULL:IDC_CONTACT);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CLIST), IsDlgButtonChecked(hwndDlg, IDC_CONTACT));
+			SetFocus(GetDlgItem(hwndDlg, IDC_CLIST));
+			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LPARAM)res);
+		}
 		return TRUE;
-	}
 
 	case VARM_GETSUBJECT:
 		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT,
@@ -172,9 +177,8 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		return TRUE;
 
 	case WM_SIZE:
-		if (!IsIconic( hwndDlg )) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
+		if (!IsIconic(hwndDlg)) {
+			UTILRESIZEDIALOG urd = { sizeof(urd) };
 			urd.hInstance = hInst;
 			urd.hwndDlg = hwndDlg;
 			urd.lParam = 0;
@@ -222,14 +226,14 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_DESTROY:
 		db_unset(NULL, MODULENAME, SETTING_SUBJECT);
-		{
-			MCONTACT hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
-			if (hContact != NULL) {
-				TCHAR *tszContact = encodeContactToString(hContact);
-				if (tszContact != NULL) {
-					db_set_ts(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
-					mir_free(tszContact);
-		}	}	}
+
+		MCONTACT hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
+		if (hContact != NULL) {
+			TCHAR *tszContact = encodeContactToString(hContact);
+			if (tszContact != NULL) {
+				db_set_ts(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
+				mir_free(tszContact);
+		}	}
 		break;
 	}
 

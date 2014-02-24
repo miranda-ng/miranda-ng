@@ -133,7 +133,7 @@ type
     case boolean of
      false: (
        iImage:int;
-       hContact:HCONTACT);
+       hContact:MCONTACT);
      true : (
        groupId:word;
        group  :pClcGroup;);
@@ -292,7 +292,7 @@ type
 type
   PClcCacheEntryBase = ^ClcCacheEntryBase;
   ClcCacheEntryBase = record
-    hContact:HCONTACT;
+    hContact:MCONTACT;
     name    :TCHAR;
     group   :TCHAR;
     isHidden:int;
@@ -348,10 +348,10 @@ type
     pfnAddInfoItemToGroup      : function  (var group:ClcGroup; flags:int; pszText:TChar):int; cdecl;
     pfnAddItemToGroup          : function  (var group:ClcGroup; iAboveItem:int):int; cdecl;
     pfnAddContactToGroup       : function  (var dat:ClcData; var group:ClcGroup;
-                                 hContact:HCONTACT):int; cdecl;
-    pfnAddContactToTree        : procedure (hwnd:HWND; var dat:ClcData; hContact:HCONTACT;
+                                 hContact:MCONTACT):int; cdecl;
+    pfnAddContactToTree        : procedure (hwnd:HWND; var dat:ClcData; hContact:MCONTACT;
                                  updateTotalCount:int; checkHideOffline:int); cdecl;
-    pfnDeleteItemFromTree      : procedure (hwnd:HWND; hItem:HCONTACT); cdecl;
+    pfnDeleteItemFromTree      : procedure (hwnd:HWND; hItem:MCONTACT); cdecl;
     pfnRebuildEntireList       : procedure (hwnd:HWND; var dat:ClcData); cdecl;
     pfnGetGroupContentsCount   : function  (var group:ClcGroup; visibleOnly:int):int; cdecl;
     pfnSortCLC                 : procedure (hwnd:HWND; var dat:ClcData; useInsertionSort:int); cdecl;
@@ -383,7 +383,7 @@ type
     pfnClcStatusToPf2             : function  (status:int):int; cdecl;
     pfnIsHiddenMode               : function  (var dat:ClcData; status:int):int; cdecl;
     pfnHideInfoTip                : procedure (hwnd:HWND; var dat:ClcData); cdecl;
-    pfnNotifyNewContact           : procedure (hwnd:HWND; hContact:HCONTACT); cdecl;
+    pfnNotifyNewContact           : procedure (hwnd:HWND; hContact:MCONTACT); cdecl;
     pfnGetDefaultExStyle          : function  :DWORD; cdecl;
     pfnGetDefaultFontSetting      : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
     pfnGetFontSetting             : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
@@ -399,22 +399,22 @@ type
     pfnRowHitTest        : function (var dat:ClcData; y:int):int; cdecl;
 
   (* clistevents.c *)
-    pfnEventsProcessContactDoubleClick : function (hContact:HCONTACT):int; cdecl;
+    pfnEventsProcessContactDoubleClick : function (hContact:MCONTACT):int; cdecl;
     pfnEventsProcessTrayDoubleClick    : function (_para1:int):int; cdecl;
 
   (* clistmod.c *)
-    pfnIconFromStatusMode       : function (szProto:PAnsiChar; status:int; hContact:HCONTACT):int; cdecl;
+    pfnIconFromStatusMode       : function (szProto:PAnsiChar; status:int; hContact:MCONTACT):int; cdecl;
     pfnShowHide                 : function (_para1:WPARAM; _para2:LPARAM):int; cdecl;
     pfnGetStatusModeDescription : function (mode:int; flags:int):TChar; cdecl;
 
   (* clistsettings.c *)
-    pfnGetCacheEntry   : function (hContact:HCONTACT):PClcCacheEntry; cdecl;
-    pfnCreateCacheItem : function (hContact:HCONTACT):PClcCacheEntry; cdecl;
+    pfnGetCacheEntry   : function (hContact:MCONTACT):PClcCacheEntry; cdecl;
+    pfnCreateCacheItem : function (hContact:MCONTACT):PClcCacheEntry; cdecl;
     pfnCheckCacheItem  : procedure (_para1:PClcCacheEntry); cdecl;
     pfnFreeCacheItem   : procedure (_para1:PClcCacheEntry); cdecl;
 
-    pfnGetContactDisplayName           : function  (hContact:HCONTACT; mode:int):TChar; cdecl;
-    pfnInvalidateDisplayNameCacheEntry : procedure (hContact:HCONTACT); cdecl;
+    pfnGetContactDisplayName           : function  (hContact:MCONTACT; mode:int):TChar; cdecl;
+    pfnInvalidateDisplayNameCacheEntry : procedure (hContact:MCONTACT); cdecl;
 
   (* clisttray.c *)
     pfnTrayIconUpdateWithImageList : procedure (iImage:int; szNewTip:TChar;
@@ -437,7 +437,7 @@ type
     pfnOnCreateClc               : procedure ; cdecl;
 
   (* contact.c *)
-    pfnChangeContactIcon : procedure (hContact:HCONTACT; iIcon:int; add:int); cdecl;
+    pfnChangeContactIcon : procedure (hContact:MCONTACT; iIcon:int; add:int); cdecl;
     pfnLoadContactTree   : procedure ; cdecl;
     pfnCompareContacts   : function (var contact1:ClcContact; var contact2:ClcContact):int; cdecl;
     pfnSortContacts      : procedure ; cdecl;
@@ -466,9 +466,9 @@ type
     pfnFreeEvent   : procedure (_para1:PCListEvent); cdecl;
 
     pfnAddEvent : function (_para1:PCLISTEVENT):PCListEvent; cdecl;
-    pfnGetEvent : function (hContact:HCONTACT; idx:int):PCLISTEVENT; cdecl;
+    pfnGetEvent : function (hContact:MCONTACT; idx:int):PCLISTEVENT; cdecl;
 
-    pfnRemoveEvent     : function (hContact:HCONTACT; hDbEvent:THANDLE):int; cdecl;
+    pfnRemoveEvent     : function (hContact:MCONTACT; hDbEvent:THANDLE):int; cdecl;
     pfnGetImlIconIndex : function (hIcon:HICON):int; cdecl;
 
   (*************************************************************************************
@@ -509,7 +509,7 @@ type
     szTip             : TChar;
     bTrayMenuOnScreen : BOOL;
 
-    pfnGetIconFromStatusMode  : function  (hContact:HCONTACT; szProto:PAnsiChar;
+    pfnGetIconFromStatusMode  : function  (hContact:MCONTACT; szProto:PAnsiChar;
                                 status:int):HICON; cdecl;
 
     pfnInitTray               : procedure ; cdecl;
@@ -540,13 +540,13 @@ type
 	 * version 7 additions (0.11.0.x) - extra images
 	 *************************************************************************************)
     pfnReloadExtraIcons: procedure; cdecl;
-    pfnSetAllExtraIcons: procedure(hContact:HCONTACT); cdecl;
+    pfnSetAllExtraIcons: procedure(hContact:MCONTACT); cdecl;
 
 	(*************************************************************************************
 	 * Miranda NG additions
 	 *************************************************************************************)
 
-	  pfnGetContactIcon: function(hContact:HCONTACT):int; cdecl;
+	  pfnGetContactIcon: function(hContact:MCONTACT):int; cdecl;
 	  pfnTrayCalcChanged:function(szChangedProto:pAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
     pfnGetAverageMode:function(pNetProtoCount:pint):int; cdecl;
   end;

@@ -38,7 +38,7 @@ type
 
     PPOPUPDATA = ^TPOPUPDATA;
     TPOPUPDATA = record
-        lchContact: HCONTACT;
+        lchContact: MCONTACT;
         lchIcon: THandle;
         lpszContactName: array[0..MAX_CONTACTNAME-1] of Char;
         lpszText: array[0..MAX_SECONDLINE-1] of Char;
@@ -54,7 +54,7 @@ type
 
     PPOPUPDATA = ^TPOPUPDATA;
     TPOPUPDATA = record
-        lchContact: HCONTACT;
+        lchContact: MCONTACT;
         lchIcon: THandle;
         lpszContactName: array[0..MAX_CONTACTNAME-1] of Char;
         lpszText: array[0..MAX_SECONDLINE-1] of Char;

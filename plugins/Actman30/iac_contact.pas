@@ -24,7 +24,7 @@ const
 type
   tContactAction = class(tBaseAction)
   private
-    contact:HCONTACT;
+    contact:MCONTACT;
   public
     constructor Create(uid:dword);
 //    function  Clone:tBaseAction; override;

@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 const
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : 0
         Affects: bring up the send URL dialogbox for a user
         Returns: 0 on success, nonzero on failure, see notes

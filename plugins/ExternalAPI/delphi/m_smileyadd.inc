@@ -41,7 +41,7 @@ type
        // If not found or NULL, "Standard" will be used
     flags              :uint;       // Flags (SAFLRE_*) that define the behaivior
     disableRedraw      :BOOL;       // Parameter have been depricated, have no effect on operation
-    hContact           :HCONTACT;   // Contact handle
+    hContact           :MCONTACT;   // Contact handle
   end;
 
 {
@@ -71,7 +71,7 @@ type
     targetWParam : LPARAM;    // Target WParam to be sent (LParam will be PAnsiChar to
                               // select smiley) see the example file.
     hwndParent   : HWND;      // Parent window for smiley dialog
-    hContact     : HCONTACT;  // Contact handle
+    hContact     : MCONTACT;  // Contact handle
   end;
 
 {
@@ -98,7 +98,7 @@ type
      // do not destroy! NULL if the buttonicon is not defined...
     NumberOfVisibleSmileys: int;       // Number of visible smileys defined.
     NumberOfSmileys       : int;       // Number of total smileys defined
-    hContact              : HCONTACT;  //Contact handle
+    hContact              : MCONTACT;  //Contact handle
   end;
 
 const
@@ -129,7 +129,7 @@ type
     numSmileys  :uint;      // Number of Smileys found, this parameter filled by SmileyAdd
     oflag       :uint;      // One of the SAFL_ flags specifies content of the parse results
                             // this parameter filled by SmileyAdd
-    hContact    :HCONTACT;  // Contact handle
+    hContact    :MCONTACT;  // Contact handle
   end;
 
 type
@@ -237,7 +237,7 @@ const
 type
   SMADD_CONT = record
     cbSize  :uint;
-    hContact:HCONTACT;
+    hContact:MCONTACT;
     _type   :int;      // 0 - directory, 1 - file;
     path    :TChar;    // smiley category name for reference
   end;

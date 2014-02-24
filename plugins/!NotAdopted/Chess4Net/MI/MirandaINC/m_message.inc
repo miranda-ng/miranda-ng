@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 const
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : Pointer to a null terminated string
         Affects: brings up the send message dialog for a contact, see notes
         Returns: 0 on success, non zero on failure

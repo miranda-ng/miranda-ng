@@ -209,7 +209,7 @@ begin
 
 end;
 
-function DoMeta(hContact:HCONTACT):pointer;
+function DoMeta(hContact:MCONTACT):pointer;
 var
   pw:pWideChar;
   i:integer;
@@ -433,7 +433,7 @@ end;
 
 //----- Initial table filling -----
 
-procedure AddContact(num:integer;hContact:HCONTACT);
+procedure AddContact(num:integer;hContact:MCONTACT);
 var
   col:pcolumnitem;
   tmpstr:array [0..63] of AnsiChar;
@@ -476,7 +476,7 @@ end;
 function PrepareToFill:boolean;
 var
   cnt,cnt1:integer;
-  hContact:THCONTACT;
+  hContact:MCONTACT;
   i:integer;
 begin
   result:=false;

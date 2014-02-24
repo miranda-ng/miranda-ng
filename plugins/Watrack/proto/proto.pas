@@ -57,7 +57,7 @@ var
 {$include i_proto_opt.inc}
 {$include i_proto_dlg.inc}
 
-procedure AddEvent(hContact:HCONTACT;atype,flag:integer;data:pointer;size:integer;time:dword=0);
+procedure AddEvent(hContact:MCONTACT;atype,flag:integer;data:pointer;size:integer;time:dword=0);
 var
   dbeo:TDBEVENTINFO;
 begin
@@ -404,7 +404,7 @@ end;
 
 procedure RegisterContacts;
 var
-  hContact:THCONTACT;
+  hContact:MCONTACT;
 begin
   hContact:=db_find_first();
   while hContact<>0 do

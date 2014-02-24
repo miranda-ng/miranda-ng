@@ -276,7 +276,7 @@ end;
 
 function Service_AddToList(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
 var
-  hContact:THCONTACT;
+  hContact:MCONTACT;
   p:PWideChar;
   lurl:pWideChar;
 begin

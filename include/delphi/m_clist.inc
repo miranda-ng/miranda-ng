@@ -154,7 +154,7 @@ const
   MS_CLIST_SHOWHIDEMENUITEM:PAnsiChar = 'CList/ShowHideMenuItem';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : the context menu for a contact is about to be built, see notes
     Notes  : modules should use this to change menu items that are specific
@@ -189,10 +189,10 @@ const
   MS_CLIST_SETDOUBLECLICKACTION:PAnsiChar = 'CList/SetDoubleClickAction';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : <none>
     Affect : Register with this event to be notified of a double click on the CList
-             against a HCONTACT, you will not be notified if there is a pending CList event
+             against a MCONTACT, you will not be notified if there is a pending CList event
              that the double click clears, (i.e. flashing icon is presented to be clicked)
     Version: 0.3.0.0
   }
@@ -202,7 +202,7 @@ const
   GCDNF_UNICODE    = 2; // will return TCHAR* instead of AnsiChar*
   GCDNF_NOCACHE    = 4; // will not use the cache
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : flags
     Affect : Gets the string that the contact list will use to represent a contact
     Returns: Always a pointer
@@ -227,7 +227,7 @@ type
   PCLISTEVENT = ^TCLISTEVENT;
   TCLISTEVENT = record
     cbSize    : int;       // size in bytes
-    hContact  : HCONTACT;  // handle to the contact to put the icon by
+    hContact  : MCONTACT;  // handle to the contact to put the icon by
     hIcon     : HICON;     // icon to flash!
     flags     : DWORD;
     hDBEvent  : THANDLE;   // caller defined, but should be unique for hContact
@@ -267,7 +267,7 @@ const
   MS_CLIST_ADDEVENT:PAnsiChar = 'CList/AddEvent';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : HDBEVENT
     Affect : Remove an event from the contact list queue
     Returns: 0 on success, [non zero] on failure
@@ -275,15 +275,15 @@ const
   MS_CLIST_REMOVEEVENT:PAnsiChar = 'Clist/RemoveEvent';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : iEvent
     Affect : Get the details of an event in the queue, see notes
     Returns: A CLISTEVENT* or NULL(0) on failure
     Notes  : Returns the iEvent'1st/2nd/3rd/nth elemented queried,
              e.g. iEvent=0 will get the event that will be returned if the
-             user double clicks on that HCONTACT
+             user double clicks on that MCONTACT
              -
-             Use HCONTACT=NULL, iEvent=0 for example to get the event
+             Use MCONTACT=NULL, iEvent=0 for example to get the event
              the user will get if they double click on the tray.
     Version: v0.1.2.1+
   }
@@ -312,7 +312,7 @@ const
   MS_CLIST_MENUDRAWITEM:PAnsiChar = 'CList/MenuDrawItem';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Built the context menu for a specific contact
     Returns: A HMENU handle identifying the menu, this should be DestroyMenu()ed
@@ -332,7 +332,7 @@ const
   IMAGE_GROUPSHUT = 12;
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Get the icon that should be associated with a contact
     Returns: an index into the contact list imagelist, if the icon
@@ -343,7 +343,7 @@ const
   MS_CLIST_GETCONTACTICON:PAnsiChar = 'CList/GetContactIcon';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : ICON_ID
     Affect : The icon of a contact in the contact list has changed,
              ICON_ID is an index to what image has changed
@@ -390,7 +390,7 @@ const
   MPCF_MAINMENU    = 2; // test commands from the main menu
   {
     wParam : MAKEWPARAM(LOWORD(wParam of WM_COMMAND),flags)
-    lParam : HCONTACT
+    lParam : MCONTACT
     Affect : Process a menu selection from a menu, see notes
     Returns: True if it processed the command, False otherwise
     notes  : hContact is the currently selected contact, it is not used
@@ -587,7 +587,7 @@ const
   MS_CLIST_SETHIDEOFFLINE:PAnsiChar = 'CList/SetHideOffline';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Do the message processing associated with the double clicking a contact
     Returns: 0 on success, [non zero] on failure
@@ -596,7 +596,7 @@ const
   MS_CLIST_CONTACTDOUBLECLICKED:PAnsiChar = 'CList/ContactDoubleClicked';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : Pointer to an array of PAnsiChar's containing files/dirs
     Affect : Do the processing when some files are droppeed on a contact, see notes
     Returns: 0 on success, [non zero] on failure
@@ -606,7 +606,7 @@ const
   MS_CLIST_CONTACTFILESDROPPED:PAnsiChar = 'CList/ContactFilesDropped';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : HGROUP
     Affect : Change the group a contact belongs to, see notes
     Returns: 0 on success, [non zero] on failure

@@ -332,10 +332,10 @@ const
 //************************** EVENTS ********************************
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : HDBCONTACT
     Affect : Called when a new event has been added to the event chain
-             for a contact, HCONTACT contains the contact who added the event,
+             for a contact, MCONTACT contains the contact who added the event,
              HDBCONTACT a handle to what was added.
              see notes
     notes  : since events are sorted chronologically, you can not guarantee
@@ -361,14 +361,14 @@ const
   ME_DB_EVENT_FILTER_ADD:PAnsiChar = 'DB/Event/FilterAdd';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : HANDLE
     Affect : Called when an event is marked read
   }
   ME_DB_EVENT_MARKED_READ:PAnsiChar = 'DB/Event/Marked/Read';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : HANDLE
     Affect : Called when an event is about to be deleted from the event chain
              for a contact, see notes
@@ -378,15 +378,15 @@ const
   ME_DB_EVENT_DELETED:PAnsiChar = 'DB/Event/Deleted';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Called when a new contact has been added to the database,
-             HCONTACT contains a handle to the new contact.
+             MCONTACT contains a handle to the new contact.
   }
   ME_DB_CONTACT_ADDED:PAnsiChar = 'DB/Contact/Added';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : 0
     Affect : Called when a contact is about to be deleted
     Returns: Returning nonzero from your hook will not stop the deletion
@@ -395,7 +395,7 @@ const
   ME_DB_CONTACT_DELETED:PAnsiChar = 'DB/Contact/Deleted';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : Pointer to a TDBCONTACTWRITESETTING
     Affect : Calleed when a contact has one of it's settings changed
              hContact is a valid handle to the contact that has changed,

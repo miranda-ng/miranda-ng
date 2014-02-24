@@ -85,7 +85,7 @@ var
   tmp:PWideChar;
   blob,p:PAnsiChar;
   w:PWideChar;
-  hContact:THCONTACT;
+  hContact:MCONTACT;
   wnd:HWND;
   fexist:bool;
   dbei:TDBEVENTINFO;

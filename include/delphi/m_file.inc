@@ -56,27 +56,27 @@ const
   MS_FILE_SENDSPECIFICFILEST:PAnsiChar = 'SRFile/SendSpecificFilesT';
   
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : Pointer to a buffer
     Affects: returns the received files folder for a contact, the buffer
              should be at least MAX_PATH long (defined with WinAPI),
              the returned path may not exist -- see notes
     Returns: Returns 0 on success [non zero] on failure
-    Notes  : If HCONTACT is NULL(0) the path returned is the path
+    Notes  : If MCONTACT is NULL(0) the path returned is the path
              without the postfix contact name.
     Version: v0.1.2.2+
   }
   MS_FILE_GETRECEIVEDFILESFOLDER:PAnsiChar = 'SRFile/GetReceivedFilesFolder';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : file selection dialog's window
     Notes  : notifies a caller about file send start
   }
   ME_FILEDLG_SUCCEEDED:PAnsiChar = 'SRFile/Dlg/Succeeded';
 
   {
-    wParam : HCONTACT
+    wParam : MCONTACT
     lParam : file selection dialog's window
     Notes  : notifies a caller about file send cancellation
   }

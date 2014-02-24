@@ -71,7 +71,7 @@ type
   PavatarCacheEntryW = ^TavatarCacheEntryW;
   TavatarCacheEntryW = record
     cbSize      : DWORD;    // set to sizeof(struct)
-    hContact    : HCONTACT; // contacts handle, 0, if it is a protocol avatar
+    hContact    : MCONTACT; // contacts handle, 0, if it is a protocol avatar
     hbmPic      : HBITMAP;  // bitmap handle of the picture itself
     dwFlags     : DWORD;    // see above for flag values
     bmHeight    : long;     // bitmap dimensions
@@ -86,7 +86,7 @@ type
   PavatarCacheEntry = ^TavatarCacheEntry;
   TavatarCacheEntry = record
     cbSize      : DWORD;    // set to sizeof(struct)
-    hContact    : HCONTACT; // contacts handle, 0, if it is a protocol avatar
+    hContact    : MCONTACT; // contacts handle, 0, if it is a protocol avatar
     hbmPic      : HBITMAP;  // bitmap handle of the picture itself
     dwFlags     : DWORD;    // see above for flag values
     bmHeight    : long;     // bitmap dimensions
@@ -120,7 +120,7 @@ type
   TavatarDrawRequest = record
     cbSize    : DWORD;     // set this to sizeof(AVATARDRAWREQUEST) - mandatory,
                            // service will return failure code if cbSize is wrong
-    hContact  : HCONTACT;  // the contact for which the avatar should be drawn.
+    hContact  : MCONTACT;  // the contact for which the avatar should be drawn.
                            // set it to 0 to draw a protocol picture
     hTargetDC : HDC;       // target device context
     rcDraw    : TRECT;     // target rectangle. The avatar will be centered
@@ -243,7 +243,7 @@ const
 type
   TContactAvatarChangedNotificationW = record
     cbSize  :int;      // sizeof()
-    hContact:HCONTACT; // this might have to be set by the caller too
+    hContact:MCONTACT; // this might have to be set by the caller too
     format  :int;      // PA_FORMAT_*
     filename:array [0..MAX_PATH-1] of WideChar; // full path to filename which contains the avatar
     hash    :array [0..127] of WideChar;        // avatar hash (always an empty string by now)
@@ -251,7 +251,7 @@ type
 
   TContactAvatarChangedNotification = record
     cbSize  :int;      // sizeof()
-    hContact:HCONTACT; // this might have to be set by the caller too
+    hContact:MCONTACT; // this might have to be set by the caller too
     format  :int;      // PA_FORMAT_*
     filename:array [0..MAX_PATH-1] of AnsiChar; // full path to filename which contains the avatar
     hash    :array [0..127] of AnsiChar;        // avatar hash (always an empty string by now)

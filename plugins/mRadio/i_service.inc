@@ -27,7 +27,7 @@ begin
   result:=0;
 end;
 
-procedure GetAwayMsgProc(hContact:HCONTACT); cdecl;
+procedure GetAwayMsgProc(hContact:MCONTACT); cdecl;
 var
   buf,p:PWideChar;
 begin

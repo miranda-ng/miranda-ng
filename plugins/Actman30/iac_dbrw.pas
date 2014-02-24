@@ -68,7 +68,7 @@ const
 type
   tDataBaseAction = class(tBaseAction)
   private
-    dbcontact:HCONTACT;
+    dbcontact:MCONTACT;
     dbmodule :PWideChar;
     dbsetting:PWideChar;
     dbvalue  :PWideChar; // keep all in unicode (str to int translation fast)
@@ -129,7 +129,7 @@ var
   ambuf,asbuf:array [0..127] of AnsiChar;
   ls,tmp:pWideChar;
   tmpa,tmpa1:pAnsiChar;
-  hContact:THCONTACT;
+  hContact:MCONTACT;
   proto:pAnsiChar;
   avalue:uint_ptr;
 begin

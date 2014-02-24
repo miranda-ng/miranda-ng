@@ -78,13 +78,13 @@ type
   TWINDOWLISTENTRY = record
     hList   : THANDLE;
     hWnd    : HWND;
-    hContact: HCONTACT;
+    hContact: MCONTACT;
   end;
 
   PSAVEWINDOWPOS = ^TSAVEWINDOWPOS;
   TSAVEWINDOWPOS = record
     hWnd        : HWND;
-    hContact    : HCONTACT;
+    hContact    : MCONTACT;
     szModule    : PAnsiChar;        // module name eto store the settings in
     szNamePrefix: PAnsiChar;        // text to prefix on 'x', 'width', etc
   end;
@@ -188,7 +188,7 @@ const
 
   {
     wParam : Handle to the window list to look in
-    lParam : Handle to a HCONTACT to find in the window list
+    lParam : Handle to a MCONTACT to find in the window list
     Affect : Find a window handle given the hContact
     Returns: The found window handle or NULL(0) on failure
   }
@@ -349,7 +349,7 @@ type
   TREPLACEVARSDATA = record
     cbSize   :int;
     dwFlags  :dword;
-    hContact :HCONTACT;
+    hContact :MCONTACT;
     variables:PREPLACEVARSARRAY;
   end;
 

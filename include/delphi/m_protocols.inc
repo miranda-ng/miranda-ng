@@ -32,7 +32,7 @@
 type
   PCCSDATA = ^TCCSDATA;
   TCCSDATA = record
-    hContact      : HCONTACT;
+    hContact      : MCONTACT;
     szProtoService: PAnsiChar;      // a PS_* constant
     wParam        : WPARAM;
     lParam        : LPARAM;
@@ -52,7 +52,7 @@ type
   TACKDATA = record
     cbSize  : int;
     szModule: PAnsiChar; // the name of the protocol module which initiated this ack
-    hContact: HCONTACT;
+    hContact: MCONTACT;
     _type   : int;       // an ACKTYPE_* constant
     _result : int;       // an ACKRESULT_* constant
     hProcess: THANDLE;   // caller defined seq, I mean process code
@@ -123,7 +123,7 @@ type
   PPROTOFILETRANSFERSTATUS = ^TPROTOFILETRANSFERSTATUS;
   TPROTOFILETRANSFERSTATUS = record
     cbSize             : size_t;
-    hContact           : HCONTACT;
+    hContact           : MCONTACT;
     flags              : dword;     // one of PFTS_* constants
     files              : ^TCHAR;
     totalFiles         : int;
@@ -389,7 +389,7 @@ type
   PPROTO_AVATAR_INFORMATIONW = ^TPROTO_AVATAR_INFORMATIONW;
   TPROTO_AVATAR_INFORMATIONW = record
     cbSize  : int;      // sizeof()
-    hContact: HCONTACT; // this might have to be set by the caller too
+    hContact: MCONTACT; // this might have to be set by the caller too
     format  : int;      // PA_FORMAT_*
     // full path to filename which contains the avatar
     filename: array[0..(MAX_PATH)-1] of WideChar;
@@ -398,7 +398,7 @@ type
   PPROTO_AVATAR_INFORMATION = ^TPROTO_AVATAR_INFORMATION;
   TPROTO_AVATAR_INFORMATION = record
     cbSize  : int;      // sizeof()
-    hContact: HCONTACT; // this might have to be set by the caller too
+    hContact: MCONTACT; // this might have to be set by the caller too
     format  : int;      // PA_FORMAT_*
     // full path to filename which contains the avatar
     filename: array[0..(MAX_PATH)-1] of AnsiChar;

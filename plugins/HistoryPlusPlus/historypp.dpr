@@ -517,10 +517,10 @@ begin
   end;
 end;
 
-//wParam : HCONTACT
+//wParam : MCONTACT
 //lParam : HDBCONTACT
 //Called when a new event has been added to the event chain
-//for a contact, HCONTACT contains the contact who added the event,
+//for a contact, MCONTACT contains the contact who added the event,
 //HDBCONTACT a handle to what was added.
 function OnEventAdded(wParam: WPARAM; lParam: LPARAM): Integer; cdecl;
 begin
@@ -528,7 +528,7 @@ begin
   NotifyAllForms(HM_MIEV_EVENTADDED,wParam,lParam);
 end;
 
-//wParam : HCONTACT
+//wParam : MCONTACT
 //lParam : HDBEVENT
 //Affect : Called when an event is about to be deleted from the event chain
 //for a contact, see notes

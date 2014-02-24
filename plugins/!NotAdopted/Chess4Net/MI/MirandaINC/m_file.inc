@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 const
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : 0
         Affects: Brings up the send file dialog for a contact, see notes
         Returns: 0 on success [non zero] on failure
@@ -37,7 +37,7 @@ const
     MS_FILE_SENDFILE            = 'SRFile/SendCommand';
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : pointer to an array of PChar's the first nil item
                  terminates the list -- see notes
         Affects: Brings up the send file dialog with specifieed files already chosen
@@ -50,13 +50,13 @@ const
     MS_FILE_SENDSPECIFICFILES       = 'SRFile/SendSpecificFiles';
 
     {
-        wParam : HCONTACT
+        wParam : MCONTACT
         lParam : Pointer to a buffer
         Affects: returns the received files folder for a contact, the buffer
                  should be at least MAX_PATH long (defined with WinAPI),
                  the returned path may not exist -- see notes
         Returns: Returns 0 on success [non zero] on failure
-        notes  : If HCONTACT is NULL(0) the path returned is the path
+        notes  : If MCONTACT is NULL(0) the path returned is the path
                  without the postfix contact name.
         Version: v0.1.2.2+
     }

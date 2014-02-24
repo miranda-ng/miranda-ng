@@ -92,7 +92,7 @@ type
   TEXTRAICON = record
     cbSize    :int;
     hExtraIcon:THANDLE;  // Value returned by MS_EXTRAICON_REGISTER
-    hContact  :HCONTACT; // Contact to set the extra icon
+    hContact  :MCONTACT; // Contact to set the extra icon
     // The icon to be set. This depends on the type of the extra icon:
 	  case boolean of
       false:(hImage :THANDLE);   // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)

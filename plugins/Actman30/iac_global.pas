@@ -89,8 +89,8 @@ procedure InsertString(wnd:HWND;num:dword;str:PAnsiChar);
 function GetLink(hash:dword):pActModule;
 function GetLinkByName(name:pAnsiChar):pActModule;
 
-function ImportContact   (node:HXML   ):HCONTACT;
-function ImportContactINI(node:pointer):HCONTACT;
+function ImportContact   (node:HXML   ):MCONTACT;
+function ImportContactINI(node:pointer):MCONTACT;
 
 implementation
 
@@ -301,7 +301,7 @@ const
   ioCUID     = 'cuid';
   ioCUIDType = 'cuidtype';
 
-function ImportContact(node:HXML):HCONTACT;
+function ImportContact(node:HXML):MCONTACT;
 var
   proto:pAnsiChar;
   tmpbuf:array [0..63] of AnsiChar;
@@ -352,7 +352,7 @@ begin
     end;
 end;
 
-function ImportContactINI(node:pointer):HCONTACT;
+function ImportContactINI(node:pointer):MCONTACT;
 {
 var
   proto:pAnsiChar;

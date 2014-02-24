@@ -50,7 +50,7 @@ function SetParamLabel   (Dialog:HWND; lbl:pWideChar):HWND;
 
 procedure ClearParam    (flags:dword; var param);
 function  DuplicateParam(flags:dword; var sparam,dparam):dword;
-function  TranslateParam(param:uint_ptr;flags:dword;hContact:HCONTACT):uint_ptr;
+function  TranslateParam(param:uint_ptr;flags:dword;hContact:MCONTACT):uint_ptr;
 
 function CreateResultBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
 function ClearResultFields(Dialog:HWND):HWND;
@@ -651,7 +651,7 @@ begin
   result:=flags;
 end;
 
-function TranslateParam(param:uint_ptr;flags:dword;hContact:HCONTACT):uint_ptr;
+function TranslateParam(param:uint_ptr;flags:dword;hContact:MCONTACT):uint_ptr;
 var
   tmp1:pWideChar;
 begin

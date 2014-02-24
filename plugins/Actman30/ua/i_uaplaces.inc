@@ -463,7 +463,7 @@ begin
 
 end;
 
-function PreBuildMenu(mtype:tMenuType;hContact:HCONTACT=0):int;
+function PreBuildMenu(mtype:tMenuType;hContact:MCONTACT=0):int;
 var
   i:integer;
   mi:TCListMenuItem;
