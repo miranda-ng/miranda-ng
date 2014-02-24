@@ -2013,17 +2013,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			case GCW_CHATROOM:
 				hIcon = (dat->wStatus <= ID_STATUS_OFFLINE) ? LoadSkinnedProtoIcon(si->pszModule, ID_STATUS_OFFLINE) : LoadSkinnedProtoIcon(si->pszModule, dat->wStatus);
 				mir_sntprintf(szTemp, SIZEOF(szTemp),
-					(si->nUsersInNicklist == 1) ? TranslateT("%s: Chat Room (%u user%s)") :
-					TranslateT("%s: Chat Room (%u users%s)"),
-					si->ptszName, si->nUsersInNicklist, si->bFilterEnabled ? TranslateT(", event filter active") : _T(""));
+					(si->nUsersInNicklist == 1) ? TranslateT("%s: Chat Room (%u user%s)") : TranslateT("%s: Chat Room (%u users%s)"),
+					szNick, si->nUsersInNicklist, si->bFilterEnabled ? TranslateT(", event filter active") : _T(""));
 				break;
 			case GCW_PRIVMESS:
-				mir_sntprintf(szTemp, SIZEOF(szTemp),
-					(si->nUsersInNicklist == 1) ? TranslateT("%s: Message Session") :
-					TranslateT("%s: Message Session (%u users)"), si->ptszName, si->nUsersInNicklist);
+				if(si->nUsersInNicklist == 1)
+					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%s: Message Session"), szNick);
+				else
+					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%s: Message Session (%u users)"), szNick, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s: Server"), si->ptszName);
+				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s: Server"), szNick);
 				hIcon = LoadIconEx(IDI_CHANMGR, "window", 16, 16);
 				break;
 			}
