@@ -61,26 +61,26 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_RESETCONTENT, 0, 0); 
 
 		idx = SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_ADDSTRING, 0, (LPARAM) TranslateT("!EVERYONE!")); 
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETITEMDATA, (WPARAM)idx, (LPARAM)0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETCURSEL, (WPARAM)idx, (LPARAM)0);
+		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETITEMDATA, (WPARAM)idx, 0);
+		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETCURSEL, (WPARAM)idx, 0);
 
 		idx = SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_ADDSTRING, 0, (LPARAM) TranslateT("!DON'T FORWARD!")); 
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETITEMDATA, (WPARAM)idx, (LPARAM)0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETCURSEL, (WPARAM)idx, (LPARAM)0);
+		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETITEMDATA, (WPARAM)idx, 0);
+		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETCURSEL, (WPARAM)idx, 0);
 
 		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (ptszNick){
 				idx = SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_ADDSTRING, 0, (LPARAM)ptszNick);
-				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETITEMDATA, (WPARAM)idx, (LPARAM)hContact);
+				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETITEMDATA, (WPARAM)idx, hContact);
 
 				idx = SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_ADDSTRING, 0, (LPARAM)ptszNick);
-				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETITEMDATA, (WPARAM)idx, (LPARAM)hContact);
+				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETITEMDATA, (WPARAM)idx, hContact);
 
 				if (hContact == hForwardTo)
-					SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETCURSEL, (WPARAM)idx, (LPARAM)0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_TO), CB_SETCURSEL, (WPARAM)idx, 0);
 				if (hContact == hForwardFrom)
-					SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETCURSEL, (WPARAM)idx, (LPARAM)0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_FROM), CB_SETCURSEL, (WPARAM)idx, 0);
 			}
 		}
 

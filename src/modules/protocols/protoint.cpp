@@ -122,7 +122,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact)
 	{
-		return (DWORD_PTR)ProtoCallService(m_szModuleName, PS_GETCAPS, type, (LPARAM)hContact);
+		return (DWORD_PTR)ProtoCallService(m_szModuleName, PS_GETCAPS, type, hContact);
 	}
 
 	HICON __cdecl GetIcon(int iconIndex)

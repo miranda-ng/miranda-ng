@@ -356,7 +356,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, TranslateT("&Capture"));
-		SendMessage(hCtrl, BUTTONSETDEFAULT, (WPARAM)1, NULL);
+		SendMessage(hCtrl, BUTTONSETDEFAULT, 1, NULL);
 	}
 
 //	CheckDlgButton(m_hWnd,ID_chkEditor, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED);

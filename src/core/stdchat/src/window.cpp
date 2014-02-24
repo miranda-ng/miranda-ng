@@ -1852,7 +1852,7 @@ END_REMOVETAB:
 			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
 			si->wState &= ~STATE_TALK;
-			db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)0);
+			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
 			SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
 			return TRUE;
 

@@ -343,7 +343,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 		if (szMsgURL)
 		{
 			lstrcpynA(szMsgURL, szURL, i + 1);
-			CallService(MS_UTILS_OPENURL, (WPARAM)1, (LPARAM)szMsgURL);
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)szMsgURL);
 			mir_free(szMsgURL);
 		}
 	}

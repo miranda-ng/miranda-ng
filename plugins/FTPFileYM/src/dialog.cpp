@@ -232,7 +232,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			MCONTACT hContact = uDlg->tabs[uDlg->activeTab]->job->hContact;
 			if (hContact != NULL)
 			{
-				if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), (LPARAM)hContact))
+				if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), hContact))
 					break;
 			}
 

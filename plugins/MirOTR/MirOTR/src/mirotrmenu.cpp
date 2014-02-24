@@ -65,7 +65,7 @@ INT_PTR MirOTRMenuExecService(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam!=0) {
 		lpMirOTRMenuExecParam cmep=(lpMirOTRMenuExecParam)wParam;
-		//call with wParam=(WPARAM)(HANDLE)hContact
+		//call with wParam=(MCONTACT)hContact
 		CallService(cmep->szServiceName,lParam,0);
 	}
 	return 0;

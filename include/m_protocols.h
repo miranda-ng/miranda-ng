@@ -224,7 +224,7 @@ typedef struct {
 #define MS_PROTO_ISPROTOCOLLOADED  "Proto/IsProtocolLoaded"
 
 //gets the network-level protocol associated with a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //Returns a char* pointing to the asciiz name of the protocol or NULL if the
 //contact has no protocol. There is no need to free() it or anything.
@@ -237,7 +237,7 @@ __forceinline char* GetContactProto(MCONTACT hContact)
 }
 
 //determines whether the specified contact has the given protocol in its chain
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(const char*)szName
 //Returns -1 if it is base protocol, positive number if it is filter and 0 if it doesn't
 #define MS_PROTO_ISPROTOONCONTACT  "Proto/IsProtoOnContact"
@@ -247,7 +247,7 @@ __forceinline char* GetContactProto(MCONTACT hContact)
 //This service is for notifying protocols that the user is typing a message v0.3.3+
 //in a message dialog.
 //This is typically sent by a message dialog when a user in the clist is typing.
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(int)typing state
 //NOTE: Only protocols should generally call this service
 #define MS_PROTO_SELFISTYPING "Proto/SelfIsTyping"
@@ -256,7 +256,7 @@ __forceinline char* GetContactProto(MCONTACT hContact)
 #define PROTOTYPE_CONTACTTYPING_INFINITE 2147483647
 //This service is for notifying message dialogs/other plugins of a user typing. v0.3.3+
 //This is typically sent by a protocol when a user in the clist is typing.
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(int)time (secs)
 //NOTE: The time in seconds is used to tell a message dialog (or other plugin)
 //how long to display its notification.  If time is 0, then notification
@@ -269,7 +269,7 @@ __forceinline char* GetContactProto(MCONTACT hContact)
 //ProtoService PSS_USERISTYPING to the contacts protocol *after* verifying
 //that the hContact is not NULL and the the user wishes to send notifications
 //to this user (checked visibility, individual typing blocking, etc).
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(int)typing state
 #define ME_PROTO_CONTACTISTYPING "Proto/ContactIsTypingEvent"
 
@@ -349,7 +349,7 @@ __forceinline int IsAccountEnabled(const PROTOACCOUNT* pa)
 
 
 //gets the account associated with a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //Returns a char* pointing to the asciiz name of the protocol or NULL if the
 //contact has no protocol. There is no need to mir_free() it or anything.

@@ -1142,13 +1142,13 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !M.GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndClist, CLM_SETUSEGROUPS, (WPARAM)FALSE, 0);
+		SendMessage(hwndClist, CLM_SETUSEGROUPS, FALSE, 0);
 	else
-		SendMessage(hwndClist, CLM_SETUSEGROUPS, (WPARAM)TRUE, 0);
+		SendMessage(hwndClist, CLM_SETUSEGROUPS, TRUE, 0);
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && M.GetByte("CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM)TRUE, 0);
+		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
 	else
-		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM)FALSE, 0);
+		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, FALSE, 0);
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
 	if (hwndClist)
@@ -1429,7 +1429,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 			if (dat_active && dat_active->bType == SESSIONTYPE_IM)
 				SendMessage(hwndContainer, DM_UPDATETITLE, 0, 0);
 			else
-				SendMessage(hwndContainer, DM_UPDATETITLE, (WPARAM)dat->pContainer->hwndActive, (LPARAM)1);
+				SendMessage(hwndContainer, DM_UPDATETITLE, (WPARAM)dat->pContainer->hwndActive, 1);
 			if (!(dat->pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
 				ReflashContainer(dat->pContainer);
 		}

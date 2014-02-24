@@ -262,7 +262,7 @@ __forceinline MCONTACT DbGetAuthEventContact(DBEVENTINFO* dbei)
 
 /* DB/Event/GetText (0.7.0+)
 Retrieves the event's text
-  wParam = (WPARAM)0 (unused)
+  wParam = 0 (unused)
   lParam = (LPARAM)(DBEVENTGETTEXT*)egt - pointer to structure with parameters
   egt->dbei should be the valid database event read via db_event_get()
   egt->datatype = DBVT_WCHAR or DBVT_ASCIIZ or DBVT_TCHAR.

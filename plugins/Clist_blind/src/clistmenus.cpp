@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 {
-	if (CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,(LPARAM)0))
+	if (CallService(MS_SYSTEM_OKTOEXIT,0,0))
 		DestroyWindow(pcli->hwndContactList);
 
 	return(0);

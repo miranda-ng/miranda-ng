@@ -200,7 +200,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 
 	case WM_COMMAND:
 		hContact=(MCONTACT)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wparam),MPCF_CONTACTMENU),(LPARAM)hContact))
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wparam),MPCF_CONTACTMENU), hContact))
 			break;
 
 		switch(LOWORD(wparam)) {
@@ -282,7 +282,7 @@ void ShowHistory(MCONTACT hContact, BYTE isAlert)
 {
 	HWND hHistoryDlg = WindowList_Find(hWindowList,hContact);
 	if (hHistoryDlg == NULL) {
-		hHistoryDlg = CreateDialogParam(hInstance,MAKEINTRESOURCE(IDD_HISTORY),NULL,HistoryDlgProc,(LPARAM)hContact);
+		hHistoryDlg = CreateDialogParam(hInstance,MAKEINTRESOURCE(IDD_HISTORY),NULL,HistoryDlgProc,hContact);
 		LoadHistoryList(hContact, hHistoryDlg, IDC_HISTORYLIST);
 		WindowList_Add(hWindowList,hHistoryDlg,hContact);
 	} 

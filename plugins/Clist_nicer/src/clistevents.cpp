@@ -330,7 +330,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 }
 
 // Removes an event from the contact list's queue
-// wParam=(WPARAM)(HANDLE)hContact
+// wParam=(MCONTACT)hContact
 // lParam=(LPARAM)(HANDLE)hDbEvent
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
 int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)

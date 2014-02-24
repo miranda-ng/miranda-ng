@@ -295,7 +295,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			int sel = SendMessage(hwnd_list, LB_GETCURSEL, 0, 0),
 				top = SendMessage(hwnd_list, LB_GETTOPINDEX, 0, 0);
 
-			SendMessage(hwnd_list, WM_SETREDRAW, (WPARAM)FALSE, 0);
+			SendMessage(hwnd_list, WM_SETREDRAW, FALSE, 0);
 
 			EnterCriticalSection(&list_cs);
 			SendMessage(hwnd_list, LB_RESETCONTENT, 0, 0);
@@ -311,7 +311,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			LeaveCriticalSection(&list_cs);
 
 			SendMessage(hwnd, WMU_SIZE_LIST, 0, 0);
-			SendMessage(hwnd_list, WM_SETREDRAW, (WPARAM)TRUE, 0);
+			SendMessage(hwnd_list, WM_SETREDRAW, TRUE, 0);
 
 			if (sel != LB_ERR && sel < index) SendMessage(hwnd_list, LB_SETCURSEL, (WPARAM)sel, 0);
 			if (top != LB_ERR && top < index) SendMessage(hwnd_list, LB_SETTOPINDEX, (WPARAM)top, 0);
@@ -442,7 +442,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 	LOGFONT log_font;
 	fontColour = CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
 	hFont = CreateFontIndirect(&log_font);
-	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
+	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 	DeleteObject(bk_brush);
 	bk_brush = CreateSolidBrush(db_get_dw(0, "Alarm", "clFrameBack", GetSysColor(COLOR_3DFACE)));
@@ -606,14 +606,14 @@ int CreateFrame()
 	LOGFONT log_font;
 	fontColour = CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
 	hFont = CreateFontIndirect(&log_font);
-	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
+	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, TRUE);
 	
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
 
 	// create the brush used for the background in the absence of clist_modern skinning features - match clist
 	bk_brush = CreateSolidBrush(db_get_dw(0, "Alarm", "clFrameBack", GetSysColor(COLOR_3DFACE)));
 
-	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
+	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 	return 0;
 }

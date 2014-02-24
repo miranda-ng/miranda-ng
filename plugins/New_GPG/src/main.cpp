@@ -1354,7 +1354,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 		SetWindowText(hwndDlg, TranslateT("Key Generation dialog"));
 		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("RSA"), 0);
 		ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), _T("DSA"), 1);
-		SendDlgItemMessage(hwndDlg, IDC_KEY_TYPE, CB_SETCURSEL, (WPARAM)1, 0);
+		SendDlgItemMessage(hwndDlg, IDC_KEY_TYPE, CB_SETCURSEL, 1, 0);
 		SetDlgItemInt(hwndDlg, IDC_KEY_EXPIRE_DATE, 0, 0);
 		SetDlgItemInt(hwndDlg, IDC_KEY_LENGTH, 4096, 0);
       return TRUE;

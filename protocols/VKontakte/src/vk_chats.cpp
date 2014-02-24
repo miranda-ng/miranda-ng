@@ -375,7 +375,7 @@ static INT_PTR CALLBACK InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
 				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
-				SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)hContact);
+				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);
 			}
 			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
 		}

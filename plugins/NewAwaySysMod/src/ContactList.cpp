@@ -318,10 +318,10 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 			if (hItem) {
 				MCONTACT hContact = dat->GetItemData(hItem).hContact;
 				if (IsHContactContact(hContact)) {
-					HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+					HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 					if (hMenu) {
 						ClientToScreen(hWnd, &pt);
-						CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU), (LPARAM)hContact);
+						CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU), hContact);
 						DestroyMenu(hMenu);
 						return 0;
 					}
@@ -375,7 +375,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 	tvIns.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 	tvIns.hInsertAfter = TVI_ROOT;
 	tvIns.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-	tvIns.item.iImage = tvIns.item.iSelectedImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
+	tvIns.item.iImage = tvIns.item.iSelectedImage = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
 	tvIns.item.lParam = Items.AddElem(CCLItemData(hContact));
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }

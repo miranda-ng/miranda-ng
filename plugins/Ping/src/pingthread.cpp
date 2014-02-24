@@ -275,7 +275,7 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 
-	SendMessage(list_hwnd, WM_SETREDRAW, (WPARAM)FALSE, 0);
+	SendMessage(list_hwnd, WM_SETREDRAW, FALSE, 0);
 	Lock(&data_list_cs, "fill_list");
 
 	data_list = pl;
@@ -291,7 +291,7 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 	list_size = data_list.size();
 
 	Unlock(&data_list_cs);
-	SendMessage(list_hwnd, WM_SETREDRAW, (WPARAM)TRUE, 0);
+	SendMessage(list_hwnd, WM_SETREDRAW, TRUE, 0);
 
 	InvalidateRect(list_hwnd, 0, FALSE);
 
@@ -887,7 +887,7 @@ int ReloadFont(WPARAM, LPARAM) {
 	LOGFONT log_font;
 	CallService(MS_FONT_GETT, (WPARAM)&font_id, (LPARAM)&log_font);
 	hFont = CreateFontIndirect(&log_font);
-	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
+	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 	bk_col = CallService(MS_COLOUR_GETT, (WPARAM)&bk_col_id, 0);
 	RefreshWindow(0, 0);

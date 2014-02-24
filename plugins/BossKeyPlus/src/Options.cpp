@@ -224,7 +224,7 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			TCHAR szMinutes[4] = {0};
 			_itot(minutes, szMinutes, 10);
 			SendDlgItemMessage(hwndDlg,IDC_MAINOPT_TIME,EM_LIMITTEXT,2,0);
-			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_SPIN_TIME, UDM_SETRANGE32, (WPARAM)1, (LPARAM)99);
+			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_SPIN_TIME, UDM_SETRANGE32, 1, (LPARAM)99);
 			SetDlgItemText(hwndDlg, IDC_MAINOPT_TIME, szMinutes);			
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFLOCK,(g_wMaskAdv & OPT_HIDEIFLOCK) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_MENUITEM,(g_wMaskAdv & OPT_MENUITEM) ? (BST_CHECKED) : (BST_UNCHECKED));

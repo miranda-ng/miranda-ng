@@ -122,7 +122,7 @@ static int HookPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 	if (szProto && CheckContactsServiceSupport(szProto)) {
 		// known protocol, protocol supports contacts sending
 		// check the selected contact if it supports contacts receive
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, hContact))
 			bVisible = TRUE;
 	}
 
@@ -136,7 +136,7 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	char* modules[2] = { 0 };
 
 	modules[0] = MODULENAME;
-	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, (LPARAM)1);
+	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, 1);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszName = LPGEN("Contacts");

@@ -415,7 +415,7 @@ static void gg_gc_resetclistopts(HWND hwndList)
 	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
 	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
 	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM)TRUE, 0);
+	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
 	for (i = 0; i <= FONTID_MAX; i++)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }

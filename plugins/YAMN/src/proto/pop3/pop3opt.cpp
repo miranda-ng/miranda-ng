@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM
 			if (ActualAccount != NULL)
 			{
 				DlgShowAccountStatus(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
-				DlgEnableAccountStatus(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+				DlgEnableAccountStatus(hDlg,TRUE,TRUE);
 			}
 			else
 			{
@@ -662,7 +662,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 
 			EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
 
-			DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+			DlgEnableAccount(hDlg,FALSE,FALSE);
 			DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
 
 			#ifdef DEBUG_SYNCHRO
@@ -735,9 +735,9 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 							
 					if (GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput)))
-						DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
+						DlgEnableAccount(hDlg,TRUE,FALSE);
 					else
-						DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+						DlgEnableAccount(hDlg,FALSE,FALSE);
 					break;
 
 				case CBN_KILLFOCUS:
@@ -746,13 +746,13 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 						DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
 						if (lstrlenA(DlgInput))
-							DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+							DlgEnableAccount(hDlg,TRUE,TRUE);
 						else
-							DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+							DlgEnableAccount(hDlg,FALSE,FALSE);
 					}
 					else {
 						DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
-						DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+						DlgEnableAccount(hDlg,TRUE,TRUE);
 						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),TRUE);
 					}
 					break;
@@ -767,7 +767,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					}
 					else {
 						DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
-						DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
+						DlgEnableAccount(hDlg,TRUE,FALSE);
 						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),TRUE);
 					}
 					break;
@@ -851,7 +851,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 			case IDC_BTNADD:
 				DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 				DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
-				DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+				DlgEnableAccount(hDlg,TRUE,TRUE);
 				EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
 				DlgSetItemTextT(hDlg, IDC_EDITNAME, TranslateT("New Account"));
 				{
@@ -912,7 +912,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 
 				SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_DELETESTRING,(WPARAM)Result,0);
 				DlgSetItemText(hDlg,(WPARAM)IDC_COMBOACCOUNT,0);
-				DlgEnableAccount(hDlg,(WPARAM)FALSE,0);
+				DlgEnableAccount(hDlg,FALSE,0);
 				DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
 				break;
 
@@ -1184,7 +1184,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 	{
 		case WM_INITDIALOG:
 		{
-			DlgEnableAccountPopup(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+			DlgEnableAccountPopup(hDlg,FALSE,FALSE);
 			DlgShowAccountPopup(hDlg,(WPARAM)M_SHOWDEFAULT,0);
 			//DlgShowAccountColors(hDlg,0,(LPARAM)ActualAccount);
 			#ifdef DEBUG_SYNCHRO
@@ -1236,12 +1236,12 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_SETCURSEL,(WPARAM)index,(LPARAM)ActualAccount->Name);
 					DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
 					DlgShowAccountColors(hDlg,0,(LPARAM)ActualAccount);
-					DlgEnableAccountPopup(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
+					DlgEnableAccountPopup(hDlg,TRUE,FALSE);
 				}
 				else
 				{
 					DlgShowAccountPopup(hDlg,(WPARAM)M_SHOWDEFAULT,0);
-					DlgEnableAccountPopup(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+					DlgEnableAccountPopup(hDlg,FALSE,FALSE);
 				}
 
 			}
@@ -1263,15 +1263,15 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							{
 								DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 								if (lstrlenA(DlgInput))
-									DlgEnableAccountPopup(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+									DlgEnableAccountPopup(hDlg,TRUE,TRUE);
 								else
-									DlgEnableAccountPopup(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+									DlgEnableAccountPopup(hDlg,FALSE,FALSE);
 							}
 							else
 							{
 								DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
 								DlgShowAccountColors(hDlg,0,(LPARAM)ActualAccount);
-								DlgEnableAccountPopup(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+								DlgEnableAccountPopup(hDlg,TRUE,TRUE);
 							}
 							break;
 						case CBN_SELCHANGE:
@@ -1285,7 +1285,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							{
 								DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
 								DlgShowAccountColors(hDlg,0,(LPARAM)ActualAccount);
-								DlgEnableAccountPopup(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
+								DlgEnableAccountPopup(hDlg,TRUE,FALSE);
 							}
 							break;
 					}

@@ -47,7 +47,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 		if (item->dwFlags & BUTTON_PASSHCONTACTW)
 			*wParam = hContact;
 		else if (item->dwFlags & BUTTON_PASSHCONTACTL)
-			*lParam = (LPARAM)hContact;
+			*lParam = hContact;
 		return 1;
 	}
 	return 1;                                       // doesn't need a paramter
@@ -883,7 +883,7 @@ panel_found:
 						hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 						iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 						if (iSel)
-							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), (LPARAM)hContact);
+							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), hContact);
 						DestroyMenu(hMenu);
 					}
 				}

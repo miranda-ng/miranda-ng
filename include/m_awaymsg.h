@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_AWAYMSG_H__ 1
 
 //show the away/na/etc message for a contact  v0.1.0.1+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //returns 0 on success or nonzero on failure
 //returns immediately, without waiting for the message to retrieve

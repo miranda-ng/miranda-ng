@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_HISTORY_H__ 1
 
 //show the History dialog box for a contact
-//  wParam = (WPARAM)(HANDLE)hContact
+//  wParam = (MCONTACT)hContact
 //  lParam = 0
 //hContact can be NULL to show system messages
 #define MS_HISTORY_SHOWCONTACTHISTORY       "History/ShowContactHistory"

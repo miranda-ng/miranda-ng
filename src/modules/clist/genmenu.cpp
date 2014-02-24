@@ -1104,7 +1104,7 @@ int TryProcessDoubleClick(MCONTACT hContact)
 
 		PMO_IntMenuItem pimi = (PMO_IntMenuItem)MO_GetDefaultMenuItem((WPARAM)g_menus[ iMenuID ]->m_items.first, 0);
 		if (pimi != NULL) {
-			MO_ProcessCommand(pimi, (LPARAM)hContact);
+			MO_ProcessCommand(pimi, hContact);
 			return 0;
 		}
 	}

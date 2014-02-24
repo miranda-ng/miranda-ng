@@ -117,7 +117,7 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		case IDC_MOREDETAIL: 
 			HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
 			if (hMoreDataDlg == NULL)
-				hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), NULL, DlgProcMoreData, (LPARAM)hContact);
+				hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), NULL, DlgProcMoreData, hContact);
 			else {
 				SetForegroundWindow(hMoreDataDlg);
 				SetFocus(hMoreDataDlg);

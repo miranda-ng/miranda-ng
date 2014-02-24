@@ -110,10 +110,10 @@ int SetDlgState(HWND hwndDlg)
 		CheckDlgButton(hwndDlg, IDC_RAD_PERIODIC, new_options.backup_types & BT_PERIODIC ? BST_CHECKED : BST_UNCHECKED);
 	}
 
-	SendDlgItemMessage(hwndDlg, SPIN_PERIOD, UDM_SETRANGE32, (WPARAM)1, (LPARAM)60);
+	SendDlgItemMessage(hwndDlg, SPIN_PERIOD, UDM_SETRANGE32, 1, (LPARAM)60);
 	SetDlgItemText(hwndDlg, IDC_ED_PERIOD, _itot(new_options.period, buff, 10));
 
-	SendDlgItemMessage(hwndDlg, SPIN_NUMBACKUPS, UDM_SETRANGE32, (WPARAM)1, (LPARAM)100);
+	SendDlgItemMessage(hwndDlg, SPIN_NUMBACKUPS, UDM_SETRANGE32, 1, (LPARAM)100);
 	SetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, _itot(new_options.num_backups, buff, 10));
 
 	SetDlgItemText(hwndDlg, IDC_ED_FOLDER, new_options.folder);

@@ -564,7 +564,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 				{
 					lvI.iItem = 0;
 					lvI.iSubItem = 0;
-					lvI.lParam = (LPARAM)hContact;
+					lvI.lParam = hContact;
 					lvI.pszText = (TCHAR*)contact_get_nameT(hContact);
 					lvI.iItem = ListView_InsertItem(lv , &lvI);
 

@@ -150,7 +150,7 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
 
 	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
-		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, 0);
+		CallService(MS_MC_DISABLEHIDDENGROUP, TRUE, 0);
 
 	if ( ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
@@ -1844,7 +1844,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (!g_CluiData.fLayered)
 				{
 					g_mutex_bSizing = 1;
-					Sync(CLUIFrames_OnClistResize_mod,(WPARAM)m_hWnd,(LPARAM)1);
+					Sync(CLUIFrames_OnClistResize_mod,(WPARAM)m_hWnd,1);
 					CLUIFrames_ApplyNewSizes(2);
 					CLUIFrames_ApplyNewSizes(1);
 					SendMessage(m_hWnd,CLN_LISTSIZECHANGE, 0, 0);
@@ -2056,7 +2056,7 @@ LRESULT CLUI::OnCreateClc(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	CreateCLC();
 	if ( db_get_b( NULL, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT ))
-		cliShowHide((WPARAM) m_hWnd, (LPARAM)TRUE );
+		cliShowHide((WPARAM) m_hWnd, TRUE );
 	PostMessage( pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0 );
 	return FALSE;
 }

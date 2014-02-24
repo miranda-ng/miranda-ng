@@ -103,7 +103,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(&dbei))
 		return 0;
 
-	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
+	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
 	/* does a window for the contact exist? */
 	if (hwnd == NULL) {
 		/* new message */

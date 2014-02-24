@@ -479,14 +479,14 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			memset(&tci, 0, sizeof(tci));
 			tci.cchTextMax = 100;
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
-			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, (LPARAM)hContact);
+			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, hContact);
 			tci.pszText = TranslateT("General");
 			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_SHOW);
 			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
-			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, (LPARAM)hContact);
+			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, hContact);
 			tci.pszText = TranslateT("Message Log");
 			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 1, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);

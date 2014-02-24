@@ -649,7 +649,7 @@ INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 	if (wParam == ID_STATUS_OFFLINE)
 	{
 		diffstat=0;
-		//PostThreadMessage(ConnectionCheckThreadId,WM_QUIT ,(WPARAM)0, (LPARAM)0);
+		//PostThreadMessage(ConnectionCheckThreadId,WM_QUIT ,0, 0);
 		SetEvent(killCheckThreadEvent);
 
 	}
@@ -759,7 +759,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 			memcpy(conn,mpd,sizeof(struct CONNECTION));
 			PUDeletePopup(hWnd);
-			PostThreadMessage(FilterOptionsThreadId,WM_ADD_FILTER,(WPARAM)0, (LPARAM)conn);
+			PostThreadMessage(FilterOptionsThreadId,WM_ADD_FILTER,0, (LPARAM)conn);
 		}
 		break;
 
@@ -858,8 +858,8 @@ static int preshutdown(WPARAM,LPARAM)
 	deleteConnectionsTable(connExceptions);
 	deleteConnectionsTable(connExceptionsTmp);
 
-	PostThreadMessage(ConnectionCheckThreadId,WM_QUIT ,(WPARAM)0, (LPARAM)0);
-	PostThreadMessage(FilterOptionsThreadId,WM_QUIT ,(WPARAM)0, (LPARAM)0);
+	PostThreadMessage(ConnectionCheckThreadId,WM_QUIT ,0, 0);
+	PostThreadMessage(FilterOptionsThreadId,WM_QUIT ,0, 0);
 	
 	return 0;
 }

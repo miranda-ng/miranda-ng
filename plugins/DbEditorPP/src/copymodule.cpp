@@ -81,7 +81,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 
 			index = SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)nick);
-			SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)hContact);
+			SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, hContact);
 		}
 
 		index = (int)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));

@@ -582,7 +582,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							SetParent(hChild, hParent);
 							SendMessage(GetParent(hwnd), CM_REMOVECHILD, 0, (LPARAM)hChild);
 							SendMessage(hChild, DM_SETPARENT, 0, (LPARAM)hParent);
-							SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, (LPARAM)hContact);
+							SendMessage(hParent, CM_ADDCHILD, (WPARAM)hChild, hContact);
 							SendMessage(hChild, DM_UPDATETABCONTROL, 0, 0);
 							SendMessage(hParent, CM_ACTIVATECHILD, 0, (LPARAM)hChild);
 							NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);

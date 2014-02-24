@@ -2432,7 +2432,7 @@ static LRESULT MouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 					
 				//remember what size the USER set the button to
 				sbut->nSizeReserved = sbut->nSize;
-				NCPaint(sw, hwnd, (WPARAM)1, 0);
+				NCPaint(sw, hwnd, 1, 0);
 				return 0;
 			}
 		}

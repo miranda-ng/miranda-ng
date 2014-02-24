@@ -346,7 +346,7 @@ INT_PTR ContactMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpContactMenuExecParam cmep = (lpContactMenuExecParam)wParam;
-		//call with wParam = (WPARAM)(HANDLE)hContact, lparam = popupposition
+		//call with wParam = (MCONTACT)hContact, lparam = popupposition
 		CallService(cmep->szServiceName, lParam, cmep->param);
 	}
 	return 0;

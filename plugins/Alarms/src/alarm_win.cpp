@@ -90,9 +90,9 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WMU_SETFONTS:
 		// fonts
 		if (hWindowFont)
-			SendMessage(hwndDlg, WM_SETFONT, (WPARAM)hWindowFont, (LPARAM)TRUE);
+			SendMessage(hwndDlg, WM_SETFONT, (WPARAM)hWindowFont, TRUE);
 		if (hTitleFont)
-			SendDlgItemMessage(hwndDlg, IDC_TITLE, WM_SETFONT, (WPARAM)hTitleFont, (LPARAM)TRUE);
+			SendDlgItemMessage(hwndDlg, IDC_TITLE, WM_SETFONT, (WPARAM)hTitleFont, TRUE);
 
 		if (hBackgroundBrush) {
 			SetClassLong(hwndDlg, GCLP_HBRBACKGROUND, (LONG)hBackgroundBrush);

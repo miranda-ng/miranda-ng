@@ -151,7 +151,7 @@ __forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
 
 //add a new item to the user contact menus
 //identical to clist/addmainmenuitem except when item is selected the service
-//gets called with wParam = (WPARAM)(HANDLE)hContact
+//gets called with wParam = (MCONTACT)hContact
 //pszContactOwner is obeyed.
 //popup menus are not supported. pszPopupName and popupPosition are ignored.
 //If ctrl is held down when right clicking, the menu position numbers will be
@@ -201,7 +201,7 @@ __forceinline void Menu_ShowItem(HGENMENU hMenuItem, BOOL bShow)
 }
 
 //the context menu for a contact is about to be built     v0.1.0.1+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //modules should use this to change menu items that are specific to the
 //contact that has them
@@ -243,7 +243,7 @@ sense to store all this information in memory, etc.
 */
 #define ME_CLIST_DOUBLECLICKED "CList/DoubleClicked"
 //gets the string that the contact list will use to represent a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = flags
 //returns a pointer to the name, will always succeed, even if it needs to
 //return "(Unknown Contact)"
@@ -265,7 +265,7 @@ sense to store all this information in memory, etc.
 #define MS_CLIST_GETCONTACTDISPLAYNAME  "CList/GetContactDisplayName"
 
 // Invalidates the display name cache
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = not used
 #define MS_CLIST_INVALIDATEDISPLAYNAME  "CList/InvalidateDiplayName"
 
@@ -318,14 +318,14 @@ typedef struct {
 #define MS_CLIST_ADDEVENT     "CList/AddEvent"
 
 //removes an event from the contact list's queue
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(HANDLE)hDbEvent
 //returns 0 if the event was successfully removed, or nonzero if the event
 //was not found
 #define MS_CLIST_REMOVEEVENT  "Clist/RemoveEvent"
 
 //gets the details of an event in the queue             v0.1.2.1+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = iEvent
 //returns a CLISTEVENT* on success, NULL on failure
 //Returns the iEvent-th event from the queue for hContact, so iEvent = 0 will
@@ -347,7 +347,7 @@ typedef struct {
 #define MS_CLIST_MENUDRAWITEM     "CList/MenuDrawItem"
 
 //builds the context menu for a specific contact            v0.1.1.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //returns a HMENU identifying the menu. This should be DestroyMenu()ed when
 //finished with.
@@ -363,7 +363,7 @@ typedef struct {
 #define IMAGE_GROUPSHUT     12
 
 //get the icon that should be associated with a contact     v0.1.2.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //returns an index into the contact list imagelist. See clist/geticonsimagelist
 //If the contact is flashing an icon, this function will not return that
@@ -371,7 +371,7 @@ typedef struct {
 #define MS_CLIST_GETCONTACTICON   "CList/GetContactIcon"
 
 //The icon of a contact in the contact list has changed    v0.1.2.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = iconId
 //iconId is an offset into the clist's imagelist. See clist/geticonsimagelist
 #define ME_CLIST_CONTACTICONCHANGED   "CList/ContactIconChanged"
@@ -570,20 +570,20 @@ __forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
 #define MS_CLIST_SETHIDEOFFLINE  "CList/SetHideOffline"
 
 //do the message processing associated with double clicking a contact v0.1.1.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //returns 0 on success, nonzero on failure
 #define MS_CLIST_CONTACTDOUBLECLICKED "CList/ContactDoubleClicked"
 
 //do the processing for when some files are dropped on a contact    v0.1.2.1+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(char**)ppFiles
 //returns 0 on success, nonzero on failure
 //ppFiles is an array of fully qualified filenames, ending with a NULL.
 #define MS_CLIST_CONTACTFILESDROPPED   "CList/ContactFilesDropped"
 
 //change the group a contact belongs to       v0.1.1.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(HANDLE)hGroup
 //returns 0 on success, nonzero on failure
 //use hGroup = NULL to put the contact in no group

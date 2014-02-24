@@ -615,7 +615,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 		}
 
 		if ((msgq->Flags & YAMN_MSG_UNSEEN) && (ActualAccount->NewMailN.Flags & YAMN_ACC_KBN))
-			CallService(MS_KBDNOTIFY_EVENTSOPENED,(WPARAM)1,NULL);
+			CallService(MS_KBDNOTIFY_EVENTSOPENED,1,NULL);
 		
 		if (FromStrNew)
 			delete[] FromStr;
@@ -891,7 +891,7 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 					#endif
 				}
 				if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT)) {
-					CallService(MS_CLIST_REMOVEEVENT,hContact,(LPARAM)hContact);
+					CallService(MS_CLIST_REMOVEEVENT, hContact, hContact);
 				}
 			}
 			// fall through
@@ -1330,7 +1330,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			LVCOLUMNW lvc0={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,130,iHeaderW,0,0};
 			LVCOLUMNW lvc1={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,400,iValueW,0,0};
 			SendMessageW(hListView,LVM_INSERTCOLUMNW,0,(LPARAM)&lvc0);
-			SendMessageW(hListView,LVM_INSERTCOLUMNW,(WPARAM)1,(LPARAM)&lvc1);
+			SendMessageW(hListView,LVM_INSERTCOLUMNW,1,(LPARAM)&lvc1);
 			if (NULL != iHeaderW)
 				delete[] iHeaderW;
 			if (NULL != iValueW)
@@ -1722,14 +1722,14 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			LVCOLUMNW lvc2={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SizeWidth,TranslateW(L"Size"),0,0};
 			LVCOLUMNW lvc3={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SizeDate,TranslateW(L"Date"),0,0};
 			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,0,(LPARAM)&lvc0);
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)1,(LPARAM)&lvc1);
+			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,1,(LPARAM)&lvc1);
 			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)2,(LPARAM)&lvc2);
 			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)3,(LPARAM)&lvc3);
 
 			if ((ActualAccount->NewMailN.App != NULL) && (wcslen(ActualAccount->NewMailN.App)))
-				EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),(WPARAM)TRUE);
+				EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),TRUE);
 			else
-				EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),(WPARAM)FALSE);
+				EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),FALSE);
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"MailBrowser:INIT:ActualAccountSO-read done\n");
 #endif

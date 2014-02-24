@@ -18,7 +18,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 			TCHAR name[300];
 			mir_sntprintf(name, SIZEOF(name), _T("%s (%s)"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), _A2T(szProto));
 			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
-			SendMessage(hwnd2CB, CB_SETITEMDATA, index, (LPARAM)hContact);
+			SendMessage(hwnd2CB, CB_SETITEMDATA, index, hContact);
 			if (BPhContact == hContact)
 				SendMessage(hwnd2CB, CB_SETCURSEL, index, 0);
 		}
@@ -610,7 +610,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess)
 {
-	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, PounceSentDlgProc, (LPARAM)hContact);
+	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, PounceSentDlgProc, hContact);
 	TCHAR msg[256];
 	if (SentSuccess) {
 		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Message successfully sent to %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));

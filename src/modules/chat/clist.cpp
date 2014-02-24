@@ -75,7 +75,7 @@ BOOL SetOffline(MCONTACT hContact, BOOL bHide)
 {
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
-		db_set_w(hContact, szProto, "ApparentMode", (LPARAM)0);
+		db_set_w(hContact, szProto, "ApparentMode", 0);
 		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
 	}

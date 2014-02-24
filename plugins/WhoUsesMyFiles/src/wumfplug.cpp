@@ -93,7 +93,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			PUDeletePopup(hWnd);
 			break;	
 		case IDM_SHOW:
-			CallService(MS_WUMF_CONNECTIONSSHOW, (WPARAM)0, (LPARAM)0);
+			CallService(MS_WUMF_CONNECTIONSSHOW, 0, 0);
 			return TRUE;
 		}
 		
@@ -105,7 +105,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 
 	case WM_CONTEXTMENU: 
-		CallService(MS_WUMF_CONNECTIONSSHOW, (WPARAM)0, (LPARAM)0);
+		CallService(MS_WUMF_CONNECTIONSSHOW, 0, 0);
 		break;		
 
 	case UM_FREEPLUGINDATA:

@@ -210,7 +210,7 @@ namespace
 				assert(hWL);
 				WindowList_Add(hWL,hdlg,hContact);
 
-				::SetWindowLongPtr(hdlg, GWLP_USERDATA, (LPARAM)hContact);
+				::SetWindowLongPtr(hdlg, GWLP_USERDATA, hContact);
 				Utils_RestoreWindowPositionNoSize(hdlg, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_INFO);
 				::ShowWindow(hdlg,SW_SHOW);
 			}

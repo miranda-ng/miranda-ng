@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_PROTO_REGISTERMODULE    "Proto/RegisterModule"
 
 //adds the specified protocol module to the chain for a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(const char*)szName
 //returns 0 on success, nonzero on failure
 //The module is added in the correct position according to the type given when
@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_PROTO_ADDTOCONTACT      "Proto/AddToContact"
 
 //removes the specified protocol module from the chain for a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(const char*)szName
 //returns 0 on success, nonzero on failure
 #define MS_PROTO_REMOVEFROMCONTACT      "Proto/RemoveFromContact"

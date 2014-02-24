@@ -111,7 +111,7 @@ static void RedrawNonClient(HWND hwnd, BOOL fFrameChanged)
 		DeleteObject(hrgn1);
 		DeleteObject(hrgn2);*/
 
-		SendMessage(hwnd, WM_NCPAINT, (WPARAM)1, 0);
+		SendMessage(hwnd, WM_NCPAINT, 1, 0);
 	}
 	else
 	{

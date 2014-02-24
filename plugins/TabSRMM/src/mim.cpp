@@ -412,7 +412,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 				cle.pszService = "SRMsg/TypingMessage";
 				cle.ptszTooltip = szTip;
-				CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
+				CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
 				CallServiceSync(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 			}
 		}

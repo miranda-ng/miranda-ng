@@ -852,7 +852,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 					////////////////////////////////////////////////////////////////////// divider
 					case MENU_ADD_MODULE:
 						{
-							HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, (LPARAM)hContact);
+							HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, hContact);
 							char msg[1024];
 							mir_snprintf(msg, SIZEOF(msg), Translate("Add module to contact \"%s\""), module);
 							SetWindowText(AddModhwnd, module);
@@ -865,7 +865,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
 					case MENU_ADD_MODULE:
 						{
-							HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, (LPARAM)hContact);
+							HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, hContact);
 							char msg[1024];
 							mir_snprintf(msg, SIZEOF(msg), Translate("Add module to contact \"%s\""), module);
 							SetWindowText(AddModhwnd, module);

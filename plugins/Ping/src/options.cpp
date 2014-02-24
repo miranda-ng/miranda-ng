@@ -416,10 +416,10 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							item->index = index2;
 							item2->index = index;
 
-							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, 0);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
-							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 + 1), (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 + 1), 0);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
@@ -451,11 +451,11 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							item->index = index2;
 							item2->index = index;
 
-							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, 0);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
 
-							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 - 1), (LPARAM)0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 - 1), 0);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
 							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
 

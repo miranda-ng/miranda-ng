@@ -596,7 +596,7 @@ void ImportSettingsMenuItem(MCONTACT hContact)
 	if (hwnd2importWindow)
 		DestroyWindow(hwnd2importWindow);
 
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IMPORT), 0, ImportDlgProc, (LPARAM)hContact);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IMPORT), 0, ImportDlgProc, hContact);
 }
 
 int Openfile2Import(char *outputFiles)

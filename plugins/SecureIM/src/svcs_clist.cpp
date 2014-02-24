@@ -32,7 +32,7 @@ int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-//  wParam=(WPARAM)(HANDLE)hContact
+//  wParam=(MCONTACT)hContact
 //  lParam=0
 int __cdecl onContactAdded(WPARAM wParam,LPARAM lParam)
 {
@@ -41,7 +41,7 @@ int __cdecl onContactAdded(WPARAM wParam,LPARAM lParam)
 }
 
 
-//  wParam=(WPARAM)(HANDLE)hContact
+//  wParam=(MCONTACT)hContact
 //  lParam=0
 int __cdecl onContactDeleted(WPARAM wParam,LPARAM lParam)
 {

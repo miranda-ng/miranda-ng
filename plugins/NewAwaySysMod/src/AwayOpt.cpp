@@ -1063,7 +1063,7 @@ static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 
 	MCONTACT hContact = db_find_first();
 	do {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			char *szProto = GetContactProto(hContact);
 			int Ignore = CContactSettings(ID_STATUS_ONLINE, hContact).Ignore;
@@ -1132,7 +1132,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 					if ((Flag1 & PF1_IM) != PF1_IM && !(Flag1 & PF1_INDIVMODEMSG)) // does contact's protocol supports message sending/receiving or individual status messages?
-						SendMessage(hwndList, CLM_DELETEITEM, SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
+						SendMessage(hwndList, CLM_DELETEITEM, SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0), 0);
 				}
 			}
 				while (hContact = db_find_next(hContact));
@@ -1213,7 +1213,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem)
 						SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), hContact, hItem);
 				}

@@ -685,7 +685,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.iItem = nUser;
 					sItem.iSubItem = 0;
 					sItem.iImage = db_get_b(hContact,MODULE, "EnableLog", 1);
-					sItem.lParam = (LPARAM)hContact;
+					sItem.lParam = hContact;
 
 
 					sTmp = _DBGetString( hContact, MODULE, "FileName", _T(""));

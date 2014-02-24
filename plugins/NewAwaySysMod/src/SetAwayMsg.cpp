@@ -795,7 +795,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								WindowTitle += _T(" ");
 							}
 
-							WindowTitle += (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+							WindowTitle += (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 							if (!IsAnICQProto(GetContactProto(hContact))) {
 								WindowTitle += _T(" ");
 								WindowTitle += TranslateT("available autoreply only");

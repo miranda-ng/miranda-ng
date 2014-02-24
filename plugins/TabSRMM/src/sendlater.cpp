@@ -277,7 +277,7 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 		DBCONTACTENUMSETTINGS ces = {0};
 		ces.pfnEnumProc = CSendLater::addStub;
 		ces.szModule = "SendLater";
-		ces.lParam = (LPARAM)hContact;
+		ces.lParam = hContact;
 
 		CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&ces);
 	}
@@ -565,7 +565,7 @@ LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick)
 	lr = ::SendMessage(m_hwndFilter, CB_FINDSTRING, 0, reinterpret_cast<LPARAM>(tszNick));
 	if (lr == CB_ERR) {
 		lr = ::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1, reinterpret_cast<LPARAM>(tszNick));
-		::SendMessage(m_hwndFilter, CB_SETITEMDATA, lr, (LPARAM)hContact);
+		::SendMessage(m_hwndFilter, CB_SETITEMDATA, lr, hContact);
 		if (hContact == m_hFilter)
 			m_sel = lr;
 	}

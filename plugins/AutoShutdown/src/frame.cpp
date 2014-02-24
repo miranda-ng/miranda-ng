@@ -152,7 +152,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					params->hInstance,
 					NULL);
 			if (dat->hwndProgress==NULL) return -1; /* creation failed, calls WM_DESTROY */
-			SendMessage(dat->hwndProgress,PBM_SETSTEP,(WPARAM)1,0);
+			SendMessage(dat->hwndProgress,PBM_SETSTEP,1,0);
 			mir_subclassWindow(dat->hwndProgress, ProgressBarSubclassProc);
 			dat->hwndDesc=CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 					_T("Static"),

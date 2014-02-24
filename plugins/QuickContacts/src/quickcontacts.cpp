@@ -638,7 +638,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					break;
 
 				case TRUE:
-					SendMessage(GetParent(hdlg),CB_SHOWDROPDOWN,(WPARAM)FALSE,0);
+					SendMessage(GetParent(hdlg),CB_SHOWDROPDOWN,FALSE,0);
 					break;
 				}
 			}
@@ -695,7 +695,7 @@ LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 			break;
 
 		case TRUE:
-			SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_SHOWDROPDOWN, (WPARAM)FALSE, 0);
+			SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_SHOWDROPDOWN, FALSE, 0);
 			break;
 		}
 	}
@@ -809,7 +809,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : _T("Ctrl+H"), LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
 			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : _T("Ctrl+M"), LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));
 
-			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, (WPARAM)TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, TRUE, 0);
 
 			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE_NAME, "window");
 

@@ -551,7 +551,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			case PSN_INFOCHANGED:
 				{
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-					SendMessage(hwndDlg, WM_JABBER_REFRESH, 0, (LPARAM)hContact);
+					SendMessage(hwndDlg, WM_JABBER_REFRESH, 0, hContact);
 				}
 				break;
 

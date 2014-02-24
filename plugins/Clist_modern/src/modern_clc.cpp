@@ -84,7 +84,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
 
 	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
-		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, 0);
+		CallService(MS_MC_DISABLEHIDDENGROUP, TRUE, 0);
 	if ( ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 

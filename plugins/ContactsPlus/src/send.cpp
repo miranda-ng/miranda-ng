@@ -136,7 +136,7 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, in
 int TSendContactsData::SendContacts(HWND hwndDlg)
 {
 	char *szProto = GetContactProto(hContact);
-	int nMaxContacts = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact);
+	int nMaxContacts = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, hContact);
 
 	if (!nMaxContacts) {
 		ShowErrorDlg(hwndDlg, "The selected contact does not support receiving contacts.", FALSE);
@@ -222,9 +222,9 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 		return;
 
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM)TRUE, 0);
+		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
 	else
-		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM)FALSE, 0);
+		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, FALSE, 0);
 
 	MCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
 	while (hContact) {

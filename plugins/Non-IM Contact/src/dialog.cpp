@@ -252,7 +252,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[0].pszIcon = NULL; 
 	psp[0].pfnDlgProc = DlgProcContactInfo;
 	psp[0].pszTitle = Translate("Contacts Display Info");
-	psp[0].lParam = (LPARAM)hContact;
+	psp[0].lParam = hContact;
 	psp[0].pfnCallback = NULL;
 
 	/* other settings */
@@ -263,7 +263,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[1].pszIcon = NULL; 
 	psp[1].pfnDlgProc = DlgProcOtherStuff;
 	psp[1].pszTitle = Translate("Link and Contact list Settings");
-	psp[1].lParam = (LPARAM)hContact;
+	psp[1].lParam = hContact;
 	psp[1].pfnCallback = NULL;
 
 	/* copy contact */
@@ -274,7 +274,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[2].pszIcon = NULL; 
 	psp[2].pfnDlgProc = DlgProcCopy;
 	psp[2].pszTitle = Translate("Copy Contact");
-	psp[2].lParam = (LPARAM)hContact;
+	psp[2].lParam = hContact;
 	psp[2].pfnCallback = NULL;
 
 	/* files */

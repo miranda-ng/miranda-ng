@@ -1372,7 +1372,7 @@ CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText,
 	m_hRich = ::CreateWindowEx(0, RICHEDIT_CLASS, _T(""), WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
 		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, NULL);
 
-	::SendMessage(m_hRich, EM_AUTOURLDETECT, (WPARAM)TRUE, 0);
+	::SendMessage(m_hRich, EM_AUTOURLDETECT, TRUE, 0);
 	::SendMessage(m_hRich, EM_SETEVENTMASK, 0, ENM_LINK);
 	::SendMessage(m_hRich, WM_SETFONT, (WPARAM)CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS], 0);
 

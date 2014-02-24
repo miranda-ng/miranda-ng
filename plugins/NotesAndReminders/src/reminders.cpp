@@ -2007,7 +2007,7 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 				int n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("Default"));
 				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, 0);
 				n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("Alternative 1"));
-				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, (LPARAM)1);
+				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, 1);
 				n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("Alternative 2"));
 				SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_SETITEMDATA, n, (LPARAM)2);
 				n = SendDlgItemMessage(Dialog, IDC_COMBO_SOUND, CB_ADDSTRING, 0, (LPARAM)Translate("None"));

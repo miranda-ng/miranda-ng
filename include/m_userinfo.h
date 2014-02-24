@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_options.h"
 
 //show the User Details dialog box
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 #define MS_USERINFO_SHOWDIALOG       "UserInfo/ShowDialog"
 

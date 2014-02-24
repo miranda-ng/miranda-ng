@@ -148,7 +148,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 		ShowWindow(searchHandleDlg,SW_HIDE);
 		if (xNode) {
 			//1. Form
-			PostMessage(searchHandleDlg, WM_USER+11, (WPARAM)xi.copyNode(xNode), (LPARAM)0);
+			PostMessage(searchHandleDlg, WM_USER+11, (WPARAM)xi.copyNode(xNode), 0);
 			HXML xcNode = xmlGetNthChild(xNode, _T("instructions"), 1);
 			if (xcNode)
 				SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, xmlGetText(xcNode));
@@ -171,7 +171,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 					MyData->defValue = mir_tstrdup(xmlGetText(chNode));
 					MyData->Order = Order;
 					if (MyData->defValue) MyData->bReadOnly = TRUE;
-					PostMessage(searchHandleDlg,WM_USER+10,(WPARAM)FALSE,(LPARAM)MyData);
+					PostMessage(searchHandleDlg,WM_USER+10,FALSE,(LPARAM)MyData);
 					Order++;
 				}
 			}

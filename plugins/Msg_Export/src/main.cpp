@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfo = {
 /////////////////////////////////////////////////////////////////////
 // Member Function : ShowExportHistory
 // Type            : Global
-// Parameters      : wParam - (WPARAM)(HANDLE)hContact
+// Parameters      : wParam - (MCONTACT)hContact
 //                   lParam - ?
 // Returns         : static int
 // Description     : Called when user selects my menu item "Open Exported History"

@@ -242,7 +242,7 @@ BOOL SetGameStatusMsg()
 					npi.szProto=(char*)protoname->at(i).c_str();
 					npi.status=oltostatus->at(i);
 					npi.szMsg=mir_strdup(statusMsg);
-					CallService("NewAwaySystem/SetStateA", (WPARAM)&npi, (LPARAM)1);
+					CallService("NewAwaySystem/SetStateA", (WPARAM)&npi, 1);
 				}
 				else if (ServiceExists("NewAwaySystem/SetStateW")) {
 					XFireLog("-> SetStatusMsg of %s with NewAwaySystem/SetStateW.",protoname->at(i).c_str());
@@ -252,7 +252,7 @@ BOOL SetGameStatusMsg()
 					npi.szProto=(char*)protoname->at(i).c_str();
 					npi.status=oltostatus->at(i);
 					npi.szMsg=mir_strdup(statusMsg);
-					CallService("NewAwaySystem/SetStateW", (WPARAM)&npi, (LPARAM)1);
+					CallService("NewAwaySystem/SetStateW", (WPARAM)&npi, 1);
 				}
 				else
 				{

@@ -83,7 +83,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam
 					if (protoSetting->szMsg != NULL)
 						GetDlgItemText(hwndDlg, IDC_STSMSG, protoSetting->szMsg, len+1);
 				}
-				SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, (WPARAM)TRUE, 0);
+				SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, TRUE, 0);
 				EndDialog(hwndDlg, IDC_OK);
 			}
 			break;

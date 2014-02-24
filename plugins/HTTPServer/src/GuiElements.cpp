@@ -982,7 +982,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 /////////////////////////////////////////////////////////////////////
 // Member Function : SendLinkToUser
 // Type            : Global
-// Parameters      : wParam - (WPARAM)(HANDLE)hContact
+// Parameters      : wParam - (MCONTACT)hContact
 //                   lParam - ?
 // Returns         : static int
 // Description     : Send the link to the given contact
@@ -1001,7 +1001,7 @@ void SendLinkToUser(WPARAM wParam, char *pszSrvPath) {
 /////////////////////////////////////////////////////////////////////
 // Member Function : nShareNewFile
 // Type            : Global
-// Parameters      : wParam - (WPARAM)(HANDLE)hContact
+// Parameters      : wParam - (MCONTACT)hContact
 //                   lParam - ?
 // Returns         : static int
 

@@ -138,7 +138,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	//init controls
 	btnPageClick();
-	SendMessage(GetDlgItem(m_hWnd, IDA_CONTRIBLINK), BUTTONSETDEFAULT, (WPARAM)1, NULL);
+	SendMessage(GetDlgItem(m_hWnd, IDA_CONTRIBLINK), BUTTONSETDEFAULT, 1, NULL);
 
 	TranslateDialogDefault(m_hWnd);
 	return FALSE;

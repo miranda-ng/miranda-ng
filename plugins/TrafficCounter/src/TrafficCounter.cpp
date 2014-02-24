@@ -1089,7 +1089,7 @@ void CreateTrafficWindow(HWND hCluiWnd)
 		f.TBname = ("Traffic counter");
 		f.name = ("Traffic counter");
 		// ׁמחהא¸ל פנויל
-		Traffic_FrameID = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&f,(LPARAM)0);
+		Traffic_FrameID = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&f,0);
 		CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)f.hWnd,(LPARAM)TrafficCounter_PaintCallbackProc);
 	}
 

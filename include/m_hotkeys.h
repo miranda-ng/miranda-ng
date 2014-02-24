@@ -62,7 +62,7 @@ extern int hLangpack;
 
 /* CoreHotkeys/Register service
 Registers new hotkey
-  wParam = (WPARAM)0
+  wParam = 0
   lParam = (LPARAM)(HOTKEYDESC *)hotkey
 Returns 0 on failure or hotkey atom id on success
 */
@@ -74,7 +74,7 @@ __forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk)
 
 /* CoreHotkeys/Unregister service
 Unregister existing hotkey
-  wParam = (WPARAM)0
+  wParam = 0
   lParam = (LPARAM)(char *)pszName
 Returns 0 on success or nonzero otherwise
 */
@@ -90,7 +90,7 @@ Returns lParam associated with activated hotkey
 
 /* Subclass/unsubclass edit box to act as hotkey control
   wParam = (WPARAM)(HWND)hwndEdit
-  lParam = (LPARAM)0
+  lParam = 0
 Returns zero on success
 
 You will get notification with LOWORD(wParam) == 0 when users sets hotkey.

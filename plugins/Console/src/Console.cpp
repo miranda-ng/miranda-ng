@@ -729,7 +729,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 			ListView_SetTextColor(lw->hList, col);
 
 			if (hfLogFont)
-				SendMessage(lw->hList, WM_SETFONT, (WPARAM)hfLogFont, (LPARAM)TRUE);
+				SendMessage(lw->hList, WM_SETFONT, (WPARAM)hfLogFont, TRUE);
 		}
 
 		// hide startup window
@@ -795,7 +795,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 			lw = (LOGWIN*)lModules.items[i];
 			ListView_SetTextColor(lw->hList, (COLORREF)lParam);
 			if (wParam)
-				SendMessage(lw->hList, WM_SETFONT, wParam, (LPARAM)TRUE);
+				SendMessage(lw->hList, WM_SETFONT, wParam, TRUE);
 		}
 		return TRUE;
 	}
@@ -810,7 +810,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 			ListView_SetBkColor(lw->hList, (COLORREF)lParam);
 			ListView_SetTextBkColor(lw->hList, (COLORREF)lParam);
 			if (wParam)
-				SendMessage(lw->hList, WM_SETFONT, wParam, (LPARAM)TRUE);
+				SendMessage(lw->hList, WM_SETFONT, wParam, TRUE);
 		}
 		return TRUE;
 	}

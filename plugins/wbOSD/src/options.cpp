@@ -245,8 +245,8 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			CheckDlgButton(hDlg, IDC_CHECK7, ps->showmystatus);
 			SetDlgItemInt(hDlg, IDC_EDIT1, ps->distance, 0);
 
-			SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_SETRANGE, (WPARAM)0, MAKELONG(0, 255));
-			SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_SETPOS, (WPARAM)TRUE, (LPARAM)ps->alpha);
+			SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_SETRANGE, 0, MAKELONG(0, 255));
+			SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_SETPOS, TRUE, (LPARAM)ps->alpha);
 
 			{
 				TCHAR buf[20];

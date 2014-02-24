@@ -943,7 +943,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 					char name[128];
 					char *jid_copy = mir_t2a(item->jid);
 					mir_snprintf(name, SIZEOF(name), "$/Transports/%s", jid_copy);
-					ppro->m_pInfoFrame->CreateInfoItem(name, true, (LPARAM)hContact);
+					ppro->m_pInfoFrame->CreateInfoItem(name, true, hContact);
 					ppro->m_pInfoFrame->UpdateInfoItem(name, ppro->GetIconHandle(IDI_TRANSPORTL), (TCHAR *)item->jid);
 					ppro->m_pInfoFrame->SetInfoItemCallback(name, &CJabberProto::InfoFrame_OnTransport);
 					mir_free(jid_copy);

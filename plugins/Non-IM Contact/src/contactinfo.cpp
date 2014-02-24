@@ -114,7 +114,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			MCONTACT hContact = (MCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, hContact);
 			if (!hContact)
 				break;
 
@@ -306,7 +306,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			MCONTACT hContact = (MCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, hContact);
 		}
 		return TRUE;
 

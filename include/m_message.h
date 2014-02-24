@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int hLangpack;
 
 //brings up the send message dialog for a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = (LPARAM)(char*)szText
 //returns 0 on success or nonzero on failure
 //returns immediately, just after the dialog is shown

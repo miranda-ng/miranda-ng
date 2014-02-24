@@ -496,7 +496,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			else SaveBirthday(hContact, 0, 0, 0, SAVE_MODE_DELETEALL);
 
 			if (hBirthdaysDlg != NULL)
-				SendMessage(hBirthdaysDlg, WWIM_UPDATE_BIRTHDAY, (WPARAM)hContact, NULL);
+				SendMessage(hBirthdaysDlg, WWIM_UPDATE_BIRTHDAY, hContact, NULL);
 
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
 		}
@@ -594,7 +594,7 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.iItem = entry;
-		item.lParam = (LPARAM)hContact;
+		item.lParam = hContact;
 		item.pszText = ptszAccName;
 
 		if (bAdd)
@@ -657,7 +657,7 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 				item.iItem = i;
 				ListView_GetItem(hWnd, &item);
 				hContact = (MCONTACT)item.lParam;
-				CallService(MS_WWI_ADD_BIRTHDAY, (WPARAM)hContact, 0);
+				CallService(MS_WWI_ADD_BIRTHDAY, hContact, 0);
 			}
 		}
 		break;

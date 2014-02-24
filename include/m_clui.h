@@ -50,14 +50,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_GROUPADDED  "CLUI/GroupCreated"
 
 //change the icon for a contact
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = iconid
 //returns 0 on sucess, nonzero on failure
 //iconid is an offset in the image list. see clist/geticonsimagelist
 #define MS_CLUI_CONTACTSETICON  "CLUI/ContactSetIcon"
 
 //remove a contact from the list
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //returns 0 on success, nonzero on failure
 //this is not necessarily the same as a contact being actually deleted, since
@@ -65,7 +65,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_CONTACTDELETED  "CLUI/ContactDeleted"
 
 //add a contact to the list
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = iconId
 //returns 0 on success, nonzero on failure
 //The caller processes the 'hide offline' setting, so the callee should not do
@@ -83,7 +83,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_CONTACTADDED    "CLUI/ContactAdded"
 
 //rename a contact in the list
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //returns 0 on success, nonzero on failure
 //you should not re-sort the list on this call. A separate resort request will
@@ -135,20 +135,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLUI_GETCAPS         "CLUI/GetCaps"
 
 //a contact is being dragged outside the main window     v0.1.2.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = MAKELPARAM(screenX, screenY)
 //return nonzero to make the cursor a 'can drop here', or zero for 'no'
 #define ME_CLUI_CONTACTDRAGGING     "CLUI/ContactDragging"
 
 //a contact has just been dropped outside the main window   v0.1.2.0+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = MAKELPARAM(screenX, screenY)
 //return nonzero if your hook processed this, so no other hooks get it
 #define ME_CLUI_CONTACTDROPPED      "CLUI/ContactDropped"
 
 //a contact that was being dragged outside the main window has gone back in to
 //the main window.                                          v0.1.2.1+
-//wParam = (WPARAM)(HANDLE)hContact
+//wParam = (MCONTACT)hContact
 //lParam = 0
 //return zero
 #define ME_CLUI_CONTACTDRAGSTOP     "CLUI/ContactDragStop"

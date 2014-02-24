@@ -548,7 +548,7 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(hContact);
 
-	CallService(MS_DB_SETSAFETYMODE, (WPARAM)FALSE, 0);
+	CallService(MS_DB_SETSAFETYMODE, FALSE, 0);
 	for (std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it) {
 		if (it->isExternal) {
 			IImport::ExternalMessage& msg = importedMessages[it->exIdx];
@@ -567,7 +567,7 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 		}
 	}
 
-	CallService(MS_DB_SETSAFETYMODE, (WPARAM)TRUE, 0);
+	CallService(MS_DB_SETSAFETYMODE, TRUE, 0);
 	std::vector<IImport::ExternalMessage> emessages;
 	ImportMessages(emessages);
 }

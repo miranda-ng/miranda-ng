@@ -174,7 +174,7 @@ INT_PTR ChangeFeed(WPARAM hContact, LPARAM lParam)
 {
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
 	if (!hChangeFeedDlg) {
-		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
+		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, hContact);
 		ShowWindow(hChangeFeedDlg, SW_SHOW);
 	} else {
 		SetForegroundWindow(hChangeFeedDlg);

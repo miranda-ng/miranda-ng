@@ -149,17 +149,8 @@ LRESULT CALLBACK CSkypeProto::SkypeBlockedOptionsSubProc(HWND hwnd, UINT msg, WP
 
 					ListView_DeleteItem(hwnd, lvi.iItem);
 					
-					int nItem = ::SendMessage(
-						::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), 
-						CB_ADDSTRING, 
-						0, 
-						(LPARAM)sid);
-
-					::SendMessage(
-							::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), 
-							CB_SETITEMDATA, 
-							nItem, 
-							(LPARAM)hContact);
+					int nItem = ::SendMessage(::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)sid);
+					::SendMessage(::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), CB_SETITEMDATA, nItem, hContact);
 				}
 			}
 		}
@@ -264,17 +255,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 					ppro->GetContact((char *)_T2A(sid), contact);
 					if ( !contacts.contains(contact))
 					{
-						nItem = ::SendMessage(
-							::GetDlgItem(hwndDlg, IDC_CONTACTS), 
-							CB_ADDSTRING, 
-							0, 
-							(LPARAM)sid);
-
-						::SendMessage(
-							::GetDlgItem(hwndDlg, IDC_CONTACTS), 
-							CB_SETITEMDATA, 
-							nItem, 
-							(LPARAM)hContact);
+						nItem = ::SendMessage(::GetDlgItem(hwndDlg, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)sid);
+						::SendMessage(::GetDlgItem(hwndDlg, IDC_CONTACTS), CB_SETITEMDATA, nItem, hContact);
 					}
 				}
 

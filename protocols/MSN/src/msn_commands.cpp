@@ -785,7 +785,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 
 	if (!ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT) ||
 		!ServiceExists(MS_LISTENINGTO_OVERRIDECONTACTOPTION) ||
-		!CallService(MS_LISTENINGTO_OVERRIDECONTACTOPTION, 0, (LPARAM)hContact))
+		!CallService(MS_LISTENINGTO_OVERRIDECONTACTOPTION, 0, hContact))
 	{
 		// User contact options
 		char *format = mir_strdup(parts[3]);

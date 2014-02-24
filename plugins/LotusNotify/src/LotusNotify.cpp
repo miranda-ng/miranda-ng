@@ -1293,7 +1293,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								}
 
 								_tcsncpy_s(settingFilterSender, SIZEOF(settingFilterSender), TEXT(""), SIZEOF(settingFilterSender));
-								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, (WPARAM)0, (LONG)0); i++){
+								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, (LONG)0); i++){
 									TCHAR text[512] = TEXT("");
 									SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
 									_tcscat_s(settingFilterSender, SIZEOF(settingFilterSender), text);
@@ -1302,7 +1302,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
 
 								_tcsncpy_s(settingFilterSubject, SIZEOF(settingFilterSubject), TEXT(""),SIZEOF(settingFilterSubject));
-								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, (WPARAM)0, (LONG)0); i++){
+								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, (LONG)0); i++){
 									TCHAR text[512] = TEXT("");
 									SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
 									_tcscat_s(settingFilterSubject, SIZEOF(settingFilterSubject), text);
@@ -1311,7 +1311,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
 
 								_tcsncpy_s(settingFilterTo, SIZEOF(settingFilterTo), TEXT(""),SIZEOF(settingFilterTo));
-								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, (WPARAM)0, (LONG)0); i++){
+								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, (LONG)0); i++){
 									TCHAR text[512] = TEXT("");
 									SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
 									_tcscat_s(settingFilterTo, SIZEOF(settingFilterTo), text);

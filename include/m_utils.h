@@ -180,11 +180,11 @@ __forceinline INT_PTR WindowList_Remove(HANDLE hList, HWND hwnd) {
 
 // finds a window given the hContact
 // wParam = (WPARAM)(HANDLE)hList
-// lParam = (WPARAM)(HANDLE)hContact
+// lParam = (MCONTACT)hContact
 // returns the window handle on success, or NULL on failure
 #define MS_UTILS_FINDWINDOWINLIST "Utils/FindWindowInList"
 __forceinline HWND WindowList_Find(HANDLE hList, MCONTACT hContact) {
-	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, (LPARAM)hContact);
+	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, hContact);
 }
 
 // sends a message to all windows in a list using SendMessage

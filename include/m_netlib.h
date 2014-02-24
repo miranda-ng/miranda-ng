@@ -622,7 +622,7 @@ typedef struct {
 
 //Shutdown connection
 //wParam = (WPARAM)(HANDLE)hConnection
-//lParam = (LPARAM)0
+//lParam = 0
 //Returns 0
 #define MS_NETLIB_SHUTDOWN	   "Netlib/Shutdown"
 __forceinline void Netlib_Shutdown(HANDLE h) {CallService(MS_NETLIB_SHUTDOWN, (WPARAM)h, 0);}

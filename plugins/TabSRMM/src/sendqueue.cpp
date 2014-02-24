@@ -867,7 +867,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			}
 			else {
 				mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
-				sendLater->addJob(tszMsg, (LPARAM)hContact);
+				sendLater->addJob(tszMsg, hContact);
 			}
 			mir_free(utf_header);
 			mir_free(tszMsg);
@@ -887,7 +887,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			if (fIsSendLater)
 				db_set_s(hContact ? hContact : job->hOwner, "SendLater", szKeyName, utf);
 			else
-				sendLater->addJob(utf, (LPARAM)hContact);
+				sendLater->addJob(utf, hContact);
 			mir_free(utf);
 			mir_free(tszMsg);
 		}

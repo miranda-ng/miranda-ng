@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // brings up the send file dialog with the specified files already chosen
 // returns immediately, without waiting for the send
-// wParam = (WPARAM)(HANDLE)hContact
+// wParam = (MCONTACT)hContact
 // lParam = (LPARAM)(const char**)ppFiles
 // returns file selection dialog's handle or 0 on error
 // returns immediately, without waiting for the send
