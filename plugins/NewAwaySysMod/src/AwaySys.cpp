@@ -411,9 +411,11 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].Status, hContact).Autoreply.Toggle();
 
 	if (hContact == NULL) {
+		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply;
+		
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-		if (CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply) {
+		if (SendOnEvent) {
 			mi.ptszName = ENABLE_SOE_COMMAND;
 			mi.icolibItem = iconList[1].hIcolib;
 		}
@@ -422,6 +424,9 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 			mi.icolibItem = iconList[0].hIcolib;
 		}
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEMenuItem, (LPARAM)&mi);
+
+		if (g_hTopToolbarbutton)
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : TTBST_RELEASED);
 	}
 
 	return 0;
