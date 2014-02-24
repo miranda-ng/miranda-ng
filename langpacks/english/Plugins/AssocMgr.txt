@@ -12,6 +12,7 @@
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]
 ;file \plugins\AssocMgr\src\assoclist.cpp
+[%hs:]
 [%hs files]
 [Type]
 [Description]

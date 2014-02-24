@@ -1059,6 +1059,7 @@
 [Custom status]
 [%s (locked)]
 [Status menu]
+[%s\t%s]
 [Main menu]
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]

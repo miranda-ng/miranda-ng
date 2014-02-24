@@ -97,6 +97,7 @@
 [Invalid Message]
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
+[*.%s]
 [Import]
 [Export]
 [File does not contain selected contact]

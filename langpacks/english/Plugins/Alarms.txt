@@ -78,6 +78,8 @@
 [Background]
 [Window]
 ;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+[%dm]
 [Hide reminders]
 [Show reminders]
 [Frames]

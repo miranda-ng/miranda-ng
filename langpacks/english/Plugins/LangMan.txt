@@ -18,6 +18,7 @@
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 ;file \plugins\LangMan\src\options.cpp
+[%hs (%s)]
 [All installed plugins are included.]
 [(incompatible)]
 [Unknown]

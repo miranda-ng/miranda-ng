@@ -460,6 +460,7 @@
 [Empty %s cell]
 [column]
 [line]
+[%s]
 [columns]
 [lines]
 [%s, contain %s]

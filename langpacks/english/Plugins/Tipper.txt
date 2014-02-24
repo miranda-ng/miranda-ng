@@ -236,6 +236,10 @@
 [Wind:]
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+[%dh %dm]
+[%dm]
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 [Dividers]
@@ -248,6 +252,8 @@
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 [Male]
+[%dy %dd %dh %dm]
+[%dd]
 [[No translation]]
 [WORD to status description]
 [DWORD timestamp to time]
