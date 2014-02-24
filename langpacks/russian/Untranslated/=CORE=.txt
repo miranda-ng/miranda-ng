@@ -7,6 +7,7 @@
 [Miranda NG\n%s]
 [Windows]
 [Miranda]
+[%s\t%s]
 [E-mail]
 [Ctrl + ]
 [Alt + ]

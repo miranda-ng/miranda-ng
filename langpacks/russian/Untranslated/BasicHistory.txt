@@ -1,6 +1,7 @@
 ﻿[OK]
 [Execute history task]
 [%s Files (*.%s)]
+[*.%s]
 [File does not contain selected contact]
 [File is corrupted]
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]

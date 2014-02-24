@@ -1,2 +1,4 @@
 ﻿[OK]
 [Unknown command issued: "%s"]
+[%dh %dm]
+[%dm]

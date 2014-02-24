@@ -445,6 +445,12 @@ IP
 Ветер:
 [# Solid color fill]
 \# Заливка цветом
+[%dd %dh %dm]
+%dдн %dчас %dмин
+[%dh %dm]
+%dчас %dмин
+[%dm]
+%dмин
 [Background]
 Фон
 [Dividers]

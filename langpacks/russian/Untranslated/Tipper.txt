@@ -2,3 +2,5 @@
 [%s ago]
 [Email:]
 [IP:]
+[%dy %dd %dh %dm]
+[%dd]
