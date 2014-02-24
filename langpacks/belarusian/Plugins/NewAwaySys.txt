@@ -3,7 +3,7 @@
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
 ;  Version: 0.4.0.1
-;  Authors: NightFox; Deathdemon; XF007; Goblineye Entertainment
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
@@ -28,7 +28,7 @@
 0=Змаўчанне
 [-1 = Infinite]
 -1=Бясконца
-[Colours]
+[Colors]
 Колеры
 [Background]
 Фон
@@ -72,15 +72,15 @@
 Пасылаць макс.
 [times (-1=infinite)]
 раз(-1=бясконца)
-[Reset this counter also when i just change my status text\n(when status icon remains the same)]
+[Reset this counter also when I just change my status text\n(when status icon remains the same)]
 Скінуць гэты лічыльнік пасля змены статуснага паведамлення (але не статуса)
 [Disable autoreply when...]
 Адключыць аўтаадказнік калі...
 [&Invisible]
 Нябачны
-[On the &Phone]
+[On the &phone]
 На &тэлефоне
-[Out to &Lunch]
+[Out to &lunch]
 Абедаю
 [Autoreply format:]
 Фармат аўтаадказу:
@@ -94,9 +94,9 @@
 Аўтаадказнік
 [&Delete]
 Выдаліць
-[New &Category]
+[New &category]
 Новая катэгорыя
-[Save As &New]
+[Save as &new]
 Захаваць &як
 [&Save]
 &Захаваць
@@ -142,7 +142,7 @@
 секунд(ы)
 [Don't show the message dialog for]
 Не паказваць дыялог выбару для
-[%s Message for %s]
+[%s message for %s]
 %s (%s)
 [Retrieving %s message...]
 Загрузка паведамлення "%s"...
@@ -197,7 +197,7 @@
 Windows
 [Miranda]
 Miranda
-[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).]
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 Калі гэта галачка ўсталявана, модуль NewAwaySys лічыць колькасць адправак пачынальна з апошняй змены паведамлення статуту, нават калі статут не змяняўся.\n Калі не ўсталявана, колькасць адправак лічыцца з апошняй змены статуту (выключаны стан больш абмежавана).
 [Message]
 Паведамленне
@@ -219,6 +219,8 @@ Miranda
 Прадусталяваныя паведамленні
 [Recent messages]
 Апошнія паведамленні
+[Been fragging since %nas_awaysince_time%, i'll msg you later when the adrenaline wears off.]
+Заняты важнымі справамі з %nas_awaysince_time%. Я напішу вам калі вызвалюся...
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
 Мой гаспадар, %nas_mynick%, быў %nas_statdesc% пачынальна з гэтага дня і даты ?nas_awaysince_date(dddd)... Калі ён вернецца, я яму перадам, каб ён з Вамі звязаўся...
 [Default messages]
@@ -233,7 +235,7 @@ Miranda
 Сышоў з %nas_awaysince_time%, буду пазней.
 [NA]
 Недасяжны
-[Give it up, i'm not in!]
+[Give it up, I'm not in!]
 Мяне няма
 [Occupied]
 Заняты
@@ -245,15 +247,15 @@ Miranda
 Не чапайце пакуль, га?
 [Free for chat]
 Вольны
-[i'm a chatbot!]
+[I'm a chatbot!]
 Вольны
 [Invisible]
 Нябачны
-[i'm hiding from the mafia.]
+[I'm hiding from the mafia.]
 Я хаваюся ад мафіі.
 [On the phone]
 На тэлефоне
-[i've been on the phone since %nas_awaysince_time%, give me a sec!]
+[I've been on the phone since %nas_awaysince_time%, give me a sec!]
 Размаўляю па тэлефоне з %nas_awaysince_time%, пачакайце трохі!
 [Out to lunch]
 Абедаю
@@ -270,7 +272,7 @@ Miranda
  паведамленне:\r\n
 [Set %s message for the contact]
 Уст. %s паведамленне для кантакту
-[Re&ad %s Message]
+[Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Toggle autoreply on/off]
 Аўтаадказнік вкл/выкл 
@@ -298,20 +300,20 @@ Miranda
 %d хвілін(ы)
 [%d seconds]
 %d секунд(ы)
-[New Away System\tStatus description]
-Сістэма паведамленняў\tАпісанне статуса
-[New Away System\tYour nick for current protocol]
-Сістэма паведамленняў\t Ваш нік для бягучага пратаколу
-[New Away System\tNumber of status message requests from the contact]
-Сістэма паведамленняў\tНумар запыту статуснага паведамлення ад кантакту
-[New Away System\tNumber of messages from the contact]
-Сістэма паведамленняў\tНумар паведамлення ад кантакту
-[New Away System\tTime passed until request]
-Сістэма паведамленняў\t Час да наступнага запыту
-[New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-Сістэма паведамленняў\t(x)\tВяртае адно з Вашых усталяваных паведамленняў па загалоўку: ?nas_predefinedmessage(creepy)
-[New Away System\tCurrent protocol name]
-Сістэма паведамленняў\tБягучае імя пратаколу
+[Status description]
+Апісанне статуса
+[Your nick for current protocol]
+Ваш нік для бягучага пратаколу
+[Number of status message requests from the contact]
+Нумар запыту статуснага паведамлення ад кантакту
+[Number of messages from the contact]
+Нумар паведамлення ад кантакту
+[Time passed until request]
+Час да наступнага запыту
+[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+Вяртае адно з Вашых усталяваных паведамленняў па загалоўку: ?nas_predefinedmessage(creepy)
+[Current protocol name]
+Бягучае імя пратаколу
 [Read status message]
 Чытаць статуснае паведамленне
 [Set status message]
@@ -324,8 +326,10 @@ Miranda
 Выкарыстоўваць па змаўчанні
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Уваходны запыт статуснага паведамлення
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) чытае %nas_statdesc% паведамленне:\r\n%extratext%\r\n\r\n
 ;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda IM autoreply >\r\n%extratext%]
+[Miranda NG autoreply >\r\n%extratext%]
 Аўтаадказ Miranda NG >\r\n%extratext%
 [extended status]
 пашыраны статус
@@ -338,9 +342,9 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 [Variables plugin is not installed]
 Плагін зменных не ўсталяваны
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
-[You've made changes to multiple Message trees at a time.\r\nDo you want to leave changes in "]
+[You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Вы змянілі некалькі дрэў адразу.\r\n Вы жадаеце захаваць змены ў "
-[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other Message tree instead.]
+[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
 " дыялог?\r\b\n"Ды" для захавання, "Няма" для  адмены змен.
 ;file \plugins\NewAwaySysMod\src\Notification.cpp
 [Error #%d]
