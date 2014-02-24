@@ -890,7 +890,7 @@ void registerSystemTokens()
 	registerIntToken(DIREXISTS, parseDirExists, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if directory x exists"));
 	registerIntToken(FILEEXISTS, parseFileExists, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if file x exists"));
 	registerIntToken(FINDWINDOW, parseFindWindow, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("window title of first window of class x"));
-	registerIntToken(LISTDIR, parseListDir, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y,z)\t"LPGEN("shows files and directories of directory z, with filter y, separated by z (y and z optional)"));
+	registerIntToken(LISTDIR, parseListDir, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y,z)\t"LPGEN("shows files and directories of directory x, with filter y, separated by z (y and z optional)"));
 #ifndef WINE
 	registerIntToken(PROCESSRUNNING, parseProcessRunning, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if process x is running"));
 #endif
