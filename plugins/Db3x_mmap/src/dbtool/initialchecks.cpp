@@ -27,7 +27,7 @@ int CDb3Mmap::WorkInitialCheckHeaders()
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database signature is corrupted, automatic repair is impossible"));
 		return ERROR_BAD_FORMAT;
 	}
-	if (m_dbHeader.version != DB_095_VERSION) {
+	if (m_dbHeader.version != DB_095_1_VERSION) {
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database version doesn't match this driver's one. Convert a database first"));
 		return ERROR_BAD_FORMAT;
 	}

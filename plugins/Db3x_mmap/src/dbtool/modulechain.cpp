@@ -41,7 +41,7 @@ int CDb3Mmap::WorkModuleChain(int firstTime)
 		free(modChain);
 		modChain = (ModChainEntry*)malloc(sizeof(ModChainEntry));
 		phase = 0;
-		ofsCurrent = m_dbHeader.ofsFirstModuleName;
+		ofsCurrent = m_dbHeader.ofsModuleNames;
 	}
 
 	switch (phase) {
@@ -73,7 +73,7 @@ int CDb3Mmap::WorkModuleChain(int firstTime)
 	case 1:
 		ofsLast = 0;
 		iCurrentModName = 0;
-		m_dbHeader.ofsFirstModuleName = 0;
+		m_dbHeader.ofsModuleNames = 0;
 		phase++;
 	case 2:
 		if (iCurrentModName >= modChainCount) {
@@ -104,7 +104,7 @@ int CDb3Mmap::WorkModuleChain(int firstTime)
 			}
 
 			if (iCurrentModName == 0)
-				m_dbHeader.ofsFirstModuleName = modChain[iCurrentModName].ofsNew;
+				m_dbHeader.ofsModuleNames = modChain[iCurrentModName].ofsNew;
 			else if (WriteSegment(ofsLast + offsetof(DBModuleName, ofsNext), &modChain[iCurrentModName].ofsNew, sizeof(DWORD)) == WS_ERROR)
 				return ERROR_HANDLE_DISK_FULL;
 			ofsLast = modChain[iCurrentModName].ofsNew;

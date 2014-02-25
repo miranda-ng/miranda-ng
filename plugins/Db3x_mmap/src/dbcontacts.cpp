@@ -235,7 +235,7 @@ void CDb3Mmap::FillContacts()
 			break;
 
 		DWORD dwContactID;
-		if (m_dbHeader.version == DB_095_VERSION) {
+		if (m_dbHeader.version >= DB_095_VERSION) {
 			dwContactID = p->dwContactID;
 			if (dwContactID > m_dwMaxContactId)
 				m_dwMaxContactId = dwContactID + 1;

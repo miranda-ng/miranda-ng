@@ -411,8 +411,8 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 				contact.ofsFirstEvent = ofsDest;
 			if (contact.ofsLastEvent == offset)
 				contact.ofsLastEvent = ofsDest;
-			if (contact.ofsFirstUnreadEvent == offset)
-				contact.ofsFirstUnreadEvent = ofsDest;
+			if (contact.ofsFirstUnread == offset)
+				contact.ofsFirstUnread = ofsDest;
 
 			evt.flags |= DBEF_ENCRYPTED;
 		}

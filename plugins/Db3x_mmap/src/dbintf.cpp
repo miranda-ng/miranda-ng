@@ -135,10 +135,19 @@ int CDb3Mmap::Load(bool bSkipInit)
 
 		// everything is ok, go on
 		if (!m_bReadOnly) {
+			bool bConversion = false;
 			if (m_dbHeader.version < DB_095_VERSION) {
 				ConvertContacts();
+				bConversion = true;
+			}
 
-				m_dbHeader.version = DB_095_VERSION;
+			if (m_dbHeader.version < DB_095_1_VERSION) {
+				ConvertEvents();
+				bConversion = true;
+			}
+
+			if (bConversion) {
+				m_dbHeader.version = DB_095_1_VERSION;
 				DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
 			}
 

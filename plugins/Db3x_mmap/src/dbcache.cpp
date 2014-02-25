@@ -34,27 +34,27 @@ void CDb3Mmap::Map()
 		dwProtectMode = PAGE_READWRITE, dwAccess = FILE_MAP_ALL_ACCESS;
 
 	m_hMap = CreateFileMapping(m_hDbFile, NULL, dwProtectMode, 0, m_dwFileSize, NULL);
-	if (m_hMap)	{
+	if (m_hMap) {
 		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, dwAccess, 0, 0, 0);
 		if (!m_pDbCache)
-			DatabaseCorruption( _T("%s (MapViewOfFile failed. Code: %d)"));
+			DatabaseCorruption(_T("%s (MapViewOfFile failed. Code: %d)"));
 	}
-	else DatabaseCorruption( _T("%s (CreateFileMapping failed. Code: %d)"));
+	else DatabaseCorruption(_T("%s (CreateFileMapping failed. Code: %d)"));
 }
 
 void CDb3Mmap::ReMap(DWORD needed)
 {
-	KillTimer(NULL,m_flushBuffersTimerId);
+	KillTimer(NULL, m_flushBuffersTimerId);
 
-	log3("remapping %d + %d (file end: %d)",m_dwFileSize,needed,m_dbHeader.ofsFileEnd);
+	log3("remapping %d + %d (file end: %d)", m_dwFileSize, needed, m_dbHeader.ofsFileEnd);
 
 	if (needed > 0) {
 		if (needed > m_ChunkSize) {
 			if (needed + m_dwFileSize > m_dbHeader.ofsFileEnd + m_ChunkSize)
 				DatabaseCorruption(_T("%s (Too large increment)"));
 			else {
-				DWORD x = m_dbHeader.ofsFileEnd/m_ChunkSize;
-				m_dwFileSize = (x+1)*m_ChunkSize;
+				DWORD x = m_dbHeader.ofsFileEnd / m_ChunkSize;
+				m_dwFileSize = (x + 1)*m_ChunkSize;
 			}
 		}
 		else m_dwFileSize += m_ChunkSize;
@@ -71,15 +71,17 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes)
 {
 	int x = 0;
 	//log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
-	if (ofsDest+bytes > m_dwFileSize) ReMap(ofsDest+bytes-m_dwFileSize);
-	if (ofsSource+bytes > m_dwFileSize) {
-		x = ofsSource+bytes-m_dwFileSize;
+	if (ofsDest + bytes > m_dwFileSize)
+		ReMap(ofsDest + bytes - m_dwFileSize);
+
+	if (ofsSource + bytes > m_dwFileSize) {
+		x = ofsSource + bytes - m_dwFileSize;
 		log0("buggy move!");
 	}
 	if (x > 0)
-		ZeroMemory(m_pDbCache+ofsDest+bytes-x, x);
+		ZeroMemory(m_pDbCache + ofsDest + bytes - x, x);
 	if (ofsSource < m_dwFileSize)
-		MoveMemory(m_pDbCache+ofsDest,m_pDbCache+ofsSource, bytes-x);
+		MoveMemory(m_pDbCache + ofsDest, m_pDbCache + ofsSource, bytes - x);
 
 	logg();
 }
@@ -90,19 +92,22 @@ PBYTE CDb3Mmap::DBRead(DWORD ofs, int bytesRequired, int *bytesAvail)
 	// buggy read
 	if (ofs >= m_dwFileSize) {
 		//log2("read from outside %d@%08x",bytesRequired,ofs);
-		if (bytesAvail != NULL) *bytesAvail = m_ChunkSize;
+		if (bytesAvail != NULL)
+			*bytesAvail = m_ChunkSize;
 		return m_pNull;
 	}
 	//log3((ofs+bytesRequired > m_dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,m_dwFileSize-ofs);
-	if (bytesAvail != NULL) *bytesAvail = m_dwFileSize - ofs;
-	return m_pDbCache+ofs;
+	if (bytesAvail != NULL)
+		*bytesAvail = m_dwFileSize - ofs;
+	return m_pDbCache + ofs;
 }
 
 //we are assumed to be in a mutex here
 void CDb3Mmap::DBWrite(DWORD ofs, PVOID pData, int bytes)
 {
 	//log2("write %d@%08x",bytes,ofs);
-	if (ofs+bytes > m_dwFileSize) ReMap(ofs+bytes-m_dwFileSize);
+	if (ofs+bytes > m_dwFileSize)
+		ReMap(ofs+bytes-m_dwFileSize);
 	MoveMemory(m_pDbCache+ofs,pData,bytes);
 	logg();
 }
@@ -118,7 +123,7 @@ void CDb3Mmap::DBFill(DWORD ofs, int bytes)
 
 static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
-	for (int i=0; i < g_Dbs.getCount(); i++) {
+	for (int i = 0; i < g_Dbs.getCount(); i++) {
 		CDb3Mmap *db = g_Dbs[i];
 		if (db->m_flushBuffersTimerId != idEvent)
 			continue;
@@ -162,7 +167,7 @@ void CDb3Mmap::DBFlush(int setting)
 
 int CDb3Mmap::InitMap(void)
 {
-	m_dwFileSize = GetFileSize(m_hDbFile,  NULL);
+	m_dwFileSize = GetFileSize(m_hDbFile, NULL);
 
 	// Align to chunk
 	if (!m_bReadOnly) {

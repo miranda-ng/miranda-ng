@@ -32,6 +32,8 @@ DWORD CDb3Mmap::CreateNewSpace(int bytes)
 {
 	DWORD ofsNew = m_dbHeader.ofsFileEnd;
 	m_dbHeader.ofsFileEnd += bytes;
+	if (m_dbHeader.ofsFileEnd > m_dwFileSize)
+		ReMap(m_dbHeader.ofsFileEnd - m_dwFileSize);
 	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	log2("newspace %d@%08x", bytes, ofsNew);
 	return ofsNew;
@@ -65,7 +67,7 @@ DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 	}
 	else {
 		ofsNew = CreateNewSpace(newSize);
-		DBMoveChunk(ofsNew,ofs,oldSize);
+		DBMoveChunk(ofsNew, ofs, oldSize);
 		DeleteSpace(ofs,oldSize);
 	}
 	return ofsNew;

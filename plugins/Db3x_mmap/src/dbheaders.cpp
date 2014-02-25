@@ -31,12 +31,12 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 
 	CopyMemory(m_dbHeader.signature, &_sign, sizeof(m_dbHeader.signature));
 
-	m_dbHeader.version = DB_095_VERSION;
+	m_dbHeader.version = DB_095_1_VERSION;
 	m_dbHeader.ofsFileEnd = sizeof(struct DBHeader);
 	m_dbHeader.slackSpace = 0;
 	m_dbHeader.contactCount = 0;
 	m_dbHeader.ofsFirstContact = 0;
-	m_dbHeader.ofsFirstModuleName = 0;
+	m_dbHeader.ofsModuleNames = 0;
 	m_dbHeader.ofsUser = 0;
 	//create user
 	m_dbHeader.ofsUser = m_dbHeader.ofsFileEnd;
@@ -59,8 +59,15 @@ int CDb3Mmap::CheckDbHeaders()
 		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
 		return EGROKPRF_UNKHEADER;
 
-	if (m_dbHeader.version != DB_095_VERSION && m_dbHeader.version != DB_094_VERSION && m_dbHeader.version != DB_OLD_VERSION)
+	switch (m_dbHeader.version) {
+	case DB_095_1_VERSION:
+	case DB_095_VERSION:
+	case DB_094_VERSION:
+	case DB_OLD_VERSION:
+		break;
+	default:
 		return EGROKPRF_VERNEWER;
+	}
 	
 	if (m_dbHeader.ofsUser == 0)
 		return EGROKPRF_DAMAGED;

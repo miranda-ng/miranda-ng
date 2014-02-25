@@ -40,7 +40,7 @@ void CDb3Mmap::AddToList(char *name, DWORD len, DWORD ofs)
 
 int CDb3Mmap::InitModuleNames(void)
 {
-	DWORD ofsThis = m_dbHeader.ofsFirstModuleName;
+	DWORD ofsThis = m_dbHeader.ofsModuleNames;
 	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
 	while (ofsThis) {
 		if (dbmn->signature != DBMODULENAME_SIGNATURE)
@@ -94,8 +94,8 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 	DBModuleName dbmn;
 	dbmn.signature = DBMODULENAME_SIGNATURE;
 	dbmn.cbName = nameLen;
-	dbmn.ofsNext = m_dbHeader.ofsFirstModuleName;
-	m_dbHeader.ofsFirstModuleName = ofsNew;
+	dbmn.ofsNext = m_dbHeader.ofsModuleNames;
+	m_dbHeader.ofsModuleNames = ofsNew;
 	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	DBWrite(ofsNew, &dbmn, offsetof(struct DBModuleName, name));
 	DBWrite(ofsNew + offsetof(struct DBModuleName, name), (PVOID)szName, nameLen);
