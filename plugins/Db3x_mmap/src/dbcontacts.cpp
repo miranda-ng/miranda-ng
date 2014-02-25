@@ -245,6 +245,19 @@ void CDb3Mmap::FillContacts()
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactID);
 		cc->dwDriverData = dwOffset;
 		CheckProto(cc, "");
+		
+		DBVARIANT dbv; dbv.type = DBVT_DWORD;
+		cc->nSubs = (0 != GetContactSetting(dwContactID, "MetaContacts", "NumContacts", &dbv)) ? -1 : dbv.dVal;
+		if (cc->nSubs != -1) {
+			cc->pSubs = (MCONTACT*)malloc(cc->nSubs*sizeof(MCONTACT));
+			for (int i = 0; i < cc->nSubs; i++) {
+				char setting[100];
+				mir_snprintf(setting, sizeof(setting), "Handle%d", i);
+				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, "MetaContacts", setting, &dbv)) ? INVALID_CONTACT_ID : dbv.dVal;
+			}
+		}
+		cc->activeID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Default", &dbv)) ? INVALID_CONTACT_ID : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Handle", &dbv)) ? INVALID_CONTACT_ID : dbv.dVal;
 
 		dwOffset = p->ofsNext;
 	}

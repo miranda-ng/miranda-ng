@@ -50,6 +50,12 @@ struct DBCachedContact
 	DWORD dwDriverData;
 	char *szProto;
 	DBCachedContactValue *first, *last;
+
+	// metacontacts
+	int       nSubs;    // == -1 -> not a metacontact at all
+	MCONTACT *pSubs;
+	MCONTACT  parentID, // == 0 -> not a subcontact
+		       activeID; // manually chosen active sub
 };
 
 interface MIDatabaseCache : public MZeroedObject
