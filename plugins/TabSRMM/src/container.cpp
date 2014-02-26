@@ -981,7 +981,7 @@ panel_found:
 						if (si && dat->hContact) {
 							char *szProto = GetContactProto(dat->hContact);
 							if (szProto)
-								CallProtoService( szProto, PS_LEAVECHAT, (WPARAM)dat->hContact, 0 );
+								CallProtoService( szProto, PS_LEAVECHAT, dat->hContact, 0 );
 						}
 					}
 					break;
@@ -2345,9 +2345,9 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 	AppendMenu(hMenu, MF_STRING | MF_DISABLED | MF_GRAYED | MF_CHECKED, 1, TranslateT("Meta Contact"));
 	AppendMenu(hMenu, MF_SEPARATOR, 1, _T(""));
 
-	int iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)dat->hContact, 0);
-	int iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)dat->hContact, 0);
-	MCONTACT hContactMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
+	int iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, dat->hContact, 0);
+	int iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, dat->hContact, 0);
+	MCONTACT hContactMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, dat->hContact, 0);
 	char *szProtoMostOnline = GetContactProto(hContactMostOnline);
 	int isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1);
 

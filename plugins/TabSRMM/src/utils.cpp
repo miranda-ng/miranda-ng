@@ -774,7 +774,7 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == NULL)
 		return 0;
 
-	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->hContact, 0);
+	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, dat->hContact, 0);
 	if (ace == NULL || ace->hbmPic == NULL)
 		return NULL;
 

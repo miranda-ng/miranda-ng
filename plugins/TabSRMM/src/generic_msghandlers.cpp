@@ -301,7 +301,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_HISTORY:
-		CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)dat->hContact, 0);
+		CallService(MS_HISTORY_SHOWCONTACTHISTORY, dat->hContact, 0);
 		break;
 
 	case IDC_SMILEYBTN:
@@ -574,7 +574,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_PROTOCOL:
-		submenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
+		submenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, dat->hContact, 0);
 		if (lParam == 0)
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), &rc);
 		else
@@ -1130,7 +1130,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
 								 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
 	SendMessage(hwndClist, WM_TIMER, 14, 0);
-	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)dat->hContact, 0);
+	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, dat->hContact, 0);
 
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) & ~CLS_EX_TRACKSELECT);
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
@@ -1361,7 +1361,7 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	if (dat->hContact && dat->szProto != NULL && dat->bIsMeta) {
 		DWORD dwForcedContactNum = 0;
-		CallService(MS_MC_GETFORCESTATE, (WPARAM)dat->hContact, (LPARAM)&dwForcedContactNum);
+		CallService(MS_MC_GETFORCESTATE, dat->hContact, (LPARAM)&dwForcedContactNum);
 		db_set_dw(dat->hContact, SRMSGMOD_T, "tabSRMM_forced", dwForcedContactNum);
 	}
 
@@ -1371,7 +1371,6 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	dat->Panel->getVisibility();
 
 	// small inner margins (padding) for the text areas
-
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
 	SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
@@ -1412,20 +1411,17 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 		}
 		else {
-			TWindowData *dat_active = NULL;
-
 			if (!fForceOff) {
 				dat->showTyping = 2;
 				dat->nTypeSecs = 86400;
 
-				mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar),
-						  TranslateT("%s has entered text."), dat->cache->getNick());
+				mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s has entered text."), dat->cache->getNick());
 				if (hwndStatus && dat->pContainer->hwndActive == hwndDlg)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 			HandleIconFeedback(dat, (HICON) - 1);
-			dat_active = (TWindowData*)GetWindowLongPtr(dat->pContainer->hwndActive, GWLP_USERDATA);
+			TWindowData *dat_active = (TWindowData*)GetWindowLongPtr(dat->pContainer->hwndActive, GWLP_USERDATA);
 			if (dat_active && dat_active->bType == SESSIONTYPE_IM)
 				SendMessage(hwndContainer, DM_UPDATETITLE, 0, 0);
 			else
@@ -1463,7 +1459,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				dat->iFlashIcon = PluginConfig.g_IconTypingEvent;
 			HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
 		}
-		else {         // active tab may show icon if status bar is disabled
+		else { // active tab may show icon if status bar is disabled
 			if (!hwndStatus) {
 				if (TabCtrl_GetItemCount(GetParent(hwndDlg)) > 1 || !(dat->pContainer->dwFlags & CNT_HIDETABS))
 					HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
@@ -1476,11 +1472,11 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 	}
 }
 
-/**
- * sync splitter position for all open sessions.
- * This cares about private / per container / MUC <> IM splitter syncing and everything.
- * called from IM and MUC windows via DM_SPLITTERGLOBALEVENT
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// sync splitter position for all open sessions.
+// This cares about private / per container / MUC <> IM splitter syncing and everything.
+// called from IM and MUC windows via DM_SPLITTERGLOBALEVENT
+
 int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
 	RECT rcWin;
@@ -1615,7 +1611,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	*/
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
 		if (PluginConfig.m_DividersUsePopupConfig && PluginConfig.m_UseDividers) {
-			if (!MessageWindowOpened((WPARAM)dat->hContact, 0))
+			if (!MessageWindowOpened(dat->hContact, 0))
 				SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 		}
 		else if (PluginConfig.m_UseDividers) {
@@ -1688,7 +1684,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 					TabCtrl_SetCurSel(GetParent(hwndDlg), iItem);
 					ShowWindow(m_pContainer->hwndActive, SW_HIDE);
 					m_pContainer->hwndActive = hwndDlg;
-					SendMessage(hwndContainer, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
+					SendMessage(hwndContainer, DM_UPDATETITLE, dat->hContact, 0);
 					m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
 			}
@@ -1848,7 +1844,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				m_pContainer->SideBar->updateSession(dat);
 		}
 		if (m_pContainer->hwndActive == hwndDlg && lParam)
-			SendMessage(hwndContainer, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
+			SendMessage(hwndContainer, DM_UPDATETITLE, dat->hContact, 0);
 
 		UpdateTrayMenuState(dat, TRUE);
 		if (dat->cache->isFavorite())
@@ -1999,7 +1995,7 @@ void SI_CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, 
 		sicd.dwId = si->dwId;
 		sicd.szModule = si->szModule;
 		sicd.flags = (code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
-		NotifyEventHooks(hHookIconPressedEvt, (WPARAM)dat->hContact, (LPARAM)&sicd);
+		NotifyEventHooks(hHookIconPressedEvt, dat->hContact, (LPARAM)&sicd);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 	}
 }

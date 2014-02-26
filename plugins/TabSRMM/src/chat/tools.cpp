@@ -270,7 +270,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 					TabCtrl_SetCurSel(hwndTab, iItem);
 					ShowWindow(dat->pContainer->hwndActive, SW_HIDE);
 					dat->pContainer->hwndActive = si->hWnd;
-					SendMessage(dat->pContainer->hwnd, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
+					SendMessage(dat->pContainer->hwnd, DM_UPDATETITLE, dat->hContact, 0);
 					dat->pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 				}
 			}

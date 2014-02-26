@@ -852,7 +852,7 @@ void TSAPI BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, B
 	cbcd.hContact = dat->hContact;
 	cbcd.flags = (code ? BBCF_RIGHTBUTTON : 0) | (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0) | (bFromArrow ? BBCF_ARROWCLICKED : 0);
 
-	NotifyEventHooks(hHookButtonPressedEvt, (WPARAM)dat->hContact, (LPARAM)&cbcd);
+	NotifyEventHooks(hHookButtonPressedEvt, dat->hContact, (LPARAM)&cbcd);
 }
 
 

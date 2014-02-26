@@ -375,7 +375,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 					if ( (si != NULL) && (dat->hContact != NULL)) {
 						char *szProto = GetContactProto(dat->hContact);
 						if (szProto)
-							CallProtoService( szProto, PS_LEAVECHAT, (WPARAM)dat->hContact, 0 );
+							CallProtoService( szProto, PS_LEAVECHAT, dat->hContact, 0 );
 					}
 				}
 				return 1;
@@ -418,13 +418,13 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				break;
 			case ID_PICMENU_SETTINGS: {
 				if (menuId == MENU_PANELPICMENU)
-					CallService(MS_AV_CONTACTOPTIONS, (WPARAM)dat->hContact, 0);
+					CallService(MS_AV_CONTACTOPTIONS, dat->hContact, 0);
 				else if (menuId == MENU_PICMENU) {
 					if (dat->Panel->isActive()) {
 						if (ServiceExists(MS_AV_SETMYAVATAR) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(dat->cache->getActiveProto()), 0))
 							CallService(MS_AV_SETMYAVATAR, (WPARAM)(dat->cache->getActiveProto()), 0);
 					} else
-						CallService(MS_AV_CONTACTOPTIONS, (WPARAM)dat->hContact, 0);
+						CallService(MS_AV_CONTACTOPTIONS, dat->hContact, 0);
 				}
 			}
 			return 1;
@@ -448,7 +448,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 			return 1;
 
 		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
-			CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)dat->hContact, 0);
+			CallService(MS_TABMSG_SETUSERPREFS, dat->hContact, 0);
 			return 1;
 		}
 	}

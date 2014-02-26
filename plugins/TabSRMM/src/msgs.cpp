@@ -621,7 +621,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
 	if (dat->bType == SESSIONTYPE_IM)
-		SendMessage(pContainer->hwnd, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
+		SendMessage(pContainer->hwnd, DM_UPDATETITLE, dat->hContact, 0);
 	if (IsIconic(pContainer->hwnd)) {
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(pContainer->hwnd);
