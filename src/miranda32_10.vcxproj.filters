@@ -71,10 +71,13 @@
       <UniqueIdentifier>{e125e36b-fc7d-4a78-8f13-67d3c9333621}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\srmm">
-      <UniqueIdentifier>{3da88f1b-9c87-43dc-a7a1-140d8dc6eefc}</UniqueIdentifier>
+      <UniqueIdentifier>{b3f78380-76da-4a82-a0e2-1a14b173dac1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Modules\chat">
-      <UniqueIdentifier>{7ff3d1b7-90ae-4c3d-bd0d-ab8941b8aa7b}</UniqueIdentifier>
+      <UniqueIdentifier>{4c3f7adf-3969-4bff-b71f-e03d96adca37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\metacontacts">
+      <UniqueIdentifier>{79f0ee25-4708-4fd6-aeef-fb5f2628008b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +160,6 @@
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="..\include\m_userinfo.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\m_utils.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="..\include\newpluginapi.h">
@@ -255,8 +255,23 @@
     <ClInclude Include="..\include\m_extraicons.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\m_utils.h">
+      <Filter>Modules\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_chat_int.h">
+      <Filter>Modules\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_chat.h">
+      <Filter>Modules\chat</Filter>
+    </ClInclude>
     <ClInclude Include="modules\chat\chat.h">
       <Filter>Modules\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\m_string.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\metacontacts\metacontacts.h">
+      <Filter>Modules\metacontacts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,7 +578,10 @@
     <ClCompile Include="modules\utils\enterstring.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
-    <ClCompile Include="modules\chat\chat_opts.cpp">
+    <ClCompile Include="modules\chat\log.cpp">
+      <Filter>Modules\chat</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\chat\manager.cpp">
       <Filter>Modules\chat</Filter>
     </ClCompile>
     <ClCompile Include="modules\chat\chat_svc.cpp">
@@ -572,14 +590,35 @@
     <ClCompile Include="modules\chat\clist.cpp">
       <Filter>Modules\chat</Filter>
     </ClCompile>
-    <ClCompile Include="modules\chat\log.cpp">
-      <Filter>Modules\chat</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\chat\manager.cpp">
+    <ClCompile Include="modules\chat\chat_opts.cpp">
       <Filter>Modules\chat</Filter>
     </ClCompile>
     <ClCompile Include="modules\chat\tools.cpp">
       <Filter>Modules\chat</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\addto.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\edit.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_api.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_main.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_menu.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_options.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_services.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_utils.cpp">
+      <Filter>Modules\metacontacts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

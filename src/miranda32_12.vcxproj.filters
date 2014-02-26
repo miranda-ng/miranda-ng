@@ -76,6 +76,9 @@
     <Filter Include="Modules\chat">
       <UniqueIdentifier>{4c3f7adf-3969-4bff-b71f-e03d96adca37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\metacontacts">
+      <UniqueIdentifier>{79f0ee25-4708-4fd6-aeef-fb5f2628008b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="..\include\m_string.h">
       <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\metacontacts\metacontacts.h">
+      <Filter>Modules\metacontacts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -589,6 +595,30 @@
     </ClCompile>
     <ClCompile Include="modules\chat\tools.cpp">
       <Filter>Modules\chat</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\addto.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\edit.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_api.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_main.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_menu.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_options.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_services.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_utils.cpp">
+      <Filter>Modules\metacontacts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
