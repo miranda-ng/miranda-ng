@@ -1207,6 +1207,13 @@ IDI_AUTH_ADD            ICON                    "res/auth_add.ico"
 IDI_AUTH_GRANT          ICON                    "res/auth_grant.ico"
 IDI_AUTH_REQUEST        ICON                    "res/auth_request.ico"
 IDI_AUTH_REVOKE         ICON                    "res/auth_revoke.ico"
+IDI_MCMENU              ICON                    "res/meta_menu.ico"
+IDI_MCMENUOFF           ICON                    "res/meta_menuof.ico"
+IDI_MCEDIT              ICON                    "res/meta_edit.ico"
+IDI_MCREMOVE            ICON                    "res/meta_remove2.ico"
+IDI_MCCONVERT           ICON                    "res/meta_convert.ico"
+IDI_MCADD               ICON                    "res/meta_add.ico"
+IDI_MCSETDEFAULT        ICON                    "res/meta_set_as_default.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
