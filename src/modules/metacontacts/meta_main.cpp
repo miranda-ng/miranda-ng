@@ -49,19 +49,13 @@ HICON LoadIconEx(IconIndex i)
 	return Skin_GetIcon(iconList[i].szName);
 }
 
-/** Prepare the plugin to stop
-* Called by Miranda when it will exit or when the plugin gets deselected
-*/
-int UnloadMetacontacts(void)
+void UnloadMetacontacts(void)
 {
-	// see also meta_services.c, Meta_PreShutdown
 	Meta_CloseHandles();
-	return 0;
 }
  
-/** Initializes the services provided and the link to those needed
-* Called when the plugin is loaded into Miranda
-*/
+// Initializes the services provided and the link to those needed
+// Called when the plugin is loaded into Miranda
 int LoadMetacontacts(void)
 {
 	Icon_Register(hInst, META_PROTO, iconList, SIZEOF(iconList), "mc");
@@ -98,7 +92,6 @@ int LoadMetacontacts(void)
 			MessageBox(0, TranslateT("Error - Database corruption.\nPlugin disabled."), TranslateT("MetaContacts"), MB_OK | MB_ICONERROR);
 			db_set_b(0, META_PROTO, "DisabledMessageShown", 1);
 		}
-		//Meta_HideMetaContacts(TRUE);
 		return 1;
 	}
 

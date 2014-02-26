@@ -45,6 +45,7 @@ int LoadSrmmModule(void);
 int LoadContactsModule(void);
 int LoadContactListModule(void);// ui: clist
 int LoadDatabaseModule(void);
+int LoadMetacontacts(void);
 int LoadOptionsModule(void);	// ui: options dialog
 int LoadFindAddModule(void);	// ui: search/add users
 int LoadSkinIcons(void);
@@ -52,6 +53,7 @@ int LoadSkinSounds(void);
 int LoadSkinHotkeys(void);
 int LoadUserInfoModule(void);	// ui: user info
 int LoadVisibilityModule(void);	// ui: visibility control
+
 int LoadPluginOptionsModule(void);	// ui: plugin viewer
 int LoadAddContactModule(void);	// ui: authcontrol contacts
 int LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
@@ -72,6 +74,7 @@ void UnloadErrorsModule(void);
 void UnloadEventsModule(void);
 void UnloadExtraIconsModule(void);
 void UnloadIcoLibModule(void);
+void UnloadMetacontacts(void);
 void UnloadNetlibModule(void);
 void UnloadNewPlugins(void);
 void UnloadProtocolsModule(void);
@@ -147,6 +150,7 @@ int LoadDefaultModules(void)
 	if (LoadContactsModule()) return 1;
 	if (LoadContactListModule()) return 1;   // prepare contact list interface
 	if (LoadAddContactModule()) return 1;
+	// if (LoadMetacontacts()) return 1;
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
 
 	Langpack_SortDuplicates();
@@ -165,12 +169,13 @@ void UnloadDefaultModules(void)
 {
 	UnloadChatModule();
 	UnloadAccountsModule();
+	// UnloadMetacontacts();
 	UnloadNewPlugins();
 	UnloadProtocolsModule();
 	UnloadSkinSounds();
 	UnloadSkinHotkeys();
 	UnloadSrmmModule();
-//	UnloadErrorsModule();
+	//	UnloadErrorsModule();
 	UnloadIcoLibModule();
 	UnloadUtilsModule();
 	UnloadExtraIconsModule();
