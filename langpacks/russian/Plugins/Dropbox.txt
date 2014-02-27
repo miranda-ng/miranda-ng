@@ -6,7 +6,7 @@
 ;  Authors: unsane
 ;============================================================
 [Provides ability to upload files on Dropbox.]
-Плагин загрузки и пересылки файлов на сервис Dropbox.
+Плагин загрузки и пересылки файлов с помощью Dropbox.
 [You have been authorized]
 Авторизация прошла успешно
 [Are you sure you want to request athorization?]
