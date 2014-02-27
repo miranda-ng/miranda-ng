@@ -270,7 +270,10 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	LPTSTR currSender = senders;
 
 	for (int i = 0; i < SENDER_COUNT && mtn->senders[i].addr; i++) {
-		mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
+		if (mtn->senders[i].name)
+			mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
+		else
+			mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s\n"), mtn->senders[i].addr);
 		currSender += lstrlen(currSender);
 	}
 
