@@ -11,8 +11,12 @@
 Авторизация прошла успешно
 [Are you sure you want to request athorization?]
 Вы уверены, что хотите запросить авторизацию?
-[Request athorization]
+[Request authorization]
 Запросить авторизацию
+[Are you sure you want to revoke athorization?]
+Вы уверены, что хотите отозвать авторизацию?
+[Revoke authorization]
+Отозвать авторизацию
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]
@@ -37,11 +41,11 @@
 Файл или папка не найдены по указанному пути
 [Request method not expected (generally should be GET or POST)]
 Непредвиденный метод запроса (обычно должен быть GET, а не POST)
-[User is over Dropbox storage quota]
-Пользователь превысил квоту, выделенную ему сервисом Dropbox
-[Unknown]
-Неизвестно
 [Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
 Приложение делает слишком много запросов, будет ограничена скорость.
 [If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
 Если ответ содержит заголовок Retry-After, это означает, что ваше приложение ограничено в скорости. В противном случае, это свидетельствует о ошибках сервера, и ваше приложение должно повторить свой запрос.
+[User is over Dropbox storage quota]
+Пользователь превысил квоту, выделенную ему сервисом Dropbox
+[Unknown]
+Неизвестно

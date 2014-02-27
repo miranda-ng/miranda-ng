@@ -2343,7 +2343,7 @@ ID
 Удаление метаконтакта.\n\nПродолжить?
 [Are you sure?]
 Вы уверены?
-[Remove from MetaContact]
+[Remove from metacontact]
 Удалить из метаконтакта
 [Toggle MetaContacts On]
 Включить метаконтакты
@@ -2357,18 +2357,18 @@ ID
 Метаконтакт по умолчанию
 [Delete MetaContact]
 Удалить метаконтакт
-[Context]
-Контекст
+[Subcontacts]
+Субконтакты
 [<default>]
 <по умолчанию>
-[Meta ID]
-Meta ID
-[No online contacts found.]
-Не найдено контактов в сети.
 [Priorities]
 Приоритеты
 [History]
 История
+[Meta ID]
+Meta ID
+[No online contacts found.]
+Не найдено контактов в сети.
 [Sender]
 Отправитель
 [Could not get MetaContact ID]
