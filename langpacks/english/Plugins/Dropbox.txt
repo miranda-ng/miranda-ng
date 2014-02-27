@@ -7,10 +7,9 @@
 ;============================================================
 [Provides ability to upload files on Dropbox.]
 ;file \plugins\Dropbox\src\dropbox.cpp
-[grant_type=authorization_code&code=%s]
 [You have been authorized]
 [Are you sure you want to request athorization?]
-[Request athorization]
+[Request authorization]
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
 [Network]
@@ -19,7 +18,6 @@
 [Protocols]
 [Protocol icon]
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
-[Request Authorization]
 ;file \plugins\Dropbox\src\dropbox_transfers.cpp
 [Server does not respond]
 [Link to download file "%s": %s]

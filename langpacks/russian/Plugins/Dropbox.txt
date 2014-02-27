@@ -21,8 +21,6 @@
 Протоколы
 [Protocol icon]
 Значок протокола
-[Request Authorization]
-Запросить авторизацию
 [Server does not respond]
 Нет ответа от сервера
 [Link to download file "%s": %s]
