@@ -27,6 +27,12 @@ int CDropbox::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			{
 				db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
 			}
+
+			if (!db_get_b(NULL, "FirstRun", MODULE, 0))
+			{
+				mir_forkthread(CDropbox::RequestApiAuthorizationAsync, 0);
+				db_set_b(NULL, "FirstRun", MODULE, 1);
+			}
 		}
 	}
 

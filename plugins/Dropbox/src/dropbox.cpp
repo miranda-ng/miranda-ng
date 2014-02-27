@@ -1,5 +1,8 @@
 #include "common.h"
 
+std::map<HWND, MCONTACT> CDropbox::dcftp;
+HGENMENU CDropbox::ContactMenuItems[CMI_MAX];
+
 void CDropbox::Init()
 {
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
@@ -132,4 +135,14 @@ void CDropbox::RequestApiAuthorizationAsync(void *arg)
 	}
 	else
 		INSTANCE->RequestAcceessToken();
+}
+
+void CDropbox::RevokeApiAuthorizationAsync(void *arg)
+{
+	if (HasAccessToken() && MessageBox(
+		NULL,
+		TranslateT("Are you sure you want to revoke athorization?"),
+		TranslateT("Revoke authorization"),
+		MB_YESNO | MB_ICONQUESTION) == IDYES)
+		INSTANCE->DestroyAcceessToken();
 }

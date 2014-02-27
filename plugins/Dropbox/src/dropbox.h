@@ -23,7 +23,8 @@
 
 enum
 {
-	CMI_API_REQUEST_AUTH,
+	CMI_AUTH_REQUEST,
+	CMI_AUTH_REVOKE,
 	CMI_SEND_FILES,
 	CMI_MAX   // this item shall be the last one
 };
@@ -60,6 +61,7 @@ private:
 	static INT_PTR ProtoSendMessage(WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR RequestApiAuthorization(WPARAM wParam, LPARAM lParam);
+	static INT_PTR RevokeApiAuthorization(WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFilesToDropbox(WPARAM wParam, LPARAM lParam);
 
@@ -70,6 +72,7 @@ private:
 	void DestroyAcceessToken();
 
 	static void RequestApiAuthorizationAsync(void *arg);
+	static void RevokeApiAuthorizationAsync(void *arg);
 
 	// transrers
 	int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);

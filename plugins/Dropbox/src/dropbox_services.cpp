@@ -1,15 +1,13 @@
 #include "common.h"
 
-INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
 	switch(wParam)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILESEND | PF1_AUTHREQ;
+		return PF1_IM | PF1_FILESEND;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
-	case PFLAGNUM_4:
-		return PF4_FORCEAUTH;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)MODULE " ID";
 	case PFLAG_UNIQUEIDSETTING:
@@ -93,15 +91,6 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM wParam, LPARAM lParam)
 
 	//char *message = (char*)pccsd->lParam;
 
-	//DBEVENTINFO dbei = { sizeof(dbei) };
-	//dbei.szModule = MODULE;
-	//dbei.timestamp = time(NULL);
-	//dbei.eventType = EVENTTYPE_MESSAGE;
-	//dbei.cbBlob = strlen(message);
-	//dbei.pBlob = (PBYTE)message;
-	//dbei.flags = DBEF_SENT | DBEF_UTF;
-	//db_event_add(pccsd->hContact, &dbei);
-
 	//if (message[0] && message[0] == '/')
 	//{
 	//	// parse commands
@@ -110,16 +99,21 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR  CDropbox::RequestApiAuthorization(WPARAM wParam, LPARAM lParam)
+INT_PTR CDropbox::RequestApiAuthorization(WPARAM, LPARAM)
 {
 	mir_forkthread(CDropbox::RequestApiAuthorizationAsync, 0);
 
 	return 0;
 }
 
-std::map<HWND, MCONTACT> CDropbox::dcftp;
+INT_PTR CDropbox::RevokeApiAuthorization(WPARAM, LPARAM)
+{
+	mir_forkthread(CDropbox::RevokeApiAuthorizationAsync, 0);
 
-INT_PTR CDropbox::SendFilesToDropbox(WPARAM hContact, LPARAM lParam)
+	return 0;
+}
+
+INT_PTR CDropbox::SendFilesToDropbox(WPARAM hContact, LPARAM)
 {
 	INSTANCE->hContactTransfer = hContact;
 

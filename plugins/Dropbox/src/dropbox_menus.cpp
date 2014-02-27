@@ -1,7 +1,5 @@
 #include "common.h"
 
-HGENMENU CDropbox::ContactMenuItems[CMI_MAX];
-
 void CDropbox::InitMenus()
 {
 	CLISTMENUITEM mi = { 0 };
@@ -17,10 +15,17 @@ void CDropbox::InitMenus()
 
 	mi.pszService = MODULE"/RequestAuthorization";
 	mi.ptszName = LPGENT("Request authorization");
-	mi.position = -2000001000 + CMI_API_REQUEST_AUTH;
+	mi.position = 1000030000 + CMI_AUTH_REQUEST;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
-	ContactMenuItems[CMI_API_REQUEST_AUTH] = Menu_AddContactMenuItem(&mi);
+	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, RequestApiAuthorization);
+
+	mi.pszService = MODULE"/RevokeAuthorization";
+	mi.ptszName = LPGENT("Revoke authorization");
+	mi.position = 1000030000 + CMI_AUTH_REVOKE;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	ContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, RevokeApiAuthorization);
 }
 
 void CDropbox::Menu_DisableItem(HGENMENU hMenuItem, BOOL bDisable)
@@ -41,13 +46,19 @@ int CDropbox::OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 	Menu_DisableItem(ContactMenuItems[CMI_SEND_FILES], FALSE);
 
+	Menu_ShowItem(ContactMenuItems[CMI_AUTH_REQUEST], FALSE);
+	Menu_ShowItem(ContactMenuItems[CMI_AUTH_REVOKE], FALSE);
 	Menu_ShowItem(ContactMenuItems[CMI_SEND_FILES], FALSE);
-	Menu_ShowItem(ContactMenuItems[CMI_API_REQUEST_AUTH], FALSE);
 
 	WORD status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 
 	if (hContact == GetDefaultContact())
-		Menu_ShowItem(ContactMenuItems[CMI_API_REQUEST_AUTH], TRUE);
+	{
+		if (!HasAccessToken())
+			Menu_ShowItem(ContactMenuItems[CMI_AUTH_REQUEST], TRUE);
+		else
+			Menu_ShowItem(ContactMenuItems[CMI_AUTH_REVOKE], TRUE);
+	}
 	else if (status != ID_STATUS_OFFLINE && HasAccessToken())
 		Menu_ShowItem(ContactMenuItems[CMI_SEND_FILES], TRUE);
 
