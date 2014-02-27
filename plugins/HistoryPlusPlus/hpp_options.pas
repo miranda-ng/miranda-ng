@@ -230,8 +230,6 @@ var
   GridOptions: TGridOptions;
   SmileyAddEnabled: Boolean;
   MathModuleEnabled: Boolean;
-  MetaContactsEnabled: Boolean;
-  MetaContactsProto: AnsiString;
   MeSpeakEnabled: Boolean;
   ShowHistoryCount: Boolean;
   hppIcons: array of ThppIntIconsRec;
@@ -553,7 +551,6 @@ var
   // sarc: SMADD_REGCAT;
   i: Integer;
   mt: TMessageType;
-  str: PAnsiChar;
   hppIconPack: String;
 begin
   // Register in IcoLib
@@ -625,16 +622,7 @@ begin
     end; }
   // Register in MathModule
   MathModuleEnabled := boolean(ServiceExists(MATH_RTF_REPLACE_FORMULAE));
-  // Checking MetaContacts
-  MetaContactsEnabled := boolean(ServiceExists(MS_MC_GETMOSTONLINECONTACT));
-  if MetaContactsEnabled then
-  begin
-    str := PAnsiChar(CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
-    if Assigned(str) then
-      MetaContactsProto := AnsiString(str)
-    else
-      MetaContactsEnabled := false;
-  end;
+
   // Checking presence of speech api
   MeSpeakEnabled := boolean(ServiceExists(MS_SPEAK_SAY_W)) or
     boolean(ServiceExists(MS_SPEAK_SAY_A));

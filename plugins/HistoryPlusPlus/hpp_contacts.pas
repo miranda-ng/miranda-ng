@@ -73,7 +73,7 @@ end;
 function GetContactProto(hContact: THandle; var SubContact: THandle; var SubProtocol: AnsiString): AnsiString;
 begin
   Result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
-  if MetaContactsEnabled and (Result = MetaContactsProto) then
+  if (Result = META_PROTO) then
   begin
     SubContact := CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
     SubProtocol := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, SubContact, 0));

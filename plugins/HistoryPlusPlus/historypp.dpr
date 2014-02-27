@@ -209,8 +209,7 @@ begin
     UnhookEvent(HookSmAddChanged);
   UnhookEvent(HookIcon2Changed);
   UnhookEvent(HookFSChanged);
-  if MetaContactsEnabled then
-    UnhookEvent(HookMetaDefaultChanged);
+  UnhookEvent(HookMetaDefaultChanged);
 
   try
     // destroy hidden main window
@@ -308,7 +307,7 @@ begin
   if SmileyAddEnabled    then HookSmAddChanged := HookEvent(ME_SMILEYADD_OPTIONSCHANGED,OnSmAddSettingsChanged);
   HookIcon2Changed := HookEvent(ME_SKIN2_ICONSCHANGED,OnIcon2Changed);
   HookFSChanged := HookEvent(ME_FONT_RELOAD,OnFSChanged);
-  if MetaContactsEnabled then HookMetaDefaultChanged := HookEvent(ME_MC_DEFAULTTCHANGED,OnMetaDefaultChanged);
+  HookMetaDefaultChanged := HookEvent(ME_MC_DEFAULTTCHANGED,OnMetaDefaultChanged);
 
   // return successfully
   Result:=0;
@@ -382,7 +381,7 @@ begin
     ((szProto = nil) or (StrComp(cws.szModule, szProto) <> 0)) then
     exit;
 
-  if MetaContactsEnabled and (StrComp(cws.szModule, pAnsiChar(MetaContactsProto)) = 0) and
+  if (StrComp(cws.szModule, META_PROTO) = 0) and
     (StrComp(cws.szSetting, 'Nick') = 0) then
     exit;
 
