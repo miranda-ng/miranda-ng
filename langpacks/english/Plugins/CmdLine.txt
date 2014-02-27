@@ -69,7 +69,6 @@
 [Could not find contact handle for contact '%s'.]
 [Setting '%s/%s' deleted.]
 [Wrote '%s:%s' to database entry '%s/%s'.]
-['%s/%s' - %s.]
 [Could not retrieve setting '%s/%s': %s.]
 [Setting '%s/%s' was not found.]
 ['%s' proxy was disabled.]

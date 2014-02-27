@@ -1,0 +1,37 @@
+﻿#muuid {b908773a-86f7-4a91-8674-6a20ba0e67d1}
+;============================================================
+;  File: Dropbox.dll
+;  Plugin: Dropbox
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+[Provides ability to upload files on Dropbox.]
+;file \plugins\Dropbox\src\dropbox.cpp
+[grant_type=authorization_code&code=%s]
+[You have been authorized]
+[Are you sure you want to request athorization?]
+[Request athorization]
+;file \plugins\Dropbox\src\dropbox_events.cpp
+[Send files to Dropbox]
+[Network]
+[Dropbox]
+;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocols]
+[Protocol icon]
+;file \plugins\Dropbox\src\dropbox_menus.cpp
+[Request Authorization]
+;file \plugins\Dropbox\src\dropbox_transfers.cpp
+[Server does not respond]
+[Link to download file "%s": %s]
+[Link to download folder "%s": %s]
+;file \plugins\Dropbox\src\dropbox_utils.cpp
+[Ok]
+[Bad input parameter. Error message should indicate which one and why]
+[Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
+[Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
+[File or folder not found at the specified path]
+[Request method not expected (generally should be GET or POST)]
+[Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
+[If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
+[User is over Dropbox storage quota]
+[Unknown]

@@ -1,6 +1,5 @@
 ﻿[OK]
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-[%s]
 [ layered]
 [( unknown )]
 [reVista for Modern v0.5]

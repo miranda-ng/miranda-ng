@@ -1,0 +1,5 @@
+﻿[grant_type=authorization_code&code=%s]
+[Dropbox]
+[Ok]
+[Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
+[If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]

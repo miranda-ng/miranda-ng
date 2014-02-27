@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
@@ -109,6 +109,8 @@
 Новая категория
 [Delete]
 Удалить
+[Status messages:]
+Сообщения статуса:
 [Wait]
 Ждать
 [seconds before closing the status message dialog (-1=don't close)]
@@ -203,6 +205,8 @@ Windows
 ** Все контакты **
 [** Not-on-list contacts **]
 ** Контакты не в списке **
+[Status messages]
+Сообщения статуса
 [Main options]
 Основные настройки
 [Autoreply]
