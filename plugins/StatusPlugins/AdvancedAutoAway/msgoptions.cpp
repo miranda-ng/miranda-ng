@@ -122,23 +122,15 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						settings[last]->msg = ( char* )realloc(settings[last]->msg, len+1);
 					SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (LPARAM)(len+1), (WPARAM)settings[last]->msg);
 				}
+
 				if (i != -1) {
 					if (settings[i]->msg != NULL)
 						SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[i]->msg);
-					else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
-						TCHAR *msg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)settings[i]->status, 0);
-						if (msg != NULL) {
-							SetDlgItemText(hwndDlg, IDC_STATUSMSG, msg);
-							mir_free(msg);
-						}
+					else {
+						ptrT msg((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, settings[i]->status, 0));
+						SetDlgItemText(hwndDlg, IDC_STATUSMSG, (msg != NULL) ? msg : _T(""));
 					}
-					else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
-						char *msg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)settings[i]->status, 0);
-						if (msg != NULL) {
-							SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, msg);
-							mir_free(msg);
-						}
-					}
+
 					if (settings[i]->useCustom) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), TRUE);
@@ -150,7 +142,8 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), FALSE);
 						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, TRUE);
 						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, FALSE);
-				}	}
+					}
+				}
 				last = i;
 			}
 			break;

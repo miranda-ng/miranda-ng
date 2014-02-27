@@ -35,12 +35,11 @@ const
   MS_AWAYMSG_SHOWAWAYMSG:PAnsiChar = 'SRAway/GetMessage';
 
   {
-    returns: the default status message for a status
+    returns: (PWideChar) the default status message for a status
     wParam=status
     lParam=szProto
     notes: returns status msg. Remember to free the return value
   }
-  MS_AWAYMSG_GETSTATUSMSG :PAnsiChar = 'SRAway/GetStatusMessage';
   MS_AWAYMSG_GETSTATUSMSGW:PAnsiChar = 'SRAway/GetStatusMessageW';
 
 {$ENDIF}

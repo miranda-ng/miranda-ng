@@ -113,7 +113,7 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 			// let's create a new container
 			PROTO_INTERFACE* ppi = AddDefaultAccount(pd->szName);
 			if (ppi) {
-				PROTOACCOUNT* pa = Proto_GetAccount(pd->szName);
+				PROTOACCOUNT *pa = Proto_GetAccount(pd->szName);
 				if (pa == NULL) {
 					pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 					pa->cbSize = sizeof(PROTOACCOUNT);
@@ -247,18 +247,9 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM)status, (LPARAM)szProto);
-		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND) {
-			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)status, (LPARAM)szProto);
-			if ((INT_PTR)awayMsgA != CALLSERVICE_NOTFOUND) {
-				awayMsg = mir_a2t(awayMsgA);
-				mir_free(awayMsgA);
-			}
-		}
-		if ((INT_PTR)awayMsg != CALLSERVICE_NOTFOUND) {
-			CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSGT, status, (LPARAM)awayMsg);
-			mir_free(awayMsg);
-		}
+		TCHAR *awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, (LPARAM)szProto);
+		CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSGT, status, (LPARAM)awayMsg);
+		mir_free(awayMsg);
 	}
 	CallProtoServiceInt(NULL, szProto, PS_SETSTATUS, status, 0);
 }
@@ -339,7 +330,7 @@ static INT_PTR Proto_EnumAccounts(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT* pa)
+bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT *pa)
 {
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
 }
@@ -349,7 +340,7 @@ static INT_PTR srvProto_IsAccountEnabled(WPARAM, LPARAM lParam)
 	return (INT_PTR)Proto_IsAccountEnabled((PROTOACCOUNT*)lParam);
 }
 
-bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT* pa)
+bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa)
 {
 	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
@@ -374,7 +365,7 @@ INT_PTR CallProtoService(const char* szModule, const char* szService, WPARAM wPa
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = Proto_GetAccount(szModule);
+	PROTOACCOUNT *pa = Proto_GetAccount(szModule);
 	if (pa && !pa->bOldProto) {
 		PROTO_INTERFACE* ppi;
 		if ((ppi = pa->ppro) == NULL)

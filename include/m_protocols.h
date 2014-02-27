@@ -336,7 +336,7 @@ __forceinline PROTOACCOUNT* ProtoGetAccount(const char* accName)
 //Returns 1 if an account is valid and enabled, 0 otherwise
 #define MS_PROTO_ISACCOUNTENABLED "Proto/IsAccountEnabled"
 
-__forceinline int IsAccountEnabled(const PROTOACCOUNT* pa)
+__forceinline int IsAccountEnabled(const PROTOACCOUNT *pa)
 {
   return (int)CallService(MS_PROTO_ISACCOUNTENABLED, 0, (LPARAM)pa);
 }

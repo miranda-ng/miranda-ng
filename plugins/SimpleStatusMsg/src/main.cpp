@@ -58,7 +58,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRAWAY, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY, MIID_LAST };
 
 #ifdef _DEBUG
 void log2file(const char *fmt, ...)
@@ -1976,15 +1976,6 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam, TRUE, NULL);
 }
 
-
-static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
-{
-	TCHAR* msg = GetAwayMessage((int)wParam, (char*)lParam, TRUE, NULL);
-	char*  res = mir_t2a(msg);
-	mir_free(msg);
-	return (INT_PTR)res;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -1997,8 +1988,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
 
-
-	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_SETSTATUS, SetStatusModeFromExtern);

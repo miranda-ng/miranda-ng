@@ -201,16 +201,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM)
 
 TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 {
-	INT_PTR res = CallService (MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)uStatus, (LPARAM)szProto );
-	if (res == CALLSERVICE_NOTFOUND )
-	{
-		char* tmp = ( char* )CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)uStatus, (LPARAM)szProto );
-		TCHAR *ret = mir_a2t( tmp );
-		mir_free( tmp );
-		return ret;
-	}
-	else
-		return (TCHAR *) res;
+	return (TCHAR*)CallService (MS_AWAYMSG_GETSTATUSMSGT, uStatus, (LPARAM)szProto);
 }
 
 void SetStatus(const char* szProto, unsigned status, TCHAR *tszAwayMsg)
@@ -220,7 +211,7 @@ void SetStatus(const char* szProto, unsigned status, TCHAR *tszAwayMsg)
 		if ( CallProtoService( szProto, PS_SETAWAYMSGT, status, (LPARAM) tszAwayMsg ) == CALLSERVICE_NOTFOUND )
 		{
 			char *szAwayMsg = mir_t2a(tszAwayMsg);
-			CallProtoService( szProto, PS_SETAWAYMSG, status, (LPARAM) szAwayMsg );
+			CallProtoService( szProto, PS_SETAWAYMSG, status, (LPARAM)szAwayMsg );
 			mir_free(szAwayMsg);
 		}
 	}

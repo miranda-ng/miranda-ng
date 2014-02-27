@@ -32,17 +32,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns immediately, without waiting for the message to retrieve
 #define MS_AWAYMSG_SHOWAWAYMSG   "SRAway/GetMessage"
 
-//returns the default status message for a status
+//returns (TCHAR*)the default status message for a status
 //wParam = (int)status
 //lParam = (LPARAM)(char*)szProto
-//returns status msg.  Remember to free the return value
-#define MS_AWAYMSG_GETSTATUSMSG   "SRAway/GetStatusMessage"
+//returns status msg.  Remember to free the return value using mir_free/ptrW
 #define MS_AWAYMSG_GETSTATUSMSGW  "SRAway/GetStatusMessageW"
 
 #ifdef _UNICODE
 #define MS_AWAYMSG_GETSTATUSMSGT MS_AWAYMSG_GETSTATUSMSGW
 #else
-#define MS_AWAYMSG_GETSTATUSMSGT MS_AWAYMSG_GETSTATUSMSG
+#define MS_AWAYMSG_GETSTATUSMSGT not implemented
 #endif
 
 #endif // M_AWAYMSG_H__

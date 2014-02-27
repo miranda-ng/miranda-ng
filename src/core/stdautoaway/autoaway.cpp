@@ -35,12 +35,12 @@ static int AutoAwaySound(WPARAM, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
+static bool Proto_IsAccountEnabled(PROTOACCOUNT *pa)
 {
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
 }
 
-static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
+static bool Proto_IsAccountLocked(PROTOACCOUNT *pa)
 {
 	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
@@ -48,18 +48,9 @@ static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
 static void Proto_SetStatus(const char* szProto, unsigned status)
 {
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) status, (LPARAM) szProto);
-		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND) {
-			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) status, (LPARAM) szProto);
-			if ((INT_PTR)awayMsgA != CALLSERVICE_NOTFOUND) {
-				awayMsg = mir_a2t(awayMsgA);
-				mir_free(awayMsgA);
-			}
-		}
-		if ((INT_PTR)awayMsg != CALLSERVICE_NOTFOUND) {
-			CallProtoService(szProto, PS_SETAWAYMSGT, status, (LPARAM) awayMsg);
-			mir_free(awayMsg);
-		}
+		TCHAR *awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto);
+		CallProtoService(szProto, PS_SETAWAYMSGT, status, (LPARAM)awayMsg);
+		mir_free(awayMsg);
 	}
 
 	CallProtoService(szProto, PS_SETSTATUS, status, 0);
@@ -81,15 +72,15 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 	PROTOACCOUNT** accounts;
 	ProtoEnumAccounts(&numAccounts, &accounts);
 
-	for (int i=0; i < numAccounts; i++) {
-		PROTOACCOUNT* pa = accounts[i];
-		if ( !Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa))
+	for (int i = 0; i < numAccounts; i++) {
+		PROTOACCOUNT *pa = accounts[i];
+		if (!Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa))
 			continue;
 
 		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		int statusbits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 		int status = mii.aaStatus;
-		if ( !(statusbits & Proto_Status2Flag(status))) {
+		if (!(statusbits & Proto_Status2Flag(status))) {
 			// the protocol doesnt support the given status
 			if (statusbits & Proto_Status2Flag(ID_STATUS_AWAY))
 				status = ID_STATUS_AWAY;

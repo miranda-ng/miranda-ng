@@ -323,16 +323,15 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		fieldNode = xNode << XCHILD(_T("field")) << XATTR(_T("label"), TranslateT("Change global status"))
 			<< XATTR(_T("type"), _T("boolean")) << XATTR(_T("var"), _T("status-global"));
 
-		char* szStatusMsg = (char *)CallService(MS_AWAYMSG_GETSTATUSMSG, status, 0);
-		if (szStatusMsg) {
-			fieldNode << XCHILD(_T("value"), _A2T(szStatusMsg));
-			mir_free(szStatusMsg);
-		}
+		ptrT tszStatusMsg((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, 0));
+		if (tszStatusMsg)
+			fieldNode << XCHILD(_T("value"), szStatusMsg);
 
 		m_ThreadInfo->send(iq);
 		return JABBER_ADHOC_HANDLER_STATUS_EXECUTING;
 	}
-	else if (pSession->GetStage() == 1) {
+	
+	if (pSession->GetStage() == 1) {
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
 		HXML xNode = xmlGetChildByTag(commandNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);

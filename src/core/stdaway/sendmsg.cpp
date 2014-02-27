@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static DWORD protoModeMsgFlags;
 static HWND hwndStatusMsg;
 
-static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
+static bool Proto_IsAccountEnabled(PROTOACCOUNT *pa)
 {
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
 }
 
-static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
+static bool Proto_IsAccountLocked(PROTOACCOUNT *pa)
 {
 	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
@@ -185,15 +185,15 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 {
 	if (szProto == NULL) {
 		int nAccounts;
-		PROTOACCOUNT** accounts;
+		PROTOACCOUNT **accounts;
 		ProtoEnumAccounts(&nAccounts, &accounts);
 
-		for (int i=0; i < nAccounts; i++)
-		{
-			PROTOACCOUNT* pa = accounts[i];
-			if ( !Proto_IsAccountEnabled(pa)) continue;
-			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) &&
-				!Proto_IsAccountLocked(pa))
+		for (int i = 0; i < nAccounts; i++) {
+			PROTOACCOUNT *pa = accounts[i];
+			if (!Proto_IsAccountEnabled(pa))
+				continue;
+
+			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && !Proto_IsAccountLocked(pa))
 				CallProtoService(pa->szModuleName, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
 		}
 	}
@@ -221,18 +221,18 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 {
 	SetAwayMsgData* dat = (SetAwayMsgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
 			SetAwasMsgNewData *newdat = (SetAwasMsgNewData*)lParam;
-			TranslateDialogDefault(hwndDlg);
 			dat = (SetAwayMsgData*)mir_alloc(sizeof(SetAwayMsgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->statusMode = newdat->statusMode;
 			dat->szProto = newdat->szProto;
 			mir_free(newdat);
 			SendDlgItemMessage(hwndDlg, IDC_MSG, EM_LIMITTEXT, 1024, 0);
-			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_MSG), MessageEditSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MSG), MessageEditSubclassProc);
 			{
 				TCHAR str[256], format[128];
 				GetWindowText(hwndDlg, format, SIZEOF(format));
@@ -276,7 +276,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (dat->countdown < 0) {
 				TCHAR str[1024];
@@ -323,17 +323,15 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// If its a global change check the complete PFLAGNUM_3 flags to see if a popup might be needed
-	if ( !szProto)
-	{
-		if ( !(protoModeMsgFlags & Proto_Status2Flag(statusMode)))
+	if (!szProto) {
+		if (!(protoModeMsgFlags & Proto_Status2Flag(statusMode)))
 			return 0;
 	}
-	else
-	{
+	else {
 		// If its a single protocol check the PFLAGNUM_3 for the single protocol
-		if ( !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
-			!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
-			return 0;
+		if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
+			 !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
+			 return 0;
 	}
 
 	BOOL bScreenSaverRunning = IsScreenSaverRunning();
@@ -351,8 +349,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		newdat->statusMode = statusMode;
 		if (hwndStatusMsg)
 			DestroyWindow(hwndStatusMsg);
-		hwndStatusMsg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETAWAYMSG),
-			NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
+		hwndStatusMsg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
 	}
 	return 0;
 }
@@ -389,9 +386,8 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->oldPage = -1;
-			for (int i=0; i < SIZEOF(statusModes); i++)
-			{
-				if ( !(protoModeMsgFlags & Proto_Status2Flag(statusModes[i])))
+			for (int i = 0; i < SIZEOF(statusModes); i++) {
+				if (!(protoModeMsgFlags & Proto_Status2Flag(statusModes[i])))
 					continue;
 
 				int j;
@@ -428,8 +424,9 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
 			if (mis->CtlID == IDC_LST_STATUS)
 				mis->itemHeight = 20;
-			break;
 		}
+		break;
+
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
@@ -439,7 +436,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			TCHAR buf[128];
 			SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETTEXT, dis->itemID, (LPARAM)buf);
 
-			if (dis->itemState & (ODS_SELECTED|ODS_FOCUS)) {
+			if (dis->itemState & (ODS_SELECTED | ODS_FOCUS)) {
 				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 				SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
 			}
@@ -453,10 +450,11 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			rc.left += 25;
 			SetBkMode(dis->hDC, TRANSPARENT);
 			DrawText(dis->hDC, buf, -1, &rc, DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX);
-			break;
 		}
+		break;
+
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_LST_STATUS:
 		case IDC_STATUS:
 			if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == LBN_SELCHANGE)) {
@@ -469,14 +467,14 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					dat->info[dat->oldPage].usePrevious = IsDlgButtonChecked(hwndDlg, IDC_USEPREVIOUS);
 					GetDlgItemText(hwndDlg, IDC_MSG, dat->info[dat->oldPage].msg, SIZEOF(dat->info[dat->oldPage].msg));
 				}
-				CheckDlgButton(hwndDlg, IDC_DONTREPLY,   i < 0 ? 0 : dat->info[i].ignore);
-				CheckDlgButton(hwndDlg, IDC_NODIALOG,    i < 0 ? 0 : dat->info[i].noDialog);
+				CheckDlgButton(hwndDlg, IDC_DONTREPLY, i < 0 ? 0 : dat->info[i].ignore);
+				CheckDlgButton(hwndDlg, IDC_NODIALOG, i < 0 ? 0 : dat->info[i].noDialog);
 				CheckDlgButton(hwndDlg, IDC_USEPREVIOUS, i < 0 ? 0 : dat->info[i].usePrevious);
 				CheckDlgButton(hwndDlg, IDC_USESPECIFIC, i < 0 ? 0 : !dat->info[i].usePrevious);
 
 				SetDlgItemText(hwndDlg, IDC_MSG, i < 0 ? _T("") : dat->info[i].msg);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_NODIALOG),    i < 0 ? 0 : !dat->info[i].ignore);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NODIALOG), i < 0 ? 0 : !dat->info[i].ignore);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_USEPREVIOUS), i < 0 ? 0 : !dat->info[i].ignore);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_USESPECIFIC), i < 0 ? 0 : !dat->info[i].ignore);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MSG), i < 0 ? 0 : !(dat->info[i].ignore || dat->info[i].usePrevious));
@@ -499,9 +497,9 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch(((LPNMHDR)lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 				{
@@ -509,10 +507,10 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						(SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCOUNT, 0, 0) - 1);
 					for (; i >= 0; i--) {
 						int status = hLst ?
-							SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETITEMDATA, i, 0):
-						SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETITEMDATA, i, 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETITEMDATA, i, 0) :
+							SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETITEMDATA, i, 0);
 						SetStatusModeByte(status, "Ignore", (BYTE)dat->info[i].ignore);
-						SetStatusModeByte(status, "NoDlg",  (BYTE)dat->info[i].noDialog);
+						SetStatusModeByte(status, "NoDlg", (BYTE)dat->info[i].noDialog);
 						SetStatusModeByte(status, "UsePrev", (BYTE)dat->info[i].usePrevious);
 						db_set_ts(NULL, "SRAway", StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
 					}
@@ -558,7 +556,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 		MODERNOPT_CTRL_LAST
 	};
 
-	MODERNOPTOBJECT obj = {0};
+	MODERNOPTOBJECT obj = { 0 };
 	obj.cbSize = sizeof(obj);
 	obj.hInstance = hInst;
 	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
@@ -579,8 +577,8 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 	int nAccounts;
 	PROTOACCOUNT** accounts;
 	ProtoEnumAccounts(&nAccounts, &accounts);
-	for (int i=0; i < nAccounts; i++) {
-		if ( !Proto_IsAccountEnabled(accounts[i]))
+	for (int i = 0; i < nAccounts; i++) {
+		if (!Proto_IsAccountEnabled(accounts[i]))
 			continue;
 
 		protoModeMsgFlags |= CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
@@ -605,20 +603,11 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam);
 }
 
-static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
-{
-	TCHAR* msg = GetAwayMessage((int)wParam, (char*)lParam);
-	char*  res = mir_t2a(msg);
-	mir_free(msg);
-	return (INT_PTR)res;
-}
-
 int LoadAwayMessageSending(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, AwayMsgSendModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AwayMsgSendAccountsChanged);
 
-	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
 	return 0;
 }

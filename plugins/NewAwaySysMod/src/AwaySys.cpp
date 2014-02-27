@@ -680,7 +680,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_ON, srvAutoreplyOn);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_OFF, srvAutoreplyOff);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_USEDEFAULT, srvAutoreplyUseDefault);
-	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, GetStatusMsg);
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, GetStatusMsgW);
 
 	CreateServiceFunction(MS_NAS_GETSTATEA, GetStateA);

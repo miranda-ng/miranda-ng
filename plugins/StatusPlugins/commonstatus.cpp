@@ -119,34 +119,9 @@ TCHAR* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 		return mir_tstrdup(ps->szMsg);
 	}
 
-	if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
-		TCHAR* tMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
-		log_debugA("CommonStatus: Status message retrieved from general awaysys (TCHAR)");
-		return tMsg;
-	}
-
-	if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
-		char *tMsg;
-		if (ServiceExists(MS_SA_ISSARUNNING) && CallService(MS_SA_ISSARUNNING, 0, 0))
-			tMsg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)newstatus, (LPARAM)ps->szName);
-		else
-			tMsg = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)newstatus, 0);
-
-		log_debugA("CommonStatus: Status message retrieved from general awaysys");
-
-		TCHAR* result = mir_a2t(tMsg);
-		mir_free(tMsg);
-		return result;
-	}
-
-	/* awaysys doesn't define the service above */
-	TCHAR* tMsg = GetDefaultMessage(newstatus);
-	if (tMsg != NULL) {
-		log_debugA("CommonStatus: Status message retrieved from defaults");
-		return mir_tstrdup(tMsg);
-	}
-
-	return NULL;
+	TCHAR *tMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
+	log_debugA("CommonStatus: Status message retrieved from general awaysys: %S", tMsg);
+	return tMsg;
 }
 
 static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
