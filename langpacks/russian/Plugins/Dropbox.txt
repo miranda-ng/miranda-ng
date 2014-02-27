@@ -28,13 +28,13 @@
 [Link to download folder "%s": %s]
 Ссылка для закачки папки "%s": %s
 [Bad input parameter. Error message should indicate which one and why]
-Неправильный параметр ввода. Сообщение об ошибке должно указывать что пошло не так и почему
+Неправильный параметр ввода. Сообщение об ошибке должно указывать на то, что пошло не так, и почему
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
-Неисправный или просроченный токен. Возможно пользователь или Dropbox отозвал токен. Чтобы исправить это - авторизуете заново пользователя
+Неверный или просроченный токен. Возможно пользователь или Dropbox отозвал токен. Чтобы исправить это - авторизуйтесь заново
 [Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
-Неудачный запрос OAuth (неправильный ключ, плохой криптографический код, просроченные временные метки...). К сожалению, повторная авторизация пользователя не поможет в данном случае
+Неудачный запрос OAuth (неправильный ключ, плохой криптографический код, просроченные временные метки...). К сожалению, в данном случае, повторная авторизация пользователя не поможет
 [File or folder not found at the specified path]
-Файл или папка не были найдены по указанному пути
+Файл или папка не найдены по указанному пути
 [Request method not expected (generally should be GET or POST)]
 Непредвиденный метод запроса (обычно должен быть GET, а не POST)
 [User is over Dropbox storage quota]
