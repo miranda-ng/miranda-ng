@@ -330,7 +330,7 @@ void Stat_ReadFile(BYTE n)
 	if (Size.QuadPart != 0) // Если файл со статистикой существует и имеет ненулевой размер...
 	{
 		// ...то читаем статистику из файла
-		ProtoList[n].NumberOfRecords = Size.QuadPart/sizeof(HOURLYSTATS);
+		ProtoList[n].NumberOfRecords = DWORD(Size.QuadPart/sizeof(HOURLYSTATS));
 		ProtoList[n].AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords);
 		ReadFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[0], sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords, &BytesRead, NULL);
 		if (!BytesRead)

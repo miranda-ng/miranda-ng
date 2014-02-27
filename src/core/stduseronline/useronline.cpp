@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int uniqueEventId = 0;
 
-static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
+static bool Proto_IsAccountEnabled(PROTOACCOUNT *pa)
 {
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
 }
@@ -105,7 +105,7 @@ static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 
 static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 
 	switch(eventCode) {
 	case PRAC_ADDED:

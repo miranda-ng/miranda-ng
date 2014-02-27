@@ -213,7 +213,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		dat->searchCount = 0;
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
 		for (int i=0; i < accounts.getCount();i++) {
-			PROTOACCOUNT* pa = accounts[i];
+			PROTOACCOUNT *pa = accounts[i];
 			if (!Proto_IsAccountEnabled(pa)) continue;
 			DWORD caps = (DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (!(caps&requiredCapability)) continue;
@@ -239,7 +239,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		dat->search[0].szProto = szProto;
 		if (dat->search[0].hProcess == NULL) {
 			//infuriatingly vague error message. fixme.
-			PROTOACCOUNT* pa = Proto_GetAccount(szProto);
+			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			forkthread(BeginSearchFailed, 0, mir_tstrdup(pa->tszAccountName));
 			mir_free(dat->search);
 			dat->search = NULL;
@@ -260,7 +260,7 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 
 		lstrcpy(str, TranslateT("Searching"));
 		for (i=0; i < dat->searchCount; i++) {
-			PROTOACCOUNT* pa = Proto_GetAccount(dat->search[i].szProto);
+			PROTOACCOUNT *pa = Proto_GetAccount(dat->search[i].szProto);
 			if (!pa)
 				continue;
 
@@ -308,7 +308,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 	}
 	if (total != 0) {
 		TCHAR substr[64];
-		PROTOACCOUNT* pa = Proto_GetAccount(subtotal[0].szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(subtotal[0].szProto);
 		if (pa == NULL)
 			return;
 

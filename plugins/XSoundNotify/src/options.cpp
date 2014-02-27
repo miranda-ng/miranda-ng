@@ -9,7 +9,7 @@ There is no warranty.
 
 #include "Common.h"
 
-bool IsSuitableProto(PROTOACCOUNT* pa)
+bool IsSuitableProto(PROTOACCOUNT *pa)
 {
 	if (pa == NULL)
 		return false;

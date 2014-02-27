@@ -37,7 +37,7 @@ TSSSetting::TSSSetting(PROTOACCOUNT *pa)
 	szMsg = NULL;
 }
 
-TSSSetting::TSSSetting(int profile, PROTOACCOUNT* pa)
+TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 {
 	cbSize = sizeof(PROTOCOLSETTINGEX);
 
@@ -183,7 +183,7 @@ static void SetLastStatusMessages(TSettingsList &ps)
 
 int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 	switch (wParam) {
 	case PRAC_ADDED:
 		startupSettings.insert(new TSSSetting(-1, pa));

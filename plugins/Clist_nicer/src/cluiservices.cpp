@@ -122,7 +122,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		int x;
 		HFONT hofont;
 		TCHAR szName[32];
-		PROTOACCOUNT* pa;
+		PROTOACCOUNT *pa;
 
 		hdc=GetDC(NULL);
 		hofont = reinterpret_cast<HFONT>(SelectObject(hdc,(HFONT)SendMessage(pcli->hwndStatus,WM_GETFONT,0,0)));

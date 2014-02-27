@@ -91,7 +91,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 extern int OptionsInit(WPARAM wparam,LPARAM);
 extern int InitCommonStatus();
 
-TConnectionSettings::TConnectionSettings( PROTOACCOUNT* pa )
+TConnectionSettings::TConnectionSettings( PROTOACCOUNT *pa )
 {
 	cbSize = sizeof(PROTOCOLSETTINGEX);
 	szName = pa->szModuleName;
@@ -1169,7 +1169,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 	switch (wParam) {
 	case PRAC_ADDED:
 		connectionSettings.insert(new TConnectionSettings(pa));

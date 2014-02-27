@@ -266,7 +266,7 @@ int fnTrayIconInit(HWND hwnd)
 			for (int i=0; i < accounts.getCount(); i++) {
 				int j = cli.pfnGetAccountIndexByPos(i);
 				if (j >= 0) {
-					PROTOACCOUNT* pa = accounts[j];
+					PROTOACCOUNT *pa = accounts[j];
 					if (cli.pfnGetProtocolVisibility(pa->szModuleName))
 						cli.pfnTrayIconAdd(hwnd, pa->szModuleName, NULL, CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0));
 				}

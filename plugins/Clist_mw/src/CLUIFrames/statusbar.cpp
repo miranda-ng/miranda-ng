@@ -87,7 +87,7 @@ void DrawDataForStatusBar(LPDRAWITEMSTRUCT dis)
 	else x += 2;
 
 	if (showOpts & 2) {
-		PROTOACCOUNT* pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		TCHAR szName[64];
 		mir_sntprintf(szName, SIZEOF(szName), _T("%s%s"), pa->tszAccountName, showOpts&4 ? _T(" ") : _T(""));
 		GetTextExtentPoint32(dis->hDC, szName, (int)_tcslen(szName), &textSize);

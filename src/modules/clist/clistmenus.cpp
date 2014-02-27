@@ -606,7 +606,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				cli.currentDesiredStatusMode = smep->status;
 
 				for (int j=0; j < accounts.getCount(); j++) {
-					PROTOACCOUNT* pa = accounts[j];
+					PROTOACCOUNT *pa = accounts[j];
 					if (!Proto_IsAccountEnabled(pa))
 						continue;
 					if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
@@ -866,7 +866,7 @@ void RebuildMenuOrder(void)
 		if (i == -1)
 			continue;
 
-		PROTOACCOUNT* pa = accounts[i];
+		PROTOACCOUNT *pa = accounts[i];
 		int pos = 0;
 		if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
 			continue;
@@ -975,7 +975,7 @@ void RebuildMenuOrder(void)
 	//add to root menu
 	for (j = 0; j < SIZEOF(statusModeList); j++) {
 		for (i=0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT* pa = accounts[i];
+			PROTOACCOUNT *pa = accounts[i];
 			if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
 				continue;
 

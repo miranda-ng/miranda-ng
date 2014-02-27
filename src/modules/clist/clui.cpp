@@ -1002,7 +1002,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				else
 					x += 2;
 				if (showOpts & 2) {
-					PROTOACCOUNT* pa;
+					PROTOACCOUNT *pa;
 					TCHAR tszName[64];
 					if ((pa = Proto_GetAccount(szProto)) != NULL)
 						mir_sntprintf(tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName);

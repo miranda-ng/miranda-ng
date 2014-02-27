@@ -47,7 +47,7 @@ static int EnumDbModules(const char *szModuleName, DWORD ofsModuleName, LPARAM l
 	DBVARIANT dbv;
 	if (!db_get_s(NULL, szModuleName, "AM_BaseProto", &dbv)) {
 		if (!Proto_GetAccount(szModuleName)) {
-			PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
+			PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = mir_strdup(szModuleName);
 			pa->szProtoName = mir_strdup(dbv.pszVal);
@@ -74,7 +74,7 @@ void LoadDbAccounts(void)
 		if (db_get_s(NULL, "Protocols", buf, &dbv))
 			continue;
 
-		PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
+		PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 		if (pa == NULL) {
 			db_free(&dbv);
 			continue;
@@ -172,7 +172,7 @@ void WriteDbAccounts()
 
 	// write new data
 	for (i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[i];
+		PROTOACCOUNT *pa = accounts[i];
 
 		char buf[ 20 ];
 		_itoa(i, buf, 10);
@@ -210,7 +210,7 @@ static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
 static int OnDbSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
-		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
+		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
 			pa->ppro->OnEvent(EV_PROTO_DBSETTINGSCHANGED, hContact, lParam);
 	}
@@ -222,7 +222,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 	int count = 0;
 
 	for (int i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[i];
+		PROTOACCOUNT *pa = accounts[i];
 		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
 			continue;
 
@@ -244,7 +244,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 static int UninitializeStaticAccounts(WPARAM, LPARAM)
 {
 	for (int i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[i];
+		PROTOACCOUNT *pa = accounts[i];
 		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
 			continue;
 
@@ -261,7 +261,7 @@ int LoadAccountsModule(void)
 	bModuleInitialized = TRUE;
 
 	for (i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[i];
+		PROTOACCOUNT *pa = accounts[i];
 		pa->bDynDisabled = !Proto_IsProtocolLoaded(pa->szProtoName);
 		if (pa->ppro)
 			continue;
@@ -420,7 +420,7 @@ static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, 
 	return CreateServiceFunctionObj(tmp, pFunc, param);
 }
 
-BOOL ActivateAccount(PROTOACCOUNT* pa)
+BOOL ActivateAccount(PROTOACCOUNT *pa)
 {
 	PROTO_INTERFACE* ppi;
 	PROTOCOLDESCRIPTOR* ppd = Proto_IsProtocolLoaded(pa->szProtoName);
@@ -510,7 +510,7 @@ static int DeactivationThread(DeactivationThreadParam* param)
 	return 0;
 }
 
-void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
+void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 {
 	if (pa->ppro == NULL) {
 		if (bErase)
@@ -557,7 +557,7 @@ void EraseAccount(const char* pszModuleName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void UnloadAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
+void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 {
 	DeactivateAccount(pa, bIsDynamic, bErase);
 
@@ -577,7 +577,7 @@ void UnloadAccountsModule()
 	if (!bModuleInitialized) return;
 
 	for (int i = accounts.getCount()-1; i >= 0; i--) {
-		PROTOACCOUNT* pa = accounts[ i ];
+		PROTOACCOUNT *pa = accounts[ i ];
 		UnloadAccount(pa, false, false);
 		accounts.remove(i);
 	}
@@ -588,7 +588,7 @@ void UnloadAccountsModule()
 void BuildProtoMenus()
 {
 	for (int i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[ i ];
+		PROTOACCOUNT *pa = accounts[ i ];
 		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0)
 			continue;
 

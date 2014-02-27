@@ -1723,7 +1723,7 @@ buttons_done:
 
 				if (showOpts & 2) {
 					TCHAR szName[64];
-					PROTOACCOUNT* pa = ProtoGetAccount( szProto );
+					PROTOACCOUNT *pa = ProtoGetAccount( szProto );
 					if ( pa ) {
 						lstrcpyn( szName, pa->tszAccountName, SIZEOF(szName));
 						szName[ SIZEOF(szName)-1 ] = 0;

@@ -693,7 +693,7 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-bool IsSuitableProto(PROTOACCOUNT* pa)
+bool IsSuitableProto(PROTOACCOUNT *pa)
 {
 	if ( pa == NULL )
 		return false;

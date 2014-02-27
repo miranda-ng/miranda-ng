@@ -147,17 +147,17 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(const char* accName);
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
 PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char* szProtoName);
 
-bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT* pa);
-bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT* pa);
+bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT *pa);
+bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa);
 
 PROTO_INTERFACE* AddDefaultAccount(const char* szProtoName);
 int  FreeDefaultAccount(PROTO_INTERFACE* ppi);
 
-BOOL ActivateAccount(PROTOACCOUNT* pa);
+BOOL ActivateAccount(PROTOACCOUNT *pa);
 void EraseAccount(const char *pszProtoName);
-void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase);
-void UnloadAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase);
-void OpenAccountOptions(PROTOACCOUNT* pa);
+void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
+void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
+void OpenAccountOptions(PROTOACCOUNT *pa);
 
 void LoadDbAccounts(void);
 void WriteDbAccounts(void);

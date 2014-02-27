@@ -150,7 +150,9 @@ int LoadDefaultModules(void)
 	if (LoadContactsModule()) return 1;
 	if (LoadContactListModule()) return 1;   // prepare contact list interface
 	if (LoadAddContactModule()) return 1;
-	// if (LoadMetacontacts()) return 1;
+	#ifdef _DEBUG
+		if (LoadMetacontacts()) return 1;
+	#endif
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
 
 	Langpack_SortDuplicates();
@@ -169,7 +171,9 @@ void UnloadDefaultModules(void)
 {
 	UnloadChatModule();
 	UnloadAccountsModule();
-	// UnloadMetacontacts();
+	#ifdef _DEBUG
+		UnloadMetacontacts();
+	#endif
 	UnloadNewPlugins();
 	UnloadProtocolsModule();
 	UnloadSkinSounds();

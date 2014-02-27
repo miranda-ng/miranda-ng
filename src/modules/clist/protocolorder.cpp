@@ -196,7 +196,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 					if (tvi.lParam != 0) {
 						ProtocolData* ppd = (ProtocolData*)tvi.lParam;
-						PROTOACCOUNT* pa = Proto_GetAccount(ppd->RealName);
+						PROTOACCOUNT *pa = Proto_GetAccount(ppd->RealName);
 						if (pa != NULL) {
 							while (idx < accounts.getCount() && !ProtoToInclude(accounts[idx])) idx++;
 							pa->iOrder = idx++;

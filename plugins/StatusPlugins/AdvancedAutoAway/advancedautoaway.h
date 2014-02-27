@@ -55,7 +55,7 @@
 
 struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 {
-	TAAAProtoSetting(PROTOACCOUNT* pa);
+	TAAAProtoSetting(PROTOACCOUNT *pa);
 	~TAAAProtoSetting();
 
 	int originalStatusMode;

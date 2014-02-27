@@ -6,7 +6,7 @@ struct ProtocolData
 	int show,enabled;
 };
 
-int IsProtoIM(const PROTOACCOUNT* pa)
+int IsProtoIM(const PROTOACCOUNT *pa)
 {
 	return (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM);
 }

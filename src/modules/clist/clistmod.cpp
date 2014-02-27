@@ -188,7 +188,7 @@ static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 	return cli.pfnGetContactIcon(wParam);
 }
 
-static void AddProtoIconIndex(PROTOACCOUNT* pa)
+static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
 	ProtoIconIndex *pii = new ProtoIconIndex;
 	pii->szProto = pa->szModuleName;
@@ -200,7 +200,7 @@ static void AddProtoIconIndex(PROTOACCOUNT* pa)
 	protoIconIndex.insert(pii);
 }
 
-static void RemoveProtoIconIndex(PROTOACCOUNT* pa)
+static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
 {
 	for (int i=0; i < protoIconIndex.getCount(); i++)
 		if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {

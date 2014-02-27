@@ -264,7 +264,7 @@ HICON LoadSkinProtoIcon(const char *szProto, int status, bool big)
 	mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, statusIndx);
 	HICON hIcon = IcoLib_GetIcon(iconName, big);
 	if (hIcon == NULL && (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2))) {
-		PROTOACCOUNT* pa = Proto_GetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
 			TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
 			GetModuleFileName(hInst, szPath, MAX_PATH);

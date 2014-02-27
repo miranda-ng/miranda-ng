@@ -176,7 +176,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				x += g_IconWidth;
 			if (showOpts & 2) {
 				TCHAR tszName[64];
-				PROTOACCOUNT* pa = Proto_GetAccount(cli.menuProtos[i].szProto);
+				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
 				if (pa)
 					mir_sntprintf(tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName);
 				else

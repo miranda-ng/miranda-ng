@@ -66,7 +66,7 @@ int UnloadPlugin(TCHAR* buf, int bufLen);
 typedef struct
 {
 	int action;
-	PROTOACCOUNT* pa;
+	PROTOACCOUNT *pa;
 }
 	AccFormDlgParam;
 
@@ -118,7 +118,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		case IDOK:
 			{
 				AccFormDlgParam* param = (AccFormDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				PROTOACCOUNT* pa = param->pa;
+				PROTOACCOUNT *pa = param->pa;
 
 				if (param->action == PRAC_ADDED) {
 					char buf[200];
@@ -709,7 +709,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			}
 
 			if (iItem != LB_ERR) {
-				PROTOACCOUNT* pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, iItem);
+				PROTOACCOUNT *pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, iItem);
 				HMENU hMenu = CreatePopupMenu();
 				if (!pa->bOldProto && !pa->bDynDisabled)
 					AppendMenu(hMenu, MF_STRING, 1, TranslateT("Rename"));
@@ -851,7 +851,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				HWND hList = GetDlgItem(hwndDlg, IDC_ACCLIST);
 				int idx = ListBox_GetCurSel(hList);
 				if (idx != -1) {
-					PROTOACCOUNT* pa = (PROTOACCOUNT*)ListBox_GetItemData(hList, idx);
+					PROTOACCOUNT *pa = (PROTOACCOUNT*)ListBox_GetItemData(hList, idx);
 					TCHAR buf[ 200 ];
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being deleted"), pa->tszAccountName);
 					if (pa->bOldProto) {
@@ -890,7 +890,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				HWND hList = GetDlgItem(hwndDlg, IDC_ACCLIST);
 				int idx = ListBox_GetCurSel(hList);
 				if (idx != -1) {
-					PROTOACCOUNT* pa = (PROTOACCOUNT*)ListBox_GetItemData(hList, idx);
+					PROTOACCOUNT *pa = (PROTOACCOUNT*)ListBox_GetItemData(hList, idx);
 					if (pa->bOldProto) {
 						OPENOPTIONSDIALOG ood;
 						ood.cbSize = sizeof(ood);
@@ -1056,7 +1056,7 @@ int OptProtosLoaded(WPARAM, LPARAM)
 
 static int OnAccListChanged(WPARAM eventCode, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 
 	switch(eventCode) {
 	case PRAC_CHANGED:

@@ -105,7 +105,7 @@
 
 struct TConnectionSettings : public PROTOCOLSETTINGEX
 {
-	TConnectionSettings( PROTOACCOUNT* pa );
+	TConnectionSettings( PROTOACCOUNT *pa );
 	~TConnectionSettings();
 
 	int lastStatusAckTime; // the time the last status ack was received

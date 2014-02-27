@@ -392,7 +392,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			for (i=0; i < accounts.getCount(); i++) {
-				PROTOACCOUNT* pa = accounts[i];
+				PROTOACCOUNT *pa = accounts[i];
 				if (!Proto_IsAccountEnabled(pa))
 					continue;
 
@@ -1005,7 +1005,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 		// protocols loaded but that would delay the creation until MODULE_LOADED and
 		// that is not good either...
 		for (int i=0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT* pa = accounts[i];
+			PROTOACCOUNT *pa = accounts[i];
 			if (!Proto_IsAccountEnabled(pa))
 				continue;
 
@@ -1049,7 +1049,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 	// Make sure we have some networks to search on.
 	for (int i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT* pa = accounts[i];
+		PROTOACCOUNT *pa = accounts[i];
 		int protoCaps = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & (PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_EXTSEARCHUI))
 			netProtoCount++;

@@ -41,7 +41,7 @@ extern HINSTANCE hInst;
 extern HANDLE hChangeSoundDlgList;
 extern BYTE isIgnoreSound, isOwnSound;
 
-bool IsSuitableProto(PROTOACCOUNT* pa);
+bool IsSuitableProto(PROTOACCOUNT *pa);
 
 INT OptInit(WPARAM wParam, LPARAM lParam);
 
