@@ -97,7 +97,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM wParam, LPARAM lParam)
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = strlen(message);
+	dbei.cbBlob = (int)strlen(message);
 	dbei.pBlob = (PBYTE)message;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	db_event_add(pccsd->hContact, &dbei);

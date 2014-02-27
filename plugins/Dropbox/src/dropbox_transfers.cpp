@@ -264,7 +264,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 						chunkSize = DROPBOX_FILE_CHUNK_SIZE * 4;
 
 					char *data = new char[chunkSize + 1];
-					int count = fread(data, sizeof(char), chunkSize, file);
+					int count = (int)fread(data, sizeof(char), chunkSize, file);
 
 					if (!offset)
 					{

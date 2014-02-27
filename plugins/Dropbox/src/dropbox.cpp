@@ -59,7 +59,7 @@ void CDropbox::RequestAcceessToken()
 
 		HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
 		request->pData = mir_strdup(data);
-		request->dataLength = strlen(data);
+		request->dataLength = (int)strlen(data);
 		request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 		request->AddBasicAuthHeader(DROPBOX_API_KEY, DROPBOX_API_SECRET);
 

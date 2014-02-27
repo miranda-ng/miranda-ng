@@ -59,7 +59,7 @@ public:
 			szLogin,
 			szPassword);
 
-		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, strlen(cPair));
+		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, (UINT)strlen(cPair));
 
 		char value[128];
 		mir_snprintf(
