@@ -335,6 +335,6 @@ Ustaw opis %s dla %s.
 [<current>]
 <aktualny>
 [<n/a>]
-<niedostępny>
+<niedostępna>
 [Closing in %d]
 Zamykanie w %d

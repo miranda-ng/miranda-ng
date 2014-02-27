@@ -306,7 +306,7 @@ Ustaw opis %s dla %s.
 [<current>]
 <aktualny>
 [<n/a>]
-<niedostępny>
+<niedostępna>
 [Protocol]
 Protokół
 [Closing in %d]

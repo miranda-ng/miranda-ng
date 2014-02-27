@@ -111,7 +111,7 @@ Pokazuj domyślny awatar Skype dla kontaktów
 [Suppress call summary chat message]
 Ignoruj wiadomość czatu z podsumowaniem rozmowy
 [Disable support for N/A and SkypeMe status (for Skype 4+)]
-Wyłącz wsparcie dla statusów "niedostępny" oraz "SkypeMe" (dla Skype 4+)
+Wyłącz wsparcie dla statusów "wrócę później" oraz "SkypeMe" (dla Skype 4+)
 [Show full name in contact list instead of nickname]
 Pokaż nazwę wyświetlaną, zamiast nazwy użytkownika, na liście kontaktów
 [SkypeOut contacts are in status:]

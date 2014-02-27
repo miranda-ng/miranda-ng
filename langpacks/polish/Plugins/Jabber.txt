@@ -873,39 +873,39 @@ Twój link
 Adres email
 [FAQ Entry]
 Wpis FAQ
-[Whether to Allow Occupants to Invite Others]
+[Whether to allow occupants to invite others]
 Pozwolić użytkownikom na zapraszanie innych
-[Whether to Allow Occupants to Change Subject]
+[Whether to allow occupants to change subject]
 Pozwolić użytkownikom na zmianę tematu
-[Whether to Enable Logging of Room Conversations]
+[Whether to enable logging of room conversations]
 Włączyć logowanie rozmów
-[Natural Language for Room Discussions]
+[Natural language for room discussions]
 Naturalny język dyskusji w pokoju
-[Maximum Number of Room Occupants]
+[Maximum number of room occupants]
 Maksymalna liczba użytkowników w pokoju
-[Whether an Make Room Members-Only]
+[Whether an make room members-only]
 Sprawić, by pokój był tylko dla członków
-[Whether to Make Room Moderated]
+[Whether to make room moderated]
 Sprawić, by pokój był moderowany
-[Whether a Password is Required to Enter]
+[Whether a password is required to enter]
 Hasło jest wymagane
-[Whether to Make Room Persistent]
+[Whether to make room persistent]
 Sprawić, by pokój był stały
-[Roles for which Presence is Broadcast]
+[Roles for which presence is broadcast]
 Role, dla których obecność jest transmitowana
-[Whether to Allow Public Searching for Room]
+[Whether to allow public searching for room]
 Zezwolić na publiczne wyszukiwanie pokoju
-[Full List of Room Admins]
+[Full list of room admins]
 Pełna lista administratorów pokoju
-[Short Description of Room]
+[Short description of room]
 Krótki opis pokoju
-[Natural-Language Room Name]
+[Natural-language room name]
 Nazwa pokoju w języku naturalnym
-[Full List of Room Owners]
+[Full list of room owners]
 Pełna lista właścicieli pokoju
-[The Room Password]
+[The room password]
 Hasło pokoju
-[Affiliations that May Discover Real JIDs of Occupants]
+[Affiliations that may discover real JIDs of occupants]
 Powiązania zezwalające na odkrywanie prawdziwych JIDów
 [Precondition: node configuration with the specified access model]
 Warunek wstępny: konfiguracja węzła z ustalonym modelem dostępu
@@ -923,7 +923,7 @@ Jednostka chce otrzymywać lub wyłączyć powiadomienia
 Jednostka chce otrzymywać paczki powiadomień lub wszystkie powiadomienia indywidualnie
 [The minimum number of milliseconds between sending any two notification digests]
 Minimalna liczba milisekund pomiędzy wysyłkami paczek powiadomień
-[The DateTime at which a leased subscription will end or has ended]
+[The date and time at which a leased subscription will end or has ended]
 Data i czas wygaśnięcia subskrypcji
 [Whether an entity wants to receive an XMPP message body in addition to the payload format]
 Jednostka chce otrzymywać treść wiadomości XMPP oprócz formatu bloku danych

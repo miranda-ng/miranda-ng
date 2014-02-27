@@ -103,7 +103,7 @@ Dostępny
 [Away]
 Zaraz wracam
 [N/A]
-Niedostępny
+Wrócę później
 [Occupied]
 Zajęty
 [DND]
