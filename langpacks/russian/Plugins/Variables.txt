@@ -195,7 +195,7 @@ z контакт со свойством y, описанным в x, приме�
 имя профиля базы
 [database profile path]
 путь профиля базы
-[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 получить настройку z плагина y контакта x или возвратить w, если z не существует (w не обязательно)
 [get event for contact x (optional), according to y,z,w, see documentation]
 получить событие для контакта x (необязательно), соответствующее y,z,w, см. документацию
@@ -329,8 +329,8 @@ z, если y равно x, допустимы множественные арг
 ПРАВДА, если файл x существует
 [window title of first window of class x]
 заголовок первого окна класса x
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-показывает файлы и папки путя z, с фильтром y, разделённым z (y и z необязательны)
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
+показывает файлы и папки путя x, с фильтром y, разделённым z (y и z необязательны)
 [TRUE if process x is running]
 ПРАВДА, если процесс х запущен
 [value y from registry key x (REG_SZ (string) values only)]
