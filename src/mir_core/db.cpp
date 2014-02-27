@@ -336,7 +336,7 @@ MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact)
 	if (currDb == NULL) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? false : cc->parentID != INVALID_CONTACT_ID;
+	return (cc == NULL) ? false : cc->parentID != 0;
 }
 
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)

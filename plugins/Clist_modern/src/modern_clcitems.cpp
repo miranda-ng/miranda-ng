@@ -698,7 +698,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 	BOOL fEmbedded = dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
 
-	if (g_CluiData.bMetaAvail && dat != NULL && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
+	if (dat != NULL && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
 		return -1; //subcontact
 	if (pdnce && pdnce->isUnknown && !fEmbedded)
 		return 1; //'Unknown Contact'

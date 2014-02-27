@@ -146,7 +146,6 @@ void CLUI::cliOnCreateClc(void)
 
 int CLUI::OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	g_CluiData.bMetaAvail = ServiceExists(MS_MC_GETDEFAULTCONTACT) ? TRUE : FALSE;
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
 
 	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))

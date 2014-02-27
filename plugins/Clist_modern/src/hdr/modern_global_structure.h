@@ -32,7 +32,6 @@ typedef struct tagCLUIDATA
    DWORD  stickyMaskFilter;
    DWORD  filterFlags;
    DWORD  bFilterEffective;
-   BOOL   bMetaAvail;
    DWORD  t_now;
 
    // Modern Global Variables
