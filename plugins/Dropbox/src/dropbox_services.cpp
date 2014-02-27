@@ -89,18 +89,23 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CDropbox::ProtoSendMessage(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *pccsd = (CCSDATA*)lParam;
+	//CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	char *message = (char*)pccsd->lParam;
+	//char *message = (char*)pccsd->lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = MODULE;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (int)strlen(message);
-	dbei.pBlob = (PBYTE)message;
-	dbei.flags = DBEF_SENT | DBEF_UTF;
-	db_event_add(pccsd->hContact, &dbei);
+	//DBEVENTINFO dbei = { sizeof(dbei) };
+	//dbei.szModule = MODULE;
+	//dbei.timestamp = time(NULL);
+	//dbei.eventType = EVENTTYPE_MESSAGE;
+	//dbei.cbBlob = strlen(message);
+	//dbei.pBlob = (PBYTE)message;
+	//dbei.flags = DBEF_SENT | DBEF_UTF;
+	//db_event_add(pccsd->hContact, &dbei);
+
+	//if (message[0] && message[0] == '/')
+	//{
+	//	// parse commands
+	//}
 
 	return 0;
 }

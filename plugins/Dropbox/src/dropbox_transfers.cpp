@@ -85,13 +85,17 @@ int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uplo
 
 int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact)
 {
+	char *utf8_fileName = mir_utf8encode(fileName);
+
 	CMStringA url;
 	url.AppendFormat(
 		"%s/commit_chunked_upload/%s/%s",
 		DROPBOX_APICONTENT_URL,
 		DROPBOX_API_ROOT,
-		fileName);
+		utf8_fileName);
 	url.Replace('\\', '/');
+
+	mir_free(utf8_fileName);
 
 	CMStringA param = CMStringA("upload_id=") + uploadId;
 
@@ -132,9 +136,24 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 						SIZEOF(message),
 						Translate("Link to download file \"%s\": %s"),
 						fileName,
-						mir_utf8encodeW(json_as_string(node)));
+						mir_u2a(json_as_string(node)));
 
-					CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)&message);
+					int res = ACKRESULT_SUCCESS;
+
+					if (hContact != CDropbox::GetDefaultContact())
+						res = CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message);
+
+					if (res != ACKRESULT_FAILED)
+					{
+						DBEVENTINFO dbei = { sizeof(dbei) };
+						dbei.szModule = MODULE;
+						dbei.timestamp = time(NULL);
+						dbei.eventType = EVENTTYPE_MESSAGE;
+						dbei.cbBlob = strlen(message);
+						dbei.pBlob = (PBYTE)message;
+						dbei.flags = DBEF_SENT | DBEF_UTF;
+						db_event_add(hContact, &dbei);
+					}
 
 					return 0;
 				}
@@ -151,8 +170,12 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 
 int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 {
-	CMStringA folder = folderName;
+	char *utf8_folderName = mir_utf8encode(folderName);
+
+	CMStringA folder = utf8_folderName;
 	folder.Replace('\\', '/');
+
+	mir_free(utf8_folderName);
 
 	CMStringA param;
 	param.AppendFormat("root=%s&path=%s",
@@ -195,9 +218,24 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 						SIZEOF(message),
 						Translate("Link to download folder \"%s\": %s"),
 						folderName,
-						mir_utf8encodeW(json_as_string(node)));
+						mir_u2a(json_as_string(node)));
 
-					CallContactService(hContact, PSS_MESSAGE, DBEF_UTF, (LPARAM)&message);
+					int res = ACKRESULT_SUCCESS;
+
+					if (hContact != CDropbox::GetDefaultContact())
+						res = CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message);
+
+					if (res != ACKRESULT_FAILED)
+					{
+						DBEVENTINFO dbei = { sizeof(dbei) };
+						dbei.szModule = MODULE;
+						dbei.timestamp = time(NULL);
+						dbei.eventType = EVENTTYPE_MESSAGE;
+						dbei.cbBlob = strlen(message);
+						dbei.pBlob = (PBYTE)message;
+						dbei.flags = DBEF_SENT | DBEF_UTF;
+						db_event_add(hContact, &dbei);
+					}
 
 					return 0;
 				}

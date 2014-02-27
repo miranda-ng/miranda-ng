@@ -19,6 +19,7 @@ int CDropbox::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (!CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULE))
 		{
+			db_set_s(NULL, MODULE, "Nick", MODULE);
 			db_set_s(hContact, MODULE, "Nick", MODULE);
 			db_set_ws(hContact, "CList", "MyHandle", L"Dropbox");
 

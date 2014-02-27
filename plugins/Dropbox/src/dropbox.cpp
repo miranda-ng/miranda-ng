@@ -54,7 +54,7 @@ void CDropbox::RequestAcceessToken()
 		mir_snprintf(
 			data,
 			SIZEOF(data),
-			Translate("grant_type=authorization_code&code=%s"),
+			"grant_type=authorization_code&code=%s",
 			request_token);
 
 		HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
@@ -124,7 +124,7 @@ void CDropbox::RequestApiAuthorizationAsync(void *arg)
 	if (HasAccessToken() && MessageBox(
 		NULL, 
 		TranslateT("Are you sure you want to request athorization?"), 
-		TranslateT("Request athorization"), 
+		TranslateT("Request authorization"), 
 		MB_YESNO | MB_ICONQUESTION) == IDYES)
 	{
 		INSTANCE->DestroyAcceessToken();

@@ -16,7 +16,7 @@ void CDropbox::InitMenus()
 	CreateServiceFunction(mi.pszService, SendFilesToDropbox);
 
 	mi.pszService = MODULE"/RequestAuthorization";
-	mi.ptszName = LPGENT("Request Authorization");
+	mi.ptszName = LPGENT("Request authorization");
 	mi.position = -2000001000 + CMI_API_REQUEST_AUTH;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_API_REQUEST_AUTH] = Menu_AddContactMenuItem(&mi);
