@@ -333,8 +333,8 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		Menu_ShowItem(hMenuDefault, false);
 		Menu_ShowItem(hMenuDelete, false);
 
-		mi.flags = CMIM_NAME | CMIF_TCHAR;
-		mi.ptszName = (TCHAR*)TranslateT("Remove from MetaContact");
+		mi.flags = CMIM_NAME;
+		mi.pszName = "Remove from MetaContact";
 		Menu_ModifyItem(hMenuDelete, &mi);
 
 		//show subcontact menu items
@@ -410,8 +410,8 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 			// The contact is affected to a metacontact.
 			Menu_ShowItem(hMenuDefault, true);
 
-			mi.flags = CMIM_NAME | CMIF_TCHAR;
-			mi.ptszName = (TCHAR*)TranslateT("Remove from MetaContact");
+			mi.flags = CMIM_NAME;
+			mi.pszName = "Remove from MetaContact";
 			Menu_ModifyItem(hMenuDelete, &mi);
 
 			Menu_ShowItem(hMenuAdd, false);
@@ -497,20 +497,18 @@ void InitMenus()
 	hMenuDelete = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -99000;
-	mi.flags = CMIF_HIDDEN | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_HIDDEN | CMIF_ROOTPOPUP;
 	mi.icolibItem = 0;
 	mi.pszName = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
-	char buffer[512], buffer2[512], buffer3[512];
+	char buffer[512], buffer2[512];
 
 	mi.flags = CMIF_HIDDEN | CMIF_CHILDPOPUP;
 	mi.hParentMenu = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;
-		strcpy(buffer3, (char *)Translate("Context"));
-		strcat(buffer3, _itoa(i, buffer2, 10));
-		mi.pszName = buffer3;
+		mi.pszName = "";
 
 		strcpy(buffer, "MetaContacts/MenuFunc");
 		strcat(buffer, _itoa(i, buffer2, 10));
