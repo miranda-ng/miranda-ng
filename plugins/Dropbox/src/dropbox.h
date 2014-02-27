@@ -66,17 +66,19 @@ private:
 	// access token
 	static bool HasAccessToken();
 
-	void RequestAcceessToken(MCONTACT hContact);
-	void DestroyAcceessToken(MCONTACT hContact);
+	void RequestAcceessToken();
+	void DestroyAcceessToken();
 
 	static void RequestApiAuthorizationAsync(void *arg);
 
 	// transrers
-	void SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset);
-	void SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
-	void SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact);
+	int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);
 
-	void CreateFolder(const char *folderName, MCONTACT hContact);
+	int SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset, MCONTACT hContact);
+	int SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset, MCONTACT hContact);
+	int SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact);
+
+	int CreateFolder(const char *folderName, MCONTACT hContact);
 
 	static void _cdecl SendFileAsync(void *arg);
 

@@ -20,6 +20,12 @@ int CDropbox::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		if (!CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULE))
 		{
 			db_set_s(hContact, MODULE, "Nick", MODULE);
+			db_set_ws(hContact, "CList", "MyHandle", L"Dropbox");
+
+			if (HasAccessToken() && db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+			{
+				db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
+			}
 		}
 	}
 
@@ -62,8 +68,8 @@ int CDropbox::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
 	if (lstrcmpiA(GetContactProto(hContact), MODULE) == 0)
 	{
-		if (INSTANCE->HasAccessToken())
-			INSTANCE->DestroyAcceessToken(hContact);
+		if (HasAccessToken())
+			INSTANCE->DestroyAcceessToken();
 	}
 
 	return 0;
@@ -78,13 +84,13 @@ int CDropbox::OnSrmmWindowOpened(WPARAM wParam, LPARAM lParam)
 
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
-		if (ev->hContact == INSTANCE->GetDefaultContact())
+		if (ev->hContact == GetDefaultContact() || !HasAccessToken() || status == ID_STATUS_OFFLINE)
 			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-		else if (status == ID_STATUS_OFFLINE)
+		else if (INSTANCE->hContactTransfer)
 			bbd.bbbFlags = BBSF_DISABLED;
 
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
-		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)ev->hContact, (LPARAM)&bbd);
+		CallService(MS_BB_SETBUTTONSTATE, ev->hContact, (LPARAM)&bbd);
 	}
 
 	return 0;
@@ -97,10 +103,31 @@ int CDropbox::OnSrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 	{
 		INSTANCE->hContactTransfer = cbc->hContact;
 
-		HWND hwnd =  (HWND)CallService(MS_FILE_SENDFILE, INSTANCE->GetDefaultContact(), 0);
+		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, GetDefaultContact(), 0);
 
 		dcftp[hwnd] = cbc->hContact;
 	}
 
 	return 0; 
+}
+
+int CDropbox::OnFileDoalogCancelled(WPARAM hContact, LPARAM lParam)
+{
+	HWND hwnd = (HWND)lParam;
+	if (INSTANCE->hContactTransfer == dcftp[hwnd])
+	{
+		dcftp.erase((HWND)lParam);
+		INSTANCE->hContactTransfer = 0;
+	}
+
+	return 0;
+}
+
+int CDropbox::OnFileDoalogSuccessed(WPARAM hContact, LPARAM lParam)
+{
+	HWND hwnd = (HWND)lParam;
+	if (INSTANCE->hContactTransfer == dcftp[hwnd])
+		dcftp.erase((HWND)lParam);
+
+	return 0;
 }

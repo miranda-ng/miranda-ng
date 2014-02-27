@@ -110,6 +110,8 @@ public:
 	NETLIBHTTPREQUEST *Send()
 	{
 		szUrl = m_szUrl.GetBuffer();
+		/*CMStringA message; message.AppendFormat("Send request to %s", szUrl);
+		CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)message.GetBuffer());*/
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
 	}
 

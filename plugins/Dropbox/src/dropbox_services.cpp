@@ -21,6 +21,9 @@ INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 {
+	if (!HasAccessToken())
+		return ACKRESULT_FAILED;
+
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	FileTransfer *ftp = new FileTransfer();
@@ -84,7 +87,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 	return fileId;
 }
 
-INT_PTR CDropbox::ProtoSendMessage( WPARAM wParam, LPARAM lParam)
+INT_PTR CDropbox::ProtoSendMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
@@ -95,8 +98,8 @@ INT_PTR CDropbox::ProtoSendMessage( WPARAM wParam, LPARAM lParam)
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = strlen(message);
-	dbei.pBlob = (PBYTE)mir_strdup(message);
-	//dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	db_event_add(pccsd->hContact, &dbei);
 
 	return 0;
@@ -104,7 +107,7 @@ INT_PTR CDropbox::ProtoSendMessage( WPARAM wParam, LPARAM lParam)
 
 INT_PTR  CDropbox::RequestApiAuthorization(WPARAM wParam, LPARAM lParam)
 {
-	mir_forkthread(CDropbox::RequestApiAuthorizationAsync, (void*)wParam);
+	mir_forkthread(CDropbox::RequestApiAuthorizationAsync, 0);
 
 	return 0;
 }
@@ -118,24 +121,6 @@ INT_PTR CDropbox::SendFilesToDropbox(WPARAM hContact, LPARAM lParam)
 	HWND hwnd =  (HWND)CallService(MS_FILE_SENDFILE, INSTANCE->GetDefaultContact(), 0);
 
 	dcftp[hwnd] = hContact;
-
-	return 0;
-}
-
-int CDropbox::OnFileDoalogCancelled(WPARAM hContact, LPARAM lParam)
-{
-	HWND hwnd = (HWND)lParam;
-	if (INSTANCE->hContactTransfer == dcftp[hwnd])
-		dcftp.erase((HWND)lParam);
-
-	return 0;
-}
-
-int CDropbox::OnFileDoalogSuccessed(WPARAM hContact, LPARAM lParam)
-{
-	HWND hwnd = (HWND)lParam;
-	if (INSTANCE->hContactTransfer == dcftp[hwnd])
-		dcftp.erase((HWND)lParam);
 
 	return 0;
 }
