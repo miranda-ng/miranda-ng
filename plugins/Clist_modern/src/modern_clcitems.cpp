@@ -197,7 +197,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 	//Add subcontacts
 	if (szProto)
 	{
-		if ( g_szMetaModuleName && dat->IsMetaContactsEnabled && mir_strcmp(cont->proto,g_szMetaModuleName) == 0)
+		if (dat->IsMetaContactsEnabled && mir_strcmp(cont->proto, META_PROTO) == 0)
 			AddSubcontacts(dat,cont,CLCItems_IsShowOfflineGroup(group));
 	}
 	cont->lastPaintCounter = 0;
@@ -265,7 +265,7 @@ void cli_AddContactToTree(HWND hwnd,ClcData *dat,MCONTACT hContact,int updateTot
 	if (dat->IsMetaContactsEnabled && cacheEntry && cacheEntry->m_cache_nHiddenSubcontact)
 		return;		//contact should not be added
 
-	if (!dat->IsMetaContactsEnabled && cacheEntry && g_szMetaModuleName && !mir_strcmp(cacheEntry->m_cache_cszProto,g_szMetaModuleName))
+	if (!dat->IsMetaContactsEnabled && cacheEntry && !mir_strcmp(cacheEntry->m_cache_cszProto, META_PROTO))
 		return;
 
 	corecli.pfnAddContactToTree(hwnd,dat,hContact,updateTotalCount,checkHideOffline);
@@ -398,7 +398,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 		}
 		if (cont) {
 			cont->SubAllocated = 0;
-			if (cont->proto && g_szMetaModuleName && dat->IsMetaContactsEnabled  && strcmp(cont->proto,g_szMetaModuleName) == 0)
+			if (cont->proto && dat->IsMetaContactsEnabled  && strcmp(cont->proto, META_PROTO) == 0)
 				AddSubcontacts(dat,cont,CLCItems_IsShowOfflineGroup(group));
 		}
 	}

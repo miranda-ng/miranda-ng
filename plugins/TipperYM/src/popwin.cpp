@@ -336,7 +336,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						int iXstatus = db_get_b(pwd->hContact, szProto, "XStatusId", 0);
 						if (iXstatus) {
 							char szIconProto[64];
-							if (strcmp(szProto, szMetaModuleName) != 0)
+							if (strcmp(szProto, META_PROTO) != 0)
 								strcpy(szIconProto, szProto);
 							else if (!db_get_s(pwd->hContact, szProto, "XStatusProto", &dbv)) {
 								strcpy(szIconProto, dbv.pszVal);

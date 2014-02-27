@@ -84,12 +84,8 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, TRUE, 0);
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	// Get icons
-	int i;
-
 	TCHAR szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
 
@@ -105,7 +101,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Skin_AddIcon(&sid);
 
 	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Avatar Overlay");
-	for (i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
+	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
 		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
 		sid.iDefaultIndex = -g_pAvatarOverlayIcons[i].id;
@@ -113,7 +109,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Status Overlay");
-	for (i = 0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
+	for (int i = 0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
 		sid.pszDescription = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
 		sid.iDefaultIndex = -g_pStatusOverlayIcons[i].id;
@@ -201,7 +197,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL) {
-		if (g_szMetaModuleName && !mir_strcmp(cws->szModule, g_szMetaModuleName)) {
+		if (!mir_strcmp(cws->szModule, META_PROTO)) {
 			if (!mir_strcmp(cws->szSetting, "Enabled"))
 				pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, hContact, lParam);
 		}
@@ -214,7 +210,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 	{
 		if (!strcmp(cws->szSetting, "TickTS"))
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-		else if (g_szMetaModuleName && !strcmp(cws->szModule, g_szMetaModuleName)) {
+		else if (!strcmp(cws->szModule, META_PROTO)) {
 			if (!strcmp(cws->szSetting, "Handle"))
 				pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 			else if (!strcmp(cws->szSetting, "Default"))
@@ -400,7 +396,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	dat->MetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) &&
-		g_szMetaModuleName && db_get_b(NULL, g_szMetaModuleName, "Enabled", 1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
+		db_get_b(NULL, META_PROTO, "Enabled", 1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	dat->expandMeta = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	dat->useMetaIcon = db_get_b(NULL, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT);
@@ -1100,7 +1096,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (ServiceExists(MS_MC_ADDTOMETA)) {
 				ClcContact *contSour;
 				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto, g_szMetaModuleName)) {
+				if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
 					if (!contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 					else
@@ -1114,7 +1110,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				ClcContact *contSour, *contDest;
 				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
 				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto, g_szMetaModuleName)) {
+				if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
 					if (!contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 					else if (contSour->subcontacts == contDest)
@@ -1130,7 +1126,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				ClcContact *contSour, *contDest;
 				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
 				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto, g_szMetaModuleName)) {
+				if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
 					if (!contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 					else if (contDest->subcontacts == contSour->subcontacts)
@@ -1240,7 +1236,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
 				hcontact = contSour->hContact;
 				if (contSour->type == CLCIT_CONTACT) {
-					if (g_szMetaModuleName && mir_strcmp(contSour->proto, g_szMetaModuleName)) {
+					if (mir_strcmp(contSour->proto, META_PROTO)) {
 						if (!contSour->isSubcontact) {
 							MCONTACT hDest = contDest->hContact;
 							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?"), contDest->szText, contSour->szText);
@@ -1272,18 +1268,18 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_ONMETACONTACT:
-		{
-			ClcContact *contDest, *contSour;
-			int res;
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-			if (contSour->type == CLCIT_CONTACT) {
-				if (g_szMetaModuleName && strcmp(contSour->proto, g_szMetaModuleName)) {
+			{
+				ClcContact *contDest, *contSour;
+				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+				if (contSour->type == CLCIT_CONTACT) {
+					if (!strcmp(contSour->proto, META_PROTO))
+						break;
 					if (!contSour->isSubcontact) {
 						MCONTACT hcontact = contSour->hContact;
 						MCONTACT handle = contDest->hContact;
 						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->szText);
-						res = MessageBox(hwnd, Wording, TranslateT("Adding contact to MetaContact"), MB_OKCANCEL | MB_ICONQUESTION);
+						int res = MessageBox(hwnd, Wording, TranslateT("Adding contact to MetaContact"), MB_OKCANCEL | MB_ICONQUESTION);
 						if (res == 1) {
 							if (!handle) return 0;
 							CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
@@ -1293,7 +1289,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						if (contSour->subcontacts == contDest) {
 							MCONTACT hsour = contSour->hContact;
 							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be default?"), contSour->szText);
-							res = MessageBox(hwnd, Wording, TranslateT("Set default contact"), MB_OKCANCEL | MB_ICONQUESTION);
+							int res = MessageBox(hwnd, Wording, TranslateT("Set default contact"), MB_OKCANCEL | MB_ICONQUESTION);
 							if (res == 1)
 								CallService(MS_MC_SETDEFAULTCONTACT, (WPARAM)contDest->hContact, (LPARAM)hsour);
 						}
@@ -1302,7 +1298,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 							MCONTACT hfrom = contSour->subcontacts->hContact;
 							MCONTACT handle = contDest->hContact;
 							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->szText);
-							res = MessageBox(hwnd, Wording, TranslateT("Changing MetaContacts (Moving)"), MB_OKCANCEL | MB_ICONQUESTION);
+							int res = MessageBox(hwnd, Wording, TranslateT("Changing MetaContacts (Moving)"), MB_OKCANCEL | MB_ICONQUESTION);
 							if (res == 1) {
 								if (!handle) return 0;
 
@@ -1313,16 +1309,16 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					}
 				}
 			}
-		}
 			break;
 
 		case DROPTARGET_ONSUBCONTACT:
-		{
-			ClcContact *contDest, *contSour;
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-			if (contSour->type == CLCIT_CONTACT) {
-				if (g_szMetaModuleName && strcmp(contSour->proto, g_szMetaModuleName)) {
+			{
+				ClcContact *contDest, *contSour;
+				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+				if (contSour->type == CLCIT_CONTACT) {
+					if (!strcmp(contSour->proto, META_PROTO))
+						break;
 					if (!contSour->isSubcontact) {
 						MCONTACT hcontact = contSour->hContact;
 						MCONTACT handle = contDest->subcontacts->hContact;
@@ -1348,7 +1344,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					}
 				}
 			}
-		}
 			break;
 
 		case DROPTARGET_ONGROUP:
@@ -1356,39 +1351,38 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_INSERTION:
-		{
-			ClcContact *contact, *destcontact;
-			ClcGroup *group, *destgroup;
-			BOOL NeedRename = FALSE;
-			TCHAR newName[128] = { 0 };
-			int newIndex, i;
-			pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-			i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
-			if (i != -1 && group->groupId != destgroup->groupId) {
-				TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
-				TCHAR *shortGroup = NULL;
-				TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
-				if (groupName) {
-					int len = (int)_tcslen(groupName);
-					do { len--; }
-					while (len >= 0 && groupName[len] != '\\');
-					if (len >= 0) shortGroup = groupName + len + 1;
-					else shortGroup = groupName;
+			{
+				ClcContact *contact, *destcontact;
+				ClcGroup *group, *destgroup;
+				BOOL NeedRename = FALSE;
+				TCHAR newName[128] = { 0 };
+				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
+				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
+				if (i != -1 && group->groupId != destgroup->groupId) {
+					TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
+					TCHAR *shortGroup = NULL;
+					TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
+					if (groupName) {
+						int len = (int)_tcslen(groupName);
+						do { len--; }
+						while (len >= 0 && groupName[len] != '\\');
+						if (len >= 0) shortGroup = groupName + len + 1;
+						else shortGroup = groupName;
+					}
+					if (shortGroup) {
+						NeedRename = TRUE;
+						if (sourceGrName)
+							mir_sntprintf(newName, SIZEOF(newName), _T("%s\\%s"), sourceGrName, shortGroup);
+						else
+							mir_sntprintf(newName, SIZEOF(newName), _T("%s"), shortGroup);
+					}
+					mir_free(groupName);
+					mir_free(sourceGrName);
 				}
-				if (shortGroup) {
-					NeedRename = TRUE;
-					if (sourceGrName)
-						mir_sntprintf(newName, SIZEOF(newName), _T("%s\\%s"), sourceGrName, shortGroup);
-					else
-						mir_sntprintf(newName, SIZEOF(newName), _T("%s"), shortGroup);
-				}
-				mir_free(groupName);
-				mir_free(sourceGrName);
+				int newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
+				newIndex = newIndex ? newIndex : contact->groupId;
+				if (NeedRename) pcli->pfnRenameGroup(newIndex, newName);
 			}
-			newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
-			newIndex = newIndex ? newIndex : contact->groupId;
-			if (NeedRename) pcli->pfnRenameGroup(newIndex, newName);
-		}
 			break;
 
 		case DROPTARGET_OUTSIDE:

@@ -31,7 +31,6 @@ bool g_shutDown = false;
 int hLangpack;
 
 TCHAR  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
-BOOL   g_MetaAvail = FALSE;
 BOOL   g_AvatarHistoryAvail = FALSE;
 HWND   hwndSetMyAvatar = 0;
 
@@ -100,8 +99,7 @@ static TCHAR* getJGMailID(char *szProto)
 static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *) lParam;
-
-	if (ack != NULL && ack->type == ACKTYPE_AVATAR && ack->hContact != 0 && (!g_MetaAvail || strcmp(ack->szModule, g_szMetaName))) {
+	if (ack != NULL && ack->type == ACKTYPE_AVATAR && ack->hContact != 0 && strcmp(ack->szModule, META_PROTO)) {
 		if (ack->result == ACKRESULT_SUCCESS) {
 			if (ack->hProcess == NULL)
 				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
@@ -232,7 +230,7 @@ static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	if (g_MetaAvail && !strcmp(cws->szModule, g_szMetaName)) {
+	if (!strcmp(cws->szModule, META_PROTO)) {
 		if (lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 5))
 			MetaChanged(hContact, 0);
 	}
@@ -375,13 +373,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hGlobalAvatarFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Global Avatar Cache"), MIRANDA_USERDATAT _T("\\Avatars"));
 
 	g_AvatarHistoryAvail = ServiceExists(MS_AVATARHISTORY_ENABLED);
-
-	g_MetaAvail = ServiceExists(MS_MC_GETPROTOCOLNAME) ? TRUE : FALSE;
-	if (g_MetaAvail) {
-		g_szMetaName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-		if (g_szMetaName == NULL)
-			g_MetaAvail = FALSE;
-	}
 
 	PROTOACCOUNT **accs = NULL;
 	int accCount;

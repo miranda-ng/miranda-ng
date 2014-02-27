@@ -29,8 +29,6 @@ DWORD mirVer;
 
 HANDLE hFolder = NULL;
 
-char *metacontacts_proto = NULL;
-
 TCHAR profilePath[MAX_PATH];		// database profile path (read at startup only)
 TCHAR basedir[MAX_PATH];
 int hLangpack = 0;
@@ -112,7 +110,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 	if (proto == NULL)
 		return 0;
 
-	if (metacontacts_proto != NULL && strcmp(metacontacts_proto, proto) == 0)
+	if (strcmp(META_PROTO, proto) == 0)
 		return 0;
 
 	DBVARIANT dbvOldHash = {0};
@@ -241,9 +239,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\Avatars History"));
 
 	InitPopups();
-
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	HookEvent(ME_AV_CONTACTAVATARCHANGED, AvatarChanged);
 	return 0;

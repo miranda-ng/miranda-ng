@@ -164,7 +164,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	}
 
 	// ugly workaround for metacontacts, part i; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME) && !lstrcmpA(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
+	if (!lstrcmpA(szProto, META_PROTO)) {
 		// remove outdated events first
 		DWORD CurTime = time(NULL);
 		for (int i = MetacontactEvents.GetSize() - 1; i >= 0; i--)

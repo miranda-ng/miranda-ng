@@ -180,8 +180,6 @@ typedef struct _MGLOBAL
 	BYTE		ShowPropsheetColours : 1;		// cached SET_PROPSHEET_SHOWCOLOURS database value
 	BYTE		WantAeroAdaption : 1;			// reserved for later use
 	BYTE		UseDbxTree : 1;					// use dbx_tree ?
-	LPCSTR		szMetaProto;
-
 } MGLOBAL, *LPMGLOBAL;
 
 extern HINSTANCE		ghInst;

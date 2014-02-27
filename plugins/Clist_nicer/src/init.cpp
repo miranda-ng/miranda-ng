@@ -173,15 +173,10 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
-	cfg::dat.bMetaAvail = ServiceExists(MS_MC_GETDEFAULTCONTACT) ? TRUE : FALSE;
-	if (cfg::dat.bMetaAvail)
-		mir_snprintf(cfg::dat.szMetaName, 256, "%s", (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
-	else
-		strncpy(cfg::dat.szMetaName, "MetaContacts", 255);
 
 	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, 1, 0);
-	cfg::dat.bMetaEnabled = cfg::getByte(cfg::dat.szMetaName, "Enabled", 1);
+	cfg::dat.bMetaEnabled = cfg::getByte(META_PROTO, "Enabled", 1);
 
 	cfg::dat.bAvatarServiceAvail = ServiceExists(MS_AV_GETAVATARBITMAP) ? TRUE : FALSE;
 	if (cfg::dat.bAvatarServiceAvail)

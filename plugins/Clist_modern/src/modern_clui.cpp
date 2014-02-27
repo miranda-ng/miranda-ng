@@ -151,9 +151,6 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, TRUE, 0);
 
-	if ( ServiceExists(MS_MC_GETPROTOCOLNAME))
-		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-
 	cliCluiProtocolStatusChanged(0, 0);
 	SleepEx(0, TRUE);
 	g_flag_bOnModulesLoadedCalled = TRUE;

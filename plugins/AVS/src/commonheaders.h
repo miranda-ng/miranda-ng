@@ -109,9 +109,8 @@ extern FI_INTERFACE *fei;
 
 void mir_sleep(int time);
 extern bool  g_shutDown;
-extern char *g_szMetaName;
 extern TCHAR g_szDataPath[];		// user datae path (read at startup only)
-extern BOOL  g_MetaAvail, g_AvatarHistoryAvail;
+extern BOOL  g_AvatarHistoryAvail;
 extern HWND  hwndSetMyAvatar;
 
 extern HINSTANCE g_hInst;

@@ -392,10 +392,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	char* szMetaProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-
-	if (szProto && szMetaProto && (INT_PTR)szMetaProto != CALLSERVICE_NOTFOUND && !lstrcmpA(szProto, szMetaProto))
-	{
+	if (szProto && !lstrcmpA(szProto, META_PROTO)) {
 		int nSubContacts = (int)CallService(MS_MC_GETNUMCONTACTS, hContact, 0), i;
 		for (i = 0; i < nSubContacts; i++) {
 			MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, i);

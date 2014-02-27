@@ -259,7 +259,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->bIsHidden == -1)
 		pdnce->bIsHidden = db_get_b(pdnce->hContact,"CList","Hidden",0);
 
-	pdnce->m_cache_nHiddenSubcontact = g_szMetaModuleName && db_mc_isSub(pdnce->hContact);
+	pdnce->m_cache_nHiddenSubcontact = db_mc_isSub(pdnce->hContact);
 
 	if (pdnce->m_cache_nNoHiddenOffline == -1)
 		pdnce->m_cache_nNoHiddenOffline = db_get_b(pdnce->hContact,"CList","noOffline",0);
@@ -446,7 +446,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		// 	PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
 
 		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
-			if (g_szMetaModuleName && !mir_strcmp(cws->szModule,g_szMetaModuleName) && mir_strcmp(cws->szSetting, "Status")) {
+			if (!mir_strcmp(cws->szModule, META_PROTO) && mir_strcmp(cws->szSetting, "Status")) {
 				int res = 0;
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
 					res = PostAutoRebuidMessage(pcli->hwndContactTree);

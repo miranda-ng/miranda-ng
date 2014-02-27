@@ -1275,9 +1275,6 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case ACKTYPE_GETINFO:
 			// is contact the owner of the dialog or any metasubcontact of the owner? skip handling otherwise!
 			if (ack->hContact != pPs->hContact) {
-				if (!myGlobals.szMetaProto)
-					break;
-
 				if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))
 					break;
 
@@ -1348,8 +1345,6 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
 			if (hContact != pPs->hContact) {
-				if (!myGlobals.szMetaProto)
-					break;
 				if (pPs->hContact != db_mc_getMeta(hContact))
 					break;
 				if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))

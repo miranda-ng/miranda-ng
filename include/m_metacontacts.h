@@ -26,6 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_core.h>
 
+// standard module for all mc-related information
+#define META_PROTO "MetaContacts"
+
 //gets the handle for the default contact
 //wParam=(HANDLE)hMetaContact
 //lParam=0
@@ -123,11 +126,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // wParam=(HANDLE)hMetaContact
 // lParam=0
 #define ME_MC_UNFORCESEND					"MetaContacts/UnforceSend"
-
-// method to get protocol name - used to be sure you're dealing with a "real" metacontacts plugin :)
-// wParam=lParam=0
-#define MS_MC_GETPROTOCOLNAME				"MetaContacts/GetProtoName"
-
 
 // added 0.9.5.0 (22/3/05)
 // wParam=(HANDLE)hContact

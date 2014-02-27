@@ -3193,7 +3193,7 @@ quote_from_last:
 			if ((isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1)) >= 0) {
 				char szTemp[64];
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", isForced);
-				if (db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0) == ID_STATUS_OFFLINE)
+				if (db_get_w(dat->hContact, META_PROTO, szTemp, 0) == ID_STATUS_OFFLINE)
 					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, 
 						(LPARAM)TranslateT("Warning: you have selected a subprotocol for sending the following messages which is currently offline"));
 			}

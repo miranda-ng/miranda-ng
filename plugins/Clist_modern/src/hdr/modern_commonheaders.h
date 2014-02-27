@@ -114,9 +114,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"
 extern TCHAR SkinsFolder[MAX_PATH];
 
-// module name of MetaContacts plugin
-extern char *g_szMetaModuleName;
-
 //macros to free data and set it pointer to NULL
 #define mir_free_and_nil(x) {mir_free((void*)x); x=NULL;}
 // shared vars

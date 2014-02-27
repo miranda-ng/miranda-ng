@@ -71,7 +71,7 @@ public:
    HICON       g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
    HCURSOR     hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
    HBITMAP     g_hbmUnknown;
-   int         g_MetaContactsAvail, g_SmileyAddAvail, g_WantIEView, g_PopupAvail, g_WantHPP;
+   int         g_SmileyAddAvail, g_WantIEView, g_PopupAvail, g_WantHPP;
    int         g_FlashAvatarAvail;
    HIMAGELIST  g_hImageList;
    HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
@@ -138,7 +138,6 @@ public:
    BOOL        m_autoSplit;
    BOOL        m_FlashOnMTN;
    DWORD       dwThreadID;
-   char        szMetaName[256];
    BYTE        bMetaEnabled;
    HANDLE      m_hMessageWindowList, hUserPrefsWindowList;
    HMENU       m_MenuBar;

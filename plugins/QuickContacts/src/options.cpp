@@ -92,9 +92,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	int ret = SaveOptsDlgProc(controls, SIZEOF(controls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_LASTSENTTO);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GLOBAL), enabled);
@@ -102,52 +101,32 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			
 			enabled = IsDlgButtonChecked(hwndDlg, IDC_SUBCONTACTS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_KEEP_OFFLINE), enabled);
-
-			if (metacontacts_proto == NULL)
-			{
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SUBCONTACTS), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_KEEP_OFFLINE), SW_HIDE);
-			}
-
 			return TRUE;
 		}
-		case WM_COMMAND:
-		{
-			if(LOWORD(wParam) == IDC_LASTSENTTO)
-			{
-				BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_LASTSENTTO);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GLOBAL), enabled);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOCAL), enabled);
-			}
-
-			if(LOWORD(wParam) == IDC_SUBCONTACTS)
-			{
-				BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_SUBCONTACTS);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_KEEP_OFFLINE), enabled);
-			}
-
-			break;
+	case WM_COMMAND:
+		if(LOWORD(wParam) == IDC_LASTSENTTO) {
+			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_LASTSENTTO);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_GLOBAL), enabled);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOCAL), enabled);
 		}
-		case WM_NOTIFY:
-		{
-			switch (((LPNMHDR)lParam)->idFrom) 
-			{
-				case 0:
-				{
-					switch (((LPNMHDR)lParam)->code)
-					{
-						case PSN_APPLY:
-						{
-							LoadOptions();
 
-							return TRUE;
-						}
-					}
-					break;
-				}
+		if(LOWORD(wParam) == IDC_SUBCONTACTS) {
+			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_SUBCONTACTS);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_KEEP_OFFLINE), enabled);
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				LoadOptions();
+				return TRUE;
 			}
 			break;
 		}
+		break;
 	}
 
 	return ret;

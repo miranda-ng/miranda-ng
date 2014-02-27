@@ -120,10 +120,6 @@ const
     lParam=0  }
   ME_MC_UNFORCESEND = 'MetaContacts/UnforceSend';
 
-  { method to get protocol name - used to be sure you're dealing with a "real" metacontacts plugin :)
-    wParam=lParam=0 }
-  MS_MC_GETPROTOCOLNAME = 'MetaContacts/GetProtoName';
-
   { wParam=(HANDLE)hContact
     lParam=0
     convert a given contact into a metacontact
@@ -152,6 +148,9 @@ const
     hiding is usually done)
   }
   MS_MC_DISABLEHIDDENGROUP = 'MetaContacts/DisableHiddenGroup';
+
+const
+  META_PROTO = 'MetaContacts';
 
 { returns true if a contact is a metacontact or false otherwise
 }

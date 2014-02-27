@@ -61,7 +61,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		return 0;
 	
-	if(g_metaproto && strcmp(proto, g_metaproto) == 0) {
+	if(strcmp(proto, META_PROTO) == 0) {
 		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		if (!hContact) return 0;
 		proto = contact_get_proto(hContact);

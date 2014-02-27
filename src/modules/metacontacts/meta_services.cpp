@@ -1223,7 +1223,6 @@ void Meta_InitServices()
 	CreateServiceFunction(MS_MC_FORCESENDCONTACTNUM, MetaAPI_ForceSendContactNum);
 	CreateServiceFunction(MS_MC_FORCESENDCONTACT, MetaAPI_ForceSendContact);
 	CreateServiceFunction(MS_MC_UNFORCESENDCONTACT, MetaAPI_UnforceSendContact);
-	CreateServiceFunction(MS_MC_GETPROTOCOLNAME, MetaAPI_GetProtoName);
 	CreateServiceFunction(MS_MC_GETFORCESTATE, MetaAPI_GetForceState);
 
 	CreateServiceFunction(MS_MC_CONVERTTOMETA, MetaAPI_ConvertToMeta);

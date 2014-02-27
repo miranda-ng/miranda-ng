@@ -34,7 +34,6 @@ MTEXT_INTERFACE		MText = {0};
 HANDLE folderId;
 BOOL gbPopupLoaded  = FALSE;
 BOOL gbHppInstalled = FALSE;
-LPCSTR gszMetaProto = "";
 
 //===== Brushes, Colours and Fonts =====
 HBITMAP hbmNoAvatar;

@@ -264,11 +264,6 @@ static int ModulesLoaded(WPARAM,LPARAM)
 	}
 	else htuTitle = htuText = NULL;
 
-	// init meta contacts
-	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	if (ptr != CALLSERVICE_NOTFOUND)
-		gszMetaProto = (LPCSTR)ptr;
-
 	//check if OptionLoaded
 	if (!OptionLoaded)
 		LoadOptions();

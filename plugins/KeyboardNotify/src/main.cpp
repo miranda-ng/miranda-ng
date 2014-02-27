@@ -95,7 +95,6 @@ unsigned int nExternCount = 0;
 BOOL bFlashingEnabled = TRUE;
 BOOL bReminderDisabled = FALSE;
 
-char *szMetaProto = NULL;
 BYTE bMetaProtoEnabled = 0;
 
 PLUGININFOEX pluginInfo={
@@ -126,8 +125,8 @@ BOOL CheckMsgWnd(MCONTACT, BOOL *);
 BOOL isMetaContactsSubContact(MCONTACT hMetaContact, MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hMetaContact);
-	if (szProto && !strcmp(szMetaProto, szProto)) { // Safety check
-		int i = db_get_dw(hContact, szMetaProto, "ContactNumber", -1);
+	if (szProto && !strcmp(META_PROTO, szProto)) { // Safety check
+		int i = db_get_dw(hContact, META_PROTO, "ContactNumber", -1);
 		if (i >= 0 && hContact == (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i))
 			return TRUE;
 	}
@@ -142,8 +141,8 @@ BOOL checkOpenWindow(MCONTACT hContact)
 		return TRUE;
 
 	found = CheckMsgWnd(hContact, &focus);
-	if (!found && szMetaProto && bMetaProtoEnabled) {
-		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, szMetaProto, "Handle", 0);
+	if (!found && bMetaProtoEnabled) {
+		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
 		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
 			found = CheckMsgWnd(hMetaContact, &focus);
 	}
@@ -260,7 +259,7 @@ BOOL metaCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 {
 	MCONTACT hSubContact=NULL;
 
-	if (szMetaProto && bMetaProtoEnabled && szProto && !strcmp(szMetaProto, szProto))
+	if (bMetaProtoEnabled && szProto && !strcmp(META_PROTO, szProto))
 		if (hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0))
 			szProto = GetContactProto(hSubContact);
 
@@ -381,8 +380,8 @@ BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 
 BOOL contactCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 {
-	if (szMetaProto && bMetaProtoEnabled && hContact) {
-		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, szMetaProto, "Handle", 0);
+	if (bMetaProtoEnabled && hContact) {
+		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
 		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
 			return FALSE;
 	}
@@ -649,8 +648,7 @@ void LoadSettings(void)
 				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
 
-	if (szMetaProto)
-		bMetaProtoEnabled = db_get_b(NULL, szMetaProto, "Enabled", 1);
+	bMetaProtoEnabled = db_get_b(NULL, META_PROTO, "Enabled", 1);
 
 	destroyProcessList();
 	createProcessList();
@@ -697,10 +695,6 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 void createProtocolList(void)
 {
 	PROTOACCOUNT **proto;
-
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		szMetaProto = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-
 	ProtoEnumAccounts(&ProtoList.protoCount, &proto);
 	ProtoList.protoInfo = (PROTOCOL_INFO *)malloc(ProtoList.protoCount * sizeof(PROTOCOL_INFO));
 	if (!ProtoList.protoInfo) {
@@ -719,7 +713,7 @@ void createProtocolList(void)
 		else {
 			strcpy(ProtoList.protoInfo[i].szProto, proto[i]->szModuleName);
 			ProtoList.protoInfo[i].enabled = FALSE;
-			if (szMetaProto && !strcmp(proto[i]->szModuleName, szMetaProto))
+			if (!strcmp(proto[i]->szModuleName, META_PROTO))
 				ProtoList.protoInfo[i].visible = FALSE;
 			else {
 				ProtoList.protoInfo[i].visible = TRUE;

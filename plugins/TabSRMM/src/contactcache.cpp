@@ -72,7 +72,7 @@ void CContactCache::initPhaseTwo()
 
 	m_Valid = (m_szProto != 0 && m_szAccount != 0) ? true : false;
 	if (m_Valid) {
-		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(m_szProto, PluginConfig.szMetaName);
+		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(m_szProto, META_PROTO);
 		m_isSubcontact = db_mc_isSub(m_hContact) != 0;
 		if (m_isMeta)
 			updateMeta(true);
@@ -531,7 +531,7 @@ CContactCache* CContactCache::getContactCache(MCONTACT hContact)
  */
 void CContactCache::cacheUpdateMetaChanged()
 {
-	bool fMetaActive = (PluginConfig.g_MetaContactsAvail && PluginConfig.bMetaEnabled) ? true : false;
+	bool fMetaActive = (PluginConfig.bMetaEnabled) ? true : false;
 
 	for (int i=0; i < arContacts.getCount(); i++) {
 		CContactCache &c = arContacts[i];
@@ -547,7 +547,7 @@ void CContactCache::cacheUpdateMetaChanged()
 
 		// reset meta contact information, if metacontacts protocol became avail
 
-		if (fMetaActive && !strcmp(c.getProto(), PluginConfig.szMetaName))
+		if (fMetaActive && !strcmp(c.getProto(), META_PROTO))
 			c.resetMeta();
 	}
 }

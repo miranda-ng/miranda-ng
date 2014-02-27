@@ -97,7 +97,6 @@ extern HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 extern COLORREF	colTitle, colLabels, colBg, colValues;
 
 extern int iCodePage;
-extern char szMetaModuleName[256];
 
 extern FI_INTERFACE *fii;
 

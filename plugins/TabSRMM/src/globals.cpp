@@ -138,16 +138,7 @@ void CGlobals::reloadSystemModulesChanged()
 	g_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
 	m_hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
-	g_MetaContactsAvail = (ServiceExists(MS_MC_GETDEFAULTCONTACT) ? 1 : 0);
-
-	if (g_MetaContactsAvail) {
-		mir_snprintf(szMetaName, 256, "%s", (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
-		bMetaEnabled = abs(M.GetByte(szMetaName, "Enabled", -1));
-	}
-	else {
-		szMetaName[0] = 0;
-		bMetaEnabled = 0;
-	}
+	bMetaEnabled = abs(M.GetByte(META_PROTO, "Enabled", -1));
 
 	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUP);
 
@@ -378,13 +369,12 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_DB_EVENT_ADDED, CMimAPI::DispatchNewEvent);
 	HookEvent(ME_DB_EVENT_ADDED, CMimAPI::MessageEventAdded);
-	if (PluginConfig.g_MetaContactsAvail) {
-		HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
-		HookEvent(ME_MC_FORCESEND, MetaContactEvent);
-		HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
-	}
 	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
 	HookEvent(ME_TTB_MODULELOADED, TopToolbarLoaded);
+
+	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
+	HookEvent(ME_MC_FORCESEND, MetaContactEvent);
+	HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
 	return 0;
 }
 
@@ -434,8 +424,8 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	if (hContact == 0 && !lstrcmpA(setting, "Enabled")) {
-		if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) { 		// catch the disabled meta contacts
-			PluginConfig.bMetaEnabled = abs(M.GetByte(PluginConfig.szMetaName, "Enabled", -1));
+		if (!lstrcmpA(cws->szModule, META_PROTO)) { 		// catch the disabled meta contacts
+			PluginConfig.bMetaEnabled = abs(M.GetByte(META_PROTO, "Enabled", -1));
 			CContactCache::cacheUpdateMetaChanged();
 		}
 	}
@@ -443,7 +433,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
 		return 0;
 
-	if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName))
+	if (!lstrcmpA(cws->szModule, META_PROTO))
 		if (hContact != 0 && !lstrcmpA(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
 

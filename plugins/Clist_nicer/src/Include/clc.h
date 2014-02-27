@@ -223,7 +223,6 @@ struct TCluiData {
 	int statusBarHeight;
 	int soundsOff;
 	BYTE tabSRMM_Avail;
-	BYTE bMetaAvail;
 	BYTE bAvatarServiceAvail;
 	HICON hIconConnecting;
 	DWORD winFlags;
@@ -285,7 +284,6 @@ struct TCluiData {
 	DWORD stickyMaskFilter;
 	DWORD filterFlags;
 	COLORREF colorkey;
-	char szMetaName[256];
 	BOOL bMetaEnabled;
 	BOOL bSecIMAvail;
 	BOOL bNoTrayTips;

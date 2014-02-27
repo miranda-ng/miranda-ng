@@ -329,12 +329,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 											// add optional module, which is valid for at least one contact
 											/*/Filter/*/
-											if ( mir_stricmp(p, USERINFO) &&
-												mir_stricmp(p, MOD_MBIRTHDAY) &&
-												// Meta is only valid as base Proto at this point
-												mir_stricmp(p, myGlobals.szMetaProto) /*&&
-												mir_stricmp(p, "Protocol")*/
-											 ) 
+											if (mir_stricmp(p, USERINFO) && mir_stricmp(p, MOD_MBIRTHDAY) && mir_stricmp(p, META_PROTO)) 
 											{
 												ExportTree_AddItem(hTree, hItemOptional, p, bImagesLoaded, 1);
 												break;

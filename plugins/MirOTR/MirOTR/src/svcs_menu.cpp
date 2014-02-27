@@ -164,7 +164,7 @@ hide_all:
 		return 0;
 	}
 	
-	if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) {
+	if(proto && strcmp(proto, META_PROTO) == 0) {
 		// make menu act as per most online subcontact
 		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		if (!hContact)

@@ -610,7 +610,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		bAllowAutoCreate = TRUE;
 	else {
 		char *szProto = GetContactProto(hContact);
-		if (PluginConfig.g_MetaContactsAvail && szProto && !strcmp(szProto, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
+		if (szProto && !strcmp(szProto, META_PROTO)) {
 			MCONTACT hSubconttact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 			szProto = GetContactProto(hSubconttact);
 		}

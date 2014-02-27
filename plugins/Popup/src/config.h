@@ -138,8 +138,6 @@ extern HANDLE htuTitle;
 
 extern BOOL gbPopupLoaded;
 extern BOOL gbHppInstalled;
-extern LPCSTR gszMetaProto;
-
 
 //===== Brushes, Colours and Fonts =====
 extern HBITMAP hbmNoAvatar;

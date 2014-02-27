@@ -5,8 +5,6 @@ HANDLE hEventWindow;
 HINSTANCE hInst;
 
 int hLangpack;
-char* g_metaproto;
-
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -33,10 +31,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
-	if(ServiceExists(MS_MC_GETPROTOCOLNAME))
-		g_metaproto = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
 	InitUtils();
 
 	lib_cs_lock();

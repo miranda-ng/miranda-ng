@@ -2355,7 +2355,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 		char szTemp[50];
 		mir_snprintf(szTemp, sizeof(szTemp), "Protocol%d", i);
 
-		ptrA szProtoName(db_get_sa(dat->hContact, PluginConfig.szMetaName, szTemp));
+		ptrA szProtoName(db_get_sa(dat->hContact, META_PROTO, szTemp));
 		if (szProtoName == NULL)
 			continue;
 
@@ -2365,10 +2365,10 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 
 			TCHAR *nick = NULL, *szStatusText = NULL;
 			MCONTACT hContact;
-			if ((hContact = (MCONTACT)db_get_dw(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
+			if ((hContact = (MCONTACT)db_get_dw(dat->hContact, META_PROTO, szTemp, 0)) != 0) {
 				nick = pcli->pfnGetContactDisplayName(hContact, 0);
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
-				WORD wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
+				WORD wStatus = (WORD)db_get_w(dat->hContact, META_PROTO, szTemp, 0);
 				szStatusText = pcli->pfnGetStatusModeDescription(wStatus, 0);
 			}
 

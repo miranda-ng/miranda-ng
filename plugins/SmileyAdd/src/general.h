@@ -88,7 +88,6 @@ typedef WCMatcher _TMatcher;
 #include "smltool.h"
 
 extern HINSTANCE g_hInst;
-extern char* metaProtoName;
 extern HANDLE hNetlibUser;
 extern HANDLE hEvent1;
 extern HGENMENU hContactMenuItem;

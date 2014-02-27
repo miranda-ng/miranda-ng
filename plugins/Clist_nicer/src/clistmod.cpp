@@ -54,7 +54,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 	char *szFinalProto;
 	int finalStatus;
 
-	if (szProto != NULL && !strcmp(szProto, cfg::dat.szMetaName) && cfg::dat.bMetaAvail && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
+	if (szProto != NULL && !strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		szFinalProto = GetContactProto(hSubContact);
 		finalStatus = (status == 0) ? (WORD) cfg::getWord(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;

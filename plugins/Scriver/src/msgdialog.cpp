@@ -257,9 +257,7 @@ void SetStatusIcon(struct SrmmWindowData *dat)
 	char *szProto = dat->szProto;
 	MCONTACT hContact = dat->windowData.hContact;
 
-	char* szMetaProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	if ((INT_PTR)szMetaProto != CALLSERVICE_NOTFOUND && strcmp(dat->szProto, szMetaProto) == 0 &&
-		db_get_b(NULL,"CLC","Meta",0) == 0) {
+	if (!strcmp(dat->szProto, META_PROTO) && db_get_b(NULL,"CLC","Meta",0) == 0) {
 		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
 		if (hContact != NULL)
 			szProto = GetContactProto(hContact);

@@ -21,8 +21,7 @@ Boston, MA 02111-1307, USA.
 #include "commons.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
-
-
+					 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -36,7 +35,6 @@ PLUGININFOEX pluginInfo={
 	// {F93BA59C-4F48-4F2E-8A91-77A2801527A3}
 	{0xf93ba59c, 0x4f48, 0x4f2e, {0x8a, 0x91, 0x77, 0xa2, 0x80, 0x15, 0x27, 0xa3}}
 };
-
 
 HINSTANCE hInst;
 HIMAGELIST hIml;
@@ -61,13 +59,9 @@ int hksAction = 0;
 
 BOOL hasNewHotkeyModule = FALSE;
 
-char *metacontacts_proto = NULL;
-
 #define IDC_ICO 12344
 
-
 // Functions ////////////////////////////////////////////////////////////////////////////
-
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
 {
@@ -202,8 +196,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.ptszName = LPGENT("Quick Contacts...");
 	mi.pszService = MS_QC_SHOW_DIALOG;
 	Menu_AddMainMenuItem(&mi);
-
-	metacontacts_proto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	return 0;
 }
 
@@ -343,8 +335,7 @@ void FreeContacts()
 
 void LoadContacts(HWND hwndDlg, BOOL show_all)
 {
-	BOOL metacontactsEnabled = (metacontacts_proto != NULL
-				 && db_get_b(0, metacontacts_proto, "Enabled", 1));
+	BOOL metacontactsEnabled = db_get_b(0, META_PROTO, "Enabled", 1);
 
 	// Read last-sent-to contact from db and set handle as window-userdata
 	HANDLE hlastsent = (HANDLE)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1);
@@ -366,12 +357,8 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			if ((!show_all && opts.hide_subcontacts) || opts.group_append)
 				hMeta = db_mc_getMeta(hContact);
 		}
-		else
-		{
-			if (metacontacts_proto != NULL && strcmp(metacontacts_proto, pszProto) == 0)
-				continue;
-		}
-
+		else if (!strcmp(META_PROTO, pszProto))
+			continue;
 
 		if (!show_all)
 		{
@@ -398,17 +385,13 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 				if (!opts.keep_subcontacts_from_offline)
 					continue;
 
-				if (GetStatus(hMeta, metacontacts_proto) > ID_STATUS_OFFLINE)
-				{
+				if (GetStatus(hMeta, META_PROTO) > ID_STATUS_OFFLINE)
 					continue;
-				}
-				else 
-				{
-					char setting[128];
-					mir_snprintf(setting, sizeof(setting), "ShowOffline%s", metacontacts_proto);
-					if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
-						continue;
-				}
+
+				char setting[128];
+				mir_snprintf(setting, sizeof(setting), "ShowOffline%s", META_PROTO);
+				if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
+					continue;
 			}
 		}
 

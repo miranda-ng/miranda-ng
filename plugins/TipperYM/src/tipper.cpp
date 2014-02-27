@@ -22,8 +22,6 @@ Boston, MA 02111-1307, USA.
 
 HMODULE hInst;
 
-char szMetaModuleName[256] = {0};
-
 FontIDT fontTitle, fontLabels, fontValues, fontTrayTitle;
 ColourIDT colourBg, colourBorder, colourAvatarBorder, colourDivider, colourSidebar;
 HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
@@ -270,11 +268,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// set Miranda start timestamp
 	db_set_dw(0, MODULE, "MirandaStartTS", (DWORD)time(0));
-
-	// get MetaContacts module name
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		strcpy(szMetaModuleName, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
-
 	return 0;
 }
 

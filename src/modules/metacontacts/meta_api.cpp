@@ -177,19 +177,14 @@ INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
 	}
 
 	MCONTACT hContact = (MCONTACT)db_get_dw(hMeta, META_PROTO, "ForceSend", 0);
-	if ( !hContact) {
+	if (!hContact) {
 		if (lParam) *(DWORD *)lParam = -1;
-	} else {
+	}
+	else {
 		if (lParam) *(DWORD *)lParam = (DWORD)Meta_GetContactNumber(hContact);
 	}
 
 	return 0;
-}
-
-// method to get protocol name - used to be sure you're dealing with a "real" metacontacts plugin :)
-// wParam=lParam=0
-INT_PTR MetaAPI_GetProtoName(WPARAM wParam, LPARAM lParam) {
-	return (INT_PTR)META_PROTO;
 }
 
 // added 0.9.5.0 (22/3/05)

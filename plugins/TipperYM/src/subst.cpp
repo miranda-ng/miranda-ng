@@ -249,7 +249,7 @@ TCHAR *GetStatusMessageText(MCONTACT hContact)
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
-		if (!strcmp(szProto, szMetaModuleName))
+		if (!strcmp(szProto, META_PROTO))
 			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		else {
 			WORD wStatus = (int)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
@@ -412,8 +412,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		MCONTACT hTmpContact = hContact;
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto && !strcmp(szProto, szMetaModuleName))
-		{
+		if (szProto && !strcmp(szProto, META_PROTO)) {
 			iNumber = CallService(MS_MC_GETNUMCONTACTS, hContact, 0);
 			hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, 0);
 		}

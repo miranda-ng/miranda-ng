@@ -508,8 +508,8 @@ protoPicCacheEntry *GetProtoDefaultAvatar(MCONTACT hContact)
 
 MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked)
 {
-	if (g_MetaAvail && db_get_b(NULL, g_szMetaName, "Enabled", 0)) {
-		if (db_get_dw(hContact, g_szMetaName, "NumContacts", 0) >= 1) {
+	if (db_get_b(NULL, META_PROTO, "Enabled", 0)) {
+		if (db_get_dw(hContact, META_PROTO, "NumContacts", 0) >= 1) {
 			if (locked == -1)
 				locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 

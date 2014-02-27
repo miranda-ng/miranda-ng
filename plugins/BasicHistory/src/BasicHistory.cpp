@@ -250,9 +250,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS))
 		g_SmileyAddAvail = true;
 
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		metaContactProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-
 	InitScheduler();
 	return 0;
 }

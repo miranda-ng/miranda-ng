@@ -721,9 +721,7 @@ begin
       result:=255;
       if db_mc_getMeta(hContact)<>0 then
         result:=2;
-      if StrCmp(
-         PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),
-         PAnsiChar(CallService(MS_MC_GETPROTOCOLNAME,0,0)))=0 then
+      if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)), META_PROTO)=0 then
         result:=1;
     end;
     if proto<>nil then

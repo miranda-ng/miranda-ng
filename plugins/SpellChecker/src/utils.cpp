@@ -770,19 +770,13 @@ void GetUserLanguageSetting(Dialog *dlg, char *setting)
 		return;
 
 	// If not found and is inside meta, try to get from the meta
-	INT_PTR mc = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	if (mc != CALLSERVICE_NOTFOUND) {
-		char* metacontacts_proto = (char *) mc;
-		if (metacontacts_proto != NULL) {
-			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
-			if (hMetaContact != NULL) {
-				GetUserProtoLanguageSetting(dlg, hMetaContact, metacontacts_proto, setting);
-				if (dlg->lang_name[0] != _T('\0'))
-					return;
+	MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
+	if (hMetaContact != NULL) {
+		GetUserProtoLanguageSetting(dlg, hMetaContact, META_PROTO, setting);
+		if (dlg->lang_name[0] != _T('\0'))
+			return;
 
-				GetUserProtoLanguageSetting(dlg, hMetaContact, "UserInfo", setting, FALSE);
-			}
-		}
+		GetUserProtoLanguageSetting(dlg, hMetaContact, "UserInfo", setting, FALSE);
 	}
 }
 

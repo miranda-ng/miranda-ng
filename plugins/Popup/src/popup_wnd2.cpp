@@ -937,12 +937,12 @@ struct ReplyEditData
 	WNDPROC oldWndProc;
 };
 
-BOOL	IsUtfSendAvailable(MCONTACT hContact)
+BOOL IsUtfSendAvailable(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
-	if (strcmp(szProto, gszMetaProto)==0) {
+	if (!strcmp(szProto, META_PROTO)) {
 		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
 		if (!hSubContact)
 			return FALSE;
@@ -951,7 +951,7 @@ BOOL	IsUtfSendAvailable(MCONTACT hContact)
 	return(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
 }
 
-void	AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
+void AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);

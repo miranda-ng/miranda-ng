@@ -151,18 +151,17 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				else if ( !__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 					ReloadExtraInfo(hContact);
 
-				if (cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, cfg::dat.szMetaName)) {
+				if (!(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, META_PROTO))
 					if ((lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
 						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
-				}
 			}
 			// !!!!!!!!!!!!!!!!!!
 			// if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, cfg::dat.szMetaName) && !__strcmp(cws->szSetting, "IsSubcontact"))
 			// 	pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
 		}
 	}
-	else if (!__strcmp(cws->szModule, cfg::dat.szMetaName)) {
-		BYTE bMetaEnabled = cfg::getByte(cfg::dat.szMetaName, "Enabled", 1);
+	else if (!__strcmp(cws->szModule, META_PROTO)) {
+		BYTE bMetaEnabled = cfg::getByte(META_PROTO, "Enabled", 1);
 		if (bMetaEnabled != (BYTE)cfg::dat.bMetaEnabled) {
 			cfg::dat.bMetaEnabled = bMetaEnabled;
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
@@ -382,7 +381,7 @@ LBL_Def:
 		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
-		if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
+		if (contact->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 			contact->hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)contact->hContact, 0);
 			contact->metaProto = GetContactProto(contact->hSubContact);
 			contact->iImage = pcli->pfnGetContactIcon(contact->hSubContact);
@@ -563,12 +562,11 @@ LBL_Def:
 
 			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				p = cfg::getCache(hContact, szProto);
-				if (!dat->bisEmbedded && cfg::dat.bMetaAvail && szProto) {				// may be a subcontact, forward the xstatus
+				if (!dat->bisEmbedded && szProto) {				// may be a subcontact, forward the xstatus
 					if (db_mc_isSub(hContact)) {
-						MCONTACT hMasterContact = (MCONTACT)cfg::getDword(hContact, cfg::dat.szMetaName, "Handle", 0);
+						MCONTACT hMasterContact = (MCONTACT)cfg::getDword(hContact, META_PROTO, "Handle", 0);
 						if (hMasterContact && hMasterContact != hContact)				// avoid recursive call of settings handler
-							cfg::writeByte(hMasterContact, cfg::dat.szMetaName, "XStatusId",
-							(BYTE)cfg::getByte(hContact, szProto, "XStatusId", 0));
+							cfg::writeByte(hMasterContact, META_PROTO, "XStatusId", (BYTE)cfg::getByte(hContact, szProto, "XStatusId", 0));
 						break;
 					}
 				}

@@ -101,10 +101,10 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	p->xStatus = cfg::getByte(hContact, p->proto, "XStatusId", 0);
 
 	if (p->proto)
-		p->bIsMeta = !strcmp(p->proto, cfg::dat.szMetaName);
+		p->bIsMeta = !strcmp(p->proto, META_PROTO);
 	else
 		p->bIsMeta = FALSE;
-	if (p->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
+	if (p->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		p->hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		p->metaProto = GetContactProto(p->hSubContact);
 		p->iImage = pcli->pfnGetContactIcon(p->hSubContact);
@@ -473,7 +473,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 
 	// always hide subcontacts (but show them on embedded contact lists)
 
-	if (cfg::dat.bMetaAvail && dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
+	if (dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
 		return 1;
 
 	if ( !cfg::dat.bFilterEffective)

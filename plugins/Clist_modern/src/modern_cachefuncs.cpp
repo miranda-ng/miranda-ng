@@ -204,7 +204,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, 
 	if (dat->text_use_protocol_smileys) {
 		sp.Protocolname = pdnce->m_cache_cszProto;
 
-		if ( db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0) {
+		if (db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && strcmp(pdnce->m_cache_cszProto, META_PROTO) == 0) {
 			MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->hContact, 0);
 			if (hContact != 0)
 				sp.Protocolname = GetContactProto(hContact);

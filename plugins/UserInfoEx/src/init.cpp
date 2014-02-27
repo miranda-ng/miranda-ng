@@ -71,16 +71,15 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 
-	// init meta contacts
-	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	myGlobals.szMetaProto = (ptr != CALLSERVICE_NOTFOUND) ? (LPCSTR)ptr : NULL;
-
 	// options
 	OptionsLoadModule();
+
 	// create services to receive string lists of languages and timezones
 	SvcConstantsLoadModule();
+
 	// load module to remind user about birthday and a anniversary
 	SvcReminderOnModulesLoaded();
+
 	// load extended intagration services
 	SvcHomepageLoadModule();
 	SvcFlagsOnModulesLoaded();

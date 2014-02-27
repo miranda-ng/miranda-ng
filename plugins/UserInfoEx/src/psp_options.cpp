@@ -431,7 +431,6 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		EnableDlgItem(hDlg, CHECK_OPT_METASCAN, myGlobals.szMetaProto != NULL);
 		SendNotify_InfoChanged(hDlg);
 		return TRUE;
 

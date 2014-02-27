@@ -346,7 +346,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 
 	if (protocol == NULL)
 		strcpy(smileyProto, "tipper");
-	else if (strcmp(protocol, szMetaModuleName) == 0)
+	else if (strcmp(protocol, META_PROTO) == 0)
 		strcpy(smileyProto, "tipper");
 	else
 		strcpy(smileyProto, protocol);

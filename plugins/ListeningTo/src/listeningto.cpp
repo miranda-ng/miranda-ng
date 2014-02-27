@@ -43,7 +43,6 @@ static HGENMENU hMainMenuGroup = NULL;
 static HANDLE hListeningInfoChangedEvent = NULL;
 
 static HANDLE hTTB = NULL;
-static char *metacontacts_proto = NULL;
 BOOL loaded = FALSE;
 static UINT hTimer = 0;
 static DWORD lastInfoSetTime = 0;
@@ -278,9 +277,6 @@ static IconItem iconList[] =
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	EnableDisablePlayers();
-
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	// icons
 	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));

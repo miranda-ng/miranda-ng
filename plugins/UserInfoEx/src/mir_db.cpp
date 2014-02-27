@@ -48,9 +48,6 @@ MCONTACT Sub(MCONTACT hMetaContact, int idx)
 
 MCONTACT GetMeta(MCONTACT hContact)
 {
-	if (!myGlobals.szMetaProto)
-		return NULL;
-
 	return db_mc_getMeta(hContact);
 }
 
@@ -196,9 +193,7 @@ bool IsEmpty(MCONTACT hContact, LPCSTR pszModule)
 
 bool IsMeta(LPCSTR pszModule)
 {
-	if (myGlobals.szMetaProto)
-		return !mir_strcmp(pszModule, myGlobals.szMetaProto);
-	return !mir_strcmp(pszModule, "MetaContacts");
+	return !mir_strcmp(pszModule, META_PROTO);
 }
 
 /**

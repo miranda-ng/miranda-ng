@@ -28,7 +28,6 @@ LIST<DBEVENT> eventList( 10 );
 HANDLE hStatusModeChange, hServiceMenu, hHookContactStatusChanged, hToolbarButton;
 HGENMENU hEnableDisableMenu;
 
-char szMetaModuleName[256] = {0};
 STATUS StatusList[STATUS_COUNT];
 HWND SecretWnd;
 int hLangpack;
@@ -775,7 +774,7 @@ int ContactStatusChanged(WPARAM hContact, LPARAM lParam)
 		db_set_w(hContact, "SeenModule", "Status", oldStatus);
 	}
 
-	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
+	if (!strcmp(szProto, META_PROTO)) { //this contact is Meta
 		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 		hlpProto = GetContactProto(hSubContact);
 		if (hlpProto == NULL)
@@ -1137,9 +1136,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < count; i++)
 		if (IsAccountEnabled(accounts[i]))
 			db_set_b(NULL, MODULE, accounts[i]->szModuleName, 0);
-
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
-		strcpy(szMetaModuleName, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
 
 	return 0;
 }

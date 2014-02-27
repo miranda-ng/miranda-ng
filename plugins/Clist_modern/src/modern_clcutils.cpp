@@ -453,8 +453,10 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 	}
 	dat->selection = hit;
 
-	if (g_szMetaModuleName && !mir_strcmp(contact->proto,g_szMetaModuleName) &&  ( ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONMETACONTACT;
-	if (contact->isSubcontact && ( ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONSUBCONTACT;
+	if (!mir_strcmp(contact->proto, META_PROTO) && ServiceExists(MS_MC_ADDTOMETA))
+		return DROPTARGET_ONMETACONTACT;
+	if (contact->isSubcontact && ServiceExists(MS_MC_ADDTOMETA))
+		return DROPTARGET_ONSUBCONTACT;
 	return DROPTARGET_ONCONTACT;
 }
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor)
@@ -746,9 +748,8 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 	dat->selTextColour = db_get_dw(NULL,"CLC","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 	dat->hotTextColour = db_get_dw(NULL,"CLC","HotTextColour",CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL,"CLC","QuickSearchColour",CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
-	if (!g_szMetaModuleName && ServiceExists(MS_MC_GETPROTOCOLNAME)) g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  &&
-		g_szMetaModuleName && db_get_b(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
+		db_get_b(NULL, META_PROTO, "Enabled", 1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
 		dat->MetaIgnoreEmptyExtra = db_get_b(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);

@@ -484,8 +484,6 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 	if (xContact == NULL)
 		return ERROR_INVALID_PARAMS;
 
-	LPSTR pszMetaProto = myGlobals.szMetaProto ? myGlobals.szMetaProto : "MetaContacts";
-
 	// delete last contact
 	db_free(&_dbvUID);
 	_hContact = INVALID_CONTACT_ID;
@@ -500,9 +498,9 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 	MIR_FREE(_pszUIDKey);
 
 	// is contact a metacontact
-	if (_pszAMPro && !strcmp(_pszAMPro, pszMetaProto) /*_xmlNode->FirstChildElement(XKEY_CONTACT)*/) {
+	if (_pszAMPro && !strcmp(_pszAMPro, META_PROTO)) {
 		TiXmlElement *xSub;
-		proto(pszMetaProto);
+		proto(META_PROTO);
 
 		// meta contact must be uniquelly identified by its subcontacts
 		// the metaID may change during an export or import call
