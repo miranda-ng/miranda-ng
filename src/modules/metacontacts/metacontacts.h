@@ -102,7 +102,6 @@ struct MetaOptions
 	BYTE set_default_on_recv;
 	BYTE always_use_default;
 	BYTE suppress_status;
-	BYTE copy_subcontact_history;
 	BYTE subcontact_windows;
 	BYTE metahistory;
 	BYTE subhistory;
@@ -122,8 +121,7 @@ struct MetaOptions
 
 extern MetaOptions options;
 
-INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+int Meta_OptInit(WPARAM wParam, LPARAM lParam);
 int Meta_WriteOptions(MetaOptions *opt);
 int Meta_ReadOptions(MetaOptions *opt);
 
@@ -160,8 +158,6 @@ HANDLE GetIconHandle(IconIndex i);
 extern HANDLE hEventDefaultChanged, hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
 
 extern POINT menuMousePoint;
-
-extern BOOL message_window_api_enabled;
 
 #define MAX_PROTOCOLS	20
 extern char proto_names[MAX_PROTOCOLS * 128];

@@ -26,24 +26,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-#define PREF_METANODB	0x2000	//!< Flag to indicate message should not be added to db by filter when sending
+#define PREF_METANODB	0x2000	// Flag to indicate message should not be added to db by filter when sending
 
-char *pendingACK = 0;		//!< Name of the protocol in which an ACK is about to come.
+char *pendingACK = 0;		// Name of the protocol in which an ACK is about to come.
 
-int previousMode,			//!< Previous status of the MetaContacts Protocol
-	mcStatus;				//!< Current status of the MetaContacts Protocol
+int previousMode,			// Previous status of the MetaContacts Protocol
+	mcStatus;				// Current status of the MetaContacts Protocol
 
 HANDLE
-	hEventDefaultChanged, //!< \c HANDLE to the 'default changed' event
-	hEventForceSend,		 //!< \c HANDLE to the 'force send' event
-	hEventUnforceSend,    //!< \c HANDLE to the 'unforce send' event
-	hSubcontactsChanged,  //!< \c HANDLE to the 'contacts changed' event
+	hEventDefaultChanged, // HANDLE to the 'default changed' event
+	hEventForceSend,		 // HANDLE to the 'force send' event
+	hEventUnforceSend,    // HANDLE to the 'unforce send' event
+	hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
 	hEventNudge;
 
 
 DWORD nextMetaID;	//!< Global variable specifying the ID value the next MetaContact will have.
-
-BOOL message_window_api_enabled = FALSE; //!< Global variable specifying whether the message window api ver 0.0.0.1+ is available
 
 // stuff for mw_clist extra icon
 HANDLE hExtraImage[MAX_PROTOCOLS * 2]; // online and offline icons
@@ -352,12 +350,10 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 	MCONTACT hMeta;
 
 	// Can't find the MetaID of the metacontact linked to this contact, let through the protocol chain
-	if ((hMeta = (MCONTACT)db_get_dw(ccs->hContact, META_PROTO, "Handle", 0)) == 0)
+	if ((hMeta = db_get_dw(ccs->hContact, META_PROTO, "Handle", 0)) == 0)
 		return CallService(MS_PROTO_CHAINRECV, wParam, (LPARAM)ccs);
 
 	if (options.set_default_on_recv) {
-		if (options.temp_default && db_get_dw(hMeta, META_PROTO, "SavedDefault", (DWORD)-1) == (DWORD)-1)
-			db_set_dw(hMeta, META_PROTO, "SavedDefault", db_get_dw(hMeta, META_PROTO, "Default", 0));
 		db_set_dw(hMeta, META_PROTO, "Default", db_get_dw(ccs->hContact, META_PROTO, "ContactNumber", 0));
 		NotifyEventHooks(hEventDefaultChanged, (WPARAM)hMeta, (LPARAM)ccs->hContact); // nick set in event handler
 	}
@@ -368,10 +364,9 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 
 		// add a clist event, so that e.g. there is an icon flashing
 		// (only add it when message api available, 'cause then we can remove the event when the message window is opened)
-		if (message_window_api_enabled
-			&& db_get_b(ccs->hContact, META_PROTO, "WindowOpen", 0) == 0
-			&& db_get_b(hMeta, META_PROTO, "WindowOpen", 0) == 0
-			&& options.flash_meta_message_icon)
+		if (db_get_b(ccs->hContact, META_PROTO, "WindowOpen", 0) == 0 &&
+			 db_get_b(hMeta, META_PROTO, "WindowOpen", 0) == 0 &&
+			 options.flash_meta_message_icon)
 		{
 			TCHAR toolTip[256];
 
@@ -856,40 +851,23 @@ int Meta_UserInfo(WPARAM wParam, LPARAM lParam)
 
 // handle message window api ver 0.0.0.1+ events - record window open/close status for subcontacts, so we know whether to
 // let received messages through and add db history to metacontact, or vice versa
-int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam) {
+int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
+{
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
 	MCONTACT hMeta = 0;
 
-	message_window_api_enabled = TRUE;
-
-	if ((hMeta = (MCONTACT)db_get_dw(mwed->hContact, META_PROTO, "Handle", 0)) != 0
+	if ((hMeta = db_get_dw(mwed->hContact, META_PROTO, "Handle", 0)) != 0
 		|| db_get_dw(mwed->hContact, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1)
 	{
 		// contact is subcontact of metacontact, or an actual metacontact - record whether window is open or closed
 		if (mwed->uType == MSG_WINDOW_EVT_OPEN || mwed->uType == MSG_WINDOW_EVT_OPENING) {
 			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 1);
 
-			if (hMeta) { // subcontact window opened - remove clist events we added for metacontact
-				while(!CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hMeta, (LPARAM)mwed->hContact));
-			}
-		} else if (mwed->uType == MSG_WINDOW_EVT_CLOSE || mwed->uType == MSG_WINDOW_EVT_CLOSING) {
-			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 0);
-			if ( !hMeta) { // hMeta is 0 for metacontact (sorry)
-				DWORD saved_def;
-
-				MetaAPI_UnforceSendContact((WPARAM)mwed->hContact, 0);
-
-				// restore saved default contact
-				if (options.set_default_on_recv) {
-					saved_def = db_get_dw(mwed->hContact, META_PROTO, "SavedDefault", -1);
-					if (options.temp_default && saved_def != (DWORD)-1) {
-						db_set_dw(mwed->hContact, META_PROTO, "Default", saved_def);
-						db_set_dw(mwed->hContact, META_PROTO, "SavedDefault", (DWORD)-1);
-						NotifyEventHooks(hEventDefaultChanged, (WPARAM)mwed->hContact, (LPARAM)Meta_GetContactHandle(hMeta, saved_def)); // nick set in event handler
-					}
-				}
-			}
+			if (hMeta)  // subcontact window opened - remove clist events we added for metacontact
+				while(!CallService(MS_CLIST_REMOVEEVENT, hMeta, mwed->hContact));
 		}
+		else if (mwed->uType == MSG_WINDOW_EVT_CLOSE || mwed->uType == MSG_WINDOW_EVT_CLOSING)
+			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 0);
 	}
 
 	return 0;
@@ -907,9 +885,9 @@ int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
 
 	if (options.subcontact_windows) {
 		if (lParam) // contact from incoming message in lParam via (at this point) clist message event
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)lParam, 0);
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, lParam, 0);
 		else // simulate double click on most_online contact and stop event processing
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)most_online, 0);
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, most_online, 0);
 		return 1;
 	}
 
@@ -922,13 +900,13 @@ int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
 	strcat(buffer, PS_GETCAPS);
 
 	// get the contacts messaging capabilities
-	int caps = CallService(buffer, (WPARAM)PFLAGNUM_1, 0);
+	int caps = CallService(buffer, PFLAGNUM_1, 0);
 	if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0))
 		// let event process normally
 		return 0;
 
 	// simulate double click on most_online contact and stop event processing
-	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)most_online, 0);
+	CallService(MS_CLIST_CONTACTDOUBLECLICKED, most_online, 0);
 	return 1;
 }
 
@@ -950,9 +928,6 @@ int NudgeRecieved(WPARAM wParam, LPARAM lParam)
 */
 int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_MSG_GETWINDOWAPI))
-		message_window_api_enabled = TRUE;
-
 	// disable group hack for older nicer versions without the fix
 	if (ServiceExists(MS_CLUI_GETVERSION)) {
 		char *version = (char *)CallService(MS_CLUI_GETVERSION, 0, 0);
@@ -967,8 +942,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitMenus();
 
 	// hook srmm window close/open events - message api ver 0.0.0.1+
-	if (HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent))
-		message_window_api_enabled = TRUE;
+	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
 
 	// hook protocol nudge events to forward to subcontacts
 	int numberOfProtocols;
@@ -1004,38 +978,29 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 
 	if (options.menu_function == FT_MSG) {
 		// open message window if protocol supports message sending or chat, else simulate double click
-
-		int caps;
-		char *proto;
-		char buffer[512];
-
-		proto = GetContactProto(hContact);
-
+		char *proto = GetContactProto(hContact);
 		if (proto) {
+			char buffer[512];
 			strcpy(buffer, proto);
 			strcat(buffer, PS_GETCAPS);
 
-			caps = CallService(buffer, (WPARAM)PFLAGNUM_1, 0);
-
+			int caps = CallService(buffer, (WPARAM)PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0)) {
 				// set default contact for sending/status and open message window
 				db_set_dw(wParam, META_PROTO, "Default", (DWORD)(int)lParam);
 				NotifyEventHooks(hEventDefaultChanged, wParam, (LPARAM)hContact);
 				CallService(MS_MSG_SENDMESSAGE, wParam, 0);
-			} else
-				// protocol does not support messaging - simulate double click
+			}
+			else // protocol does not support messaging - simulate double click
 				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
-		} else
-			// protocol does not support messaging - simulate double click
+		}
+		else // protocol does not support messaging - simulate double click
 			CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
-
-	} else if (options.menu_function == FT_MENU) {
-		// show contact's context menu
-		CallFunctionAsync(sttMenuThread, (void*)hContact);
-	} else if (options.menu_function == FT_INFO) {
-		// show user info for subcontact
-		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 	}
+	else if (options.menu_function == FT_MENU) // show contact's context menu
+		CallFunctionAsync(sttMenuThread, (void*)hContact);
+	else if (options.menu_function == FT_INFO) // show user info for subcontact
+		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 
 	return 0;
 }
@@ -1171,56 +1136,28 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	return CallContactService(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
 }
 
-int Meta_OptInit(WPARAM wParam, LPARAM lParam)
+int Meta_CallMostOnline(WPARAM hContact, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.position = -790000000;
-	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS;
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAOPTIONS);
-	odp.pszTitle = LPGEN("MetaContacts");
-	odp.pszGroup = LPGEN("Contacts");
-	odp.pszTab = LPGEN("General");
-	odp.pfnDlgProc = DlgProcOpts;
-	Options_AddPage(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAPRIORITIES);
-	odp.pszTab = LPGEN("Priorities");
-	odp.pfnDlgProc = DlgProcOptsPriorities;
-	Options_AddPage(wParam, &odp);
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAHISTORY);
-	odp.pszTab = LPGEN("History");
-	odp.pfnDlgProc = DlgProcOpts;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
-int Meta_CallMostOnline(WPARAM wParam, LPARAM lParam)
-{
-	MCONTACT most_online_im = Meta_GetMostOnline(wParam);
+	MCONTACT most_online_im = Meta_GetMostOnline(hContact);
 
 	// fix nick
-	Meta_CopyContactNick(wParam, most_online_im);
+	Meta_CopyContactNick(hContact, most_online_im);
 
 	// fix status
-	Meta_FixStatus(wParam);
+	Meta_FixStatus(hContact);
 
 	// copy all other data
-	Meta_CopyData((MCONTACT) wParam);
+	Meta_CopyData(hContact);
 	return 0;
 }
 
-int Meta_PreShutdown(WPARAM wParam, LPARAM lParam) {
+int Meta_PreShutdown(WPARAM wParam, LPARAM lParam)
+{
 	Meta_SetStatus((WPARAM)ID_STATUS_OFFLINE, 0);
 	Meta_UnhideLinkedContacts();
 	Meta_SuppressStatus(FALSE);
-	//MessageBox(0, "Status is OFFLINE", "MC", MB_OK);
-	//MessageBox(0, "Preshutdown complete", "MC", MB_OK);
-
-	if (setStatusTimerId) KillTimer(0, setStatusTimerId);
-
+	if (setStatusTimerId)
+		KillTimer(0, setStatusTimerId);
 	return 0;
 }
 

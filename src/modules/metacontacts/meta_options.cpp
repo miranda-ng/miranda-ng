@@ -69,7 +69,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			EnableWindow(hw, FALSE);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_CHK_COPYHISTORY, options_changes.copy_subcontact_history ? TRUE : FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_COPYHISTORY), FALSE);
+		CheckDlgButton(hwndDlg, IDC_CHK_COPYHISTORY, FALSE);
+
 		hw = GetDlgItem(hwndDlg, IDC_ED_DAYS);
 		_itot(options_changes.days_history, buff, 10);
 		SetWindowText(hw, buff);
@@ -93,10 +95,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			case IDC_CHK_SUPPRESSSTATUS:
 				options_changes.suppress_status = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUPPRESSSTATUS);
-				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_CHK_COPYHISTORY:
-				options_changes.copy_subcontact_history = IsDlgButtonChecked(hwndDlg, IDC_CHK_COPYHISTORY);
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_METAHISTORY:
@@ -220,7 +218,6 @@ int Meta_WriteOptions(MetaOptions *opt)
 	db_set_w(NULL, META_PROTO, "MenuContactLabel", (WORD)opt->menu_contact_label);
 	db_set_w(NULL, META_PROTO, "MenuContactFunction", (WORD)opt->menu_function);
 	db_set_w(NULL, META_PROTO, "CListContactName", (WORD)opt->clist_contact_name);
-	db_set_b(NULL, META_PROTO, "CopyHistory", (BYTE)(opt->copy_subcontact_history ? 1 : 0));
 	db_set_dw(NULL, META_PROTO, "DaysHistory", (DWORD)(opt->days_history));
 	db_set_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(opt->set_status_from_offline_delay));
 	db_set_b(NULL, META_PROTO, "SubcontactWindows", (BYTE)(opt->subcontact_windows ? 1 : 0));
@@ -252,7 +249,6 @@ int Meta_ReadOptions(MetaOptions *opt)
 	opt->menu_contact_label = (int)db_get_w(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
 	opt->menu_function = (int)db_get_w(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
 	opt->clist_contact_name = (int)db_get_w(NULL, META_PROTO, "CListContactName", CNNT_NICK);
-	opt->copy_subcontact_history = (db_get_b(NULL, META_PROTO, "CopyHistory", 1) == 1 ? TRUE : FALSE);
 	opt->days_history = (int)db_get_dw(NULL, META_PROTO, "DaysHistory", 0);
 	opt->set_status_from_offline_delay = (int)db_get_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
 	opt->subcontact_windows = (db_get_b(NULL, META_PROTO, "SubcontactWindows", 0) == 1 ? TRUE : FALSE);
@@ -603,4 +599,32 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	}
 
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int Meta_OptInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = -790000000;
+	odp.hInstance = hInst;
+	odp.flags = ODPF_BOLDGROUPS;
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAOPTIONS);
+	odp.pszTitle = LPGEN("MetaContacts");
+	odp.pszGroup = LPGEN("Contacts");
+	odp.pszTab = LPGEN("General");
+	odp.pfnDlgProc = DlgProcOpts;
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAPRIORITIES);
+	odp.pszTab = LPGEN("Priorities");
+	odp.pfnDlgProc = DlgProcOptsPriorities;
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAHISTORY);
+	odp.pszTab = LPGEN("History");
+	odp.pfnDlgProc = DlgProcOpts;
+	Options_AddPage(wParam, &odp);
+	return 0;
 }

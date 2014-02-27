@@ -321,6 +321,7 @@ INT_PTR Meta_ForceDefault(WPARAM wParam, LPARAM lParam)
 int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
+	Menu_ShowItem(hMenuRoot, false);
 
 	if (db_get_dw(wParam, META_PROTO, META_ID, -1) != (DWORD)-1) {
 		// save the mouse pos in case they open a subcontact menu
@@ -334,7 +335,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		Menu_ShowItem(hMenuDelete, false);
 
 		mi.flags = CMIM_NAME;
-		mi.pszName = LPGEN("Remove from MetaContact");
+		mi.pszName = LPGEN("Remove from metacontact");
 		Menu_ModifyItem(hMenuDelete, &mi);
 
 		//show subcontact menu items
@@ -397,7 +398,6 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, (LPARAM)ServiceExists(serviceFunc));
 	}
 	else { // This is a simple contact
-		Menu_ShowItem(hMenuRoot, false);
 		if (!Meta_IsEnabled()) {
 			// groups disabled - all meta menu options hidden
 			Menu_ShowItem(hMenuDefault, false);
@@ -411,7 +411,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 			Menu_ShowItem(hMenuDefault, true);
 
 			mi.flags = CMIM_NAME;
-			mi.pszName = LPGEN("Remove from MetaContact");
+			mi.pszName = LPGEN("Remove from metacontact");
 			Menu_ModifyItem(hMenuDelete, &mi);
 
 			Menu_ShowItem(hMenuAdd, false);

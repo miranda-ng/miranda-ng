@@ -62,7 +62,6 @@ int LoadMetacontacts(void)
 
 	db_set_resident(META_PROTO, "Status");
 	db_set_resident(META_PROTO, "IdleTS");
-	db_set_resident(META_PROTO, "ContactCountCheck");
 	db_set_resident(META_PROTO, "Handle");
 	db_set_resident(META_PROTO, "WindowOpen");
 
@@ -70,13 +69,6 @@ int LoadMetacontacts(void)
 	for (MCONTACT hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {
 		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
 		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
-		db_set_b(hContact, META_PROTO, "ContactCountCheck", 0);
-
-		// restore any saved defaults that might have remained if miranda was closed or crashed while a convo was happening
-		if (db_get_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
-			db_set_dw(hContact, META_PROTO, "Default", db_get_dw(hContact, META_PROTO, "SavedDefault", 0));
-			db_set_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
-		}
 	}	
 
 	Meta_ReadOptions(&options);
@@ -107,15 +99,7 @@ int LoadMetacontacts(void)
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
-
 	Meta_InitServices();
-
-	// moved to 'modules loaded' event handler (in meta_services.c) because we need to 
-	// check protocol for jabber hack, and the proto modules must be loaded
-	//Meta_HideLinkedContactsAndSetHandles();
-
-	if ( ServiceExists(MS_MSG_GETWINDOWAPI))
-		message_window_api_enabled = TRUE;
 
 	// for clist_meta_mw - write hidden group name to DB
 	db_set_s(0, META_PROTO, "HiddenGroupName", META_HIDDEN_GROUP);

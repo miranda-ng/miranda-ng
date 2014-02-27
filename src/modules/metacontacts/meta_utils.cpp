@@ -355,9 +355,8 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	// Hide the contact
 	Meta_SetGroup(src);
 
-	// copy history
-	if (options.copy_subcontact_history)
-		copyHistory(src, dest);
+	// !!!!!!!!!!!!!!!!!!!!!!!!!
+	// copyHistory(src, dest);
 
 	// Ignore status if the option is on
 	if (options.suppress_status)
@@ -699,8 +698,8 @@ int Meta_SetHandles(void)
 	TCHAR nick_buffer[128], buffer2[40];
 	BOOL found;
 
-	while ( hContact != NULL ) {
-		if ((meta_id = db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1))!=(DWORD)-1) {
+	while (hContact != NULL) {
+		if ((meta_id = db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1)) != (DWORD)-1) {
 			// is a subcontact
 
 			// get nick for debug messages
@@ -718,7 +717,7 @@ int Meta_SetHandles(void)
 				hNextContact = db_find_next(hContact);
 				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
-				continue;		
+				continue;
 				//return 1;
 			}
 
@@ -729,16 +728,16 @@ int Meta_SetHandles(void)
 			found = FALSE;
 			hContact2 = db_find_first();
 
-			while ( hContact2 != NULL ) {
-				if (db_get_dw(hContact2, META_PROTO, META_ID,(DWORD)-1) == meta_id) {
+			while (hContact2 != NULL) {
+				if (db_get_dw(hContact2, META_PROTO, META_ID, (DWORD)-1) == meta_id) {
 					found = TRUE;
 
 					// set handle
 					db_set_dw(hContact, META_PROTO, "Handle", (DWORD)hContact2);
 
 					// increment contact counter (cleared in Load function)
-					db_set_b(hContact2, META_PROTO, "ContactCountCheck", 
-						(unsigned char)(db_get_b(hContact2, META_PROTO, "ContactCountCheck", 0) + 1));
+					db_set_b(hContact2, META_PROTO, "ContactCountCheck",
+								(unsigned char)(db_get_b(hContact2, META_PROTO, "ContactCountCheck", 0) + 1));
 
 					num_contacts = db_get_dw(hContact2, META_PROTO, "NumContacts", (DWORD)-1);
 					if (contact_number >= 0 && contact_number < num_contacts) {
@@ -757,14 +756,14 @@ int Meta_SetHandles(void)
 						hNextContact = db_find_next(hContact);
 						Meta_Delete(hContact, (LPARAM)1);
 						hContact = hNextContact;
-						continue;		
+						continue;
 					}
 				}
 
 				hContact2 = db_find_next(hContact2);
 			}
 
-			if ( !found) {
+			if (!found) {
 				// problem - subcontact's meta not found
 				MessageBox(0, TranslateT("Subcontact's MetaContact not found - deleting MetaContact data"), nick_buffer, MB_OK | MB_ICONERROR);
 
@@ -782,13 +781,13 @@ int Meta_SetHandles(void)
 
 			}
 			else {
-				if ( !db_get_b(hContact, META_PROTO, "IsSubcontact", 0))
+				if (!db_get_b(hContact, META_PROTO, "IsSubcontact", 0))
 					db_set_b(hContact, META_PROTO, "IsSubcontact", 1);
 			}
 		}
 		else db_unset(hContact, META_PROTO, "Handle");
 
-		if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1))!=(DWORD)-1) {
+		if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID, (DWORD)-1)) != (DWORD)-1) {
 			// is a metacontact
 
 			// get nick for debug messages
@@ -808,7 +807,7 @@ int Meta_SetHandles(void)
 				hNextContact = db_find_next(hContact);
 				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
-				continue;		
+				continue;
 			}
 
 			if (contact_number < 0 || contact_number >= num_contacts) {
@@ -817,7 +816,7 @@ int Meta_SetHandles(void)
 				hNextContact = db_find_next(hContact);
 				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
-				continue;		
+				continue;
 			}
 		}
 
@@ -826,8 +825,8 @@ int Meta_SetHandles(void)
 
 	// loop through one more time - check contact counts match
 	hContact = db_find_first();
-	while ( hContact != NULL ) {
-		if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1))!=(DWORD)-1) {
+	while (hContact != NULL) {
+		if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID, (DWORD)-1)) != (DWORD)-1) {
 			// get nick for debug messages
 
 			num_contacts = db_get_b(hContact, META_PROTO, "ContactCountCheck", -2);
@@ -837,10 +836,10 @@ int Meta_SetHandles(void)
 				_tcscpy(nick_buffer, TranslateT("Meta ID: "));
 				_tcscat(nick_buffer, _itot(meta_id, buffer2, 10));
 				MessageBox(0, TranslateT("MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact."), nick_buffer, MB_OK | MB_ICONERROR);
-				
+
 				Meta_Delete(hContact, (LPARAM)1);
 				hContact = hNextContact;
-				continue;		
+				continue;
 			}
 		}
 		hContact = db_find_next(hContact);
@@ -864,7 +863,8 @@ MetaContacts continues to function correctly, you should:\n\
    - synchronize your contacts with the server\n\
    - re-enable MetaContacts")
 
-int Meta_HideLinkedContacts(void) {
+int Meta_HideLinkedContacts(void)
+{
 	DBVARIANT dbv, dbv2;
 	DWORD meta_id, num_contacts, contact_number;
 	WORD status;
@@ -876,7 +876,7 @@ int Meta_HideLinkedContacts(void) {
 
 	// ensure the hidden group does not exist (how this occurs i wonder but there have been reports!)
 	// (sometimes protocol server side groups are to blame - msn and icq)
-	if ( !meta_group_hack_disabled) do {
+	if (!meta_group_hack_disabled) do {
 		group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
 		if (group_name && !strcmp(group_name, META_HIDDEN_GROUP)) {
 			// disabled because it shows a message box
@@ -885,10 +885,10 @@ int Meta_HideLinkedContacts(void) {
 			break;
 		}
 		hGroup++;
-	} while(group_name);
-	
+	} while (group_name);
+
 	while (hContact != NULL) {
-		if ((meta_id = db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1))!=(DWORD)-1) {
+		if ((meta_id = db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1)) != (DWORD)-1) {
 			// get contact number
 			contact_number = db_get_dw(hContact, META_PROTO, "ContactNumber", (DWORD)-1);
 
@@ -901,16 +901,16 @@ int Meta_HideLinkedContacts(void) {
 			// find metacontact
 			hContact2 = db_find_first();
 
-			while ( hContact2 != NULL ) {
-				if (db_get_dw(hContact2, META_PROTO, META_ID,(DWORD)-1) == meta_id) {
+			while (hContact2 != NULL) {
+				if (db_get_dw(hContact2, META_PROTO, META_ID, (DWORD)-1) == meta_id) {
 					num_contacts = db_get_dw(hContact2, META_PROTO, "NumContacts", (DWORD)-1);
 					if (contact_number >= 0 && contact_number < num_contacts) {
 
-						if ( !szProto)
+						if (!szProto)
 							status = ID_STATUS_OFFLINE;
 						else
 							status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-						
+
 						// update metacontact's record of status for this contact
 						strcpy(buffer, "Status");
 						strcat(buffer, _itoa(contact_number, buffer2, 10));
@@ -921,19 +921,21 @@ int Meta_HideLinkedContacts(void) {
 							strcpy(buffer, "Nick");
 							strcat(buffer, _itoa(contact_number, buffer2, 10));
 							db_set(hContact2, META_PROTO, buffer, &dbv);
-							
+
 							strcpy(buffer, "CListName");
 							strcat(buffer, _itoa(contact_number, buffer2, 10));
 							if (db_get(hContact, "CList", "MyHandle", &dbv2)) {
 								db_set(hContact2, META_PROTO, buffer, &dbv);
-							} else {
+							}
+							else {
 								db_set(hContact2, META_PROTO, buffer, &dbv2);
 								db_free(&dbv2);
 							}
 
 							db_free(&dbv);
-						} else {
-							if ( !db_get(hContact, "CList", "MyHandle", &dbv)) {
+						}
+						else {
+							if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
 								strcpy(buffer, "CListName");
 								strcat(buffer, _itoa(contact_number, buffer2, 10));
 								db_set(hContact2, META_PROTO, buffer, &dbv);
@@ -951,12 +953,12 @@ int Meta_HideLinkedContacts(void) {
 		}
 
 		hContact = db_find_next(hContact);
-	}	
+	}
 
 	// do metacontacts after handles set properly above
 	hContact = db_find_first();
-	while ( hContact != NULL ) {
-		if (db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)!=(DWORD)-1) {
+	while (hContact != NULL) {
+		if (db_get_dw(hContact, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
 			// is a meta contact
 			MCONTACT hMostOnline = Meta_GetMostOnline(hContact); // set nick
 			Meta_CopyContactNick(hContact, hMostOnline);
@@ -966,7 +968,7 @@ int Meta_HideLinkedContacts(void) {
 		}
 
 		hContact = db_find_next(hContact);
-	}	
+	}
 
 	return 0;
 }
@@ -977,12 +979,12 @@ int Meta_HideLinkedContacts(void) {
 int Meta_UnhideLinkedContacts(void)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		if (db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
 			// has a link - unhide it
 			// restore old group
-			Meta_RestoreGroup(hContact);			
+			Meta_RestoreGroup(hContact);
 		}
-	}	
+	}
 
 	return 0;
 }
@@ -994,26 +996,27 @@ int Meta_HideMetaContacts(int hide)
 	else Meta_SuppressStatus(options.suppress_status);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)!=(DWORD)-1) {
+		if (db_get_dw(hContact, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
 			// is a meta contact
 			if (hide)
 				db_set_b(hContact, "CList", "Hidden", 1);
 			else
 				db_unset(hContact, "CList", "Hidden");
 		}
-		else if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		else if (db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
 			// when metacontacts are hidden, show subcontacts, and vice versa
 			if (hide)
 				Meta_RestoreGroup(hContact);
 			else
 				Meta_SetGroup(hContact);
 		}
-	}	
+	}
 
 	return 0;
 }
 
-void Meta_RestoreGroup(MCONTACT hContact) {
+void Meta_RestoreGroup(MCONTACT hContact)
+{
 
 	if (meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
 
@@ -1024,19 +1027,20 @@ void Meta_RestoreGroup(MCONTACT hContact) {
 	// possible suspect - server side groups cause hidden group hack to fail, users hide contacts via clist->delete->hide option
 	db_unset(hContact, META_PROTO, "Hidden");
 
-	if (db_get_b(hContact, META_PROTO, "Hidden", 0) == 1)
-	{
+	if (db_get_b(hContact, META_PROTO, "Hidden", 0) == 1) {
 		// if we hid it, unhide it
 		db_unset(hContact, META_PROTO, "Hidden");
 		db_unset(hContact, "CList", "Hidden");
-	} else {
+	}
+	else {
 		DBCONTACTWRITESETTING cws;
 
-		if ( !db_get(hContact, META_PROTO, "OldCListGroup", &cws.value)) {
+		if (!db_get(hContact, META_PROTO, "OldCListGroup", &cws.value)) {
 
 			if ((cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) && !strcmp(cws.value.pszVal, META_HIDDEN_GROUP)) {
 				db_unset(hContact, "CList", "Group");
-			} else {
+			}
+			else {
 				int hGroup = 1;
 				char *name = 0;
 				BOOL found = FALSE;
@@ -1047,7 +1051,7 @@ void Meta_RestoreGroup(MCONTACT hContact) {
 						break;
 					}
 					hGroup++;
-				} while(name);
+				} while (name);
 
 				if (found)
 					db_set(hContact, "CList", "Group", &cws.value);
@@ -1066,7 +1070,7 @@ void Meta_RestoreGroup(MCONTACT hContact) {
 		}
 		db_unset(hContact, META_PROTO, "OldCListGroup");
 
-		if ( !db_get(hContact, "CList", "Group", &cws.value)) {
+		if (!db_get(hContact, "CList", "Group", &cws.value)) {
 			if ((cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) && !strcmp(cws.value.pszVal, META_HIDDEN_GROUP)) {
 				db_unset(hContact, "CList", "Group");
 			}
@@ -1079,7 +1083,8 @@ void Meta_RestoreGroup(MCONTACT hContact) {
 	db_unset(hContact, "CList", "Hidden");
 }
 
-void Meta_SetGroup(MCONTACT hContact) {
+void Meta_SetGroup(MCONTACT hContact)
+{
 	char *szProto, *uid;
 
 	if (meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
@@ -1089,7 +1094,7 @@ void Meta_SetGroup(MCONTACT hContact) {
 
 	szProto = GetContactProto(hContact);
 	if (szProto)
-		uid   = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 
 	if (szProto && uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND && !strcmp(JABBER_UNIQUE_ID_SETTING, uid)) {
 		// if it's a jabber contact, hide it, and record the fact that it was us who did
@@ -1099,7 +1104,7 @@ void Meta_SetGroup(MCONTACT hContact) {
 	else {
 		DBVARIANT dbv;
 		// save old group and move to invisible group (i.e. non-existent group)
-		if ( !Mydb_get(hContact, "CList", "Group", &dbv)) {
+		if (!Mydb_get(hContact, "CList", "Group", &dbv)) {
 			if ((dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && !strcmp(dbv.pszVal, META_HIDDEN_GROUP))
 				; // it's already in the group (shouldn't be - but maybe a crash)
 			else
@@ -1116,19 +1121,20 @@ void Meta_SetGroup(MCONTACT hContact) {
 int Meta_SuppressStatus(BOOL suppress)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_dw(hContact, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		if (db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
 			// is a subcontact
 			if (suppress)
 				CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 			else
 				CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
-	}	
+	}
 
 	return 0;
 }
 
-int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact) {
+int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact)
+{
 	DBVARIANT dbv, dbv_proto;
 	char *szProto;
 
@@ -1136,15 +1142,15 @@ int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact) {
 		hContact = Meta_GetContactHandle(hMeta, 0);
 	}
 
-	if ( !hContact) return 1;
+	if (!hContact) return 1;
 
 	//szProto = GetContactProto(hContact);
 	// read szProto direct from db, since we do this on load and other szProto plugins may not be loaded yet
-	if ( !db_get(hContact, "Protocol", "p", &dbv_proto)) {
+	if (!db_get(hContact, "Protocol", "p", &dbv_proto)) {
 
 		szProto = dbv_proto.pszVal;
 		if (options.clist_contact_name == CNNT_NICK && szProto) {
-			if ( !Mydb_get(hContact, szProto, "Nick", &dbv)) {
+			if (!Mydb_get(hContact, szProto, "Nick", &dbv)) {
 				db_set(hMeta, META_PROTO, "Nick", &dbv);
 				db_free(&dbv);
 				//CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)hMeta, 0);
@@ -1152,7 +1158,8 @@ int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact) {
 				db_free(&dbv_proto);
 				return 0;
 			}
-		} else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
+		}
+		else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
 			TCHAR *name = cli.pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
 			if (name && _tcscmp(name, TranslateT("(Unknown Contact)")) != 0) {
 				db_set_ts(hMeta, META_PROTO, "Nick", name);
@@ -1168,13 +1175,13 @@ int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact) {
 int Meta_SetAllNicks()
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)!=(DWORD)-1) {
+		if (db_get_dw(hContact, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
 			MCONTACT most_online = Meta_GetMostOnline(hContact);
 			Meta_CopyContactNick(hContact, most_online);
 			Meta_FixStatus(hContact);
 			Meta_CopyData(hContact);
 		}
-	
+
 	}
 	return 0;
 }
@@ -1187,10 +1194,11 @@ int Meta_IsHiddenGroup(const char *group_name)
 	return 0;
 }
 
-int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_number2) {
+int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_number2)
+{
 	DBVARIANT dbv1, dbv2;
 
-	MCONTACT hContact1 = Meta_GetContactHandle(hMeta, contact_number1), 
+	MCONTACT hContact1 = Meta_GetContactHandle(hMeta, contact_number1),
 		hContact2 = Meta_GetContactHandle(hMeta, contact_number2);
 	char buff1[512], buff12[512], buff2[512], buff22[512];
 	BOOL ok1, ok2;
@@ -1271,15 +1279,14 @@ int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_numbe
 	if (ok1) {
 		db_set(hMeta, META_PROTO, buff2, &dbv1);
 		db_free(&dbv1);
-	} else {
-		db_unset(hMeta, META_PROTO, buff2);
 	}
+	else db_unset(hMeta, META_PROTO, buff2);
+
 	if (ok2) {
 		db_set(hMeta, META_PROTO, buff1, &dbv2);
 		db_free(&dbv2);
-	} else {
-		db_unset(hMeta, META_PROTO, buff1);
 	}
+	else db_unset(hMeta, META_PROTO, buff1);
 
 	// swap the clist name
 	strcpy(buff1, "CListName");
@@ -1291,15 +1298,14 @@ int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_numbe
 	if (ok1) {
 		db_set(hMeta, META_PROTO, buff2, &dbv1);
 		db_free(&dbv1);
-	} else {
-		db_unset(hMeta, META_PROTO, buff2);
 	}
+	else db_unset(hMeta, META_PROTO, buff2);
+
 	if (ok2) {
 		db_set(hMeta, META_PROTO, buff1, &dbv2);
 		db_free(&dbv2);
-	} else {
-		db_unset(hMeta, META_PROTO, buff1);
 	}
+	else db_unset(hMeta, META_PROTO, buff1);
 
 	// swap the handle
 	strcpy(buff1, "Handle");
@@ -1311,99 +1317,33 @@ int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_numbe
 	if (ok1) {
 		db_set(hMeta, META_PROTO, buff2, &dbv1);
 		db_free(&dbv1);
-	} else {
-		db_unset(hMeta, META_PROTO, buff2);
 	}
+	else db_unset(hMeta, META_PROTO, buff2);
+
 	if (ok2) {
 		db_set(hMeta, META_PROTO, buff1, &dbv2);
 		db_free(&dbv2);
-	} else {
-		db_unset(hMeta, META_PROTO, buff1);
 	}
+	else db_unset(hMeta, META_PROTO, buff1);
 
 	// finally, inform the contacts of their change in position
 	db_set_dw(hContact1, META_PROTO, "ContactNumber", (DWORD)contact_number2);
 	db_set_dw(hContact2, META_PROTO, "ContactNumber", (DWORD)contact_number1);
-
 	return 0;
 }
 
 INT_PTR CALLBACK DlgProcNull(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			HWND prog = GetDlgItem(hwndDlg, IDC_PROG);
+		HWND prog = GetDlgItem(hwndDlg, IDC_PROG);
 
-			TranslateDialogDefault( hwndDlg );
-			
-			SendMessage(prog, PBM_SETPOS, 0, 0);
-			return TRUE;
-		}
+		TranslateDialogDefault(hwndDlg);
+
+		SendMessage(prog, PBM_SETPOS, 0, 0);
+		return TRUE;
 	}
 	return FALSE;
-}
-
-// function to copy history from one contact to another - courtesy JdGordon (thx)
-void copyHistory(MCONTACT hContactFrom, MCONTACT hContactTo) 
-{ 
-	HANDLE hDbEvent; 
-	DBEVENTINFO dbei; 
-	//char *id;
-	//DWORD id_length;
-	//DWORD oldBlobSize;
-	DWORD time_now = time(0);
-	DWORD earliest_time = time_now - options.days_history * 24 * 60 * 60;
-	BYTE *buffer = 0;
-	HWND progress_dialog, prog;
-
-	if ( !hContactFrom || !hContactTo) return; 
-
-	//id = Meta_GetUniqueIdentifier(hContactFrom, &id_length);
-	//if ( !id) return;
-
-	progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_METACOPYPROGRESS), 0, DlgProcNull);
-	ShowWindow(progress_dialog, SW_SHOW);
-
-	prog = GetDlgItem(progress_dialog, IDC_PROG);
-
-	//CallService(MS_DB_SETSAFETYMODE, (WPARAM)FALSE, 0);
-	for (hDbEvent = db_event_first(hContactFrom); hDbEvent; hDbEvent = db_event_next(hDbEvent)) 
-	{ 
-		// get the event 
-		ZeroMemory(&dbei, sizeof(dbei)); 
-		dbei.cbSize = sizeof(dbei); 
-
-		if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
-			break;
-
-		buffer = (BYTE *)mir_realloc(buffer, dbei.cbBlob);// + id_length);
-		dbei.pBlob = buffer; 
-		if ( db_event_get(hDbEvent, &dbei)) 
-			break; 
-
-		// i.e. optoins.days_history == 0;
-		if (time_now == earliest_time) earliest_time = dbei.timestamp;
-
-		if (dbei.timestamp < earliest_time)
-			continue;
-
-		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE && dbei.eventType != EVENTTYPE_URL)
-			continue;
-
-		if (time_now > earliest_time) { // just in case!
-			SendMessage(prog, PBM_SETPOS, (WPARAM)(int)(100.0 * (dbei.timestamp - earliest_time) / (time_now - earliest_time)), 0);	
-			UpdateWindow(progress_dialog);
-		}
-
-		dbei.szModule = META_PROTO;
-		dbei.flags &= ~DBEF_FIRST;
-		db_event_add(hContactTo, &dbei); 
-	}		
-
-	DestroyWindow(progress_dialog);
-	if (buffer) mir_free(buffer);
-	//mir_free(id);
 }
 
 void Meta_FixStatus(MCONTACT hMeta)
@@ -1420,9 +1360,7 @@ void Meta_FixStatus(MCONTACT hMeta)
 	else db_set_w(hMeta, META_PROTO, "Status", (WORD)ID_STATUS_OFFLINE);
 }
 
-INT_PTR Meta_IsEnabled() {
+INT_PTR Meta_IsEnabled()
+{
 	return db_get_b(0, META_PROTO, "Enabled", 1) && (meta_group_hack_disabled || db_get_b(NULL, "CList", "UseGroups", 1));
 }
-
-
-
