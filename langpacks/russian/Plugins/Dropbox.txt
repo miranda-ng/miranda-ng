@@ -9,11 +9,11 @@
 Плагин загрузки и пересылки файлов с помощью Dropbox.
 [You have been authorized]
 Авторизация прошла успешно
-[Are you sure you want to request athorization?]
+[Are you sure you want to request authorization?]
 Вы уверены, что хотите запросить авторизацию?
 [Request authorization]
 Запросить авторизацию
-[Are you sure you want to revoke athorization?]
+[Are you sure you want to revoke authorization?]
 Вы уверены, что хотите отозвать авторизацию?
 [Revoke authorization]
 Отозвать авторизацию
