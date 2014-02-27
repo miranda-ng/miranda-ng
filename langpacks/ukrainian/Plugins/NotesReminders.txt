@@ -213,6 +213,8 @@
 &Видалити всі нотатки
 [&Bring All to Front]
 Перемістити на передній план
+[Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Неможливо завантажити плагін Notes & Reminders, оскільки RICHED20.DLL відсутній. Якщо ви використовуєте Windows 95 або WINE, будь ласка, переконайтеся, що riched20.dll встановлено. Натисніть "Так" для продовження.
 [Black]
 Чорний
 [Maroon]
@@ -257,22 +259,26 @@
 Дата/заголовок
 [Sticky Note Caption]
 Заголовок
+[Sticky Note Background Color]
+Колір фону
 [Sticky Note Body]
 Вікно
+[Executable Files\0*.exe\0All Files\0*.*\0\0]
+Виконувані файли\0*.exe\0Усі файли\0*.*\0\0
 [Select Executable]
 Вибрати програму...
 [Minutes]
-Хвилин
+хвилин
 [Hours]
-Годин
+годин
 [Hour]
-Годину
+годину
 [Day]
-День
+день
 [Days]
-Днів
+днів
 [Week]
-Тиждень
+тиждень
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Зазначений час недійсний через перехід на літній час.
 [The specified time is invalid.]
@@ -284,7 +290,7 @@
 [Every]
 Кожні
 [Seconds]
-Секунд
+секунд
 [Never]
 Не використовувати
 [Default]
@@ -299,9 +305,3 @@
 Дата активації
 [Are you sure you want to delete this reminder?]
 Впевнені, що хочете видалити це нагадування?
-[Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Міранда не в змозі завантажити плагін "Нотатки та нагадування" т.я. RICHED20.DLL відсутнє. Якщо ві використовуєте Windows 95 або WINE будь ласка переконайтеся що riched20.dll встановлено. Натисніть "Так" для продовження.
-[Sticky Note Background Color]
-Колір фону липких нотатків
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Виконавчі файли\0*.exe\0Усі файли\0*.*\0\0

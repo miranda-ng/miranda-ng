@@ -13,6 +13,10 @@
 Ви впевнені, що хочете запитати авторизацію?
 [Request authorization]
 Запит авторизації
+[Are you sure you want to revoke athorization?]
+Ви впевнені, що хочете відкликати авторизацію?
+[Revoke authorization]
+Відкликати авторизацію
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]
@@ -37,11 +41,11 @@
 Файл або папка не знайдені за вказаним шляхом
 [Request method not expected (generally should be GET or POST)]
 Непередбачений метод запиту (повинен бути GET, а не POST)
+[Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
+Додаток робить занадто багато запитів, буде обмежена швидкість.
+[If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
+Якщо відповідь містить заголовок Retry-After, це означає, що ваш додаток обмежений у швидкості. В іншому випадку це свідчить про помилки сервера, і ваш додаток повинен повторити свій запит.
 [User is over Dropbox storage quota]
 Користувач перевищив квоту, виділену йому сервісом Dropbox
 [Unknown]
 Невідомо
-[Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
-Додаток робить занадто багато запитів, буде обмежена швидкість.
-[If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
-Якщо відповідь містить заголовок Retry-After, це означає, що ваш додаток обмежений у швидкості. В іншому випадку, це свідчить про помилки сервера, і ваше додаток повинен повторити свій запит.

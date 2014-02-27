@@ -2325,6 +2325,8 @@ Miranda не може відкрити цей профіль
 Відправка в оффлайн
 [Delete MetaContact?]
 Видалити метаконтакт?
+[Subcontacts]
+Субконтакти
 [Toggle Off]
 Вимкнути
 [Toggle On]
@@ -2347,7 +2349,7 @@ Miranda не може відкрити цей профіль
 Видалення метаконтакту.\n\nПродовжити?
 [Are you sure?]
 Ви впевнені?
-[Remove from MetaContact]
+[Remove from metacontact]
 Видалити з метаконтакту
 [Toggle MetaContacts On]
 Ввімкнути метаконтакти
@@ -2361,16 +2363,14 @@ Miranda не може відкрити цей профіль
 Метаконтакт за замовчанням
 [Delete MetaContact]
 Видалити метаконтакт
-[Context]
-Контекст
 [<default>]
 <за замовчанням>
-[No online contacts found.]
-Не знайдено контактів у мережі.
 [Priorities]
 Пріоритети
 [History]
 Історія
+[No online contacts found.]
+Не знайдено контактів у мережі.
 [Sender]
 Відправник
 [Could not get MetaContact ID]
