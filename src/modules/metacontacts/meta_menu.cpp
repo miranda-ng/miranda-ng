@@ -334,7 +334,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		Menu_ShowItem(hMenuDelete, false);
 
 		mi.flags = CMIM_NAME;
-		mi.pszName = "Remove from MetaContact";
+		mi.pszName = LPGEN("Remove from MetaContact");
 		Menu_ModifyItem(hMenuDelete, &mi);
 
 		//show subcontact menu items
@@ -411,7 +411,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 			Menu_ShowItem(hMenuDefault, true);
 
 			mi.flags = CMIM_NAME;
-			mi.pszName = "Remove from MetaContact";
+			mi.pszName = LPGEN("Remove from MetaContact");
 			Menu_ModifyItem(hMenuDelete, &mi);
 
 			Menu_ShowItem(hMenuAdd, false);
