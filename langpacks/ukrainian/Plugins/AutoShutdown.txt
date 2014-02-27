@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
-Плагін додає можливість управління вимиканням комп'ютера через Miranda NG.
+Додає можливість керування вимиканням комп'ютера через Miranda NG.
 [Shutdown]
 Вимикання
 [&Show confirmation dialog before shutdown]

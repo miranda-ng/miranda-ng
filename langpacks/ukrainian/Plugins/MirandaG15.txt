@@ -128,7 +128,7 @@
 [Show the contacts protocols]
 Показувати протоколи контактів
 [Hide offline users]
-Ховати від'єднаних
+Сховати відключених
 [Use ignore settings]
 Враховувати ігнорування контактів
 [Use groups/subgroups]

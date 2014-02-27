@@ -40,7 +40,7 @@
 [Your host (or router):]
 Ваш хост (або роутер):
 [Server List Manager]
-Управління списком на сервері
+Керування списком на сервері
 [Contact is on your local list]
 Контакт у вашому локальному списку
 [Contact is included into your server list]

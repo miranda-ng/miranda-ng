@@ -449,6 +449,96 @@ Miranda NG перезапускається.\nЗачекайте...
 * буде показано тільки перші %d значків
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Значки можна згрупувати/розгрупувати, виділивши їх (Ctrl+ЛКМ) та викликавши меню правою кнопкою миші.
+[Add to Existing MetaContact]
+Додати до метаконтакту
+[Please select a MetaContact:]
+Виберіть метаконтакт:
+[Sort Alphabetically]
+За абеткою
+[Editing]
+Редагування
+[Information]
+Інформація
+[Contacts]
+Контакти
+[&Remove]
+&Очистити
+[&Set as Default]
+&За замовчанням
+[Move &Up]
+&Вгору
+[Move &Down]
+&Вниз
+[Force use of default for sending (even if offline)]
+Завжди використовувати за замовчанням (навіть якщо офлайн)
+[Send &Offline]
+В офлайн
+[Set default contact on receipt of message]
+Робити основним контактом по прибутті повідомлення
+[Always send to default contact if not offline]
+Завжди надсилати субконтакту за замовчанням, якщо не офлайн
+[Suppress status notification for subcontacts]
+Заборонити сповіщення про зміну статусу субконтактів
+[Context Menu]
+Контекстне меню
+[Use contact's unique ID]
+UIN, E-mail тощо
+[Use contact's display name]
+Використовувати ім'я
+[Contact Labels]
+Мітки контактів
+[Function]
+Функція
+[Set default and open message window]
+Відкрити вікно повідомлень
+[Show subcontact context menu]
+Показувати контекстне меню
+[Show user information]
+Показувати дані користувача
+[Contact List]
+Список контактів
+[Display subcontact nickname]
+Використовувати нік субконтакта
+[Display subcontact display name]
+Використовувати коротке ім'я
+[Use subcontact message windows]
+Вікна повідомлень субконтакта
+[Copy subcontact data]
+Копіювати дані субконтакта
+[Lock name to first contact]
+Фіксувати ім'я
+[but only for the current conversation]
+але тільки для поточної бесіди
+[History Copy]
+Копіювання історії
+[Please wait while the contact's history is copied.]
+Будь ласка, зачекайте, поки історія скопіюється
+[History Remove]
+Видалення історії
+[Please wait while the contact's history is removed.]
+Будь ласка, зачекайте, поки історія видалиться
+[Subcontact Priorities]
+Пріоритети субконтактів
+[Rank:]
+Ранг:
+[Status:]
+Статус:
+[Protocol:]
+Протокол:
+[Reset All]
+Скинути
+[(Lower ranks are preferred)]
+(Переважні більш низькі ранги)
+[Copy subcontact history to MetaContact when creating or adding]
+Копіювати історію суб- у метаконтакт при створенні і додаванні
+[Number of days to copy (0=all):]
+Кількість днів (0 = всі):
+[Keep MetaContact history synchronized with subcontacts]
+Історія метаконтакту, синхронізована з субконтактом
+[Keep subcontact history synchronized with MetaContact]
+Історія субконтакта, синхронізована з метаконтактом
+[History (** beware - change at your own risk **)]
+Історія (ОБЕРЕЖНО - ЗМІНЮВАТИ НА СВІЙ РИЗИК)
 [Tray]
 Трей
 [&Hide/Show]
@@ -460,9 +550,9 @@ Miranda NG перезапускається.\nЗачекайте...
 [&New group]
 &Створити групу
 [&Hide offline users]
-С&ховати від'єднаних
+С&ховати відключених
 [Hide &offline users out here]
-Сховати &від'єднаних поза групою
+Сховати &відключених поза групою
 [Hide &empty groups]
 Сховати порожні групи
 [Disable &groups]
@@ -474,7 +564,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [&New subgroup]
 С&творити підгрупу
 [&Hide offline users in here]
-Сховати &від'єднаних у групі
+Сховати &відключених у групі
 [&Rename group]
 &Перейменувати групу
 [&Delete group]
@@ -581,8 +671,6 @@ Miranda NG перезапускається.\nЗачекайте...
 Зміни теми
 [Status changes]
 Зміни статусів
-[Information]
-Інформацію
 [Disconnects]
 Відключення
 [User kicks]
@@ -670,7 +758,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Open at this position]
 Від&крити на цій позиції
 [Hide offline users]
-Сховати від'єднаних
+Сховати відключених
 [Hide empty groups]
 Сховати порожні групи
 [Disable groups]
@@ -688,7 +776,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Always show status in tooltip]
 Завжди показувати статус у підказці
 [Disable icon blinking]
-Вимкнути миготіння
+Вимкнути блимання
 [ms delay]
 Затримка (мс)
 [icon when statuses differ]
@@ -730,7 +818,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Pin to desktop]
 Прикріпити до столу
 [Hide contact list after it has been idle for]
-Сховати список після неактивності:
+Ховати список після неактивності:
 [seconds]
 секунд
 [Automatically resize window to height of list]
@@ -758,7 +846,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Items]
 Елементи
 [Show divider between online and offline contacts]
-Розділяти користувачів у мережі та від'єднаних
+Розділяти користувачів у мережі та відключених
 [Hot track items as mouse passes over]
 Підсвітка під курсором миші
 [Disable drag and drop of items]
@@ -772,7 +860,7 @@ Miranda NG перезапускається.\nЗачекайте...
 [Dim idle contacts]
 Затемняти неактивних користувачів
 ['Hide offline' means to hide:]
-Сховати від'єднаних = сховати:
+Сховати відключених - сховати:
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -864,25 +952,25 @@ Miranda NG перезапускається.\nЗачекайте...
 [&Status]
 Статус
 [&Offline\tCtrl+0]
-Не в мережі\tCtrl+0
+Не в м&ережі\tCtrl+0
 [On&line\tCtrl+1]
-В мережі\tCtrl+1
+В &мережі\tCtrl+1
 [&Away\tCtrl+2]
-Відсутній\tCtrl+2
+&Відсутній\tCtrl+2
 [&NA\tCtrl+3]
-Недос&тупний\tCtrl+3
+Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
-Зайн&ятий\tCtrl+4
+&Зайнятий\tCtrl+4
 [&DND\tCtrl+5]
-Не турбу&вати\tCtrl+5
+Не т&урбувати\tCtrl+5
 [&Free for chat\tCtrl+6]
-Готовий до ч&ату\tCtrl+6
+&Готовий до чату\tCtrl+6
 [&Invisible\tCtrl+7]
-Невидимий\tCtrl+7
+&Невидимий\tCtrl+7
 [On the &phone\tCtrl+8]
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
-Обі&даю\tCtrl+9
+Обід&аю\tCtrl+9
 [Send file(s)]
 Надіслати файл(и)
 [To:]
@@ -1110,7 +1198,7 @@ Cповіщати, коли співрозмовник друкує повідо
 [Show typing notification when no message dialog is open]
 Cповіщати про друк, коли вікно повідомлень закрите
 [Flash in the system tray and in the contact list]
-Миготінням у треї та списку контактів
+Блиманням у треї та списку контактів
 [Show balloon popup]
 Підказкою у треї
 [Save the window position for each contact]
@@ -1292,9 +1380,9 @@ Cповіщати про друк, коли вікно повідомлень з
 [Send message by pressing the 'Enter' key twice]
 Надсилати подвійним натисканням Enter
 [Flash window when someone speaks]
-Мигання вікна, якщо є нове повідомлення
+Блимання вікна, якщо є нове повідомлення
 [Flash window when a word is highlighted]
-Мигання вікна, якщо є підсвічене повідомлення
+Блимання вікна, якщо є підсвічене повідомлення
 [Show list of users in the chat room]
 Показувати у кімнаті чату список користувачів
 [Show button for sending messages]
@@ -1342,7 +1430,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Show users joining]
 Входи до чату
 [Show users disconnecting]
-Від'єднання користувачів
+Відключення користувачів
 [Show messages]
 Повідомлення
 [Show actions]
@@ -1364,7 +1452,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Show icon for users joining]
 Входи до чату
 [Show icon for users disconnecting]
-Від'єднання користувачів
+Відключення користувачів
 [Show icon for messages]
 Повідомлення
 [Show icon for actions]
@@ -1390,7 +1478,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Show icon in tray for users joining]
 Входи до чату
 [Show icon in tray for users disconnecting]
-Від'єднання користувачів
+Відключення користувачів
 [Show icon in tray for messages]
 Повідомлення
 [Show icon in tray for actions]
@@ -1416,7 +1504,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Show popup for users joining]
 Входи до чату
 [Show popup for users disconnecting]
-Від'єднання користувачів
+Відключення користувачів
 [Show popup for messages]
 Повідомлення
 [Show popup for actions]
@@ -1486,7 +1574,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Leave (10x10)]
 Вийти (10x10)
 [Quit (10x10)]
-Від'єднатися (10x10)
+Відключитися (10x10)
 [Kick (10x10)]
 Стусани (10x10)
 [Nick change (10x10)]
@@ -1574,7 +1662,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Online contacts to whom you have a different visibility]
 Контакти зі зміненою видимістю (в мережі)
 [Offline contacts]
-Від'єднані контакти
+Відключені контакти
 [Contacts which are 'not on list']
 Контакти поза списком
 [Group member counts]
@@ -1582,7 +1670,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Dividers]
 Роздільники
 [Offline contacts to whom you have a different visibility]
-Контакти зі зміненою видимістю (від'єднані)
+Контакти зі зміненою видимістю (відключені)
 [Selected text]
 Виділений текст
 [Hottrack text]
@@ -1878,7 +1966,7 @@ URL від %s
 [User has left]
 Виходи з чату
 [User has disconnected]
-Користувач від'єднався
+Користувач відключився
 [User kicked ...]
 Стусани
 [User is now known as ...]
@@ -1932,7 +2020,7 @@ URL від %s
 [%s has left]
 %s вийшов
 [%s has disconnected]
-%s від'єднався
+%s відключився
 [%s is now known as %s]
 %s змінив ім'я на %s
 [You are now known as %s]
@@ -1978,7 +2066,7 @@ URL від %s
 [%s has left (%s)]
 %s вийшов (%s)
 [%s has disconnected (%s)]
-%s від'єднався (%s)
+%s відключився (%s)
 [%s kicked %s (%s)]
 %s вигнав %s (%s)
 [Notice from %s: %s]
@@ -1988,7 +2076,7 @@ URL від %s
 [The topic is '%s' (set by %s)]
 Тема %s (встановив %s)
 [Custom status]
-xСтатус
+хСтатус
 [%s (locked)]
 %s (заблокований)
 [Status menu]
@@ -2203,8 +2291,124 @@ Miranda не може відкрити цей профіль
 Набори значків
 [** All contacts **]
 ** Усі контакти **
-[Contacts]
-Контакти
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+Ви збираєтеся видалити всі контакти, пов'язані з цим метаконтактом.\nМетаконтакт також буде видалено.\n\nПродовжити?
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+У базі ще немає жодного метаконтакту (потрібно спочатку зробити простий контакт метаконтактом).\nЦей контакт також можна конвертувати у новий метаконтакт.\n\nКонвертувати цей контакт у новий метаконтакт?
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+Це метаконтакт.\nНе можна додати метаконтакт у ще один метаконтакт.\n\nБудь ласка, виберіть інший.
+[MetaContact Conflict]
+Конфлікт метаконтактів
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+Цей контакт пов'язаний з метаконтактом.\nНе можна додати контакт в декілька метаконтактів.
+[Multiple MetaContacts]
+Безліч метаконтактів
+[No suitable MetaContact found]
+Не знайдено відповідного метаконтакту
+[a contact]
+контакт
+[Adding %s...]
+Додавання %s...
+[Please select a MetaContact]
+Виберіть метаконтакт
+[No MetaContact selected]
+Метаконтакт не вибрано
+[Assignment to the MetaContact failed.]
+Не вдалося додати до метаконтакту.
+[Assignment failure]
+Невдале призначення
+[(Unknown Contact)]
+(Невідомий контакт)
+[Protocol]
+Протокол
+[Send Offline]
+Відправка в оффлайн
+[Delete MetaContact?]
+Видалити метаконтакт?
+[Toggle Off]
+Вимкнути
+[Toggle On]
+Ввімкнути
+[Convert to MetaContact]
+Зробити метаконтактом
+[Add to Existing]
+Додати
+[Edit]
+Редагувати
+[Set to Default]
+За замовчанням
+[Error - Database corruption.\nPlugin disabled.]
+Помилка - база пошкоджена.\nПлагін відключений.
+[MetaContacts]
+Метаконтакти
+[There was a problem in assigning the contact to the MetaContact]
+Виявлена проблема додавання контакту до метаконтакту
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+Видалення метаконтакту.\n\nПродовжити?
+[Are you sure?]
+Ви впевнені?
+[Remove from MetaContact]
+Видалити з метаконтакту
+[Toggle MetaContacts On]
+Ввімкнути метаконтакти
+[Toggle MetaContacts Off]
+Вимкнути метаконтакти
+[Add to existing MetaContact...]
+Додати до метаконтакту...
+[Edit MetaContact...]
+Змінити метаконтакт...
+[Set as MetaContact default]
+Метаконтакт за замовчанням
+[Delete MetaContact]
+Видалити метаконтакт
+[Context]
+Контекст
+[<default>]
+<за замовчанням>
+[No online contacts found.]
+Не знайдено контактів у мережі.
+[Priorities]
+Пріоритети
+[History]
+Історія
+[Sender]
+Відправник
+[Could not get MetaContact ID]
+Не можу отримати ID метаконтакту
+[Assignment error]
+Помилка призначення
+[Could not retreive MetaContact contact count]
+Не можу визначити кількість субконтактів у метаконтакті
+[Could not retreive contact protocol]
+Не можу визначити протокол контакту
+[Could not get unique ID of contact]
+Не можу отримати унікальний ID контакту
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+Контакт поза списком. Будь ласка, додайте контакт до списку перед призначенням.
+[MetaContact is full]
+Метаконтакт повний
+[Could not write contact protocol to MetaContact]
+Помилка запису протоколу контакту в метаконтакт
+[Could not write unique ID of contact to MetaContact]
+Помилка запису унікального ID контакту в метаконтакт
+[Could not write nickname of contact to MetaContact]
+Не можу записати нік контакту в метаконтакт
+[Subcontact contact number < 0 - deleting MetaContact]
+Номер субконтакту < 0 - метаконтакт буде видалено
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+Номер субконтакту (%d) > номеру в метаконтакті (%d) - метаконтакт буде видалено
+[Subcontact's MetaContact not found - deleting MetaContact data]
+Субконтакти в метаконтакті не знайдені - дані метаконтакту будуть видалені
+[MetaContact number of contacts < 0 - deleting MetaContact]
+Кількість контактів в метаконтакті < 0 - метаконтакт буде видалено
+[MetaContact default contact number out of range - deleting MetaContact]
+Номер контакту за замовчанням за межами метаконтакту - метаконтакт буде видалено
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+Метаконтакт пошкоджений - неправильна кількість субконтактів.\nВидаляю метаконтакт.
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
+До вашого списку додано групу MetaContacts Hidden Group.\nЦе через список контактів на сервері. Для правильної роботи\nметаконтактів у майбутньому необхідно виконати такі дії:\n - вимкнути метаконтакти, використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову ввімкнути метаконтакти
+[MetaContacts Warning]
+Попередження метаконтактів
 [No times]
 Без часу
 [Standard hh:mm:ss times]
@@ -2287,16 +2491,12 @@ Miranda не може відкрити цей профіль
 Обліковий запис вимкнено. Активуйте його для доступу до налаштувань.
 [New account]
 Новий облік. запис
-[Edit]
-Редагувати
 [Remove account]
 Видалити
 [Configure...]
 Налаштувати
 [Upgrade account]
 Оновити обліковий запис
-[Protocol]
-Протокол
 [Account ID]
 ID облікового запису
 [<unknown>]
@@ -2347,8 +2547,6 @@ Miranda
 З'єднання
 [User details]
 Про користувача
-[History]
-Історія
 [Down arrow]
 Униз
 [Find user]
@@ -2402,7 +2600,7 @@ ANSI-плагін
 [Grant authorization]
 Авторизувати
 [Revoke authorization]
-Скасувати авторизацію
+Відкликати авторизацію
 [Always visible]
 Завжди видимий
 [Always invisible]

@@ -162,7 +162,7 @@ ID користувача
 [Wildcard enabled network search]
 Wildcard пошук по мережі
 [Channel manager]
-Управління каналом
+Керування каналом
 [Bans]
 Бани
 [Invites]
@@ -658,7 +658,7 @@ Nickserv інфо
 [Nickserv kill ghost]
 Nickserv вбити фантома
 [&Control]
-&Управління ->
+&Керування ->
 [Give Owner]
 Режим +q
 [Take Owner]

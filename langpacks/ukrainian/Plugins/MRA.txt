@@ -248,7 +248,7 @@
 [Request authorization for all]
 Запитати авторизацію у всіх
 [Request authorization]
-Запросити авторизацію
+Запитати авторизацію
 [Grant authorization]
 Авторизувати
 [&Send postcard]

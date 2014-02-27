@@ -29,12 +29,14 @@
 Читати повідомлення:
 [Web Search:]
 Знайти:
+[URL:]
+Посилання:
 [Open in new browser window]
 Відкрити у новому вікні
 [Show Options]
 Налаштування
 [Hide offline users]
-Сховати від'єднаних
+Сховати відключених
 [Hide empty groups]
 Сховати порожні групи
 [Disable groups]
@@ -52,7 +54,7 @@
 [Always show status in tooltip]
 Завжди показувати статус у підказці
 [Disable icon blinking]
-Вимкнути миготіння
+Вимкнути блимання
 [ms delay]
 Затримка (мс)
 [Show]
@@ -84,7 +86,7 @@
 [Minimize to tray]
 Згортати до трею
 [Hide contact list after it has been idle for]
-Сховати список після неактивності:
+Ховати список після неактивності:
 [seconds]
 секунд
 [Automatically resize window to height of list]
@@ -122,7 +124,7 @@
 [Items]
 Елементи
 ['Hide Offline' means to hide:]
-Сховати від'єднаних = сховати:
+Сховати відключених - сховати:
 [Groups]
 Групи
 [Show counts of number of contacts in a group]
@@ -170,25 +172,25 @@
 [&Status]
 Статус
 [&Offline\tCtrl+0]
-Не в мережі\tCtrl+0
+Не в м&ережі\tCtrl+0
 [On&line\tCtrl+1]
-В мережі\tCtrl+1
+В &мережі\tCtrl+1
 [&Away\tCtrl+2]
-Відсутній\tCtrl+2
+&Відсутній\tCtrl+2
 [&NA\tCtrl+3]
-Недос&тупний\tCtrl+3
+Не&доступний\tCtrl+3
 [Occ&upied\tCtrl+4]
-Зайн&ятий\tCtrl+4
+&Зайнятий\tCtrl+4
 [&DND\tCtrl+5]
-Не турбу&вати\tCtrl+5
+Не т&урбувати\tCtrl+5
 [&Free for chat\tCtrl+6]
-Готовий до ч&ату\tCtrl+6
+&Готовий до чату\tCtrl+6
 [&Invisible\tCtrl+7]
-Невидимий\tCtrl+7
+&Невидимий\tCtrl+7
 [On the &Phone\tCtrl+8]
 &Телефоную\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-Обі&даю\tCtrl+9
+Обід&аю\tCtrl+9
 [Tray]
 Трей
 [&Hide/Show]
@@ -198,9 +200,9 @@
 [&New Group]
 &Створити групу
 [&Hide Offline Users]
-С&ховати від'єднаних
+С&ховати відключених
 [Hide &Offline Users out here]
-Сховати &від'єднаних поза групою
+Сховати &відключених поза групою
 [Hide &Empty Groups]
 Сховати порожні групи
 [Disable &Groups]
@@ -212,7 +214,7 @@
 [&New Subgroup]
 С&творити підгрупу
 [&Hide Offline Users in here]
-Сховати &від'єднаних у групі
+Сховати &відключених у групі
 [&Rename Group]
 &Перейменувати групу
 [&Delete Group]
@@ -255,5 +257,3 @@ Cписок неактивний
 розгорнута
 [Collapsed]
 згорнута
-[URL:]
-Посилання:

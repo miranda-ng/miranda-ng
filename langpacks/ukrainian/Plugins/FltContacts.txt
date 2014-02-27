@@ -74,13 +74,13 @@
 [Opacity:]
 Прозорість:
 [Standard contacts]
-Стандартні контакти
+Звичайні контакти
 [Online contacts to whom you have a different visibility]
 Контакти зі зміненою видимістю (в мережі)
 [Offline contacts]
-Від'єднані контакти
+Відключені контакти
 [Offline contacts to whom you have a different visibility]
-Контакти зі зміненою видимістю (від'єднані)
+Контакти зі зміненою видимістю (відключені)
 [Contacts which are 'not on list']
 Контакти поза списком
 [Floating contacts]

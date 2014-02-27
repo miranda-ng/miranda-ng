@@ -44,7 +44,7 @@
 [Alpha (percent)]
 Альфа (%)
 [Item margins]
-Елемент поля
+Поля елементу
 [Item borders]
 Межі елементу
 [Border style]

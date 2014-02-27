@@ -838,7 +838,7 @@ TabSRMM: Набирає
 [Vertical maximize]
 Розтягувати по вертикалі
 [Window Flashing]
-Миготіння вікна
+Блимання вікна
 [Use default Value]
 За замовчанням
 [Flash until focused]
@@ -906,7 +906,7 @@ TabSRMM: Набирає
 [Do not add this contact permanently]
 Не додавати цей контакт до списку
 [UID: %s (SHIFT-click -> copy to clipboard)\nClick for user's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - управління метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
+UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - керування метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [UID: %s (SHIFT-click -> copy to clipboard)\nClick for user's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [Default Color]

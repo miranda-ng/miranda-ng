@@ -9,16 +9,16 @@
 Показує контакти, події, статуси протоколів. Мультивіконна модифікація.
 [Settings]
 Налаштування
-[Background colour:]
+[Background color:]
 Колір фону:
-[Selection colour:]
-Вибір кольору:
+[Selection color:]
+Колір вибраного:
 [Use background bitmap]
 Фонове зображення
 [Stretch to width]
-Розтягнути по ширині
+Розтягнути у ширину
 [Stretch to height]
-Розтягнути по висоті
+Розтягнути у висоту
 [Tile horizontally]
 Горизонтальна мозаїка
 [Tile vertically]
@@ -27,8 +27,14 @@
 Прокручувати з текстом
 [Stretch proportionally]
 Розтягнути
+[Tile vertically according to Row Height]
+Розтягнути вертикально по висоті
 [Warning!\r\nThis MenuObject not support user defined options.]
 Увага!\r\nЦі пункти меню не піддаються налаштуванню.
+[MenuObjects]
+Види меню
+[MenuItems]
+Пункти меню
 [InsertSeparator]
 Роздільник
 [Service:]
@@ -42,91 +48,97 @@
 [Delete Contact]
 Видалити контакт
 [No]
-Немає
+Ні
 [Yes]
 Так
-[Hide from list only in order to keep their history and ignore/visibility settings]
-Приховати списку залишаться історія і налаштування видимості
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Сховати зі списку, зберігши історію і параметри ігнорування та видимості
+[Use Options->Contacts->Ignore to unhide contacts.]
+Приховані контакти: Налаштування -> Контакти -> Ігнорувати
 [Are you sure you want to delete %s?]
 Видалити %s зі списку?
-[This will all erase history and settings for this contact!]
+[This will erase all history and settings for this contact!]
 Це видалить всю історію і налаштування для даного контакту!
 [Hide offline users]
-Приховати відключених
+Сховати відключених
 [Hide empty groups]
-Приховати порожні групи
+Сховати порожні групи
 [Disable groups]
-Відключити групи
+Вимкнути групи
 [Ask before deleting contacts]
-Підтвердження видалення
+Запит перед видаленням
 [Always on top]
-Поверх всіх вікон
+Поверх усіх вікон
 [Hide contact list after it has been idle for]
-Сховати список, якщо не активний протягом:
+Ховати список після неактивності:
 [seconds]
-секунд(и)
+секунд
 [Sort contacts by name]
-Сортування по імені
+за ім'ям
 [Sort contacts by status]
-Сортування по статусу
+за статусом
 [Sort contacts by protocol]
-Сортування по протоколу
+за протоколом
 [Single click interface]
-Один клік
+Одне клацання
 [Always show status in tooltip]
 Завжди показувати статус у підказці
 [Disable icon blinking]
 Вимкнути блимання
+[ms, delay between icon blinking]
+мс між блиманням значка
 [Show]
 Показати
 [icon when statuses differ]
 при різних статусах
 [Cycle icons every]
-Міняти кожні
+Змінювати значок кожні
 [seconds, when statuses differ]
-секунд, при різних статусах
+секунд при різних статусах
 [Show multiple icons]
-Кілька значків
+Декілька значків
 [Only when statuses differ]
-При різних статусах
+при різних статусах
 [Contact List]
 Список контактів
 [System tray icon]
-Значок в треї
+Значок у треї
 [System tray icon when using multiple protocols]
-Значки протоколів в системному лотку
+Значки протоколів у треї
 [Contact List Sorting]
-Сортування списку контактів
+Впорядкування списку
+[Don't move offline user to bottom]
+Не переміщати відключених вниз
 [Pin to desktop]
 Прикріпити до столу
 [Rows]
 Рядки
 [Row height:]
-Висота рядка:
+Висота рядків:
 [pixels]
-пікс.
+пікселів
 [Gamma correction]
-Корекція гами
+Корекція гамми
 [Window]
 Вікно
 [Tool style main window]
-Стиль панелі у заголовка
+Вікно як панель інструментів
 [Minimize to tray]
-Приховати в системний лоток
+Згортати до трею
 [Automatically resize window to height of list]
 Автоматично змінювати розмір вікна
 [maximum]
 максимум
 [% of screen]
-% від екрану
+% екрану
 [Size upwards]
 Розтягувати вгору
 [Title bar text:]
-Заголовок вікна:
+Заголовок:
 [Translucency options]
-Налаштування прозорості
+Прозорість
 [Fade contact list in/out]
-Плавно сховати список
+Плавно згортати/розгортати список
 [Transparent contact list]
 Прозорий список контактів
 [Inactive opacity:]
@@ -134,71 +146,75 @@
 [Active opacity:]
 Вікно активне:
 [Show menu bar]
-Показувати меню
+Показувати кнопки
 [Easy move]
 Просте переміщення
 [Show title bar]
 Показувати заголовок
 [If window is partially covered, bring to front instead of hiding]
-Помістити вікно на передній план, якщо воно прикрите іншими вікнами
+Помістити вікно на передній план, якщо його перекрито іншими вікнами
 [Enable drop shadow (restart required)]
 Ввімкнути тінь (потрібен перезапуск)
 [Items]
 Елементи
 [Show divider between online and offline contacts]
-Межа між підключеними та відключеними користувачами
+Розділяти користувачів у мережі та відключених
 [Hot track items as mouse passes over]
-Підсвічування під курсором миші
+Підсвітка під курсором миші
 [Disable drag and drop of items]
-Відключити перетягування елементів
+Вимкнути перетягування елементів
 [Disable rename of items by clicking twice]
-Відключити перейменування за двома кліками
+Вимкнути перейменування при двокліку
 [Show selection even when list is not focused]
-Виділення, навіть якщо вікно неактивно
+Виділяти навіть якщо вікно неактивне
 [Make selection highlight translucent]
 Напівпрозоре виділення
 ['Hide Offline' means to hide:]
-'Приховати відключених' - приховати:
+Сховати відключених - сховати:
 [Groups]
 Групи
 [Draw a line alongside group names]
-Лінія вздовж назв груп
+Лінія вздовж назви групи
 [Show counts of number of contacts in a group]
-Показувати кількість користувачів в групах
+Показувати кількість користувачів у групах
 [Hide group counts when there are none online]
-Приховати лічильник, якщо немає користувачів в мережі
+Ховати лічильник, якщо нема користувачів у мережі
 [Sort groups alphabetically]
-Сортувати групи за алфавітом
-[Quicksearch open in groups only]
-Швидкий пошук тільки в відкритих групах
+Впорядкувати групи за абеткою
+[Quicksearch in open groups only]
+Швидкий пошук лише у відкритих групах
 [Indent groups by:]
-Відступ для груп:
+Відступ груп:
 [Visual]
-Візуальні налаштування
+Зовнішній вигляд
 [Scroll list smoothly]
-Плавне прокручування
+Плавне прокручування списку
 [Time:]
 Час:
 [milliseconds]
 мс
 [Left margin:]
 Ліве поле:
-[Grey out entire list when:]
+[Gray out entire list when:]
 Зробити сірим, якщо:
 [Dim idle contacts]
-Затемнити неактивних користувачів
+Затемняти неактивних користувачів
 [Hide vertical scrollbar]
-Приховати вертикальну полосу прокрутки
+Сховати смугу прокрутки
 [Contact list background]
-Фон списку
+Фон списку контактів
 [Use 'Meta' protocol icons for Metacontacts]
-Використовувати значок Meta протоколу для метаконтактів
+Значки "Мета" для метаконтактів
+[Avoid doubleclick expand]
+Не розгортати за подв. клацанням
 [Hide all 'Extra icons' for subcontacts]
-Ховати всі екстра значки субконтактів
+Ховати додаткові значки для субконтактів
 [MetaContacts supporting]
 Підтримка метаконтактів
+[Ignore Empty Extra icons places (arrange to right).]
+Ігнорувати порожні додаткові значки (праворуч)
 [Hide offline subcontacts.]
-Приховувати відключені субконтакти.
+Ховати відключені субконтакти
 [Status Bar]
 Панель статусу
 [Show status bar]
@@ -218,15 +234,17 @@
 [Show size grip]
 Індикатор зміни розміру
 [Show bevel effect on panels]
-Ефект бордюру на панелях
+Бордюр на панелях
 [Use connecting Icon]
-Використовувати значок підключення
+Значок з'єднання
 [Use new drawer for status bar]
 Новий стиль панелі статусу
+[&Main menu]
+Головне меню
 [E&xit]
 Ви&хід
 [&Status]
-Статус
+&Статус
 [&Offline\tCtrl+0]
 Не в м&ережі\tCtrl+0
 [On&line\tCtrl+1]
@@ -238,7 +256,7 @@
 [Occ&upied\tCtrl+4]
 &Зайнятий\tCtrl+4
 [&DND\tCtrl+5]
-Не &турбувати\tCtrl+5
+Не т&урбувати\tCtrl+5
 [&Free for chat\tCtrl+6]
 &Готовий до чату\tCtrl+7
 [&Invisible\tCtrl+7]
@@ -250,33 +268,33 @@
 [Tray]
 Трей
 [&Hide/Show]
-З&крити/показати
+С&ховати/Показати
 [Nowhere]
 Ніде
 [&New Group]
-Н&ова група
+&Створити групу
 [&Hide Offline Users]
-Приховати відключених
+С&ховати відключених
 [Hide &Offline Users out here]
-Приховати відключених поза групою
+Сховати &відключених поза групою
 [Hide &Empty Groups]
-Приховати порожні групи
+Сховати порожні групи
 [Disable &Groups]
-Відключити групи
+Вимкнути &групи
 [Hide Miranda]
 Сховати список контактів
 [Group]
 Група
 [&New Subgroup]
-Створити підгрупу
+С&творити підгрупу
 [&Hide Offline Users in here]
-Приховати відключених в групі
+Сховати &відключених у групі
 [&Rename Group]
-Перейменувати групу
+&Перейменувати групу
 [&Delete Group]
-Видалити групу
+&Видалити групу
 [Customize]
-Тонка настройка
+Тонке налаштування
 [Backgrounds]
 Фон
 [Status bar background]
@@ -286,19 +304,19 @@
 [Frames title bar background]
 Фон заголовку фреймів
 [Standard contacts]
-Стандартні контакти
+Звичайні контакти
 [Online contacts to whom you have a different visibility]
-Контакти із зміненою видимістю (в мережі)
+Контакти зі зміненою видимістю (в мережі)
 [Offline contacts]
 Відключені контакти
 [Contacts which are 'not on list']
-Контакти 'не в списку'
+Контакти поза списком
 [Group member counts]
 Лічильники груп
 [Dividers]
 Роздільники
 [Offline contacts to whom you have a different visibility]
-Контакти із зміненою видимістю (відключені)
+Контакти зі зміненою видимістю (відключені)
 [Status messages]
 Статусні повідомлення
 [Group Closed]
@@ -312,7 +330,7 @@
 [Selected Text]
 Виділений текст
 [Hottrack Text]
-Під курсором
+Текст під курсором
 [Quicksearch Text]
 Швидкий пошук
 [List]
@@ -320,7 +338,7 @@
 [List MetaContacts]
 Список метаконтактів
 [Not focused]
-Не в фокусі
+Cписок неактивний
 [Offline]
 Не в мережі
 [Online]
@@ -340,25 +358,29 @@
 [Out to lunch]
 Обідаю
 [On the phone]
-На телефоні
+Телефоную
 [Global]
 Глобальні
 [_NoProtocol_]
 _БезПротоколу_
 [(Unknown Contact)]
 (Невідомий контакт)
+[Tray menu]
+Меню в треї
 [&Find/Add Contacts...]
-&Додати контакти...
-[&Main menu]
-Головне меню
+Додати &контакти...
 [&Options...]
 &Налаштування...
 [&About]
 Про програму
 [My Contacts]
 Мої контакти
+[Group menu]
+Меню груп
+[Subgroup menu]
+Меню підгруп
 [&New SubGroup]
-Створити підгрупу
+С&творити підгрупу
 [Close Miranda]
 Закрити програму
 [Restore last status]
@@ -366,27 +388,27 @@ _БезПротоколу_
 [&FrameTitle]
 &Заголовок фрейму
 [&Visible]
-Показувати
+&Показувати
 [&Show title bar]
-Показувати назву
+&Показувати назву
 [&Locked]
-Закріпити
+&Закріпити
 [&Collapsed]
 Згорнуте
 [&Floating Mode]
-Плаваючий режим
+&Плаваючий режим
 [&Border]
 &Рамка
 [&Align]
-Вирівнювання
+&Вирівнювання
 [&Top]
-Верх
+&Верх
 [&Client]
-Вручну
+&Вручну
 [&Bottom]
-Низ
+&Низ
 [&Position]
-Положення
+&Позиція
 [&Up]
 &Вгору
 [&Down]
@@ -395,13 +417,15 @@ _БезПротоколу_
 Фрейми
 [Show All Frames]
 Показати всі фрейми
-[Show all titlebars]
-Показувати назви
-[Hide all titlebars]
-Приховати назви
+[Show all title bars]
+Показати назви
+[Hide all title bars]
+Сховати назви
 [Lock Frame]
 Закріпити фрейм
 [Visible]
 Видимий
 [Floating]
 Плаваюче
+[Frame menu]
+Меню фреймів

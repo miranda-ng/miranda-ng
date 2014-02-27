@@ -622,7 +622,7 @@ Miranda не змогла завантажити вбудовану систем
 [An unknown error has occured.]
 Невідома помилка.
 [Always On Top]
-Поверх всіх вікон
+Поверх усіх вікон
 [The message send timed out.]
 Таймаут відправлення повідомлення
 [Nick list lines]

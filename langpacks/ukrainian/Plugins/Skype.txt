@@ -318,7 +318,7 @@ SkypeKit не запустився.
 [Skype menu chooser]
 Вибір облікового запису Skype
 [Request authorization]
-Запросити авторизацію
+Запитати авторизацію
 [Grant authorization]
 Авторизувати
 [Revoke authorization]

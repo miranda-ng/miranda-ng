@@ -30,7 +30,7 @@
 [Show offline users with status message as invisible in contact list]
 Відключені зі статусним повідомленням = невидимі
 [After disconnection leave away message of status:]
-Після від'єднання залишити статусне повідомлення:
+Після відключення залишити статусне повідомлення:
 [Receive image and after image is received use:]
 Після отримання зображення:
 [Show links from unknown contacts]

@@ -16,7 +16,7 @@
 [Format of date and time\n(Look to readme for placeholders help)]
 Формат дати та часу\n(Формат дивіться у readme)
 [Hide offline contacts]
-Сховати від'єднаних
+Сховати відключених
 [Contacts]
 Контакти
 [Main icon]

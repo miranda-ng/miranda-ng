@@ -60,7 +60,7 @@
 [ICQ contacts stored on server]
 Контакти ICQ на сервері
 [Manage server's list...]
-Управління списком...
+Керування списком...
 [Enable server-side contact lists *]
 Використовувати список на сервері *
 [Add contacts to the server's list when I add them to mine]
@@ -252,7 +252,7 @@
 [Search online users only]
 Тільки підключених користувачів
 [Manage ICQ Server Contacts]
-Управління контактами на сервері
+Керування контактами на сервері
 [Select contacts to store:]
 Контакти для закачування:
 [Synchronize]
@@ -282,7 +282,7 @@
 [You could not sign on because the server returned invalid data. Try again.]
 Ви не увійшли в мережу, тому що сервер повернув неправильні дані. Спробуйте пізніше.
 [You have been disconnected from the ICQ network because the current server shut down.]
-Вас від'єднали від мережі ICQ, тому що поточний сервер був вимкнений.
+Вас відключили від мережі ICQ, тому що поточний сервер був вимкнений.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Невдале з'єднання.\nВаш номер або пароль не прийняті сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
@@ -1298,7 +1298,7 @@ Web-дизайн
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Передача файлу була скасована, тому що неможливо відкрити локальний файл на запис. Швидше за все, ви намагаєтесь зберегти файл у папку, де немає права на запис.
 [Request authorization]
-Запросити авторизацію
+Запитати авторизацію
 [Grant authorization]
 Авторизувати
 [Revoke authorization]

@@ -1,0 +1,43 @@
+﻿#muuid {b908773a-86f7-4a91-8674-6a20ba0e67d1}
+;============================================================
+;  File: Dropbox.dll
+;  Plugin: Dropbox
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+[Provides ability to upload files on Dropbox.]
+Плагін для завантаження і пересилання файлів за допомогою Dropbox.
+[You have been authorized]
+Авторизація пройшла успішно
+[Are you sure you want to request athorization?]
+Ви впевнені, що хочете запитати авторизацію?
+[Request authorization]
+Запит авторизації
+[Send files to Dropbox]
+Файл через Dropbox
+[Network]
+Мережа
+[Protocols]
+Протоколи
+[Protocol icon]
+Значок протоколу
+[Server does not respond]
+Сервер не відповідає
+[Link to download file "%s": %s]
+Посилання для завантаження файлу "%s": %s
+[Link to download folder "%s": %s]
+Посилання для завантаження папки "%s": %s
+[Bad input parameter. Error message should indicate which one and why]
+Неправильний параметр вводу. У повідомленні про помилку має бути вказано, який саме і чому.
+[Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
+Неправильний або прострочений токен. Можливо, користувач або Dropbox відкликав токен. Щоб виправити це, авторизуйте користувача наново.
+[Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
+Невдалий запит OAuth (неправильний ключ, поганий криптографічний код, прострочені часові мітки...). На жаль, повторна авторизація користувача не допоможе в даному випадку.
+[File or folder not found at the specified path]
+Файл або папка не знайдені за вказаним шляхом
+[Request method not expected (generally should be GET or POST)]
+Непередбачений метод запиту (повинен бути GET, а не POST)
+[User is over Dropbox storage quota]
+Користувач перевищив квоту, виділену йому сервісом Dropbox
+[Unknown]
+Невідомо

@@ -1406,7 +1406,7 @@ xHTML-формат повідомлень чату
 [Other]
 Інше
 [Enable remote controlling (from another resource of same JID only)]
-Віддалене управління (тільки з іншого ресурсу одного JID)
+Віддалене керування (тільки з іншого ресурсу одного JID)
 [Show transport agents on contact list]
 Показати транспортні агенти у списку контактів
 [Automatically add contact when accept authorization]
@@ -1664,7 +1664,7 @@ XML для MS Excel (кодування UTF-8)
 [Play sounds]
 Програвати звуки
 [Disable remote controlling (check twice what you are doing)]
-Вимкнути віддалене управління (перевіряйте двічі, що ви робите)
+Вимкнути віддалене керування (перевіряйте двічі, що ви робите)
 [There is no messages to forward]
 Немає повідомлень для відправки
 [Forward options]
