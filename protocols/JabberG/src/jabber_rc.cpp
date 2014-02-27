@@ -325,7 +325,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 
 		ptrT tszStatusMsg((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, 0));
 		if (tszStatusMsg)
-			fieldNode << XCHILD(_T("value"), szStatusMsg);
+			fieldNode << XCHILD(_T("value"), tszStatusMsg);
 
 		m_ThreadInfo->send(iq);
 		return JABBER_ADHOC_HANDLER_STATUS_EXECUTING;
