@@ -126,7 +126,7 @@ void CDropbox::RequestApiAuthorizationAsync(void *arg)
 {
 	if (HasAccessToken() && MessageBox(
 		NULL, 
-		TranslateT("Are you sure you want to request athorization?"), 
+		TranslateT("Are you sure you want to request authorization?"), 
 		TranslateT("Request authorization"), 
 		MB_YESNO | MB_ICONQUESTION) == IDYES)
 	{
@@ -141,7 +141,7 @@ void CDropbox::RevokeApiAuthorizationAsync(void *arg)
 {
 	if (HasAccessToken() && MessageBox(
 		NULL,
-		TranslateT("Are you sure you want to revoke athorization?"),
+		TranslateT("Are you sure you want to revoke authorization?"),
 		TranslateT("Revoke authorization"),
 		MB_YESNO | MB_ICONQUESTION) == IDYES)
 		INSTANCE->DestroyAcceessToken();
