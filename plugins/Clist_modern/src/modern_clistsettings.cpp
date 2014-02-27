@@ -259,7 +259,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->bIsHidden == -1)
 		pdnce->bIsHidden = db_get_b(pdnce->hContact,"CList","Hidden",0);
 
-	pdnce->m_cache_nHiddenSubcontact = g_szMetaModuleName && db_get_b(pdnce->hContact,g_szMetaModuleName,"IsSubcontact",0);
+	pdnce->m_cache_nHiddenSubcontact = g_szMetaModuleName && db_mc_isSub(pdnce->hContact);
 
 	if (pdnce->m_cache_nNoHiddenOffline == -1)
 		pdnce->m_cache_nNoHiddenOffline = db_get_b(pdnce->hContact,"CList","noOffline",0);
@@ -441,8 +441,9 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		if (!strcmp(cws->szSetting,"IsSubcontact"))
-			PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
+		// !!!!!!!!!!!!!!!!!!!!!!!
+		// if (!strcmp(cws->szSetting,"IsSubcontact"))
+		// 	PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
 
 		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (g_szMetaModuleName && !mir_strcmp(cws->szModule,g_szMetaModuleName) && mir_strcmp(cws->szSetting, "Status")) {

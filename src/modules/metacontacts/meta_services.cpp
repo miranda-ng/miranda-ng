@@ -768,8 +768,6 @@ int Meta_ContactDeleted(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < num_contacts; i++) {
 		MCONTACT hContact = Meta_GetContactHandle(wParam, i);
 		if (hContact && (HANDLE)db_get_dw(hContact, META_PROTO, "Handle", 0) == (HANDLE)wParam) {
-			if (db_get_b(hContact, META_PROTO, "IsSubcontact", 0) == 1)
-				db_unset(hContact, META_PROTO, "IsSubcontact");
 			db_unset(hContact, META_PROTO, META_LINK);
 			db_unset(hContact, META_PROTO, "Handle");
 			db_unset(hContact, META_PROTO, "ContactNumber");

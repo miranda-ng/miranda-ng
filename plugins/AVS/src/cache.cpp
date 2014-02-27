@@ -127,7 +127,7 @@ CacheNode *FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 
 	foundNode->ace.hContact = hContact;
 	if (g_MetaAvail)
-		foundNode->dwFlags |= (db_get_b(hContact, g_szMetaName, "IsSubcontact", 0) ? MC_ISSUBCONTACT : 0);
+		foundNode->dwFlags |= (db_mc_isSub(hContact) ? MC_ISSUBCONTACT : 0);
 	foundNode->loaded = FALSE;
 	foundNode->mustLoad = 1;        // pic loader will watch this and load images
 	SetEvent(hLoaderEvent);         // wake him up
@@ -210,7 +210,7 @@ void DeleteAvatarFromCache(MCONTACT hContact, BOOL forever)
 	if (node == NULL) {
 		struct CacheNode temp_node = {0};
 		if (g_MetaAvail)
-			temp_node.dwFlags |= (db_get_b(hContact, g_szMetaName, "IsSubcontact", 0) ? MC_ISSUBCONTACT : 0);
+			temp_node.dwFlags |= (db_mc_isSub(hContact) ? MC_ISSUBCONTACT : 0);
 		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
 		return;
 	}

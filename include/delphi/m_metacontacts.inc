@@ -163,12 +163,12 @@ const
 
 { returns true if a contact is a metacontact or false otherwise
 }
-function db_mc_isMeta(hContact:MCONTACT):Boolean; stdcall;
+function db_mc_isMeta(hContact:MCONTACT):Integer; stdcall;
                  external CoreDLL name 'db_mc_isMeta';
 
 { returns true if a contact is a subcontact or false otherwise
 }
-function db_mc_isSub(hContact:MCONTACT):Boolean; stdcall;
+function db_mc_isSub(hContact:MCONTACT):Integer; stdcall;
                  external CoreDLL name 'db_mc_isSub';
 
 {$ENDIF}

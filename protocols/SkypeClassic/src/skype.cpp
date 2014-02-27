@@ -1306,13 +1306,11 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				// really bad on importing history for example, as all messages would be added with current
 				// timestamp. This would cause unreliable jumbled timestamps in metacontact, so we better do this
 				// ourself.
-				if (db_get_b(hContact, "MetaContacts", "IsSubcontact", 0))
-				{
+				if (db_mc_isSub(hContact)) {
 					DWORD dwMetaLink = db_get_dw(hContact, "MetaContacts", "MetaLink", MAXDWORD);
 					MCONTACT hMetaContact;
 
-					if (dwMetaLink != MAXDWORD && (hMetaContact = GetMetaHandle(dwMetaLink)))
-					{
+					if (dwMetaLink != MAXDWORD && (hMetaContact = GetMetaHandle(dwMetaLink))) {
 						dbei.szModule=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hMetaContact, 0);
 						pme->hMetaEvent = db_event_add(hMetaContact, &dbei);
 					}

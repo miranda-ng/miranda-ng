@@ -156,8 +156,9 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
 				}
 			}
-			if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, cfg::dat.szMetaName) && !__strcmp(cws->szSetting, "IsSubcontact"))
-				pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
+			// !!!!!!!!!!!!!!!!!!
+			// if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, cfg::dat.szMetaName) && !__strcmp(cws->szSetting, "IsSubcontact"))
+			// 	pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
 		}
 	}
 	else if (!__strcmp(cws->szModule, cfg::dat.szMetaName)) {
@@ -563,7 +564,7 @@ LBL_Def:
 			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				p = cfg::getCache(hContact, szProto);
 				if (!dat->bisEmbedded && cfg::dat.bMetaAvail && szProto) {				// may be a subcontact, forward the xstatus
-					if (cfg::getByte(hContact, cfg::dat.szMetaName, "IsSubcontact", 0)) {
+					if (db_mc_isSub(hContact)) {
 						MCONTACT hMasterContact = (MCONTACT)cfg::getDword(hContact, cfg::dat.szMetaName, "Handle", 0);
 						if (hMasterContact && hMasterContact != hContact)				// avoid recursive call of settings handler
 							cfg::writeByte(hMasterContact, cfg::dat.szMetaName, "XStatusId",

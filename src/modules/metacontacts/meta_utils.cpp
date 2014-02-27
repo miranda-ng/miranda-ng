@@ -331,7 +331,6 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 		NotifyEventHooks(hEventDefaultChanged, (WPARAM)dest, (LPARAM)src);
 	}
 
-	db_set_b(src, META_PROTO, "IsSubcontact", 1);
 	// set nick to most online contact that can message
 	most_online = Meta_GetMostOnline(dest);
 	Meta_CopyContactNick(dest, most_online);
@@ -766,7 +765,6 @@ int Meta_SetHandles(void)
 				MessageBox(0, TranslateT("Subcontact's MetaContact not found - deleting MetaContact data"), nick_buffer, MB_OK | MB_ICONERROR);
 
 				// delete meta data
-				db_unset(hContact, META_PROTO, "IsSubcontact");
 				db_unset(hContact, META_PROTO, META_LINK);
 				db_unset(hContact, META_PROTO, "Handle");
 				db_unset(hContact, META_PROTO, "ContactNumber");
@@ -776,11 +774,6 @@ int Meta_SetHandles(void)
 				// stop ignoring, if we were
 				if (options.suppress_status)
 					CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
-
-			}
-			else {
-				if (!db_get_b(hContact, META_PROTO, "IsSubcontact", 0))
-					db_set_b(hContact, META_PROTO, "IsSubcontact", 1);
 			}
 		}
 		else db_unset(hContact, META_PROTO, "Handle");

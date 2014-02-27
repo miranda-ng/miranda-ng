@@ -48,9 +48,7 @@ MCONTACT Sub(MCONTACT hMetaContact, int idx)
 
 bool IsSub(MCONTACT hContact)
 {
-	return myGlobals.szMetaProto &&
-			db_get_b(NULL, myGlobals.szMetaProto, "Enabled", TRUE) &&
-			db_get_b(hContact, myGlobals.szMetaProto, "IsSubcontact", FALSE);
+	return db_mc_isSub(hContact);
 }
 
 MCONTACT GetMeta(MCONTACT hContact)

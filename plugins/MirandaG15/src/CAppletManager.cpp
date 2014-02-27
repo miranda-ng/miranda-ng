@@ -210,7 +210,7 @@ tstring CAppletManager::TranslateString(TCHAR *szString,...)
 
 	va_list body;
 	va_start(body, szString);
-	_vstprintf(out, szTranslatedString, body);
+	_vstprintf_s(out, SIZEOF(out), szTranslatedString, body);
 	va_end(body);
 	return out;
 }
@@ -251,14 +251,13 @@ bool CAppletManager::Update()
 	// Screensaver detection
 	BOOL bActive = false;
 	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &bActive, 0);
-	if(bActive != m_bScreensaver)
+	if(bActive != (BOOL)m_bScreensaver)
 	{
 		if(CConfig::GetBoolSetting(SCREENSAVER_LOCK)) {
-			if(!m_bScreensaver) {
+			if(!m_bScreensaver)
 				ActivateScreensaverScreen();
-			} else {
+			else
 				ActivateEventScreen();
-			}
 		}
 		if(CConfig::GetBoolSetting(CONTROL_BACKLIGHTS)) {
 			if(GetLCDConnection() &&
@@ -289,7 +288,7 @@ bool CAppletManager::Update()
 				}
 			}
 		}
-		m_bScreensaver = bActive;
+		m_bScreensaver = bActive != 0;
 	}
 
 	return true;	
@@ -763,10 +762,7 @@ bool CAppletManager::IsSubContact(MCONTACT hContact)
 {
 	if(!db_get_b(0, "MetaContacts", "Enabled", 1))
 		return false;
-	bool bIsSubcontact = db_get_b(hContact,"MetaContacts","IsSubcontact",0) != 0;
-	return bIsSubcontact;
-	// HANDLE hMetaContact = (HANDLE)CallService(MS_MC_GETMETACONTACT, hContact, NULL);
-	// return hMetaContact != NULL;
+	return db_mc_isSub(hContact) != 0;
 }
 
 //************************************************************************
@@ -856,7 +852,7 @@ HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 			char* szMsgUtf = NULL;
 			szMsgUtf = mir_utf8encodeW( strMessage.c_str());
 
-			pJob->iBufferSize = strlen(szMsgUtf)+1;
+			pJob->iBufferSize = (int)strlen(szMsgUtf)+1;
 			pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
 			pJob->dwFlags = PREF_UTF;
 
@@ -969,10 +965,9 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lPara
 
 	tstring strName = CAppletManager::GetContactDisplayname(hContact,true);
 	
-	switch(dbevent.eventType)
-	{
+	switch(dbevent.eventType) {
 	case EVENTTYPE_MESSAGE:
-		msglen = strlen((char *) dbevent.pBlob) + 1;
+		msglen = (int)strlen((char *) dbevent.pBlob) + 1;
 		if (dbevent.flags & DBEF_UTF) {
 			pEvent->strValue = Utf8_Decode((char*)dbevent.pBlob);
 		} else if ((int) dbevent.cbBlob == msglen*3){
@@ -1660,8 +1655,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 	Event.strSummary = TranslateString(_T("Contactlist event"));
 
 	// Block notifications after connecting/disconnecting
-	if(pProtocolData->iStatus == ID_STATUS_OFFLINE ||
-		pProtocolData->lTimeStamp + PROTOCOL_NOTIFY_DELAY > GetTickCount())
+	if(pProtocolData->iStatus == ID_STATUS_OFFLINE || (DWORD)pProtocolData->lTimeStamp + PROTOCOL_NOTIFY_DELAY > GetTickCount())
 		Event.bNotification = false;
 
 	//CAppletManager::GetInstance()->ActivateNotificationScreen(&Event);
@@ -1816,18 +1810,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact,LPARAM lParam)
 	CEvent Event;
 	Event.hContact = hContact;
 
-	if(!lstrcmpA(dbcws->szModule,"MetaContacts")) {
-		if(!lstrcmpA(dbcws->szSetting,"IsSubcontact")) {
-			Event.eType = EVENT_CONTACT_GROUP;
-			DBVARIANT dbv;
-			int res = db_get_ts(hContact, "CList", "Group",	&dbv);
-			if(!res)
-					Event.strValue = dbv.ptszVal;
-			db_free(&dbv);
-		}
-		else return 0;
-	}
-	else if(!lstrcmpA(dbcws->szSetting,"Nick") || !lstrcmpA(dbcws->szSetting,"MyHandle")) {
+	if(!lstrcmpA(dbcws->szSetting,"Nick") || !lstrcmpA(dbcws->szSetting,"MyHandle")) {
 		DBVARIANT dbv={0};
 		// if the protocol nick has changed, check if a custom handle is set
 		if(!lstrcmpA(dbcws->szSetting,"Nick")) {

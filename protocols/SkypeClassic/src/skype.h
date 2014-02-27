@@ -42,6 +42,7 @@
 #include <m_userinfo.h>
 #include <m_avatars.h>
 #include <m_contacts.h>
+#include <m_metacontacts.h>
 #include <m_popup.h>
 
 #pragma warning (pop)

@@ -73,7 +73,7 @@ void CContactCache::initPhaseTwo()
 	m_Valid = (m_szProto != 0 && m_szAccount != 0) ? true : false;
 	if (m_Valid) {
 		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(m_szProto, PluginConfig.szMetaName);
-		m_isSubcontact = db_get_b(m_hContact, PluginConfig.szMetaName, "IsSubcontact", 0) != 0;
+		m_isSubcontact = db_mc_isSub(m_hContact) != 0;
 		if (m_isMeta)
 			updateMeta(true);
 		updateState();

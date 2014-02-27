@@ -129,7 +129,6 @@ void Meta_RemoveContactNumber(MCONTACT hMeta, int number)
 	// make sure this contact thinks it's part of this metacontact
 	if ((MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0) == hMeta) {
 		// remove link to meta contact
-		db_unset(hContact, META_PROTO, "IsSubcontact");
 		db_unset(hContact, META_PROTO, META_LINK);
 		db_unset(hContact, META_PROTO, "Handle");
 		db_unset(hContact, META_PROTO, "ContactNumber");
@@ -228,7 +227,6 @@ INT_PTR Meta_Delete(WPARAM wParam, LPARAM lParam)
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			// This contact is assigned to the MetaContact that will be deleted, clear the "MetaContacts" information
 			if (db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1) == metaID) {
-				db_unset(hContact, META_PROTO, "IsSubcontact");
 				db_unset(hContact, META_PROTO, META_LINK);
 				db_unset(hContact, META_PROTO, "Handle");
 				db_unset(hContact, META_PROTO, "ContactNumber");
