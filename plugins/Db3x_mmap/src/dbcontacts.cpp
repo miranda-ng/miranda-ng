@@ -249,7 +249,7 @@ void CDb3Mmap::FillContacts()
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
 		cc->nSubs = (0 != GetContactSetting(dwContactID, "MetaContacts", "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
-			cc->pSubs = (MCONTACT*)malloc(cc->nSubs*sizeof(MCONTACT));
+			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, sizeof(setting), "Handle%d", i);

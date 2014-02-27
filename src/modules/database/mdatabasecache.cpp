@@ -105,7 +105,7 @@ void MDatabaseCache::FreeCachedContact(MCONTACT contactID)
 		V = V1;
 	}
 
-	free(cc->pSubs);
+	mir_free(cc->pSubs);
 	HeapFree(m_hCacheHeap, 0, cc);
 
 	m_lContacts.remove(index);
