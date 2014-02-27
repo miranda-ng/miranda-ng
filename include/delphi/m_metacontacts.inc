@@ -1,19 +1,19 @@
 {
-  Miranda IM: the free IM client for Microsoft  Windows 
-  
+  Miranda IM: the free IM client for Microsoft  Windows
+
   Copyright © 2004 Universite Louis PASTEUR, STRASBOURG.
   Copyright © 2004 Scott Ellis (www.scottellis.com.au mail@scottellis.com.au)
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -132,30 +132,26 @@ const
     wParam=lParam=0 }
   MS_MC_GETPROTOCOLNAME = 'MetaContacts/GetProtoName';
 
-  { added 0.9.5.0 (22/3/05)
-    wParam=(HANDLE)hContact
+  { wParam=(HANDLE)hContact
     lParam=0
     convert a given contact into a metacontact
   }
   MS_MC_CONVERTTOMETA = 'MetaContacts/ConvertToMetacontact';
 
-  { added 0.9.5.0 (22/3/05)
-    wParam=(HANDLE)hContact
+  { wParam=(HANDLE)hContact
     lParam=(HANDLE)hMeta
     add an existing contact to a metacontact
   }
   MS_MC_ADDTOMETA = 'MetaContacts/AddToMetacontact';
 
-  { added 0.9.5.0 (22/3/05)
-    wParam=0
+  { wParam=0
     lParam=(HANDLE)hContact
     remove a contact from a metacontact
   }
   MS_MC_REMOVEFROMMETA = 'MetaContacts/RemoveFromMetacontact';
 
 
-  { added 0.9.13.2 (6/10/05)
-    wParam=(BOOL)disable
+  { wParam=(BOOL)disable
     lParam=0
     enable/disable the 'hidden group hack' - for clists that support subcontact
     hiding using 'IsSubcontact' setting. Should be called once in the clist
@@ -164,5 +160,15 @@ const
     hiding is usually done)
   }
   MS_MC_DISABLEHIDDENGROUP = 'MetaContacts/DisableHiddenGroup';
+
+{ returns true if a contact is a metacontact or false otherwise
+}
+function db_mc_isMeta(hContact:MCONTACT):Boolean; stdcall;
+                 external CoreDLL name 'db_mc_isMeta';
+
+{ returns true if a contact is a subcontact or false otherwise
+}
+function db_mc_isSub(hContact:MCONTACT):Boolean; stdcall;
+                 external CoreDLL name 'db_mc_isSub';
 
 {$ENDIF}

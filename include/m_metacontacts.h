@@ -3,8 +3,8 @@
 Miranda NG: the free IM client for Microsoft* Windows*
 
 Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2004-07 Scott Ellis (www.scottellis.com.au mail@scottellis.com.au)
 Copyright (c) 2004 Universite Louis PASTEUR, STRASBOURG.
-Copyright (c) 2004 Scott Ellis (www.scottellis.com.au mail@scottellis.com.au)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef M_METACONTACTS_H__
 #define M_METACONTACTS_H__ 1
+
+#include <m_core.h>
 
 //get the handle for a contact's parent metacontact
 //wParam=(HANDLE)hSubContact
@@ -159,5 +161,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // should be called once in the clist 'onmodulesloaded' event handler (which, since it's loaded after the db, will be called
 // before the metacontact onmodulesloaded handler where the subcontact hiding is usually done)
 #define MS_MC_DISABLEHIDDENGROUP			"MetaContacts/DisableHiddenGroup"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// binary interface to MC
+
+#if defined(__cplusplus)
+extern "C"
+{
+#endif
+
+// checks whether a contact is a metacontact
+MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact);
+
+// checks whether a contact is a subcontact of existing MC
+MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact);
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif

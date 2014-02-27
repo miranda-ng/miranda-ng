@@ -713,12 +713,10 @@ int Meta_SetHandles(void)
 			if (contact_number < 0) {
 				// problem!
 				MessageBox(0, TranslateT("Subcontact contact number < 0 - deleting MetaContact"), nick_buffer, MB_OK | MB_ICONERROR);
-				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
 				hNextContact = db_find_next(hContact);
-				Meta_Delete(hContact, (LPARAM)1);
+				Meta_Delete(hContact, 1);
 				hContact = hNextContact;
 				continue;
-				//return 1;
 			}
 
 			// ensure the window open flag is not present

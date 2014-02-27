@@ -248,3 +248,5 @@ ProtoLogW                     @245
 db_get_static                 @246
 db_get_wstatic                @247
 db_get_static_utf             @248
+db_mc_isMeta                  @249
+db_mc_isSub                   @250

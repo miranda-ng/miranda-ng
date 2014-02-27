@@ -243,6 +243,7 @@
     <ClInclude Include="..\include\m_json.h" />
     <ClInclude Include="..\include\m_langpack.h" />
     <ClInclude Include="..\include\m_message.h" />
+    <ClInclude Include="..\include\m_metacontacts.h" />
     <ClInclude Include="..\include\m_netlib.h" />
     <ClInclude Include="..\include\m_options.h" />
     <ClInclude Include="..\include\m_popup.h" />

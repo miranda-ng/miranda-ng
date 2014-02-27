@@ -153,5 +153,8 @@
     <ClInclude Include="..\..\include\m_system_cpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\m_metacontacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
