@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HGENMENU hMenuContact[MAX_CONTACTS];
 
 static HGENMENU
+	hMenuRoot,			 // root menu item of all subs
 	hMenuConvert,      // HANDLE to the convert menu item.
 	hMenuAdd,          // HANDLE to the add to menu item.
 	hMenuEdit,         // HANDLE to the edit menu item.
@@ -319,9 +320,6 @@ INT_PTR Meta_ForceDefault(WPARAM wParam, LPARAM lParam)
 
 int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv;
-	char buf[512], idStr[512];
-	WORD status;
 	CLISTMENUITEM mi = { sizeof(mi) };
 
 	if (db_get_dw(wParam, META_PROTO, META_ID, -1) != (DWORD)-1) {
@@ -349,15 +347,13 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 
 			MCONTACT hContact = Meta_GetContactHandle(wParam, i);
 			char *szProto = GetContactProto(hContact);
-			if (!szProto)
-				status = ID_STATUS_OFFLINE;
-			else
-				status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 			if (options.menu_contact_label == DNT_UID) {
+				char buf[512], idStr[512];
 				strcpy(buf, "Login");
 				strcat(buf, _itoa(i, idStr, 10));
 
+				DBVARIANT dbv;
 				db_get(wParam, META_PROTO, buf, &dbv);
 				switch (dbv.type) {
 				case DBVT_ASCIIZ:
@@ -380,7 +376,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 				mi.flags = 0;
 			}
 			else {
-				mi.ptszName = cli.pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
+				mi.ptszName = cli.pfnGetContactDisplayName(hContact, 0);
 				mi.flags = CMIF_TCHAR;
 			}
 
@@ -391,17 +387,17 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 
 			Menu_ModifyItem(hMenuContact[i], &mi);
 			DestroyIcon(mi.hIcon);
+			
+			Menu_ShowItem(hMenuRoot, true);
 		}
 
 		// show hide nudge menu item
-#define MS_NUDGE_SHOWMENU	"NudgeShowMenu"
-		// wParam = char *szProto
-		// lParam = BOOL show
 		char serviceFunc[256];
 		mir_snprintf(serviceFunc, 256, "%s%s", GetContactProto(Meta_GetMostOnline(wParam)), PS_SEND_NUDGE);
 		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, (LPARAM)ServiceExists(serviceFunc));
 	}
 	else { // This is a simple contact
+		Menu_ShowItem(hMenuRoot, false);
 		if (!Meta_IsEnabled()) {
 			// groups disabled - all meta menu options hidden
 			Menu_ShowItem(hMenuDefault, false);
@@ -500,12 +496,16 @@ void InitMenus()
 	mi.pszService = "MetaContacts/Delete";
 	hMenuDelete = Menu_AddContactMenuItem(&mi);
 
-	mi.flags |= CMIF_HIDDEN;
-	mi.pszContactOwner = META_PROTO;
+	mi.position = -99000;
+	mi.flags = CMIF_HIDDEN | CMIF_ROOTHANDLE;
+	mi.icolibItem = 0;
+	mi.pszName = LPGEN("Subcontacts");
+	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
 	char buffer[512], buffer2[512], buffer3[512];
 
-	mi.position = -99000;
+	mi.flags = CMIF_HIDDEN | CMIF_CHILDPOPUP;
+	mi.hParentMenu = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;
 		strcpy(buffer3, (char *)Translate("Context"));
