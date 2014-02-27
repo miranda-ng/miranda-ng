@@ -460,6 +460,13 @@ Wiatr:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Jednolity kolor
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+%ddni %dg. %dmin
+[%dh %dm]
+%dg. %dmin
+[%dm]
+%dmin
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Tło
@@ -482,6 +489,10 @@ Tipper
 Kobieta
 [Male]
 Mężczyzna
+[%dy %dd %dh %dm]
+%dlat %ddni %dg. %dmin
+[%dd]
+%ddni
 [[No translation]]
 <brak tłumaczenia>
 [WORD to status description]

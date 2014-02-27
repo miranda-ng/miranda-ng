@@ -146,6 +146,10 @@ Tło
 [Window]
 Okno
 ;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+%dg. %dmin
+[%dm]
+%dmin
 [Hide reminders]
 Ukryj Przypomnienia
 [Show reminders]

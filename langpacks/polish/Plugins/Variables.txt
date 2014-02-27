@@ -207,7 +207,7 @@ zawartość właściwości "y" kontaktu "x"
 nazwa profilu
 [database profile path]
 folder docelowy profilu
-[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 w profilu, wartość ustawienia "z" modułu "y" dla kontaktu "x", zwróć "w", jeżeli nie istnieje ("w" jest opcjonalne)
 [get event for contact x (optional), according to y,z,w, see documentation]
 pobiera zdarzenia dla kontaktu "x" (opconajlnie), zgodnie z "y", "z", "w", przeczytaj dokumentację
@@ -344,8 +344,8 @@ PRAWDA, jeżeli folder "x" istnieje
 PRAWDA, jeżeli plik "x" istnieje
 [window title of first window of class x]
 tytuł pierwszego okna z klasy "x"
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-pokazuje pliki i foldery w folderze "z", filtr "y", separator "z" ("y" i "z" jest opcjonalne)
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
+pokazuje pliki i foldery w folderze "x", filtr "y", separator "z" ("y" i "z" jest opcjonalne)
 [TRUE if process x is running]
 PRAWDA, jeżeli proces "x" jest uruchomiony
 [value y from registry key x (REG_SZ (string) values only)]

@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.1
-;  Authors: NightFox; Deathdemon; XF007; Goblineye Entertainment
+;  Version: 0.4.0.2
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
 
@@ -32,8 +32,8 @@ s
 0 = Domyślny
 [-1 = Infinite]
 -1 = Nie chowaj
-[Colours]
-
+[Colors]
+Kolory
 [Background]
 Tło
 [Use default]
@@ -64,7 +64,7 @@ Porozmawiajmy
 
 [Don't reply to ICQ contacts]
 
-[Don't reply when i'm invisible to the contact]
+[Don't reply when I'm invisible to the contact]
 
 [Save autoreply to the history]
 
@@ -76,15 +76,15 @@ Porozmawiajmy
 
 [times (-1=infinite)]
 
-[Reset this counter also when i just change my status text\n(when status icon remains the same)]
+[Reset this counter also when I just change my status text\n(when status icon remains the same)]
 
 [Disable autoreply when...]
 
 [&Invisible]
 Niewidoczny
-[On the &Phone]
+[On the &phone]
 Pod telefonem
-[Out to &Lunch]
+[Out to &lunch]
 Na obiedzie
 [Autoreply format:]
 
@@ -100,9 +100,9 @@ OK
 
 [&Delete]
 Usuń
-[New &Category]
+[New &category]
 
-[Save As &New]
+[Save as &new]
 
 [&Save]
 Zapisz
@@ -116,8 +116,8 @@ Nazwa:
 
 [Delete]
 Usuń
-[Statuses messages:]
-
+[Status messages:]
+Opisy:
 [Configure autoaway]
 
 [Wait]
@@ -156,8 +156,8 @@ Usuń
 s
 [Don't show the message dialog for]
 
-[%s Message for %s]
-Opis "%s" dla %s
+[%s message for %s]
+Opis statusu "%s" - %s
 [Retrieving %s message...]
 Odbieranie %s wiadomości...
 [&Cancel]
@@ -211,7 +211,7 @@ Zmień nazwę
 Windows
 [Miranda]
 Miranda
-[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).]
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 
 [Message]
 Wiadomość
@@ -223,8 +223,8 @@ Plik
 ** Wszystkie kontakty **
 [** Not-on-list contacts **]
 
-[Statuses messages]
-
+[Status messages]
+Opisy
 [Main options]
 
 [Autoreply]
@@ -237,6 +237,8 @@ Kontakty
 
 [Gone fragging]
 
+[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
+
 [Creepy]
 
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
@@ -245,7 +247,7 @@ Kontakty
 
 [Online]
 Dostępny
-[Yep, i'm here.]
+[Yep, I'm here.]
 Tak, jestem tu.
 [Away]
 Zaraz wracam
@@ -253,7 +255,7 @@ Zaraz wracam
 
 [NA]
 Wrócę później
-[Give it up, i'm not in!]
+[Give it up, I'm not in!]
 Daj spokój, nie ma mnie!
 [Occupied]
 Zajęty
@@ -265,15 +267,15 @@ Nie przeszkadzać
 Proszę, daj mi spokój!
 [Free for chat]
 Porozmawiajmy
-[i'm a chatbot!]
+[I'm a chatbot!]
 Jestem botem!
 [Invisible]
 Niewidoczny
-[i'm hiding from the mafia.]
+[I'm hiding from the mafia.]
 Jak zrobię tak, to mnie nie widać.
 [On the phone]
 Pod telefonem
-[i've been on the phone since %nas_awaysince_time%, give me a sec!]
+[I've been on the phone since %nas_awaysince_time%, give me a sec!]
 
 [Out to lunch]
 Na obiedzie
@@ -290,7 +292,7 @@ Wyłącz przełączanie
 
 [Set %s message for the contact]
 
-[Re&ad %s Message]
+[Re&ad %s message]
 Pokaż opis "%s"
 [Toggle autoreply on/off]
 
@@ -310,6 +312,24 @@ Pokaż opis "%s"
 
 [Ignore status message requests from this contact and don't send an autoreply]
 
+[Away since time in default format; ?nas_awaysince_time(x) in format x]
+
+[Away since date in default format; ?nas_awaysince_date(x) in format x]
+
+[Status description]
+
+[Your nick for current protocol]
+
+[Number of status message requests from the contact]
+
+[Number of messages from the contact]
+
+[Time passed until request]
+
+[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+
+[Current protocol name]
+
 [Stranger]
 Obcy
 [%d hours]
@@ -317,24 +337,6 @@ Obcy
 [%d minutes]
 %d minut
 [%d seconds]
-
-[New Away System\t(x)\tAway since time in default format; ?nas_awaysince_time(x) in format x]
-
-[New Away System\t(x)\tAway since date in default format; ?nas_awaysince_date(x) in format x]
-
-[New Away System\tStatus description]
-
-[New Away System\tYour nick for current protocol]
-
-[New Away System\tNumber of status message requests from the contact]
-
-[New Away System\tNumber of messages from the contact]
-
-[New Away System\tTime passed until request]
-
-[New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-
-[New Away System\tCurrent protocol name]
 
 [Read status message]
 Czytaj opis kontaktu
@@ -348,8 +350,10 @@ Wył.
 
 [NewAwaySys: Incoming status message request]
 
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
+
 ;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda IM autoreply >\r\n%extratext%]
+[Miranda NG autoreply >\r\n%extratext%]
 
 [extended status]
 
@@ -362,9 +366,9 @@ Popupy
 [Variables plugin is not installed]
 
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
-[You've made changes to multiple Message trees at a time.\r\nDo you want to leave changes in "]
+[You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 
-[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other Message tree instead.]
+[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
 
 [Do you really want to delete this category with its messages?]
 

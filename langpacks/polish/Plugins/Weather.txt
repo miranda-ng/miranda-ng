@@ -330,6 +330,8 @@ Warunki pogodowe dla %n na %u
 %c, %t (odczuwalne %f)	Wiatr: %i %w	Wilgotność: %m]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n na %u:	%c, %t (odczuwalne %f)	Wiatr: %i %w	Wilgotność: %m
+[%n   (%u)]
+%n   (%u)
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nDzisiaj:  Wyż %h, Niż %l
 [Temperature: %[Temperature]]

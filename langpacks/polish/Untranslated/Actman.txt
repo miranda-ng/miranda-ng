@@ -161,7 +161,6 @@
 [ends with]
 [Process script after]
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-[RTL]
 [Right justified text]
 [Save value]
 [Storage]
@@ -181,5 +180,3 @@
 [Current Macro]
 [Select for FirstRun]
 [Miranda event help]
-[contact list]
-[database driver]
