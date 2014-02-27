@@ -18,6 +18,7 @@
 */
 
 INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam);
+INT_PTR GetStatusMsgW(WPARAM wParam, LPARAM lParam);
 INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam);
 // int IgnoreNextStatusChange(WPARAM wParam, LPARAM lParam);
 INT_PTR GetStateA(WPARAM wParam, LPARAM lParam);

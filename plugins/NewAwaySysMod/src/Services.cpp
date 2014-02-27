@@ -53,15 +53,16 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 INT_PTR GetStatusMsg(WPARAM wParam, LPARAM)
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSG called. status=%d", wParam);
-	CString Msg(_T2A(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam)));
-	char *szMsg;
-	if (Msg == NULL)  // it's ok to return NULL, so we'll do it
-		szMsg = NULL;
-	else {
-		szMsg = (char*)mir_alloc(Msg.GetLen() + 1);
-		lstrcpyA(szMsg, Msg);
-	}
+	char *szMsg = mir_t2a(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam));
 	LogMessage("returned szMsg:\n%s", szMsg ? szMsg : "NULL");
+	return (INT_PTR)szMsg;
+}
+
+INT_PTR GetStatusMsgW(WPARAM wParam, LPARAM)
+{
+	LogMessage("MS_AWAYMSG_GETSTATUSMSG called. status=%d", wParam);
+	WCHAR *szMsg = mir_t2u(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam));
+	LogMessage("returned szMsg:\n%S", szMsg ? szMsg : L"NULL");
 	return (INT_PTR)szMsg;
 }
 

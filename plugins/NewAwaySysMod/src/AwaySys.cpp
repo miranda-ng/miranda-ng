@@ -680,12 +680,15 @@ int MirandaLoaded(WPARAM, LPARAM)
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_ON, srvAutoreplyOn);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_OFF, srvAutoreplyOff);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_USEDEFAULT, srvAutoreplyUseDefault);
+	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, GetStatusMsg);
+	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, GetStatusMsgW);
+
 	CreateServiceFunction(MS_NAS_GETSTATEA, GetStateA);
 	CreateServiceFunction(MS_NAS_SETSTATEA, SetStateA);
 	CreateServiceFunction(MS_NAS_GETSTATEW, GetStateW);
 	CreateServiceFunction(MS_NAS_SETSTATEW, SetStateW);
 	CreateServiceFunction(MS_NAS_INVOKESTATUSWINDOW, InvokeStatusWindow);
-	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, GetStatusMsg);
+	
 
 	// and old AwaySysMod service, for compatibility reasons
 	CreateServiceFunction(MS_AWAYSYS_SETSTATUSMODE, SetStatusMode);
