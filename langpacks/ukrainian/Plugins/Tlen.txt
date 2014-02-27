@@ -336,6 +336,6 @@ Web-повідомлення
 [Default]
 За замовчанням
 [%s connection]
-%s з'єднання 
+%s з'єднання
 [%s SOCKS connection]
 %s SOCKS з'єднання

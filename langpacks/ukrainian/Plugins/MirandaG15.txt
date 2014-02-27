@@ -94,7 +94,7 @@
 [When a chat session is active, skip the following notifications for that contact:]
 Пропускати наступні сповіщення для контакта під час розмови з ним:
 [Chat session specific]
-Лише для сесії 
+Лише для сесії
 [Show timestamps]
 Показувати час
 [Messages]

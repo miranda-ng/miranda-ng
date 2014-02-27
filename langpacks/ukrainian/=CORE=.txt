@@ -2100,7 +2100,7 @@ URL від %s
 [FirstName]
 Ім'я
 [E-mail]
-Пошта 
+Пошта
 [LastName]
 Прізвище
 [Username]

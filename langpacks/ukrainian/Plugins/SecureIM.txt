@@ -104,7 +104,7 @@
 [Time in Seconds]
 Час (с)
 [0 = Default Popup Timeout Value]
-0 = за замовчанням 
+0 = за замовчанням
 [Show a popup on established connection]
 Встановлення з'єднання
 [Show a popup on disabled connection]
