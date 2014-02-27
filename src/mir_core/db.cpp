@@ -325,8 +325,7 @@ MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent)
 
 MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact)
 {
-	if (currDb == NULL)
-		return false;
+	if (currDb == NULL) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	return (cc == NULL) ? false : cc->nSubs != -1;
@@ -334,12 +333,20 @@ MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact)
 
 MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact)
 {
-	if (currDb == NULL)
-		return false;
+	if (currDb == NULL) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	return (cc == NULL) ? false : cc->parentID != INVALID_CONTACT_ID;
 }
+
+MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
+{
+	if (currDb == NULL) return NULL;
+
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
+	return (cc == NULL) ? NULL : cc->parentID;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // misc functions

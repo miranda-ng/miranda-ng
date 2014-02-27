@@ -253,11 +253,11 @@ void CDb3Mmap::FillContacts()
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, sizeof(setting), "Handle%d", i);
-				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, "MetaContacts", setting, &dbv)) ? INVALID_CONTACT_ID : dbv.dVal;
+				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, "MetaContacts", setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
-		cc->activeID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Default", &dbv)) ? INVALID_CONTACT_ID : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Handle", &dbv)) ? INVALID_CONTACT_ID : dbv.dVal;
+		cc->activeID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Default", &dbv)) ? NULL : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Handle", &dbv)) ? NULL : dbv.dVal;
 
 		dwOffset = p->ofsNext;
 	}

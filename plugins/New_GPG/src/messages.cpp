@@ -319,7 +319,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 							str.insert(0, inopentag);
 							str.append(inclosetag);
 						}
-						if(metaIsSubcontact(hContact))
+						if(db_mc_isSub(hContact))
 						{
 							char *msg = mir_strdup(toUTF8(str).c_str());
 							HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
@@ -338,7 +338,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 	}
 	if(db_get_b(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 0))
 	{
-		if(metaIsSubcontact(hContact))
+		if(db_mc_isSub(hContact))
 		{
 			HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
 			HistoryLog(metaGetContact(hContact), db_event(msg, timestamp, 0, dbflags));
@@ -487,7 +487,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					db_set_b(ccs->hContact, szGPGModuleName, "bAlwatsTrust", 1);
 					setSrmmIcon(ccs->hContact);
 					setClistIcon(ccs->hContact);
-					if(metaIsSubcontact(ccs->hContact))
+					if(db_mc_isSub(ccs->hContact))
 					{
 						setSrmmIcon(metaGetContact(ccs->hContact));
 						setClistIcon(metaGetContact(ccs->hContact));
@@ -767,7 +767,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		str_event.insert(0, toUTF8(outopentag));
 		str_event.append(toUTF8(outclosetag));
 	}
-	/*if(metaIsSubcontact(hContact))
+	/*if(db_mc_isSub(hContact))
 	{
 		hcontact_data[metaGetContact(hContact)].msgs_to_pass.push_back(str_event);
 		if(bDebugLog)

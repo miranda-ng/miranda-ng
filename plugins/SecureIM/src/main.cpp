@@ -128,7 +128,6 @@ extern "C" __declspec(dllexport) int __cdecl Unload()
 int ModuleLoad(WPARAM, LPARAM)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUP);
-	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT);
 	return 0;
 }
 

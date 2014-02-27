@@ -46,18 +46,12 @@ MCONTACT Sub(MCONTACT hMetaContact, int idx)
 	return NULL;
 }
 
-bool IsSub(MCONTACT hContact)
-{
-	return db_mc_isSub(hContact);
-}
-
 MCONTACT GetMeta(MCONTACT hContact)
 {
 	if (!myGlobals.szMetaProto)
 		return NULL;
 
-	MCONTACT result = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
-	return (result == (MCONTACT)CALLSERVICE_NOTFOUND) ? NULL : result;
+	return db_mc_getMeta(hContact);
 }
 
 } /* namespace MetaContact */

@@ -40,7 +40,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
+	hContact = db_mc_getMeta(hContact);
 	if (hContact == NULL)
 		return NULL;
 

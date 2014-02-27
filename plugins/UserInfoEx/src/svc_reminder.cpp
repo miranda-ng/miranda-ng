@@ -537,9 +537,7 @@ static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = 0)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
-	if (hContact &&
-			(!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) &&
-			(!DB::MetaContact::IsSub(hContact)))
+	if (hContact && (!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) && !db_mc_isSub(hContact))
 	{
 		CEvent ca;
 
@@ -738,7 +736,7 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 
 		//walk through all the contacts stored in the DB
 		for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-			if (!DB::MetaContact::IsSub(hContact) && !mdb.DBGetBirthDate(hContact))
+			if (!db_mc_isSub(hContact) && !mdb.DBGetBirthDate(hContact))
 				mdb.BackupBirthday(hContact, NULL, TRUE, &a1);
 	}
 

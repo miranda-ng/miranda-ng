@@ -83,7 +83,7 @@ tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 	tstring strGroup = _T("");
 	if(db_get_b(0, "MetaContacts", "Enabled", 1) && CAppletManager::IsSubContact(hContact))
 	{
-		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, NULL);
+		MCONTACT hMetaContact = db_mc_getMeta(hContact);
 		if(CConfig::GetBoolSetting(CLIST_USEGROUPS))
 			strGroup = CAppletManager::GetContactGroup(hMetaContact);
 
@@ -160,11 +160,10 @@ void CContactList::AddContact(MCONTACT hContact)
 		return;
 	}
 	else if(CAppletManager::IsSubContact(hContact)) {
-		MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
+		MCONTACT hMetaContact = db_mc_getMeta(hContact);
 		// check that the metacontact exists
-		if(!FindContact(hMetaContact)) {
+		if(!FindContact(hMetaContact))
 			AddContact(hMetaContact);
-		}
 	}
 
 	CListItem<CContactListEntry*,CContactListGroup*> *pItem = NULL;
@@ -221,8 +220,9 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 	if(CConfig::GetBoolSetting(CLIST_USEIGNORE)) {	
 		if(db_get_b(pEntry->hHandle,"CList","Hidden",0))
 			return false;
-		else if(CAppletManager::IsSubContact(pEntry->hHandle)) {
-			MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, (WPARAM)pEntry->hHandle, 0);
+		
+		if(CAppletManager::IsSubContact(pEntry->hHandle)) {
+			MCONTACT hMetaContact = db_mc_getMeta(pEntry->hHandle);
 			if(db_get_b(hMetaContact,"CList","Hidden",0))
 				return false;
 		}

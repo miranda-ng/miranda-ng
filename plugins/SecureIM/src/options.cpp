@@ -1065,7 +1065,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		pUinKey ptr = getUinKey(hContact);
-		if (ptr && ptr->mode == MODE_PGP && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
+		if (ptr && ptr->mode == MODE_PGP && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 			LPSTR szKeyID = db_get_sa(hContact,MODULENAME,"pgp_abbr");
 
 			lvi.iItem++;
@@ -1125,7 +1125,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		pUinKey ptr = getUinKey(hContact);
-		if (ptr && ptr->mode == MODE_GPG && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
+		if (ptr && ptr->mode == MODE_GPG && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 			if (iInit )
 				ptr->tgpgMode = ptr->gpgMode;
 

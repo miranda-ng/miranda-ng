@@ -1222,7 +1222,7 @@ bool MSN_MsgWndExist(MCONTACT hContact)
 	bool res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 	res = res || msgWinData.hwndWindow;
 	if (res) {
-		msgWinInData.hContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
+		msgWinInData.hContact = db_mc_getMeta(hContact);
 		if (msgWinInData.hContact != NULL) {
 			res = CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgWinInData, (LPARAM)&msgWinData) != 0;
 			res |= (msgWinData.hwndWindow == NULL);

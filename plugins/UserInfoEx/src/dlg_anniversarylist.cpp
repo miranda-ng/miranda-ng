@@ -829,7 +829,7 @@ class CAnnivList
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		{
 			// ignore meta subcontacts here, as they are not interesting.
-			if (!DB::MetaContact::IsSub(hContact)) {
+			if (!db_mc_isSub(hContact)) {
 				// filter protocol
 				pszProto = DB::Contact::Proto(hContact);
 				if (pszProto) {

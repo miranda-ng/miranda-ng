@@ -89,7 +89,6 @@ void LoadOptions() {
 	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
 	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
 
-	options.bHaveMetaContacts = 0 != ServiceExists(MS_MC_GETMETACONTACT);
 	options.bHavePopups = 0 != ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_SHOWMESSAGE);
 	options.bHaveSecureIM = 0 != ServiceExists("SecureIM/IsContactSecured");
 	options.bHaveButtonsBar = 0 != ServiceExists(MS_BB_ADDBUTTON);

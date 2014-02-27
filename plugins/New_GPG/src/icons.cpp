@@ -49,7 +49,7 @@ void setClistIcon(MCONTACT hContact)
 	bool enabled = isContactSecured(hContact);
 	extern HANDLE g_hCLIcon;
 	MCONTACT hMC = hContact;
-	if(metaIsSubcontact(hContact))
+	if(db_mc_isSub(hContact))
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
 		hMC = metaGetContact(hContact);
@@ -64,7 +64,7 @@ void setSrmmIcon(MCONTACT h)
 	MCONTACT hContact = metaIsProtoMetaContacts(h) ? metaGetMostOnline(h) : h;
 	bool enabled = isContactSecured(hContact);	
 	MCONTACT hMC = NULL;
-	if(metaIsSubcontact(hContact))
+	if(db_mc_isSub(hContact))
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
 		hMC = metaGetContact(hContact);

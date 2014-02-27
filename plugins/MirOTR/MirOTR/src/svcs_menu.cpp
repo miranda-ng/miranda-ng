@@ -26,7 +26,7 @@ int StartOTR(MCONTACT hContact) {
 INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
@@ -46,7 +46,7 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
@@ -100,7 +100,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if(options.bHaveMetaContacts && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
 		hContact = hSub;
 
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);

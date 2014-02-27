@@ -1350,7 +1350,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (hContact != pPs->hContact) {
 				if (!myGlobals.szMetaProto)
 					break;
-				if (pPs->hContact != (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, NULL))
+				if (pPs->hContact != db_mc_getMeta(hContact))
 					break;
 				if (!db_get_b(NULL, MODNAME, SET_META_SCAN, TRUE))
 					break;

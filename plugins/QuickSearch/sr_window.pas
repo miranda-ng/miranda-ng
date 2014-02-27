@@ -56,7 +56,7 @@ type
     flags  :dword;
     status :dword;
 //--- Metacontacts only ---
-    wparam :WPARAM; 
+    wparam :WPARAM;
     lparam :LPARAM;
   end;
 var
@@ -399,7 +399,7 @@ begin
   begin
     if ListView_GetItemState(grid,i,LVIS_SELECTED)<>0 then
     begin
-      tmp:=CallService(MS_MC_GETMETACONTACT,FlagBuf[LV_GetLParam(grid,i)].contact,0);
+      tmp:=db_mc_getMeta(FlagBuf[LV_GetLParam(grid,i)].contact);
       if tmp<>0 then
         if hMeta=0 then
           hMeta:=tmp
@@ -798,7 +798,7 @@ begin
       col:=ListViewToColumn(col);
       if (qsopt.columns[col].setting_type=QST_SETTING) and
          // right now, not time or IP
-         (qsopt.columns[col].datatype<>QSTS_IP) and 
+         (qsopt.columns[col].datatype<>QSTS_IP) and
          (qsopt.columns[col].datatype<>QSTS_TIMESTAMP) then
       begin
         doit:=true;
@@ -1388,7 +1388,7 @@ procedure SetCellColor(lplvcd:PNMLVCUSTOMDRAW;idx:integer);
 begin
   if (qsopt.flags and QSO_COLORIZE)<>0 then
   begin
-    with FlagBuf[idx] do 
+    with FlagBuf[idx] do
     begin
       if (flags and QSF_ACCDEL)<>0 then
       begin
@@ -1532,7 +1532,7 @@ var
   count,current,next,perpage:integer;
 begin
   result:=0;
-  case hMessage of 
+  case hMessage of
     WM_CHAR: if wParam=27 then
     begin
       PostMessage(GetParent(Dialog),WM_COMMAND,(BN_CLICKED shl 16)+IDCANCEL,0);

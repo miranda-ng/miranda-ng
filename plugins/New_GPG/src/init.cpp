@@ -17,7 +17,7 @@
 #include "commonheaders.h"
 
 //global variables
-bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bIsMiranda09 = false, bMetaContacts = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
+bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bIsMiranda09 = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
 TCHAR *inopentag = NULL, *inclosetag = NULL, *outopentag = NULL, *outclosetag = NULL, *password = NULL;
 
 list <JabberAccount*> Accounts;
@@ -140,8 +140,6 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid);
 
-	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
-	
 	if(bJabberAPI && bIsMiranda09)
 		GetJabberInterface(0,0);
 

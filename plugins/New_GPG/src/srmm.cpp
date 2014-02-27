@@ -41,7 +41,7 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 		hMeta = hContact;
 		hContact = metaGetMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	}
-	else if(metaIsSubcontact(hContact))
+	else if(db_mc_isSub(hContact))
 		hMeta = metaGetContact(hContact);
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if(strcmp(sicd->szModule, szGPGModuleName)) 

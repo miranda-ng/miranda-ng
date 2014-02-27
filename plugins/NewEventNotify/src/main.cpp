@@ -71,7 +71,7 @@ int HookedNewEvent(WPARAM hContact, LPARAM lParam)
 	db_event_get((HANDLE)lParam, &dbe);
 
 	//do not show popups for sub-contacts
-	if (hContact && ServiceExists(MS_MC_GETMETACONTACT) && CallService(MS_MC_GETMETACONTACT, hContact, 0))
+	if (hContact && db_mc_isSub(hContact))
 		return 0;
 
 	//custom database event types

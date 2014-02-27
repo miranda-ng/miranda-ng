@@ -242,7 +242,7 @@ MCONTACT CExImContactBase::toDB()
 			return _hContact = INVALID_CONTACT_ID;
 		}
 		// Add the protocol to the new contact
-		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)_hContact, (LPARAM)_pszProto)) {
+		if (CallService(MS_PROTO_ADDTOCONTACT, _hContact, (LPARAM)_pszProto)) {
 			DB::Contact::Delete(_hContact);
 			return _hContact = INVALID_CONTACT_ID;
 		}

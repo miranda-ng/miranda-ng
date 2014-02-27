@@ -16,67 +16,47 @@
 
 #include "commonheaders.h"
 
-extern bool bMetaContacts;
-
 bool metaIsProtoMetaContacts(MCONTACT hContact)
 {
-	if(bMetaContacts) {
-		LPSTR proto = GetContactProto(hContact);
-		if( proto && strcmp(proto,"MetaContacts")==0 ) {
-			return true;
-		}
-	}
+	LPSTR proto = GetContactProto(hContact);
+	if(proto && strcmp(proto,"MetaContacts") == 0)
+		return true;
+
 	return false;
 }
 
 bool metaIsDefaultSubContact(MCONTACT hContact) 
 {
-	if(bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,hContact,0),0)==hContact;
-	return false;
+	return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, db_mc_getMeta(hContact), 0) == hContact;
 }
 
 MCONTACT metaGetContact(MCONTACT hContact) 
 {
-	if(bMetaContacts)
-		if(metaIsSubcontact(hContact))
-			return (MCONTACT)CallService(MS_MC_GETMETACONTACT,hContact,0);
+	if(db_mc_isSub(hContact))
+		return db_mc_getMeta(hContact);
 	return NULL;
-}
-
-bool metaIsSubcontact(MCONTACT hContact)
-{
-	if(bMetaContacts)
-		return CallService(MS_MC_GETMETACONTACT,hContact,0) != 0;
-	return false;
 }
 
 MCONTACT metaGetMostOnline(MCONTACT hContact) 
 {
-	if(bMetaContacts)
-		if(metaIsProtoMetaContacts(hContact))
-			return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,hContact,0);
+	if(metaIsProtoMetaContacts(hContact))
+		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,hContact,0);
 	return NULL;
 }
 
 MCONTACT metaGetDefault(MCONTACT hContact) 
 {
-	if(bMetaContacts)
-		if(metaIsProtoMetaContacts(hContact))
-			return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,hContact,0);
+	if(metaIsProtoMetaContacts(hContact))
+		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,hContact,0);
 	return NULL;
 }
 
 DWORD metaGetContactsNum(MCONTACT hContact)
 {
-	if(bMetaContacts)
-		return CallService(MS_MC_GETNUMCONTACTS, hContact, 0);
-	return 0;
+	return CallService(MS_MC_GETNUMCONTACTS, hContact, 0);
 }
 
 MCONTACT metaGetSubcontact(MCONTACT hContact, int num)
 {
-	if(bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, (LPARAM)num);
-	return 0;
+	return (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, (LPARAM)num);
 }

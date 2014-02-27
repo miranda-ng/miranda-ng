@@ -25,7 +25,7 @@ HGENMENU  g_hTogglePopupsMenuItem;
 int       hLangpack;
 
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
-BOOL bPopupExists = FALSE, bMetaContactsExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;
+BOOL bPopupExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -210,7 +210,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		_ASSERT(szProto);
-		if (bMetaContactsExists && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
+		if (!strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
 			return 0;
 
 		sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, _T(""));
@@ -230,7 +230,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		PopupOptPage.DBToMem();
 	}
 
-	MCONTACT hContactOrMeta = (hContact && bMetaContactsExists) ? (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0) : hContact;
+	MCONTACT hContactOrMeta = (hContact) ? db_mc_getMeta(hContact) : 0;
 	if (!hContactOrMeta)
 		hContactOrMeta = hContact;
 
@@ -369,7 +369,6 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUP);
-	bMetaContactsExists = ServiceExists(MS_MC_GETPROTOCOLNAME) && ServiceExists(MS_MC_GETMETACONTACT);
 	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTST) && ServiceExists(MS_FP_GETCLIENTICONT);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING);
 	return 0;

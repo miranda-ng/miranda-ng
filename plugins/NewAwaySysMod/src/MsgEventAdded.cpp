@@ -139,28 +139,28 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	int bMsgWindowIsOpen = MSGWNDOPEN_UNDEFINED;
 	if (dbei->flags & DBEF_READ) {
 		// if it's a subcontact of a metacontact
-		MCONTACT hMetaContact;
-		if (ServiceExists(MS_MC_GETMETACONTACT) && (hMetaContact = CallService(MS_MC_GETMETACONTACT, hContact, 0))) { // ugly workaround for metacontacts, part II
-			// remove outdated events first
-			DWORD CurTime = time(NULL);
-			int i;
-			for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
-				if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
-					MetacontactEvents.RemoveElem(i);
+		MCONTACT hMetaContact = db_mc_getMeta(hContact);
+		if (hMetaContact == 0)
+			return 0;
 
-			// we compare only event timestamps, and do not look at the message itself. it's unlikely that there'll be two events from a contact at the same second, so it's a trade-off between speed and reliability
-			for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--) {
-				if (MetacontactEvents[i].timestamp == dbei->timestamp && MetacontactEvents[i].hMetaContact == hMetaContact) {
-					bMsgWindowIsOpen = MetacontactEvents[i].bMsgWindowIsOpen;
-					break;
-				}
-			}
-			if (i < 0) {
-				_ASSERT(0);
-				return 0;
+		// remove outdated events first
+		DWORD CurTime = time(NULL);
+		int i;
+		for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
+			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
+				MetacontactEvents.RemoveElem(i);
+
+		// we compare only event timestamps, and do not look at the message itself. it's unlikely that there'll be two events from a contact at the same second, so it's a trade-off between speed and reliability
+		for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--) {
+			if (MetacontactEvents[i].timestamp == dbei->timestamp && MetacontactEvents[i].hMetaContact == hMetaContact) {
+				bMsgWindowIsOpen = MetacontactEvents[i].bMsgWindowIsOpen;
+				break;
 			}
 		}
-		else return 0;
+		if (i < 0) {
+			_ASSERT(0);
+			return 0;
+		}
 	}
 
 	// ugly workaround for metacontacts, part i; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly

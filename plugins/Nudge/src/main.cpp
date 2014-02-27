@@ -459,12 +459,9 @@ void Nudge_SentStatus(CNudgeElement n, MCONTACT hContact)
 	dbei.cbBlob = (DWORD)strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
 
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, hContact, 0); //try to retrieve the metacontact if some
-	if (res != CALLSERVICE_NOTFOUND) {
-		MCONTACT hMetaContact = (MCONTACT)res;
-		if (hMetaContact != NULL) // metacontact
-			db_event_add(hMetaContact, &dbei);
-	}
+	MCONTACT hMetaContact = db_mc_getMeta(hContact);
+	if (hMetaContact != NULL) // metacontact
+		db_event_add(hMetaContact, &dbei);
 
 	db_event_add(hContact, &dbei);
 	mir_free(buff);
@@ -482,13 +479,10 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 	dbei.cbBlob = (DWORD)strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
 
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, hContact, 0); //try to retrieve the metacontact if some
-	if (res != CALLSERVICE_NOTFOUND) {
-		MCONTACT hMetaContact = (MCONTACT)res;
-		if (hMetaContact != NULL) { //metacontact
-			db_event_add(hMetaContact, &dbei);
-			dbei.flags |= DBEF_READ;
-		}
+	MCONTACT hMetaContact = db_mc_getMeta(hContact);
+	if (hMetaContact != NULL) { //metacontact
+		db_event_add(hMetaContact, &dbei);
+		dbei.flags |= DBEF_READ;
 	}
 
 	db_event_add(hContact, &dbei);
@@ -497,12 +491,9 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 
 MCONTACT Nudge_GethContact(MCONTACT hContact)
 {
-	INT_PTR res = CallService(MS_MC_GETMETACONTACT, hContact, 0);
-	if (res != CALLSERVICE_NOTFOUND) {
-		MCONTACT hMetaContact = (MCONTACT)res;
-		if (hMetaContact != NULL)
-			return hMetaContact;
-	}
+	MCONTACT hMetaContact = db_mc_getMeta(hContact);
+	if (hMetaContact != NULL)
+		return hMetaContact;
 
 	return hContact;
 }

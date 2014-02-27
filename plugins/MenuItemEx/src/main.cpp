@@ -20,7 +20,7 @@ HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuth
 HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcon[5];
-BOOL bMetaContacts = FALSE, bPopupService = FALSE;
+BOOL bPopupService = FALSE;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
@@ -261,28 +261,21 @@ void CopyToClipboard(HWND hwnd,LPSTR pszMsg, LPTSTR ptszMsg)
 
 BOOL isMetaContact(MCONTACT hContact)
 {
-	char *proto;
-	if (bMetaContacts) {
-		proto = GetContactProto(hContact);
-		if ( lstrcmpA(proto, "MetaContacts") == 0 ) {
-			return TRUE;
-		}
-	}
+	char *proto = GetContactProto(hContact);
+	if (lstrcmpA(proto, "MetaContacts") == 0)
+		return TRUE;
+
 	return FALSE;
 }
 
 MCONTACT getDefaultContact(MCONTACT hContact)
 {
-	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
-	return 0;
+	return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
 }
 
 MCONTACT getMostOnline(MCONTACT hContact)
 {
-	if (bMetaContacts)
-		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
-	return 0;
+	return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 }
 
 void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID)
@@ -980,7 +973,6 @@ static int ContactWindowOpen(WPARAM wparam, LPARAM lParam)
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopupService = ServiceExists(MS_POPUP_ADDPOPUP);
-	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT);
 	return 0;
 }
 

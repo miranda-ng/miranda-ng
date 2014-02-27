@@ -233,7 +233,7 @@ begin
         end
         else if (flags and QSF_SUBMETA)<>0 then
         begin
-          lparam:=FindMeta(CallService(MS_MC_GETMETACONTACT,hContact,0),wparam);
+          lparam:=FindMeta(db_mc_getMeta(hContact),wparam);
         end;
 
         if wparam>0 then

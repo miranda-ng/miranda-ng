@@ -1443,8 +1443,8 @@ MCONTACT GetCallerContact(char *szSkypeMsg)
 MCONTACT GetMetaHandle(DWORD dwId)
 {
 	for (MCONTACT hContact=db_find_first(); hContact != NULL; hContact=db_find_next(hContact)) {
-		char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
-		if (szProto!=NULL && !strcmp(szProto, "MetaContacts") &&
+		char *szProto = GetContactProto(hContact);
+		if (szProto != NULL && !strcmp(szProto, "MetaContacts") &&
 			db_get_dw(hContact, "MetaContacts", "MetaID", MAXDWORD)==dwId)
 			return hContact;
 	}      

@@ -22,14 +22,6 @@
 {$DEFINE M_METACONTACTS}
 
 const
-  { get the handle for a contact's parent metacontact
-    wParam=(HANDLE)hSubContact
-    lParam=0
-    returns a handle to the parent metacontact, or null if this contact is not
-    a subcontact
-  }
-  MS_MC_GETMETACONTACT = 'MetaContacts/GetMeta';
-
   { gets the handle for the default contact
     wParam=(HANDLE)hMetaContact
     lParam=0
@@ -170,5 +162,10 @@ function db_mc_isMeta(hContact:MCONTACT):Integer; stdcall;
 }
 function db_mc_isSub(hContact:MCONTACT):Integer; stdcall;
                  external CoreDLL name 'db_mc_isSub';
+
+{ returns a meta contact for a subcontact or 0 otherwise
+}
+function db_mc_getMeta(hContact:MCONTACT):MCONTACT; stdcall;
+                 external CoreDLL name 'db_mc_getMeta';
 
 {$ENDIF}

@@ -28,7 +28,6 @@ namespace MetaContact{
 	INT_PTR  SubDefNum(MCONTACT hMetaContact);
 	MCONTACT Sub(MCONTACT hMetaContact, int idx);
 
-	bool     IsSub(MCONTACT hContact);
 	MCONTACT GetMeta(MCONTACT hContact);
 } /* namespace MetaContact */
 

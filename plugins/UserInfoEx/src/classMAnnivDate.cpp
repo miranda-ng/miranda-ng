@@ -731,7 +731,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 
 		if (pszProto) {
 			BYTE bIsMeta = DB::Module::IsMeta(pszProto);
-			BYTE bIsMetaSub = !bIsMeta && DB::MetaContact::IsSub(hContact);
+			BYTE bIsMetaSub = !bIsMeta && db_mc_isSub(hContact);
 			MAnnivDate mdbNewProto;
 			MAnnivDate mdbIgnore;
 

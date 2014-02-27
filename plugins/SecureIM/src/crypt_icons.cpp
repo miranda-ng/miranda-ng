@@ -64,7 +64,7 @@ HANDLE mode2clicon(int mode, int type)
 // обновляет иконки в clist и в messagew
 void ShowStatusIcon(MCONTACT hContact, int mode)
 {
-	MCONTACT hMC = getMetaContact(hContact);
+	MCONTACT hMC = db_mc_getMeta(hContact);
 
 	// обновить иконки в clist
 	if (mode != -1) {

@@ -70,7 +70,7 @@ int EnablePopupsGroup(HWND hWnd, int enable)
 	EnableWindow(GetDlgItem(hWnd, IDC_FOREGROUND), enable);
 	EnableWindow(GetDlgItem(hWnd, IDC_BACKGROUND), enable);
 	EnableWindow(GetDlgItem(hWnd, IDC_NOBIRTHDAYS_POPUP), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_IGNORE_SUBCONTACTS), (ServiceExists(MS_MC_GETMETACONTACT)) ? enable : FALSE);
+	EnableWindow(GetDlgItem(hWnd, IDC_IGNORE_SUBCONTACTS), enable);
 	EnableWindow(GetDlgItem(hWnd, IDC_PREVIEW), enable);
 	EnableWindow(GetDlgItem(hWnd, IDC_LEFT_CLICK), enable);
 	EnableWindow(GetDlgItem(hWnd, IDC_RIGHT_CLICK), enable);

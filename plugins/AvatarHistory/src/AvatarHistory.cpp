@@ -156,18 +156,15 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 					else
 						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
 
-					if (ServiceExists(MS_MC_GETMETACONTACT)) {
-						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
+					MCONTACT hMetaContact = db_mc_getMeta(hContact);
+					if (hMetaContact && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
+						TCHAR filename[MAX_PATH] = _T("");
 
-						if (hMetaContact != NULL && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
-							TCHAR filename[MAX_PATH] = _T("");
-
-							GetOldStyleAvatarName(filename, hMetaContact);
-							if (CopyImageFile(avatar->filename, filename))
-								ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), filename);
-							else
-								ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), filename);
-						}
+						GetOldStyleAvatarName(filename, hMetaContact);
+						if (CopyImageFile(avatar->filename, filename))
+							ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), filename);
+						else
+							ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), filename);
 					}
 				}
 			}
@@ -201,11 +198,9 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 				if (opts.log_per_contact_folders) {
 					CreateOldStyleShortcut(hContact, history_filename);
 
-					if (ServiceExists(MS_MC_GETMETACONTACT)) {
-						MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
-						if (hMetaContact != NULL && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY))
-							CreateOldStyleShortcut(hMetaContact, history_filename);
-					}
+					MCONTACT hMetaContact = db_mc_getMeta(hContact);
+					if (hMetaContact && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY))
+						CreateOldStyleShortcut(hMetaContact, history_filename);
 				}
 			}
 		}

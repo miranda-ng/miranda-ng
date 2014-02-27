@@ -774,16 +774,13 @@ void GetUserLanguageSetting(Dialog *dlg, char *setting)
 	if (mc != CALLSERVICE_NOTFOUND) {
 		char* metacontacts_proto = (char *) mc;
 		if (metacontacts_proto != NULL) {
-			mc = CallService(MS_MC_GETMETACONTACT, (WPARAM) dlg->hContact, 0);
-			if (mc != CALLSERVICE_NOTFOUND) {
-				MCONTACT hMetaContact = (MCONTACT)mc;
-				if (hMetaContact != NULL) {
-					GetUserProtoLanguageSetting(dlg, hMetaContact, metacontacts_proto, setting);
-					if (dlg->lang_name[0] != _T('\0'))
-						return;
+			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
+			if (hMetaContact != NULL) {
+				GetUserProtoLanguageSetting(dlg, hMetaContact, metacontacts_proto, setting);
+				if (dlg->lang_name[0] != _T('\0'))
+					return;
 
-					GetUserProtoLanguageSetting(dlg, hMetaContact, "UserInfo", setting, FALSE);
-				}
+				GetUserProtoLanguageSetting(dlg, hMetaContact, "UserInfo", setting, FALSE);
 			}
 		}
 	}
@@ -814,19 +811,16 @@ void GetContactLanguage(Dialog *dlg)
 
 		// Try from metacontact
 		if (dlg->lang_name[0] == _T('\0')) {
-			INT_PTR mc = CallService(MS_MC_GETMETACONTACT, (WPARAM) dlg->hContact, 0);
-			if (mc != CALLSERVICE_NOTFOUND) {
-				MCONTACT hMetaContact = (MCONTACT)mc;
-				if (hMetaContact != NULL) {
-					if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
-						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-						db_free(&dbv);
-					}
+			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
+			if (hMetaContact != NULL) {
+				if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
+					lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+					db_free(&dbv);
+				}
 
-					if (dlg->lang_name[0] == _T('\0') && !db_get_ts(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
-						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-						db_free(&dbv);
-					}
+				if (dlg->lang_name[0] == _T('\0') && !db_get_ts(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
+					lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+					db_free(&dbv);
 				}
 			}
 		}

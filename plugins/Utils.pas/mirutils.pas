@@ -719,15 +719,12 @@ begin
     if (result=0) and (DBReadByte(hContact,strCList,'Hidden',0)=0) then
     begin
       result:=255;
-      if ServiceExists(MS_MC_GETMETACONTACT)<>0 then
-      begin
-        if CallService(MS_MC_GETMETACONTACT,hContact,0)<>0 then
-          result:=2;
-        if StrCmp(
-           PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),
-           PAnsiChar(CallService(MS_MC_GETPROTOCOLNAME,0,0)))=0 then
-         result:=1;
-      end;
+      if db_mc_getMeta(hContact)<>0 then
+        result:=2;
+      if StrCmp(
+         PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),
+         PAnsiChar(CallService(MS_MC_GETPROTOCOLNAME,0,0)))=0 then
+        result:=1;
     end;
     if proto<>nil then
       StrCopy(proto,@name);

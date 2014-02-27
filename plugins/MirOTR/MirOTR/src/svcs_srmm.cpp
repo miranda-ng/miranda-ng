@@ -69,8 +69,8 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 	if (options.bHaveButtonsBar) CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&button);
 	db_set_dw(hContact, MODULENAME, "TrustLevel", level);
 
-	if (!chat_room && options.bHaveMetaContacts) {
-		MCONTACT hMeta = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
+	if (!chat_room) {
+		MCONTACT hMeta = db_mc_getMeta(hContact);
 		MCONTACT hMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0);
 		if(hMeta && hContact == hMostOnline)
 			SetEncryptionStatus(hMeta, level);

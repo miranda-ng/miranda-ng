@@ -24,14 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-//get the handle for a contact's parent metacontact
-//wParam=(HANDLE)hSubContact
-//lParam=0
-//returns a handle to the parent metacontact, or null if this contact is not a subcontact
-INT_PTR MetaAPI_GetMeta(WPARAM wParam, LPARAM lParam) {
-	return (INT_PTR)(HANDLE)db_get_dw(wParam, META_PROTO, "Handle", 0);
-}
-
 //gets the handle for the default contact
 //wParam=(HANDLE)hMetaContact
 //lParam=0

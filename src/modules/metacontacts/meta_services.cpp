@@ -1213,7 +1213,6 @@ void Meta_InitServices()
 	CreateProtoServiceFunction(META_FILTER, PSS_MESSAGE, MetaFilter_SendMessage);
 
 	// API services and events
-	CreateServiceFunction(MS_MC_GETMETACONTACT, MetaAPI_GetMeta);
 	CreateServiceFunction(MS_MC_GETDEFAULTCONTACT, MetaAPI_GetDefault);
 	CreateServiceFunction(MS_MC_GETDEFAULTCONTACTNUM, MetaAPI_GetDefaultNum);
 	CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);

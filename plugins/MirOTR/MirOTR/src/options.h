@@ -32,7 +32,7 @@ typedef struct {
 	bool end_offline, end_window_close;
 
 	// temporary options
-	bool bHaveMetaContacts, bHavePopups, bHaveSecureIM, bHaveButtonsBar;
+	bool bHavePopups, bHaveSecureIM, bHaveButtonsBar;
 
 } Options;
 

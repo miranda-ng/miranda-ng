@@ -203,9 +203,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszService = MS_QC_SHOW_DIALOG;
 	Menu_AddMainMenuItem(&mi);
 
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME) && ServiceExists(MS_MC_GETMETACONTACT))
-		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-
+	metacontacts_proto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	return 0;
 }
 
@@ -366,7 +364,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		if (metacontactsEnabled)
 		{
 			if ((!show_all && opts.hide_subcontacts) || opts.group_append)
-				hMeta = (MCONTACT)CallService(MS_MC_GETMETACONTACT, hContact, 0);
+				hMeta = db_mc_getMeta(hContact);
 		}
 		else
 		{

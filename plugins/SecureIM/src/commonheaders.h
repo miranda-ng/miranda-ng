@@ -90,7 +90,7 @@ extern int iService, iHook;
 extern HICON g_hICO[ICO_CNT], g_hIEC[1+IEC_CNT*MODE_CNT], g_hPOP[POP_CNT];
 extern HANDLE g_IEC[1+IEC_CNT*MODE_CNT];
 extern int iBmpDepth;
-extern BOOL bMetaContacts, bPopupExists;
+extern BOOL bPopupExists;
 extern BOOL bPGPloaded, bPGPkeyrings, bUseKeyrings, bPGPprivkey;
 extern BOOL bGPGloaded, bGPGkeyrings, bSavePass;
 extern BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;

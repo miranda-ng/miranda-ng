@@ -26,12 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_core.h>
 
-//get the handle for a contact's parent metacontact
-//wParam=(HANDLE)hSubContact
-//lParam=0
-//returns a handle to the parent metacontact, or null if this contact is not a subcontact
-#define MS_MC_GETMETACONTACT				"MetaContacts/GetMeta"
-
 //gets the handle for the default contact
 //wParam=(HANDLE)hMetaContact
 //lParam=0
@@ -175,6 +169,9 @@ MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact);
 
 // checks whether a contact is a subcontact of existing MC
 MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact);
+
+// returns parent hContact for a subcontact or INVALID_CONTACT_ID if it's not a sub
+MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact);
 
 #if defined(__cplusplus)
 }
