@@ -9,14 +9,22 @@
 Плагін для завантаження і пересилання файлів за допомогою Dropbox.
 [You have been authorized]
 Авторизація пройшла успішно
-[Are you sure you want to request athorization?]
+[Are you sure you want to request authorization?]
 Ви впевнені, що хочете запитати авторизацію?
 [Request authorization]
 Запит авторизації
-[Are you sure you want to revoke athorization?]
+[Are you sure you want to revoke authorization?]
 Ви впевнені, що хочете відкликати авторизацію?
 [Revoke authorization]
 Відкликати авторизацію
+[is file]
+файл
+[is empty]
+порожня
+[is not deleted]
+не видалений
+[is deleted]
+видалений
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]
@@ -36,7 +44,7 @@
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
 Неправильний або прострочений токен. Можливо, користувач або Dropbox відкликав токен. Щоб виправити це, авторизуйте користувача наново.
 [Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
-Невдалий запит OAuth (неправильний ключ, поганий криптографічний код, прострочені часові мітки...). На жаль, повторна авторизація користувача не допоможе в даному випадку.
+Невдалий запит OAuth (неправильний ключ, поганий криптографічний код, прострочені часові мітки тощо). На жаль, повторна авторизація користувача не допоможе в даному випадку.
 [File or folder not found at the specified path]
 Файл або папка не знайдені за вказаним шляхом
 [Request method not expected (generally should be GET or POST)]
