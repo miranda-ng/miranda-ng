@@ -140,7 +140,7 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 
 					if (hContact != CDropbox::GetDefaultContact())
 					{
-						if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message != ACKRESULT_FAILED))
+						if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message) != ACKRESULT_FAILED)
 						{
 							DBEVENTINFO dbei = { sizeof(dbei) };
 							dbei.szModule = MODULE;
