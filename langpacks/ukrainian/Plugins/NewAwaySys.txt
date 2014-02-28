@@ -295,14 +295,6 @@
 Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач.\r\n"Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу" ввімкнено, тому ця опція діє для контакту і для статусу.
 [Ignore status message requests from this contact and don't send an autoreply]
 Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач
-[Stranger]
-Незнайомець
-[%d hours]
-%d год.
-[%d minutes]
-%d хв.
-[%d seconds]
-%d с
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
 "відійшов о" (час у форматі за замовчанням); ?nas_awaysince_time(x) у форматі X
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
@@ -321,6 +313,14 @@
 повертає передустановлене повідомлення за його заголовком: ?nas_predefinedmessage(creepy)
 [Current protocol name]
 ім'я поточного профілю
+[Stranger]
+Незнайомець
+[%d hours]
+%d год.
+[%d minutes]
+%d хв.
+[%d seconds]
+%d с
 [Read status message]
 Прочитати статусне повідомлення
 [Set status message]

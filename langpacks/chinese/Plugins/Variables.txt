@@ -255,8 +255,8 @@ x 上 y 目录
 如文件 x 存在则 TRUE
 [window title of first window of class x]
 类别 x 首窗口标题
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-显示文件及目录 z 列表, 使用过滤器 y, 分隔器 z (y 及 z 可选)
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
+显示文件及目录 x 列表, 使用过滤器 y, 分隔器 z (y 及 z 可选)
 [TRUE if process x is running]
 如进程 x 运行中则返回 TRUE
 [value y from registry key x (REG_SZ (string) values only)]

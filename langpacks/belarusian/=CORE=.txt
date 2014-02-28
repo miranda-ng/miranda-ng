@@ -449,6 +449,96 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 *будуць адлюстроўвацца толькі першыя %d абразкоў
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Вы можаце гуртаваць/разгуртоўваць абразкі, вылучаючы іх (CTRL+клік левай кнопкай мышы) і выклікаючы меню з дапамогай правай кнопкі мышы.
+[Add to Existing MetaContact]
+Дадаць да метакантакту
+[Please select a MetaContact:]
+Абярыце метакантакт
+[Sort Alphabetically]
+Па алфавіце
+[Editing]
+Рэдагаванне
+[Information]
+Інфармацыя
+[Contacts]
+Кантакты
+[&Remove]
+выдаліць
+[&Set as Default]
+&Па змаўчанні
+[Move &Up]
+Угару
+[Move &Down]
+Уніз
+[Force use of default for sending (even if offline)]
+Заўсёды выкарыстоўваць па змаўчанні (нават калі афлайн)
+[Send &Offline]
+У афлайн
+[Set default contact on receipt of message]
+Рабіць асноўным кантактам па прыбыцці паведамлення
+[Always send to default contact if not offline]
+Заўсёды слаць субкантакту па змаўчанні, калі не афлайн
+[Suppress status notification for subcontacts]
+Забараніць абвестку пра змену статусу субкантактаў
+[Context Menu]
+Кантэкстнае меню
+[Use contact's unique ID]
+UIN, E-mail і г.д.
+[Use contact's display name]
+Выкарыстоўваць імя
+[Contact Labels]
+Пазнакі кантактаў
+[Function]
+Функцыя
+[Set default and open message window]
+Адчыніць вакно паведамленні
+[Show subcontact context menu]
+Паказваць кантэкстнае меню
+[Show user information]
+Пра кантакт
+[Contact List]
+Спіс кантактаў
+[Display subcontact nickname]
+Выкарыстоўваць мянушку субкантакту
+[Display subcontact display name]
+Выкарыстоўваць адлюстроўванае імя
+[Use subcontact message windows]
+Вокны паведамлення субкантакту
+[Copy subcontact data]
+Капіяваць дадзеныя субкантакту
+[Lock name to first contact]
+Фіксаваць імя
+[but only for the current conversation]
+але толькі для бягучай гутаркі
+[History Copy]
+Капіяванне гісторыі
+[Please wait while the contact's history is copied.]
+Калі ласка, пачакайце, пакуль гісторыя скапіюецца
+[History Remove]
+Выдаленне гісторыі
+[Please wait while the contact's history is removed.]
+Калі ласка, пачакайце, пакуль гісторыя выдаліцца
+[Subcontact Priorities]
+Прыярытэты субкантактаў
+[Rank:]
+Ранг:
+[Status:]
+Статус:
+[Protocol:]
+Пратакол:
+[Reset All]
+Скід
+[(Lower ranks are preferred)]
+(Пераважныя ніжэйшыя рангі)
+[Copy subcontact history to MetaContact when creating or adding]
+Капіяваць гісторыю Суб у Мета Кантакт пры стварэнні і даданні
+[Number of days to copy (0=all):]
+Колькасць дзён (0=усё)
+[Keep MetaContact history synchronized with subcontacts]
+Гісторыя метакантакту, сінхранізаваная з субкантактам
+[Keep subcontact history synchronized with MetaContact]
+Гісторыя субкантакту, сінхранізаваная з метакантактам
+[History (** beware - change at your own risk **)]
+Гісторыя (**АСЦЯРОЖНА - ЗМЯНЯЙЦЕ НА СВАЮ РЫЗЫКУ")
 [Tray]
 Трэй
 [&Hide/Show]
@@ -584,8 +674,6 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Змены тэмы
 [Status changes]
 Змены статусу
-[Information]
-Інфармацыя
 [Disconnects]
 Адключэнні
 [User kicks]
@@ -2286,8 +2374,138 @@ Miranda NG не можа адкрыць гэты профіль
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Усе кантакты **
-[Contacts]
-Кантакты
+;file \src\modules\metacontacts\metacontacts.h
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+Выдаліць метакантакт?
+;file \src\modules\metacontacts\meta_addto.cpp
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+Няма яшчэ ніводнага метакантакту ў базе (у гэтым выпадку трэба спачатку канверсаваць адзін просты кантакт у метакантакт).\n Як варыянт пераўтварыце гэты кантакт у новы метакантакт.\n\n Пераўтварыць гэты кантакт у метакантакт?
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+Гэты кантакт з'яўлецца МетаКантактам.\nВы не можаце дадаць МетаКантакт у іншы.\n\nКалі ласка, абярыце іншы.
+[MetaContact Conflict]
+Канфлікт метакантактаў
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+Гэты кантакт ужо дададзены ў метакантакт.\n Вы не можаце дадаць кантакт у некалькі метакантактаў.
+[Multiple MetaContacts]
+Мноства метакантактаў
+[No suitable MetaContact found]
+Не знойдзена падыходнага метакантакту
+[a contact]
+кантакт
+[Adding %s...]
+Даданне %s...
+[Please select a MetaContact]
+Абярыце метакантакт
+[No MetaContact selected]
+Метакантакт не абраны
+[Assignment to the MetaContact failed.]
+Не атрымалася дадаць да метакантакту.
+[Assignment failure]
+Няўдалае прызначэнне
+;file \src\modules\metacontacts\meta_edit.cpp
+[(Unknown Contact)]
+(Невядомы кантакт)
+[ID]
+ID
+[Protocol]
+Пратакол
+[Send Offline]
+Адпраўка ў афлайн
+[Delete MetaContact?]
+Выдаліць метакантакт?
+;file \src\modules\metacontacts\meta_main.cpp
+[Toggle Off]
+Выключыць
+[Toggle On]
+Уключыць
+[Convert to MetaContact]
+Зрабіць метакантактам
+[Add to Existing]
+Дадаць
+[Edit]
+Змяніць
+[Set to Default]
+Па змаўчанні
+[Error - Database corruption.\nPlugin disabled.]
+Памылка - база пашкоджана.\nПлагін адключаны.
+[MetaContacts]
+Метакантакты
+;file \src\modules\metacontacts\meta_menu.cpp
+[There was a problem in assigning the contact to the MetaContact]
+Выяўлена праблема дадання кантакту да метакантакту
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+Выдаленне метакантакту.\n\n Працягнуць?
+[Are you sure?]
+Вы ўпэўнены?
+[Remove from metacontact]
+Выдаліць з метакантакту
+[Toggle MetaContacts On]
+Уключыць метакантакты
+[Toggle MetaContacts Off]
+Выключыць метакантакты
+[Add to existing MetaContact...]
+Дадаць да метакантакту
+[Edit MetaContact...]
+Змяніць метакантакт...
+[Set as MetaContact default]
+Метакантакт па змаўчанні
+[Delete MetaContact]
+Выдаліць метакантакт
+[Subcontacts]
+Субкантакты
+;file \src\modules\metacontacts\meta_options.cpp
+[<default>]
+<па змаўчанні>
+[Priorities]
+Прыярытэты
+[History]
+Гісторыя
+;file \src\modules\metacontacts\meta_services.cpp
+[Meta ID]
+Meta ID
+[No online contacts found.]
+Няма далучаных кантактаў.
+;file \src\modules\metacontacts\meta_utils.cpp
+[Sender]
+Адпраўшчык
+[Could not get MetaContact ID]
+Не магу атрымаць ID метакантакту
+[Assignment error]
+Памылка прызначэння
+[Could not retreive MetaContact contact count]
+Не магу запытаць колькасць субкантактаў метакантакту
+[Could not retreive contact protocol]
+Не магу запытаць пратакол кантакту
+[Could not get unique ID of contact]
+Не магу атрымаць унікальны ID кантакту
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+Кантакт не ў спісе. Калі ласка, дадайце кантакт у спіс перад прызначэннем.
+[MetaContact is full]
+Метакантакт поўны
+[Could not write contact protocol to MetaContact]
+Памылка запісу пратаколу кантакту ў метакантакт
+[Could not write unique ID of contact to MetaContact]
+Памылка запісу ўнікальнага ID кантакту ў метакантакт
+[Could not write nickname of contact to MetaContact]
+Не магу запісаць мянушку кантакту ў метакантакт
+[Subcontact contact number < 0 - deleting MetaContact]
+Нумар субкантакту < 0 - метакантакт будзе выдалены
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+Нумар субкантакту (%d) > нумары ў метакантакце (%d) - метакантакт будзе выдалены
+[Subcontact's MetaContact not found - deleting MetaContact data]
+Субкантакты ў метакантакце не знойдзены - выдаленне дадзеных метакантакта
+[MetaContact number of contacts < 0 - deleting MetaContact]
+Колькасць кантактаў у метакантакце < 0 - метакантакт будзе выдалены
+[MetaContact default contact number out of range - deleting MetaContact]
+Нумар кантакту па змаўчанні за межамі метакантакта - метакантакт будзе выдалены
+[Meta ID: ]
+Meta ID:\s
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+Метакантакт пашкоджаны - няслушная колькасць субкантактаў.\n Выдаляю метакантакт.
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
+Гурт 'MetaContacts Hidden Group' дададзена ў ваш спіс\n Гэта з-за спісу кантактаў на серверы. Для выпраўлення,\n каб метакантакты працягнулі звычайную працу, вы павінны:\n   - выключыць метакантакты выкарыстоўваючы пункт у галоўным меню\n   - перамясціць усе кантакты з гэтага гурта\n   - сінхранізаваць вашы кантакты з серверам\n    - ізноў уключыць метакантакты
+[MetaContacts Warning]
+Заўвагі метакантактаў
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 Без часу
@@ -2377,16 +2595,12 @@ Miranda NG не можа адкрыць гэты профіль
 Конт адключаны. Уключыце для кіравання.
 [New account]
 Новы конт
-[Edit]
-Змяніць
 [Remove account]
 Выдаліць конт
 [Configure...]
 Налада...
 [Upgrade account]
 Аднаўленне
-[Protocol]
-Пратакол
 [Account ID]
 ID конта
 [<unknown>]
@@ -2439,8 +2653,6 @@ ID конта
 Далучэнне
 [User details]
 Пра кантакт
-[History]
-Гісторыя
 [Down arrow]
 Уніз
 [Find user]

@@ -180,6 +180,8 @@ Pomoc
 Prednastavené
 [Hotkeys]
 Klávesové skratky
+[Contacts]
+Kontakty
 [&Hide/Show]
 Skryť/Zobraziť
 [E&xit]
@@ -894,8 +896,6 @@ Písmo
 Súbor ikon
 [** All contacts **]
 ** Všetky kontakty **
-[Contacts]
-Kontakty
 [<All connections>]
 Všetky pripojenia
 [Network]

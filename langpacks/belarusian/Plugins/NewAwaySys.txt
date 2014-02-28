@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.1
+;  Version: 0.4.0.2
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
@@ -60,7 +60,7 @@
 Пры:
 [Don't reply to ICQ contacts]
 Не адказваць ICQ кантактам
-[Don't reply when i'm invisible to the contact]
+[Don't reply when I'm invisible to the contact]
 Не адказваць, калі я нябачны для кантакту
 [Save autoreply to the history]
 Захоўваць паведамленне аўтаадказніка ў гісторыі
@@ -219,7 +219,7 @@ Miranda
 Прадусталяваныя паведамленні
 [Recent messages]
 Апошнія паведамленні
-[Been fragging since %nas_awaysince_time%, i'll msg you later when the adrenaline wears off.]
+[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
 Заняты важнымі справамі з %nas_awaysince_time%. Я напішу вам калі вызвалюся...
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
 Мой гаспадар, %nas_mynick%, быў %nas_statdesc% пачынальна з гэтага дня і даты ?nas_awaysince_date(dddd)... Калі ён вернецца, я яму перадам, каб ён з Вамі звязаўся...
@@ -227,7 +227,7 @@ Miranda
 Паведамленні па змаўчанні
 [Online]
 Далучаны
-[Yep, i'm here.]
+[Yep, I'm here.]
 Так, я тут.
 [Away]
 Адсутнічаю
@@ -292,14 +292,6 @@ Miranda
 Ігнараваць запыты паведамленняў статуса ад гэтага кантакта, і выключыць аўтаадказнік.\r\n\"Захоўваць налады аўтаадказніка/ігнараванні кантакту для кожнага статуса асобна" калі ўключана, гэта налада будзе для кожнага кантакту і для кожнага статуса свая.
 [Ignore status message requests from this contact and don't send an autoreply]
 Ігнараваць запыты паведамленняў статуса ад гэтага кантакту, і выключыць аўтаадказнік
-[Stranger]
-Незнаёмец
-[%d hours]
-%d гадзін(ы)
-[%d minutes]
-%d хвілін(ы)
-[%d seconds]
-%d секунд(ы)
 [Status description]
 Апісанне статуса
 [Your nick for current protocol]
@@ -314,6 +306,14 @@ Miranda
 Вяртае адно з Вашых усталяваных паведамленняў па загалоўку: ?nas_predefinedmessage(creepy)
 [Current protocol name]
 Бягучае імя пратаколу
+[Stranger]
+Незнаёмец
+[%d hours]
+%d гадзін(ы)
+[%d minutes]
+%d хвілін(ы)
+[%d seconds]
+%d секунд(ы)
 [Read status message]
 Чытаць статуснае паведамленне
 [Set status message]

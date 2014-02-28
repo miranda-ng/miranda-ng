@@ -255,6 +255,26 @@ OutputDebugString()
 טקסט רגיל:
 [opacity:]
 טישטוש
+[Add to existing MetaContact...]
+הוסף למידע תוכן משותף...
+[&OK]
+&אישור
+[Information]
+מידע
+[Contacts]
+אנשי קשר
+[Contact Labels]
+תווית תוכן
+[Function]
+פונקציה
+[Show user information]
+הראה מידע משתמש
+[Contact List]
+רשימת אנשי קשר
+[Display subcontact nickname]
+הצג תת תוכן שם משתמש
+[Number of days to copy (0=all):]
+מספר ימים להעתיק(0=הכול):
 [Tray]
 נסה
 [&Hide/Show]
@@ -343,8 +363,6 @@ OutputDebugString()
 שינויי כינוי
 [Status changes]
 שינויי מצב
-[Information]
-מידע
 [Log options]
 אפשרויות יומן
 [Log timestamp]
@@ -1439,8 +1457,26 @@ OutputDebugString()
 סטי סמלים
 [** All contacts **]
 ** כל הרשימה **
-[Contacts]
-אנשי קשר
+[(Unknown Contact)]
+(איש קשר לא מוכר)
+[Protocol]
+פרוטוקול
+[Convert to MetaContact]
+המר לתוכן משותף
+[Add to Existing]
+הוסף לקיים
+[Edit]
+ערוך
+[Set to Default]
+הגדר כברירת מחדל
+[Edit MetaContact...]
+ערוך תוכן משותף
+[Delete MetaContact]
+מחק תוכן משותף
+[Priorities]
+עדיפויות
+[History]
+היסטוריה\n
 [<All connections>]
 <כל ההתקשרויות>
 [Network]
@@ -1457,10 +1493,6 @@ OutputDebugString()
 תוספים
 [Create new account]
 צור חשבון חדש
-[Edit]
-ערוך
-[Protocol]
-פרוטוקול
 [Rename]
 שנה שם
 [System]
@@ -1475,8 +1507,6 @@ OutputDebugString()
 מתחבר
 [User details]
 פרופיל משתמש
-[History]
-היסטוריה\n
 [Find user]
 מצא משתמש
 [SMS]

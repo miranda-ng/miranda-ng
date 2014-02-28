@@ -205,7 +205,7 @@ z кантакт з уласцівасцю y, апісанай у x, прыкл�
 імя профіля базы
 [database profile path]
 шлях профіля базы
-[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 атрымаць наладу z плагіна y кантакту x ці вярнуць w, калі z не існуе (w не абавязкова)
 [get event for contact x (optional), according to y,z,w, see documentation]
 атрымаць падзею для кантакту x (неабавязкова), адпаведнае y,z,w, гл. дакументацыю
@@ -342,8 +342,8 @@ z, калі y роўна x, дапушчальныя множныя аргуме
 ПРАЎДА, калі файл x існуе
 [window title of first window of class x]
 загаловак першага вакна класа x
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-паказвае файлы і тэчкі путя z, з фільтрам y, падзеленым z (y і z неабавязковыя)
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
+паказвае файлы і тэчкі путя x, з фільтрам y, падзеленым z (y і z неабавязковыя)
 [TRUE if process x is running]
 ПРАЎДА, калі працэс х запушчаны
 [value y from registry key x (REG_SZ (string) values only)]

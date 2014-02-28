@@ -207,7 +207,7 @@ Eigenschaft Information y von Kontakt x
 DB-Profilname
 [database profile path]
 DB-Profilpfad
-[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 DB-Einstellung z von Modul y von Kontakt x und gibt w zurück, wenn z nicht existiert (w ist optional)
 [get event for contact x (optional), according to y,z,w, see documentation]
 Abruf von Ereignis für Kontakt x (optional), gemäß y,z,w; siehe Dokumentation
@@ -344,7 +344,7 @@ WAHR, wenn Verzeichnis x existiert
 WAHR, wenn Datei x existiert
 [window title of first window of class x]
 Fenstertitel des ersten Fensters der Klasse x
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
 Zeigt Dateien und Unterordner des Verzeichnisses x mit Filter y an, getrennt durch z (y und z optional)
 [TRUE if process x is running]
 WAHR, wenn Prozess x läuft

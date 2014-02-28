@@ -18,6 +18,10 @@ Text colour
 Base colour:
 [Secondary color:]
 Secondary colour:
+[Keep MetaContact history synchronized with subcontacts]
+Keep MetaContact history synchronised with subcontacts
+[Keep subcontact history synchronized with MetaContact]
+Keep subcontact history synchronised with MetaContact
 [&Authorize]
 &Authorise
 [Add to contact list if authorized]
@@ -76,6 +80,8 @@ Please authorise my request and add me to your contact list.
 Customise
 [Authorization request from %s%s: %s]
 Authorisation request from %s%s: %s
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
+The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronise your contacts with the server\n   - re-enable MetaContacts
 [Request authorization]
 Request authorisation
 [Grant authorization]

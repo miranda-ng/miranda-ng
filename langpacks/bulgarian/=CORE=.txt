@@ -451,6 +451,98 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 *ще бъдат показани само първите %d икони
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
+[Add to Existing MetaContact]
+
+[Please select a MetaContact:]
+
+[&OK]
+ОК
+[Sort Alphabetically]
+
+[Editing]
+
+[Information]
+Информация
+[Contacts]
+Контакти
+[&Remove]
+Премахване
+[&Set as Default]
+
+[Move &Up]
+
+[Move &Down]
+
+[Force use of default for sending (even if offline)]
+
+[Send &Offline]
+
+[Set default contact on receipt of message]
+
+[Always send to default contact if not offline]
+
+[Suppress status notification for subcontacts]
+
+[Context Menu]
+Контекстно меню
+[Use contact's unique ID]
+
+[Use contact's display name]
+
+[Contact Labels]
+
+[Function]
+
+[Set default and open message window]
+
+[Show subcontact context menu]
+
+[Show user information]
+
+[Contact List]
+Списък с контакти
+[Display subcontact nickname]
+
+[Display subcontact display name]
+
+[Use subcontact message windows]
+
+[Copy subcontact data]
+
+[Lock name to first contact]
+
+[but only for the current conversation]
+
+[History Copy]
+
+[Please wait while the contact's history is copied.]
+
+[History Remove]
+
+[Please wait while the contact's history is removed.]
+
+[Subcontact Priorities]
+
+[Rank:]
+
+[Status:]
+Състояние:
+[Protocol:]
+Протокол:
+[Reset All]
+
+[(Lower ranks are preferred)]
+
+[Copy subcontact history to MetaContact when creating or adding]
+
+[Number of days to copy (0=all):]
+
+[Keep MetaContact history synchronized with subcontacts]
+
+[Keep subcontact history synchronized with MetaContact]
+
+[History (** beware - change at your own risk **)]
+
 [Tray]
 Трей
 [&Hide/Show]
@@ -568,8 +660,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Промяна на темата
 [Status changes]
 Промяна на състояние
-[Information]
-Информация
 [Disconnects]
 Излизания от мрежата
 [User kicks]
@@ -2263,8 +2353,138 @@ URL
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Всички контакти **
-[Contacts]
-Контакти
+;file \src\modules\metacontacts\metacontacts.h
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+
+;file \src\modules\metacontacts\meta_addto.cpp
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+
+[MetaContact Conflict]
+
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+
+[Multiple MetaContacts]
+
+[No suitable MetaContact found]
+
+[a contact]
+
+[Adding %s...]
+
+[Please select a MetaContact]
+
+[No MetaContact selected]
+
+[Assignment to the MetaContact failed.]
+
+[Assignment failure]
+
+;file \src\modules\metacontacts\meta_edit.cpp
+[(Unknown Contact)]
+(Непознат контакт)
+[ID]
+
+[Protocol]
+Протокол
+[Send Offline]
+
+[Delete MetaContact?]
+
+;file \src\modules\metacontacts\meta_main.cpp
+[Toggle Off]
+
+[Toggle On]
+
+[Convert to MetaContact]
+
+[Add to Existing]
+
+[Edit]
+Редактиране
+[Set to Default]
+
+[Error - Database corruption.\nPlugin disabled.]
+
+[MetaContacts]
+Метаконтакти
+;file \src\modules\metacontacts\meta_menu.cpp
+[There was a problem in assigning the contact to the MetaContact]
+
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+
+[Are you sure?]
+Сигурни ли сте?
+[Remove from metacontact]
+
+[Toggle MetaContacts On]
+
+[Toggle MetaContacts Off]
+
+[Add to existing MetaContact...]
+
+[Edit MetaContact...]
+
+[Set as MetaContact default]
+
+[Delete MetaContact]
+
+[Subcontacts]
+Подконтактите
+;file \src\modules\metacontacts\meta_options.cpp
+[<default>]
+
+[Priorities]
+
+[History]
+История
+;file \src\modules\metacontacts\meta_services.cpp
+[Meta ID]
+
+[No online contacts found.]
+
+;file \src\modules\metacontacts\meta_utils.cpp
+[Sender]
+
+[Could not get MetaContact ID]
+
+[Assignment error]
+
+[Could not retreive MetaContact contact count]
+
+[Could not retreive contact protocol]
+
+[Could not get unique ID of contact]
+
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+
+[MetaContact is full]
+
+[Could not write contact protocol to MetaContact]
+
+[Could not write unique ID of contact to MetaContact]
+
+[Could not write nickname of contact to MetaContact]
+
+[Subcontact contact number < 0 - deleting MetaContact]
+
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+
+[Subcontact's MetaContact not found - deleting MetaContact data]
+
+[MetaContact number of contacts < 0 - deleting MetaContact]
+
+[MetaContact default contact number out of range - deleting MetaContact]
+
+[Meta ID: ]
+
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
+
+[MetaContacts Warning]
+
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 Без час
@@ -2354,16 +2574,12 @@ Miranda NG настройки
 Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
 [New account]
 Нов акаунт
-[Edit]
-Редактиране
 [Remove account]
 Премахване на акаунта
 [Configure...]
 Настройване...
 [Upgrade account]
 Надграждане на акаунт
-[Protocol]
-Протокол
 [Account ID]
 ID на акаунта
 [<unknown>]
@@ -2424,8 +2640,6 @@ Win +\s
 Свързване
 [User details]
 Подробности за потребителя
-[History]
-История
 [Down arrow]
 Стрелка надолу
 [Find user]

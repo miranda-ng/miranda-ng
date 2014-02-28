@@ -207,7 +207,7 @@ Variables
 
 [database profile path]
 
-[database setting z of module y of contact x and return w if z isn't exist (w is optional)]
+[database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 
 [get event for contact x (optional), according to y,z,w, see documentation]
 
@@ -344,7 +344,7 @@ Variables
 
 [window title of first window of class x]
 
-[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
+[shows files and directories of directory x, with filter y, separated by z (y and z optional)]
 
 [TRUE if process x is running]
 
