@@ -2447,7 +2447,7 @@ Problem z przydzieleniem kontaktu do metakontaktu
 To usunie metakontakt na stałe.\n\nKontynuować?
 [Are you sure?]
 Jesteś pewien?
-[Remove from MetaContact]
+[Remove from metacontact]
 Usuń z metakontaktu
 [Toggle MetaContacts On]
 Włącz metakontakty
@@ -2461,20 +2461,20 @@ Edytuj metakontakt...
 Ustaw jako domyślny metakontakt
 [Delete MetaContact]
 Usuń metakontakt
-[Context]
-Kontekst
+[Subcontacts]
+Podkontakty
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 <domyślny>
+[Priorities]
+Priorytet
+[History]
+Historia
 ;file \src\modules\metacontacts\meta_services.cpp
 [Meta ID]
 Meta ID
 [No online contacts found.]
 Nie znaleziono dostępnych kontaktów.
-[Priorities]
-Priorytet
-[History]
-Historia
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Nadawca
