@@ -138,12 +138,21 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 						fileName,
 						mir_u2a(json_as_string(node)));
 
-					int res = ACKRESULT_SUCCESS;
-
 					if (hContact != CDropbox::GetDefaultContact())
-						res = CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message);
-
-					if (res != ACKRESULT_FAILED)
+					{
+						if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message != ACKRESULT_FAILED))
+						{
+							DBEVENTINFO dbei = { sizeof(dbei) };
+							dbei.szModule = MODULE;
+							dbei.timestamp = time(NULL);
+							dbei.eventType = EVENTTYPE_MESSAGE;
+							dbei.cbBlob = strlen(message);
+							dbei.pBlob = (PBYTE)message;
+							dbei.flags = DBEF_SENT | DBEF_UTF;
+							db_event_add(hContact, &dbei);
+						}
+					}
+					else
 					{
 						DBEVENTINFO dbei = { sizeof(dbei) };
 						dbei.szModule = MODULE;
@@ -151,7 +160,7 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.cbBlob = strlen(message);
 						dbei.pBlob = (PBYTE)message;
-						dbei.flags = DBEF_SENT | DBEF_UTF;
+						dbei.flags = DBEF_UTF;
 						db_event_add(hContact, &dbei);
 					}
 
@@ -182,7 +191,7 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 		DROPBOX_API_ROOT,
 		folder);
 
-	mir_ptr<HttpRequest> request(new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder"));
+	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder");
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 	request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	request->pData = mir_strdup(param);
@@ -190,7 +199,9 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 
 	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
 
-	if (response && response->resultCode == HTTP_STATUS::OK)
+	delete request;
+
+	if (response && (response->resultCode == HTTP_STATUS::OK || response->resultCode == HTTP_STATUS::FORBIDDEN))
 	{
 		if (!strchr(folderName, '\\'))
 		{
@@ -220,12 +231,21 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 						folderName,
 						mir_u2a(json_as_string(node)));
 
-					int res = ACKRESULT_SUCCESS;
-
 					if (hContact != CDropbox::GetDefaultContact())
-						res = CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message);
-
-					if (res != ACKRESULT_FAILED)
+					{
+						if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message) != ACKRESULT_FAILED)
+						{
+							DBEVENTINFO dbei = { sizeof(dbei) };
+							dbei.szModule = MODULE;
+							dbei.timestamp = time(NULL);
+							dbei.eventType = EVENTTYPE_MESSAGE;
+							dbei.cbBlob = strlen(message);
+							dbei.pBlob = (PBYTE)message;
+							dbei.flags = DBEF_SENT | DBEF_UTF;
+							db_event_add(hContact, &dbei);
+						}
+					}
+					else
 					{
 						DBEVENTINFO dbei = { sizeof(dbei) };
 						dbei.szModule = MODULE;
@@ -233,7 +253,7 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.cbBlob = strlen(message);
 						dbei.pBlob = (PBYTE)message;
-						dbei.flags = DBEF_SENT | DBEF_UTF;
+						dbei.flags = DBEF_UTF;
 						db_event_add(hContact, &dbei);
 					}
 

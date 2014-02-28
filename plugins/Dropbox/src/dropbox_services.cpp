@@ -85,16 +85,61 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM wParam, LPARAM lParam)
 	return fileId;
 }
 
-INT_PTR CDropbox::ProtoSendMessage(WPARAM wParam, LPARAM lParam)
+INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 {
-	//CCSDATA *pccsd = (CCSDATA*)lParam;
+	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	//char *message = (char*)pccsd->lParam;
+	char *message = (char*)pccsd->lParam;
 
-	//if (message[0] && message[0] == '/')
-	//{
-	//	// parse commands
-	//}
+	if (message[0] && message[0] == '/')
+	{
+		// parse commands
+		char *sep = strchr(message, ' ');
+		int len = strlen(message) - (sep ? strlen(sep) : 0) - 1;
+		char *cmd = (char*)mir_alloc(len + 1);
+		strncpy(cmd, message + 1, len);
+		cmd[len] = 0;
+		if (INSTANCE->commands.find(cmd) != INSTANCE->commands.end())
+		{
+			ULONG messageId = InterlockedIncrement(&INSTANCE->hMessageProcess);
+
+			MessageParam *param = new MessageParam();
+			param->hContact = pccsd->hContact;
+			param->hProcess = (HANDLE)messageId;
+			param->data = (sep ? sep + 1 : NULL);
+
+			mir_forkthread(INSTANCE->commands[cmd], param);
+
+			return messageId;
+		}
+		//mir_free(cmd);
+	}
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = MODULE;
+	dbei.timestamp = time(NULL);
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = strlen(message);
+	dbei.pBlob = (PBYTE)message;
+	dbei.flags = DBEF_SENT | DBEF_UTF;
+	db_event_add(pccsd->hContact, &dbei);
+
+	return 0;
+}
+
+INT_PTR CDropbox::ProtoReceiveMessage(WPARAM, LPARAM lParam)
+{
+	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	char *message = (char*)pccsd->lParam;
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = MODULE;
+	dbei.timestamp = time(NULL);
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = strlen(message);
+	dbei.pBlob = (PBYTE)message;
+	db_event_add(pccsd->hContact, &dbei);
 
 	return 0;
 }

@@ -194,15 +194,16 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\dropbox.cpp" />
+    <ClCompile Include="src\dropbox_commands.cpp" />
     <ClCompile Include="src\dropbox_dialogs.cpp" />
     <ClCompile Include="src\dropbox_events.cpp" />
     <ClCompile Include="src\dropbox_icons.cpp" />
     <ClCompile Include="src\dropbox_menus.cpp" />
     <ClCompile Include="src\dropbox_utils.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\dropbox.cpp" />
     <ClCompile Include="src\dropbox_services.cpp" />
     <ClCompile Include="src\dropbox_transfers.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

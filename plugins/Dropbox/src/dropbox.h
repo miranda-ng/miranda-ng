@@ -2,6 +2,7 @@
 #define _DROPBOX_PROTO_H_
 
 #include <map>
+#include <string>
 #include "singleton.h"
 #include "http_request.h"
 #include "file_transfer.h"
@@ -29,6 +30,13 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
+struct MessageParam
+{
+	HANDLE hProcess;
+	MCONTACT hContact;
+	void *data;
+};
+
 class CDropbox
 {
 public:
@@ -38,10 +46,12 @@ public:
 private:
 	HANDLE hNetlibUser;
 	ULONG  hFileProcess;
+	ULONG  hMessageProcess;
 	MCONTACT hContactTransfer;
 
 	static MCONTACT hContactDefault;
 	static std::map<HWND, MCONTACT> dcftp;
+	static std::map<std::string, pThreadFunc> commands;
 
 	static HGENMENU ContactMenuItems[CMI_MAX];
 
@@ -59,11 +69,17 @@ private:
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendFile(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendMessage(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoReceiveMessage(WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR RequestApiAuthorization(WPARAM wParam, LPARAM lParam);
 	static INT_PTR RevokeApiAuthorization(WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFilesToDropbox(WPARAM wParam, LPARAM lParam);
+
+	// commands
+	static void CommandContent(void *arg);
+	static void CommandShare(void *arg);
+	static void CommandDelete(void *arg);
 
 	// access token
 	static bool HasAccessToken();

@@ -1,6 +1,7 @@
 #include "common.h"
 
 std::map<HWND, MCONTACT> CDropbox::dcftp;
+std::map<std::string, pThreadFunc> CDropbox::commands;
 HGENMENU CDropbox::ContactMenuItems[CMI_MAX];
 
 void CDropbox::Init()
@@ -18,11 +19,17 @@ void CDropbox::Init()
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, CDropbox::ProtoGetCaps);
 	CreateProtoServiceFunction(MODULE, PSS_FILE, CDropbox::ProtoSendFile);
 	CreateProtoServiceFunction(MODULE, PSS_MESSAGE, CDropbox::ProtoSendMessage);
+	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, CDropbox::ProtoReceiveMessage);
 
 	InitIcons();
 	InitMenus();
 
-	INSTANCE->hContactTransfer = 0;
+	commands["content"] = CDropbox::CommandContent;
+	commands["share"] = CDropbox::CommandShare;
+	commands["delete"] = CDropbox::CommandDelete;
+
+	hContactTransfer = 0;
+	hFileProcess = hMessageProcess = 1;
 }
 
 MCONTACT CDropbox::hContactDefault = 0;

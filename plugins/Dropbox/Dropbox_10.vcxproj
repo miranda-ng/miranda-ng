@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dropbox.cpp" />
+    <ClCompile Include="src\dropbox_commands.cpp" />
     <ClCompile Include="src\dropbox_dialogs.cpp" />
     <ClCompile Include="src\dropbox_events.cpp" />
     <ClCompile Include="src\dropbox_icons.cpp" />
