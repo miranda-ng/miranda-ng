@@ -2,7 +2,7 @@
 set p1=%1
 set p2=%2
 if  "%p1%" == "" (echo "please specify target platform by adding '86' or '64' parameter to command line!'"&&pause&&goto :EOF)
-if  "%p2%" == "" (echo "please specify target msvc compiler by adding '10' for MSVC2010 or '11' for MSVC2012 or '12' for MSVC2013 to command line!'"&&pause&&goto :EOF)
+if  "%p2%" == "" (echo "please specify target msvc compiler by adding '10' for MSVC2010 or '12' for MSVC2013 to command line!'"&&pause&&goto :EOF)
 
 call bootstrap.bat
 
