@@ -817,28 +817,34 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 	std::map<std::string, std::string> thread_ids;
 	for (unsigned int i = 0; i < json_size(threads); i++) {
 		JSONNODE *it = json_at(threads, i);
+		JSONNODE *is_canonical_user = json_get(it, "is_canonical_user");
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
 		JSONNODE *thread_id = json_get(it, "thread_id");
 		JSONNODE *name = json_get(it, "name");
 		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
 		JSONNODE *folder = json_get(it, "folder");
 		
-		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(json_as_pstring(thread_id));
-		if (iter != chatrooms->end()) {
-			iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
-		}
-
 		if (canonical == NULL || thread_id == NULL)
 			continue;
+
+		std::string id = json_as_pstring(canonical);
+		std::string tid = json_as_pstring(thread_id);
+
+		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(tid);
+		if (iter != chatrooms->end()) {
+			if (json_as_bool(is_canonical_user)) {
+				chatrooms->erase(iter); // this is not chatroom
+			} else {
+				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
+			}
+		}
 
 		if (inboxOnly && json_as_pstring(folder) != "inbox")
 			continue;
 
-		std::string id = json_as_pstring(canonical);
 		if (id == "null")
 			continue;
-		
-		std::string tid = json_as_pstring(thread_id);
+
 		thread_ids.insert(std::make_pair(tid, id));
 	}
 
