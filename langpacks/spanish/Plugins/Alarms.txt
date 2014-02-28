@@ -146,6 +146,10 @@ Fondo
 [Window]
 Ventana
 ;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+
+[%dm]
+
 [Hide reminders]
 
 [Show reminders]

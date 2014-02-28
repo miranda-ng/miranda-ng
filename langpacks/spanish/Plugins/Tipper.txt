@@ -450,6 +450,13 @@ Visibilidad:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+
+[%dh %dm]
+
+[%dm]
+
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Fondo
@@ -472,6 +479,10 @@ Divisores
 Femenino
 [Male]
 Masculino
+[%dy %dd %dh %dm]
+
+[%dd]
+
 [[No translation]]
 
 [WORD to status description]

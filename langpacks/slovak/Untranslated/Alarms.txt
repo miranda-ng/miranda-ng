@@ -53,6 +53,8 @@
 [1 day]
 [1 week]
 [Title]
+[%dh %dm]
+[%dm]
 [Hide reminders]
 [Show reminders]
 [Frames]

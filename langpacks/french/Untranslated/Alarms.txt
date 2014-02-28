@@ -16,6 +16,8 @@
 [15 mins]
 [30 mins]
 [Title]
+[%dh %dm]
+[%dm]
 [Sunday]
 [Monday]
 [Tuesday]

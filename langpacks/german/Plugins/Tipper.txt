@@ -460,6 +460,13 @@ Wind:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Farbfüllung
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+
+[%dh %dm]
+
+[%dm]
+
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Hintergrund
@@ -482,6 +489,10 @@ Tipper
 weiblich
 [Male]
 männlich
+[%dy %dd %dh %dm]
+
+[%dd]
+
 [[No translation]]
 \[Keine Umwandung]
 [WORD to status description]

@@ -1,7 +1,4 @@
-﻿[OK]
-[IP]
-[IP:]
-[%dd %dh %dm]
+﻿[%dd %dh %dm]
 [%dh %dm]
 [%dm]
 [%dy %dd %dh %dm]

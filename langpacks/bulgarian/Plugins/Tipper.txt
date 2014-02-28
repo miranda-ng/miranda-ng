@@ -450,6 +450,13 @@ Miranda работи от:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# запълване с плътен цвят
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+
+[%dh %dm]
+
+[%dm]
+
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон
@@ -472,6 +479,10 @@ Miranda работи от:
 Жена
 [Male]
 Мъж
+[%dy %dd %dh %dm]
+
+[%dd]
+
 [[No translation]]
 
 [WORD to status description]

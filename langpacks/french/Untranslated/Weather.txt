@@ -39,6 +39,7 @@
 [Auto Update Enabled]
 [Auto Update Disabled]
 [N/A]
+[%n   (%u)]
 [Temperature: %[Temperature]]
 [Browse]
 [mm]

@@ -146,6 +146,10 @@ Arrière-plan
 [Window]
 Fenêtre
 ;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+
+[%dm]
+
 [Hide reminders]
 Cacher les rappels
 [Show reminders]

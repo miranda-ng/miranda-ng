@@ -138,6 +138,7 @@
 [Weather Condition for %n as of %u]
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+[%n   (%u)]
 [%c, %t\nToday:  High %h, Low %l]
 [Temperature: %[Temperature]]
 [Current weather information for %s.]

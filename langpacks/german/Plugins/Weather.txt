@@ -330,6 +330,8 @@ Wetterlage für %n von %u
 %c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n um %u:	%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
+[%n   (%u)]
+
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nHeute:  max. %h, min. %l
 [Temperature: %[Temperature]]

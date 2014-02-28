@@ -460,6 +460,13 @@ Aurore :
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+
+[%dh %dm]
+
+[%dm]
+
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Arrière-plan
@@ -482,6 +489,10 @@ Valeurs
 Femme
 [Male]
 Homme
+[%dy %dd %dh %dm]
+
+[%dd]
+
 [[No translation]]
 
 [WORD to status description]
