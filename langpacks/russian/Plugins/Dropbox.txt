@@ -17,6 +17,14 @@
 Вы уверены, что хотите отозвать авторизацию?
 [Revoke authorization]
 Отозвать авторизацию
+[is file]
+это файл
+[is empty]
+пустая
+[is not deleted]
+не удалён
+[is deleted]
+удалён
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]

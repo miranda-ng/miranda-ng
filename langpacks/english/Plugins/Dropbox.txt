@@ -12,6 +12,11 @@
 [Request authorization]
 [Are you sure you want to revoke authorization?]
 [Revoke authorization]
+;file \plugins\Dropbox\src\dropbox_commands.cpp
+[is file]
+[is empty]
+[is not deleted]
+[is deleted]
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
 [Network]
