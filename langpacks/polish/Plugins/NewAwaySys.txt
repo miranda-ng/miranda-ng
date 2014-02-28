@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.2
+;  Version: 0.4.0.3
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
@@ -41,7 +41,7 @@ Domyślne
 [Text]
 Tekst
 [Only notify when:]
-
+Powiadamiaj tylko, gdy:
 [On&line]
 Dostępny
 [&Away]
@@ -59,27 +59,27 @@ Porozmawiajmy
 [Log to a file only when popup notification for a contact is enabled]
 
 [Enable autoreply]
-
+Włącz autoodpowiedzi
 [On event...]
-
+Dla...
 [Don't reply to ICQ contacts]
-
+Nie odpowiadaj kontaktom ICQ
 [Don't reply when I'm invisible to the contact]
-
+Nie odpowiadaj kiedy jestem niewidoczny dla kontaktu
 [Save autoreply to the history]
-
+Zapisuj auto-odpowiedź do historii
 [Reply only when Idle]
-
+Odpowiadaj tylko gdy bezczynny
 [Reply only when contact's message window is closed]
-
+Odpowiadaj tylko, gdy okno rozmowy kontaktu jest zamknięte
 [Send maximum]
-
+Wyślij maksimum
 [times (-1=infinite)]
-
+razy (-1=nieskończenie)
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
 
 [Disable autoreply when...]
-
+Wyłącz autodpowiedź, gdy...
 [&Invisible]
 Niewidoczny
 [On the &phone]
@@ -87,13 +87,13 @@ Pod telefonem
 [Out to &lunch]
 Na obiedzie
 [Autoreply format:]
-
+Format autoodpowiedzi:
 [OK]
 OK
 [&Variables]
-
+Zmienne
 [Se&ttings]
-
+Ustawienia
 [Ignore requests]
 
 [Send an autoreply]
@@ -101,7 +101,7 @@ OK
 [&Delete]
 Usuń
 [New &category]
-
+Nowa kategoria
 [Save as &new]
 
 [&Save]
@@ -111,9 +111,9 @@ Nazwa:
 [Use this message as default for]
 
 [New message]
-
+Nowy opis
 [New category]
-
+Nowa kategoria
 [Delete]
 Usuń
 [Status messages:]
@@ -155,7 +155,7 @@ Opisy:
 [seconds]
 s
 [Don't show the message dialog for]
-
+Nie pokazuj okna opisu przez
 [%s message for %s]
 Opis statusu "%s" - %s
 [Retrieving %s message...]
@@ -167,9 +167,9 @@ Anuluj
 [Don't notify of requests]
 
 [Autoreply on]
-
+Autoodpowiedź wł.
 [Autoreply off]
-
+Autoodpowiedź wył.
 [Don't send status message]
 
 [Note: these settings are applied to all status modes at once.]
@@ -189,24 +189,24 @@ Anuluj
 [Disable parsing of status messages by Variables plugin]
 
 [Create new &message]
-
+Stwórz nowy opis
 [Create new &category]
-
+Stwórz nową kategorię
 [&Rename]
 Zmień nazwę
 [Set as &default for]
 
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
 [Create new message]
-
+Stwórz nowy opis
 [Create new category]
-
+Stwórz nową kategorię
 [Open Variables help dialog]
-
+Otwórz okno pomocy zmiennych
 [Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
 
 [You can put your frequently used and favorite messages in this category.]
-
+W tej kategorii możesz umieścić swoje często używane i ulubione opisy.
 [Windows]
 Windows
 [Miranda]
@@ -214,27 +214,27 @@ Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 
 [Message]
-Wiadomość
+Wiadomości
 [URL]
-URL
+Linków
 [File]
-Plik
+Plików
 [** All contacts **]
 ** Wszystkie kontakty **
 [** Not-on-list contacts **]
-
+** Kontakty spoza listy **
 [Status messages]
 Opisy
 [Main options]
-
+Główne opcje
 [Autoreply]
-
+Autoodpowiedź
 [Contacts]
 Kontakty
 [Predefined messages]
-
+Wbudowane opisy
 [Recent messages]
-
+Ostatnie opisy
 [Gone fragging]
 
 [Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
@@ -244,7 +244,7 @@ Kontakty
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
 
 [Default messages]
-
+Domyślne opisy
 [Online]
 Dostępny
 [Yep, I'm here.]
@@ -337,7 +337,7 @@ Obcy
 [%d minutes]
 %d minut
 [%d seconds]
-
+%d sekund
 [Read status message]
 Czytaj opis kontaktu
 [Set status message]
@@ -347,7 +347,7 @@ Wł.
 [Off]
 Wył.
 [Use the default setting]
-
+Użyj ustawień domyślnych
 [NewAwaySys: Incoming status message request]
 
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
@@ -364,16 +364,16 @@ Status
 [Popups]
 Popupy
 [Variables plugin is not installed]
-
+Wtyczka Variables nie jest zainstalowana
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
 
 [Do you really want to delete this category with its messages?]
-
+Czy na pewno chcesz usunąć tę kategorię z jej opisami?
 [Do you really want to delete this message?]
-
+Czy na pewno chcesz usunąć ten opis?
 ;file \plugins\NewAwaySysMod\src\Notification.cpp
 [Error #%d]
 Błąd #%d

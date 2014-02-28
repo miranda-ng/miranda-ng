@@ -2063,7 +2063,7 @@ Podświetlona wiadomość
 [User has performed an action]
 Użytkownik wykonał akcję
 [User has kicked some other user]
-Użytkownik wykopał innego użytkownika
+Użytkownik wyrzucił innego użytkownika
 [User's status was changed]
 Użytkownik zmienił status
 [User has changed name]
@@ -2137,7 +2137,7 @@ Informacja w %s
 [%s has disconnected (%s)]
 %s rozłączył się (%s)
 [%s kicked %s (%s)]
-%s wykopał %s z powodu (%s)
+%s wyrzucił %s z powodu (%s)
 [Notice from %s: %s]
 Powiadomienie od %s: %s
 [The topic is '%s']
@@ -2462,7 +2462,7 @@ Ustaw jako domyślny metakontakt
 [Delete MetaContact]
 Usuń metakontakt
 [Subcontacts]
-Podkontakty
+Subkontakty
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 <domyślny>

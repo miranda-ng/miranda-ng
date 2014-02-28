@@ -6,12 +6,12 @@
 ;  Authors: unsane
 ;============================================================
 [Provides ability to upload files on Dropbox.]
-Zapewnia możliwość przesyłu plików do Dropbox
+Zapewnia możliwość wysłania plików do Dropbox'a.
 ;file \plugins\Dropbox\src\dropbox.cpp
 [You have been authorized]
 Zostałeś zautoryzowany
 [Are you sure you want to request authorization?]
-Czy napewno chcesz zażądać autoryzacji?
+Czy na pewno chcesz poprosić o autoryzację?
 [Request authorization]
 Poproś o autoryzację
 [Are you sure you want to revoke authorization?]
@@ -29,7 +29,7 @@ nie jest usunięty
 jest usunięty
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
-Wyślij pliki do Dropbox
+Wyślij pliki do Dropbox'a
 [Network]
 Protokoły
 [Dropbox]
@@ -53,18 +53,18 @@ OK
 [Bad input parameter. Error message should indicate which one and why]
 Niepoprawny parametr wejścia. Komunikat o błędzie powinien wskazać, który i dlaczego
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
-Niepoprawny token. To może się zdarzyć, jeżeli użytkownik odbierze lub Dropbox unieważni token. Aby naprawić, zautoryzuj użytkownika ponownie
+Niepoprawny token. To może się zdarzyć, jeżeli użytkownik odbierze lub Dropbox unieważni token. Aby naprawić, autoryzuj użytkownika ponownie
 [Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
-Niepoprawne zapytanie OAuth (nieprawidłowy klucz konsumencki, nieważny znacznik czasu...). Niestety, ponowna autoryzaja użytkownika tu nie pomoże
+Niepoprawne zapytanie OAuth (nieprawidłowy klucz konsumencki, nieważny znacznik czasu...). Niestety, ponowna autoryzacja użytkownika tu nie pomoże
 [File or folder not found at the specified path]
 Nie znaleziono pliku lub folderu w określonej ścieżce
 [Request method not expected (generally should be GET or POST)]
-Nieoczekiwana metoda zapytania(na ogół powinno być GET lub POST)
+Nieoczekiwana metoda zapytania (na ogół powinno być GET lub POST)
 [Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
 Twoja aplikacja wysyła zbyt wiele żądań i została objęta limitem. 429s może włączyć dla użytkownika lub aplikacji
 [If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
 Jeżeli odpowiedź zawiera nagłówek Retry-after, oznacza to, że twoja aplikacja została objęta limitem. W przeciwnym razie jest to błąd serwera i aplikacja powinna spróbować wysłać zapytanie ponownie.
 [User is over Dropbox storage quota]
-Użytkownik przekroczył limit przestrzeni dyskowejw Dropbox
+Użytkownik przekroczył limit przestrzeni dyskowej w Dropbox
 [Unknown]
 Nieznany

@@ -1,6 +1,4 @@
 ﻿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
-
-[ja]
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
@@ -144,6 +142,8 @@ Serwer proxy %s: %s %s:%d.
 Ustawiono proxy %s na %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
 %s parametr typu lub portu proxy jest nieprawidłowy.
+[[me]]
+[ja]
 [No unread messages found.]
 Nie znaleziono nieprzeczytanych wiadomości.
 [%s:%s - %d unread events.]

@@ -39,7 +39,7 @@ Anuluj
 [Profile]
 Profil
 [Message]
-Wiadomość
+Opis
 [Account]
 Konto
 [Set]
