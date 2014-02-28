@@ -18,6 +18,15 @@ Poproś o autoryzację
 Czy napewno chcesz odebrać autoryzację?
 [Revoke authorization]
 Odbierz autoryzacji
+;file \plugins\Dropbox\src\dropbox_commands.cpp
+[is file]
+jest plikiem
+[is empty]
+jest pusty
+[is not deleted]
+nie jest usunięty
+[is deleted]
+jest usunięty
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
 Wyślij pliki do Dropbox
