@@ -122,28 +122,15 @@ static LRESULT CALLBACK MirandaKeyBoardHookFunction(int, WPARAM, LPARAM);
 static LRESULT CALLBACK MirandaWndProcHookFunction(int, WPARAM, LPARAM);
 BOOL CheckMsgWnd(MCONTACT, BOOL *);
 
-BOOL isMetaContactsSubContact(MCONTACT hMetaContact, MCONTACT hContact)
-{
-	char *szProto = GetContactProto(hMetaContact);
-	if (szProto && !strcmp(META_PROTO, szProto)) { // Safety check
-		int i = db_get_dw(hContact, META_PROTO, "ContactNumber", -1);
-		if (i >= 0 && hContact == (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i))
-			return TRUE;
-	}
-	return FALSE;
-}
-
 BOOL checkOpenWindow(MCONTACT hContact)
 {
-	BOOL found, focus;
-
 	if (bFlashIfMsgOpen && !bFlashIfMsgWinNotTop)
 		return TRUE;
 
-	found = CheckMsgWnd(hContact, &focus);
+	BOOL focus, found = CheckMsgWnd(hContact, &focus);
 	if (!found && bMetaProtoEnabled) {
 		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
+		if (hMetaContact && db_mc_getMeta(hContact) == hMetaContact)
 			found = CheckMsgWnd(hMetaContact, &focus);
 	}
 	if (!found)
@@ -382,7 +369,7 @@ BOOL contactCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 {
 	if (bMetaProtoEnabled && hContact) {
 		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
+		if (hMetaContact && db_mc_getMeta(hContact) == hMetaContact)
 			return FALSE;
 	}
 
