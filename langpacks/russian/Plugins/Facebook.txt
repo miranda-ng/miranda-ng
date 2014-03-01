@@ -155,10 +155,10 @@ URL:
 фотографии
 [a photo]
 фотографию
-[User sent you %s:]
-Контакт послал вам %s:
-[User sent you an unsupported attachment. Open your browser to see it.]
-Контакт послал вам неподдерживаемое вложение. Для просмотра перейдите на сайт.
+[User sent %s:]
+Контакт послал %s:
+[User sent an unsupported attachment. Open your browser to see it.]
+Контакт послал неподдерживаемое вложение. Для просмотра перейдите на сайт.
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]

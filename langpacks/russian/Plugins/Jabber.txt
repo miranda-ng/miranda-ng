@@ -451,7 +451,7 @@ Jabber Ad-Hoc команды на %s
 Просмотр списка служб
 [Can inform about its Jabber capabilities]
 Сообщение поддерживаемых функций Jabber (CAPs)
-[Supports stream initiation (for filetransfers for ex.)]
+[Supports stream initiation (e.g., for filetransfers)]
 Инициирование потока (передача файлов наружу)
 [Supports stream initiation for file transfers]
 Инициирование потока для передачи файлов
@@ -511,7 +511,7 @@ xHTML формат чат сообщений
 Отправка мелодий (слушаю музыку)
 [Receives information about the music to which a user is listening]
 Прием мелодий (слушает музыку)
-[Supports private XML Storage (for bookmakrs and other)]
+[Supports private XML Storage (for bookmarks and other)]
 Хранение XML (для закладок и пр.)
 [Supports attention requests ('nudge')]
 Поддержка уведомлений внимания ('Встряска')
