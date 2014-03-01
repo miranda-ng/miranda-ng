@@ -341,13 +341,13 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 				newText = _A2T(type.c_str());
 
 			TCHAR title[200];
-			mir_sntprintf(title, SIZEOF(title), TranslateT("User sent you %s:"), newText.c_str()); 
+			mir_sntprintf(title, SIZEOF(title), TranslateT("User sent %s:"), newText.c_str());
 
 			*message_text += ptrA(mir_utf8encodeT(title));
 			*message_text += attachments_text;
 		} else {
 			// TODO: better support for these attachments (parse it from "m_messaging" instead of "messaging"
-			*message_text += ptrA(mir_utf8encodeT(TranslateT("User sent you an unsupported attachment. Open your browser to see it.")));
+			*message_text += ptrA(mir_utf8encodeT(TranslateT("User sent an unsupported attachment. Open your browser to see it.")));
 		}
 	}
 }
