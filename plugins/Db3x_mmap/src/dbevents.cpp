@@ -361,6 +361,13 @@ void CDb3Mmap::ConvertContactEvents(DBContact *cc)
 
 	for (DWORD ofsEvent = cc->ofsFirstEvent; ofsEvent != 0;) {
 		DBEvent_094 pOld = *(DBEvent_094*)DBRead(ofsEvent, sizeof(DBEvent_094), NULL);
+		if (pOld.signature != DBEVENT_SIGNATURE)
+			break;
+
+		if (pOld.cbBlob >= 65536) {
+			ofsEvent = pOld.ofsNext;
+			continue;
+		}
 		memcpy(pBlob, m_pDbCache + ofsEvent + offsetof(DBEvent_094, blob), pOld.cbBlob);
 
 		DWORD ofsNew = ReallocSpace(ofsEvent, offsetof(DBEvent_094, blob) + pOld.cbBlob, offsetof(DBEvent, blob) + pOld.cbBlob);
