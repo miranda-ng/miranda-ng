@@ -32,7 +32,7 @@
 [Database Panic]
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-[Database conversion warning]
+[Database conversion required]
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 ;file \plugins\Db3x_mmap\src\ui.cpp
