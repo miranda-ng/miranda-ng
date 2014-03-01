@@ -2198,7 +2198,7 @@ Miranda 无法打开此配置文件
 指派中继联系人时发生错误
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 此操作将永久移除中继联系人. \n\n仍要继续? 
-[Remove from MetaContact]
+[Remove from metacontact]
 从中继联系人中移除
 [Toggle MetaContacts On]
 切换中继联系人打开
@@ -2212,18 +2212,16 @@ Miranda 无法打开此配置文件
 设为中继联系人默认值
 [Delete MetaContact]
 删除中继联系人
-[Context]
-环境
 [<default>]
 <默认>
-[Meta ID]
-中继 ID
-[No online contacts found.]
-找不到任何联系人. 
 [Priorities]
 优先级
 [History]
 历史
+[Meta ID]
+中继 ID
+[No online contacts found.]
+找不到任何联系人. 
 [Could not get MetaContact ID]
 无法获取中继联系人 ID
 [Assignment error]

@@ -7,7 +7,11 @@
 ;============================================================
 [You have been authorized]
 You have been authorised
-[Are you sure you want to request athorization?]
-Are you sure you want to request athorisation?
+[Are you sure you want to request authorization?]
+Are you sure you want to request authorisation?
 [Request authorization]
 Request authorisation
+[Are you sure you want to revoke authorization?]
+Are you sure you want to revoke authorisation?
+[Revoke authorization]
+Revoke authorisation

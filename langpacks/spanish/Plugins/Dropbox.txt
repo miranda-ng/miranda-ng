@@ -10,9 +10,13 @@
 ;file \plugins\Dropbox\src\dropbox.cpp
 [You have been authorized]
 
-[Are you sure you want to request athorization?]
+[Are you sure you want to request authorization?]
 
 [Request authorization]
+
+[Are you sure you want to revoke authorization?]
+
+[Revoke authorization]
 
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
