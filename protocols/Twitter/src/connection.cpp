@@ -321,7 +321,7 @@ bool TwitterProto::NegotiateConnection()
 	}
 
 	if(!success) {
-		//ShowPopup(TranslateT("Something went wrong with authorisation, OAuth keys have been reset.  Please try to reconnect.  If problems persist, please se your doctor"));
+		//ShowPopup(TranslateT("Something went wrong with authorization, OAuth keys have been reset.  Please try to reconnect.  If problems persist, please se your doctor"));
 		debugLogA( _T("**NegotiateConnection - Verifying credentials failed!  No internet maybe?"));
 
 		//resetOAuthKeys();
