@@ -181,10 +181,10 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 	char* buffer;
 	int numRead;
 
-	debugLogA("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLog(_T("Sending [%s]"), ft->std.ptszFiles[ft->std.currentFileNumber]);
 	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 	if ((fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY|_O_RDONLY)) < 0) {
-		debugLogA("File cannot be opened");
+		debugLog(_T("File cannot be opened"));
 		return FALSE;
 	}
 
@@ -211,7 +211,7 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 
 BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
-	debugLogA("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLog(_T("Sending [%s]"), ft->std.ptszFiles[ft->std.currentFileNumber]);
 
 	struct _stati64 statbuf;
 	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size

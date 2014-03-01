@@ -158,7 +158,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				if (szJid[0] == 0)
 					_tcsncpy_s(szJid, SIZEOF(szJid), tszJid, _TRUNCATE);
 
-				debugLogA("Rereading %s for %S", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
+				debugLog(_T("Rereading %s for %s"), isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
 				m_ThreadInfo->send((isXVcard) ?
 					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP) :
@@ -350,7 +350,7 @@ static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tsz
 	bufSize -= len;
 
 	if (bIsTipper)
-		mir_sntprintf(buf, bufSize, _T("<b>%s</b>%s\t"), TranslateTS(tszTitle), tszValue);
+		mir_sntprintf(buf, bufSize, _T("<b>%s</b>\t%s"), TranslateTS(tszTitle), tszValue);
 	else {
 		TCHAR *p = TranslateTS(tszTitle);
 		mir_sntprintf(buf, bufSize, _T("%s%s\t%s"), p, _tcslen(p)<=7 ? _T("\t") : _T(""), tszValue);

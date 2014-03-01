@@ -32,7 +32,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{ JABBER_FEAT_DISCO_INFO,           JABBER_CAPS_DISCO_INFO,           LPGENT("Supports Service Discovery info") },
 	{ JABBER_FEAT_DISCO_ITEMS,          JABBER_CAPS_DISCO_ITEMS,          LPGENT("Supports Service Discovery items list") },
 	{ JABBER_FEAT_ENTITY_CAPS,          JABBER_CAPS_ENTITY_CAPS,          LPGENT("Can inform about its Jabber capabilities") },
-	{ JABBER_FEAT_SI,                   JABBER_CAPS_SI,                   LPGENT("Supports stream initiation (for filetransfers for ex.)") },
+	{ JABBER_FEAT_SI,                   JABBER_CAPS_SI,                   LPGENT("Supports stream initiation (e.g., for filetransfers)") },
 	{ JABBER_FEAT_SI_FT,                JABBER_CAPS_SI_FT,                LPGENT("Supports stream initiation for file transfers") },
 	{ JABBER_FEAT_BYTESTREAMS,          JABBER_CAPS_BYTESTREAMS,          LPGENT("Supports file transfers via SOCKS5 Bytestreams") },
 	{ JABBER_FEAT_IBB,                  JABBER_CAPS_IBB,                  LPGENT("Supports file transfers via In-Band Bytestreams") },
@@ -65,7 +65,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{ JABBER_FEAT_MESSAGE_RECEIPTS,     JABBER_CAPS_MESSAGE_RECEIPTS,     LPGENT("Supports Message Receipts") },
 	{ JABBER_FEAT_USER_TUNE,            JABBER_CAPS_USER_TUNE,            LPGENT("Can report information about the music to which a user is listening") },
 	{ JABBER_FEAT_USER_TUNE_NOTIFY,     JABBER_CAPS_USER_TUNE_NOTIFY,     LPGENT("Receives information about the music to which a user is listening") },
-	{ JABBER_FEAT_PRIVATE_STORAGE,      JABBER_CAPS_PRIVATE_STORAGE,      LPGENT("Supports private XML Storage (for bookmakrs and other)") },
+	{ JABBER_FEAT_PRIVATE_STORAGE,      JABBER_CAPS_PRIVATE_STORAGE,      LPGENT("Supports private XML Storage (for bookmarks and other)") },
 	{ JABBER_FEAT_ATTENTION,            JABBER_CAPS_ATTENTION,            LPGENT("Supports attention requests ('nudge')") },
 	{ JABBER_FEAT_ARCHIVE_AUTO,         JABBER_CAPS_ARCHIVE_AUTO,         LPGENT("Supports chat history retrieving") },
 	{ JABBER_FEAT_ARCHIVE_MANAGE,       JABBER_CAPS_ARCHIVE_MANAGE,       LPGENT("Supports chat history management") },
@@ -79,20 +79,20 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 };
 
 const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
-	{ _T(JABBER_EXT_SECUREIM),          JABBER_CAPS_SECUREIM,             "SecureIM/IsContactSecured" },
-	{ _T(JABBER_EXT_MIROTR),            JABBER_CAPS_MIROTR,               "MirOTRMenuCheckService"    },
-	{ _T(JABBER_EXT_NEWGPG),            JABBER_CAPS_NEWGPG,               "/ExportGPGKeys"            },
-	{ _T(JABBER_EXT_NUDGE),             JABBER_CAPS_ATTENTION,            "NUDGE/Send"                },
-	{ _T(JABBER_EXT_JINGLE),            JABBER_CAPS_JINGLE,               "Jingle/StartSession"       },
-	{ _T(JABBER_EXT_COMMANDS),          JABBER_CAPS_COMMANDS                                          },
-	{ _T(JABBER_EXT_USER_ACTIVITY),     JABBER_CAPS_USER_ACTIVITY_NOTIFY                              },
-	{ _T(JABBER_EXT_USER_MOOD),         JABBER_CAPS_USER_MOOD_NOTIFY                                  },
-	{ _T(JABBER_EXT_USER_TUNE),         JABBER_CAPS_USER_TUNE_NOTIFY,     "ListeningTo/Enabled"       },
-	{ _T(JABBER_EXT_USER_TUNE),         JABBER_CAPS_USER_TUNE_NOTIFY,     "WATrack/GetFileInfo"       },
-	{ _T(JABBER_EXT_MIR_NOTES),         JABBER_CAPS_MIRANDA_NOTES                                     },
+	{ JABBER_EXT_SECUREIM,          JABBER_CAPS_SECUREIM,             "SecureIM/IsContactSecured" },
+	{ JABBER_EXT_MIROTR,            JABBER_CAPS_MIROTR,               "MirOTRMenuCheckService"    },
+	{ JABBER_EXT_NEWGPG,            JABBER_CAPS_NEWGPG,               "/ExportGPGKeys"            },
+	{ JABBER_EXT_NUDGE,             JABBER_CAPS_ATTENTION,            "NUDGE/Send"                },
+	{ JABBER_EXT_JINGLE,            JABBER_CAPS_JINGLE,               "Jingle/StartSession"       },
+	{ JABBER_EXT_COMMANDS,          JABBER_CAPS_COMMANDS                                          },
+	{ JABBER_EXT_USER_ACTIVITY,     JABBER_CAPS_USER_ACTIVITY_NOTIFY                              },
+	{ JABBER_EXT_USER_MOOD,         JABBER_CAPS_USER_MOOD_NOTIFY                                  },
+	{ JABBER_EXT_USER_TUNE,         JABBER_CAPS_USER_TUNE_NOTIFY,     "ListeningTo/Enabled"       },
+	{ JABBER_EXT_USER_TUNE,         JABBER_CAPS_USER_TUNE_NOTIFY,     "WATrack/GetFileInfo"       },
+	{ JABBER_EXT_MIR_NOTES,         JABBER_CAPS_MIRANDA_NOTES                                     },
 	{ szCoreVersion,                    JABBER_CAPS_MIRANDA_PARTIAL                                   },
-	{ _T(JABBER_EXT_PLATFORMX86),       JABBER_CAPS_PLATFORMX86                                       },
-	{ _T(JABBER_EXT_PLATFORMX64),       JABBER_CAPS_PLATFORMX64                                       },
+	{ JABBER_EXT_PLATFORMX86,       JABBER_CAPS_PLATFORMX86                                       },
+	{ JABBER_EXT_PLATFORMX64,       JABBER_CAPS_PLATFORMX64                                       },
 	{ NULL }
 };
 
@@ -560,12 +560,12 @@ JabberCapsBits CJabberClientCapsManager::GetClientCaps(TCHAR *szNode, TCHAR *szV
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if (!pClient) {
 		Unlock();
-		ppro->debugLogA("CAPS: get no caps for: %S, %S", szNode, szVer);
+		ppro->debugLog(_T("CAPS: get no caps for: %s, %s"), szNode, szVer);
 		return JABBER_RESOURCE_CAPS_UNINIT;
 	}
 	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
 	Unlock();
-	ppro->debugLogA("CAPS: get caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
+	ppro->debugLog(_T("CAPS: get caps %I64x for: %s, %s"), jcbCaps, szNode, szVer);
 	return jcbCaps;
 }
 
@@ -584,7 +584,7 @@ BOOL CJabberClientCapsManager::SetClientCaps(const TCHAR *szNode, const TCHAR *s
 	}
 	BOOL bOk = pClient->SetPartialCaps(szVer, jcbCaps, nIqId);
 	Unlock();
-	ppro->debugLogA("CAPS: set caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
+	ppro->debugLog(_T("CAPS: set caps %I64x for: %s, %s"), jcbCaps, szNode, szVer);
 	return bOk;
 }
 

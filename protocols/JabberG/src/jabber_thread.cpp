@@ -884,7 +884,7 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 
 		xmlStreamInitialize("after successful sasl");
 	}
-	else debugLogA("Success: unknown action %S.",type);
+	else debugLog(_T("Success: unknown action %s."),type);
 }
 
 void CJabberProto::OnProcessChallenge(HXML node, ThreadData* info)
@@ -966,11 +966,10 @@ void CJabberProto::OnProcessProceed(HXML node, ThreadData* info)
 
 void CJabberProto::OnProcessCompressed(HXML node, ThreadData* info)
 {
-	const TCHAR *type;
-
 	debugLogA("Compression confirmed");
 
-	if ((type = xmlGetAttrValue(node, _T("xmlns"))) != NULL && !lstrcmp(type, _T("error")))
+	const TCHAR *type = xmlGetAttrValue(node, _T("xmlns"));
+	if (type != NULL && !lstrcmp(type, _T("error")))
 		return;
 	if (lstrcmp(type, _T("http://jabber.org/protocol/compress")))
 		return;
@@ -1445,7 +1444,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 	if (from == NULL)
 		return;
 
-	debugLogA("presence: for jid %S", from);
+	debugLog(_T("presence: for jid %s"), from);
 
 	pResourceStatus r(ResourceInfoFromJID(from));
 	if (r == NULL)
@@ -1510,7 +1509,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	item->getTemp()->m_iStatus = status;
 	if (nSelectedResource != -1) {
 		pResourceStatus r(item->arResources[nSelectedResource]);
-		debugLogA("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->m_tszResourceName);
+		debugLog(_T("JabberUpdateJidDbSettings: updating jid %s to rc %s"), item->jid, r->m_tszResourceName);
 		if (r->m_tszStatusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", r->m_tszStatusMessage);
 		else
@@ -1568,14 +1567,14 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 		if ((hContact = HContactFromJID(from)) == NULL) {
 			if (!_tcsicmp(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
-				debugLogA("SKIP Receive presence online from %S (who is not in my roster and not in list - skiping)", from);
+				debugLog(_T("SKIP Receive presence online from %s (who is not in my roster and not in list - skiping)"), from);
 				mir_free(nick);
 				return;
 			}
 			hContact = DBCreateContact(from, nick, TRUE, TRUE);
 		}
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {
-			debugLogA("Receive presence online from %S (who is not in my roster)", from);
+			debugLog(_T("Receive presence online from %s (who is not in my roster)"), from);
 			ListAdd(LIST_ROSTER, from);
 		}
 		DBCheckIsTransportedContact(from, hContact);
@@ -1603,7 +1602,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (_tcschr(from, '@') == NULL) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		debugLogA("%S (%S) online, set contact status to %S", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
+		debugLog(_T("%s (%s) online, set contact status to %s"), nick, from, pcli->pfnGetStatusModeDescription(status, 0));
 		mir_free(nick);
 
 		HXML xNode;
@@ -1679,7 +1678,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 				item->getTemp()->m_tszStatusMessage = mir_tstrdup(xmlGetText( xmlGetChild(node , "status")));
 			}
 		}
-		else debugLogA("SKIP Receive presence offline from %S (who is not in my roster)", from);
+		else debugLog(_T("SKIP Receive presence offline from %s (who is not in my roster)"), from);
 
 		UpdateJidDbSettings(from);
 
@@ -1699,7 +1698,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (xNick != NULL) {
 			LPCTSTR xszNick = xmlGetText(xNick);
 			if (xszNick != NULL && *xszNick) {
-				debugLogA("Grabbed nick from presence: %S", xszNick);
+				debugLog(_T("Grabbed nick from presence: %s"), xszNick);
 				tszNick = mir_tstrdup(xszNick);
 			}
 		}
@@ -1711,7 +1710,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 			if (m_options.AutoAdd == TRUE) {
 				if ((item = ListGetItemPtr(LIST_ROSTER, from)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-					debugLogA("Try adding contact automatically jid = %S", from);
+					debugLog(_T("Try adding contact automatically jid = %s"), from);
 					if ((hContact = AddToListByJID(from, 0)) != NULL) {
 						setTString(hContact, "Nick", tszNick);
 						db_unset(hContact, "CList", "NotOnList");
@@ -1721,7 +1720,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			RebuildInfoFrame();
 		}
 		else {
-			debugLogA("%S (%S) requests authorization", tszNick, from);
+			debugLog(_T("%s (%s) requests authorization"), tszNick, from);
 			DBAddAuthRequest(from, tszNick);
 		}
 		return;

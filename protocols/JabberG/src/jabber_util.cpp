@@ -601,33 +601,33 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 
 	LIST<TCHAR> arrExtCaps(5);
 	if (bSecureIM)
-		arrExtCaps.insert( _T(JABBER_EXT_SECUREIM));
+		arrExtCaps.insert(JABBER_EXT_SECUREIM);
 
 	if (bMirOTR)
-		arrExtCaps.insert( _T(JABBER_EXT_MIROTR));
+		arrExtCaps.insert(JABBER_EXT_MIROTR);
 
 	if (bNewGPG)
-		arrExtCaps.insert( _T(JABBER_EXT_NEWGPG));
+		arrExtCaps.insert(JABBER_EXT_NEWGPG);
 
 	if (bPlatform)
-		arrExtCaps.insert( _T(JABBER_EXT_PLATFORMX64));
+		arrExtCaps.insert(JABBER_EXT_PLATFORMX64);
 	else
-		arrExtCaps.insert( _T(JABBER_EXT_PLATFORMX86));
+		arrExtCaps.insert(JABBER_EXT_PLATFORMX86);
 
 	if (m_options.EnableRemoteControl)
-		arrExtCaps.insert( _T(JABBER_EXT_COMMANDS));
+		arrExtCaps.insert(JABBER_EXT_COMMANDS);
 
 	if (m_options.EnableUserMood)
-		arrExtCaps.insert( _T(JABBER_EXT_USER_MOOD));
+		arrExtCaps.insert(JABBER_EXT_USER_MOOD);
 
 	if (m_options.EnableUserTune)
-		arrExtCaps.insert( _T(JABBER_EXT_USER_TUNE));
+		arrExtCaps.insert(JABBER_EXT_USER_TUNE);
 
 	if (m_options.EnableUserActivity)
-		arrExtCaps.insert( _T(JABBER_EXT_USER_ACTIVITY));
+		arrExtCaps.insert(JABBER_EXT_USER_ACTIVITY);
 
 	if (m_options.AcceptNotes)
-		arrExtCaps.insert( _T(JABBER_EXT_MIR_NOTES));
+		arrExtCaps.insert(JABBER_EXT_MIR_NOTES);
 
 	NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
 
@@ -1137,7 +1137,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 							fclose(out);
 							setString(AI.hContact, "AvatarSaved", buffer);
 							ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
-							debugLogA("Broadcast new avatar: %s", AI.filename);
+							debugLog(_T("Broadcast new avatar: %s"), AI.filename);
 						}
 						else ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 					}

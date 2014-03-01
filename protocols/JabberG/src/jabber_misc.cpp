@@ -139,7 +139,7 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL
 		db_set_b(hNewContact, "CList", "NotOnList", 1);
 	else
 		SendGetVcard(s);
-	debugLogA("Create Jabber contact jid=%S, nick=%S", s, nick);
+	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), s, nick);
 	DBCheckIsTransportedContact(s,hNewContact);
 	return hNewContact;
 }
@@ -324,7 +324,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 	if (!hContact)
 		return;
 
-	debugLogA("JabberUpdateMirVer: for jid %S", item->jid);
+	debugLog(_T("JabberUpdateMirVer: for jid %s"), item->jid);
 
 	pResourceStatus p(NULL);
 	if (item->resourceMode == RSMODE_LASTSEEN)
@@ -344,7 +344,7 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
-		debugLogA("JabberUpdateMirVer: for iq:version rc %S: %S", resource->m_tszResourceName, resource->m_tszSoftware);
+		debugLog(_T("JabberUpdateMirVer: for iq:version rc %s: %s"), resource->m_tszResourceName, resource->m_tszSoftware);
 		if (!resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
 			res = resource->m_tszSoftware;
 		else
@@ -352,13 +352,13 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 	}
 	// no version info and no caps info? set MirVer = resource name
 	else if (!resource->m_tszCapsNode || !resource->m_tszCapsVer) {
-		debugLogA("JabberUpdateMirVer: for rc %S: %S", resource->m_tszResourceName, resource->m_tszResourceName);
+		debugLog(_T("JabberUpdateMirVer: for rc %s: %s"), resource->m_tszResourceName, resource->m_tszResourceName);
 		if (resource->m_tszResourceName)
 			res = resource->m_tszResourceName;
 	}
 	// XEP-0115 caps mode
 	else {
-		debugLogA("JabberUpdateMirVer: for rc %S: %S#%S", resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
+		debugLog(_T("JabberUpdateMirVer: for rc %s: %s#%s"), resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
 
 		int i;
 
@@ -375,19 +375,19 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 	}
 
 	// attach additional info for fingerprint plguin
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX86)) && !_tcsstr(res, _T("x86")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !_tcsstr(res, _T("x86")))
 		res.Append(_T(" x86"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX64)) && !_tcsstr(res, _T("x64")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !_tcsstr(res, _T("x64")))
 		res.Append(_T(" x64"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(res, _T("(SecureIM)")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !_tcsstr(res, _T("(SecureIM)")))
 		res.Append(_T(" (SecureIM)"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_MIROTR)) && !_tcsstr(res, _T("(MirOTR)")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !_tcsstr(res, _T("(MirOTR)")))
 		res.Append(_T(" (MirOTR)"));
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_NEWGPG)) && !_tcsstr(res, _T("(New_GPG)")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !_tcsstr(res, _T("(New_GPG)")))
 		res.Append(_T(" (New_GPG)"));
 
 	if (resource->m_tszResourceName && !_tcsstr(res, resource->m_tszResourceName))

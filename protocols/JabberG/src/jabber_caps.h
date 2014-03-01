@@ -166,18 +166,18 @@ typedef unsigned __int64 JabberCapsBits;
                                      JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY | JABBER_CAPS_PLATFORMX86 | JABBER_CAPS_PLATFORMX64)
 
 
-#define JABBER_EXT_SECUREIM                     "secureim"
-#define JABBER_EXT_MIROTR                       "mirotr"
-#define JABBER_EXT_JINGLE                       "jingle"
-#define JABBER_EXT_NEWGPG                       "new_gpg"
-#define JABBER_EXT_NUDGE                        "nudge"
-#define JABBER_EXT_COMMANDS                     "cmds"
-#define JABBER_EXT_USER_MOOD                    "mood"
-#define JABBER_EXT_USER_TUNE                    "tune"
-#define JABBER_EXT_USER_ACTIVITY                "activity"
-#define JABBER_EXT_MIR_NOTES                    "mir_notes"
-#define JABBER_EXT_PLATFORMX86                  "x86"
-#define JABBER_EXT_PLATFORMX64                  "x64"
+#define JABBER_EXT_SECUREIM                     _T("secureim")
+#define JABBER_EXT_MIROTR                       _T("mirotr")
+#define JABBER_EXT_JINGLE                       _T("jingle")
+#define JABBER_EXT_NEWGPG                       _T("new_gpg")
+#define JABBER_EXT_NUDGE                        _T("nudge")
+#define JABBER_EXT_COMMANDS                     _T("cmds")
+#define JABBER_EXT_USER_MOOD                    _T("mood")
+#define JABBER_EXT_USER_TUNE                    _T("tune")
+#define JABBER_EXT_USER_ACTIVITY                _T("activity")
+#define JABBER_EXT_MIR_NOTES                    _T("mir_notes")
+#define JABBER_EXT_PLATFORMX86                  _T("x86")
+#define JABBER_EXT_PLATFORMX64                  _T("x64")
 
 #define JABBER_FEAT_EXT_ADDRESSING              _T("http://jabber.org/protocol/address")
 #define JABBER_FEAT_NESTED_ROSTER_GROUPS        _T("roster:delimiter")

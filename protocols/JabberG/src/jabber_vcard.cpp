@@ -293,16 +293,14 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
 				_tcscpy(szTempPath, _T(".\\"));
 			if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
-				dat->ppro->debugLogA("Temp file = %S", szTempFileName);
+				dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
-					char* p = mir_t2a(szTempFileName);
-					if ((dat->hBitmap=(HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)p)) != NULL) {
+					if ((dat->hBitmap=(HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)szTempFileName)) != NULL) {
 						FIP->FI_Premultiply(dat->hBitmap);
 						_tcscpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					}
 					else DeleteFile(szTempFileName);
-					mir_free(p);
 				}
 				else DeleteFile(szTempFileName);
 		}	}
@@ -338,7 +336,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					struct _stat st;
 					HBITMAP hNewBitmap;
 
-					dat->ppro->debugLogA("File selected is %S", szFileName);
+					dat->ppro->debugLog(_T("File selected is %s"), szFileName);
 					if (_tstat(szFileName, &st)<0 || st.st_size>40*1024) {
 						MessageBox(hwndDlg, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK|MB_SETFOREGROUND);
 						break;
@@ -346,7 +344,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
 						_tcscpy(szTempPath, _T(".\\"));
 					if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
-						dat->ppro->debugLogA("Temp file = %S", szTempFileName);
+						dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
 						if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
 							char* pszTemp = mir_t2a(szTempFileName);
 							if ((hNewBitmap=(HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)pszTemp)) != NULL) {
@@ -392,15 +390,12 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_PAINT:
 		if (dat->hBitmap) {
 			BITMAP bm;
-			HDC hdcMem;
-			HWND hwndCanvas;
-			HDC hdcCanvas;
 			POINT ptSize, ptOrg, pt, ptFitSize;
 			RECT rect;
 
-			hwndCanvas = GetDlgItem(hwndDlg, IDC_CANVAS);
-			hdcCanvas = GetDC(hwndCanvas);
-			hdcMem = CreateCompatibleDC(hdcCanvas);
+			HWND hwndCanvas = GetDlgItem(hwndDlg, IDC_CANVAS);
+			HDC hdcCanvas = GetDC(hwndCanvas);
+			HDC hdcMem = CreateCompatibleDC(hdcCanvas);
 			SelectObject(hdcMem, dat->hBitmap);
 			SetMapMode(hdcMem, GetMapMode(hdcCanvas));
 			GetObject(dat->hBitmap, sizeof(BITMAP), (LPVOID) &bm);
@@ -1118,7 +1113,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		szFileName = szAvatarName;
 
 	// Set photo element, also update the global jabberVcardPhotoFileName to reflect the update
-	debugLogA("Before update, file name = %S", szFileName);
+	debugLog(_T("Before update, file name = %s"), szFileName);
 	if (szFileName == NULL || szFileName[0] == 0) {
 		v << XCHILD(_T("PHOTO"));
 		DeleteFile(szAvatarName);
@@ -1126,7 +1121,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		delSetting("AvatarHash");
 	}
 	else {
-		debugLogA("Saving picture from %S", szFileName);
+		debugLog(_T("Saving picture from %s"), szFileName);
 
 		struct _stat st;
 		if ( _tstat(szFileName, &st) >= 0) {

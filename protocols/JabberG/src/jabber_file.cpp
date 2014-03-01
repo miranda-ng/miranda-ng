@@ -395,11 +395,11 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 					if (ft->httpPath == NULL)
 						debugLogA("Requested file name does not matched (httpPath == NULL)");
 					else
-						debugLogA("Requested file name does not matched ('%s' vs. '%s')", ft->httpPath, t);
+						debugLog(_T("Requested file name does not matched ('%s' vs. '%s')"), ft->httpPath, t);
 					ft->state = FT_ERROR;
 					break;
 				}
-				debugLogA("Sending [%s]", ft->std.ptszFiles[ currentFile ]);
+				debugLog(_T("Sending [%s]"), ft->std.ptszFiles[ currentFile ]);
 				_tstati64(ft->std.ptszFiles[ currentFile ], &statbuf);	// file size in statbuf.st_size
 				if ((fileId = _topen(ft->std.ptszFiles[currentFile], _O_BINARY|_O_RDONLY)) < 0) {
 					debugLogA("File cannot be opened");
@@ -517,12 +517,12 @@ int filetransfer::create()
 		WaitForSingleObject(hWaitEvent, INFINITE);
 
 	if (fileId == -1) {
-		ppro->debugLogA("Saving to [%S]", std.tszCurrentFile);
+		ppro->debugLog(_T("Saving to [%s]"), std.tszCurrentFile);
 		fileId = _topen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 	}
 
 	if (fileId == -1)
-		ppro->debugLogA("Cannot create file '%S' during a file transfer", filefull);
+		ppro->debugLog(_T("Cannot create file '%s' during a file transfer"), filefull);
 	else if (std.currentFileSize != 0)
 		_chsize(fileId, std.currentFileSize);
 

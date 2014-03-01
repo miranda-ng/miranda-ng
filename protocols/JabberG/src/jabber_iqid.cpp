@@ -287,9 +287,9 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 		LPCTSTR szJid = XPathT(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
 		if (szJid) {
 			if (!_tcsncmp(m_ThreadInfo->fullJID, szJid, SIZEOF(m_ThreadInfo->fullJID)))
-				debugLogA("Result Bind: %S confirmed ", m_ThreadInfo->fullJID);
+				debugLog(_T("Result Bind: %s confirmed "), m_ThreadInfo->fullJID);
 			else {
-				debugLogA("Result Bind: %S changed to %S", m_ThreadInfo->fullJID, szJid);
+				debugLog(_T("Result Bind: %s changed to %s"), m_ThreadInfo->fullJID, szJid);
 				_tcsncpy(m_ThreadInfo->fullJID, szJid, SIZEOF(m_ThreadInfo->fullJID));
 			}
 		}
@@ -500,7 +500,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			ptrT jid( getTStringA(hContact, "jid"));
 			if (jid != NULL && !ListGetItemPtr(LIST_ROSTER, jid)) {
-				debugLogA("Syncing roster: preparing to delete %S (hContact=0x%x)", jid, hContact);
+				debugLog(_T("Syncing roster: preparing to delete %s (hContact=0x%x)"), jid, hContact);
 				CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 			}
 			hContact = hNext;
@@ -606,7 +606,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, MCONTACT hC
 	TCHAR szAvatarFileName[MAX_PATH];
 	GetAvatarFileName(hContact, szAvatarFileName, SIZEOF(szAvatarFileName));
 
-	debugLogA("Picture file name set to %S", szAvatarFileName);
+	debugLog(_T("Picture file name set to %s"), szAvatarFileName);
 	HANDLE hFile = CreateFile(szAvatarFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
@@ -623,7 +623,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, MCONTACT hC
 		hasPhoto = TRUE;
 		CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)szAvatarFileName);
 
-		debugLogA("My picture saved to %S", szAvatarFileName);
+		debugLog(_T("My picture saved to %s"), szAvatarFileName);
 	}
 	else {
 		ptrT jid(getTStringA(hContact, "jid"));
@@ -638,7 +638,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, MCONTACT hC
 				if (item->photoFileName && _tcscmp(item->photoFileName, szAvatarFileName))
 					DeleteFile(item->photoFileName);
 				replaceStrT(item->photoFileName, szAvatarFileName);
-				debugLogA("Contact's picture saved to %S", szAvatarFileName);
+				debugLog(_T("Contact's picture saved to %s"), szAvatarFileName);
 				OnIqResultGotAvatar(hContact, o, szPicType);
 			}
 		}
@@ -1165,7 +1165,7 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)
 					_tcsncpy(jsr.jid, jid, SIZEOF(jsr.jid));
 					jsr.jid[SIZEOF(jsr.jid) - 1] = '\0';
 					jsr.hdr.id = (TCHAR*)jid;
-					debugLogA("Result jid = %S", jid);
+					debugLog(_T("Result jid = %s"), jid);
 					if ((n = xmlGetChild(itemNode, "nick")) != NULL && xmlGetText(n) != NULL)
 						jsr.hdr.nick = (TCHAR*)xmlGetText(n);
 					else
@@ -1197,12 +1197,15 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)
 void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 {
 	HXML queryNode;
-	const TCHAR *type;
-	int id;
 
 	debugLogA("<iq/> iqIdGetExtSearch");
-	if ((type=xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
-	if ((id = JabberGetPacketID(iqNode)) == -1) return;
+	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	if (type == NULL)
+		return;
+
+	int id = JabberGetPacketID(iqNode);
+	if (id == -1)
+		return;
 
 	if (!lstrcmp(type, _T("result"))) {
 		if ((queryNode=xmlGetChild(iqNode , "query")) == NULL) return;
@@ -1237,7 +1240,7 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 				if (!lstrcmp(fieldName, _T("jid"))) {
 					_tcsncpy(jsr.jid, xmlGetText(n), SIZEOF(jsr.jid));
 					jsr.jid[SIZEOF(jsr.jid)-1] = '\0';
-					debugLogA("Result jid = %S", jsr.jid);
+					debugLog(_T("Result jid = %s"), jsr.jid);
 				}
 				else if (!lstrcmp(fieldName, _T("nickname")))
 					jsr.hdr.nick = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
@@ -1411,7 +1414,7 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, HXML n, const TCHAR *m
 		else if (!lstrcmp(mimeType, _T("image/bmp")))  pictureType = PA_FORMAT_BMP;
 		else {
 LBL_ErrFormat:
-			debugLogA("Invalid mime type specified for picture: %S", mimeType);
+			debugLog(_T("Invalid mime type specified for picture: %s"), mimeType);
 			return;
 		}
 	}
@@ -1448,7 +1451,7 @@ LBL_ErrFormat:
 		char buffer[41];
 		setString(hContact, "AvatarSaved", bin2hex(digest, sizeof(digest), buffer));
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&AI), NULL);
-		debugLogA("Broadcast new avatar: %s",AI.filename);
+		debugLog(_T("Broadcast new avatar: %s"),AI.filename);
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&AI), NULL);
 }
@@ -1458,14 +1461,14 @@ LBL_ErrFormat:
 
 void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	const TCHAR *type, *jid;
-
 	// RECVED: list of bookmarks
 	// ACTION: refresh bookmarks dialog
 	debugLogA("<iq/> iqIdGetBookmarks");
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL)
+	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	if (type == NULL)
 		return;
 
+	const TCHAR *jid;
 	if (!lstrcmp(type, _T("result"))) {
 		if (m_ThreadInfo && !(m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)) {
 			m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PRIVATE_STORAGE;

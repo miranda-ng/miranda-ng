@@ -319,12 +319,12 @@ MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 	MCONTACT hContact;
 	TCHAR *jid, *nick;
 
-	debugLogA("AddToListByJID jid = %S", newJid);
+	debugLog(_T("AddToListByJID jid = %s"), newJid);
 
 	if ((hContact=HContactFromJID(newJid)) == NULL) {
 		// not already there: add
 		jid = mir_tstrdup(newJid);
-		debugLogA("Add new jid to contact jid = %S", jid);
+		debugLog(_T("Add new jid to contact jid = %s"), jid);
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 		setTString(hContact, "jid", jid);
@@ -428,7 +428,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 	char *lastName = firstName + strlen(firstName) + 1;
 	char *jid = lastName + strlen(lastName) + 1;
 
-	debugLogA("Send 'authorization allowed' to %S", jid);
+	debugLog(_T("Send 'authorization allowed' to %s"), jid);
 
 	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
 
@@ -439,7 +439,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 		JABBER_LIST_ITEM *item;
 
 		if ((item = ListGetItemPtr(LIST_ROSTER, newJid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			debugLogA("Try adding contact automatically jid = %S", jid);
+			debugLog(_T("Try adding contact automatically jid = %s"), jid);
 			if (MCONTACT hContact = AddToListByJID(newJid, 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
@@ -749,7 +749,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 
 HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 {
-	debugLogA("JabberBasicSearch called with lParam = '%s'", szJid);
+	debugLog(_T("JabberBasicSearch called with lParam = '%s'"), szJid);
 
 	JABBER_SEARCH_BASIC *jsb;
 	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == NULL)
@@ -778,7 +778,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 	}
 	else _tcsncpy(jsb->jid, szJid, SIZEOF(jsb->jid));
 
-	debugLogA("Adding '%s' without validation", jsb->jid);
+	debugLog(_T("Adding '%s' without validation"), jsb->jid);
 	jsb->hSearch = SerialNext();
 	ForkThread((MyThreadFunc)&CJabberProto::BasicSearchThread, jsb);
 	return (HANDLE)jsb->hSearch;
@@ -973,7 +973,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const TCHAR *szDescript
 	ft->fileSize = (unsigned __int64*)mir_calloc(sizeof(unsigned __int64)* ft->std.totalFiles);
 	for (i = j = 0; i < ft->std.totalFiles; i++) {
 		if (_tstati64(ppszFiles[i], &statbuf))
-			debugLogA("'%s' is an invalid filename", ppszFiles[i]);
+			debugLog(_T("'%s' is an invalid filename"), ppszFiles[i]);
 		else {
 			ft->std.ptszFiles[j] = mir_tstrdup(ppszFiles[i]);
 			ft->fileSize[j] = statbuf.st_size;
@@ -1285,7 +1285,7 @@ int __cdecl CJabberProto::RecvAwayMsg(MCONTACT, int /*statusMode*/, PROTORECVEVE
 
 int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 {
-	debugLogA("SetAwayMsg called, wParam=%d lParam=%S", status, msg);
+	debugLog(_T("SetAwayMsg called, wParam=%d lParam=%s"), status, msg);
 
 	TCHAR **szMsg;
 	mir_cslockfull lck(m_csModeMsgMutex);
