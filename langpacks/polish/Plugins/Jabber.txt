@@ -473,8 +473,8 @@ Wsparcie dla 'przeglądarki usług'
 Wsparcie dla listy elementów w 'przeglądarce usług'
 [Can inform about its Jabber capabilities]
 Informowanie o możliwościach Jabbera
-[Supports stream initiation (for filetransfers for ex.)]
-Wsparcie dla inicjacji strumienia (dla transferu plików na ex.)
+[Supports stream initiation (e.g., for filetransfers)]
+Wspiera inicjację strumienia np. w celu transferu plików
 [Supports stream initiation for file transfers]
 Wsparcie dla strumienia dla przesyłania plików
 [Supports file transfers via SOCKS5 Bytestreams]
@@ -535,8 +535,8 @@ Wsparcie dla potwierdzenia dostarczenia wiadomości
 Możliwość raportowania informacji o odtwarzanych mediach
 [Receives information about the music to which a user is listening]
 Odbiera informacje o mediach, które odtwarza użytkownik
-[Supports private XML Storage (for bookmakrs and other)]
-Wsparcie dla przechowywania prywatnego XML (dla zakładek i innych)
+[Supports private XML Storage (for bookmarks and other)]
+Wspiera prywatną przestrzeń xml na zakładki i inne.
 [Supports attention requests ('nudge')]
 Wsparcie dla proszenia o uwagę ('nudge')
 [Supports chat history retrieving]
