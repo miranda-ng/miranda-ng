@@ -47,6 +47,10 @@
 Miranda нашла повреждения в вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
 [Database Panic]
 Проблема с базой
+[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
+Ваша база данных будет конвертирована в новый формат. Это потенциально опасное действие, сделайте, пожалуйста, резервную копию базы.\n\nНажмите 'Да', чтобы начать конвертирование или 'Нет', чтобы выйти из программы 
+[Database conversion warning]
+Предупреждение о конвертировании базы
 [Change/remove password]
 Изменить/удалить пароль
 [Password]
