@@ -139,7 +139,7 @@ int CDb3Mmap::Load(bool bSkipInit)
 		// everything is ok, go on
 		if (!m_bReadOnly) {
 			if (m_dbHeader.version < DB_095_1_VERSION) {
-				if (IDYES != MessageBox(NULL, TranslateTS(szMsgConvert), TranslateT("Database conversion warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+				if (IDYES != MessageBox(NULL, TranslateTS(szMsgConvert), TranslateT("Database conversion warning"), MB_YESNO | MB_ICONWARNING))
 					return EGROKPRF_CANTREAD;
 
 				if (m_dbHeader.version < DB_095_VERSION)
