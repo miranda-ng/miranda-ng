@@ -56,7 +56,7 @@ Panika profilu
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 Twoja baza danych musi zostać skonwertowana do nowego formatu. Jest to potencjalnie niebezpieczna operacja, proszę stworzyć kopię bezpieczeństwa.\nNaciśnij "tak", aby rozpocząć konwersję lub "nie", aby wyjść z Mirandy.
-[Database conversion warning]
+[Database conversion required]
 Ostrzeżenie przed konwersją bazy danych
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]

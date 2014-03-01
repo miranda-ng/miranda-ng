@@ -53,6 +53,11 @@ Datenbankfehler
 Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/p/DbChecker/ herunterladen. Miranda NG wird beendet.
 [Database Panic]
 Datenbankprobleme
+;file \plugins\Db3x_mmap\src\dbintf.cpp
+[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
+
+[Database conversion required]
+
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Passwort ändern/entfernen
