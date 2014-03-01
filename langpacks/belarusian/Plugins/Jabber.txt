@@ -463,7 +463,7 @@ Bytestream проксі недасяжны.
 Прагляд спісу службаў
 [Can inform about its Jabber capabilities]
 Паведамленне падтрымоўваных функцый Jabber (CAPs)
-[Supports stream initiation (for filetransfers for ex.)]
+[Supports stream initiation (e.g., for filetransfers)]
 Ініцыяванне струменя (перадача файлаў вонкі)
 [Supports stream initiation for file transfers]
 Ініцыяванне струменя для перадачы файлаў
@@ -525,7 +525,7 @@ xHTML фармат чат-паведамленняў
 Адпраўка інфармацыі пра парслухоўваемую музыку
 [Receives information about the music to which a user is listening]
 Прыём інфармацыі пра парслухоўваемую музыку
-[Supports private XML Storage (for bookmakrs and other)]
+[Supports private XML Storage (for bookmarks and other)]
 Захоўванне XML (для закладак і інш.)
 [Supports attention requests ('nudge')]
 Падтрымка абестак увагі ('nudge')

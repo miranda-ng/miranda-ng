@@ -184,9 +184,9 @@ URL:
 
 [a photo]
 
-[User sent you %s:]
+[User sent %s:]
 
-[User sent you an unsupported attachment. Open your browser to see it.]
+[User sent an unsupported attachment. Open your browser to see it.]
 
 [Message read: %s]
 

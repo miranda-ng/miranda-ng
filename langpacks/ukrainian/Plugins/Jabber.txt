@@ -455,7 +455,7 @@ XML-консоль
 Перегляд списку служб
 [Can inform about its Jabber capabilities]
 Повідомлення підтримуваних функцій Jabber (CAPs)
-[Supports stream initiation (for filetransfers for ex.)]
+[Supports stream initiation (e.g., for filetransfers)]
 Ініціювання потоку (передача файлів назовні)
 [Supports stream initiation for file transfers]
 Ініціювання потоку для передачі файлів
@@ -517,7 +517,7 @@ xHTML-формат повідомлень чату
 Відправка мелодій (слухаю музику)
 [Receives information about the music to which a user is listening]
 Прийом мелодій (слухає музику)
-[Supports private XML Storage (for bookmakrs and other)]
+[Supports private XML Storage (for bookmarks and other)]
 Зберігання XML (для закладок тощо)
 [Supports attention requests ('nudge')]
 Підтримка повідомлень уваги ("Тряска")

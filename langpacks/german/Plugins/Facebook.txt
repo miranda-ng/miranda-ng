@@ -193,9 +193,9 @@ eine Datei
 Fotos
 [a photo]
 ein Foto
-[User sent you %s:]
+[User sent %s:]
 Benutzer hat Ihnen %s gesendet:
-[User sent you an unsupported attachment. Open your browser to see it.]
+[User sent an unsupported attachment. Open your browser to see it.]
 
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s

@@ -185,9 +185,9 @@
 фотографії
 [a photo]
 фотографію
-[User sent you %s:]
+[User sent %s:]
 Контакт надіслав вам %s:
-[User sent you an unsupported attachment. Open your browser to see it.]
+[User sent an unsupported attachment. Open your browser to see it.]
 Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
 [Message read: %s by %s]
 Повідомлення прочитане о: %s користувачем %s

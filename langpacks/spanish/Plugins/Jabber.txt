@@ -473,7 +473,7 @@ Enlaces
 
 [Can inform about its Jabber capabilities]
 
-[Supports stream initiation (for filetransfers for ex.)]
+[Supports stream initiation (e.g., for filetransfers)]
 
 [Supports stream initiation for file transfers]
 
@@ -535,7 +535,7 @@ Enlaces
 
 [Receives information about the music to which a user is listening]
 
-[Supports private XML Storage (for bookmakrs and other)]
+[Supports private XML Storage (for bookmarks and other)]
 
 [Supports attention requests ('nudge')]
 
