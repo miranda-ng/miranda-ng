@@ -108,6 +108,9 @@ CDb3Mmap::~CDb3Mmap()
 	free(m_pNull);
 }
 
+static TCHAR szMsgConvert[] = 
+	LPGENT("Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda");
+
 int CDb3Mmap::Load(bool bSkipInit)
 {
 	log0("DB logging running");
@@ -135,18 +138,14 @@ int CDb3Mmap::Load(bool bSkipInit)
 
 		// everything is ok, go on
 		if (!m_bReadOnly) {
-			bool bConversion = false;
-			if (m_dbHeader.version < DB_095_VERSION) {
-				ConvertContacts();
-				bConversion = true;
-			}
-
 			if (m_dbHeader.version < DB_095_1_VERSION) {
-				ConvertEvents();
-				bConversion = true;
-			}
+				if (IDYES != MessageBox(NULL, TranslateTS(szMsgConvert), TranslateT("Database conversion warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+					return EGROKPRF_CANTREAD;
 
-			if (bConversion) {
+				if (m_dbHeader.version < DB_095_VERSION)
+					ConvertContacts();
+				ConvertEvents();
+
 				m_dbHeader.version = DB_095_1_VERSION;
 				DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
 			}
