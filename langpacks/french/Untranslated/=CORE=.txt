@@ -128,7 +128,6 @@
 [Add to Existing]
 [MetaContacts]
 [Subcontacts]
-[Meta ID]
 [Sender]
 [Subcontact contact number < 0 - deleting MetaContact]
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]

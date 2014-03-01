@@ -2472,7 +2472,7 @@ Priorités
 Historique
 ;file \src\modules\metacontacts\meta_services.cpp
 [Meta ID]
-
+Meta ID
 [No online contacts found.]
 Aucun contact en ligne trouvé.
 ;file \src\modules\metacontacts\meta_utils.cpp
