@@ -1207,8 +1207,6 @@ void Meta_InitServices()
 	CreateServiceFunction(MS_MC_ADDTOMETA, MetaAPI_AddToMeta);
 	CreateServiceFunction(MS_MC_REMOVEFROMMETA, MetaAPI_RemoveFromMeta);
 
-	CreateServiceFunction(MS_MC_DISABLEHIDDENGROUP, MetaAPI_DisableHiddenGroup);
-
 	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
 	CreateServiceFunction("MetaContacts/CListMessageEvent", Meta_ClistMessageEventClicked);
 
