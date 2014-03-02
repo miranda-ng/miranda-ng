@@ -161,7 +161,7 @@ void ApplyChanges(CHANGES *chg)
 	if (chg->hOfflineContact)
 		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->hOfflineContact));
 	else
-		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", (DWORD)-1);
+		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
 	// fix nick
 	MCONTACT most_online = Meta_GetMostOnline(chg->hMeta);
@@ -268,8 +268,8 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
 
 			int nb_contacts = db_get_dw(lParam, META_PROTO, "NumContacts", 0);
-			int default_contact_number = db_get_dw(lParam, META_PROTO, "Default", (DWORD)-1);
-			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", (DWORD)-1);
+			int default_contact_number = db_get_dw(lParam, META_PROTO, "Default", INVALID_CONTACT_ID);
+			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
 			changes.hMeta = lParam;
 			changes.num_contacts = nb_contacts;

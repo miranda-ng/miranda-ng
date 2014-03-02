@@ -73,22 +73,6 @@ int LoadMetacontacts(void)
 
 	Meta_ReadOptions(&options);
 
-	// sets subcontact handles to metacontacts, and metacontact handles to subcontacts
-	// (since these handles are not necessarily the same from run to run of miranda)
-
-	// also verifies that subcontacts: have metacontacts, and that contact numbers are reasonable, 
-	// that metacontacts: have the correct number of subcontacts, and have reasonable defaults
-	if (Meta_SetHandles()) {
-		// error - db corruption
-		if ( !db_get_b(0, META_PROTO, "DisabledMessageShown", 0)) {
-			MessageBox(0, TranslateT("Error - Database corruption.\nPlugin disabled."), TranslateT("MetaContacts"), MB_OK | MB_ICONERROR);
-			db_set_b(0, META_PROTO, "DisabledMessageShown", 1);
-		}
-		return 1;
-	}
-
-	db_unset(0, META_PROTO, "DisabledMessageShown");
-
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = META_FILTER;
 	pd.type = PROTOTYPE_FILTER;

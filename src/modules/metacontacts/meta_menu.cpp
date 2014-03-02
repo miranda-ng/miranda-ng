@@ -127,11 +127,10 @@ void Meta_RemoveContactNumber(MCONTACT hMeta, int number)
 	MCONTACT hContact = Meta_GetContactHandle(hMeta, number);
 
 	// make sure this contact thinks it's part of this metacontact
-	if ((MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0) == hMeta) {
+	if (db_get_dw(hContact, META_PROTO, "Handle", 0) == hMeta) {
 		// remove link to meta contact
 		db_unset(hContact, META_PROTO, META_LINK);
 		db_unset(hContact, META_PROTO, "Handle");
-		db_unset(hContact, META_PROTO, "ContactNumber");
 		// unhide - must be done after removing link (see meta_services.c:Meta_ChangeStatus)
 		Meta_RestoreGroup(hContact);
 		db_unset(hContact, META_PROTO, "OldCListGroup");
@@ -216,7 +215,7 @@ INT_PTR Meta_Delete(WPARAM wParam, LPARAM lParam)
 	DWORD metaID;
 
 	// The wParam is a metacontact
-	if ((metaID = db_get_dw(wParam, META_PROTO, META_ID, (DWORD)-1)) != (DWORD)-1) {
+	if ((metaID = db_get_dw(wParam, META_PROTO, META_ID, INVALID_CONTACT_ID)) != INVALID_CONTACT_ID) {
 		if (!lParam) { // check from recursion - see second half of this function
 			if (MessageBox((HWND)CallService(MS_CLUI_GETHWND, 0, 0),
 				TranslateT("This will remove the MetaContact permanently.\n\nProceed Anyway?"),
@@ -226,10 +225,9 @@ INT_PTR Meta_Delete(WPARAM wParam, LPARAM lParam)
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			// This contact is assigned to the MetaContact that will be deleted, clear the "MetaContacts" information
-			if (db_get_dw(hContact, META_PROTO, META_LINK, (DWORD)-1) == metaID) {
+			if (db_get_dw(hContact, META_PROTO, META_LINK, INVALID_CONTACT_ID) == metaID) {
 				db_unset(hContact, META_PROTO, META_LINK);
 				db_unset(hContact, META_PROTO, "Handle");
-				db_unset(hContact, META_PROTO, "ContactNumber");
 
 				// unhide - must be done after removing link (see meta_services.c:Meta_ChangeStatus)
 				Meta_RestoreGroup(hContact);
@@ -255,7 +253,7 @@ INT_PTR Meta_Delete(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		Meta_RemoveContactNumber(hMeta, db_get_dw(wParam, META_PROTO, "ContactNumber", -1));
+		Meta_RemoveContactNumber(hMeta, wParam);  // !!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	return 0;
 }
@@ -292,7 +290,7 @@ INT_PTR Meta_Default(WPARAM wParam, LPARAM lParam)
 INT_PTR Meta_ForceDefault(WPARAM wParam, LPARAM lParam)
 {
 	// the wParam is a MetaContact
-	if (db_get_dw(wParam, META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1) {
+	if (db_get_dw(wParam, META_PROTO, META_ID, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
 		BOOL current = db_get_b(wParam, META_PROTO, "ForceDefault", 0);
 		current = !current;
 		db_set_b(wParam, META_PROTO, "ForceDefault", (BYTE)current);
@@ -321,7 +319,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	Menu_ShowItem(hMenuRoot, false);
 
-	if (db_get_dw(wParam, META_PROTO, META_ID, -1) != (DWORD)-1) {
+	if (db_get_dw(wParam, META_PROTO, META_ID, -1) != INVALID_CONTACT_ID) {
 		// save the mouse pos in case they open a subcontact menu
 		GetCursorPos(&menuMousePoint);
 
@@ -404,7 +402,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 			Menu_ShowItem(hMenuConvert, false);
 			Menu_ShowItem(hMenuEdit, false);
 		}
-		else if (db_get_dw(wParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
+		else if (db_get_dw(wParam, META_PROTO, META_LINK, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
 			// The contact is affected to a metacontact.
 			Menu_ShowItem(hMenuDefault, true);
 
@@ -521,7 +519,7 @@ void InitMenus()
 	if (options.copydata) {
 		int meta_id;
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-			if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID, (DWORD)-1)) != (DWORD)-1)
+			if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID, INVALID_CONTACT_ID)) != INVALID_CONTACT_ID)
 				Meta_CopyData(hContact);
 	}
 

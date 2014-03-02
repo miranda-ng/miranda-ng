@@ -56,7 +56,6 @@ int Meta_SetNick(char *proto);
 MCONTACT Meta_GetMostOnline(MCONTACT hMeta);
 MCONTACT Meta_GetMostOnlineSupporting(MCONTACT hMeta, int pflagnum, unsigned long capability);
 int Meta_HideLinkedContacts(void);
-int Meta_SetHandles(void);
 int Meta_UnhideLinkedContacts(void);
 int Meta_GetContactNumber(MCONTACT hContact);
 MCONTACT Meta_GetContactHandle(MCONTACT hMeta, int contact_number);
