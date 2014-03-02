@@ -641,9 +641,11 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 	if (!m_bJabberOnline || isChatRoom(hContact))
 		return 1;
 
-	TCHAR jid[JABBER_MAX_JID_LEN];
+	TCHAR jid[JABBER_MAX_JID_LEN], szBareJid[JABBER_MAX_JID_LEN];
 	if (!GetClientJID(hContact, jid, SIZEOF(jid)))
 		return 1;
+
+	JabberStripJid(jid, szBareJid, SIZEOF(szBareJid));
 
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
@@ -661,18 +663,10 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			item = ListGetItemPtr(LIST_ROSTER, jid);
 
 		if (item == NULL) {
-			TCHAR szBareJid[JABBER_MAX_JID_LEN];
-			_tcsncpy(szBareJid, jid, SIZEOF(szBareJid));
-			TCHAR *pDelimiter = _tcschr(szBareJid, _T('/'));
-			if (pDelimiter) {
-				*pDelimiter = 0;
-				pDelimiter++;
-				if (!*pDelimiter)
-					pDelimiter = NULL;
-			}
+			bool bHasResource = _tcscmp(jid, szBareJid) != 0;
 			JABBER_LIST_ITEM *tmpItem = NULL;
-			if (pDelimiter && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
-				pResourceStatus him(tmpItem->findResource(pDelimiter));
+			if (bHasResource && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
+				pResourceStatus him(tmpItem->findResource(szBareJid+_tcslen(szBareJid)+1));
 				if (him) {
 					item = ListAdd(LIST_VCARD_TEMP, jid);
 					ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
@@ -685,9 +679,10 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			if (item->arResources.getCount()) {
 				for (int i=0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
-					TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
-					JabberStripJid(jid, szp1, SIZEOF(szp1));
-					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->m_tszResourceName);
+					TCHAR tmp[JABBER_MAX_JID_LEN];
+					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szBareJid, r->m_tszResourceName);
+					if (!_tcscmp(tmp, jid))
+						continue;
 
 					XmlNodeIq iq3(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
 					iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
@@ -714,7 +709,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		}
 	}
 
-	SendGetVcard(jid);
+	SendGetVcard(szBareJid);
 	return 0;
 }
 
