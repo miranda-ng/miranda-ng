@@ -247,17 +247,35 @@ void CDb3Mmap::FillContacts()
 		CheckProto(cc, "");
 		
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
-		cc->nSubs = (0 != GetContactSetting(dwContactID, "MetaContacts", "NumContacts", &dbv)) ? -1 : dbv.dVal;
+		cc->nSubs = (0 != GetContactSetting(dwContactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
 			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, sizeof(setting), "Handle%d", i);
-				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, "MetaContacts", setting, &dbv)) ? NULL : dbv.dVal;
+				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
-		cc->activeID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Default", &dbv)) ? NULL : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(dwContactID, "MetaContacts", "Handle", &dbv)) ? NULL : dbv.dVal;
+		cc->activeID = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? NULL : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "Handle", &dbv)) ? NULL : dbv.dVal;
+
+		// whether we need conversion or not
+		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv)) {
+			// we don't need it anymore
+			DeleteContactSetting(dwContactID, META_PROTO, "MetaID");
+
+			for (int i = 0; i < cc->nSubs; i++) {
+				// store contact id instead of the old mc number
+				DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
+				dbws.value.type = DBVT_DWORD;
+				dbws.value.dVal = dwContactID;
+				WriteContactSetting(cc->pSubs[i], &dbws);
+
+				// wipe out old data from subcontacts
+				DeleteContactSetting(cc->pSubs[i], META_PROTO, "ContactNumber");
+				DeleteContactSetting(cc->pSubs[i], META_PROTO, "MetaLink");
+			}
+		}
 
 		dwOffset = p->ofsNext;
 	}

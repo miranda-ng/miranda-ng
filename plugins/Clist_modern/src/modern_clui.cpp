@@ -140,7 +140,7 @@ static TCHAR tszFolderPath[MAX_PATH];
 
 void CLUI::cliOnCreateClc(void)
 {
-	_ASSERT( m_pCLUI );
+	_ASSERT(m_pCLUI);
 	m_pCLUI->CreateCluiFrames();
 }
 
@@ -148,18 +148,14 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
 
-	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
-		CallService(MS_MC_DISABLEHIDDENGROUP, TRUE, 0);
-
 	cliCluiProtocolStatusChanged(0, 0);
 	SleepEx(0, TRUE);
 	g_flag_bOnModulesLoadedCalled = TRUE;
-	///pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_HANDLE_VALUE);
+
 	SendMessage(pcli->hwndContactList,UM_CREATECLC, 0, 0); //$$$
 	InitSkinHotKeys();
 	g_CluiData.bSTATE = STATE_NORMAL;
 	ske_RedrawCompleteWindow();
-
 	return 0;
 }
 

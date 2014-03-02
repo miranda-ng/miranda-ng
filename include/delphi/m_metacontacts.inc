@@ -138,17 +138,6 @@ const
   }
   MS_MC_REMOVEFROMMETA = 'MetaContacts/RemoveFromMetacontact';
 
-
-  { wParam=(BOOL)disable
-    lParam=0
-    enable/disable the 'hidden group hack' - for clists that support subcontact
-    hiding using 'IsSubcontact' setting. Should be called once in the clist
-    'onmodulesloaded' event handler (which, since it's loaded after the db, will
-    be called before the metacontact onmodulesloaded handler where the subcontact
-    hiding is usually done)
-  }
-  MS_MC_DISABLEHIDDENGROUP = 'MetaContacts/DisableHiddenGroup';
-
 const
   META_PROTO = 'MetaContacts';
 

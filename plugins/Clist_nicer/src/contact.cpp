@@ -122,14 +122,11 @@ void MF_UpdateThread(LPVOID)
 	CloseHandle(hEvent);
 }
 
-static BOOL mc_hgh_removed = FALSE;
-
 void LoadContactTree(void)
 {
 	int i, status, hideOffline;
-	BOOL mc_disablehgh = ServiceExists(MS_MC_DISABLEHIDDENGROUP);
-	DBVARIANT dbv = {0};
-	BYTE      bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
+	BYTE bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
+	DBVARIANT dbv = { 0 };
 
 	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
 	for (i = 1; ; i++) {
@@ -145,20 +142,11 @@ void LoadContactTree(void)
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
 			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
 
-		if (mc_disablehgh && !mc_hgh_removed) {
-			if ( !db_get(hContact, "CList", "Group", &dbv)) {
-				if ( !strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
-					db_unset(hContact, "CList", "Group");
-				mir_free(dbv.pszVal);
-			}
-		}
-
 		// build initial data for message frequency
 		if ( !bMsgFrequency)
 			MF_CalcFrequency(hContact, 100, 0);
 	}
 	cfg::writeByte("CList", "fhistdata", 1);
-	mc_hgh_removed = TRUE;
 	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 

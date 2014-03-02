@@ -174,8 +174,6 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 
-	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
-		CallService(MS_MC_DISABLEHIDDENGROUP, 1, 0);
 	cfg::dat.bMetaEnabled = cfg::getByte(META_PROTO, "Enabled", 1);
 
 	cfg::dat.bAvatarServiceAvail = ServiceExists(MS_AV_GETAVATARBITMAP) ? TRUE : FALSE;

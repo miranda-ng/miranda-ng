@@ -82,9 +82,6 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
 
-	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
-		CallService(MS_MC_DISABLEHIDDENGROUP, TRUE, 0);
-
 	// Get icons
 	TCHAR szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
