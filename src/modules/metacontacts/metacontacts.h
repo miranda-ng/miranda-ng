@@ -169,8 +169,6 @@ extern char proto_names[MAX_PROTOCOLS * 128];
 // service from clist_meta_mw, existence means we don't need to hide subcontacts (woohoo - thanks FYR)
 #define MS_CLUI_METASUPPORT  "CLUI/MetaContactSupport"
 
-extern BOOL meta_group_hack_disabled;
-
 #ifndef MS_CLUI_GETVERSION
 #define MS_CLUI_GETVERSION      "CLUI/GetVersion"
 

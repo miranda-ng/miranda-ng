@@ -697,23 +697,6 @@ int Meta_HideLinkedContacts(void)
 	DWORD meta_id, num_contacts, contact_number;
 	char buffer[512], buffer2[512];
 
-	// ensure the hidden group does not exist (how this occurs i wonder but there have been reports!)
-	// (sometimes protocol server side groups are to blame - msn and icq)
-	if (!meta_group_hack_disabled) {
-		for (int hGroup=1;; hGroup++) {
-			char *group_name = (char*)CallService(MS_CLIST_GROUPGETNAME, hGroup, 0);
-			if (group_name == NULL)
-				break;
-
-			if (!strcmp(group_name, META_HIDDEN_GROUP)) {
-				// disabled because it shows a message box
-				//CallService(MS_CLIST_GROUPDELETE, (WPARAM)hGroup, 0);
-				MessageBox(0, TranslateT(szMsg), TranslateT("MetaContacts Warning"), MB_ICONWARNING | MB_OK);
-				break;
-			}
-		}
-	}
-
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if ((meta_id = db_get_dw(hContact, META_PROTO, META_LINK, INVALID_CONTACT_ID)) != INVALID_CONTACT_ID) {
 			// get contact number
@@ -831,104 +814,10 @@ int Meta_HideMetaContacts(int hide)
 
 void Meta_RestoreGroup(MCONTACT hContact)
 {
-	if (meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
-
-	// the existence of this service means that clist_meta_mw is active and will do the hiding for us
-	if (ServiceExists(MS_CLUI_METASUPPORT)) return;
-
-	// show it anyway - users are reporting contacts removed from meta remain 'hidden'
-	// possible suspect - server side groups cause hidden group hack to fail, users hide contacts via clist->delete->hide option
-	db_unset(hContact, META_PROTO, "Hidden");
-
-	if (db_get_b(hContact, META_PROTO, "Hidden", 0) == 1) {
-		// if we hid it, unhide it
-		db_unset(hContact, META_PROTO, "Hidden");
-		db_unset(hContact, "CList", "Hidden");
-	}
-	else {
-		DBCONTACTWRITESETTING cws;
-
-		if (!db_get(hContact, META_PROTO, "OldCListGroup", &cws.value)) {
-
-			if ((cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) && !strcmp(cws.value.pszVal, META_HIDDEN_GROUP)) {
-				db_unset(hContact, "CList", "Group");
-			}
-			else {
-				int hGroup = 1;
-				char *name = 0;
-				BOOL found = FALSE;
-				do {
-					name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-					if (name && !strcmp(name, cws.value.pszVal)) {
-						found = TRUE;
-						break;
-					}
-					hGroup++;
-				} while (name);
-
-				if (found)
-					db_set(hContact, "CList", "Group", &cws.value);
-				else {
-					// put back into metacontact's group
-					DBVARIANT dbv;
-					MCONTACT hMeta = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-					if (hMeta && !Mydb_get(hMeta, "CList", "Group", &dbv)) {
-						db_set(hContact, "CList", "Group", &dbv);
-						db_free(&dbv);
-					}
-					else db_unset(hContact, "CList", "Group");
-				}
-			}
-			db_free(&cws.value);
-		}
-		db_unset(hContact, META_PROTO, "OldCListGroup");
-
-		if (!db_get(hContact, "CList", "Group", &cws.value)) {
-			if ((cws.value.type == DBVT_ASCIIZ || cws.value.type == DBVT_UTF8) && !strcmp(cws.value.pszVal, META_HIDDEN_GROUP)) {
-				db_unset(hContact, "CList", "Group");
-			}
-			db_free(&cws.value);
-		}
-	}
-
-	// show it anyway - users are reporting contacts removed from meta remain 'hidden'
-	// possible suspect - server side groups cause hidden group hack to fail, users hide contacts via clist->delete->hide option
-	db_unset(hContact, "CList", "Hidden");
 }
 
 void Meta_SetGroup(MCONTACT hContact)
 {
-	char *szProto, *uid;
-
-	if (meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
-
-	// the existence of this service means that clist_meta_mw is active and will do the hiding for us
-	if (ServiceExists(MS_CLUI_METASUPPORT)) return;
-
-	szProto = GetContactProto(hContact);
-	if (szProto)
-		uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-
-	if (szProto && uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND && !strcmp(JABBER_UNIQUE_ID_SETTING, uid)) {
-		// if it's a jabber contact, hide it, and record the fact that it was us who did
-		db_set_b(hContact, META_PROTO, "Hidden", 1);
-		db_set_b(hContact, "CList", "Hidden", 1);
-	}
-	else {
-		DBVARIANT dbv;
-		// save old group and move to invisible group (i.e. non-existent group)
-		if (!Mydb_get(hContact, "CList", "Group", &dbv)) {
-			if ((dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && !strcmp(dbv.pszVal, META_HIDDEN_GROUP))
-				; // it's already in the group (shouldn't be - but maybe a crash)
-			else
-				db_set(hContact, META_PROTO, "OldCListGroup", &dbv);
-
-			db_free(&dbv);
-		}
-		else db_unset(hContact, META_PROTO, "OldCListGroup");
-
-		db_set_s(hContact, "CList", "Group", META_HIDDEN_GROUP);
-	}
 }
 
 int Meta_SuppressStatus(BOOL suppress)
@@ -1175,5 +1064,5 @@ void Meta_FixStatus(MCONTACT hMeta)
 
 INT_PTR Meta_IsEnabled()
 {
-	return db_get_b(0, META_PROTO, "Enabled", 1) && (meta_group_hack_disabled || db_get_b(NULL, "CList", "UseGroups", 1));
+	return db_get_b(0, META_PROTO, "Enabled", 1);
 }

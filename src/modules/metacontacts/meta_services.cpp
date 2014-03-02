@@ -578,19 +578,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		contact_number = Meta_GetContactNumber(wParam);
 		if (contact_number == -1) return 0; // exit - db corruption
 
-		if (!meta_group_hack_disabled && !strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "Group") &&
-			 Meta_IsEnabled() && db_get_b(wParam, META_PROTO, "Hidden", 0) == 0 && !Miranda_Terminated()) {
-			if ((dcws->value.type == DBVT_ASCIIZ || dcws->value.type == DBVT_UTF8) && !Meta_IsHiddenGroup(dcws->value.pszVal)) {
-				// subcontact group reassigned - copy to saved group
-				db_set(wParam, META_PROTO, "OldCListGroup", &dcws->value);
-				db_set_s(wParam, "CList", "Group", META_HIDDEN_GROUP);
-			}
-			else if (dcws->value.type == DBVT_DELETED) {
-				db_unset(wParam, META_PROTO, "OldCListGroup");
-				db_set_s(wParam, "CList", "Group", META_HIDDEN_GROUP);
-			}
-		}
-		else if (!strcmp(dcws->szSetting, "IP")) {
+		if (!strcmp(dcws->szSetting, "IP")) {
 			if (dcws->value.type == DBVT_DWORD)
 				db_set_dw(hMeta, META_PROTO, "IP", dcws->value.dVal);
 			else
@@ -718,16 +706,8 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		else if (strcmp(dcws->szSetting, "XStatusId") == 0 || strcmp(dcws->szSetting, "XStatusMsg") == 0 || strcmp(dcws->szSetting, "XStatusName") == 0 || strcmp(dcws->szSetting, "StatusMsg") == 0) {
 			Meta_CopyData(hMeta);
 		}
-		else if (strcmp(dcws->szSetting, "MirVer") == 0) {
+		else if (strcmp(dcws->szSetting, "MirVer") == 0)
 			Meta_CopyData(hMeta);
-		}
-		else if (!meta_group_hack_disabled && !strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "Hidden")) {
-			if ((dcws->value.type == DBVT_DELETED || db_get_b(wParam, "CList", "Hidden", 0) == 0)
-				 && db_get_b(wParam, META_PROTO, "Hidden", 0) == 1) {
-				// a subcontact we hid (e.g. jabber) has been unhidden - hide it again :(
-				db_set_b(wParam, "CList", "Hidden", 1);
-			}
-		}
 	}
 
 	return 0;
@@ -908,13 +888,6 @@ int NudgeRecieved(WPARAM wParam, LPARAM lParam)
 */
 int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	// disable group hack for older nicer versions without the fix
-	if (ServiceExists(MS_CLUI_GETVERSION)) {
-		char *version = (char *)CallService(MS_CLUI_GETVERSION, 0, 0);
-		if (version && strlen(version) >= strlen("CList Nicer+") && strncmp(version, "CList Nicer+", strlen("CList Nicer+")) == 0)
-			meta_group_hack_disabled = TRUE;
-	}
-
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
 	HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked);
 
