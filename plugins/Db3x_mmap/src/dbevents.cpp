@@ -356,42 +356,48 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(HANDLE hDbEvent)
 
 void CDb3Mmap::ConvertContactEvents(DBContact *cc)
 {
-	mir_ptr<BYTE> pBlob((PBYTE)mir_alloc(65536));
+	BYTE *pBlob = (PBYTE)mir_alloc(65536);
 	DWORD ofsPrev = 0;
 
-	for (DWORD ofsEvent = cc->ofsFirstEvent; ofsEvent != 0;) {
-		DBEvent_094 pOld = *(DBEvent_094*)DBRead(ofsEvent, sizeof(DBEvent_094), NULL);
-		if (pOld.signature != DBEVENT_SIGNATURE)
-			break;
+	__try {
+		for (DWORD ofsEvent = cc->ofsFirstEvent; ofsEvent != 0;) {
+			DBEvent_094 pOld = *(DBEvent_094*)DBRead(ofsEvent, sizeof(DBEvent_094), NULL);
+			if (pOld.signature != DBEVENT_SIGNATURE)
+				break;
 
-		if (pOld.cbBlob >= 65536) {
-			ofsEvent = pOld.ofsNext;
-			continue;
+			if (pOld.cbBlob >= 65536) {
+				ofsEvent = pOld.ofsNext;
+				continue;
+			}
+			memcpy(pBlob, m_pDbCache + ofsEvent + offsetof(DBEvent_094, blob), pOld.cbBlob);
+
+			DWORD ofsNew = ReallocSpace(ofsEvent, offsetof(DBEvent_094, blob) + pOld.cbBlob, offsetof(DBEvent, blob) + pOld.cbBlob);
+			DBEvent *pNew = (DBEvent*)&m_pDbCache[ofsNew];
+			pNew->signature = pOld.signature;
+			pNew->contactID = cc->dwContactID;
+			memcpy(&pNew->ofsPrev, &pOld.ofsPrev, offsetof(DBEvent_094, blob) - sizeof(DWORD));
+			memcpy(&pNew->blob, pBlob, pNew->cbBlob);
+
+			if (ofsPrev == 0) // first event
+				cc->ofsFirstEvent = ofsNew, pNew->ofsPrev = 0;
+			else {
+				DBEvent *pPrev = (DBEvent*)&m_pDbCache[ofsPrev];
+				pPrev->ofsNext = ofsNew, pNew->ofsPrev = ofsPrev;
+			}
+
+			if (cc->ofsFirstUnread == ofsEvent)
+				cc->ofsFirstUnread = ofsNew;
+			if (cc->ofsLastEvent == ofsEvent)
+				cc->ofsLastEvent = ofsNew;
+
+			ofsPrev = ofsNew;
+			ofsEvent = pNew->ofsNext;
 		}
-		memcpy(pBlob, m_pDbCache + ofsEvent + offsetof(DBEvent_094, blob), pOld.cbBlob);
-
-		DWORD ofsNew = ReallocSpace(ofsEvent, offsetof(DBEvent_094, blob) + pOld.cbBlob, offsetof(DBEvent, blob) + pOld.cbBlob);
-		DBEvent *pNew = (DBEvent*)&m_pDbCache[ofsNew];
-		pNew->signature = pOld.signature;
-		pNew->contactID = cc->dwContactID;
-		memcpy(&pNew->ofsPrev, &pOld.ofsPrev, offsetof(DBEvent_094, blob) - sizeof(DWORD));
-		memcpy(&pNew->blob, pBlob, pNew->cbBlob);
-
-		if (ofsPrev == 0) // first event
-			cc->ofsFirstEvent = ofsNew, pNew->ofsPrev = 0;
-		else {
-			DBEvent *pPrev = (DBEvent*)&m_pDbCache[ofsPrev];
-			pPrev->ofsNext = ofsNew, pNew->ofsPrev = ofsPrev;
-		}
-
-		if (cc->ofsFirstUnread == ofsEvent)
-			cc->ofsFirstUnread = ofsNew;
-		if (cc->ofsLastEvent == ofsEvent)
-			cc->ofsLastEvent = ofsNew;
-
-		ofsPrev = ofsNew;
-		ofsEvent = pNew->ofsNext;
 	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{}
+
+	mir_free(pBlob);
 }
 
 void CDb3Mmap::ConvertEvents()
