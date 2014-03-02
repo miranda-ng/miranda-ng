@@ -146,6 +146,10 @@ Pozadí
 [Window]
 Okno
 ;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+%d hod. %d min.
+[%dm]
+%d min.
 [Hide reminders]
 Skrýt připomínky
 [Show reminders]

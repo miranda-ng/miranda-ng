@@ -460,6 +460,13 @@ Vítr:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# Vyplnění plnou barvou
+;file \plugins\TipperYM\src\subst.cpp
+[%dd %dh %dm]
+%d dní %d hod. %d min.
+[%dh %dm]
+%d hod. %d min.
+[%dm]
+%d min.
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Pozadí
@@ -482,6 +489,10 @@ Tipy
 žena
 [Male]
 muž
+[%dy %dd %dh %dm]
+%d let %d dní %d hod. %d min.
+[%dd]
+%d dní
 [[No translation]]
 (bez překladu)
 [WORD to status description]

@@ -193,10 +193,10 @@ soubor
 fotky
 [a photo]
 fotku
-[User sent you %s:]
-Uživatel vám poslal %s:
-[User sent you an unsupported attachment. Open your browser to see it.]
-Uživatel vám poslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
+[User sent %s:]
+Uživatel odeslal %s:
+[User sent an unsupported attachment. Open your browser to see it.]
+Uživatel odeslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
 [Message read: %s by %s]
 Zpráva byla přečtena: %s - %s
 [Message read: %s]
