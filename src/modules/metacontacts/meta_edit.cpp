@@ -25,18 +25,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "metacontacts.h"
 
 //! Holds the differents changes that have to made
-typedef struct tag_CHANGES {
-	MCONTACT hMeta;							//!< \c HANDLE of the MetaContact that is edited.
-	MCONTACT hDefaultContact;					//!< \c HANDLE of the new default contact
+struct CHANGES
+{
+	MCONTACT hMeta;                          // HANDLE of the MetaContact that is edited.
+	DBCachedContact *cc;
+	MCONTACT hDefaultContact;                // HANDLE of the new default contact
 	MCONTACT hOfflineContact;
-	int num_deleted,						//!< \c DWORD number of deleted contacts
-		num_contacts;						//!< \c DWORD number of contacts
-	MCONTACT hDeletedContacts[MAX_CONTACTS];	//!< \c HANDLEs of the subcontacts to be removed from this metacontact
-	MCONTACT hContact[MAX_CONTACTS];			//!< \c HANDLEs of the subcontacts, in the order they should be in
+	int num_deleted,                         // DWORD number of deleted contacts
+		 num_contacts;                        // DWORD number of contacts
+	MCONTACT hDeletedContacts[MAX_CONTACTS]; // HANDLEs of the subcontacts to be removed from this metacontact
+	MCONTACT hContact[MAX_CONTACTS];         // HANDLEs of the subcontacts, in the order they should be in
 	int force_default;
-} CHANGES;
+};
 
-CHANGES changes;							//!< \c global CHANGES structure
+CHANGES changes; // global CHANGES structure
 
 /** Fills the list of contacts
 *
@@ -143,35 +145,34 @@ void ApplyChanges(CHANGES *chg)
 	}
 
 	// set contact positions
-	for (i = 0; i < chg->num_contacts; i++) {
-		if (Meta_GetContactNumber(chg->hContact[i]) != i)
-			Meta_SwapContacts(chg->hMeta, Meta_GetContactNumber(chg->hContact[i]), i);
-	}
+	for (i = 0; i < chg->num_contacts; i++)
+		if (Meta_GetContactNumber(chg->cc, chg->hContact[i]) != i)
+			Meta_SwapContacts(chg->cc, Meta_GetContactNumber(chg->cc, chg->hContact[i]), i);
 
-	NotifyEventHooks(hSubcontactsChanged, (WPARAM)chg->hMeta, (LPARAM)chg->hDefaultContact);
+	NotifyEventHooks(hSubcontactsChanged, chg->hMeta, chg->hDefaultContact);
 
 	// set default
 	if (chg->hDefaultContact)
-		db_set_dw(chg->hMeta, META_PROTO, "Default", Meta_GetContactNumber(chg->hDefaultContact));
+		db_set_dw(chg->hMeta, META_PROTO, "Default", Meta_GetContactNumber(chg->cc, chg->hDefaultContact));
 	else
 		db_set_dw(chg->hMeta, META_PROTO, "Default", 0);
-	NotifyEventHooks(hEventDefaultChanged, (WPARAM)chg->hMeta, (LPARAM)chg->hDefaultContact);
+	NotifyEventHooks(hEventDefaultChanged, chg->hMeta, chg->hDefaultContact);
 
 	// set offline
 	if (chg->hOfflineContact)
-		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->hOfflineContact));
+		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->cc, chg->hOfflineContact));
 	else
 		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
 	// fix nick
-	MCONTACT most_online = Meta_GetMostOnline(chg->hMeta);
-	Meta_CopyContactNick(chg->hMeta, most_online);
+	MCONTACT most_online = Meta_GetMostOnline(chg->cc);
+	Meta_CopyContactNick(chg->cc, most_online);
 
 	// fix status
-	Meta_FixStatus(chg->hMeta);
+	Meta_FixStatus(chg->cc);
 
 	// fix avatar
-	most_online = Meta_GetMostOnlineSupporting(chg->hMeta, PFLAGNUM_4, PF4_AVATARS);
+	most_online = Meta_GetMostOnlineSupporting(chg->cc, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online) {
 		PROTO_AVATAR_INFORMATIONT AI;
 
@@ -272,12 +273,13 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
 			changes.hMeta = lParam;
+			changes.cc = currDb->m_cache->GetCachedContact(lParam);
 			changes.num_contacts = nb_contacts;
 			changes.num_deleted = 0;
-			changes.hDefaultContact = Meta_GetContactHandle(lParam, default_contact_number);
-			changes.hOfflineContact = Meta_GetContactHandle(lParam, offline_contact_number);
+			changes.hDefaultContact = Meta_GetContactHandle(changes.cc, default_contact_number);
+			changes.hOfflineContact = Meta_GetContactHandle(changes.cc, offline_contact_number);
 			for (i = 0; i < nb_contacts; i++)
-				changes.hContact[i] = Meta_GetContactHandle(lParam, i);
+				changes.hContact[i] = Meta_GetContactHandle(changes.cc, i);
 			changes.force_default = MetaAPI_GetForceState((WPARAM)lParam, 0);
 
 			SendMessage(hwndDlg, WMU_SETTITLE, 0, lParam);

@@ -263,6 +263,7 @@
     <ClInclude Include="modules\extraicons\extraicons.h" />
     <ClInclude Include="modules\extraicons\usedIcons.h" />
     <ClInclude Include="modules\findadd\findadd.h" />
+    <ClInclude Include="modules\metacontacts\metacontacts.h" />
     <ClInclude Include="modules\netlib\netlib.h" />
     <ClInclude Include="modules\options\filter.h" />
     <ClInclude Include="..\include\m_protoint.h" />

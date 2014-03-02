@@ -84,8 +84,5 @@ int LoadMetacontacts(void)
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
 	Meta_InitServices();
-
-	// for clist_meta_mw - write hidden group name to DB
-	db_set_s(0, META_PROTO, "HiddenGroupName", META_HIDDEN_GROUP);
 	return 0;
 }

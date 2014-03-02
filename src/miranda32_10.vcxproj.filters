@@ -258,17 +258,8 @@
     <ClInclude Include="..\include\m_utils.h">
       <Filter>Modules\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\m_chat_int.h">
-      <Filter>Modules\chat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\m_chat.h">
-      <Filter>Modules\chat</Filter>
-    </ClInclude>
     <ClInclude Include="modules\chat\chat.h">
       <Filter>Modules\chat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\m_string.h">
-      <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="modules\metacontacts\metacontacts.h">
       <Filter>Modules\metacontacts</Filter>
@@ -596,12 +587,6 @@
     <ClCompile Include="modules\chat\tools.cpp">
       <Filter>Modules\chat</Filter>
     </ClCompile>
-    <ClCompile Include="modules\metacontacts\addto.cpp">
-      <Filter>Modules\metacontacts</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\metacontacts\edit.cpp">
-      <Filter>Modules\metacontacts</Filter>
-    </ClCompile>
     <ClCompile Include="modules\metacontacts\meta_api.cpp">
       <Filter>Modules\metacontacts</Filter>
     </ClCompile>
@@ -620,6 +605,8 @@
     <ClCompile Include="modules\metacontacts\meta_utils.cpp">
       <Filter>Modules\metacontacts</Filter>
     </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_addto.cpp" />
+    <ClCompile Include="modules\metacontacts\meta_edit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

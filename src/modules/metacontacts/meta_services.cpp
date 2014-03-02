@@ -249,8 +249,12 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 
 INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 {
-	MCONTACT hSubContact = Meta_GetMostOnline(wParam);
-	return ProtoCallService(GetContactProto(hSubContact), PS_SEND_NUDGE, (WPARAM)hSubContact, lParam);
+	DBCachedContact *cc = CheckMeta(wParam);
+	if (cc == NULL)
+		return 1;
+
+	MCONTACT hSubContact = Meta_GetMostOnline(cc);
+	return ProtoCallService(GetContactProto(hSubContact), PS_SEND_NUDGE, hSubContact, lParam);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -277,29 +281,28 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	}
 
-	MCONTACT most_online = Meta_GetMostOnline(ccs->hContact);
+	DBCachedContact *cc = CheckMeta(ccs->hContact);
+	if (cc == NULL)
+		return 1;
 
-	if ( !most_online) {
-		DWORD dwThreadId;
-		HANDLE hEvent;
-		TFakeAckParams *tfap;
-
+	MCONTACT most_online = Meta_GetMostOnline(cc);
+	if (!most_online) {
 		// send failure to notify user of reason
-		hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		HANDLE hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 
-		tfap = (TFakeAckParams *)mir_alloc(sizeof(TFakeAckParams));
+		TFakeAckParams *tfap = (TFakeAckParams *)mir_alloc(sizeof(TFakeAckParams));
 		tfap->hContact = ccs->hContact;
 		tfap->hEvent = hEvent;
 		tfap->id = 10;
 		strcpy(tfap->msg, Translate("No online contacts found."));
 
-		CloseHandle( CreateThread( NULL, 0, sttFakeAckFail, tfap, 0, &dwThreadId ));
-		SetEvent( hEvent );
-
+		DWORD dwThreadId;
+		CloseHandle(CreateThread(NULL, 0, sttFakeAckFail, tfap, 0, &dwThreadId));
+		SetEvent(hEvent);
 		return 10;
 	}
 
-	Meta_CopyContactNick(ccs->hContact, most_online);
+	Meta_CopyContactNick(cc, most_online);
 
 	ccs->hContact = most_online;
 	proto = GetContactProto(most_online);
@@ -451,8 +454,12 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if (options.use_proto_recv) {
+		DBCachedContact *cc = CheckMeta(wParam);
+		if (cc == NULL)
+			return 0;
+
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
-		MCONTACT most_online = Meta_GetMostOnline(ccs->hContact);
+		MCONTACT most_online = Meta_GetMostOnline(cc);
 		if (char *subProto = GetContactProto(most_online))
 			if ( ProtoCallService(subProto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
 				return 0;
@@ -488,23 +495,17 @@ information about the ACK.
 int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*) lParam;
-	MCONTACT hUser;
 
-	if (ack->hContact == 0 || (hUser = (MCONTACT)db_get_dw(ack->hContact, META_PROTO, "Handle",0)) == 0)
-		return 0;	// Can't find the MetaID, let through the protocol chain
+	DBCachedContact *cc = CheckMeta(ack->hContact);
+	if (cc == NULL)
+		return 0;
 
-
-	if ( !strcmp(ack->szModule, META_PROTO)) {
+	if (!strcmp(ack->szModule, META_PROTO))
 		return 0; // don't rebroadcast our own acks
-	}
 
 	// if it's for something we don't support, ignore
-	if (ack->type != ACKTYPE_MESSAGE && ack->type != ACKTYPE_CHAT && ack->type != ACKTYPE_FILE && ack->type != ACKTYPE_AWAYMSG
-		&& ack->type != ACKTYPE_AVATAR && ack->type != ACKTYPE_GETINFO)
-
-	{
+	if (ack->type != ACKTYPE_MESSAGE && ack->type != ACKTYPE_CHAT && ack->type != ACKTYPE_FILE && ack->type != ACKTYPE_AWAYMSG && ack->type != ACKTYPE_AVATAR && ack->type != ACKTYPE_GETINFO)
 		return 0;
-	}
 
 	// change the hContact in the avatar info struct, if it's the avatar we're using - else drop it
 	if (ack->type == ACKTYPE_AVATAR) {
@@ -512,15 +513,14 @@ int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 			DBVARIANT dbv;
 
 			// change avatar if the most online supporting avatars changes, or if we don't have one
-			MCONTACT most_online = Meta_GetMostOnlineSupporting(hUser, PFLAGNUM_4, PF4_AVATARS);
+			MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
 			//if (AI.hContact == 0 || AI.hContact != most_online) {
 			if (ack->hContact == 0 || ack->hContact != most_online) {
 				return 0;
 			}
 
-			//if ( !db_get(AI.hContact, "ContactPhoto", "File", &dbv)) {
 			if ( !db_get(ack->hContact, "ContactPhoto", "File", &dbv)) {
-				db_set_ts(hUser, "ContactPhoto", "File", dbv.ptszVal);
+				db_set_ts(cc->contactID, "ContactPhoto", "File", dbv.ptszVal);
 				db_free(&dbv);
 			}
 
@@ -528,15 +528,16 @@ int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 				PROTO_AVATAR_INFORMATIONT AI;
 				memcpy(&AI, (PROTO_AVATAR_INFORMATIONT *)ack->hProcess, sizeof(PROTO_AVATAR_INFORMATIONT));
 				if (AI.hContact)
-					AI.hContact = hUser;
+					AI.hContact = cc->contactID;
 
-				return ProtoBroadcastAck(META_PROTO, hUser,ack->type,ack->result, (HANDLE)&AI, ack->lParam);
-			} else
-				return ProtoBroadcastAck(META_PROTO, hUser,ack->type,ack->result, 0, ack->lParam);
+				return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, (HANDLE)&AI, ack->lParam);
+			}
+			
+			return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, 0, ack->lParam);
 		}
 	}
 
-	return ProtoBroadcastAck(META_PROTO, hUser,ack->type,ack->result,ack->hProcess,ack->lParam);
+	return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, ack->hProcess, ack->lParam);
 }
 
 // hiding contacts on "CList/UseGroups" setting changed can cause a crash - do it in a seperate thread during idle time
@@ -548,7 +549,7 @@ static DWORD sttHideContacts( BOOL param )
 
 /** Call whenever a contact changes one of its settings (for example, the status)
 **
-* @param wParam \c HANDLE to the contact that has change of its setting.
+* @param wParam HANDLE to the contact that has change of its setting.
 * @param lParam Reference to a structure that contains the setting that has changed (not used)
 */
 int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
@@ -556,7 +557,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	char buffer[512], szId[40];
 	int contact_number;
-	MCONTACT hMeta, most_online;
+	MCONTACT most_online;
 
 	// hide metacontacts when groups disabled
 	if (wParam == 0
@@ -571,170 +572,173 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0)
 		return 0;
 
-	if ((hMeta = (MCONTACT)db_get_dw(wParam, META_PROTO, "Handle", 0)) != 0 && CallService(MS_DB_CONTACT_IS, (WPARAM)hMeta, 0)) // just to be safe
-	{
-		// This contact is attached to a MetaContact.
+	DBCachedContact *cc = CheckMeta(wParam);
+	if (cc == NULL)
+		return 0;
 
-		contact_number = Meta_GetContactNumber(wParam);
-		if (contact_number == -1) return 0; // exit - db corruption
+	// This contact is attached to a MetaContact.
+	contact_number = Meta_GetContactNumber(cc, wParam);
+	if (contact_number == -1)
+		return 0; // exit - db corruption
 
-		if (!strcmp(dcws->szSetting, "IP")) {
-			if (dcws->value.type == DBVT_DWORD)
-				db_set_dw(hMeta, META_PROTO, "IP", dcws->value.dVal);
-			else
-				db_unset(hMeta, META_PROTO, "IP");
+	if (!strcmp(dcws->szSetting, "IP")) {
+		if (dcws->value.type == DBVT_DWORD)
+			db_set_dw(cc->contactID, META_PROTO, "IP", dcws->value.dVal);
+		else
+			db_unset(cc->contactID, META_PROTO, "IP");
+	}
+	else if (!strcmp(dcws->szSetting, "RealIP")) {
+		if (dcws->value.type == DBVT_DWORD)
+			db_set_dw(cc->contactID, META_PROTO, "RealIP", dcws->value.dVal);
+		else
+			db_unset(cc->contactID, META_PROTO, "RealIP");
+	}
+	else if (!strcmp(dcws->szSetting, "ListeningTo")) {
+		switch (dcws->value.type) {
+		case DBVT_ASCIIZ:
+			db_set_s(cc->contactID, META_PROTO, "ListeningTo", dcws->value.pszVal);
+			break;
+		case DBVT_UTF8:
+			db_set_utf(cc->contactID, META_PROTO, "ListeningTo", dcws->value.pszVal);
+			break;
+		case DBVT_WCHAR:
+			db_set_ws(cc->contactID, META_PROTO, "ListeningTo", dcws->value.pwszVal);
+			break;
+		case DBVT_DELETED:
+			db_unset(cc->contactID, META_PROTO, "ListeningTo");
+			break;
 		}
-		else if (!strcmp(dcws->szSetting, "RealIP")) {
-			if (dcws->value.type == DBVT_DWORD)
-				db_set_dw(hMeta, META_PROTO, "RealIP", dcws->value.dVal);
-			else
-				db_unset(hMeta, META_PROTO, "RealIP");
+	}
+	else if (!strcmp(dcws->szSetting, "Nick") && !dcws->value.type == DBVT_DELETED) {
+		// subcontact nick has changed - update metacontact
+		strcpy(buffer, "Nick");
+		strcat(buffer, _itoa(contact_number, szId, 10));
+		db_set(cc->contactID, META_PROTO, buffer, &dcws->value);
 
-		}
-		else if (!strcmp(dcws->szSetting, "ListeningTo")) {
-			switch (dcws->value.type) {
-			case DBVT_ASCIIZ:
-				db_set_s(hMeta, META_PROTO, "ListeningTo", dcws->value.pszVal);
-				break;
-			case DBVT_UTF8:
-				db_set_utf(hMeta, META_PROTO, "ListeningTo", dcws->value.pszVal);
-				break;
-			case DBVT_WCHAR:
-				db_set_ws(hMeta, META_PROTO, "ListeningTo", dcws->value.pwszVal);
-				break;
-			case DBVT_DELETED:
-				db_unset(hMeta, META_PROTO, "ListeningTo");
-				break;
-			}
-		}
-		else if (!strcmp(dcws->szSetting, "Nick") && !dcws->value.type == DBVT_DELETED) {
-			// subcontact nick has changed - update metacontact
-			strcpy(buffer, "Nick");
+		DBVARIANT dbv;
+		if (Mydb_get(wParam, "CList", "MyHandle", &dbv)) {
+			strcpy(buffer, "CListName");
 			strcat(buffer, _itoa(contact_number, szId, 10));
-			db_set(hMeta, META_PROTO, buffer, &dcws->value);
+			db_set(cc->contactID, META_PROTO, buffer, &dcws->value);
+		}
+		else db_free(&dbv);
+
+		// copy nick to metacontact, if it's the most online
+		MCONTACT most_online = Meta_GetMostOnline(cc);
+		Meta_CopyContactNick(cc, most_online);
+
+		return 0;
+	}
+	else if (!strcmp(dcws->szSetting, "IdleTS")) {
+		if (dcws->value.type == DBVT_DWORD)
+			db_set_dw(cc->contactID, META_PROTO, "IdleTS", dcws->value.dVal);
+		else if (dcws->value.type == DBVT_DELETED)
+			db_set_dw(cc->contactID, META_PROTO, "IdleTS", 0);
+	}
+	else if (!strcmp(dcws->szSetting, "LogonTS")) {
+		if (dcws->value.type == DBVT_DWORD)
+			db_set_dw(cc->contactID, META_PROTO, "LogonTS", dcws->value.dVal);
+		else if (dcws->value.type == DBVT_DELETED)
+			db_set_dw(cc->contactID, META_PROTO, "LogonTS", 0);
+	}
+	else if (!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "MyHandle")) {
+		if (dcws->value.type == DBVT_DELETED) {
+			char *proto = GetContactProto(wParam);
+			strcpy(buffer, "CListName");
+			strcat(buffer, _itoa(contact_number, szId, 10));
 
 			DBVARIANT dbv;
-			if (Mydb_get(wParam, "CList", "MyHandle", &dbv)) {
-				strcpy(buffer, "CListName");
-				strcat(buffer, _itoa(contact_number, szId, 10));
-				db_set(hMeta, META_PROTO, buffer, &dcws->value);
+			if (proto && !Mydb_get(wParam, proto, "Nick", &dbv)) {
+				db_set(cc->contactID, META_PROTO, buffer, &dbv);
+				db_free(&dbv);
 			}
-			else db_free(&dbv);
-
-			// copy nick to metacontact, if it's the most online
-			MCONTACT most_online = Meta_GetMostOnline(hMeta);
-			Meta_CopyContactNick(hMeta, most_online);
-
-			return 0;
+			else db_unset(cc->contactID, META_PROTO, buffer);
 		}
-		else if (!strcmp(dcws->szSetting, "IdleTS")) {
-			if (dcws->value.type == DBVT_DWORD)
-				db_set_dw(hMeta, META_PROTO, "IdleTS", dcws->value.dVal);
-			else if (dcws->value.type == DBVT_DELETED)
-				db_set_dw(hMeta, META_PROTO, "IdleTS", 0);
-		}
-		else if (!strcmp(dcws->szSetting, "LogonTS")) {
-			if (dcws->value.type == DBVT_DWORD)
-				db_set_dw(hMeta, META_PROTO, "LogonTS", dcws->value.dVal);
-			else if (dcws->value.type == DBVT_DELETED)
-				db_set_dw(hMeta, META_PROTO, "LogonTS", 0);
-		}
-		else if (!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "MyHandle")) {
-			if (dcws->value.type == DBVT_DELETED) {
-				char *proto = GetContactProto(wParam);
-				strcpy(buffer, "CListName");
-				strcat(buffer, _itoa(contact_number, szId, 10));
-
-				DBVARIANT dbv;
-				if (proto && !Mydb_get(wParam, proto, "Nick", &dbv)) {
-					db_set(hMeta, META_PROTO, buffer, &dbv);
-					db_free(&dbv);
-				}
-				else db_unset(hMeta, META_PROTO, buffer);
-			}
-			else {
-				// subcontact clist displayname has changed - update metacontact
-				strcpy(buffer, "CListName");
-				strcat(buffer, _itoa(contact_number, szId, 10));
-				db_set(hMeta, META_PROTO, buffer, &dcws->value);
-			}
-
-			// copy nick to metacontact, if it's the most online
-			MCONTACT most_online = Meta_GetMostOnline(hMeta);
-			Meta_CopyContactNick(hMeta, most_online);
-
-			return 0;
-		}
-		else if (!strcmp(dcws->szSetting, "Status") && !dcws->value.type == DBVT_DELETED) {
-			// subcontact changing status
-
-			// update subcontact status setting
-			strcpy(buffer, "Status");
+		else {
+			// subcontact clist displayname has changed - update metacontact
+			strcpy(buffer, "CListName");
 			strcat(buffer, _itoa(contact_number, szId, 10));
-			db_set_w(hMeta, META_PROTO, buffer, dcws->value.wVal);
-
-			strcpy(buffer, "StatusString");
-			strcat(buffer, _itoa(contact_number, szId, 10));
-			db_set_ts(hMeta, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
-
-			// if the contact was forced, unforce it (which updates status)
-			if ((HANDLE)db_get_dw(hMeta, META_PROTO, "ForceSend", 0) == (HANDLE)wParam)
-				MetaAPI_UnforceSendContact((WPARAM)hMeta, 0);
-			else {
-				// set status to that of most online contact
-				most_online = Meta_GetMostOnline(hMeta);
-				Meta_CopyContactNick(hMeta, most_online);
-
-				Meta_FixStatus(hMeta);
-				Meta_CopyData(hMeta);
-			}
-
-			// most online contact with avatar support might have changed - update avatar
-			most_online = Meta_GetMostOnlineSupporting(hMeta, PFLAGNUM_4, PF4_AVATARS);
-			if (most_online) {
-				PROTO_AVATAR_INFORMATIONT AI;
-
-				AI.cbSize = sizeof(AI);
-				AI.hContact = hMeta;
-				AI.format = PA_FORMAT_UNKNOWN;
-				_tcscpy(AI.filename, _T("X"));
-
-				if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-					db_set_ts(hMeta, "ContactPhoto", "File", AI.filename);
-			}
+			db_set(cc->contactID, META_PROTO, buffer, &dcws->value);
 		}
-		else if (strcmp(dcws->szSetting, "XStatusId") == 0 || strcmp(dcws->szSetting, "XStatusMsg") == 0 || strcmp(dcws->szSetting, "XStatusName") == 0 || strcmp(dcws->szSetting, "StatusMsg") == 0) {
-			Meta_CopyData(hMeta);
-		}
-		else if (strcmp(dcws->szSetting, "MirVer") == 0)
-			Meta_CopyData(hMeta);
+
+		// copy nick to metacontact, if it's the most online
+		MCONTACT most_online = Meta_GetMostOnline(cc);
+		Meta_CopyContactNick(cc, most_online);
+
+		return 0;
 	}
+	else if (!strcmp(dcws->szSetting, "Status") && !dcws->value.type == DBVT_DELETED) {
+		// subcontact changing status
+
+		// update subcontact status setting
+		strcpy(buffer, "Status");
+		strcat(buffer, _itoa(contact_number, szId, 10));
+		db_set_w(cc->contactID, META_PROTO, buffer, dcws->value.wVal);
+
+		strcpy(buffer, "StatusString");
+		strcat(buffer, _itoa(contact_number, szId, 10));
+		db_set_ts(cc->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
+
+		// if the contact was forced, unforce it (which updates status)
+		if ((HANDLE)db_get_dw(cc->contactID, META_PROTO, "ForceSend", 0) == (HANDLE)wParam)
+			MetaAPI_UnforceSendContact((WPARAM)cc->contactID, 0);
+		else {
+			// set status to that of most online contact
+			most_online = Meta_GetMostOnline(cc);
+			Meta_CopyContactNick(cc, most_online);
+
+			Meta_FixStatus(cc);
+			Meta_CopyData(cc);
+		}
+
+		// most online contact with avatar support might have changed - update avatar
+		most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
+		if (most_online) {
+			PROTO_AVATAR_INFORMATIONT AI;
+
+			AI.cbSize = sizeof(AI);
+			AI.hContact = cc->contactID;
+			AI.format = PA_FORMAT_UNKNOWN;
+			_tcscpy(AI.filename, _T("X"));
+
+			if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+				db_set_ts(cc->contactID, "ContactPhoto", "File", AI.filename);
+		}
+	}
+	else if (strcmp(dcws->szSetting, "XStatusId") == 0 || strcmp(dcws->szSetting, "XStatusMsg") == 0 || strcmp(dcws->szSetting, "XStatusName") == 0 || strcmp(dcws->szSetting, "StatusMsg") == 0) {
+		Meta_CopyData(cc);
+	}
+	else if (strcmp(dcws->szSetting, "MirVer") == 0)
+		Meta_CopyData(cc);
 
 	return 0;
 }
 
-int Meta_ContactDeleted(WPARAM wParam, LPARAM lParam)
+int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 {
+	DBCachedContact *cc = CheckMeta(hContact);
+	if (cc == NULL)
+		return 0;
+
 	// is a subcontact - update meta contact
-	MCONTACT hMeta = (MCONTACT)db_get_dw(wParam, META_PROTO, "Handle", 0);
+	MCONTACT hMeta = db_get_dw(hContact, META_PROTO, "Handle", 0);
 	if (hMeta) {
-		Meta_RemoveContactNumber(hMeta, wParam);
+		Meta_RemoveContactNumber(hMeta, hContact);
 		NotifyEventHooks(hSubcontactsChanged, (WPARAM)hMeta, 0);
 		return 0;
 	}
 
 	// not a subcontact - is it a metacontact?
-	int num_contacts = db_get_dw(wParam, META_PROTO, "NumContacts", 0);
+	int num_contacts = db_get_dw(hContact, META_PROTO, "NumContacts", 0);
 	if (num_contacts)
-		NotifyEventHooks(hSubcontactsChanged, (WPARAM)wParam, 0);
+		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
 
 	// remove & restore all subcontacts
 	for (int i = 0; i < num_contacts; i++) {
-		MCONTACT hContact = Meta_GetContactHandle(wParam, i);
-		if (hContact && (HANDLE)db_get_dw(hContact, META_PROTO, "Handle", 0) == (HANDLE)wParam) {
+		MCONTACT hContact = Meta_GetContactHandle(cc, i);
+		if (hContact && db_get_dw(hContact, META_PROTO, "Handle", 0) == hContact) {
 			db_unset(hContact, META_PROTO, META_LINK);
 			db_unset(hContact, META_PROTO, "Handle");
-			Meta_RestoreGroup(hContact);
 			db_unset(hContact, META_PROTO, "OldCListGroup");
 
 			// stop ignoring, if we were
@@ -750,16 +754,15 @@ int Meta_ContactDeleted(WPARAM wParam, LPARAM lParam)
 * @param wParam \c HANDLE to the contact that we are typing to
 * @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
 */
-INT_PTR Meta_UserIsTyping(WPARAM wParam, LPARAM lParam)
+INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 {
-	// This is a simple contact, let through the stack of protocols
-	if (db_get_dw(wParam, META_PROTO, META_ID, INVALID_CONTACT_ID) == INVALID_CONTACT_ID)
+	DBCachedContact *cc = CheckMeta(hMeta);
+	if (cc == NULL)
 		return 0;
 
 	// forward to sending protocol, if supported
-
-	MCONTACT most_online = Meta_GetMostOnline(wParam);
-	Meta_CopyContactNick(wParam, most_online);
+	MCONTACT most_online = Meta_GetMostOnline(cc);
+	Meta_CopyContactNick(cc, most_online);
 	if (!most_online)
 		return 0;
 
@@ -799,14 +802,17 @@ int Meta_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 *
 */
 
-int Meta_UserInfo(WPARAM wParam, LPARAM lParam)
+int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 {
-	DWORD default_contact_number = db_get_dw(lParam, META_PROTO, "Default", INVALID_CONTACT_ID);
+	DBCachedContact *cc = CheckMeta(hMeta);
+	if (cc == NULL)
+		return 0;
 
+	DWORD default_contact_number = db_get_dw(hMeta, META_PROTO, "Default", INVALID_CONTACT_ID);
 	if (default_contact_number == -1) // not a meta contact
 		return 0;
 
-	CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)Meta_GetContactHandle(lParam, default_contact_number), 0);
+	CallService(MS_USERINFO_SHOWDIALOG, Meta_GetContactHandle(cc, default_contact_number), 0);
 	return 1;
 }
 
@@ -833,13 +839,17 @@ int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
+int Meta_ClistDoubleClicked(WPARAM hMeta, LPARAM lParam)
 {
-	if (db_get_dw(wParam, META_PROTO, "Default", (WORD)-1) == (WORD)-1)
+	DBCachedContact *cc = CheckMeta(hMeta);
+	if (cc == NULL)
+		return 0;
+
+	if (db_get_dw(hMeta, META_PROTO, "Default", (WORD)-1) == (WORD)-1)
 		return 0;
 
 	// -1 indicates  no specific capability but respect 'ForceDefault'
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(wParam, PFLAGNUM_1, -1);
+	MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, -1);
 	if (!most_online)
 		return 0;
 
@@ -925,9 +935,13 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 	DestroyMenu(hMenu);
 }
 
-INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
+INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 {
-	MCONTACT hContact = Meta_GetContactHandle(wParam, (int)lParam);
+	DBCachedContact *cc = CheckMeta(hMeta);
+	if (cc == NULL)
+		return 0;
+
+	MCONTACT hContact = Meta_GetContactHandle(cc, (int)lParam);
 
 	if (options.menu_function == FT_MSG) {
 		// open message window if protocol supports message sending or chat, else simulate double click
@@ -940,9 +954,9 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 			int caps = CallService(buffer, (WPARAM)PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0)) {
 				// set default contact for sending/status and open message window
-				db_set_dw(wParam, META_PROTO, "Default", (DWORD)(int)lParam);
-				NotifyEventHooks(hEventDefaultChanged, wParam, (LPARAM)hContact);
-				CallService(MS_MSG_SENDMESSAGE, wParam, 0);
+				db_set_dw(hMeta, META_PROTO, "Default", (DWORD)(int)lParam);
+				NotifyEventHooks(hEventDefaultChanged, hMeta, (LPARAM)hContact);
+				CallService(MS_MSG_SENDMESSAGE, hMeta, 0);
 			}
 			else // protocol does not support messaging - simulate double click
 				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
@@ -966,8 +980,12 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	char *proto = 0;
-	DWORD default_contact_number;
 
+	DBCachedContact *cc = CheckMeta(ccs->hContact);
+	if (cc == NULL)
+		return 0;
+
+	DWORD default_contact_number;
 	if ((default_contact_number = db_get_dw(ccs->hContact, META_PROTO, "Default", INVALID_CONTACT_ID)) == INVALID_CONTACT_ID) {
 		// This is a simple contact
 		// (this should normally not happen, since linked contacts do not appear on the list.)
@@ -975,7 +993,7 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	else {
-		MCONTACT most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_FILESEND);
+		MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_FILESEND);
 		if (!most_online) {
 			//PUShowMessage("no most online for ft", SM_NOTIFY);
 			return 0;
@@ -992,15 +1010,19 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	char *proto = 0;
-	DWORD default_contact_number;
 
+	DBCachedContact *cc = CheckMeta(ccs->hContact);
+	if (cc == NULL)
+		return 0;
+
+	DWORD default_contact_number;
 	if ((default_contact_number = db_get_dw(ccs->hContact, META_PROTO, "Default", INVALID_CONTACT_ID)) == INVALID_CONTACT_ID) {
 		// This is a simple contact
 		// (this should normally not happen, since linked contacts do not appear on the list.)
 		return 0;
 	}
 	else {
-		MCONTACT most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_MODEMSGRECV);
+		MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_MODEMSGRECV);
 		if (!most_online)
 			return 0;
 
@@ -1028,8 +1050,11 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	else {
-		MCONTACT hMeta = AI->hContact;
-		MCONTACT hSub = Meta_GetMostOnlineSupporting(AI->hContact, PFLAGNUM_4, PF4_AVATARS);
+		DBCachedContact *cc = CheckMeta(AI->hContact);
+		if (cc == NULL)
+			return GAIR_NOAVATAR;
+
+		MCONTACT hSub = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
 		if (!hSub)
 			return GAIR_NOAVATAR;
 
@@ -1039,7 +1064,7 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		AI->hContact = hSub;
 
 		INT_PTR result = ProtoCallService(proto, PS_GETAVATARINFOT, wParam, lParam);
-		AI->hContact = hMeta;
+		AI->hContact = cc->contactID;
 		if (result != CALLSERVICE_NOTFOUND)
 			return result;
 	}
@@ -1052,11 +1077,15 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 
 	// This is a simple contact
 	// (this should normally not happen, since linked contacts do not appear on the list.)
+	DBCachedContact *cc = CheckMeta(ccs->hContact);
+	if (cc == NULL)
+		return 0;
+
 	MCONTACT default_contact_number = db_get_dw(ccs->hContact, META_PROTO, "Default", INVALID_CONTACT_ID);
 	if (default_contact_number == INVALID_CONTACT_ID)
 		return 0;
 
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_4, PF4_AVATARS);
+	MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
 	if (!most_online)
 		return 0;
 
@@ -1072,8 +1101,8 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 		db_set_ts(ccs->hContact, "ContactPhoto", "File", AI.filename);
 
-	most_online = Meta_GetMostOnline(ccs->hContact);
-	Meta_CopyContactNick(ccs->hContact, most_online);
+	most_online = Meta_GetMostOnline(cc);
+	Meta_CopyContactNick(cc, most_online);
 
 	if (!most_online)
 		return 0;
@@ -1087,16 +1116,20 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 
 int Meta_CallMostOnline(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT most_online_im = Meta_GetMostOnline(hContact);
+	DBCachedContact *cc = CheckMeta(hContact);
+	if (cc == NULL)
+		return 0;
+
+	MCONTACT most_online_im = Meta_GetMostOnline(cc);
 
 	// fix nick
-	Meta_CopyContactNick(hContact, most_online_im);
+	Meta_CopyContactNick(cc, most_online_im);
 
 	// fix status
-	Meta_FixStatus(hContact);
+	Meta_FixStatus(cc);
 
 	// copy all other data
-	Meta_CopyData(hContact);
+	Meta_CopyData(cc);
 	return 0;
 }
 

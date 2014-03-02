@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define META_FILTER_ID    "MetaFilterID"
 #define META_LINK         "MetaLink"
 
-#define META_HIDDEN_GROUP "MetaContacts Hidden Group"
 #define MAX_CONTACTS       20
 
 // I can't think of a way around this - mental block
@@ -51,34 +50,32 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam);
 int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id);
 int Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default);
-MCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id);
 int Meta_SetNick(char *proto);
-MCONTACT Meta_GetMostOnline(MCONTACT hMeta);
-MCONTACT Meta_GetMostOnlineSupporting(MCONTACT hMeta, int pflagnum, unsigned long capability);
 int Meta_HideLinkedContacts(void);
 int Meta_UnhideLinkedContacts(void);
-int Meta_GetContactNumber(MCONTACT hContact);
-MCONTACT Meta_GetContactHandle(MCONTACT hMeta, int contact_number);
-void Meta_RestoreGroup(MCONTACT hContact);
-void Meta_SetGroup(MCONTACT hContact);
+int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
 int Meta_HideMetaContacts(int hide);
 int Meta_SuppressStatus(int suppress);
-int Meta_CopyContactNick(MCONTACT hMeta, MCONTACT hContact);
-void Meta_CopyData(MCONTACT hMeta);
+int Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
+void Meta_CopyData(DBCachedContact *cc);
 int Meta_SetAllNicks();
-int Meta_IsHiddenGroup(const char *group_name);
-int Meta_SwapContacts(MCONTACT hMeta, DWORD contact_number1, DWORD contact_number2);
+int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_number2);
+
+MCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id);
+MCONTACT Meta_GetMostOnline(DBCachedContact *cc);
+MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability);
+MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number);
+
+DBCachedContact* CheckMeta(MCONTACT hMeta);
+
 // function to copy history from one contact to another - courtesy JdGordon with mods (thx)
-void copyHistory(MCONTACT hContactFrom, MCONTACT hContactTo);
-// inverse
-//void Meta_RemoveHistory(HANDLE hContactRemoveFrom, HANDLE hContactSource);
-void Meta_FixStatus(MCONTACT hMeta);
+void Meta_FixStatus(DBCachedContact *cc);
 
 char *Meta_GetUniqueIdentifier(MCONTACT hContact, DWORD *pused);
 
 INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam);
-INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam); 
+INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_SetStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_GetStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam);
