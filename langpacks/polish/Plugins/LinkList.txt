@@ -73,29 +73,29 @@ Kierunek
 [Type]
 Typ
 [&File]
-Plik
+&Plik
 [&Save]
-Zapisz
+&Zapisz
 [&Close]
-Zamknij
+Z&amknij
 [&Options]
-Opcje...
+&Opcje...
 [Message &Direction]
-Kierunek wiadomości
+&Kierunek wiadomości
 [&Outgoing Messages Only]
-Tylko wiadomości wychodzące
+Tylko wiadomości &wychodzące
 [&Incoming Messages Only]
-Tylko wiadomości przychodzące
+Tylko wiadomości &przychodzące
 [Message &Type]
-Typ wiadomości
+&Typ wiadomości
 [&Webaddresses Only]
-Tylko adresy WWW
+Tylko adresy &WWW
 [&Mail-Addresses Only]
-Tylko adresy e-mail
+Tylko adresy e-&mail
 [&Clear Search Results]
-Wyczyść wyniki wyszukiwania
+&Wyczyść wyniki wyszukiwania
 [&Search]
-Szukaj
+&Szukaj
 [link]
 link
 [Open]
@@ -129,7 +129,7 @@ Filtr wyszukiwania
 brak ustawień
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
-Utwórz listę linków
+&Utwórz listę linków
 [History]
 Historia
 [Processing history...]

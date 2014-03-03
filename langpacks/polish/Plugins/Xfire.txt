@@ -276,27 +276,27 @@ Nastąpiło pierwsze uruchomienie wtyczki. Czy chcesz automatycznie pobrać xfir
 [Away from Keyboard]
 Z dala od klawiatury
 [&XFire Online Profile]
-Profil xFire Online
+Profil &xFire Online
 [XFire &Clan Site]
-Strona Klanu xFire
+Strona &Klanu xFire
 [C&opy Server Address and Port]
-Kopiuj Adres/Port Serwera
+K&opiuj Adres/Port Serwera
 [Cop&y Voice Server Address and Port]
-Kopiuj Adres/Port serwera głosowego
+Kop&iuj Adres/Port serwera głosowego
 [Join &Game...]
-Dołącz do gry...
+Dołącz do &gry...
 [Play this game...]
 Graj...
 [Remove F&riend...]
-Usuń znajomego
+Usuń &znajomego
 [Block U&ser...]
-Zablokowani...
+Za&blokuj
 [&My XFire Online Profile]
-Mój profil xFire
+&Mój profil xFire
 [&Activity Report]
-Raporty aktywności
+Raporty &aktywności
 [&Rescan my games...]
-Przeskanuj ponownie moje Gry
+&Przeskanuj ponownie moje Gry
 [Set &Nickname]
 Edytuj &nick
 [Protocols]

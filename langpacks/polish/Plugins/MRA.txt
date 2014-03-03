@@ -131,7 +131,7 @@ Ustawienia popup
 [Enable]
 Włącz
 [&Use Windows colors]
-Użyj kolorów Windows
+&Użyj kolorów Windows
 [Back Color]
 Tło
 [Text Color]
@@ -139,7 +139,7 @@ Kolor tekstu
 [Timeout]
 Wyświetlaj
 [Previe&w]
-Podgląd
+Podglą&d
 [Custom Status "%s" Details]
 Szczegóły własnego statusu "%s"
 [Closing in %d]
@@ -229,11 +229,11 @@ zaproś nowego członka
 [Your contact wakes you]
 Twój kontakt budzi cię
 [Display &Inbox]
-Wyświetl skrzynkę odbiorczą
+Wyświetl skrzynkę &odbiorczą
 [Display &Inbox status]
-Wyświetl status skrzynki odbiorczej
+Wyświetl status &skrzynki odbiorczej
 [Edit &Profile]
-Edytuj profil
+Edytuj &profil
 [My Album]
 Mój album
 [My Blog]
@@ -259,11 +259,11 @@ Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
 [&Send postcard]
-Wyślij kartkę
+&Wyślij kartkę
 [&View Album]
-Pokaż album
+&Pokaż album
 [&Read Blog]
-Czytaj blog
+&Czytaj blog
 [Reply Blog Status]
 Odpowiedz na status na blogu
 [View Video]
@@ -273,7 +273,7 @@ Odpowiedzi
 [World]
 Świat
 [Send &Nudge]
-Wyślij nudge
+Wyślij &nudge
 [Mail box deleted]
 Skrzynka pocztowa usunięta
 [Contact not on server]

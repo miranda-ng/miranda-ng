@@ -17,9 +17,9 @@ Utwórz nowe konto ICQ
 [Enter an authorization request]
 Wprowadź tekst prośby o autoryzację
 [&Send]
-Wyślij
+&Wyślij
 [&Cancel]
-Anuluj
+&Anuluj
 [Enter ICQ Password]
 Wpisz hasło ICQ
 [Enter a password for UIN %d:]
@@ -177,11 +177,11 @@ Krytyczny
 [Spam detected]
 Wykryto spam
 [&Use Windows colors]
-Użyj kolorów Windows
+&Użyj kolorów Windows
 [Use system &icons]
-Użyj ikon systemowych
+Użyj &ikon systemowych
 [Previe&w]
-Podgląd
+Podglą&d
 [Use default colors]
 Użyj domyślnych kolorów
 [UIN:]
@@ -273,7 +273,7 @@ Wiadomość:
 [Retrieving custom status details...]
 Odbieranie szczegółów własnego statusu...
 [&Save changes]
-Zapisz zmiany
+&Zapisz zmiany
 [Confirm Password Change]
 Zatwierdź zmianę hasła
 [Please re-type your new password:]

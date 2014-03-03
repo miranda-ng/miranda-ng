@@ -19,7 +19,7 @@ Nie powtarzaj przez:
 [mins]
 minut
 [&Default]
-Domyślne
+&Domyślne
 ;file \plugins\SimpleAR\src\Main.cpp
 [I am currently away. I will reply to you when I am back.]
 Jestem obecnie niedostępny. Odezwę się jak wrócę.
@@ -34,9 +34,9 @@ Rozmawiam przez telefon. Wkrótce wrócę.
 [I am having meal right now. I will get back to you very soon.]
 W tej chwili jem. Wkrótce wrócę.
 [Disable Auto&reply]
-Wyłącz autoodpowiedź
+Wyłącz auto&odpowiedź
 [Enable Auto&reply]
-Włącz autoodpowiedź
+Włącz auto&odpowiedź
 [Turn off Autoanswer]
 Wyłącz autoodpowiedź
 [Turn on Autoanswer]

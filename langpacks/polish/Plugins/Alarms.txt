@@ -107,15 +107,15 @@ Drzemka
 [Static]
 Statyczne
 [&Suspend]
-Zawieś
+&Zawieś
 [&Edit...]
-Edytuj...
+&Edytuj...
 [&Delete]
-Usuń
+&Usuń
 [&Options...]
-Opcje...
+&Opcje...
 [&New alarm...]
-Nowy alarm...
+&Nowy alarm...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]

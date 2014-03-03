@@ -144,7 +144,7 @@ Anuluj
 [Open History]
 Otwórz historię
 [View &History]
-Zobacz historię
+Zobacz &historię
 [Delete All User History]
 Usuń całą historię
 [Execute history task]
@@ -201,11 +201,11 @@ Czy na pewno?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Czy chcesz usunąć wszystkie zaimportowane wiadomości dla tego kontaktu?\nZauważ, że następne zadanie harmonogramu zaimportuje tą wiadomość ponownie.
 [Open in &new window]
-Otwórz w nowym oknie
+Otwórz w &nowym oknie
 [&Open in existing window]
-Otwórz w istniejącym oknie
+&Otwórz w istniejącym oknie
 [&Copy link]
-Kopiuj link
+&Kopiuj link
 [Copy]
 Kopiuj
 [Delete]
@@ -213,7 +213,7 @@ Usuń
 [Send Message]
 Wyślij wiadomość
 [Reply &Quoted]
-Odpowiedz cytując
+Odpowiedz &cytując
 [Delete Group]
 Usuń grupę
 [Options]

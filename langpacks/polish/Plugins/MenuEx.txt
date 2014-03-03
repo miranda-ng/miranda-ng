@@ -11,9 +11,9 @@ Dodaje przydatne opcje do menu kontaktu.
 [Enter an authorization request]
 Wprowadź tekst prośby o autoryzację
 [&Send]
-Wyślij
+&Wyślij
 [&Cancel]
-Anuluj
+&Anuluj
 [Shown menu items]
 Pokaż wpisy w menu
 [Visibility]

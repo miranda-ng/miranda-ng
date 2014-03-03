@@ -241,7 +241,7 @@ Dodaj
 [Invitation reason:]
 Powód zaproszenia:
 [&Invite]
-Zaproś
+&Zaproś
 [Group chat invitation]
 Zaproszenie czatowe
 [<room jid>\nIncoming group chat invitation.]
@@ -251,7 +251,7 @@ Jesteś zaproszony do pokoju konferencyjnego przez
 [with following reason:]
 Powód:
 [&Accept]
-Akceptuj
+&Akceptuj
 [Jabber Bookmarks]
 Zakładki Jabbera
 [Server side bookmarks\nStore conference rooms and web links on server.]
@@ -600,43 +600,43 @@ ponieważ pokój jest teraz dostępny tylko dla członków
 [user banned]
 użytkownik zbanowany
 [Change &nickname]
-Zmień nick
+Zmień &nick
 [&Invite a user]
-Zaproś
+&Zaproś
 [&Roles]
-Rola
+&Rola
 [&Participant list]
-Lista uczestników
+Lista &uczestników
 [&Moderator list]
-Lista moderatorów
+Lista &moderatorów
 [&Affiliations]
-Powiązanie
+&Powiązanie
 [&Member list]
-Lista członków
+Lista &członków
 [&Admin list]
-Lista adminów
+Lista &adminów
 [&Owner list]
-Lista właścicieli
+Lista &właścicieli
 [Outcast list (&ban)]
-Lista zbanowanych
+Lista z&banowanych
 [&Room options]
-Opcje pokoju
+Opcje &pokoju
 [View/change &topic]
-Pokaż/zmień temat
+Pokaż/zmień &temat
 [Add to &bookmarks]
-Dodaj do zakładek
+Dodaj do &zakładek
 [&Configure...]
-Konfiguruj
+&Konfiguruj
 [&Destroy room]
-Zniszcz pokój
+&Zniszcz pokój
 [Lin&ks]
-Linki
+Lin&ki
 [Copy room &JID]
-Kopiuj JID pokoju
+Kopiuj &JID pokoju
 [Copy room topic]
 Kopiuj temat pokoju
 [&Send presence]
-Wyślij status
+&Wyślij status
 [Online]
 Dostępny
 [Away]
@@ -648,51 +648,51 @@ Nie przeszkadzać
 [Free for chat]
 Porozmawiajmy
 [&Leave chat session]
-Opuść pokój
+&Opuść pokój
 [&Slap]
 &Klepnij
 [&User details]
-Dane kontaktu
+Dane &kontaktu
 [Member &info]
-Informacje o użytkowniku
+&Informacje o użytkowniku
 [User &details]
-Dane kontaktu
+Dane &kontaktu
 [&Add to roster]
-Dodaj do listy
+&Dodaj do listy
 [&Copy to clipboard]
-Kopiuj do schowka
+&Kopiuj do schowka
 [Invite to room]
 Zaproś do pokoju
 [Set &role]
-Wybierz rolę
+Wybierz &rolę
 [&Visitor]
-Gość
+&Gość
 [&Participant]
-Uczestnik
+&Uczestnik
 [&Moderator]
-Moderator
+&Moderator
 [Set &affiliation]
-Wybierz powiązanie
+Wybierz &powiązanie
 [&None]
-Żadna
+&Żadne
 [&Member]
-Członek
+&Członek
 [&Admin]
-Admin
+&Admin
 [&Owner]
 Właściciel
 [Outcast (&ban)]
-Zbanowany
+Z&banowany
 [&Kick]
-Wyrzuć
+&Wyrzuć
 [Copy &nickname]
-Kopiuj nick
+Kopiuj &nick
 [Copy real &JID]
-Kopiuj prawdziwy JID
+Kopiuj prawdziwy &JID
 [Copy in-room JID]
 Kopiuj JID z pokoju
 [Real &JID: %s]
-Prawdziwy JID: %s
+Prawdziwy &JID: %s
 [%s\nSend group chat invitation.]
 %s\nWyślij zaproszenie do czatu.
 [%s (not on roster)]
@@ -1234,9 +1234,9 @@ Ostatnio aktywny
 [Server's Choice]
 Wybór serwera
 [&Convert to Contact]
-Skonwertuj do kontaktu
+&Skonwertuj do kontaktu
 [&Convert to Chat Room]
-Skonwertuj na pokój
+S&konwertuj na pokój
 [Options...]
 Opcje...
 [Services...]

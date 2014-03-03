@@ -11,7 +11,7 @@ Umożliwia zmianę statusu i opisów w prosty sposób.
 [%s Message for %s]
 Opis "%s" dla %s
 [&Cancel]
-Anuluj
+&Anuluj
 [Retrieving %s message...]
 Odbieranie %s wiadomości
 [Co&py to Clipboard]
@@ -170,19 +170,19 @@ Zaznacz wszystko
 [Failed to retrieve %s message.]
 Błąd w odzyskiwaniu opisu %s.
 [&Close]
-Zamknij
+&Zamknij
 [Re&ad %s Message]
-Pokaż opis "%s"
+Po&każ opis "%s"
 [Copy %s Message]
 Kopiuj opis %s
 [&Go to URL in %s Message]
-Otwórz link z opisu
+&Otwórz link z opisu
 [Re&ad Away Message]
-Pokaż opis
+Po&każ opis
 [Copy Away Message]
 Kopiuj opis kontaktu
 [&Go to URL in Away Message]
-Otwórz link z opisu
+&Otwórz link z opisu
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
 Zmień opis...

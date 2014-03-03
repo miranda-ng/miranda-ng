@@ -19,31 +19,31 @@ Użyj specyficznych ustawień kontaktu
 [Log]
 Dziennik
 [Use &Internal History]
-Użyj wewnętrznej historii
+Użyj &wewnętrznej historii
 [&Format:]
-Format:
+&Format:
 [&Variables...]
-Zmienne...
+&Zmienne...
 [&Add to History only if Value Changed]
-Dodaj do historii tylko, jeśli wartość się zmieniła
+&Dodaj do historii tylko, jeśli wartość się zmieniła
 [Use &External File]
-Użyj pliku zewnętrznego
+Użyj pliku &zewnętrznego
 [&Select File:]
-Zaznacz plik:
+&Zaznacz plik:
 [&Browse...]
-Przeglądaj...
+&Przeglądaj...
 [Variables Allowed: %miranda_userdata%,%quotename%]
 Dozwolone zmienne: %miranda_userdata%, %quotename%
 [F&ormat:]
 F&ormat
 [V&ariables...]
-Zmienne...
+Z&mienne...
 [Add to &Log only if Value Changed]
-Dodaj do loga tylko, jeśli wartość się zmieniła
+Dodaj do &loga tylko, jeśli wartość się zmieniła
 [Show &Popup Window]
-Pokaż okno popup
+Pokaż okno &popup
 [Show Popup Window Only if Value &Changed]
-Pokaż popup tylko, jeśli wartość się zmieniła
+Pokaż popup tylko, jeśli wartość się &zmieniła
 [Cancel]
 Anuluj
 [Popup settings...]
@@ -51,9 +51,9 @@ Ustawienia popup...
 [Currency Converter]
 Przelicznik walut
 [&to:]
-do:
+&do:
 [&Swap]
-Zamień
+&Zamień
 [Convert]
 Konwerter
 [Info provided by <a href="http://www.google.com">Google</a>]
@@ -93,17 +93,17 @@ Nie dodawaj popupów do historii
 [Preview]
 Podgląd
 [&Choose Quotes to watch in contact list:]
-Wybierz notowania giełdowe, które chcesz obserwować na swojej liście kontaktów:
+&Wybierz notowania giełdowe, które chcesz obserwować na swojej liście kontaktów:
 [&Refresh Quotes Every:]
-Odświeżaj notowania co:
+&Odświeżaj notowania co:
 [&Display in Contact List as:]
-Wyświetlaj na liście kontaktów jako:
+&Wyświetlaj na liście kontaktów jako:
 [&Status Message:]
-Opis:
+&Opis:
 [&Tendency:]
-Tendencja:
+&Tendencja:
 [&Advanced Settings...]
-Zaawansowane ustawienia...
+&Zaawansowane ustawienia...
 [Static]
 Statyczne
 [<a>SysLink1</a>]
@@ -115,23 +115,23 @@ Czas pobierania wskaźnika:
 [Previous Rate:]
 Poprzedni wskaźnik:
 [&Convert:]
-Konwertuj:
+&Konwertuj:
 [&Add]
-Dodaj
+&Dodaj
 [&Watched currency rates:]
-Obserwowane wskaźniki walutowe:
+&Obserwowane wskaźniki walutowe:
 [&Remove]
-Usuń
+&Usuń
 [&Refresh Rates Every:]
-Odświeżaj wskaźniki co:
+&Odświeżaj wskaźniki co:
 [Quote\\Rate Info]
 Informacje o wskaźniku giełdowym
 [Type &Stock Name or Symbol:]
 Wpisz nazwę giełdową lub symbol:
 [&Watched Quotes:]
-Obserwowane notowania:
+&Obserwowane notowania:
 [Status &Message:]
-Opis:
+&Opis:
 ;file \plugins\Quotes\src\Chart.h
 [There is no to show]
 Nie ma nic do pokazania

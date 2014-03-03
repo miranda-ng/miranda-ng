@@ -111,9 +111,9 @@ Zaproś kontakt do czatu
 [Live ID]
 Identyfikator Live
 [&Invite]
-Zaproś
+&Zaproś
 [&Cancel]
-Anuluj
+&Anuluj
 [Add]
 Dodaj
 ;file \protocols\MSN\src\msn_chat.cpp
@@ -124,13 +124,13 @@ Ja
 [Others]
 Inne
 [&Invite user...]
-Zaproś użytkownika...
+&Zaproś użytkownika...
 [&Leave chat session]
-Opuść pokój
+&Opuść pokój
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [User &history]
-Historia użytkownika
+&Historia użytkownika
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (not currently supported)]
 Kontakt chciał otworzyć audio konferencję (obecnie niewspierane)
@@ -180,27 +180,27 @@ Hotmail od %s
 Dostępna jest nieprzeczytana poczta (%d w skrzynce odbiorczej oraz %d w innych folderach)
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
-Odblokuj
+&Odblokuj
 [&Block]
-Zablokuj
+&Zablokuj
 [Open &Hotmail Inbox]
-Otwórz skrzynkę Hotmail
+Otwórz skrzynkę &Hotmail
 [Send &Hotmail E-mail]
-Wyślij e-mail Hotmail
+Wyślij e-mail &Hotmail
 [You must be talking to start Netmeeting]
 Musisz się umówić, aby rozpocząć Netmeeting
 [Set &Nickname]
 Edytuj &nick
 [Create &Chat]
-Stwórz czat
+Stwórz &czat
 [Display &Hotmail Inbox]
-Wyświetl skrzynkę Hotmail
+Wyświetl skrzynkę &Hotmail
 [View &Profile]
-Pokaż profil
+Pokaż &profil
 [Setup Live &Alerts]
-Ostrzeżenia Setup Live
+Ustaw &alerty live
 [&Start Netmeeting]
-Uruchom Netmeeting
+&Uruchom Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Własne uśmieszki

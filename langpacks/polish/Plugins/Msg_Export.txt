@@ -45,11 +45,11 @@ Eksportowanie starych wiadomości
 [History file for %s (%s format %s)]
 Historia użytkownika %s (%s format %s)
 [&Find...]
-Znajdź...
+&Znajdź...
 [&External]
-Zewnętrzna
+&Zewnętrzna
 [&Close]
-Zamknij
+&Zamknij
 [When filename changes]
 Gdy zmienia się nazwa pliku
 [Prompt for action]
@@ -65,7 +65,7 @@ Usuń plik
 [Debug]
 Analizuj
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [Export selected]
 Eksportuj zaznaczony
 [Set to default filename]
@@ -114,7 +114,7 @@ Nie udało się stworzyć okna historii
 Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
-Otwórz eksportowaną historię
+Otwórz e&ksportowaną historię
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
 Nie udało się dodać elementu menu Otwórz Wyeksportowaną Historię\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)
 ;file \plugins\Msg_Export\src\options.cpp

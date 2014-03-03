@@ -152,9 +152,9 @@ Zawieś
 [Resume call]
 Wznów
 [&File]
-Plik
+&Plik
 [&Open group chat]
-Otwórz czat grupowy
+&Otwórz czat grupowy
 [Import Skype history]
 Importuj historię Skype
 [Add Skype contact]
@@ -163,19 +163,19 @@ Dodaj kontakt Skype
 [Unknown]
 Nieznany
 [&Invite user...]
-Zaproś użytkownika...
+&Zaproś użytkownika...
 [Me]
 Ja
 [&Leave chat session]
-Opuść pokój
+&Opuść pokój
 [Set &Topic...]
-Ustaw temat...
+Ustaw &temat...
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [User &history]
-Historia użytkownika
+&Historia użytkownika
 [&Kick user]
-Wykop użytkownika
+&Wykop użytkownika
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Rozpocznij rozmowę SkypeOut

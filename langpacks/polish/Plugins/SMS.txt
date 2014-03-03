@@ -11,9 +11,9 @@ Wysyła wiadomości SMS na telefony komórkowe przez sieci IM.
 [Received SMS]
 Otrzymany SMS
 [&Reply]
-Odpowiedz 
+&Odpowiedz 
 [&Close]
-Zamknij
+&Zamknij
 [Read Next]
 Przeczytaj następną
 [From:]
@@ -41,13 +41,13 @@ Znaków:
 [%d/160]
 %d/160
 [&Send]
-Wyślij
+&Wyślij
 [SMS Message Didn't Send]
 Wiadomość SMS nie została wysłana
 [&Try again]
-Spróbuj ponownie
+&Spróbuj ponownie
 [&Cancel]
-Anuluj
+&Anuluj
 [The SMS message send timed out]
 Przekroczono czas wysyłania wiadomości
 [SMS Plugin]

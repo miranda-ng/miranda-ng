@@ -11,13 +11,13 @@ Usługa dodająca ikony flag państw i bazę danych IP-to-Country.
 [Country Flags]
 Flagi państw
 [Show country flag as &status icon on message window]
-Pokaż ikonę kraju w oknie rozmowy
+Pokaż ikonę kraju w &oknie rozmowy
 [Show country flag as &extra image on contact list]
-Pokaż flagę kraju jako dodatkową ikonę na liście kontaktów
+Pokaż flagę kraju jako &dodatkową ikonę na liście kontaktów
 [Use &IP-to-country database for country detection]
-Użyj IP kraju do wykrycia flagi
+Użyj &IP kraju do wykrycia flagi
 [Use &unknown flag if the country cannot be determined]
-Użyj pustej flagi jeżeli nie rozpoznano kraju
+Użyj &pustej flagi jeżeli nie rozpoznano kraju
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 Flaga kraju

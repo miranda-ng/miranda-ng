@@ -15,7 +15,7 @@ Edytuj informacje o kontakcie\nTa lista daje Ci pewien obraz wszystkich rocznic 
 [Origin]
 Pochodzenie
 [&Update]
-Aktualizuj
+&Aktualizuj
 [Updating]
 Aktualizowanie
 [OK]
@@ -191,7 +191,7 @@ liczba kontaktów:
 [View]
 Pokaż
 [Show &during the next]
-Pokazuj przez następne
+Pokazuj &przez następne
 [day(s)]
 dni.
 [Reminder]
@@ -297,9 +297,9 @@ Użyj znak zodiaku jako domyślny awatar
 [Country Flags]
 Flagi krajów
 [Use &unknown flag if country cannot be determined]
-Użyj pustej flagi, jeśli nie może zostać zidentyfikowana
+Użyj &pustej flagi, jeśli nie może zostać zidentyfikowana
 [Show country flag as &status icon on message window]
-Pokaż ikonę kraju w oknie rozmowy
+&Pokaż ikonę kraju w oknie rozmowy
 [Birthday]
 Urodziny
 [Age:]
@@ -333,7 +333,7 @@ Zaznacz wszystkie
 [Uncheck all]
 Odznacz wszystkie
 [&Export]
-Eksportuj
+&Eksportuj
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Baran
@@ -614,15 +614,15 @@ Dane kontaktu
 [Ex-/Import contact]
 Eksport/Import
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [&Export User Details]
-Eksportuj dane kontaktu
+&Eksportuj dane kontaktu
 [&Import]
-Importuj
+&Importuj
 [&Import User Details]
-Importuj dane kontaktu
+&Importuj dane kontaktu
 [View/Change My &Details...]
-Pokaż/Zmień moje dane...
+Pokaż/Zmień moje &dane...
 [Export all contacts]
 Eksportuj wszystkie kontakty
 [Import all contacts]
@@ -636,9 +636,9 @@ Dane kontaktu
 [Ex-/Import Group]
 Eksport/Import grupy
 [&Export Group]
-Eksportuj grupę
+&Eksportuj grupę
 [&Import Group]
-Importuj grupę
+&Importuj grupę
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Moje notatki:
@@ -1098,7 +1098,7 @@ Użytkownik nie podał strony domowej
 [View Homepage]
 Pokaż stronę domową
 [&Homepage]
-Strona domowa
+&Strona domowa
 [Homepage (uinfoex)]
 Strona domowa (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp

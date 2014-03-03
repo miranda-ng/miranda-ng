@@ -88,13 +88,13 @@ Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o 
 Odbieraj wiadomości tylko z folderu "Odebrane"
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
-Zaproś użytkownika
+&Zaproś użytkownika
 [&Leave chat session]
-Opuść sesję czatu
+&Opuść sesję czatu
 [User &details]
-Dane użytkownika
+&Dane użytkownika
 [User &history]
-Historia użytkownika
+&Historia użytkownika
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s

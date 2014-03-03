@@ -76,9 +76,9 @@ Zawsze, nawet gdy powiadomienia o zmianie klienta są wyłączone globalnie
 [Use global settings (default)]
 Użyj ustawień globalnych (domyślne)
 [Disable c&lient change notification]
-Wyłącz powiadomienia o zmianie klienta
+Wyłącz powiadomienia o zmianie k&lienta
 [Enable c&lient change notification]
-Włącz powiadomienia o zmianie klienta
+Włącz powiadomienia o zmianie k&lienta
 [Popups]
 Popupy
 [ClientChangeNotify: Client changed]

@@ -95,7 +95,7 @@ Zastosuj
 [Find]
 Szukaj
 [&Find next]
-szukaj następnego
+&szukaj następnego
 [Find what:]
 Szukaj:
 [Search was completed.]
@@ -171,17 +171,17 @@ Akcja po kliknięciu prawym przyciskiem myszy
 [Log]
 Dziennik
 [&Copy]
-Kopiuj
+&Kopiuj
 [C&ut]
-Wytnij
+W&ytnij
 [&Delete]
-Usuń
+&Usuń
 [&Paste]
-Wklej
+&Wklej
 [Co&py all]
-Kopiuj wszystko
+Ko&piuj wszystko
 [&Select all]
-Wszystkie
+&Wszystkie
 [C&lear all]
 W&yczyść wszystko
 ;file \plugins\WebView\src\main.cpp

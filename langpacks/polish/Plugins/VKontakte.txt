@@ -72,15 +72,15 @@ Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogł
 [Warning]
 Ostrzeżenie
 [&Invite a user]
-Zaproś użytkownika
+&Zaproś użytkownika
 [View/change &title]
-Zobacz/zmień nazwę
+Zobacz/zmień &nazwę
 [&Destroy room]
-Zniszcz pokój
+&Zniszcz pokój
 [&User details]
-Dane użytkownika
+Dane &użytkownika
 [&Kick]
-Wykop
+&Wykop
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły

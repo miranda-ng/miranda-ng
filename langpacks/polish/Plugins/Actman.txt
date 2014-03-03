@@ -716,9 +716,9 @@ Pokaż tylko gdy wynik wynosi 1
 [Choose action]
 Wybierz akcje
 [&Yes]
-Tak
+&Tak
 [&No]
-Nie
+&Nie
 [A&ppend]
 D&odaj
 [Yes to &All]

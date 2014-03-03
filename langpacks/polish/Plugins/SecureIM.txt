@@ -59,21 +59,21 @@ SHA1:
 [Public]
 Publiczny
 [&Copy SHA1]
-Kopiuj SHA1
+&Kopiuj SHA1
 [E&xport]
-Eksportuj
+Ek&sportuj
 [Private]
 Prywatny
 [&Export]
-Eksportuj
+&Eksportuj
 [&Import]
-Importuj
+&Importuj
 [Set &keyrings...]
 Ustal &klucze...
 [Disable keyrings use]
 Wyłącz użycie kluczy
 [Load &Private key]
-Wczytaj klucz prywatny
+Wczytaj klucz &prywatny
 [Basic]
 Podstawowe
 [Executable:]

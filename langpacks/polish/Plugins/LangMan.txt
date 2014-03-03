@@ -43,7 +43,7 @@ Plik
 [built-in]
 wbudowany
 [&Remove...]
-Usuń...
+&Usuń...
 [Languages]
 Języki
 [Customize]

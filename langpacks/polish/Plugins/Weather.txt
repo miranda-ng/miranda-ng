@@ -489,9 +489,9 @@ Podgląd tekstu protokołu pogody
 [Station ID]
 ID stacji
 [Disable &weather notification]
-Wyłącz powiadomienie o pogodzie
+Wyłącz powiadomienie o &pogodzie
 [Enable &weather notification]
-Włącz powiadomienie o pogodzie
+Włącz powiadomienie o &pogodzie
 [Update Weather]
 Aktualizuj prognozę
 [Remove Old Data then Update]

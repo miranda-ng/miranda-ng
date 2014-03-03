@@ -11,51 +11,51 @@ Dodaje możliwość wyłączenia komputera w przypadku zajścia określonych zda
 [Shutdown]
 Wyłączanie
 [&Show confirmation dialog before shutdown]
-Pokaż okno potwierdzenia przed zamknięciem
+&Pokaż okno potwierdzenia przed zamknięciem
 [&Countdown starts at:]
-Wyświetl przez:
+&Odliczanie rozpoczyna się od:
 [seconds]
 s
 [Shutdown Events]
 Opcje zdarzeń
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
-Aktywuj automatyczne wyłączanie z tymi samymi opcjami jeśli Miranda NG zostanie ponownie uruchomiona
+&Aktywuj automatyczne wyłączanie z tymi samymi opcjami jeśli Miranda NG zostanie ponownie uruchomiona
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
-Ignoruj ukryte lub tymczasowe kontakty
+&Ignoruj ukryte lub tymczasowe kontakty
 [Critical Shutdown Events]
 Krytyczne zdarzenia wyłączania
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatycznie wyłącz komputer kiedy:
 [&Thunderstorm warning is issued (Weather)]
-Ostrzeżenia o burzy z piorunami (Weather)
+Ostrzeżenia o &burzy z piorunami (Weather)
 [&Harddrive overheats (HDD Info)]
-Przegrzewa się dysk twardy (HDD Info)
+Przegrzewa się &dysk twardy (HDD Info)
 [Automatic Shutdown]
 Autowyłączanie
 [Select the automatic shutdown event]
 Wybierz zdarzenie automatycznego zamykania
 [Shutdown at &specific time]
-Wyłącz dokładnie...
+Wyłącz &dokładnie...
 [Shutdown a&t:]
-o:
+&o:
 [Shutdown i&n:]
-po czasie:
+&po czasie:
 [Shutdown when a &message is received containing the following text:]
-Wyłącz kiedy otrzymasz wiadomość zawierającą poniższy tekst:
+Wyłącz kiedy otrzymasz &wiadomość zawierającą poniższy tekst:
 [Shutdown when Miranda NG becomes &idle]
-Wyłącz kiedy Miranda NG stanie się bezczynna
+Wyłącz kiedy Miranda NG stanie się &bezczynna
 [Configure]
 Konfiguruj
 [Shutdown when &prozessor usage drops below:]
-Wyłącz kiedy użycie procesora spadnie poniżej:
+Wyłącz kiedy użycie &procesora spadnie poniżej:
 [(current: 0%)]
 (aktualnie: 0%)
 [Shutdown when all contacts are &offline]
-Wyłącz kiedy wszystkie kontakty zmienią status na rozłączony
+Wyłącz kiedy wszystkie kontakty zmienią status na &rozłączony
 [Shutdown when all &file transfers are finished]
-Wyłącz kiedy wszystkie transfery plików zostaną zakończone
+Wyłącz kiedy wszystkie transfery &plików zostaną zakończone
 [&Action:]
-Akcja:
+&Akcja:
 [OK]
 OK
 [Cancel]
@@ -65,7 +65,7 @@ Niezapisane dane w otwartych aplikacjach z wyjątkiem Mirandy NG mogą zostać u
 [Please click "Cancel" if you would like to abort the process.]
 Naciśnij "Anuluj" jeśli chcesz przerwać akcję wyłączania.
 [&Now!]
-Teraz!
+&Teraz!
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 Wyłącz o:
@@ -74,11 +74,11 @@ Pozostało:
 [Paused]
 Zatrzymano
 [&Unpause Countdown]
-Wznów odliczanie
+&Wznów odliczanie
 [&Pause Countdown]
-Wstrzymaj odliczanie
+&Wstrzymaj odliczanie
 [&Cancel Countdown]
-Anuluj odliczanie
+&Anuluj odliczanie
 [AutoShutdown]
 Autowyłączanie
 [Countdown on Frame]
@@ -119,9 +119,9 @@ Włącz autowyłączanie
 [Stop automatic shutdown]
 Wyłącz autowyłączanie
 [Stop automatic &shutdown]
-Zatrzymaj autowyłączanie
+Zatrzymaj &autowyłączanie
 [Automatic &shutdown...]
-Automatyczne wyłączanie...
+Automatyczne &wyłączanie...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG zostanie automatycznie zamknięta za %u sek.

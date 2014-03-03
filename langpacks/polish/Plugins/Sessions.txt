@@ -53,9 +53,9 @@ Tryb Crash Recorvery
 [Restore Session]
 Przywróć sesję
 [&Restore Session]
-Przywróć sesję
+&Przywróć sesję
 [&Cancel]
-Anuluj
+&Anuluj
 [Choose session to restore from the list:]
 Wybierz sesję z listy do przywrócenia:
 [Del]
@@ -63,7 +63,7 @@ Usuń
 [Save Session]
 Zapisz sesję
 [&Save Session]
-Zapisz sesję
+&Zapisz sesję
 [Enter session name:]
 Nazwa sesji:
 [Save and Close]

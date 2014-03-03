@@ -13,15 +13,15 @@ Zaproś kontakt do konferencji
 [Skype name:]
 Użytkownik:
 [&Invite]
-Zaproś
+&Zaproś
 [&Cancel]
-Anuluj
+&Anuluj
 [Add]
 Dodaj
 [Create conference]
 Utwórz konferencję
 [&Create]
-Utwórz
+&Utwórz
 [Topic:]
 Temat:
 [Guideline:]
@@ -238,13 +238,13 @@ Nazwa
 Czaty
 ;file \protocols\Skype\src\skype_chat.cpp
 [&User details]
-Dane kontaktu
+Dane &kontaktu
 [&Request auth]
-Poproś o szczegółowe dane
+&Poproś o szczegółowe dane
 [Invite to conference]
 Zaproś do czatu
 [Set &role]
-Wybierz rolę
+Wybierz &rolę
 [&Master]
 &Pan
 [&Helper]
@@ -254,13 +254,13 @@ Wybierz rolę
 [&Listener]
 &Słuchacz
 [&Add]
-Dodaj
+&Dodaj
 [&Kick]
-Wyrzuć
+&Wyrzuć
 [Outlaw (&ban)]
 Przestępca (&ban)
 [Copy &skypename]
-Skopiuj &nazwę użytkownika Skype
+Skopiuj &nazwę użytkownika &Skype
 [Copy room &uri]
 Skopiuj &URI pokoju
 [Creator]

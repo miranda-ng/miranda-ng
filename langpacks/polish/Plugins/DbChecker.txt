@@ -19,9 +19,9 @@ Program udostępniany na licencji GNU - General Public License.
 [Miranda Database Tool]
 Narzędzie naprawcze
 [< &Back]
-< Wstecz
+< &Wstecz
 [&Next >]
-Dalej >
+&Dalej >
 [Cancel]
 Anuluj
 [Select Miranda Profile]
@@ -29,11 +29,11 @@ Wybierz profil
 [You can choose the Miranda profile database to compact or repair.]
 Możesz wybrać profil Mirandy do kompaktowania lub naprawy. 
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Wybierz profil z poniższej listy. Jeśli profilu, którego chcesz używać nie ma na liście kliknij Inne aby ja wyszukać.
+Wybierz &profil z poniższej listy. Jeśli profilu, którego chcesz używać nie ma na liście kliknij Inne aby ja wyszukać.
 [&File:]
-Plik:
+&Plik:
 [&Other...]
-Inne...
+&Inne...
 [Error Opening Database]
 Błąd podczas otwierania profilu
 [There was an error opening the profile database given.]
@@ -92,7 +92,7 @@ Kopia zapasowa:
 Zakończono przetwarzanie profilu. Kliknij Dalej aby powrócić na początek kreatora i wybrać inny profil do sprawdzenia lub kliknij na Zakończ aby wyjść z kreatora.
 ;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
-Zakończ
+&Zakończ
 ;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 Kliknij Dalej, aby kontynuować

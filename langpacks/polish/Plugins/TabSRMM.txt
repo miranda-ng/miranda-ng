@@ -109,13 +109,13 @@ Podświetlaj wiadomości zawierające mój nick.
 [List]
 Lista
 [&Message]
-Wiadomość
+&Wiadomość
 [Log]
 Dziennik
 [Clear lo&g]
-Wyczyść dziennik
+Wyczyść dzienn&ik
 [Co&py all]
-Kopiuj wszystko
+Ko&piuj wszystko
 [Word lookup]
 Wyszukaj słowo
 [Google]
@@ -125,11 +125,11 @@ Wikipedia
 [Link]
 Link
 [Open a &new browser window]
-Otwórz w nowym oknie przeglądarki
+Otwórz w &nowym oknie przeglądarki
 [&Open in current browser window]
-Otwórz w bieżącym oknie przeglądarki
+&Otwórz w bieżącym oknie przeglądarki
 [&Copy link]
-Kopiuj link
+&Kopiuj link
 [Message]
 Wiadomość
 [Undo]
@@ -149,22 +149,22 @@ Wyczyść
 [Tabs]
 Karty
 [&Close tab]
-Zamknij kartę
+&Zamknij kartę
 [C&lose other tabs]
-Zamknij inne karty
+Z&amknij inne karty
 [&Open at this position]
-Otwórz w tym miejscu
+&Otwórz w tym miejscu
 ;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
-Gotowy
+&Spróbuj ponownie
 [&Cancel]
 Anuluj
 [&Send]
-Wyślij
+&Wyślij
 [&Add]
-Dodaj
+&Dodaj
 [&Remove]
-Usuń
+&Usuń
 ;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 Ustawienia panelu
@@ -493,19 +493,19 @@ Użyj paska zadań Windows 7 (wymaga restartu)
 [Popups]
 Popupy
 [...is &typing]
-...pisze wiadomość
+...&pisze wiadomość
 [...stopped t&yping]
-...przestał pisać
+...przestał p&isać
 [Back]
 Wstecz
 [U&se Popup colors]
-Użyj kolorów Popup
+&Użyj kolorów Popup
 [&Use Windows colors]
-Użyj kolorów Windows
+Użyj kolorów &Windows
 [Only &one popup for each contact]
-Tylko jeden popup dla każdego kontaktu
+Tylko &jeden popup dla każdego kontaktu
 [Show &entry in the main menu]
-Pokaż wpis w menu głównym
+Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
 [From Popup plugin]
@@ -695,21 +695,21 @@ Inne zdarzenia
 [Send message on Ctrl+Enter (always enabled)]
 Wyślij wiadomość po Ctrl+ Enter (domyślnie wył.)
 [&Copy]
-Kopiuj
+&Kopiuj
 [&Quote]
-Cytuj
+&Cytuj
 [Co&py All]
-Kopiuj wszystko
+Ko&piuj wszystko
 [Select &All]
-Zaznacz wszystko
+Zaznacz &wszystko
 [Clear Log]
 Wyczyść dziennik
 [Freeze Log]
 Zatrzymaj dziennik
 [Open in &new window]
-Otwórz w nowym oknie
+Otwórz w &nowym oknie
 [&Open in existing window]
-Otwórz w istniejącym oknie
+&Otwórz w istniejącym oknie
 [Editor]
 Edytor
 [Paste formatted Text]
@@ -751,21 +751,21 @@ Pasek przycisków zawsze pełnej szerokości
 [Save this Picture As...]
 Zapisz ten obrazek jako...
 [&Message Log Settings]
-Ustawienia dziennika wiadomości
+Ustawienia dziennika &wiadomości
 [&Global...]
-Globalne...
+&Globalne...
 [&For this Contact...]
-Dla tego kontaktu...
+&Dla tego kontaktu...
 [Send &Default]
-Wyślij domyślnie
+Wyślij &domyślnie
 [Send to &multiple Users]
-Wyślij do wielu użytkowników
+Wyślij do &wielu użytkowników
 [Send to &Container]
-Wyślij do kontenera
+Wyślij do &kontenera
 [Send &Later]
-Wyślij później
+Wyślij &później
 [Force &ANSI]
-Wymuś ANSI
+Wymuś &ANSI
 [Send unsafe (ignore Timeouts)]
 Niepewne wysyłanie (ignoruj timeouty)
 [Send Nudge]
@@ -863,7 +863,7 @@ Anuluj wszystkie zadania
 [Copy Message to Clipboard]
 Kopiuj wiadomość do schowka
 [&File]
-Plik
+&Plik
 [Save Message Log As...]
 Zapisz dziennik wiadomości jako...
 [Close Message Session\tCtrl-W]
@@ -871,7 +871,7 @@ Zamknij sesję rozmowy\tCtrl-W
 [Close Container\tAlt-F4]
 Zamknij kontener\tAlt-F4
 [&View]
-Widok
+&Widok
 [Show Menu Bar]
 Pokaż pasek menu
 [Show Status Bar]
@@ -897,9 +897,9 @@ Pokaż listę kontaktów Multisend
 [Stay on Top]
 Zawsze na wierzchu
 [Message &Log]
-Dziennik wiadomości
+&Dziennik wiadomości
 [&Container]
-Kontener
+&Kontener
 [Event Popups]
 Popupy zdarzeń
 [Disable all Event Popups]
@@ -1100,9 +1100,9 @@ Lista sesji TabSRMM
 [TabSRMM Menu]
 Menu TabSRMM
 [&Messaging settings...]
-Opcje rozmowy...
+Opcje &rozmowy...
 [&Send later job list...]
-Lista zadań "wyślij później"...
+Lista zadań "&wyślij później"...
 [Message from %s]
 Wiadomość od %s
 [signed off.]
@@ -1772,9 +1772,9 @@ Dodaj rozłączone kontakty na listę wysyłania do wielu naraz
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
-Wyłącz powiadomienie o pisaniu
+Wyłącz powiadomienie o &pisaniu
 [Enable &typing notification]
-Włącz powiadomienie o pisaniu
+Włącz powiadomienie o &pisaniu
 [...is typing a message.]
 ...pisze wiadomość
 [...has stopped typing.]

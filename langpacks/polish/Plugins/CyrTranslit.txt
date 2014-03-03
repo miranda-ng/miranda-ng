@@ -9,4 +9,4 @@
 Zastępuje litery cyrylicy w wiadomościach wychodzących (dla wybranych kontaktów), fonetycznymi odpowiednikami łacińskimi.
 ;file \plugins\CyrTranslit\src\MirandaContact.cpp
 [&Transliterate]
-Dokonaj transliteracji
+Dokonaj &transliteracji

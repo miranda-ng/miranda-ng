@@ -441,57 +441,57 @@ Rysuj nakładkę na awatarze
 [Show local time]
 Pokaż czas kontaktu
 [&Main menu]
-Menu główne
+&Menu główne
 [E&xit]
-Wyjdź
+W&yjdź
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-Rozłączony\tCtrl+0
+&Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Dostępny\tCtrl+1
+&Dostępny\tCtrl+1
 [&Away\tCtrl+2]
-Zaraz wracam\tCtrl+2
+&Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
-Wrócę później
+&Wrócę później
 [Occ&upied\tCtrl+4]
-Zajęty
+Za&jęty
 [&DND\tCtrl+5]
-Nie przeszkadzać
+&Nie przeszkadzać
 [&Free for chat\tCtrl+6]
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
-Niewidoczny\tCtrl+7
+N&iewidoczny\tCtrl+7
 [On the &Phone\tCtrl+8]
-Przy telefonie\tCtrl+8
+Przy &telefonie\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-Poszedłem na obiad\tCtrl+9
+Poszedłem na &obiad\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/Ukryj
+&Pokaż/Ukryj
 [Nowhere]
 Nigdzie
 [&New Group]
-Nowa grupa
+&Nowa grupa
 [&Hide Offline Users]
-Ukryj rozłączonych
+&Ukryj rozłączonych
 [Hide &Offline Users out here]
-Ukryj rozłączonych tutaj
+Ukryj &rozłączonych tutaj
 [Hide &Empty Groups]
-Ukryj puste grupy
+Ukryj &puste grupy
 [Disable &Groups]
-Wyłącz grupy
+Wyłącz &grupy
 [Hide Miranda]
 Ukryj Mirandę
 [&New Subgroup]
-Nowa podgrupa
+&Nowa podgrupa
 [&Hide Offline Users in here]
-Ukryj tu rozłączonych
+&Ukryj tu rozłączonych
 [&Rename Group]
-Zmień nazwę grupy
+&Zmień nazwę grupy
 [&Delete Group]
-Usuń grupę
+&Usuń grupę
 [Move marked Contacts to this Group]
 Przenieś zaznaczone kontakty do tej grupy
 [Appearance]
@@ -682,7 +682,7 @@ Gdy potrzebna na opis
 [Contact list display and ignore options for %s]
 Opcje wyświetlania i ignorowania dla %s
 [&Contact list settings...]
-Ustawienia kontaktu...
+&Ustawienia kontaktu
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Globalne
@@ -818,35 +818,35 @@ Wyczyść tryb widoku i przywróć domyślne wyświetlanie
 Tryby widoku
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
-Nazwa ramki
+&Nazwa ramki
 [&Visible]
-Widoczny
+&Widoczny
 [&Show title bar]
-Pokaż pasek tytułu
+&Pokaż pasek tytułu
 [&Locked]
-Zablokowany
+&Zablokowany
 [&Collapsed]
-Zwinięty
+Z&winięty
 [&Floating Mode]
-Pływające okno
+&Pływające okno
 [&Border]
-Obramowanie
+*&Obramowanie
 [&Skinned frame]
-Skórkowalna ramka
+&Skórkowalna ramka
 [&Align]
-Wyrównanie
+W&yrównanie
 [&Top]
-Góra
+&Góra
 [&Client]
-Klient
+&Klient
 [&Bottom]
-Dół
+&Dół
 [&Position]
-Pozycja
+&Pozycja
 [&Up]
-Góra
+&Góra
 [&Down]
-Dół
+&Dół
 [Frames]
 Ramki
 [Show All Frames]
@@ -872,12 +872,12 @@ Menu ramki
 [Group menu]
 Menu grupy
 [&Find/Add Contacts...]
-Szukaj/dodaj kontakty...
+&Szukaj/dodaj kontakty...
 [&Options...]
-Opcje...
+&Opcje...
 [&About the contact list...]
-O liście kontaktów...
+&O liście kontaktów...
 [Subgroup menu]
 Menu podgrupy
 [&New SubGroup]
-Nowa podgrupa
+&Nowa podgrupa

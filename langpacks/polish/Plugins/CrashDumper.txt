@@ -33,11 +33,11 @@ Twórz raporty w podfolderach używając bieżącej daty
 [View]
 Pokaż
 [&Copy]
-Kopiuj
+&Kopiuj
 [Co&py All]
-Kopiuj wszystko
+Ko&piuj wszystko
 [Select &All]
-Zaznacz wszystko
+Zaznacz &wszystko
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 Informacje o wersji zachowano w pliku: %s

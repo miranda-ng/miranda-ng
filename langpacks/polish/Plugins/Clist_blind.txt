@@ -167,59 +167,59 @@ Pokaż separatory na panelach
 [Show resize grip indicator]
 Pokaż wskaźnik rozmiaru uchwytu
 [&Main menu]
-Menu główne
+&Menu główne
 [E&xit]
-Wyjdź
+W&yjdź
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-Rozłączony\tCtrl+0
+&Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Dostępny\tCtrl+1
+&Dostępny\tCtrl+1
 [&Away\tCtrl+2]
-Zaraz wracam\tCtrl+2
+&Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
-Wrócę później
+&Wrócę później
 [Occ&upied\tCtrl+4]
-Zajęty
+Za&jęty
 [&DND\tCtrl+5]
-Nie przeszkadzać
+&Nie przeszkadzać
 [&Free for chat\tCtrl+6]
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
-Niewidoczny\tCtrl+7
+N&iewidoczny\tCtrl+7
 [On the &Phone\tCtrl+8]
-Przy telefonie\tCtrl+8
+Przy &telefonie\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-Poszedłem na obiad\tCtrl+9
+Poszedłem na &obiad\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/Ukryj
+&Pokaż/Ukryj
 [Nowhere]
 Nigdzie
 [&New Group]
-Nowa grupa
+&Nowa grupa
 [&Hide Offline Users]
-Ukryj rozłączonych
+&Ukryj rozłączonych
 [Hide &Offline Users out here]
-Ukryj rozłączonych tutaj
+Ukryj &rozłączonych tutaj
 [Hide &Empty Groups]
-Ukryj puste grupy
+Ukryj &puste grupy
 [Disable &Groups]
-Wyłącz grupy
+Wyłącz &grupy
 [Hide Miranda]
 Ukryj Mirandę
 [Group]
 Grupa
 [&New Subgroup]
-Nowa podgrupa
+&Nowa podgrupa
 [&Hide Offline Users in here]
-Ukryj tu rozłączonych
+&Ukryj tu rozłączonych
 [&Rename Group]
-Zmień nazwę grupy
+&Zmień nazwę grupy
 [&Delete Group]
-Usuń grupę
+&Usuń grupę
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Nieaktywne

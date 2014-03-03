@@ -77,13 +77,13 @@ Limit połączeń na użytkownika
 [Default download limit]
 Domyślny limit pobierania
 [&Edit share]
-Edytuj udział
+&Edytuj udział
 [&Remove share]
-Usuń udział
+&Usuń udział
 [&Open in Browser]
-Otwórz w przeglądarce
+&Otwórz w przeglądarce
 [&Copy link]
-Kopiuj link
+&Kopiuj link
 ;file \plugins\HTTPServer\src\Glob.h
 [Miranda NG HTTP-Server]
 Serwer HTTP Miranda NG

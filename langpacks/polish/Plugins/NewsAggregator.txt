@@ -39,7 +39,7 @@ Sprawdź kanał
 [Authentication]
 Autoryzacja
 [Use &authentication]
-Użyj autoryzacji
+Użyj &autoryzacji
 [Login]
 Login
 [Password]
@@ -65,15 +65,15 @@ Dostępne kanały:
 [Feeds to be exported:]
 Kanały eksportowane:
 [&Export]
-Eksportuj
+&Eksportuj
 [&Close]
-Zamknij
+&Zamknij
 [Import from:]
 Importuj z:
 [Feeds to be imported:]
 Kanały importowane:
 [&Import]
-Importuj
+&Importuj
 ;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 Wprowadź swój login

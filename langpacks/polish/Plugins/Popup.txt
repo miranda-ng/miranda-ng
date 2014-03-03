@@ -9,7 +9,7 @@
 Dostarcza usługi powiadomień popup dla innych wtyczek.
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
-Zawartość i wygląd
+Zawartość i &wygląd
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Przejdź do Dostosuj -> Czcionki żeby ustawić czcionki i kolory
 [Miscellaneous]

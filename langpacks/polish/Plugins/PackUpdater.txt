@@ -55,11 +55,11 @@ Tekst
 [Colors]
 Kolory
 [Use cus&tom colors]
-Użyj niestandardowych kolorów
+Użyj nie&standardowych kolorów
 [Use &Windows colors]
-Użyj kolorów Windows
+Użyj kolorów &Windows
 [Use Pop&up colors]
-Użyj kolorów Popup
+Użyj kolorów Pop&up
 [Preview]
 Podgląd
 [Click action]

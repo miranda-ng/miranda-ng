@@ -18,9 +18,9 @@ Brak pow. w zasobniku:
 Ukryj opcję przełączania dźwięku w menu (wymaga restartu Mirandy)
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
-Wyłącz dźwięki
+Wyłącz &dźwięki
 [Enable &Sounds]
-Włącz dźwięki
+Włącz &dźwięki
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Zero powiadomień

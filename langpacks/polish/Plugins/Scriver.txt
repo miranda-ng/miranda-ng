@@ -177,21 +177,21 @@ Tak
 [No]
 Nie
 [&Bold]
-Pogrubienie
+&Pogrubienie
 [&Italic]
-Kursywa
+&Kursywa
 [&Underline]
-Podkreślenie
+P&odkreślenie
 [&Color]
-Kolor
+Ko&lor
 [&Background color]
-Kolor tła
+Kolor &tła
 [&Filter]
-Filtr
+&Filtr
 [&Room Settings]
-Ustawienia pokoju
+Ustawienia &pokoju
 [&Show/hide nick list]
-Pokaż/Ukryj listę nicków
+&Pokaż/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -271,11 +271,11 @@ OK
 [Log]
 Dziennik
 [&Copy]
-Kopiuj
+&Kopiuj
 [Co&py All]
-Kopiuj wszystko
+Ko&piuj wszystko
 [Select &All]
-Zaznacz wszystko
+Zaznacz &wszystko
 [Word lookup]
 Wyszukaj słowo
 [Google]
@@ -295,11 +295,11 @@ Yahoo
 [Foodnetwork]
 Foodnetwork
 [C&lear Log]
-Wyczyść dziennik
+W&yczyść dziennik
 [&Open link]
-Otwórz link
+&Otwórz link
 [&Copy link]
-Kopiuj link
+&Kopiuj link
 [Message]
 Wiadomość
 [Undo]
@@ -325,11 +325,11 @@ Zamknij kartę
 [List]
 Lista
 [&Message]
-Wiadomość
+&Wiadomość
 [Clear lo&g]
-Wyczyść dziennik
+Wyczyść dzienn&ik
 [Co&py all]
-Kopiuj wszystko
+Ko&piuj wszystko
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Dodaj kontakt

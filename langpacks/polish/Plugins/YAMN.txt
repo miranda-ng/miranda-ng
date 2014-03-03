@@ -166,9 +166,9 @@ Kolor tła
 Kolor tekstu
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
-Sprawdź wiadomości e-mail
+Sprawdź wiadomości e-&mail
 [Check &mail (This Account)]
-Sprawdź wiadomości e-mail
+Sprawdź wiadomości e-&mail
 [Launch application]
 Włącz aplikacje
 [YAMN]

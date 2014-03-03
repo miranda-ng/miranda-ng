@@ -603,59 +603,59 @@ Przesuń w dół
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 OSTRONA OPCJI JEST W KONSTRUKCJI Proszę NIE zgłaszać występujących tu błędów.\n Tylko komentarze o najważniejsze ustawienia są uznawane.
 [&Main menu]
-Menu główne
+&Menu główne
 [E&xit]
-Wyjdź
+W&yjdź
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-Rozłączony\tCtrl+0
+&Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Dostępny\tCtrl+1
+&Dostępny\tCtrl+1
 [&Away\tCtrl+2]
-Zaraz wracam\tCtrl+2
+&Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
-Wrócę później
+&Wrócę później
 [Occ&upied\tCtrl+4]
-Zajęty
+Za&jęty
 [&DND\tCtrl+5]
-Nie przeszkadzać
+&Nie przeszkadzać
 [&Free for chat\tCtrl+6]
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
-Niewidoczny\tCtrl+7
+N&iewidoczny\tCtrl+7
 [On the &Phone\tCtrl+8]
-Przy telefonie\tCtrl+8
+Przy &telefonie\tCtrl+8
 [Out to &Lunch\tCtrl+9]
-Poszedłem na obiad\tCtrl+9
+Poszedłem na &obiad\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/Ukryj
+&Pokaż/Ukryj
 [Nowhere]
 Nigdzie
 [&New Group]
-Nowa grupa
+&Nowa grupa
 [&Hide Offline Users]
-Ukryj rozłączonych
+&Ukryj rozłączonych
 [Hide &Offline Users out here]
-Ukryj rozłączonych tutaj
+Ukryj &rozłączonych tutaj
 [Hide &Empty Groups]
-Ukryj puste grupy
+Ukryj &puste grupy
 [Disable &Groups]
-Wyłącz grupy
+Wyłącz &grupy
 [Hide Miranda]
 Ukryj Mirandę
 [&New Subgroup]
-Nowa podgrupa
+&Nowa podgrupa
 [&Hide Offline Users in here]
-Ukryj tu rozłączonych
+&Ukryj tu rozłączonych
 [&Show Offline Users in here]
-Pokaż tu rozłączonych
+&Pokaż tu rozłączonych
 [&Rename Group]
-Zmień nazwę grupy
+&Zmień nazwę grupy
 [&Delete Group]
-Usuń grupę
+&Usuń grupę
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Skórki
@@ -825,7 +825,7 @@ Obszar zdarzeń
 Brak zdarzeń
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
-Ocena kontaktu
+&Ocena kontaktu
 [None]
 Brak
 [Low]
@@ -876,16 +876,16 @@ Trzecia linia
 [Tray menu]
 Menu zasobnika
 [&Find/Add Contacts...]
-Szukaj/Dodaj kontakty...
+&Szukaj/Dodaj kontakty...
 [&Options...]
-Opcje...
+&Opcje...
 [&About]
-Informacje
+&Informacje
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
-Pokaż awatar kontaktu
+Pokaż &awatar kontaktu
 [Hide Contact &Avatar]
-Ukryj awatar kontaktu
+Ukryj &awatar kontaktu
 [My Contacts]
 Moje kontakty
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
@@ -1075,31 +1075,31 @@ Tło Trybu Widoku
 Tryby widoku
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
-Widoczny
+&Widoczny
 [&Show title]
-Pokaż tytuł ramki
+&Pokaż tytuł ramki
 [&Locked]
-Zablokowany
+&Zablokowany
 [&Expanded]
-Rozszerzony
+&Rozszerzony
 [&Floating Mode]
-Pływające okno
+&Pływające okno
 [&Border]
-Obramowanie
+&Obramowanie
 [&Align]
-Wyrównanie
+&Wyrównanie
 [&Top]
-Góra
+&Góra
 [&Client]
-Klient
+&Klient
 [&Bottom]
-Dół
+&Dół
 [&Position]
-Pozycja
+&Pozycja
 [&Up]
-Góra
+&Góra
 [&Down]
-Dół
+&Dół
 [Show All Frames]
 Pokaż wszystkie ramki
 [Show all title bars]
@@ -1117,4 +1117,4 @@ Menu grupy
 [Subgroup menu]
 Menu podgrupy
 [&New SubGroup]
-Nowa podgrupa
+&Nowa podgrupa

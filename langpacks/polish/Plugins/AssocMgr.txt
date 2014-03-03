@@ -13,9 +13,9 @@ Zarejestrowane powiązania dla Mirandy NG
 [Miscellaneous]
 Różne
 [&Start Miranda NG automatically when the computer starts (using current profile)]
-Automatyczny start Mirandy NG wraz z startem komputera (użyj bieżącego profilu)
+Automatyczny &start Mirandy NG wraz z startem komputera (użyj bieżącego profilu)
 [Only associate with Miranda NG while it is &running]
-Powiąż tylko podczas działania Mirandy NG
+Powiąż tylko podczas &działania Mirandy NG
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 %hs plików
@@ -67,7 +67,7 @@ Powiązanie protokołu AIM
 [ICQ Link Shortcut]
 Powiązanie protokołu ICQ
 [&Add to contact list...]
-Dodaj do listy kontaktów...
+&Dodaj do listy kontaktów...
 [Yahoo Link Protocol]
 Powiązanie protokołu Yahoo
 [MSN Link Protocol]

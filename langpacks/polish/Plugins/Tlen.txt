@@ -89,9 +89,9 @@ Tekst
 [Delay]
 Wyświetlaj
 [&From Popup plugin]
-Z wtyczki PopUp
+&Z wtyczki PopUp
 [&Custom]
-Własne
+&Własne
 [P&ermanent]
 S&tałe
 [Preview]
@@ -169,7 +169,7 @@ Zakończ
 [Tlen Voice Chat Invitation]
 Zaproszenie do rozmowy głosowej w Tlen
 [&Accept]
-Akceptuj
+&Akceptuj
 [From:]
 Od:
 [The following invitation to join a voice chat is received.]

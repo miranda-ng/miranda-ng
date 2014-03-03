@@ -97,9 +97,9 @@ Dołącz do czatu
 [Chat Room]
 Pokój
 [&Join]
-Dołącz
+&Dołącz
 [&Cancel]
-Anuluj
+&Anuluj
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 Pozwala na dostęp do zdefiniowanych przez użytkownika czatów.
 [Change Password]
@@ -125,13 +125,13 @@ Zapisz zmiany
 [Invite Buddy To Chat Room]
 Zaproś znajomego do czatu
 [&Invite]
-Zaproś
+&Zaproś
 [Invitation reason]
 Powód zaproszenia
 [Chat Room Invitation Request]
 Prośba o dołączenie do pokoju
 [&Deny]
-Odrzuć
+&Odrzuć
 [Message]
 Wiadomość
 [Room]
@@ -142,13 +142,13 @@ Ja
 [Others]
 Inne
 [&Invite user...]
-Zaproś użytkownika...
+&Zaproś użytkownika...
 [&Leave chat session]
-Opuść pokój
+&Opuść pokój
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [User &history]
-Historia użytkownika
+&Historia użytkownika
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
 Niepoprawna nazwa okna lub hasło.
@@ -397,15 +397,15 @@ Typ konta AIM
 [AIM Extended Status]
 Rozszerzony status AIM
 [&Block]
-Zablokuj
+&Zablokuj
 [&Unblock]
-Odblokuj
+&Odblokuj
 [Manage Account]
 Zarządzaj kontem
 [Instant Idle]
 Chwilowa bezczynność
 [Read &HTML Away Message]
-Czytaj opis HTML
+Czytaj opis &HTML
 [Read Profile]
 Wczytaj profil
 [Add To Server List]

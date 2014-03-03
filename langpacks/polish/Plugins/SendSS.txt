@@ -23,23 +23,23 @@ Wyślij zrzut ekranu
 [Send screenshot to\n<unknown>]
 Wyślij zrzut ekranu do\n<nieznany>
 [Ti&med capture]
-Czas uchwycenia
+Cza&s uchwycenia
 [Time (secs):]
 Czas (s):
 [&Format:]
-Format:
+&Format:
 [Send B&y:]
-Wyślij przez:
+Wyślij p&rzez:
 [E&xplore]
-Przeglądaj
+P&rzeglądaj
 [&Fill description textbox.]
-Wypełnij pole opisu.
+&Wypełnij pole opisu.
 [Delete &after send]
 Usuń po wysłaniu
 [Open again]
 Otwórz ponownie
 [&Capture]
-Uchwyć
+&Uchwyć
 [About]
 O kontakcie
 [%s\nv%s]
@@ -47,11 +47,11 @@ O kontakcie
 [Credits >]
 Autorzy >
 [&Close]
-Zamknij
+&Zamknij
 [Edit]
 Edytuj
 [C&lient Area]
-Obszar klienta
+O&bszar klienta
 [Caption:]
 Uchwyć:
 [Size (HxW):]

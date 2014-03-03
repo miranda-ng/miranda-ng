@@ -63,25 +63,25 @@ Protokół Socialist Millioneres
 [Socialist Millionaires Protocol\r\nVerification progress]
 Protokół Socialist Millioneres\r\nWeryfikacja w toku
 [&Cancel]
-Anuluj
+&Anuluj
 [&OK]
 &OK
 [Socialist Millionaires Protocol\r\nVerification]
 Protokół Socialist Millioneres\r\nWeryfikacja
 [&No]
-Nie
+&Nie
 [&Yes]
-Tak
+&Tak
 [OTR status]
 Status OTR
 [&Start OTR session]
-Rozpocznij sesję OTR
+&Rozpocznij sesję OTR
 [&Refresh OTR session]
-Odśwież sesję OTR
+&Odśwież sesję OTR
 [Sto&p OTR session]
-Zatrzymaj sesję OTR
+Zatr&zymaj sesję OTR
 [&Verify Fingerprint]
-Zweryfikuj Odcisk Palca
+Z&weryfikuj Odcisk Palca
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 Rozpocznij OTR
@@ -102,7 +102,7 @@ Szyfrowanie OTR: Prywatne
 [OTR Encryption: Finished]
 Szyfrowanie OTR: Zakończone
 [&Convert HTML (for Pidgin)]
-Konwertuj HTML (dla Pidgina)
+&Konwertuj HTML (dla Pidgina)
 [OTR encrypted session with '%s' has been terminated]
 Szyfrowana sesja OTR z "%s" została przerwana
 [Requesting OTR encrypted session with '%s']

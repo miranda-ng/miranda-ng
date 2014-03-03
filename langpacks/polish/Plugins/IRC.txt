@@ -9,11 +9,11 @@
 Zapewnia obsługę protokołu Internet Relay Chat (IRC) w Mirandzie NG.
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
-Dodaj
+&Dodaj
 [&Edit]
-Edytuj
+&Edytuj
 [&Del]
-Usuń
+&Usuń
 [Enable]
 Włącz
 [only while connecting]
@@ -87,11 +87,11 @@ Pokaż czas
 [Userinfo]
 Dane użytkownika
 [&Refresh]
-Odśwież
+&Odśwież
 [&Query]
-Zapytanie
+&Zapytanie
 [&Close]
-Zamknij
+&Zamknij
 [Name]
 Nazwa
 [Address]
@@ -115,11 +115,11 @@ Pytanie
 [&OK]
 &OK
 [&Cancel]
-Anuluj
+&Anuluj
 [Perform]
 Wykonaj
 [&Set]
-Ustaw
+&Ustaw
 [Alias]
 Alias
 [Perform on event:]
@@ -149,13 +149,13 @@ Protokoły
 [Channels on server]
 Kanały na serwerze
 [&Join]
-Dołącz
+&Dołącz
 [Filter by]
 Filtruj według
 [C&onnect]
 &Połącz
 [&Save]
-Zapisz
+&Zapisz
 [Hostmask]
 Maska hosta
 [&Clear all]
@@ -237,9 +237,9 @@ Wysyłaj powiadomienie
 [CTCP Chat Request]
 Żądanie rozmowy CTCP
 [&Accept]
-Akceptuj
+&Akceptuj
 [&Deny]
-Odrzuć
+&Odrzuć
 [Enable (*)]
 Włącz (*)
 [Ignore channel messages by default]
@@ -543,23 +543,23 @@ Odpowiedź CTCP %s wysłano do %s: %s
 Powiadomienie do %s:
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
-Szybkie połączenie
+&Szybkie połączenie
 [&Join channel]
-Dołącz do kanału
+&Dołącz do kanału
 [&Change your nickname]
-Zmień swoją ksywkę
+&Zmień swoją ksywkę
 [Show the &list of available channels]
-Pokaż listę dostępnych kanałów
+Pokaż &listę dostępnych kanałów
 [&Show the server window]
-Pokaż okno serwera
+&Pokaż okno serwera
 [Channel &settings]
-Ustawienia kanału
+&Ustawienia kanału
 [&WhoIs info]
-Informacje WhoIs
+Informacje &WhoIs
 [Di&sconnect]
-Rozłącz
+Ro&złącz
 [&Add to ignore list]
-Dodaj do ignorowanych
+&Dodaj do ignorowanych
 [%s (%s) is requesting a client-to-client chat connection.]
 %s (%s) żąda rozmowy za pomocą połączenia Klient-do-Klienta 
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
@@ -667,13 +667,13 @@ Ukryj nick na liście
 [Show nick to list]
 Pokaż nick na liście
 [Show the server &window]
-Pokaż okno serwera
+Pokaż &okno serwera
 [&Leave the channel]
-Opuść kanał
+&Opuść kanał
 [&Invite to channel]
-Zaproś na kanału
+&Zaproś na kanału
 [Send &notice]
-Wyślij powiadomienie
+Wyślij &powiadomienie
 [&Slap]
 &Klepnij
 [Nickserv info]
@@ -691,37 +691,37 @@ Daj Admina
 [Take Admin]
 Zabierz Admina
 [Give &Op]
-Daj Opa
+Daj &Opa
 [Take O&p]
-Zabierz Opa
+Zabierz O&pa
 [Give &Halfop]
-Daj Halfop
+Daj &Halfop
 [Take H&alfop]
-Zabierz Halfop
+Zabierz H&alfop
 [Give &Voice]
-Daj Voice
+Daj &Voice
 [Take V&oice]
-Zabierz Voice
+Zabierz V&oice
 [&Kick]
-Wyrzuć
+&Wyrzuć
 [Ki&ck (reason)]
-Wykop (powód)
+Wy&kop (powód)
 [&Ban]
 &Banuj
 [Ban'&n kick]
-Wykop i banuj
+Wykop &i banuj
 [Ban'n kick (&reason)]
-Wykop i banuj (powód)
+Wykop i banuj (&powód)
 [&Direct Connection]
-Połączenie bezpośrednie
+Połączenie &bezpośrednie
 [Request &Chat]
-Żądanie rozmowy
+Żądanie &rozmowy
 [Send &File]
-Wyślij plik
+Wyślij &plik
 [Add to &ignore list]
-Dodaj do listy ignorowanych
+Dodaj do listy &ignorowanych
 [&Add User]
-Dodaj użytkownika
+&Dodaj użytkownika
 [Connecting to]
 Połącz do
 ;file \protocols\IRCG\src\tools.cpp

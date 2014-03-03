@@ -81,25 +81,25 @@ Ustaw mój opis dla wszystkich statusów
 [Status Message:]
 Opis:
 [&Offline]
-Rozłączony
+&Rozłączony
 [On&line]
-Dostępny
+&Dostępny
 [&Away]
-Zaraz wracam
+&Zaraz wracam
 [&NA]
-Wrócę później
+&Wrócę później
 [Occ&upied]
-Zajęty
+Za&jęty
 [&DND]
-Nie przeszkadzać
+&Nie przeszkadzać
 [&Free for chat]
-Porozmawiajmy
+&Chętny do rozmowy
 [&Invisible]
-Niewidoczny
+N&iewidoczny
 [On the &Phone]
-Pod telefonem
+Pod &telefonem
 [Out to &Lunch]
-Na obiedzie
+Na &obiedzie
 [Set My Avatar...]
 Ustaw awatar...
 [Set My Nickname...]

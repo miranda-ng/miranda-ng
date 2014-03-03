@@ -204,15 +204,15 @@ Tło submetakontaktów
 [SubMetacontact foreground]
 Tło pierwszoplanowe submetakontaktów
 [&Delete]
-Usuń
+&Usuń
 [&Copy]
-Kopiuj
+&Kopiuj
 [C&onvert to Meta]
-Konwertuj do Meta
+K&onwertuj do Meta
 [Attach to &Tab container]
-Dołącz do kontenera zakładki
+Dołącz do kontenera &zakładki
 [&Move to Group]
-Przenieś do grupy
+&Przenieś do grupy
 [Some of selected contacts in different metacontacts already]
 Niektóre z wybranych kontaktów są już w różnych metakontaktach
 [Do you really want to delete selected contacts?]

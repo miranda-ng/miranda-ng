@@ -11,27 +11,27 @@ Pozwala wysyłać i odbierać kontakty.
 [Send contacts]
 Wyślij kontakt
 [&Add]
-Dodaj
+&Dodaj
 [&User menu]
-Menu użytkownika
+Menu &użytkownika
 [User &details]
-Dane kontaktu
+&Dane kontaktu
 [&History]
-Historia
+&Historia
 [Choose contacts to be send:]
 Wybierz kontakt do wysłania:
 [&Send]
-Wyślij
+&Wyślij
 [Cancel]
 Anuluj
 [&Select All]
-Wszystkie
+&Wszystkie
 [Received contacts]
 Otrzymane kontakty
 [Add to &group:]
-Dodaj do grupy:
+Dodaj do &grupy:
 [&Details]
-Szczegóły
+&Szczegóły
 [Close]
 Zamknij
 [Contacts send error]

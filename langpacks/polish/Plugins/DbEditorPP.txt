@@ -21,13 +21,13 @@ Nazwa ustawienia
 [Setting Value]
 Wartość ustawienia
 [&Search]
-Szukaj
+&Szukaj
 [Found field]
 Znalezienie nieudane
 [&Replace]
-Zamień
+&Zamień
 [&Cancel]
-Anuluj
+&Anuluj
 [Search For]
 Szukaj
 [Text:]
@@ -95,83 +95,83 @@ Import modułów/ustawień
 [Import]
 Importuj
 [Insert &CR/LF]
-Umieść CR/LF
+Umieść &CR/LF
 [Paste the Settings to import here.]
 Wklej tu ustawienia do zaimportowania.
 [Database Editor++]
 Edytor profilu
 [&Main]
-Główne
+&Główne
 [&Refresh Modules]
-Odśwież moduły
+&Odśwież moduły
 [Refresh &Settings]
-Odśwież ustawienia
+Odśwież &ustawienia
 [E&xit]
-Wyjdź
+W&yjdź
 [&Actions]
-Akcje
+&Akcje
 [&Search and Replace]
-Wyszukaj i zamień
+&Wyszukaj i zamień
 [&Delete Module]
-Usuń moduł
+&Usuń moduł
 [&Watches]
-Obserwowane
+&Obserwowane
 [&View all]
-Pokaż wszystko
+&Pokaż wszystko
 [&Delete all]
-Usuń wszystko
+&Usuń wszystko
 [&Export]
-Eksportuj
+&Eksportuj
 [Entire &Database]
-Cały profil
+Cały &profil
 [All &Settings]
-Wszystkie ustawienia
+&Wszystkie ustawienia
 [All &Contacts]
-Wszystkie kontakty
+Wszystkie &kontakty
 [&Import]
-Importuj
+&Importuj
 [From a &file]
-Z pliku
+Z &pliku
 [From pasted &text]
-Z wklejonego tekstu
+Z wklejonego &tekstu
 [&Options]
-Opcje...
+&Opcje...
 [&Sort by protocol]
-Sortuj wg protokołów
+&Sortuj wg protokołów
 [Show &All]
-Pokaż wszystko
+Pokaż &wszystko
 [Show only &Loaded]
-Pokaż tylko wczytane
+Pokaż tylko &wczytane
 [Show only &Unloaded]
-Pokaż tylko niewczytane
+Pokaż tylko &niewczytane
 [Edit &Bytes in Hex]
-Edytuj wartości Byte w Hex
+Edytuj wartości &Byte w Hex
 [Edit &Words in Hex]
-Edytuj wartości Word w Hex
+Edytuj wartości &Word w Hex
 [Edit &Dwords in Hex]
-Edytuj wartości Dword w Hex
+Edytuj wartości &Dword w Hex
 [&Restore position]
-Przywróć pozycję
+&Przywróć pozycję
 [&Open Options]
-Otwórz opcje
+&Otwórz opcje
 [&Edit / Rename]
-Edytuj/zmień nazwę
+&Edytuj/zmień nazwę
 [NEW]
 NOWY
 [&Byte]
-Bajt
+&Bajt
 [&Word]
-Word
+&Word
 [&Dword]
-Dword
+&Dword
 [&String]
-Ciąg
+&Ciąg
 [&Unicode]
-Unicode
+&Unicode
 [BL&OB]
-BLOB
+BL&OB
 [&Convert to]
-Konwertuj do
+&Konwertuj do
 [Encyption]
 Szyfrowanie
 [View Decrypted String]
@@ -183,17 +183,17 @@ Odszyfruj ciąg
 [Encrypt String]
 Zaszyfruj ciąg
 [&Watch]
-Obserwuj
+&Obserwuj
 [&Delete]
-Usuń
+&Usuń
 [&Rename]
-Zmień nazwę
+&Zmień nazwę
 [Copy To Contact]
 Kopiuj do kontaktu
 [Export Module]
 Eksportuj moduł
 [&Clone]
-Klon
+&Klon
 [Export Contact]
 Eksportuj kontakty
 [Import Settings]
@@ -203,7 +203,7 @@ Z pliku
 [From pasted text]
 Z wklejonego tekstu
 [&Add Module]
-Dodaj moduł
+&Dodaj moduł
 [Export Settings]
 Eksportuj ustawienia
 [Export Contacts]

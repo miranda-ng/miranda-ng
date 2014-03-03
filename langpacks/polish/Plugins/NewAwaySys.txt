@@ -43,19 +43,19 @@ Tekst
 [Only notify when:]
 Powiadamiaj tylko, gdy:
 [On&line]
-Dostępny
+&Dostępny
 [&Away]
-Zaraz wracam
+&Zaraz wracam
 [&NA]
-Wrócę później
+&Wrócę później
 [Occ&upied]
-Zajęty
+Za&jęty
 [&DND]
-Nie przeszkadzać
+&Nie przeszkadzać
 [&Free for chat]
-Porozmawiajmy
+&chętny do rozmowy
 [&Other]
-Inne
+&Inne
 [Log to a file only when popup notification for a contact is enabled]
 Zapisuj do pliku tylko, jeśli dla kontaktu włączone jest powiadomienie popup
 [Enable autoreply]
@@ -81,31 +81,31 @@ Resetuj ten licznik także wtedy, gdy tylko zmieniam opis\n(ikona statusu pozost
 [Disable autoreply when...]
 Wyłącz autodpowiedź, gdy...
 [&Invisible]
-Niewidoczny
+N&iewidoczny
 [On the &phone]
-Pod telefonem
+Pod &telefonem
 [Out to &lunch]
-Na obiedzie
+Na &obiedzie
 [Autoreply format:]
 Format autoodpowiedzi:
 [OK]
 OK
 [&Variables]
-Zmienne
+&Zmienne
 [Se&ttings]
-Ustawienia
+Us&tawienia
 [Ignore requests]
 Ignoruj prośby
 [Send an autoreply]
 Wyślij autoodpowiedź
 [&Delete]
-Usuń
+&Usuń
 [New &category]
-Nowa kategoria
+Nowa &kategoria
 [Save as &new]
 Zapisz jako &nowy
 [&Save]
-Zapisz
+&Zapisz
 [Title:]
 Nazwa:
 [Use this message as default for]
@@ -161,7 +161,7 @@ Opis statusu "%s" - %s
 [Retrieving %s message...]
 Odbieranie %s wiadomości...
 [&Cancel]
-Anuluj
+&Anuluj
 [Notify of requests]
 Powiadamiaj o prośbach
 [Don't notify of requests]
@@ -183,19 +183,19 @@ Pokaż szablony &opisów
 [Show &contacts]
 Pokaż  &kontakty
 [Save default window settings &automatically]
-Automatycznie zapisz domyślne ustawienia okna
+&Automatycznie zapisz domyślne ustawienia okna
 [&Save current window settings as default]
-Zapisz obecne ustawienia okna jako domyślne
+&Zapisz obecne ustawienia okna jako domyślne
 [Disable parsing of status messages by Variables plugin]
 Wyłącz przetwarzanie opisów przez wtyczkę Variables
 [Create new &message]
-Stwórz nowy opis
+Stwórz nowy &opis
 [Create new &category]
-Stwórz nową kategorię
+Stwórz nową &kategorię
 [&Rename]
-Zmień nazwę
+&Zmień nazwę
 [Set as &default for]
-Ustaw jako domyślne dla
+Ustaw jako &domyślne dla
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
 [Create new message]
 Stwórz nowy opis
@@ -294,7 +294,7 @@ Wyłącz przełączanie
 [Set %s message for the contact]
 Ustaw opis %s dla kontaktu
 [Re&ad %s message]
-Pokaż opis "%s"
+Po&każ opis "%s"
 [Toggle autoreply on/off]
 Włącz/wyłącz autoodpowiedź
 [Toggle autoreply off]
@@ -382,7 +382,7 @@ Błąd #%d
 Nie można otworzyć pliku dziennika
 ;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
-Zamknij
+&Zamknij
 ;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
 Zapisz, zastępując wybrany opis

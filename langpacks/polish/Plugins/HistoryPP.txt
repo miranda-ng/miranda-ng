@@ -12,7 +12,7 @@ Rozmowy głosowe
 [Voice call]
 Rozmowa głosowa
 [Sh&ow in history]
-Pokaż w historii
+Po&każ w historii
 [Log default]
 Domyślny dziennik
 [History default]
@@ -22,7 +22,7 @@ Opadająca strzałka
 [Status message changes]
 Zmiany opisów
 [&Pseudo-edit]
-Edytuj nazwę
+Edytuj &nazwę
 [Pseudo-edit mode...]
 Tryb zmiany nazwy...
 [Group log messages]
@@ -34,7 +34,7 @@ Przychodzące powiadomienie WATrack
 [Outgoing WATrack notify]
 Wychodzące powiadomienie WATrack
 [&Copy Link]
-Kopiuj link
+&Kopiuj link
 [WATrack notify]
 Powiadomienia WATrack
 [Open Link]
@@ -78,13 +78,13 @@ Dostosuj filtry
 [Filter Properties]
 Ustawienia filtru
 [&Name:]
-Nazwa:
+&Nazwa:
 [Show all except selected events]
 Pokaż tylko niezaznaczone zdarzenia
 [Show only selected events]
 Pokaż tylko zaznaczone zdarzenia
 [R&eset to Default]
-Przywróć domyślne
+P&rzywróć domyślne
 [New Filter #%d]
 Nowy filtr #%d
 [Incoming & Outgoing]
@@ -92,19 +92,19 @@ Przychodzące i wychodzące
 [Customize Toolbar]
 Dostosuj pasek narzędzi
 [A&vailable buttons:]
-Dostępne przyciski:
+D&ostępne przyciski:
 [Buttons on &toolbar:]
-Przyciski na pasku narzędzi:
+Przyciski na &pasku narzędzi:
 [&Add >>]
-Dodaj >>
+&Dodaj >>
 [<< &Remove]
-<< Usuń
+<< &Usuń
 [Event Filters]
 Filtry zdarzenia
 [Event Details]
 Szczegóły zdarzenia
 [&Reply Quoted]
-Odpowiedz cytując
+&Odpowiedz cytując
 [Event Info]
 Info zdarzenia
 [Date/Time:]
@@ -112,7 +112,7 @@ Data/czas:
 [Copy All]
 Kopiuj wszystko
 [&Select All]
-Wszystkie
+&Wszystkie
 [SMS Message]
 Wiadomość SMS
 [WebPager]
@@ -154,15 +154,15 @@ Eksport Histori++
 [Clear Search]
 Wyczyść wyszukiwanie
 [Sh&ow in context]
-Pokaż w kontekście
+Po&każ w kontekście
 [Set &Bookmark]
-Ustaw zakładkę
+Ustaw &zakładkę
 [Rename &Bookmark]
-Zmień nazwę zakładki
+Zmień nazwę &zakładki
 [Copy &Text]
-Kopiuj tekst
+Kopiuj &tekst
 [&Save Selected...]
-Zapisz zaznaczone...
+&Zapisz zaznaczone...
 [Save History]
 Zapisz historię
 [%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
@@ -170,7 +170,7 @@ Znaleziono %.0n wpisów w %d kontaktach. Czas: %.1f s w %.0n elementów.
 [All Results]
 Wszystkie wyniki
 [&System History]
-Historia systemowa
+Historia &systemowa
 [System History]
 Historia systemowa
 [Searching "%s"...]
@@ -190,9 +190,9 @@ Proszę czekać, zamykanie okna...
 [Partial History [%s] - [%s]]
 Częściowa historia [%s] - [%s]
 [Delete &Bookmark]
-Usuń zakładki
+Usuń &zakładki
 [Remove &Bookmark]
-Usuń zakładkę
+Usuń &zakładkę
 [Ready to search]
 Gotowy do skanowania
 [Click Search button to start]
@@ -236,29 +236,29 @@ Rozmowy (F4)
 [History Search]
 Przeszukiwanie historii
 [His&tory Search]
-Przeszukiwanie historii
+Prz&eszukiwanie historii
 [&Open]
-Otwórz
+&Otwórz
 [Open &Link]
-Otwórz link
+Otwórz &link
 [Open Link in New &Window]
-Otwórz link w nowym oknie
+Otwórz link w nowym &oknie
 [Open &File]
-Otwórz plik
+Otwórz &plik
 [Open File Fo&lder]
-Otwórz folder
+Otwórz fo&lder
 [Disable &Processing]
-Wyłącz przetwarzanie
+Wyłącz &przetwarzanie
 [Export as &HTML...]
-Eksportuj jako HTML...
+Eksportuj jako &HTML...
 [Export as &XML...]
-Eksportuj jako XML...
+Eksportuj jako &XML...
 [Export as &RTF...]
-Eksportuj jako RTF...
+Eksportuj jako &RTF...
 [Export as &mContacts...]
 Eksportuj jako &mContacts...
 [Export as &Text...]
-Eksportuj jako tekst...
+Eksportuj jako &tekst...
 [Empty history...]
 Usuń historię...
 [Text direction]
@@ -268,7 +268,7 @@ Kodowanie ANSI
 [Password protection...]
 Ochrona hasłem...
 [&Customize...]
-Dostosuj...
+&Dostosuj...
 [Save...]
 Zapisz...
 [%.0n items in history]
@@ -288,7 +288,7 @@ Szukaj: %s (F3, aby znaleźć następne)
 [%0.n events (%s)]
 %0.n zdarzenia (%s)
 [Enable &Processing]
-Włącz przetwarzanie
+Włącz &przetwarzanie
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Czy na pewno chcesz usunąć wszystkie elementy (%.0f) tego kontaktu?
 [Note: It can take several minutes for large history.]
@@ -444,7 +444,7 @@ Pokaż informacje o nadawcy
 [Show receiver information]
 Pokaż informacje o odbiorcy
 [Toggle &Processing]
-Przełącz przetwarzanie
+Przełącz &przetwarzanie
 [Toolbar]
 Pasek narzędzi
 [Incoming SMS Message]
@@ -466,13 +466,13 @@ Opcje dziennika wiadomości
 [HTML file]
 Plik HTML
 [&Browse Received Files]
-Przeglądaj otrzymane pliki
+&Przeglądaj otrzymane pliki
 [Include custom event type (0-65535)]
 Dołącz niestandardowy typ zdarzenia (0-65535)
 [&Open file folder]
-Otwórz folder plików
+&Otwórz folder plików
 [&Copy Filename]
-Kopiuj nazwę pliku
+&Kopiuj nazwę pliku
 [Limit event types]
 Limit typów zdarzeń
 [Search messages matched to]
@@ -482,7 +482,7 @@ Limit typu zdarzeń
 [Hide Menu]
 Ukryj menu
 [&File Actions]
-Akcje na plikach
+Akcje na &plikach
 [Unknown codepage %u]
 Nieznane kodowanie %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
@@ -508,9 +508,9 @@ Następna wiadomość
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
 Moduł History++ nie został załadowany, brak pliku richedit 2.0+.\\nPrzyciśnij OK aby kontynuować uruchamianie Mirandy.
 [&Empty System History]
-Usuń historię systemową
+&Usuń historię systemową
 [&Empty History]
-Usuń historię
+&Usuń historię
 [Do you really want to delete ALL items for this contact?]
 Czy na pewno chcesz usunąć WSZYSTKIE wpisy dla tego kontaktu?
 [Note: It can take several minutes for large histories]
@@ -532,11 +532,11 @@ Uruchomiona wersja Emoticons nie jest obsługiwana
 [%s Header]
 %s Nagłówek
 [&Additional]
-Dodatkowe
+&Dodatkowe
 [&Delete All]
-Usuń wszystko
+&Usuń wszystko
 [&Password Protection...]
-Ochrona hasłem...
+Ochrona &hasłem...
 [(time and date)]
 (czas i data)
 [All Items]
@@ -560,7 +560,7 @@ Czcionka daty
 [Event Icons]
 Ikony zdarzeń
 [Forward &Message]
-Przekieruj wiadomość
+Przekieruj &wiadomość
 [History++ Options]
 Opcje History++
 [History++ [%s]]
@@ -608,11 +608,11 @@ Ostatnie na dole
 [Recent on top]
 Ostatnie na górze
 [Save All as &HTML...]
-Zapisz wszystko do HTML...
+Zapisz wszystko do &HTML...
 [Save All as &Text...]
-Zapisz wszystko do TXT...
+Zapisz wszystko do &TXT...
 [Save All as &XML...]
-Zapisz wszystko do XML...
+Zapisz wszystko do &XML...
 [Select search mode:]
 Wybierz tryb szukania:
 [Selected file and contact file folder not found]
@@ -648,13 +648,13 @@ Opcje podglądu historii
 [Visit Wiki page for more options]
 Więcej opcji znajdziesz na stronie Wiki
 [&Code Editor...]
-Edytor kodu...
+Edytor &kodu...
 [&Load...]
-Wczytaj...
+&Wczytaj...
 [&Save...]
-Zapisz...
+&Zapisz...
 [&User Name:]
-Użytkownik:
+&Użytkownik:
 [(Unknown Contact)']
 (Nieznany kontakt)'
 [0 lines]
@@ -674,7 +674,7 @@ Ostrzeżenie History++
 [%d min]
 %d min
 [&Reset to Default]
-Przywróć domyślne
+&Przywróć domyślne
 [Contact history]
 Historia kontaktu
 [Incoming nick]
@@ -690,17 +690,17 @@ Przychodzący czas
 [Outgoing timestamp]
 Wychodzący czas
 [Open in &new window]
-Otwórz w nowym oknie
+Otwórz w &nowym oknie
 [Open in existing &window]
-Otwórz w aktywnym oknie
+Otwórz w aktywnym &oknie
 [Copy &Link]
-Kopiuj link
+Kopiuj &link
 [Co&py]
-Kopiuj
+Ko&piuj
 [Select &All]
-Zaznacz wszystko
+Zaznacz &wszystko
 [Send &Message]
-Wyślij wiadomość
+Wyślij &wiadomość
 [User Details]
 Dane kontaktu
 [Enable SmileyAdd support]
@@ -718,6 +718,6 @@ Zobacz historię użytkownika
 [View User's History]
 Zobacz historię użytkownika
 [View &History]
-Zobacz historię
+Zobacz &historię
 [User Menu]
 Menu użytkownika

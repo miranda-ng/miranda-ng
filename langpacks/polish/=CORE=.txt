@@ -12,9 +12,9 @@ Anuluj
 [Add %s]
 Dodaj %s
 [&Add]
-Dodaj
+&Dodaj
 [&Cancel]
-Anuluj
+&Anuluj
 [Send "You were added"]
 Wyślij "Zostałeś dodany"
 [Send authorization request]
@@ -32,9 +32,9 @@ Prośba o autoryzację
 [Delete contact]
 Usuń kontakt
 [&Yes]
-Tak
+&Tak
 [&No]
-Nie
+&Nie
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Tylko ukryj na liście by zatrzymać historię i ustawienia ignorowania/widoczności.
 [Use Options->Contacts->Ignore to unhide contacts.]
@@ -50,9 +50,9 @@ Zamiast wyświetlać kontakty w kolejności ich nicków,\nprzenieś aby wybrać 
 [Miranda NG Profile Manager]
 Menedżer profili Mirandy NG
 [&Run]
-Uruchom
+&Uruchom
 [&Exit]
-Wyjście
+&Wyjście
 [Start in Service Mode with]
 Startuj w:
 [Find/Add contacts]
@@ -74,7 +74,7 @@ Zaawansowane
 [Advanced >>]
 Zaawansowane >>
 [&Search]
-Szukaj
+&Szukaj
 [More options]
 Więcej opcji
 [Add to list]
@@ -104,7 +104,7 @@ Czy chcesz teraz zaimportować ustawienia?
 [No to all]
 Nie dla wszystkich 
 [&View contents]
-Zawartość 
+&Zawartość 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 System bezpieczeństwa zapobiegający szkodliwym zmianom jest aktywny i będzie ostrzegał przed zmianami, które nie są bezpieczne.
 [Database setting change]
@@ -128,13 +128,13 @@ Import zakończył się z
 [What do you want to do with the file now?]
 Co chcesz zrobić z plikiem?
 [&Recycle]
-Odzyskaj
+&Odzyskaj
 [&Delete]
-Usuń
+&Usuń
 [&Move/Rename]
-Przenieś/zmień nazwę
+&Przenieś/zmień nazwę
 [&Leave]
-Opuść
+&Pozostaw
 [Netlib log options]
 Raportuj opcje Netlib
 [Show]
@@ -168,9 +168,9 @@ Pokazuj to okno przy starcie
 [Sounds]
 Dźwięki
 [&Change...]
-Zmień
+&Zmień
 [&Preview]
-Podgląd
+&Podgląd
 [Download more sounds]
 Pobierz więcej dźwięków 
 [Sound information]
@@ -186,9 +186,9 @@ Ikony
 [Show category:]
 Pokaż kategorie:
 [&Load icon set...]
-Załaduj zestaw ikon...
+&Załaduj zestaw ikon...
 [&Import icons >>]
-Importuj ikony >>
+&Importuj ikony >>
 [Download more icons]
 Pobierz więcej ikon
 [The following events are being ignored:]
@@ -234,7 +234,7 @@ Do głównych ikon
 [To]
 Do
 [<< &Import]
-<< Importuj
+<< &Importuj
 [To default status icons]
 Do domyślnych ikon statusu
 [Logging...]
@@ -320,31 +320,31 @@ Wybierz czcionkę
 [Font]
 Czcionka
 [&Font:]
-Czcionka:
+&Czcionka:
 [Font st&yle:]
-Styl czcionki:
+St&yl czcionki:
 [\nStyles and effects are disabled for this font.]
 \nStyle i efekty są wyłączone dla tej czcionki.
 [&Size:]
-Rozmiar:
+&Rozmiar:
 [Effects]
 Efekty
 [Stri&keout]
-Przekreślenie
+&Przekreślenie
 [&Underline]
-Podkreślenie
+P&odkreślenie
 [&Color:]
-Kolor
+&Kolor
 [Sample]
 Przykład
 [AaBbYyZz]
 AaBbYyZz
 [Sc&ript:]
-Pismo:
+Pi&smo:
 [&Apply]
-Zastosuj
+&Zastosuj
 [&Help]
-Pomoc
+&Pomoc
 [Menu objects]
 Obiekty menu
 [Menu items]
@@ -400,15 +400,15 @@ Konfiguruj wtyczkę...
 [Get more protocols...]
 Pobierz więcej wtyczek...
 [&Add...]
-Dodaj...
+&Dodaj...
 [&Edit]
-Edytuj
+&Edytuj
 [&Options]
-Opcje...
+&Opcje...
 [&Upgrade]
-Aktualizuj
+&Aktualizuj
 [&Remove...]
-Usuń...
+&Usuń...
 [Miranda NG]
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
@@ -466,17 +466,17 @@ Informacje
 [Contacts]
 Kontakty
 [&Remove]
-Usuń
+&Usuń
 [&Set as Default]
-Domyślny
+Ustaw jako &domyślny
 [Move &Up]
-W góry
+W &górę
 [Move &Down]
-W dół
+W &dół
 [Force use of default for sending (even if offline)]
 Wymuś domyślny do wysyłania (nawet jeśli rozłączony)
 [Send &Offline]
-Wysyłaj do rozłączonego
+Wysyłaj do &rozłączonego
 [Set default contact on receipt of message]
 Ustaw domyślny kontakt po otrzymaniu wiadomości
 [Always send to default contact if not offline]
@@ -546,70 +546,70 @@ Historia (** ostrzeżenie - zmieniasz na własne ryzyko**)
 [Tray]
 Zasobnik
 [&Hide/Show]
-Pokaż/Ukryj
+&Pokaż/Ukryj
 [E&xit]
-Wyjdź
+W&yjdź
 [Nowhere]
 Nigdzie
 [&New group]
-Nowa grupa
+&Nowa grupa
 [&Hide offline users]
-Ukryj rozłączonych
+&Ukryj rozłączonych
 [Hide &offline users out here]
-Ukryj rozłączonych tutaj
+Ukryj &rozłączonych tutaj
 [Hide &empty groups]
-Ukryj puste grupy
+Ukryj &puste grupy
 [Disable &groups]
-Wyłącz grupy
+Wyłącz &grupy
 [Hide Miranda]
 Ukryj Mirandę
 [Group]
 Grupa
 [&New subgroup]
-Nowa podgrupa
+&Nowa podgrupa
 [&Hide offline users in here]
-Ukryj tu rozłączonych
+&Ukryj rozłączonych tutaj
 [&Rename group]
-Zmień nazwę grupy
+&Zmień nazwę grupy
 [&Delete group]
-Usuń grupę
+&Usuń grupę
 [&Reset to default]
-Przywróć domyślne
+&Przywróć domyślne
 [find/add]
 znajdź/dodaj
 [&Add to list]
-Dodaj do listy
+&Dodaj do listy
 [User &details]
-Dane kontaktu
+Dane &kontaktu
 [Send &message]
-Wyślij wiadomość
+Wyślij &wiadomość
 [Log]
 Dziennik
 [&Copy]
-Kopiuj
+&Kopiuj
 [Co&py all]
-Kopiuj wszystko
+Ko&piuj wszystko
 [Select &all]
-Zaznacz wszystko
+Zaznacz &wszystko
 [C&lear log]
-Wyczyść dziennik
+W&yczyść dziennik
 [Open in &new window]
-Otwórz w nowym oknie
+Otwórz w &nowym oknie
 [&Open in existing window]
-Otwórz w istniejącym oknie
+&Otwórz w istniejącym oknie
 [&Copy link]
-Kopiuj link
+&Kopiuj link
 [Cancel change]
 Anuluj zmianę
 [Ungroup]
 Anuluj grupowanie
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
-Autoryzuj
+&Autoryzuj
 [&Deny]
-Odrzuć
+&Odrzuć
 [Decide &later]
-Przypomnij później
+Przypomnij &później
 [Reason:]
 Powód:
 [Denial reason:]
@@ -619,7 +619,7 @@ Dodaj kontakt do listy jeśli autoryzowany
 [You were added]
 Zostałeś dodany
 [&Close]
-Zamknij
+&Zamknij
 ;file \src\core\stdaway\resource.rc
 [%s message for %s]
 Opis statusu "%s" - %s
@@ -645,25 +645,25 @@ Zmień opis dla "%s"
 Zamykanie w %d
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
-Wyślij
+&Wyślij
 [&Emoticons]
-Emotikony
+&Emotikony
 [&Bold]
-Pogrubienie
+&Pogrubienie
 [&Italic]
-Kursywa
+&Kursywa
 [&Color]
-Kolor
+K&olor
 [&Background color]
-Kolor tła
+Kolor &tła
 [&History]
-Historia
+&Historia
 [&Filter]
-Filtr
+&Filtr
 [&Room settings]
-Ustawienia pokoju
+Ustawienia &pokoju
 [&Show/Hide nick list]
-Pokaż/Ukryj listę nicków
+Po&każ/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -731,9 +731,9 @@ Tło
 [List]
 Lista
 [&Message]
-Wiadomość
+&Wiadomość
 [Clear lo&g]
-Wyczyść dziennik
+Wyczyść dzienn&ik
 [Word lookup]
 Wyszukaj słowo
 [Google]
@@ -743,9 +743,9 @@ Wikipedia
 [Link]
 Link
 [Open a &new browser window]
-Otwórz w nowym oknie przeglądarki
+Otwórz w &nowym oknie przeglądarki
 [&Open in current browser window]
-Otwórz w bieżącym oknie przeglądarki
+&Otwórz w bieżącym oknie przeglądarki
 [Message]
 Wiadomość
 [Redo]
@@ -763,11 +763,11 @@ Wyczyść
 [Tabs]
 Karty
 [&Close tab]
-Zamknij kartę
+&Zamknij kartę
 [C&lose other tabs]
-Zamknij inne karty
+Z&amknij inne karty
 [&Open at this position]
-Otwórz w tym miejscu
+&Otwórz w tym miejscu
 ;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Ukryj rozłączonych
@@ -960,29 +960,29 @@ Okno:
 [Contact list background:]
 Tło listy kontaktów:
 [&Main menu]
-Menu główne
+&Menu główne
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-Rozłączony\tCtrl+0
+&Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Dostępny\tCtrl+1
+&Dostępny\tCtrl+1
 [&Away\tCtrl+2]
-Zaraz wracam\tCtrl+2
+&Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
-Wrócę później
+&Wrócę później
 [Occ&upied\tCtrl+4]
-Zajęty
+Za&jęty
 [&DND\tCtrl+5]
-Nie przeszkadzać
+&Nie przeszkadzać
 [&Free for chat\tCtrl+6]
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
-Niewidoczny\tCtrl+7
+N&iewidoczny\tCtrl+7
 [On the &phone\tCtrl+8]
-Przy telefonie\tCtrl+8
+Przy &telefonie\tCtrl+8
 [Out to &lunch\tCtrl+9]
-Poszedłem na obiad\tCtrl+9
+Poszedłem na &obiad\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send file(s)]
 Wyślij plik(i)
@@ -991,17 +991,17 @@ Do:
 [File(s):]
 Plik(i):
 [&Choose again...]
-Wybierz ponownie...
+&Wybierz ponownie...
 [Total size:]
 Całkowity rozmiar:
 [&User menu]
-Menu użytkownika
+Menu &użytkownika
 [Incoming file transfer]
 Przychodzący transfer plików
 [A&ccept]
-Akceptuj
+A&kceptuj
 [&Decline]
-Odrzuć
+&Odrzuć
 [From:]
 Od:
 [Date:]
@@ -1011,9 +1011,9 @@ Pliki:
 [Save to:]
 Zapisz do:
 [&Open...]
-Otwórz...
+&Otwórz...
 [Open &folder]
-Otwórz folder
+Otwórz &folder
 [Transfer completed, open file(s).]
 Transfer zakończony, otwórz plik(i).
 [No data transferred]
@@ -1186,7 +1186,7 @@ Spróboj ponownie
 [Message session]
 Sesja rozmowy
 [&Details]
-Szczegóły
+&Szczegóły
 [Message window event log]
 Dziennik okna rozmowy
 [Show names]
@@ -1230,7 +1230,7 @@ Zachowanie okna rozmowy:
 [Messaging:]
 Rozmowa:
 [&Open link]
-Otwórz link
+&Otwórz link
 [Paste and send]
 Wklej i wyślij
 [Delete]
@@ -1239,13 +1239,13 @@ Usuń
 [Find]
 Szukaj
 [&Find next]
-szukaj następnego
+&szukaj następnego
 [Find what:]
 Szukaj:
 [Message history]
 Historia wiadomości 
 [&Find...]
-Szukaj...
+&Szukaj...
 ;file \src\core\stduserinfo\resource.rc
 [Add phone number]
 Dodaj numer telefonu
@@ -1355,9 +1355,9 @@ Dodaj kontakt na stałe do listy
 Funkcja nie wspierana przez protokół
 ;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s message]
-Pokaż opis "%s"
+Po&każ opis "%s"
 [Re&ad status message]
-Zobacz opis statusu
+Zo&bacz opis statusu
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Nie ma mnie od %time%
@@ -1749,16 +1749,16 @@ Użytkownik nie zarejestrował adresu e-mail
 [Send e-mail]
 Wyślij e-mail
 [&E-mail]
-E-mail
+&E-mail
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Plik od %s
 [bytes]
 bajty
 [&File]
-Plik
+&Plik
 [File &transfers...]
-Transfery plików...
+&Transfery plików...
 [Incoming]
 Przychodzący
 [Complete]
@@ -1850,13 +1850,13 @@ Wychodzące
 < Prawa aut.
 ;file \src\core\stdhelp\help.cpp
 [&About...]
-O programie...
+&O programie...
 [&Support]
-Wsparcie techniczne
+&Wsparcie techniczne
 [&Miranda NG homepage]
-Strona domowa Mirandy
+Strona domowa &Mirandy
 [&Report bug]
-Zgłoś błąd
+&Zgłoś błąd
 ;file \src\core\stdidle\idle.cpp
 [Idle]
 Bezczynność
@@ -1955,12 +1955,12 @@ Czy jesteś pewien, że chcesz usunąć ten wpis historii?
 [Delete history]
 Usuń historię
 [View &history]
-Zobacz historię
+Zobacz &historię
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL od %s
 [Web page address (&URL)]
-Adres strony internetowej (URL)
+Adres strony internetowej (&URL)
 [URL]
 URL
 ;file \src\core\stdurl\urldialogs.cpp
@@ -2012,7 +2012,7 @@ Notatki
 [Owner]
 Właściciel
 [View/change my &details...]
-Pokaż/zmień moje dane...
+Pokaż/zmień moje &dane...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s jest Dostępny
@@ -2074,12 +2074,12 @@ Użytkownik wysłał powiadomienie
 Temat został zmieniony
 ;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
-Dołącz do czatu
+&Dołącz do czatu
 [&Leave chat]
-Opuść czat
+&Opuść czat
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
-Otwórz okno czatu
+&Otwórz okno czatu
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s dołączył(a)
@@ -2162,11 +2162,11 @@ Menu główne
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ten kontakt należy do sieci, która przechowuje swoją listę kontaktów na centralnym serwerze. Kontakt zostanie usunięty z serwera i twojej listy kontaktów kiedy ponownie połączysz się z tą siecią.
 [De&lete]
-Usuń
+Us&uń
 [&Rename]
-Zmień nazwę
+&Zmień nazwę
 [&Add permanently to list]
-Dodaj na stałe do listy
+&Dodaj na stałe do listy
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Moja własna nazwa (przeniesienie niemożliwe)
@@ -2224,7 +2224,7 @@ Otwórz okno opcji logowania
 Otwórz okno szukania użytkowników
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
-Przenieś do grupy
+&Przenieś do grupy
 [<Root group>]
 <Grupa główna>
 ;file \src\modules\database\database.cpp
@@ -2282,7 +2282,7 @@ Nie można utworzyć profilu "%s", wystąpił błąd %x
 [Problem creating profile]
 Problem z utworzeniem profilu
 [&Create]
-Utwórz
+&Utwórz
 [<In use>]
 <W użyciu>
 [Are you sure you want to remove profile "%s"?]
@@ -2326,7 +2326,7 @@ Wszystkie sieci
 [Handle]
 Uchwyt
 [&Find/Add contacts...]
-Szukaj/dodaj kontakty...
+&Szukaj/dodaj kontakty...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
@@ -2555,7 +2555,7 @@ Wczytywanie... %d%%
 [Miranda NG options]
 Opcje Mirandy NG
 [&Options...]
-Opcje...
+&Opcje...
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Wtyczka rdzenia '%' nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
@@ -2632,7 +2632,7 @@ Konto "%s" zostanie usunięte
 [You need to disable plugin to delete this account]
 Musisz wyłączyć wtyczkę, by usunąć to konto.
 [&Accounts...]
-Konta...
+&Konta...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
 Ctrl + 
