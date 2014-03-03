@@ -97,6 +97,8 @@ URL:
 Ошибка входа: %s
 [Unknown error]
 Неизвестная ошибка
+[Your account requires HTTPS connection. Activating.]
+Ваша учётная запись требует соединения по HTTPS. Включим его.
 [Status update was successful.]
 Успешное обновление статуса.
 [Please enter a username.]
@@ -171,6 +173,8 @@ URL:
 %s подключение к серверу 
 [Unable to get Netlib connection for Facebook]
 Не удается установить соединение с Facebook
+[Facebook ID must be numeric value.]
+Значение Facebook ID должно быть числовым.
 [Network]
 Сеть
 [Account]

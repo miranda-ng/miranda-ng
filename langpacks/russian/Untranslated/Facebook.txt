@@ -2,7 +2,6 @@
 [Login error: Some Facebook things are required.]
 [Login error: Captcha code is required. Bad login credentials?]
 [Login error, probably bad login credentials.]
-[Your account requires HTTPS connection. Activating.]
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 [Timeout when sending message.]
@@ -16,4 +15,3 @@
 [%s and more (%d)]
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
-[Facebook ID must be numeric value.]

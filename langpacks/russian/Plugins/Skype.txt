@@ -249,6 +249,10 @@ SkypeKit.exe не распакован.
 Контакт уже в списке контактов
 [Enter a password for %s:]
 Введите пароль для %s:
+[Password can't be empty.]
+Пароль не может быть пустым.
+[Old password is not correct.]
+Неправильный старый пароль.
 [New password is same as old password.]
 Новый и старый пароль одинаковы
 [New password and confirmation must be same.]
