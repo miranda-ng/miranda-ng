@@ -10,7 +10,6 @@
 [Miranda]
 [E-mail]
 [Meta ID]
-[Meta ID: ]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

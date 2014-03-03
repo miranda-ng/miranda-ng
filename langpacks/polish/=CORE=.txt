@@ -2436,10 +2436,6 @@ Dodaj do istniejącego
 Edytuj
 [Set to Default]
 Ustaw jako domyślny
-[Error - Database corruption.\nPlugin disabled.]
-Błąd - awaria bazy danych.\nWtyczka została wyłączona.
-[MetaContacts]
-Metakontakty
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 Problem z przydzieleniem kontaktu do metakontaktu
@@ -2466,6 +2462,8 @@ Subkontakty
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 <domyślny>
+[MetaContacts]
+Metakontakty
 [Priorities]
 Priorytet
 [History]
@@ -2478,12 +2476,10 @@ Nie znaleziono dostępnych kontaktów.
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Nadawca
-[Could not get MetaContact ID]
-Nie udało się pobrać ID metakontaktu
-[Assignment error]
-Błąd przydzielania
 [Could not retreive MetaContact contact count]
 Nie udało się pobrać liczby kontaktów w metakontakcie
+[Assignment error]
+Błąd przydzielania
 [Could not retreive contact protocol]
 Nie udało się pobrać protokołu kontaktu
 [Could not get unique ID of contact]
@@ -2498,24 +2494,8 @@ Nie udało się zapisać protokołu kontaktu w metakontakcie
 Nie udało się zapisać unikalnego ID kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nie udało się zapisać nicka kontaktu do metakontaktu
-[Subcontact contact number < 0 - deleting MetaContact]
-Subkontakt kontakt liczba < 0 - usuwanie metakontaktu
-[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-Subkontakt kontakt liczba (%d) > liczba kontaktów w meta (%d) - usuwanie metakontaktu
-[Subcontact's MetaContact not found - deleting MetaContact data]
-Subkontakt metakontaktu nie został znaleziony - usuwanie metakontaktu
-[MetaContact number of contacts < 0 - deleting MetaContact]
-Liczba kontaktów w metakontakcie < 0 - usuwanie metakontaku
-[MetaContact default contact number out of range - deleting MetaContact]
-Domyślna liczba kontaktu poza zakresem - usuwanie metakontaktu
-[Meta ID: ]
-Meta ID:\s
-[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
-Metakontakt uszkodzony - liczba subkontaktów jest nieprawidłowa.\n Usuwanie metakontaku.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 Ukryta grupa metakontaktu została dodana do listy.\nPrawdopodobnie jest to spowodowane informacjami po stronie serwera. Aby to naprawić, tak by wtyczka MetaContacts mogła działać poprawnie, powinieneś:\n   - wyłączyć metakontakty używając opcji "Wyłącz metakontakty" w menu głównym\n   - przenieść wszystkie kontakty poza tą grupę\n   - zsynchronizować kontakty z serwerem\n   - ponownie włączyć metakontakty
-[MetaContacts Warning]
-Ostrzeżenie o MetaKontaktach
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 Bez czasu

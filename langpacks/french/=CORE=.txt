@@ -2436,10 +2436,6 @@ Convertir en MetaContact
 Éditer
 [Set to Default]
 Par défaut
-[Error - Database corruption.\nPlugin disabled.]
-Erreur_base de donnée corrompue.\nPlugin désactivé.
-[MetaContacts]
-
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 Il y a eu un problème lors de l'assignation du contact à un MetaContact
@@ -2466,6 +2462,8 @@ Effacer le MetaContact
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 <par défaut>
+[MetaContacts]
+
 [Priorities]
 Priorités
 [History]
@@ -2478,12 +2476,10 @@ Aucun contact en ligne trouvé.
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 
-[Could not get MetaContact ID]
-N'a pas pu obtenir l'ID du MetaContact
-[Assignment error]
-Erreur d'assignement
 [Could not retreive MetaContact contact count]
 N'a pas pu rechercher le compte du contact MetaContact
+[Assignment error]
+Erreur d'assignement
 [Could not retreive contact protocol]
 N'a pas pu rechercher le protocole du contact
 [Could not get unique ID of contact]
@@ -2498,24 +2494,8 @@ Impossible d'écrire le protocole du contact au MetaContact
 Impossible d'écrire l'ID du contact au MetaContact
 [Could not write nickname of contact to MetaContact]
 Impossible d'écrire le pseudo du contact au MetaContact
-[Subcontact contact number < 0 - deleting MetaContact]
-
-[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-
-[Subcontact's MetaContact not found - deleting MetaContact data]
-
-[MetaContact number of contacts < 0 - deleting MetaContact]
-
-[MetaContact default contact number out of range - deleting MetaContact]
-
-[Meta ID: ]
-Meta ID:\s
-[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
-MetaContact corrompu - le nombre de sous-contact est erroné.\nSuppression en cours du MetaContact.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 
-[MetaContacts Warning]
-MetaContacts: avertissement
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 Sans durée

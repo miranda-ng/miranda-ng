@@ -2436,10 +2436,6 @@ Protocolo
 Editar
 [Set to Default]
 
-[Error - Database corruption.\nPlugin disabled.]
-
-[MetaContacts]
-
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 
@@ -2466,6 +2462,8 @@ Editar
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 
+[MetaContacts]
+
 [Priorities]
 
 [History]
@@ -2478,11 +2476,9 @@ Historial
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 
-[Could not get MetaContact ID]
+[Could not retreive MetaContact contact count]
 
 [Assignment error]
-
-[Could not retreive MetaContact contact count]
 
 [Could not retreive contact protocol]
 
@@ -2498,23 +2494,7 @@ Historial
 
 [Could not write nickname of contact to MetaContact]
 
-[Subcontact contact number < 0 - deleting MetaContact]
-
-[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-
-[Subcontact's MetaContact not found - deleting MetaContact data]
-
-[MetaContact number of contacts < 0 - deleting MetaContact]
-
-[MetaContact default contact number out of range - deleting MetaContact]
-
-[Meta ID: ]
-
-[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
-
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-
-[MetaContacts Warning]
 
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
