@@ -321,7 +321,8 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	db_set_dw(dest, META_PROTO, "NumContacts", num_contacts);
 
 	if (set_as_default) {
-		db_set_dw(dest, META_PROTO, "Default", (WORD)(num_contacts - 1));
+		ccDest->nDefault = num_contacts - 1;
+		currDb->MetaSetDefault(ccDest);
 		NotifyEventHooks(hEventDefaultChanged, (WPARAM)dest, (LPARAM)src);
 	}
 
@@ -379,25 +380,18 @@ MCONTACT Meta_GetMostOnline(DBCachedContact *cc)
 
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability)
 {
-	if (cc == NULL)
+	if (cc == NULL || cc->nDefault == -1)
 		return 0;
 
 	int most_online_status = ID_STATUS_OFFLINE;
 	MCONTACT hContact;
-	int i, default_contact_number, num_contacts;
-
-	// you can't get more online than having the default contact ONLINE - so check that first
-	if ((default_contact_number = db_get_dw(cc->contactID, META_PROTO, "Default", INVALID_CONTACT_ID)) == INVALID_CONTACT_ID) {
-		// This is a simple contact - return NULL to signify error.
-		// (this should normally not happen, since all meta contacts have a default contact)
-		return NULL;
-	}
+	int i;
 
 	// if the default is beyond the end of the list (eek!) return null
-	if (default_contact_number >= (num_contacts = db_get_dw(cc->contactID, META_PROTO, "NumContacts", 0)))
+	if (cc->nDefault >= cc->nSubs)
 		return NULL;
 
-	MCONTACT most_online_contact = Meta_GetContactHandle(cc, default_contact_number);
+	MCONTACT most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
 	char *szProto = GetContactProto(most_online_contact);
 	DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
 	if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
@@ -413,7 +407,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 			return most_online_contact;
 	}
 
-	most_online_contact = Meta_GetContactHandle(cc, default_contact_number);
+	most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
 	szProto = GetContactProto(most_online_contact);
 	if (szProto && CallProtoService(szProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
 		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
@@ -432,8 +426,8 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 	char *most_online_proto = szProto;
 	// otherwise, check all the subcontacts for the one closest to the ONLINE state which supports the required capability
-	for (i = 0; i < num_contacts; i++) {
-		if (i == default_contact_number) // already checked that (i.e. initial value of most_online_contact and most_online_status are those of the default contact)
+	for (i = 0; i < cc->nSubs; i++) {
+		if (i == cc->nDefault) // already checked that (i.e. initial value of most_online_contact and most_online_status are those of the default contact)
 			continue;
 
 		hContact = Meta_GetContactHandle(cc, i);
@@ -510,18 +504,16 @@ BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2)
 
 void copy_settings_array(DBCachedContact *ccMeta, char *module, const char *settings[], int num_settings)
 {
-	int num_contacts = db_get_dw(ccMeta->contactID, META_PROTO, "NumContacts", INVALID_CONTACT_ID),
-		default_contact = db_get_dw(ccMeta->contactID, META_PROTO, "Default", INVALID_CONTACT_ID),
-		most_online = Meta_GetContactNumber(ccMeta, Meta_GetMostOnline(ccMeta));
+	int most_online = Meta_GetContactNumber(ccMeta, Meta_GetMostOnline(ccMeta));
 
 	BOOL use_default = FALSE;
-	int source_contact = (use_default ? default_contact : most_online);
-	if (source_contact < 0 || source_contact >= num_contacts)
+	int source_contact = (use_default ? ccMeta->nDefault : most_online);
+	if (source_contact < 0 || source_contact >= ccMeta->nSubs)
 		return;
 
 	for (int i = 0; i < num_settings; i++) {
 		BOOL bDataWritten = FALSE;
-		for (int j = 0; j < num_contacts && !bDataWritten; j++) {
+		for (int j = 0; j < ccMeta->nSubs && !bDataWritten; j++) {
 			// do source (most online) first
 			MCONTACT hContact;
 			if (j == 0)
@@ -1008,18 +1000,18 @@ INT_PTR CALLBACK DlgProcNull(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return FALSE;
 }
 
-void Meta_FixStatus(DBCachedContact *cc)
+void Meta_FixStatus(DBCachedContact *ccMeta)
 {
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, 0);
+	MCONTACT most_online = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_1, 0);
 	if (most_online) {
 		char *szProto = GetContactProto(most_online);
 		if (szProto) {
 			WORD status = db_get_w(most_online, szProto, "Status", ID_STATUS_OFFLINE);
-			db_set_w(cc->contactID, META_PROTO, "Status", status);
+			db_set_w(ccMeta->contactID, META_PROTO, "Status", status);
 		}
-		else db_set_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
+		else db_set_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
 	}
-	else db_set_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
+	else db_set_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
 }
 
 INT_PTR Meta_IsEnabled()

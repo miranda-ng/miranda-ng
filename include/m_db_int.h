@@ -52,10 +52,10 @@ struct DBCachedContact
 	DBCachedContactValue *first, *last;
 
 	// metacontacts
-	int       nSubs;    // == -1 -> not a metacontact at all
+	int       nSubs;    // == -1 -> not a metacontact
 	MCONTACT *pSubs;
-	MCONTACT  parentID, // == 0 -> not a subcontact
-		       activeID; // manually chosen active sub
+	MCONTACT  parentID; // == 0 -> not a subcontact
+	int       nDefault; // default sub number
 };
 
 interface MIDatabaseCache : public MZeroedObject
@@ -113,6 +113,7 @@ interface MIDatabase
 	STDMETHOD_(BOOL, IsSettingEncrypted)(LPCSTR szModule, LPCSTR szSetting) PURE;
 
 	STDMETHOD_(BOOL, MetaDetouchSub)(DBCachedContact*, int nSub) PURE;
+	STDMETHOD_(BOOL, MetaSetDefault)(DBCachedContact*) PURE;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

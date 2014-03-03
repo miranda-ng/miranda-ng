@@ -235,6 +235,7 @@ public:
 	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
 	STDMETHODIMP_(BOOL)     MetaDetouchSub(DBCachedContact *cc, int nSub);
+	STDMETHODIMP_(BOOL)     MetaSetDefault(DBCachedContact *cc);
 
 protected:
 	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);

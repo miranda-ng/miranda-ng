@@ -115,20 +115,17 @@ INT_PTR Meta_Edit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void Meta_RemoveContactNumber(DBCachedContact *cc, int number)
+void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 {
-	if (cc == NULL)
+	if (ccMeta == NULL)
 		return;
 
-	if (number < 0 && number >= cc->nSubs)
+	if (number < 0 && number >= ccMeta->nSubs)
 		return;
-
-	// get the handle
-	MCONTACT hContact = Meta_GetContactHandle(cc, number);
-	int default_contact = db_get_dw(cc->contactID, META_PROTO, "Default", -1);
 
 	// make sure this contact thinks it's part of this metacontact
-	if (hContact == cc->contactID) {
+	MCONTACT hContact = Meta_GetContactHandle(ccMeta, number);
+	if (hContact == ccMeta->contactID) {
 		// stop ignoring, if we were
 		if (options.suppress_status)
 			CallService(MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
@@ -136,59 +133,59 @@ void Meta_RemoveContactNumber(DBCachedContact *cc, int number)
 
 	// each contact from 'number' upwards will be moved down one
 	// and the last one will be deleted
-	for (int i = number + 1; i < cc->nSubs; i++)
-		Meta_SwapContacts(cc, i, i - 1);
+	for (int i = number + 1; i < ccMeta->nSubs; i++)
+		Meta_SwapContacts(ccMeta, i, i - 1);
 
 	// remove the last one
 	char buffer[512], idStr[20];
-	_itoa(cc->nSubs - 1, idStr, 10);
+	_itoa(ccMeta->nSubs - 1, idStr, 10);
 	strcpy(buffer, "Protocol"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "Status"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "StatusString"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "Login"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "Nick"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "CListName"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
-	if (default_contact >= number) {
-		default_contact--;
-		if (default_contact < 0)
-			default_contact = 0;
+	if (ccMeta->nDefault >= number) {
+		ccMeta->nDefault--;
+		if (ccMeta->nDefault < 0)
+			ccMeta->nDefault = 0;
 
-		db_set_dw(cc->contactID, META_PROTO, "Default", default_contact);
-		NotifyEventHooks(hEventDefaultChanged, cc->contactID, Meta_GetContactHandle(cc, default_contact));
+		currDb->MetaSetDefault(ccMeta);
+		NotifyEventHooks(hEventDefaultChanged, ccMeta->contactID, Meta_GetContactHandle(ccMeta, ccMeta->nDefault));
 	}
-	cc->nSubs--;
-	db_set_dw(cc->contactID, META_PROTO, "NumContacts", cc->nSubs);
+	ccMeta->nSubs--;
+	db_set_dw(ccMeta->contactID, META_PROTO, "NumContacts", ccMeta->nSubs);
 
 	// fix nick
-	hContact = Meta_GetMostOnline(cc);
-	Meta_CopyContactNick(cc, hContact);
+	hContact = Meta_GetMostOnline(ccMeta);
+	Meta_CopyContactNick(ccMeta, hContact);
 
 	// fix status
-	Meta_FixStatus(cc);
+	Meta_FixStatus(ccMeta);
 
 	// fix avatar
-	hContact = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
+	hContact = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
 	if (hContact) {
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
-		AI.hContact = cc->contactID;
+		AI.hContact = ccMeta->contactID;
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcscpy(AI.filename, _T("X"));
 
 		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-			db_set_ts(cc->contactID, "ContactPhoto", "File", AI.filename);
+			db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
 	}
 }
 
@@ -248,11 +245,13 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 * @param lParam :	HWND to the clist window
 (This means the function has been called via the contact menu).
 */
+
 INT_PTR Meta_Default(WPARAM hMeta, LPARAM wParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
 	if (cc) {
-		db_set_dw(hMeta, META_PROTO, "Default", Meta_GetContactNumber(cc, wParam));
+		cc->nDefault = Meta_GetContactNumber(cc, wParam);
+		currDb->MetaSetDefault(cc);
 		NotifyEventHooks(hEventDefaultChanged, hMeta, wParam);
 	}
 	return 0;
@@ -279,7 +278,7 @@ INT_PTR Meta_ForceDefault(WPARAM hMeta, LPARAM)
 		db_set_dw(hMeta, META_PROTO, "ForceSend", 0);
 
 		if (current)
-			NotifyEventHooks(hEventForceSend, hMeta, Meta_GetContactHandle(cc, db_get_dw(hMeta, META_PROTO, "Default", -1)));
+			NotifyEventHooks(hEventForceSend, hMeta, Meta_GetContactHandle(cc, cc->nDefault));
 		else
 			NotifyEventHooks(hEventUnforceSend, hMeta, 0);
 	}

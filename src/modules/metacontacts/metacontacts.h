@@ -69,7 +69,7 @@ MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number);
 DBCachedContact* CheckMeta(MCONTACT hMeta);
 
 // function to copy history from one contact to another - courtesy JdGordon with mods (thx)
-void Meta_FixStatus(DBCachedContact *cc);
+void Meta_FixStatus(DBCachedContact *ccMeta);
 
 char *Meta_GetUniqueIdentifier(MCONTACT hContact, DWORD *pused);
 

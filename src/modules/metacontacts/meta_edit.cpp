@@ -152,10 +152,8 @@ void ApplyChanges(CHANGES *chg)
 	NotifyEventHooks(hSubcontactsChanged, chg->hMeta, chg->hDefaultContact);
 
 	// set default
-	if (chg->hDefaultContact)
-		db_set_dw(chg->hMeta, META_PROTO, "Default", Meta_GetContactNumber(chg->cc, chg->hDefaultContact));
-	else
-		db_set_dw(chg->hMeta, META_PROTO, "Default", 0);
+	chg->cc->nDefault = (chg->hDefaultContact) ? Meta_GetContactNumber(chg->cc, chg->hDefaultContact) : 0;
+	currDb->MetaSetDefault(chg->cc);
 	NotifyEventHooks(hEventDefaultChanged, chg->hMeta, chg->hDefaultContact);
 
 	// set offline
@@ -231,6 +229,12 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		TranslateDialogDefault( hwndDlg );
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(I_EDIT));
 		{	
+			DBCachedContact *cc = currDb->m_cache->GetCachedContact(lParam);
+			if (cc == NULL) {
+				DestroyWindow(hwndDlg);
+				return FALSE;
+			}
+
 			// Disable the 'Apply' button.
 			EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),FALSE);
 
@@ -268,17 +272,15 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
 
-			int nb_contacts = db_get_dw(lParam, META_PROTO, "NumContacts", 0);
-			int default_contact_number = db_get_dw(lParam, META_PROTO, "Default", INVALID_CONTACT_ID);
 			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
+			changes.cc = cc;
 			changes.hMeta = lParam;
-			changes.cc = currDb->m_cache->GetCachedContact(lParam);
-			changes.num_contacts = nb_contacts;
+			changes.num_contacts = cc->nSubs;
 			changes.num_deleted = 0;
-			changes.hDefaultContact = Meta_GetContactHandle(changes.cc, default_contact_number);
+			changes.hDefaultContact = Meta_GetContactHandle(changes.cc, cc->nDefault);
 			changes.hOfflineContact = Meta_GetContactHandle(changes.cc, offline_contact_number);
-			for (i = 0; i < nb_contacts; i++)
+			for (i = 0; i < cc->nSubs; i++)
 				changes.hContact[i] = Meta_GetContactHandle(changes.cc, i);
 			changes.force_default = MetaAPI_GetForceState((WPARAM)lParam, 0);
 

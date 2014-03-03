@@ -208,6 +208,11 @@ BOOL CDb3Mmap::MetaDetouchSub(DBCachedContact *cc, int nSub)
 	return 0;
 }
 
+BOOL CDb3Mmap::MetaSetDefault(DBCachedContact *cc)
+{
+	return db_set_dw(cc->contactID, META_PROTO, "Default", cc->nDefault);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // contacts convertor
 
@@ -279,8 +284,8 @@ void CDb3Mmap::FillContacts()
 				cc->pSubs[i] = hSub;
 			}
 		}
-		cc->activeID = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? NULL : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "Handle", &dbv)) ? NULL : dbv.dVal;
+		cc->nDefault = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
 		
 		// whether we need conversion or not
 		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv))

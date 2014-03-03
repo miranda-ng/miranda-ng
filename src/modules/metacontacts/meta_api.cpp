@@ -34,9 +34,8 @@ INT_PTR MetaAPI_GetDefault(WPARAM hMetaContact, LPARAM)
 	if (cc == NULL)
 		return 1;
 
-	DWORD default_contact_number = db_get_dw(hMetaContact, META_PROTO, "Default", -1);
-	if (default_contact_number != -1)
-		return (INT_PTR)Meta_GetContactHandle(cc, default_contact_number);
+	if (cc->nDefault != -1)
+		return Meta_GetContactHandle(cc, cc->nDefault);
 
 	return 0;
 }
@@ -48,12 +47,7 @@ INT_PTR MetaAPI_GetDefault(WPARAM hMetaContact, LPARAM)
 INT_PTR MetaAPI_GetDefaultNum(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
-		return 1;
-
-	// !!!!!!!!!!!!!!!!!!!!!!!
-	// return db_get_dw(hMetaContact, META_PROTO, "Default", -1);
-	return -1;
+	return (cc == NULL) ? -1 : cc->nDefault;
 }
 
 //gets the handle for the 'most online' contact
@@ -100,8 +94,9 @@ INT_PTR MetaAPI_SetDefaultContactNum(WPARAM hMetaContact, LPARAM lParam)
 		return 1;
 	if ((int)lParam >= cc->nSubs || (int)lParam < 0)
 		return 1;
-	if (db_set_dw(hMetaContact, META_PROTO, "Default", (DWORD)lParam))
-		return 1;
+
+	cc->nDefault = lParam;
+	currDb->MetaSetDefault(cc);
 
 	NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, (int)lParam));
 	return 0;
@@ -121,9 +116,8 @@ INT_PTR MetaAPI_SetDefaultContact(WPARAM hMetaContact, LPARAM lParam)
 	if (contact_number == -1) 
 		return 1;
 
-	// currDb->Meta_SetDefaultSub(cc, lParam); !!!!!!!!!!!!!!!!!!!!
-	if (db_set_dw(cc->contactID, META_PROTO, "Default", contact_number))
-		return 1;
+	cc->nDefault = contact_number;
+	currDb->MetaSetDefault(cc);
 	
 	NotifyEventHooks(hEventDefaultChanged, hMetaContact, lParam);
 	return 0;
@@ -213,7 +207,7 @@ INT_PTR MetaAPI_GetForceState(WPARAM hMetaContact, LPARAM lParam)
 		return 0;
 
 	if (db_get_b(hMetaContact, META_PROTO, "ForceDefault", 0)) {
-		if (lParam) *(DWORD *)lParam = db_get_dw(hMetaContact, META_PROTO, "Default", -1);
+		if (lParam) *(DWORD *)lParam = cc->nDefault;
 		return 1;
 	}
 
