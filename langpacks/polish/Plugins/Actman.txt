@@ -74,7 +74,7 @@ Możesz użyć %name%, %uid%, %account% i %group%
 [Contacts]
 Kontakty
 [Select contact to open its window]
-
+Wybierz kontakt, którego okno chcesz otworzyć
 [Result action]
 Wynik akcji
 [Show in popup]
@@ -122,7 +122,7 @@ Użyj zmiennych
 [Don't use Variables]
 Nie używaj zmiennych
 [Miranda service help]
-
+Pomoc usług Mirandy
 [Name]
 Nazwa
 [Alias]
@@ -130,7 +130,7 @@ Alias
 [Plugin]
 Wtyczka
 [Return]
-
+Zwróć
 [Effect]
 Efekt
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
@@ -138,7 +138,7 @@ Efekt
 [Undefined]
 Nieokreślony
 [Manage Jabber Bookmarks]
-
+Zarządzaj zakładkami Jabbera
 [Offline]
 Rozłączony
 [Online]
@@ -162,11 +162,11 @@ Na obiedzie
 [text]
 tekst
 [int 0, if successful]
-
+int 0, w przypadku powodzenia
 [Set status message]
 Ustaw opis
 [Set protocol status]
-
+Ustaw status protokołu
 [None]
 Brak
 [Angry]
@@ -212,7 +212,7 @@ Zakupy
 [Surfing]
 Surfuję
 [Browsing]
-
+Przeglądam internet
 [Working]
 Pracuję
 [Typing]
@@ -234,25 +234,25 @@ Oglądam pro7 w TV
 [Love]
 Miłość
 [Sets owner current custom status]
-
+Ustawia obecny własny status właściciela
 [Display XStatus detail]
-
+Wyświetl szczegóły XStatusu
 [int hMenu handle]
-
+uchwyt int hMenu
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-
+Stwórz menu kontekstowe dla wskazanego kontaktu. Menu powinno być DestroyMenu() po utworzeniu
 [Show All Users]
-
+Pokaż wszystkich użytkowników
 [Show only Online Users]
-
+Pokaż tylko użytkowników dostępnych
 [Toggle status]
-
+Przełącz status
 [Change 'hide offline contacts' option value]
-
+Zmień wartość opcji "ukryj rozłączone kontakty"
 [Set global status]
-
+Ustaw globalny status
 [Switch contact list status]
-
+Przełącz status listy kontaktów
 [Hide All Titlebars]
 Ukryj wszystkie paski tytułów
 [Show All Frames]
@@ -260,49 +260,49 @@ Pokaż wszystkie ramki
 [Show All Titlebars]
 Pokaż wszystkie paski tytułów
 [Closes Miranda]
-
+Zamyka Mirandę
 [Show or hide netlog console window]
-
+Pokaż lub ukryj okno konsoli netlog
 [int Value]
-
+Wartość int
 [Returns contact amount, excluding user account]
-
+Zwraca ilość kontaktów z wyłączeniem konta użytkownika
 [Ansi Text]
-
+Tekst ANSI
 [Removes all settings for the specified module]
-
+Usuwa wszystkie ustawienia wskazanego modułu
 [Show window for new/changed profile password]
-
+Pokaż okno nowego/zmienionego hasła profilu
 [int 0]
-
+int 0
 [Import settings/contacts from file]
-
+Importuj ustawienia/kontakty z pliku
 [Opens or activate database editor]
-
+Otwiera bądź aktywuje edytor bazy danych
 [Opens or activate user search dialog]
-
+Otwiera bądź aktywuje okno szukania kontaktów
 [displays File Transfer window]
-
+Wyświetla okno transferu plików
 [on Desktop]
-
+Na pulpicie
 [parent window handle]
-
+uchwyt okna rodzica
 [Show "About..." window]
-
+Pokaż okno "O programie..."
 [Open bug report page]
-
+Otwórz stronę zgłaszania błędów
 [Open support (originaly - Miranda wiki) page]
-
+Otwórz stronę wsparcia (początkowo Miranda Wiki)
 [Go to Miranda Homepage]
-
+Przejdź do głównej strony Mirandy
 [System]
 System
 [Shows contact history or (wParam=0) system history]
-
+Pokazuje historię kontaktu lub(wParam=0) historię systemową
 [Erases contact's history. hContact can be NULL(0) to empty system history]
-
+Usuwa historię kontaktu hContact może przyjąć wartość 0, by usunąć historię systemową
 [Show Global history search window. If already opened, bring it to front.]
-
+Pokaż okno globalnego przeszukiwania historii. Jeśli jest już otwarte, przenieś na wierzch.
 [Ignore all]
 Ignoruj wszystkie
 [Ignore messages]
@@ -312,65 +312,65 @@ Ignoruj linki
 [Ignore files]
 Ignoruj pliki
 [Ignore User Online]
-
+Ignoruj zmiany statusu na dostępny
 [Ignore requests]
-
+Ignoruj prośby
 [Ignore 'You were added']
-
+Ignoruj "zostałeś dodany"
 [Ignore Contact]
 Ignoruj kontakt
 [Unignore Contact]
-
+Przestań ignorować kontakt
 [restart in default profile or profile manager]
-
+Restartuj do profilu domyślnego lub menedżera profiili
 [restart with current profile]
-
+Restartuj do obecnego profilu
 [Restarts Miranda]
-
+Restartuje Mirandę
 [Station name]
 Nazwa stacji
 [wParam is Handle]
-
+wParam jest uchwytem
 [wParam is Ansi station name]
-
+wParam jest nazwą stacji w Ansi
 [wParam is Unicode station name]
-
+wParam jest nazwą stacjiw unicode
 [Starting or stopping radio station]
-
+Odtwarzanie lub zatrzymywanie stacji radiowej
 [Stop cycle]
-
+Zatrzymaj przełączanie
 [Start cycle]
-
+Rozpocznij przełączanie
 [Start/stops the cycling throught protocols]
-
+Rozpoczyna/zatrzymuje przełączanie się pomiędzy protokołami
 [All protocols]
-
+Wszystkie protokoły
 [Protocol]
 Protokół
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
-
+zalogowany -2 jeżeli protokół nie może tego ustawić -1 jeżeli nie można znaleźć protokołu, w przeciwnym razie 0
 [Shows a dialog to set the avatar for all possible protocols]
-
+Pokazuje okno ustawienia awatara dla wszystkich możliwych protokołów
 [Shows the next protocol in the frame]
-
+Pokazuje następny protokół w ramce
 [Shows the previous protocol in the frame]
-
+Pokazuje poprzedni protokół w ramce
 [Opens the options dialog, optionally at the specified page]
-
+Otwiera okno opcji, opcjonalnie na konkretnej stronie
 [Open Options dialog]
-
+Otwórz okno opcji
 [Check for updates]
 Sprawdź aktualizacje
 [with confirmation]
-
+z potwierdzeniem
 [without confirmation]
-
+bez potwierdzenia
 [Empty updater download folder]
-
+Opróżnij folder pobranych Updatera
 [Enables or disables Popup windows]
-
+Włącza lub wyłącza okienka popup
 [YAPP or Popup]
-
+YAPP lub Popup
 [Warning]
 Ostrzeżenie
 [Notify]
@@ -380,83 +380,83 @@ Błąd
 [Popup window]
 Wyskakujące okno
 [YAPP only]
-
+tylko YAPP
 [Unicode Text]
-
+Tekst Unicode
 [result of protocol service call]
-
+Wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
-
+Wyślij ogólne zapytanie poprzez łańcuch protokołu dla kontaktu
 [str, account name]
-
+str, nazwa konta
 [Return account name associated to contact (no need to free it)]
-
+Zwróć nazwę konta powiązanego z kontaktem (nie ma potrzeby jej uwalniania)
 [displays the Account Manager]
-
+Wyświetla menedżer kont
 [Show the dialog to select the contact]
-
+Pokaż okno wyboru kontaktu
 [filter text]
-
+filtruj tekst
 [wParam is unicode]
-
+wParam to unicode
 [wParam is Ansi]
-
+wParam to Ansi
 [Reserved]
-
+zarezerwowany
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-
+Odtwarza dźwięk dodany przez Skin/Sounds/Addnew. W przypadku nie znalezienia dźwięku, odtwarzany jest domyślny dźwięk Windows.
 [Send Email to contact]
-
+Wyślij email do kontaktu
 [struct]
-
+strukt
 [Returns the received files folder for a contact]
-
+Zwraca folder otrzymanych plików dla kontaktu
 [Open contact received file directory]
-
+Otwórz katalog otrzymanych plików kontaktu
 [Send file to contact.]
-
+Wyślij plik do kontaktu
 [hContact;parameter]
-
+hContact;parametr
 [Opens message window for contact with handle in wparam]
-
+Otwiera okno rozmowy z kontaktem z uchwytem w wParam
 [remove all temporary contacts from db]
-
+Usuń wszystkie tymczasowe kontakty z bazy danych
 [Call avatar option dialog for contact]
-
+Wywołaj okno opcji awatara kontaktu
 [Avatar service (AVS.dll)]
-
+Usługa awatarów (AVS.dll)
 [Filename]
-
+Nazwapliku
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-
+Ustaw i opcjonalnie chroń lokalny obraz kontaktu dla podanego hContact. Jeśli lParam=0, pokazane zostanie okno wyboru pliku.
 [Shows contact property window.]
-
+Pokazuje okno właściwości kontaktu
 [Open URL in current window]
-
+Otwórz link w obecnym oknie
 [Open URL in default browser]
-
+Otwórz link w domyślnej przeglądarce
 [With formating]
-
+z formatowaniem
 [Don't use formating]
-
+Nie stosuj formatowania
 [Returns a string containing the versioninfo post]
-
+Zwraca ciąg zawierający post versioninfo
 [Show or save (call default action) Modules version Info]
-
+Pokaż lub zapisz moduły versioninfo (wywołuje domyślną akcję)
 [log filename]
-
+nazwa pliku dziennika
 [report filename]
-
+zgłoś nazwę pliku
 [int 0, if unsuccessful]
-
+int 0, w przypadku niepowodzenia
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-
+Stwórz raport z logu i otwórz go (jeśli opcja jest ustawiona). Jeżeli lParam lub wParam są puste, użyte zostaną nazwy plików określone w opcjach.
 [Show popup or Info window with current music information.]
-
+Pokaż popup lub okienko informacyjne z aktualnie słuchanym utworem.
 [WhenWasIt Birthday Reminder (whenwasit.dll)]
-
+Przypomnienia o urodzinach WhenWasIT (whenwasit.dll)
 [display birthdays window]
-
+Wyświetl okno urodzin
 [Structure editor]
 Edytor struktury
 [alias]
@@ -468,11 +468,11 @@ długość
 [data]
 dane
 [Data align]
-
+Wyrównanie danych
 [Native]
 Natywny
 [Packed]
-
+Spakowany
 [2 bytes]
 2 bajty
 [4 bytes]
@@ -488,7 +488,7 @@ DWord
 [QWord]
 QWord
 [NativeInt]
-
+NativeInt
 [Byte Array]
 Tablica bajtów
 [Word Array]
@@ -504,11 +504,11 @@ Parametr
 [Data length]
 Dane dotyczące długości
 [Structure help]
-
+Pomoc struktury
 [Descr]
-
+Opis
 [&Change]
-
+&Zmień
 [&OK]
 &OK
 [C&ancel]
@@ -536,9 +536,9 @@ Startuj zmaksymalizowany
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
 Tekst <last> zastępczy\r\nostatni wynik\r\n\r\nTekst <param> zastępczy\r\nparametr
 [Program path]
-
+Ścieżka programu
 [Program args]
-
+Argumenty programu
 [Clipboard]
 Schowek
 [Copy to]
@@ -548,29 +548,29 @@ Wklej z
 [File]
 Plik
 [Read]
-
+Odczyt
 [Write]
-
+Zapis
 [Append]
 Dodaj
 [UTF8+sign]
-
+UTF8+sign
 [UTF16+sign]
-
+UTF16+sign
 [Message window]
 Okno rozmowy
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
+^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [Text to insert]
-
+Tekst do wstawienia
 [Condition]
 Stan
 [NOT]
-
+NIE
 [Value]
 Wartość
 [Math]
-
+Math
 [Variables]
 Zmienne
 [Result as integer]
@@ -582,9 +582,9 @@ Inne grupy akcji
 [not defined]
 <nie wybrano>
 [You can select another group from combobox, then it will be executed, after that current action group will be continued.]
-
+Możesz wybrać inną grupę z listy rozwijanej, a następnie zostanie to wykonane, po kontynuacji obecnie wybranej grupy.
 [Macros]
-
+Makra
 [Own settings]
 Własne ustawienie
 [Manual]
@@ -624,9 +624,9 @@ Gotów, Anuluj
 [Scheduler]
 Harmonogram
 [Task sample]
-
+Przykładowe zadanie
 [Start]
-
+Start
 [Starting after]
 Startuj po
 [Starting from]
@@ -656,19 +656,19 @@ Haki API
 [Description]
 Opis
 [hook sample]
-
+Przykładowy uchwyt
 [Apply]
 Zastosuj
 [Event]
 Zdarzenie
 [Action group list was changed: some was added or deleted]
-
+Lista grup akcji została zmieniona: nowe akcje zostały dodane lub usunięte
 [Double click on the contact list]
-
+Dwókrotne kliknięcie na liście kontaktów
 [The context menu for a contact is about to be built]
-
+Menu kontekstowe kontaktu zostanie za chwilę utworzone
 [New contact added to database]
-
+Dodano nowy kontakt do bazy danych
 [Contact deleting]
 Usuwanie kontaktu
 [Use Actions]
@@ -700,7 +700,7 @@ Podwójny przycisk
 [Save button/item state]
 Zapisz stan przycisku
 [Contact related]
-
+Związane z kontaktem
 [Normal button tooltip]
 Normalny przycisk na pasku zadań
 [Pressed button tooltip]
@@ -722,36 +722,36 @@ Nie
 [A&ppend]
 D&odaj
 [Yes to &All]
-
+Tak dla &wszystkich
 [N&o to All]
-
+N&ie dla wszystkich
 [Action "$" exists, do you want to rewrite it?]
 Akcja "$" istnieje, czy chcesz ją nadpisać?
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 Użyj Bajt tablicy/wskaźnika dla stringów ANSI\n\Użyj tablicy/wskaźnika Word dla stringów Unicode\n\n\$## zastąpione przez bajt z wartością szesnastkową ##\n\$#### zastąpione przez word z wartością szesnastkową #### (tylko dla stringów Unicode)\n\n\Wszystkie obliczenia długości danych w bajtach
 [Packed structure]
-
+Struktura spakowana
 [Registered actions]
 Zarejestrowane akcje
 ; Actman30
 [INI]
-
+INI
 [INI file name]
-
+Nazwa pliku INI
 [Section]
-
+Sekcja
 [Use LastResult]
-
+Użyj ostatniego wyniku
 [UTF8 encoding]
-
+Kodowanie UTF8
 [Function call]
-
+Wywołanie funkcji
 [Function name]
-
+Nazwa funkcji
 [DLL name]
-
+Nazwa DLL
 [Call type]
-
+Typ wywołania
 [Arguments]
 Argumenty
 [Number of arguments]
@@ -759,89 +759,89 @@ Liczba argumentów
 [Result]
 Wynik
 [DLL Handle Cache]
-
+Cache uchwytu DLL
 [Keep to end]
-
+Utrzymuj do końca
 [Close immediately]
-
+Natychmiast zamknij
 [Close for macro]
-
+Zamknij dla makra
 [Refresh]
 Odśwież
 [Get from active window]
-
+Wyciągnij z aktywnego okna
 [Chain]
-
+Łańcuch
 [Keep old result]
-
+Utrzymaj stary wynik
 [Same thread]
-
+Ten sam wątek
 [Do not wait until the end of execution]
-
+Nie czekaj do końca wykonania
 [In/Out]
-
+Wejście/wyjście
 [Autosend]
-
+Wyślij automatycznie
 [Jump]
-
+Przejdź
 [> greater]
-
+> większe
 [< lesser]
-
+< mniejsze
 [= equ]
-
+= równe
 [& and]
-
+& i
 [Case sensitive]
 Wielkość liter ma znaczenie
 [Opposite order]
-
+Odwrotny porządek
 [empty]
 pusty
 [contains]
-
+zawiera
 [starts with]
-
+zaczyna się od
 [ends with]
-
+kończy się na
 [Process script after]
-
+przetwarzaj skrypt za
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
+^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [RTL]
 RTL
 [Right justified text]
-
+Tekst wyjustowany w prawo
 [Database]
 Profil
 [Save value]
-
+Zapisz wartość
 [Storage]
-
+Przestrzeń
 [LastResult to ]
-
+LastResult do
 [LastResult from]
-
+LastResult z
 [Slot 0]
-
+Slot 0
 [Slot 1]
-
+Slot 1
 [Slot 2]
-
+Slot 2
 [Slot 3]
-
+Slot 3
 [Slot 4]
-
+Slot 4
 [Slot 5]
-
+Slot 5
 [Slot 6]
-
+Slot 6
 [Slot 7]
-
+Slot 7
 [Slot 8]
-
+Slot 8
 [Slot 9]
-
+Slot 9
 [Settings]
 Ustawienia
 [Contact list]
@@ -851,7 +851,7 @@ Format listy kontaktów
 [You can use %name%, %uid%, %account% and %group% substitutes]
 Możesz użyć %name%, %uid%, %account% i %group%
 [Service list format]
-
+Format listy usług
 [value]
 wartość
 [name]
@@ -861,11 +861,11 @@ wartość (nazwa)
 [name 'value']
 nazwa 'wartość'
 [Current Macro]
-
+Aktualne makro
 [Select for FirstRun]
-
+Wybierz dla pierwszego uruchomienia
 [Miranda event help]
-
+Pomoc zdarzeń Mirandy
 [contact list]
 lista kontaktów
 [database driver]
