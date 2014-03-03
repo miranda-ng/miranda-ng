@@ -2335,10 +2335,6 @@ ID
 Изменить
 [Set to Default]
 По умолчанию
-[Error - Database corruption.\nPlugin disabled.]
-Ошибка - база повреждена.\nПлагин отключён.
-[MetaContacts]
-Метаконтакты
 [There was a problem in assigning the contact to the MetaContact]
 Обнаружена проблема добавления контакта к метаконтакту
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
@@ -2363,6 +2359,8 @@ ID
 Субконтакты
 [<default>]
 <по умолчанию>
+[MetaContacts]
+Метаконтакты
 [Priorities]
 Приоритеты
 [History]
@@ -2371,12 +2369,10 @@ ID
 Не найдено контактов в сети.
 [Sender]
 Отправитель
-[Could not get MetaContact ID]
-Не могу получить ID метаконтакта
-[Assignment error]
-Ошибка назначения
 [Could not retreive MetaContact contact count]
 Не могу запросить количество субконтактов метаконтакта
+[Assignment error]
+Ошибка назначения
 [Could not retreive contact protocol]
 Не могу запросить протокол контакта
 [Could not get unique ID of contact]
@@ -2391,22 +2387,8 @@ ID
 Ошибка записи уникального ID контакта в метаконтакт
 [Could not write nickname of contact to MetaContact]
 Не могу записать ник контакта в метаконтакт
-[Subcontact contact number < 0 - deleting MetaContact]
-Номер субконтакта < 0 - метаконтакт будет удалён
-[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-Номер субконтакта (%d) > номера в метаконтакте (%d) - метаконтакт будет удалён
-[Subcontact's MetaContact not found - deleting MetaContact data]
-Субконтакты в метаконтакте не найдены - данные метаконтакта будут удалены
-[MetaContact number of contacts < 0 - deleting MetaContact]
-Количество контактов в метаконтакте < 0 - метаконтакт будет удалён
-[MetaContact default contact number out of range - deleting MetaContact]
-Номер контакта по умолчанию за пределами метаконтакта - метаконтакт будет удалён
-[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
-Метаконтакт поврежден - неверное количество субконтактов.\nУдаляю метаконтакт.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 Группа 'MetaContacts Hidden Group' добавлена в ваш список\nЭто из-за списка контактов на сервере. Для исправления,\nчтобы метаконтакты продолжили нормальную работу, вы должны:\n   - выключить метаконтакты используя пункт в главном меню\n   - переместить все контакты из этой группы\n   - синхронизировать ваши контакты с сервером\n   - опять включить метаконтакты
-[MetaContacts Warning]
-Предупреждение метаконтактов
 [No times]
 Без времени
 [Standard hh:mm:ss times]
