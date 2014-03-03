@@ -41,15 +41,16 @@ typedef struct {
 *
 * Adds all the metacontacts present in the database in the list,
 *
-* @param list :			\c HANDLE to the list which will contain the columns.
-* @param nb_contacts :	Number of loaded contacts.
-* @param contacts :		A list of the contacts' identifiers
+* @param list : HANDLE to the list which will contain the columns.
+* @param nb_contacts : Number of loaded contacts.
+* @param contacts : A list of the contacts' identifiers
 *
-* @param id :			Reference to a list of the MetaContacts IDs loaded in the listview.
-*						Since this list is resized, its address must be passed.
+* @param id : Reference to a list of the MetaContacts IDs loaded in the listview.
+*             Since this list is resized, its address must be passed.
 *
-* @return				An integer specifying the number of rows added in the list.
+* @return An integer specifying the number of rows added in the list.
 */
+
 int FillList(HWND list, BOOL sort)
 {
 	int i=0;
@@ -87,12 +88,12 @@ int FillList(HWND list, BOOL sort)
 
 /** Build or update the list.
 *
-* @param list :				\c HANDLE to the list which will contain the columns
-* @param id :				Reference to a list that will contain all the MetaContacts IDs loaded in the listview
-*							otherwise the list is only refilled \n (Warning : this value must be
-*							set to \c TRUE only once per Dialog display, otherwise all columns will be doubled)
+* @param list : HANDLE to the list which will contain the columns
+* @param id : Reference to a list that will contain all the MetaContacts IDs loaded in the listview
+*             otherwise the list is only refilled \n (Warning : this value must be
+*             set to TRUE only once per Dialog display, otherwise all columns will be doubled)
 *
-* @returns					An integer specifying the number of rows inserted or \c -1 if there was a problem
+* @returns An integer specifying the number of rows inserted or -1 if there was a problem
 */
 
 int BuildList(HWND list, BOOL sort)
@@ -105,12 +106,12 @@ int BuildList(HWND list, BOOL sort)
 *
 * All the UI is controlled here, from display to functionnalities.
 *
-* @param hwndDlg :	\c HANDLE to the <b>'Add To'</b> \c Dialog.
-* @param uMsg :		Specifies the message received by this dialog.
-* @param wParam :	Specifies additional message-specific information. 
-* @param lParam :	Specifies additional message-specific information. 
+* @param hwndDlg : HANDLE to the <b>'Add To'</b> Dialog.
+* @param uMsg : Specifies the message received by this dialog.
+* @param wParam : Specifies additional message-specific information. 
+* @param lParam : Specifies additional message-specific information. 
 *
-* @return			\c TRUE if the dialog processed the message, \c FALSE if it did not.
+* @return TRUE if the dialog processed the message, FALSE if it did not.
 */
 
 #define szConvMsg LPGEN("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n\

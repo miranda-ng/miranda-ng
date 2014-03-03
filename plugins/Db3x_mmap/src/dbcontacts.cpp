@@ -200,6 +200,15 @@ STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(MCONTACT contactID)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// metacontacts support
+
+BOOL CDb3Mmap::MetaDetouchSub(DBCachedContact *cc, int nSub)
+{
+	CallService(MS_DB_MODULE_DELETE, cc->pSubs[nSub], (LPARAM)META_PROTO);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // contacts convertor
 
 #define OLD_CONTACT_SIZE offsetof(DBContact, dwContactID)

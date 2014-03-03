@@ -53,7 +53,7 @@ BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
 
 /** Get the capabilities of the "MetaContacts" protocol.
 *
-* @param wParam :	equals to one of the following values :\n
+* @param wParam : 	equals to one of the following values :\n
 			<tt> PFLAGNUM_1 | PFLAGNUM_2 | PFLAGNUM_3 | PFLAGNUM_4 | PFLAG_UNIQUEIDTEXT | PFLAG_MAXLENOFMESSAGE | PFLAG_UNIQUEIDSETTING </tt>.
 * @param lParam :	Allways set to 0.
 *
@@ -90,7 +90,7 @@ INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam)
 }
 
 /** Copy the name of the protocole into lParam
-* @param wParam :	max size of the name
+* @param wParam : 	max size of the name
 * @param lParam :	reference to a char *, which will hold the name
 */
 
@@ -106,7 +106,7 @@ INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam)
 
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
-* @param wParam :	one of the following values : \n
+* @param wParam : 	one of the following values : \n
 					<tt>PLI_PROTOCOL | PLI_ONLINE | PLI_OFFLINE</tt>
 * @return			an \c HICON in which the icon has been loaded.
 */
@@ -144,7 +144,7 @@ void CALLBACK SetStatusThread(HWND hWnd, UINT msg, UINT_PTR id, DWORD dw)
 }
 
 /** Changes the status and notifies everybody
-* @param wParam :	The new mode
+* @param wParam : 	The new mode
 * @param lParam :	Allways set to 0.
 */
 
@@ -201,10 +201,10 @@ static DWORD CALLBACK sttFakeAckFail( LPVOID param )
 *
 * When groups are disabled, add an event to the DB for the metacontact to maintain history
 *
-* @param wParam :	index of the protocol in the protocol chain.
-* @param lParam :	\c CCSDATA structure holding all the information about the message.
+* @param wParam : index of the protocol in the protocol chain.
+* @param lParam : CCSDATA structure holding all the information about the message.
 *
-* @return			0 on success, 1 otherwise.
+* @return 0 on success, 1 otherwise.
 */
 
 INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
@@ -264,10 +264,10 @@ INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 * Call the function specific to the protocol that belongs
 * to the contact chosen to send the message.
 *
-* @param wParam :	index of the protocol in the protocol chain.
-* @param lParam :	\c CCSDATA structure holding all the information abour rhe message.
+* @param wParam : index of the protocol in the protocol chain.
+* @param lParam : CCSDATA structure holding all the information abour rhe message.
 *
-* @return			0 on success, 1 otherwise.
+* @return 0 on success, 1 otherwise.
 */
 INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 {
@@ -339,10 +339,10 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 * to that MetaContact and inhibit the further reception of this message
 * by the standard protocol of the contact.
 *
-* @param wParam :	index of the protocol in the protocol chain.
-* @param lParam :	\c CCSDATA structure holding all the information about the message.
+* @param wParam : index of the protocol in the protocol chain.
+* @param lParam : CCSDATA structure holding all the information about the message.
 *
-* @return			0 on success, 1 otherwise.
+* @return 0 on success, 1 otherwise.
 */
 
 INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
@@ -487,7 +487,7 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 * Retransmit the ACK sent by a simple contact so that it
 * looks like it was the MetaContact that sends the ACK.
 *
-* @param wParam :	Allways set to 0.
+* @param wParam : 	Allways set to 0.
 * @param lParam :	Reference to a ACKDATA that contains
 information about the ACK.
 * @return			0 on success, 1 otherwise.
@@ -557,7 +557,6 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	char buffer[512], szId[40];
 	int contact_number;
-	MCONTACT most_online;
 
 	// hide metacontacts when groups disabled
 	if (wParam == 0
@@ -664,7 +663,6 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		// copy nick to metacontact, if it's the most online
 		MCONTACT most_online = Meta_GetMostOnline(cc);
 		Meta_CopyContactNick(cc, most_online);
-
 		return 0;
 	}
 	else if (!strcmp(dcws->szSetting, "Status") && !dcws->value.type == DBVT_DELETED) {
@@ -684,24 +682,20 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			MetaAPI_UnforceSendContact((WPARAM)cc->contactID, 0);
 		else {
 			// set status to that of most online contact
-			most_online = Meta_GetMostOnline(cc);
-			Meta_CopyContactNick(cc, most_online);
+			Meta_CopyContactNick(cc, Meta_GetMostOnline(cc));
 
 			Meta_FixStatus(cc);
 			Meta_CopyData(cc);
 		}
 
 		// most online contact with avatar support might have changed - update avatar
-		most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
+		MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
 		if (most_online) {
-			PROTO_AVATAR_INFORMATIONT AI;
-
-			AI.cbSize = sizeof(AI);
+			PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 			AI.hContact = cc->contactID;
 			AI.format = PA_FORMAT_UNKNOWN;
 			_tcscpy(AI.filename, _T("X"));
-
-			if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+			if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 				db_set_ts(cc->contactID, "ContactPhoto", "File", AI.filename);
 		}
 	}
@@ -716,35 +710,31 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 
 int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	DBCachedContact *cc = CheckMeta(hContact);
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	if (cc == NULL)
 		return 0;
 
 	// is a subcontact - update meta contact
-	MCONTACT hMeta = db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if (hMeta) {
-		Meta_RemoveContactNumber(hMeta, hContact);
-		NotifyEventHooks(hSubcontactsChanged, (WPARAM)hMeta, 0);
+	if (IsSub(cc)) {
+		Meta_RemoveContactNumber(cc, Meta_GetContactNumber(cc, hContact));
+		NotifyEventHooks(hSubcontactsChanged, cc->parentID, 0);
 		return 0;
 	}
 
 	// not a subcontact - is it a metacontact?
-	int num_contacts = db_get_dw(hContact, META_PROTO, "NumContacts", 0);
-	if (num_contacts)
+	if (!IsMeta(cc))
+		return 0;
+
+	if (cc->nSubs > 0)
 		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
 
 	// remove & restore all subcontacts
-	for (int i = 0; i < num_contacts; i++) {
-		MCONTACT hContact = Meta_GetContactHandle(cc, i);
-		if (hContact && db_get_dw(hContact, META_PROTO, "Handle", 0) == hContact) {
-			db_unset(hContact, META_PROTO, META_LINK);
-			db_unset(hContact, META_PROTO, "Handle");
-			db_unset(hContact, META_PROTO, "OldCListGroup");
+	for (int i = 0; i < cc->nSubs; i++) {
+		currDb->MetaDetouchSub(cc, i);
 
-			// stop ignoring, if we were
-			if (options.suppress_status)
-				CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
-		}
+		// stop ignoring, if we were
+		if (options.suppress_status)
+			CallService(MS_IGNORE_UNIGNORE, cc->pSubs[i], IGNOREEVENT_USERONLINE);
 	}
 	return 0;
 }
@@ -779,15 +769,16 @@ INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 * @param wParam \c HANDLE to the contact that is typing or not
 * @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
 */
-int Meta_ContactIsTyping(WPARAM wParam, LPARAM lParam)
+
+int Meta_ContactIsTyping(WPARAM hMeta, LPARAM lParam)
 {
-	MCONTACT hMeta;
-	if ((hMeta = (MCONTACT)db_get_dw(wParam, META_PROTO, "Handle", 0)) != 0 && Meta_IsEnabled()) {
+	DBCachedContact *cc = CheckMeta(hMeta);
+	if (cc != NULL && Meta_IsEnabled()) {
 		// This contact is attached to a MetaContact.
 		if (!options.subcontact_windows) { // we don't want clicking on the clist notification icon to open the metacontact message window
 			// try to remove any clist events we added for subcontact
-			CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
-			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hMeta, lParam);
+			CallServiceSync(MS_CLIST_REMOVEEVENT, hMeta, 1);
+			CallService(MS_PROTO_CONTACTISTYPING, hMeta, lParam);
 			// stop processing of event
 			return 1;
 		}
@@ -1136,7 +1127,6 @@ int Meta_CallMostOnline(WPARAM hContact, LPARAM lParam)
 int Meta_PreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	Meta_SetStatus((WPARAM)ID_STATUS_OFFLINE, 0);
-	Meta_UnhideLinkedContacts();
 	Meta_SuppressStatus(FALSE);
 	if (setStatusTimerId)
 		KillTimer(0, setStatusTimerId);

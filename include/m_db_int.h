@@ -76,41 +76,43 @@ interface MIDatabase
 {
 	MIDatabaseCache* m_cache;
 
-	STDMETHOD_(void,SetCacheSafetyMode)(BOOL) PURE;
+	STDMETHOD_(void, SetCacheSafetyMode)(BOOL) PURE;
 
-	STDMETHOD_(LONG,GetContactCount)(void) PURE;
+	STDMETHOD_(LONG, GetContactCount)(void) PURE;
 	STDMETHOD_(MCONTACT,FindFirstContact)(const char *szProto = NULL) PURE;
 	STDMETHOD_(MCONTACT, FindNextContact)(MCONTACT contactID, const char *szProto = NULL) PURE;
 
-	STDMETHOD_(LONG,DeleteContact)(MCONTACT contactID) PURE;
-	STDMETHOD_(HANDLE,AddContact)(void) PURE;
-	STDMETHOD_(BOOL,IsDbContact)(MCONTACT contactID) PURE;
+	STDMETHOD_(LONG, DeleteContact)(MCONTACT contactID) PURE;
+	STDMETHOD_(HANDLE, AddContact)(void) PURE;
+	STDMETHOD_(BOOL, IsDbContact)(MCONTACT contactID) PURE;
 
-	STDMETHOD_(LONG,GetEventCount)(MCONTACT contactID) PURE;
-	STDMETHOD_(HANDLE,AddEvent)(MCONTACT contactID, DBEVENTINFO *dbe) PURE;
-	STDMETHOD_(BOOL,DeleteEvent)(MCONTACT contactID, HANDLE hDbEvent) PURE;
-	STDMETHOD_(LONG,GetBlobSize)(HANDLE hDbEvent) PURE;
-	STDMETHOD_(BOOL,GetEvent)(HANDLE hDbEvent, DBEVENTINFO *dbe) PURE;
-	STDMETHOD_(BOOL,MarkEventRead)(MCONTACT contactID, HANDLE hDbEvent) PURE;
-	STDMETHOD_(MCONTACT,GetEventContact)(HANDLE hDbEvent) PURE;
-	STDMETHOD_(HANDLE,FindFirstEvent)(MCONTACT contactID) PURE;
-	STDMETHOD_(HANDLE,FindFirstUnreadEvent)(MCONTACT contactID) PURE;
-	STDMETHOD_(HANDLE,FindLastEvent)(MCONTACT contactID) PURE;
-	STDMETHOD_(HANDLE,FindNextEvent)(HANDLE hDbEvent) PURE;
-	STDMETHOD_(HANDLE,FindPrevEvent)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(LONG, GetEventCount)(MCONTACT contactID) PURE;
+	STDMETHOD_(HANDLE, AddEvent)(MCONTACT contactID, DBEVENTINFO *dbe) PURE;
+	STDMETHOD_(BOOL, DeleteEvent)(MCONTACT contactID, HANDLE hDbEvent) PURE;
+	STDMETHOD_(LONG, GetBlobSize)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(BOOL, GetEvent)(HANDLE hDbEvent, DBEVENTINFO *dbe) PURE;
+	STDMETHOD_(BOOL, MarkEventRead)(MCONTACT contactID, HANDLE hDbEvent) PURE;
+	STDMETHOD_(MCONTACT, GetEventContact)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE, FindFirstEvent)(MCONTACT contactID) PURE;
+	STDMETHOD_(HANDLE, FindFirstUnreadEvent)(MCONTACT contactID) PURE;
+	STDMETHOD_(HANDLE, FindLastEvent)(MCONTACT contactID) PURE;
+	STDMETHOD_(HANDLE, FindNextEvent)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE, FindPrevEvent)(HANDLE hDbEvent) PURE;
 
-	STDMETHOD_(BOOL,EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+	STDMETHOD_(BOOL, EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
 
-	STDMETHOD_(BOOL,GetContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
-	STDMETHOD_(BOOL,GetContactSettingStr)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
-	STDMETHOD_(BOOL,GetContactSettingStatic)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
-	STDMETHOD_(BOOL,FreeVariant)(DBVARIANT *dbv) PURE;
-	STDMETHOD_(BOOL,WriteContactSetting)(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) PURE;
-	STDMETHOD_(BOOL,DeleteContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting) PURE;
-	STDMETHOD_(BOOL,EnumContactSettings)(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces) PURE;
-	STDMETHOD_(BOOL,SetSettingResident)(BOOL bIsResident, const char *pszSettingName) PURE;
-	STDMETHOD_(BOOL,EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
-	STDMETHOD_(BOOL,IsSettingEncrypted)(LPCSTR szModule, LPCSTR szSetting) PURE;
+	STDMETHOD_(BOOL, GetContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL, GetContactSettingStr)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL, GetContactSettingStatic)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL, FreeVariant)(DBVARIANT *dbv) PURE;
+	STDMETHOD_(BOOL, WriteContactSetting)(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) PURE;
+	STDMETHOD_(BOOL, DeleteContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting) PURE;
+	STDMETHOD_(BOOL, EnumContactSettings)(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces) PURE;
+	STDMETHOD_(BOOL, SetSettingResident)(BOOL bIsResident, const char *pszSettingName) PURE;
+	STDMETHOD_(BOOL, EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+	STDMETHOD_(BOOL, IsSettingEncrypted)(LPCSTR szModule, LPCSTR szSetting) PURE;
+
+	STDMETHOD_(BOOL, MetaDetouchSub)(DBCachedContact*, int nSub) PURE;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

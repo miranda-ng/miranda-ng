@@ -200,11 +200,11 @@ int Meta_SetNick(char *szProto)
 
 /** Assign a contact (src) to a metacontact (dest)
 *
-* @param src			\c HANDLE to a contact that should be assigned
-* @param dest			\c HANDLE to a metacontact that will host the contact
-* @param set_as_default	\c bool flag to indicate whether the new contact becomes the default
+* @param src : HANDLE to a contact that should be assigned
+* @param dest : HANDLE to a metacontact that will host the contact
+* @param set_as_default : bool flag to indicate whether the new contact becomes the default
 *
-* @return		TRUE on success, FALSE otherwise
+* @return TRUE on success, FALSE otherwise
 */
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 {
@@ -373,9 +373,9 @@ MCONTACT Meta_GetMostOnline(DBCachedContact *cc)
 /** Get the 'most online' contact for a meta contact (according to above order) which supports the specified
 * protocol service, and copies nick from that contact
 *
-* @param hMeta	\c HANDLE to a metacontact
+* @param hMetaHANDLE to a metacontact
 *
-* @return		\c HANDLE to a contact
+* @return HANDLE to a contact
 */
 
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability)
@@ -709,63 +709,62 @@ MetaContacts continues to function correctly, you should:\n\
 int Meta_HideLinkedContacts(void)
 {
 	DBVARIANT dbv, dbv2;
-	DWORD meta_id, num_contacts, contact_number;
 	char buffer[512], buffer2[512];
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if ((meta_id = db_get_dw(hContact, META_PROTO, META_LINK, INVALID_CONTACT_ID)) != INVALID_CONTACT_ID) {
-			// get contact number
-			contact_number = db_get_dw(hContact, META_PROTO, "ContactNumber", INVALID_CONTACT_ID);
+		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+		if (cc == NULL || cc->parentID == 0)
+			continue;
 
-			// prepare to update metacontact record of subcontat status
-			char *szProto = GetContactProto(hContact);
+		DBCachedContact *ccMeta = CheckMeta(cc->parentID);
+		if (ccMeta == NULL)
+			continue;
 
-			// find metacontact
-			for (MCONTACT hContact2 = db_find_first(); hContact2; hContact2 = db_find_next(hContact2)) {
-				if (db_get_dw(hContact2, META_PROTO, META_ID, INVALID_CONTACT_ID) != meta_id)
-					continue;
+		// get contact number
+		int contact_number = Meta_GetContactNumber(cc, hContact);
 
-				num_contacts = db_get_dw(hContact2, META_PROTO, "NumContacts", INVALID_CONTACT_ID);
-				if (contact_number < 0 || contact_number >= num_contacts)
-					continue;
+		// prepare to update metacontact record of subcontat status
+		char *szProto = GetContactProto(hContact);
 
-				// update metacontact's record of status for this contact
-				strcpy(buffer, "Status");
-				strcat(buffer, _itoa(contact_number, buffer2, 10));
+		// find metacontact
+		if (contact_number < 0 || contact_number >= ccMeta->nSubs)
+			continue;
 
-				WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-				db_set_w(hContact2, META_PROTO, buffer, status);
+		// update metacontact's record of status for this contact
+		strcpy(buffer, "Status");
+		strcat(buffer, _itoa(contact_number, buffer2, 10));
 
-				// update metacontact's record of nick for this contact
-				if (szProto && !db_get(hContact, szProto, "Nick", &dbv)) {
-					strcpy(buffer, "Nick");
-					strcat(buffer, _itoa(contact_number, buffer2, 10));
-					db_set(hContact2, META_PROTO, buffer, &dbv);
+		WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		db_set_w(ccMeta->contactID, META_PROTO, buffer, status);
 
-					strcpy(buffer, "CListName");
-					strcat(buffer, _itoa(contact_number, buffer2, 10));
-					if (db_get(hContact, "CList", "MyHandle", &dbv2))
-						db_set(hContact2, META_PROTO, buffer, &dbv);
-					else {
-						db_set(hContact2, META_PROTO, buffer, &dbv2);
-						db_free(&dbv2);
-					}
+		// update metacontact's record of nick for this contact
+		if (szProto && !db_get(hContact, szProto, "Nick", &dbv)) {
+			strcpy(buffer, "Nick");
+			strcat(buffer, _itoa(contact_number, buffer2, 10));
+			db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
 
-					db_free(&dbv);
-				}
-				else {
-					if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
-						strcpy(buffer, "CListName");
-						strcat(buffer, _itoa(contact_number, buffer2, 10));
-						db_set(hContact2, META_PROTO, buffer, &dbv);
-						db_free(&dbv);
-					}
-				}
+			strcpy(buffer, "CListName");
+			strcat(buffer, _itoa(contact_number, buffer2, 10));
+			if (db_get(hContact, "CList", "MyHandle", &dbv2))
+				db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
+			else {
+				db_set(ccMeta->contactID, META_PROTO, buffer, &dbv2);
+				db_free(&dbv2);
 			}
 
-			if (options.suppress_status)
-				CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+			db_free(&dbv);
 		}
+		else {
+			if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
+				strcpy(buffer, "CListName");
+				strcat(buffer, _itoa(contact_number, buffer2, 10));
+				db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
+				db_free(&dbv);
+			}
+		}
+
+		if (options.suppress_status)
+			CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 	}
 
 	// do metacontacts after handles set properly above
@@ -782,14 +781,6 @@ int Meta_HideLinkedContacts(void)
 	return 0;
 }
 
-/** Unhide all contacts linked to any meta contact
-*
-*/
-int Meta_UnhideLinkedContacts(void)
-{
-	return 0;
-}
-
 int Meta_HideMetaContacts(int hide)
 {
 	// set status suppression
@@ -799,13 +790,13 @@ int Meta_HideMetaContacts(int hide)
 		Meta_SuppressStatus(options.suppress_status);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_dw(hContact, META_PROTO, META_ID, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
-			// is a meta contact
-			if (hide)
-				db_set_b(hContact, "CList", "Hidden", 1);
-			else
-				db_unset(hContact, "CList", "Hidden");
-		}
+		if (CheckMeta(hContact) == NULL)
+			continue;
+		
+		if (hide)
+			db_set_b(hContact, "CList", "Hidden", 1);
+		else
+			db_unset(hContact, "CList", "Hidden");
 	}
 
 	return 0;

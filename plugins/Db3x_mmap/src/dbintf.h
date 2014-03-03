@@ -234,6 +234,8 @@ public:
 	STDMETHODIMP_(BOOL)     EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
+	STDMETHODIMP_(BOOL)     MetaDetouchSub(DBCachedContact *cc, int nSub);
+
 protected:
 	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
 	STDMETHODIMP_(BOOL)     CheckDb(int phase, int firstTime);

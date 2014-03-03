@@ -33,16 +33,19 @@ INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
 
 // contact menu items
 void InitMenus();
-extern DWORD nextMetaID;
 extern int mcStatus;
+
+__forceinline bool IsMeta(DBCachedContact *cc) { return cc->nSubs != -1; }
+__forceinline bool IsSub(DBCachedContact *cc) { return cc->parentID != 0; }
 
 INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_AddTo(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Edit(WPARAM wParam,LPARAM lParam);
-void Meta_RemoveContactNumber(MCONTACT hMeta, int number);
 INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam);
+
+void Meta_RemoveContactNumber(DBCachedContact *cc, int number);
 
 INT_PTR Meta_IsEnabled();
 
@@ -52,7 +55,6 @@ int Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default);
 int Meta_SetNick(char *proto);
 int Meta_HideLinkedContacts(void);
-int Meta_UnhideLinkedContacts(void);
 int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
 int Meta_HideMetaContacts(int hide);
 int Meta_SuppressStatus(int suppress);

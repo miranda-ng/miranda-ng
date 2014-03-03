@@ -211,12 +211,12 @@ LRESULT ProcessCustomDraw (LPARAM lParam)
 *
 * All the UI is controlled here, from display to functionnalities.
 *
-* @param hwndDlg :	\c HANDLE to the <b>'Edit'</b> \c Dialog.
-* @param uMsg :		Specifies the message received by this dialog.
-* @param wParam :	Specifies additional message-specific information. 
-* @param lParam :	Specifies additional message-specific information (handle of MetaContact to edit)
+* @param hwndDlg : HANDLE to the <b>'Edit'</b> Dialog.
+* @param uMsg : Specifies the message received by this dialog.
+* @param wParam : Specifies additional message-specific information. 
+* @param lParam : Specifies additional message-specific information (handle of MetaContact to edit)
 *
-* @return			\c TRUE if the dialog processed the message, \c FALSE if it did not.
+* @return TRUE if the dialog processed the message, FALSE if it did not.
 */
 
 #define WMU_SETTITLE		(WM_USER + 1)
