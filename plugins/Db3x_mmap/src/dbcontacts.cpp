@@ -258,24 +258,26 @@ void CDb3Mmap::FillContacts()
 		}
 		cc->activeID = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? NULL : dbv.dVal;
 		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "Handle", &dbv)) ? NULL : dbv.dVal;
+		
+		#ifdef _DEBUG
+			// whether we need conversion or not
+			if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv)) {
+				// we don't need it anymore
+				DeleteContactSetting(dwContactID, META_PROTO, "MetaID");
 
-		// whether we need conversion or not
-		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv)) {
-			// we don't need it anymore
-			DeleteContactSetting(dwContactID, META_PROTO, "MetaID");
+				for (int i = 0; i < cc->nSubs; i++) {
+					// store contact id instead of the old mc number
+					DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
+					dbws.value.type = DBVT_DWORD;
+					dbws.value.dVal = dwContactID;
+					WriteContactSetting(cc->pSubs[i], &dbws);
 
-			for (int i = 0; i < cc->nSubs; i++) {
-				// store contact id instead of the old mc number
-				DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
-				dbws.value.type = DBVT_DWORD;
-				dbws.value.dVal = dwContactID;
-				WriteContactSetting(cc->pSubs[i], &dbws);
-
-				// wipe out old data from subcontacts
-				DeleteContactSetting(cc->pSubs[i], META_PROTO, "ContactNumber");
-				DeleteContactSetting(cc->pSubs[i], META_PROTO, "MetaLink");
+					// wipe out old data from subcontacts
+					DeleteContactSetting(cc->pSubs[i], META_PROTO, "ContactNumber");
+					DeleteContactSetting(cc->pSubs[i], META_PROTO, "MetaLink");
+				}
 			}
-		}
+		#endif
 
 		dwOffset = p->ofsNext;
 	}
