@@ -240,6 +240,8 @@ void CDb3Mmap::ConvertContacts()
 
 void CDb3Mmap::FillContacts()
 {
+	LIST<void> arMetas(10);
+
 	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
 		DBContact *p = (DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
 		if (p->signature != DBCONTACT_SIGNATURE)
@@ -281,24 +283,33 @@ void CDb3Mmap::FillContacts()
 		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "Handle", &dbv)) ? NULL : dbv.dVal;
 		
 		// whether we need conversion or not
-		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv)) {
-			// we don't need it anymore
-			DeleteContactSetting(dwContactID, META_PROTO, "MetaID");
-
-			for (int i = 0; i < cc->nSubs; i++) {
-				// store contact id instead of the old mc number
-				DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
-				dbws.value.type = DBVT_DWORD;
-				dbws.value.dVal = dwContactID;
-				WriteContactSetting(cc->pSubs[i], &dbws);
-
-				// wipe out old data from subcontacts
-				DeleteContactSetting(cc->pSubs[i], META_PROTO, "ContactNumber");
-				DeleteContactSetting(cc->pSubs[i], META_PROTO, "MetaLink");
-			}
-		}
+		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv))
+			arMetas.insert((void*)dwContactID);
 
 		dwOffset = p->ofsNext;
+	}
+
+	for (int i = 0; i < arMetas.getCount(); i++) {
+		MCONTACT hContact = (MCONTACT)arMetas[i];
+		DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+		if (cc == NULL)
+			continue;
+
+		// we don't need it anymore
+		DeleteContactSetting(hContact, META_PROTO, "MetaID");
+
+		for (int k = 0; k < cc->nSubs; k++) {
+			// store contact id instead of the old mc number
+			DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
+			dbws.value.type = DBVT_DWORD;
+			dbws.value.dVal = hContact;
+			WriteContactSetting(cc->pSubs[k], &dbws);
+
+			// wipe out old data from subcontacts
+			DeleteContactSetting(cc->pSubs[k], META_PROTO, "ContactNumber");
+			DeleteContactSetting(cc->pSubs[k], META_PROTO, "IsSubcontact");
+			DeleteContactSetting(cc->pSubs[k], META_PROTO, "MetaLink");
+		}
 	}
 }
 
