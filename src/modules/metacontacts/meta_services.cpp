@@ -201,47 +201,38 @@ static DWORD CALLBACK sttFakeAckFail( LPVOID param )
 * @return 0 on success, 1 otherwise.
 */
 
-INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
+INT_PTR MetaFilter_SendMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	MCONTACT hMeta;
 
-	if ((hMeta = (MCONTACT)db_get_dw(ccs->hContact, META_PROTO, "Handle", 0)) == 0)
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam); // Can't find the MetaID of the metacontact linked to
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
+	if (cc != NULL) {
+		// if subcontact sending, add db event to keep metacontact history correct
+		if (IsSub(cc) && options.metahistory && !(ccs->wParam & PREF_METANODB)) {
+			// reject "file As Message" messages
+			if (strlen((char*)ccs->lParam) > 5)
+				if (!strncmp((char *)ccs->lParam, "<%fAM", 5) || !strncmp((char *)ccs->lParam, "<%dAM", 5) || !strncmp((char *)ccs->lParam, "?OTR", 4) == 0)
+					return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
 
-	// if subcontact sending, add db event to keep metacontact history correct
-	if (options.metahistory && !(ccs->wParam & PREF_METANODB)) {
-
-		// reject "file As Message" messages
-		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "<%fAM", 5) == 0)
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
-
-		// reject "data As Message" messages
-		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "<%dAM", 5) == 0)
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
-
-		// reject "OTR" messages
-		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "?OTR", 4) == 0)
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
-
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.szModule = META_PROTO;
-		dbei.flags = DBEF_SENT;
-		dbei.timestamp = time(NULL);
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		if (ccs->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
-		if (ccs->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
-		dbei.cbBlob = (DWORD)strlen((char *)ccs->lParam) + 1;
-		if ( ccs->wParam & PREF_UNICODE )
-			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
-		dbei.pBlob = (PBYTE)ccs->lParam;
-		db_event_add(hMeta, &dbei);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.szModule = META_PROTO;
+			dbei.flags = DBEF_SENT;
+			dbei.timestamp = time(NULL);
+			dbei.eventType = EVENTTYPE_MESSAGE;
+			if (ccs->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
+			if (ccs->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
+			dbei.cbBlob = (DWORD)strlen((char *)ccs->lParam) + 1;
+			if (ccs->wParam & PREF_UNICODE)
+				dbei.cbBlob *= (sizeof(wchar_t)+1);
+			dbei.pBlob = (PBYTE)ccs->lParam;
+			db_event_add(cc->parentID, &dbei);
+		}
 	}
 
 	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 }
 
-INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(wParam);
 	if (cc == NULL)
@@ -343,37 +334,34 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 {
 	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
-	MCONTACT hMeta;
+	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 
-	// Can't find the MetaID of the metacontact linked to this contact, let through the protocol chain
-	if ((hMeta = db_get_dw(ccs->hContact, META_PROTO, "Handle", 0)) == 0)
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
+	if (cc == NULL || !IsSub(cc))
 		return CallService(MS_PROTO_CHAINRECV, wParam, (LPARAM)ccs);
 
 	if (options.set_default_on_recv) {
-		db_set_dw(hMeta, META_PROTO, "Default", ccs->hContact);
-		NotifyEventHooks(hEventDefaultChanged, (WPARAM)hMeta, (LPARAM)ccs->hContact); // nick set in event handler
+		db_set_dw(cc->parentID, META_PROTO, "Default", ccs->hContact);
+		NotifyEventHooks(hEventDefaultChanged, cc->parentID, ccs->hContact); // nick set in event handler
 	}
 
 	// if meta disabled (now message api) or window open (message api), or using subcontact windows,
 	// let through but add db event for metacontact history
-	if ( !Meta_IsEnabled() || db_get_b(ccs->hContact, META_PROTO, "WindowOpen", 0) == 1 || options.subcontact_windows) {
-
+	if (!Meta_IsEnabled() || db_get_b(ccs->hContact, META_PROTO, "WindowOpen", 0) == 1 || options.subcontact_windows) {
 		// add a clist event, so that e.g. there is an icon flashing
 		// (only add it when message api available, 'cause then we can remove the event when the message window is opened)
 		if (db_get_b(ccs->hContact, META_PROTO, "WindowOpen", 0) == 0 &&
-			 db_get_b(hMeta, META_PROTO, "WindowOpen", 0) == 0 &&
-			 options.flash_meta_message_icon)
-		{
+			 db_get_b(cc->parentID, META_PROTO, "WindowOpen", 0) == 0 &&
+			 options.flash_meta_message_icon) {
 			TCHAR toolTip[256];
 
 			CLISTEVENT cle = { sizeof(cle) };
-			cle.hContact = hMeta;
+			cle.hContact = cc->parentID;
 			cle.flags = CLEF_TCHAR;
 			cle.hDbEvent = (HANDLE)ccs->hContact;	// use subcontact handle as key - then we can remove all events if the subcontact window is opened
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "MetaContacts/CListMessageEvent";
-			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), cli.pfnGetContactDisplayName(hMeta, 0));
+			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), cli.pfnGetContactDisplayName(cc->parentID, 0));
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
@@ -388,8 +376,8 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 				if (proto) {
 					MCONTACT hSub = ccs->hContact;
 					DWORD flags = pre->flags;
-					ccs->hContact = hMeta;
-					pre->flags |= (db_get_b(hMeta, META_PROTO, "WindowOpen", 0) ? 0 : PREF_CREATEREAD);
+					ccs->hContact = cc->parentID;
+					pre->flags |= (db_get_b(cc->parentID, META_PROTO, "WindowOpen", 0) ? 0 : PREF_CREATEREAD);
 					if (ProtoServiceExists(proto, PSR_MESSAGE) && !ProtoCallService(proto, PSR_MESSAGE, 0, (LPARAM)ccs))
 						added = TRUE;
 					ccs->hContact = hSub;
@@ -397,22 +385,22 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 				}
 			}
 
-			if ( !added) {
+			if (!added) {
 				// otherwise add raw db event
 				ZeroMemory(&dbei, sizeof(dbei));
 				dbei.cbSize = sizeof(dbei);
 				dbei.szModule = META_PROTO;
 				dbei.timestamp = pre->timestamp;
-				dbei.flags = (db_get_b(hMeta, META_PROTO, "WindowOpen", 0) ? 0 : DBEF_READ);
+				dbei.flags = (db_get_b(cc->parentID, META_PROTO, "WindowOpen", 0) ? 0 : DBEF_READ);
 				if (pre->flags & PREF_RTL) dbei.flags |= DBEF_RTL;
 				if (pre->flags & PREF_UTF) dbei.flags |= DBEF_UTF;
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
-				if ( pre->flags & PREF_UNICODE ) {
-					dbei.cbBlob *= ( sizeof( wchar_t )+1 );
-				}
-				dbei.pBlob = (PBYTE) pre->szMessage;
-				db_event_add(hMeta, &dbei);
+				if (pre->flags & PREF_UNICODE)
+					dbei.cbBlob *= (sizeof(wchar_t)+1);
+
+				dbei.pBlob = (PBYTE)pre->szMessage;
+				db_event_add(cc->parentID, &dbei);
 			}
 		}
 
@@ -420,7 +408,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 	}
 
 	MCONTACT hSub = ccs->hContact;
-	ccs->hContact = hMeta;	// Forward to the associated MetaContact.
+	ccs->hContact = cc->parentID;	// Forward to the associated MetaContact.
 	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)ccs);
 	ccs->hContact = hSub;
 
@@ -437,14 +425,15 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 *
 * @return			0
 */
+
 INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
+	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 
 	// contact is not a meta proto contact - just leave it
 	char *proto = GetContactProto(ccs->hContact);
-	if ( !proto || strcmp(proto, META_PROTO))
+	if (!proto || strcmp(proto, META_PROTO))
 		return 0;
 
 	if (options.use_proto_recv) {
@@ -455,7 +444,7 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
 		MCONTACT most_online = Meta_GetMostOnline(cc);
 		if (char *subProto = GetContactProto(most_online))
-			if ( ProtoCallService(subProto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
+			if (ProtoCallService(subProto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
 				return 0;
 	}
 
@@ -468,13 +457,12 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 	if (pre->flags & PREF_UTF) dbei.flags |= DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
-	if ( pre->flags & PREF_UNICODE )
-		dbei.cbBlob *= ( sizeof( wchar_t )+1 );
-	dbei.pBlob = (PBYTE) pre->szMessage;
+	if (pre->flags & PREF_UNICODE)
+		dbei.cbBlob *= (sizeof(wchar_t)+1);
+	dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
-
 
 /** Called when an ACK is received.
 *
@@ -486,9 +474,10 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 information about the ACK.
 * @return			0 on success, 1 otherwise.
 */
+
 int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA*) lParam;
+	ACKDATA *ack = (ACKDATA*)lParam;
 
 	DBCachedContact *cc = CheckMeta(ack->hContact);
 	if (cc == NULL)
@@ -513,7 +502,7 @@ int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 				return 0;
 			}
 
-			if ( !db_get(ack->hContact, "ContactPhoto", "File", &dbv)) {
+			if (!db_get(ack->hContact, "ContactPhoto", "File", &dbv)) {
 				db_set_ts(cc->contactID, "ContactPhoto", "File", dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -526,7 +515,7 @@ int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 
 				return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, (HANDLE)&AI, ack->lParam);
 			}
-			
+
 			return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, 0, ack->lParam);
 		}
 	}
@@ -535,7 +524,7 @@ int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 }
 
 // hiding contacts on "CList/UseGroups" setting changed can cause a crash - do it in a seperate thread during idle time
-static DWORD sttHideContacts( BOOL param )
+static DWORD sttHideContacts(BOOL param)
 {
 	Meta_HideMetaContacts((int)param);
 	return 0;
@@ -546,6 +535,7 @@ static DWORD sttHideContacts( BOOL param )
 * @param wParam HANDLE to the contact that has change of its setting.
 * @param lParam Reference to a structure that contains the setting that has changed (not used)
 */
+
 int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
@@ -554,9 +544,8 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 
 	// hide metacontacts when groups disabled
 	if (wParam == 0
-		&& ((strcmp(dcws->szModule, "CList") == 0 && strcmp(dcws->szSetting, "UseGroups") == 0)
-		|| (strcmp(dcws->szModule, META_PROTO) == 0 && strcmp(dcws->szSetting, "Enabled") == 0)))
-	{
+		 && ((strcmp(dcws->szModule, "CList") == 0 && strcmp(dcws->szSetting, "UseGroups") == 0)
+		 || (strcmp(dcws->szModule, META_PROTO) == 0 && strcmp(dcws->szSetting, "Enabled") == 0))) {
 		sttHideContacts(!Meta_IsEnabled());
 		return 0;
 	}

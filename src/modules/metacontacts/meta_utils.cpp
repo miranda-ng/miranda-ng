@@ -206,13 +206,14 @@ int Meta_SetNick(char *szProto)
 *
 * @return TRUE on success, FALSE otherwise
 */
+
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 {
 	DWORD num_contacts;
 	char buffer[512], szId[40];
 	WORD status;
 	MCONTACT most_online;
-		
+
 	DBCachedContact *ccDest = CheckMeta(dest);
 	if (ccDest == NULL)
 		return FALSE;
@@ -231,13 +232,13 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	// Get the login of the subcontact
 	char *field = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	DBVARIANT dbv;
-	if ( db_get(src,szProto, field, &dbv)) {
+	if (db_get(src, szProto, field, &dbv)) {
 		MessageBox(0, TranslateT("Could not get unique ID of contact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Check that is is 'on the list'
-	if ( db_get_b(src, "CList", "NotOnList", 0) == 1) {
+	if (db_get_b(src, "CList", "NotOnList", 0) == 1) {
 		MessageBox(0, TranslateT("Contact is 'Not on List' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -252,9 +253,9 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 
 	// write the contact's protocol
 	strcpy(buffer, "Protocol");
-	strcat(buffer, _itoa(num_contacts-1, szId, 10));
+	strcat(buffer, _itoa(num_contacts - 1, szId, 10));
 
-	if ( db_set_s(dest, META_PROTO, buffer, szProto)) {
+	if (db_set_s(dest, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -264,7 +265,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	strcpy(buffer, "Login");
 	strcat(buffer, szId);
 
-	if ( db_set(dest, META_PROTO, buffer, &dbv)) {
+	if (db_set(dest, META_PROTO, buffer, &dbv)) {
 		MessageBox(0, TranslateT("Could not write unique ID of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -273,7 +274,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	db_free(&dbv);
 
 	// If we can get the nickname of the subcontact...
-	if ( !db_get(src, szProto, "Nick", &dbv)) {
+	if (!db_get(src, szProto, "Nick", &dbv)) {
 		// write the nickname
 		strcpy(buffer, "Nick");
 		strcat(buffer, szId);
@@ -291,7 +292,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	db_set_ts(dest, META_PROTO, buffer, cli.pfnGetContactDisplayName(src, 0));
 
 	// Get the status
-	if ( !szProto)
+	if (!szProto)
 		status = ID_STATUS_OFFLINE;
 	else
 		status = db_get_w(src, szProto, "Status", ID_STATUS_OFFLINE);
@@ -315,9 +316,6 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 
 	// Write the link in the contact
 	db_set_dw(src, META_PROTO, "ParentMeta", dest);
-
-	// Write the handle in the contact
-	db_set_dw(src, META_PROTO, "Handle", (DWORD)dest);
 
 	// update count of contacts
 	db_set_dw(dest, META_PROTO, "NumContacts", num_contacts);
@@ -343,8 +341,8 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcscpy(AI.filename, _T("X"));
 
-		if ( CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-	        db_set_ts(dest, "ContactPhoto", "File",AI.filename);
+		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+			db_set_ts(dest, "ContactPhoto", "File", AI.filename);
 	}
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -365,6 +363,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 *	Convenience method - get most online contact supporting messaging
 *
 */
+
 MCONTACT Meta_GetMostOnline(DBCachedContact *cc)
 {
 	return Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_IM);
@@ -388,8 +387,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 	int i, default_contact_number, num_contacts;
 
 	// you can't get more online than having the default contact ONLINE - so check that first
-	if ((default_contact_number = db_get_dw(cc->contactID, META_PROTO, "Default",INVALID_CONTACT_ID)) == INVALID_CONTACT_ID)
-	{
+	if ((default_contact_number = db_get_dw(cc->contactID, META_PROTO, "Default", INVALID_CONTACT_ID)) == INVALID_CONTACT_ID) {
 		// This is a simple contact - return NULL to signify error.
 		// (this should normally not happen, since all meta contacts have a default contact)
 		return NULL;
@@ -441,7 +439,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 		hContact = Meta_GetContactHandle(cc, i);
 		szProto = GetContactProto(hContact);
 
-		if ( !szProto || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
+		if (!szProto || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
 		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
@@ -486,14 +484,14 @@ int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact)
 		if (cc->pSubs[i] == hContact)
 			return i;
 
-	return -1; 
+	return -1;
 }
 
 BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2)
 {
 	if (dbv1->type != dbv2->type) return FALSE;
 
-	switch(dbv1->type) {
+	switch (dbv1->type) {
 	case DBVT_BYTE:
 		return dbv1->bVal == dbv2->bVal;
 	case DBVT_WORD:
@@ -513,8 +511,8 @@ BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2)
 void copy_settings_array(DBCachedContact *ccMeta, char *module, const char *settings[], int num_settings)
 {
 	int num_contacts = db_get_dw(ccMeta->contactID, META_PROTO, "NumContacts", INVALID_CONTACT_ID),
-		 default_contact = db_get_dw(ccMeta->contactID, META_PROTO, "Default", INVALID_CONTACT_ID),
-		 most_online = Meta_GetContactNumber(ccMeta, Meta_GetMostOnline(ccMeta));
+		default_contact = db_get_dw(ccMeta->contactID, META_PROTO, "Default", INVALID_CONTACT_ID),
+		most_online = Meta_GetContactNumber(ccMeta, Meta_GetMostOnline(ccMeta));
 
 	BOOL use_default = FALSE;
 	int source_contact = (use_default ? default_contact : most_online);
@@ -583,29 +581,29 @@ void copy_settings_array(DBCachedContact *ccMeta, char *module, const char *sett
 	}
 }
 
-const char *ProtoSettings[25] = 
-	{"BirthDay", "BirthMonth", "BirthYear", "Age", "Cell", "Cellular", "Homepage", "email", "Email", "e-mail",
-	"FirstName", "MiddleName", "LastName", "Title", "Timezone", "Gender", "MirVer", "ApparentMode", "IdleTS", "LogonTS", "IP", "RealIP",
-	"Auth", "ListeningTo", "Country"};
-const char *UserInfoSettings[71] = 
-	{"NickName", "FirstName", "MiddleName", "LastName", "Title", "Timezone", "Gender", "DOBd", "DOBm", "DOBy",
-	"Mye-mail0", "Mye-mail1", "MyPhone0", "MyPhone1", "MyNotes", "PersonalWWW", 
-	"HomePhone", "HomeFax", "HomeMobile", "HomeStreet", "HomeCity", "HomeState", "HomeZip", "HomeCountry",
-	"WorkPhone", "WorkFax", "WorkMobile", "WorkStreet", "WorkCity", "WorkState", "WorkZip", "WorkCountry", "Company", "Department", "Position", 
-	"Occupation", "Cellular", "Cell", "Phone", "Notes",
+const char *ProtoSettings[25] =
+{ "BirthDay", "BirthMonth", "BirthYear", "Age", "Cell", "Cellular", "Homepage", "email", "Email", "e-mail",
+"FirstName", "MiddleName", "LastName", "Title", "Timezone", "Gender", "MirVer", "ApparentMode", "IdleTS", "LogonTS", "IP", "RealIP",
+"Auth", "ListeningTo", "Country" };
+const char *UserInfoSettings[71] =
+{ "NickName", "FirstName", "MiddleName", "LastName", "Title", "Timezone", "Gender", "DOBd", "DOBm", "DOBy",
+"Mye-mail0", "Mye-mail1", "MyPhone0", "MyPhone1", "MyNotes", "PersonalWWW",
+"HomePhone", "HomeFax", "HomeMobile", "HomeStreet", "HomeCity", "HomeState", "HomeZip", "HomeCountry",
+"WorkPhone", "WorkFax", "WorkMobile", "WorkStreet", "WorkCity", "WorkState", "WorkZip", "WorkCountry", "Company", "Department", "Position",
+"Occupation", "Cellular", "Cell", "Phone", "Notes",
 
-	 "e-mail", "e-mail0", "e-mail1", "Homepage", "MaritalStatus",
-	"CompanyCellular", "CompanyCity", "CompanyState", "CompanyStreet", "CompanyCountry", "Companye-mail", 
-	"CompanyHomepage", "CompanyDepartment", "CompanyOccupation", "CompanyPosition", "CompanyZip", 
+"e-mail", "e-mail0", "e-mail1", "Homepage", "MaritalStatus",
+"CompanyCellular", "CompanyCity", "CompanyState", "CompanyStreet", "CompanyCountry", "Companye-mail",
+"CompanyHomepage", "CompanyDepartment", "CompanyOccupation", "CompanyPosition", "CompanyZip",
 
-	"OriginCity", "OriginState", "OriginStreet", "OriginCountry", "OriginZip", 
-	"City", "State", "Street", "Country", "Zip", 
+"OriginCity", "OriginState", "OriginStreet", "OriginCountry", "OriginZip",
+"City", "State", "Street", "Country", "Zip",
 
-	"Language1", "Language2", "Language3", "Partner", "Gender"};
-const char *ContactPhotoSettings[5] = 
-	{"File","Backup","Format","ImageHash","RFile"};
-const char *MBirthdaySettings[3] = 
-	{ "BirthDay", "BirthMonth", "BirthYear"};
+"Language1", "Language2", "Language3", "Partner", "Gender" };
+const char *ContactPhotoSettings[5] =
+{ "File", "Backup", "Format", "ImageHash", "RFile" };
+const char *MBirthdaySettings[3] =
+{ "BirthDay", "BirthMonth", "BirthYear" };
 
 // special handling for status message
 // copy from first subcontact with any of these values that has the same status as the most online contact
@@ -660,7 +658,7 @@ void CopyStatusData(DBCachedContact *ccMeta)
 
 	if (!bDoneStatus)
 		db_unset(ccMeta->contactID, "CList", "StatusMsg");
-	
+
 	if (!bDoneXStatus) {
 		db_unset(ccMeta->contactID, META_PROTO, "XStatusId");
 		db_unset(ccMeta->contactID, META_PROTO, "XStatusMsg");
@@ -679,7 +677,7 @@ void Meta_CopyData(DBCachedContact *cc)
 	copy_settings_array(cc, "mBirthday", UserInfoSettings, 3);
 	copy_settings_array(cc, "ContactPhoto", ContactPhotoSettings, 5);
 
-	if (options.copy_userinfo) 
+	if (options.copy_userinfo)
 		copy_settings_array(cc, "UserInfo", UserInfoSettings, 71);
 }
 
@@ -792,7 +790,7 @@ int Meta_HideMetaContacts(int hide)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (CheckMeta(hContact) == NULL)
 			continue;
-		
+
 		if (hide)
 			db_set_b(hContact, "CList", "Hidden", 1);
 		else

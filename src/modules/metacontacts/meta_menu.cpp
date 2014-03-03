@@ -129,9 +129,6 @@ void Meta_RemoveContactNumber(DBCachedContact *cc, int number)
 
 	// make sure this contact thinks it's part of this metacontact
 	if (hContact == cc->contactID) {
-		// remove link to meta contact
-		db_unset(hContact, META_PROTO, "Handle");
-
 		// stop ignoring, if we were
 		if (options.suppress_status)
 			CallService(MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
@@ -149,9 +146,6 @@ void Meta_RemoveContactNumber(DBCachedContact *cc, int number)
 	db_unset(cc->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "Status"); strcat(buffer, idStr);
-	db_unset(cc->contactID, META_PROTO, buffer);
-
-	strcpy(buffer, "Handle"); strcat(buffer, idStr);
 	db_unset(cc->contactID, META_PROTO, buffer);
 
 	strcpy(buffer, "StatusString"); strcat(buffer, idStr);
