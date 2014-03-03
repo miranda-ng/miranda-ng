@@ -51,9 +51,10 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		szUniqueID = (TCHAR *)mir_alloc(32);
-		mir_sntprintf(szUniqueID, 32, _T("%p"), hContact);
-		if (szProto == NULL || szUniqueID == NULL)
+		TCHAR tszID[40];
+		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
+		szUniqueID = mir_tstrdup(tszID);
+		if (szUniqueID == NULL)
 			return NULL;
 	}
 
