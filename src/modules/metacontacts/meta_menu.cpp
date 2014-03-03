@@ -157,6 +157,8 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 	strcpy(buffer, "CListName"); strcat(buffer, idStr);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
+	currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
+
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
 	if (ccMeta->nDefault >= number) {
 		ccMeta->nDefault--;
@@ -205,7 +207,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		return 0;
 
 	// The wParam is a metacontact
-	if (cc->nSubs != -1) {
+	if (IsMeta(cc)) {
 		// check from recursion - see second half of this function
 		if (!bSkipQuestion && IDYES != 
 			 MessageBox((HWND)CallService(MS_CLUI_GETHWND, 0, 0),
@@ -224,7 +226,10 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	}
-	else {
+	else if (IsSub(cc)) {
+		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == NULL)
+			return 0;
+
 		if (cc->nSubs == 1) {
 			if (IDYES == MessageBox(0, TranslateT(szDelMsg), TranslateT("Delete MetaContact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
 				Meta_Delete(hContact, 1);

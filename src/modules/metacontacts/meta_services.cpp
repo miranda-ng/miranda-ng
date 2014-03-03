@@ -123,7 +123,7 @@ void CALLBACK SetStatusThread(HWND hWnd, UINT msg, UINT_PTR id, DWORD dw)
 {
 	previousMode = mcStatus;
 
-	mcStatus = (int)ID_STATUS_ONLINE;
+	mcStatus = ID_STATUS_ONLINE;
 	ProtoBroadcastAck(META_PROTO, NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
 
 	KillTimer(0, setStatusTimerId);
@@ -246,6 +246,7 @@ INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 *
 * @return 0 on success, 1 otherwise.
 */
+
 INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
