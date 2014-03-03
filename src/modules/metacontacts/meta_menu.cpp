@@ -232,7 +232,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 
 		if (cc->nSubs == 1) {
 			if (IDYES == MessageBox(0, TranslateT(szDelMsg), TranslateT("Delete MetaContact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
-				Meta_Delete(hContact, 1);
+				Meta_Delete(cc->contactID, 1);
 
 			return 0;
 		}
