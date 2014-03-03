@@ -234,7 +234,7 @@ void KillModuleExtraIcons(int hLangpack)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam)
+int ClistExtraListRebuild(WPARAM, LPARAM)
 {
 	clistRebuildAlreadyCalled = TRUE;
 
@@ -246,7 +246,7 @@ int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ClistExtraImageApply(WPARAM hContact, LPARAM lParam)
+int ClistExtraImageApply(WPARAM hContact, LPARAM)
 {
 	if (hContact == NULL)
 		return 0;
@@ -456,7 +456,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	return id;
 }
 
-INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM)
 {
 	if (wParam == 0)
 		return -1;
@@ -472,7 +472,7 @@ INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM lParam)
 	return extra->setIcon((int)ei->hExtraIcon, ei->hContact, ei->hImage);
 }
 
-INT_PTR ExtraIcon_SetIconByName(WPARAM wParam, LPARAM lParam)
+INT_PTR ExtraIcon_SetIconByName(WPARAM wParam, LPARAM)
 {
 	if (wParam == 0)
 		return -1;
@@ -488,7 +488,7 @@ INT_PTR ExtraIcon_SetIconByName(WPARAM wParam, LPARAM lParam)
 	return extra->setIconByName((int)ei->hExtraIcon, ei->hContact, ei->icoName);
 }
 
-static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM lParam)
+static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM)
 {
 	return (INT_PTR)ExtraIcon_Add((HICON)wParam);
 }
@@ -509,25 +509,25 @@ void LoadExtraIconsModule()
 	clistSlotCount = LOWORD(ret);
 
 	// Services
-	CreateServiceFunction(MS_EXTRAICON_REGISTER, &ExtraIcon_Register);
-	CreateServiceFunction(MS_EXTRAICON_SET_ICON, &ExtraIcon_SetIcon);
+	CreateServiceFunction(MS_EXTRAICON_REGISTER, ExtraIcon_Register);
+	CreateServiceFunction(MS_EXTRAICON_SET_ICON, ExtraIcon_SetIcon);
 	CreateServiceFunction(MS_EXTRAICON_SET_ICON_BY_NAME, &ExtraIcon_SetIconByName);
 
-	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, &svcExtraIcon_Add);
+	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, svcExtraIcon_Add);
 
 	hEventExtraClick = CreateHookableEvent(ME_CLIST_EXTRA_CLICK);
 	hEventExtraImageApplying = CreateHookableEvent(ME_CLIST_EXTRA_IMAGE_APPLY);
 	hEventExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
 
 	// Icons
-	Icon_Register(NULL, "Contact List", iconList, SIZEOF(iconList));
+	Icon_Register(NULL, "Contact list", iconList, SIZEOF(iconList));
 
 	// Hooks
-	HookEvent(ME_SYSTEM_MODULESLOADED, &ModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
-	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &ClistExtraListRebuild);
-	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &ClistExtraImageApply);
-	HookEvent(ME_CLIST_EXTRA_CLICK, &ClistExtraClick);
+	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ClistExtraListRebuild);
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ClistExtraImageApply);
+	HookEvent(ME_CLIST_EXTRA_CLICK, ClistExtraClick);
 
 	DefaultExtraIcons_Load();
 }

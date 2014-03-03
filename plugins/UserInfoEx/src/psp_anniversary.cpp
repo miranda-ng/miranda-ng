@@ -71,10 +71,7 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 				EnableWindow(GetDlgItem(hDlg, IDOK), GetWindowTextLength((HWND)lParam) > 0);
 			break;
 
-		case IDCANCEL:
-			return EndDialog(hDlg, LOWORD(wParam));
-
-		case IDOK:
+		case IDOK: {
 			// read new description
 			HWND hEdit = GetDlgItem(hDlg, EDIT_CATEGORY);
 			int len = Edit_GetTextLength(hEdit);
@@ -92,6 +89,11 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 				pDlgEditAnniv->Description(pszText);
 				pDlgEditAnniv->SetFlags(MAnnivDate::MADF_HASCUSTOM | MAnnivDate::MADF_CHANGED);
 			}
+		}
+		// fall through
+		case IDCANCEL:
+			return EndDialog(hDlg, LOWORD(wParam));
+
 		}
 	}
 	return FALSE;
