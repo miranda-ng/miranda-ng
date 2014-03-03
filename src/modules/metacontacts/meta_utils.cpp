@@ -316,6 +316,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 
 	// Write the link in the contact
 	db_set_dw(src, META_PROTO, "ParentMeta", dest);
+	db_set_b(src, META_PROTO, "IsSubcontact", true);
 
 	// update count of contacts
 	db_set_dw(dest, META_PROTO, "NumContacts", num_contacts);

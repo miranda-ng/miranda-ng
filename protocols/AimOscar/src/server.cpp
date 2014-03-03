@@ -612,11 +612,11 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 		mir_free(sn);
 	}
 }
+
 void CAimProto::snac_user_offline(SNAC &snac)//family 0x0003
 {
-	if (snac.subcmp(0x000c))
-	{
-		unsigned char buddy_length=snac.ubyte();
+	if (snac.subcmp(0x000c)) {
+		unsigned char buddy_length = snac.ubyte();
 		char* buddy=snac.part(1,buddy_length);
 		MCONTACT hContact=contact_from_sn(buddy, true);
 		if (hContact)
@@ -627,9 +627,7 @@ void CAimProto::snac_user_offline(SNAC &snac)//family 0x0003
 void CAimProto::snac_error(SNAC &snac)//family 0x0003 or 0x0004
 {
 	if (snac.subcmp(0x0001))
-	{
 		get_error(snac.ushort());
-	}
 }
 
 void CAimProto::process_ssi_list(SNAC &snac, int &offset)
@@ -642,51 +640,31 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 	unsigned short tlv_size = snac.ushort(offset+8+name_length);
 	const int tlv_base = offset + name_length + 10; 
 
-	switch (type)
-	{
-		case 0x0000: //buddy record
+	switch (type) {
+	case 0x0000: //buddy record
 		{
 			MCONTACT hContact = contact_from_sn(name, true);
-			if (hContact)
-			{
+			if (hContact) {
 				int i;
-				for (i=1; ; i++)
-				{
-					if (!getBuddyId(hContact, i))
-					{
-						setBuddyId(hContact, i, item_id);	
+				for (i = 1;; i++) {
+					if (!getBuddyId(hContact, i)) {
+						setBuddyId(hContact, i, item_id);
 						setGroupId(hContact, i, group_id);
 						break;
 					}
 				}
-				if (i == 1 && getByte(AIM_KEY_MG, 1))
-				{
+				if (i == 1 && getByte(AIM_KEY_MG, 1)) {
 					const char* group = group_list.find_name(group_id);
-					if (group)
-					{
+					if (group) {
 						bool ok = false;
 						DBVARIANT dbv;
-						if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0]) 
-						{
+						if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0]) {
 							ok = strcmp(group, dbv.pszVal) == 0;
-							if (strcmp(dbv.pszVal, "MetaContacts Hidden Group") == 0)
-							{
-								db_free(&dbv);
-								if (!db_get_utf(hContact, "MetaContacts", "OldCListGroup", &dbv))
-								{
-									ok = strcmp(group, dbv.pszVal) == 0;
-									db_free(&dbv);
-								}
-							}
-							else
-								db_free(&dbv);
+							db_free(&dbv);
 						}
-						else
-						{
-							ok = strcmp(group, AIM_DEFAULT_GROUP) == 0;
-						}
-						if (!ok)
-						{
+						else ok = strcmp(group, AIM_DEFAULT_GROUP) == 0;
+
+						if (!ok) {
 							if (strcmp(group, AIM_DEFAULT_GROUP))
 								db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, group);
 							else
@@ -697,12 +675,10 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 				setWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE);
 
 				bool nickfound = false;
-				for (int tlv_offset = 0; tlv_offset < tlv_size; )
-				{
+				for (int tlv_offset = 0; tlv_offset < tlv_size;) {
 					TLV tlv(snac.val(tlv_base + tlv_offset));
 
-					if (tlv.cmp(0x0131) && tlv.len())
-					{
+					if (tlv.cmp(0x0131) && tlv.len()) {
 						char* nick = tlv.dup();
 						db_set_utf(hContact, MOD_KEY_CL, "MyHandle", nick);
 						mir_free(nick);
@@ -715,133 +691,119 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 
 					tlv_offset += TLV_HEADER_SIZE + tlv.len();
 				}
-				if (!nickfound && getDword(AIM_KEY_LV, 0) >= 0x80500) 
+				if (!nickfound && getDword(AIM_KEY_LV, 0) >= 0x80500)
 					db_unset(hContact, MOD_KEY_CL, "MyHandle");
 			}
-			break;
+	}
+		break;
+
+	case 0x0001: //group record
+		if (group_id) {
+			group_list.add(name, group_id);
+			if (getByte(AIM_KEY_MG, 1))
+				create_group(name);
 		}
+		break;
 
-		case 0x0001: //group record
-			if (group_id)
-			{
-				group_list.add(name, group_id);
-				if (getByte(AIM_KEY_MG, 1))
-					create_group(name);
+	case 0x0002: //permit record
+		allow_list.add(name, item_id);
+		break;
+
+	case 0x0003: //deny record
+		block_list.add(name, item_id);
+		break;
+
+	case 0x0004: //privacy record
+		if (group_id == 0) {
+			pd_info_id = item_id;
+
+			for (int tlv_offset = 0; tlv_offset < tlv_size;) {
+				TLV tlv(snac.val(tlv_base + tlv_offset));
+
+				if (tlv.cmp(0x00ca))
+					pd_mode = tlv.ubyte();
+				else if (tlv.cmp(0x00cc))
+					pd_flags = tlv.ulong();
+
+				tlv_offset += TLV_HEADER_SIZE + tlv.len();
 			}
-			break;
+		}
+		break;
 
-		case 0x0002: //permit record
-			allow_list.add(name, item_id);
-			break;
+	case 0x0005: //prefernces record
+		if (group_id == 0) {
+			pref1_id = item_id;
 
-		case 0x0003: //deny record
-			block_list.add(name, item_id);
-			break;
+			for (int tlv_offset = 0; tlv_offset < tlv_size;) {
+				TLV tlv(snac.val(tlv_base + tlv_offset));
 
-		case 0x0004: //privacy record
-			if (group_id == 0)
-			{
-				pd_info_id = item_id;
-
-				for (int tlv_offset = 0; tlv_offset < tlv_size; )
-				{
-					TLV tlv(snac.val(tlv_base + tlv_offset));
-
-					if (tlv.cmp(0x00ca))
-						pd_mode = tlv.ubyte();
-					else if (tlv.cmp(0x00cc))
-						pd_flags = tlv.ulong();
-
-					tlv_offset += TLV_HEADER_SIZE + tlv.len();
+				if (tlv.cmp(0x00c9))
+					pref1_flags = tlv.ulong();
+				else if (tlv.cmp(0x00d6))
+					pref1_set_flags = tlv.ulong();
+				else if (tlv.cmp(0x00d7)) {
+					mir_free(pref2_flags);
+					pref2_flags = tlv.dup();
+					pref2_len = tlv.len();
 				}
+				else if (tlv.cmp(0x00d8)) {
+					mir_free(pref2_set_flags);
+					pref2_set_flags = tlv.dup();
+					pref2_set_len = tlv.len();
+				}
+
+				tlv_offset += TLV_HEADER_SIZE + tlv.len();
 			}
-			break;
+		}
+		break;
 
-		case 0x0005: //prefernces record
-			if (group_id == 0)
-			{
-				pref1_id = item_id;
+	case 0x0014: //avatar record
+		if (!_strcmps(name, "1") || !_strcmps(name, "12")) {
+			if (name_length == 1)
+				avatar_id_sm = item_id;
+			else
+				avatar_id_lg = item_id;
 
-				for (int tlv_offset = 0; tlv_offset < tlv_size; )
-				{
-					TLV tlv(snac.val(tlv_base + tlv_offset));
+			for (int tlv_offset = 0; tlv_offset < tlv_size;) {
+				TLV tlv(snac.val(tlv_base + tlv_offset));
 
-					if (tlv.cmp(0x00c9))
-						pref1_flags = tlv.ulong();
-					else if (tlv.cmp(0x00d6))
-						pref1_set_flags = tlv.ulong();
-					else if (tlv.cmp(0x00d7))
-					{
-						mir_free(pref2_flags);
-						pref2_flags = tlv.dup();
-						pref2_len = tlv.len();
+				if (tlv.cmp(0x00d5) && tlv.len() > 2) {
+					unsigned char type = tlv.ubyte(0);
+					if (name_length == 1) {
+						mir_free(hash_sm);
+						hash_sm = bytes_to_string(tlv.val() + 2, tlv.ubyte(1));
 					}
-					else if (tlv.cmp(0x00d8))
-					{
-						mir_free(pref2_set_flags);
-						pref2_set_flags = tlv.dup();
-						pref2_set_len = tlv.len();
+					else {
+						mir_free(hash_lg);
+						hash_lg = bytes_to_string(tlv.val() + 2, tlv.ubyte(1));
 					}
-
-					tlv_offset += TLV_HEADER_SIZE + tlv.len();
 				}
+
+				tlv_offset += TLV_HEADER_SIZE + tlv.len();
 			}
-			break;
+			if (list_received)
+				avatar_request_handler(NULL, NULL, 0);
+		}
+		break;
 
-		case 0x0014: //avatar record
-			if (!_strcmps(name, "1") || !_strcmps(name, "12"))
-			{
-				if (name_length == 1)
-					avatar_id_sm = item_id;
-				else
-					avatar_id_lg = item_id;
+	case 0x001D: // Vanity information
+		if (group_id == 0) {
+			for (int tlv_offset = 0; tlv_offset < tlv_size;) {
+				TLV tlv(snac.val(tlv_base + tlv_offset));
 
-				for (int tlv_offset = 0; tlv_offset < tlv_size; )
-				{
-					TLV tlv(snac.val( tlv_base + tlv_offset));
+				if (tlv.cmp(0x0150))		// Number of IMs sent
+					setDword(AIM_KEY_TIS, tlv.ulong());
+				else if (tlv.cmp(0x0151))	// Number of seconds a user is online
+					setDword(AIM_KEY_TTO, tlv.ulong());
+				else if (tlv.cmp(0x0152))	// Number of times a user has the away message set
+					setDword(AIM_KEY_TAM, tlv.ulong());
+				else if (tlv.cmp(0x0153))	// Number of IMs received
+					setDword(AIM_KEY_TIR, tlv.ulong());
 
-					if (tlv.cmp(0x00d5) && tlv.len() > 2)
-					{
-						unsigned char type = tlv.ubyte(0);
-						if (name_length == 1)
-						{
-							mir_free(hash_sm);
-							hash_sm = bytes_to_string(tlv.val() + 2, tlv.ubyte(1));
-						}
-						else
-						{
-							mir_free(hash_lg);
-							hash_lg = bytes_to_string(tlv.val() + 2, tlv.ubyte(1));
-						}
-					}
-
-					tlv_offset += TLV_HEADER_SIZE + tlv.len();
-				}
-				if (list_received)
-					avatar_request_handler(NULL, NULL, 0);
+				tlv_offset += TLV_HEADER_SIZE + tlv.len();
 			}
-			break;
-
-		case 0x001D: // Vanity information
-			if (group_id == 0)
-			{
-				for (int tlv_offset = 0; tlv_offset < tlv_size; )
-				{
-					TLV tlv(snac.val(tlv_base + tlv_offset));
-
-					if (tlv.cmp(0x0150))		// Number of IMs sent
-						setDword(AIM_KEY_TIS, tlv.ulong());
-					else if (tlv.cmp(0x0151))	// Number of seconds a user is online
-						setDword(AIM_KEY_TTO, tlv.ulong());
-					else if (tlv.cmp(0x0152))	// Number of times a user has the away message set
-						setDword(AIM_KEY_TAM, tlv.ulong());
-					else if (tlv.cmp(0x0153))	// Number of IMs received
-						setDword(AIM_KEY_TIR, tlv.ulong());
-
-					tlv_offset += TLV_HEADER_SIZE + tlv.len();
-				}
-			}
-			break;
+		}
+		break;
 	}
 
 	mir_free(name);

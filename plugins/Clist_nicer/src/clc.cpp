@@ -155,9 +155,8 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					if ((lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
 						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
 			}
-			// !!!!!!!!!!!!!!!!!!
-			// if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, cfg::dat.szMetaName) && !__strcmp(cws->szSetting, "IsSubcontact"))
-			// 	pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
+			if (cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, META_PROTO) && !__strcmp(cws->szSetting, "IsSubcontact"))
+				pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
 		}
 	}
 	else if (!__strcmp(cws->szModule, META_PROTO)) {

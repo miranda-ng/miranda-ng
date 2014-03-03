@@ -127,7 +127,8 @@ LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 void CMsnProto::MSN_SetGroupName(const char* pId, const char* pNewName)
 {
 	ServerGroupItem* p = grpList.find((ServerGroupItem*)&pId);
-	if (p != NULL) replaceStr(p->name, pNewName);
+	if (p != NULL)
+		replaceStr(p->name, pNewName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -147,14 +148,9 @@ void CMsnProto::MSN_MoveContactToGroup(MCONTACT hContact, const char* grpName)
 
 	bool bInsert = false, bDelete = szGroupID[0] != 0;
 
-	if (grpName != NULL)
-	{
-		if (strcmp(grpName, "MetaContacts Hidden Group") == 0)
-			return;
-
+	if (grpName != NULL) {
 		szId = MSN_GetGroupByName(grpName);
-		if (szId == NULL)
-		{
+		if (szId == NULL) {
 			MSN_ABAddGroup(grpName);
 			szId = MSN_GetGroupByName(grpName);
 		}
@@ -163,19 +159,18 @@ void CMsnProto::MSN_MoveContactToGroup(MCONTACT hContact, const char* grpName)
 		else                                bInsert = true;
 	}
 
-	if (bDelete)
-	{
+	if (bDelete) {
 		MSN_ABAddDelContactGroup(szContactID, szGroupID, "ABGroupContactDelete");
 		delSetting(hContact, "GroupID");
 	}
 
-	if (bInsert)
-	{
+	if (bInsert) {
 		MSN_ABAddDelContactGroup(szContactID, szId, "ABGroupContactAdd");
 		setString(hContact, "GroupID", szId);
 	}
 
-	if (bDelete) MSN_RemoveEmptyGroups();
+	if (bDelete)
+		MSN_RemoveEmptyGroups();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -258,22 +253,9 @@ void CMsnProto::MSN_SyncContactToServerGroup(MCONTACT hContact, const char* szCo
 	const char* szGrpName = "";
 
 	DBVARIANT dbv;
-	if (!db_get_utf(hContact, "CList", "Group", &dbv))
-	{
-		if (strcmp(dbv.pszVal, "MetaContacts Hidden Group") == 0)
-		{
-			db_free(&dbv);
-			if (!db_get_utf(hContact, "MetaContacts", "OldCListGroup", &dbv))
-			{
-				szGrpName = NEWSTR_ALLOCA(dbv.pszVal);
-				db_free(&dbv);
-			}
-		}
-		else
-		{
-			szGrpName = NEWSTR_ALLOCA(dbv.pszVal);
-			db_free(&dbv);
-		}
+	if (!db_get_utf(hContact, "CList", "Group", &dbv)) {
+		szGrpName = NEWSTR_ALLOCA(dbv.pszVal);
+		db_free(&dbv);
 	}
 
 	const char* szGrpIdF = NULL;

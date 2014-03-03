@@ -441,9 +441,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		// !!!!!!!!!!!!!!!!!!!!!!!
-		// if (!strcmp(cws->szSetting,"IsSubcontact"))
-		// 	PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
+		if (!strcmp(cws->szSetting, "IsSubcontact"))
+		 	PostMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0);
 
 		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (!mir_strcmp(cws->szModule, META_PROTO) && mir_strcmp(cws->szSetting, "Status")) {

@@ -236,9 +236,7 @@ void CAimProto::update_server_group(const char* group, unsigned short group_id)
 
 void CAimProto::add_contact_to_group(MCONTACT hContact, const char* new_group)
 {
-	if (new_group == NULL) return;
-
-	if (strcmp(new_group, "MetaContacts Hidden Group") == 0)
+	if (new_group == NULL)
 		return;
 
 	unsigned short old_group_id = getGroupId(hContact, 1);	

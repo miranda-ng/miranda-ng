@@ -263,7 +263,7 @@ void CDb3Mmap::FillContacts()
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactID);
 		cc->dwDriverData = dwOffset;
 		CheckProto(cc, "");
-		
+
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
 		cc->nSubs = (0 != GetContactSetting(dwContactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
@@ -286,7 +286,7 @@ void CDb3Mmap::FillContacts()
 		}
 		cc->nDefault = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
 		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
-		
+
 		// whether we need conversion or not
 		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv))
 			arMetas.insert((void*)dwContactID);
@@ -312,7 +312,6 @@ void CDb3Mmap::FillContacts()
 
 			// wipe out old data from subcontacts
 			DeleteContactSetting(cc->pSubs[k], META_PROTO, "ContactNumber");
-			DeleteContactSetting(cc->pSubs[k], META_PROTO, "IsSubcontact");
 			DeleteContactSetting(cc->pSubs[k], META_PROTO, "MetaLink");
 		}
 	}
