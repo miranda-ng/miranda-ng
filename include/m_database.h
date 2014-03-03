@@ -426,7 +426,7 @@ typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, L
 /* DB/Module/Delete  0.8.0+
 
 Removes all settings for the specified module.
-wParam = 0 (unused)
+wParam = (WPARAM)(MCONTACT)hContact or 0 for global settings
 lParam = (LPARAM)(char*)szModuleName - the module name to be deleted
 */
 

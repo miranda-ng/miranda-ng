@@ -324,7 +324,7 @@ const
 { DB/Module/Delete  0.8.0+
 
   Removes all settings for the specified module.
-  wParam=0 (unused)
+  wParam=(WPARAM)(MCONTACT)hContact - contact's handle or 0 for global settings
   lParam=(LPARAM)(AnsiChar*)szModuleName - the module name to be deleted
 }
   MS_DB_MODULE_DELETE:PAnsiChar = 'DB/Module/Delete';

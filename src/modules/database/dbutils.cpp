@@ -262,7 +262,7 @@ static int sttEnumVars(const char *szVarName, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR DbDeleteModule(WPARAM, LPARAM lParam)
+static INT_PTR DbDeleteModule(WPARAM hContact, LPARAM lParam)
 {
 	LIST<char> vars(20);
 
@@ -270,7 +270,7 @@ static INT_PTR DbDeleteModule(WPARAM, LPARAM lParam)
 	dbces.pfnEnumProc = sttEnumVars;
 	dbces.lParam = (LPARAM)&vars;
 	dbces.szModule = (char*)lParam;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 
 	for (int i = vars.getCount()-1; i >= 0; i--) {
 		db_unset(NULL, (char*)lParam, vars[i]);
