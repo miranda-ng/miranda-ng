@@ -164,6 +164,14 @@ struct DBEvent
 
 #include <poppack.h>
 
+struct ConvertedContact
+{
+	ConvertedContact(MCONTACT _old, MCONTACT _new) :
+		hOld(_old), hNew(_new) {}
+
+	MCONTACT hOld, hNew;
+};
+
 struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDb3Mmap(const TCHAR *tszFileName, bool bReadOnly);
@@ -290,6 +298,11 @@ protected:
 	// settings 
 
 	int      m_codePage;
+
+	////////////////////////////////////////////////////////////////////////////
+	// contacts
+	
+	OBJLIST<ConvertedContact> m_contactsMap;
 
 	////////////////////////////////////////////////////////////////////////////
 	// modules
