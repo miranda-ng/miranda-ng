@@ -60,7 +60,12 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 	// Create a new metacontact
 	MCONTACT hMetaContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (hMetaContact) {
+		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMetaContact);
+		if (cc == NULL)
+			return 0;
+
 		db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
+		cc->nSubs = 0;
 
 		// Add the MetaContact protocol to the new meta contact
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hMetaContact, (LPARAM)META_PROTO);

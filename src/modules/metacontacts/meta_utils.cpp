@@ -209,7 +209,6 @@ int Meta_SetNick(char *szProto)
 
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 {
-	DWORD num_contacts;
 	char buffer[512], szId[40];
 	WORD status;
 	MCONTACT most_online;
@@ -217,11 +216,6 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	DBCachedContact *ccDest = CheckMeta(dest);
 	if (ccDest == NULL)
 		return FALSE;
-
-	if ((num_contacts = db_get_dw(dest, META_PROTO, "NumContacts", INVALID_CONTACT_ID)) == -1) {
-		MessageBox(0, TranslateT("Could not retreive MetaContact contact count"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
 
 	char *szProto = GetContactProto(src);
 	if (szProto == NULL) {
@@ -244,8 +238,8 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 		return FALSE;
 	}
 
-	num_contacts++;
-	if (num_contacts >= MAX_CONTACTS) {
+	ccDest->nSubs++;
+	if (ccDest->nSubs >= MAX_CONTACTS) {
 		MessageBox(0, TranslateT("MetaContact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -253,7 +247,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 
 	// write the contact's protocol
 	strcpy(buffer, "Protocol");
-	strcat(buffer, _itoa(num_contacts - 1, szId, 10));
+	strcat(buffer, _itoa(ccDest->nSubs - 1, szId, 10));
 
 	if (db_set_s(dest, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
@@ -305,7 +299,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	// write the handle
 	strcpy(buffer, "Handle");
 	strcat(buffer, szId);
-	db_set_dw(dest, META_PROTO, buffer, (DWORD)src);
+	db_set_dw(dest, META_PROTO, buffer, src);
 
 	// write status string
 	strcpy(buffer, "StatusString");
@@ -319,10 +313,12 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	db_set_b(src, META_PROTO, "IsSubcontact", true);
 
 	// update count of contacts
-	db_set_dw(dest, META_PROTO, "NumContacts", num_contacts);
+	db_set_dw(dest, META_PROTO, "NumContacts", ccDest->nSubs);
+	ccDest->pSubs = (MCONTACT*)mir_realloc(ccDest->pSubs, sizeof(MCONTACT)*ccDest->nSubs);
+	ccDest->pSubs[ccDest->nSubs - 1] = src;
 
 	if (set_as_default) {
-		ccDest->nDefault = num_contacts - 1;
+		ccDest->nDefault = ccDest->nSubs - 1;
 		currDb->MetaSetDefault(ccDest);
 		NotifyEventHooks(hEventDefaultChanged, (WPARAM)dest, (LPARAM)src);
 	}
