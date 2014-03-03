@@ -2292,7 +2292,7 @@ Miranda NG не может открыть этот профиль
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
 Нет еще ни одного метаконтакта в базе (в этом случае нужно сначала конвертировать один простой контакт в метаконтакт).\nКак вариант преобразуйте этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
-Этот контакт уже является метаконтактом.\nНевозможно добавить один метаконтакт в другой.\n\nПожалуйста, выберите другой.
+Этот контакт уже является метаконтактом.\nНевозможно добавить один метаконтакт в другой.\n\nПожалуйста, выберите иной контакт.
 [MetaContact Conflict]
 Конфликт метаконтактов
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
