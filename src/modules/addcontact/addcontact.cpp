@@ -49,7 +49,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			{
 				TCHAR *szName = NULL, *tmpStr = NULL;
 				if (acs->handleType == HANDLE_CONTACT)
-					szName = cli.pfnGetContactDisplayName(acs->hContact, GCDNF_TCHAR);
+					szName = cli.pfnGetContactDisplayName(acs->hContact, 0);
 				else {
 					int isSet = 0;
 

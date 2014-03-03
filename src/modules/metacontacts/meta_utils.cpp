@@ -288,7 +288,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	// write the display name
 	strcpy(buffer, "CListName");
 	strcat(buffer, szId);
-	db_set_ts(dest, META_PROTO, buffer, cli.pfnGetContactDisplayName(src, GCDNF_TCHAR));
+	db_set_ts(dest, META_PROTO, buffer, cli.pfnGetContactDisplayName(src, 0));
 
 	// Get the status
 	if ( !szProto)
@@ -804,15 +804,9 @@ int Meta_HideMetaContacts(int hide)
 
 int Meta_SuppressStatus(BOOL suppress)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (db_get_dw(hContact, META_PROTO, META_LINK, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
-			// is a subcontact
-			if (suppress)
-				CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
-			else
-				CallService(MS_IGNORE_UNIGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
-		}
-	}
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		if (db_mc_isSub(hContact))
+			CallService((suppress) ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
 
 	return 0;
 }
@@ -820,19 +814,17 @@ int Meta_SuppressStatus(BOOL suppress)
 int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 {
 	DBVARIANT dbv, dbv_proto;
-	char *szProto;
 
-	if (options.lockHandle) {
+	if (options.lockHandle)
 		hContact = Meta_GetContactHandle(ccMeta, 0);
-	}
 
-	if (!hContact) return 1;
+	if (!hContact)
+		return 1;
 
-	//szProto = GetContactProto(hContact);
+	// szProto = GetContactProto(hContact);
 	// read szProto direct from db, since we do this on load and other szProto plugins may not be loaded yet
 	if (!db_get(hContact, "Protocol", "p", &dbv_proto)) {
-
-		szProto = dbv_proto.pszVal;
+		char *szProto = dbv_proto.pszVal;
 		if (options.clist_contact_name == CNNT_NICK && szProto) {
 			if (!Mydb_get(hContact, szProto, "Nick", &dbv)) {
 				db_set(ccMeta->contactID, META_PROTO, "Nick", &dbv);
@@ -844,7 +836,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 			}
 		}
 		else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
-			TCHAR *name = cli.pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
+			TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
 			if (name && _tcscmp(name, TranslateT("(Unknown Contact)")) != 0) {
 				db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
 				db_free(&dbv_proto);

@@ -378,7 +378,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 				group->totalMembers++;
 
 				if (dat->filterSearch && dat->szQuickSearch[0] != '\0') {
-					TCHAR *name = cli.pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
+					TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
 					TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(name));
 					TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 

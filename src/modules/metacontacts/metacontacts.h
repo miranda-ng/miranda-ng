@@ -21,9 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #define META_FILTER       "MetaContactsFilter"
-#define META_ID           "MetaID"
 #define META_FILTER_ID    "MetaFilterID"
-#define META_LINK         "MetaLink"
 
 #define MAX_CONTACTS       20
 

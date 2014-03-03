@@ -58,11 +58,12 @@ int FillList(HWND list, BOOL sort)
 	// The DB is searched through, to get all the metacontacts
 	for (MCONTACT hMetaUser = db_find_first(); hMetaUser; hMetaUser = db_find_next(hMetaUser)) {
 		// if it's not a MetaContact, go to the next
-		if ( db_get_dw(hMetaUser, META_PROTO, META_ID, INVALID_CONTACT_ID) == INVALID_CONTACT_ID)
+		DBCachedContact *cc = CheckMeta(hMetaUser);
+		if (cc == NULL)
 			continue;
 
 		// get contact display name from clist
-		TCHAR *swzContactDisplayName = cli.pfnGetContactDisplayName(hMetaUser, GCDNF_TCHAR);
+		TCHAR *swzContactDisplayName = cli.pfnGetContactDisplayName(hMetaUser, 0);
 		// don't insert huge strings that we have to compare with later
 		if (_tcslen(swzContactDisplayName) > 1023)
 			swzContactDisplayName[1024] = 0;
@@ -72,15 +73,13 @@ int FillList(HWND list, BOOL sort)
 			for (pos = 0; pos < i; pos++) {
 				TCHAR buff[1024];
 				SendMessage(list, LB_GETTEXT, pos, (LPARAM)buff);
-				if ( _tcscmp(buff, swzContactDisplayName) > 0) {
+				if (_tcscmp(buff, swzContactDisplayName) > 0)
 					break;
-				}
 			}
 		}
 
-		int index = SendMessage(list, LB_INSERTSTRING, (WPARAM)pos, (LPARAM)swzContactDisplayName);
-		SendMessage(list, LB_SETITEMDATA, index, (LPARAM)hMetaUser);
-
+		int index = SendMessage(list, LB_INSERTSTRING, pos, (LPARAM)swzContactDisplayName);
+		SendMessage(list, LB_SETITEMDATA, index, hMetaUser);
 		i++;
 	}
 	return i;
@@ -122,22 +121,29 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	switch(msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg);
+		{
+			DBCachedContact *cc = CheckMeta(lParam);
+			if (cc == NULL) {
+				DestroyWindow(hwndDlg);
+				return TRUE;
+			}
 
-		if ( db_get_dw(lParam, META_PROTO, META_ID, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
-			MessageBox(hwndDlg,
-				TranslateT("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
-				TranslateT("MetaContact Conflict"),MB_ICONERROR);
-			DestroyWindow(hwndDlg);
-			return TRUE;
-		}
+			if (IsMeta(cc)) {
+				MessageBox(hwndDlg,
+							  TranslateT("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
+							  TranslateT("MetaContact Conflict"), MB_ICONERROR);
+				DestroyWindow(hwndDlg);
+				return TRUE;
+			}
 
-		if ( db_get_dw(lParam, META_PROTO, META_LINK, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
-			MessageBox(hwndDlg,
-				TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
-				TranslateT("Multiple MetaContacts"),MB_ICONERROR);
-			DestroyWindow(hwndDlg);
-			return TRUE;
+			if (IsSub(cc)) {
+				MessageBox(hwndDlg,
+							  TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
+							  TranslateT("Multiple MetaContacts"), MB_ICONERROR);
+				DestroyWindow(hwndDlg);
+				return TRUE;
+			}
 		}
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam); // user data is contact handle
@@ -147,15 +153,15 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// Initialize the graphical part
 		CheckDlgButton(hwndDlg, IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
 		// Besides, we can check if there is at least one metacontact to add the contact to.
-		if ( BuildList(GetDlgItem(hwndDlg, IDC_METALIST), FALSE) <= 0) {
-			if ( MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
-				Meta_Convert((WPARAM)lParam,0);
+		if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), FALSE) <= 0) {
+			if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+				Meta_Convert((WPARAM)lParam, 0);
 			DestroyWindow(hwndDlg);
 			return TRUE;
 		}
 		else {
 			// get contact display name from clist
-			TCHAR *ptszCDN = cli.pfnGetContactDisplayName(lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
 			if (!ptszCDN)
 				ptszCDN = TranslateT("a contact");
 
@@ -164,7 +170,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Adding %s..."), ptszCDN);
 			SetWindowText(hwndDlg, buf);
 		}
-		ShowWindow(hwndDlg,SW_SHOWNORMAL);
+		ShowWindow(hwndDlg, SW_SHOWNORMAL);
 		return TRUE;
 
 	case WM_COMMAND:

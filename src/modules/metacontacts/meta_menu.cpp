@@ -130,7 +130,6 @@ void Meta_RemoveContactNumber(DBCachedContact *cc, int number)
 	// make sure this contact thinks it's part of this metacontact
 	if (hContact == cc->contactID) {
 		// remove link to meta contact
-		db_unset(hContact, META_PROTO, META_LINK);
 		db_unset(hContact, META_PROTO, "Handle");
 
 		// stop ignoring, if we were
@@ -304,14 +303,14 @@ INT_PTR Meta_ForceDefault(WPARAM hMeta, LPARAM)
 
 int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 {
-	DBCachedContact *cc = CheckMeta(hMeta);
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
 	if (cc == NULL)
 		return 0;
 		
 	CLISTMENUITEM mi = { sizeof(mi) };
 	Menu_ShowItem(hMenuRoot, false);
 
-	if (db_get_dw(hMeta, META_PROTO, META_ID, -1) != INVALID_CONTACT_ID) {
+	if (IsMeta(cc)) {
 		// save the mouse pos in case they open a subcontact menu
 		GetCursorPos(&menuMousePoint);
 
@@ -327,9 +326,8 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 		Menu_ModifyItem(hMenuDelete, &mi);
 
 		//show subcontact menu items
-		int num_contacts = db_get_dw(hMeta, META_PROTO, "NumContacts", 0);
 		for (int i = 0; i < MAX_CONTACTS; i++) {
-			if (i >= num_contacts) {
+			if (i >= cc->nSubs) {
 				Menu_ShowItem(hMenuContact[i], false);
 				continue;
 			}
@@ -383,41 +381,44 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 		// show hide nudge menu item
 		char serviceFunc[256];
 		mir_snprintf(serviceFunc, 256, "%s%s", GetContactProto(Meta_GetMostOnline(cc)), PS_SEND_NUDGE);
-		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, (LPARAM)ServiceExists(serviceFunc));
+		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, ServiceExists(serviceFunc));
+		return 0;
 	}
-	else { // This is a simple contact
-		if (!Meta_IsEnabled()) {
-			// groups disabled - all meta menu options hidden
-			Menu_ShowItem(hMenuDefault, false);
-			Menu_ShowItem(hMenuDelete, false);
-			Menu_ShowItem(hMenuAdd, false);
-			Menu_ShowItem(hMenuConvert, false);
-			Menu_ShowItem(hMenuEdit, false);
-		}
-		else if (db_get_dw(hMeta, META_PROTO, META_LINK, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
-			// The contact is affected to a metacontact.
-			Menu_ShowItem(hMenuDefault, true);
 
-			mi.flags = CMIM_NAME;
-			mi.pszName = LPGEN("Remove from metacontact");
-			Menu_ModifyItem(hMenuDelete, &mi);
-
-			Menu_ShowItem(hMenuAdd, false);
-			Menu_ShowItem(hMenuConvert, false);
-			Menu_ShowItem(hMenuEdit, false);
-		}
-		else {
-			// The contact is neutral
-			Menu_ShowItem(hMenuAdd, true);
-			Menu_ShowItem(hMenuConvert, true);
-			Menu_ShowItem(hMenuEdit, false);
-			Menu_ShowItem(hMenuDelete, false);
-			Menu_ShowItem(hMenuDefault, false);
-		}
-
-		for (int i = 0; i < MAX_CONTACTS; i++)
-			Menu_ShowItem(hMenuContact[i], false);
+	if (!Meta_IsEnabled()) {
+		// groups disabled - all meta menu options hidden
+		Menu_ShowItem(hMenuDefault, false);
+		Menu_ShowItem(hMenuDelete, false);
+		Menu_ShowItem(hMenuAdd, false);
+		Menu_ShowItem(hMenuConvert, false);
+		Menu_ShowItem(hMenuEdit, false);
+		return 0;
 	}
+	
+	// the contact is affected to a metacontact
+	if (IsSub(cc)) {
+		Menu_ShowItem(hMenuDefault, true);
+
+		mi.flags = CMIM_NAME;
+		mi.pszName = LPGEN("Remove from metacontact");
+		Menu_ModifyItem(hMenuDelete, &mi);
+
+		Menu_ShowItem(hMenuAdd, false);
+		Menu_ShowItem(hMenuConvert, false);
+		Menu_ShowItem(hMenuEdit, false);
+	}
+	else {
+		// The contact is neutral
+		Menu_ShowItem(hMenuAdd, true);
+		Menu_ShowItem(hMenuConvert, true);
+		Menu_ShowItem(hMenuEdit, false);
+		Menu_ShowItem(hMenuDelete, false);
+		Menu_ShowItem(hMenuDefault, false);
+	}
+
+	for (int i = 0; i < MAX_CONTACTS; i++)
+		Menu_ShowItem(hMenuContact[i], false);
+
 	return 0;
 }
 
@@ -507,10 +508,11 @@ void InitMenus()
 
 	// loop and copy data from subcontacts
 	if (options.copydata) {
-		int meta_id;
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-			if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID, INVALID_CONTACT_ID)) != INVALID_CONTACT_ID)
-				Meta_CopyData(CheckMeta(hContact));
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			DBCachedContact *cc = CheckMeta(hContact);
+			if (cc != NULL)
+				Meta_CopyData(cc);
+		}
 	}
 
 	Meta_HideLinkedContacts();

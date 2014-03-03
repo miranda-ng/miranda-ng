@@ -77,14 +77,8 @@ INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam)
 	case PFLAGNUM_5:
 		return PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 
-	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR) Translate("Meta ID");
-
 	case PFLAG_MAXLENOFMESSAGE:
 		return 2000;
-
-	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR)META_ID;
 	}
 	return 0;
 }
@@ -379,7 +373,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 			cle.hDbEvent = (HANDLE)ccs->hContact;	// use subcontact handle as key - then we can remove all events if the subcontact window is opened
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "MetaContacts/CListMessageEvent";
-			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), cli.pfnGetContactDisplayName(hMeta, GCDNF_TCHAR));
+			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), cli.pfnGetContactDisplayName(hMeta, 0));
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
@@ -812,16 +806,18 @@ int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
-	MCONTACT hMeta = 0;
 
-	if ((hMeta = db_get_dw(mwed->hContact, META_PROTO, "Handle", 0)) != 0
-		 || db_get_dw(mwed->hContact, META_PROTO, META_ID, INVALID_CONTACT_ID) != INVALID_CONTACT_ID) {
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
+	if (cc == NULL)
+		return 0;
+
+	if (IsMeta(cc) || IsSub(cc)) {
 		// contact is subcontact of metacontact, or an actual metacontact - record whether window is open or closed
 		if (mwed->uType == MSG_WINDOW_EVT_OPEN || mwed->uType == MSG_WINDOW_EVT_OPENING) {
 			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 1);
 
-			if (hMeta)  // subcontact window opened - remove clist events we added for metacontact
-			while (!CallService(MS_CLIST_REMOVEEVENT, hMeta, mwed->hContact));
+			if (IsSub(cc))  // subcontact window opened - remove clist events we added for metacontact
+			while (!CallService(MS_CLIST_REMOVEEVENT, cc->contactID, mwed->hContact));
 		}
 		else if (mwed->uType == MSG_WINDOW_EVT_CLOSE || mwed->uType == MSG_WINDOW_EVT_CLOSING)
 			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 0);

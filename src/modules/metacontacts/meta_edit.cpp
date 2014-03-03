@@ -59,7 +59,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg)
 	for (int i = 0; i < chg->num_contacts; i++)  {
 		LvItem.iItem = i;
 	
-		TCHAR *ptszCDN = cli.pfnGetContactDisplayName(chg->hContact[i], GCDNF_TCHAR);
+		TCHAR *ptszCDN = cli.pfnGetContactDisplayName(chg->hContact[i], 0);
 		if (ptszCDN == NULL)
 			ptszCDN = TranslateT("(Unknown Contact)");
 
@@ -292,7 +292,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WMU_SETTITLE:
 		{
-			TCHAR *ptszCDN = cli.pfnGetContactDisplayName(lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
 			if (ptszCDN == NULL)
 				ptszCDN = TranslateT("(Unknown Contact)");
 
@@ -385,7 +385,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (changes.hDefaultContact == changes.hContact[sel]) {
 					if (changes.num_contacts > 0) {
 						changes.hDefaultContact = changes.hContact[0];
-						SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT), cli.pfnGetContactDisplayName(changes.hDefaultContact, GCDNF_TCHAR));
+						SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT), cli.pfnGetContactDisplayName(changes.hDefaultContact, 0));
 					}
 					else {
 						changes.hDefaultContact = 0;
