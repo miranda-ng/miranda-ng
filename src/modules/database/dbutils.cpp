@@ -273,7 +273,7 @@ static INT_PTR DbDeleteModule(WPARAM hContact, LPARAM lParam)
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 
 	for (int i = vars.getCount()-1; i >= 0; i--) {
-		db_unset(NULL, (char*)lParam, vars[i]);
+		db_unset(hContact, (char*)lParam, vars[i]);
 		mir_free(vars[i]);
 	}
 	return 0;
