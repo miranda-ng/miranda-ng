@@ -40,14 +40,6 @@ HANDLE
 	hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
 	hEventNudge;
 
-
-DWORD nextMetaID;	//!< Global variable specifying the ID value the next MetaContact will have.
-
-// stuff for mw_clist extra icon
-HANDLE hExtraImage[MAX_PROTOCOLS * 2]; // online and offline icons
-char proto_names[MAX_PROTOCOLS * 128];
-HANDLE hProtoIcons[MAX_PROTOCOLS * 2]; // online and offline icons
-
 UINT_PTR setStatusTimerId = 0;
 BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
 
@@ -862,8 +854,8 @@ int NudgeRecieved(WPARAM wParam, LPARAM lParam)
 /** Called when all the plugin are loaded into Miranda.
 *
 * Initializes the 4 menus present in the context-menu
-* and the initial value of nextMetaID
 */
+
 int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
