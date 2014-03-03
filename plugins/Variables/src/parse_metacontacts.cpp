@@ -26,8 +26,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 
 	MCONTACT hContact = NULL;
 
-	CONTACTSINFO ci = { 0 };
-	ci.cbSize = sizeof(ci);
+	CONTACTSINFO ci = { sizeof(ci) };
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF ^ (CI_TCHAR == 0 ? CI_UNICODE : 0);
 	int count = getContactFromString(&ci);
@@ -44,7 +43,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	TCHAR* szUniqueID = NULL;
+	ptrT szUniqueID;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
@@ -54,25 +53,12 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		TCHAR tszID[40];
 		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
 		szUniqueID = mir_tstrdup(tszID);
-		if (szUniqueID == NULL)
-			return NULL;
 	}
 
-	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
-	TCHAR *res = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
-	if (res == NULL) {
-		mir_free(szUniqueID);
+	if (szUniqueID == NULL)
 		return NULL;
-	}
 
-	TCHAR *tszProto = mir_a2t(szProto);
-	if (tszProto != NULL && szUniqueID != NULL) {
-		mir_sntprintf(res, size, _T("<%s:%s>"), tszProto, szUniqueID);
-		mir_free(szUniqueID);
-		mir_free(tszProto);
-	}
-
-	return res;
+	return mir_tstrdup(CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID));
 }
 
 static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)

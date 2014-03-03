@@ -43,6 +43,7 @@
 #include <m_icolib.h>
 #include <m_clui.h>
 #include <m_clc.h>
+#include <m_string.h>
 
 #include <m_variables.h>
 #include <m_metacontacts.h>
