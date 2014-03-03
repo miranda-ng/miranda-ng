@@ -322,7 +322,7 @@ Ignoruj kontakt
 [Unignore Contact]
 Przestań ignorować kontakt
 [restart in default profile or profile manager]
-Restartuj do profilu domyślnego lub menedżera profiili
+Restartuj do profilu domyślnego lub menedżera profili
 [restart with current profile]
 Restartuj do obecnego profilu
 [Restarts Miranda]
@@ -334,7 +334,7 @@ wParam jest uchwytem
 [wParam is Ansi station name]
 wParam jest nazwą stacji w Ansi
 [wParam is Unicode station name]
-wParam jest nazwą stacjiw unicode
+wParam jest nazwą stacji w Unicode
 [Starting or stopping radio station]
 Odtwarzanie lub zatrzymywanie stacji radiowej
 [Stop cycle]
@@ -664,7 +664,7 @@ Zdarzenie
 [Action group list was changed: some was added or deleted]
 Lista grup akcji została zmieniona: nowe akcje zostały dodane lub usunięte
 [Double click on the contact list]
-Dwókrotne kliknięcie na liście kontaktów
+Dwukrotne kliknięcie na liście kontaktów
 [The context menu for a contact is about to be built]
 Menu kontekstowe kontaktu zostanie za chwilę utworzone
 [New contact added to database]

@@ -451,9 +451,9 @@ Stwórz nowy
 [Reset]
 Domyślne
 [Show in IM chats]
-Pokaż ten przycisk w normalnym oknie
+Pokaż w oknie rozmowy
 [Show in chat rooms]
-Pokaż ten przycisk w oknie czatu
+Pokaż w oknie czatu
 [Gap between buttons:]
 Odstępy przycisków:
 [Hide if there isn't enough space]
