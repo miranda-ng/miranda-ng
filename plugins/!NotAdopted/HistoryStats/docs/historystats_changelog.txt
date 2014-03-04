@@ -1,0 +1,224 @@
+Changelog
++ = new
+* = changed
+! = fixed
+
+0.1.5.3
++ possibility to filter raw RTF control sequences (requires rtfconv.dll)
+
+0.1.5.2
++ support for UTF-8 history introduced in Miranda IM 0.7 #30
+
+0.1.5.1
++ made compatible with new plugin interface in Miranda IM 0.8
++ added two services for external plugins (see m_historystats.h)
+* all documentation has moved to 'docs' folder inside archive
+! fixed a small memory leak
+
+0.1.5.0
++ 'words' column: option to show separate in/out counts in tooltip
++ 'nick' column: option to show contact count for omitted/totals row
++ added option to specify how histories of merged contacts are to be merged
++ added option to disable contact menu globally or for certain protocols
+* depends on Miranda IM 0.6.7 or above to be able to use new core functions
+* removed option to filter status change messages (now always filtered)
+* removed dependency on libpng/zlib, now uses png2dib plugin
+! merging and interpreting histories was severely broken, especially for
+  MetaContacts (the statistics generated with this version or above might
+  differ significantly; also see above for new option)
+! several minor fixes
+
+0.1.4.0
++ added output options to control tooltips in column titles
++ 'in/out graph' column: option to use different data source for tooltip
++ 'chat duration' column: option to choose which information to show
++ contact sort supports minimum/average/maximum chat duration
++ '(split) timeline' column: option to limit the number of timeline days
++ columns can be rearranged via drag and drop
++ extended possibilities to filter contacts via 'omit contacts'
+* reworked and improved interaction with MetaContacts (if available)
+* reworked history acces/filtering and rearranged input options
+* moved settings for merging contacts with similar names to input options
+* column titles are now more verbose (if enabled in output options)
+! some column titles/tooltips were not translatable
+! several minor fixes
+
+0.1.3.1
++ new input option: 'minimum time to assume when calculating average'
+! some bbcode tags were still not filtered (due to mixed lower/upper case)
+
+0.1.3.0
++ 'words' column now allows color-coding most incoming/outgoing
++ 'in/out' column supports average characters/messages/chats
++ contact sort supports average characters/messages/chats
++ added tooltips with more detailed information to some column headers
+* Unicode version now requires Miranda IM 0.5 Unicode or above
+* moved from 'Plugins > HistoryStats' to 'History > Statistics' in options
+* renamed menu items to use 'Statistics' instead of 'HistoryStats'
+* edit boxes with dates replaced with date/time picker
+* replaced misleading term 'bytes' with 'characters'
+* split column 'in/out' into 'in/out' and 'in/out graph'
+* cleaned up CSS in output (not all effects are visible with IE)
+
+0.1.2.1
++ possibility to put menu items directly in main menu instead of submenu
+! bbcode tags weren't filtered in some cases (though filtering was activated)
+
+0.1.2.0
++ possibility to select browser for opening HTML files and URLs
++ separate resizable configuration dialog (via main menu)
++ variables support in output file name (see README for details)
++ possibility to exclude messages before/after a given date
++ possibility to filter bbcode tags
+* reorganized input settings page
+* changed translations for greater flexibility (partially breaks old ones)
+! several small memory leaks in column management
+
+0.1.1.2
+! several localization issues (with differing system and langpack codepage)
+
+0.1.1.1
+* reintroduced 'show statistics' in main menu
+! logic that predicted output mode in column info was wrong
+
+0.1.1.0
++ new column: 'word count' (number of distinct/total words)
++ filter URLs/e-mail addresses in 'words' and 'word count' columns
++ filter words/messages in 'words' and 'word count' columns
++ more options in 'words' column
++ support for IcoLib plugin
+* renamed column 'most common words' to 'words'
+* moved settings for minimum/maximum word length to column settings
+* improved speed with disabled 'words' or 'word count' columns
+* merged column types 'hours of day' and 'days of week' to 'split' (continued)
+* column 'split timeline': improved speed and added options
+* more columns support graphs as PNG files
+* simplified update procedure (updates automatically when saving settings)
+* redesigned options page (big thanks to a0x for most of the icons)
+* improved support for PNG output (error handling, info for selected column)
+* changed default colors for HTML output
+* removed XML header in HTML output (caused problems with some hosting services)
+* if necessary, automatically creates folders and sub-folders
+* additional files (like PNG graphics) can be placed in subfolder
+! in rare cases, creating statistics crashed with active 'words' column
+! comboboxes were displayed incorrectly in pre-XP OSes
+! several strings in the user interface weren't translatable
+! subgroups weren't displayed correctly in HTML output
+
+0.1.0.3
+* shows up in plugin list, no matter if it could be loaded or not
+* reports version incompatibilities on startup of Miranda IM
+! homepage URL was wrong and is now updated to new file listing URL
+
+0.1.0.2
+* only count chat sessions that last at least a given amount of time
+! contacts with empty history produced wrong output for timeline column types
+! no contacts in output caused sometimes crash with 'split timline'
+! contacts with empty history produced wrong tooltip text for 'nick' column
+
+0.1.0.1
+* alternatively, libpng13.dll/zlib1.dll can be put in plugins folder
+! in rare cases, PNG-only columns were output even if not selected/available
+! in rare cases, options page showed wrong controls
+
+0.1.0.0
++ partial support for graphs as PNG files (requires libpng/zlib)
++ support for translations
++ support for Updater plugin
++ new column: 'split timeline' (only available with PNG output)
++ better conflict management if generated files already exist
++ filter logged status changes from Scriver
+* partial support for Unicode core (Miranda IM 0.4.3 alpha build #42 and above)
+* merged column types 'timeline' and 'ratio timeline' to 'timeline'
+* merged column types 'hours of day' and 'days of week' to 'split'
+* minor visual improvements in options page
+* changed icon in main menu und context menus
+! subgroups were displayed incorrectly in 'exclude contacts' options page
+
+0.0.8.0
++ ignore words longer than a specified number of characters
++ new column: 'events' (file/url event count for incoming, outgoing or total)
++ new column: 'ratio timeline' (like 'timeline' but displays in/out-ratio)
++ remove contacts with no incoming/outgoing chats or bytes
++ repeat table header every n contacts
+* minor visual improvements in options page
+* options page 'exclude contacts' now displays meta-contacts' subcontacts
+! timeline produced wrong HTML with details enabled
+! multiple timelines with differing day groupings produced wrong HTML output
+
+0.0.7.1
+* new versioning scheme, last digit now used for minor updates and bugfixes
+! crashes with contacts having no protocol or no protocol loaded
+
+0.0.0.7
++ additional column settings ('in/out', 'hours of day', ...)
++ rearrange columns
++ define custom titles for columns
++ use only outgoing/incoming messages for 'most common words'
++ disable removal of contacts with empty history
++ support for MetaContacts (for details see FAQ)
++ define up to three cascaded sort keys
++ exclude individual contacts (via contact's context menu or via options)
++ omit contacts not in "top n", optional totals for omitted contacts, ...
+* completely rewritten column management, it's much more flexible now
+* minor visual improvements in options page
+* moved 'merge contacts with same name' to 'output settings'
+* 'nick', 'protocol' and 'group' are now case-insensitive, if used as sort key
+* totals are optional and can be disabled
+! applying (saving settings) sometimes didn't work when first pressed button
+! problems with MetaContacts/RSSNews and incorrect recognition of Unicode messages
+
+0.0.0.6
++ cancel creation of statistics (at nearly any time)
++ new column: 'group' (group in your contact list)
++ merge contacts having same name, and additionally same group
+* statistics are created in background (doesn't block Miranda IM any more)
+* internal code cleanup, user interface improvements
+* redesigned generated HTML and CSS (most notably in/out bar graphs)
+! Opera didn't render 'chat duration' correctly
+! html entity for '>' (greater than sign) was missing the trailing semicolon
+
+0.0.0.5
++ open generated statistics in your default browser automatically
+* several (hopefully significant) speed improvements
+! creating big output files was extremly slow
+! UTF8 encoding wasn't detected by Internet Explorer
+
+0.0.0.4
++ full Unicode support (provided Unicode-aware version is used)
+* now requires Miranda IM 0.4.0.0 or above, older versions won't work (!)
+* string settings now stored as UTF8 (please check all your settings!)
+* now definition of word delimiters instead of big/small letters
+* removed problematic size optimizations, plugin got bigger this way
+* minor visual improvements in generated HTML
+* output conforms to XHTML 1.0 and uses UTF8 encoding
+* changed/simplified recognition of tabSRMM's logged status changes
+! URL and file events were misinterpreted as normal messages and produced garbage
+
+0.0.0.3
++ filter out logged status changes from tabSRMM
++ new column: 'protocol' (protocols like ICQ, Jabber, ...)
++ disable mergence of contacts with same name
++ disable word count in tooltip (for 'most common words')
++ tooltips with details for 'hours of day' and 'timeline'
++ created kind of a versioning system for the configuration
++ choose sort key and sorting direction
++ new column: 'days of week'
+* renamed 'when' to 'hours of day' to clarify its meaning
+* minor visual improvements in generated HTML
+* minor visual improvements in options page
+! settings for 'chat duration' actually modified settings for 'chats'
+! some times were converted wrongly (concerning time zones)
+
+0.0.0.2
++ now appends time of creation to generated statistics
++ new column: timeline, i.e. chat amount per day for total log time
+* disabled possibility to edit style sheet (not useful at the moment)
+* reorganized options page to better suit future enhancements
+* renamed all CSS classes to clarify their meaning
+! honour bar graph switch for total chat length
+! honour details switch for nick (first/last message for contact)
+! changed behaviour concerning in/out detail for bytes/messages/chats
+
+0.0.0.1
+* inital release (very early stage)
