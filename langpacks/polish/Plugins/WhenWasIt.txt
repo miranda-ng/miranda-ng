@@ -163,14 +163,14 @@ Importuj urodziny
 [Export birthdays]
 Eksportuj urodziny
 [Add/change user &birthday]
-Dodaj/zmień datę &urodzin
+Dodaj/Zmień datę &urodzin
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Element 'Sprawdź urodziny' w menu
 [List birthdays menu item]
 Element menu pokaż listę urodzin
 [Add/change birthday]
-Dodaj/zmień urodziny
+Dodaj/Zmień urodziny
 [1 day to birthday]
 1 dzień do urodzin
 [%d days to birthday]

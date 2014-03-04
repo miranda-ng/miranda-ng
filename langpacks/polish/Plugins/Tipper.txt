@@ -67,7 +67,7 @@ Moduł protokołu kontaktu
 [Module:]
 Moduł:
 [Setting or prefix:]
-Ustawienie/prefiks:
+Ustawienie/Prefiks:
 [Translation:]
 Tłumaczenie:
 [OK]

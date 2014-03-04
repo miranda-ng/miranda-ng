@@ -103,7 +103,7 @@ Tekst paska tytułu:
 [Translucency options]
 Opcje przezroczystości
 [Fade contact list in/out]
-Wygaszaj/rozjaśniaj listę
+Wygaszaj/Rozjaśniaj listę
 [Transparent contact list]
 Przeźroczysta lista kontaktów
 [Inactive opacity:]

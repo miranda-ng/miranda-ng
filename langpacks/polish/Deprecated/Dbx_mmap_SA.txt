@@ -107,7 +107,7 @@ Profil
 [Change Password]
 Zmień hasło
 [Set password]
-Ustaw/zmień hasło
+Ustaw/Zmień hasło
 [Dll]
 Dll
 [Name]

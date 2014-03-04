@@ -237,7 +237,7 @@ Nieaktywne okno:
 [Active opacity:]
 Aktywne okno:
 [Fade contact list in/out]
-Wygaszaj/rozjaśniaj listę
+Wygaszaj/Rozjaśniaj listę
 [Fully transparent (like TweakUI)]
 Pełna przezroczystość (jak TweakUI)
 [Items]
@@ -872,7 +872,7 @@ Menu ramki
 [Group menu]
 Menu grupy
 [&Find/Add Contacts...]
-&Szukaj/dodaj kontakty...
+&Szukaj/Dodaj kontakty...
 [&Options...]
 &Opcje...
 [&About the contact list...]

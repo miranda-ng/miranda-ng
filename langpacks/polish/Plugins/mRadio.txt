@@ -118,7 +118,7 @@ Aktualnie odtwarzany URL
 [Current stream title]
 Aktualny tytuł strumienia
 [Station/playlist URL]
-Stacja/plik playlisty
+Stacja/Plik playlisty
 [Currently used decoder]
 Aktualnie używany kodek
 [connecting]

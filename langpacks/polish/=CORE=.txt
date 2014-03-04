@@ -56,7 +56,7 @@ Menedżer profili Mirandy NG
 [Start in Service Mode with]
 Startuj w:
 [Find/Add contacts]
-Szukaj/dodaj kontakty
+Szukaj/Dodaj kontakty
 [Search:]
 Szukaj:
 [E-mail address]
@@ -82,7 +82,7 @@ Dodaj do listy
 [Custom]
 Niestandardowe
 [Find/Add contacts\nHere you can add contacts to your contact list]
-Szukaj/dodaj kontakty\nTu możesz dodać kontakty do listy kontaktów
+Szukaj/Dodaj kontakty\nTu możesz dodać kontakty do listy kontaktów
 [Options\nConfigure your Miranda NG options]
 Opcje:\nSkonfiguruj swoją Mirandę NG
 [Apply]
@@ -848,7 +848,7 @@ Włącza dokowanie
 [Translucency options]
 Opcje przezroczystości
 [Fade contact list in/out]
-Wygaszaj/rozjaśniaj listę
+Wygaszaj/Rozjaśniaj listę
 [Transparent contact list]
 Przeźroczysta lista kontaktów
 [Inactive opacity:]
@@ -2012,7 +2012,7 @@ Notatki
 [Owner]
 Właściciel
 [View/change my &details...]
-Pokaż/zmień moje &dane...
+Pokaż/Zmień moje &dane...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s jest Dostępny
@@ -2326,7 +2326,7 @@ Wszystkie sieci
 [Handle]
 Uchwyt
 [&Find/Add contacts...]
-&Szukaj/dodaj kontakty...
+&Szukaj/Dodaj kontakty...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?

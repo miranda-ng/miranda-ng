@@ -45,7 +45,7 @@ Konfiguruj konferencję
 [Join role:]
 Dołącz w roli:
 [Set password]
-Ustaw/zmień hasło
+Ustaw/Zmień hasło
 [Hint:]
 Info:
 [Enter password]

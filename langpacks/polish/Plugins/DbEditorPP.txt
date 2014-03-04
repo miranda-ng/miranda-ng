@@ -155,7 +155,7 @@ Edytuj wartości &Dword w Hex
 [&Open Options]
 &Otwórz opcje
 [&Edit / Rename]
-&Edytuj/zmień nazwę
+&Edytuj/Zmień nazwę
 [NEW]
 NOWY
 [&Byte]

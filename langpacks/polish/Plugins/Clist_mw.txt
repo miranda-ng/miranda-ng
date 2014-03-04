@@ -139,7 +139,7 @@ Tekst paska tytułu:
 [Translucency options]
 Opcje przezroczystości
 [Fade contact list in/out]
-Wygaszaj/rozjaśniaj listę
+Wygaszaj/Rozjaśniaj listę
 [Transparent contact list]
 Przeźroczysta lista kontaktów
 [Inactive opacity:]
@@ -376,7 +376,7 @@ Brak protokołu
 [Tray menu]
 Menu zasobnika
 [&Find/Add Contacts...]
-&Szukaj/dodaj kontakty...
+&Szukaj/Dodaj kontakty...
 [&Options...]
 &Opcje...
 [&About]

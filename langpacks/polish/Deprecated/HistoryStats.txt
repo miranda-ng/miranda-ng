@@ -436,7 +436,7 @@ Poniższy plik nie może być zapisany, ponieważ plik o takiej samej nazwie ju�
 [The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
 Następujące informacje są właściwe tylko wtedy, jeśli używasz metakontaktów. W przypadku, gdy nie należy używać w wersji 0.9.10.6 lub nowszej. \r\n\r\nHistoryStats doskonale integruje się z metakontakami i jest w stanie zbierać dane z metakontaktów, jak również z subkontaktów. Jest w stanie inteligentnie łączyć historię wszystkich subkontaktów i więcej. Możesz skonfigurować integrację metakontaktów w opcjach.
 [The selected set is in use by at least one other column. If you remove it it won't be available to all other columns that use it. Are you sure you want to remove the set?]
-Wybrany zestaw jest używany przez co najmniej jedną kolumnę. Jeśli usuniesz będzie dostępna dla innych kolumn. Czy na pewno chcesz usunąc ten zestaw?
+Wybrany zestaw jest używany przez co najmniej jedną kolumnę. Jeśli usuniesz będzie dostępna dla innych kolumn. Czy na pewno chcesz usunąć ten zestaw?
 [The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
 Nie można znaleźć statystyk. Statystyki nie zostały stworzone lub zostały przeniesione do innej lokalizacji.
 [Output file]

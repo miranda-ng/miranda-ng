@@ -512,7 +512,8 @@ Delikatny podmuch wiatru ze śniegiem
 Mżawka zamarzający deszcz ze śniegiem
 [Patches Fog Mist]
 Cienka warstwa mgły
-[Snow 60% Chance Of Precipitation]Śnieg 60% szans opadów atmosferycznych
+[Snow 60% Chance Of Precipitation]
+Śnieg 60% szans opadów atmosferycznych
 [Light Low Drifting Snow]
 Lekka śnieżyca
 [Snow 30% Chance Of Precipitation]

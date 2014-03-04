@@ -108,7 +108,7 @@ Szczegóły zdarzenia
 [Event Info]
 Info zdarzenia
 [Date/Time:]
-Data/czas:
+Data/Czas:
 [Copy All]
 Kopiuj wszystko
 [&Select All]

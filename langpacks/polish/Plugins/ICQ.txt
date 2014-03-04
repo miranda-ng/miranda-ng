@@ -1263,7 +1263,7 @@ Organizacja kulturowa
 [Fan Clubs]
 Fankluby
 [Fraternity/Sorority]
-Bractwo/stowarzyszenie żeńskie
+Bractwo/Stowarzyszenie żeńskie
 [Hobbyists Org.]
 Organizacja hobbystyczna
 [International Org.]

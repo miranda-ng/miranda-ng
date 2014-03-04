@@ -35,7 +35,7 @@ Ukryj listę kontaktów po
 [seconds]
 s
 [Fade contact list in/out]
-Wygaszaj/rozjaśniaj listę
+Wygaszaj/Rozjaśniaj listę
 [Transparent contact list]
 Przeźroczysta lista kontaktów
 [Inactive opacity:]
