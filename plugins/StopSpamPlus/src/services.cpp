@@ -27,7 +27,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 		MCONTACT hNext = db_find_next(hContact);
 		ptrT szGroup( db_get_tsa( hContact, "CList", "Group"));
 
-		if (db_get_b(hContact, "CList", "NotOnList", 0) || db_get_b(hContact, "CList", "Hidden", 0) || (szGroup != NULL && (_tcsstr(szGroup, _T("Not In List")) || _tcsstr(szGroup, TranslateT("Not In List"))))) {
+		if (db_get_b(hContact, "CList", "NotOnList", 0) || (szGroup != NULL && (_tcsstr(szGroup, _T("Not In List")) || _tcsstr(szGroup, TranslateT("Not In List"))))) {
 			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL) {
 				// Check if protocol uses server side lists
