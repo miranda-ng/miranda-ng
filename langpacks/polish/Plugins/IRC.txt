@@ -21,7 +21,7 @@ tylko w trakcie łączenia
 [Force visible (-i)]
 Wymuś widoczność - tryb (-i)
 [Rejoin channel if kicked]
-Dołącz ponownie do kanału, jeśli wykopano
+Dołącz ponownie do kanału, jeśli wyrzucono
 [Rejoin channels on reconnect]
 Dołącz do kanałów przy ponownym łączniu
 [Disable tray balloon on error]
@@ -617,7 +617,7 @@ Proszę podać nick, który chcesz ustawić jako główny
 [Set main nick]
 Ustaw główny nick
 [Kick]
-Wykop
+Wyrzuć
 [Please enter the notice text]
 Proszę wpisać tekst powiadomienia
 [Please enter the channel name to invite to]
@@ -709,9 +709,9 @@ Wy&kop (powód)
 [&Ban]
 &Banuj
 [Ban'&n kick]
-Wykop &i banuj
+Wyrzuć &i banuj
 [Ban'n kick (&reason)]
-Wykop i banuj (&powód)
+Wyrzuć i banuj (&powód)
 [&Direct Connection]
 Połączenie &bezpośrednie
 [Request &Chat]

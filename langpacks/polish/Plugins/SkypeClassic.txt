@@ -175,7 +175,7 @@ Ustaw &temat...
 [User &history]
 &Historia użytkownika
 [&Kick user]
-&Wykop użytkownika
+&Wyrzuć użytkownika
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Rozpocznij rozmowę SkypeOut

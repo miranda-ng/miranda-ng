@@ -779,7 +779,7 @@ Ten sam wątek
 [Do not wait until the end of execution]
 Nie czekaj do końca wykonania
 [In/Out]
-Wejście/wyjście
+Wejście/Wyjście
 [Autosend]
 Wyślij automatycznie
 [Jump]
@@ -805,7 +805,7 @@ zaczyna się od
 [ends with]
 kończy się na
 [Process script after]
-przetwarzaj skrypt za
+Przetwarzaj skrypt za
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [RTL]

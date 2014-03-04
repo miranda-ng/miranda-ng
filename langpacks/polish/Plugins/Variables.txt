@@ -224,9 +224,9 @@ aktualny opis protokołu "x" (bez "x" pobierany jest globalny opis)
 [info property y of protocol ID x]
 zawartość właściwości "y" protokołu o ID "x"
 [retrieves the subject, depending on situation]
-pobiera temat, w zależności od sytuacji
+pobiera kontakt (z zakładki "%subject%"), w zależności od sytuacji
 [translates x]
-przekłada "x"
+tłumaczy "x" (tłumacznie pobiera z aktualnie używanego pakietu językowego)
 [get the version of Miranda]
 wersja Mirandy
 [get the contact display name]

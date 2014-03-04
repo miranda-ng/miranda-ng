@@ -35,7 +35,7 @@ P&rzeglądaj
 [&Fill description textbox.]
 &Wypełnij pole opisu.
 [Delete &after send]
-Usuń po wysłaniu
+Usuń &po wysłaniu
 [Open again]
 Otwórz ponownie
 [&Capture]

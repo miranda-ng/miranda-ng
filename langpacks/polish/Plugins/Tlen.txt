@@ -232,7 +232,7 @@ Autoryzacja nieudana dla %s@%s.
 Autoryzacja Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-Zostałeś wykopany. Powód: %s 
+Zostałeś wyrzucony. Powód: %s 
 [You cannot join this chat room, because you are banned.]
 Nie możesz dołączyć do tego pokoju, ponieważ zostałeś zbanowany.
 [Chat room not found.]

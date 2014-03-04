@@ -1545,7 +1545,7 @@ Pokaż popup podświetleń
 [Show popup for users leaving]
 Pokaż popup wychodzących użytkowników
 [Show popup for users kicking other user]
-Pokaż popup wykopanych użytkowników
+Pokaż popup wyrzuconych użytkowników
 [Show popup for notices]
 Pokaż popup powiadomień
 [Show popup for name changes]
@@ -1607,7 +1607,7 @@ Wyjdź (10x10)
 [Quit (10x10)]
 Wyjście (10x10)
 [Kick (10x10)]
-Wykop (10x10)
+Wyrzuć (10x10)
 [Nick change (10x10)]
 Zmiana nazwy (10x10)
 [Notice (10x10)]
@@ -2033,7 +2033,7 @@ Użytkownik wyszedł
 [User has disconnected]
 Użytkownik rozłączył się
 [User kicked ...]
-Wykopany użytkownik...
+Wyrzucony użytkownik...
 [User is now known as ...]
 Użytkownik jest obecnie znany jako...
 [Notice from user]
@@ -2119,7 +2119,7 @@ Temat to '%s%s'
 [%s has left %s]
 %s opuścił(a) %s
 [%s kicked %s from %s]
-%s wykopany %s przez %s
+%s wyrzucony %s przez %s
 [Notice from %s]
 Powiadomienie od %s
 [Topic change in %s]

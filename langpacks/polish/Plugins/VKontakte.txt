@@ -80,7 +80,7 @@ Pokaż/zmień &nazwę
 [&User details]
 Dane &użytkownika
 [&Kick]
-&Wykop
+&Wyrzuć
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły

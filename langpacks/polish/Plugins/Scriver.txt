@@ -159,7 +159,7 @@ Menu &użytkownika
 [&Emoticons]
 &Emotikony
 [&Add]
-Dod&aj
+&Dodaj
 [&History]
 &Historia
 [&Quote]
@@ -416,7 +416,7 @@ Wyjdź (10x10)
 [Quit (10x10)]
 Wyjście (10x10)
 [Kick (10x10)]
-Wykop (10x10)
+Wyrzuć (10x10)
 [Nickchange (10x10)]
 Zmiana nazwy (10x10)
 [Topic (10x10)]
@@ -769,7 +769,7 @@ Pokaż popup podświetleń
 [Show popup for users leaving]
 Pokaż popup wychodzących użytkowników
 [Show popup for users kicking other user]
-Pokaż popup wykopanych użytkowników
+Pokaż popup wyrzuconych użytkowników
 [Show popup for notices]
 Pokaż popup powiadomień
 [Show popup for name changes]

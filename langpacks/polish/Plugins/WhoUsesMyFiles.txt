@@ -21,7 +21,7 @@ Kolor tła
 [Text color]
 Kolor tekstu
 [Previe&w]
-Podgląd
+Podglą&d
 [Show infinitely]
 Pokazuj w nieskończoność
 [Default Popup delay]

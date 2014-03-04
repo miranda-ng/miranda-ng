@@ -260,9 +260,9 @@ Wybierz &rolę
 [Outlaw (&ban)]
 Przestępca (&ban)
 [Copy &skypename]
-Skopiuj &nazwę użytkownika &Skype
+Kopiuj &nazwę użytkownika Skype
 [Copy room &uri]
-Skopiuj &URI pokoju
+Kopiuj &URI pokoju
 [Creator]
 Twórca
 [Master]

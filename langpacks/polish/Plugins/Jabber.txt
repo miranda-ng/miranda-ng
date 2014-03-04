@@ -680,7 +680,7 @@ Wybierz &powiązanie
 [&Admin]
 &Admin
 [&Owner]
-Właściciel
+&Właściciel
 [Outcast (&ban)]
 Z&banowany
 [&Kick]
@@ -704,7 +704,7 @@ Info użytkownika\n%s z %s
 [Real JID not available]
 Prawdziwy JID niedostępny
 [Reason to kick %s]
-Powód wykopania %s
+Powód wyrzucenia %s
 [Reason to ban %s]
 Powód bana %s
 [Invite %s to %s]
@@ -1260,11 +1260,11 @@ Priorytet zasobów [%d]
 [Join conference]
 Dołączenie do czatu
 [Open bookmarks]
-Otwarcie zakładki
+Otwórz zakładki
 [Privacy lists]
 Lista prywatności
 [Service discovery]
-Usługa informacyjna
+Przeglądarka usług
 [Last active (%s)]
 Ostatnio aktywny (%s)
 [No activity yet, use server's choice]

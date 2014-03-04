@@ -127,7 +127,7 @@ Poprzedni wskaźnik:
 [Quote\\Rate Info]
 Informacje o wskaźniku giełdowym
 [Type &Stock Name or Symbol:]
-Wpisz nazwę giełdową lub symbol:
+Wpisz nazwę &giełdową lub symbol:
 [&Watched Quotes:]
 &Obserwowane notowania:
 [Status &Message:]

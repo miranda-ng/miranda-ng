@@ -158,7 +158,7 @@ Z&amknij inne karty
 [&Retry]
 &Spróbuj ponownie
 [&Cancel]
-Anuluj
+&Anuluj
 [&Send]
 &Wyślij
 [&Add]
@@ -2055,7 +2055,7 @@ Wyjdź (10x10)
 [Quit (10x10)]
 Wyjście (10x10)
 [Kick (10x10)]
-Wykop (10x10)
+Wyrzuć (10x10)
 [Notice (10x10)]
 Powiadomienie (10x10)
 [Nickchange (10x10)]

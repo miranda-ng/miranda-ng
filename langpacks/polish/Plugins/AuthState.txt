@@ -28,7 +28,7 @@ Autoryzacja
 [Grant]
 Udziel
 [Auth & Grant]
-&Autoryzuj i Przyznaj
+Autoryzuj i Przyznaj
 [Auth State]
 Status autoryzacji
 ;file \plugins\AuthState\src\options.cpp
