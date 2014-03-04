@@ -210,7 +210,6 @@ int Meta_SetNick(char *szProto)
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 {
 	char buffer[512], szId[40];
-	WORD status;
 	MCONTACT most_online;
 
 	DBCachedContact *ccDest = CheckMeta(dest);
@@ -286,24 +285,18 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	db_set_ts(dest, META_PROTO, buffer, cli.pfnGetContactDisplayName(src, 0));
 
 	// Get the status
-	if (!szProto)
-		status = ID_STATUS_OFFLINE;
-	else
-		status = db_get_w(src, szProto, "Status", ID_STATUS_OFFLINE);
+	WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(src, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
-	strcpy(buffer, "Status");
-	strcat(buffer, szId);
+	strcpy(buffer, "Status"); strcat(buffer, szId);
 	db_set_w(dest, META_PROTO, buffer, status);
 
 	// write the handle
-	strcpy(buffer, "Handle");
-	strcat(buffer, szId);
+	strcpy(buffer, "Handle"); strcat(buffer, szId);
 	db_set_dw(dest, META_PROTO, buffer, src);
 
 	// write status string
-	strcpy(buffer, "StatusString");
-	strcat(buffer, szId);
+	strcpy(buffer, "StatusString"); strcat(buffer, szId);
 
 	TCHAR *szStatus = cli.pfnGetStatusModeDescription(status, 0);
 	db_set_ts(dest, META_PROTO, buffer, szStatus);
@@ -858,10 +851,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	BOOL ok1, ok2;
 
 	// swap the protocol
-	strcpy(buff1, "Protocol");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Protocol");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "Protocol"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "Protocol"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {
@@ -874,10 +865,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	}
 
 	// swap the status
-	strcpy(buff1, "Status");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Status");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "Status"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "Status"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {
@@ -890,10 +879,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	}
 
 	// swap the status string
-	strcpy(buff1, "StatusString");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "StatusString");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "StatusString"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "StatusString"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {
@@ -906,10 +893,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	}
 
 	// swap the login
-	strcpy(buff1, "Login");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Login");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "Login"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "Login"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {
@@ -924,10 +909,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	}
 
 	// swap the nick
-	strcpy(buff1, "Nick");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Nick");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "Nick"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "Nick"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {
@@ -943,10 +926,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	else db_unset(cc->contactID, META_PROTO, buff1);
 
 	// swap the clist name
-	strcpy(buff1, "CListName");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "CListName");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "CListName"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "CListName"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {
@@ -962,10 +943,8 @@ int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_
 	else db_unset(cc->contactID, META_PROTO, buff1);
 
 	// swap the handle
-	strcpy(buff1, "Handle");
-	strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Handle");
-	strcat(buff2, _itoa(contact_number2, buff22, 10));
+	strcpy(buff1, "Handle"); strcat(buff1, _itoa(contact_number1, buff12, 10));
+	strcpy(buff2, "Handle"); strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
 	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
 	if (ok1) {

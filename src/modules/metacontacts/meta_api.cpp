@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //wParam=(MCONTACT)hMetaContact
 //lParam=0
 //returns a handle to the default contact, or null on failure
-INT_PTR MetaAPI_GetDefault(WPARAM hMetaContact, LPARAM)
+
+static INT_PTR MetaAPI_GetDefault(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -44,7 +45,8 @@ INT_PTR MetaAPI_GetDefault(WPARAM hMetaContact, LPARAM)
 //wParam=(MCONTACT)hMetaContact
 //lParam=0
 //returns a DWORD contact number, or -1 on failure
-INT_PTR MetaAPI_GetDefaultNum(WPARAM hMetaContact, LPARAM)
+
+static INT_PTR MetaAPI_GetDefaultNum(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	return (cc == NULL) ? -1 : cc->nDefault;
@@ -54,7 +56,8 @@ INT_PTR MetaAPI_GetDefaultNum(WPARAM hMetaContact, LPARAM)
 //wParam=(MCONTACT)hMetaContact
 //lParam=0
 //returns a handle to the 'most online' contact
-INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
+
+static INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -67,7 +70,8 @@ INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
 //wParam=(MCONTACT)hMetaContact
 //lParam=0
 //returns a DWORD representing the number of subcontacts for the given metacontact
-INT_PTR MetaAPI_GetNumContacts(WPARAM hMetaContact, LPARAM)
+
+static INT_PTR MetaAPI_GetNumContacts(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	return (cc == NULL) ? -1 : cc->nSubs;
@@ -77,7 +81,8 @@ INT_PTR MetaAPI_GetNumContacts(WPARAM hMetaContact, LPARAM)
 //wParam=(MCONTACT)hMetaContact
 //lParam=(DWORD)contact number
 //returns a handle to the specified subcontact
-INT_PTR MetaAPI_GetContact(WPARAM hMetaContact, LPARAM lParam)
+
+static INT_PTR MetaAPI_GetContact(WPARAM hMetaContact, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	return (cc == NULL) ? 0 : Meta_GetContactHandle(cc, lParam);
@@ -87,7 +92,8 @@ INT_PTR MetaAPI_GetContact(WPARAM hMetaContact, LPARAM lParam)
 //wParam=(MCONTACT)hMetaContact
 //lParam=(DWORD)contact number
 //returns 0 on success
-INT_PTR MetaAPI_SetDefaultContactNum(WPARAM hMetaContact, LPARAM lParam)
+
+static INT_PTR MetaAPI_SetDefaultContactNum(WPARAM hMetaContact, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -106,7 +112,8 @@ INT_PTR MetaAPI_SetDefaultContactNum(WPARAM hMetaContact, LPARAM lParam)
 //wParam=(MCONTACT)hMetaContact
 //lParam=(MCONTACT)hSubcontact
 //returns 0 on success
-INT_PTR MetaAPI_SetDefaultContact(WPARAM hMetaContact, LPARAM lParam)
+
+static INT_PTR MetaAPI_SetDefaultContact(WPARAM hMetaContact, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(lParam);
 	if (cc == NULL)
@@ -127,7 +134,8 @@ INT_PTR MetaAPI_SetDefaultContact(WPARAM hMetaContact, LPARAM lParam)
 //wParam=(MCONTACT)hMetaContact
 //lParam=(DWORD)contact number
 //returns 0 on success
-INT_PTR MetaAPI_ForceSendContactNum(WPARAM hMetaContact, LPARAM lParam)
+
+static INT_PTR MetaAPI_ForceSendContactNum(WPARAM hMetaContact, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -147,7 +155,8 @@ INT_PTR MetaAPI_ForceSendContactNum(WPARAM hMetaContact, LPARAM lParam)
 //wParam=(MCONTACT)hMetaContact
 //lParam=(MCONTACT)hSubcontact
 //returns 0 on success (will fail if 'force default' is in effect)
-INT_PTR MetaAPI_ForceSendContact(WPARAM hMetaContact, LPARAM lParam)
+
+static INT_PTR MetaAPI_ForceSendContact(WPARAM hMetaContact, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -169,6 +178,7 @@ INT_PTR MetaAPI_ForceSendContact(WPARAM hMetaContact, LPARAM lParam)
 //wParam=(MCONTACT)hMetaContact
 //lParam=0
 //returns 0 on success (will fail if 'force default' is in effect)
+
 INT_PTR MetaAPI_UnforceSendContact(WPARAM hMetaContact, LPARAM lParam)
 {
 	if (db_get_b(hMetaContact, META_PROTO, "ForceDefault", 0))
@@ -180,13 +190,14 @@ INT_PTR MetaAPI_UnforceSendContact(WPARAM hMetaContact, LPARAM lParam)
 	return 0;
 }
 
-
 //'forces' or 'unforces' (i.e. toggles) the metacontact to send using it's default contact
 // overrides 'force send' above, and will even force use of offline contacts
 // will send ME_MC_FORCESEND event
-//wParam=(MCONTACT)hMetaContact
-//lParam=0
-//returns 1(true) or 0(false) representing new state of 'force default'
+//
+// wParam=(MCONTACT)hMetaContact
+// lParam=0
+// returns 1(true) or 0(false) representing new state of 'force default'
+
 INT_PTR MetaAPI_ForceDefault(WPARAM hMetaContact, LPARAM lParam)
 {
 	// forward to menu function
@@ -200,6 +211,7 @@ INT_PTR MetaAPI_ForceDefault(WPARAM hMetaContact, LPARAM lParam)
 // if lparam supplied, the contact_number of the contatct 'in force' will be copied to the address it points to,
 // or if none is in force, the value INVALID_CONTACT_ID will be copied
 // (v0.8.0.8+ returns 1 if 'force default' is true with *lParam == default contact number, else returns 0 with *lParam as above)
+
 INT_PTR MetaAPI_GetForceState(WPARAM hMetaContact, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
@@ -222,30 +234,49 @@ INT_PTR MetaAPI_GetForceState(WPARAM hMetaContact, LPARAM lParam)
 	return 0;
 }
 
-// added 0.9.5.0 (22/3/05)
 // wParam=(HANDLE)hContact
 // lParam=0
 // convert a given contact into a metacontact
-INT_PTR MetaAPI_ConvertToMeta(WPARAM wParam, LPARAM lParam)
+
+static INT_PTR MetaAPI_ConvertToMeta(WPARAM wParam, LPARAM lParam)
 {
 	return Meta_Convert(wParam, lParam);
 }
 
-// added 0.9.5.0 (22/3/05)
 // wParam=(HANDLE)hContact
 // lParam=(HANDLE)hMeta
 // add an existing contact to a metacontact
-INT_PTR MetaAPI_AddToMeta(WPARAM wParam, LPARAM lParam)
+
+static INT_PTR MetaAPI_AddToMeta(WPARAM wParam, LPARAM lParam)
 {
 	return Meta_Assign(wParam, lParam, FALSE);
 }
 
-// added 0.9.5.0 (22/3/05)
 // wParam=0
 // lParam=(HANDLE)hContact
 // remove a contact from a metacontact
-INT_PTR MetaAPI_RemoveFromMeta(WPARAM wParam, LPARAM lParam)
+
+static INT_PTR MetaAPI_RemoveFromMeta(WPARAM wParam, LPARAM lParam)
 {
 	// notice we switch args - to keep the API function consistent with the others
 	return Meta_Delete((WPARAM)lParam, (LPARAM)wParam);
+}
+
+void CreateApiServices()
+{
+	CreateServiceFunction(MS_MC_GETDEFAULTCONTACT, MetaAPI_GetDefault);
+	CreateServiceFunction(MS_MC_GETDEFAULTCONTACTNUM, MetaAPI_GetDefaultNum);
+	CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);
+	CreateServiceFunction(MS_MC_GETNUMCONTACTS, MetaAPI_GetNumContacts);
+	CreateServiceFunction(MS_MC_GETSUBCONTACT, MetaAPI_GetContact);
+	CreateServiceFunction(MS_MC_SETDEFAULTCONTACTNUM, MetaAPI_SetDefaultContactNum);
+	CreateServiceFunction(MS_MC_SETDEFAULTCONTACT, MetaAPI_SetDefaultContact);
+	CreateServiceFunction(MS_MC_FORCESENDCONTACTNUM, MetaAPI_ForceSendContactNum);
+	CreateServiceFunction(MS_MC_FORCESENDCONTACT, MetaAPI_ForceSendContact);
+	CreateServiceFunction(MS_MC_UNFORCESENDCONTACT, MetaAPI_UnforceSendContact);
+	CreateServiceFunction(MS_MC_GETFORCESTATE, MetaAPI_GetForceState);
+
+	CreateServiceFunction(MS_MC_CONVERTTOMETA, MetaAPI_ConvertToMeta);
+	CreateServiceFunction(MS_MC_ADDTOMETA, MetaAPI_AddToMeta);
+	CreateServiceFunction(MS_MC_REMOVEFROMMETA, MetaAPI_RemoveFromMeta);
 }

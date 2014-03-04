@@ -654,7 +654,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 
 		// if the contact was forced, unforce it (which updates status)
 		if (db_get_dw(ccMeta->contactID, META_PROTO, "ForceSend", 0) == hContact)
-			MetaAPI_UnforceSendContact((WPARAM)ccMeta->contactID, 0);
+			MetaAPI_UnforceSendContact(ccMeta->contactID, 0);
 		else {
 			// set status to that of most online contact
 			Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
@@ -1123,21 +1123,7 @@ void Meta_InitServices()
 	CreateProtoServiceFunction(META_FILTER, PSS_MESSAGE, MetaFilter_SendMessage);
 
 	// API services and events
-	CreateServiceFunction(MS_MC_GETDEFAULTCONTACT, MetaAPI_GetDefault);
-	CreateServiceFunction(MS_MC_GETDEFAULTCONTACTNUM, MetaAPI_GetDefaultNum);
-	CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);
-	CreateServiceFunction(MS_MC_GETNUMCONTACTS, MetaAPI_GetNumContacts);
-	CreateServiceFunction(MS_MC_GETSUBCONTACT, MetaAPI_GetContact);
-	CreateServiceFunction(MS_MC_SETDEFAULTCONTACTNUM, MetaAPI_SetDefaultContactNum);
-	CreateServiceFunction(MS_MC_SETDEFAULTCONTACT, MetaAPI_SetDefaultContact);
-	CreateServiceFunction(MS_MC_FORCESENDCONTACTNUM, MetaAPI_ForceSendContactNum);
-	CreateServiceFunction(MS_MC_FORCESENDCONTACT, MetaAPI_ForceSendContact);
-	CreateServiceFunction(MS_MC_UNFORCESENDCONTACT, MetaAPI_UnforceSendContact);
-	CreateServiceFunction(MS_MC_GETFORCESTATE, MetaAPI_GetForceState);
-
-	CreateServiceFunction(MS_MC_CONVERTTOMETA, MetaAPI_ConvertToMeta);
-	CreateServiceFunction(MS_MC_ADDTOMETA, MetaAPI_AddToMeta);
-	CreateServiceFunction(MS_MC_REMOVEFROMMETA, MetaAPI_RemoveFromMeta);
+	CreateApiServices();
 
 	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
 	CreateServiceFunction("MetaContacts/CListMessageEvent", Meta_ClistMessageEventClicked);

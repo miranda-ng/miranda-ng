@@ -1,0 +1,412 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "../src/resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_HISTORYSTATS        ICON                    "res\\myhistory.ico"
+IDI_COL_ADD             ICON                    "res\\col_add.ico"
+IDI_COL_UP              ICON                    "res\\col_up.ico"
+IDI_COL_DEL             ICON                    "res\\col_del.ico"
+IDI_COL_DOWN            ICON                    "res\\col_down.ico"
+IDI_SETT_GLOBAL         ICON                    "res\\sett_global.ico"
+IDI_SETT_COLUMNS        ICON                    "res\\sett_columns.ico"
+IDI_SETT_EXCLUDE        ICON                    "res\\sett_exclude.ico"
+IDI_SETT_INPUT          ICON                    "res\\sett_input.ico"
+IDI_SETT_OUTPUT         ICON                    "res\\sett_output.ico"
+IDI_CREATE              ICON                    "res\\create.ico"
+IDI_EXCLUDE_NO          ICON                    "res\\exclude_no.ico"
+IDI_EXCLUDE_YES         ICON                    "res\\exclude_yes.ico"
+IDI_TREE_RADIO4         ICON                    "res\\tree_radio4.ico"
+IDI_TREE_CHECK1         ICON                    "res\\tree_check1.ico"
+IDI_TREE_CHECK2         ICON                    "res\\tree_check2.ico"
+IDI_TREE_CHECK3         ICON                    "res\\tree_check3.ico"
+IDI_TREE_CHECK4         ICON                    "res\\tree_check4.ico"
+IDI_TREE_EDIT1          ICON                    "res\\tree_edit1.ico"
+IDI_TREE_EDIT2          ICON                    "res\\tree_edit2.ico"
+IDI_TREE_FOLDER1        ICON                    "res\\tree_folder1.ico"
+IDI_TREE_FOLDER2        ICON                    "res\\tree_folder2.ico"
+IDI_TREE_RADIO1         ICON                    "res\\tree_radio1.ico"
+IDI_TREE_RADIO2         ICON                    "res\\tree_radio2.ico"
+IDI_TREE_RADIO3         ICON                    "res\\tree_radio3.ico"
+IDI_CREATE_WARNING      ICON                    "res\\create_warning.ico"
+IDI_DROPDOWN            ICON                    "res\\dropdown.ico"
+IDI_TREE_COMBO1         ICON                    "res\\tree_combo1.ico"
+IDI_TREE_COMBO2         ICON                    "res\\tree_combo2.ico"
+IDI_TREE_BUTTON1        ICON                    "res\\tree_button1.ico"
+IDI_TREE_BUTTON2        ICON                    "res\\tree_button2.ico"
+IDI_TREE_DATETIME1      ICON                    "res\\tree_datetime1.ico"
+IDI_TREE_DATETIME2      ICON                    "res\\tree_datetime2.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Swedish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
+#ifdef _WIN32
+LANGUAGE LANG_SWEDISH, SUBLANG_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Swedish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Sys. Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 313
+        VERTGUIDE, 10
+        VERTGUIDE, 304
+        HORZGUIDE, 35
+        HORZGUIDE, 45
+        HORZGUIDE, 140
+    END
+
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 74
+        HORZGUIDE, 16
+        HORZGUIDE, 47
+    END
+
+    IDD_COLADD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 245
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_CONFLICT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 290
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 234
+    END
+
+    IDD_SUB_GLOBAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 204
+    END
+
+    IDD_SUB_EXCLUDE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 204
+    END
+
+    IDD_SUB_INPUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 204
+    END
+
+    IDD_SUB_OUTPUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 204
+    END
+
+    IDD_SUB_COLUMNS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 204
+    END
+
+    IDD_SUPPORTINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 355
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 184
+    END
+
+    IDD_FILTERWORDS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 315
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 239
+    END
+
+    IDD_CONFIGURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 319
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 268
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 314, 240
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Band",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,0,0,315,35
+    CTEXT           "",IDC_MESSAGE,10,45,294,95,SS_NOPREFIX | NOT WS_VISIBLE,
+                    WS_EX_TRANSPARENT
+END
+
+IDD_PROGRESS DIALOGEX 0, 0, 197, 81
+STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "HistoryStats - Working..."
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "",IDC_MAINTEXT,5,5,150,9
+    RTEXT           "",IDC_MAINPERCENT,160,5,29,8
+    CONTROL         "Progress1",IDC_MAINBAR,"msctls_progress32",WS_BORDER | 
+                    0x1,5,15,185,10
+    LTEXT           "",IDC_SUBTEXT,5,30,150,10
+    RTEXT           "",IDC_SUBPERCENT,160,30,29,8
+    CONTROL         "Progress2",IDC_SUBBAR,"msctls_progress32",WS_BORDER | 
+                    0x1,5,40,185,10
+    PUSHBUTTON      "Cancel",IDOK,45,60,105,14
+END
+
+IDD_COLADD DIALOGEX 0, 0, 252, 156
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "HistoryStats - Add column"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Available column types:",IDC_STATIC,5,5,105,8
+    LISTBOX         IDC_COLUMN,5,15,105,115,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Description",IDC_STATIC,120,15,125,115
+    LTEXT           "",IDC_DESCRIPTION,125,25,115,100,SS_NOPREFIX
+    DEFPUSHBUTTON   "Add",IDOK,140,135,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,195,135,50,14
+END
+
+IDD_CONFLICT DIALOGEX 0, 0, 297, 241
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "HistoryStats - Conflicting files"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.",
+                    IDC_STATIC,5,5,285,25
+    LTEXT           "The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.",
+                    IDC_STATIC,5,30,285,25
+    CONTROL         "List1",IDC_FILES,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,5,60,285,155
+    PUSHBUTTON      "Overwrite existing",IDOK,105,220,90,15
+    PUSHBUTTON      "Discard generated",IDCANCEL,200,220,90,15
+END
+
+IDD_SUB_GLOBAL DIALOGEX 0, 0, 311, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_OPTIONS,"HistoryStatsOptions",WS_TABSTOP,0,5,310,
+                    145
+    CONTROL         "HistoryStats supports several plugins. Click to learn more...",
+                    IDC_INFOLABEL,"Hyperlink",WS_TABSTOP,0,151,310,10
+    CONTROL         "",IDC_INFO,"SysTreeView32",TVS_DISABLEDRAGDROP | 
+                    TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,0,160,310,50
+END
+
+IDD_SUB_EXCLUDE DIALOGEX 0, 0, 311, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Contacts",IDC_CONTACTS,"CListControl",WS_TABSTOP | 
+                    0x1d0,0,5,310,205,WS_EX_CLIENTEDGE
+END
+
+IDD_SUB_INPUT DIALOGEX 0, 0, 311, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_OPTIONS,"HistoryStatsOptions",WS_TABSTOP,0,5,310,
+                    205
+END
+
+IDD_SUB_OUTPUT DIALOGEX 0, 0, 311, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_OPTIONS,"HistoryStatsOptions",WS_TABSTOP,0,5,310,
+                    205
+END
+
+IDD_SUB_COLUMNS DIALOGEX 0, 0, 311, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Band",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,0,5,95,20
+    CONTROL         "",IDC_COLUMNS,"HistoryStatsOptions",WS_TABSTOP | 0x1,0,
+                    30,95,180
+    CONTROL         "",IDC_OPTIONS,"HistoryStatsOptions",WS_TABSTOP,100,5,
+                    210,155
+    CONTROL         "Hide additional column info...",IDC_INFOLABEL,"Hyperlink",
+                    WS_TABSTOP,100,161,210,10
+    CONTROL         "",IDC_INFO,"SysTreeView32",TVS_DISABLEDRAGDROP | 
+                    TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,100,171,210,
+                    39
+END
+
+IDD_SUPPORTINFO DIALOGEX 0, 0, 362, 191
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "HistoryStats - Plugin/extension info"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,305,170,50,15
+    LTEXT           "Plugin/extension name:",IDC_STATIC,5,5,110,8
+    EDITTEXT        IDC_PLUGIN,5,15,110,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Provided features:",IDC_STATIC,125,5,230,8
+    EDITTEXT        IDC_FEATURES,125,15,230,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Detailed description:",IDC_STATIC,5,35,350,8
+    EDITTEXT        IDC_DESCRIPTION,5,45,350,95,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    CONTROL         "",IDC_LINK1,"Hyperlink",WS_TABSTOP,5,145,350,10
+    CONTROL         "",IDC_LINK2,"Hyperlink",WS_TABSTOP,5,156,350,10
+END
+
+IDD_FILTERWORDS DIALOGEX 0, 0, 322, 246
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "HistoryStats - Filter words/messages"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Sets:",IDC_STATIC,5,5,110,8
+    CONTROL         "",IDC_BAND,"HistoryStatsBand",WS_TABSTOP,5,15,110,20
+    CONTROL         "",IDC_SETS,"HistoryStatsOptions",WS_TABSTOP,5,40,110,
+                    135
+    LTEXT           "Set name:",IDC_STATIC,120,5,195,8
+    EDITTEXT        IDC_SETNAME,120,15,195,14,ES_AUTOHSCROLL
+    LTEXT           "Set mode:",IDC_STATIC,120,35,195,8
+    COMBOBOX        IDC_MODE,120,45,195,105,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_WORDS,120,60,195,115,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_WANTRETURN | WS_VSCROLL
+    GROUPBOX        "About sets",IDC_STATIC,5,180,310,40
+    LTEXT           "All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.",
+                    IDC_STATIC,10,190,300,25
+    DEFPUSHBUTTON   "OK",IDOK,210,225,50,15
+    PUSHBUTTON      "Cancel",IDCANCEL,265,225,50,15
+END
+
+IDD_CONFIGURE DIALOGEX 0, 0, 326, 275
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Configure HistoryStats"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,160,255,50,15
+    PUSHBUTTON      "Cancel",IDCANCEL,215,255,50,15
+    PUSHBUTTON      "Apply",IDC_APPLY,270,255,50,15
+END
+
+#endif    // Neutral (Sys. Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
