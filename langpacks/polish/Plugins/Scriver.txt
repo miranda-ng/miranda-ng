@@ -871,7 +871,7 @@ Pokaż/Ukryj listę nazw (Ctrl+N)
 [Control this room (CTRL+O)]
 Kontroluj ten pokój (Ctrl + O)
 [Enable/disable the event filter (CTRL+F)]
-Włącz/wyłącz filtr zdarzeń (Ctrl+F)
+Włącz/Wyłącz filtr zdarzeń (Ctrl+F)
 [Nickname]
 Nazwa
 [Unique ID]

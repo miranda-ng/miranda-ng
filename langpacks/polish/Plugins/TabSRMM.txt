@@ -950,7 +950,7 @@ Edytuj notatkę kontaktu
 [Change background color]
 Zmień kolor tła
 [Toggle nick list]
-Przełącz listę z nickami
+Pokaż/Ukryj listę nicków
 [Event filter - right click to setup, left click to activate/deactivate]
 Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/deaktywacja
 [Channel manager]

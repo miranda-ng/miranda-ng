@@ -1329,7 +1329,7 @@ Strona WEB:
 [Alerts]
 Alarmy
 [Added event]
-Dodano akcję
+Dodanie kontaktu
 ;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Zobacz dane kontaktu

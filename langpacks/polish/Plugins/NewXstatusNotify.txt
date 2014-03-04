@@ -179,7 +179,7 @@ Pokaż popupy podczas łączenia
 [Accounts]
 Konta
 [Enable/Disable accounts which you don't wish to be notified for:]
-Włącz/wyłącz konta dla których nie chcesz powiadomień:
+Włącz/Wyłącz konta dla których nie chcesz powiadomień:
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Pliki dźwiękowe

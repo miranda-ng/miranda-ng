@@ -136,7 +136,7 @@ Nie wysyłaj do żadnego protokołu
 [Toggle send to all protocols]
 Przełącz wysyłanie do wszystkich protokołów
 [Enable/Disable sending Listening To info (to all protocols)]
-Włącz/wyłącz wysyłanie "Teraz odtwarzane" (wszystkie protokoły)
+Włącz/Wyłącz wysyłanie "Teraz odtwarzane" (wszystkie protokoły)
 [Disable ListeningTo (to all protocols)]
 Wyłącz Teraz odtwarzane (wszystkie protokoły)
 [Enable ListeningTo (to all protocols)]

@@ -258,7 +258,7 @@ Do poprzednich ustawień
 Do domyślnych
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
-Włącz/wyłącz auto-aktualizacje
+Włącz/Wyłącz auto-aktualizacje
 [Auto Update Enabled]
 Auto-aktualizacja włączona
 [Auto Update Disabled]

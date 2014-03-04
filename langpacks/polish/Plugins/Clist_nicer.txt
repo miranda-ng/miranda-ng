@@ -572,7 +572,7 @@ Pokaż menu
 [Show / hide offline contacts]
 Pokaż/Ukryj rozłączonych
 [Toggle group mode]
-Włącz/wyłącz grupy
+Włącz/Wyłącz grupy
 [Find and add contacts]
 Szukaj i dodaj kontakt
 [Accounts]
@@ -580,7 +580,7 @@ Konta
 [Open preferences]
 Otwórz opcje
 [Toggle sounds]
-Włącz/wyłącz dźwięki
+Włącz/Wyłącz dźwięki
 [Minimize contact list]
 Minimalizuj listę kontaktów
 [Status menu]
@@ -690,7 +690,7 @@ Globalne
 [Toggle show online/offline]
 Pokaż/Ukryj rozłączonych
 [Toggle groups]
-Włącz/wyłącz grupy
+Włącz/Wyłącz grupy
 [Find contacts]
 Szukaj kontaktów
 [Show TabSRMM session list]

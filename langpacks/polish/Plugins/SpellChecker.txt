@@ -111,7 +111,7 @@ Niestandardowy słownik
 [Flags DLL]
 Flags.dll
 [Enable/disable spell checker]
-Włącz/wyłącz sprawdzanie pisowni
+Włącz/Wyłącz sprawdzanie pisowni
 [Enabled]
 Włączony
 [Disabled]

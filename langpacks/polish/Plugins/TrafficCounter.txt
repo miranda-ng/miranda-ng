@@ -142,7 +142,7 @@ Ukryj okno licznika
 [Clear the current (Now:) value]
 Wyczyść obecne (Teraz:)
 [Toggle traffic counter]
-Włącz/wyłącz licznik danych
+Włącz/Wyłącz licznik danych
 [Traffic counter notification]
 Powiadomienia licznika transferu
 [%d kilobytes sent]

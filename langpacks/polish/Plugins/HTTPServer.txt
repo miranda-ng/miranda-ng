@@ -31,7 +31,7 @@ Nowy udział
 [Show HTTP server statistics]
 Pokaż statystyki serwera HTTP
 [Set to default]
-Przywróć do domyślnych
+Domyślne
 [External server name]
 Nazwa serwera zewnętrznego
 [This is the link pasted to the message window]
@@ -39,11 +39,11 @@ To jest link wklejany do okna rozmowy
 [Write log file]
 Stwórz plik z logiem
 [Enable / Disable HTTP server]
-Włącz/wyłącz serwer HTTP
+Włącz/Wyłącz serwer HTTP
 [Main menu items]
 Element głównego menu
 [Open log]
-Otwórz dziennik
+Dziennik
 [Show popups]
 Pokaż popupy
 [Page keyword]
@@ -57,7 +57,7 @@ Test
 [Transfer limit (Kb/s)]
 Limit transferu (Kb/s)
 [No control when Away/NA]
-Brak kontroli, gdy Zaraz wracam/Niedostępny
+Brak, gdy Zaraz wracam/Wrócę później
 [Connection control]
 Kontrola połączenia
 [Index creation]

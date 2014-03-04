@@ -67,7 +67,7 @@ Nie odpowiadaj kontaktom ICQ
 [Don't reply when I'm invisible to the contact]
 Nie odpowiadaj kiedy jestem niewidoczny dla kontaktu
 [Save autoreply to the history]
-Zapisuj auto-odpowiedź do historii
+Zapisuj autoodpowiedź do historii
 [Reply only when Idle]
 Odpowiadaj tylko gdy bezczynny
 [Reply only when contact's message window is closed]
@@ -296,7 +296,7 @@ Ustaw opis %s dla kontaktu
 [Re&ad %s message]
 Po&każ opis "%s"
 [Toggle autoreply on/off]
-Włącz/wyłącz autoodpowiedź
+Włącz/Wyłącz autoodpowiedź
 [Toggle autoreply off]
 Wyłącz autoodpowiedź
 [Toggle autoreply on]

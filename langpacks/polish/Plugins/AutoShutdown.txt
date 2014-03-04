@@ -113,7 +113,7 @@ Miesięcy
 [(current: %u%%)]
 (obecnie: %u%%)
 [Start/Stop automatic shutdown]
-Włącz/wyłącz autowyłączanie
+Włącz/Wyłącz autowyłączanie
 [Start automatic shutdown]
 Włącz autowyłączanie
 [Stop automatic shutdown]

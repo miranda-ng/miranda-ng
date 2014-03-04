@@ -160,7 +160,7 @@ Protokoły
 [Avatars]
 Awatary
 [Enable/disable auto update]
-Włącz/wyłącz auto-aktualizacje
+Włącz/Wyłącz autoaktualizacje
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 Połączenie HTTP NewsAggregator
