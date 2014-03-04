@@ -85,7 +85,7 @@ Inne
 [Store up to]
 Zachowaj
 [recent messages (0 = disable)]
-ostatnich opisów (0 = wyłacz)
+ostatnich opisów (0 = wyłącz)
 [Automatically close dialog window after]
 Zamykaj automatycznie okno po
 [Remember last dialog window position]

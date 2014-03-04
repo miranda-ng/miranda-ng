@@ -281,7 +281,7 @@ Deszcz przechodzący w śnieg
 [Rain / Snow Showers Early]
 Wcześnie deszcz / przelotne opady śniegu
 [Heavy Snow Shower]
-Inensywne opady śniegu
+Intensywne opady śniegu
 [Showers / Wind]
 Przelotne opady / Wiatr
 [Snow Shower And Windy]
@@ -297,15 +297,15 @@ deszcz ze śniegiem i wietrznie
 [Cloudy And Windy]
 Pochmurno i wietrznie
 [Light Drizzle And Windy]
-Delikatna mrzawka oraz wietrznie
+Delikatna mżawka oraz wietrznie
 [Light Drizzle And Fog]
-Delikatna mrzawka oraz mgła
+Delikatna mżawka oraz mgła
 [Fog And Windy]
 Mgła oraz wietrznie
 [Light Snow Early]
 Wcześnie delikatne opady śniegu
 [Heavy Snow]
-Cieżkie opady śniegu
+Ciężkie opady śniegu
 [Snow Early]
 Wcześnie opady śniegu
 [Light Snow Late]

@@ -96,7 +96,7 @@ Pomijanie kontaktów nie-IM (%S)
 [Skipping %S contact, ID not found]
 Pomijanie kontaktu %S, nie znaleziono ID
 [Skipping duplicate %S contact %s]
-Pomijanie zduplikowanego %S contaktu %s
+Pomijanie zduplikowanego %S kontaktu %s
 [Unknown error while adding %S contact %s]
 Wystąpił nieznany błąd w czasie dodawania %S kontaktu %s
 [Failed to add message]

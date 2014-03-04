@@ -125,7 +125,7 @@ Przekroczono czas podczas oczekiwania na potwierdzenie dla kontaktu "%s".
 [Could not find contact handle for contact '%s'.]
 Nie udało się znaleźć uchwytu dla kontaktu "%s".
 [Setting '%s/%s' deleted.]
-Usunięo ustawienie "%s/%s".
+Usunięto ustawienie "%s/%s".
 [Wrote '%s:%s' to database entry '%s/%s'.]
 Zapisano "%s/%s" we wpisie bazy danych "%s/%s".
 [Could not retrieve setting '%s/%s': %s.]

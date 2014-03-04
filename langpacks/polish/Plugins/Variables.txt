@@ -210,7 +210,7 @@ folder docelowy profilu
 [database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 w profilu, wartość ustawienia "z" modułu "y" dla kontaktu "x", zwróć "w", jeżeli nie istnieje ("w" jest opcjonalne)
 [get event for contact x (optional), according to y,z,w, see documentation]
-pobiera zdarzenia dla kontaktu "x" (opconajlnie), zgodnie z "y", "z", "w", przeczytaj dokumentację
+pobiera zdarzenia dla kontaktu "x" (opcjonalnie), zgodnie z "y", "z", "w", przeczytaj dokumentację
 [get last seen time of contact x in format y (y is optional)]
 pobiera czas w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne) 
 [get last seen date of contact x in format y (y is optional)]
@@ -355,7 +355,7 @@ pokazuje datę w formacie "y" po upływie "x" sekund od 1/1/1970
 [formats timestamp x (seconds since 1/1/1970) in time format y]
 pokazuje czas w formacie "y" po upływie "x" sekund od 1/1/1970
 [y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
-"y" > 0: linia "y" z pliku "x", "y" = 0: całey plik, "y" < 0: linia "y" licząc od końca, "y" = r: losowa linia
+"y" > 0: linia "y" z pliku "x", "y" = 0: cały plik, "y" < 0: linia "y" licząc od końca, "y" = r: losowa linia
 [uptime in seconds]
 czas działania w sekundach
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]

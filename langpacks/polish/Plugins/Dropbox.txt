@@ -15,7 +15,7 @@ Czy na pewno chcesz poprosić o autoryzację?
 [Request authorization]
 Poproś o autoryzację
 [Are you sure you want to revoke authorization?]
-Czy napewno chcesz odebrać autoryzację?
+Czy na pewno chcesz odebrać autoryzację?
 [Revoke authorization]
 Odbierz autoryzacji
 ;file \plugins\Dropbox\src\dropbox_commands.cpp

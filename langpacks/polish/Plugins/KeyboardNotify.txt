@@ -179,7 +179,7 @@ Nie ignoruj
 [Ignore]
 Ignorowanie
 [Set xStatus list]
-Ustaw xStaus
+Ustaw xStatus
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Wszystkie kontakty **

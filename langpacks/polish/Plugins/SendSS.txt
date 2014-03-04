@@ -206,7 +206,7 @@ Wyślij zrzut do\n
 [Window]
 Okno
 [Desktop]
-Pulipit
+Pulpit
 [<Entire Desktop>]
 <cały pulpit>
 [Monitor]

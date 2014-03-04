@@ -155,7 +155,7 @@ Data ważności wklejki
 [Never]
 Nigdy
 [10 minutes]
-10 munut
+10 minut
 [1 hour]
 1 godzina
 [1 day]

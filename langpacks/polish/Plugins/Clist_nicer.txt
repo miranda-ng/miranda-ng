@@ -532,7 +532,7 @@ Dół-Lewy
 [Item colors]
 Kolory
 [First color]
-Pierszy kolor
+Pierwszy kolor
 [Text color]
 Kolor tekstu
 [Second color]
@@ -860,7 +860,7 @@ Zablokuj ramkę
 [Visible]
 Widoczny
 [Show title bar]
-Pokaż pasek tutułu
+Pokaż pasek tytułu
 [Skinned frame]
 Skórkowalna ramka
 [Floating]

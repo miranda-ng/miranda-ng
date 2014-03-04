@@ -271,7 +271,7 @@ Wchodzenie na konto POP3
 [Searching for new mail message]
 Przeszukiwanie skrzynki
 [Reading body %s]
-Odczytytwanie treści %s
+Odczytywanie treści %s
 [Reading new mail messages (%d%% done)]
 Czytanie nowych wiadomości email (wykonano %d%%)
 [Deleting requested mails]

@@ -85,7 +85,7 @@ Pobierz więcej skórek
 [Popup History]
 Historia popupów
 [Desktop]
-Pulipit
+Pulpit
 [Popup Area]
 Obszar
 [pixel(s)]

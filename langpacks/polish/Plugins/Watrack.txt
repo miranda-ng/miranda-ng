@@ -144,7 +144,7 @@ czas/długość * 100%
 ["mono"/"stereo"]
 "mono"/"stereo"
 [height, video only]
-wyskość, tylko wideo
+wysokość, tylko wideo
 [FPS (frames per second), video only]
 FPS (klatek na sekundę), tylko wideo
 [media file name]
@@ -412,7 +412,7 @@ Głośność odtwarzacza (0-15)
 [Player homepage URL]
 Strona domowa odtwarzacza
 [player status (not translated)]
-staus odtwarzacza (nie tłumaczona)
+status odtwarzacza (nie tłumaczona)
 [Format text Info]
 Info formatu tekstu
 [Controls]
@@ -645,7 +645,7 @@ Info muzyczne z
 Otrzymujesz błąd
 ;other strings
 [Slider]
-Sówak
+Suwak
 [Slider Hovered]
 Suwak - po najechaniu
 [Slider Pushed]

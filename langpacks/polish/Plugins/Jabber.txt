@@ -554,7 +554,7 @@ Wsparcie dla rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
 Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
 [Supports direct chat invitations (XEP-0249)]
-Wspiera bezpośrednie zapraszenia do czatu (XEP-0249)
+Wspiera bezpośrednie zaproszenia do czatu (XEP-0249)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -1224,7 +1224,7 @@ Dodaj do zakładek
 [Commands]
 Polecenia
 [Send Note]
-Wyślij notatke
+Wyślij notatkę
 [Send Presence]
 Wyślij status
 [Jabber Resource]
@@ -1730,7 +1730,7 @@ Automatycznie akceptuj prośby o autoryzację
 [Fix incorrect timestamps in incoming messages]
 Naprawiaj błędne czasy przychodzących wiadomości
 [Disable frame]
-Wyłącz ramke
+Wyłącz ramkę
 [Enable XMPP link processing (requires Association Manager)]
 Włącz powiązanie XMPP (wymagany wtyczka AssocMgr.dll)
 [Keep contacts assigned to local groups (ignore roster group)]
@@ -2008,7 +2008,7 @@ Potrzebne zatwierdzenie
 [Please confirm Miranda NG shutdown]
 Proszę zatwierdzić wyłączenie Mirandy NG
 [There is no group chats to leave]
-Nie ma pokoii do opuszczenia
+Nie ma pokoi do opuszczenia
 [Choose the group chats you want to leave]
 Wybierz czat który chcesz opuścić
 ;file \protocols\JabberG\src\jabber_search.cpp
@@ -2510,7 +2510,7 @@ autobusem
 [on a plane]
 samolotem
 [on a train]
-pociagiem
+pociągiem
 [on a trip]
 wycieczka
 [walking]

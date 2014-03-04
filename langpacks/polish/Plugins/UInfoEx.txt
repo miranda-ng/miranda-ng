@@ -932,7 +932,7 @@ Fitness
 [Games]
 Gry
 [Hobbies]
-Hobbi
+Hobby
 [Internet]
 Internet
 [Lifestyle]

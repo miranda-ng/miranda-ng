@@ -1182,7 +1182,7 @@ Wystąpił błąd. Protokół zwrócił następujący błąd:
 [while sending the following message:]
 podczas wysyłania wiadomości:
 [Try again]
-Spróboj ponownie
+Spróbuj ponownie
 [Message session]
 Sesja rozmowy
 [&Details]
@@ -2202,7 +2202,7 @@ Personalizacja
 [New group]
 Nowa grupa
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Czy napewno chcesz usunąć grupę '%s'? Ta operacja nie może być odwrócona.
+Czy na pewno chcesz usunąć grupę '%s'? Ta operacja nie może być odwrócona.
 [Delete group]
 Usuń grupę
 [You already have a group with that name. Please enter a unique name for the group.]

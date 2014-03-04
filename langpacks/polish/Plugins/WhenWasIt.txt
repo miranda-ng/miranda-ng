@@ -17,7 +17,7 @@ Czas wyświetlania:
 [Preview]
 Podgląd
 [Don't show popups for subcontacts]
-Nie pokazuj popupów dla podkontaktów
+Nie pokazuj popupów dla subkontaktów
 [Show popup when no birthdays are near]
 Pokaż popup kiedy nadchodzi rocznica
 [Popup mouse click]

@@ -154,7 +154,7 @@ nazwa
 [nick]
 Nick
 [UIN/handle]
-UIN/Nazwa użytkonika
+UIN/Nazwa użytkownika
 [Group]
 Grupa
 [Status]

@@ -87,7 +87,7 @@ Dziennie
 [Weekdays]
 W dni robocze
 [Monthly]
-Miesięczie
+Miesięcznie
 [Yearly]
 Rocznie
 [i'm hiding]

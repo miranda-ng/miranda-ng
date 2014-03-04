@@ -145,11 +145,11 @@ Burza z piorunami 80%, możliwość opadów
 [T-Storms 70% Chance Of Precipitation]
 Burza z piorunami 70%, możliwość opadów
 [T-Storms 60% Chance Of Precipitation]
-Burza z piorunami60%, możliwość opadów
+Burza z piorunami 60%, możliwość opadów
 [T-Storms 40% Chance Of Precipitation]
 Burza z piorunami 40%, możliwość opadów
 [Chance Of T-Storms 60% Chance Of Precipitation]
-Morzliwa burza z piorunami 60%, możliwość opadów
+Możliwa burza z piorunami 60%, możliwość opadów
 [Chance Of T-Storms 50% Chance Of Precipitation]
 Możliwa burza z piorunami 50%, możliwość opadów
 [Chance Of T-Storms 40% Chance Of Precipitation]
@@ -157,7 +157,7 @@ Możliwa burza z piorunami 40%, możliwość opadów
 [Chance Of T-Storms 30% Chance Of Precipitation]
 Możliwa burza z piorunami 30%, możliwość opadów
 [Chance Of T-Storms 20% Chance Of Precipitation]
-Morzliwa burza z piorunami 20%, możliwość opadów
+Moźliwa burza z piorunami 20%, możliwość opadów
 [Chance Of Snow 20% Chance Of Precipitation]
 Możliwe opady śniegu 20%, możliwość opadów
 [Chance Of Snow 30% Chance Of Precipitation]
@@ -379,7 +379,7 @@ Zimny śnieg, lekka mżawka
 [Heavy Fog]
 Gęsta mgła
 [Rain Mist]
-Mrzawka
+Mżawka
 [Light Showers Showers Rain]
 Lekkie opady deszczu
 [Showers Showers Rain]
@@ -405,7 +405,7 @@ Intensywne zawieje śnieżne
 [Snow 50% Chance Of Precipitation]
 Śnieg 50%, możliwość opadów
 [Drizzle Fog]
-Mrzawka mgła
+Mżawka mgła
 [Local Time]
 Czas lokalny
 [Moonrise]
@@ -421,7 +421,7 @@ Zimne opady deszczu, lekka mgła
 [Light Drizzle Fog]
 Lekka mżawka
 [Snow Rain Mist]
-Mrzawka deszcz ze śniegiem
+Mżawka deszcz ze śniegiem
 [Snow Heavy Blowing Snow]
 Intensywny śnieg, zawieje śnieżne
 [Low Drifting Snow Mist]
@@ -509,11 +509,10 @@ Szanse opadów deszczu 50% szans opadów atmosferycznych
 [Light Blowing Snow]
 Delikatny podmuch wiatru ze śniegiem
 [Snow Freezing Rain Mist]
-Mrzawka zmrożony deszcz ze śniegiem
+Mżawka zamarzający deszcz ze śniegiem
 [Patches Fog Mist]
 Cienka warstwa mgły
-[Snow 60% Chance Of Precipitation]
-Śnieg 60% szans opadów atmosferycznych
+[Snow 60% Chance Of Precipitation]Śnieg 60% szans opadów atmosferycznych
 [Light Low Drifting Snow]
 Lekka śnieżyca
 [Snow 30% Chance Of Precipitation]

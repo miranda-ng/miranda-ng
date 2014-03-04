@@ -67,7 +67,7 @@ Port
 [Default network]
 Sieć domyślna
 [User info - Required]
-Inforamcje użytkownika - Wymagane
+Informacje użytkownika - Wymagane
 [Other]
 Inne
 [Check every (s):]

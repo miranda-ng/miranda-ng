@@ -212,7 +212,7 @@ Windows
 [Miranda]
 Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
-Gdy to pole jest zaznaczone, NewAwaySys liczy wysłania od ostatniej zmiany opisu, nawet jeżęli status się nie zmieni\nGdy to pole nie jest zaznaczone, wysłania liczone są od ostatniej zmiany statusu (tak więc  stan wyłączony jest bardziej restrykcyjny)
+Gdy to pole jest zaznaczone, NewAwaySys liczy wysłania od ostatniej zmiany opisu, nawet jeżeli status się nie zmieni\nGdy to pole nie jest zaznaczone, wysłania liczone są od ostatniej zmiany statusu (tak więc  stan wyłączony jest bardziej restrykcyjny)
 [Message]
 Wiadomości
 [URL]
@@ -368,7 +368,7 @@ Popupy
 Wtyczka Variables nie jest zainstalowana
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
-Dokonałeś zmian w wielu drzewach opisów naraz.\r\nCzy napewno chcesz pozostawić te zmiany w
+Dokonałeś zmian w wielu drzewach opisów naraz.\r\nCzy na pewno chcesz pozostawić te zmiany w
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
 oknie?\r\nNaciśnij "tak", jeżeli chcesz pozostawić zmiany w tym oknie lub "Nie" jeżęli chcesz je anulować, a zamiast tego zapisać zmiany w drugim drzewie.
 [Do you really want to delete this category with its messages?]
