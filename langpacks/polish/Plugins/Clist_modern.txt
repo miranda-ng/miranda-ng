@@ -601,7 +601,7 @@ Przesuń w górę
 [Move down]
 Przesuń w dół
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-OSTRONA OPCJI JEST W KONSTRUKCJI Proszę NIE zgłaszać występujących tu błędów.\n Tylko komentarze o najważniejsze ustawienia są uznawane.
+STRONA OPCJI JEST W BUDOWIE Proszę NIE zgłaszać występujących tu błędów.\n Tylko komentarze o najważniejsze ustawienia są uznawane.
 [&Main menu]
 &Menu główne
 [E&xit]
@@ -854,7 +854,7 @@ Tekst
 [Extra icons]
 Dodatkowe ikony
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
-Animowane avatary (GDI + moduł avs.dll są wymagane)
+Animowane awatary (GDI + moduł avs.dll są wymagane)
 [Left align group names]
 Wyrównaj nazwy grup do lewej
 [Center group names]
@@ -914,7 +914,7 @@ linie
  skórkowane
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
-- pusty - (nie rysuj tego objektu)
+- pusty - (nie rysuj tego obiektu)
 [Solid fill object]
 Stałe wypełnienie obiektu
 [Image (draw image)]
@@ -944,7 +944,7 @@ Edytor obiektów
 [( unknown )]
 ( nieznany )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAutor(zy):\t %s\nKontact:\t %s\nStrona domowa:\t %s\n\nPlik:\t %s
+%s\n\n%s\n\nAutor(zy):\t %s\nKontakt:\t %s\nStrona domowa:\t %s\n\nPlik:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nAutor(zy): %s\nKontakt:\t %s\nStrona domowa:\t %s\n\nPlik:\t %s
 [reVista for Modern v0.5]

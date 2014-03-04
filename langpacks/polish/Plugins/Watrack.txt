@@ -370,7 +370,7 @@ Status odtwarzacza (stop, gra, pauza)
 [player]
 odtwarzacz
 [Independed Xstatus]
-Niezależny XStatus
+Niezależny xStatus
 ["Variables" ANSI output]
 "Variables" wyjście ANSI
 [FPS (Frames per second)]
@@ -416,7 +416,7 @@ status odtwarzacza (nie tłumaczona)
 [Format text Info]
 Info formatu tekstu
 [Controls]
-Reglulator
+Regulator
 [Frame Controls]
 Ramka WATrack
 [Plugin Enabled]

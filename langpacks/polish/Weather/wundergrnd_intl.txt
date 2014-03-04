@@ -157,7 +157,7 @@ Możliwa burza z piorunami 40%, możliwość opadów
 [Chance Of T-Storms 30% Chance Of Precipitation]
 Możliwa burza z piorunami 30%, możliwość opadów
 [Chance Of T-Storms 20% Chance Of Precipitation]
-Moźliwa burza z piorunami 20%, możliwość opadów
+Możliwa burza z piorunami 20%, możliwość opadów
 [Chance Of Snow 20% Chance Of Precipitation]
 Możliwe opady śniegu 20%, możliwość opadów
 [Chance Of Snow 30% Chance Of Precipitation]

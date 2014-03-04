@@ -92,7 +92,7 @@ nie jest poprawnym adresem RSS.
 pusty
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Zaimportowano %d kanałów\r\nNiezaimportowano %d duplikatów
+Zaimportowano %d kanałów\r\nNie zaimportowano %d duplikatów
 [Imported %d feed(s).]
 Zaimportowano %d kanałów
 [OPML files]

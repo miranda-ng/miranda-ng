@@ -266,7 +266,7 @@ przycina "x" do długości "y", zachowuje "y" pierwszych znaków
 [length of x]
 długość "x"
 [the number of lines in string x]
-liczba lini w ciągu "x"
+liczba linii w ciągu "x"
 [the longest string of the arguments]
 najdłuższy ciąg znaków spośród argumentów
 [converts x to lowercase]

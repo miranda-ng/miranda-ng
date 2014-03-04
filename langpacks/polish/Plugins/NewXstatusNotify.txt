@@ -186,7 +186,7 @@ Pliki dźwiękowe
 [All files]
 Wszystkie pliki
 [Wave files]
-Pliki wave
+Pliki WAV
 [Status]
 Status
 [Sound for the status]

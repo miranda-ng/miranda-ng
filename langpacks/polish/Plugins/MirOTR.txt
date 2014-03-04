@@ -37,7 +37,7 @@ Pokazuj wiadomości systemowe OTR w linii
 [Show OTR system messages as popup]
 Pokazuj wiadomości systemowe OTR jako popupy
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (uwarzaj!)
+Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (uważaj!)
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
 [Set OTR policy per protocol]
@@ -238,7 +238,7 @@ Twój kontakt "%s" chce zweryfikować Twoją tożsamość za pomocą sekretnego 
 [Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
 Odcisk palca "%s" wciąż w użyciu w rozmowie z "%s" (%s).\nNie możesz go usunąć!
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
-Odcisk palca "%s" wciąż w użyciu w rozmowie z "%s" (%s".\nNie  mógł zostać usunięty!
+Odcisk palca "%s" wciąż w użyciu w rozmowie z "%s" (%s".\nNie mógł zostać usunięty!
 [Cannot start OTR for '%s'. SecureIM is already running]
 Nie udało się rozpocząć OTR dla "%s". SecureIM jest już uruchomiony
 [OTR: SecureIM installed]

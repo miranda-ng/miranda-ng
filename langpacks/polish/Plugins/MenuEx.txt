@@ -25,7 +25,7 @@ Ukryj na liście
 [Ignore]
 Ignorowanie
 [Copy to Account (Ctrl+click for move to Account)]
-Kopiuj do Konta (Ctrl+click alby przejsc do Konta)
+Kopiuj do Konta (Ctrl+click alby przejść do Konta)
 [Send 'You were added']
 Wyślij "Zostałeś dodany"
 [Request Authorization]

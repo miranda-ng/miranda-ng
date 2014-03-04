@@ -25,7 +25,7 @@ Dołącz ponownie do kanału, jeśli wykopano
 [Rejoin channels on reconnect]
 Dołącz do kanałów przy ponownym łączniu
 [Disable tray balloon on error]
-Wyłącz dymki błędów w trayu
+Wyłącz dymki błędów w zasobniku
 [Show addresses]
 Pokaż adresy
 [Use server window]
@@ -352,7 +352,7 @@ Funkcja sprawdzania obecności znajomych jest włączona
 [The buddy check function is disabled]
 Funkcja sprawdzania obecności znajomych jest wyłączona
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-Niewłaściwe parametry. Jak używać: /sleep [ms], ms powinno wynosić  więcej niż 0, a mniej niż 4000.
+Niewłaściwe parametry. Jak używać: /sleep [ms], ms powinno wynosić więcej niż 0, a mniej niż 4000.
 [Ignore system is enabled]
 System ignorowania jest włączony
 [Ignore system is disabled]
@@ -639,7 +639,7 @@ Ustaw stronę domową
 [Set e-mail]
 Ustaw e-mail
 [Set info]
-Ustaw indormacje
+Ustaw informacje
 [Hide e-mail from info]
 Ukryj e-mail w informacjach
 [Show e-mail in info]
@@ -733,7 +733,7 @@ Szybciej! Przeszukuje sieć w poszukiwaniu tylko dokładnego dopasowania nicka. 
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 Wolniej! przeszukuje sieć w poszukiwaniu nicka pasującego do ciągu znaków. Maska hosta jest obowiązkowa, a w polu nick muszą zostać użyte przynajmniej 4 znaki. Znaki (? oraz *) są dozwolone.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Ustawienia nie  mogły zostać zapisane!\n\nPole "Nick" musi zawierać co najmniej 4 znaki, wliczając w to znaki specjalne,\noraz musi ono być zgodne z domyślnym nickiem tego kontaktu.
+Ustawienia nie mogły zostać zapisane!\n\nPole "Nick" musi zawierać co najmniej 4 znaki, wliczając w to znaki specjalne,\noraz musi ono być zgodne z domyślnym nickiem tego kontaktu.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Ustawienia nie mogły zostać zapisane!\n\nPełna maska hosta musi zostać podana, by ten tryb wykrywania dostępności mógł działać.
 ;file \protocols\IRCG\src\windows.cpp

@@ -43,7 +43,7 @@ OK
 [Choose one of your contacts to be invited:]
 Wybierz jeden z kontaktów, który chcesz zaprosić:
 [Create group chat]
-Utwórz  czat grupowy
+Utwórz czat grupowy
 [Mark users you want to invite to a new chat]
 Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [New chat's title:]

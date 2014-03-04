@@ -936,7 +936,7 @@ Link transformacji XLS, która może zostać zastosowana do bloków danych w cel
 [The collection with which a node is affiliated]
 Kolekcja, z którą jest powiązany węzeł
 [The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
-Link transformacji XLS, która może zostać zastosowana  do bloków danych w celu wygenerowania poprawnego wyniku formularzy danych, który klient może wyświetlić używając ogólnego silnika renderowania formularzy danych
+Link transformacji XLS, która może zostać zastosowana do bloków danych w celu wygenerowania poprawnego wyniku formularzy danych, który klient może wyświetlić używając ogólnego silnika renderowania formularzy danych
 [Whether to deliver payloads with event notifications]
 Dostarczać bloki danych wraz z powiadomieniami o zdarzeniach
 [Whether owners or publisher should receive replies to items]
@@ -994,7 +994,7 @@ Domyślny język węzła
 [The number of subscribers to the node]
 Liczba subskrybentów węzła
 [The JIDs of those with an affiliation of owner]
-JIDy z przynależnością  właściciela
+JIDy z przynależnością właściciela
 [The JIDs of those with an affiliation of publisher]
 JIDy osób z przynależnością osoby publikującej
 [The name of the node]
@@ -1289,7 +1289,7 @@ Błędy
 [Incoming note from %s]
 Przychodząca notatka od %s
 [Send note to %s]
-Wyślij notatke do %s
+Wyślij notatkę do %s
 [From: %s]
 Od: %s
 [All tags]

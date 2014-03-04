@@ -83,7 +83,7 @@ Aktualizacja1
 [Update2]
 Aktualizacja2
 [Wind Chill]
-Temperatura  odczuwalna
+Temperatura odczuwalna
 [Wind Direction]
 Kierunek wiatru
 [Wind Speed]

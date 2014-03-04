@@ -1165,9 +1165,9 @@ Importowanie nowego kontaktu zostało przerwane!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
 Przerwałeś importowanie nowego kontaktu.\nMoże brakować pewnych informacji o tym kontakcie.\n\nCzy chcesz usunąć niekompletny kontakt?
 [Importing a new meta subcontact failed!]
-Importowanie nowego podmetakontaktu nieudane!
+Importowanie nowego submetakontaktu nieudane!
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-Nowo-stworzony podmetakontakt "%s"\nnie mógł zostać dodany do metakontaktu "%s"!\n\nCzy chcesz usunąć ten kontakt?
+Nowo-stworzony submetakontakt "%s"\nnie mógł zostać dodany do metakontaktu "%s"!\n\nCzy chcesz usunąć ten kontakt?
 [Settings: %S]
 Ustawienie: %S
 [Events: %S]

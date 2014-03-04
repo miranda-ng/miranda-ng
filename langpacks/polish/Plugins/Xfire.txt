@@ -13,7 +13,7 @@ Hasło:
 [Login name:]
 Nazwa użytkownika:
 [XFire]
-XFire
+xFire
 [Nick:]
 Nick:
 [Current protocol version:]
@@ -182,9 +182,9 @@ Opcje xFire
 [Please choose one game in the list!]
 Proszę wybrać jedną grę z listy!
 [If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-Jeśli wybierzesz moda gry wspieranej przez Xfire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, Twoi znajomi zobaczą ikonę Half-Life obok Twojego kontaktu, a czas gry będzie mierzony.
+Jeśli wybierzesz moda gry wspieranej przez xFire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, Twoi znajomi zobaczą ikonę Half-Life obok Twojego kontaktu, a czas gry będzie mierzony.
 [Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
-Każda gra w Xfire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do  Xfire, gdy rozpoczniesz grę.
+Każda gra w xFire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do xFire, gdy rozpoczniesz grę.
 [Please enter a game name.]
 Proszę podać nazwę gry.
 [Please enter a game ID.]

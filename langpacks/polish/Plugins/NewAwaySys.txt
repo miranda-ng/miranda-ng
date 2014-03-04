@@ -175,13 +175,13 @@ Nie wysyłaj opisu
 [Note: these settings are applied to all status modes at once.]
 Uwaga: te ustawienia są stosowane do wszystkich statusów naraz.
 [Means the setting is different for different status modes / contacts]
-Oznacza to, że ustawienia te są inne dla  różnych statusów / kontaktów
+Oznacza to, że ustawienia te są inne dla różnych statusów / kontaktów
 [Set away message window options]
 Ustaw opcje okna opisu
 [Show predefined &messages]
 Pokaż szablony &opisów
 [Show &contacts]
-Pokaż  &kontakty
+Pokaż &kontakty
 [Save default window settings &automatically]
 &Automatycznie zapisz domyślne ustawienia okna
 [&Save current window settings as default]
@@ -212,7 +212,7 @@ Windows
 [Miranda]
 Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
-Gdy to pole jest zaznaczone, NewAwaySys liczy wysłania od ostatniej zmiany opisu, nawet jeżeli status się nie zmieni\nGdy to pole nie jest zaznaczone, wysłania liczone są od ostatniej zmiany statusu (tak więc  stan wyłączony jest bardziej restrykcyjny)
+Gdy to pole jest zaznaczone, NewAwaySys liczy wysłania od ostatniej zmiany opisu, nawet jeżeli status się nie zmieni\nGdy to pole nie jest zaznaczone, wysłania liczone są od ostatniej zmiany statusu (tak więc stan wyłączony jest bardziej restrykcyjny)
 [Message]
 Wiadomości
 [URL]

@@ -517,7 +517,7 @@ Chorwacja
 [Cuba]
 Kuba
 [Greek, Republic of South Cyprus]
-Grecja, Republika Połudiowego Cypru
+Grecja, Republika Południowego Cypru
 [Czech Republic]
 Czechy
 [Denmark]
@@ -557,7 +557,7 @@ Finlandia
 [France]
 Francja
 [French Antilles]
-Antyle Francyskie
+Antyle Francuskie
 [French Guiana]
 Gujana Francuska
 [French Polynesia]
@@ -577,7 +577,7 @@ Gibraltar
 [Greece]
 Grecja
 [Greenland]
-Granlandia
+Grenlandia
 [Grenada]
 Grenada
 [Guadeloupe]
@@ -1633,7 +1633,7 @@ Niestandardowy status
 Kartka powitalna:
 ;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ XStatus]
-ICQ XStatus
+ICQ xStatus
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 Ostrzeżenie ICQ

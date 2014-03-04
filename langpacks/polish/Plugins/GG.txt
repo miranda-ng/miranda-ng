@@ -189,7 +189,7 @@ Adres zewnętrzny dla połączeń bezpośrednich %s jest nieprawidłowy. Forward
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Adres serwera %s jest nieprawidłowy. Użyty zostanie adres podany przez sieć.
 [Connection cannot be established. errno=%d: %s]
-Nie można nawiązać połaczenia. errno=%d: %s
+Nie można nawiązać połączenia. errno=%d: %s
 [Age:]
 Wiek:
 [List import successful.]

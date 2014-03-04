@@ -540,7 +540,7 @@ Liczba dni do skopiowania (0=wszystkie):
 [Keep MetaContact history synchronized with subcontacts]
 Trzymaj historię metakontaktu zsynchronizowaną z subkontaktami
 [Keep subcontact history synchronized with MetaContact]
-Trzymaj historię subkontaktu zsynchornizowaną z metakontaktem
+Trzymaj historię subkontaktu zsynchronizowaną z metakontaktem
 [History (** beware - change at your own risk **)]
 Historia (** ostrzeżenie - zmieniasz na własne ryzyko**)
 [Tray]
@@ -1779,7 +1779,7 @@ Pliki wykonywalne
 Zdarzenia
 ;file \src\core\stdfile\filerecvdlg.cpp
 [My received files]
-Moje odebrane  pliki
+Moje odebrane pliki
 [View user's history]
 Zobacz historię użytkownika
 [User menu]
@@ -2723,7 +2723,7 @@ Główne ikony
 [Sound files]
 Dźwięki
 [WAV files]
-pliki WAV
+Pliki WAV
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Potrzebujesz wtyczki do przetworzenia obrazu PNG.
@@ -2928,7 +2928,7 @@ Gibraltar
 [Greece]
 Grecja
 [Greenland]
-Granlandia
+Grenlandia
 [Grenada]
 Grenada
 [Guadeloupe]
