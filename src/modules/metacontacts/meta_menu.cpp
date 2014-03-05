@@ -125,15 +125,15 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 	if (ccMeta == NULL)
 		return;
 
-	if (number < 0 && number >= ccMeta->nSubs)
+	// make sure this contact thinks it's part of this metacontact
+	DBCachedContact *ccSub = currDb->m_cache->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
+	if (ccSub == NULL)
 		return;
 
-	// make sure this contact thinks it's part of this metacontact
-	MCONTACT hContact = Meta_GetContactHandle(ccMeta, number);
-	if (hContact == ccMeta->contactID) {
+	if (ccSub->parentID == ccMeta->contactID) {
 		// stop ignoring, if we were
 		if (options.suppress_status)
-			CallService(MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
+			CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
 	}
 
 	// each contact from 'number' upwards will be moved down one
@@ -162,6 +162,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 	strcpy(buffer, "CListName"); strcat(buffer, idStr);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
+	ccSub->parentID = 0;
 	currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
 
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
@@ -173,18 +174,18 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 		currDb->MetaSetDefault(ccMeta);
 		NotifyEventHooks(hEventDefaultChanged, ccMeta->contactID, Meta_GetContactHandle(ccMeta, ccMeta->nDefault));
 	}
+	
 	ccMeta->nSubs--;
 	db_set_dw(ccMeta->contactID, META_PROTO, "NumContacts", ccMeta->nSubs);
 
 	// fix nick
-	hContact = Meta_GetMostOnline(ccMeta);
-	Meta_CopyContactNick(ccMeta, hContact);
+	Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
 
 	// fix status
 	Meta_FixStatus(ccMeta);
 
 	// fix avatar
-	hContact = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
+	MCONTACT hContact = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
 	if (hContact) {
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = ccMeta->contactID;

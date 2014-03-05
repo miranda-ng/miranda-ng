@@ -590,7 +590,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
 		DBVARIANT dbv;
-		if (Mydb_get(hContact, "CList", "MyHandle", &dbv)) {
+		if (db_get_s(hContact, "CList", "MyHandle", &dbv, 0)) {
 			strcpy(buffer, "CListName");
 			strcat(buffer, _itoa(contact_number, szId, 10));
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
@@ -622,8 +622,8 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			strcat(buffer, _itoa(contact_number, szId, 10));
 
 			DBVARIANT dbv;
-			if (proto && !Mydb_get(hContact, proto, "Nick", &dbv)) {
-				db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
+			if (proto && !db_get_ts(hContact, proto, "Nick", &dbv)) {
+				db_set_ts(ccMeta->contactID, META_PROTO, buffer, dbv.ptszVal);
 				db_free(&dbv);
 			}
 			else db_unset(ccMeta->contactID, META_PROTO, buffer);

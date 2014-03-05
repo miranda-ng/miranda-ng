@@ -43,25 +43,22 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam);
 
-void Meta_RemoveContactNumber(DBCachedContact *cc, int number);
-
 INT_PTR Meta_IsEnabled();
 
 INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam);
-int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id);
-int Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
+int  Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
 BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default);
-int Meta_SetNick(char *proto);
-int Meta_HideLinkedContacts(void);
-int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
-int Meta_HideMetaContacts(int hide);
-int Meta_SuppressStatus(int suppress);
-int Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
+void Meta_RemoveContactNumber(DBCachedContact *cc, int number);
+int  Meta_SetNick(char *proto);
+int  Meta_HideLinkedContacts(void);
+int  Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
+int  Meta_HideMetaContacts(int hide);
+int  Meta_SuppressStatus(int suppress);
+int  Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
 void Meta_CopyData(DBCachedContact *cc);
-int Meta_SetAllNicks();
-int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_number2);
+int  Meta_SetAllNicks();
+int  Meta_SwapContacts(DBCachedContact *cc, int contact_number1, int contact_number2);
 
-MCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id);
 MCONTACT Meta_GetMostOnline(DBCachedContact *cc);
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability);
 MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number);

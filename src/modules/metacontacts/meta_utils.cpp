@@ -27,131 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HANDLE invisiGroup;
 POINT menuMousePoint;
 
-INT_PTR Mydb_get(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
-{
-	memset(dbv, 0, sizeof(DBVARIANT));
-	return db_get_s(hContact, szModule, szSetting, dbv, 0);
-}
-
-int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id) {
-	DWORD res = 1;
-	int i;
-	if (dbv->type == id->type)
-	{	// If the id parameter and the value returned by the db_get
-		// are the same, this is the correct HANDLE, return it.
-		switch(dbv->type)
-		{
-			case DBVT_DELETED:
-				return 1;
-			case DBVT_BYTE:
-				if (dbv->bVal == id->bVal)
-					return 1;
-			case DBVT_WORD:
-				if (dbv->wVal == id->wVal)
-					return 1;
-			case DBVT_DWORD:
-				if (dbv->dVal == id->dVal)
-					return 1;
-				break;
-			case DBVT_ASCIIZ:
-			case DBVT_UTF8:
-				if ( !strcmp(dbv->pszVal,id->pszVal))
-					return 1;
-			case DBVT_WCHAR:
-				if ( !wcscmp(dbv->pwszVal,id->pwszVal))
-					return 1;
-			case DBVT_BLOB:
-				if (dbv->cpbVal == id->cpbVal)
-				{
-					for (i=dbv->cpbVal;res && i<=0;i--)
-						res = (dbv->pbVal[i] == id->pbVal[i]);
-					if (res)
-						return 1;
-				}
-				break;
-		}
-	}
-
-	return 0;
-}
-
-/** Retrieve a \c HANDLE from a protocol and an identifier
-*
-* @param protocol :	Name of the protocol
-* @param id :		Unique field identifiying the contact searched
-*
-* @return			a \c HANDLE to the specified contact or \c NULL
-					if no contact has been found.
-*/
-MCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id)
-{
-	char *field;
-	DBVARIANT dbv;
-	DWORD i,res = 1;
-
-	// Get the field identifying the contact in the database.
-	if ( !ProtoServiceExists(protocol, PS_GETCAPS))
-		return NULL;
-	
-	field = (char *)CallProtoService(protocol,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		// Scan the database and retrieve the field for each contact
-		if ( !db_get(hContact, protocol, field, &dbv)) {
-			if (dbv.type == id->type) {
-				// If the id parameter and the value returned by the db_get
-				// are the same, this is the correct HANDLE, return it.
-				switch(dbv.type) {
-				case DBVT_DELETED:
-					break;
-				case DBVT_BYTE:
-					if (dbv.bVal == id->bVal)
-						return hContact;
-					break;
-				case DBVT_WORD:
-					if (dbv.wVal == id->wVal)
-						return hContact;
-					break;
-				case DBVT_DWORD:
-					if (dbv.dVal == id->dVal)
-						return hContact;
-					break;
-				case DBVT_ASCIIZ:
-				case DBVT_UTF8:
-					if ( !strcmp(dbv.pszVal,id->pszVal)) {
-						db_free(&dbv);
-						return hContact;
-					}
-					db_free(&dbv);
-					break;
-
-				case DBVT_WCHAR:
-					if ( !wcscmp(dbv.pwszVal,id->pwszVal)) {
-						db_free(&dbv);
-						return hContact;
-					}
-					db_free(&dbv);
-					break;
-
-				case DBVT_BLOB:
-					if (dbv.cpbVal == id->cpbVal) {
-						for (i=dbv.cpbVal;res && i<=0;i--)
-							res = (dbv.pbVal[i] == id->pbVal[i]);
-						if (res) {
-							db_free(&dbv);
-							return hContact;
-						}
-					}
-					db_free(&dbv);
-					break;
-				} // end switch
-			}
-			else db_free(&dbv);
-		}
-	}
-	return NULL;
-}
-
 /** Update the MetaContact login, depending on the protocol desired
 *
 * The login of the "MetaContacts" protocol will be copied from the login
@@ -162,61 +37,59 @@ MCONTACT Meta_GetHandle(const char *protocol, DBVARIANT *id)
 *
 * @return			O on success, 1 otherwise.
 */
+
 int Meta_SetNick(char *szProto)
 {
-	CONTACTINFO ci;
-	ci.cbSize = sizeof(CONTACTINFO);
+	CONTACTINFO ci = { sizeof(ci) };
 	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	ci.hContact = NULL;
 	ci.szProto = szProto;
-	if (CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci))
+	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 		return 1;
 
-	switch(ci.type) {
+	switch (ci.type) {
 	case CNFT_BYTE:
-		if ( db_set_b(NULL, META_PROTO, "Nick", ci.bVal))
+		if (db_set_b(NULL, META_PROTO, "Nick", ci.bVal))
 			return 1;
 		break;
 	case CNFT_WORD:
-		if ( db_set_w(NULL, META_PROTO, "Nick", ci.wVal))
+		if (db_set_w(NULL, META_PROTO, "Nick", ci.wVal))
 			return 1;
 		break;
 	case CNFT_DWORD:
-		if ( db_set_dw(NULL, META_PROTO, "Nick", ci.dVal))
+		if (db_set_dw(NULL, META_PROTO, "Nick", ci.dVal))
 			return 1;
 		break;
 	case CNFT_ASCIIZ:
-		if ( db_set_ts(NULL, META_PROTO, "Nick", ci.pszVal))
+		if (db_set_ts(NULL, META_PROTO, "Nick", ci.pszVal))
 			return 1;
 		mir_free(ci.pszVal);
 		break;
 	default:
-		if ( db_set_s(NULL, META_PROTO, "Nick",(char *)TranslateT("Sender")))
+		if (db_set_s(NULL, META_PROTO, "Nick", (char *)TranslateT("Sender")))
 			return 1;
 		break;
 	}
 	return 0;
 }
 
-/** Assign a contact (src) to a metacontact (dest)
+/** Assign a contact (hSub) to a metacontact (hMeta)
 *
-* @param src : HANDLE to a contact that should be assigned
-* @param dest : HANDLE to a metacontact that will host the contact
+* @param hSub : HANDLE to a contact that should be assigned
+* @param hMeta : HANDLE to a metacontact that will host the contact
 * @param set_as_default : bool flag to indicate whether the new contact becomes the default
 *
 * @return TRUE on success, FALSE otherwise
 */
 
-BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
+BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 {
 	char buffer[512], szId[40];
-	MCONTACT most_online;
 
-	DBCachedContact *ccDest = CheckMeta(dest);
-	if (ccDest == NULL)
+	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->m_cache->GetCachedContact(hSub);
+	if (ccDest == NULL || ccSub == NULL)
 		return FALSE;
 
-	char *szProto = GetContactProto(src);
+	char *szProto = GetContactProto(hSub);
 	if (szProto == NULL) {
 		MessageBox(0, TranslateT("Could not retreive contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
@@ -225,13 +98,13 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	// Get the login of the subcontact
 	char *field = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	DBVARIANT dbv;
-	if (db_get(src, szProto, field, &dbv)) {
+	if (db_get(hSub, szProto, field, &dbv)) {
 		MessageBox(0, TranslateT("Could not get unique ID of contact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Check that is is 'on the list'
-	if (db_get_b(src, "CList", "NotOnList", 0) == 1) {
+	if (db_get_b(hSub, "CList", "NotOnList", 0) == 1) {
 		MessageBox(0, TranslateT("Contact is 'Not on List' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -248,7 +121,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	strcpy(buffer, "Protocol");
 	strcat(buffer, _itoa(ccDest->nSubs - 1, szId, 10));
 
-	if (db_set_s(dest, META_PROTO, buffer, szProto)) {
+	if (db_set_s(hMeta, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -258,7 +131,7 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	strcpy(buffer, "Login");
 	strcat(buffer, szId);
 
-	if (db_set(dest, META_PROTO, buffer, &dbv)) {
+	if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 		MessageBox(0, TranslateT("Could not write unique ID of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -267,11 +140,11 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	db_free(&dbv);
 
 	// If we can get the nickname of the subcontact...
-	if (!db_get(src, szProto, "Nick", &dbv)) {
+	if (!db_get(hSub, szProto, "Nick", &dbv)) {
 		// write the nickname
 		strcpy(buffer, "Nick");
 		strcat(buffer, szId);
-		if (db_set(dest, META_PROTO, buffer, &dbv)) {
+		if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 			MessageBox(0, TranslateT("Could not write nickname of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 			return FALSE;
 		}
@@ -282,42 +155,43 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 	// write the display name
 	strcpy(buffer, "CListName");
 	strcat(buffer, szId);
-	db_set_ts(dest, META_PROTO, buffer, cli.pfnGetContactDisplayName(src, 0));
+	db_set_ts(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
 
 	// Get the status
-	WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(src, szProto, "Status", ID_STATUS_OFFLINE);
+	WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
 	strcpy(buffer, "Status"); strcat(buffer, szId);
-	db_set_w(dest, META_PROTO, buffer, status);
+	db_set_w(hMeta, META_PROTO, buffer, status);
 
 	// write the handle
 	strcpy(buffer, "Handle"); strcat(buffer, szId);
-	db_set_dw(dest, META_PROTO, buffer, src);
+	db_set_dw(hMeta, META_PROTO, buffer, hSub);
 
 	// write status string
 	strcpy(buffer, "StatusString"); strcat(buffer, szId);
 
 	TCHAR *szStatus = cli.pfnGetStatusModeDescription(status, 0);
-	db_set_ts(dest, META_PROTO, buffer, szStatus);
+	db_set_ts(hMeta, META_PROTO, buffer, szStatus);
 
 	// Write the link in the contact
-	db_set_dw(src, META_PROTO, "ParentMeta", dest);
-	db_set_b(src, META_PROTO, "IsSubcontact", true);
+	db_set_dw(hSub, META_PROTO, "ParentMeta", hMeta);
+	db_set_b(hSub, META_PROTO, "IsSubcontact", true);
 
 	// update count of contacts
-	db_set_dw(dest, META_PROTO, "NumContacts", ccDest->nSubs);
+	db_set_dw(hMeta, META_PROTO, "NumContacts", ccDest->nSubs);
 	ccDest->pSubs = (MCONTACT*)mir_realloc(ccDest->pSubs, sizeof(MCONTACT)*ccDest->nSubs);
-	ccDest->pSubs[ccDest->nSubs - 1] = src;
+	ccDest->pSubs[ccDest->nSubs - 1] = hSub;
+	ccSub->parentID = hMeta;
 
 	if (set_as_default) {
 		ccDest->nDefault = ccDest->nSubs - 1;
 		currDb->MetaSetDefault(ccDest);
-		NotifyEventHooks(hEventDefaultChanged, (WPARAM)dest, (LPARAM)src);
+		NotifyEventHooks(hEventDefaultChanged, (WPARAM)hMeta, (LPARAM)hSub);
 	}
 
 	// set nick to most online contact that can message
-	most_online = Meta_GetMostOnline(ccDest);
+	MCONTACT most_online = Meta_GetMostOnline(ccDest);
 	Meta_CopyContactNick(ccDest, most_online);
 
 	// set status to that of most online contact
@@ -325,28 +199,28 @@ BOOL Meta_Assign(MCONTACT src, MCONTACT dest, BOOL set_as_default)
 
 	// if the new contact is the most online contact with avatar support, get avatar info
 	most_online = Meta_GetMostOnlineSupporting(ccDest, PFLAGNUM_4, PF4_AVATARS);
-	if (most_online == src) {
+	if (most_online == hSub) {
 		PROTO_AVATAR_INFORMATIONT AI;
 		AI.cbSize = sizeof(AI);
-		AI.hContact = dest;
+		AI.hContact = hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcscpy(AI.filename, _T("X"));
 
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-			db_set_ts(dest, "ContactPhoto", "File", AI.filename);
+			db_set_ts(hMeta, "ContactPhoto", "File", AI.filename);
 	}
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!
-	// copyHistory(src, dest);
+	// copyHistory(hSub, hMeta);
 
 	// Ignore status if the option is on
 	if (options.suppress_status)
-		CallService(MS_IGNORE_IGNORE, (WPARAM)src, (WPARAM)IGNOREEVENT_USERONLINE);
+		CallService(MS_IGNORE_IGNORE, (WPARAM)hSub, (WPARAM)IGNOREEVENT_USERONLINE);
 
 	// copy other data
 	Meta_CopyData(ccDest);
 
-	NotifyEventHooks(hSubcontactsChanged, (WPARAM)dest, 0);
+	NotifyEventHooks(hSubcontactsChanged, (WPARAM)hMeta, 0);
 	return TRUE;
 }
 
@@ -528,9 +402,9 @@ void copy_settings_array(DBCachedContact *ccMeta, char *module, const char *sett
 				db_unset(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i]);
 
 			DBVARIANT dbv1, dbv2;
-			BOOL bFree, got_val = !Mydb_get(hContact, used_mod, settings[i], &dbv2);
+			BOOL bFree, got_val = !db_get_s(hContact, used_mod, settings[i], &dbv2, 0);
 			if (got_val) {
-				bFree = !Mydb_get(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i], &dbv1);
+				bFree = !db_get_s(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i], &dbv1, 0);
 
 				if (strcmp(settings[i], "MirVer") == 0) {
 					if (db_get_w(hContact, used_mod, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
@@ -612,21 +486,21 @@ void CopyStatusData(DBCachedContact *ccMeta)
 
 		if (szProto && db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) == status) {
 			DBVARIANT dbv;
-			if (!bDoneStatus && !Mydb_get(hContact, "CList", "StatusMsg", &dbv)) {
+			if (!bDoneStatus && !db_get_s(hContact, "CList", "StatusMsg", &dbv, 0)) {
 				db_set(ccMeta->contactID, "CList", "StatusMsg", &dbv);
 				db_free(&dbv);
 				bDoneStatus = TRUE;
 			}
-			if ((!bDoneXStatus) && (!Mydb_get(hContact, szProto, "XStatusId", &dbv)) && dbv.type != DBVT_DELETED) {
+			if ((!bDoneXStatus) && (!db_get_s(hContact, szProto, "XStatusId", &dbv, 0)) && dbv.type != DBVT_DELETED) {
 				db_set_s(ccMeta->contactID, META_PROTO, "XStatusProto", szProto);
 				db_set(ccMeta->contactID, META_PROTO, "XStatusId", &dbv);
 
 				db_free(&dbv);
-				if (!Mydb_get(hContact, szProto, "XStatusMsg", &dbv)) {
+				if (!db_get_s(hContact, szProto, "XStatusMsg", &dbv, 0)) {
 					db_set(ccMeta->contactID, META_PROTO, "XStatusMsg", &dbv);
 					db_free(&dbv);
 				}
-				if (!Mydb_get(hContact, szProto, "XStatusName", &dbv)) {
+				if (!db_get_s(hContact, szProto, "XStatusName", &dbv, 0)) {
 					db_set(ccMeta->contactID, META_PROTO, "XStatusName", &dbv);
 					db_free(&dbv);
 				}
@@ -806,7 +680,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 	if (!db_get(hContact, "Protocol", "p", &dbv_proto)) {
 		char *szProto = dbv_proto.pszVal;
 		if (options.clist_contact_name == CNNT_NICK && szProto) {
-			if (!Mydb_get(hContact, szProto, "Nick", &dbv)) {
+			if (!db_get_s(hContact, szProto, "Nick", &dbv, 0)) {
 				db_set(ccMeta->contactID, META_PROTO, "Nick", &dbv);
 				db_free(&dbv);
 				//CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)hMeta, 0);
@@ -842,125 +716,46 @@ int Meta_SetAllNicks()
 	return 0;
 }
 
-int Meta_SwapContacts(DBCachedContact *cc, DWORD contact_number1, DWORD contact_number2)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void SwapValues(MCONTACT hContact, LPCSTR szSetting, int n1, int n2)
 {
+	char buf1[100], buf2[100];
+	mir_snprintf(buf1, sizeof(buf1), "%s%d", szSetting, n1);
+	mir_snprintf(buf2, sizeof(buf2), "%s%d", szSetting, n2);
+
 	DBVARIANT dbv1, dbv2;
-
-	MCONTACT hContact1 = Meta_GetContactHandle(cc, contact_number1), hContact2 = Meta_GetContactHandle(cc, contact_number2);
-	char buff1[512], buff12[512], buff2[512], buff22[512];
-	BOOL ok1, ok2;
-
-	// swap the protocol
-	strcpy(buff1, "Protocol"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Protocol"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
+	int ok1 = !db_get_s(hContact, META_PROTO, buf1, &dbv1, 0);
+	int ok2 = !db_get_s(hContact, META_PROTO, buf2, &dbv2, 0);
 	if (ok1) {
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
+		db_set(hContact, META_PROTO, buf2, &dbv1);
 		db_free(&dbv1);
 	}
 	if (ok2) {
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
+		db_set(hContact, META_PROTO, buf1, &dbv2);
 		db_free(&dbv2);
 	}
+}
 
-	// swap the status
-	strcpy(buff1, "Status"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Status"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
-	if (ok1) {
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
-		db_free(&dbv1);
-	}
-	if (ok2) {
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
-		db_free(&dbv2);
-	}
+int Meta_SwapContacts(DBCachedContact *cc, int n1, int n2)
+{
+	MCONTACT hContact1 = Meta_GetContactHandle(cc, n1), hContact2 = Meta_GetContactHandle(cc, n2);
 
-	// swap the status string
-	strcpy(buff1, "StatusString"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "StatusString"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
-	if (ok1) {
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
-		db_free(&dbv1);
-	}
-	if (ok2) {
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
-		db_free(&dbv2);
-	}
+	SwapValues(cc->contactID, "Protocol", n1, n2);
+	SwapValues(cc->contactID, "Status", n1, n2);
+	SwapValues(cc->contactID, "StatusString", n1, n2);
+	SwapValues(cc->contactID, "Login", n1, n2);
+	SwapValues(cc->contactID, "Nick", n1, n2);
+	SwapValues(cc->contactID, "CListName", n1, n2);
+	SwapValues(cc->contactID, "Handle", n1, n2);
 
-	// swap the login
-	strcpy(buff1, "Login"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Login"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
-	if (ok1) {
-		db_unset(cc->contactID, META_PROTO, buff2);
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
-		db_free(&dbv1);
-	}
-	if (ok2) {
-		db_unset(cc->contactID, META_PROTO, buff1);
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
-		db_free(&dbv2);
-	}
-
-	// swap the nick
-	strcpy(buff1, "Nick"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Nick"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
-	if (ok1) {
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
-		db_free(&dbv1);
-	}
-	else db_unset(cc->contactID, META_PROTO, buff2);
-
-	if (ok2) {
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
-		db_free(&dbv2);
-	}
-	else db_unset(cc->contactID, META_PROTO, buff1);
-
-	// swap the clist name
-	strcpy(buff1, "CListName"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "CListName"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
-	if (ok1) {
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
-		db_free(&dbv1);
-	}
-	else db_unset(cc->contactID, META_PROTO, buff2);
-
-	if (ok2) {
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
-		db_free(&dbv2);
-	}
-	else db_unset(cc->contactID, META_PROTO, buff1);
-
-	// swap the handle
-	strcpy(buff1, "Handle"); strcat(buff1, _itoa(contact_number1, buff12, 10));
-	strcpy(buff2, "Handle"); strcat(buff2, _itoa(contact_number2, buff22, 10));
-	ok1 = !Mydb_get(cc->contactID, META_PROTO, buff1, &dbv1);
-	ok2 = !Mydb_get(cc->contactID, META_PROTO, buff2, &dbv2);
-	if (ok1) {
-		db_set(cc->contactID, META_PROTO, buff2, &dbv1);
-		db_free(&dbv1);
-	}
-	else db_unset(cc->contactID, META_PROTO, buff2);
-
-	if (ok2) {
-		db_set(cc->contactID, META_PROTO, buff1, &dbv2);
-		db_free(&dbv2);
-	}
-	else db_unset(cc->contactID, META_PROTO, buff1);
-
+	MCONTACT tmp = cc->pSubs[n1];
+	cc->pSubs[n1] = cc->pSubs[n2];
+	cc->pSubs[n2] = tmp;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CALLBACK DlgProcNull(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
