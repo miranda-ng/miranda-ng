@@ -529,7 +529,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 
 	if (hAvatarsQueueHandle)
 	if (db_get_b(NULL, MRA_AVT_SECT_NAME, "Enable", MRA_AVT_DEFAULT_ENABLE))
-	if (IsContactChatAgent(hContact) == FALSE) {
+	if (!IsContactChatAgent(hContact)) {
 		// not @chat.agent conference
 		BOOL bQueueAdd = TRUE;// check for updates
 		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;

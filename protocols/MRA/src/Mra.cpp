@@ -19,7 +19,6 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } }
 };
 
-HANDLE    g_hHeap;
 HINSTANCE g_hInstance;
 HMODULE   g_hDLLXStatusIcons;
 HICON     g_hMainIcon;
@@ -37,13 +36,11 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 	switch (dwReason) {
 	case DLL_PROCESS_ATTACH:
 		g_hInstance = hInstance;
-		g_hHeap = HeapCreate(0, 0, 0);
 		DisableThreadLibraryCalls(hInstance);
 		break;
-
 	case DLL_PROCESS_DETACH:
-		HeapDestroy(g_hHeap);
-		g_hHeap = NULL;
+		/* Nothink to do. */
+		break;
 	}
 
 	return TRUE;

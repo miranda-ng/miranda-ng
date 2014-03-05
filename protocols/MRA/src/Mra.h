@@ -177,7 +177,6 @@ extern IconItem gdiExtraStatusIconsItems[];
 /////////////////////////////////////////////////////////////////////////////////////////
 //	plugin options
 
-extern HANDLE    g_hHeap;
 extern HINSTANCE g_hInstance;
 extern HMODULE   g_hDLLXStatusIcons;
 extern HICON     g_hMainIcon;

@@ -15,7 +15,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	InitializeCriticalSectionAndSpinCount(&csCriticalSectionSend, 0);
 	MraSendQueueInitialize(0, &hSendQueueHandle);
 	MraFilesQueueInitialize(0, &hFilesQueueHandle);
-	MraMPopSessionQueueInitialize(&hMPopSessionQueue);
+	MraMPopSessionQueueInitialize(&hMPopSessionQueue);//getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS)
 	MraAvatarsQueueInitialize(&hAvatarsQueueHandle);
 
 	CreateProtoService(PS_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);

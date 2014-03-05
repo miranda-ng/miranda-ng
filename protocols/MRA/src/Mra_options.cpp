@@ -125,6 +125,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON, ppro->getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON));
 		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST, ppro->getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST));
 		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS, ppro->getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS));
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_ON_WEB_SVCS, ppro->getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS));
 
 		CheckDlgButton(hWndDlg, IDC_SLOWSEND, ppro->getByte("SlowSend", MRA_DEFAULT_SLOW_SEND));
 		CheckDlgButton(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY, ppro->getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY));
@@ -192,6 +193,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 			ppro->setByte("AutoAuthRequestOnLogon", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON));
 			ppro->setByte("AutoAuthGrandUsersInCList", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST));
 			ppro->setByte("AutoAuthGrandNewUsers", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS));
+			ppro->setByte("AutoAuthOnWebServices", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_ON_WEB_SVCS));
 
 			ppro->setByte("SlowSend", IsDlgButtonChecked(hWndDlg, IDC_SLOWSEND));
 			ppro->setByte("IncrementalNewMailNotify", IsDlgButtonChecked(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY));

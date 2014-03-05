@@ -42,6 +42,9 @@ INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
+	if (!m_bLoggedIn)
+		return 0;
+
 	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
@@ -67,6 +70,9 @@ INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
+	if (!m_bLoggedIn)
+		return 0;
+
 	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DWORD dwContactSeverFlags;
@@ -80,7 +86,7 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM lParam)
 {
-	if (!hContact)
+	if (!hContact || !m_bLoggedIn)
 		return 0;
 
 	CMStringW wszAuthMessage;
@@ -117,9 +123,6 @@ INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
 	DWORD dwContactEMailCount = GetContactEMailCount(wParam, FALSE);
 	if (dwContactEMailCount) {
 		if (dwContactEMailCount == 1) {
@@ -137,9 +140,6 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
@@ -154,9 +154,6 @@ INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraReadBlog(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount)
 	if (dwContactEMailMRCount == 1) {
@@ -184,9 +181,6 @@ INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
@@ -201,9 +195,6 @@ INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
@@ -218,9 +209,6 @@ INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
 		if (dwContactEMailMRCount == 1) {
@@ -237,51 +225,60 @@ INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
 
 int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	BOOL bIsContactMRA, bHasEMail, bHasEMailMR, bChatAgent;
+	bool bIsContactMRA, bHasEMail, bHasEMailMR, bChatAgent;
 	DWORD dwContactSeverFlags = 0;
 	CMStringW blogStatusMsgSize;
 
 	// proto own contact
 	bIsContactMRA = IsContactMra(hContact);
 	if (bIsContactMRA) {
-		bHasEMail = TRUE;
-		bHasEMailMR = TRUE;
+		bHasEMail = true;
+		bHasEMailMR = true;
 		bChatAgent = IsContactChatAgent(hContact);
 		GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
 		mraGetStringW(hContact, DBSETTING_BLOGSTATUS, blogStatusMsgSize);
 	}
 	// non proto contact
-	else bHasEMail = bHasEMailMR = bChatAgent = FALSE;
-
+	else {
+		bHasEMail = false;
+		bHasEMailMR = false;
+		bChatAgent = false;
+		if (!getByte(NULL, "HideMenuItemsForNonMRAContacts", MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA))
+		if (!IsContactMraProto(hContact))// избегаем добавления менюшек в контакты других копий MRA
+		if (GetContactEMailCount(hContact, FALSE)) {
+			bHasEMail = true;
+			if (GetContactEMailCount(hContact, TRUE)) bHasEMailMR = true;
+		}
+	}
 	// menu root;
-	Menu_ShowItem(hContactMenuRoot, bIsContactMRA);
+	Menu_ShowItem(hContactMenuRoot, bHasEMail);
 
 	//"Request authorization"
 	Menu_ShowItem(hContactMenuItems[0], (m_bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
 
 	//"Grant authorization"
-	Menu_ShowItem(hContactMenuItems[1], (m_bLoggedIn && bIsContactMRA && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[1], (m_bLoggedIn && bIsContactMRA && !bChatAgent));
 
 	//"&Send postcard"
-	Menu_ShowItem(hContactMenuItems[2], (m_bLoggedIn && bHasEMail && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[2], (bHasEMail && !bChatAgent));
 
 	//"&View Album"
-	Menu_ShowItem(hContactMenuItems[3], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[3], (bHasEMailMR && !bChatAgent));
 
 	//"&Read Blog"
-	Menu_ShowItem(hContactMenuItems[4], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[4], (bHasEMailMR && !bChatAgent));
 
 	//"Reply Blog Status"
-	Menu_ShowItem(hContactMenuItems[5], (m_bLoggedIn && blogStatusMsgSize.GetLength() && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[5], (m_bLoggedIn && blogStatusMsgSize.GetLength() && !bChatAgent));
 
 	//"View Video"
-	Menu_ShowItem(hContactMenuItems[6], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[6], (bHasEMailMR && !bChatAgent));
 
 	//"Answers"
-	Menu_ShowItem(hContactMenuItems[7], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[7], (bHasEMailMR && !bChatAgent));
 
 	//"World"
-	Menu_ShowItem(hContactMenuItems[8], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[8], (bHasEMailMR && !bChatAgent));
 
 	//"Send &Nudge"
 	Menu_ShowItem(hContactMenuItems[9], (!m_heNudgeReceived) ? (m_bLoggedIn && bIsContactMRA) : 0);

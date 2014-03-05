@@ -22,9 +22,9 @@ DWORD CMraProto::StartConnect()
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup password in options"));
 	else {
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
-		if (INVALID_HANDLE_VALUE == ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0)) /* Thread create fail. */
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, TranslateT("Thread create fail"));
-		return 0;
+		if (INVALID_HANDLE_VALUE != ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0))
+			return 0; /* OK. */
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, TranslateT("Thread create fail"));
 	}
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
 	return ERROR_OPERATION_ABORTED;
@@ -589,13 +589,15 @@ bool CMraProto::CmdPopSession(BinBuffer &buf)
 	DWORD dwTemp = buf.getDword();
 	if (dwTemp) {
 		CMStringA szString; buf >> szString;
-		MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, szString);
-		MraMPopSessionQueueStart(hMPopSessionQueue);
+		if (NO_ERROR == MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, szString)) {
+			MraMPopSessionQueueStart(hMPopSessionQueue);
+			return true;
+		}
 	}
-	else { //error
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Server error: can't get MPOP key for web authorize"));
-		MraMPopSessionQueueFlush(hMPopSessionQueue);
-	}
+	//error
+	MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Server error: can't get MPOP key for web authorize"));
+	MraMPopSessionQueueFlush(hMPopSessionQueue);
+
 	return true;
 }
 

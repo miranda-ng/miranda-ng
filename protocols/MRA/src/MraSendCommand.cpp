@@ -317,11 +317,11 @@ HANDLE CMraProto::MraWPRequestW(MCONTACT hContact, DWORD dwAckType, DWORD dwRequ
 	OutBuffer buf;
 	CMStringA tmp;
 
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER))      { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_USER);buf.SetLPSLowerCase(szUser); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN))    { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DOMAIN);buf.SetLPSLowerCase(szDomain); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_NICKNAME);buf.SetLPSW(wszNickName); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);buf.SetLPSW(wszFirstName); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_LASTNAME);buf.SetLPSW(wszLastName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER))      { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_USER); buf.SetLPSLowerCase(szUser); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN))    { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DOMAIN); buf.SetLPSLowerCase(szDomain); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_NICKNAME); buf.SetLPSW(wszNickName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME); buf.SetLPSW(wszFirstName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_LASTNAME); buf.SetLPSW(wszLastName); }
 
 	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_SEX)) {
 		tmp.Format("%lu", dwSex);
@@ -503,15 +503,15 @@ DWORD CMraProto::MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwTyp
 	mrim_packet_header_t *pmaHeader = (mrim_packet_header_t*)lpbData;
 	memset(pmaHeader, 0, sizeof(mrim_packet_header_t));
 	pmaHeader->magic = CS_MAGIC;
-	pmaHeader->proto = (PROTO_VERSION_MAJOR<<16) + PROTO_VERSION_MINOR; // Версия протокола
+	pmaHeader->proto = (PROTO_VERSION_MAJOR << 16) + PROTO_VERSION_MINOR; // Версия протокола
 	pmaHeader->seq = dwCMDNum;// Sequence
 	pmaHeader->msg = dwType;// Тип пакета
 	pmaHeader->dlen = dwDataSize;// Длина данных
 	
 	debugLogA("Sending packet %08x\n", dwType);
 
-	memcpy(lpbData+sizeof(mrim_packet_header_t), lpData, dwDataSize);
-	return Netlib_Send(m_hConnection, (LPSTR)lpbData, (dwDataSize+sizeof(mrim_packet_header_t)), 0);
+	memcpy((lpbData + sizeof(mrim_packet_header_t)), lpData, dwDataSize);
+	return Netlib_Send(m_hConnection, (LPSTR)lpbData, (dwDataSize + sizeof(mrim_packet_header_t)), 0);
 }
 
 DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)

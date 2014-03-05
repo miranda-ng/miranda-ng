@@ -294,7 +294,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	DWORD  MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStringA &szUrl);
 	DWORD  MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, const CMStringA &, CMStringA &szEmail);
-	DWORD  MraMPopSessionQueueStart(HANDLE hMPopSessionQueue);
+	void   MraMPopSessionQueueStart(HANDLE hMPopSessionQueue);
 	void   MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue);
 
 	size_t MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBuffSize, DWORD dwPort);
