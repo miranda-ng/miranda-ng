@@ -14,6 +14,8 @@
 
 #include "mu_common.h"
 
+#include "version.h"
+
 /*
  * essential includes
  */

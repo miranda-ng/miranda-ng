@@ -9,7 +9,7 @@
 
 extern HINSTANCE g_hInst;
 
-extern const PLUGININFOEX g_pluginInfoEx;
+extern PLUGININFOEX g_pluginInfoEx;
 
 extern SettingsSerializer* g_pSettings;
 

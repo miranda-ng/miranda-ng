@@ -17,18 +17,18 @@ int hLangpack;
 
 static const int g_pluginFileListID = 2535;
 
-const PLUGININFOEX g_pluginInfoEx = {
-	/* .cbSize                = */ sizeof(PLUGININFOEX),
-	/* .shortName             = */ muA("HistoryStats"),
-	/* .version               = */ PLUGIN_MAKE_VERSION(0, 1, 5, 3),
-	/* .description           = */ muA("Creates nice statistics using your message history.\r\n")
-	                               muA("(Requires Miranda IM ") MU_DO_BOTH(muA("0.6.7"), muA("0.6.7 Unicode")) muA(" or above.)"),
-	/* .author                = */ muA("Martin Afanasjew"),
-	/* .authorEmail           = */ muA("miranda@dark-passage.de"),	
-	/* .copyright             = */ muA("2005-2007 by Martin Afanasjew (see README for further credits)"),
-	/* .homepage              = */ muA("http://addons.miranda-im.org/details.php?action=viewfile&id=") MU_DO_BOTH(muA("2534"), muA("2535")),
-	/* .flags                 = */ UNICODE_AWARE,
-	/* .uuid                  = */ { 0xf184f5a0, 0xc198, 0x4454, { 0xa9, 0xb4, 0xf6, 0xe2, 0xfd, 0x53, 0x41, 0x33 } },
+PLUGININFOEX g_pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {F184F5A0-C198-4454-A9B4-F6E2FD534133}
+	{0xf184f5a0, 0xc198, 0x4454, {0xa9, 0xb4, 0xf6, 0xe2, 0xfd, 0x53, 0x41, 0x33}},
 };
 
 SettingsSerializer* g_pSettings = NULL;
