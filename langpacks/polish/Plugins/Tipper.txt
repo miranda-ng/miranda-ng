@@ -354,7 +354,7 @@ WWW:
 [Identifier]
 Identyfikator
 [Idle]
-Bezczynność 
+Bezczynność
 [Idle:]
 Bezczynny:
 [IP]

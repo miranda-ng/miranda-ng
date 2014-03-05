@@ -118,7 +118,7 @@ Popupy
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 Nazwa:%t%N%bStatus:%t%s%bDzień:%t%d.%m.%Y%bCzas:%t%H:%M:%S%bPoprzedni Status:%t%o%b%b%P ID:%t%u%bIP Zewnętrzne:%t%i%bIP Wewnętrzne:%t%r%bID Klienta: %t%C%b%bOpis:%t%T
 [-- Date --]
--- Data -- 
+-- Data --
 [year (4 digits)]
 rok (4 znaki)
 [year (2 digits)]
@@ -136,7 +136,7 @@ dzień tygodnia (cały)
 [weekday (abbreviated)]
 dzień tygodnia (skrócony)
 [-- Time --]
--- Czas -- 
+-- Czas --
 [hours (24)]
 godziny (24)
 [hours (12)]
@@ -148,7 +148,7 @@ minut
 [seconds]
 s
 [-- User --]
--- Użytkownik -- 
+-- Użytkownik --
 [username]
 nazwa
 [nick]
@@ -266,7 +266,7 @@ Gru.
 [<never seen>]
 <nigdy niewidziany>
 [Idle]
-Bezczynność 
+Bezczynność
 [Unknown]
 Nieznany
 [Not Idle]

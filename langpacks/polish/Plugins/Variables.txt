@@ -212,9 +212,9 @@ w profilu, wartość ustawienia "z" modułu "y" dla kontaktu "x", zwróć "w", j
 [get event for contact x (optional), according to y,z,w, see documentation]
 pobiera zdarzenia dla kontaktu "x" (opcjonalnie), zgodnie z "y", "z", "w", przeczytaj dokumentację
 [get last seen time of contact x in format y (y is optional)]
-pobiera czas w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne) 
+pobiera czas w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne)
 [get last seen date of contact x in format y (y is optional)]
-pobiera datę w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne) 
+pobiera datę w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne)
 [get last seen status of contact x]
 pobiera ostatnio widziany status kontaktu "x"
 [path to the Miranda NG executable]

@@ -89,7 +89,7 @@ Dodaj
 [Remove]
 Usuń
 [Idle]
-Bezczynność 
+Bezczynność
 [Allow contacts to be notified of:]
 Zezwalaj na powiadomienia:
 [Join Chat Room]

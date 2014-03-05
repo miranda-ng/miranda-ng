@@ -209,7 +209,7 @@ Nick:
 [First name:]
 Imię:
 [Last name:]
-Nazwisko: 
+Nazwisko:
 [E-mail:]
 E-mail:
 [Gender:]
@@ -372,7 +372,7 @@ Przeniesienie użytkownika do innej grupy na liście serwera nieudane.
 [Renaming of server group failed.]
 Zmiana nazwy grupy na serwerze nieudana.
 [Contact "%s" was authorized in the server list.]
-Kontakt "%s" został za autoryzowany na liście serwera. 
+Kontakt "%s" został za autoryzowany na liście serwera.
 [Contact "%s" lost its authorization in the server list.]
 Kontakt "%s" stracił autoryzacje na liście serwera.
 [User "%s" was removed from server list.]

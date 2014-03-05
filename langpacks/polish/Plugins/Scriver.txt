@@ -645,7 +645,7 @@ Przychodzące (Nowa sesja)
 [Outgoing]
 Wychodzące
 [Contact started typing]
-Kontakt pisze wiadomość 
+Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \plugins\Scriver\src\msgtimedout.cpp

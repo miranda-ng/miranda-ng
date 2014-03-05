@@ -37,7 +37,7 @@ Użyj domyślnych kolorów popup
 [Choose colors]
 Wybierz kolor
 [File access filter && logging settings]
-Filtr dostępu do plików && ustawienia logowania
+Filtr dostępu do plików i ustawienia logowania
 [Log into text file]
 Zapisuj do pliku tekstowego
 [Log folders access]

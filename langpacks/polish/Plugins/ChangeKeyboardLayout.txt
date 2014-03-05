@@ -67,7 +67,7 @@ Niestandardowe
 [On left click]
 LPM
 [Copy to clipboard]
-Kopiuj do schowka 
+Kopiuj do schowka
 [Dismiss]
 Zamknij
 [On right click]

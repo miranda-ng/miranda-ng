@@ -31,11 +31,11 @@ Rozciągnij proporcjonalnie
 [Tile vertically according to Row Height]
 Układaj pionowo zależnie od wysokości wiersza
 [Warning!\r\nThis MenuObject not support user defined options.]
-Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika. 
+Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika.
 [MenuObjects]
 Obiekty menu
 [MenuItems]
-Elementy menu 
+Elementy menu
 [InsertSeparator]
 Wstaw separator
 [Service:]
@@ -169,7 +169,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia 
+Przeźroczyste podświetlenie zaznaczenia
 ['Hide Offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
 [Groups]
@@ -316,7 +316,7 @@ Rozłączone kontakty
 [Contacts which are 'not on list']
 Kontakty spoza listy
 [Group member counts]
-Liczba członków grupy 
+Liczba członków grupy
 [Dividers]
 Separatory
 [Offline contacts to whom you have a different visibility]

@@ -216,7 +216,7 @@ Anuluj popup
 [Pin popup]
 Przypnij popup
 [Copy to clipboard]
-Kopiuj do schowka 
+Kopiuj do schowka
 [Action]
 Akcja
 ;file \plugins\Popup\src\config.cpp

@@ -156,7 +156,7 @@ Z&amknij inne karty
 &Otwórz w tym miejscu
 ;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
-&Spróbuj ponownie
+&Ponów próbę
 [&Cancel]
 &Anuluj
 [&Send]
@@ -1251,7 +1251,7 @@ Autoprzewijanie wyłączone (wciśnij F12 aby włączyć)
 [Click for contact menu\nClick dropdown for window settings]
 Kliknij, by pokazać menu kontaktu\nKliknij strzałkę, by pokazać ustawienia okna
 [Retry]
-Gotowy
+Ponów próbę
 [Send later]
 Wyślij później
 [Selection copied to clipboard]
@@ -1780,7 +1780,7 @@ Włącz powiadomienie o &pisaniu
 [...has stopped typing.]
 ...przestał pisać.
 [Contact started typing]
-Kontakt pisze wiadomość 
+Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \plugins\TabSRMM\src\userprefs.cpp
@@ -1969,7 +1969,7 @@ Otwórz nowe okno rozmowy grupowej w domyślnym kontenerze
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
 [Flash window when a word is highlighted]
-Migaj oknem, gdy jakieś słowo jest podświetlone 
+Migaj oknem, gdy jakieś słowo jest podświetlone
 [Create tabs or windows for highlight events]
 Utwórz kartę lub okno dla podświetlenia zdarzeń
 [Activate chat window on highlight]

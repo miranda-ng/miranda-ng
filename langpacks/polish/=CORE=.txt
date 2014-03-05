@@ -90,7 +90,7 @@ Zastosuj
 [Switch to simple options]
 Przełącz do trybu prostego
 [Please select a subentry from the list]
-Proszę wybrać podopcję z listy 
+Proszę wybrać podopcję z listy
 [Install database settings]
 Instalacja ustawień profilu
 [Yes]
@@ -102,9 +102,9 @@ Plik zawierający nowe ustawienia profilu został umieszczony w katalogu Mirandy
 [Do you want to import the settings now?]
 Czy chcesz teraz zaimportować ustawienia?
 [No to all]
-Nie dla wszystkich 
+Nie dla wszystkich
 [&View contents]
-&Zawartość 
+&Zawartość
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 System bezpieczeństwa zapobiegający szkodliwym zmianom jest aktywny i będzie ostrzegał przed zmianami, które nie są bezpieczne.
 [Database setting change]
@@ -114,7 +114,7 @@ Ustawienia profilu są importowane z
 [This file wishes to change the setting]
 Ten plik chce zmienić ustawienie
 [to the value]
-do wartości 
+do wartości
 [Do you want to allow this change?]
 Czy chcesz umożliwić tę zmianę?
 [&Allow all further changes to this section]
@@ -172,7 +172,7 @@ Dźwięki
 [&Preview]
 &Podgląd
 [Download more sounds]
-Pobierz więcej dźwięków 
+Pobierz więcej dźwięków
 [Sound information]
 Informacje o dźwięku
 [Location:]
@@ -216,11 +216,11 @@ Powiadomienie o dodaniu
 [Typing]
 Pisanie
 [Visibility]
-Widoczność 
+Widoczność
 [You are visible to this person even when in invisible mode]
-Jesteś widoczny dla tej osoby, nawet w trybie niewidocznym 
+Jesteś widoczny dla tej osoby, nawet w trybie niewidocznym
 [You are never visible to this person]
-Zawsze jesteś niewidoczny dla tej osoby 
+Zawsze jesteś niewidoczny dla tej osoby
 [Icon index]
 Indeks ikon
 [Icon library:]
@@ -356,9 +356,9 @@ Przenieś do menu głównego
 [Move to the status bar]
 Przenieś do paska statusu
 [Warning!\r\nThis menu object not support user defined options.]
-Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika. 
+Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika.
 [Insert separator]
-Wstaw separator 
+Wstaw separator
 [Service:]
 Usługa:
 [Default]
@@ -632,11 +632,11 @@ Nie odpowiadaj na prośby o ten opis
 [Do not pop up dialog asking for new message]
 Nie otwieraj okna z pytaniem o nowy opis
 [By default, use the same message as last time]
-Domyślnie użyj tej samej wiadomości co ostatnio 
+Domyślnie użyj tej samej wiadomości co ostatnio
 [By default, use this message:]
 Domyślnie użyj tej wiadomości:
 [Use %time% for the current time, %date% for the current date]
-Użyj %time% dla czasu obecnego, %date% dla aktualnej daty 
+Użyj %time% dla czasu obecnego, %date% dla aktualnej daty
 [Status messages:]
 Opisy:
 [Change %s message]
@@ -711,7 +711,7 @@ Inne
 [Add new rooms to group:]
 Dodaj nowe pokoje do grupy:
 [Nick list row distance (pixels):]
-Odstęp między wierszami (px): 
+Odstęp między wierszami (px):
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
 [Use default colors]
@@ -868,7 +868,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia 
+Przeźroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 ['Hide offline' means to hide:]
@@ -1019,7 +1019,7 @@ Transfer zakończony, otwórz plik(i).
 [No data transferred]
 Brak połączenia
 [File already exists]
-Plik już istnieje 
+Plik już istnieje
 [Resume]
 Wznów
 [Resume all]
@@ -1243,7 +1243,7 @@ Szukaj
 [Find what:]
 Szukaj:
 [Message history]
-Historia wiadomości 
+Historia wiadomości
 [&Find...]
 &Szukaj...
 ;file \src\core\stduserinfo\resource.rc
@@ -1254,7 +1254,7 @@ Wprowadź kraj, numer kierunkowy i numer telefonu:
 [Or enter a full international number:]
 Albo wprowadź pełny numer międzynarodowy:
 [Phone can receive SMS text messages]
-Telefon może odbierać wiadomości SMS 
+Telefon może odbierać wiadomości SMS
 [Add e-mail address]
 Dodaj adres e-mail
 [%s: user details]
@@ -1272,7 +1272,7 @@ Imię:
 [Gender:]
 Płeć:
 [Last name:]
-Nazwisko: 
+Nazwisko:
 [Age:]
 Wiek:
 [Date of birth:]
@@ -1325,7 +1325,7 @@ Strona WEB:
 [%s added you to their contact list]
 %s dodał(a) Cię do listy kontaktów
 [%u added you to their contact list]
-%u dodał(a) Cię do swojej listy kontaktów 
+%u dodał(a) Cię do swojej listy kontaktów
 [Alerts]
 Alarmy
 [Added event]
@@ -1413,7 +1413,7 @@ Wyślij wiadomość po dwukliku Entera
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
 [Flash window when a word is highlighted]
-Migaj oknem, gdy jakieś słowo jest podświetlone 
+Migaj oknem, gdy jakieś słowo jest podświetlone
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
 [Show button for sending messages]
@@ -1927,7 +1927,7 @@ Przychodzące (nowa sesja)
 [Message send error]
 Błąd wysyłania wiadomości
 [Contact started typing]
-Kontakt pisze wiadomość 
+Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \src\core\stdmsg\src\msgtimedout.cpp
@@ -1976,9 +1976,9 @@ Edytuj numer telefonu
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Numer telefonu powinien zaczynać się od + i składać się z cyfr, spacji, myślników i nawiasów.
 [Invalid phone number]
-Nieprawidłowy numer telefonu 
+Nieprawidłowy numer telefonu
 [Primary]
-Podstawowy 
+Podstawowy
 [Custom %d]
 Zwyczajny %d
 [Fax]
@@ -2258,7 +2258,7 @@ Ta zmiana wydaje się być bezpieczna.
 [This change is known to be potentially hazardous.]
 Ta zmiana wydaje się być potencjalnie ryzykowna.
 [This change is not known to be safe.]
-Ta zmiana wydaje się być niebezpieczna. 
+Ta zmiana wydaje się być niebezpieczna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nieprawidłowe ustawienie typu dla '%s'. Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
 ;file \src\modules\database\dbutils.cpp
@@ -2322,7 +2322,7 @@ Nie ma żadnych wyników do wyświetlenia.
 [Searching]
 Wyszukiwanie
 [All networks]
-Wszystkie sieci 
+Wszystkie sieci
 [Handle]
 Uchwyt
 [&Find/Add contacts...]
@@ -2341,7 +2341,7 @@ Znaleziono %d elementów dla %s
 [%d users found (]
 znaleziono %d użytkowników (
 [No users found]
-Nie znaleziono użytkowników 
+Nie znaleziono użytkowników
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 Nie udało się utworzyć pliku
@@ -2674,11 +2674,11 @@ Wypełniona kropka
 [Empty blob]
 Pusta kropka
 [Unicode plugin]
-Wtyczka Unicode 
+Wtyczka Unicode
 [ANSI plugin]
 Wtyczka ANSI
 [Running plugin]
-Uruchomione wtyczki 
+Uruchomione wtyczki
 [Unloaded plugin]
 Niezaładowane wtyczki
 [Show/Hide]
@@ -2718,7 +2718,7 @@ Ikony statusu
 [%s icons]
 %s ikony
 [Main icons]
-Główne ikony 
+Główne ikony
 ;file \src\modules\skin\sounds.cpp
 [Sound files]
 Dźwięki

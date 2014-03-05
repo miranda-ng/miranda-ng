@@ -69,7 +69,7 @@ Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usuną
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liście i wybierając opcje Zablokuj kontakt...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
-Ten plik zostaje użyty do poszukiwania gier. 
+Ten plik zostaje użyty do poszukiwania gier.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
 Ten plik posiada wszystkie oryginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
 [Be sure you put these files in following folder:]
@@ -240,7 +240,7 @@ Znajomi znajomych, którzy grają
 [Login failed.]
 Logowanie nieudane.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
-Wersja protokołu jest za stara. Zmieniono aktualną wersję z %d do %d. Możesz ponownie się połączyć. 
+Wersja protokołu jest za stara. Zmieniono aktualną wersję z %d do %d. Możesz ponownie się połączyć.
 [The protocol version is too old. Cannot detect a new version number.]
 Wersja protokołu jest za stara. Nie można wykryć numeru nowszej wersji.
 [Someone logged in with your account. Disconnect.]

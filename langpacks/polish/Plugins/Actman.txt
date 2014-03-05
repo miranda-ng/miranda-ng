@@ -560,7 +560,7 @@ UTF16+sign
 [Message window]
 Okno rozmowy
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
+^s - część  wybrana (i zamieniona)\r\n^e - zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [Text to insert]
 Tekst do wstawienia
 [Condition]
@@ -608,19 +608,19 @@ Pytanie
 [Info]
 Info
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Tekst <last> zastępczy\r\nostatni wynik\r\n\r\nPowrót:\r\n--------\r\nOK\t= 1\r\nCOFNIJ\t= 2\r\nANULUJ\t= 3\r\nGOTÓW\t= 4\r\nIGNORUJ\t= 5\r\nTAK\t= 6\r\nNIE\t= 7\r\nZAMKNIJ\t= 8
+Tekst <last> zastępczy\r\nostatni wynik\r\n\r\nPowrót:\r\n--------\r\nOK\t= 1\r\nCOFNIJ\t= 2\r\nANULUJ\t= 3\r\nPONÓW\t= 4\r\nIGNORUJ\t= 5\r\nTAK\t= 6\r\nNIE\t= 7\r\nZAMKNIJ\t= 8
 [Buttons]
 Przyciski
 [OK, Cancel]
 OK, Anuluj
 [Abort, Retry, Ignore]
-Przerwij, Gotów, Ignoruj
+Przerwij, Ponów próbę, Ignoruj
 [Yes, No, Cancel]
 Tak, Nie, Anuluj
 [Yes, No]
 Tak, Nie
 [Retry, Cancel]
-Gotów, Anuluj
+Ponów próbę, Anuluj
 [Scheduler]
 Harmonogram
 [Task sample]

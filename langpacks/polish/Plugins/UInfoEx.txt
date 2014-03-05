@@ -35,7 +35,7 @@ Imię:
 [Second name:]
 Drugie imię:
 [Last name:]
-Nazwisko: 
+Nazwisko:
 [Prefix:]
 Prefiks:
 [Female]
@@ -91,7 +91,7 @@ Wprowadź kraj, numer kierunkowy i numer telefonu:
 [Or enter a full international number:]
 Albo wprowadź pełny numer międzynarodowy:
 [Phone can receive SMS text messages]
-Telefon może odbierać wiadomości SMS 
+Telefon może odbierać wiadomości SMS
 [Add E-Mail]
 Dodaj e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
@@ -321,7 +321,7 @@ Ukryj
 [What do you want to export?]
 Co chcesz wyeksportować?
 [Contact Information]
-Informacje o kontakcie 
+Informacje o kontakcie
 [Contact History]
 Historia kontaktu
 [Select Modules]
@@ -678,7 +678,7 @@ Wszystko gotowe!
 [All settings are reset to default values now!]
 Wszystkie ustawienia są teraz przywrócone do wartości domyślnych!
 [Reminder disabled]
-Przypominanie wyłączone 
+Przypominanie wyłączone
 [Bithdays only]
 Tylko rocznice
 [everything]

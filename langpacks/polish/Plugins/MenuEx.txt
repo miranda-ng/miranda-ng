@@ -17,7 +17,7 @@ Wprowadź tekst prośby o autoryzację
 [Shown menu items]
 Pokaż wpisy w menu
 [Visibility]
-Widoczność 
+Widoczność
 [Show alpha icons]
 Przeźroczyste ikony
 [Hide from list]

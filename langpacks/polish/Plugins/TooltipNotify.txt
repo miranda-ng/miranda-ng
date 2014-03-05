@@ -69,7 +69,7 @@ Włącz przezroczystość
 [Contacts]
 Kontakty
 [Idle]
-Bezczynność 
+Bezczynność
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Powiadomienia

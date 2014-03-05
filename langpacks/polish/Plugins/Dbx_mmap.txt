@@ -89,7 +89,7 @@ Agresywny: losowe śmieci w %08X: pomijam
 Agresywny: nieoznaczone dane w %08X: nie można automatycznie rozmieścić
 ;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
 [Processing contact chain]
-Przetwarzanie łańcucha kontaktu 
+Przetwarzanie łańcucha kontaktu
 [Contact count marked wrongly: correcting]
 Źle oznaczone dane kontaktów: poprawianie
 [Contact chain corrupted, further entries ignored]
@@ -111,7 +111,7 @@ Nie można zapisać do pliku - dysk jest pełen? (%u)
 [Event chain corrupted, trying to recover...]
 Łańcuch zdarzeń uszkodzony, próbuję odzyskać...
 [Event chain corrupted, further entries ignored]
-Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane 
+Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane
 [First event not marked as such: correcting]
 Pierwsze zdarzenie nie oznaczone jako: poprawianie
 [Event marked as first which is not: correcting]
@@ -150,9 +150,9 @@ Nie udało się stworzyć widoku mapy pliku (%u)
 [Processing module name chain]
 Przetwarzanie łańcucha nazwy modułu
 [Module chain corrupted, further entries ignored]
-Uszkodzony łańcuch modułu, dalsze wpisy będą ignorowane 
+Uszkodzony łańcuch modułu, dalsze wpisy będą ignorowane
 [Module name '%s' is not unique: %d duplicates found]
-Nazwa modułu "%s" nie jest unikalna: znaleziono %d duplikatów 
+Nazwa modułu "%s" nie jest unikalna: znaleziono %d duplikatów
 [Invalid module name offset, skipping data]
 Nieprawidłowy offset nazwy modułu, pomijam dane
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp

@@ -33,7 +33,7 @@ Kiedy ustawiasz awatary, zawsze zmieniaj je w kwadraty
 [Try to draw own avatar background transparent (for images without transparency)]
 Rysuj przezroczyste tło przy swoim awatarze (dla obrazku bez przezroczystości)
 [This uses the same additional options as in "Contact Avatars" tab]
-Ten sposób wykorzystuje te same opcje, jak w zakładce "Awatar kontaktu" 
+Ten sposób wykorzystuje te same opcje, jak w zakładce "Awatar kontaktu"
 [Protect the picture and prevent automatic avatars from overwriting it]
 Chroń obraz i zapobiegaj przed automatycznym zastąpieniem awataru
 [Make the avatar square]

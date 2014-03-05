@@ -9,7 +9,7 @@
 Pokazuje historię wiadomości.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
-Historia wiadomości 
+Historia wiadomości
 [Settings]
 Ustawienia
 [Always show contact list]

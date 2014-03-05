@@ -169,7 +169,7 @@ Użyj ustawień opisu Mirandy
 [Use this message:]
 Użyj tego opisu:
 [Use %time% for the current time, %date% for the current date]
-Użyj %time% dla czasu obecnego, %date% dla aktualnej daty 
+Użyj %time% dla czasu obecnego, %date% dla aktualnej daty
 [Variables...]
 Zmienne...
 [Specify settings for each account]

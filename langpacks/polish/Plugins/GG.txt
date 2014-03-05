@@ -81,7 +81,7 @@ IP wewnętrzne:
 [First name:]
 Imię:
 [Last name:]
-Nazwisko: 
+Nazwisko:
 [Family name:]
 Nazwisko rodz.:
 [Nickname:]

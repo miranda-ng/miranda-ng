@@ -219,9 +219,9 @@ Rozłącz rozmowy DCC, gdy odłączasz się od serwera
 [Manually set external IP:]
 Ustaw ręcznie zewnętrzne IP:
 [Client-to-Client File Transfers]
-Transfer Plików Klient-do-Klienta 
+Transfer Plików Klient-do-Klienta
 [Client-to-Client Protocol]
-Protokół Klient-do-Klienta 
+Protokół Klient-do-Klienta
 [Client-to-Client Chats]
 Rozmowy Klient-do-Klienta
 [Send mode:]
@@ -366,7 +366,7 @@ System ignorowania jest wyłączony
 [Outgoing commands are shown]
 Wychodzące komendy są pokazane
 [Outgoing commands are not shown]
-Wychodzące komendy nie są pokazane 
+Wychodzące komendy nie są pokazane
 [The time interval for the buddy check function is now at default setting]
 Odstęp czasu przy sprawdzaniu obecności znajomych ma obecnie wartość domyślną
 [The time interval for the buddy check function is now %u seconds]
@@ -408,9 +408,9 @@ Nick
 [DCC ERROR: No valid files specified]
 BŁĄD DCC: Ne wyznaczono odpowiednich plików
 [DCC reversed file transfer request sent to %s [%s]]
-Odwrócone żądanie DCC transferu plików wysłano do %s [%s] 
+Odwrócone żądanie DCC transferu plików wysłano do %s [%s]
 [DCC file transfer request sent to %s [%s]]
-Żądanie DCC transferu plików wysłano do %s [%s] 
+Żądanie DCC transferu plików wysłano do %s [%s]
 [DCC ERROR: Unable to bind local port]
 BŁĄD DCC: Nie można przypisać lokalnego portu
 [The protocol is not online]
@@ -561,7 +561,7 @@ Ro&złącz
 [&Add to ignore list]
 &Dodaj do ignorowanych
 [%s (%s) is requesting a client-to-client chat connection.]
-%s (%s) żąda rozmowy za pomocą połączenia Klient-do-Klienta 
+%s (%s) żąda rozmowy za pomocą połączenia Klient-do-Klienta
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
 Proszę podać maskę hosta (nazwa!użytkownik@host)\nUWAGA! Kontakty z twojej listy nigdy nie są ignorowane
 [Join channel]
@@ -621,7 +621,7 @@ Wyrzuć
 [Please enter the notice text]
 Proszę wpisać tekst powiadomienia
 [Please enter the channel name to invite to]
-Proszę wpisz nazwę kanału, do którego zaprosić 
+Proszę wpisz nazwę kanału, do którego zaprosić
 [Invite to channel]
 Zaproś na kanał
 [NickServ]
@@ -756,7 +756,7 @@ Edytuj wybrany ban/zaproszenie/wyjątek
 [Delete selected ban/invite/exception]
 Usuń wybrany ban/zaproszenie/wyjątek
 [Set these modes for the channel]
-Ustaw te tryby dla kanału 
+Ustaw te tryby dla kanału
 [Set this topic for the channel]
 Ustaw ten temat dla kanału
 [You have not applied all changes!\n\nApply before exiting?]

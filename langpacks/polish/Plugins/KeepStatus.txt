@@ -169,7 +169,7 @@ Użyj ustawień opisu Mirandy
 [Use this message:]
 Użyj tego opisu:
 [Use %time% for the current time, %date% for the current date]
-Użyj %time% dla czasu obecnego, %date% dla aktualnej daty 
+Użyj %time% dla czasu obecnego, %date% dla aktualnej daty
 [Variables...]
 Zmienne...
 [Specify settings for each account]
@@ -276,15 +276,15 @@ Protokół
 [%s login error (next retry (%d) in %d s)]
 %s błąd logowania (następna próba (%d) za %d s)
 [%s status error (next retry (%d) in %d s)]
-%s błąd połączenia (następna próba (%d) za %d s) 
+%s błąd połączenia (następna próba (%d) za %d s)
 [Status error (next retry (%d) in %d s)]
-Błąd połączenia (następna próba (%d) za %d s) 
+Błąd połączenia (następna próba (%d) za %d s)
 [%s\t(will be set to %s)\r\n]
 %s\t (przywracany na %s)\r\n
 [Resetting status... (last try (%d))%s]
 Zerowanie statusu...(ostatnia próba (%d)) %s
 [Resetting status... (next retry (%d) in %d s)%s]
-Zerowanie statusu... (następna próba (%d) za %d s) %s 
+Zerowanie statusu... (następna próba (%d) za %d s) %s
 [No internet connection seems available... (last try (%d))]
 Brak połączenia z internetem... (ostatnia próba (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]

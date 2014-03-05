@@ -11,7 +11,7 @@ Wysyła wiadomości SMS na telefony komórkowe przez sieci IM.
 [Received SMS]
 Otrzymany SMS
 [&Reply]
-&Odpowiedz 
+&Odpowiedz
 [&Close]
 &Zamknij
 [Read Next]
@@ -107,7 +107,7 @@ Przekroczono czas wysyłania wiadomości do %s.
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Numer telefonu powinien zaczynać się od znaku + oraz składać się tylko i wyłącznie z cyfr, spacji, nawiasów kwadratowych oraz myślników.
 [Invalid Phone Number]
-Nieprawidłowy numer telefonu 
+Nieprawidłowy numer telefonu
 [Message is too long, press OK to continue.]
 Wiadomość jest zbyt długa. Naciśnij OK, aby kontynuować.
 [Error - Message too long]

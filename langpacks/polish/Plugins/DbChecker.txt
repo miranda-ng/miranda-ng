@@ -27,7 +27,7 @@ Anuluj
 [Select Miranda Profile]
 Wybierz profil
 [You can choose the Miranda profile database to compact or repair.]
-Możesz wybrać profil Mirandy do kompaktowania lub naprawy. 
+Możesz wybrać profil Mirandy do kompaktowania lub naprawy.
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
 Wybierz &profil z poniższej listy. Jeśli profilu, którego chcesz używać nie ma na liście kliknij Inne aby ja wyszukać.
 [&File:]
@@ -47,7 +47,7 @@ Opcje dostępu pliku
 [You can select low level options to determine how the database is processed.]
 Możesz wybrać niski poziom opcji, aby określić w jaki sposób profil jest przetwarzany.
 [Create backup]
-Utwórz kopię bezpieczeństwa 
+Utwórz kopię bezpieczeństwa
 [Creates a backup copy of the database before any of the requested changes are made.]
 Tworzy kopię zapasową profilu przed wprowadzeniem zmian.
 [Aggressively find corruption]
@@ -63,11 +63,11 @@ Czyszczenie błędnych wpisów
 [You can choose to remove information from the database while it is being processed.]
 Możesz wybrać usunięcie informacji z profilu w czasie jej przetwarzania.
 [Erase all histories]
-Usuń całą historię 
+Usuń całą historię
 [Removes all the saved history for all contacts in the database.]
 Usuwa całą historię dla wszystkich kontaktów w bazie danych.
 [Mark all events read]
-Oznacz wszystkie wydarzenia na przeczytane 
+Oznacz wszystkie wydarzenia na przeczytane
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
 Oznacza wszystkie zdarzenia w historii jako przeczytane. Skoryguje problemy związane z pojawiającymi się w dzienniku starymi wiadomościami.
 [Convert old Unicode messages to UTF8]
@@ -134,9 +134,9 @@ Nie można zmienić nazwy pliku wyjściowego
 [Database worker thread activated]
 Aktywowano wątek roboczy profilu
 [<check only>]
-<sprawdzić tylko> 
+<sprawdzić tylko>
 [ (Output).dat]
-(Wyjście).dat 
+(Wyjście).dat
 [Can't create output file (%u)]
 Nie można utworzyć pliku wyjściowego (%u)
 [Processing aborted by user]

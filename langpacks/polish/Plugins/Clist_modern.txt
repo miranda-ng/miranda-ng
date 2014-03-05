@@ -323,7 +323,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia 
+Przeźroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 ['Hide Offline' means to hide:]
@@ -727,7 +727,7 @@ Kontakty "Na obiedzie"
 [Offline contacts]
 Kontakty "Rozłączone"
 [Online contacts to whom you have a different visibility]
-Połączone kontakty, dla których mam różną widoczność 
+Połączone kontakty, dla których mam różną widoczność
 [Offline contacts to whom you have a different visibility]
 Rozłączone kontakty, dla których mam różną widoczność
 [Contacts who are 'not on list']

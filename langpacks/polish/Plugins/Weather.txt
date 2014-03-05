@@ -57,7 +57,7 @@ mph
 [knots]
 węzłów
 [Visibility]
-Widoczność 
+Widoczność
 [km]
 km
 [miles]

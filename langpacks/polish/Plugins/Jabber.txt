@@ -139,7 +139,7 @@ Imię:
 [Middle:]
 Drugie:
 [Last name:]
-Nazwisko: 
+Nazwisko:
 [Date of birth:]
 Urodziny:
 [YYYY-MM-DD]

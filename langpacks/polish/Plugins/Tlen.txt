@@ -107,7 +107,7 @@ Pseudonim:
 [First name:]
 Imię:
 [Last name:]
-Nazwisko: 
+Nazwisko:
 [E-mail:]
 E-mail:
 [Gender:]

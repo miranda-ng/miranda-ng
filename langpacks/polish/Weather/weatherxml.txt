@@ -211,7 +211,7 @@ Deszcz / Przelotne opady śniegu
 [Showers Late]
 Późno przelotne opady
 [Scattered Showers]
-Rozsiane opady deszczu 
+Rozsiane opady deszczu
 [Am Showers]
 Rano opady deszczu
 [Am Rain / Snow Showers]

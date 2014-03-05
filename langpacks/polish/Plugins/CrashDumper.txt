@@ -58,7 +58,7 @@ Raporty błędów
 [Version Information]
 Informacje o wersji
 [Copy to clipboard]
-Kopiuj do schowka 
+Kopiuj do schowka
 [Store to file]
 Zapisz do pliku
 [Show]

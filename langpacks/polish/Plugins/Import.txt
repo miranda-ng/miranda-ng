@@ -130,7 +130,7 @@ Zakończono import po %d sekundach.
 [Added %d contacts and %d groups.]
 Dodano %d kontaktów i %d grup.
 [Added %d contacts, %d groups and %d events.]
-Dodano %d kontaktów, %d grup i %d zdarzenia. 
+Dodano %d kontaktów, %d grup i %d zdarzenia.
 [Skipped %d contacts.]
 Pominięto %d kontaktów.
 [Skipped %d duplicates and %d filtered events.]
