@@ -1,0 +1,3 @@
+﻿[Creates nice statistics using your message history.]
+[Band]
+[OK]
