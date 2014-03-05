@@ -11,93 +11,68 @@
 
 INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	HWND hWndList = GetDlgItem(hDlg, IDC_COLUMN);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
+
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+
+		utils::centerDialog(hDlg);
+
+		upto_each_(i, Column::countColInfo())
+		{
+			int nIndex = SendMessage(hWndList, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(Column::getColInfo(i).m_Title));
+			SendMessage(hWndList, LB_SETITEMDATA, nIndex, static_cast<LPARAM>(i));
+		}
+
+		if (Column::countColInfo() > 0) {
+			SendMessage(hWndList, LB_SETCURSEL, 0, 0);
+
+			SetDlgItemText(hDlg, IDC_DESCRIPTION, Column::getColInfo(0).m_Description);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
 			{
-				TranslateDialogDefault(hDlg);
+				int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
+				if (nIndex != LB_ERR) {
+					int nData = SendMessage(hWndList, LB_GETITEMDATA, nIndex, 0);
 
-				SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
-
-				utils::centerDialog(hDlg);
-
-				HWND hWndList = GetDlgItem(hDlg, IDC_COLUMN);
-
-				upto_each_(i, Column::countColInfo())
-				{
-					int nIndex = SendMessage(hWndList, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(Column::getColInfo(i).m_Title));
-					SendMessage(hWndList, LB_SETITEMDATA, nIndex, static_cast<LPARAM>(i));
+					EndDialog(hDlg, nIndex);
 				}
-
-				if (Column::countColInfo() > 0)
-				{
-					SendMessage(hWndList, LB_SETCURSEL, 0, 0);
-
-					SetDlgItemText(hDlg, IDC_DESCRIPTION, Column::getColInfo(0).m_Description);
-				}			
+				else EndDialog(hDlg, -1);
 			}
 			return TRUE;
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam))
-			{
-				case IDOK:
-					{
-						HWND hWndList = GetDlgItem(hDlg, IDC_COLUMN);
+		case IDCANCEL:
+			EndDialog(hDlg, -1);
+			return TRUE;
 
-						int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
-
-						if (nIndex != LB_ERR)
-						{
-							int nData = SendMessage(hWndList, LB_GETITEMDATA, nIndex, 0);
-
-							EndDialog(hDlg, nIndex);
-						}
-						else
-						{
-							EndDialog(hDlg, -1);
-						}
-					}
-					return TRUE;
-
-				case IDCANCEL:
-					EndDialog(hDlg, -1);
-					return TRUE;
-
-				case IDC_COLUMN:
-					{
-						if (HIWORD(wParam) == LBN_SELCHANGE)
-						{
-							HWND hWndList = GetDlgItem(hDlg, IDC_COLUMN);
-
-							int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
-							
-							if (nIndex != LB_ERR)
-							{
-								int nData = SendMessage(hWndList, LB_GETITEMDATA, nIndex, 0);
-
-								SetDlgItemText(hDlg, IDC_DESCRIPTION, Column::getColInfo(nData).m_Description);
-							}
-							else
-							{
-								SetDlgItemText(hDlg, IDC_DESCRIPTION, muT(""));
-							}
-						}
-						else if (HIWORD(wParam) == LBN_DBLCLK)
-						{
-							SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(IDOK, 0), NULL);
-						}
-					}
-					break;
+		case IDC_COLUMN:
+			if (HIWORD(wParam) == LBN_SELCHANGE) {
+				int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
+				if (nIndex != LB_ERR) {
+					int nData = SendMessage(hWndList, LB_GETITEMDATA, nIndex, 0);
+					SetDlgItemText(hDlg, IDC_DESCRIPTION, Column::getColInfo(nData).m_Description);
+				}
+				else SetDlgItemText(hDlg, IDC_DESCRIPTION, _T(""));
 			}
+			else if (HIWORD(wParam) == LBN_DBLCLK)
+				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(IDOK, 0), NULL);
 			break;
+		}
+		break;
 	}
 
 	return FALSE;
 }
 
-DlgOption::SubColumns::SubColumns()
-	: m_hColTitle(NULL),
+DlgOption::SubColumns::SubColumns() :
+	m_hColTitle(NULL),
 	m_bShowInfo(true),
 	m_nInfoHeight(0)
 {
@@ -110,98 +85,74 @@ DlgOption::SubColumns::~SubColumns()
 
 BOOL DlgOption::SubColumns::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_WINDOWPOSCHANGED:
-			rearrangeControls();
-			return TRUE;
+	switch (msg) {
+	case WM_WINDOWPOSCHANGED:
+		rearrangeControls();
+		return TRUE;
 
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDC_INFOLABEL && HIWORD(wParam) == STN_CLICKED)
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_INFOLABEL && HIWORD(wParam) == STN_CLICKED) {
+			m_bShowInfo = !m_bShowInfo;
+			toggleInfo();
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (reinterpret_cast<NMHDR*>(lParam)->idFrom) {
+		case IDC_BAND:
 			{
-				m_bShowInfo = !m_bShowInfo;
-				toggleInfo();
+				BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
+				if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
+					onBandClicked(pNM->hButton, pNM->dwData);
+				else if (pNM->hdr.code == BandCtrl::BCN_DROPDOWN)
+					onBandDropDown(pNM->hButton, pNM->dwData);
 			}
 			break;
 
-		case WM_NOTIFY:
+		case IDC_COLUMNS:
 			{
-				switch (reinterpret_cast<NMHDR*>(lParam)->idFrom)
-				{
-					case IDC_BAND:
-						{
-							BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
+				OptionsCtrl::NMOPTIONSCTRL* pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
+				if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED) {
+					getParent()->settingsChanged();
+					getParent()->updateProblemInfo();
+				}
+				else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGED) {
+					onColSelChanged(pNM->hItem, pNM->dwData);
+				}
+				else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGING) {
+					onColSelChanging(pNM->hItem, pNM->dwData);
+				}
+				else if (pNM->hdr.code == OptionsCtrl::OCN_ITEMDROPPED) {
+					OptionsCtrl::NMOPTIONSCTRLDROP* pNM2 = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRLDROP*>(pNM);
 
-							if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
-							{
-								onBandClicked(pNM->hButton, pNM->dwData);
-							}
-							else if (pNM->hdr.code == BandCtrl::BCN_DROPDOWN)
-							{
-								onBandDropDown(pNM->hButton, pNM->dwData);
-							}
-						}
-						break;
-
-					case IDC_COLUMNS:
-						{
-							OptionsCtrl::NMOPTIONSCTRL* pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
-
-							if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED)
-							{
-								getParent()->settingsChanged();
-								getParent()->updateProblemInfo();
-							}
-							else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGED)
-							{
-								onColSelChanged(pNM->hItem, pNM->dwData);
-							}
-							else if (pNM->hdr.code == OptionsCtrl::OCN_SELCHANGING)
-							{
-								onColSelChanging(pNM->hItem, pNM->dwData);
-							}
-							else if (pNM->hdr.code == OptionsCtrl::OCN_ITEMDROPPED)
-							{
-								OptionsCtrl::NMOPTIONSCTRLDROP* pNM2 = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRLDROP*>(pNM);
-
-								onColItemDropped(pNM2->hItem, pNM2->hDropTarget, pNM2->bAbove);
-							}
-						}
-						break;
-
-					case IDC_OPTIONS:
-						{
-							OptionsCtrl::NMOPTIONSCTRL * pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
-
-							if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED)
-							{
-								getParent()->settingsChanged();
-							}
-							else if (pNM->hdr.code == OptionsCtrl::OCN_CLICKED)
-							{
-								onColumnButton(pNM->hItem, pNM->dwData);
-							}
-						}
-						break;
-
-					case IDC_INFO:
-						{
-							NMTREEVIEW* pNM = reinterpret_cast<NMTREEVIEW*>(lParam);
-
-							if (pNM->hdr.code == TVN_ITEMEXPANDING)
-							{
-								if (pNM->action == TVE_COLLAPSE || pNM->action == TVE_COLLAPSERESET ||
-									(pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED))
-								{
-									SetWindowLong(getHWnd(), DWLP_MSGRESULT, TRUE);
-									return TRUE;
-								}
-							}
-						}
-						break;
+					onColItemDropped(pNM2->hItem, pNM2->hDropTarget, pNM2->bAbove);
 				}
 			}
 			break;
+
+		case IDC_OPTIONS:
+			{
+				OptionsCtrl::NMOPTIONSCTRL * pNM = reinterpret_cast<OptionsCtrl::NMOPTIONSCTRL*>(lParam);
+
+				if (pNM->hdr.code == OptionsCtrl::OCN_MODIFIED)
+					getParent()->settingsChanged();
+				else if (pNM->hdr.code == OptionsCtrl::OCN_CLICKED)
+					onColumnButton(pNM->hItem, pNM->dwData);
+			}
+			break;
+
+		case IDC_INFO:
+			NMTREEVIEW* pNM = reinterpret_cast<NMTREEVIEW*>(lParam);
+			if (pNM->hdr.code == TVN_ITEMEXPANDING) {
+				if (pNM->action == TVE_COLLAPSE || pNM->action == TVE_COLLAPSERESET ||
+					 (pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
+					SetWindowLong(getHWnd(), DWLP_MSGRESULT, TRUE);
+					return TRUE;
+				}
+			}
+			break;
+		}
+		break;
 	}
 
 	return FALSE;
@@ -214,17 +165,19 @@ void DlgOption::SubColumns::onWMInitDialog()
 	// init column band
 	m_Band << GetDlgItem(getHWnd(), IDC_BAND);
 
-	static const struct {
+	static const struct
+	{
 		WORD iconId;
-		mu_text* szTooltip;
+		TCHAR* szTooltip;
 		bool bRight;
 		bool bDropDown;
 		bool bDisabled;
-	} columnBand[] = {
-		{ IDI_COL_ADD , I18N(muT("Add column...")), false, true , false },
-		{ IDI_COL_DEL , I18N(muT("Delete column")), false, false, true  },
-		{ IDI_COL_DOWN, I18N(muT("Move down"))    , true , false, true  },
-		{ IDI_COL_UP  , I18N(muT("Move up"))      , true , false, true  },
+	}
+	columnBand[] = {
+		{ IDI_COL_ADD, LPGENT("Add column..."), false, true, false },
+		{ IDI_COL_DEL, LPGENT("Delete column"), false, false, true },
+		{ IDI_COL_DOWN, LPGENT("Move down"), true, false, true },
+		{ IDI_COL_UP, LPGENT("Move up"), true, false, true },
 	};
 
 	array_each_(i, columnBand)
@@ -235,7 +188,7 @@ void DlgOption::SubColumns::onWMInitDialog()
 			(columnBand[i].bDropDown ? BandCtrl::BCF_DROPDOWN : 0) |
 			(columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);
 
-		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, i18n(columnBand[i].szTooltip));
+		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateTS(columnBand[i].szTooltip));
 
 		DestroyIcon(hIcon);
 	}
@@ -267,10 +220,8 @@ void DlgOption::SubColumns::loadSettings()
 	HANDLE hSelItem = m_Columns.getSelection();
 	Column* pPrevCol = NULL;
 
-	if (hSelItem)
-	{
+	if (hSelItem) {
 		pPrevCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSelItem));
-
 		hSelItem = NULL;
 	}
 
@@ -292,9 +243,7 @@ void DlgOption::SubColumns::loadSettings()
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 
 		if (!hSelItem && pCol == pPrevCol)
-		{
 			hSelItem = hColCheck;
-		}
 	}
 
 	m_Columns.ensureVisible(NULL);
@@ -311,23 +260,17 @@ void DlgOption::SubColumns::saveSettings()
 {
 	HANDLE hSelItem = m_Columns.getSelection();
 
-	if (hSelItem)
-	{
+	if (hSelItem) {
 		// deselect and select current item to save its options to localS
 		m_Columns.selectItem(NULL);
 		m_Columns.selectItem(hSelItem);
 	}
 
 	HANDLE hItem = m_Columns.getFirstItem();
-
-	while (hItem)
-	{				
+	while (hItem) {
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
-
 		if (pCol)
-		{
 			pCol->setEnabled(m_Columns.isItemChecked(hItem));
-		}
 
 		hItem = m_Columns.getNextItem(hItem);
 	}
@@ -338,14 +281,13 @@ void DlgOption::SubColumns::rearrangeControls()
 	RECT rClient, rWnd;
 	int offsetY;
 
-	if (m_nInfoHeight == 0)
-	{
+	if (m_nInfoHeight == 0) {
 		m_nInfoHeight = utils::getWindowRect(getHWnd(), IDC_INFO).bottom;
 		m_nInfoHeight -= utils::getWindowRect(getHWnd(), IDC_INFOLABEL).bottom;
 	}
 
 	GetClientRect(getHWnd(), &rClient);
-	
+
 	// columns tree
 	rWnd = utils::getWindowRect(getHWnd(), m_Columns);
 	rWnd.bottom = rClient.bottom;
@@ -374,9 +316,9 @@ void DlgOption::SubColumns::rearrangeControls()
 void DlgOption::SubColumns::toggleInfo()
 {
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
-	const mu_text* szInfoLabelText = m_bShowInfo ? I18N(muT("Hide additional column info...")) : I18N(muT("Show additional column info..."));
+	const TCHAR* szInfoLabelText = m_bShowInfo ? LPGENT("Hide additional column info...") : LPGENT("Show additional column info...");
 
-	SetDlgItemText(getHWnd(), IDC_INFOLABEL, i18n(szInfoLabelText));
+	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateTS(szInfoLabelText));
 	ShowWindow(hInfo, m_bShowInfo ? SW_SHOW : SW_HIDE);
 	EnableWindow(hInfo, BOOL_(m_bShowInfo));
 
@@ -385,8 +327,7 @@ void DlgOption::SubColumns::toggleInfo()
 
 void DlgOption::SubColumns::addCol(int nCol)
 {
-	if (nCol != -1)
-	{
+	if (nCol != -1) {
 		Column* pCol = Column::fromUID(Column::getColInfo(nCol).m_UID);
 
 		getParent()->getLocalSettings().addCol(pCol);
@@ -401,13 +342,11 @@ void DlgOption::SubColumns::addCol(int nCol)
 
 void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, DWORD dwData)
 {
-	if (hItem)
-	{
+	if (hItem) {
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
 
 		// general column settings
-		if (m_hColTitle)
-		{
+		if (m_hColTitle) {
 			pCol->setCustomTitle(m_Options.getEditString(m_hColTitle));
 
 			// adjust title in column tree
@@ -440,19 +379,17 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, DWORD dwData)
 	m_Options.setRedraw(false);
 	m_Options.deleteAllItems();
 
-	if (hItem)
-	{
+	if (hItem) {
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
 
 		// general column settings
-		OptionsCtrl::Group hGeneral = m_Options.insertGroup(NULL, i18n(muT("General column settings")), OptionsCtrl::OCF_ROOTGROUP);
+		OptionsCtrl::Group hGeneral = m_Options.insertGroup(NULL, TranslateT("General column settings"), OptionsCtrl::OCF_ROOTGROUP);
 
-		m_hColTitle = m_Options.insertEdit(hGeneral, i18n(muT("Title (default if empty)")), pCol->getCustomTitle().c_str());
+		m_hColTitle = m_Options.insertEdit(hGeneral, TranslateT("Title (default if empty)"), pCol->getCustomTitle().c_str());
 
 		// column specific settings
-		if (pCol->getFeatures() & Column::cfHasConfig)
-		{
-			OptionsCtrl::Group hSpecific = m_Options.insertGroup(NULL, i18n(muT("Column specific settings")), OptionsCtrl::OCF_ROOTGROUP);
+		if (pCol->getFeatures() & Column::cfHasConfig) {
+			OptionsCtrl::Group hSpecific = m_Options.insertGroup(NULL, TranslateT("Column specific settings"), OptionsCtrl::OCF_ROOTGROUP);
 
 			pCol->configToUI(m_Options, hSpecific);
 		}
@@ -475,33 +412,29 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, DWORD dwData)
 		tvi.item.state = TVIS_EXPANDED;
 		tvi.item.stateMask = TVIS_EXPANDED;
 
-		tvi.item.pszText = const_cast<mu_text*>(i18n(muT("For this config the selected column...")));
+		tvi.item.pszText = const_cast<TCHAR*>(TranslateT("For this config the selected column..."));
 		tvi.hParent = TreeView_InsertItem(hInfo, &tvi);
 
 		// show capabilities of column
-		ext::string msg = i18n(muT("...can be output as: "));
+		ext::string msg = TranslateT("...can be output as: ");
 
-		if (restrictions & Column::crHTMLMask)
-		{
+		if (restrictions & Column::crHTMLMask) {
 			// MEMO: don't distinguish between full/partial since not yet supported
-			msg += i18n(muT("HTML"));
+			msg += TranslateT("HTML");
 		}
 
-		if (restrictions & Column::crPNGMask)
-		{
+		if (restrictions & Column::crPNGMask) {
 			if (restrictions & Column::crHTMLMask)
-			{
-				msg += muT(", ");
-			}
+				msg += _T(", ");
 
-			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? i18n(muT("PNG (partial)")) : i18n(muT("PNG"));
+			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? TranslateT("PNG (partial)") : TranslateT("PNG");
 		}
 
-		tvi.item.pszText = const_cast<mu_text*>(msg.c_str());
+		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
 		TreeView_InsertItem(hInfo, &tvi);
 
 		// show effect of current config
-		msg = i18n(muT("...will be output as: "));
+		msg = TranslateT("...will be output as: ");
 
 		/*
 		 * the logic (output mode -> restrictions -> effect):
@@ -521,27 +454,22 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, DWORD dwData)
 		 *                  -> PNG-full                -> PNG
 		 */
 
-		if (!bPNGOutput)
-		{
-			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? i18n(muT("HTML")) : i18n(muT("Nothing (column will be skipped)"));
+		if (!bPNGOutput) {
+			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? TranslateT("HTML") : TranslateT("Nothing (column will be skipped)");
 		}
 		else if (nPNGMode != Settings::pmPreferHTML) // && bPNGOutput
 		{
 			if (restrictions == (Column::crHTMLFull | Column::crPNGPartial))
-			{
-				msg += (nPNGMode == Settings::pmHTMLFallBack) ? i18n(muT("HTML as fallback")) : i18n(muT("PNG, ignoring some sttings"));
-			}
+				msg += (nPNGMode == Settings::pmHTMLFallBack) ? TranslateT("HTML as fallback") : TranslateT("PNG, ignoring some sttings");
 			else // !(html-full | png-partial)
-			{
-				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? i18n(muT("PNG")) : i18n(muT("HTML"));
-			}
+				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? TranslateT("PNG") : TranslateT("HTML");
 		}
 		else // bPNGOutput && nPNGMode == Settings::pmPreferHTML
 		{
-			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? i18n(muT("HTML")) : i18n(muT("PNG"));
+			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? TranslateT("HTML") : TranslateT("PNG");
 		}
 
-		tvi.item.pszText = const_cast<mu_text*>(msg.c_str());
+		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
 		TreeView_InsertItem(hInfo, &tvi);
 
 		SendMessage(hInfo, WM_SETREDRAW, TRUE, 0);
@@ -559,21 +487,15 @@ void DlgOption::SubColumns::onColItemDropped(HANDLE hItem, HANDLE hDropTarget, B
 {
 	// check if dropped before or after hItem and abort
 	if (hItem == hDropTarget)
-	{
 		return;
-	}
 
 	// convert dropped below to dropped above
 	if (!bAbove)
-	{
 		hDropTarget = m_Columns.getPrevItem(hDropTarget);
-	}
 
 	// check if dropped before or after hItem and abort (part 2)
 	if (hItem == hDropTarget || (hDropTarget && m_Columns.getNextItem(hDropTarget) == hItem))
-	{
 		return;
-	}
 
 	// perform move
 	Column* pItem = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
@@ -591,30 +513,28 @@ void DlgOption::SubColumns::onColItemDropped(HANDLE hItem, HANDLE hDropTarget, B
 
 void DlgOption::SubColumns::onBandClicked(HANDLE hButton, DWORD dwData)
 {
-	switch (dwData)
-	{
-		case caAdd:
-			onAdd();
-			break;
+	switch (dwData) {
+	case caAdd:
+		onAdd();
+		break;
 
-		case caDel:
-            onDel();
-			break;
+	case caDel:
+		onDel();
+		break;
 
-		case caMoveUp:
-            onMoveUp();
-			break;
-        
-		case caMoveDown:
-            onMoveDown();
-			break;
+	case caMoveUp:
+		onMoveUp();
+		break;
+
+	case caMoveDown:
+		onMoveDown();
+		break;
 	}
 }
 
 void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, DWORD dwData)
 {
-	if (dwData == caAdd)
-	{
+	if (dwData == caAdd) {
 		// determine position for popup menu
 		RECT rItem = m_Band.getButtonRect(hButton);
 		POINT ptMenu = { rItem.left, rItem.bottom };
@@ -655,12 +575,10 @@ void DlgOption::SubColumns::onDel()
 {
 	HANDLE hSelItem = m_Columns.getSelection();
 
-	if (hSelItem)
-	{
+	if (hSelItem) {
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSelItem));
 
-		if (pCol)
-		{
+		if (pCol) {
 			getParent()->getLocalSettings().delCol(pCol);
 			m_Columns.deleteItem(hSelItem);
 
@@ -674,14 +592,10 @@ void DlgOption::SubColumns::onMoveUp()
 	HANDLE hSel, hPrev2;
 
 	if (!(hSel = m_Columns.getSelection()))
-	{
 		return;
-	}
 
 	if (!(hPrev2 = m_Columns.getPrevItem(hSel)))
-	{
 		return;
-	}
 
 	hPrev2 = m_Columns.getPrevItem(hPrev2);
 
@@ -703,14 +617,10 @@ void DlgOption::SubColumns::onMoveDown()
 	HANDLE hSel, hNext;
 
 	if (!(hSel = m_Columns.getSelection()))
-	{
 		return;
-	}
 
 	if (!(hNext = m_Columns.getNextItem(hSel)))
-	{
 		return;
-	}
 
 	Column* pSelCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSel));
 	Column* pNextCol = reinterpret_cast<Column*>(m_Columns.getItemData(hNext));
@@ -727,15 +637,12 @@ void DlgOption::SubColumns::onMoveDown()
 
 void DlgOption::SubColumns::onColumnButton(HANDLE hButton, DWORD dwData)
 {
-	if (dwData == Settings::biFilterWords)
-	{
+	if (dwData == Settings::biFilterWords) {
 		HANDLE hSel = m_Columns.getSelection();
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSel));
 
-		if (hSel && pCol)
-		{
-			if (getParent()->getLocalSettings().manageFilterWords(getHWnd(), pCol))
-			{
+		if (hSel && pCol) {
+			if (getParent()->getLocalSettings().manageFilterWords(getHWnd(), pCol)) {
 				getParent()->settingsChanged();
 			}
 		}
@@ -751,41 +658,32 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 	int nConflicts = 0;
 	ext::string curDetails;
 
-	while (hItem)
-	{				
-		if (m_Columns.isItemChecked(hItem))
-		{
+	while (hItem) {
+		if (m_Columns.isItemChecked(hItem)) {
 			Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
 
-			if (pCol)
-			{
+			if (pCol) {
 				int restrictions = pCol->configGetRestrictions(pHelp ? &curDetails : NULL);
 
 				// sanity check: either HTML or PNG has to be fully supported
 				if ((restrictions & Column::crHTMLMask) != Column::crHTMLFull &&
-					(restrictions & Column::crPNGMask) != Column::crPNGFull)
-				{
-					MessageBox(
-						0,
-						i18n(muT("HistoryStats - Error")),
-						i18n(muT("An internal column configuration error occured. Please contact the author of this plugin.")),
-						MB_ICONERROR | MB_OK);
+					 (restrictions & Column::crPNGMask) != Column::crPNGFull) {
+					MessageBox(NULL,
+						TranslateT("An internal column configuration error occured. Please contact the author of this plugin."),
+						TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
 				}
 
-				do
-				{
+				do {
 					// HTML-only output but column doesn't support it
-					if (!bPNGOutput && !(restrictions & Column::crHTMLPartial))
-					{
-						if (pHelp)
-						{
+					if (!bPNGOutput && !(restrictions & Column::crHTMLPartial)) {
+						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
 							pHelp->back().first = pCol->getTitle();
-							pHelp->back().first += muT(": ");
-							pHelp->back().first += i18n(muT("HTML output unsupported."));
+							pHelp->back().first += _T(": ");
+							pHelp->back().first += TranslateT("HTML output unsupported.");
 
-							pHelp->back().second = muT("");
+							pHelp->back().second = _T("");
 						}
 
 						++nConflicts;
@@ -795,25 +693,19 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 					// PNG output but only partial PNG support (enforce mode) -or-
 					// PNG output with alternative full HTML-only support (fallback mode)
 					if (bPNGOutput &&
-						(restrictions & Column::crPNGMask) == Column::crPNGPartial &&
-						(restrictions & Column::crHTMLMask) == Column::crHTMLFull &&
-						nPNGMode != Settings::pmPreferHTML)
-					{
-						if (pHelp)
-						{
+						 (restrictions & Column::crPNGMask) == Column::crPNGPartial &&
+						 (restrictions & Column::crHTMLMask) == Column::crHTMLFull &&
+						 nPNGMode != Settings::pmPreferHTML) {
+						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
 							pHelp->back().first = pCol->getTitle();
-							pHelp->back().first += muT(": ");
+							pHelp->back().first += _T(": ");
 
 							if (nPNGMode == Settings::pmHTMLFallBack)
-							{
-								pHelp->back().first += i18n(muT("Fallback to HTML due to setting."));
-							}
+								pHelp->back().first += TranslateT("Fallback to HTML due to setting.");
 							else
-							{
-								pHelp->back().first += i18n(muT("Setting ignored due to PNG output."));
-							}
+								pHelp->back().first += TranslateT("Setting ignored due to PNG output.");
 
 							pHelp->back().second = curDetails;
 						}
@@ -821,7 +713,8 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 						++nConflicts;
 						break;
 					}
-				} while (false);
+				}
+				while (false);
 			}
 		}
 

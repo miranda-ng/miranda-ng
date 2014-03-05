@@ -2,32 +2,32 @@
 #include "mirandasettings.h"
 
 
-MirandaSettings::MirandaSettings()
-	: m_hContact(0)
+MirandaSettings::MirandaSettings() :
+	m_hContact(0)
 {
 }
 
-bool MirandaSettings::readBool(const mu_ansi* szSetting, bool bDefault) const
+bool MirandaSettings::readBool(const char* szSetting, bool bDefault) const
 {
 	return (readByte(szSetting, bDefault ? 1 : 0) != 0);
 }
 
-int MirandaSettings::readByte(const mu_ansi* szSetting, int bDefault) const
+int MirandaSettings::readByte(const char* szSetting, int bDefault) const
 {
 	return db_get_b(m_hContact, m_strModule.c_str(), szSetting, bDefault);
 }
 
-int MirandaSettings::readWord(const mu_ansi* szSetting, int wDefault) const
+int MirandaSettings::readWord(const char* szSetting, int wDefault) const
 {
 	return db_get_w(m_hContact, m_strModule.c_str(), szSetting, wDefault);
 }
 
-int MirandaSettings::readDWord(const mu_ansi* szSetting, int dwDefault) const
+int MirandaSettings::readDWord(const char* szSetting, int dwDefault) const
 {
 	return db_get_dw(m_hContact, m_strModule.c_str(), szSetting, dwDefault);
 }
 
-ext::string MirandaSettings::readStr(const mu_ansi* szSetting, const mu_text* szDefault) const
+ext::string MirandaSettings::readStr(const char* szSetting, const TCHAR* szDefault) const
 {
 	DBVARIANT dbv;
 	if (db_get_s(m_hContact, m_strModule.c_str(), szSetting, &dbv))
@@ -38,7 +38,7 @@ ext::string MirandaSettings::readStr(const mu_ansi* szSetting, const mu_text* sz
 	return str;
 }
 
-ext::string MirandaSettings::readStrDirect(const mu_ansi* szSetting, const mu_text* szDefault) const
+ext::string MirandaSettings::readStrDirect(const char* szSetting, const TCHAR* szDefault) const
 {
 	DBVARIANT dbv;
 
@@ -73,47 +73,47 @@ ext::string MirandaSettings::readStrDirect(const mu_ansi* szSetting, const mu_te
 	return str;
 }
 
-void MirandaSettings::readTree(const mu_ansi* szSetting, const mu_text* szDefault, SettingsTree& value) const
+void MirandaSettings::readTree(const char* szSetting, const TCHAR* szDefault, SettingsTree& value) const
 {
 	value.fromString(readStr(szSetting, szDefault));
 }
 
-void MirandaSettings::writeBool(const mu_ansi* szSetting, bool bValue) const
+void MirandaSettings::writeBool(const char* szSetting, bool bValue) const
 {
 	writeByte(szSetting, bValue ? 1 : 0);
 }
 
-void MirandaSettings::writeByte(const mu_ansi* szSetting, int bValue) const
+void MirandaSettings::writeByte(const char* szSetting, int bValue) const
 {
 	db_set_b(m_hContact, m_strModule.c_str(), szSetting, bValue);
 }
 
-void MirandaSettings::writeWord(const mu_ansi* szSetting, int wValue) const
+void MirandaSettings::writeWord(const char* szSetting, int wValue) const
 {
 	db_set_w(m_hContact, m_strModule.c_str(), szSetting, wValue);
 }
 
-void MirandaSettings::writeDWord(const mu_ansi* szSetting, int dwValue) const
+void MirandaSettings::writeDWord(const char* szSetting, int dwValue) const
 {
 	db_set_dw(m_hContact, m_strModule.c_str(), szSetting, dwValue);
 }
 
-void MirandaSettings::writeStr(const mu_ansi* szSetting, const mu_text* szValue) const
+void MirandaSettings::writeStr(const char* szSetting, const TCHAR* szValue) const
 {
 	db_set_ts(m_hContact, m_strModule.c_str(), szSetting, szValue);
 }
 
-void MirandaSettings::writeStrDirect(const mu_ansi* szSetting, const mu_text* szValue) const
+void MirandaSettings::writeStrDirect(const char* szSetting, const TCHAR* szValue) const
 {
 	db_set_ts(m_hContact, m_strModule.c_str(), szSetting, szValue);
 }
 
-void MirandaSettings::writeTree(const mu_ansi* szSetting, const SettingsTree& value) const
+void MirandaSettings::writeTree(const char* szSetting, const SettingsTree& value) const
 {
 	writeStr(szSetting, value.toString().c_str());
 }
 
-bool MirandaSettings::settingExists(const mu_ansi* szSetting) const
+bool MirandaSettings::settingExists(const char* szSetting) const
 {
 	DBVARIANT dbv;
 	if (db_get_s(m_hContact, m_strModule.c_str(), szSetting, &dbv, 0))
@@ -123,12 +123,12 @@ bool MirandaSettings::settingExists(const mu_ansi* szSetting) const
 	return true;
 }
 
-bool MirandaSettings::delSetting(const mu_ansi* szSetting)
+bool MirandaSettings::delSetting(const char* szSetting)
 {
 	return db_unset(m_hContact, m_strModule.c_str(), szSetting) == 0;
 }
 
-int MirandaSettings::enumSettingsProc(const mu_ansi* szSetting, LPARAM lParam)
+int MirandaSettings::enumSettingsProc(const char* szSetting, LPARAM lParam)
 {
 	SetInserter* pInserter = reinterpret_cast<SetInserter*>(lParam);
 

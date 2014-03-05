@@ -42,29 +42,29 @@ void ColTimeline::impl_configWrite(SettingsTree& settings) const
 
 void ColTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 {
-	/**/m_hSource    = Opt.insertCombo(hGroup, i18n(muT("Data source")));
-	/**/m_hIgnoreOld = Opt.insertEdit(hGroup, i18n(muT("Drop everything older than (days, 0=no limit)")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/m_hDetail    = Opt.insertCheck(hGroup, i18n(muT("Details for every bar (tooltip)")));
-	/**/m_hDays      = Opt.insertEdit (hGroup, i18n(muT("Number of days to group")), muT(""), OptionsCtrl::OCF_NUMBER);
+	m_hSource    = Opt.insertCombo(hGroup, TranslateT("Data source"));
+	m_hIgnoreOld = Opt.insertEdit(hGroup, TranslateT("Drop everything older than (days, 0=no limit)"), _T(""), OptionsCtrl::OCF_NUMBER);
+	m_hDetail    = Opt.insertCheck(hGroup, TranslateT("Details for every bar (tooltip)"));
+	m_hDays      = Opt.insertEdit (hGroup, TranslateT("Number of days to group"), _T(""), OptionsCtrl::OCF_NUMBER);
 
-	static const mu_text* sourceTexts[] = {
-		I18N(muT("Characters (incoming)")),
-		I18N(muT("Characters (outgoing)")),
-		I18N(muT("Characters (all)")),
-		I18N(muT("Characters (in/out ratio)")),
-		I18N(muT("Messages (incoming)")),
-		I18N(muT("Messages (outgoing)")),
-		I18N(muT("Messages (all)")),
-		I18N(muT("Messages (in/out ratio)")),
-		I18N(muT("Chats (incoming)")),
-		I18N(muT("Chats (outgoing)")),
-		I18N(muT("Chats (all)")),
-		I18N(muT("Chats (in/out ratio)")),
+	static const TCHAR* sourceTexts[] = {
+		LPGENT("Characters (incoming)"),
+		LPGENT("Characters (outgoing)"),
+		LPGENT("Characters (all)"),
+		LPGENT("Characters (in/out ratio)"),
+		LPGENT("Messages (incoming)"),
+		LPGENT("Messages (outgoing)"),
+		LPGENT("Messages (all)"),
+		LPGENT("Messages (in/out ratio)"),
+		LPGENT("Chats (incoming)"),
+		LPGENT("Chats (outgoing)"),
+		LPGENT("Chats (all)"),
+		LPGENT("Chats (in/out ratio)"),
 	};
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, i18n(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource   , 4 * m_nSource + m_nSourceType);
@@ -88,9 +88,7 @@ void ColTimeline::impl_configFromUI(OptionsCtrl& Opt)
 int ColTimeline::impl_configGetRestrictions(ext::string* pDetails) const
 {
 	if (pDetails && m_bDetail)
-	{
-		*pDetails = i18n(muT("Details for every bar (tooltip) are only available with HTML output."));
-	}
+		*pDetails = TranslateT("Details for every bar (tooltip) are only available with HTML output.");
 
 	// m_bDetail "on" means we need tooltips and they are not available with PNG output
 	return crHTMLFull | (m_bDetail ? crPNGPartial : crPNGFull);
@@ -98,7 +96,7 @@ int ColTimeline::impl_configGetRestrictions(ext::string* pDetails) const
 
 ext::string ColTimeline::impl_contactDataGetUID() const
 {
-	return ext::str(ext::format(muT("timeline-|")) % m_nSource);
+	return ext::str(ext::format(_T("timeline-|")) % m_nSource);
 }
 
 void ColTimeline::impl_contactDataPrepare(Contact& contact) const
@@ -170,20 +168,20 @@ Column::StyleList ColTimeline::impl_outputGetAdditionalStyles(IDProvider& idp)
 	{
 		m_CSS = idp.getID();
 
-		l.push_back(StylePair(muT("div.") + m_CSS, muT("position: relative; left: 50%; margin-left: -") + utils::intToString(m_nTimelineWidth / 2) + muT("px; width: ") + utils::intToString(m_nTimelineWidth) + muT("px; height: 49px;")));
+		l.push_back(StylePair(_T("div.") + m_CSS, _T("position: relative; left: 50%; margin-left: -") + utils::intToString(m_nTimelineWidth / 2) + _T("px; width: ") + utils::intToString(m_nTimelineWidth) + _T("px; height: 49px;")));
 		
 		if (m_nSourceType != 3)
 		{
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div"),     muT("position: absolute; top: 0px; width: 3px; height: 49px; overflow: hidden;")));
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div div"), muT("position: absolute; left: 0px; width: 3px; background-color: ") + utils::colorToHTML(con::ColorBar) + muT(";")));
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div.l"),   muT("position: absolute; top: 24px; left: 0px; height: 1px; width: ") + utils::intToString(m_nTimelineWidth) + muT("px; background-color: ") + utils::colorToHTML(con::ColorBarLine) + muT("; z-index: 9;")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div"),     _T("position: absolute; top: 0px; width: 3px; height: 49px; overflow: hidden;")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div div"), _T("position: absolute; left: 0px; width: 3px; background-color: ") + utils::colorToHTML(con::ColorBar) + _T(";")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.l"),   _T("position: absolute; top: 24px; left: 0px; height: 1px; width: ") + utils::intToString(m_nTimelineWidth) + _T("px; background-color: ") + utils::colorToHTML(con::ColorBarLine) + _T("; z-index: 9;")));
 		}
 		else
 		{
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div"),       muT("position: absolute; top: 0px; width: 3px; height: 49px; overflow: hidden; z-index: 9;")));
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div div.o"), muT("position: absolute; left: 0px; width: 3px; background-color: ") + utils::colorToHTML(con::ColorOut) + muT(";")));
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div div.i"), muT("position: absolute; top: 24px; left: 0px; width: 3px; background-color: ") + utils::colorToHTML(con::ColorIn) + muT(";")));
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div.l"),     muT("position: absolute; top: 24px; left: 0px; height: 1px; width: ") + utils::intToString(m_nTimelineWidth) + muT("px; background-color: ") + utils::colorToHTML(con::ColorIOLine) + muT("; z-index: 8;")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div"),       _T("position: absolute; top: 0px; width: 3px; height: 49px; overflow: hidden; z-index: 9;")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div div.o"), _T("position: absolute; left: 0px; width: 3px; background-color: ") + utils::colorToHTML(con::ColorOut) + _T(";")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div div.i"), _T("position: absolute; top: 24px; left: 0px; width: 3px; background-color: ") + utils::colorToHTML(con::ColorIn) + _T(";")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.l"),     _T("position: absolute; top: 24px; left: 0px; height: 1px; width: ") + utils::intToString(m_nTimelineWidth) + _T("px; background-color: ") + utils::colorToHTML(con::ColorIOLine) + _T("; z-index: 8;")));
 		}
 	}
 
@@ -192,27 +190,27 @@ Column::StyleList ColTimeline::impl_outputGetAdditionalStyles(IDProvider& idp)
 
 void ColTimeline::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const mu_text* szSourceDesc[] = {
-		I18N(muT("incoming characters")),
-		I18N(muT("outgoing characters")),
-		I18N(muT("all characters")),
-		I18N(muT("in/out ratio of characters")),
-		I18N(muT("incoming messages")),
-		I18N(muT("outgoing messages")),
-		I18N(muT("all messages")),
-		I18N(muT("in/out ratio of messages")),
-		I18N(muT("incoming chats")),
-		I18N(muT("outgoing chats")),
-		I18N(muT("all chats")),
-		I18N(muT("in/out ratio of chats")),
+	static const TCHAR* szSourceDesc[] = {
+		LPGENT("incoming characters"),
+		LPGENT("outgoing characters"),
+		LPGENT("all characters"),
+		LPGENT("in/out ratio of characters"),
+		LPGENT("incoming messages"),
+		LPGENT("outgoing messages"),
+		LPGENT("all messages"),
+		LPGENT("in/out ratio of messages"),
+		LPGENT("incoming chats"),
+		LPGENT("outgoing chats"),
+		LPGENT("all chats"),
+		LPGENT("in/out ratio of chats"),
 	};
 
 	if (row == 1)
 	{
-		ext::string strTitle = str(ext::kformat(i18n(muT("Timeline for #{data}")))
-			% muT("#{data}") * i18n(szSourceDesc[4 * m_nSource + m_nSourceType]));
+		ext::string strTitle = str(ext::kformat(TranslateT("Timeline for #{data}"))
+			% _T("#{data}") * TranslateTS(szSourceDesc[4 * m_nSource + m_nSourceType]));
 
-		writeRowspanTD(tos, getCustomTitle(i18n(muT("Timeline")), strTitle) + muT("<div style=\"width: ") + utils::intToString(m_nTimelineWidth) + muT("px;\"></div>"), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateT("Timeline"), strTitle) + _T("<div style=\"width: ") + utils::intToString(m_nTimelineWidth) + _T("px;\"></div>"), row, 1, rowSpan);
 	}
 }
 
@@ -273,7 +271,7 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 
 	if (usePNG())
 	{
-		tos << muT("<td class=\"img_middle\">");
+		tos << _T("<td class=\"img_middle\">");
 
 		// draw graph
 		Canvas canvas(m_nTimelineWidth, 49);
@@ -315,16 +313,16 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 		
 		if (getStatistic()->newFilePNG(canvas, strFinalFile))
 		{
-			tos << muT("<img src=\"") << strFinalFile << muT("\"/>");
+			tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
 		}
 
-		tos << muT("</td>") << ext::endl;
+		tos << _T("</td>") << ext::endl;
 	}
 	else
 	{
-		tos << muT("<td class=\"bars_middle\">")
-			<< muT("<div class=\"") << m_CSS << muT("\">")
-			<< muT("<div class=\"l\"></div>") << ext::endl;
+		tos << _T("<td class=\"bars_middle\">")
+			<< _T("<div class=\"") << m_CSS << _T("\">")
+			<< _T("<div class=\"l\"></div>") << ext::endl;
 
 		for (curDay = m_nFirstDay; curDay <= m_nLastDay; curDay += m_nDays)
 		{
@@ -346,42 +344,42 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 			{
 				DWORD rightDay = min(curDay + m_nDays - 1, m_nLastDay);
 
-				tos << muT("<div title=\"");
+				tos << _T("<div title=\"");
 
 				if (rightDay != curDay)
 				{
-					tos	<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[#{start_date}-#{end_date}] #{amount}")))
-							% muT("#{start_date}") * utils::timestampToDate(curDay * 86400)
-							% muT("#{end_date}") * utils::timestampToDate(rightDay * 86400)
-							% muT("#{amount}") * utils::intToGrouped(part_top)));
+					tos	<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("[#{start_date}-#{end_date}] #{amount}"))
+							% _T("#{start_date}") * utils::timestampToDate(curDay * 86400)
+							% _T("#{end_date}") * utils::timestampToDate(rightDay * 86400)
+							% _T("#{amount}") * utils::intToGrouped(part_top)));
 				}
 				else
 				{
-					tos	<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[#{date}] #{amount}")))
-							% muT("#{date}") * utils::timestampToDate(curDay * 86400)
-							% muT("#{amount}") * utils::intToGrouped(part_top)));
+					tos	<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("[#{date}] #{amount}"))
+							% _T("#{date}") * utils::timestampToDate(curDay * 86400)
+							% _T("#{amount}") * utils::intToGrouped(part_top)));
 				}
 
-				tos	<< muT("\" style=\"left: ")
-					<< (3 * ((curDay - m_nFirstDay) / m_nDays))	<< muT("px;\">");
+				tos	<< _T("\" style=\"left: ")
+					<< (3 * ((curDay - m_nFirstDay) / m_nDays))	<< _T("px;\">");
 			}
 			else if (bar_len != 0)
 			{
-				tos << muT("<div style=\"left: ") << (3 * ((curDay - m_nFirstDay) / m_nDays)) << muT("px;\">");
+				tos << _T("<div style=\"left: ") << (3 * ((curDay - m_nFirstDay) / m_nDays)) << _T("px;\">");
 			}
 
 			if (bar_len != 0)
 			{
-				tos << muT("<div style=\"top: ") << (24 - bar_len) << muT("px; height: ") << (1 + 2 * bar_len) << muT("px;\"></div>");
+				tos << _T("<div style=\"top: ") << (24 - bar_len) << _T("px; height: ") << (1 + 2 * bar_len) << _T("px;\"></div>");
 			}
 
 			if (m_bDetail || bar_len != 0)
 			{
-				tos << muT("</div>") << ext::endl;
+				tos << _T("</div>") << ext::endl;
 			}
 		}
 
-		tos << muT("</div></td>") << ext::endl;
+		tos << _T("</div></td>") << ext::endl;
 	}
 }
 
@@ -393,7 +391,7 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 
 	if (usePNG())
 	{
-		tos << muT("<td class=\"img_middle\">");
+		tos << _T("<td class=\"img_middle\">");
 
 		// draw graph
 		Canvas canvas(m_nTimelineWidth, 49);
@@ -450,16 +448,16 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 		
 		if (getStatistic()->newFilePNG(canvas, strFinalFile))
 		{
-			tos << muT("<img src=\"") << strFinalFile << muT("\"/>");
+			tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
 		}
 
-		tos << muT("</td>") << ext::endl;
+		tos << _T("</td>") << ext::endl;
 	}
 	else
 	{
-		tos << muT("<td class=\"bars_middle\">")
-			<< muT("<div class=\"") << m_CSS << muT("\">")
-			<< muT("<div class=\"l\"></div>") << ext::endl;
+		tos << _T("<td class=\"bars_middle\">")
+			<< _T("<div class=\"") << m_CSS << _T("\">")
+			<< _T("<div class=\"l\"></div>") << ext::endl;
 
 		for (curDay = m_nFirstDay; curDay <= m_nLastDay; curDay += m_nDays)
 		{
@@ -490,47 +488,47 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 			{
 				DWORD rightDay = min(curDay + m_nDays - 1, m_nLastDay);
 
-				tos << muT("<div title=\"");
+				tos << _T("<div title=\"");
 
 				if (rightDay != curDay)
 				{
-					tos << utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)")))
-							% muT("#{start_date}") * utils::timestampToDate(curDay * 86400)
-							% muT("#{end_date}") * utils::timestampToDate(rightDay * 86400)
-							% muT("#{out_amount}") * utils::intToGrouped(part_out)
-							% muT("#{in_amount}") * utils::intToGrouped(part_in)));
+					tos << utils::htmlEscape(ext::str(ext::kformat(TranslateT("[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)"))
+							% _T("#{start_date}") * utils::timestampToDate(curDay * 86400)
+							% _T("#{end_date}") * utils::timestampToDate(rightDay * 86400)
+							% _T("#{out_amount}") * utils::intToGrouped(part_out)
+							% _T("#{in_amount}") * utils::intToGrouped(part_in)));
 				}
 				else
 				{
-					tos << utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[#{date}] #{out_amount} (out) / #{in_amount} (in)")))
-							% muT("#{date}") * utils::timestampToDate(curDay * 86400)
-							% muT("#{out_amount}") * utils::intToGrouped(part_out)
-							% muT("#{in_amount}") * utils::intToGrouped(part_in)));
+					tos << utils::htmlEscape(ext::str(ext::kformat(TranslateT("[#{date}] #{out_amount} (out) / #{in_amount} (in)"))
+							% _T("#{date}") * utils::timestampToDate(curDay * 86400)
+							% _T("#{out_amount}") * utils::intToGrouped(part_out)
+							% _T("#{in_amount}") * utils::intToGrouped(part_in)));
 				}
 
-				tos << muT("\" style=\"left: ")
-					<< (3 * ((curDay - m_nFirstDay) / m_nDays)) << muT("px;\">");
+				tos << _T("\" style=\"left: ")
+					<< (3 * ((curDay - m_nFirstDay) / m_nDays)) << _T("px;\">");
 			}
 			else if (bar_len != 0)
 			{
-				tos << muT("<div style=\"left: ") << (3 * ((curDay - m_nFirstDay) / m_nDays)) << muT("px;\">");
+				tos << _T("<div style=\"left: ") << (3 * ((curDay - m_nFirstDay) / m_nDays)) << _T("px;\">");
 			}
 
 			if (bar_len < 0)
 			{
-				tos << muT("<div class=\"i\" style=\"height: ") << -bar_len << muT("px;\"></div>");
+				tos << _T("<div class=\"i\" style=\"height: ") << -bar_len << _T("px;\"></div>");
 			}
 			else if (bar_len > 0)
 			{
-				tos << muT("<div class=\"o\" style=\"top: ") << (25 - bar_len) << muT("px; height: ") << bar_len << muT("px;\"></div>");
+				tos << _T("<div class=\"o\" style=\"top: ") << (25 - bar_len) << _T("px; height: ") << bar_len << _T("px;\"></div>");
 			}
 
 			if (m_bDetail || bar_len != 0)
 			{
-				tos << muT("</div>") << ext::endl;
+				tos << _T("</div>") << ext::endl;
 			}
 		}
 
-		tos << muT("</div></td>") << ext::endl;
+		tos << _T("</div></td>") << ext::endl;
 	}
 }

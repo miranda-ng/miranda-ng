@@ -35,8 +35,8 @@ void ColNick::impl_configWrite(SettingsTree& settings) const
 
 void ColNick::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 {
-	/**/m_hDetail       = Opt.insertCheck(hGroup, i18n(muT("First/last message time (tooltip)")));
-	/**/m_hContactCount = Opt.insertCheck(hGroup, i18n(muT("Show countact count for omitted/totals (tooltip)")));
+	m_hDetail       = Opt.insertCheck(hGroup, TranslateT("First/last message time (tooltip)"));
+	m_hContactCount = Opt.insertCheck(hGroup, TranslateT("Show countact count for omitted/totals (tooltip)"));
 
 	Opt.checkItem(m_hDetail      , m_bDetail      );
 	Opt.checkItem(m_hContactCount, m_bContactCount);
@@ -52,18 +52,18 @@ void ColNick::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) c
 {
 	if (row == 1)
 	{
-		writeRowspanTD(tos, getCustomTitle(i18n(muT("Nick")), i18n(muT("Nick"))), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateT("Nick"), TranslateT("Nick")), row, 1, rowSpan);
 	}
 }
 
 void ColNick::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
 {
-	tos << muT("<td");
+	tos << _T("<td");
 
 	if (m_bDetail || (m_bContactCount && display != asContact))
 	{
-		ext::string strFirstTime = i18n(muT("(unknown)"));
-		ext::string strLastTime = i18n(muT("(unknown)"));
+		ext::string strFirstTime = TranslateT("(unknown)");
+		ext::string strLastTime = TranslateT("(unknown)");
 
 		if (contact.isFirstLastTimeValid())
 		{
@@ -75,40 +75,31 @@ void ColNick::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, Di
 
 		if (m_bDetail && !(m_bContactCount && display != asContact))
 		{
-			strTooltip = utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[First] #{first_time} / [Last] #{last_time}")))
-				% muT("#{first_time}") * strFirstTime
-				% muT("#{last_time}") * strLastTime));
+			strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("[First] #{first_time} / [Last] #{last_time}"))
+				% _T("#{first_time}") * strFirstTime
+				% _T("#{last_time}") * strLastTime));
 		}
 		else if (m_bDetail && (m_bContactCount && display != asContact))
 		{
-			strTooltip = utils::htmlEscape(ext::str(ext::kformat(i18n(muT("#{count} contacts / [First] #{first_time} / [Last] #{last_time}")))
-				% muT("#{count}") * contact.getNumContacts()
-				% muT("#{first_time}") * strFirstTime
-				% muT("#{last_time}") * strLastTime));
+			strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{count} contacts / [First] #{first_time} / [Last] #{last_time}"))
+				% _T("#{count}") * contact.getNumContacts()
+				% _T("#{first_time}") * strFirstTime
+				% _T("#{last_time}") * strLastTime));
 		}
 		else // if (!m_bDetail && (m_bContactCount && display != asContact))
 		{
-			strTooltip = utils::htmlEscape(ext::str(ext::kformat(i18n(muT("#{count} contacts")))
-				% muT("#{count}") * contact.getNumContacts()));
+			strTooltip = utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{count} contacts"))
+				% _T("#{count}") * contact.getNumContacts()));
 		}
 
-		tos << muT(" title=\"") << strTooltip << muT("\">");
+		tos << _T(" title=\"") << strTooltip << _T("\">");
 	}
-	else
-	{
-		tos << muT(">");		
-	}
+	else tos << _T(">");		
 
 	if (display == asContact)
-	{
-		tos << utils::htmlEscape(contact.getNick()) << muT("</td>") << ext::endl;
-	}
+		tos << utils::htmlEscape(contact.getNick()) << _T("</td>") << ext::endl;
 	else if (display == asOmitted)
-	{
-		tos << i18n(muT("Omitted")) << muT("</td>") << ext::endl;
-	}
+		tos << TranslateT("Omitted") << _T("</td>") << ext::endl;
 	else
-	{
-		tos << i18n(muT("Totals")) << muT("</td>") << ext::endl;
-	}
+		tos << TranslateT("Totals") << _T("</td>") << ext::endl;
 }

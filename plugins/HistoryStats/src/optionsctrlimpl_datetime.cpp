@@ -11,104 +11,93 @@ ext::string OptionsCtrlImpl::DateTime::getDTFormatString(const ext::string& strF
 {
 	ext::string strOut, strPart;
 
-	for (int i = 0; i < strFormat.length(); ++i)
-	{
-		if (strFormat[i] == muC('%') && i < strFormat.length() - 1)
-		{
+	for (int i = 0; i < strFormat.length(); ++i) {
+		if (strFormat[i] == '%' && i < strFormat.length() - 1) {
 			++i;
 
-			bool bSharp = (strFormat[i] == muC('#'));
+			bool bSharp = (strFormat[i] == '#');
 			ext::string strCode;
 
 			if (bSharp && i < strFormat.length() - 1)
-			{
 				++i;
+
+			switch (strFormat[i]) {
+			case 'a':
+				strCode = _T("ddd");
+				break;
+
+			case 'A':
+				strCode = _T("dddd");
+				break;
+
+			case 'b':
+				strCode = _T("MMM");
+				break;
+
+			case 'B':
+				strCode = _T("MMMM");
+				break;
+
+			case 'd':
+				strCode = bSharp ? _T("d") : _T("dd");
+				break;
+
+			case 'H':
+				strCode = bSharp ? _T("H") : _T("HH");
+				break;
+
+			case 'I':
+				strCode = bSharp ? _T("h") : _T("hh");
+				break;
+
+			case 'm':
+				strCode = bSharp ? _T("M") : _T("MM");
+				break;
+
+			case 'M':
+				strCode = bSharp ? _T("m") : _T("mm");
+				break;
+
+			case 'p':
+				strCode = _T("tt"); // MEMO: seems not to work if current locale is 24-hour
+				break;
+
+			case 'y':
+				strCode = _T("yy");
+				break;
+
+			case 'Y':
+				strCode = _T("yyyy");
+				break;
+
+			case '%':
+				strPart += _T("%");
+				break;
 			}
 
-			switch (strFormat[i])
-			{
-				case muC('a'):
-					strCode = muT("ddd");
-					break;
-
-				case muC('A'):
-					strCode = muT("dddd");
-					break;
-
-				case muC('b'):
-					strCode = muT("MMM");
-					break;
-
-				case muC('B'):
-					strCode = muT("MMMM");
-					break;
-
-				case muC('d'):
-					strCode = bSharp ? muT("d") : muT("dd");
-					break;
-
-				case muC('H'):
-					strCode = bSharp ? muT("H") : muT("HH");
-					break;
-
-				case muC('I'):
-					strCode = bSharp ? muT("h") : muT("hh");
-					break;
-
-				case muC('m'):
-					strCode = bSharp ? muT("M") : muT("MM");
-					break;
-
-				case muC('M'):
-					strCode = bSharp ? muT("m") : muT("mm");
-					break;
-
-				case muC('p'):
-					strCode = muT("tt"); // MEMO: seems not to work if current locale is 24-hour
-					break;
-
-				case muC('y'):
-					strCode = muT("yy");
-					break;
-
-				case muC('Y'):
-					strCode = muT("yyyy");
-					break;
-
-				case muC('%'):
-					strPart += muT("%");
-					break;
-			}
-
-			if (!strCode.empty())
-			{
-				if (!strPart.empty())
-				{
-					strOut += muT("'");
+			if (!strCode.empty()) {
+				if (!strPart.empty()) {
+					strOut += _T("'");
 					strOut += strPart;
-					strOut += muT("'");
-					strPart = muT("");
+					strOut += _T("'");
+					strPart = _T("");
 				}
 
 				strOut += strCode;
 			}
 		}
-		else
-		{
+		else {
 			strPart += strFormat[i];
 
-			if (strFormat[i] == muC('\''))
-			{
-				strPart += muT("'");
-			}
+			if (strFormat[i] == '\'')
+				strPart += _T("'");
 		}
 	}
 
-	if (!strPart.empty())
-	{
-		strOut += muT("'");
+	if (!strPart.empty()) {
+		strOut += _T("'");
 		strOut += strPart;
-		strOut += muT("'");
+		strOut += _T("'");
 	}
 
 	return strOut;
@@ -145,8 +134,7 @@ DWORD OptionsCtrlImpl::DateTime::fromSystemTime(const SYSTEMTIME& st)
 
 void OptionsCtrlImpl::DateTime::enableChildsDateTime()
 {
-	if (m_bDisableChilds || m_bDisableChildsOnNone)
-	{
+	if (m_bDisableChilds || m_bDisableChildsOnNone) {
 		enableChilds(getChildEnable());
 	}
 }
@@ -162,20 +150,17 @@ DWORD OptionsCtrlImpl::DateTime::getTimestampValue()
 {
 	SYSTEMTIME st;
 
-	if (SendMessage(m_hDateTimeWnd, DTM_GETSYSTEMTIME, 0, reinterpret_cast<LPARAM>(&st)) == GDT_VALID)
-	{
+	if (SendMessage(m_hDateTimeWnd, DTM_GETSYSTEMTIME, 0, reinterpret_cast<LPARAM>(&st)) == GDT_VALID) {
 		return fromSystemTime(st);
 	}
-	else
-	{
+	else {
 		return 24 * 60 * 60;
 	}
 }
 
 bool OptionsCtrlImpl::DateTime::getTimestampNone()
 {
-	if (!m_bAllowNone)
-	{
+	if (!m_bAllowNone) {
 		return false;
 	}
 
@@ -188,22 +173,18 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 {
 	ext::string strTemp = m_strLabel;
 
-	strTemp += muT(": ");
+	strTemp += _T(": ");
 
 	if (m_bNone)
-	{
-		strTemp += i18n(muT("none"));
-	}
+		strTemp += TranslateT("none");
 	else
-	{
 		strTemp += utils::timestampToString(m_dwTimestamp, m_strFormat.c_str());
-	}
 
 	return strTemp;
 }
 
-OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const mu_text* szLabel, const mu_text* szFormat, DWORD dwTimestamp, DWORD dwFlags, DWORD dwData)
-	: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(NULL), m_strFormat(szFormat), m_dwTimestamp(dwTimestamp)
+OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, DWORD dwData)
+: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(NULL), m_strFormat(szFormat), m_dwTimestamp(dwTimestamp)
 {
 	m_bDisableChildsOnNone = bool_(dwFlags & OCF_DISABLECHILDSONNONE);
 	m_bAllowNone = bool_(dwFlags & OCF_ALLOWNONE);
@@ -212,16 +193,14 @@ OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const
 
 	m_pCtrl->insertItem(pParent, this, getCombinedText().c_str(), dwFlags, m_bEnabled ? siDateTime : siDateTimeG);
 
-	if (pParent)
-	{
+	if (pParent) {
 		pParent->childAdded(this);
 	}
 }
 
 void OptionsCtrlImpl::DateTime::onSelect()
 {
-	if (!m_bEnabled || m_hDateTimeWnd)
-	{
+	if (!m_bEnabled || m_hDateTimeWnd) {
 		return;
 	}
 
@@ -230,13 +209,11 @@ void OptionsCtrlImpl::DateTime::onSelect()
 	HFONT hTreeFront = reinterpret_cast<HFONT>(SendMessage(m_pCtrl->m_hTree, WM_GETFONT, 0, 0));
 	RECT r;
 
-	if (m_pCtrl->getItemFreeRect(m_hItem, r))
-	{
+	if (m_pCtrl->getItemFreeRect(m_hItem, r)) {
 		r.top -= 2;
 		r.bottom += 2;
 
-		if (r.left + 50 > r.right)
-		{
+		if (r.left + 50 > r.right) {
 			r.left = r.right - 50;
 		}
 
@@ -245,10 +222,9 @@ void OptionsCtrlImpl::DateTime::onSelect()
 		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | (m_bAllowNone ? DTS_SHOWNONE : 0);
 
 		if (hTempWnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE, DATETIMEPICK_CLASS, muT(""), dwStyle,
+			WS_EX_CLIENTEDGE, DATETIMEPICK_CLASS, _T(""), dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccDateTime), g_hInst, NULL))
-		{
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccDateTime), g_hInst, NULL)) {
 			// restrict to dates a timestamp can hold (with 1 day less to avoid timezone issues)
 			SYSTEMTIME stMinMax[2] = { toSystemTime(0x00000000 + 24 * 60 * 60), toSystemTime(0x7FFFFFFF - 24 * 60 * 60) };
 
@@ -258,12 +234,10 @@ void OptionsCtrlImpl::DateTime::onSelect()
 			SendMessage(hTempWnd, DTM_SETFORMAT, 0, reinterpret_cast<LPARAM>(m_strFormatDT.c_str()));
 
 			// set timestamp
-			if (m_bAllowNone && m_bNone)
-			{
+			if (m_bAllowNone && m_bNone) {
 				SendMessage(hTempWnd, DTM_SETSYSTEMTIME, GDT_NONE, 0);
 			}
-			else
-			{
+			else {
 				SYSTEMTIME st = toSystemTime(m_dwTimestamp);
 
 				SendMessage(hTempWnd, DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&st));
@@ -278,13 +252,11 @@ void OptionsCtrlImpl::DateTime::onSelect()
 
 void OptionsCtrlImpl::DateTime::onDeselect()
 {
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		RECT rToInvalidate;
 		bool bValidRect = false;
 
-		if (GetWindowRect(m_hDateTimeWnd, &rToInvalidate))
-		{
+		if (GetWindowRect(m_hDateTimeWnd, &rToInvalidate)) {
 			ScreenToClient(m_pCtrl->m_hTree, reinterpret_cast<POINT*>(&rToInvalidate) + 0);
 			ScreenToClient(m_pCtrl->m_hTree, reinterpret_cast<POINT*>(&rToInvalidate) + 1);
 
@@ -308,21 +280,18 @@ void OptionsCtrlImpl::DateTime::onDeselect()
 
 void OptionsCtrlImpl::DateTime::onActivate()
 {
-	if (!m_hDateTimeWnd)
-	{
+	if (!m_hDateTimeWnd) {
 		onSelect();
 	}
 
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		SetFocus(m_hDateTimeWnd);
 	}
 }
 
 void OptionsCtrlImpl::DateTime::onDateTimeChange()
 {
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		m_dwTimestamp = getTimestampValue();
 		m_bNone = getTimestampNone();
 
@@ -342,27 +311,24 @@ void OptionsCtrlImpl::DateTime::setEnabled(bool bEnable)
 
 void OptionsCtrlImpl::DateTime::childAdded(Item* pChild)
 {
-	if (m_bDisableChilds || m_bDisableChildsOnNone)
-	{
+	if (m_bDisableChilds || m_bDisableChildsOnNone) {
 		pChild->setEnabled(getChildEnable());
 	}
 }
 
-void OptionsCtrlImpl::DateTime::setLabel(const mu_text* szLabel)
+void OptionsCtrlImpl::DateTime::setLabel(const TCHAR* szLabel)
 {
 	m_strLabel = szLabel;
 
 	// only if not editing (otherwise update when user finishes editing)
-	if (!m_hDateTimeWnd)
-	{
+	if (!m_hDateTimeWnd) {
 		m_pCtrl->setNodeText(m_hItem, getCombinedText().c_str());
 	}
 }
 
 bool OptionsCtrlImpl::DateTime::isNone()
 {
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		m_dwTimestamp = getTimestampValue();
 		m_bNone = getTimestampNone();
 	}
@@ -372,19 +338,16 @@ bool OptionsCtrlImpl::DateTime::isNone()
 
 void OptionsCtrlImpl::DateTime::setNone()
 {
-	if (!m_bAllowNone)
-	{
+	if (!m_bAllowNone) {
 		return;
 	}
 
 	m_bNone = true;
 
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		SendMessage(m_hDateTimeWnd, DTM_SETSYSTEMTIME, GDT_NONE, 0);
 	}
-	else
-	{
+	else {
 		m_pCtrl->setNodeText(m_hItem, getCombinedText().c_str());
 	}
 
@@ -394,8 +357,7 @@ void OptionsCtrlImpl::DateTime::setNone()
 
 DWORD OptionsCtrlImpl::DateTime::getTimestamp()
 {
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		m_dwTimestamp = getTimestampValue();
 		m_bNone = getTimestampNone();
 	}
@@ -408,14 +370,12 @@ void OptionsCtrlImpl::DateTime::setTimestamp(DWORD dwTimestamp)
 	m_bNone = false;
 	m_dwTimestamp = dwTimestamp;
 
-	if (m_hDateTimeWnd)
-	{
+	if (m_hDateTimeWnd) {
 		SYSTEMTIME st = toSystemTime(dwTimestamp);
 
 		SendMessage(m_hDateTimeWnd, DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&st));
 	}
-	else
-	{
+	else {
 		m_pCtrl->setNodeText(m_hItem, getCombinedText().c_str());
 	}
 

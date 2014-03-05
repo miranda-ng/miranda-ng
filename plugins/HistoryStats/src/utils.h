@@ -7,14 +7,14 @@
 namespace utils
 {
 	// time formatting
-	ext::string timestampToString(DWORD value, const mu_text* format);
-	ext::string tmStructToString(const tm& value, const mu_text* format);
-	inline ext::string timestampToDateTime(DWORD value) { return timestampToString(value, muT("%c")); }
-	inline ext::string timestampToDate(DWORD value) { return timestampToString(value, muT("%x")); }
-	inline ext::string timestampToTime(DWORD value) { return timestampToString(value, muT("%X")); }
+	ext::string timestampToString(DWORD value, const TCHAR* format);
+	ext::string tmStructToString(const tm& value, const TCHAR* format);
+	inline ext::string timestampToDateTime(DWORD value) { return timestampToString(value, _T("%c")); }
+	inline ext::string timestampToDate(DWORD value) { return timestampToString(value, _T("%x")); }
+	inline ext::string timestampToTime(DWORD value) { return timestampToString(value, _T("%X")); }
 	ext::string durationToString(DWORD value);
 	DWORD parseDate(const ext::string& date);
-	inline ext::string formatDate(DWORD dwTimestamp) { return timestampToString(dwTimestamp, muT("%Y-%m-%d")); }
+	inline ext::string formatDate(DWORD dwTimestamp) { return timestampToString(dwTimestamp, _T("%Y-%m-%d")); }
 
 	// number formatting
 	ext::string intToString(int value);
@@ -27,12 +27,12 @@ namespace utils
 	ext::string ratioToPercent(int numerator, int denominator);
 
 	// text conversion
-	void replaceAllInPlace(ext::string& text, const mu_text* find, const mu_text* replace);
+	void replaceAllInPlace(ext::string& text, const TCHAR* find, const TCHAR* replace);
 	void htmlEscapeInPlace(ext::string& text);
-	inline ext::string replaceAll(ext::string text, const mu_text* find, const mu_text* replace) { replaceAllInPlace(text, find, replace); return text; }
+	inline ext::string replaceAll(ext::string text, const TCHAR* find, const TCHAR* replace) { replaceAllInPlace(text, find, replace); return text; }
 	inline ext::string htmlEscape(ext::string text) { htmlEscapeInPlace(text); return text; }
-	const mu_text* stripPrefix(const mu_text* szPrefix, const mu_text* szText);
-	ext::string replaceVariables(const ext::string& strFormat, DWORD timeValue, const mu_text* szNick = muT(""));
+	const TCHAR* stripPrefix(const TCHAR* szPrefix, const TCHAR* szText);
+	ext::string replaceVariables(const ext::string& strFormat, DWORD timeValue, const TCHAR* szNick = _T(""));
 
 	// case conversion
 	ext::string toLowerCase(const ext::string& text);
@@ -46,24 +46,24 @@ namespace utils
 	ext::string versionToDotted(DWORD version);
 
 	// character conversion (wide, ansi, utf8)
-	ext::a::string convertWToA(const mu_wide* str, size_t len);
-	ext::w::string convertAToW(const mu_ansi* str, size_t len);
-	ext::a::string convertTToUTF8(const mu_text* str, size_t str_len);
-	ext::string convertUTF8ToT(const mu_ansi* str, size_t str_len);
-	size_t rawUTF8Encode(const mu_wide* pIn, size_t lenIn, mu_ansi* pOut);
-	size_t getUTF8Len(const mu_ansi* str);
+	ext::a::string convertWToA(const WCHAR* str, size_t len);
+	ext::w::string convertAToW(const char* str, size_t len);
+	ext::a::string convertTToUTF8(const TCHAR* str, size_t str_len);
+	ext::string convertUTF8ToT(const char* str, size_t str_len);
+	size_t rawUTF8Encode(const WCHAR* pIn, size_t lenIn, char* pOut);
+	size_t getUTF8Len(const char* str);
 
 	// character conversion (convenience functions)
-	inline ext::a::string toA(const mu_text* str) { return MU_DO_BOTH(str, convertWToA(str, ext::strfunc::len(str))); }
-	inline ext::w::string toW(const mu_text* str) { return MU_DO_BOTH(convertAToW(str, ext::strfunc::len(str)), str); }
-	inline ext::string fromA(const mu_ansi* str) { return MU_DO_BOTH(str, convertAToW(str, ext::a::strfunc::len(str))); }
-	inline ext::string fromW(const mu_wide* str) { return MU_DO_BOTH(convertWToA(str, ext::w::strfunc::len(str)), str); }
-	inline ext::a::string toA(const ext::string& str) { return MU_DO_BOTH(str, convertWToA(str.c_str(), str.length())); }
-	inline ext::w::string toW(const ext::string& str) { return MU_DO_BOTH(convertAToW(str.c_str(), str.length()), str); }
-	inline ext::string fromA(const ext::a::string& str) { return MU_DO_BOTH(str, convertAToW(str.c_str(), str.length())); }
-	inline ext::string fromW(const ext::w::string& str) { return MU_DO_BOTH(convertWToA(str.c_str(), str.length()), str); }
-	inline ext::a::string toUTF8(const mu_text* str) { return convertTToUTF8(str, ext::strfunc::len(str)); }
-	inline ext::string fromUTF8(const mu_ansi* str) { return convertUTF8ToT(str, ext::a::strfunc::len(str)); }
+	inline ext::a::string toA(const TCHAR* str) { return convertWToA(str, ext::strfunc::len(str)); }
+	inline ext::w::string toW(const TCHAR* str) { return str; }
+	inline ext::string fromA(const char* str) { return convertAToW(str, ext::a::strfunc::len(str)); }
+	inline ext::string fromW(const WCHAR* str) { return str; }
+	inline ext::a::string toA(const ext::string& str) { return convertWToA(str.c_str(), str.length()); }
+	inline ext::w::string toW(const ext::string& str) { return str; }
+	inline ext::string fromA(const ext::a::string& str) { return convertAToW(str.c_str(), str.length()); }
+	inline ext::string fromW(const ext::w::string& str) { return str; }
+	inline ext::a::string toUTF8(const TCHAR* str) { return convertTToUTF8(str, ext::strfunc::len(str)); }
+	inline ext::string fromUTF8(const char* str) { return convertUTF8ToT(str, ext::a::strfunc::len(str)); }
 	inline ext::a::string toUTF8(const ext::string& str) { return convertTToUTF8(str.c_str(), str.length()); }
 	inline ext::string fromUTF8(const ext::a::string& str) { return convertUTF8ToT(str.c_str(), str.length()); }
 
@@ -128,8 +128,8 @@ class Locale
 	: private pattern::NotCopyable<Locale>
 {
 private:
-	mu_text m_DecimalPoint;
-	mu_text m_ThousandSep;
+	TCHAR m_DecimalPoint;
+	TCHAR m_ThousandSep;
 	ext::a::string m_Grouping;
 
 private:
@@ -140,8 +140,8 @@ private:
 
 public:
 	static void init();
-	static mu_text decimalPoint() { return m_Data.m_DecimalPoint; }
-	static mu_text thousandSep() { return m_Data.m_ThousandSep; }
+	static TCHAR decimalPoint() { return m_Data.m_DecimalPoint; }
+	static TCHAR thousandSep() { return m_Data.m_ThousandSep; }
 	static const char* grouping() { return m_Data.m_Grouping.c_str(); }
 };
 

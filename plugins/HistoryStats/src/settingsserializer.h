@@ -15,7 +15,7 @@ private:
 	MirandaSettings m_DB;
 
 public:
-	explicit SettingsSerializer(const mu_ansi* module);
+	explicit SettingsSerializer(const char* module);
 
 	void readFromDB();
 	void writeToDB();
@@ -33,7 +33,7 @@ public:
 	void setShowSupportInfo(bool bShow);
 
 	ext::string getLastStatisticsFile();
-	void setLastStatisticsFile(const mu_text* szFileName);
+	void setLastStatisticsFile(const TCHAR* szFileName);
 	bool canShowStatistics();
 	void showStatistics();
 };

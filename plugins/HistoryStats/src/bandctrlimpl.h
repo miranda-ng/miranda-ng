@@ -6,8 +6,6 @@
 
 #include <vector>
 
-#include "themeapi.h"
-
 /*
  * BandCtrlImpl
  */
@@ -33,7 +31,7 @@ private:
 	};
 
 private:
-	static const mu_text* m_ClassName;
+	static const TCHAR* m_ClassName;
 	static const int m_PollId;
 	static const int m_PollDelay;
 

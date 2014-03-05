@@ -10,15 +10,15 @@ void BandCtrl::setLayout(int nLayout)
 	SendMessage(m_hBandWnd, BCM_SETLAYOUT, nLayout, 0);
 }
 
-HANDLE BandCtrl::addButton(DWORD dwFlags, HICON hIcon, DWORD dwData, const mu_text* szTooltip /* = NULL */, const mu_text* szText /* = NULL */)
+HANDLE BandCtrl::addButton(DWORD dwFlags, HICON hIcon, DWORD dwData, const TCHAR* szTooltip /* = NULL */, const TCHAR* szText /* = NULL */)
 {
 	BCBUTTON bcb;
 
 	bcb.dwFlags = dwFlags | BCF_ICON | BCF_DATA | (szTooltip ? BCF_TOOLTIP : 0) | (szText ? BCF_TEXT : 0);
 	bcb.hIcon = hIcon;
 	bcb.dwData = dwData;
-	bcb.szTooltip = const_cast<mu_text*>(szTooltip);
-	bcb.szText = const_cast<mu_text*>(szText);
+	bcb.szTooltip = const_cast<TCHAR*>(szTooltip);
+	bcb.szText = const_cast<TCHAR*>(szText);
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hBandWnd, BCM_ADDBUTTON, 0, reinterpret_cast<LPARAM>(&bcb)));
 }

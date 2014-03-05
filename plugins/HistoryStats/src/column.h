@@ -38,8 +38,8 @@ private:
 	{
 	public:
 		ext::string m_UID;
-		const mu_text* m_Title;
-		const mu_text* m_Description;
+		const TCHAR* m_Title;
+		const TCHAR* m_Description;
 		FactoryBase* m_pFactory;
 	};
 
@@ -137,7 +137,7 @@ protected:
 
 public:
 	Column()
-		: m_bEnabled(true), m_CustomTitle(muT("")),
+		: m_bEnabled(true), m_CustomTitle(_T("")),
 		m_nContactDataSlot(-1), m_nContactDataTransformSlot(-1),
 		m_pStatistic(NULL), m_pSettings(NULL), m_pCharMapper(NULL),
 		m_bUsePNG(false)
@@ -155,7 +155,7 @@ public:
 	void setCustomTitle(const ext::string& customTitle) { m_CustomTitle = customTitle; }
 	const ext::string getCustomTitle() const { return m_CustomTitle; }
 	const ext::string getCustomTitle(const ext::string& strShort, const ext::string& strLong) const;
-	ext::string getTitleForOptions() { return m_CustomTitle.empty() ? getTitle() : (m_CustomTitle + muT(" (") + getTitle() + muT(")")); }
+	ext::string getTitleForOptions() { return m_CustomTitle.empty() ? getTitle() : (m_CustomTitle + _T(" (") + getTitle() + _T(")")); }
 	
 	void setHelpers(Statistic* pStatistic, Settings* pSettings, Settings::CharMapper* pCharMapper) { m_pStatistic = pStatistic; m_pSettings = pSettings; m_pCharMapper = pCharMapper; }
 	Statistic* getStatistic() const { return m_pStatistic; }
@@ -170,9 +170,9 @@ public:
 	/*
 	 * public interface for virtual functions
 	 */
-	const mu_text* getUID() const { return impl_getUID(); }
-	const mu_text* getTitle() const { return impl_getTitle(); }
-	const mu_text* getDescription() const { return impl_getDescription(); }
+	const TCHAR* getUID() const { return impl_getUID(); }
+	const TCHAR* getTitle() const { return impl_getTitle(); }
+	const TCHAR* getDescription() const { return impl_getDescription(); }
 	void copyConfig(const Column* pSource) { impl_copyConfig(pSource); }
 	int getFeatures() const { return impl_getFeatures(); }
 	void configRead(const SettingsTree& settings) { impl_configRead(settings); }
@@ -206,19 +206,19 @@ protected:
 	 * Returns a unique ID for column.
 	 * [virtual/abstract]
 	 */
-	virtual const mu_text* impl_getUID() const = 0;
+	virtual const TCHAR* impl_getUID() const = 0;
 
 	/*
 	 * Returns the title for the column.
 	 * [virtual/abstract]
 	 */
-	virtual const mu_text* impl_getTitle() const = 0;
+	virtual const TCHAR* impl_getTitle() const = 0;
 
 	/*
 	 * Returns the description for the column.
 	 * [virtual/abstract]
 	 */
-	virtual const mu_text* impl_getDescription() const = 0;
+	virtual const TCHAR* impl_getDescription() const = 0;
 
 	/*
 	 * Creates a exact copy of the column.

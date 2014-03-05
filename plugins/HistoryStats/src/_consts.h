@@ -4,13 +4,13 @@
 #include "_globals.h"
 
 #if defined(HISTORYSTATS_CONST_DEFINE)
-#define CONST_T(nam, txt) extern const mu_text* nam = muT(txt);
-#define CONST_A(nam, txt) extern const mu_ansi* nam = muA(txt);
-#define CONST_W(nam, txt) extern const mu_wide* nam = muW(txt);
+#define CONST_T(nam, txt) extern const TCHAR* nam = _T(txt);
+#define CONST_A(nam, txt) extern const char* nam = txt;
+#define CONST_W(nam, txt) extern const WCHAR* nam = L#txt;
 #else
-#define CONST_T(nam, txt) extern const mu_text* nam;
-#define CONST_A(nam, txt) extern const mu_ansi* nam;
-#define CONST_W(nam, txt) extern const mu_wide* nam;
+#define CONST_T(nam, txt) extern const TCHAR* nam;
+#define CONST_A(nam, txt) extern const char* nam;
+#define CONST_W(nam, txt) extern const WCHAR* nam;
 #endif
 
 /*

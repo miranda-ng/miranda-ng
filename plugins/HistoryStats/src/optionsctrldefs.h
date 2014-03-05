@@ -17,8 +17,8 @@ public:
 		OCM_INSERTEDIT       = WM_USER +  3, // (HANDLE hParent, OCEDIT* pEdit)         -> HANDLE hEdit            [Edit]
 		OCM_INSERTCOMBO      = WM_USER +  4, // (HANDLE hParent, OCCOMBO* pCombo)       -> HANDLE hCombo           [Combo]
 		OCM_INSERTBUTTON     = WM_USER +  5, // (HANDLE hParent, OCBUTTON* pButton)     -> HANDLE hButton          [Button]
-		OCM_GETITEMLABEL     = WM_USER +  6, // (HANDLE hItem, #)                       -> const mu_text* szLabel
-		OCM_SETITEMLABEL     = WM_USER +  7, // (HANDLE hItem, const mu_text* szLabel)  -> #
+		OCM_GETITEMLABEL     = WM_USER +  6, // (HANDLE hItem, #)                       -> const TCHAR* szLabel
+		OCM_SETITEMLABEL     = WM_USER +  7, // (HANDLE hItem, const TCHAR* szLabel)  -> #
 		OCM_ISITEMENABLED    = WM_USER +  8, // (HANDLE hItem, #)                       -> BOOL bEnabled
 		OCM_ENABLEITEM       = WM_USER +  9, // (HANDLE hItem, BOOL bEnable)            -> #
 		OCM_GETITEMDATA      = WM_USER + 10, // (HANDLE hItem, #)                       -> DWORD dwData
@@ -29,9 +29,9 @@ public:
 		OCM_SETRADIOCHECKED  = WM_USER + 15, // (HANDLE hRadio, int nCheck)             -> #                       [Radio]
 		OCM_GETEDITNUMBER    = WM_USER + 16, // (HANDLE hEdit, #)                       -> int nNumber             [Edit]
 		OCM_SETEDITNUMBER    = WM_USER + 17, // (HANDLE hEdit, int nNumber)             -> #                       [Edit]
-		OCM_GETEDITSTRING    = WM_USER + 18, // (HANDLE hEdit, #)                       -> const mu_text* szString [Edit]
-		OCM_SETEDITSTRING    = WM_USER + 19, // (HANDLE hEdit, const mu_text* szString) -> #                       [Edit]
-		OCM_ADDCOMBOITEM     = WM_USER + 20, // (HANDLE hCombo, const mu_text* szItem)  -> #                       [Combo]
+		OCM_GETEDITSTRING    = WM_USER + 18, // (HANDLE hEdit, #)                       -> const TCHAR* szString [Edit]
+		OCM_SETEDITSTRING    = WM_USER + 19, // (HANDLE hEdit, const TCHAR* szString) -> #                       [Edit]
+		OCM_ADDCOMBOITEM     = WM_USER + 20, // (HANDLE hCombo, const TCHAR* szItem)  -> #                       [Combo]
 		OCM_GETCOMBOSELECTED = WM_USER + 21, // (HANDLE hCombo, #)                      -> int nSelected           [Combo]
 		OCM_SETCOMBOSELECTED = WM_USER + 22, // (HANDLE hCombo, int nSelect)            -> #                       [Combo]
 		OCM_ENSUREVISIBLE    = WM_USER + 23, // (HANDLE hItem, #)                       -> #
@@ -89,54 +89,54 @@ public:
 
 	struct OCGROUP {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
 	};
 
 	struct OCCHECK {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
 	};
 
 	struct OCRADIO {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
 		HANDLE hSibling;
 	};
 
 	struct OCEDIT {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
-		mu_text* szEdit;
+		TCHAR* szEdit;
 	};
 
 	struct OCCOMBO {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
 	};
 
 	struct OCBUTTON {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
-		mu_text* szButton;
+		TCHAR* szButton;
 	};
 
 	struct OCDATETIME {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
-		mu_text* szFormat;
+		TCHAR* szFormat;
 		DWORD dwDateTime;
 	};
 
 	struct OCCOLOR {
 		DWORD dwFlags;
-		mu_text* szLabel;
+		TCHAR* szLabel;
 		DWORD dwData;
 		COLORREF crColor;
 	};

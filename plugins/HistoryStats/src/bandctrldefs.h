@@ -44,8 +44,8 @@ public:
 	struct BCBUTTON {
 		DWORD dwFlags;
 		HICON hIcon;
-		mu_text* szText;
-		mu_text* szTooltip;
+		TCHAR* szText;
+		TCHAR* szTooltip;
 		DWORD dwData;
 	};
 

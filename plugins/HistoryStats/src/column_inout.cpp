@@ -38,29 +38,29 @@ void ColInOut::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 {
 	OptionsCtrl::Group hTemp;
 
-	/**/m_hSource          = Opt.insertCombo(hGroup, i18n(muT("Data source")));
-	/**/hTemp              = Opt.insertGroup(hGroup, i18n(muT("Display as")));
-	/**/	m_hAbsolute    = Opt.insertRadio(hTemp, NULL, i18n(muT("Absolute")));
-	/**/	m_hAbsolute    = Opt.insertRadio(hTemp, m_hAbsolute, i18n(muT("Average")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/		m_hAbsTime = Opt.insertRadio(m_hAbsolute, NULL, i18n(muT("Units per day")));
-	/**/		             Opt.insertRadio(m_hAbsolute, m_hAbsTime, i18n(muT("Units per week")));
-	/**/		             Opt.insertRadio(m_hAbsolute, m_hAbsTime, i18n(muT("Units per month (30 days)")));
+	m_hSource   = Opt.insertCombo(hGroup, TranslateT("Data source"));
+	hTemp       = Opt.insertGroup(hGroup, TranslateT("Display as"));
+	m_hAbsolute = Opt.insertRadio(hTemp, NULL, TranslateT("Absolute"));
+	m_hAbsolute = Opt.insertRadio(hTemp, m_hAbsolute, TranslateT("Average"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+	m_hAbsTime  = Opt.insertRadio(m_hAbsolute, NULL, TranslateT("Units per day"));
+	              Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per week"));
+	              Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per month (30 days)"));
 
-	static const mu_text* sourceTexts[] = {
-		I18N(muT("Characters (incoming)")),
-		I18N(muT("Characters (outgoing)")),
-		I18N(muT("Characters (all)")),
-		I18N(muT("Messages (incoming)")),
-		I18N(muT("Messages (outgoing)")),
-		I18N(muT("Messages (all)")),
-		I18N(muT("Chats (incoming)")),
-		I18N(muT("Chats (outgoing)")),
-		I18N(muT("Chats (all)")),
+	static const TCHAR* sourceTexts[] = {
+		LPGENT("Characters (incoming)"),
+		LPGENT("Characters (outgoing)"),
+		LPGENT("Characters (all)"),
+		LPGENT("Messages (incoming)"),
+		LPGENT("Messages (outgoing)"),
+		LPGENT("Messages (all)"),
+		LPGENT("Chats (incoming)"),
+		LPGENT("Chats (outgoing)"),
+		LPGENT("Chats (all)"),
 	};
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, i18n(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource  , m_nSource          );
@@ -77,28 +77,28 @@ void ColInOut::impl_configFromUI(OptionsCtrl& Opt)
 
 void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const mu_text* szShortDesc[] = {
-		I18N(muT("Characters")),
-		I18N(muT("Messages")),
-		I18N(muT("Chats"))
+	static const TCHAR* szShortDesc[] = {
+		LPGENT("Characters"),
+		LPGENT("Messages"),
+		LPGENT("Chats")
 	};
 
-	static const mu_text* szSourceDesc[] = {
-		I18N(muT("Incoming characters")),
-		I18N(muT("Outgoing characters")),
-		I18N(muT("Characters")),
-		I18N(muT("Incoming messages")),
-		I18N(muT("Outgoing messages")),
-		I18N(muT("Messages")),
-		I18N(muT("Incoming chats")),
-		I18N(muT("Outgoing chats")),
-		I18N(muT("Chats")),
+	static const TCHAR* szSourceDesc[] = {
+		LPGENT("Incoming characters"),
+		LPGENT("Outgoing characters"),
+		LPGENT("Characters"),
+		LPGENT("Incoming messages"),
+		LPGENT("Outgoing messages"),
+		LPGENT("Messages"),
+		LPGENT("Incoming chats"),
+		LPGENT("Outgoing chats"),
+		LPGENT("Chats")
 	};
 
-	static const mu_text* szUnitDesc[] = {
-		I18N(muT("day")),
-		I18N(muT("week")),
-		I18N(muT("month")),
+	static const TCHAR* szUnitDesc[] = {
+		LPGENT("day"),
+		LPGENT("week"),
+		LPGENT("month"),
 	};
 
 	if (row == 1)
@@ -107,16 +107,16 @@ void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 
 		if (m_bAbsolute)
 		{
-			strTitle = i18n(szSourceDesc[m_nSource]);
+			strTitle = TranslateTS(szSourceDesc[m_nSource]);
 		}
 		else
 		{
-			strTitle = str(ext::kformat(i18n(muT("#{data} per #{unit}")))
-				% muT("#{data}") * i18n(szSourceDesc[m_nSource])
-				% muT("#{unit}") * i18n(szUnitDesc[m_nAbsTime]));
+			strTitle = str(ext::kformat(TranslateT("#{data} per #{unit}"))
+				% _T("#{data}") * TranslateTS(szSourceDesc[m_nSource])
+				% _T("#{unit}") * TranslateTS(szUnitDesc[m_nAbsTime]));
 		}
 
-		writeRowspanTD(tos, getCustomTitle(i18n(szShortDesc[m_nSource / 3]), strTitle), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szShortDesc[m_nSource / 3]), strTitle), row, 1, rowSpan);
 	}
 }
 
@@ -136,9 +136,9 @@ void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			&Contact::getTotalChats,
 		};
 
-		tos << muT("<td class=\"num\">")
+		tos << _T("<td class=\"num\">")
 			<< utils::intToGrouped((contact.*getData[m_nSource])())
-			<< muT("</td>") << ext::endl;
+			<< _T("</td>") << ext::endl;
 	}
 	else
 	{
@@ -160,8 +160,8 @@ void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			60.0 * 60.0 * 24.0 * 30.0,
 		};
 
-		tos << muT("<td class=\"num\">")
+		tos << _T("<td class=\"num\">")
 			<< utils::floatToGrouped((contact.*getData[m_nSource])() * avgFactor[m_nAbsTime], 1)
-			<< muT("</td>") << ext::endl;
+			<< _T("</td>") << ext::endl;
 	}
 }

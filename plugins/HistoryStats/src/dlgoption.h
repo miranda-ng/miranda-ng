@@ -75,11 +75,11 @@ private:
 	{
 	private:
 		struct SupportInfo {
-			mu_text* szPlugin;
-			mu_text* szTeaser;
-			mu_text* szDescription;
-			mu_text* szLinkTexts;
-			mu_text* szLinkURLs;
+			TCHAR* szPlugin;
+			TCHAR* szTeaser;
+			TCHAR* szDescription;
+			TCHAR* szLinkTexts;
+			TCHAR* szLinkURLs;
 		};
 
 	private:

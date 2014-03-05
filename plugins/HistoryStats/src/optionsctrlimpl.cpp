@@ -8,7 +8,7 @@
  * OptionsCtrlImpl
  */
 
-const mu_text* OptionsCtrlImpl::m_ClassName = muT("HistoryStatsOptions");
+const TCHAR* OptionsCtrlImpl::m_ClassName = _T("HistoryStatsOptions");
 HIMAGELIST OptionsCtrlImpl::m_hStateIcons = NULL;
 int OptionsCtrlImpl::m_nStateIconsRef = 0;
 
@@ -16,256 +16,245 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 {
 	OptionsCtrlImpl* pCtrl = reinterpret_cast<OptionsCtrlImpl*>(GetWindowLong(hWnd, 0));
 
-	switch (msg)
-	{
-		case WM_NCCREATE:
-			{
-				CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
+	switch (msg) {
+	case WM_NCCREATE:
+		{
+			CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
 
-				pCS->style &= ~(WS_BORDER | WS_HSCROLL | WS_VSCROLL);
-				pCS->style |= WS_CHILD;
-				pCS->dwExStyle &= ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_WINDOWEDGE);
+			pCS->style &= ~(WS_BORDER | WS_HSCROLL | WS_VSCROLL);
+			pCS->style |= WS_CHILD;
+			pCS->dwExStyle &= ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_WINDOWEDGE);
 
-				pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<int>(pCS->hMenu));
-				SetWindowLong(hWnd, 0, reinterpret_cast<LONG>(pCtrl));
+			pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<int>(pCS->hMenu));
+			SetWindowLong(hWnd, 0, reinterpret_cast<LONG>(pCtrl));
+		}
+		return pCtrl ? TRUE : FALSE;
 
-				return pCtrl ? TRUE : FALSE;
-			}
+	case WM_CREATE:
+		return pCtrl->onWMCreate(reinterpret_cast<CREATESTRUCT*>(lParam));
 
-		case WM_CREATE:
-			return pCtrl->onWMCreate(reinterpret_cast<CREATESTRUCT*>(lParam));
+	case WM_DESTROY:
+		pCtrl->onWMDestroy();
+		delete pCtrl;
+		SetWindowLong(hWnd, 0, 0);
+		return 0;
 
-		case WM_DESTROY:
-			pCtrl->onWMDestroy();
-			delete pCtrl;
-			SetWindowLong(hWnd, 0, 0);
-			return 0;
+	case WM_SETFOCUS:
+		SetFocus(pCtrl->m_hTree);
+		return 0;
 
-		case WM_SETFOCUS:
-			SetFocus(pCtrl->m_hTree);
-			return 0;
+	case WM_ENABLE:
+		EnableWindow(pCtrl->m_hTree, wParam);
+		return 0;
 
-		case WM_ENABLE:
-			EnableWindow(pCtrl->m_hTree, wParam);
-			return 0;
+	case WM_GETFONT:
+		return SendMessage(pCtrl->m_hTree, WM_GETFONT, wParam, lParam);
 
-		case WM_GETFONT:
-			return SendMessage(pCtrl->m_hTree, WM_GETFONT, wParam, lParam);
+	case WM_SETFONT:
+		return SendMessage(pCtrl->m_hTree, WM_SETFONT, wParam, lParam);
 
-		case WM_SETFONT:
-			return SendMessage(pCtrl->m_hTree, WM_SETFONT, wParam, lParam);
+	case WM_WINDOWPOSCHANGED:
+		{
+			WINDOWPOS* pWP = reinterpret_cast<WINDOWPOS*>(lParam);
+			SetWindowPos(pCtrl->m_hTree, NULL, 0, 0, pWP->cx, pWP->cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+		}
+		return 0;
 
-		case WM_WINDOWPOSCHANGED:
-			{
-				WINDOWPOS* pWP = reinterpret_cast<WINDOWPOS*>(lParam);
+	case WM_SETREDRAW:
+		return SendMessage(pCtrl->m_hTree, WM_SETREDRAW, wParam, lParam);
 
-				SetWindowPos(pCtrl->m_hTree, NULL, 0, 0, pWP->cx, pWP->cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+	case WM_NOTIFY:
+		{
+			NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
+			if (pNM->hwndFrom == pCtrl->m_hTree) {
+				switch (pNM->code) {
+				case NM_CLICK:
+					pCtrl->onNMClick();
+					return 0;
 
-				return 0;
-			}
+				case NM_CUSTOMDRAW:
+					return pCtrl->onNMCustomDraw(reinterpret_cast<NMTVCUSTOMDRAW*>(pNM));
 
-		case WM_SETREDRAW:
-			return SendMessage(pCtrl->m_hTree, WM_SETREDRAW, wParam, lParam);
+				case NM_KILLFOCUS:
+					pCtrl->onNMKillFocus();
+					return 0;
 
-		case WM_NOTIFY:
-			{
-				NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
+				case TVN_ITEMEXPANDING:
+					return pCtrl->onTVNItemExpanding(reinterpret_cast<NMTREEVIEW*>(pNM));
 
-				if (pNM->hwndFrom == pCtrl->m_hTree)
-				{
-					switch (pNM->code)
-					{
-						case NM_CLICK:
-							pCtrl->onNMClick();
-							return 0;
+				case TVN_DELETEITEM:
+					pCtrl->onTVNDeleteItem(reinterpret_cast<NMTREEVIEW*>(pNM));
+					return 0;
 
-						case NM_CUSTOMDRAW:
-							return pCtrl->onNMCustomDraw(reinterpret_cast<NMTVCUSTOMDRAW*>(pNM));
+				case TVN_SELCHANGING:
+					pCtrl->onTVNSelChanging(reinterpret_cast<NMTREEVIEW*>(pNM));
+					return 0;
 
-						case NM_KILLFOCUS:
-							pCtrl->onNMKillFocus();
-							return 0;
+				case TVN_SELCHANGED:
+					pCtrl->onTVNSelChanged(reinterpret_cast<NMTREEVIEW*>(pNM));
+					return 0;
 
-						case TVN_ITEMEXPANDING:
-							return pCtrl->onTVNItemExpanding(reinterpret_cast<NMTREEVIEW*>(pNM));
-
-						case TVN_DELETEITEM:
-							pCtrl->onTVNDeleteItem(reinterpret_cast<NMTREEVIEW*>(pNM));
-							return 0;
-
-						case TVN_SELCHANGING:
-							pCtrl->onTVNSelChanging(reinterpret_cast<NMTREEVIEW*>(pNM));
-							return 0;
-
-						case TVN_SELCHANGED:
-							pCtrl->onTVNSelChanged(reinterpret_cast<NMTREEVIEW*>(pNM));
-							return 0;
-
-						case TVN_BEGINDRAG:
-							pCtrl->onTVNBeginDrag(reinterpret_cast<NMTREEVIEW*>(pNM));
-							return 0;
-					}
+				case TVN_BEGINDRAG:
+					pCtrl->onTVNBeginDrag(reinterpret_cast<NMTREEVIEW*>(pNM));
+					return 0;
 				}
 			}
-			break;
+		}
+		break;
 
-		case WM_MOUSEMOVE:
-			{
-				POINTS pts = MAKEPOINTS(lParam);
-				POINT pt = { pts.x, pts.y };
+	case WM_MOUSEMOVE:
+		{
+			POINTS pts = MAKEPOINTS(lParam);
+			POINT pt = { pts.x, pts.y };
+			pCtrl->onWMMouseMove(pt);
+		}
+		return 0;
 
-				pCtrl->onWMMouseMove(pt);
+	case WM_LBUTTONUP:
+		{
+			POINTS pts = MAKEPOINTS(lParam);
+			POINT pt = { pts.x, pts.y };
+			pCtrl->onWMLButtonUp(pt);
+		}
+		return 0;
 
-				return 0;
-			}
+	case OCM_INSERTGROUP:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertGroup(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCGROUP*>(lParam)));
 
-		case WM_LBUTTONUP:
-			{
-				POINTS pts = MAKEPOINTS(lParam);
-				POINT pt = { pts.x, pts.y };
+	case OCM_INSERTCHECK:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertCheck(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCCHECK*>(lParam)));
 
-				pCtrl->onWMLButtonUp(pt);
+	case OCM_INSERTRADIO:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertRadio(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCRADIO*>(lParam)));
 
-				return 0;
-			}
+	case OCM_INSERTEDIT:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertEdit(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCEDIT*>(lParam)));
 
-		case OCM_INSERTGROUP:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertGroup(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCGROUP*>(lParam)));
+	case OCM_INSERTCOMBO:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertCombo(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCCOMBO*>(lParam)));
 
-		case OCM_INSERTCHECK:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertCheck(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCCHECK*>(lParam)));
+	case OCM_INSERTBUTTON:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertButton(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCBUTTON*>(lParam)));
 
-		case OCM_INSERTRADIO:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertRadio(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCRADIO*>(lParam)));
+	case OCM_GETITEMLABEL:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMGetItemLabel(reinterpret_cast<HTREEITEM>(wParam)));
 
-		case OCM_INSERTEDIT:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertEdit(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCEDIT*>(lParam)));
+	case OCM_SETITEMLABEL:
+		pCtrl->onOCMSetItemLabel(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const TCHAR*>(lParam));
+		return 0;
 
-		case OCM_INSERTCOMBO:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertCombo(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCCOMBO*>(lParam)));
+	case OCM_ISITEMENABLED:
+		return BOOL_(pCtrl->onOCMIsItemEnabled(reinterpret_cast<HTREEITEM>(wParam)));
 
-		case OCM_INSERTBUTTON:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertButton(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCBUTTON*>(lParam)));
+	case OCM_ENABLEITEM:
+		pCtrl->onOCMEnableItem(reinterpret_cast<HTREEITEM>(wParam), bool_(lParam));
+		return 0;
 
-		case OCM_GETITEMLABEL:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMGetItemLabel(reinterpret_cast<HTREEITEM>(wParam)));
+	case OCM_GETITEMDATA:
+		return pCtrl->onOCMGetItemData(reinterpret_cast<HTREEITEM>(wParam));
 
-		case OCM_SETITEMLABEL:
-			pCtrl->onOCMSetItemLabel(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const mu_text*>(lParam));
-			return 0;
+	case OCM_SETITEMDATA:
+		pCtrl->onOCMSetItemData(reinterpret_cast<HTREEITEM>(wParam), lParam);
+		return 0;
 
-		case OCM_ISITEMENABLED:
-			return BOOL_(pCtrl->onOCMIsItemEnabled(reinterpret_cast<HTREEITEM>(wParam)));
+	case OCM_ISITEMCHECKED:
+		return BOOL_(pCtrl->onOCMIsItemChecked(reinterpret_cast<HTREEITEM>(wParam)));
 
-		case OCM_ENABLEITEM:
-			pCtrl->onOCMEnableItem(reinterpret_cast<HTREEITEM>(wParam), bool_(lParam));
-			return 0;
+	case OCM_CHECKITEM:
+		pCtrl->onOCMCheckItem(reinterpret_cast<HTREEITEM>(wParam), bool_(lParam));
+		return 0;
 
-		case OCM_GETITEMDATA:
-			return pCtrl->onOCMGetItemData(reinterpret_cast<HTREEITEM>(wParam));
+	case OCM_GETRADIOCHECKED:
+		return pCtrl->onOCMGetRadioChecked(reinterpret_cast<HTREEITEM>(wParam));
 
-		case OCM_SETITEMDATA:
-			pCtrl->onOCMSetItemData(reinterpret_cast<HTREEITEM>(wParam), lParam);
-			return 0;
+	case OCM_SETRADIOCHECKED:
+		pCtrl->onOCMSetRadioChecked(reinterpret_cast<HTREEITEM>(wParam), lParam);
+		return 0;
 
-		case OCM_ISITEMCHECKED:
-			return BOOL_(pCtrl->onOCMIsItemChecked(reinterpret_cast<HTREEITEM>(wParam)));
+	case OCM_GETEDITNUMBER:
+		return pCtrl->onOCMGetEditNumber(reinterpret_cast<HTREEITEM>(wParam));
 
-		case OCM_CHECKITEM:
-			pCtrl->onOCMCheckItem(reinterpret_cast<HTREEITEM>(wParam), bool_(lParam));
-			return 0;
+	case OCM_SETEDITNUMBER:
+		pCtrl->onOCMSetEditNumber(reinterpret_cast<HTREEITEM>(wParam), lParam);
+		return 0;
 
-		case OCM_GETRADIOCHECKED:
-			return pCtrl->onOCMGetRadioChecked(reinterpret_cast<HTREEITEM>(wParam));
+	case OCM_GETEDITSTRING:
+		return reinterpret_cast<LPARAM>(pCtrl->onOCMGetEditString(reinterpret_cast<HTREEITEM>(wParam)));
 
-		case OCM_SETRADIOCHECKED:
-			pCtrl->onOCMSetRadioChecked(reinterpret_cast<HTREEITEM>(wParam), lParam);
-			return 0;
+	case OCM_SETEDITSTRING:
+		pCtrl->onOCMSetEditString(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const TCHAR*>(lParam));
+		return 0;
 
-		case OCM_GETEDITNUMBER:
-			return pCtrl->onOCMGetEditNumber(reinterpret_cast<HTREEITEM>(wParam));
+	case OCM_ADDCOMBOITEM:
+		pCtrl->onOCMAddComboItem(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const TCHAR*>(lParam));
+		return 0;
 
-		case OCM_SETEDITNUMBER:
-			pCtrl->onOCMSetEditNumber(reinterpret_cast<HTREEITEM>(wParam), lParam);
-			return 0;
+	case OCM_GETCOMBOSELECTED:
+		return pCtrl->onOCMGetComboSelected(reinterpret_cast<HTREEITEM>(wParam));
 
-		case OCM_GETEDITSTRING:
-			return reinterpret_cast<LPARAM>(pCtrl->onOCMGetEditString(reinterpret_cast<HTREEITEM>(wParam)));
+	case OCM_SETCOMBOSELECTED:
+		pCtrl->onOCMSetComboSelected(reinterpret_cast<HTREEITEM>(wParam), lParam);
+		return 0;
 
-		case OCM_SETEDITSTRING:
-			pCtrl->onOCMSetEditString(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const mu_text*>(lParam));
-			return 0;
+	case OCM_ENSUREVISIBLE:
+		pCtrl->onOCMEnsureVisible(reinterpret_cast<HTREEITEM>(wParam));
+		return 0;
 
-		case OCM_ADDCOMBOITEM:
-			pCtrl->onOCMAddComboItem(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const mu_text*>(lParam));
-			return 0;
-		
-		case OCM_GETCOMBOSELECTED:
-			return pCtrl->onOCMGetComboSelected(reinterpret_cast<HTREEITEM>(wParam));
+	case OCM_DELETEALLITEMS:
+		pCtrl->onOCMDeleteAllItems();
+		return 0;
 
-		case OCM_SETCOMBOSELECTED:
-			pCtrl->onOCMSetComboSelected(reinterpret_cast<HTREEITEM>(wParam), lParam);
-			return 0;
+	case OCM_GETSELECTION:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMGetSelection());
 
-		case OCM_ENSUREVISIBLE:
-			pCtrl->onOCMEnsureVisible(reinterpret_cast<HTREEITEM>(wParam));
-			return 0;
+	case OCM_SELECTITEM:
+		pCtrl->onOCMSelectItem(reinterpret_cast<HTREEITEM>(wParam));
+		return 0;
 
-		case OCM_DELETEALLITEMS:
-			pCtrl->onOCMDeleteAllItems();
-			return 0;
+	case OCM_GETITEM:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMGetItem(reinterpret_cast<HTREEITEM>(wParam), lParam));
 
-		case OCM_GETSELECTION:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMGetSelection());
+	case OCM_DELETEITEM:
+		pCtrl->onOCMDeleteItem(reinterpret_cast<HTREEITEM>(wParam));
+		return 0;
 
-		case OCM_SELECTITEM:
-			pCtrl->onOCMSelectItem(reinterpret_cast<HTREEITEM>(wParam));
-			return 0;
+	case OCM_MOVEITEM:
+		pCtrl->onOCMMoveItem(*reinterpret_cast<HTREEITEM*>(wParam), reinterpret_cast<HTREEITEM>(lParam));
+		return 0;
 
-		case OCM_GETITEM:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMGetItem(reinterpret_cast<HTREEITEM>(wParam), lParam));
+	case OCM_GETSCROLLPOS:
+		return GetScrollPos(pCtrl->m_hTree, wParam);
 
-		case OCM_DELETEITEM:
-			pCtrl->onOCMDeleteItem(reinterpret_cast<HTREEITEM>(wParam));
-			return 0;
+	case OCM_SETSCROLLPOS:
+		SetScrollPos(pCtrl->m_hTree, wParam, lParam, TRUE);
+		return 0;
 
-		case OCM_MOVEITEM:
-			pCtrl->onOCMMoveItem(*reinterpret_cast<HTREEITEM*>(wParam), reinterpret_cast<HTREEITEM>(lParam));
-			return 0;
+	case OCM_INSERTDATETIME:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertDateTime(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCDATETIME*>(lParam)));
 
-		case OCM_GETSCROLLPOS:
-			return GetScrollPos(pCtrl->m_hTree, wParam);
+	case OCM_ISDATETIMENONE:
+		return BOOL_(pCtrl->onOCMIsDateTimeNone(reinterpret_cast<HTREEITEM>(wParam)));
 
-		case OCM_SETSCROLLPOS:
-			SetScrollPos(pCtrl->m_hTree, wParam, lParam, TRUE);
-			return 0;
+	case OCM_SETDATETIMENONE:
+		pCtrl->onOCMSetDateTimeNone(reinterpret_cast<HTREEITEM>(wParam));
+		return 0;
 
-		case OCM_INSERTDATETIME:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertDateTime(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCDATETIME*>(lParam)));
+	case OCM_GETDATETIME:
+		return pCtrl->onOCMGetDateTime(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<BOOL*>(lParam));
 
-		case OCM_ISDATETIMENONE:
-			return BOOL_(pCtrl->onOCMIsDateTimeNone(reinterpret_cast<HTREEITEM>(wParam)));
+	case OCM_SETDATETIME:
+		pCtrl->onOCMSetDateTime(reinterpret_cast<HTREEITEM>(wParam), lParam);
+		return 0;
 
-		case OCM_SETDATETIMENONE:
-			pCtrl->onOCMSetDateTimeNone(reinterpret_cast<HTREEITEM>(wParam));
-			return 0;
+	case OCM_INSERTCOLOR:
+		return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertColor(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCCOLOR*>(lParam)));
 
-		case OCM_GETDATETIME:
-			return pCtrl->onOCMGetDateTime(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<BOOL*>(lParam));
+	case OCM_GETITEMCOLOR:
+		return pCtrl->onOCMGetItemColor(reinterpret_cast<HTREEITEM>(wParam));
 
-		case OCM_SETDATETIME:
-			pCtrl->onOCMSetDateTime(reinterpret_cast<HTREEITEM>(wParam), lParam);
-			return 0;
-
-		case OCM_INSERTCOLOR:
-			return reinterpret_cast<LRESULT>(pCtrl->onOCMInsertColor(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<OCCOLOR*>(lParam)));
-
-		case OCM_GETITEMCOLOR:
-			return pCtrl->onOCMGetItemColor(reinterpret_cast<HTREEITEM>(wParam));
-
-		case OCM_SETITEMCOLOR:
-			pCtrl->onOCMSetItemColor(reinterpret_cast<HTREEITEM>(wParam), lParam);
-			return 0;
+	case OCM_SETITEMCOLOR:
+		pCtrl->onOCMSetItemColor(reinterpret_cast<HTREEITEM>(wParam), lParam);
+		return 0;
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -275,91 +264,66 @@ LRESULT CALLBACK OptionsCtrlImpl::staticTreeProc(HWND hTree, UINT msg, WPARAM wP
 {
 	OptionsCtrlImpl* pCtrl = reinterpret_cast<OptionsCtrlImpl*>(GetWindowLong(GetParent(hTree), 0));
 
-	switch (msg)
-	{
-		case WM_LBUTTONDOWN:
-			pCtrl->onTreeWMLButtonDown(wParam, MAKEPOINTS(lParam));
+	switch (msg) {
+	case WM_LBUTTONDOWN:
+		pCtrl->onTreeWMLButtonDown(wParam, MAKEPOINTS(lParam));
 
-		case WM_CHAR:
-			pCtrl->onTreeWMChar(wParam, LOWORD(lParam), HIWORD(lParam));
-			break;
+	case WM_CHAR:
+		pCtrl->onTreeWMChar(wParam, LOWORD(lParam), HIWORD(lParam));
+		break;
 
-		case WM_KEYDOWN:
-			pCtrl->onTreeWMKeyDown(wParam, LOWORD(lParam), HIWORD(lParam));
-			break;
+	case WM_KEYDOWN:
+		pCtrl->onTreeWMKeyDown(wParam, LOWORD(lParam), HIWORD(lParam));
+		break;
 
-		case WM_VSCROLL:
-		case WM_HSCROLL:
-		case WM_MOUSEWHEEL:
-		case WM_WINDOWPOSCHANGED:
-			pCtrl->onTreeXScroll(); // stops editing
-			break;
+	case WM_VSCROLL:
+	case WM_HSCROLL:
+	case WM_MOUSEWHEEL:
+	case WM_WINDOWPOSCHANGED:
+		pCtrl->onTreeXScroll(); // stops editing
+		break;
 
-		case WM_COMMAND:
-			{
-				switch (LOWORD(wParam))
-				{
-					case ccEdit:
-						if (HIWORD(wParam) == EN_CHANGE)
-						{
-							pCtrl->onENChange();
-						}
-						else if (HIWORD(wParam) == EN_KILLFOCUS)
-						{
-							pCtrl->onNMKillFocus();
-						}
-						return 0;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case ccEdit:
+			if (HIWORD(wParam) == EN_CHANGE)
+				pCtrl->onENChange();
+			else if (HIWORD(wParam) == EN_KILLFOCUS)
+				pCtrl->onNMKillFocus();
+			return 0;
 
-					case ccCombo:
-						if (HIWORD(wParam) == CBN_SELCHANGE)
-						{
-							pCtrl->onCBNSelChange();
-						}
-						else if (HIWORD(wParam) == CBN_KILLFOCUS)
-						{
-							pCtrl->onNMKillFocus();
-						}
-						return 0;
+		case ccCombo:
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+				pCtrl->onCBNSelChange();
+			else if (HIWORD(wParam) == CBN_KILLFOCUS)
+				pCtrl->onNMKillFocus();
+			return 0;
 
-					case ccButton:
-						if (HIWORD(wParam) == BN_CLICKED)
-						{
-							pCtrl->onBNClicked();
-						}
-						else if (HIWORD(wParam) == BN_KILLFOCUS)
-						{
-							pCtrl->onNMKillFocus();
-						}
-						return 0;
+		case ccButton:
+			if (HIWORD(wParam) == BN_CLICKED)
+				pCtrl->onBNClicked();
+			else if (HIWORD(wParam) == BN_KILLFOCUS)
+				pCtrl->onNMKillFocus();
+			return 0;
 
-					case ccColor:
-						if (HIWORD(wParam) == CPN_COLOURCHANGED)
-						{
-							pCtrl->onCPNColorChanged();
-						}
-						return 0;
-				}
-			}
-			break;
+		case ccColor:
+			if (HIWORD(wParam) == CPN_COLOURCHANGED)
+				pCtrl->onCPNColorChanged();
+			return 0;
+		}
+		break;
 
-		case WM_NOTIFY:
-			{
-				NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
+	case WM_NOTIFY:
+		NMHDR* pNM = reinterpret_cast<NMHDR*>(lParam);
 
-				if (pNM->idFrom == ccDateTime)
-				{
-					if (pNM->code == DTN_DATETIMECHANGE)
-					{
-						pCtrl->onDTNDateTimeChange();
-					}
-					else if (pNM->code == NM_KILLFOCUS)
-					{
-						pCtrl->onNMKillFocus();
-					}
-					return 0;
-				}
-			}
-			break;
+		if (pNM->idFrom == ccDateTime) {
+			if (pNM->code == DTN_DATETIMECHANGE)
+				pCtrl->onDTNDateTimeChange();
+			else if (pNM->code == NM_KILLFOCUS)
+				pCtrl->onNMKillFocus();
+			return 0;
+		}
+		break;
 	}
 
 	return CallWindowProc(pCtrl->m_pfnOldTreeProc, hTree, msg, wParam, lParam);
@@ -367,8 +331,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticTreeProc(HWND hTree, UINT msg, WPARAM wP
 
 void OptionsCtrlImpl::staticInitStateImages()
 {
-	if (m_nStateIconsRef++ == 0 && !m_hStateIcons)
-	{
+	if (m_nStateIconsRef++ == 0 && !m_hStateIcons) {
 		m_hStateIcons = ImageList_Create(OS::smIconCX(), OS::smIconCY(), OS::imageListColor() | ILC_MASK, 16, 0);
 
 		staticUpdateStateImages(0);
@@ -378,8 +341,7 @@ void OptionsCtrlImpl::staticInitStateImages()
 
 void OptionsCtrlImpl::staticFreeStateImages()
 {
-	if (m_hStateIcons && --m_nStateIconsRef == 0)
-	{
+	if (m_hStateIcons && --m_nStateIconsRef == 0) {
 		IconLib::unregisterCallback(staticUpdateStateImages, 0);
 		ImageList_Destroy(m_hStateIcons);
 
@@ -436,19 +398,13 @@ bool OptionsCtrlImpl::registerClass()
 	};
 
 	if (!RegisterClassEx(&wcx))
-	{
 		return false;
-	}
 
 	INITCOMMONCONTROLSEX icc;
-
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_DATE_CLASSES;
-
 	if (!InitCommonControlsEx(&icc))
-	{
 		return false;
-	}
 
 	return true;
 }
@@ -458,8 +414,8 @@ void OptionsCtrlImpl::unregisterClass()
 	UnregisterClass(m_ClassName, g_hInst);
 }
 
-OptionsCtrlImpl::OptionsCtrlImpl(HWND hWnd, int nOwnId)
-	: m_hWnd(hWnd), m_nOwnId(nOwnId), m_hTree(NULL), m_pfnOldTreeProc(NULL), m_bModified(true), m_hDragItem(NULL)
+OptionsCtrlImpl::OptionsCtrlImpl(HWND hWnd, int nOwnId) :
+	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hTree(NULL), m_pfnOldTreeProc(NULL), m_bModified(true), m_hDragItem(NULL)
 {
 }
 
@@ -472,14 +428,12 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 	DWORD dwStyle = 0;
 
 	if (!(pCS->style & OCS_ALLOWDRAGDROP))
-	{
 		dwStyle |= TVS_DISABLEDRAGDROP;
-	}
 
 	m_hTree = CreateWindowEx(
 		WS_EX_CLIENTEDGE,
 		WC_TREEVIEW,
-		muT(""),
+		_T(""),
 		WS_CHILD | WS_VISIBLE | WS_TABSTOP | TVS_HASLINES | TVS_NOHSCROLL | TVS_SHOWSELALWAYS | dwStyle,
 		0,
 		0,
@@ -491,9 +445,7 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 		NULL);
 
 	if (!m_hTree)
-	{
 		return -1;
-	}
 
 	// subclass tree view
 	m_pfnOldTreeProc = reinterpret_cast<WNDPROC>(SetWindowLong(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG>(staticTreeProc)));
@@ -501,7 +453,6 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 	// create/set state icons
 	staticInitStateImages();
 	TreeView_SetImageList(m_hTree, m_hStateIcons, TVSIL_NORMAL);
-
 	return 0;
 }
 
@@ -512,9 +463,7 @@ void OptionsCtrlImpl::onWMDestroy()
 
 	// unset/free state icons
 	if (TreeView_GetImageList(m_hTree, TVSIL_NORMAL))
-	{
 		staticFreeStateImages();
-	}
 
 	// undo subclassing of tree view
 	SetWindowLong(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG>(m_pfnOldTreeProc));
@@ -537,89 +486,22 @@ void OptionsCtrlImpl::onNMClick()
 	HTREEITEM hItem = TreeView_HitTest(m_hTree, &hti);
 
 	if (hItem == hSelItem && hti.flags & TVHT_ONITEM)
-	{
 		getItem(hItem)->onSelect();
-	}
 }
 
 LRESULT OptionsCtrlImpl::onNMCustomDraw(NMTVCUSTOMDRAW* pNMCustomDraw)
 {
-	switch (pNMCustomDraw->nmcd.dwDrawStage)
-	{
-		case CDDS_PREPAINT:
-			return CDRF_NOTIFYITEMDRAW;
+	switch (pNMCustomDraw->nmcd.dwDrawStage) {
+	case CDDS_PREPAINT:
+		return CDRF_NOTIFYITEMDRAW;
 
-		case CDDS_ITEMPREPAINT:
-			{
-				Item* pItem = reinterpret_cast<Item*>(pNMCustomDraw->nmcd.lItemlParam);
+	case CDDS_ITEMPREPAINT:
+		Item* pItem = reinterpret_cast<Item*>(pNMCustomDraw->nmcd.lItemlParam);
+		if (pItem)
+			if (!pItem->m_bEnabled)
+				pNMCustomDraw->clrText = GetSysColor(COLOR_GRAYTEXT);
 
-				if (pItem)
-				{
-					/*
-					if (pItem->m_ItemType == itGroup && reinterpret_cast<Group*>(pItem)->m_bDrawLine)
-					{
-						COLORREF crNewBk = GetSysColor(COLOR_HIGHLIGHT);
-						COLORREF crOldBk = SetBkColor(pNMCustomDraw->nmcd.hdc, crNewBk);
-
-						RECT rLine = pNMCustomDraw->nmcd.rc;
-						RECT rText;
-
-						TreeView_GetItemRect(m_hTree, reinterpret_cast<HTREEITEM>(pNMCustomDraw->nmcd.dwItemSpec), &rText, TRUE);
-
-						rLine.top = (rLine.bottom = (rLine.bottom + rLine.top) / 2) - 1;
-						rLine.left = rText.right;
-						rLine.right -= 2;
-
-						ExtTextOut(pNMCustomDraw->nmcd.hdc, 0, 0, ETO_OPAQUE, &rLine, NULL, 0, NULL);
-
-						OffsetRect(&rLine, 0, 2);
-						ExtTextOut(pNMCustomDraw->nmcd.hdc, 0, 0, ETO_OPAQUE, &rLine, NULL, 0, NULL);
-
-						SetBkColor(pNMCustomDraw->nmcd.hdc, crOldBk);
-					}
-					*/
-
-					/*
-					if (pItem->m_ItemType == itColor)
-					{
-						COLORREF crColor = reinterpret_cast<Color*>(pItem)->m_crColor;
-
-						COLORREF crNewBk = GetSysColor(COLOR_HIGHLIGHT);
-						COLORREF crOldBk = SetBkColor(pNMCustomDraw->nmcd.hdc, crNewBk);
-
-						RECT rColor = pNMCustomDraw->nmcd.rc;
-						RECT rText;
-
-						TreeView_GetItemRect(m_hTree, reinterpret_cast<HTREEITEM>(pNMCustomDraw->nmcd.dwItemSpec), &rText, TRUE);
-
-						++rColor.top;
-						--rColor.bottom;
-						rColor.left = rText.right;
-						rColor.right -= 2;
-
-						if (rColor.right - 40 > rColor.left)
-						{
-							rColor.right = rColor.left + 40;
-						}
-
-						ExtTextOut(pNMCustomDraw->nmcd.hdc, 0, 0, ETO_OPAQUE, &rColor, NULL, 0, NULL);
-
-						SetBkColor(pNMCustomDraw->nmcd.hdc, crColor);
-
-						InflateRect(&rColor, -1, -1);
-						ExtTextOut(pNMCustomDraw->nmcd.hdc, 0, 0, ETO_OPAQUE, &rColor, NULL, 0, NULL);
-
-						SetBkColor(pNMCustomDraw->nmcd.hdc, crOldBk);
-					}
-					*/
-
-					if (!pItem->m_bEnabled)
-					{
-						pNMCustomDraw->clrText = GetSysColor(COLOR_GRAYTEXT);
-					}
-				}
-			}
-			return CDRF_NEWFONT;
+		return CDRF_NEWFONT;
 	}
 
 	return 0;
@@ -628,33 +510,22 @@ LRESULT OptionsCtrlImpl::onNMCustomDraw(NMTVCUSTOMDRAW* pNMCustomDraw)
 void OptionsCtrlImpl::onNMKillFocus()
 {
 	HWND hWndFocused = GetFocus();
-
-	if (hWndFocused != m_hTree && !IsChild(m_hTree, hWndFocused))
-	{
+	if (hWndFocused != m_hTree && !IsChild(m_hTree, hWndFocused)) {
 		HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
 
-		if (hSelected)
-		{
+		if (hSelected) {
 			Item* pItem = getItem(hSelected);
-
-			if (pItem->m_ItemType == itDateTime)
-			{
+			if (pItem->m_ItemType == itDateTime) {
 				// MEMO: handle date/time picker (with possibly open month calendar) separately
 				DateTime* pDateTime = reinterpret_cast<DateTime*>(pItem);
 
 				if (!pDateTime->isMonthCalVisible())
-				{
 					pDateTime->onDeselect();
-				}
 			}
 			else if (pItem->m_ItemType == itColor)
-			{
-				// MEMO: handle color picker separately
-			}
+				; // MEMO: handle color picker separately
 			else
-			{
 				pItem->onDeselect();
-			}
 		}
 	}
 }
@@ -668,8 +539,7 @@ LRESULT OptionsCtrlImpl::onTVNItemExpanding(NMTREEVIEW* pNMTreeView)
 
 void OptionsCtrlImpl::onTVNDeleteItem(NMTREEVIEW* pNMTreeView)
 {
-	if (pNMTreeView->itemOld.hItem)
-	{
+	if (pNMTreeView->itemOld.hItem) {
 		// fake OCN_SELCHANGING message
 		NMOPTIONSCTRL nmoc;
 
@@ -693,45 +563,35 @@ void OptionsCtrlImpl::onTVNDeleteItem(NMTREEVIEW* pNMTreeView)
 		pItem->onDeselect();
 
 		if (--pItem->m_nRef == 0)
-		{
 			delete pItem;
-		}
 	}
 }
 
 void OptionsCtrlImpl::onTVNSelChanging(NMTREEVIEW* pNMTreeView)
 {
 	NMOPTIONSCTRL nmoc;
-
 	nmoc.hdr.code = OCN_SELCHANGING;
 	nmoc.hdr.hwndFrom = m_hWnd;
 	nmoc.hdr.idFrom = m_nOwnId;
 	nmoc.hItem = reinterpret_cast<HANDLE>(pNMTreeView->itemOld.hItem);
 	nmoc.dwData = pNMTreeView->itemOld.hItem ? reinterpret_cast<Item*>(pNMTreeView->itemOld.lParam)->m_dwData : 0;
-
 	SendMessage(GetParent(m_hWnd), WM_NOTIFY, nmoc.hdr.idFrom, reinterpret_cast<LPARAM>(&nmoc));
 
 	if (pNMTreeView->itemOld.hItem)
-	{
 		reinterpret_cast<Item*>(pNMTreeView->itemOld.lParam)->onDeselect();
-	}
 }
 
 void OptionsCtrlImpl::onTVNSelChanged(NMTREEVIEW* pNMTreeView)
 {
 	if (pNMTreeView->itemNew.hItem)
-	{
 		reinterpret_cast<Item*>(pNMTreeView->itemNew.lParam)->onSelect();
-	}
 
 	NMOPTIONSCTRL nmoc;
-
 	nmoc.hdr.code = OCN_SELCHANGED;
 	nmoc.hdr.hwndFrom = m_hWnd;
 	nmoc.hdr.idFrom = m_nOwnId;
 	nmoc.hItem = reinterpret_cast<HANDLE>(pNMTreeView->itemNew.hItem);
 	nmoc.dwData = pNMTreeView->itemNew.hItem ? reinterpret_cast<Item*>(pNMTreeView->itemNew.lParam)->m_dwData : 0;
-
 	SendMessage(GetParent(m_hWnd), WM_NOTIFY, nmoc.hdr.idFrom, reinterpret_cast<LPARAM>(&nmoc));
 }
 
@@ -745,34 +605,24 @@ void OptionsCtrlImpl::onTVNBeginDrag(NMTREEVIEW* pNMTreeView)
 void OptionsCtrlImpl::onWMMouseMove(const POINT& pt)
 {
 	if (!m_hDragItem)
-	{
 		return;
-	}
 
 	TVHITTESTINFO hti;
-
 	hti.pt = pt;
 	ClientToScreen(m_hWnd, &hti.pt);
 	ScreenToClient(m_hTree, &hti.pt);
 	TreeView_HitTest(m_hTree, &hti);
 
-	if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT))
-	{
+	if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 		RECT rItem;
-
 		TreeView_GetItemRect(m_hTree, hti.hItem, &rItem, FALSE);
 		TreeView_SetInsertMark(m_hTree, hti.hItem, (hti.pt.y >= (rItem.top + rItem.bottom) / 2) ? TRUE : FALSE);
 	}
-	else
-	{
+	else {
 		if (hti.flags & TVHT_ABOVE)
-		{
 			SendMessage(m_hTree, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-		}
 		else if (hti.flags & TVHT_BELOW)
-		{
 			SendMessage(m_hTree, WM_VSCROLL, MAKELPARAM(SB_LINEDOWN, 0), 0);
-		}
 
 		TreeView_SetInsertMark(m_hTree, NULL, FALSE);
 	}
@@ -781,9 +631,7 @@ void OptionsCtrlImpl::onWMMouseMove(const POINT& pt)
 void OptionsCtrlImpl::onWMLButtonUp(const POINT& pt)
 {
 	if (!m_hDragItem)
-	{
 		return;
-	}
 
 	// revert to noraml state
 	HTREEITEM hDragItem = m_hDragItem;
@@ -794,22 +642,18 @@ void OptionsCtrlImpl::onWMLButtonUp(const POINT& pt)
 
 	// check for drop target and handle
 	TVHITTESTINFO hti;
-
 	hti.pt = pt;
 	ClientToScreen(m_hWnd, &hti.pt);
 	ScreenToClient(m_hTree, &hti.pt);
 	TreeView_HitTest(m_hTree, &hti);
 
-	if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT))
-	{
+	if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 		RECT rItem;
-
 		TreeView_GetItemRect(m_hTree, hti.hItem, &rItem, FALSE);
 
 		bool bAbove = (hti.pt.y >= (rItem.top + rItem.bottom) / 2);
 
 		NMOPTIONSCTRLDROP nmocd;
-
 		nmocd.hdr.code = OCN_ITEMDROPPED;
 		nmocd.hdr.hwndFrom = m_hWnd;
 		nmocd.hdr.idFrom = m_nOwnId;
@@ -818,7 +662,6 @@ void OptionsCtrlImpl::onWMLButtonUp(const POINT& pt)
 		nmocd.hDropTarget = reinterpret_cast<HANDLE>(hti.hItem);
 		nmocd.dwDropTargetData = hti.hItem ? getItem(hti.hItem)->m_dwData : 0;
 		nmocd.bAbove = BOOL_(bAbove);
-
 		SendMessage(GetParent(m_hWnd), WM_NOTIFY, nmocd.hdr.idFrom, reinterpret_cast<LPARAM>(&nmocd));
 	}
 }
@@ -826,19 +669,15 @@ void OptionsCtrlImpl::onWMLButtonUp(const POINT& pt)
 void OptionsCtrlImpl::onENChange()
 {
 	HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
-
 	if (hSelected)
-	{
 		setModified(getItem(hSelected));
-	}
 }
 
 void OptionsCtrlImpl::onCBNSelChange()
 {
 	HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
 
-	if (hSelected)
-	{
+	if (hSelected) {
 		Item* pItem = getItem(hSelected);
 
 		assert(pItem->m_ItemType == itCombo);
@@ -852,20 +691,17 @@ void OptionsCtrlImpl::onBNClicked()
 {
 	HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
 
-	if (hSelected)
-	{
+	if (hSelected) {
 		Item* pItem = getItem(hSelected);
 
 		assert(pItem->m_ItemType == itButton);
 
 		NMOPTIONSCTRL nmoc;
-
 		nmoc.hdr.code = OCN_CLICKED;
 		nmoc.hdr.hwndFrom = m_hWnd;
 		nmoc.hdr.idFrom = m_nOwnId;
 		nmoc.hItem = reinterpret_cast<HANDLE>(pItem->m_hItem);
 		nmoc.dwData = pItem->m_dwData;
-
 		SendMessage(GetParent(m_hWnd), WM_NOTIFY, nmoc.hdr.idFrom, reinterpret_cast<LPARAM>(&nmoc));
 	}
 }
@@ -874,8 +710,7 @@ void OptionsCtrlImpl::onDTNDateTimeChange()
 {
 	HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
 
-	if (hSelected)
-	{
+	if (hSelected) {
 		Item* pItem = getItem(hSelected);
 
 		assert(pItem->m_ItemType == itDateTime);
@@ -889,8 +724,7 @@ void OptionsCtrlImpl::onCPNColorChanged()
 {
 	HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
 
-	if (hSelected)
-	{
+	if (hSelected) {
 		Item* pItem = getItem(hSelected);
 
 		assert(pItem->m_ItemType == itColor);
@@ -905,45 +739,32 @@ void OptionsCtrlImpl::onTreeWMLButtonDown(UINT nFlags, POINTS point)
 	TVHITTESTINFO hti = { { point.x, point.y } };
 
 	if (TreeView_HitTest(m_hTree, &hti) && hti.flags & TVHT_ONITEMICON)
-	{
 		getItem(hti.hItem)->onToggle();
-	}
 }
 
 void OptionsCtrlImpl::onTreeWMChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_SPACE)
-	{
+	if (nChar == VK_SPACE) {
 		HTREEITEM hItem = TreeView_GetSelection(m_hTree);
-
 		if (hItem)
-		{
 			getItem(hItem)->onToggle();
-		}
 	}
 }
 
 void OptionsCtrlImpl::onTreeWMKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_RIGHT)
-	{
+	if (nChar == VK_RIGHT) {
 		HTREEITEM hItem = TreeView_GetSelection(m_hTree);
-
 		if (hItem)
-		{
 			getItem(hItem)->onActivate();
-		}
 	}
 }
 
 void OptionsCtrlImpl::onTreeXScroll()
 {
 	HTREEITEM hSelected = TreeView_GetSelection(m_hTree);
-
 	if (hSelected && isItemValid(hSelected))
-	{
 		getItem(hSelected)->onDeselect();
-	}
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertGroup(HTREEITEM hParent, OCGROUP* pGroup)
@@ -1017,12 +838,12 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertColor(HTREEITEM hParent, OCCOLOR* pColor)
 	return (new Color(this, hParent ? getItem(hParent) : NULL, pColor->szLabel, pColor->crColor, pColor->dwFlags, pColor->dwData))->m_hItem;
 }
 
-const mu_text* OptionsCtrlImpl::onOCMGetItemLabel(HTREEITEM hItem)
+const TCHAR* OptionsCtrlImpl::onOCMGetItemLabel(HTREEITEM hItem)
 {
 	return getItem(hItem)->getLabel();
 }
 
-void OptionsCtrlImpl::onOCMSetItemLabel(HTREEITEM hItem, const mu_text* szLabel)
+void OptionsCtrlImpl::onOCMSetItemLabel(HTREEITEM hItem, const TCHAR* szLabel)
 {
 	assert(szLabel);
 
@@ -1065,13 +886,9 @@ void OptionsCtrlImpl::onOCMCheckItem(HTREEITEM hItem, bool bCheck)
 	assert(pItem->m_ItemType == itCheck || pItem->m_ItemType == itRadio);
 
 	if (pItem->m_ItemType == itCheck)
-	{
 		reinterpret_cast<Check*>(pItem)->setChecked(bCheck);
-	}
 	else
-	{
 		reinterpret_cast<Radio*>(pItem)->setChecked();
-	}
 }
 
 int OptionsCtrlImpl::onOCMGetRadioChecked(HTREEITEM hRadio)
@@ -1110,7 +927,7 @@ void OptionsCtrlImpl::onOCMSetEditNumber(HTREEITEM hEdit, int nNumber)
 	reinterpret_cast<Edit*>(pEdit)->setNumber(nNumber);
 }
 
-const mu_text* OptionsCtrlImpl::onOCMGetEditString(HTREEITEM hEdit)
+const TCHAR* OptionsCtrlImpl::onOCMGetEditString(HTREEITEM hEdit)
 {
 	Item* pEdit = getItem(hEdit);
 
@@ -1119,7 +936,7 @@ const mu_text* OptionsCtrlImpl::onOCMGetEditString(HTREEITEM hEdit)
 	return reinterpret_cast<Edit*>(pEdit)->getString();
 }
 
-void OptionsCtrlImpl::onOCMSetEditString(HTREEITEM hEdit, const mu_text *szString)
+void OptionsCtrlImpl::onOCMSetEditString(HTREEITEM hEdit, const TCHAR *szString)
 {
 	assert(szString);
 
@@ -1130,7 +947,7 @@ void OptionsCtrlImpl::onOCMSetEditString(HTREEITEM hEdit, const mu_text *szStrin
 	reinterpret_cast<Edit*>(pEdit)->setString(szString);
 }
 
-void OptionsCtrlImpl::onOCMAddComboItem(HTREEITEM hCombo, const mu_text* szItem)
+void OptionsCtrlImpl::onOCMAddComboItem(HTREEITEM hCombo, const TCHAR* szItem)
 {
 	assert(szItem);
 
@@ -1162,14 +979,10 @@ void OptionsCtrlImpl::onOCMSetComboSelected(HTREEITEM hCombo, int nSelect)
 void OptionsCtrlImpl::onOCMEnsureVisible(HTREEITEM hItem)
 {
 	if (!hItem)
-	{
 		hItem = TreeView_GetChild(m_hTree, TVI_ROOT);
-	}
 
 	if (hItem)
-	{
 		TreeView_EnsureVisible(m_hTree, hItem);
-	}
 }
 
 void OptionsCtrlImpl::onOCMDeleteAllItems()
@@ -1190,19 +1003,18 @@ void OptionsCtrlImpl::onOCMSelectItem(HTREEITEM hItem)
 
 HTREEITEM OptionsCtrlImpl::onOCMGetItem(HTREEITEM hItem, DWORD dwFlag)
 {
-	switch (dwFlag)
-	{
-		case OCGI_FIRST:
-			return TreeView_GetRoot(m_hTree);
+	switch (dwFlag) {
+	case OCGI_FIRST:
+		return TreeView_GetRoot(m_hTree);
 
-		case OCGI_NEXT:
-			return TreeView_GetNextSibling(m_hTree, hItem);
+	case OCGI_NEXT:
+		return TreeView_GetNextSibling(m_hTree, hItem);
 
-		case OCGI_PREV:
-			return TreeView_GetPrevSibling(m_hTree, hItem);
+	case OCGI_PREV:
+		return TreeView_GetPrevSibling(m_hTree, hItem);
 
-		default:
-			return NULL;
+	default:
+		return NULL;
 	}
 }
 
@@ -1216,15 +1028,13 @@ void OptionsCtrlImpl::onOCMMoveItem(HTREEITEM& hItem, HTREEITEM hInsertAfter)
 	assert(hItem);
 
 	TVINSERTSTRUCT tvis;
-
 	tvis.hParent = TreeView_GetParent(m_hTree, hItem);
 	tvis.hInsertAfter = hInsertAfter ? hInsertAfter : TVI_FIRST;
 	tvis.item.hItem = hItem;
 	tvis.item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE | TVIF_PARAM;
 	tvis.item.stateMask = TVIS_BOLD | TVIS_EXPANDED;
 
-	if (TreeView_GetItem(m_hTree, &tvis.item))
-	{
+	if (TreeView_GetItem(m_hTree, &tvis.item)) {
 		Item* pItem = reinterpret_cast<Item*>(tvis.item.lParam);
 
 		++pItem->m_nRef;
@@ -1232,7 +1042,7 @@ void OptionsCtrlImpl::onOCMMoveItem(HTREEITEM& hItem, HTREEITEM hInsertAfter)
 		TreeView_DeleteItem(m_hTree, hItem);
 
 		tvis.item.mask |= TVIF_TEXT;
-		tvis.item.pszText = muT("");
+		tvis.item.pszText = _T("");
 
 		hItem = TreeView_InsertItem(m_hTree, &tvis);
 
@@ -1300,24 +1110,22 @@ void OptionsCtrlImpl::onOCMSetItemColor(HTREEITEM hColor, COLORREF crColor)
 	reinterpret_cast<Color*>(pColor)->setColor(crColor);
 }
 
-void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const mu_text* szNodeText, DWORD dwFlags, int iImage)
+void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const TCHAR* szNodeText, DWORD dwFlags, int iImage)
 {
 	assert(!pParent || pParent->m_hItem);
 	assert(pItem);
 	assert(szNodeText);
 
 	TVINSERTSTRUCT tvis;
-
-	tvis.hParent             = pParent ? pParent->m_hItem : TVI_ROOT;
-	tvis.hInsertAfter        = TVI_LAST;
-	tvis.item.mask           = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE | TVIF_PARAM;
-	tvis.item.pszText        = const_cast<mu_text*>(szNodeText);
-	tvis.item.iImage         = iImage;
+	tvis.hParent = pParent ? pParent->m_hItem : TVI_ROOT;
+	tvis.hInsertAfter = TVI_LAST;
+	tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE | TVIF_PARAM;
+	tvis.item.pszText = const_cast<TCHAR*>(szNodeText);
+	tvis.item.iImage = iImage;
 	tvis.item.iSelectedImage = iImage;
-	tvis.item.stateMask      = TVIS_EXPANDED | ((dwFlags & OCF_BOLD) ? TVIS_BOLD : 0);
-	tvis.item.state          = tvis.item.stateMask;
-	tvis.item.lParam         = reinterpret_cast<LPARAM>(pItem);
-
+	tvis.item.stateMask = TVIS_EXPANDED | ((dwFlags & OCF_BOLD) ? TVIS_BOLD : 0);
+	tvis.item.state = tvis.item.stateMask;
+	tvis.item.lParam = reinterpret_cast<LPARAM>(pItem);
 	pItem->m_hItem = TreeView_InsertItem(m_hTree, &tvis);
 }
 
@@ -1325,16 +1133,13 @@ void OptionsCtrlImpl::setModified(Item* pItem, bool bModified /* = true */)
 {
 	m_bModified = bModified;
 
-	if (bModified)
-	{
+	if (bModified) {
 		NMOPTIONSCTRL nmoc;
-
 		nmoc.hdr.code = OCN_MODIFIED;
 		nmoc.hdr.hwndFrom = m_hWnd;
 		nmoc.hdr.idFrom = m_nOwnId;
 		nmoc.hItem = reinterpret_cast<HANDLE>(pItem->m_hItem);
 		nmoc.dwData = pItem->m_dwData;
-
 		SendMessage(GetParent(m_hWnd), WM_NOTIFY, nmoc.hdr.idFrom, reinterpret_cast<LPARAM>(&nmoc));
 	}
 }
@@ -1344,10 +1149,8 @@ bool OptionsCtrlImpl::isItemValid(HTREEITEM hItem)
 	assert(hItem);
 
 	TVITEM tvi;
-
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
-
 	Item* pItem = TreeView_GetItem(m_hTree, &tvi) ? reinterpret_cast<Item*>(tvi.lParam) : NULL;
 
 	return bool_(pItem);
@@ -1358,25 +1161,21 @@ OptionsCtrlImpl::Item* OptionsCtrlImpl::getItem(HTREEITEM hItem)
 	assert(hItem);
 
 	TVITEM tvi;
-
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
-
 	Item* pItem = TreeView_GetItem(m_hTree, &tvi) ? reinterpret_cast<Item*>(tvi.lParam) : NULL;
 
 	assert(pItem);
-	
+
 	return pItem;
 }
 
 void OptionsCtrlImpl::setItem(HTREEITEM hItem, Item* pItem)
 {
 	TVITEM tvi;
-
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
 	tvi.lParam = reinterpret_cast<LPARAM>(pItem);
-
 	TreeView_SetItem(m_hTree, &tvi);
 }
 
@@ -1385,26 +1184,22 @@ void OptionsCtrlImpl::setStateImage(HTREEITEM hItem, int iImage)
 	assert(hItem);
 
 	TVITEM tvi;
-
 	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 	tvi.hItem = hItem;
 	tvi.iImage = iImage;
 	tvi.iSelectedImage = iImage;
-
 	TreeView_SetItem(m_hTree, &tvi);
 }
 
-void OptionsCtrlImpl::setNodeText(HTREEITEM hItem, const mu_text* szNodeText)
+void OptionsCtrlImpl::setNodeText(HTREEITEM hItem, const TCHAR* szNodeText)
 {
 	assert(hItem);
 	assert(szNodeText);
 
 	TVITEM tvi;
-
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = hItem;
-	tvi.pszText = const_cast<mu_text*>(szNodeText);
-
+	tvi.pszText = const_cast<TCHAR*>(szNodeText);
 	TreeView_SetItem(m_hTree, &tvi);
 }
 
@@ -1412,17 +1207,12 @@ bool OptionsCtrlImpl::getItemFreeRect(HTREEITEM hItem, RECT& outRect)
 {
 	RECT rLine, rText;
 
-	if (TreeView_GetItemRect(m_hTree, hItem, &rLine, FALSE) && TreeView_GetItemRect(m_hTree, hItem, &rText, TRUE))
-	{
+	if (TreeView_GetItemRect(m_hTree, hItem, &rLine, FALSE) && TreeView_GetItemRect(m_hTree, hItem, &rText, TRUE)) {
 		outRect.left = rText.right + 2;
 		outRect.top = rText.top;
 		outRect.right = rLine.right - 2;
 		outRect.bottom = rText.bottom;
-
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	else return false;
 }

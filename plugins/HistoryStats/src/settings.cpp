@@ -13,11 +13,11 @@
 
 Settings::CharMapper::CharMapper(const Settings& settings)
 {
-	static const mu_text* defaultWordDelimiters = muT("\n\r\t");
+	static const TCHAR* defaultWordDelimiters = _T("\n\r\t");
 
 	array_each_(i, m_CharMap)
 	{
-		m_CharMap[i] = static_cast<mu_text>(i);
+		m_CharMap[i] = static_cast<TCHAR>(i);
 	}
 
 	LCID lcid = GetUserDefaultLCID();
@@ -30,12 +30,12 @@ Settings::CharMapper::CharMapper(const Settings& settings)
 
 	upto_each_(i, 3)
 	{
-		m_CharMap[static_cast<t_uchar>(defaultWordDelimiters[i])] = muC(' ');
+		m_CharMap[static_cast<t_uchar>(defaultWordDelimiters[i])] = ' ';
 	}
 
 	upto_each_(i, settings.m_WordDelimiters.length())
 	{
-		m_CharMap[static_cast<t_uchar>(settings.m_WordDelimiters[i])] = muC(' ');
+		m_CharMap[static_cast<t_uchar>(settings.m_WordDelimiters[i])] = ' ';
 	}
 }
 
@@ -50,17 +50,17 @@ Settings::Filter::Filter(const ext::string& strID)
 	struct tm curTM = *localtime(&curTime);
 
 	m_strName += utils::intToPadded(1900 + curTM.tm_year, 4);
-	m_strName += muT("-");
+	m_strName += _T("-");
 	m_strName += utils::intToPadded(1 + curTM.tm_mon, 2);
-	m_strName += muT("-");
+	m_strName += _T("-");
 	m_strName += utils::intToPadded(curTM.tm_mday, 2);
-	m_strName += muT(" ");
+	m_strName += _T(" ");
 	m_strName += utils::intToPadded(curTM.tm_hour, 2);
-	m_strName += muT(":");
+	m_strName += _T(":");
 	m_strName += utils::intToPadded(curTM.tm_min, 2);
-	m_strName += muT(":");
+	m_strName += _T(":");
 	m_strName += utils::intToPadded(curTM.tm_sec, 2);
-	m_strName += muT(".");
+	m_strName += _T(".");
 	m_strName += utils::intToPadded(GetTickCount() % 1000, 3);
 }
 
@@ -68,12 +68,12 @@ Settings::Filter::Filter(const ext::string& strID)
  * Settings
  */
 
-const mu_text* Settings::getDefaultWordDelimiters()
+const TCHAR* Settings::getDefaultWordDelimiters()
 {
-	return muT(".?!,:;()[]{}<>+-*/=\\_^&\"'~%#@|$");
+	return _T(".?!,:;()[]{}<>+-*/=\\_^&\"'~%#@|$");
 }
 
-const mu_text* Settings::getDefaultStyleSheet()
+const TCHAR* Settings::getDefaultStyleSheet()
 {
 	static ext::string StyleSheet;
 
@@ -81,157 +81,153 @@ const mu_text* Settings::getDefaultStyleSheet()
 	{
 		// general formats
 		StyleSheet +=
-			muT("h1 { font-family: Verdana, Arial, sans-serif; font-size: 16pt; }\n")
-			muT("div, span, td { font-family: Verdana, Arial, sans-serif; font-size: 10pt; }\n")
-			muT("span[title], td[title], div[title] { cursor: help; }\n")
-			muT("span[title] { border-bottom: 1px dotted; }\n")
-			muT("span[title]:hover, td[title]:hover { background-color: #FFFFCF; }\n")
-			muT("table { border-collapse: collapse; }\n")
-			muT("td { border: 1px solid ") + utils::colorToHTML(con::ColorBorder) + muT("; text-align: left; padding: 2px 4px 2px 4px; }\n")
-			muT("div.footer { padding: 12px 0px 8px 0px; }\n");
+			_T("h1 { font-family: Verdana, Arial, sans-serif; font-size: 16pt; }\n")
+			_T("div, span, td { font-family: Verdana, Arial, sans-serif; font-size: 10pt; }\n")
+			_T("span[title], td[title], div[title] { cursor: help; }\n")
+			_T("span[title] { border-bottom: 1px dotted; }\n")
+			_T("span[title]:hover, td[title]:hover { background-color: #FFFFCF; }\n")
+			_T("table { border-collapse: collapse; }\n")
+			_T("td { border: 1px solid ") + utils::colorToHTML(con::ColorBorder) + _T("; text-align: left; padding: 2px 4px 2px 4px; }\n")
+			_T("div.footer { padding: 12px 0px 8px 0px; }\n");
 
 		// special row formats
 		StyleSheet +=
-			muT("tr.header td { background-color: ") + utils::colorToHTML(con::ColorHeader) + muT("; text-align: center; }\n")
-			muT("tr.header td div { height: 1px; overflow: hidden; }\n")
-			muT("tr.omitted td { background-color: ") + utils::colorToHTML(con::ColorOmitted) + muT("; }\n")
-			muT("tr.totals td { background-color: ") + utils::colorToHTML(con::ColorTotals) + muT("; }\n");
+			_T("tr.header td { background-color: ") + utils::colorToHTML(con::ColorHeader) + _T("; text-align: center; }\n")
+			_T("tr.header td div { height: 1px; overflow: hidden; }\n")
+			_T("tr.omitted td { background-color: ") + utils::colorToHTML(con::ColorOmitted) + _T("; }\n")
+			_T("tr.totals td { background-color: ") + utils::colorToHTML(con::ColorTotals) + _T("; }\n");
 
 		// special cell formats
 		StyleSheet +=
-			muT("td.num { text-align: right; }\n")
-			muT("td.bars_bottom { vertical-align: bottom; padding: 4px 0px 0px 0px; }\n")
-			muT("td.bars_middle { vertical-align: middle; padding: 2px 0px 2px 0px; }\n")
-			muT("td.img_bottom { vertical-align: bottom; text-align: center; padding: 4px 0px 0px 0px; }\n")
-			muT("td.img_middle { vertical-align: middle; text-align: center; padding: 2px 0px 2px 0px; }\n");
+			_T("td.num { text-align: right; }\n")
+			_T("td.bars_bottom { vertical-align: bottom; padding: 4px 0px 0px 0px; }\n")
+			_T("td.bars_middle { vertical-align: middle; padding: 2px 0px 2px 0px; }\n")
+			_T("td.img_bottom { vertical-align: bottom; text-align: center; padding: 4px 0px 0px 0px; }\n")
+			_T("td.img_middle { vertical-align: middle; text-align: center; padding: 2px 0px 2px 0px; }\n");
 	}
 
 	return StyleSheet.c_str();
 }
 
-const mu_text* Settings::getDefaultHideContactMenuProtos()
+const TCHAR* Settings::getDefaultHideContactMenuProtos()
 {
-	return muT("{num:0;}");
+	return _T("{num:0;}");
 }
 
-const mu_text* Settings::getDefaultProtosIgnore()
+const TCHAR* Settings::getDefaultProtosIgnore()
 {
-	return muT("{num:0;}");
+	return _T("{num:0;}");
 }
 
-const mu_text* Settings::getDefaultColumns()
+const TCHAR* Settings::getDefaultColumns()
 {
 	return
-		muT("{num:11;}")
-		muT("0{enabled:y;guid:rank;}")
-		muT("1{enabled:y;guid:nick;}1/data{detail:y;}")
-		muT("2{enabled:y;guid:protocol;}")
-		muT("3{enabled:y;guid:group;}")
-		muT("4{enabled:y;guid:inout;}4/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:0;}")
-		muT("5{enabled:y;guid:inout;}5/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:1;}")
-		muT("6{enabled:y;guid:inout;}6/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:2;}")
-		muT("7{enabled:y;guid:chatduration;}7/data{detail:y;graph:y;vis_mode:3;}")
-		muT("8{enabled:y;guid:commonwords;}8/data{detail:y;filter_links:y;filter_words:0;in_out_color:n;max_length:0;min_length:1;num:10;offset:0;source:2;vis_mode:0;}")
-		muT("9{enabled:y;guid:wordcount;}9/data{detail:y;filter_links:y;filter_words:0;max_length:0;min_length:1;source:2;vis_mode:0;}")
-		muT("10{enabled:y;guid:split;}10/data{block_unit:0;blocks:28;detail:y;graph_align:1;source:0;source_type:2;units_per_block:6;vis_mode:0;}");
+		_T("{num:11;}")
+		_T("0{enabled:y;guid:rank;}")
+		_T("1{enabled:y;guid:nick;}1/data{detail:y;}")
+		_T("2{enabled:y;guid:protocol;}")
+		_T("3{enabled:y;guid:group;}")
+		_T("4{enabled:y;guid:inout;}4/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:0;}")
+		_T("5{enabled:y;guid:inout;}5/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:1;}")
+		_T("6{enabled:y;guid:inout;}6/data{abs_time:1;absolute:n;detail:y;detail_percent:n;graph_percent:y;show_sum:y;source:2;}")
+		_T("7{enabled:y;guid:chatduration;}7/data{detail:y;graph:y;vis_mode:3;}")
+		_T("8{enabled:y;guid:commonwords;}8/data{detail:y;filter_links:y;filter_words:0;in_out_color:n;max_length:0;min_length:1;num:10;offset:0;source:2;vis_mode:0;}")
+		_T("9{enabled:y;guid:wordcount;}9/data{detail:y;filter_links:y;filter_words:0;max_length:0;min_length:1;source:2;vis_mode:0;}")
+		_T("10{enabled:y;guid:split;}10/data{block_unit:0;blocks:28;detail:y;graph_align:1;source:0;source_type:2;units_per_block:6;vis_mode:0;}");
 }
 
-const mu_text* Settings::getDefaultSort()
+const TCHAR* Settings::getDefaultSort()
 {
 	return
-		muT("0{by:17;asc:n}")
-		muT("1{by:-1;asc:y}")
-		muT("2{by:-1;asc:y}");
+		_T("0{by:17;asc:n}")
+		_T("1{by:-1;asc:y}")
+		_T("2{by:-1;asc:y}");
 }
 
-const mu_text* Settings::getDefaultOutputFile()
+const TCHAR* Settings::getDefaultOutputFile()
 {
-	return muT("HistoryStats\\stats.html");
+	return _T("HistoryStats\\stats.html");
 }
 
-const mu_text* Settings::getDefaultOutputExtraFolder()
+const TCHAR* Settings::getDefaultOutputExtraFolder()
 {
-	return muT("extra");
+	return _T("extra");
 }
 
-const mu_text* Settings::getDefaultFilterWords()
+const TCHAR* Settings::getDefaultFilterWords()
 {
-	return muT("{num:0;}");
+	return _T("{num:0;}");
 }
 
 void Settings::clearColumns()
 {
 	while (countCol() > 0)
-	{
 		delCol(0);
-	}
 }
 
-Settings::Settings()
-	: m_VersionCurrent(g_pluginInfoEx.version)
+Settings::Settings() :
+	m_VersionCurrent(g_pluginInfoEx.version),
+	
 	// global settings
-	, m_OnStartup(false)
-	, m_ShowMainMenu(true)
-	, m_ShowMainMenuSub(true)
-	, m_ShowContactMenu(true)
-	, m_ShowContactMenuPseudo(false)
-//	, m_HideContactMenuProtos
-	, m_GraphicsMode(gmHTML)
-	, m_PNGMode(pmHTMLFallBack)
-	, m_ThreadLowPriority(true)
-	, m_PathToBrowser(muT(""))
+	m_OnStartup(false),
+	m_ShowMainMenu(true),
+	m_ShowMainMenuSub(true),
+	m_ShowContactMenu(true),
+	m_ShowContactMenuPseudo(false),
+	m_GraphicsMode(gmHTML),
+	m_PNGMode(pmHTMLFallBack),
+	m_ThreadLowPriority(true),
+	m_PathToBrowser(_T("")),
+
 	// input settings
-	, m_ChatSessionMinDur(0)
-	, m_ChatSessionTimeout(900)
-	, m_AverageMinTime(0)
-	, m_WordDelimiters(muT("")) // see below
-//	, m_ProtosIgnore
-	, m_IgnoreOld(0)
-	, m_IgnoreBefore(muT(""))
-	, m_IgnoreAfter(muT(""))
-	, m_FilterRawRTF(false)
-	, m_FilterBBCodes(false)
-	, m_MetaContactsMode(mcmBoth)
-	, m_MergeContacts(false)
-	, m_MergeContactsGroups(false)
-	, m_MergeMode(mmStrictMerge)
+	m_ChatSessionMinDur(0),
+	m_ChatSessionTimeout(900),
+	m_AverageMinTime(0),
+	m_WordDelimiters(_T("")),
+	m_IgnoreOld(0),
+	m_IgnoreBefore(_T("")),
+	m_IgnoreAfter(_T("")),
+	m_FilterRawRTF(false),
+	m_FilterBBCodes(false),
+	m_MetaContactsMode(mcmBoth),
+	m_MergeContacts(false),
+	m_MergeContactsGroups(false),
+	m_MergeMode(mmStrictMerge),
+
 	// output settings
-	, m_RemoveEmptyContacts(false)
-	, m_RemoveOutChatsZero(false)
-	, m_RemoveOutBytesZero(false)
-	, m_RemoveInChatsZero(false)
-	, m_RemoveInBytesZero(false)
-	, m_OmitContacts(false)
-	, m_OmitByValue(false)
-	, m_OmitByValueData(obvChatsTotal)
-	, m_OmitByValueLimit(5)
-	, m_OmitByTime(false)
-	, m_OmitByTimeDays(180)
-	, m_OmitByRank(true)
-	, m_OmitNumOnTop(10)
-	, m_OmittedInTotals(true)
-	, m_OmittedInExtraRow(true)
-	, m_CalcTotals(true)
-	, m_TableHeader(true)
-	, m_TableHeaderRepeat(0)
-	, m_TableHeaderVerbose(false)
-	, m_HeaderTooltips(true)
-	, m_HeaderTooltipsIfCustom(true)
-//	, m_Sort
-	, m_OwnNick(muT("")) // see below
-	, m_OutputVariables(false)
-	, m_OutputFile(muT("")) // see below
-	, m_OutputExtraToFolder(true)
-	, m_OutputExtraFolder(muT("")) // see below
-	, m_OverwriteAlways(false)
-	, m_AutoOpenOptions(false)
-	, m_AutoOpenStartup(false)
-	, m_AutoOpenMenu(false)
-	// shared column data
-//	, m_FilterWords
+	m_RemoveEmptyContacts(false),
+	m_RemoveOutChatsZero(false),
+	m_RemoveOutBytesZero(false),
+	m_RemoveInChatsZero(false),
+	m_RemoveInBytesZero(false),
+	m_OmitContacts(false),
+	m_OmitByValue(false),
+	m_OmitByValueData(obvChatsTotal),
+	m_OmitByValueLimit(5),
+	m_OmitByTime(false),
+	m_OmitByTimeDays(180),
+	m_OmitByRank(true),
+	m_OmitNumOnTop(10),
+	m_OmittedInTotals(true),
+	m_OmittedInExtraRow(true),
+	m_CalcTotals(true),
+	m_TableHeader(true),
+	m_TableHeaderRepeat(0),
+	m_TableHeaderVerbose(false),
+	m_HeaderTooltips(true),
+	m_HeaderTooltipsIfCustom(true),
+	m_OwnNick(_T("")),
+	m_OutputVariables(false),
+	m_OutputFile(_T("")),
+	m_OutputExtraToFolder(true),
+	m_OutputExtraFolder(_T("")),
+	m_OverwriteAlways(false),
+	m_AutoOpenOptions(false),
+	m_AutoOpenStartup(false),
+	m_AutoOpenMenu(false)
 {
 	m_WordDelimiters = getDefaultWordDelimiters();
-	m_OwnNick = i18n(muT("(default nick)"));
+	m_OwnNick = TranslateT("(default nick)");
 	m_OutputFile = getDefaultOutputFile();
 	m_OutputExtraFolder = getDefaultOutputExtraFolder();
 
@@ -240,8 +236,8 @@ Settings::Settings()
 	m_Sort[2].by = skNothing;       m_Sort[2].asc = true;
 }
 
-Settings::Settings(const Settings& other)
-	: m_VersionCurrent(g_pluginInfoEx.version)
+Settings::Settings(const Settings& other) :
+	m_VersionCurrent(g_pluginInfoEx.version)
 {
 	*this = other;
 }
@@ -268,12 +264,9 @@ bool Settings::delCol(int index)
 
 bool Settings::delCol(Column* pCol)
 {
-	vector_each_(i, m_Columns)
-	{
+	vector_each_(i, m_Columns) {
 		if (m_Columns[i] == pCol)
-		{
 			return delCol(i);
-		}
 	}
 
 	return false;
@@ -284,54 +277,40 @@ bool Settings::moveCol(Column* pCol, Column* pInsertAfter)
 	assert(pCol);
 
 	if (pCol == pInsertAfter)
-	{
 		return true;
-	}
 
 	int nColIndex = -1;
 
 	vector_each_(i, m_Columns)
 	{
-		if (m_Columns[i] == pCol)
-		{
+		if (m_Columns[i] == pCol) {
 			nColIndex = i;
 			break;
 		}
 	}
 
 	if (nColIndex == -1)
-	{
 		return false;
-	}
 
 	int nInsertIndex = -1;
 
-	if (pInsertAfter)
-	{
-		vector_each_(i, m_Columns)
-		{
-			if (m_Columns[i] == pInsertAfter)
-			{
+	if (pInsertAfter) {
+		vector_each_(i, m_Columns) {
+			if (m_Columns[i] == pInsertAfter) {
 				nInsertIndex = i;
 				break;
 			}
 		}
 
 		if (nInsertIndex == -1)
-		{
 			return false;
-		}
 	}
 
 	if (nInsertIndex == nColIndex - 1)
-	{
 		return true;
-	}
 
 	if (nInsertIndex < nColIndex)
-	{
 		++nInsertIndex;
-	}
 
 	m_Columns.erase(m_Columns.begin() + nColIndex);
 	m_Columns.insert(m_Columns.begin() + nInsertIndex, pCol);
@@ -350,9 +329,7 @@ bool Settings::manageFilterWords(HWND hParent, Column* pCol)
 	upto_each_(i, countCol())
 	{
 		Column* pCurCol = getCol(i);
-
-		if (pCurCol != pCol && pCurCol->getFeatures() & Column::cfIsColBaseWords)
-		{
+		if (pCurCol != pCol && pCurCol->getFeatures() & Column::cfIsColBaseWords) {
 			ColBaseWords* pCurWordsCol = reinterpret_cast<ColBaseWords*>(pCurCol);
 
 			citer_each_(ColFilterSet, j, pCurWordsCol->getFilterWords())
@@ -375,8 +352,7 @@ bool Settings::manageFilterWords(HWND hParent, Column* pCol)
 	dlg.setFilters(m_FilterWords);
 	dlg.setColFilters(pWordsCol->getFilterWords());
 
-	if (dlg.showModal(hParent))
-	{
+	if (dlg.showModal(hParent)) {
 		// read data from dialog
 		dlg.updateFilters(m_FilterWords);
 		pWordsCol->setFilterWords(dlg.getColFilters());
@@ -392,18 +368,14 @@ bool Settings::manageFilterWords(HWND hParent, Column* pCol)
 		upto_each_(i, countCol())
 		{
 			Column* pCurCol = getCol(i);
-
-			if (pCurCol != pCol && pCurCol->getFeatures() & Column::cfIsColBaseWords)
-			{
+			if (pCurCol != pCol && pCurCol->getFeatures() & Column::cfIsColBaseWords) {
 				ColBaseWords* pCurWordsCol = reinterpret_cast<ColBaseWords*>(pCurCol);
 				ReferencedFilters.clear();
 
 				citer_each_(ColFilterSet, j, pCurWordsCol->getFilterWords())
 				{
 					if (ValidSets.find(*j) != ValidSets.end())
-					{
 						ReferencedFilters.insert(*j);
-					}
 				}
 
 				pCurWordsCol->setFilterWords(ReferencedFilters);
@@ -423,9 +395,7 @@ const Settings::Filter* Settings::getFilter(const ext::string& strID) const
 	citer_each_(FilterSet, i, m_FilterWords)
 	{
 		if (i->getID() == strID)
-		{
 			return &(*i);
-		}
 	}
 
 	return NULL;
@@ -519,52 +489,37 @@ ext::string Settings::getOutputFile(DWORD timeStarted) const
 
 	// perform variables substitution (if activated)
 	if (m_OutputVariables)
-	{
 		strFile = utils::replaceVariables(strFile, timeStarted, m_OwnNick.c_str());
-	}
 
 	if (utils::isRelative(strFile))
-	{
 		return utils::getMirandaPath() + strFile;
-	}
-	else
-	{
-		return strFile;
-	}
+
+	return strFile;
 }
 
 ext::string Settings::getOutputPrefix(DWORD timeStarted) const
 {
-	if (m_OutputExtraToFolder && !m_OutputExtraFolder.empty())
-	{
+	if (m_OutputExtraToFolder && !m_OutputExtraFolder.empty()) {
 		ext::string extraFolder = m_OutputExtraFolder;
 
 		// perform variables substitution (if activated)
 		if (m_OutputVariables)
-		{
 			extraFolder = utils::replaceVariables(extraFolder, timeStarted, m_OwnNick.c_str());
-		}
 
 		// strip leading backslashes
-		while (!extraFolder.empty() && extraFolder[0] == muC('\\'))
-		{
+		while (!extraFolder.empty() && extraFolder[0] == '\\')
 			extraFolder.erase(0, 1);
-		}
 
 		// strip trailing backslashes
-		while (!extraFolder.empty() && extraFolder[extraFolder.length() - 1] == muC('\\'))
-		{
+		while (!extraFolder.empty() && extraFolder[extraFolder.length() - 1] == '\\')
 			extraFolder.erase(extraFolder.length() - 1, 1);
-		}
 
 		// append, if still not empty
 		if (!extraFolder.empty())
-		{		
-			return extraFolder + muT("\\");
-		}
+			return extraFolder + _T("\\");
 	}
 	
-	return muT("");
+	return _T("");
 }
 
 bool Settings::isPNGOutputActiveAndAvailable() const
@@ -582,50 +537,33 @@ DWORD Settings::getIgnoreAfter() const
 	return utils::parseDate(m_IgnoreAfter);
 }
 
-
 void Settings::ensureConstraints()
 {
 	if (m_GraphicsMode < gmHTML || m_GraphicsMode > gmPNG)
-	{
 		m_GraphicsMode = gmHTML;
-	}
 
 	if (m_PNGMode < pmHTMLFallBack || m_PNGMode > pmPreferHTML)
-	{
 		m_PNGMode = pmHTMLFallBack;
-	}
 
 	if (m_IgnoreOld < 0)
-	{
 		m_IgnoreOld = 0;
-	}
 
 	if (m_ChatSessionMinDur < 0)
-	{
 		m_ChatSessionMinDur = 0;
-	}
 
 	if (m_ChatSessionTimeout < 1)
-	{
 		m_ChatSessionTimeout = 1;
-	}
 
 	utils::ensureRange(m_AverageMinTime, 0, 1000, 0);
 
 	if (m_MetaContactsMode < mcmMetaOnly || m_MetaContactsMode > mcmIgnoreMeta)
-	{
 		m_MetaContactsMode = mcmBoth;
-	}
 
 	if (m_MergeMode < mmTolerantMerge || m_MergeMode > mmNoMerge)
-	{
 		m_MergeMode = mmStrictMerge;
-	}
 
 	if (m_OmitByValueData < obvFIRST || m_OmitByValueData > obvLAST)
-	{
 		m_OmitByValueData = obvChatsTotal;
-	}
 
 	utils::ensureRange(m_OmitByValueLimit, 1, 10000000, 5);
 	utils::ensureRange(m_OmitByTimeDays, 1, 10000, 180);
@@ -633,14 +571,10 @@ void Settings::ensureConstraints()
 	utils::ensureRange(m_TableHeaderRepeat, 0, 1000, 0);
 }
 
-void Settings::openURL(const mu_text* szURL)
+void Settings::openURL(const TCHAR* szURL)
 {
 	if (m_PathToBrowser.empty())
-	{
-		ShellExecute(NULL, muT("open"), szURL, NULL, NULL, SW_SHOWNORMAL);
-	}
+		ShellExecute(NULL, _T("open"), szURL, NULL, NULL, SW_SHOWNORMAL);
 	else
-	{
-		ShellExecute(NULL, muT("open"), m_PathToBrowser.c_str(), szURL, NULL, SW_SHOWNORMAL);
-	}
+		ShellExecute(NULL, _T("open"), m_PathToBrowser.c_str(), szURL, NULL, SW_SHOWNORMAL);
 }

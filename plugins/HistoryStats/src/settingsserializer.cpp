@@ -8,13 +8,14 @@
  * SettingsSerializer
  */
 
-static const mu_ansi* g_UsedSettings[] = {
+static const char* g_UsedSettings[] = {
 	// special
 	con::SettVersion,
 	con::SettLastPage,
 	con::SettShowColumnInfo,
 	con::SettShowSupportInfo,
 	con::SettLastStatisticsFile,
+
 	// normal
 	con::SettAutoOpenOptions,
 	con::SettAutoOpenStartup,
@@ -74,7 +75,7 @@ static const mu_ansi* g_UsedSettings[] = {
 	con::SettWordDelimiters,
 };
 
-SettingsSerializer::SettingsSerializer(const mu_ansi* module)
+SettingsSerializer::SettingsSerializer(const char* module)
 {	
 	m_DB.setContact(0);
 	m_DB.setModule(module);
@@ -92,15 +93,15 @@ void SettingsSerializer::readFromDB()
 
 	// -- global settings --
 
-	m_OnStartup             = m_DB.readBool(con::SettOnStartup            , false);
-	m_GraphicsMode          = m_DB.readByte(con::SettGraphicsMode         , gmHTML);
-	m_PNGMode               = m_DB.readByte(con::SettPNGMode              , pmHTMLFallBack);
-	m_ShowMainMenu          = m_DB.readBool(con::SettMenuItem             , true);
-	m_ShowMainMenuSub       = m_DB.readBool(con::SettShowMenuSub          , true);
-	m_ShowContactMenu       = m_DB.readBool(con::SettShowContactMenu      , true);
+	m_OnStartup = m_DB.readBool(con::SettOnStartup, false);
+	m_GraphicsMode = m_DB.readByte(con::SettGraphicsMode, gmHTML);
+	m_PNGMode = m_DB.readByte(con::SettPNGMode, pmHTMLFallBack);
+	m_ShowMainMenu = m_DB.readBool(con::SettMenuItem, true);
+	m_ShowMainMenuSub = m_DB.readBool(con::SettShowMenuSub, true);
+	m_ShowContactMenu = m_DB.readBool(con::SettShowContactMenu, true);
 	m_ShowContactMenuPseudo = m_DB.readBool(con::SettShowContactMenuPseudo, false);
-	m_ThreadLowPriority     = m_DB.readBool(con::SettThreadLowPriority    , true);
-	m_PathToBrowser         = m_DB.readStr (con::SettPathToBrowser        , muT(""));
+	m_ThreadLowPriority = m_DB.readBool(con::SettThreadLowPriority, true);
+	m_PathToBrowser = m_DB.readStr(con::SettPathToBrowser, _T(""));
 
 	m_HideContactMenuProtos.clear();
 	m_DB.readTree(con::SettHideContactMenuProtos, getDefaultHideContactMenuProtos(), settingsTree);
@@ -109,16 +110,14 @@ void SettingsSerializer::readFromDB()
 
 	upto_each_(i, nHideContactMenuProtos)
 	{
-		m_HideContactMenuProtos.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), muT(""))));
+		m_HideContactMenuProtos.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), _T(""))));
 	}
 
 	// -- input settings --
-
-
-	m_ChatSessionMinDur  = m_DB.readWord(con::SettChatSessionMinDur , 0);
+	m_ChatSessionMinDur = m_DB.readWord(con::SettChatSessionMinDur, 0);
 	m_ChatSessionTimeout = m_DB.readWord(con::SettChatSessionTimeout, 900);
-	m_AverageMinTime     = m_DB.readWord(con::SettAverageMinTime    , 0);
-	m_WordDelimiters     = m_DB.readStr (con::SettWordDelimiters    , getDefaultWordDelimiters());
+	m_AverageMinTime = m_DB.readWord(con::SettAverageMinTime, 0);
+	m_WordDelimiters = m_DB.readStr(con::SettWordDelimiters, getDefaultWordDelimiters());
 
 	m_ProtosIgnore.clear();
 	m_DB.readTree(con::SettProtosIgnore, getDefaultProtosIgnore(), settingsTree);
@@ -127,18 +126,18 @@ void SettingsSerializer::readFromDB()
 
 	upto_each_(i, nIgnoreProtos)
 	{
-		m_ProtosIgnore.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), muT(""))));
+		m_ProtosIgnore.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), _T(""))));
 	}
 
-	m_IgnoreOld           = m_DB.readWord(con::SettIgnoreOld          , 0);
-	m_IgnoreBefore        = m_DB.readStr (con::SettIgnoreBefore       , muT(""));
-	m_IgnoreAfter         = m_DB.readStr (con::SettIgnoreAfter        , muT(""));
-	m_FilterRawRTF        = m_DB.readBool(con::SettFilterRawRTF       , false);
-	m_FilterBBCodes       = m_DB.readBool(con::SettFilterBBCodes      , false);
-	m_MetaContactsMode    = m_DB.readByte(con::SettMetaContactsMode   , mcmBoth);
-	m_MergeContacts       = m_DB.readBool(con::SettMergeContacts      , false);
+	m_IgnoreOld = m_DB.readWord(con::SettIgnoreOld, 0);
+	m_IgnoreBefore = m_DB.readStr(con::SettIgnoreBefore, _T(""));
+	m_IgnoreAfter = m_DB.readStr(con::SettIgnoreAfter, _T(""));
+	m_FilterRawRTF = m_DB.readBool(con::SettFilterRawRTF, false);
+	m_FilterBBCodes = m_DB.readBool(con::SettFilterBBCodes, false);
+	m_MetaContactsMode = m_DB.readByte(con::SettMetaContactsMode, mcmBoth);
+	m_MergeContacts = m_DB.readBool(con::SettMergeContacts, false);
 	m_MergeContactsGroups = m_DB.readBool(con::SettMergeContactsGroups, false);
-	m_MergeMode           = m_DB.readByte(con::SettMergeMode          , mmStrictMerge);
+	m_MergeMode = m_DB.readByte(con::SettMergeMode, mmStrictMerge);
 
 	// -- column settings --
 
@@ -153,12 +152,11 @@ void SettingsSerializer::readFromDB()
 
 		settingsTree.setKey(colPrefix.c_str());
 
-		Column* pCol = Column::fromUID(settingsTree.readStr(con::KeyGUID, muT("")));
+		Column* pCol = Column::fromUID(settingsTree.readStr(con::KeyGUID, _T("")));
 
-		if (pCol)
-		{
+		if (pCol) {
 			pCol->setEnabled(settingsTree.readBool(con::KeyEnabled, true));
-			pCol->setCustomTitle(settingsTree.readStr(con::KeyTitle, muT("")));
+			pCol->setCustomTitle(settingsTree.readStr(con::KeyTitle, _T("")));
 
 			settingsTree.setKey((colPrefix + con::SuffixData).c_str());
 
@@ -167,30 +165,30 @@ void SettingsSerializer::readFromDB()
 			addCol(pCol);
 		}
 	}
-	
+
 	// -- output settings --
 
-	m_RemoveEmptyContacts    = m_DB.readBool (con::SettRemoveEmptyContacts   , false);
-	m_RemoveOutChatsZero     = m_DB.readBool (con::SettRemoveOutChatsZero    , false);
-	m_RemoveOutBytesZero     = m_DB.readBool (con::SettRemoveOutBytesZero    , false);
-	m_RemoveInChatsZero      = m_DB.readBool (con::SettRemoveInChatsZero     , false);
-	m_RemoveInBytesZero      = m_DB.readBool (con::SettRemoveInBytesZero     , false);
-	m_OmitContacts           = m_DB.readBool (con::SettOmitContacts          , false);
-	m_OmitByValue            = m_DB.readBool (con::SettOmitByValue           , false);
-	m_OmitByValueData        = m_DB.readByte (con::SettOmitByValueData       , obvChatsTotal);
-	m_OmitByValueLimit       = m_DB.readDWord(con::SettOmitByValueLimit      , 5);
-	m_OmitByTime             = m_DB.readBool (con::SettOmitByTime            , false);
-	m_OmitByTimeDays         = m_DB.readWord (con::SettOmitByTimeDays        , 180);
-	m_OmitByRank             = m_DB.readBool (con::SettOmitByRank            , true);
-	m_OmitNumOnTop           = m_DB.readWord (con::SettOmitNumOnTop          , 10);
-	m_OmittedInTotals        = m_DB.readBool (con::SettOmittedInTotals       , true);
-	m_OmittedInExtraRow      = m_DB.readBool (con::SettOmittedInExtraRow     , true);
-	m_CalcTotals             = m_DB.readBool (con::SettCalcTotals            , true);
-	m_TableHeader            = m_DB.readBool (con::SettTableHeader           , true);
-	m_TableHeaderRepeat      = m_DB.readWord (con::SettTableHeaderRepeat     , 0);
-	m_TableHeaderVerbose     = m_DB.readBool (con::SettTableHeaderVerbose    , false);
-	m_HeaderTooltips         = m_DB.readBool (con::SettHeaderTooltips        , true);
-	m_HeaderTooltipsIfCustom = m_DB.readBool (con::SettHeaderTooltipsIfCustom, true);
+	m_RemoveEmptyContacts = m_DB.readBool(con::SettRemoveEmptyContacts, false);
+	m_RemoveOutChatsZero = m_DB.readBool(con::SettRemoveOutChatsZero, false);
+	m_RemoveOutBytesZero = m_DB.readBool(con::SettRemoveOutBytesZero, false);
+	m_RemoveInChatsZero = m_DB.readBool(con::SettRemoveInChatsZero, false);
+	m_RemoveInBytesZero = m_DB.readBool(con::SettRemoveInBytesZero, false);
+	m_OmitContacts = m_DB.readBool(con::SettOmitContacts, false);
+	m_OmitByValue = m_DB.readBool(con::SettOmitByValue, false);
+	m_OmitByValueData = m_DB.readByte(con::SettOmitByValueData, obvChatsTotal);
+	m_OmitByValueLimit = m_DB.readDWord(con::SettOmitByValueLimit, 5);
+	m_OmitByTime = m_DB.readBool(con::SettOmitByTime, false);
+	m_OmitByTimeDays = m_DB.readWord(con::SettOmitByTimeDays, 180);
+	m_OmitByRank = m_DB.readBool(con::SettOmitByRank, true);
+	m_OmitNumOnTop = m_DB.readWord(con::SettOmitNumOnTop, 10);
+	m_OmittedInTotals = m_DB.readBool(con::SettOmittedInTotals, true);
+	m_OmittedInExtraRow = m_DB.readBool(con::SettOmittedInExtraRow, true);
+	m_CalcTotals = m_DB.readBool(con::SettCalcTotals, true);
+	m_TableHeader = m_DB.readBool(con::SettTableHeader, true);
+	m_TableHeaderRepeat = m_DB.readWord(con::SettTableHeaderRepeat, 0);
+	m_TableHeaderVerbose = m_DB.readBool(con::SettTableHeaderVerbose, false);
+	m_HeaderTooltips = m_DB.readBool(con::SettHeaderTooltips, true);
+	m_HeaderTooltipsIfCustom = m_DB.readBool(con::SettHeaderTooltipsIfCustom, true);
 
 	m_DB.readTree(con::SettSort, getDefaultSort(), settingsTree);
 
@@ -201,22 +199,22 @@ void SettingsSerializer::readFromDB()
 		m_Sort[i].by = settingsTree.readIntRanged(con::KeyBy, (i == 0) ? skBytesTotalAvg : skNothing, (i == 0) ? skFIRST : skNothing, skLAST);
 		m_Sort[i].asc = settingsTree.readBool(con::KeyAsc, i != 0);
 	}
-	
-	m_OwnNick             = m_DB.readStr (con::SettNickname           , defaultNick.c_str());
-	m_OutputVariables     = m_DB.readBool(con::SettOutputVariables    , false);
-	m_OutputFile          = m_DB.readStr (con::SettOutput             , getDefaultOutputFile());
+
+	m_OwnNick = m_DB.readStr(con::SettNickname, defaultNick.c_str());
+	m_OutputVariables = m_DB.readBool(con::SettOutputVariables, false);
+	m_OutputFile = m_DB.readStr(con::SettOutput, getDefaultOutputFile());
 	m_OutputExtraToFolder = m_DB.readBool(con::SettOutputExtraToFolder, true);
-	m_OutputExtraFolder   = m_DB.readStr (con::SettOutputExtraFolder  , getDefaultOutputExtraFolder());
-	m_OverwriteAlways     = m_DB.readBool(con::SettOverwriteAlways    , false);
-	m_AutoOpenOptions     = m_DB.readBool(con::SettAutoOpenOptions    , false);
-	m_AutoOpenStartup     = m_DB.readBool(con::SettAutoOpenStartup    , false);
-	m_AutoOpenMenu        = m_DB.readBool(con::SettAutoOpenMenu       , false);
+	m_OutputExtraFolder = m_DB.readStr(con::SettOutputExtraFolder, getDefaultOutputExtraFolder());
+	m_OverwriteAlways = m_DB.readBool(con::SettOverwriteAlways, false);
+	m_AutoOpenOptions = m_DB.readBool(con::SettAutoOpenOptions, false);
+	m_AutoOpenStartup = m_DB.readBool(con::SettAutoOpenStartup, false);
+	m_AutoOpenMenu = m_DB.readBool(con::SettAutoOpenMenu, false);
 
 	// -- shared column data --
 
 	m_FilterWords.clear();
 	m_DB.readTree(con::SettFilterWords, getDefaultFilterWords(), settingsTree);
-	
+
 	int nFilters = settingsTree.readInt(con::KeyNum, 0);
 
 	upto_each_(i, nFilters)
@@ -226,21 +224,20 @@ void SettingsSerializer::readFromDB()
 		// read filter attributes
 		settingsTree.setKey(strPrefix.c_str());
 
-		Filter* curFilter = (Filter*)&(m_FilterWords.insert(Filter(settingsTree.readStr(con::KeyID, muT("")))).first);
+		Filter* curFilter = (Filter*)&(m_FilterWords.insert(Filter(settingsTree.readStr(con::KeyID, _T("")))).first);
 
-		curFilter->setName(settingsTree.readStr(con::KeyName, muT("")));
+		curFilter->setName(settingsTree.readStr(con::KeyName, _T("")));
 		curFilter->setMode(settingsTree.readIntRanged(con::KeyMode, fwmWordsMatching, fwmFIRST, fwmLAST));
 
 		int nNumWords = settingsTree.readInt(con::KeyNumWords, 0);
-		if (nNumWords > 0)
-		{
+		if (nNumWords > 0) {
 			// read filter words
 			strPrefix += con::SuffixWords;
 			settingsTree.setKey(strPrefix.c_str());
 
 			upto_each_(j, nNumWords)
 			{
-				curFilter->addWord(settingsTree.readStr(utils::intToString(j).c_str(), muT("")));
+				curFilter->addWord(settingsTree.readStr(utils::intToString(j).c_str(), _T("")));
 			}
 		}
 	}
@@ -254,8 +251,7 @@ void SettingsSerializer::readFromDB()
 void SettingsSerializer::writeToDB()
 {
 	// update silently if DB entries are from an older version
-	if (isDBUpdateNeeded())
-	{
+	if (isDBUpdateNeeded()) {
 		updateDB();
 	}
 
@@ -264,15 +260,15 @@ void SettingsSerializer::writeToDB()
 
 	// -- global settings --
 
-	m_DB.writeBool(con::SettOnStartup            , m_OnStartup);
-	m_DB.writeBool(con::SettMenuItem             , m_ShowMainMenu);
-	m_DB.writeBool(con::SettShowMenuSub          , m_ShowMainMenuSub);
-	m_DB.writeBool(con::SettShowContactMenu      , m_ShowContactMenu);
+	m_DB.writeBool(con::SettOnStartup, m_OnStartup);
+	m_DB.writeBool(con::SettMenuItem, m_ShowMainMenu);
+	m_DB.writeBool(con::SettShowMenuSub, m_ShowMainMenuSub);
+	m_DB.writeBool(con::SettShowContactMenu, m_ShowContactMenu);
 	m_DB.writeBool(con::SettShowContactMenuPseudo, m_ShowContactMenuPseudo);
-	m_DB.writeByte(con::SettGraphicsMode         , m_GraphicsMode);
-	m_DB.writeByte(con::SettPNGMode              , m_PNGMode);
-	m_DB.writeBool(con::SettThreadLowPriority    , m_ThreadLowPriority);
-	m_DB.writeStr (con::SettPathToBrowser        , m_PathToBrowser.c_str());
+	m_DB.writeByte(con::SettGraphicsMode, m_GraphicsMode);
+	m_DB.writeByte(con::SettPNGMode, m_PNGMode);
+	m_DB.writeBool(con::SettThreadLowPriority, m_ThreadLowPriority);
+	m_DB.writeStr(con::SettPathToBrowser, m_PathToBrowser.c_str());
 
 	settingsTree.clear();
 	settingsTree.writeInt(con::KeyNum, m_HideContactMenuProtos.size());
@@ -290,10 +286,10 @@ void SettingsSerializer::writeToDB()
 
 	// -- input settings --
 
-	m_DB.writeWord(con::SettChatSessionMinDur , m_ChatSessionMinDur);
+	m_DB.writeWord(con::SettChatSessionMinDur, m_ChatSessionMinDur);
 	m_DB.writeWord(con::SettChatSessionTimeout, m_ChatSessionTimeout);
-	m_DB.writeWord(con::SettAverageMinTime    , m_AverageMinTime);
-	m_DB.writeStr (con::SettWordDelimiters    , m_WordDelimiters.c_str());
+	m_DB.writeWord(con::SettAverageMinTime, m_AverageMinTime);
+	m_DB.writeStr(con::SettWordDelimiters, m_WordDelimiters.c_str());
 
 	settingsTree.clear();
 	settingsTree.writeInt(con::KeyNum, m_ProtosIgnore.size());
@@ -309,15 +305,15 @@ void SettingsSerializer::writeToDB()
 
 	m_DB.writeTree(con::SettProtosIgnore, settingsTree);
 
-	m_DB.writeWord(con::SettIgnoreOld          , m_IgnoreOld);
-	m_DB.writeStr (con::SettIgnoreBefore       , m_IgnoreBefore.c_str());
-	m_DB.writeStr (con::SettIgnoreAfter        , m_IgnoreAfter.c_str());
-	m_DB.writeBool(con::SettFilterRawRTF       , m_FilterRawRTF);
-	m_DB.writeBool(con::SettFilterBBCodes      , m_FilterBBCodes);
-	m_DB.writeByte(con::SettMetaContactsMode   , m_MetaContactsMode);
-	m_DB.writeBool(con::SettMergeContacts      , m_MergeContacts);
+	m_DB.writeWord(con::SettIgnoreOld, m_IgnoreOld);
+	m_DB.writeStr(con::SettIgnoreBefore, m_IgnoreBefore.c_str());
+	m_DB.writeStr(con::SettIgnoreAfter, m_IgnoreAfter.c_str());
+	m_DB.writeBool(con::SettFilterRawRTF, m_FilterRawRTF);
+	m_DB.writeBool(con::SettFilterBBCodes, m_FilterBBCodes);
+	m_DB.writeByte(con::SettMetaContactsMode, m_MetaContactsMode);
+	m_DB.writeBool(con::SettMergeContacts, m_MergeContacts);
 	m_DB.writeBool(con::SettMergeContactsGroups, m_MergeContactsGroups);
-	m_DB.writeByte(con::SettMergeMode          , m_MergeMode);
+	m_DB.writeByte(con::SettMergeMode, m_MergeMode);
 
 	// -- column settings --
 
@@ -347,27 +343,27 @@ void SettingsSerializer::writeToDB()
 
 	// -- output settings --
 
-	m_DB.writeBool (con::SettRemoveEmptyContacts   , m_RemoveEmptyContacts);
-	m_DB.writeBool (con::SettRemoveOutChatsZero    , m_RemoveOutChatsZero);
-	m_DB.writeBool (con::SettRemoveOutBytesZero    , m_RemoveOutBytesZero);
-	m_DB.writeBool (con::SettRemoveInChatsZero     , m_RemoveInChatsZero);
-	m_DB.writeBool (con::SettRemoveInBytesZero     , m_RemoveInBytesZero);
-	m_DB.writeBool (con::SettOmitContacts          , m_OmitContacts);
-	m_DB.writeBool (con::SettOmitByValue           , m_OmitByValue);
-	m_DB.writeByte (con::SettOmitByValueData       , m_OmitByValueData);
-	m_DB.writeDWord(con::SettOmitByValueLimit      , m_OmitByValueLimit);
-	m_DB.writeBool (con::SettOmitByTime            , m_OmitByTime);
-	m_DB.writeWord (con::SettOmitByTimeDays        , m_OmitByTimeDays);
-	m_DB.writeBool (con::SettOmitByRank            , m_OmitByRank);
-	m_DB.writeWord (con::SettOmitNumOnTop          , m_OmitNumOnTop);
-	m_DB.writeBool (con::SettOmittedInTotals       , m_OmittedInTotals);
-	m_DB.writeBool (con::SettOmittedInExtraRow     , m_OmittedInExtraRow);
-	m_DB.writeBool (con::SettCalcTotals            , m_CalcTotals);
-	m_DB.writeBool (con::SettTableHeader           , m_TableHeader);
-	m_DB.writeWord (con::SettTableHeaderRepeat     , m_TableHeaderRepeat);
-	m_DB.writeBool (con::SettTableHeaderVerbose    , m_TableHeaderVerbose);
-	m_DB.writeBool (con::SettHeaderTooltips        , m_HeaderTooltips);
-	m_DB.writeBool (con::SettHeaderTooltipsIfCustom, m_HeaderTooltipsIfCustom);
+	m_DB.writeBool(con::SettRemoveEmptyContacts, m_RemoveEmptyContacts);
+	m_DB.writeBool(con::SettRemoveOutChatsZero, m_RemoveOutChatsZero);
+	m_DB.writeBool(con::SettRemoveOutBytesZero, m_RemoveOutBytesZero);
+	m_DB.writeBool(con::SettRemoveInChatsZero, m_RemoveInChatsZero);
+	m_DB.writeBool(con::SettRemoveInBytesZero, m_RemoveInBytesZero);
+	m_DB.writeBool(con::SettOmitContacts, m_OmitContacts);
+	m_DB.writeBool(con::SettOmitByValue, m_OmitByValue);
+	m_DB.writeByte(con::SettOmitByValueData, m_OmitByValueData);
+	m_DB.writeDWord(con::SettOmitByValueLimit, m_OmitByValueLimit);
+	m_DB.writeBool(con::SettOmitByTime, m_OmitByTime);
+	m_DB.writeWord(con::SettOmitByTimeDays, m_OmitByTimeDays);
+	m_DB.writeBool(con::SettOmitByRank, m_OmitByRank);
+	m_DB.writeWord(con::SettOmitNumOnTop, m_OmitNumOnTop);
+	m_DB.writeBool(con::SettOmittedInTotals, m_OmittedInTotals);
+	m_DB.writeBool(con::SettOmittedInExtraRow, m_OmittedInExtraRow);
+	m_DB.writeBool(con::SettCalcTotals, m_CalcTotals);
+	m_DB.writeBool(con::SettTableHeader, m_TableHeader);
+	m_DB.writeWord(con::SettTableHeaderRepeat, m_TableHeaderRepeat);
+	m_DB.writeBool(con::SettTableHeaderVerbose, m_TableHeaderVerbose);
+	m_DB.writeBool(con::SettHeaderTooltips, m_HeaderTooltips);
+	m_DB.writeBool(con::SettHeaderTooltipsIfCustom, m_HeaderTooltipsIfCustom);
 
 	settingsTree.clear();
 
@@ -379,15 +375,15 @@ void SettingsSerializer::writeToDB()
 		settingsTree.writeBool(con::KeyAsc, m_Sort[i].asc);
 	}
 
-	m_DB.writeStr (con::SettNickname           , m_OwnNick.c_str());
-	m_DB.writeBool(con::SettOutputVariables    , m_OutputVariables);
-	m_DB.writeStr (con::SettOutput             , m_OutputFile.c_str());
+	m_DB.writeStr(con::SettNickname, m_OwnNick.c_str());
+	m_DB.writeBool(con::SettOutputVariables, m_OutputVariables);
+	m_DB.writeStr(con::SettOutput, m_OutputFile.c_str());
 	m_DB.writeBool(con::SettOutputExtraToFolder, m_OutputExtraToFolder);
-	m_DB.writeStr (con::SettOutputExtraFolder  , m_OutputExtraFolder.c_str());
-	m_DB.writeBool(con::SettOverwriteAlways    , m_OverwriteAlways);
-	m_DB.writeBool(con::SettAutoOpenOptions    , m_AutoOpenOptions);
-	m_DB.writeBool(con::SettAutoOpenStartup    , m_AutoOpenStartup);
-	m_DB.writeBool(con::SettAutoOpenMenu       , m_AutoOpenMenu);
+	m_DB.writeStr(con::SettOutputExtraFolder, m_OutputExtraFolder.c_str());
+	m_DB.writeBool(con::SettOverwriteAlways, m_OverwriteAlways);
+	m_DB.writeBool(con::SettAutoOpenOptions, m_AutoOpenOptions);
+	m_DB.writeBool(con::SettAutoOpenStartup, m_AutoOpenStartup);
+	m_DB.writeBool(con::SettAutoOpenMenu, m_AutoOpenMenu);
 
 	m_DB.writeTree(con::SettSort, settingsTree);
 
@@ -410,8 +406,7 @@ void SettingsSerializer::writeToDB()
 			settingsTree.writeInt(con::KeyMode, i->getMode());
 			settingsTree.writeInt(con::KeyNumWords, i->getWords().size());
 
-			if (!i->getWords().empty())
-			{
+			if (!i->getWords().empty()) {
 				// write filter words
 				strPrefix += con::SuffixWords;
 				settingsTree.setKey(strPrefix.c_str());
@@ -486,10 +481,10 @@ void SettingsSerializer::setShowSupportInfo(bool bShow)
 
 ext::string SettingsSerializer::getLastStatisticsFile()
 {
-	return m_DB.readStr(con::SettLastStatisticsFile, muT(""));
+	return m_DB.readStr(con::SettLastStatisticsFile, _T(""));
 }
 
-void SettingsSerializer::setLastStatisticsFile(const mu_text* szFileName)
+void SettingsSerializer::setLastStatisticsFile(const TCHAR* szFileName)
 {
 	m_DB.writeStr(con::SettLastStatisticsFile, szFileName);
 }
@@ -506,7 +501,5 @@ void SettingsSerializer::showStatistics()
 	ext::string strFileName = getLastStatisticsFile();
 
 	if (!strFileName.empty() && utils::fileExists(strFileName))
-	{
 		openURL(strFileName.c_str());
-	}
 }

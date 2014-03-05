@@ -49,9 +49,9 @@ public:
 	explicit ColSplit();
 
 protected:
-	virtual const mu_text* impl_getUID() const { return con::ColSplit; }
-	virtual const mu_text* impl_getTitle() const { return i18n(muT("\"Split\"")); }
-	virtual const mu_text* impl_getDescription() const { return i18n(muT("Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.")); }
+	virtual const TCHAR* impl_getUID() const { return con::ColSplit; }
+	virtual const TCHAR* impl_getTitle() const { return TranslateT("\"Split\""); }
+	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig | cfAcquiresData; }
 	virtual void impl_configRead(const SettingsTree& settings);

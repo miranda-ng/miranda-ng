@@ -8,7 +8,6 @@
 #include "column.h"
 #include "bandctrlimpl.h"
 #include "optionsctrlimpl.h"
-#include "themeapi.h"
 #include "iconlib.h"
 #include "dlgconfigure.h"
 
@@ -140,11 +139,9 @@ static INT_PTR MenuShowStatistics(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{
-		MessageBox(
-			0,
-			i18n(muT("The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.")),
-			i18n(muT("HistoryStats - Warning")),
-			MB_ICONWARNING | MB_OK);
+		MessageBox(NULL,
+			TranslateT("The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore."),
+			TranslateT("HistoryStats - Warning"), MB_ICONWARNING | MB_OK);
 	}
 
 	return 0;
@@ -172,30 +169,30 @@ void AddMainMenu()
 	CreateServiceFunction(con::SvcConfigure, MenuConfigure);
 
 	g_hMenuCreateStatistics = mu::clist::addMainMenuItem(
-		I18N(muT("Create statistics")), // MEMO: implicit translation
+		LPGENT("Create statistics"), // MEMO: implicit translation
 		0,
 		1910000000,
 		IconLib::getIcon(IconLib::iiMenuCreateStatistics),
 		con::SvcCreateStatistics,
-		bInPopup ? I18N(muT("Statistics")) : NULL, // MEMO: implicit translation
+		bInPopup ? LPGENT("Statistics") : NULL, // MEMO: implicit translation
 		bInPopup ? 1910000000 : 0);
 
 	g_hMenuShowStatistics = mu::clist::addMainMenuItem(
-		I18N(muT("Show statistics")), // MEMO: implicit translation
+		LPGENT("Show statistics"), // MEMO: implicit translation
 		0,
 		1910000001,
 		IconLib::getIcon(IconLib::iiMenuShowStatistics),
 		con::SvcShowStatistics,
-		bInPopup ? I18N(muT("Statistics")) : NULL, // MEMO: implicit translation
+		bInPopup ? LPGENT("Statistics") : NULL, // MEMO: implicit translation
 		bInPopup ? 1910000000 : 0);
 
 	g_hMenuConfigure = mu::clist::addMainMenuItem(
-		bInPopup ? I18N(muT("Configure...")) : I18N(muT("Configure statistics...")), // MEMO: implicit translation
+		bInPopup ? LPGENT("Configure...") : LPGENT("Configure statistics..."), // MEMO: implicit translation
 		0,
 		1910000002,
 		IconLib::getIcon(IconLib::iiMenuConfigure),
 		con::SvcConfigure,
-		bInPopup ? I18N(muT("Statistics")) : NULL, // MEMO: implicit translation
+		bInPopup ? LPGENT("Statistics") : NULL, // MEMO: implicit translation
 		bInPopup ? 1910000000 : 0);
 }
 
@@ -238,13 +235,13 @@ static INT_PTR MenuHistoryPaste(WPARAM wParam, LPARAM lParam)
 	}
 
 	// ask user if this is really what he wants
-	ext::string strConfirm = ext::str(ext::kformat(i18n(muT("You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?")))
-		% muT("#{source_name}") * mu::clist::getContactDisplayName(g_hHistoryCopyContact)
-		% muT("#{source_proto}") * utils::fromA(GetContactProto(g_hHistoryCopyContact))
-		% muT("#{target_name}") * mu::clist::getContactDisplayName(hTarget)
-		% muT("#{target_proto}") * utils::fromA(GetContactProto(hTarget)));
+	ext::string strConfirm = ext::str(ext::kformat(TranslateT("You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?")))
+		% _T("#{source_name}") * mu::clist::getContactDisplayName(g_hHistoryCopyContact)
+		% _T("#{source_proto}") * utils::fromA(GetContactProto(g_hHistoryCopyContact))
+		% _T("#{target_name}") * mu::clist::getContactDisplayName(hTarget)
+		% _T("#{target_proto}") * utils::fromA(GetContactProto(hTarget)));
 
-	if (MessageBox(0, strConfirm.c_str(), i18n(muT("HistoryStats - Confirm")), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
+	if (MessageBox(0, strConfirm.c_str(), TranslateT("HistoryStats - Confirm")), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
 	{
 		return 0;
 	}
@@ -292,12 +289,12 @@ static INT_PTR MenuHistoryPaste(WPARAM wParam, LPARAM lParam)
 	mu::db::setSafetyMode(true);
 
 	// output summary
-	ext::string strSummary = ext::str(ext::kformat(i18n(muT("Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.")))
-		% muT("#{success}") * dwCountSuccess
-		% muT("#{fail}") * dwCountFailRead
-		% muT("#{fail_add}") * dwCountFailAdd);
+	ext::string strSummary = ext::str(ext::kformat(TranslateT("Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.")))
+		% _T("#{success}") * dwCountSuccess
+		% _T("#{fail}") * dwCountFailRead
+		% _T("#{fail_add}") * dwCountFailAdd);
 
-	MessageBox(0, strSummary.c_str(), i18n(muT("HistoryStats - Information")), MB_ICONINFORMATION);
+	MessageBox(0, strSummary.c_str(), TranslateT("HistoryStats - Information")), MB_ICONINFORMATION);
 
 	g_hHistoryCopyContact = NULL;
 
@@ -309,17 +306,15 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact)
 	{
-		const mu_ansi* szProto = GetContactProto(hContact);
+		const char* szProto = GetContactProto(hContact);
 
 		if ((!g_pSettings->m_ShowContactMenuPseudo && (!szProto || !(mu::protosvc::getCaps(szProto, PFLAGNUM_2) & ~mu::protosvc::getCaps(szProto, PFLAGNUM_5)))) ||
 			g_pSettings->m_HideContactMenuProtos.find(szProto) != g_pSettings->m_HideContactMenuProtos.end())
 		{
 			mu::clist::modifyMenuItem(g_hMenuToggleExclude, CMIM_FLAGS, NULL, CMIF_HIDDEN);
 		}
-		else
-		{
+		else {
 			MirandaSettings db;
-
 			db.setContact(hContact);
 			db.setModule(con::ModHistoryStats);
 
@@ -327,9 +322,7 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 			
 			// avoid collision with options page
 			if (g_bExcludeLock)
-			{
 				menuState |= CMIF_GRAYED;
-			}
 
 			// set menu state
 			mu::clist::modifyMenuItem(g_hMenuToggleExclude, CMIM_FLAGS, NULL, menuState);
@@ -355,7 +348,7 @@ void AddContactMenu()
 	CreateServiceFunction(con::SvcToggleExclude, MenuToggleExclude);
 
 	g_hMenuToggleExclude = mu::clist::addContactMenuItem(
-		I18N(muT("Exclude from statistics")), // MEMO: implicit translation
+		LPGENT("Exclude from statistics"), // MEMO: implicit translation
 		0,
 		800000,
 		IconLib::getIcon(IconLib::iiContactMenu),
@@ -366,14 +359,14 @@ void AddContactMenu()
 	CreateServiceFunction(con::SvcHistoryPaste, MenuHistoryPaste);
 
 	g_hMenuHistoryCopy = mu::clist::addContactMenuItem(
-		I18N(muT("Copy history")), // MEMO: implicit translation
+		LPGENT("Copy history")), // MEMO: implicit translation
 		0,
 		800001,
 		NULL,
 		con::SvcHistoryCopy);
 
 	g_hMenuHistoryPaste = mu::clist::addContactMenuItem(
-		I18N(muT("Paste history...")), // MEMO: implicit translation
+		LPGENT("Paste history...")), // MEMO: implicit translation
 		0,
 		800002,
 		NULL,
@@ -391,8 +384,8 @@ static int EventOptInitialise(WPARAM wParam, LPARAM lParam)
 {
 	mu::opt::addPage(
 		wParam,
-		i18n(muT("History")),
-		i18n(muT("Statistics")),
+		TranslateT("History"),
+		TranslateT("Statistics"),
 		NULL,
 		DlgOption::staticDlgProc,
 		MAKEINTRESOURCEA(IDD_OPTIONS),
@@ -427,9 +420,7 @@ static int EventModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// create statistics on startup, if activated
 	if (g_pSettings->m_OnStartup)
-	{
 		Statistic::run(*g_pSettings, Statistic::fromStartup, g_hInst);
-	}
 
 	return 0;
 }
@@ -440,19 +431,11 @@ static int EventModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	switch (fdwReason)
-	{
-		case DLL_PROCESS_ATTACH:
-			{
-				DisableThreadLibraryCalls(hinstDLL);
-				g_hInst = hinstDLL;
-
-#if defined(_DEBUG)
-				// dump memory leak report at end of program
-				_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-			}
-			break;
+	switch (fdwReason) {
+	case DLL_PROCESS_ATTACH:
+		DisableThreadLibraryCalls(hinstDLL);
+		g_hInst = hinstDLL;
+		break;
 	}
 
 	return TRUE;
@@ -460,7 +443,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	OutputDebugString(muT("HistoryStats: MirandaPluginInfoEx() was called.\n"));
+	OutputDebugString(_T("HistoryStats: MirandaPluginInfoEx() was called.\n"));
 
 	// MEMO: (don't) fail, if version is below minimum
 	return &g_pluginInfoEx;
@@ -468,9 +451,6 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD m
 
 extern "C" __declspec(dllexport) int Load()
 {
-	// init themeing api
-	ThemeAPI::init();
-
 	// init COM, needed for GUID generation
 	CoInitialize(NULL);
 
@@ -479,8 +459,8 @@ extern "C" __declspec(dllexport) int Load()
 	{
 		MessageBox(
 			0,
-			muT("Failed to register a required window class. Can't continue loading plugin."),
-			muT("HistoryStats - Error"),
+			_T("Failed to register a required window class. Can't continue loading plugin."),
+			_T("HistoryStats - Error"),
 			MB_OK | MB_ICONERROR);
 
 		return 1;
@@ -491,11 +471,11 @@ extern "C" __declspec(dllexport) int Load()
 	{
 		MessageBox(
 			0,
-			muT("This version of HistoryStats isn't compatible with your Miranda IM ")
-			muT("version. Possibly, your Miranda IM is outdated or you are trying to ")
-			muT("use the Unicode version with a non-Unicode Miranda IM.\r\n\r\n")
-			muT("Please go to the plugin's homepage and check the requirements."),
-			muT("HistoryStats - Error"),
+			_T("This version of HistoryStats isn't compatible with your Miranda IM ")
+			_T("version. Possibly, your Miranda IM is outdated or you are trying to ")
+			_T("use the Unicode version with a non-Unicode Miranda IM.\r\n\r\n")
+			_T("Please go to the plugin's homepage and check the requirements."),
+			_T("HistoryStats - Error"),
 			MB_OK | MB_ICONERROR);
 
 		return 1;
@@ -541,9 +521,5 @@ extern "C" __declspec(dllexport) int Unload()
 
 	// uninit COM, needed for GUID generation
 	CoUninitialize();
-
-	// free themeing api
-	ThemeAPI::uninit();
-
 	return 0;
 }

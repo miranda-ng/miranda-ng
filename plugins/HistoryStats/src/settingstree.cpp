@@ -9,13 +9,13 @@ void SettingsTree::makeKeyValid()
 		m_pCurValues = &m_Keys[m_CurKey];
 }
 
-SettingsTree::SettingsTree()
-	: m_pCurValues(NULL)
+SettingsTree::SettingsTree() :
+	m_pCurValues(NULL)
 {
 }
 
-SettingsTree::SettingsTree(const ext::string& config)
-	: m_pCurValues(NULL)
+SettingsTree::SettingsTree(const ext::string& config) :
+	m_pCurValues(NULL)
 {
 	fromString(config);
 }
@@ -23,7 +23,7 @@ SettingsTree::SettingsTree(const ext::string& config)
 void SettingsTree::clear()
 {
 	m_Keys.clear();
-	setKey(muT(""));
+	setKey(_T(""));
 }
 
 void SettingsTree::fromString(const ext::string& config)
@@ -33,10 +33,8 @@ void SettingsTree::fromString(const ext::string& config)
 	ext::string::size_type i = 0;
 	ext::string curKey;
 
-	while (i < config.length())
-	{
-		if (config[i] == muC('{'))
-		{
+	while (i < config.length()) {
+		if (config[i] == '{') {
 			++i;
 
 			ValueMap& vals = m_Keys[curKey];
@@ -44,54 +42,44 @@ void SettingsTree::fromString(const ext::string& config)
 			ext::string curSetting;
 			ext::string curVal;
 
-			while (i < config.length() && config[i] != muC('}'))
-			{
-				if (config[i] == muC(':'))
-				{
+			while (i < config.length() && config[i] != '}') {
+				if (config[i] == ':') {
 					curSetting = curVal;
-					curVal = muT("");
+					curVal = _T("");
 				}
-				else if (config[i] == muC(';'))
-				{
+				else if (config[i] == ';') {
 					vals[curSetting] = curVal;
 
-					curSetting = muT("");
-					curVal = muT("");
+					curSetting = _T("");
+					curVal = _T("");
 				}
-				else if (config[i] == muC('\\'))
-				{
+				else if (config[i] == '\\') {
 					++i;
 					curVal += config[i];
 				}
-				else
-				{
-					curVal += config[i];
-				}
+				else curVal += config[i];
 
 				++i;
 			}
 
-			curKey = muT("");
+			curKey = _T("");
 		}
-		else
-		{
-			curKey += config[i];
-		}
+		else curKey += config[i];
 
 		++i;
 	}
 
-	setKey(muT(""));
+	setKey(_T(""));
 }
 
 ext::string SettingsTree::toString() const
 {
-	static const mu_text* replaces[5][2] = {
-		{ muT("\\"), muT("\\\\") },
-		{ muT("{") , muT("\\{")  },
-		{ muT("}") , muT("\\}")  },
-		{ muT(":") , muT("\\:")  },
-		{ muT(";") , muT("\\;")  }
+	static const TCHAR* replaces[5][2] = {
+		{ _T("\\"), _T("\\\\") },
+		{ _T("{"), _T("\\{") },
+		{ _T("}"), _T("\\}") },
+		{ _T(":"), _T("\\:") },
+		{ _T(";"), _T("\\;") }
 	};
 
 	ext::string data;
@@ -101,14 +89,14 @@ ext::string SettingsTree::toString() const
 		const ValueMap& vals = i->second;
 
 		data += i->first;
-		data += muT("{");
+		data += _T("{");
 
 		citer_each_(ValueMap, j, vals)
 		{
 			data += j->first;
-			data += muT(":");
+			data += _T(":");
 
-			ext::string tempSecond = j->second; 
+			ext::string tempSecond = j->second;
 
 			array_each_(k, replaces)
 			{
@@ -116,138 +104,114 @@ ext::string SettingsTree::toString() const
 			}
 
 			data += tempSecond;
-			data += muT(";");
+			data += _T(";");
 		}
 
-		data += muT("}");
+		data += _T("}");
 	}
 
 	return data;
 }
 
-void SettingsTree::setKey(const mu_text* key)
+void SettingsTree::setKey(const TCHAR* key)
 {
 	m_CurKey = key;
 
 	KeyMap::iterator i = m_Keys.find(key);
 
 	if (i != m_Keys.end())
-	{
 		m_pCurValues = &i->second;
-	}
 	else
-	{
 		m_pCurValues = NULL;
-	}
 }
 
-bool SettingsTree::readBool(const mu_text* setting, bool errorValue) const
+bool SettingsTree::readBool(const TCHAR* setting, bool errorValue) const
 {
-	if (m_pCurValues)
-	{
+	if (m_pCurValues) {
 		ValueMap::iterator i = m_pCurValues->find(setting);
 
-		if (i != m_pCurValues->end())
-		{
-			return (i->second == muT("y"));
+		if (i != m_pCurValues->end()) {
+			return (i->second == _T("y"));
 		}
 	}
 
 	return errorValue;
 }
 
-int SettingsTree::readInt(const mu_text* setting, int errorValue) const
+int SettingsTree::readInt(const TCHAR* setting, int errorValue) const
 {
-	if (m_pCurValues)
-	{
+	if (m_pCurValues) {
 		ValueMap::iterator i = m_pCurValues->find(setting);
 
 		if (i != m_pCurValues->end())
-		{
 			return _ttoi(i->second.c_str());
-		}
 	}
 
 	return errorValue;
 }
 
-int SettingsTree::readIntRanged(const mu_text* setting, int errorValue, int minValue, int maxValue) const
+int SettingsTree::readIntRanged(const TCHAR* setting, int errorValue, int minValue, int maxValue) const
 {
 	int value = readInt(setting, errorValue);
-
 	if (minValue <= value && value <= maxValue)
-	{
 		return value;
-	}
-	else
-	{
-		return errorValue;
-	}
+
+	return errorValue;
 }
 
-ext::string SettingsTree::readStr(const mu_text* setting, const mu_text* errorValue) const
+ext::string SettingsTree::readStr(const TCHAR* setting, const TCHAR* errorValue) const
 {
-	if (m_pCurValues)
-	{
+	if (m_pCurValues) {
 		ValueMap::iterator i = m_pCurValues->find(setting);
 
 		if (i != m_pCurValues->end())
-		{
 			return i->second;
-		}
 	}
 
 	return errorValue;
 }
 
-void SettingsTree::writeBool(const mu_text* setting, bool value)
+void SettingsTree::writeBool(const TCHAR* setting, bool value)
 {
 	makeKeyValid();
 
-	(*m_pCurValues)[setting] = value ? muT("y") : muT("n");
+	(*m_pCurValues)[setting] = value ? _T("y") : _T("n");
 }
 
-void SettingsTree::writeInt(const mu_text* setting, int value)
+void SettingsTree::writeInt(const TCHAR* setting, int value)
 {
 	makeKeyValid();
 
 	(*m_pCurValues)[setting] = utils::intToString(value);
 }
 
-void SettingsTree::writeStr(const mu_text* setting, const mu_text* value)
+void SettingsTree::writeStr(const TCHAR* setting, const TCHAR* value)
 {
 	makeKeyValid();
 
 	(*m_pCurValues)[setting] = value;
 }
 
-bool SettingsTree::hasSetting(const mu_text* setting) const
+bool SettingsTree::hasSetting(const TCHAR* setting) const
 {
-	if (m_pCurValues)
-	{
+	if (m_pCurValues) {
 		ValueMap::const_iterator i = m_pCurValues->find(setting);
-
 		if (i != m_pCurValues->end())
-		{
 			return true;
-		}
 	}
 
 	return false;
 }
 
-bool SettingsTree::delSetting(const mu_text* setting)
+bool SettingsTree::delSetting(const TCHAR* setting)
 {
-	if (m_pCurValues)
-	{
+	if (m_pCurValues) {
 		ValueMap::iterator i = m_pCurValues->find(setting);
 
-		if (i != m_pCurValues->end())
-		{
+		if (i != m_pCurValues->end()) {
 			m_pCurValues->erase(i);
-			
-			if (m_pCurValues->size() == 0)
-			{
+
+			if (m_pCurValues->size() == 0) {
 				m_Keys.erase(m_CurKey);
 				m_pCurValues = NULL;
 			}

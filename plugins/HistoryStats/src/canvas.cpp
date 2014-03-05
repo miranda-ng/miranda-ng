@@ -7,27 +7,21 @@ void Canvas::updateTrans(BYTE* pData)
 	assert(m_nChannels == 4);
 
 	// apply transparency, if any
-	if (m_bTransColor)
-	{
-		for (int y = 0; y < m_nHeight; ++y)
-		{
+	if (m_bTransColor) {
+		for (int y = 0; y < m_nHeight; ++y) {
 			COLORREF* pValue = reinterpret_cast<COLORREF*>(pData + y * m_nLineLength);
 
-			for (int x = 0; x < m_nWidth; ++x)
-			{
+			for (int x = 0; x < m_nWidth; ++x) {
 				*pValue = (*pValue & 0x00FFFFFF) | ((*pValue & 0x00FFFFFF) == m_TransColor ? 0x00000000 : 0xFF000000);
 				++pValue;
 			}
 		}
 	}
-	else
-	{
-		for (int y = 0; y < m_nHeight; ++y)
-		{
+	else {
+		for (int y = 0; y < m_nHeight; ++y) {
 			COLORREF* pValue = reinterpret_cast<COLORREF*>(pData + y * m_nLineLength);
 
-			for (int x = 0; x < m_nWidth; ++x)
-			{
+			for (int x = 0; x < m_nWidth; ++x) {
 				*pValue |= 0xFF000000;
 				++pValue;
 			}
@@ -35,33 +29,26 @@ void Canvas::updateTrans(BYTE* pData)
 	}
 }
 
-Canvas::Canvas(int nWidth, int nHeight)
-	: m_nChannels(4)
-	, m_nWidth(nWidth)
-	, m_nHeight(nHeight)
-	, m_nLineLength((m_nChannels * m_nWidth + 3) & ~0x3)
-	, m_bTransColor(false)
-	, m_TransColor(0)
-	, m_pBMIH(NULL)
-{
-}
+Canvas::Canvas(int nWidth, int nHeight) :
+	m_nChannels(4),
+	m_nWidth(nWidth),
+	m_nHeight(nHeight),
+	m_nLineLength((m_nChannels * m_nWidth + 3) & ~0x3),
+	m_bTransColor(false),
+	m_TransColor(0),
+	m_pBMIH(NULL)
+{}
 
 Canvas::~Canvas()
 {
 	if (m_hOldBmp)
-	{
 		SelectObject(m_hDC, m_hOldBmp);
-	}
 
 	if (m_hBmp)
-	{
 		DeleteObject(m_hBmp);
-	}
 
 	if (m_hDC)
-	{
 		DeleteDC(m_hDC);
-	}
 
 	delete m_pBMIH;
 }
@@ -72,9 +59,7 @@ void Canvas::setTrans(COLORREF transColor, bool bFill /* = false */)
 	m_TransColor = transColor;
 
 	if (bFill)
-	{
 		fillBackground(transColor);
-	}
 }
 
 void Canvas::fillBackground(COLORREF bkColor)
@@ -91,8 +76,7 @@ void Canvas::fillBackground(COLORREF bkColor)
 
 HDC Canvas::beginDraw()
 {
-	if (!m_pBMIH)
-	{
+	if (!m_pBMIH) {
 		m_pBMIH = new BITMAPINFOHEADER;
 
 		m_pBMIH->biSize = sizeof(BITMAPINFOHEADER);
@@ -136,8 +120,7 @@ bool Canvas::getDigest(Digest& digest)
 
 	ZeroMemory(pData, nSize);
 
-	if (GetDIBits(m_hDC, m_hBmp, 0, m_nHeight, pData, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS) != m_nHeight)
-	{
+	if (GetDIBits(m_hDC, m_hBmp, 0, m_nHeight, pData, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS) != m_nHeight) {
 		delete[] pData;
 		return false;
 	}
@@ -152,15 +135,13 @@ bool Canvas::getDigest(Digest& digest)
 	return true;
 }
 
-bool Canvas::writePNG(const mu_text* szFileName)
+bool Canvas::writePNG(const TCHAR* szFileName)
 {
 	// read data from DIB
 	BYTE* pData = new BYTE[m_nLineLength * m_nHeight];
 
-	if (GetDIBits(m_hDC, m_hBmp, 0, m_nHeight, pData, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS) != m_nHeight)
-	{
+	if (GetDIBits(m_hDC, m_hBmp, 0, m_nHeight, pData, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS) != m_nHeight) {
 		delete[] pData;
-
 		return false;
 	}
 
@@ -170,10 +151,8 @@ bool Canvas::writePNG(const mu_text* szFileName)
 	// calculate resulting image size
 	long png_len = 0;
 
-	if (!mu::png::dibToPng(m_pBMIH, pData, 0, &png_len) || png_len == 0)
-	{
+	if (!mu::png::dibToPng(m_pBMIH, pData, 0, &png_len) || png_len == 0) {
 		delete[] pData;
-
 		return false;
 	}
 
@@ -182,8 +161,7 @@ bool Canvas::writePNG(const mu_text* szFileName)
 
 	png_len = 0;
 
-	if (!mu::png::dibToPng(m_pBMIH, pData, pRawPNG, &png_len))
-	{
+	if (!mu::png::dibToPng(m_pBMIH, pData, pRawPNG, &png_len)) {
 		delete[] pData;
 		delete[] pRawPNG;
 
@@ -191,10 +169,9 @@ bool Canvas::writePNG(const mu_text* szFileName)
 	}
 
 	// write image data to file
-	FILE* fp = _tfopen(szFileName, muT("wb"));
+	FILE* fp = _tfopen(szFileName, _T("wb"));
 
-	if (!fp)
-	{
+	if (!fp) {
 		delete[] pData;
 		delete[] pRawPNG;
 

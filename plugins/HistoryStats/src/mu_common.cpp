@@ -12,82 +12,54 @@ namespace mu
 
 	namespace clist
 	{
-		HANDLE addMainMenuItem(const mu_text* pszName, DWORD flags, int position, HICON hIcon, const mu_ansi* pszService, const mu_text* pszPopupName /* = NULL */, int popupPosition /* = 0 */, DWORD hotKey /* = 0 */)
+		HANDLE addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */, int popupPosition /* = 0 */, DWORD hotKey /* = 0 */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi;
-
-			ZeroMemory(&mi, sizeof(mi));
-
-			mi.cbSize = sizeof(mi);
-			mi.pszName = MU_DO_BOTH(const_cast<mu_ansi*>(pszName), wideToAnsiDup(pszName));
-			mi.flags = flags;
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.ptszName = (TCHAR*)pszName;
+			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
 			mi.hIcon = hIcon;
-			mi.pszService = const_cast<mu_ansi*>(pszService);
-			mi.pszPopupName = MU_DO_BOTH(const_cast<mu_ansi*>(pszPopupName), wideToAnsiDup(pszPopupName));
+			mi.pszService = const_cast<char*>(pszService);
+			mi.ptszPopupName = (TCHAR*)pszPopupName;
 			mi.popupPosition = popupPosition;
 			mi.hotKey = hotKey;
-
-			HANDLE res = Menu_AddMainMenuItem(&mi);
-
-			MU_DO_WIDE(freeAnsi(mi.pszName));
-			MU_DO_WIDE(freeAnsi(mi.pszPopupName));
-
-			return res;
+			return Menu_AddMainMenuItem(&mi);
 		}
 
-		HANDLE addContactMenuItem(const mu_text* pszName, DWORD flags, int position, HICON hIcon, const mu_ansi* pszService, DWORD hotKey /* = 0 */, const mu_ansi* pszContactOwner /* = NULL */)
+		HANDLE addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, DWORD hotKey /* = 0 */, const char* pszContactOwner /* = NULL */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi;
-
-			ZeroMemory(&mi, sizeof(mi));
-
-			mi.cbSize = sizeof(mi);
-			mi.pszName = MU_DO_BOTH(const_cast<mu_ansi*>(pszName), wideToAnsiDup(pszName));
-			mi.flags = flags;
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.ptszName = (TCHAR*)pszName;
+			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
 			mi.hIcon = hIcon;
-			mi.pszService = const_cast<mu_ansi*>(pszService);
+			mi.pszService = const_cast<char*>(pszService);
 			mi.hotKey = hotKey;
-			mi.pszContactOwner = const_cast<mu_ansi*>(pszContactOwner);
-
-			HANDLE res = Menu_AddContactMenuItem(&mi);
-
-			MU_DO_WIDE(freeAnsi(mi.pszName));
-
-			return res;
+			mi.pszContactOwner = const_cast<char*>(pszContactOwner);
+			return Menu_AddContactMenuItem(&mi);
 		}
 
-		int modifyMenuItem(HANDLE hMenuItem, DWORD toModify, const mu_text* pszName /* = NULL */, DWORD flags /* = 0 */, HICON hIcon /* = NULL */, DWORD hotKey /* = 0 */)
+		int modifyMenuItem(HANDLE hMenuItem, DWORD toModify, const TCHAR* pszName /* = NULL */, DWORD flags /* = 0 */, HICON hIcon /* = NULL */, DWORD hotKey /* = 0 */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi;
-
-			ZeroMemory(&mi, sizeof(mi));
-
-			mi.cbSize = sizeof(mi);
-			mi.pszName = MU_DO_BOTH(const_cast<mu_ansi*>(pszName), wideToAnsiDup(pszName));
-			mi.flags = toModify | flags;
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.ptszName = (TCHAR*)pszName;
+			mi.flags = toModify | flags | CMIF_TCHAR;
 			mi.hIcon = hIcon;
 			mi.hotKey = hotKey;
-
-			int res = CallService(MS_CLIST_MODIFYMENUITEM, reinterpret_cast<WPARAM>(hMenuItem), reinterpret_cast<LPARAM>(&mi));
-
-			MU_DO_WIDE(freeAnsi(mi.pszName));
-
-			return res;
+			return CallService(MS_CLIST_MODIFYMENUITEM, reinterpret_cast<WPARAM>(hMenuItem), reinterpret_cast<LPARAM>(&mi));
 		}
 
-		const mu_text* getContactDisplayName(MCONTACT hContact)
+		const TCHAR* getContactDisplayName(MCONTACT hContact)
 		{
-			return reinterpret_cast<const mu_text*>(CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_UNICODE));
+			return reinterpret_cast<const TCHAR*>(CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_UNICODE));
 		}
 
-		const mu_text* getStatusModeDescription(int nStatusMode)
+		const TCHAR* getStatusModeDescription(int nStatusMode)
 		{
-			return reinterpret_cast<const mu_text*>(CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, static_cast<WPARAM>(nStatusMode), GSMDF_UNICODE));
+			return reinterpret_cast<const TCHAR*>(CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, static_cast<WPARAM>(nStatusMode), GSMDF_UNICODE));
 		}
 	}
 
@@ -97,46 +69,14 @@ namespace mu
 
 	namespace db
 	{
-		int getProfilePath(int cbName, mu_text* pszName)
+		int getProfilePath(int cbName, TCHAR* pszName)
 		{
-			// TODO: support for unicode core (if supported)
-#if defined(MU_WIDE)
-			mu_ansi* pszNameAnsi = new mu_ansi[cbName];
-
-			int ret = CallService(MS_DB_GETPROFILEPATH, cbName, reinterpret_cast<LPARAM>(pszNameAnsi));
-
-			if (ret == 0)
-			{
-				ansiToWide(pszNameAnsi, pszName, cbName);
-			}
-
-			delete pszNameAnsi;
-
-			return ret;
-#else // MU_WIDE
-			return CallService(MS_DB_GETPROFILEPATH, cbName, reinterpret_cast<LPARAM>(pszName));
-#endif // MU_WIDE
+			return CallService(MS_DB_GETPROFILEPATHT, cbName, reinterpret_cast<LPARAM>(pszName));
 		}
 
-		int getProfileName(int cbName, mu_text* pszName)
+		int getProfileName(int cbName, TCHAR* pszName)
 		{
-			// TODO: support for unicode core (if supported)
-#if defined(MU_WIDE)
-			mu_ansi* pszNameAnsi = new mu_ansi[cbName];
-
-			int ret = CallService(MS_DB_GETPROFILENAME, cbName, reinterpret_cast<LPARAM>(pszNameAnsi));
-
-			if (ret == 0)
-			{
-				ansiToWide(pszNameAnsi, pszName, cbName);
-			}
-
-			delete pszNameAnsi;
-
-			return ret;
-#else // MU_WIDE
-			return CallService(MS_DB_GETPROFILENAME, cbName, reinterpret_cast<LPARAM>(pszName));
-#endif // MU_WIDE
+			return CallService(MS_DB_GETPROFILENAMET, cbName, reinterpret_cast<LPARAM>(pszName));
 		}
 
 		void setSafetyMode(bool safetyMode)
@@ -151,10 +91,10 @@ namespace mu
 
 	namespace db_contact
 	{
-		int enumSettings(MCONTACT hContact, const mu_ansi* szModule, DBSETTINGENUMPROC pEnumProc, LPARAM lProcParam)
+		int enumSettings(MCONTACT hContact, const char* szModule, DBSETTINGENUMPROC pEnumProc, LPARAM lProcParam)
 		{
 			DBCONTACTENUMSETTINGS dbces;
-			
+
 			dbces.pfnEnumProc = pEnumProc;
 			dbces.lParam = lProcParam;
 			dbces.szModule = szModule;
@@ -183,41 +123,41 @@ namespace mu
 			return true;
 		}
 
-		void addIcon(const mu_text* szSection, const mu_text* szDescription, const mu_ansi* szIconName, const mu_ansi* szDefaultFile, int iDefaultIndex, int cx /* = 16 */, int cy /* = 16 */)
+		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex, int cx /* = 16 */, int cy /* = 16 */)
 		{
 			SKINICONDESC sid;
 
 			sid.cbSize = sizeof(sid);
-			sid.ptszSection = const_cast<mu_text*>(szSection);
-			sid.ptszDescription = const_cast<mu_text*>(szDescription);
-			sid.pszName = const_cast<mu_ansi*>(szIconName);
-			sid.pszDefaultFile = const_cast<mu_ansi*>(szDefaultFile);
+			sid.ptszSection = const_cast<TCHAR*>(szSection);
+			sid.ptszDescription = const_cast<TCHAR*>(szDescription);
+			sid.pszName = const_cast<char*>(szIconName);
+			sid.pszDefaultFile = const_cast<char*>(szDefaultFile);
 			sid.iDefaultIndex = iDefaultIndex;
 			sid.hDefaultIcon = NULL;
 			sid.cx = cx;
 			sid.cy = cy;
-			sid.flags = MU_DO_BOTH(0, SIDF_UNICODE);
+			sid.flags = SIDF_TCHAR;
 			Skin_AddIcon(&sid);
 		}
 
-		void addIcon(const mu_text* szSection, const mu_text* szDescription, const mu_ansi* szIconName, HICON hDefaultIcon, int cx /* = 16 */, int cy /* = 16 */)
+		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, HICON hDefaultIcon, int cx /* = 16 */, int cy /* = 16 */)
 		{
 			SKINICONDESC sid;
 
 			sid.cbSize = sizeof(sid);
-			sid.ptszSection = const_cast<mu_text*>(szSection);
-			sid.ptszDescription = const_cast<mu_text*>(szDescription);
-			sid.pszName = const_cast<mu_ansi*>(szIconName);
+			sid.ptszSection = const_cast<TCHAR*>(szSection);
+			sid.ptszDescription = const_cast<TCHAR*>(szDescription);
+			sid.pszName = const_cast<char*>(szIconName);
 			sid.pszDefaultFile = NULL;
 			sid.iDefaultIndex = 0;
 			sid.hDefaultIcon = hDefaultIcon;
 			sid.cx = cx;
 			sid.cy = cy;
-			sid.flags = MU_DO_BOTH(0, SIDF_UNICODE);
+			sid.flags = SIDF_TCHAR;
 			Skin_AddIcon(&sid);
 		}
 
-		HICON getIcon(const mu_ansi* szIconName)
+		HICON getIcon(const char* szIconName)
 		{
 			return reinterpret_cast<HICON>(CallService(MS_SKIN2_GETICON, 0, reinterpret_cast<LPARAM>(szIconName)));
 		}
@@ -229,17 +169,16 @@ namespace mu
 
 	namespace langpack
 	{
-		const mu_text* translateString(const mu_text* szEnglish)
+		const TCHAR* translateString(const TCHAR* szEnglish)
 		{
-			return reinterpret_cast<const mu_text*>(CallService(MS_LANGPACK_TRANSLATESTRING, MU_DO_BOTH(0, LANG_UNICODE), reinterpret_cast<LPARAM>(szEnglish)));
+			return reinterpret_cast<const TCHAR*>(CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, reinterpret_cast<LPARAM>(szEnglish)));
 		}
 
 		UINT getCodePage()
 		{
 			static UINT CodePage = -1;
 
-			if (CodePage == -1)
-			{
+			if (CodePage == -1) {
 				CodePage = ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
 			}
 
@@ -275,16 +214,16 @@ namespace mu
 
 	namespace opt
 	{
-		void addPage(WPARAM addInfo, const mu_text* pszGroup, const mu_text* pszTitle, const mu_text* pszTab, DLGPROC pfnDlgProc, const mu_ansi* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
+		void addPage(WPARAM addInfo, const TCHAR* pszGroup, const TCHAR* pszTitle, const TCHAR* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
 		{
 			OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-			odp.ptszTitle = const_cast<mu_text*>(pszTitle);
+			odp.ptszTitle = const_cast<TCHAR*>(pszTitle);
 			odp.pfnDlgProc = pfnDlgProc;
-			odp.pszTemplate = const_cast<mu_ansi*>(pszTemplate);
+			odp.pszTemplate = const_cast<char*>(pszTemplate);
 			odp.hInstance = hInstance;
-			odp.ptszGroup = const_cast<mu_text*>(pszGroup);
-			odp.flags = flags | MU_DO_BOTH(0, ODPF_UNICODE);
-			odp.ptszTab = const_cast<mu_text*>(pszTab);
+			odp.ptszGroup = const_cast<TCHAR*>(pszGroup);
+			odp.flags = flags | ODPF_TCHAR;
+			odp.ptszTab = const_cast<TCHAR*>(pszTab);
 			Options_AddPage(addInfo, &odp);
 		}
 	}
@@ -326,9 +265,9 @@ namespace mu
 			return ProtoEnumAccounts(numProtocols, ppProtoDescriptors);
 		}
 
-		const mu_ansi* getContactBaseProto(MCONTACT hContact)
+		const char* getContactBaseProto(MCONTACT hContact)
 		{
-			return reinterpret_cast<const mu_ansi*>(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
+			return reinterpret_cast<const char*>(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
 		}
 	}
 
@@ -338,17 +277,12 @@ namespace mu
 
 	namespace protosvc
 	{
-		DWORD getCaps(const mu_ansi* szProto, int flagNum)
+		DWORD getCaps(const char* szProto, int flagNum)
 		{
 			return (DWORD)CallProtoService(szProto, PS_GETCAPS, static_cast<WPARAM>(flagNum), 0);
 		}
 
-		int getName(const mu_ansi* szProto, int cchName, mu_text* szName)
-		{
-			return CallProtoService(szProto, PS_GETNAME, static_cast<WPARAM>(cchName), reinterpret_cast<LPARAM>(szName));
-		}
-
-		HICON loadIcon(const mu_ansi* szProto, int whichIcon)
+		HICON loadIcon(const char* szProto, int whichIcon)
 		{
 			return reinterpret_cast<HICON>(CallProtoService(szProto, PS_LOADICON, static_cast<WPARAM>(whichIcon), 0));
 		}
@@ -377,7 +311,7 @@ namespace mu
 			return static_cast<DWORD>(CallService(MS_SYSTEM_GETVERSION, 0, 0));
 		}
 
-		int getVersionText(int cchVersion, mu_ansi* szVersion)
+		int getVersionText(int cchVersion, char* szVersion)
 		{
 			return CallService(MS_SYSTEM_GETVERSIONTEXT, cchVersion, reinterpret_cast<LPARAM>(szVersion));
 		}
@@ -394,14 +328,14 @@ namespace mu
 
 	namespace utils
 	{
-		int pathToRelative(const mu_text* pszPath, mu_text* pszNewPath)
+		int pathToRelative(const TCHAR* pszPath, TCHAR* pszNewPath)
 		{
-			return CallService(MU_DO_BOTH(MS_UTILS_PATHTORELATIVE, MS_UTILS_PATHTORELATIVEW), reinterpret_cast<WPARAM>(pszPath), reinterpret_cast<LPARAM>(pszNewPath));
+			return CallService(MS_UTILS_PATHTORELATIVET, reinterpret_cast<WPARAM>(pszPath), reinterpret_cast<LPARAM>(pszNewPath));
 		}
 
-		int pathToAbsolute(const mu_text* pszPath, mu_text* pszNewPath)
+		int pathToAbsolute(const TCHAR* pszPath, TCHAR* pszNewPath)
 		{
-			return CallService(MU_DO_BOTH(MS_UTILS_PATHTOABSOLUTE, MS_UTILS_PATHTOABSOLUTEW), reinterpret_cast<WPARAM>(pszPath), reinterpret_cast<LPARAM>(pszNewPath));
+			return CallService(MS_UTILS_PATHTOABSOLUTET, reinterpret_cast<WPARAM>(pszPath), reinterpret_cast<LPARAM>(pszNewPath));
 		}
 	}
 
@@ -419,8 +353,7 @@ namespace mu
 	}
 
 	void unload()
-	{
-	}
+	{}
 
 	DWORD getMinimalMirandaVersion()
 	{
@@ -436,21 +369,15 @@ namespace mu
 	bool isMirandaUnicode()
 	{
 		if (system::getVersion() < PLUGIN_MAKE_VERSION(0, 4, 3, 33))
-		{
 			return false;
-		}
 
-		mu_ansi szVersion[256] = { 0 };
-		
+		char szVersion[256] = { 0 };
+
 		if (system::getVersionText(256, szVersion) != 0)
-		{
 			return false;
-		}
 
-		if (!strstr(szVersion, muA("Unicode")))
-		{
+		if (!strstr(szVersion, "Unicode"))
 			return false;
-		}
 
 		return true;
 	}
@@ -459,69 +386,51 @@ namespace mu
 	 * string handling
 	 */
 
-	mu_ansi* wideToAnsiDup(const mu_wide* pszWide, UINT uCP /* = CP_ACP */)
+	char* wideToAnsiDup(const WCHAR* pszWide, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszWide)
-		{
 			return NULL;
-		}
 
 		int len = WideCharToMultiByte(uCP, 0, pszWide, -1, NULL, 0, NULL, NULL);
-		mu_ansi* result = reinterpret_cast<mu_ansi*>(malloc(sizeof(mu_ansi) * len));
-
+		char* result = reinterpret_cast<char*>(malloc(sizeof(char)* len));
 		if (!result)
-		{
 			return NULL;
-		}
 
 		WideCharToMultiByte(uCP, 0, pszWide, -1, result, len, NULL, NULL);
 		result[len - 1] = 0;
-
 		return result;
 	}
 
-	mu_wide* ansiToWideDup(const mu_ansi* pszAnsi, UINT uCP /* = CP_ACP */)
+	WCHAR* ansiToWideDup(const char* pszAnsi, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszAnsi)
-		{
 			return NULL;
-		}
 
 		int len = MultiByteToWideChar(uCP, 0, pszAnsi, -1, NULL, 0);
-		mu_wide* result = reinterpret_cast<mu_wide*>(malloc(sizeof(mu_wide) * len));
-		
+		WCHAR* result = reinterpret_cast<WCHAR*>(malloc(sizeof(WCHAR)* len));
 		if (!result)
-		{
 			return NULL;
-		}
 
 		MultiByteToWideChar(uCP, 0, pszAnsi, -1, result, len);
 		result[len - 1] = 0;
-
 		return result;
 	}
 
-	mu_ansi* wideToAnsi(const mu_wide* pszWide, mu_ansi* pszRes, int maxLen, UINT uCP /* = CP_ACP */)
+	char* wideToAnsi(const WCHAR* pszWide, char* pszRes, int maxLen, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszWide)
-		{
 			return NULL;
-		}
 
 		WideCharToMultiByte(uCP, 0, pszWide, -1, pszRes, maxLen, NULL, NULL);
-
 		return pszRes;
 	}
 
-	mu_wide* ansiToWide(const mu_ansi* pszAnsi, mu_wide* pszRes, int maxLen, UINT uCP /* = CP_ACP */)
+	WCHAR* ansiToWide(const char* pszAnsi, WCHAR* pszRes, int maxLen, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszAnsi)
-		{
 			return NULL;
-		}
 
 		MultiByteToWideChar(uCP, 0, pszAnsi, -1, pszRes, maxLen);
-
 		return pszRes;
 	}
 }

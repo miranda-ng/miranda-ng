@@ -12,7 +12,7 @@ COLORREF OptionsCtrlImpl::Color::getColorValue()
 	return SendMessage(m_hColorWnd, CPM_GETCOLOUR, 0, 0);
 }
 
-OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const mu_text* szLabel, COLORREF crColor, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, COLORREF crColor, DWORD dwFlags, DWORD dwData)
 	: Item(pCtrl, itColor, szLabel, dwFlags, dwData)
 	, m_hColorWnd(NULL)
 	, m_crColor(crColor)
@@ -131,7 +131,7 @@ void OptionsCtrlImpl::Color::childAdded(Item* pChild)
 	}
 }
 
-void OptionsCtrlImpl::Color::setLabel(const mu_text* szLabel)
+void OptionsCtrlImpl::Color::setLabel(const TCHAR* szLabel)
 {
 	m_strLabel = szLabel;
 	

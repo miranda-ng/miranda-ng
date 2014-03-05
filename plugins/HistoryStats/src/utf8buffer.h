@@ -5,37 +5,37 @@
 #include <string>
 
 class UTF8Buffer
-	: public std::basic_streambuf<mu_text, std::char_traits<mu_text> >
+	: public std::basic_streambuf<TCHAR, std::char_traits<TCHAR> >
 	, private pattern::NotCopyable<UTF8Buffer>
 {
 private:
-	typedef std::char_traits<mu_text> _Tr;
+	typedef std::char_traits<TCHAR> _Tr;
 
 private:
 	int m_BufSize;
-	mu_text* m_pBuf;
+	TCHAR* m_pBuf;
 	ext::a::ostream& m_Stream;
-	mu_ansi* m_pUTF8Buf;
-	mu_wide* m_pBufW;
+	char* m_pUTF8Buf;
+	WCHAR* m_pBufW;
 
-#if !defined(MU_WIDE)
-	mu_wide m_CharMap[256];
-#endif // MU_WIDE
+#if !defined(_UNICODE)
+	WCHAR m_CharMap[256];
+#endif // _UNICODE
 
 private:
-	void dump(const mu_text* pBegin, const mu_text* pEnd)
+	void dump(const TCHAR* pBegin, const TCHAR* pEnd)
 	{
 		size_t len = pEnd - pBegin;
 
-#if !defined(MU_WIDE)
-		mu_wide* pW = m_pBufW;
-		mu_ansi* pA = m_pBuf;
+#if !defined(_UNICODE)
+		WCHAR* pW = m_pBufW;
+		char* pA = m_pBuf;
 
 		while (pA < pEnd)
 		{
 			*pW++ = m_CharMap[static_cast<unsigned char>(*pA++)];
 		}
-#endif // MU_WIDE
+#endif // _UNICODE
 		size_t utf8_len = utils::rawUTF8Encode(m_pBufW, len, m_pUTF8Buf);
 
 		m_Stream.write(m_pUTF8Buf, utf8_len);
@@ -81,26 +81,26 @@ public:
 	explicit UTF8Buffer(ext::a::ostream& outStream, int bufferSize = 4096)
 		: m_BufSize(bufferSize), m_Stream(outStream)
 	{
-		m_pBuf = new mu_text[m_BufSize];
-		m_pUTF8Buf = new mu_ansi[3 * m_BufSize];
+		m_pBuf = new TCHAR[m_BufSize];
+		m_pUTF8Buf = new char[3 * m_BufSize];
 
-#if defined(MU_WIDE)
+#if defined(_UNICODE)
 		m_pBufW = m_pBuf;
-#else // MU_WIDE
-		m_pBufW = new mu_wide[m_BufSize];
-#endif // MU_WIDE
+#else // _UNICODE
+		m_pBufW = new WCHAR[m_BufSize];
+#endif // _UNICODE
 
-#if !defined(MU_WIDE)
-		mu_ansi ANSIChars[256];
+#if !defined(_UNICODE)
+		char ANSIChars[256];
 
 		array_each_(i, ANSIChars)
 		{
-			ANSIChars[i] = static_cast<mu_ansi>(i);
+			ANSIChars[i] = static_cast<char>(i);
 		}
 
-		m_CharMap[0] = muC(' ');
+		m_CharMap[0] = ' ';
 		MultiByteToWideChar(CP_ACP, 0, ANSIChars + 1, 255, m_CharMap + 1, 255);
-#endif // MU_WIDE
+#endif // _UNICODE
 
 		setp(m_pBuf, m_pBuf + m_BufSize);
 	}
@@ -110,9 +110,9 @@ public:
 		delete[] m_pBuf;
 		delete[] m_pUTF8Buf;
 
-#if !defined(MU_WIDE)
+#if !defined(_UNICODE)
 		delete[] m_pBufW;
-#endif // MU_WIDE
+#endif // _UNICODE
 	}
 };
 

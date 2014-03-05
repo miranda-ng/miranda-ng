@@ -35,9 +35,9 @@ public:
 	ColInOutGraph();
 
 protected:
-	virtual const mu_text* impl_getUID() const { return con::ColInOutGraph; }
-	virtual const mu_text* impl_getTitle() const { return i18n(muT("In/out graph")); }
-	virtual const mu_text* impl_getDescription() const { return i18n(muT("Column holding in/out bar graphs for characters, messages or chats.")); }
+	virtual const TCHAR* impl_getUID() const { return con::ColInOutGraph; }
+	virtual const TCHAR* impl_getTitle() const { return TranslateT("In/out graph"); }
+	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding in/out bar graphs for characters, messages or chats."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig; }
 	virtual void impl_configRead(const SettingsTree& settings);

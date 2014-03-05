@@ -45,11 +45,11 @@ void ColWordCount::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	OptionsCtrl::Group hTemp;
 	
-	/**/hTemp          = Opt.insertGroup(hGroup, i18n(muT("Word count type")));
-	/**/	m_hVisMode = Opt.insertRadio(hTemp, NULL, i18n(muT("Total words")));
-	/**/	             Opt.insertRadio(hTemp, m_hVisMode, i18n(muT("Distinct words")));
-	/**/	             Opt.insertRadio(hTemp, m_hVisMode, i18n(muT("Ratio total/distinct words")));
-	/**/m_hDetail      = Opt.insertCheck(hGroup, i18n(muT("Additional info in tooltip (depends on type)")));
+	hTemp         = Opt.insertGroup(hGroup, TranslateT("Word count type"));
+		m_hVisMode = Opt.insertRadio(hTemp, NULL, TranslateT("Total words"));
+		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Distinct words"));
+		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Ratio total/distinct words"));
+	m_hDetail     = Opt.insertCheck(hGroup, TranslateT("Additional info in tooltip (depends on type)"));
 
 	Opt.setRadioChecked(m_hVisMode, m_nVisMode);
 	Opt.checkItem      (m_hDetail , m_bDetail );
@@ -110,25 +110,25 @@ void ColWordCount::impl_contactDataTransformCleanup(Contact& contact) const
 
 void ColWordCount::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const mu_text* szTypeDesc[] = {
-		I18N(muT("Total word count")),
-		I18N(muT("Distinct word count")),
-		I18N(muT("Ratio total/distinct words")),
+	static const TCHAR* szTypeDesc[] = {
+		LPGENT("Total word count"),
+		LPGENT("Distinct word count"),
+		LPGENT("Ratio total/distinct words")
 	};
 
-	static const mu_text* szSourceDesc[] = {
-		I18N(muT("incoming messages")),
-		I18N(muT("outgoing messages")),
-		I18N(muT("all messages")),
+	static const TCHAR* szSourceDesc[] = {
+		LPGENT("incoming messages"),
+		LPGENT("outgoing messages"),
+		LPGENT("all messages"),
 	};
 
 	if (row == 1)
 	{
-		ext::string strTitle = str(ext::kformat(i18n(muT("#{type} for #{data}")))
-			% muT("#{type}") * i18n(szTypeDesc[m_nVisMode])
-			% muT("#{data}") * i18n(szSourceDesc[m_nSource]));
+		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
+			% _T("#{type}") * TranslateTS(szTypeDesc[m_nVisMode])
+			% _T("#{data}") * TranslateTS(szSourceDesc[m_nSource]));
 
-		writeRowspanTD(tos, getCustomTitle(i18n(szTypeDesc[m_nVisMode]), strTitle), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[m_nVisMode]), strTitle), row, 1, rowSpan);
 	}
 }
 
@@ -142,18 +142,18 @@ void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const Contact& contac
 			{
 				if (!m_bDetail)
 				{
-					tos << muT("<td class=\"num\">")
+					tos << _T("<td class=\"num\">")
 						<< utils::intToGrouped(pWordCount[0])
-						<< muT("</td>") << ext::endl;
+						<< _T("</td>") << ext::endl;
 				}
 				else
 				{
-					tos << muT("<td class=\"num\" title=\"")
-						<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("#{distict_words} distinct")))
-							% muT("#{distict_words}") * utils::intToGrouped(pWordCount[1])))
-						<< muT("\">")
+					tos << _T("<td class=\"num\" title=\"")
+						<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{distict_words} distinct"))
+							% _T("#{distict_words}") * utils::intToGrouped(pWordCount[1])))
+						<< _T("\">")
 						<< utils::intToGrouped(pWordCount[0])
-						<< muT("</td>") << ext::endl;
+						<< _T("</td>") << ext::endl;
 				}
 			}
 			break;
@@ -162,18 +162,18 @@ void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const Contact& contac
 			{
 				if (!m_bDetail)
 				{
-					tos << muT("<td class=\"num\">")
+					tos << _T("<td class=\"num\">")
 						<< utils::intToGrouped(pWordCount[1])
-						<< muT("</td>") << ext::endl;
+						<< _T("</td>") << ext::endl;
 				}
 				else
 				{
-					tos << muT("<td class=\"num\" title=\"")
-						<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("#{words} total")))
-							% muT("#{words}") * utils::intToGrouped(pWordCount[0])))
-						<< muT("\">")
+					tos << _T("<td class=\"num\" title=\"")
+						<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{words} total"))
+							% _T("#{words}") * utils::intToGrouped(pWordCount[0])))
+						<< _T("\">")
 						<< utils::intToGrouped(pWordCount[1])
-						<< muT("</td>") << ext::endl;
+						<< _T("</td>") << ext::endl;
 				}
 			}
 			break;
@@ -182,19 +182,19 @@ void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const Contact& contac
 			{
 				if (!m_bDetail)
 				{
-					tos << muT("<td class=\"num\">")
+					tos << _T("<td class=\"num\">")
 						<< utils::ratioToString(pWordCount[0], pWordCount[1], 2)
-						<< muT("</td>") << ext::endl;
+						<< _T("</td>") << ext::endl;
 				}
 				else
 				{
-					tos << muT("<td class=\"num\" title=\"")
-						<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("#{words} total / #{distict_words} distinct")))
-							% muT("#{words}") * utils::intToGrouped(pWordCount[0])
-							% muT("#{distict_words}") * utils::intToGrouped(pWordCount[1])))
-						<< muT("\">")
+					tos << _T("<td class=\"num\" title=\"")
+						<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{words} total / #{distict_words} distinct"))
+							% _T("#{words}") * utils::intToGrouped(pWordCount[0])
+							% _T("#{distict_words}") * utils::intToGrouped(pWordCount[1])))
+						<< _T("\">")
 						<< utils::ratioToString(pWordCount[0], pWordCount[1], 2)
-						<< muT("</td>") << ext::endl;
+						<< _T("</td>") << ext::endl;
 				}
 			}
 			break;

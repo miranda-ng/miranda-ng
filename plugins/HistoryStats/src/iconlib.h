@@ -43,9 +43,9 @@ private:
 	struct IconInfo
 	{
 		WORD wID;
-		mu_ansi* szIconName;
-		mu_text* szSection;
-		mu_text* szDescription;
+		char* szIconName;
+		TCHAR* szSection;
+		TCHAR* szDescription;
 		HICON hIcon;
 	};
 

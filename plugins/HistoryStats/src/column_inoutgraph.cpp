@@ -55,21 +55,21 @@ void ColInOutGraph::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 {
 	OptionsCtrl::Group hTemp;
 
-	/**/hTemp                = Opt.insertGroup(hGroup, i18n(muT("Data source")));
-	/**/	m_hSource        = Opt.insertRadio(hTemp, NULL, i18n(muT("Characters")));
-	/**/	                   Opt.insertRadio(hTemp, m_hSource, i18n(muT("Messages")));
-	/**/	                   Opt.insertRadio(hTemp, m_hSource, i18n(muT("Chats")));
-	/**/hTemp                = Opt.insertGroup(hGroup, i18n(muT("Display as")));
-	/**/	m_hAbsolute      = Opt.insertRadio(hTemp, NULL, i18n(muT("Absolute")));
-	/**/	m_hAbsolute      = Opt.insertRadio(hTemp, m_hAbsolute, i18n(muT("Average")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/		m_hAbsTime   = Opt.insertRadio(m_hAbsolute, NULL, i18n(muT("Units per day")));
-	/**/		               Opt.insertRadio(m_hAbsolute, m_hAbsTime, i18n(muT("Units per week")));
-	/**/		               Opt.insertRadio(m_hAbsolute, m_hAbsTime, i18n(muT("Units per month (30 days)")));
-	/**/m_hShowSum           = Opt.insertCheck(hGroup, i18n(muT("Show sum of incoming and outgoing")));
-	/**/m_hDetail            = Opt.insertCheck(hGroup, i18n(muT("In/out details (tooltip)")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/	m_hDetailPercent = Opt.insertCheck(m_hDetail, i18n(muT("Percentage in tooltip")));
-	/**/	m_hDetailInvert  = Opt.insertCheck(m_hDetail, i18n(muT("Absolute in tooltip if average selected and vice versa")));
-	/**/m_hGraphPercent      = Opt.insertCheck(hGroup, i18n(muT("Percentage in bar graph")));
+	hTemp               = Opt.insertGroup(hGroup, TranslateT("Data source"));
+		m_hSource        = Opt.insertRadio(hTemp, NULL, TranslateT("Characters"));
+		                   Opt.insertRadio(hTemp, m_hSource, TranslateT("Messages"));
+		                   Opt.insertRadio(hTemp, m_hSource, TranslateT("Chats"));
+	hTemp               = Opt.insertGroup(hGroup, TranslateT("Display as"));
+		m_hAbsolute      = Opt.insertRadio(hTemp, NULL, TranslateT("Absolute"));
+		m_hAbsolute      = Opt.insertRadio(hTemp, m_hAbsolute, TranslateT("Average"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+			m_hAbsTime    = Opt.insertRadio(m_hAbsolute, NULL, TranslateT("Units per day"));
+			                Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per week"));
+			                Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per month (30 days)"));
+	m_hShowSum          = Opt.insertCheck(hGroup, TranslateT("Show sum of incoming and outgoing"));
+	m_hDetail           = Opt.insertCheck(hGroup, TranslateT("In/out details (tooltip)"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+		m_hDetailPercent = Opt.insertCheck(m_hDetail, TranslateT("Percentage in tooltip"));
+		m_hDetailInvert  = Opt.insertCheck(m_hDetail, TranslateT("Absolute in tooltip if average selected and vice versa"));
+	m_hGraphPercent     = Opt.insertCheck(hGroup, TranslateT("Percentage in bar graph"));
 
 	Opt.setRadioChecked(m_hSource       , m_nSource          );
 	Opt.setRadioChecked(m_hAbsolute     , m_bAbsolute ? 0 : 1);
@@ -99,24 +99,24 @@ Column::StyleList ColInOutGraph::impl_outputGetAdditionalStyles(IDProvider& idp)
 
 	m_CSS = idp.getID();
 
-	l.push_back(StylePair(muT("td.") + m_CSS, muT("vertical-align: middle; padding: 2px 2px 2px 2px;")));
+	l.push_back(StylePair(_T("td.") + m_CSS, _T("vertical-align: middle; padding: 2px 2px 2px 2px;")));
 
 	if (m_bShowSum)
 	{
-		l.push_back(StylePair(muT("td.") + m_CSS + muT(" div.n"), muT("text-align: center;")));
+		l.push_back(StylePair(_T("td.") + m_CSS + _T(" div.n"), _T("text-align: center;")));
 	}
 
 	if (!usePNG())
 	{
-		l.push_back(StylePair(muT("div.") + m_CSS,                    muT("position: relative; left: 50%; margin-left: -50px; width: 100px; height: 15px; background-color: ") + utils::colorToHTML(con::ColorBack) + muT(";")));
-		l.push_back(StylePair(muT("div.") + m_CSS + muT(" div"),      muT("position: absolute; top: 0px; height: 15px; overflow: hidden; font-size: 80%; color: ") + utils::colorToHTML(con::ColorBack) + muT(";")));
-		l.push_back(StylePair(muT("div.") + m_CSS + muT(" div.obar"), muT("left: 0px; background-color: ") + utils::colorToHTML(con::ColorOut) + muT(";")));
-		l.push_back(StylePair(muT("div.") + m_CSS + muT(" div.ibar"), muT("right: 0px; background-color: ") + utils::colorToHTML(con::ColorIn) + muT(";")));
+		l.push_back(StylePair(_T("div.") + m_CSS,                    _T("position: relative; left: 50%; margin-left: -50px; width: 100px; height: 15px; background-color: ") + utils::colorToHTML(con::ColorBack) + _T(";")));
+		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div"),      _T("position: absolute; top: 0px; height: 15px; overflow: hidden; font-size: 80%; color: ") + utils::colorToHTML(con::ColorBack) + _T(";")));
+		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.obar"), _T("left: 0px; background-color: ") + utils::colorToHTML(con::ColorOut) + _T(";")));
+		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.ibar"), _T("right: 0px; background-color: ") + utils::colorToHTML(con::ColorIn) + _T(";")));
 
 		if (m_bGraphPercent)
 		{
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div.otext"), muT("left: 2px; width: 48px; text-align: left; z-index: 9;")));
-			l.push_back(StylePair(muT("div.") + m_CSS + muT(" div.itext"), muT("right: 2px; width: 48px; text-align: right; z-index: 9;")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.otext"), _T("left: 2px; width: 48px; text-align: left; z-index: 9;")));
+			l.push_back(StylePair(_T("div.") + m_CSS + _T(" div.itext"), _T("right: 2px; width: 48px; text-align: right; z-index: 9;")));
 		}
 	}
 
@@ -132,16 +132,16 @@ SIZE ColInOutGraph::impl_outputMeasureHeader() const
 
 void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const mu_text* szSourceDesc[] = {
-		I18N(muT("Characters")),
-		I18N(muT("Messages")),
-		I18N(muT("Chats"))
+	static const TCHAR* szSourceDesc[] = {
+		LPGENT("Characters"),
+		LPGENT("Messages"),
+		LPGENT("Chats")
 	};
 
-	static const mu_text* szSourceUnit[] = {
-		I18N(muT("day")),
-		I18N(muT("week")),
-		I18N(muT("month")),
+	static const TCHAR* szSourceUnit[] = {
+		LPGENT("day"),
+		LPGENT("week"),
+		LPGENT("month"),
 	};
 
 	if (row == 1)
@@ -150,21 +150,21 @@ void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowS
 
 		if (m_bAbsolute)
 		{
-			strTitle = i18n(szSourceDesc[m_nSource]);
+			strTitle = TranslateTS(szSourceDesc[m_nSource]);
 		}
 		else
 		{
-			strTitle = str(ext::kformat(i18n(muT("#{data} per #{unit}")))
-				% muT("#{data}") * i18n(szSourceDesc[m_nSource])
-				% muT("#{unit}") * i18n(szSourceUnit[m_nAbsTime]));
+			strTitle = str(ext::kformat(TranslateT("#{data} per #{unit}"))
+				% _T("#{data}") * TranslateTS(szSourceDesc[m_nSource])
+				% _T("#{unit}") * TranslateTS(szSourceUnit[m_nAbsTime]));
 		}
 
-		writeRowspanTD(tos, getCustomTitle(i18n(szSourceDesc[m_nSource]), strTitle) + muT("<div style=\"width: 100px;\"></div>"), 1, 2, rowSpan, 2);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szSourceDesc[m_nSource]), strTitle) + _T("<div style=\"width: 100px;\"></div>"), 1, 2, rowSpan, 2);
 	}
 	else if (row == 2)
 	{
-		writeRowspanTD(tos, i18n(muT("Outgoing")), 2, 2, rowSpan);
-		writeRowspanTD(tos, i18n(muT("Incoming")), 2, 2, rowSpan);
+		writeRowspanTD(tos, TranslateT("Outgoing"), 2, 2, rowSpan);
+		writeRowspanTD(tos, TranslateT("Incoming"), 2, 2, rowSpan);
 	}
 }
 
@@ -194,7 +194,7 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 	double avgTotal = avgFactor[m_nAbsTime] * (contact.*getAvgTotal[m_nSource])();
 
 	// begin output
-	tos << muT("<td colspan=\"2\" class=\"") << m_CSS;
+	tos << _T("<td colspan=\"2\" class=\"") << m_CSS;
 
 	if (m_bDetail)
 	{
@@ -213,26 +213,26 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 
 		if (m_bDetailPercent)
 		{
-			tos << muT("\" title=\"")
-				<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})")))
-					% muT("#{out_amount}") * strOut
-					% muT("#{out_ratio}") * utils::ratioToPercent(numOut, numTotal)
-					% muT("#{in_amount}") * strIn
-					% muT("#{in_ratio}") * utils::ratioToPercent(numIn, numTotal)))
-				<< muT("\">");
+			tos << _T("\" title=\"")
+				<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})"))
+					% _T("#{out_amount}") * strOut
+					% _T("#{out_ratio}") * utils::ratioToPercent(numOut, numTotal)
+					% _T("#{in_amount}") * strIn
+					% _T("#{in_ratio}") * utils::ratioToPercent(numIn, numTotal)))
+				<< _T("\">");
 		}
 		else
 		{
-			tos << muT("\" title=\"")
-				<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("[Out] #{out_amount} / [In] #{in_amount}")))
-					% muT("#{out_amount}") * strOut
-					% muT("#{in_amount}") * strIn))
-				<< muT("\">");
+			tos << _T("\" title=\"")
+				<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("[Out] #{out_amount} / [In] #{in_amount}"))
+					% _T("#{out_amount}") * strOut
+					% _T("#{in_amount}") * strIn))
+				<< _T("\">");
 		}
 	}
 	else
 	{
-		tos << muT("\">");
+		tos << _T("\">");
 	}
 	
 	if (numOut + numIn == 0)
@@ -256,12 +256,12 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 
 	if (usePNG())
 	{
-		tos << muT("<div class=\"n\">");
+		tos << _T("<div class=\"n\">");
 
 		if (m_bShowSum)
 		{
 			tos << (m_bAbsolute ? utils::intToGrouped(numTotal) : utils::floatToGrouped(avgTotal, 1))
-				<< muT("<br/>");
+				<< _T("<br/>");
 		}
 
 		// draw graph
@@ -298,7 +298,7 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 				CLIP_DEFAULT_PRECIS,
 				DEFAULT_QUALITY,
 				DEFAULT_PITCH | FF_SWISS,
-				muT("Verdana")
+				_T("Verdana")
 			};
 
 			HFONT hFont = CreateFontIndirect(&lf);
@@ -317,40 +317,40 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 		
 		if (getStatistic()->newFilePNG(canvas, strFinalFile))
 		{
-			tos << muT("<img src=\"") << strFinalFile << muT("\"/>");
+			tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
 		}
 
-		tos << muT("</div>");
+		tos << _T("</div>");
 	}
 	else
 	{
 		if (m_bShowSum)
 		{
-			tos << muT("<div class=\"n\">")
+			tos << _T("<div class=\"n\">")
 				<< (m_bAbsolute ? utils::intToGrouped(numTotal) : utils::floatToGrouped(avgTotal, 1))
-				<< muT("</div>");
+				<< _T("</div>");
 		}
 
-		tos << muT("<div class=\"") << m_CSS << muT("\">");
+		tos << _T("<div class=\"") << m_CSS << _T("\">");
 
 		if (outW != 0)
 		{
-			tos << muT("<div class=\"obar\" style=\"width: ") << outW << muT("px;\"></div>");
+			tos << _T("<div class=\"obar\" style=\"width: ") << outW << _T("px;\"></div>");
 		}
 
 		if (inW != 0)
 		{
-			tos << muT("<div class=\"ibar\" style=\"width: ") << inW << muT("px;\"></div>");
+			tos << _T("<div class=\"ibar\" style=\"width: ") << inW << _T("px;\"></div>");
 		}
 
 		if (m_bGraphPercent)
 		{
-			tos << muT("<div class=\"otext\">") << utils::ratioToPercent(numOut, allNum) << muT("</div>");
-			tos << muT("<div class=\"itext\">") << utils::ratioToPercent(numIn, allNum) << muT("</div>");
+			tos << _T("<div class=\"otext\">") << utils::ratioToPercent(numOut, allNum) << _T("</div>");
+			tos << _T("<div class=\"itext\">") << utils::ratioToPercent(numIn, allNum) << _T("</div>");
 		}
 
-		tos << muT("</div>");
+		tos << _T("</div>");
 	}
 
-	tos	<< muT("</td>") << ext::endl;
+	tos	<< _T("</td>") << ext::endl;
 }

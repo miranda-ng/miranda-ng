@@ -72,53 +72,53 @@ void ColSplitTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGrou
 	OptionsCtrl::Group hTemp;
 	OptionsCtrl::Radio hTempRadio;
 
-	/**/m_hSource                    = Opt.insertCombo(hGroup, i18n(muT("Data source")));
-	/**/m_hIgnoreOld                 = Opt.insertEdit(hGroup, i18n(muT("Drop everything older than (days, 0=no limit)")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/hTemp                        = Opt.insertGroup(hGroup, i18n(muT("\"Split\" type")));
-	/**/	m_hVisMode               = Opt.insertRadio(hTemp, NULL, i18n(muT("Hours of day")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/		m_hHODGroup          = Opt.insertEdit (m_hVisMode, i18n(muT("Number of days to group")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/	hTempRadio               = Opt.insertRadio(hTemp, m_hVisMode, i18n(muT("Days of week")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/		m_hDOWGroup          = Opt.insertEdit (hTempRadio, i18n(muT("Number of weeks to group")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/	hTempRadio               = Opt.insertRadio(hTemp, m_hVisMode, i18n(muT("Custom (for experts only)")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/		hTemp                = Opt.insertGroup(hTempRadio, i18n(muT("Column setup")));
-	/**/			m_hBlockUnit     = Opt.insertCombo(hTemp, i18n(muT("Block unit")));
-	/**/			m_hUnitsPerBlock = Opt.insertEdit (hTemp, i18n(muT("Units per block")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/			m_hBlocks        = Opt.insertEdit (hTemp, i18n(muT("Blocks per column")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/		hTemp                = Opt.insertGroup(hTempRadio, i18n(muT("Graph alignment")));
-	/**/			m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, i18n(muT("Align on day boundary")));
-	/**/			                   Opt.insertRadio(hTemp, m_hGraphAlign, i18n(muT("Align on week boundary")));
-	/**/		m_hCustomGroup       = Opt.insertEdit (hTempRadio, i18n(muT("Number of columns to group")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/m_hTopPerColumn              = Opt.insertCheck(hGroup, i18n(muT("Calculate maximum per column (not per graph)")));
+	m_hSource                 = Opt.insertCombo(hGroup, TranslateT("Data source"));
+	m_hIgnoreOld              = Opt.insertEdit(hGroup, TranslateT("Drop everything older than (days, 0=no limit)"), _T(""), OptionsCtrl::OCF_NUMBER);
+	hTemp                     = Opt.insertGroup(hGroup, TranslateT("\"Split\" type"));
+		m_hVisMode             = Opt.insertRadio(hTemp, NULL, TranslateT("Hours of day"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+			m_hHODGroup         = Opt.insertEdit (m_hVisMode, TranslateT("Number of days to group"), _T(""), OptionsCtrl::OCF_NUMBER);
+		hTempRadio             = Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Days of week"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+			m_hDOWGroup         = Opt.insertEdit (hTempRadio, TranslateT("Number of weeks to group"), _T(""), OptionsCtrl::OCF_NUMBER);
+		hTempRadio             = Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Custom (for experts only)"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Column setup"));
+				m_hBlockUnit     = Opt.insertCombo(hTemp, TranslateT("Block unit"));
+				m_hUnitsPerBlock = Opt.insertEdit (hTemp, TranslateT("Units per block"), _T(""), OptionsCtrl::OCF_NUMBER);
+				m_hBlocks        = Opt.insertEdit (hTemp, TranslateT("Blocks per column"), _T(""), OptionsCtrl::OCF_NUMBER);
+			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Graph alignment"));
+				m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, TranslateT("Align on day boundary"));
+				                   Opt.insertRadio(hTemp, m_hGraphAlign, TranslateT("Align on week boundary"));
+			m_hCustomGroup      = Opt.insertEdit (hTempRadio, TranslateT("Number of columns to group"), _T(""), OptionsCtrl::OCF_NUMBER);
+	m_hTopPerColumn           = Opt.insertCheck(hGroup, TranslateT("Calculate maximum per column (not per graph)"));
 
-	static const mu_text* sourceTexts[] = {
-		I18N(muT("Characters (incoming)")),
-		I18N(muT("Characters (outgoing)")),
-		I18N(muT("Characters (all)")),
-		I18N(muT("Characters (in/out ratio)")),
-		I18N(muT("Messages (incoming)")),
-		I18N(muT("Messages (outgoing)")),
-		I18N(muT("Messages (all)")),
-		I18N(muT("Messages (in/out ratio)")),
-		I18N(muT("Chats (incoming)")),
-		I18N(muT("Chats (outgoing)")),
-		I18N(muT("Chats (all)")),
-		I18N(muT("Chats (in/out ratio)")),
+	static const TCHAR* sourceTexts[] = {
+		LPGENT("Characters (incoming)"),
+		LPGENT("Characters (outgoing)"),
+		LPGENT("Characters (all)"),
+		LPGENT("Characters (in/out ratio)"),
+		LPGENT("Messages (incoming)"),
+		LPGENT("Messages (outgoing)"),
+		LPGENT("Messages (all)"),
+		LPGENT("Messages (in/out ratio)"),
+		LPGENT("Chats (incoming)"),
+		LPGENT("Chats (outgoing)"),
+		LPGENT("Chats (all)"),
+		LPGENT("Chats (in/out ratio)"),
 	};
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, i18n(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
 	}
 
-	static const mu_text* unitTexts[] = {
-		I18N(muT("Hours")),
-		I18N(muT("Days")),
-		I18N(muT("Weeks")),
+	static const TCHAR* unitTexts[] = {
+		LPGENT("Hours"),
+		LPGENT("Days"),
+		LPGENT("Weeks"),
 	};
 
 	array_each_(i, unitTexts)
 	{
-		Opt.addComboItem(m_hBlockUnit, i18n(unitTexts[i]));
+		Opt.addComboItem(m_hBlockUnit, TranslateTS(unitTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource       , 4 * m_nSource + m_nSourceType);
@@ -162,7 +162,7 @@ ext::string ColSplitTimeline::impl_contactDataGetUID() const
 {
 	SplitParams params = getParams();
 	
-	return ext::str(ext::format(muT("splittimeline-|-|-|"))
+	return ext::str(ext::format(_T("splittimeline-|-|-|"))
 		% m_nSource
 		% params.hours_in_block
 		% params.alignment);
@@ -250,35 +250,35 @@ void ColSplitTimeline::impl_contactDataMerge(Contact& contact, const Contact& in
 
 void ColSplitTimeline::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const mu_text* szTypeDesc[] = {
-		I18N(muT("Hours of day timeline")),
-		I18N(muT("Days of week timeline")),
-		I18N(muT("\"Split\" timeline")),
+	static const TCHAR* szTypeDesc[] = {
+		LPGENT("Hours of day timeline"),
+		LPGENT("Days of week timeline"),
+		LPGENT("\"Split\" timeline"),
 	};
 
-	static const mu_text* szSourceDesc[] = {
-		I18N(muT("incoming characters")),
-		I18N(muT("outgoing characters")),
-		I18N(muT("all characters")),
-		I18N(muT("in/out ratio of characters")),
-		I18N(muT("incoming messages")),
-		I18N(muT("outgoing messages")),
-		I18N(muT("all messages")),
-		I18N(muT("in/out ratio of messages")),
-		I18N(muT("incoming chats")),
-		I18N(muT("outgoing chats")),
-		I18N(muT("all chats")),
-		I18N(muT("in/out ratio of chats")),
+	static const TCHAR* szSourceDesc[] = {
+		LPGENT("incoming characters"),
+		LPGENT("outgoing characters"),
+		LPGENT("all characters"),
+		LPGENT("in/out ratio of characters"),
+		LPGENT("incoming messages"),
+		LPGENT("outgoing messages"),
+		LPGENT("all messages"),
+		LPGENT("in/out ratio of messages"),
+		LPGENT("incoming chats"),
+		LPGENT("outgoing chats"),
+		LPGENT("all chats"),
+		LPGENT("in/out ratio of chats"),
 	};
 
 	if (row == 1)
 	{
 		SplitParams params = getParams();
-		ext::string strTitle = str(ext::kformat(i18n(muT("#{type} for #{data}")))
-			% muT("#{type}") * i18n(szTypeDesc[params.effective_vis_mode])
-			% muT("#{data}") * i18n(szSourceDesc[4 * m_nSource + m_nSourceType]));
+		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
+			% _T("#{type}") * TranslateTS(szTypeDesc[params.effective_vis_mode])
+			% _T("#{data}") * TranslateTS(szSourceDesc[4 * m_nSource + m_nSourceType]));
 
-		writeRowspanTD(tos, getCustomTitle(i18n(szTypeDesc[params.effective_vis_mode]), strTitle) + muT("<div style=\"width: ") + utils::intToString(m_nTimelineWidth) + muT("px;\"></div>"), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[params.effective_vis_mode]), strTitle) + _T("<div style=\"width: ") + utils::intToString(m_nTimelineWidth) + _T("px;\"></div>"), row, 1, rowSpan);
 	}
 }
 
@@ -459,7 +459,7 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 		}
 	}
 
-	tos << muT("<td class=\"img_middle\">");
+	tos << _T("<td class=\"img_middle\">");
 
 	// draw graph
 	Canvas canvas(m_nTimelineWidth, 49);
@@ -548,10 +548,10 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 	
 	if (getStatistic()->newFilePNG(canvas, strFinalFile))
 	{
-		tos << muT("<img src=\"") << strFinalFile << muT("\"/>");
+		tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
 	}
 
-	tos << muT("</td>") << ext::endl;
+	tos << _T("</td>") << ext::endl;
 }
 
 void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType display)
@@ -559,7 +559,7 @@ void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& co
 	SplitParams params = getParams();
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 
-	tos << muT("<td class=\"img_middle\">");
+	tos << _T("<td class=\"img_middle\">");
 
 	// draw graph
 	Canvas canvas(m_nTimelineWidth, 49);
@@ -631,8 +631,8 @@ void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& co
 
 	if (getStatistic()->newFilePNG(canvas, strFinalFile))
 	{
-		tos << muT("<img src=\"") << strFinalFile << muT("\"/>");
+		tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
 	}
 
-	tos << muT("</td>") << ext::endl;
+	tos << _T("</td>") << ext::endl;
 }

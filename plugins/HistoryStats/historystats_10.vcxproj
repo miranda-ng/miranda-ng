@@ -294,7 +294,6 @@
     <ClCompile Include="src\settingsserializer.cpp" />
     <ClCompile Include="src\settingstree.cpp" />
     <ClCompile Include="src\statistic.cpp" />
-    <ClCompile Include="src\themeapi.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\colbase_words.cpp" />
     <ClCompile Include="src\column_chatduration.cpp" />
@@ -344,7 +343,6 @@
     <ClInclude Include="src\settingsserializer.h" />
     <ClInclude Include="src\settingstree.h" />
     <ClInclude Include="src\statistic.h" />
-    <ClInclude Include="src\themeapi.h" />
     <ClInclude Include="src\utf8buffer.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\colbase_words.h" />

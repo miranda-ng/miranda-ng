@@ -8,9 +8,7 @@
 void ColRank::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
 	if (row == 1)
-	{
-		writeRowspanTD(tos, getCustomTitle(i18n(muT("Rank")), i18n(muT("Rank"))), row, 1, rowSpan);
-	}
+		writeRowspanTD(tos, getCustomTitle(TranslateT("Rank"), TranslateT("Rank")), row, 1, rowSpan);
 }
 
 void ColRank::impl_outputBegin()
@@ -21,13 +19,9 @@ void ColRank::impl_outputBegin()
 void ColRank::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
 {
 	if (display == asContact)
-	{
-		tos << muT("<td class=\"num\">")
-			<< utils::htmlEscape(ext::str(ext::kformat(i18n(muT("#{rank}."))) % muT("#{rank}") * (m_nNextRank++)))
-			<< muT("</td>") << ext::endl;
-	}
-	else
-	{
-		tos << muT("<td>&nbsp;</td>");
-	}
+		tos << _T("<td class=\"num\">")
+			<< utils::htmlEscape(ext::str(ext::kformat(TranslateT("#{rank}.")) % _T("#{rank}") * (m_nNextRank++)))
+			<< _T("</td>") << ext::endl;
+	else 
+		tos << _T("<td>&nbsp;</td>");
 }

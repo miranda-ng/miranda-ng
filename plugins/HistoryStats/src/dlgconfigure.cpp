@@ -17,67 +17,60 @@ INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM w
 {
 	DlgConfigure* pDlg = reinterpret_cast<DlgConfigure*>(GetWindowLong(hDlg, DWLP_USER));
 
-	switch (msg)
+	switch (msg) {
+	case WM_INITDIALOG:
+		pDlg = new DlgConfigure(hDlg);
+		SetWindowLong(hDlg, DWLP_USER, reinterpret_cast<LONG>(pDlg));
+		pDlg->onWMInitDialog();
+		return TRUE;
+
+	case WM_DESTROY:
+		delete pDlg;
+		SetWindowLong(hDlg, DWLP_USER, 0);
+		break;
+
+	case PSM_CHANGED:
+		EnableWindow(GetDlgItem(hDlg, IDC_APPLY), TRUE);
+		pDlg->m_bChanged = true;
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			pDlg->onCancel();
+			return TRUE;
+
+		case IDOK:
+			pDlg->onApply();
+			DestroyWindow(hDlg);
+			return TRUE;
+
+		case IDC_APPLY:
+			pDlg->onApply();
+			return TRUE;
+		}
+		break;
+
+	case WM_WINDOWPOSCHANGED:
+		pDlg->rearrangeControls();
+		return TRUE;
+
+	case WM_GETMINMAXINFO:
 	{
-		case WM_INITDIALOG:
-			pDlg = new DlgConfigure(hDlg);
-			SetWindowLong(hDlg, DWLP_USER, reinterpret_cast<LONG>(pDlg));
-			pDlg->onWMInitDialog();
-			return TRUE;
+		static POINT sizeMin = { 0, 0 };
+		MINMAXINFO* pMMI = reinterpret_cast<MINMAXINFO*>(lParam);
 
-		case WM_DESTROY:
-			delete pDlg;
-			SetWindowLong(hDlg, DWLP_USER, 0);
-			break;
+		if (sizeMin.x == 0) {
+			RECT rectWin;
 
-		case PSM_CHANGED:
-			{
-				EnableWindow(GetDlgItem(hDlg, IDC_APPLY), TRUE);
-				pDlg->m_bChanged = true;
-			}
-			return TRUE;
+			GetWindowRect(hDlg, &rectWin);
+			sizeMin.x = rectWin.right - rectWin.left;
+			sizeMin.y = rectWin.bottom - rectWin.top;
+		}
 
-		case WM_COMMAND:
-			{
-				switch (LOWORD(wParam))
-				{
-					case IDCANCEL:
-						pDlg->onCancel();
-						return TRUE;
-
-					case IDOK:
-						pDlg->onApply();
-						DestroyWindow(hDlg);
-						return TRUE;
-
-					case IDC_APPLY:
-						pDlg->onApply();
-						return TRUE;
-				}
-			}
-			break;
-
-		case WM_WINDOWPOSCHANGED:
-			pDlg->rearrangeControls();
-			return TRUE;
-
-		case WM_GETMINMAXINFO:
-			{
-				static POINT sizeMin = { 0, 0 };
-				MINMAXINFO* pMMI = reinterpret_cast<MINMAXINFO*>(lParam);
-
-				if (sizeMin.x == 0)
-				{
-					RECT rectWin;
-
-					GetWindowRect(hDlg, &rectWin);
-					sizeMin.x = rectWin.right - rectWin.left;
-					sizeMin.y = rectWin.bottom - rectWin.top;
-				}
-
-				pMMI->ptMinTrackSize = sizeMin;
-			}
-			return TRUE;
+		pMMI->ptMinTrackSize = sizeMin;
+	}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -85,8 +78,7 @@ INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM w
 
 int DlgConfigure::staticEventPreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	if (IsWindow(m_hCfgWnd))
-	{
+	if (IsWindow(m_hCfgWnd)) {
 		DestroyWindow(m_hCfgWnd);
 	}
 
@@ -95,12 +87,10 @@ int DlgConfigure::staticEventPreShutdown(WPARAM wParam, LPARAM lParam)
 
 void DlgConfigure::showModal()
 {
-	if (g_bConfigureLock)
-	{
-		MessageBox(
-			0,
-			i18n(muT("You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.")),
-			i18n(muT("HistoryStats - Warning")),
+	if (g_bConfigureLock) {
+		MessageBox(0,
+			TranslateT("You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same."),
+			TranslateT("HistoryStats - Warning"),
 			MB_ICONWARNING | MB_OK);
 
 		return;
@@ -128,12 +118,10 @@ void DlgConfigure::onWMInitDialog()
 void DlgConfigure::onCancel()
 {
 	PSHNOTIFY pshn;
-
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_RESET;
 	pshn.hdr.hwndFrom = m_hOptWnd;
 	pshn.lParam = 0;
-
 	SendMessage(m_hOptWnd, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(&pshn));
 
 	rearrangeControls();
@@ -146,19 +134,15 @@ void DlgConfigure::onApply()
 	EnableWindow(GetDlgItem(m_hWnd, IDC_APPLY), FALSE);
 
 	PSHNOTIFY pshn;
-
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_KILLACTIVE;
 	pshn.hdr.hwndFrom = m_hOptWnd;
 	pshn.lParam = 0;
-
 	SendMessage(m_hOptWnd, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(&pshn));
 
-	if (m_bChanged)
-	{
+	if (m_bChanged) {
 		m_bChanged = false;
 		pshn.hdr.code = PSN_APPLY;
-
 		SendMessage(m_hOptWnd, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(&pshn));
 	}
 }
@@ -169,10 +153,8 @@ void DlgConfigure::rearrangeControls()
 
 	GetClientRect(m_hWnd, &rClient);
 
-	if (m_nPadY == -1)
-	{
+	if (m_nPadY == -1) {
 		RECT rButton = utils::getWindowRect(m_hWnd, IDOK);
-
 		m_nPadY = rClient.bottom - rButton.bottom;
 		m_nOKPadX = rClient.right - rButton.right;
 		m_nCancelPadX = rClient.right - utils::getWindowRect(m_hWnd, IDCANCEL).right;
@@ -180,7 +162,7 @@ void DlgConfigure::rearrangeControls()
 	}
 
 	RECT rButton;
-	
+
 	rButton = utils::getWindowRect(m_hWnd, IDOK);
 	OffsetRect(&rButton, rClient.right - rButton.right - m_nOKPadX, rClient.bottom - rButton.bottom - m_nPadY);
 	utils::moveWindow(m_hWnd, IDOK, rButton);
@@ -205,16 +187,14 @@ void DlgConfigure::rearrangeControls()
 	InvalidateRect(m_hWnd, NULL, TRUE);
 }
 
-DlgConfigure::DlgConfigure(HWND hWnd)
-	: m_hWnd(hWnd), m_bChanged(false), m_hOptWnd(NULL),
+DlgConfigure::DlgConfigure(HWND hWnd) :
+	m_hWnd(hWnd), m_bChanged(false), m_hOptWnd(NULL),
 	m_nPadY(-1), m_nOKPadX(0), m_nCancelPadX(0), m_nApplyPadX(0)
 {
-	if (!m_hCfgWnd)
-	{
+	if (!m_hCfgWnd) {
 		m_hCfgWnd = hWnd;
 
-		if (!m_bHookedEvent)
-		{
+		if (!m_bHookedEvent) {
 			HookEvent(ME_SYSTEM_PRESHUTDOWN, staticEventPreShutdown);
 			m_bHookedEvent = true;
 		}
@@ -226,7 +206,5 @@ DlgConfigure::~DlgConfigure()
 	DestroyWindow(m_hOptWnd);
 
 	if (m_hWnd == m_hCfgWnd)
-	{
 		m_hCfgWnd = NULL;
-	}
 }

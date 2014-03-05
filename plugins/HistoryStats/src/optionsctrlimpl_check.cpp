@@ -27,7 +27,7 @@ void OptionsCtrlImpl::Check::updateItem()
 	}
 }
 
-OptionsCtrlImpl::Check::Check(OptionsCtrlImpl* pCtrl, Item* pParent, const mu_text* szLabel, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Check::Check(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData)
 	: Item(pCtrl, itCheck, szLabel, dwFlags, dwData)
 {
 	m_bChecked = bool_(dwFlags & OCF_CHECKED);

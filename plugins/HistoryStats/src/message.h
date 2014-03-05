@@ -57,23 +57,23 @@ public:
 		m_Timestamp = localTimestamp;
 	}
 
-	void assignText(const mu_text* msg, ext::string::size_type len)
+	void assignText(const TCHAR* msg, ext::string::size_type len)
 	{
 		m_RawSource = msg;
 		m_nLength = len;
 		m_Available = 0;
 	}
 
-#if defined(MU_WIDE)
-	void assignText(const mu_ansi* msg, ext::string::size_type len)
+#if defined(_UNICODE)
+	void assignText(const char* msg, ext::string::size_type len)
 	{
 		m_RawSource = msg;
 		m_nLength = len;
 		m_Available = PtrIsNonT;
 	}
-#endif // MU_WIDE
+#endif // _UNICODE
 
-	void assignTextFromUTF8(const mu_ansi* msg, ext::string::size_type len)
+	void assignTextFromUTF8(const char* msg, ext::string::size_type len)
 	{
 		m_RawSource = msg;
 		m_nLength = len;

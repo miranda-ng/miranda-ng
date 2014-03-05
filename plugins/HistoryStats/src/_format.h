@@ -22,7 +22,7 @@ namespace ext
 		size_type m_NextPos;
 
 	public:
-		explicit basic_format(const str_type& str, char_type sep = muC('|'))
+		explicit basic_format(const str_type& str, char_type sep = '|')
 			: m_Str(str), m_Sep(sep), m_NextPos(0)
 		{
 		}
@@ -99,7 +99,7 @@ namespace ext
 
 	public:
 		explicit basic_kformat(const str_type& str)
-			: m_Str(str), m_Mask(str.length(), muC('_'))
+			: m_Str(str), m_Mask(str.length(), '_')
 		{
 		}
 
@@ -125,11 +125,11 @@ namespace ext
 
 				while ((pos = m_Str.find(m_CurKey, pos)) != ext::string::npos)
 				{
-					if (m_Mask.substr(pos, key_len).find(muC('X')) == ext::string::npos)
+					if (m_Mask.substr(pos, key_len).find('X') == ext::string::npos)
 					{
 						// replace since we didn't replace here before
 						m_Str.replace(pos, key_len, szValue, value_len);
-						m_Mask.replace(pos, key_len, value_len, muC('X'));
+						m_Mask.replace(pos, key_len, value_len, 'X');
 						pos += value_len;
 					}
 					else

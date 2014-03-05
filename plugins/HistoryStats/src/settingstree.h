@@ -30,20 +30,20 @@ public:
 	void fromString(const ext::string& config);
 	ext::string toString() const;
 
-	void setKey(const mu_text* key);
+	void setKey(const TCHAR* key);
 	const ext::string& getKey() const { return m_CurKey; }
 
-	bool readBool(const mu_text* setting, bool errorValue) const;
-	int readInt(const mu_text* setting, int errorValue) const;
-	int readIntRanged(const mu_text* setting, int errorValue, int minValue, int maxValue) const;
-	ext::string readStr(const mu_text* setting, const mu_text* errorValue) const;
+	bool readBool(const TCHAR* setting, bool errorValue) const;
+	int readInt(const TCHAR* setting, int errorValue) const;
+	int readIntRanged(const TCHAR* setting, int errorValue, int minValue, int maxValue) const;
+	ext::string readStr(const TCHAR* setting, const TCHAR* errorValue) const;
 
-	void writeBool(const mu_text* setting, bool value);
-	void writeInt(const mu_text* setting, int value);
-	void writeStr(const mu_text* setting, const mu_text* value);
+	void writeBool(const TCHAR* setting, bool value);
+	void writeInt(const TCHAR* setting, int value);
+	void writeStr(const TCHAR* setting, const TCHAR* value);
 
-	bool hasSetting(const mu_text* setting) const;
-	bool delSetting(const mu_text* setting);
+	bool hasSetting(const TCHAR* setting) const;
+	bool delSetting(const TCHAR* setting);
 };
 
 #endif // HISTORYSTATS_GUARD_SETTINGSTREE_H

@@ -31,13 +31,11 @@ void Statistic::prepareColumns()
 	{
 		Column* pCol = m_Settings.getCol(i);
 
-		if (pCol->isEnabled())
-		{
+		if (pCol->isEnabled()) {
 			int restrictions = pCol->configGetRestrictions(NULL);
 
 			// MEMO: checks for columns having no HTML-only support
-			if (!bOutputPNG && !(restrictions & Column::crHTMLMask))
-			{
+			if (!bOutputPNG && !(restrictions & Column::crHTMLMask)) {
 				continue;
 			}
 
@@ -45,14 +43,12 @@ void Statistic::prepareColumns()
 
 			pCol->setHelpers(this, &m_Settings, &m_CharMapper);
 
-			if (pCol->getFeatures() & Column::cfAcquiresData)
-			{
+			if (pCol->getFeatures() & Column::cfAcquiresData) {
 				ext::string dataGUID = pCol->contactDataGetUID();
 
 				std::map<ext::string, int>::iterator g2s = dataGUIDToSlot.find(dataGUID);
 
-				if (g2s == dataGUIDToSlot.end())
-				{
+				if (g2s == dataGUIDToSlot.end()) {
 					dataGUIDToSlot[dataGUID] = m_nNextSlot;
 					m_nNextSlot++;
 
@@ -61,8 +57,7 @@ void Statistic::prepareColumns()
 
 				pCol->contactDataSlotAssign(dataGUIDToSlot[dataGUID]);
 
-				if (pCol->getFeatures() & Column::cfTransformsData)
-				{
+				if (pCol->getFeatures() & Column::cfTransformsData) {
 					m_TransformCols.push_back(pCol);
 
 					pCol->contactDataTransformSlotAssign(m_nNextSlot++);
@@ -113,7 +108,7 @@ Contact& Statistic::addContact(const ext::string& nick, const ext::string& proto
 {
 	Contact* pContact = new Contact(this, m_nNextSlot, nick, protoDisplayName, groupName, 1, nSources);
 	prepareContactData(*pContact);
-	
+
 	m_Contacts.push_back(pContact);
 
 	return *pContact;
@@ -128,8 +123,7 @@ const Contact& Statistic::getContact(int index) const
 
 DWORD Statistic::getFirstTime()
 {
-	if (!m_bHistoryTimeAvailable)
-	{
+	if (!m_bHistoryTimeAvailable) {
 		// put _all_ available contacts (including omitted/total) in one list
 		ContactListC l;
 
@@ -138,41 +132,34 @@ DWORD Statistic::getFirstTime()
 			l.push_back(&getContact(i));
 		}
 
-		if (hasOmitted())
-		{
+		if (hasOmitted()) {
 			l.push_back(&getOmitted());
 		}
 
-		if (hasTotals())
-		{
+		if (hasTotals()) {
 			l.push_back(&getTotals());
 		}
 
-		if (l.size() > 0)
-		{
+		if (l.size() > 0) {
 			DWORD nFirstTime = con::MaxDateTime, nLastTime = con::MinDateTime;
 
 			citer_each_(Statistic::ContactListC, c, l)
 			{
-				if ((*c)->isFirstLastTimeValid())
-				{
+				if ((*c)->isFirstLastTimeValid()) {
 					nFirstTime = min(nFirstTime, (*c)->getFirstTime());
 					nLastTime = max(nLastTime, (*c)->getLastTime());
 				}
 			}
 
-			if (nFirstTime == con::MaxDateTime && nLastTime == con::MinDateTime)
-			{
+			if (nFirstTime == con::MaxDateTime && nLastTime == con::MinDateTime) {
 				m_nFirstTime = m_nLastTime = 0;
 			}
-			else
-			{
+			else {
 				m_nFirstTime = nFirstTime;
 				m_nLastTime = nLastTime;
 			}
 		}
-		else
-		{
+		else {
 			m_nFirstTime = m_nLastTime = 0;
 		}
 
@@ -185,8 +172,7 @@ DWORD Statistic::getFirstTime()
 
 DWORD Statistic::getLastTime()
 {
-	if (!m_bHistoryTimeAvailable)
-	{
+	if (!m_bHistoryTimeAvailable) {
 		// trigger calculation
 		getFirstTime();
 	}
@@ -196,8 +182,7 @@ DWORD Statistic::getLastTime()
 
 DWORD Statistic::getHistoryTime()
 {
-	if (!m_bHistoryTimeAvailable)
-	{
+	if (!m_bHistoryTimeAvailable) {
 		// trigger calculation
 		getFirstTime();
 	}
@@ -207,14 +192,12 @@ DWORD Statistic::getHistoryTime()
 
 ext::string Statistic::createFile(const ext::string& desiredName)
 {
-	if (!m_Settings.m_OverwriteAlways && utils::fileExists(desiredName))
-	{
-		mu_text tempBuf[MAX_PATH];
+	if (!m_Settings.m_OverwriteAlways && utils::fileExists(desiredName)) {
+		TCHAR tempBuf[MAX_PATH];
 
-		UINT nUnique = GetTempFileName(m_TempPath.c_str(), muT("his"), 0, tempBuf);
+		UINT nUnique = GetTempFileName(m_TempPath.c_str(), _T("his"), 0, tempBuf);
 
-		if (nUnique == 0)
-		{
+		if (nUnique == 0) {
 			abort();
 		}
 
@@ -227,19 +210,17 @@ ext::string Statistic::createFile(const ext::string& desiredName)
 
 	ext::string desiredPath = utils::extractPath(desiredName);
 
-	if (!utils::pathExists(desiredPath))
-	{
-		if (!utils::createPath(desiredPath))
-		{
-			m_ErrorText = ext::str(ext::kformat(i18n(muT("HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.")))
-				% muT("#{folder}") * desiredPath);
+	if (!utils::pathExists(desiredPath)) {
+		if (!utils::createPath(desiredPath)) {
+			m_ErrorText = ext::str(ext::kformat(TranslateT("HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable."))
+										  % _T("#{folder}") * desiredPath);
 		}
 	}
 
 	return desiredName;
 }
 
-bool Statistic::newFile(const mu_text* fileExt, ext::string& writeFile, ext::string& finalURL)
+bool Statistic::newFile(const TCHAR* fileExt, ext::string& writeFile, ext::string& finalURL)
 {
 	++m_nLastFileNr;
 
@@ -247,7 +228,7 @@ bool Statistic::newFile(const mu_text* fileExt, ext::string& writeFile, ext::str
 	writeFile = createFile(m_OutputPath + finalURL);
 
 	// convert relative filename to relative URL
-	utils::replaceAllInPlace(finalURL, muT("\\"), muT("/"));
+	utils::replaceAllInPlace(finalURL, _T("\\"), _T("/"));
 
 	return true;
 }
@@ -256,31 +237,26 @@ bool Statistic::newFilePNG(Canvas& canvas, ext::string& finalURL)
 {
 	Canvas::Digest digest;
 
-	if (!canvas.getDigest(digest))
-	{
+	if (!canvas.getDigest(digest)) {
 		return false;
 	}
 
 	ImageMap::const_iterator i = m_Images.find(digest);
 
-	if (i == m_Images.end())
-	{
+	if (i == m_Images.end()) {
 		ext::string writeFile;
 
-		if (newFilePNG(writeFile, finalURL))
-		{
+		if (newFilePNG(writeFile, finalURL)) {
 			canvas.writePNG(writeFile.c_str());
 			m_Images.insert(std::make_pair(digest, finalURL));
 
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
-	else
-	{
+	else {
 		finalURL = i->second;
 
 		return true;
@@ -299,8 +275,7 @@ void Statistic::handleAddMessage(Contact& contact, Message& msg)
 
 void Statistic::handleAddChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration)
 {
-	if (duration >= m_Settings.m_ChatSessionMinDur)
-	{
+	if (duration >= m_Settings.m_ChatSessionMinDur) {
 		contact.addChat(bOutgoing, localTimestampStarted, duration);
 
 		iter_each_(std::vector<Column*>, i, m_AcquireCols)
@@ -314,24 +289,22 @@ INT_PTR CALLBACK Statistic::staticProgressProc(HWND hDlg, UINT msg, WPARAM wPara
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(GetWindowLong(hDlg, GWLP_USERDATA));
 
-	switch (msg)
-	{
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hDlg);
-			SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
-			return TRUE;
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
+		return TRUE;
 
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			return TRUE;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return TRUE;
 
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDOK)
-			{
-				EnableWindow(GetDlgItem(hDlg, IDCANCEL), FALSE);
-				SetEvent(pStats->m_hCancelEvent);
-			}
-			return TRUE;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK) {
+			EnableWindow(GetDlgItem(hDlg, IDCANCEL), FALSE);
+			SetEvent(pStats->m_hCancelEvent);
+		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -339,15 +312,14 @@ INT_PTR CALLBACK Statistic::staticProgressProc(HWND hDlg, UINT msg, WPARAM wPara
 
 void Statistic::setProgressMax(bool bSub, int max)
 {
-	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETPOS, (WPARAM) 0, (LPARAM) 0);
-	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETRANGE, (WPARAM) 0, (LPARAM) MAKELPARAM(0, max));
+	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETPOS, (WPARAM)0, (LPARAM)0);
+	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETRANGE, (WPARAM)0, (LPARAM)MAKELPARAM(0, max));
 
-	SetDlgItemText(m_hWndProgress, bSub ? IDC_SUBPERCENT : IDC_MAINPERCENT, (max > 0) ? muT("0%") : muT(""));
+	SetDlgItemText(m_hWndProgress, bSub ? IDC_SUBPERCENT : IDC_MAINPERCENT, (max > 0) ? _T("0%") : _T(""));
 
-	if (!bSub)
-	{
+	if (!bSub) {
 		setProgressMax(true, 0);
-		setProgressLabel(true, muT(""));
+		setProgressLabel(true, _T(""));
 	}
 }
 
@@ -355,38 +327,35 @@ void Statistic::setProgressLabel(bool bSub, const ext::string& label)
 {
 	SetDlgItemText(m_hWndProgress, bSub ? IDC_SUBTEXT : IDC_MAINTEXT, label.c_str());
 
-	if (!bSub)
-	{
+	if (!bSub) {
 		setProgressMax(true, 0);
-		setProgressLabel(true, muT(""));
+		setProgressLabel(true, _T(""));
 	}
 }
 
 void Statistic::stepProgress(bool bSub, int step /* = 1 */)
 {
-	int pos = SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_GETPOS, (WPARAM) 0, (LPARAM) 0);
-	int max = SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_GETRANGE, (WPARAM) FALSE, (LPARAM) NULL);
+	int pos = SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_GETPOS, (WPARAM)0, (LPARAM)0);
+	int max = SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_GETRANGE, (WPARAM)FALSE, (LPARAM)NULL);
 
 	pos += step;
 
-	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETPOS, (WPARAM) pos, (LPARAM) 0);
+	SendDlgItemMessage(m_hWndProgress, bSub ? IDC_SUBBAR : IDC_MAINBAR, PBM_SETPOS, (WPARAM)pos, (LPARAM)0);
 	SetDlgItemText(m_hWndProgress, bSub ? IDC_SUBPERCENT : IDC_MAINPERCENT, utils::ratioToPercent(pos, max).c_str());
 
-	if (!bSub)
-	{
+	if (!bSub) {
 		setProgressMax(true, 0);
-		setProgressLabel(true, muT(""));
+		setProgressLabel(true, _T(""));
 	}
 }
 
 bool Statistic::stepInit()
 {
 	// file management
-	mu_text tempPath[MAX_PATH];
+	TCHAR tempPath[MAX_PATH];
 	int nRes = GetTempPath(MAX_PATH, tempPath);
 
-	if (nRes > 0)
-	{
+	if (nRes > 0) {
 		m_TempPath.assign(tempPath, nRes);
 	}
 
@@ -401,25 +370,20 @@ bool Statistic::stepInit()
 	m_TimeMin = 0;
 	m_TimeMax = 0xFFFFFFFF;
 
-	if (m_Settings.m_IgnoreOld != 0)
-	{
+	if (m_Settings.m_IgnoreOld != 0) {
 		m_TimeMin = getTimeStarted() - 86400 * m_Settings.m_IgnoreOld;
 	}
 
-	if (m_Settings.getIgnoreBefore() != 0)
-	{
-		if (m_Settings.m_IgnoreOld != 0)
-		{
+	if (m_Settings.getIgnoreBefore() != 0) {
+		if (m_Settings.m_IgnoreOld != 0) {
 			m_TimeMin = max(m_TimeMin, m_Settings.getIgnoreBefore());
 		}
-		else
-		{
+		else {
 			m_TimeMin = m_Settings.getIgnoreBefore();
 		}
 	}
 
-	if (m_Settings.getIgnoreAfter() != 0)
-	{
+	if (m_Settings.getIgnoreAfter() != 0) {
 		m_TimeMax = m_Settings.getIgnoreAfter() + 86399;
 	}
 
@@ -428,8 +392,7 @@ bool Statistic::stepInit()
 
 bool Statistic::stepReadDB()
 {
-	if (shouldTerminate())
-	{
+	if (shouldTerminate()) {
 		return false;
 	}
 
@@ -462,61 +425,51 @@ bool Statistic::stepReadDB()
 		Message curMsg(m_Settings.m_FilterRawRTF && RTFFilter::available(), m_Settings.m_FilterBBCodes);
 
 		// iterate through all events
-		while (hisContact.hasNext())
-		{
+		while (hisContact.hasNext()) {
 			const DBEVENTINFO& dbei = hisContact.getNext();
 
 			bool bOutgoing = bool_(dbei.flags & DBEF_SENT);
 
 			// only messages, no URLs, files or anything else
 			// filter logged status messages from tabSRMM
-			if (dbei.eventType == etMessage)
-			{
+			if (dbei.eventType == etMessage) {
 				// convert to local time (everything in this plugin is done in local time)
 				DWORD localTimestamp = utils::toLocalTime(dbei.timestamp);
 
-				if (localTimestamp >= m_TimeMin && localTimestamp <= m_TimeMax)
-				{
-					if (dbei.flags & DBEF_UTF)
-					{
-						mu_ansi* pUTF8Text = reinterpret_cast<mu_ansi*>(dbei.pBlob);
+				if (localTimestamp >= m_TimeMin && localTimestamp <= m_TimeMax) {
+					if (dbei.flags & DBEF_UTF) {
+						char* pUTF8Text = reinterpret_cast<char*>(dbei.pBlob);
 						int nUTF8Len = utils::getUTF8Len(pUTF8Text);
 
 						curMsg.assignTextFromUTF8(pUTF8Text, nUTF8Len);
 					}
-					else
-					{
-						mu_ansi* pAnsiText = reinterpret_cast<mu_ansi*>(dbei.pBlob);
+					else {
+						char* pAnsiText = reinterpret_cast<char*>(dbei.pBlob);
 						int nAnsiLenP1 = ext::a::strfunc::len(pAnsiText) + 1;
 
-#if defined(MU_WIDE)
-						mu_wide* pWideText = reinterpret_cast<mu_wide*>(pAnsiText + nAnsiLenP1);
+#if defined(_UNICODE)
+						WCHAR* pWideText = reinterpret_cast<WCHAR*>(pAnsiText + nAnsiLenP1);
 						int nWideLen = 0;
-						int nWideMaxLen = (dbei.cbBlob - nAnsiLenP1) / sizeof(mu_wide);
+						int nWideMaxLen = (dbei.cbBlob - nAnsiLenP1) / sizeof(WCHAR);
 
-						if (dbei.cbBlob >= nAnsiLenP1 * 3)
-						{
-							for (int i = 0; i < nWideMaxLen; ++i)
-							{
-								if (!pWideText[i])
-								{
+						if (dbei.cbBlob >= nAnsiLenP1 * 3) {
+							for (int i = 0; i < nWideMaxLen; ++i) {
+								if (!pWideText[i]) {
 									nWideLen = i;
 									break;
 								}
 							}
 						}
 
-						if (nWideLen > 0 && nWideLen < nAnsiLenP1)
-						{
+						if (nWideLen > 0 && nWideLen < nAnsiLenP1) {
 							curMsg.assignText(pWideText, nWideLen);
 						}
-						else
-						{
+						else {
 							curMsg.assignText(pAnsiText, nAnsiLenP1 - 1);
 						}
-#else // MU_WIDE
+#else // _UNICODE
 						curMsg.assignText(pAnsiText, nAnsiLenP1 - 1);
-#endif // MU_WIDE
+#endif // _UNICODE
 					}
 
 					curMsg.assignInfo(bOutgoing, localTimestamp);
@@ -525,11 +478,9 @@ bool Statistic::stepReadDB()
 					handleAddMessage(curContact, curMsg);
 
 					// handle chats
-					if (localTimestamp - lastAddedTime >= (DWORD) m_Settings.m_ChatSessionTimeout || lastAddedTime == 0)
-					{
+					if (localTimestamp - lastAddedTime >= (DWORD)m_Settings.m_ChatSessionTimeout || lastAddedTime == 0) {
 						// new chat started
-						if (chatStartTime != 0)
-						{
+						if (chatStartTime != 0) {
 							handleAddChat(curContact, bChatOutgoing, chatStartTime, lastAddedTime - chatStartTime);
 						}
 
@@ -542,8 +493,7 @@ bool Statistic::stepReadDB()
 			}
 
 			// non-message events
-			if (dbei.eventType != etMessage)
-			{
+			if (dbei.eventType != etMessage) {
 				curContact.addEvent(dbei.eventType, bOutgoing);
 			}
 
@@ -551,8 +501,7 @@ bool Statistic::stepReadDB()
 		}
 
 		// post processing for chat detection
-		if (chatStartTime != 0)
-		{
+		if (chatStartTime != 0) {
 			handleAddChat(curContact, bChatOutgoing, chatStartTime, lastAddedTime - chatStartTime);
 		}
 
@@ -562,8 +511,7 @@ bool Statistic::stepReadDB()
 
 		stepProgress(true);
 
-		if (shouldTerminate())
-		{
+		if (shouldTerminate()) {
 			return false;
 		}
 	}
@@ -578,13 +526,11 @@ bool Statistic::stepReadDB()
 
 bool Statistic::stepRemoveContacts()
 {
-	if (!m_Settings.m_RemoveEmptyContacts && !m_Settings.m_RemoveOutChatsZero && !m_Settings.m_RemoveInChatsZero)
-	{
+	if (!m_Settings.m_RemoveEmptyContacts && !m_Settings.m_RemoveOutChatsZero && !m_Settings.m_RemoveInChatsZero) {
 		return true;
 	}
 
-	if (shouldTerminate())
-	{
+	if (shouldTerminate()) {
 		return false;
 	}
 
@@ -592,24 +538,20 @@ bool Statistic::stepRemoveContacts()
 	{
 		bool bRemove = false;
 		Contact* pCur = m_Contacts[i];
-		
-		if (!bRemove && m_Settings.m_RemoveEmptyContacts)
-		{
+
+		if (!bRemove && m_Settings.m_RemoveEmptyContacts) {
 			bRemove = (pCur->getTotalMessages() == 0);
 		}
 
-		if (!bRemove && m_Settings.m_RemoveOutChatsZero)
-		{
+		if (!bRemove && m_Settings.m_RemoveOutChatsZero) {
 			bRemove = (pCur->getOutChats() == 0 && (!m_Settings.m_RemoveOutBytesZero || pCur->getOutBytes() == 0));
 		}
-		
-		if (!bRemove && m_Settings.m_RemoveInChatsZero)
-		{
+
+		if (!bRemove && m_Settings.m_RemoveInChatsZero) {
 			bRemove = (pCur->getInChats() == 0 && (!m_Settings.m_RemoveInBytesZero || pCur->getInBytes() == 0));
 		}
 
-		if (bRemove)
-		{
+		if (bRemove) {
 			freeContactData(*pCur);
 			delete pCur;
 
@@ -623,8 +565,7 @@ bool Statistic::stepRemoveContacts()
 
 bool Statistic::stepSortContacts()
 {
-	if (shouldTerminate())
-	{
+	if (shouldTerminate()) {
 		return false;
 	}
 
@@ -635,8 +576,7 @@ bool Statistic::stepSortContacts()
 
 	upto_each_(i, Settings::cNumSortLevels)
 	{
-		if (m_Settings.m_Sort[i].by == Settings::skNothing)
-		{
+		if (m_Settings.m_Sort[i].by == Settings::skNothing) {
 			cmpDepth = i;
 			break;
 		}
@@ -660,11 +600,11 @@ bool Statistic::stepSortContacts()
 		case Settings::skGroup:
 			pCmp = new ContactCompareStr(pPrev, &Contact::getGroup);
 			break;
-			
+
 		case Settings::skBytesOut:
 			pCmp = new ContactCompare<int>(pPrev, &Contact::getOutBytes);
 			break;
-			
+
 		case Settings::skBytesIn:
 			pCmp = new ContactCompare<int>(pPrev, &Contact::getInBytes);
 			break;
@@ -712,7 +652,7 @@ bool Statistic::stepSortContacts()
 		case Settings::skBytesOutAvg:
 			pCmp = new ContactCompare<double>(pPrev, &Contact::getOutBytesAvg);
 			break;
-			
+
 		case Settings::skBytesInAvg:
 			pCmp = new ContactCompare<double>(pPrev, &Contact::getInBytesAvg);
 			break;
@@ -748,11 +688,11 @@ bool Statistic::stepSortContacts()
 		case Settings::skChatDurationMin:
 			pCmp = new ContactCompare<int>(pPrev, &Contact::getChatDurMinForSort);
 			break;
-			
+
 		case Settings::skChatDurationAvg:
 			pCmp = new ContactCompare<int>(pPrev, &Contact::getChatDurAvgForSort);
 			break;
-			
+
 		case Settings::skChatDurationMax:
 			pCmp = new ContactCompare<int>(pPrev, &Contact::getChatDurMaxForSort);
 			break;
@@ -780,7 +720,7 @@ bool Statistic::stepPreOmitContacts()
 {
 	if (shouldTerminate())
 		return false;
-	
+
 	iter_each_(std::vector<Column*>, i, m_ActiveCols)
 	{
 		(*i)->columnDataBeforeOmit();
@@ -797,37 +737,38 @@ bool Statistic::stepOmitContacts()
 	if (shouldTerminate())
 		return false;
 
-	m_pOmitted = new Contact(this, m_nNextSlot, muT(""), muT(""), muT(""), 0, 0);
+	m_pOmitted = new Contact(this, m_nNextSlot, _T(""), _T(""), _T(""), 0, 0);
 	prepareContactData(*m_pOmitted);
 
 	// omit depending on some value
 	if (m_Settings.m_OmitByValue) {
-		static const struct {
+		static const struct
+		{
 			int type; // 0 = int, 1 = double, 2 = DWORD
 			double factor; // factor to multiply function output with
 			int (Contact::*int_fn)() const;
 			double (Contact::*double_fn)() const;
-			DWORD (Contact::*DWORD_fn)() const;
+			DWORD(Contact::*DWORD_fn)() const;
 		} valueMap[] = {
-			{ 0,      1.0, &Contact::getInBytes      , 0                            , 0                      },
-			{ 0,      1.0, &Contact::getOutBytes     , 0                            , 0                      },
-			{ 0,      1.0, &Contact::getTotalBytes   , 0                            , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getInBytesAvg      , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getOutBytesAvg     , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getTotalBytesAvg   , 0                      },
-			{ 0,      1.0, &Contact::getInMessages   , 0                            , 0                      },
-			{ 0,      1.0, &Contact::getOutMessages  , 0                            , 0                      },
-			{ 0,      1.0, &Contact::getTotalMessages, 0                            , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getInMessagesAvg   , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getOutMessagesAvg  , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getTotalMessagesAvg, 0                      },
-			{ 0,      1.0, &Contact::getInChats      , 0                            , 0                      },
-			{ 0,      1.0, &Contact::getOutChats     , 0                            , 0                      },
-			{ 0,      1.0, &Contact::getTotalChats   , 0                            , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getInChatsAvg      , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getOutChatsAvg     , 0                      },
-			{ 1, 604800.0, 0                         , &Contact::getTotalChatsAvg   , 0                      },
-			{ 2, 1/3600.0, 0                         , 0                            , &Contact::getChatDurSum },
+			{ 0, 1.0, &Contact::getInBytes, 0, 0 },
+			{ 0, 1.0, &Contact::getOutBytes, 0, 0 },
+			{ 0, 1.0, &Contact::getTotalBytes, 0, 0 },
+			{ 1, 604800.0, 0, &Contact::getInBytesAvg, 0 },
+			{ 1, 604800.0, 0, &Contact::getOutBytesAvg, 0 },
+			{ 1, 604800.0, 0, &Contact::getTotalBytesAvg, 0 },
+			{ 0, 1.0, &Contact::getInMessages, 0, 0 },
+			{ 0, 1.0, &Contact::getOutMessages, 0, 0 },
+			{ 0, 1.0, &Contact::getTotalMessages, 0, 0 },
+			{ 1, 604800.0, 0, &Contact::getInMessagesAvg, 0 },
+			{ 1, 604800.0, 0, &Contact::getOutMessagesAvg, 0 },
+			{ 1, 604800.0, 0, &Contact::getTotalMessagesAvg, 0 },
+			{ 0, 1.0, &Contact::getInChats, 0, 0 },
+			{ 0, 1.0, &Contact::getOutChats, 0, 0 },
+			{ 0, 1.0, &Contact::getTotalChats, 0, 0 },
+			{ 1, 604800.0, 0, &Contact::getInChatsAvg, 0 },
+			{ 1, 604800.0, 0, &Contact::getOutChatsAvg, 0 },
+			{ 1, 604800.0, 0, &Contact::getTotalChatsAvg, 0 },
+			{ 2, 1 / 3600.0, 0, 0, &Contact::getChatDurSum },
 		};
 
 		int valueKey = m_Settings.m_OmitByValueData;
@@ -928,7 +869,7 @@ bool Statistic::stepCalcTotals()
 	if (shouldTerminate())
 		return false;
 
-	m_pTotals = new Contact(this, m_nNextSlot, muT(""), muT(""), muT(""), 0, 0);
+	m_pTotals = new Contact(this, m_nNextSlot, _T(""), _T(""), _T(""), 0, 0);
 	prepareContactData(*m_pTotals);
 
 	setProgressMax(true, m_Contacts.size() + 1);
@@ -939,7 +880,7 @@ bool Statistic::stepCalcTotals()
 		Contact& curContact = *m_Contacts[i];
 
 		setProgressLabel(true, curContact.getNick());
-		
+
 		m_pTotals->merge(curContact);
 		mergeContactData(*m_pTotals, curContact);
 
@@ -950,7 +891,7 @@ bool Statistic::stepCalcTotals()
 	}
 
 	// omitted contacts
-	setProgressLabel(true, i18n(muT("Omitted contacts")));
+	setProgressLabel(true, TranslateT("Omitted contacts"));
 
 	if (m_Settings.m_OmitContacts && m_Settings.m_OmittedInTotals && m_bActuallyOmitted) {
 		m_pTotals->merge(*m_pOmitted);
@@ -964,8 +905,7 @@ bool Statistic::stepCalcTotals()
 
 bool Statistic::stepPostOmitContacts()
 {
-	if (shouldTerminate())
-	{
+	if (shouldTerminate()) {
 		return false;
 	}
 
@@ -998,7 +938,7 @@ bool Statistic::stepTransformData()
 	}
 
 	// omitted contacts
-	setProgressLabel(true, i18n(muT("Omitted contacts")));
+	setProgressLabel(true, TranslateT("Omitted contacts"));
 
 	if (m_bActuallyOmitted)
 		transformContactData(*m_pOmitted);
@@ -1006,11 +946,11 @@ bool Statistic::stepTransformData()
 	stepProgress(true);
 
 	// totals
-	setProgressLabel(true, i18n(muT("Totals")));
+	setProgressLabel(true, TranslateT("Totals"));
 
 	if (m_Settings.m_CalcTotals)
 		transformContactData(*m_pTotals);
-	
+
 	stepProgress(true);
 	return true;
 }
@@ -1022,52 +962,40 @@ bool Statistic::stepWriteHTML()
 
 	bool bInterrupted = false;
 
-	int j;
-
-	/*
-	 * Init output.
-	 */
-	
+	// Init output.
 	setProgressMax(true, countContacts() + 2);
 
-	/*
-	 * Create output stream.
-	 */
-
+	// Create output stream.
 	ext::a::ofstream ofs(utils::toA(createFile(m_OutputFile)).c_str());
 
 	if (!ofs.good()) {
-		m_ErrorText = ext::str(ext::kformat(i18n(muT("HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.")))
-			% muT("#{file}") * m_OutputFile);
+		m_ErrorText = ext::str(ext::kformat(TranslateT("HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable."))
+									  % _T("#{file}") * m_OutputFile);
 		return false;
 	}
 
 	UTF8Buffer utf8_buf(ofs);
 	ext::ostream tos(&utf8_buf);
 
-	/*
-	 * Inform active columns about beginning output.
-	 */
-
+	// Inform active columns about beginning output.
 	iter_each_(std::vector<Column*>, col, m_ActiveCols)
 	{
 		(*col)->outputBegin();
 	}
 
-	/*
-	 * Output HTML init sequence.
-	 */
-
+	// Output HTML init sequence.
 	std::set<ext::string> additionalCSSSelectors;
 	std::vector<ext::string> additionalCSS;
 	Column::IDProvider idProvider;
 
-	iter_each_(std::vector<Column*>, col, m_ActiveCols) {
+	iter_each_(std::vector<Column*>, col, m_ActiveCols)
+	{
 		Column::StyleList cssList = (*col)->outputGetAdditionalStyles(idProvider);
 
-		iter_each_(Column::StyleList, css, cssList) {
+		iter_each_(Column::StyleList, css, cssList)
+		{
 			if (additionalCSSSelectors.find(css->first) == additionalCSSSelectors.end()) {
-				additionalCSS.push_back(css->first + muT(" { ") + css->second + muT(" }"));
+				additionalCSS.push_back(css->first + _T(" { ") + css->second + _T(" }"));
 				additionalCSSSelectors.insert(css->first);
 			}
 		}
@@ -1076,35 +1004,32 @@ bool Statistic::stepWriteHTML()
 
 	additionalCSSSelectors.clear();
 
-	tos << muT("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">") << ext::endl
-		<< muT("<html>") << ext::endl
-		<< muT("<head>") << ext::endl
-		<< muT("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />") << ext::endl
-		<< muT("<meta name=\"generator\" content=\"HistoryStats " << utils::versionToDotted(m_Settings.m_VersionCurrent) << "\" />") << ext::endl
-		<< muT("<title>")
-		<< ext::kformat(i18n(muT("Statistics for #{nick} - HistoryStats"))) % muT("#{nick}") * utils::htmlEscape(m_Settings.m_OwnNick)
-		<< muT("</title>") << ext::endl
-		<< muT("<style type=\"text/css\">") << ext::endl;
+	tos << _T("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">") << ext::endl
+		<< _T("<html>") << ext::endl
+		<< _T("<head>") << ext::endl
+		<< _T("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />") << ext::endl
+		<< _T("<meta name=\"generator\" content=\"HistoryStats " << utils::versionToDotted(m_Settings.m_VersionCurrent) << "\" />") << ext::endl
+		<< _T("<title>")
+		<< ext::kformat(TranslateT("Statistics for #{nick} - HistoryStats")) % _T("#{nick}") * utils::htmlEscape(m_Settings.m_OwnNick)
+		<< _T("</title>") << ext::endl
+		<< _T("<style type=\"text/css\">") << ext::endl;
 	tos << m_Settings.getDefaultStyleSheet();
-	
+
 	iter_each_(std::vector<ext::string>, css, additionalCSS)
 	{
 		tos << *css << ext::endl;
 	}
 
-	tos << muT("</style>") << ext::endl
-		<< muT("</head>") << ext::endl
-		<< muT("<body><h1>")
-		<< ext::kformat(i18n(muT("Statistics for #{nick}"))) % muT("#{nick}") * utils::htmlEscape(m_Settings.m_OwnNick)
-		<< muT("</h1>") << ext::endl;
-	tos << muT("<table>") << ext::endl;
+	tos << _T("</style>") << ext::endl
+		<< _T("</head>") << ext::endl
+		<< _T("<body><h1>")
+		<< ext::kformat(TranslateT("Statistics for #{nick}")) % _T("#{nick}") * utils::htmlEscape(m_Settings.m_OwnNick)
+		<< _T("</h1>") << ext::endl;
+	tos << _T("<table>") << ext::endl;
 
 	additionalCSS.clear();
 
-	/*
-	 * Output header.
-	 */
-
+	// Output header.
 	SIZE headerSize = { 0, 1 };
 
 	iter_each_(std::vector<Column*>, col, m_ActiveCols)
@@ -1115,41 +1040,31 @@ bool Statistic::stepWriteHTML()
 		headerSize.cy = max(headerSize.cy, colSize.cy);
 	}
 
-	if (m_Settings.m_TableHeader)
-	{
-		for (j = 1; j <= headerSize.cy; j++)
-		{
-			tos << muT("<tr class=\"header\">") << ext::endl;
+	if (m_Settings.m_TableHeader) {
+		for (int j = 1; j <= headerSize.cy; j++) {
+			tos << _T("<tr class=\"header\">") << ext::endl;
 
 			iter_each_(std::vector<Column*>, col, m_ActiveCols)
 			{
 				(*col)->outputRenderHeader(tos, j, headerSize.cy);
 			}
 
-			tos << muT("</tr>") << ext::endl;
+			tos << _T("</tr>") << ext::endl;
 		}
 	}
 
-    // stop if problem creating files/folders
+	// stop if problem creating files/folders
 	if (!m_ErrorText.empty())
-	{
 		bInterrupted = true;
-	}
 
 	if (shouldTerminate())
-	{
 		bInterrupted = true;
-	}
 
-	/*
-	 * Output contacts.
-	 */
-
-	if (!bInterrupted)
-	{
+	// Output contacts.
+	if (!bInterrupted) {
 		upto_each_(i, countContacts())
 		{
-			tos << muT("<tr>") << ext::endl;
+			tos << _T("<tr>") << ext::endl;
 
 			const Contact& curContact = getContact(i);
 
@@ -1160,69 +1075,57 @@ bool Statistic::stepWriteHTML()
 				(*col)->outputRenderRow(tos, curContact, Column::asContact);
 			}
 
-			tos << muT("</tr>") << ext::endl;
+			tos << _T("</tr>") << ext::endl;
 
-			if (shouldTerminate())
-			{
+			if (shouldTerminate()) {
 				bInterrupted = true;
 				break;
 			}
 
-            // stop if problem creating files/folders
-			if (!m_ErrorText.empty())
-			{
+			// stop if problem creating files/folders
+			if (!m_ErrorText.empty()) {
 				bInterrupted = true;
 				break;
 			}
 
-			if (m_Settings.m_TableHeader && m_Settings.m_TableHeaderRepeat != 0 && ((i + 1) % m_Settings.m_TableHeaderRepeat == 0))
-			{
-				for (j = 1; j <= headerSize.cy; ++j)
-				{
-					tos << muT("<tr class=\"header\">") << ext::endl;
+			if (m_Settings.m_TableHeader && m_Settings.m_TableHeaderRepeat != 0 && ((i + 1) % m_Settings.m_TableHeaderRepeat == 0)) {
+				for (int j = 1; j <= headerSize.cy; ++j) {
+					tos << _T("<tr class=\"header\">") << ext::endl;
 
 					iter_each_(std::vector<Column*>, col, m_ActiveCols)
 					{
 						(*col)->outputRenderHeader(tos, j, headerSize.cy);
 					}
 
-					tos << muT("</tr>") << ext::endl;
+					tos << _T("</tr>") << ext::endl;
 				}
 			}
 
 			stepProgress(true);
 		}
-	} // !bInterrupted
+	}
 
-	/*
-	 * Output omitted contacts.
-	 */
-
-	if (!bInterrupted && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted)
-	{
-		setProgressLabel(true, i18n(muT("Writing omitted contacts")));
+	// Output omitted contacts.
+	if (!bInterrupted && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted) {
+		setProgressLabel(true, TranslateT("Writing omitted contacts"));
 
 		const Contact& omittedContact = getOmitted();
 
-		tos << muT("<tr class=\"omitted\">") << ext::endl;
+		tos << _T("<tr class=\"omitted\">") << ext::endl;
 
 		iter_each_(std::vector<Column*>, col, m_ActiveCols)
 		{
 			(*col)->outputRenderRow(tos, omittedContact, Column::asOmitted);
 		}
 
-		tos << muT("</tr>") << ext::endl;
+		tos << _T("</tr>") << ext::endl;
 
-        // stop if problem creating files/folders
+		// stop if problem creating files/folders
 		if (!m_ErrorText.empty())
-		{
 			bInterrupted = true;
-		}
 
 		if (shouldTerminate())
-		{
 			bInterrupted = true;
-		}
 	}
 
 	stepProgress(true);
@@ -1231,62 +1134,48 @@ bool Statistic::stepWriteHTML()
 	 * Output totals.
 	 */
 
-	if (!bInterrupted && m_Settings.m_CalcTotals)
-	{
-		setProgressLabel(true, i18n(muT("Writing totals")));
+	if (!bInterrupted && m_Settings.m_CalcTotals) {
+		setProgressLabel(true, TranslateT("Writing totals"));
 
 		const Contact& totalsContact = getTotals();
 
-		tos << muT("<tr class=\"totals\">") << ext::endl;
+		tos << _T("<tr class=\"totals\">") << ext::endl;
 
 		iter_each_(std::vector<Column*>, col, m_ActiveCols)
 		{
 			(*col)->outputRenderRow(tos, totalsContact, Column::asTotal);
 		}
 
-		tos << muT("</tr>") << ext::endl;
+		tos << _T("</tr>") << ext::endl;
 
 		stepProgress(true);
 
-		/*
-		 * Finish output.
-		 */
+		// Finish output.
+		tos << _T("</table>") << ext::endl;
 
-		tos << muT("</table>") << ext::endl;
+		tos << _T("<div class=\"footer\">")
+			<< ext::kformat(TranslateT("Created with #{plugin} #{version} on #{date} at #{time}"))
+			% _T("#{plugin}") * _T("<a href=\"http://miranda.dark-passage.de/\">HistoryStats</a>")
+			% _T("#{version}") * utils::versionToDotted(m_Settings.m_VersionCurrent)
+			% _T("#{date}") * utils::htmlEscape(utils::timestampToDate(getTimeStarted()))
+			% _T("#{time}") * utils::htmlEscape(utils::timestampToTime(getTimeStarted()))
+			<< _T("</div>") << ext::endl;
 
-		tos << muT("<div class=\"footer\">")
-			<< ext::kformat(i18n(muT("Created with #{plugin} #{version} on #{date} at #{time}")))
-				% muT("#{plugin}") * muT("<a href=\"http://miranda.dark-passage.de/\">HistoryStats</a>")
-				% muT("#{version}") * utils::versionToDotted(m_Settings.m_VersionCurrent)
-				% muT("#{date}") * utils::htmlEscape(utils::timestampToDate(getTimeStarted()))
-				% muT("#{time}") * utils::htmlEscape(utils::timestampToTime(getTimeStarted()))
-			<< muT("</div>") << ext::endl;
+		tos << _T("</body></html>") << ext::endl;
+	}
 
-		tos << muT("</body></html>") << ext::endl;
-	} // !bInterrupted
-
-	/*
-	 * Inform active columns about ending output.
-	 */
-
+	// Inform active columns about ending output.
 	iter_each_(std::vector<Column*>, col, m_ActiveCols)
 	{
 		(*col)->outputEnd();
 	}
 
-	/*
-	 * Close output stream.
-	 */
-	
+	// Close output stream.
 	tos.flush();
 	ofs.close();
 
-	/*
-	 * Handle conflicting files.
-	 */
-
-	if (bInterrupted)
-	{
+	// Handle conflicting files.
+	if (bInterrupted) {
 		iter_each_(ConflictingFiles, fi, m_ConflictingFiles)
 		{
 			DeleteFile(fi->second.c_str());
@@ -1295,8 +1184,7 @@ bool Statistic::stepWriteHTML()
 		m_ConflictingFiles.clear();
 	}
 
-	if (m_ConflictingFiles.size() > 0)
-	{
+	if (m_ConflictingFiles.size() > 0) {
 		int nResult = DialogBoxParam(
 			m_hInst,
 			MAKEINTRESOURCE(IDD_CONFLICT),
@@ -1304,22 +1192,18 @@ bool Statistic::stepWriteHTML()
 			staticConflictProc,
 			reinterpret_cast<LPARAM>(&m_ConflictingFiles));
 
-		if (nResult == IDOK)
-		{
+		if (nResult == IDOK) {
 			iter_each_(ConflictingFiles, fi, m_ConflictingFiles)
 			{
-				if (!MoveFileEx(fi->second.c_str(), fi->first.c_str(), MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING))
-				{
-					if (!MoveFile(fi->second.c_str(), fi->first.c_str()))
-					{
+				if (!MoveFileEx(fi->second.c_str(), fi->first.c_str(), MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING)) {
+					if (!MoveFile(fi->second.c_str(), fi->first.c_str())) {
 						CopyFile(fi->second.c_str(), fi->first.c_str(), FALSE);
 						DeleteFile(fi->second.c_str());
 					}
 				}
 			}
 		}
-		else
-		{
+		else {
 			iter_each_(ConflictingFiles, fi, m_ConflictingFiles)
 			{
 				DeleteFile(fi->second.c_str());
@@ -1329,19 +1213,11 @@ bool Statistic::stepWriteHTML()
 		m_ConflictingFiles.clear();
 	}
 
-	/* don't do this, we don't want to delete a file we possibly never touched
-	if (bInterrupted)
-	{
-		// remove partialy generated file, if interrupted
-		DeleteFile(m_OutputFile.c_str());
-	}
-	*/
-
 	return !bInterrupted;
 }
 
-Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst)
-	: m_Settings(settings),
+Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst) :
+	m_Settings(settings),
 	m_CharMapper(m_Settings),
 	m_hInst(hInst),
 	m_hWndProgress(NULL),
@@ -1366,20 +1242,14 @@ Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HIN
 
 bool Statistic::createStatistics()
 {
-	/*
-	 * Prepare event for cancel.
-	 */
+	// Prepare event for cancel.
 	m_hCancelEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
 	if (m_hCancelEvent == NULL)
-	{
 		return false;
-	}
 
 	m_hWndProgress = CreateDialog(m_hInst, MAKEINTRESOURCE(IDD_PROGRESS), 0, staticProgressProc);
 
-	if (m_hWndProgress == NULL)
-	{
+	if (m_hWndProgress == NULL) {
 		CloseHandle(m_hCancelEvent);
 		m_hCancelEvent = NULL;
 		return false;
@@ -1387,9 +1257,7 @@ bool Statistic::createStatistics()
 
 	SetWindowLong(m_hWndProgress, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 
-	/*
-	 * Init progress dialog.
-	 */
+	// Init progress dialog.
 	utils::centerDialog(m_hWndProgress);
 	UpdateWindow(m_hWndProgress);
 
@@ -1399,53 +1267,39 @@ bool Statistic::createStatistics()
 	bool bDone = false;
 	MSG msg;
 
-	while (!bDone)
-	{
-		while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-		{
-			if (msg.message == WM_QUIT)
-			{
+	while (!bDone) {
+		while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
+			if (msg.message == WM_QUIT) {
 				bDone = true;
 				break;
 			}
 
-			if (!IsDialogMessage(msg.hwnd, &msg))
-			{
+			if (!IsDialogMessage(msg.hwnd, &msg)) {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
 		}
 
 		if (bDone)
-		{
 			break;
-		}
 
-		DWORD result = MsgWaitForMultipleObjects(1, &hThread, FALSE, INFINITE, QS_ALLINPUT); 
+		DWORD result = MsgWaitForMultipleObjects(1, &hThread, FALSE, INFINITE, QS_ALLINPUT);
 
-		if (result == WAIT_OBJECT_0 + 1)
-		{
-			// there is a message in the queue
+		if (result == WAIT_OBJECT_0 + 1) // there is a message in the queue
 			continue;
-		}
-		else 
-		{ 
-			// thread is signaled, i.e. terminated
-			DestroyWindow(m_hWndProgress);
-		}
+
+		// thread is signaled, i.e. terminated
+		DestroyWindow(m_hWndProgress);
 	}
 
 	/*
 	 * Get result from thread.
 	 */
-	// bool bSuccess = createStatisticsSteps();
-	DWORD threadRes;
-	bool bSuccess = false;
 
+	bool bSuccess = false;
+	DWORD threadRes;
 	if (GetExitCodeThread(hThread, &threadRes))
-	{
 		bSuccess = (threadRes == 0);
-	}
 
 	/*
 	 * Cleanup.
@@ -1455,8 +1309,7 @@ bool Statistic::createStatistics()
 	m_hCancelEvent = NULL;
 	m_hWndProgress = NULL;
 
-	if (bSuccess)
-	{
+	if (bSuccess) {
 		/*
 		 * Save last successfully created statistics
 		 */
@@ -1471,9 +1324,7 @@ bool Statistic::createStatistics()
 			(m_InvokedFrom == fromMenu && m_Settings.m_AutoOpenMenu);
 
 		if (bOpenAfterwards)
-		{
 			m_Settings.openURL(m_OutputFile.c_str());
-		}
 	}
 
 	return bSuccess;
@@ -1481,32 +1332,32 @@ bool Statistic::createStatistics()
 
 bool Statistic::createStatisticsSteps()
 {
-	static const struct {
+	static const struct
+	{
 		bool (Statistic::*stepFn)();
-		mu_text* stepMsg;
-	} stepsInfo[] = {
-		{ &Statistic::stepInit            , I18N(muT("Initializing"))                },
-		{ &Statistic::stepReadDB          , I18N(muT("Reading database"))            },
-		{ &Statistic::stepRemoveContacts  , I18N(muT("Removing contacts"))           },
-		{ &Statistic::stepSortContacts    , I18N(muT("Sorting contacts"))            },
-		{ &Statistic::stepPreOmitContacts , I18N(muT("Precollecting column data"))   },
-		{ &Statistic::stepOmitContacts    , I18N(muT("Limiting number of contacts")) },
-		{ &Statistic::stepCalcTotals      , I18N(muT("Calculating totals"))          },
-		{ &Statistic::stepPostOmitContacts, I18N(muT("Postcollecting column data"))  },
-		{ &Statistic::stepTransformData   , I18N(muT("Transforming data"))           },
-		{ &Statistic::stepWriteHTML       , I18N(muT("Creating HTML"))               }
+		TCHAR* stepMsg;
+	}
+	stepsInfo[] = {
+		{ &Statistic::stepInit, LPGENT("Initializing") },
+		{ &Statistic::stepReadDB, LPGENT("Reading database") },
+		{ &Statistic::stepRemoveContacts, LPGENT("Removing contacts") },
+		{ &Statistic::stepSortContacts, LPGENT("Sorting contacts") },
+		{ &Statistic::stepPreOmitContacts, LPGENT("Precollecting column data") },
+		{ &Statistic::stepOmitContacts, LPGENT("Limiting number of contacts") },
+		{ &Statistic::stepCalcTotals, LPGENT("Calculating totals") },
+		{ &Statistic::stepPostOmitContacts, LPGENT("Postcollecting column data") },
+		{ &Statistic::stepTransformData, LPGENT("Transforming data") },
+		{ &Statistic::stepWriteHTML, LPGENT("Creating HTML") }
 	};
 
 	setProgressMax(false, array_len(stepsInfo));
 
 	array_each_(i, stepsInfo)
 	{
-		setProgressLabel(false, i18n(stepsInfo[i].stepMsg));
+		setProgressLabel(false, TranslateTS(stepsInfo[i].stepMsg));
 
 		if (!(this->*stepsInfo[i].stepFn)())
-		{
 			return false;
-		}
 
 		stepProgress(false);
 	}
@@ -1514,7 +1365,7 @@ bool Statistic::createStatisticsSteps()
 	/*
 	 * Last step: We are done.
 	 */
-	setProgressLabel(false, i18n(muT("Done")));
+	setProgressLabel(false, TranslateT("Done"));
 
 	return true;
 }
@@ -1522,7 +1373,7 @@ bool Statistic::createStatisticsSteps()
 DWORD WINAPI Statistic::threadProc(LPVOID lpParameter)
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
-	
+
 	SetEvent(pStats->m_hThreadPushEvent);
 
 	// perform action
@@ -1530,13 +1381,7 @@ DWORD WINAPI Statistic::threadProc(LPVOID lpParameter)
 
 	// check for errors
 	if (!pStats->m_ErrorText.empty() && !mu::system::terminated())
-	{
-		MessageBox(
-			0,
-			pStats->m_ErrorText.c_str(),
-			i18n(muT("HistoryStats - Error")),
-			MB_ICONERROR | MB_OK);
-	}
+		MessageBox(0, pStats->m_ErrorText.c_str(), TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
 
 	// free statistics
 	delete pStats;
@@ -1548,11 +1393,8 @@ DWORD WINAPI Statistic::threadProc(LPVOID lpParameter)
 DWORD WINAPI Statistic::threadProcSteps(LPVOID lpParameter)
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
-
 	if (pStats->m_Settings.m_ThreadLowPriority)
-	{
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
-	}
 
 	bool bSuccess = pStats->createStatisticsSteps();
 
@@ -1561,8 +1403,7 @@ DWORD WINAPI Statistic::threadProcSteps(LPVOID lpParameter)
 
 INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (uMsg == WM_INITDIALOG)
-	{
+	if (uMsg == WM_INITDIALOG) {
 		TranslateDialogDefault(hDlg);
 
 		SendMessage(hDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_HISTORYSTATS))));
@@ -1573,12 +1414,10 @@ INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wPar
 		ConflictingFiles* pFiles = reinterpret_cast<ConflictingFiles*>(lParam);
 
 		LVCOLUMN lvc;
-
 		lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
 		lvc.fmt = LVCFMT_LEFT;
 		lvc.cx = 400;
-		lvc.pszText = const_cast<mu_text*>(i18n(muT("Already existing file")));
-
+		lvc.pszText = const_cast<TCHAR*>(TranslateT("Already existing file"));
 		ListView_InsertColumn(hWndFiles, 0, &lvc);
 
 		int nIndex = 0;
@@ -1586,23 +1425,19 @@ INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wPar
 		iter_each_(ConflictingFiles, fi, *pFiles)
 		{
 			LVITEM lvi;
-
 			lvi.mask = LVIF_TEXT;
 			lvi.iItem = nIndex++;
 			lvi.iSubItem = 0;
-			lvi.pszText = const_cast<mu_text*>(fi->first.c_str());
-
+			lvi.pszText = const_cast<TCHAR*>(fi->first.c_str());
 			ListView_InsertItem(hWndFiles, &lvi);
 		}
 	}
-	else if (uMsg == WM_COMMAND)
-	{
-		switch (LOWORD(wParam))
-		{
-			case IDOK:
-			case IDCANCEL:
-				EndDialog(hDlg, LOWORD(wParam));
-				return TRUE;
+	else if (uMsg == WM_COMMAND) {
+		switch (LOWORD(wParam)) {
+		case IDOK:
+		case IDCANCEL:
+			EndDialog(hDlg, LOWORD(wParam));
+			return TRUE;
 		}
 	}
 
@@ -1619,14 +1454,12 @@ Statistic::~Statistic()
 
 	m_Contacts.clear();
 
-	if (m_pOmitted)
-	{
+	if (m_pOmitted) {
 		freeContactData(*m_pOmitted);
 		delete m_pOmitted;
 	}
 
-	if (m_pTotals)
-	{
+	if (m_pTotals) {
 		freeContactData(*m_pTotals);
 		delete m_pTotals;
 	}
@@ -1635,13 +1468,10 @@ Statistic::~Statistic()
 void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst, HWND hWndParent /* = NULL */)
 {
 	// check if running and make running
-	if (m_bRunning)
-	{
-		MessageBox(
-			0,
-			i18n(muT("HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.")),
-			i18n(muT("HistoryStats")),
-			MB_ICONINFORMATION | MB_OK);
+	if (m_bRunning) {
+		MessageBox(0,
+					  TranslateT("HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again."),
+					  TranslateT("HistoryStats"), MB_ICONINFORMATION | MB_OK);
 		return;
 	}
 
@@ -1651,8 +1481,7 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 	Statistic* pStats = new Statistic(settings, invokedFrom, hInst);
 
 	// create event for thread stack unwinding
-	if ((pStats->m_hThreadPushEvent = CreateEvent(NULL, FALSE, FALSE, NULL)) == NULL)
-	{
+	if ((pStats->m_hThreadPushEvent = CreateEvent(NULL, FALSE, FALSE, NULL)) == NULL) {
 		m_bRunning = false;
 		return;
 	}
@@ -1663,13 +1492,9 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 
 	// wait for thread to place itself on thread unwind stack
 	if (hThread != NULL)
-	{
 		WaitForSingleObject(pStats->m_hThreadPushEvent, INFINITE);
-	}
 	else
-	{
 		m_bRunning = false;
-	}
 
 	CloseHandle(pStats->m_hThreadPushEvent);
 	pStats->m_hThreadPushEvent = NULL;

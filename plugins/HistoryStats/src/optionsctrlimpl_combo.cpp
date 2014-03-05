@@ -39,14 +39,14 @@ ext::string OptionsCtrlImpl::Combo::getCombinedText()
 	{
 		ext::string strTemp = m_strLabel;
 
-		strTemp += muT(": ");
+		strTemp += _T(": ");
 		strTemp += m_Items[m_nSelected];
 
 		return strTemp;
 	}
 }
 
-OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const mu_text* szLabel, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData)
 	: Item(pCtrl, itCombo, szLabel, dwFlags, dwData), m_hComboWnd(NULL), m_nSelected(-1)
 {
 	m_bDisableChildsOnIndex0 = bool_(dwFlags & OCF_DISABLECHILDSONINDEX0);
@@ -86,7 +86,7 @@ void OptionsCtrlImpl::Combo::onSelect()
 		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST;
 
 		if (hTempWnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE, WC_COMBOBOX, muT(""), dwStyle,
+			WS_EX_CLIENTEDGE, WC_COMBOBOX, _T(""), dwStyle,
 			r.left, r.top, r.right - r.left, (r.bottom - r.top) * 20,
 			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccCombo), g_hInst, NULL))
 		{
@@ -177,7 +177,7 @@ void OptionsCtrlImpl::Combo::childAdded(Item* pChild)
 	}
 }
 
-void OptionsCtrlImpl::Combo::setLabel(const mu_text* szLabel)
+void OptionsCtrlImpl::Combo::setLabel(const TCHAR* szLabel)
 {
 	m_strLabel = szLabel;
 
@@ -188,7 +188,7 @@ void OptionsCtrlImpl::Combo::setLabel(const mu_text* szLabel)
 	}
 }
 
-void OptionsCtrlImpl::Combo::addItem(const mu_text* szItem)
+void OptionsCtrlImpl::Combo::addItem(const TCHAR* szItem)
 {
 	m_Items.push_back(szItem);
 }

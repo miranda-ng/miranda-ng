@@ -8,30 +8,30 @@ bool IconLib::m_bIcoLibAvailable = false;
 HANDLE IconLib::m_hHookSkin2IconsChanged = NULL;
 
 IconLib::IconInfo IconLib::m_IconInfo[] = {
-	{ IDI_HISTORYSTATS  , muA("main_menu")     , NULL                     , I18N(muT("Create statistics (main menu)"))     },
-	{ IDI_HISTORYSTATS  , muA("menu_show")     , NULL                     , I18N(muT("Show statistics (main menu)"))       },
-	{ IDI_HISTORYSTATS  , muA("menu_config")   , NULL                     , I18N(muT("Configure... (main menu)"))          },
-	{ IDI_HISTORYSTATS  , muA("contact_menu")  , NULL                     , I18N(muT("Contact menu"))                      },
-	{ IDI_EXCLUDE_NO    , muA("exclude_no")    , NULL                     , I18N(muT("Unexcluded contacts"))               },
-	{ IDI_EXCLUDE_YES   , muA("exclude_yes")   , NULL                     , I18N(muT("Excluded contacts"))                 },
-	{ IDI_TREE_CHECK1   , muA("tree_check1")   , I18N(muT("Options tree")), I18N(muT("Checkbox"))                          },
-	{ IDI_TREE_CHECK2   , muA("tree_check2")   , I18N(muT("Options tree")), I18N(muT("Checkbox (checked)"))                },
-	{ IDI_TREE_CHECK3   , muA("tree_check3")   , I18N(muT("Options tree")), I18N(muT("Checkbox (disabled)"))               },
-	{ IDI_TREE_CHECK4   , muA("tree_check4")   , I18N(muT("Options tree")), I18N(muT("Checkbox (checked & disabled)"))     },
-	{ IDI_TREE_RADIO1   , muA("tree_radio1")   , I18N(muT("Options tree")), I18N(muT("Radio button"))                      },
-	{ IDI_TREE_RADIO2   , muA("tree_radio2")   , I18N(muT("Options tree")), I18N(muT("Radio button (checked)"))            },
-	{ IDI_TREE_RADIO3   , muA("tree_radio3")   , I18N(muT("Options tree")), I18N(muT("Radio button (disabled)"))           },
-	{ IDI_TREE_RADIO4   , muA("tree_radio4")   , I18N(muT("Options tree")), I18N(muT("Radio button (checked & disabled)")) },
-	{ IDI_TREE_EDIT1    , muA("tree_edit1")    , I18N(muT("Options tree")), I18N(muT("Edit control"))                      },
-	{ IDI_TREE_EDIT2    , muA("tree_edit2")    , I18N(muT("Options tree")), I18N(muT("Edit control (disabled)"))           },
-	{ IDI_TREE_COMBO1   , muA("tree_combo1")   , I18N(muT("Options tree")), I18N(muT("Combo box"))                         },
-	{ IDI_TREE_COMBO2   , muA("tree_combo2")   , I18N(muT("Options tree")), I18N(muT("Combo box (disabled)"))              },
-	{ IDI_TREE_FOLDER1  , muA("tree_folder1")  , I18N(muT("Options tree")), I18N(muT("Folder"))                            },
-	{ IDI_TREE_FOLDER2  , muA("tree_folder2")  , I18N(muT("Options tree")), I18N(muT("Folder (disabled)"))                 },
-	{ IDI_TREE_BUTTON1  , muA("tree_button1")  , I18N(muT("Options tree")), I18N(muT("Button"))                            },
-	{ IDI_TREE_BUTTON2  , muA("tree_button2")  , I18N(muT("Options tree")), I18N(muT("Button (disabled)"))                 },
-	{ IDI_TREE_DATETIME1, muA("tree_datetime1"), I18N(muT("Options tree")), I18N(muT("Date/time picker"))                  },
-	{ IDI_TREE_DATETIME2, muA("tree_datetime2"), I18N(muT("Options tree")), I18N(muT("Date/time picker (disabled)"))       },
+	{ IDI_HISTORYSTATS  , "main_menu"     , NULL,                   LPGENT("Create statistics (main menu)")     },
+	{ IDI_HISTORYSTATS  , "menu_show"     , NULL,                   LPGENT("Show statistics (main menu)")       },
+	{ IDI_HISTORYSTATS  , "menu_config"   , NULL,                   LPGENT("Configure... (main menu)")          },
+	{ IDI_HISTORYSTATS  , "contact_menu"  , NULL,                   LPGENT("Contact menu")                      },
+	{ IDI_EXCLUDE_NO    , "exclude_no"    , NULL,                   LPGENT("Unexcluded contacts")               },
+	{ IDI_EXCLUDE_YES   , "exclude_yes"   , NULL,                   LPGENT("Excluded contacts")                 },
+	{ IDI_TREE_CHECK1   , "tree_check1"   , LPGENT("Options tree"), LPGENT("Checkbox")                          },
+	{ IDI_TREE_CHECK2   , "tree_check2"   , LPGENT("Options tree"), LPGENT("Checkbox (checked)")                },
+	{ IDI_TREE_CHECK3   , "tree_check3"   , LPGENT("Options tree"), LPGENT("Checkbox (disabled)")               },
+	{ IDI_TREE_CHECK4   , "tree_check4"   , LPGENT("Options tree"), LPGENT("Checkbox (checked & disabled)")     },
+	{ IDI_TREE_RADIO1   , "tree_radio1"   , LPGENT("Options tree"), LPGENT("Radio button")                      },
+	{ IDI_TREE_RADIO2   , "tree_radio2"   , LPGENT("Options tree"), LPGENT("Radio button (checked)")            },
+	{ IDI_TREE_RADIO3   , "tree_radio3"   , LPGENT("Options tree"), LPGENT("Radio button (disabled)")           },
+	{ IDI_TREE_RADIO4   , "tree_radio4"   , LPGENT("Options tree"), LPGENT("Radio button (checked & disabled)") },
+	{ IDI_TREE_EDIT1    , "tree_edit1"    , LPGENT("Options tree"), LPGENT("Edit control")                      },
+	{ IDI_TREE_EDIT2    , "tree_edit2"    , LPGENT("Options tree"), LPGENT("Edit control (disabled)")           },
+	{ IDI_TREE_COMBO1   , "tree_combo1"   , LPGENT("Options tree"), LPGENT("Combo box")                         },
+	{ IDI_TREE_COMBO2   , "tree_combo2"   , LPGENT("Options tree"), LPGENT("Combo box (disabled)")              },
+	{ IDI_TREE_FOLDER1  , "tree_folder1"  , LPGENT("Options tree"), LPGENT("Folder")                            },
+	{ IDI_TREE_FOLDER2  , "tree_folder2"  , LPGENT("Options tree"), LPGENT("Folder (disabled)")                 },
+	{ IDI_TREE_BUTTON1  , "tree_button1"  , LPGENT("Options tree"), LPGENT("Button")                            },
+	{ IDI_TREE_BUTTON2  , "tree_button2"  , LPGENT("Options tree"), LPGENT("Button (disabled)")                 },
+	{ IDI_TREE_DATETIME1, "tree_datetime1", LPGENT("Options tree"), LPGENT("Date/time picker")                  },
+	{ IDI_TREE_DATETIME2, "tree_datetime2", LPGENT("Options tree"), LPGENT("Date/time picker (disabled)")       },
 };
 
 ext::string IconLib::m_Section;
@@ -55,42 +55,37 @@ void IconLib::init()
 		m_IconInfo[i].hIcon = NULL;
 	}
 
-	if (m_bIcoLibAvailable = mu::icolib::_available())
-	{
+	if (m_bIcoLibAvailable = mu::icolib::_available()) {
 		bool bIcoLibTested = false;
 
-		mu_ansi szModule[MAX_PATH];
+		char szModule[MAX_PATH];
 
 		GetModuleFileNameA(g_hInst, szModule, MAX_PATH);
 
-		m_Section = muT("HistoryStats");
-		m_IconName = muA("historystats_");
+		m_Section = _T("HistoryStats");
+		m_IconName = "historystats_";
 
 		array_each_(i, m_IconInfo)
 		{
 			ext::string strSection = m_Section;
 
-			if (m_IconInfo[i].szSection)
-			{
-				strSection += muT("/");
-				strSection += i18n(m_IconInfo[i].szSection);
+			if (m_IconInfo[i].szSection) {
+				strSection += _T("/");
+				strSection += TranslateTS(m_IconInfo[i].szSection);
 			}
 
 			mu::icolib::addIcon(
 				strSection.c_str(),
-				i18n(m_IconInfo[i].szDescription),
+				TranslateTS(m_IconInfo[i].szDescription),
 				(m_IconName + m_IconInfo[i].szIconName).c_str(),
 				szModule,
 				-m_IconInfo[i].wID);
 
-			if (!bIcoLibTested)
-			{
+			if (!bIcoLibTested) {
 				bIcoLibTested = true;
 
-				if (!getIcon(static_cast<IconIndex>(i)))
-				{
+				if (!getIcon(static_cast<IconIndex>(i))) {
 					m_bIcoLibAvailable = false;
-
 					break;
 				}
 			}
@@ -99,8 +94,7 @@ void IconLib::init()
 		m_hHookSkin2IconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, handleCallbacks);
 	}
 
-	if (!m_bIcoLibAvailable)
-	{
+	if (!m_bIcoLibAvailable) {
 		array_each_(i, m_IconInfo)
 		{
 			m_IconInfo[i].hIcon = reinterpret_cast<HICON>(LoadImage(
@@ -128,8 +122,7 @@ void IconLib::uninit()
 {
 	array_each_(i, m_IconInfo)
 	{
-		if (m_IconInfo[i].hIcon)
-		{
+		if (m_IconInfo[i].hIcon) {
 			DestroyIcon(m_IconInfo[i].hIcon);
 			m_IconInfo[i].hIcon = NULL;
 		}
@@ -139,11 +132,7 @@ void IconLib::uninit()
 HICON IconLib::getIcon(IconIndex index)
 {
 	if (m_bIcoLibAvailable)
-	{
 		return mu::icolib::getIcon((m_IconName + m_IconInfo[index].szIconName).c_str());
-	}
-	else
-	{
-		return m_IconInfo[index].hIcon;
-	}
+
+	return m_IconInfo[index].hIcon;
 }

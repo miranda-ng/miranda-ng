@@ -59,46 +59,46 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	OptionsCtrl::Group hTemp;
 	OptionsCtrl::Radio hTempRadio;
 	
-	/**/m_hSource                    = Opt.insertCombo(hGroup, i18n(muT("Data source")));
-	/**/hTemp                        = Opt.insertGroup(hGroup, i18n(muT("\"Split\" type")));
-	/**/	m_hVisMode               = Opt.insertRadio(hTemp, NULL, i18n(muT("Hours of day")));
-	/**/	                           Opt.insertRadio(hTemp, m_hVisMode, i18n(muT("Days of week")));
-	/**/	hTempRadio               = Opt.insertRadio(hTemp, m_hVisMode, i18n(muT("Custom (for experts only)")), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	/**/		hTemp                = Opt.insertGroup(hTempRadio, i18n(muT("Column setup")));
-	/**/			m_hBlockUnit     = Opt.insertCombo(hTemp, i18n(muT("Bar unit")));
-	/**/			m_hUnitsPerBlock = Opt.insertEdit (hTemp, i18n(muT("Units per bar")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/			m_hBlocks        = Opt.insertEdit (hTemp, i18n(muT("Bars per graph")), muT(""), OptionsCtrl::OCF_NUMBER);
-	/**/		hTemp                = Opt.insertGroup(hTempRadio, i18n(muT("Graph alignment")));
-	/**/			m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, i18n(muT("Align on day boundary")));
-	/**/			                   Opt.insertRadio(hTemp, m_hGraphAlign, i18n(muT("Align on week boundary")));
-	/**/m_hDetail                    = Opt.insertCheck(hGroup, i18n(muT("Details for every bar (tooltip)")));
+	m_hSource                 = Opt.insertCombo(hGroup, TranslateT("Data source"));
+	hTemp                     = Opt.insertGroup(hGroup, TranslateT("\"Split\" type"));
+		m_hVisMode             = Opt.insertRadio(hTemp, NULL, TranslateT("Hours of day"));
+		                         Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Days of week"));
+		hTempRadio             = Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Custom (for experts only)"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Column setup"));
+				m_hBlockUnit     = Opt.insertCombo(hTemp, TranslateT("Bar unit"));
+				m_hUnitsPerBlock = Opt.insertEdit (hTemp, TranslateT("Units per bar"), _T(""), OptionsCtrl::OCF_NUMBER);
+				m_hBlocks        = Opt.insertEdit (hTemp, TranslateT("Bars per graph"), _T(""), OptionsCtrl::OCF_NUMBER);
+			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Graph alignment"));
+				m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, TranslateT("Align on day boundary"));
+				                   Opt.insertRadio(hTemp, m_hGraphAlign, TranslateT("Align on week boundary"));
+	m_hDetail                 = Opt.insertCheck(hGroup, TranslateT("Details for every bar (tooltip)"));
 
-	static const mu_text* sourceTexts[] = {
-		I18N(muT("Characters (incoming)")),
-		I18N(muT("Characters (outgoing)")),
-		I18N(muT("Characters (all)")),
-		I18N(muT("Messages (incoming)")),
-		I18N(muT("Messages (outgoing)")),
-		I18N(muT("Messages (all)")),
-		I18N(muT("Chats (incoming)")),
-		I18N(muT("Chats (outgoing)")),
-		I18N(muT("Chats (all)")),
+	static const TCHAR* sourceTexts[] = {
+		LPGENT("Characters (incoming)"),
+		LPGENT("Characters (outgoing)"),
+		LPGENT("Characters (all)"),
+		LPGENT("Messages (incoming)"),
+		LPGENT("Messages (outgoing)"),
+		LPGENT("Messages (all)"),
+		LPGENT("Chats (incoming)"),
+		LPGENT("Chats (outgoing)"),
+		LPGENT("Chats (all)"),
 	};
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, i18n(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
 	}
 
-	static const mu_text* unitTexts[] = {
-		I18N(muT("Hours")),
-		I18N(muT("Days")),
-		I18N(muT("Weeks")),
+	static const TCHAR* unitTexts[] = {
+		LPGENT("Hours"),
+		LPGENT("Days"),
+		LPGENT("Weeks"),
 	};
 
 	array_each_(i, unitTexts)
 	{
-		Opt.addComboItem(m_hBlockUnit, i18n(unitTexts[i]));
+		Opt.addComboItem(m_hBlockUnit, TranslateTS(unitTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource       , 3 * m_nSource + m_nSourceType);
@@ -129,9 +129,7 @@ void ColSplit::impl_configFromUI(OptionsCtrl& Opt)
 int ColSplit::impl_configGetRestrictions(ext::string* pDetails) const
 {
 	if (pDetails && m_bDetail)
-	{
-		*pDetails = i18n(muT("Details for every bar (tooltip) are only available with HTML output."));
-	}
+		*pDetails = TranslateT("Details for every bar (tooltip) are only available with HTML output.");
 
 	// m_bDetail "on" means we need tooltips and they are not available with PNG output
 	return crHTMLFull | (m_bDetail ? crPNGPartial : crPNGFull);
@@ -141,7 +139,7 @@ ext::string ColSplit::impl_contactDataGetUID() const
 {
 	SplitParams params = getParams();
 	
-	return ext::str(ext::format(muT("split-|-|-|-|-|"))
+	return ext::str(ext::format(_T("split-|-|-|-|-|"))
 		% m_nSource
 		% m_nSourceType
 		% params.hours_in_block
@@ -251,13 +249,13 @@ Column::StyleList ColSplit::impl_outputGetAdditionalStyles(IDProvider& idp)
 		m_CSS = idp.getID();
 
 		l.push_back(StylePair(
-			muT("div.") + m_CSS,
-			ext::str(ext::format(muT("position: relative; left: 50%; margin-left: -|px; width: |px; height: 50px;"))
+			_T("div.") + m_CSS,
+			ext::str(ext::format(_T("position: relative; left: 50%; margin-left: -|px; width: |px; height: 50px;"))
 				% ((5 * params.blocks_in_column - 1) / 2)
 				% (5 * params.blocks_in_column - 1))));
 
-		l.push_back(StylePair(muT("div.") + m_CSS + muT(" div"),     muT("position: absolute; top: 0px; width: 4px; height: 50px; overflow: hidden;")));
-		l.push_back(StylePair(muT("div.") + m_CSS + muT(" div div"), muT("position: absolute; left: 0px; width: 4px; height: 50px; background-color: ") + utils::colorToHTML(con::ColorBar) + muT(";")));
+		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div"),     _T("position: absolute; top: 0px; width: 4px; height: 50px; overflow: hidden;")));
+		l.push_back(StylePair(_T("div.") + m_CSS + _T(" div div"), _T("position: absolute; left: 0px; width: 4px; height: 50px; background-color: ") + utils::colorToHTML(con::ColorBar) + _T(";")));
 	}
 
 	return l;
@@ -265,32 +263,32 @@ Column::StyleList ColSplit::impl_outputGetAdditionalStyles(IDProvider& idp)
 
 void ColSplit::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const mu_text* szTypeDesc[] = {
-		I18N(muT("Hours of day")),
-		I18N(muT("Days of week")),
-		I18N(muT("\"Split\"")),
+	static const TCHAR* szTypeDesc[] = {
+		LPGENT("Hours of day"),
+		LPGENT("Days of week"),
+		LPGENT("\"Split\""),
 	};
 
-	static const mu_text* szSourceDesc[] = {
-		I18N(muT("incoming characters")),
-		I18N(muT("outgoing characters")),
-		I18N(muT("all characters")),
-		I18N(muT("incoming messages")),
-		I18N(muT("outgoing messages")),
-		I18N(muT("all messages")),
-		I18N(muT("incoming chats")),
-		I18N(muT("outgoing chats")),
-		I18N(muT("all chats")),
+	static const TCHAR* szSourceDesc[] = {
+		LPGENT("incoming characters"),
+		LPGENT("outgoing characters"),
+		LPGENT("all characters"),
+		LPGENT("incoming messages"),
+		LPGENT("outgoing messages"),
+		LPGENT("all messages"),
+		LPGENT("incoming chats"),
+		LPGENT("outgoing chats"),
+		LPGENT("all chats"),
 	};
 
 	if (row == 1)
 	{
 		SplitParams params = getParams();
-		ext::string strTitle = str(ext::kformat(i18n(muT("#{type} for #{data}")))
-			% muT("#{type}") * i18n(szTypeDesc[params.effective_vis_mode])
-			% muT("#{data}") * i18n(szSourceDesc[3 * m_nSource + m_nSourceType]));
+		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
+			% _T("#{type}") * TranslateTS(szTypeDesc[params.effective_vis_mode])
+			% _T("#{data}") * TranslateTS(szSourceDesc[3 * m_nSource + m_nSourceType]));
 
-		writeRowspanTD(tos, getCustomTitle(i18n(szTypeDesc[params.effective_vis_mode]), strTitle) + ext::str(ext::format(muT("<div style=\"width: |px;\"></div>")) % (5 * params.blocks_in_column - 1)), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[params.effective_vis_mode]), strTitle) + ext::str(ext::format(_T("<div style=\"width: |px;\"></div>")) % (5 * params.blocks_in_column - 1)), row, 1, rowSpan);
 	}
 }
 
@@ -346,14 +344,14 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 {
 	SplitParams params = getParams();
 
-	static const mu_text* szWDayName[] = {
-		I18N(muT("wday3:Mon")),
-		I18N(muT("wday3:Tue")),
-		I18N(muT("wday3:Wed")),
-		I18N(muT("wday3:Thu")),
-		I18N(muT("wday3:Fri")),
-		I18N(muT("wday3:Sat")),
-		I18N(muT("wday3:Sun")),
+	static const TCHAR* szWDayName[] = {
+		LPGENT("wday3:Mon"),
+		LPGENT("wday3:Tue"),
+		LPGENT("wday3:Wed"),
+		LPGENT("wday3:Thu"),
+		LPGENT("wday3:Fri"),
+		LPGENT("wday3:Sat"),
+		LPGENT("wday3:Sun")
 	};
 
 	const int* pData = reinterpret_cast<const int*>(contact.getSlot(contactDataSlotGet()));
@@ -372,7 +370,7 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 
 	if (usePNG())
 	{
-		tos << muT("<td class=\"img_bottom\">");
+		tos << _T("<td class=\"img_bottom\">");
 
 		// draw graph
 		Canvas canvas(5 * params.blocks_in_column - 1, 50);
@@ -402,15 +400,15 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 		
 		if (getStatistic()->newFilePNG(canvas, strFinalFile))
 		{
-			tos << muT("<img src=\"") << strFinalFile << muT("\"/>");
+			tos << _T("<img src=\"") << strFinalFile << _T("\"/>");
 		}
 
-		tos << muT("</td>") << ext::endl;
+		tos << _T("</td>") << ext::endl;
 	}
 	else
 	{
-		tos << muT("<td class=\"bars_bottom\">")
-			<< muT("<div class=\"") << m_CSS << muT("\">") << ext::endl;
+		tos << _T("<td class=\"bars_bottom\">")
+			<< _T("<div class=\"") << m_CSS << _T("\">") << ext::endl;
 
 		upto_each_(j, params.blocks_in_column)
 		{
@@ -422,42 +420,42 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 
 				if (params.effective_vis_mode == 0)
 				{
-					divTitle = ext::str(ext::kformat(i18n(muT("[#{hour}:00-#{hour}:59] #{amount}")))
-						% muT("#{hour}") * utils::intToPadded(j, 2)
-						% muT("#{amount}") * utils::intToGrouped(part_top));
+					divTitle = ext::str(ext::kformat(TranslateT("[#{hour}:00-#{hour}:59] #{amount}"))
+						% _T("#{hour}") * utils::intToPadded(j, 2)
+						% _T("#{amount}") * utils::intToGrouped(part_top));
 				}
 				else if (params.effective_vis_mode == 1)
 				{
-					divTitle = ext::str(ext::kformat(i18n(muT("[#{day}] #{amount}")))
-						% muT("#{day}") * utils::stripPrefix(muT("wday3:"), i18n(szWDayName[j]))
-						% muT("#{amount}") * utils::intToGrouped(part_top));
+					divTitle = ext::str(ext::kformat(TranslateT("[#{day}] #{amount}"))
+						% _T("#{day}") * utils::stripPrefix(_T("wday3:"), TranslateTS(szWDayName[j]))
+						% _T("#{amount}") * utils::intToGrouped(part_top));
 				}
 				else
 				{
-					divTitle = ext::str(ext::kformat(i18n(muT("#{amount}")))
-						% muT("#{amount}") * utils::intToGrouped(part_top));
+					divTitle = ext::str(ext::kformat(TranslateT("#{amount}"))
+						% _T("#{amount}") * utils::intToGrouped(part_top));
 				}
 
-				tos << muT("<div title=\"") << utils::htmlEscape(divTitle) << muT("\" style=\"left: ") << (5 * j) << muT("px;\">");
+				tos << _T("<div title=\"") << utils::htmlEscape(divTitle) << _T("\" style=\"left: ") << (5 * j) << _T("px;\">");
 			}
 			else if (part_top != 0)
 			{
-				tos << muT("<div style=\"left: ") << (5 * j) << muT("px;\">");
+				tos << _T("<div style=\"left: ") << (5 * j) << _T("px;\">");
 			}
 
 			if (part_top != 0)
 			{
 				int bar_len = (50 * part_top + top - 1) / top;
 
-				tos << muT("<div style=\"top: ") << (50 - bar_len) << muT("px;\"></div>");
+				tos << _T("<div style=\"top: ") << (50 - bar_len) << _T("px;\"></div>");
 			}
 
 			if (m_bDetail || part_top != 0)
 			{
-				tos << muT("</div>") << ext::endl;
+				tos << _T("</div>") << ext::endl;
 			}
 		}
 
-		tos << muT("</div></td>") << ext::endl;
+		tos << _T("</div></td>") << ext::endl;
 	}
 }

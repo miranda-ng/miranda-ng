@@ -5,7 +5,7 @@
  * OptionsCtrlImpl::Item
  */
 
-OptionsCtrlImpl::Item::Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const mu_text* szLabel, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Item::Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData)
 	: m_pCtrl(pCtrl), m_hItem(NULL), m_nRef(1), m_ItemType(ItemType), m_strLabel(szLabel), m_dwData(dwData)
 {
 	m_bEnabled       = !(dwFlags & OCF_DISABLED);
@@ -29,7 +29,7 @@ void OptionsCtrlImpl::Item::enableChilds(bool bEnable)
 	}
 }
 
-void OptionsCtrlImpl::Item::setLabel(const mu_text* szLabel)
+void OptionsCtrlImpl::Item::setLabel(const TCHAR* szLabel)
 {
 	m_strLabel = szLabel;
 

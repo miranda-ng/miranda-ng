@@ -7,106 +7,98 @@
  * OptionsCtrl
  */
 
-HANDLE OptionsCtrl::insertGroup(HANDLE hParent, const mu_text* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertGroup(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCGROUP ocg;
-
 	ocg.dwFlags = dwFlags;
-	ocg.szLabel = const_cast<mu_text*>(szLabel);
+	ocg.szLabel = const_cast<TCHAR*>(szLabel);
 	ocg.dwData = dwData;
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTGROUP, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocg)));
 }
 
-HANDLE OptionsCtrl::insertCheck(HANDLE hParent, const mu_text* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertCheck(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCCHECK occ;
-
 	occ.dwFlags = dwFlags;
-	occ.szLabel = const_cast<mu_text*>(szLabel);
+	occ.szLabel = const_cast<TCHAR*>(szLabel);
 	occ.dwData = dwData;
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTCHECK, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&occ)));
 }
 
-HANDLE OptionsCtrl::insertRadio(HANDLE hParent, HANDLE hSibling, const mu_text* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertRadio(HANDLE hParent, HANDLE hSibling, const TCHAR* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCRADIO ocr;
-
 	ocr.dwFlags = dwFlags;
-	ocr.szLabel = const_cast<mu_text*>(szLabel);
+	ocr.szLabel = const_cast<TCHAR*>(szLabel);
 	ocr.dwData = dwData;
 	ocr.hSibling = hSibling;
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTRADIO, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocr)));
 }
 
-HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const mu_text* szLabel, const mu_text* szEdit /* = muT("") */, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szEdit /* = _T("") */, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCEDIT oce;
-
 	oce.dwFlags = dwFlags;
-	oce.szLabel = const_cast<mu_text*>(szLabel);
+	oce.szLabel = const_cast<TCHAR*>(szLabel);
 	oce.dwData = dwData;
-	oce.szEdit = const_cast<mu_text*>(szEdit);
+	oce.szEdit = const_cast<TCHAR*>(szEdit);
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTEDIT, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&oce)));
 }
 
-HANDLE OptionsCtrl::insertCombo(HANDLE hParent, const mu_text* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertCombo(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCCOMBO occ;
-
 	occ.dwFlags = dwFlags;
-	occ.szLabel = const_cast<mu_text*>(szLabel);
+	occ.szLabel = const_cast<TCHAR*>(szLabel);
 	occ.dwData = dwData;
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTCOMBO, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&occ)));
 }
 
-HANDLE OptionsCtrl::insertButton(HANDLE hParent, const mu_text* szLabel, const mu_text* szButton, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertButton(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCBUTTON ocb;
-
 	ocb.dwFlags = dwFlags;
-	ocb.szLabel = const_cast<mu_text*>(szLabel);
+	ocb.szLabel = const_cast<TCHAR*>(szLabel);
 	ocb.dwData = dwData;
-	ocb.szButton = const_cast<mu_text*>(szButton);
+	ocb.szButton = const_cast<TCHAR*>(szButton);
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTBUTTON, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocb)));
 }
 
-HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const mu_text* szLabel, DWORD dwDateTime, const mu_text* szFormat /* = muT("%Y-%m-%d") */, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const TCHAR* szLabel, DWORD dwDateTime, const TCHAR* szFormat /* = _T("%Y-%m-%d") */, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCDATETIME ocdt;
-
 	ocdt.dwFlags = dwFlags;
-	ocdt.szLabel = const_cast<mu_text*>(szLabel);
+	ocdt.szLabel = const_cast<TCHAR*>(szLabel);
 	ocdt.dwData = dwData;
-	ocdt.szFormat = const_cast<mu_text*>(szFormat);
+	ocdt.szFormat = const_cast<TCHAR*>(szFormat);
 	ocdt.dwDateTime = dwDateTime;
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTDATETIME, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocdt)));
 }
 
-HANDLE OptionsCtrl::insertColor(HANDLE hParent, const mu_text* szLabel, COLORREF crColor /* = 0 */, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
+HANDLE OptionsCtrl::insertColor(HANDLE hParent, const TCHAR* szLabel, COLORREF crColor /* = 0 */, DWORD dwFlags /* = 0 */, DWORD dwData /* = 0 */)
 {
 	OCCOLOR occ;
-
 	occ.dwFlags = dwFlags;
-	occ.szLabel = const_cast<mu_text*>(szLabel);
+	occ.szLabel = const_cast<TCHAR*>(szLabel);
 	occ.dwData = dwData;
 	occ.crColor = crColor;
 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTCOLOR, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&occ)));
 }
 
-const mu_text* OptionsCtrl::getItemLabel(HANDLE hItem)
+const TCHAR* OptionsCtrl::getItemLabel(HANDLE hItem)
 {
-	return reinterpret_cast<const mu_text*>(SendMessage(m_hOptWnd, OCM_GETITEMLABEL, reinterpret_cast<WPARAM>(hItem), 0));
+	return reinterpret_cast<const TCHAR*>(SendMessage(m_hOptWnd, OCM_GETITEMLABEL, reinterpret_cast<WPARAM>(hItem), 0));
 }
 
-void OptionsCtrl::setItemLabel(HANDLE hItem, const mu_text* szLabel)
+void OptionsCtrl::setItemLabel(HANDLE hItem, const TCHAR* szLabel)
 {
 	SendMessage(m_hOptWnd, OCM_SETITEMLABEL, reinterpret_cast<WPARAM>(hItem), reinterpret_cast<LPARAM>(szLabel));
 }
@@ -161,17 +153,17 @@ void OptionsCtrl::setEditNumber(HANDLE hEdit, int nNumber)
 	SendMessage(m_hOptWnd, OCM_SETEDITNUMBER, reinterpret_cast<WPARAM>(hEdit), nNumber);
 }
 
-const mu_text* OptionsCtrl::getEditString(HANDLE hEdit)
+const TCHAR* OptionsCtrl::getEditString(HANDLE hEdit)
 {
-	return reinterpret_cast<const mu_text*>(SendMessage(m_hOptWnd, OCM_GETEDITSTRING, reinterpret_cast<WPARAM>(hEdit), 0));
+	return reinterpret_cast<const TCHAR*>(SendMessage(m_hOptWnd, OCM_GETEDITSTRING, reinterpret_cast<WPARAM>(hEdit), 0));
 }
 
-void OptionsCtrl::setEditString(HANDLE hEdit, const mu_text* szString)
+void OptionsCtrl::setEditString(HANDLE hEdit, const TCHAR* szString)
 {
 	SendMessage(m_hOptWnd, OCM_SETEDITSTRING, reinterpret_cast<WPARAM>(hEdit), reinterpret_cast<LPARAM>(szString));
 }
 
-void OptionsCtrl::addComboItem(HANDLE hCombo, const mu_text* szItem)
+void OptionsCtrl::addComboItem(HANDLE hCombo, const TCHAR* szItem)
 {
 	SendMessage(m_hOptWnd, OCM_ADDCOMBOITEM, reinterpret_cast<WPARAM>(hCombo), reinterpret_cast<LPARAM>(szItem));
 }
@@ -218,7 +210,7 @@ HANDLE OptionsCtrl::getNextItem(HANDLE hItem)
 
 HANDLE OptionsCtrl::getPrevItem(HANDLE hItem)
 {
-	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_GETITEM,reinterpret_cast<WPARAM>(hItem), OCGI_PREV));
+	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_GETITEM, reinterpret_cast<WPARAM>(hItem), OCGI_PREV));
 }
 
 void OptionsCtrl::setRedraw(bool bRedraw)
@@ -262,9 +254,7 @@ DWORD OptionsCtrl::getDateTime(HANDLE hDateTime, bool* pbNone /* = NULL */)
 	DWORD dwResult = SendMessage(m_hOptWnd, OCM_GETDATETIME, reinterpret_cast<WPARAM>(hDateTime), reinterpret_cast<LPARAM>(&bMyNone));
 
 	if (pbNone)
-	{
 		*pbNone = bool_(bMyNone);
-	}
 
 	return dwResult;
 }
@@ -280,19 +270,15 @@ ext::string OptionsCtrl::getDateTimeStr(HANDLE hDateTime)
 	bool bNone = false;
 	DWORD dwTimestamp = getDateTime(hDateTime, &bNone);
 
-	return bNone ? muT("") : utils::formatDate(dwTimestamp);
+	return bNone ? _T("") : utils::formatDate(dwTimestamp);
 }
 
 void OptionsCtrl::setDateTimeStr(HANDLE hDateTime, const ext::string& strDateTime)
 {
 	if (strDateTime.empty())
-	{
 		setDateTimeNone(hDateTime);
-	}
 	else
-	{
 		setDateTime(hDateTime, utils::parseDate(strDateTime));
-	}
 }
 
 COLORREF OptionsCtrl::getColor(HANDLE hColor)

@@ -14,8 +14,7 @@ void MirandaHistory::populateProtocols()
 	PROTOACCOUNT **protoList;
 	int protoCount;
 
-	if (mu::proto::enumProtocols(&protoCount, &protoList) == 0)
-	{				
+	if (mu::proto::enumProtocols(&protoCount, &protoList) == 0) {				
 		upto_each_(i, protoCount) 
 		{
 			ext::a::string protoName = protoList[i]->szModuleName;
@@ -26,7 +25,7 @@ void MirandaHistory::populateProtocols()
 		}
 	}
 
-	m_DefaultProtocol.displayName = i18n(muT("(Unknown)"));
+	m_DefaultProtocol.displayName = TranslateT("(Unknown)");
 }
 
 const Protocol& MirandaHistory::getProtocol(const ext::a::string& protocol) const
@@ -39,9 +38,7 @@ const Protocol& MirandaHistory::getProtocol(const ext::a::string& protocol) cons
 void MirandaHistory::makeContactsAvailable()
 {
 	if (m_bContactsAvailable)
-	{
 		return;
-	}
 
 	// make protocols available
 	populateProtocols();
@@ -63,37 +60,33 @@ void MirandaHistory::makeContactsAvailable()
 void MirandaHistory::readContacts()
 {
 	bool bHandleMeta = mu::metacontacts::_available() && m_Settings.m_MetaContactsMode != Settings::mcmIgnoreMeta;
-	ext::a::string strMetaProto = bHandleMeta ? META_PROTO : muA("");
+	ext::a::string strMetaProto = bHandleMeta ? META_PROTO : "";
 	MirandaSettings db;
 
 	std::vector<MCONTACT> sources;
 
 	MCONTACT hContact = db_find_first();
-	while (hContact)
-	{
+	while (hContact) {
 		db.setContact(hContact);
 
-		const mu_ansi* pProtoName = GetContactProto(hContact);
+		const char* pProtoName = GetContactProto(hContact);
 
 		// if something leads to ignorance of conact jump to end of
 		// processing this contact via 'break'
-		do
-		{
+		do {
 			// ignore because of bad or not loaded protocol?
 			if (!pProtoName)
-			{
 				pProtoName = con::ProtoUnknown; // MEMO: alternative would be "break;"
-			}
 
 			ext::string curNick = mu::clist::getContactDisplayName(hContact);
-			
+
 			// retrieve protocol
 			const ext::a::string curProtoName = pProtoName;
 			const Protocol& curProto = getProtocol(curProtoName);
 
 			// retrieve group
 			db.setModule(con::ModCList);
-			ext::string curGroup = db.readStrDirect(con::SettGroup, i18n(muT("(none)")));
+			ext::string curGroup = db.readStrDirect(con::SettGroup, TranslateT("(none)"));
 
 			// ignore because of filtered protocol?
 			if (m_Settings.m_ProtosIgnore.find(curProtoName) != m_Settings.m_ProtosIgnore.end())
@@ -104,38 +97,26 @@ void MirandaHistory::readContacts()
 			sources.push_back(hContact);
 
 			// handle meta-contacts
-			if (bHandleMeta)
-			{
-				if (curProtoName == strMetaProto)
-				{
+			if (bHandleMeta) {
+				if (curProtoName == strMetaProto) {
 					// don't include meta-contact history
 					if (m_Settings.m_MetaContactsMode == Settings::mcmSubOnly)
-					{
 						sources.clear();
-					}
 
 					// include meta-contact's subcontact
-					if (m_Settings.m_MetaContactsMode != Settings::mcmMetaOnly)
-					{
+					if (m_Settings.m_MetaContactsMode != Settings::mcmMetaOnly) {
 						// find subcontacts to read history from
 						int numSubs = mu::metacontacts::getNumContacts(hContact);
-
-						if (numSubs > 0)
-						{
-							for (int i = 0; i < numSubs; ++i)
-							{
+						if (numSubs > 0) {
+							for (int i = 0; i < numSubs; ++i) {
 								MCONTACT hSubContact = mu::metacontacts::getSubContact(hContact, i);
-
 								if (hSubContact)
-								{
 									sources.push_back(hSubContact);
-								}
 							}
 						}
 					}
 				}
-				else
-				{
+				else {
 					// ignore because of meta-contact?
 					if (db_mc_getMeta(hContact))
 						break;
@@ -146,15 +127,13 @@ void MirandaHistory::readContacts()
 			db.setModule(con::ModHistoryStats);
 
 			if (db.readBool(con::SettExclude, false))
-			{
 				break;
-			}
 
 			// finally add to list
 			MirandaContact* pContact = MirandaContactFactory::makeMirandaContact(m_Settings.m_MergeMode, curNick, curProto.displayName, curGroup, sources);
-
 			m_Contacts.push_back(pContact);
-		} while (false);
+		}
+			while (false);
 
 		hContact = db_find_next(hContact);
 	}
@@ -163,20 +142,14 @@ void MirandaHistory::readContacts()
 void MirandaHistory::mergeContacts()
 {
 	if (!m_Settings.m_MergeContacts)
-	{
 		return;
-	}
 
-	for (ContactList::size_type i = 0; i < m_Contacts.size(); ++i)
-	{
+	for (ContactList::size_type i = 0; i < m_Contacts.size(); ++i) {
 		MirandaContact& cur = *m_Contacts[i];
 
-		for (ContactList::size_type j = i + 1; j < m_Contacts.size(); ++j)
-		{
-			if (m_Contacts[j]->getNick() == cur.getNick())
-			{
-				if (!m_Settings.m_MergeContactsGroups || m_Contacts[j]->getGroup() == cur.getGroup())
-				{
+		for (ContactList::size_type j = i + 1; j < m_Contacts.size(); ++j) {
+			if (m_Contacts[j]->getNick() == cur.getNick()) {
+				if (!m_Settings.m_MergeContactsGroups || m_Contacts[j]->getGroup() == cur.getGroup()) {
 					cur.merge(*m_Contacts[j]);
 					delete m_Contacts[j];
 
@@ -188,8 +161,8 @@ void MirandaHistory::mergeContacts()
 	}
 }
 
-MirandaHistory::MirandaHistory(const Settings& settings)
-	: m_Settings(settings), m_bContactsAvailable(false)
+MirandaHistory::MirandaHistory(const Settings& settings) :
+	m_Settings(settings), m_bContactsAvailable(false)
 {
 }
 
@@ -206,9 +179,7 @@ MirandaHistory::~MirandaHistory()
 int MirandaHistory::getContactCount()
 {
 	if (!m_bContactsAvailable)
-	{
 		makeContactsAvailable();
-	}
 
 	return m_Contacts.size();
 }
@@ -216,9 +187,7 @@ int MirandaHistory::getContactCount()
 MirandaContact& MirandaHistory::getContact(int index)
 {
 	if (!m_bContactsAvailable)
-	{
 		makeContactsAvailable();
-	}
 
 	assert(index >= 0 && index < m_Contacts.size());
 

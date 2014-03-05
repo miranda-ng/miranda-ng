@@ -9,7 +9,7 @@ void ColGroup::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 {
 	if (row == 1)
 	{
-		writeRowspanTD(tos, getCustomTitle(i18n(muT("Group")), i18n(muT("Group"))), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateT("Group"), TranslateT("Group")), row, 1, rowSpan);
 	}
 }
 
@@ -20,12 +20,12 @@ void ColGroup::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 		ext::string groupName = contact.getGroup();
 
 		// replace subgroup separator with something better (really better?)
-		utils::replaceAllInPlace(groupName, muT("\\"), muT(" > "));
+		utils::replaceAllInPlace(groupName, _T("\\"), _T(" > "));
 
-		tos << muT("<td>") << utils::htmlEscape(groupName) << muT("</td>") << ext::endl;
+		tos << _T("<td>") << utils::htmlEscape(groupName) << _T("</td>") << ext::endl;
 	}
 	else
 	{
-		tos << muT("<td>&nbsp;</td>");
+		tos << _T("<td>&nbsp;</td>");
 	}
 }

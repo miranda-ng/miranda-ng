@@ -9,33 +9,33 @@ namespace ext
 	};
 
 	template<>
-	class basic_strfunc<mu_ansi>
+	class basic_strfunc<char>
 	{
 	public:
-		static const mu_ansi* chr(const mu_ansi* string, mu_ansi c) { return strchr(string, c); }
-		static int cmp(const mu_ansi* string1, const mu_ansi* string2) { return strcmp(string1, string2); }
-		static int icmp(const mu_ansi* string1, const mu_ansi* string2) { return _stricmp(string1, string2); }
-		static int coll(const mu_ansi* string1, const mu_ansi* string2) { return strcoll(string1, string2); }
-		static int icoll(const mu_ansi* string1, const mu_ansi* string2) { return _stricoll(string1, string2); }
-		static const mu_ansi* str(const mu_ansi* string, const mu_ansi* strSearch) { return strstr(string, strSearch); }
-		static size_t len(const mu_ansi* string) { return strlen(string); }
-		static size_t ftime(mu_ansi* strDest, size_t maxsize, const mu_ansi* format, const struct tm* timeptr) { return strftime(strDest, maxsize, format, timeptr); }
-		static int sprintf(mu_ansi* buffer, const mu_ansi* format, ...) { va_list args; va_start(args, format); return vsprintf(buffer, format, args); }
+		static const char* chr(const char* string, char c) { return strchr(string, c); }
+		static int cmp(const char* string1, const char* string2) { return strcmp(string1, string2); }
+		static int icmp(const char* string1, const char* string2) { return _stricmp(string1, string2); }
+		static int coll(const char* string1, const char* string2) { return strcoll(string1, string2); }
+		static int icoll(const char* string1, const char* string2) { return _stricoll(string1, string2); }
+		static const char* str(const char* string, const char* strSearch) { return strstr(string, strSearch); }
+		static size_t len(const char* string) { return strlen(string); }
+		static size_t ftime(char* strDest, size_t maxsize, const char* format, const struct tm* timeptr) { return strftime(strDest, maxsize, format, timeptr); }
+		static int sprintf(char* buffer, const char* format, ...) { va_list args; va_start(args, format); return vsprintf(buffer, format, args); }
 	};
 
 	template<>
-	class basic_strfunc<mu_wide>
+	class basic_strfunc<WCHAR>
 	{
 	public:
-		static const mu_wide* chr(const mu_wide* string, mu_wide c) { return wcschr(string, c); }
-		static int cmp(const mu_wide* string1, const mu_wide* string2) { return wcscmp(string1, string2); }
-		static int icmp(const mu_wide* string1, const mu_wide* string2) { return _wcsicmp(string1, string2); }
-		static int coll(const mu_wide* string1, const mu_wide* string2) { return wcscoll(string1, string2); }
-		static int icoll(const mu_wide* string1, const mu_wide* string2) { return _wcsicoll(string1, string2); }
-		static const mu_wide* str(const mu_wide* string, const mu_wide* strSearch) { return wcsstr(string, strSearch); }
-		static size_t len(const mu_wide* string) { return wcslen(string); }
-		static size_t ftime(mu_wide* strDest, size_t maxsize, const mu_wide* format, const struct tm* timeptr) { return wcsftime(strDest, maxsize, format, timeptr); }
-		static int sprintf(mu_wide* buffer, const mu_wide* format, ...) { va_list args; va_start(args, format); return vswprintf(buffer, format, args); }
+		static const WCHAR* chr(const WCHAR* string, WCHAR c) { return wcschr(string, c); }
+		static int cmp(const WCHAR* string1, const WCHAR* string2) { return wcscmp(string1, string2); }
+		static int icmp(const WCHAR* string1, const WCHAR* string2) { return _wcsicmp(string1, string2); }
+		static int coll(const WCHAR* string1, const WCHAR* string2) { return wcscoll(string1, string2); }
+		static int icoll(const WCHAR* string1, const WCHAR* string2) { return _wcsicoll(string1, string2); }
+		static const WCHAR* str(const WCHAR* string, const WCHAR* strSearch) { return wcsstr(string, strSearch); }
+		static size_t len(const WCHAR* string) { return wcslen(string); }
+		static size_t ftime(WCHAR* strDest, size_t maxsize, const WCHAR* format, const struct tm* timeptr) { return wcsftime(strDest, maxsize, format, timeptr); }
+		static int sprintf(WCHAR* buffer, const WCHAR* format, ...) { va_list args; va_start(args, format); return vswprintf(buffer, format, args); }
 	};
 }
 
