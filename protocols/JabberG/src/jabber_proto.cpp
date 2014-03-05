@@ -646,6 +646,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		return 1;
 
 	JabberStripJid(jid, szBareJid, SIZEOF(szBareJid));
+	bool bUseResource = ListGetItemPtr(LIST_CHATROOM, szBareJid) != NULL;
 
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
@@ -681,12 +682,6 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 					pResourceStatus r(item->arResources[i]);
 					TCHAR tmp[JABBER_MAX_JID_LEN];
 					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szBareJid, r->m_tszResourceName);
-					if (!_tcscmp(tmp, jid))
-						continue;
-
-					XmlNodeIq iq3(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
-					iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
-					m_ThreadInfo->send(iq3);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
 						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
@@ -699,6 +694,12 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 						iq4 << XQUERY(JABBER_FEAT_VERSION);
 						m_ThreadInfo->send(iq4);
 					}
+
+					if (!_tcscmp(tmp, jid)) {
+						XmlNodeIq iq3(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
+						iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
+						m_ThreadInfo->send(iq3);
+					}
 				}
 			}
 			else if (item->getTemp()->m_dwVersionRequestTime == 0) {
@@ -709,7 +710,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		}
 	}
 
-	SendGetVcard(szBareJid);
+	SendGetVcard(bUseResource ? jid : szBareJid);
 	return 0;
 }
 
