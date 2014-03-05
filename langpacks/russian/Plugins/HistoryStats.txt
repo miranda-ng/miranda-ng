@@ -6,7 +6,7 @@
 ;  Authors: Martin Afanasjew
 ;============================================================
 [Creates nice statistics using your message history.]
-
+Создает подробную, разноцветную и настраиваемую статистику вашей истории сообщений.
 [Band]
 
 [HistoryStats - Working...]
