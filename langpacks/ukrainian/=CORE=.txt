@@ -2325,8 +2325,6 @@ Miranda не може відкрити цей профіль
 Відправка в оффлайн
 [Delete MetaContact?]
 Видалити метаконтакт?
-[Subcontacts]
-Субконтакти
 [Toggle Off]
 Вимкнути
 [Toggle On]
@@ -2359,6 +2357,8 @@ Miranda не може відкрити цей профіль
 Метаконтакт за замовчанням
 [Delete MetaContact]
 Видалити метаконтакт
+[Subcontacts]
+Субконтакти
 [<default>]
 <за замовчанням>
 [MetaContacts]

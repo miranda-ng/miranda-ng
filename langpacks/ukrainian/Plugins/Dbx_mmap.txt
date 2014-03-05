@@ -48,7 +48,7 @@
 [Database Panic]
 Проблема з базою
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-Ваша база данных буде сконвертована у новий формат. Це потенційно небеспечна дія, зробіть будь ласка, резервну копію бази.\n\nНатисніть 'Так', щоб почати конвертацію або 'Ні', щоб вийти з програми 
+Ваша база даних буде сконвертована у новий формат. Це потенційно небезпечна дія, зробіть будь ласка, резервну копію бази.\n\nНатисніть "Так", щоб почати конвертацію, або "Ні", щоб вийти з програми.
 [Database conversion required]
 Конвертація бази
 [Change/remove password]
