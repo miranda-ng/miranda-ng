@@ -605,8 +605,12 @@
     <ClCompile Include="modules\metacontacts\meta_utils.cpp">
       <Filter>Modules\metacontacts</Filter>
     </ClCompile>
-    <ClCompile Include="modules\metacontacts\meta_addto.cpp" />
-    <ClCompile Include="modules\metacontacts\meta_edit.cpp" />
+    <ClCompile Include="modules\metacontacts\meta_addto.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\metacontacts\meta_edit.cpp">
+      <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

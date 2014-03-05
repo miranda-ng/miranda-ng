@@ -79,9 +79,6 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_RecvMessage(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam);
 
-INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 void Meta_InitServices();
 void Meta_CloseHandles();
 

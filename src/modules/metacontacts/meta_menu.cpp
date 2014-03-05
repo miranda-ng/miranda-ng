@@ -68,7 +68,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 		cc->nSubs = 0;
 
 		// Add the MetaContact protocol to the new meta contact
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hMetaContact, (LPARAM)META_PROTO);
+		CallService(MS_PROTO_ADDTOCONTACT, hMetaContact, (LPARAM)META_PROTO);
 
 		if (group)
 			db_set_utf(hMetaContact, "CList", "Group", group);
@@ -76,7 +76,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 		// Assign the contact to the MetaContact just created (and make default).
 		if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
 			MessageBox(0, TranslateT("There was a problem in assigning the contact to the MetaContact"), TranslateT("Error"), MB_ICONEXCLAMATION);
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hMetaContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hMetaContact, 0);
 			return 0;
 		}
 
@@ -87,37 +87,6 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 
 	free(group);
 	return (INT_PTR)hMetaContact;
-}
-
-/** Display the <b>'Add to'</b> Dialog
-*
-* Present a dialog in which the user can choose to which MetaContact this
-* contact will be added
-*
-* @param wParam : HANDLE to the contact that has been chosen.
-* @param lParam :	Allways set to 0.
-*/
-
-INT_PTR Meta_AddTo(WPARAM wParam, LPARAM lParam)
-{
-	HWND clui = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_METASELECT), clui, &Meta_SelectDialogProc, (LPARAM)wParam);
-	return 0;
-}
-
-/** Display the <b>'Edit'</b> Dialog
-*
-* Present a dialog in which the user can edit some properties of the MetaContact.
-*
-* @param wParam : HANDLE to the MetaContact to be edited.
-* @param lParam :	Allways set to 0.
-*/
-
-INT_PTR Meta_Edit(WPARAM wParam, LPARAM lParam)
-{
-	HWND clui = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_METAEDIT), clui, Meta_EditDialogProc, (LPARAM)wParam);
-	return 0;
 }
 
 void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
@@ -406,6 +375,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 		mi.flags = CMIM_NAME;
 		mi.pszName = LPGEN("Remove from metacontact");
 		Menu_ModifyItem(hMenuDelete, &mi);
+		Menu_ShowItem(hMenuDelete, true);
 
 		Menu_ShowItem(hMenuAdd, false);
 		Menu_ShowItem(hMenuConvert, false);

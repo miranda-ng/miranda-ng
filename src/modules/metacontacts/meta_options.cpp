@@ -447,12 +447,12 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ProtoEnumAccounts(&num_protocols, &pppDesc);
 
 			hw = GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL);
-			int index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<default>"));
-			SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, -1);
+			int index = SendMessage(hw, CB_INSERTSTRING, -1, (LPARAM)TranslateT("<default>"));
+			SendMessage(hw, CB_SETITEMDATA, index, -1);
 			for (int i = 0; i < num_protocols; i++) {
 				if (strcmp(pppDesc[i]->szModuleName, META_PROTO) != 0) {
-					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->tszAccountName);
-					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
+					index = SendMessage(hw, CB_INSERTSTRING, -1, (LPARAM)pppDesc[i]->tszAccountName);
+					SendMessage(hw, CB_SETITEMDATA, index, i);
 				}
 			}
 
@@ -465,10 +465,10 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WMU_FILLPRIODATA:
 		sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
 		if (sel != -1) {
-			int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+			int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, sel, 0);
 			sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
 			if (sel != -1) {
-				int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
+				int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, sel, 0);
 				SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
 				if (index == -1) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), TRUE);
@@ -497,13 +497,13 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WMU_FILLSTATUSCMB:
 		sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
 		if (sel != -1) {
-			int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+			int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, sel, 0);
 			HWND hw = GetDlgItem(hwndDlg, IDC_CMB_STATUS);
 			SendMessage(hw, CB_RESETCONTENT, 0, 0);
 			if (index == -1) {
 				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)cli.pfnGetStatusModeDescription(i, 0));
-					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
+					index = SendMessage(hw, CB_INSERTSTRING, -1, (LPARAM)cli.pfnGetStatusModeDescription(i, 0));
+					SendMessage(hw, CB_SETITEMDATA, index, i);
 				}
 			}
 			else {
@@ -515,8 +515,8 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 					if (caps & Proto_Status2Flag(i)) {
-						index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)cli.pfnGetStatusModeDescription(i, 0));
-						SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
+						index = SendMessage(hw, CB_INSERTSTRING, -1, (LPARAM)cli.pfnGetStatusModeDescription(i, 0));
+						SendMessage(hw, CB_SETITEMDATA, index, i);
 					}
 				}
 			}
@@ -531,11 +531,11 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDC_CHK_DEFAULT:
 				sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
 				if (sel != -1) {
-					int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+					int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, sel, 0);
 					sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
 					if (sel != -1) {
 						BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHK_DEFAULT);
-						int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
+						int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, sel, 0);
 						if (checked) {
 							SetPriority(index, status, TRUE, 0);
 							SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
@@ -562,10 +562,10 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if ( HIWORD( wParam ) == EN_CHANGE && LOWORD(wParam) == IDC_ED_PRIORITY && ( HWND )lParam == GetFocus()) {
 			sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
 			if (sel != -1) {
-				int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+				int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, sel, 0);
 				sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
 				if (sel != -1) {
-					int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
+					int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, sel, 0);
 					int prio = GetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, 0, FALSE);
 					SetPriority(index, status, FALSE, prio);
 					if (prio != GetPriority(index, status))

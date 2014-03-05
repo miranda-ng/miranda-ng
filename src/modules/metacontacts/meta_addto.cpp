@@ -24,19 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-//! Holds information about a contact.
-struct METAUSERINFO
-{
-	char *name;		//!< Name of the contact 
-	char *proto;	//!< Protocol under which the contact has been registered
-	HANDLE hUser;	//!< Identifier of the contact in the DB.
-};
-
-//! Holds information for the callback function.
-typedef struct {
-	METAUSERINFO uInfo;	//!< Information about the contact to add
-}ADDTO_INFO;
-
 /** Adds all the metacontacts desired in the listview.
 *
 * Adds all the metacontacts present in the database in the list,
@@ -51,9 +38,9 @@ typedef struct {
 * @return An integer specifying the number of rows added in the list.
 */
 
-int FillList(HWND list, BOOL sort)
+static int FillList(HWND list, BOOL sort)
 {
-	int i=0;
+	int i = 0;
 
 	// The DB is searched through, to get all the metacontacts
 	for (MCONTACT hMetaUser = db_find_first(); hMetaUser; hMetaUser = db_find_next(hMetaUser)) {
@@ -95,7 +82,7 @@ int FillList(HWND list, BOOL sort)
 * @returns An integer specifying the number of rows inserted or -1 if there was a problem
 */
 
-int BuildList(HWND list, BOOL sort)
+static int BuildList(HWND list, BOOL sort)
 {
 	SendMessage(list, LB_RESETCONTENT, 0, 0);
 	return FillList(list, sort);
@@ -117,13 +104,13 @@ int BuildList(HWND list, BOOL sort)
 or there is none that can host this contact.\n\
 Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?")
 
-INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			DBCachedContact *cc = CheckMeta(lParam);
+			DBCachedContact *cc = currDb->m_cache->GetCachedContact(lParam);
 			if (cc == NULL) {
 				DestroyWindow(hwndDlg);
 				return TRUE;
@@ -155,7 +142,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// Besides, we can check if there is at least one metacontact to add the contact to.
 		if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), FALSE) <= 0) {
 			if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
-				Meta_Convert((WPARAM)lParam, 0);
+				Meta_Convert(lParam, 0);
 			DestroyWindow(hwndDlg);
 			return TRUE;
 		}
@@ -174,30 +161,31 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam)!=BN_CLICKED)
+		if (HIWORD(wParam) != BN_CLICKED)
 			break;	// Only clicks of buttons are relevant, let other COMMANDs through
 
-		switch(LOWORD(wParam)) {
-		case IDOK:
+		switch (LOWORD(wParam)) {
+			case IDOK:
 			{
-				int item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST),LB_GETCURSEL, 0, 0);	// Get the index of the selected metacontact
+				int item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETCURSEL, 0, 0);	// Get the index of the selected metacontact
 				if (item == -1)
 					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a MetaContact"), TranslateT("No MetaContact selected"), MB_ICONHAND);
 
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				MCONTACT hMeta = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, (WPARAM)item, 0);
+				MCONTACT hMeta = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, item, 0);
 				if (!Meta_Assign(hContact, hMeta, FALSE))
-					MessageBox(hwndDlg, TranslateT("Assignment to the MetaContact failed."), TranslateT("Assignment failure"),MB_ICONERROR);
+					MessageBox(hwndDlg, TranslateT("Assignment to the MetaContact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
 			}
+			// fall through
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			break;
 
 		case IDC_CHK_SRT:
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE) ^ LBS_SORT);
-			if (BuildList(GetDlgItem(hwndDlg,IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE) <= 0) {
-				if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"),MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON1) == IDYES)
-					Meta_Convert((WPARAM)lParam, 0);
+			if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE) <= 0) {
+				if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+					Meta_Convert(lParam, 0);
 				DestroyWindow(hwndDlg);
 				return TRUE;
 			}
@@ -209,9 +197,25 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// Free all allocated memory and return the focus to the CList
 		HWND clist = GetParent(hwndDlg);
 		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		EndDialog(hwndDlg,TRUE);
+		EndDialog(hwndDlg, TRUE);
 		SetFocus(clist);
 		return TRUE;
 	}
 	return FALSE;	// All other Message are not handled
+}
+
+/** Display the <b>'Add to'</b> Dialog
+*
+* Present a dialog in which the user can choose to which MetaContact this
+* contact will be added
+*
+* @param wParam : HANDLE to the contact that has been chosen.
+* @param lParam :	Allways set to 0.
+*/
+
+INT_PTR Meta_AddTo(WPARAM hContact, LPARAM)
+{
+	HWND clui = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_METASELECT), clui, &Meta_SelectDialogProc, hContact);
+	return 0;
 }

@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-//! Holds the differents changes that have to made
-struct CHANGES
+// Holds the differents changes that have to made
+struct
 {
 	MCONTACT hMeta;                          // HANDLE of the MetaContact that is edited.
 	DBCachedContact *cc;
@@ -36,16 +36,12 @@ struct CHANGES
 	MCONTACT hDeletedContacts[MAX_CONTACTS]; // HANDLEs of the subcontacts to be removed from this metacontact
 	MCONTACT hContact[MAX_CONTACTS];         // HANDLEs of the subcontacts, in the order they should be in
 	int force_default;
-};
+}
+static g_data; // global CHANGES structure
 
-CHANGES changes; // global CHANGES structure
+/////////////////////////////////////////////////////////////////////////////////////////
 
-/** Fills the list of contacts
-*
-* @param chg : Structure holding all the change info (See CHANGES).
-*/
-
-void FillContactList(HWND hWndDlg, CHANGES *chg)
+static void FillContactList(HWND hWndDlg)
 {
 	HWND hList = GetDlgItem(hWndDlg, IDC_LST_CONTACTS);
 	TCHAR buff[256];
@@ -56,10 +52,10 @@ void FillContactList(HWND hWndDlg, CHANGES *chg)
 	LvItem.mask = LVIF_TEXT;   // Text Style
 	LvItem.cchTextMax = 256; // Max size of test
 
-	for (int i = 0; i < chg->num_contacts; i++)  {
+	for (int i = 0; i < g_data.num_contacts; i++) {
 		LvItem.iItem = i;
-	
-		TCHAR *ptszCDN = cli.pfnGetContactDisplayName(chg->hContact[i], 0);
+
+		TCHAR *ptszCDN = cli.pfnGetContactDisplayName(g_data.hContact[i], 0);
 		if (ptszCDN == NULL)
 			ptszCDN = TranslateT("(Unknown Contact)");
 
@@ -68,13 +64,13 @@ void FillContactList(HWND hWndDlg, CHANGES *chg)
 		ListView_InsertItem(hList, &LvItem);
 
 		LvItem.iSubItem = 1; // id
-		char *szProto = GetContactProto(chg->hContact[i]);
+		char *szProto = GetContactProto(g_data.hContact[i]);
 		if (szProto) {
 			char *szField = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 
 			DBVARIANT dbv;
-			if ( !db_get(chg->hContact[i], szProto, szField, &dbv)) {
-				switch(dbv.type) {
+			if (!db_get(g_data.hContact[i], szProto, szField, &dbv)) {
+				switch (dbv.type) {
 				case DBVT_ASCIIZ:
 					_tcsncpy(buff, _A2T(dbv.pszVal), SIZEOF(buff));
 					break;
@@ -98,7 +94,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg)
 			else buff[0] = 0;
 
 			LvItem.pszText = buff;
-			SendMessage(hList,LVM_SETITEM,0,(LPARAM)&LvItem); // Enter text to SubItems
+			SendMessage(hList, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
 			LvItem.iSubItem = 2; // protocol
 			_tcsncpy(buff, _A2T(szProto), SIZEOF(buff));
@@ -112,18 +108,18 @@ void FillContactList(HWND hWndDlg, CHANGES *chg)
 			ListView_SetItem(hList, &LvItem);
 		}
 		LvItem.iSubItem = 3; // Default (Yes/No)
-		LvItem.pszText = (chg->hContact[i] == chg->hDefaultContact ? TranslateT("Yes") : TranslateT("No"));
+		LvItem.pszText = (g_data.hContact[i] == g_data.hDefaultContact ? TranslateT("Yes") : TranslateT("No"));
 		ListView_SetItem(hList, &LvItem);
 
 		LvItem.iSubItem = 4; // Offline (Yes/No)
-		LvItem.pszText = (chg->hContact[i] == chg->hOfflineContact ? TranslateT("Yes") : TranslateT("No"));
+		LvItem.pszText = (g_data.hContact[i] == g_data.hOfflineContact ? TranslateT("Yes") : TranslateT("No"));
 		ListView_SetItem(hList, &LvItem);
 	}
 }
 
-void SetListSelection(HWND hList, int sel)
+static void SetListSelection(HWND hList, int sel)
 {
-	ListView_SetItemState(hList, sel, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
+	ListView_SetItemState(hList, sel, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 }
 
 /** Scans the \c CHANGES and call the appropriate function for each change.
@@ -131,78 +127,76 @@ void SetListSelection(HWND hList, int sel)
 * @param chg : Structure holding all the change info (See CHANGES).
 */
 
-void ApplyChanges(CHANGES *chg)
+static void ApplyChanges()
 {
-	int i;
-
 	// remove removed contacts
-	for (i = 0; i < chg->num_deleted; i++) {
-		Meta_Delete((WPARAM)chg->hDeletedContacts[i], 0);
-		if (chg->hDeletedContacts[i] == chg->hDefaultContact)
-			chg->hDefaultContact = 0;
-		if (chg->hDeletedContacts[i] == chg->hOfflineContact)
-			chg->hOfflineContact = 0;
+	for (int i = 0; i < g_data.num_deleted; i++) {
+		Meta_Delete(g_data.hDeletedContacts[i], 0);
+		if (g_data.hDeletedContacts[i] == g_data.hDefaultContact)
+			g_data.hDefaultContact = 0;
+		if (g_data.hDeletedContacts[i] == g_data.hOfflineContact)
+			g_data.hOfflineContact = 0;
 	}
 
 	// set contact positions
-	for (i = 0; i < chg->num_contacts; i++)
-		if (Meta_GetContactNumber(chg->cc, chg->hContact[i]) != i)
-			Meta_SwapContacts(chg->cc, Meta_GetContactNumber(chg->cc, chg->hContact[i]), i);
+	for (int i = 0; i < g_data.num_contacts; i++)
+		if (Meta_GetContactNumber(g_data.cc, g_data.hContact[i]) != i)
+			Meta_SwapContacts(g_data.cc, Meta_GetContactNumber(g_data.cc, g_data.hContact[i]), i);
 
-	NotifyEventHooks(hSubcontactsChanged, chg->hMeta, chg->hDefaultContact);
+	NotifyEventHooks(hSubcontactsChanged, g_data.hMeta, g_data.hDefaultContact);
 
 	// set default
-	chg->cc->nDefault = (chg->hDefaultContact) ? Meta_GetContactNumber(chg->cc, chg->hDefaultContact) : 0;
-	currDb->MetaSetDefault(chg->cc);
-	NotifyEventHooks(hEventDefaultChanged, chg->hMeta, chg->hDefaultContact);
+	g_data.cc->nDefault = (g_data.hDefaultContact) ? Meta_GetContactNumber(g_data.cc, g_data.hDefaultContact) : 0;
+	currDb->MetaSetDefault(g_data.cc);
+	NotifyEventHooks(hEventDefaultChanged, g_data.hMeta, g_data.hDefaultContact);
 
 	// set offline
-	if (chg->hOfflineContact)
-		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->cc, chg->hOfflineContact));
+	if (g_data.hOfflineContact)
+		db_set_dw(g_data.hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(g_data.cc, g_data.hOfflineContact));
 	else
-		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
+		db_set_dw(g_data.hMeta, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
 	// fix nick
-	MCONTACT most_online = Meta_GetMostOnline(chg->cc);
-	Meta_CopyContactNick(chg->cc, most_online);
+	MCONTACT most_online = Meta_GetMostOnline(g_data.cc);
+	Meta_CopyContactNick(g_data.cc, most_online);
 
 	// fix status
-	Meta_FixStatus(chg->cc);
+	Meta_FixStatus(g_data.cc);
 
 	// fix avatar
-	most_online = Meta_GetMostOnlineSupporting(chg->cc, PFLAGNUM_4, PF4_AVATARS);
+	most_online = Meta_GetMostOnlineSupporting(g_data.cc, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online) {
 		PROTO_AVATAR_INFORMATIONT AI;
 
 		AI.cbSize = sizeof(AI);
-		AI.hContact = chg->hMeta;
+		AI.hContact = g_data.hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcscpy(AI.filename, _T("X"));
 
 		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-	        db_set_ts(chg->hMeta, "ContactPhoto", "File",AI.filename);
+			db_set_ts(g_data.hMeta, "ContactPhoto", "File", AI.filename);
 	}
 
-	if (MetaAPI_GetForceState((WPARAM)chg->hMeta, 0) != chg->force_default)
-		MetaAPI_ForceDefault((WPARAM)chg->hMeta, 0);
+	if (MetaAPI_GetForceState(g_data.hMeta, 0) != g_data.force_default)
+		MetaAPI_ForceDefault(g_data.hMeta, 0);
 }
 
-LRESULT ProcessCustomDraw (LPARAM lParam)
+LRESULT ProcessCustomDraw(LPARAM lParam)
 {
-    LPNMLVCUSTOMDRAW lplvcd = (LPNMLVCUSTOMDRAW)lParam;
-	 switch(lplvcd->nmcd.dwDrawStage) {
-	 case CDDS_PREPAINT : //Before the paint cycle begins
-		 //request notifications for individual listview items
-		 return CDRF_NOTIFYITEMDRAW;
+	LPNMLVCUSTOMDRAW lplvcd = (LPNMLVCUSTOMDRAW)lParam;
+	switch (lplvcd->nmcd.dwDrawStage) {
+	case CDDS_PREPAINT: //Before the paint cycle begins
+		//request notifications for individual listview items
+		return CDRF_NOTIFYITEMDRAW;
 
-	 case CDDS_ITEMPREPAINT: //Before an item is drawn
-		 if (changes.hContact[(int)lplvcd->nmcd.dwItemSpec] == changes.hDefaultContact) {
-			 lplvcd->clrText = RGB(255, 0, 0);
-		 }
-		 return CDRF_NEWFONT;
-	 }
+	case CDDS_ITEMPREPAINT: //Before an item is drawn
+		if (g_data.hContact[(int)lplvcd->nmcd.dwItemSpec] == g_data.hDefaultContact)
+			lplvcd->clrText = RGB(255, 0, 0);
 
-	 return 0;
+		return CDRF_NEWFONT;
+	}
+
+	return 0;
 }
 
 /** Callback function for the <b>'Edit'</b> Dialog.
@@ -219,16 +213,16 @@ LRESULT ProcessCustomDraw (LPARAM lParam)
 
 #define WMU_SETTITLE		(WM_USER + 1)
 
-INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
 	int sel, i;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(I_EDIT));
-		{	
+		{
 			DBCachedContact *cc = currDb->m_cache->GetCachedContact(lParam);
 			if (cc == NULL) {
 				DestroyWindow(hwndDlg);
@@ -236,7 +230,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 			// Disable the 'Apply' button.
-			EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), FALSE);
 
 			hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 			ListView_SetExtendedListViewStyle(hwnd, LVS_EX_FULLROWSELECT);
@@ -274,21 +268,22 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
-			changes.cc = cc;
-			changes.hMeta = lParam;
-			changes.num_contacts = cc->nSubs;
-			changes.num_deleted = 0;
-			changes.hDefaultContact = Meta_GetContactHandle(changes.cc, cc->nDefault);
-			changes.hOfflineContact = Meta_GetContactHandle(changes.cc, offline_contact_number);
+			ZeroMemory(&g_data, sizeof(g_data));
+			g_data.cc = cc;
+			g_data.hMeta = lParam;
+			g_data.num_contacts = cc->nSubs;
+			g_data.num_deleted = 0;
+			g_data.hDefaultContact = Meta_GetContactHandle(g_data.cc, cc->nDefault);
+			g_data.hOfflineContact = Meta_GetContactHandle(g_data.cc, offline_contact_number);
 			for (i = 0; i < cc->nSubs; i++)
-				changes.hContact[i] = Meta_GetContactHandle(changes.cc, i);
-			changes.force_default = MetaAPI_GetForceState((WPARAM)lParam, 0);
+				g_data.hContact[i] = Meta_GetContactHandle(g_data.cc, i);
+			g_data.force_default = MetaAPI_GetForceState(lParam, 0);
 
 			SendMessage(hwndDlg, WMU_SETTITLE, 0, lParam);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_FORCEDEFAULT, changes.force_default);
+			CheckDlgButton(hwndDlg, IDC_CHK_FORCEDEFAULT, g_data.force_default);
 
-			FillContactList(hwndDlg, &changes);
+			FillContactList(hwndDlg);
 		}
 		return TRUE;
 
@@ -303,49 +298,49 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return TRUE;
 
 	case WM_NOTIFY: // the message that is being sent always
-		switch(LOWORD(wParam)) { // hit control
+		switch (LOWORD(wParam)) { // hit control
 		case IDC_LST_CONTACTS:      // did we hit our ListView contorl?
 			if (((LPNMHDR)lParam)->code == NM_CLICK) {
-				sel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LST_CONTACTS), -1, LVNI_FOCUSED|LVNI_SELECTED); // return item selected
+				sel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LST_CONTACTS), -1, LVNI_FOCUSED | LVNI_SELECTED); // return item selected
 
 				// enable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), sel != -1);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), sel != -1 && changes.hContact[sel] != changes.hDefaultContact);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), sel != -1 && changes.hContact[sel] != changes.hOfflineContact);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), sel != -1 && g_data.hContact[sel] != g_data.hDefaultContact);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), sel > 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel != -1 && sel < changes.num_contacts - 1));
-			}					
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel != -1 && sel < g_data.num_contacts - 1));
+			}
 		}
 		break;
 
 	case WM_COMMAND:
-		switch(HIWORD(wParam)) {
+		switch (HIWORD(wParam)) {
 		case BN_CLICKED:	// A button ('Remove', 'OK', 'Cancel' or 'Apply', normally) has been clicked
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_VALIDATE: // Apply changes, if there is still one contact attached to the metacontact.
-				if (changes.num_contacts == 0) { // Otherwise, delete the metacontact.
+				if (g_data.num_contacts == 0) { // Otherwise, delete the metacontact.
 					if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete MetaContact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
-						Meta_Delete((WPARAM)changes.hMeta, 0);
+						Meta_Delete(g_data.hMeta, 0);
 						DestroyWindow(hwndDlg);
 					}
 					return TRUE;
 				}
-				ApplyChanges(&changes);
+				ApplyChanges();
 
 				// Disable the 'Apply' button.
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), FALSE);
 				break;
 
 			case IDOK:
-				if ( IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VALIDATE))) { // If there are changes that could be made,
-					if (changes.num_contacts == 0) { // do the work that would have be done if the 'Apply' button was clicked.
+				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VALIDATE))) { // If there are changes that could be made,
+					if (g_data.num_contacts == 0) { // do the work that would have be done if the 'Apply' button was clicked.
 						if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete MetaContact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
-							Meta_Delete((WPARAM)changes.hMeta,0);
+							Meta_Delete(g_data.hMeta, 0);
 							DestroyWindow(hwndDlg);
 						}
 						return TRUE;
 					}
-					ApplyChanges(&changes);
+					ApplyChanges();
 				}
 				EndDialog(hwndDlg, IDOK);
 				return TRUE;
@@ -358,46 +353,46 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				InvalidateRect(hwnd, 0, TRUE);
-				changes.hDefaultContact = changes.hContact[sel];
-				SendMessage(hwndDlg, WMU_SETTITLE, 0, (LPARAM)changes.hContact[sel]);
+				g_data.hDefaultContact = g_data.hContact[sel];
+				SendMessage(hwndDlg, WMU_SETTITLE, 0, (LPARAM)g_data.hContact[sel]);
 
-				FillContactList(hwndDlg, &changes);
+				FillContactList(hwndDlg);
 				SetListSelection(hwnd, sel);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_BTN_SETDEFAULT),FALSE);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 
 			case IDC_BTN_SETOFFLINE:
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				InvalidateRect(hwnd, 0, TRUE);
-				changes.hOfflineContact = changes.hContact[sel];
+				g_data.hOfflineContact = g_data.hContact[sel];
 
-				FillContactList(hwndDlg, &changes);
+				FillContactList(hwndDlg);
 				SetListSelection(hwnd, sel);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_BTN_SETOFFLINE),FALSE);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 
 			case IDC_BTN_REM:
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
-				changes.num_contacts--;
-				changes.hDeletedContacts[changes.num_deleted++] = changes.hContact[sel];
-				if (changes.hDefaultContact == changes.hContact[sel]) {
-					if (changes.num_contacts > 0) {
-						changes.hDefaultContact = changes.hContact[0];
-						SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT), cli.pfnGetContactDisplayName(changes.hDefaultContact, 0));
+				g_data.num_contacts--;
+				g_data.hDeletedContacts[g_data.num_deleted++] = g_data.hContact[sel];
+				if (g_data.hDefaultContact == g_data.hContact[sel]) {
+					if (g_data.num_contacts > 0) {
+						g_data.hDefaultContact = g_data.hContact[0];
+						SetWindowText(GetDlgItem(hwndDlg, IDC_ED_DEFAULT), cli.pfnGetContactDisplayName(g_data.hDefaultContact, 0));
 					}
 					else {
-						changes.hDefaultContact = 0;
-						SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT), _T("None"));
+						g_data.hDefaultContact = 0;
+						SetWindowText(GetDlgItem(hwndDlg, IDC_ED_DEFAULT), _T("None"));
 					}
 				}
 
-				for (i = sel; i < changes.num_contacts; i++)
-					changes.hContact[i] = changes.hContact[i + 1];
-				FillContactList(hwndDlg, &changes);
+				for (i = sel; i < g_data.num_contacts; i++)
+					g_data.hContact[i] = g_data.hContact[i + 1];
+				FillContactList(hwndDlg);
 
 				// disable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), FALSE);
@@ -407,46 +402,46 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
 
 				// Enable the 'Apply' button.
-				EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 
 			case IDC_BTN_UP:
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				{
-					MCONTACT temp = changes.hContact[sel];
-					changes.hContact[sel] = changes.hContact[sel - 1];
-					changes.hContact[sel-1] = temp;
+					MCONTACT temp = g_data.hContact[sel];
+					g_data.hContact[sel] = g_data.hContact[sel - 1];
+					g_data.hContact[sel - 1] = temp;
 				}
-				FillContactList(hwndDlg, &changes);
+				FillContactList(hwndDlg);
 				sel--;
 				SetListSelection(hwnd, sel);
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), (sel > 0));
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel < changes.num_contacts - 1));
-				EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel < g_data.num_contacts - 1));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 
 			case IDC_BTN_DOWN:
 				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				{
-					MCONTACT temp = changes.hContact[sel];
-					changes.hContact[sel] = changes.hContact[sel + 1];
-					changes.hContact[sel + 1] = temp;
+					MCONTACT temp = g_data.hContact[sel];
+					g_data.hContact[sel] = g_data.hContact[sel + 1];
+					g_data.hContact[sel + 1] = temp;
 				}
-				FillContactList(hwndDlg, &changes);
+				FillContactList(hwndDlg);
 				sel++;
 				SetListSelection(hwnd, sel);
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), (sel > 0));
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel < changes.num_contacts - 1));
-				EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel < g_data.num_contacts - 1));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 
 			case IDC_CHK_FORCEDEFAULT:
-				changes.force_default = IsDlgButtonChecked(hwndDlg, IDC_CHK_FORCEDEFAULT);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),TRUE);
+				g_data.force_default = IsDlgButtonChecked(hwndDlg, IDC_CHK_FORCEDEFAULT);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 			}
 		}
@@ -463,4 +458,19 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	}
 
 	return FALSE;
+}
+
+/** Display the <b>'Edit'</b> Dialog
+*
+* Present a dialog in which the user can edit some properties of the MetaContact.
+*
+* @param wParam : HANDLE to the MetaContact to be edited.
+* @param lParam :	Allways set to 0.
+*/
+
+INT_PTR Meta_Edit(WPARAM wParam, LPARAM lParam)
+{
+	HWND clui = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_METAEDIT), clui, Meta_EditDialogProc, (LPARAM)wParam);
+	return 0;
 }

@@ -176,7 +176,7 @@ static DWORD CALLBACK sttFakeAckFail( LPVOID param )
 	WaitForSingleObject( tParam->hEvent, INFINITE );
 
 	Sleep( 100 );
-	ProtoBroadcastAck(META_PROTO, tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, (WPARAM)tParam->msg );
+	ProtoBroadcastAck(META_PROTO, tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, (WPARAM)tParam->msg);
 
 	CloseHandle( tParam->hEvent );
 	mir_free(tParam);
@@ -734,7 +734,7 @@ INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 	char *proto = GetContactProto(most_online);
 	if (proto)
 		if (ProtoServiceExists(proto, PSS_USERISTYPING))
-			ProtoCallService(proto, PSS_USERISTYPING, (WPARAM)most_online, (LPARAM)lParam);
+			ProtoCallService(proto, PSS_USERISTYPING, most_online, lParam);
 
 	return 0;
 }
@@ -912,7 +912,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 			strcpy(buffer, proto);
 			strcat(buffer, PS_GETCAPS);
 
-			int caps = CallService(buffer, (WPARAM)PFLAGNUM_1, 0);
+			int caps = CallService(buffer, PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0)) {
 				// set default contact for sending/status and open message window
 				cc->nDefault = (int)lParam;
@@ -1062,7 +1062,7 @@ int Meta_CallMostOnline(WPARAM hContact, LPARAM lParam)
 
 int Meta_PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	Meta_SetStatus((WPARAM)ID_STATUS_OFFLINE, 0);
+	Meta_SetStatus(ID_STATUS_OFFLINE, 0);
 	Meta_SuppressStatus(FALSE);
 	if (setStatusTimerId)
 		KillTimer(0, setStatusTimerId);

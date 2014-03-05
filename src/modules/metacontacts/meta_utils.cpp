@@ -187,7 +187,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	if (set_as_default) {
 		ccDest->nDefault = ccDest->nSubs - 1;
 		currDb->MetaSetDefault(ccDest);
-		NotifyEventHooks(hEventDefaultChanged, (WPARAM)hMeta, (LPARAM)hSub);
+		NotifyEventHooks(hEventDefaultChanged, hMeta, hSub);
 	}
 
 	// set nick to most online contact that can message
@@ -215,12 +215,12 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 
 	// Ignore status if the option is on
 	if (options.suppress_status)
-		CallService(MS_IGNORE_IGNORE, (WPARAM)hSub, (WPARAM)IGNOREEVENT_USERONLINE);
+		CallService(MS_IGNORE_IGNORE, hSub, IGNOREEVENT_USERONLINE);
 
 	// copy other data
 	Meta_CopyData(ccDest);
 
-	NotifyEventHooks(hSubcontactsChanged, (WPARAM)hMeta, 0);
+	NotifyEventHooks(hSubcontactsChanged, hMeta, 0);
 	return TRUE;
 }
 
@@ -257,7 +257,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 	MCONTACT most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
 	char *szProto = GetContactProto(most_online_contact);
-	DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
+	DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
 	if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
 	// we are forced to do use default for sending - '-1' capability indicates no specific capability, but respect 'Force Default'
 	if (szProto && db_get_b(cc->contactID, META_PROTO, "ForceDefault", 0) && capability != 0 && (capability == -1 || (caps & capability) == capability)) // capability is 0 when we're working out status
@@ -265,7 +265,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 	// a subcontact is being temporarily 'forced' to do sending
 	if ((most_online_contact = db_get_dw(cc->contactID, META_PROTO, "ForceSend", 0))) {
-		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
+		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
 		if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
 		if (szProto && (caps & capability) == capability && capability != 0) // capability is 0 when we're working out status
 			return most_online_contact;
@@ -274,7 +274,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 	most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
 	szProto = GetContactProto(most_online_contact);
 	if (szProto && CallProtoService(szProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
-		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
+		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
 		if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
 		if (szProto && (capability == -1 || (caps & capability) == capability)) {
 			most_online_status = db_get_w(most_online_contact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -300,7 +300,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 		if (!szProto || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
-		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
+		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
 		if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
 		if (szProto && (capability == -1 || (caps & capability) == capability)) {
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -618,7 +618,7 @@ int Meta_HideLinkedContacts(void)
 		}
 
 		if (options.suppress_status)
-			CallService(MS_IGNORE_IGNORE, hContact, (WPARAM)IGNOREEVENT_USERONLINE);
+			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 	}
 
 	// do metacontacts after handles set properly above
@@ -683,8 +683,6 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 			if (!db_get_s(hContact, szProto, "Nick", &dbv, 0)) {
 				db_set(ccMeta->contactID, META_PROTO, "Nick", &dbv);
 				db_free(&dbv);
-				//CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)hMeta, 0);
-				//CallService(MS_CLUI_CONTACTRENAMED, (WPARAM)hMeta, 0);
 				db_free(&dbv_proto);
 				return 0;
 			}
