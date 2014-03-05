@@ -493,6 +493,8 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
+
 	Create_MenuitemShowList();
 	IsMessageAPI = (CallService(MS_MSG_GETWINDOWAPI, 0, 0) != CALLSERVICE_NOTFOUND);
 	LoadDBSettings();
@@ -535,7 +537,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
-	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
 	HookEvent(ME_MSG_WINDOWEVENT, OnMsgEvent);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
