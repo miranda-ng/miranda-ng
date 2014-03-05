@@ -408,6 +408,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", ".
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys_10.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryStats", "..\plugins\HistoryStats\historystats_10.vcxproj", "{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1816,6 +1818,14 @@ Global
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.Build.0 = Release|Win32
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.ActiveCfg = Release|x64
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.Build.0 = Release|x64
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Debug|Win32.Build.0 = Debug|Win32
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Debug|x64.ActiveCfg = Debug|x64
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Debug|x64.Build.0 = Debug|x64
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|Win32.ActiveCfg = Release|Win32
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|Win32.Build.0 = Release|Win32
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|x64.ActiveCfg = Release|x64
+		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
