@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME        "HistoryStats"
 #define __FILENAME           "HistoryStats.dll"
-#define __DESCRIPTION        "Creates nice statistics using your message history."
+#define __DESCRIPTION        "Creates detailed, colorful and highly customizable statistics using your message history."
 #define __AUTHOR             "Martin Afanasjew"
 #define __AUTHOREMAIL        "miranda@dark-passage.de"
 #define __AUTHORWEB          "http://miranda-ng.org/p/HistoryStats/"
