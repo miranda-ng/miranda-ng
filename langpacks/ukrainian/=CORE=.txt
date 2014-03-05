@@ -2371,12 +2371,10 @@ Miranda не може відкрити цей профіль
 Не знайдено контактів у мережі.
 [Sender]
 Відправник
-[Could not retreive MetaContact contact count]
-Не можу визначити кількість субконтактів у метаконтакті
-[Assignment error]
-Помилка призначення
 [Could not retreive contact protocol]
 Не можу визначити протокол контакту
+[Assignment error]
+Помилка призначення
 [Could not get unique ID of contact]
 Не можу отримати унікальний ID контакту
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]

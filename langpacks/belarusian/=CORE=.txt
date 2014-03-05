@@ -2459,19 +2459,15 @@ ID
 [History]
 Гісторыя
 ;file \src\modules\metacontacts\meta_services.cpp
-[Meta ID]
-Meta ID
 [No online contacts found.]
 Няма далучаных кантактаў.
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Адпраўшчык
-[Could not retreive MetaContact contact count]
-Не магу запытаць колькасць субкантактаў метакантакту
-[Assignment error]
-Памылка прызначэння
 [Could not retreive contact protocol]
 Не магу запытаць пратакол кантакту
+[Assignment error]
+Памылка прызначэння
 [Could not get unique ID of contact]
 Не магу атрымаць унікальны ID кантакту
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]

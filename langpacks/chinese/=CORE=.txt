@@ -2216,16 +2216,12 @@ Miranda 无法打开此配置文件
 优先级
 [History]
 历史
-[Meta ID]
-中继 ID
 [No online contacts found.]
 找不到任何联系人. 
-[Could not retreive MetaContact contact count]
-无法获取中继联系人数量
-[Assignment error]
-指派错误
 [Could not retreive contact protocol]
 无法获取联系人协议
+[Assignment error]
+指派错误
 [Could not get unique ID of contact]
 无法获取联系人独有 ID
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]

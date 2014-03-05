@@ -2369,12 +2369,10 @@ ID
 Не найдено контактов в сети.
 [Sender]
 Отправитель
-[Could not retreive MetaContact contact count]
-Не могу запросить количество субконтактов метаконтакта
-[Assignment error]
-Ошибка назначения
 [Could not retreive contact protocol]
 Не могу запросить протокол контакта
+[Assignment error]
+Ошибка назначения
 [Could not get unique ID of contact]
 Не могу получить уникальный ID контакта
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]

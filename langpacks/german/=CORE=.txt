@@ -2469,19 +2469,15 @@ Prioritäten
 [History]
 Verlauf
 ;file \src\modules\metacontacts\meta_services.cpp
-[Meta ID]
-Meta-ID
 [No online contacts found.]
 Keine Onlinekontakte gefunden.
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Sender
-[Could not retreive MetaContact contact count]
-Konnte Metakontakt-Kontaktzahl nicht abrufen
-[Assignment error]
-Zuweisungsfehler
 [Could not retreive contact protocol]
 Konnte Kontaktprotokoll nicht abrufen
+[Assignment error]
+Zuweisungsfehler
 [Could not get unique ID of contact]
 Konnte eindeutige ID des Kontakt nicht erhalten
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]

@@ -9,7 +9,6 @@
 [Windows]
 [Miranda]
 [E-mail]
-[Meta ID]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]
