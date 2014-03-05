@@ -8,10 +8,6 @@ DWORD CMraProto::StartConnect()
 	if (!g_dwGlobalPluginRunning)
 		return ERROR_OPERATION_ABORTED;
 
-	// поток ещё/уже не работал, поставили статус что работает и запускаем
-	if (InterlockedCompareExchange((volatile LONG*)&m_dwThreadWorkerRunning, TRUE, FALSE))
-		return 0;
-
 	CMStringA szEmail;
 	mraGetStringA(NULL, "e-mail", szEmail);
 
@@ -21,10 +17,14 @@ DWORD CMraProto::StartConnect()
 	else if (!GetPassDB(szPass))
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Please, setup password in options"));
 	else {
+		// поток ещё/уже не работал, поставили статус что работает и запускаем
+		if (InterlockedCompareExchange((volatile LONG*)&m_dwThreadWorkerRunning, TRUE, FALSE))
+			return 0;
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0);
+		return 0;
 	}
-	return 0;
+	return ERROR_OPERATION_ABORTED;
 }
 
 void CMraProto::MraThreadProc(LPVOID lpParameter)
