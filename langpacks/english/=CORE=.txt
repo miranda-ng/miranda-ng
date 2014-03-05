@@ -1277,13 +1277,11 @@
 [Priorities]
 [History]
 ;file \src\modules\metacontacts\meta_services.cpp
-[Meta ID]
 [No online contacts found.]
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
-[Could not retreive MetaContact contact count]
-[Assignment error]
 [Could not retreive contact protocol]
+[Assignment error]
 [Could not get unique ID of contact]
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
 [MetaContact is full]
