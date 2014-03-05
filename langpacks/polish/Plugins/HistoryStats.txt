@@ -1,0 +1,68 @@
+﻿#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+;============================================================
+;  File: HistoryStats.dll
+;  Plugin: HistoryStats
+;  Version: 0.1.5.3
+;  Authors: Martin Afanasjew
+;============================================================
+[Creates nice statistics using your message history.]
+Tworzy fajne statystyki używając historii wiadomości
+;file \plugins\HistoryStats\res\resource.rc
+[Band]
+Zespół
+[HistoryStats - Working...]
+HistoryStats - działa...
+[Cancel]
+Anuluj
+[HistoryStats - Add column]
+HistoryStats - dodaj kolumnę
+[Available column types:]
+Dostępne typy kolumn:
+[Description]
+Opis
+[Add]
+Dodaj
+[HistoryStats - Conflicting files]
+HistoryStats - pliki, które mogą się nadpisać
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+Niektóre pliki zostały tymczasowo zapisane w innym miejscu, by uniknąć nadpisania. Jeżęli zawsze chcesz nadpisywać istniejące pliki, jest od tego opcja.
+[The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
+Następujące pliki, nie mogły zostać zapisane, ponieważ istnieją już pliki o tej samej nazwie. Proszę zdecydować czy powinny one nadpisać istniejące pliki, czy zostać anulowane.
+[Overwrite existing]
+Nadpisz istniejące
+[Discard generated]
+Anuluj nowe
+[HistoryStats supports several plugins. Click to learn more...]
+History Stats wspiera wiele wtyczek. Kliknij, by dowiedzieć się więcej.
+[Contacts]
+Kontakty
+[Hide additional column info...]
+Ukryj dodatkowe informacje w kolumnie
+[HistoryStats - Plugin/extension info]
+HistoryStats - informacje o wtyczce/rozszerzeniu
+[Close]
+Zamknij
+[Plugin/extension name:]
+Nazwa wtyczki/rozszerzenia:
+[Provided features:]
+Wspierane funkcje:
+[Detailed description:]
+Szczegółowy opis:
+[HistoryStats - Filter words/messages]
+HistoryStats - filtruj słowa/wiadomości
+[Sets:]
+Ustawienia:
+[Set name:]
+Ustaw nazwę:
+[Set mode:]
+Ustaw tryb:
+[About sets]
+O ustawieniach
+[All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
+Wszystkie ustawienia są wspólne dla wszystkich kolumn, jednakże tylko te zaznaczone będą stosowane dla bieżącej kolumny. Użyj pola po prawej, by określić słowa, wpisując każde słowo w nowej linii.
+[OK]
+OK
+[Configure HistoryStats]
+Skonfiguruj HistoryStats
+[Apply]
+Zastosuj
