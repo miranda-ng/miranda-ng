@@ -412,6 +412,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\Ne
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryStats", "..\plugins\HistoryStats\historystats_12.vcxproj", "{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dropbox", "..\plugins\Dropbox\Dropbox_12.vcxproj", "{CBA58126-3E02-4159-9BD3-059AF9DBC84E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1828,6 +1830,14 @@ Global
 		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|Win32.Build.0 = Release|Win32
 		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|x64.ActiveCfg = Release|x64
 		{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}.Release|x64.Build.0 = Release|x64
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Debug|Win32.Build.0 = Debug|Win32
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Debug|x64.ActiveCfg = Debug|x64
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Debug|x64.Build.0 = Debug|x64
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|Win32.ActiveCfg = Release|Win32
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|Win32.Build.0 = Release|Win32
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|x64.ActiveCfg = Release|x64
+		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
