@@ -161,6 +161,9 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		return TRUE;
 
 	case WM_COMMAND:
+		if (HIWORD(wParam) == LBN_DBLCLK) // emulate click ok Ok
+			wParam = MAKEWPARAM(IDOK, BN_CLICKED);
+
 		if (HIWORD(wParam) != BN_CLICKED)
 			break;	// Only clicks of buttons are relevant, let other COMMANDs through
 

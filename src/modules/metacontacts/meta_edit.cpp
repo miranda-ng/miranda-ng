@@ -66,6 +66,8 @@ static void FillContactList(HWND hWndDlg)
 		LvItem.iSubItem = 1; // id
 		char *szProto = GetContactProto(g_data.hContact[i]);
 		if (szProto) {
+			PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+
 			char *szField = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 
 			DBVARIANT dbv;
@@ -97,11 +99,11 @@ static void FillContactList(HWND hWndDlg)
 			SendMessage(hList, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
 			LvItem.iSubItem = 2; // protocol
-			_tcsncpy(buff, _A2T(szProto), SIZEOF(buff));
+			_tcsncpy_s(buff, SIZEOF(buff), (pa == NULL) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
 			ListView_SetItem(hList, &LvItem);
 		}
 		else {
-			LvItem.pszText = _T("Unknown");
+			LvItem.pszText = TranslateT("Unknown");
 			ListView_SetItem(hList, &LvItem);
 
 			LvItem.iSubItem = 2; // protocol
@@ -237,7 +239,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			LvCol.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
 
 			LvCol.pszText = TranslateT("Contact");
-			LvCol.cx = 100;
+			LvCol.cx = 150;
 			ListView_InsertColumn(hwnd, 0, &LvCol);
 
 			LvCol.pszText = TranslateT("ID");
