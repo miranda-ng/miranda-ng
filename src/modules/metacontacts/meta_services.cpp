@@ -691,7 +691,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 
 	// is a subcontact - update meta contact
 	if (IsSub(cc)) {
-		Meta_RemoveContactNumber(cc, Meta_GetContactNumber(cc, hContact));
+		Meta_RemoveContactNumber(cc, Meta_GetContactNumber(cc, hContact), true);
 		NotifyEventHooks(hSubcontactsChanged, cc->parentID, 0);
 		return 0;
 	}

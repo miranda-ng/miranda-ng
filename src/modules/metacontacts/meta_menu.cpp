@@ -89,7 +89,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)hMetaContact;
 }
 
-void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
+void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateInfo)
 {
 	if (ccMeta == NULL)
 		return;
@@ -107,7 +107,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 
 	// each contact from 'number' upwards will be moved down one
 	// and the last one will be deleted
-	for (int i = number + 1; i < ccMeta->nSubs; i++)
+	for (int i = number+1; i < ccMeta->nSubs; i++)
 		Meta_SwapContacts(ccMeta, i, i - 1);
 
 	// remove the last one
@@ -147,22 +147,24 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number)
 	ccMeta->nSubs--;
 	db_set_dw(ccMeta->contactID, META_PROTO, "NumContacts", ccMeta->nSubs);
 
-	// fix nick
-	Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
+	if (bUpdateInfo) {
+		// fix nick
+		Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
 
-	// fix status
-	Meta_FixStatus(ccMeta);
+		// fix status
+		Meta_FixStatus(ccMeta);
 
-	// fix avatar
-	MCONTACT hContact = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
-	if (hContact) {
-		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
-		AI.hContact = ccMeta->contactID;
-		AI.format = PA_FORMAT_UNKNOWN;
-		_tcscpy(AI.filename, _T("X"));
+		// fix avatar
+		MCONTACT hContact = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
+		if (hContact) {
+			PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+			AI.hContact = ccMeta->contactID;
+			AI.format = PA_FORMAT_UNKNOWN;
+			_tcscpy(AI.filename, _T("X"));
 
-		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-			db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
+			if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
+		}
 	}
 }
 
@@ -190,13 +192,8 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 				TranslateT("Are you sure?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2))
 			return 0;
 
-		for (int i = 0; i < cc->nSubs; i++) {
-			currDb->MetaDetouchSub(cc, i);
-
-			// stop ignoring, if we were
-			if (options.suppress_status)
-				CallService(MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
-		}
+		for (int i = cc->nSubs-1; i >= 0; i--)
+			Meta_RemoveContactNumber(cc, i, false);
 
 		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
@@ -212,7 +209,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 			return 0;
 		}
 
-		Meta_RemoveContactNumber(cc, Meta_GetContactNumber(cc, hContact));
+		Meta_RemoveContactNumber(cc, Meta_GetContactNumber(cc, hContact), true);
 	}
 	return 0;
 }

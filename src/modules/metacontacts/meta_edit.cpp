@@ -166,14 +166,11 @@ static void ApplyChanges()
 	// fix avatar
 	most_online = Meta_GetMostOnlineSupporting(g_data.cc, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online) {
-		PROTO_AVATAR_INFORMATIONT AI;
-
-		AI.cbSize = sizeof(AI);
+		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = g_data.hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcscpy(AI.filename, _T("X"));
-
-		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 			db_set_ts(g_data.hMeta, "ContactPhoto", "File", AI.filename);
 	}
 
