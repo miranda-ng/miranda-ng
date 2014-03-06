@@ -1760,9 +1760,9 @@ bajty
 [File &transfers...]
 &Transfery plików...
 [Incoming]
-Przychodzący
+Przychodzące
 [Complete]
-Zakończony
+Zakończone
 [Error]
 Błąd
 [Denied]

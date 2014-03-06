@@ -23,13 +23,13 @@ Dodaj
 [HistoryStats - Conflicting files]
 HistoryStats - pliki, które mogą się nadpisać
 [Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
-Niektóre pliki zostały tymczasowo zapisane w innym miejscu, by uniknąć nadpisania. Jeżęli zawsze chcesz nadpisywać istniejące pliki, jest od tego opcja.
+Niektóre pliki zostały tymczasowo zapisane w innym miejscu, by uniknąć nadpisania. Jeżeli zawsze chcesz nadpisywać istniejące pliki, jest od tego opcja.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
-Następujące pliki, nie mogły zostać zapisane, ponieważ istnieją już pliki o tej samej nazwie. Proszę zdecydować czy powinny one nadpisać istniejące pliki, czy zostać anulowane.
+Następujące pliki, nie mogły zostać zapisane, ponieważ istnieją już pliki o tej samej nazwie. Proszę zdecydować czy powinny być nadpisane czy anulowane.
 [Overwrite existing]
-Nadpisz istniejące
+Nadpisz istniejący
 [Discard generated]
-Anuluj nowe
+Anuluj
 [HistoryStats supports several plugins. Click to learn more...]
 History Stats wspiera wiele wtyczek. Kliknij, by dowiedzieć się więcej.
 [Contacts]
@@ -95,7 +95,7 @@ maksymalną
 [Show bar graph for chat duration type]
 Pokaż wykres słupkowy dla czasu trwania rozmów
 [Other information in tooltip]
-Inne informacje w tooltipie
+Pozostałe informacje w tooltipie
 [Minimum chat duration]
 Minimalny czas rozmowy
 [Average chat duration]
@@ -150,7 +150,7 @@ Wychodzące pliki
 [Events]
 Zdarzenia
 [Column holding event counts for incoming, outgoing or total number of files or URLs.]
-Graficzny podgląd liczby zdarzeń dla przychodzących, wychodzących lub łaczna liczba plików lub linków.
+Graficzny podgląd liczby zdarzeń dla przychodzących, wychodzących lub łączna liczba plików lub linków.
 ;file \plugins\HistoryStats\src\column_group.cpp
 [Group]
 Grupa
@@ -165,17 +165,17 @@ Pokaż jako
 [Absolute]
 Całkowite
 [Units per day]
-Wiadomości dzeinnie
+Wiadomości dziennie
 [Units per week]
 Wiadomości tygodniowo
 [Units per month (30 days)]
 Wiadomości miesięcznie (30 dni)
 [Characters (incoming)]
-Znaków (przychodzące)
+Znaki (przychodzące)
 [Characters (outgoing)]
-Znaków (wychodzące)
+Znaki (wychodzące)
 [Characters (all)]
-Znaków (wszystkie)
+Znaki (wszystkie)
 [Messages (incoming)]
 Wiadomości (przychodzące)
 [Messages (outgoing)]
@@ -189,30 +189,30 @@ Rozmowy (wychodzące)
 [Chats (all)]
 Rozmowy (wszystkie)
 [Characters]
-Znaków
+Znaki
 [Messages]
 Wiadomości
 [Chats]
-Rozmów
+Rozmowy
 [Incoming characters]
-przychodzące znaki
+Przychodzące znaki
 [Outgoing characters]
 Wychodzące znaki
 [Incoming chats]
-przychodzące rozmowy
+Przychodzące rozmowy
 [Outgoing chats]
 Wychodzące rozmowy
 [day]
 dzień
 [week]
-Tydzień
+tydzień
 [month]
 miesiąc
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Wejście/Wyjście
 [Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
-Graficzny podgląd liczby dla przyhcodzących, wychodzących lub łącznie znaków, wiadomości lub rozmów. Ta kolumna może wyświetlać całkowite i średnie wartości.
+Graficzny podgląd liczby dla przychodzących, wychodzących lub łącznie znaków, wiadomości lub rozmów. Ta kolumna może wyświetlać całkowite i średnie wartości.
 ;file \plugins\HistoryStats\src\column_inoutgraph.cpp
 [Show sum of incoming and outgoing]
 Pokaż sumę przychodzących i wychodzących
@@ -225,9 +225,9 @@ Całkowicie w podpowiedzi jeśli średnia stron i vice versa
 [Percentage in bar graph]
 Procentowe w wykresie słupkowym
 [Outgoing]
-Wychodzące
+Wychodzących
 [Incoming]
-Przychodzący
+Przychodzących
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
 [Wychodzących] #{out_amount} (#{out_ratio}) / [Przychodzących] #{in_amount} (#{in_ratio})
 [[Out] #{out_amount} / [In] #{in_amount}]
@@ -265,19 +265,19 @@ Protokół
 Graficzny podgląd kontaktów protokołu.
 ;file \plugins\HistoryStats\src\column_rank.cpp
 [Rank]
-Nr.
+Numer
 [#{rank}.]
 #{rank}.
 ;file \plugins\HistoryStats\src\column_rank.h
 [Column holding the contact's placing according to your sorting criteria.]
-Graficzny podgląd kontaktu w zależności od kryteriów stortowania.
+Graficzny podgląd kontaktu w zależności od kryteriów sortowania.
 ;file \plugins\HistoryStats\src\column_split.cpp
 ["Split" type]
 "Split" typ
 [Hours of day]
-Godzin na dzień
+Godziny dnia
 [Days of week]
-Dni w tygodniu
+Dni tygodnia
 [Custom (for experts only)]
 Niestandardowe (tylko dla ekspertów)
 [Column setup]
@@ -285,7 +285,7 @@ Ustawienia kolumn
 [Bar unit]
 Jednostka słupków
 [Units per bar]
-Jednostek na słupek
+Jednostek w słupku
 [Bars per graph]
 Słupków na wykresie
 [Graph alignment]
@@ -333,7 +333,7 @@ Graficzny podgląd rozmowy w podziale na dni tygodnia lub godziny. Różnica ilo
 [Drop everything older than (days, 0=no limit)]
 Odrzuć starsze niż (dni, 0 = bez limitu)
 [Number of days to group]
-Liczba dni do grupy
+Liczba dni w grupie
 [Number of weeks to group]
 Liczba tygodni do grupy
 [Units per block]
@@ -343,7 +343,7 @@ Bloków w kolumnie
 [Number of columns to group]
 Liczba kolumn do grupy
 [Characters (in/out ratio)]
-Znaków (zestawienie przych. / wych.)
+Znaki (zestawienie przych. / wych.)
 [Messages (in/out ratio)]
 Wiadomości (zestawienie przych. / wych.)
 [Chats (in/out ratio)]
@@ -376,7 +376,7 @@ Harmonogram
 [#{date}] #{out_amount} (wychodzących) / #{in_amount} (przychodzących)
 ;file \plugins\HistoryStats\src\column_timeline.h
 [Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.]
-Graficzny podgląd rozmowy w podziale na wychodzące, przyhcodzące, wszystkie, przych. / wych. ratio. Różnica ilości rozmów jest dostępna.
+Graficzny podgląd rozmowy w podziale na wychodzące, przychodzące, wszystkie, przych. / wych. ratio. Różnica ilości rozmów jest dostępna.
 ;file \plugins\HistoryStats\src\column_wordcount.cpp
 [Word count type]
 Typ liczby słów
@@ -387,7 +387,7 @@ Wyróżnione słowa
 [Ratio total/distinct words]
 Zestawienie wszystkich / wyraźnych słów
 [Additional info in tooltip (depends on type)]
-Dodaj info do tooltipa (zależy od typu)
+Dodatkowe informacje w tooltipie (zależy od typu)
 [Total word count]
 Całkowita liczba słów
 [Distinct word count]
@@ -428,7 +428,7 @@ Koloruj słowa zgodnie z zestawieniem przych. / wych.
 [Words]
 Słowa
 [Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
-Graficzny podgląd listy dla secyficznej liczby najbardziej / najmniej popularnych słów lub najdłuższe słowa użyte przez użytkownika, kontakt lub obu.
+Graficzny podgląd listy dla specyficznej liczby najbardziej / najmniej popularnych słów lub najdłuższe słowa użyte przez użytkownika, kontakt lub obu.
 ;file \plugins\HistoryStats\src\contact.cpp
 [(multiple)]
 (wieloraki)
@@ -519,7 +519,7 @@ Specyficzne ustawienia kolumny
 [For this config the selected column...]
 W tej konfiguracji zaznaczona kolumna...
 [...can be output as: ]
-...może być efekt jak:
+...będzie miała efekt jak: 
 [HTML]
 HTML
 [PNG (partial)]
@@ -527,7 +527,7 @@ PNG (częściowy)
 [PNG]
 PNG
 [...will be output as: ]
-...będzie efekt jak:
+...będzie miała efekt jak: 
 [Nothing (column will be skipped)]
 Nic (kolumna zostanie pominięta)
 [PNG, ignoring some sttings]
@@ -565,7 +565,7 @@ Różne
 [Generate statistics in background thread with low priority]
 Generuje statystyki w tle z niskim priorytetem
 [Path to browser (leave blank for system default)]
-Ścieżka do przeglądarki (pozosaw pustą jeśli chcesz użyć domyślnej)
+Ścieżka do przeglądarki (pozostaw pustą jeśli chcesz użyć domyślnej)
 [Create statistics for meta-contacts and their subcontacts]
 Stwórz statystyki dla metakontaktów i subkontaktów
 [The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
@@ -649,7 +649,7 @@ Usuń kontakty tylko z wychodzącymi rozmowami
 [Remove only if contact never answered]
 Usuń tylko wtedy, gdy kontakt nie odpowiedział
 [Limit number of contacts in statistics]
-Limit kontatków w statystykach
+Limit kontaktów w statystykach
 [Criteria]
 Kryteria
 [Omit contacts that didn't produce a certain amount of data]
@@ -717,17 +717,17 @@ Sortuj wg
 [Finally sort by]
 Końcowe sortowanie wg
 [Characters (incoming, absolute)]
-Znaków (przychodzących, wszystkich)
+Znaki (przychodzące, wszystkich)
 [Characters (outgoing, absolute)]
-Znaków (wychodzących, wszystkich)
+Znaki (wychodzące, wszystkich)
 [Characters (all, absolute)]
-Znaków (wszystkich)
+Znaki (wszystkie)
 [Characters (incoming, average)]
-Znaków (przychodzących, średnio)
+Znaki (przychodzące, średnio)
 [Characters (outgoing, average)]
-Znaków (wychodzących, średnio)
+Znaki (wychodzące, średnio)
 [Characters (all, average)]
-Znaków (wszystkich, średnio)
+Znaki (wszystkie, średnio)
 [Messages (incoming, absolute)]
 Wiadomości (przychodzące, wszystkie)
 [Messages (outgoing, absolute)]
@@ -771,11 +771,11 @@ Rosnąco
 [Descending]
 Malejąco
 [Characters (incoming, average per week)]
-Znaków (przychodzących, średnia tygodniowa)
+Znaki (przychodzące, średnia tygodniowa)
 [Characters (outgoing, average per week)]
-Znaków (wychodzących, średnia tygodniowa)
+Znaki (wychodzące, średnia tygodniowa)
 [Characters (all, average per week)]
-Znaków (wszystkich, średnia tygodniowa)
+Znaki (wszystkie, średnia tygodniowa)
 [Messages (incoming, average per week)]
 Wiadomości (przychodzące, średnia tygodniowa)
 [Messages (outgoing, average per week)]
