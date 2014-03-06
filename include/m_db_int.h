@@ -114,8 +114,8 @@ interface MIDatabase
 
 	STDMETHOD_(BOOL, MetaDetouchSub)(DBCachedContact*, int nSub) PURE;
 	STDMETHOD_(BOOL, MetaSetDefault)(DBCachedContact*) PURE;
-	STDMETHOD_(BOOL, MetaMergeHistory)(DBCachedContact *ccMeta, MCONTACT hSub) PURE;
-	STDMETHOD_(BOOL, MetaSplitHistory)(DBCachedContact *ccMeta, MCONTACT hSub) PURE;
+	STDMETHOD_(BOOL, MetaMergeHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
+	STDMETHOD_(BOOL, MetaSplitHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

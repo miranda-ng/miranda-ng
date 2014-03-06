@@ -126,6 +126,8 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	ccSub->parentID = 0;
 	currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
 
+	currDb->MetaSplitHistory(ccMeta, ccSub);
+
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
 	if (ccMeta->nDefault >= number) {
 		ccMeta->nDefault--;

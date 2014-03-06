@@ -83,8 +83,6 @@ int Meta_SetNick(char *szProto)
 
 BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 {
-	char buffer[512], szId[40];
-
 	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->m_cache->GetCachedContact(hSub);
 	if (ccDest == NULL || ccSub == NULL)
 		return FALSE;
@@ -110,7 +108,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 		return FALSE;
 	}
 
-	ccDest->nSubs++;
+	char szId[40];
+	_itoa(ccDest->nSubs++, szId, 10);
 	if (ccDest->nSubs >= MAX_CONTACTS) {
 		MessageBox(0, TranslateT("MetaContact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -118,9 +117,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the contact's protocol
-	strcpy(buffer, "Protocol");
-	strcat(buffer, _itoa(ccDest->nSubs - 1, szId, 10));
-
+	char buffer[512];
+	strcpy(buffer, "Protocol"); strcat(buffer, szId);
 	if (db_set_s(hMeta, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -128,9 +126,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the login
-	strcpy(buffer, "Login");
-	strcat(buffer, szId);
-
+	strcpy(buffer, "Login"); strcat(buffer, szId);
 	if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 		MessageBox(0, TranslateT("Could not write unique ID of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -210,8 +206,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 			db_set_ts(hMeta, "ContactPhoto", "File", AI.filename);
 	}
 
-	// !!!!!!!!!!!!!!!!!!!!!!!!!
-	// copyHistory(hSub, hMeta);
+	// merge sub's events to the meta-history
+	currDb->MetaMergeHistory(ccDest, ccSub);
 
 	// Ignore status if the option is on
 	if (options.suppress_status)
