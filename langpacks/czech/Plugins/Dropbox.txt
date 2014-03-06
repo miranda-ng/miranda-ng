@@ -7,6 +7,36 @@
 ;============================================================
 [Provides ability to upload files on Dropbox.]
 
+;file \plugins\Dropbox\res\resource.rc
+[Authorization]
+Autorizace
+[To allow Miranda NG access in your Dropbox account:]
+
+[Go to this link]
+
+[and allow access to files in apps folder]
+
+[Enter the security code ]
+
+[Click authorize button]
+
+[Authorize]
+Autorizovat
+[Other]
+Ostatní
+[Use shortened share links]
+
+[Enter code]
+
+[Enter code below:]
+
+[OK]
+OK
+[Cancel]
+Zrušit
+;file \plugins\Dropbox\proto_dropbox\src\resource.h
+[Send files to Dropbox]
+Odeslat soubory do Dropboxu
 ;file \plugins\Dropbox\src\dropbox.cpp
 [You have been authorized]
 
@@ -27,9 +57,8 @@ je prázdný
 není smazaný
 [is deleted]
 je smazaný
+;file \plugins\Dropbox\src\dropbox_dialogs.cpp
 ;file \plugins\Dropbox\src\dropbox_events.cpp
-[Send files to Dropbox]
-Odeslat soubory do Dropboxu
 [Network]
 Sítě
 [Dropbox]
@@ -68,3 +97,4 @@ OK
 
 [Unknown]
 Neznámý
+;file \plugins\Dropbox\src\resource.h

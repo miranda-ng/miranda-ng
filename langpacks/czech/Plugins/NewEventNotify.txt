@@ -90,6 +90,10 @@ Byl jste přidán
 ICQ WebPager
 [ICQ Email express]
 ICQ EmailExpress
+[SMS Message]
+Zpráva SMS
+[SMS Confirmation]
+Potvrzení SMS
 [Unknown Event]
 Neznámá událost
 [Notify of new events]

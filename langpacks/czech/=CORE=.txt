@@ -2415,6 +2415,8 @@ Chyba přiřazování
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
+[Unknown]
+neznámý
 [ID]
 ID
 [Protocol]
@@ -2436,10 +2438,6 @@ Přidat k existujícímu
 Upravit
 [Set to Default]
 Nastavit jako výchozí
-[Error - Database corruption.\nPlugin disabled.]
-Chyba - poškozená databáze.\nDoplněk zakázán.
-[MetaContacts]
-Metakontakty
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 Během přiřazování kontaktu k metakontaktu se vyskytly problémy.
@@ -2466,26 +2464,22 @@ Podkontakty
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 <výchozí>
+[MetaContacts]
+Metakontakty
 [Priorities]
 Priority
 [History]
 Historie
 ;file \src\modules\metacontacts\meta_services.cpp
-[Meta ID]
-Identifikátor
 [No online contacts found.]
 Nebyly nalezeny žádné online kontakty
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Odesílatel
-[Could not get MetaContact ID]
-Nelze zjistit identifikátor metakontaktu
-[Assignment error]
-Chyba přiřazování
-[Could not retreive MetaContact contact count]
-Nelze zjistit počet kontaktů v metakontaktu
 [Could not retreive contact protocol]
 Nelze zjistit protokol kontaktu 
+[Assignment error]
+Chyba přiřazování
 [Could not get unique ID of contact]
 Nelze zjistit identifikátor kontaktu
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
@@ -2498,24 +2492,8 @@ Nelze zapsat protokol kontaktu do metakontaktu
 Nelze zapsat identifikátor kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nelze zapsat přezdívku kontaktu do metakontaktu
-[Subcontact contact number < 0 - deleting MetaContact]
-
-[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-
-[Subcontact's MetaContact not found - deleting MetaContact data]
-
-[MetaContact number of contacts < 0 - deleting MetaContact]
-
-[MetaContact default contact number out of range - deleting MetaContact]
-
-[Meta ID: ]
-Identifikátor:\s
-[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
-Metakontakt je poškozen - počet podkontaktů nesouhlasí.\nMazání metakontaktu.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 
-[MetaContacts Warning]
-Upozornění metakontaktů
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 Bez časového údaje
@@ -2771,8 +2749,6 @@ Kořenová složka pro avatary
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 <neuvedeno>
-[Unknown]
-neznámý
 [Afghanistan]
 Afghánistán
 [Aland Islands]
