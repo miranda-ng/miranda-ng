@@ -12,6 +12,7 @@ void CDropbox::Init()
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CDropbox::OnModulesLoaded);
 	HookEvent(ME_DB_CONTACT_DELETED, CDropbox::OnContactDeleted);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CDropbox::OnPrebuildContactMenu);

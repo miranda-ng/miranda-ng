@@ -55,6 +55,20 @@ int CDropbox::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int CDropbox::OnPreShutdown(WPARAM wParam, LPARAM lParam)
+{
+	if (ServiceExists(MS_BB_ADDBUTTON))
+	{
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+
+		bbd.dwButtonID = BBB_ID_FILE_SEND;
+		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
+	}
+
+	return 0;
+}
+
 int CDropbox::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -66,7 +80,7 @@ int CDropbox::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Dropbox");
 	odp.pfnDlgProc = MainOptionsProc;
 
-	//Options_AddPage(wParam, &odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

@@ -118,6 +118,11 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 
 			request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
 			request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
+			if (!db_get_b(NULL, MODULE, "UseSortLinks", 1))
+			{
+				request->pData = mir_strdup("short_url=false");
+				request->dataLength = strlen(request->pData);
+			}
 
 			response = request->Send();
 
@@ -212,6 +217,11 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 
 			request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
 			request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
+			if (!db_get_b(NULL, MODULE, "UseSortLinks", 1))
+			{
+				request->pData = mir_strdup("short_url=false");
+				request->dataLength = strlen(request->pData);
+			}
 
 			mir_free(response);
 

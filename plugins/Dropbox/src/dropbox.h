@@ -57,6 +57,7 @@ private:
 
 	// hooks
 	static int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+	static int OnPreShutdown(WPARAM wParam, LPARAM lParam);
 	static int OnOptionsInit(WPARAM wParam, LPARAM lParam);
 	static int OnContactDeleted(WPARAM wParam, LPARAM lParam);
 	static int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
@@ -91,7 +92,7 @@ private:
 	static void RevokeApiAuthorizationAsync(void *arg);
 
 	// transrers
-	int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);
+	static int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);
 
 	int SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset, MCONTACT hContact);
 	int SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset, MCONTACT hContact);
@@ -118,8 +119,8 @@ private:
 	// utils
 	static wchar_t *HttpStatusToText(HTTP_STATUS status);
 
-	void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-	void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 };
 
 #endif //_DROPBOX_PROTO_H_
