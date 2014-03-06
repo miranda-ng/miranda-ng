@@ -148,7 +148,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetLPS(CMStringA((LPSTR)lpbMultiChatData, dwMultiChatDataSize));
 
 	if (bAddToQueue)
-		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, (LPBYTE)(LPCWSTR)lpwszMessage, lpwszMessage.GetLength()*sizeof(WCHAR), MRIM_CS_MESSAGE, buf.Data(), buf.Len());
+		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, NULL, 0, MRIM_CS_MESSAGE, buf.Data(), buf.Len());
 	else
 		dwRet = MraSendCMD(MRIM_CS_MESSAGE, buf.Data(), buf.Len());
 

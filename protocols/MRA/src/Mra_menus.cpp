@@ -78,18 +78,18 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM lParam)
 	if (!mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
 		wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
-	if (!wszAuthMessage.IsEmpty()) {
-		CMStringA szEmail;
-		if (mraGetStringA(hContact, "e-mail", szEmail)) {
-			BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-			int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, NULL, 0);
-			if (bSlowSend == FALSE)
-				ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
+	if (wszAuthMessage.IsEmpty())
+		return 1;
 
-			return 0;
-		}
+	CMStringA szEmail;
+	if (mraGetStringA(hContact, "e-mail", szEmail)) {
+		BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
+		int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, NULL, 0);
+		if (bSlowSend == FALSE)
+			ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
+
+		return 0;
 	}
-
 	return 1;
 }
 

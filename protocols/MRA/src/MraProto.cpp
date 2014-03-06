@@ -421,7 +421,7 @@ int CMraProto::SendMsg(MCONTACT hContact, int flags, const char *lpszMessage)
 	int iRet = 0;
 
 	if (flags & PREF_UNICODE)
-		lpwszMessage = (LPWSTR)(lpszMessage + lstrlenA(lpszMessage)+1 );
+		lpwszMessage = (LPWSTR)(lpszMessage + lstrlenA(lpszMessage) + 1);
 	else if (flags & PREF_UTF)
 		lpwszMessage = mir_utf8decodeT(lpszMessage);
 	else
@@ -590,11 +590,11 @@ int CMraProto::SetAwayMsg(int m_iStatus, const TCHAR* msg)
 
 int CMraProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	if (!m_bLoggedIn || !hContact || type == PROTOTYPE_SELFTYPING_OFF)
+	if (!m_bLoggedIn || m_iStatus == ID_STATUS_INVISIBLE || !hContact || type == PROTOTYPE_SELFTYPING_OFF)
 		return 1;
 
 	CMStringA szEmail;
-	if ( MraGetContactStatus(hContact) != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
+	if ( MraGetContactStatus(hContact) != ID_STATUS_OFFLINE)
 	if ( mraGetStringA(hContact, "e-mail", szEmail))
 		if ( MraMessage(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEmail, L" ", NULL, 0))
 			return 0;

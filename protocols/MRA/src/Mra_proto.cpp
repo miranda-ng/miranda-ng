@@ -710,8 +710,8 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 
 bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 {
-	DWORD dwAckType; MCONTACT hContact; LPBYTE pData; size_t dataLen;
-	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
+	DWORD dwAckType; MCONTACT hContact;
+	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
 		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
@@ -758,8 +758,8 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 
 bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 {
-	DWORD dwAckType, dwFlags; MCONTACT hContact; LPBYTE pData; size_t dataLen;
-	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, &pData, &dataLen)) {
+	DWORD dwAckType, dwFlags; MCONTACT hContact;
+	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, NULL, NULL)) {
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateT("MRIM_ANKETA_INFO: not found in queue"));
 		return true;
 	}
