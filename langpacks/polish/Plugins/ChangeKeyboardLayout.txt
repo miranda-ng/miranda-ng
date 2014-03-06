@@ -47,13 +47,13 @@ Zmień aktywny układ klawiatury w systemie
 [Colors]
 Kolory
 [Popup colors]
-Kolory popupów
+Z wtyczki Popup
 [Windows colors]
-Kolory Windows
+Windows
 [Custom colors]
-Niestandardowe kolory
+Niestandardowe
 [Back]
-Wstecz
+Tło
 [Text]
 Tekst
 [Timeout]

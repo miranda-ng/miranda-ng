@@ -51,7 +51,7 @@ Użyj kolorów Popup
 [Use custom colors]
 Użyj niestandardowych kolorów
 [Back]
-Wstecz
+Tło
 [Text]
 Tekst
 [Timeouts]

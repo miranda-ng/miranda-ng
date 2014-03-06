@@ -497,7 +497,7 @@ Popupy
 [...stopped t&yping]
 ...przestał p&isać
 [Back]
-Wstecz
+Tło
 [U&se Popup colors]
 &Użyj kolorów Popup
 [&Use Windows colors]

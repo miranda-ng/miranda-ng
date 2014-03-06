@@ -91,7 +91,7 @@ Zapisz do pliku
 [Save Pass]
 Zapisz Hasło
 [Back]
-Wstecz
+Tło
 [Text]
 Tekst
 [Key agreement colors]

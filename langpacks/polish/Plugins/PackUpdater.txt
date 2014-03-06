@@ -49,7 +49,7 @@ Co
 [Message boxes (*)]
 Komunikaty
 [Back]
-Wstecz
+Tło
 [Text]
 Tekst
 [Colors]

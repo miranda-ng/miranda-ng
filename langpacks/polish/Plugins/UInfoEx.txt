@@ -1149,7 +1149,7 @@ Wykonywanie kopii zapasowych i synchronizacji wszystkich rocznic kompletny!
 [Reminder (uinfoex)]
 Rocznice (uinfoex)
 [Birthday reminder]
-Przypominanie o rocznicach
+Przypominanie o urodzinach
 [Birthday reminder: it's coming]
 Przypominanie o rocznicach: nadchodzących
 [Anniversary Reminder]

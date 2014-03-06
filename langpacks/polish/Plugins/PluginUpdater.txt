@@ -55,7 +55,7 @@ Informacje
 [Progress dialogs]
 Postęp
 [Back]
-Wstecz
+Tło
 [Text]
 Tekst
 [Colors]
