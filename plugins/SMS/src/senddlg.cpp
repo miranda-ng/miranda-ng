@@ -181,12 +181,14 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			GetWindowRect(hWndDlg,&rcWin);
 			if (psswdWindowData->bMultiple)
 			{
-				cx=rcWin.right-rcWin.left-181;
-				cy=rcWin.bottom-rcWin.top;
+				cx = rcWin.right-rcWin.left-181;
+				cy = rcWin.bottom-rcWin.top;
 			}else{
-				cx=rcWin.right-rcWin.left;
-				cy=rcWin.bottom-rcWin.top;
+				cx = rcWin.right-rcWin.left;
+				cy = rcWin.bottom-rcWin.top;
 			}
+			cx -= 10; /* XXX: fix window sizes for aero. */
+			cy -= 10;
 			SetWindowPos(GetDlgItem(hWndDlg,IDC_MESSAGE),0,0,0,cx - 14,cy - 132,SWP_NOZORDER|SWP_NOMOVE);
 			SetWindowPos(GetDlgItem(hWndDlg,IDC_NAME),0,0,0,(cx*35)/100,20,SWP_NOZORDER|SWP_NOMOVE);
 			SetWindowPos(GetDlgItem(hWndDlg,IDC_ACCOUNTS),0,0,0,(cx*35)/100,20,SWP_NOZORDER|SWP_NOMOVE);

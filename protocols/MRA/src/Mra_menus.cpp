@@ -13,21 +13,6 @@ INT_PTR CMraProto::MraShowInboxStatus(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraSendSMS(WPARAM wParam, LPARAM lParam)
-{
-	if (!m_bLoggedIn || !wParam || !lParam)
-		return 0;
-
-	ptrW lpwszMessageXMLEncoded(mir_utf8decodeW((LPSTR)lParam));
-	if (lpwszMessageXMLEncoded) {
-		CMStringW decoded = DecodeXML(CMStringW(lpwszMessageXMLEncoded));
-		if (decoded.GetLength())
-			MraSMSW(NULL, CMStringA((LPSTR)wParam), decoded);
-	}
-
-	return 0;
-}
-
 INT_PTR CMraProto::MraEditProfile(WPARAM wParam, LPARAM lParam)
 {
 	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_EDIT_PROFILE_URL);

@@ -117,6 +117,8 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			GetWindowRect(hWndDlg,&rcWin);
 			cx = rcWin.right - rcWin.left;
 			cy = rcWin.bottom - rcWin.top;
+			cx -= 10; /* XXX: fix window sizes for aero. */
+			cy -= 10;
 			SetWindowPos(GetDlgItem(hWndDlg,IDC_MESSAGE),0,0,0,cx - 14,cy - 112,SWP_NOZORDER|SWP_NOMOVE);
 			SetWindowPos(GetDlgItem(hWndDlg,IDC_NAME),0,0,0,(cx*35)/100,20,SWP_NOZORDER|SWP_NOMOVE);
 			SetWindowPos(GetDlgItem(hWndDlg,IDC_NUMBER),0,cx - (cx*35)/100 - 11,5,(cx*35)/100,20,SWP_NOZORDER);

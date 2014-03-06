@@ -64,8 +64,8 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 
 					dbei.szModule=GetModuleName(hContact);
 					dbei.timestamp=time(NULL);
-					dbei.flags=(DBEF_UTF);
-					dbei.eventType=ICQEVENTTYPE_SMS;
+					dbei.flags = DBEF_UTF;
+					dbei.eventType = ICQEVENTTYPE_SMS;
 					dbei.cbBlob=(mir_snprintf((LPSTR)dbei.pBlob,((dwBuffLen+dwPhoneSize)),"SMS From: +%s\r\n%s",szPhone,lpszMessageUTF)+sizeof(DWORD));
 					//dbei.pBlob=(LPBYTE)lpszBuff;
 					(*((DWORD*)(dbei.pBlob+(dbei.cbBlob-sizeof(DWORD)))))=0;
@@ -94,7 +94,8 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 				dbei.cbSize=sizeof(dbei);
 				dbei.szModule=GetModuleName(hContact);
 				dbei.timestamp=time(NULL);
-				dbei.eventType=ICQEVENTTYPE_SMSCONFIRMATION;
+				dbei.flags = DBEF_UTF;
+				dbei.eventType = ICQEVENTTYPE_SMSCONFIRMATION;
 				if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"yes",3)==CSTR_EQUAL)
 				{
 					dbei.cbBlob=(MAX_PHONE_LEN+MAX_PATH);

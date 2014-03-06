@@ -1455,7 +1455,7 @@ static const size_t dwXMLSymbolsCount[] = { sizeof(TCHAR), sizeof(TCHAR), sizeof
 //Decode XML coded string. The function translate special xml code into standard characters.
 CMStringW DecodeXML(const CMStringW &lptszMessage)
 {
-	CMStringW ret('\0', lptszMessage.GetLength());
+	CMStringW ret('\0', (lptszMessage.GetLength() * 4));
 	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(TCHAR), SIZEOF(lpszXMLTags), (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, ret);
 	return ret;
 }
@@ -1463,7 +1463,7 @@ CMStringW DecodeXML(const CMStringW &lptszMessage)
 //Encode XML coded string. The function translate special saved xml characters into special characters.
 CMStringW EncodeXML(const CMStringW &lptszMessage)
 {
-	CMStringW ret;
+	CMStringW ret('\0', (lptszMessage.GetLength() * 4));
 	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(TCHAR), SIZEOF(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, ret);
 	return ret;
 }

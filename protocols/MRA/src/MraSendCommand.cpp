@@ -443,14 +443,16 @@ DWORD CMraProto::MraSMSW(MCONTACT hContact, const CMStringA &lpszPhone, const CM
 {
 	CMStringA szPhoneLocal = "+" + CopyNumber(lpszPhone);
 
-	OutBuffer buf, buf2;
+	OutBuffer buf;
 	buf.SetUL(0);
 	buf.SetLPS(szPhoneLocal);
 	buf.SetLPSW(lpwszMessage);
 
-	buf2.SetLPS(szPhoneLocal);
-	buf.SetLPSW(lpwszMessage);
-	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ICQACKTYPE_SMS, buf2.Data(), buf2.Len(), MRIM_CS_SMS, buf.Data(), buf.Len());
+	LPBYTE lpbData = (LPBYTE)mir_calloc(lpszPhone.GetLength() + sizeof(size_t));
+	if (NULL == lpbData)
+		return (0);
+	memcpy(lpbData, lpszPhone, lpszPhone.GetLength());
+	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ICQACKTYPE_SMS, lpbData, lpszPhone.GetLength(), MRIM_CS_SMS, buf.Data(), buf.Len());
 }
 
 // Соединение с прокси
@@ -498,7 +500,7 @@ DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText
 
 DWORD CMraProto::MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
-	LPBYTE lpbData = (LPBYTE)_alloca(dwDataSize+sizeof(mrim_packet_header_t));
+	LPBYTE lpbData = (LPBYTE)_alloca(dwDataSize + sizeof(mrim_packet_header_t));
 
 	mrim_packet_header_t *pmaHeader = (mrim_packet_header_t*)lpbData;
 	memset(pmaHeader, 0, sizeof(mrim_packet_header_t));

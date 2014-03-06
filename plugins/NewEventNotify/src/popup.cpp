@@ -334,6 +334,40 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 		commentFix = POPUP_COMMENT_EMAILEXP;
 		break;
 
+	//blob format is:
+	//ASCIIZ    text, usually of the form "SMS From: +XXXXXXXX\r\nTEXT"
+	case ICQEVENTTYPE_SMS:
+		if (dbei->pBlob) {
+			if (dbei->flags & DBEF_UTF) {
+				// utf-8 in blob
+				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
+			}
+			else if (dbei->cbBlob == (_tcslen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+				// wchar in blob (the old hack)
+				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
+			}
+			else comment1 = mir_a2t((char *)dbei->pBlob);
+		}
+		commentFix = POPUP_COMMENT_SMS;
+		break;
+
+	//blob format is:
+	//ASCIIZ    text, usually of the form "SMS Confirmation From: +XXXXXXXXXXXX\r\nSMS was sent succesfully"
+	case ICQEVENTTYPE_SMSCONFIRMATION:
+		if (dbei->pBlob) {
+			if (dbei->flags & DBEF_UTF) {
+				// utf-8 in blob
+				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
+			}
+			else if (dbei->cbBlob == (_tcslen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+				// wchar in blob (the old hack)
+				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
+			}
+			else comment1 = mir_a2t((char *)dbei->pBlob);
+		}
+		commentFix = POPUP_COMMENT_SMSCONFIRMATION;
+		break;
+
 	default:
 		if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
 			DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);

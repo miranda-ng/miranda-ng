@@ -1520,19 +1520,15 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	case MRIM_CS_SMS_ACK:
 		buf >> dwTemp;
 		if (MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, &pByte, &dwSize) == NO_ERROR) {
+			/* pByte point to phone number ansi string. */
+			/* dwAckType = ICQACKTYPE_SMS */
 			CMStringA szEmail;
 			if (mraGetStringA(NULL, "e-mail", szEmail)) {
-				DWORD dwPhoneSize = *(DWORD*)pByte;
-				DWORD dwMessageSize = dwSize - (dwPhoneSize + sizeof(DWORD)+2);
-				LPSTR lpszPhone = (LPSTR)pByte + sizeof(DWORD);
-				LPWSTR lpwszMessage = (LPWSTR)(lpszPhone + dwPhoneSize + 1);
-
-				mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff),
+				mir_snprintf((LPSTR)szBuff, sizeof(szBuff),
 					"<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n",
-					szEmail.c_str(), lpszPhone, lpszPhone);
-				ProtoBroadcastAck(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
+					szEmail.c_str(), (LPSTR)pByte, (LPSTR)pByte);
+				ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
 			}
-
 			mir_free(pByte);
 			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
 		}
