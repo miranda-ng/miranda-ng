@@ -448,6 +448,7 @@ DWORD CMraProto::MraSMSW(MCONTACT hContact, const CMStringA &lpszPhone, const CM
 	buf.SetLPS(szPhoneLocal);
 	buf.SetLPSW(lpwszMessage);
 
+	/* Save phone number for ack notify after send. */
 	LPBYTE lpbData = (LPBYTE)mir_calloc(lpszPhone.GetLength() + sizeof(size_t));
 	if (NULL == lpbData)
 		return (0);

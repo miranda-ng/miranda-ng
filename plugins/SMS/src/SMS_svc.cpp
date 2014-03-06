@@ -94,16 +94,16 @@ int ReadMsgSMS(WPARAM wParam,LPARAM lParam)
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if ((dbei.cbBlob = db_event_getBlobSize(((CLISTEVENT*)lParam)->hDbEvent)) != -1) {
-		dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
+	if ((dbei.cbBlob = db_event_getBlobSize(((CLISTEVENT*)lParam)->hDbEvent)) == -1)
+		return 1;
+	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 
-		if (db_event_get(cle->hDbEvent, &dbei) == 0)
-		if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
-		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
-			if (RecvSMSWindowAdd(cle->hContact,ICQEVENTTYPE_SMS,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
-				db_event_markRead(cle->hContact, cle->hDbEvent);
-				return 0;
-			}
+	if (db_event_get(cle->hDbEvent, &dbei) == 0)
+	if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
+	if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
+		if (RecvSMSWindowAdd(cle->hContact,ICQEVENTTYPE_SMS,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
+			db_event_markRead(cle->hContact, cle->hDbEvent);
+			return 0;
 		}
 	}
 	return 1;
@@ -115,16 +115,16 @@ int ReadAckSMS(WPARAM wParam,LPARAM lParam)
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if ((dbei.cbBlob = db_event_getBlobSize(cle->hDbEvent)) != -1) {
-		dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
+	if ((dbei.cbBlob = db_event_getBlobSize(cle->hDbEvent)) == -1)
+		return 1;
+	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 
-		if (db_event_get(cle->hDbEvent, &dbei) == 0)
-		if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
-		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
-			if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMSCONFIRMATION, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
-				db_event_delete(cle->hContact, cle->hDbEvent);
-				return 0;
-			}
+	if (db_event_get(cle->hDbEvent, &dbei) == 0)
+	if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
+	if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
+		if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMSCONFIRMATION, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
+			db_event_delete(cle->hContact, cle->hDbEvent);
+			return 0;
 		}
 	}
 	return 1;

@@ -1,7 +1,7 @@
 /*
 Miranda-IM SMS Plugin
 Copyright (C) 2001-2  Richard Hughes
-Copyright (C) 2007-2009  Rozhuk Ivan
+Copyright (C) 2007-2014  Rozhuk Ivan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -561,28 +561,28 @@ INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 //The function gets void and return the window HWND
 HWND SendSMSWindowAdd(MCONTACT hContact)
 {
-	HWND hRet=NULL;
+	HWND hRet = NULL;
 	SEND_SMS_WINDOW_DATA *psswdWindowData=(SEND_SMS_WINDOW_DATA*)MEMALLOC(sizeof(SEND_SMS_WINDOW_DATA));
-	if (psswdWindowData) {
-		psswdWindowData->hMyContact = hContact;
-		psswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMS), NULL, SendSmsDlgProc, (LPARAM)psswdWindowData);
-		if (psswdWindowData->hWnd) {
-			ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
-			ListMTItemAdd(&ssSMSSettings.lmtSendSMSWindowsListMT,&psswdWindowData->lmtListMTItem,psswdWindowData);
-			ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
+	if ( !psswdWindowData)
+		return NULL;
+	psswdWindowData->hMyContact = hContact;
+	psswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMS), NULL, SendSmsDlgProc, (LPARAM)psswdWindowData);
+	if (psswdWindowData->hWnd) {
+		ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
+		ListMTItemAdd(&ssSMSSettings.lmtSendSMSWindowsListMT,&psswdWindowData->lmtListMTItem,psswdWindowData);
+		ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 
-			LPTSTR lptszContactDisplayName=GetContactNameW(hContact);
-			TCHAR tszTitle[MAX_PATH];
-			mir_sntprintf(tszTitle, SIZEOF(tszTitle), _T("%s - %s"), lptszContactDisplayName, TranslateT("Send SMS"));
-			SetWindowText(psswdWindowData->hWnd,tszTitle);
-			SendDlgItemMessage(psswdWindowData->hWnd,IDC_NAME,CB_ADDSTRING,0,(LPARAM)lptszContactDisplayName);
-			SendDlgItemMessage(psswdWindowData->hWnd,IDC_NAME,CB_SETCURSEL,0,0);
-			AddContactPhonesToCombo(psswdWindowData->hWnd,hContact);
-			SetFocus(GetDlgItem(psswdWindowData->hWnd,IDC_MESSAGE));
-			hRet=psswdWindowData->hWnd;
-		}
-		else MEMFREE(psswdWindowData);
+		LPTSTR lptszContactDisplayName=GetContactNameW(hContact);
+		TCHAR tszTitle[MAX_PATH];
+		mir_sntprintf(tszTitle, SIZEOF(tszTitle), _T("%s - %s"), lptszContactDisplayName, TranslateT("Send SMS"));
+		SetWindowText(psswdWindowData->hWnd,tszTitle);
+		SendDlgItemMessage(psswdWindowData->hWnd,IDC_NAME,CB_ADDSTRING,0,(LPARAM)lptszContactDisplayName);
+		SendDlgItemMessage(psswdWindowData->hWnd,IDC_NAME,CB_SETCURSEL,0,0);
+		AddContactPhonesToCombo(psswdWindowData->hWnd,hContact);
+		SetFocus(GetDlgItem(psswdWindowData->hWnd,IDC_MESSAGE));
+		hRet=psswdWindowData->hWnd;
 	}
+	else MEMFREE(psswdWindowData);
 	return hRet;
 }
 
@@ -674,34 +674,35 @@ void SendSMSWindowMultipleSet(HWND hWndDlg,BOOL bMultiple)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
-	if (psswdWindowData)
-	if (psswdWindowData->bMultiple!=bMultiple)
+	if ( !psswdWindowData)
+		return;
+	if (psswdWindowData->bMultiple == bMultiple)
+		return;
+
+	RECT rcWin,rcList;
+	WINDOWPLACEMENT wp;
+
+	psswdWindowData->bMultiple=bMultiple;
+	wp.length=sizeof(WINDOWPLACEMENT);
+	GetWindowRect(hWndDlg,&rcWin);
+	GetWindowRect(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&rcList);
+	GetWindowPlacement(hWndDlg,&wp);
+
+	if (bMultiple)
 	{
-		RECT rcWin,rcList;
-		WINDOWPLACEMENT wp;
+		SendSMSWindowFillTreeView(hWndDlg);
 
-		psswdWindowData->bMultiple=bMultiple;
-		wp.length=sizeof(WINDOWPLACEMENT);
-		GetWindowRect(hWndDlg,&rcWin);
-		GetWindowRect(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&rcList);
-		GetWindowPlacement(hWndDlg,&wp);
+		EnableWindow(GetDlgItem(hWndDlg,IDC_SAVENUMBER),FALSE);
+		SetDlgItemText(hWndDlg, IDC_MULTIPLE, TranslateT("<< Single"));
+		if (wp.showCmd==SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left - (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(hWndDlg, 0 ,rcWin.left, rcWin.top, rcWin.right - rcWin.left + (rcList.right-rcList.left) + 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+	}else{
+		if (psswdWindowData->hMyContact) AddContactPhonesToCombo(hWndDlg,psswdWindowData->hMyContact);
 
-		if (bMultiple)
-		{
-			SendSMSWindowFillTreeView(hWndDlg);
-
-			EnableWindow(GetDlgItem(hWndDlg,IDC_SAVENUMBER),FALSE);
-			SetDlgItemText(hWndDlg, IDC_MULTIPLE, TranslateT("<< Single"));
-			if (wp.showCmd==SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left - (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(hWndDlg, 0 ,rcWin.left, rcWin.top, rcWin.right - rcWin.left + (rcList.right-rcList.left) + 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
-		}else{
-			if (psswdWindowData->hMyContact) AddContactPhonesToCombo(hWndDlg,psswdWindowData->hMyContact);
-
-			EnableWindow(GetDlgItem(hWndDlg, IDC_SAVENUMBER), TRUE);
-			SetDlgItemText(hWndDlg, IDC_MULTIPLE, TranslateT("Multiple >>"));
-			SetWindowPos(hWndDlg, 0, rcWin.left, rcWin.top, rcWin.right-rcWin.left - (rcList.right-rcList.left) - 11, rcWin.bottom - rcWin.top,SWP_NOZORDER | SWP_NOMOVE);
-			if (wp.showCmd==SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left + (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
-		}
+		EnableWindow(GetDlgItem(hWndDlg, IDC_SAVENUMBER), TRUE);
+		SetDlgItemText(hWndDlg, IDC_MULTIPLE, TranslateT("Multiple >>"));
+		SetWindowPos(hWndDlg, 0, rcWin.left, rcWin.top, rcWin.right-rcWin.left - (rcList.right-rcList.left) - 11, rcWin.bottom - rcWin.top,SWP_NOZORDER | SWP_NOMOVE);
+		if (wp.showCmd==SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left + (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 	}
 }
 
@@ -870,23 +871,23 @@ void SendSMSWindowNext(HWND hWndDlg)
 
 	dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
 	LPTSTR lptszMessage=(LPTSTR)MEMALLOC(((dwMessageSize+4)*sizeof(TCHAR)));
-	if (lptszMessage)
-	{
-		dwMessageSize=GetDlgItemText(hWndDlg,IDC_MESSAGE,lptszMessage,dwMessageSize+2);
+	if ( !lptszMessage)
+		return;
 
-	//	if (SendSMSWindowNextHItemGet(hWndDlg,SendSMSWindowHItemSendGet(hWndDlg))==NULL) SendSMSWindowMultipleSet(hWndDlg,FALSE);	
-		tvi.mask=TVIF_TEXT;
-		tvi.hItem=SendSMSWindowHItemSendGet(hWndDlg);
-		tvi.pszText=tszPhone;
-		tvi.cchTextMax=SIZEOF(tszPhone);
-		TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
-		TreeView_SelectItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),tvi.hItem);
-		dwPhoneSize=lstrlenW(tszPhone);
-		SendSMSWindowNumberSet(hWndDlg,tszPhone,dwPhoneSize);
-		StartSmsSend(hWndDlg,SendDlgItemMessage(hWndDlg,IDC_ACCOUNTS,CB_GETCURSEL,0,0),tszPhone,dwPhoneSize,lptszMessage,dwMessageSize);
-		SetTimer(hWndDlg,TIMERID_MSGSEND,TIMEOUT_MSGSEND,NULL);
-		MEMFREE(lptszMessage);
-	}
+	dwMessageSize=GetDlgItemText(hWndDlg,IDC_MESSAGE,lptszMessage,dwMessageSize+2);
+
+//	if (SendSMSWindowNextHItemGet(hWndDlg,SendSMSWindowHItemSendGet(hWndDlg))==NULL) SendSMSWindowMultipleSet(hWndDlg,FALSE);	
+	tvi.mask=TVIF_TEXT;
+	tvi.hItem=SendSMSWindowHItemSendGet(hWndDlg);
+	tvi.pszText=tszPhone;
+	tvi.cchTextMax=SIZEOF(tszPhone);
+	TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
+	TreeView_SelectItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),tvi.hItem);
+	dwPhoneSize=lstrlenW(tszPhone);
+	SendSMSWindowNumberSet(hWndDlg,tszPhone,dwPhoneSize);
+	StartSmsSend(hWndDlg,SendDlgItemMessage(hWndDlg,IDC_ACCOUNTS,CB_GETCURSEL,0,0),tszPhone,dwPhoneSize,lptszMessage,dwMessageSize);
+	SetTimer(hWndDlg,TIMERID_MSGSEND,TIMEOUT_MSGSEND,NULL);
+	MEMFREE(lptszMessage);
 }
 
 
@@ -899,31 +900,32 @@ void SendSMSWindowSMSContactAdd(HWND hWndDlg,MCONTACT hContact)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
-	if (psswdWindowData) {
-		psswdWindowData->dwContactsListCount++;
-		if (psswdWindowData->phContactsList)
-			psswdWindowData->phContactsList = (MCONTACT*)MEMREALLOC(psswdWindowData->phContactsList,(sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
-		else
-			psswdWindowData->phContactsList = (MCONTACT*)MEMALLOC((sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
+	if ( !psswdWindowData)
+		return;
 
-		*(psswdWindowData->phContactsList+psswdWindowData->dwContactsListCount-1)=hContact;
-	}
+	psswdWindowData->dwContactsListCount++;
+	if (psswdWindowData->phContactsList)
+		psswdWindowData->phContactsList = (MCONTACT*)MEMREALLOC(psswdWindowData->phContactsList,(sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
+	else
+		psswdWindowData->phContactsList = (MCONTACT*)MEMALLOC((sizeof(HANDLE)*psswdWindowData->dwContactsListCount));
+
+	*(psswdWindowData->phContactsList+psswdWindowData->dwContactsListCount-1)=hContact;
 }
 
 //This function gets the number of the given contact in the combo list and return its contact.
 MCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum)
 {
-	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
+	SEND_SMS_WINDOW_DATA *psswdWindowData = GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData)
-		return(*((psswdWindowData->phContactsList)+iNum));
+		return (*((psswdWindowData->phContactsList) + iNum));
 
-	return(NULL);
+	return NULL;
 }
 
 void SendSMSWindowSMSContactsRemove(HWND hWndDlg)
 {
-	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
+	SEND_SMS_WINDOW_DATA *psswdWindowData = GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData)
 	{

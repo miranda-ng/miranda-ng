@@ -1,7 +1,7 @@
 /*
 Miranda-IM SMS Plugin
 Copyright (C) 2001-2  Richard Hughes
-Copyright (C) 2007-2009  Rozhuk Ivan
+Copyright (C) 2007-2014  Rozhuk Ivan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -168,76 +168,75 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 //The function gets void and return the window HWND
 HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPSTR lpszMessage,SIZE_T dwMessageSize)
 {
-	HWND hRet=NULL;
+	HWND hRet = NULL;
 
-	if ((dwPhoneSize+dwMessageSize)>MIN_SMS_DBEVENT_LEN)
+	if ((dwPhoneSize + dwMessageSize) <= MIN_SMS_DBEVENT_LEN)
+		return NULL;
+
+	LPWSTR lpwszMessage;
+	lpwszMessage = (LPWSTR)MEMALLOC(((dwMessageSize + MAX_PATH) * sizeof(WCHAR)));
+	if ( !lpwszMessage)
+		return NULL;
+
+	RECV_SMS_WINDOW_DATA *prswdWindowData;
+
+	prswdWindowData = (RECV_SMS_WINDOW_DATA*)MEMALLOC(sizeof(RECV_SMS_WINDOW_DATA));
+	if (prswdWindowData)
 	{
-		LPWSTR lpwszMessage;
-
-		lpwszMessage=(LPWSTR)MEMALLOC(((dwMessageSize+MAX_PATH)*sizeof(WCHAR)));
-		if (lpwszMessage)
+		prswdWindowData->hContact=hContact;
+		prswdWindowData->hWnd=CreateDialogParam(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_RECVSMS),NULL,RecvSmsDlgProc,(LPARAM)prswdWindowData);
+		if (prswdWindowData->hWnd)
 		{
-			RECV_SMS_WINDOW_DATA *prswdWindowData;
+			HICON hIcon;
+			WCHAR wszTitle[MAX_PATH]={0},wszPhoneLocal[MAX_PHONE_LEN]={0};
+			UINT iIcon;
+			LPWSTR lpwszContactDisplayName,lpwszTitlepart;
 
-			prswdWindowData=(RECV_SMS_WINDOW_DATA*)MEMALLOC(sizeof(RECV_SMS_WINDOW_DATA));
-			if (prswdWindowData)
-			{
-				prswdWindowData->hContact=hContact;
-				prswdWindowData->hWnd=CreateDialogParam(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_RECVSMS),NULL,RecvSmsDlgProc,(LPARAM)prswdWindowData);
-				if (prswdWindowData->hWnd)
-				{
-					HICON hIcon;
-					WCHAR wszTitle[MAX_PATH]={0},wszPhoneLocal[MAX_PHONE_LEN]={0};
-					UINT iIcon;
-					LPWSTR lpwszContactDisplayName,lpwszTitlepart;
+			ListMTLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
+			ListMTItemAdd(&ssSMSSettings.lmtRecvSMSWindowsListMT,&prswdWindowData->lmtListMTItem,prswdWindowData);
+			ListMTUnLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
 
-					ListMTLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
-					ListMTItemAdd(&ssSMSSettings.lmtRecvSMSWindowsListMT,&prswdWindowData->lmtListMTItem,prswdWindowData);
-					ListMTUnLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
-
-					switch(dwEventType){
-					case ICQEVENTTYPE_SMS:
-						lpwszTitlepart=TranslateT("Received SMS");
-						hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
-						break;
-					case ICQEVENTTYPE_SMSCONFIRMATION:
-						lpwszTitlepart=TranslateT("Received SMS Confirmation");
-						GetDataFromMessage(lpszMessage,dwMessageSize,NULL,NULL,0,NULL,&iIcon);
-						hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
-						break;
-					default:
-						lpwszTitlepart=_T("Unknown event type");
-					}
-
-					wszPhoneLocal[0]='+';
-					if (dwPhoneSize)
-					{
-						dwPhoneSize=CopyNumberW((wszPhoneLocal+1),lpwszPhone,dwPhoneSize);
-					}else{
-						GetDataFromMessage(lpszMessage,dwMessageSize,NULL,(wszPhoneLocal+1),(SIZEOF(wszPhoneLocal)-1),&dwPhoneSize,NULL);
-						dwPhoneSize++;
-					}
-
-					lpwszContactDisplayName=GetContactNameW(hContact);
-					mir_sntprintf(wszTitle,SIZEOF(wszTitle),_T("%s - %s"),lpwszContactDisplayName,lpwszTitlepart);
-					MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
-
-					SendMessageW(prswdWindowData->hWnd,WM_SETTEXT,NULL,(LPARAM)wszTitle);
-					SetDlgItemText(prswdWindowData->hWnd,IDC_NAME,lpwszContactDisplayName);
-					SetDlgItemText(prswdWindowData->hWnd,IDC_NUMBER,wszPhoneLocal);
-					SetDlgItemText(prswdWindowData->hWnd,IDC_MESSAGE,lpwszMessage);
-					SendMessage(prswdWindowData->hWnd,WM_SETICON,ICON_BIG,(LPARAM)hIcon);
-
-					SetFocus(GetDlgItem(prswdWindowData->hWnd,IDC_MESSAGE));
-					hRet=prswdWindowData->hWnd;
-				}else{
-					MEMFREE(prswdWindowData);
-				}
+			switch(dwEventType){
+			case ICQEVENTTYPE_SMS:
+				lpwszTitlepart=TranslateT("Received SMS");
+				hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
+				break;
+			case ICQEVENTTYPE_SMSCONFIRMATION:
+				lpwszTitlepart=TranslateT("Received SMS Confirmation");
+				GetDataFromMessage(lpszMessage,dwMessageSize,NULL,NULL,0,NULL,&iIcon);
+				hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
+				break;
+			default:
+				lpwszTitlepart=_T("Unknown event type");
 			}
-			MEMFREE(lpwszMessage);
+
+			wszPhoneLocal[0]='+';
+			if (dwPhoneSize)
+			{
+				dwPhoneSize=CopyNumberW((wszPhoneLocal+1),lpwszPhone,dwPhoneSize);
+			}else{
+				GetDataFromMessage(lpszMessage,dwMessageSize,NULL,(wszPhoneLocal+1),(SIZEOF(wszPhoneLocal)-1),&dwPhoneSize,NULL);
+				dwPhoneSize++;
+			}
+
+			lpwszContactDisplayName=GetContactNameW(hContact);
+			mir_sntprintf(wszTitle,SIZEOF(wszTitle),_T("%s - %s"),lpwszContactDisplayName,lpwszTitlepart);
+			MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
+
+			SendMessageW(prswdWindowData->hWnd,WM_SETTEXT,NULL,(LPARAM)wszTitle);
+			SetDlgItemText(prswdWindowData->hWnd,IDC_NAME,lpwszContactDisplayName);
+			SetDlgItemText(prswdWindowData->hWnd,IDC_NUMBER,wszPhoneLocal);
+			SetDlgItemText(prswdWindowData->hWnd,IDC_MESSAGE,lpwszMessage);
+			SendMessage(prswdWindowData->hWnd,WM_SETICON,ICON_BIG,(LPARAM)hIcon);
+
+			SetFocus(GetDlgItem(prswdWindowData->hWnd,IDC_MESSAGE));
+			hRet=prswdWindowData->hWnd;
+		}else{
+			MEMFREE(prswdWindowData);
 		}
 	}
-return(hRet);
+	MEMFREE(lpwszMessage);
+	return(hRet);
 }
 
 //This function close the SMS receive window that given, and remove it from the list.

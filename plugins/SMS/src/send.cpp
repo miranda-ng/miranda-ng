@@ -1,7 +1,7 @@
 /*
 Miranda-IM SMS Plugin
 Copyright (C) 2001-2  Richard Hughes
-Copyright (C) 2007-2009  Rozhuk Ivan
+Copyright (C) 2007-2014  Rozhuk Ivan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,55 +30,53 @@ Enjoy the code and use it smartly!
 //This function gets HWND of the window, the number, and the message.
 void StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPWSTR lpwszMessage,SIZE_T dwMessageSize)
 {
-	if (ssSMSSettings.ppaSMSAccounts && dwModuleIndex!=-1 && dwModuleIndex<ssSMSSettings.dwSMSAccountsCount)
+	if ( !ssSMSSettings.ppaSMSAccounts || dwModuleIndex == -1 || dwModuleIndex >= ssSMSSettings.dwSMSAccountsCount)
+		return;
+
+	LPSTR lpszMessageUTF;
+	LPWSTR lpwszMessageXMLEncoded;
+	SIZE_T dwMessageUTFBuffSize, dwMessageXMLEncodedSize, dwBuffSize;
+	DBEVENTINFO *pdbei;
+
+	dwMessageXMLEncodedSize = ((dwMessageSize + MAX_PATH) * sizeof(WCHAR) * 6);
+	lpwszMessageXMLEncoded = (LPWSTR)MEMALLOC(dwMessageXMLEncodedSize);
+	if ( !lpwszMessageXMLEncoded)
+		return;
+
+	EncodeXML(lpwszMessage, dwMessageSize, lpwszMessageXMLEncoded, (dwMessageXMLEncodedSize / sizeof(WCHAR)), &dwMessageXMLEncodedSize);
+
+	dwMessageUTFBuffSize = (dwMessageXMLEncodedSize + MAX_PATH);
+	lpszMessageUTF = (LPSTR)MEMALLOC(dwMessageUTFBuffSize);
+	if (lpszMessageUTF)
 	{
-		LPSTR lpszMessageUTF;
-		LPWSTR lpwszMessageXMLEncoded;
-		SIZE_T dwMessageUTFBuffSize,dwMessageXMLEncodedSize,dwBuffSize;
-		DBEVENTINFO *pdbei;
-
-		dwMessageXMLEncodedSize=((dwMessageSize+MAX_PATH)*sizeof(WCHAR)*6);
-		lpwszMessageXMLEncoded=(LPWSTR)MEMALLOC(dwMessageXMLEncodedSize);
-		if (lpwszMessageXMLEncoded)
+		dwBuffSize = (dwPhoneSize + MAX_PATH+WideCharToMultiByte(CP_UTF8, 0, lpwszMessage, dwMessageSize, lpszMessageUTF, dwMessageUTFBuffSize, NULL, NULL));
+		pdbei = (DBEVENTINFO*)MEMALLOC((sizeof(DBEVENTINFO) + dwBuffSize));
+		if (pdbei)
 		{
-			EncodeXML(lpwszMessage,dwMessageSize,lpwszMessageXMLEncoded,(dwMessageXMLEncodedSize/sizeof(WCHAR)),&dwMessageXMLEncodedSize);
+			char szPhone[MAX_PHONE_LEN];
+			LPSTR lpszBuff = (LPSTR)(pdbei + 1);
+			HANDLE hProcess;
 
-			dwMessageUTFBuffSize=(dwMessageXMLEncodedSize+MAX_PATH);
-			lpszMessageUTF=(LPSTR)MEMALLOC(dwMessageUTFBuffSize);
-			if (lpszMessageUTF)
-			{
-				dwBuffSize=(dwPhoneSize+MAX_PATH+WideCharToMultiByte(CP_UTF8,0,lpwszMessage,dwMessageSize,lpszMessageUTF,dwMessageUTFBuffSize,NULL,NULL));
-				pdbei=(DBEVENTINFO*)MEMALLOC((sizeof(DBEVENTINFO)+dwBuffSize));
-				if (pdbei)
-				{
-					char szPhone[MAX_PHONE_LEN];
-					LPSTR lpszBuff=(LPSTR)(pdbei+1);
-					HANDLE hProcess;
+			WideCharToMultiByte(CP_UTF8, 0, lpwszPhone, dwPhoneSize, szPhone, MAX_PHONE_LEN, NULL, NULL);
+			dwPhoneSize=CopyNumberA(szPhone, szPhone, dwPhoneSize);
 
-					WideCharToMultiByte(CP_UTF8,0,lpwszPhone,dwPhoneSize,szPhone,MAX_PHONE_LEN,NULL,NULL);
-					dwPhoneSize=CopyNumberA(szPhone,szPhone,dwPhoneSize);
+			pdbei->timestamp = time(NULL);
+			pdbei->flags = (DBEF_SENT | DBEF_UTF);
+			pdbei->eventType = ICQEVENTTYPE_SMS;
+			pdbei->cbBlob = (mir_snprintf(lpszBuff, dwBuffSize, "SMS To: +%s\r\n%s", szPhone, lpszMessageUTF) + 4);
+			pdbei->pBlob = (PBYTE)lpszBuff;
+			SendSMSWindowDbeiSet(hWndDlg, pdbei);
 
-					pdbei->timestamp=time(NULL);
-					pdbei->flags=(DBEF_SENT|DBEF_UTF);
-					pdbei->eventType=ICQEVENTTYPE_SMS;
-					pdbei->cbBlob=(mir_snprintf(lpszBuff,dwBuffSize,"SMS To: +%s\r\n%s",szPhone,lpszMessageUTF)+4);
-					pdbei->pBlob=(PBYTE)lpszBuff;
-					SendSMSWindowDbeiSet(hWndDlg,pdbei);
-
-					char *szProto = ssSMSSettings.ppaSMSAccounts[dwModuleIndex]->szModuleName;
-					if ( ProtoServiceExists(szProto, MS_ICQ_SENDSMS)) {
-						WideCharToMultiByte(CP_UTF8,0,lpwszMessageXMLEncoded,dwMessageXMLEncodedSize,lpszMessageUTF,dwMessageUTFBuffSize,NULL,NULL);
-						hProcess = (HANDLE)ProtoCallService(szProto, MS_ICQ_SENDSMS, (WPARAM)szPhone,(LPARAM)lpszMessageUTF);
-						SendSMSWindowHProcessSet(hWndDlg,hProcess);
-					}
-					else MEMFREE(pdbei);
-				}
-				MEMFREE(lpszMessageUTF);
+			char *szProto = ssSMSSettings.ppaSMSAccounts[dwModuleIndex]->szModuleName;
+			if ( ProtoServiceExists(szProto, MS_ICQ_SENDSMS)) {
+				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLEncoded, dwMessageXMLEncodedSize, lpszMessageUTF, dwMessageUTFBuffSize, NULL, NULL);
+				hProcess = (HANDLE)ProtoCallService(szProto, MS_ICQ_SENDSMS, (WPARAM)szPhone, (LPARAM)lpszMessageUTF);
+				SendSMSWindowHProcessSet(hWndDlg, hProcess);
 			}
-			MEMFREE(lpwszMessageXMLEncoded);
+			else MEMFREE(pdbei);
 		}
+		MEMFREE(lpszMessageUTF);
 	}
+	MEMFREE(lpwszMessageXMLEncoded);
 }
-
-
 

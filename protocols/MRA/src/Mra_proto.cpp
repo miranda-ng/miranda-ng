@@ -256,6 +256,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 						ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCMDNum, 0);
 						break;
 					case ICQACKTYPE_SMS:
+						ProtoBroadcastAck(NULL, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCMDNum, 0);
 						mir_free(lpbData);
 						break;
 					}
@@ -1782,7 +1783,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 
 						// found
 						(*lpbBufferCurPos) = 0;
-						lpbBufferCurPos++;
+						lpbBufferCurPos ++;
 					}
 					ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 				}
