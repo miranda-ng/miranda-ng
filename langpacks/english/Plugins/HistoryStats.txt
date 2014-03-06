@@ -250,7 +250,7 @@
 ;file \plugins\HistoryStats\src\contact.cpp
 [(multiple)]
 ;file \plugins\HistoryStats\src\dlgconfigure.cpp
-[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
 [HistoryStats - Warning]
 ;file \plugins\HistoryStats\src\dlgfilterwords.cpp
 [Add set]
@@ -278,7 +278,7 @@
 [Create]
 [Create statistics]
 [Create statistics (there are warnings)]
-[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda IM to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
 [You have unsaved settings. Do you want to save before running HistoryStats?]
 [HistoryStats]
 [Show warnings...]
@@ -311,7 +311,7 @@
 [** All contacts **]
 ;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
 [Integration]
-[Create statistics on Miranda IM's startup]
+[Create statistics on Miranda NG's startup]
 [Add menu items to main menu]
 [Put menu items into submenu]
 [Add menu items to contact menu]
@@ -399,8 +399,8 @@
 [Always overwrite already existing files (dangerous!)]
 [Auto open statistics after being generated...]
 [...via button "Create statistics" in options]
-[...on Miranda IM's startup]
-[...via Miranda IM's main menu]
+[...on Miranda NG's startup]
+[...via Miranda NG's main menu]
 [First sort by]
 [Then sort by]
 [Finally sort by]

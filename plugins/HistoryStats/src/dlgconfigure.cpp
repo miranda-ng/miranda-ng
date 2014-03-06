@@ -89,7 +89,7 @@ void DlgConfigure::showModal()
 {
 	if (g_bConfigureLock) {
 		MessageBox(0,
-			TranslateT("You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same."),
+			TranslateT("You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same."),
 			TranslateT("HistoryStats - Warning"),
 			MB_ICONWARNING | MB_OK);
 

@@ -148,7 +148,7 @@ void DlgOption::onWMInitDialog()
 		ShowWindow(m_Band, SW_HIDE);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_MESSAGE), SW_SHOW);
 
-		SetDlgItemText(m_hWnd, IDC_MESSAGE, TranslateT("You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda IM to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same."));
+		SetDlgItemText(m_hWnd, IDC_MESSAGE, TranslateT("You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same."));
 	}
 
 	// reset flag

@@ -471,9 +471,9 @@ extern "C" __declspec(dllexport) int Load()
 	{
 		MessageBox(
 			0,
-			_T("This version of HistoryStats isn't compatible with your Miranda IM ")
-			_T("version. Possibly, your Miranda IM is outdated or you are trying to ")
-			_T("use the Unicode version with a non-Unicode Miranda IM.\r\n\r\n")
+			_T("This version of HistoryStats isn't compatible with your Miranda NG ")
+			_T("version. Possibly, your Miranda NG is outdated or you are trying to ")
+			_T("use the Unicode version with a non-Unicode Miranda NG.\r\n\r\n")
 			_T("Please go to the plugin's homepage and check the requirements."),
 			_T("HistoryStats - Error"),
 			MB_OK | MB_ICONERROR);

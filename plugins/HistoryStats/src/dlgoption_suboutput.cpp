@@ -133,8 +133,8 @@ void DlgOption::SubOutput::onWMInitDialog()
 			m_hOverwriteAlways           = m_Options.insertCheck(hTemp2, TranslateT("Always overwrite already existing files (dangerous!)"));
 		hTemp2                          = m_Options.insertGroup(hTemp, TranslateT("Auto open statistics after being generated..."));
 			m_hAutoOpenOptions           = m_Options.insertCheck(hTemp2, TranslateT("...via button \"Create statistics\" in options"));
-			m_hAutoOpenStartup           = m_Options.insertCheck(hTemp2, TranslateT("...on Miranda IM's startup"));
-			m_hAutoOpenMenu              = m_Options.insertCheck(hTemp2, TranslateT("...via Miranda IM's main menu"));
+			m_hAutoOpenStartup           = m_Options.insertCheck(hTemp2, TranslateT("...on Miranda NG's startup"));
+			m_hAutoOpenMenu              = m_Options.insertCheck(hTemp2, TranslateT("...via Miranda NG's main menu"));
 
 	// our sort levels
 	static const TCHAR* sortLevels[Settings::cNumSortLevels] = {

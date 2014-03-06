@@ -381,8 +381,8 @@ wday3:Вос
 Колонка содержит список часто используемых слов/или самых длинных слов, использованных Вами/контактом/всего.
 [(multiple)]
 (несколько)
-[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
-Вы не можете открыть отдельное окно опций HistoryStats, так как открыто окно опций Miranda IM. Закройте его, и попытайтесь снова. \r\n\r\nПримечание: опции в 2х диалогах одинаковы.
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Вы не можете открыть отдельное окно опций HistoryStats, так как открыто окно опций Miranda NG. Закройте его, и попытайтесь снова. \r\n\r\nПримечание: опции в 2х диалогах одинаковы.
 [HistoryStats - Warning]
 HistoryStats - Предупреждение
 [Add set]
@@ -429,7 +429,7 @@ HistoryStats - Предупреждение
 Создать статистику
 [Create statistics (there are warnings)]
 Создать статистику (есть предупреждения)
-[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda IM to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
 Вы не можете открыть опции HistoryStats здесь, пока открыто отдельное окно опций. Закройте его, и попытайтесь снова.\r\n\r\nПримечание: опции в 2х диалогах одинаковы.
 [You have unsaved settings. Do you want to save before running HistoryStats?]
 Вы не сохранили настройки. Желаете сохранить их перед запуском HistoryStats?
@@ -481,7 +481,7 @@ HTML вывод невозможен.
 Опция пропущена, так как включён вывод PNG.
 [** All contacts **]
 ** Все контакты **
-[Create statistics on Miranda IM's startup]
+[Create statistics on Miranda NG's startup]
 Создавать статистику при старте программы
 [Add menu items to main menu]
 Добавить пункты в главное меню
@@ -645,9 +645,9 @@ HistoryStats поддерживает некоторые плагины. Наж�
 Автооткрытие статистики после генерации...
 [...via button "Create statistics" in options]
 ...через кнопку "Создать статистику" в опциях
-[...on Miranda IM's startup]
+[...on Miranda NG's startup]
 ...при старте программы
-[...via Miranda IM's main menu]
+[...via Miranda NG's main menu]
 ...через главное меню
 [First sort by]
 Сначала сортировать по
