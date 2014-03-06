@@ -12,7 +12,7 @@
 [To allow Miranda NG access in your Dropbox account:]
 Дать доступ Miranda NG к вашей учётной записи Dropbox:
 [Go to this link]
-Перейти по ссылке
+Перейти
 [and allow access to files in apps folder]
 и разрешить доступ к файлам в папке приложения
 [Enter the security code ]
