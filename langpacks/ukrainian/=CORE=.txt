@@ -2319,6 +2319,8 @@ Miranda не може відкрити цей профіль
 Невдале призначення
 [(Unknown Contact)]
 (Невідомий контакт)
+[Unknown]
+Невідомо
 [Protocol]
 Протокол
 [Send Offline]
@@ -2617,8 +2619,6 @@ ANSI-плагін
 <не вказано>
 [Unspecified]
 <не вказано>
-[Unknown]
-Невідомо
 [Afghanistan]
 Афганістан
 [Aland Islands]

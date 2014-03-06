@@ -3,7 +3,7 @@
 ;  File: MRA.dll
 ;  Plugin: MRA
 ;  Version: 2.1.0.8
-;  Authors: Ivan Rozhuk
+;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Підтримка протоколу Mail.ru Агент (MRA) в Miranda NG.
@@ -29,6 +29,8 @@
 Автоматично авторизувати користувачів зі списку
 [Automatically grant authorization to new users]
 Автоматично авторизувати нових користувачів
+[Automatic authorization on mail.ru web services]
+Автоматична авторизація на веб-сервісах Mail.ru
 [Notify me when a message delivery has failed]
 Сповіщати про невдалу доставку повідомлень
 [Notify about new mail if increment]
@@ -357,6 +359,8 @@ Mail.ru додатково
 Будь ласка, введіть E-mail в налаштуваннях
 [Please, setup password in options]
 Будь ласка, введіть пароль в налаштуваннях
+[Thread creation failure]
+Помилка створення потоку
 [Logon error: invalid login/password]
 Помилка при перевірці імені користувача та пароля
 [MRIM_CS_MESSAGE_STATUS: not found in queue]

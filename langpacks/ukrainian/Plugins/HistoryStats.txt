@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: HistoryStats.dll
 ;  Plugin: HistoryStats
-;  Version: 0.1.5.3
+;  Version: 0.2.0.1
 ;  Authors: Martin Afanasjew
 ;============================================================
-[Creates nice statistics using your message history.]
+[Creates detailed, colorful and highly customizable statistics using your message history.]
 Створює докладну статистику на основі вашої історії повідомлень.
 [HistoryStats - Working...]
 HistoryStats - Обробка...
@@ -22,7 +22,6 @@ HistoryStats - Додати колонку
 [HistoryStats - Conflicting files]
 HistoryStats - Конфлікт файлів
 [Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
-Некоторые файлы временно сохранены в другом месте, чтобы избежать перезаписи существующих файлов. Если вы хотите всегда перезаписывать существующие файлы, в настройках HistoryStats есть опция для этого.
 Щоб уникнути перезапису існуючих файлів, вони тимчасово збережені в іншому місці. Якщо ви хочете завжди перезаписувати існуючі файли, ввімкніть відповідну опцію в налаштуваннях HistoryStats.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Неможливо записати ці файли, оскільки в папці призначення вже є файли з такими іменами. Будь ласка, виберіть, що зробити з файлами: перезаписати існуючі чи скинути згенеровані.
@@ -62,3 +61,93 @@ HistoryStats - Фільтр слів/повідомлень
 Налаштувати HistoryStats
 [Apply]
 Застосувати
+[wday3:Mon]
+wday3:Пнд
+[wday3:Tue]
+wday3:Втр
+[wday3:Wed]
+wday3:Срд
+[wday3:Thu]
+wday3:Чтв
+[wday3:Fri]
+wday3:Птн
+[wday3:Sat]
+wday3:Сбт
+[wday3:Sun]
+wday3:Ндл
+[month3:Jan]
+month3:Січ
+[monthF:January]
+monthF:Січень
+[month3:Feb]
+month3:Лют
+[monthF:February]
+monthF:Лютий
+[month3:Mar]
+month3:Бер
+[monthF:March]
+monthF:Березень
+[month3:Apr]
+month3:Кві
+[monthF:April]
+monthF:Квітень
+[month3:May]
+month3:Тра
+[monthF:May]
+monthF:Травень
+[month3:Jun]
+month3:Чер
+[monthF:June]
+monthF:Червень
+[month3:Jul]
+month3:Лип
+[monthF:July]
+monthF:Липень
+[month3:Aug]
+month3:Сер
+[monthF:August]
+monthF:Серпень
+[month3:Sep]
+month3:Вер
+[monthF:September]
+monthF:Вересень
+[month3:Oct]
+month3:Жов
+[monthF:October]
+monthF:Жовтень
+[month3:Nov]
+month3:Лис
+[monthF:November]
+monthF:Листопад
+[month3:Dec]
+month3:Гру
+[monthF:December]
+monthF:Грудень
+[wday2:Mo]
+wday2:Пн
+[wdayF:Monday]
+wdayF:Понеділок
+[wday2:Tu]
+wday2:Вт
+[wdayF:Tuesday]
+wdayF:Вівторок
+[wday2:We]
+wday2:Ср
+[wdayF:Wednesday]
+wdayF:Середа
+[wday2:Th]
+wday2:Чт
+[wdayF:Thursday]
+wdayF:Четвер
+[wday2:Fr]
+wday2:Пт
+[wdayF:Friday]
+wdayF:П'ятниця
+[wday2:Sa]
+wday2:Сб
+[wdayF:Saturday]
+wdayF:Субота
+[wday2:Su]
+wday2:Нд
+[wdayF:Sunday]
+wdayF:Неділя

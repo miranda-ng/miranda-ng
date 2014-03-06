@@ -1,2 +1,2 @@
-﻿[Dropbox]
-[Ok]
+﻿[OK]
+[Dropbox]
