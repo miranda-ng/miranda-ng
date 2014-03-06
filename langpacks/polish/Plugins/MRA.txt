@@ -30,6 +30,8 @@ Automatycznie dodaj kontakty do listy serwera podczas logowania
 Automatycznie udziel autoryzacji kontaktom na liście
 [Automatically grant authorization to new users]
 Automatycznie udziel autoryzacji nowym kontaktom
+[Automatic authorization on mail.ru web services]
+Automatyczne autoryzuj usługi internetowe na mail.ru
 [Notify me when a message delivery has failed]
 Powiadom mnie jeśli nie uda się dostarczyć wiadomości
 [Notify about new mail if increment]
@@ -374,6 +376,8 @@ Awatary
 Proszę uzupełnić e-mail w opcjach
 [Please, setup password in options]
 Proszę uzupełnić hasło w opcjach
+[Thread creation failure]
+Błąd tworzenia wątku
 [Logon error: invalid login/password]
 Błąd logowania: niepoprawny login lub hasło
 [MRIM_CS_MESSAGE_STATUS: not found in queue]

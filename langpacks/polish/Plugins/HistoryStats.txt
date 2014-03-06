@@ -89,7 +89,7 @@ Minimalny
 [Average]
 Średni
 [Maximum]
-maksymalną
+Maksymalny
 [Total (sum of all chats)]
 Łącznie (suma wszystkich rozmów)
 [Show bar graph for chat duration type]
@@ -163,7 +163,7 @@ Graficzny podgląd nazwy grupy listy kontaktów.
 [Display as]
 Pokaż jako
 [Absolute]
-Całkowite
+Całkowity
 [Units per day]
 Wiadomości dziennie
 [Units per week]
@@ -189,7 +189,7 @@ Rozmowy (wychodzące)
 [Chats (all)]
 Rozmowy (wszystkie)
 [Characters]
-Znaki
+Znaków
 [Messages]
 Wiadomości
 [Chats]
@@ -217,11 +217,11 @@ Graficzny podgląd liczby dla przychodzących, wychodzących lub łącznie znak�
 [Show sum of incoming and outgoing]
 Pokaż sumę przychodzących i wychodzących
 [In/out details (tooltip)]
-Detale przych. / wych. (tooltip)
+Detale przychodzących / wychodzących (tooltip)
 [Percentage in tooltip]
 Procentowe w tooltipie
 [Absolute in tooltip if average selected and vice versa]
-Całkowicie w podpowiedzi jeśli średnia stron i vice versa
+Wszystko w tooltipie jeśli zaznaczono "Średni"
 [Percentage in bar graph]
 Procentowe w wykresie słupkowym
 [Outgoing]
@@ -433,7 +433,7 @@ Graficzny podgląd listy dla specyficznej liczby najbardziej / najmniej popularn
 [(multiple)]
 (wieloraki)
 ;file \plugins\HistoryStats\src\dlgconfigure.cpp
-[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
 Nie można przejść do okna konfiguracji HistoryStats tak długo jak opcje dialogowe Mirandy NG są otwarte. Proszę zamknąć okno dialogowe opcji i spróbować ponownie.\r\n\r\nTa możliwość daje takie same opcje jak w oknie dialogowym Mirandy NG.
 [HistoryStats - Warning]
 HistoryStats - Ostrzeżenie
@@ -487,7 +487,7 @@ Stwórz
 Stwórz statystyki
 [Create statistics (there are warnings)]
 Stwórz statystyki (z możliwymi błędami)
-[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda IM to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
 Nie można przejść do okna konfiguracji HistoryStats tak długo jak opcje dialogowe Mirandy NG są otwarte. Proszę zamknąć okno dialogowe opcji i spróbować ponownie.\r\n\r\nTa możliwość daje takie same opcje jak w oknie dialogowym Mirandy NG.
 [You have unsaved settings. Do you want to save before running HistoryStats?]
 Ustawienia nie zostały zapisane. Czy chcesz zapisać przed uruchomieniem HistoryStats?
@@ -542,7 +542,7 @@ Ustawienie ignorowanie ze względu na PNG.
 ;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
 [Integration]
 Integracja
-[Create statistics on Miranda IM's startup]
+[Create statistics on Miranda NG's startup]
 Twórz statystyki podczas uruchamiania Mirandy NG
 [Add menu items to main menu]
 Dodaj element menu do menu głównego
@@ -677,7 +677,7 @@ Nagłówek tabeli
 [Output header]
 Nagłówek wyjściowy
 [Repeat header every n contacts (0=don't repeat)]
-Powtarzaj cyklicznie n kontaktów (0 = nie powtarzaj) 
+Powtarzaj cyklicznie n kontaktów (0 = nie powtarzaj)
 [Make column titles more verbose]
 Dodaj do tytułu kolumny więcej szczegółów
 [Show tooltips with detailed information in column titles]
@@ -706,9 +706,9 @@ Zawsze nadpisuj istniejące pliki (niebezpieczne!)
 Automatycznie otwórz statystyki po wygenerowaniu...
 [...via button "Create statistics" in options]
 ...za pomocą przycisku "Stwórz statystyki" w opcjach
-[...on Miranda IM's startup]
+[...on Miranda NG's startup]
 ...podczas uruchamiania Mirandy NG
-[...via Miranda IM's main menu]
+[...via Miranda NG's main menu]
 ...przez główne menu Mirandy NG
 [First sort by]
 Sortowanie wg
@@ -779,7 +779,7 @@ Znaki (wszystkie, średnia tygodniowa)
 [Messages (incoming, average per week)]
 Wiadomości (przychodzące, średnia tygodniowa)
 [Messages (outgoing, average per week)]
-Wiadomości (wychodzące, średnia tygodniowa)
+Wiadomości (wychodzące, a tygodniowa)
 [Messages (all, average per week)]
 Wiadomości (wszystkie, średnia tygodniowa)
 [Chats (incoming, average per week)]
@@ -833,7 +833,7 @@ Pomyślnie przeczytano zdarzenia #{scuccess},#{fail_add} które nie mogą być d
 [HistoryStats - Information]
 HistoryStats - Informacje
 [Exclude from statistics]
-Wyłączenie z statystyki
+Wyklucz z statystyki
 [Copy history]
 Kopiuj historię
 [Paste history...]

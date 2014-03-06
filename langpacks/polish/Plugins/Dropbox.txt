@@ -7,6 +7,32 @@
 ;============================================================
 [Provides ability to upload files on Dropbox.]
 Zapewnia możliwość wysłania plików do Dropbox'a.
+;file \plugins\Dropbox\res\resource.rc
+[Authorization]
+[To allow Miranda NG access in your Dropbox account:]
+Aby umożliwić dostęp Miranda NG na koncie Dropbox:
+[Go to this link]
+Otwórz link
+[and allow access to files in apps folder]
+i umożliwia dostęp do plików w folderze apps 
+[Enter the security code ]
+Wpisz kod zabezpieczający 
+[Click authorize button]
+Kliknij przycisk autoryzacji
+[Authorize]
+Autoryzuj
+[Other]
+Inne
+[Use shortened share links]
+Użyj skróconych linków do udostępnienia
+[Enter code]
+Wpisz kod 
+[Enter code below:]
+Wpisz kod poniżej:
+[OK]
+OK
+[Cancel]
+Anuluj
 ;file \plugins\Dropbox\src\dropbox.cpp
 [You have been authorized]
 Zostałeś zautoryzowany

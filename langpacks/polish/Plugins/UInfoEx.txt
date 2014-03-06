@@ -680,7 +680,7 @@ Wszystkie ustawienia są teraz przywrócone do wartości domyślnych!
 [Reminder disabled]
 Przypominanie wyłączone
 [Bithdays only]
-Tylko rocznice
+Tylko urodziny
 [everything]
 Wszystko
 [mBirthday]
