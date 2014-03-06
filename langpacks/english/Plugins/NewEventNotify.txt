@@ -49,6 +49,8 @@
 [Requests your authorization]
 [ICQ Web pager]
 [ICQ Email express]
+[SMS Message]
+[SMS Confirmation]
 [Unknown Event]
 [Notify of new events]
 [Enable new event notification]

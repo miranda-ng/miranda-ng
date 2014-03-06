@@ -7,6 +7,30 @@
 ;============================================================
 [Provides ability to upload files on Dropbox.]
 Плагин загрузки и пересылки файлов с помощью Dropbox.
+[Authorization]
+Авторизация
+[To allow Miranda NG access in your Dropbox account:]
+Дать доступ Miranda NG к вашей учётной записи Dropbox:
+[Go to this link]
+Перейти по ссылке
+[and allow access to files in apps folder]
+и разрешить доступ к файлам в папке приложения
+[Enter the security code ]
+Ввести код безопасности\s
+[Click authorize button]
+Нажмите на кнопку авторизации
+[Authorize]
+Авторизовать
+[Other]
+Другое
+[Use shortened share links]
+Использовать сокращённые ссылки
+[Enter code]
+Введите код
+[Enter code below:]
+Введите код со страницы:
+[Cancel]
+Отмена
 [You have been authorized]
 Авторизация прошла успешно
 [Are you sure you want to request authorization?]

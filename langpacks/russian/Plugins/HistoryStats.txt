@@ -2,13 +2,11 @@
 ;============================================================
 ;  File: HistoryStats.dll
 ;  Plugin: HistoryStats
-;  Version: 0.1.5.3
+;  Version: 0.2.0.1
 ;  Authors: Martin Afanasjew
 ;============================================================
-[Creates nice statistics using your message history.]
+[Creates detailed, colorful and highly customizable statistics using your message history.]
 Создает подробную, разноцветную и настраиваемую статистику вашей истории сообщений.
-[Band]
-
 [HistoryStats - Working...]
 HistoryStats - Работаю...
 [Cancel]
@@ -59,9 +57,813 @@ HistoryStats - Фильтр слов/сообщений
 О наборах
 [All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
 Все установки общие между колонками. Однако, только выбранные будут применены к текущей колонке. Используйте правое поле, чтобы определить слова, отображаемые отдельной строкой.
-[OK]
-
 [Configure HistoryStats]
 Настроить плагин HistoryStats
 [Apply]
 Применить
+[Extract words from]
+Брать слова из
+[Incoming messages]
+Входящие сообщения
+[Outgoing messages]
+Исходящие сообщения
+[All messages]
+Все сообщения
+[Ignore words shorter than (chars)]
+Игнорировать слова короче чем (символов)
+[Ignore words longer than (chars, 0=no limit)]
+Игнорировать слова длиннее чем (символов, 0=без ограничений)
+[Filter URLs/e-mail addresses]
+Фильтровать URL/e-mail адреса
+[Filter words/messages]
+Фильтровать слова/сообщения
+[Define...]
+Определить...
+[Chat duration type]
+Тип продолжительности чата
+[Minimum]
+Минимум
+[Average]
+Среднее
+[Maximum]
+Максимум
+[Total (sum of all chats)]
+Всего (сумма всех чатов)
+[Show bar graph for chat duration type]
+Показать график для продолжительности чата типа
+[Other information in tooltip]
+Другая информация в подсказке
+[Average chat duration]
+Среднее время чата
+[Maximum chat duration]
+Максимальная продолжительность чата
+[Total chat duration]
+Общая продолжительность чата
+[Chat duration]
+Продолжительность беседы
+[(unknown)]
+(НЕИЗВЕСТЕН)
+[[Min] #{amount}]
+(Минимально) #{amount}
+[[Avg] #{amount}]
+(Среднее) #{amount}
+[[Max] #{amount}]
+(Максимально) #{amount}
+[Column holding the amount of time you have chatted with the given contact.]
+Колонка содержит время, на протяжении которого вы чатились с данным контактом.
+[Events to count]
+Считать события
+[URLs (incoming)]
+URL (входящие)
+[URLs (outgoing)]
+URL (исходящие)
+[URLs (all)]
+URL (все)
+[Files (incoming)]
+Файлы (входящие)
+[Files (outgoing)]
+Файлы (исходящие)
+[Files (all)]
+Файлы (все)
+[URLs]
+Ссылки
+[Files]
+Файлы
+[Incoming URLs]
+Входящие ссылки
+[Incoming files]
+Входящие файлы
+[Events]
+События
+[Column holding event counts for incoming, outgoing or total number of files or URLs.]
+Колонка содержит число входящих/исходящих/всего файлов или URL.
+[Group]
+Группа
+[Column holding the contact list's group name the contact is in.]
+Колонка содержит группу, в которой находится контакт.
+[Data source]
+Источник данных
+[Display as]
+Показывать как
+[Absolute]
+Абсолютно
+[Units per day]
+Блоков в день
+[Units per week]
+Блоков в неделю
+[Units per month (30 days)]
+Блоков в месяц (30 дней)
+[Characters (incoming)]
+Символы (входящие)
+[Characters (outgoing)]
+Символы (исходящие)
+[Characters (all)]
+Символы (все)
+[Messages (incoming)]
+Сообщения (входящие)
+[Messages (outgoing)]
+Сообщения (исходящие)
+[Messages (all)]
+Сообщения (все)
+[Chats (incoming)]
+Беседы (входящие)
+[Chats (outgoing)]
+Беседы (исходящие)
+[Chats (all)]
+Чаты (все)
+[Characters]
+Символы
+[Messages]
+Сообщения
+[Chats]
+Чаты
+[day]
+день
+[month]
+Месяц
+[In/out]
+Входящее/Исходящее
+[Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
+Колонка содержащая количество для входящих, исходящих или всех символов, сообщений или диалогов. Эта колонка может отображать абсолютные и средние значения.
+[Show sum of incoming and outgoing]
+Показать сумму входящих/исходящих
+[In/out details (tooltip)]
+Вход./исход. детали (подсказка)
+[Percentage in tooltip]
+Проценты в подсказке
+[Absolute in tooltip if average selected and vice versa]
+Абсолютно в подсказке, если выбрано среднее, и наоборот
+[Percentage in bar graph]
+Проценты в гистограмме
+[Outgoing]
+Исходящие
+[Incoming]
+Входящие
+[[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
+(Исх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
+[In/out graph]
+График Принято/Отослано
+[Column holding in/out bar graphs for characters, messages or chats.]
+Колонка содержащая график Принято/Отослано для символов, сообщений или диалогов.
+[First/last message time (tooltip)]
+Время первого/последнего сообщения (подсказка)
+[Show countact count for omitted/totals (tooltip)]
+Показать счёт опущенных/всего (подсказка)
+[Nick]
+Ник
+[[First] #{first_time} / [Last] #{last_time}]
+(Первое) #{first_time} / (Последнее) #{last_time}
+[#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
+#{count} контактов / (Первый) #{first_time} / (Последний) #{last_time}
+[Omitted]
+Опущено
+[Totals]
+Всего
+[Column holding the contact's nick and first/last message time if selected.]
+Колонка содержит ник контакта, и время первого/последнего сообщение (если выбрано).
+[Protocol]
+Протокол
+[Column holding the contact's protocol.]
+Колонка содержит протокол контакта.
+[Rank]
+Ранг
+[Column holding the contact's placing according to your sorting criteria.]
+Колонка содержит место контакта, согласно Вашим критериям сортировки.
+["Split" type]
+Тип "Разбивки"
+[Hours of day]
+Часы дня
+[Days of week]
+Дни недели
+[Custom (for experts only)]
+Свое (только для экспертов)
+[Column setup]
+Настройка колонки
+[Bar unit]
+Единица ячейки
+[Units per bar]
+Единиц в ячейке
+[Bars per graph]
+Ячеек в графике
+[Graph alignment]
+Выравнивание графика
+[Align on day boundary]
+Выровнять на границе дня
+[Align on week boundary]
+Выровнять на границе недели
+[Details for every bar (tooltip)]
+Детали для каждой колонки (подсказка)
+[Hours]
+Часов
+[Days]
+Дней
+[Weeks]
+Недель
+[Details for every bar (tooltip) are only available with HTML output.]
+Детали для каждой колонки (подсказка) возможны, только в режиме HTML.
+["Split"]
+"Разбивка"
+[all characters]
+все символы
+[incoming messages]
+Входящие сообщения
+[outgoing messages]
+Исходящие сообщения
+[all messages]
+все сообщения
+[all chats]
+все чаты
+[#{type} for #{data}]
+#{type} для #{data}
+[wday3:Mon]
+wday3:Пон
+[wday3:Tue]
+wday3:Вто
+[wday3:Wed]
+wday3:Срд
+[wday3:Thu]
+wday3:Чет
+[wday3:Fri]
+wday3:Пят
+[wday3:Sat]
+wday3:Суб
+[wday3:Sun]
+wday3:Вос
+[Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
+Колонка содержит графическое представление чата, разбитого по дням недели, или по времени суток. Разное измерение статистики чатов доступно.
+[Drop everything older than (days, 0=no limit)]
+Выбросить всё старше чем (дней, 0=без ограничений)
+[Number of days to group]
+Число дней для группировки
+[Number of weeks to group]
+Число недель для группировки
+[Block unit]
+Единица блока
+[Units per block]
+Единиц в блоке
+[Blocks per column]
+Блоков в колонке
+[Number of columns to group]
+Число колонок в группе
+[Calculate maximum per column (not per graph)]
+Считать наибольшее по колонке (не по графику)
+[Characters (in/out ratio)]
+Символы (вх/исх рейтинг)
+[Messages (in/out ratio)]
+Сообщения (соотношение вх/исх)
+[Chats (in/out ratio)]
+Беседы (соотношение вх/исх)
+[Hours of day timeline]
+Временная шкала по часам дня
+[Days of week timeline]
+Временная шкала по дням недели
+["Split" timeline]
+"Разбивка" графика времени
+[in/out ratio of characters]
+вх/исх соотношение символов
+[in/out ratio of messages]
+вх/исх соотношение сообщений
+[in/out ratio of chats]
+вх/исх соотношение чатов
+[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.]
+Колонка содержит графическое представление чата (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего. Информация располагается по оси X- и Y-, и значения окрашиваются в цвета. Разное измерение статистики чатов доступно.
+[Timeline for #{data}]
+Шкала времени для #{data}
+[Timeline]
+График времени
+[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.]
+Колонка содержит графическое представление чата (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего на основании дней. Дни могут быть сгруппированы. Разное измерение статистики чатов доступно.
+[Word count type]
+Тип подсчёта слов
+[Total words]
+Всего слов
+[Distinct words]
+Определённые слова
+[Ratio total/distinct words]
+Коэффициент между всеми/определёнными словами
+[Additional info in tooltip (depends on type)]
+Дополнительная информация в подсказке (зависит от типа)
+[Total word count]
+Всего слов
+[Distinct word count]
+Число отличны слов
+[#{distict_words} distinct]
+#{distict_words} отдельно
+[#{words} total / #{distict_words} distinct]
+#{words} всего / #{distict_words} отлично
+[Word count]
+Количество слов
+[Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
+Колонка содержит число слов, использованных Вами/контактом/всего.
+[Words type]
+Тип слов
+[Most common words]
+Больше всего употребляемые слова
+[Least common words]
+Меньше всего употребляемые слова
+[Longest words]
+Самые длинные слова
+[Number of words]
+Число слов
+[Number of words to skip in output]
+Число пропускаемых слов при выводе
+[Word count for each word (tooltip)]
+Число употреблений для каждого слова (подсказка)
+[Show separate counts for incoming/outgoing]
+Показать отдельные счётчики для входящих/исходящих
+[Color words according to in/out ratio]
+Выделять цветом слова в соответствии с рейтингом вх/исх
+[[Out] #{out_words} / [In] #{in_words}]
+(Исходящее) #{out_words} / (Входящее) #{in_words}
+[Words]
+Слова
+[Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
+Колонка содержит список часто используемых слов/или самых длинных слов, использованных Вами/контактом/всего.
+[(multiple)]
+(несколько)
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Вы не можете открыть отдельное окно опций HistoryStats, так как открыто окно опций Miranda IM. Закройте его, и попытайтесь снова. \r\n\r\nПримечание: опции в 2х диалогах одинаковы.
+[HistoryStats - Warning]
+HistoryStats - Предупреждение
+[Add set]
+Добавить набор
+[Delete set]
+Удалить набор
+[Filter words matching]
+Фильтровать слова
+[Filter words containing]
+Фильтровать слова содержащие
+[Filter words starting with]
+Фильтровать слова с началом
+[Filter words ending with]
+Фильтровать слова с окончанием
+[Filter messages matching]
+Фильтровать сообщения
+[Filter messages containing]
+Фильтровать сообщения содержащие
+[Filter messages starting with]
+Фильтровать сообщения с началом
+[Filter messages ending with]
+Фильтровать сообщения с окончанием
+[The selected set is in use by at least one other column. If you remove it it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+Выбранный набор уже используется хотя бы одной колонкой. Если вы удалите его, он будет недоступен всем другим колонкам. вы уверены, что хотите удалить набор?
+[Global]
+Глобальные
+[Global settings]
+Глобальные настройки
+[Exclude]
+Исключать
+[Exclude contacts]
+Исключать контакты
+[Input]
+Ввод
+[Input settings]
+Настройки ввода
+[Column settings]
+Настройки колонок
+[Output]
+Вывод
+[Output settings]
+Настройки вывода
+[Create statistics]
+Создать статистику
+[Create statistics (there are warnings)]
+Создать статистику (есть предупреждения)
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda IM to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Вы не можете открыть опции HistoryStats здесь, пока открыто отдельное окно опций. Закройте его, и попытайтесь снова.\r\n\r\nПримечание: опции в 2х диалогах одинаковы.
+[You have unsaved settings. Do you want to save before running HistoryStats?]
+Вы не сохранили настройки. Желаете сохранить их перед запуском HistoryStats?
+[HistoryStats]
+Статистика
+[Show warnings...]
+Показать предупреждения...
+[Show statistics]
+Показать статистику
+[There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
+Есть потенциальные проблемы в ваших настройках. В любом случае, это только предупреждение, и на него можно не обращать внимания. Детали:
+[Add column...]
+Добавить колонку...
+[Delete column]
+Удалить колонку
+[Move down]
+Ниже
+[Move up]
+Выше
+[Show additional column info...]
+Показать дополнительную информацию о колонке...
+[General column settings]
+Главные настройки колонки
+[Title (default if empty)]
+Заголовок (по умолчанию, если пусто)
+[Column specific settings]
+Особые настройки колонки
+[For this config the selected column...]
+Опции для этой выбранной колонки...
+[...can be output as: ]
+...может выводиться как:
+[PNG (partial)]
+PNG (частично)
+[...will be output as: ]
+...будет выводиться как:
+[Nothing (column will be skipped)]
+Ничего (колонка будет пропущена)
+[HTML as fallback]
+HTML как откат
+[PNG, ignoring some sttings]
+PNG, пропуск некоторых строк
+[HistoryStats - Error]
+HistoryStats - Ошибка
+[HTML output unsupported.]
+HTML вывод невозможен.
+[Fallback to HTML due to setting.]
+Переключение в HTML режим по установке
+[Setting ignored due to PNG output.]
+Опция пропущена, так как включён вывод PNG.
+[** All contacts **]
+** Все контакты **
+[Create statistics on Miranda IM's startup]
+Создавать статистику при старте программы
+[Add menu items to main menu]
+Добавить пункты в главное меню
+[Put menu items into submenu]
+Пункты в своем подменю
+[Add menu items to contact menu]
+Добавить пункты в меню контакта
+[Don't hide menu items for pseudo protocols]
+Не прятать значки меню для псевдо-протоколов
+[Hide menu items for protocol...]
+Спрятать пункты меню для протоколов...
+[Graphics]
+Создание графики
+[Only use HTML to simulate graphics]
+Использовать только HTML для создания графики
+[Generate PNG files to represent graphics]
+Создавать PNG файл для изображения графики
+[Fall back to HTML output, if column options require HTML output]
+Вернуться к выводу HTML, если настройки колонки требуют вывод HTML
+[Enforce PNG output, possibly ignoring some column options]
+Принудительно выводить PNG, возможно игнорируя некоторые настройки колонки
+[Prefer HTML output over PNG output, if available]
+Предпочитать вывод HTML, чем PNG, если доступно
+[Miscellaneous]
+Прочее
+[Generate statistics in background thread with low priority]
+Создавать статистику в фоновом процессе с низким приоритетом
+[Path to browser (leave blank for system default)]
+Путь к браузеру (пусто = системный браузер)
+[Create statistics for meta-contacts and their subcontacts]
+Создает статистику для мета-контактов и суб-контактов
+[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
+Следующая информация для тех, кто использует метаконтакты. В этом случае, пожалуйста, используйте версию метаконтактов не ниже 0.9.10.6.\r\n\r\nHistoryStats отлично взаимодействует с метаконтактами, и способна собирать данные не только от мета-контактов, но и от суб-контактов. Также HistoryStats умеет объединять историю всех суб-контактов. Вы можете настроить взаимодействие с метаконтактами во вкладке "Ввод".
+[Automatically get updates of HistoryStats]
+Автоматически обновляет HistoryStats
+[Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
+Используйте этот плагин для автоматического уведомления о новой версии HistoryStats. Этот плагин автоматически установит обновлённую версию. Пожалуйста используйте последнюю версию этого плагина.
+[Updater|Updater (Unicode)]
+Updater|Updater (Юникод)
+[Easily exchange icons in HistoryStats' user interface]
+Смена значков интерфейса HistoryStats
+[Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
+Используйте этот плагин, чтобы настроить большинство значков интерфейса HistoryStats. Пожалуйста используйте версию 0.0.1.0 или старше. В другом случае HistoryStats не появится в настройках IcoLib. Если у вас Miranda IM версии 0.7.0 альфа 3 или старше, отдельный плагин IcoLib не требуется.
+[Icons Library Manager]
+Менеджер значков
+[Supported plugins (double-click to learn more):]
+Поддерживаемые плагины (двойной щелчок для информации):
+[HistoryStats supports several plugins. Click to hide info...]
+HistoryStats поддерживает некоторые плагины. Нажмите для скрытия информации...
+[History interpretation]
+Интерпретация истории
+[Time a chat session must last to be counted (seconds)]
+Беседа должна длиться, чтобы быть подсчитанной (секунд)
+[Minimum time to assume when calculating average (days)]
+Минимальное время принятия, при подсчёте среднего (дни)
+[Word delimiting characters]
+Слово ограничивается символами
+[Contact filtering]
+Фильтр контактов
+[Ignore all contacts with protocol...]
+Игнорировать все контакты от протоколов...
+[History read mode for MetaContacts]
+Способ чтения истории метаконтактов
+[Use only meta-contact's history]
+Использовать только историю метаконтактов
+[Use only subcontacts' histories (for one meta-contact)]
+Использовать только историю субконтактов (для одного метаконтакта)
+[Use meta-contact's history and its subcontacts' histories]
+Использовать историю метаконтактов и историю их субконтактов
+[Treat meta-contacts and subcontacts as normal contacts]
+Обходить метаконтакты и субконтакты как нормальные контакты
+[Merge contacts with same name]
+Объединять контакты с тем же самым именем
+[Only merge if contacts are in the same group]
+Объединять, если контакты находятся в той же самой группе
+[Duplicate detection when reading merged contacts]
+Повторить проверку когда читаются слитые контакты
+[Merge events (tolerant)]
+Сливать события (терпимо)
+[Merge events (strict)]
+Сливать события (строго)
+[Don't merge events]
+Не сливать события
+[Message filtering]
+Фильтр сообщений
+[Ignore messages...]
+Игнорировать сообщения...
+[...older than (days, 0=no limit)]
+...старше чем (дней, 0=без ограничений)
+[...before date (none=no limit)]
+...перед (нет=не лимитировано)
+[...after date (none=no limit)]
+...после даты (нет=не лимитировано)
+[Strip BBCode tags from messages]
+Вырезать BBCode из сообщений
+[Contact filtering and totals]
+Фильтры контактов и общей статистики
+[Remove contacts with empty history]
+Удалять контакты с пустой историей
+[Remove contacts with only incoming chats]
+Удалять контакты с только входящими беседами
+[Remove only if you never answered]
+Удалять, только если вы никогда не отвечали
+[Remove contacts with only outgoing chats]
+Удалять контакты с только исходящими беседами
+[Remove only if contact never answered]
+Удалять, только если контакт никогда не отвечал
+[Limit number of contacts in statistics]
+Ограничивать число контактов в статистике
+[Criteria]
+Критерий
+[Omit contacts that didn't produce a certain amount of data]
+Опустить контакты, которые не дают определённое количество данных
+[Omit if]
+Опустить, если
+[...is less than]
+...меньше, чем
+[Omit contacts that were inactive for some time]
+Опустить контакты, которые были неактивны некоторое время
+[Maximum inactivity time (days)]
+Максимальное время неактивности (дни)
+[Omit all contacts not in "Top n"]
+Опустить все контакты не в "Первых n"
+[Number of contacts in "Top n"]
+Число контактов в "Первые n"
+[Include omitted contacts in totals]
+Включить опущенные контакты в общую статистику
+[Include totals of omitted contacts in additional row]
+Включить общую статистику для опущенных контактов в отдельный ряд
+[Include totals in statistics]
+Включить общую статистику
+[Table header]
+Заголовок таблицы
+[Output header]
+Писать заголовок
+[Repeat header every n contacts (0=don't repeat)]
+Повторять заголовок каждые n контактов (0=не повторять)
+[Make column titles more verbose]
+Сделать название колонок более многословными
+[Show tooltips with detailed information in column titles]
+Показать подсказку с информацией в заголовке колонки
+[Only show if a custom title was entered or if titles are not verbose]
+Показать, только если настроенный заголовок введен или заголовки не многословны
+[Sorting]
+Сортировка
+[HTML file generation]
+Генерация файла HTML
+[Own nick for statistics]
+Собственное имя для статистики
+[Output files and folders]
+Папки и файлы для вывода
+[Substitute variables in output file name and subfolder for additional files]
+Заменять переменные в файле выхода и подпапке для дополнительных файлов
+[Output additional files to subfolder]
+Класть дополнительные файлы в подпапку
+[Subfolder for additional files]
+Подпапка для дополнительных файлов
+[Always overwrite already existing files (dangerous!)]
+Всегда переписывать уже существующие файлы (опасно!)
+[Auto open statistics after being generated...]
+Автооткрытие статистики после генерации...
+[...via button "Create statistics" in options]
+...через кнопку "Создать статистику" в опциях
+[...on Miranda IM's startup]
+...при старте программы
+[...via Miranda IM's main menu]
+...через главное меню
+[First sort by]
+Сначала сортировать по
+[Then sort by]
+Затем сортировать по
+[Finally sort by]
+Наконец сортировать по
+[Characters (incoming, absolute)]
+Символы (входящие, абсолютное)
+[Characters (outgoing, absolute)]
+Символы (исходящие, абсолютное)
+[Characters (all, absolute)]
+Символы (все, абсолютное)
+[Characters (incoming, average)]
+Символы (входящие, среднее)
+[Characters (outgoing, average)]
+Символы (исходящие, среднее)
+[Characters (all, average)]
+Символы (все, среднее)
+[Messages (incoming, absolute)]
+Сообщения (входящие, абсолютно)
+[Messages (outgoing, absolute)]
+Сообщения (исходящие, абсолютно)
+[Messages (all, absolute)]
+Сообщения (все, абсолютно)
+[Messages (incoming, average)]
+Сообщения (входящие, среднее)
+[Messages (outgoing, average)]
+Сообщения (исходящие, среднее)
+[Messages (all, average)]
+Сообщения (все, среднее)
+[Chats (incoming, absolute)]
+Чаты (входящие, абсолютное)
+[Chats (outgoing, absolute)]
+Чаты (исходящие, абсолютное)
+[Chats (all, absolute)]
+Чаты (все, абсолютно)
+[Chats (incoming, average)]
+Чаты (входящие, среднее)
+[Chats (outgoing, average)]
+Чаты (исходящие, среднее)
+[Chats (all, average)]
+Чаты (все, среднее)
+[Chat duration (total)]
+Продолжительность беседы (всего)
+[Chat duration (minimum)]
+Продолж. чата (минимальное)
+[Chat duration (average)]
+Продолж. чата (среднее)
+[Chat duration (maximum)]
+Продолж. чата (максимальное)
+[Time of first message to/from contact]
+Время первого сообщения к/от контакта
+[Time of last message to/from contact]
+Время последнего сообщения к/от контакта
+[(nothing)]
+(ничего)
+[Ascending]
+По возрастанию
+[Descending]
+По убыванию
+[Characters (incoming, average per week)]
+Символы (входящие, среднее по недели)
+[Characters (outgoing, average per week)]
+Символы (исходящие, среднее по недели)
+[Characters (all, average per week)]
+Символы (все, среднее по недели)
+[Messages (incoming, average per week)]
+Сообщения (входящие, среднее по недели)
+[Messages (outgoing, average per week)]
+Сообщения (исходящие, среднее по недели)
+[Messages (all, average per week)]
+Сообщения (все, среднее по недели)
+[Chats (incoming, average per week)]
+Чаты (входящие, среднее по недели)
+[Chats (outgoing, average per week)]
+Чаты (исходящие, среднее по недели)
+[Chats (all, average per week)]
+Чаты (все, среднее по недели)
+[Chat duration (total, hours)]
+Продолж. чата (всего, часов)
+[Create statistics (main menu)]
+Создать статистику (главное меню)
+[Show statistics (main menu)]
+Показать статистику (главное меню)
+[Configure... (main menu)]
+Настроить... (главное меню)
+[Contact menu]
+Меню контакта
+[Unexcluded contacts]
+Неисключённые контакты
+[Excluded contacts]
+Исключённые контакты
+[Options tree]
+Дерево опций
+[Checkbox]
+Переключатель
+[Checkbox (checked)]
+Переключатель (выбран)
+[Checkbox (disabled)]
+Переключатель (отключён)
+[Checkbox (checked & disabled)]
+Переключатель (выбран и отключён)
+[Radio button]
+Радио
+[Radio button (checked)]
+Радио (выбран)
+[Radio button (disabled)]
+Радио (отключён)
+[Radio button (checked & disabled)]
+Радио (выбран и отключён)
+[Edit control]
+Редактирование
+[Edit control (disabled)]
+Редактирование (отключено)
+[Combo box]
+Выпадающее меню
+[Combo box (disabled)]
+Выпадающее меню (отключено)
+[Folder]
+Папка
+[Folder (disabled)]
+Папка (отключена)
+[Button (disabled)]
+Кнопка (отключена)
+[Date/time picker]
+Выбор даты/времени
+[Date/time picker (disabled)]
+Выбор даты/времени (отключено)
+[The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
+Статистика не найдена. Либо она еще не была создана, либо перемещена в другую папку.
+[Statistics]
+Статистика
+[Configure...]
+Настройка...
+[Configure statistics...]
+Настроить статистику...
+[Exclude from statistics]
+Исключить из статистики
+[History]
+История
+[(Unknown)]
+(неизвестный)
+[(none)]
+(нет)
+[none]
+Нет
+[(default nick)]
+(ник по умолчанию)
+[HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats не может создать необходимую папку (#{folder}).\r\n\r\nПожалуйста проверьте имя файла и папки, а также возможность записи в файл/папку/диск.
+[Omitted contacts]
+Опущено контактов
+[HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats не может открыть файл для записи (#{file}).\r\n\r\nПожалуйста проверьте имя файла, и возможность записи в файл/папку/диск.
+[Statistics for #{nick} - HistoryStats]
+Статистика истории для #{nick}
+[Statistics for #{nick}]
+Статистика для #{nick}
+[Writing omitted contacts]
+Запись пропущенных контактов
+[Writing totals]
+Запись итогов
+[Created with #{plugin} #{version} on #{date} at #{time}]
+Создано плагином #{plugin} #{version} #{date} в #{time}
+[Initializing]
+Инициализация
+[Reading database]
+Чтение базы данных
+[Removing contacts]
+Удаление контактов
+[Sorting contacts]
+Сортировка контактов
+[Precollecting column data]
+Предварительный сбор данных колонок
+[Limiting number of contacts]
+Ограничение числа контактов
+[Calculating totals]
+Подсчёт всех данных
+[Postcollecting column data]
+Завершающий сбор данных колонок
+[Transforming data]
+Конвертирование данных
+[Creating HTML]
+Создание HTML
+[Done]
+Готово
+[Already existing file]
+Уже существующий файл
+[HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
+Уже запущен процесс создания статистики. Пожалуйста подождите, пока он закончится, или отмените его, и попытайтесь снова.
+[wday2:Mo]
+wday2:Пн
+[wdayF:Monday]
+wdayF:Понедельник
+[wday2:Tu]
+wday2:Вт
+[wdayF:Tuesday]
+wdayF:Вторник
+[wday2:We]
+wday2:Ср
+[wdayF:Wednesday]
+wdayF:Среда
+[wday2:Th]
+wday2:Чт
+[wdayF:Thursday]
+wdayF:Четверг
+[wday2:Fr]
+wday2:Пт
+[wdayF:Friday]
+wdayF:Пятница
+[wday2:Sa]
+wday2:Сб
+[wdayF:Saturday]
+wdayF:Суббота
+[wday2:Su]
+wday2:Вс
+[wdayF:Sunday]
+wdayF:Воскресенье

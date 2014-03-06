@@ -24,7 +24,7 @@ DWORD CMraProto::StartConnect()
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		if (INVALID_HANDLE_VALUE != ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0))
 			return 0; /* OK. */
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, TranslateT("Thread create fail"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, TranslateT("Thread creation failure"));
 	}
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
 	return ERROR_OPERATION_ABORTED;

@@ -2315,6 +2315,8 @@ Miranda NG не может открыть этот профиль
 Неудачное назначение
 [(Unknown Contact)]
 (Неизвестный контакт)
+[Unknown]
+Неизвестно
 [ID]
 ID
 [Protocol]
@@ -2615,8 +2617,6 @@ ANSI плагин
 <не указано>
 [Unspecified]
 Не указано
-[Unknown]
-Неизвестно
 [Afghanistan]
 Афганистан
 [Aland Islands]

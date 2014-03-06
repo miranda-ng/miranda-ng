@@ -1248,6 +1248,7 @@
 [Assignment failure]
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
+[Unknown]
 [ID]
 [Protocol]
 [Send Offline]
@@ -1424,7 +1425,6 @@
 [<unspecified>]
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
-[Unknown]
 [Afghanistan]
 [Aland Islands]
 [Albania]
