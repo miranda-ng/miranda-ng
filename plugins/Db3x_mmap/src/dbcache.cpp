@@ -155,8 +155,7 @@ void CDb3Mmap::DBFlush(int setting)
 				else if (GetTickCount() - m_flushFailTick > 5000)
 					DatabaseCorruption(NULL);
 			}
-			else
-				m_flushFailTick = 0;
+			else m_flushFailTick = 0;
 		}
 		log0("nflush2");
 		return;
