@@ -48,14 +48,7 @@ static HGENMENU
 
 INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv;
-	char *group = 0;
-
-	// Get some information about the selected contact.
-	if (!db_get_utf(wParam, "CList", "Group", &dbv)) {
-		group = _strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
+	ptrT tszGroup(db_get_tsa(wParam, "CList", "Group"));
 
 	// Create a new metacontact
 	MCONTACT hMetaContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -70,8 +63,8 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 		// Add the MetaContact protocol to the new meta contact
 		CallService(MS_PROTO_ADDTOCONTACT, hMetaContact, (LPARAM)META_PROTO);
 
-		if (group)
-			db_set_utf(hMetaContact, "CList", "Group", group);
+		if (tszGroup)
+			db_set_ts(hMetaContact, "CList", "Group", tszGroup);
 
 		// Assign the contact to the MetaContact just created (and make default).
 		if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
@@ -85,8 +78,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 			db_set_b(hMetaContact, "CList", "Hidden", 1);
 	}
 
-	free(group);
-	return (INT_PTR)hMetaContact;
+	return hMetaContact;
 }
 
 void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateInfo)

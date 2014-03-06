@@ -213,6 +213,16 @@ BOOL CDb3Mmap::MetaSetDefault(DBCachedContact *cc)
 	return db_set_dw(cc->contactID, META_PROTO, "Default", cc->nDefault);
 }
 
+BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, MCONTACT hSub)
+{
+	return 0;
+}
+
+BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, MCONTACT hSub)
+{
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // contacts convertor
 

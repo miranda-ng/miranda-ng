@@ -236,6 +236,8 @@ public:
 
 	STDMETHODIMP_(BOOL)     MetaDetouchSub(DBCachedContact *cc, int nSub);
 	STDMETHODIMP_(BOOL)     MetaSetDefault(DBCachedContact *cc);
+	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, MCONTACT hSub);
+	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, MCONTACT hSub);
 
 protected:
 	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
