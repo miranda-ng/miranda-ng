@@ -187,7 +187,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	}
 
 	if (dbeOld.contactID == 0) {
-		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Zero event's contact id: correcting"));
+		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Zero event's contact ID: correcting"));
 		dbeOld.contactID = dbc->dwContactID;
 	}
 
