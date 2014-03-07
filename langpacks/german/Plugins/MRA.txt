@@ -3,7 +3,7 @@
 ;  File: MRA.dll
 ;  Plugin: MRA
 ;  Version: 2.1.0.8
-;  Authors: Ivan Rozhuk
+;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Miranda Mail.ru-Agent-Protokoll-Plugin.
@@ -30,6 +30,8 @@ Kontakte bei Login automatisch hinzufügen
 Autorisierung für Benutzer in Kontaktliste automatisch gewähren
 [Automatically grant authorization to new users]
 Autorisierung automatisch neuen Nutzern gewähren
+[Automatic authorization on mail.ru web services]
+
 [Notify me when a message delivery has failed]
 Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
 [Notify about new mail if increment]
@@ -374,6 +376,8 @@ Avatare
 Bitte E-Mail-Einstellungen in den Einstellungen einrichten
 [Please, setup password in options]
 Bitte richten Sie ein Kennwort in den Einstellungen ein.
+[Thread creation failure]
+
 [Logon error: invalid login/password]
 Anmeldefehler: Falscher Benutzername/Kennwort
 [MRIM_CS_MESSAGE_STATUS: not found in queue]

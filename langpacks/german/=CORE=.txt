@@ -2415,6 +2415,8 @@ Zuweisungsfehler
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Unbekannter Kontakt)
+[Unknown]
+Unbekannt
 [ID]
 ID
 [Protocol]
@@ -2747,8 +2749,6 @@ Avatar-Hauptverzeichnis
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 unspezifiziert
-[Unknown]
-Unbekannt
 [Afghanistan]
 Afghanistan
 [Aland Islands]

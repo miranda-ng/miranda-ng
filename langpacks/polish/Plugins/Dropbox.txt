@@ -53,6 +53,7 @@ jest pusty
 nie jest usunięty
 [is deleted]
 jest usunięty
+;file \plugins\Dropbox\src\dropbox_dialogs.cpp
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
 Wyślij pliki do Dropbox'a

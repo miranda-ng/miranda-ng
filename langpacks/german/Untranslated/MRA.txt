@@ -1,0 +1,2 @@
+﻿[Automatic authorization on mail.ru web services]
+[Thread creation failure]

@@ -90,6 +90,10 @@ Erbittet Ihre Autorisation
 ICQ Web pager
 [ICQ Email express]
 ICQ-E-Mail-Express
+[SMS Message]
+
+[SMS Confirmation]
+
 [Unknown Event]
 Unbekanntes Ereignis
 [Notify of new events]

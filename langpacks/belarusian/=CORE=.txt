@@ -2405,6 +2405,8 @@ Miranda NG не можа адкрыць гэты профіль
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
+[Unknown]
+Невядома
 [ID]
 ID
 [Protocol]
@@ -2727,8 +2729,6 @@ BMP
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Не пазначана
-[Unknown]
-Невядома
 [Afghanistan]
 Афганістан
 [Aland Islands]

@@ -1,0 +1,2 @@
+﻿[SMS Message]
+[SMS Confirmation]

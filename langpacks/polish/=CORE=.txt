@@ -2415,6 +2415,8 @@ Błąd przypisania
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)
+[Unknown]
+Nieznany
 [ID]
 ID
 [Protocol]
@@ -2747,8 +2749,6 @@ Folder główny awatarów
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Nieokreślone
-[Unknown]
-Nieznany
 [Afghanistan]
 Afganistan
 [Aland Islands]

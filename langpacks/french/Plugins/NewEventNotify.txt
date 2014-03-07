@@ -90,6 +90,10 @@ Demande votre autorisation
 
 [ICQ Email express]
 e-mail express ICQ
+[SMS Message]
+
+[SMS Confirmation]
+
 [Unknown Event]
 Évènement inconnu
 [Notify of new events]

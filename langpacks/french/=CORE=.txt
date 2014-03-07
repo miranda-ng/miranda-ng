@@ -2415,6 +2415,8 @@ Assignement raté
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Contact inconnu)
+[Unknown]
+Inconnu
 [ID]
 ID
 [Protocol]
@@ -2747,8 +2749,6 @@ Avatars
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Non spécifié
-[Unknown]
-Inconnu
 [Afghanistan]
 
 [Aland Islands]

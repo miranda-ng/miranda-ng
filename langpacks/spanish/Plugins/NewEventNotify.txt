@@ -90,6 +90,10 @@ Contactos
 
 [ICQ Email express]
 
+[SMS Message]
+
+[SMS Confirmation]
+
 [Unknown Event]
 
 [Notify of new events]

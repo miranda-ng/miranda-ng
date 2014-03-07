@@ -90,6 +90,8 @@ Prośba o twoją autoryzację
 Strona WWW ICQ
 [ICQ Email express]
 Adres e-mail ICQ
+[SMS Message]
+
 [SMS Confirmation]
 Potwierdzenie SMS
 [Unknown Event]

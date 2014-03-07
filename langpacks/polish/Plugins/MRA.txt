@@ -3,7 +3,7 @@
 ;  File: MRA.dll
 ;  Plugin: MRA
 ;  Version: 2.1.0.8
-;  Authors: Ivan Rozhuk
+;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Zapewnia obsługę protokołu Mail.ru Agent (MRA).

@@ -896,6 +896,8 @@ Písmo
 Súbor ikon
 [** All contacts **]
 ** Všetky kontakty **
+[Unknown]
+neznáme
 [<All connections>]
 Všetky pripojenia
 [Network]
@@ -926,5 +928,3 @@ Windows obrázky
 JPEG obrázky
 [GIF bitmaps]
 GIF obrázky
-[Unknown]
-neznáme

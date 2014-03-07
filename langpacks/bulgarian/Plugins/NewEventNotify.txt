@@ -90,6 +90,10 @@ Popups
 
 [ICQ Email express]
 
+[SMS Message]
+
+[SMS Confirmation]
+
 [Unknown Event]
 Неизвестно събитие
 [Notify of new events]

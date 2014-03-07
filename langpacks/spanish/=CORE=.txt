@@ -2415,6 +2415,8 @@ Conjuntos de iconos
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Contacto desconocido)
+[Unknown]
+Desconocido
 [ID]
 
 [Protocol]
@@ -2747,8 +2749,6 @@ Carpeta raíz de avatares
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 <Sin especificar>
-[Unknown]
-Desconocido
 [Afghanistan]
 Afganistán
 [Aland Islands]

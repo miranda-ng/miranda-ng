@@ -1459,6 +1459,8 @@ OutputDebugString()
 ** כל הרשימה **
 [(Unknown Contact)]
 (איש קשר לא מוכר)
+[Unknown]
+לא ידוע
 [Protocol]
 פרוטוקול
 [Convert to MetaContact]
@@ -1545,5 +1547,3 @@ OutputDebugString()
 JPEG מפות סיביות של
 [GIF bitmaps]
 GIF מפות סיביות של
-[Unknown]
-לא ידוע

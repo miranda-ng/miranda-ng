@@ -2384,6 +2384,8 @@ URL
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Непознат контакт)
+[Unknown]
+Неизвестно
 [ID]
 
 [Protocol]
@@ -2716,8 +2718,6 @@ PNG изображения
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Неуточнено
-[Unknown]
-Неизвестно
 [Afghanistan]
 Афганистан
 [Aland Islands]

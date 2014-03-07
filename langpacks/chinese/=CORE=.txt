@@ -2174,6 +2174,8 @@ Miranda 无法打开此配置文件
 关联失败
 [(Unknown Contact)]
 (未知联系人)
+[Unknown]
+未知
 [Protocol]
 协议
 [Send Offline]
@@ -2422,8 +2424,6 @@ PNG 位图
 <未指定>
 [Unspecified]
 未指定
-[Unknown]
-未知
 [Afghanistan]
 阿富汗
 [Albania]

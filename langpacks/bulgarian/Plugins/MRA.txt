@@ -3,7 +3,7 @@
 ;  File: MRA.dll
 ;  Plugin: MRA
 ;  Version: 2.1.0.8
-;  Authors: Ivan Rozhuk
+;  Authors: Rozhuk Ivan
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
@@ -27,6 +27,8 @@
 [Automatically grant authorization to users in contact list]
 
 [Automatically grant authorization to new users]
+
+[Automatic authorization on mail.ru web services]
 
 [Notify me when a message delivery has failed]
 
@@ -314,6 +316,8 @@ Popups
 [Please, setup e-mail in options]
 
 [Please, setup password in options]
+
+[Thread creation failure]
 
 [Logon error: invalid login/password]
 
