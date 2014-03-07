@@ -451,31 +451,33 @@ void CDb3Mmap::FillContacts()
 		dwOffset = p->ofsNext;
 	}
 
-	for (int i = 0; i < arMetas.getCount(); i++) {
-		MCONTACT hContact = (MCONTACT)arMetas[i];
-		DBCachedContact *ccMeta = m_cache->GetCachedContact(hContact);
-		if (ccMeta == NULL)
-			continue;
+	#if defined(_DEBUG)
+		for (int i = 0; i < arMetas.getCount(); i++) {
+			MCONTACT hContact = (MCONTACT)arMetas[i];
+			DBCachedContact *ccMeta = m_cache->GetCachedContact(hContact);
+			if (ccMeta == NULL)
+				continue;
 
-		// we don't need it anymore
-		DeleteContactSetting(hContact, META_PROTO, "MetaID");
+			// we don't need it anymore
+			DeleteContactSetting(hContact, META_PROTO, "MetaID");
 
-		for (int k = 0; k < ccMeta->nSubs; k++) {
-			// store contact id instead of the old mc number
-			DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
-			dbws.value.type = DBVT_DWORD;
-			dbws.value.dVal = hContact;
-			WriteContactSetting(ccMeta->pSubs[k], &dbws);
+			for (int k = 0; k < ccMeta->nSubs; k++) {
+				// store contact id instead of the old mc number
+				DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
+				dbws.value.type = DBVT_DWORD;
+				dbws.value.dVal = hContact;
+				WriteContactSetting(ccMeta->pSubs[k], &dbws);
 
-			// wipe out old data from subcontacts
-			DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "ContactNumber");
-			DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "MetaLink");
+				// wipe out old data from subcontacts
+				DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "ContactNumber");
+				DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "MetaLink");
 
-			DBCachedContact *ccSub = m_cache->GetCachedContact(ccMeta->pSubs[k]);
-			if (ccSub)
-				MetaMergeHistory(ccMeta, ccSub);
+				DBCachedContact *ccSub = m_cache->GetCachedContact(ccMeta->pSubs[k]);
+				if (ccSub)
+					MetaMergeHistory(ccMeta, ccSub);
+			}
 		}
-	}
+	#endif
 }
 
 DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID)
