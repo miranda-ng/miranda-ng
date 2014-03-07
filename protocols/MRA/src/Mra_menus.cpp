@@ -290,9 +290,13 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	mi.pszContactOwner = m_szModuleName;
 
 	CMStringW szStatusTitle;
-	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++) {
+
+	DWORD dwCount = MRA_XSTATUS_OFF_CLI_COUNT;
+	if (getByte(NULL, "xStatusShowAll", MRA_DEFAULT_SHOW_ALL_XSTATUSES))
+		dwCount = MRA_XSTATUS_COUNT;
+	for (DWORD i = 0; i < dwCount; i ++) {
 		mir_snprintf(pszServiceFunctionName, 100, "/menuXStatus%ld", i);
-		mi.position++;
+		mi.position ++;
 		if (i) {
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", i);
 			if (mraGetStringW(NULL, szValueName, szStatusTitle))
@@ -386,7 +390,7 @@ void CMraProto::InitMenus()
 	hContactMenuRoot = CListCreateMenu(-2000001001, -500050000, FALSE, gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, hContactMenuItems);
 
 	// xstatus menu
-	for (int i = 0; i < MRA_XSTATUS_COUNT; i++) {
+	for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		char szServiceName[100];
 		mir_snprintf(szServiceName, SIZEOF(szServiceName), "/menuXStatus%d", i);
 		CreateProtoServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);

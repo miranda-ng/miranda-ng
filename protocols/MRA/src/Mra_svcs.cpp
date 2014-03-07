@@ -9,10 +9,11 @@ const LPSTR lpcszStatusUri[] =
 	"STATUS_INVISIBLE", // "status_3",
 	"status_dnd",
 	"status_chat",
-	"status_4",
+	"status_mobile",
+	"status_4", // first xstatus
 	"status_5",
 	"status_6",
-	"status_7",
+	"status_7", // 10
 	"status_8",
 	"status_9",
 	"status_10",
@@ -22,7 +23,7 @@ const LPSTR lpcszStatusUri[] =
 	"status_14",
 	"status_15",
 	"status_16",
-	"status_17",
+	"status_17", // 20
 	"status_18",
 	"status_19",
 	"status_20",
@@ -33,7 +34,7 @@ const LPSTR lpcszStatusUri[] =
 	//"status_25", // chat/dnd
 	"status_26",
 	"status_27",
-	"status_28",
+	"status_28", // 30
 	"status_29",
 	"status_30",
 	//"status_31", // chat/dnd
@@ -44,7 +45,7 @@ const LPSTR lpcszStatusUri[] =
 	"status_36",
 	"status_37",
 	"status_38",
-	"status_39",
+	"status_39", // 40
 	"status_40",
 	"status_41",
 	"status_42",
@@ -54,12 +55,12 @@ const LPSTR lpcszStatusUri[] =
 	"status_46",
 	"status_47",
 	"status_48",
-	"status_49",
+	"status_49", // 50
 	"status_50",
 	"status_51",
 	"status_52",
 	"status_53",
-	"status_mobile",
+	"status_dating",
 	NULL
 };
 
@@ -114,6 +115,7 @@ const LPWSTR lpcszXStatusNameDef[] =
 	LPGENT("Squirrel"),
 	LPGENT("Star"),
 	LPGENT("Music"),
+	LPGENT("Dating"),
 	NULL
 };
 
@@ -435,7 +437,10 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 		// hide menu items
 		if (pData->flags & CSSF_DISABLE_UI) {
 			bHideXStatusUI = (*pData->wParam) ? FALSE : TRUE;
-			for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++)
+			DWORD dwCount = MRA_XSTATUS_OFF_CLI_COUNT;
+			if (getByte(NULL, "xStatusShowAll", MRA_DEFAULT_SHOW_ALL_XSTATUSES))
+				dwCount = MRA_XSTATUS_COUNT;
+			for (DWORD i = 0; i < dwCount; i++)
 				Menu_ShowItem(hXStatusMenuItems[i], !bHideXStatusUI);
 		}
 	}
@@ -507,6 +512,8 @@ INT_PTR CMraProto::MraGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == 0)
 		wParam = m_iXStatus;
+	if ( !IsXStatusValid(wParam))
+		return 0;
 
 	return (INT_PTR)IconLibGetIconEx(hXStatusAdvancedStatusIcons[wParam], lParam);
 }

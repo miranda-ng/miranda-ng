@@ -76,6 +76,7 @@ IDI_XSTATUS45           ICON                    "50.ico"
 IDI_XSTATUS46           ICON                    "51.ico"
 IDI_XSTATUS47           ICON                    "52.ico"
 IDI_XSTATUS48           ICON                    "53.ico"
+IDI_XSTATUS49           ICON                    "54.ico"
 IDI_XSTATUS_UNKNOWN     ICON                    "unknown.ico"
 
 /////////////////////////////////////////////////////////////////////////////

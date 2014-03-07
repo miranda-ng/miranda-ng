@@ -381,7 +381,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 	if (pbKeepAlive)        *pbKeepAlive = FALSE;
 	if (pdwFormat)          *pdwFormat = PA_FORMAT_UNKNOWN;
 	if (pdwAvatarSize)      *pdwAvatarSize = 0;
-	if (pitLastModifiedTime) bzero(pitLastModifiedTime, sizeof(INTERNET_TIME));
+	if (pitLastModifiedTime) memset(pitLastModifiedTime, 0, sizeof(INTERNET_TIME));
 
 	if (!m_hConnection)
 		return ERROR_INVALID_HANDLE;

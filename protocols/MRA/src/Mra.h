@@ -33,8 +33,6 @@
 #include <time.h>
 #include <commctrl.h>
 
-#define bzero(pvDst, count) memset(pvDst, 0, count)
-
 #include "../../plugins/zlib/src/zlib.h"
 
 #include <newpluginapi.h>
@@ -204,13 +202,11 @@ CMStringA MraGetSelfVersionString();
 #define SetBit(bytes, bitpos) bytes |= (1<<bitpos)
 #define GetBit(bytes, bitpos) ((bytes&(1<<bitpos))? TRUE:FALSE)
 
-#define IsXStatusValid(XStatus) (((XStatus) && (XStatus)<MRA_XSTATUS_COUNT))
+#define IsXStatusValid(XStatus) (((XStatus) && (XStatus) < MRA_XSTATUS_COUNT))
 
-#define GET_CURRENT_COMBO_DATA(hWndDlg, ControlID)					SendDlgItemMessage(hWndDlg, ControlID, CB_GETITEMDATA, SendDlgItemMessage(hWndDlg, ControlID, CB_GETCURSEL, 0, 0), 0)
+#define GET_CURRENT_COMBO_DATA(hWndDlg, ControlID)	SendDlgItemMessage(hWndDlg, ControlID, CB_GETITEMDATA, SendDlgItemMessage(hWndDlg, ControlID, CB_GETCURSEL, 0, 0), 0)
 
 #define IsFileExist(FileName) (GetFileAttributes(FileName) != INVALID_FILE_ATTRIBUTES)
-
-#define IsThreadAlive(hThread) (GetThreadPriority(hThread) != THREAD_PRIORITY_ERROR_RETURN)
 
 void      MraAddrListFree(MRA_ADDR_LIST *pmalAddrList);
 DWORD     MraAddrListGetFromBuff(const CMStringA &szAddresses, MRA_ADDR_LIST *pmalAddrList);
@@ -238,7 +234,6 @@ bool      MraRequestXStatusDetails(DWORD dwXStatus);
 bool      MraSendReplyBlogStatus(MCONTACT hContact);
 DWORD     GetYears(CONST PSYSTEMTIME pcstSystemTime);
 DWORD     FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen);
-DWORD     MemFillRandom(LPVOID lpBuff, size_t dwBuffSize);
 
 DWORD     GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra);
 DWORD     GetMirandaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);

@@ -51,7 +51,8 @@
 #define IDI_XSTATUS46                   246
 #define IDI_XSTATUS47                   247
 #define IDI_XSTATUS48                   248
-#define IDI_XSTATUS_UNKNOWN             249
+#define IDI_XSTATUS49                   249
+#define IDI_XSTATUS_UNKNOWN             250
 
 
 // Next default values for new objects

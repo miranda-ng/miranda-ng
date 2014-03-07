@@ -27,8 +27,8 @@ static const LPSTR lpcszMailRuDomains[] =
 
 #define MAX_EMAIL_LEN                        1024
 #define MAX_FILEPATH                         32768 //internal
-#define BUFF_SIZE_RCV                        65535 //internal
-#define BUFF_SIZE_RCV_MIN_FREE               16384 //internal
+#define BUFF_SIZE_RCV                        (64 * 1024) //internal
+#define BUFF_SIZE_RCV_MIN_FREE               (16 * 1024) //internal
 #define BUFF_SIZE_BLOB                       16384 //internal
 #define BUFF_SIZE_URL                        4096 //internal
 #define NETLIB_SELECT_TIMEOUT                250 //internal // время ожидания событий на сокете
@@ -182,6 +182,8 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY        FALSE
 #define MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX  FALSE
 
+#define MRA_DEFAULT_SHOW_ALL_XSTATUSES		FALSE /* Do not display some x statuses (like dating) in menu. */
+
 #define MRA_AVT_DEFAULT_ENABLE               TRUE
 #define MRA_AVT_DEFAULT_WRK_THREAD_COUNTS    4 // hidden
 #define MRA_AVT_DEFAULT_SERVER               "obraz.foto.mail.ru"
@@ -229,20 +231,22 @@ static const LPSTR lpcszMailRuDomains[] =
 extern const LPSTR  lpcszStatusUri[];
 extern const LPWSTR lpcszXStatusNameDef[];
 
-#define MRA_XSTATUS_MENU        "/menuXStatus"
-#define MRA_XSTATUS_COUNT       49
+#define MRA_XSTATUS_COUNT       50 /* index = 0 - virtual status "none" */
+#define MRA_XSTATUS_OFF_CLI_COUNT 49 /* MRA_XSTATUS_COUNT - dating */
 #define MRA_MIR_XSTATUS_NONE    0
 #define MRA_MIR_XSTATUS_UNKNOWN MRA_XSTATUS_COUNT
 
+/* Indexes in lpcszStatusUrip[]. */
 #define MRA_XSTATUS_OFFLINE     0
 #define MRA_XSTATUS_ONLINE      1
 #define MRA_XSTATUS_AWAY        2
 #define MRA_XSTATUS_INVISIBLE   3
 #define MRA_XSTATUS_DND         4
 #define MRA_XSTATUS_CHAT        5
-#define MRA_XSTATUS_MOBILE      54
-#define MRA_XSTATUS_UNKNOWN     100
+#define MRA_XSTATUS_MOBILE      6
+#define MRA_XSTATUS_UNKNOWN     255
+#define MRA_XSTATUS_UNKNOWN_STR "mra_xstatus50" // For icon name, keep sync with MRA_XSTATUS_COUNT
 
-#define MRA_XSTATUS_INDEX_OFFSET	6
+#define MRA_XSTATUS_INDEX_OFFSET	7
 
 #endif // !defined(AFX_MRA_CONSTANS_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

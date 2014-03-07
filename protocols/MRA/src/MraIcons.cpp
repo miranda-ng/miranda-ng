@@ -36,11 +36,11 @@ IconItem gdiContactMenuItems[CONTACT_MENU_ITEMS_COUNT] =
 
 IconItem gdiExtraStatusIconsItems[ADV_ICON_MAX] =
 {
-   { ADV_ICON_DELETED_STR,      	 ADV_ICON_DELETED_ID,        IDI_DELETED     },
-   { ADV_ICON_NOT_ON_SERVER_STR,  ADV_ICON_NOT_ON_SERVER_ID,  IDI_AUTHGRANT   },
-   { ADV_ICON_NOT_AUTHORIZED_STR, ADV_ICON_NOT_AUTHORIZED_ID, IDI_AUTHRUGUEST },
-   { ADV_ICON_PHONE_STR,          ADV_ICON_PHONE_ID,          IDI_MRA_PHONE   },
-   { ADV_ICON_BLOGSTATUS_STR,     ADV_ICON_BLOGSTATUS_ID,     IDI_BLOGSTATUS  }
+   { ADV_ICON_DELETED_STR,		ADV_ICON_DELETED_ID,		IDI_DELETED     },
+   { ADV_ICON_NOT_ON_SERVER_STR,	ADV_ICON_NOT_ON_SERVER_ID,	IDI_AUTHGRANT   },
+   { ADV_ICON_NOT_AUTHORIZED_STR,	ADV_ICON_NOT_AUTHORIZED_ID,	IDI_AUTHRUGUEST },
+   { ADV_ICON_PHONE_STR,		ADV_ICON_PHONE_ID,		IDI_MRA_PHONE   },
+   { ADV_ICON_BLOGSTATUS_STR,		ADV_ICON_BLOGSTATUS_ID,		IDI_BLOGSTATUS  }
 };
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ void InitXStatusIcons()
 	sid.flags = SIDF_ALL_TCHAR;
 
 	hXStatusAdvancedStatusIcons[0] = NULL;
-	for (int i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
+	for (DWORD i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
 		char szBuff[MAX_PATH];
 		mir_snprintf(szBuff, SIZEOF(szBuff), "mra_xstatus%ld", i);
 		sid.pszName = szBuff;
@@ -125,10 +125,10 @@ void DestroyXStatusIcons()
 {
 	char szBuff[MAX_PATH];
 
-	for (size_t i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
+	for (DWORD i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
 		mir_snprintf(szBuff, SIZEOF(szBuff), "mra_xstatus%ld", i);
 		Skin_RemoveIcon(szBuff);
 	}
 
-	bzero(hXStatusAdvancedStatusIcons, sizeof(hXStatusAdvancedStatusIcons));
+	memset(hXStatusAdvancedStatusIcons, 0, sizeof(hXStatusAdvancedStatusIcons));
 }
