@@ -106,6 +106,23 @@ INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR CMraProto::MraSendEmail(WPARAM wParam, LPARAM lParam)
+{
+	DWORD dwContactEMailCount = GetContactEMailCount(wParam, FALSE);
+	if (dwContactEMailCount) {
+		if (dwContactEMailCount == 1) {
+			CMStringA szUrl, szEmail;
+			if (GetContactFirstEMail(wParam, FALSE, szEmail)) {
+				szEmail.MakeLower();
+				szUrl.Format("https://e.mail.ru/cgi-bin/sentmsg?To=%s", szEmail);
+				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
+			}
+		}
+		else MraSelectEMailDlgShow(wParam, MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD);
+	}
+	return 0;
+}
+
 INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 {
 	DWORD dwContactEMailCount = GetContactEMailCount(wParam, FALSE);
@@ -134,20 +151,6 @@ INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
 		}
 		else MraSelectEMailDlgShow(wParam, MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM);
 	}
-	return 0;
-}
-
-INT_PTR CMraProto::MraReadBlog(WPARAM wParam, LPARAM lParam)
-{
-	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
-	if (dwContactEMailMRCount)
-	if (dwContactEMailMRCount == 1) {
-		CMStringA szEmail;
-		if (GetContactFirstEMail(wParam, TRUE, szEmail))
-			MraMPopSessionQueueAddUrlAndEMail(hMPopSessionQueue, MRA_BLOGS_URL, szEmail);
-	}
-	else MraSelectEMailDlgShow(wParam, MRA_SELECT_EMAIL_TYPE_READ_BLOG);
-
 	return 0;
 }
 
@@ -244,13 +247,13 @@ int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	//"Grant authorization"
 	Menu_ShowItem(hContactMenuItems[1], (m_bLoggedIn && bIsContactMRA && !bChatAgent));
 
-	//"&Send postcard"
+	//"&Send E-Mail"
 	Menu_ShowItem(hContactMenuItems[2], (bHasEMail && !bChatAgent));
 
-	//"&View Album"
-	Menu_ShowItem(hContactMenuItems[3], (bHasEMailMR && !bChatAgent));
+	//"&Send postcard"
+	Menu_ShowItem(hContactMenuItems[3], (bHasEMail && !bChatAgent));
 
-	//"&Read Blog"
+	//"&View Album"
 	Menu_ShowItem(hContactMenuItems[4], (bHasEMailMR && !bChatAgent));
 
 	//"Reply Blog Status"
@@ -373,11 +376,11 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 void CMraProto::InitMenus()
 {
+	/* Main menu and contacts services. */
 	CreateProtoService(MRA_GOTO_INBOX, &CMraProto::MraGotoInbox);
 	CreateProtoService(MRA_SHOW_INBOX_STATUS, &CMraProto::MraShowInboxStatus);
 	CreateProtoService(MRA_EDIT_PROFILE, &CMraProto::MraEditProfile);
 	CreateProtoService(MRA_VIEW_ALBUM, &CMraProto::MraViewAlbum);
-	CreateProtoService(MRA_READ_BLOG, &CMraProto::MraReadBlog);
 	CreateProtoService(MRA_REPLY_BLOG_STATUS, &CMraProto::MraReplyBlogStatus);
 	CreateProtoService(MRA_VIEW_VIDEO, &CMraProto::MraViewVideo);
 	CreateProtoService(MRA_ANSWERS, &CMraProto::MraAnswers);
@@ -386,6 +389,11 @@ void CMraProto::InitMenus()
 	CreateProtoService(MRA_UPD_ALL_USERS_INFO, &CMraProto::MraUpdateAllUsersInfo);
 	CreateProtoService(MRA_CHK_USERS_AVATARS, &CMraProto::MraCheckUpdatesUsersAvt);
 	CreateProtoService(MRA_REQ_AUTH_FOR_ALL, &CMraProto::MraRequestAuthForAll);
+	/* Contacts only services. */
+	CreateProtoService(MRA_REQ_AUTH, &CMraProto::MraRequestAuthorization);
+	CreateProtoService(MRA_GRANT_AUTH, &CMraProto::MraGrantAuthorization);
+	CreateProtoService(MRA_SEND_EMAIL, &CMraProto::MraSendEmail);
+	CreateProtoService(MRA_SEND_POSTCARD, &CMraProto::MraSendPostcard);
 
 	hContactMenuRoot = CListCreateMenu(-2000001001, -500050000, FALSE, gdiContactMenuItems, CONTACT_MENU_ITEMS_COUNT, hContactMenuItems);
 

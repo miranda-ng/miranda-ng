@@ -9,7 +9,6 @@ IconItem gdiMenuItems[MAIN_MENU_ITEMS_COUNT] =
 	{ MRA_SHOW_INBOX_STATUS_STR,  MRA_SHOW_INBOX_STATUS,  IDI_MAIL_NOTIFY       },
 	{ MRA_EDIT_PROFILE_STR,       MRA_EDIT_PROFILE,       IDI_PROFILE           },
 	{ MRA_MY_ALBUM_STR,           MRA_VIEW_ALBUM,         IDI_MRA_PHOTO         },
-	{ MRA_MY_BLOG_STR,            MRA_READ_BLOG,          IDI_MRA_BLOGS         },
 	{ MRA_MY_BLOGSTATUS_STR,      MRA_REPLY_BLOG_STATUS,  IDI_BLOGSTATUS        },
 	{ MRA_MY_VIDEO_STR,           MRA_VIEW_VIDEO,         IDI_MRA_VIDEO         },
 	{ MRA_MY_ANSWERS_STR,         MRA_ANSWERS,            IDI_MRA_ANSWERS       },
@@ -24,9 +23,9 @@ IconItem gdiContactMenuItems[CONTACT_MENU_ITEMS_COUNT] =
 {
 	{ MRA_REQ_AUTH_STR,           MRA_REQ_AUTH,           IDI_AUTHRUGUEST       },
 	{ MRA_GRANT_AUTH_STR,         MRA_GRANT_AUTH,         IDI_AUTHGRANT         },
+	{ MRA_SEND_EMAIL_STR,         MRA_SEND_EMAIL,         IDI_INBOX             },
 	{ MRA_SEND_POSTCARD_STR,      MRA_SEND_POSTCARD,      IDI_MRA_POSTCARD      },
 	{ MRA_VIEW_ALBUM_STR,         MRA_VIEW_ALBUM,         IDI_MRA_PHOTO         },
-	{ MRA_READ_BLOG_STR,          MRA_READ_BLOG,          IDI_MRA_BLOGS         },
 	{ MRA_REPLY_BLOG_STATUS_STR,  MRA_REPLY_BLOG_STATUS,  IDI_BLOGSTATUS        },
 	{ MRA_VIEW_VIDEO_STR,         MRA_VIEW_VIDEO,         IDI_MRA_VIDEO         },
 	{ MRA_ANSWERS_STR,            MRA_ANSWERS,            IDI_MRA_ANSWERS       },

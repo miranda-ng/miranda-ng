@@ -2,17 +2,17 @@
 
 #define SCBIFSI_LOCK_CHANGES_EVENTS	1
 #define SCBIF_ID			1
-#define SCBIF_GROUP_ID		2
+#define SCBIF_GROUP_ID			2
 #define SCBIF_FLAG			4
-#define SCBIF_SERVER_FLAG	8
-#define SCBIF_STATUS		16
+#define SCBIF_SERVER_FLAG		8
+#define SCBIF_STATUS			16
 #define SCBIF_EMAIL			32
 #define SCBIF_NICK			64
-#define SCBIF_PHONES		128
+#define SCBIF_PHONES			128
 
-#define MAIN_MENU_ITEMS_COUNT		13
+#define MAIN_MENU_ITEMS_COUNT		12
 #define CONTACT_MENU_ITEMS_COUNT	10
-#define ADV_ICON_MAX             5
+#define ADV_ICON_MAX			5
 
 struct MRA_FILES_QUEUE_ITEM;
 
@@ -138,9 +138,9 @@ struct CMraProto : public PROTO<CMraProto>
 
 	INT_PTR __cdecl MraRequestAuthorization(WPARAM, LPARAM);
 	INT_PTR __cdecl MraGrantAuthorization(WPARAM, LPARAM);
+	INT_PTR __cdecl MraSendEmail(WPARAM, LPARAM);
 	INT_PTR __cdecl MraSendPostcard(WPARAM, LPARAM);
 	INT_PTR __cdecl MraViewAlbum(WPARAM, LPARAM);
-	INT_PTR __cdecl MraReadBlog(WPARAM, LPARAM);
 	INT_PTR __cdecl MraReplyBlogStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MraViewVideo(WPARAM, LPARAM);
 	INT_PTR __cdecl MraAnswers(WPARAM, LPARAM);

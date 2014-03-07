@@ -50,7 +50,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_EDIT_PROFILE                     "/EditProfile"
 #define MRA_EDIT_PROFILE_STR                 LPGEN("Edit &Profile")
 #define MRA_MY_ALBUM_STR                     LPGEN("My Album")
-#define MRA_MY_BLOG_STR                      LPGEN("My Blog")
 #define MRA_MY_BLOGSTATUS_STR                LPGEN("My Blog Status")
 #define MRA_MY_VIDEO_STR                     LPGEN("My Video")
 #define MRA_MY_ANSWERS_STR                   LPGEN("My Answers")
@@ -64,12 +63,12 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_REQ_AUTH_FOR_ALL                 "/ReqAuthForAll"
 #define MRA_REQ_AUTH_FOR_ALL_STR             LPGEN("Request authorization for all")
 
-#define MRA_MPOP_AUTH_URL                    "http://swa.mail.ru/cgi-bin/auth?Login=%s&agent=%s&page=%s"
+//#define MRA_MPOP_AUTH_URL                    "http://swa.mail.ru/cgi-bin/auth?Login=%s&agent=%s&page=%s"
+#define MRA_MPOP_AUTH_URL                    "https://auth.mail.ru/cgi-bin/auth?Login=%s&agent=%s&noredirecttologin=1&page=%s"
 
-#define MRA_WIN_INBOX_URL                    "http://win.mail.ru/cgi-bin/start"
+#define MRA_WIN_INBOX_URL                    "https://win.mail.ru/cgi-bin/start"
 #define MRA_PDA_INBOX_URL                    "http://pda.mail.ru/cgi-bin/start"
-#define MRA_EDIT_PROFILE_URL                 "http://win.mail.ru/cgi-bin/userinfo?mra=1"
-#define MRA_CHAT_URL                         "http://chat.mail.ru"
+#define MRA_EDIT_PROFILE_URL                 "https://win.mail.ru/cgi-bin/userinfo?mra=1"
 #define MRA_SEARCH_URL                       _T("http://go.mail.ru")
 
 // used spesialy! added: /domain/user
@@ -80,8 +79,8 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_WORLD_URL                        "http://my.mail.ru"
 
 // without auth
-#define MRA_REGISTER_URL                     _T("http://win.mail.ru/cgi-bin/signup")
-#define MRA_FORGOT_PASSWORD_URL              _T("http://win.mail.ru/cgi-bin/passremind")
+#define MRA_REGISTER_URL                     _T("https://win.mail.ru/cgi-bin/signup")
+#define MRA_FORGOT_PASSWORD_URL              _T("https://win.mail.ru/cgi-bin/passremind")
 
 
 // wParam = hContact
@@ -89,12 +88,12 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_REQ_AUTH_STR                     LPGEN("Request authorization")
 #define MRA_GRANT_AUTH                       "/GrantAuth"
 #define MRA_GRANT_AUTH_STR                   LPGEN("Grant authorization")
+#define MRA_SEND_EMAIL                       "/SendEMail"
+#define MRA_SEND_EMAIL_STR                   LPGEN("&Send E-Mail")
 #define MRA_SEND_POSTCARD                    "/SendPostcard"
 #define MRA_SEND_POSTCARD_STR                LPGEN("&Send postcard")
 #define MRA_VIEW_ALBUM                       "/ViewAlbum"
 #define MRA_VIEW_ALBUM_STR                   LPGEN("&View Album")
-#define MRA_READ_BLOG                        "/ReadBlog"
-#define MRA_READ_BLOG_STR                    LPGEN("&Read Blog")
 #define MRA_REPLY_BLOG_STATUS                "/ReplyBlogStatus"
 #define MRA_REPLY_BLOG_STATUS_STR            LPGEN("Reply Blog Status")
 #define MRA_VIEW_VIDEO                       "/ViewVideo"

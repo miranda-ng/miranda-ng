@@ -271,7 +271,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 		}
 
 		DWORD dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv + dwRcvBuffSizeUsed), (dwRcvBuffSize - dwRcvBuffSizeUsed), 0);
-		if ( !dwBytesReceived && dwBytesReceived == SOCKET_ERROR) { // disconnected
+		if ( !dwBytesReceived || dwBytesReceived == SOCKET_ERROR) { // disconnected
 			if (m_iStatus != ID_STATUS_OFFLINE) {
 				dwRetErrorCode = GetLastError();
 				ShowFormattedErrorMessage(L"Disconnected, socket read error", dwRetErrorCode);
@@ -286,54 +286,44 @@ DWORD CMraProto::MraNetworkDispatcher()
 			pmaHeader = (mrim_packet_header_t*)(lpbBufferRcv + dwDataCurrentBuffOffset);
 
 			// packet header received
-			if (dwDataCurrentBuffSizeUsed >= sizeof(mrim_packet_header_t)) {
-				// packet OK
-				if (pmaHeader->magic == CS_MAGIC) {
-					// full packet received, may be more than one
-					if ((dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t)) >= pmaHeader->dlen) {
-
-						bContinue = MraCommandDispatcher(pmaHeader);
-
-						// move pointer to next packet in buffer
-						if (dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t) > pmaHeader->dlen)
-							dwDataCurrentBuffOffset += sizeof(mrim_packet_header_t)+pmaHeader->dlen;
-						// move pointer to begin of buffer
-						else {
-							// динамическое уменьшение буффера приёма
-							if (dwRcvBuffSize > BUFF_SIZE_RCV) {
-								dwRcvBuffSize = BUFF_SIZE_RCV;
-								lpbBufferRcv = (LPBYTE)mir_realloc(lpbBufferRcv, dwRcvBuffSize);
-							}
-							dwDataCurrentBuffOffset = 0;
-							dwRcvBuffSizeUsed = 0;
-							break;
-						}
-					}
-					// not all packet received, continue receiving
-					else {
-						if (dwDataCurrentBuffOffset) {
-							memmove(lpbBufferRcv, (lpbBufferRcv + dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
-							dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
-							dwDataCurrentBuffOffset = 0;
-						}
-						debugLogW(L"Not all packet received, continue receiving\n");
-						break;
-					}
-				}
-				// bad packet
-				else {
-					debugLogW(L"Bad packet\n");
-					dwDataCurrentBuffOffset = 0;
-					dwRcvBuffSizeUsed = 0;
-					break;
-				}
-			}
-			// packet to small, continue receiving
-			else {
+			if (dwDataCurrentBuffSizeUsed < sizeof(mrim_packet_header_t)) { // packet to small, continue receiving
 				debugLogW(L"Packet to small, continue receiving\n");
 				memmove(lpbBufferRcv, (lpbBufferRcv + dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
 				dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
 				dwDataCurrentBuffOffset = 0;
+				break;
+			}
+			if (pmaHeader->magic != CS_MAGIC) { // bad packet
+				debugLogW(L"Bad packet\n");
+				dwDataCurrentBuffOffset = 0;
+				dwRcvBuffSizeUsed = 0;
+				break;
+			}
+			// packet OK
+			if ((dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t)) < pmaHeader->dlen) { // not all packet received, continue receiving
+				if (dwDataCurrentBuffOffset) {
+					memmove(lpbBufferRcv, (lpbBufferRcv + dwDataCurrentBuffOffset), dwDataCurrentBuffSizeUsed);
+					dwRcvBuffSizeUsed = dwDataCurrentBuffSizeUsed;
+					dwDataCurrentBuffOffset = 0;
+				}
+				debugLogW(L"Not all packet received, continue receiving\n");
+				break;
+			}
+			// full packet received, may be more than one
+			bContinue = MraCommandDispatcher(pmaHeader);
+
+			// move pointer to next packet in buffer
+			if (dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t) > pmaHeader->dlen)
+				dwDataCurrentBuffOffset += sizeof(mrim_packet_header_t)+pmaHeader->dlen;
+			// move pointer to begin of buffer
+			else {
+				// динамическое уменьшение буффера приёма
+				if (dwRcvBuffSize > BUFF_SIZE_RCV) {
+					dwRcvBuffSize = BUFF_SIZE_RCV;
+					lpbBufferRcv = (LPBYTE)mir_realloc(lpbBufferRcv, dwRcvBuffSize);
+				}
+				dwDataCurrentBuffOffset = 0;
+				dwRcvBuffSizeUsed = 0;
 				break;
 			}
 		}
@@ -496,17 +486,22 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		}
 		else if (szString == "micblog.show_title") {
 			debugLogA(szString);
-			buf >> szStringW;
+			buf >> szString;
 			debugLogW(szStringW);
 		}
-		else if (szString == "micblog.status.id") {
+		else if (szString == "micblog.status.xml") {
+			debugLogA(szString);
 			buf >> szString;
-			DWORDLONG dwBlogStatusID = _atoi64(szString);
+			debugLogA(szString);
+		}
+		else if (szString == "micblog.status.id") {
+			buf >> szStringW;
+			DWORDLONG dwBlogStatusID = _ttoi64(szStringW);
 			mraWriteContactSettingBlob(NULL, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
 		}
 		else if (szString == "micblog.status.time") {
-			buf >> szString;
-			setDword(DBSETTING_BLOGSTATUSTIME, atoi(szString));
+			buf >> szStringW;
+			setDword(DBSETTING_BLOGSTATUSTIME, _ttoi(szStringW));
 		}
 		else if (szString == "micblog.status.text") {
 			buf >> szStringW;
@@ -515,7 +510,9 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		else if (szString == "HAS_MYMAIL" || szString == "mrim.status.open_search" || szString == "rb.target.cookie" ||
 			szString == "show_web_history_link" || szString == "friends_suggest" || szString == "timestamp" ||
 			szString == "trusted_update" || szString == "mrim.wp.dating") {
-			buf >> szString;
+			debugLogA(szString);
+			buf >> szStringW;
+			debugLogW(szStringW);
 		}
 		else _CrtDbgBreak();
 	}

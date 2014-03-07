@@ -1038,18 +1038,8 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
+		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, 0);
 		if (dat) { // set our xStatus
-			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, 0);
-
-			HWND hWndEdit = GetDlgItem(hWndDlg, IDC_XTITLE);
-			WNDPROC OldMessageEditProc = (WNDPROC)GetWindowLongPtr(hWndEdit, GWLP_USERDATA);
-			SetWindowLongPtr(hWndEdit, GWLP_WNDPROC, (LONG_PTR)OldMessageEditProc);
-			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, 0);
-
-			hWndEdit = GetDlgItem(hWndDlg, IDC_XMSG);
-			OldMessageEditProc = (WNDPROC)GetWindowLongPtr(hWndEdit, GWLP_USERDATA);
-			SetWindowLongPtr(hWndEdit, GWLP_WNDPROC, (LONG_PTR)OldMessageEditProc);
-			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, 0);
 
 			TCHAR szBuff[STATUS_TITLE_MAX + STATUS_DESC_MAX];
 			DWORD dwBuffSize = GetDlgItemText(hWndDlg, IDC_XMSG, szBuff, STATUS_DESC_MAX + 1);
@@ -1113,8 +1103,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			HWND hWndEdit = GetDlgItem(hWndDlg, IDC_MSG_TO_SEND);
-			WNDPROC OldMessageEditProc = (WNDPROC)SetWindowLongPtr(hWndEdit, GWLP_WNDPROC, (LONG_PTR)MessageEditSubclassProc);
-			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, (LONG_PTR)OldMessageEditProc);
+			mir_subclassWindow(GetDlgItem(hWndDlg, IDC_MSG_TO_SEND), MessageEditSubclassProc);
 			SendMessage(hWndEdit, EM_LIMITTEXT, MICBLOG_STATUS_MAX, 0);
 
 			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(gdiMenuItems[5].hIcolib));
@@ -1191,15 +1180,8 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 		break;
 
 	case WM_DESTROY:
-		if (dat) {
-			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)0);
-
-			HWND hWndEdit = GetDlgItem(hWndDlg, IDC_MSG_TO_SEND);
-			WNDPROC OldMessageEditProc = (WNDPROC)GetWindowLongPtr(hWndEdit, GWLP_USERDATA);
-			SetWindowLongPtr(hWndEdit, GWLP_WNDPROC, (LONG_PTR)OldMessageEditProc);
-			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, (LONG_PTR)0);
-			mir_free(dat);
-		}
+		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)0);
+		mir_free(dat);
 		EndDialog(hWndDlg, NO_ERROR);
 		break;
 	}

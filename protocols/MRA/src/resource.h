@@ -15,7 +15,6 @@
 #define IDD_OPT_AVATRS                  109
 #define IDI_MAIL_NOTIFY                 111
 #define IDI_MRA_WEB_SEARCH              112
-#define IDI_MRA_BLOGS                   113
 #define IDI_MRA_POSTCARD                114
 #define IDI_MRA_PHOTO                   117
 #define IDI_DELETED                     118
