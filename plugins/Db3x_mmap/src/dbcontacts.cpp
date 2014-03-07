@@ -232,64 +232,76 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	if (dbSub->ofsFirstEvent == 0) // hurrah, nothing to do
 		return 0;
 
-	if (dbMeta->ofsFirstEvent == 0) { // simply chain history to a meta
-		dbMeta->eventCount = dbSub->eventCount;
-		dbMeta->ofsFirstEvent = dbSub->ofsFirstEvent;
-		dbMeta->ofsLastEvent = dbSub->ofsLastEvent;
-		dbMeta->ofsFirstUnread = dbSub->ofsFirstUnread;
-		dbMeta->tsFirstUnread = dbSub->tsFirstUnread;
+	LIST<DBEvent> arEvents(20000, SortEvent);
+	BOOL ret = 0;
+	__try {
+		if (dbMeta->ofsFirstEvent == 0) { // simply chain history to a meta
+			dbMeta->eventCount = dbSub->eventCount;
+			dbMeta->ofsFirstEvent = dbSub->ofsFirstEvent;
+			dbMeta->ofsLastEvent = dbSub->ofsLastEvent;
+			dbMeta->ofsFirstUnread = dbSub->ofsFirstUnread;
+			dbMeta->tsFirstUnread = dbSub->tsFirstUnread;
+		}
+		else {
+			// there're events in both meta's & sub's event chains
+			// relink sub's event chain to meta without changing events themselves
+			for (DWORD ofsMeta = dbMeta->ofsFirstEvent; ofsMeta != 0;) {
+				DBEvent *pev = (DBEvent*)DBRead(ofsMeta, sizeof(DBEvent), NULL);
+				if (pev->signature != DBEVENT_SIGNATURE) { // broken chain, don't touch it
+					ret = 2;
+					__leave;
+				}
+
+				arEvents.insert(pev);
+				ofsMeta = pev->ofsNext;
+			}
+
+			for (DWORD ofsSub = dbSub->ofsFirstEvent; ofsSub != 0;) {
+				DBEvent *pev = (DBEvent*)DBRead(ofsSub, sizeof(DBEvent), NULL);
+				if (pev->signature != DBEVENT_SIGNATURE) { // broken chain, don't touch it
+					ret = 2;
+					__leave;
+				}
+
+				pev->contactID = ccSub->contactID;
+				arEvents.insert(pev);
+				ofsSub = pev->ofsNext;
+			}
+
+			// all events are in memory, valid & sorted in the right order.
+			// ready? steady? go!
+			dbMeta->eventCount = arEvents.getCount();
+
+			DBEvent *pFirst = arEvents[0];
+			dbMeta->ofsFirstEvent = DWORD(PBYTE(pFirst) - m_pDbCache);
+			pFirst->ofsPrev = 0;
+			dbMeta->ofsFirstUnread = (pFirst->flags & NOT_UNREAD) ? 0 : dbMeta->ofsFirstEvent;
+
+			DBEvent *pLast = arEvents[arEvents.getCount() - 1];
+			dbMeta->ofsLastEvent = DWORD(PBYTE(pLast) - m_pDbCache);
+			pLast->ofsNext = 0;
+
+			for (int i = 1; i < arEvents.getCount(); i++) {
+				DBEvent *pPrev = arEvents[i - 1], *pNext = arEvents[i];
+				pPrev->ofsNext = DWORD(PBYTE(pNext) - m_pDbCache);
+				pNext->ofsPrev = DWORD(PBYTE(pPrev) - m_pDbCache);
+
+				if (dbMeta->ofsFirstUnread == 0 && !(pNext->flags & NOT_UNREAD))
+					dbMeta->ofsFirstUnread = pPrev->ofsNext;
+			}
+		}
+
+		// remove any traces of history from sub
+		dbSub->eventCount = 0;
+		dbSub->ofsFirstEvent = dbSub->ofsLastEvent = dbSub->ofsFirstUnread = dbSub->tsFirstUnread = 0;
 	}
-	else {
-		// there're events in both meta's & sub's event chains
-		// relink sub's event chain to meta without changing events themselves
-		LIST<DBEvent> arEvents(20000, SortEvent);
-		for (DWORD ofsMeta = dbMeta->ofsFirstEvent; ofsMeta != 0;) {
-			DBEvent *pev = (DBEvent*)DBRead(ofsMeta, sizeof(DBEvent), NULL);
-			if (pev->signature != DBEVENT_SIGNATURE) // broken chain, don't touch it
-				return 2;
-
-			arEvents.insert(pev);
-			ofsMeta = pev->ofsNext;
-		}
-
-		for (DWORD ofsSub = dbSub->ofsFirstEvent; ofsSub != 0;) {
-			DBEvent *pev = (DBEvent*)DBRead(ofsSub, sizeof(DBEvent), NULL);
-			if (pev->signature != DBEVENT_SIGNATURE) // broken chain, don't touch it
-				return 2;
-
-			pev->contactID = ccSub->contactID; 
-			arEvents.insert(pev);
-			ofsSub = pev->ofsNext;
-		}
-
-		// all events are in memory, valid & sorted in the right order.
-		// ready? steady? go!
-		dbMeta->eventCount = arEvents.getCount();
-
-		DBEvent *pFirst = arEvents[0];
-		dbMeta->ofsFirstEvent = DWORD(PBYTE(pFirst) - m_pDbCache);
-		pFirst->ofsPrev = 0;
-		dbMeta->ofsFirstUnread = (pFirst->flags & NOT_UNREAD) ? 0 : dbMeta->ofsFirstEvent;
-
-		DBEvent *pLast = arEvents[arEvents.getCount()-1];
-		dbMeta->ofsLastEvent = DWORD(PBYTE(pLast) - m_pDbCache);
-		pLast->ofsNext = 0;
-
-		for (int i = 1; i < arEvents.getCount(); i++) {
-			DBEvent *pPrev = arEvents[i-1], *pNext = arEvents[i];
-			pPrev->ofsNext = DWORD(PBYTE(pNext) - m_pDbCache);
-			pNext->ofsPrev = DWORD(PBYTE(pPrev) - m_pDbCache);
-
-			if (dbMeta->ofsFirstUnread == 0 && !(pNext->flags & NOT_UNREAD))
-				dbMeta->ofsFirstUnread = pPrev->ofsNext;
-		}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		ret = 3;
 	}
 
-	// remove any traces of history from sub
-	dbSub->eventCount = 0;
-	dbSub->ofsFirstEvent = dbSub->ofsLastEvent = dbSub->ofsFirstUnread = dbSub->tsFirstUnread = 0;
 	FlushViewOfFile(m_pDbCache, 0);
-	return 0;
+	return ret;
 }
 
 BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
@@ -314,61 +326,69 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		dwOffset = dwNext;
 	}
 
-	DWORD dwOffset = dbMeta.ofsFirstEvent;
-	DBEvent *evMeta = NULL, *evSub = NULL;
-	dbSub.eventCount = 0; dbSub.ofsFirstEvent = dbSub.ofsLastEvent = dbSub.ofsFirstUnread = dbSub.tsFirstUnread = 0;
-	dbMeta.eventCount = 0; dbMeta.ofsFirstEvent = dbMeta.ofsLastEvent = dbMeta.ofsFirstUnread = dbMeta.tsFirstUnread = 0;
+	BOOL ret = 0;
+	__try {
+		DWORD dwOffset = dbMeta.ofsFirstEvent;
+		DBEvent *evMeta = NULL, *evSub = NULL;
+		dbSub.eventCount = 0; dbSub.ofsFirstEvent = dbSub.ofsLastEvent = dbSub.ofsFirstUnread = dbSub.tsFirstUnread = 0;
+		dbMeta.eventCount = 0; dbMeta.ofsFirstEvent = dbMeta.ofsLastEvent = dbMeta.ofsFirstUnread = dbMeta.tsFirstUnread = 0;
 
-	while (dwOffset != 0) {
-		DBEvent *evCurr = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
-		if (evCurr->signature != DBEVENT_SIGNATURE)
-			break;
+		while (dwOffset != 0) {
+			DBEvent *evCurr = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+			if (evCurr->signature != DBEVENT_SIGNATURE)
+				break;
 
-		DWORD dwNext = evCurr->ofsNext; evCurr->ofsNext = 0;
+			DWORD dwNext = evCurr->ofsNext; evCurr->ofsNext = 0;
 
-		// extract it to sub's chain
-		if (evCurr->contactID == ccSub->contactID) {
-			dbSub.eventCount++;
-			if (evSub != NULL) {
-				evSub->ofsNext = dwOffset;
-				evCurr->ofsPrev = DWORD(PBYTE(evSub) - m_pDbCache);
+			// extract it to sub's chain
+			if (evCurr->contactID == ccSub->contactID) {
+				dbSub.eventCount++;
+				if (evSub != NULL) {
+					evSub->ofsNext = dwOffset;
+					evCurr->ofsPrev = DWORD(PBYTE(evSub) - m_pDbCache);
+				}
+				else {
+					dbSub.ofsFirstEvent = dwOffset;
+					evCurr->ofsPrev = 0;
+				}
+				if (dbSub.ofsFirstUnread == 0 && !(evCurr->flags & NOT_UNREAD)) {
+					dbSub.ofsFirstUnread = dwOffset;
+					dbSub.tsFirstUnread = evCurr->timestamp;
+				}
+				dbSub.ofsLastEvent = dwOffset;
+				evSub = evCurr;
 			}
 			else {
-				dbSub.ofsFirstEvent = dwOffset;
-				evCurr->ofsPrev = 0;
+				dbMeta.eventCount++;
+				if (evMeta != NULL) {
+					evMeta->ofsNext = dwOffset;
+					evCurr->ofsPrev = DWORD(PBYTE(evMeta) - m_pDbCache);
+				}
+				else {
+					dbMeta.ofsFirstEvent = dwOffset;
+					evCurr->ofsPrev = 0;
+				}
+				if (dbMeta.ofsFirstUnread == 0 && !(evCurr->flags & NOT_UNREAD)) {
+					dbMeta.ofsFirstUnread = dwOffset;
+					dbMeta.tsFirstUnread = evCurr->timestamp;
+				}
+				dbMeta.ofsLastEvent = dwOffset;
+				evMeta = evCurr;
 			}
-			if (dbSub.ofsFirstUnread == 0 && !(evCurr->flags & NOT_UNREAD)) {
-				dbSub.ofsFirstUnread = dwOffset;
-				dbSub.tsFirstUnread = evCurr->timestamp;
-			}
-			dbSub.ofsLastEvent = dwOffset;
-			evSub = evCurr;
-		}
-		else {
-			dbMeta.eventCount++;
-			if (evMeta != NULL) {
-				evMeta->ofsNext = dwOffset;
-				evCurr->ofsPrev = DWORD(PBYTE(evMeta) - m_pDbCache);
-			}
-			else {
-				dbMeta.ofsFirstEvent = dwOffset;
-				evCurr->ofsPrev = 0;
-			}
-			if (dbMeta.ofsFirstUnread == 0 && !(evCurr->flags & NOT_UNREAD)) {
-				dbMeta.ofsFirstUnread = dwOffset;
-				dbMeta.tsFirstUnread = evCurr->timestamp;
-			}
-			dbMeta.ofsLastEvent = dwOffset;
-			evMeta = evCurr;
+
+			dwOffset = dwNext;
 		}
 
-		dwOffset = dwNext;
+		DBWrite(ccSub->dwDriverData, &dbSub, sizeof(DBContact));
+		DBWrite(ccMeta->dwDriverData, &dbMeta, sizeof(DBContact));
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		ret = 3;
 	}
 
-	DBWrite(ccSub->dwDriverData, &dbSub, sizeof(DBContact));
-	DBWrite(ccMeta->dwDriverData, &dbMeta, sizeof(DBContact));
 	FlushViewOfFile(m_pDbCache, 0);
-	return 0;
+	return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
