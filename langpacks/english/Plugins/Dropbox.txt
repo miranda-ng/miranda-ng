@@ -22,7 +22,6 @@
 [OK]
 [Cancel]
 ;file \plugins\Dropbox\src\dropbox.cpp
-[You have been authorized]
 [in process...]
 [you have been authorized]
 [unknown error]
@@ -33,7 +32,7 @@
 [deletes file or folder with specified path ("path" is relative from root folder)]
 [is file]
 [is empty]
-["%s"command has invalid parameter.\nUse "/help" for more info.]
+["%s" command has invalid parameter.\nUse "/help" for more info.]
 [is not deleted]
 [is deleted]
 ;file \plugins\Dropbox\src\dropbox_dialogs.cpp
