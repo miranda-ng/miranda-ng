@@ -105,7 +105,7 @@ void CDropbox::CommandShare(void *arg)
 	}
 	else
 	{
-		CMStringA error; error.AppendFormat(Translate("\"%s\"command has invalid parameter.\nUse \"/help\" for more info."), "/share");
+		CMStringA error; error.AppendFormat(Translate("\"%s\" command has invalid parameter.\nUse \"/help\" for more info."), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
 
@@ -152,7 +152,7 @@ void CDropbox::CommandDelete(void *arg)
 	}
 	else
 	{
-		CMStringA error; error.AppendFormat(Translate("\"%s\"command has invalid parameter.\nUse \"/help\" for more info."), "/delete");
+		CMStringA error; error.AppendFormat(Translate("\"%s\" command has invalid parameter.\nUse \"/help\" for more info."), "/delete");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
 	}

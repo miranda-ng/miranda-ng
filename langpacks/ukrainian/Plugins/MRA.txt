@@ -29,7 +29,7 @@
 Автоматично авторизувати користувачів зі списку
 [Automatically grant authorization to new users]
 Автоматично авторизувати нових користувачів
-[Automatic authorization on mail.ru web services]
+[Automatic authorization on Mail.ru web services]
 Автоматична авторизація на веб-сервісах Mail.ru
 [Notify me when a message delivery has failed]
 Сповіщати про невдалу доставку повідомлень
@@ -481,3 +481,5 @@ MRIM_CS_SMS_ACK: не знайдений в черзі
 Зірка
 [Music]
 Музика
+[Dating]
+Побачення

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
 [Provides ability to upload files on Dropbox.]
@@ -10,21 +10,23 @@
 [Authorization]
 Авторизація
 [To allow Miranda NG access in your Dropbox account:]
-Надати Miranda NG доступ до вашого облікового запису Dropbox:
+Щоб надати Miranda NG доступ до вашого облікового запису Dropbox:
 [Go to this link]
-Перейти
-[and allow access to files in apps folder]
-і дозволити доступ до файлів у папці додатку
+Перейдіть
+[allow access to files in apps folder and copy the security code]
+, дозвольте доступ до файлів у папці додатку й скопіюйте код
 [Enter the security code ]
-Ввести код безпеки\s
+Введіть код
 [Click authorize button]
-Натисніть "Авторизувати"
+Натисніть кнопку
 [Authorize]
 Авторизувати
 [Other]
 Інше
 [Use shortened share links]
 Скорочувати посилання
+[Check status of authorization]
+Перевірити стан авторизації
 [Enter code]
 Введіть код
 [Enter code below:]
@@ -33,22 +35,34 @@
 Скасувати
 [You have been authorized]
 Авторизація пройшла успішно
-[Are you sure you want to request authorization?]
-Ви впевнені, що хочете запитати авторизацію?
-[Request authorization]
-Запит авторизації
-[Are you sure you want to revoke authorization?]
-Ви впевнені, що хочете відкликати авторизацію?
-[Revoke authorization]
-Відкликати авторизацію
+[in process...]
+зачекайте...
+[you have been authorized]
+авторизація пройшла успішно
+[unknown error]
+невідома помилка
+[Dropbox supports the following commands:]
+Доступні команди:
+[shows all files in folder "dir" ("dir" can be omitted for root folder)]
+показує всі файли в папці "dir" (для кореневої папки "dir" можна пропустити)
+[returns download link for file or folder with specified path ("path" is relative from root folder)]
+повертає посилання на файл або папку за вказаним шляхом "path" (відносно кореневої папки)
+[deletes file or folder with specified path ("path" is relative from root folder)]
+видаляє файл або папку за вказаним шляхом "path" (відносно кореневої папки)
 [is file]
 файл
 [is empty]
 порожня
+["%s" command has invalid parameter.\nUse "/help" for more info.]
+Неправильний параметр команди "%s".\nНаберіть "/help" для довідки.
 [is not deleted]
 не видалений
 [is deleted]
 видалений
+[you are already authorized]
+ви вже авторизовані
+[you are not authorized yet]
+ви ще не авторизовані
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]
@@ -57,6 +71,8 @@
 Протоколи
 [Protocol icon]
 Значок протоколу
+[Unknown command "%s".\nUse "/help" for more info.]
+Невідома команда "%s".\nНаберіть "/help" для довідки.]
 [Server does not respond]
 Сервер не відповідає
 [Link to download file "%s": %s]

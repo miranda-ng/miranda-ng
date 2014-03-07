@@ -237,9 +237,9 @@ Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по 
 Запит перед видаленням
 [Don't move offline user to bottom]
 Не переміщати відключених вниз
-[Contact List]
+[Contact list]
 Список контактів
-[Contact List Sorting]
+[Contact list sorting]
 Впорядкування списку
 [Place offline users out of groups]
 Відключених показувати поза групами
@@ -895,7 +895,7 @@ Cписок неактивний
 Помилка
 [Load/Save]
 Завантажити/Зберегти
-[Object Editor]
+[Object editor]
 Редактор об'єктів
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(и):\t %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s

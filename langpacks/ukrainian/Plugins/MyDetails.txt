@@ -147,5 +147,5 @@
 Змінити мій нік для %s
 [Set My Status Message for %s]
 Встановити статус для %s
-[Contact List]
+[Contact list]
 Список контактів

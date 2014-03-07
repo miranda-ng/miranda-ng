@@ -4,7 +4,7 @@
 [Editing view mode]
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 [Layered]
-[Contact List smileys]
+[Contact list smileys]
 [Row design]
 [Empty %s cell]
 [column]

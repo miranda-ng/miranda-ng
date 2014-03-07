@@ -61,6 +61,92 @@ HistoryStats - Фільтр слів/повідомлень
 Налаштувати HistoryStats
 [Apply]
 Застосувати
+[Extract words from]
+Брати слова з
+[Ignore words shorter than (chars)]
+Ігнорувати слова коротші (символів)
+[Ignore words longer than (chars, 0=no limit)]
+Ігнорувати слова довші (символів, 0=без обмежень)
+[Filter URLs/e-mail addresses]
+Фільтрувати адреси URL/E-mail
+[Filter words/messages]
+Фільтрувати слова/повідомлення
+[Define...]
+Визначити...
+[Chat duration type]
+Тип продолжительности чата
+[Minimum]
+Мінімум
+[Average]
+Середнє
+[Maximum]
+Максимум
+[Other information in tooltip]
+Інша інформація в підказці
+[Chat duration]
+Тривалість розмови
+[[Min] #{amount}]
+(Мінімум) #{amount}
+[[Avg] #{amount}]
+(Середнє) #{amount}
+[[Max] #{amount}]
+(Максимум) #{amount}
+[[Sum] #{amount}]
+(Разом) #{amount}
+[Events to count]
+Рахувати події
+[URLs (incoming)]
+URL (вхідні)
+[URLs (outgoing)]
+URL (вихідні)
+[URLs (all)]
+URL (усі)
+[Files (incoming)]
+Файли (вхідні)
+[Files (outgoing)]
+Файли (вихідні)
+[Files (all)]
+Файли (всі)
+[URLs]
+Посилання
+[Files]
+Файли
+[Events]
+Події
+[Group]
+Група
+[Display as]
+Показувати як
+[Absolute]
+Абсолютно
+[Units per day]
+Блоків на день
+[Units per week]
+Блоків на тиждень
+[Units per month (30 days)]
+Блоків на місяць
+[Messages]
+Повідомлення
+[Chats]
+Чати
+[day]
+день
+[week]
+тиждень
+[month]
+місяць
+[Outgoing]
+Вихідні
+[Incoming]
+Вхідні
+[Nick]
+Нік
+[Omitted]
+Пропущено
+[Totals]
+Разом
+[Protocol]
+Протокол
 [wday3:Mon]
 wday3:Пнд
 [wday3:Tue]
