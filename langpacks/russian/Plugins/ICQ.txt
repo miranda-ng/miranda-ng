@@ -214,7 +214,7 @@ E-mail:
 [Marital status:]
 Семейное положение:
 [Keywords:]
-Кл. слова:
+Ключ. слова:
 [Work]
 Работа
 [Occupation:]
@@ -250,7 +250,7 @@ E-mail:
 [Other]
 Другое
 [Search online users only]
-Только подключённых пользователей
+Искать только подключённых
 [Manage ICQ Server Contacts]
 Управление контактами на сервере
 [Select contacts to store:]
