@@ -3,7 +3,6 @@
 
 #include <map>
 #include <string>
-#include "singleton.h"
 #include "http_request.h"
 #include "file_transfer.h"
 
@@ -20,18 +19,15 @@
 
 #define BBB_ID_FILE_SEND 10001
 
-#define INSTANCE Singleton<CDropbox>::GetInstance()
-
 enum
 {
-	CMI_AUTH_REQUEST,
-	CMI_AUTH_REVOKE,
 	CMI_SEND_FILES,
 	CMI_MAX   // this item shall be the last one
 };
 
-struct MessageParam
+struct CommandParam
 {
+	CDropbox *instance;
 	HANDLE hProcess;
 	MCONTACT hContact;
 	void *data;
@@ -40,56 +36,54 @@ struct MessageParam
 class CDropbox
 {
 public:
-	void Init();
-	void Uninit() { };
+	CDropbox();
+	virtual ~CDropbox() { }
 
 private:
 	HANDLE hNetlibUser;
 	ULONG  hFileProcess;
 	ULONG  hMessageProcess;
-	MCONTACT hContactTransfer;
+	
+	MCONTACT hDefaultContact;
+	MCONTACT hTransferContact;
 
-	static MCONTACT hContactDefault;
-	static std::map<HWND, MCONTACT> dcftp;
-	static std::map<std::string, pThreadFunc> commands;
+	std::map<HWND, MCONTACT> dcftp;
+	std::map<std::string, pThreadFunc> commands;
 
-	static HGENMENU ContactMenuItems[CMI_MAX];
+	HGENMENU contactMenuItems[CMI_MAX];
 
 	// hooks
-	static int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
-	static int OnPreShutdown(WPARAM wParam, LPARAM lParam);
-	static int OnOptionsInit(WPARAM wParam, LPARAM lParam);
-	static int OnContactDeleted(WPARAM wParam, LPARAM lParam);
-	static int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
-	static int OnSrmmWindowOpened(WPARAM wParam, LPARAM);
-	static int OnSrmmButtonPressed(WPARAM wParam, LPARAM);
-	static int OnFileDoalogCancelled(WPARAM wParam, LPARAM);
-	static int OnFileDoalogSuccessed(WPARAM wParam, LPARAM);
+	static int OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnContactDeleted(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnPrebuildContactMenu(void *obj, WPARAM wParam, LPARAM lParam);	
+	static int OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnFileDoalogCancelled(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnFileDoalogSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// services
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoSendFile(WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoSendMessage(WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoReceiveMessage(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
 
-	static INT_PTR RequestApiAuthorization(WPARAM wParam, LPARAM lParam);
-	static INT_PTR RevokeApiAuthorization(WPARAM wParam, LPARAM lParam);
-
-	static INT_PTR SendFilesToDropbox(WPARAM wParam, LPARAM lParam);
+	static INT_PTR SendFilesToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// commands
+	static void CommandHelp(void *arg);
 	static void CommandContent(void *arg);
 	static void CommandShare(void *arg);
 	static void CommandDelete(void *arg);
 
 	// access token
-	static bool HasAccessToken();
+	bool HasAccessToken();
 
 	void RequestAcceessToken();
 	void DestroyAcceessToken();
 
-	static void RequestApiAuthorizationAsync(void *arg);
-	static void RevokeApiAuthorizationAsync(void *arg);
+	static UINT RequestAcceessTokenAsync(void *owner, void* param);
 
 	// transrers
 	static int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);
@@ -103,13 +97,13 @@ private:
 	static void _cdecl SendFileAsync(void *arg);
 
 	// contacts
-	static MCONTACT GetDefaultContact();
+	MCONTACT GetDefaultContact();
 
 	// icons
-	static void InitIcons();
+	void InitializeIcons();
 
 	// menus
-	static void InitMenus();
+	void InitializeMenus();
 	static void Menu_DisableItem(HGENMENU hMenuItem, BOOL bDisable);
 
 	// dialogs
@@ -117,6 +111,8 @@ private:
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// utils
+	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
+
 	static wchar_t *HttpStatusToText(HTTP_STATUS status);
 
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);

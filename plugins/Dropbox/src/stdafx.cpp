@@ -1,18 +1,49 @@
-/*
-Copyright (C) 2012-14 Miranda NG project (http://miranda-ng.org)
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation version 2
-of the License.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "common.h"
+
+int hLangpack;
+CDropbox *dropbox;
+HINSTANCE g_hInstance;
+
+PLUGININFOEX pluginInfo =
+{
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {B908773A-86F7-4A91-8674-6A20BA0E67D1} 
+	{0xb908773a, 0x86f7, 0x4a91, {0x86, 0x74, 0x6a, 0x20, 0xba, 0xe, 0x67, 0xd1}}
+
+};
+
+DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
+{
+	g_hInstance = hInstance;
+
+	return TRUE;
+}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfo;
+}
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	mir_getLP(&pluginInfo);
+
+	dropbox = new CDropbox();
+
+	return 0;
+}
+
+extern "C" int __declspec(dllexport) Unload(void)
+{
+	delete dropbox;
+
+	return 0;
+}

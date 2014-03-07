@@ -3,18 +3,21 @@
 
 #include "common.h"
 
-struct FileTransfer
+struct FileTransferParam
 {
 	HANDLE hProcess;
 	MCONTACT hContact;
+	CDropbox *instance;
 	PROTOFILETRANSFERSTATUS pfts;
 
 	int totalFolders;
 	char **pszFolders;
 	int relativePathStart;
 
-	FileTransfer()
+	FileTransferParam(CDropbox *instance)
 	{
+		this->instance = instance;
+
 		totalFolders = 0;
 		pszFolders = NULL;
 		relativePathStart = 0;
@@ -32,7 +35,7 @@ struct FileTransfer
 		pfts.wszCurrentFile = NULL;
 	}
 
-	~FileTransfer()
+	~FileTransferParam()
 	{
 		if (pfts.pszFiles)
 		{

@@ -28,10 +28,14 @@
 
 #include "version.h"
 #include "resource.h"
-#include "dropbox.h"
+
 
 #define MODULE "Dropbox"
 
 extern HINSTANCE g_hInstance;
+
+class CDropbox;
+
+#include "dropbox.h"
 
 #endif //_COMMON_H_

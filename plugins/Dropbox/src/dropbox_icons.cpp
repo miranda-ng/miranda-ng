@@ -1,6 +1,6 @@
 #include "common.h"
 
-void CDropbox::InitIcons()
+void CDropbox::InitializeIcons()
 {
 	wchar_t filePath[MAX_PATH];
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);

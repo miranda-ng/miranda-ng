@@ -8,7 +8,7 @@ int CDropbox::HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hCon
 		return ACKRESULT_FAILED;
 	}
 
-	if (response->resultCode != HTTP_STATUS::OK)
+	if (response->resultCode != HTTP_STATUS_OK)
 	{
 		CDropbox::ShowNotification(HttpStatusToText((HTTP_STATUS)response->resultCode), MB_ICONERROR, hContact);
 		return response->resultCode;
@@ -30,7 +30,7 @@ int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId,
 
 	delete request;
 
-	if (response && response->resultCode == HTTP_STATUS::OK)
+	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
 		JSONNODE *root = json_parse(response->pData);
 		if (root)
@@ -66,7 +66,7 @@ int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uplo
 
 	delete request;
 
-	if (response && response->resultCode == HTTP_STATUS::OK)
+	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
 		JSONNODE *root = json_parse(response->pData);
 		if (root)
@@ -109,7 +109,7 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 
 	delete request;
 
-	if (response && response->resultCode == HTTP_STATUS::OK)
+	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
 		if (!strchr(fileName, '\\'))
 		{
@@ -128,7 +128,7 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId, MC
 
 			delete request;
 
-			if (response &&response->resultCode == HTTP_STATUS::OK)
+			if (response &&response->resultCode == HTTP_STATUS_OK)
 			{
 				JSONNODE *root = json_parse(response->pData);
 				if (root)
@@ -206,7 +206,7 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 
 	delete request;
 
-	if (response && (response->resultCode == HTTP_STATUS::OK || response->resultCode == HTTP_STATUS::FORBIDDEN))
+	if (response && (response->resultCode == HTTP_STATUS_OK || response->resultCode == HTTP_STATUS_FORBIDDEN))
 	{
 		if (!strchr(folderName, '\\'))
 		{
@@ -227,7 +227,7 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 
 			response = request->Send();
 
-			if (response && response->resultCode == HTTP_STATUS::OK)
+			if (response && response->resultCode == HTTP_STATUS_OK)
 			{
 				JSONNODE *root = json_parse(response->pData);
 				if (root != NULL)
@@ -283,13 +283,13 @@ int CDropbox::CreateFolder(const char *folderName, MCONTACT hContact)
 void _cdecl CDropbox::SendFileAsync(void *arg)
 {
 	bool error = false;
-	FileTransfer *ftp = (FileTransfer*)arg;
+	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
 	for (int i = 0; ftp->pszFolders[i]; i++)
 	{
-		if (INSTANCE->CreateFolder(ftp->pszFolders[i], ftp->hContact))
+		if (ftp->instance->CreateFolder(ftp->pszFolders[i], ftp->hContact))
 		{
 			error = true;
 			break;
@@ -336,7 +336,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 
 					if (!offset)
 					{
-						if (INSTANCE->SendFileChunkedFirst(data, count, uploadId, offset, ftp->hContact))
+						if (ftp->instance->SendFileChunkedFirst(data, count, uploadId, offset, ftp->hContact))
 						{
 							error = true;
 							break;
@@ -344,7 +344,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 					}
 					else
 					{
-						if (INSTANCE->SendFileChunkedNext(data, count, uploadId, offset, ftp->hContact))
+						if (ftp->instance->SendFileChunkedNext(data, count, uploadId, offset, ftp->hContact))
 						{
 							error = true;
 							break;
@@ -361,7 +361,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 
 				if (!error)
 				{
-					if (INSTANCE->SendFileChunkedLast(fileName, uploadId, ftp->hContact))
+					if (ftp->instance->SendFileChunkedLast(fileName, uploadId, ftp->hContact))
 					{
 						error = true;
 					}
@@ -377,8 +377,8 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 		}
 	}
 
-	if (INSTANCE->hContactTransfer)
-		INSTANCE->hContactTransfer = 0;
+	if (ftp->instance->hTransferContact)
+		ftp->instance->hTransferContact = 0;
 
 	if (!error)
 		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
