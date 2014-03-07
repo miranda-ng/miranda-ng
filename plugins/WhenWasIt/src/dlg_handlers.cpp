@@ -636,6 +636,11 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 
 static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	LVITEM item = { 0 };
+	POINT pt = { 0 };
+	MCONTACT hContact;
+	int i, count;
+
 	switch (msg) {
 	case WM_KEYUP:
 		if (wParam == VK_ESCAPE)
@@ -648,16 +653,35 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 		break;
 
 	case WM_LBUTTONDBLCLK:
-		int count = ListView_GetItemCount(hWnd);
-		MCONTACT hContact;
-		LVITEM item = { 0 };
+		count = ListView_GetItemCount(hWnd);
 		item.mask = LVIF_PARAM;
-		for (int i = 0; i < count; i++) {
+		for (i = 0; i < count; i++) {
 			if (ListView_GetItemState(hWnd, i, LVIS_SELECTED)) {
 				item.iItem = i;
 				ListView_GetItem(hWnd, &item);
 				hContact = (MCONTACT)item.lParam;
 				CallService(MS_WWI_ADD_BIRTHDAY, hContact, 0);
+				break;
+			}
+		}
+		break;
+
+	case WM_CONTEXTMENU:
+		pt.x = (short)LOWORD(lParam);
+		pt.y = (short)HIWORD(lParam);
+		count = ListView_GetItemCount(hWnd);
+		item.mask = LVIF_PARAM;
+		for (i = 0; i < count; i++) {
+			if (ListView_GetItemState(hWnd, i, LVIS_SELECTED)) {
+				item.iItem = i;
+				ListView_GetItem(hWnd, &item);
+				hContact = (MCONTACT)item.lParam;
+				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+				if (hMenu != NULL) {
+					TrackPopupMenu(hMenu, TPM_RIGHTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
+					DestroyMenu(hMenu);
+				}
+				break;
 			}
 		}
 		break;
@@ -856,6 +880,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hListMenu));
 			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
 
+			mir_subclassWindow(hList, BirthdaysListSubclassProc);
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
 
 			LVCOLUMN col;
@@ -894,6 +919,13 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
 			LVITEM item = { 0 };
+			LVFINDINFO fi = { 0 };
+
+			fi.flags = LVFI_PARAM;
+			fi.lParam = (LPARAM)data->dtb;
+			if (-1 != ListView_FindItem(hList, -1, &fi))
+				return 0; /* Allready in list. */
+
 			int index = ListView_GetItemCount(hList);
 			item.iItem = index;
 			item.mask = LVIF_PARAM | LVIF_TEXT;

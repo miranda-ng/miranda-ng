@@ -171,9 +171,11 @@ struct CMraProto : public PROTO<CMraProto>
 
 	HANDLE   m_heNudgeReceived;
 	HANDLE   m_hConnection;
-	DWORD    m_dwThreadWorkerLastPingTime, m_dwNextPingSendTickTime, m_dwPingPeriod;
-	DWORD    m_dwThreadWorkerRunning;
-	DWORD    dwCMDNum;
+	DWORD	m_dwNextPingSendTickTime;
+	DWORD	m_dwPingPeriod;
+	volatile DWORD	m_dwThreadWorkerLastPingTime;
+	volatile DWORD	m_dwThreadWorkerRunning;
+	volatile DWORD	dwCMDNum;
 
 	OBJLIST<MraGroupItem> m_groups;
 
