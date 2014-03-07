@@ -1,0 +1,848 @@
+﻿#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+;============================================================
+;  File: HistoryStats.dll
+;  Plugin: HistoryStats
+;  Version: 0.2.0.1
+;  Authors: Martin Afanasjew
+;============================================================
+;file \plugins\HistoryStats\res\resource.rc
+[HistoryStats - Working...]
+HistoryStats - Працую...
+[Cancel]
+Скасаваць
+[HistoryStats - Add column]
+HistoryStats - Дадаць калонку
+[Available column types:]
+Даступныя тыпы:
+[Description]
+Апісанне
+[Add]
+Дадаць
+[HistoryStats - Conflicting files]
+HistoryStats - Канфлікт файлаў
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+Некаторыя файлы часова захаваны ў іншым месцы, каб пазбегнуць перазапісы існых файлаў. Калі вы жадаеце заўсёды перазапісваць існыя файлы, у наладах HistoryStats ёсць опцыя для гэтага.
+[The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
+Наступныя файлы не могуць быць запісаны, таму што, у тэчцы прызначэння ўжо існуюць файлы з такімі імёнамі. Калі ласка абярыце, ці перазапісаць існыя, ці пазбавіцца ад згенераваных файлаў.
+[Overwrite existing]
+Перапісаць існы
+[Discard generated]
+Выдаліць існы
+[HistoryStats supports several plugins. Click to learn more...]
+HistoryStats падтрымлівае некаторыя модулі. Націсніце для інфармацыі...
+[Contacts]
+Кантакты
+[Hide additional column info...]
+Схаваць дадатковую інфармацыю пра калонку...
+[HistoryStats - Plugin/extension info]
+HistoryStats - Інфармацыя пра модуль/пашырэнні
+[Close]
+Зачыніць
+[Plugin/extension name:]
+Імя модуля/пашырэнні:
+[Provided features:]
+Падае магчымасці:
+[Detailed description:]
+Дэталёвае апісанне:
+[HistoryStats - Filter words/messages]
+HistoryStats - Фільтр слоў/паведамленняў
+[Sets:]
+Наборы:
+[Set name:]
+Імя набору:
+[Set mode:]
+Рэжым набору:
+[About sets]
+Пра наборы
+[All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
+Усе ўсталёўкі агульныя паміж калонкамі. Аднак, толькі абраныя будуць ужыты да бягучай калонкі. Выкарыстоўвайце правае поле, каб вызначыць словы, якія адлюстроўваюцца асобным радком.
+[Configure HistoryStats]
+Наладзіць модуль HistoryStats
+[Apply]
+Ужыць
+;file \plugins\HistoryStats\src\colbase_words.cpp
+[Extract words from]
+Браць словы з
+[Incoming messages]
+Уваходныя паведамленні
+[Outgoing messages]
+Выходныя паведамленні
+[All messages]
+Усе паведамленні
+[Ignore words shorter than (chars)]
+Ігнараваць словы карацей чым (знакаў)
+[Ignore words longer than (chars, 0=no limit)]
+Ігнараваць словы даўжэй чым (знакаў, 0=без абмежаванняў)
+[Filter URLs/e-mail addresses]
+Фільтраваць URL/e-mail адрасы
+[Filter words/messages]
+Фільтраваць словы/паведамленні
+[Define...]
+Вызначыць...
+;file \plugins\HistoryStats\src\column_chatduration.cpp
+[Chat duration type]
+Тып працягласці чата
+[Minimum]
+Мінімум
+[Average]
+Сярэдняе
+[Maximum]
+Максімум
+[Total (sum of all chats)]
+Усяго (сума ўсіх чатаў)
+[Show bar graph for chat duration type]
+Паказаць графік для працягласці чата тыпу
+[Other information in tooltip]
+Іншая інфармацыя ў падказцы
+[Average chat duration]
+Сярэдні час чата
+[Maximum chat duration]
+Максімальная працягласць чата
+[Total chat duration]
+Агульная працягласць чата
+[Chat duration]
+Працягласць гутаркі
+[[Min] #{amount}]
+(Мінімальна) #{amount}
+[[Avg] #{amount}]
+(Сярэдняе) #{amount}
+[[Max] #{amount}]
+(Максімальна) #{amount}
+;file \plugins\HistoryStats\src\column_chatduration.h
+[Column holding the amount of time you have chatted with the given contact.]
+Калонка ўтрымоўвае час сувязі з дадзеным кантактам.
+;file \plugins\HistoryStats\src\column_events.cpp
+[Events to count]
+Лічыць падзеі
+[URLs (incoming)]
+URL (уваходныя)
+[URLs (outgoing)]
+URL (выходныя)
+[URLs (all)]
+URL (усё)
+[Files (incoming)]
+Файлы (уваходныя)
+[Files (outgoing)]
+Файлы (выходныя)
+[Files (all)]
+Файлы (усё)
+[Files]
+Файлы
+;file \plugins\HistoryStats\src\column_events.h
+[Column holding event counts for incoming, outgoing or total number of files or URLs.]
+Калонка ўтрымоўвае лік уваходных/выходных/усяго файлаў ці URL.
+;file \plugins\HistoryStats\src\column_group.cpp
+[Group]
+Гурт
+;file \plugins\HistoryStats\src\column_group.h
+[Column holding the contact list's group name the contact is in.]
+Калонка ўтрымоўвае групу, у якой знаходзіцца кантакт.
+;file \plugins\HistoryStats\src\column_inout.cpp
+[Data source]
+Крыніца дадзеных
+[Display as]
+Паказваць як
+[Absolute]
+Абсалютна
+[Units per day]
+Блокаў у дзень
+[Units per week]
+Блокаў у тыдзень
+[Units per month (30 days)]
+Блокаў у месяц (30 дзён)
+[Characters (incoming)]
+Знакі (уваходныя)
+[Characters (outgoing)]
+Знакі (выходныя)
+[Characters (all)]
+Знакі (усё)
+[Messages (incoming)]
+Паведамленні (уваходныя)
+[Messages (outgoing)]
+Паведамленні (выходныя)
+[Messages (all)]
+Паведамленні (усё)
+[Chats (incoming)]
+Гутаркі (уваходныя)
+[Chats (outgoing)]
+Гутаркі (выходныя)
+[Chats (all)]
+Чаты (усё)
+[Characters]
+Знакі
+[Messages]
+Паведамленні
+[Chats]
+Чатаў
+;file \plugins\HistoryStats\src\column_inout.h
+[In/out]
+Уваходнае/Выходнае
+[Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
+Калонка ўтрымоўвалая колькасць для ўваходных, выходных ці ўсіх знакаў, паведамленняў ці дыялогаў. Гэта калонка можа адлюстроўваць абсалютныя і сярэднія значэнні.
+;file \plugins\HistoryStats\src\column_inoutgraph.cpp
+[Show sum of incoming and outgoing]
+Паказаць суму ўваходных/выходных
+[In/out details (tooltip)]
+Уваход./зыход. дэталі (падказка)
+[Percentage in tooltip]
+Адсоткі ў падказцы
+[Absolute in tooltip if average selected and vice versa]
+Абсалютна ў падказцы, калі абрана сярэдняе, і наадварот
+[Percentage in bar graph]
+Адсоткі ў гістаграме
+[[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
+(Исх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
+;file \plugins\HistoryStats\src\column_inoutgraph.h
+[In/out graph]
+Графік Прынята/Даслана
+[Column holding in/out bar graphs for characters, messages or chats.]
+Калонка ўтрымоўвалая графік Прынята/Даслана для знакаў, паведамленняў ці дыялогаў.
+;file \plugins\HistoryStats\src\column_nick.cpp
+[First/last message time (tooltip)]
+Час першага/апошняга паведамлення (падказка)
+[Show countact count for omitted/totals (tooltip)]
+Паказаць рахунак апушчаных/усяго (падказка)
+[[First] #{first_time} / [Last] #{last_time}]
+(Першае) #{first_time} / (Апошняе) #{last_time}
+[#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
+#{count} кантактаў / (Першы) #{first_time} / (Апошні) #{last_time}
+[Omitted]
+Апушчана
+[Totals]
+Усяго
+;file \plugins\HistoryStats\src\column_nick.h
+[Column holding the contact's nick and first/last message time if selected.]
+Калонка ўтрымоўвае нік кантакту, і час першага/апошняга паведамленне (калі абрана).
+;file \plugins\HistoryStats\src\column_protocol.cpp
+[Protocol]
+Пратакол
+;file \plugins\HistoryStats\src\column_protocol.h
+[Column holding the contact's protocol.]
+Калонка ўтрымоўвае пратакол кантакту.
+;file \plugins\HistoryStats\src\column_rank.cpp
+[Rank]
+Ранг
+;file \plugins\HistoryStats\src\column_rank.h
+[Column holding the contact's placing according to your sorting criteria.]
+Калонка ўтрымоўвае месца кантакту, паводле Вашых крытэраў сартавання.
+;file \plugins\HistoryStats\src\column_split.cpp
+["Split" type]
+Тып "Разбіўкі"
+[Hours of day]
+Гадзіны дня
+[Days of week]
+Дні тыдня
+[Custom (for experts only)]
+Сваё (толькі для экспертаў)
+[Column setup]
+Налада калонкі
+[Bar unit]
+Адзінка вочка
+[Units per bar]
+Адзінак у вочку
+[Bars per graph]
+Вочак у графіцы
+[Graph alignment]
+Выраўноўванне графіка
+[Align on day boundary]
+Выраўнаваць на мяжы дня
+[Align on week boundary]
+Выраўнаваць на мяжы тыдня
+[Details for every bar (tooltip)]
+Дэталі для кожнай калонкі (падказка)
+[Weeks]
+Тыдняў
+[Details for every bar (tooltip) are only available with HTML output.]
+Дэталі для кожнай калонкі (падказка) магчымыя, толькі ў рэжыме HTML.
+["Split"]
+"Разбіўка"
+[all characters]
+усе знакі
+[all messages]
+усе паведамленні
+[all chats]
+усе чаты
+[#{type} for #{data}]
+#{type} для #{data}
+;file \plugins\HistoryStats\src\column_split.h
+[Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
+Калонка ўтрымоўвае графічнае ўяўленне чата, пабітага па днях тыдня, ці па часе сутак. Рознае вымярэнне статыстыкі чатаў даступна.
+;file \plugins\HistoryStats\src\column_splittimeline.cpp
+[Drop everything older than (days, 0=no limit)]
+Выкінуць усё старэй чым (дзён, 0=без абмежаванняў)
+[Number of days to group]
+Лік дзён для групоўкі
+[Number of weeks to group]
+Лік тыдняў для групоўкі
+[Block unit]
+Адзінка блока
+[Units per block]
+Адзінак у блоку
+[Blocks per column]
+Блокаў у калонцы
+[Number of columns to group]
+Лік калонак у групе
+[Calculate maximum per column (not per graph)]
+Лічыць найвялікае па калонцы (не па графіку)
+[Characters (in/out ratio)]
+Знакі (вх/исх рэйтынг)
+[Messages (in/out ratio)]
+Паведамленні (суадносіны вх/исх)
+[Chats (in/out ratio)]
+Гутаркі (суадносіны вх/исх)
+[Hours of day timeline]
+Часавая шкала па гадзінах дня
+[Days of week timeline]
+Часавая шкала па днях тыдня
+["Split" timeline]
+"Разбіўка" графіка часу
+[in/out ratio of characters]
+вх/исх суадносіны знакаў
+[in/out ratio of messages]
+Увах/зых суадносіны паведамленняў
+[in/out ratio of chats]
+вх/исх суадносіны чатаў
+;file \plugins\HistoryStats\src\column_splittimeline.h
+[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.]
+Калонка ўтрымоўвае графічнае ўяўленне чата (выходныя, якія ўваходзяць, усяго, суадносіны ўваходных да выходных) ад першага дня гісторыі да апошняга. Інфармацыя размяшчаецца па восі X- і Y-, і значэнні афарбоўваюцца ў колеры. Рознае вымярэнне статыстыкі чатаў даступна.
+;file \plugins\HistoryStats\src\column_timeline.cpp
+[Timeline for #{data}]
+Шкала часу для #{data}
+[Timeline]
+Графік часу
+;file \plugins\HistoryStats\src\column_timeline.h
+[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.]
+Калонка ўтрымоўвае графічнае ўяўленне чата (выходныя, якія ўваходзяць, усяго, суадносіны ўваходных да выходных) ад першага дня гісторыі да апошняга на падставе дзён. Дні могуць быць згрупаваны. Рознае вымярэнне статыстыкі чатаў даступна.
+;file \plugins\HistoryStats\src\column_wordcount.cpp
+[Word count type]
+Тып падліку слоў
+[Total words]
+Усяго слоў
+[Distinct words]
+Вызначаныя словы
+[Ratio total/distinct words]
+Каэфіцыент паміж усімі/вызначанымі словамі
+[Additional info in tooltip (depends on type)]
+Дадатковая інфармацыя ў падказцы (залежыць ад тыпу)
+[Total word count]
+Усяго слоў
+[Distinct word count]
+Лік выдатныя слоў
+[#{distict_words} distinct]
+#{distict_words} асобна
+[#{words} total]
+#{words} усяго
+[#{words} total / #{distict_words} distinct]
+#{words} усяго / #{distict_words} выдатна
+;file \plugins\HistoryStats\src\column_wordcount.h
+[Word count]
+Колькасць слоў
+[Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
+Калонка ўтрымоўвае лік слоў, скарыстаных Вамі/кантактам/усяго.
+;file \plugins\HistoryStats\src\column_words.cpp
+[Words type]
+Тып слоў
+[Most common words]
+Больш за ўсё ўжытныя словы
+[Least common words]
+Менш усяго ўжытныя словы
+[Longest words]
+Самыя доўгія словы
+[Number of words]
+Лік слоў
+[Number of words to skip in output]
+Лік прапусканых слоў пры выснове
+[Word count for each word (tooltip)]
+Лік ужыванняў для кожнага слова (падказка)
+[Show separate counts for incoming/outgoing]
+Паказаць асобныя лічыльнікі для ўваходных/выходных
+[Color words according to in/out ratio]
+Вылучаць колерам слова ў адпаведнасці з рэйтынгам вх/исх
+[[Out] #{out_words} / [In] #{in_words}]
+(Выходнае) #{out_words} / (Уваходнае) #{in_words}
+;file \plugins\HistoryStats\src\column_words.h
+[Words]
+Словы
+[Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
+Калонка ўтрымоўвае спіс часта выкарыстоўваных слоў/ці самых доўгіх слоў, скарыстаных Вамі/кантактам/усяго.
+;file \plugins\HistoryStats\src\contact.cpp
+[(multiple)]
+(некалькі)
+;file \plugins\HistoryStats\src\dlgconfigure.cpp
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Вы не можаце адкрыць асобнае акно опцый HistoryStats, бо адкрыта акно опцый Miranda NG. Зачыніце яго, і паспрабуйце зноў. \r\n\r\n Нататка: опцыі ў 2х дыялогах аднолькавыя.
+[HistoryStats - Warning]
+HistoryStats - Папярэджанне
+;file \plugins\HistoryStats\src\dlgfilterwords.cpp
+[Add set]
+Дадаць набор
+[Delete set]
+Выдаліць набор
+[Filter words matching]
+Фільтраваць словы
+[Filter words containing]
+Фільтраваць словы ўтрымоўвалыя
+[Filter words starting with]
+Фільтраваць словы з пачаткам
+[Filter words ending with]
+Фільтраваць словы з канчаткам
+[Filter messages matching]
+Фільтраваць паведамленні
+[Filter messages containing]
+Фільтраваць паведамленні ўтрымоўвалыя
+[Filter messages starting with]
+Фільтраваць паведамленні з пачаткам
+[Filter messages ending with]
+Фільтраваць паведамленні з канчаткам
+[The selected set is in use by at least one other column. If you remove it it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+Абраны набор ужо выкарыстоўваецца хоць бы адной калонкай. Калі вы выдаліце яго, ён будзе недаступны ўсім іншым калонкам. вы ўпэўнены, што жадаеце выдаліць набор
+;file \plugins\HistoryStats\src\dlgoption.cpp
+[Global settings]
+Глабальныя налады
+[Exclude]
+Выключаць
+[Exclude contacts]
+Выключаць кантакты
+[Input settings]
+Налады ўводу
+[Column settings]
+Налады калонак
+[Output settings]
+Налады высновы
+[Create statistics]
+Стварыць статыстыку
+[Create statistics (there are warnings)]
+Стварыць статыстыку (ёсць папярэджанні)
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Вы не можаце адкрыць опцыі HistoryStats тут, пакуль адкрыта асобнае акно опцый. Зачыніце яго, і паспрабуйце зноў.\r\n\r\n Нататка: опцыі ў 2х дыялогах аднолькавыя.
+[You have unsaved settings. Do you want to save before running HistoryStats?]
+Вы не захавалі налады. Жадаеце захаваць іх перад запускам HistoryStats?
+[HistoryStats]
+Статыстыка
+[Show warnings...]
+Паказаць папярэджанні...
+[Show statistics]
+Паказаць статыстыку
+[There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
+Ёсць патэнцыйныя праблемы ў вашых наладах. У любым выпадку, гэта толькі папярэджанне, і на яго можна не зважаць. Дэталі:
+;file \plugins\HistoryStats\src\dlgoption_subcolumns.cpp
+[Add column...]
+Дадаць калонку...
+[Delete column]
+Выдаліць калонку
+[Move down]
+Ніжэй
+[Move up]
+Вышэй
+[Show additional column info...]
+Паказаць дадатковую інфармацыю пра калонку...
+[General column settings]
+Галоўныя налады калонкі
+[Title (default if empty)]
+Загаловак (па змаўчанні, калі пуста)
+[Column specific settings]
+Адмысловыя налады калонкі
+[For this config the selected column...]
+Опцыі для гэтай абранай калонкі...
+[...can be output as: ]
+...можа выводзіцца як:
+[PNG (partial)]
+PNG (часткова)
+[...will be output as: ]
+...будзе выводзіцца як:\s
+[Nothing (column will be skipped)]
+Нічога (калонка будзе прапушчана)
+[HTML as fallback]
+HTML як адкат
+[PNG, ignoring some sttings]
+PNG, пропуск некаторых радкоў
+[HistoryStats - Error]
+HistoryStats - Памылка
+[HTML output unsupported.]
+HTML выснова немагчымы.
+[Fallback to HTML due to setting.]
+Пераключэнне ў HTML рэжым па ўсталёўцы
+[Setting ignored due to PNG output.]
+Опцыя прапушчана, бо ўключаны выснова PNG.
+;file \plugins\HistoryStats\src\dlgoption_subexclude.cpp
+[** All contacts **]
+** Усе кантакты **
+;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
+[Create statistics on Miranda NG's startup]
+Ствараць статыстыку пры старце праграмы
+[Add menu items to main menu]
+Дадаць пункты ў галоўнае меню
+[Put menu items into submenu]
+Пункты ў сваім падменю
+[Add menu items to contact menu]
+Дадаць пункты ў меню кантакту
+[Don't hide menu items for pseudo protocols]
+Не хаваць значкі меню для псеўда-пратаколаў
+[Hide menu items for protocol...]
+Схаваць пункты меню для пратаколаў...
+[Graphics]
+Стварэнне графікі
+[Only use HTML to simulate graphics]
+Выкарыстоўваць толькі HTML для стварэння графікі
+[Generate PNG files to represent graphics]
+Ствараць PNG файл для малюнка графікі
+[Fall back to HTML output, if column options require HTML output]
+Вярнуцца да высновы HTML, калі налады калонкі патрабуюць выснова HTML
+[Enforce PNG output, possibly ignoring some column options]
+Прымусова выводзіць PNG, магчыма ігнаруючы некаторыя налады калонкі
+[Prefer HTML output over PNG output, if available]
+Аддаваць перавагу выснову HTML, чым PNG, калі даступна
+[Generate statistics in background thread with low priority]
+Ствараць статыстыку ў фонавым працэсе з нізкім прыярытэтам
+[Path to browser (leave blank for system default)]
+Шлях да браўзара (пуста = сістэмны браўзар)
+[Create statistics for meta-contacts and their subcontacts]
+Стварае статыстыку для мета-кантактаў і суб-кантактаў
+[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
+Наступная інфармацыя для тых, хто выкарыстоўвае метакантакты. У гэтым выпадку, калі ласка, выкарыстоўвайце версію метакантактаў не ніжэй 0.9.10.6.\r\n\r\nHistoryStats выдатна ўзаемадзейнічае з метакантактамі, і здольная збіраць дадзеныя не толькі ад мета-кантактаў, але і ад суб-кантактаў. Таксама HistoryStats умее аб'ядноўваць гісторыю ўсіх суб-кантактаў. Вы можаце наладзіць узаемадзеянне з метакантактамі ва ўкладцы "Ўвод".
+[MetaContacts Plugin]
+Метакантакты
+[Automatically get updates of HistoryStats]
+Аўтаматычна абнаўляе HistoryStats
+[Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
+Выкарыстоўвайце гэты модуль для аўтаматычнага апавяшчэння пра новую версію HistoryStats. Гэты модуль аўтаматычна ўсталюе абноўленую версію. Калі ласка выкарыстоўвайце апошнюю версію гэтага модуля.
+[Updater|Updater (Unicode)]
+Updater|Updater (Юнікод)
+[Easily exchange icons in HistoryStats' user interface]
+Змена значкоў інтэрфейсу HistoryStats
+[Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
+Выкарыстоўвайце гэты модуль, каб наладзіць большасць значкоў інтэрфейсу HistoryStats. Калі ласка выкарыстоўвайце версію 0.0.1.0 ці старэй. У іншым выпадку HistoryStats не з'явіцца ў наладах IcoLib. Калі ў вас Miranda IM версіі 0.7.0 альфа 3 ці старэй, асобны модуль IcoLib не патрабуецца.
+[Icons Library Manager]
+Мэнэджар значкоў
+[Supported plugins (double-click to learn more):]
+Падтрымоўваныя модулі (падвойная пстрычка для інфармацыі):
+[HistoryStats supports several plugins. Click to hide info...]
+HistoryStats падтрымлівае некаторыя модулі. Націсніце для ўтойвання інфармацыі...
+;file \plugins\HistoryStats\src\dlgoption_subinput.cpp
+[History interpretation]
+Інтэрпрэтацыя гісторыі
+[Time a chat session must last to be counted (seconds)]
+Гутарка павінна доўжыцца, каб быць падлічанай (секунд)
+[Time between two chat sessions (seconds)]
+Час паміж двума гутаркамі (з)
+[Minimum time to assume when calculating average (days)]
+Мінімальны час прыняцця, пры падліку сярэдняга (дні)
+[Word delimiting characters]
+Слова абмяжоўваецца знакамі
+[Contact filtering]
+Фільтр кантактаў
+[Ignore all contacts with protocol...]
+Ігнараваць усе кантакты ад пратаколаў...
+[History read mode for MetaContacts]
+Спосаб чытання гісторыі метакантактаў
+[Use only meta-contact's history]
+Выкарыстоўваць толькі гісторыю метакантактаў
+[Use only subcontacts' histories (for one meta-contact)]
+Выкарыстоўваць толькі гісторыю субкантактаў (для аднаго метакантакту)
+[Use meta-contact's history and its subcontacts' histories]
+Выкарыстоўваць гісторыю метакантактаў і гісторыю іх субкантактаў
+[Treat meta-contacts and subcontacts as normal contacts]
+Абыходзіць метакантакты і субкантакты як звычайныя кантакты
+[Merge contacts with same name]
+Аб'ядноўваць кантакты з тым жа самым імем
+[Only merge if contacts are in the same group]
+Аб'ядноўваць, калі кантакты знаходзяцца ў той жа самай групе
+[Duplicate detection when reading merged contacts]
+Паўтарыць праверку калі чытаюцца злітыя кантакты
+[Merge events (tolerant)]
+Зліваць падзеі (памяркоўна)
+[Merge events (strict)]
+Зліваць падзеі (строга)
+[Don't merge events]
+Не зліваць падзеі
+[Message filtering]
+Фільтр паведамленняў
+[Ignore messages...]
+Ігнараваць паведамленні...
+[...older than (days, 0=no limit)]
+...старэй чым (дзён, 0=без абмежаванняў)
+[...before date (none=no limit)]
+...перад (не=не лімітавана)
+[...after date (none=no limit)]
+...пасля даты (не=не лімітавана)
+[Strip BBCode tags from messages]
+Выразаць BBCode з паведамленняў
+;file \plugins\HistoryStats\src\dlgoption_suboutput.cpp
+[Contact filtering and totals]
+Фільтры кантактаў і агульнай статыстыкі
+[Remove contacts with empty history]
+Выдаляць кантакты з пустой гісторыяй
+[Remove contacts with only incoming chats]
+Выдаляць кантакты з толькі ўваходнымі гутаркамі
+[Remove only if you never answered]
+Выдаляць, толькі калі кантакт ніколі не адказваў
+[Remove contacts with only outgoing chats]
+Выдаляць кантакты з толькі выходнымі гутаркамі
+[Remove only if contact never answered]
+Выдаляць, толькі калі вы ніколі не адказвалі
+[Limit number of contacts in statistics]
+Абмяжоўваць лік кантактаў у статыстыцы
+[Criteria]
+Крытэр
+[Omit contacts that didn't produce a certain amount of data]
+Апусціць кантакты, якія не даюць вызначаную колькасць дадзеных
+[Omit if]
+Апусціць, калі
+[...is less than]
+...менш, чым
+[Omit contacts that were inactive for some time]
+Апусціць кантакты, якія былі неактыўныя некаторы час
+[Maximum inactivity time (days)]
+Максімальны час неактыўнасці (дні)
+[Omit all contacts not in "Top n"]
+Апусціць усе кантакты не ў "Першых n"
+[Number of contacts in "Top n"]
+Лік кантактаў у "Першыя n"
+[Include omitted contacts in totals]
+Уключыць апушчаныя кантакты ў агульную статыстыку
+[Include totals of omitted contacts in additional row]
+Уключыць агульную статыстыку для апушчаных кантактаў у асобны шэраг
+[Include totals in statistics]
+Уключыць агульную статыстыку
+[Table header]
+Загаловак табліцы
+[Output header]
+Пісаць загаловак
+[Repeat header every n contacts (0=don't repeat)]
+Паўтараць загаловак кожныя n кантактаў (0=не паўтараць)
+[Make column titles more verbose]
+Зрабіць назву калонак больш шматслоўнымі
+[Show tooltips with detailed information in column titles]
+Паказаць падказку з інфармацыяй у загалоўку калонкі
+[Only show if a custom title was entered or if titles are not verbose]
+Паказаць, толькі калі наладжаны загаловак уведзены ці загалоўкі не шматслоўныя
+[Sorting]
+Сартаванне
+[HTML file generation]
+Генерацыя файла HTML
+[Own nick for statistics]
+Уласнае імя для статыстыкі
+[Output files and folders]
+Тэчкі і файлы для высновы
+[Substitute variables in output file name and subfolder for additional files]
+Замяняць зменныя ў файле выйсця і падтэчцы для дадатковых файлаў
+[Output additional files to subfolder]
+Класці дадатковыя файлы ў падтэчку
+[Subfolder for additional files]
+Падтэчка для дадатковых файлаў
+[Always overwrite already existing files (dangerous!)]
+Заўсёды перапісваць ужо існыя файлы (небяспечна!)
+[Auto open statistics after being generated...]
+Адкрыць статыстыку пасля генерацыі...
+[...via button "Create statistics" in options]
+...праз кнопку "Стварыць статыстыку" ў опцыях
+[...on Miranda NG's startup]
+...пры старце праграмы
+[...via Miranda NG's main menu]
+...праз галоўнае меню
+[First sort by]
+Спачатку сартаваць па
+[Then sort by]
+Затым сартаваць па
+[Finally sort by]
+Нарэшце сартаваць па
+[Characters (incoming, absolute)]
+Знакі (уваходныя, абсалютнае)
+[Characters (outgoing, absolute)]
+Знакі (выходныя, абсалютнае)
+[Characters (all, absolute)]
+Знакі (усё, абсалютнае)
+[Characters (incoming, average)]
+Знакі (уваходныя, сярэдняе)
+[Characters (outgoing, average)]
+Знакі (выходныя, сярэдняе)
+[Characters (all, average)]
+Знакі (усё, сярэдняе)
+[Messages (incoming, absolute)]
+Паведамленні (уваходныя, абсалютна)
+[Messages (outgoing, absolute)]
+Паведамленні (выходныя, абсалютна)
+[Messages (all, absolute)]
+Паведамленні (усё, абсалютна)
+[Messages (incoming, average)]
+Паведамленні (уваходныя, сярэдняе)
+[Messages (outgoing, average)]
+Паведамленні (выходныя, сярэдняе)
+[Messages (all, average)]
+Паведамленні (усё, сярэдняе)
+[Chats (incoming, absolute)]
+Чаты (уваходныя, абсалютнае)
+[Chats (outgoing, absolute)]
+Чаты (выходныя, абсалютнае)
+[Chats (all, absolute)]
+Чаты (усё, абсалютна)
+[Chats (incoming, average)]
+Чаты (уваходныя, сярэдняе)
+[Chats (outgoing, average)]
+Чаты (выходныя, сярэдняе)
+[Chats (all, average)]
+Чаты (усё, сярэдняе)
+[Chat duration (total)]
+Працягласць гутаркі (усяго)
+[Chat duration (minimum)]
+Працягласць чата (мінімальнае)
+[Chat duration (average)]
+Працягласць чата (сярэдняе)
+[Chat duration (maximum)]
+Продолж. чата (максімальнае)
+[Time of first message to/from contact]
+Час першага паведамлення да/ад кантакту
+[Time of last message to/from contact]
+Час апошняга паведамлення да/ад кантакту
+[(nothing)]
+(нічога)
+[Ascending]
+Па ўзрастанні
+[Descending]
+Па змяншэнні
+[Characters (incoming, average per week)]
+Знакі (уваходныя, сярэдняе па тыдні)
+[Characters (outgoing, average per week)]
+Знакі (выходныя, сярэдняе па тыдні)
+[Characters (all, average per week)]
+Знакі (усё, сярэдняе па тыдні)
+[Messages (incoming, average per week)]
+Паведамленні (уваходныя, сярэдняе па тыдні)
+[Messages (outgoing, average per week)]
+Паведамленні (выходныя, сярэдняе па тыдні)
+[Messages (all, average per week)]
+Паведамленні (усё, сярэдняе па тыдні)
+[Chats (incoming, average per week)]
+Чаты (уваходныя, сярэдняе па тыдні)
+[Chats (outgoing, average per week)]
+Чаты (выходныя, сярэдняе па тыдні)
+[Chats (all, average per week)]
+Чаты (усё, сярэдняе па тыдні)
+[Chat duration (total, hours)]
+Працяг чата (усяго, гадзін)
+;file \plugins\HistoryStats\src\iconlib.cpp
+[Create statistics (main menu)]
+Стварыць статыстыку (галоўнае меню)
+[Show statistics (main menu)]
+Паказаць статыстыку (галоўнае меню)
+[Configure... (main menu)]
+Наладзіць... (галоўнае меню)
+[Unexcluded contacts]
+Не выключаныя кантакты
+[Excluded contacts]
+Выключаныя кантакты
+[Options tree]
+Дрэва налад
+[Checkbox]
+Перамыкач
+[Checkbox (checked)]
+Перамыкач (абраны)
+[Checkbox (disabled)]
+Перамыкач (адключаны)
+[Checkbox (checked & disabled)]
+Перамыкач (абраны і адключаны)
+[Radio button]
+Радыё
+[Radio button (checked)]
+Радыё (абраны)
+[Radio button (disabled)]
+Радыё (адключаны)
+[Radio button (checked & disabled)]
+Радыё (абраны і адключаны)
+[Edit control]
+Рэдагаванне
+[Edit control (disabled)]
+Рэдагаванне (адключана)
+[Combo box]
+Выпадальнае меню
+[Combo box (disabled)]
+Выпадальнае меню (адключана)
+[Folder]
+Тэчка
+[Folder (disabled)]
+Тэчка (адключана)
+[Button]
+Кнопка
+[Button (disabled)]
+Кнопка (адключана)
+[Date/time picker]
+Выбар даты/чакай
+[Date/time picker (disabled)]
+Выбар даты/чакай (адключана)
+;file \plugins\HistoryStats\src\main.cpp
+[The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
+Статыстыка не знойдзена. Або яна яшчэ не была створана, або перамешчана ў іншую тэчку.
+[Statistics]
+Статыстыка
+[Configure...]
+Налада...
+[Configure statistics...]
+Наладзіць статыстыку...
+[Exclude from statistics]
+Выключыць са статыстыкі
+[History]
+Гісторыя
+;file \plugins\HistoryStats\src\mirandacontact.cpp
+;file \plugins\HistoryStats\src\mirandahistory.cpp
+[(none)]
+(не)
+;file \plugins\HistoryStats\src\optionsctrlimpl_datetime.cpp
+;file \plugins\HistoryStats\src\settings.cpp
+[(default nick)]
+(нік па змаўчанні)
+;file \plugins\HistoryStats\src\statistic.cpp
+[HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats не можа стварыць неабходную тэчку (#{folder}).\r\n\r\n Калі ласка праверце імя файла і тэчкі, а таксама магчымасць запісу ў файл/тэчку/дыск.
+[Omitted contacts]
+Апушчана кантактаў
+[HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+HistoryStats не можа адкрыць файл для запісу (#{file}).\r\n\r\n Калі ласка праверце імя файла, і магчымасць запісу ў файл/тэчку/дыск.
+[Statistics for #{nick} - HistoryStats]
+Статыстыка гісторыі для #{nick}
+[Statistics for #{nick}]
+Статыстыка для #{nick}
+[Writing omitted contacts]
+Запіс прапушчаных кантактаў
+[Writing totals]
+Запіс вынікаў
+[Created with #{plugin} #{version} on #{date} at #{time}]
+Створана модулем #{plugin} #{version} #{date} у #{time}
+[Initializing]
+Ініцыялізацыя
+[Reading database]
+Чытанне базы дадзеных
+[Removing contacts]
+Выдаленне кантактаў
+[Sorting contacts]
+Сартаванне кантактаў
+[Precollecting column data]
+Папярэдні збор дадзеных калонак
+[Limiting number of contacts]
+Абмежаванне ліку кантактаў
+[Calculating totals]
+Падлік усіх дадзеных
+[Postcollecting column data]
+Завяршальны збор дадзеных калонак
+[Transforming data]
+Канвертаванне дадзеных
+[Creating HTML]
+Стварэнне HTML
+[Already existing file]
+Ужо існы файл
+[HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
+Ужо запушчаны працэс стварэння статыстыкі. Калі ласка пачакайце, пакуль ён скончыцца, ці адменіце яго, і паспрабуйце зноў.
+;file \plugins\HistoryStats\src\utils.cpp
+[wdayF:Monday]
+wdayF:Панядзелак
+[wdayF:Tuesday]
+wdayF:Аўторак
+[wdayF:Wednesday]
+wdayF:Асяроддзе
+[wdayF:Thursday]
+wdayF:Чацвер
+[wdayF:Friday]
+wdayF:Пятніца
+[wdayF:Saturday]
+wdayF:Субота
+[wdayF:Sunday]
+wdayF:Нядзеля
