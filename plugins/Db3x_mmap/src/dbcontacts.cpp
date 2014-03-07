@@ -263,7 +263,6 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 					__leave;
 				}
 
-				pev->contactID = ccSub->contactID;
 				arEvents.insert(pev);
 				ofsSub = pev->ofsNext;
 			}

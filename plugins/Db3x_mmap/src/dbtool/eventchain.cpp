@@ -186,6 +186,9 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		dbeOld.flags &= ~DBEF_FIRST;
 	}
 
+	if (dbeOld.contactID == 0)
+		dbeOld.contactID = dbc->dwContactID;
+
 	if (dbeOld.flags & ~DBEF_ALL) {
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Extra flags found in event: removing"));
 		dbeOld.flags &= DBEF_ALL;
