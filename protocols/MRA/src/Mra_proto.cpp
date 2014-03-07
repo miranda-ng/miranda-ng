@@ -516,7 +516,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		}
 		else _CrtDbgBreak();
 	}
-	MraUpdateEmailStatus("", "", 0, 0);
+	MraUpdateEmailStatus("", "", 0, 0, false);
 	return true;
 }
 
@@ -1416,7 +1416,7 @@ bool CMraProto::CmdNewMail(BinBuffer &buf)
 	DWORD dwSave = m_dwEmailMessagesUnread;
 	m_dwEmailMessagesUnread = dwUnreadCount;// store new value
 	if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwSave < dwUnreadCount || dwUnreadCount == 0)
-		MraUpdateEmailStatus(szEmail, szString, dwDate, dwUIDL);
+		MraUpdateEmailStatus(szEmail, szString, dwDate, dwUIDL, false);
 	return true;
 }
 
@@ -1496,7 +1496,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 		dwAckType = m_dwEmailMessagesUnread;// save old value
 		m_dwEmailMessagesUnread = dwTemp;// store new value
 		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType < dwTemp || dwTemp == 0)
-			MraUpdateEmailStatus("", "", 0, 0);
+			MraUpdateEmailStatus("", "", 0, 0, false);
 		break;
 
 	case MRIM_CS_SMS_ACK:

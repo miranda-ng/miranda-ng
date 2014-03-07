@@ -246,7 +246,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus);
 	DWORD  MraContactCapabilitiesGet(MCONTACT hContact);
 	void   MraContactCapabilitiesSet(MCONTACT hContact, DWORD dwFutureFlags);
-	void   MraUpdateEmailStatus(const CMStringA &szFrom, const CMStringA &szSubject, DWORD dwDate, DWORD dwUIDL);
+	void   MraUpdateEmailStatus(const CMStringA &szFrom, const CMStringA &szSubject, DWORD dwDate, DWORD dwUIDL, bool force_display);
 	DWORD  MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMessageRTF);
 
 	DWORD  StartConnect();

@@ -9,7 +9,7 @@ INT_PTR CMraProto::MraGotoInbox(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraShowInboxStatus(WPARAM wParam, LPARAM lParam)
 {
-	MraUpdateEmailStatus("", "", 0, 0);
+	MraUpdateEmailStatus("", "", 0, 0, true);
 	return 0;
 }
 
