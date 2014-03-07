@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
 [Provides ability to upload files on Dropbox.]
@@ -37,8 +37,6 @@ OK
 [Cancel]
 Anuluj
 ;file \plugins\Dropbox\src\dropbox.cpp
-[You have been authorized]
-Zostałeś zautoryzowany
 [in process...]
 w toku...
 [you have been authorized]
@@ -54,13 +52,12 @@ pokazuje wszystkie pliki w folderze "dir" ("dir" może być pominięty dla folde
 zwraca link do pobrania pliku lub folderu z określonej ścieżki ("path" jest względnie z folderu głównego)
 [deletes file or folder with specified path ("path" is relative from root folder)]
 usuwa plik lub folder z określonej ścieżki ("path" jest względnie z folderu głównego)
-;file \plugins\Dropbox\src\dropbox_commands.cpp
 [is file]
 jest plikiem
 [is empty]
 jest pusty
-["%s"command has invalid parameter.\nUse "/help" for more info.]
-polecenie "%s" ma błędny parametr.\Użyj "/help" po więcej informacji.
+["%s" command has invalid parameter.\nUse "/help" for more info.]
+Polecenie "%s" ma błędny parametr.\nUżyj "/help" po więcej informacji.
 [is not deleted]
 nie jest usunięty
 [is deleted]
@@ -75,8 +72,6 @@ nie jesteś jeszcze zautoryzowany
 Wyślij pliki do Dropbox'a
 [Network]
 Protokoły
-[Dropbox]
-Dropbox
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocols]
 Protokoły

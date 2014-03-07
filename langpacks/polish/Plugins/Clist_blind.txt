@@ -70,7 +70,7 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[Contact list]
+[Contact List]
 Lista kontaktów
 [System tray icon]
 Ikona w zasobniku
@@ -249,6 +249,8 @@ Grupa: %name% %count% [%mode%]
 Separator: %s
 [Info: %s]
 Info: %s
+[Contact list]
+Lista kontaktów
 [List]
 Lista
 ;file \plugins\Clist_blind\src\clistopts.cpp

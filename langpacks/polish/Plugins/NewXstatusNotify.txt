@@ -216,9 +216,9 @@ Odtwarzanie...
 [(M) is back online!]
 jest znowu Dostępny!
 [(F) is back online!]
-jest znowu Dostępna!
+jest znowu dostępna!
 [(U) is back online!]
-jest znowu Dostępny(-a)!
+jest znowu dostępny(-a)!
 [User: Online]
 Status: Dostępny
 [(M) went offline! :(]
@@ -254,13 +254,13 @@ zaraz wróci
 [User: Away]
 Status: Zaraz wracam
 [(M) isn't there anymore!]
-jest niedostępny!
+wróci później!
 [(F) isn't there anymore!]
-jest niedostępna!
+wróci później!
 [(U) isn't there anymore!]
-jest niedostępny(-a)!
+wróci później!
 [User: Not Available]
-Status: Niedostępny
+Status: Wrócę później
 [(M) has something else to do.]
 jest teraz zajęty.
 [(F) has something else to do.]
@@ -306,11 +306,11 @@ Status
 [User: from offline (has priority!)]
 Status: Z rozłączonego (ma priorytet!)
 [Extra status changed]
-Zmiana xStatusu
+xStatus: Zmiana statusu
 [Extra status message changed]
-Zmiana opisu xStatusu
+xStatus: Zmiana opisu
 [Extra status removed]
-Usunięcie xStatusu
+xStatus: Usunięcie
 [Toggle status notification]
 Przełącz powiadomienia o statusie
 ;file \plugins\NewXstatusNotify\src\options.cpp

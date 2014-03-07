@@ -542,7 +542,7 @@ Ustawienie ignorowanie ze względu na PNG.
 ;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
 [Integration]
 Integracja
-[Create statistics on Miranda NG's startup]
+[Create statistics on Miranda NG startup]
 Twórz statystyki podczas uruchamiania Mirandy NG
 [Add menu items to main menu]
 Dodaj element menu do menu głównego
@@ -706,9 +706,9 @@ Zawsze nadpisuj istniejące pliki (niebezpieczne!)
 Automatycznie otwórz statystyki po wygenerowaniu...
 [...via button "Create statistics" in options]
 ...za pomocą przycisku "Stwórz statystyki" w opcjach
-[...on Miranda NG's startup]
+[...on Miranda NG startup]
 ...podczas uruchamiania Mirandy NG
-[...via Miranda NG's main menu]
+[...via Miranda NG main menu]
 ...przez główne menu Mirandy NG
 [First sort by]
 Sortowanie wg
