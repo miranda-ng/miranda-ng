@@ -623,7 +623,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	InitFrames();
 
 	if ( Skin_GetIcon("LISTENING_TO_ICON") == NULL)
-		Icon_Register(hInst, LPGEN("Contact List"), iconList, 1);
+		Icon_Register(hInst, LPGEN("Contact list"), iconList, 1);
 
 	Icon_Register(hInst, LPGEN("My Details"), iconList+1, SIZEOF(iconList)-1);
 	return 0;

@@ -56,10 +56,10 @@ struct FontOptionsList
 	char       size;
 };
 
-#define CLCGROUP        LPGENT("Contact List")_T("/")LPGENT("Contact names")
-#define CLCLINESGROUP   LPGENT("Contact List")_T("/")LPGENT("Row items")
-#define CLCFRAMESGROUP  LPGENT("Contact List")_T("/")LPGENT("Frame texts")
-#define CLCCOLOURSGROUP LPGENT("Contact List")_T("/")LPGENT("Special colors")
+#define CLCGROUP        LPGENT("Contact list")_T("/")LPGENT("Contact names")
+#define CLCLINESGROUP   LPGENT("Contact list")_T("/")LPGENT("Row items")
+#define CLCFRAMESGROUP  LPGENT("Contact list")_T("/")LPGENT("Frame texts")
+#define CLCCOLOURSGROUP LPGENT("Contact list")_T("/")LPGENT("Special colors")
 
 #define DEFAULT_COLOUR     RGB(0, 0, 0)
 #define DEFAULT_GREYCOLOUR RGB(128, 128, 128)
@@ -1921,7 +1921,7 @@ int ModernOptInit(WPARAM wParam, LPARAM lParam)
 	obj.iBoldControls = iBoldControls;
 	obj.lptzSubsection = _T("Fonts");
 	obj.lpzClassicGroup = NULL;
-	obj.lpzClassicPage = "Contact List";
+	obj.lpzClassicPage = "Contact list";
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
 
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPTS);
@@ -1958,7 +1958,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
-	odp.pszTitle = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcClistListOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 
@@ -1973,7 +1973,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	if (g_CluiData.fDisableSkinEngine) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST_LISTBKG);
 		odp.pszGroup = LPGEN("Skins");
-		odp.pszTitle = LPGEN("Contact List");
+		odp.pszTitle = LPGEN("Contact list");
 		odp.pszTab = LPGEN("List background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;

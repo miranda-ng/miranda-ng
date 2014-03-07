@@ -565,11 +565,11 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
 	if (!lstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
-		GetTimeFormat(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT), 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
 	else if (!lstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
-		GetDateFormat(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT), 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
+		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
 	else if (!lstrcmp(ai->targv[0], VAR_STATDESC)) {

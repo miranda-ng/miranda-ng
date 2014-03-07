@@ -113,9 +113,12 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 	}
 }
 
-void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
+void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType, bool NoMessageBox)
 {	
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) ) {
+		if(NoMessageBox){
+			return;
+		}
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
 		if (db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {

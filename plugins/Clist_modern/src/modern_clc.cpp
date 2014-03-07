@@ -91,13 +91,13 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	sid.ptszDefaultFile = szMyPath;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	sid.pszSection = LPGEN("Contact List");
+	sid.pszSection = LPGEN("Contact list");
 	sid.pszDescription = LPGEN("Listening to");
 	sid.pszName = "LISTENING_TO_ICON";
 	sid.iDefaultIndex = -IDI_LISTENING_TO;
 	Skin_AddIcon(&sid);
 
-	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Avatar Overlay");
+	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Avatar Overlay");
 	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
 		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
@@ -105,7 +105,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 		Skin_AddIcon(&sid);
 	}
 
-	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Status Overlay");
+	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Status Overlay");
 	for (int i = 0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
 		sid.pszDescription = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
@@ -123,7 +123,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		rc.cbSize = sizeof(rc);
 		rc.name = "clist";
-		rc.dispname = Translate("Contact List smileys");
+		rc.dispname = Translate("Contact list smileys");
 
 		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
 

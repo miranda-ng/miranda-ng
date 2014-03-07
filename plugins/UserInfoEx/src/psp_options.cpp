@@ -209,7 +209,7 @@ static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDe
  **/
 static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
-	db_set_w(NULL, MODNAME, pszSetting, SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
+	db_set_dw(NULL, MODNAME, pszSetting, (DWORD)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
 }
 
 /**

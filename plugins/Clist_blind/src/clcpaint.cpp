@@ -127,11 +127,10 @@ static int GetGeneralisedStatus(void)
 
 static int GetRealStatus(struct ClcContact *contact, int status)
 {
-	int i;
 	char *szProto = contact->proto;
 	if (!szProto)
 		return status;
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
+	for (int i = 0; i < pcli->hClcProtoCount; i++) {
 		if (!lstrcmpA(pcli->clcProto[i].szProto, szProto)) {
 			return pcli->clcProto[i].dwStatus;
 		}
@@ -141,7 +140,6 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 {
-	HDC hdcMem;
 	RECT clRect;
 	int y, indent, index, fontHeight;
 	struct ClcGroup *group;
@@ -163,7 +161,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	if (IsRectEmpty(rcPaint))
 		return;
 	y = -dat->yScroll;
-	hdcMem = CreateCompatibleDC(hdc);
+	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
 	HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
 	{
@@ -182,27 +180,23 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 	SetBkMode(hdcMem, TRANSPARENT);
 	{
-		HBRUSH hBrush;
-
-		hBrush = CreateSolidBrush(tmpbkcolour);
+		HBRUSH hBrush = CreateSolidBrush(tmpbkcolour);
 		FillRect(hdcMem, rcPaint, hBrush);
 		DeleteObject(hBrush);
 		if (dat->hBmpBackground) {
-			BITMAP bmp;
-			HDC hdcBmp;
 			int x, y;
-			int maxx, maxy;
 			int destw, desth;
 
 			// XXX: Halftone isnt supported on 9x, however the scretch problems dont happen on 98.
 			SetStretchBltMode(hdcMem, HALFTONE);
 
+			BITMAP bmp;
 			GetObject(dat->hBmpBackground, sizeof(bmp), &bmp);
-			hdcBmp = CreateCompatibleDC(hdcMem);
+			HDC hdcBmp = CreateCompatibleDC(hdcMem);
 			SelectObject(hdcBmp, dat->hBmpBackground);
 			y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
-			maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-			maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
+			int maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
+			int maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
 			switch (dat->backgroundBmpUse & CLBM_TYPE) {
 			case CLB_STRETCH:
 				if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
@@ -524,28 +518,24 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	if (hBrushAlternateGrey)
 		DeleteObject(hBrushAlternateGrey);
 	if (grey) {
-		PBYTE bits;
 		BITMAPINFOHEADER bmih = { 0 };
-		int i;
-		int greyRed, greyGreen, greyBlue;
-		COLORREF greyColour;
 		bmih.biBitCount = 32;
 		bmih.biSize = sizeof(bmih);
 		bmih.biCompression = BI_RGB;
 		bmih.biHeight = -clRect.bottom;
 		bmih.biPlanes = 1;
 		bmih.biWidth = clRect.right;
-		bits = (PBYTE) malloc(4 * bmih.biWidth * -bmih.biHeight);
+		PBYTE bits = (PBYTE) malloc(4 * bmih.biWidth * -bmih.biHeight);
 		GetDIBits(hdc, hBmpOsb, 0, clRect.bottom, bits, (BITMAPINFO *) & bmih, DIB_RGB_COLORS);
-		greyColour = GetSysColor(COLOR_3DFACE);
-		greyRed = GetRValue(greyColour) * 2;
-		greyGreen = GetGValue(greyColour) * 2;
-		greyBlue = GetBValue(greyColour) * 2;
+		COLORREF greyColour = GetSysColor(COLOR_3DFACE);
+		int greyRed = GetRValue(greyColour) * 2;
+		int greyGreen = GetGValue(greyColour) * 2;
+		int greyBlue = GetBValue(greyColour) * 2;
 		if (divide3[0] == 255) {
-			for (i = 0; i < SIZEOF(divide3); i++)
+			for (int i = 0; i < SIZEOF(divide3); i++)
 				divide3[i] = (i + 1) / 3;
 		}
-		for (i = 4 * clRect.right * clRect.bottom - 4; i >= 0; i -= 4) {
+		for (int i = 4 * clRect.right * clRect.bottom - 4; i >= 0; i -= 4) {
 			bits[i] = divide3[bits[i] + greyBlue];
 			bits[i + 1] = divide3[bits[i + 1] + greyGreen];
 			bits[i + 2] = divide3[bits[i + 2] + greyRed];

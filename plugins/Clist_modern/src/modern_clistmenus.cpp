@@ -180,7 +180,7 @@ INT_PTR FAV_ToggleShowOffline(WPARAM hContact,LPARAM lParam)
 
 int LoadFavoriteContactMenu()
 {
-	Icon_Register(g_hInst, "Contact List", iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, SIZEOF(iconList));
 
 	CreateServiceFunction(CLUI_FAVSETRATE,FAV_SetRate);
 	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE,FAV_ToggleShowOffline);

@@ -244,7 +244,7 @@ int static OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 
 void GroupMenus_Init(void)
 {
-	Icon_Register(g_hInst, "Contact List", &iconItem, 1);
+	Icon_Register(g_hInst, LPGEN("Contact list"), &iconItem, 1);
 
 	HICON hIcon = Skin_GetIconByHandle(iconItem.hIcolib);
 	NewGroupIconidx = hIcon ? ImageList_AddIcon(hCListImages, hIcon) : -1;

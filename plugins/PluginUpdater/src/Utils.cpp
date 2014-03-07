@@ -211,7 +211,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 
 	// Download version info
 	if (!opts.bSilent)
-		ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Checking new updates..."), 2, 0);
+		ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Checking new updates..."), 2, 0, true);
 
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);

@@ -23,12 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "commonheaders.h"
 
-INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
+INT_PTR CloseAction(WPARAM,LPARAM)
 {
 	if (CallService(MS_SYSTEM_OKTOEXIT,0,0))
 		DestroyWindow(pcli->hwndContactList);
 
-	return(0);
+	return 0;
 }
 
 void InitCustomMenus()

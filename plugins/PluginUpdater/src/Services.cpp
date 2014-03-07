@@ -40,14 +40,14 @@ static INT_PTR srvParseHashes(WPARAM wParam, LPARAM lParam)
 	return NULL;
 }
 
-static INT_PTR srvFreeHashes(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvFreeHashes(WPARAM, LPARAM lParam)
 {
 	SERVLIST *pList = (SERVLIST*)lParam;
 	delete pList;
 	return 0;
 }
 
-static INT_PTR srvGetHashCount(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvGetHashCount(WPARAM, LPARAM lParam)
 {
 	SERVLIST *pList = (SERVLIST*)lParam;
 	return (pList == NULL) ? 0 : pList->getCount();

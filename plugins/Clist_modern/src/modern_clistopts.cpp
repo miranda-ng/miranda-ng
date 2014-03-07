@@ -943,7 +943,7 @@ int CListOptInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -200000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ITEMS);
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTitle = LPGEN("Row items");
 	odp.flags = ODPF_BOLDGROUPS;
 
