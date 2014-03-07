@@ -42,6 +42,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	DBEvent dbe;
 	dbe.signature = DBEVENT_SIGNATURE;
+	dbe.contactID = contactID;
 	dbe.timestamp = dbei->timestamp;
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;

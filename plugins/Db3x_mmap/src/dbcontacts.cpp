@@ -257,6 +257,7 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			if (pev->signature != DBEVENT_SIGNATURE) // broken chain, don't touch it
 				return 2;
 
+			pev->contactID = ccSub->contactID; 
 			arEvents.insert(pev);
 			ofsSub = pev->ofsNext;
 		}
