@@ -30,8 +30,8 @@ Automatycznie dodaj kontakty do listy serwera podczas logowania
 Automatycznie udziel autoryzacji kontaktom na liście
 [Automatically grant authorization to new users]
 Automatycznie udziel autoryzacji nowym kontaktom
-[Automatic authorization on mail.ru web services]
-Automatyczne autoryzuj usługi internetowe na mail.ru
+[Automatic authorization on Mail.ru web services]
+Automatyczne autoryzuj usługi internetowe na Mail.ru
 [Notify me when a message delivery has failed]
 Powiadom mnie jeśli nie uda się dostarczyć wiadomości
 [Notify about new mail if increment]

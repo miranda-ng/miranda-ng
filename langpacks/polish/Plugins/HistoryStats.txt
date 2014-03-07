@@ -118,7 +118,7 @@ Czas trwania rozmowy
 [Suma] #{amount}
 ;file \plugins\HistoryStats\src\column_chatduration.h
 [Column holding the amount of time you have chatted with the given contact.]
-Graficzny podgląd akcji w czasie rozmowy z danym kontaktem.
+Graficzny podgląd czasu rozmowy z danym kontaktem.
 ;file \plugins\HistoryStats\src\column_events.cpp
 [Events to count]
 Zdarzenia do sumowania
@@ -150,13 +150,13 @@ Wychodzące pliki
 [Events]
 Zdarzenia
 [Column holding event counts for incoming, outgoing or total number of files or URLs.]
-Graficzny podgląd liczby zdarzeń dla przychodzących, wychodzących lub łączna liczba plików lub linków.
+Podgląd liczby zdarzeń dla przychodzących, wychodzących lub łączna liczba plików lub linków.
 ;file \plugins\HistoryStats\src\column_group.cpp
 [Group]
 Grupa
 ;file \plugins\HistoryStats\src\column_group.h
 [Column holding the contact list's group name the contact is in.]
-Graficzny podgląd nazwy grupy listy kontaktów.
+Podgląd nazwy grupy kontaktów.
 ;file \plugins\HistoryStats\src\column_inout.cpp
 [Data source]
 Źródło danych
@@ -236,7 +236,7 @@ Przychodzących
 [In/out graph]
 Wykres przych. / wych.
 [Column holding in/out bar graphs for characters, messages or chats.]
-Graficzny podgląd przych. / wych. słupków dla znaków, wiadomości lub rozmów.
+Graficzny podgląd przychodzących / wychodzących znaków, wiadomości lub rozmów w słupkach.
 ;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
 Czas pierwszej / ostatniej wiadomości (tooltip)
@@ -262,7 +262,7 @@ Graficzny podgląd nicku kontaktu i czasu pierwszej / ostatniej wiadomości jeś
 Protokół
 ;file \plugins\HistoryStats\src\column_protocol.h
 [Column holding the contact's protocol.]
-Graficzny podgląd kontaktów protokołu.
+Podgląd protokołu kontaktów.
 ;file \plugins\HistoryStats\src\column_rank.cpp
 [Rank]
 Numer
@@ -360,7 +360,7 @@ zestawienie przych. / wych. wiadomości
 zestawienie przych. / wych. rozmów
 ;file \plugins\HistoryStats\src\column_splittimeline.h
 [Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.]
-Graficzny podgląd zachowań w rozmowie (wychodzące, przychodzące, wszystkie, zestawienie przych. / wych.) od pierwszego do ostatniego dnia historii. Informacje znajdują się wzdłuż osi x i osi y i wartości są zakodowane jako wartości kolorów. Środki zachowania różnych rozmów są dostępne.
+Graficzny podgląd zachowań w rozmowie (wychodzące, przychodzące, wszystkie, zestawienie) od pierwszego do ostatniego dnia historii. Informacje znajdują się wzdłuż osi x i osi y i wartości są zakodowane jako wartości kolorów. Środki zachowania różnych rozmów są dostępne.
 ;file \plugins\HistoryStats\src\column_timeline.cpp
 [Timeline for #{data}]
 Harmonogram dla #{data}
@@ -376,7 +376,7 @@ Harmonogram
 [#{date}] #{out_amount} (wychodzących) / #{in_amount} (przychodzących)
 ;file \plugins\HistoryStats\src\column_timeline.h
 [Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.]
-Graficzny podgląd rozmowy w podziale na wychodzące, przychodzące, wszystkie, przych. / wych. ratio. Różnica ilości rozmów jest dostępna.
+Graficzny podgląd rozmowy (w podziale na wychodzące, przychodzące, wszystkie oraz ich zestawienie) pierwszego do ostatniego dnia historii. Ilość dni można grupować. Różnne środki zachowania rozmowy są dostępne.
 ;file \plugins\HistoryStats\src\column_wordcount.cpp
 [Word count type]
 Typ liczby słów
@@ -402,7 +402,7 @@ Wyraźna liczba słów
 [Word count]
 Licznik słów
 [Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
-Graficzny podgląd liczby słów użytych przez użytkownika, przez kontakt lub obu.
+Podgląd liczby słów użytych przez użytkownika, przez kontakt lub obu.
 ;file \plugins\HistoryStats\src\column_words.cpp
 [Words type]
 Typ słów
@@ -428,7 +428,7 @@ Koloruj słowa zgodnie z zestawieniem przych. / wych.
 [Words]
 Słowa
 [Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
-Graficzny podgląd listy dla specyficznej liczby najbardziej / najmniej popularnych słów lub najdłuższe słowa użyte przez użytkownika, kontakt lub obu.
+Podgląd listy dla specyficznej liczby najbardziej / najmniej popularnych słów lub najdłuższe słowa użyte przez użytkownika, kontakt lub obu.
 ;file \plugins\HistoryStats\src\contact.cpp
 [(multiple)]
 (wieloraki)

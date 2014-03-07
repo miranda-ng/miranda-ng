@@ -281,7 +281,6 @@ Wiszę na telefonie od %nas_awaysince_time%, daj mi sekundkę!
 Na obiedzie
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 [Jem ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,kolację,obiad),śniadanie),kolację) od %nas_awaysince_time%.]
-
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle On]
 Włącz przełączanie

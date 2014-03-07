@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: actman.dll
 ;  Plugin: Action Manager
-;  Version: 0.2.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]

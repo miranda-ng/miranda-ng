@@ -14,7 +14,7 @@ Aby umożliwić dostęp Miranda NG na koncie Dropbox:
 [Go to this link]
 Otwórz link
 [and allow access to files in apps folder]
-i umożliwia dostęp do plików w folderze apps 
+i umożliw dostęp do plików w folderze apps
 [Enter the security code ]
 Wpisz kod zabezpieczający 
 [Click authorize button]
@@ -24,9 +24,9 @@ Autoryzuj
 [Other]
 Inne
 [Use shortened share links]
-Użyj skróconych linków do udostępnienia
+Użyj skróconych linków do udostępniania
 [Enter code]
-Wpisz kod 
+Wpisz kod
 [Enter code below:]
 Wpisz kod poniżej:
 [OK]
@@ -76,7 +76,7 @@ Link do pobrania pliku "%s": %s
 Link do pobrania folderu "%s": %s
 ;file \plugins\Dropbox\src\dropbox_utils.cpp
 [Ok]
-OK
+Ok
 [Bad input parameter. Error message should indicate which one and why]
 Niepoprawny parametr wejścia. Komunikat o błędzie powinien wskazać, który i dlaczego
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]

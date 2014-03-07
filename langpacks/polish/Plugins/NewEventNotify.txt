@@ -91,7 +91,7 @@ Strona WWW ICQ
 [ICQ Email express]
 Adres e-mail ICQ
 [SMS Message]
-
+Wiadomość SMS
 [SMS Confirmation]
 Potwierdzenie SMS
 [Unknown Event]
