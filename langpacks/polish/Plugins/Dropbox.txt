@@ -9,12 +9,13 @@
 Zapewnia możliwość wysłania plików do Dropbox'a.
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
+Autoryzacja
 [To allow Miranda NG access in your Dropbox account:]
 Aby umożliwić dostęp Miranda NG na koncie Dropbox:
 [Go to this link]
 Otwórz link
-[and allow access to files in apps folder]
-i umożliw dostęp do plików w folderze apps
+[allow access to files in apps folder and copy the security code]
+umożliwia dostęp do plików w folderze apps i kopiuje kod zabezpieczający
 [Enter the security code ]
 Wpisz kod zabezpieczający 
 [Click authorize button]
@@ -25,6 +26,8 @@ Autoryzuj
 Inne
 [Use shortened share links]
 Użyj skróconych linków do udostępniania
+[Check status of authorization]
+Sprawdź stan autoryzacji
 [Enter code]
 Wpisz kod
 [Enter code below:]
@@ -36,24 +39,37 @@ Anuluj
 ;file \plugins\Dropbox\src\dropbox.cpp
 [You have been authorized]
 Zostałeś zautoryzowany
-[Are you sure you want to request authorization?]
-Czy na pewno chcesz poprosić o autoryzację?
-[Request authorization]
-Poproś o autoryzację
-[Are you sure you want to revoke authorization?]
-Czy na pewno chcesz cofnąć autoryzację?
-[Revoke authorization]
-Cofnij autoryzację
+[in process...]
+w toku...
+[you have been authorized]
+zostałeś zautoryzowany
+[unknown error]
+nieznany błąd
+;file \plugins\Dropbox\src\dropbox_commands.cpp
+[Dropbox supports the following commands:]
+Dropbox obsługuje następujące polecenia:
+[shows all files in folder "dir" ("dir" can be omitted for root folder)]
+pokazuje wszystkie pliki w folderze "dir" ("dir" może być pominięty dla folderu głównego)
+[returns download link for file or folder with specified path ("path" is relative from root folder)]
+zwraca link do pobrania pliku lub folderu z określonej ścieżki ("path" jest względnie z folderu głównego)
+[deletes file or folder with specified path ("path" is relative from root folder)]
+usuwa plik lub folder z określonej ścieżki ("path" jest względnie z folderu głównego)
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
 [is file]
 jest plikiem
 [is empty]
 jest pusty
+["%s"command has invalid parameter.\nUse "/help" for more info.]
+polecenie "%s" ma błędny parametr.\Użyj "/help" po więcej informacji.
 [is not deleted]
 nie jest usunięty
 [is deleted]
 jest usunięty
 ;file \plugins\Dropbox\src\dropbox_dialogs.cpp
+[you are already authorized]
+jesteś już zautoryzowany
+[you are not authorized yet]
+nie jesteś jeszcze zautoryzowany
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 [Send files to Dropbox]
 Wyślij pliki do Dropbox'a
@@ -67,6 +83,11 @@ Protokoły
 [Protocol icon]
 Ikona protokołu
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
+;file \plugins\Dropbox\src\dropbox_services.cpp
+[Unknown command "%s".\nUse "/help" for more info.]
+Nieznane polecenie"%s".\nUżyj "/help" po więcej informacji.
+["%s" is not valid.\nUse "/help" for more info.]
+"%s" nie jest ważny.\nUżyj "/help" po więcej informacji.
 ;file \plugins\Dropbox\src\dropbox_transfers.cpp
 [Server does not respond]
 Serwer nie odpowiada
