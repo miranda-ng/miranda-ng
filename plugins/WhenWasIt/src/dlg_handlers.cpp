@@ -678,7 +678,7 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 				hContact = (MCONTACT)item.lParam;
 				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 				if (hMenu != NULL) {
-					TrackPopupMenu(hMenu, TPM_RIGHTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
+					CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU), hContact);
 					DestroyMenu(hMenu);
 				}
 				break;
@@ -764,24 +764,15 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		{
 			MCONTACT hContact = wParam;
 			HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
-			int i;
-			int count = ListView_GetItemCount(hList);
-			//int bShowCurrentAge = db_get_b(NULL, ModuleName, "ShowCurrentAge", 0);
-			LVITEM item = { 0 };
-			int found = 0;
+			LVFINDINFO fi = { 0 };
 
-			item.mask = LVIF_PARAM;
-			for (i = 0; (i < count) && (!found); i++) {
-				item.iItem = i;
-				ListView_GetItem(hList, &item);
-				if (hContact == (MCONTACT)item.lParam) {
-					UpdateBirthdayEntry(hList, hContact, i, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 0);
-					found = 1;
-				}
-			}
-			if (!found)
-				UpdateBirthdayEntry(hList, hContact, count, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 1);
-
+			fi.flags = LVFI_PARAM;
+			fi.lParam = (LPARAM)hContact;
+			int idx = ListView_FindItem(hList, -1, &fi);
+			if (-1 == idx)
+				UpdateBirthdayEntry(hList, hContact, ListView_GetItemCount(hList), IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 1);
+			else
+				UpdateBirthdayEntry(hList, hContact, idx, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 0);
 			SetBirthdaysCount(hWnd);
 		}
 		break;
@@ -849,25 +840,6 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 }
 
 
-INT_PTR CALLBACK UpcomingCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
-{
-	HWND hList = GetDlgItem(hUpcomingDlg, IDC_UPCOMING_LIST);
-	LVITEM item = { 0 };
-	item.iItem = (int)lParam1;
-	item.mask = LVIF_PARAM;
-	ListView_GetItem(hList, &item);
-	int dtb1 = item.lParam;
-
-	item.iItem = (int)lParam2;
-	ListView_GetItem(hList, &item);
-	int dtb2 = item.lParam;
-
-	if (dtb1 != dtb2)
-		return (dtb1 > dtb2) ? 1 : -1;
-
-	return 0;
-}
-
 INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int timeout;
@@ -875,8 +847,8 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			timeout = commonData.cDlgTimeout;
 			TranslateDialogDefault(hWnd);
+			timeout = commonData.cDlgTimeout;
 			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hListMenu));
 			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
 
@@ -889,11 +861,17 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			col.cx = 300;
 			ListView_InsertColumn(hList, 0, &col);
 			col.pszText = TranslateT("Age");
-			col.cx = 60;
+			col.cx = 45;
 			ListView_InsertColumn(hList, 1, &col);
+			col.pszText = TranslateT("DTB");
+			col.cx = 45;
+			ListView_InsertColumn(hList, 2, &col);
+		
+			ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE);
 
 			if (timeout > 0)
 				SetTimer(hWnd, UPCOMING_TIMER_ID, 1000, NULL);
+			Utils_RestoreWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
 		}
 		return TRUE;
 
@@ -922,23 +900,27 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			LVFINDINFO fi = { 0 };
 
 			fi.flags = LVFI_PARAM;
-			fi.lParam = (LPARAM)data->dtb;
+			fi.lParam = (LPARAM)data->hContact;
 			if (-1 != ListView_FindItem(hList, -1, &fi))
 				return 0; /* Allready in list. */
 
 			int index = ListView_GetItemCount(hList);
 			item.iItem = index;
 			item.mask = LVIF_PARAM | LVIF_TEXT;
-			//item.lParam = (LPARAM) data->hContact;
-			item.lParam = (LPARAM)data->dtb;
+			item.lParam = (LPARAM)data->hContact;
 			item.pszText = data->message;
 			ListView_InsertItem(hList, &item);
 
 			TCHAR buffer[512];
-			mir_sntprintf(buffer, 512, _T("%d"), data->age);
+			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), data->age);
 			ListView_SetItemText(hList, index, 1, buffer);
+			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), data->dtb);
+			ListView_SetItemText(hList, index, 2, buffer);
 
-			ListView_SortItemsEx(hList, UpcomingCompare, NULL);
+			BirthdaysSortParams params = { 0 };
+			params.hList = hList;
+			params.column = 2;
+			ListView_SortItemsEx(hList, BirthdaysCompare, (LPARAM)&params);
 		}
 		break;
 
@@ -948,9 +930,34 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
 			break;
 		}
+		break;
+
+	case WM_GETMINMAXINFO:
+		((LPMINMAXINFO)lParam)->ptMinTrackSize.x = 400; 
+		((LPMINMAXINFO)lParam)->ptMinTrackSize.y = 160;
+		((LPMINMAXINFO)lParam)->ptMaxTrackSize.x = 600; 
+		((LPMINMAXINFO)lParam)->ptMaxTrackSize.y = 530;
+		break;
+
+	case WM_SIZE:
+		{
+			int cx, cy;
+			RECT rcWin;
+			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
+			GetWindowRect(hWnd, &rcWin);
+			
+			cx = rcWin.right - rcWin.left;
+			cy = rcWin.bottom - rcWin.top;
+			SetWindowPos(hList, NULL, 0, 0, (cx - 30), (cy - 80), (SWP_NOZORDER | SWP_NOMOVE));
+			ListView_SetColumnWidth(hList, 0, (cx - 150));
+			SetWindowPos(GetDlgItem(hWnd, IDC_CLOSE), NULL, ((cx / 2) - 95), (cy - 67), 0, 0, SWP_NOSIZE);
+			RedrawWindow(hWnd, NULL, NULL, (RDW_FRAME | RDW_INVALIDATE));
+		}
+		break;
 
 	case WM_DESTROY:
 		hUpcomingDlg = NULL;
+		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
 		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
 		KillTimer(hWnd, UPCOMING_TIMER_ID);
 		break;
