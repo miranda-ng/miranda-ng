@@ -83,7 +83,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,72,263,8
     CONTROL         "Automatically grant authorization to new users",IDC_AUTO_AUTH_GRAND_NEW_USERS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,83,263,8
-    CONTROL         "Automatic authorization on mail.ru web services",IDC_AUTO_AUTH_ON_WEB_SVCS,
+    CONTROL         "Automatic authorization on Mail.ru web services",IDC_AUTO_AUTH_ON_WEB_SVCS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,94,263,8
     CONTROL         "Notify me when a message delivery has failed",IDC_SLOWSEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,107,263,8
