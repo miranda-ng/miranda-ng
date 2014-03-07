@@ -220,7 +220,7 @@ void DlgOption::SubGlobal::onWMInitDialog()
 	OptionsCtrl::Item hTemp;
 
 	hTemp = m_Options.insertGroup(NULL, TranslateT("Integration"), OptionsCtrl::OCF_ROOTGROUP);
-	m_hOnStartup = m_Options.insertCheck(hTemp, TranslateT("Create statistics on Miranda NG's startup"));
+	m_hOnStartup = m_Options.insertCheck(hTemp, TranslateT("Create statistics on Miranda NG startup"));
 	m_hShowMainMenu = m_Options.insertCheck(hTemp, TranslateT("Add menu items to main menu"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 	m_hShowMainMenuSub = m_Options.insertCheck(m_hShowMainMenu, TranslateT("Put menu items into submenu"));
 	m_hShowContactMenu = m_Options.insertCheck(hTemp, TranslateT("Add menu items to contact menu"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
