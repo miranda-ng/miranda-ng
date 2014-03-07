@@ -236,7 +236,7 @@ LBL_Error:
 	return FALSE;
 }
 
-static INT_PTR ChangePassword(void* obj, LPARAM, LPARAM)
+static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 	DlgChangePassParam param = { db };
