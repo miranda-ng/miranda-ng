@@ -85,6 +85,9 @@ private:
 
 	static UINT RequestAcceessTokenAsync(void *owner, void* param);
 
+	// account info
+	void RequestAccountInfo();
+
 	// transrers
 	static int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);
 

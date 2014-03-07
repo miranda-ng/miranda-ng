@@ -58,69 +58,154 @@ bool CDropbox::HasAccessToken()
 	return db_get_sa(NULL, MODULE, "TokenSecret") != NULL;
 }
 
-void CDropbox::RequestAcceessToken()
+//void CDropbox::RequestAcceessToken()
+//{
+//	ShellExecuteA(NULL, "open", DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY, NULL, NULL, SW_SHOWDEFAULT);
+//
+//	char request_token[128] = { 0 };
+//
+//	if (DialogBoxParam(
+//		g_hInstance,
+//		MAKEINTRESOURCE(IDD_TOKEN_REQUEST),
+//		NULL,
+//		CDropbox::TokenRequestProc,
+//		(LPARAM)&request_token) == IDOK)
+//	{
+//		char data[1024];
+//		mir_snprintf(
+//			data,
+//			SIZEOF(data),
+//			"grant_type=authorization_code&code=%s",
+//			request_token);
+//
+//		HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
+//		request->pData = mir_strdup(data);
+//		request->dataLength = (int)strlen(data);
+//		request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+//		request->AddBasicAuthHeader(DROPBOX_API_KEY, DROPBOX_API_SECRET);
+//
+//		mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
+//
+//		delete request;
+//
+//		MCONTACT hContact = CDropbox::GetDefaultContact();
+//
+//		if (response)
+//		{
+//			JSONNODE *root = json_parse(response->pData);
+//			if (root)
+//			{
+//				if (response->resultCode == HTTP_STATUS_OK)
+//				{
+//					JSONNODE *node = json_get(root, "access_token");
+//					ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
+//					db_set_s(NULL, MODULE, "TokenSecret", access_token);
+//
+//					if (hContact)
+//					{
+//						if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+//							db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
+//					}
+//
+//					CDropbox::ShowNotification(TranslateT("You have been authorized"), MB_ICONINFORMATION);
+//				}
+//				else
+//				{
+//					JSONNODE *node = json_get(root, "error_description");
+//					ptrW error_description(json_as_string(node));
+//
+//					CDropbox::ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+//				}
+//			}
+//		}
+//		else
+//			HandleFileTransferError(response, hContact);
+//	}
+//}
+
+void CDropbox::RequestAccountInfo()
 {
-	ShellExecuteA(NULL, "open", DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY, NULL, NULL, SW_SHOWDEFAULT);
+	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_GET, DROPBOX_API_URL "/account/info");
+	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
+	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
 
-	char request_token[128] = { 0 };
+	delete request;
 
-	if (DialogBoxParam(
-		g_hInstance,
-		MAKEINTRESOURCE(IDD_TOKEN_REQUEST),
-		NULL,
-		CDropbox::TokenRequestProc,
-		(LPARAM)&request_token) == IDOK)
+	MCONTACT hContact = CDropbox::GetDefaultContact();
+
+	if (response)
 	{
-		char data[1024];
-		mir_snprintf(
-			data,
-			SIZEOF(data),
-			"grant_type=authorization_code&code=%s",
-			request_token);
-
-		HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
-		request->pData = mir_strdup(data);
-		request->dataLength = (int)strlen(data);
-		request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-		request->AddBasicAuthHeader(DROPBOX_API_KEY, DROPBOX_API_SECRET);
-
-		mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
-
-		delete request;
-
-		MCONTACT hContact = CDropbox::GetDefaultContact();
-
-		if (response)
+		JSONNODE *root = json_parse(response->pData);
+		if (root)
 		{
-			JSONNODE *root = json_parse(response->pData);
-			if (root)
+			if (response->resultCode == HTTP_STATUS_OK)
 			{
-				if (response->resultCode == HTTP_STATUS_OK)
+				JSONNODE *node = json_get(root, "referral_link");
+				if (node)
 				{
-					JSONNODE *node = json_get(root, "access_token");
-					ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
-					db_set_s(NULL, MODULE, "TokenSecret", access_token);
-
-					if (hContact)
-					{
-						if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-							db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
-					}
-
-					CDropbox::ShowNotification(TranslateT("You have been authorized"), MB_ICONINFORMATION);
+					ptrW referral_link = ptrW(json_as_string(node));
+					db_set_ws(hContact, MODULE, "Homepage", referral_link);
 				}
-				else
-				{
-					JSONNODE *node = json_get(root, "error_description");
-					ptrW error_description(json_as_string(node));
 
-					CDropbox::ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+				node = json_get(root, "display_name");
+				if (node)
+				{
+					ptrW display_name = ptrW(json_as_string(node));
+					wchar_t *sep = wcsrchr(display_name, L' ');
+					if (sep)
+					{
+						db_set_ws(hContact, MODULE, "LastName", sep + 1);
+						display_name[wcslen(display_name) - wcslen(sep)] = '\0';
+						db_set_ws(hContact, MODULE, "FirstName", display_name);
+					}
+					else
+					{
+						db_set_ws(hContact, MODULE, "FirstName", display_name);
+						db_unset(hContact, MODULE, "LastName");
+					}
+				}
+
+				node = json_get(root, "country");
+				if (node)
+				{
+					ptrW isocodeW(json_as_string(node));
+					ptrA isocode(mir_u2a(isocodeW));
+
+					if (!strlen(isocode))
+						db_unset(hContact, MODULE, "Country");
+					else
+					{
+						char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
+						db_set_s(hContact, MODULE, "Country", country);
+					}
+				}
+
+				node = json_get(root, "quota_info");
+				root = json_as_node(node);
+				if (root)
+				{
+					node = json_get(root, "shared");
+					if (node)
+						db_set_dw(hContact, MODULE, "SharedQuota", json_as_int(node));
+					node = json_get(root, "normal");
+					if (node)
+						db_set_dw(hContact, MODULE, "NormalQuota", json_as_int(node));
+					node = json_get(root, "quota");
+					if (node)
+						db_set_dw(hContact, MODULE, "TotalQuota", json_as_int(node));
 				}
 			}
+			/*else
+			{
+			JSONNODE *node = json_get(root, "error_description");
+			ptrW error_description(json_as_string(node));
+
+			CDropbox::ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+			}*/
 		}
-		else
-			HandleFileTransferError(response, hContact);
 	}
+	//else
+	//	HandleFileTransferError(response, hContact);
 }
 
 void CDropbox::DestroyAcceessToken()
@@ -190,6 +275,8 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 						db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
 				}
 
+				instance->RequestAccountInfo();
+
 				if (hwndDlg)
 					SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you have been authorized"));
 				else
@@ -212,7 +299,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("unknown error"));
 		else
-		HandleFileTransferError(response, hContact);
+			HandleFileTransferError(response, hContact);
 	}
 
 	SetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, "");

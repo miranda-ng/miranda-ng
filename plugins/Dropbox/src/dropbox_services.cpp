@@ -172,20 +172,6 @@ INT_PTR CDropbox::ProtoReceiveMessage(void *obj, WPARAM, LPARAM lParam)
 	return 0;
 }
 
-//INT_PTR CDropbox::RequestApiAuthorization(WPARAM, LPARAM)
-//{
-//	mir_forkthread(CDropbox::RequestApiAuthorizationAsync, 0);
-//
-//	return 0;
-//}
-//
-//INT_PTR CDropbox::RevokeApiAuthorization(WPARAM, LPARAM)
-//{
-//	mir_forkthread(CDropbox::RevokeApiAuthorizationAsync, 0);
-//
-//	return 0;
-//}
-
 INT_PTR CDropbox::SendFilesToDropbox(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;

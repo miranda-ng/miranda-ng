@@ -15,6 +15,8 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam)
 
 	instance->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
+	instance->GetDefaultContact();
+
 	if (ServiceExists(MS_BB_ADDBUTTON))
 	{
 		BBButton bbd = { sizeof(bbd) };
