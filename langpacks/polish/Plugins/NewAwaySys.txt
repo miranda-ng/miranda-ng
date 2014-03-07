@@ -53,7 +53,7 @@ Za&jęty
 [&DND]
 &Nie przeszkadzać
 [&Free for chat]
-&chętny do rozmowy
+&Chętny do rozmowy
 [&Other]
 &Inne
 [Log to a file only when popup notification for a contact is enabled]
@@ -75,7 +75,7 @@ Odpowiadaj tylko, gdy okno rozmowy kontaktu jest zamknięte
 [Send maximum]
 Wyślij maksimum
 [times (-1=infinite)]
-razy (-1=nieskończenie)
+razy (-1 = nieskończenie)
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
 Resetuj ten licznik także wtedy, gdy tylko zmieniam opis\n(ikona statusu pozostaje taka sama)
 [Disable autoreply when...]
@@ -123,11 +123,11 @@ Skonfiguruj automatyczny status zaraz wracam
 [Wait]
 Odczekaj
 [seconds before closing the status message dialog (-1=don't close)]
-sekund przed zamknięciem okna opisu (-1=nie zamykaj)
+sekund przed zamknięciem okna opisu (-1 = nie zamykaj)
 [Store]
 Zachowaj
 [most recent messages (0=disable)]
-ostatnich opisów (0=wyłączone)
+ostatnich opisów (0 = wyłączone)
 [Store for each status separately]
 Zachowuj osobno dla każdego statusu
 [Use default...]
@@ -155,7 +155,7 @@ Aktualizuj opisy w protokołach innych niż ICQ co
 [seconds]
 s
 [Don't show the message dialog for]
-Nie pokazuj okna opisu przez
+Nie pokazuj okna opisu dla
 [%s message for %s]
 Opis statusu "%s" - %s
 [Retrieving %s message...]
@@ -222,7 +222,7 @@ Plików
 [** All contacts **]
 ** Wszystkie kontakty **
 [** Not-on-list contacts **]
-** Kontakty spoza listy **
+** Nieznane kontakty **
 [Status messages]
 Opisy
 [Main options]
@@ -242,7 +242,7 @@ Fraguję od %nas_awaysince_time%, odezwę się później, gdy adrenalina spadnie
 [Creepy]
 Straszne
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
-Twój pan, %nas_mynick%, %nas_statdesc% od dnia, który znany jest jedynie jako %nas_Awaysince_Date%... Gdy powróci, powiem mu, że wpadłeś...
+Twój pan, %nas_mynick%, ma status %nas_statdesc% od ?nas_awaysince_date(dddd)... Gdy powróci, powiem mu, że pisałeś...
 [Default messages]
 Domyślne opisy
 [Online]
@@ -313,23 +313,23 @@ Ignoruj prośby o opis od tego kontaktu i nie wysyłaj autoodpowiedzi.\r\nWłąc
 [Ignore status message requests from this contact and don't send an autoreply]
 Ignoruj prośby o opis od tego kontaktu i nie wysyłaj autoodpowiedzi.
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
-Away since Time w formacie domyślnym; ?nas_awaysince_time(x) w formacie x
+czas bezczynności w formacie domyślnym; ?nas_awaysince_time(x) w formacie x
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
-Away since Date w formacie domyślnym; ?nas_awaysince_date(x) w formacie x
+data bezczynności w formacie domyślnym; ?nas_awaysince_date(x) w formacie x
 [Status description]
-Opis statusu
+opis statusu
 [Your nick for current protocol]
-Twój nick w obecnym protokole
+twój nick w obecnym protokole
 [Number of status message requests from the contact]
-Liczba próśb o opis od kontaktu
+liczba próśb o opis od kontaktu
 [Number of messages from the contact]
-Liczba wiadomości od kontaktu
+liczba wiadomości od kontaktu
 [Time passed until request]
-Pozostały czas do prośby
+pozostały czas do prośby
 [Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-Zwraca jeden z twoich szablonów opisów po jego tytule ?nas_predefinedmessage(straszne)
+zwraca jeden z twoich szablonów opisów po jego tytule ?nas_predefinedmessage(straszne)
 [Current protocol name]
-Nazwa aktualnego protokołu
+nazwa aktualnego protokołu
 [Stranger]
 Obcy
 [%d hours]
@@ -354,9 +354,9 @@ NewAwaySys: przychodząca prośba o opis
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) przeczytaj swój %nas_statdesc% opis:\r\n%extratext%\r\n\r\n]
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]
-
+Autoodpowiedź >\r\n%extratext%
 [extended status]
-XStatus
+xStatus
 [Away System]
 Away system
 [Status]
@@ -369,7 +369,7 @@ Wtyczka Variables nie jest zainstalowana
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Dokonałeś zmian w wielu drzewach opisów naraz.\r\nCzy na pewno chcesz pozostawić te zmiany w
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
-oknie?\r\nNaciśnij "tak", jeżeli chcesz pozostawić zmiany w tym oknie lub "Nie" jeżęli chcesz je anulować, a zamiast tego zapisać zmiany w drugim drzewie.
+" oknie?\r\nNaciśnij "Tak", jeżeli chcesz pozostawić zmiany w tym oknie lub "Nie" jeżęli chcesz je anulować, a zamiast tego zapisać zmiany w drugim drzewie.
 [Do you really want to delete this category with its messages?]
 Czy na pewno chcesz usunąć tę kategorię z jej opisami?
 [Do you really want to delete this message?]
@@ -398,11 +398,11 @@ Zastosuj
 [Do you want to apply the message?]
 Czy chcesz zastosować wiadomość?
 [Set message for]
-Ustaw wiadomość dla
+Opis dla
 [Statuses]
 Statusy
 [message for]
-Wiadomość dla
+Opis dla
 [for]
 przez
 [available autoreply only]

@@ -70,7 +70,7 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[Contact List]
+[Contact list]
 Lista kontaktów
 [System tray icon]
 Ikona w zasobniku

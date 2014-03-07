@@ -246,9 +246,9 @@ Wyłącz grupy
 Pytaj przed usunięciem kontaktów
 [Don't move offline user to bottom]
 Nie przesuwaj rozłączonych na dół
-[Contact List]
+[Contact list]
 Lista kontaktów
-[Contact List Sorting]
+[Contact list sorting]
 Sortowanie kontaktów
 [Place offline users out of groups]
 Umieść rozłączonych poza grupami
@@ -665,7 +665,7 @@ Modern contact list
 Nakładka awatara
 [Status Overlay]
 Nakładka statusu
-[Contact List smileys]
+[Contact list smileys]
 Emotikony listy kontaktów
 [List background]
 Tło listy
@@ -939,7 +939,7 @@ Błąd
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Wczytaj/Zapisz
-[Object Editor]
+[Object editor]
 Edytor obiektów
 [( unknown )]
 ( nieznany )

@@ -167,7 +167,7 @@ pobiera nadrzędny metakontakt kontaktu "x"
 [get default subcontact x]
 pobiera domyślny subkontakt "x"
 [get the 'most online' subcontact x]
-pobiera 'najczęściej połączone' subkontakty "x"
+pobiera "najczęściej dostępne" subkontakty "x"
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Globalne
