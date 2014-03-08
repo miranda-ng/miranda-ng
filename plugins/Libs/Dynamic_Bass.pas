@@ -11,6 +11,8 @@
 
   Call Load_BASSDLL (eg. in FormCreate) to load BASS before using any functions, and
   Unload_BASSDLL (eg. in FormDestory) to unload it when you're done.
+
+  NOTE: Delphi users should use the BASS_UNICODE flag where possible
 }
 
 unit Dynamic_Bass;
@@ -134,34 +136,36 @@ const
   {BASS_ERROR_BUSY    } 'the device is busy');
 
   // BASS_SetConfig options
-  BASS_CONFIG_BUFFER        = 0;
-  BASS_CONFIG_UPDATEPERIOD  = 1;
-  BASS_CONFIG_GVOL_SAMPLE   = 4;
-  BASS_CONFIG_GVOL_STREAM   = 5;
-  BASS_CONFIG_GVOL_MUSIC    = 6;
-  BASS_CONFIG_CURVE_VOL     = 7;
-  BASS_CONFIG_CURVE_PAN     = 8;
-  BASS_CONFIG_FLOATDSP      = 9;
-  BASS_CONFIG_3DALGORITHM   = 10;
-  BASS_CONFIG_NET_TIMEOUT   = 11;
-  BASS_CONFIG_NET_BUFFER    = 12;
-  BASS_CONFIG_PAUSE_NOPLAY  = 13;
-  BASS_CONFIG_NET_PREBUF    = 15;
-  BASS_CONFIG_NET_PASSIVE   = 18;
-  BASS_CONFIG_REC_BUFFER    = 19;
-  BASS_CONFIG_NET_PLAYLIST  = 21;
-  BASS_CONFIG_MUSIC_VIRTUAL = 22;
-  BASS_CONFIG_VERIFY        = 23;
-  BASS_CONFIG_UPDATETHREADS = 24;
-  BASS_CONFIG_DEV_BUFFER    = 27;
-  BASS_CONFIG_DEV_DEFAULT   = 36;
-  BASS_CONFIG_NET_READTIMEOUT = 37;
-  BASS_CONFIG_VISTA_SPEAKERS = 38;
-  BASS_CONFIG_IOS_SPEAKER   = 39;
-  BASS_CONFIG_HANDLES       = 41;
-  BASS_CONFIG_UNICODE       = 42;
-  BASS_CONFIG_SRC           = 43;
-  BASS_CONFIG_SRC_SAMPLE    = 44;
+  BASS_CONFIG_BUFFER           = 0;
+  BASS_CONFIG_UPDATEPERIOD     = 1;
+  BASS_CONFIG_GVOL_SAMPLE      = 4;
+  BASS_CONFIG_GVOL_STREAM      = 5;
+  BASS_CONFIG_GVOL_MUSIC       = 6;
+  BASS_CONFIG_CURVE_VOL        = 7;
+  BASS_CONFIG_CURVE_PAN        = 8;
+  BASS_CONFIG_FLOATDSP         = 9;
+  BASS_CONFIG_3DALGORITHM      = 10;
+  BASS_CONFIG_NET_TIMEOUT      = 11;
+  BASS_CONFIG_NET_BUFFER       = 12;
+  BASS_CONFIG_PAUSE_NOPLAY     = 13;
+  BASS_CONFIG_NET_PREBUF       = 15;
+  BASS_CONFIG_NET_PASSIVE      = 18;
+  BASS_CONFIG_REC_BUFFER       = 19;
+  BASS_CONFIG_NET_PLAYLIST     = 21;
+  BASS_CONFIG_MUSIC_VIRTUAL    = 22;
+  BASS_CONFIG_VERIFY           = 23;
+  BASS_CONFIG_UPDATETHREADS    = 24;
+  BASS_CONFIG_DEV_BUFFER       = 27;
+  BASS_CONFIG_DEV_DEFAULT      = 36;
+  BASS_CONFIG_NET_READTIMEOUT  = 37;
+  BASS_CONFIG_VISTA_SPEAKERS   = 38;
+  BASS_CONFIG_IOS_SPEAKER      = 39;
+  BASS_CONFIG_HANDLES          = 41;
+  BASS_CONFIG_UNICODE          = 42;
+  BASS_CONFIG_SRC              = 43;
+  BASS_CONFIG_SRC_SAMPLE       = 44;
+  BASS_CONFIG_ASYNCFILE_BUFFER = 45;
+  BASS_CONFIG_OGG_PRESCAN      = 47;
 
   // BASS_SetConfigPtr options
   BASS_CONFIG_NET_AGENT     = 16;
@@ -273,6 +277,7 @@ const
   BASS_SPEAKER_REAR2LEFT  = BASS_SPEAKER_REAR2  or BASS_SPEAKER_LEFT;
   BASS_SPEAKER_REAR2RIGHT = BASS_SPEAKER_REAR2  or BASS_SPEAKER_RIGHT;
 
+  BASS_ASYNCFILE          = $40000000;
   BASS_UNICODE            = $80000000;
 
   BASS_RECORD_PAUSE       = $8000; // start recording paused
@@ -416,6 +421,7 @@ const
   BASS_DATA_FFT_INDIVIDUAL = $10;       // FFT flag: FFT for each channel, else all combined
   BASS_DATA_FFT_NOWINDOW   = $20;       // FFT flag: no Hanning window
   BASS_DATA_FFT_REMOVEDC   = $40;       // FFT flag: pre-remove DC bias
+  BASS_DATA_FFT_COMPLEX    = $80;       // FFT flag: return complex data
 
 
   // BASS_ChannelGetTags types : what's returned
@@ -445,6 +451,7 @@ const
   // BASS_ChannelGetLength/GetPosition/SetPosition modes
   BASS_POS_BYTE           = 0;         // byte position
   BASS_POS_MUSIC_ORDER    = 1;         // order.row position, MAKELONG(order,row)
+  BASS_POS_OGG            = 3;         // OGG bitstream number
   BASS_POS_DECODE         = $10000000; // flag: get the decoding (not playing) position
   BASS_POS_DECODETO       = $20000000; // flag: decode to the position instead of seeking
 

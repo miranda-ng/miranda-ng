@@ -996,7 +996,7 @@ begin
 end;
 {$ENDIF}
 //*************************** Control Message event **************************//
-function WndXPMessage( Sender: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
+function WndXPMessage( Sender: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
 var
  pt : TPoint;
  Mouse: TMouseEventData;
@@ -1086,7 +1086,7 @@ begin
      if  Msg.wParam = VK_SPACE then
      begin
          if  Assigned(Sender.EV.fOnKeyDown) then
-             Sender.EV.fOnKeyDown(Sender, Msg.wParam, GetShiftState);
+             Sender.EV.fOnKeyDown(Sender, LongInt(Pointer(Msg.wParam)^), GetShiftState);
          {$IFDEF USE_FLAGS} Sender.fFlagsG4 := Sender.fFlagsG4 + [G4_Pressed];
          {$ELSE} Sender.fPressed := true; {$ENDIF}
          dDC := GetWindowDC(Msg.hWnd);
@@ -1100,7 +1100,7 @@ begin
      if Msg.wParam = VK_SPACE then
      begin
          if  Assigned(Sender.EV.fOnKeyUp) then
-             Sender.EV.fOnKeyUp(Sender, Msg.wParam, GetShiftState);
+             Sender.EV.fOnKeyUp(Sender, LongInt(Pointer(Msg.wParam)^), GetShiftState);
          {$IFDEF USE_FLAGS} Sender.fFlagsG4 := Sender.fFlagsG4 - [G4_Pressed];
          {$ELSE} Sender.fPressed := false; {$ENDIF}
          dDC := GetWindowDC(Msg.hWnd);
@@ -1216,7 +1216,7 @@ begin
      {$ENDIF}
 end;
 //********************* Handling of message WM_THEMECHANGED ******************//
-function WndXP_WM_THEMECHANGED( Sender: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
+function WndXP_WM_THEMECHANGED( Sender: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
 begin
  Result := false;
 

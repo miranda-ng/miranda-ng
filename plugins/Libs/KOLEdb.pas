@@ -11,7 +11,7 @@ unit KOLEdb;
 
 interface
 
-uses Windows, mComObj, KOL;
+uses Windows, ActiveX, KOL, err;
 
 type
   INT64 = I64;
@@ -29,11 +29,11 @@ type
     3: ( fltVal     : Extended );
     4: ( dblVal     : Double );
     5: ( boolVal    : Bool );
-    //6: ( scode      : SCODE );
+    6: ( scode      : SCODE );
     //7: ( cyVal      : CY );
     //8: ( date       : Date );
     9: ( bstrVal    : Pointer ); // BSTR => [ Len: Integer; array[ 1..Len ] of WideChar ]
-    //10:( pdecVal    : ^Decimal );
+    10:( pdecVal    : ^Decimal );
     end;
 
 (*
@@ -95,7 +95,7 @@ type
   PIUnknown = ^IUnknown;
   PUintArray = ^TUintArray;
   TUintArray = array[0..MAXBOUND] of UINT;
-
+  
   HROW = UINT;
   PHROW = ^HROW;
   PPHROW = ^PHROW;
@@ -141,7 +141,7 @@ const
   DBGUID_DBSQL        : TGUID = '{C8B521FB-5CF3-11CE-ADE5-00AA0044773D}';
   DBGUID_DEFAULT      : TGUID = '{C8B521FB-5CF3-11CE-ADE5-00AA0044773D}';
   DBGUID_SQL          : TGUID = '{C8B522D7-5CF3-11CE-ADE5-00AA0044773D}';
-
+  
   DBPROPSET_ROWSET    : TGUID = '{C8B522BE-5CF3-11CE-ADE5-00AA0044773D}';
 
   DB_S_ENDOFROWSET    = $00040EC6;
@@ -212,7 +212,7 @@ type
       riid: TIID; var DataSource: IUnknown): HResult; stdcall;
     function CreateDBInstanceEx(const clsidProvider: TGUID;
       const pUnkOuter: IUnknown; dwClsCtx: DWORD; pwszReserved: POleStr;
-      pServerInfo: PCoServerInfo; cmq: ULONG; rgmqResults: Pointer): HResult; stdcall;
+      pServerInfo: PCoServerInfo; cmq: ULONG; rgmqResults: PMultiQI): HResult; stdcall;
     function LoadStringFromStorage(pwszFileName: POleStr;
       out pwszInitializationString: POleStr): HResult; stdcall;
     function WriteStringToStorage(pwszFileName, pwszInitializationString: POleStr;
@@ -481,7 +481,7 @@ type
   PDBColumnInfo = ^TDBColumnInfo;
   DBCOLUMNINFO = packed record
     pwszName: PWideChar;
-    pTypeInfo: Pointer;
+    pTypeInfo: ITypeInfo;
     iOrdinal: UINT;
     dwFlags: DBCOLUMNFLAGS;
     ulColumnSize: UINT;
@@ -680,7 +680,7 @@ type
     function StartTransaction(isoLevel: Integer; isoFlags: UINT;
       const pOtherOptions: ITransactionOptions; pulTransactionLevel: PUINT): HResult; stdcall;
   end;
-
+  
 const
   XACTTC_SYNC_PHASEONE = $00000001;
   XACTTC_SYNC_PHASETWO = $00000002;
@@ -1067,9 +1067,7 @@ end; *)
 
 procedure DummyOleError( Result: HResult );
 begin
-  {$IFNDEF FPC}
   raise Exception.Create( e_Custom, 'OLE DB error ' + Int2Hex( Result, 8 ) );
-  {$ENDIF}
 end;
 
 function CheckOLE( Rslt: HResult ): Boolean;
@@ -1162,7 +1160,7 @@ begin
     if Assigned(Unk) then begin
       CheckOLE(Unk.QueryInterface(IID_ITransaction,Result.fTransaction));
       CheckOLE(Unk.QueryInterface(IID_ITransactionLocal,Result.fTransactionLocal));
-    end;
+    end;  
   end;
   // =================================================================================================
 end;
@@ -1352,7 +1350,7 @@ begin
   if fRowBuffers.Items[ fCurIndex ] = nil then
   begin
     GetMem( Buffer, fRowSize );
-    FillChar( Buffer^, fRowSize, 0 ); //fixup the varnumberic random bytes by azsd
+    FillChar( Buffer^, fRowSize, 0 ); //fixup the varnumberic random bytes by azsd   
     fRowBuffers.Items[ fCurIndex ] := Buffer;
     CheckOLE( fRowSet.GetData( fRowHandle, fAccessor, fRowBuffers.Items[ fCurIndex ] ) );
   end;

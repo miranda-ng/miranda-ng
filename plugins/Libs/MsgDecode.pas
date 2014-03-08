@@ -4945,10 +4945,10 @@ type
   );
 
   PMsgDecoded = ^TMsgDecoded;
-  TMsgDecoded = packed record
+  TMsgDecoded = {packed} record
     hwnd: HWND;
     Cmessage: TMessageDecoded;
-    _filler: Word;
+//    _filler: Word;
     wParam: WPARAM;
     lParam: LPARAM;
     time: DWORD;

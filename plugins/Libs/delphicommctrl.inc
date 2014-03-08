@@ -2,7 +2,6 @@
   delpicommctrl.inc
   -- included in KOL.pas --
 *******************************************************************************}
-
 {$IFNDEF FPC}
 {$IFNDEF TMSG_WINDOWS}
          {$DEFINE TMSG_DECODED}
@@ -11,7 +10,7 @@
 {$IFDEF TMSG_DECODED}
 {$I MsgDecode.pas}
 type
-    TMsg = packed record
+    TMsg = record
     CASE Integer OF
     0:  (
         hwnd: HWND;
@@ -28,6 +27,27 @@ type
     tagMSG = TMsg;
 {$ENDIF TMSG_DECODED}
 
+{$IFNDEF _D2009orHigher}
+{$IFNDEF WIN64}
+type
+  INT_PTR = Integer;
+  UINT_PTR = Cardinal;
+  LONG_PTR = Integer;
+  ULONG_PTR = Cardinal;
+  DWORD_PTR = ULONG_PTR;
+  PINT_PTR = ^INT_PTR;
+  PUINT_PTR = ^UINT_PTR;
+  PLONG_PTR = ^LONG_PTR;
+  PULONG_PTR = ^ULONG_PTR;
+  PDWORD_PTR = ^DWORD_PTR;
+const
+  GWLP_WNDPROC = GWL_WNDPROC;
+  GWLP_HINSTANCE = GWL_HINSTANCE;
+  GWLP_HWNDPARENT = GWL_HWNDPARENT;
+  GWLP_USERDATA = GWL_USERDATA;
+  GWLP_ID = GWL_ID;
+{$ENDIF}
+{$ENDIF}
 
 ////////////////////////////////////////////////////////////////////////////
 // this part of unit contains definitions moved here from CommCtrl.pas
@@ -38,7 +58,7 @@ type
   PTCItemA = ^TTCItemA;
   PTCItemW = ^TTCItemW;
   PTCItem = {$IFDEF UNICODE_CTRLS} PTCItemW {$ELSE} PTCItemA {$ENDIF};
-  tagTCITEMA = packed record
+  tagTCITEMA = record
     mask: UINT;
     dwState: UINT;
     dwStateMask: UINT;
@@ -47,7 +67,7 @@ type
     iImage: Integer;
     lParam: LPARAM;
   end;
-  tagTCITEMW = packed record
+  tagTCITEMW = record
     mask: UINT;
     dwState: UINT;
     dwStateMask: UINT;
@@ -58,7 +78,7 @@ type
   end;
 
   PTCKeyDown = ^TTCKeyDown;
-  TTCKEYDOWN = packed record
+  TTCKEYDOWN = record
     hdr: TNMHDR;
     wVKey: Word;
     flags: UINT;
@@ -500,7 +520,7 @@ const
   LVN_SETDISPINFO        = {$IFDEF UNICODE_CTRLS} LVN_SETDISPINFOW {$ELSE} LVN_SETDISPINFOA {$ENDIF};
 
 type
-  tagNMLVODSTATECHANGE = packed record
+  tagNMLVODSTATECHANGE = record
     hdr: TNMHdr;
     iFrom: Integer;
     iTo: Integer;
@@ -512,9 +532,9 @@ type
 
 type
   PLVColumn = ^TLVColumn;
-  TLVColumn = packed record
+  TLVColumn = record
     mask: DWORD;
-    fmt: DWORD;
+    fmt: Integer;
     cx: Integer;
     pszText: PKOL_Char;
     cchTextMax: Integer;
@@ -525,11 +545,11 @@ type
   end;
 
   PLVItem = ^TLVItem;
-  TLVItem = packed record
+  TLVItem = record
     mask: DWORD;
     iItem: Integer;
     iSubItem: Integer;
-    state: Integer;
+    state: DWORD;
     stateMask: DWORD;
     pszText: PKOL_Char;
     cchTextMax: Integer;
@@ -539,13 +559,13 @@ type
   end;
 
   PLVDispInfo = ^TLVDispInfo;
-  TLVDispInfo = packed record
+  TLVDispInfo = record
     hdr: TNMHDR;
     item: TLVItem;
   end;
 
   PLVFindInfoA = ^TLVFindInfo;
-  TLVFindInfo = packed record
+  TLVFindInfo = record
     flags: UINT;
     psz: PKOLChar;
     lParam: LPARAM;
@@ -553,7 +573,7 @@ type
     vkDirection: UINT;
   end;
   PLVFindInfoW = ^TLVFindInfoW;
-  TLVFindInfoW = packed record
+  TLVFindInfoW = record
     flags: UINT;
     psz: PWideChar;
     lParam: LPARAM;
@@ -561,7 +581,7 @@ type
     vkDirection: UINT;
   end;
 
-  TLVHitTestInfo = packed record
+  TLVHitTestInfo = record
      pt: TPoint;
      flags: DWORD;
      iItem: Integer;
@@ -587,7 +607,7 @@ type
   PHDItemA = ^THDItemA;
   PHDItemW = ^THDItemW;
   PHDItem = {$IFDEF UNICODE_CTRLS} PHDItemW {$ELSE} PHDItemA {$ENDIF};
-  _HD_ITEMA = packed record
+  _HD_ITEMA = record
     Mask: Cardinal;
     cxy: Integer;
     pszText: PAnsiChar;
@@ -598,7 +618,7 @@ type
     iImage: Integer;        // index of bitmap in ImageList
     iOrder: Integer;        // where to draw this item
   end;
-  _HD_ITEMW = packed record
+  _HD_ITEMW = record
     Mask: Cardinal;
     cxy: Integer;
     pszText: PWideChar;
@@ -793,16 +813,16 @@ const
   TVN_KEYDOWN             = TVN_FIRST-12;
   TVN_SINGLEEXPAND        = TVN_FIRST-15;
 
-  TVI_ROOT                = $FFFF0000;
-  TVI_FIRST               = $FFFF0001;
-  TVI_LAST                = $FFFF0002;
-  TVI_SORT                = $FFFF0003;
+  TVI_ROOT                = THandle(-$10000); // $FFFF0000; //dmiko: win64 compat.
+  TVI_FIRST               = THandle(-$FFFF); // $FFFF0001;
+  TVI_LAST                = THandle(-$FFFE); // $FFFF0002;
+  TVI_SORT                = THandle(-$FFFD); // $FFFF0003;
 
 type
   PTVItemA = ^TTVItemA;
   PTVItemW = ^TTVItemW;
   PTVItem = {$IFDEF UNICODE_CTRLS} PTVItemW {$ELSE} PTVItemA {$ENDIF};
-  tagTVITEMA = packed record
+  tagTVITEMA = record
     mask: UINT;
     hItem: THandle;
     state: UINT;
@@ -814,7 +834,7 @@ type
     cChildren: Integer;
     lParam: LPARAM;
   end;
-  tagTVITEMW = packed record
+  tagTVITEMW = record
     mask: UINT;
     hItem: THandle;
     state: UINT;
@@ -838,7 +858,7 @@ type
   TV_ITEM   = {$IFDEF UNICODE_CTRLS} TV_ITEMW {$ELSE} TV_ITEMA {$ENDIF};
 
   // only used for Get and Set messages.  no notifies
-  tagTVITEMEXA = packed record
+  tagTVITEMEXA = record
     mask: UINT;
     hItem: THandle;
     state: UINT;
@@ -851,7 +871,7 @@ type
     lParam: LPARAM;
     iIntegral: Integer;
   end;
-  tagTVITEMEXW = packed record
+  tagTVITEMEXW = record
     mask: UINT;
     hItem: THandle;
     state: UINT;
@@ -875,16 +895,16 @@ type
   PNMTreeViewA = ^TNMTreeViewA;
   PNMTreeViewW = ^TNMTreeViewW;
   PNMTreeView = {$IFDEF UNICODE_CTRLS} PNMTreeViewW {$ELSE} PNMTreeViewA {$ENDIF};
-  tagNMTREEVIEWA = packed record
+  tagNMTREEVIEWA = record
     hdr: TNMHDR;
-    action: Integer;
+    action: DWORD;
     itemOld: TTVItemA;
     itemNew: TTVItemA;
     ptDrag: TPoint;
   end;
-  tagNMTREEVIEWW = packed record
+  tagNMTREEVIEWW = record
     hdr: TNMHDR;
-    action: Integer;
+    action: DWORD;
     itemOld: TTVItemW;
     itemNew: TTVItemW;
     ptDrag: TPoint;
@@ -900,12 +920,12 @@ type
   NM_TREEVIEWW  = tagNMTREEVIEWW;
   NM_TREEVIEW = {$IFDEF UNICODE_CTRLS} NM_TREEVIEWW {$ELSE} NM_TREEVIEWA {$ENDIF};
 
-  tagNMCUSTOMDRAWINFO = packed record
+  tagNMCUSTOMDRAWINFO = record
     hdr: TNMHdr;
     dwDrawStage: DWORD;
     hdc: HDC;
     rc: TRect;
-    dwItemSpec: DWORD;  // this is control specific, but it's how to specify an item.  valid only with CDDS_ITEM bit set
+    dwItemSpec: DWORD_PTR;  // this is control specific, but it's how to specify an item.  valid only with CDDS_ITEM bit set
     uItemState: UINT;
     lItemlParam: LPARAM;
   end;
@@ -951,7 +971,7 @@ const
   CDIS_INDETERMINATE  = $0100;
 
 type
-  tagNMLVCUSTOMDRAW = packed record
+  tagNMLVCUSTOMDRAW = record
     nmcd: TNMCustomDraw;
     clrText: COLORREF;
     clrTextBk: COLORREF;
@@ -966,11 +986,11 @@ type
   PTVDispInfoA = ^TTVDispInfoA;
   PTVDispInfoW = ^TTVDispInfoW;
   PTVDispInfo = {$IFDEF UNICODE_CTRLS} PTVDispInfoW {$ELSE} PTVDispInfoA {$ENDIF};
-  tagTVDISPINFOA = packed record
+  tagTVDISPINFOA = record
     hdr: TNMHDR;
     item: TTVItemA;
   end;
-  tagTVDISPINFOW = packed record
+  tagTVDISPINFOW = record
     hdr: TNMHDR;
     item: TTVItemW;
   end;
@@ -985,19 +1005,19 @@ type
   TV_DISPINFOW = tagTVDISPINFOW;
   TV_DISPINFO = {$IFDEF UNICODE_CTRLS} TV_DISPINFOW {$ELSE} TV_DISPINFOA {$ENDIF};
 
-  tagNMMOUSE = packed record
+  tagNMMOUSE = record
     hdr: TNMHdr;
-    dwItemSpec: DWORD;
-    dwItemData: DWORD;
+    dwItemSpec: DWORD_PTR;
+    dwItemData: DWORD_PTR;
     pt: TPoint;
-    dwHitInfo: DWORD; // any specifics about where on the item or control the mouse is
+    dwHitInfo: LPARAM; // any specifics about where on the item or control the mouse is
   end;
   PNMMouse = ^TNMMouse;
   TNMMouse = tagNMMOUSE;
 
 type
   PTVHitTestInfo = ^TTVHitTestInfo;
-  TTVHitTestInfo = packed Record
+  TTVHitTestInfo = record
     pt: TPoint;
     fl: DWORD;
     hItem: THandle;
@@ -1304,24 +1324,28 @@ const
 
 type
   PTBAddBitmap = ^TTBAddBitmap;
-  TTBAddBitmap = packed record
-    hInst: THandle;
-    nID: UINT;
+  TTBAddBitmap = record
+    hInst: HINST;
+    nID: UINT_PTR;
   end;
 
   PTBButton = ^TTBButton;
-  TTBButton = packed record
+  TTBButton = record
     iBitmap: Integer;
     idCommand: Integer;
     fsState: Byte;
     fsStyle: Byte;
+    {$IFDEF WIN64}
+    bReserved: array[1..6] of Byte;
+    {$ELSE}
     bReserved: array[1..2] of Byte;
-    dwData: Longint;
-    iString: Integer;
+    {$ENDIF}
+    dwData: DWORD_PTR;
+    iString: INT_PTR;
   end;
 
   PTBButtonInfo = ^TTBButtonInfo;
-  TTBButtonInfo = packed record
+  TTBButtonInfo = record
     cbSize: UINT;
     dwMask: DWORD;
     idCommand: Integer;
@@ -1329,28 +1353,29 @@ type
     fsState: Byte;
     fsStyle: Byte;
     cx: Word;
-    lParam: DWORD;
+    lParam: DWORD_PTR;
     pszText: PKOLChar;
     cchText: Integer;
   end;
 
   PColorMap = ^TColorMap;
-  TColorMap = packed record
+  TColorMap = record
     cFrom: TColorRef;
     cTo: TColorRef;
   end;
 
   PTBNotify = ^TTBnotify;
-  TTBNotify = packed record
+  TTBNotify = record
     hdr: TNMHdr;
     iItem: Integer;
     tbButton: TTBButton;
     cchText: Integer;
-    pszText: PChar;
+    pszText: PKOLChar;
+    rcButton: TRect;   //ie5
   end;
 
   PNMTBCustomDraw = ^TNMTBCustomDraw;
-  TNMTBCustomDraw = packed record
+  TNMTBCustomDraw = record
     nmcd: TNMCUSTOMDRAW;
     hbrMonoDither: HBrush;
     hbrLines     : HBrush;
@@ -1368,7 +1393,7 @@ type
   end;
 
   PTooltipText = ^TTooltipText;
-  TTooltipText = packed record
+  TTooltipText = record
     hdr: TNMHdr;
     lpszText: PKOLChar;
     szText: array[0..79] of KOLChar;
@@ -1378,13 +1403,13 @@ type
   end;
 
   PToolInfo = ^TToolInfo;
-  TToolInfo = packed record
+  TToolInfo = record
     cbSize: UINT;
     uFlags: UINT;
     hwnd: HWND;
-    uId: UINT;
+    uId: UINT_PTR;
     Rect: TRect;
-    hInst: THandle;
+    hInst: HINST;
     lpszText: PKOLChar;
     lParam: LPARAM;
   end;
@@ -1398,14 +1423,14 @@ const
   TME_QUERY           = $40000000;
   TME_CANCEL          = $80000000;
 
-  HOVER_DEFAULT       = $FFFFFFFF;
+  HOVER_DEFAULT       = THandle(-1);// $FFFFFFFF;
 
   ODT_HEADER              = 100;
   ODT_TAB                 = 101;
   ODT_LISTVIEW            = 102;
 
 type
-  tagTRACKMOUSEEVENT = packed record
+  tagTRACKMOUSEEVENT = record
     cbSize: DWORD;
     dwFlags: DWORD;
     hwndTrack: HWND;
@@ -1419,11 +1444,13 @@ type
 
 /////////////////////////////////////////////////////////
 // Some stuff from new Delphi versions (not available in old ones):
-  {$IFNDEF UNICODE_CTRLS}
+{$IFNDEF FPC}
+{$IFNDEF UNICODE_CTRLS}
 const
   //IDC_HAND = MakeIntResource(32649);
   IDC_HAND = PChar(32649);
   {$ENDIF}
+{$ENDIF}
 
 /////////////////////////////////////////////////////////
 const
@@ -1516,13 +1543,13 @@ const
 
   // structures
 type
-  tagNMDATETIMESTRINGA = packed record
+  tagNMDATETIMESTRINGA = record
     nmhdr: TNmHdr;
     pszUserString: PAnsiChar;     // string user entered
     st: TSystemTime;           // app fills this in
     dwFlags: DWORD;            // GDT_VALID or GDT_NONE
   end;
-  tagNMDATETIMESTRINGW = packed record
+  tagNMDATETIMESTRINGW = record
     nmhdr: TNmHdr;
     pszUserString: PWideChar;     // string user entered
     st: TSystemTime;           // app fills this in
@@ -1573,13 +1600,13 @@ const
   HDN_GETDISPINFOW         = HDN_FIRST-29;
 
 type
-  tagNMHEADERA = packed record
+  tagNMHEADERA = record
     Hdr: TNMHdr;
     Item: Integer;
     Button: Integer;
     PItem: PHDItemA;
   end;
-  tagNMHEADERW = packed record
+  tagNMHEADERW = record
     Hdr: TNMHdr;
     Item: Integer;
     Button: Integer;

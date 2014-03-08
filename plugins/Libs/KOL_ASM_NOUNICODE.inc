@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 // KOL_ASM_NOUNICODE.inc (to inlude in KOL.pas)
-// v 3.141592
+// v 3.210
 
 // this part of code is for case when ASM_VERSION is enabled and the symbol
 // UNICODE_CTRLS is NOT defined (functions, procedures and methods which work
@@ -220,7 +220,7 @@ asm
         POP      EBX
 end;
 
-function Int2Hex( Value : DWord; Digits : Integer ) : KOLString;
+function Int2Hex( Value : PtrUInt; Digits : Integer ) : KOLString;
 asm     // EAX = Value
         // EDX = Digits
         // ECX = @Result
@@ -257,7 +257,7 @@ asm     // EAX = Value
           ADD       ESP, 10h
 end;
 
-function Hex2Int( const Value : AnsiString) : Integer;
+function Hex2Int( const Value : AnsiString) : PtrInt;
 asm
         CALL     EAX2PChar
         PUSH     ESI
@@ -293,7 +293,7 @@ asm
         POP      ESI
 end;
 
-function Int2Str( Value : Integer ) : KOLString;
+function Int2Str( Value : PtrInt ) : KOLString;
 asm
         XOR       ECX, ECX
         PUSH      ECX
@@ -2259,7 +2259,7 @@ asm     //cmd    //opd
         XOR      EAX, EAX
 end;
 {$ELSE NEW VERSION OF WndProcTreeView}
-function WndProcTreeView( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
+function WndProcTreeView( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
 asm
          PUSH  ESI
          PUSH  EDI
@@ -2636,7 +2636,7 @@ asm     //cmd    //opd
    POP  EDI
 end;
 
-function WndProcDateTimePickerNotify( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
+function WndProcDateTimePickerNotify( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
 type
     TStrStr = record
         param_Date: TDateTime;
@@ -3037,7 +3037,7 @@ asm
 end;
 
 
-function WndProcKeybd( Self_: PControl; var Msg: TMsg; var Rslt: Integer): Boolean;
+function WndProcKeybd( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT): Boolean;
 asm
         PUSH     EBX
         MOV      ECX, [EDX].TMsg.message
@@ -3129,10 +3129,14 @@ asm
 @@getFCaption:
         MOV       EDX, [EBX].fCaption
         XCHG      EAX, EDI
-        {$IFNDEF UNICODE_CTRLS}
-        CALL      System.@LStrAsg
+        {$IFDEF UNICODE_CTRLS}
+            {$IFDEF UStr_}
+            CALL      System.@UStrFromPChar
+            {$ELSE}
+            CALL      System.@WStrFromPChar
+            {$ENDIF}
         {$ELSE}
-        CALL      System.@WStrFromPChar
+            CALL      System.@LStrAsg
         {$ENDIF}
 @@exit:
         POP       EDI
@@ -3475,7 +3479,7 @@ asm
         POP      EBX
 end;
 
-procedure TTrayIcon.SetTrayIcon(const Value: DWORD);
+function TTrayIcon.SetTrayIcon(const Value: DWORD): Boolean;
 const sz_tid = sizeof( TNotifyIconData );
 asm
         CMP      [AppletTerminated], 0
@@ -3523,7 +3527,7 @@ asm
 @@exit:
 end;
 
-function WndProcJustOneNotify( Control: PControl; var Msg: TMsg; var Rslt: Integer ) : Boolean;
+function WndProcJustOneNotify( Control: PControl; var Msg: TMsg; var Rslt: LRESULT ) : Boolean;
 asm
         PUSH     EBP
         MOV      EBP, ESP
@@ -4319,7 +4323,7 @@ asm
         ADD      ESP, 1028
 end;
 
-procedure TBitmap.LoadFromResourceName(Inst: DWORD; ResName: PAnsiChar);
+procedure TBitmap.LoadFromResourceName(Inst: HINST; ResName: PAnsiChar);
 asm
         PUSH     EBX
         MOV      EBX, EAX

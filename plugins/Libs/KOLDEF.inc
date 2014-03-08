@@ -163,7 +163,8 @@ Delphi version 8 not supported! (delphi 8 is .net only)
 	{$DEFINE _D2010orHigher}
 	{$DEFINE _DXE}
 	{$DEFINE _DXEorHigher}
-    {$WARN UNIT_DEPRECATED OFF}
+  {$DEFINE _DXEorHigher}
+  {$WARN UNIT_DEPRECATED OFF}
 	{$WARN SYMBOL_PLATFORM OFF}
 	{$WARN UNSAFE_TYPE OFF}
 	{$WARN UNSAFE_CAST OFF}
@@ -181,19 +182,108 @@ Delphi version 8 not supported! (delphi 8 is .net only)
 	{$DEFINE _D2007orHigher}
 	{$DEFINE _D2009orHigher}
 	{$DEFINE _D2010orHigher}
-	{$DEFINE _DXE}
 	{$DEFINE _DXEorHigher}
 	{$DEFINE _DXE2}
-	{$DEFINE _DXE2orHigher}
-	{$DEFINE PAS_VERSION}
+  {$DEFINE _DXE2orHigher}
+  {$IFDEF WIN64}
+    {$DEFINE PAS_VERSION}
+    {$DEFINE PAS_ONLY}
+	  {.$DEFINE UNICODE_CTRLS}
+	  {$DEFINE STREAM_LARGE64}
+  {$ENDIF}
   {$WARN UNIT_DEPRECATED OFF}
-	{$WARN SYMBOL_PLATFORM OFF}
-	{$WARN UNSAFE_TYPE OFF}
-	{$WARN UNSAFE_CAST OFF}
-	{$WARN UNSAFE_CODE OFF}
+	{.$WARN SYMBOL_PLATFORM OFF}
+	{.$WARN UNSAFE_TYPE OFF}
+	{.$WARN UNSAFE_CAST OFF}
+	{.$WARN UNSAFE_CODE OFF}
+{$ENDIF}
+{$IFDEF VER240} // Delphi XE3
+	{$DEFINE _D3orHigher}
+	{$DEFINE _D4orHigher}
+	{$DEFINE _D5orHigher}
+	{$DEFINE _D6orHigher}
+	{$DEFINE _D7orHigher}
+	{$DEFINE _D2005orHigher}
+	{$DEFINE _D2006orHigher}
+	{$DEFINE _D2007orHigher}
+	{$DEFINE _D2009orHigher}
+	{$DEFINE _D2010orHigher}
+	{$DEFINE _DXEorHigher}
+  {$DEFINE _DXE2orHigher}
+	{$DEFINE _DXE3}
+  {$DEFINE _DXE3orHigher}
+  {$IFDEF WIN64}
+    {$DEFINE PAS_VERSION}
+    {$DEFINE PAS_ONLY}
+	  {.$DEFINE UNICODE_CTRLS}
+	  {$DEFINE STREAM_LARGE64}
+  {$ENDIF}
+  {$WARN UNIT_DEPRECATED OFF}
+	{.$WARN SYMBOL_PLATFORM OFF}
+	{.$WARN UNSAFE_TYPE OFF}
+	{.$WARN UNSAFE_CAST OFF}
+	{.$WARN UNSAFE_CODE OFF}
+{$ENDIF}
+{$IFDEF VER250} // Delphi XE4
+	{$DEFINE _D3orHigher}
+	{$DEFINE _D4orHigher}
+	{$DEFINE _D5orHigher}
+	{$DEFINE _D6orHigher}
+	{$DEFINE _D7orHigher}
+	{$DEFINE _D2005orHigher}
+	{$DEFINE _D2006orHigher}
+	{$DEFINE _D2007orHigher}
+	{$DEFINE _D2009orHigher}
+	{$DEFINE _D2010orHigher}
+	{$DEFINE _DXEorHigher}
+  {$DEFINE _DXE2orHigher}
+  {$DEFINE _DXE3orHigher}
+	{$DEFINE _DXE4}
+  {$DEFINE _DXE4orHigher}
+  {$IFDEF WIN64}
+    {$DEFINE PAS_VERSION}
+    {$DEFINE PAS_ONLY}
+	  {.$DEFINE UNICODE_CTRLS}
+	  {$DEFINE STREAM_LARGE64}
+  {$ENDIF}
+  {$WARN UNIT_DEPRECATED OFF}
+	{.$WARN SYMBOL_PLATFORM OFF}
+	{.$WARN UNSAFE_TYPE OFF}
+	{.$WARN UNSAFE_CAST OFF}
+	{.$WARN UNSAFE_CODE OFF}
+  {$DEFINE TMSG_WINDOWS}
+{$ENDIF}
+{$IFDEF VER260} // Delphi XE5
+	{$DEFINE _D3orHigher}
+	{$DEFINE _D4orHigher}
+	{$DEFINE _D5orHigher}
+	{$DEFINE _D6orHigher}
+	{$DEFINE _D7orHigher}
+	{$DEFINE _D2005orHigher}
+	{$DEFINE _D2006orHigher}
+	{$DEFINE _D2007orHigher}
+	{$DEFINE _D2009orHigher}
+	{$DEFINE _D2010orHigher}
+	{$DEFINE _DXEorHigher}
+  {$DEFINE _DXE2orHigher}
+  {$DEFINE _DXE3orHigher}
+  {$DEFINE _DXE4orHigher}
+	{$DEFINE _DXE5}
+  {$DEFINE _DXE5orHigher}
+  {$IFDEF WIN64}
+    {$DEFINE PAS_VERSION}
+    {$DEFINE PAS_ONLY}
+	  {.$DEFINE UNICODE_CTRLS}
+	  {$DEFINE STREAM_LARGE64}
+  {$ENDIF}
+  {$WARN UNIT_DEPRECATED OFF}
+	{.$WARN SYMBOL_PLATFORM OFF}
+	{.$WARN UNSAFE_TYPE OFF}
+	{.$WARN UNSAFE_CAST OFF}
+	{.$WARN UNSAFE_CODE OFF}
+  {$DEFINE TMSG_WINDOWS}
 {$ENDIF}
 
-(*
 // TODO: check DLL project
 {$IFNDEF NO_STRIP_RELOC}
   // by Thaddy de Koning:
@@ -203,26 +293,28 @@ Delphi version 8 not supported! (delphi 8 is .net only)
 //	{$SETPEFlAGS IMAGE_FILE_RELOCS_STRIPPED or IMAGE_FILE_DEBUG_STRIPPED or IMAGE_FILE_LINE_NUMS_STRIPPED or IMAGE_FILE_LOCAL_SYMS_STRIPPED or IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP or IMAGE_FILE_NET_RUN_FROM_SWAP}
   {$ENDIF}
 {$ENDIF}
-*)
+
 {$IFDEF FPC}
+{$DEFINE PAS_ONLY}
+{$DEFINE USE_OLD_FLAGS} //size of set type in fpc is 4 bytes
 {------------------------------------
 by Thaddy de Koning:
 
 FPC version 2.1.1 is very compatible with Delphi and kol now.
 You can simply use the $(DELPHI)\source\rtl\win\*.pas files from Delphi 4/5 instead of the prepared files that were needed for 
 FPC1.X
- 
+
 That is all to have full compatibility.
 ------------------------------------}
-  {$DEFINE PAS_VERSION}
-  {$IFDEF VER2}
-   {$DEFINE _D3orHigher}
-   {$DEFINE _D4orHigher}
-   {$DEFINE _D5orHigher}
-   {$DEFINE _D6orHigher}
-   {$DEFINE _D7}
-   {$DEFINE _D7orHigher}
-  {$ENDIF}
+{$DEFINE PAS_VERSION}
+{$IFDEF VER2}
+ {$DEFINE _D3orHigher}
+ {$DEFINE _D4orHigher}
+ {$DEFINE _D5orHigher}
+ {$DEFINE _D6orHigher}
+ {$DEFINE _D7}
+ {$DEFINE _D7orHigher}
+{$ENDIF}
 {$ENDIF FPC}
 
 {$IFNDEF _NOT_KOLCtrlWrapper_}
@@ -234,11 +326,6 @@ That is all to have full compatibility.
 {$ENDIF}
 
 //// from delphidef.inc ////
-
-{$IFDEF WIN64}
-  {$DEFINE x64}
-  {$DEFINE PAS_VERSION}
-{$ENDIF}
 
 //{$DEFINE _FPC}
 {$DEFINE ASM_VERSION} // Comment this line to produce Pascal code.
@@ -305,4 +392,6 @@ That is all to have full compatibility.
 {$ENDIF}
 
 {$DEFINE KOL3XX}
-{$DEFINE DIBPixels32bitWithAlpha}
+
+
+

@@ -1,6 +1,6 @@
 (*
 
-Fast Memory Manager 4.99
+Fast Memory Manager 4.991
 
 Description:
  A fast replacement memory manager for Embarcadero Delphi Win32 applications
@@ -827,13 +827,14 @@ Change log:
     allocated.
   - Fixed bad record alignment under 64-bit that affected performance.
   - Fixed compilation errors with some older compilers.
-  Version 4.??? (? ??? 2012)
+  Version 4.991 (3 September 2012)
   - Added the LogMemoryManagerStateToFile call. This call logs a summary of
     the memory manager state to file: The total allocated memory, overhead,
     efficiency, and a breakdown of allocated memory by class and string type.
     This call may be useful to catch objects that do not necessarily leak, but
     do linger longer than they should.
   - OS X support added by Sebastian Zierer
+  - Compatible with Delphi XE3
 
 *)
 
@@ -1066,7 +1067,7 @@ interface
 {-------------------------Public constants-----------------------------}
 const
   {The current version of FastMM}
-  FastMMVersion = '4.99';
+  FastMMVersion = '4.991';
   {The number of small block types}
 {$ifdef Align16Bytes}
   NumSmallBlockTypes = 46;
