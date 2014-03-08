@@ -142,7 +142,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
-	odp.ptszGroup = LPGENT("Contact List");
+	odp.ptszGroup = LPGENT("Contact list");
 	odp.ptszTitle = LPGENT("My Details");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
