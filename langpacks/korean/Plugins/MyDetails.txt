@@ -19,5 +19,5 @@
 상태
 [Background]
 배경
-[Contact List]
+[Contact list]
 대화 상대 목록

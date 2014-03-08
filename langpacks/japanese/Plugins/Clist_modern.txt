@@ -181,9 +181,9 @@ xStatus アイコンを表示
 グループを無効
 [Ask before deleting contacts]
 コンタクトを削除する前に確認する
-[Contact List]
+[Contact list]
 コンタクトリスト
-[Contact List Sorting]
+[Contact list sorting]
 コンタクトリストの並び替え
 [Place offline users out of groups]
 オフラインユーザーをグループの外に配置
@@ -519,7 +519,7 @@ Miranda を非表示
 グループ名を変更 (&R)
 [&Delete Group]
 グループを削除 (&D)
-[Contact List smileys]
+[Contact list smileys]
 コンタクトリストの顔文字
 [List background]
 リストの背景
@@ -707,7 +707,7 @@ PNG 形式の画像を使用するには画像サービスのプラグインが�
 エラー
 [Load/Save]
 読込 / 保存
-[Object Editor]
+[Object editor]
 オブジェクトエディター
 [( unknown )]
 ( 不明 )

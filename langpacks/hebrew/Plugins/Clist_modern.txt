@@ -145,9 +145,9 @@
 בטל קבוצות
 [Ask before deleting contacts]
 שאל לפני מחיקת אנשי קשר
-[Contact List]
+[Contact list]
 רשימת אנשי קשר
-[Contact List Sorting]
+[Contact list sorting]
 סדר רשימה
 [Place offline users out of groups]
 שים משתמשים לא מחוברים מחוץ לקבוצות
@@ -445,7 +445,7 @@ XStatus יש עדיפות
 ש&נה שם קבוצה
 [&Delete Group]
 &מחק קבוצה
-[Contact List smileys]
+[Contact list smileys]
 סמיילים של רשימת משתמשים
 [List background]
 רקע הרשימה

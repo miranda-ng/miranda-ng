@@ -99,5 +99,5 @@ Részleteim elrejtése
 Becenevem beállítása %s részére
 [Set My Status Message for %s]
 Állapot üzenetem beállítása %s részére
-[Contact List]
+[Contact list]
 Kapcsolati lista

@@ -468,7 +468,7 @@ HTML выснова немагчымы.
 [** All contacts **]
 ** Усе кантакты **
 ;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
-[Create statistics on Miranda NG's startup]
+[Create statistics on Miranda NG startup]
 Ствараць статыстыку пры старце праграмы
 [Add menu items to main menu]
 Дадаць пункты ў галоўнае меню
@@ -636,9 +636,9 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 Адкрыць статыстыку пасля генерацыі...
 [...via button "Create statistics" in options]
 ...праз кнопку "Стварыць статыстыку" ў опцыях
-[...on Miranda NG's startup]
+[...on Miranda NG startup]
 ...пры старце праграмы
-[...via Miranda NG's main menu]
+[...via Miranda NG main menu]
 ...праз галоўнае меню
 [First sort by]
 Спачатку сартаваць па

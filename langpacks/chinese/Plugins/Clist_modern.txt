@@ -187,9 +187,9 @@ W x H: 0 x 0 像素
 禁用群组
 [Ask before deleting contacts]
 删除联系人前先询问
-[Contact List]
+[Contact list]
 联系人列表
-[Contact List Sorting]
+[Contact list sorting]
 联系人列表排序
 [Place offline users out of groups]
 将离线用户置于群组外
@@ -527,7 +527,7 @@ x100 毫秒
 重命名群组(&R)
 [&Delete Group]
 删除群组(&D)
-[Contact List smileys]
+[Contact list smileys]
 联系人列表表情
 [List background]
 列表背景
@@ -739,7 +739,7 @@ x100 毫秒
 错误
 [Load/Save]
 加载/保存
-[Object Editor]
+[Object editor]
 对象编辑器
 [( unknown )]
 ( 未知 )

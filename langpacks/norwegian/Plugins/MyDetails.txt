@@ -99,5 +99,5 @@ Skjul Mine Detaljer
 Sett Mitt Kallenavn for %s
 [Set My Status Message for %s]
 Sett Min Statusmelding for %s
-[Contact List]
+[Contact list]
 Kontaktliste

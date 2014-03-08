@@ -33,8 +33,6 @@
 Введіть код зі сторінки:
 [Cancel]
 Скасувати
-[You have been authorized]
-Авторизація пройшла успішно
 [in process...]
 зачекайте...
 [you have been authorized]

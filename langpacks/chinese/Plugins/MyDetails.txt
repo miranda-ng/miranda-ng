@@ -111,5 +111,5 @@
 设置我的 %s 昵称
 [Set My Status Message for %s]
 设置我的 %s 状态消息
-[Contact List]
+[Contact list]
 联系人列表

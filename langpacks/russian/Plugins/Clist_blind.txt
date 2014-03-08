@@ -247,6 +247,8 @@ URL:
 Разделитель: %s
 [Info: %s]
 Инфо: %s
+[Contact list]
+Список контактов
 [List]
 Список
 [Global]

@@ -244,9 +244,9 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Пацверджанне выдалення
 [Don't move offline user to bottom]
 Не перасоўваць адключаных уніз
-[Contact List]
+[Contact list]
 Спіс кантактаў
-[Contact List Sorting]
+[Contact list sorting]
 Сартаванне спісу кантактаў
 [Place offline users out of groups]
 Адключаных паказваць па-за гуртамі
@@ -663,7 +663,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Адбітак аватара
 [Status Overlay]
 Адбітак статусу
-[Contact List smileys]
+[Contact list smileys]
 Смайлы спісу кантактаў
 [List background]
 Фон спісу
@@ -937,7 +937,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Загрузіць/Захаваць
-[Object Editor]
+[Object editor]
 Рэдактар аб'ектаў
 [( unknown )]
 ( невядома )

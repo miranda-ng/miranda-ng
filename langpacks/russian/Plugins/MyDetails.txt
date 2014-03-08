@@ -151,5 +151,5 @@ RTL
 Сменить мой ник для %s
 [Set My Status Message for %s]
 Установить статус для %s
-[Contact List]
+[Contact list]
 Список контактов

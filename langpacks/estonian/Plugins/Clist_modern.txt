@@ -77,9 +77,9 @@ Jah
 Peida väljas olevad kasutajad
 [Hide empty groups]
 Peida tühjad grupid
-[Contact List]
+[Contact list]
 Kontaktide nimekiri
-[Contact List Sorting]
+[Contact list sorting]
 Kontaktide nimekirja sorteerimine
 [Gamma correction]
 Gamma parandus

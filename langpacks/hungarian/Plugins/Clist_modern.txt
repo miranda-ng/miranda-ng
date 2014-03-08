@@ -163,9 +163,9 @@ Kilépett felhasználók elrejtése
 Csoportok kikapcsolása
 [Ask before deleting contacts]
 Partnerek törlésének megerõsítése
-[Contact List]
+[Contact list]
 Kapcsolati lista
-[Contact List Sorting]
+[Contact list sorting]
 Kapcsolati lista sorrend
 [Place offline users out of groups]
 Kilépett partnerek legyenek a listákon kívül
@@ -499,7 +499,7 @@ Kilépett partnerek mutatása itt
 Csoport átnevezése
 [&Delete Group]
 &Csoport törlése
-[Contact List smileys]
+[Contact list smileys]
 Kapcsolati lista emotikonok
 [List background]
 Lista háttérszín
@@ -667,7 +667,7 @@ Szükség van egy kép szolgáltatás beépülõre a PNG képek feldolgozásáho
 Hiba
 [Load/Save]
 Betöltés/Mentés
-[Object Editor]
+[Object editor]
 Objektum szerkesztõ
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nSzerzõ(k):\t %s\nPartner:\t %s\nWeb:\t %s\n\nFájl:\t %s

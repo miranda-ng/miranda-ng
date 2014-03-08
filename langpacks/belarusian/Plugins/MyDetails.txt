@@ -165,6 +165,6 @@ RTL
 Змяніць мянушку для %s
 [Set My Status Message for %s]
 Усталяваць статус для %s
-[Contact List]
+[Contact list]
 Спіс кантактаў
 ;file \plugins\MyDetails\src\options.cpp

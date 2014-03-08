@@ -243,9 +243,9 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Подтверждение удаления
 [Don't move offline user to bottom]
 Не перемещать отключённых вниз
-[Contact List]
+[Contact list]
 Список контактов
-[Contact List Sorting]
+[Contact list sorting]
 Сортировка списка контактов
 [Place offline users out of groups]
 Отключённых показывать вне групп
@@ -659,7 +659,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Оверлей аватара
 [Status Overlay]
 Оверлей статуса
-[Contact List smileys]
+[Contact list smileys]
 Список контактов
 [List background]
 Фон списка
@@ -919,7 +919,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Ошибка
 [Load/Save]
 Загрузить/Сохранить
-[Object Editor]
+[Object editor]
 Редактор объектов
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(ы):\t %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s

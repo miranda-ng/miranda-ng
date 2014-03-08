@@ -165,9 +165,9 @@ Boş grupları gizle
 Grupları devredışı bırak
 [Ask before deleting contacts]
 Kişileri silmeden önce sor
-[Contact List]
+[Contact list]
 Kişi Listesi
-[Contact List Sorting]
+[Contact list sorting]
 Kişi Listesi Sıralaması
 [Place offline users out of groups]
 Çevrimdışılar grupların dışında görünsün
@@ -501,7 +501,7 @@ Ye&ni Alt Grup
 Grubu Yeniden Adlandı&r
 [&Delete Group]
 &Grubu Sil
-[Contact List smileys]
+[Contact list smileys]
 Kişi Listesi gülen yüzler
 [List background]
 Liste Art Alanı
@@ -669,7 +669,7 @@ PNG resimleri işlemek için resim hizmeti eklentisine gerek duyuyorsunuz.
 Hata
 [Load/Save]
 Yükle/Kaydet
-[Object Editor]
+[Object editor]
 Nesne Düzenleyici
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nYazan:\t %s\nİletişim:\t %s\nWeb:\t %s\n\nDosya:\t %s

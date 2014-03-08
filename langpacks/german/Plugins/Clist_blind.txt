@@ -249,6 +249,8 @@ Gruppe: %name% %count% [%mode%]
 Trennlinie: %s
 [Info: %s]
 Info: %s
+[Contact list]
+Kontaktliste
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp

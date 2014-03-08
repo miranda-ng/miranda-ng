@@ -246,9 +246,9 @@ Désactiver les groupes
 Demander avant de supprimer
 [Don't move offline user to bottom]
 Ne pas déplacez les utilisateur déconnecté en bas
-[Contact List]
+[Contact list]
 Liste de contacts
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [Place offline users out of groups]
 Sortir les Hors ligne de leur groupe
@@ -665,7 +665,7 @@ Skins
 
 [Status Overlay]
 
-[Contact List smileys]
+[Contact list smileys]
 Smileys de la CList
 [List background]
 Arrière-plan
@@ -939,7 +939,7 @@ Erreur
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Charger/Sauver
-[Object Editor]
+[Object editor]
 Éditeur de skin
 [( unknown )]
 

@@ -246,9 +246,9 @@ Desactivar grupos
 Preguntar antes de eliminar
 [Don't move offline user to bottom]
 No mover usuario fuera de línea al final
-[Contact List]
+[Contact list]
 Lista de contactos
-[Contact List Sorting]
+[Contact list sorting]
 Clasificación de la lista de contacto 
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
@@ -665,7 +665,7 @@ Pieles
 
 [Status Overlay]
 
-[Contact List smileys]
+[Contact list smileys]
 
 [List background]
 Lista de fondos
@@ -939,7 +939,7 @@ Error
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 
-[Object Editor]
+[Object editor]
 
 [( unknown )]
 

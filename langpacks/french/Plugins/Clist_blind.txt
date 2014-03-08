@@ -249,6 +249,8 @@ Groupe : %name% %count% [%mode%]
 
 [Info: %s]
 Info : %s
+[Contact list]
+Liste de contacts
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp

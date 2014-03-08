@@ -11,8 +11,8 @@ Automatically request authorisation on logon
 Automatically grant authorisation to users in contact list
 [Automatically grant authorization to new users]
 Automatically grant authorisation to new users
-[Automatic authorization on mail.ru web services]
-Automatic authorisation on mail.ru web services
+[Automatic authorization on Mail.ru web services]
+Automatic authorisation on Mail.ru web services
 [Background color]
 Background colour
 [&Use Windows colors]

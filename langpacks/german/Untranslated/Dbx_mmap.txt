@@ -1,3 +1,4 @@
 ﻿[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 [Database conversion required]
+[Zero event's contact id: correcting]
 [Database version doesn't match this driver's one. Convert a database first]

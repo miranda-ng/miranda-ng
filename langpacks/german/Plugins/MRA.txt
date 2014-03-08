@@ -30,7 +30,7 @@ Kontakte bei Login automatisch hinzufügen
 Autorisierung für Benutzer in Kontaktliste automatisch gewähren
 [Automatically grant authorization to new users]
 Autorisierung automatisch neuen Nutzern gewähren
-[Automatic authorization on mail.ru web services]
+[Automatic authorization on Mail.ru web services]
 
 [Notify me when a message delivery has failed]
 Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
@@ -499,3 +499,5 @@ Eichhörnchen
 Star
 [Music]
 Musik
+[Dating]
+

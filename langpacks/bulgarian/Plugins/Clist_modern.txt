@@ -246,9 +246,9 @@
 Запитване преди изтриване на контакт
 [Don't move offline user to bottom]
 
-[Contact List]
+[Contact list]
 Списък с контакти
-[Contact List Sorting]
+[Contact list sorting]
 Сортиране на списъка с контакти по:
 [Place offline users out of groups]
 
@@ -663,7 +663,7 @@ Modern contact list
 Насложени над аватара икони
 [Status Overlay]
 Насложени над състоянието икони
-[Contact List smileys]
+[Contact list smileys]
 Усмивки в списъка с контакти
 [List background]
 Фон на списъка
@@ -937,7 +937,7 @@ Modern contact list
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Зареждане/Запис
-[Object Editor]
+[Object editor]
 Редактор на обекти
 [( unknown )]
 (неизвестно)

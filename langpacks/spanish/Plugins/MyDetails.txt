@@ -157,6 +157,6 @@ Fondo
 
 [Set My Status Message for %s]
 
-[Contact List]
+[Contact list]
 Lista de contactos
 ;file \plugins\MyDetails\src\options.cpp

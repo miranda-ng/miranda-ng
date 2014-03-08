@@ -97,5 +97,5 @@ Ddetaylarımı Gizle
 %s için kısa adımı ayarla
 [Set My Status Message for %s]
 %s için durum iletimi ayarla
-[Contact List]
+[Contact list]
 Kişi Listesi

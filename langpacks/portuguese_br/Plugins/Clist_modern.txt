@@ -179,9 +179,9 @@ Ocultar grupos vazios
 Desativar grupos
 [Ask before deleting contacts]
 Perguntar antes de deletar contatos
-[Contact List]
+[Contact list]
 Lista de Contatos
-[Contact List Sorting]
+[Contact list sorting]
 Dispor Contatos Por
 [Place offline users out of groups]
 Coloque os usuários off-line dos grupos
@@ -511,7 +511,7 @@ Ocultar Miranda
 &Excluir Grupo
 [Status Overlay]
 Status
-[Contact List smileys]
+[Contact list smileys]
 Smileys dos Contatos
 [List background]
 Alterar Fundo
@@ -733,7 +733,7 @@ O tamanho da imagem é
 Erro
 [Load/Save]
 Rodar/Salvar
-[Object Editor]
+[Object editor]
 Editor de Objeto
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n %s\n\nAutor(es):\t %s\nContato:\t %s\nWeb:\t %s\n\nArquivo:\t %s

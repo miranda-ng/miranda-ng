@@ -81,9 +81,9 @@
 그룹 표시 안함
 [Ask before deleting contacts]
 대화 상대 삭제시 물어보기
-[Contact List]
+[Contact list]
 대화 상대 목록
-[Contact List Sorting]
+[Contact list sorting]
 대화 상대 목록 정렬
 [Gamma correction]
 감마 수정

@@ -33,6 +33,7 @@
 [Group: %name% %count% [%mode%]]
 [Divider: %s]
 [Info: %s]
+[Contact list]
 [Global]
 [Unknown Protocol]
 [Expanded]

@@ -246,9 +246,9 @@ Gruppenfunktion ausschalten
 Vor Löschen von Kontakten fragen
 [Don't move offline user to bottom]
 Offline-Kontakte nicht nach unten setzen
-[Contact List]
+[Contact list]
 Kontaktliste
-[Contact List Sorting]
+[Contact list sorting]
 Sortierung der Kontaktliste
 [Place offline users out of groups]
 Offline-Kontakte außerhalb der Gruppen
@@ -665,7 +665,7 @@ Modern contact list
 Avatar-Overlay
 [Status Overlay]
 Status-Overlay
-[Contact List smileys]
+[Contact list smileys]
 Smileys in Kontaktliste
 [List background]
 Liste Hintergrund
@@ -939,7 +939,7 @@ Fehler
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Laden/Speichern
-[Object Editor]
+[Object editor]
 Objekteditor
 [( unknown )]
 ( unbekannt )

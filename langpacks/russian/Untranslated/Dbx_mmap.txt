@@ -1,3 +1,4 @@
 ﻿[EN]
 [OK]
 [Logo]
+[Zero event's contact ID: correcting]

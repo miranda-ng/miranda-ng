@@ -83,7 +83,7 @@ Skryť nepripojených užívateľov
 Skryť prázdne skupiny
 [Disable groups]
 Skryť skupiny
-[Contact List]
+[Contact list]
 Zoznam kontaktov
 [Gamma correction]
 Gamma korekcia

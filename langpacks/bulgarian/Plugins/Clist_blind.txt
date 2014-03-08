@@ -247,6 +247,8 @@ ms времетраене
 Разделител: %s
 [Info: %s]
 Информация: %s
+[Contact list]
+Списък с контакти
 [List]
 Списък
 ;file \plugins\Clist_blind\src\clistopts.cpp

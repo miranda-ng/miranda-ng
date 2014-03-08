@@ -30,7 +30,7 @@ Por defecto
 
 [Automatically grant authorization to new users]
 
-[Automatic authorization on mail.ru web services]
+[Automatic authorization on Mail.ru web services]
 
 [Notify me when a message delivery has failed]
 
@@ -498,4 +498,6 @@ En el teléfono
 [Star]
 
 [Music]
+
+[Dating]
 

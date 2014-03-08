@@ -57,5 +57,5 @@ Minu detailid
 Taust
 [Show My Details]
 Kuva minu detailid
-[Contact List]
+[Contact list]
 Kontaktide nimekiri

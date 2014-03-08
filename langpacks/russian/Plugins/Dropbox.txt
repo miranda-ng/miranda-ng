@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
 [Provides ability to upload files on Dropbox.]
@@ -13,8 +13,8 @@
 Дать доступ Miranda NG к вашей учётной записи Dropbox:
 [Go to this link]
 Перейти
-[and allow access to files in apps folder]
-и разрешить доступ к файлам в папке приложения
+[allow access to files in apps folder and copy the security code]
+разрешить доступ к файлам в папке приложения и копировать код безопасности
 [Enter the security code ]
 Ввести код безопасности\s
 [Click authorize button]
@@ -25,30 +25,42 @@
 Другое
 [Use shortened share links]
 Использовать сокращённые ссылки
+[Check status of authorization]
+Проверить статус авторизации
 [Enter code]
 Введите код
 [Enter code below:]
 Введите код со страницы:
 [Cancel]
 Отмена
-[You have been authorized]
-Авторизация прошла успешно
-[Are you sure you want to request authorization?]
-Вы уверены, что хотите запросить авторизацию?
-[Request authorization]
-Запросить авторизацию
-[Are you sure you want to revoke authorization?]
-Вы уверены, что хотите отозвать авторизацию?
-[Revoke authorization]
-Отозвать авторизацию
+[in process...]
+в процессе...
+[you have been authorized]
+авторизация прошла успешно
+[unknown error]
+неизвестная ошибка
+[Dropbox supports the following commands:]
+Доступны следующие команды:
+[shows all files in folder "dir" ("dir" can be omitted for root folder)]
+отображает содержимое папки "dir" ("dir" можно опустить, если речь о корневой папке)
+[returns download link for file or folder with specified path ("path" is relative from root folder)]
+возвращает ссылку на файл или папку, расположенную по указанному пути (относительно корневой папки)
+[deletes file or folder with specified path ("path" is relative from root folder)]
+удаляет файл или папку по указанному пути (относительно корневой папки)
 [is file]
 это файл
 [is empty]
 пустая
+["%s" command has invalid parameter.\nUse "/help" for more info.]
+неверный параметр команды "%s".\nИспользуйте "/help" для получения справки.
 [is not deleted]
 не удалён
 [is deleted]
 удалён
+[you are already authorized]
+вы уже авторизованы
+[you are not authorized yet]
+вы еще не авторизованы
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]
@@ -57,6 +69,10 @@
 Протоколы
 [Protocol icon]
 Значок протокола
+[Unknown command "%s".\nUse "/help" for more info.]
+Неизвестная команда "%s".\nИспользуйте "/help" для получения справки.
+["%s" is not valid.\nUse "/help" for more info.]
+"%s" не действительна.\nИспользуйте "/help" для получения справки.
 [Server does not respond]
 Нет ответа от сервера
 [Link to download file "%s": %s]

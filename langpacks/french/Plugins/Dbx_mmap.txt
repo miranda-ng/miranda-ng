@@ -116,6 +116,8 @@ Mot de passe incorrect !
 
 [Event marked as first which is not: correcting]
 
+[Zero event's contact id: correcting]
+
 [Extra flags found in event: removing]
 
 [First unread event marked wrong: fixing]

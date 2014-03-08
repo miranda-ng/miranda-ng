@@ -29,8 +29,8 @@ E-mail:
 Автоматически авторизовывать пользователей из списка
 [Automatically grant authorization to new users]
 Автоматически авторизовывать новых пользователей
-[Automatic authorization on mail.ru web services]
-Автоматическая авторизация на веб сервисах mail.ru
+[Automatic authorization on Mail.ru web services]
+Автоматическая авторизация на веб сервисах Mail.ru
 [Notify me when a message delivery has failed]
 Уведомить меня, если сообщение не доставлено
 [Notify about new mail if increment]
@@ -483,3 +483,5 @@ MRIM_CS_SMS_ACK: не найден в очереди
 Звезда
 [Music]
 Музыка
+[Dating]
+Знакомства

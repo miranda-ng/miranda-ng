@@ -91,9 +91,9 @@ Nascondi i gruppi vuoti
 Disattiva gruppi
 [Ask before deleting contacts]
 Chiedi conferma per cancellazione
-[Contact List]
+[Contact list]
 Lista dei contatti
-[Contact List Sorting]
+[Contact list sorting]
 Ordinamento lista contatti
 [Gamma correction]
 Correggi la gamma dei colori

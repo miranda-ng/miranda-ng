@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
 [Authorization]
@@ -11,13 +11,9 @@ Authorisation
 Click authorise button
 [Authorize]
 Authorise
-[You have been authorized]
-You have been authorised
-[Are you sure you want to request authorization?]
-Are you sure you want to request authorisation?
-[Request authorization]
-Request authorisation
-[Are you sure you want to revoke authorization?]
-Are you sure you want to revoke authorisation?
-[Revoke authorization]
-Revoke authorisation
+[you have been authorized]
+you have been authorised
+[you are already authorized]
+you are already authorised
+[you are not authorized yet]
+you are not authorised yet

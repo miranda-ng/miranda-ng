@@ -23,5 +23,5 @@ Cancel
 ステータス
 [Background]
 背景
-[Contact List]
+[Contact list]
 コンタクトリスト

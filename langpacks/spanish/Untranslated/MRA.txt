@@ -6,7 +6,7 @@
 [Automatically add contacts to server list on logon]
 [Automatically grant authorization to users in contact list]
 [Automatically grant authorization to new users]
-[Automatic authorization on mail.ru web services]
+[Automatic authorization on Mail.ru web services]
 [Notify me when a message delivery has failed]
 [Notify about new mail if increment]
 [Notify about new mail tray icon]
@@ -195,3 +195,4 @@
 [Squirrel]
 [Star]
 [Music]
+[Dating]

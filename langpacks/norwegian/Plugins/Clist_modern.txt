@@ -145,9 +145,9 @@ Skjul tomme grupper
 Deaktiver grupper
 [Ask before deleting contacts]
 Spør før sletting av kontakter
-[Contact List]
+[Contact list]
 Kontaktliste
-[Contact List Sorting]
+[Contact list sorting]
 Kontaktliste sortering
 [Place offline users out of groups]
 Plasser frakoblede brukere utenfor gr.
@@ -469,7 +469,7 @@ Skjul Miranda
 &Gi gruppen nytt navn
 [&Delete Group]
 &Slett Gruppe
-[Contact List smileys]
+[Contact list smileys]
 Kontaktliste smileyer
 [List background]
 Listebakgrunn
@@ -615,7 +615,7 @@ Du trenger en bildetjeneste plugin for å behandle PNG bilder.
 Feil
 [Load/Save]
 Load/Lagre
-[Object Editor]
+[Object editor]
 Objekt Editor
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nForfatter(e):\t %s\nKontakt:\t %s\nWeb:\t %s\n\nFil:\t %s

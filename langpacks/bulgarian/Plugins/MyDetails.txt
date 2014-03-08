@@ -157,6 +157,6 @@
 Задаване на прякор за %s
 [Set My Status Message for %s]
 Текст за състояние "%s"
-[Contact List]
+[Contact list]
 Списък с контакти
 ;file \plugins\MyDetails\src\options.cpp

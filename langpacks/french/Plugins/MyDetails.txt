@@ -157,6 +157,6 @@ Cacher mes détails
 Changer mon pseudo pour %s
 [Set My Status Message for %s]
 Changer mon message d'état pour %s
-[Contact List]
+[Contact list]
 Liste de contacts
 ;file \plugins\MyDetails\src\options.cpp
