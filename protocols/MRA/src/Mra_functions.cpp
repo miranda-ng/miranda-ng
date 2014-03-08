@@ -1106,7 +1106,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 			mir_subclassWindow(GetDlgItem(hWndDlg, IDC_MSG_TO_SEND), MessageEditSubclassProc);
 			SendMessage(hWndEdit, EM_LIMITTEXT, MICBLOG_STATUS_MAX, 0);
 
-			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(gdiMenuItems[5].hIcolib));
+			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)IconLibGetIcon(gdiMenuItems[4].hIcolib));
 
 			// blog status message
 			CMStringW szBuff;

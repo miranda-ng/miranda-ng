@@ -52,6 +52,9 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 	if (MraGetNLBData(szHost, &nloc.wPort) == NO_ERROR) {
 		nloc.szHost = szHost;
+		//nloc.szHost = "217.69.141.245";
+		//nloc.wPort = 443;
+		//nloc.flags |= NLOCF_SSL;
 		dwCurConnectReTryCount = dwConnectReTryCount;
 		do {
 			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
