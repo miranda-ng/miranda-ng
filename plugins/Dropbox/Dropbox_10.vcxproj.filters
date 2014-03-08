@@ -75,8 +75,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\dropbox.ico">
+    <None Include="res\dropbox.ico">
       <Filter>Resource Files\Icons</Filter>
-    </Image>
+    </None>
   </ItemGroup>
 </Project>
