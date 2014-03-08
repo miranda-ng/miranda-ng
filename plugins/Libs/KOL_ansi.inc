@@ -155,7 +155,7 @@ type
   NEWTEXTMETRIC = NEWTEXTMETRICA;
   PNewTextMetricExA = ^TNewTextMetricExA;
   // tagNEWTEXTMETRICEXA}
-  tagNEWTEXTMETRICEXA = {packed} record
+  tagNEWTEXTMETRICEXA = packed record
     ntmTm: TNewTextMetricA;
     ntmFontSig: TFontSignature;
   end;
@@ -164,7 +164,7 @@ type
   NEWTEXTMETRICEXA = tagNEWTEXTMETRICEXA;
   PNewTextMetricExW = ^TNewTextMetricExW;
   // tagNEWTEXTMETRICEXW}
-  tagNEWTEXTMETRICEXW = {packed} record
+  tagNEWTEXTMETRICEXW = packed record
     ntmTm: TNewTextMetricW;
     ntmFontSig: TFontSignature;
   end;
@@ -177,13 +177,13 @@ type
   PEnumLogFontW = ^TEnumLogFontW;
   PEnumLogFont = PEnumLogFontA;
   // tagENUMLOGFONTA}
-  tagENUMLOGFONTA = {packed} record
+  tagENUMLOGFONTA = packed record
     elfLogFont: TLogFontA;
     elfFullName: array[0..LF_FULLFACESIZE - 1] of AnsiChar;
     elfStyle: array[0..LF_FACESIZE - 1] of AnsiChar;
   end;
   // tagENUMLOGFONTW}
-  tagENUMLOGFONTW = {packed} record
+  tagENUMLOGFONTW = packed record
     elfLogFont: TLogFontW;
     elfFullName: array[0..LF_FULLFACESIZE - 1] of WideChar;
     elfStyle: array[0..LF_FACESIZE - 1] of WideChar;
@@ -203,14 +203,14 @@ type
   PEnumLogFontExW = ^TEnumLogFontExW;
   PEnumLogFontEx = PEnumLogFontExA;
   // tagENUMLOGFONTEXA}
-  tagENUMLOGFONTEXA = {packed} record
+  tagENUMLOGFONTEXA = packed record
     elfLogFont: TLogFontA;
     elfFullName: array[0..LF_FULLFACESIZE - 1] of AnsiChar;
     elfStyle: array[0..LF_FACESIZE - 1] of AnsiChar;
     elfScript: array[0..LF_FACESIZE - 1] of AnsiChar;
   end;
   // tagENUMLOGFONTEXW}
-  tagENUMLOGFONTEXW = {packed} record
+  tagENUMLOGFONTEXW = packed record
     elfLogFont: TLogFontW;
     elfFullName: array[0..LF_FULLFACESIZE - 1] of WideChar;
     elfStyle: array[0..LF_FACESIZE - 1] of WideChar;
@@ -271,14 +271,14 @@ type
   PDisplayDeviceW = ^TDisplayDeviceW;
   PDisplayDevice = PDisplayDeviceA;
   // _DISPLAY_DEVICEA}
-  _DISPLAY_DEVICEA = {packed} record
+  _DISPLAY_DEVICEA = packed record
     cb: DWORD;
     DeviceName: array[0..31] of AnsiChar;
     DeviceString: array[0..127] of AnsiChar;
     StateFlags: DWORD;
   end;
   // _DISPLAY_DEVICEW}
-  _DISPLAY_DEVICEW = {packed} record
+  _DISPLAY_DEVICEW = packed record
     cb: DWORD;
     DeviceName: array[0..31] of WideChar;
     DeviceString: array[0..127] of WideChar;
@@ -377,7 +377,7 @@ type
   PPolyTextW = ^TPolyTextW;
   PPolyText = PPolyTextA;
   // tagPOLYTEXTA}
-  tagPOLYTEXTA = {packed} record
+  tagPOLYTEXTA = packed record
     x: Integer;
     y: Integer;
     n: UINT;
@@ -387,7 +387,7 @@ type
     pdx: PINT;
   end;
   // tagPOLYTEXTW}
-  tagPOLYTEXTW = {packed} record
+  tagPOLYTEXTW = packed record
     x: Integer;
     y: Integer;
     n: UINT;
@@ -411,7 +411,7 @@ type
   PGCPResultsW = ^TGCPResultsW;
   PGCPResults = PGCPResultsA;
   // tagGCP_RESULTSA}
-  tagGCP_RESULTSA = {packed} record
+  tagGCP_RESULTSA = packed record
     lStructSize: DWORD;
     lpOutString: PAnsiChar;
     lpOrder: PUINT;
@@ -423,7 +423,7 @@ type
     nMaxFit: Integer;
   end;
   // tagGCP_RESULTSW}
-  tagGCP_RESULTSW = {packed} record
+  tagGCP_RESULTSW = packed record
     lStructSize: DWORD;
     lpOutString: PWideChar;
     lpOrder: PUINT;
@@ -450,7 +450,7 @@ const
   MM_MAX_NUMAXES = 16;
 type
   PAxisInfoA = ^TAxisInfoA;
-  tagAXISINFOA = {packed} record
+  tagAXISINFOA = packed record
     axMinValue: Longint;
     axMaxValue: Longint;
     axAxisName: array[0..MM_MAX_AXES_NAMELEN-1] of AnsiChar;
@@ -458,7 +458,7 @@ type
   TAxisInfoA = tagAXISINFOA;
   PAxisInfoW = ^TAxisInfoW;
   // tagAXISINFOW}
-  tagAXISINFOW = {packed} record
+  tagAXISINFOW = packed record
     axMinValue: Longint;
     axMaxValue: Longint;
     axAxisName: array[0..MM_MAX_AXES_NAMELEN-1] of WideChar;
@@ -467,7 +467,7 @@ type
   PAxisInfo = PAxisInfoA;
   PAxesListA = ^TAxesListA;
   // tagAXESLISTA}
-  tagAXESLISTA = {packed} record
+  tagAXESLISTA = packed record
     axlReserved: DWORD;
     axlNumAxes: DWORD;
     axlAxisInfo: array[0..MM_MAX_NUMAXES-1] of TAxisInfoA;
@@ -475,7 +475,7 @@ type
   TAxesListA = tagAXESLISTA;
   PAxesListW = ^TAxesListW;
   // tagAXESLISTW}
-  tagAXESLISTW = {packed} record
+  tagAXESLISTW = packed record
     axlReserved: DWORD;
     axlNumAxes: DWORD;
     axlAxisInfo: array[0..MM_MAX_NUMAXES-1] of TAxisInfoW;
@@ -484,20 +484,20 @@ type
   PAxesList = PAxesListA;
   PEnumLogFontExDVA = ^TEnumLogFontExDVA;
   PDesignVector = ^TDesignVector;
-  tagDESIGNVECTOR = {packed} record
+  tagDESIGNVECTOR = packed record
     dvReserved: DWORD;
     dvNumAxes: DWORD;
     dvValues: array[0..MM_MAX_NUMAXES-1] of Longint;
   end;
   TDesignVector = tagDESIGNVECTOR;
-  tagENUMLOGFONTEXDVA = {packed} record
+  tagENUMLOGFONTEXDVA = packed record
     elfEnumLogfontEx: TEnumLogFontExA;
     elfDesignVector: TDesignVector;
   end;
   TEnumLogFontExDVA = tagENUMLOGFONTEXDVA;
   PEnumLogFontExDVW = ^TEnumLogFontExDVW;
   // tagENUMLOGFONTEXDVW}
-  tagENUMLOGFONTEXDVW = {packed} record
+  tagENUMLOGFONTEXDVW = packed record
     elfEnumLogfontEx: TEnumLogFontExW;
     elfDesignVector: TDesignVector;
   end;
@@ -505,14 +505,14 @@ type
   PEnumLogFontExDV = PEnumLogFontExDVA;
   PEnumTextMetricA = ^TEnumTextMetricA;
   // tagENUMTEXTMETRICA}
-  tagENUMTEXTMETRICA = {packed} record
+  tagENUMTEXTMETRICA = packed record
     etmNewTextMetricEx: TNewTextMetricExA;
     etmAxesList: TAxesListA;
   end;
   TEnumTextMetricA = tagENUMTEXTMETRICA;
   PEnumTextMetricW = ^TEnumTextMetricW;
   // tagENUMTEXTMETRICW}
-  tagENUMTEXTMETRICW = {packed} record
+  tagENUMTEXTMETRICW = packed record
     etmNewTextMetricEx: TNewTextMetricExW;
     etmAxesList: TAxesListW;
   end;
@@ -522,7 +522,7 @@ type
   PDocInfoW = ^TDocInfoW;
   PDocInfo = PDocInfoA;
   // _DOCINFOA}
-  _DOCINFOA = {packed} record
+  _DOCINFOA = packed record
     cbSize: Integer;
     lpszDocName: PAnsiChar;
     lpszOutput: PAnsiChar;
@@ -530,7 +530,7 @@ type
     fwType: DWORD;
   end;
   // _DOCINFOW}
-  _DOCINFOW = {packed} record
+  _DOCINFOW = packed record
     cbSize: Integer;
     lpszDocName: PWideChar;
     lpszOutput: PWideChar;
@@ -552,7 +552,7 @@ type
   PCreateStructW = ^TCreateStructW;
   PCreateStruct = PCreateStructA;
   // tagCREATESTRUCTA}
-  tagCREATESTRUCTA = {packed} record
+  tagCREATESTRUCTA = packed record
     lpCreateParams: Pointer;
     hInstance: HINST;
     hMenu: HMENU;
@@ -567,7 +567,7 @@ type
     dwExStyle: DWORD;
   end;
   // tagCREATESTRUCTW}
-  tagCREATESTRUCTW = {packed} record
+  tagCREATESTRUCTW = packed record
     lpCreateParams: Pointer;
     hInstance: HINST;
     hMenu: HMENU;
@@ -596,7 +596,7 @@ type
   PWndClassExW = ^TWndClassExW;
   PWndClassEx = PWndClassExA;
   // tagWNDCLASSEXA}
-  tagWNDCLASSEXA = {packed} record
+  tagWNDCLASSEXA = packed record
     cbSize: UINT;
     style: UINT;
     lpfnWndProc: TFNWndProc;
@@ -611,7 +611,7 @@ type
     hIconSm: HICON;
   end;
   // tagWNDCLASSEXW}
-  tagWNDCLASSEXW = {packed} record
+  tagWNDCLASSEXW = packed record
     cbSize: UINT;
     style: UINT;
     lpfnWndProc: TFNWndProc;
@@ -641,7 +641,7 @@ type
   PWndClassW = ^TWndClassW;
   PWndClass = PWndClassA;
   // tagWNDCLASSA}
-  tagWNDCLASSA = {packed} record
+  tagWNDCLASSA = packed record
     style: UINT;
     lpfnWndProc: TFNWndProc;
     cbClsExtra: Integer;
@@ -654,7 +654,7 @@ type
     lpszClassName: PAnsiChar;
   end;
   // tagWNDCLASSW}
-  tagWNDCLASSW = {packed} record
+  tagWNDCLASSW = packed record
     style: UINT;
     lpfnWndProc: TFNWndProc;
     cbClsExtra: Integer;
@@ -706,7 +706,7 @@ type
   PMsgBoxParamsA = ^TMsgBoxParamsA;
   PMsgBoxParamsW = ^TMsgBoxParamsW;
   // tagMSGBOXPARAMSA}
-  tagMSGBOXPARAMSA = {packed} record
+  tagMSGBOXPARAMSA = packed record
     cbSize: UINT;
     hwndOwner: HWND;
     hInstance: HINST;
@@ -719,7 +719,7 @@ type
     dwLanguageId: DWORD;
   end;
   // tagMSGBOXPARAMSW}
-  tagMSGBOXPARAMSW = {packed} record
+  tagMSGBOXPARAMSW = packed record
     cbSize: UINT;
     hwndOwner: HWND;
     hInstance: HINST;
@@ -806,7 +806,7 @@ type
   // HELPWININFO}
   HELPWININFO = HELPWININFOA;
   // tagNONCLIENTMETRICSA}
-  tagNONCLIENTMETRICSA = {packed} record
+  tagNONCLIENTMETRICSA = packed record
     cbSize: UINT;
     iBorderWidth: Integer;
     iScrollWidth: Integer;
@@ -824,7 +824,7 @@ type
     lfMessageFont: TLogFontA;
   end;
   // tagNONCLIENTMETRICSW}
-  tagNONCLIENTMETRICSW = {packed} record
+  tagNONCLIENTMETRICSW = packed record
     cbSize: UINT;
     iBorderWidth: Integer;
     iScrollWidth: Integer;
@@ -856,7 +856,7 @@ type
   // NONCLIENTMETRICS}
   NONCLIENTMETRICS = NONCLIENTMETRICSA;
   // tagICONMETRICSA}
-  tagICONMETRICSA = {packed} record
+  tagICONMETRICSA = packed record
     cbSize: UINT;
     iHorzSpacing: Integer;
     iVertSpacing: Integer;
@@ -864,7 +864,7 @@ type
     lfFont: TLogFontA;
   end;
   // tagICONMETRICSW}
-  tagICONMETRICSW = {packed} record
+  tagICONMETRICSW = packed record
     cbSize: UINT;
     iHorzSpacing: Integer;
     iVertSpacing: Integer;
@@ -890,7 +890,7 @@ type
   PSerialKeysA = ^TSerialKeysA;
   PSerialKeysW = ^TSerialKeysW;
   // tagSERIALKEYSA}
-  tagSERIALKEYSA = {packed} record
+  tagSERIALKEYSA = packed record
     cbSize: UINT;
     dwFlags: DWORD;
     lpszActivePort: PAnsiChar;
@@ -900,7 +900,7 @@ type
     iActive: UINT;
   end;
   // tagSERIALKEYSW}
-  tagSERIALKEYSW = {packed} record
+  tagSERIALKEYSW = packed record
     cbSize: UINT;
     dwFlags: DWORD;
     lpszActivePort: PWideChar;
@@ -924,13 +924,13 @@ type
   PHighContrastA = ^THighContrastA;
   PHighContrastW = ^THighContrastW;
   // tagHIGHCONTRASTA}
-  tagHIGHCONTRASTA = {packed} record
+  tagHIGHCONTRASTA = packed record
     cbSize: UINT;
     dwFlags: DWORD;
     lpszDefaultScheme: PAnsiChar;
   end;
   // tagHIGHCONTRASTW}
-  tagHIGHCONTRASTW = {packed} record
+  tagHIGHCONTRASTW = packed record
     cbSize: UINT;
     dwFlags: DWORD;
     lpszDefaultScheme: PWideChar;
@@ -950,7 +950,7 @@ type
   PSoundsEntryA = ^TSoundsEntryA;
   PSoundsEntryW = ^TSoundsEntryW;
   // tagSOUNDSENTRYA}
-  tagSOUNDSENTRYA = {packed} record
+  tagSOUNDSENTRYA = packed record
     cbSize: UINT;
     dwFlags: DWORD;
     iFSTextEffect: DWORD;
@@ -965,7 +965,7 @@ type
     iWindowsEffectOrdinal: DWORD;
   end;
   // tagSOUNDSENTRYW}
-  tagSOUNDSENTRYW = {packed} record
+  tagSOUNDSENTRYW = packed record
     cbSize: UINT;
     dwFlags: DWORD;
     iFSTextEffect: DWORD;
@@ -994,7 +994,7 @@ type
   PNumberFmtA = ^TNumberFmtA;
   PNumberFmtW = ^TNumberFmtW;
   // _numberfmtA}
-  _numberfmtA = {packed} record
+  _numberfmtA = packed record
     NumDigits: UINT;        { number of decimal digits }
     LeadingZero: UINT;      { if leading zero in decimal fields }
     Grouping: UINT;         { group size left of decimal }
@@ -1003,7 +1003,7 @@ type
     NegativeOrder: UINT;    { negative number ordering }
   end;
   // _numberfmtW}
-  _numberfmtW = {packed} record
+  _numberfmtW = packed record
     NumDigits: UINT;        { number of decimal digits }
     LeadingZero: UINT;      { if leading zero in decimal fields }
     Grouping: UINT;         { group size left of decimal }
@@ -1025,7 +1025,7 @@ type
   PCurrencyFmtA = ^TCurrencyFmtA;
   PCurrencyFmtW = ^TCurrencyFmtW;
   // _currencyfmtA}
-  _currencyfmtA = {packed} record
+  _currencyfmtA = packed record
     NumDigits: UINT;           { number of decimal digits }
     LeadingZero: UINT;         { if leading zero in decimal fields }
     Grouping: UINT;            { group size left of decimal }
@@ -1036,7 +1036,7 @@ type
     lpCurrencySymbol: PAnsiChar;  { ptr to currency symbol AnsiString }
   end;
   // _currencyfmtW}
-  _currencyfmtW = {packed} record
+  _currencyfmtW = packed record
     NumDigits: UINT;           { number of decimal digits }
     LeadingZero: UINT;         { if leading zero in decimal fields }
     Grouping: UINT;            { group size left of decimal }
@@ -1062,14 +1062,14 @@ type
   PPValueA = ^TPValueA;
   PPValueW = ^TPValueW;
   // pvalueA}
-  pvalueA = {packed} record
+  pvalueA = packed record
     pv_valuename: PAnsiChar;           { The value name pointer }
     pv_valuelen: BOOL;
     pv_value_context: Pointer;
     pv_type: DWORD;
   end;
   // pvalueW}
-  pvalueW = {packed} record
+  pvalueW = packed record
     pv_valuename: PWideChar;           { The value name pointer }
     pv_valuelen: BOOL;
     pv_value_context: Pointer;
@@ -1085,14 +1085,14 @@ type
   PValueEntA = ^TValueEntA;
   PValueEntW = ^TValueEntW;
   // value_entA}
-  value_entA = {packed} record
+  value_entA = packed record
     ve_valuename: PAnsiChar;
     ve_valuelen: DWORD;
     ve_valueptr: DWORD;
     ve_type: DWORD;
   end;
   // value_entW}
-  value_entW = {packed} record
+  value_entW = packed record
     ve_valuename: PWideChar;
     ve_valuelen: DWORD;
     ve_valueptr: DWORD;
@@ -1115,7 +1115,7 @@ type
   PNetResourceA = ^TNetResourceA;
   PNetResourceW = ^TNetResourceW;
   // _NETRESOURCEA}
-  _NETRESOURCEA = {packed} record
+  _NETRESOURCEA = packed record
     dwScope: DWORD;
     dwType: DWORD;
     dwDisplayType: DWORD;
@@ -1126,7 +1126,7 @@ type
     lpProvider: PAnsiChar;
   end;
   // _NETRESOURCEW}
-  _NETRESOURCEW = {packed} record
+  _NETRESOURCEW = packed record
     dwScope: DWORD;
     dwType: DWORD;
     dwDisplayType: DWORD;
@@ -1150,7 +1150,7 @@ type
   PDiscDlgStructA = ^TDiscDlgStructA;
   PDiscDlgStructW = ^TDiscDlgStructW;
   // _DISCDLGSTRUCTA}
-  _DISCDLGSTRUCTA = {packed} record
+  _DISCDLGSTRUCTA = packed record
     cbStructure: DWORD;       { size of this structure in bytes }
     hwndOwner: HWND;          { owner window for the dialog }
     lpLocalName: PAnsiChar;       { local device name }
@@ -1158,7 +1158,7 @@ type
     dwFlags: DWORD;
   end;
   // _DISCDLGSTRUCTW}
-  _DISCDLGSTRUCTW = {packed} record
+  _DISCDLGSTRUCTW = packed record
     cbStructure: DWORD;       { size of this structure in bytes }
     hwndOwner: HWND;          { owner window for the dialog }
     lpLocalName: PWideChar;       { local device name }
@@ -1181,11 +1181,11 @@ type
   PUniversalNameInfoA = ^TUniversalNameInfoA;
   PUniversalNameInfoW = ^TUniversalNameInfoW;
   // _UNIVERSAL_NAME_INFOA}
-  _UNIVERSAL_NAME_INFOA = {packed} record
+  _UNIVERSAL_NAME_INFOA = packed record
     lpUniversalName: PAnsiChar;
   end;
   // _UNIVERSAL_NAME_INFOW}
-  _UNIVERSAL_NAME_INFOW = {packed} record
+  _UNIVERSAL_NAME_INFOW = packed record
     lpUniversalName: PWideChar;
   end;
   // _UNIVERSAL_NAME_INFO}
@@ -1203,13 +1203,13 @@ type
   PRemoteNameInfoA = ^TRemoteNameInfoA;
   PRemoteNameInfoW = ^TRemoteNameInfoW;
   // _REMOTE_NAME_INFOA}
-  _REMOTE_NAME_INFOA = {packed} record
+  _REMOTE_NAME_INFOA = packed record
     lpUniversalName: PAnsiChar;
     lpConnectionName: PAnsiChar;
     lpRemainingPath: PAnsiChar;
   end;
   // _REMOTE_NAME_INFOW}
-  _REMOTE_NAME_INFOW = {packed} record
+  _REMOTE_NAME_INFOW = packed record
     lpUniversalName: PWideChar;
     lpConnectionName: PWideChar;
     lpRemainingPath: PWideChar;
@@ -1237,7 +1237,7 @@ type
   {$ENDIF _D3orHigher}
   { Alt-Tab Switch window information. }
   PAltTabInfo = ^TAltTabInfo;
-  tagALTTABINFO = {packed} record
+  tagALTTABINFO = packed record
     cbSize: DWORD;
     cItems: Integer;
     cColumns: Integer;
@@ -1743,7 +1743,7 @@ function DialogBoxIndirectParam(hInstance: HINST; const lpDialogTemplate: TDlgTe
   hWndParent: HWND; lpDialogFunc: TFNDlgProc; dwInitParam: LPARAM): Integer; stdcall;
 function DialogBoxParam(hInstance: HINST; lpTemplateName: PKOLChar;
   hWndParent: HWND; lpDialogFunc: TFNDlgProc; dwInitParam: LPARAM): Integer; stdcall;
-function DispatchMessage(const lpMsg: TMsg): LRESULT; stdcall;
+function DispatchMessage(const lpMsg: TMsg): Longint; stdcall;
 function DlgDirList(hDlg: HWND; lpPathSpec: PKOLChar;
   nIDListBox, nIDStaticPath: Integer; uFileType: UINT): Integer; stdcall;
 function DlgDirListComboBox(hDlg: HWND; lpPathSpec: PKOLChar;
@@ -1798,7 +1798,7 @@ function GrayString(hDC: HDC; hBrush: HBRUSH; lpOutputFunc: TFNGrayStringProc;
   lpData: LPARAM; nCount, X, Y, nWidth, nHeight: Integer): BOOL; stdcall;
 function InsertMenu(hMenu: HMENU; uPosition, uFlags, uIDNewItem: UINT;
   lpNewItem: PKOLChar): BOOL; stdcall;
-function InsertMenuItem(p1: HMENU; p2: UINT; p3: BOOL; const p4: TMenuItemInfoA): BOOL; stdcall;
+function InsertMenuItem(p1: HMENU; p2: UINT; p3: BOOL; const p4: TMenuItemInfo): BOOL; stdcall;
 function IsCharAlpha(ch: KOLChar): BOOL; stdcall;
 function IsCharAlphaNumeric(ch: KOLChar): BOOL; stdcall;
 function IsCharLower(ch: KOLChar): BOOL; stdcall;
@@ -1890,20 +1890,6 @@ const
   IDC_HANDs = MakeIntResource(32649);
   IDC_APPSTARTING = MakeIntResource(32650);
   IDC_HELP = MakeIntResource(32651);
-
-function GetWindowLongPtr(hWnd: HWND; nIndex: Integer): LONG_PTR; stdcall;
-function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall;
-function GetWindowLongPtrA(hWnd: HWND; nIndex: Integer): LONG_PTR; stdcall;
-function SetWindowLongPtrA(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall;
-function GetWindowLongPtrW(hWnd: HWND; nIndex: Integer): LONG_PTR; stdcall;
-function SetWindowLongPtrW(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall;
-function GetClassLongPtr(hWnd: HWND; nIndex: Integer): ULONG_PTR; stdcall;
-function SetClassLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): ULONG_PTR; stdcall;
-function GetClassLongPtrA(hWnd: HWND; nIndex: Integer): ULONG_PTR; stdcall;
-function SetClassLongPtrA(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): ULONG_PTR; stdcall;
-function GetClassLongPtrW(hWnd: HWND; nIndex: Integer): ULONG_PTR; stdcall;
-function SetClassLongPtrW(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): ULONG_PTR; stdcall;
-
 {$ENDIF interface_part} ////////////////////////////////////////////////////////
 
 {$IFDEF implementation_part} ///////////////////////////////////////////////////
@@ -2326,31 +2312,5 @@ function CreateMutex(lpMutexAttributes: PSecurityAttributes; bInitialOwner: BOOL
 begin
   Result := _CreateMutex(lpMutexAttributes, Integer(Boolean(bInitialOwner)), lpName);
 end;
-{$IFDEF WIN64}
-function GetWindowLongPtr; external user32 name 'GetWindowLongPtrA';
-function SetWindowLongPtr; external user32 name 'SetWindowLongPtrA';
-function GetClassLongPtr; external user32 name 'GetClassLongPtrA';
-function SetClassLongPtr; external user32 name 'SetClassLongPtrA';
-function GetWindowLongPtrA; external user32 name 'GetWindowLongPtrA';
-function SetWindowLongPtrA; external user32 name 'SetWindowLongPtrA';
-function GetClassLongPtrA; external user32 name 'GetClassLongPtrA';
-function SetClassLongPtrA; external user32 name 'SetClassLongPtrA';
-function GetWindowLongPtrW; external user32 name 'GetWindowLongPtrW';
-function SetWindowLongPtrW; external user32 name 'SetWindowLongPtrW';
-function GetClassLongPtrW; external user32 name 'GetClassLongPtrW';
-function SetClassLongPtrW; external user32 name 'SetClassLongPtrW';
-{$ELSE}
-function GetWindowLongPtr; external user32 name 'GetWindowLongA';
-function SetWindowLongPtr; external user32 name 'SetWindowLongA';
-function GetClassLongPtr; external user32 name 'GetClassLongA';
-function SetClassLongPtr; external user32 name 'SetClassLongA';
-function GetWindowLongPtrA; external user32 name 'GetWindowLongA';
-function SetWindowLongPtrA; external user32 name 'SetWindowLongA';
-function GetClassLongPtrA; external user32 name 'GetClassLongA';
-function SetClassLongPtrA; external user32 name 'SetClassLongA';
-function GetWindowLongPtrW; external user32 name 'GetWindowLongW';
-function SetWindowLongPtrW; external user32 name 'SetWindowLongW';
-function GetClassLongPtrW; external user32 name 'GetClassLongW';
-function SetClassLongPtrW; external user32 name 'SetClassLongW';
-{$ENDIF}
+
 {$ENDIF implementation_part} ///////////////////////////////////////////////////

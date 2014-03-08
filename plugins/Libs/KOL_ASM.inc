@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 // KOL_ASM.inc (to inlude in KOL.pas)
-// v 3.210
+// v 3.17
 
 function MsgBox( const S: KOLString; Flags: DWORD ): DWORD;
 asm
@@ -982,7 +982,7 @@ asm
           CALL      TObj.Destroy
 end;
 
-function TGraphicTool.ReleaseHandle: THandle;
+function TGraphicTool.ReleaseHandle: THANDLE;
 asm     //        //
         PUSH      EAX
         CALL      Changed
@@ -2800,7 +2800,6 @@ asm
         POP      EBP
 end;
 
-{$IFDEF fixed_asm}
 function File2Str( Handle: THandle): AnsiString;
 asm
         PUSH     EDX
@@ -2865,7 +2864,6 @@ asm
         CALL     System.@FreeMem
 @@fin:
 end;
-{$ENDIF}
 
 function FileWrite( Handle: THandle; const Buffer; Count: DWord): DWord;
 asm
@@ -3009,11 +3007,7 @@ asm
         CALL     Clear
         LEA      EAX, [EBX].FPath
         {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        CALL     System.@WStrClr
         {$ELSE}
         CALL     System.@LStrClr
         {$ENDIF}
@@ -3130,24 +3124,16 @@ asm     //cmd    //opd
         LEA      EDX, [EAX].fFileName
         PUSH     EDX
         LEA      EAX, [EAX].fSection
-       {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        {$IFDEF UNICODE_CTRLS}
+        CALL     System.@WStrClr
         {$ELSE}
-            CALL     System.@LStrClr
+        CALL     System.@LStrClr
         {$ENDIF}
         POP      EAX
         {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        CALL     System.@WStrClr
         {$ELSE}
-            CALL     System.@LStrClr
+        CALL     System.@LStrClr
         {$ENDIF}
         POP      EAX
         CALL     TObj.Destroy
@@ -3477,7 +3463,7 @@ asm
 {$ENDIF}
 end;
 
-function WndProc_DrawItem( Sender: PControl; var Msg: TMsg; var Rslt: LResult )
+function WndProc_DrawItem( Sender: PControl; var Msg: TMsg; var Rslt: Integer )
                           : Boolean;
 asm     //cmd    //opd
        CMP       word ptr [EDX].TMsg.message, WM_DRAWITEM
@@ -3861,7 +3847,7 @@ asm
         POP      EBX
 end;
 
-function WndProcDoEraseBkgnd( Self_: PControl; var Msg: TMsg; var Rslt: LResult ): Boolean;
+function WndProcDoEraseBkgnd( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm     //        //
         CMP       word ptr [EDX].TMsg.message, WM_ERASEBKGND
         JNE       @@ret_false
@@ -3917,7 +3903,7 @@ asm     //        //
         XOR       EAX, EAX
 end;
 
-function WndProcSplitter( Self_: PControl; var Msg: TMsg; var Rslt: LResult ): Boolean;
+function WndProcSplitter( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm
         CMP      word ptr [EDX].TMsg.message, WM_NCHITTEST
         JNE      @@noWM_NCHITTEST
@@ -4413,14 +4399,9 @@ asm
         AND      DL, $FE
 @@3:    MOV      [EBX].TControl.fLookTabKeys, DL
 {$IFDEF UNICODE_CTRLS}
-        TEST     EAX, 1 shl eoReadonly //dmiko
-        JNZ      @@4                   //
-        TEST     EAX, 1 shl eoNumber   //
-        JNZ      @@4                   //
         MOV      EAX, EBX
         MOV      EDX, offset[WndProcUnicodeChars]
         CALL     TControl.AttachProc
-@@4:
 {$ENDIF}
         XCHG     EAX, EBX
         POP      EBX
@@ -4543,7 +4524,7 @@ asm
         POP      EAX
 end;
 
-function WndProcParentResize( Self_: PControl; var Msg: TMsg; var Rslt: LResult ): Boolean;
+function WndProcParentResize( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm
         CMP      word ptr [EDX].TMsg.message, CM_SIZE
         JNZ      @@exit
@@ -4623,7 +4604,7 @@ asm
 end;
 
 // by Galkov, Jun-2009
-function WndProcNotify( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
+function WndProcNotify( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm
        CMP      word ptr [EDX].TMsg.message, WM_NOTIFY
        JNE      @@ret_false
@@ -4656,7 +4637,7 @@ asm
        XOR      EAX, EAX
 end;
 
-function WndProcCommonNotify( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
+function WndProcCommonNotify( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm
         CMP      word ptr [EDX].TMsg.message, WM_NOTIFY
         JNE      @@ret_false
@@ -4954,7 +4935,7 @@ asm     //cmd    //opd
         POP      EBX
 end;
 
-function WndProcTabControl( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
+function WndProcTabControl( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm     //cmd    //opd
 {$IFDEF OLD_ALIGN}
         PUSH     EBP
@@ -5680,14 +5661,10 @@ asm
         {$ENDIF}
 
         LEA      EAX, [EBX].fCaption
-       {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        {$IFDEF UNICODE_CTRLS}
+        CALL     System.@WStrClr
         {$ELSE}
-            CALL     System.@LStrClr
+        CALL     System.@LStrClr
         {$ENDIF}
         XCHG     EAX, EBX
         CALL     TObj.Destroy
@@ -5751,7 +5728,7 @@ asm
         JNZ       TControl.GetWindowHandle
 end;}
 
-function WndProcMouse(Self_: PControl; var Msg: TMsg; var Rslt: LRESULT): Boolean;
+function WndProcMouse(Self_: PControl; var Msg: TMsg; var Rslt: Integer): Boolean;
 asm
          PUSH      EBX
          PUSH      ESI
@@ -5846,7 +5823,7 @@ end;
 {$IFnDEF USE_GRAPHCTLS}
 {$IFnDEF NEW_MODAL}
 {$IFnDEF USE_MDI}
-function TControl.WndProc( var Msg: TMsg ): LRESULT;
+function TControl.WndProc( var Msg: TMsg ): Integer;
 asm     //cmd    //opd
         PUSH     EBX
         PUSH     ESI
@@ -6425,13 +6402,9 @@ asm
         XCHG    EBX, EAX
         LEA     EAX, [EBX].fCaption
         {$IFDEF UNICODE_CTRLS}
-            {$IFDEF UStr_}
-            CALL    System.@UStrAsg
-            {$ELSE}
-            CALL    System.@WStrAsg
-            {$ENDIF}
+        CALL    System.@WStrAsg
         {$ELSE}
-            CALL    System.@LStrAsg
+        CALL    System.@LStrAsg
         {$ENDIF}
 
         MOV     ECX, [EBX].fHandle
@@ -7024,7 +6997,7 @@ asm
         {$I CustomAppIconRsrcName_ASM.inc} // create such file with DB 'your icon rsrc name' / DD youriconnumber
         {$ELSE}
         {$IFDEF UNICODE_CTRLS}
-        DB 'M',0,'A',0,'I',0,'N',0,'I',0,'C',0,'O',0,'N',0,0,0 //dmiko
+        DB 'M',0,'A',0,'I',0,'N',0,'I',0,'C',0,'O',0,'N',0,0
         {$ELSE}
         DB 'MAINICON'
         {$ENDIF}
@@ -7045,7 +7018,7 @@ asm
         POP       EBX
 end;
 
-function TControl.CallDefWndProc(var Msg: TMsg): LRESULT;
+function TControl.CallDefWndProc(var Msg: TMsg): Integer;
 asm
         PUSH     [EDX].TMsg.lParam
         PUSH     [EDX].TMsg.wParam
@@ -7613,7 +7586,7 @@ asm
         JZ       @@loo
 end;
 
-function WndProcForm(Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
+function WndProcForm(Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 const szPaintStruct = sizeof(TPaintStruct);
 asm     //cmd    //opd
         {$IFDEF ENDSESSION_HALT}
@@ -7845,7 +7818,7 @@ asm
         POP      EAX
 end;
 
-function WndProcCtrl( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT): Boolean;
+function WndProcCtrl( Self_: PControl; var Msg: TMsg; var Rslt: Integer): Boolean;
 asm     //cmd    //opd
         PUSH     EBX
         XCHG     EBX, EAX
@@ -9679,13 +9652,9 @@ asm
           CALL     TObj.RefDec
 @@fin:  LEA      EAX, [EBX].FTooltip
         {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        CALL     System.@WStrClr
         {$ELSE}
-            CALL     System.@LStrClr
+        CALL     System.@LStrClr
         {$ENDIF}
         XCHG     EAX, EBX
         CALL     TObj.Destroy
@@ -9699,39 +9668,26 @@ asm
         JE       @@exit
         MOV      ECX, [EAX].fIcon
         JECXZ    @@exit
-
-        CMP      [EAX].FWnd, 0
-        JNZ      @@ok_setvalue
-
-        MOV      ECX, [EAX].FControl
-        JECXZ    @@exit
-
         PUSH     EDX
         PUSH     EAX
+          MOV      ECX, [EAX].FWnd
+          INC      ECX
+          LOOP     @@1
+          MOV      ECX, [EAX].fControl
+          XOR      EAX, EAX
+          JECXZ    @@1
           XCHG     EAX, ECX
           CALL     TControl.GetWindowHandle
-          TEST     EAX, EAX
-        POP      EAX
+@@1:
+        POP      ECX
         POP      EDX
-        JZ       @@exit
-
-@@ok_setvalue:
+        XCHG     EAX, ECX
+        JECXZ    @@exit
+        MOV      [EAX].fActive, DL
         MOVZX    EDX, DL
         XOR      DL, 1
-        SHL      DL, 1
-        PUSHFD
-        PUSH     EAX
-          CALL     SetTrayIcon
-        POP      EDX
-        POPFD
-        JZ       @@rslt_FActive
-
-        AND      AL, 1
-        XOR      AL, 1
-        AND      AL, byte ptr [EDX].FActive
-
-@@rslt_FActive:
-        MOV      byte ptr [EDX].FActive, AL
+        ADD      EDX, EDX
+        CALL     SetTrayIcon
 @@exit:
 end;
 
@@ -9751,7 +9707,7 @@ asm
 @@exit:
 end;
 
-function WndProcJustOne( Control: PControl; var Msg: TMsg; var Rslt: LRESULT ) : Boolean;
+function WndProcJustOne( Control: PControl; var Msg: TMsg; var Rslt: Integer ) : Boolean;
 asm
         MOV      ECX, [EDX].TMsg.message
         SUB      ECX, WM_CLOSE
@@ -10783,7 +10739,7 @@ asm
         POP      EBX
 end;
 
-function TControl.Perform(msgcode: DWORD; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+function TControl.Perform(msgcode: DWORD; wParam, lParam: Integer): Integer; stdcall;
 asm
         PUSH     [lParam]
         PUSH     [wParam]
@@ -10798,7 +10754,7 @@ asm
         {$ENDIF}
 end;
 
-function TControl.Postmsg(msgcode: DWORD; wParam: WPARAM; lParam: LPARAM): Boolean; stdcall;
+function TControl.Postmsg(msgcode: DWORD; wParam, lParam: Integer): Boolean; stdcall;
 asm
         PUSH     [lParam]
         PUSH     [wParam]
@@ -10854,13 +10810,9 @@ asm     //cmd    //opd
         LEA      EAX, [EAX].FTitle
 @@loo:
         {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        CALL     System.@WStrClr
         {$ELSE}
-            CALL     System.@LStrClr
+        CALL     System.@LStrClr
         {$ENDIF}
         POP      EAX
         TEST     EAX, EAX
@@ -10880,13 +10832,9 @@ asm     //cmd    //opd
         LEA      EAX, [EAX].FStatusText
 @@loo:
         {$IFDEF UNICODE_CTRLS}
-            {$IFDEF USTR_}
-            CALL     System.@UStrClr
-            {$ELSE}
-            CALL     System.@WStrClr
-            {$ENDIF}
+        CALL     System.@WStrClr
         {$ELSE}
-            CALL     System.@LStrClr
+        CALL     System.@LStrClr
         {$ENDIF}
         POP      EAX
         TEST     EAX, EAX
@@ -11078,15 +11026,11 @@ asm
         MOV      EDX, EAX
         MOV      EAX, ESP
         {$IFDEF UNICODE_CTRLS}
-        {$IFDEF UStr_}
-        CALL     System.@UStrFromPWChar
-        {$ELSE}
         CALL     System.@WStrFromPWChar
-        {$ENDIF}
         {$ELSE}
-            {$IFDEF _D2009orHigher}
-            XOR      ECX, ECX // TODO: safe?
-            {$ENDIF}
+        {$IFDEF _D2009orHigher}
+        XOR      ECX, ECX // TODO: safe?
+        {$ENDIF}
         CALL     System.@LStrFromPChar
         {$ENDIF}
 
@@ -11291,7 +11235,7 @@ asm
 end;
 {$ENDIF}
 
-procedure TimerProc( Wnd : HWnd; Msg : DWORD; T : PTimer; CurrentTime : DWord );
+function TimerProc( Wnd : HWnd; Msg : Integer; T : PTimer; CurrentTime : DWord ): Integer;
           stdcall;
 asm     //cmd    //opd
         {$IFDEF STOPTIMER_AFTER_APPLETTERMINATED}
@@ -12079,157 +12023,6 @@ asm
         CALL     LoadFromStream
         POP      EAX
         CALL     TObj.RefDec
-end;
-
-function MoveTetrades(Mem, From:PByte; Size: Integer;incFrom,
-         xx: Integer): Integer;
-asm
-         PUSH EBX
-         MOV  EBX, ECX
-         INC  EBX
-         SHR  EBX, 1
-         TEST BL, 1
-         JZ   @@0
-         INC  EBX
-@@0:
-         PUSH EBX  // Result := (Size+1)shr 1; if  (Result and 1) <> 0 then inc(Result);
-         XOR  EBX, EBX // BH = ff = 0
-@@1:
-         MOV  BL, [EDX]
-         TEST BH, 1
-         JZ   @@2
-         ADD  EDX, [incFrom] //[EBP+12] // inc(From, incFrom)
-         AND  BL, $0F
-         JMP  @@3
-@@2:     SHR  BL, 4
-@@3:
-         TEST BYTE PTR [xx], 1 //[EBP+8], 1
-         JZ   @@4
-         {$IFNDEF SMALLER_CODE}
-         AND  byte ptr [EAX], $F0
-         {$ENDIF}
-         OR   byte ptr [EAX], BL
-         INC  EAX
-         JMP  @@5
-@@4:     SHL  BL, 4
-         MOV  byte ptr [EAX], BL
-@@5:
-         INC  dword ptr [xx] //[EBP+8]
-         INC  BH
-         LOOP @@1
-
-         POP  EAX
-         POP  EBX
-end;
-
-function MoveRLEdata(Mem, From:PByte;Size: Integer;incFrom,
-         xx: Integer): Integer;
-asm
-         PUSH EBX
-         MOV  EBX, ECX
-         INC  EBX
-         AND  BL, $FE
-         PUSH EBX
-@@1:
-         MOV  BL, byte ptr [EDX]
-         MOV  byte ptr [EAX], BL
-         INC  EAX
-         ADD  EDX, [incFrom]
-         LOOP @@1
-
-         POP  EAX
-         POP  EBX
-end;
-
-procedure DecodeRLE(Bmp:PBitmap;Data:Pointer; MaxSize: DWORD;
-    MoveDataFun: TMoveData; shr_x: Integer);
-asm
-          PUSHAD
-          MOV  ESI, EAX
-          XCHG EDI, EDX
-          PUSH EDI // [ESP+12] = Data
-          PUSH ECX // [ESP+8] = MaxSize
-          CALL TBitmap.GetScanLineSize
-          PUSH 0 // [ESP+4] = X
-          PUSH 0 // [ESP+0] = Y
-          DEC  EDI
-@@1:
-          INC  EDI
-          MOV  EAX, [ESI].TBitmap.FHeight
-          CMP  dword ptr [ESP], EAX
-          JGE  @@end_while
-          MOV  EAX, EDI
-          SUB  EAX, dword ptr [ESP+12]
-          CMP  EAX, dword ptr [ESP+8]
-          JGE  @@end_while
-
-          MOV  BL, byte ptr [EDI]
-          TEST BL, BL
-          JNZ  @@nozero
-          INC  EDI
-          MOV  BL, byte ptr [EDI]
-          MOVZX ECX, BL
-          INC  ECX
-          LOOP @@z1
-          INC  dword ptr [ESP] // inc(Y);
-          MOV  dword ptr [ESP+4], ECX // X := 0;
-          JMP  @@1
-@@z1:
-          LOOP @@z2
-          JMP  @@end_while
-@@z2:
-          LOOP @@z3
-          INC  EDI
-          MOVZX EAX, byte ptr [EDI]
-          ADD  dword ptr [ESP+4], EAX
-          INC  EDI
-          MOVZX EAX, byte ptr [EDI]
-          ADD  dword ptr [ESP], EAX
-          JMP  @@1
-@@z3:
-          MOV  BH, 1
-          CALL @@call_move_data
-          ADD  EDI, EAX
-          DEC  EDI
-          JMP  @@1
-@@nozero:
-          MOV  BH, 0
-          CALL @@call_move_data
-          JMP  @@1
-
-@@call_move_data:
-          INC  EDI
-          XOR  EAX, EAX
-          MOVZX EDX, BL // Z
-          MOV  ECX, dword ptr [ESP+4+4] //X
-          ADD  EDX, ECX
-          CMP  EDX, [ESI].TBitmap.FWidth
-          JG   @@no_move
-          MOVZX EAX, BH
-          PUSH EAX            //... , 1 or 0, x)
-          PUSH ECX            //... , x)
-          MOV  EAX, dword ptr [ESI].TBitmap.fScanLineSize
-          MOV  EDX, dword ptr [ESP+0+4+8] // Y
-          MUL  EDX
-          ADD  EAX, dword ptr [ESI].TBitmap.fDIBBits
-          MOV  EDX, dword ptr [ESP+4+4+8] // X
-          MOV  CL, byte ptr[shr_x]
-          SHR  EDX, CL
-          ADD  EAX, EDX
-          MOV  EDX, EDI
-          MOVZX ECX, BL
-          CALL dword ptr [MoveDataFun]
-          MOVZX ECX, BL
-          ADD  dword ptr [ESP+4+4], ECX // inc(x, z)
-@@no_move:
-          RET
-
-@@end_while:
-          POP  EDX
-          POP  EDX
-          POP  ECX
-          POP  EDI
-          POPAD
 end;
 
 function TBitmap.ReleaseHandle: HBitmap;
@@ -14528,7 +14321,7 @@ asm     //cmd    //opd
         POP      EBX
 end;
 
-function WndProcUpdate( Sender: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
+function WndProcUpdate( Sender: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm     //cmd    //opd
         PUSH     EBX
         XCHG     EBX, EAX
@@ -14789,7 +14582,7 @@ asm
 end;
 {$ENDIF nASM_VERSION}
 
-function WndProcMouseEnterLeave( Self_: PControl; var Msg: TMsg; var Rslt: LRESULT ): Boolean;
+function WndProcMouseEnterLeave( Self_: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
 asm
     PUSH ESI
     XCHG ESI, EAX
@@ -15113,7 +14906,7 @@ asm
     POP  EAX
 end;
 
-function TControl.FormGetIntParam: PtrInt;
+function TControl.FormGetIntParam: Integer;
 asm
     PUSH ESI
     PUSH EDI

@@ -623,7 +623,6 @@ function wglUseFontOutlines(p1: HDC; p2, p3, p4: DWORD;
   p5, p6: Single; p7: Integer; p8: PGlyphMetricsFloat): BOOL; stdcall;
 function AnsiToOem(const lpszSrc: LPCSTR; lpszDst: LPSTR): BOOL; stdcall;
 function AnsiToOemBuff(lpszSrc: LPCSTR; lpszDst: LPSTR; cchDstLength: DWORD): BOOL; stdcall;
-function AnsiToOemBuffA(lpszSrc: LPCSTR; lpszDst: LPSTR; cchDstLength: DWORD): BOOL; stdcall;
 function AnsiUpper(lpsz: LPSTR): LPSTR; stdcall;
 function AnsiUpperBuff(lpsz: LPSTR; cchLength: DWORD): DWORD; stdcall;
 function AnsiLower(lpsz: LPSTR): LPSTR; stdcall;
@@ -678,7 +677,7 @@ function DialogBoxIndirectParam(hInstance: HINST; const lpDialogTemplate: TDlgTe
   hWndParent: HWND; lpDialogFunc: TFNDlgProc; dwInitParam: LPARAM): Integer; stdcall;
 function DialogBoxParam(hInstance: HINST; lpTemplateName: PKOLChar;
   hWndParent: HWND; lpDialogFunc: TFNDlgProc; dwInitParam: LPARAM): Integer; stdcall;
-function DispatchMessage(const lpMsg: TMsg): LRESULT; stdcall;
+function DispatchMessage(const lpMsg: TMsg): Longint; stdcall;
 function DlgDirList(hDlg: HWND; lpPathSpec: PKOLChar;
   nIDListBox, nIDStaticPath: Integer; uFileType: UINT): Integer; stdcall;
 function DlgDirListComboBox(hDlg: HWND; lpPathSpec: PKOLChar;
@@ -848,31 +847,6 @@ const
   RT_VXD          = PKOLChar(20);
   RT_ANICURSOR    = PKOLChar(21);
   RT_ANIICON      = PKOLChar(22);
-
-{$EXTERNALSYM GetWindowLongPtr}
-function GetWindowLongPtr(hWnd: HWND; nIndex: Integer): LONG_PTR; stdcall;
-{$EXTERNALSYM SetWindowLongPtr}
-function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall;
-{$EXTERNALSYM GetWindowLongPtrA}
-function GetWindowLongPtrA(hWnd: HWND; nIndex: Integer): LONG_PTR; stdcall;
-{$EXTERNALSYM SetWindowLongPtrA}
-function SetWindowLongPtrA(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall;
-{$EXTERNALSYM GetWindowLongPtrW}
-function GetWindowLongPtrW(hWnd: HWND; nIndex: Integer): LONG_PTR; stdcall;
-{$EXTERNALSYM SetWindowLongPtrW}
-function SetWindowLongPtrW(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall;
-{$EXTERNALSYM GetClassLongPtr}
-function GetClassLongPtr(hWnd: HWND; nIndex: Integer): ULONG_PTR; stdcall;
-{$EXTERNALSYM SetClassLongPtr}
-function SetClassLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): ULONG_PTR; stdcall;
-{$EXTERNALSYM GetClassLongPtrA}
-function GetClassLongPtrA(hWnd: HWND; nIndex: Integer): ULONG_PTR; stdcall;
-{$EXTERNALSYM SetClassLongPtrA}
-function SetClassLongPtrA(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): ULONG_PTR; stdcall;
-{$EXTERNALSYM GetClassLongPtrW}
-function GetClassLongPtrW(hWnd: HWND; nIndex: Integer): ULONG_PTR; stdcall;
-{$EXTERNALSYM SetClassLongPtrW}
-function SetClassLongPtrW(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): ULONG_PTR; stdcall;
 
 {$ENDIF interface_part} ////////////////////////////////////////////////////////
 
@@ -1150,7 +1124,6 @@ function wglUseFontBitmaps; external opengl32 name 'wglUseFontBitmapsW';
 function wglUseFontOutlines; external opengl32 name 'wglUseFontOutlinesW';
 function AnsiToOem; external user32 name 'CharToOemW';
 function AnsiToOemBuff; external user32 name 'CharToOemBuffW';
-function AnsiToOemBuffA; external user32 name 'CharToOemBuffA';
 function AnsiUpper; external user32 name 'CharUpperW';
 function AnsiUpperBuff; external user32 name 'CharUpperBuffW';
 function AnsiLower; external user32 name 'CharLowerW';
@@ -1301,31 +1274,4 @@ function CreateMutex(lpMutexAttributes: PSecurityAttributes; bInitialOwner: BOOL
 begin
   Result := _CreateMutex(lpMutexAttributes, Integer(Boolean(bInitialOwner)), lpName);
 end;
-{$IFDEF WIN64}
-function GetWindowLongPtr; external user32 name 'GetWindowLongPtrW';
-function SetWindowLongPtr; external user32 name 'SetWindowLongPtrW';
-function GetClassLongPtr; external user32 name 'GetClassLongPtrW';
-function SetClassLongPtr; external user32 name 'SetClassLongPtrW';
-function GetWindowLongPtrA; external user32 name 'GetWindowLongPtrA';
-function SetWindowLongPtrA; external user32 name 'SetWindowLongPtrA';
-function GetClassLongPtrA; external user32 name 'GetClassLongPtrA';
-function SetClassLongPtrA; external user32 name 'SetClassLongPtrA';
-function GetWindowLongPtrW; external user32 name 'GetWindowLongPtrW';
-function SetWindowLongPtrW; external user32 name 'SetWindowLongPtrW';
-function GetClassLongPtrW; external user32 name 'GetClassLongPtrW';
-function SetClassLongPtrW; external user32 name 'SetClassLongPtrW';
-{$ELSE}
-function GetWindowLongPtr; external user32 name 'GetWindowLongW';
-function SetWindowLongPtr; external user32 name 'SetWindowLongW';
-function GetClassLongPtr; external user32 name 'GetClassLongW';
-function SetClassLongPtr; external user32 name 'SetClassLongW';
-function GetWindowLongPtrA; external user32 name 'GetWindowLongA';
-function SetWindowLongPtrA; external user32 name 'SetWindowLongA';
-function GetClassLongPtrA; external user32 name 'GetClassLongA';
-function SetClassLongPtrA; external user32 name 'SetClassLongA';
-function GetWindowLongPtrW; external user32 name 'GetWindowLongW';
-function SetWindowLongPtrW; external user32 name 'SetWindowLongW';
-function GetClassLongPtrW; external user32 name 'GetClassLongW';
-function SetClassLongPtrW; external user32 name 'SetClassLongW';
-{$ENDIF}
 {$ENDIF implementation_part} ///////////////////////////////////////////////////
