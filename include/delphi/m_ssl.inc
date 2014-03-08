@@ -28,12 +28,12 @@ type
   TSOCKET = uint_ptr; // from Winsock.pas
 
 type
-  SSL_API = record
+  TSSL_API = record
 	  cbSize:int;
     connect  : function(s:TSOCKET; const host:PAnsiChar; verify:int):HSSL; cdecl;
-    pending  : function(ssl:HSSL):BOOL; cdecl;
-    read     : function(ssl:HSSL; buf:pAnsiChar; num:int; peek:int):int; cdecl;
-    write    : function(ssl:HSSL; const buf:pAnsiChar; num:int):int; cdecl;
+    pending  : function(ssl:HSSL):bool; cdecl;
+    read     : function(ssl:HSSL; buf:PAnsiChar; num:int; peek:int):int; cdecl;
+    write    : function(ssl:HSSL; const buf:PAnsiChar; num:int):int; cdecl;
     shutdown : procedure(ssl:HSSL); cdecl;
     sfree    : procedure(ssl:HSSL); cdecl;
 	end;

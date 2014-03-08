@@ -56,7 +56,7 @@ type
     szExtraText:TCHAR;       // Extra, context-specific string (can be NULL) ->
                              // The field "extratext" will be replaced by this
                              // string. (Previously szSource).
-    hContact   :MCONTACT;    // Handle to contact (can be NULL) -> The field "subject"
+    hContact   :TMCONTACT;   // Handle to contact (can be NULL) -> The field "subject"
                              // represents this contact.
     pCount     :int;         // (output) Number of succesful parsed tokens, needs to
                              // be set to 0 before the call

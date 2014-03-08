@@ -106,13 +106,13 @@ type
   TSPEAK_ITEM = record
     cbSize: integer;
     _type: PAnsiChar;		      // Internal type name
-  	hContact: THandle;
+  	hContact: TMCONTACT;
 	  flags: integer;       // SPEAK_*
 	  templateNum: integer;	// -1 to use text
     case boolean of
       true:  (text: PAnsiChar);
       false: (
-        variables: Pointer;
+        variables: pointer;
         numVariables: integer;
       );
   end;

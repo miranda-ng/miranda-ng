@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const
   {
-    wParam : MCONTACT
+    wParam : TMCONTACT
     lParam : 0
     Affect : Show the away/na/etc message for a contact
     Returns: 0 on success, non zero on failure, see notes
@@ -38,7 +38,7 @@ const
     returns: (PWideChar) the default status message for a status
     wParam=status
     lParam=szProto
-    notes: returns status msg. Remember to free the return value
+    notes: returns status msg. Remember to free the return value using mir_free
   }
   MS_AWAYMSG_GETSTATUSMSGW:PAnsiChar = 'SRAway/GetStatusMessageW';
 

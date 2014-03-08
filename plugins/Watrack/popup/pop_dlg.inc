@@ -4,7 +4,7 @@
 const
   DLGPOPUP = 'POPUP';
 
-function DlgPopupOpt(Dialog:HWnd;hMessage:Uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function DlgPopupOpt(Dialog:HWND;hMessage:Uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   dlginit:boolean=false;
 var

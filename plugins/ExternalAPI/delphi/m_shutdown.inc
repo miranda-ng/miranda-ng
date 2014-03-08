@@ -36,17 +36,17 @@ If the dialog is already opened this brings it to foreground.
  wParam=lParam=0
 Returns 0 on success, nonzero otherwise.
 }
-  MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG:pAnsiChar = 'AutoShutdown/ShowSettingsDialog';
+  MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG:PAnsiChar = 'AutoShutdown/ShowSettingsDialog';
 
 { Initiate shutdown process   v1.3.0.0+
 Initiates the shutdown process for a given shutdown type.
 If another shutdown process is already pending it will return error.
 Associated events: ME_AUTOSHUTDOWN_OKTOSHUTDOWN, ME_AUTOSHUTDOWN_SHUTDOWN
  wParam=shutdownType
- lParam=(LPARAM)(BOOL)fShowConfirmDlg (whether to show the warning dialog or not)
+ lParam=(LPARAM)(bool)fShowConfirmDlg (whether to show the warning dialog or not)
 Returns 0 on success, nonzero otherwise.
 }
-  MS_AUTOSHUTDOWN_SHUTDOWN:pAnsiChar = 'AutoShutdown/Shutdown';
+  MS_AUTOSHUTDOWN_SHUTDOWN:PAnsiChar = 'AutoShutdown/Shutdown';
 
 //* shutdown types */
   SDSDT_CLOSEMIRANDA        = 1;  // close miranda process 
@@ -69,7 +69,7 @@ It does not need to be freed in any way.
 The returned text is already translated.
 Returns a pointer to a string on success, NULL on error.
 }
-  MS_AUTOSHUTDOWN_GETTYPEDESCRIPTION:pAnsiChar = 'AutoShutdown/GetTypeDescription';
+  MS_AUTOSHUTDOWN_GETTYPEDESCRIPTION:PAnsiChar = 'AutoShutdown/GetTypeDescription';
 
   GSTDF_LONGDESC     = $0001;  // returns a long description
   GSTDF_UNICODE      = $0002;  // returns a Unicode string
@@ -87,7 +87,7 @@ MS_AUTOSHUTDOWN_SHUTDOWN will fail if the given shutdown type is not enabled.
  lParam=0
 Returns TRUE if the given shutdown type is enabled, FALSE otherwise.
 }
-  MS_AUTOSHUTDOWN_ISTYPEENABLED:pAnsiChar = 'AutoShutdown/IsTypeEnabled';
+  MS_AUTOSHUTDOWN_ISTYPEENABLED:PAnsiChar = 'AutoShutdown/IsTypeEnabled';
 
 { Start shutdown watcher   v1.4.0.0+
 Starts the watcher using the last settings specified on the dialog
@@ -98,7 +98,7 @@ Associated event: ME_AUTOSHUTDOWN_WATCHERCHANGED
  wParam=lParam=0
 Returns 0 on success, nonzero otherwise.
 }
-  MS_AUTOSHUTDOWN_STARTWATCHER:pAnsiChar = 'AutoShutdown/StartWatcher';
+  MS_AUTOSHUTDOWN_STARTWATCHER:PAnsiChar = 'AutoShutdown/StartWatcher';
 
 { Stop shutdown watcher   v1.4.0.0+
 Stops the currently running watcher.
@@ -107,14 +107,14 @@ Associated event: ME_AUTOSHUTDOWN_WATCHERCHANGED
  wParam=lParam=0
 Returns 0 on success, nonzero otherwise.
 }
-  MS_AUTOSHUTDOWN_STOPWATCHER:pAnsiChar = 'AutoShutdown/StopWatcher';
+  MS_AUTOSHUTDOWN_STOPWATCHER:PAnsiChar = 'AutoShutdown/StopWatcher';
 
 { Check if watcher is running   v1.4.0.0+
 Checks if the watcher is currently active or not.
  wParam=lParam=0
 Returns TRUE if the watcher is enabled, FALSE otherwise.
 }/
-  MS_AUTOSHUTDOWN_ISWATCHERENABLED:pAnsiChar = 'AutoShutdown/IsWatcherEnabled';
+  MS_AUTOSHUTDOWN_ISWATCHERENABLED:PAnsiChar = 'AutoShutdown/IsWatcherEnabled';
 
 //******************************************************************/
 //************************** EVENTS ********************************/
@@ -124,29 +124,29 @@ Returns TRUE if the watcher is enabled, FALSE otherwise.
 Gets fired when MS_AUTOSHUTDOWN_SHUTDOWN is called.
 Parmeters are the same as specified at the call to MS_AUTOSHUTDOWN_SHUTDOWN.
  wParam=shutdownType
- lParam=(LPARAM)(BOOL)fShowConfirmDlg
+ lParam=(LPARAM)(bool)fShowConfirmDlg
 Return 0 to allow shutdown, 1 to disallow.
 }
-  ME_AUTOSHUTDOWN_OKTOSHUTDOWN:pAnsiChar = 'AutoShutdown/OkToShutdown';
+  ME_AUTOSHUTDOWN_OKTOSHUTDOWN:PAnsiChar = 'AutoShutdown/OkToShutdown';
 
 { Shutdown process started (event)   v1.3.0.1+
 Gets fired when ME_AUTOSHUTDOWN_OKTOSHUTDOWN was confirmed.
 Parmeters are the same as specified at the call
 to MS_AUTOSHUTDOWN_SHUTDOWN.
  wParam=shutdownType
- lParam=(LPARAM)(BOOL)fShowConfirmDlg
+ lParam=(LPARAM)(bool)fShowConfirmDlg
 Unused, return always 0 here.
 }
-  ME_AUTOSHUTDOWN_SHUTDOWN:pAnsiChar = 'AutoShutdown/ShutdownEvent';
+  ME_AUTOSHUTDOWN_SHUTDOWN:PAnsiChar = 'AutoShutdown/ShutdownEvent';
 
 { Watcher changed (event)   v1.3.0.0+
 Fired when MS_AUTOSHUTDOWN_STARTWATCHER or MS_AUTOSHUTDOWN_STOPWATCHER
 is called.
- wParam=(WPARAM)(BOOL)fIsStarted (whether whe watcher is running now)
+ wParam=(WPARAM)(bool)fIsStarted (whether whe watcher is running now)
  lParam=0
 Unused, return always 0 here.
 }
-  ME_AUTOSHUTDOWN_WATCHERCHANGED:pAnsiChar = 'AutoShutdown/Watcher/Changed';
+  ME_AUTOSHUTDOWN_WATCHERCHANGED:PAnsiChar = 'AutoShutdown/Watcher/Changed';
 
 
   SETTING_REMEMBERONRESTART_DEFAULT   = 0;  // SDROR_RUNNING

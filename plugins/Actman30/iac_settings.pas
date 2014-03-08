@@ -36,7 +36,7 @@ begin
   CheckDlgButton(Dialog,IDC_FR_FLAG,BST_UNCHECKED);
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   fCLformat:pWideChar;
   lp:TLPARAM;

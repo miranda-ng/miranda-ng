@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   1. Do NOT touch hContacts that has a byte "ChatRoom" set to ANYTHING other than 0! (Could be 1, 2, 3, ...)
   This is because chat.dll adds contacts to the clist using the protocol name
   supplied by the protocol. But this will naturally not work well if the
-  protocol also tampers with the contacts. The value of the BYTE indicates which type of
+  protocol also tampers with the contacts. The value of the byte indicates which type of
   window/contact it is (see the GCW_* flags below). There is two exceptions to this rule:
 
     * You should continue to handle the right click menu items of these
@@ -81,7 +81,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
   There is not more to it than that! To recapitulate: do NOT touch contacts where the
-  BYTE "ChatRoom" is set to anything other than 0,
+  byte "ChatRoom" is set to anything other than 0,
 *)
 {
   OK, enough of the precautions, HOW DO YOU USE CHAT? In short you need to do FOUR things:
@@ -141,7 +141,7 @@ const
 type
   TGCREGISTER = record
     cbSize           :int;       //Set to sizeof(GCREGISTER);
-    dwFlags          :DWORD;     //Use GC_* flags above to indicate features supported
+    dwFlags          :dword;     //Use GC_* flags above to indicate features supported
     pszModule        :PAnsiChar; //This MUST be the protocol name as registered with Miranda IM
     pszModuleDispName:TChar;     //This is the protocol's real name as it will be displayed to the user
     iMaxText         :int;       //Max message length the protocol supports. Will limit the typing area input. 0 = no limit
@@ -403,7 +403,7 @@ const
 
 // GC_EVENT_SETCONTACTSTATUS - sets status icon for contact
 // pszUID    - Unique identifier of the one who receives a new status
-// pszStatus - (DWORD)ID_STATUS_* or zero to remove status icon
+// pszStatus - (dword)ID_STATUS_* or zero to remove status icon
   GC_EVENT_SETCONTACTSTATUS = $100A;
 
 //  GC_EVENT_CONTROL  - not shown in the log (Control window associated to a session and the session itself)
@@ -463,6 +463,11 @@ type
 const
   MS_GC_EVENT:PAnsiChar = 'GChat/NewEvent';
 
+// This hook is fired when MS_GC_EVENT is called, with the same wParam and lParam as above.
+// It allows external plugins to intercept chat events and display then in other ways
+  ME_GC_HOOK_EVENT:PAnsiChar = 'GChat/HookEvent';
+
+
   GCEF_ADDTOLOG      = $0001;
   GCEF_REMOVECONTACT = $0002;
 // Added in Miranda NG 0.94.4+
@@ -516,7 +521,7 @@ type
     iCount    :int;       // count of users in the nicklist
     pszUsers  :PAnsiChar; // space separated string containing the UID's of the users in the user list.
                           // NOTE. Use Mirandas mmi_free() on the returned string.
-    hContact  :MCONTACT;  // hContact for the session (can be NULL)
+    hContact  :TMCONTACT; // hContact for the session (can be NULL)
   end;
 
 const

@@ -45,14 +45,14 @@ Returns 0 on success, nonzero otherwise.
 type
   PFILETYPEDESC = ^TFILETYPEDESC;
   TFILETYPEDESC = record
-    cbSize: Integer;        // size of this structure, in bytes
+    cbSize: integer;        // size of this structure, in bytes
 
     szDescription: TChar; // description for options dialog and in registry.
                             // please Translate().
 
     hInstance: HINST;       // instance where the icon resource is located
 
-    nIconResID: UINT;       // resource id of an icon to use for the file type.
+    nIconResID: uint;       // resource id of an icon to use for the file type.
                             // this icon should contain icons of all sizes and color depths
                             // needed by Windows.
                             // set this to 0 to use the generic 'miranda file' icon
@@ -67,7 +67,7 @@ type
                             // Note: set this to nil to pass the file name as
                             // commandline argument to miranda32.exe (db file).
 
-    flags: DWORD;           // see FTDF_* flags below
+    flags: dword;           // see FTDF_* flags below
 
     pszFileExt: PAnsiChar;  // file extension, e.g. ".ext"
                             // first character must be a dot, assumed to be all lower case.
@@ -130,14 +130,14 @@ Returns 0 on success, nonzero otherwise.
 type
   PURLTYPEDESC = ^TURLTYPEDESC;
   TURLTYPEDESC = record
-    cbSize: Integer;           // size of this structure, in bytes
+    cbSize: integer;           // size of this structure, in bytes
 
     pszDescription: TChar;     // description for options dialog and in registry.
                                // please Translate().
 
     hInstance: HINST;          // instance where the icon resource is located
 
-    nIconResID: UINT;          // resource id of an icon to use for the url type.
+    nIconResID: uint;          // resource id of an icon to use for the url type.
                                // only a small one (16x16) is needed by Windows,
                                // e.g. proto icon as used in Miranda.
                                // set this to 0 to use the default miranda icon.
@@ -148,7 +148,7 @@ type
                                // the provided string has already been urldecoded.
                                // return zero on suceess, nonzero on error.
 
-    flags: DWORD;              // see UTDF_* flags below
+    flags: dword;              // see UTDF_* flags below
 
     pszProtoPrefix: PAnsiChar; // protocol prefix, e.g. "http:"
                                // last character must be a colon, assumed to be all lower case.

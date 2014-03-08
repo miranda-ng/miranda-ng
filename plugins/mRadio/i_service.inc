@@ -27,7 +27,7 @@ begin
   result:=0;
 end;
 
-procedure GetAwayMsgProc(hContact:MCONTACT); cdecl;
+procedure GetAwayMsgProc(hContact:TMCONTACT); cdecl;
 var
   buf,p:PWideChar;
 begin
@@ -99,7 +99,7 @@ begin
   if (ccs^.hContact<>0) and (PluginStatus=ID_STATUS_ONLINE) and
      (DBReadWord(ccs^.hContact,PluginName,optStatus,ID_STATUS_OFFLINE)=ID_STATUS_ONLINE) then
   begin
-    {CloseHandle}(mir_forkthread(@GetAwayMsgProc,pointer(ccs^.hContact)));
+    {CloseHandle}(mir_forkthread(@GetAwayMsgProc,pointer(uint_ptr(ccs^.hContact))));
     result:=AckHandle;
   end
   else

@@ -17,8 +17,8 @@ uses common, messages;
 type
   PSHItemID = ^TSHItemID;
   TSHItemID = packed record
-    cb: Word;                         { Size of the ID (including cb itself) }
-    abID: array[0..0] of Byte;        { The item ID (variable length) }
+    cb: word;                         { Size of the ID (including cb itself) }
+    abID: array[0..0] of byte;        { The item ID (variable length) }
   end;
 
   PItemIDList = ^TItemIDList;
@@ -27,35 +27,35 @@ type
   end;
 
   TBrowseInfoA = record
-    hwndOwner: HWND;
-    pidlRoot: PItemIDList;
-    pszDisplayName: PAnsiChar;  { Return display name of item selected. }
-    lpszTitle: PAnsiChar;      { text to go in the banner over the tree. }
-    ulFlags: UINT;           { Flags that control the return stuff }
-    lpfn: Pointer; //TFNBFFCallBack;
-    lParam: LPARAM;          { extra info that's passed back in callbacks }
-    iImage: Integer;         { output var: where to return the Image index. }
+    hwndOwner     : HWND;
+    pidlRoot      : PItemIDList;
+    pszDisplayName: PAnsiChar;   { Return display name of item selected. }
+    lpszTitle     : PAnsiChar;   { text to go in the banner over the tree. }
+    ulFlags       : uint;        { Flags that control the return stuff }
+    lpfn          : pointer; //TFNBFFCallBack;
+    lParam        : LPARAM;      { extra info that's passed back in callbacks }
+    iImage        : integer;     { output var: where to return the Image index. }
   end;
   TBrowseInfoW = record
-    hwndOwner: HWND;
-    pidlRoot: PItemIDList;
-    pszDisplayName: PWideChar;  { Return display name of item selected. }
-    lpszTitle: PWideChar;      { text to go in the banner over the tree. }
-    ulFlags: UINT;           { Flags that control the return stuff }
-    lpfn: Pointer; //TFNBFFCallBack;
-    lParam: LPARAM;          { extra info that's passed back in callbacks }
-    iImage: Integer;         { output var: where to return the Image index. }
+    hwndOwner     : HWND;
+    pidlRoot      : PItemIDList;
+    pszDisplayName: PWideChar;   { Return display name of item selected. }
+    lpszTitle     : PWideChar;   { text to go in the banner over the tree. }
+    ulFlags       : uint;        { Flags that control the return stuff }
+    lpfn          : pointer; //TFNBFFCallBack;
+    lParam        : LPARAM;      { extra info that's passed back in callbacks }
+    iImage        : integer;     { output var: where to return the Image index. }
   end;
 
 function SHBrowseForFolderA(var lpbi: TBrowseInfoA): PItemIDList; stdcall;
   external 'shell32.dll' name 'SHBrowseForFolderA';
 function SHBrowseForFolderW(var lpbi: TBrowseInfoW): PItemIDList; stdcall;
   external 'shell32.dll' name 'SHBrowseForFolderW';
-function SHGetPathFromIDListA(pidl: PItemIDList; pszPath: PAnsiChar): BOOL; stdcall;
+function SHGetPathFromIDListA(pidl: PItemIDList; pszPath: PAnsiChar): bool; stdcall;
   external 'shell32.dll' name 'SHGetPathFromIDListA';
-function SHGetPathFromIDListW(pidl: PItemIDList; pszPath: PWideChar): BOOL; stdcall;
+function SHGetPathFromIDListW(pidl: PItemIDList; pszPath: PWideChar): bool; stdcall;
   external 'shell32.dll' name 'SHGetPathFromIDListW';
-procedure CoTaskMemFree(pv: Pointer); stdcall; external 'ole32.dll'
+procedure CoTaskMemFree(pv: pointer); stdcall; external 'ole32.dll'
   name 'CoTaskMemFree';
 
 const

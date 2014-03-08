@@ -7,7 +7,7 @@ uses
   m_api;
 
 var
-  xmlparser:XML_API_W;
+  xmlparser:TXML_API_W;
 
 const
   IcoLibPrefix = 'action_type_';
@@ -89,8 +89,8 @@ procedure InsertString(wnd:HWND;num:dword;str:PAnsiChar);
 function GetLink(hash:dword):pActModule;
 function GetLinkByName(name:pAnsiChar):pActModule;
 
-function ImportContact   (node:HXML   ):MCONTACT;
-function ImportContactINI(node:pointer):MCONTACT;
+function ImportContact   (node:HXML   ):TMCONTACT;
+function ImportContactINI(node:pointer):TMCONTACT;
 
 implementation
 
@@ -301,7 +301,7 @@ const
   ioCUID     = 'cuid';
   ioCUIDType = 'cuidtype';
 
-function ImportContact(node:HXML):MCONTACT;
+function ImportContact(node:HXML):TMCONTACT;
 var
   proto:pAnsiChar;
   tmpbuf:array [0..63] of AnsiChar;
@@ -352,7 +352,7 @@ begin
     end;
 end;
 
-function ImportContactINI(node:pointer):MCONTACT;
+function ImportContactINI(node:pointer):TMCONTACT;
 {
 var
   proto:pAnsiChar;

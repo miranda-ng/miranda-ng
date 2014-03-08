@@ -42,7 +42,7 @@ type
     szGenre :TCHAR; // Song genre
     szLength:TCHAR; // Song length
     szPlayer:TCHAR; // Player name
-    dwFlags :DWORD;
+    dwFlags :dword;
   end;
 
 const
@@ -102,7 +102,7 @@ const
   not.
   wParam = NULL
   lParam = hContact
-  Returns a BOOL
+  Returns a bool
 }
   MS_LISTENINGTO_OVERRIDECONTACTOPTION:PAnsiChar = 'ListeningTo/OverrideContactOption';
 

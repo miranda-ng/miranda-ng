@@ -16,7 +16,7 @@ type
     icon   :HICON;
     name   :array [0..MAXMODULELABELLENGTH-1] of AnsiChar;
     service:array [0..MAXMODULELABELLENGTH-1] of AnsiChar;
-    cookie :DWORD;
+    cookie :dword;
   end;
   MNOTIFYACTIONINFO = tagMNOTIFYACTIONINFO;
 
@@ -38,7 +38,7 @@ type
     function Get(notifyORtype:THANDLE;name:PAnsiChar;val:PDBVARIANT):integer;cdecl;
 
     // Set/get actions
-    function AddAction (notifyORtype:THANDLE;icon:HICON;name:PAnsiChar;service:PAnsiChar;cookie:DWORD):integer;cdecl;
+    function AddAction (notifyORtype:THANDLE;icon:HICON;name:PAnsiChar;service:PAnsiChar;cookie:dword):integer;cdecl;
     function GetActions(notifyORtype:THANDLE;actions:PMNOTIFYACTIONINFO):integer;cdecl;
 
     // Increment/decrement refer count of notification object. Unreferred objects are destroyed
@@ -101,7 +101,7 @@ begin
   else
     result:=0;
 end;
-function MNotifyAddAction(notifyORtype:THANDLE;icon:HICON;name:PAnsiChar;service:PAnsiChar=nil;cookie:DWORD=0):int;
+function MNotifyAddAction(notifyORtype:THANDLE;icon:HICON;name:PAnsiChar;service:PAnsiChar=nil;cookie:dword=0):int;
 begin
   if notifyLink<>nil then
     result:=notifyLink^.AddAction(notifyORtype,icon,name)

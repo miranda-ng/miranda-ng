@@ -36,7 +36,7 @@ Another way to get the country numbers are the CTRY_* constants in winnls.h of W
 To retrieve the country number from a locale, call GetLocaleInfo().
 with LOCALE_ICOUNTRY.
  wParam : countryNumber
- lParam : (BOOL)fReturnHandle (nonzero to to retrieve the icolib handle instead of the icon)
+ lParam : (bool)fReturnHandle (nonzero to to retrieve the icolib handle instead of the icon)
 Returns a icon handle (HICON) on success, NULL on error.
 }
   MS_FLAGS_LOADCOUNTRYFLAGICON = 'Flags/LoadCountryFlagIcon';

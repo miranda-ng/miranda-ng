@@ -4,78 +4,78 @@ interface
 
 uses windows,m_api;
 
-function DBReadByte (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:byte =0):byte;
-function DBReadWord (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:word =0):word;
-function DBReadDWord(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:dword=0):dword;
+function DBReadByte (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:byte =0):byte;
+function DBReadWord (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:word =0):word;
+function DBReadDWord(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:dword=0):dword;
 
-function DBReadSetting   (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
-function DBReadSettingStr(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+function DBReadSetting   (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+function DBReadSettingStr(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
 
-function DBReadStringLength(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
-function DBReadString (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+function DBReadStringLength(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
+function DBReadString (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
          default:PAnsiChar=nil;enc:integer=DBVT_ASCIIZ):PAnsiChar;
-function DBReadUTF8   (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
-function DBReadUnicode(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PWideChar=nil):PWideChar;
+function DBReadUTF8   (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
+function DBReadUnicode(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PWideChar=nil):PWideChar;
 
-function DBReadStruct (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+function DBReadStruct (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
          ptr:pointer;size:dword):uint_ptr;
-function DBWriteStruct(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
-         ptr:pointer;size:dword):Integer;
+function DBWriteStruct(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+         ptr:pointer;size:dword):integer;
 
-function DBWriteSetting(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
-function DBWriteByte (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:Byte ):int_ptr;
-function DBWriteWord (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:Word ):int_ptr;
-function DBWriteDWord(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:dword):int_ptr;
+function DBWriteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+function DBWriteByte (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:byte ):int_ptr;
+function DBWriteWord (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:word ):int_ptr;
+function DBWriteDWord(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:dword):int_ptr;
 
-function DBWriteString (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+function DBWriteString (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
          val:PAnsiChar;enc:integer=DBVT_ASCIIZ):int_ptr;
-function DBWriteUTF8   (hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PAnsiChar):int_ptr;
-function DBWriteUnicode(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PWideChar):int_ptr;
+function DBWriteUTF8   (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PAnsiChar):int_ptr;
+function DBWriteUnicode(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PWideChar):int_ptr;
 
 //function DBFreeVariant(dbv:PDBVARIANT):int_ptr;
-function DBDeleteSetting(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
+function DBDeleteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
 
-function DBDeleteGroup(hContact:MCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
+function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
 
 function DBDeleteModule(szModule:PAnsiChar):integer; // 0.8.0+
 
-function DBGetSettingType(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
+function DBGetSettingType(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
 
 implementation
 
 uses common;
 
-function DBReadByte(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:byte=0):byte;
+function DBReadByte(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:byte=0):byte;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_b(hContact, szModule, szSetting, default);
 end;
 
-function DBReadWord(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:word=0):word;
+function DBReadWord(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:word=0):word;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_w(hContact, szModule, szSetting, default);
 end;
 
-function DBReadDWord(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:dword=0):dword;
+function DBReadDWord(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:dword=0):dword;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_dw(hContact, szModule, szSetting, default);
 end;
 
-function DBReadSetting(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+function DBReadSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get(hContact, szModule, szSetting, dbv);
 end;
 
-function DBReadSettingStr(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+function DBReadSettingStr(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
 end;
 
-function DBReadStringLength(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
+function DBReadStringLength(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
 var
   dbv:TDBVARIANT;
   i:int_ptr;
@@ -90,7 +90,7 @@ begin
   DBFreeVariant(@dbv);
 end;
 
-function DBReadString(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+function DBReadString(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
          default:PAnsiChar=nil;enc:integer=DBVT_ASCIIZ):PAnsiChar;
 var
   dbv:TDBVARIANT;
@@ -109,13 +109,13 @@ begin
   DBFreeVariant(@dbv);
 end;
 
-function DBReadUTF8(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
+function DBReadUTF8(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=DBReadString(hContact,szModule,szSetting,default,DBVT_UTF8);
 end;
 
-function DBReadUnicode(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PWideChar=nil):PWideChar;
+function DBReadUnicode(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;default:PWideChar=nil):PWideChar;
 var
   dbv:TDBVARIANT;
   i:int_ptr;
@@ -133,7 +133,7 @@ begin
   DBFreeVariant(@dbv);
 end;
 
-function DBReadStruct(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+function DBReadStruct(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
          ptr:pointer;size:dword):uint_ptr;
 var
   dbv:TDBVariant;
@@ -154,57 +154,57 @@ begin
     result:=0;
 end;
 
-function DBWriteStruct(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
-         ptr:pointer;size:dword):Integer;
+function DBWriteStruct(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+         ptr:pointer;size:dword):integer;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_blob(hContact, szModule, szSetting, ptr, size);
 end;
 
-function DBWriteSetting(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
+function DBWriteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;dbv:PDBVARIANT):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result:=db_set(hContact, szModule, szSetting, dbv);
 end;
 
-function DBWriteByte(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:Byte):int_ptr;
+function DBWriteByte(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:byte):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_b(hContact, szModule, szSetting, val);
 end;
 
-function DBWriteWord(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:Word):int_ptr;
+function DBWriteWord(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:word):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_w(hContact, szModule, szSetting, val);
 end;
 
-function DBWriteDWord(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:dword):int_ptr;
+function DBWriteDWord(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:dword):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_dw(hContact, szModule, szSetting, val);
 end;
 
-function DBWriteString(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
+function DBWriteString(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;
          val:PAnsiChar;enc:integer=DBVT_ASCIIZ):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_s(hContact, szModule, szSetting, val);
 end;
 
-function DBWriteUTF8(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PAnsiChar):int_ptr;
+function DBWriteUTF8(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PAnsiChar):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_utf(hContact, szModule, szSetting, val);
 end;
 
-function DBWriteUnicode(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PWideChar):int_ptr;
+function DBWriteUnicode(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PWideChar):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_set_ws(hContact, szModule, szSetting, val);
 end;
 
-function DBDeleteSetting(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
+function DBDeleteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=db_unset(hContact, szModule, szSetting);
@@ -226,7 +226,7 @@ begin
   result:=0;
 end;
 
-function DBDeleteGroup(hContact:MCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
+function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
 var
   ces:TDBCONTACTENUMSETTINGS;
   p:PAnsiChar;
@@ -314,7 +314,7 @@ begin
   CallService(MS_DB_MODULE_DELETE,0,lParam(szModule));
 end;
 
-function DBGetSettingType(hContact:MCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
+function DBGetSettingType(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
 var
   ldbv:TDBVARIANT;
 begin

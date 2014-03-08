@@ -77,7 +77,7 @@ begin
   CloseHandle(f);
 
 //MessageBoxW(0,res,'SRC',0);
-  xmlparser.cbSize:=SizeOf(XML_API_W);
+  xmlparser.cbSize:=SizeOf(TXML_API_W);
   CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
   with xmlparser do
   begin

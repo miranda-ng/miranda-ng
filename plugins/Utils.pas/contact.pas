@@ -5,8 +5,8 @@ interface
 
 uses windows, m_api;
 
-procedure FillContactList(list:hwnd; filter:boolean=true;format:pWideChar=nil);
-function FindContact(list:hwnd;contact:MCONTACT):integer;
+procedure FillContactList(list:HWND; filter:boolean=true;format:pWideChar=nil);
+function FindContact(list:HWND;contact:TMCONTACT):integer;
 
 implementation
 
@@ -15,9 +15,9 @@ uses messages, common, dbsettings, mirutils;
 const
   defformat = '%name% - %uid% (%account%:%group%)';
 
-procedure FillContactList(list:hwnd; filter:boolean=true;format:pWideChar=nil);
+procedure FillContactList(list:HWND; filter:boolean=true;format:pWideChar=nil);
 var
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
   buf:array [0..511] of WideChar;
   buf1:array [0..63] of WideChar;
   p:PWideChar;
@@ -109,7 +109,7 @@ begin
   end;
 end;
 
-function FindContact(list:hwnd;contact:MCONTACT):integer;
+function FindContact(list:HWND;contact:TMCONTACT):integer;
 var
   j:integer;
 begin
@@ -118,7 +118,7 @@ begin
   while j>0 do
   begin
     dec(j);
-    if THANDLE(SendMessage(list,CB_GETITEMDATA,j,0))=contact then
+    if TMCONTACT(SendMessage(list,CB_GETITEMDATA,j,0))=contact then
     begin
       result:=j;
       break;

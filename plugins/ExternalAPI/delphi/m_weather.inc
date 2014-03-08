@@ -52,7 +52,7 @@ const
 type
   PWEATHERINFO = ^TWEATHERINFO;
   TWEATHERINFO = record
-    hContact:THANDLE;
+    hContact:TMCONTACT;
     id      :array [0..127] of WideChar;
     city    :array [0..127] of WideChar;
     update  :array [0.. 63] of WideChar;
@@ -80,15 +80,15 @@ const
 // Enable or disable weather protocol.
 // WPARAM = FALSE to toggle, TRUE to use the LPARAM
 // LPARAM = TRUE to enable, FALSE to disable
-  MS_WEATHER_ENABLED:pAnsiChar = 'Weather/EnableDisable';
+  MS_WEATHER_ENABLED:PAnsiChar = 'Weather/EnableDisable';
 
 // Update all weather info
 // WPARAM = LPARAM = NULL
-  MS_WEATHER_UPDATEALL:pAnsiChar = 'Weather/UpdateAll';
+  MS_WEATHER_UPDATEALL:PAnsiChar = 'Weather/UpdateAll';
 
 // Update all weather info + erase the old ones
 // WPARAM = LPARAM = NULL
-  MS_WEATHER_REFRESHALL:pAnsiChar = 'Weather/RefreshAll';
+  MS_WEATHER_REFRESHALL:PAnsiChar = 'Weather/RefreshAll';
 
 // Below are the service functions for weather contacts
 // The plugin does NOT verify that they are used in weather contact,
@@ -97,58 +97,58 @@ const
 // Update a single station
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_UPDATE:pAnsiChar = 'Weather/Update';
+  MS_WEATHER_UPDATE:PAnsiChar = 'Weather/Update';
 
 // Update a single station + delete old settings
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_REFRESH:pAnsiChar = 'Weather/Refresh';
+  MS_WEATHER_REFRESH:PAnsiChar = 'Weather/Refresh';
 
 // View the brief info of a contact
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_BRIEF:pAnsiChar = 'Weather/Brief';
+  MS_WEATHER_BRIEF:PAnsiChar = 'Weather/Brief';
 
 // Use default browser to open the complete forecast on web
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_COMPLETE:pAnsiChar = 'Weather/CompleteForecast';
+  MS_WEATHER_COMPLETE:PAnsiChar = 'Weather/CompleteForecast';
 
 // Use default browser to open the weather map defined for the contact
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_MAP:pAnsiChar = 'Weather/Map';
+  MS_WEATHER_MAP:PAnsiChar = 'Weather/Map';
 
 // Open the external log of the weather contact
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_LOG:pAnsiChar = 'Weather/Log';
+  MS_WEATHER_LOG:PAnsiChar = 'Weather/Log';
 
 // Edit weather contact setting
 // WPARAM = (HANDLE)hContact
 // LPARAM = NULL
-  MS_WEATHER_EDIT:pAnsiChar = 'Weather/Edit';
+  MS_WEATHER_EDIT:PAnsiChar = 'Weather/Edit';
 
 // parse the string to turn it to weather display
 // WPARAM = (WEATHERINFO*)hContact
 // LPARAM = (char*)display_str
-  MS_WEATHER_GETDISPLAY:pAnsiChar = 'Weather/GetDisplay';
+  MS_WEATHER_GETDISPLAY:PAnsiChar = 'Weather/GetDisplay';
 
 // ===============  WEATHER EVENTS  ================
 
 {
 HANDLE hContact = (HANDLE)wParam;
-BOOL Condition_Changed = (BOOL)lParam;
+bool Condition_Changed = (bool)lParam;
 
 hContact is the handle of updated contact
 If the weather condition is differ from the last update (either temperature/condition,
 or the last update time, depend what the user choose in the options), then
 Condition_Changed is true; otherwise is false.
 }
-  ME_WEATHER_UPDATED:pAnsiChar = 'Miranda/Weather/Updated';
+  ME_WEATHER_UPDATED:PAnsiChar = 'Miranda/Weather/Updated';
 
 {
-Shows a warning message for Weather Popup.
+Shows a warning message for Weather PopUp.
 wParam = (char*) lpzMessage
 lParam = Type
 Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT
@@ -157,7 +157,7 @@ This event is used to avoid the error popup to occurs within a thread, so the "U
 multiply thread" fuction don't have to be enabled for weather popups to work.
 }
   SM_WEATHERALERT = 16;
-  ME_WEATHER_ERROR:pAnsiChar = 'Miranda/Weather/Error';
+  ME_WEATHER_ERROR:PAnsiChar = 'Miranda/Weather/Error';
 
 
 {$ENDIF}

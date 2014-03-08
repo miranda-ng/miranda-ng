@@ -27,7 +27,7 @@ const
     (cpId:1361;cpName:'Korean (Johab)'));
 
 var
-  hCpCombo:hwnd;
+  hCpCombo:HWND;
 
 function FillCpCombo(astr:PAnsiChar):boolean; stdcall;
 var
@@ -52,7 +52,7 @@ begin
   end;
 end;
 
-function DlgProcOptions1(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOptions1(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   btnChkPlayer:bool=false;
   btnChkFormat:integer=0;

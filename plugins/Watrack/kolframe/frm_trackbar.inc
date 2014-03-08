@@ -10,7 +10,7 @@ type
     procedure CtrlResize(Sender: PObj);
     procedure Erase(Sender: PControl; DC: HDC);
     procedure Paint(Sender: PControl; DC: HDC);
-    procedure Scroll(Sender:PTrackbar; Code:Integer);
+    procedure Scroll(Sender:PTrackbar; Code:integer);
     procedure PressButton  (Sender: PControl;var Mouse: TMouseEventData);
     procedure UnPressButton(Sender: PControl;var Mouse: TMouseEventData);
     procedure DragButton   (Sender: PControl;var Mouse: TMouseEventData);
@@ -129,7 +129,7 @@ begin
     end;
 end;
 
-procedure tAWKTrackbar.Scroll(Sender:PTrackbar; Code:Integer);
+procedure tAWKTrackbar.Scroll(Sender:PTrackbar; Code:integer);
 begin
   if code=TB_ENDTRACK then
   begin

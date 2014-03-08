@@ -44,6 +44,10 @@ function CreateEventCard  (parent:HWND=0):tmApiCard;
 
 implementation
 
+{
+  mirutils unit is for ConvertFileName function only
+  m_api is for TranslateW and TrandlateDialogDefault
+}
 uses common,io,m_api,mirutils,memini,wrapper;
 
 {$r mApiCard.res}
@@ -222,7 +226,7 @@ begin
   result:=pc;
 end;
 
-procedure tmApiCard.FillList(combo:hwnd; mode:integer=0);
+procedure tmApiCard.FillList(combo:HWND; mode:integer=0);
 var
   tmpbuf:array [0..127] of AnsiChar;
   p,pp,pc:PAnsiChar;
@@ -272,7 +276,7 @@ begin
   end;
 end;
 
-function ServiceHelpDlg(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function ServiceHelpDlg(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   buf:PAnsiChar;
   tmp:PWideChar;

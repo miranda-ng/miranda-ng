@@ -70,13 +70,13 @@ const
 type
   PavatarCacheEntryW = ^TavatarCacheEntryW;
   TavatarCacheEntryW = record
-    cbSize      : DWORD;    // set to sizeof(struct)
-    hContact    : MCONTACT; // contacts handle, 0, if it is a protocol avatar
+    cbSize      : dword;    // set to sizeof(struct)
+    hContact    : TMCONTACT; // contacts handle, 0, if it is a protocol avatar
     hbmPic      : HBITMAP;  // bitmap handle of the picture itself
-    dwFlags     : DWORD;    // see above for flag values
+    dwFlags     : dword;    // see above for flag values
     bmHeight    : long;     // bitmap dimensions
     bmWidth     : long;
-    t_lastAccess: DWORD;    // last access time (currently unused, but plugins should still
+    t_lastAccess: dword;    // last access time (currently unused, but plugins should still
                             // use it whenever they access the avatar. may be
                             // used in the future to implement cache expiration
     lpDIBSection: pointer;
@@ -85,13 +85,13 @@ type
 
   PavatarCacheEntry = ^TavatarCacheEntry;
   TavatarCacheEntry = record
-    cbSize      : DWORD;    // set to sizeof(struct)
-    hContact    : MCONTACT; // contacts handle, 0, if it is a protocol avatar
+    cbSize      : dword;    // set to sizeof(struct)
+    hContact    : TMCONTACT; // contacts handle, 0, if it is a protocol avatar
     hbmPic      : HBITMAP;  // bitmap handle of the picture itself
-    dwFlags     : DWORD;    // see above for flag values
+    dwFlags     : dword;    // see above for flag values
     bmHeight    : long;     // bitmap dimensions
     bmWidth     : long;
-    t_lastAccess: DWORD;    // last access time (currently unused, but plugins should still
+    t_lastAccess: dword;    // last access time (currently unused, but plugins should still
                             // use it whenever they access the avatar. may be
                             // used in the future to implement cache expiration
     lpDIBSection: pointer;
@@ -118,16 +118,16 @@ const
 type
   PavatarDrawRequest = ^TavatarDrawRequest;
   TavatarDrawRequest = record
-    cbSize    : DWORD;     // set this to sizeof(AVATARDRAWREQUEST) - mandatory,
+    cbSize    : dword;     // set this to sizeof(AVATARDRAWREQUEST) - mandatory,
                            // service will return failure code if cbSize is wrong
-    hContact  : MCONTACT;  // the contact for which the avatar should be drawn.
+    hContact  : TMCONTACT;  // the contact for which the avatar should be drawn.
                            // set it to 0 to draw a protocol picture
     hTargetDC : HDC;       // target device context
     rcDraw    : TRECT;     // target rectangle. The avatar will be centered
                            // within the rectangle and scaled to fit.
-    dwFlags   : DWORD;     // flags (see above for valid bitflags)
-    dwReserved: DWORD;     // for future use
-    dwInternal: DWORD;     // don't use it
+    dwFlags   : dword;     // flags (see above for valid bitflags)
+    dwReserved: dword;     // for future use
+    dwInternal: dword;     // don't use it
     clrBorder : TCOLORREF; // color for the border  (used with AVDRQ_DRAWBORDER)
     radius    : byte;      // radius (used with AVDRQ_ROUNDEDCORNER)
     alpha     : byte;      // alpha value for semi-transparent avatars (valid
@@ -243,7 +243,7 @@ const
 type
   TContactAvatarChangedNotificationW = record
     cbSize  :int;      // sizeof()
-    hContact:MCONTACT; // this might have to be set by the caller too
+    hContact:TMCONTACT; // this might have to be set by the caller too
     format  :int;      // PA_FORMAT_*
     filename:array [0..MAX_PATH-1] of WideChar; // full path to filename which contains the avatar
     hash    :array [0..127] of WideChar;        // avatar hash (always an empty string by now)
@@ -251,7 +251,7 @@ type
 
   TContactAvatarChangedNotification = record
     cbSize  :int;      // sizeof()
-    hContact:MCONTACT; // this might have to be set by the caller too
+    hContact:TMCONTACT; // this might have to be set by the caller too
     format  :int;      // PA_FORMAT_*
     filename:array [0..MAX_PATH-1] of AnsiChar; // full path to filename which contains the avatar
     hash    :array [0..127] of AnsiChar;        // avatar hash (always an empty string by now)

@@ -121,7 +121,7 @@ end;
 
 procedure PreMultiplyChanells(hbmp:HBITMAP);
 type
-  tPixel=array [0..3] of Byte;
+  tPixel=array [0..3] of byte;
 var
   bmp:windows.TBITMAP;
   flag:bool;

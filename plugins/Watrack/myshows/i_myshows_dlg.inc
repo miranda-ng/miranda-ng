@@ -12,7 +12,7 @@ begin
   SetDlgItemTextW(dlg,IDC_DATA_INFO   ,'');
 end;
 
-function DlgProcOptions(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOptions(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   inited:bool=false;
 var

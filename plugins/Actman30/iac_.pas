@@ -85,7 +85,7 @@ procedure ClearFields(Dialog:HWND);
 begin
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   result:=0;
 

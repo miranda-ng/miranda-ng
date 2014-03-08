@@ -19,7 +19,7 @@ begin
   move(buf,result^,size);
 end;
 
-procedure SwitchBk(Dialog:hwnd);
+procedure SwitchBk(Dialog:HWND);
 var
   en:boolean;
 begin
@@ -38,7 +38,7 @@ begin
   EnableWindow(GetDlgItem(Dialog,IDC_USECOVER ),en);
 end;
 
-function FrameViewDlg(Dialog:HWnd; hMessage,wParam,lParam:DWord):integer; stdcall;
+function FrameViewDlg(Dialog:HWND; hMessage:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
 const
   DlgInited:boolean=false;
 var
@@ -201,6 +201,7 @@ begin
         buf1^:=#0;
         buf:=GetDlgText(Dialog,IDC_FRMBKPIC,true);
         PathToRelative(buf,buf1);
+//        CallService(MS_UTILS_PATHTORELATIVE,twparam(buf),tlparam(buf1));
         if StrCmp(buf1,D.BkDefFile)<>0 then
         begin
           mFreeMem(D.BkDefFile);

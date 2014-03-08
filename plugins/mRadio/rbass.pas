@@ -520,7 +520,7 @@ end;
 
 
 
-procedure StatusProc(buffer:Pointer;len,user:DWORD); stdcall;
+procedure StatusProc(buffer:pointer;len,user:dword); stdcall;
 var
   pc:pWideChar;
   pb:PByte;
@@ -891,7 +891,7 @@ begin
 end;
 
 procedure MetaSync(handle:HSYNC;channel,data:dword;user:pointer); stdcall;
-//var tagtype:Integer;
+//var tagtype:integer;
 begin
 (*
   if      handle=syncOGG  then tagtype:=BASS_TAG_OGG
@@ -964,7 +964,7 @@ end;
 
 procedure OpenURL(url:PWideChar); cdecl;
 var
-  len,progress:DWORD;
+  len,progress:dword;
   flags:dword;
   i:integer;
   EAXUsed:bool;

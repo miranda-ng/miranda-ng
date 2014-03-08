@@ -1,3 +1,6 @@
+{
+  in dialog: sends CBN_EDITCHANGE for changes
+}
 unit srvblock;
 
 interface
@@ -227,7 +230,7 @@ begin
   ReloadService(Dialog,@buf,true);
 end;
 
-function DlgServiceProc(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgServiceProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   proc:pointer;
   pc:pAnsiChar;
@@ -264,6 +267,8 @@ begin
             IDC_CLOSE_WPAR,
             IDC_CLOSE_LPAR,
             IDC_CLOSE_RES: ShowBlock(Dialog,loword(wParam));
+          else // from parameter and result
+            SendMessage(GetParent(Dialog),WM_COMMAND,BN_CLICKED shl 16,Dialog);
           end;
         end;
 

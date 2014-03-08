@@ -157,7 +157,7 @@ begin
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
 end;
 
-function NewLVProc(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function NewLVProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   result:=0;
   case hMessage of
@@ -804,7 +804,7 @@ begin
 end;
 
 // Fill table row by data from edit fields
-procedure FillLVRow(Dialog:hwnd;list:HWND;item:integer);
+procedure FillLVRow(Dialog:HWND;list:HWND;item:integer);
 var
   ltype,j,idc:integer;
   idx:integer;
@@ -945,7 +945,7 @@ begin
   FreeMem(buf);
 end;
 
-function StructHelp(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function StructHelp(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   tmp:pWideChar;
   pc:pAnsiChar;
@@ -995,7 +995,7 @@ begin
   end;
 end;
 
-function StructEdit(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function StructEdit(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd:HWND;
   i:integer;

@@ -304,7 +304,7 @@ There will be no difference for the user but the possible source of information.
 
 This service can be used to retrieve all kinds of settings! 
 Some versions of the default MS_DB_CONTACT_GETSETTING_STR service return 
-an error for BYTE, WORD and DWORD values if cgs.pValue->type is not 0.
+an error for byte, word and dword values if cgs.pValue->type is not 0.
 
 wParam = (WPARAM)(HANDLE)hContact
 lParam = (LPARAM)(DBCONTACTGETSETTING*)&cgs

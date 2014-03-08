@@ -75,7 +75,7 @@ var
 {$include m_actman.inc}
 
 
-function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
+function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);

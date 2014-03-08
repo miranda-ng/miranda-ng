@@ -2,7 +2,7 @@
 const
   MaxTxtScrollSpeed = 20;
 
-function FrameTextDlg(Dialog:HWnd; hMessage,wParam,lParam:DWord):integer; stdcall;
+function FrameTextDlg(Dialog:HWND; hMessage:uint; wParam:WPARAM; lParam:LPARAM):LRESULT; stdcall;
 const
   DlgInited      :boolean=false;
   TemplateChanged:Boolean=false;

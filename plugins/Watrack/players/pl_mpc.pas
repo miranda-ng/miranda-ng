@@ -19,7 +19,7 @@ begin
     result:=FindWindowEx(0,wnd,MPCClass98,NIL);
 end;
 
-function chwnd(awnd:hwnd;Param:pdword):boolean; stdcall;
+function chwnd(awnd:HWND;Param:pdword):boolean; stdcall;
 var
   s:array [0..31] of AnsiChar;
   i:integer;

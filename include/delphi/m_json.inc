@@ -24,33 +24,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {$DEFINE MIM_LIBJSON}
 
 type
-  PJSONNODE = ^JSONNODE;
-  JSONNODE = pointer;
+  PJSONNODE = ^TJSONNODE;
+  TJSONNODE = pointer;
 
 procedure json_free(str:pointer); stdcall;
           external CoreDLL name 'json_free';
 procedure json_delete(node:PJSONNODE); stdcall;
           external CoreDLL name 'json_delete';
 
-function json_parse(json:pAnsiChar):PJSONNODE; stdcall;
+function json_parse(json:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_parse';
-function json_strip_white_space(json:pAnsiChar):pWideChar; stdcall;
+function json_strip_white_space(json:PAnsiChar):PWideChar; stdcall;
           external CoreDLL name 'json_strip_white_space';
 
-function json_validate(json:pAnsiChar):PJSONNODE; stdcall;
+function json_validate(json:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_validate';
 
 {
-	stuff that's in class JSONNode
+	stuff that's in class TJSONNode
 }
 //ctors
-function json_new_a(name:pAnsiChar; value:pAnsiChar):PJSONNODE; stdcall;
+function json_new_a(name:PAnsiChar; value:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_new_a';
-function json_new_i(name:pAnsiChar; value:long):PJSONNODE; stdcall;
+function json_new_i(name:PAnsiChar; value:long):PJSONNODE; stdcall;
           external CoreDLL name 'json_new_i';
-function json_new_f(name:pAnsiChar; value:double):PJSONNODE; stdcall;
+function json_new_f(name:PAnsiChar; value:double):PJSONNODE; stdcall;
           external CoreDLL name 'json_new_f';
-function json_new_b(name:pAnsiChar; value:int):PJSONNODE; stdcall;
+function json_new_b(name:PAnsiChar; value:int):PJSONNODE; stdcall;
           external CoreDLL name 'json_new_b';
 function json_new(typ:AnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_new';
@@ -60,7 +60,7 @@ function json_duplicate(const orig:PJSONNODE):PJSONNODE; stdcall;
           external CoreDLL name 'json_duplicate';
 
 //assignment
-procedure json_set_a(node:PJSONNODE; value:pAnsiChar); stdcall;
+procedure json_set_a(node:PJSONNODE; value:PAnsiChar); stdcall;
           external CoreDLL name 'json_set_a';
 procedure json_set_i(node:PJSONNODE; value:long); stdcall;
           external CoreDLL name 'json_set_i';
@@ -78,13 +78,13 @@ function json_size(const node:PJSONNODE):size_t; stdcall;
           external CoreDLL name 'json_size';
 function json_empty(const node:PJSONNODE):int; stdcall;
           external CoreDLL name 'json_empty';
-function json_name(const node:PJSONNODE):pAnsiChar; stdcall;
+function json_name(const node:PJSONNODE):PAnsiChar; stdcall;
           external CoreDLL name 'json_name';
 
-function json_get_comment(const node:PJSONNODE):pAnsiChar; stdcall;
+function json_get_comment(const node:PJSONNODE):PAnsiChar; stdcall;
           external CoreDLL name 'json_get_comment';
 
-function json_as_string(const node:PJSONNODE):pWideChar; stdcall;
+function json_as_string(const node:PJSONNODE):PWideChar; stdcall;
           external CoreDLL name 'json_as_string';
 function json_as_int(const node:PJSONNODE):long; stdcall;
           external CoreDLL name 'json_as_int';
@@ -97,16 +97,16 @@ function json_as_node(const node:PJSONNODE):PJSONNODE; stdcall;
 function json_as_array(const node:PJSONNODE):PJSONNODE; stdcall;
           external CoreDLL name 'json_as_array';
 
-function json_write(const node:PJSONNODE):pWideChar; stdcall;
+function json_write(const node:PJSONNODE):PWideChar; stdcall;
           external CoreDLL name 'json_write';
-function json_write_formatted(const node:PJSONNODE):pWideChar; stdcall;
+function json_write_formatted(const node:PJSONNODE):PWideChar; stdcall;
           external CoreDLL name 'json_write_formatted';
 
 //modifiers
-procedure json_set_name(node:PJSONNODE; name:pAnsiChar); stdcall;
+procedure json_set_name(node:PJSONNODE; name:PAnsiChar); stdcall;
           external CoreDLL name 'json_set_name';
 
-procedure json_set_comment(node:PJSONNODE; comment:pAnsiChar); stdcall;
+procedure json_set_comment(node:PJSONNODE; comment:PAnsiChar); stdcall;
           external CoreDLL name 'json_set_comment';
 
 procedure json_clear(node:PJSONNODE); stdcall;
@@ -132,19 +132,19 @@ procedure json_reserve(node:PJSONNODE; siz:size_t); stdcall;
           external CoreDLL name 'json_reserve';
 function  json_at(node:PJSONNODE; pos:size_t):PJSONNODE; stdcall;
           external CoreDLL name 'json_at';
-function  json_get(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+function  json_get(node:PJSONNODE; name:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_get';
 
-function json_get_nocase(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+function json_get_nocase(node:PJSONNODE; name:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_get_nocase';
-function json_pop_back_nocase(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+function json_pop_back_nocase(node:PJSONNODE; name:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_pop_back_nocase';
 
 procedure json_push_back(node:PJSONNODE; node2:PJSONNODE); stdcall;
           external CoreDLL name 'json_push_back';
 function  json_pop_back_at(node:PJSONNODE; pos:size_t):PJSONNODE; stdcall;
           external CoreDLL name 'json_pop_back_at';
-function  json_pop_back(node:PJSONNODE; name:pAnsiChar):PJSONNODE; stdcall;
+function  json_pop_back(node:PJSONNODE; name:PAnsiChar):PJSONNODE; stdcall;
           external CoreDLL name 'json_pop_back';
 
 //comparsion

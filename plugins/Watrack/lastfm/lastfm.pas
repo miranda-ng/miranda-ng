@@ -73,7 +73,7 @@ begin
 
   if (lfm_login   <>nil) and (lfm_login^   <>#0) and
      (lfm_password<>nil) and (lfm_password^<>#0) then
-    mir_forkthread(@ThScrobble,nil);
+    {CloseHandle}(mir_forkthread(@ThScrobble,nil));
 end;
 
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
@@ -118,7 +118,7 @@ begin
     end;
 
     WAT_EVENT_PLAYERSTATUS: begin
-      case Integer(loword(lParam)) of
+      case integer(loword(lParam)) of
         WAT_PLS_NOMUSIC,WAT_PLS_NOTFOUND: begin
           if hTimer<>0 then
           begin

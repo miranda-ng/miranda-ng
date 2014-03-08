@@ -46,8 +46,8 @@ type
   PICQSEARCHRESULT = ^TICQSEARCHRESULT;
   TICQSEARCHRESULT = record
     hdr : TPROTOSEARCHRESULT;
-    uin : DWORD;
-    auth: BYTE;
+    uin : dword;
+    auth: byte;
 {
     // not presents in new version
     uid          :PAnsiChar;
@@ -176,7 +176,7 @@ an XML parser in the protocol module. Here's one I got:
   missed message notification
   db event added to contact's history
   blob format is:
-  WORD      error code
+  word      error code
 }
   ICQEVENTTYPE_MISSEDMESSAGE = 2004; //database event type
 {
@@ -234,8 +234,8 @@ an XML parser in the protocol module. Here's one I got:
 {
   miranda/icqoscar/statusmsgreq event
   called when our status message is requested
-  wParam=(BYTE)msgType
-  lParam=(DWORD)uin
+  wParam=(byte)msgType
+  lParam=(dword)uin
   msgType is one of the ICQ_MSGTYPE_GET###MSG constants in icq_constants.h
   uin is the UIN of the contact requesting our status message
 }

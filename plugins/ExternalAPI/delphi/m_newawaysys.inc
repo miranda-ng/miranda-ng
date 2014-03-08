@@ -38,7 +38,7 @@ type
   memory management interface (MS_SYSTEM_GET_MMI). And MS_NAS_SETSTATE expects
   szMsg to be allocated through the same service. MS_NAS_SETSTATE deallocates szMsg.
 }
-    status : WORD; // status mode. 0 means current (NAS will overwrite 0 with
+    status : word; // status mode. 0 means current (NAS will overwrite 0 with
                    // the current status mode)
 {
   for MS_NAS_GETSTATE if the specified status is not 0, MS_NAS_GETSTATE will

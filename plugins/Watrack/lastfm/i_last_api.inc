@@ -223,7 +223,7 @@ begin
 end;
 
 var
-  xmlparser:XML_API_W;
+  xmlparser:TXML_API_W;
 
 function FixInfo(info:pWideChar):pWideChar;
 var
@@ -300,7 +300,7 @@ begin
   begin
     UTF8ToWide(res,pcw);
     mFreeMem(res);
-    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
     CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
     with xmlparser do
     begin
@@ -424,7 +424,7 @@ begin
   begin
     UTF8ToWide(res,pcw);
     mFreeMem(res);
-    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
     CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
     with xmlparser do
     begin
@@ -533,7 +533,7 @@ begin
   begin
     UTF8ToWide(res,pcw);
     mFreeMem(res);
-    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
     CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
     with xmlparser do
     begin

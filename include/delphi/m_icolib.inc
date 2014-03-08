@@ -42,7 +42,7 @@ const
 {
   Remove a icon from options UI
 
-  wParam = (THandle)icon handle
+  wParam = (THANDLE)icon handle
   lParam = (PChar)icon name, one of them must be specified
   WARNING: This will invalidate all HICONs retrieved for specified pszName
 }

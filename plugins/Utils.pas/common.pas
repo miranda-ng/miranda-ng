@@ -13,7 +13,6 @@ windows
 {$ENDIF}
 ;
 
-
 Const {- Character sets -}
   sBinNum   = ['0'..'1'];
   sOctNum   = ['0'..'7'];
@@ -65,10 +64,10 @@ function  mGetMem (var dst;size:integer):pointer;
 procedure mFreeMem(var ptr);
 function  mReallocMem(var dst; size:integer):pointer;
 procedure FillWord(var buf;count:cardinal;value:word); register;
-function CompareMem(P1, P2: Pointer; Length: Integer): Boolean;
+function CompareMem(P1, P2: pointer; Length: integer): Boolean;
 procedure ShowDump(ptr:pbyte;len:integer);
 function BSwap(value:dword):dword;
-function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
+function Hash(s:pointer; len:integer{const Seed: longword=$9747b28c}): LongWord;
 
 type
   tSortProc = function (First,Second:integer):integer;
@@ -76,6 +75,7 @@ type
 procedure ShellSort(size:integer;Compare,Swap:tSortProc);
 
 //----- String processing -----
+
 function FormatStrW(fmt:pWideChar; arr:array of pWideChar):pWideChar;
 function FormatSimpleW(fmt:pWideChar; arr:array of const):pWideChar;
 
@@ -183,7 +183,7 @@ const
   // Days between Unix time_t basis (1/1/1970) and Windows timestamp (1/1/1601)
   WinDateDelta = 134774; // 
 
-function IsLeapYear(Year:Word):Boolean;
+function IsLeapYear(Year:word):Boolean;
 function EncodeTime(Hour, Minute, Sec: cardinal):TDateTime;
 function EncodeDate(Year, Month , Day: cardinal):TDateTime;
 
@@ -505,7 +505,7 @@ end;
 function PasteFromClipboard(Ansi:boolean;cp:dword=CP_ACP):pointer;
 var
   p:pWideChar;
-  fh:tHandle;
+  fh:THANDLE;
 begin
   result:=nil;
   if OpenClipboard(0) then
@@ -881,7 +881,7 @@ end;
 {$ENDIF}
 // from SysUtils
 { Delphi 7.0
-function CompareMem(P1, P2: Pointer; Length: Integer): Boolean; assembler;
+function CompareMem(P1, P2: pointer; Length: integer): Boolean; assembler;
 asm
      PUSH    ESI
      PUSH    EDI
@@ -905,7 +905,7 @@ end;
 
 {$IFNDEF WIN64}
 // Delphi 2009 realization
-function CompareMem(P1, P2: Pointer; Length: Integer): Boolean; assembler;
+function CompareMem(P1, P2: pointer; Length: integer): Boolean; assembler;
 asm
    add   eax, ecx
    add   edx, ecx
@@ -969,7 +969,7 @@ asm
    pop   ebx
 end;
 {$ELSE}
-function CompareMem(P1, P2: Pointer; Length: Integer): Boolean;
+function CompareMem(P1, P2: pointer; Length: integer): Boolean;
 var
   i:integer;
 begin
@@ -1006,7 +1006,7 @@ begin
 {$ELSE}
     FreeMem(pointer(ptr));
 {$ENDIF}
-    Pointer(ptr):=nil;
+    pointer(ptr):=nil;
   end;
 end;
 
@@ -1050,10 +1050,10 @@ begin
 end;
 
 // Murmur 2.0
-function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
+function Hash(s:pointer; len:integer{const Seed: longword=$9747b28c}): longword;
 var
-  lhash: LongWord;
-  k: LongWord;
+  lhash: longword;
+  k: longword;
   tmp,data: pByte;
 const
   // 'm' and 'r' are mixing constants generated offline.
@@ -1089,17 +1089,17 @@ begin
   begin
     tmp:=data;
     inc(tmp,2);
-    lhash := lhash xor (LongWord(tmp^) shl 16);
+    lhash := lhash xor (longword(tmp^) shl 16);
   end;
   if len >= 2 then
   begin
     tmp:=data;
     inc(tmp);
-    lhash := lhash xor (LongWord(tmp^) shl 8);
+    lhash := lhash xor (longword(tmp^) shl 8);
   end;
   if len >= 1 then
   begin
-    lhash := lhash xor (LongWord(data^));
+    lhash := lhash xor (longword(data^));
     lhash := lhash * m;
   end;
 
@@ -1394,6 +1394,7 @@ begin
 end;
 
 // ----- base string functions -----
+
 function StrDup(var dst:PAnsiChar;src:PAnsiChar;len:cardinal=0):PAnsiChar;
 var
   l:cardinal;
@@ -2126,7 +2127,7 @@ const
     ((31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31),
      (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31));
 
-function IsLeapYear(Year:Word):Boolean;
+function IsLeapYear(Year:word):Boolean;
 begin
   Result:=(Year mod 4=0) and ((Year mod 100<>0) or (Year mod 400=0));
 end;
@@ -2177,7 +2178,7 @@ var
   ll:uint64;
 begin
 	ll := (int64(WinDateDelta)*SecondsPerDay + ts) * 10000000;
-	pft.dwLowDateTime  := DWORD(ll);
+	pft.dwLowDateTime  := dword(ll);
 	pft.dwHighDateTime := ll shr 32;
 end;
 

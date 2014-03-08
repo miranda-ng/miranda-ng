@@ -7,7 +7,7 @@ uses windows;
 
 function CreateHiddenWindow(proc:pointer=nil):HWND;
 
-function DoInitCommonControls(dwICC:DWORD):boolean;
+function DoInitCommonControls(dwICC:dword):boolean;
 
 function GetScreenRect:TRect;
 procedure SnapToScreen(var rc:TRect;dx:integer=0;dy:integer=0{;
@@ -20,25 +20,25 @@ function StringToGUID(const astr:PAnsiChar):TGUID; overload;
 function StringToGUID(const astr:PWideChar):TGUID; overload;
 
 // Comboboxes
-function CB_SelectData(cb:HWND;data:lparam):lresult; overload;
-function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):lresult; overload;
-function CB_GetData   (cb:HWND;idx:integer=-1):lresult; overload;
+function CB_SelectData(cb:HWND;data:lparam):LRESULT; overload;
+function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):LRESULT; overload;
+function CB_GetData   (cb:HWND;idx:integer=-1):LRESULT; overload;
 function CB_AddStrData (cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
 function CB_AddStrData (Dialog:HWND;id:cardinal;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
 function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
 function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
 
 // CommCtrl - ListView
-Procedure ListView_GetItemTextA(hwndLV:hwnd;i:WPARAM;iSubItem:integer;pszText:Pointer;cchTextMax:integer);
-Procedure ListView_GetItemTextW(hwndLV:hwnd;i:WPARAM;iSubItem:integer;pszText:Pointer;cchTextMax:integer);
-function  LV_GetLParam  (list:HWND;item:integer=-1):lresult;
-function  LV_SetLParam  (list:HWND;lParam:LPARAM;item:integer=-1):lresult;
-function  LV_ItemAtPos(wnd:HWND;pt:TPOINT;var SubItem:dword):Integer; overload;
-function  LV_ItemAtPos(wnd:HWND;x,y:integer;var SubItem:dword):Integer; overload;
-procedure LV_SetItem (handle:hwnd;str:PAnsiChar;item:integer;subitem:integer=0);
-procedure LV_SetItemW(handle:hwnd;str:PWideChar;item:integer;subitem:integer=0);
-function  LV_MoveItem(list:hwnd;direction:integer;item:integer=-1):integer;
-function  LV_GetColumnCount(list:HWND):lresult;
+Procedure ListView_GetItemTextA(list:HWND;i:WPARAM;iSubItem:integer;pszText:pointer;cchTextMax:integer);
+Procedure ListView_GetItemTextW(list:HWND;i:WPARAM;iSubItem:integer;pszText:pointer;cchTextMax:integer);
+function  LV_GetLParam  (list:HWND;item:integer=-1):LRESULT;
+function  LV_SetLParam  (list:HWND;lParam:LPARAM;item:integer=-1):LRESULT;
+function  LV_ItemAtPos(list:HWND;pt:TPOINT;var SubItem:dword):integer; overload;
+function  LV_ItemAtPos(list:HWND;x,y:integer;var SubItem:dword):integer; overload;
+procedure LV_SetItem (list:HWND;str:PAnsiChar;item:integer;subitem:integer=0);
+procedure LV_SetItemW(list:HWND;str:PWideChar;item:integer;subitem:integer=0);
+function  LV_MoveItem(list:HWND;direction:integer;item:integer=-1):integer;
+function  LV_GetColumnCount(list:HWND):LRESULT;
 function  LV_CheckDirection(list:HWND):integer; // bit 0 - can move up, bit 1 - down
 
 // CommDLG - Dialogs
@@ -74,7 +74,7 @@ const
   hiddenwindow:HWND = 0;
   hwndcount:integer=0;
 
-function HiddenWindProc(wnd:HWnd; msg:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function HiddenWindProc(wnd:HWND; msg:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   if msg=WM_CLOSE then
   begin
@@ -120,7 +120,7 @@ begin
 end;
 //----- End of hidden window functions -----
 
-function DoInitCommonControls(dwICC:DWORD):boolean;
+function DoInitCommonControls(dwICC:dword):boolean;
 var
   ICC: TInitCommonControlsEx;
 begin
@@ -183,7 +183,7 @@ end;
 
 //----- Combobox functions -----
 
-function CB_SelectData(cb:HWND;data:lparam):lresult; overload;
+function CB_SelectData(cb:HWND;data:lparam):LRESULT; overload;
 var
   i:integer;
 begin
@@ -199,12 +199,12 @@ begin
   result:=SendMessage(cb,CB_SETCURSEL,result,0);
 end;
 
-function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):lresult; overload;
+function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):LRESULT; overload;
 begin
   result:=CB_SelectData(GetDlgItem(Dialog,id),data);
 end;
 
-function CB_GetData(cb:HWND;idx:integer=-1):lresult;
+function CB_GetData(cb:HWND;idx:integer=-1):LRESULT;
 begin
   if idx<0 then
     idx:=SendMessage(cb,CB_GETCURSEL,0,0);
@@ -282,27 +282,27 @@ end;
 
 //----- ListView functions -----
 
-Procedure ListView_GetItemTextA(hwndLV:hwnd;i:WPARAM;iSubItem:integer;pszText:Pointer;cchTextMax:integer);
+Procedure ListView_GetItemTextA(list:HWND;i:WPARAM;iSubItem:integer;pszText:pointer;cchTextMax:integer);
 Var
   lvi:LV_ITEMA;
 Begin
   lvi.iSubItem  :=iSubItem;
   lvi.cchTextMax:=cchTextMax;
   lvi.pszText   :=pszText;
-  SendMessageA(hwndLV,LVM_GETITEMTEXT,i,LPARAM(@lvi));
+  SendMessageA(list,LVM_GETITEMTEXT,i,LPARAM(@lvi));
 end;
 
-Procedure ListView_GetItemTextW(hwndLV:hwnd;i:WPARAM;iSubItem:integer;pszText:Pointer;cchTextMax:integer);
+Procedure ListView_GetItemTextW(list:HWND;i:WPARAM;iSubItem:integer;pszText:pointer;cchTextMax:integer);
 Var
   lvi:LV_ITEMW;
 Begin
   lvi.iSubItem  :=iSubItem;
   lvi.cchTextMax:=cchTextMax;
   lvi.pszText   :=pszText;
-  SendMessageW(hwndLV,LVM_GETITEMTEXT,i,LPARAM(@lvi));
+  SendMessageW(list,LVM_GETITEMTEXT,i,LPARAM(@lvi));
 end;
 
-procedure LV_SetItem(handle:hwnd;str:PAnsiChar;item:integer;subitem:integer=0);
+procedure LV_SetItem(list:HWND;str:PAnsiChar;item:integer;subitem:integer=0);
 var
   li:LV_ITEMA;
 begin
@@ -311,10 +311,10 @@ begin
   li.pszText :=str;
   li.iItem   :=item;
   li.iSubItem:=subitem;
-  SendMessageA(handle,LVM_SETITEMA,0,lparam(@li));
+  SendMessageA(list,LVM_SETITEMA,0,lparam(@li));
 end;
 
-procedure LV_SetItemW(handle:hwnd;str:PWideChar;item:integer;subitem:integer=0);
+procedure LV_SetItemW(list:HWND;str:PWideChar;item:integer;subitem:integer=0);
 var
   li:LV_ITEMW;
 begin
@@ -323,10 +323,10 @@ begin
   li.pszText :=str;
   li.iItem   :=item;
   li.iSubItem:=subitem;
-  SendMessageW(handle,LVM_SETITEMW,0,lparam(@li));
+  SendMessageW(list,LVM_SETITEMW,0,lparam(@li));
 end;
 
-function LV_GetLParam(list:HWND;item:integer=-1):lresult;
+function LV_GetLParam(list:HWND;item:integer=-1):LRESULT;
 var
   li:LV_ITEMW;
 begin
@@ -346,7 +346,7 @@ begin
   result:=li.lParam;
 end;
 
-function LV_SetLParam(list:HWND;lParam:LPARAM;item:integer=-1):lresult;
+function LV_SetLParam(list:HWND;lParam:LPARAM;item:integer=-1):LRESULT;
 var
   li:LV_ITEMW;
 begin
@@ -367,25 +367,25 @@ begin
   result:=lParam;
 end;
 
-function LV_ItemAtPos(wnd:HWND;Pt:TPOINT;var SubItem:dword):Integer;
+function LV_ItemAtPos(list:HWND;Pt:TPOINT;var SubItem:dword):integer;
 var
   HTI:LV_HITTESTINFO;
 begin
   HTI.pt.x := pt.X;
   HTI.pt.y := pt.Y;
-  SendMessage(wnd,LVM_SUBITEMHITTEST,0,lparam(@HTI));
+  SendMessage(list,LVM_SUBITEMHITTEST,0,lparam(@HTI));
   Result :=HTI.iItem;
   if @SubItem<>nil then
     SubItem:=HTI.iSubItem;
 end;
 
-function LV_ItemAtPos(wnd:HWND;x,y:integer;var SubItem:dword):Integer; overload;
+function LV_ItemAtPos(list:HWND;x,y:integer;var SubItem:dword):integer; overload;
 var
   HTI:LV_HITTESTINFO;
 begin
   HTI.pt.x := x;
   HTI.pt.y := y;
-  SendMessage(wnd,LVM_SUBITEMHITTEST,0,lparam(@HTI));
+  SendMessage(list,LVM_SUBITEMHITTEST,0,lparam(@HTI));
   Result :=HTI.iItem;
   if @SubItem<>nil then
     SubItem:=HTI.iSubItem;
@@ -410,7 +410,7 @@ begin
   end;
 end;
 
-function LV_MoveItem(list:hwnd;direction:integer;item:integer=-1):integer;
+function LV_MoveItem(list:HWND;direction:integer;item:integer=-1):integer;
 begin
   if ((direction>0) and (item=(SendMessage(list,LVM_GETITEMCOUNT,0,0)-1))) or
      ((direction<0) and (item=0)) then
@@ -425,7 +425,7 @@ begin
   result:=item+direction;
 end;
 
-function LV_GetColumnCount(list:HWND):lresult;
+function LV_GetColumnCount(list:HWND):LRESULT;
 begin
   result:=SendMessage(SendMessage(list,LVM_GETHEADER,0,0),HDM_GETITEMCOUNT,0,0);
 end;

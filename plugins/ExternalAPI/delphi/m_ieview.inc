@@ -50,8 +50,8 @@ type
   TIEVIEWWINDOW = record
     cbSize : int;   // size of the strusture
     iType  : int;   // one of IEW_* values
-    dwMode : DWORD; // compatibility mode - one of IEWM_* values
-    dwFlags: DWORD; // flags, one of IEWF_* values
+    dwMode : dword; // compatibility mode - one of IEWM_* values
+    dwFlags: dword; // flags, one of IEWF_* values
     parent : HWND;  // parent window HWND
     hwnd   : HWND;  // IEW_CREATE returns WebBrowser control's HWND here
     x      : int;   // IE control horizontal position
@@ -132,8 +132,8 @@ type
     color    :TCOLORREF; // Text color
     Nick     :TChar;     // Nick, usage depends on type of event
     Text     :TChar;     // Text, usage depends on type of event
-    dwData   :dword;     // DWORD data e.g. status
-    bIsMe    :BOOL;      // TRUE if the event is related to the user
+    dwData   :dword;     // dword data e.g. status
+    bIsMe    :bool;      // TRUE if the event is related to the user
     time     :dword;     // Time of the event
     next     :PtagIEVIEWEVENTDATA;
     Text2    :TChar;     // Text, usage depends on type of event
@@ -166,16 +166,16 @@ type
 
   PIEVIEWEVENT = ^TIEVIEWEVENT;
   TIEVIEWEVENT = record
-    cbSize   :int; // size of the strusture
-    iType    :int; // one of IEE_* values
-    dwFlags  :DWORD;   // one of IEEF_* values
-    hwnd     :HWND;    // HWND returned by IEW_CREATE
-    hContact :THANDLE; // contact
+    cbSize   :int;            // size of the strusture
+    iType    :int;            // one of IEE_* values
+    dwFlags  :dword;          // one of IEEF_* values
+    hwnd     :HWND;           // HWND returned by IEW_CREATE
+    hContact :TMCONTACT;      // contact
     Event    :tagIEVIEWEVENT; // first event to log, when IEE_LOG_EVENTS
                               // returns it will contain the last event
                               // actually logged or NULL if no event was logged
-    count    :int;     // number of events to log
-    codepage :int;     // ANSI codepage
+    count    :int;            // number of events to log
+    codepage :int;            // ANSI codepage
     pszProto :PAnsiChar;
   end;
 (*
@@ -196,7 +196,7 @@ type
                            // the window 0, 1, 2, 3
     hwndTarget   : HWND;   // Window, where to send the message when smiley is
                            // selected.
-    targetMessage: DWORD;  // Target message, to be sent.
+    targetMessage: dword;  // Target message, to be sent.
     targetWParam : LPARAM; // Target WParam to be sent (LParam will be AnsiChar*
                            // to select smiley) see the example file.
   end;

@@ -210,7 +210,7 @@ end;
 
 //----- Dialog realization -----
 
-procedure FillChainList(Dialog:hwnd);
+procedure FillChainList(Dialog:HWND);
 var
   wnd,list:HWND;
   i:integer;
@@ -245,7 +245,7 @@ begin
   CheckDlgButton(Dialog,IDC_MACRO_KEEPOLD   ,BST_UNCHECKED);
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   tmp:dword;
   wnd:HWND;

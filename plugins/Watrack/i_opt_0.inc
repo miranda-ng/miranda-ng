@@ -1,6 +1,6 @@
 {special tab: parts settings}
 
-function DlgProcOptions0(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function DlgProcOptions0(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   hasApply:boolean=false;
 var

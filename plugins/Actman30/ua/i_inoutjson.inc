@@ -25,6 +25,7 @@ const
   ioMenuShow       :PWideChar = 'Show';
   ioMenuUsed       :PWideChar = 'Used';
   ioMenuSeparated  :PWideChar = 'Separated';
+  ioNoTRanslate    :PWideChar = 'NoTranslate';
 
 
 function ImportMenuItems(node:JSONNODE;var MenuItem:tUAMenuItem):integer;
@@ -48,6 +49,9 @@ begin
     // separated
       if StrToInt(getAttrValue(node,ioMenuSeparated))<>0 then
         menu_opt:=menu_opt or UAF_MENUSEP;
+    // no translate
+      if StrToInt(getAttrValue(node,ioMenuNotranslate))<>0 then
+        menu_opt:=menu_opt or UAF_NOTRANAS;
     end;
   end;
 end;
@@ -210,6 +214,8 @@ begin
       AddAttrInt(result,ioMenuUsed,ord((menu_opt AND UAF_MENUUSE)<>0));
     // separated
       AddAttrInt(result,ioMenuSeparated,ord((menu_opt AND UAF_MENUSEP)<>0));
+    // no translate
+      AddAttrInt(result,ioNoTranslate,ord((menu_opt AND UAF_NOTRANS)<>0));
     end;
   end;
 end;

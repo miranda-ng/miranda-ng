@@ -29,8 +29,8 @@ with the difference that that ones are to be used by protocols, and this ones
 are to be used by plugins that can make calls to contacts in multiple protocols.
 
 To get the devices for input/output and some options, query the db directly:
- VoiceService/EchoCancelation BYTE    default: TRUE
- VoiceService/MicBoost        BYTE    default: TRUE
+ VoiceService/EchoCancelation byte    default: TRUE
+ VoiceService/MicBoost        byte    default: TRUE
  VoiceService/Input           TString default: windows default
  VoiceService/Output          TString default: windows default
 }

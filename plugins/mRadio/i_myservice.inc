@@ -4,7 +4,7 @@ function Service_RadioPlayStop(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   p:PAnsiChar;
   lnew:bool;
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
   cni:TCONTACTINFO;
   i:integer;
 begin
@@ -145,7 +145,7 @@ end;
 
 //----- Import-export -----
 
-function ImportOneStation(group:PAnsiChar;section:pointer):MCONTACT;
+function ImportOneStation(group:PAnsiChar;section:pointer):TMCONTACT;
 var
   p:pWideChar;
   pc:pAnsiChar;
@@ -218,7 +218,7 @@ begin
   end;
 end;
 
-procedure ExportRadioContact(num:integer;fname:PAnsiChar;hContact:MCONTACT);
+procedure ExportRadioContact(num:integer;fname:PAnsiChar;hContact:TMCONTACT);
 var
   pc:pAnsiChar;
   section:array [0..15] of AnsiChar;
@@ -257,7 +257,7 @@ end;
 function ExportAll(wParam:WPARAM;lParam:LPARAM):int; cdecl;
 var
   dst:array [0..MAX_PATH-1] of AnsiChar;
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
 begin
   result:=0;
   if lParam<>0 then

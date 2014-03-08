@@ -21,10 +21,10 @@ function GetProtoStatusNum(ProtoNum:uint_ptr):integer;
 function GetProtoName     (ProtoNum:uint_ptr):PAnsiChar;
 function GetProtoAccName  (ProtoNum:uint_ptr):PWideChar;
 
-procedure FillProtoList  (list:hwnd;withIcons:bool=false);
-procedure CheckProtoList (list:hwnd);
-procedure FillStatusList (proto:uint_ptr;list:hwnd;withIcons:bool=false);
-procedure CheckStatusList(list:hwnd;ProtoNum:uint_ptr);
+procedure FillProtoList  (list:HWND;withIcons:bool=false);
+procedure CheckProtoList (list:HWND);
+procedure FillStatusList (proto:uint_ptr;list:HWND;withIcons:bool=false);
+procedure CheckStatusList(list:HWND;ProtoNum:uint_ptr);
 
 function  CreateProtoList(deepscan:boolean=false):integer;
 procedure FreeProtoList;
@@ -214,7 +214,7 @@ begin
     result:=nil;
 end;
 
-procedure FillProtoList(list:hwnd;withIcons:bool=false);
+procedure FillProtoList(list:HWND;withIcons:bool=false);
 var
   item:TLVITEMW;
   lvc:TLVCOLUMN;
@@ -261,7 +261,7 @@ begin
   ListView_SetColumnWidth(list,0,LVSCW_AUTOSIZE);
 end;
 
-procedure CheckProtoList(list:hwnd);
+procedure CheckProtoList(list:HWND);
 var
   i:integer;
 begin
@@ -275,7 +275,7 @@ begin
   end;
 end;
 
-procedure FillStatusList(proto:uint_ptr;list:hwnd;withIcons:bool=false);
+procedure FillStatusList(proto:uint_ptr;list:HWND;withIcons:bool=false);
 
   procedure AddString(num:integer;enabled:boolean;cli:PCLIST_INTERFACE);
   var
@@ -345,7 +345,7 @@ begin
   ListView_SetColumnWidth(list,0,LVSCW_AUTOSIZE);
 end;
 
-procedure CheckStatusList(list:hwnd;ProtoNum:uint_ptr);
+procedure CheckStatusList(list:HWND;ProtoNum:uint_ptr);
 
   procedure SetStatusMask(stat:integer;state:bool);
   var

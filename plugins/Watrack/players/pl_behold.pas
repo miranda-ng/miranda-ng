@@ -55,7 +55,7 @@ end;
 
 function GetVersion(wnd:HWND):integer;
 begin
-  result:=DWORD(SendMessage(wnd,WM_BHCMD,WMBH_GETVERSION,0));
+  result:=dword(SendMessage(wnd,WM_BHCMD,WMBH_GETVERSION,0));
   result:=((result shr 16) shl 8)+LoWord(result);
 end;
 
@@ -92,7 +92,7 @@ end;
 
 function GetVolume(wnd:HWND):cardinal;
 begin
-  result:=WORD(SendMessage(wnd,WM_BHCMD,WMBH_GETVOLUME,0));
+  result:=word(SendMessage(wnd,WM_BHCMD,WMBH_GETVOLUME,0));
   result:=(result shl 16)+(result shr 12);
 end;
 
@@ -103,12 +103,12 @@ end;
 
 function VolDn(wnd:HWND):integer;
 begin
-  result:=WORD(SendMessage(wnd,WM_BHCMD,WMBH_VOLUMEDOWN,0));
+  result:=word(SendMessage(wnd,WM_BHCMD,WMBH_VOLUMEDOWN,0));
 end;
 
 function VolUp(wnd:HWND):integer;
 begin
-  result:=WORD(SendMessage(wnd,WM_BHCMD,WMBH_VOLUMEUP,0));
+  result:=word(SendMessage(wnd,WM_BHCMD,WMBH_VOLUMEUP,0));
 end;
 
 function GetInfo(var SongInfo:tSongInfo;flags:integer):integer;cdecl;

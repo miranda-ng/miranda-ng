@@ -25,10 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {$DEFINE M_PLUGINUPDATER}
 
 type
-  pPUHashItem = ^TPUHashItem;
+  PPUHashItem = ^TPUHashItem;
   TPUHashItem = record
     fileName :PWideChar;             // file name
-    fileCrc  :DWORD;                 // zip's crc
+    fileCrc  :dword;                 // zip's crc
     hash     :array [0..32] of char; // file's md5 hash
     selected :byte;
   end;
@@ -42,14 +42,14 @@ const
 
   wParam = (PWideChar)ptszUrl = url of hashes.zip
   lParam = (array [1..260] of PWideChar)ptszBaseUrl = decoded base url
-  return = (THandle)array of hash items or NULL on error
+  return = (THANDLE)array of hash items or NULL on error
 }
   MS_PU_PARSEHASHES = 'PluginUpdater/ParseHashes';
 
 {
   Frees the hashes handle
   wParam = 0 (unused)
-  lParam = (THandle) handle, returned from MS_PU_PARSEHASHES
+  lParam = (THANDLE) handle, returned from MS_PU_PARSEHASHES
   return = always returs 0
 }
   MS_PU_FREEHASHES = 'PluginUpdater/FreeHashes';
@@ -57,7 +57,7 @@ const
 {
   Gets number of hashes
   wParam = 0 (unused)
-  lParam = (THandle) handle, returned from MS_PU_PARSEHASHES
+  lParam = (THANDLE) handle, returned from MS_PU_PARSEHASHES
   return = (int)number of hashes in an object
 }
   MS_PU_GETHASHCOUNT = 'PluginUpdater/GetHashCount';
@@ -65,7 +65,7 @@ const
 {
   Gets concrete hash by index
   wParam = (int)zero-based index (0..MS_PU_GETHASHCOUNT-1)
-  lParam = (THandle) handle, returned from MS_PU_PARSEHASHES
+  lParam = (THANDLE) handle, returned from MS_PU_PARSEHASHES
   return = (PU_HASH_ITEM*)pointer to a hash structure
 }
   MS_PU_GETNTHHASH = 'PluginUpdater/GetNthCount';

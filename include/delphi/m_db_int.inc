@@ -28,38 +28,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // basic database interface
 type
   TDBCachedGlobalValue = record
-    name : pAnsiChar;
+    name : PAnsiChar;
     value:TDBVARIANT;
   end;
 type
   PDBCachedContactValue = ^TDBCachedContactValue;
   TDBCachedContactValue = record
-    name:pAnsiChar;
+    name:PAnsiChar;
     value:TDBVARIANT;
     next: PDBCachedContactValue;
   end;
 
   PDBCachedContact = ^TDBCachedContact;
   TDBCachedContact = record
-    contactID:MCONTACT;
-    dwDriverData:DWORD;
+    contactID:TMCONTACT;
+    dwDriverData:dword;
     szProto:PAnsiChar;
     first  :PDBCachedContactValue;
     last   :PDBCachedContactValue;
+    // metacontacts
+    nSubs:int;          // == -1 -> not a metacontact
+    pSubs:PMCONTACT;
+    parentID:TMCONTACT; // == 0 -> not a subcontact
+    nDefault:int        // default sub number
   end;
 
   PMIDatabaseCache = ^MIDatabaseCache;
   MIDatabaseCache = interface
-    function AddContactToCache(contactID:MCONTACT):PDBCachedContact; stdcall;
-    function GetCachedContact(contactID:MCONTACT):PDBCachedContact; stdcall;
+    function AddContactToCache(contactID:TMCONTACT):PDBCachedContact; stdcall;
+    function GetCachedContact(contactID:TMCONTACT):PDBCachedContact; stdcall;
     function GetFirstContact():PDBCachedContact; stdcall;
-    function GetNextContact(contactID:MCONTACT):PDBCachedContact; stdcall;
-    procedure FreeCachedContact(contactID:MCONTACT); stdcall;
+    function GetNextContact(contactID:TMCONTACT):PDBCachedContact; stdcall;
+    procedure FreeCachedContact(contactID:TMCONTACT); stdcall;
 
-    function InsertCachedSetting(szName:pAnsiChar; param:int):pAnsiChar; stdcall;
-    function GetCachedSetting(szModuleName:pAnsiChar; szSettingName:pAnsiChar; param1:int; param2:int):pAnsiChar; stdcall;
+    function InsertCachedSetting(szName:PAnsiChar; param:int):PAnsiChar; stdcall;
+    function GetCachedSetting(szModuleName:PAnsiChar; szSettingName:PAnsiChar; param1:int; param2:int):PAnsiChar; stdcall;
     procedure SetCachedVariant(s:PDBVARIANT; d:PDBVARIANT); stdcall;
-    function GetCachedValuePtr(contactID:MCONTACT; szSetting:pAnsiChar; bAllocate:int):PDBVARIANT; stdcall;
+    function GetCachedValuePtr(contactID:TMCONTACT; szSetting:PAnsiChar; bAllocate:int):PDBVARIANT; stdcall;
   end;
 
 type
@@ -70,38 +75,43 @@ type
     SetCacheSafetyMode:procedure(val:bool); stdcall;
 
     GetContactCount:function():long; stdcall;
-    FindFirstContact:function(const szProto:PAnsiChar = NIL):MCONTACT; stdcall;
-    FindNextContact:function(contactID:MCONTACT; const szProto:PAnsiChar = NIL):MCONTACT; stdcall;
+    FindFirstContact:function(const szProto:PAnsiChar = NIL):TMCONTACT; stdcall;
+    FindNextContact:function(contactID:TMCONTACT; const szProto:PAnsiChar = NIL):TMCONTACT; stdcall;
 
-    DeleteContact:function(contactID:MCONTACT):long; stdcall;
-    AddContact:function():MCONTACT; stdcall;
-    IsDbContact:function(contactID:MCONTACT):bool; stdcall;
+    DeleteContact:function(contactID:TMCONTACT):long; stdcall;
+    AddContact:function():TMCONTACT; stdcall;
+    IsDbContact:function(contactID:TMCONTACT):bool; stdcall;
 
-    GetEventCount:function(contactID:MCONTACT):long; stdcall;
-    AddEvent:function(contactID:MCONTACT; dbe:PDBEVENTINFO):THANDLE; stdcall;
-    DeleteEvent:function(contactID:MCONTACT; hDbEvent:THANDLE):bool; stdcall;
+    GetEventCount:function(contactID:TMCONTACT):long; stdcall;
+    AddEvent:function(contactID:TMCONTACT; dbe:PDBEVENTINFO):THANDLE; stdcall;
+    DeleteEvent:function(contactID:TMCONTACT; hDbEvent:THANDLE):bool; stdcall;
     GetBlobSize:function(hDbEvent:THANDLE):long; stdcall;
     GetEvent:function(hDbEvent:THANDLE; dbe:PDBEVENTINFO):bool; stdcall;
-    MarkEventRead:function(contactID:MCONTACT; hDbEvent:THANDLE):bool; stdcall;
-    GetEventContact:function(hDbEvent:THANDLE):MCONTACT; stdcall;
-    FindFirstEvent:function(contactID:MCONTACT):THANDLE; stdcall;
-    FindFirstUnreadEvent:function(contactID:MCONTACT):THANDLE; stdcall;
-    FindLastEvent:function(contactID:MCONTACT):THANDLE; stdcall;
+    MarkEventRead:function(contactID:TMCONTACT; hDbEvent:THANDLE):bool; stdcall;
+    GetEventContact:function(hDbEvent:THANDLE):TMCONTACT; stdcall;
+    FindFirstEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
+    FindFirstUnreadEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
+    FindLastEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
     FindNextEvent:function(hDbEvent:THANDLE):THANDLE; stdcall;
     FindPrevEvent:function(hDbEvent:THANDLE):THANDLE; stdcall;
 
     EnumModuleNames:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
 
-    GetContactSetting:function(contactID:MCONTACT; szModule, szSetting:pAnsiChar; dbv:PDBVARIANT):bool; stdcall;
-    GetContactSettingStr:function(contactID:MCONTACT; szModule, szSetting:pAnsiChar; dbv:PDBVARIANT):bool; stdcall;
-    GetContactSettingStatic:function(contactID:MCONTACT; szModule, szSetting:pAnsiChar; dbv:PDBVARIANT):bool; stdcall;
+    GetContactSetting:function(contactID:TMCONTACT; szModule, szSetting:PAnsiChar; dbv:PDBVARIANT):bool; stdcall;
+    GetContactSettingStr:function(contactID:TMCONTACT; szModule, szSetting:PAnsiChar; dbv:PDBVARIANT):bool; stdcall;
+    GetContactSettingStatic:function(contactID:TMCONTACT; szModule, szSetting:PAnsiChar; dbv:PDBVARIANT):bool; stdcall;
     FreeVariant:function(dbv:PDBVARIANT):bool; stdcall;
-    WriteContactSetting:function(contactID:MCONTACT; dbcws:PDBCONTACTWRITESETTING):bool; stdcall;
-    DeleteContactSetting:function(contactID:MCONTACT; szModule, szSetting:pAnsiChar):bool; stdcall;
-    EnumContactSettings:function(contactID:MCONTACT; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
+    WriteContactSetting:function(contactID:TMCONTACT; dbcws:PDBCONTACTWRITESETTING):bool; stdcall;
+    DeleteContactSetting:function(contactID:TMCONTACT; szModule, szSetting:PAnsiChar):bool; stdcall;
+    EnumContactSettings:function(contactID:TMCONTACT; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
     SetSettingResident:function(bIsResident:bool; const pszSettingName:PAnsiChar):bool; stdcall;
     EnumResidentSettings:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
-    IsSettingEncrypted:function(szModule:PAnsiChar; szSetting:pAnsiChar):bool; stdcall;
+    IsSettingEncrypted:function(szModule:PAnsiChar; szSetting:PAnsiChar):bool; stdcall;
+
+    MetaDetouchSub:function(contact:PDBCachedContact; nSub:int):bool; stdcall;
+    MetaSetDefault:function(contact:PDBCachedContact):bool; stdcall;
+    MetaMergeHistory:function(ccMeta:PDBCachedContact; ccSub:PDBCachedContact):bool; stdcall;
+    MetaSplitHistory:function(ccMeta:PDBCachedContact; ccSub:PDBCachedContact):bool; stdcall;
   end;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -185,7 +195,7 @@ type
         which is a DATABASELINK structure
       Returns: 0 on success, nonzero on failure
     }
-    Load : function (const profile:TChar):PMIDatabase; cdecl;
+    Load : function (const profile:TChar; bReadOnly:bool):PMIDatabase; cdecl;
     {
       Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
       Returns: 0 on success, nonzero on failure
@@ -232,7 +242,7 @@ const
   lParam : MIDatabase* = pointer to a database instance
   returns 0
 }
-  MS_DB_INIT_INSTANCE:pAnsiChar = 'DB/InitDbInstance';
+  MS_DB_INIT_INSTANCE:PAnsiChar = 'DB/InitDbInstance';
 
 
 {
@@ -241,6 +251,6 @@ const
   lParam : MIDatabase* = pointer to a database instance
   returns 0
 }
-  MS_DB_DESTROY_INSTANCE:pAnsiChar = 'DB/DestroyDbInstance';
+  MS_DB_DESTROY_INSTANCE:PAnsiChar = 'DB/DestroyDbInstance';
 
 {$ENDIF}

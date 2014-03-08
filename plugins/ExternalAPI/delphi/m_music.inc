@@ -44,21 +44,21 @@ type
 type
   pSongInfo=^tSongInfo;
   tSongInfo = record
-    artist   :pWideChar;
-    title    :pWideChar;
-    album    :pWideChar;
-    genre    :pWideChar;
-    comment  :pWideChar;
-    year     :pWideChar;
-    mfile    :pWideChar; // media file
+    artist   :PWideChar;
+    title    :PWideChar;
+    album    :PWideChar;
+    genre    :PWideChar;
+    comment  :PWideChar;
+    year     :PWideChar;
+    mfile    :PWideChar; // media file
     kbps     :dword;
     khz      :dword;
     channels :dword;
     track    :dword;
     total    :dword;     // music length
     time     :dword;     // elapsed time
-    wndtext  :pWideChar; // window title
-    player   :pWideChar; // player name
+    wndtext  :PWideChar; // window title
+    player   :PWideChar; // player name
     plyver   :dword;     // player version
     icon     :THANDLE;   // player icon
     fsize    :dword;     // media file size
@@ -71,9 +71,9 @@ type
     height   :dword;
     fps      :dword;
     date     :int64;
-    txtver   :pWideChar;
-    lyric    :pWideChar;
-    cover    :pWideChar; // cover path
+    txtver   :PWideChar;
+    lyric    :PWideChar;
+    cover    :PWideChar; // cover path
     volume   :dword;
     url      :PWideChar; // player homepage
     winampwnd:HWND;
@@ -309,7 +309,7 @@ type
   tInitProc    = function():integer;cdecl;
   tDeInitProc  = function():integer;cdecl;
   tStatusProc  = function(wnd:HWND):integer;cdecl;
-  tNameProc    = function(wnd:HWND;flags:integer):pWideChar;cdecl;
+  tNameProc    = function(wnd:HWND;flags:integer):PWideChar;cdecl;
   tCheckProc   = function(wnd:HWND;flags:integer):HWND;cdecl;
   tInfoProc    = function(var SongInfo:tSongInfo;flags:integer):integer;cdecl;
   tCommandProc = function(wnd:HWND;command:integer;value:integer):integer;cdecl;
@@ -349,11 +349,11 @@ const
   Returns: previous state
 }
 const
-  MS_WAT_MYSHOWS:pAnsiChar = 'WATrack/MyShows';
+  MS_WAT_MYSHOWS:PAnsiChar = 'WATrack/MyShows';
 
 
 const
-  MS_WAT_MYSHOWSINFO:pAnsiChar = 'WATrack/MyShowsInfo';
+  MS_WAT_MYSHOWSINFO:PAnsiChar = 'WATrack/MyShowsInfo';
 
 // --------- Last FM  ---------
 
@@ -363,7 +363,7 @@ const
   Returns: previous state
 }
 const
-  MS_WAT_LASTFM:pAnsiChar = 'WATrack/LastFM';
+  MS_WAT_LASTFM:PAnsiChar = 'WATrack/LastFM';
 
 {
   Get Info based on currently played song
@@ -374,18 +374,18 @@ type
   pLastFMInfo = ^tLastFMInfo;
   tLastFMInfo = record
     request:cardinal;   // 0 - artist, 1 - album, 2 - track
-    artist :pWideChar; // artist
-    album  :pWideChar; // album or similar artists for Artist info request
-    title  :pWideChar; // track title 
-    tags   :pWideChar; // tags
-    info   :pWideChar; // artist bio or wiki article
-    image  :pAnsiChar; // photo/cover link
-    similar:pWideChar;
-    release:pWideChar;
+    artist :PWideChar; // artist
+    album  :PWideChar; // album or similar artists for Artist info request
+    title  :PWideChar; // track title 
+    tags   :PWideChar; // tags
+    info   :PWideChar; // artist bio or wiki article
+    image  :PAnsiChar; // photo/cover link
+    similar:PWideChar;
+    release:PWideChar;
     trknum :cardinal;
   end;
 const
-  MS_WAT_LASTFMINFO:pAnsiChar = 'WATrack/LastFMInfo';
+  MS_WAT_LASTFMINFO:PAnsiChar = 'WATrack/LastFMInfo';
 
 // --------- Templates ----------
 
@@ -414,6 +414,6 @@ const
   lParam: 0
   note:   Shows Macro help window with edit aliases ability
 }
-  MS_WAT_MACROHELP:pAnsiChar = 'WATrack/MacroHelp';
+  MS_WAT_MACROHELP:PAnsiChar = 'WATrack/MacroHelp';
 
 {$ENDIF M_MUSIC}

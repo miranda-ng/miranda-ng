@@ -97,7 +97,7 @@ const
  Sets if the hidden setting must be respected and hidden avatars shouldn't be draw
  Default: TRUE
  wParam = not used
- lParam = (BOOL) respect?
+ lParam = (bool) respect?
  Usage: SendMessage(hwnd, AVATAR_RESPECTHIDDEN, 0, (LPARAM) FALSE);
  Only works on AVATAR_CONTROL_CLASS controls
 }
@@ -117,7 +117,7 @@ const
  Sets if the avatar will be resized when its smaller then the control size
  Default: TRUE
  wParam = not used
- lParam = (BOOL) TRUE or FALSE
+ lParam = (bool) TRUE or FALSE
  Usage: SendMessage(hwnd, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM) FALSE);
  Only works on AVATAR_CONTROL_CLASS controls
 }
@@ -126,7 +126,7 @@ const
 {
  tell acc to paint avatar on aero surface (must draw with alpha channel, not using BitBlt()
  wParam = not used
- lParam = (BOOL) TRUE -> enable, FALSE -> disable
+ lParam = (bool) TRUE -> enable, FALSE -> disable
 }
   AVATAR_SETAEROCOMPATDRAWING = WM_USER+11;
 

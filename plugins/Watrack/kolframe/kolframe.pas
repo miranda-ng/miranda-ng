@@ -105,7 +105,7 @@ begin
 
   case wParam of
     WAT_EVENT_PLAYERSTATUS: begin
-      case Integer(loword(lParam)) of
+      case integer(loword(lParam)) of
         WAT_PLS_NORMAL  : exit;
         WAT_PLS_NOMUSIC : begin
           if D.HideNoMusic then
@@ -231,7 +231,7 @@ end;
 
 procedure DestroyFrame;
 var
-  id:Integer;
+  id:integer;
 begin
   if (FrameCtrl<>nil) and (PWATFrameData(FrameCtrl.CustomData).FrameId>=0) then
   begin

@@ -15,7 +15,7 @@ const
 
 procedure reghotkey;
 var
-  hkrec:HOTKEYDESC;
+  hkrec:THOTKEYDESC;
 begin
 //  if DisablePlugin=dsPermanent then
 //    exit;
@@ -68,6 +68,10 @@ begin
   reghotkey;
   plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 
+//  mStatus.ModuleStat:=1;
+
+//  if ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)<>0 then
+//    hLTo:=CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT,@ListenProc);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -130,6 +134,7 @@ begin
   mStatus.AddOption :=@AddOptionsPage;
   mStatus.Check     :=nil;
   mStatus.ModuleName:='Statuses';
+//  mStatus.ModuleStat:=0;
   ModuleLink        :=@mStatus;
 end;
 

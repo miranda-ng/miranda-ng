@@ -22,17 +22,17 @@ type
   PCONTACTINFO = ^TCONTACTINFO;
   TCONTACTINFO = record
     cbSize  : int;
-    dwFlag  : Byte;
-    hContact: MCONTACT;
+    dwFlag  : byte;
+    hContact: TMCONTACT;
     szProto : PAnsiChar;
-    _type   : Byte;
+    _type   : byte;
     retval: record // in C this is a nameless union
       case longint of
-        0: (bVal  : Byte);
-        1: (wVal  : WORD);
-        2: (dVal  : DWORD);
+        0: (bVal  : byte);
+        1: (wVal  : word);
+        2: (dVal  : dword);
         3: (szVal : TChar);
-        4: (cchVal: Word);
+        4: (cchVal: word);
       end;
   end;
 

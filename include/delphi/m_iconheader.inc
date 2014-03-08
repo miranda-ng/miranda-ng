@@ -44,31 +44,11 @@ const
   ITCN_SELCHANGEDKBD = 2;
 // structure is used for storing info about single tab
 type
-  MIcoTab = record
+  TMIcoTab = record
     hIcon:HICON;
-    szzName:TChar;
+    szName:TChar;
     flag:dword;
     data:LPARAM;
   end;
 
-(*
-#define MIcoTab_SetBackground(hwnd, hBmp)	\
-	(SendMessage((hwnd), ITCM_SETBACKGROUND, 0, (LPARAM)(hBmp)))
-#define MIcoTab_SetSel(hwnd, idx)	\
-	(SendMessage((hwnd), ITCM_SETSEL, (idx), 0))
-#define MIcoTab_GetSel(hwnd)	\
-	(SendMessage((hwnd), ITCM_GETSEL, 0, 0))
-#define MIcoTab_GetItemData(hwnd, idx)	\
-	(SendMessage((hwnd), ITCM_GETITEMDATA, (idx), 0))
-
-static __forceinline void MIcoTab_AddItem(HWND hwnd, TCHAR *lptzName, HICON hIcon, LPARAM data, BOOL bSharedIcon)
-{
-	MIcoTab mit = {0};
-	mit.flag = (bSharedIcon?MITCF_SHAREDICON:0)|MITCF_TCHAR;
-	mit.hIcon = hIcon;
-	mit.tcsName = lptzName;
-	mit.data = data;
-	SendMessage(hwnd, ITCM_ADDITEM, (WPARAM)&mit, 0);
-}
-*)
 {$ENDIF}

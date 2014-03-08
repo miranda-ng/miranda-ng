@@ -2,16 +2,16 @@ unit zwrapper;
 
 interface
 
-function ZDecompressBuf(const inBuffer: Pointer; inSize: Integer; out outBuffer: Pointer; out outSize: Integer; outEstimate: Integer): Integer;
+function ZDecompressBuf(const inBuffer: pointer; inSize: integer; out outBuffer: pointer; out outSize: integer; outEstimate: integer): integer;
 
 implementation
 
 uses zlib;
 
-function ZDecompressBuf(const inBuffer: Pointer; inSize: Integer; out outBuffer: Pointer; out outSize: Integer; outEstimate: Integer): Integer;
+function ZDecompressBuf(const inBuffer: pointer; inSize: integer; out outBuffer: pointer; out outSize: integer; outEstimate: integer): integer;
 var
   zstream           : TZStreamRec;
-  delta             : Integer;
+  delta             : integer;
 begin
   FillChar(zstream, SizeOf(TZStreamRec), 0);
 

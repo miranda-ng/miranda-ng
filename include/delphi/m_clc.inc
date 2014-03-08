@@ -218,18 +218,18 @@ type
   TCLCINFOITEM = record
     cbSize      : int;
     pszText     : TChar;
-    hParentGroup: THandle;
-    flags       : DWORD;
+    hParentGroup: THANDLE;
+    flags       : dword;
     hIcon       : HICON; // todo
   end;
 
   PNMCLISTCONTROL = ^TNMCLISTCONTROL;
   TNMCLISTCONTROL = record
     hdr    : TNMHDR;        // depends on Windows.pas
-    hItem  : THandle;
+    hItem  : THANDLE;
     action : int;
     iColumn: int;       // -1 if not on an extra column
-    flags  : DWORD;
+    flags  : dword;
     pt     : TPoint;         // depends on Windows.pas
   end;
 

@@ -5,8 +5,8 @@ interface
 
 uses windows,wat_api;
 
-procedure DefFillFormatList (hwndList:hwnd);
-procedure DefCheckFormatList(hwndList:hwnd);
+procedure DefFillFormatList (hwndList:HWND);
+procedure DefCheckFormatList(hwndList:HWND);
 function ProcessFormatLink:integer;
 
 function GetFileFormatInfo(var dst:tSongInfo):integer;
@@ -111,7 +111,7 @@ begin
   result:=WAT_RES_NOTFOUND;
 end;
 
-procedure DefFillFormatList(hwndList:hwnd);
+procedure DefFillFormatList(hwndList:HWND);
 var
   item:LV_ITEMA;
   lvc:LV_COLUMN;
@@ -145,7 +145,7 @@ begin
   ListView_SetColumnWidth(hwndList,0,LVSCW_AUTOSIZE);
 end;
 
-procedure DefCheckFormatList(hwndList:hwnd);
+procedure DefCheckFormatList(hwndList:HWND);
 var
   i,j,k:integer;
   item:LV_ITEMA;

@@ -63,7 +63,7 @@ end;
 
 function GetFileName(wnd:HWND;flags:integer):pWideChar;cdecl;
 var
-  tmpwnd:hwnd;
+  tmpwnd:HWND;
   ps:array [0..255] of AnsiChar;
 begin
   if GetStatus(wnd)<>WAT_MES_STOPPED then
@@ -83,7 +83,7 @@ end;
 
 function GetWndText(wnd:HWND):pWideChar;
 var
-  tmpwnd:hwnd;
+  tmpwnd:HWND;
   ps:array [0..255] of AnsiChar;
 begin
   tmpwnd:=SendMessage(wnd,WM_APOLLO_COMMAND,APOLLO_GETCURRENTLYPLAYEDTITLE,0);
@@ -167,7 +167,7 @@ end;
 
 function GetRemoteTitle(wnd:HWND):pWideChar;
 var
-  tmpwnd:hwnd;
+  tmpwnd:HWND;
   ps:array [0..255] of AnsiChar;
   num:integer;
 begin

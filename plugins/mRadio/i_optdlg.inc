@@ -96,7 +96,7 @@ begin
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
 end;
 
-function DlgProcOpt(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOpt(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   DlgInit:integer=1;
 var
@@ -379,7 +379,7 @@ begin
   SendMessage(wnd,CB_SETCURSEL,def,0);
 end;
 
-function DlgProcOptTech(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOptTech(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   DlgInit:integer=1;
 var

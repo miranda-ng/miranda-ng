@@ -42,7 +42,7 @@ begin
   end;
 end;
 
-function SliderWndProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function SliderWndProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   if hMessage=WM_ERASEBKGND then
     result:=1
@@ -70,7 +70,7 @@ begin
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,tlparam(@ti));
 end;
 
-function RadioFrameProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function RadioFrameProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   urd:TUTILRESIZEDIALOG;
   rc:TRECT;
@@ -239,7 +239,7 @@ begin
 
       StrCopy(cid.name   ,frm_back);
       StrCopy(cid.setting,'frame_back');
-      cid.defcolour:=COLOR_3DFACE;
+      cid.defcolour:=GetSysColor(COLOR_3DFACE);
       cid.order    :=0;
       ColourRegister(@cid);
 

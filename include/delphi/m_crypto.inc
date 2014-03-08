@@ -1,7 +1,7 @@
 {
-Miranda IM: the free IM client for Microsoft* Windows*
+Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -23,31 +23,75 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {$IFNDEF M_CRYPTO}
 {$DEFINE M_CRYPTO}
 
+
 type
-  PCRYPTO_INTERFACE = ^TCRYPTO_INTERFACE;
-  TCRYPTO_INTERFACE = record
-	 dwVersion:dword;
-    pfnSetKey :procedure(const astr:PAnsiChar); cdecl; // sets the master password
-    pfnSetKeyT:procedure(const astr:TCHAR); cdecl;
+  PMICryptoEngine = ^TMICryptoEngine;
+  TMICryptoEngine = record
+    dwVersion:dword;
 
-    pfnPurgeKey:procedure(); cdecl; // purges a key from memory
+    destroy:procedure(); stdcall;
 
-    pfnEncodeString :procedure(const src:PAnsiChar; buf:PAnsiChar; buf_len:size_t); cdecl;
-    pfnEncodeStringT:procedure(const src:TChar    ; buf:PAnsiChar; buf_len:size_t); cdecl;
+    // get/set the instance key
+    getKeyLength:function():size_t; stdcall;
+    getKey      :function(pKey:pByte; cbKeyLen:size_t):bool; stdcall;
+    setKey      :function(const pKey:pByte; cbKeyLen:size_t):bool; stdcall;
 
-    pfnDecodeString :procedure(const src:PAnsiChar; buf:PAnsiChar; buf_len:size_t); cdecl;
-    pfnDecodeStringT:procedure(const src:PAnsiChar; buf:TChar    ; buf_len:size_t); cdecl;
+    generateKey:function():bool; stdcall; // creates a new key inside
+    purgeKey   :procedure(); stdcall;     // purges a key from memory
+
+    // sets the master password (in utf-8)
+    checkPassword:function (const pszPassword:PAnsiChar):bool; stdcall;
+    setPassword  :procedure(const pszPassword:PAnsiChar); stdcall;
+
+    // result must be freed using mir_free or assigned to mir_ptr<BYTE>
+    encodeString:function(const src:PAnsiChar; var cbResultLen:size_t):pByte; stdcall;
+    encodeBuffer:function(const src:pointer; cbLen:size_t; var cbResultLen:size_t):pByte; stdcall;
+
+    // result must be freed using mir_free or assigned to ptrA/ptrT
+    decodeString:function(const pBuf:pByte; bufLen:size_t; var cbResultLen:size_t):PAnsiChar; stdcall;
+    decodeBuffer:function(const pBuf:pByte; bufLen:size_t; var cbResultLen:size_t):pointer; stdcall;
   end;
 
-  tagCRYPTOAPI = TCRYPTO_INTERFACE;
+/////////////////////////////////////////////////////////////////////////////////////////
+// registers a crypto provider v0.94+
+// wParam = (int)hLangpack
+// lParam = PCRYPTO_PROVIDER
+// returns HANDLE on success or NULL on failure
+
+type
+  pfnCryptoProviderFactory = function():PMICryptoEngine; cdecl;
 
 const
-{
-  retrieves the crypto interface  v0.10.0.2+
-  wParam=0
-  lParam=0
-  returns CRYPTO_INTERFACE* on success or NULL on failure
-}
-  MS_CRYPTO_GETINTERFACE:PAnsiChar = 'SRCrypto/GetInterface';
+  CPF_UNICODE = 1;
+
+type
+  PCRYPTO_PROVIDER = ^TCRYPTO_PROVIDER;
+  TCRYPTO_PROVIDER = record
+    dwSize  :dword;
+    dwFlags :dword;     // one of CPF_* constants
+    pszName :PAnsiChar; // unique id
+    szDescr :TChar;     // description, auto translated by core
+    pFactory:pfnCryptoProviderFactory;
+  end;
+  tagCRYPTOPROVIDER = TCRYPTO_PROVIDER;
+
+const
+  MS_CRYPTO_REGISTER_ENGINE:PAnsiChar = 'Crypto/RegisterEngine';
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// retrieves list of all available crypto providers
+// wParam = (WPARAM)(int*)piNumProviders
+// lParam = (CRYPTO_PROVIDER***) pointer to an array of PCRYPTO_PROVIDER, like enumaccounts
+// always returns 0
+
+  MS_CRYPTO_ENUM_PROVIDERS:PAnsiChar = 'Crypto/EnumProviders';
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// retrieves a crypto provider by name
+// wParam = 0 (unused)
+// lParam = (const char*)pszProviderName = CRYPTO_PROVIDER::pszName
+// returns 0 on fail or CRYPTO_PROVIDER* on success
+
+  MS_CRYPTO_GET_PROVIDER:PAnsiChar = 'Crypto/GetProvider';
 
 {$ENDIF}

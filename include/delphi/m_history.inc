@@ -25,10 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const
   {
-    wParam : MCONTACT
+    wParam : TMCONTACT
     lParam : 0
     Affects: Show's the history dialog box for a contact, see notes
-    Notes  : MCONTACT can be NULL(0) to show system messages
+    Notes  : TMCONTACT can be NULL(0) to show system messages
   }
   MS_HISTORY_SHOWCONTACTHISTORY:PAnsiChar = 'History/ShowContactHistory';
 

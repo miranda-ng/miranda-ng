@@ -61,12 +61,12 @@ type
     cbSize  :int;
     szEntity:PAnsiChar;   // can be NULL
     hSession:THANDLE; // ""
-    dwMsg   :DWORD;
-    dwTo    :DWORD
-    dwFrom  :DWORD;   // SDR_*, SDR_ALL is not a good thing
+    dwMsg   :dword;
+    dwTo    :dword;
+    dwFrom  :dword;   // SDR_*, SDR_ALL is not a good thing
     wParam  :WPARAM;
     lParam  :LPARAM;
-    reserved[0..1] of DWORD; // is actually apart of the structure and is used internally
+    reserved[0..1] of dword; // is actually apart of the structure and is used internally
   end;
 
 {
@@ -181,7 +181,7 @@ to match the type of cookie.
 (*
 // -- Helper functions --
 
-__inline int Sion_PipeRegister(DWORD dwSdr,AnsiChar *szEntity,MIRANDASERVICE pfnService)
+__inline int Sion_PipeRegister(dword dwSdr,AnsiChar *szEntity,MIRANDASERVICE pfnService)
 {
 	struct PIPE_DATA pd;
 	pd.cbSize=sizeof(struct PIPE_DATA);
@@ -214,7 +214,7 @@ __inline int Sion_EntityClone(HANDLE seh)
 	return CallService(MS_SION_ENTITY_CLONE,0,(LPARAM)seh);
 }
 
-__inline void* Sion_EntityCookieGet(HANDLE seh, DWORD dwSdr)
+__inline void* Sion_EntityCookieGet(HANDLE seh, dword dwSdr)
 {
 	struct SION_ENTITY_COOKIE sec;
 	sec.cbSize=sizeof(sec);
@@ -226,7 +226,7 @@ __inline void* Sion_EntityCookieGet(HANDLE seh, DWORD dwSdr)
 	return sec.data;
 }
 
-__inline int Sion_EntityCookieSet(HANDLE seh, DWORD dwSdr, void* cookie)
+__inline int Sion_EntityCookieSet(HANDLE seh, dword dwSdr, void* cookie)
 {
 	struct SION_ENTITY_COOKIE sec;
 	sec.cbSize=sizeof(sec);
@@ -237,7 +237,7 @@ __inline int Sion_EntityCookieSet(HANDLE seh, DWORD dwSdr, void* cookie)
 	return CallService(MS_SION_ENTITY_SETCOOKIE,0,(LPARAM)&sec);
 }
 
-__inline HANDLE Sion_EntityCookieFind(DWORD dwSdr, void* cookie)
+__inline HANDLE Sion_EntityCookieFind(dword dwSdr, void* cookie)
 {
 	struct SION_ENTITY_COOKIE sec;
 	sec.cbSize=sizeof(sec);
@@ -248,8 +248,8 @@ __inline HANDLE Sion_EntityCookieFind(DWORD dwSdr, void* cookie)
 	return sec.hSession;
 }
 
-__inline int Sion_PipeBroadcast(AnsiChar* szEntity, HANDLE hSession, DWORD dwMsg, 
-	WPARAM wParam, LPARAM lParam, DWORD dwFrom, DWORD dwTo) {
+__inline int Sion_PipeBroadcast(AnsiChar* szEntity, HANDLE hSession, dword dwMsg, 
+	WPARAM wParam, LPARAM lParam, dword dwFrom, dword dwTo) {
 	struct PIPE_DATA pd;
 	pd.cbSize=sizeof(struct PIPE_DATA);
 	pd.szEntity=szEntity;
@@ -325,7 +325,7 @@ UI   : displays the modes that the channel is in, the modes still have to be abs
 PROTO: sends a CHANNEL_DONE
 UI   : the UI is now sure that no more messages are expected.
 
-UI   : sends a UI_TEXT message, with optional source MCONTACT and of course the message.
+UI   : sends a UI_TEXT message, with optional source TMCONTACT and of course the message.
 PROTO: picks up on this message and transmits it, it must return
        a HPROCESS code that is later acknowledged.
 
@@ -339,8 +339,8 @@ UI   : sends UI_IAMTYPING
 PROTO: the protocol may or may not send this message to the other parties
        but it must process it, this message is also optional.
 
-PROTO: sends UI_CONTACT_ISTYPING (source MCONTACT)
-UI   : an MCONTACT within the session is typing, the UI may elect to show this
+PROTO: sends UI_CONTACT_ISTYPING (source TMCONTACT)
+UI   : an TMCONTACT within the session is typing, the UI may elect to show this
        message in a status bar, or with a visual effect.	    	
 }
 

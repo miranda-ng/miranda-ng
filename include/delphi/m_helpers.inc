@@ -9,32 +9,32 @@ function mir_forkthread(aFunc:pThreadFunc; arg:pointer):THANDLE; {inline}
 function mir_forkthreadex(aFunc:pThreadFuncEx; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
 function mir_forkthreadowner(aFunc:pThreadFuncOwner; owner:pointer; arg:pointer; pThreadID:puint_ptr):THANDLE; {inline}
 
-function Netlib_CloseHandle(Handle: THandle): int;
+function Netlib_CloseHandle(Handle: THANDLE): int;
 function Netlib_GetBase64DecodedBufferSize(const cchEncoded: int): int;
 function Netlib_GetBase64EncodedBufferSize(const cbDecoded: int): int;
-function Netlib_Send(hConn: THandle; const buf: PAnsiChar; len: int; flags: int): int_ptr;
-function Netlib_Recv(hConn: THandle; const buf: PAnsiChar; len: int; flags: int): int_ptr;
-procedure Netlib_Log(hNetLib: THandle; const sz: PAnsiChar);
+function Netlib_Send(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
+function Netlib_Recv(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
+procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
 
-function WindowList_Add      (hList:THandle; hWnd:HWND; hContact:MCONTACT): int_ptr;
-function WindowList_Remove   (hList:THandle; hWnd:THandle): int_ptr;
-function WindowList_Find     (hList:THandle; hContact:MCONTACT): int_ptr;
-function WindowList_Broadcast(hList:THandle; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
-function Utils_SaveWindowPosition   (hWnd:THandle; hContact:MCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
-function Utils_RestoreWindowPosition(hWnd:THandle; hContact:MCONTACT; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function WindowList_Add      (hList:THANDLE; hWnd:HWND; hContact:TMCONTACT): int_ptr;
+function WindowList_Remove   (hList:THANDLE; hWnd:HWND): int_ptr;
+function WindowList_Find     (hList:THANDLE; hContact:TMCONTACT): int_ptr;
+function WindowList_Broadcast(hList:THANDLE; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
+function Utils_SaveWindowPosition   (hWnd:HWND; hContact:TMCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_RestoreWindowPosition(hWnd:HWND; hContact:TMCONTACT; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 
-function mir_hashstr (const key:pAnsiChar):uint; {inline;}
-function mir_hashstrW(const key:pWideChar):uint; {inline;}
-function lrtrim (str:pAnsiChar):pAnsiChar; {inline}
-function lrtrimp(str:pAnsiChar):pAnsiChar; {inline}
-function mir_utf8decodeA(const src:pAnsiChar):pAnsiChar; {inline}
+function mir_hashstr (const key:PAnsiChar):uint; {inline;}
+function mir_hashstrW(const key:PWideChar):uint; {inline;}
+function lrtrim (str:PAnsiChar):PAnsiChar; {inline}
+function lrtrimp(str:PAnsiChar):PAnsiChar; {inline}
+function mir_utf8decodeA(const src:PAnsiChar):PAnsiChar; {inline}
 
 function Translate (sz: PAnsiChar): PAnsiChar;
 function Translatew(sz: PWideChar): PWideChar;
 function TranslateString    (const sz:AnsiString):AnsiString;
 function TranslateWideString(const sz:WideString):WideString;
 function TranslateUnicodeString(sz: UnicodeString): UnicodeString;
-procedure TranslateDialogDefault(hwndDlg: THandle);
+procedure TranslateDialogDefault(hwndDlg: THANDLE);
 procedure TranslateMenu(hMenu: HMENU);
 function Langpack_Register:int_ptr;
 
@@ -42,15 +42,15 @@ function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; servic
 
 function  Srmm_AddIcon   (sid: PStatusIconData):int_ptr;
 procedure Srmm_RemoveIcon(sid: PStatusIconData);
-procedure Srmm_ModifyIcon(hContact:MCONTACT; sid:PStatusIconData);
-function  Srmm_GetNthIcon(hContact:MCONTACT; index:int):pStatusIconData;
+procedure Srmm_ModifyIcon(hContact:TMCONTACT; sid:PStatusIconData);
+function  Srmm_GetNthIcon(hContact:TMCONTACT; index:int):pStatusIconData;
 
 function LoadSkinnedIcon      (id: int): HICON;
-function LoadSkinnedIconHandle(id: int): THandle;
+function LoadSkinnedIconHandle(id: int): THANDLE;
 function LoadSkinnedIconBig   (id: int): HICON;
 function LoadSkinnedIconName  (id: int): PAnsiChar;
 
-function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THandle;
+function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THANDLE;
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
 function SkinPlaySound  (const name: PAnsiChar): int_ptr;
 
@@ -68,8 +68,8 @@ function Options_AddPage (wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
 
 function Skin_AddIcon(si:PSKINICONDESC):THANDLE;
-procedure Icon_Register (hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem ; iCount:size_t; prefix:PAnsiChar);
-procedure Icon_RegisterW(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
+procedure Icon_Register (hInst:HINST; const szSection:PAnsiChar; pIcons:pIconItem ; iCount:size_t; prefix:PAnsiChar);
+procedure Icon_RegisterW(hInst:HINST; const szSection:PWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
 
 procedure FontRegister (pFontID:pFontID);
 procedure FontRegisterW(pFontID:pFontIDW);
@@ -84,6 +84,13 @@ function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 
 function Options_Open    (ood:POPENOPTIONSDIALOG):int_ptr;
 function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
+
+procedure MIcoTab_AddItem (hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
+procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
+
+function Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
+procedure Crypto_EnumProviders(var numProvs:int; var pResult:array of PCRYPTO_PROVIDER);
+function Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
 
 {$ELSE}
 
@@ -140,7 +147,7 @@ begin
 end;
 
 
-function Netlib_CloseHandle(Handle: THandle): int;
+function Netlib_CloseHandle(Handle: THANDLE): int;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_NETLIB_CLOSEHANDLE, Handle, 0);
@@ -158,7 +165,7 @@ begin
   Result := (cbDecoded * 4+11) div 12*4+1;
 end;
 
-function Netlib_Send(hConn: THandle; const buf: PAnsiChar; len: int; flags: int): int_ptr;
+function Netlib_Send(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
 var
   nlb: TNETLIBBUFFER;
 begin
@@ -168,7 +175,7 @@ begin
   Result := CallService(MS_NETLIB_SEND, wParam(hConn), lParam(@nlb));
 end;
 
-function Netlib_Recv(hConn: THandle; const buf: PAnsiChar; len: int; flags: int): int_ptr;
+function Netlib_Recv(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
 var
   nlb: TNETLIBBUFFER;
 begin
@@ -178,14 +185,14 @@ begin
   Result := CallService(MS_NETLIB_RECV, wParam(hConn), lParam(@nlb));
 end;
 
-procedure Netlib_Log(hNetLib: THandle; const sz: PAnsiChar);
+procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   CallService(MS_NETLIB_LOG, hNetLib, lParam(sz));
 end;
 
 
-function WindowList_Add(hList: THandle; hWnd: hWnd; hContact: MCONTACT): int_ptr;
+function WindowList_Add(hList: THANDLE; hWnd: HWND; hContact: TMCONTACT): int_ptr;
 var
   wle: TWINDOWLISTENTRY;
 begin
@@ -195,19 +202,19 @@ begin
   Result := CallService(MS_UTILS_ADDTOWINDOWLIST, 0, lParam(@wle));
 end;
 
-function WindowList_Remove(hList: THandle; hWnd: THandle): int_ptr;
+function WindowList_Remove(hList: THANDLE; hWnd: HWND): int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_UTILS_REMOVEFROMWINDOWLIST, hList, hWnd);
 end;
 
-function WindowList_Find(hList: THandle; hContact: MCONTACT): int_ptr;
+function WindowList_Find(hList: THANDLE; hContact: TMCONTACT): int_ptr;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_UTILS_FINDWINDOWINLIST, hList, hContact);
 end;
 
-function WindowList_Broadcast(hList: THandle; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
+function WindowList_Broadcast(hList: THANDLE; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
 var
   msg: TMSG;
 begin
@@ -217,7 +224,7 @@ begin
   Result := CallService(MS_UTILS_BROADCASTTOWINDOWLIST, hList, tLparam(@Msg));
 end;
 
-function Utils_SaveWindowPosition(hWnd:THandle; hContact:MCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_SaveWindowPosition(hWnd:HWND; hContact:TMCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 var
   swp: TSAVEWINDOWPOS;
 begin
@@ -228,7 +235,7 @@ begin
   Result := CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, lParam(@swp));
 end;
 
-function Utils_RestoreWindowPosition(hWnd:THandle; hContact:MCONTACT; Flags:int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
+function Utils_RestoreWindowPosition(hWnd:HWND; hContact:TMCONTACT; Flags:int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 var
   swp: TSAVEWINDOWPOS;
 begin
@@ -240,7 +247,7 @@ begin
 end;
 
 
-function mir_hashstr(const key:pAnsiChar):uint; {inline;}
+function mir_hashstr(const key:PAnsiChar):uint; {inline;}
 var
   len:int;
 begin
@@ -253,7 +260,7 @@ begin
   end;
 end;
 
-function mir_hashstrW(const key:pWideChar):uint; {inline;}
+function mir_hashstrW(const key:PWideChar):uint; {inline;}
 var
   len:int;
 begin
@@ -266,22 +273,22 @@ begin
   end;
 end;
 
-function lrtrim(str:pAnsiChar):pAnsiChar;
+function lrtrim(str:PAnsiChar):PAnsiChar;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=ltrim(rtrim(str));
 end;
-function lrtrimp(str:pAnsiChar):pAnsiChar;
+function lrtrimp(str:PAnsiChar):PAnsiChar;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=ltrimp(rtrim(str));
 end;
 
-function mir_utf8decodeA(const src:pAnsiChar):pAnsiChar;
+function mir_utf8decodeA(const src:PAnsiChar):PAnsiChar;
 type
   ppWideChar = ^pWidechar;
 var
-  tmp:pAnsiChar;
+  tmp:PAnsiChar;
 begin
   tmp:=mir_strdup(src);
   mir_utf8decode(tmp,ppWideChar(nil)^);
@@ -314,7 +321,7 @@ begin
   Result:=UnicodeString(TranslateW_LP(PWideChar(sz),hLangpack));
 end;
 
-procedure TranslateDialogDefault(hwndDlg: THandle);
+procedure TranslateDialogDefault(hwndDlg: THANDLE);
 begin
   TranslateDialog_LP(hwndDlg,hLangpack);
 end;
@@ -356,13 +363,13 @@ begin
   CallService(MS_MSG_REMOVEICON, 0, LPARAM(sid));
 end;
 
-procedure Srmm_ModifyIcon(hContact:MCONTACT; sid:PStatusIconData);
+procedure Srmm_ModifyIcon(hContact:TMCONTACT; sid:PStatusIconData);
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   CallService(MS_MSG_GETNTHICON, hContact, LPARAM(sid));
 end;
 
-function Srmm_GetNthIcon(hContact:MCONTACT; index:int):PStatusIconData;
+function Srmm_GetNthIcon(hContact:TMCONTACT; index:int):PStatusIconData;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=PStatusIconData(CallService(MS_MSG_GETNTHICON, hContact, index));
@@ -374,7 +381,7 @@ begin
   Result := HICON(CallService(MS_SKIN_LOADICON, id, 0));
 end;
 
-function LoadSkinnedIconHandle(id: int): THandle;
+function LoadSkinnedIconHandle(id: int): THANDLE;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := THANDLE(CallService(MS_SKIN_LOADICON, id, 1));
@@ -392,7 +399,7 @@ begin
   Result := PAnsiChar(CallService(MS_SKIN_LOADICON, id, 3));
 end;
 
-function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THandle;
+function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THANDLE;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := CallService(MS_SKIN_LOADPROTOICON, wParam(szProto), status);
@@ -488,12 +495,12 @@ begin
   result:=CallService(MS_SKIN2_ADDICON, hLangpack, LPARAM(si));
 end;
 
-procedure Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem; iCount:size_t; prefix:PAnsiChar);
+procedure Icon_Register(hInst:HINST; const szSection:PAnsiChar; pIcons:pIconItem; iCount:size_t; prefix:PAnsiChar);
 begin
 	mir_Icon_Register(hInst, szSection, pIcons, iCount, prefix, hLangpack);
 end;
 
-procedure Icon_RegisterW(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
+procedure Icon_RegisterW(hInst:HINST; const szSection:PWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
 begin
 	mir_Icon_RegisterW(hInst, szSection, pIcons, iCount, prefix, hLangpack);
 end;
@@ -538,6 +545,50 @@ end;
 function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
 begin
 	result:=CallService(MS_OPT_OPENOPTIONSPAGE, hLangpack, LPARAM(ood));
+end;
+
+procedure MIcoTab_AddItem(hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
+var
+  mit:tMIcoTab;
+begin
+  if bSharedIcon then
+    mit.flag := MITCF_SHAREDICON
+	else
+    mit.flag := 0;
+  mit.hIcon    := hIcon;
+  mit.szName.a := lptzName;
+  mit.data     := data;
+  SendMessage(hwnd, ITCM_ADDITEM, WPARAM(@mit), 0);
+end;
+
+procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
+var
+  mit:tMIcoTab;
+begin
+  if bSharedIcon then
+    mit.flag := MITCF_SHAREDICON or MITCF_UNICODE
+	else
+    mit.flag := MITCF_UNICODE;
+  mit.hIcon    := hIcon;
+  mit.szName.w := lptzName;
+  mit.data     := data;
+  SendMessage(hwnd, ITCM_ADDITEM, WPARAM(@mit), 0);
+end;
+
+
+function Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
+begin
+	result:=THANDLE(CallService(MS_CRYPTO_REGISTER_ENGINE, hLangpack, LPARAM(pProvider)));
+end;
+
+procedure Crypto_EnumProviders(var numProvs:int; var pResult:array of PCRYPTO_PROVIDER);
+begin
+	CallService(MS_CRYPTO_ENUM_PROVIDERS, WPARAM(numProvs), LPARAM(@pResult));
+end;
+
+function Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
+begin
+	result:=PCRYPTO_PROVIDER(CallService(MS_CRYPTO_GET_PROVIDER, 0, LPARAM(pszName)));
 end;
 
 {$ENDIF}

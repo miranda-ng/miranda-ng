@@ -3,7 +3,7 @@ unit sr_optdialog;
 interface
 uses windows;
 
-function DlgProcOptions(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOptions(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 
 implementation
 
@@ -138,7 +138,7 @@ begin
     param);
 end;
 
-procedure addsetcnftypes(list:hwnd);
+procedure addsetcnftypes(list:HWND);
 begin
   AddCnf(list,CNF_FIRSTNAME);
   AddCnf(list,CNF_LASTNAME);
@@ -183,7 +183,7 @@ begin
 end;
 
 
-function GetSelectedItem(list:hwnd):integer;
+function GetSelectedItem(list:HWND):integer;
 begin
   result:=SendMessage(list,LVM_GETNEXTITEM,-1,LVNI_FOCUSED);
 end;
@@ -322,7 +322,7 @@ begin
   end;
 end;
 
-function savecuritem(Dialog:hwnd):integer;
+function savecuritem(Dialog:HWND):integer;
 var
   list:HWND;
   srvalue:tServiceValue;
@@ -434,7 +434,7 @@ begin
   SendMessage(list,LVM_INSERTITEM,0,lparam(@li));
 end;
 
-procedure update_list(list:hwnd);
+procedure update_list(list:HWND);
 var
   i,cnt:integer;
 begin
@@ -459,7 +459,7 @@ end;
 
 // fill comboboxes lists
 
-procedure adddbsettypes(list:hwnd);
+procedure adddbsettypes(list:HWND);
 begin
   CB_AddStrDataW(list,TranslateW(stByte)     ,QSTS_BYTE);
   CB_AddStrDataW(list,TranslateW(stWord)     ,QSTS_WORD);
@@ -473,7 +473,7 @@ begin
   SendMessage(list,CB_SETCURSEL,0,0);
 end;
 
-procedure addothertypes(list:hwnd);
+procedure addothertypes(list:HWND);
 begin
   CB_AddStrDataW(list,TranslateW(stLastSeen)   ,QSTO_LASTSEEN);
   CB_AddStrDataW(list,TranslateW(stLastEvent)  ,QSTO_LASTEVENT);
@@ -483,7 +483,7 @@ begin
   SendMessage(list,CB_SETCURSEL,0,0);
 end;
 
-procedure addsettypes(list:hwnd);
+procedure addsettypes(list:HWND);
 begin
   CB_AddStrDataW(list,TranslateW(stSetting),QST_SETTING);
 
@@ -496,7 +496,7 @@ begin
   SendMessage(list,CB_SETCURSEL,0,0);
 end;
 
-procedure addcolumn(handle:hwnd;width:word;title:PWideChar);
+procedure addcolumn(handle:HWND;width:word;title:PWideChar);
 var
   lvcol:LV_COLUMNW;
 begin
@@ -506,7 +506,7 @@ begin
   SendMessageW(handle,LVM_INSERTCOLUMNW,0,lparam(@lvcol));
 end;
 
-function NewListProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):integer; stdcall;
+function NewListProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   result:=0;
   if hMessage=WM_KEYDOWN then
@@ -617,12 +617,12 @@ procedure SetButtons(Dialog:HWND);
 var
 //  ti:TTOOLINFOW;
 //  hwndTooltip:HWND;
-  hNew    :hwnd;
-  hUp     :hwnd;
-  hDown   :hwnd;
-  hDelete :hwnd;
-  hDefault:hwnd;
-  hReload :hwnd;
+  hNew    :HWND;
+  hUp     :HWND;
+  hDown   :HWND;
+  hDelete :HWND;
+  hDefault:HWND;
+  hReload :HWND;
 begin
 {
   hwndTooltip:=CreateWindowW(TOOLTIPS_CLASS,nil,TTS_ALWAYSTIP,
@@ -709,7 +709,7 @@ begin
   // Other
 end;
 
-function DlgProcOptions(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOptions(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   InitDlg:bool = true;
   hook:THANDLE = 0;
@@ -717,7 +717,7 @@ var
   pc:pWideChar;
   i,idx:integer;
   itemsel:integer;
-  listhwnd:hwnd;
+  listhwnd:HWND;
   tmpbool:bool;
 begin
   result:=0;

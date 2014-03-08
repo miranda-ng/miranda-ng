@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 const
   HKD_UNICODE = $0001;
 type
-  HOTKEYDESC = record
+  PHOTKEYDESC = ^THOTKEYDESC;
+  THOTKEYDESC = record
     cbSize        :int;
     pszName       :PAnsiChar;  // name to refer to hotkey when playing and in db
     pszDescription:TChar;      // description for options dialog
@@ -36,8 +37,6 @@ type
     lParam        :LPARAM;     // lParam to pass to service
     dwFlags       :dword;      // Miranda ver >=9.0
   end;
-  THOTKEYDESC = HOTKEYDESC;
-  PHOTKEYDESC = ^THOTKEYDESC;
 
 const
   HKF_MIRANDA_LOCAL = $8000;

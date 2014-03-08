@@ -37,8 +37,8 @@ type
     function  GetFlags(aControl:pControl):cardinal;
   protected
     procedure init;virtual;
-    procedure DoKeyUp( Sender: PControl; var Key: Longint; Shift: DWORD);
-    procedure DoChar( Sender: PControl; var Key: KOLChar; Shift: DWORD);
+    procedure DoKeyUp( Sender: PControl; var Key: Longint; Shift: dword);
+    procedure DoChar( Sender: PControl; var Key: KOLChar; Shift: dword);
   public
     destructor destroy;virtual;
     procedure Connect(aName: KOLString; aControl: pControl; flags:cardinal=0);
@@ -98,7 +98,7 @@ type
 var
   LocalDesigner:PDesigner=nil;
 
-function DesignHandlerProc(Sender: PControl; var Msg: TMsg; var Rslt: Integer): Boolean;
+function DesignHandlerProc(Sender: PControl; var Msg: TMsg; var Rslt: integer): Boolean;
 //var MouseData:TMouseEventData;
 begin
   Result:=false;
@@ -136,10 +136,10 @@ begin
 end;
 
 // TSizerControl methods
-function WndProcSizer( Sender: PControl; var Msg: TMsg; var Rslt: Integer ): Boolean;
+function WndProcSizer( Sender: PControl; var Msg: TMsg; var Rslt: integer ): Boolean;
 var
   Pt: TPoint;
-  i: Integer;
+  i: integer;
   R:Trect;
   Data:PSizerData;
 begin
@@ -247,7 +247,7 @@ end;
 
 procedure TSizerData.DoPaint(sender:pControl;DC:HDC);
 var
-  i: Integer;
+  i: integer;
 begin
   // I simply use the current pen and brush
   for i := 0 to  7 do
@@ -284,7 +284,7 @@ end;
 
 procedure TDesigner.PaintGrid(Sender: pControl; DC: HDC);
 var
-  i, j: Integer;
+  i, j: integer;
 begin
   i := 0;
   j := 0;
@@ -367,7 +367,7 @@ end;
 
 procedure TDesigner.DisConnect(aControl: pControl);
 var
-  index: Integer;
+  index: integer;
 begin
   index := IndexOfObj(aControl);
   if index = -1 then
@@ -417,16 +417,16 @@ begin
       FOnControlChange(sender);
 end;
 
-procedure TDesigner.DoChar( Sender: PControl; var Key: KOLChar; Shift: DWORD);
+procedure TDesigner.DoChar( Sender: PControl; var Key: KOLChar; Shift: dword);
 begin
 //   messagebox(0,'444','',0);
 end;
 
-procedure TDesigner.DoKeyUp(Sender: PControl; var Key: Integer; Shift: DWORD);
+procedure TDesigner.DoKeyUp(Sender: PControl; var Key: integer; Shift: dword);
 
   procedure DeleteControl(Index:integer);
   var
-    i: Integer;
+    i: integer;
     C:PControl;
   begin
     C:=PControl(Objects[index]);
@@ -472,7 +472,7 @@ end;
 
 function TDesigner.UniqueName(aName: KOLString; flags:cardinal): KOLString;
 var
-  I, J: Integer;
+  I, J: integer;
   T: KOLString;
 begin
   // Strip obj_ prefix and all other prefix+underscores from

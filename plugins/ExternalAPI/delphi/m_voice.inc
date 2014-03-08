@@ -52,7 +52,7 @@ type
     id        :PAnsiChar; // Protocol especific ID for this call
     flags     :int;       // VOICE_UNICODE to say the string is unicode or 0.
                           // VOICE_SECURE to say this is a encrypted call
-    hContact  :THANDLE;	  // Contact associated with the call (can be NULL)
+    hContact  :TMCONTACT; // Contact associated with the call (can be NULL)
     szNumber  :TChar;     // Number to call (can be NULL)
                           // Or the contact or the number must be != NULL
                           // If both are != NULL the call will be made to the number
@@ -148,7 +148,7 @@ called. If this service does not exist all contacts can be called (or, if it is 
 all contacts from the protocol can be called).
 
 wParam: (HANDLE) hContact
-lParam: (BOOL) TRUE if it is a test for 'can call now?', FALSE if is a test for 'will be possible to call someday?'
+lParam: (bool) TRUE if it is a test for 'can call now?', FALSE if is a test for 'will be possible to call someday?'
 return: 0 if can't be called, 1 if can
 }
   PS_VOICE_CALL_CONTACT_VALID = '/Voice/CallContactValid';

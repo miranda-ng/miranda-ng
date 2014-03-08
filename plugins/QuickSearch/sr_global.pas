@@ -193,7 +193,7 @@ const
 
 procedure reghotkeys;
 var
-  hkrec:HOTKEYDESC;
+  hkrec:THOTKEYDESC;
 begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do

@@ -34,7 +34,7 @@ type
   PCLISTFrame = ^TCLISTFrame;
   TCLISTFrame = record
     cbSize:dword;
-    hWnd  :hwnd;
+    hWnd  :HWND;
     hIcon :HICON;
     align :int;   // al flags below
     height:int;   // or minSize - the actual meaning depends from type of frame

@@ -50,7 +50,7 @@ type
   PLANGPACKTRANSLATEDIALOG = ^TLANGPACKTRANSLATEDIALOG;
   TLANGPACKTRANSLATEDIALOG = record
     cbSize        :int;
-    flags         :DWORD;
+    flags         :dword;
     hwndDlg       :HWND;
     ignoreControls:^IntArray; // zero-terminated list of control IDs *not* to translate
   end;

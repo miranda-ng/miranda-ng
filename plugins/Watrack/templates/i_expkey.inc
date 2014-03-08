@@ -17,7 +17,7 @@ end;
 
 procedure reginshotkey;
 var
-  hkrec:HOTKEYDESC;
+  hkrec:THOTKEYDESC;
 begin
   FillChar(hkrec,SizeOf(hkrec),0);
   with hkrec do

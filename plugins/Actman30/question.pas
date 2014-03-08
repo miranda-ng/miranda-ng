@@ -19,7 +19,7 @@ const
   imp_noall  = 4;
   imp_append = 5;
 
-function QuestionDlg(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function QuestionDlg(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   i:integer;
 begin

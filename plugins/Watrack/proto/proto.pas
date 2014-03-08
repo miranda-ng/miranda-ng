@@ -57,7 +57,7 @@ var
 {$include i_proto_opt.inc}
 {$include i_proto_dlg.inc}
 
-procedure AddEvent(hContact:MCONTACT;atype,flag:integer;data:pointer;size:integer;time:dword=0);
+procedure AddEvent(hContact:TMCONTACT;atype,flag:integer;data:pointer;size:integer;time:dword=0);
 var
   dbeo:TDBEVENTINFO;
 begin
@@ -404,7 +404,7 @@ end;
 
 procedure RegisterContacts;
 var
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
 begin
   hContact:=db_find_first();
   while hContact<>0 do
@@ -445,6 +445,8 @@ begin
   desc._type :=PROTOTYPE_TRANSLATION;
 
   CallService(MS_PROTO_REGISTERMODULE,0,lparam(@desc));
+//  CreateProtoServiceFunction(PluginShort,PSS_MESSAGE ,@SendMessageProcW);
+//  CreateProtoServiceFunction(PluginShort,PSS_MESSAGEW,@SendMessageProcW);
   hSRM:=CreateProtoServiceFunction(PluginShort,PSR_MESSAGE ,@ReceiveMessageProcW);
 //  CreateProtoServiceFunction(PluginShort,PSR_MESSAGEW,@ReceiveMessageProcW);
 end;
@@ -500,7 +502,6 @@ begin
   result:=1;
 
   ReadOptions;
-
   RegisterIcons;
 
   FillChar(mi, sizeof(mi), 0);
@@ -524,6 +525,7 @@ procedure DeInitProc(aSetDisable:boolean);
 begin
   if aSetDisable then
     SetModStatus(0);
+
   UnhookEvent(hAddUserHook);
   UnhookEvent(contexthook);
   UnhookEvent(icchangedhook);

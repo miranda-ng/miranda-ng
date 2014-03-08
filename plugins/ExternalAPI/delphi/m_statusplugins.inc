@@ -49,7 +49,7 @@ const
   MS_CS_GETPROTOCOUNT:PAnsiChar = 'CommonStatus/GetProtocolCount'; // added dec '04
 
 // wParam = PROTOCOLSETTINGEX*** (keep it like this for compatibility)
-// lParam = 0
+// lParam = (int) settings count
   ME_CS_STATUSCHANGEEX:PAnsiChar = 'CommonStatus/StatusChangeEx';
 {
 // wParam = protoCount

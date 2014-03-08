@@ -5,7 +5,7 @@ unit MyRTF;
 interface
 uses windows;
 
-procedure SendRTF(wnd:hwnd;txt:PWideChar;isUnicode:Boolean;CP:integer=CP_ACP);
+procedure SendRTF(wnd:HWND;txt:PWideChar;isUnicode:Boolean;CP:integer=CP_ACP);
 
 implementation
 uses richedit,common,messages{,m_api};
@@ -60,7 +60,7 @@ begin
   result:=0;
 end;
 
-procedure WriteRTF(wnd:hwnd;const pszText:PAnsiChar);
+procedure WriteRTF(wnd:HWND;const pszText:PAnsiChar);
 var
   stream:TEDITSTREAM;
 begin
@@ -80,7 +80,7 @@ begin
   result:=0;
 end;
 
-procedure ReadRTF(wnd:hwnd;var dst:PAnsiChar);
+procedure ReadRTF(wnd:HWND;var dst:PAnsiChar);
 var
   stream:TEDITSTREAM;
 begin
@@ -191,7 +191,7 @@ begin
   end;
 end;
 
-procedure SendRTF(wnd:hwnd;txt:PWideChar;isUnicode:Boolean;CP:integer=CP_ACP);
+procedure SendRTF(wnd:HWND;txt:PWideChar;isUnicode:Boolean;CP:integer=CP_ACP);
 var
   tmp:PAnsiChar;
   sstart:integer;

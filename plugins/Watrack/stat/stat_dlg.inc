@@ -2,7 +2,7 @@
 
 {$include stat_rc.inc}
 
-procedure SetReportMask(Dlg:hwnd);
+procedure SetReportMask(Dlg:HWND);
 begin
   ReportMask:=0;
   if IsDlgButtonChecked(Dlg,IDC_FREQART)=BST_CHECKED then
@@ -19,7 +19,7 @@ begin
     ReportMask:=ReportMask or stAlbum;
 end;
 
-procedure EnableItems(Dlg:hwnd;enable:boolean);
+procedure EnableItems(Dlg:HWND;enable:boolean);
 begin
   EnableWindow(GetDlgItem(Dlg,IDC_STATNAME) ,enable);
   EnableWindow(GetDlgItem(Dlg,IDC_SNBUTTON) ,enable);
@@ -46,7 +46,7 @@ begin
   EnableWindow(GetDlgItem(Dlg,IDC_AUTOSORT) ,enable);
 end;
 
-function DlgProcOptions(Dialog:HWnd; hMessage:dword;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function DlgProcOptions(Dialog:HWND; hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   changed:boolean=false;
 var
@@ -186,6 +186,7 @@ begin
         begin
           buf1[0]:=#0;
           PathToRelative(buf,buf1);
+//          CallService(MS_UTILS_PATHTORELATIVE,TWPARAM(@buf),TLPARAM(@buf1));
           StrDup(StatName,buf1);
         end;
 
@@ -195,6 +196,7 @@ begin
         begin
           buf1[0]:=#0;
           PathToRelative(buf,buf1);
+//          CallService(MS_UTILS_PATHTORELATIVE,TWPARAM(@buf),TLPARAM(@buf1));
           StrDup(ReportName,buf1);
         end;
 
@@ -204,6 +206,7 @@ begin
         begin
           buf1[0]:=#0;
           PathToRelative(buf,buf1);
+//          CallService(MS_UTILS_PATHTORELATIVE,TWPARAM(@buf),TLPARAM(@buf1));
           StrDup(TmplName,buf1);
         end;
 

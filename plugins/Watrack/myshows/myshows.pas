@@ -144,7 +144,7 @@ begin
     end;
 
     WAT_EVENT_PLAYERSTATUS: begin
-      case Integer(loword(lParam)) of
+      case integer(loword(lParam)) of
         WAT_PLS_NOMUSIC,WAT_PLS_NOTFOUND: begin
           if hTimer<>0 then
           begin

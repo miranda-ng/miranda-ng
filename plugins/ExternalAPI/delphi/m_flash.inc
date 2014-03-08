@@ -81,12 +81,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 type
   TFLASHAVATAR = record
-    hContact     :THANDLE; // contact who flash avatar belongs to
-    hWindow      :HWND;    // handle of flash avatar object
-    hParentWindow:HWND;    // handle of flash avatar's parent object
-    cUrl         :TChar;   // url of .swf file
-    id           :int;     // unique number of plugin which wants to use avatar service
-    cProto       :PAnsiChar;   // contacts protocol
+    hContact     :TMCONTACT; // contact who flash avatar belongs to
+    hWindow      :HWND;      // handle of flash avatar object
+    hParentWindow:HWND;      // handle of flash avatar's parent object
+    cUrl         :TChar;     // url of .swf file
+    id           :int;       // unique number of plugin which wants to use avatar service
+    cProto       :PAnsiChar; // contacts protocol
   end;
 
 {$ENDIF}

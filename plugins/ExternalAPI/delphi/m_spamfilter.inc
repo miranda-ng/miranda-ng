@@ -50,7 +50,7 @@ const
 
 // Parameters:
 // -------------
-// wParam = (UINT)uHandleType (see below);
+// wParam = (uint)uHandleType (see below);
 // lParam = 0
 
 // Possible values for wParam:
@@ -98,8 +98,8 @@ const
 
 // Parameters:
 // -------------
-// wParam = (UINT)uFilterType (For possible values see below)
-// lParam = (BOOL)bNewState (new activation state of filter)
+// wParam = (uint)uFilterType (For possible values see below)
+// lParam = (bool)bNewState (new activation state of filter)
 
 // Possible filter type values (uFilterType):
   SFT_ADVERTISMENT_FILTER     = 1;
@@ -124,7 +124,7 @@ const
 // Parameters:
 // -------------
 // wParam = (HWND)hwndParent (Can be NULL)
-// lParam = (UINT)uFilterType (For possible values see above)
+// lParam = (uint)uFilterType (For possible values see above)
 //          -> since 2.0.2.0: If this is zero then the options dialog will be opened pointing to the Spam Filter options.
 // Note:
 // If hwndParent is not NULL the function will not return
@@ -197,7 +197,7 @@ const
 type
   PMESSAGETYPEDESC = ^TMESSAGETYPEDESC;
   TMESSAGETYPEDESC = record
-    cbSize            :Integer; // Set to sizeof(MESSAGETYPEDESC)
+    cbSize            :integer; // Set to sizeof(MESSAGETYPEDESC)
     pszSection        :PAnsiChar;   // Section of message name for database
                                 // e.g. protocol name (Can not be NULL)
     SectionDescription:TChar;   // Readable name of section e.g. protocol name (can be NULL)
@@ -212,15 +212,15 @@ type
                                 // a negative sign, e.g (HICON)-SKINICON_EVENT_MESSAGE,
                                 //  same as for LoadSkinnedIcon() -> can be 0
                                 // and can also be a normal icon handle (HICON)
-    bDefaultStatus    :BOOL;    // Whether checking for this type should be
+    bDefaultStatus    :bool;    // Whether checking for this type should be
                                 // activated or not by default
-    dwFlags           :DWORD;   // Flags for the message type (for possible flags see below)
-    iSectionPosition  :Integer; // Approx position number for the section in the
+    dwFlags           :dword;   // Flags for the message type (for possible flags see below)
+    iSectionPosition  :integer; // Approx position number for the section in the
                                 // options list, lower numbers are nearer to the
                                 // top (Can be 0 to be sorted alphabetically)
                                 // Ignored if section existed previously (or
                                 // if pszSection is NULL) Added in v2.1.1.0
-    iPosition         :Integer; // Approx position number for the item in the
+    iPosition         :integer; // Approx position number for the item in the
                                 // options list, lower numbers are nearer to the
                                 // top (Can be 0 to be sorted alphabetically)
                                 // Added in v2.1.1.0
@@ -321,7 +321,7 @@ const
 
 // Parameters:
 // -------------
-// wParam = (BOOL)bOnlyCount (if TRUE the service will only return the user count without doing reset)
+// wParam = (bool)bOnlyCount (if TRUE the service will only return the user count without doing reset)
 // lParam = 0
 
 // Return Values:
@@ -353,16 +353,16 @@ const
 type
   PSPAMCHECKDATA = ^TSPAMCHECKDATA;
   TSPAMCHECKDATA = record
-    cbSize           :Integer; // sizeof(SPAMCHECKDATA)
+    cbSize           :integer; // sizeof(SPAMCHECKDATA)
     pszMsgTypeSection:PAnsiChar;   // The section of the message type string: You need
                                // to use MS_SPAMFILTER_REGISTERMESSAGETYPE before
     pszMsgTypeName   :PAnsiChar;   // Description of the message: You need to use
                                // MS_SPAMFILTER_REGISTERMESSAGETYPE before
     MsgText          :TChar;   // Pointer to the text of a message which is
                                // checked for spam. Can be NULL.
-    dwFlags          :DWORD;   // Flags for the spam checking.  (For more details see below.)
+    dwFlags          :dword;   // Flags for the spam checking.  (For more details see below.)
     case LongInt of
-     0: (hContact: MCONTACT);  // Handle to the sending contact (use pszUserName
+     0: (hContact: TMCONTACT); // Handle to the sending contact (use pszUserName
                                // instead if no hContact is available)
      1: (UserName: TChar);     // Name of the user, e.g. nick (set SCDF_NO_CONTACT
                                // in the flags to use this parameter) -> should
@@ -406,7 +406,7 @@ const
 
 // Parameters:
 // -------------
-// wParam = (DWORD)dwDataType (For possible values see below)
+// wParam = (dword)dwDataType (For possible values see below)
 // lParam = depends on wParam (see below)
 
 // Possible values for lParam:
@@ -435,8 +435,8 @@ const
 
 // Return Values:
 // --------------
-// SFSCI_ACTIVATION_FILTER    -> (BOOL)TRUE/FALSE
-// SFSCI_DELAY_TIME_REPLY    -> (BOOL)TRUE/FALSE
+// SFSCI_ACTIVATION_FILTER    -> (bool)TRUE/FALSE
+// SFSCI_DELAY_TIME_REPLY    -> (bool)TRUE/FALSE
 
 // SFSCI_MSGTEXT_NOTIFYA    -> (AnsiChar*) free with miranda_sys_free() of "m_system.h", (all %vars% in the text are already resolved)
 // SFSCI_MSGTEXT_INSTRUCTIONA  -> see SFSCI_MSGTEXT_NOTIFYA
@@ -446,7 +446,7 @@ const
 // SFSCI_MSGTEXT_INSTRUCTIONW  -> see SFSCI_MSGTEXT_NOTIFYW
 // SFSCI_MSGTEXT_CONFIRMATIONW  -> see SFSCI_MSGTEXT_NOTIFYW
 
-// SFSCI_ADD_TO_HISTORY      -> (BOOL)TRUE/FALSE
+// SFSCI_ADD_TO_HISTORY      -> (bool)TRUE/FALSE
 
 // returns NULL on error
 
@@ -464,7 +464,7 @@ const
 // Parameters:
 // -----------------
 // wParam = (SPAMCHECKDATA*)scd (Pointer to SPAMCHECKDATA struct)
-// lParam = (UINT)uFilterType (For possible values see above)
+// lParam = (uint)uFilterType (For possible values see above)
 
 // Return Values:
 // -----------------
@@ -485,7 +485,7 @@ const
 // Parameters:
 // -----------------
 // wParam = (SPAMCHECKDATA*)scd (Pointer to SPAMCHECKDATA struct)
-// lParam = (UINT)uFilterType (For possible values see above)
+// lParam = (uint)uFilterType (For possible values see above)
 
 // Return Values:
 // -----------------
@@ -509,7 +509,7 @@ const
 // Parameters:
 // -----------------
 // wParam = (SPAMCHECKDATA*)scd (Pointer to SPAMCHECKDATA struct)
-// lParam = (UINT)uFilterType (For possible values see above)
+// lParam = (uint)uFilterType (For possible values see above)
 
 // Return Values:
 // -----------------
@@ -603,7 +603,7 @@ const
 
 // Parameters:
 // -------------
-// wParam = (UINT)uErrorType (For possible values see below)
+// wParam = (uint)uErrorType (For possible values see below)
 // lParam = 0
 
 // Possible values for wParam:
@@ -638,7 +638,7 @@ const
 // Parameters:
 // -------------
 // wParam = (HANDLE)hContact (Handle to a contact in database. Can't be NULL.)
-// lParam = (DWORD)dwFlags (flags about what should be done, see below)
+// lParam = (dword)dwFlags (flags about what should be done, see below)
 
 // Available Flags:
   SCASF_NO_NOTIFY            = $00000001; // Prevents logging and playing of sounds
@@ -742,7 +742,7 @@ const
 // Parameters:
 // -----------------
 // wParam = (HANDLE)hContact
-// lParam = (BOOL)bIsSpammer (new state)
+// lParam = (bool)bIsSpammer (new state)
 
 // Return Values:
 // -----------------

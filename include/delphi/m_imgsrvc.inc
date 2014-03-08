@@ -65,7 +65,7 @@ type
 }
 (*
 FIBITMAP *FreeImage_LoadFromMem(FREE_IMAGE_FORMAT fif, fiio_mem_handle *handle, int flags);
-BOOL FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags);
+bool FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags);
 
 void SetMemIO(FreeImageIO *io);
 unsigned __stdcall fiio_mem_ReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle);
@@ -92,19 +92,19 @@ typedef struct _tagFI_interface {
     FIBITMAP *(DLL_CALLCONV *FI_Load)(FREE_IMAGE_FORMAT fif, const AnsiChar *filename, int flags FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_LoadU)(FREE_IMAGE_FORMAT fif, const wchar_t *filename, int flags FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_LoadFromHandle)(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle, int flags FI_DEFAULT(0));
-    BOOL (DLL_CALLCONV *FI_Save)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const AnsiChar *filename, int flags FI_DEFAULT(0));
-    BOOL (DLL_CALLCONV *FI_SaveU)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const wchar_t *filename, int flags FI_DEFAULT(0));
-    BOOL (DLL_CALLCONV *FI_SaveToHandle)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FreeImageIO *io, fi_handle handle, int flags FI_DEFAULT(0));
+    bool (DLL_CALLCONV *FI_Save)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const AnsiChar *filename, int flags FI_DEFAULT(0));
+    bool (DLL_CALLCONV *FI_SaveU)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, const wchar_t *filename, int flags FI_DEFAULT(0));
+    bool (DLL_CALLCONV *FI_SaveToHandle)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FreeImageIO *io, fi_handle handle, int flags FI_DEFAULT(0));
 
 // Memory I/O stream routines -----------------------------------------------
 
-    FIMEMORY *(DLL_CALLCONV *FI_OpenMemory)(BYTE *data FI_DEFAULT(0), DWORD size_in_bytes FI_DEFAULT(0));
+    FIMEMORY *(DLL_CALLCONV *FI_OpenMemory)(byte *data FI_DEFAULT(0), DWORD size_in_bytes FI_DEFAULT(0));
     void (DLL_CALLCONV *FI_CloseMemory)(FIMEMORY *stream);
     FIBITMAP *(DLL_CALLCONV *FI_LoadFromMemory)(FREE_IMAGE_FORMAT fif, FIMEMORY *stream, int flags FI_DEFAULT(0));
-    BOOL (DLL_CALLCONV *FI_SaveToMemory)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FIMEMORY *stream, int flags FI_DEFAULT(0));
+    bool (DLL_CALLCONV *FI_SaveToMemory)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FIMEMORY *stream, int flags FI_DEFAULT(0));
     long (DLL_CALLCONV *FI_TellMemory)(FIMEMORY *stream);
-    BOOL (DLL_CALLCONV *FI_SeekMemory)(FIMEMORY *stream, long offset, int origin);
-    BOOL (DLL_CALLCONV *FI_AcquireMemory)(FIMEMORY *stream, BYTE **data, DWORD *size_in_bytes);
+    bool (DLL_CALLCONV *FI_SeekMemory)(FIMEMORY *stream, long offset, int origin);
+    bool (DLL_CALLCONV *FI_AcquireMemory)(FIMEMORY *stream, byte **data, DWORD *size_in_bytes);
     unsigned (DLL_CALLCONV *FI_ReadMemory)(void *buffer, unsigned size, unsigned count, FIMEMORY *stream);
     unsigned (DLL_CALLCONV *FI_WriteMemory)(const void *buffer, unsigned size, unsigned count, FIMEMORY *stream);
     FIMULTIBITMAP *(DLL_CALLCONV *FI_LoadMultiBitmapFromMemory)(FREE_IMAGE_FORMAT fif, FIMEMORY *stream, int flags FI_DEFAULT(0));
@@ -114,7 +114,7 @@ typedef struct _tagFI_interface {
     FREE_IMAGE_FORMAT (DLL_CALLCONV *FI_RegisterLocalPlugin)(FI_InitProc proc_address, const AnsiChar *format FI_DEFAULT(0), const AnsiChar *description FI_DEFAULT(0), const AnsiChar *extension FI_DEFAULT(0), const AnsiChar *regexpr FI_DEFAULT(0));
     FREE_IMAGE_FORMAT (DLL_CALLCONV *FI_RegisterExternalPlugin)(const AnsiChar *path, const AnsiChar *format FI_DEFAULT(0), const AnsiChar *description FI_DEFAULT(0), const AnsiChar *extension FI_DEFAULT(0), const AnsiChar *regexpr FI_DEFAULT(0));
     int (DLL_CALLCONV *FI_GetFIFCount)(void);
-    int (DLL_CALLCONV *FI_SetPluginEnabled)(FREE_IMAGE_FORMAT fif, BOOL enable);
+    int (DLL_CALLCONV *FI_SetPluginEnabled)(FREE_IMAGE_FORMAT fif, bool enable);
     int (DLL_CALLCONV *FI_IsPluginEnabled)(FREE_IMAGE_FORMAT fif);
     FREE_IMAGE_FORMAT (DLL_CALLCONV *FI_GetFIFFromFormat)(const AnsiChar *format);
     FREE_IMAGE_FORMAT (DLL_CALLCONV *FI_GetFIFFromMime)(const AnsiChar *mime);
@@ -125,24 +125,24 @@ typedef struct _tagFI_interface {
     const AnsiChar *(DLL_CALLCONV *FI_GetFIFMimeType)(FREE_IMAGE_FORMAT fif);
     FREE_IMAGE_FORMAT (DLL_CALLCONV *FI_GetFIFFromFilename)(const AnsiChar *filename);
     FREE_IMAGE_FORMAT (DLL_CALLCONV *FI_GetFIFFromFilenameU)(const wchar_t *filename);
-    BOOL (DLL_CALLCONV *FI_FIFSupportsReading)(FREE_IMAGE_FORMAT fif);
-    BOOL (DLL_CALLCONV *FI_FIFSupportsWriting)(FREE_IMAGE_FORMAT fif);
-    BOOL (DLL_CALLCONV *FI_FIFSupportsExportBPP)(FREE_IMAGE_FORMAT fif, int bpp);
-    BOOL (DLL_CALLCONV *FI_FIFSupportsExportType)(FREE_IMAGE_FORMAT fif, FREE_IMAGE_TYPE type);
-    BOOL (DLL_CALLCONV *FI_FIFSupportsICCProfiles)(FREE_IMAGE_FORMAT fif);
+    bool (DLL_CALLCONV *FI_FIFSupportsReading)(FREE_IMAGE_FORMAT fif);
+    bool (DLL_CALLCONV *FI_FIFSupportsWriting)(FREE_IMAGE_FORMAT fif);
+    bool (DLL_CALLCONV *FI_FIFSupportsExportBPP)(FREE_IMAGE_FORMAT fif, int bpp);
+    bool (DLL_CALLCONV *FI_FIFSupportsExportType)(FREE_IMAGE_FORMAT fif, FREE_IMAGE_TYPE type);
+    bool (DLL_CALLCONV *FI_FIFSupportsICCProfiles)(FREE_IMAGE_FORMAT fif);
 
 // Multipaging interface ----------------------------------------------------
 
-    FIMULTIBITMAP *(DLL_CALLCONV *FI_OpenMultiBitmap)(FREE_IMAGE_FORMAT fif, const AnsiChar *filename, BOOL create_new, BOOL read_only, BOOL keep_cache_in_memory FI_DEFAULT(FALSE), int flags FI_DEFAULT(0));
-    BOOL (DLL_CALLCONV *FI_CloseMultiBitmap)(FIMULTIBITMAP *bitmap, int flags FI_DEFAULT(0));
+    FIMULTIBITMAP *(DLL_CALLCONV *FI_OpenMultiBitmap)(FREE_IMAGE_FORMAT fif, const AnsiChar *filename, bool create_new, bool read_only, bool keep_cache_in_memory FI_DEFAULT(FALSE), int flags FI_DEFAULT(0));
+    bool (DLL_CALLCONV *FI_CloseMultiBitmap)(FIMULTIBITMAP *bitmap, int flags FI_DEFAULT(0));
     int (DLL_CALLCONV *FI_GetPageCount)(FIMULTIBITMAP *bitmap);
     void (DLL_CALLCONV *FI_AppendPage)(FIMULTIBITMAP *bitmap, FIBITMAP *data);
     void (DLL_CALLCONV *FI_InsertPage)(FIMULTIBITMAP *bitmap, int page, FIBITMAP *data);
     void (DLL_CALLCONV *FI_DeletePage)(FIMULTIBITMAP *bitmap, int page);
     FIBITMAP *(DLL_CALLCONV *FI_LockPage)(FIMULTIBITMAP *bitmap, int page);
-    void (DLL_CALLCONV *FI_UnlockPage)(FIMULTIBITMAP *bitmap, FIBITMAP *data, BOOL changed);
-    BOOL (DLL_CALLCONV *FI_MovePage)(FIMULTIBITMAP *bitmap, int target, int source);
-    BOOL (DLL_CALLCONV *FI_GetLockedPageNumbers)(FIMULTIBITMAP *bitmap, int *pages, int *count);
+    void (DLL_CALLCONV *FI_UnlockPage)(FIMULTIBITMAP *bitmap, FIBITMAP *data, bool changed);
+    bool (DLL_CALLCONV *FI_MovePage)(FIMULTIBITMAP *bitmap, int target, int source);
+    bool (DLL_CALLCONV *FI_GetLockedPageNumbers)(FIMULTIBITMAP *bitmap, int *pages, int *count);
 
 // Filetype request routines ------------------------------------------------
 
@@ -153,9 +153,9 @@ typedef struct _tagFI_interface {
 
 // FreeImage helper routines ------------------------- MISSING !!!! TODO
 
-    BOOL (DLL_CALLCONV *FI_IsLittleEndian)(void);
-    BOOL (DLL_CALLCONV *FI_LookupX11Color)(const AnsiChar *szColor, BYTE *nRed, BYTE *nGreen, BYTE *nBlue);
-    BOOL (DLL_CALLCONV *FI_LookupSVGColor)(const AnsiChar *szColor, BYTE *nRed, BYTE *nGreen, BYTE *nBlue);
+    bool (DLL_CALLCONV *FI_IsLittleEndian)(void);
+    bool (DLL_CALLCONV *FI_LookupX11Color)(const AnsiChar *szColor, byte *nRed, byte *nGreen, byte *nBlue);
+    bool (DLL_CALLCONV *FI_LookupSVGColor)(const AnsiChar *szColor, byte *nRed, byte *nGreen, byte *nBlue);
 
 // Image type request routine -----------------------------------------------
 
@@ -163,13 +163,13 @@ typedef struct _tagFI_interface {
 
 // Pixel access routines ----------------------------------------------------
 
-    BYTE *(DLL_CALLCONV *FI_GetBits)(FIBITMAP *dib);
-    BYTE *(DLL_CALLCONV *FI_GetScanLine)(FIBITMAP *dib, int scanline);
+    byte *(DLL_CALLCONV *FI_GetBits)(FIBITMAP *dib);
+    byte *(DLL_CALLCONV *FI_GetScanLine)(FIBITMAP *dib, int scanline);
 
-    BOOL (DLL_CALLCONV *FI_GetPixelIndex)(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value);
-    BOOL (DLL_CALLCONV *FI_GetPixelColor)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
-    BOOL (DLL_CALLCONV *FI_SetPixelIndex)(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value);
-    BOOL (DLL_CALLCONV *FI_SetPixelColor)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
+    bool (DLL_CALLCONV *FI_GetPixelIndex)(FIBITMAP *dib, unsigned x, unsigned y, byte *value);
+    bool (DLL_CALLCONV *FI_GetPixelColor)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
+    bool (DLL_CALLCONV *FI_SetPixelIndex)(FIBITMAP *dib, unsigned x, unsigned y, byte *value);
+    bool (DLL_CALLCONV *FI_SetPixelColor)(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value);
 
 // DIB info routines --------------------------------------------------------
 
@@ -196,14 +196,14 @@ typedef struct _tagFI_interface {
     unsigned (DLL_CALLCONV *FI_GetBlueMask)(FIBITMAP *dib);
 
     unsigned (DLL_CALLCONV *FI_GetTransparencyCount)(FIBITMAP *dib);
-    BYTE *(DLL_CALLCONV *FI_GetTransparencyTable)(FIBITMAP *dib);
-    void (DLL_CALLCONV *FI_SetTransparent)(FIBITMAP *dib, BOOL enabled);
-    void (DLL_CALLCONV *FI_SetTransparencyTable)(FIBITMAP *dib, BYTE *table, int count);
-    BOOL (DLL_CALLCONV *FI_IsTransparent)(FIBITMAP *dib);
+    byte *(DLL_CALLCONV *FI_GetTransparencyTable)(FIBITMAP *dib);
+    void (DLL_CALLCONV *FI_SetTransparent)(FIBITMAP *dib, bool enabled);
+    void (DLL_CALLCONV *FI_SetTransparencyTable)(FIBITMAP *dib, byte *table, int count);
+    bool (DLL_CALLCONV *FI_IsTransparent)(FIBITMAP *dib);
 
-    BOOL (DLL_CALLCONV *FI_HasBackgroundColor)(FIBITMAP *dib);
-    BOOL (DLL_CALLCONV *FI_GetBackgroundColor)(FIBITMAP *dib, RGBQUAD *bkcolor);
-    BOOL (DLL_CALLCONV *FI_SetBackgroundColor)(FIBITMAP *dib, RGBQUAD *bkcolor);
+    bool (DLL_CALLCONV *FI_HasBackgroundColor)(FIBITMAP *dib);
+    bool (DLL_CALLCONV *FI_GetBackgroundColor)(FIBITMAP *dib, RGBQUAD *bkcolor);
+    bool (DLL_CALLCONV *FI_SetBackgroundColor)(FIBITMAP *dib, RGBQUAD *bkcolor);
 
     // ICC profile routines ------------------------------- MISSING !!! TODO
 
@@ -226,14 +226,14 @@ typedef struct _tagFI_interface {
 
     FIBITMAP *(DLL_CALLCONV *FI_ColorQuantizeEx)(FIBITMAP *dib, FREE_IMAGE_QUANTIZE quantize /*FI_DEFAULT(FIQ_WUQUANT) */, int PaletteSize FI_DEFAULT(256), int ReserveSize FI_DEFAULT(0), RGBQUAD *ReservePalette FI_DEFAULT(NULL));
 
-    FIBITMAP *(DLL_CALLCONV *FI_Threshold)(FIBITMAP *dib, BYTE T);
+    FIBITMAP *(DLL_CALLCONV *FI_Threshold)(FIBITMAP *dib, byte T);
     FIBITMAP *(DLL_CALLCONV *FI_Dither)(FIBITMAP *dib, FREE_IMAGE_DITHER algorithm);
-    FIBITMAP *(DLL_CALLCONV *FI_ConvertFromRawBits)(BYTE *bits, int width, int height, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown FI_DEFAULT(FALSE));
-    void (DLL_CALLCONV *FI_ConvertToRawBits)(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown FI_DEFAULT(FALSE));
+    FIBITMAP *(DLL_CALLCONV *FI_ConvertFromRawBits)(byte *bits, int width, int height, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, bool topdown FI_DEFAULT(FALSE));
+    void (DLL_CALLCONV *FI_ConvertToRawBits)(byte *bits, FIBITMAP *dib, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, bool topdown FI_DEFAULT(FALSE));
 
     FIBITMAP *(DLL_CALLCONV *FI_ConvertToRGBF)(FIBITMAP *dib);
-    FIBITMAP *(DLL_CALLCONV *FI_ConvertToStandardType)(FIBITMAP *src, BOOL scale_linear FI_DEFAULT(TRUE));
-    FIBITMAP *(DLL_CALLCONV *FI_ConvertToType)(FIBITMAP *src, FREE_IMAGE_TYPE dst_type, BOOL scale_linear FI_DEFAULT(TRUE));
+    FIBITMAP *(DLL_CALLCONV *FI_ConvertToStandardType)(FIBITMAP *src, bool scale_linear FI_DEFAULT(TRUE));
+    FIBITMAP *(DLL_CALLCONV *FI_ConvertToType)(FIBITMAP *src, FREE_IMAGE_TYPE dst_type, bool scale_linear FI_DEFAULT(TRUE));
 
 // tone mapping operators
     FIBITMAP *(DLL_CALLCONV *FI_ToneMapping)(FIBITMAP *dib, FREE_IMAGE_TMO tmo, double first_param FI_DEFAULT(0), double second_param FI_DEFAULT(0));
@@ -242,11 +242,11 @@ typedef struct _tagFI_interface {
 
 // ZLib interface -----------------------------------------------------------
 
-    DWORD (DLL_CALLCONV *FI_ZLibCompress)(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size);
-    DWORD (DLL_CALLCONV *FI_ZLibUncompress)(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size);
-    DWORD (DLL_CALLCONV *FI_ZLibGZip)(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size);
-    DWORD (DLL_CALLCONV *FI_ZLibGUnzip)(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size);
-    DWORD (DLL_CALLCONV *FI_ZLibCRC32)(DWORD crc, BYTE *source, DWORD source_size);
+    DWORD (DLL_CALLCONV *FI_ZLibCompress)(byte *target, DWORD target_size, byte *source, DWORD source_size);
+    DWORD (DLL_CALLCONV *FI_ZLibUncompress)(byte *target, DWORD target_size, byte *source, DWORD source_size);
+    DWORD (DLL_CALLCONV *FI_ZLibGZip)(byte *target, DWORD target_size, byte *source, DWORD source_size);
+    DWORD (DLL_CALLCONV *FI_ZLibGUnzip)(byte *target, DWORD target_size, byte *source, DWORD source_size);
+    DWORD (DLL_CALLCONV *FI_ZLibCRC32)(DWORD crc, byte *source, DWORD source_size);
 
 
 // --------------------------------------------------------------------------
@@ -261,28 +261,28 @@ typedef struct _tagFI_interface {
 // tag getters and setters
     const AnsiChar *(DLL_CALLCONV *FI_GetTagKey)(FITAG *tag);
     const AnsiChar *(DLL_CALLCONV *FI_GetTagDescription)(FITAG *tag);
-    WORD (DLL_CALLCONV *FI_GetTagID)(FITAG *tag);
+    word (DLL_CALLCONV *FI_GetTagID)(FITAG *tag);
     FREE_IMAGE_MDTYPE (DLL_CALLCONV *FI_GetTagType)(FITAG *tag);
     DWORD (DLL_CALLCONV *FI_GetTagCount)(FITAG *tag);
     DWORD (DLL_CALLCONV *FI_GetTagLength)(FITAG *tag);
     const void *(DLL_CALLCONV *FI_GetTagValue)(FITAG *tag);
 
-    BOOL (DLL_CALLCONV *FI_SetTagKey)(FITAG *tag, const AnsiChar *key);
-    BOOL (DLL_CALLCONV *FI_SetTagDescription)(FITAG *tag, const AnsiChar *description);
-    BOOL (DLL_CALLCONV *FI_SetTagID)(FITAG *tag, WORD id);
-    BOOL (DLL_CALLCONV *FI_SetTagType)(FITAG *tag, FREE_IMAGE_MDTYPE type);
-    BOOL (DLL_CALLCONV *FI_SetTagCount)(FITAG *tag, DWORD count);
-    BOOL (DLL_CALLCONV *FI_SetTagLength)(FITAG *tag, DWORD length);
-    BOOL (DLL_CALLCONV *FI_SetTagValue)(FITAG *tag, const void *value);
+    bool (DLL_CALLCONV *FI_SetTagKey)(FITAG *tag, const AnsiChar *key);
+    bool (DLL_CALLCONV *FI_SetTagDescription)(FITAG *tag, const AnsiChar *description);
+    bool (DLL_CALLCONV *FI_SetTagID)(FITAG *tag, word id);
+    bool (DLL_CALLCONV *FI_SetTagType)(FITAG *tag, FREE_IMAGE_MDTYPE type);
+    bool (DLL_CALLCONV *FI_SetTagCount)(FITAG *tag, DWORD count);
+    bool (DLL_CALLCONV *FI_SetTagLength)(FITAG *tag, DWORD length);
+    bool (DLL_CALLCONV *FI_SetTagValue)(FITAG *tag, const void *value);
 
 // iterator
     FIMETADATA *(DLL_CALLCONV *FI_FindFirstMetadata)(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, FITAG **tag);
-    BOOL (DLL_CALLCONV *FI_FindNextMetadata)(FIMETADATA *mdhandle, FITAG **tag);
+    bool (DLL_CALLCONV *FI_FindNextMetadata)(FIMETADATA *mdhandle, FITAG **tag);
     void (DLL_CALLCONV *FI_FindCloseMetadata)(FIMETADATA *mdhandle);
 
 // metadata setter and getter
-    BOOL (DLL_CALLCONV *FI_SetMetadata)(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const AnsiChar *key, FITAG *tag);
-    BOOL (DLL_CALLCONV *FI_GetMetadata)(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const AnsiChar *key, FITAG **tag);
+    bool (DLL_CALLCONV *FI_SetMetadata)(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const AnsiChar *key, FITAG *tag);
+    bool (DLL_CALLCONV *FI_GetMetadata)(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const AnsiChar *key, FITAG **tag);
 
 // helpers
     unsigned (DLL_CALLCONV *FI_GetMetadataCount)(FREE_IMAGE_MDMODEL model, FIBITMAP *dib);
@@ -297,50 +297,50 @@ typedef struct _tagFI_interface {
 
 // rotation and flipping
     FIBITMAP *(DLL_CALLCONV *FI_RotateClassic)(FIBITMAP *dib, double angle);
-    FIBITMAP *(DLL_CALLCONV *FI_RotateEx)(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x_origin, double y_origin, BOOL use_mask);
-    BOOL (DLL_CALLCONV *FI_FlipHorizontal)(FIBITMAP *dib);
-    BOOL (DLL_CALLCONV *FI_FlipVertical)(FIBITMAP *dib);
-    BOOL (DLL_CALLCONV *FI_JPEGTransform)(const AnsiChar *src_file, const AnsiChar *dst_file, FREE_IMAGE_JPEG_OPERATION operation, BOOL perfect FI_DEFAULT(FALSE));
+    FIBITMAP *(DLL_CALLCONV *FI_RotateEx)(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x_origin, double y_origin, bool use_mask);
+    bool (DLL_CALLCONV *FI_FlipHorizontal)(FIBITMAP *dib);
+    bool (DLL_CALLCONV *FI_FlipVertical)(FIBITMAP *dib);
+    bool (DLL_CALLCONV *FI_JPEGTransform)(const AnsiChar *src_file, const AnsiChar *dst_file, FREE_IMAGE_JPEG_OPERATION operation, bool perfect FI_DEFAULT(FALSE));
 
 // upsampling / downsampling
     FIBITMAP *(DLL_CALLCONV *FI_Rescale)(FIBITMAP *dib, int dst_width, int dst_height, FREE_IMAGE_FILTER filter);
-    FIBITMAP *(DLL_CALLCONV *FI_MakeThumbnail)(FIBITMAP *dib, int max_pixel_size, BOOL convert FI_DEFAULT(TRUE));
+    FIBITMAP *(DLL_CALLCONV *FI_MakeThumbnail)(FIBITMAP *dib, int max_pixel_size, bool convert FI_DEFAULT(TRUE));
 
 // color manipulation routines (point operations)
-  BOOL (DLL_CALLCONV *FI_AdjustCurve)(FIBITMAP *dib, BYTE *LUT, FREE_IMAGE_COLOR_CHANNEL channel);
-    BOOL (DLL_CALLCONV *FI_AdjustGamma)(FIBITMAP *dib, double gamma);
-    BOOL (DLL_CALLCONV *FI_AdjustBrightness)(FIBITMAP *dib, double percentage);
-    BOOL (DLL_CALLCONV *FI_AdjustContrast)(FIBITMAP *dib, double percentage);
-    BOOL (DLL_CALLCONV *FI_Invert)(FIBITMAP *dib);
-    BOOL (DLL_CALLCONV *FI_GetHistogram)(FIBITMAP *dib, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL channel);
+  bool (DLL_CALLCONV *FI_AdjustCurve)(FIBITMAP *dib, byte *LUT, FREE_IMAGE_COLOR_CHANNEL channel);
+    bool (DLL_CALLCONV *FI_AdjustGamma)(FIBITMAP *dib, double gamma);
+    bool (DLL_CALLCONV *FI_AdjustBrightness)(FIBITMAP *dib, double percentage);
+    bool (DLL_CALLCONV *FI_AdjustContrast)(FIBITMAP *dib, double percentage);
+    bool (DLL_CALLCONV *FI_Invert)(FIBITMAP *dib);
+    bool (DLL_CALLCONV *FI_GetHistogram)(FIBITMAP *dib, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL channel);
 
 // channel processing routines
     FIBITMAP *(DLL_CALLCONV *FI_GetChannel)(FIBITMAP *dib, FREE_IMAGE_COLOR_CHANNEL channel);
-    BOOL (DLL_CALLCONV *FI_SetChannel)(FIBITMAP *dib, FIBITMAP *dib8, FREE_IMAGE_COLOR_CHANNEL channel);
+    bool (DLL_CALLCONV *FI_SetChannel)(FIBITMAP *dib, FIBITMAP *dib8, FREE_IMAGE_COLOR_CHANNEL channel);
     FIBITMAP *(DLL_CALLCONV *FI_GetComplexChannel)(FIBITMAP *src, FREE_IMAGE_COLOR_CHANNEL channel);
-    BOOL (DLL_CALLCONV *FI_SetComplexChannel)(FIBITMAP *dst, FIBITMAP *src, FREE_IMAGE_COLOR_CHANNEL channel);
+    bool (DLL_CALLCONV *FI_SetComplexChannel)(FIBITMAP *dst, FIBITMAP *src, FREE_IMAGE_COLOR_CHANNEL channel);
 
 // copy / paste / composite routines
     FIBITMAP *(DLL_CALLCONV *FI_Copy)(FIBITMAP *dib, int left, int top, int right, int bottom);
-    BOOL (DLL_CALLCONV *FI_Paste)(FIBITMAP *dst, FIBITMAP *src, int left, int top, int alpha);
-    FIBITMAP *(DLL_CALLCONV *FI_Composite)(FIBITMAP *fg, BOOL useFileBkg FI_DEFAULT(FALSE), RGBQUAD *appBkColor FI_DEFAULT(NULL), FIBITMAP *bg FI_DEFAULT(NULL));
-    BOOL (DLL_CALLCONV *FI_JPEGCrop)(const AnsiChar *src_file, const AnsiChar *dst_file, int left, int top, int right, int bottom);
+    bool (DLL_CALLCONV *FI_Paste)(FIBITMAP *dst, FIBITMAP *src, int left, int top, int alpha);
+    FIBITMAP *(DLL_CALLCONV *FI_Composite)(FIBITMAP *fg, bool useFileBkg FI_DEFAULT(FALSE), RGBQUAD *appBkColor FI_DEFAULT(NULL), FIBITMAP *bg FI_DEFAULT(NULL));
+    bool (DLL_CALLCONV *FI_JPEGCrop)(const AnsiChar *src_file, const AnsiChar *dst_file, int left, int top, int right, int bottom);
 
 // own functions
 
     // memory I/O
     FIBITMAP *(*FI_LoadFromMem)(FREE_IMAGE_FORMAT fif, fiio_mem_handle *handle, int flags);
-    BOOL (*FI_SaveToMem)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags);
+    bool (*FI_SaveToMem)(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags);
 
     // helpers
     FIBITMAP *(*FI_CreateDIBFromHBITMAP)(HBITMAP hBmp);
     HBITMAP  (*FI_CreateHBITMAPFromDIB)(FIBITMAP *dib);
-    BOOL     (*FI_Premultiply)(HBITMAP hBmp);                               // premultiplies alpha channel for usage with AlphaBlend()
+    bool     (*FI_Premultiply)(HBITMAP hBmp);                               // premultiplies alpha channel for usage with AlphaBlend()
                                                                             // original HBITMAP stays valid and must be 32bit RGBA
     int      (*FI_BmpFilterResizeBitmap)(WPARAM wParam,LPARAM lParam);      // more generic resizer for avatar images
-    void     (*FI_CorrectBitmap32Alpha)(HBITMAP hBitmap, BOOL force);       // corrects broken images (when all alpha values are 0)
+    void     (*FI_CorrectBitmap32Alpha)(HBITMAP hBitmap, bool force);       // corrects broken images (when all alpha values are 0)
 
-    FIMULTIBITMAP *(DLL_CALLCONV *FI_OpenMultiBitmapU)(FREE_IMAGE_FORMAT fif, const wchar_t *filename, BOOL create_new, BOOL read_only, BOOL keep_cache_in_memory FI_DEFAULT(FALSE), int flags FI_DEFAULT(0));
+    FIMULTIBITMAP *(DLL_CALLCONV *FI_OpenMultiBitmapU)(FREE_IMAGE_FORMAT fif, const wchar_t *filename, bool create_new, bool read_only, bool keep_cache_in_memory FI_DEFAULT(FALSE), int flags FI_DEFAULT(0));
 
     void*   reserved[49];            // future usage
 } FI_INTERFACE;
@@ -404,7 +404,7 @@ const
 
 type
 //!!
-//  FREE_IMAGE_FORMAT = type Integer;
+//  FREE_IMAGE_FORMAT = type integer;
 {(
   FIF_UNKNOWN = -1,
   FIF_BMP     = 0,
@@ -471,7 +471,7 @@ type
 //!!
 {
   FIBITMAP = record
-    data : Pointer;
+    data : pointer;
   end;
   PFIBITMAP = ^FIBITMAP;
 }

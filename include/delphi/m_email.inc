@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const
   {
-    wParam : MCONTACT
+    wParam : TMCONTACT
     lParam : 0
     Affects: Send an e-mail to the specified contact, see notes
     Returns: Returns 0 on success or nonzero on failure

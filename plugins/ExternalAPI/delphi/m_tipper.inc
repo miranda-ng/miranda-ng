@@ -10,14 +10,14 @@
 {$IFNDEF M_TIPPER}
 {$DEFINE M_TIPPER}
 type
-  TranslateFunc = function (hContact:MCONTACT;module:PAnsiChar;setting_or_prefix:PAnsiChar;
-       buff:pWideChar;bufflen:int):pWideChar; cdecl;
+  TranslateFunc = function (hContact:TMCONTACT;module:PAnsiChar;setting_or_prefix:PAnsiChar;
+       buff:PWideChar;bufflen:int):PWideChar; cdecl;
 
 type
   PDBVTranslation = ^TDBVTranslation;
   TDBVTranslation = record
     tfunc:TranslateFunc; // address of your translation function (see typedef above)
-    name :pWideChar;     // make sure this is unique, and DO NOT translate it
+    name :PWideChar;     // make sure this is unique, and DO NOT translate it
     id   :dword;         // will be overwritten by Tipper - do not use
   end;
 
@@ -38,7 +38,7 @@ const
 
 {
   unicode extension to the basic functionality
-  wParam - optional (pWideChar) text for text-only tips
+  wParam - optional (PWideChar) text for text-only tips
   lParam - (PCLCINFOTIP) infoTip
 }
   MS_TIPPER_SHOWTIPW:PAnsiChar = 'mToolTip/ShowTipW';

@@ -85,7 +85,7 @@ var
   tmp:PWideChar;
   blob,p:PAnsiChar;
   w:PWideChar;
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
   wnd:HWND;
   fexist:bool;
   dbei:TDBEVENTINFO;
@@ -479,7 +479,7 @@ begin
   CheckDlgButton(Dialog,IDC_TEXT_SEND,BST_UNCHECKED);
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   NoProcess:boolean=true;
 var

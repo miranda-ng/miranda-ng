@@ -64,7 +64,7 @@ const
   XML_API_SIZEOF_V1 = SizeOf(size_t)+26*sizeof(dword);
 
 type
-  XML_API_A = record
+  TXML_API_A = record
     cbSize             :size_t;
 
     createNode         :function(const name, text:PAnsiChar; IsDeclaration:boolean):HXML;cdecl;
@@ -146,7 +146,7 @@ type
     toFile   :function(node:HXML; filename:PAnsiChar; withformattiing:int):XMLError;
   end;
 
-  XML_API_W = record
+  TXML_API_W = record
     cbSize             :size_t;
 
     createNode         :function(const name, text:PWideChar; IsDeclaration:boolean):HXML;cdecl;

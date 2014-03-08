@@ -1,6 +1,6 @@
 {Templates}
 
-procedure SetScreenLite(Dialog:HWnd);
+procedure SetScreenLite(Dialog:HWND);
 var
   p:pWideChar;
 begin
@@ -18,12 +18,12 @@ begin
   Changed:=Changed and not DLGED_INIT;
 end;
 
-procedure SetTemplateLite(Dialog:HWnd;idc:integer;Tmpl:tTemplateType);
+procedure SetTemplateLite(Dialog:HWND;idc:integer;Tmpl:tTemplateType);
 begin
   SetTemplateStr(GetDlgText(Dialog,idc),Tmpl,0,0);
 end;
 
-procedure SaveChangesLite(Dialog:HWnd);
+procedure SaveChangesLite(Dialog:HWND);
 begin
   if (Changed and DLGED_BASE)<>0 then
   begin
@@ -45,7 +45,7 @@ begin
   end;
 end;
 
-function DlgProcOptions12(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lparam; stdcall;
+function DlgProcOptions12(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   result:=0;
   case hMessage of

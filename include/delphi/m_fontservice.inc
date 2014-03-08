@@ -44,8 +44,8 @@ type
   TFontSettings_tag = record
     colour  : TCOLORREF;
     size    : ShortInt;
-    style   : BYTE; // see the DBFONTF_* flags above
-    charset : BYTE;
+    style   : byte; // see the DBFONTF_* flags above
+    charset : byte;
     szFace  : array[0..(LF_FACESIZE)-1] of AnsiChar;
   end;
   TFontSettings = TFontSettings_tag;
@@ -55,8 +55,8 @@ type
   TFontSettingsW_tag = record
     colour  : TCOLORREF;
     size    : ShortInt;
-    style   : BYTE; // see the DBFONTF_* flags above
-    charset : BYTE;
+    style   : byte; // see the DBFONTF_* flags above
+    charset : byte;
     szFace  : array[0..(LF_FACESIZE)-1] of WideChar;
   end;
   TFontSettingsW = TFontSettingsW_tag;
@@ -77,7 +77,7 @@ type
     // prepended to the settings used to store this font's data in the db
     prefix         : array[0..31] of AnsiChar;
     // bitwise OR of the FIDF_* flags above
-    flags          : DWORD;
+    flags          : dword;
     deffontsettings: TFontSettings; // defaults, if flags & FIDF_DEFAULTVALID
     // controls the order in the font group in which the fonts are listed in the
     // UI (if order fields are equal, they will be ordered alphabetically by name)
@@ -100,7 +100,7 @@ type
     // prepended to the settings used to store this font's data in the db
     prefix         : array[0..31] of AnsiChar;
     // bitwise OR of the FIDF_* flags above
-    flags          : DWORD;
+    flags          : dword;
     deffontsettings: TFontSettingsW; // defaults, if flags & FIDF_DEFAULTVALID
     // controls the order in the font group in which the fonts are listed in the
     // UI (if order fields are equal, they will be ordered alphabetically by name)
@@ -110,19 +110,6 @@ type
   end;
   TFontIDW = TFontIDW_tag;
   PFontIDW = ^TFontIDW;
-
-const
-  {$IFNDEF WIN64}
-  FontID_SIZEOF_V2  = 372;
-  FontID_SIZEOF_V2A = 372;
-  FontID_SIZEOF_V2U = 660;
-  FontIDW_SIZEOF_V2 = 660;
-  {$ELSE}
-  FontID_SIZEOF_V2  = SizeOf(TFontID);
-  FontID_SIZEOF_V2A = SizeOf(TFontID);
-  FontID_SIZEOF_V2U = SizeOf(TFontIDW);
-  FontIDW_SIZEOF_V2 = SizeOf(TFontIDW);
-  {$ENDIF}
 
 const
   { register a font }
@@ -149,7 +136,7 @@ type
     name            : array[0..63] of AnsiChar;
     dbSettingsGroup : array[0..31] of AnsiChar;
     setting         : array[0..31] of AnsiChar;
-    flags           : DWORD;     // not used
+    flags           : dword;     // not used
     defcolour       : TCOLORREF; // default value
     order           : int;
   end;
@@ -163,7 +150,7 @@ type
     name            : array[0..63] of WideChar;
     dbSettingsGroup : array[0..31] of AnsiChar;
     setting         : array[0..31] of AnsiChar;
-    flags           : DWORD;     // not used
+    flags           : dword;     // not used
     defcolour       : TCOLORREF; // default value
     order           : int;
   end;
@@ -241,18 +228,18 @@ const
 // register an effect
 // wparam = (EffectID *)&effect_id
 // lparam = hLangpack
-  MS_EFFECT_REGISTERA:pAnsiChar = 'Effect/Register';
-  MS_EFFECT_REGISTERW:pAnsiChar = 'Effect/RegisterW';
+  MS_EFFECT_REGISTERA:PAnsiChar = 'Effect/Register';
+  MS_EFFECT_REGISTERW:PAnsiChar = 'Effect/RegisterW';
 
 // get a effect
 // wparam = (EffectID *)&effect_id (only name and group matter)
 // lparam = (FONTEFFECT *)&effect
 // rerturns 0, or -1 if not found
-  MS_EFFECT_GET :pAnsiChar = 'Effect/Get';
-  MS_EFFECT_GETW:pAnsiChar = 'Effect/GetW';
+  MS_EFFECT_GET :PAnsiChar = 'Effect/Get';
+  MS_EFFECT_GETW:PAnsiChar = 'Effect/GetW';
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
-  ME_EFFECT_RELOAD:pAnsiChar = 'Effect/Reload';
+  ME_EFFECT_RELOAD:PAnsiChar = 'Effect/Reload';
 
 {$ENDIF}

@@ -24,7 +24,7 @@ end;
 
 procedure RegisterHotKey;
 var
-  hkrec:HOTKEYDESC;
+  hkrec:THOTKEYDESC;
 begin
   hRadioHotkey:=CreateServiceFunction(MS_RADIO_HOTKEY,@mRadio_Hotkey);
 

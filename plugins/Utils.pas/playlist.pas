@@ -353,7 +353,7 @@ procedure tPlaylist.SetTrackNumber(value:integer);
 begin
   if value<0 then
     value:=0
-  else if value>=Integer(plSize) then
+  else if value>=integer(plSize) then
     value:=plSize-1;
 
   if fShuffle then

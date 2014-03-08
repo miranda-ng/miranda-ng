@@ -24,7 +24,7 @@ const
 type
   tContactAction = class(tBaseAction)
   private
-    contact:MCONTACT;
+    contact:TMCONTACT;
   public
     constructor Create(uid:dword);
 //    function  Clone:tBaseAction; override;
@@ -131,7 +131,7 @@ begin
   CheckDlgButton(Dialog,IDC_CNT_GET ,BST_UNCHECKED);
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd:HWND;
   bb:boolean;

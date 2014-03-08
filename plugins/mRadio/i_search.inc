@@ -1,5 +1,90 @@
 {search station code}
+(*
+procedure SetAvatar(hContact:THANDLE);
+var
+  success:boolean;
+  fname:pAnsiChar;
+  url:pWideChar;
+  buf,buf1,buf2:array [0..MAX_PATH-1] of AnsiChar;
+  ext:array [0..15] of AnsiChar;
+  section:pAnsiChar;
+  pc:pAnsiChar;
+  i:integer;
+begin
+  // get url
+  url:=DBReadUnicode(hContact,PluginName,optStationURL);
+  // translate to Ansi
+  FastWideToAnsiBuf(url,buf);
+  mFreeMem(url);
 
+  // search in INI
+  i:=GetFSize(storage);
+  if i=0 then
+    i:=32767;
+  mGetMem(pc,i+1);
+  pc^:=#0;
+  GetPrivateProfileSectionNamesA(pc,i,storage);
+  section:=pc;
+
+  while section^<>#0 do
+  begin
+    GetPrivateProfileStringA(section,'URL','',buf1,SizeOf(buf1),storage);
+    if StrCmp(@buf,@buf1)=0 then
+      break;
+
+    while section^<>#0 do inc(section);
+    inc(section);
+  end;
+  mFreeMem(pc);
+
+  if section^<>#0 then
+  begin
+    // get avatar link
+    buf[0]:=#0;
+    GetPrivateProfileStringA(section,'Avatar','',buf,SizeOf(buf),storage);
+
+    if buf[0]<>#0 then
+    begin
+      // Here we trying to get Avatar chache directory
+      // (create it if needs)
+      // and copy (load) owr avatars there
+      // in : buf = source avatar path
+      // out: fname = destination (file name in cache)
+      // rule for name is?..
+
+
+      if StrPos(buf,'://')=nil then
+      begin
+        fname:=@buf;
+        success:=FileExists(fname);
+        // need to copy this file to avatar cache
+      end
+      else
+      begin
+        // download file
+{
+        GetTempPathA(MAX_PATH,pAnsiChar(@buf1));
+        pc:=extract(pAnsiChar(@buf),true);
+        StrCat(pAnsiChar(@buf1),pc);
+        mFreeMem(pc);
+}
+        //mrAvt
+
+        GetExt(pAnsiChar(@buf),pAnsiChar(@ext));
+        GetTempPathA(MAX_PATH,pAnsiChar(@buf2));
+        GetTempFileNameA(pAnsiChar(@buf2),'mrAvt',GetCurrentTime,pAnsiChar(@buf1));
+        ChangeExt(pAnsiChar(@buf1),PAnsiChar(@ext));
+        //
+        fname:=@buf1;
+        success:=GetFile(pAnsiChar(@buf),fname);
+      end;
+
+      if success then
+        CallService(MS_AV_SETAVATAR,hContact,LPARAM(fname));
+    end;
+  end;
+end;
+*)
 type
   TMySearchFilter = record
     lStation,
@@ -19,7 +104,7 @@ var
   bitrate:integer;
   l:bool;
   columns:array [0..3] of TCHAR;
-  csr:CUSTOMSEARCHRESULTS;
+  csr:TCUSTOMSEARCHRESULTS;
   pc:pAnsiChar;
   buf:array [0..127] of AnsiChar;
 begin
@@ -84,7 +169,7 @@ end;
 procedure ProcessSearch(var filter:TMySearchFilter;ini:PAnsiChar);
 var
   pc:PAnsiChar;
-  csr:CUSTOMSEARCHRESULTS;
+  csr:TCUSTOMSEARCHRESULTS;
   columns:array [0..3] of TCHAR;
   lstorage,section,list:pointer;
 begin
@@ -154,6 +239,7 @@ begin
 
   with filter do
   begin
+//      CallService(MS_UTILS_PATHTOABSOLUTE,TWPARAM(@ini1),TLPARAM(@ini));
     lBitrate:=GetDlgItemInt(wnd,IDC_BITRATE,ltmp,false);
     if      IsDlgButtonChecked(wnd,IDC_LT)=BST_CHECKED then lBitrateMode:=-1
     else if IsDlgButtonChecked(wnd,IDC_EQ)=BST_CHECKED then lBitrateMode:=0
@@ -182,7 +268,7 @@ begin
   else
   begin
     result:=AckHandle;
-    mir_forkthread(@BasicSearch,StrDup(PAnsiChar(lParam),PAnsiChar(lParam)));
+    {CloseHandle}(mir_forkthread(@BasicSearch,StrDup(PAnsiChar(lParam),PAnsiChar(lParam))));
   end;
 end;
 
@@ -193,13 +279,13 @@ begin
   else
   begin
     result:=AckHandle;
-    mir_forkthread(@ExtSearch,pointer(lParam));
+    {CloseHandle}(mir_forkthread(@ExtSearch,pointer(lParam)));
   end;
 end;
 
 function Service_GetCaps(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl; forward;
 
-function ExtSearchProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function ExtSearchProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   buf:array [0..MAX_PATH-1] of AnsiChar;
 begin
@@ -276,7 +362,7 @@ end;
 
 function Service_AddToList(wParam:WPARAM;lParam:LPARAM):int_ptr;cdecl;
 var
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
   p:PWideChar;
   lurl:pWideChar;
 begin
@@ -292,6 +378,25 @@ begin
 
       if lurl<>nil then
       begin
+{
+// find contact
+        hContact:=db_find_first(PluginName);
+        while hContact<>0 do
+        begin
+          p:=DBReadString(hContact,PluginName,optStationURL);
+          l:=StrCmp(p,lurl)=0;
+          mFreeMem(p);
+          if l then
+          begin
+            DBDeleteSetting(hContact,strCList,'NotOnList');
+            DBDeleteSetting(hContact,strCList,'Hidden');
+            result:=hContact;
+            exit;
+          end;
+          hContact:=db_find_next(hContact,PluginName);
+        end;
+// if not found
+}
         hContact:=CallService(MS_DB_CONTACT_ADD,0,0);
         if hContact<>0 then
         begin

@@ -3,7 +3,7 @@
 const
   WS_EX_LAYERED = $00080000;
 
-function SetLayeredWindowAttributes(Hwnd: THandle; crKey: COLORREF; bAlpha: Byte; dwFlags: DWORD): Boolean; stdcall;
+function SetLayeredWindowAttributes(Hwnd: THANDLE; crKey: COLORREF; bAlpha: byte; dwFlags: dword): Boolean; stdcall;
    external user32 name 'SetLayeredWindowAttributes';
 
 const

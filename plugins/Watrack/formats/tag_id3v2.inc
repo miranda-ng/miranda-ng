@@ -65,7 +65,7 @@ type
   pID3v2FrameHdr = ^tID3v2FrameHdr;
   tID3v2FrameHdrOld = packed record
     ID  : array [0..2] of byte; { Frame ID }
-    Size: array [0..2] of Byte; { Size excluding header }
+    Size: array [0..2] of byte; { Size excluding header }
   end;
   pID3v2FrameHdrOld = ^tID3v2FrameHdrOld;
 

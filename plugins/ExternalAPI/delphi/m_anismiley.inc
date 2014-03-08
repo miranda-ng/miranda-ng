@@ -40,7 +40,7 @@ const
       end;
     end;
 
-    BOOL InsertAnimatedSmiley(HWND _hwnd, TCHAR * _szFilename, COLORREF _dwBack, int _nHeight)
+    bool InsertAnimatedSmiley(HWND _hwnd, TCHAR * _szFilename, COLORREF _dwBack, int _nHeight)
     {
         static int bServiceExists=-1;        
          ias={0};
@@ -53,7 +53,7 @@ const
         ias.dwFlags=IASF_TCHAR;
         ias.nHeight=_nHeight;
         ias.dwBackColor=_dwBack;
-        return (BOOL) CallService(MS_INSERTANISMILEY,(WPARAM)&ias, 0);
+        return (bool) CallService(MS_INSERTANISMILEY,(WPARAM)&ias, 0);
     };
 *)
 

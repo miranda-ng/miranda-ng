@@ -20,50 +20,50 @@ type
 
   PRect = ^TRect;
   TRect = packed record
-    case Integer of
+    case integer of
       0: (Left, Top, Right, Bottom: Longint);
       1: (TopLeft, BottomRight: TPoint);
   end;
 }
 {
--function SetRect(var lprc: TRect; xLeft, yTop, xRight, yBottom: Integer): BOOL; stdcall;
--function CopyRect(var lprcDst: TRect; const lprcSrc: TRect): BOOL; stdcall;
--function InflateRect(var lprc: TRect; dx, dy: Integer): BOOL; stdcall;
-function SubtractRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): BOOL; stdcall;
--function SetRectEmpty(var lprc: TRect): BOOL; stdcall;
--function IntersectRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): BOOL; stdcall;
--function UnionRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): BOOL; stdcall;
--function OffsetRect(var lprc: TRect; dx, dy: Integer): BOOL; stdcall;
--function IsRectEmpty(const lprc: TRect): BOOL; stdcall;
--function EqualRect(const lprc1, lprc2: TRect): BOOL; stdcall;
--function PtInRect(const lprc: TRect; pt: TPoint): BOOL; stdcall;
+-function SetRect(var lprc: TRect; xLeft, yTop, xRight, yBottom: integer): bool; stdcall;
+-function CopyRect(var lprcDst: TRect; const lprcSrc: TRect): bool; stdcall;
+-function InflateRect(var lprc: TRect; dx, dy: integer): bool; stdcall;
+function SubtractRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): bool; stdcall;
+-function SetRectEmpty(var lprc: TRect): bool; stdcall;
+-function IntersectRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): bool; stdcall;
+-function UnionRect(var lprcDst: TRect; const lprcSrc1, lprcSrc2: TRect): bool; stdcall;
+-function OffsetRect(var lprc: TRect; dx, dy: integer): bool; stdcall;
+-function IsRectEmpty(const lprc: TRect): bool; stdcall;
+-function EqualRect(const lprc1, lprc2: TRect): bool; stdcall;
+-function PtInRect(const lprc: TRect; pt: TPoint): bool; stdcall;
 }
 
-function  Point(X, Y: Integer): TPoint; overload;
-procedure Point(var pt:TPoint; X, Y: Integer); overload;
+function  Point(X, Y: integer): TPoint; overload;
+procedure Point(var pt:TPoint; X, Y: integer); overload;
 
-function SmallPoint(X, Y: Integer): TSmallPoint; overload;
-function SmallPoint(XY: LongWord): TSmallPoint; overload;
+function SmallPoint(X, Y: integer): TSmallPoint; overload;
+function SmallPoint(XY: longword): TSmallPoint; overload;
 
 function  CenterPoint(const Rect: TRect): TPoint; overload;
 procedure CenterPoint(const Rect: TRect; var pt:TPoint); overload;
 function  PointInRect(const P: TPoint; const Rect: TRect): Boolean;
 function  PtInRect   (const Rect: TRect; const P: TPoint): Boolean;
 
-function  Rect   (Left, Top, Right, Bottom: Integer): TRect; overload;
-procedure Rect   (var Rect:TRect; Left, Top, Right, Bottom: Integer); overload;
-procedure SetRect(var Rect:TRect; Left, Top, Right, Bottom: Integer);
+function  Rect   (Left, Top, Right, Bottom: integer): TRect; overload;
+procedure Rect   (var Rect:TRect; Left, Top, Right, Bottom: integer); overload;
+procedure SetRect(var Rect:TRect; Left, Top, Right, Bottom: integer);
 function  CopyRect(var Rect: TRect; const R1: TRect):Boolean;
 function  SetRectEmpty(var Rect: TRect): Boolean;
 
-function  Bounds(ALeft, ATop, AWidth, AHeight: Integer): TRect; overload;
-procedure Bounds(var Rect:TRect; ALeft, ATop, AWidth, AHeight: Integer); overload;
+function  Bounds(ALeft, ATop, AWidth, AHeight: integer): TRect; overload;
+procedure Bounds(var Rect:TRect; ALeft, ATop, AWidth, AHeight: integer); overload;
 
 function EqualRect(const R1, R2: TRect): Boolean;
 function IsRectInside(const R1, R2: TRect): Boolean;
 function IsRectEmpty(const Rect: TRect): Boolean;
-function InflateRect(var Rect: TRect; dx, dy: Integer): Boolean;
-function OffsetRect(var Rect: TRect; DX: Integer; DY: Integer): Boolean;
+function InflateRect(var Rect: TRect; dx, dy: integer): Boolean;
+function OffsetRect(var Rect: TRect; DX: integer; DY: integer): Boolean;
 function IntersectRect(var Rect: TRect; const R1, R2: TRect): Boolean; overload;
 function IntersectRect(const R1, R2: TRect): Boolean; overload;
 function UnionRect(var Rect: TRect; const R1, R2: TRect): Boolean;
@@ -71,25 +71,25 @@ function UnionRect(var Rect: TRect; const R1, R2: TRect): Boolean;
 
 implementation
 
-function Point(X, Y: Integer): TPoint;
+function Point(X, Y: integer): TPoint;
 begin
   Result.X := X;
   Result.Y := Y;
 end;
 
-procedure Point(var pt:TPoint; X, Y: Integer);
+procedure Point(var pt:TPoint; X, Y: integer);
 begin
   pt.X := X;
   pt.Y := Y;
 end;
 
-function SmallPoint(X, Y: Integer): TSmallPoint;
+function SmallPoint(X, Y: integer): TSmallPoint;
 begin
   Result.X := X;
   Result.Y := Y;
 end;
 
-function SmallPoint(XY: LongWord): TSmallPoint;
+function SmallPoint(XY: longword): TSmallPoint;
 begin
   Result.X := SmallInt(XY and $0000FFFF);
   Result.Y := SmallInt(XY shr 16);
@@ -133,7 +133,7 @@ end;
 
 //----- TRect -----
 
-function Rect(Left, Top, Right, Bottom: Integer): TRect;
+function Rect(Left, Top, Right, Bottom: integer): TRect;
 begin
   Result.Left   := Left;
   Result.Top    := Top;
@@ -141,7 +141,7 @@ begin
   Result.Right  := Right;
 end;
 
-procedure Rect(var Rect:TRect; Left, Top, Right, Bottom: Integer);
+procedure Rect(var Rect:TRect; Left, Top, Right, Bottom: integer);
 begin
   Rect.Left   := Left;
   Rect.Top    := Top;
@@ -149,7 +149,7 @@ begin
   Rect.Right  := Right;
 end;
 
-procedure SetRect(var Rect:TRect; Left, Top, Right, Bottom: Integer);
+procedure SetRect(var Rect:TRect; Left, Top, Right, Bottom: integer);
 begin
   Rect.Left   := Left;
   Rect.Top    := Top;
@@ -232,7 +232,7 @@ begin
   if not Result then FillChar(Rect, SizeOf(Rect), 0);
 end;
 
-function InflateRect(var Rect: TRect; dx, dy: Integer): Boolean;
+function InflateRect(var Rect: TRect; dx, dy: integer): Boolean;
 begin
   with Rect do
   begin
@@ -244,7 +244,7 @@ begin
   Result := not IsRectEmpty(Rect);
 end;
 
-function OffsetRect(var Rect: TRect; DX: Integer; DY: Integer): Boolean;
+function OffsetRect(var Rect: TRect; DX: integer; DY: integer): Boolean;
 begin
   if @Rect <> nil then // Test to increase compatiblity with Windows
   begin
@@ -258,7 +258,7 @@ begin
     Result := False;
 end;
 
-function Bounds(ALeft, ATop, AWidth, AHeight: Integer): TRect;
+function Bounds(ALeft, ATop, AWidth, AHeight: integer): TRect;
 begin
   with Result do
   begin
@@ -269,7 +269,7 @@ begin
   end;
 end;
 
-procedure Bounds(var Rect:TRect; ALeft, ATop, AWidth, AHeight: Integer);
+procedure Bounds(var Rect:TRect; ALeft, ATop, AWidth, AHeight: integer);
 begin
   with Rect do
   begin

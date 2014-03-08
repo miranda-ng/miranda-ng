@@ -20,14 +20,14 @@ type
   TTBButton = record
     cbSize       :int;
     pszService   :PAnsiChar; // or program for lButtons
-    dwFlags      :DWORD;
+    dwFlags      :dword;
     lParamUp     :LPARAM;
     wParamUp     :WPARAM;
     lParamDown   :LPARAM;
     wParamDown   :WPARAM;
     name         :PAnsiChar;
-    hIconUp      :HICON;     // or hIconHandleUp:HANDLE
-    hIconDn      :HICON;     // or hIconHandleDn:HANDLE
+    hIconUp      :HICON;     // or hIconHandleUp:THANDLE
+    hIconDn      :HICON;     // or hIconHandleDn:THANDLE
     pszTooltipUp :PansiChar;
     pszTooltipDn :PansiChar;
   end;

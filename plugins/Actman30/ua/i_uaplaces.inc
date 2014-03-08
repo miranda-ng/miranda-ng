@@ -50,7 +50,7 @@ end;
 
 procedure SetTABState(hContact:THANDLE;const ActionItem:tMyActionItem;pressed:integer);
 var
-  tabb:BBButton;
+  tabb:TBBButton;
   pc:pWideChar;
 begin
   FillChar(tabb,SizeOf(tabb),0);
@@ -225,8 +225,8 @@ begin
   if (ActionItem.flags and UAF_HKREGGED)=0 then
   begin
     FillChar(hkd,SizeOf(hkd),0);
-    hkd.cbSize          := SizeOf(hkd);
-    hkd.dwFlags         := HKD_UNICODE;
+    hkd.cbSize          := SizeOf(hkd); // HOTKEYDESC_SIZE_V1 for pre-0.9
+    hkd.dwFlags         := HKD_UNICODE; // since 0.9 only
     hkd.pszName         := ActionItem.szNameID;
     hkd.pszDescription.w:= ActionItem.szActDescr;
     hkd.pszSection    .w:= MODULE_NAME;
@@ -381,7 +381,10 @@ begin
   begin
     FillChar(clmi,SizeOf(clmi),0);
     clmi.cbSize:=SizeOf(clmi);
-    clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
+    if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
+      clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
+    else
+      clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
 
     if (UAMenuItem.szMenuPopup<>nil) and (UAMenuItem.szMenuPopup^<>#0) then
       clmi.szName.w:=ParseVarString(UAMenuItem.szMenuPopup)
@@ -418,7 +421,10 @@ begin
 {}{}
   FillChar(clmi,SizeOf(clmi),0);
   clmi.cbSize:=SizeOf(clmi);
-  clmi.flags:=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
+  if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
+    clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
+  else
+    clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
   if (ActionItem.flags and (UAF_2STATE+UAF_PRESSED))<>(UAF_2STATE+UAF_PRESSED) then
   begin
     clmi.hIcon:=ActionItem.hIcolibIcon;
@@ -427,7 +433,7 @@ begin
   else
   begin
     clmi.hIcon:=ActionItem.hIcolibIconPressed;
-    clmi.flags:=CMIF_UNICODE {or CMIF_ICONFROMICOLIB }or CMIF_CHECKED;
+    clmi.flags:=clmi.flags or CMIF_CHECKED;
     extra:='1';
   end;
 
@@ -463,7 +469,7 @@ begin
 
 end;
 
-function PreBuildMenu(mtype:tMenuType;hContact:MCONTACT=0):int;
+function PreBuildMenu(mtype:tMenuType;hContact:TMCONTACT=0):int;
 var
   i:integer;
   mi:TCListMenuItem;
@@ -703,7 +709,7 @@ const
 
 procedure AddTabBBButton(var ActionItem:tMyActionItem);
 var
-  tabb:BBButton;
+  tabb:TBBButton;
 begin
   if not NamesArray[uaTAB].enable then exit;
 
@@ -736,7 +742,7 @@ end;
 
 procedure DeleteTabBBButton(var ActionItem:tMyActionItem);
 var
-  tabb:BBButton;
+  tabb:TBBButton;
 begin
   if (ActionItem.flags and UAF_TBREGGED)<>0 then
   begin

@@ -1,120 +1,131 @@
 {}
 const
   settings:HWND = 0;
-const
-  NumControls = 17;
-
-  IDsArray:array [0..NumControls-1] of integer =(
-    // Menu settings controls
-    IDC_UA_SEPARATE ,IDC_UA_POPUPT   ,IDC_UA_POPUPV,
-    IDC_UA_VARNAMEST,IDC_UA_VARNAMESV,IDC_UA_VARNAMESH,
-    IDC_UA_SHOWVART ,IDC_UA_SHOWVARV ,IDC_UA_SHOWVARH,
-    IDC_UA_TWOSTATE ,IDC_UA_SAVSTATE ,IDC_UA_COMMON,
-    // toolbar settings controls
-    IDC_UA_TTNORMALT,IDC_UA_TTNORMALV,IDC_UA_TTPRESSEDT,IDC_UA_TTPRESSEDV,
-    IDC_UA_GLOBAL
-    );
-
-  // Show-hide controls by place type
-  SHArray:array [0..NumTypes-1, 0..NumControls-1] of integer = (
-    // CList Modern toolbar
-    (SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE,SW_HIDE,SW_HIDE, SW_SHOW,SW_SHOW,SW_SHOW,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,SW_SHOW, SW_HIDE),
-    // TabSRMM toolbar
-    (SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE,SW_HIDE,SW_HIDE,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW),
-    // Core Hotkey
-    (SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE,SW_HIDE,SW_HIDE,
-     SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE,SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE),
-    // Main menu
-    (SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_HIDE,SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE),
-    // Contact menu
-    (SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_HIDE,SW_HIDE,SW_HIDE,SW_HIDE, SW_SHOW),
-    // Tray menu
-    (SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_HIDE,SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE),
-    // Protocol menu
-    (SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_HIDE,SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE),
-    // Status menu
-    (SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW, SW_SHOW,SW_SHOW,SW_SHOW,
-     SW_SHOW,SW_SHOW,SW_SHOW, SW_HIDE,SW_HIDE,SW_HIDE,SW_HIDE, SW_HIDE)
-    );
-  // additional show/hide controls check by Variables installings (1 - need to check)
-  SHVarArray:array [0..NumControls-1] of byte = (
-    0,0,0,    0,0,1,    1,1,1,
-    0,0,0,0,0,0,0, 0);
-  // additional enable/disable controls check (1 - always enable)
-  EnDisArray:array [0..NumControls-1] of byte = (
-    0,0,0,    0,0,0,    0,0,0,
-    1,1,1,0,0,0,0, 1);
 
 var
   hIC:THANDLE;
 
-procedure CheckPlacesAbility;
-var
-  i:integer;
+//----- Static (no option-depended) control view -----
+
+procedure HideAllControls(Dialog:HWND);
 begin
-  for i:=0 to NumTypes-1 do
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_GLOBAL     ),SW_HIDE);
+
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_BLOCK      ),SW_HIDE);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_MENU       ),SW_HIDE);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_NOTRANSLATE),SW_HIDE);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_SEPARATE   ),SW_HIDE);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_POPUPT     ),SW_HIDE);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_VARNAMEST  ),SW_HIDE);
+//  ShowWindow(GetDlgItem(Dialog,IDC_UA_NOTRANSLATE),SW_HIDE);
+
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_TTNORMALT  ),SW_HIDE);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_TTPRESSEDT ),SW_HIDE);
+
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_SHOWVART   ),SW_HIDE);
+
+
+  ShowEditField(Dialog,IDC_UA_SHOWVARV  ,SW_HIDE);
+  ShowEditField(Dialog,IDC_UA_VARNAMESV ,SW_HIDE);
+  ShowEditField(Dialog,IDC_UA_POPUPV    ,SW_HIDE);
+  ShowEditField(Dialog,IDC_UA_TTNORMALV ,SW_HIDE);
+  ShowEditField(Dialog,IDC_UA_TTPRESSEDV,SW_HIDE);
+end;
+
+//  Show or hide option items ("static options")
+procedure ShowHideControls(Dialog:HWND;atype:integer;item:integer=-1);
+var
+  show:integer;
+begin
+  HideAllControls(Dialog);
+  if atype>=0 then
   begin
-    with NamesArray[i] do
-    begin
-      enable:=(service=nil) or (ServiceExists(service)<>0);
+    if LoByte(atype)<>uaHotkey then
+      show:=SW_SHOW
+    else
+      show:=SW_HIDE;
+    ShowWindow(GetDlgItem(Dialog,IDC_UA_TWOSTATE),show);
+    ShowWindow(GetDlgItem(Dialog,IDC_UA_SAVSTATE),show);
+    ShowWindow(GetDlgItem(Dialog,IDC_UA_COMMON  ),show);
+
+    case LoByte(atype) of
+      uaTTB: begin
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_SHOWVART  ),SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_SHOWVARV  ,SW_SHOW);
+
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_TTNORMALT ),SW_SHOW);
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_TTPRESSEDT),SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_TTNORMALV ,SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_TTPRESSEDV,SW_SHOW);
+      end;
+      uaTAB: begin
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_GLOBAL    ),SW_SHOW);
+
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_TTNORMALT ),SW_SHOW);
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_TTPRESSEDT),SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_TTNORMALV ,SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_TTPRESSEDV,SW_SHOW);
+      end;
+      uaHotkey: begin
+      end;
+      uaMenu: begin
+        if tMenuType(HiByte(atype))=contact_menu then
+          ShowWindow(GetDlgItem(Dialog,IDC_UA_GLOBAL),SW_SHOW);
+
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_BLOCK     ),SW_SHOW);
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_MENU      ),SW_SHOW);
+
+//!!        ShowWindow(GetDlgItem(Dialog,IDC_UA_SEPARATE  ),SW_SHOW);
+//!!        ShowWindow(GetDlgItem(Dialog,IDC_UA_SEPARATE  ),SW_SHOW);
+
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_SHOWVART  ),SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_SHOWVARV  ,SW_SHOW);
+
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_POPUPT    ),SW_SHOW);
+        ShowWindow(GetDlgItem(Dialog,IDC_UA_VARNAMEST ),SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_VARNAMESV ,SW_SHOW);
+        ShowEditField(Dialog,IDC_UA_POPUPV    ,SW_SHOW);
+
+//        ShowWindow(GetDlgItem(Dialog,IDC_UA_NOTRANSLATE),SW_SHOW);
+      end;
     end;
   end;
 end;
 
-//  Show or hide option items
-procedure SetupControls(Dialog:HWND;atype:integer;item:integer=-1);
+procedure EnableDisableCheck(Dialog:HWND);
 var
-  i: cardinal;
-  typ:integer;
-  wnd,wnd1:HWND;
-  enable:boolean;
+  wnd:HWND;
+  item:integer;
+  two,enable:boolean;
 begin
-  if atype<0 then
-  begin
-    for i:=0 to NumControls-1 do
-    begin
-      ShowWindow(GetDlgItem(Dialog,IDsArray[i]),SW_HIDE);
-    end;
-  end
-  else
-  begin
-    wnd1:=GetDlgItem(Dialog,IDC_UA_PLACELIST);
-    if item<0 then
-      item:=SendMessage(wnd1,LVM_GETNEXTITEM,-1,LVNI_FOCUSED);
-    enable:=ListView_GetCheckState(wnd1,item)<>0;
+  wnd:=GetDlgItem(Dialog,IDC_UA_PLACELIST);
+  item:=SendMessage(wnd,LVM_GETNEXTITEM,-1,LVNI_FOCUSED);
+  enable:=ListView_GetCheckState(wnd,item)<>0;
 
-    for i:=0 to NumControls-1 do
-    begin
-      typ:=SHArray[LoByte(atype)+HiByte(atype)][i];
-      if typ=SW_SHOW then
-        if (SHVarArray[i]<>0) and (not IsVarsInstalled) then
-          typ:=SW_HIDE;
-      wnd:=GetDlgItem(Dialog,IDsArray[i]);
-      ShowWindow(wnd,typ);
-      EnableWindow(wnd,enable or (EnDisArray[i]<>0));
-    end;
+  // common settings
+  two:=IsDlgButtonChecked(Dialog,IDC_UA_TWOSTATE)<>BST_UNCHECKED;
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_SAVSTATE),two);
 
-    // common settings
-    EnableWindow(GetDlgItem(Dialog,IDC_UA_SAVSTATE),
-        IsDlgButtonChecked(Dialog,IDC_UA_TWOSTATE)<>BST_UNCHECKED);
+  // all others
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_BLOCK      ),enable);
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_MENU       ),enable);
 
-    // personal settings
-    case LoByte(atype) of
-      uaTTB, uaTAB: begin
-        enable:=false;
-        if IsDlgButtonChecked(Dialog,IDC_UA_TWOSTATE)<>BST_UNCHECKED then
-          if IsWindowEnabled(GetDlgItem(Dialog,IDC_UA_TTNORMALV)) then
-            enable:=true;
-        EnableWindow(GetDlgItem(Dialog,IDC_UA_TTPRESSEDV),enable);
-      end;
-    end;
-  end;
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_NOTRANSLATE),enable);
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_SEPARATE   ),enable);
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_POPUPT     ),enable);
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_VARNAMEST  ),enable);
+
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_TTNORMALT  ),enable);
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_TTPRESSEDT ),enable);
+
+  EnableWindow(GetDlgItem(Dialog,IDC_UA_SHOWVART   ),enable);
+
+  EnableEditField(Dialog,IDC_UA_SHOWVARV  ,enable);
+  EnableEditField(Dialog,IDC_UA_VARNAMESV ,enable);
+  EnableEditField(Dialog,IDC_UA_POPUPV    ,enable);
+  EnableEditField(Dialog,IDC_UA_TTNORMALV ,enable);
+
+  EnableEditField(Dialog,IDC_UA_TTPRESSEDV,enable and two);
 end;
 
 // Clear all screen buttons/text fields (reset)
@@ -124,15 +135,107 @@ var
 begin
   s:=settings;
   settings:=0;
-  CheckDlgButton (Dialog,IDC_UA_TWOSTATE ,BST_UNCHECKED);
-  CheckDlgButton (Dialog,IDC_UA_SAVSTATE ,BST_UNCHECKED);
+  // common
+  CheckDlgButton (Dialog,IDC_UA_TWOSTATE,BST_UNCHECKED);
+  CheckDlgButton (Dialog,IDC_UA_SAVSTATE,BST_UNCHECKED);
 
-  CheckDlgButton (Dialog,IDC_UA_SEPARATE ,BST_UNCHECKED);
-  SetDlgItemTextW(Dialog,IDC_UA_POPUPV   ,nil);
-  SetDlgItemTextW(Dialog,IDC_UA_VARNAMESV,nil);
-  SetDlgItemTextW(Dialog,IDC_UA_SHOWVARV ,nil);
+  // menu items
+  SetDlgItemTextW(Dialog,IDC_UA_BLOCK      ,'>');
+  CheckDlgButton (Dialog,IDC_UA_SEPARATE   ,BST_UNCHECKED);
+  CheckDlgButton (Dialog,IDC_UA_NOTRANSLATE,BST_UNCHECKED);
+  SetDlgItemTextW(Dialog,IDC_UA_POPUPV     ,nil);
+  SetDlgItemTextW(Dialog,IDC_UA_VARNAMESV  ,nil);
+
+  SetDlgItemTextW(Dialog,IDC_UA_SHOWVARV   ,nil);
+  // buttons
+  SetDlgItemTextW(Dialog,IDC_UA_TTNORMALV ,nil);
+  SetDlgItemTextW(Dialog,IDC_UA_TTPRESSEDV,nil);
+
+  // contact related
+  CheckDlgButton (Dialog,IDC_UA_GLOBAL,BST_UNCHECKED);
+
   settings:=s;
 end;
+
+procedure InitActionSettings(Dialog:HWND);
+begin
+  MakeEditField(Dialog,IDC_UA_TTNORMALV);
+  SetEditFlags(GetDlgItem(Dialog,IDC_UA_TTNORMALV),EF_FORCE,EF_FORCET);
+  MakeEditField(Dialog,IDC_UA_TTPRESSEDV);
+  SetEditFlags(GetDlgItem(Dialog,IDC_UA_TTPRESSEDV),EF_FORCE,EF_FORCET);
+
+  MakeEditField(Dialog,IDC_UA_POPUPV);
+  MakeEditField(Dialog,IDC_UA_VARNAMESV);
+
+  MakeEditField(Dialog,IDC_UA_SHOWVARV);
+  SetEditFlags(GetDlgItem(Dialog,IDC_UA_SHOWVARV),EF_FORCE,EF_FORCES);
+end;
+
+function CompareItem(lParam1,lParam2:LPARAM;SortType:LPARAM):int; stdcall;
+begin
+  result:=UActionList[lParam1].wSortIndex-UActionList[lParam2].wSortIndex;
+end;
+
+procedure FillActionList(wnd:HWND);
+var
+  i:integer;
+  li:LV_ITEMW;
+  il:HIMAGELIST;
+  lmenu:tMenuType;
+begin
+  wnd:=GetDlgItem(wnd,IDC_UA_ACTIONLIST);
+  SendMessage(wnd,LVM_DELETEALLITEMS,0,0);
+
+  il:=ImageList_Create(16,16,ILC_COLOR32 or ILC_MASK,0,1);
+  for i:=0 to HIGH(UActionList) do
+  begin   
+    li.mask    :=LVIF_TEXT+LVIF_PARAM+LVIF_IMAGE;
+    li.iSubItem:=0;
+    li.iItem   :=i;
+    li.lParam  :=i;
+    li.pszText :=UActionList[i].szActDescr;
+    li.iImage:=ImageList_ReplaceIcon(il, -1,
+        HICON(CallService(MS_SKIN2_GETICONBYHANDLE,0,LPARAM(UActionList[i].hIcolibIcon))));
+    li.iItem   :=SendMessageW(wnd,LVM_INSERTITEMW,0,LPARAM(@li));
+
+    for lmenu:=main_menu to HIGH(tMenuType) do
+      UActionList[i].UAMenuItem[lmenu].changed:=false;
+  end;
+  ImageList_Destroy(SendMessage(wnd,LVM_SETIMAGELIST,LVSIL_SMALL,il));
+
+  SendMessage(wnd,LVM_SORTITEMS,0,LPARAM(@CompareItem));
+
+  ListView_SetItemState(wnd,0,
+    LVIS_FOCUSED or LVIS_SELECTED,
+    LVIS_FOCUSED or LVIS_SELECTED);
+end;
+
+// refresh icons in UA list (at least)
+function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+var
+  i:integer;
+  li:LV_ITEMW;
+  il:HIMAGELIST;
+  wnd:HWND;
+begin
+  result:=0;
+  wnd:=GetDlgItem(settings,IDC_UA_ACTIONLIST);
+
+  il:=ImageList_Create(16,16,ILC_COLOR32 or ILC_MASK,0,1);
+  for i:=0 to HIGH(UActionList) do
+  begin
+    li.mask    :=LVIF_IMAGE;
+    li.iSubItem:=0;
+    li.iItem   :=i;
+    li.iImage:=ImageList_ReplaceIcon(il, -1,
+        HICON(CallService(MS_SKIN2_GETICONBYHANDLE,0,TLPARAM(UActionList[i].hIcolibIcon))));
+    SendMessageW(wnd,LVM_SETITEM,0,TLPARAM(@li));
+  end;
+  ImageList_Destroy(SendMessage(wnd,LVM_SETIMAGELIST,LVSIL_SMALL,il));
+//!!refresh?
+end;
+
+//----- Dynamic (option-depended) view -----
 
 procedure ShowSubAction(Dialog:HWND;aType:integer;item:integer=-1);
 var
@@ -176,6 +279,8 @@ begin
       begin
         if (menu_opt and UAF_MENUSEP)<>0 then
           CheckDlgButton(Dialog,IDC_UA_SEPARATE,BST_CHECKED);
+        if (menu_opt and UAF_NOTRANS)<>0 then
+          CheckDlgButton(Dialog,IDC_UA_NOTRANSLATE,BST_CHECKED);
         SetDlgItemTextW(Dialog,IDC_UA_POPUPV   ,szMenuPopup);
         SetDlgItemTextW(Dialog,IDC_UA_VARNAMESV,szMenuNameVars);
         SetDlgItemTextW(Dialog,IDC_UA_SHOWVARV ,szMenuShowWhenVars);
@@ -186,7 +291,8 @@ begin
       // Settings in Customize/Hotkeys
     end;
   end;
-  SetupControls(Dialog,aType,-1);
+  ShowHideControls(Dialog,aType,-1);
+  EnableDisableCheck(Dialog);
   settings:=s;
 end;
 
@@ -250,9 +356,11 @@ begin
   else
   begin
     ClearControls(Dialog);
-    SetupControls(Dialog,-1,-1);
+    ShowHideControls(Dialog,-1,-1);
   end;
 end;
+
+//----- Saving -----
 
 procedure SetChangedFlag(Dialog:HWND);
 var
@@ -271,6 +379,8 @@ begin
     mFreeMem(szMenuNameVars    ); szMenuNameVars    :=GetDlgText(Dialog,IDC_UA_VARNAMESV);
     mFreeMem(szMenuShowWhenVars); szMenuShowWhenVars:=GetDlgText(Dialog,IDC_UA_SHOWVARV);
     menu_opt:=0;
+    if IsDlgButtonchecked(Dialog,IDC_UA_NOTRANSLATE)<>BST_UNCHECKED then
+      menu_opt:=menu_opt or UAF_NOTRANS;
     if IsDlgButtonchecked(Dialog,IDC_UA_SEPARATE)<>BST_UNCHECKED then
       menu_opt:=menu_opt or UAF_MENUSEP;
   end;
@@ -349,75 +459,46 @@ begin
   end;
 end;
 
-function CompareItem(lParam1,lParam2:LPARAM;SortType:LPARAM):int; stdcall;
-begin
-  result:=UActionList[lParam1].wSortIndex-UActionList[lParam2].wSortIndex;
-end;
-
-procedure FillActionList(wnd:HWND);
+procedure ChangeBlock(Dialog:HWND);
 var
-  i:integer;
-  li:LV_ITEMW;
-  il:HIMAGELIST;
-  lmenu:tMenuType;
+  pc:pWideChar;
+  sh_main,sh_add:integer;
 begin
-  wnd:=GetDlgItem(wnd,IDC_UA_ACTIONLIST);
-  SendMessage(wnd,LVM_DELETEALLITEMS,0,0);
-
-  il:=ImageList_Create(16,16,ILC_COLOR32 or ILC_MASK,0,1);
-  for i:=0 to HIGH(UActionList) do
-  begin   
-    li.mask    :=LVIF_TEXT+LVIF_PARAM+LVIF_IMAGE;
-    li.iSubItem:=0;
-    li.iItem   :=i;
-    li.lParam  :=i;
-    li.pszText :=UActionList[i].szActDescr;
-    li.iImage:=ImageList_ReplaceIcon(il, -1,
-        HICON(CallService(MS_SKIN2_GETICONBYHANDLE,0,LPARAM(UActionList[i].hIcolibIcon))));
-    li.iItem   :=SendMessageW(wnd,LVM_INSERTITEMW,0,LPARAM(@li));
-
-    for lmenu:=main_menu to HIGH(tMenuType) do
-      UActionList[i].UAMenuItem[lmenu].changed:=false;
-  end;
-  ImageList_Destroy(SendMessage(wnd,LVM_SETIMAGELIST,LVSIL_SMALL,il));
-
-  SendMessage(wnd,LVM_SORTITEMS,0,LPARAM(@CompareItem));
-
-  ListView_SetItemState(wnd,0,
-    LVIS_FOCUSED or LVIS_SELECTED,
-    LVIS_FOCUSED or LVIS_SELECTED);
-end;
-
-// refresh icons in UA list (at least)
-function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  i:integer;
-  li:LV_ITEMW;
-  il:HIMAGELIST;
-  wnd:HWND;
-begin
-  result:=0;
-  wnd:=GetDlgItem(settings,IDC_UA_ACTIONLIST);
-
-  il:=ImageList_Create(16,16,ILC_COLOR32 or ILC_MASK,0,1);
-  for i:=0 to HIGH(UActionList) do
+  if IsWindowVisible(GetDlgItem(Dialog,IDC_UA_POPUPV)) then
   begin
-    li.mask    :=LVIF_IMAGE;
-    li.iSubItem:=0;
-    li.iItem   :=i;
-    li.iImage:=ImageList_ReplaceIcon(il, -1,
-        HICON(CallService(MS_SKIN2_GETICONBYHANDLE,0,TLPARAM(UActionList[i].hIcolibIcon))));
-    SendMessageW(wnd,LVM_SETITEM,0,TLPARAM(@li));
+    pc:='<';
+    sh_main:=SW_HIDE;
+    sh_add :=SW_SHOW;
+  end
+  else
+  begin
+    pc:='>';
+    sh_main:=SW_SHOW;
+    sh_add :=SW_HIDE;
   end;
-  ImageList_Destroy(SendMessage(wnd,LVM_SETIMAGELIST,LVSIL_SMALL,il));
-//!!refresh?
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_NOTRANSLATE),sh_add);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_SEPARATE   ),sh_add);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_POPUPT     ),sh_main);
+  ShowWindow(GetDlgItem(Dialog,IDC_UA_VARNAMEST  ),sh_main);
+  ShowEditField(Dialog,IDC_UA_VARNAMESV,sh_main);
+  ShowEditField(Dialog,IDC_UA_POPUPV   ,sh_main);
+  
+  SetDlgItemTextW(Dialog,IDC_UA_BLOCK,pc);
+  if sh_main=SW_SHOW then
+    pc:='Main settings'
+  else
+    pc:='Custom settings';
+  SetDlgItemTextW(Dialog,IDC_UA_MENU,TranslateW(pc));
 end;
 
-function DlgProcOpt(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+//----- Main Dialog -----
+
+function DlgProcOpt(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd:HWND;
   lv:LV_COLUMNW;
   i:integer;
+  twostate:bool;
 begin
   result:=0;
   case hMessage of
@@ -429,6 +510,8 @@ begin
     WM_INITDIALOG: begin
       settings:=0;
       TranslateDialogDefault(Dialog);
+
+      InitActionSettings(Dialog);
 
       wnd:=GetDlgItem(Dialog,IDC_UA_PLACELIST);
       SendMessage(wnd,LVM_SETEXTENDEDLISTVIEWSTYLE,LVS_EX_CHECKBOXES,LVS_EX_CHECKBOXES);
@@ -450,16 +533,6 @@ begin
       FillActionList(Dialog);
       ShowAction(Dialog,-1);
 
-//      if isVarsInstalled then
-      begin
-        SendDlgItemMessage(Dialog,IDC_UA_VARNAMESH,BM_SETIMAGE,IMAGE_ICON,
-          CallService(MS_VARS_GETSKINITEM,0,VSI_HELPICON));
-        SendDlgItemMessage(Dialog,IDC_UA_SHOWVARH,BM_SETIMAGE,IMAGE_ICON,
-          CallService(MS_VARS_GETSKINITEM,0,VSI_HELPICON));
-//        SendDlgItemMessage(Dialog,IDC_UA_VARNAMESH,BUTTONSETASFLATBTN,0,0);
-//        SendDlgItemMessage(Dialog,IDC_UA_SHOWVARH ,BUTTONSETASFLATBTN,0,0);
-      end;
-      
       settings:=Dialog;
       hIC:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
     end;
@@ -480,29 +553,36 @@ begin
           begin
             case loword(wParam) of
               IDC_UA_TWOSTATE: begin
-                SetupControls(Dialog,
+                twostate:=IsDlgButtonChecked(Dialog,IDC_UA_TWOSTATE)<>BST_UNCHECKED;
+                EnableWindow(GetDlgItem(Dialog,IDC_UA_SAVSTATE),twostate);
+
+                if LoByte(LV_GetLParam(GetDlgItem(Dialog,IDC_UA_PLACELIST))) in [uaTTB,uaTAB] then
+                  EnableEditField(Dialog,IDC_UA_TTPRESSEDV,
+                    twostate and IsWindowEnabled(GetDlgItem(Dialog,IDC_UA_TTNORMALV))
+                  );
+
+                ShowHideControls(Dialog,
                     LV_GetLParam(GetDlgItem(Dialog,IDC_UA_PLACELIST)),-1);
-  {
-                EnableWindow(GetDlgItem(Dialog,IDC_UA_TTPRESSEDV),
-                  IsDlgButtonChecked(Dialog,IDC_UA_TWOSTATE)<>BST_UNCHECKED);
-  }
-                if IsDlgButtonChecked(Dialog,IDC_UA_TWOSTATE)=BST_UNCHECKED then
-                  DeleteIcolibIconP(
+
+                if twostate then
+                  AddIcolibIconP(
                       UActionList[LV_GetLParam(GetDlgItem(Dialog,IDC_UA_ACTIONLIST),-1)])
                 else
-                  AddIcolibIconP(
+                  DeleteIcolibIconP(
                       UActionList[LV_GetLParam(GetDlgItem(Dialog,IDC_UA_ACTIONLIST),-1)]);
 
                 SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
               end;
 
-              IDC_UA_VARNAMESH: ShowVarHelp(Dialog,IDC_UA_VARNAMESV);
-              IDC_UA_SHOWVARH : ShowVarHelp(Dialog,IDC_UA_SHOWVARV);
-
 //was commented. why?
               IDC_UA_SAVSTATE,
               IDC_UA_GLOBAL: SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
 
+              IDC_UA_BLOCK: begin
+                ChangeBlock(Dialog);
+              end;
+
+              IDC_UA_NOTRANSLATE,
               IDC_UA_SEPARATE: begin
                 SetChangedFlag(Dialog);
                 SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
@@ -548,6 +628,7 @@ begin
                   LV_GetLParam(GetDlgItem(Dialog,IDC_UA_PLACELIST),
                                PNMLISTVIEW(lParam)^.iItem));
             end
+            // checkboxes
             else if (settings<>0) and
                ((PNMLISTVIEW(lParam)^.uOldState or PNMLISTVIEW(lParam)^.uNewState)=$3000) then
             begin
@@ -559,8 +640,7 @@ begin
                     LVIS_FOCUSED or LVIS_SELECTED,
                     LVIS_FOCUSED or LVIS_SELECTED)
               else
-                SetupControls(Dialog,LV_GetLParam(wnd,PNMLISTVIEW(lParam)^.iItem),
-                     PNMLISTVIEW(lParam)^.iItem);
+                EnableDisableCheck(Dialog);
 
               SendMessage(GetParent(Dialog),PSM_CHANGED,0,0);
             end;

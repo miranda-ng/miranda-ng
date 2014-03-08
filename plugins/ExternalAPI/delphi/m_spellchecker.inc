@@ -23,9 +23,9 @@ Boston, MA 02111-1307, USA.
 type
   SPELLCHECKER_ITEM = record
     cbSize     :int;
-    hContact   :THANDLE; // The contact to get the settings from, or NULL
-    hwnd       :HWND;    // The hwnd of the richedit
-    window_name:PAnsiChar;   // A name for this richedit
+    hContact   :TMCONTACT; // The contact to get the settings from, or NULL
+    hwnd       :HWND;      // The hwnd of the richedit
+    window_name:PAnsiChar; // A name for this richedit
   end;
 
 type

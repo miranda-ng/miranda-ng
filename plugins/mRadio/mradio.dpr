@@ -27,7 +27,7 @@ uses
 {$include i_visual.inc}
 {$include i_optdlg.inc}
 
-function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
+function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);

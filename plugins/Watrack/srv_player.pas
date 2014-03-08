@@ -18,8 +18,8 @@ function SendCommand  (wParam:WPARAM;lParam:LPARAM;flags:integer):int_ptr;
 procedure ClearPlayers;
 
 // options procedures
-procedure DefFillPlayerList (hwndList:hwnd);
-procedure DefCheckPlayerList(hwndList:hwnd);
+procedure DefFillPlayerList (hwndList:HWND);
+procedure DefCheckPlayerList(hwndList:HWND);
 
 type
   MusEnumProc = function(param:PAnsiChar;lParam:LPARAM):bool;stdcall;
@@ -255,7 +255,7 @@ begin
     result:=nil;
 end;
 
-procedure DefFillPlayerList(hwndList:hwnd);
+procedure DefFillPlayerList(hwndList:HWND);
 var
   item:LV_ITEMA;
   lvc:TLVCOLUMN;
@@ -293,7 +293,7 @@ begin
 //  ListView_SetColumnWidth(hwndList,0,LVSCW_AUTOSIZE);
 end;
 
-procedure DefCheckPlayerList(hwndList:hwnd);
+procedure DefCheckPlayerList(hwndList:HWND);
 var
   i,j,k:integer;
   item:LV_ITEMA;

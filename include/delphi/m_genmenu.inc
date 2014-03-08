@@ -122,8 +122,8 @@ const
 
 // Group MENU
 type
-  lpGroupMenuParam = ^GroupMenuParam;
-  GroupMenuParam = record
+  PGroupMenuParam = ^TGroupMenuParam;
+  TGroupMenuParam = record
     wParam:WPARAM;
     lParam:LPARAM;
   end;
@@ -245,7 +245,7 @@ type
     root     :HGENMENU;
     flags    :integer;
     hIcon    :HICON;   // or hIcolibItem:THANDLE;
-    hotKey   :DWORD;
+    hotKey   :dword;
     ownerdata:^pointer;
     hLangpack:int;
   end;
@@ -287,18 +287,18 @@ type
 
 //used in MO_BUILDMENU
 type
-  lpListParam = ^ListParam;
-  ListParam = record
+  PListParam = ^TListParam;
+  TListParam = record
     rootlevel       :int;
     MenuObjectHandle:THANDLE;
     wParam          :WPARAM;
     lParam          :LPARAM;
 end;
-  tagListParam = ListParam;
+  tagListParam = TListParam;
 
 type
-  lpProcessCommandParam = ^ProcessCommandParam;
-  ProcessCommandParam = record
+  PProcessCommandParam = ^TProcessCommandParam;
+  TProcessCommandParam = record
     menu  :HMENU;
     ident :int;
     lParam:LPARAM;
@@ -436,8 +436,8 @@ const
   OPT_USERDEFINEDITEMS = 1;
 
 type
-  lpOptParam = ^OptParam;
-  OptParam = record
+  POptParam = ^TOptParam;
+  TOptParam = record
     Handle :THANDLE;
     Setting:int;
     Value  :int_ptr;

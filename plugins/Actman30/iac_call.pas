@@ -422,7 +422,7 @@ begin
   end;
 end;
 
-procedure SearchDllByFName(flist,dlist:HWND;idx:Integer=-1);
+procedure SearchDllByFName(flist,dlist:HWND;idx:integer=-1);
 var
   pc,p,pp,pz:pAnsiChar;
   lptr:pointer;
@@ -612,7 +612,7 @@ begin
   ShowHideBlock(Dialog,true);
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd,wnd1:HWND;
   buf:array [0..63] of AnsiChar;
@@ -831,6 +831,7 @@ begin
               CheckDlgButton(Dialog,IDC_CLOSE_ARG,BST_UNCHECKED);
 
               ShowHideBlock(Dialog,false);
+              exit;
             end;
 
             IDC_CLOSE_ARG: begin
@@ -840,6 +841,7 @@ begin
               CheckDlgButton(Dialog,IDC_CLOSE_RES,BST_UNCHECKED);
 
               ShowHideBlock(Dialog,true);
+              exit;
             end;
           end;
           SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);

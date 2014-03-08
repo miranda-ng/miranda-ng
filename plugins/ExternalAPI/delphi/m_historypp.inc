@@ -90,14 +90,14 @@ const
 
 type
   TItemRenderDetails = record
-    cbSize        :DWord;     // size of the structure in bytes
-    hContact      :THandle;   // handle to the contact for which the event is processed
-    hDBEvent      :THandle;   // handle to the event which is processed
-    dwEventTime   :DWord;     // timestamp of the event
-    wEventType    :Word;      // Event's flags (see m_database, EVENTTYPE_*; m_icq, ICQEVENTTYPE_*)
+    cbSize        :dword;     // size of the structure in bytes
+    hContact      :THANDLE;   // handle to the contact for which the event is processed
+    hDBEvent      :THANDLE;   // handle to the event which is processed
+    dwEventTime   :dword;     // timestamp of the event
+    wEventType    :word;      // Event's flags (see m_database, EVENTTYPE_*; m_icq, ICQEVENTTYPE_*)
     IsEventSent   :ByteBool;  // Outgoing event. True if DBEF_SENT event flag is present (see m_database)
-    dwFlags       :DWord;     // Any reasonable combination of IRDF_* flags.
-    bHistoryWindow:Byte;      // What kind of window history. See IRDHW_* values
+    dwFlags       :dword;     // Any reasonable combination of IRDF_* flags.
+    bHistoryWindow:byte;      // What kind of window history. See IRDHW_* values
     pProto        :PAnsiChar;     // Proto of the event, if available
     pModule       :PAnsiChar;     // Module of the event, if available
     pText         :PWideChar; // Text of the event, not used now
@@ -146,10 +146,10 @@ const
 
 type
   TOpenEventParams = record
-    cbSize   : DWord;
-    hContact : THandle;
-    hDBEvent : THandle;
-    junkie:    PAnsiChar;
+    cbSize   : dword;
+    hContact : THANDLE;
+    hDBEvent : THANDLE;
+    pPassword: PAnsiChar;
   end;
 
   POpenEventParams = ^TOpenEventParams;
@@ -164,7 +164,7 @@ const
   // provided event
   // wParam - pointer to TOpenEventParams structure
   // lParam - zero
-  // Return - BOOL, True if contact opened, False if password
+  // Return - bool, True if contact opened, False if password
   //          field opened
   // Note: if you just want to show contact's history,
   //       use system service MS_HISTORY_SHOWCONTACTHISTORY

@@ -216,7 +216,7 @@ end;
 
 function DirectoryExists(Directory:PAnsiChar):Boolean;
 var
-  Code: Integer;
+  Code: integer;
 begin
   Code := GetFileAttributesA(Directory);
   Result := (Code<>-1) and ((Code and FILE_ATTRIBUTE_DIRECTORY)<>0);
@@ -224,7 +224,7 @@ end;
 
 function DirectoryExists(Directory:PWideChar):Boolean;
 var
-  Code: Integer;
+  Code: integer;
 begin
   Code := GetFileAttributesW(Directory);
   Result := (Code<>-1) and ((Code and FILE_ATTRIBUTE_DIRECTORY)<>0);
@@ -232,7 +232,7 @@ end;
 
 function FileExists(fname:PAnsiChar):Boolean;
 var
-  Code: Integer;
+  Code: integer;
 begin
   Code := GetFileAttributesA(fname);
   Result := (Code<>-1) and ((Code and FILE_ATTRIBUTE_DIRECTORY)=0);
@@ -240,7 +240,7 @@ end;
 
 function FileExists(fname:PWideChar):Boolean;
 var
-  Code: Integer;
+  Code: integer;
 begin
   Code := GetFileAttributesW(fname);
   Result := (Code<>-1) and ((Code and FILE_ATTRIBUTE_DIRECTORY)=0);

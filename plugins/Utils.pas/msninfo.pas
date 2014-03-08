@@ -126,7 +126,7 @@ begin
   // WMContentID - not needs
 end;
 
-function dlgMSNHook(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function dlgMSNHook(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   pMyCDS:PCOPYDATASTRUCT;
 begin

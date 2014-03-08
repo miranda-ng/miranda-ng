@@ -32,14 +32,14 @@ const
   // hyperlink messages
   {
     Use this in a SendMessage to set the color of the url when control is enabled
-    wParam=DWORD color
+    wParam=dword color
     lParam=not used
   }
   HLK_SETENABLECOLOUR = WM_USER+101; // added in 0.3.1
 
   {
     Use this in a SendMessage to set the color of the url when control is disabled
-    wParam=DWORD color
+    wParam=dword color
     lParam=not used
   }
   HLK_SETDISABLECOLOUR = WM_USER+102; // added in 0.3.1
@@ -78,13 +78,13 @@ type
   TWINDOWLISTENTRY = record
     hList   : THANDLE;
     hWnd    : HWND;
-    hContact: MCONTACT;
+    hContact: TMCONTACT;
   end;
 
   PSAVEWINDOWPOS = ^TSAVEWINDOWPOS;
   TSAVEWINDOWPOS = record
     hWnd        : HWND;
-    hContact    : MCONTACT;
+    hContact    : TMCONTACT;
     szModule    : PAnsiChar;        // module name eto store the settings in
     szNamePrefix: PAnsiChar;        // text to prefix on 'x', 'width', etc
   end;
@@ -188,7 +188,7 @@ const
 
   {
     wParam : Handle to the window list to look in
-    lParam : Handle to a MCONTACT to find in the window list
+    lParam : Handle to a TMCONTACT to find in the window list
     Affect : Find a window handle given the hContact
     Returns: The found window handle or NULL(0) on failure
   }
@@ -255,7 +255,7 @@ const
     Affect : Moves a RECT inside screen if it is outside.It works with multiple monitors (v0.9.0.4+)
     Returns: <0 on error, 0 if not changed the rect, 1 if changed the rect
 }
-  MS_UTILS_ASSERTINSIDESCREEN:pAnsiChar = 'Utils/AssertInsideScreen';
+  MS_UTILS_ASSERTINSIDESCREEN:PAnsiChar = 'Utils/AssertInsideScreen';
 
   {
     wParam : 0
@@ -349,7 +349,7 @@ type
   TREPLACEVARSDATA = record
     cbSize   :int;
     dwFlags  :dword;
-    hContact :MCONTACT;
+    hContact :TMCONTACT;
     variables:PREPLACEVARSARRAY;
   end;
 
@@ -404,9 +404,9 @@ type
   TENTER_STRING = record
     cbSize      :int;       // structure size
     _type       :int;       // one of ESF_* constants
-    szModuleName:pAnsiChar; // module name to save window size and combobox strings
-    szDataPrefix:pAnsiChar; // prefix for stored database variables
-    caption     :pAnsiChar; // window caption
+    szModuleName:PAnsiChar; // module name to save window size and combobox strings
+    szDataPrefix:PAnsiChar; // prefix for stored database variables
+    caption     :PAnsiChar; // window caption
     // next TChar fields is on same place
     // ptszInitVal:TChar;   // initial value (note: the core DOES NOT free it)
     ptszResult  :TChar;     // result entered (must be freed via mir_free)
@@ -419,6 +419,6 @@ const
 // wParam = 0 (unused)
 // lParam = PENTER_STRING (form description)
 // returns TRUE on pressing OK or FALSE if Cancel was pressed
-  MS_UTILS_ENTERSTRING:pAnsiChar = 'Utils/EnterString';
+  MS_UTILS_ENTERSTRING:PAnsiChar = 'Utils/EnterString';
 
 {$ENDIF}

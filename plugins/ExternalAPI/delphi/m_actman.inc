@@ -21,7 +21,7 @@ const
 type
   pChain = ^tChain;
   tChain = record
-    descr:pWideChar;
+    descr:PWideChar;
     id   :dword;
     flags:dword; // ACCF_* flags
     order:dword;

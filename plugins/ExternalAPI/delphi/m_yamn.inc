@@ -101,7 +101,7 @@ const
 //
 //Event is fired when there is a double click on a CList contact,
 //it is upto the caller to check for the protocol & status
-//of the MCONTACT, it's not done for you anymore since it didn't make
+//of the TMCONTACT, it's not done for you anymore since it didn't make
 //sense to store all this information in memory, etc.
   MS_YAMN_CLISTCONTEXT = 'YAMN/Service/ClistContactContextMenu';
 
@@ -111,7 +111,7 @@ const
 //
 //Event is fired when there is a double click on a CList contact,
 //it is upto the caller to check for the protocol & status
-//of the MCONTACT, it's not done for you anymore since it didn't make
+//of the TMCONTACT, it's not done for you anymore since it didn't make
 //sense to store all this information in memory, etc.
   MS_YAMN_CLISTCONTEXTAPP = 'YAMN/Service/ClistContactContextMenuApp';
 
@@ -121,7 +121,7 @@ const
 //
 //Event is fired when there is a double click on a CList contact,
 //it is upto the caller to check for the protocol & status
-//of the MCONTACT, it's not done for you anymore since it didn't make
+//of the TMCONTACT, it's not done for you anymore since it didn't make
 //sense to store all this information in memory, etc.
   MS_YAMN_CLISTDBLCLICK = 'YAMN/Service/ClistContactDoubleclicked';
 

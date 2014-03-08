@@ -63,54 +63,54 @@ const
   Z_DEFLATED = 8;
 
 type
-  alloc_func = function(opaque: Pointer; items, size: Integer): Pointer;
+  alloc_func = function(opaque: pointer; items, size: integer): pointer;
                  cdecl;
-  free_func  = procedure(opaque, address: Pointer);
+  free_func  = procedure(opaque, address: pointer);
                  cdecl;
 
-  in_func    = function(opaque: Pointer; var buf: PByte): Integer;
+  in_func    = function(opaque: pointer; var buf: PByte): integer;
                  cdecl;
-  out_func   = function(opaque: Pointer; buf: PByte; size: Integer): Integer;
+  out_func   = function(opaque: pointer; buf: PByte; size: integer): integer;
                  cdecl;
 
   z_streamp = ^z_stream;
   z_stream = packed record
     next_in: PChar;       (* next input byte *)
-    avail_in: Integer;    (* number of bytes available at next_in *)
+    avail_in: integer;    (* number of bytes available at next_in *)
     total_in: LongInt;    (* total nb of input bytes read so far *)
 
     next_out: PChar;      (* next output byte should be put there *)
-    avail_out: Integer;   (* remaining free space at next_out *)
+    avail_out: integer;   (* remaining free space at next_out *)
     total_out: LongInt;   (* total nb of bytes output so far *)
 
     msg: PChar;           (* last error message, NULL if no error *)
-    state: Pointer;       (* not visible by applications *)
+    state: pointer;       (* not visible by applications *)
 
     zalloc: alloc_func;   (* used to allocate the internal state *)
     zfree: free_func;     (* used to free the internal state *)
-    opaque: Pointer;      (* private data object passed to zalloc and zfree *)
+    opaque: pointer;      (* private data object passed to zalloc and zfree *)
 
-    data_type: Integer;   (* best guess about the data type: ascii or binary *)
+    data_type: integer;   (* best guess about the data type: ascii or binary *)
     adler: LongInt;       (* adler32 value of the uncompressed data *)
     reserved: LongInt;    (* reserved for future use *)
   end;
 
-function deflateInit(var strm: z_stream; level: Integer): Integer; cdecl;
+function deflateInit(var strm: z_stream; level: integer): integer; cdecl;
                  external ZlibDLL name 'deflateInit_';
 
-function deflate(var strm: z_stream; flush: Integer): Integer; cdecl;
+function deflate(var strm: z_stream; flush: integer): integer; cdecl;
                  external ZlibDLL name 'deflate';
 
-function deflateEnd(var strm: z_stream): Integer; cdecl;
+function deflateEnd(var strm: z_stream): integer; cdecl;
                  external ZlibDLL name 'deflateEnd';
 
-function inflateInit(var strm: z_stream): Integer; cdecl;
+function inflateInit(var strm: z_stream): integer; cdecl;
                  external ZlibDLL name 'inflateInit_';
 
-function inflate(var strm: z_stream; flush: Integer): Integer; cdecl;
+function inflate(var strm: z_stream; flush: integer): integer; cdecl;
                  external ZlibDLL name 'inflate';
 
-function inflateEnd(var strm: z_stream): Integer; cdecl;
+function inflateEnd(var strm: z_stream): integer; cdecl;
                  external ZlibDLL name 'inflateEnd';
 
 {$ENDIF}

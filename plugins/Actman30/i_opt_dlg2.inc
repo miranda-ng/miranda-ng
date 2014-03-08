@@ -201,7 +201,7 @@ begin
 end;
 
 // Fill action type combobox
-function FillActTypeList(list:hwnd):HWND;
+function FillActTypeList(list:HWND):HWND;
 var
   cbei:TCOMBOBOXEXITEMW;
   il:HIMAGELIST;
@@ -305,7 +305,7 @@ end;
 procedure FillAction(Dialog:HWND;act:tBaseAction);
 var
   p:pActModule;
-  i:lresult;
+  i:LRESULT;
   wnd:HWND;
 begin
   if act<>nil then
@@ -529,7 +529,7 @@ begin
 end;
 
 // action (chain) table procedure (key hook)
-function NewActTableProc(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function NewActTableProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   i:integer;
 begin
@@ -577,7 +577,7 @@ end;
 //----- Macro list stuff -----
 
 // action group table procedure (key hook)
-function NewGroupTableProc(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function NewGroupTableProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   i:integer;
 begin
@@ -722,7 +722,7 @@ begin
 end;
 
 // Fill action group list and disable chain controls
-function FillMacroList(Dialog:hwnd):integer;
+function FillMacroList(Dialog:HWND):integer;
 var
   CurMacro:pMacroRecord;
   i:integer;
@@ -854,7 +854,7 @@ begin
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
 end;
 
-function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOpt2(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd:HWND;
   p:pActModule;

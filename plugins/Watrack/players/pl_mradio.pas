@@ -75,7 +75,7 @@ begin
   CurrentStation:=db_find_first(playername);
   while CurrentStation<>0 do
   begin
-    i:=DBReadWord(CurrentStation,playername,'Status',WORD(-1));
+    i:=DBReadWord(CurrentStation,playername,'Status',word(-1));
     if i=ID_STATUS_ONLINE then
     begin
       result:=1;

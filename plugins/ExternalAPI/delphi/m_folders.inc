@@ -67,7 +67,7 @@ type
                           // there's no entry in the database for this
                           // folder. This should be the initial value for
                           // the path, users will be able to change it later.
-    flags     :DWORD;     // FF_* flags
+    flags     :dword;     // FF_* flags
     // V2.0
     szUserName:TChar;     // for display purposes. if NULL, plugins gets it as the
                           // translated szName String is dup()'d so you can free it

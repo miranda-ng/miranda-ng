@@ -31,7 +31,7 @@ var
   CurProto,
   CurStatus:integer;
 
-procedure RedrawFields(Dialog:hwnd;proto:integer=-1);
+procedure RedrawFields(Dialog:HWND;proto:integer=-1);
 var
   wnd1,wnd:HWND;
   p:pWideChar;
@@ -110,7 +110,7 @@ begin
   Changed:=Changed and not DLGED_INIT;
 end;
 
-procedure SetScreenFull(Dialog:hwnd);
+procedure SetScreenFull(Dialog:HWND);
 var
   show:integer;
   buf:array [0..127] of AnsiChar;
@@ -159,13 +159,13 @@ begin
   RedrawFields(Dialog);
 end;
 
-procedure SetTemplate(Dialog:hwnd;idc:integer;Tmpl:tTemplateType);
+procedure SetTemplate(Dialog:HWND;idc:integer;Tmpl:tTemplateType);
 begin
   SetTemplateStr   (GetDlgText(Dialog,ABS(idc)),Tmpl,CurProto,CurStatus);
   SetTemplateActive(idc>0                      ,Tmpl,CurProto,CurStatus);
 end;
 
-procedure SaveChanges(Dialog:hwnd);
+procedure SaveChanges(Dialog:HWND);
 var
   i,j:integer;
 begin
@@ -213,7 +213,7 @@ begin
   end;
 end;
 
-function SaveCBExValue(Dialog:HWnd;direct:boolean):cardinal;
+function SaveCBExValue(Dialog:HWND;direct:boolean):cardinal;
 var
   wnd:HWND;
   i,j,shift:cardinal;
@@ -234,7 +234,7 @@ begin
   result:=(i shr (8-shift)) and $FF;
 end;
 
-procedure FillCBType(Dialog:hwnd;proto:pAnsiChar=nil);
+procedure FillCBType(Dialog:HWND;proto:pAnsiChar=nil);
 var
   wnd:HWND;
   j:integer;
@@ -252,7 +252,7 @@ begin
     ShowWindow(GetDlgItem(Dialog,aListFields[j]),aShowFields[0][j]);
 end;
 
-function DlgProcOptions11(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOptions11(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   Item:LV_ITEMA;
   buf:array [0..127] of AnsiChar;

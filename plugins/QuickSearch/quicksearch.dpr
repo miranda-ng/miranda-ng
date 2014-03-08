@@ -19,7 +19,7 @@ uses
   mirutils,
   common;
 
-function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
+function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
@@ -174,7 +174,7 @@ begin
   Result:=0;
 end;
 
-function Load():Integer;cdecl;
+function Load():integer;cdecl;
 begin
   Result:=0;
   Langpack_register;
@@ -183,7 +183,7 @@ begin
   qsopt.numcolumns:=loadopt_db(qsopt.columns);
 end;
 
-function Unload:Integer;cdecl;
+function Unload:integer;cdecl;
 begin
   result:=0;
   removetoolbar; //??

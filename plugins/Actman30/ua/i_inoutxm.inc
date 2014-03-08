@@ -1,6 +1,6 @@
 {}
 var
-  xmlparser:XML_API_W;
+  xmlparser:TXML_API_W;
 
 const
   ioAction         :PWideChar = 'Action';
@@ -25,6 +25,7 @@ const
   ioMenuShow       :PWideChar = 'Show';
   ioMenuUsed       :PWideChar = 'Used';
   ioMenuSeparated  :PWideChar = 'Separated';
+  ioNoTranslate    :PWideChar = 'NoTranslate';
 
 
 function ImportMenuItems(node:HXML;var MenuItem:tUAMenuItem):integer;
@@ -48,6 +49,9 @@ begin
     // separated
       if StrToInt(getAttrValue(node,ioMenuSeparated))<>0 then
         menu_opt:=menu_opt or UAF_MENUSEP;
+    // no translate
+      if StrToInt(getAttrValue(node,ioNoTranslate))<>0 then
+        menu_opt:=menu_opt or UAF_NOTRANS;
     end;
   end;
 end;
@@ -135,7 +139,7 @@ begin
   BlockRead(f,res^,i);
   CloseHandle(f);
 
-  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
   CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
   with xmlparser do
   begin
@@ -211,6 +215,8 @@ begin
       AddAttrInt(result,ioMenuUsed,ord((menu_opt AND UAF_MENUUSE)<>0));
     // separated
       AddAttrInt(result,ioMenuSeparated,ord((menu_opt AND UAF_MENUSEP)<>0));
+    // no translate
+      AddAttrInt(result,ioNoTranslate,ord((menu_opt AND UAF_NOTRANS)<>0));
     end;
   end;
 end;
@@ -300,7 +306,7 @@ var
   ptr,ptr1:pChain;
 begin
   result:=0;
-  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
   CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
   with xmlparser do
   begin

@@ -40,7 +40,7 @@ lParam: ignored
 Enable/disable sending listening to this protocol
 
 wParam: AnsiChar * - protocol name or NULL for all protocols
-lParam: BOOL - TRUE to enable, FALSE to disable
+lParam: bool - TRUE to enable, FALSE to disable
 }
   MS_LISTENINGTO_ENABLE:PAnsiChar = 'ListeningTo/Enable';
 
@@ -48,7 +48,7 @@ lParam: BOOL - TRUE to enable, FALSE to disable
 Notification fired when enable state changed
 
 wParam: AnsiChar * - protocol name or NULL for all protocols
-lParam: BOOL - enabled
+lParam: bool - enabled
 }
   ME_LISTENINGTO_ENABLE_STATE_CHANGED:PAnsiChar = 'ListeningTo/EnableStateChanged';
 

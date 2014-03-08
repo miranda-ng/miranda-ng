@@ -32,7 +32,7 @@ type
   pfnPainterFunc = procedure (mb:pMButtonCtrl; dc:HDC); cdecl;
 
 type
-  MButtonCtrl = record
+  tMButtonCtrl = record
     hwnd:HWND;
     stateId:int; // button state
     focus:int;   // has focus (1 or 0)

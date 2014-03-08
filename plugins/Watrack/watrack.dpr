@@ -37,7 +37,7 @@ uses
 const
   MenuDisablePos = 500050000;
 
-function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
+function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
@@ -585,7 +585,7 @@ begin
   IsMultiThread:=true;
 
   // Register WATrack events
-  dbetd.cbSize     :=DBEVENTTYPEDESCR_SIZE;
+  dbetd.cbSize     :=SizeOf(TDBEVENTTYPEDESCR);
   dbetd.module     :=PluginShort;
   dbetd.textService:=nil;
   dbetd.iconService:=nil;

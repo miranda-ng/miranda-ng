@@ -33,14 +33,14 @@ begin
     mFreeMem(vars[i].alias);
 end;
 
-function MacroHelpDlg(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):integer; stdcall;
+function MacroHelpDlg(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   Changed:bool=false;
 var
   i:integer;
   itemw:LV_ITEMW;
   lvc:LV_COLUMN;
-  wnd:hwnd;
+  wnd:HWND;
   ws:PWideChar;
   s:pAnsiChar;
   rc:TRECT;

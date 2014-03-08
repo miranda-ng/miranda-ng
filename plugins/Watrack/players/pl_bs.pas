@@ -36,7 +36,7 @@ const
 const
   bspwnd:HWND = 0;
 
-function HiddenWindProc(wnd:HWnd; msg:UINT;wParam:WPARAM;lParam:LPARAM):integer; stdcall;
+function HiddenWindProc(wnd:HWND; msg:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 begin
   result:=DefWindowProc(wnd,msg,wParam,lParam);
 end;

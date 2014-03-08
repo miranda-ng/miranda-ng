@@ -1,3 +1,7 @@
+{
+  Parameter: CBN_EDITCHANGE on fields changing, BN_CLICKED on Struct changes
+  Result   : CBN_EDITCHANGE on type   changing, BN_CLICKED on option changes
+}
 unit sparam;
 
 interface
@@ -50,7 +54,7 @@ function SetParamLabel   (Dialog:HWND; lbl:pWideChar):HWND;
 
 procedure ClearParam    (flags:dword; var param);
 function  DuplicateParam(flags:dword; var sparam,dparam):dword;
-function  TranslateParam(param:uint_ptr;flags:dword;hContact:MCONTACT):uint_ptr;
+function  TranslateParam(param:uint_ptr;flags:dword;hContact:TMCONTACT):uint_ptr;
 
 function CreateResultBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
 function ClearResultFields(Dialog:HWND):HWND;
@@ -254,7 +258,7 @@ begin
   result:=Dialog;
 end;
 
-function DlgParamProc(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgParamProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd,wnd1:HWND;
   proc:pointer;
@@ -651,7 +655,7 @@ begin
   result:=flags;
 end;
 
-function TranslateParam(param:uint_ptr;flags:dword;hContact:MCONTACT):uint_ptr;
+function TranslateParam(param:uint_ptr;flags:dword;hContact:TMCONTACT):uint_ptr;
 var
   tmp1:pWideChar;
 begin
@@ -707,7 +711,7 @@ begin
   SendMessage(wnd,CB_SETCURSEL,0,0);
 end;
 
-function DlgResultProc(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgResultProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   proc:pointer;
   wnd:HWND;
@@ -720,6 +724,7 @@ begin
     WM_COMMAND: begin
       case wParam shr 16 of
         BN_CLICKED: begin
+          SendMessage(GetParent(Dialog),WM_COMMAND,BN_CLICKED shl 16,Dialog);
           case loword(wParam) of
             IDC_RES_SIGNED: begin
               if IsDlgButtonChecked(Dialog,IDC_RES_SIGNED)=BST_UNCHECKED then
@@ -747,6 +752,7 @@ begin
         end;
 
         CBN_SELCHANGE:  begin
+          SendMessage(GetParent(Dialog),WM_COMMAND,CBN_EDITCHANGE shl 16,Dialog);
           case loword(wParam) of
             IDC_RES_TYPE: begin
               case CB_GetData(lParam) of

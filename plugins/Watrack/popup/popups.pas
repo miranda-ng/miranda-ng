@@ -71,7 +71,7 @@ begin
   mFreeMem(buf);
 end;
 
-function DumbPopupDlgProc(Wnd:hwnd;msg:uint;wParam:integer;lParam:longint):integer;stdcall;
+function DumbPopupDlgProc(Wnd:HWND;msg:dword;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   si:pSongInfo;
   h:HBITMAP;
@@ -312,7 +312,7 @@ end;
 
 procedure regpophotkey;
 var
-  hkrec:HOTKEYDESC;
+  hkrec:THOTKEYDESC;
 begin
   if DisablePlugin=dsPermanent then
     exit;

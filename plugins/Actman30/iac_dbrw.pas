@@ -68,7 +68,7 @@ const
 type
   tDataBaseAction = class(tBaseAction)
   private
-    dbcontact:MCONTACT;
+    dbcontact:TMCONTACT;
     dbmodule :PWideChar;
     dbsetting:PWideChar;
     dbvalue  :PWideChar; // keep all in unicode (str to int translation fast)
@@ -129,7 +129,7 @@ var
   ambuf,asbuf:array [0..127] of AnsiChar;
   ls,tmp:pWideChar;
   tmpa,tmpa1:pAnsiChar;
-  hContact:MCONTACT;
+  hContact:TMCONTACT;
   proto:pAnsiChar;
   avalue:uint_ptr;
 begin
@@ -451,7 +451,7 @@ begin
   CheckDlgButton(Dialog,IDC_RW_DELETE,BST_UNCHECKED);
 end;
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 const
   NoProcess:boolean=true;
 var

@@ -6,7 +6,7 @@ implementation
 
 uses
   windows, commctrl, messages,
-  mirutils, common, dbsettings, io, m_api, wrapper,
+  mirutils, common, dbsettings, io, m_api, wrapper, editwrapper,
   global;
 
 {$R ua.res}
@@ -48,6 +48,19 @@ var
 {$include i_inoutxm.inc}
 
 // ------------ base interface functions -------------
+
+procedure CheckPlacesAbility;
+var
+  i:integer;
+begin
+  for i:=0 to NumTypes-1 do
+  begin
+    with NamesArray[i] do
+    begin
+      enable:=(service=nil) or (ServiceExists(service)<>0);
+    end;
+  end;
+end;
 
 procedure Init;
 begin

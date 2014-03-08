@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const
 // Returns the status message for a status
-// wParam=(WORD) 0 for current status or a status
+// wParam=(word) 0 for current status or a status
 // lParam=0
 // Returns status msg or NULL if there is none.  The protocol have to handle only the current 
 // status. Handling messages for other statuses is optional.

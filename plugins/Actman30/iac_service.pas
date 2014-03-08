@@ -467,7 +467,7 @@ end;
 
 //----- Dialog realization -----
 
-function DlgProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   ServiceBlock:HWND;
   rc:TRECT;
@@ -533,10 +533,15 @@ begin
       end;
 }
     end;
-{
+
     WM_COMMAND: begin
+      case wParam shr 16 of
+        CBN_EDITCHANGE,
+        BN_CLICKED: 
+          SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
+      end;
     end;
-}
+
     WM_HELP: begin
       ServiceBlock:=GetWindowLongPtrW(Dialog,GWLP_USERDATA);
       SendMessage(ServiceBlock,WM_HELP,0,0);

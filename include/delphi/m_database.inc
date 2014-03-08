@@ -80,7 +80,7 @@ type
                                      // enum via MS_DB_CONTACT_ENUMSETTINGS
     lParam     : LPARAM;             // passed to the above function
     szModule   : PAnsiChar;          // name of the module to get settings for
-    ofsSettings: DWORD;              // not used by us
+    ofsSettings: dword;              // not used by us
   end;
 
 const
@@ -155,7 +155,7 @@ type
     textService:PAnsiChar; // service name for MS_DB_EVENT_GETTEXT (0.8+, default Module+'/GetEventText'+EvtID)
     iconService:PAnsiChar; // service name for MS_DB_EVENT_GETICON (0.8+, default Module+'/GetEventIcon'+EvtID)
     eventIcon  :THANDLE;   // icolib handle to eventicon           (0.8+, default 'eventicon_'+Module+EvtID)
-    flags      :DWORD;     // flags, combination of the DETF_*
+    flags      :dword;     // flags, combination of the DETF_*
   end;
 
 const
@@ -163,14 +163,6 @@ const
   DETF_HISTORY   = 1; // show event in history
   DETF_MSGWINDOW = 2; // show event in message window
   DETF_NONOTIFY  = 4; // block event notify (e.g. Popups)
-
-const
-  DBEVENTTYPEDESCR_SIZE    = sizeof(TDBEVENTTYPEDESCR);
-  {$IFNDEF WIN64}
-  DBEVENTTYPEDESCR_SIZE_V1 = $10;
-  {$ELSE}
-  DBEVENTTYPEDESCR_SIZE_V1 = DBEVENTTYPEDESCR_SIZE;
-  {$ENDIF}
 
 const
   MS_DB_EVENT_REGISTERTYPE:PAnsiChar = 'DB/EventType/Register';
@@ -203,6 +195,7 @@ type
     datatype:int; // DBVT_ASCIIZ, DBVT_WCHAR (DBVT_TCHAR)
     codepage:int;
   end;
+
 const
   MS_DB_EVENT_GETTEXT:PAnsiChar = 'DB/Event/GetText';
 
@@ -233,7 +226,7 @@ const
 //**************************** Time ********************************
 
   {
-    wParam : timestamp (DWORD)
+    wParam : timestamp (dword)
     lParam : 0
     Affect : Converts a GMT timestap into local time
     Returns: Returns the converted value, see notes
@@ -247,7 +240,7 @@ const
   MS_DB_TIME_TIMESTAMPTOLOCAL:PAnsiChar = 'DB/Time/TimestampToLocal';
 
   {
-    wParam : timestamp (DWORD)
+    wParam : timestamp (dword)
     lParam : pointer to initalised DBTIMETOSTRING structure
     Affect : Converts a GMT timestamp to a customisable local time string
              see notes
@@ -317,14 +310,14 @@ const
              to use before v0.1.2.1 because I don't know if this was done in v0.1.2.1-
   }
 type
-  TDBMODULEENUMPROC = function(const szModule: PAnsiChar; ofsModuleName: DWORD; lParam: LPARAM): int; cdecl;
+  TDBMODULEENUMPROC = function(const szModule: PAnsiChar; ofsModuleName: dword; lParam: LPARAM): int; cdecl;
 const
   MS_DB_MODULES_ENUM:PAnsiChar = 'DB/Modules/Enum';
 
 { DB/Module/Delete  0.8.0+
 
   Removes all settings for the specified module.
-  wParam=(WPARAM)(MCONTACT)hContact - contact's handle or 0 for global settings
+  wParam=Contact's handle or 0 for global settings
   lParam=(LPARAM)(AnsiChar*)szModuleName - the module name to be deleted
 }
   MS_DB_MODULE_DELETE:PAnsiChar = 'DB/Module/Delete';
@@ -332,20 +325,20 @@ const
 //************************** EVENTS ********************************
 
   {
-    wParam : MCONTACT
-    lParam : HDBCONTACT
+    wParam : TMCONTACT
+    lParam : HDBEVENT
     Affect : Called when a new event has been added to the event chain
-             for a contact, MCONTACT contains the contact who added the event,
-             HDBCONTACT a handle to what was added.
+             for a contact, TMCONTACT contains the contact who added the event,
+             HDBEVENT a handle to what was added.
              see notes
     notes  : since events are sorted chronologically, you can not guarantee
-             that HDBEVEnT is in any particular position in the chain.
+             that HDBEVENT is in any particular position in the chain.
 
   }
   ME_DB_EVENT_ADDED:PAnsiChar = 'DB/Event/Added';
 
   {
-    wParam :  HANDLE (hContact)
+    wParam :  TMCONTACT
     lParam :  @DBEVENTINFO
     Affects:  Hook is fired before any DBEVENTS are created within the database for
           a contact (or a user, if hContact is NULL(0)) - It allows a module to
@@ -361,15 +354,15 @@ const
   ME_DB_EVENT_FILTER_ADD:PAnsiChar = 'DB/Event/FilterAdd';
 
   {
-    wParam : MCONTACT
-    lParam : HANDLE
+    wParam : TMCONTACT
+    lParam : HDBEVENT
     Affect : Called when an event is marked read
   }
   ME_DB_EVENT_MARKED_READ:PAnsiChar = 'DB/Event/Marked/Read';
 
   {
-    wParam : MCONTACT
-    lParam : HANDLE
+    wParam : TMCONTACT
+    lParam : HDBEVENT
     Affect : Called when an event is about to be deleted from the event chain
              for a contact, see notes
     notes  : Returning non zero from your hook will NOT stop the deletion,
@@ -378,15 +371,15 @@ const
   ME_DB_EVENT_DELETED:PAnsiChar = 'DB/Event/Deleted';
 
   {
-    wParam : MCONTACT
+    wParam : TMCONTACT
     lParam : 0
     Affect : Called when a new contact has been added to the database,
-             MCONTACT contains a handle to the new contact.
+             TMCONTACT contains a handle to the new contact.
   }
   ME_DB_CONTACT_ADDED:PAnsiChar = 'DB/Contact/Added';
 
   {
-    wParam : MCONTACT
+    wParam : TMCONTACT
     lParam : 0
     Affect : Called when a contact is about to be deleted
     Returns: Returning nonzero from your hook will not stop the deletion
@@ -395,7 +388,7 @@ const
   ME_DB_CONTACT_DELETED:PAnsiChar = 'DB/Contact/Deleted';
 
   {
-    wParam : MCONTACT
+    wParam : TMCONTACT
     lParam : Pointer to a TDBCONTACTWRITESETTING
     Affect : Calleed when a contact has one of it's settings changed
              hContact is a valid handle to the contact that has changed,

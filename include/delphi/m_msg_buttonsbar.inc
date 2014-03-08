@@ -78,10 +78,10 @@ type
     cbSize    :int;
     pt        :TPOINT;    // screen coordinates for menus
     pszModule :PAnsiChar; // button owners name 
-    dwButtonId:DWORD;     // registered button ID
+    dwButtonId:dword;     // registered button ID
     hwndFrom  :HWND;      // button parents HWND
-    hContact  :MCONTACT;
-    flags     :DWORD;     // BBCF_ flags
+    hContact  :TMCONTACT;
+    flags     :dword;     // BBCF_ flags
   end;
 
 const
@@ -102,16 +102,16 @@ const
 type
   tagBBButton = record
     cbSize       :int;   // size of structure
-    dwButtonID   :DWORD; // your button ID, will be combined with pszModuleName for storing settings, etc...  
+    dwButtonID   :dword; // your button ID, will be combined with pszModuleName for storing settings, etc...  
     pszModuleName:PAnsiChar; // module name without spaces and underline symbols (e.g. "tabsrmm")
     szTooltip    :TChar; // button's tooltip
-    dwDefPos     :DWORD; // default order pos of button, counted from window edge (left or right)
+    dwDefPos     :dword; // default order pos of button, counted from window edge (left or right)
                          // use value >100, because internal buttons using 10,20,30... 80, etc
     iButtonWidth :int;   // must be 0
-    bbbFlags     :DWORD; // combine of BBBF_ flags above
+    bbbFlags     :dword; // combine of BBBF_ flags above
     hIcon        :HICON; // Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
-end;	
-  BBButton = tagBBButton;
+  end;	
+  tBBButton = tagBBButton;
 
 
 {$ENDIF}

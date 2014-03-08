@@ -21,7 +21,7 @@ var
   hMenuInfo   :THANDLE;
   ssmi,sic,
   plStatusHook:THANDLE;
-  PopupPresent:Bool;
+  PopupPresent:bool;
   onttbhook,
   opthook:THANDLE;
   ttbInfo:THANDLE;

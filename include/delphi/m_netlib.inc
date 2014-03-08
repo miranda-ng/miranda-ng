@@ -138,8 +138,8 @@ type
   TNETLIBOPENCONNECTION = record
     cbSize : int;
     szHost : PAnsiChar; // can be an IP in string form
-    wPort  : Word;
-    flags  : DWORD; // see NLOCF_* flags
+    wPort  : word;
+    flags  : dword; // see NLOCF_* flags
     timeout: uint;
     // optional, called in the context of the thread that issued the attempt,
     // if it returns 0 the connection attempt is stopped, the remaining
@@ -168,7 +168,7 @@ type
   TNETLIBHTTPREQUEST = record
     cbSize       :int;
     requestType  :int;                // REQUEST_* constant
-    flags        :DWORD;
+    flags        :dword;
     szUrl        :PAnsiChar;
     { doesn't contain Content-Length, it'll be added automatically }
     headers      :^ANETLIBHTTPHEADER; // pointer to an array of em?
@@ -191,10 +191,10 @@ const
 type
   { This function pointer is to the CRT realloc() used by Miranda -- it allows reallocation of memory passed
   to us (not that we could EVER share the same CRT) but to allow DLLs in general to reallocate memory }
-  TNetlibRealloc = function(Mem: Pointer; size_t: int): Pointer; cdecl;
-  TNetlibHTTPGatewayInitProc  = function(hConn: THandle; nloc: PNETLIBOPENCONNECTION; nlhr: PNETLIBHTTPREQUEST): int; cdecl;
-  TNetlibHTTPGatewayBeginProc = function(hConn: THandle; nloc: PNETLIBOPENCONNECTION): int; cdecl;
-  TNetlibHTTPGatewayWrapSendProc = function(hConn: THandle; buf: PByte; len: int; flags: int; pfnNetLibSend: TMIRANDASERVICE): int; cdecl;
+  TNetlibRealloc = function(Mem: pointer; size_t: int): pointer; cdecl;
+  TNetlibHTTPGatewayInitProc  = function(hConn: THANDLE; nloc: PNETLIBOPENCONNECTION; nlhr: PNETLIBHTTPREQUEST): int; cdecl;
+  TNetlibHTTPGatewayBeginProc = function(hConn: THANDLE; nloc: PNETLIBOPENCONNECTION): int; cdecl;
+  TNetlibHTTPGatewayWrapSendProc = function(hConn: THANDLE; buf: PByte; len: int; flags: int; pfnNetLibSend: TMIRANDASERVICE): int; cdecl;
   TNetlibHTTPGatewayUnwrapRecvProc = function(nlhr: PNETLIBHTTPREQUEST; buf: PByte; len: int; outBufLen: pInt; NetlibRealloc: TNetlibRealloc): PByte; cdecl;
 
   PNETLIBUSER = ^TNETLIBUSER;
@@ -202,7 +202,7 @@ type
     cbSize: int;
     szSettingsModule: PAnsiChar;  // used for DB settings and log, 'NL' stuff
     szDescriptiveName: TChar; // shows a descriptive name for which different proxy settings can be defined
-    flags: DWORD;             // see NUF_* constants above
+    flags: dword;             // see NUF_* constants above
     szHttpGatewayHello    :PAnsiChar;
     szHttpGatewayUserAgent:PAnsiChar; // can be NULL(0) to send no User-Agent: also used by HTTPS proxies
     pfnHttpGatewayInit      :TNetlibHTTPGatewayInitProc;
@@ -232,8 +232,8 @@ type
     validateSSL         :int;
   end;
 
-  TNetlibNewConnectionProc    = procedure(hNewConnection:THandle; dwRemoveIP:DWORD); cdecl;
-  TNetlibNewConnectionProc_V2 = procedure(hNewConnection:THandle; dwRemoveIP:DWORD; pExtra:pointer); cdecl;
+  TNetlibNewConnectionProc    = procedure(hNewConnection:THANDLE; dwRemoveIP:dword); cdecl;
+  TNetlibNewConnectionProc_V2 = procedure(hNewConnection:THANDLE; dwRemoveIP:dword; pExtra:pointer); cdecl;
 
   PNETLIBBIND = ^TNETLIBBIND;
   TNETLIBBIND = record
@@ -243,27 +243,18 @@ type
     // or pfnNewConnectionV2:NETLIBNEWCONNECTIONPROC_V2;
     //function to call when there's a new connection. Params are: the
     //new connection, IP of remote machine (host byte order)
-    dwInternalIP:DWORD;    //set on return, host byte order
-    wPort       :WORD;     //set on return, host byte order
+    dwInternalIP:dword;    //set on return, host byte order
+    wPort       :word;     //set on return, host byte order
     pExtra      :^pointer; //argument is sent to callback, added during 0.3.4+
-    dwExternalIP:DWORD;    //set on return, host byte order
+    dwExternalIP:dword;    //set on return, host byte order
     wExPort     :word;     //set on return, host byte order
   end;
-
-const
-  {$IFNDEF WIN64}
-  NETLIBBIND_SIZEOF_V1 = 16; // sizeof(NETLIBBIND) prior to 0.3.4+ (2004/08/05)
-  NETLIBBIND_SIZEOF_V2 = 20; // sizeof(NETLIBBIND) prior to 0.6+ (2006/07/03)
-  {$ELSE}
-  NETLIBBIND_SIZEOF_V1 = SizeOF(TNETLIBBIND);
-  NETLIBBIND_SIZEOF_V2 = SizeOF(TNETLIBBIND);
-  {$ENDIF}
 
 type
   PNETLIBHTTPPROXYINFO = ^TNETLIBHTTPPROXYINFO;
   TNETLIBHTTPPROXYINFO = record
     cbSize           : int;
-    flags            : DWORD; // see NLHPIF_* above
+    flags            : dword; // see NLHPIF_* above
     szHttpPostUrl    : PAnsiChar;
     szHttpGetUrl     : PAnsiChar;
     firstGetSequence : int;
@@ -282,29 +273,29 @@ type
   PNETLIBSELECT = ^TNETLIBSELECT;
   TNETLIBSELECT = record
     cbSize      : int;
-    dwTimeout   : DWORD; // in milliseconds, INFINITE is acceptable
-    hReadConns  : array [0..FD_SETSIZE] of THandle;
-    hWriteConns : array [0..FD_SETSIZE] of THandle;
-    hExceptConns: array [0..FD_SETSIZE] of THandle;
+    dwTimeout   : dword; // in milliseconds, INFINITE is acceptable
+    hReadConns  : array [0..FD_SETSIZE] of THANDLE;
+    hWriteConns : array [0..FD_SETSIZE] of THANDLE;
+    hExceptConns: array [0..FD_SETSIZE] of THANDLE;
   end;
 
   PNETLIBSELECTEX = ^TNETLIBSELECTEX;
   TNETLIBSELECTEX = record
     cbSize      : int;
-    dwTimeout   : DWORD; // in milliseconds, INFINITE is acceptable
-    hReadConns  : array [0..FD_SETSIZE] of THandle;
-    hWriteConns : array [0..FD_SETSIZE] of THandle;
-    hExceptConns: array [0..FD_SETSIZE] of THandle;
+    dwTimeout   : dword; // in milliseconds, INFINITE is acceptable
+    hReadConns  : array [0..FD_SETSIZE] of THANDLE;
+    hWriteConns : array [0..FD_SETSIZE] of THANDLE;
+    hExceptConns: array [0..FD_SETSIZE] of THANDLE;
     // Added in v0.3.3+
-    hReadStatus  : array [0..FD_SETSIZE] of BOOL; // out, [in, expected to be FALSE]
-    hWriteStatus : array [0..FD_SETSIZE] of BOOL; // out, [in, expected to be FALSE]
-    hExceptStatus: array [0..FD_SETSIZE] of BOOL; // out, [in, expected to be FALSE]
+    hReadStatus  : array [0..FD_SETSIZE] of bool; // out, [in, expected to be FALSE]
+    hWriteStatus : array [0..FD_SETSIZE] of bool; // out, [in, expected to be FALSE]
+    hExceptStatus: array [0..FD_SETSIZE] of bool; // out, [in, expected to be FALSE]
   end;
 
   PNETLIBPACKETRECVER = ^TNETLIBPACKETRECVER;
   TNETLIBPACKETRECVER = record
     cbSize        : int;
-    dwTimeout     : DWORD; // infinite is allowed -- initialise before use
+    dwTimeout     : dword; // infinite is allowed -- initialise before use
     bytesUsed     : int;   // this many bytes are removed from the start of the
                            // buffer, set to 0 on return -- initialise before use
     bytesAvailable: int;   // equal the returnd value by service, unless the
@@ -499,10 +490,10 @@ const
 
 type
   TNETLIBCONNINFO = record
-	  cbSize:int;
+	  cbSize  :int;
 	  szIpPort:array [0..63] of AnsiChar;
-	  dwIpv4:uint;
-	  wPort:word;
+	  dwIpv4  :uint;
+	  wPort   :word;
   end;
 
 const
@@ -519,7 +510,7 @@ const
 type
   TNETLIBIPLIST = record
 	  cbNum:uint;
-	  szIp:array[0..0,0..63] of AnsiChar;
+	  szIp :array[0..0,0..63] of AnsiChar;
   end;
 
 const
@@ -767,7 +758,7 @@ const
   MS_NETLIB_STARTSSL:PAnsiChar = 'Netlib/StartSsl';
 
 type
-  NETLIBSSL = record
+  TNETLIBSSL = record
     cbSize:int;
     host  :PAnsiChar; // Expected host name
     flags :int;       // Reserved
@@ -784,7 +775,7 @@ type
   MS_NETLIB_INITSECURITYPROVIDER:PAnsiChar = 'Netlib/InitSecurityProvider';
 
 type
-  NETLIBNTLMINIT2 = record
+  TNETLIBNTLMINIT2 = record
     cbSize        :size_t;
     szProviderName:TChar;
     szPrincipal   :TChar;
@@ -802,7 +793,7 @@ const
   MS_NETLIB_NTLMCREATERESPONSE:PAnsiChar = 'Netlib/NtlmCreateResponse';
 
 type
-  NETLIBNTLMREQUEST = record
+  TNETLIBNTLMREQUEST = record
     szChallenge:PAnsiChar;
     userName   :PAnsiChar;
     password   :PAnsiChar;
@@ -810,7 +801,7 @@ type
   end;
 
 type
-  NETLIBNTLMREQUEST2 = record
+  TNETLIBNTLMREQUEST2 = record
     cbSize     :size_t;
     szChallenge:PAnsiChar;
     szUserName :TChar;
@@ -834,11 +825,10 @@ const
 //    lParam: NETLIBUSER*   - points to the protocol definition
 
 type
-  NETLIBNOTIFY = record
+  TNETLIBNOTIFY = record
     nlb   :PNETLIBBUFFER; // pointer to the request buffer
     result:int;           // amount of bytes really sent/received
   end;
-  TNETLIBNOTIFY = NETLIBNOTIFY;
 
 const
   ME_NETLIB_FASTRECV :PAnsiChar = 'Netlib/OnRecv';  // being called on every receive

@@ -71,7 +71,7 @@ const
   }
   MS_SYSTEM_OKTOEXIT:PAnsiChar = 'Miranda/System/OkToExit';
 
-  { gets the version number of Miranda encoded as a DWORD v0.1.0.1+
+  { gets the version number of Miranda encoded as a dword v0.1.0.1+
     wParam=lParam=0
     returns the version number, encoded as one version per byte, therefore
     version 1.2.3.10 is 0x0102030a
@@ -81,7 +81,7 @@ const
   {
     gets the version number of Miranda encoded as four WORDs   v0.92.2+
     wParam = 0
-    lParam = WORD[4]*
+    lParam = word[4]*
     returns the version number, encoded as one version per word, therefore
     version 1.2.3.3210 is 0x0001, 0x0002, 0x0003, 0x0C8a
   }

@@ -24,12 +24,12 @@ function GetAssoc(key:PAnsiChar):PAnsiChar;
 function GetFileFromWnd(wnd:HWND;Filter:tFFWFilterProc;
          flags:dword=gffdMultiThread+gffdOld;timeout:cardinal=ThreadTimeout):pWideChar;
 
-function WaitFocusedWndChild(Wnd:HWnd):HWnd;
+function WaitFocusedWndChild(Wnd:HWND):HWND;
 
 function ExecuteWaitW(AppPath:pWideChar; CmdLine:pWideChar=nil; DfltDirectory:PWideChar=nil;
-         Show:DWORD=SW_SHOWNORMAL; TimeOut:DWORD=0; ProcID:PDWORD=nil):dword;
+         Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 function ExecuteWait(AppPath:PAnsiChar; CmdLine:PAnsiChar=nil; DfltDirectory:PAnsiChar=nil;
-         Show:DWORD=SW_SHOWNORMAL; TimeOut:DWORD=0; ProcID:PDWORD=nil):dword;
+         Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 
 function GetEXEbyWnd(w:HWND; var dst:pWideChar):pWideChar; overload;
 function GetEXEbyWnd(w:HWND; var dst:PAnsiChar):PAnsiChar; overload;
@@ -46,14 +46,20 @@ uses
 {$ENDIF}
   common,messages;
 
+{ shellapi import
+function FindExecutableA(FileName, Directory: PAnsiChar; Result: PAnsiChar): HINST; stdcall;
+         external 'shell32.dll' name 'FindExecutableA';
+function FindExecutableW(FileName, Directory: PWideChar; Result: PWideChar): HINST; stdcall;
+         external 'shell32.dll' name 'FindExecutableW';
+}
 {$IFDEF COMPILER_16_UP}
 type  pqword = ^int64;
 {$ENDIF}
 
 function ExecuteWaitW(AppPath:pWideChar; CmdLine:pWideChar=nil; DfltDirectory:PWideChar=nil;
-         Show:DWORD=SW_SHOWNORMAL; TimeOut:DWORD=0; ProcID:PDWORD=nil):dword;
+         Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 var
-  Flags: DWORD;
+  Flags: dword;
   {$IFDEF FPC}
   Startup: StartupInfo;
   {$ELSE}
@@ -114,9 +120,9 @@ begin
 end;
 
 function ExecuteWait(AppPath:PAnsiChar; CmdLine:PAnsiChar=nil; DfltDirectory:PAnsiChar=nil;
-         Show:DWORD=SW_SHOWNORMAL; TimeOut:DWORD=0; ProcID:PDWORD=nil):dword;
+         Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 var
-  Flags: DWORD;
+  Flags: dword;
   {$IFDEF FPC}
   Startup: StartupInfo;
   {$ELSE}
@@ -220,8 +226,8 @@ end;
 
 function GetFocusedChild(wnd:HWND):HWND;
 var
-  dwTargetOwner:DWORD;
-  dwThreadID:DWORD;
+  dwTargetOwner:dword;
+  dwThreadID:dword;
   res:boolean;
 begin
   dwTargetOwner:=GetWindowThreadProcessId(wnd,nil);
@@ -234,10 +240,10 @@ begin
     AttachThreadInput(dwThreadID,dwTargetOwner,FALSE);
 end;
 
-function WaitFocusedWndChild(Wnd:HWnd):HWnd;
+function WaitFocusedWndChild(Wnd:HWND):HWND;
 var
-  T1,T2:Integer;
-  W:HWnd;
+  T1,T2:integer;
+  W:HWND;
 begin
   Sleep(50);
   T1:=GetTickCount;
@@ -347,7 +353,7 @@ end;
 function GetEXEbyWnd(w:HWND; var dst:pWideChar):pWideChar;
 var
   hProcess:THANDLE;
-  ProcID:DWORD;
+  ProcID:dword;
   ModuleName: array [0..300] of WideChar;
 begin
   dst:=nil;
@@ -369,7 +375,7 @@ end;
 function GetEXEbyWnd(w:HWND; var dst:PAnsiChar):PAnsiChar;
 var
   hProcess:THANDLE;
-  ProcID:DWORD;
+  ProcID:dword;
   ModuleName: array [0..300] of AnsiChar;
 begin
   dst:=nil;
@@ -399,7 +405,7 @@ var
   i:integer;
 begin
   result:=false;
-  EnumProcesses(pointer(@Processes),nCount*SizeOf(DWORD),nProcess);
+  EnumProcesses(pointer(@Processes),nCount*SizeOf(dword),nProcess);
   nProcess:=(nProcess div 4)-1;
   for i:=2 to nProcess do //skip Idle & System
   begin
@@ -566,7 +572,7 @@ const
 type
   ptrec = ^trec;
   trec = record
-    handle:thandle;
+    handle:THANDLE;
     fname:pWideChar;
   end;
 
@@ -577,7 +583,7 @@ function GetName(param:pointer):integer; //stdcall;
 const
   BufSize = $800;
   // depends of record align
-  offset=SizeOf(Pointer) div 2; // 4 for win64, 2 for win32
+  offset=SizeOf(pointer) div 2; // 4 for win64, 2 for win32
 var
   TmpBuf:array [0..BufSize-1] of WideChar;
 var

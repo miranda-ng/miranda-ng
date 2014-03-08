@@ -32,7 +32,7 @@ const
 const
   COLORDLG = 'COLOR';
 
-function ColorHelpDlg(Dialog:HWnd;hMessage,wParam,lParam:DWord):integer; stdcall;
+function ColorHelpDlg(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   ps:tPaintStruct;
   br:hBrush;
