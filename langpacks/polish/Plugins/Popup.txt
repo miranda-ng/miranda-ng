@@ -65,11 +65,11 @@ Wysuwany Popup
 [Effect:]
 Efekt:
 [Time (in):]
-Czas (przych)..:
+Wysuwaj:
 [ms]
 ms
 [Time (out):]
-Czas (wych)..:
+Chowaj:
 [Limit window amount to:]
 Ogranicz ilość okien do:
 [Skins]

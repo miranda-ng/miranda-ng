@@ -27,7 +27,7 @@ Twórz co:
 [Number of backups to keep:]
 Liczba trzymanych kopii zapasowych:
 [Backup to folder:]
-Zapisuj kopie do folderu:
+Zapisuj kopię do folderu:
 [Browse...]
 Przeglądaj...
 [Go to the "Customize -> Folders" to change settings]

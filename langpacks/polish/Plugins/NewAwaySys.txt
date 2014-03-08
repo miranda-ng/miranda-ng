@@ -232,7 +232,7 @@ Autoodpowiedź
 [Contacts]
 Kontakty
 [Predefined messages]
-Wbudowane opisy
+Predefiniowane opisy
 [Recent messages]
 Ostatnie opisy
 [Gone fragging]
@@ -242,7 +242,7 @@ Fraguję od %nas_awaysince_time%, odezwę się później, gdy adrenalina spadnie
 [Creepy]
 Straszne
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
-Twój pan, %nas_mynick%, ma status %nas_statdesc% od ?nas_awaysince_date(dddd)... Gdy powróci, powiem mu, że pisałeś...
+Twój pan, %nas_mynick%, ma status %nas_statdesc% od dnia, który zwany jest jako ?nas_awaysince_date(dddd)... Gdy powróci, powiem mu, że pisałeś...
 [Default messages]
 Domyślne opisy
 [Online]
