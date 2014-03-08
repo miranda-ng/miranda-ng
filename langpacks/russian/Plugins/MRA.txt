@@ -231,8 +231,6 @@ xСтатус "%s"
 Редактировать &анкету
 [My Album]
 Мой альбом
-[My Blog]
-Мой блог
 [My Blog Status]
 Статус в блоге
 [My Video]
@@ -253,12 +251,12 @@ xСтатус "%s"
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
+[&Send E-Mail]
+&Отправить E-Mail
 [&Send postcard]
 &Отправить открытку
 [&View Album]
 &Посмотреть альбом
-[&Read Blog]
-&Блог
 [Reply Blog Status]
 Ответ на статус в блоге
 [View Video]

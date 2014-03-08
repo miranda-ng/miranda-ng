@@ -5,22 +5,18 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
-[Provides ability to upload files on Dropbox.]
+[Allows to transfer files via Dropbox.]
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
 [To allow Miranda NG access in your Dropbox account:]
 [Go to this link]
-[allow access to files in apps folder and copy the security code]
-[Enter the security code ]
-[Click authorize button]
+[Allow access to app folder]
+[Enter authorization code]
+[Initiate authorization]
 [Authorize]
 [Other]
 [Use shortened share links]
 [Check status of authorization]
-[Enter code]
-[Enter code below:]
-[OK]
-[Cancel]
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 [you have been authorized]

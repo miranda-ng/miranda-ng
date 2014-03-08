@@ -85,4 +85,3 @@
 [Set My Status Message for %s]
 [Contact list]
 ;file \plugins\MyDetails\src\options.cpp
-[Contact List]
