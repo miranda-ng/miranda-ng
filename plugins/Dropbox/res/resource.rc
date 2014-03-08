@@ -29,13 +29,13 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Authorization",IDC_STATIC,5,5,313,106
-    LTEXT           "To allow Miranda NG access in your Dropbox account:",IDC_STATIC,15,18,219,10
+    LTEXT           "To allow Miranda NG access in your Dropbox account:",IDC_STATIC,15,18,270,10
     CONTROL         "Go to this link",IDC_GETAUTH,"Hyperlink",WS_TABSTOP | 0x1,29,34,61,8
     LTEXT           "1.",IDC_STATIC,21,34,8,8
     LTEXT           ",",IDC_STATIC,90,34,8,8
     LTEXT           "allow access to files in apps folder and copy the security code",IDC_STATIC,96,34,217,8
     LTEXT           "2.",IDC_STATIC,21,54,8,8
-    LTEXT           "Enter the security code ",IDC_STATIC,29,54,97,8
+    LTEXT           "Enter the security code",IDC_STATIC,29,54,97,8
     EDITTEXT        IDC_REQUEST_CODE,138,52,175,14,ES_AUTOHSCROLL
     LTEXT           "3.",IDC_STATIC,21,73,8,8
     LTEXT           "Click authorize button",IDC_STATIC,29,73,97,8
@@ -43,7 +43,7 @@ BEGIN
     GROUPBOX        "Other",IDC_STATIC,5,115,313,33
     CONTROL         "Use shortened share links",IDC_USE_SHORT_LINKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,129,298,10
     LTEXT           "4.",IDC_STATIC,21,94,8,8
-    LTEXT           "Check status of authorization",IDC_STATIC,29,94,97,8
+    LTEXT           "Check status of authorization",IDC_STATIC,29,94,104,8
     CTEXT           "",IDC_AUTH_STATUS,138,94,175,8
 END
 

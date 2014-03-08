@@ -231,8 +231,6 @@
 Редагувати анкету
 [My Album]
 Мій альбом
-[My Blog]
-Мій блог
 [My Blog Status]
 Статус у блозі
 [My Video]
@@ -253,12 +251,12 @@
 Запитати авторизацію
 [Grant authorization]
 Авторизувати
+[&Send E-Mail]
+Надіслати E-mail
 [&Send postcard]
-Відправити листівку
+Надіслати листівку
 [&View Album]
 Переглянути альбом
-[&Read Blog]
-Блог
 [Reply Blog Status]
 Відповідь на статус у блозі
 [View Video]

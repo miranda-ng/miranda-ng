@@ -14,8 +14,8 @@
 [Go to this link]
 Перейдіть
 [allow access to files in apps folder and copy the security code]
-, дозвольте доступ до файлів у папці додатку й скопіюйте код
-[Enter the security code ]
+дозвольте доступ до файлів у папці apps і скопіюйте код
+[Enter the security code]
 Введіть код
 [Click authorize button]
 Натисніть кнопку
@@ -26,7 +26,7 @@
 [Use shortened share links]
 Скорочувати посилання
 [Check status of authorization]
-Перевірити стан авторизації
+Перевірка стану авторизації:
 [Enter code]
 Введіть код
 [Enter code below:]

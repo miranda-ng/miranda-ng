@@ -2,7 +2,7 @@
 [To allow Miranda NG access in your Dropbox account:]
 [Go to this link]
 [and allow access to files in apps folder]
-[Enter the security code ]
+[Enter the security code]
 [Click authorize button]
 [Use shortened share links]
 [Enter code]

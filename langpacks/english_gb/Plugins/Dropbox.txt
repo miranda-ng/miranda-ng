@@ -11,6 +11,8 @@ Authorisation
 Click authorise button
 [Authorize]
 Authorise
+[Check status of authorization]
+Check status of authorisation
 [you have been authorized]
 you have been authorised
 [you are already authorized]
