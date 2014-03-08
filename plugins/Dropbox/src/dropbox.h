@@ -110,7 +110,6 @@ private:
 	static void Menu_DisableItem(HGENMENU hMenuItem, BOOL bDisable);
 
 	// dialogs
-	static INT_PTR CALLBACK TokenRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// utils
