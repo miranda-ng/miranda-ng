@@ -1,6 +1,6 @@
 {}
 var
-  xmlparser:XML_API_W;
+  xmlparser:TXML_API_W;
 
 const
   ioAction         :PWideChar = 'Action';
@@ -135,7 +135,7 @@ begin
   BlockRead(f,res^,i);
   CloseHandle(f);
 
-  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
   CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
   with xmlparser do
   begin
@@ -300,7 +300,7 @@ var
   ptr,ptr1:pChain;
 begin
   result:=0;
-  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
+  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
   CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
   with xmlparser do
   begin

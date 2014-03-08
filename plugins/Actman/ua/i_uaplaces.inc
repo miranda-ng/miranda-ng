@@ -49,7 +49,7 @@ end;
 
 procedure SetTABState(hContact:THANDLE;var ActionItem:tMyActionItem;pressed:integer);
 var
-  tabb:BBButton;
+  tabb:TBBButton;
   pc:pWideChar;
 begin
   FillChar(tabb,SizeOf(tabb),0);
@@ -702,7 +702,7 @@ const
 
 procedure AddTabBBButton(var ActionItem:tMyActionItem);
 var
-  tabb:BBButton;
+  tabb:TBBButton;
 begin
   if not NamesArray[uaTAB].enable then exit;
 
@@ -735,7 +735,7 @@ end;
 
 procedure DeleteTabBBButton(var ActionItem:tMyActionItem);
 var
-  tabb:BBButton;
+  tabb:TBBButton;
 begin
   if (ActionItem.flags and UAF_TBREGGED)<>0 then
   begin
@@ -751,7 +751,7 @@ end;
 function OnTabButtonPressed(wParam:WPARAM;lParam:LPARAM):int; cdecl;
 var
   cbcd:pCustomButtonClickData;
-//  tabb:BBButton;
+//  tabb:TBBButton;
 //  pc:pWideChar;
   i:integer;
 begin

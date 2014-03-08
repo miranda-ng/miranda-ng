@@ -1,7 +1,7 @@
 {$IFDEF BIN_IMPORT_}
 
 var
-  XI: XML_API_W;
+  XI: TXML_API_W;
   rhxml: HXML;
   curxml: HXML;
   chldxml: HXML;
@@ -15,11 +15,11 @@ var
 begin
   If ServiceExists(MS_SYSTEM_GET_XI) > 0 then
   begin
-    XI.cbSize := SizeOf(XML_API_W);
+    XI.cbSize := SizeOf(TXML_API_W);
     res := LongBool(CallService(MS_SYSTEM_GET_XI, 0, int(@XI)));
     if not res then
     begin
-      XI.cbSize := SizeOf(XML_API_W) - 4;
+      XI.cbSize := SizeOf(TXML_API_W) - 4;
       res := LongBool(CallService(MS_SYSTEM_GET_XI, 0, int(@XI)));
       if not res then
       begin
