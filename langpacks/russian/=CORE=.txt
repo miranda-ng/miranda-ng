@@ -471,12 +471,6 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Всегда использовать по умолчанию (даже если оффлайн)
 [Send &Offline]
 В &оффлайн
-[Set default contact on receipt of message]
-Делать основным контактом по прибытии сообщения
-[Always send to default contact if not offline]
-Всегда слать субконтакту по умолчанию, если не оффлайн
-[Suppress status notification for subcontacts]
-Запретить уведомление о смене статуса субконтактов
 [Context Menu]
 Контекстное меню
 [Use contact's unique ID]
@@ -499,14 +493,8 @@ UIN, E-mail и т.д.
 Использовать ник субконтакта
 [Display subcontact display name]
 Использовать отображаемое имя
-[Use subcontact message windows]
-Окна сообщения субконтакта
-[Copy subcontact data]
-Копировать данные субконтакта
 [Lock name to first contact]
 Фиксировать имя
-[but only for the current conversation]
-но только для текущей беседы
 [History Copy]
 Копирование истории
 [Please wait while the contact's history is copied.]
@@ -527,16 +515,6 @@ UIN, E-mail и т.д.
 Сброс
 [(Lower ranks are preferred)]
 (Предпочтительны более низкие ранги)
-[Copy subcontact history to MetaContact when creating or adding]
-Копировать историю Суб в Мета Контакт при создании и добавлении
-[Number of days to copy (0=all):]
-Количество дней (0=все)
-[Keep MetaContact history synchronized with subcontacts]
-История метаконтакта, синхронизированная с субконтактом
-[Keep subcontact history synchronized with MetaContact]
-История субконтакта, синхронизированная с метаконтактом
-[History (** beware - change at your own risk **)]
-История (** ОСТОРОЖНО - ИЗМЕНЯЙТЕ НА СВОЙ РИСК **)
 [Tray]
 Трей
 [&Hide/Show]
@@ -2363,8 +2341,6 @@ ID
 Метаконтакты
 [Priorities]
 Приоритеты
-[History]
-История
 [No online contacts found.]
 Не найдено контактов в сети.
 [Sender]
@@ -2525,6 +2501,8 @@ ID учётной записи
 Подключение
 [User details]
 О пользователе
+[History]
+История
 [Down arrow]
 Вниз
 [Find user]
