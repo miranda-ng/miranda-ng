@@ -5,6 +5,8 @@
 ;  Version: 0.2.0.1
 ;  Authors: Martin Afanasjew
 ;============================================================
+[Creates detailed, colorful and highly customizable statistics using your message history.]
+Tworzy szczegółowe, kolorowe i wysoce konfigurowalne statystyki przy użyciu historii wiadomości.
 ;file \plugins\HistoryStats\res\resource.rc
 [Band]
 Zespół
@@ -322,6 +324,22 @@ przychodzące rozmowy
 wychodzące rozmowy
 [all chats]
 wszystkich rozmów
+[wday3:Mon]
+wday3:Pon
+[wday3:Tue]
+wday3:Wto
+[wday3:Wed]
+wday3:Śro
+[wday3:Thu]
+wday3:Czw
+[wday3:Fri]
+wday3:Pią
+[wday3:Sat]
+wday3:Sob
+[wday3:Sun]
+wday3:Nie
+[[#{hour}:00-#{hour}:59] #{amount}]
+[#{hour}:00-#{hour}:59] #{amount}
 [[#{day}] #{amount}]
 [#{day}] #{amount}
 [#{amount}]
@@ -532,6 +550,8 @@ PNG
 Nic (kolumna zostanie pominięta)
 [PNG, ignoring some sttings]
 PNG, ignorowanie niektórych ustawień
+[An internal column configuration error occured. Please contact the author of this plugin.]
+Wystąpił błąd wewnętrzny konfiguracji kolumny. Proszę skontaktować się z autorem tej wtyczki.
 [HistoryStats - Error]
 HistoryStats - Błąd
 [Setting ignored due to PNG output.]
@@ -885,3 +905,80 @@ Gotowe
 Plik już istnieje
 [HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
 HistoryStats już generuje statystyki. Proszę poczekać na zakończenie procesu lub anulowanie i ponowną próbę.
+;file \plugins\HistoryStats\src\utils.cpp
+[month3:Jan]
+month3:Sty
+[monthF:January]
+monthF:Styczeń
+[month3:Feb]
+month3:Lut
+[monthF:February]
+monthF:Luty
+[month3:Mar]
+month3:Mar
+[monthF:March]
+monthF:Marzec
+[month3:Apr]
+month3:Kwi
+[monthF:April]
+monthF:Kwiecień
+[month3:May]
+month3:Maj
+[monthF:May]
+monthF:Maj
+[month3:Jun]
+month3:Cze
+[monthF:June]
+monthF:Czerwiec
+[month3:Jul]
+month3:Lip
+[monthF:July]
+monthF:Lipiec
+[month3:Aug]
+month3:Sie
+[monthF:August]
+monthF:Sierpień
+[month3:Sep]
+month3:Wrz
+[monthF:September]
+monthF:Wrzesień
+[month3:Oct]
+month3:Paź
+[monthF:October]
+monthF:Październik
+[month3:Nov]
+month3:Lis
+[monthF:November]
+monthF:Listopad
+[month3:Dec]
+month3:Gru
+[monthF:December]
+monthF:Grudzień
+[wday2:Mo]
+wday2:Po
+[wdayF:Monday]
+wdayF:Poniedziałek
+[wday2:Tu]
+wday2:Wt
+[wdayF:Tuesday]
+wdayF:Wtorek
+[wday2:We]
+wday2:Śr
+[wdayF:Wednesday]
+wdayF:Środa
+[wday2:Th]
+wday2:Cz
+[wdayF:Thursday]
+wdayF:Czwartek
+[wday2:Fr]
+wday2:Pi
+[wdayF:Friday]
+wdayF:Piątek
+[wday2:Sa]
+wday2:So
+[wdayF:Saturday]
+wdayF:Sobota
+[wday2:Su]
+wday2:Ni
+[wdayF:Sunday]
+wdayF:Niedziela
