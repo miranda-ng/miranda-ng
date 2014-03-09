@@ -477,12 +477,6 @@ W &dół
 Wymuś domyślny do wysyłania (nawet jeśli rozłączony)
 [Send &Offline]
 Wysyłaj do &rozłączonego
-[Set default contact on receipt of message]
-Ustaw domyślny kontakt po otrzymaniu wiadomości
-[Always send to default contact if not offline]
-Zawsze wysyłaj do domyślnego kontaktu jeśli nie jest rozłączony
-[Suppress status notification for subcontacts]
-Nie pokazuj powiadomień zmian statusu dla subkontaktów
 [Context Menu]
 Menu kontekstowe
 [Use contact's unique ID]
@@ -505,14 +499,8 @@ Lista kontaktów
 Wyświetl nick subkontaktu
 [Display subcontact display name]
 Wyświetl nazwę subkontaktu
-[Use subcontact message windows]
-Użyj okna wiadomości subkontaktu
-[Copy subcontact data]
-Kopiuj dane subkontaktu
 [Lock name to first contact]
 Zablokuj nazwę pierwszego kontaktu
-[but only for the current conversation]
-ale tylko dla obecnej sesji
 [History Copy]
 Kopiowanie historii
 [Please wait while the contact's history is copied.]
@@ -533,16 +521,6 @@ Protokół:
 Domyślne
 [(Lower ranks are preferred)]
 (Preferowane niższe rangi)
-[Copy subcontact history to MetaContact when creating or adding]
-Kopiuj historię subkontaktu do metakontaku gdy jest tworzony lub dodawany
-[Number of days to copy (0=all):]
-Liczba dni do skopiowania (0=wszystkie):
-[Keep MetaContact history synchronized with subcontacts]
-Trzymaj historię metakontaktu zsynchronizowaną z subkontaktami
-[Keep subcontact history synchronized with MetaContact]
-Trzymaj historię subkontaktu zsynchronizowaną z metakontaktem
-[History (** beware - change at your own risk **)]
-Historia (** ostrzeżenie - zmieniasz na własne ryzyko**)
 [Tray]
 Zasobnik
 [&Hide/Show]
@@ -1203,8 +1181,6 @@ Ilość zdarzeń do wczytania
 Wczytaj zdarzenia nowsze niż
 [minutes old]
 minut(y)
-[Show status changes]
-Pokaż zmiany statusów
 [Show seconds]
 Pokaż sekundy
 [Load history events]
@@ -2468,8 +2444,6 @@ Subkontakty
 Metakontakty
 [Priorities]
 Priorytet
-[History]
-Historia
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Nie znaleziono dostępnych kontaktów.
@@ -2649,6 +2623,8 @@ Grupa (Zamknięta)
 Łączenie
 [User details]
 Dane kontaktu
+[History]
+Historia
 [Down arrow]
 Strzałka w dół
 [Find user]

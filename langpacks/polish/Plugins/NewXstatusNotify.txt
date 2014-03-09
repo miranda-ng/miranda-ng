@@ -57,7 +57,7 @@ Otwórz
 [Status message]
 Opis
 [Log in history]
-Dziennik w historii
+Zapisuj w historii
 [Log status changes in history]
 Zapisuj zmiany statusu w historii
 [Only when message window is open]
