@@ -70,7 +70,7 @@ static void PU_CleanUp()
 static void CheckForRemoveMask()
 {
 	if (!M.GetByte(MODULE, "firsttime", 0) && (nen_options.maskActL & MASK_REMOVE || nen_options.maskActR & MASK_REMOVE || nen_options.maskActTE & MASK_REMOVE)) {
-		MessageBoxA(0, Translate("One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behavior, please review the Event Notifications settings page."), "tabSRMM Warning Message", MB_OK | MB_ICONSTOP);
+		MessageBox(0, TranslateT("One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behavior, please review the Event Notifications settings page."), TranslateT("tabSRMM Warning Message"), MB_OK | MB_ICONSTOP);
 		db_set_b(0, MODULE, "firsttime", 1);
 	}
 }
@@ -152,7 +152,6 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		{
-			int i;
 			SetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 			HIMAGELIST himl = (HIMAGELIST)SendDlgItemMessage(hWnd, IDC_EVENTOPTIONS, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 			ImageList_Destroy(himl);
@@ -172,7 +171,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			*/
 
 			TOptionListGroup *lGroups = CTranslator::getGroupTree(CTranslator::TREE_NEN);
-			for (i=0; lGroups[i].szName != NULL; i++) {
+			for (int i=0; lGroups[i].szName != NULL; i++) {
 				TVINSERTSTRUCT tvi = { 0 };
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
@@ -183,7 +182,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
-			for (i=0; defaultItems[i].szName != 0; i++) {
+			for (int i=0; defaultItems[i].szName != 0; i++) {
 				TVINSERTSTRUCT tvi = { 0 };
 				tvi.hParent = (HTREEITEM)lGroups[defaultItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
@@ -428,7 +427,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 	return 0;
 }
 
-static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PLUGIN_DATAT *pdata = (PLUGIN_DATAT*)PUGetPluginData(hWnd);
 	if (pdata == NULL)
@@ -626,7 +625,7 @@ static int PopupUpdateT(MCONTACT hContact, HANDLE hEvent)
 	if (dbe.pBlob)
 		mir_free(dbe.pBlob);
 
-	CallService(MS_POPUP_CHANGETEXTT, (WPARAM)pdata->hWnd, (LPARAM)lpzText);
+	PUChangeTextT(pdata->hWnd, lpzText);
 	return 0;
 }
 
@@ -679,20 +678,20 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, HANDLE hEve
 
 	//finally create the popup
 	pud.lchContact = hContact;
-	pud.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	pud.PluginWindowProc = PopupDlgProc;
 	pud.PluginData = pdata;
 
 	if (hContact)
 		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	else 
-		_tcsncpy_s(pud.lptzContactName, SIZEOF(pud.lptzContactName), _A2T(dbe.szModule), _TRUNCATE);
+		_tcsncpy_s(pud.lptzContactName, MAX_CONTACTNAME, _A2T(dbe.szModule), _TRUNCATE);
 
 	TCHAR *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {
 		mir_sntprintf(pud.lptzText, MAX_SECONDLINE, _T("%s"), szPreview);
 		mir_free(szPreview);
 	}
-	else _tcscpy(pud.lptzText, _T(" "));
+	else _tcsncpy(pud.lptzText, _T(" "), MAX_SECONDLINE);
 
 	pdata->eventData = (EVENT_DATAT *)mir_alloc(NR_MERGED * sizeof(EVENT_DATAT));
 	pdata->eventData[0].hEvent = hEvent;
@@ -764,7 +763,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
 		return 0;
 
-	PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
+	PROTOACCOUNT *acc = ProtoGetAccount(szProto);
 	TCHAR *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
 	if (tszFinalProto == 0)
 		return 0;

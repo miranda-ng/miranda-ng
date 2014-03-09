@@ -502,12 +502,9 @@ static void Build_RTF_Header(char **buffer, int *bufferEnd, int *bufferAlloced, 
 //mir_free() the return value
 static char *CreateRTFHeader(TWindowData *dat)
 {
-	char *buffer;
-	int bufferAlloced, bufferEnd;
-
-	bufferEnd = 0;
-	bufferAlloced = 1024;
-	buffer = (char *) mir_alloc(bufferAlloced);
+	int bufferEnd = 0;
+	int bufferAlloced = 1024;
+	char *buffer = (char *) mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	Build_RTF_Header(&buffer, &bufferEnd, &bufferAlloced, dat);
@@ -541,10 +538,7 @@ static char *CreateRTFTail(TWindowData *dat)
 
 int TSAPI DbEventIsShown(TWindowData *dat, DBEVENTINFO *dbei)
 {
-	if (!IsCustomEvent(dbei->eventType))
-		return 1;
-
-	if (DbEventIsForMsgWindow(dbei))
+	if (!IsCustomEvent(dbei->eventType) || DbEventIsForMsgWindow(dbei))
 		return 1;
 
 	return IsStatusEvent(dbei->eventType);
@@ -552,7 +546,7 @@ int TSAPI DbEventIsShown(TWindowData *dat, DBEVENTINFO *dbei)
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
@@ -973,13 +967,9 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, (wchar_t *)dbei.szModule, MAKELONG(isSent, dat->isHistory));
 				break;
 			case 'M': // message
-				if (bIsStatusChangeEvent)
-					dbei.eventType = EVENTTYPE_STATUSCHANGE;
-
 				switch (dbei.eventType) {
 				case EVENTTYPE_MESSAGE:
 				case EVENTTYPE_ERRMSG:
-				case EVENTTYPE_STATUSCHANGE:
 					if (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
 						if (dbei.eventType == EVENTTYPE_ERRMSG && dbei.cbBlob == 0)
 							break;

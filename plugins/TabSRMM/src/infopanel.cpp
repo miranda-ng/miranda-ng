@@ -1476,7 +1476,7 @@ void CTip::registerClass()
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = _T("RichEditTipClass");
-	wc.lpfnWndProc = (WNDPROC)CTip::WndProcStub;
+	wc.lpfnWndProc = CTip::WndProcStub;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(CTip *);
 	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
@@ -1515,7 +1515,7 @@ LRESULT CALLBACK CTip::RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 * this pointer.
 */
 
-INT_PTR CALLBACK CTip::WndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CTip::WndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTip *tip = reinterpret_cast<CTip *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	if (tip)

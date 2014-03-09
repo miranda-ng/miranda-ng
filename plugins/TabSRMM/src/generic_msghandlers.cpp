@@ -1316,17 +1316,13 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
  */
 void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 {
-	DWORD 	protoStatus;
-	DWORD 	protoCaps;
-	DWORD 	typeCaps;
-	const 	char *szProto = 0;
-	MCONTACT	hContact = 0;
-
 	if (!dat || !dat->hContact)
 		return;
 
 	DeletePopupsForContact(dat->hContact, PU_REMOVE_ON_TYPE);
 
+	const char *szProto = 0;
+	MCONTACT hContact = 0;
 	if (dat->bIsMeta){
 		szProto = dat->cache->getActiveProto();
 		hContact = dat->cache->getActiveContact();
@@ -1354,12 +1350,11 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 	/*
 	* check status and capabilities of the protocol
 	*/
-	protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-	protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-
+	DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
+
+	DWORD protoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 	if (protoStatus < ID_STATUS_ONLINE)
 		return;
 
@@ -1367,6 +1362,7 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 	* check visibility/invisibility lists to not "accidentially" send MTN to contacts who
 	* should not see them (privacy issue)
 	*/
+	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 		return;
 

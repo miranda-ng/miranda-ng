@@ -53,12 +53,10 @@ static int g_status_events_size = 0;
 
 BOOL TSAPI IsStatusEvent(int eventType)
 {
-	int i;
-
 	if (g_status_events_size == 0)
 		g_status_events_size = MAX_REGS(g_status_events);
 
-	for (i=0; i < g_status_events_size; i++) {
+	for (int i=0; i < g_status_events_size; i++) {
 		if (eventType == g_status_events[i])
 			return TRUE;
 	}
@@ -1492,7 +1490,6 @@ void TSAPI PlayIncomingSound(const TWindowData *dat)
 void TSAPI GetSendFormat(TWindowData *dat, int mode)
 {
 	UINT controls[5] = {IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE,IDC_FONTSTRIKEOUT, IDC_FONTFACE};
-	int i;
 
 	if (mode) {
 		dat->SendFormat = M.GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
@@ -1501,7 +1498,7 @@ void TSAPI GetSendFormat(TWindowData *dat, int mode)
 		else if (dat->SendFormat == 0)
 			dat->SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
 	}
-	for (i=0; i < 5; i++)
+	for (int i=0; i < 5; i++)
 		Utils::enableDlgControl(dat->hwnd, controls[i], dat->SendFormat != 0 ? TRUE : FALSE);
 	return;
 }
@@ -2147,11 +2144,10 @@ LRESULT TSAPI GetSendButtonState(HWND hwnd)
 
 void TSAPI EnableSendButton(const TWindowData *dat, int iMode)
 {
-	HWND hwndOK;
 	SendMessage(GetDlgItem(dat->hwnd, IDOK), BUTTONSETASNORMAL, iMode, 0);
 	SendMessage(GetDlgItem(dat->hwnd, IDC_PIC), BUTTONSETASNORMAL, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
 
-	hwndOK = GetDlgItem(GetParent(GetParent(dat->hwnd)), IDOK);
+	HWND hwndOK = GetDlgItem(GetParent(GetParent(dat->hwnd)), IDOK);
 
 	if (IsWindow(hwndOK))
 		SendMessage(hwndOK, BUTTONSETASNORMAL, iMode, 0);
