@@ -6,7 +6,7 @@
 ;  Authors: unsane
 ;============================================================
 [Allows to transfer files via Dropbox.]
-Pozwala na transfer plików przez Dropbox
+Pozwala na transfer plików przez Dropbox.
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
 Autoryzacja
