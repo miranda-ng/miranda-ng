@@ -413,13 +413,13 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 
 		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, META_PROTO)) {
-			iNumber = CallService(MS_MC_GETNUMCONTACTS, hContact, 0);
-			hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, 0);
+			iNumber = db_mc_getSubCount(hContact);
+			hTmpContact = db_mc_getSub(hContact, 0);
 		}
 
 		for (int i = 0; i < iNumber; i++) {
 			if (i > 0)
-				hTmpContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, i);
+				hTmpContact = db_mc_getSub(hContact, i);
 			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);

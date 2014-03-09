@@ -93,7 +93,7 @@ type
     FGridState: TGridState;
     SaveDialog: TSaveDialog;
     RecentFormat: TSaveFormat;
-    FSubContact: THandle;
+    FSubContact: TMCONTACT;
     FSubProtocol: AnsiString;
 
     function GetGridHandle: HWND;
@@ -144,7 +144,7 @@ type
   public
     constructor Create(AParentWindow: HWND; ControlID: Cardinal = 0);
     destructor Destroy; override;
-    procedure AddEvent(hContact, hDBEvent: THandle; Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
+    procedure AddEvent(hContact:TMCONTACT; hDBEvent: THandle; Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
     procedure AddCustomEvent(hContact: THandle; const CustomItem: TExtCustomItem;
       Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
     procedure SetPosition(x, y, cx, cy: Integer);
@@ -277,7 +277,7 @@ begin
   Result := M.Result;
 end;
 
-procedure TExternalGrid.AddEvent(hContact, hDBEvent: THandle; Codepage: Integer; RTL: Boolean;
+procedure TExternalGrid.AddEvent(hContact:TMCONTACT; hDBEvent: THandle; Codepage: Integer; RTL: Boolean;
   DoScroll: Boolean);
 var
   RTLMode: TRTLMode;
@@ -1110,7 +1110,7 @@ end;
 
 procedure TExternalGrid.HMMetaDefaultChanged(var M: TMessage);
 var
-  newSubContact: THandle;
+  newSubContact: TMCONTACT;
   newSubProtocol: AnsiString;
 begin
   if Grid.Contact <> M.WParam then

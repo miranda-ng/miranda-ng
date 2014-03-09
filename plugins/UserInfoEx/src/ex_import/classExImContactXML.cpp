@@ -217,9 +217,9 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 	if (isMeta()) {
 		CExImContactXML vContact(_pXmlFile);
 
-		const int cnt = DB::MetaContact::SubCount(_hContact);
-		const int def = DB::MetaContact::SubDefNum(_hContact);
-		MCONTACT hSubContact = DB::MetaContact::Sub(_hContact, def);
+		const int cnt = db_mc_getSubCount(_hContact);
+		const int def = db_mc_getDefaultNum(_hContact);
+		MCONTACT hSubContact = db_mc_getSub(_hContact, def);
 
 		// export default subcontact
 		if (hSubContact && vContact.fromDB(hSubContact))
@@ -227,7 +227,7 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 
 		for (int i = 0; i < cnt; i++) {
 			if (i != def) {
-				hSubContact = DB::MetaContact::Sub(_hContact, i);
+				hSubContact = db_mc_getSub(_hContact, i);
 				if (hSubContact && vContact.fromDB(hSubContact))
 					vContact.ExportSubContact(this, pModules);
 			}

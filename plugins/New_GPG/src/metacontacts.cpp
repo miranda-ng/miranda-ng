@@ -27,7 +27,7 @@ bool metaIsProtoMetaContacts(MCONTACT hContact)
 
 bool metaIsDefaultSubContact(MCONTACT hContact) 
 {
-	return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, db_mc_getMeta(hContact), 0) == hContact;
+	return db_mc_getDefault(db_mc_getMeta(hContact)) == hContact;
 }
 
 MCONTACT metaGetContact(MCONTACT hContact) 
@@ -44,19 +44,9 @@ MCONTACT metaGetMostOnline(MCONTACT hContact)
 	return NULL;
 }
 
-MCONTACT metaGetDefault(MCONTACT hContact) 
+MCONTACT db_mc_getDefault(MCONTACT hContact) 
 {
 	if(metaIsProtoMetaContacts(hContact))
-		return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT,hContact,0);
+		return db_mc_getDefault(hContact);
 	return NULL;
-}
-
-DWORD metaGetContactsNum(MCONTACT hContact)
-{
-	return CallService(MS_MC_GETNUMCONTACTS, hContact, 0);
-}
-
-MCONTACT metaGetSubcontact(MCONTACT hContact, int num)
-{
-	return (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, (LPARAM)num);
 }

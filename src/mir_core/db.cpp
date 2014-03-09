@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-static MIDatabase* currDb = NULL;
+MIDatabase *currDb = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // getting data
@@ -319,34 +319,6 @@ MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->FindPrevEvent(hDbEvent);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// metacontacts
-
-MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact)
-{
-	if (currDb == NULL) return false;
-
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? false : cc->nSubs != -1;
-}
-
-MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact)
-{
-	if (currDb == NULL) return false;
-
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? false : cc->parentID != 0;
-}
-
-MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
-{
-	if (currDb == NULL) return NULL;
-
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
-	return (cc == NULL) ? NULL : cc->parentID;
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // misc functions

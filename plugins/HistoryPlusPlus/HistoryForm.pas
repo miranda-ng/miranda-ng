@@ -328,7 +328,7 @@ type
     DelayedFilter: TMessageTypes;
     StartTimestamp: DWord;
     EndTimestamp: DWord;
-    FhContact, FhSubContact: THandle;
+    FhContact, FhSubContact: TMCONTACT;
     FProtocol, FSubProtocol: AnsiString;
     SavedLinkUrl: String;
     SavedFileDir: String;
@@ -359,7 +359,7 @@ type
     procedure OpenDetails(Item: Integer);
     procedure TranslateForm;
 
-    procedure SethContact(const Value: THandle);
+    procedure SethContact(const Value: TMCONTACT);
     procedure LoadInOptions();
     function IsFileEvent(Index: Integer): Boolean;
 
@@ -432,9 +432,9 @@ type
     procedure FillBookmarks;
     procedure HMBookmarkChanged(var M: TMessage); message HM_NOTF_BOOKMARKCHANGED;
 
-    property hContact: THandle read FhContact write SethContact;
+    property hContact: TMCONTACT read FhContact write SethContact;
     property Protocol: AnsiString read FProtocol;
-    property hSubContact: THandle read FhSubContact;
+    property hSubContact: TMCONTACT read FhSubContact;
     property SubProtocol: AnsiString read FSubProtocol;
   published
     procedure AlignControls(Control: TControl; var ARect: TRect); override;
@@ -1062,7 +1062,7 @@ end;
 
 procedure THistoryFrm.HMMetaDefaultChanged(var M: TMessage);
 var
-  newSubContact: THandle;
+  newSubContact: TMCONTACT;
   newSubProtocol: AnsiString;
 begin
   if THandle(M.wParam) <> hContact then
@@ -3100,7 +3100,7 @@ begin
   end;
 end;
 
-procedure THistoryFrm.SethContact(const Value: THandle);
+procedure THistoryFrm.SethContact(const Value: TMCONTACT);
 begin
   // if FhContact = Value then exit;
   FhContact := Value;

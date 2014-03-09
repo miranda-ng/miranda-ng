@@ -44,14 +44,14 @@ void AddSubcontacts(struct ClcContact * cont)
 	ClcCacheEntry *cacheEntry;
 	cacheEntry = GetContactFullCacheEntry(cont->hContact);
 	OutputDebugStringA("Proceed AddSubcontacts\r\n");
-	subcount = (int)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)cont->hContact,0);
+	subcount = db_mc_getSubCount(cont->hContact);
 	cont->SubExpanded = db_get_b(cont->hContact,"CList","Expanded",0);
 	cont->isSubcontact = 0;
 	cont->subcontacts = (struct ClcContact *) mir_realloc(cont->subcontacts, sizeof(struct ClcContact)*subcount);
 	cont->SubAllocated = subcount;
 	i = 0;
 	for (j = 0; j<subcount; j++) {
-		MCONTACT hsub = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)cont->hContact, j);
+		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
 		cacheEntry = GetContactFullCacheEntry(hsub);
 		if ( !(db_get_b(NULL,"CLC","MetaHideOfflineSub",1) && db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) ||
 			cacheEntry->status != ID_STATUS_OFFLINE )

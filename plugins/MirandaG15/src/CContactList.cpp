@@ -150,10 +150,10 @@ void CContactList::AddContact(MCONTACT hContact)
 		pGroup->sort(CContactList::CompareEntries);
 
 		// check that all subcontacts exist
-		int numContacts = CallService(MS_MC_GETNUMCONTACTS,hContact,0);
+		int numContacts = db_mc_getSubCount(hContact);
 		MCONTACT hSubContact = NULL;
 		for(int i=0;i<numContacts;i++) {
-			hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, (LPARAM)i);
+			hSubContact = db_mc_getSub(hContact, i);
 			RemoveContact(hSubContact);
 			AddContact(hSubContact);
 		}
@@ -203,13 +203,12 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 		}
 	} else {
 		if(pEntry->iStatus == ID_STATUS_OFFLINE) {
-			DWORD dwNumContacts = (DWORD)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)pEntry->hHandle,0);
-			for(DWORD i = 0; i < dwNumContacts; i++) {
-				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,(WPARAM)pEntry->hHandle,i);
+			int dwNumContacts = db_mc_getSubCount(pEntry->hHandle);
+			for(int i = 0; i < dwNumContacts; i++) {
+				MCONTACT hSubContact = db_mc_getSub(pEntry->hHandle,i);
 				char *szProto = GetContactProto(hSubContact);
-				if(db_get_w(hSubContact,szProto,"Status",ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+				if(db_get_w(hSubContact,szProto,"Status",ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 					return true;
-				}
 			}
 		}
 	}
@@ -279,9 +278,9 @@ void CContactList::RemoveContact(MCONTACT hContact) {
 		else {
 			pGroup->RemoveGroup(((CListContainer<CContactListEntry*,CContactListGroup*>*)pContactEntry)->GetGroupData());
 			// Reenumerate all subcontacts (maybe MetaContacts was disabled
-			int numContacts = CallService(MS_MC_GETNUMCONTACTS,hContact,0);
+			int numContacts = db_mc_getSubCount(hContact);
 			for(int i=0;i<numContacts;i++) {
-				MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT,hContact, (LPARAM)i);
+				MCONTACT hSubContact = db_mc_getSub(hContact, i);
 				if(!FindContact(hSubContact))
 					AddContact(hSubContact);
 			}

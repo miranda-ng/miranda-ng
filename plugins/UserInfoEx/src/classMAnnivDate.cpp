@@ -482,9 +482,9 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 		// try to get birthday date from metacontact's subcontact
 		else if (DB::Module::IsMetaAndScan(pszProto)) {
 			// try to get setting from the default subcontact first
-			const int def = DB::MetaContact::SubDefNum(hContact);
+			const int def = db_mc_getDefaultNum(hContact);
 			if (def > -1 && def < INT_MAX) {
-				MCONTACT hSubContact = DB::MetaContact::Sub(hContact, def);
+				MCONTACT hSubContact = db_mc_getSub(hContact, def);
 				if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) {
 					RemoveFlags(MADF_HASCUSTOM);
 					SetFlags(MADF_HASMETA);
@@ -493,12 +493,12 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 
 			// scan all subcontacts for the setting
 			if (_wFlags == 0) {
-				const int cnt = DB::MetaContact::SubCount(hContact);
+				const int cnt = db_mc_getSubCount(hContact);
 
 				if (cnt < INT_MAX) {
 					for (int i = 0; i < cnt; i++) {
 						if (i != def) {
-							MCONTACT hSubContact = DB::MetaContact::Sub(hContact, i);
+							MCONTACT hSubContact = db_mc_getSub(hContact, i);
 							if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) {
 								RemoveFlags(MADF_HASCUSTOM);
 								SetFlags(MADF_HASMETA);
@@ -735,7 +735,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 			MAnnivDate mdbNewProto;
 			MAnnivDate mdbIgnore;
 
-			const int nSubContactCount = (bIsMeta) ? DB::MetaContact::SubCount(hContact) : 0;
+			const int nSubContactCount = (bIsMeta) ? db_mc_getSubCount(hContact) : 0;
 
 			BYTE bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)
 									&& !IsEqual(mdbNewProto.SystemTime())
@@ -744,7 +744,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 
 			// allow backup only, if the custom setting differs from all meta subcontacts' protocol based settings, too.
 			for (int i = 0; (i < nSubContactCount) && bWantBackup && bIsMeta; i++) {
-				MCONTACT hSubContact = DB::MetaContact::Sub(hContact, i);
+				MCONTACT hSubContact = db_mc_getSub(hContact, i);
 				if (hSubContact && !mdbIgnore.DBGetDate(hSubContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 					bWantBackup = bWantBackup
 											&& !IsEqual(mdbIgnore.SystemTime())
@@ -769,7 +769,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 
 					// update metasubcontacts
 					for (int i = 0; i < nSubContactCount; i++) {
-						MCONTACT hSubContact = DB::MetaContact::Sub(hContact, i);
+						MCONTACT hSubContact = db_mc_getSub(hContact, i);
 						if (hSubContact != NULL) {
 							if (!mdbIgnore.DBGetDate(hSubContact, DB::Contact::Proto(hSubContact), SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 								mdbIgnore.DBWriteDateStamp(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);

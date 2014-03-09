@@ -23,36 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 namespace DB {
 
-namespace MetaContact {
-
-INT_PTR SubCount(MCONTACT hMetaContact)
-{
-	INT_PTR result = CallService(MS_MC_GETNUMCONTACTS, (WPARAM) hMetaContact, 0);
-	return (result == CALLSERVICE_NOTFOUND) ? -1 : result;
-}
-
-INT_PTR SubDefNum(MCONTACT hMetaContact)
-{
-	INT_PTR result = CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM) hMetaContact, 0);
-	return (result == CALLSERVICE_NOTFOUND) ? -1 : result;
-}
-
-MCONTACT Sub(MCONTACT hMetaContact, int idx)
-{
-	if (idx != -1) {
-		INT_PTR result = CallService(MS_MC_GETSUBCONTACT, (WPARAM) hMetaContact, (LPARAM) idx);
-		return (result == CALLSERVICE_NOTFOUND) ? NULL : (MCONTACT)result;
-	}
-	return NULL;
-}
-
-MCONTACT GetMeta(MCONTACT hContact)
-{
-	return db_mc_getMeta(hContact);
-}
-
-} /* namespace MetaContact */
-
 /**
 * This namespace contains all functions used to access or modify contacts in the database.
 **/
@@ -297,22 +267,22 @@ BYTE GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetti
 		result = Get(hContact, pszProto, pszSetting, dbv, destType) != 0;
 		// try to get setting from a metasubcontact
 		if (result && DB::Module::IsMetaAndScan(pszProto)) {
-			const INT_PTR def = DB::MetaContact::SubDefNum(hContact);
+			const INT_PTR def = db_mc_getDefaultNum(hContact);
 			MCONTACT hSubContact;
 			// try to get setting from the default subcontact first
 			if (def > -1 && def < INT_MAX) {
-				hSubContact = DB::MetaContact::Sub(hContact, def);
+				hSubContact = db_mc_getSub(hContact, def);
 				if (hSubContact != NULL)
 					result = DB::Setting::GetEx(hSubContact, pszModule, DB::Contact::Proto(hSubContact), pszSetting, dbv, destType) != 0;
 			}
 			// scan all subcontacts for the setting
 			if (result) {
-				const INT_PTR cnt = DB::MetaContact::SubCount(hContact);
+				const INT_PTR cnt = db_mc_getSubCount(hContact);
 				if (cnt < INT_MAX) {
 					INT_PTR i;
 					for (i = 0; result && i < cnt; i++) {
 						if (i != def) {
-							hSubContact = DB::MetaContact::Sub(hContact, i);
+							hSubContact = db_mc_getSub(hContact, i);
 							if (hSubContact != NULL)
 								result = DB::Setting::GetEx(hSubContact, pszModule, DB::Contact::Proto(hSubContact), pszSetting, dbv, destType) != 0;
 	}	}	}	}	}	}
@@ -352,11 +322,11 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 
 		// try to read the setting from the sub contacts' modules
 		else if (DB::Module::IsMetaAndScan(pszProto)) {
-			const INT_PTR def = DB::MetaContact::SubDefNum(hContact);
+			const INT_PTR def = db_mc_getDefaultNum(hContact);
 			MCONTACT hSubContact;
 			// try to get setting from the default subcontact first
 			if (def > -1 && def < INT_MAX) {
-				hSubContact = DB::MetaContact::Sub(hContact, def);
+				hSubContact = db_mc_getSub(hContact, def);
 				if (hSubContact != NULL) {
 					wFlags = GetCtrl(hSubContact, pszSubModule, NULL, DB::Contact::Proto(hSubContact), pszSetting, dbv, destType);
 					if (wFlags != 0) {
@@ -368,10 +338,10 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 			// copy the missing settings from the other subcontacts
 			if (wFlags == 0) {
 				INT_PTR i;
-				const INT_PTR cnt = DB::MetaContact::SubCount(hContact);
+				const INT_PTR cnt = db_mc_getSubCount(hContact);
 				for (i = 0; i < cnt; i++) {
 					if (i != def) {
-						hSubContact = DB::MetaContact::Sub(hContact, i);
+						hSubContact = db_mc_getSub(hContact, i);
 						if (hSubContact != NULL) {
 							wFlags = GetCtrl(hSubContact, pszSubModule, NULL, DB::Contact::Proto(hSubContact), pszSetting, dbv, destType);
 							if (wFlags != 0) {

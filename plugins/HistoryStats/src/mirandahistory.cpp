@@ -59,7 +59,7 @@ void MirandaHistory::makeContactsAvailable()
 
 void MirandaHistory::readContacts()
 {
-	bool bHandleMeta = mu::metacontacts::_available() && m_Settings.m_MetaContactsMode != Settings::mcmIgnoreMeta;
+	bool bHandleMeta = m_Settings.m_MetaContactsMode != Settings::mcmIgnoreMeta;
 	ext::a::string strMetaProto = bHandleMeta ? META_PROTO : "";
 	MirandaSettings db;
 
@@ -106,10 +106,10 @@ void MirandaHistory::readContacts()
 					// include meta-contact's subcontact
 					if (m_Settings.m_MetaContactsMode != Settings::mcmMetaOnly) {
 						// find subcontacts to read history from
-						int numSubs = mu::metacontacts::getNumContacts(hContact);
+						int numSubs = db_mc_getSubCount(hContact);
 						if (numSubs > 0) {
 							for (int i = 0; i < numSubs; ++i) {
-								MCONTACT hSubContact = mu::metacontacts::getSubContact(hContact, i);
+								MCONTACT hSubContact = db_mc_getSub(hContact, i);
 								if (hSubContact)
 									sources.push_back(hSubContact);
 							}

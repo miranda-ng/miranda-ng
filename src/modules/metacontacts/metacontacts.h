@@ -114,7 +114,7 @@ typedef enum {I_MENUOFF, I_MENU, I_CONVERT, I_ADD, I_EDIT, I_SETDEFAULT, I_REMOV
 HICON LoadIconEx(IconIndex i);
 HANDLE GetIconHandle(IconIndex i);
 
-extern HANDLE hEventDefaultChanged, hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
+extern HANDLE hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
 extern POINT menuMousePoint;
 
 #define MAX_PROTOCOLS	20

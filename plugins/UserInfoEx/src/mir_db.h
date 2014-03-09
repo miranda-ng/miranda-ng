@@ -23,14 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 namespace DB {
 
-namespace MetaContact{
-	INT_PTR  SubCount(MCONTACT hMetaContact);
-	INT_PTR  SubDefNum(MCONTACT hMetaContact);
-	MCONTACT Sub(MCONTACT hMetaContact, int idx);
-
-	MCONTACT GetMeta(MCONTACT hContact);
-} /* namespace MetaContact */
-
 /**
  * This namespace contains all functions used to access
  * or modify contacts in the database.

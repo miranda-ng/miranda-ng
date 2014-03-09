@@ -82,7 +82,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
+	hContact = db_mc_getDefault(hContact);
 	if (hContact == NULL)
 		return NULL;
 

@@ -310,12 +310,12 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 
 	// metacontacts sub pages
 	if (bScanMetaSubContacts) {
-		int numSubs = DB::MetaContact::SubCount(wParam);
+		int numSubs = db_mc_getSubCount(wParam);
 
 		psh._dwFlags &= ~PSF_PROTOPAGESONLY_INIT;
 		psh._dwFlags |= PSF_PROTOPAGESONLY;
 		for (int i = 0; i < numSubs; i++) {
-			psh._hContact = DB::MetaContact::Sub(wParam, i);
+			psh._hContact = db_mc_getSub(wParam, i);
 			psh._nSubContact = i;
 			if (psh._hContact) {
 				psh._pszProto = DB::Contact::Proto(psh._hContact);
@@ -1574,9 +1574,9 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				// need meta contact's subcontact information
 				if (DB::Module::IsMetaAndScan(pPs->pszProto)) {
 					// count valid subcontacts whose protocol supports the PSS_GETINFO service to update the information
-					int numSubs = DB::MetaContact::SubCount(pPs->hContact);
+					int numSubs = db_mc_getSubCount(pPs->hContact);
 					for (int i = 0; i < numSubs; i++) {
-						MCONTACT hSubContact = DB::MetaContact::Sub(pPs->hContact, i);
+						MCONTACT hSubContact = db_mc_getSub(pPs->hContact, i);
 						if (hSubContact != NULL) {
 							if (ProtoServiceExists(DB::Contact::Proto(hSubContact), PSS_GETINFO)) {
 								pPs->infosUpdated = (TAckInfo*)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo)* (pPs->nSubContacts + 1));

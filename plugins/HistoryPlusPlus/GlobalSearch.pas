@@ -394,7 +394,7 @@ uses
 function TfmGlobalSearch.AddContact(hContact: THandle): THPPContactInfo;
 var
   ci: THPPContactInfo;
-  SubContact: THandle;
+  SubContact: TMCONTACT;
   SubProtocol: AnsiString;
 begin
   ci := THPPContactInfo.Create;
@@ -1779,7 +1779,7 @@ procedure TfmGlobalSearch.HMNickChanged(var M: TMessage);
 var
   ci: THPPContactInfo;
   i: Integer;
-  SubContact: THandle;
+  SubContact: TMCONTACT;
   SubProtocol: AnsiString;
 begin
   { wParam - hContact; lParam - zero }

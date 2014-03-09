@@ -64,16 +64,16 @@ type
     procedure FormShow(Sender: TObject);
     procedure btYesClick(Sender: TObject);
   private
-    FContact: THandle;
-    FContacts: Array of THandle;
+    FContact: TMCONTACT;
+    FContacts: Array of TMCONTACT;
     procedure TranslateForm;
     procedure PrepareForm;
-    procedure SetContact(const Value: THandle);
-    procedure EmptyHistory(hContact: THandle);
+    procedure SetContact(const Value: TMCONTACT);
+    procedure EmptyHistory(hContact: TMCONTACT);
   protected
     function GetFormText: String;
   public
-    property Contact: THandle read FContact write SetContact;
+    property Contact: TMCONTACT read FContact write SetContact;
   end;
 
 implementation
@@ -217,9 +217,9 @@ begin
   end;
 end;
 
-procedure TEmptyHistoryFrm.SetContact(const Value: THandle);
+procedure TEmptyHistoryFrm.SetContact(const Value: TMCONTACT);
 var
-  hContact: THandle;
+  hContact: TMCONTACT;
   Proto: AnsiString;
   i,num: Integer;
 begin
@@ -228,10 +228,10 @@ begin
   GetContactProto(FContact,hContact,Proto);
   if Value <> hContact then
   begin
-    num := CallService(MS_MC_GETNUMCONTACTS,FContact,0);
+    num := db_mc_getSubCount(FContact);
     for i := 0 to num-1 do
     begin
-      hContact := CallService(MS_MC_GETSUBCONTACT,FContact,i);
+      hContact := db_mc_getSub(FContact,i);
       if hContact <> THandle(-1) then
       begin
         SetLength(FContacts,Length(FContacts)+1);
@@ -248,7 +248,7 @@ begin
   btYes.Default := true;
 end;
 
-procedure TEmptyHistoryFrm.EmptyHistory(hContact: THandle);
+procedure TEmptyHistoryFrm.EmptyHistory(hContact: TMCONTACT);
 var
   hDBEvent,prevhDbEvent: THandle;
 begin

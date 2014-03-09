@@ -24,34 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-// gets the handle for the default contact
-// wParam=(MCONTACT)hMetaContact
-// lParam=0
-// returns a handle to the default contact, or null on failure
-
-static INT_PTR MetaAPI_GetDefault(WPARAM hMetaContact, LPARAM)
-{
-	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
-		return 1;
-
-	if (cc->nDefault != -1)
-		return Meta_GetContactHandle(cc, cc->nDefault);
-
-	return 0;
-}
-
-// gets the contact number for the default contact
-// wParam=(MCONTACT)hMetaContact
-// lParam=0
-// returns a DWORD contact number, or -1 on failure
-
-static INT_PTR MetaAPI_GetDefaultNum(WPARAM hMetaContact, LPARAM)
-{
-	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? -1 : cc->nDefault;
-}
-
 // gets the handle for the 'most online' contact
 // wParam=(MCONTACT)hMetaContact
 // lParam=0
@@ -64,70 +36,6 @@ static INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
 		return NULL;
 
 	return Meta_GetMostOnline(cc);
-}
-
-// gets the number of subcontacts for a metacontact
-// wParam=(MCONTACT)hMetaContact
-// lParam=0
-// returns a DWORD representing the number of subcontacts for the given metacontact
-
-static INT_PTR MetaAPI_GetNumContacts(WPARAM hMetaContact, LPARAM)
-{
-	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? -1 : cc->nSubs;
-}
-
-// gets the handle of a subcontact, using the subcontact's number
-// wParam=(MCONTACT)hMetaContact
-// lParam=(DWORD)contact number
-// returns a handle to the specified subcontact
-
-static INT_PTR MetaAPI_GetContact(WPARAM hMetaContact, LPARAM lParam)
-{
-	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? 0 : Meta_GetContactHandle(cc, lParam);
-}
-
-// sets the default contact, using the subcontact's contact number
-// wParam=(MCONTACT)hMetaContact
-// lParam=(DWORD)contact number
-// returns 0 on success
-
-static INT_PTR MetaAPI_SetDefaultContactNum(WPARAM hMetaContact, LPARAM lParam)
-{
-	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
-		return 1;
-	if ((int)lParam >= cc->nSubs || (int)lParam < 0)
-		return 1;
-
-	cc->nDefault = lParam;
-	currDb->MetaSetDefault(cc);
-
-	NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, (int)lParam));
-	return 0;
-}
-
-// sets the default contact, using the subcontact's handle
-// wParam=(MCONTACT)hMetaContact
-// lParam=(MCONTACT)hSubcontact
-// returns 0 on success
-
-static INT_PTR MetaAPI_SetDefaultContact(WPARAM hMetaContact, LPARAM lParam)
-{
-	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
-		return 1;
-
-	int contact_number = Meta_GetContactNumber(cc, lParam);
-	if (contact_number == -1) 
-		return 1;
-
-	cc->nDefault = contact_number;
-	currDb->MetaSetDefault(cc);
-	
-	NotifyEventHooks(hEventDefaultChanged, hMetaContact, lParam);
-	return 0;
 }
 
 // forces the metacontact to send using a specific subcontact, using the subcontact's contact number
@@ -264,13 +172,7 @@ static INT_PTR MetaAPI_RemoveFromMeta(WPARAM wParam, LPARAM lParam)
 
 void CreateApiServices()
 {
-	CreateServiceFunction(MS_MC_GETDEFAULTCONTACT, MetaAPI_GetDefault);
-	CreateServiceFunction(MS_MC_GETDEFAULTCONTACTNUM, MetaAPI_GetDefaultNum);
 	CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);
-	CreateServiceFunction(MS_MC_GETNUMCONTACTS, MetaAPI_GetNumContacts);
-	CreateServiceFunction(MS_MC_GETSUBCONTACT, MetaAPI_GetContact);
-	CreateServiceFunction(MS_MC_SETDEFAULTCONTACTNUM, MetaAPI_SetDefaultContactNum);
-	CreateServiceFunction(MS_MC_SETDEFAULTCONTACT, MetaAPI_SetDefaultContact);
 	CreateServiceFunction(MS_MC_FORCESENDCONTACTNUM, MetaAPI_ForceSendContactNum);
 	CreateServiceFunction(MS_MC_FORCESENDCONTACT, MetaAPI_ForceSendContact);
 	CreateServiceFunction(MS_MC_UNFORCESENDCONTACT, MetaAPI_UnforceSendContact);

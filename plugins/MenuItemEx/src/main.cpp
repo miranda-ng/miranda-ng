@@ -268,11 +268,6 @@ BOOL isMetaContact(MCONTACT hContact)
 	return FALSE;
 }
 
-MCONTACT getDefaultContact(MCONTACT hContact)
-{
-	return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
-}
-
 MCONTACT getMostOnline(MCONTACT hContact)
 {
 	return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
@@ -512,7 +507,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 
 	if (isMetaContact(hContact)) {
 		MCONTACT hC = getMostOnline(hContact);
-		if (!hContact) hC = getDefaultContact(hContact);
+		if (!hContact) hC = db_mc_getDefault(hContact);
 		hContact = hC;
 	}
 
@@ -612,7 +607,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	if (isMetaContact(hContact)) {
 		MCONTACT hC = getMostOnline(hContact);
 		if (!hContact)
-			hC = getDefaultContact(hContact);
+			hC = db_mc_getDefault(hContact);
 		hContact = hC;
 	}
 

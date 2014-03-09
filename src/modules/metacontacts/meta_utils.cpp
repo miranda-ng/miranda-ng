@@ -180,11 +180,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	ccDest->pSubs[ccDest->nSubs - 1] = hSub;
 	ccSub->parentID = hMeta;
 
-	if (set_as_default) {
-		ccDest->nDefault = ccDest->nSubs - 1;
-		currDb->MetaSetDefault(ccDest);
-		NotifyEventHooks(hEventDefaultChanged, hMeta, hSub);
-	}
+	if (set_as_default)
+		db_mc_setDefaultNum(hMeta, ccDest->nSubs-1);
 
 	// set nick to most online contact that can message
 	MCONTACT most_online = Meta_GetMostOnline(ccDest);

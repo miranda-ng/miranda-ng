@@ -53,7 +53,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 		if (cc->IsSub()) {
 			// set default sub to the event's source
-			CallService(MS_MC_SETDEFAULTCONTACT, cc->parentID, contactID);
+			db_mc_setDefault(cc->parentID, contactID);
 			contactID = cc->parentID; // and add an event to a metahistory
 		}
 	}

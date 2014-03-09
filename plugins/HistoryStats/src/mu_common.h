@@ -63,17 +63,6 @@ namespace mu
 	}
 
 	/*
-	 * metacontacts [external]
-	 */
-
-	namespace metacontacts
-	{
-		bool _available();
-		int getNumContacts(MCONTACT hMetaContact);
-		MCONTACT getSubContact(MCONTACT hMetaContact, int iContactNumber);
-	}
-
-	/*
 	 * opt
 	 */
 

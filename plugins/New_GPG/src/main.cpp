@@ -2284,10 +2284,10 @@ void ImportKey()
 	{
 		if(for_all_sub)
 		{
-			int count = metaGetContactsNum(hContact);
+			int count = db_mc_getSubCount(hContact);
 			for(int i = 0; i < count; i++)
 			{
-				MCONTACT hcnt = metaGetSubcontact(hContact, i);
+				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if(hcnt)
 					db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
 			}
@@ -2338,10 +2338,10 @@ void ImportKey()
 			{
 				if(for_all_sub)
 				{
-					int count = metaGetContactsNum(hContact);
+					int count = db_mc_getSubCount(hContact);
 					for(int i = 0; i < count; i++)
 					{
-						MCONTACT hcnt = metaGetSubcontact(hContact, i);
+						MCONTACT hcnt = db_mc_getSub(hContact, i);
 						if(hcnt)
 						{
 							char *tmp = NULL;

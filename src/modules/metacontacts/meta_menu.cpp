@@ -131,12 +131,10 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
 	if (ccMeta->nDefault >= number) {
-		ccMeta->nDefault--;
-		if (ccMeta->nDefault < 0)
-			ccMeta->nDefault = 0;
-
-		currDb->MetaSetDefault(ccMeta);
-		NotifyEventHooks(hEventDefaultChanged, ccMeta->contactID, Meta_GetContactHandle(ccMeta, ccMeta->nDefault));
+		int iNumber = ccMeta->nDefault-1;
+		if (iNumber < 0)
+			iNumber = 0;
+		db_mc_setDefaultNum(ccMeta->contactID, iNumber);
 	}
 	
 	ccMeta->nSubs--;
@@ -221,11 +219,8 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 INT_PTR Meta_Default(WPARAM hSub, LPARAM wParam)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(db_mc_getMeta(hSub));
-	if (cc && cc->IsMeta()) {
-		cc->nDefault = Meta_GetContactNumber(cc, hSub);
-		currDb->MetaSetDefault(cc);
-		NotifyEventHooks(hEventDefaultChanged, cc->contactID, hSub);
-	}
+	if (cc && cc->IsMeta())
+		db_mc_setDefault(cc->contactID, hSub);
 	return 0;
 }
 

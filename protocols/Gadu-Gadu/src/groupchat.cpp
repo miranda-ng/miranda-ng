@@ -393,9 +393,9 @@ static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto && !lstrcmpA(szProto, META_PROTO)) {
-		int nSubContacts = (int)CallService(MS_MC_GETNUMCONTACTS, hContact, 0), i;
+		int nSubContacts = db_mc_getSubCount(hContact), i;
 		for (i = 0; i < nSubContacts; i++) {
-			MCONTACT hMetaContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, i);
+			MCONTACT hMetaContact = db_mc_getSub(hContact, i);
 			szProto = GetContactProto(hMetaContact);
 			if (szProto && !lstrcmpA(szProto, gg->m_szModuleName))
 				return hMetaContact;

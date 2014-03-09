@@ -187,28 +187,6 @@ namespace mu
 	}
 
 	/*
-	 * metacontacts [external]
-	 */
-
-	namespace metacontacts
-	{
-		bool _available()
-		{
-			return true;
-		}
-
-		int getNumContacts(MCONTACT hMetaContact)
-		{
-			return CallService(MS_MC_GETNUMCONTACTS, hMetaContact, 0);
-		}
-
-		MCONTACT getSubContact(MCONTACT hMetaContact, int iContactNumber)
-		{
-			return CallService(MS_MC_GETSUBCONTACT, hMetaContact, iContactNumber);
-		}
-	}
-
-	/*
 	 * opt
 	 */
 

@@ -34,7 +34,6 @@ int previousMode,			// Previous status of the MetaContacts Protocol
 	mcStatus;				// Current status of the MetaContacts Protocol
 
 HANDLE
-	hEventDefaultChanged, // HANDLE to the 'default changed' event
 	hEventForceSend,		 // HANDLE to the 'force send' event
 	hEventUnforceSend,    // HANDLE to the 'unforce send' event
 	hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
@@ -672,9 +671,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 			int caps = CallService(buffer, PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0)) {
 				// set default contact for sending/status and open message window
-				cc->nDefault = (int)lParam;
-				currDb->MetaSetDefault(cc);
-				NotifyEventHooks(hEventDefaultChanged, hMeta, (LPARAM)hContact);
+				db_mc_setDefaultNum(hMeta, lParam);
 				CallService(MS_MSG_SENDMESSAGE, hMeta, 0);
 			}
 			else // protocol does not support messaging - simulate double click
@@ -875,7 +872,6 @@ void Meta_InitServices()
 	CreateProtoServiceFunction(META_PROTO, PS_SEND_NUDGE, Meta_SendNudge);
 
 	// create our hookable events
-	hEventDefaultChanged = CreateHookableEvent(ME_MC_DEFAULTTCHANGED);
 	hEventForceSend = CreateHookableEvent(ME_MC_FORCESEND);
 	hEventUnforceSend = CreateHookableEvent(ME_MC_UNFORCESEND);
 	hSubcontactsChanged = CreateHookableEvent(ME_MC_SUBCONTACTSCHANGED);
@@ -902,7 +898,6 @@ void Meta_InitServices()
 void Meta_CloseHandles()
 {
 	// destroy our hookable events
-	DestroyHookableEvent(hEventDefaultChanged);
 	DestroyHookableEvent(hEventForceSend);
 	DestroyHookableEvent(hEventUnforceSend);
 	DestroyHookableEvent(hSubcontactsChanged);

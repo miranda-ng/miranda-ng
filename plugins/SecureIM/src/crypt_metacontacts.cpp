@@ -10,7 +10,7 @@ BOOL isProtoMetaContacts(MCONTACT hContact)
 
 BOOL isDefaultSubContact(MCONTACT hContact)
 {
-	return (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, db_mc_getMeta(hContact), 0) == hContact;
+	return db_mc_getDefault(db_mc_getMeta(hContact)) == hContact;
 }
 
 MCONTACT getMostOnline(MCONTACT hContact)
@@ -23,8 +23,8 @@ void DeinitMetaContact(MCONTACT hContact)
 {
 	MCONTACT hMetaContact = isProtoMetaContacts(hContact) ? hContact : db_mc_getMeta(hContact);
  	if (hMetaContact) {
-		for (int i=0; i < CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hMetaContact,0); i++) {
-			MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i);
+		for (int i=0; i < db_mc_getSubCount(hMetaContact); i++) {
+			MCONTACT hSubContact = db_mc_getSub(hMetaContact, i);
 			if (hSubContact && (isContactSecured(hSubContact)&SECURED))
 				CallContactService(hSubContact,PSS_MESSAGE, PREF_METANODB, (LPARAM)SIG_DEIN);
 		}

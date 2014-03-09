@@ -943,7 +943,7 @@ BOOL IsUtfSendAvailable(MCONTACT hContact)
 	if (szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
 	if (!strcmp(szProto, META_PROTO)) {
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETDEFAULTCONTACT, hContact, 0);
+		MCONTACT hSubContact = db_mc_getDefault(hContact);
 		if (!hSubContact)
 			return FALSE;
 		szProto = GetContactProto(hSubContact);

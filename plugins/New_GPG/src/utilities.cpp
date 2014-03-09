@@ -211,10 +211,10 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	{
 		if(MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 		{
-			int count = metaGetContactsNum(hContact);
+			int count = db_mc_getSubCount(hContact);
 			for(int i = 0; i < count; i++)
 			{
-				MCONTACT hcnt = metaGetSubcontact(hContact, i);
+				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if(hcnt)
 					db_set_b(hcnt, szGPGModuleName, "GPGEncryption", enc?0:1);
 			}

@@ -29,47 +29,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // standard module for all mc-related information
 #define META_PROTO "MetaContacts"
 
-//gets the handle for the default contact
-//wParam=(HANDLE)hMetaContact
-//lParam=0
-//returns a handle to the default contact, or null on failure
-#define MS_MC_GETDEFAULTCONTACT				"MetaContacts/GetDefault"
-
-//gets the contact number for the default contact
-//wParam=(HANDLE)hMetaContact
-//lParam=0
-//returns a DWORD contact number, or -1 on failure
-#define MS_MC_GETDEFAULTCONTACTNUM			"MetaContacts/GetDefaultNum"
-
 //gets the handle for the 'most online' contact
 //wParam=(HANDLE)hMetaContact
 //lParam=0
 //returns a handle to the 'most online' contact
 #define MS_MC_GETMOSTONLINECONTACT			"MetaContacts/GetMostOnline"
-
-//gets the number of subcontacts for a metacontact
-//wParam=(HANDLE)hMetaContact
-//lParam=0
-//returns a DWORD representing the number of subcontacts for the given metacontact
-#define MS_MC_GETNUMCONTACTS				"MetaContacts/GetNumContacts"
-
-//gets the handle of a subcontact, using the subcontact's number
-//wParam=(HANDLE)hMetaContact
-//lParam=(DWORD)contact number
-//returns a handle to the specified subcontact
-#define MS_MC_GETSUBCONTACT					"MetaContacts/GetSubContact"
-
-//sets the default contact, using the subcontact's contact number
-//wParam=(HANDLE)hMetaContact
-//lParam=(DWORD)contact number
-//returns 0 on success
-#define MS_MC_SETDEFAULTCONTACTNUM			"MetaContacts/SetDefault"
-
-//sets the default contact, using the subcontact's handle
-//wParam=(HANDLE)hMetaContact
-//lParam=(HANDLE)hSubcontact
-//returns 0 on success
-#define MS_MC_SETDEFAULTCONTACT				"MetaContacts/SetDefaultByHandle"
 
 //forces the metacontact to send using a specific subcontact, using the subcontact's contact number
 //wParam=(HANDLE)hMetaContact
@@ -154,13 +118,31 @@ extern "C"
 #endif
 
 // checks whether a contact is a metacontact
-MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact);
+MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hMetaContact);
 
 // checks whether a contact is a subcontact of existing MC
-MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact);
+MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hSubContact);
+
+//returns a handle to the default contact, or null on failure
+MIR_CORE_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact);
+
+//returns the default contact number, or -1 on failure
+MIR_CORE_DLL(int) db_mc_getDefaultNum(MCONTACT hMetaContact);
+
+//returns the number of subcontacts, or -1 on failure
+MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact);
 
 // returns parent hContact for a subcontact or INVALID_CONTACT_ID if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact);
+
+// returns a subcontact with the given index
+MIR_CORE_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum);
+
+//sets the default contact, using the subcontact's handle
+MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub);
+
+//sets the default contact, using the subcontact's number
+MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum);
 
 #if defined(__cplusplus)
 }

@@ -252,3 +252,9 @@ db_mc_isMeta                  @249
 db_mc_isSub                   @250
 db_mc_getMeta                 @251
 db_get_contact                @252
+db_mc_getDefault              @253
+db_mc_getDefaultNum           @254
+db_mc_getSubCount             @255
+db_mc_getSub                  @256
+db_mc_setDefault              @257
+db_mc_setDefaultNum           @258

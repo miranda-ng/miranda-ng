@@ -48,29 +48,30 @@ interface
 uses
   Windows, SysUtils,
   Forms,
+  m_api,
   hpp_global;
 
-function GetContactDisplayName(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): String;
-function GetContactProto(hContact: THandle): AnsiString; overload;
-function GetContactProto(hContact: THandle; var SubContact: THandle; var SubProtocol: AnsiString): AnsiString; overload;
-function GetContactID(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;
-function GetContactCodePage(hContact: THandle; const Proto: AnsiString = ''): Cardinal; overload;
-function GetContactCodePage(hContact: THandle; const Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
-function WriteContactCodePage(hContact: THandle; CodePage: Cardinal; Proto: AnsiString = ''): boolean;
-function GetContactRTLMode(hContact: THandle; Proto: AnsiString = ''): boolean;
-function GetContactRTLModeTRTL(hContact: THandle; Proto: AnsiString = ''): TRTLMode;
-function WriteContactRTLMode(hContact: THandle; RTLMode: TRTLMode; Proto: AnsiString = ''): boolean;
+function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): String;
+function GetContactProto(hContact: TMCONTACT): AnsiString; overload;
+function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: AnsiString): AnsiString; overload;
+function GetContactID(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;
+function GetContactCodePage(hContact: TMCONTACT; const Proto: AnsiString = ''): Cardinal; overload;
+function GetContactCodePage(hContact: TMCONTACT; const Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
+function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: AnsiString = ''): boolean;
+function GetContactRTLMode(hContact: TMCONTACT; Proto: AnsiString = ''): boolean;
+function GetContactRTLModeTRTL(hContact: TMCONTACT; Proto: AnsiString = ''): TRTLMode;
+function WriteContactRTLMode(hContact: TMCONTACT; RTLMode: TRTLMode; Proto: AnsiString = ''): boolean;
 
 implementation
 
-uses hpp_database, hpp_options, m_api;
+uses hpp_database, hpp_options;
 
-function GetContactProto(hContact: THandle): AnsiString;
+function GetContactProto(hContact: TMCONTACT): AnsiString;
 begin
   Result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
 end;
 
-function GetContactProto(hContact: THandle; var SubContact: THandle; var SubProtocol: AnsiString): AnsiString;
+function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: AnsiString): AnsiString;
 begin
   Result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
   if (Result = META_PROTO) then
@@ -85,7 +86,7 @@ begin
   end;
 end;
 
-function GetContactDisplayName(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): String;
+function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): String;
 var
   ci: TContactInfo;
   RetPWideChar, UW: PChar;
@@ -122,7 +123,7 @@ begin
   end;
 end;
 
-function GetContactID(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;
+function GetContactID(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;
 var
   uid: PAnsiChar;
   dbv: TDBVARIANT;
@@ -162,7 +163,7 @@ begin
   end;
 end;
 
-function WriteContactCodePage(hContact: THandle; CodePage: Cardinal; Proto: AnsiString = ''): boolean;
+function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: AnsiString = ''): boolean;
 begin
   Result := false;
   if Proto = '' then
@@ -173,7 +174,7 @@ begin
   Result := True;
 end;
 
-function _GetContactCodePage(hContact: THandle; Proto: AnsiString; var UsedDefault: boolean) : Cardinal;
+function _GetContactCodePage(hContact: TMCONTACT; Proto: AnsiString; var UsedDefault: boolean) : Cardinal;
 begin
   if Proto = '' then
     Proto := GetContactProto(hContact);
@@ -190,14 +191,14 @@ begin
   end;
 end;
 
-function GetContactCodePage(hContact: THandle; const Proto: AnsiString = ''): Cardinal;
+function GetContactCodePage(hContact: TMCONTACT; const Proto: AnsiString = ''): Cardinal;
 var
   def: boolean;
 begin
   Result := _GetContactCodePage(hContact, Proto, def);
 end;
 
-function GetContactCodePage(hContact: THandle; const Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
+function GetContactCodePage(hContact: TMCONTACT; const Proto: AnsiString; var UsedDefault: boolean): Cardinal; overload;
 begin
   Result := _GetContactCodePage(hContact, Proto, UsedDefault);
 end;
@@ -206,7 +207,7 @@ end;
 // Changed default RTL mode from SysLocale.MiddleEast to
 // Application.UseRightToLeftScrollBar because it's more correct and
 // doesn't bug on MY SYSTEM!
-function GetContactRTLMode(hContact: THandle; Proto: AnsiString = ''): boolean;
+function GetContactRTLMode(hContact: TMCONTACT; Proto: AnsiString = ''): boolean;
 var
   Temp: Byte;
 begin
@@ -226,7 +227,7 @@ begin
   end;
 end;
 
-function WriteContactRTLMode(hContact: THandle; RTLMode: TRTLMode; Proto: AnsiString = ''): boolean;
+function WriteContactRTLMode(hContact: TMCONTACT; RTLMode: TRTLMode; Proto: AnsiString = ''): boolean;
 begin
   Result := false;
   if Proto = '' then
@@ -241,7 +242,7 @@ begin
   Result := True;
 end;
 
-function GetContactRTLModeTRTL(hContact: THandle; Proto: AnsiString = ''): TRTLMode;
+function GetContactRTLModeTRTL(hContact: TMCONTACT; Proto: AnsiString = ''): TRTLMode;
 var
   Temp: Byte;
 begin

@@ -35,6 +35,7 @@ void InitLogs();
 void UninitLogs();
 
 void InitWinver();
+void InitMetaContacts();
 
 int hLangpack = 0;
 HINSTANCE hInst = 0;
@@ -93,6 +94,7 @@ static void LoadCoreModule(void)
 	InitLogs();
 	InitialiseModularEngine();
 	InitProtocols();
+	InitMetaContacts();
 }
 
 MIR_CORE_DLL(void) UnloadCoreModule(void)

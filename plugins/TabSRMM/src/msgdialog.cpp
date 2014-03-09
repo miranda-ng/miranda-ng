@@ -3097,7 +3097,7 @@ quote_from_last:
 					}
 				}
 				else if (iSelection >= 1000) // the "default" menu...
-					CallService(MS_MC_SETDEFAULTCONTACTNUM, dat->hContact, (LPARAM)(iSelection - 1000));
+					db_mc_setDefaultNum(dat->hContact, iSelection - 1000);
 
 				DestroyMenu(hMC);
 				InvalidateRect(GetParent(hwndDlg), NULL, FALSE);

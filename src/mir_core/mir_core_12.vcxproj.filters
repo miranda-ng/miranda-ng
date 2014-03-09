@@ -103,6 +103,9 @@
     <ClCompile Include="winver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h">

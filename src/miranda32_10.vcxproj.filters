@@ -264,6 +264,9 @@
     <ClInclude Include="modules\metacontacts\metacontacts.h">
       <Filter>Modules\metacontacts</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\m_metacontacts.h">
+      <Filter>Modules\metacontacts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">

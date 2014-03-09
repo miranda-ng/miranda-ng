@@ -748,8 +748,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 	dat->selTextColour = db_get_dw(NULL,"CLC","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 	dat->hotTextColour = db_get_dw(NULL,"CLC","HotTextColour",CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL,"CLC","QuickSearchColour",CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE))  &&
-		db_get_b(NULL, META_PROTO, "Enabled", 1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
 		dat->MetaIgnoreEmptyExtra = db_get_b(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);

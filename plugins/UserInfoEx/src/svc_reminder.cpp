@@ -654,7 +654,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 			 !strncmp(pdbcws->szSetting, "Anniv", 5) ||
 			 !strncmp(pdbcws->szSetting, "DOB", 3)))
 	{
-		MCONTACT hMeta = DB::MetaContact::GetMeta(hContact);
+		MCONTACT hMeta = db_mc_getMeta(hContact);
 		WORD LastAnswer = IDNONE;
 		CEvent evt;
 		MTime now;

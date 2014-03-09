@@ -392,8 +392,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	dat->needsResort = 1;
 	dat->MetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) &&
-		db_get_b(NULL, META_PROTO, "Enabled", 1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
 
 	dat->expandMeta = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	dat->useMetaIcon = db_get_b(NULL, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT);
@@ -1288,7 +1287,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be default?"), contSour->szText);
 							int res = MessageBox(hwnd, Wording, TranslateT("Set default contact"), MB_OKCANCEL | MB_ICONQUESTION);
 							if (res == 1)
-								CallService(MS_MC_SETDEFAULTCONTACT, (WPARAM)contDest->hContact, (LPARAM)hsour);
+								db_mc_setDefault(contDest->hContact, hsour);
 						}
 						else {
 							MCONTACT hcontact = contSour->hContact;

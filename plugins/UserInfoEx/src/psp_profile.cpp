@@ -1143,22 +1143,19 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 								// scan all basic protocols for the subcontacts
 								if (DB::Module::IsMetaAndScan(pszProto)) {
-									int iDefault = CallService(MS_MC_GETDEFAULTCONTACTNUM, hContact, NULL);
+									int iDefault = db_mc_getDefaultNum(hContact);
 									MCONTACT hSubContact, hDefContact;
 									LPCSTR pszSubBaseProto;
-									int j, numSubs;
 
-									if ((hDefContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, iDefault)) &&
-										(pszSubBaseProto = DB::Contact::Proto(hDefContact)))
-									{
+									if ((hDefContact = db_mc_getSub(hContact, iDefault)) && (pszSubBaseProto = DB::Contact::Proto(hDefContact))) {
 										if ((numProtoItems += ProfileList_AddItemlistFromDB(pList, iItem, idList, nList, hDefContact, pszSubBaseProto, pFmt[i].szCatFmt, pFmt[i].szValFmt, CTRLF_HASMETA|CTRLF_HASPROTO)) < 0)
 											return FALSE;
 
 										// copy the missing settings from the other subcontacts
-										numSubs = CallService(MS_MC_GETNUMCONTACTS, hContact, NULL);
-										for (j = 0; j < numSubs; j++) {
+										int numSubs = db_mc_getSubCount(hContact);
+										for (int j = 0; j < numSubs; j++) {
 											if (j == iDefault) continue;
-											if (!(hSubContact = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, hContact, j))) continue;
+											if (!(hSubContact = db_mc_getSub(hContact, j))) continue;
 											if (!(pszSubBaseProto = DB::Contact::Proto(hSubContact))) continue;
 											if ((numProtoItems += ProfileList_AddItemlistFromDB(pList, iItem, idList, nList, hSubContact, pszSubBaseProto, pFmt[i].szCatFmt, pFmt[i].szValFmt, CTRLF_HASMETA|CTRLF_HASPROTO)) < 0)
 												return FALSE;

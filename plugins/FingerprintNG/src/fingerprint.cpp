@@ -171,7 +171,7 @@ int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)
 		SetSrmmIcon(hContact, szMirVer);
 
 	MCONTACT hMeta = db_mc_getMeta(hContact);
-	if (hMeta && CallService(MS_MC_GETDEFAULTCONTACT, hMeta, 0) == hContact)
+	if (hMeta && db_mc_getDefault(hMeta) == hContact)
 		db_set_ts(hMeta, META_PROTO, "MirVer", szMirVer);
 
 	return 0;

@@ -32,7 +32,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(cont->hContact);
 	cont->SubExpanded = ( db_get_b(cont->hContact,"CList","Expanded",0) && ( db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)));
-	int subcount = (int)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)cont->hContact,0);
+	int subcount = db_mc_getSubCount(cont->hContact);
 	if (subcount <= 0) {
 		cont->isSubcontact = 0;
 		cont->subcontacts = NULL;
@@ -46,7 +46,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	cont->SubAllocated = subcount;
 	int i=0;
 	for (int j = 0; j < subcount; j++) {
-		MCONTACT hsub = (MCONTACT)CallService(MS_MC_GETSUBCONTACT, (WPARAM)cont->hContact, j);
+		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
 		cacheEntry = pcli->pfnGetCacheEntry(hsub);
 		WORD wStatus = pdnce___GetStatus(cacheEntry);
 		if (showOfflineHereGroup || (!( db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))
