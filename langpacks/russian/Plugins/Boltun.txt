@@ -52,7 +52,7 @@ Mind файлы
 [All Files]
 Все файлы
 [Boltun/Auto Chat]
-Болтун/Авто разговор
+Болтун/Авторазговор
 [Boltun/Not to Chat]
 Болтун/Не разговаривать
 [Boltun/Start Chatting]

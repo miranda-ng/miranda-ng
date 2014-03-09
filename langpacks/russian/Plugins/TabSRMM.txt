@@ -1600,7 +1600,7 @@ tabSRMM: %s
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Не загружать раскладку клавиатуры по умолчанию для новых контактов
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Включить авто отправку (необходимо для мультиотправки и отправки с задержкой) (*)
+Включить автоотправку (необходимо для мультиотправки и отправки с задержкой) (*)
 [Show client description in info panel]
 Показать описание клиента в инфо панели
 [Show a preview of the event]
@@ -1720,7 +1720,7 @@ tabSRMM: %s
 [Activate a minimized window when a new tab is created inside it]
 Открыть свернутое окно при создании в нём новой вкладки
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Авто смена вкладок при новых сообщениях (без Aero Peek)
+Автосмена вкладок при новых сообщениях (без Aero Peek)
 [Remember and set keyboard layout per contact]
 Запоминать раскладку клавиатуры поконтактно
 [Close button only hides message windows]

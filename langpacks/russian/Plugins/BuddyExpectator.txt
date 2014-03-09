@@ -66,7 +66,7 @@
 [Enable Miss You]
 Включить "Жду тебя"
 [Notify always]
-Извещать всегда
+Уведомлять всегда
 [Tray/popup icon]
 Значок в трее/всплывающем окне
 [Enabled]

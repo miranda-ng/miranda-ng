@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Contact`s rate"
 #define __FILENAME               "Rate.dll"
-#define __DESCRIPTION             "Shows rating of contact in contact list (if presents)."
+#define __DESCRIPTION             "Shows rating of contact in contact list (if present)."
 #define __AUTHOR               "Kildor, Thief"
 #define __AUTHOREMAIL            "kostia@ngs.ru"
 #define __AUTHORWEB               "http://miranda-ng.org/p/Rate/"

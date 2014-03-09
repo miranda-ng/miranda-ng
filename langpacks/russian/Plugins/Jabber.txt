@@ -264,7 +264,7 @@ Jabber vCard: добавление телефона
 [URL]
 Ссылка
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-Авто-вход (Необходимо включить автоматический вход в настройках)
+Автовход (Необходимо включить автоматический вход в настройках)
 [Room JID/ URL:]
 JID / URL:
 [Bookmark Name:]

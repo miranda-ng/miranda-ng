@@ -44,15 +44,15 @@
 [Miranda NG could not open file]
 Miranda NG не може відкрити файл
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-Miranda NG не в змозі відкрити "%S".\n\nВідсутній зареєстрований обробник для цього типу файлів.
+Miranda NG не може відкрити "%S".\n\nНе зареєстрований обробник для цього типу файлів.
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
-Miranda NG не в змозі відкрити "%S".\n\nФайл не може бути оброблений.
+Miranda NG не може відкрити "%S".\n\nФайл не може бути оброблений.
 [Miranda NG could not open URL]
 Miranda NG не може відкрити посилання
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
-Miranda NG не в змозі відкрити "%S".\n\nВідсутній зареєстрований обробник для даного URL.
+Miranda NG не може відкрити "%S".\n\nНе зареєстрований обробник для цього типу посилань.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
-Miranda NG не в змозі відкрити "%S".\n\nЦей URL є недійсним і не може бути проаналізований.
+Miranda NG не може відкрити "%S".\n\nЦей URL є недійсним і не може бути проаналізований.
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ заборонений:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
