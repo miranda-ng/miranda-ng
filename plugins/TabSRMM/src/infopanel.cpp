@@ -509,12 +509,11 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 
 		if (M.GetByte("ShowClientDescription", 1)) {
 			TCHAR	temp[256];
-			DBVARIANT dbv = { 0 };
-			if (!db_get_ts(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client: %s"), dbv.ptszVal);
-				::db_free(&dbv);
-			}
-			else mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client not cached yet"));
+			ptrT szVersion(db_get_tsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
+			if (szVersion)
+				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client: %s"), szVersion);
+			else
+				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client not cached yet"));
 			_tcscat_s(szBuf, 256, temp);
 		}
 

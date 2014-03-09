@@ -42,35 +42,33 @@ SendQueue *sendQueue = 0;
 
 int SendQueue::findNextFailed(const TWindowData *dat) const
 {
-	if (dat) {
-		int i;
-
-		for (i=0; i < NR_SENDJOBS; i++) {
+	if (dat)
+		for (int i=0; i < NR_SENDJOBS; i++)
 			if (m_jobs[i].hOwner == dat->hContact && m_jobs[i].iStatus == SQ_ERROR)
 				return i;
-		}
-		return -1;
-	}
+
 	return -1;
 }
 
 void SendQueue::handleError(TWindowData *dat, const int iEntry) const
 {
-	if (dat) {
-		TCHAR szErrorMsg[500];
+	if (!dat) return;
 
-		dat->iCurrentQueueError = iEntry;
-		mir_sntprintf(szErrorMsg, 500, _T("%s"), m_jobs[iEntry].szErrorMsg);
-		logError(dat, iEntry, szErrorMsg);
-		recallFailed(dat, iEntry);
-		showErrorControls(dat, TRUE);
-		::HandleIconFeedback(dat, PluginConfig.g_iconErr);
-	}
+	TCHAR szErrorMsg[500];
+
+	dat->iCurrentQueueError = iEntry;
+	mir_sntprintf(szErrorMsg, 500, _T("%s"), m_jobs[iEntry].szErrorMsg);
+	logError(dat, iEntry, szErrorMsg);
+	recallFailed(dat, iEntry);
+	showErrorControls(dat, TRUE);
+	::HandleIconFeedback(dat, PluginConfig.g_iconErr);
 }
+
 /*
  * add a message to the sending queue.
  * iLen = required size of the memory block to hold the message
  */
+
 int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
 {
 	int i;
@@ -364,12 +362,8 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		db_set_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1);
 
 	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
-		BOOL    fSplit = FALSE;
-		DWORD   dwOldFlags;
-
-		/*
-		 * determine send buffer length
-		 */
+		// determine send buffer length
+		BOOL fSplit = FALSE;
 		if (getSendLength(iEntry, dat->sendMode) >= dat->nMax)
 			fSplit = true;
 
@@ -382,7 +376,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		m_jobs[iEntry].iAcksNeeded = 1;
 		m_jobs[iEntry].chunkSize = dat->nMax;
 
-		dwOldFlags = m_jobs[iEntry].dwFlags;
+		DWORD dwOldFlags = m_jobs[iEntry].dwFlags;
 		if (dat->sendMode & SMODE_FORCEANSI)
 			m_jobs[iEntry].dwFlags &= ~PREF_UNICODE;
 

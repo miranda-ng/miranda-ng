@@ -439,8 +439,12 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 	SendJob *jobs = sendQueue->getJobByIndex(0);
 
 	if (pAck->type == ACKTYPE_MESSAGE) {
+		MCONTACT hOwner = db_mc_getMeta(pAck->hContact);
+		if (hOwner == 0)
+			hOwner = pAck->hContact;
+
 		for (j = 0; j < SendQueue::NR_SENDJOBS; j++) {
-			if (pAck->hProcess == jobs[j].hSendId && pAck->hContact == jobs[j].hOwner) {
+			if (pAck->hProcess == jobs[j].hSendId && hOwner == jobs[j].hOwner) {
 				TWindowData *dat = jobs[j].hwndOwner ? (TWindowData*)GetWindowLongPtr(jobs[j].hwndOwner, GWLP_USERDATA) : NULL;
 				if (dat) {
 					if (dat->hContact == jobs[j].hOwner) {

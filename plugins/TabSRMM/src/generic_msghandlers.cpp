@@ -307,7 +307,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 	case IDC_SMILEYBTN:
 		if (dat->doSmileys && PluginConfig.g_SmileyAddAvail) {
 			MCONTACT hContact = dat->cache->getActiveContact();
-			if (CheckValidSmileyPack(dat->cache->getActiveProto(), hContact) != 0) {
+			if (CheckValidSmileyPack(dat->cache->getProto(), hContact) != 0) {
 				SMADD_SHOWSEL3 smaddInfo = {0};
 
 				if (lParam == 0)
@@ -318,7 +318,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
 				smaddInfo.targetMessage = EM_REPLACESEL;
 				smaddInfo.targetWParam = TRUE;
-				smaddInfo.Protocolname = const_cast<char *>(dat->cache->getActiveProto());
+				smaddInfo.Protocolname = const_cast<char *>(dat->cache->getProto());
 				smaddInfo.Direction = 0;
 				smaddInfo.xPosition = rc.left;
 				smaddInfo.yPosition = rc.top + 24;
@@ -430,7 +430,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		switch(iSelection) {
 		case ID_FAVORITES_ADDCONTACTTOFAVORITES:
 			db_set_b(dat->hContact, SRMSGMOD_T, "isFavorite", 1);
-			AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getActiveProto(), dat->szStatus, dat->wStatus, LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 1, PluginConfig.g_hMenuFavorites);
+			AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getProto(), dat->szStatus, dat->wStatus, LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 1, PluginConfig.g_hMenuFavorites);
 			break;
 		case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
 			db_set_b(dat->hContact, SRMSGMOD_T, "isFavorite", 0);
@@ -1801,21 +1801,17 @@ void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 
 void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR 					newtitle[128];
-	TCHAR*					pszNewTitleEnd;
-	TCHAR 					newcontactname[128];
-	DWORD 					dwOldIdle = dat->idle;
-	const char*				szActProto = 0;
+	TCHAR newtitle[128], newcontactname[128];
+	DWORD dwOldIdle = dat->idle;
+	const char *szActProto = 0;
 
-	HWND 					hwndDlg = dat->hwnd;
-	HWND					hwndTab = GetParent(hwndDlg);
-	HWND					hwndContainer = dat->pContainer->hwnd;
+	HWND hwndDlg = dat->hwnd;
+	HWND hwndTab = GetParent(hwndDlg);
+	HWND hwndContainer = dat->pContainer->hwnd;
 	TContainerData*	m_pContainer = dat->pContainer;
 
-	ZeroMemory(newcontactname,  sizeof(newcontactname));
+	newcontactname[0] = 0;
 	dat->szStatus[0] = 0;
-
-	pszNewTitleEnd = _T("Message Session");
 
 	if (dat->iTabID == -1)
 		return;
@@ -1826,7 +1822,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		const TCHAR *szNick = dat->cache->getNick();
 
 		if (dat->szProto) {
-			szActProto = dat->cache->getActiveProto();
+			szActProto = dat->cache->getProto();
 			MCONTACT hActContact = dat->hContact;
 
 			bool bHasName = (dat->cache->getUIN()[0] != 0);
@@ -1869,7 +1865,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
-	else lstrcpyn(newtitle, pszNewTitleEnd, SIZEOF(newtitle));
+	else lstrcpyn(newtitle, _T("Message Session"), SIZEOF(newtitle));
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
 		if (item.mask & TCIF_TEXT) {
@@ -1891,11 +1887,11 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		UpdateTrayMenuState(dat, TRUE);
 		if (dat->cache->isFavorite())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
-			  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuFavorites);
+			  LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
 
 		if (dat->cache->isRecent())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
-			  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuRecent);
+			  LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
 
 		dat->Panel->Invalidate();
 		if (dat->pWnd)

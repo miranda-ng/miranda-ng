@@ -326,11 +326,11 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			break;
 		}
 		case 'o': {
-			const TCHAR* szProto = dat->cache->getActiveProtoT();
+			const char *szProto = dat->cache->getActiveProto();
 			if (szProto)
-				title.insert(tempmark + 2, szProto);
+				title.insert(tempmark + 2, _A2T(szProto));
 			title.erase(tempmark, 2);
-			curpos = tempmark + (szProto ? lstrlen(szProto) : 0);
+			curpos = tempmark + (szProto ? lstrlenA(szProto) : 0);
 			break;
 		}
 		case 'x': {

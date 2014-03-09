@@ -40,17 +40,14 @@ static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 CContactCache::CContactCache(const MCONTACT hContact)
 {
 	m_hContact = hContact;
-	m_wOldStatus = m_wStatus = m_wMetaStatus = ID_STATUS_OFFLINE;
+	m_wOldStatus = m_wStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
 		m_szProto = ::GetContactProto(m_hContact);
-		if (m_szProto)
-			m_tszProto = mir_a2t(m_szProto);
 		initPhaseTwo();
 	}
 	else {
 		m_szProto = C_INVALID_PROTO;
-		m_tszProto = C_INVALID_PROTO_T;
 		m_szAccount = C_INVALID_ACCOUNT;
 		m_isMeta = false;
 		m_Valid = false;
@@ -81,7 +78,6 @@ void CContactCache::initPhaseTwo()
 	}
 	else {
 		m_szProto = C_INVALID_PROTO;
-		m_tszProto = C_INVALID_PROTO_T;
 		m_szAccount = C_INVALID_ACCOUNT;
 		m_isMeta = false;
 	}
@@ -96,7 +92,6 @@ void CContactCache::resetMeta()
 	m_isMeta = false;
 	m_szMetaProto = 0;
 	m_hSubContact = 0;
-	m_tszMetaProto[0] = 0;
 	initPhaseTwo();
 }
 
@@ -131,7 +126,7 @@ bool CContactCache::updateNick()
 			fChanged = (_tcscmp(m_szNick, tszNick) ? true : false);
 		mir_sntprintf(m_szNick, 80, _T("%s"), tszNick ? tszNick : _T("<undef>"));
 	}
-	return(fChanged);
+	return fChanged;
 }
 
 /**
@@ -155,24 +150,13 @@ bool CContactCache::updateStatus()
  */
 void CContactCache::updateMeta(bool fForce)
 {
-	if (m_Valid) {
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)m_hContact, 0);
-		if (hSubContact && (hSubContact != m_hSubContact || fForce)) {
-			m_hSubContact = hSubContact;
-			m_szMetaProto = GetContactProto(m_hSubContact);
-			if (m_szMetaProto) {
-				PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szMetaProto));
-				if (acc && acc->tszAccountName)
-					m_szAccount = acc->tszAccountName;
-				m_wMetaStatus = db_get_w(m_hSubContact, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
-				MultiByteToWideChar(CP_ACP, 0, m_szMetaProto, -1, m_tszMetaProto, 40);
-				m_tszMetaProto[39] = 0;
-			}
-			else {
-				m_wMetaStatus = ID_STATUS_OFFLINE;
-				m_tszMetaProto[0] = 0;
-			}
-		}
+	if (!m_Valid)
+		return;
+
+	MCONTACT hSubContact = CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)m_hContact, 0);
+	if (hSubContact && (hSubContact != m_hSubContact || fForce)) {
+		m_hSubContact = hSubContact;
+		m_szMetaProto = GetContactProto(m_hSubContact);
 	}
 }
 
@@ -408,25 +392,19 @@ void CContactCache::allocHistory()
  */
 void CContactCache::releaseAlloced()
 {
-	int i;
-
 	if (m_stats) {
 		delete m_stats;
 		m_stats = 0;
 	}
 
 	if (m_history) {
-		for (i=0; i <= m_iHistorySize; i++) {
-			if (m_history[i].szText != 0) {
-				mir_free(m_history[i].szText);
-			}
-		}
+		for (int i = 0; i <= m_iHistorySize; i++)
+			mir_free(m_history[i].szText);
+
 		mir_free(m_history);
 		m_history = 0;
 	}
-	if ( lstrcmp( m_tszProto, C_INVALID_PROTO_T ))
-		mir_free(m_tszProto); 
-	m_tszProto = NULL;
+
 	mir_free(m_szStatusMsg);
 	m_szStatusMsg = NULL;
 }
@@ -463,10 +441,6 @@ void CContactCache::updateFavorite()
  */
 void CContactCache::updateStatusMsg(const char *szKey)
 {
-	DBVARIANT 	dbv = {0};
-	BYTE 		bStatusMsgValid = 0;
-	INT_PTR		res = 0;
-
 	if (!m_Valid)
 		return;
 
@@ -474,31 +448,25 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_szStatusMsg)
 			mir_free(m_szStatusMsg);
 		m_szStatusMsg = 0;
-		res = db_get_ts(m_hContact, "CList", "StatusMsg", &dbv);
-		if (res == 0) {
-			m_szStatusMsg = (lstrlen(dbv.ptszVal) > 0 ? getNormalizedStatusMsg(dbv.ptszVal) : 0);
-			db_free(&dbv);
-		}
+		ptrT szStatus(db_get_tsa(m_hContact, "CList", "StatusMsg"));
+		if (szStatus != 0)
+			m_szStatusMsg = (lstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
 	}
 	if (szKey == 0 || (szKey && !strcmp("ListeningTo", szKey))) {
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
 		m_ListeningInfo = 0;
-		res = db_get_ts(m_hContact, m_szProto, "ListeningTo", &dbv);
-		if (res == 0) {
-			m_ListeningInfo = (lstrlen(dbv.ptszVal) > 0 ? mir_tstrdup(dbv.ptszVal) : 0);
-			db_free(&dbv);
-		}
+		ptrT szListeningTo(db_get_tsa(m_hContact, m_szProto, "ListeningTo"));
+		if (szListeningTo != 0 && *szListeningTo)
+			m_ListeningInfo = szListeningTo.detouch();
 	}
 	if (szKey == 0 || (szKey && !strcmp("XStatusMsg", szKey))) {
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
 		m_xStatusMsg = 0;
-		res = db_get_ts(m_hContact, m_szProto, "XStatusMsg", &dbv);
-		if (res == 0) {
-			m_xStatusMsg = (lstrlen(dbv.ptszVal) > 0 ? mir_tstrdup(dbv.ptszVal) : 0);
-			db_free(&dbv);
-		}
+		ptrT szXStatusMsg(db_get_tsa(m_hContact, m_szProto, "XStatusMsg"));
+		if (szXStatusMsg != 0 && *szXStatusMsg)
+			m_xStatusMsg = szXStatusMsg.detouch();
 	}
 	m_xStatus = db_get_b(m_hContact, m_szProto, "XStatusId", 0);
 }
@@ -587,7 +555,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 		_tcscpy(tszResult, dest.c_str());
 		tszResult[dest.length()] = 0;
 	}
-	return(tszResult);
+	return tszResult;
 }
 
 /**
@@ -595,29 +563,23 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
  */
 HICON CContactCache::getIcon(int& iSize) const
 {
-	HICON	hIcon;
+	if (!m_dat || !m_hwnd)
+		return LoadSkinnedProtoIcon(m_szProto, m_wStatus);
 
-	if (m_dat && m_hwnd) {
-		if (m_dat->dwFlags & MWF_ERRORSTATE)
-			hIcon = PluginConfig.g_iconErr;
-		else if (m_dat->mayFlashTab)
-			hIcon = m_dat->iFlashIcon;
-		else {
-			if (m_dat->si && m_dat->iFlashIcon) {
-				int sizeX, sizeY;
+	if (m_dat->dwFlags & MWF_ERRORSTATE)
+		return PluginConfig.g_iconErr;
+	if (m_dat->mayFlashTab)
+		return m_dat->iFlashIcon;
 
-				hIcon = m_dat->iFlashIcon;
-				Utils::getIconSize(hIcon, sizeX, sizeY);
-				iSize = sizeX;
-			} else if (m_dat->hTabIcon == m_dat->hTabStatusIcon && m_dat->hXStatusIcon)
-				hIcon = m_dat->hXStatusIcon;
-			else
-				hIcon = m_dat->hTabIcon;
-		}
+	if (m_dat->si && m_dat->iFlashIcon) {
+		int sizeX, sizeY;
+		Utils::getIconSize(m_dat->iFlashIcon, sizeX, sizeY);
+		iSize = sizeX;
+		return m_dat->iFlashIcon;
 	}
-	else
-		hIcon = LoadSkinnedProtoIcon(m_szProto, m_wStatus);
-	return(hIcon);
+	if (m_dat->hTabIcon == m_dat->hTabStatusIcon && m_dat->hXStatusIcon)
+		return m_dat->hXStatusIcon;
+	return m_dat->hTabIcon;
 }
 
 int CContactCache::getMaxMessageLength()
@@ -642,5 +604,5 @@ int CContactCache::getMaxMessageLength()
 			m_nMax = 20000;
 		}
 	}
-	return(m_nMax);
+	return m_nMax;
 }

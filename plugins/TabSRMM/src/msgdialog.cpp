@@ -2223,7 +2223,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->hXStatusIcon = 0;
 		}
 
-		if (LPCSTR szProto = dat->cache->getActiveProto()) {
+		if (LPCSTR szProto = dat->cache->getProto()) {
 			dat->hTabIcon = dat->hTabStatusIcon = MY_GetContactIcon(dat);
 			if (M.GetByte("use_xicons", 1))
 				dat->hXStatusIcon = GetXStatusIcon(dat);
