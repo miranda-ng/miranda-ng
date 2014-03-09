@@ -102,7 +102,7 @@ URL:
 [Login error: Some Facebook things are required.]
 Ошибка входа: Требуются дополнительные вещи от Facebook
 [Login error: Captcha code is required. Bad login credentials?]
-Ошибка входа: Требуется пройти капчу. Неверный логин?
+Ошибка входа: Требуется ввести капчу. Неверный логин?
 [Login error, probably bad login credentials.]
 Ошибка входа, скорее всего неверный логин.
 [Your account requires HTTPS connection. Activating.]
