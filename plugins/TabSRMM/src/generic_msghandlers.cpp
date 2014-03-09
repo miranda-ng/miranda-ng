@@ -618,6 +618,48 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 	return 1;
 }
 
+static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	COLORREF url_visited = RGB(128, 0, 128);
+	COLORREF url_unvisited = RGB(0, 0, 255);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			WORD v[4];
+			CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
+
+			TCHAR tStr[80];
+			mir_sntprintf(tStr, SIZEOF(tStr), _T("TabSRMM\n%s %d.%d.%d.%d [build %d]"),
+				TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);
+		}
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE));
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			return TRUE;
+		case IDC_SUPPORT:
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda.or.at/");
+			break;
+		}
+		break;
+
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+	}
+	return FALSE;
+}
+
 LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam)
 {
 	if (!pContainer)
