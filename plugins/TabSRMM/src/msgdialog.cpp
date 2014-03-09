@@ -3071,7 +3071,7 @@ quote_from_last:
 		{
 			DWORD idFrom = GetDlgCtrlID((HWND)wParam);
 			if (idFrom >= MIN_CBUTTONID && idFrom <= MAX_CBUTTONID) {
-				BB_CustomButtonClick(dat,idFrom,(HWND) wParam,1);
+				BB_CustomButtonClick(dat, idFrom, (HWND)wParam, 1);
 				break;
 			}
 
