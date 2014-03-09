@@ -353,9 +353,10 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
+
+			if (ci.OnSetStatusBar)
+				ci.OnSetStatusBar(si);
 		}
-		if (ci.OnSetStatusBar)
-			ci.OnSetStatusBar(si);
 	}
 	else if (gce->pDest->iType == GC_EVENT_ACK) {
 		ci.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_ACKMESSAGE, 0, 0);
