@@ -32,7 +32,7 @@ static IconItem icons[] =
 	{ LPGEN("Notification"),              "notification",  IDI_NOTIFICATION },
 	{ LPGEN("Newsfeed"),                  "newsfeed",      IDI_NEWSFEED },
 	{ LPGEN("Friendship details"),        "friendship",    IDI_FRIENDS },
-	{ LPGEN("Conversation history"),      "conversation",  IDI_CONVERSATION },
+	{ LPGEN("Conversation"),              "conversation",  IDI_CONVERSATION },
 };
 
 // TODO: uninit
@@ -104,7 +104,7 @@ void InitContactMenus()
 
 	mi.position = -2000006002;
 	mi.icolibItem = GetIconHandle("conversation");
-	mi.pszName = LPGEN("Visit conversation history");
+	mi.pszName = LPGEN("Visit conversation");
 	mi.pszService = "FacebookProto/VisitConversation";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitConversation>);
 	g_hContactMenuItems[CMI_VISIT_CONVERSATION] = Menu_AddContactMenuItem(&mi);
