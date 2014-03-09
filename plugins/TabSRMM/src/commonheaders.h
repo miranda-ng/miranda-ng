@@ -86,6 +86,7 @@
 #include <m_xstatus.h>
 #include <m_toptoolbar.h>
 #include <m_string.h>
+#include <m_db_int.h>
 
 #include <m_ieview.h>
 #include <m_popup2.h>

@@ -77,12 +77,12 @@ struct CContactCache : public MZeroedObject
 	const WORD     getOldStatus() const { return m_wOldStatus; }
 	const TCHAR*   getNick() const { return m_szNick; }
 	const MCONTACT getContact() const { return m_hContact; }
-	const MCONTACT getActiveContact() const { return m_isMeta ? (m_hSubContact ? m_hSubContact : m_hContact) : m_hContact; }
+	const MCONTACT getActiveContact() const { return m_isMeta ? cc->nDefault : m_hContact; }
 	const DWORD    getIdleTS() const { return m_idleTS; }
-	const char*    getProto() const { return m_szProto; }
-	const char*    getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : m_szProto) : m_szProto; }
+	const char*    getProto() const { return cc->szProto; }
+	const char*    getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : cc->szProto) : cc->szProto; }
 	bool           isMeta() const { return m_isMeta; }
-	bool           isSubContact() const { return m_isSubcontact; }
+	bool           isSubContact() const { return cc->IsSub(); }
 	bool           isFavorite() const { return m_isFavorite; }
 	bool           isRecent() const { return m_isRecent; }
 	const TCHAR*   getRealAccount() const { return m_szAccount ? m_szAccount : C_INVALID_ACCOUNT; }
@@ -133,15 +133,14 @@ private:
 	void   releaseAlloced();
 
 	MCONTACT m_hContact;
-	MCONTACT m_hSubContact;
 	WORD     m_wStatus, m_wOldStatus;
-	char*    m_szProto, *m_szMetaProto;
-	TCHAR*   m_szAccount;
+	char    *m_szMetaProto;
+	TCHAR   *m_szAccount;
 	TCHAR    m_szNick[80], m_szUIN[80];
-	TCHAR*   m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
+	TCHAR   *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
 	BYTE     m_xStatus;
 	DWORD    m_idleTS;
-	bool     m_isMeta, m_isSubcontact;
+	bool     m_isMeta;
 	bool     m_Valid;
 	bool     m_isFavorite;
 	bool     m_isRecent;
@@ -152,6 +151,7 @@ private:
 	TWindowData *m_dat;
 	TSessionStats *m_stats;
 	TInputHistory *m_history;
+	DBCachedContact *cc;
 };
 
 #endif /* __CONTACTCACHE_H */

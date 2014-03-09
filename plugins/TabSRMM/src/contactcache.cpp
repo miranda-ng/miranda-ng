@@ -37,17 +37,19 @@
 
 static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 
+static DBCachedContact ccInvalid = { 0 };
+
 CContactCache::CContactCache(const MCONTACT hContact)
 {
 	m_hContact = hContact;
 	m_wOldStatus = m_wStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
-		m_szProto = ::GetContactProto(m_hContact);
+		cc = db_get_contact(hContact);
 		initPhaseTwo();
 	}
 	else {
-		m_szProto = C_INVALID_PROTO;
+		cc = &ccInvalid;
 		m_szAccount = C_INVALID_ACCOUNT;
 		m_isMeta = false;
 		m_Valid = false;
@@ -61,23 +63,22 @@ CContactCache::CContactCache(const MCONTACT hContact)
 void CContactCache::initPhaseTwo()
 {
 	m_szAccount = 0;
-	if (m_szProto) {
-		PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szProto));
+	if (cc->szProto) {
+		PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)cc->szProto));
 		if (acc && acc->tszAccountName)
 			m_szAccount = acc->tszAccountName;
 	}
 
-	m_Valid = (m_szProto != 0 && m_szAccount != 0) ? true : false;
+	m_Valid = (cc->szProto != 0 && m_szAccount != 0) ? true : false;
 	if (m_Valid) {
-		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(m_szProto, META_PROTO);
-		m_isSubcontact = db_mc_isSub(m_hContact) != 0;
+		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(cc->szProto, META_PROTO);
 		if (m_isMeta)
 			updateMeta(true);
 		updateState();
 		updateFavorite();
 	}
 	else {
-		m_szProto = C_INVALID_PROTO;
+		cc->szProto = C_INVALID_PROTO;
 		m_szAccount = C_INVALID_ACCOUNT;
 		m_isMeta = false;
 	}
@@ -91,7 +92,6 @@ void CContactCache::resetMeta()
 {
 	m_isMeta = false;
 	m_szMetaProto = 0;
-	m_hSubContact = 0;
 	initPhaseTwo();
 }
 
@@ -139,7 +139,7 @@ bool CContactCache::updateStatus()
 		return false;
 
 	m_wOldStatus = m_wStatus;
-	m_wStatus = (WORD)db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
+	m_wStatus = (WORD)db_get_w(m_hContact, cc->szProto, "Status", ID_STATUS_OFFLINE);
 	return m_wOldStatus != m_wStatus;
 }
 
@@ -150,14 +150,7 @@ bool CContactCache::updateStatus()
  */
 void CContactCache::updateMeta(bool fForce)
 {
-	if (!m_Valid)
-		return;
-
-	MCONTACT hSubContact = CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)m_hContact, 0);
-	if (hSubContact && (hSubContact != m_hSubContact || fForce)) {
-		m_hSubContact = hSubContact;
-		m_szMetaProto = GetContactProto(m_hSubContact);
-	}
+	m_szMetaProto = (m_Valid) ? GetContactProto(cc->pSubs[cc->nDefault]) : NULL;
 }
 
 /**
@@ -456,7 +449,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
 		m_ListeningInfo = 0;
-		ptrT szListeningTo(db_get_tsa(m_hContact, m_szProto, "ListeningTo"));
+		ptrT szListeningTo(db_get_tsa(m_hContact, cc->szProto, "ListeningTo"));
 		if (szListeningTo != 0 && *szListeningTo)
 			m_ListeningInfo = szListeningTo.detouch();
 	}
@@ -464,11 +457,11 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
 		m_xStatusMsg = 0;
-		ptrT szXStatusMsg(db_get_tsa(m_hContact, m_szProto, "XStatusMsg"));
+		ptrT szXStatusMsg(db_get_tsa(m_hContact, cc->szProto, "XStatusMsg"));
 		if (szXStatusMsg != 0 && *szXStatusMsg)
 			m_xStatusMsg = szXStatusMsg.detouch();
 	}
-	m_xStatus = db_get_b(m_hContact, m_szProto, "XStatusId", 0);
+	m_xStatus = db_get_b(m_hContact, cc->szProto, "XStatusId", 0);
 }
 
 /**
@@ -564,7 +557,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 HICON CContactCache::getIcon(int& iSize) const
 {
 	if (!m_dat || !m_hwnd)
-		return LoadSkinnedProtoIcon(m_szProto, m_wStatus);
+		return LoadSkinnedProtoIcon(cc->szProto, m_wStatus);
 
 	if (m_dat->dwFlags & MWF_ERRORSTATE)
 		return PluginConfig.g_iconErr;
