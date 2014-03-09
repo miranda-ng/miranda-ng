@@ -113,6 +113,8 @@
 &Настройки...
 [&New alarm...]
 Новое напоминание...
+[Unknown command issued: "%s"]
+Неизвестная команда: "%s"
 [Set alarm]
 Дать напоминание
 [Example alarm]
@@ -137,6 +139,10 @@
 Фон
 [Window]
 Окно
+[%dh %dm]
+%dчас(ов) %dмин
+[%dm]
+%dмин
 [Hide reminders]
 Скрыть напоминания
 [Show reminders]
@@ -177,9 +183,3 @@
 Выбранное вами время - в прошлом.
 [Events]
 События
-[Unknown command issued: "%s"]
-Неизвестная команда: "%s"
-[%dh %dm]
-%dчас(ов) %dмин
-[%dm]
-%dмин

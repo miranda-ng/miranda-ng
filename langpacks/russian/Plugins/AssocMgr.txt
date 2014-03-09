@@ -43,8 +43,14 @@
 База данных Miranda NG
 [Miranda NG could not open file]
 Miranda NG не может открыть файл
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+Miranda NG не может открыть "%S".\n\nНе зарегистрирован обработчик для файлов этого типа.
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+Miranda NG не может открыть "%S".\n\nФайл не может быть обработан.
 [Miranda NG could not open URL]
 Miranda NG не может открыть ссылку
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+Miranda NG не может открыть "%S".\n\nНе зарегистрирован обработчик для ссылок этого типа.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG не может открыть "%S".\n\nДанная ссылка не может быть прочитана и обработана.
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
@@ -65,9 +71,3 @@ Miranda NG не может открыть "%S".\n\nДанная ссылка н�
 Протокол Gadu-Gadu
 [Jabber Link Protocol]
 Протокол Jabber
-[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-Miranda NG не может открыть "%S".\n\nНе зарегистрирован обработчик для файлов этого типа.
-[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
-Miranda NG не может открыть "%S".\n\nФайл не может быть обработан.
-[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
-Miranda NG не может открыть "%S".\n\nНе зарегистрирован обработчик для ссылок этого типа.

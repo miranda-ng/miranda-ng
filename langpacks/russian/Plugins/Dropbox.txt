@@ -21,12 +21,18 @@
 Инициировать авторизацию
 [Authorize]
 Авторизовать
-[Other]
-Другое
-[Use shortened share links]
+[Download link]
+Ссылка
+[Use shortened download links]
 Использовать сокращённые ссылки
 [Check status of authorization]
 Проверить статус авторизации
+[Autosend download link to contact]
+Автоматически отсылать ссылку контакту
+[Paste download link into message input area]
+Вставить сылку в поле ввода
+[Copy download link to clibboard]
+Копировать ссылку в буфер обмена
 [in process...]
 в процессе...
 [you have been authorized]
@@ -67,27 +73,3 @@
 Неизвестная команда "%s".\nИспользуйте "/help" для получения справки.
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" не действительна.\nИспользуйте "/help" для получения справки.
-[Server does not respond]
-Нет ответа от сервера
-[Link to download file "%s": %s]
-Ссылка для закачки файла "%s": %s
-[Link to download folder "%s": %s]
-Ссылка для закачки папки "%s": %s
-[Bad input parameter. Error message should indicate which one and why]
-Неправильный параметр ввода. Сообщение об ошибке должно указывать на то, что пошло не так, и почему
-[Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
-Неверный или просроченный токен. Возможно пользователь или Dropbox отозвал токен. Чтобы исправить это - авторизуйтесь заново
-[Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
-Неудачный запрос OAuth (неправильный ключ, плохой криптографический код, просроченные временные метки...). К сожалению, в данном случае, повторная авторизация пользователя не поможет
-[File or folder not found at the specified path]
-Файл или папка не найдены по указанному пути
-[Request method not expected (generally should be GET or POST)]
-Непредвиденный метод запроса (обычно должен быть GET, а не POST)
-[Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
-Приложение делает слишком много запросов, будет ограничена скорость.
-[If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
-Если ответ содержит заголовок Retry-After, это означает, что ваше приложение ограничено в скорости. В противном случае, это свидетельствует о ошибках сервера, и ваше приложение должно повторить свой запрос.
-[User is over Dropbox storage quota]
-Пользователь превысил квоту, выделенную ему сервисом Dropbox
-[Unknown]
-Неизвестно

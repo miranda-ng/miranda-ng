@@ -1031,6 +1031,8 @@ Esc закрывает сессию (иначе - сворачивает)
 Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d cообщений в очереди для последующей доставки
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Одно из действий всплывающих окон настроено на "Отклонить событие".\nЭто может оказать нежеланный эфект, так как помечает событие прочитанным.\nКак следствие события не будут показаны "новыми". Если это не то, что вы хотели, пересмотрите настройки в разделе "Уведомления".
+[tabSRMM Warning Message]
+Предупреждение
 [Incoming file]
 Входящий файл
 [No description given]
