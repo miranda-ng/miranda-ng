@@ -13,6 +13,8 @@ CDropbox::CDropbox()
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInitialized, this);
 	HookEventObj(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu, this);
 
+	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, SendFileToDropbox, this);
+
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
 	CreateProtoServiceFunctionObj(PSS_FILE, ProtoSendFile, this);
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, ProtoSendMessage, this);
@@ -299,7 +301,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("unknown error"));
 		else
-			HandleFileTransferError(response, hContact);
+			HandleFileTransferError(instance->hNetlibUser, response);
 	}
 
 	SetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, "");

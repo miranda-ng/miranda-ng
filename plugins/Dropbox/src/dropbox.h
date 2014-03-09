@@ -15,7 +15,7 @@
 #define DROPBOX_API_KEY "fa8du7gkf2q8xzg"
 #include "..\..\..\Dropbox\secret_key.h"
 
-#define DROPBOX_FILE_CHUNK_SIZE 1024 * 1024 //1 MB
+#define DROPBOX_FILE_CHUNK_SIZE 4 * 1024 * 1024 //4 MB
 
 #define BBB_ID_FILE_SEND 10001
 
@@ -57,7 +57,7 @@ private:
 	static int OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnContactDeleted(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnPrebuildContactMenu(void *obj, WPARAM wParam, LPARAM lParam);	
+	static int OnPrebuildContactMenu(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnFileDoalogCancelled(void *obj, WPARAM wParam, LPARAM lParam);
@@ -68,6 +68,8 @@ private:
 	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
+
+	static INT_PTR SendFileToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFilesToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 
@@ -89,13 +91,16 @@ private:
 	void RequestAccountInfo();
 
 	// transrers
-	static int HandleFileTransferError(NETLIBHTTPREQUEST *response, MCONTACT hContact);
+	static int HandleFileTransferError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response);
 
-	int SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset, MCONTACT hContact);
-	int SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset, MCONTACT hContact);
-	int SendFileChunkedLast(const char *fileName, const char *uploadId, MCONTACT hContact);
+	int SendFile(const char *fileName, const char *data, int length);
+	int SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset);
+	int SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
+	int SendFileChunkedLast(const char *fileName, const char *uploadId);
 
-	int CreateFolder(const char *folderName, MCONTACT hContact);
+	int CreateFolder(const char *folderName);
+
+	int CreateDownloadUrl(const char *path, char *url);
 
 	static void _cdecl SendFileAsync(void *arg);
 

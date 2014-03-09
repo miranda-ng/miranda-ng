@@ -13,7 +13,6 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		instance = (CDropbox*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-		CheckDlgButton(hwndDlg, IDC_USE_SHORT_LINKS, db_get_b(NULL, MODULE, "UseSortLinks", 1));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_AUTHORIZE), FALSE);
 
 		LOGFONT lf;
@@ -26,6 +25,11 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you are already authorized"));
 		else
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you are not authorized yet"));
+
+		CheckDlgButton(hwndDlg, IDC_USE_SHORT_LINKS, db_get_b(NULL, MODULE, "UseSortLinks", 1));
+		CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, db_get_b(NULL, MODULE, "UrlAutoSend", 1));
+		CheckDlgButton(hwndDlg, IDC_URL_COPYTOML, db_get_b(NULL, MODULE, "UrlPasteToMessageLog", 0));
+		CheckDlgButton(hwndDlg, IDC_URL_COPYTOCB, db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0));
 	}
 		return TRUE;
 
@@ -52,6 +56,9 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			break;
 
 		case IDC_USE_SHORT_LINKS:
+		case IDC_URL_AUTOSEND:
+		case IDC_URL_COPYTOML:
+		case IDC_URL_COPYTOCB:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
@@ -60,7 +67,12 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
+		{
 			db_set_b(NULL, MODULE, "UseSortLinks", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_SHORT_LINKS));
+			db_set_b(NULL, MODULE, "UrlAutoSend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_AUTOSEND));
+			db_set_b(NULL, MODULE, "UrlPasteToMessageLog", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOML));
+			db_set_b(NULL, MODULE, "UrlCopyToClipboard", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOCB));
+		}
 		break;
 	}
 	return FALSE;

@@ -172,6 +172,72 @@ INT_PTR CDropbox::ProtoReceiveMessage(void *obj, WPARAM, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
+{
+	CDropbox *instance = (CDropbox*)obj;
+
+	const char *filePath = (char*)lParam;
+	const char *fileName = strrchr(filePath, '\\') + 1;
+
+	FILE *file = fopen(filePath, "rb");
+	if (file != NULL)
+	{
+		fseek(file, 0, SEEK_END);
+		DWORD fileSize = ftell(file);
+		fseek(file, 0, SEEK_SET);
+
+		int chunkSize = DROPBOX_FILE_CHUNK_SIZE;
+		if (fileSize <= (DROPBOX_FILE_CHUNK_SIZE))
+		{
+			char *data = new char[fileSize + 1];
+			int count = (int)fread(data, sizeof(char), fileSize, file);
+
+			instance->SendFile(fileName, data, fileSize);
+		}
+		else
+		{
+			int offset = 0;
+			bool error = false;
+			char *uploadId = new char[32];
+
+			while (!feof(file) && !ferror(file))
+			{
+				char *data = new char[chunkSize + 1];
+				int count = (int)fread(data, sizeof(char), chunkSize, file);
+
+				if (!offset)
+				{
+					if (instance->SendFileChunkedFirst(data, count, uploadId, offset))
+					{
+						error = true;
+						break;
+					}
+				}
+				else
+				{
+					if (instance->SendFileChunkedNext(data, count, uploadId, offset))
+					{
+						error = true;
+						break;
+					}
+				}
+			}
+
+			fclose(file);
+
+			if (!error)
+			{
+				if (instance->SendFileChunkedLast(fileName, uploadId))
+				{
+					error = true;
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
 INT_PTR CDropbox::SendFilesToDropbox(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
@@ -181,6 +247,13 @@ INT_PTR CDropbox::SendFilesToDropbox(void *obj, WPARAM hContact, LPARAM)
 	HWND hwnd =  (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
 
 	instance->dcftp[hwnd] = hContact;
+
+	BBButton bbd = { sizeof(bbd) };
+	bbd.pszModuleName = MODULE;
+	bbd.dwButtonID = BBB_ID_FILE_SEND;
+	bbd.bbbFlags = BBSF_DISABLED;
+
+	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 
 	return 0;
 }

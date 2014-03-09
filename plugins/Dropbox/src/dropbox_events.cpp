@@ -6,6 +6,7 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam)
 
 	HookEventObj(ME_FILEDLG_CANCELED, OnFileDoalogCancelled, obj);
 	HookEventObj(ME_FILEDLG_SUCCEEDED, OnFileDoalogSuccessed, obj);
+	HookEventObj(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened, obj);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -29,7 +30,6 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam)
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
-		HookEventObj(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened, obj);
 		HookEventObj(ME_MSG_BUTTONPRESSED, OnTabSrmmButtonPressed, obj);
 	}
 
@@ -91,12 +91,13 @@ int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam)
 
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
-		if (ev->hContact == instance->GetDefaultContact() || !instance->HasAccessToken() || status == ID_STATUS_OFFLINE)
+		bbd.dwButtonID = BBB_ID_FILE_SEND;
+		bbd.bbbFlags = BBSF_RELEASED;
+		if (ev->hContact == instance->GetDefaultContact() || !instance->HasAccessToken())
 			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-		else if (instance->hTransferContact)
+		else if (/*instance->hTransferContact*/ status == ID_STATUS_OFFLINE)
 			bbd.bbbFlags = BBSF_DISABLED;
 
-		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		CallService(MS_BB_SETBUTTONSTATE, ev->hContact, (LPARAM)&bbd);
 	}
 
@@ -115,6 +116,13 @@ int CDropbox::OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam)
 		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
 
 		instance->dcftp[hwnd] = cbc->hContact;
+
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+		bbd.dwButtonID = BBB_ID_FILE_SEND;
+		bbd.bbbFlags = BBSF_DISABLED;
+
+		CallService(MS_BB_SETBUTTONSTATE, cbc->hContact, (LPARAM)&bbd);
 	}
 
 	return 0; 
@@ -129,6 +137,13 @@ int CDropbox::OnFileDoalogCancelled(void *obj, WPARAM hContact, LPARAM lParam)
 	{
 		instance->dcftp.erase((HWND)lParam);
 		instance->hTransferContact = 0;
+
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+		bbd.dwButtonID = BBB_ID_FILE_SEND;
+		bbd.bbbFlags = BBSF_RELEASED;
+
+		CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 	}
 
 	return 0;
@@ -140,7 +155,16 @@ int CDropbox::OnFileDoalogSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
 
 	HWND hwnd = (HWND)lParam;
 	if (instance->hTransferContact == instance->dcftp[hwnd])
+	{
 		instance->dcftp.erase((HWND)lParam);
+
+		BBButton bbd = { sizeof(bbd) };
+		bbd.pszModuleName = MODULE;
+		bbd.dwButtonID = BBB_ID_FILE_SEND;
+		bbd.bbbFlags = BBSF_RELEASED;
+
+		CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+	}
 
 	return 0;
 }

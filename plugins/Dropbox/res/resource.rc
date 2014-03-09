@@ -39,11 +39,17 @@ BEGIN
     LTEXT           "3.",IDC_STATIC,21,71,8,8
     LTEXT           "Initiate authorization",IDC_STATIC,29,71,109,16
     PUSHBUTTON      "Authorize",IDC_AUTHORIZE,144,68,169,14,BS_CENTER
-    GROUPBOX        "Other",IDC_STATIC,5,111,313,33
-    CONTROL         "Use shortened share links",IDC_USE_SHORT_LINKS,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,15,125,298,10
+    GROUPBOX        "Download link",IDC_STATIC,5,111,313,70
+    CONTROL         "Use shortened download links",IDC_URL_USE_SHORT,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,15,125,298,10
     LTEXT           "4.",IDC_STATIC,22,89,8,8
     LTEXT           "Check status of authorization",IDC_STATIC,30,89,109,17
     CTEXT           "",IDC_AUTH_STATUS,145,89,169,8
+    CONTROL         "Autosend download link to contact",IDC_URL_AUTOSEND,
+                    "Button",BS_AUTORADIOBUTTON,15,138,298,10
+    CONTROL         "Paste download link to message log",IDC_URL_COPYTOML,
+                    "Button",BS_AUTORADIOBUTTON,15,151,298,10
+    CONTROL         "Copy download link to clibboard",IDC_URL_COPYTOCB,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,298,10
 END
 
 
