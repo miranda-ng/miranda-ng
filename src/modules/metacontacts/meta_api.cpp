@@ -61,7 +61,7 @@ static INT_PTR MetaAPI_GetMostOnline(WPARAM hMetaContact, LPARAM)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
-		return 1;
+		return NULL;
 
 	return Meta_GetMostOnline(cc);
 }
