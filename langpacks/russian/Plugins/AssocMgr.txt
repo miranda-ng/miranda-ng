@@ -65,3 +65,9 @@ Miranda NG не может открыть "%S".\n\nДанная ссылка н�
 Протокол Gadu-Gadu
 [Jabber Link Protocol]
 Протокол Jabber
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+Miranda NG не может это открыть "%S".\n\nНезарегистрированный заголовок для этого типа файлов.
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+Miranda NG не может это открыть "%S".\n\nФайл не может быть использован.
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+Miranda NG не может это открыть "%S".\n\nНезарегистрированный заголовок для этого типпа ссылок.

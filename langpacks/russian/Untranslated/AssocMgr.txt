@@ -1,3 +1,0 @@
-﻿[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
-[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]

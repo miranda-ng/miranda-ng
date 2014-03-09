@@ -1,3 +1,0 @@
-﻿[Error retrieving current profile, exiting.]
-[There's no database driver to open the input file, exiting.]
-[Error loading source file, exiting.]
