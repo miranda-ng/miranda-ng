@@ -25,15 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HANDLE hEventDeletedEvent, hEventAddedEvent, hEventFilterAddedEvent;
 
-static int IndexOf(DBCachedContact *cc, MCONTACT hSub)
-{
-	for (int i = 0; i < cc->nSubs; i++)
-		if (cc->pSubs[i] == hSub)
-			return i;
-
-	return -1;
-}
-
 STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
@@ -61,11 +52,9 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			return NULL;
 
 		if (cc->IsSub()) {
-			if (cc = m_cache->GetCachedContact(cc->parentID)) {
-				// set default sub to the event's source
-				cc->nDefault = IndexOf(cc, contactID);
-				contactID = cc->contactID; // and add an event to a metahistory
-			}
+			// set default sub to the event's source
+			CallService(MS_MC_SETDEFAULTCONTACT, cc->parentID, contactID);
+			contactID = cc->parentID; // and add an event to a metahistory
 		}
 	}
 

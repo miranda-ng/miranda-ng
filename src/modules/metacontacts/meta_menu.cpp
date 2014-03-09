@@ -52,31 +52,32 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 
 	// Create a new metacontact
 	MCONTACT hMetaContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	if (hMetaContact) {
-		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMetaContact);
-		if (cc == NULL)
-			return 0;
+	if (hMetaContact == NULL)
+		return NULL;
 
-		db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
-		cc->nSubs = 0;
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMetaContact);
+	if (cc == NULL)
+		return 0;
 
-		// Add the MetaContact protocol to the new meta contact
-		CallService(MS_PROTO_ADDTOCONTACT, hMetaContact, (LPARAM)META_PROTO);
+	db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
+	cc->nSubs = 0;
 
-		if (tszGroup)
-			db_set_ts(hMetaContact, "CList", "Group", tszGroup);
+	// Add the MetaContact protocol to the new meta contact
+	CallService(MS_PROTO_ADDTOCONTACT, hMetaContact, (LPARAM)META_PROTO);
 
-		// Assign the contact to the MetaContact just created (and make default).
-		if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
-			MessageBox(0, TranslateT("There was a problem in assigning the contact to the MetaContact"), TranslateT("Error"), MB_ICONEXCLAMATION);
-			CallService(MS_DB_CONTACT_DELETE, hMetaContact, 0);
-			return 0;
-		}
+	if (tszGroup)
+		db_set_ts(hMetaContact, "CList", "Group", tszGroup);
 
-		// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
-		if (!options.bEnabled)
-			db_set_b(hMetaContact, "CList", "Hidden", 1);
+	// Assign the contact to the MetaContact just created (and make default).
+	if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
+		MessageBox(0, TranslateT("There was a problem in assigning the contact to the MetaContact"), TranslateT("Error"), MB_ICONEXCLAMATION);
+		CallService(MS_DB_CONTACT_DELETE, hMetaContact, 0);
+		return 0;
 	}
+
+	// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
+	if (!options.bEnabled)
+		db_set_b(hMetaContact, "CList", "Hidden", 1);
 
 	return hMetaContact;
 }
