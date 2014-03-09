@@ -18,7 +18,7 @@
 [Enter authorization code]
 Ввести код авторизации
 [Initiate authorization]
-Иниициировать авторизацию
+Инициировать авторизацию
 [Authorize]
 Авторизовать
 [Other]

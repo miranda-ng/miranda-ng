@@ -238,8 +238,6 @@ Status vom Poste&ingang anzeigen
 &Profil bearbeiten
 [My Album]
 Mein Album
-[My Blog]
-Mein Blog
 [My Blog Status]
 Mein Blog Status
 [My Video]
@@ -260,12 +258,12 @@ Autorisierung für alle anfragen
 Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
+[&Send E-Mail]
+
 [&Send postcard]
 Postkarte &senden
 [&View Album]
 Album ansehen
-[&Read Blog]
-Blog lesen
 [Reply Blog Status]
 Blog-Status beantworten
 [View Video]

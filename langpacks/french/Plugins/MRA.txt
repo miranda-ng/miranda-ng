@@ -238,8 +238,6 @@ Poissons
 
 [My Album]
 
-[My Blog]
-
 [My Blog Status]
 
 [My Video]
@@ -260,11 +258,11 @@ Poissons
 Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
+[&Send E-Mail]
+
 [&Send postcard]
 
 [&View Album]
-
-[&Read Blog]
 
 [Reply Blog Status]
 

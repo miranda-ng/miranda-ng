@@ -116,7 +116,7 @@ Ereignisstrukturen beschädigt, nachfolgende Einträge wurden ignoriert
 Erstes Ereignis nicht als solches markiert: Korrigiert
 [Event marked as first which is not: correcting]
 Ereignis falschlicherweise als erstes markiert: Korrigiert
-[Zero event's contact id: correcting]
+[Zero event's contact ID: correcting]
 
 [Extra flags found in event: removing]
 Uberflussige Ereigniseigenschaften gefunden: Entfernt

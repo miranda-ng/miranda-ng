@@ -1,3 +1,4 @@
 ﻿[Automatic authorization on Mail.ru web services]
+[&Send E-Mail]
 [Thread creation failure]
 [Dating]

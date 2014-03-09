@@ -238,8 +238,6 @@ Femenino
 
 [My Album]
 
-[My Blog]
-
 [My Blog Status]
 
 [My Video]
@@ -260,11 +258,11 @@ Femenino
 Solicitar autorización
 [Grant authorization]
 Conceder autorización
+[&Send E-Mail]
+
 [&Send postcard]
 
 [&View Album]
-
-[&Read Blog]
 
 [Reply Blog Status]
 

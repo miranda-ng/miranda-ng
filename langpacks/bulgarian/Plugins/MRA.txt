@@ -185,8 +185,6 @@ E-поща:
 
 [My Album]
 
-[My Blog]
-
 [My Blog Status]
 
 [My Video]
@@ -207,11 +205,11 @@ E-поща:
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
+[&Send E-Mail]
+
 [&Send postcard]
 
 [&View Album]
-
-[&Read Blog]
 
 [Reply Blog Status]
 

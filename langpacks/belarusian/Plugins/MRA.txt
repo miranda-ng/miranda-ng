@@ -234,8 +234,6 @@ xСтатус "%s"
 Анкета
 [My Album]
 Мой альбом
-[My Blog]
-Мой блог
 [My Blog Status]
 Мой блог статус
 [My Video]
@@ -260,8 +258,6 @@ xСтатус "%s"
 Адправіць паштоўку
 [&View Album]
 Глядзець альбом
-[&Read Blog]
-Блог
 [Reply Blog Status]
 Адказаць на статус блога
 [View Video]

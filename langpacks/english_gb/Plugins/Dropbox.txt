@@ -7,8 +7,10 @@
 ;============================================================
 [Authorization]
 Authorisation
-[Click authorize button]
-Click authorise button
+[Enter authorization code]
+Enter authorisation code
+[Initiate authorization]
+Initiate authorisation
 [Authorize]
 Authorise
 [Check status of authorization]

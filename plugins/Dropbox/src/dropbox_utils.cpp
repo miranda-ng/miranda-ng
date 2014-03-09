@@ -13,7 +13,7 @@ wchar_t *CDropbox::HttpStatusToText(HTTP_STATUS status)
 	switch (status)
 	{
 	case HTTP_STATUS_OK:
-		return TranslateT("Ok");
+		return TranslateT("OK");
 	case HTTP_STATUS_BAD_REQUEST:
 		return TranslateT("Bad input parameter. Error message should indicate which one and why");
 	case HTTP_STATUS_UNAUTHORIZED:
