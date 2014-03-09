@@ -19,81 +19,6 @@
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_OPT_GENERAL, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 295
-        VERTGUIDE, 10
-        VERTGUIDE, 18
-        VERTGUIDE, 288
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 232
-    END
-
-    IDD_INFO_SOUNDS, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 217
-        BOTTOMMARGIN, 151
-    END
-
-    IDD_OPT_FILTERS, DIALOG
-    BEGIN
-        VERTGUIDE, 6
-    END
-
-    IDD_OPT_POPUP, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_XPOPUP, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 296
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 179
-    END
-
-    IDD_AUTODISABLE, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 281
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 187
-    END
-
-    IDD_OPT_XLOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 296
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 179
-    END
-
-    IDD_OPT_SMPOPUP, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 296
-        VERTGUIDE, 1
-        VERTGUIDE, 11
-        VERTGUIDE, 14
-        VERTGUIDE, 288
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 214
-        HORZGUIDE, 156
-        HORZGUIDE, 208
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -105,39 +30,39 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Notify when a contact changes to one of these statuses",IDC_STATIC,4,7,292,72,WS_GROUP
-    CONTROL         "Online",IDC_CHK_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,17,89,10
-    CONTROL         "Offline",IDC_CHK_OFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,17,89,10
-    CONTROL         "Invisible",IDC_CHK_INVISIBLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,17,83,10
-    CONTROL         "Free for chat",IDC_CHK_FREECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,28,89,10
-    CONTROL         "Away",IDC_CHK_AWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,28,89,10
-    CONTROL         "NA",IDC_CHK_NA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,28,83,10
-    CONTROL         "Occupied",IDC_CHK_OCCUPIED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,39,89,10
-    CONTROL         "DND",IDC_CHK_DND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,39,89,10
-    CONTROL         "Out to lunch",IDC_CHK_OUTTOLUNCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,39,83,10
-    CONTROL         "On the phone",IDC_CHK_ONTHEPHONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,50,89,10
+    GROUPBOX        "Notify when a contact changes to one of these statuses",IDC_STATIC,4,1,292,72,WS_GROUP
+    CONTROL         "Online",IDC_CHK_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,14,89,10
+    CONTROL         "Offline",IDC_CHK_OFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,14,89,10
+    CONTROL         "Invisible",IDC_CHK_INVISIBLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,14,83,10
+    CONTROL         "Free for chat",IDC_CHK_FREECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,89,10
+    CONTROL         "Away",IDC_CHK_AWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,25,89,10
+    CONTROL         "NA",IDC_CHK_NA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,25,83,10
+    CONTROL         "Occupied",IDC_CHK_OCCUPIED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,36,89,10
+    CONTROL         "DND",IDC_CHK_DND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,36,89,10
+    CONTROL         "Out to lunch",IDC_CHK_OUTTOLUNCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,36,83,10
+    CONTROL         "On the phone",IDC_CHK_ONTHEPHONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,47,89,10
     CONTROL         "Always when changing from offline",IDC_CHK_FROMOFFLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,61,163,10
-    GROUPBOX        "Plugin activation",IDC_STATIC,4,82,292,82,WS_GROUP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,58,163,10
+    GROUPBOX        "Plugin activation",IDC_STATIC,4,76,292,82,WS_GROUP
     CONTROL         "Automatically turn off Popups and Sounds on status change",IDC_AUTODISABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,96,232,10
-    PUSHBUTTON      "Configure",IDC_CONFIGUREAUTODISABLE,242,94,46,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,90,232,10
+    PUSHBUTTON      "Configure",IDC_CONFIGUREAUTODISABLE,242,88,46,14
     CONTROL         "Notify me for people not in my Contact List",IDC_HIDDENCONTACTSTOO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,109,278,10
-    CONTROL         "Blink icon in the system tray",IDC_BLINKICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,135,278,10
-    CONTROL         "Use status icon",IDC_BLINKICON_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,148,278,10
-    CONTROL         "Use individual sounds",IDC_USEINDIVSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,122,278,10
-    GROUPBOX        "Log to file",IDC_STATIC,3,166,292,28
-    CONTROL         "Enable",IDC_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,178,57,10
-    CONTROL         "Extra status",IDC_CHK_XSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,50,89,10
-    EDITTEXT        IDC_LOGFILE,72,175,154,14,ES_AUTOHSCROLL | ES_READONLY
-    PUSHBUTTON      "...",IDC_BT_CHOOSELOGFILE,229,175,18,14
-    PUSHBUTTON      "Open",IDC_BT_VIEWLOG,249,175,42,14
-    CONTROL         "Status message",IDC_CHK_STATUS_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,50,84,10
-    GROUPBOX        "Log in history",IDC_STATIC,5,195,290,38
-    CONTROL         "Log status changes in history",IDC_LOGTODB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,206,278,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,103,278,10
+    CONTROL         "Blink icon in the system tray",IDC_BLINKICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,129,278,10
+    CONTROL         "Use status icon",IDC_BLINKICON_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,142,278,10
+    CONTROL         "Use individual sounds",IDC_USEINDIVSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,116,278,10
+    GROUPBOX        "Log to file",IDC_STATIC,3,161,292,28
+    CONTROL         "Enable",IDC_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,173,57,10
+    CONTROL         "Extra status",IDC_CHK_XSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,47,89,10
+    EDITTEXT        IDC_LOGFILE,72,170,154,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "...",IDC_BT_CHOOSELOGFILE,229,170,18,14
+    PUSHBUTTON      "Open",IDC_BT_VIEWLOG,249,170,42,14
+    CONTROL         "Status message",IDC_CHK_STATUS_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,208,47,84,10
+    GROUPBOX        "Log in history",IDC_STATIC,4,190,292,38
+    CONTROL         "Log status changes in history",IDC_LOGTODB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,201,278,8
     CONTROL         "Only when message window is open",IDC_CHECKMESSAGEWINDOW,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,218,270,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,213,270,11
 END
 
 IDD_INFO_SOUNDS DIALOGEX 0, 0, 222, 152
