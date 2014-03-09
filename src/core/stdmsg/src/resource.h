@@ -29,7 +29,6 @@
 #define IDC_SHOWTIMES                   1033
 #define IDC_SHOWDATES                   1034
 #define IDC_CLIST                       1035
-#define IDC_SHOWSTATUSCHANGES           1035
 #define IDC_SHOWFORMATTING              1036
 #define IDC_SAVEPERCONTACT              1037
 #define IDC_LOADCOUNTN                  1039
