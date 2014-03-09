@@ -773,6 +773,7 @@ begin
           DBWriteUTF8(wParam,lmodule,col.setting,p);
           mFreeMem(p);
         end;
+        DBVT_DELETED,
         DBVT_WCHAR: begin
           DBWriteUnicode(wParam,lmodule,
               col.setting,qsr.text);
