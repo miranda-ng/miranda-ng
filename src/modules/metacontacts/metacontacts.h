@@ -33,17 +33,12 @@ INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
 void InitMenus();
 extern int mcStatus;
 
-__forceinline bool IsMeta(DBCachedContact *cc) { return cc->nSubs != -1; }
-__forceinline bool IsSub(DBCachedContact *cc) { return cc->parentID != 0; }
-
 INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_AddTo(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Edit(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam);
-
-INT_PTR Meta_IsEnabled();
 
 INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam);
 int  Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
@@ -55,7 +50,6 @@ int  Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
 int  Meta_HideMetaContacts(int hide);
 int  Meta_SuppressStatus(int suppress);
 int  Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
-void Meta_CopyData(DBCachedContact *cc);
 int  Meta_SetAllNicks();
 int  Meta_SwapContacts(DBCachedContact *cc, int contact_number1, int contact_number2);
 
@@ -76,7 +70,6 @@ INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_SetStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_GetStatus(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam);
-INT_PTR Meta_RecvMessage(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam);
 
 void Meta_InitServices();
@@ -88,18 +81,9 @@ enum CListDisplayNameType {CNNT_NICK = 0, CNNT_DISPLAYNAME = 1};
 
 struct MetaOptions
 {
-	BYTE set_default_on_recv;
-	BYTE always_use_default;
-	BYTE suppress_status;
-	BYTE subcontact_windows;
-	BYTE metahistory;
-	BYTE subhistory;
-	BYTE copydata;
-	BYTE lockHandle;
-	BYTE temp_default;
-	BYTE flash_meta_message_icon;
-	BYTE copy_userinfo;
-	BYTE use_proto_recv;
+	bool bEnabled;
+	bool bLockHandle;
+	bool bSuppressStatus;
 
 	int menu_contact_label;
 	int menu_function;
@@ -131,7 +115,6 @@ HICON LoadIconEx(IconIndex i);
 HANDLE GetIconHandle(IconIndex i);
 
 extern HANDLE hEventDefaultChanged, hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
-
 extern POINT menuMousePoint;
 
 #define MAX_PROTOCOLS	20

@@ -210,11 +210,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	currDb->MetaMergeHistory(ccDest, ccSub);
 
 	// Ignore status if the option is on
-	if (options.suppress_status)
+	if (options.bSuppressStatus)
 		CallService(MS_IGNORE_IGNORE, hSub, IGNOREEVENT_USERONLINE);
-
-	// copy other data
-	Meta_CopyData(ccDest);
 
 	NotifyEventHooks(hSubcontactsChanged, hMeta, 0);
 	return TRUE;
@@ -277,7 +274,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 			// if our default is not offline, and option to use default is set - return default
 			// and also if our default is online, return it
-			if (most_online_status == ID_STATUS_ONLINE || (most_online_status != ID_STATUS_OFFLINE && options.always_use_default))
+			if (most_online_status == ID_STATUS_ONLINE)
 				return most_online_contact;
 		}
 		else most_online_status = ID_STATUS_OFFLINE;
@@ -339,198 +336,6 @@ int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact)
 			return i;
 
 	return -1;
-}
-
-BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2)
-{
-	if (dbv1->type != dbv2->type) return FALSE;
-
-	switch (dbv1->type) {
-	case DBVT_BYTE:
-		return dbv1->bVal == dbv2->bVal;
-	case DBVT_WORD:
-		return dbv1->wVal == dbv2->wVal;
-	case DBVT_DWORD:
-		return dbv1->dVal == dbv2->dVal;
-	case DBVT_ASCIIZ:
-		return !strcmp(dbv1->pszVal, dbv2->pszVal);
-	case DBVT_BLOB:
-		return (dbv1->cpbVal == dbv2->cpbVal && !memcmp(dbv1->pbVal, dbv2->pbVal, dbv1->cpbVal));
-		break;
-	default:
-		return FALSE;
-	}
-}
-
-void copy_settings_array(DBCachedContact *ccMeta, char *module, const char *settings[], int num_settings)
-{
-	int most_online = Meta_GetContactNumber(ccMeta, Meta_GetMostOnline(ccMeta));
-
-	BOOL use_default = FALSE;
-	int source_contact = (use_default ? ccMeta->nDefault : most_online);
-	if (source_contact < 0 || source_contact >= ccMeta->nSubs)
-		return;
-
-	for (int i = 0; i < num_settings; i++) {
-		BOOL bDataWritten = FALSE;
-		for (int j = 0; j < ccMeta->nSubs && !bDataWritten; j++) {
-			// do source (most online) first
-			MCONTACT hContact;
-			if (j == 0)
-				hContact = Meta_GetContactHandle(ccMeta, source_contact);
-			else if (j <= source_contact)
-				hContact = Meta_GetContactHandle(ccMeta, j - 1);
-			else
-				hContact = Meta_GetContactHandle(ccMeta, j);
-
-			if (hContact == 0)
-				continue;
-
-			char *used_mod;
-			if (!module) {
-				used_mod = GetContactProto(hContact);
-				if (!used_mod)
-					continue; // next contact
-			}
-			else used_mod = module;
-
-			if (j == 0 && strcmp(settings[i], "MirVer") == 0) //Always reset MirVer
-				db_unset(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i]);
-
-			DBVARIANT dbv1, dbv2;
-			BOOL bFree, got_val = !db_get_s(hContact, used_mod, settings[i], &dbv2, 0);
-			if (got_val) {
-				bFree = !db_get_s(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i], &dbv1, 0);
-
-				if (strcmp(settings[i], "MirVer") == 0) {
-					if (db_get_w(hContact, used_mod, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
-						if (!bFree || (dbv1.pszVal == NULL || strcmp(dbv1.pszVal, "") == 0 || strlen(dbv1.pszVal) < 2)) {
-							db_set(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i], &dbv2);
-							bDataWritten = TRUE; //only break if found something to copy
-						}
-					}
-				}
-				else {
-					if (!bFree || !dbv_same(&dbv1, &dbv2)) {
-						db_set(ccMeta->contactID, (module ? used_mod : META_PROTO), settings[i], &dbv2);
-						if (dbv2.type == DBVT_ASCIIZ || dbv2.type == DBVT_UTF8) {
-							if (dbv2.pszVal != NULL && strcmp(dbv2.pszVal, "") != 0)
-								bDataWritten = TRUE; //only break if found something to copy
-						}
-						else if (dbv2.type == DBVT_WCHAR) {
-							if (dbv2.pwszVal != 0 && wcscmp(dbv2.pwszVal, L"") != 0)
-								bDataWritten = TRUE; //only break if found something to copy
-						}
-						else bDataWritten = TRUE; //only break if found something to copy
-					}
-					else bDataWritten = TRUE;
-				}
-				db_free(&dbv2);
-				if (bFree)
-					db_free(&dbv1);
-			}
-		}
-	}
-}
-
-const char *ProtoSettings[25] =
-{ "BirthDay", "BirthMonth", "BirthYear", "Age", "Cell", "Cellular", "Homepage", "email", "Email", "e-mail",
-"FirstName", "MiddleName", "LastName", "Title", "Timezone", "Gender", "MirVer", "ApparentMode", "IdleTS", "LogonTS", "IP", "RealIP",
-"Auth", "ListeningTo", "Country" };
-const char *UserInfoSettings[71] =
-{ "NickName", "FirstName", "MiddleName", "LastName", "Title", "Timezone", "Gender", "DOBd", "DOBm", "DOBy",
-"Mye-mail0", "Mye-mail1", "MyPhone0", "MyPhone1", "MyNotes", "PersonalWWW",
-"HomePhone", "HomeFax", "HomeMobile", "HomeStreet", "HomeCity", "HomeState", "HomeZip", "HomeCountry",
-"WorkPhone", "WorkFax", "WorkMobile", "WorkStreet", "WorkCity", "WorkState", "WorkZip", "WorkCountry", "Company", "Department", "Position",
-"Occupation", "Cellular", "Cell", "Phone", "Notes",
-
-"e-mail", "e-mail0", "e-mail1", "Homepage", "MaritalStatus",
-"CompanyCellular", "CompanyCity", "CompanyState", "CompanyStreet", "CompanyCountry", "Companye-mail",
-"CompanyHomepage", "CompanyDepartment", "CompanyOccupation", "CompanyPosition", "CompanyZip",
-
-"OriginCity", "OriginState", "OriginStreet", "OriginCountry", "OriginZip",
-"City", "State", "Street", "Country", "Zip",
-
-"Language1", "Language2", "Language3", "Partner", "Gender" };
-const char *ContactPhotoSettings[5] =
-{ "File", "Backup", "Format", "ImageHash", "RFile" };
-const char *MBirthdaySettings[3] =
-{ "BirthDay", "BirthMonth", "BirthYear" };
-
-// special handling for status message
-// copy from first subcontact with any of these values that has the same status as the most online contact
-// szProto: 
-// clist: "StatusMsg"
-
-void CopyStatusData(DBCachedContact *ccMeta)
-{
-	int num_contacts = db_get_dw(ccMeta->contactID, META_PROTO, "NumContacts", INVALID_CONTACT_ID),
-		most_online = Meta_GetContactNumber(ccMeta, Meta_GetMostOnline(ccMeta));
-	WORD status = db_get_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
-	MCONTACT hContact;
-	BOOL bDoneStatus = FALSE, bDoneXStatus = FALSE;
-
-	for (int i = 0; i < num_contacts; i++) {
-		if (i == 0)
-			hContact = Meta_GetContactHandle(ccMeta, most_online);
-		else if (i <= most_online)
-			hContact = Meta_GetContactHandle(ccMeta, i - 1);
-		else
-			hContact = Meta_GetContactHandle(ccMeta, i);
-
-		char *szProto = GetContactProto(hContact);
-
-		if (szProto && db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) == status) {
-			DBVARIANT dbv;
-			if (!bDoneStatus && !db_get_s(hContact, "CList", "StatusMsg", &dbv, 0)) {
-				db_set(ccMeta->contactID, "CList", "StatusMsg", &dbv);
-				db_free(&dbv);
-				bDoneStatus = TRUE;
-			}
-			if ((!bDoneXStatus) && (!db_get_s(hContact, szProto, "XStatusId", &dbv, 0)) && dbv.type != DBVT_DELETED) {
-				db_set_s(ccMeta->contactID, META_PROTO, "XStatusProto", szProto);
-				db_set(ccMeta->contactID, META_PROTO, "XStatusId", &dbv);
-
-				db_free(&dbv);
-				if (!db_get_s(hContact, szProto, "XStatusMsg", &dbv, 0)) {
-					db_set(ccMeta->contactID, META_PROTO, "XStatusMsg", &dbv);
-					db_free(&dbv);
-				}
-				if (!db_get_s(hContact, szProto, "XStatusName", &dbv, 0)) {
-					db_set(ccMeta->contactID, META_PROTO, "XStatusName", &dbv);
-					db_free(&dbv);
-				}
-				bDoneXStatus = TRUE;
-			}
-		}
-
-		if (bDoneStatus && bDoneXStatus)
-			break;
-	}
-
-	if (!bDoneStatus)
-		db_unset(ccMeta->contactID, "CList", "StatusMsg");
-
-	if (!bDoneXStatus) {
-		db_unset(ccMeta->contactID, META_PROTO, "XStatusId");
-		db_unset(ccMeta->contactID, META_PROTO, "XStatusMsg");
-		db_unset(ccMeta->contactID, META_PROTO, "XStatusName");
-	}
-}
-
-void Meta_CopyData(DBCachedContact *cc)
-{
-	if (!options.copydata || cc == NULL)
-		return;
-
-	CopyStatusData(cc);
-
-	copy_settings_array(cc, 0, ProtoSettings, 25);
-	copy_settings_array(cc, "mBirthday", UserInfoSettings, 3);
-	copy_settings_array(cc, "ContactPhoto", ContactPhotoSettings, 5);
-
-	if (options.copy_userinfo)
-		copy_settings_array(cc, "UserInfo", UserInfoSettings, 71);
 }
 
 MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number)
@@ -613,7 +418,7 @@ int Meta_HideLinkedContacts(void)
 			}
 		}
 
-		if (options.suppress_status)
+		if (options.bSuppressStatus)
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 	}
 
@@ -637,7 +442,7 @@ int Meta_HideMetaContacts(int hide)
 	if (hide)
 		Meta_SuppressStatus(FALSE);
 	else
-		Meta_SuppressStatus(options.suppress_status);
+		Meta_SuppressStatus(options.bSuppressStatus);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (CheckMeta(hContact) == NULL)
@@ -665,7 +470,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 {
 	DBVARIANT dbv, dbv_proto;
 
-	if (options.lockHandle)
+	if (options.bLockHandle)
 		hContact = Meta_GetContactHandle(ccMeta, 0);
 
 	if (!hContact)
@@ -705,7 +510,6 @@ int Meta_SetAllNicks()
 		MCONTACT most_online = Meta_GetMostOnline(cc);
 		Meta_CopyContactNick(cc, most_online);
 		Meta_FixStatus(cc);
-		Meta_CopyData(cc);
 	}
 	return 0;
 }
@@ -777,9 +581,4 @@ void Meta_FixStatus(DBCachedContact *ccMeta)
 		else db_set_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
 	}
 	else db_set_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
-}
-
-INT_PTR Meta_IsEnabled()
-{
-	return db_get_b(0, META_PROTO, "Enabled", 1);
 }

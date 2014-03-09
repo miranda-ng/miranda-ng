@@ -74,7 +74,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 		}
 
 		// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
-		if (!Meta_IsEnabled())
+		if (!options.bEnabled)
 			db_set_b(hMetaContact, "CList", "Hidden", 1);
 	}
 
@@ -93,7 +93,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 	if (ccSub->parentID == ccMeta->contactID) {
 		// stop ignoring, if we were
-		if (options.suppress_status)
+		if (options.bSuppressStatus)
 			CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
 	}
 
@@ -178,7 +178,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		return 0;
 
 	// The wParam is a metacontact
-	if (IsMeta(cc)) {
+	if (cc->IsMeta()) {
 		// check from recursion - see second half of this function
 		if (!bSkipQuestion && IDYES != 
 			 MessageBox((HWND)CallService(MS_CLUI_GETHWND, 0, 0),
@@ -192,7 +192,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	}
-	else if (IsSub(cc)) {
+	else if (cc->IsSub()) {
 		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == NULL)
 			return 0;
 
@@ -274,7 +274,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	Menu_ShowItem(hMenuRoot, false);
 
-	if (IsMeta(cc)) {
+	if (cc->IsMeta()) {
 		// save the mouse pos in case they open a subcontact menu
 		GetCursorPos(&menuMousePoint);
 
@@ -349,7 +349,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 		return 0;
 	}
 
-	if (!Meta_IsEnabled()) {
+	if (!options.bEnabled) {
 		// groups disabled - all meta menu options hidden
 		Menu_ShowItem(hMenuDefault, false);
 		Menu_ShowItem(hMenuDelete, false);
@@ -360,7 +360,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 	}
 	
 	// the contact is affected to a metacontact
-	if (IsSub(cc)) {
+	if (cc->IsSub()) {
 		Menu_ShowItem(hMenuDefault, true);
 
 		mi.flags = CMIM_NAME;
@@ -471,18 +471,9 @@ void InitMenus()
 		hMenuContact[i] = Menu_AddContactMenuItem(&mi);
 	}
 
-	// loop and copy data from subcontacts
-	if (options.copydata) {
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			DBCachedContact *cc = CheckMeta(hContact);
-			if (cc != NULL)
-				Meta_CopyData(cc);
-		}
-	}
-
 	Meta_HideLinkedContacts();
 
-	if (!Meta_IsEnabled()) {
+	if (!options.bEnabled) {
 		// modify main menu item
 		mi.flags = CMIM_NAME | CMIM_ICON;
 		mi.icolibItem = GetIconHandle(I_MENU);
@@ -491,5 +482,5 @@ void InitMenus()
 
 		Meta_HideMetaContacts(TRUE);
 	}
-	else Meta_SuppressStatus(options.suppress_status);
+	else Meta_SuppressStatus(options.bSuppressStatus);
 }

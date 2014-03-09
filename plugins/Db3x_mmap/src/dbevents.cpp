@@ -37,17 +37,26 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
 
-	if (NotifyEventHooks(hEventFilterAddedEvent, contactID, (LPARAM)dbei))
-		return 0;
-
 	DBEvent dbe;
 	dbe.signature = DBEVENT_SIGNATURE;
-	dbe.contactID = contactID;
+	dbe.contactID = contactID; // store native or subcontact's id
 	dbe.timestamp = dbei->timestamp;
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;
 	dbe.cbBlob = dbei->cbBlob;
 	BYTE *pBlob = dbei->pBlob;
+
+	if (contactID != 0) {
+		DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+		if (cc == NULL)
+			return NULL;
+
+		if (cc->IsSub())
+			contactID = cc->parentID;
+	}
+
+	if (NotifyEventHooks(hEventFilterAddedEvent, contactID, (LPARAM)dbei))
+		return NULL;
 
 	mir_ptr<BYTE> pCryptBlob;
 	if (m_bEncrypted) {
@@ -66,7 +75,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	DWORD ofsContact = GetContactOffset(contactID);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
-		return 0;
+		return NULL;
 
 	DWORD ofsNew = CreateNewSpace(offsetof(DBEvent, blob) + dbe.cbBlob);
 

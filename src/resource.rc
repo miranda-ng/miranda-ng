@@ -776,13 +776,6 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Set default contact on receipt of message",IDC_CHK_SETDEFAULTRECV,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,9,290,10
-    CONTROL         "Always send to default contact if not offline",IDC_CHK_ALWAYSUSEDEFAULT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,31,290,10
-    GROUPBOX        "Options",IDC_STATIC,0,0,297,178
-    CONTROL         "Suppress status notification for subcontacts",IDC_CHK_SUPPRESSSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,42,290,10
     GROUPBOX        "Context Menu",IDC_STATIC,4,79,289,58
     CONTROL         "Use contact's unique ID",IDC_RAD_UID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,100,112,10
     CONTROL         "Use contact's display name",IDC_RAD_DID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,114,112,10
@@ -794,12 +787,7 @@ BEGIN
     GROUPBOX        "Contact List",IDC_STATIC,4,139,289,33,WS_GROUP
     CONTROL         "Display subcontact nickname",IDC_RAD_NICK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,149,144,10
     CONTROL         "Display subcontact display name",IDC_RAD_NAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,160,144,10
-    CONTROL         "Use subcontact message windows",IDC_CHK_SUBWINDOW,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,155,10
-    CONTROL         "Copy subcontact data",IDC_CHK_COPYDATA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,64,133,10
     CONTROL         "Lock name to first contact",IDC_CHK_LOCKHANDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,155,115,10
-    CONTROL         "but only for the current conversation",IDC_CHK_TEMPDEFAULT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,260,10
 END
 
 IDD_METACOPYPROGRESS DIALOG 0, 0, 186, 90
@@ -837,23 +825,6 @@ BEGIN
     CONTROL         "Default",IDC_CHK_DEFAULT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,97,81,58,10
     CTEXT           "(Lower ranks are preferred)",IDC_STATIC,51,99,162,8
 END
-
-IDD_METAHISTORY DIALOGEX 0, 0, 287, 109
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    CONTROL         "Copy subcontact history to MetaContact when creating or adding",IDC_CHK_COPYHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,23,258,10
-    RTEXT           "Number of days to copy (0=all):",IDC_STATIC,13,37,125,8
-    EDITTEXT        IDC_ED_DAYS,158,35,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Keep MetaContact history synchronized with subcontacts",IDC_CHK_METAHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,60,258,10
-    CONTROL         "Keep subcontact history synchronized with MetaContact",IDC_CHK_SUBHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,78,258,10
-    GROUPBOX        "History (** beware - change at your own risk **)",IDC_STATIC,7,7,273,95,WS_GROUP
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

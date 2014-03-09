@@ -116,7 +116,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				return TRUE;
 			}
 
-			if (IsMeta(cc)) {
+			if (cc->IsMeta()) {
 				MessageBox(hwndDlg,
 							  TranslateT("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
 							  TranslateT("MetaContact Conflict"), MB_ICONERROR);
@@ -124,7 +124,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				return TRUE;
 			}
 
-			if (IsSub(cc)) {
+			if (cc->IsSub()) {
 				MessageBox(hwndDlg,
 							  TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
 							  TranslateT("Multiple MetaContacts"), MB_ICONERROR);

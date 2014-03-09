@@ -51,7 +51,6 @@
 #define IDD_METAEDIT                    152
 #define IDD_METAOPTIONS                 153
 #define IDD_METAPRIORITIES              154
-#define IDD_METAHISTORY                 155
 #define IDD_METACOPYPROGRESS            156
 #define IDI_DND                         158
 #define IDI_OCCUPIED                    159
@@ -378,9 +377,6 @@
 #define IDC_RESETPROTOCOLDATA           1407
 #define IDC_BYCUSTOM                    1408
 #define IDC_PROTOCOLORDERWARNING        1409
-#define IDC_CHK_SETDEFAULTRECV          1410
-#define IDC_CHK_ALWAYSUSEDEFAULT        1411
-#define IDC_CHK_TEMPDEFAULT             1412
 #define IDC_CHK_SUPPRESSSTATUS          1413
 #define IDC_RAD_UID                     1414
 #define IDC_RAD_DID                     1415
@@ -390,11 +386,6 @@
 #define IDC_RAD_NICK                    1419
 #define IDC_RAD_NAME                    1420
 #define IDC_CHK_LOCKHANDLE              1421
-#define IDC_CHK_SUBWINDOW               1422
-#define IDC_CHK_METAHISTORY             1423
-#define IDC_CHK_SUBHISTORY              1424
-#define IDC_CHK_COPYDATA                1425
-#define IDC_CHK_COPYHISTORY             1426
 #define IDC_ED_DAYS                     1427
 #define IDC_SP_PRIORITY                 1428
 #define IDC_CMB_PROTOCOL                1429

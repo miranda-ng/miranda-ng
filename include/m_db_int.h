@@ -56,6 +56,9 @@ struct DBCachedContact
 	MCONTACT *pSubs;
 	MCONTACT  parentID; // == 0 -> not a subcontact
 	int       nDefault; // default sub number
+
+	__forceinline bool IsMeta() const { return nSubs != -1; }
+	__forceinline bool IsSub() const { return parentID != 0; }
 };
 
 interface MIDatabaseCache : public MZeroedObject
