@@ -22,10 +22,10 @@ Boston, MA 02111-1307, USA.
 #define __QUICK_REPLY_H__
 
 #include <windows.h>
-#include <vector>
 
 #include <newpluginapi.h>
 #include <m_utils.h>
+#include <m_string.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_options.h>
@@ -33,15 +33,14 @@ Boston, MA 02111-1307, USA.
 #include <m_msg_buttonsbar.h>
 #include <m_variables.h>
 
-#include "resource.h"
 #include "version.h"
+#include "resource.h"
 
-#define MODULE_NAME				"QuickReplies"
-#define TEXT_LIMIT				2048
-#define IDC_MESSAGE				1002
-#define IDC_CHATMESSAGE			1009
+#define MODULE "QuickReplies"
+#define IDC_MESSAGE 1002
+#define IDC_CHATMESSAGE 1009
 
-#define MS_QUICKREPLIES_SERVICE	MODULE_NAME"/Service"
+#define MS_QUICKREPLIES_SERVICE MODULE"/Service"
 
 extern HINSTANCE hInstance;
 
@@ -52,8 +51,6 @@ extern HANDLE hOnButtonPressed;
 extern HANDLE hQuickRepliesService;
 extern HANDLE hOnModulesLoaded;
 extern HANDLE hOnPreShutdown;
-
-typedef std::wstring tString;
 
 INT_PTR QuickRepliesService(WPARAM wParam, LPARAM lParam);
 

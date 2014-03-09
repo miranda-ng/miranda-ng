@@ -46,7 +46,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 			GetWindowText(hwnd, text, 1024);
 			MoveMemory(text + start, text + end, sizeof(WCHAR) * (wcslen(text) + 1 - end));
 			SetWindowText(hwnd, text);
-			//SAFE_FREE((void**)&text);
 			SendMessage(hwnd, EM_SETSEL, start, start);
 			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM) hwnd);
 			return 0;
@@ -64,33 +63,32 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		{
 			char key[64];
 			int count = 0;
-			DBVARIANT dbv = {0};
-			tString replies = _T("");
+			CMString replies;
 
 			TranslateDialogDefault(hwndDlg);
 			variables_skin_helpbutton(hwndDlg, IDC_VARIABLES);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLES_HINT), ServiceExists(MS_VARS_FORMATSTRING));
 
-			SendDlgItemMessage(hwndDlg, IDC_REPLIES, EM_LIMITTEXT, TEXT_LIMIT, 0);
-			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_REPLIES), MessageEditSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_REPLIES), MessageEditSubclassProc);
 
-			mir_snprintf(key, 64, "ImmediatelySend_%x", iNumber);
-			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, (BYTE)db_get_w(NULL, MODULE_NAME, key, 1));
+			mir_snprintf(key, SIZEOF(key), "ImmediatelySend_%x", iNumber);
+			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, (BYTE)db_get_w(NULL, MODULE, key, 1));
 
-			mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-			count = db_get_w(NULL, MODULE_NAME, key, 0);
+			mir_snprintf(key, SIZEOF(key), "RepliesCount_%x", iNumber);
+			count = db_get_w(NULL, MODULE, key, 0);
 
 			for (int i = 0; i < count; i++)
 			{
-				mir_snprintf(key, 64, "Reply_%x_%x", iNumber, i);
-				if (!db_get_ts(NULL, MODULE_NAME, key, &dbv))
-					if(dbv.ptszVal != NULL)
-						replies.append(dbv.ptszVal);
-				if (i < count - 1)
-					replies.append(_T("\r\n"));
+				mir_snprintf(key, SIZEOF(key), "Reply_%x_%x", iNumber, i);
+				wchar_t *value = db_get_wsa(NULL, MODULE, key);
+				if (value)
+				{
+					replies.Append(value);
+					replies.Append(_T("\r\n"));
+				}
+				mir_free(value);
 			}
-			SetDlgItemText(hwndDlg, IDC_REPLIES, replies.c_str());
-
-			db_free(&dbv);
+			SetDlgItemText(hwndDlg, IDC_REPLIES, replies.GetBuffer());
 		}
 		return TRUE;
 
@@ -117,41 +115,42 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				{
 					char key[64];
 					int count = 0;
-					TCHAR tszReplies[TEXT_LIMIT];
+					wchar_t *tszReplies;
 
-					mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-					count = db_get_b(NULL, MODULE_NAME, key, 0);
+					mir_snprintf(key, SIZEOF(key), "RepliesCount_%x", iNumber);
+					count = db_get_b(NULL, MODULE, key, 0);
 
 					for (int i = 0; i < count; i++)
 					{
-						mir_snprintf(key, 64, "Reply_%x_%x", iNumber, i);
-						db_unset(NULL, MODULE_NAME, key);
+						mir_snprintf(key, SIZEOF(key), "Reply_%x_%x", iNumber, i);
+						db_unset(NULL, MODULE, key);
 					}
 
-					GetDlgItemText(hwndDlg, IDC_REPLIES, tszReplies, TEXT_LIMIT);
+					int length = SendDlgItemMessage(hwndDlg, IDC_REPLIES, WM_GETTEXTLENGTH, 0, 0);
+					tszReplies = (wchar_t*)mir_alloc(sizeof(wchar_t)* (length + 1));
+					GetDlgItemText(hwndDlg, IDC_REPLIES, tszReplies, length + 1);
+					tszReplies[length] = '\0';
 					{
-						tString replies = tszReplies;
-
-						if (replies.length() > 0)
-							replies.append(_T("\r\n"));
+						CMString replies = tszReplies;
+						if (replies.Right(2) != _T("\r\n"))
+							replies.Append(_T("\r\n"));
 
 						count = 0;
-						tString::size_type pos = tString::npos;
-						while ((pos = replies.find(_T("\r\n"))) != tString::npos)
+						int pos = -1, prev = 0;
+						while ((pos = replies.Find(_T("\r\n"), prev)) != -1)
 						{
 							mir_snprintf(key, 64, "Reply_%x_%x", iNumber, count++);
-							db_set_ts(NULL, MODULE_NAME, key, replies.substr(0, pos).c_str());
-							replies = replies.substr(pos + 2);
+							db_set_ws(NULL, MODULE, key, replies.Mid(prev, pos - prev).GetBuffer());
+							prev = pos + 2;
 						}
 					}
+					mir_free(tszReplies);
 
-					mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-					db_set_w(NULL, MODULE_NAME, key, count);
+					mir_snprintf(key, SIZEOF(key), "RepliesCount_%x", iNumber);
+					db_set_w(NULL, MODULE, key, count);
 
-					mir_snprintf(key, 64, "ImmediatelySend_%x", iNumber);
-					db_set_b(NULL, MODULE_NAME, key, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
-
-					mir_free(key);
+					mir_snprintf(key, SIZEOF(key), "ImmediatelySend_%x", iNumber);
+					db_set_b(NULL, MODULE, key, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
 
 					return TRUE;
 				}
@@ -170,7 +169,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 {
 	char tabName[32];
-	mir_snprintf(tabName, SIZEOF(tabName), "Button %x", iNumber + 1);
+	mir_snprintf(tabName, SIZEOF(tabName), "%s %x", Translate("Button"), iNumber + 1);
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.pszGroup = LPGEN("Message Sessions");
