@@ -238,6 +238,18 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR CDropbox::SendFileWToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
+{
+	const wchar_t *filePathW = (wchar_t*)lParam;
+	char *filePath = Utf8EncodeW(filePathW);
+
+	SendFileToDropbox(obj, hContact, (LPARAM)filePath);
+
+	mir_free(filePath);
+
+	return 0;
+}
+
 INT_PTR CDropbox::SendFilesToDropbox(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;

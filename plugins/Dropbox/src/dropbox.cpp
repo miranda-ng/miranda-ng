@@ -14,6 +14,7 @@ CDropbox::CDropbox()
 	HookEventObj(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu, this);
 
 	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, SendFileToDropbox, this);
+	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILEW, SendFileWToDropbox, this);
 
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
 	CreateProtoServiceFunctionObj(PSS_FILE, ProtoSendFile, this);

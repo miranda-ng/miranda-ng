@@ -493,12 +493,14 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 			if (ftp->hContact != ftp->instance->GetDefaultContact())
 			{
 				CallContactService(ftp->hContact, PSS_MESSAGE, 0, (LPARAM)urls.GetBuffer());
-				dbei.flags |= DBEF_SENT | DBEF_READ;
+				dbei.flags |= DBEF_SENT;
+				dbei.flags |= DBEF_READ;
 			}
 
 			db_event_add(ftp->hContact, &dbei);
 		}
-		else if (db_get_b(NULL, MODULE, "UrlPasteToMessageLog", 1))
+		
+		if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 1))
 			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)ftp->hContact, (LPARAM)urls.GetBuffer());
 
 		if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 1))

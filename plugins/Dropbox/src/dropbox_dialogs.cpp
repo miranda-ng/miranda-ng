@@ -28,7 +28,7 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		CheckDlgButton(hwndDlg, IDC_USE_SHORT_LINKS, db_get_b(NULL, MODULE, "UseSortLinks", 1));
 		CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, db_get_b(NULL, MODULE, "UrlAutoSend", 1));
-		CheckDlgButton(hwndDlg, IDC_URL_COPYTOML, db_get_b(NULL, MODULE, "UrlPasteToMessageLog", 0));
+		CheckDlgButton(hwndDlg, IDC_URL_COPYTOMIA, db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0));
 		CheckDlgButton(hwndDlg, IDC_URL_COPYTOCB, db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0));
 	}
 		return TRUE;
@@ -70,7 +70,7 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			db_set_b(NULL, MODULE, "UseSortLinks", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_SHORT_LINKS));
 			db_set_b(NULL, MODULE, "UrlAutoSend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_AUTOSEND));
-			db_set_b(NULL, MODULE, "UrlPasteToMessageLog", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOML));
+			db_set_b(NULL, MODULE, "UrlPasteToMessageInputArea", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOMIA));
 			db_set_b(NULL, MODULE, "UrlCopyToClipboard", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOCB));
 		}
 		break;

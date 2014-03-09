@@ -70,6 +70,7 @@ private:
 	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFileToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
+	static INT_PTR SendFileWToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFilesToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 

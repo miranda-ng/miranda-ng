@@ -26,6 +26,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 IDD_OPTIONS_MAIN DIALOGEX 0, 0, 323, 256
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
+EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Authorization",IDC_STATIC,5,5,313,103
@@ -46,7 +47,7 @@ BEGIN
     CTEXT           "",IDC_AUTH_STATUS,145,89,169,8
     CONTROL         "Autosend download link to contact",IDC_URL_AUTOSEND,
                     "Button",BS_AUTORADIOBUTTON,15,138,298,10
-    CONTROL         "Paste download link to message log",IDC_URL_COPYTOML,
+    CONTROL         "Paste download link into message input area",IDC_URL_COPYTOMIA,
                     "Button",BS_AUTORADIOBUTTON,15,151,298,10
     CONTROL         "Copy download link to clibboard",IDC_URL_COPYTOCB,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,298,10

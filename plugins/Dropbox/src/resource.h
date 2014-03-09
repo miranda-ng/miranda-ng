@@ -14,6 +14,7 @@
 #define IDC_URL_COPYTOCB                1009
 #define IDC_CHECK1                      1010
 #define IDC_URL_COPYTOML                1029
+#define IDC_URL_COPYTOMIA               1029
 #define IDC_URL_AUTOSEND                1030
 #define IDC_GETAUTH                     1200
 
