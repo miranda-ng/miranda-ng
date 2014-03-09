@@ -195,7 +195,6 @@
     <ClCompile Include="src\masks.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
