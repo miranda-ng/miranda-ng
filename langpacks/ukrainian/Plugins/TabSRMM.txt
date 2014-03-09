@@ -481,7 +481,7 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 Час того ж кольору, що і подія
 [Add a colon (:) to auto-completed user names]
 Додавати ":" до імен користувачів
-[Start private conversation on doubleclick in nick list (insert nick if безконтрольно)]
+[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 Приват при подвійному кліку у списку ників (інакше вставляти нік)
 [Use IRC style status indicators in the log]
 IRC-стиль(текстовий) індикаторів ролей в журналі чату
@@ -1527,6 +1527,8 @@ ID користувача в панелі статусу
 Невідома подія
 [You cannot edit user notes when there are unsent messages]
 Ви не можете правити нотатки, якщо є ненадіслані повідомлення
+[Version]
+Версія
 [No UID]
 немає UID
 [%s Idle: %dh,%02dm]

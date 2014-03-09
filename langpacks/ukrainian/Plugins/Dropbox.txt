@@ -6,13 +6,13 @@
 ;  Authors: unsane
 ;============================================================
 [Allows to transfer files via Dropbox.]
-Плагін для завантаження і пересилання файлів за допомогою Dropbox.
+Завантаження і пересилання файлів за допомогою Dropbox.
 [Authorization]
 Авторизація
 [To allow Miranda NG access in your Dropbox account:]
 Щоб надати Miranda NG доступ до вашого облікового запису Dropbox:
 [Go to this link]
-Перейдіть
+Перейдіть на сайт
 [Allow access to app folder]
 Дозвольте доступ до файлів у папці apps
 [Enter authorization code]
@@ -64,7 +64,9 @@
 [Protocol icon]
 Значок протоколу
 [Unknown command "%s".\nUse "/help" for more info.]
-Невідома команда "%s".\nНаберіть "/help" для довідки.]
+Невідома команда "%s".\nНаберіть "/help" для довідки.
+["%s" is not valid.\nUse "/help" for more info.]
+"%s" не дійсна.\nНаберіть "/help" для довідки.
 [Server does not respond]
 Сервер не відповідає
 [Link to download file "%s": %s]

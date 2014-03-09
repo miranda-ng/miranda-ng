@@ -88,11 +88,11 @@
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]
-&Вийти
+&Вийти з чату
 [User &details]
-Дані контакту
+&Дані контакту
 [User &history]
-Історія користувача
+&Історія користувача
 [Login error: %s]
 Помилка входу: %s
 [Unknown error]
@@ -247,10 +247,14 @@
 Стрічка
 [Friendship details]
 Інформація про дружбу
+[Conversation]
+Бесіда
 [Visit profile]
 Профіль
 [Visit friendship details]
 Інформація про дружбу
+[Visit conversation]
+Бесіда на сайті
 [Cancel friendship]
 Видалити із друзів
 [Cancel friendship request]

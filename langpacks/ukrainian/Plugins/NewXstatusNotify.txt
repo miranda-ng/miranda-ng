@@ -49,14 +49,18 @@
 Запис у файл
 [Enable]
 Ввімкнено
-[Go to Sound to select the sounds]
-Перейдіть у "Звуки" для вибору звуків
 [Extra status]
 хСтатус
 [Open]
 Відкрити
 [Status message]
 Повідомлення статусу
+[Log in history]
+Запис в історію
+[Log status changes in history]
+Записувати зміни статусів в історію
+[Only when message window is open]
+Тільки якщо вікно повідомлень відкрите
 [Change]
 Змінити
 [Preview]
@@ -307,6 +311,8 @@
 хСтатус видалено
 [Toggle status notification]
 Ввімк./Вимк. сповіщення про зміну статусу
+[Status change]
+Зміна статусу
 [All Files]
 Усі файли
 [Log]

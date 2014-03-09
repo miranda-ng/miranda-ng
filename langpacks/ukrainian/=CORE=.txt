@@ -1181,8 +1181,6 @@ UIN, E-mail тощо
 Події, отримані пізніше ніж
 [minutes old]
 хвилин тому
-[Show status changes]
-Показувати зміни статусів
 [Show seconds]
 Секунди
 [Load history events]
