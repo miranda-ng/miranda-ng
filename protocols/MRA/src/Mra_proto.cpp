@@ -812,8 +812,8 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 						mraSetStringW(hContact, "LastName", valW);
 					}
 					else if (fld == "Sex") {
-						buf >> valW;
-						switch (_wtoi(valW)) {
+						buf >> val;
+						switch (atoi(val)) {
 						case 1:// мужской
 							setByte(hContact, "Gender", 'M');
 							break;
