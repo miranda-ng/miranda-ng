@@ -1203,8 +1203,6 @@ Voir les x derniers évènements
 Voir les évènements ayant moins de
 [minutes old]
 minutes
-[Show status changes]
-Voir les changements d'état
 [Show seconds]
 Voir les secondes
 [Load history events]

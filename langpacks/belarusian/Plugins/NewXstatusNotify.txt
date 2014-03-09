@@ -50,8 +50,6 @@
 Запіс у файл
 [Enable]
 Уключана
-[Go to Sound to select the sounds]
-Выбар гукаў у раздзеле "Гукі"
 [Extra status]
 Даатковы статус
 [Open]

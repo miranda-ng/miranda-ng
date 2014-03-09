@@ -731,8 +731,6 @@ Aantal van vorige gebeurtenissen laden
 Vorige gebeurtenissen laden minder dan
 [minutes old]
 minuten oud
-[Show status changes]
-Status wijzigingen weergeven
 [Show seconds]
 Seconden weergeven
 [Load history events]

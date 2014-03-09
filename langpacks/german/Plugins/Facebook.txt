@@ -259,10 +259,14 @@ Anstupsen
 Newsfeed
 [Friendship details]
 Freundschaft-Details
+[Conversation]
+
 [Visit profile]
 Profil besuchen
 [Visit friendship details]
 Freundschaft-Details besuchen
+[Visit conversation]
+
 [Cancel friendship]
 Freundschaft beenden
 [Cancel friendship request]

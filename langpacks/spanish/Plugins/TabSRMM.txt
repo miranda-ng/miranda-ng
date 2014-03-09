@@ -1062,6 +1062,8 @@ Archivo entrante
 
 [You cannot edit user notes when there are unsent messages]
 
+[Version]
+Versión
 [%s is typing a message.]
 
 [Last received: %s at %s]

@@ -1042,8 +1042,6 @@ Miranda
 以下の前のイベントを読み込む
 [minutes old]
 分前
-[Show status changes]
-ステータス変更を表示
 [Show seconds]
 秒を表示
 [Load history events]

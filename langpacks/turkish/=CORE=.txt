@@ -950,8 +950,6 @@ Yüklenecek önceki etkinlik sayısı
 Şu kadar önceki olayları yükle
 [minutes old]
 dakika önceki
-[Show status changes]
-Durum değişikliklerini göster
 [Show seconds]
 Saniyeleri göster
 [Load history events]

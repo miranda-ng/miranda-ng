@@ -564,8 +564,6 @@ Kuva daatumid
 Laadi ainult lugemata sündmused
 [minutes old]
 minutit vana
-[Show status changes]
-Kuva olekute muutused
 [Show seconds]
 Kuva sekundid
 [Load history events]

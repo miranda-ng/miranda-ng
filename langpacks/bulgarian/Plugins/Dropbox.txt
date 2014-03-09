@@ -83,7 +83,7 @@
 [Link to download folder "%s": %s]
 
 ;file \plugins\Dropbox\src\dropbox_utils.cpp
-[Ok]
+[OK]
 
 [Bad input parameter. Error message should indicate which one and why]
 

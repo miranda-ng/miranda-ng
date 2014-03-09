@@ -259,10 +259,15 @@ Partager le statut
 
 [Friendship details]
 
+[Conversation]
+
 [Visit profile]
 Visiter le profil
 [Visit friendship details]
 Voir les détails
+
+[Visit conversation]
+
 [Cancel friendship]
 
 [Cancel friendship request]

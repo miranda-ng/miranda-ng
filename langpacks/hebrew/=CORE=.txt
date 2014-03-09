@@ -797,8 +797,6 @@ OutputDebugString()
 טען אירועים קודמים שזמנם פחות מ
 [minutes old]
 דקות
-[Show status changes]
-הראה שינויי מצב
 [Show seconds]
 הראה שניות
 [Load history events]

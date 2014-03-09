@@ -244,9 +244,13 @@ URL:
 
 [Friendship details]
 
+[Conversation]
+
 [Visit profile]
 
 [Visit friendship details]
+
+[Visit conversation]
 
 [Cancel friendship]
 

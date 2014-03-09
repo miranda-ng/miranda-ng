@@ -928,8 +928,6 @@ Betöltendõ elõzõ események száma
 Betöltendõ elõzõ események max száma
 [minutes old]
 perces
-[Show status changes]
-Állapotváltozások mutatása
 [Show seconds]
 Másodpercek mutatása
 [Load history events]

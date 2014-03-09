@@ -966,8 +966,6 @@ Carregar o número de eventos anteriores
 Carregar evento anterior inferior
 [minutes old]
 minutos atrás
-[Show status changes]
-Exibir mudança de status
 [Show seconds]
 Mostrar segundos
 [Load history events]

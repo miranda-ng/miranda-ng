@@ -1,0 +1,4 @@
+﻿[Log in history]
+[Log status changes in history]
+[Only when message window is open]
+[Status change]

@@ -50,14 +50,18 @@ Individuelle Klänge verwenden
 In Datei speichern
 [Enable]
 Aktivieren
-[Go to Sound to select the sounds]
-Gehen Sie zu Klänge und wählen Sie die Klänge aus
 [Extra status]
 Extra Status
 [Open]
 Öffnen
 [Status message]
 Statusnachricht
+[Log in history]
+
+[Log status changes in history]
+
+[Only when message window is open]
+
 [Change]
 Ändern
 [Preview]
@@ -313,6 +317,8 @@ Extra-Statusnachricht wurde geändert
 Extra-Status wurde entfernt
 [Toggle status notification]
 Wechsel Statusbenachrichtigungen
+[Status change]
+
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Alle Dateien

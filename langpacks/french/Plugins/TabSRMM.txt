@@ -1062,6 +1062,8 @@ Nouveaux messages :
 
 [You cannot edit user notes when there are unsent messages]
 
+[Version]
+Version
 [%s is typing a message.]
 
 [Last received: %s at %s]

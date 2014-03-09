@@ -321,7 +321,6 @@
 [while sending the following message:]
 [&Details]
 [Show timestamp]
-[Show status changes]
 [Show seconds]
 [Show formatting]
 [Send typing notifications to the following users when you are typing a message to them:]

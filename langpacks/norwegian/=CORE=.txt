@@ -891,8 +891,6 @@ Last inn antall tidligere hendelser
 Last inn hendelser mindre enn
 [minutes old]
 minutter gamle
-[Show status changes]
-Vis statusforandringer
 [Show seconds]
 Vis sekunder
 [Load history events]

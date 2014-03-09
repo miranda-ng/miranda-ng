@@ -1203,8 +1203,6 @@ Lade Anzahl vorheriger Ereignisse
 Lade Ereignisse, die nicht älter als
 [minutes old]
 Minuten alt
-[Show status changes]
-Statuswechsel anzeigen
 [Show seconds]
 Sekunden anzeigen
 [Load history events]

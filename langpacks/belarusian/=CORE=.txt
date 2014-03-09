@@ -1195,8 +1195,6 @@ Miranda
 Падзеі, атрыманыя 
 [minutes old]
 хвілін назад
-[Show status changes]
-Паказваць змены статусу
 [Show seconds]
 Секунды
 [Load history events]

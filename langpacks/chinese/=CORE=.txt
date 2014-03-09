@@ -1114,8 +1114,6 @@ Miranda NG 正准备重启. \n请稍候...
 加载少于
 [minutes old]
 分钟前
-[Show status changes]
-显示状态变更
 [Show seconds]
 显示秒数
 [Load history events]

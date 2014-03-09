@@ -50,14 +50,18 @@
 Запис във файл
 [Enable]
 Включване
-[Go to Sound to select the sounds]
-
 [Extra status]
 Допълнително състояние
 [Open]
 
 [Status message]
 Текст за състояние
+[Log in history]
+
+[Log status changes in history]
+
+[Only when message window is open]
+
 [Change]
 Промяна
 [Preview]
@@ -310,6 +314,8 @@ Popups
 [Extra status removed]
 Премахване на допълнително състояние
 [Toggle status notification]
+
+[Status change]
 
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]

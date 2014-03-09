@@ -259,10 +259,14 @@ Meter
 Fuentes noticias
 [Friendship details]
 Detalles de amistad
+[Conversation]
+
 [Visit profile]
 Visitar perfil
 [Visit friendship details]
 Visitar detalles de amistad
+[Visit conversation]
+
 [Cancel friendship]
 Cancelar amistad
 [Cancel friendship request]

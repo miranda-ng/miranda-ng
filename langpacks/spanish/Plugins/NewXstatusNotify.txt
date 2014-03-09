@@ -50,13 +50,17 @@ Configurar
 
 [Enable]
 Habilitar
-[Go to Sound to select the sounds]
-
 [Extra status]
 
 [Open]
 
 [Status message]
+
+[Log in history]
+
+[Log status changes in history]
+
+[Only when message window is open]
 
 [Change]
 
@@ -312,6 +316,8 @@ Contacto
 [Extra status removed]
 
 [Toggle status notification]
+
+[Status change]
 
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]

@@ -1203,8 +1203,6 @@ Número de eventos anteriores a cargar
 Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
-[Show status changes]
-Mostrar cambios de estado
 [Show seconds]
 Mostrar segundos
 [Load history events]

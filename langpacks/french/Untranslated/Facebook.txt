@@ -98,6 +98,8 @@
 [Poke]
 [Newsfeed]
 [Friendship details]
+[Conversation]
+[Visit conversation]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]

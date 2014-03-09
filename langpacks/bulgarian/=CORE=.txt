@@ -1177,8 +1177,6 @@ Miranda
 Събития от преди
 [minutes old]
 минути
-[Show status changes]
-Промяна на състояние
 [Show seconds]
 Показване на секунди
 [Load history events]
