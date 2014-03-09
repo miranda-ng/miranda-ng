@@ -212,6 +212,20 @@ struct DATABASELINK
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+// cache access function
+
+#if defined(__cplusplus)
+extern "C"
+{
+#endif
+
+MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
+
+#if defined(__cplusplus)
+}
+#endif
+
+///////////////////////////////////////////////////////////////////////////////
 // Database list's services
 
 // MS_DB_REGISTER_PLUGIN : registers a database plugin

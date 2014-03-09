@@ -364,6 +364,11 @@ MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, const char *szModule, const ch
 	return currDb->DeleteContactSetting(hContact, szModule, szSetting);
 }
 
+MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT hContact)
+{
+	return (currDb == NULL) ? NULL : currDb->m_cache->GetCachedContact(hContact);
+}
+
 MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto)
 {
 	return (currDb == NULL) ? NULL : currDb->FindFirstContact(szProto);
