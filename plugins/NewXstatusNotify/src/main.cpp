@@ -497,7 +497,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			mir_snprintf(status, SIZEOF(status), "%d", IDC_CHK_STATUS_MESSAGE);
 			if ( db_get_b(hContact, MODULE, "EnablePopups", 1) && db_get_b(0, MODULE, status, 1) && retem && rettime) {
 				char* protoname = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)smi.hContact, 0);
-				PROTOACCOUNT* pdescr = ProtoGetAccount(protoname);
+				PROTOACCOUNT *pdescr = ProtoGetAccount(protoname);
 				protoname = mir_t2a(pdescr->tszAccountName);
 				protoname = (char*)mir_realloc(protoname, lstrlenA(protoname) + lstrlenA("_TSMChange") + 1);
 				lstrcatA(protoname, "_TSMChange");
@@ -616,27 +616,25 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 }
 
 void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stzStatusText) {
-	if (opt.ShowStatus) {
-		if (opt.UseAlternativeText) {
-			switch (GetGender(hContact)) {
-			case GENDER_MALE:
-				_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
-				break;
-			case GENDER_FEMALE:
-				_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
-				break;
-			case GENDER_UNSPECIFIED:
-				_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
-				break;
-			}
+	if (opt.UseAlternativeText) {
+		switch (GetGender(hContact)) {
+		case GENDER_MALE:
+			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
+			break;
+		case GENDER_FEMALE:
+			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
+			break;
+		case GENDER_UNSPECIFIED:
+			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
+			break;
 		}
-		else _tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
+	}
+	else _tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
 
-		if (opt.ShowPreviousStatus) {
-			TCHAR buff[MAX_STATUSTEXT];
-			mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
-			_tcscat(_tcscat(stzStatusText, _T(" ")), buff);
-		}
+	if (opt.ShowPreviousStatus) {
+		TCHAR buff[MAX_STATUSTEXT];
+		mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
+		_tcscat(_tcscat(stzStatusText, _T(" ")), buff);
 	}
 }
 
@@ -661,7 +659,9 @@ void ShowStatusChangePopup(MCONTACT hContact, char *szProto, WORD oldStatus, WOR
 	}
 
 	TCHAR stzStatusText[MAX_SECONDLINE] = {0};
-	GetStatusText(hContact,newStatus,oldStatus,stzStatusText);
+	if (opt.ShowStatus) {
+		GetStatusText(hContact,newStatus,oldStatus,stzStatusText);
+	}
 
 	if (opt.ReadAwayMsg && myStatus != ID_STATUS_INVISIBLE && StatusHasAwayMessage(szProto, newStatus))
 		db_set_ws(hContact, MODULE, "LastPopupText", stzStatusText);
