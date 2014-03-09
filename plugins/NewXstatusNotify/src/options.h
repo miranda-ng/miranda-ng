@@ -48,6 +48,7 @@ typedef struct tagOPTIONS {
 	BYTE BlinkIcon;
 	BYTE BlinkIcon_Status;
 	BYTE Log;
+	BYTE LogToDB, CheckMessageWindow;
 	TCHAR LogFilePath[MAX_PATH];
 	// IDD_AUTODISABLE
 	BYTE OnlyGlobalChanges;

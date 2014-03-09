@@ -71,6 +71,8 @@ void LoadOptions()
 	opt.BlinkIcon = db_get_b(0, MODULE, "BlinkIcon", 0);
 	opt.BlinkIcon_Status = db_get_b(0, MODULE, "BlinkIcon_Status", 0);
 	opt.Log = db_get_b(0, MODULE, "Log", 0);
+	opt.LogToDB = db_get_b(0, MODULE, "LogToDB", 0);
+	opt.CheckMessageWindow = db_get_b(0, MODULE, "CheckMessageWindow", 1);
 	DBGetStringDefault(0, MODULE, "LogFilePath", opt.LogFilePath, MAX_PATH, _T(""));
 	// IDD_AUTODISABLE
 	opt.OnlyGlobalChanges = db_get_b(0, MODULE, "OnlyGlobalChanges", 0);
@@ -90,8 +92,6 @@ void LoadOptions()
 	opt.EnableLastSeen = db_get_b(0, MODULE, "EnableLastSeen", 0);
 
 	LoadTemplates();
-
-	return;
 }
 
 void SaveTemplates()
@@ -143,6 +143,8 @@ void SaveOptions()
 	db_set_b(0, MODULE, "BlinkIcon", opt.BlinkIcon);
 	db_set_b(0, MODULE, "BlinkIcon_Status", opt.BlinkIcon_Status);
 	db_set_b(0, MODULE, "Log", opt.Log);
+	db_set_b(0, MODULE, "LogToDB", opt.LogToDB);
+	db_set_b(0, MODULE, "CheckMessageWindow", opt.CheckMessageWindow);
 	db_set_ws(0, MODULE, "LogFilePath", opt.LogFilePath);
 	// IDD_AUTODISABLE
 	db_set_b(0, MODULE, "OnlyGlobalChanges", opt.OnlyGlobalChanges);
@@ -164,7 +166,6 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	switch (msg)
 	{
 		case WM_INITDIALOG:
-		{
 			TranslateDialogDefault(hwndDlg);
 
 			CheckDlgButton(hwndDlg, IDC_AUTODISABLE, opt.AutoDisable);
@@ -182,17 +183,20 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BT_CHOOSELOGFILE), opt.Log);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BT_VIEWLOG), opt.Log);
 
-			//Statuses notified
-			char status[8];
+			CheckDlgButton(hwndDlg, IDC_LOGTODB, opt.LogToDB);
+			CheckDlgButton(hwndDlg, IDC_CHECKMESSAGEWINDOW, opt.CheckMessageWindow);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECKMESSAGEWINDOW), opt.LogToDB);
+
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++)
 			{
+				//Statuses notified
+				char status[8];
 				mir_snprintf(status, SIZEOF(status), "%d", i);
 				CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, status, 1));
 			}
 			CheckDlgButton(hwndDlg, IDC_CHK_FROMOFFLINE, opt.FromOffline);
 
 			return TRUE;
-		}
 		case WM_COMMAND:
 		{
 			switch(LOWORD(wParam))
@@ -236,15 +240,9 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BT_CHOOSELOGFILE), IsDlgButtonChecked(hwndDlg, IDC_LOG));
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BT_VIEWLOG), IsDlgButtonChecked(hwndDlg, IDC_LOG));
 					break;
-				case IDC_HYPERLINK:
-				{
-					OPENOPTIONSDIALOG ood = {0};
-					ood.cbSize = sizeof(ood);
-					//ood.pszGroup = "Customize";
-					ood.pszPage = "Sounds";
-					Options_Open(&ood);
-					return FALSE;
-				}
+				case IDC_LOGTODB:
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHECKMESSAGEWINDOW), IsDlgButtonChecked(hwndDlg, IDC_LOGTODB));
+					break;
 			}
 
 			if (HIWORD(wParam) == BN_CLICKED || (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()))
@@ -253,7 +251,6 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 		}
 		case WM_NOTIFY:
-		{
 			if (((LPNMHDR)lParam)->code == PSN_APPLY)
 			{
 				opt.AutoDisable = IsDlgButtonChecked(hwndDlg, IDC_AUTODISABLE);
@@ -265,10 +262,13 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				opt.Log = IsDlgButtonChecked(hwndDlg, IDC_LOG);
 				GetDlgItemText(hwndDlg, IDC_LOGFILE, opt.LogFilePath, SIZEOF(opt.LogFilePath));
 
+				opt.LogToDB = IsDlgButtonChecked(hwndDlg, IDC_LOGTODB);
+				opt.CheckMessageWindow = IsDlgButtonChecked(hwndDlg, IDC_CHECKMESSAGEWINDOW);
+
 				//Notified statuses
-				char status[8];
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++)
 				{
+					char status[8];
 					mir_snprintf(status, SIZEOF(status), "%d", i);
 					db_set_b(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 				}
@@ -277,7 +277,6 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SaveOptions();
 				return TRUE;
 			}
-		}
 	}
 
 	return FALSE;
@@ -606,12 +605,12 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TREMOVE), templates.PopupFlags & NOTIFY_REMOVE);
 
 			// Buttons
-			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show available variables"), BATF_TCHAR);
 			HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			DestroyIcon(hIcon);
 
-			SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reset all templates to default"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset all templates to default"), BATF_TCHAR);
 			hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 			SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			DestroyIcon(hIcon);
@@ -695,16 +694,7 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	if ( pa == NULL )
-		return false;
-
-	if ( pa->bDynDisabled || !pa->bIsEnabled )
-		return false;
-
-	if ( CallProtoService( pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0 ) == 0 )
-		return false;
-
-	return true;
+	return ( pa != NULL && !pa->bDynDisabled && pa->bIsEnabled && CallProtoService( pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0 ) != 0 );
 }
 
 INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1030,7 +1020,7 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-int OptionsInitialize(WPARAM wParam, LPARAM lParam)
+int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -100000000;

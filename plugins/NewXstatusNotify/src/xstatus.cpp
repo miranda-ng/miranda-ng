@@ -174,9 +174,9 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	}
 
 	if (ptszGroup)
-		mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName),_T("%s (%s)"), ptszNick, ptszGroup);
+		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME,_T("%s (%s)"), ptszNick, ptszGroup);
 	else
-		_tcsncpy(ppd.lptzContactName, ptszNick, SIZEOF(ppd.lptzContactName));
+		_tcsncpy(ppd.lptzContactName, ptszNick, MAX_CONTACTNAME);
 
 	// cut message if needed
 	if (opt.PTruncateMsg && (opt.PMsgLen > 0) && xsc->stzText && (_tcslen(xsc->stzText) > opt.PMsgLen)) {
@@ -205,7 +205,7 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	_tcsncpy(ppd.lptzText, stzPopupText, SIZEOF(ppd.lptzText));
 	ppd.lptzText[SIZEOF(ppd.lptzText) - 1] = 0;
 
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.iSeconds = opt.PopupTimeout;
 	PUAddPopupT(&ppd);
 }
@@ -246,24 +246,44 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		Template = templates.LogOpening; break;
 	}
 
-	TCHAR stzLogText[2*MAX_TEXT_LEN];
-	TCHAR stzLastLog[2*MAX_TEXT_LEN];
+	TCHAR stzLogText[2*MAX_TEXT_LEN], stzLastLog[2*MAX_TEXT_LEN];
 	ReplaceVars(xsc, Template, templates.LogDelimiter, stzLogText);
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, SIZEOF(stzLastLog), _T(""));
 
-	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0))
+	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)) {
 		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
+
+		char *blob = mir_utf8encodeT(stzLogText);
+
+		DBEVENTINFO dbei = {0};
+		dbei.cbSize = sizeof(dbei);
+		dbei.cbBlob = (DWORD)strlen(blob) + 1;
+		dbei.pBlob = (PBYTE) blob;
+		dbei.eventType = EVENTTYPE_STATUSCHANGE;
+		dbei.flags = DBEF_READ | DBEF_UTF;
+
+		dbei.timestamp = (DWORD)time(NULL);
+		dbei.szModule = xsc->szProto;
+		HANDLE hDBEvent = db_event_add(xsc->hContact, &dbei);
+		mir_free(blob);
+
+		if (!opt.KeepInHistory) {
+			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
+			dbevent->hContact = xsc->hContact;
+			dbevent->hDBEvent = hDBEvent;
+			eventList.insert(dbevent);
+		}
+	}
 }
 
 void LogChangeToFile(XSTATUSCHANGE *xsc)
 {
-	TCHAR stzName[256], stzType[32];
-	TCHAR stzDate[32], stzTime[32];
-	TCHAR stzText[MAX_TEXT_LEN];
+	TCHAR stzType[32], stzDate[32], stzTime[32], stzText[MAX_TEXT_LEN];
 
 	GetStatusTypeAsString(xsc->type, stzType);
 
-	_tcscpy(stzName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR));
+	INT_PTR stzName = CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR);
+
 	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("HH':'mm"), stzTime, SIZEOF(stzTime));
 	GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("dd/MM/yyyy"), stzDate, SIZEOF(stzDate));
 
@@ -323,8 +343,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (!(templates.LogFlags & xsc->action))
 		enableLog = FALSE;
 
-	if (enableLog && db_get_b(xsc->hContact, MODULE, "EnableLogging", 1)
-		 && CallService(MS_MSG_MOD_MESSAGEDIALOGOPENED, (WPARAM)xsc->hContact, 0))
+	if (enableLog && db_get_b(xsc->hContact, MODULE, "EnableLogging", 1) && CheckMsgWnd(xsc->hContact))
 		LogToMessageWindow(xsc, FALSE);
 
 	if (opt.Log)

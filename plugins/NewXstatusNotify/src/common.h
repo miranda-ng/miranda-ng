@@ -149,4 +149,5 @@ extern HINSTANCE hInst;
 extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 
+bool CheckMsgWnd(MCONTACT hContact);
 #endif //COMMON_H
