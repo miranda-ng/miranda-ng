@@ -5,8 +5,8 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
-[Allows to transfer files via Dropbox]
-Zapewnia możliwość wysłania plików do Dropbox'a.
+[Allows to transfer files via Dropbox.]
+Pozwala na transfer plików przez Dropbox
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
 Autoryzacja
@@ -28,14 +28,6 @@ Inne
 Użyj skróconych linków do udostępniania
 [Check status of authorization]
 Sprawdź stan autoryzacji
-[Enter code]
-Wpisz kod
-[Enter code below:]
-Wpisz kod poniżej:
-[OK]
-OK
-[Cancel]
-Anuluj
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 w toku...

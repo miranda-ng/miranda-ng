@@ -238,8 +238,6 @@ Wyświetl status &skrzynki odbiorczej
 Edytuj &profil
 [My Album]
 Mój album
-[My Blog]
-Mój blog
 [My Blog Status]
 Status mojego bloga
 [My Video]
@@ -260,12 +258,12 @@ Poproś wszystkich o autoryzację
 Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
+[&Send E-Mail]
+&Wyślij e-mail
 [&Send postcard]
 &Wyślij kartkę
 [&View Album]
 &Pokaż album
-[&Read Blog]
-&Czytaj blog
 [Reply Blog Status]
 Odpowiedz na status na blogu
 [View Video]
