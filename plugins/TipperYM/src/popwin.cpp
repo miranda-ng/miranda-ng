@@ -558,13 +558,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			tr.top = 0;
 			tr.bottom = opt.iPadding;
 
-			if (!pwd->bIsTextTip && opt.titleLayout != PTL_NOTITLE) {
-				if (opt.titleLayout != PTL_NOICON) {
+			if (!pwd->bIsTextTip) {
+				if (opt.titleIconLayout != PTL_NOICON) {
 					// draw icons
 					int iIconX, iIconY;
 					iIconY = opt.iPadding + opt.iTextPadding;
 
-					if (opt.titleLayout == PTL_RIGHTICON)
+					if (opt.titleIconLayout == PTL_RIGHTICON)
 						iIconX = r2.right - 16 - opt.iPadding;
 					else
 						iIconX = r2.left + opt.iPadding;
@@ -578,12 +578,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				// title text
-				if (hFontTitle) SelectObject(hdc, (HGDIOBJ)hFontTitle);
-				SetTextColor(hdc, opt.colTitle);
-				tr.top = opt.iPadding;
-				tr.bottom = tr.top + pwd->iTitleHeight - opt.iPadding;
-				UINT uTextFormat = DT_TOP | DT_LEFT | DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | DT_NOPREFIX;
-				DrawTextExt(hdc, pwd->swzTitle, -1, &tr, uTextFormat, NULL, pwd->spiTitle);
+				if (opt.bShowTitle) {
+					if (hFontTitle) SelectObject(hdc, (HGDIOBJ)hFontTitle);
+					SetTextColor(hdc, opt.colTitle);
+					tr.top = opt.iPadding;
+					tr.bottom = tr.top + pwd->iTitleHeight - opt.iPadding;
+					UINT uTextFormat = DT_TOP | DT_LEFT | DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | DT_NOPREFIX;
+					DrawTextExt(hdc, pwd->swzTitle, -1, &tr, uTextFormat, NULL, pwd->spiTitle);
+				}
 			}
 
 			// values
@@ -650,7 +652,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					// status icon in tray tooltip
-					if (opt.titleLayout != PTL_NOICON && pwd->bIsTrayTip && pwd->rows[i].hIcon) {
+					if (opt.titleIconLayout != PTL_NOICON && pwd->bIsTrayTip && pwd->rows[i].hIcon) {
 						DrawIconExAlpha(hdc, opt.iPadding, tr.top + (pwd->rows[i].iLabelHeight - 16) / 2, pwd->rows[i].hIcon, 16, 16, 0, NULL, DI_NORMAL, false);
 						bIconPainted = true;
 					}
@@ -689,7 +691,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					else
 						tr.bottom = tr.top + iRowHeight;
 
-					if (opt.titleLayout != PTL_NOICON && pwd->bIsTrayTip && pwd->rows[i].hIcon && !bIconPainted)
+					if (opt.titleIconLayout != PTL_NOICON && pwd->bIsTrayTip && pwd->rows[i].hIcon && !bIconPainted)
 						DrawIconExAlpha(hdc, opt.iPadding, tr.top + (pwd->rows[i].iValueHeight - 16) / 2, pwd->rows[i].hIcon, 16, 16, 0, NULL, DI_NORMAL, false);
 
 					UINT uFormat = opt.iValueValign | opt.iValueHalign | DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | DT_NOPREFIX;
@@ -1142,7 +1144,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			// titlebar height
-			if (!pwd->bIsTextTip && pwd->swzTitle && opt.titleLayout != PTL_NOTITLE) {
+			if (!pwd->bIsTextTip && pwd->swzTitle && opt.bShowTitle) {
 				smr.top = smr.bottom = 0;
 				smr.left = rc.left + opt.iPadding + pwd->iIndent;
 				smr.right = rc.right;

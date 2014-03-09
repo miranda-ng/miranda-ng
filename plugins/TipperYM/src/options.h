@@ -125,13 +125,14 @@ typedef struct {
 } ICONSTATE;
 
 typedef enum {PAV_NONE=0, PAV_LEFT=1, PAV_RIGHT=2} PopupAvLayout;
-typedef enum {PTL_LEFTICON=0, PTL_RIGHTICON=1, PTL_NOICON=2, PTL_NOTITLE=3} PopupTitleLayout;
+typedef enum {PTL_NOICON=0, PTL_LEFTICON=1, PTL_RIGHTICON=2} PopupIconTitleLayout;
 typedef enum {PP_BOTTOMRIGHT=0, PP_BOTTOMLEFT=1, PP_TOPRIGHT=2, PP_TOPLEFT=3} PopupPosition;
 typedef enum {PSE_NONE=0, PSE_ANIMATE=1, PSE_FADE=2} PopupShowEffect;
 
 typedef struct {
 	int iWinWidth, iWinMaxHeight, iAvatarSize; //tweety
-	PopupTitleLayout titleLayout;
+	PopupIconTitleLayout titleIconLayout;
+	bool bShowTitle;
 	PopupAvLayout avatarLayout;
 	int iTextIndent, iTitleIndent, iValueIndent;
 	bool bShowNoFocus;

@@ -125,6 +125,7 @@
 #define IDC_BTN_APPLYSKIN               1124
 #define IDC_BTN_VARIABLE                1125
 #define IDC_BTN_GETSKINS                1125
+#define IDC_CHK_SHOWTITLE               1126
 
 // Next default values for new objects
 // 

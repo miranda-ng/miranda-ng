@@ -239,7 +239,8 @@ void SaveOptions()
 	db_set_dw(0, MODULE, "MaxHeight", opt.iWinMaxHeight);
 	db_set_b(0, MODULE, "AvatarOpacity", (BYTE)opt.iAvatarOpacity);
 	db_set_b(0, MODULE, "AvatarRoundCorners", (opt.bAvatarRound ? 1 : 0));
-	db_set_b(0, MODULE, "TitleLayout", (BYTE)opt.titleLayout);
+	db_set_b(0, MODULE, "TitleIconLayout", (BYTE)opt.titleIconLayout);
+	db_set_b(0, MODULE, "TitleShow", (opt.bShowTitle ? 1 : 0));
 	if (ServiceExists(MS_AV_DRAWAVATAR))
 		db_set_b(0, MODULE, "AVLayout", (BYTE)opt.avatarLayout);
 	opt.bWaitForAvatar = (opt.avatarLayout == PAV_NONE) ? false : true;
@@ -347,7 +348,8 @@ void LoadOptions()
 	opt.iAvatarOpacity = db_get_b(0, MODULE, "AvatarOpacity", 100);
 	if (opt.iAvatarOpacity > 100) opt.iAvatarOpacity = 100;
 	opt.bAvatarRound = (db_get_b(0, MODULE, "AvatarRoundCorners", opt.bRound ? 1 : 0) == 1);
-	opt.titleLayout = (PopupTitleLayout)db_get_b(0, MODULE, "TitleLayout", (BYTE)PTL_LEFTICON);
+	opt.titleIconLayout = (PopupIconTitleLayout)db_get_b(0, MODULE, "TitleIconLayout", (BYTE)PTL_LEFTICON);
+	opt.bShowTitle = (db_get_b(0, MODULE, "TitleShow", 1) == 1);
 	if (ServiceExists(MS_AV_DRAWAVATAR))
 		opt.avatarLayout = (PopupAvLayout)db_get_b(0, MODULE, "AVLayout", PAV_RIGHT);
 	else
@@ -1362,14 +1364,14 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TranslateDialogDefault( hwndDlg );
 
+			CheckDlgButton(hwndDlg, IDC_CHK_SHOWTITLE, opt.bShowTitle ? TRUE : FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHK_NOFOCUS, opt.bShowNoFocus ? TRUE : FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHK_SBAR, opt.bStatusBarTips ? TRUE : FALSE);
 
+			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("No icon"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on left"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on right"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("No icon"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("No title"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_SETCURSEL, (int)opt.titleLayout, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_SETCURSEL, (int)opt.titleIconLayout, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom right"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom left"));
@@ -1523,7 +1525,7 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				new_val = GetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, &trans, FALSE);
 				if (trans) opt.iSidebarWidth = new_val;
 
-				opt.titleLayout = (PopupTitleLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_GETCURSEL, 0, 0);
+				opt.titleIconLayout = (PopupIconTitleLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_GETCURSEL, 0, 0);
 				opt.avatarLayout = (PopupAvLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_GETCURSEL, 0, 0);
 				opt.pos = (PopupPosition)SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_GETCURSEL, 0, 0);
 
@@ -1531,6 +1533,7 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				opt.bAvatarRound = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV))  ? true : false;
 				opt.bOriginalAvatarSize = IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE) ? true : false;
 
+				opt.bShowTitle = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHOWTITLE) ? true : false;
 				opt.bShowNoFocus = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOFOCUS) ? true : false;
 				opt.bStatusBarTips = IsDlgButtonChecked(hwndDlg, IDC_CHK_SBAR) ? true : false;
 
