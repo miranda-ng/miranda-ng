@@ -221,6 +221,7 @@
     <Image Include="res\mind.ico" />
     <Image Include="res\notification.ico" />
     <Image Include="res\poke.ico" />
+    <Image Include="res\conversation.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

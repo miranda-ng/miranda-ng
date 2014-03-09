@@ -116,6 +116,7 @@ public:
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl VisitProfile(WPARAM, LPARAM);
 	INT_PTR __cdecl VisitFriendship(WPARAM, LPARAM);
+	INT_PTR __cdecl VisitConversation(WPARAM, LPARAM);
 	INT_PTR __cdecl Poke(WPARAM, LPARAM);
 	INT_PTR __cdecl CancelFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);

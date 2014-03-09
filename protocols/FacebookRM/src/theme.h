@@ -37,5 +37,6 @@ void UninitContactMenus(void);
 #define CMI_AUTH_CANCEL 5
 #define CMI_POKE 6
 #define CMI_POST_STATUS 7
+#define CMI_VISIT_CONVERSATION 8
 
-#define CMITEMS_COUNT 8
+#define CMITEMS_COUNT 9

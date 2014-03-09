@@ -551,6 +551,26 @@ INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+INT_PTR FacebookProto::VisitConversation(WPARAM wParam, LPARAM lParam)
+{
+	MCONTACT hContact = MCONTACT(wParam);
+
+	if (wParam == 0 || !IsMyContact(hContact, true))
+		return 1;
+
+	std::string url = FACEBOOK_URL_CONVERSATION;
+
+	if (isChatRoom(hContact)) {
+		url += "conversation-";
+		url += ptrA(getStringA(hContact, FACEBOOK_KEY_TID));
+	} else {
+		url += ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+	}
+
+	OpenUrl(url);
+	return 0;
+}
+
 INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())

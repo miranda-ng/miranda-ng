@@ -14,6 +14,7 @@
 #define IDI_NOTIFICATION                128
 #define IDI_NEWSFEED                    129
 #define IDI_FRIENDS                     130
+#define IDI_CONVERSATION                131
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003

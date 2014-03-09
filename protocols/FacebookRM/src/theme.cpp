@@ -32,6 +32,7 @@ static IconItem icons[] =
 	{ LPGEN("Notification"),              "notification",  IDI_NOTIFICATION },
 	{ LPGEN("Newsfeed"),                  "newsfeed",      IDI_NEWSFEED },
 	{ LPGEN("Friendship details"),        "friendship",    IDI_FRIENDS },
+	{ LPGEN("Conversation history"),      "conversation",  IDI_CONVERSATION },
 };
 
 // TODO: uninit
@@ -101,14 +102,21 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::VisitFriendship>);
 	g_hContactMenuItems[CMI_VISIT_FRIENDSHIP] = Menu_AddContactMenuItem(&mi);
 
-	mi.position=-2000006001;
+	mi.position = -2000006002;
+	mi.icolibItem = GetIconHandle("conversation");
+	mi.pszName = LPGEN("Visit conversation history");
+	mi.pszService = "FacebookProto/VisitConversation";
+	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitConversation>);
+	g_hContactMenuItems[CMI_VISIT_CONVERSATION] = Menu_AddContactMenuItem(&mi);
+
+	mi.position=-2000006003;
 	mi.icolibItem = GetIconHandle("mind");
 	mi.pszName = LPGEN("Share status...");
 	mi.pszService = "FacebookProto/Mind";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::OnMind>);
 	g_hContactMenuItems[CMI_POST_STATUS] = Menu_AddContactMenuItem(&mi);
 
-	mi.position=-2000006002;
+	mi.position=-2000006004;
 	mi.icolibItem = GetIconHandle("poke");
 	mi.pszName = LPGEN("Poke");
 	mi.pszService = "FacebookProto/Poke";
@@ -155,8 +163,9 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	MCONTACT hContact = MCONTACT(wParam);
 	bool bIsChatroom = isChatRoom(hContact);
 
-	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], !bIsChatroom);
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_FRIENDSHIP], !bIsChatroom);
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_CONVERSATION], true);
 	Menu_ShowItem(g_hContactMenuItems[CMI_POST_STATUS], !bIsChatroom);
 
 	if (!isOffline() && !bIsChatroom) 
@@ -167,7 +176,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == CONTACT_NONE || !type);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == CONTACT_APPROVE);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == CONTACT_FRIEND);
-		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == CONTACT_REQUEST);		
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == CONTACT_REQUEST);
 
 		Menu_ShowItem(g_hContactMenuItems[CMI_POKE], true);
 	}

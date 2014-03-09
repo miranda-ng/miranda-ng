@@ -141,5 +141,8 @@
     <Image Include="res\poke.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="res\conversation.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>

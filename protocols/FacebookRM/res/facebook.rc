@@ -57,6 +57,7 @@ IDI_POKE                ICON                    "poke.ico"
 IDI_NOTIFICATION        ICON                    "notification.ico"
 IDI_NEWSFEED            ICON                    "feeds.ico"
 IDI_FRIENDS             ICON                    "friends.ico"
+IDI_CONVERSATION        ICON                    "conversation.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
