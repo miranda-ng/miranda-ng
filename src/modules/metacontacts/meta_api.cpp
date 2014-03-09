@@ -115,7 +115,7 @@ static INT_PTR MetaAPI_SetDefaultContactNum(WPARAM hMetaContact, LPARAM lParam)
 
 static INT_PTR MetaAPI_SetDefaultContact(WPARAM hMetaContact, LPARAM lParam)
 {
-	DBCachedContact *cc = CheckMeta(lParam);
+	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
 		return 1;
 
