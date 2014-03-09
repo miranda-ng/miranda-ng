@@ -1270,7 +1270,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID.QuadPart, sizeof(DWORDLONG));
 						mraSetStringW(hContact, DBSETTING_BLOGSTATUS, wszBlogStatus);
 						mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, wszBlogStatusMusic);
-						if (IsXStatusValid(dwXStatus))
+						if (IsXStatusValid(dwXStatus) || wszBlogStatus.GetLength())
 							SetExtraIcons(hContact);
 
 						if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
@@ -1440,6 +1440,7 @@ bool CMraProto::CmdBlogStatus(BinBuffer &buf)
 			mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
 			mraSetStringW(hContact, DBSETTING_BLOGSTATUS, wszText);
 		}
+		SetExtraIcons(hContact);
 	}
 	return true;
 }
