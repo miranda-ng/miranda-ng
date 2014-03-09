@@ -30,7 +30,7 @@ Výchozí
 
 [Automatically grant authorization to new users]
 
-[Automatic authorization on mail.ru web services]
+[Automatic authorization on Mail.ru web services]
 
 [Notify me when a message delivery has failed]
 Upozornit při nedoručení odeslané zprávy
@@ -238,8 +238,6 @@ Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 
 [My Album]
 
-[My Blog]
-
 [My Blog Status]
 
 [My Video]
@@ -260,11 +258,11 @@ Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
+[&Send E-Mail]
+
 [&Send postcard]
 
 [&View Album]
-
-[&Read Blog]
 
 [Reply Blog Status]
 
@@ -499,3 +497,5 @@ Spím
 
 [Music]
 Hudba
+[Dating]
+

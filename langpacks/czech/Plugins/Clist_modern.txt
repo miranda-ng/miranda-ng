@@ -246,9 +246,9 @@ Vypnout skupiny
 Potvrdit smazání kontaktů
 [Don't move offline user to bottom]
 Kontakty offline nepřesouvat na konec
-[Contact List]
+[Contact list]
 Seznam kontaktů
-[Contact List Sorting]
+[Contact list sorting]
 Řazení seznamu kontaktů
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
@@ -665,7 +665,7 @@ Moderní seznam kontaktů
 Překrytí avataru
 [Status Overlay]
 Překrytí stavu
-[Contact List smileys]
+[Contact list smileys]
 Smajlíky pro kontakty
 [List background]
 Pozadí seznamu
@@ -939,7 +939,7 @@ Chyba
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Nahrát/Uložit
-[Object Editor]
+[Object editor]
 Editor objektů
 [( unknown )]
 (neznámý)

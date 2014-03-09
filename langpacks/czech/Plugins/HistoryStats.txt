@@ -45,7 +45,7 @@ Zavřít
 [Plugin/extension name:]
 Název doplňku:
 [Provided features:]
-
+Poskytované funkce:
 [Detailed description:]
 Podrobný popis:
 [HistoryStats - Filter words/messages]
@@ -89,37 +89,37 @@ Filtrovat slova a zprávy
 [Chat duration type]
 
 [Minimum]
-
+Minimum
 [Average]
-Průměrné
+Průměr
 [Maximum]
-max. však
+Maximum
 [Total (sum of all chats)]
-
+Celkem (součet všech diskusí)
 [Show bar graph for chat duration type]
 
 [Other information in tooltip]
 
 [Minimum chat duration]
-
+Nejkratší doba diskuse
 [Average chat duration]
-
+Průměrná doba diskuse
 [Maximum chat duration]
-
+Nejdelší doba diskuse
 [Total chat duration]
-
+Celková doba diskuse
 [Chat duration]
 Délka diskuse
 [(unknown)]
 (není známo)
 [[Min] #{amount}]
-
+[Min.] #{počet}
 [[Avg] #{amount}]
-
+[Prům.] #{počet}
 [[Max] #{amount}]
-
+[Max.] #{počet}
 [[Sum] #{amount}]
-
+[Celk.] #{počet}
 ;file \plugins\HistoryStats\src\column_chatduration.h
 [Column holding the amount of time you have chatted with the given contact.]
 
@@ -131,13 +131,13 @@ URL (příchozí)
 [URLs (outgoing)]
 URL (odchozí)
 [URLs (all)]
-
+URL (všechny)
 [Files (incoming)]
 Soubory (příchozí)
 [Files (outgoing)]
-Soubor (odchozí)
+Soubory (odchozí)
 [Files (all)]
-
+Soubory (všechny)
 [URLs]
 Odkazy
 [Files]
@@ -175,23 +175,23 @@ Počet jednotek na týden
 [Units per month (30 days)]
 Počet jednotek na měsíc (30 dnů)
 [Characters (incoming)]
-
+Znaky (příchozí)
 [Characters (outgoing)]
-
+Znaky (odchozí)
 [Characters (all)]
-
+Znaky (všechny)
 [Messages (incoming)]
 Zprávy (příchozí)
 [Messages (outgoing)]
 Zprávy (odchozí)
 [Messages (all)]
-
+Zprávy (všechny)
 [Chats (incoming)]
-
+Diskuse (příchozí)
 [Chats (outgoing)]
-
+Diskuse (odchozí)
 [Chats (all)]
-
+Diskuse (všechny)
 [Characters]
 Znaky
 [Messages]
@@ -199,13 +199,13 @@ Zprávy
 [Chats]
 Diskuse
 [Incoming characters]
-
+Příchozí znaky
 [Outgoing characters]
-
+Odchozí znaky
 [Incoming chats]
-
+Příchozí diskuse
 [Outgoing chats]
-
+Odchozí diskuse
 [day]
 den
 [week]
@@ -313,9 +313,9 @@ Týdny
 ["Split"]
 'Dělič'
 [incoming characters]
-
+Příchozí znaky
 [outgoing characters]
-
+Odchozí znaky
 [all characters]
 
 [incoming messages]
@@ -325,9 +325,9 @@ Odchozí zprávy
 [all messages]
 Všechny zprávy
 [incoming chats]
-
+Příchozí diskuse
 [outgoing chats]
-
+Odchozí diskuse
 [all chats]
 
 [#{type} for #{data}]
@@ -582,8 +582,8 @@ HistoryStats :: Chyba
 ;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
 [Integration]
 Obecné
-[Create statistics on Miranda NG's startup]
-Generovat statistiku během spuštění programu Miranda
+[Create statistics on Miranda NG startup]
+Generovat statistiku během spuštění Mirandy NG
 [Add menu items to main menu]
 
 [Put menu items into submenu]
@@ -755,11 +755,11 @@ Vždy přepsat existující soubory (může být nebezpečné!)
 [Auto open statistics after being generated...]
 Automaticky zobrazit statistiku po vygenerování...
 [...via button "Create statistics" in options]
-... po kliknutí na tlačítko 'Vytvořit'
-[...on Miranda NG's startup]
-... během spuštění programu Miranda
-[...via Miranda NG's main menu]
-... po kliknutí na příslušnou položku v hlavní nabídce programu
+... po kliknutí na tlačítko 'Generovat statistiku'
+[...on Miranda NG startup]
+... během spuštění Mirandy NG
+[...via Miranda NG main menu]
+... po kliknutí na položku v hlavní nabídce Mirandy NG
 [First sort by]
 Nejdříve řadit dle
 [Then sort by]
@@ -973,81 +973,81 @@ Dokončeno
 
 ;file \plugins\HistoryStats\src\utils.cpp
 [month3:Jan]
-
+month3:Led
 [monthF:January]
-
+monthF:Leden
 [month3:Feb]
-
+month3:Úno
 [monthF:February]
-
+monthF:Únor
 [month3:Mar]
-
+month3:bře
 [monthF:March]
-
+monthF:Březen
 [month3:Apr]
-
+month3:Dub
 [monthF:April]
-
+monthF:Duben
 [month3:May]
-
+month3:Kvě
 [monthF:May]
-
+monthF:Květen
 [month3:Jun]
-
+month3:Čvn
 [monthF:June]
-
+monthF:Červen
 [month3:Jul]
-
+month3:Čvc
 [monthF:July]
-
+monthF:Červenec
 [month3:Aug]
-
+month3:Srp
 [monthF:August]
-
+monthF:Srpen
 [month3:Sep]
-
+month3:Zář
 [monthF:September]
-
+monthF:Září
 [month3:Oct]
-
+month3:Říj
 [monthF:October]
-
+monthF:Říjen
 [month3:Nov]
-
+month3:Lis
 [monthF:November]
-
+monthF:Listopad
 [month3:Dec]
-
+month3:Pro
 [monthF:December]
-
+monthF:Prosinec
 [wday2:Mo]
-
+wday2:Po
 [wdayF:Monday]
-
+wdayF:Pondělí
 [wday2:Tu]
-
+wday2:Út
 [wdayF:Tuesday]
-
+wdayF:Úterý
 [wday2:We]
-
+wday2:St
 [wdayF:Wednesday]
-
+wdayF:Středa
 [wday2:Th]
-
+wday2:Čt
 [wdayF:Thursday]
-
+wdayF:Čtvrtek
 [wday2:Fr]
-
+wday2:Pá
 [wdayF:Friday]
-
+wdayF:Pátek
 [wday2:Sa]
-
+wday2:So
 [wdayF:Saturday]
-
+wdayF:Sobota
 [wday2:Su]
-
+wday2:Ne
 [wdayF:Sunday]
-
+wdayF:Neděle
 [pm]
 odp.
 [am]

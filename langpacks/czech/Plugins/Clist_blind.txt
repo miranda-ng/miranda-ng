@@ -249,6 +249,8 @@ Skupina: %name% %count% [%mode%]
 Oddělovač: %s
 [Info: %s]
 Informace: %s
+[Contact list]
+Seznam kontaktů
 [List]
 Seznam
 ;file \plugins\Clist_blind\src\clistopts.cpp

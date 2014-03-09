@@ -2,85 +2,91 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane
 ;============================================================
-[Provides ability to upload files on Dropbox.]
-
+[Allows to transfer files via Dropbox.]
+Umožňuje odesílání souboru přes Dropbox.
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
 Autorizace
 [To allow Miranda NG access in your Dropbox account:]
-
+Pro umožnění přístupu Mirandy NG k vašemu Dropbox účtu:
 [Go to this link]
-
-[and allow access to files in apps folder]
-
-[Enter the security code]
-
-[Click authorize button]
-
+Navštívit stránku
+[Allow access to app folder]
+Povolte přístup ke složce pro aplikaci
+[Enter authorization code]
+Zadejte autorizační kód
+[Initiate authorization]
+Proveďte autorizaci
 [Authorize]
 Autorizovat
 [Other]
 Ostatní
 [Use shortened share links]
-
-[Enter code]
-
-[Enter code below:]
-
-[OK]
-OK
-[Cancel]
-Zrušit
-;file \plugins\Dropbox\proto_dropbox\src\resource.h
-[Send files to Dropbox]
-Odeslat soubory do Dropboxu
+Použít zkrácené odkazy pro sdílení
+[Check status of authorization]
+Zkontrolujte stav autorizace
 ;file \plugins\Dropbox\src\dropbox.cpp
-[You have been authorized]
-
-[Are you sure you want to request authorization?]
-
-[Request authorization]
-Požádat o autorizaci
-[Are you sure you want to revoke authorization?]
-
-[Revoke authorization]
-Odvolat autorizaci
+[in process...]
+probíhá...
+[you have been authorized]
+autorizace proběhla úspěšně
+[unknown error]
+neznámá chyba
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
+[Dropbox supports the following commands:]
+Dropbox podporuje následující příkazy:
+[shows all files in folder "dir" ("dir" can be omitted for root folder)]
+
+[returns download link for file or folder with specified path ("path" is relative from root folder)]
+
+[deletes file or folder with specified path ("path" is relative from root folder)]
+
 [is file]
 je soubor
 [is empty]
 je prázdný
+["%s" command has invalid parameter.\nUse "/help" for more info.]
+Příkaz "%s" má neplatný parametr.\nZadejte "/help" pro více informací.
 [is not deleted]
 není smazaný
 [is deleted]
 je smazaný
 ;file \plugins\Dropbox\src\dropbox_dialogs.cpp
+[you are already authorized]
+úspěšně autorizováno
+[you are not authorized yet]
+není autorizováno
 ;file \plugins\Dropbox\src\dropbox_events.cpp
+[Send files to Dropbox]
+Odeslat soubory do Dropboxu
 [Network]
 Sítě
-[Dropbox]
-Dropbox
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocols]
 Protokoly
 [Protocol icon]
 Ikona protokolu
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
+;file \plugins\Dropbox\src\dropbox_services.cpp
+[Unknown command "%s".\nUse "/help" for more info.]
+Příkaz "%s" není platný.\nZadejte "/help" pro více informací.
+["%s" is not valid.\nUse "/help" for more info.]
+"%s" není platný.\nZadejte "/help" pro více informací.
 ;file \plugins\Dropbox\src\dropbox_transfers.cpp
 [Server does not respond]
 Server neodpovídá
 [Link to download file "%s": %s]
-
+Odkaz pro stažení souboru "%s": %s
 [Link to download folder "%s": %s]
-
+Odkaz pro stažení složky "%s": %s
 ;file \plugins\Dropbox\src\dropbox_utils.cpp
 [Ok]
 OK
 [Bad input parameter. Error message should indicate which one and why]
-
+Neplatný vstupní parametr. Chybová zpráva objasní který z nich to byl a proč
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
 
 [Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
@@ -97,4 +103,3 @@ OK
 
 [Unknown]
 Neznámý
-;file \plugins\Dropbox\src\resource.h

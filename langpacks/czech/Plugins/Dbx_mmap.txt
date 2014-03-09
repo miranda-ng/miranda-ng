@@ -116,6 +116,8 @@ Seznam událostí je poškozen; ignorování dalších položek
 První událost nebyla označena jako první: opraveno
 [Event marked as first which is not: correcting]
 Neplatné číslování události: opraveno
+[Zero event's contact ID: correcting]
+Nulový identifikátor kontaktu u události: opraveno
 [Extra flags found in event: removing]
 Neplatná značka události: odstraněno
 [First unread event marked wrong: fixing]

@@ -259,10 +259,14 @@ Zpráva stavu
 Novinka
 [Friendship details]
 Podrobnosti o přátelství
+[Conversation history]
+Historie konverzace
 [Visit profile]
-Navštívít profil
+Zobrazit profil
 [Visit friendship details]
 Zobrazit podrobnosti o přátelství
+[Visit conversation history]
+Zobrazit historii konverzace
 [Cancel friendship]
 Zrušit přátelství
 [Cancel friendship request]
