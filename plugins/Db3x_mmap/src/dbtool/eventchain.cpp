@@ -186,10 +186,8 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		dbeOld.flags &= ~DBEF_FIRST;
 	}
 
-	if (dbeOld.contactID == 0) {
-		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Zero event's contact ID: correcting"));
+	if (dbeOld.contactID == 0)
 		dbeOld.contactID = dbc->dwContactID;
-	}
 
 	if (dbeOld.flags & ~DBEF_ALL) {
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Extra flags found in event: removing"));
@@ -237,6 +235,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Event not backlinked correctly: fixing"));
 
 	dbeNew->flags = dbeOld.flags;
+	dbeNew->contactID = dbc->dwContactID;
 	dbeNew->ofsPrev = ofsDestPrevEvent;
 	dbeNew->ofsNext = 0;
 
