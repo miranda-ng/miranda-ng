@@ -243,7 +243,7 @@ BEGIN
     PUSHBUTTON      "OK",IDOK,106,275,62,16
     PUSHBUTTON      "Cancel",IDCANCEL,172,275,62,16
     PUSHBUTTON      "Apply",IDC_APPLY,242,275,62,16
-    CONTROL         "",IDC_CLIST,"CListControl",0x24a,12,31,286,199,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_CLIST,"CListControl",0x3da,12,31,286,199,WS_EX_CLIENTEDGE
     GROUPBOX        "Sticky contacts",IDC_STATIC9,8,20,293,215
     PUSHBUTTON      "Clear all",IDC_CLEARALL,13,241,92,14
     LTEXT           "Using the contact list on the left side, you can select contacts which will be ""sticky"" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.",IDC_STATIC10,174,50,124,72,NOT WS_VISIBLE

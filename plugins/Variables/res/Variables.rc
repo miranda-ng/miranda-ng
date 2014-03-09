@@ -63,7 +63,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_CLIST,"ClistControl",WS_TABSTOP | 0x248,13,100,218,132,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_CLIST,"ClistControl",WS_TABSTOP | 0x3da,13,100,218,132,WS_EX_CLIENTEDGE
     CONTROL         "Don't set a contact",IDC_NULL,"Button",BS_AUTORADIOBUTTON,13,76,144,10
     CONTROL         "Set to the following contact",IDC_CONTACT,"Button",BS_AUTORADIOBUTTON,13,87,147,10
     LTEXT           "The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).",IDC_ABOUT,13,20,218,34
