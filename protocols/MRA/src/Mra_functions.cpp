@@ -619,7 +619,6 @@ DWORD CMraProto::MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus)
 			if (dwOldStatus == ID_STATUS_OFFLINE) {
 				DWORD dwTime = (DWORD)_time32(NULL);
 				setDword(hContact, "LogonTS", dwTime);
-				setDword(hContact, "OldLogonTS", dwTime);
 
 				if (bChatAgent)
 					MraChatSessionNew(hContact);
