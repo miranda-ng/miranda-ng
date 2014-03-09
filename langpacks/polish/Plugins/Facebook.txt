@@ -259,10 +259,14 @@ Zaczep
 Aktualności
 [Friendship details]
 Dane znajomości
+[Conversation]
+Rozmowa
 [Visit profile]
 Odwiedź profil
 [Visit friendship details]
 Sprawdź dane znajomości
+[Visit conversation]
+Przejdź do historii rozmowy
 [Cancel friendship]
 Cofnij znajomość
 [Cancel friendship request]

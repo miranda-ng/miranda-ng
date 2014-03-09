@@ -83,8 +83,8 @@ Link do pobrania pliku "%s": %s
 [Link to download folder "%s": %s]
 Link do pobrania folderu "%s": %s
 ;file \plugins\Dropbox\src\dropbox_utils.cpp
-[Ok]
-Ok
+[OK]
+OK
 [Bad input parameter. Error message should indicate which one and why]
 Niepoprawny parametr wejścia. Komunikat o błędzie powinien wskazać, który i dlaczego
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]

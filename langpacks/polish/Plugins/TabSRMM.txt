@@ -1062,6 +1062,8 @@ Plik pola edycji z formatowaniem
 Problem konfiguracji|Funkcja wysyłania wiadomości nienadzorowanych jest wyłączona. \\b1 Wyślij później\\b0 i \\b1wyślij do wielu\\b0  jest od niej zależna.\n\nMusisz włączyć je w \\b1Opcje -> Okno rozmowy -> Zaawansowane poprawki\\b0. Zmiana tej opcji wymaga ponownego uruchomienia komunikatora.
 [You cannot edit user notes when there are unsent messages]
 Nie możesz edytować notatek o użytkowniku, podczas gdy istnieją niewysłane wiadomości
+[Version]
+Wersja
 [%s is typing a message.]
 %s pisze wiadomość...
 [Last received: %s at %s]

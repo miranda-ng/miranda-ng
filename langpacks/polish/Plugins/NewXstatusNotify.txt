@@ -50,14 +50,18 @@ Użyj indywidualnych dźwięków
 Zapisuj w pliku
 [Enable]
 Włącz
-[Go to Sound to select the sounds]
-Idź do Dźwięki aby zmienić dźwięki
 [Extra status]
 xStatus
 [Open]
 Otwórz
 [Status message]
 Opis
+[Log in history]
+Dziennik w historii
+[Log status changes in history]
+Zapisuj zmiany statusu w historii
+[Only when message window is open]
+Tylko gdy okno rozmowy jest otwarte
 [Change]
 Zmień
 [Preview]
@@ -313,6 +317,8 @@ xStatus: Zmiana opisu
 xStatus: Usunięcie
 [Toggle status notification]
 Przełącz powiadomienia o statusie
+[Status change]
+Zmiana statusu
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Wszystkie pliki
