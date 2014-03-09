@@ -218,13 +218,13 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 (This means the function has been called via the contact menu).
 */
 
-INT_PTR Meta_Default(WPARAM hMeta, LPARAM wParam)
+INT_PTR Meta_Default(WPARAM hSub, LPARAM wParam)
 {
-	DBCachedContact *cc = CheckMeta(hMeta);
-	if (cc) {
-		cc->nDefault = Meta_GetContactNumber(cc, wParam);
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(db_mc_getMeta(hSub));
+	if (cc && cc->IsMeta()) {
+		cc->nDefault = Meta_GetContactNumber(cc, hSub);
 		currDb->MetaSetDefault(cc);
-		NotifyEventHooks(hEventDefaultChanged, hMeta, wParam);
+		NotifyEventHooks(hEventDefaultChanged, cc->contactID, hSub);
 	}
 	return 0;
 }
