@@ -49,14 +49,18 @@
 Запись в файл
 [Enable]
 Включено
-[Go to Sound to select the sounds]
-Выбор звуков в разделе "Звуки"
 [Extra status]
 xСтатус
 [Open]
 Открыть
 [Status message]
 Сообщение статуса
+[Log in history]
+Запись в историю
+[Log status changes in history]
+Записывать изменения статусов в историю
+[Only when message window is open]
+Только если открыто окно сообщений
 [Change]
 Изменить
 [Preview]
@@ -307,6 +311,8 @@ xСтатус изменен
 xСтатус удален
 [Toggle status notification]
 Вкл/Выкл уведомления о смене статуса
+[Status change]
+Смена статуса
 [All Files]
 Все файлы
 [Log]
@@ -355,6 +361,10 @@ xСтатус удален
 хСтатус
 [<unknown>]
 <неизвестно>
+[%s, %s. %s removed %s.\r\n]
+%s, %s. %s удалил(а) %s.\r\n
+[%s, %s. %s changed %s to: %s.\r\n]
+%s, %s. %s изменил(а) %s на: %s.\r\n
 [changed %N to: %T%D%I]
 изменил(а) %N на: %T%D%I
 [changed %N message to:%D%I]

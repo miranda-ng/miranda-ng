@@ -97,8 +97,22 @@ URL:
 Ошибка входа: %s
 [Unknown error]
 Неизвестная ошибка
+[Login error: Invalid request.]
+Ошибка входа: Неверный запрос.
+[Login error: Some Facebook things are required.]
+Ошибка входа: Требуются дополнительные вещи от Facebook
+[Login error: Captcha code is required. Bad login credentials?]
+Ошибка входа: Требуется пройти капчу. Неаерный логин?
+[Login error, probably bad login credentials.]
+Ошибка входа, скорее всего неверный логин.
 [Your account requires HTTPS connection. Activating.]
 Ваша учётная запись требует соединения по HTTPS. Включим его.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Что-то происходит с сервисом Facebook. Возможно там было крупное обновление, в таком случае подождите обновления с нашей стороны.
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново послать сообщение этому контакту!
+[Timeout when sending message.]
+Таймаут отсылки сообщения.
 [Status update was successful.]
 Успешное обновление статуса.
 [Please enter a username.]
@@ -133,12 +147,26 @@ URL:
 Друзьям, кроме знакомых
 [Only me]
 Только мне
+[Contact was removed from your server list.]
+Контакт удален из списка на сервере.
+[Error occurred when removing contact from server.]
+Ошибка удаления контакта из списка на сервере.
+[Request for friendship was sent.]
+Запрос дружбы отослан.
+[Error occurred when requesting friendship.]
+Произошла ошибка запроса дружбы.
+[Request for friendship was canceled.]
+Запрос дружбы был отменён.
+[Error occurred when canceling friendship request.]
+Произошла ошибка отмены запроса дружбы.
 [Default]
 По умолчанию
 [<< Contacts]
 << Контакты
 [What's on your mind, %s?]
 О чём вы думаете, %s?
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+Подсказка: Проверьте, что вы отменили опцию "Проверять подпись сертификатов SSL" в настройках сети, чтобы обеспечить нормальную работу плагина.
 [Sample event]
 Пример события
 [Sample request]
@@ -167,8 +195,14 @@ URL:
 Сообщение прочтено в: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Сообщение недоступно, поскольку было отмечено, как оскорбительное или спам.
+[%s and more (%d)]
+%s и ещё (%d)
 [You cannot send messages when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
+[Contact is back on server-list.]
+Контакт снова в списке на сервере.
+[Contact is no longer on server-list.]
+Контакта больше нет в списке на сервере.
 [%s server connection]
 %s подключение к серверу 
 [Unable to get Netlib connection for Facebook]
@@ -213,10 +247,14 @@ URL:
 Лента
 [Friendship details]
 Информация о дружбе
+[Conversation]
+Беседа
 [Visit profile]
 Профиль
 [Visit friendship details]
 Информация о дружбе
+[Visit conversation]
+Беседа на сайте
 [Cancel friendship]
 Удалить из друзей
 [Cancel friendship request]

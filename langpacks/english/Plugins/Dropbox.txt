@@ -49,7 +49,7 @@
 [Link to download file "%s": %s]
 [Link to download folder "%s": %s]
 ;file \plugins\Dropbox\src\dropbox_utils.cpp
-[Ok]
+[OK]
 [Bad input parameter. Error message should indicate which one and why]
 [Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
 [Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]

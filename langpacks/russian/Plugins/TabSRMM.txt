@@ -1049,6 +1049,8 @@ Esc закрывает сессию (иначе - сворачивает)
 Проблема конфигурации|Автоматическая отправка отключена. \\b1Отправка с задержкой\\b0 и \\b1мультиотправка\\b0 зависят от неё.\n\nВы должны включить её \\b1Настройки->Беседы->Дополнительные настройки\\b0. После изменения этой опции требуется перезапуск.
 [You cannot edit user notes when there are unsent messages]
 Вы не можете править заметки, если есть неотправленные сообщения
+[Version]
+Версия
 [%s is typing a message.]
 %s набирает сообщение.
 [Last received: %s at %s]
@@ -1497,6 +1499,8 @@ TabSRMM: Набирает
 Это имя уже используется
 [A send later job completed successfully.\nThe original message: %s]
 Задача отправки с задержкой успешно выполнена. \nОригинальное сообщение: %s
+[A send later job failed to complete.\nThe original message: %s]
+Ошибка выполнения отправки с задержкой.\nОригинальное сообщение: %s
 [<All contacts>]
 <Все контакты>
 [Failed]
@@ -1515,6 +1519,8 @@ TabSRMM: Набирает
 Информация о последней отправке
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Вы собираетесь изменить состояние одного или нескольких элементов в очереди отправки. Требуемое действие(я) будет выполнено при следующей запланированной обработке очереди. Это действие не может быть отменено.
+[The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
+Сообщение не может быть отослано нескольким контактам одновременно, потому что оно превыщает максимально допустимую длину %d байтов
 [A message delivery has failed.\nClick to open the message window.]
 Доставка сообщения не удалась.\nНажмите для открытия окна беседы
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -1747,6 +1753,8 @@ tabSRMM: %s
 Принудительно IEView
 [Set messaging options for %s]
 Настройки бесед для %s
+[Important release notes|A test warning message]
+Важная информация о версии|Тестовое предупреждение
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 Проверка версии набора значков|Установленный набор значков устарел и может быть несовместим с плагином TabSRMM версии 3.\n\n \\b1 Отсутствующие или неуместные значки могут вызвать проблемы с установленным набором.\\b0
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
@@ -1797,6 +1805,8 @@ tabSRMM: %s
 %s выключает статус '%s' для %s
 [Add user to highlight list]
 Добавить пользователя в список подсветки
+[Edit user highlight list]
+Изменить список подсветки пользователей
 [Input area background]
 Окна ввода текста
 [Log background]
@@ -2051,6 +2061,8 @@ ID текущего контакта (если определен). Наприм
 имя текущего профиля (только имя, без расширения)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+возвратит строку вида %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]

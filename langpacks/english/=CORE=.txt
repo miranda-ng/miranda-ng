@@ -605,7 +605,6 @@
 [Load number of previous events]
 [Load previous events less than]
 [minutes old]
-[Show status changes]
 [Show seconds]
 [Load history events]
 [Show formatting]

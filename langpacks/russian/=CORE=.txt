@@ -1179,8 +1179,6 @@ UIN, E-mail и т.д.
 События, полученные менее чем
 [minutes old]
 минут назад
-[Show status changes]
-Показывать изменения статуса
 [Show seconds]
 Секунды
 [Load history events]
