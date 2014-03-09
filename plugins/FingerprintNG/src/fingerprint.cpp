@@ -169,6 +169,11 @@ int __fastcall ApplyFingerprintImage(MCONTACT hContact, LPTSTR szMirVer)
 
 	if (arMonitoredWindows.getIndex((HANDLE)hContact) != -1)
 		SetSrmmIcon(hContact, szMirVer);
+
+	MCONTACT hMeta = db_mc_getMeta(hContact);
+	if (hMeta && CallService(MS_MC_GETDEFAULTCONTACT, hMeta, 0) == hContact)
+		db_set_ts(hMeta, META_PROTO, "MirVer", szMirVer);
+
 	return 0;
 }
 
