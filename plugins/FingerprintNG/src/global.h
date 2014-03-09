@@ -59,7 +59,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //plugins header
 #include "version.h"
 #include "resource.h"
-#include "utilities.h"
 
 typedef struct {
 	BYTE	b;

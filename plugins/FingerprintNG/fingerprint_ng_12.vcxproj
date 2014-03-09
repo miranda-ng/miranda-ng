@@ -186,7 +186,6 @@
     <ClInclude Include="src\version.h" />
     <ClInclude Include="src\finger_groups.h" />
     <ClInclude Include="src\global.h" />
-    <ClInclude Include="src\utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\fingerprint.cpp" />
