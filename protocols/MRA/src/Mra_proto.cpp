@@ -673,8 +673,15 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 
 		MraContactCapabilitiesSet(hContact, dwFutureFlags);
 		setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
-		mraSetStringW(hContact, DBSETTING_XSTATUSNAME, szStatusTitle);
-		mraSetStringW(hContact, DBSETTING_XSTATUSMSG, szStatusDesc);
+		if (dwXStatus) {
+			mraSetStringW(hContact, DBSETTING_XSTATUSNAME, szStatusTitle);
+			mraSetStringW(hContact, DBSETTING_XSTATUSMSG, szStatusDesc);
+		}
+		else {
+			delSetting(hContact, DBSETTING_XSTATUSNAME);
+			delSetting(hContact, DBSETTING_XSTATUSMSG);
+		}
+
 
 		if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
 			if (!szUserAgentFormatted.IsEmpty()) {
