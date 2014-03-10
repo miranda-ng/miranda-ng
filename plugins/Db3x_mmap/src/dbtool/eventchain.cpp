@@ -186,9 +186,6 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		dbeOld.flags &= ~DBEF_FIRST;
 	}
 
-	if (dbeOld.contactID == 0)
-		dbeOld.contactID = dbc->dwContactID;
-
 	if (dbeOld.flags & ~DBEF_ALL) {
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Extra flags found in event: removing"));
 		dbeOld.flags &= DBEF_ALL;
@@ -235,9 +232,10 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Event not backlinked correctly: fixing"));
 
 	dbeNew->flags = dbeOld.flags;
-	dbeNew->contactID = dbc->dwContactID;
 	dbeNew->ofsPrev = ofsDestPrevEvent;
 	dbeNew->ofsNext = 0;
+	if (dbeNew->contactID == 0)
+		dbeNew->contactID = dbc->dwContactID;
 
 	if (dbeOld.wEventType == EVENTTYPE_MESSAGE && cb->bConvertUtf && !(dbeOld.flags & DBEF_ENCRYPTED)) {
 		DWORD oldSize = dbeNew->cbBlob;
