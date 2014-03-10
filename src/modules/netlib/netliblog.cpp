@@ -76,7 +76,7 @@ static void InitLog()
 		logOptions.tszFile = path;
 	}
 	else {
-		logOptions.tszUserFile = _T("%miranda_logpath%\\netlog.txt");
+		db_set_ts(NULL, "Netlib", "File", logOptions.tszUserFile = _T("%miranda_logpath%\\netlog.txt"));
 		logOptions.tszFile = Utils_ReplaceVarsT(logOptions.tszUserFile);
 	}
 
