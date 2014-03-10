@@ -208,7 +208,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  hContact = metaGetMostOnline(hContact);
 				  ismetacontact = true;
 			  }
-			  else if((meta = metaGetContact(user_data[item_num+1])) != NULL)
+			  else if((meta = db_mc_getMeta(user_data[item_num+1])) != NULL)
 			  {
 				  hContact = metaGetMostOnline(meta);
 				  ismetacontact = true;

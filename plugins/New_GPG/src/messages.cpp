@@ -323,7 +323,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						{
 							char *msg = mir_strdup(toUTF8(str).c_str());
 							HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
-							HistoryLog(metaGetContact(hContact), db_event(msg, timestamp, 0, dbflags));
+							HistoryLog(db_mc_getMeta(hContact), db_event(msg, timestamp, 0, dbflags));
 							mir_free(msg);
 							return;
 						}
@@ -341,7 +341,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 		if(db_mc_isSub(hContact))
 		{
 			HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
-			HistoryLog(metaGetContact(hContact), db_event(msg, timestamp, 0, dbflags));
+			HistoryLog(db_mc_getMeta(hContact), db_event(msg, timestamp, 0, dbflags));
 			return;
 		}
 		HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
@@ -489,9 +489,9 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					setClistIcon(ccs->hContact);
 					if(db_mc_isSub(ccs->hContact))
 					{
-						setSrmmIcon(metaGetContact(ccs->hContact));
-						setClistIcon(metaGetContact(ccs->hContact));
-						HistoryLog(metaGetContact(ccs->hContact), "PGP Encryption turned on by key autoexchange feature");
+						setSrmmIcon(db_mc_getMeta(ccs->hContact));
+						setClistIcon(db_mc_getMeta(ccs->hContact));
+						HistoryLog(db_mc_getMeta(ccs->hContact), "PGP Encryption turned on by key autoexchange feature");
 					}
 					HistoryLog(ccs->hContact, "PGP Encryption turned on by key autoexchange feature");
 				}
@@ -769,13 +769,13 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	}
 	/*if(db_mc_isSub(hContact))
 	{
-		hcontact_data[metaGetContact(hContact)].msgs_to_pass.push_back(str_event);
+		hcontact_data[db_mc_getMeta(hContact)].msgs_to_pass.push_back(str_event);
 		if(bDebugLog)
 		{
-			debuglog<<std::string(time_str() + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)) +"is subcontact of" + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR)));
-			debuglog<<std::string(time_str()+": adding event to metacontact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)metaGetContact(hContact), GCDNF_TCHAR))+" on send message.");
+			debuglog<<std::string(time_str() + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)) +"is subcontact of" + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)db_mc_getMeta(hContact), GCDNF_TCHAR)));
+			debuglog<<std::string(time_str()+": adding event to metacontact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)db_mc_getMeta(hContact), GCDNF_TCHAR))+" on send message.");
 		}
-		HistoryLog(metaGetContact(hContact), db_event((char*)str_event.c_str(), 0,0, DBEF_SENT|dbflags));
+		HistoryLog(db_mc_getMeta(hContact), db_event((char*)str_event.c_str(), 0,0, DBEF_SENT|dbflags));
 	}*/  //unneeded ?
 //	hcontact_data[hContact].msgs_to_pass.push_back(str_event);
 	if(bDebugLog)

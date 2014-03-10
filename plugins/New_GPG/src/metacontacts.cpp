@@ -30,23 +30,9 @@ bool metaIsDefaultSubContact(MCONTACT hContact)
 	return db_mc_getDefault(db_mc_getMeta(hContact)) == hContact;
 }
 
-MCONTACT metaGetContact(MCONTACT hContact) 
-{
-	if(db_mc_isSub(hContact))
-		return db_mc_getMeta(hContact);
-	return NULL;
-}
-
 MCONTACT metaGetMostOnline(MCONTACT hContact) 
 {
 	if(metaIsProtoMetaContacts(hContact))
 		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,hContact,0);
-	return NULL;
-}
-
-MCONTACT db_mc_getDefault(MCONTACT hContact) 
-{
-	if(metaIsProtoMetaContacts(hContact))
-		return db_mc_getDefault(hContact);
 	return NULL;
 }

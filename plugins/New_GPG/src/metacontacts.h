@@ -16,6 +16,5 @@
 
 bool     metaIsProtoMetaContacts(MCONTACT hContact);
 bool     metaIsDefaultSubContact(MCONTACT hContact) ;
-MCONTACT metaGetContact(MCONTACT hContact);
 MCONTACT metaGetMostOnline(MCONTACT hContact);
 
