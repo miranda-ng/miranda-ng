@@ -49,7 +49,7 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON,15,138,298,10
     CONTROL         "Paste download link into message input area",IDC_URL_COPYTOMIA,
                     "Button",BS_AUTORADIOBUTTON,15,151,298,10
-    CONTROL         "Copy download link to clibboard",IDC_URL_COPYTOCB,
+    CONTROL         "Copy download link to clipboard",IDC_URL_COPYTOCB,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,164,298,10
 END
 
