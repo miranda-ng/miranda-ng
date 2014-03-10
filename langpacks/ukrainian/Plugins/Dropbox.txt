@@ -21,10 +21,18 @@
 Натисніть кнопку
 [Authorize]
 Авторизувати
+[Download link]
+Посилання
 [Use shortened download links]
 Скорочувати посилання
 [Check status of authorization]
 Перевірка стану авторизації:
+[Autosend download link to contact]
+Автоматично надсилати посилання контакту
+[Paste download link into message input area]
+Вставляти посилання в поле вводу
+[Copy download link to clipboard]
+Копіювати посилання в буфер обміну
 [in process...]
 зачекайте...
 [you have been authorized]

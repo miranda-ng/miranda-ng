@@ -27,8 +27,6 @@
 Основний відступ:
 [Hover time:]
 Затримка:
-[Status bar tips]
-Підказки в панелі статусу
 [Alignment]
 Вирівнювання
 [Labels:]
@@ -45,12 +43,16 @@
 Міжрядковий відступ:
 [Outer avatar padding:]
 Зовнішній відступ аватара:
+[Show title]
+Показувати заголовок
+[Status bar tips]
+Підказки в панелі статусу
+[Avatar border]
+Рамка аватара
 [Round corners (avatar)]
 Заокруглені кути аватарів
 [Keep original avatar size]
 Зберігати розмір аватара
-[Avatar border]
-Рамка аватара
 [Title indent:]
 Відступ заголовків:
 [Value indent:]
@@ -201,14 +203,12 @@
 Вище
 [Move down]
 Нижче
+[No icon]
+Без значка
 [Icon on left]
 Значок ліворуч
 [Icon on right]
 Значок праворуч
-[No icon]
-Без значка
-[No title]
-Без заголовка
 [Bottom right]
 Внизу праворуч
 [Bottom left]
