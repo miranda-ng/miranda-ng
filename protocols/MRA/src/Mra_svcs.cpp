@@ -577,6 +577,14 @@ INT_PTR CMraProto::MraSendNudge(WPARAM hContact, LPARAM lParam)
 	return 1;
 }
 
+INT_PTR CMraProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
+{
+	if ( !m_bLoggedIn )
+		return 0;
+	return m_dwEmailMessagesUnread;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Avatars
 

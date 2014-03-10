@@ -124,6 +124,8 @@ struct CMraProto : public PROTO<CMraProto>
 
 	INT_PTR __cdecl MraSendNudge(WPARAM, LPARAM);
 
+	INT_PTR __cdecl GetUnreadEmailCount(WPARAM, LPARAM);
+
 	INT_PTR __cdecl MraGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl MraGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl MraGetMyAvatar(WPARAM, LPARAM);

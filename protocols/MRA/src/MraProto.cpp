@@ -31,6 +31,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	CreateProtoService(MS_ICQ_SENDSMS,         &CMraProto::MraSendSMS);
 	CreateProtoService(PS_SEND_NUDGE,          &CMraProto::MraSendNudge);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CMraProto::GetUnreadEmailCount);
 
 	if ( ServiceExists(MS_NUDGE_SEND))
 		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
