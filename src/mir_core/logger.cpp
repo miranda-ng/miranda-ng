@@ -29,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct Logger
 {
 	Logger(const char* pszName, const TCHAR *ptszDescr, const TCHAR *ptszFilename, unsigned options) :
-		m_name( mir_strdup(pszName)),
-		m_descr( mir_tstrdup(ptszDescr)),
-		m_fileName( mir_tstrdup(ptszFilename)),
+		m_name(mir_strdup(pszName)),
+		m_descr(mir_tstrdup(ptszDescr)),
+		m_fileName(mir_tstrdup(ptszFilename)),
 		m_options(options),
 		m_signature(SECRET_SIGNATURE),
 		m_out(NULL),
@@ -127,18 +127,27 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const TCHAR *ptszDescr, 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-static Logger* prepareLogger(HANDLE logger)
+static Logger* prepareLogger(HANDLE hLogger)
 {
-	if (logger == NULL)
+	if (hLogger == NULL)
 		return NULL;
 
-	Logger *p = (Logger*)logger;
+	Logger *p = (Logger*)hLogger;
 	return (p->m_signature == SECRET_SIGNATURE) ? p : NULL;
 }
 
-MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE logger, const char *format, ...)
+MIR_CORE_DLL(void) mir_closeLog(HANDLE hLogger)
 {
-	Logger *p = prepareLogger(logger);
+	Logger *p = prepareLogger(hLogger);
+	if (p != NULL)
+		arLoggers.remove(p);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
+{
+	Logger *p = prepareLogger(hLogger);
 	if (p == NULL)
 		return 1;
 
@@ -157,9 +166,9 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE logger, const char *format, ...)
 	return 0;
 }
 
-MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE logger, const WCHAR *format, ...)
+MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
 {
-	Logger *p = prepareLogger(logger);
+	Logger *p = prepareLogger(hLogger);
 	if (p == NULL)
 		return 1;
 
@@ -180,9 +189,9 @@ MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE logger, const WCHAR *format, ...)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(int) mir_writeLogVA(HANDLE logger, const char *format, va_list args)
+MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list args)
 {
-	Logger *p = prepareLogger(logger);
+	Logger *p = prepareLogger(hLogger);
 	if (p == NULL)
 		return 1;
 
@@ -199,9 +208,9 @@ MIR_CORE_DLL(int) mir_writeLogVA(HANDLE logger, const char *format, va_list args
 	return 0;
 }
 
-MIR_CORE_DLL(int) mir_writeLogVW(HANDLE logger, const WCHAR *format, va_list args)
+MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list args)
 {
-	Logger *p = prepareLogger(logger);
+	Logger *p = prepareLogger(hLogger);
 	if (p == NULL)
 		return 1;
 

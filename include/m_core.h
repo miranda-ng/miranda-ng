@@ -534,12 +534,13 @@ MIR_CORE_DLL(void)        List_ObjCopy(SortedList* s, SortedList* d, size_t item
 // logging functions
 
 MIR_CORE_DLL(HANDLE) mir_createLog(const char *pszName, const TCHAR *ptszDescr, const TCHAR *ptszFile, unsigned options);
+MIR_CORE_DLL(void)   mir_closeLog(HANDLE hLogger);
 
-MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE logger, const char *format, ...);
-MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE logger, const WCHAR *format, ...);
+MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...);
+MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...);
 
-MIR_CORE_DLL(int) mir_writeLogVA(HANDLE logger, const char *format, va_list args);
-MIR_CORE_DLL(int) mir_writeLogVW(HANDLE logger, const WCHAR *format, va_list args);
+MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list args);
+MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list args);
 
 ///////////////////////////////////////////////////////////////////////////////
 // md5 functions

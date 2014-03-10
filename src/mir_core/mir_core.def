@@ -258,3 +258,4 @@ db_mc_getSubCount             @255
 db_mc_getSub                  @256
 db_mc_setDefault              @257
 db_mc_setDefaultNum           @258
+mir_closeLog                  @259
