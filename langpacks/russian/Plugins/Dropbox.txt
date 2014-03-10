@@ -31,7 +31,7 @@
 Автоматически отсылать ссылку контакту
 [Paste download link into message input area]
 Вставить сылку в поле ввода
-[Copy download link to clibboard]
+[Copy download link to clipboard]
 Копировать ссылку в буфер обмена
 [in process...]
 в процессе...

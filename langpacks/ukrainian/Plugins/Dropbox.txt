@@ -21,9 +21,7 @@
 Натисніть кнопку
 [Authorize]
 Авторизувати
-[Other]
-Інше
-[Use shortened share links]
+[Use shortened download links]
 Скорочувати посилання
 [Check status of authorization]
 Перевірка стану авторизації:
@@ -67,27 +65,3 @@
 Невідома команда "%s".\nНаберіть "/help" для довідки.
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" не дійсна.\nНаберіть "/help" для довідки.
-[Server does not respond]
-Сервер не відповідає
-[Link to download file "%s": %s]
-Посилання для завантаження файлу "%s": %s
-[Link to download folder "%s": %s]
-Посилання для завантаження папки "%s": %s
-[Bad input parameter. Error message should indicate which one and why]
-Неправильний параметр вводу. У повідомленні про помилку має бути вказано, який саме і чому.
-[Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, you should re-authenticate the user]
-Неправильний або прострочений токен. Можливо, користувач або Dropbox відкликав токен. Щоб виправити це, авторизуйте користувача наново.
-[Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here]
-Невдалий запит OAuth (неправильний ключ, поганий криптографічний код, прострочені часові мітки тощо). На жаль, повторна авторизація користувача не допоможе в даному випадку.
-[File or folder not found at the specified path]
-Файл або папка не знайдені за вказаним шляхом
-[Request method not expected (generally should be GET or POST)]
-Непередбачений метод запиту (повинен бути GET, а не POST)
-[Your app is making too many requests and is being rate limited. 429s can trigger on a per-app or per-user basis]
-Додаток робить занадто багато запитів, буде обмежена швидкість.
-[If the response includes the Retry-After header, this means your OAuth 1.0 app is being rate limited. Otherwise, this indicates a transient server error, and your app should retry its request.]
-Якщо відповідь містить заголовок Retry-After, це означає, що ваш додаток обмежений у швидкості. В іншому випадку це свідчить про помилки сервера, і ваш додаток повинен повторити свій запит.
-[User is over Dropbox storage quota]
-Користувач перевищив квоту, виділену йому сервісом Dropbox
-[Unknown]
-Невідомо

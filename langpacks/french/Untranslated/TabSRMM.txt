@@ -189,6 +189,7 @@
 [enabled]
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
+[tabSRMM Warning Message]
 [No description given]
 [Incoming file (invalid format]
 [Unknown module or contact]

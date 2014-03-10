@@ -116,8 +116,6 @@ Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane
 Pierwsze zdarzenie nie oznaczone jako: poprawianie
 [Event marked as first which is not: correcting]
 Zdarzenie oznaczone jako pierwsze, które nie jest: poprawianie
-[Zero event's contact ID: correcting]
-Zero ID kontaktów w zdarzeniu: poprawianie
 [Extra flags found in event: removing]
 Dodatkowe flagi w przypadku: usuwanie
 [First unread event marked wrong: fixing]

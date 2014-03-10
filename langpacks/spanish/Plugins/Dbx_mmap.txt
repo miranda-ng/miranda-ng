@@ -116,8 +116,6 @@ Base de datos
 
 [Event marked as first which is not: correcting]
 
-[Zero event's contact ID: correcting]
-
 [Extra flags found in event: removing]
 
 [First unread event marked wrong: fixing]

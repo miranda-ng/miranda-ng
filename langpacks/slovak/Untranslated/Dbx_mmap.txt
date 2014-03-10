@@ -47,7 +47,6 @@
 [Event chain corrupted, further entries ignored]
 [First event not marked as such: correcting]
 [Event marked as first which is not: correcting]
-[Zero event's contact ID: correcting]
 [Extra flags found in event: removing]
 [First unread event marked wrong: fixing]
 [Infeasibly large event blob: skipping]

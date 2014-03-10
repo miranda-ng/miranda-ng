@@ -70,8 +70,6 @@
 Първо събитие не е маркирано като такова: поправяне
 [Event marked as first which is not: correcting]
 Събитие е маркирано като първо, но не е: поправяне
-[Zero event's contact ID: correcting]
-
 [Extra flags found in event: removing]
 
 [First unread event marked wrong: fixing]
