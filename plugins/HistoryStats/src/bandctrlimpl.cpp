@@ -14,7 +14,7 @@ const int BandCtrlImpl::m_PollDelay = 50;
 
 LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BandCtrlImpl* pCtrl = reinterpret_cast<BandCtrlImpl*>(GetWindowLong(hWnd, 0));
+	BandCtrlImpl* pCtrl = reinterpret_cast<BandCtrlImpl*>(GetWindowLongPtr(hWnd, 0));
 
 	switch (msg) {
 	case WM_NCCREATE:

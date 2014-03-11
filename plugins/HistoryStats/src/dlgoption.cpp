@@ -11,7 +11,7 @@
 
 INT_PTR CALLBACK DlgOption::staticDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DlgOption* pDlg = reinterpret_cast<DlgOption*>(GetWindowLong(hDlg, DWLP_USER));
+	DlgOption* pDlg = reinterpret_cast<DlgOption*>(GetWindowLongPtr(hDlg, DWLP_USER));
 
 	switch (msg) {
 	case WM_INITDIALOG:

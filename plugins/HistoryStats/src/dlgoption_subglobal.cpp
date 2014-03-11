@@ -346,7 +346,7 @@ void DlgOption::SubGlobal::initSupportInfo()
 
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
 
-	SetWindowLongPtr(hInfo, GWL_STYLE, GetWindowLong(hInfo, GWL_STYLE) | TVS_NOHSCROLL);
+	SetWindowLongPtr(hInfo, GWL_STYLE, GetWindowLongPtr(hInfo, GWL_STYLE) | TVS_NOHSCROLL);
 
 	SendMessage(hInfo, WM_SETREDRAW, FALSE, 0);
 

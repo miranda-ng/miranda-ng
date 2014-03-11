@@ -8,7 +8,7 @@
 
 INT_PTR CALLBACK DlgFilterWords::staticDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DlgFilterWords* pDlg = reinterpret_cast<DlgFilterWords*>(GetWindowLong(hDlg, DWLP_USER));
+	DlgFilterWords* pDlg = reinterpret_cast<DlgFilterWords*>(GetWindowLongPtr(hDlg, DWLP_USER));
 
 	switch (msg) {
 	case WM_INITDIALOG:

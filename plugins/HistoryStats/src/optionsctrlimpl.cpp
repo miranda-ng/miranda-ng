@@ -14,7 +14,7 @@ int OptionsCtrlImpl::m_nStateIconsRef = 0;
 
 LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	OptionsCtrlImpl* pCtrl = reinterpret_cast<OptionsCtrlImpl*>(GetWindowLong(hWnd, 0));
+	OptionsCtrlImpl* pCtrl = reinterpret_cast<OptionsCtrlImpl*>(GetWindowLongPtr(hWnd, 0));
 
 	switch (msg) {
 	case WM_NCCREATE:
@@ -262,7 +262,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 
 LRESULT CALLBACK OptionsCtrlImpl::staticTreeProc(HWND hTree, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	OptionsCtrlImpl* pCtrl = reinterpret_cast<OptionsCtrlImpl*>(GetWindowLong(GetParent(hTree), 0));
+	OptionsCtrlImpl* pCtrl = reinterpret_cast<OptionsCtrlImpl*>(GetWindowLongPtr(GetParent(hTree), 0));
 
 	switch (msg) {
 	case WM_LBUTTONDOWN:

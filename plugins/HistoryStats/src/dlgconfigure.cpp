@@ -15,7 +15,7 @@ bool DlgConfigure::m_bHookedEvent = false;
 
 INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DlgConfigure* pDlg = reinterpret_cast<DlgConfigure*>(GetWindowLong(hDlg, DWLP_USER));
+	DlgConfigure* pDlg = reinterpret_cast<DlgConfigure*>(GetWindowLongPtr(hDlg, DWLP_USER));
 
 	switch (msg) {
 	case WM_INITDIALOG:

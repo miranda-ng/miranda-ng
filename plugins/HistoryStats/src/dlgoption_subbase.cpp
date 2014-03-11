@@ -9,7 +9,7 @@
 
 INT_PTR CALLBACK DlgOption::SubBase::staticDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	SubBase* pDlg = reinterpret_cast<SubBase*>(GetWindowLong(hDlg, DWLP_USER));
+	SubBase* pDlg = reinterpret_cast<SubBase*>(GetWindowLongPtr(hDlg, DWLP_USER));
 
 	switch (msg) {
 	case WM_INITDIALOG:
