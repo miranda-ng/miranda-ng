@@ -23,9 +23,11 @@ int CDropbox::OnPrebuildContactMenu(void *obj, WPARAM hContact, LPARAM lParam)
 
 	Menu_ShowItem(instance->contactMenuItems[CMI_SEND_FILES], FALSE);
 
-	WORD status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
+	char *proto = GetContactProto(hContact);
+	WORD status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
+	bool canSendOffline = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 
-	if (hContact != instance->GetDefaultContact() && status != ID_STATUS_OFFLINE && instance->HasAccessToken() && !instance->hTransferContact)
+	if (hContact != instance->GetDefaultContact() && (status != ID_STATUS_OFFLINE || canSendOffline) && instance->HasAccessToken() && !instance->hTransferContact)
 		Menu_ShowItem(instance->contactMenuItems[CMI_SEND_FILES], TRUE);
 
 	return 0;

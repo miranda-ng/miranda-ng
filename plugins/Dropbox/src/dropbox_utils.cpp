@@ -1,13 +1,5 @@
 #include "common.h"
 
-HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj)
-{
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", MODULE, szService);
-	str[MAXMODULELABELLENGTH - 1] = 0;
-	return CreateServiceFunctionObj(str, serviceProc, obj);
-}
-
 wchar_t *CDropbox::HttpStatusToText(HTTP_STATUS status)
 {
 	switch (status)
@@ -35,27 +27,19 @@ wchar_t *CDropbox::HttpStatusToText(HTTP_STATUS status)
 	return L"Unknown";
 }
 
-void CDropbox::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
+int CDropbox::HandleHttpResponseError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response)
 {
-	if (Miranda_Terminated()) return;
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	if (!response)
 	{
-		POPUPDATAW ppd = {0};
-		ppd.lchContact = hContact;
-		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
-		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = Skin_GetIcon("Skype_main");
-
-		if (!PUAddPopupW(&ppd))
-			return;
-
+		Netlib_Logf(hNetlibUser, "%s: %s", MODULE, "Server does not respond");
+		return ACKRESULT_FAILED;
 	}
 
-	MessageBox(NULL, message, caption, MB_OK | flags);
-}
+	if (response->resultCode != HTTP_STATUS_OK)
+	{
+		Netlib_Logf(hNetlibUser, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode));
+		return response->resultCode;
+	}
 
-void CDropbox::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
-{
-	ShowNotification(TranslateT(MODULE), message, flags, hContact);
+	return 0;
 }

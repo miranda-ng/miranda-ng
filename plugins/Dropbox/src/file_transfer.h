@@ -7,23 +7,22 @@ struct FileTransferParam
 {
 	HANDLE hProcess;
 	MCONTACT hContact;
-	CDropbox *instance;
 	PROTOFILETRANSFERSTATUS pfts;
 
 	int totalFolders;
-	char **pszFolders;
+	wchar_t **pwszFolders;
 	int relativePathStart;
 
-	FileTransferParam(CDropbox *instance)
-	{
-		this->instance = instance;
+	bool withVisualisation;
 
+	FileTransferParam()
+	{
 		totalFolders = 0;
-		pszFolders = NULL;
+		pwszFolders = NULL;
 		relativePathStart = 0;
 
 		pfts.cbSize = sizeof(this->pfts);
-		pfts.flags = PFTS_UTF;
+		pfts.flags = PFTS_UNICODE;
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;
@@ -43,16 +42,16 @@ struct FileTransferParam
 			{
 				if (pfts.pszFiles[i]) mir_free(pfts.pszFiles[i]);
 			}
-			delete pfts.pszFiles;
+			mir_free(pfts.pszFiles);
 		}
 
-		if (pszFolders)
+		if (pwszFolders)
 		{
-			for (int i = 0; pszFolders[i]; i++)
+			for (int i = 0; pwszFolders[i]; i++)
 			{
-				if (pszFolders[i]) mir_free(pszFolders[i]);
+				if (pwszFolders[i]) mir_free(pwszFolders[i]);
 			}
-			delete pszFolders;
+			mir_free(pwszFolders);
 		}
 	}
 };

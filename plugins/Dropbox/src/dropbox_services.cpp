@@ -1,5 +1,13 @@
 #include "common.h"
 
+HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj)
+{
+	char str[MAXMODULELABELLENGTH];
+	mir_snprintf(str, sizeof(str), "%s%s", MODULE, szService);
+	str[MAXMODULELABELLENGTH - 1] = 0;
+	return CreateServiceFunctionObj(str, serviceProc, obj);
+}
+
 INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
 	switch(wParam)
@@ -8,16 +16,14 @@ INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 		return PF1_IM | PF1_FILESEND;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
-	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)MODULE " ID";
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)"uid";
+	case PFLAGNUM_4:
+		return PF4_OFFLINEFILES;
 	}
 
 	return 0;
 }
 
-INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam)
+INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
@@ -26,48 +32,49 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam)
 
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	FileTransferParam *ftp = new FileTransferParam(instance);
-	ftp->pfts.flags = PFTS_SENDING | PFTS_UTF;
+	FileTransferParam *ftp = new FileTransferParam();
+	ftp->withVisualisation = true;
+	ftp->pfts.flags |= PFTS_SENDING;
 	ftp->pfts.hContact = pccsd->hContact;
 	ftp->hContact = (instance->hTransferContact) ? instance->hTransferContact : pccsd->hContact;
 	instance->hTransferContact = 0;
 
-	char **files = (char**)pccsd->lParam;
+	wchar_t **paths = (wchar_t**)pccsd->lParam;
 
-	for (int i = 0; files[i]; i++)
+	for (int i = 0; paths[i]; i++)
 	{
-		if (PathIsDirectoryA(files[i]))
+		if (PathIsDirectory(paths[i]))
 			ftp->totalFolders++;
 		else
 			ftp->pfts.totalFiles++;
 	}
 
-	ftp->pszFolders = new char*[ftp->totalFolders + 1];
-	ftp->pszFolders[ftp->totalFolders] = NULL;
+	ftp->pwszFolders = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (ftp->totalFolders + 1));
+	ftp->pwszFolders[ftp->totalFolders] = NULL;
 
-	ftp->pfts.pszFiles = new char*[ftp->pfts.totalFiles + 1];
-	ftp->pfts.pszFiles[ftp->pfts.totalFiles] = NULL;
+	ftp->pfts.pwszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (ftp->pfts.totalFiles + 1));
+	ftp->pfts.pwszFiles[ftp->pfts.totalFiles] = NULL;
 
-	for (int i = 0, j = 0, k = 0; files[i]; i++)
+	for (int i = 0, j = 0, k = 0; paths[i]; i++)
 	{
-		if (PathIsDirectoryA(files[i]))
+		if (PathIsDirectory(paths[i]))
 		{
 			if (!ftp->relativePathStart)
 			{
-				char *rootFolder = files[j];
-				char *relativePath = strrchr(rootFolder, '\\') + 1;
+				wchar_t *rootFolder = paths[j];
+				wchar_t *relativePath = wcsrchr(rootFolder, L'\\') + 1;
 				ftp->relativePathStart = relativePath - rootFolder;
 			}
 
-			ftp->pszFolders[j] = mir_strdup(&files[i][ftp->relativePathStart]);
+			ftp->pwszFolders[j] = mir_wstrdup(&paths[i][ftp->relativePathStart]);
 
 			j++;
 		}
 		else
 		{
-			ftp->pfts.pszFiles[k] = mir_strdup(files[i]);
+			ftp->pfts.pwszFiles[k] = mir_wstrdup(paths[i]);
 
-			FILE *file = fopen(files[i], "rb");
+			FILE *file = _wfopen(paths[i], L"rb");
 			if (file != NULL)
 			{
 				fseek(file, 0, SEEK_END);
@@ -82,7 +89,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam)
 	ULONG fileId = InterlockedIncrement(&instance->hFileProcess);
 	ftp->hProcess = (HANDLE)fileId;
 
-	mir_forkthread(CDropbox::SendFileAsync, ftp);
+	mir_forkthreadowner(CDropbox::SendFilesAsync, obj, ftp, 0);
 
 	return fileId;
 }
@@ -90,6 +97,9 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam)
 INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
+
+	if (!instance->HasAccessToken())
+		return ACKRESULT_FAILED;
 
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
@@ -101,7 +111,7 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = strlen(message);
 	dbei.pBlob = (PBYTE)message;
-	dbei.flags = DBEF_SENT | DBEF_UTF;
+	dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
 	db_event_add(pccsd->hContact, &dbei);
 
 	char help[1024];
@@ -176,83 +186,37 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
-	const char *filePath = (char*)lParam;
-	const char *fileName = strrchr(filePath, '\\') + 1;
+	if (!instance->HasAccessToken())
+		return 0;
 
-	FILE *file = fopen(filePath, "rb");
-	if (file != NULL)
-	{
-		fseek(file, 0, SEEK_END);
-		DWORD fileSize = ftell(file);
-		fseek(file, 0, SEEK_SET);
+	const wchar_t *filePath = (wchar_t*)lParam;
 
-		int chunkSize = DROPBOX_FILE_CHUNK_SIZE;
-		if (fileSize <= (DROPBOX_FILE_CHUNK_SIZE))
-		{
-			char *data = new char[fileSize + 1];
-			int count = (int)fread(data, sizeof(char), fileSize, file);
+	FileTransferParam *ftp = new FileTransferParam();
+	ftp->withVisualisation = false;
+	ftp->pfts.flags |= PFTS_SENDING;
+	ftp->pfts.hContact = hContact;
+	ftp->pfts.totalFiles = 1;
+	ftp->hContact = (instance->hTransferContact) ? instance->hTransferContact : hContact;
+	instance->hTransferContact = 0;
 
-			instance->SendFile(fileName, data, fileSize);
-		}
-		else
-		{
-			int offset = 0;
-			bool error = false;
-			char *uploadId = new char[32];
+	ftp->pfts.pwszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (ftp->pfts.totalFiles + 1));
+	ftp->pfts.pwszFiles[0] = mir_wstrdup(filePath);
+	ftp->pfts.pwszFiles[ftp->pfts.totalFiles] = NULL;
 
-			while (!feof(file) && !ferror(file))
-			{
-				char *data = new char[chunkSize + 1];
-				int count = (int)fread(data, sizeof(char), chunkSize, file);
+	ULONG fileId = InterlockedIncrement(&instance->hFileProcess);
+	ftp->hProcess = (HANDLE)fileId;
 
-				if (!offset)
-				{
-					if (instance->SendFileChunkedFirst(data, count, uploadId, offset))
-					{
-						error = true;
-						break;
-					}
-				}
-				else
-				{
-					if (instance->SendFileChunkedNext(data, count, uploadId, offset))
-					{
-						error = true;
-						break;
-					}
-				}
-			}
+	mir_forkthreadowner(CDropbox::SendFilesAsync, obj, ftp, 0);
 
-			fclose(file);
-
-			if (!error)
-			{
-				if (instance->SendFileChunkedLast(fileName, uploadId))
-				{
-					error = true;
-				}
-			}
-		}
-	}
-
-	return 0;
-}
-
-INT_PTR CDropbox::SendFileWToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
-{
-	const wchar_t *filePathW = (wchar_t*)lParam;
-	char *filePath = Utf8EncodeW(filePathW);
-
-	SendFileToDropbox(obj, hContact, (LPARAM)filePath);
-
-	mir_free(filePath);
-
-	return 0;
+	return fileId;
 }
 
 INT_PTR CDropbox::SendFilesToDropbox(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
+
+	if (!instance->HasAccessToken())
+		return 1;
 
 	instance->hTransferContact = hContact;
 

@@ -37,12 +37,15 @@ class CDropbox
 {
 public:
 	CDropbox();
-	virtual ~CDropbox() { }
+	virtual ~CDropbox();
 
 private:
 	HANDLE hNetlibUser;
 	ULONG  hFileProcess;
 	ULONG  hMessageProcess;
+
+	HANDLE hFileSendFailedHook;
+	HANDLE hFileSendSuccessedHook;
 	
 	MCONTACT hDefaultContact;
 	MCONTACT hTransferContact;
@@ -53,25 +56,28 @@ private:
 	HGENMENU contactMenuItems[CMI_MAX];
 
 	// hooks
-	static int OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnProtoAck(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnContactDeleted(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnPrebuildContactMenu(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnFileDoalogCancelled(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnFileDoalogSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnFileDialogCancelled(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnFileDialogSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
+
+	static int OnSendSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// services
+	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
+
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFileToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
-	static INT_PTR SendFileWToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
-
 	static INT_PTR SendFilesToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// commands
@@ -92,8 +98,6 @@ private:
 	void RequestAccountInfo();
 
 	// transrers
-	static int HandleFileTransferError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response);
-
 	int SendFile(const char *fileName, const char *data, int length);
 	int SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset);
 	int SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
@@ -101,9 +105,9 @@ private:
 
 	int CreateFolder(const char *folderName);
 
-	int CreateDownloadUrl(const char *path, char *url);
+	int CreateDownloadUrl(const char *path, wchar_t *url);
 
-	static void _cdecl SendFileAsync(void *arg);
+	static UINT SendFilesAsync(void *owner, void *arg);
 
 	// contacts
 	MCONTACT GetDefaultContact();
@@ -119,12 +123,8 @@ private:
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// utils
-	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
-
 	static wchar_t *HttpStatusToText(HTTP_STATUS status);
-
-	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static int HandleHttpResponseError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response);
 };
 
 #endif //_DROPBOX_PROTO_H_

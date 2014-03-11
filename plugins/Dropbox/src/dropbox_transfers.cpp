@@ -1,24 +1,5 @@
 #include "common.h"
 
-int CDropbox::HandleFileTransferError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response)
-{
-	if (!response)
-	{
-		Netlib_Logf(hNetlibUser, "%s", "Server does not respond");
-		//CDropbox::ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
-		return ACKRESULT_FAILED;
-	}
-
-	if (response->resultCode != HTTP_STATUS_OK)
-	{
-		Netlib_Logf(hNetlibUser, "%s", HttpStatusToText((HTTP_STATUS)response->resultCode));
-		//CDropbox::ShowNotification(TranslateTS(HttpStatusToText((HTTP_STATUS)response->resultCode)), MB_ICONERROR);
-		return response->resultCode;
-	}
-
-	return 0;
-}
-
 int CDropbox::SendFile(const char *fileName, const char *data, int length)
 {
 	char *utf8_fileName = mir_utf8encode(fileName);
@@ -41,7 +22,7 @@ int CDropbox::SendFile(const char *fileName, const char *data, int length)
 
 	delete request;
 
-	return HandleFileTransferError(hNetlibUser, response);
+	return HandleHttpResponseError(hNetlibUser, response);
 }
 
 int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset)
@@ -67,14 +48,10 @@ int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId,
 
 			node = json_get(root, "offset");
 			offset = json_as_int(node);
-
-			return 0;
 		}
-
-		return HandleFileTransferError(hNetlibUser, response);
 	}
 
-	return HandleFileTransferError(hNetlibUser, response);
+	return HandleHttpResponseError(hNetlibUser, response);
 }
 
 int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset)
@@ -100,29 +77,21 @@ int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uplo
 		{
 			JSONNODE *node = json_get(root, "offset");
 			offset = json_as_int(node);
-
-			return 0;
 		}
-
-		return HandleFileTransferError(hNetlibUser, response);
 	}
 
-	return HandleFileTransferError(hNetlibUser, response);
+	return HandleHttpResponseError(hNetlibUser, response);
 }
 
 int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId)
 {
-	char *utf8_fileName = mir_utf8encode(fileName);
-
 	CMStringA url;
 	url.AppendFormat(
 		"%s/commit_chunked_upload/%s/%s",
 		DROPBOX_APICONTENT_URL,
 		DROPBOX_API_ROOT,
-		utf8_fileName);
+		fileName);
 	url.Replace('\\', '/');
-
-	mir_free(utf8_fileName);
 
 	CMStringA param = CMStringA("upload_id=") + uploadId;
 
@@ -136,87 +105,13 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId)
 
 	delete request;
 
-	//if (response && response->resultCode == HTTP_STATUS_OK)
-	//{
-	//	if (!strchr(fileName, '\\'))
-	//	{
-	//		url.Replace(DROPBOX_APICONTENT_URL, DROPBOX_API_URL);
-	//		url.Replace("commit_chunked_upload", "shares");
-
-	//		request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
-	//		request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
-	//		if (!db_get_b(NULL, MODULE, "UseSortLinks", 1))
-	//		{
-	//			request->pData = mir_strdup("short_url=false");
-	//			request->dataLength = strlen(request->pData);
-	//		}
-
-	//		response = request->Send();
-
-	//		delete request;
-
-	//		if (response &&response->resultCode == HTTP_STATUS_OK)
-	//		{
-	//			JSONNODE *root = json_parse(response->pData);
-	//			if (root)
-	//			{
-	//				JSONNODE *node = json_get(root, "url");
-
-	//				char message[1024];
-	//				mir_snprintf(
-	//					message,
-	//					SIZEOF(message),
-	//					Translate("Link to download file \"%s\": %s"),
-	//					fileName,
-	//					mir_u2a(json_as_string(node)));
-
-	//				if (hContact != CDropbox::GetDefaultContact())
-	//				{
-	//					if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message) != ACKRESULT_FAILED)
-	//					{
-	//						DBEVENTINFO dbei = { sizeof(dbei) };
-	//						dbei.szModule = MODULE;
-	//						dbei.timestamp = time(NULL);
-	//						dbei.eventType = EVENTTYPE_MESSAGE;
-	//						dbei.cbBlob = strlen(message);
-	//						dbei.pBlob = (PBYTE)message;
-	//						dbei.flags = DBEF_SENT | DBEF_UTF;
-	//						db_event_add(hContact, &dbei);
-	//					}
-	//				}
-	//				else
-	//				{
-	//					DBEVENTINFO dbei = { sizeof(dbei) };
-	//					dbei.szModule = MODULE;
-	//					dbei.timestamp = time(NULL);
-	//					dbei.eventType = EVENTTYPE_MESSAGE;
-	//					dbei.cbBlob = strlen(message);
-	//					dbei.pBlob = (PBYTE)message;
-	//					dbei.flags = DBEF_UTF;
-	//					db_event_add(hContact, &dbei);
-	//				}
-
-	//				return 0;
-	//			}
-
-	//			return HandleFileTransferError(hNetlibUser, response);
-	//		}
-
-	//		return HandleFileTransferError(hNetlibUser, response);
-	//	}
-	//}
-
-	return HandleFileTransferError(hNetlibUser, response);
+	return HandleHttpResponseError(hNetlibUser, response);
 }
 
 int CDropbox::CreateFolder(const char *folderName)
 {
-	char *utf8_folderName = mir_utf8encode(folderName);
-
-	CMStringA folder = utf8_folderName;
+	CMStringA folder = folderName;
 	folder.Replace('\\', '/');
-
-	mir_free(utf8_folderName);
 
 	CMStringA param;
 	param.AppendFormat("root=%s&path=%s",
@@ -233,81 +128,10 @@ int CDropbox::CreateFolder(const char *folderName)
 
 	delete request;
 
-	//if (response && (response->resultCode == HTTP_STATUS_OK || response->resultCode == HTTP_STATUS_FORBIDDEN))
-	//{
-	//	if (!strchr(folderName, '\\'))
-	//	{
-	//		CMStringA url = DROPBOX_API_URL;
-	//		url.AppendFormat("/shares/%s/%s",
-	//			DROPBOX_API_ROOT,
-	//			folder);
-
-	//		request = new HttpRequest(hNetlibUser, REQUEST_POST, url);
-	//		request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
-	//		if (!db_get_b(NULL, MODULE, "UseSortLinks", 1))
-	//		{
-	//			request->pData = mir_strdup("short_url=false");
-	//			request->dataLength = strlen(request->pData);
-	//		}
-
-	//		mir_free(response);
-
-	//		response = request->Send();
-
-	//		if (response && response->resultCode == HTTP_STATUS_OK)
-	//		{
-	//			JSONNODE *root = json_parse(response->pData);
-	//			if (root != NULL)
-	//			{
-	//				JSONNODE *node = json_get(root, "url");
-	//				char message[1024];
-	//				mir_snprintf(
-	//					message,
-	//					SIZEOF(message),
-	//					Translate("Link to download folder \"%s\": %s"),
-	//					folderName,
-	//					mir_u2a(json_as_string(node)));
-
-	//				if (hContact != CDropbox::GetDefaultContact())
-	//				{
-	//					if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)&message) != ACKRESULT_FAILED)
-	//					{
-	//						DBEVENTINFO dbei = { sizeof(dbei) };
-	//						dbei.szModule = MODULE;
-	//						dbei.timestamp = time(NULL);
-	//						dbei.eventType = EVENTTYPE_MESSAGE;
-	//						dbei.cbBlob = strlen(message);
-	//						dbei.pBlob = (PBYTE)message;
-	//						dbei.flags = DBEF_SENT | DBEF_UTF;
-	//						db_event_add(hContact, &dbei);
-	//					}
-	//				}
-	//				else
-	//				{
-	//					DBEVENTINFO dbei = { sizeof(dbei) };
-	//					dbei.szModule = MODULE;
-	//					dbei.timestamp = time(NULL);
-	//					dbei.eventType = EVENTTYPE_MESSAGE;
-	//					dbei.cbBlob = strlen(message);
-	//					dbei.pBlob = (PBYTE)message;
-	//					dbei.flags = DBEF_UTF;
-	//					db_event_add(hContact, &dbei);
-	//				}
-
-	//				return 0;
-	//			}
-
-	//			return HandleFileTransferError(hNetlibUser, response);
-	//		}
-
-	//		return HandleFileTransferError(hNetlibUser, response);
-	//	}
-	//}
-
-	return HandleFileTransferError(hNetlibUser, response);
+	return HandleHttpResponseError(hNetlibUser, response);
 }
 
-int CDropbox::CreateDownloadUrl(const char *path, char *url)
+int CDropbox::CreateDownloadUrl(const char *path, wchar_t *url)
 {
 	CMStringA api_url = DROPBOX_API_URL;
 	api_url.AppendFormat("/shares/%s/%s",
@@ -330,78 +154,85 @@ int CDropbox::CreateDownloadUrl(const char *path, char *url)
 		if (root != NULL)
 		{
 			JSONNODE *node = json_get(root, "url");
-			strcpy(url, mir_u2a(json_as_string(node)));
-
-			return 0;
+			wcscpy(url, json_as_string(node));
 		}
-
-		return HandleFileTransferError(hNetlibUser, response);
 	}
 
-	return HandleFileTransferError(hNetlibUser, response);
+	return HandleHttpResponseError(hNetlibUser, response);
 }
 
-void _cdecl CDropbox::SendFileAsync(void *arg)
+UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 {
 	bool error = false;
+	CDropbox *instance = (CDropbox*)owner;
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
-	CMStringA urls;
+	CMString urls;
 
-	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
+	if (ftp->withVisualisation)
+		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
-	for (int i = 0; ftp->pszFolders[i]; i++)
+	if (ftp->pwszFolders)
 	{
-		if (!ftp->instance->CreateFolder(ftp->pszFolders[i]))
+		for (int i = 0; ftp->pwszFolders[i]; i++)
 		{
-			if (!strchr(ftp->pszFolders[i], '\\'))
+			ptrA utf8_folderName(mir_utf8encodeW(ftp->pwszFolders[i]));
+
+			if (!instance->CreateFolder(utf8_folderName))
 			{
-				char url[MAX_PATH];
-				if (!ftp->instance->CreateDownloadUrl(ftp->pszFolders[i], url))
+				if (!strchr(utf8_folderName, '\\'))
 				{
-					urls += url;
-					urls += "\r\n";
-				}
-				else
-				{
-					error = true;
-					break;
+					wchar_t url[MAX_PATH];
+					if (!instance->CreateDownloadUrl(utf8_folderName, url))
+					{
+						if (!urls.IsEmpty())
+							urls += "\r\n";
+						urls += url;
+					}
+					else
+					{
+						error = true;
+						break;
+					}
 				}
 			}
-		}
-		else
-		{
-			error = true;
-			break;
+			else
+			{
+				error = true;
+				break;
+			}
 		}
 	}
 
 	if (!error)
 	{
-		for (int i = 0; ftp->pfts.pszFiles[i]; i++)
+		for (int i = 0; ftp->pfts.pwszFiles[i]; i++)
 		{
-			FILE *file = fopen(ftp->pfts.pszFiles[i], "rb");
-			if (file != NULL)
+			FILE *file = _wfopen(ftp->pfts.pwszFiles[i], L"rb");
+			if (file)
 			{
 				int offset = 0;
 				char *uploadId = new char[32];
 
-				const char *fileName = NULL;
+				const wchar_t *fileName = NULL;
 				if (!ftp->relativePathStart)
-					fileName = strrchr(ftp->pfts.pszFiles[i], '\\') + 1;
+					fileName = wcsrchr(ftp->pfts.pwszFiles[i], L'\\') + 1;
 				else
-					fileName = &ftp->pfts.pszFiles[i][ftp->relativePathStart];
+					fileName = &ftp->pfts.pwszFiles[i][ftp->relativePathStart];
 
 				fseek(file, 0, SEEK_END);
 				DWORD fileSize = ftell(file);
 				fseek(file, 0, SEEK_SET);
 
-				ftp->pfts.currentFileNumber = i;
-				ftp->pfts.currentFileSize = fileSize;
-				ftp->pfts.currentFileProgress = 0;
-				ftp->pfts.szCurrentFile = strrchr(ftp->pfts.pszFiles[i], '\\') + 1;
+				if (ftp->withVisualisation)
+				{
+					ftp->pfts.currentFileNumber = i;
+					ftp->pfts.currentFileSize = fileSize;
+					ftp->pfts.currentFileProgress = 0;
+					ftp->pfts.wszCurrentFile = wcsrchr(ftp->pfts.pwszFiles[i], '\\') + 1;
 
-				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
+					ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
+				}
 
 				while (!feof(file) && !ferror(file))
 				{
@@ -416,7 +247,7 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 
 					if (!offset)
 					{
-						if (ftp->instance->SendFileChunkedFirst(data, count, uploadId, offset))
+						if (instance->SendFileChunkedFirst(data, count, uploadId, offset))
 						{
 							error = true;
 							break;
@@ -424,37 +255,43 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 					}
 					else
 					{
-						if (ftp->instance->SendFileChunkedNext(data, count, uploadId, offset))
+						if (instance->SendFileChunkedNext(data, count, uploadId, offset))
 						{
 							error = true;
 							break;
 						}
 					}
 
-					ftp->pfts.currentFileProgress += count;
-					ftp->pfts.totalProgress += count;
+					if (ftp->withVisualisation)
+					{
+						ftp->pfts.currentFileProgress += count;
+						ftp->pfts.totalProgress += count;
 
-					ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
+						ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
+					}
 				}
 
 				fclose(file);
 
 				if (!error)
 				{
-					if (ftp->instance->SendFileChunkedLast(fileName, uploadId))
+					ptrA utf8_fileName(mir_utf8encodeW(fileName));
+
+					if (instance->SendFileChunkedLast(utf8_fileName, uploadId))
 					{
 						error = true;
 						break;
 					}
 					else
 					{
-						if (!strchr(fileName, '\\'))
+						if (!wcschr(fileName, L'\\'))
 						{
-							char url[MAX_PATH];
-							if (!ftp->instance->CreateDownloadUrl(fileName, url))
+							wchar_t url[MAX_PATH];
+							if (!instance->CreateDownloadUrl(utf8_fileName, url))
 							{
+								if (!urls.IsEmpty())
+									urls += "\r\n";
 								urls += url;
-								urls += "\r\n";
 							}
 							else
 							{
@@ -463,60 +300,40 @@ void _cdecl CDropbox::SendFileAsync(void *arg)
 							}
 						}
 
-						ftp->pfts.currentFileProgress = ftp->pfts.currentFileSize;
+						if (ftp->withVisualisation)
+						{
+							ftp->pfts.currentFileProgress = ftp->pfts.currentFileSize;
 
-						if (i < ftp->pfts.totalFiles - 1)
-							ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
+							if (i < ftp->pfts.totalFiles - 1)
+								ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
+						}
 					}
 				}
 			}
+			else
+			{
+				error = true;
+				break;
+			}
 		}
 	}
-
-	if (ftp->instance->hTransferContact)
-		ftp->instance->hTransferContact = 0;
 
 	if (!error)
 	{
-		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
+		if (ftp->withVisualisation)
+			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
 
-		if (db_get_b(NULL, MODULE, "UrlAutoSend", 0))
-		{
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			dbei.szModule = MODULE;
-			dbei.flags = DBEF_UTF;
-			dbei.timestamp = time(NULL);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.cbBlob = urls.GetLength();
-			dbei.pBlob = (PBYTE)urls.GetBuffer();
-
-			if (ftp->hContact != ftp->instance->GetDefaultContact())
-			{
-				CallContactService(ftp->hContact, PSS_MESSAGE, 0, (LPARAM)urls.GetBuffer());
-				dbei.flags |= DBEF_SENT;
-				dbei.flags |= DBEF_READ;
-			}
-
-			db_event_add(ftp->hContact, &dbei);
-		}
-		
-		if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 1))
-			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)ftp->hContact, (LPARAM)urls.GetBuffer());
-
-		if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 1))
-		{
-			int length = urls.GetLength() + 1;
-			HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, length);
-			memcpy(GlobalLock(hMem), urls.GetBuffer(), length);
-			GlobalUnlock(hMem);
-			OpenClipboard(0);
-			EmptyClipboard();
-			SetClipboardData(CF_TEXT, hMem);
-			CloseClipboard();
-		}
+		NotifyEventHooks(instance->hFileSendSuccessedHook, ftp->hContact, (LPARAM)urls.GetBuffer());
 	}
 	else
-		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
+	{
+		if (ftp->withVisualisation)
+			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
+
+		NotifyEventHooks(instance->hFileSendFailedHook, ftp->hContact, 0);
+	}
 
 	delete ftp;
+
+	return 0;
 }
