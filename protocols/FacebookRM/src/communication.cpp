@@ -303,7 +303,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 	case REQUEST_MESSAGES_RECEIVE:
 	{
 		std::string server = FACEBOOK_SERVER_CHAT;
-		utils::text::replace_first(&server, "%s", "0");
+		utils::text::replace_first(&server, "%s", this->chat_conn_num_.empty() ? "0" : this->chat_conn_num_);
 		utils::text::replace_first(&server, "%s", this->chat_channel_host_);
 		return server;
 	}
@@ -500,6 +500,9 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
 		action += "&partition=" + (this->chat_channel_partition_.empty() ? "0" : this->chat_channel_partition_);
 		action += "&clientid=&cb=&idle=0&state=active";
+		if (!this->chat_sticky_num_.empty())
+			action += "&sticky_token=" + this->chat_sticky_num_;
+
 		return action;
 	}
 
@@ -950,6 +953,9 @@ bool facebook_client::reconnect()
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
+		this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
+		parent->debugLogA("      Got self max_conn: %s", this->chat_conn_num_.c_str());
+
 		return handle_success("reconnect");
 	}
 	 
@@ -1089,39 +1095,32 @@ bool facebook_client::channel()
 	// Get update
 	http::response resp = flap(REQUEST_MESSAGES_RECEIVE);
 
-	if (resp.code != HTTP_CODE_OK)
-	{
-		// Something went wrong
-	}
-	else if (resp.data.find("\"t\":\"continue\"") != std::string::npos)
-	{
+	std::string type = utils::text::source_get_value(&resp.data, 2, "\"t\":\"", "\"");
+	if (type == "continue" || type == "heartbeat") {
 		// Everything is OK, no new message received
 	}
-	else if (resp.data.find("\"t\":\"fullReload\"") != std::string::npos)
-	{
-		// Something went wrong (server flooding?)
+	else if (type == "lb") {
+		// Some new stuff (idk how does it work yet)
+		this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"vip\":\"", "\"");
+		parent->debugLogA("      Got self channel host: %s", this->chat_channel_host_.c_str());
 
-		parent->debugLogA("! ! ! Requested full reload");
-    
-		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
-
-		this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
-		parent->debugLogA("      Reconnect reason: %s", this->chat_reconnect_reason_.c_str());
+		this->chat_sticky_num_ = utils::text::source_get_value2(&resp.data, "\"sticky\":\"", "\"");
+		parent->debugLogA("      Got self sticky number: %s", this->chat_sticky_num_.c_str());
 	}
-	else if (resp.data.find("\"t\":\"refresh\"") != std::string::npos)
-	{
+	else if (type == "fullReload" || type == "refresh") {
 		// Something went wrong (server flooding?)
-		parent->debugLogA("! ! ! Requested channel refresh");
-    
-		this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
-		parent->debugLogA("      Reconnect reason: %s", this->chat_reconnect_reason_.c_str());
+		parent->debugLogA("! ! ! Requested %s", type.c_str());
 
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
-		return this->reconnect();
-	} else {
+		this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
+		parent->debugLogA("      Reconnect reason: %s", this->chat_reconnect_reason_.c_str());
+
+		if (type == "refresh")
+			return this->reconnect();
+	}
+	else {
 		// Something has been received, throw to new thread to process
 		std::string* response_data = new std::string(resp.data);
 		parent->ForkThread(&FacebookProto::ProcessMessages, response_data);
