@@ -308,13 +308,17 @@ int SendQueue::getSendLength(const int iEntry, int sendMode)
 
 int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 {
+	CContactCache *ccActive = CContactCache::getContactCache(dat->hContact);
+	if (ccActive == NULL)
+		return 0;
+
 	HWND	hwndDlg = dat->hwnd;
 
 	if (dat->sendMode & SMODE_MULTIPLE) {
 		int iJobs = 0;
 		int iMinLength = 0;
 
-		m_jobs[iEntry].hOwner = dat->hContact;
+		m_jobs[iEntry].hOwner = ccActive->getActiveContact();
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].hwndOwner = hwndDlg;
 
@@ -332,7 +336,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		if (iSendLength >= iMinLength) {
 			TCHAR	tszError[256];
 			mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
-			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
+			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 			sendQueue->clearJob(iEntry);
 			return 0;
 		}
@@ -347,7 +351,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 		sendQueue->clearJob(iEntry);
 		if (iJobs)
-			sendLater->flushQueue();							// force queue processing
+			sendLater->flushQueue(); // force queue processing
 		return 0;
 	}
 
@@ -370,7 +374,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		if (!fSplit)
 			goto send_unsplitted;
 
-		m_jobs[iEntry].hOwner = dat->hContact;
+		m_jobs[iEntry].hOwner = ccActive->getActiveContact();
 		m_jobs[iEntry].hwndOwner = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
@@ -390,7 +394,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 send_unsplitted:
 
-		m_jobs[iEntry].hOwner = dat->hContact;
+		m_jobs[iEntry].hOwner = ccActive->getActiveContact();
 		m_jobs[iEntry].hwndOwner = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
@@ -400,7 +404,7 @@ send_unsplitted:
 			int iSendLength = getSendLength(iEntry, dat->sendMode);
 			if (iSendLength >= dat->nMax) {
 				mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
-				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
+				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
 				return 0;
 			}

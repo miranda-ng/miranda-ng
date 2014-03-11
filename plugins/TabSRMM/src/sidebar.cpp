@@ -356,7 +356,7 @@ void CSideBarButton::invokeContextMenu()
 		tsn.nmHdr.idFrom = 5000;
 		tsn.nmHdr.hwndFrom = ::GetDlgItem(pContainer->hwnd, 5000);
 		tsn.dat = m_dat;
-		::SendMessage(pContainer->hwnd, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(&tsn));
+		::SendMessage(pContainer->hwnd, WM_NOTIFY, 0, LPARAM(&tsn));
 	}
 }
 

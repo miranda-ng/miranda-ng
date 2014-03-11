@@ -382,7 +382,7 @@ void CProxyWindow::sendPreview()
 	::DeleteObject(brb);
 	CImageItem::SetBitmap32Alpha(hbm, 100);
 
-	LRESULT first = ::SendMessage(hwndRich, EM_CHARFROMPOS, 0, reinterpret_cast<LPARAM>(&ptOrigin));
+	LRESULT first = ::SendMessage(hwndRich, EM_CHARFROMPOS, 0, LPARAM(&ptOrigin));
 
 	/*
 		* paint the content of the message log control into a separate bitmap without
@@ -414,7 +414,7 @@ void CProxyWindow::sendPreview()
 		fr.chrg.cpMax = -1;
 		fr.chrg.cpMin = first;
 
-		::SendMessage(hwndRich, EM_FORMATRANGE, 1, reinterpret_cast<LPARAM>(&fr));
+		::SendMessage(hwndRich, EM_FORMATRANGE, 1, LPARAM(&fr));
 	}
 
 	::SelectObject(hdcRich, hbmRichOld);
@@ -478,7 +478,7 @@ void CProxyWindow::setOverlayIcon(const HICON hIcon, bool fInvalidate)
 void CProxyWindow::updateIcon(const HICON hIcon) const
 {
 	if (m_hwndProxy && hIcon)
-		::SendMessage(m_hwndProxy, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(hIcon));
+		::SendMessage(m_hwndProxy, WM_SETICON, ICON_SMALL, LPARAM(hIcon));
 }
 
 /**

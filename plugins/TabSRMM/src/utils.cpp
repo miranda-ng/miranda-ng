@@ -1125,11 +1125,11 @@ CWarning::~CWarning()
 LRESULT CWarning::ShowDialog() const
 {
 	if (!m_fIsModal) {
-		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
+		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, LPARAM(this));
 		return 0;
 	}
 
-	return ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
+	return ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, LPARAM(this));
 }
 
 __int64 CWarning::getMask()
@@ -1278,8 +1278,8 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			m_hwnd = hwnd;
 
 			::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
-			::SendMessage(hwnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(::LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA)));
-			::SendMessage(hwnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(::LoadSkinnedIcon(SKINICON_OTHER_MIRANDA)));
+			::SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(::LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA)));
+			::SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(::LoadSkinnedIcon(SKINICON_OTHER_MIRANDA)));
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 

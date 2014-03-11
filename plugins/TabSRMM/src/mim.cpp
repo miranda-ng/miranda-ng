@@ -435,30 +435,25 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HWND hwndDlg = 0;
-	int i=0, j, iFound = SendQueue::NR_SENDJOBS;
+	int i=0, iFound = SendQueue::NR_SENDJOBS;
 	SendJob *jobs = sendQueue->getJobByIndex(0);
 
 	if (pAck->type == ACKTYPE_MESSAGE) {
-		MCONTACT hOwner = db_mc_getMeta(pAck->hContact);
-		if (hOwner == 0)
-			hOwner = pAck->hContact;
-
-		for (j = 0; j < SendQueue::NR_SENDJOBS; j++) {
-			if (pAck->hProcess == jobs[j].hSendId && hOwner == jobs[j].hOwner) {
-				TWindowData *dat = jobs[j].hwndOwner ? (TWindowData*)GetWindowLongPtr(jobs[j].hwndOwner, GWLP_USERDATA) : NULL;
-				if (dat) {
-					if (dat->hContact == jobs[j].hOwner) {
-						iFound = j;
-						break;
-					}
-				} else {      // ack message w/o an open window...
+		MCONTACT hMeta = db_mc_getMeta(pAck->hContact);
+		for (int j = 0; j < SendQueue::NR_SENDJOBS; j++) {
+			SendJob &p = jobs[j];
+			if (pAck->hProcess == p.hSendId && pAck->hContact == p.hOwner) {
+				TWindowData *dat = p.hwndOwner ? (TWindowData*)GetWindowLongPtr(p.hwndOwner, GWLP_USERDATA) : NULL;
+				if (dat == NULL) {
 					sendQueue->ackMessage(NULL, (WPARAM)MAKELONG(j, i), lParam);
 					return 0;
 				}
+				if (dat->hContact == p.hOwner || dat->hContact == hMeta) {
+					iFound = j;
+					break;
+				}
 			}
-			if (iFound == SendQueue::NR_SENDJOBS)  // no mathing entry found in this queue entry.. continue
-				continue;
-			else
+			if (iFound != SendQueue::NR_SENDJOBS)  // no mathing entry found in this queue entry.. continue
 				break;
 		}
 		if (iFound == SendQueue::NR_SENDJOBS)     // no matching send info found in the queue

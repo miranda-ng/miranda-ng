@@ -1764,7 +1764,7 @@ panel_found:
 			}
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, lParam);
 			if (0 != hIconBig && reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) != hIconBig)
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(hIconBig));
+				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, LPARAM(hIconBig));
 			pContainer->hIcon = (lParam == (LPARAM)hIconMsg) ? STICK_ICON_MSG : 0;
 		}
 		return 0;
