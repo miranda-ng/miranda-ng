@@ -1394,14 +1394,11 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 
 		if (g_CluiData.filterFlags & CLVM_USELASTMSG)
 		{
-			DWORD unit;
-			int i;
 			BYTE bSaved = g_CluiData.bSortByOrder[0];
 
 			g_CluiData.bSortByOrder[0] = SORTBY_LASTMSG;
-			for (i=0; i < clistCache->realCount; i++)
-			{
-				ClcCacheEntry *pdnce = (ClcCacheEntry *)clistCache->items[i];
+			for (int i=0; i < clistCache.getCount(); i++) {
+				ClcCacheEntry *pdnce = clistCache[i];
 				pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 			}
 			g_CluiData.bSortByOrder[0] = bSaved;
@@ -1413,7 +1410,8 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
 			else
 				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
-			unit = LOWORD(g_CluiData.lastMsgFilter);
+			
+			DWORD unit = LOWORD(g_CluiData.lastMsgFilter);
 			switch(HIBYTE(HIWORD(g_CluiData.lastMsgFilter))) {
 			case 0:
 				unit  *= 60;

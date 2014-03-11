@@ -38,7 +38,6 @@ INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM lParam);
 int InitGroupServices(void);
 void LoadCluiServices();
 INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
-void InitDisplayNameCache(void);
 void FreeDisplayNameCache(void);
 int LoadCLUIModule(void);
 int InitClistHotKeys(void);
@@ -506,7 +505,6 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE, HotkeysProcessMessageStub);
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
 
-	InitDisplayNameCache();
 	InitCListEvents();
 	InitGroupServices();
 	cli.pfnInitTray();

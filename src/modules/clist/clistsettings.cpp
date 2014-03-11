@@ -25,31 +25,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
-SortedList* clistCache = NULL;
-
-static int compareContacts(ClcCacheEntry *p1, ClcCacheEntry *p2)
-{
-	return (char*)p1->hContact - (char*)p2->hContact;
-}
-
-void InitDisplayNameCache(void)
-{
-	clistCache = List_Create(0, 50);
-	clistCache->sortFunc = (FSortFunc)compareContacts;
-}
+static LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
 void FreeDisplayNameCache(void)
 {
-	if (clistCache != NULL) {
-		for (int i=0; i < clistCache->realCount; i++) {
-			cli.pfnFreeCacheItem((ClcCacheEntry*)clistCache->items[i]);
-			mir_free(clistCache->items[i]);
-		}
-
-		List_Destroy(clistCache);
-		mir_free(clistCache);
-		clistCache = NULL;
+	for (int i=0; i < clistCache.getCount(); i++) {
+		cli.pfnFreeCacheItem(clistCache[i]);
+		mir_free(clistCache[i]);
 	}
+
+	clistCache.destroy();
 }
 
 // default handlers for the cache item creation and destruction
@@ -89,14 +74,14 @@ void fnFreeCacheItem(ClcCacheEntry *p)
 ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact)
 {
 	ClcCacheEntry *p;
-	int idx;
-	if (!List_GetIndex(clistCache, &hContact, &idx)) {
+	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
+	if (idx == -1) {
 		if ((p = cli.pfnCreateCacheItem(hContact)) != NULL) {
-			List_Insert(clistCache, p, idx);
-			cli.pfnInvalidateDisplayNameCacheEntry((MCONTACT)p);
+			clistCache.insert(p);
+			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 		}
 	}
-	else p = (ClcCacheEntry*)clistCache->items[idx];
+	else p = clistCache[idx];
 
 	cli.pfnCheckCacheItem(p);
 	return p;
@@ -106,13 +91,12 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
 	if (hContact == INVALID_CONTACT_ID) {
 		FreeDisplayNameCache();
-		InitDisplayNameCache();
 		SendMessage(cli.hwndContactTree, CLM_AUTOREBUILD, 0, 0);
 	}
 	else {
-		int idx;
-		if (List_GetIndex(clistCache, &hContact, &idx))
-			cli.pfnFreeCacheItem((ClcCacheEntry*)clistCache->items[idx]);
+		int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
+		if (idx != -1)
+			cli.pfnFreeCacheItem(clistCache[idx]);
 	}
 }
 

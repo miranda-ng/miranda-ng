@@ -195,7 +195,7 @@ extern void TRACE_ERROR();
 extern BOOL DebugDeleteObject(HGDIOBJ a);
 extern void IvalidateDisplayNameCache(DWORD mode);
 
-extern SortedList *clistCache;
+extern LIST<ClcCacheEntry> clistCache;
 
 HICON LoadSmallIcon(HINSTANCE hInstance, int idx);
 BOOL DestroyIcon_protect(HICON icon);
