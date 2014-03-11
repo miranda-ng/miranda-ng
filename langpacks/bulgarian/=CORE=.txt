@@ -477,12 +477,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Send &Offline]
 
-[Set default contact on receipt of message]
-
-[Always send to default contact if not offline]
-
-[Suppress status notification for subcontacts]
-
 [Context Menu]
 Контекстно меню
 [Use contact's unique ID]
@@ -505,13 +499,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Display subcontact display name]
 
-[Use subcontact message windows]
-
-[Copy subcontact data]
-
 [Lock name to first contact]
-
-[but only for the current conversation]
 
 [History Copy]
 
@@ -532,16 +520,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [Reset All]
 
 [(Lower ranks are preferred)]
-
-[Copy subcontact history to MetaContact when creating or adding]
-
-[Number of days to copy (0=all):]
-
-[Keep MetaContact history synchronized with subcontacts]
-
-[Keep subcontact history synchronized with MetaContact]
-
-[History (** beware - change at your own risk **)]
 
 [Tray]
 Трей
@@ -2435,8 +2413,6 @@ URL
 Метаконтакти
 [Priorities]
 
-[History]
-История
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 
@@ -2616,6 +2592,8 @@ Win +\s
 Свързване
 [User details]
 Подробности за потребителя
+[History]
+История
 [Down arrow]
 Стрелка надолу
 [Find user]

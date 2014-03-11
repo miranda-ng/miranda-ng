@@ -477,12 +477,6 @@ Runter
 Standard beim Senden verwenden (selbst wenn offline)
 [Send &Offline]
 &Offline senden
-[Set default contact on receipt of message]
-Setze Standardkontakt für den Empfang
-[Always send to default contact if not offline]
-Immer an Standardkontakt senden, wenn nicht offline
-[Suppress status notification for subcontacts]
-Statusmeldung für Unterkontakte unterdrücken
 [Context Menu]
 Kontextmenü
 [Use contact's unique ID]
@@ -505,14 +499,8 @@ Kontaktliste
 Unterkontakt-Nicknamen anzeigen
 [Display subcontact display name]
 Unterkontakt-Anzeigenamen anzeigen
-[Use subcontact message windows]
-Unterkontakt-Nachrichtenfenster verwenden
-[Copy subcontact data]
-Unterkontaktdaten übernehmen
 [Lock name to first contact]
 Namen auf 1. Kontakt festlegen
-[but only for the current conversation]
-aber nur für aktuelle Nachrichtensitzung
 [History Copy]
 Verlauf kopieren
 [Please wait while the contact's history is copied.]
@@ -533,16 +521,6 @@ Protokoll:
 Alle rückg.
 [(Lower ranks are preferred)]
 (niedrigere Ränge werden bevorzugt)
-[Copy subcontact history to MetaContact when creating or adding]
-Kopiere Unterkontaktverlauf beim Erstellen/Hinzufügen
-[Number of days to copy (0=all):]
-Verlaufslänge in Tagen (0 = alle):
-[Keep MetaContact history synchronized with subcontacts]
-Synchronisiere Metakontaktverlauf mit Unterkontakt
-[Keep subcontact history synchronized with MetaContact]
-Synchronisiere Unterkontaktverlauf mit Metakontakt
-[History (** beware - change at your own risk **)]
-Verlauf (** Änderungen auf eigene Gefahr **)
 [Tray]
 Tray
 [&Hide/Show]
@@ -2466,8 +2444,6 @@ Metakontakt löschen
 Metakontakte
 [Priorities]
 Prioritäten
-[History]
-Verlauf
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Keine Onlinekontakte gefunden.
@@ -2647,6 +2623,8 @@ Gruppe (geschlossen)
 Verbinden
 [User details]
 Kontaktprofil
+[History]
+Verlauf
 [Down arrow]
 Pfeil nach unten
 [Find user]

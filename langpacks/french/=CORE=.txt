@@ -477,12 +477,6 @@ Par &Défaut
 Utiliser le 'Par défaut' pour l'envoi (si Hors ligne)
 [Send &Offline]
 Envoi &hors ligne
-[Set default contact on receipt of message]
-Définir le contact par défaut dés réception de son message
-[Always send to default contact if not offline]
-Toujours envoyer au contact par défaut s'il n'est pas déconnecté
-[Suppress status notification for subcontacts]
-Supprimer la notification d'état pour les sous-contacts
 [Context Menu]
 Menu Contextuel
 [Use contact's unique ID]
@@ -505,14 +499,8 @@ Liste de contacts
 Voir le pseudo du sous-contact
 [Display subcontact display name]
 Voir le nom défini du sous-contact
-[Use subcontact message windows]
-Utiliser la fenêtre de message du sous-contact
-[Copy subcontact data]
-Copier données sous-contact
 [Lock name to first contact]
 Verrouiller nom sur le 1er contact
-[but only for the current conversation]
-mais uniquement pour la conversation en cours
 [History Copy]
 Copier l'historique
 [Please wait while the contact's history is copied.]
@@ -533,16 +521,6 @@ Protocole:
 
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
-[Copy subcontact history to MetaContact when creating or adding]
-Copier l'historique du sous-contact dans le MetaContact, dés la création ou l'ajout
-[Number of days to copy (0=all):]
-  Nombre de jour à copier (0=tous):
-[Keep MetaContact history synchronized with subcontacts]
-Synchroniser l'historique du MetaContact avec celui du sous-contact
-[Keep subcontact history synchronized with MetaContact]
-Synchroniser l'historique du sous-contact avec celui du MetaContact
-[History (** beware - change at your own risk **)]
-Historique des Sous-Contacts (** ATTENTION - à changer à vos risques **)
 [Tray]
 Tray
 [&Hide/Show]
@@ -2466,8 +2444,6 @@ Effacer le MetaContact
 
 [Priorities]
 Priorités
-[History]
-Historique
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Aucun contact en ligne trouvé.
@@ -2647,6 +2623,8 @@ Groupe Fermé
 Connexion...
 [User details]
 Détails du contact
+[History]
+Historique
 [Down arrow]
 Flèche bas
 [Find user]

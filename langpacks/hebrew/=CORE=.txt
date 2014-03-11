@@ -1475,8 +1475,6 @@ OutputDebugString()
 מחק תוכן משותף
 [Priorities]
 עדיפויות
-[History]
-היסטוריה\n
 [<All connections>]
 <כל ההתקשרויות>
 [Network]
@@ -1507,6 +1505,8 @@ OutputDebugString()
 מתחבר
 [User details]
 פרופיל משתמש
+[History]
+היסטוריה\n
 [Find user]
 מצא משתמש
 [SMS]

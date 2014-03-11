@@ -477,12 +477,6 @@ Contactos
 
 [Send &Offline]
 
-[Set default contact on receipt of message]
-
-[Always send to default contact if not offline]
-
-[Suppress status notification for subcontacts]
-
 [Context Menu]
 
 [Use contact's unique ID]
@@ -505,13 +499,7 @@ Lista de contactos
 
 [Display subcontact display name]
 
-[Use subcontact message windows]
-
-[Copy subcontact data]
-
 [Lock name to first contact]
-
-[but only for the current conversation]
 
 [History Copy]
 
@@ -532,16 +520,6 @@ Lista de contactos
 [Reset All]
 
 [(Lower ranks are preferred)]
-
-[Copy subcontact history to MetaContact when creating or adding]
-
-[Number of days to copy (0=all):]
-
-[Keep MetaContact history synchronized with subcontacts]
-
-[Keep subcontact history synchronized with MetaContact]
-
-[History (** beware - change at your own risk **)]
 
 [Tray]
 Bandeja
@@ -2466,8 +2444,6 @@ Editar
 
 [Priorities]
 
-[History]
-Historial
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 
@@ -2647,6 +2623,8 @@ Grupo (cerrado)
 Conectando
 [User details]
 Información del usuario
+[History]
+Historial
 [Down arrow]
 Flecha abajo
 [Find user]

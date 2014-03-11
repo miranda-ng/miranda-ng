@@ -442,12 +442,6 @@ Miranda NG 正准备重启. \n请稍候...
 发送时强制使用默认值 (即使离线)
 [Send &Offline]
 离线发送(&O)
-[Set default contact on receipt of message]
-接收消息时设置默认联系人
-[Always send to default contact if not offline]
-非离线则永远发送给默认联系人
-[Suppress status notification for subcontacts]
-阻止子联系人状态通知
 [Context Menu]
 环境菜单
 [Use contact's unique ID]
@@ -470,14 +464,8 @@ Miranda NG 正准备重启. \n请稍候...
 显示子联系人昵称
 [Display subcontact display name]
 显示子联系人显示名称
-[Use subcontact message windows]
-使用子联系人消息窗口
-[Copy subcontact data]
-复制子联系人资料
 [Lock name to first contact]
 锁定名称至首位联系人
-[but only for the current conversation]
-但仅为当前对话
 [History Copy]
 复制历史
 [Please wait while the contact's history is copied.]
@@ -492,16 +480,6 @@ Miranda NG 正准备重启. \n请稍候...
 排名: 
 [(Lower ranks are preferred)]
 (首选低排名)
-[Copy subcontact history to MetaContact when creating or adding]
-建立或添加中继联系人时复制子联系人历史
-[Number of days to copy (0=all):]
-要复制天数 (0=全部): 
-[Keep MetaContact history synchronized with subcontacts]
-保持中继联系人历史与子联系人同步
-[Keep subcontact history synchronized with MetaContact]
-保持子联系人历史与中继联系人同步
-[History (** beware - change at your own risk **)]
-历史 (** 小心 - 变更时需自行承担风险 **)
 [Tray]
 托盘
 [&Hide/Show]
@@ -2214,8 +2192,6 @@ Miranda 无法打开此配置文件
 <默认>
 [Priorities]
 优先级
-[History]
-历史
 [No online contacts found.]
 找不到任何联系人. 
 [Could not retreive contact protocol]
@@ -2346,6 +2322,8 @@ Miranda 范围
 连接中
 [User details]
 用户详细资料
+[History]
+历史
 [Down arrow]
 向下箭头
 [Find user]
