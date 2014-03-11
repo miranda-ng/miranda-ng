@@ -68,7 +68,7 @@ static void InitLog()
 		return;
 
 	ptrT szBuf(db_get_tsa(NULL, "Netlib", "File"));
-	if (szBuf) {
+	if (lstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf;
 
 		TCHAR path[MAX_PATH];
