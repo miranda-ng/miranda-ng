@@ -46,7 +46,7 @@ ext::string OptionsCtrlImpl::Combo::getCombinedText()
 	}
 }
 
-OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itCombo, szLabel, dwFlags, dwData), m_hComboWnd(NULL), m_nSelected(-1)
 {
 	m_bDisableChildsOnIndex0 = bool_(dwFlags & OCF_DISABLECHILDSONINDEX0);

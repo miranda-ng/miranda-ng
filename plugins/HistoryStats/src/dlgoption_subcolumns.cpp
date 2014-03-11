@@ -146,7 +146,7 @@ BOOL DlgOption::SubColumns::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (pNM->hdr.code == TVN_ITEMEXPANDING) {
 				if (pNM->action == TVE_COLLAPSE || pNM->action == TVE_COLLAPSERESET ||
 					 (pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
-					SetWindowLong(getHWnd(), DWLP_MSGRESULT, TRUE);
+					SetWindowLongPtr(getHWnd(), DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
 			}
@@ -202,7 +202,7 @@ void DlgOption::SubColumns::onWMInitDialog()
 	// int column info
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
 
-	SetWindowLong(hInfo, GWL_STYLE, GetWindowLong(hInfo, GWL_STYLE) | TVS_NOHSCROLL);
+	SetWindowLongPtr(hInfo, GWL_STYLE, GetWindowLongPtr(hInfo, GWL_STYLE) | TVS_NOHSCROLL);
 
 	m_bShowInfo = g_pSettings->getShowColumnInfo();
 	toggleInfo();
@@ -340,7 +340,7 @@ void DlgOption::SubColumns::addCol(int nCol)
 	}
 }
 
-void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, DWORD dwData)
+void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, INT_PTR dwData)
 {
 	if (hItem) {
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
@@ -374,7 +374,7 @@ void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, DWORD dwData)
 	TreeView_DeleteAllItems(hInfo);
 }
 
-void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, DWORD dwData)
+void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR dwData)
 {
 	m_Options.setRedraw(false);
 	m_Options.deleteAllItems();
@@ -511,7 +511,7 @@ void DlgOption::SubColumns::onColItemDropped(HANDLE hItem, HANDLE hDropTarget, B
 	getParent()->settingsChanged();
 }
 
-void DlgOption::SubColumns::onBandClicked(HANDLE hButton, DWORD dwData)
+void DlgOption::SubColumns::onBandClicked(HANDLE hButton, INT_PTR dwData)
 {
 	switch (dwData) {
 	case caAdd:
@@ -532,7 +532,7 @@ void DlgOption::SubColumns::onBandClicked(HANDLE hButton, DWORD dwData)
 	}
 }
 
-void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, DWORD dwData)
+void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 {
 	if (dwData == caAdd) {
 		// determine position for popup menu
@@ -635,7 +635,7 @@ void DlgOption::SubColumns::onMoveDown()
 	getParent()->settingsChanged();
 }
 
-void DlgOption::SubColumns::onColumnButton(HANDLE hButton, DWORD dwData)
+void DlgOption::SubColumns::onColumnButton(HANDLE hButton, INT_PTR dwData)
 {
 	if (dwData == Settings::biFilterWords) {
 		HANDLE hSel = m_Columns.getSelection();

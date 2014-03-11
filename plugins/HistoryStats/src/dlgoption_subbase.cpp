@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgOption::SubBase::staticDlgProc(HWND hDlg, UINT msg, WPARAM w
 	switch (msg) {
 	case WM_INITDIALOG:
 		pDlg = reinterpret_cast<SubBase*>(lParam);
-		SetWindowLong(hDlg, DWLP_USER, reinterpret_cast<LONG>(pDlg));
+		SetWindowLongPtr(hDlg, DWLP_USER, reinterpret_cast<LONG_PTR>(pDlg));
 		pDlg->m_hWnd = hDlg;
 		pDlg->onWMInitDialog();
 		pDlg->loadSettings();
@@ -23,7 +23,7 @@ INT_PTR CALLBACK DlgOption::SubBase::staticDlgProc(HWND hDlg, UINT msg, WPARAM w
 	case WM_DESTROY:
 		pDlg->onWMDestroy();
 		delete pDlg;
-		SetWindowLong(hDlg, DWLP_USER, 0);
+		SetWindowLongPtr(hDlg, DWLP_USER, 0);
 		return TRUE;
 	}
 

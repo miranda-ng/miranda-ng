@@ -38,7 +38,7 @@ ext::string OptionsCtrlImpl::Edit::getCombinedText()
 	}
 }
 
-OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szEdit, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szEdit, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itEdit, szLabel, dwFlags, dwData), m_hEditWnd(NULL)
 {
 	m_strEdit = szEdit;

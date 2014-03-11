@@ -24,7 +24,7 @@ private:
 		bool bChecked;
 		bool bVisible;
 		bool bDropDown;
-		DWORD dwData;
+		INT_PTR dwData;
 		RECT rItem;
 		UINT uTTId;
 		bool bEnabled;

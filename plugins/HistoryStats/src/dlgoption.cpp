@@ -16,13 +16,13 @@ INT_PTR CALLBACK DlgOption::staticDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		pDlg = new DlgOption(hDlg);
-		SetWindowLong(hDlg, DWLP_USER, reinterpret_cast<LONG>(pDlg));
+		SetWindowLongPtr(hDlg, DWLP_USER, reinterpret_cast<LONG_PTR>(pDlg));
 		pDlg->onWMInitDialog();
 		return TRUE;
 
 	case WM_DESTROY:
 		delete pDlg;
-		SetWindowLong(hDlg, DWLP_USER, 0);
+		SetWindowLongPtr(hDlg, DWLP_USER, 0);
 		break;
 
 	case WM_WINDOWPOSCHANGED:
@@ -171,7 +171,7 @@ void DlgOption::onRunStats()
 	Statistic::run(*g_pSettings, Statistic::fromOptions, g_hInst, m_hWnd);
 }
 
-void DlgOption::onBandClicked(HANDLE hButton, DWORD dwData)
+void DlgOption::onBandClicked(HANDLE hButton, INT_PTR dwData)
 {
 	if (dwData >= opFirstPage && dwData <= opLastPage && dwData != m_nCurPage) {
 		if (m_nCurPage != dwData) {
@@ -190,7 +190,7 @@ void DlgOption::onBandClicked(HANDLE hButton, DWORD dwData)
 		onRunStats();
 }
 
-void DlgOption::onBandDropDown(HANDLE hButton, DWORD dwData)
+void DlgOption::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 {
 	if (dwData == opCreate || dwData == opCreateWarn) {
 		// determine position for popup menu

@@ -7,7 +7,7 @@
  * OptionsCtrlImpl::Button
  */
 
-OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itButton, szLabel, dwFlags, dwData)
 	, m_hButtonWnd(NULL)
 	, m_strButton(szButton)

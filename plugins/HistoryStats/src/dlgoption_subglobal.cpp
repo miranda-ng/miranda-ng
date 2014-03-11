@@ -191,7 +191,7 @@ BOOL DlgOption::SubGlobal::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 			else if (p->code == TVN_ITEMEXPANDING) {
 				if (pNM->action == TVE_COLLAPSE || pNM->action == TVE_COLLAPSERESET ||
 					 (pNM->action == TVE_TOGGLE && pNM->itemNew.state & TVIS_EXPANDED)) {
-					SetWindowLong(getHWnd(), DWLP_MSGRESULT, TRUE);
+					SetWindowLongPtr(getHWnd(), DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
 			}
@@ -346,7 +346,7 @@ void DlgOption::SubGlobal::initSupportInfo()
 
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
 
-	SetWindowLong(hInfo, GWL_STYLE, GetWindowLong(hInfo, GWL_STYLE) | TVS_NOHSCROLL);
+	SetWindowLongPtr(hInfo, GWL_STYLE, GetWindowLong(hInfo, GWL_STYLE) | TVS_NOHSCROLL);
 
 	SendMessage(hInfo, WM_SETREDRAW, FALSE, 0);
 

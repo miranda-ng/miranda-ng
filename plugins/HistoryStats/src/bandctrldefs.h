@@ -15,8 +15,8 @@ public:
 		BCM_ADDBUTTON        = WM_USER +  1, // (#, BCBUTTON* pButton)         -> HANDLE hButton
 		BCM_ISBUTTONCHECKED  = WM_USER +  2, // (HANDLE hButton, #)            -> BOOL bChecked
 		BCM_CHECKBUTTON      = WM_USER +  3, // (HANDLE hButton, BOOL bCheck)  -> #
-		BCM_GETBUTTONDATA    = WM_USER +  4, // (HANDLE hButton, #)            -> DWORD dwData
-		BCM_SETBUTTONDATA    = WM_USER +  5, // (HANDLE hButton, DWORD dwData) -> #
+		BCM_GETBUTTONDATA    = WM_USER +  4, // (HANDLE hButton, #)            -> INT_PTR dwData
+		BCM_SETBUTTONDATA    = WM_USER +  5, // (HANDLE hButton, INT_PTR dwData) -> #
 		BCM_ISBUTTONVISIBLE  = WM_USER +  6, // (HANDLE hButton, #)            -> BOOL bVisible
 		BCM_SHOWBUTTON       = WM_USER +  7, // (HANDLE hButton, BOOL bShow)   -> #
 		BCM_GETBUTTONRECT    = WM_USER +  8, // (HANDLE hButton, RECT* pRect)  -> #
@@ -46,13 +46,13 @@ public:
 		HICON hIcon;
 		TCHAR* szText;
 		TCHAR* szTooltip;
-		DWORD dwData;
+		INT_PTR dwData;
 	};
 
 	struct NMBANDCTRL {
 		NMHDR hdr;
 		HANDLE hButton;
-		DWORD dwData;
+		INT_PTR dwData;
 	};
 };
 

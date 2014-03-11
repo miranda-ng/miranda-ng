@@ -287,7 +287,7 @@ void Statistic::handleAddChat(Contact& contact, bool bOutgoing, DWORD localTimes
 
 INT_PTR CALLBACK Statistic::staticProgressProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	Statistic* pStats = reinterpret_cast<Statistic*>(GetWindowLong(hDlg, GWLP_USERDATA));
+	Statistic* pStats = reinterpret_cast<Statistic*>(GetWindowLongPtr(hDlg, GWLP_USERDATA));
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -1255,7 +1255,7 @@ bool Statistic::createStatistics()
 		return false;
 	}
 
-	SetWindowLong(m_hWndProgress, GWLP_USERDATA, reinterpret_cast<LONG>(this));
+	SetWindowLongPtr(m_hWndProgress, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 
 	// Init progress dialog.
 	utils::centerDialog(m_hWndProgress);

@@ -20,13 +20,13 @@ INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM w
 	switch (msg) {
 	case WM_INITDIALOG:
 		pDlg = new DlgConfigure(hDlg);
-		SetWindowLong(hDlg, DWLP_USER, reinterpret_cast<LONG>(pDlg));
+		SetWindowLongPtr(hDlg, DWLP_USER, reinterpret_cast<LONG_PTR>(pDlg));
 		pDlg->onWMInitDialog();
 		return TRUE;
 
 	case WM_DESTROY:
 		delete pDlg;
-		SetWindowLong(hDlg, DWLP_USER, 0);
+		SetWindowLongPtr(hDlg, DWLP_USER, 0);
 		break;
 
 	case PSM_CHANGED:

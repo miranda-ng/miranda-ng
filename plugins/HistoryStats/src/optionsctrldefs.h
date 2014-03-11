@@ -21,8 +21,8 @@ public:
 		OCM_SETITEMLABEL     = WM_USER +  7, // (HANDLE hItem, const TCHAR* szLabel)  -> #
 		OCM_ISITEMENABLED    = WM_USER +  8, // (HANDLE hItem, #)                       -> BOOL bEnabled
 		OCM_ENABLEITEM       = WM_USER +  9, // (HANDLE hItem, BOOL bEnable)            -> #
-		OCM_GETITEMDATA      = WM_USER + 10, // (HANDLE hItem, #)                       -> DWORD dwData
-		OCM_SETITEMDATA      = WM_USER + 11, // (HANDLE hItem, DWORD dwData)            -> #
+		OCM_GETITEMDATA      = WM_USER + 10, // (HANDLE hItem, #)                       -> INT_PTR dwData
+		OCM_SETITEMDATA      = WM_USER + 11, // (HANDLE hItem, INT_PTR dwData)            -> #
 		OCM_ISITEMCHECKED    = WM_USER + 12, // (HANDLE hItem, #)                       -> BOOL bChecked           [Check/Radio]
 		OCM_CHECKITEM        = WM_USER + 13, // (HANDLE hItem, BOOL bCheck)             -> #                       [Check/Radio (ignores bCheck)]
 		OCM_GETRADIOCHECKED  = WM_USER + 14, // (HANDLE hRadio, #)                      -> int nChecked            [Radio]
@@ -90,46 +90,46 @@ public:
 	struct OCGROUP {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 	};
 
 	struct OCCHECK {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 	};
 
 	struct OCRADIO {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 		HANDLE hSibling;
 	};
 
 	struct OCEDIT {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 		TCHAR* szEdit;
 	};
 
 	struct OCCOMBO {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 	};
 
 	struct OCBUTTON {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 		TCHAR* szButton;
 	};
 
 	struct OCDATETIME {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 		TCHAR* szFormat;
 		DWORD dwDateTime;
 	};
@@ -137,20 +137,20 @@ public:
 	struct OCCOLOR {
 		DWORD dwFlags;
 		TCHAR* szLabel;
-		DWORD dwData;
+		INT_PTR dwData;
 		COLORREF crColor;
 	};
 
 	struct NMOPTIONSCTRL {
 		NMHDR hdr;
 		HANDLE hItem;
-		DWORD dwData;
+		INT_PTR dwData;
 	};
 
 	struct NMOPTIONSCTRLDROP {
 		NMHDR hdr;
 		HANDLE hItem;
-		DWORD dwData;
+		INT_PTR dwData;
 		HANDLE hDropTarget;
 		DWORD dwDropTargetData;
 		BOOL bAbove;

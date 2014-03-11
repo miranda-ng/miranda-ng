@@ -80,7 +80,6 @@ static UINT_PTR hAutoAwayTimer;
 // prototypes
 extern DWORD StatusModeToProtoFlag(int status);
 extern int InitCommonStatus();
-void LoadOptions(TAAAProtoSetting** loadSettings, BOOL override);
 static int HookWindowsHooks(int hookMiranda, int hookAll);
 static int UnhookWindowsHooks();
 static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam);

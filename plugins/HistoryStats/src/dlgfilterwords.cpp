@@ -13,7 +13,7 @@ INT_PTR CALLBACK DlgFilterWords::staticDlgProc(HWND hDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		pDlg = reinterpret_cast<DlgFilterWords*>(lParam);
-		SetWindowLong(hDlg, DWLP_USER, reinterpret_cast<LONG>(pDlg));
+		SetWindowLongPtr(hDlg, DWLP_USER, reinterpret_cast<LONG_PTR>(pDlg));
 		pDlg->m_hWnd = hDlg;
 		pDlg->onWMInitDialog();
 		return TRUE;
@@ -21,7 +21,7 @@ INT_PTR CALLBACK DlgFilterWords::staticDlgProc(HWND hDlg, UINT msg, WPARAM wPara
 	case WM_DESTROY:
 		pDlg->onWMDestroy();
 		pDlg->m_hWnd = NULL;
-		SetWindowLong(hDlg, DWLP_USER, 0);
+		SetWindowLongPtr(hDlg, DWLP_USER, 0);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -136,7 +136,7 @@ void DlgFilterWords::onWMDestroy()
 	m_Sets.deleteAllItems();
 }
 
-void DlgFilterWords::onBandClicked(HANDLE hButton, DWORD dwData)
+void DlgFilterWords::onBandClicked(HANDLE hButton, INT_PTR dwData)
 {
 	switch (dwData) {
 	case saAdd:
@@ -185,7 +185,7 @@ void DlgFilterWords::onSetDel()
 	}
 }
 
-void DlgFilterWords::onSetItemModified(HANDLE hItem, DWORD dwData)
+void DlgFilterWords::onSetItemModified(HANDLE hItem, INT_PTR dwData)
 {
 	if (m_bColProvided) {
 		Filter* pFilter = reinterpret_cast<Filter*>(dwData);
@@ -201,7 +201,7 @@ void DlgFilterWords::onSetItemModified(HANDLE hItem, DWORD dwData)
 	}
 }
 
-void DlgFilterWords::onSetSelChanging(HANDLE hItem, DWORD dwData)
+void DlgFilterWords::onSetSelChanging(HANDLE hItem, INT_PTR dwData)
 {
 	if (hItem) {
 		Filter* pFilter = reinterpret_cast<Filter*>(dwData);
@@ -251,7 +251,7 @@ void DlgFilterWords::onSetSelChanging(HANDLE hItem, DWORD dwData)
 	}
 }
 
-void DlgFilterWords::onSetSelChanged(HANDLE hItem, DWORD dwData)
+void DlgFilterWords::onSetSelChanged(HANDLE hItem, INT_PTR dwData)
 {
 	BOOL bEnable = hItem ? TRUE : FALSE;
 

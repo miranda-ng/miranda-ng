@@ -203,7 +203,7 @@ void DlgOption::SubExclude::customizeList(HWND hCList)
 	for (int i = 0; i <= FONTID_MAX; ++i)
 		SendMessage(hCList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 
-	SetWindowLong(hCList, GWL_STYLE, GetWindowLong(hCList, GWL_STYLE) | CLS_SHOWHIDDEN);
+	SetWindowLongPtr(hCList, GWL_STYLE, GetWindowLongPtr(hCList, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 
 void DlgOption::SubExclude::updateAllGroups(HWND hCList, HANDLE hFirstItem, HANDLE hParentItem)

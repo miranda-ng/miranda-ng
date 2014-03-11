@@ -26,7 +26,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 			pCS->dwExStyle &= ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_WINDOWEDGE);
 
 			pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<int>(pCS->hMenu));
-			SetWindowLong(hWnd, 0, reinterpret_cast<LONG>(pCtrl));
+			SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pCtrl));
 		}
 		return pCtrl ? TRUE : FALSE;
 
@@ -36,7 +36,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 	case WM_DESTROY:
 		pCtrl->onWMDestroy();
 		delete pCtrl;
-		SetWindowLong(hWnd, 0, 0);
+		SetWindowLongPtr(hWnd, 0, 0);
 		return 0;
 
 	case WM_SETFOCUS:
@@ -448,7 +448,7 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 		return -1;
 
 	// subclass tree view
-	m_pfnOldTreeProc = reinterpret_cast<WNDPROC>(SetWindowLong(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG>(staticTreeProc)));
+	m_pfnOldTreeProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(staticTreeProc)));
 
 	// create/set state icons
 	staticInitStateImages();
@@ -466,7 +466,7 @@ void OptionsCtrlImpl::onWMDestroy()
 		staticFreeStateImages();
 
 	// undo subclassing of tree view
-	SetWindowLong(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG>(m_pfnOldTreeProc));
+	SetWindowLongPtr(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(m_pfnOldTreeProc));
 	m_pfnOldTreeProc = NULL;
 
 	// destroy tree view before invalidating 'this'
@@ -865,7 +865,7 @@ DWORD OptionsCtrlImpl::onOCMGetItemData(HTREEITEM hItem)
 	return getItem(hItem)->m_dwData;
 }
 
-void OptionsCtrlImpl::onOCMSetItemData(HTREEITEM hItem, DWORD dwData)
+void OptionsCtrlImpl::onOCMSetItemData(HTREEITEM hItem, INT_PTR dwData)
 {
 	getItem(hItem)->m_dwData = dwData;
 }

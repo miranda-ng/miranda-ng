@@ -10,7 +10,7 @@ void BandCtrl::setLayout(int nLayout)
 	SendMessage(m_hBandWnd, BCM_SETLAYOUT, nLayout, 0);
 }
 
-HANDLE BandCtrl::addButton(DWORD dwFlags, HICON hIcon, DWORD dwData, const TCHAR* szTooltip /* = NULL */, const TCHAR* szText /* = NULL */)
+HANDLE BandCtrl::addButton(DWORD dwFlags, HICON hIcon, INT_PTR dwData, const TCHAR* szTooltip /* = NULL */, const TCHAR* szText /* = NULL */)
 {
 	BCBUTTON bcb;
 
@@ -38,7 +38,7 @@ DWORD BandCtrl::getButtonData(HANDLE hButton)
 	return SendMessage(m_hBandWnd, BCM_GETBUTTONDATA, reinterpret_cast<WPARAM>(hButton), 0);
 }
 
-void BandCtrl::setButtonData(HANDLE hButton, DWORD dwData)
+void BandCtrl::setButtonData(HANDLE hButton, INT_PTR dwData)
 {
 	SendMessage(m_hBandWnd, BCM_SETBUTTONDATA, reinterpret_cast<WPARAM>(hButton), dwData);
 }

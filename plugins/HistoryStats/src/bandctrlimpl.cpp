@@ -19,12 +19,12 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_NCCREATE:
 		pCtrl = new BandCtrlImpl(hWnd, reinterpret_cast<int>(reinterpret_cast<CREATESTRUCT*>(lParam)->hMenu));
-		SetWindowLong(hWnd, 0, reinterpret_cast<LONG>(pCtrl));
+		SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pCtrl));
 		return TRUE;
 
 	case WM_DESTROY:
 		delete pCtrl;
-		SetWindowLong(hWnd, 0, 0);
+		SetWindowLongPtr(hWnd, 0, 0);
 		return 0;
 
 	case WM_GETDLGCODE:

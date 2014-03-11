@@ -73,10 +73,10 @@ private:
 		bool m_bEnabled;
 		bool m_bDisableChilds;
 		ext::string m_strLabel;
-		DWORD m_dwData;
+		INT_PTR m_dwData;
 
 	protected:
-		explicit Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData);
+		explicit Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData);
 
 		void enableChilds(bool bEnable);
 
@@ -102,7 +102,7 @@ private:
 		bool m_bDrawLine;
 
 	public:
-		explicit Group(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData);
+		explicit Group(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void setEnabled(bool bEnable);
 		virtual void childAdded(Item* pChild);
@@ -122,7 +122,7 @@ private:
 		void updateItem();
 
 	public:
-		explicit Check(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData);
+		explicit Check(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle();
 
@@ -171,7 +171,7 @@ private:
 		void updateItem();
 
 	public:
-		explicit Radio(OptionsCtrlImpl* pCtrl, Item* pParent, Radio* pSibling, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData);
+		explicit Radio(OptionsCtrlImpl* pCtrl, Item* pParent, Radio* pSibling, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData);
 		virtual ~Radio();
 
 		virtual void onToggle();
@@ -196,7 +196,7 @@ private:
 		ext::string getCombinedText();
 
 	public:
-		explicit Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szEdit, DWORD dwFlags, DWORD dwData);
+		explicit Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szEdit, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -230,7 +230,7 @@ private:
 		ext::string getCombinedText();
 
 	public:
-		explicit Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, DWORD dwData);
+		explicit Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -256,7 +256,7 @@ private:
 		HWND m_hButtonWnd;
 
 	public:
-		explicit Button(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags, DWORD dwData);
+		explicit Button(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -294,7 +294,7 @@ private:
 		ext::string getCombinedText();
 
 	public:
-		explicit DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, DWORD dwData);
+		explicit DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -325,7 +325,7 @@ private:
 		COLORREF getColorValue();
 
 	public:
-		explicit Color(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, COLORREF crColor, DWORD dwFlags, DWORD dwData);
+		explicit Color(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, COLORREF crColor, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -407,7 +407,7 @@ private:
 	bool onOCMIsItemEnabled(HTREEITEM hItem);
 	void onOCMEnableItem(HTREEITEM hItem, bool bEnable);
 	DWORD onOCMGetItemData(HTREEITEM hItem);
-	void onOCMSetItemData(HTREEITEM hItem, DWORD dwData);
+	void onOCMSetItemData(HTREEITEM hItem, INT_PTR dwData);
 	bool onOCMIsItemChecked(HTREEITEM hItem);
 	void onOCMCheckItem(HTREEITEM hItem, bool bCheck);
 	int onOCMGetRadioChecked(HTREEITEM hRadio);

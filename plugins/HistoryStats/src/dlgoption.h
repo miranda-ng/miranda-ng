@@ -238,16 +238,16 @@ private:
 		void rearrangeControls();
 		void toggleInfo();
 		void addCol(int nCol);
-		void onColSelChanging(HANDLE hItem, DWORD dwData);
-		void onColSelChanged(HANDLE hItem, DWORD dwData);
+		void onColSelChanging(HANDLE hItem, INT_PTR dwData);
+		void onColSelChanged(HANDLE hItem, INT_PTR dwData);
 		void onColItemDropped(HANDLE hItem, HANDLE hDropTarget, BOOL bAbove);
-		void onBandClicked(HANDLE hButton, DWORD dwData);
-		void onBandDropDown(HANDLE hButton, DWORD dwData);
+		void onBandClicked(HANDLE hButton, INT_PTR dwData);
+		void onBandDropDown(HANDLE hButton, INT_PTR dwData);
 		void onAdd();
 		void onDel();
 		void onMoveUp();
 		void onMoveDown();
-		void onColumnButton(HANDLE hButton, DWORD dwData);
+		void onColumnButton(HANDLE hButton, INT_PTR dwData);
 
 	public:
 		bool configHasConflicts(HelpVec* pHelp);
@@ -331,8 +331,8 @@ private:
 private:
 	void onWMInitDialog();
 	void onRunStats();
-	void onBandClicked(HANDLE hButton, DWORD dwData);
-	void onBandDropDown(HANDLE hButton, DWORD dwData);
+	void onBandClicked(HANDLE hButton, INT_PTR dwData);
+	void onBandDropDown(HANDLE hButton, INT_PTR dwData);
 	void onProblemInfo();
 	void rearrangeControls();
 

@@ -12,7 +12,7 @@ COLORREF OptionsCtrlImpl::Color::getColorValue()
 	return SendMessage(m_hColorWnd, CPM_GETCOLOUR, 0, 0);
 }
 
-OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, COLORREF crColor, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, COLORREF crColor, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itColor, szLabel, dwFlags, dwData)
 	, m_hColorWnd(NULL)
 	, m_crColor(crColor)

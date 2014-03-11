@@ -43,12 +43,12 @@ private:
 private:
 	void onWMInitDialog();
 	void onWMDestroy();
-	void onBandClicked(HANDLE hButton, DWORD dwData);
+	void onBandClicked(HANDLE hButton, INT_PTR dwData);
 	void onSetAdd();
 	void onSetDel();
-	void onSetItemModified(HANDLE hItem, DWORD dwData);
-	void onSetSelChanging(HANDLE hItem, DWORD dwData);
-	void onSetSelChanged(HANDLE hItem, DWORD dwData);
+	void onSetItemModified(HANDLE hItem, INT_PTR dwData);
+	void onSetSelChanging(HANDLE hItem, INT_PTR dwData);
+	void onSetSelChanged(HANDLE hItem, INT_PTR dwData);
 
 	void clearFilters();
 

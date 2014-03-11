@@ -183,7 +183,7 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 	return strTemp;
 }
 
-OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, DWORD dwData)
+OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, INT_PTR dwData)
 : Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(NULL), m_strFormat(szFormat), m_dwTimestamp(dwTimestamp)
 {
 	m_bDisableChildsOnNone = bool_(dwFlags & OCF_DISABLECHILDSONNONE);

@@ -39,20 +39,20 @@ public:
 	operator HWND() { return m_hOptWnd; }
 
 public:
-	HANDLE insertGroup(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertCheck(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertRadio(HANDLE hParent, HANDLE hSibling, const TCHAR* szLabel, DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertEdit(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szEdit = _T(""), DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertCombo(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertButton(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertDateTime(HANDLE hParent, const TCHAR* szLabel, DWORD dwDateTime, const TCHAR* szFormat = _T("%Y-%m-%d"), DWORD dwFlags = 0, DWORD dwData = 0);
-	HANDLE insertColor(HANDLE hParent, const TCHAR* szLabel, COLORREF crColor = 0, DWORD dwFlags = 0, DWORD dwData = 0);
+	HANDLE insertGroup(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertCheck(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertRadio(HANDLE hParent, HANDLE hSibling, const TCHAR* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertEdit(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szEdit = _T(""), DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertCombo(HANDLE hParent, const TCHAR* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertButton(HANDLE hParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertDateTime(HANDLE hParent, const TCHAR* szLabel, DWORD dwDateTime, const TCHAR* szFormat = _T("%Y-%m-%d"), DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertColor(HANDLE hParent, const TCHAR* szLabel, COLORREF crColor = 0, DWORD dwFlags = 0, INT_PTR dwData = 0);
 	const TCHAR* getItemLabel(HANDLE hItem);
 	void setItemLabel(HANDLE hItem, const TCHAR* szLabel);
 	bool isItemEnabled(HANDLE hItem);
 	void enableItem(HANDLE hItem, bool bEnable);
     DWORD getItemData(HANDLE hItem);
-	void setItemData(HANDLE hItem, DWORD dwData);
+	void setItemData(HANDLE hItem, INT_PTR dwData);
 	bool isItemChecked(HANDLE hItem);
 	void checkItem(HANDLE hItem, bool bCheck);
 	int getRadioChecked(HANDLE hRadio);
