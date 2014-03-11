@@ -20,12 +20,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define META_FILTER       "MetaContactsFilter"
-#define META_FILTER_ID    "MetaFilterID"
-
-#define MAX_CONTACTS       20
-
-// I can't think of a way around this - mental block
+#define MAX_CONTACTS 20
 
 INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
 

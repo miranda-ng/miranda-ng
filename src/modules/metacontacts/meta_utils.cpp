@@ -465,35 +465,29 @@ int Meta_SuppressStatus(BOOL suppress)
 
 int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 {
-	DBVARIANT dbv, dbv_proto;
-
 	if (options.bLockHandle)
 		hContact = Meta_GetContactHandle(ccMeta, 0);
 
 	if (!hContact)
 		return 1;
 
-	// szProto = GetContactProto(hContact);
-	// read szProto direct from db, since we do this on load and other szProto plugins may not be loaded yet
-	if (!db_get(hContact, "Protocol", "p", &dbv_proto)) {
-		char *szProto = dbv_proto.pszVal;
-		if (options.clist_contact_name == CNNT_NICK && szProto) {
-			if (!db_get_s(hContact, szProto, "Nick", &dbv, 0)) {
-				db_set(ccMeta->contactID, META_PROTO, "Nick", &dbv);
-				db_free(&dbv);
-				db_free(&dbv_proto);
-				return 0;
-			}
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL)
+		return 1;
+
+	if (options.clist_contact_name == CNNT_NICK) {
+		ptrT tszNick(db_get_tsa(hContact, szProto, "Nick"));
+		if (tszNick) {
+			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", tszNick);
+			return 0;
 		}
-		else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
-			TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
-			if (name && _tcscmp(name, TranslateT("(Unknown Contact)")) != 0) {
-				db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
-				db_free(&dbv_proto);
-				return 0;
-			}
+	}
+	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
+		TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
+		if (name && _tcscmp(name, TranslateT("(Unknown Contact)")) != 0) {
+			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
+			return 0;
 		}
-		db_free(&dbv_proto);
 	}
 	return 1;
 }
