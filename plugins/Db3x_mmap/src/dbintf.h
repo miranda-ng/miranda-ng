@@ -309,6 +309,11 @@ protected:
 	
 	OBJLIST<ConvertedContact> m_contactsMap;
 
+	void     ConvertContacts(void);
+	void     ConvertContactEvents(DBContact *dbc);
+	void     ConvertEvents(void);
+	int      WipeContactHistory(DBContact *dbc);
+
 	////////////////////////////////////////////////////////////////////////////
 	// modules
 
@@ -352,9 +357,6 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// encryption
 
-	void     ConvertContacts(void);
-	void     ConvertContactEvents(DBContact *dbc);
-	void     ConvertEvents(void);
 	int      InitCrypt(void);
 	void     ToggleEventsEncryption(MCONTACT contactID);
 	void     ToggleSettingsEncryption(MCONTACT contactID);

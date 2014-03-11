@@ -314,22 +314,13 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	if (dbMeta.ofsFirstEvent == 0) // nothing to do
 		return 0;
 
-	// drop subContact's history if any
-	for (DWORD dwOffset = dbSub.ofsFirstEvent; dwOffset != 0;) {
-		DBEvent *pev = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
-		if (pev->signature != DBEVENT_SIGNATURE) // broken chain, don't touch it
-			return 2;
-
-		DWORD dwNext = pev->ofsNext;
-		DeleteSpace(dwOffset, offsetof(DBEvent, blob) + pev->cbBlob);
-		dwOffset = dwNext;
-	}
-
 	BOOL ret = 0;
 	__try {
+		if (ret = WipeContactHistory(&dbSub))
+			__leave;		
+
 		DWORD dwOffset = dbMeta.ofsFirstEvent;
 		DBEvent *evMeta = NULL, *evSub = NULL;
-		dbSub.eventCount = 0; dbSub.ofsFirstEvent = dbSub.ofsLastEvent = dbSub.ofsFirstUnread = dbSub.tsFirstUnread = 0;
 		dbMeta.eventCount = 0; dbMeta.ofsFirstEvent = dbMeta.ofsLastEvent = dbMeta.ofsFirstUnread = dbMeta.tsFirstUnread = 0;
 
 		while (dwOffset != 0) {
@@ -471,33 +462,37 @@ void CDb3Mmap::FillContacts()
 		dwOffset = p->ofsNext;
 	}
 
-	#if defined(_DEBUG)
-		for (int i = 0; i < arMetas.getCount(); i++) {
-			MCONTACT hContact = (MCONTACT)arMetas[i];
-			DBCachedContact *ccMeta = m_cache->GetCachedContact(hContact);
-			if (ccMeta == NULL)
-				continue;
+	DBVARIANT dbv; dbv.type = DBVT_DWORD;
+	for (int i = 0; i < arMetas.getCount(); i++) {
+		MCONTACT hContact = (MCONTACT)arMetas[i];
+		DBCachedContact *ccMeta = m_cache->GetCachedContact(hContact);
+		if (ccMeta == NULL)
+			continue;
 
-			// we don't need it anymore
+		// we don't need it anymore
+		if (!GetContactSetting(hContact, META_PROTO, "MetaID", &dbv)) {
 			DeleteContactSetting(hContact, META_PROTO, "MetaID");
+			WipeContactHistory((DBContact*)DBRead(ccMeta->dwDriverData, sizeof(DBContact), NULL));
+		}
 
-			for (int k = 0; k < ccMeta->nSubs; k++) {
-				// store contact id instead of the old mc number
-				DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
-				dbws.value.type = DBVT_DWORD;
-				dbws.value.dVal = hContact;
-				WriteContactSetting(ccMeta->pSubs[k], &dbws);
+		for (int k = 0; k < ccMeta->nSubs; k++) {
+			// store contact id instead of the old mc number
+			DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
+			dbws.value.type = DBVT_DWORD;
+			dbws.value.dVal = hContact;
+			WriteContactSetting(ccMeta->pSubs[k], &dbws);
 
-				// wipe out old data from subcontacts
-				DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "ContactNumber");
-				DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "MetaLink");
+			// wipe out old data from subcontacts
+			DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "ContactNumber");
+			DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "MetaLink");
 
-				DBCachedContact *ccSub = m_cache->GetCachedContact(ccMeta->pSubs[k]);
-				if (ccSub)
-					MetaMergeHistory(ccMeta, ccSub);
+			DBCachedContact *ccSub = m_cache->GetCachedContact(ccMeta->pSubs[k]);
+			if (ccSub) {
+				ccSub->parentID = hContact;
+				MetaMergeHistory(ccMeta, ccSub);
 			}
 		}
-	#endif
+	}
 }
 
 DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID)

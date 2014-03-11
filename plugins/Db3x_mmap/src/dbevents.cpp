@@ -365,15 +365,34 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(HANDLE hDbEvent)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// low-level history cleaner
+
+int CDb3Mmap::WipeContactHistory(DBContact *dbc)
+{
+	// drop subContact's history if any
+	for (DWORD dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
+		DBEvent *pev = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+		if (pev->signature != DBEVENT_SIGNATURE) // broken chain, don't touch it
+			return 2;
+
+		DWORD dwNext = pev->ofsNext;
+		DeleteSpace(dwOffset, offsetof(DBEvent, blob) + pev->cbBlob);
+		dwOffset = dwNext;
+	}
+	dbc->eventCount = 0; dbc->ofsFirstEvent = dbc->ofsLastEvent = dbc->ofsFirstUnread = dbc->tsFirstUnread = 0;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // events convertor for DB_095_1_VERSION
 
-void CDb3Mmap::ConvertContactEvents(DBContact *cc)
+void CDb3Mmap::ConvertContactEvents(DBContact *dbc)
 {
 	BYTE *pBlob = (PBYTE)mir_alloc(65536);
 	DWORD ofsPrev = 0;
 
 	__try {
-		for (DWORD ofsEvent = cc->ofsFirstEvent; ofsEvent != 0;) {
+		for (DWORD ofsEvent = dbc->ofsFirstEvent; ofsEvent != 0;) {
 			DBEvent_094 pOld = *(DBEvent_094*)DBRead(ofsEvent, sizeof(DBEvent_094), NULL);
 			if (pOld.signature != DBEVENT_SIGNATURE)
 				break;
@@ -387,21 +406,21 @@ void CDb3Mmap::ConvertContactEvents(DBContact *cc)
 			DWORD ofsNew = ReallocSpace(ofsEvent, offsetof(DBEvent_094, blob) + pOld.cbBlob, offsetof(DBEvent, blob) + pOld.cbBlob);
 			DBEvent *pNew = (DBEvent*)&m_pDbCache[ofsNew];
 			pNew->signature = pOld.signature;
-			pNew->contactID = cc->dwContactID;
+			pNew->contactID = dbc->dwContactID;
 			memcpy(&pNew->ofsPrev, &pOld.ofsPrev, offsetof(DBEvent_094, blob) - sizeof(DWORD));
 			memcpy(&pNew->blob, pBlob, pNew->cbBlob);
 
 			if (ofsPrev == 0) // first event
-				cc->ofsFirstEvent = ofsNew, pNew->ofsPrev = 0;
+				dbc->ofsFirstEvent = ofsNew, pNew->ofsPrev = 0;
 			else {
 				DBEvent *pPrev = (DBEvent*)&m_pDbCache[ofsPrev];
 				pPrev->ofsNext = ofsNew, pNew->ofsPrev = ofsPrev;
 			}
 
-			if (cc->ofsFirstUnread == ofsEvent)
-				cc->ofsFirstUnread = ofsNew;
-			if (cc->ofsLastEvent == ofsEvent)
-				cc->ofsLastEvent = ofsNew;
+			if (dbc->ofsFirstUnread == ofsEvent)
+				dbc->ofsFirstUnread = ofsNew;
+			if (dbc->ofsLastEvent == ofsEvent)
+				dbc->ofsLastEvent = ofsNew;
 
 			ofsPrev = ofsNew;
 			ofsEvent = pNew->ofsNext;
@@ -415,15 +434,15 @@ void CDb3Mmap::ConvertContactEvents(DBContact *cc)
 
 void CDb3Mmap::ConvertEvents()
 {
-	DBContact cc = *(DBContact*)DBRead(m_dbHeader.ofsUser, sizeof(DBContact), NULL);
-	ConvertContactEvents(&cc);
-	DBWrite(m_dbHeader.ofsUser, &cc, sizeof(cc));
+	DBContact dbc = *(DBContact*)DBRead(m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	ConvertContactEvents(&dbc);
+	DBWrite(m_dbHeader.ofsUser, &dbc, sizeof(dbc));
 
 	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
-		DBContact cc = *(DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
-		ConvertContactEvents(&cc);
-		DBWrite(dwOffset, &cc, sizeof(cc));
-		dwOffset = cc.ofsNext;
+		DBContact dbc = *(DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
+		ConvertContactEvents(&dbc);
+		DBWrite(dwOffset, &dbc, sizeof(dbc));
+		dwOffset = dbc.ofsNext;
 	}
 
 	FlushViewOfFile(m_pDbCache, 0);
