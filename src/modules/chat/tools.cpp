@@ -517,143 +517,139 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	lstrcpyn(szTime, ci.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
 
 	FILE *hFile = _tfopen(si->pszLogFileName, _T("ab+"));
-	if (hFile) {
-		TCHAR szTemp[512], szTemp2[512];
-		TCHAR* pszNick = NULL;
-		if (bFileJustCreated)
-			fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
-		if (gce->ptszNick) {
-			if (g_Settings->bLogLimitNames && lstrlen(gce->ptszNick) > 20) {
-				lstrcpyn(szTemp2, gce->ptszNick, 20);
-				lstrcpyn(szTemp2 + 20, _T("..."), 4);
-			}
-			else lstrcpyn(szTemp2, gce->ptszNick, 511);
+	if (hFile == NULL)
+		return FALSE;
 
-			if (gce->ptszUserInfo)
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
-			else
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), szTemp2);
-			pszNick = szTemp;
+	TCHAR szTemp[512], szTemp2[512];
+	TCHAR* pszNick = NULL;
+	if (bFileJustCreated)
+		fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
+	if (gce->ptszNick) {
+		if (g_Settings->bLogLimitNames && lstrlen(gce->ptszNick) > 20) {
+			lstrcpyn(szTemp2, gce->ptszNick, 20);
+			lstrcpyn(szTemp2 + 20, _T("..."), 4);
 		}
+		else lstrcpyn(szTemp2, gce->ptszNick, 511);
 
-		switch (gce->pDest->iType) {
-		case GC_EVENT_MESSAGE:
-		case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-			p = '*';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_ACTION:
-		case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-			p = '*';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_JOIN:
-			p = '>';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has joined"), pszNick);
-			break;
-		case GC_EVENT_PART:
-			p = '<';
-			if (!gce->ptszText)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left"), pszNick);
-			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_QUIT:
-			p = '<';
-			if (!gce->ptszText)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected"), pszNick);
-			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_NICK:
-			p = '^';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
-			break;
-		case GC_EVENT_KICK:
-			p = '~';
-			if (!gce->ptszText)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s"), gce->ptszStatus, gce->ptszNick);
-			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s (%s)"), gce->ptszStatus, gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_NOTICE:
-			p = 'o';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Notice from %s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_TOPIC:
-			p = '#';
-			if (!gce->ptszNick)
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is \'%s\'"), ci.RemoveFormatting(gce->ptszText));
-			else
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is \'%s\' (set by %s)"), ci.RemoveFormatting(gce->ptszText), gce->ptszNick);
-			break;
-		case GC_EVENT_INFORMATION:
-			p = '!';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), ci.RemoveFormatting(gce->ptszText));
-			break;
-		case GC_EVENT_ADDSTATUS:
-			p = '+';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
-			break;
-		case GC_EVENT_REMOVESTATUS:
-			p = '-';
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
-			break;
-		}
-
-		/*
-		* formatting strings don't need to be translatable - changing them via language pack would
-		* only screw up the log format.
-		*/
-		if (p)
-			mir_sntprintf(szLine, SIZEOF(szLine), _T("%s %c %s\r\n"), szTime, p, szBuffer);
+		if (gce->ptszUserInfo)
+			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
 		else
-			mir_sntprintf(szLine, SIZEOF(szLine), _T("%s %s\r\n"), szTime, szBuffer);
+			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), szTemp2);
+		pszNick = szTemp;
+	}
 
-		if (szLine[0]) {
-			_fputts(szLine, hFile);
+	switch (gce->pDest->iType) {
+	case GC_EVENT_MESSAGE:
+	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
+		p = '*';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_ACTION:
+	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
+		p = '*';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_JOIN:
+		p = '>';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has joined"), pszNick);
+		break;
+	case GC_EVENT_PART:
+		p = '<';
+		if (!gce->ptszText)
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left"), pszNick);
+		else
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_QUIT:
+		p = '<';
+		if (!gce->ptszText)
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected"), pszNick);
+		else
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_NICK:
+		p = '^';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+		break;
+	case GC_EVENT_KICK:
+		p = '~';
+		if (!gce->ptszText)
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s"), gce->ptszStatus, gce->ptszNick);
+		else
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s (%s)"), gce->ptszStatus, gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_NOTICE:
+		p = 'o';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Notice from %s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_TOPIC:
+		p = '#';
+		if (!gce->ptszNick)
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is \'%s\'"), ci.RemoveFormatting(gce->ptszText));
+		else
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is \'%s\' (set by %s)"), ci.RemoveFormatting(gce->ptszText), gce->ptszNick);
+		break;
+	case GC_EVENT_INFORMATION:
+		p = '!';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), ci.RemoveFormatting(gce->ptszText));
+		break;
+	case GC_EVENT_ADDSTATUS:
+		p = '+';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		break;
+	case GC_EVENT_REMOVESTATUS:
+		p = '-';
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		break;
+	}
 
-			if (g_Settings->LoggingLimit > 0) {
-				fseek(hFile, 0, SEEK_END);
-				long dwSize = ftell(hFile);
-				rewind(hFile);
+	// formatting strings don't need to be translatable - changing them via language pack would
+	// only screw up the log format.
+	if (p)
+		mir_sntprintf(szLine, SIZEOF(szLine), _T("%s %c %s\r\n"), szTime, p, szBuffer);
+	else
+		mir_sntprintf(szLine, SIZEOF(szLine), _T("%s %s\r\n"), szTime, szBuffer);
 
-				long trimlimit = g_Settings->LoggingLimit * 1024;
-				if (dwSize > trimlimit) {
-					time_t now = time(0);
+	if (szLine[0]) {
+		_fputts(szLine, hFile);
 
-					TCHAR tszTimestamp[20];
-					_tcsftime(tszTimestamp, 20, _T("%Y%m%d-%H%M%S"), _localtime32((__time32_t *)&now));
-					tszTimestamp[19] = 0;
-					/*
-					* max size reached, rotate the log
-					* move old logs to /archived sub folder just inside the log root folder.
-					* add a time stamp to the file name.
-					*/
-					TCHAR tszDrive[_MAX_DRIVE], tszDir[_MAX_DIR], tszName[_MAX_FNAME], tszExt[_MAX_EXT];
-					_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
+		if (g_Settings->LoggingLimit > 0) {
+			fseek(hFile, 0, SEEK_END);
+			long dwSize = ftell(hFile);
+			rewind(hFile);
 
-					TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-					mir_sntprintf(tszNewPath, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%sarchived\\"), tszDrive, tszDir);
-					CreateDirectoryTreeT(tszNewPath);
+			long trimlimit = g_Settings->LoggingLimit * 1024;
+			if (dwSize > trimlimit) {
+				time_t now = time(0);
 
-					TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-					mir_sntprintf(tszNewName, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
-					fclose(hFile);
-					hFile = 0;
-					if (!PathFileExists(tszNewName))
-						CopyFile(si->pszLogFileName, tszNewName, TRUE);
-					DeleteFile(si->pszLogFileName);
-				}
+				TCHAR tszTimestamp[20];
+				_tcsftime(tszTimestamp, 20, _T("%Y%m%d-%H%M%S"), _localtime32((__time32_t *)&now));
+				tszTimestamp[19] = 0;
+
+				// max size reached, rotate the log
+				// move old logs to /archived sub folder just inside the log root folder.
+				// add a time stamp to the file name.
+				TCHAR tszDrive[_MAX_DRIVE], tszDir[_MAX_DIR], tszName[_MAX_FNAME], tszExt[_MAX_EXT];
+				_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
+
+				TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
+				mir_sntprintf(tszNewPath, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%sarchived\\"), tszDrive, tszDir);
+				CreateDirectoryTreeT(tszNewPath);
+
+				TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
+				mir_sntprintf(tszNewName, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
+				fclose(hFile);
+				hFile = 0;
+				if (!PathFileExists(tszNewName))
+					CopyFile(si->pszLogFileName, tszNewName, TRUE);
+				DeleteFile(si->pszLogFileName);
 			}
 		}
-
-		if (hFile)
-			fclose(hFile);
-		hFile = NULL;
-		return TRUE;
 	}
-	return FALSE;
+
+	if (hFile)
+		fclose(hFile);
+	return TRUE;
 }
 
 BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem)
@@ -744,10 +740,8 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 	if (!tTime)
 		time(&tTime);
 
-	/*
-	* check whether relevant parts of the timestamp have changed and
-	* we have to reparse the filename
-	*/
+	// check whether relevant parts of the timestamp have changed and
+	// we have to reparse the filename
 	TCHAR *tszNow = ci.MakeTimeStamp(_T("%a%d%m%Y"), tTime); // once a day
 	if (_tcscmp(tszOldTimeStamp, tszNow)) {
 		_tcsncpy_s(tszOldTimeStamp, 30, tszNow, _TRUNCATE);
