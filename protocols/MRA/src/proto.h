@@ -576,6 +576,9 @@ mrim_packet_header_t;
 // DWORD ???
 // DWORD ???
 
+#define MRIM_CS_UNKNOWN2		0x1074 /* possible mail notification */
+
+
 
 #define MRIM_CS_USER_GEO		0x1077
 // LPS user

@@ -1537,6 +1537,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 		break;
 
 	case MRIM_CS_UNKNOWN:
+	case MRIM_CS_UNKNOWN2:
 	case MRIM_CS_USER_GEO:
 	case MRIM_CS_SERVER_SETTINGS:
 		break;
