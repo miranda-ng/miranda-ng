@@ -28,8 +28,6 @@ I při neaktivním seznamu
 Obecné odsazení
 [Hover time:]
 Prodleva:
-[Status bar tips]
-Tipy stavové lišty
 [Alignment]
 Zarovnání
 [Labels:]
@@ -46,12 +44,16 @@ Min. výška:
 Odsazení textu:
 [Outer avatar padding:]
 Vnější okraj avataru:
+[Show title]
+Zobrazit záhlaví
+[Status bar tips]
+Tipy stavové lišty
+[Avatar border]
+Orámovat avatary
 [Round corners (avatar)]
 Zaoblit rohy avatarů
 [Keep original avatar size]
 Neměnit velikost avataru
-[Avatar border]
-Orámovat avatary
 [Title indent:]
 Odsazení titulku:
 [Value indent:]
@@ -206,14 +208,12 @@ Přidat oddělovač
 Přesunout nahoru
 [Move down]
 Přesunout dolů
+[No icon]
+Bez ikony
 [Icon on left]
 Ikona vlevo
 [Icon on right]
 Ikona vpravo
-[No icon]
-Bez ikony
-[No title]
-Bez titulku
 [Bottom right]
 Vpravo dole
 [Bottom left]

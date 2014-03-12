@@ -47,17 +47,21 @@ Použít ikonu stavu
 [Use individual sounds]
 Použít individuální zvuky
 [Log to file]
-Uložit záznam
+Uložit do souboru
 [Enable]
 Aktivovat
-[Go to Sound to select the sounds]
-Nastavení zvuků změníte v sekci Zvuky
 [Extra status]
 Rozšířený stav
 [Open]
 Otevřít
 [Status message]
 Zpráva stavu
+[Log in history]
+Uložit do historie
+[Log status changes in history]
+Ukládat změny stavů do historie
+[Only when message window is open]
+Pouze pokud je otevřeno komunikační okno
 [Change]
 Změnit
 [Preview]
@@ -165,7 +169,7 @@ Vypnout když jsem ve stavu:
 [Extra status log]
 Záznam rozšířených stavů
 [Enable logging extra status to message window]
-Povolit zánnam rozšířených stavů do komunikačního okna
+Povolit záznam rozšířených stavů do komunikačního okna
 [Keep events in history]
 Ponechat události v historii
 [Prevent identical logs]
@@ -313,6 +317,8 @@ Změna zprávy rozšířeného stavu
 Zrušení rozšířeného stavu
 [Toggle status notification]
 Přepnout oznámení stavu
+[Status change]
+Změna stavu
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Všechny soubory

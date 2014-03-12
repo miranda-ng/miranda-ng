@@ -477,12 +477,6 @@ Nahor&u
 Nastavit jako výchozí pro odesílání (i když je offline)
 [Send &Offline]
 Poslat offline
-[Set default contact on receipt of message]
-Nastavit výchozí kontakt pro příjem zpráv
-[Always send to default contact if not offline]
-Vždy odeslat výchozímu kontaktu, pokud není offline
-[Suppress status notification for subcontacts]
-Potlačit oznámení stavu u podkontaktů
 [Context Menu]
 Kontextová nabídka
 [Use contact's unique ID]
@@ -505,14 +499,8 @@ Seznam kontaktů
 Zobrazit přezdívku podkontaktu
 [Display subcontact display name]
 Zobrazit nastavené jméno podkontaktu
-[Use subcontact message windows]
-Použít komunikační okno podkontaktu
-[Copy subcontact data]
-Kopírovat data podkontaktu
 [Lock name to first contact]
 Použít jméno prvního kontaktu
-[but only for the current conversation]
-avšak pouze pro aktuální rozhovor
 [History Copy]
 Kopírování historie
 [Please wait while the contact's history is copied.]
@@ -533,16 +521,6 @@ Protokol:
 Vše resetovat
 [(Lower ranks are preferred)]
 (Nížší pořadí má vyšší prioritu)
-[Copy subcontact history to MetaContact when creating or adding]
-Kopírovat historii podkontaktu do metakontaktu při vytváření či přidávání
-[Number of days to copy (0=all):]
-Zkopírovat dnů (0 = vše):
-[Keep MetaContact history synchronized with subcontacts]
-Synchronizovat historii metakontaktu s podkontakty
-[Keep subcontact history synchronized with MetaContact]
-Synchronizovat historii podkontaktu s metakontaktem
-[History (** beware - change at your own risk **)]
-Historie (** pozor - pouze na vlastní nebezpečí! **)
 [Tray]
 Oznámení
 [&Hide/Show]
@@ -1203,8 +1181,6 @@ Konkrétní počet předchozích událostí
 Předchozí události starší méně než
 [minutes old]
 min.
-[Show status changes]
-Zobrazit změny stavu
 [Show seconds]
 Zobrazit sek.
 [Load history events]
@@ -2468,8 +2444,6 @@ Podkontakty
 Metakontakty
 [Priorities]
 Priority
-[History]
-Historie
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Nebyly nalezeny žádné online kontakty
@@ -2493,8 +2467,10 @@ Nelze zapsat identifikátor kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nelze zapsat přezdívku kontaktu do metakontaktu
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-
+Skrytá skupina pro metakontakty byla přidána do vašeho seznamu kontaktů.\nToto se stalo nejspíše kvůli informacím o kontaktu, které jsou uloženy na serveru. Aby metakontakty fungovaly nadále správně, měli byste:\n   - zakázat metakontakty skrz položku v hlavním menu\n   - přesunout všechny kontakty pryč ze skupiny 'MetaContacts Hidden Group'\n   - synchronizovat vaše kontakty se serverem\n   - znovu povolit metakontakty
 ;file \src\modules\netlib\netliblog.cpp
+[Standard netlib log]
+Výchozí záznam pro netlib
 [No times]
 Bez časového údaje
 [Standard hh:mm:ss times]
@@ -2509,8 +2485,6 @@ Záznam jádra Mirandy
 Zadejte požadovaný soubor pro záznam
 [Select program to be run]
 Vyberte požadovaný program
-[Standard netlib log]
-Výchozí záznam pro netlib
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <všechna spojení>
@@ -2649,6 +2623,8 @@ Skupina (zavřená)
 Připojování
 [User details]
 Informace o uživateli
+[History]
+Historie
 [Down arrow]
 Šipka dolů
 [Find user]

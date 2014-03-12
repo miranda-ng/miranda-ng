@@ -39,7 +39,7 @@ Odkaz na soubor
 [Copy download link to message log]
 Zkopírovat odkaz na soubor do historie
 [Autosend download link to contact]
-Automaticky poslat odkaz na soubor
+Automaticky odeslat odkaz kontaktu
 [Menu items]
 Položky menu
 [Use submenu (restart required)]

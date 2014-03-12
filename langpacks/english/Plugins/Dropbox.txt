@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: unsane
 ;============================================================
 [Allows to transfer files via Dropbox.]
@@ -19,11 +19,11 @@
 [Check status of authorization]
 [Autosend download link to contact]
 [Paste download link into message input area]
-[Copy download link to clibboard]
+[Copy download link to clipboard]
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 [you have been authorized]
-[unknown error]
+[server does not respond]
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
 [Dropbox supports the following commands:]
 [shows all files in folder "dir" ("dir" can be omitted for root folder)]

@@ -1043,6 +1043,8 @@ Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprá
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
+[tabSRMM Warning Message]
+TabSRMM varování
 [Incoming file]
 Příchozí soubor
 [No description given]
@@ -1062,6 +1064,8 @@ Rich Edit soubor
 Problém v nastavení|Funkce bezobslužného odesílání je zakázána. Funkce \\b1 zpožděné odesílání\\b0  a \\b1 poslat více kontaktům\\b0  ji však vyžadují.\n\nNutno povolit v \\b1Možnosti->Komunikace->Pokročilé úpravy\\b0. Změna tohoto nastavení vyžaduje restart.
 [You cannot edit user notes when there are unsent messages]
 Nemůžete upravovat poznámky k uživateli pokud existují neodeslané zprávy.
+[Version]
+Verze
 [%s is typing a message.]
 %s píše zprávu.
 [Last received: %s at %s]

@@ -19,7 +19,7 @@ Nastavení
 [Show confirmation dialog box]
 
 [Autosend download link to contact]
-Automaticky poslat odkaz na soubor
+Automaticky odeslat odkaz kontaktu
 [Web page settings]
 
 [Web page to configure]
