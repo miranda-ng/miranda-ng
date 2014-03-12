@@ -742,8 +742,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
 		}
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
-			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
-			if (pdnce) {
+			if (pdnce && pdnce->dwLastMsgTime != -1) {
 				DWORD now = g_CluiData.t_now;
 				now -= g_CluiData.lastMsgFilter;
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)

@@ -251,7 +251,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->IsExpanded == -1)
 		pdnce->IsExpanded = db_get_b(pdnce->hContact, "CList", "Expanded", 0);
 
-	if (pdnce->dwLastMsgTime == 0) {
+	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN)) {
 		pdnce->dwLastMsgTime = db_get_dw(pdnce->hContact, "CList", "mf_lastmsg", 0);
 		if (pdnce->dwLastMsgTime == 0)
 			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
@@ -280,7 +280,7 @@ void InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int Settin
 		pdnce->ssSecondLine.iMaxSmileyHeight = 0;
 		pdnce->ssThirdLine.iMaxSmileyHeight = 0;
 		pdnce->hTimeZone = NULL;
-		pdnce->dwLastMsgTime = 0;
+		pdnce->dwLastMsgTime = -1;
 		Cache_GetTimezone(NULL, pdnce->hContact);
 		SettingType &= ~16;
 	}
@@ -298,7 +298,7 @@ void InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int Settin
 		pdnce->m_cache_cszProto = NULL;
 	}
 	// in other cases clear all binary cache
-	else pdnce->dwLastMsgTime = 0;
+	else pdnce->dwLastMsgTime = -1;
 
 	pdnce->bIsHidden = -1;
 	pdnce->m_cache_nHiddenSubcontact = -1;
