@@ -209,7 +209,7 @@ begin
         Inc(Count);
         PrevTime := CurTime;
       end;
-      hDBEvent := db_event_next(hDBEvent);
+      hDBEvent := db_event_next(FContact, hDBEvent);
     end;
     SendItem(FirstEvent, LastEvent, FirstTimestamp, LastTimestamp, Count);
     SendBatch;

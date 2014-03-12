@@ -2109,7 +2109,7 @@ begin
     Sessions[idx].TimestampLast := 0;
     Exit;
   end;
-  hDBEvent := db_event_next(hDBEvent);
+  hDBEvent := db_event_next(hContact,hDBEvent);
   if hDBEvent <> 0 then
   begin
     Sessions[idx].hDBEventFirst := hDBEvent;

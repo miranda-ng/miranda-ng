@@ -428,7 +428,7 @@ begin
   begin
     if SearchEvent(hDBEvent) then
       SendItem(hDBEvent);
-    hDBEvent := db_event_prev(hDBEvent);
+    hDBEvent := db_event_prev(Contact, hDBEvent);
   end;
   SendBatch;
 end;

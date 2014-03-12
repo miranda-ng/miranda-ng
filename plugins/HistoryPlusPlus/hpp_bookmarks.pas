@@ -634,7 +634,7 @@ begin
         Result := True;
         break;
       end;
-      hDBEvent := db_event_next(hDBEvent);
+      hDBEvent := db_event_next(Contact.hContact,hDBEvent);
     end;
   end
   else
@@ -651,7 +651,7 @@ begin
         Result := True;
         break;
       end;
-      hDBEvent := db_event_prev(hDBEvent);
+      hDBEvent := db_event_prev(Contact.hContact,hDBEvent);
     end;
   end;
 end;

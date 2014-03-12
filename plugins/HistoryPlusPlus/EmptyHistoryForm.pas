@@ -257,7 +257,7 @@ begin
   SetSafetyMode(False);
   while hDBEvent <> 0 do
   begin
-    prevhDbEvent := db_event_prev(hDBEvent);
+    prevhDbEvent := db_event_prev(hContact,hDBEvent);
     if db_event_delete(hContact,hDBEvent) = 0 then
       hDBEvent := prevhDbEvent
     else
