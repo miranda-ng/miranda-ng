@@ -1222,7 +1222,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_SETBKGNDCOLOR , 0, g_Settings.crLogBackground);
 
 			if (g_Settings.bTabsEnable) {
-				int mask = (int)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TAB), GWL_STYLE);
+				LONG_PTR mask = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TAB), GWL_STYLE);
 				if (g_Settings.TabsAtBottom)
 					mask |= TCS_BOTTOM;
 				else

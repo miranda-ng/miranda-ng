@@ -933,7 +933,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 
 		SendMessage(Frames[pos].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)Frames[pos].TitleBar.ShowTitleBarTip,0);
 
-		style = (int)GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE);
+		style = GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE);
 		style |= WS_BORDER;
 		if (flag&F_NOBORDER) {style &= (~WS_BORDER);}
 			SetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE,(LONG_PTR)style);

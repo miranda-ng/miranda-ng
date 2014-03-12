@@ -54,7 +54,7 @@ static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 {
 	POINT pt;
 	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), _T(MOD_NAME)_T("_MenuWindow"), 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
-	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)(WNDPROC)MenuWndProc);
+	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 	GetCursorPos(&pt);
 	SetForegroundWindow(hMenuWnd);

@@ -141,7 +141,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 				TCHAR tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, SIZEOF(tmp));
 
-				int proto_num = (int)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				LONG_PTR proto_num = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				if (proto_num == -1)
 					protocols->SetNicks(tmp);
 				else

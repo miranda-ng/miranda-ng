@@ -144,7 +144,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	int y, indent, index, fontHeight;
 	struct ClcGroup *group;
 	HFONT hOldFont;
-	DWORD_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	LONG_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int status = GetGeneralisedStatus();
 	int grey = 0, groupCountsFontTopShift;
 	HBRUSH hBrushAlternateGrey = NULL;

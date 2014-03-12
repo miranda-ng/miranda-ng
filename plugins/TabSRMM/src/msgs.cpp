@@ -101,7 +101,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 		mwod->hwndWindow = hwnd;
 		mwod->local = GetParent(GetParent(hwnd));
 		SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
-		mwod->uState = (int)GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
+		mwod->uState = GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
 		return 0;
 	}
 	else
@@ -112,7 +112,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 			mwod->hwndWindow = si->hWnd;
 			mwod->local = GetParent(GetParent(si->hWnd));
 			SendMessage(si->hWnd, DM_GETWINDOWSTATE, 0, 0);
-			mwod->uState = (int)GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
+			mwod->uState = GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
 			return 0;
 		}
 		else {

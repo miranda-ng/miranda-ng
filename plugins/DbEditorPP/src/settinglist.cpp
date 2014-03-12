@@ -230,7 +230,7 @@ void PopulateSettings(HWND hwnd2Settings, MCONTACT hContact, char* module)
 
 	info->hContact = hContact;
 	info->module = mir_tstrdup(module);
-	SetWindowLongPtr(hwnd2Settings,GWLP_USERDATA, 0);
+	SetWindowLongPtr(hwnd2Settings,GWLP_USERDATA, (LONG_PTR)info);
 
 	// icons
 	if (himl2)

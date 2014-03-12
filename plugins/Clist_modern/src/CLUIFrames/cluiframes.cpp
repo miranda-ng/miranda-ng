@@ -3976,7 +3976,7 @@ int CLUIFrames_UpdateBorders()
 {
 	for (int i = 0; i < g_nFramesCount; i++) {
 		if (!g_pfwFrames[i].floating) {
-			DWORD style = (int)GetWindowLongPtr(g_pfwFrames[i].hWnd, GWL_STYLE) & (~WS_BORDER);
+			LONG_PTR style = GetWindowLongPtr(g_pfwFrames[i].hWnd, GWL_STYLE) & (~WS_BORDER);
 			if (!g_CluiData.fLayered && g_pfwFrames[i].UseBorder) style |= WS_BORDER;
 			SetWindowLongPtr(g_pfwFrames[i].hWnd, GWL_STYLE, style);
 			CLUIFramesModifyMainMenuItems(g_pfwFrames[i].id, 0);
