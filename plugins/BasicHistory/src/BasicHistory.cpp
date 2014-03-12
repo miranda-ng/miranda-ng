@@ -74,13 +74,13 @@ void DeinitScheduler();
 int DoLastTask(WPARAM, LPARAM);
 INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam);
 
-int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	int count = EventList::GetContactMessageNumber(wParam);
+	bool bHasHistory = db_event_last(hContact) != NULL;
 	bool isInList = HistoryWindow::IsInList(GetForegroundWindow());
 
-	Menu_ShowItem(hContactMenu, count != 0);
-	Menu_ShowItem(hDeleteContactMenu, count != 0 && isInList);
+	Menu_ShowItem(hContactMenu, bHasHistory);
+	Menu_ShowItem(hDeleteContactMenu, bHasHistory && isInList);
 	return 0;
 }
 
