@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define NOT_UNREAD (DBEF_READ | DBEF_SENT)
-
 int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
 {
 	if (cc->szProto == NULL) {

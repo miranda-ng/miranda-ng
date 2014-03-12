@@ -327,41 +327,130 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::GetEventContact(HANDLE hDbEvent)
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 {
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+
 	mir_cslock lck(m_csDbAccess);
-	DWORD ofsContact = GetContactOffset(contactID);
-	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
-	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstEvent;
+	DBContact *dbc = (DBContact*)DBRead((cc) ? cc->dwDriverData : m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return NULL;
+	if (!cc || !cc->IsSub())
+		return HANDLE(dbc->ofsFirstEvent);
+
+	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
+		return NULL;
+	dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return NULL;
+
+	for (DWORD dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
+		DBEvent *dbe = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+		if (dbe->signature != DBEVENT_SIGNATURE)
+			return NULL;
+		if (dbe->contactID == contactID)
+			return HANDLE(dwOffset);
+		dwOffset = dbe->ofsNext;
+	}
+	return NULL;
 }
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 {
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+
 	mir_cslock lck(m_csDbAccess);
-	DWORD ofsContact = GetContactOffset(contactID);
-	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
-	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsFirstUnread;
+	DBContact *dbc = (DBContact*)DBRead((cc) ? cc->dwDriverData : m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return NULL;
+	if (!cc || !cc->IsSub())
+		return HANDLE(dbc->ofsFirstUnread);
+
+	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
+		return NULL;
+	dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return NULL;
+
+	for (DWORD dwOffset = dbc->ofsFirstUnread; dwOffset != 0;) {
+		DBEvent *dbe = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+		if (dbe->signature != DBEVENT_SIGNATURE)
+			return NULL;
+		if (dbe->contactID == contactID && !(dbe->flags & NOT_UNREAD))
+			return HANDLE(dwOffset);
+		dwOffset = dbe->ofsNext;
+	}
+	return NULL;
 }
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 {
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+
 	mir_cslock lck(m_csDbAccess);
-	DWORD ofsContact = GetContactOffset(contactID);
-	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
-	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsLastEvent;
+	DBContact *dbc = (DBContact*)DBRead((cc) ? cc->dwDriverData : m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return NULL;
+	if (!cc || !cc->IsSub())
+		return HANDLE(dbc->ofsLastEvent);
+
+	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
+		return NULL;
+	dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+	if (dbc->signature != DBCONTACT_SIGNATURE)
+		return NULL;
+
+	for (DWORD dwOffset = dbc->ofsLastEvent; dwOffset != 0;) {
+		DBEvent *dbe = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+		if (dbe->signature != DBEVENT_SIGNATURE)
+			return NULL;
+		if (dbe->contactID == contactID)
+			return HANDLE(dwOffset);
+		dwOffset = dbe->ofsPrev;
+	}
+	return NULL;
 }
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextEvent(MCONTACT contactID, HANDLE hDbEvent)
 {
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
-	return (dbe->signature != DBEVENT_SIGNATURE) ? 0 : (HANDLE)dbe->ofsNext;
+	if (dbe->signature != DBEVENT_SIGNATURE)
+		return NULL;
+	if (!cc || !cc->IsSub())
+		return HANDLE(dbe->ofsNext);
+
+	for (DWORD dwOffset = dbe->ofsNext; dwOffset != 0;) {
+		dbe = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+		if (dbe->signature != DBEVENT_SIGNATURE)
+			return NULL;
+		if (dbe->contactID == contactID)
+			return HANDLE(dwOffset);
+		dwOffset = dbe->ofsNext;
+	}
+	return NULL;
 }
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent)
 {
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
-	if (dbe->signature != DBEVENT_SIGNATURE) return 0;
-	return (dbe->flags & DBEF_FIRST) ? 0 : (HANDLE)dbe->ofsPrev;
+	if (dbe->signature != DBEVENT_SIGNATURE)
+		return NULL;
+	if (!cc || !cc->IsSub())
+		return HANDLE(dbe->ofsPrev);
+
+	for (DWORD dwOffset = dbe->ofsPrev; dwOffset != 0;) {
+		dbe = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
+		if (dbe->signature != DBEVENT_SIGNATURE)
+			return NULL;
+		if (dbe->contactID == contactID)
+			return HANDLE(dwOffset);
+		dwOffset = dbe->ofsPrev;
+	}
+	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
