@@ -2,7 +2,7 @@
 
 bool CSkypeProto::IsMessageInDB(MCONTACT hContact, DWORD timestamp, SEBinary &guid, int flag)
 {
-	for (HANDLE hDbEvent = ::db_event_last(hContact); hDbEvent; hDbEvent = ::db_event_prev(hDbEvent))
+	for (HANDLE hDbEvent = ::db_event_last(hContact); hDbEvent; hDbEvent = ::db_event_prev(hContact, hDbEvent))
 	{
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = ::db_event_getBlobSize(hDbEvent);
