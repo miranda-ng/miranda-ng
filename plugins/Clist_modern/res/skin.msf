@@ -141,7 +141,7 @@ $$BarButton/Pressed = sGlyph,Fragment,back%.tga,24,49,7,20,StretchBoth,3,4,2,5,2
 @1620 = s$$BarButton/Hot:Button,Hovered = True
 @1630 = s$$BarButton:Button
 
-#mainmenu = sPush,CList/ShowMainMenu,10,5,34,21,-----,0,0,Show Main Menu
+#mainmenu = sPush,CList/ShowMainMenu,10,5,34,21,-----,0,0,Show main menu
 #minimize = sPush,CList/ShowHide,-36,3,-10,18,R-R--,0,0,Minimize Miranda
 
 [CLUI]
