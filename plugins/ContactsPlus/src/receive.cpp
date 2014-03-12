@@ -174,7 +174,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			EnableDlgItem(hwndDlg, IDOK, FALSE);
 			EnableDlgItem(hwndDlg, IDDETAILS, FALSE);
 			wndData = new TRecvContactsData(pcle->hContact);
-			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)wndData);
+			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)wndData);
 			wndData->mhDbEvent = pcle->hDbEvent; /// initialized, pcle not needed anymore
 			wndData->mhListIcon = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLORDDB|ILC_MASK, 0, 1);
 			wndData->mhPopup = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTACTMENU));

@@ -107,7 +107,7 @@ public:
 				<< XQUERY(JABBER_FEAT_REGISTER));
 
 		// Enable WS_EX_CONTROLPARENT on IDC_FRAME (so tab stop goes through all its children)
-		LONG frameExStyle = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE);
+		LONG_PTR frameExStyle = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE);
 		frameExStyle |= WS_EX_CONTROLPARENT;
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
 	}

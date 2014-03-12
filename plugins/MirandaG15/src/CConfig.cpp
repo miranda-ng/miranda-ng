@@ -592,7 +592,7 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			TranslateDialogDefault(hwndDlg);
 
 			// Initialize the protocol filter list
-			SetWindowLong(GetDlgItem(hwndDlg,IDC_PROTOCOLS),GWL_STYLE,GetWindowLong(GetDlgItem(hwndDlg,IDC_PROTOCOLS),GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOCOLS),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOCOLS),GWL_STYLE)|TVS_NOHSCROLL);
 			int iRes = 0;
 			
 			HIMAGELIST himlCheckBoxes;
@@ -767,7 +767,7 @@ INT_PTR CALLBACK CConfig::ContactlistDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			TranslateDialogDefault(hwndDlg);
 
 			// Initialize the protocol filter list
-			SetWindowLong(GetDlgItem(hwndDlg,IDC_CLIST_PROTOFILTER),GWL_STYLE,GetWindowLong(GetDlgItem(hwndDlg,IDC_CLIST_PROTOFILTER),GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_CLIST_PROTOFILTER),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_CLIST_PROTOFILTER),GWL_STYLE)|TVS_NOHSCROLL);
 			int iRes = 0;
 			
 			HIMAGELIST himlCheckBoxes;

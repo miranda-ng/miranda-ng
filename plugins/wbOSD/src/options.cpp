@@ -228,8 +228,8 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP | WS_SIZEBOX);
 			SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE|SWP_FRAMECHANGED);
 
-			SetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE,GetWindowLong(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
-			SetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE2),GWL_STYLE,GetWindowLong(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+			SetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+			SetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE2),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hDlg,IDC_TREE1),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 
 			CheckDlgButton(hDlg, IDC_RADIO1+ps->align-1, BST_CHECKED);
 			CheckDlgButton(hDlg, IDC_RADIO10+9-ps->salign, BST_CHECKED);

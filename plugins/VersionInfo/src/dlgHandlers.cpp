@@ -503,7 +503,7 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		myInfo = (CVersionInfo *) lParam;
 		if (db_get_b(NULL, ModuleName, "ShowInTaskbar", TRUE)) {
-			DWORD ws;
+			LONG_PTR ws;
 			ws = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 			SetWindowLongPtr(hWnd, GWL_EXSTYLE, ws | WS_EX_APPWINDOW);
 			//SetWindowLongPtr(hWnd, GWL_STYLE, ws | WS_DLGFRAME | WS_POPUPWINDOW);

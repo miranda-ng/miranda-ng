@@ -1219,13 +1219,13 @@ static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam)
 
 		SendMessageA(fw.TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)fw.TitleBar.ShowTitleBarTip,0);
 		{
-			int style = (int)GetWindowLongPtr(fw.hWnd,GWL_STYLE);
+			LONG_PTR style = GetWindowLongPtr(fw.hWnd,GWL_STYLE);
 			style &= (~WS_BORDER);
 			if (!(lParam & F_NOBORDER ) && !g_CluiData.fLayered )
 				style |= WS_BORDER;
 
-			SetWindowLongPtr(fw.hWnd,GWL_STYLE,(long)style);
-			SetWindowLongPtr(fw.TitleBar.hwnd,GWL_STYLE,(long)style& ~(WS_VSCROLL | WS_HSCROLL));
+			SetWindowLongPtr(fw.hWnd,GWL_STYLE,style);
+			SetWindowLongPtr(fw.TitleBar.hwnd,GWL_STYLE,style& ~(WS_VSCROLL | WS_HSCROLL));
 		}
 
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
@@ -1778,7 +1778,8 @@ static HFONT CLUILoadTitleBarFont()
 //wparam = (CLISTFrame*)clfrm
 static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 {
-	int style,retval;
+	int retval;
+	LONG_PTR style;
 	//char * CustomName = NULL;
 	CLISTFrame *clfrm = (CLISTFrame *)wParam;
 
@@ -2679,7 +2680,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColou
 	int y;
 	PAINTSTRUCT paintst = {0};
 	HBITMAP hBmpOsb,hOldBmp;
-	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
+	LONG_PTR style = GetWindowLongPtr(hwnd,GWL_STYLE);
 	int grey = 0;
 	HFONT oFont;
 	HBRUSH hBrushAlternateGrey = NULL;
@@ -3704,7 +3705,7 @@ static int _us_DoSetFrameFloat(WPARAM wParam, LPARAM lParam)
 		else
 		{
 			RECT recttb,rectw,border;
-			int temp;
+			LONG_PTR temp;
 			int neww,newh;
 			BOOLEAN locked;
 

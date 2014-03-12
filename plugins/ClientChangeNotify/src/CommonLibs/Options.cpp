@@ -458,7 +458,7 @@ void COptItem_TreeCtrl::MemToWnd(HWND hWnd)
 	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
 	if (TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)
 	{ // have to set this in run-time as it's specified in MSDN
-		LONG Style = GetWindowLongPtr(hTreeView, GWL_STYLE);
+		LONG_PTR Style = GetWindowLongPtr(hTreeView, GWL_STYLE);
 		SetWindowLongPtr(hTreeView, GWL_STYLE, Style & ~TVS_CHECKBOXES);
 		SetWindowLongPtr(hTreeView, GWL_STYLE, Style | TVS_CHECKBOXES);
 	}

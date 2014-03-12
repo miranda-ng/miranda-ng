@@ -304,7 +304,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 	switch(msg) {
 	case WM_INITDIALOG:
 		hwndShutdownDlg=hwndDlg;
-		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)lParam);
+		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
 		TranslateDialogDefault(hwndDlg);
 
 		if (lParam==SDSDT_SHUTDOWN || lParam==SDSDT_REBOOT || lParam==SDSDT_LOGOFF)

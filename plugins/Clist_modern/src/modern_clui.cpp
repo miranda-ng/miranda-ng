@@ -584,7 +584,7 @@ void CLUI_UpdateLayeredMode()
 			ShowWindow(pcli->hwndContactList,SW_HIDE);
 
 		//change layered mode
-		LONG exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
+		LONG_PTR exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 		if (tLayeredFlag)
 			exStyle |= WS_EX_LAYERED;
 		else
@@ -630,11 +630,11 @@ extern int CLUIFrames_UpdateBorders();
 void CLUI_ChangeWindowMode()
 {
 	BOOL storedVisMode = FALSE;
-	LONG style,styleEx;
-	LONG oldStyle,oldStyleEx;
-	LONG styleMask = WS_CLIPCHILDREN|WS_BORDER|WS_CAPTION|WS_MINIMIZEBOX|WS_POPUPWINDOW|WS_CLIPCHILDREN|WS_THICKFRAME|WS_SYSMENU;
-	LONG styleMaskEx = WS_EX_TOOLWINDOW|WS_EX_LAYERED;
-	LONG curStyle,curStyleEx;
+	LONG_PTR style,styleEx;
+	LONG_PTR oldStyle,oldStyleEx;
+	LONG_PTR styleMask = WS_CLIPCHILDREN|WS_BORDER|WS_CAPTION|WS_MINIMIZEBOX|WS_POPUPWINDOW|WS_CLIPCHILDREN|WS_THICKFRAME|WS_SYSMENU;
+	LONG_PTR styleMaskEx = WS_EX_TOOLWINDOW|WS_EX_LAYERED;
+	LONG_PTR curStyle,curStyleEx;
 	if (!pcli->hwndContactList) return;
 
 	g_mutex_bChangingMode = TRUE;

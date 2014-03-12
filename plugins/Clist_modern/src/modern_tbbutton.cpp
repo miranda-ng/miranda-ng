@@ -428,8 +428,8 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 1;
 
 	case MBM_UPDATETRANSPARENTFLAG:
-		LONG flag = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
-		LONG oldFlag = flag;
+		LONG_PTR flag = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
+		LONG_PTR oldFlag = flag;
 		if (lParam == 2)
 			lParam = (g_CluiData.fDisableSkinEngine) ? 0 : 1;
 		flag &= ~WS_EX_TRANSPARENT;

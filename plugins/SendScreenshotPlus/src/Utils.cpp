@@ -174,7 +174,7 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 		SelectBitmap(hMaskDC,hMask);
 		HRGN hRgn=CreateRectRgn(0,0,0,0);
 		if(GetWindowRgn(hCapture,hRgn)==ERROR){
-			if((GetWindowLong(hCapture,GWL_EXSTYLE)&WS_EX_LAYERED)){
+			if((GetWindowLongPtr(hCapture,GWL_EXSTYLE)&WS_EX_LAYERED)){
 				BYTE bAlpha=0;
 				COLORREF crKey=0;//0x00bbggrr
 				DWORD dwFlags=0;

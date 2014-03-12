@@ -1279,7 +1279,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		::DeleteObject(m_configDlgFont);
 
 		m_configDlgBoldFont = m_configDlgFont = 0;
-		::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0L);
+		::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		break;
 	}
 	return FALSE;

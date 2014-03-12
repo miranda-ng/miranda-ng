@@ -261,7 +261,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	g_ctrl->hWnd = CreateWindow(pluginname, _T("Toolbar"),
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
 		0, 0, 0, g_ctrl->nLastHeight, parent, NULL, hInst, NULL);
-	SetWindowLongPtr(g_ctrl->hWnd, 0, (LPARAM)g_ctrl);
+	SetWindowLongPtr(g_ctrl->hWnd, 0, (LONG_PTR)g_ctrl);
 
 	LoadBackgroundOptions();
 

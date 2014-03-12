@@ -167,7 +167,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			CheckRadioButton(hwndDlg, IDC_NULL, IDC_CONTACT, hItem==NULL?IDC_NULL:IDC_CONTACT);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CLIST), IsDlgButtonChecked(hwndDlg, IDC_CONTACT));
 			SetFocus(GetDlgItem(hwndDlg, IDC_CLIST));
-			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LPARAM)res);
+			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LONG_PTR)res);
 		}
 		return TRUE;
 
@@ -1061,7 +1061,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 	case VARM_GETDIALOG:
 		switch (wParam) {
 		case VHF_INPUT:
-			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LPARAM)dat->hwndInputDlg);
+			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LONG_PTR)dat->hwndInputDlg);
 			return TRUE;
 		}
 		break;

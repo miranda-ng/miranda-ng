@@ -326,7 +326,7 @@ static void resetListOptions(HWND hwndList){
 	}
 
 	//?
-	SetWindowLong(hwndList, GWL_STYLE, GetWindowLong(hwndList,GWL_STYLE)|CLS_SHOWHIDDEN);
+	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList,GWL_STYLE)|CLS_SHOWHIDDEN);
 
 }
 

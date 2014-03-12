@@ -2435,7 +2435,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			lvCol.cx = g_reminderListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);
 			InitListView(H);
-			SetWindowLong(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
+			SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
 			LV = Dialog;
 
 			if (g_reminderListGeom[1] && g_reminderListGeom[2])

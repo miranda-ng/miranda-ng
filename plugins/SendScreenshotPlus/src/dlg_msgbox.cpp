@@ -490,7 +490,7 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CTLCOLORSTATIC:
 		{
-			switch (GetWindowLong((HWND)lParam, GWL_ID))
+			switch (GetWindowLongPtr((HWND)lParam, GWL_ID))
 			{
 			case STATIC_WHITERECT:
 			case ICO_DLGLOGO:

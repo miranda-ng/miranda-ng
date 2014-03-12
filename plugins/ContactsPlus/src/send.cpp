@@ -254,7 +254,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), lParam);
 		WindowList_Add(ghSendWindowList, hwndDlg, lParam);
 		wndData = new TSendContactsData(lParam);
-		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)wndData);
+		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)wndData);
 		// new dlg init 
 		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, MAKEINTRESOURCEA(IDI_ADDCONTACT), LPGEN("Add Contact Permanently to List"));
 		wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, MAKEINTRESOURCEA(IDI_USERDETAILS), LPGEN("View User's Details"));

@@ -699,7 +699,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			FillDialog(hwndDlg);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDVIEWMODE), FALSE);
 			{
-				LONG style = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE);
+				LONG_PTR style = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE);
 				style &= (~CLS_SHOWHIDDEN);
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE,style);
 			}

@@ -306,7 +306,7 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case KS_ISENABLED:
-		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LPARAM)IsDlgButtonChecked(hBasicTab, wParam));
+		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LONG_PTR)IsDlgButtonChecked(hBasicTab, wParam));
 		return TRUE;
 
 	case PSM_CHANGED:

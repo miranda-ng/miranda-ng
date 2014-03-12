@@ -353,7 +353,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ClcData *dat = (ClcData*)GetWindowLong(hwnd, 0);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
 	RECT r;
 
 	switch (msg) {

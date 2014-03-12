@@ -910,7 +910,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 	switch(LOWORD(wParam) & ~FO_UNICODETEXT) {
 	case FO_FLAGS:{
 		int flag = lParam;
-		int style;
+		LONG_PTR style;
 
 		Frames[pos].dwFlags = flag;
 		Frames[pos].visible = FALSE;
@@ -936,7 +936,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 		style = (int)GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE);
 		style |= WS_BORDER;
 		if (flag&F_NOBORDER) {style &= (~WS_BORDER);}
-			SetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE,(LONG)style);
+			SetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE,(LONG_PTR)style);
 		ulockfrm();
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		return 0;
@@ -1418,7 +1418,8 @@ static int UpdateTBToolTip(int framepos)
 //wparam = (CLISTFrame*)clfrm
 INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 {
-	int style,retval;
+	int retval;
+	LONG_PTR style;
 	CLISTFrame *clfrm = (CLISTFrame *)wParam;
 
 	if (pcli->hwndContactList == 0) return -1;
@@ -2634,7 +2635,7 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		RECT recttb,rectw,border;
-		int temp;
+		LONG_PTR temp;
 		int neww,newh;
 		BOOLEAN locked;
 

@@ -358,7 +358,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			hwndTree = GetDlgItem(hwndDlg, IDC_TREE);
 
-			SetWindowLong(hwndTree,GWL_STYLE,GetWindowLong(hwndTree,GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+			SetWindowLongPtr(hwndTree,GWL_STYLE,GetWindowLongPtr(hwndTree,GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 
 			SendMessage(hwndDlg, DM_REBUILD_TREE, 0, 0);
 

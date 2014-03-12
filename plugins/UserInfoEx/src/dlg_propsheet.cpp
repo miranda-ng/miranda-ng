@@ -956,7 +956,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 		}
 		*(HFONT*)lParam = NULL;
-		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0l);
+		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0);
 		break;
 
 	/**
@@ -1020,7 +1020,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 		}
 		*(LPCSTR*)lParam = NULL;
-		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0l);
+		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0);
 		break;
 
 	/**

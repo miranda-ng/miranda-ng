@@ -1986,7 +1986,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			ListView_InsertColumn(H,0,&lvCol);
 
 			InitListView(H);
-			SetWindowLong(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
+			SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
 			LV = Dialog;
 
 			if (g_notesListGeom[1] && g_notesListGeom[2])

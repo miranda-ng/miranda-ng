@@ -278,7 +278,7 @@ void DialogConfigActive::ResetListOptions(HWND listview) {
 	for (int i=0; i <= FONTID_MAX; i++)
 		SendMessage(listview, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 
-	SetWindowLong(listview, GWL_STYLE, GetWindowLong(listview, GWL_STYLE) | CLS_SHOWHIDDEN);
+	SetWindowLongPtr(listview, GWL_STYLE, GetWindowLongPtr(listview, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 
 void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount) {

@@ -396,7 +396,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				DestroyTheme(bct);
 				free(bct);
 			}
-			SetWindowLongPtr(hwndBtn, 0, NULL);
+			SetWindowLongPtr(hwndBtn, 0, 0);
 			break;
 		case WM_SETTEXT:
 			bct->cHot = 0;

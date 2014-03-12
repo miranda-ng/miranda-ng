@@ -339,7 +339,7 @@ INT_PTR CALLBACK InputBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch ( LOWORD( wParam )) {
 		case IDOK:
 		{	
-			GetDlgItemText(hwndDlg, IDC_TEXT, (TCHAR*)GetWindowLong(hwndDlg, DWLP_USER), MAX_BUF-1*sizeof(TCHAR));
+			GetDlgItemText(hwndDlg, IDC_TEXT, (TCHAR*)GetWindowLongPtr(hwndDlg, DWLP_USER), MAX_BUF-1*sizeof(TCHAR));
 			EndDialog(hwndDlg, 1);
 			break;
 		}

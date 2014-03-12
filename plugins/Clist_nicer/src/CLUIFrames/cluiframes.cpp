@@ -988,7 +988,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 	case FO_FLAGS:
 		{
 			int flag = lParam;
-			int style;
+			LONG_PTR style;
 
 			Frames[pos].dwFlags = flag;
 			Frames[pos].visible = FALSE;
@@ -1011,7 +1011,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 
 			SendMessage(Frames[pos].TitleBar.hwndTip, TTM_ACTIVATE, (WPARAM)Frames[pos].TitleBar.ShowTitleBarTip, 0);
 
-			style = (int)GetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE);
+			style = GetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE);
 			style |= WS_BORDER;
 			style |= CLS_SKINNEDFRAME;
 
@@ -1025,8 +1025,8 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			if ( !(flag & F_SKINNED))
 				style &= ~CLS_SKINNEDFRAME;
 
-			SetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE, (LONG)style);
-			SetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_STYLE, (LONG)style & ~(WS_VSCROLL | WS_HSCROLL));
+			SetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE, (LONG_PTR)style);
+			SetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_STYLE, (LONG_PTR)style & ~(WS_VSCROLL | WS_HSCROLL));
 
 			ulockfrm();
 			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, 0);

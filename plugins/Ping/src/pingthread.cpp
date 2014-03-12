@@ -523,7 +523,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			} else {
 #ifdef WS_EX_LAYERED
-				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
 				SetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
@@ -605,7 +605,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		if(!db_get_b(NULL,"CLUI","FadeInOut",0))
 			break;
 #ifdef WS_EX_LAYERED
-		if(GetWindowLong(hwnd,GWL_EXSTYLE)&WS_EX_LAYERED) {
+		if(GetWindowLongPtr(hwnd,GWL_EXSTYLE)&WS_EX_LAYERED) {
 			DWORD thisTick,startTick;
 			int sourceAlpha,destAlpha;
 			if(wParam) {
@@ -912,7 +912,7 @@ void UpdateFrame() {
 	RECT r_frame;
 	GetWindowRect(hpwnd, &r_frame);
 	int height = (int)list_size * options.row_height;
-	if(GetWindowLong(hpwnd, GWL_STYLE) & WS_BORDER) {
+	if(GetWindowLongPtr(hpwnd, GWL_STYLE) & WS_BORDER) {
 		RECT r_frame_client;
 		GetClientRect(hpwnd, &r_frame_client);
 		height += (r_frame.bottom - r_frame.top) - (r_frame_client.bottom - r_frame_client.top);
@@ -928,11 +928,11 @@ LRESULT APIENTRY ClistSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		UpdateFrame();
 
 	if(uMsg == WM_NCCALCSIZE) { // possible window style change
-		if(GetWindowLong(hwnd_clist, GWL_STYLE) != GetWindowLong(hpwnd, GWL_STYLE)
-			|| GetWindowLong(hwnd_clist, GWL_STYLE) != GetWindowLong(hpwnd, GWL_STYLE))
+		if(GetWindowLongPtr(hwnd_clist, GWL_STYLE) != GetWindowLong(hpwnd, GWL_STYLE)
+			|| GetWindowLongPtr(hwnd_clist, GWL_STYLE) != GetWindowLongPtr(hpwnd, GWL_STYLE))
 		{
-			SetWindowLong(hpwnd, GWL_STYLE, GetWindowLong(hwnd_clist, GWL_STYLE));
-			SetWindowLong(hpwnd, GWL_EXSTYLE, GetWindowLong(hwnd_clist, GWL_EXSTYLE));
+			SetWindowLongPtr(hpwnd, GWL_STYLE, GetWindowLongPtr(hwnd_clist, GWL_STYLE));
+			SetWindowLongPtr(hpwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd_clist, GWL_EXSTYLE));
 			SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 		}
 	}
@@ -948,8 +948,8 @@ void AttachToClist(bool attach)
 	if(!hpwnd) return;
 
 	if(attach) {
-		SetWindowLong(hpwnd, GWL_STYLE, GetWindowLong(hwnd_clist, GWL_STYLE));
-		SetWindowLong(hpwnd, GWL_EXSTYLE, GetWindowLong(hwnd_clist, GWL_EXSTYLE));
+		SetWindowLongPtr(hpwnd, GWL_STYLE, GetWindowLongPtr(hwnd_clist, GWL_STYLE));
+		SetWindowLongPtr(hpwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd_clist, GWL_EXSTYLE));
 		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 
 		// subclass clist to trap move/size
@@ -957,8 +957,8 @@ void AttachToClist(bool attach)
 		UpdateFrame();
 	}
 	else {
-		SetWindowLong(hpwnd, GWL_STYLE, (WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_VISIBLE | WS_CLIPCHILDREN));
-		SetWindowLong(hpwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
+		SetWindowLongPtr(hpwnd, GWL_STYLE, (WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_VISIBLE | WS_CLIPCHILDREN));
+		SetWindowLongPtr(hpwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
 		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 	}
 }

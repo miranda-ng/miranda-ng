@@ -1053,7 +1053,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		LeaveCriticalSection(&csHistoryList);
 
 		delete pclDlg;
-		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,NULL);
+		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,0);
 		return 0;
 
 	case WM_DESTROY:

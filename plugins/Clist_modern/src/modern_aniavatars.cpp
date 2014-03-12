@@ -803,7 +803,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 				}
 			}
 			else if (!UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA )) {
-				LONG exStyle;
+				LONG_PTR exStyle;
 				exStyle = GetWindowLongPtr(dat->hWindow,GWL_EXSTYLE);
 				exStyle |= WS_EX_LAYERED;
 				SetWindowLongPtr(dat->hWindow,GWL_EXSTYLE,exStyle);
@@ -1029,7 +1029,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)dat);
 			dat->hWindow = hwnd;
 			//change layered mode
-			LONG exStyle = GetWindowLongPtr(dat->hWindow, GWL_EXSTYLE);
+			LONG_PTR exStyle = GetWindowLongPtr(dat->hWindow, GWL_EXSTYLE);
 			exStyle |= WS_EX_LAYERED;
 			SetWindowLongPtr(dat->hWindow, GWL_EXSTYLE, exStyle);
 			exStyle = GetWindowLongPtr(dat->hWindow, GWL_STYLE);
