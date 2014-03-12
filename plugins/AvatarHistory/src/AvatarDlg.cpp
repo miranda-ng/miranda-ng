@@ -143,7 +143,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 				SetWindowText(hwnd,title);
 			}
 
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (ULONG_PTR)data->hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data->hContact);
 			UpdateAvatarPic(hwnd);
 			CheckDlgButton(hwnd, IDC_LOGUSER, (UINT)db_get_b(data->hContact, MODULE_NAME, "LogToDisk", BST_INDETERMINATE));
 			CheckDlgButton(hwnd, IDC_POPUPUSER, (UINT)db_get_b(data->hContact, MODULE_NAME, "AvatarPopups", BST_INDETERMINATE));

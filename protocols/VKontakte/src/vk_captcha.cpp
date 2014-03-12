@@ -39,7 +39,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)params);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
 
 		return TRUE;
 	}

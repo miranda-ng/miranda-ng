@@ -109,7 +109,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case WM_INITDIALOG:
 		{
 			char tmp[32];
-			SetWindowLongPtr(hwnd,GWLP_USERDATA,(LPARAM)lParam);
+			SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)lParam);
 			switch (((struct DBsetting*)lParam)->dbv.type)
 			{
 				case DBVT_BYTE:

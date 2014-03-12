@@ -1074,7 +1074,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case WM_NCDESTROY:
 		if (tabdat) {
 			mir_free(tabdat);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0L);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		}
 		break;
 

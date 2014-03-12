@@ -335,7 +335,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			dat->Paused = 0;
 			dat->hList = GetDlgItem(hwndDlg, IDC_LIST);
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)dat);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			mir_subclassWindow(dat->hList, SubclassProc);
 
 			// init buttons

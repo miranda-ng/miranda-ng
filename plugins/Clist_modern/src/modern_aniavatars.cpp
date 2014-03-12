@@ -1060,7 +1060,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_DESTROY:
 		_AniAva_Clear_ANIAVA_WINDOWINFO(dat);
 		mir_free(dat);
-		SetWindowLongPtr(hwnd,GWLP_USERDATA,(LONG_PTR)NULL);
+		SetWindowLongPtr(hwnd,GWLP_USERDATA,0);
 		break;
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);

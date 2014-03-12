@@ -224,7 +224,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			ps=(plgsettings*)malloc(sizeof(plgsettings)*2);
 			loadDBSettings(&ps[0]);
 			ps[1]=ps[0];
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)ps);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)ps);
 			SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP | WS_SIZEBOX);
 			SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE|SWP_FRAMECHANGED);
 

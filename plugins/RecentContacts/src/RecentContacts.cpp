@@ -194,7 +194,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			ScreenToClient(hDlg, &p);
 			DlgDat->ListUCRect.right = p.x;
 			DlgDat->ListUCRect.bottom = p.y;
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)DlgDat);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)DlgDat);
 
 			//set listview styles
 			ListView_SetExtendedListViewStyleEx(hList,

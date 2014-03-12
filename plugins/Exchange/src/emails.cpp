@@ -327,7 +327,7 @@ int ShowEmailsWindow(int cUnreadEmails)
 		if (!hEmailsDlg)
 			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails);
 		
-		SetWindowLong(hEmailsDlg, GWLP_USERDATA, cUnreadEmails);
+		SetWindowLongPtr(hEmailsDlg, GWLP_USERDATA, cUnreadEmails);
 		if (IsWindowVisible(hEmailsDlg))
 			SendMessage(hEmailsDlg, EXM_UPDATE_EMAILS, 0, 0);
 		else

@@ -287,7 +287,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		TranslateDialogDefault(hwndDlg);
 		hContact = lParam;
 
-		SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) hContact);
 
 		SetWindowText(hwndDlg, TranslateT("Alert options"));
 
@@ -509,7 +509,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_ENABLE_ALERTS:
-			hContact = (MCONTACT)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD_DATE_NAME), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 
 			if ( IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME)) {
@@ -631,7 +631,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_ALERT_TYPE:
 			if (HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE) {
-				hContact = (MCONTACT) GetWindowLong(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				int alertIndex = SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_GETCURSEL, 0, 0);
 
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
@@ -678,7 +678,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_EVENT_TYPE:
 			if (HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE) {
-				MCONTACT hContact = (MCONTACT) GetWindowLong(hwndDlg, GWLP_USERDATA);
+				MCONTACT hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				int eventIndex = SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_GETCURSEL, 0, 0);
 
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
@@ -709,7 +709,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_ALERT_APPLY:
 		case IDC_OK2:
 			{
-				hContact = (MCONTACT) GetWindowLong(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				TCHAR buf[MAX_PATH];
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
@@ -826,7 +826,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		test = 0;
 		test2 = 0;
 
-		SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) hContact);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) hContact);
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 
 		SetWindowText(hwndDlg, TranslateT("Contact options"));
@@ -927,7 +927,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_CPY_STRINGS:
 			{
 				TCHAR string[128];
-				hContact = (MCONTACT) GetWindowLong(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_START, string, SIZEOF(string));
 				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, string);
@@ -1022,7 +1022,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					break;
 				}
 
-				hContact = (MCONTACT) GetWindowLong(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_URL, url, SIZEOF(url));
 				db_set_ts(hContact, MODULENAME, URL_KEY, url);

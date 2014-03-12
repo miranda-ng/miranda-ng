@@ -122,7 +122,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 	switch(msg) {
 		case WM_NCCREATE:  /* init window data */
 			dat=(struct CountdownFrameWndData*)mir_calloc(sizeof(*dat));
-			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)dat);
+			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG_PTR)dat);
 			if (dat==NULL) return FALSE; /* creation failed */
 			dat->fTimeFlags=*(WORD*)((CREATESTRUCT*)lParam)->lpCreateParams;
 			dat->flags=FWPDF_COUNTDOWNINVALID;
@@ -240,7 +240,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			if (dat->hFont != NULL) DeleteObject(dat->hFont);
 			if (dat->hbrBackground != NULL) DeleteObject(dat->hbrBackground);
 			mir_free(dat);
-			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)NULL);
+			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, 0);
 			break;
 		case WM_SIZE:
 		{

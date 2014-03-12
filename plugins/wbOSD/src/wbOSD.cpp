@@ -116,7 +116,7 @@ LRESULT	CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_CREATE:
 		logmsg("WindowProcedure::CREATE");
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)&defstr);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)&defstr);
 		return 0;
 
 	case WM_DESTROY:
@@ -201,7 +201,7 @@ LRESULT	CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		memcpy(ms, (osdmsg*)wParam, sizeof(osdmsg));
 		ms->text = mir_tstrdup( ms->text );
 
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)ms);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ms);
 		SetTimer(hwnd, (UINT)ms, (int)ms->timeout, 0);
 		InvalidateRect(hwnd, 0, TRUE);
 		SendMessage(hwnd, WM_USER+2, 0, 0);

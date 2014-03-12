@@ -74,7 +74,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			BOOL edit = (BOOL)wParam;
 			add_edit_alarm = (ALARM *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)add_edit_alarm);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)add_edit_alarm);
 
 			if (edit) {
 				SetDlgItemText(hwndDlg, IDC_TITLE, add_edit_alarm->szTitle);

@@ -230,7 +230,7 @@ void PopulateSettings(HWND hwnd2Settings, MCONTACT hContact, char* module)
 
 	info->hContact = hContact;
 	info->module = mir_tstrdup(module);
-	SetWindowLongPtr(hwnd2Settings,GWLP_USERDATA, (LONG)info);
+	SetWindowLongPtr(hwnd2Settings,GWLP_USERDATA, 0);
 
 	// icons
 	if (himl2)
@@ -659,7 +659,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 
 	db_free(&dbv);
 
-	SettingLabelEditSubClass = (WNDPROC)SetWindowLongPtrW(info->hwnd2Edit, GWLP_WNDPROC, (LONG)SettingLabelEditSubClassProc);
+	SettingLabelEditSubClass = (WNDPROC)SetWindowLongPtr(info->hwnd2Edit, GWLP_WNDPROC, (LONG_PTR)SettingLabelEditSubClassProc);
 
 	SendMessage(info->hwnd2Edit, WM_USER, 0, (LPARAM)data);
 }

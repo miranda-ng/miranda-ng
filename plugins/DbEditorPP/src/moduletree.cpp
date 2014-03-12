@@ -617,7 +617,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 					lvi.iImage = 6;
 
 					ClearListview(hwnd2Settings);
-					SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, (LONG)NULL);
+					SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
 					if (himl2) ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
 
 					if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {

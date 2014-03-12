@@ -849,7 +849,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 	case WM_NCDESTROY:
 		free(psd);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)0);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 	return FALSE;

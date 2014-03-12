@@ -1255,7 +1255,7 @@ bool Statistic::createStatistics()
 		return false;
 	}
 
-	SetWindowLongPtr(m_hWndProgress, GWLP_USERDATA, reinterpret_cast<LONG>(this));
+	SetWindowLongPtr(m_hWndProgress, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
 	// Init progress dialog.
 	utils::centerDialog(m_hWndProgress);

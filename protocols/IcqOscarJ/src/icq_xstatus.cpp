@@ -762,7 +762,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 		}
 		if (dat->hEvent) UnhookEvent(dat->hEvent);
 		SAFE_FREE(&dat->okButtonFormat);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		SAFE_FREE((void**)&dat);
 		break;
 

@@ -82,7 +82,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_isContactMenu = m_isMainMenu = false;
 	HookEventParam(ME_LANGPACK_CHANGED, &::resetLP, (LPARAM)this);
 
-	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, (UINT_PTR)this);
+	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, (LONG_PTR)this);
 	mir_subclassWindow(m_hwndToolbar, wndProc);
 }
 

@@ -22,7 +22,7 @@ CTooltip::CTooltip(CTooltipNotify *pTooltipNotify)
 							WS_POPUP|WS_BORDER, 100, 100, 50, 50, 0, 0, 
 							g_hInstDLL, NULL);
 
-	SetWindowLongPtr(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG>(this));
+	SetWindowLongPtr(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 }
 
 

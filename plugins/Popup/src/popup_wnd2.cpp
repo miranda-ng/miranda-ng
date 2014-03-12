@@ -1113,17 +1113,13 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				dat->hwndPopup = m_hwnd;
 				dat->hContact = m_hContact;
 				if (IsWindowUnicode(hwndEditBox)) {
-
 					SendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-
-					SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
-					SetWindowLongPtrW(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
 				}
 				else {
 					SendMessageA(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-					SetWindowLongPtrA(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
-					SetWindowLongPtrA(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
 				}
+				SetWindowLongPtr(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
+				SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
 				SetFocus(hwndEditBox);
 				break;
 			}

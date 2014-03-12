@@ -324,7 +324,7 @@ int CreateFrame()
 			WS_CHILD | WS_VISIBLE,
 			0,0,10,10, hwnd_container, NULL, hInst, NULL);
 
-		SetWindowLong(hwnd_container, GWLP_USERDATA, (LONG)hwnd_frame);
+		SetWindowLongPtr(hwnd_container, GWLP_USERDATA, (LONG_PTR)hwnd_frame);
 		SendMessage(hwnd_container, WM_SIZE, 0, 0);
 
 		// Create menu item
@@ -372,12 +372,12 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_ERASEBKGND:
-		SendMessage((HWND)GetWindowLong(hwnd, GWLP_USERDATA), WM_ERASEBKGND, wParam, lParam);
+		SendMessage((HWND)GetWindowLongPtr(hwnd, GWLP_USERDATA), WM_ERASEBKGND, wParam, lParam);
 		break;
 
 	case WM_SIZE:
 		{
-			HWND child = (HWND)GetWindowLong(hwnd, GWLP_USERDATA);
+			HWND child = (HWND)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			RECT r;
 			GetClientRect(hwnd, &r);
 
@@ -600,7 +600,7 @@ void CalcRectangles(HWND hwnd)
 {
 	HDC hdc = GetDC(hwnd);
 	HFONT hOldFont = (HFONT) GetCurrentObject(hdc, OBJ_FONT);
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if (hdc == NULL || data == NULL)
 		return;
@@ -1103,7 +1103,7 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 
 void Draw(HWND hwnd, HDC hdc_orig)
 {
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	Protocol *proto = protocols->Get(data->protocol_number);
 
 	if (proto == NULL) {
@@ -1540,7 +1540,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 
 LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	Protocol *proto;
 
 	switch(msg) {
@@ -1548,7 +1548,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			data = new MyDetailsFrameData();
 			ZeroMemory(data, sizeof(MyDetailsFrameData));
-			SetWindowLong(hwnd, GWLP_USERDATA, (LONG) data);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) data);
 
 			data->recalc_rectangles = true;
 			data->get_status_messages = false;
@@ -2122,7 +2122,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			switch (lpnmhdr->code) {
 			case TTN_GETDISPINFO:
 				{
-					MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd, GWLP_USERDATA);
+					MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 					proto = protocols->Get(data->protocol_number);
 
 					LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO) lpnmhdr;
@@ -2287,7 +2287,7 @@ void RedrawFrame()
 void RefreshFrameAndCalcRects()
 {
 	if (hwnd_frame != NULL) {
-		MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
+		MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd_frame, GWLP_USERDATA);
 		data->recalc_rectangles = true;
 
 		PostMessage(hwnd_frame, MWM_REFRESH, 0, 0);
@@ -2346,7 +2346,7 @@ INT_PTR PluginCommand_ShowNextProtocol(WPARAM wParam,LPARAM lParam)
 	if (hwnd_frame == NULL)
 		return -1;
 
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number ++;
 	if (data->protocol_number >= protocols->GetSize())
@@ -2368,7 +2368,7 @@ INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM wParam,LPARAM lParam)
 	if (hwnd_frame == NULL)
 		return -1;
 
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number --;
 	if (data->protocol_number < 0)
@@ -2405,7 +2405,7 @@ INT_PTR PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam)
 	if (hwnd_frame == NULL)
 		return -3;
 
-	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
+	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number = proto_num;
 	db_set_w(NULL,"MyDetails","ProtocolNumber",data->protocol_number);

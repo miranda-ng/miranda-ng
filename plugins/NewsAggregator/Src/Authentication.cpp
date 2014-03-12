@@ -57,7 +57,7 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		{
 			TranslateDialogDefault(hwndDlg);
 			ItemInfo &SelItem = *(ItemInfo*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)&SelItem);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)&SelItem);
 
 			if (SelItem.hwndList) {
 				TCHAR str[MAX_PATH];

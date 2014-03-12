@@ -538,7 +538,7 @@ LRESULT CALLBACK CProxyWindow::stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 	case WM_NCCREATE:
 		CREATESTRUCT *cs = reinterpret_cast<CREATESTRUCT *>(lParam);
 		CProxyWindow *pWnd = reinterpret_cast<CProxyWindow *>(cs->lpCreateParams);
-		::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<UINT_PTR>(pWnd));
+		::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 		return pWnd->wndProc(hWnd, msg, wParam, lParam);
 	}
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);

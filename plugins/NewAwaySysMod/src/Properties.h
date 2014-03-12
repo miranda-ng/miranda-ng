@@ -56,7 +56,7 @@ public:
 	{
 		_ASSERT(dat == (_CWndUserData*)GetWindowLongPtr(hWnd, GWLP_USERDATA));
 		if (!dat->MsgTree && !dat->CList) {
-			SetWindowLongPtr(hWnd, GWLP_USERDATA, NULL);
+			SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 			delete dat; // TODO: memory leak - this is never executed - fix it
 		}
 	}

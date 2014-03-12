@@ -8,7 +8,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			MCONTACT hContact = (MCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			char name[2048];
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)hContact);
 
 			if (!db_get_static(hContact, MODNAME, "Name", name)) break;
 			SetDlgItemTextA(hwnd, IDC_DISPLAY_NAME, name);
@@ -114,7 +114,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			MCONTACT hContact = (MCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)hContact);
 			if (!hContact)
 				break;
 
@@ -145,11 +145,11 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* icons */
 			CheckRadioButton(hwnd, 40072, 40080, db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
-			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG)LoadSkinnedProtoIcon(MODNAME, ID_STATUS_ONLINE));
+			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG_PTR)LoadSkinnedProtoIcon(MODNAME, ID_STATUS_ONLINE));
 			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LPARAM)ButtWndProc);
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LPARAM)LoadSkinnedProtoIcon(MODNAME, i));
-				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LPARAM)ButtWndProc);
+				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LONG_PTR)LoadSkinnedProtoIcon(MODNAME, i));
+				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
 			}
 			db_free(&dbv);
 			/* timer */
@@ -306,7 +306,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			MCONTACT hContact = (MCONTACT)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)hContact);
 		}
 		return TRUE;
 

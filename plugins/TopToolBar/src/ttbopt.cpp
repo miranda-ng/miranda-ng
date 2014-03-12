@@ -192,7 +192,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		dat = (OrderData*)malloc( sizeof(OrderData));
-		SetWindowLongPtr(hTree, GWLP_USERDATA, (LONG)dat);
+		SetWindowLongPtr(hTree, GWLP_USERDATA, (LONG_PTR)dat);
 		dat->dragging = 0;
 
 		SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree, GWL_STYLE)|TVS_NOHSCROLL);

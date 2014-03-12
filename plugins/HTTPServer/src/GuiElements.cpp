@@ -257,7 +257,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 	switch (uiMsg) {
 		case WM_INITDIALOG: {
 			pstShare = (STFileShareInfo *)((OPENFILENAME *)lParam)->lCustData;
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LPARAM)pstShare);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)pstShare);
 
 			SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, pstShare->nMaxDownloads, true);
 			SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IPADDRESS), IPM_SETADDRESS,  0, pstShare->dwAllowedIP);

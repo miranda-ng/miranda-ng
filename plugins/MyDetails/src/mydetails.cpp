@@ -86,7 +86,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			int proto_num = (int)wParam;
 
-			SetWindowLong(hwndDlg, GWLP_USERDATA, proto_num);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, proto_num);
 
 			if (proto_num == -1) {
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
@@ -141,7 +141,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 				TCHAR tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, SIZEOF(tmp));
 
-				int proto_num = (int)GetWindowLong(hwndDlg, GWLP_USERDATA);
+				int proto_num = (int)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				if (proto_num == -1)
 					protocols->SetNicks(tmp);
 				else
@@ -401,7 +401,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			data->status = (int)wParam;
 			data->proto_num = (int)lParam;
 
-			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG) data);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) data);
 
 			if (data->proto_num >= 0) {
 				Protocol *proto = protocols->Get(data->proto_num);
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 				TCHAR tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, sizeof(tmp));
 
-				SetStatusMessageData *data = (SetStatusMessageData *) GetWindowLong(hwndDlg, GWLP_USERDATA);
+				SetStatusMessageData *data = (SetStatusMessageData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				if (data->proto_num >= 0)
 					protocols->Get(data->proto_num)->SetStatusMsg(tmp);
@@ -469,9 +469,9 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 		break;
 
 	case WM_DESTROY:
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_WNDPROC, 
-			GetWindowLong(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_USERDATA));
-		free((SetStatusMessageData *) GetWindowLong(hwndDlg, GWLP_USERDATA));
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_WNDPROC, 
+			GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSMESSAGE), GWLP_USERDATA));
+		free((SetStatusMessageData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 		InterlockedExchange(&status_msg_dialog_open, 0);
 		break;
 	}

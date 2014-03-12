@@ -129,7 +129,7 @@ namespace
 		case WM_DESTROY:
 			{
 				TChart* pChart = get_chart_ptr(hWnd);
-				::SetWindowLongPtr(hWnd,GWLP_USERDATA,NULL);
+				::SetWindowLongPtr(hWnd,GWLP_USERDATA,0);
 				delete pChart;
 			}
 			break;

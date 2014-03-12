@@ -1550,7 +1550,7 @@ INT_PTR CALLBACK Options::DlgProcOptsScheduler(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_DESTROY:
 		delete tasks;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 

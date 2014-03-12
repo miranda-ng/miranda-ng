@@ -473,7 +473,7 @@ INT_PTR WINAPI SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam 
 		case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hDlg);
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LPARAM)lParam);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 			SetWindowText(hDlg, TXT_SEARCH);
 			SendDlgItemMessage(hDlg, IDC_DIR_ALL, BM_SETCHECK, BST_CHECKED, 0);
 			SendDlgItemMessage(hDlg, IDC_TYPE_ALL, BM_SETCHECK, BST_CHECKED, 0);

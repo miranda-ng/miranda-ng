@@ -695,7 +695,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 						break;
 
 					if (PluginConfig.m_SendOnDblEnter) {
-						LONG lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+						LONG_PTR lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
 						if (lastEnterTime + 2 < time(NULL)) {
 							lastEnterTime = time(NULL);
 							SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);

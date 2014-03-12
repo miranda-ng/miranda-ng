@@ -512,7 +512,7 @@ static void CreateThumbWnd(TCHAR *ptszName, MCONTACT hContact, int nX, int nY)
 		return;
 
 	pThumb = thumbList.AddThumb(hwnd, ptszName, hContact);
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, (long)pThumb);
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThumb);
 	pThumb->ResizeThumb();
 
 	pThumb->SetThumbOpacity(fcOpt.thumbAlpha);

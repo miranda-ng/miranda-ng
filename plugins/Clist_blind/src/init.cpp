@@ -359,7 +359,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_CREATE:
 		dat = (ClcData*)mir_calloc( sizeof(ClcData));
-		SetWindowLong(hwnd, 0, (LONG) dat);
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR) dat);
 
 		dat->hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),

@@ -547,7 +547,7 @@ int CreateFrame()
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
 			0,0,10,10, hwnd_frame, NULL,hInst,NULL);
 
-		SetWindowLongPtr(hwnd_frame, GWLP_USERDATA, (LONG)hwnd_plugin);
+		SetWindowLongPtr(hwnd_frame, GWLP_USERDATA, (LONG_PTR)hwnd_plugin);
 
 		///////////////////////
 		// create menu item

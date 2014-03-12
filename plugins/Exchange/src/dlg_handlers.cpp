@@ -192,7 +192,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 			LVCOLUMN col = {0};
 			HWND hList = GetDlgItem(hWnd, IDC_EMAILS_LIST);
-			OldListProc = (WNDPROC) SetWindowLong(hList, GWLP_WNDPROC, (LONG) ListSubclassProc);
+			OldListProc = (WNDPROC) SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR) ListSubclassProc);
 			ListView_SetExtendedListViewStyle(hList, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.cx = 100;
@@ -223,7 +223,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		{
 			HWND hList = GetDlgItem(hWnd, IDC_EMAILS_LIST);
 			ListView_DeleteAllItems(hList);
-			int count = GetWindowLong(hWnd, GWLP_USERDATA);
+			int count = GetWindowLongPtr(hWnd, GWLP_USERDATA);
 			LVITEM item = {0};
 			TEmailHeader email = {0};
 			email.cbSize = sizeof(TEmailHeader);
@@ -313,7 +313,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			count = exchangeServer.GetUnreadEmailsCount();
 			if (count > 0)
 			{
-				SetWindowLong(hWnd, GWLP_USERDATA, count);
+				SetWindowLongPtr(hWnd, GWLP_USERDATA, count);
 				SendMessage(hWnd, EXM_UPDATE_EMAILS, 0, 0);
 			}
 			else SendMessage(hWnd, WM_CLOSE, 0, 0);

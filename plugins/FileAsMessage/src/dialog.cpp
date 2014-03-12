@@ -1016,7 +1016,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 			dat->updateTitle();
 
 			hwndStatus = CreateStatusWindow(WS_CHILD|WS_VISIBLE, "", hDlg, IDC_STATUS);
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)dat);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			WindowList_Add(hFileList, hDlg, dat->hContact);
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcons[ICON_MAIN]);
 			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[ICON_MAIN]);

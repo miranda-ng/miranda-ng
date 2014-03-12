@@ -202,7 +202,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (((LPNMHDR)lParam)->code == PSN_PARAMCHANGED)
 			{
 				ppro = (CAimProto*)((PSHNOTIFY*)lParam)->lParam;
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, LPARAM(ppro));
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)ppro);
 
 				DBVARIANT dbv;
 				if (!db_get_utf(NULL, ppro->m_szModuleName, AIM_KEY_PR, &dbv))

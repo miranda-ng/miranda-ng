@@ -318,7 +318,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 		if (dat->hFont)
 			DeleteObject(dat->hFont);
 
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, NULL);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 		CallWindowProc(dat->OldWndProc, hWnd, Msg, wParam, lParam);
 		delete dat;
 		return 0;

@@ -494,7 +494,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 		{
 			TranslateDialogDefault( hwndDlg );
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (ULONG_PTR) new ContactPolicyMap());
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) new ContactPolicyMap());
 
 			HWND cmb = GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY);
 			SendMessage(cmb, CB_ADDSTRING, 0, (WPARAM)TranslateT(LANG_POLICY_DEFAULT));
@@ -682,7 +682,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 	switch ( msg ) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (ULONG_PTR) new FPModifyMap());
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) new FPModifyMap());
 
 		SendDlgItemMessage(hwndDlg, IDC_LV_FINGER_LIST ,LVM_SETEXTENDEDLISTVIEWSTYLE, 0,LVS_EX_FULLROWSELECT);// | LVS_EX_CHECKBOXES);
 

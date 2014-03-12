@@ -641,7 +641,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_img_dlgproc", 59, 1, "sess_mutex", 1);
 
 					// Protect dat from releasing
-					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)0);
+					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 
 					EndDialog(hwndDlg, 0);
 				}

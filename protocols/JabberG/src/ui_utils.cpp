@@ -2166,7 +2166,7 @@ void CCtrlBase::Unsubclass()
 {
 	if (m_wndproc) {
 		SetWindowLongPtr(m_hwnd, GWLP_WNDPROC, (LONG_PTR)m_wndproc);
-		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)0);
+		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 		m_wndproc = 0;
 }	}
 

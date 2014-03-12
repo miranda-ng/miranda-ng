@@ -198,7 +198,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		hContact = lParam;
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)lParam);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)lParam);
 
 		getDefaultMessage(hwnd, IDC_MESSAGE, hContact);
 		{
@@ -262,7 +262,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		wi->hContact = lParam;
 		wi->SendIfMy = 0;
 		wi->SendWhenThey = 0;
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)wi);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 		getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
 		{
 			TCHAR msg[1024];
@@ -397,7 +397,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			wi->hContact = 0;
 			wi->SendIfMy = 0;
 			wi->SendWhenThey = 0;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)wi);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 
 			getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
 			mir_sntprintf(msg, SIZEOF(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
@@ -519,7 +519,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			DestroyWindow(hwnd);
 
 		spdps->timer = db_get_w(spdps->hContact, modname, "ConfirmTimeout", 0);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (WPARAM)spdps);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)spdps);
 		{
 			DBVARIANT dbv;
 			if (db_get_ts(spdps->hContact, modname, "PounceMsg", &dbv))
@@ -574,7 +574,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	switch(msg) {
 	case WM_INITDIALOG:
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (WPARAM)lParam);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)lParam);
 		TranslateDialogDefault(hwnd);
 		hContact = lParam;
 		{

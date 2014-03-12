@@ -19,7 +19,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == BN_CLICKED && LOWORD( wParam ) == IDCANCEL ) {
 			// in the progress dialog, use the user data to indicate that the user has pressed cancel
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)1);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 1);
 			return TRUE;
 		}
 		break;

@@ -198,7 +198,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetWindowText(hwnd, TranslateT("Database Editor++"));
 
 			// setup the splitter
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, (LPARAM)db_get_w(NULL, modname, "Splitter", 300));
+			SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, (LONG_PTR)db_get_w(NULL, modname, "Splitter", 300));
 			SendMessage(hwnd, GC_SPLITTERMOVED, 0, 0);
 			mir_subclassWindow(GetDlgItem(hwnd, IDC_SPLITTER), SplitterSubclassProc);
 			// module tree

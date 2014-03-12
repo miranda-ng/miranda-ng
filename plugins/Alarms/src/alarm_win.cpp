@@ -53,7 +53,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 			}
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)wd);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)wd);
 
 			// options
 			SendMessage(hwndDlg, WMU_SETOPT, 0, 0);

@@ -339,7 +339,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 	// Read last-sent-to contact from db and set handle as window-userdata
 	HANDLE hlastsent = (HANDLE)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1);
-	SetWindowLongPtr(hwndMain, GWLP_USERDATA, (LONG)hlastsent);
+	SetWindowLongPtr(hwndMain, GWLP_USERDATA, (LONG_PTR)hlastsent);
 
 	// enumerate all contacts and write them to the array
 	// item data of listbox-strings is the array position

@@ -989,7 +989,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{	
 			HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
 			mir_subclassWindow(hRichEdit, EditSubclassProc);
-			SetWindowLongPtr(hRichEdit, GWLP_USERDATA, (WPARAM)pclDlg);
+			SetWindowLongPtr(hRichEdit, GWLP_USERDATA, (LONG_PTR)pclDlg);
 			SendMessage(hRichEdit, EM_SETEVENTMASK, 0, ENM_LINK);
 			SendMessage(hRichEdit, EM_AUTOURLDETECT, TRUE, 0);
 

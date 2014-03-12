@@ -1170,7 +1170,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 		mir_free(dat);
 		dat = NULL;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)NULL);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 

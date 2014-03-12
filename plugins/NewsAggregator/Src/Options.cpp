@@ -171,7 +171,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					continue;
 
 				nSelItem->hContact = hContact;
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)nSelItem);
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)nSelItem);
 				SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
 				SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
@@ -334,7 +334,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_free(&dbv);
 			}
 			if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)lParam);
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 				SetDlgItemText(hwndDlg, IDC_FEEDURL, dbv.ptszVal);
 				db_free(&dbv);
 			}

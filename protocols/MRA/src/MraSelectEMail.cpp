@@ -78,7 +78,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		break;
 
 	case WM_DESTROY:
-		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)0);
+		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, 0);
 		mir_free(dat);
 		EndDialog(hWndDlg, NO_ERROR);
 		break;

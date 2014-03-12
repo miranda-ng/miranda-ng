@@ -566,7 +566,7 @@ namespace
 					update_popup_controls(hWnd);
 				}
 
-				::SetWindowLongPtr(hWnd,GWLP_USERDATA,reinterpret_cast<LONG>(pAdvSettings));
+				::SetWindowLongPtr(hWnd,GWLP_USERDATA,reinterpret_cast<LONG_PTR>(pAdvSettings));
 			}
 			return TRUE;
 		case WM_COMMAND:
