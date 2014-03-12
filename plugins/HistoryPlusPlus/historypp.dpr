@@ -122,7 +122,7 @@ function OnContactChanged(wParam: wParam; lParam: LPARAM): Integer; cdecl; forwa
 function OnContactDelete(wParam: wParam; lParam: LPARAM): Integer; cdecl; forward;
 function OnFSChanged(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 function OnTTBLoaded(awParam: WPARAM; alParam: LPARAM): Integer; cdecl; forward;
-function OnBuildContactMenu(awParam: WPARAM; alParam: LPARAM): Integer; cdecl; forward;
+function OnBuildContactMenu(hContact: WPARAM; alParam: LPARAM): Integer; cdecl; forward;
 function OnEventAdded(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 function OnEventDeleted(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
 function OnMetaDefaultChanged(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
@@ -480,20 +480,22 @@ end;
 //lParam=0
 //modules should use this to change menu items that are specific to the
 //contact that has them
-function OnBuildContactMenu(awParam: WPARAM; alParam: LPARAM): Integer; cdecl;
+function OnBuildContactMenu(hContact: WPARAM; alParam: LPARAM): Integer; cdecl;
 var
   menuItem: TCLISTMENUITEM;
+  hLast: THandle;
   count: Integer;
   res: Integer;
 begin
   Result := 0;
-  count := db_event_count(THandle(awParam));
+  count := db_event_count(hContact);
+  hLast := db_event_last(hContact);
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
     ZeroMemory(@menuitem, SizeOf(menuItem));
     menuItem.cbSize := SizeOf(menuItem);
     menuItem.flags := CMIM_FLAGS;
-    if count = 0 then
+    if hLast = 0 then
       menuItem.flags := menuItem.flags or CMIF_HIDDEN;
     CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miEmpty].Handle,
       lParam(@menuitem));
