@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static HANDLE hWindowList = 0;
+static HGENMENU hContactMenu = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Fills the events list
@@ -389,7 +390,13 @@ static int HistoryContactDelete(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int PreShutdownHistoryModule(WPARAM, LPARAM)
+static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+{
+	Menu_ShowItem(hContactMenu, db_event_last(hContact) != NULL);
+	return 0;
+}
+
+static int PreShutdownHistoryModule(WPARAM, LPARAM)
 {
 	if (hWindowList) {
 		WindowList_Broadcast(hWindowList, WM_DESTROY, 0, 0);
@@ -405,11 +412,12 @@ int LoadHistoryModule(void)
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &history");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	Menu_AddContactMenuItem(&mi);
+	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, UserHistoryCommand);
 	hWindowList = WindowList_Create();
 	HookEvent(ME_DB_CONTACT_DELETED, HistoryContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdownHistoryModule);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	return 0;
 }
