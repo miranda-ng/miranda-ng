@@ -133,6 +133,7 @@ function db_event_add(hContact:TMCONTACT; dbei:PDBEVENTINFO):THANDLE; stdcall;
 Gets the number of events in the chain belonging to a contact in the database.
 Returns the number of events in the chain owned by hContact or -1 if hContact
 is invalid. They can be retrieved using the db_event_first/last() services.
+Returns 0 for Subcontacts (use db_event_last to recognize empty history)
 }
 function db_event_count(hContact:TMCONTACT):int; stdcall;
                  external CoreDLL name 'db_event_count';
@@ -579,10 +580,12 @@ procedure List_ObjCopy(src:PSortedList; dst:PSortedList; size:size_t); stdcall;
 
 function mir_createLog(pszName:PAnsiChar; ptszDescr, ptszFile:PWideChar; options:Cardinal):THANDLE; stdcall;
                  external CoreDLL name 'mir_createLog';
+procedure mir_closeLog(hLogger:THANDLE); stdcall;
+                 external CoreDLL name 'mir_closeLog';
 
-function mir_writeLogA(hLog:THANDLE; format:PAnsiChar):int; cdecl;
+function mir_writeLogA(hLogger:THANDLE; format:PAnsiChar):int; cdecl;
                  external CoreDLL name 'mir_writeLogA';
-function mir_writeLogW(hLog:THANDLE; format:PWideChar):int; cdecl;
+function mir_writeLogW(hLogger:THANDLE; format:PWideChar):int; cdecl;
                  external CoreDLL name 'mir_writeLogW';
 
 ///////////////////////////////////////////////////////////////////////////////

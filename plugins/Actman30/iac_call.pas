@@ -113,6 +113,7 @@ var
   res:LRESULT;
   largv:array [0..MaxArgCount-1] of uint_ptr;
   i:integer;
+  loaded:bool;
 begin
   result:=0;
   if (dllname =nil) or (dllname^ =#0) or
@@ -122,7 +123,13 @@ begin
     exit;
   end;
 
-  hDLL:=LoadLibraryA(dllname);
+  loaded:=false;
+  hDLL:=GetModuleHandleA(dllname);
+  if hDLL=0 then
+  begin
+    loaded:=true;
+    hDLL:=LoadLibraryA(dllname);
+  end;
 //  hDLL:=GetDllHandle(dllname);
   if hDLL<>0 then
   begin
@@ -220,7 +227,8 @@ begin
       
     end; 
 //    FreeDllHandle(hDLL);
-    FreeLibrary(hDLL);
+    if loaded then
+      FreeLibrary(hDLL);
   end;
 
 end;
