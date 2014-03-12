@@ -34,7 +34,7 @@ void InitProtocolData()
 
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT* acc = protos[i];
-		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0')
+		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0' || acc->bOldProto)
 			continue;
 
 		// Found a protocol
@@ -62,11 +62,9 @@ Protocol::Protocol(const char *aName, const TCHAR* descr)
 
 	// Load services
 	int caps = CallProtoService(name, PS_GETCAPS, PFLAGNUM_1, 0);
-	if ((caps & PF1_IM) && !(!strcmp(aName, "MetaContacts") || !strcmp(aName, "NewsAggr")))
+	if (caps & PF1_IM)
 		valid = true;
 	else
-		valid = false;
-	if (!valid)
 		return;
 
 	can_have_listening_to = (ProtoServiceExists(name, PS_SET_LISTENINGTO) != 0);
