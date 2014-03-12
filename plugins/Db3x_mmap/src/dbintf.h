@@ -218,8 +218,8 @@ public:
 	STDMETHODIMP_(HANDLE)   FindFirstEvent(MCONTACT contactID);
 	STDMETHODIMP_(HANDLE)   FindFirstUnreadEvent(MCONTACT contactID);
 	STDMETHODIMP_(HANDLE)   FindLastEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE)   FindNextEvent(HANDLE hDbEvent);
-	STDMETHODIMP_(HANDLE)   FindPrevEvent(HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE)   FindNextEvent(MCONTACT contactID, HANDLE hDbEvent);
+	STDMETHODIMP_(HANDLE)   FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent);
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam);
 

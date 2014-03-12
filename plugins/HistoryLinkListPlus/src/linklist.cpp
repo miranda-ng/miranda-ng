@@ -176,7 +176,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		if ( ((int)(((float)actCount/histCount)*100.00)) % 10 == 0 )
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount/histCount)*100.00)));
 		
-		hEvent = db_event_next(hEvent);
+		hEvent = db_event_next(hContact, hEvent);
 		if ( hEvent == NULL )
 			break;
 

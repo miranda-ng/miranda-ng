@@ -139,7 +139,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			return TRUE;
 
 		// find event with another timestamp
-		hExistingDbEvent = db_event_next(hPreviousDbEvent);
+		hExistingDbEvent = db_event_next(hContact, hPreviousDbEvent);
 		while (hExistingDbEvent != NULL) {
 			ZeroMemory(&dbeiExisting, sizeof(dbeiExisting));
 			dbeiExisting.cbSize = sizeof(dbeiExisting);
@@ -153,7 +153,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			hPreviousDbEvent = hExistingDbEvent;
-			hExistingDbEvent = db_event_next(hExistingDbEvent);
+			hExistingDbEvent = db_event_next(hContact, hExistingDbEvent);
 		}
 	}
 
@@ -186,7 +186,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			// Get previous event in chain
-			hExistingDbEvent = db_event_prev(hExistingDbEvent);
+			hExistingDbEvent = db_event_prev(hContact, hExistingDbEvent);
 		}
 	}
 	else {
@@ -216,7 +216,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			// Get next event in chain
-			hExistingDbEvent = db_event_next(hExistingDbEvent);
+			hExistingDbEvent = db_event_next(hContact, hExistingDbEvent);
 		}
 	}
 	// reset last event

@@ -386,7 +386,7 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 
 		curEvent = db_event_last(curContact);
 		if (curEvent != NULL) {
-			for ( ; curEvent != NULL; curEvent = db_event_prev(curEvent)) {
+			for ( ; curEvent != NULL; curEvent = db_event_prev(curContact, curEvent)) {
 				dbe.cbBlob = 1;
 				if (db_event_get(curEvent, &dbe) != 0) {
 					curEvent = NULL;

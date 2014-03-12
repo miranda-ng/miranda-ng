@@ -1628,7 +1628,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return;
 
-	if ( !DbEventIsShown(dat, &dbei))
+	if (!DbEventIsShown(dat, &dbei))
 		return;
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
@@ -1667,7 +1667,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	dat->cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
 	if (hDbEvent != dat->hDbEventFirst) {
-		HANDLE nextEvent = db_event_next(hDbEvent);
+		HANDLE nextEvent = db_event_next(dat->hContact, hDbEvent);
 		if (1 || nextEvent == 0) {
 			if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 				SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);

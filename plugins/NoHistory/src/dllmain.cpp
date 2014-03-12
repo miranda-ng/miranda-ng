@@ -101,7 +101,7 @@ void RemoveAllEvents(MCONTACT hContact)
 {
 	HANDLE hDBEvent = db_event_first(hContact);
 	while(hDBEvent) {
-		HANDLE hDBEventNext = db_event_next(hDBEvent);
+		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
 		db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
 	}

@@ -36,7 +36,7 @@ void MirandaContact::fetchSlot(int i)
 
 	stripMetaID(ei.dbe);
 
-	ci.hEvent = db_event_next(ci.hEvent);
+	ci.hEvent = db_event_next(ci.hContact, ci.hEvent);
 }
 
 void MirandaContact::stripMetaID(DBEVENTINFO& dbe)

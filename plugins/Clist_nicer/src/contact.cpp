@@ -79,7 +79,7 @@ static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 		 }
 		 if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
 			 break;
-		 hEvent = db_event_prev(hEvent);
+		 hEvent = db_event_prev(hContact, hEvent);
 		 if (doSleep && mf_updatethread_running == FALSE)
 			 return;
 		 if (doSleep)
@@ -152,13 +152,11 @@ void LoadContactTree(void)
 
 DWORD INTSORT_GetLastMsgTime(MCONTACT hContact)
 {
-	HANDLE hDbEvent = db_event_last(hContact);
-	while(hDbEvent) {
+	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 			return dbei.timestamp;
-		hDbEvent = db_event_prev(hDbEvent);
 	}
 	return 0;
 }

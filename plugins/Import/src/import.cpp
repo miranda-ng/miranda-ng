@@ -431,7 +431,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			break;
 
 		// Get next event
-		hEvent = srcDb->FindNextEvent(hEvent);
+		hEvent = srcDb->FindNextEvent(hContact, hEvent);
 		i++;
 	}
 	mir_free(eventBuf);

@@ -471,7 +471,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 						dat->buffer = CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, dat);
 						if (dat->buffer)
 							dat->hDbEventLast = dat->hDbEvent;
-						dat->hDbEvent = db_event_next(dat->hDbEvent);
+						dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
 						if (--dat->eventsToInsert == 0)
 							break;
 					} while (dat->buffer == NULL && dat->hDbEvent);

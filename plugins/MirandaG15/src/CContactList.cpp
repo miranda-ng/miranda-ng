@@ -929,7 +929,7 @@ void CContactList::UpdateMessageCounter(CListEntry<CContactListEntry*,CContactLi
 			pEntry->iMessages++;
 			if(hLastEvent == hEvent)
 				break;
-			hLastEvent = db_event_prev(hLastEvent);
+			hLastEvent = db_event_prev(pEntry->hHandle, hLastEvent);
 		}
 	}
 	if(pEntry->iMessages >= 100)

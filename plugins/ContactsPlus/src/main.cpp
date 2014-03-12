@@ -92,15 +92,13 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM lParam)
 static void ProcessUnreadEvents(void)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hDbEvent = db_event_firstUnread(hContact);
-		while (hDbEvent) {
+		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_CONTACTS) {
 				//process the event
 				HookDBEventAdded(hContact, (LPARAM)hDbEvent);
 			}
-			hDbEvent = db_event_next(hDbEvent);
 		}
 	}
 }

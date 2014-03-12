@@ -87,7 +87,7 @@ time_t getLastInputMsg(MCONTACT hContact)
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 			return dbei.timestamp;
-		hDbEvent = db_event_prev(hDbEvent);
+		hDbEvent = db_event_prev(hContact, hDbEvent);
 	}
 	return -1;
 }

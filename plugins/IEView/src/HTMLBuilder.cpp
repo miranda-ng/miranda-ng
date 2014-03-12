@@ -333,19 +333,19 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (dbei.cbBlob == 0xFFFFFFFF) {
-			hDbEvent = db_event_next(hDbEvent);
+			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}
 		dbei.pBlob = (PBYTE) malloc(dbei.cbBlob);
 		db_event_get(  hDbEvent, &dbei);
 		if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL)) {
 			db_event_markRead(event->hContact, hDbEvent);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM) event->hContact, (LPARAM) hDbEvent);
+			CallService(MS_CLIST_REMOVEEVENT, event->hContact, (LPARAM)hDbEvent);
 		}
 
 		if (!isDbEventShown(&dbei)) {
 			free(dbei.pBlob);
-			hDbEvent = db_event_next(hDbEvent);
+			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}
 		eventData = new IEVIEWEVENTDATA;
@@ -411,7 +411,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		prevEventData = eventData;
 		newEvent.count++;
 		event->hDbEventFirst = hDbEvent;
-		hDbEvent = db_event_next(hDbEvent);
+		hDbEvent = db_event_next(event->hContact, hDbEvent);
 	}
 	appendEventNew(view, &newEvent);
 	for ( IEVIEWEVENTDATA* eventData2 = newEvent.eventData; eventData2 != NULL; eventData2 = eventData) {

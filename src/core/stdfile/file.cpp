@@ -295,7 +295,7 @@ static void RemoveUnreadFileEvents(void)
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags&(DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
 				db_event_markRead(hContact, hDbEvent);
-			hDbEvent = db_event_next(hDbEvent);
+			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
 	}
 }

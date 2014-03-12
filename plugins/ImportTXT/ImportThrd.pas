@@ -154,7 +154,7 @@ begin
         exit;
       end;
       // get the previous
-      hExistingDbEvent := db_event_prev(hExistingDbEvent);
+      hExistingDbEvent := db_event_prev(hContact,hExistingDbEvent);
     end;
   end;
 end;

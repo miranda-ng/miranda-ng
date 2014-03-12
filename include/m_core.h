@@ -273,7 +273,7 @@ Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(HANDLE) db_event_next(HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE) db_event_next(MCONTACT hContact, HANDLE hDbEvent);
 
 /*
 Retrieves a handle to the previous event in a chain before hDbEvent
@@ -281,7 +281,7 @@ Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE) db_event_prev(MCONTACT hContact, HANDLE hDbEvent);
 
 /******************************************************************************
  * DATABASE SETTINGS

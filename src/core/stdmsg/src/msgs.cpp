@@ -223,8 +223,6 @@ static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 static void RestoreUnreadMessageAlerts(void)
 {
 	TCHAR toolTip[256];
-	int windowAlreadyExists;
-	int autoPopup;
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
@@ -235,19 +233,18 @@ static void RestoreUnreadMessageAlerts(void)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hDbEvent = db_event_firstUnread(hContact);
-		while (hDbEvent) {
-			autoPopup = 0;
+		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+			bool autoPopup = false;
 			dbei.cbBlob = 0;
 			db_event_get( hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-				windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
+				int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
 					continue;
 
 				char *szProto = GetContactProto(hContact);
 				if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
-					autoPopup = 1;
+					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists) {
 					NewMessageWindowLParam newData = {0};
@@ -262,7 +259,6 @@ static void RestoreUnreadMessageAlerts(void)
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 				}
 			}
-			hDbEvent = db_event_next(hDbEvent);
 		}
 	}
 }

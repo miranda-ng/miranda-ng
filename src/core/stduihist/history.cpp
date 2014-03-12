@@ -168,7 +168,7 @@ static void FillHistoryThread(void* param)
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);
 		}
-		hDbEvent = db_event_prev(hDbEvent);
+		hDbEvent = db_event_prev(hInfo->hContact, hDbEvent);
 	}
 	mir_free(dbei.pBlob);
 

@@ -183,7 +183,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 			}
 
 			// find next event
-			HANDLE hDBEventNext = db_event_next(hDBEvent);
+			HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
 
 			if (doDelete)
 				db_event_delete(hContact, hDBEvent);

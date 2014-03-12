@@ -89,7 +89,7 @@ static void RestoreUnreadUrlAlerts(void)
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}
-			hDbEvent = db_event_next(hDbEvent);
+			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
 	}
 }

@@ -1912,11 +1912,11 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 						if (hEvent != NULL) {
 							count = 0;
 							while (hEvent != NULL) {
-								if (!db_event_get( hEvent, &dbEvent))
+								if (!db_event_get(hEvent, &dbEvent))
 									if (!(dbEvent.flags & DBEF_READ))
 										count++;
 
-								hEvent = db_event_next(hEvent);
+								hEvent = db_event_next(hContact, hEvent);
 							}
 
 							char protocol[128];
@@ -1964,7 +1964,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 								if (!(dbEvent.flags & DBEF_READ))
 									AddHistoryEvent(&dbEvent, contact, reply);
 
-							hEvent = db_event_next(hEvent);
+							hEvent = db_event_next(hContact, hEvent);
 						}
 					}
 					else if (_stricmp(cmd, "show") == 0) {						
@@ -2024,7 +2024,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 									if (index > stop)
 										break;
 
-									hEvent = db_event_next(hEvent);
+									hEvent = db_event_next(hContact, hEvent);
 									index++;
 								}
 							}

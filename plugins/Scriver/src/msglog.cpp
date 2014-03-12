@@ -797,7 +797,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 					}
 					if (dat->buffer)
 						dat->hDbEventLast = dat->hDbEvent;
-					dat->hDbEvent = db_event_next(dat->hDbEvent);
+					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
 					if (--dat->eventsToInsert == 0)
 						break;
 				}

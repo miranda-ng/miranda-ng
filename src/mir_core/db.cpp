@@ -310,14 +310,14 @@ MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, HANDLE hDbEvent)
 	return (currDb == NULL) ? 0 : currDb->MarkEventRead(hContact, hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_next(HANDLE hDbEvent)
+MIR_CORE_DLL(HANDLE) db_event_next(MCONTACT hContact, HANDLE hDbEvent)
 {
-	return (currDb == NULL) ? 0 : currDb->FindNextEvent(hDbEvent);
+	return (currDb == NULL) ? 0 : currDb->FindNextEvent(hContact, hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent)
+MIR_CORE_DLL(HANDLE) db_event_prev(MCONTACT hContact, HANDLE hDbEvent)
 {
-	return (currDb == NULL) ? 0 : currDb->FindPrevEvent(hDbEvent);
+	return (currDb == NULL) ? 0 : currDb->FindPrevEvent(hContact, hDbEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -26,7 +26,7 @@ bool IsExistMyMessage(MCONTACT hContact)
 			// ...let the event go its way
 			return true;
 		}
-		hDbEvent = db_event_next(hDbEvent);
+		hDbEvent = db_event_next(hContact, hDbEvent);
 	}
 	return false;
 }

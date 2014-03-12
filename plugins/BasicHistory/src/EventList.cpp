@@ -198,8 +198,9 @@ void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, 
 	ei.isExternal = false;
 	HANDLE hDbEvent = db_event_first(_hContact);
 	while (hDbEvent != NULL) {
-		if (isWndLocal && !IsWindow( hWnd ))
+		if (isWndLocal && !IsWindow(hWnd))
 			break;
+
 		ei.hEvent = hDbEvent;
 		if (GetEventData(ei, data)) {
 			if (noFilter || CanShowHistory(&gdbei)) {
@@ -208,7 +209,7 @@ void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, 
 				tempList.push_back(ti);
 			}
 		}
-		hDbEvent = db_event_next(hDbEvent);
+		hDbEvent = db_event_next(_hContact, hDbEvent);
 	}
 
 	if (!noExt) {

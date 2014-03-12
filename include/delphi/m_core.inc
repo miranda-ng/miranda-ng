@@ -229,7 +229,7 @@ Retrieves a handle to the next event in a chain after hDbEvent
 Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 }
-function db_event_next(hDbEvent:THANDLE):THANDLE; stdcall;
+function db_event_next(hContact:TMCONTACT; hDbEvent:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_next';
 
 {
@@ -237,7 +237,7 @@ Retrieves a handle to the previous event in a chain before hDbEvent
 Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 }
-function db_event_prev(hDbEvent:THANDLE):THANDLE; stdcall;
+function db_event_prev(hContact:TMCONTACT; hDbEvent:THANDLE):THANDLE; stdcall;
                  external CoreDLL name 'db_event_prev';
 
 function db_free(dbv:PDBVARIANT):int_ptr; stdcall;

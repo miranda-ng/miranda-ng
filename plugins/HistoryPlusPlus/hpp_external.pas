@@ -177,7 +177,7 @@ begin
                            not boolean(event.dwFlags and IEEF_NO_SCROLLING));
           if eventCount > 0 then Dec(eventCount);
           if eventCount <> 0 then
-            hDBNext := db_event_next(hDBNext);
+            hDBNext := db_event_next(event.hContact,hDBNext);
         end;
         ExtGrid.EndUpdate;
       end;

@@ -258,7 +258,7 @@ void SetStatusIcon(struct SrmmWindowData *dat)
 	MCONTACT hContact = dat->windowData.hContact;
 
 	if (!strcmp(dat->szProto, META_PROTO) && db_get_b(NULL,"CLC","Meta",0) == 0) {
-		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
+		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, dat->windowData.hContact, 0);
 		if (hContact != NULL)
 			szProto = GetContactProto(hContact);
 		else
@@ -618,7 +618,7 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData *dat)
 
 void ShowAvatar(HWND hwndDlg, SrmmWindowData *dat)
 {
-	INT_PTR res = CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->windowData.hContact, 0);
+	INT_PTR res = CallService(MS_AV_GETAVATARBITMAP, dat->windowData.hContact, 0);
 	dat->ace = res != CALLSERVICE_NOTFOUND ? (AVATARCACHEENTRY*)res : NULL;
 	dat->avatarPic = (dat->ace != NULL && (dat->ace->dwFlags & AVS_HIDEONCLIST) == 0) ? dat->ace->hbmPic : NULL;
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -680,7 +680,7 @@ static void NotifyTyping(struct SrmmWindowData *dat, int mode)
 
 	// End user check
 	dat->nTypeMode = mode;
-	CallService(MS_PROTO_SELFISTYPING, (WPARAM) dat->windowData.hContact, dat->nTypeMode);
+	CallService(MS_PROTO_SELFISTYPING, dat->windowData.hContact, dat->nTypeMode);
 }
 
 static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -848,7 +848,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
 			if (dat->windowData.hContact && dat->szProto) {
-				int nMax = CallProtoService(dat->szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)dat->windowData.hContact);
+				int nMax = CallProtoService(dat->szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, dat->windowData.hContact);
 				if (nMax)
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_LIMITTEXT, (WPARAM) nMax, 0);
 			}
@@ -881,57 +881,51 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (DbEventIsMessageOrCustom(&dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
 						notifyUnread = true;
 				}
+
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				HANDLE hPrevEvent;
 				switch (historyMode) {
 				case LOADHISTORY_COUNT:
-					{
-						DBEVENTINFO dbei = { sizeof(dbei) };
-						HANDLE hPrevEvent;
-						for (int i = db_get_w(NULL, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
-							if (dat->hDbEventFirst == NULL)
-								hPrevEvent = db_event_last(dat->windowData.hContact);
-							else
-								hPrevEvent = db_event_prev(dat->hDbEventFirst);
-							if (hPrevEvent == NULL)
-								break;
-							dbei.cbBlob = 0;
-							dat->hDbEventFirst = hPrevEvent;
-							db_event_get(dat->hDbEventFirst, &dbei);
-							if (!DbEventIsShown(&dbei, dat))
-								i++;
-						}
+					for (int i = db_get_w(NULL, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i > 0; i--) {
+						if (dat->hDbEventFirst == NULL)
+							hPrevEvent = db_event_last(dat->windowData.hContact);
+						else
+							hPrevEvent = db_event_prev(dat->windowData.hContact, dat->hDbEventFirst);
+						if (hPrevEvent == NULL)
+							break;
+						dbei.cbBlob = 0;
+						dat->hDbEventFirst = hPrevEvent;
+						db_event_get(dat->hDbEventFirst, &dbei);
+						if (!DbEventIsShown(&dbei, dat))
+							i++;
 					}
 					break;
 
 				case LOADHISTORY_TIME:
-					{
-						HANDLE hPrevEvent;
-						DBEVENTINFO dbei = { sizeof(dbei) };
-
-						if (dat->hDbEventFirst == NULL) {
-							dbei.timestamp = time(NULL);
-							hPrevEvent = db_event_last(dat->windowData.hContact);
-						}
-						else {
-							db_event_get(dat->hDbEventFirst, &dbei);
-							hPrevEvent = db_event_prev(dat->hDbEventFirst);
-						}
-						DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
-						for (;;) {
-							if (hPrevEvent == NULL)
-								break;
-							dbei.cbBlob = 0;
-							db_event_get( hPrevEvent, &dbei);
-							if (dbei.timestamp < firstTime)
-								break;
-							if (DbEventIsShown(&dbei, dat))
-								dat->hDbEventFirst = hPrevEvent;
-							hPrevEvent = db_event_prev(hPrevEvent);
-						}
-						break;
+					if (dat->hDbEventFirst == NULL) {
+						dbei.timestamp = time(NULL);
+						hPrevEvent = db_event_last(dat->windowData.hContact);
 					}
+					else {
+						db_event_get(dat->hDbEventFirst, &dbei);
+						hPrevEvent = db_event_prev(dat->windowData.hContact, dat->hDbEventFirst);
+					}
+					DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+					for (;;) {
+						if (hPrevEvent == NULL)
+							break;
+						dbei.cbBlob = 0;
+						db_event_get(hPrevEvent, &dbei);
+						if (dbei.timestamp < firstTime)
+							break;
+						if (DbEventIsShown(&dbei, dat))
+							dat->hDbEventFirst = hPrevEvent;
+						hPrevEvent = db_event_prev(dat->windowData.hContact, hPrevEvent);
+					}
+					break;
 				}
 			}
-			SendMessage(dat->hwndParent, CM_ADDCHILD, (WPARAM) hwndDlg, (LPARAM)dat->windowData.hContact);
+			SendMessage(dat->hwndParent, CM_ADDCHILD, (WPARAM)hwndDlg, dat->windowData.hContact);
 			{
 				HANDLE hdbEvent = db_event_last(dat->windowData.hContact);
 				if (hdbEvent) {
@@ -943,7 +937,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							break;
 						}
 					}
-						while ((hdbEvent = db_event_prev(hdbEvent)));
+						while ((hdbEvent = db_event_prev(dat->windowData.hContact, hdbEvent)));
 				}
 			}
 			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);
@@ -966,7 +960,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_GETCONTEXTMENU:
 		{
-			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) dat->windowData.hContact, 0);
+			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, dat->windowData.hContact, 0);
 			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LONG_PTR)hMenu);
 		}
 		return TRUE;
@@ -974,7 +968,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_CONTEXTMENU:
 		if (dat->hwndParent == (HWND) wParam) {
 			POINT pt;
-			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) dat->windowData.hContact, 0);
+			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, dat->windowData.hContact, 0);
 			GetCursorPos(&pt);
 			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hwndDlg, NULL);
 			DestroyMenu(hMenu);
@@ -1024,7 +1018,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
 				AddToFileList(&ppFiles, &totalCount, szFilename);
 			}
-			CallServiceSync(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->windowData.hContact, (LPARAM)ppFiles);
+			CallServiceSync(MS_FILE_SENDSPECIFICFILEST, dat->windowData.hContact, (LPARAM)ppFiles);
 			for(i=0;ppFiles[i];i++) mir_free(ppFiles[i]);
 			mir_free(ppFiles);
 		}
@@ -1274,8 +1268,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				db_event_get(hDbEvent, &dbei);
 				if (!(dbei.flags & DBEF_SENT) && (DbEventIsMessageOrCustom(&dbei) || dbei.eventType == EVENTTYPE_URL))
-					CallService(MS_CLIST_REMOVEEVENT, (WPARAM) dat->windowData.hContact, (LPARAM)hDbEvent);
-				hDbEvent = db_event_next(hDbEvent);
+					CallService(MS_CLIST_REMOVEEVENT, dat->windowData.hContact, (LPARAM)hDbEvent);
+				hDbEvent = db_event_next(dat->windowData.hContact, hDbEvent);
 			}
 		}
 		if (dat->showUnread) {
@@ -1401,7 +1395,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						dat->hDbUnreadEventFirst = hDbEvent;
 					dat->lastMessage = dbei.timestamp;
 					SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
-					if (GetForegroundWindow()==dat->hwndParent && dat->parent->hwndActive == hwndDlg)
+					if (GetForegroundWindow() == dat->hwndParent && dat->parent->hwndActive == hwndDlg)
 						SkinPlaySound("RecvMsgActive");
 					else SkinPlaySound("RecvMsgInactive");
 					if ((g_dat.flags2 & SMF2_SWITCHTOACTIVE) && (IsIconic(dat->hwndParent) || GetActiveWindow() != dat->hwndParent) && IsWindowVisible(dat->hwndParent))
@@ -1409,7 +1403,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (IsAutoPopup(dat->windowData.hContact))
 						SendMessage(GetParent(hwndDlg), CM_POPUPWINDOW, 1, (LPARAM)hwndDlg);
 				}
-				if (hDbEvent != dat->hDbEventFirst && db_event_next(hDbEvent) == NULL)
+				if (hDbEvent != dat->hDbEventFirst && db_event_next(dat->windowData.hContact, hDbEvent) == NULL)
 					SendMessage(hwndDlg, DM_APPENDTOLOG, WPARAM(hDbEvent), 0);
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);

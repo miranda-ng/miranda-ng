@@ -99,8 +99,8 @@ interface MIDatabase
 	STDMETHOD_(HANDLE, FindFirstEvent)(MCONTACT contactID) PURE;
 	STDMETHOD_(HANDLE, FindFirstUnreadEvent)(MCONTACT contactID) PURE;
 	STDMETHOD_(HANDLE, FindLastEvent)(MCONTACT contactID) PURE;
-	STDMETHOD_(HANDLE, FindNextEvent)(HANDLE hDbEvent) PURE;
-	STDMETHOD_(HANDLE, FindPrevEvent)(HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE, FindNextEvent)(MCONTACT contactID, HANDLE hDbEvent) PURE;
+	STDMETHOD_(HANDLE, FindPrevEvent)(MCONTACT contactID, HANDLE hDbEvent) PURE;
 
 	STDMETHOD_(BOOL, EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
 

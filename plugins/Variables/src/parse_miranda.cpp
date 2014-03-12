@@ -519,9 +519,9 @@ static HANDLE findDbEvent(MCONTACT hContact, HANDLE hDbEvent, int flags)
 			else if (flags & DBE_LAST)
 				hDbEvent = db_event_last(hContact);
 			else if (flags & DBE_NEXT)
-				hDbEvent = db_event_next(hDbEvent);
+				hDbEvent = db_event_next(hContact, hDbEvent);
 			else if (flags & DBE_PREV)
-				hDbEvent = db_event_prev(hDbEvent);
+				hDbEvent = db_event_prev(hContact, hDbEvent);
 		}
 		else {
 			HANDLE hMatchEvent, hSearchEvent;

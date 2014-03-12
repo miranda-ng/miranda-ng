@@ -1465,7 +1465,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					EnableSendButton(dat, TRUE);
 			}
 			
-			for (HANDLE hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(hdbEvent)) {
+			for (HANDLE hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(dat->hContact, hdbEvent)) {
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				db_event_get(hdbEvent, &dbei);
 				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {

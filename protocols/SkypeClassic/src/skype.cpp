@@ -1649,8 +1649,8 @@ void EndCallThread(char *szSkypeMsg) {
 					db_event_markRead(hContact,hDbEvent);
 					CallService(MS_CLIST_REMOVEEVENT,hContact,(LPARAM)hDbEvent);
 				}
-				if (dbei.pBlob) free(dbei.pBlob);
-				hDbEvent=db_event_next(hDbEvent);
+				free(dbei.pBlob);
+				hDbEvent=db_event_next(hContact, hDbEvent);
 			}
 		}
 
@@ -3133,7 +3133,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	BOOL SkypeInstalled;
 	BOOL UseCustomCommand;
 	WSADATA wsaData;
-	char path[MAX_PATH];
 
 	mir_getLP(&pluginInfo);
 

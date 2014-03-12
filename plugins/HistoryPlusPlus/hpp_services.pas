@@ -193,7 +193,7 @@ begin
     sel := -1;
     while (hDbEvent <> oep.hDbEvent) and (hDbEvent <> 0) do
     begin
-      hDbEvent := db_event_prev(hDbEvent);
+      hDbEvent := db_event_prev(oep.hContact,hDbEvent);
       Inc(item);
     end;
     if hDbEvent = oep.hDbEvent then

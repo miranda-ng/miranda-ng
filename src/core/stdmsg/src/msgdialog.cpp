@@ -780,7 +780,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							if (dat->hDbEventFirst == NULL)
 								hPrevEvent = db_event_last(dat->hContact);
 							else
-								hPrevEvent = db_event_prev(dat->hDbEventFirst);
+								hPrevEvent = db_event_prev(dat->hContact, dat->hDbEventFirst);
 							if (hPrevEvent == NULL)
 								break;
 
@@ -806,7 +806,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (dat->hDbEventFirst == NULL)
 							hPrevEvent = db_event_last(dat->hContact);
 						else
-							hPrevEvent = db_event_prev(dat->hDbEventFirst);
+							hPrevEvent = db_event_prev(dat->hContact, dat->hDbEventFirst);
 						if (hPrevEvent == NULL)
 							break;
 
@@ -831,7 +831,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						break;
 					}
 				}
-					while (hdbEvent = db_event_prev(hdbEvent));
+					while (hdbEvent = db_event_prev(dat->hContact, hdbEvent));
 			}
 
 			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 1, 0);
@@ -1326,7 +1326,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->lastMessage = dbei.timestamp;
 					SendMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 				}
-				if (hDbEvent != dat->hDbEventFirst && db_event_next(hDbEvent) == NULL)
+				if (hDbEvent != dat->hDbEventFirst && db_event_next(dat->hContact, hDbEvent) == NULL)
 					SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);

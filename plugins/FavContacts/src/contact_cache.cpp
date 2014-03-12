@@ -85,7 +85,7 @@ void CContactCache::Rebuild()
 		info->hContact = hContact;
 		info->rate = 0;
 
-		for (HANDLE hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hEvent)) {
+		for (HANDLE hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			if (!db_event_get(hEvent, &dbei)) {
 				if (float weight = GetEventWeight(timestamp - dbei.timestamp))

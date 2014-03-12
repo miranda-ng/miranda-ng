@@ -1385,7 +1385,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 				if (dat->hDbEventFirst == NULL)
 					hPrevEvent = db_event_last(dat->hContact);
 				else
-					hPrevEvent = db_event_prev(dat->hDbEventFirst);
+					hPrevEvent = db_event_prev(dat->hContact, dat->hDbEventFirst);
 				if (hPrevEvent == NULL)
 					break;
 				dbei.cbBlob = 0;
@@ -1411,7 +1411,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 			if (dat->hDbEventFirst == NULL)
 				hPrevEvent = db_event_last(dat->hContact);
 			else
-				hPrevEvent = db_event_prev(dat->hDbEventFirst);
+				hPrevEvent = db_event_prev(dat->hContact, dat->hDbEventFirst);
 			if (hPrevEvent == NULL)
 				break;
 			dbei.cbBlob = 0;

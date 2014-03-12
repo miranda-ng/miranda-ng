@@ -593,7 +593,7 @@ procedure THistoryFrm.LoadHistory(Sender: TObject);
     ToRead := Max(0, HistoryLength - hppFirstLoadBlock - 1);
     LineIdx := HistoryLength - 2;
     repeat
-      hDBEvent := db_event_prev(hDBEvent);
+      hDBEvent := db_event_prev(hContact,hDBEvent);
       History[LineIdx] := NotZero(hDBEvent);
       { if NeedhDBEvent = hDbEvent then begin
         Result := HistoryLength-LineIdx-1;
@@ -1490,7 +1490,7 @@ begin
       begin
         if History[ridx] <> 0 then
           break;
-        hDBEvent := db_event_prev(hDBEvent);
+        hDBEvent := db_event_prev(hContact,hDBEvent);
         History[ridx] := NotZero(hDBEvent);
       end;
     end
@@ -1508,7 +1508,7 @@ begin
       begin
         if History[ridx] <> 0 then
           break;
-        hDBEvent := db_event_next(hDBEvent);
+        hDBEvent := db_event_next(hContact,hDBEvent);
         History[ridx] := NotZero(hDBEvent);
       end;
     end;
@@ -2050,7 +2050,7 @@ begin
   begin
     if Sessions[idx].hDBEventLast = hDBEvent then
     begin
-      hDBEvent := db_event_prev(hDBEvent);
+      hDBEvent := db_event_prev(hContact,hDBEvent);
       if hDBEvent <> 0 then
       begin
         Sessions[idx].hDBEventLast := hDBEvent;

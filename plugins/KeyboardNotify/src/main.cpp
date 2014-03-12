@@ -346,12 +346,12 @@ static void FlashThreadFunction()
 }
 
 
-BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
+BOOL checkMsgTimestamp(MCONTACT hContact, HANDLE hEventCurrent, DWORD timestampCurrent)
 {
 	if (!bFlashIfMsgOlder)
 		return TRUE;
 
-	for (HANDLE hEvent = db_event_prev(hEventCurrent); hEvent; hEvent = db_event_prev(hEvent)) {
+	for (HANDLE hEvent = db_event_prev(hContact, hEventCurrent); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
 		DBEVENTINFO einfo = { sizeof(einfo) };
 		if(!db_event_get(hEvent, &einfo)) {
 			if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
@@ -418,7 +418,7 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM lParam)
 	//get DBEVENTINFO without pBlob
 	DBEVENTINFO einfo = { sizeof(einfo) };
 	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))
-		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hEvent, einfo.timestamp)) ||
+		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hContact, hEvent, einfo.timestamp)) ||
 		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||
 		    (einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
 		    (einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_URL && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {

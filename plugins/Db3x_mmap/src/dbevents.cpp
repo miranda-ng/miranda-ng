@@ -349,14 +349,14 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? 0 : (HANDLE)dbc->ofsLastEvent;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextEvent(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextEvent(MCONTACT contactID, HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? 0 : (HANDLE)dbe->ofsNext;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(HANDLE hDbEvent)
+STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);

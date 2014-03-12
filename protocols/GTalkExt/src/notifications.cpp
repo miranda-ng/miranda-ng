@@ -294,7 +294,7 @@ void ClearNotificationContactHistory(LPCSTR acc)
 		return;
 
 	for (HANDLE hEvent = db_event_first(hContact); hEvent;) {
-		HANDLE hEvent1 = db_event_next(hEvent);
+		HANDLE hEvent1 = db_event_next(hContact, hEvent);
 		db_event_delete(hContact, hEvent);
 		hEvent = hEvent1;
 	}

@@ -209,10 +209,8 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 		for (int nCur = 0 ; nCur < nTotalContacts ; nCur++ )
 		{
 			if (bOnlySelected )
-			{
 				if ( !(ListView_GetItemState( hMapUser, nCur, LVIS_SELECTED) & LVIS_SELECTED))
 					continue;
-			}
 
 			sItem.iItem = nCur;
 			if(!ListView_GetItem(hMapUser, &sItem))
@@ -228,7 +226,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 			HANDLE hDbEvent = db_event_first(hContact);
 			while( hDbEvent) {
 				rclCurList.push_back(CLDBEvent(hContact, hDbEvent));
-				hDbEvent = db_event_next(hDbEvent);
+				hDbEvent = db_event_next(hContact, hDbEvent);
 			}
 
 			SendMessage( hProg, PBM_SETPOS, nCur, 0);
