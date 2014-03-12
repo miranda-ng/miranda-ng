@@ -62,7 +62,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 			if (!ftp->relativePathStart)
 			{
 				wchar_t *rootFolder = paths[j];
-				wchar_t *relativePath = wcsrchr(rootFolder, L'\\') + 1;
+				wchar_t *relativePath = wcsrchr(rootFolder, '\\') + 1;
 				ftp->relativePathStart = relativePath - rootFolder;
 			}
 
@@ -72,6 +72,16 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 		}
 		else
 		{
+			if (!ftp->pfts.wszWorkingDir)
+			{
+				wchar_t *path = paths[j];
+				int length = wcsrchr(path, '\\') - path;
+				ftp->pfts.wszWorkingDir = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
+				lstrcpyn(ftp->pfts.wszWorkingDir, paths[j], length + 1);
+				ftp->pfts.wszWorkingDir[length] = '\0';
+				
+			}
+
 			ftp->pfts.pwszFiles[k] = mir_wstrdup(paths[i]);
 
 			FILE *file = _wfopen(paths[i], L"rb");
@@ -189,7 +199,7 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 	if (!instance->HasAccessToken())
 		return 0;
 
-	const wchar_t *filePath = (wchar_t*)lParam;
+	wchar_t *filePath = (wchar_t*)lParam;
 
 	FileTransferParam *ftp = new FileTransferParam();
 	ftp->withVisualisation = false;
@@ -198,6 +208,11 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 	ftp->pfts.totalFiles = 1;
 	ftp->hContact = (instance->hTransferContact) ? instance->hTransferContact : hContact;
 	instance->hTransferContact = 0;
+
+	int length = wcsrchr(filePath, '\\') - filePath;
+	ftp->pfts.wszWorkingDir = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
+	lstrcpyn(ftp->pfts.wszWorkingDir, filePath, length + 1);
+	ftp->pfts.wszWorkingDir[length] = '\0';
 
 	ftp->pfts.pwszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (ftp->pfts.totalFiles + 1));
 	ftp->pfts.pwszFiles[0] = mir_wstrdup(filePath);

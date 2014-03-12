@@ -211,9 +211,6 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			FILE *file = _wfopen(ftp->pfts.pwszFiles[i], L"rb");
 			if (file)
 			{
-				int offset = 0;
-				char *uploadId = new char[32];
-
 				const wchar_t *fileName = NULL;
 				if (!ftp->relativePathStart)
 					fileName = wcsrchr(ftp->pfts.pwszFiles[i], L'\\') + 1;
@@ -221,7 +218,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 					fileName = &ftp->pfts.pwszFiles[i][ftp->relativePathStart];
 
 				fseek(file, 0, SEEK_END);
-				DWORD fileSize = ftell(file);
+				size_t fileSize = ftell(file);
 				fseek(file, 0, SEEK_SET);
 
 				if (ftp->withVisualisation)
@@ -234,13 +231,22 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 					ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 				}
 
-				while (!feof(file) && !ferror(file))
+				int offset = 0;
+				char *uploadId = new char[32];
+
+				int chunkSize = DROPBOX_FILE_CHUNK_SIZE / 4;
+				if (fileSize < 1024 * 1024)
+					chunkSize = DROPBOX_FILE_CHUNK_SIZE / 20;
+				else if (fileSize > 20 * 1024 * 1024)
+					chunkSize = DROPBOX_FILE_CHUNK_SIZE;
+
+				while (!feof(file) && fileSize != offset)
 				{
-					int chunkSize = DROPBOX_FILE_CHUNK_SIZE / 4;
-					if (fileSize < 1024 * 1024)
-						chunkSize = DROPBOX_FILE_CHUNK_SIZE / 20;
-					else if (fileSize > 20 * 1024 * 1024)
-						chunkSize = DROPBOX_FILE_CHUNK_SIZE;
+					if (ferror(file))
+					{
+						error = true;
+						break;
+					}
 
 					char *data = new char[chunkSize + 1];
 					int count = (int)fread(data, sizeof(char), chunkSize, file);

@@ -36,6 +36,9 @@ struct FileTransferParam
 
 	~FileTransferParam()
 	{
+		if (pfts.wszWorkingDir)
+			mir_free(pfts.wszWorkingDir);
+
 		if (pfts.pszFiles)
 		{
 			for (int i = 0; pfts.pszFiles[i]; i++)

@@ -186,26 +186,31 @@ int CDropbox::OnSendSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
 
 	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
 	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.flags = DBEF_UTF;
-		dbei.szModule = MODULE;
-		dbei.timestamp = time(NULL);
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.cbBlob = wcslen(data);
-		dbei.pBlob = (PBYTE)mir_utf8encodeW(data);
-
+		char *message = mir_utf8encodeW(data);
 		if (hContact != instance->GetDefaultContact())
 		{
-			if (CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)data) != ACKRESULT_FAILED)
+			if (CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED)
 			{
-				dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
-				db_event_add(hContact, &dbei);
+				PROTORECVEVENT recv = { 0 };
+				recv.flags = PREF_CREATEREAD | DBEF_UTF;
+				recv.timestamp = time(NULL);
+				recv.szMessage = message;
+				ProtoChainRecvMsg(hContact, &recv);
 			}
 			else
 				CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)hContact, (LPARAM)data);
 		}
 		else
+		{
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.flags = DBEF_UTF;
+			dbei.szModule = MODULE;
+			dbei.timestamp = time(NULL);
+			dbei.eventType = EVENTTYPE_MESSAGE;
+			dbei.cbBlob = wcslen(data);
+			dbei.pBlob = (PBYTE)message;
 			db_event_add(hContact, &dbei);
+		}
 	}
 
 	CMString urls = data; urls += L"\r\n";
