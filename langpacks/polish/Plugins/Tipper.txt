@@ -28,8 +28,6 @@ Pokaż jeśli lista jest nieaktywna
 Ogólne dopełnienie:
 [Hover time:]
 Wyświetl podpowiedź po:
-[Status bar tips]
-Podpowiedzi paska statusu
 [Alignment]
 Wyrównanie
 [Labels:]
@@ -46,12 +44,16 @@ Boczny pasek:
 Dopełnienie tekstu:
 [Outer avatar padding:]
 Zewnętrzne dopełnienie awatara:
+[Show title]
+Pokaż tytuł
+[Status bar tips]
+Podpowiedzi paska statusu
+[Avatar border]
+Obramowanie awatara
 [Round corners (avatar)]
 Zaokrąglone rogi (awatara)
 [Keep original avatar size]
 Oryginalny rozmiar awatara
-[Avatar border]
-Obramowanie awatara
 [Title indent:]
 Wcięcie tytułu:
 [Value indent:]
@@ -206,14 +208,12 @@ Dodaj separator
 Przesuń w górę
 [Move down]
 Przesuń w dół
+[No icon]
+Brak ikony
 [Icon on left]
 Ikona po lewej
 [Icon on right]
 Ikona po prawej
-[No icon]
-Brak ikony
-[No title]
-Brak tytułu
 [Bottom right]
 Dolny prawy róg
 [Bottom left]
