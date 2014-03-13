@@ -2187,3 +2187,7 @@ Cмущённый
 Занятия
 [Set filter...]
 Фильтр...
+[Supports Roster Exchange]
+Поддержка обмена ростера
+[Supports direct chat invitations (XEP-0249)]
+Поддержка прямых приглашений в чат (XEP-0249)
