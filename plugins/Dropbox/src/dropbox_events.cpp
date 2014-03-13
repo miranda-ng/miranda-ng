@@ -191,11 +191,14 @@ int CDropbox::OnSendSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
 		{
 			if (CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED)
 			{
-				PROTORECVEVENT recv = { 0 };
-				recv.flags = PREF_CREATEREAD | DBEF_UTF;
-				recv.timestamp = time(NULL);
-				recv.szMessage = message;
-				ProtoChainRecvMsg(hContact, &recv);
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.flags = DBEF_UTF | DBEF_SENT/* | DBEF_READ*/;
+				dbei.szModule = MODULE;
+				dbei.timestamp = time(NULL);
+				dbei.eventType = EVENTTYPE_MESSAGE;
+				dbei.cbBlob = wcslen(data);
+				dbei.pBlob = (PBYTE)message;
+				db_event_add(hContact, &dbei);
 			}
 			else
 				CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)hContact, (LPARAM)data);
