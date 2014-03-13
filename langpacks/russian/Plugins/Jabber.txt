@@ -1762,7 +1762,7 @@ XML для MS Excel (кодировка UTF-8)
 [none]
 нет
 [Last logoff time]
-Время выхода:
+Время выхода
 [Uptime]
 Время работы
 [Logoff message]
