@@ -193,7 +193,7 @@ void MirandaContactTolerantMerge::fillQueue()
 			if (j_ei.hContact != ci.ei.hContact &&
 				 timestampDelta >= -timestampTol && timestampDelta <= timestampTol &&
 				 j_ei.dbe.eventType == ci.ei.dbe.eventType &&
-				 (j_ei.dbe.flags & ~(DBEF_FIRST | DBEF_READ)) == (ci.ei.dbe.flags & ~(DBEF_FIRST | DBEF_READ)) &&
+				 (j_ei.dbe.flags & ~DBEF_READ) == (ci.ei.dbe.flags & ~DBEF_READ) &&
 				 j_ei.dbe.cbBlob == ci.ei.dbe.cbBlob &&
 				 memcmp(j_ei.dbe.pBlob, ci.ei.dbe.pBlob, j_ei.dbe.cbBlob) == 0) {
 				bIsDuplicate = true;
@@ -254,14 +254,14 @@ void MirandaContactStrictMerge::fillQueue()
 			if (timestampDelta > 0)
 				insPos = j;
 
-			if (j_ei.hContact != ci.ei.hContact &&
-				 timestampDelta >= -timestampTol && timestampDelta <= timestampTol &&
-				 j_ei.dbe.eventType == ci.ei.dbe.eventType &&
-				 (j_ei.dbe.flags & ~(DBEF_FIRST | DBEF_READ)) == (ci.ei.dbe.flags & ~(DBEF_FIRST | DBEF_READ)) &&
-				 j_ei.dbe.cbBlob == ci.ei.dbe.cbBlob &&
-				 memcmp(j_ei.dbe.pBlob, ci.ei.dbe.pBlob, j_ei.dbe.cbBlob) == 0) {
+			if (j_ei.hContact != ci.ei.hContact
+				 && timestampDelta >= -timestampTol && timestampDelta <= timestampTol
+				 && j_ei.dbe.eventType == ci.ei.dbe.eventType
+				 && (j_ei.dbe.flags & ~DBEF_READ) == (ci.ei.dbe.flags & ~DBEF_READ)
+				 && j_ei.dbe.cbBlob == ci.ei.dbe.cbBlob
+				 && memcmp(j_ei.dbe.pBlob, ci.ei.dbe.pBlob, j_ei.dbe.cbBlob) == 0)
+			{
 				bIsDuplicate = true;
-
 				break;
 			}
 		}

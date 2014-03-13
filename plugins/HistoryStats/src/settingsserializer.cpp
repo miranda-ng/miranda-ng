@@ -225,7 +225,7 @@ void SettingsSerializer::readFromDB()
 		settingsTree.setKey(strPrefix.c_str());
 
 		FilterSet::iterator F = m_FilterWords.insert(Filter(settingsTree.readStr(con::KeyID, _T("")))).first;
-		Filter* curFilter = (Filter*)&F;
+		Filter* curFilter = (Filter*)&*F;
 		curFilter->setName(settingsTree.readStr(con::KeyName, _T("")));
 		curFilter->setMode(settingsTree.readIntRanged(con::KeyMode, fwmWordsMatching, fwmFIRST, fwmLAST));
 
