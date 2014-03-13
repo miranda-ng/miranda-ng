@@ -140,7 +140,7 @@ BEGIN
     COMBOBOX        IDC_UTFCODEPAGE,190,36,107,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Make me temporarily visible to contacts I send message to",IDC_TEMPVISIBLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,288,10
-    CONTROL         "Notify me when a message delivery has failed (recommended)",IDC_SLOWSEND,
+    CONTROL         "Notify me when a message delivery has failed (old method)",IDC_SLOWSEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,65,288,10
     CONTROL         "Never use legacy messaging (server acknowledgements)",IDC_ONLYSERVERACKS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,77,288,10
