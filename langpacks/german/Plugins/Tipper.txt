@@ -28,8 +28,6 @@ Zeigen, wenn Liste unfokussiert
 Allgemeiner Abstand:
 [Hover time:]
 Verzögerung:
-[Status bar tips]
-Tooltips in Statuszeile
 [Alignment]
 Ausrichtung
 [Labels:]
@@ -46,12 +44,16 @@ Seitenleiste Breite:
 Textabstand:
 [Outer avatar padding:]
 Avatarabstand außen:
+[Show title]
+
+[Status bar tips]
+Tooltips in Statuszeile
+[Avatar border]
+Rahmen um Avatar
 [Round corners (avatar)]
 Runde Ecken (Avatar)
 [Keep original avatar size]
 Originalavatargröße erhalten
-[Avatar border]
-Rahmen um Avatar
 [Title indent:]
 Titeleinzug:
 [Value indent:]
@@ -206,14 +208,12 @@ Trennlinie hinzufügen
 Hoch
 [Move down]
 Runter
+[No icon]
+Kein Icon
 [Icon on left]
 Icon links
 [Icon on right]
 Icon rechts
-[No icon]
-Kein Icon
-[No title]
-Kein Titel
 [Bottom right]
 Unten rechts
 [Bottom left]

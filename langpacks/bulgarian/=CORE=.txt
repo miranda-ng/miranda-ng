@@ -2438,6 +2438,8 @@ URL
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 
 ;file \src\modules\netlib\netliblog.cpp
+[Standard netlib log]
+
 [No times]
 Без час
 [Standard hh:mm:ss times]
@@ -2452,8 +2454,6 @@ URL
 Изберете къде да бъде създаден дневника
 [Select program to be run]
 Изберете програма за изпълнение
-[Standard netlib log]
-
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Всички връзки>

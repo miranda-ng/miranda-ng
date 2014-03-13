@@ -19,8 +19,6 @@ Vis dersom listen ikke er i fokus
 Generelt fyll:
 [Hover time:]
 Svevetid:
-[Status bar tips]
-Statuslinje tips
 [Labels:]
 Etiketter:
 [Values:]
@@ -33,10 +31,12 @@ Min høyde:
 Tekst fyll:
 [Outer avatar padding:]
 Ytre avatar fyll:
-[Keep original avatar size]
-Behold original avatar størrelse
+[Status bar tips]
+Statuslinje tips
 [Avatar border]
 Avatar ramme
+[Keep original avatar size]
+Behold original avatar størrelse
 [Title indent:]
 Tittel innrykk:
 [Value indent:]
@@ -73,8 +73,6 @@ Effekter
 Favorittkontakter
 [No icon]
 Ingen ikon
-[No title]
-Ingen tittel
 [Center]
 Midten
 [None]

@@ -28,8 +28,6 @@
 Асноўны водступ:
 [Hover time:]
 Затрымка:
-[Status bar tips]
-Падказкі ў панэлі статусу
 [Alignment]
 Выраўноўванне
 [Labels:]
@@ -46,12 +44,14 @@
 Міжрадковы водступ:
 [Outer avatar padding:]
 Зн. водступ аватара:
+[Status bar tips]
+Падказкі ў панэлі статусу
+[Avatar border]
+Рамка аватара
 [Round corners (avatar)]
 Акругляць куты аватара
 [Keep original avatar size]
 Захоўваць памер аватара
-[Avatar border]
-Рамка аватара
 [Title indent:]
 Водступ загалоўка:
 [Value indent:]
@@ -204,14 +204,12 @@
 Вышэй
 [Move down]
 Ніжэй
+[No icon]
+Без значка
 [Icon on left]
 Абразок злева
 [Icon on right]
 Абразок справа
-[No icon]
-Без значка
-[No title]
-Без загалоўка
 [Bottom right]
 Унізе справа
 [Bottom left]

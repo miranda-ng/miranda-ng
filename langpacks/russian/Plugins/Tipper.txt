@@ -27,8 +27,6 @@
 Основной отступ:
 [Hover time:]
 Задержка:
-[Status bar tips]
-Подсказки в панели статуса
 [Alignment]
 Выравнивание
 [Labels:]
@@ -45,12 +43,16 @@
 Межстрочный отступ:
 [Outer avatar padding:]
 Внеш. отступ аватара:
+[Show title]
+Заголовок
+[Status bar tips]
+Подсказки в панели статуса
+[Avatar border]
+Рамка аватара
 [Round corners (avatar)]
 Округлять углы аватара
 [Keep original avatar size]
 Сохранять размер аватара
-[Avatar border]
-Рамка аватара
 [Title indent:]
 Отступ заголовка:
 [Value indent:]
@@ -201,14 +203,12 @@
 Выше
 [Move down]
 Ниже
+[No icon]
+Без значка
 [Icon on left]
 Значок слева
 [Icon on right]
 Значок справа
-[No icon]
-Без значка
-[No title]
-Без заголовка
 [Bottom right]
 Внизу справа
 [Bottom left]

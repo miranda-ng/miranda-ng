@@ -19,8 +19,6 @@
 常规补位: 
 [Hover time:]
 悬停时间: 
-[Status bar tips]
-状态栏提示
 [Labels:]
 标签: 
 [Values:]
@@ -31,10 +29,12 @@
 最小高度: 
 [Text padding:]
 文本补位: 
-[Keep original avatar size]
-保持原头像大小
+[Status bar tips]
+状态栏提示
 [Avatar border]
 头像边框
+[Keep original avatar size]
+保持原头像大小
 [Substitution]
 替换
 [Contact protocol module]
@@ -99,8 +99,6 @@
 添加分隔器
 [No icon]
 无图标
-[No title]
-无标题
 [Center]
 中间
 [Max avatar size:]

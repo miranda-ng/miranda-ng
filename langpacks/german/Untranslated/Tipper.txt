@@ -1,4 +1,5 @@
-﻿[%dd %dh %dm]
+﻿[Show title]
+[%dd %dh %dm]
 [%dh %dm]
 [%dm]
 [%dy %dd %dh %dm]

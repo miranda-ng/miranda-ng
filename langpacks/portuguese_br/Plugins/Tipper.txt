@@ -19,8 +19,6 @@ Exibir se não visível
 Moldura geral:
 [Hover time:]
 Tempo destaque:
-[Status bar tips]
-Tb na Barra de status
 [Labels:]
 Rótulos:
 [Values:]
@@ -31,6 +29,8 @@ Larg. Mínima:
 Altura mínima:
 [Text padding:]
 Moldura texto:
+[Status bar tips]
+Tb na Barra de status
 [Keep original avatar size]
 Manter tamanho original do avatar
 [Substitution]
@@ -77,8 +77,6 @@ Redimensionar Smileys
 Efeitos
 [No icon]
 Sem ícone
-[No title]
-Sem título
 [Center]
 Centro
 [None]

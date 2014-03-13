@@ -28,8 +28,6 @@ Afficher si liste couverte
 Remplissage général :
 [Hover time:]
 
-[Status bar tips]
-Barre de popup d'états
 [Alignment]
 Alignement
 [Labels:]
@@ -46,12 +44,16 @@ Hauteur mini :
 
 [Outer avatar padding:]
 
+[Status bar tips]
+Barre de popup d'états
+[Status bar tips]
+
+[Avatar border]
+
 [Round corners (avatar)]
 
 [Keep original avatar size]
 Conserver la taille de l'avatar
-[Avatar border]
-
 [Title indent:]
 
 [Value indent:]
@@ -206,14 +208,12 @@ Ajouter
 
 [Move down]
 
+[No icon]
+Sans icône
 [Icon on left]
 
 [Icon on right]
 
-[No icon]
-Sans icône
-[No title]
-Sans titre
 [Bottom right]
 
 [Bottom left]

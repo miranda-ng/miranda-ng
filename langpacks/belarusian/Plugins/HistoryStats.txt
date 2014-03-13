@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HistoryStats.dll
 ;  Plugin: HistoryStats
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Martin Afanasjew
 ;============================================================
 ;file \plugins\HistoryStats\res\resource.rc

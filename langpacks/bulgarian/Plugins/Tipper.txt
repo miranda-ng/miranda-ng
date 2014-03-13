@@ -28,8 +28,6 @@
 Основен отстъп:
 [Hover time:]
 
-[Status bar tips]
-
 [Alignment]
 Подреждане
 [Labels:]
@@ -46,12 +44,16 @@
 Отстъп между редовете:
 [Outer avatar padding:]
 Външен отстъп (аватар):
+[Show title]
+
+[Status bar tips]
+
+[Avatar border]
+Рамка на аватара
 [Round corners (avatar)]
 Закръглени ъгли (на аватара)
 [Keep original avatar size]
 Запазване на началния размер
-[Avatar border]
-Рамка на аватара
 [Title indent:]
 Отстъп на заглавието:
 [Value indent:]
@@ -206,14 +208,12 @@ Tipper усмивки
 Местене нагоре
 [Move down]
 Местене надолу
+[No icon]
+Без икона
 [Icon on left]
 Икона вляво
 [Icon on right]
 Икона вдясно
-[No icon]
-Без икона
-[No title]
-Без заглавие
 [Bottom right]
 Долу вдясно
 [Bottom left]

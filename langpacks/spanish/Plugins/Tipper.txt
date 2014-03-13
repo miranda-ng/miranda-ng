@@ -28,8 +28,6 @@ Ventana
 
 [Hover time:]
 
-[Status bar tips]
-
 [Alignment]
 
 [Labels:]
@@ -46,11 +44,15 @@ Ventana
 
 [Outer avatar padding:]
 
+[Show title]
+
+[Status bar tips]
+
+[Avatar border]
+
 [Round corners (avatar)]
 
 [Keep original avatar size]
-
-[Avatar border]
 
 [Title indent:]
 
@@ -206,13 +208,11 @@ ms
 
 [Move down]
 
+[No icon]
+
 [Icon on left]
 
 [Icon on right]
-
-[No icon]
-
-[No title]
 
 [Bottom right]
 
