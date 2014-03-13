@@ -78,6 +78,9 @@ CDb3Mmap::~CDb3Mmap()
 		UnmapViewOfFile(m_pDbCache);
 	}
 
+	DestroyServiceFunction(hService);
+	UnhookEvent(hHook);
+
 	if (m_crypto)
 		m_crypto->destroy();
 

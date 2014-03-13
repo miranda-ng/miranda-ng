@@ -335,6 +335,6 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 void CDb3Mmap::InitDialogs()
 {
-	CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
-	HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
+	hService = CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
+	hHook = HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
 }
