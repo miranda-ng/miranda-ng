@@ -70,7 +70,7 @@ LBL_FinishUp:
 		contactCount++;
 		phase++; first = 1;
 
-		//fall thru
+	// fall thru
 	case 1:
 		ret = WorkSettingsChain(ofsDestThis, &dbc, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
@@ -79,7 +79,7 @@ LBL_FinishUp:
 		else if (ret) return ret;
 		else break;
 
-		//fall thru
+	// fall thru
 	case 2:
 		ret = WorkEventChain(ofsDestThis, &dbc, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
@@ -88,7 +88,7 @@ LBL_FinishUp:
 		else if (ret) return ret;
 		else break;
 
-		//fall thru
+	// fall thru
 	case 3:
 		if (WriteSegment(ofsDestThis, &dbc, sizeof(DBContact)) == WS_ERROR)
 			return ERROR_HANDLE_DISK_FULL;

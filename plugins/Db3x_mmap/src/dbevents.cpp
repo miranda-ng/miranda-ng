@@ -46,12 +46,14 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	dbe.cbBlob = dbei->cbBlob;
 	BYTE *pBlob = dbei->pBlob;
 
+	DBCachedContact *ccSub = NULL;
 	if (contactID != 0) {
 		DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 		if (cc == NULL)
 			return NULL;
 
 		if (cc->IsSub()) {
+			ccSub = cc;
 			// set default sub to the event's source
 			db_mc_setDefault(cc->parentID, contactID);
 			contactID = cc->parentID; // and add an event to a metahistory
@@ -136,6 +138,11 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		neednotify = true;
 	}
 	else neednotify = m_safetyMode;
+
+	if (ccSub != NULL) {
+		DBContact *pSub = (DBContact*)DBRead(ccSub->dwDriverData, sizeof(DBContact), NULL);
+		pSub->eventCount++;
+	}
 
 	DBWrite(ofsContact, &dbc, sizeof(DBContact));
 	DBWrite(ofsNew, &dbe, offsetof(DBEvent, blob));
@@ -224,6 +231,15 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 	//decrement event count
 	dbc.eventCount--;
 	DBWrite(ofsContact, &dbc, sizeof(DBContact));
+
+	// also update a sub
+	if (dbc.dwContactID != contactID) {
+		DBCachedContact *cc = m_cache->GetCachedContact(dbc.dwContactID);
+		DBContact *pSub = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+		if (pSub->eventCount > 0)
+			pSub->eventCount--;
+	}
+
 	DBFlush(0);
 	return 0;
 }

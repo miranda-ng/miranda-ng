@@ -289,7 +289,6 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		}
 
 		// remove any traces of history from sub
-		dbSub->eventCount = 0;
 		dbSub->ofsFirstEvent = dbSub->ofsLastEvent = dbSub->ofsFirstUnread = dbSub->tsFirstUnread = 0;
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
