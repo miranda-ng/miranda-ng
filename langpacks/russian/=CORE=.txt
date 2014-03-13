@@ -1196,7 +1196,7 @@ UIN, E-mail и т.д.
 [Message history]
 История сообщений
 [&Find...]
-&Найти
+&Найти...
 [Add phone number]
 Добавить телефон
 [Enter country, area code and phone number:]
@@ -1692,7 +1692,7 @@ UIN, E-mail и т.д.
 [&File]
 &Файл
 [File &transfers...]
-Передачи &файлов
+Передачи &файлов...
 [Incoming]
 Входящие
 [Complete]
@@ -1776,7 +1776,7 @@ UIN, E-mail и т.д.
 [< Copyright]
 < Права
 [&About...]
-&О программе
+&О программе...
 [&Support]
 &Поддержка
 [&Miranda NG homepage]
@@ -1924,7 +1924,7 @@ URL от %s
 [Owner]
 Владелец
 [View/change my &details...]
-Личные &данные
+Личные &данные...
 [%s is online]
 %s в сети
 [Add contact]
@@ -1942,9 +1942,9 @@ URL от %s
 [User has disconnected]
 Пользователь отключился
 [User kicked ...]
-Пинок
+Пинок...
 [User is now known as ...]
-Смена псевдонима
+Смена псевдонима...
 [Notice from user]
 Уведомление
 [The topic is ...]
@@ -1952,9 +1952,9 @@ URL от %s
 [Information messages]
 Информационные сообщения
 [User enables status for ...]
-Установка статуса
+Установка статуса...
 [User disables status for ...]
-Снятие статуса
+Снятие статуса...
 [Action message]
 Действие
 [Highlighted message]
@@ -2326,7 +2326,7 @@ ID
 [Toggle MetaContacts Off]
 Выключить метаконтакты
 [Add to existing MetaContact...]
-Добавить к метаконтакту
+Добавить к метаконтакту...
 [Edit MetaContact...]
 Изменить метаконтакт...
 [Set as MetaContact default]
@@ -2472,7 +2472,7 @@ ID учётной записи
 [You need to disable plugin to delete this account]
 Для удаления учётной записи необходимо отключить протокол
 [&Accounts...]
-&Учётные записи
+&Учётные записи...
 [Remove shortcut]
 Удалить сочетание
 [Add another shortcut]
