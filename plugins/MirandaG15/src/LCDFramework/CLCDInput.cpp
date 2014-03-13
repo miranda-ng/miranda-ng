@@ -658,7 +658,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 			GetTextExtentExPoint(hDC,pszText+iChar,iLen-iChar,GetWidth(),&iMaxChars,piWidths,&sizeLine);
 			pos = m_strText.find(_T("\n"),iChar);
 			// check for linebreaks
-			if(pos != tstring::npos & pos >= iChar && pos <= iChar + iMaxChars)
+			if(pos != tstring::npos && pos >= iChar && pos <= iChar + iMaxChars)
 			{
 				iWordOffset = pos + 1;
 				iMaxChars = pos - iChar;

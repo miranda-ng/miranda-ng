@@ -173,7 +173,7 @@ void CLCDLabel::UpdateCutOffIndex()
 			{
 				// find the last space in the line ( substract -1 from offset to ignore spaces as last chars )
 				pos = m_strText.rfind(_T(" "),i + iMaxChars -1 );
-				if(pos != tstring::npos && pos != i && pos >= i & pos != i+iMaxChars)
+				if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
 					iMaxChars = 1 + pos - i;
 			}
 
