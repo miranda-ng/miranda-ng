@@ -122,7 +122,7 @@
 [Import/Export]
 Імпорт/Експорт
 [Export...]
-Експорт
+Експорт...
 [Import...]
 Імпорт...
 [Override existing]

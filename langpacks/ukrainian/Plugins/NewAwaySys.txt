@@ -76,7 +76,7 @@
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
 Скинути цей лічильник при зміні статусного повідомлення (але не статусу)
 [Disable autoreply when...]
-Вимкнути, коли
+Вимкнути, коли...
 [&Invisible]
 &Невидимий
 [On the &phone]

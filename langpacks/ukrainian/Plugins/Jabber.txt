@@ -2062,7 +2062,7 @@ Google Hangouts
 [none]
 немає
 [Last logoff time]
-Час виходу:
+Час виходу
 [Uptime]
 Час роботи
 [Logoff message]

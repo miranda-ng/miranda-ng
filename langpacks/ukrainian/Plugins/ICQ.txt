@@ -93,7 +93,7 @@
 Перекодування ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Ставати видимим для контакту, якому надсилаєте повідомлення
-[Notify me when a message delivery has failed (recommended)]
+[Notify me when a message delivery has failed (old method)]
 Сповіщати про невдалу доставку повідомлень (старий метод)
 [Never use legacy messaging (server acknowledgements)]
 Ігнорувати старий метод, використовувати сповіщення сервера про доставку

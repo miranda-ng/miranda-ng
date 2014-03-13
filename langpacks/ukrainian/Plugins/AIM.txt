@@ -134,7 +134,7 @@ AIM Встановити Instant Idle
 [Others]
 Інші
 [&Invite user...]
-&Запросити
+&Запросити...
 [&Leave chat session]
 &Вийти з чату
 [User &details]

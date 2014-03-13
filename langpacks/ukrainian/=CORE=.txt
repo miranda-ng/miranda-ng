@@ -1694,7 +1694,7 @@ Cписок неактивний
 [&File]
 Ф&айл
 [File &transfers...]
-&Передача файлів
+&Передача файлів...
 [Incoming]
 Вхідні
 [Complete]
@@ -1732,7 +1732,7 @@ Cписок неактивний
 [Request sent, waiting for acceptance...]
 Запит надіслано, очікування підтвердження...
 [Waiting for connection...]
-Очікування з'єднання
+Очікування з'єднання...
 [Unable to initiate transfer.]
 Неможливо розпочати передачу.
 [Contact menu]
@@ -1926,7 +1926,7 @@ URL від %s
 [Owner]
 Власник
 [View/change my &details...]
-Особисті дані
+Особисті дані...
 [%s is online]
 %s в мережі
 [Add contact]
@@ -2214,7 +2214,7 @@ Miranda не може відкрити цей профіль
 [Handle]
 Назва
 [&Find/Add contacts...]
-Зн&айти/додати контакти
+Зн&айти/додати контакти...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не можу запустити пошук у мережі %s. Перевірте з'єднання з %s.
 [Could not search on any of the protocols, are you online?]
@@ -2268,7 +2268,7 @@ Miranda не може відкрити цей профіль
 [** All contacts **]
 ** Усі контакти **
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
-Ви збираєтеся видалити всі контакти, пов'язані з цим метаконтактом.\nМетаконтакт також буде видалено.\n\nПродовжити?
+Ви збираєтеся очистити всі контакти цього метаконтакту.\nМетаконтакт буде видалено.\n\nПродовжити?
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
 У базі ще немає жодного метаконтакту (потрібно спочатку зробити простий контакт метаконтактом).\nЦей контакт також можна конвертувати у новий метаконтакт.\n\nКонвертувати цей контакт у новий метаконтакт?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
@@ -2365,6 +2365,8 @@ Miranda не може відкрити цей профіль
 Не можу записати нік контакту в метаконтакт
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 До вашого списку додано групу MetaContacts Hidden Group.\nЦе через список контактів на сервері. Для правильної роботи\nметаконтактів у майбутньому необхідно виконати такі дії:\n - вимкнути метаконтакти, використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову ввімкнути метаконтакти
+[Standard netlib log]
+Стандартний журнал netlib
 [No times]
 Без часу
 [Standard hh:mm:ss times]
@@ -2379,8 +2381,6 @@ Miranda не може відкрити цей профіль
 Вказати шлях до файлу журналу
 [Select program to be run]
 Вибрати програму для запуску
-[Standard netlib log]
-Стандартний журнал netlib
 [<All connections>]
 <Усі з'єднання>
 [Network]
@@ -2400,7 +2400,7 @@ Miranda не може відкрити цей профіль
 [Miranda NG options]
 Налаштування Miranda NG
 [&Options...]
-&Налаштування
+&Налаштування...
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Не вдалося завантажити модуль ядра "%s" (можливо він відсутній). Программа змушена завершити работу.
 [Fatal error]
@@ -2450,7 +2450,7 @@ Miranda не може відкрити цей профіль
 [Remove account]
 Видалити
 [Configure...]
-Налаштувати
+Налаштувати...
 [Upgrade account]
 Оновити обліковий запис
 [Account ID]

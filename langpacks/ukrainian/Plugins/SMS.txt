@@ -112,7 +112,7 @@ SMS підтвердження від %s
 [<< Single]
 << Одному
 [Send &SMS...]
-Надіслати SMS
+Надіслати SMS...
 [&SMS Message]
 Повідомлення SMS
 [Incoming SMS Message]

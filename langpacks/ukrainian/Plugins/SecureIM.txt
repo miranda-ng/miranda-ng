@@ -62,7 +62,7 @@
 [&Import]
 &Імпорт
 [Set &keyrings...]
-Встановити &keyrings
+Встановити &keyrings...
 [Disable keyrings use]
 Відключити keyrings
 [Load &Private key]

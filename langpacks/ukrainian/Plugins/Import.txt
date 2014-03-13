@@ -138,7 +138,7 @@
 [Import...]
 Імпорт...
 [&Import...]
-&Імпорт
+&Імпорт...
 [The given file does not exist. Please check that you have entered the name correctly.]
 Даний файл не існує. Перевірте ім'я файлу.
 [Miranda Import]

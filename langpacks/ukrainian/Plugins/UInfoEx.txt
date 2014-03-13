@@ -598,7 +598,7 @@
 [&Import User Details]
 &Імпорт даних користувача
 [View/Change My &Details...]
-Особисті &дані
+Особисті &дані...
 [Export all contacts]
 Експортувати всі контакти
 [Import all contacts]

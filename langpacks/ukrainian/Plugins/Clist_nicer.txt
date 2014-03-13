@@ -832,7 +832,7 @@ Cписок неактивний
 [Group menu]
 Меню груп
 [&Find/Add Contacts...]
-Додати &контакти
+Додати &контакти...
 [&Options...]
 &Налаштування...
 [&About the contact list...]
