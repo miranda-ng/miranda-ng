@@ -85,21 +85,17 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	dbe.ofsModuleName = GetModuleNameOfs(dbei->szModule);
 	// find where to put it - sort by timestamp
 	if (dbc.eventCount == 0) {
-		dbe.ofsPrev = ofsContact;
-		dbe.ofsNext = 0;
-		dbe.flags |= DBEF_FIRST;
+		dbe.ofsPrev = dbe.ofsNext = 0;
 		dbc.ofsFirstEvent = dbc.ofsLastEvent = ofsNew;
 	}
 	else {
 		DBEvent *dbeTest = (DBEvent*)DBRead(dbc.ofsFirstEvent, sizeof(DBEvent), NULL);
 		// Should new event be placed before first event in chain?
 		if (dbe.timestamp < dbeTest->timestamp) {
-			dbe.ofsPrev = ofsContact;
+			dbe.ofsPrev = 0;
 			dbe.ofsNext = dbc.ofsFirstEvent;
-			dbe.flags |= DBEF_FIRST;
 			dbc.ofsFirstEvent = ofsNew;
 			dbeTest = (DBEvent*)DBRead(dbe.ofsNext, sizeof(DBEvent), NULL);
-			dbeTest->flags &= ~DBEF_FIRST;
 			dbeTest->ofsPrev = ofsNew;
 			DBWrite(dbe.ofsNext, dbeTest, sizeof(DBEvent));
 		}
@@ -187,7 +183,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 			}
 			DWORD ofsThis = dbeNext->ofsNext;
 			dbeNext = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
-			if (!(dbeNext->flags & (DBEF_READ | DBEF_SENT))) {
+			if (!(dbeNext->flags & NOT_UNREAD)) {
 				dbc.ofsFirstUnread = ofsThis;
 				dbc.tsFirstUnread = dbeNext->timestamp;
 				break;
@@ -196,13 +192,12 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 	}
 
 	//get previous and next events in chain and change offsets
-	if (dbe.flags & DBEF_FIRST) {
+	if (dbe.ofsPrev == 0) {
 		if (dbe.ofsNext == 0)
 			dbc.ofsFirstEvent = dbc.ofsLastEvent = 0;
 		else {
 			DBEvent *dbeNext = (DBEvent*)DBRead(dbe.ofsNext, sizeof(DBEvent), NULL);
-			dbeNext->flags |= DBEF_FIRST;
-			dbeNext->ofsPrev = dbe.ofsPrev;
+			dbeNext->ofsPrev = 0;
 			DBWrite(dbe.ofsNext, dbeNext, sizeof(DBEvent));
 			dbc.ofsFirstEvent = dbe.ofsNext;
 		}
@@ -498,6 +493,11 @@ void CDb3Mmap::ConvertContactEvents(DBContact *dbc)
 			pNew->contactID = dbc->dwContactID;
 			memcpy(&pNew->ofsPrev, &pOld.ofsPrev, offsetof(DBEvent_094, blob) - sizeof(DWORD));
 			memcpy(&pNew->blob, pBlob, pNew->cbBlob);
+
+			if (pNew->flags & 1) {
+				pNew->flags &= ~1;
+				pNew->ofsPrev = 0;
+			}
 
 			if (ofsPrev == 0) // first event
 				dbc->ofsFirstEvent = ofsNew, pNew->ofsPrev = 0;

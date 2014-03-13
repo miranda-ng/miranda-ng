@@ -553,7 +553,6 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 	for (std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it) {
 		if (it->isExternal) {
 			IImport::ExternalMessage& msg = importedMessages[it->exIdx];
-			dbei.flags = msg.flags & (~(DBEF_FIRST));
 			dbei.flags |= DBEF_READ;
 			dbei.timestamp = msg.timestamp;
 			// For now I do not convert event data from string to blob, and event type must be message to handle it properly
@@ -604,7 +603,7 @@ bool EventList::GetEventData(const EventIndex& ev, EventData& data)
 void EventList::GetExtEventDBei(const EventIndex& ev)
 {
 	IImport::ExternalMessage& em = importedMessages[ev.exIdx];
-	gdbei.flags = (em.flags & (~(DBEF_FIRST))) | 0x800;
+	gdbei.flags = em.flags | 0x800;
 	gdbei.eventType = em.eventType;
 	gdbei.timestamp = em.timestamp;
 }

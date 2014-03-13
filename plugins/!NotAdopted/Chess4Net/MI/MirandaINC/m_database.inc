@@ -310,7 +310,6 @@ const
                  DBEVENTINFO.timestamp is in GMT, as returned by time()
     }
 
-    DBEF_FIRST = 1;     // internally only, do not use
     DBEF_SENT  = 2;     // if set, the event was sent by the user, otherwise it was received
     DBEF_READ  = 4;     // event has been read by the user -- only needed for history
 

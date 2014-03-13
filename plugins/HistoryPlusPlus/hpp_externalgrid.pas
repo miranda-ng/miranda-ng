@@ -1269,7 +1269,6 @@ begin
       begin
         DBEventInfo := GetEventInfo(hDBEvent);
         DBEventInfo.szModule := nil;
-        DBEventInfo.flags := DBEventInfo.flags and not DBEF_FIRST;
         Item.Size := Cardinal(DBEventInfo.cbSize) + Cardinal(DBEventInfo.cbBlob);
       end;
     end;

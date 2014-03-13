@@ -336,7 +336,6 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 	int i = 0, skipAll = 0;
 	DWORD cbAlloc = 4096;
 	BYTE* eventBuf = (PBYTE)mir_alloc(cbAlloc);
-	bool bIsVoidContact = dstDb->GetEventCount(hDst) == 0;
 
 	// Get the start of the event chain
 	HANDLE hEvent = srcDb->FindFirstEvent(hContact);
@@ -406,8 +405,6 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 				// Check for duplicate entries
 				if (!IsDuplicateEvent((MCONTACT)hDst, dbei)) {
 					// Add dbevent
-					if (!bIsVoidContact)
-						dbei.flags &= ~DBEF_FIRST;
 					if (dstDb->AddEvent(hDst, &dbei) != NULL)
 						nMessagesCount++;
 					else

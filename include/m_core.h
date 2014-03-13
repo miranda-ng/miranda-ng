@@ -87,8 +87,6 @@ typedef struct {
 	};
 } DBVARIANT;
 
-#define DBEF_FIRST      1  // this is the first event in the chain;
-                           // internal only: *do not* use this flag
 #define DBEF_SENT       2  // this event was sent by the user. If not set this
                            // event was received.
 #define DBEF_READ       4  // event has been read by the user. It does not need

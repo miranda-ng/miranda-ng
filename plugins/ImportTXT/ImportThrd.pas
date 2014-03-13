@@ -139,7 +139,7 @@ begin
       db_event_get(hExistingDbEvent, @dbeiExisting);
       // compare event
       if (dbei.timestamp = dbeiExisting.timestamp) and
-        ((dbei.flags) = (dbeiExisting.flags and not DBEF_FIRST)) and
+        ((dbei.flags) = (dbeiExisting.flags)) and
       // fix for first event
         (dbei.eventType = dbeiExisting.eventType) and
         (dbei.cbBlob = dbeiExisting.cbBlob) then
