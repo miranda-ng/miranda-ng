@@ -82,7 +82,7 @@ void CDb3Mmap::WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNe
 void CDb3Mmap::FinishUp(DWORD ofsLast, DBContact *dbc)
 {
 	WriteOfsNextToPrevious(ofsLast, dbc, 0);
-	if (eventCount != dbc->eventCount && dbc->ofsFirstEvent != 0 || dbc->ofsLastEvent != 0 || dbc->ofsFirstUnread != 0) {
+	if (eventCount != dbc->eventCount && !(dbc->ofsFirstEvent == 0 && dbc->ofsLastEvent == 0 && dbc->ofsFirstUnread == 0)) {
 		cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Event count marked wrongly: correcting"));
 		dbc->eventCount = eventCount;
 	}
