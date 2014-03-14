@@ -774,7 +774,7 @@ static char* SM_GetUsers(SESSION_INFO *si)
 		lstrcpyA(p + pLen + nameLen, " ");
 		utemp = utemp->next;
 	}
-	while (utemp != NULL);
+		while (utemp != NULL);
 	return p;
 }
 
@@ -833,7 +833,7 @@ static void MM_IconsChanged(void)
 
 		if (ci.OnCreateModule) // recreate icons
 			ci.OnCreateModule(pTemp);
-		
+
 		pTemp = pTemp->next;
 	}
 }
@@ -1221,8 +1221,8 @@ static TCHAR* UM_FindUserAutoComplete(USERINFO* pUserList, const TCHAR* pszOrigi
 	USERINFO *pTemp = pUserList;
 	while (pTemp != NULL) {
 		if (pTemp->pszNick && my_strstri(pTemp->pszNick, pszOriginal) == pTemp->pszNick)
-		if (lstrcmpi(pTemp->pszNick, pszCurrent) > 0 && (!pszName || lstrcmpi(pTemp->pszNick, pszName) < 0))
-			pszName = pTemp->pszNick;
+			if (lstrcmpi(pTemp->pszNick, pszCurrent) > 0 && (!pszName || lstrcmpi(pTemp->pszNick, pszName) < 0))
+				pszName = pTemp->pszNick;
 
 		pTemp = pTemp->next;
 	}
@@ -1414,14 +1414,14 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.SM_GetUsers = SM_GetUsers;
 	ci.SM_GetUserFromIndex = SM_GetUserFromIndex;
 	ci.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
-	
+
 	ci.MM_AddModule = MM_AddModule;
 	ci.MM_FindModule = MM_FindModule;
 	ci.MM_FixColors = MM_FixColors;
 	ci.MM_FontsChanged = MM_FontsChanged;
 	ci.MM_IconsChanged = MM_IconsChanged;
 	ci.MM_RemoveAll = MM_RemoveAll;
-	
+
 	ci.TM_AddStatus = TM_AddStatus;
 	ci.TM_FindStatus = TM_FindStatus;
 	ci.TM_StringToWord = TM_StringToWord;
@@ -1440,7 +1440,7 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.UM_RemoveUser = UM_RemoveUser;
 	ci.UM_RemoveAll = UM_RemoveAll;
 	ci.UM_CompareItem = UM_CompareItem;
-	
+
 	ci.LM_AddEvent = LM_AddEvent;
 	ci.LM_TrimLog = LM_TrimLog;
 	ci.LM_RemoveAll = LM_RemoveAll;
@@ -1450,15 +1450,15 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.SetAllOffline = SetAllOffline;
 	ci.AddEvent = AddEvent;
 	ci.FindRoom = FindRoom;
-	
+
 	ci.Log_CreateRTF = Log_CreateRTF;
 	ci.Log_CreateRtfHeader = Log_CreateRtfHeader;
 	ci.LoadMsgDlgFont = LoadMsgDlgFont;
 	ci.MakeTimeStamp = MakeTimeStamp;
-	
+
 	ci.DoEventHook = DoEventHook;
 	ci.DoEventHookAsync = DoEventHookAsync;
-	
+
 	ci.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	ci.DoTrayIcon = DoTrayIcon;
 	ci.DoPopup = DoPopup;

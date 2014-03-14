@@ -47,26 +47,26 @@ static HANDLE
 
 void LoadChatIcons(void)
 {
-	ci.hIcons[ICON_ACTION]     = LoadIconEx("log_action", FALSE);
-	ci.hIcons[ICON_ADDSTATUS]  = LoadIconEx("log_addstatus", FALSE);
-	ci.hIcons[ICON_HIGHLIGHT]  = LoadIconEx("log_highlight", FALSE);
-	ci.hIcons[ICON_INFO]       = LoadIconEx("log_info", FALSE);
-	ci.hIcons[ICON_JOIN]       = LoadIconEx("log_join", FALSE);
-	ci.hIcons[ICON_KICK]       = LoadIconEx("log_kick", FALSE);
-	ci.hIcons[ICON_MESSAGE]    = LoadIconEx("log_message_in", FALSE);
+	ci.hIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
+	ci.hIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
+	ci.hIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
+	ci.hIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
+	ci.hIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
+	ci.hIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
+	ci.hIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
 	ci.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
-	ci.hIcons[ICON_NICK]       = LoadIconEx("log_nick", FALSE);
-	ci.hIcons[ICON_NOTICE]     = LoadIconEx("log_notice", FALSE);
-	ci.hIcons[ICON_PART]       = LoadIconEx("log_part", FALSE);
-	ci.hIcons[ICON_QUIT]       = LoadIconEx("log_quit", FALSE);
-	ci.hIcons[ICON_REMSTATUS]  = LoadIconEx("log_removestatus", FALSE);
-	ci.hIcons[ICON_TOPIC]      = LoadIconEx("log_topic", FALSE);
-	ci.hIcons[ICON_STATUS0]    = LoadIconEx("status0", FALSE);
-	ci.hIcons[ICON_STATUS1]    = LoadIconEx("status1", FALSE);
-	ci.hIcons[ICON_STATUS2]    = LoadIconEx("status2", FALSE);
-	ci.hIcons[ICON_STATUS3]    = LoadIconEx("status3", FALSE);
-	ci.hIcons[ICON_STATUS4]    = LoadIconEx("status4", FALSE);
-	ci.hIcons[ICON_STATUS5]    = LoadIconEx("status5", FALSE);
+	ci.hIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
+	ci.hIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
+	ci.hIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
+	ci.hIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
+	ci.hIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
+	ci.hIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
+	ci.hIcons[ICON_STATUS0] = LoadIconEx("status0", FALSE);
+	ci.hIcons[ICON_STATUS1] = LoadIconEx("status1", FALSE);
+	ci.hIcons[ICON_STATUS2] = LoadIconEx("status2", FALSE);
+	ci.hIcons[ICON_STATUS3] = LoadIconEx("status3", FALSE);
+	ci.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
+	ci.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
 
 	LoadMsgLogBitmaps();
 }
@@ -262,7 +262,7 @@ static void SetInitDone(SESSION_INFO *si)
 {
 	if (si->bInitDone)
 		return;
-	
+
 	si->bInitDone = true;
 	for (STATUSINFO *p = si->pStatuses; p; p = p->next)
 		if ((UINT_PTR)p->hIcon < STATUSICONCOUNT)
@@ -410,7 +410,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
 
-	NotifyEventHooks(hHookEvent,wParam,lParam);
+	NotifyEventHooks(hHookEvent, wParam, lParam);
 
 	SESSION_INFO *si;
 	mir_cslock lck(cs);
@@ -418,11 +418,11 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	// Do different things according to type of event
 	switch (gcd->iType) {
 	case GC_EVENT_ADDGROUP:
-		{
-			STATUSINFO *si = ci.SM_AddStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszStatus);
-			if (si && gce->dwItemData)
-				si->hIcon = CopyIcon((HICON)gce->dwItemData);
-		}
+	{
+		STATUSINFO *si = ci.SM_AddStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszStatus);
+		if (si && gce->dwItemData)
+			si->hIcon = CopyIcon((HICON)gce->dwItemData);
+	}
 		return 0;
 
 	case GC_EVENT_CHUID:
@@ -451,7 +451,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-	
+
 	case GC_EVENT_ADDSTATUS:
 		ci.SM_GiveStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
 		bIsHighlighted = ci.IsHighlighted(NULL, gce);
@@ -579,6 +579,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service creation
 
+static bool bInited = false;
+
 int LoadChatModule(void)
 {
 	InitializeCriticalSection(&cs);
@@ -606,11 +608,16 @@ int LoadChatModule(void)
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+
+	bInited = true;
 	return 0;
 }
 
 void UnloadChatModule(void)
 {
+	if (!bInited)
+		return;
+	
 	FreeMsgLogBitmaps();
 	OptionsUnInit();
 	DeleteCriticalSection(&cs);
