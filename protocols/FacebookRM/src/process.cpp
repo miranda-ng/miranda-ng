@@ -669,7 +669,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 			}
 		} else {
 			debugLogA(" !!!  Wrong friendship request");
-			debugLogA(req.c_str());
+			debugLogA("%s", req.c_str());
 		}
 	}
 
