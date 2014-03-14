@@ -264,8 +264,7 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
 {
 	std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.find(mid);
 	if (it != proto->facy.messages_ignore.end()) {
-		std::string msg = "????? Ignoring duplicit/sent message\n" + text;
-		proto->debugLogA(msg.c_str());
+		proto->debugLogA("????? Ignoring duplicit/sent message\n%s", text.c_str());
 
 		it->second = true; // mark to delete it at the end
 		return true;
