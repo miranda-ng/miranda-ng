@@ -39,90 +39,95 @@ static PLUGININFOEX pluginInfo = {
 	{0xd4bdd1eb, 0x56f1, 0x4a87, {0xa1, 0x87, 0x67, 0x24, 0x6e, 0xe9, 0x19, 0xa2}}, 
 };
 
-///////////////////////////////////////////////////////////////////////////////
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, void*)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-static void InstallFile(const TCHAR *pszFileName, const TCHAR *pszDestSubDir)
-{
-	TCHAR szFileFrom[MAX_PATH+1], szFileTo[MAX_PATH+1];
-	if ( !GetModuleFileName(hInst, szFileFrom, SIZEOF(szFileFrom) - lstrlen(pszFileName)))
-		return;
-
-	TCHAR *p = _tcsrchr(szFileFrom, _T('\\'));
-	if ( p != NULL ) *(++p) = 0;
-	lstrcat(szFileFrom, pszFileName); /* buffer safe */
-
-	HANDLE hFile = CreateFile(szFileFrom, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
-	if ( hFile  ==  INVALID_HANDLE_VALUE ) return;
-	CloseHandle(hFile);
-
-	if ( !GetModuleFileName(NULL, szFileTo, SIZEOF(szFileTo) - lstrlen(pszDestSubDir) - lstrlen(pszFileName)))
-		return;
-	
-	p = _tcsrchr(szFileTo, _T('\\'));
-	if ( p != NULL ) *(++p) = 0;
-	lstrcat(szFileTo, pszDestSubDir); /* buffer safe */
-	CreateDirectory(szFileTo, NULL);
-	lstrcat(szFileTo, pszFileName);  /* buffer safe */
-
-	if ( !MoveFile(szFileFrom, szFileTo) && GetLastError()  ==  ERROR_ALREADY_EXISTS) {
-		DeleteFile(szFileTo);
-		MoveFile(szFileFrom, szFileTo);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-///////////////////////////////////////////////////////////////////////////////
+BOOL IsRunAsAdmin()
+{
+	BOOL fIsRunAsAdmin = FALSE;
+	DWORD dwError = ERROR_SUCCESS;
+	PSID pAdministratorsGroup = NULL;
+
+	// Allocate and initialize a SID of the administrators group.
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	if (!AllocateAndInitializeSid(
+		&NtAuthority,
+		2,
+		SECURITY_BUILTIN_DOMAIN_RID,
+		DOMAIN_ALIAS_RID_ADMINS,
+		0, 0, 0, 0, 0, 0,
+		&pAdministratorsGroup))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	// Determine whether the SID of administrators group is enabled in 
+	// the primary access token of the process.
+	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+Cleanup:
+	// Centralized cleanup for all allocated resources.
+	if (pAdministratorsGroup)
+	{
+		FreeSid(pAdministratorsGroup);
+		pAdministratorsGroup = NULL;
+	}
+
+	// Throw the error if something failed in the function.
+	if (ERROR_SUCCESS != dwError)
+	{
+		throw dwError;
+	}
+
+	return fIsRunAsAdmin;
+}
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP( &pluginInfo );
-	
-	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING
-	 * is checked in MirandaPluginInfo().
-	 * Not placed in MirandaPluginInfo() to avoid MessageBoxes on plugin options. 
-	 * Using ANSI as LANG_UNICODE might not be supported. */
 
-	INITCOMMONCONTROLSEX icc;
+	if (!IsRunAsAdmin())
+		MovePacks(_T("langpack_*.txt"));
+
+	/*INITCOMMONCONTROLSEX icc;
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_TREEVIEW_CLASSES|ICC_USEREX_CLASSES;
-	InitCommonControlsEx(&icc);
+	InitCommonControlsEx(&icc);*/
+
+	TCHAR *langpack = db_get_tsa(NULL, "LangMan", "Langpack");
+	if (langpack)
+	{
+		TCHAR szPath[MAX_PATH], szFile[MAX_PATH];
+		mir_sntprintf(szFile, MAX_PATH, _T("Languages\\%s"), langpack);
+		GetPackPath(szPath, SIZEOF(szPath), TRUE, CharLower(szFile));
+
+		DWORD dwAttrib = GetFileAttributes(szPath);
+		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
+			CallService(MS_LANGPACK_RELOAD, 0, (LPARAM)szPath);
+		mir_free(langpack);
+	}
+
 	InitOptions();
 
-	/* menu item */
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.position = 2000089999;
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RELOAD));
-	mi.pszName = LPGEN("Reload langpack");
-	mi.pszService = MS_LANGPACK_RELOAD;
-	Menu_AddMainMenuItem(&mi);
-
-	/* installation */
-	InstallFile(_T("LangMan-Readme.txt"), _T("Docs\\"));
-	InstallFile(_T("LangMan-License.txt"), _T("Docs\\"));
-	InstallFile(_T("LangMan-SDK.zip"), _T("Docs\\"));
 	return 0;
 }
-
-///////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitOptions();
+
 	return 0;
 }

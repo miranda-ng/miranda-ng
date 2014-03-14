@@ -197,13 +197,11 @@
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\langpack.h" />
     <ClInclude Include="src\options.h" />
-    <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

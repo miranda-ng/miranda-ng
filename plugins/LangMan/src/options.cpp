@@ -148,78 +148,8 @@ static void CleanupPluginName(char *szShortName)
 		szShortName[--len] = 0;
 }
 
-static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pack)
-{
-	/* enum plugins */
-	TCHAR szDir[MAX_PATH];
-	if (!(pack->flags & LPF_DEFAULT) && GetModuleFileName(NULL, szDir, SIZEOF(szDir))) {
-		TCHAR *p = _tcsrchr(szDir, _T('\\'));
-		if (p != NULL)
-			*p = _T('\0');
-		
-		TCHAR szSearch[MAX_PATH];
-		mir_sntprintf(szSearch, SIZEOF(szSearch), _T("%s\\Plugins\\*.dll"), szDir);
-		WIN32_FIND_DATA wfd;
-		HANDLE hFind = FindFirstFile(szSearch, &wfd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			DWORD mirandaVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
-			SendMessage(hwndListBox, LB_SETLOCALE, CallService(MS_LANGPACK_GETLOCALE, 0, 0), 0); /* for sort order */
-			SendMessage(hwndListBox, LB_INITSTORAGE, 128, lstrlenA(pack->szPluginsIncluded)); /* speed up */
-			do {
-				if (wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
-				if ((lstrlen(wfd.cFileName) < 4) || (wfd.cFileName[lstrlen(wfd.cFileName) - 4] != _T('.'))) continue;
-				/* file name */
-				lstrcpy(szSearch, wfd.cFileName); /* buffer safe */
-				p = _tcsrchr(szSearch, _T('.'));
-				if (p != NULL)
-					*p = _T('\0');
-
-				char cFileNameA[MAX_PATH];
-				cFileNameA[0] = '\0';
-				WideCharToMultiByte(CP_ACP, 0, szSearch, -1, cFileNameA, sizeof(cFileNameA), NULL, NULL);
-				if (IsPluginIncluded(pack, cFileNameA))
-					continue;
-
-				/* friendly name of the plugin */
-				mir_sntprintf(szSearch, SIZEOF(szSearch), _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
-				HMODULE hModule = GetModuleHandle(szSearch);
-				bool fNeedsFree = (hModule == NULL);
-				if (hModule == NULL) {
-					hModule = LoadLibrary(szSearch);
-					if (hModule == NULL) continue;
-				}
-
-				/* plugin info */
-				pfnMirandaPluginInfo pFunc = (pfnMirandaPluginInfo)GetProcAddress(hModule, "MirandaPluginInfoEx");
-				if (pFunc != NULL) { /* both structs have the same header */
-					PLUGININFOEX *pluginInfo = pFunc(mirandaVersion);
-					if (pluginInfo != NULL && pluginInfo->cbSize >= sizeof(PLUGININFOEX) && pluginInfo->shortName != NULL) {
-						char buf[128];
-						lstrcpynA(buf, pluginInfo->shortName, sizeof(buf)); /* buffer safe */
-						CleanupPluginName(buf);
-
-						TCHAR buf2[128];
-						mir_sntprintf(buf2, SIZEOF(buf2), _T("%hs (%s)"), buf, CharLower(wfd.cFileName));
-						SendMessage(hwndListBox, LB_ADDSTRING, 0, (LPARAM)buf2);
-					}
-				}
-				if (fNeedsFree)
-					FreeLibrary(hModule);
-			}
-				while (FindNextFile(hFind, &wfd));
-			FindClose(hFind);
-		}
-	}
-	/* all are included? */
-	if (!SendMessage(hwndListBox, LB_GETCOUNT, 0, 0))
-		SendMessage(hwndListBox, LB_ADDSTRING, 0, (LPARAM)TranslateT("All installed plugins are included."));
-}
-
 static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 {
-	/* compute not-included from included list */
-	SendDlgItemMessage(hwndDlg, IDC_LANGNOTINCLUDED, LB_RESETCONTENT, 0, 0);
-	DisplayNotIncludedPlugins(GetDlgItem(hwndDlg, IDC_LANGNOTINCLUDED), pack);
 	/* locale string */
 	if (!(pack->flags & LPF_NOLOCALE)) {
 		TCHAR szLocaleName[128];
@@ -381,8 +311,11 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		if ( ServiceExists(MS_FLAGS_LOADFLAGICON))
 			ListView_SetImageList(hwndList, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR24, 8, 8), LVSIL_SMALL); 
-		CorrectPacks(_T("langpack_*.txt"), FALSE);
-		CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, db_get_b(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT)!=0);
+		
+		TCHAR szPath[MAX_PATH];
+		GetPackPath(szPath, SIZEOF(szPath), FALSE, _T(""));
+		SetDlgItemText(hwndDlg, IDC_SKINROOTFOLDER, szPath);
+
 		SendMessage(hwndDlg, M_RELOADLIST, 0, 0);
 		SendMessage(hwndDlg, M_SHOWFILECOL, 0, 1);
 		return TRUE;
@@ -395,10 +328,10 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HIMAGELIST himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
 			ImageList_RemoveAll(himl);
 			/* enum all packs */
-			EnumPacks(InsertPackItemEnumProc, _T("langpack_*.txt"), "Miranda Language Pack Version 1", TRUE, (WPARAM)hwndList, (LPARAM)himl);
+			EnumPacks(InsertPackItemEnumProc, _T("langpack_*.txt"), "Miranda Language Pack Version 1", (WPARAM)hwndList, (LPARAM)himl);
 			/* make it use current langpack locale for sort */
 			ListView_SortItems(hwndList, CompareListItem, CallService(MS_LANGPACK_GETLOCALE, 0, 0));
-			CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, db_get_b(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT) != 0);
+			//CheckDlgButton(hwndDlg, IDC_ENABLEAUTOUPDATES, db_get_b(NULL, "LangMan", "EnableAutoUpdates", SETTING_ENABLEAUTOUPDATES_DEFAULT) != 0);
 			/* show selection */
 			int iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED);
 			if (iItem != -1)
@@ -596,13 +529,20 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				lvi.iSubItem = 0;
 				for (lvi.iItem = 0; ListView_GetItem(hwndList, &lvi); ++lvi.iItem) {
 					LANGPACK_INFO *pack = (LANGPACK_INFO*)lvi.lParam;
-					if (lvi.state&INDEXTOSTATEIMAGEMASK(2)) {
-						EnablePack(pack, _T("langpack_*.txt"));
+					if (lvi.state&INDEXTOSTATEIMAGEMASK(2) && !(pack->flags & LPF_ENABLED)) {
+						if(!(pack->flags & LPF_DEFAULT))
+							db_set_ws(NULL, "LangMan", "Langpack", pack->szFileName);
+						else
+							db_unset(NULL, "LangMan", "Langpack");
+						TCHAR szPath[MAX_PATH];
+						GetPackPath(szPath, SIZEOF(szPath), FALSE, pack->szFileName);
+						CallService(MS_LANGPACK_RELOAD, 0, (LPARAM)szPath);
 						pack->flags |= LPF_ENABLED;
+						CloseWindow(GetParent(hwndDlg));
+						DestroyWindow(GetParent(hwndDlg));
 					}
 					else pack->flags &= ~LPF_ENABLED;
 				}
-				db_set_b(NULL, "LangMan", "EnableAutoUpdates", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEAUTOUPDATES) != 0));
 				return TRUE;
 			}
 		}
@@ -639,7 +579,7 @@ void InitOptions(void)
 {
 	hwndLangOpt = NULL;
 	hHookOptInit = HookEvent(ME_OPT_INITIALISE, LangOptInit);
-	CorrectPacks(_T("langpack_*.txt"), FALSE);
+	//CorrectPacks(_T("langpack_*.txt"), FALSE);
 }
 
 void UninitOptions(void)

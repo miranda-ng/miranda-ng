@@ -38,7 +38,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "langpack.h"
 #include "options.h"
-#include "utils.h"
 #include "resource.h"
 #include "version.h"
 

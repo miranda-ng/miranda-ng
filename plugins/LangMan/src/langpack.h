@@ -19,6 +19,10 @@ along with this program (LangMan-License.txt); if not, write to the Free Softwar
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#define LPF_ENABLED   0x01  // pack is enabled
+#define LPF_NOLOCALE  0x02  // pack has no valid locale
+#define LPF_DEFAULT   0x04  // pack is the english default (no langpack)
+
 /* Langpack Info */
 typedef struct {
 	TCHAR szLanguage[64];
@@ -34,16 +38,9 @@ typedef struct {
 	TCHAR szFileName[MAX_PATH]; /* just the file name itself */
 	BYTE flags; /* see LPIF_* flags */
 } LANGPACK_INFO;
-#define LPF_ENABLED   0x01  // pack is enabled
-#define LPF_NOLOCALE  0x02  // pack has no valid locale
-#define LPF_DEFAULT   0x04  // pack is the english default (no langpack)
 
 /* Enum */
 BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *pszFile);
 typedef BOOL (*ENUM_PACKS_CALLBACK)(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lParam);
-BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const char *pszFileVersionHeader, BOOL fEnglishDefault, WPARAM wParam, LPARAM lParam);
-BOOL IsPluginIncluded(const LANGPACK_INFO *pack, char *pszFileBaseName);
-
-/* Switch */
-BOOL EnablePack(const LANGPACK_INFO *pack, const TCHAR *pszFilePattern);
-void CorrectPacks(const TCHAR *pszFilePattern, BOOL fDisableAll);
+BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const char *pszFileVersionHeader, WPARAM wParam, LPARAM lParam);
+void MovePacks(const TCHAR *pszFilePattern);
