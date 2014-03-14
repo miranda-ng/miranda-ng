@@ -133,7 +133,11 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (pAck && pAck->type == ACKTYPE_MESSAGE) {
-		msgQueue_processack(pAck->hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
+		MCONTACT hContact = db_mc_getMeta(pAck->hContact);
+		if (hContact == NULL)
+			hContact = pAck->hContact;
+
+		msgQueue_processack(hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
 
 		if (pAck->result == ACKRESULT_SUCCESS)
 			SkinPlaySound("SendMsg");

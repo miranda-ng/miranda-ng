@@ -344,21 +344,21 @@ extern "C" __declspec(dllexport) int Load(void)
 	pci->OnAddUser = OnAddUser;
 	pci->OnNewUser = OnNewUser;
 	pci->OnRemoveUser = OnRemoveUser;
-	
+
 	pci->OnAddStatus = OnAddStatus;
 	pci->OnSetStatus = OnSetStatus;
 	pci->OnSetTopic = OnSetTopic;
-	
+
 	pci->OnAddLog = OnAddLog;
 	pci->OnClearLog = OnClearLog;
-	
+
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnOfflineSession = OnOfflineSession;
 	pci->OnRemoveSession = OnRemoveSession;
 	pci->OnRenameSession = OnRenameSession;
 	pci->OnReplaceSession = OnReplaceSession;
 	pci->OnDblClickSession = OnDblClickSession;
-	
+
 	pci->OnEventBroadcast = OnEventBroadcast;
 	pci->OnLoadSettings = OnLoadSettings;
 	pci->OnSetStatusBar = OnSetStatusBar;
@@ -385,7 +385,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_w(NULL, CHAT_MODULE, "SplitterY", (WORD)g_Settings.iSplitterY);
 	db_set_dw(NULL, CHAT_MODULE, "roomx", g_Settings.iX);
 	db_set_dw(NULL, CHAT_MODULE, "roomy", g_Settings.iY);
-	db_set_dw(NULL, CHAT_MODULE, "roomwidth" , g_Settings.iWidth);
+	db_set_dw(NULL, CHAT_MODULE, "roomwidth", g_Settings.iWidth);
 	db_set_dw(NULL, CHAT_MODULE, "roomheight", g_Settings.iHeight);
 
 	if (g_Settings.MessageBoxFont)

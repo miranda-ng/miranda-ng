@@ -399,21 +399,23 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 	if (pAck->type != ACKTYPE_MESSAGE)
 		return 0;
 
-	ACKDATA *ack = (ACKDATA*)lParam;
-	MessageSendQueueItem *item = FindSendQueueItem(pAck->hContact, (HANDLE)pAck->hProcess);
+	MCONTACT hContact = db_mc_getMeta(pAck->hContact);
+	if (hContact == NULL)
+		hContact = pAck->hContact;
+	MessageSendQueueItem *item = FindSendQueueItem(hContact, (HANDLE)pAck->hProcess);
 	if (item == NULL)
 		return 0;
 
 	HWND hwndSender = item->hwndSender;
-	if (ack->result == ACKRESULT_FAILED) {
+	if (pAck->result == ACKRESULT_FAILED) {
 		if (item->hwndErrorDlg != NULL)
-			item = FindOldestPendingSendQueueItem(hwndSender, pAck->hContact);
+			item = FindOldestPendingSendQueueItem(hwndSender, hContact);
 
 		if (item != NULL && item->hwndErrorDlg == NULL) {
 			if (hwndSender != NULL) {
 				ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
 				ewd->szName = GetNickname(item->hContact, item->proto);
-				ewd->szDescription = mir_a2t((char*)ack->lParam);
+				ewd->szDescription = mir_a2t((char*)pAck->lParam);
 				ewd->szText = GetSendBufferMsg(item);
 				ewd->hwndParent = hwndSender;
 				ewd->queueItem = item;
