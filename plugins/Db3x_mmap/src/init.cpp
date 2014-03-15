@@ -80,14 +80,14 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 	return db.release();
 }
 
-static int UnloadDatabase(MIDatabase* db)
+static int UnloadDatabase(MIDatabase *db)
 {
 	g_Dbs.remove((CDb3Mmap*)db);
 	delete (CDb3Mmap*)db;
 	return 0;
 }
 
-MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
+MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 {
 	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, true));
 	if (db->Load(true) != ERROR_SUCCESS) {

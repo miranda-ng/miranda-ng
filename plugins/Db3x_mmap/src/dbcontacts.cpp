@@ -388,6 +388,7 @@ void CDb3Mmap::ConvertContacts()
 	DBContact *pPrev = NULL;
 
 	m_dbHeader.ofsUser = ReallocSpace(m_dbHeader.ofsUser, OLD_CONTACT_SIZE, sizeof(DBContact));
+	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 
 	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
 		DBContact *pOld = (DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
