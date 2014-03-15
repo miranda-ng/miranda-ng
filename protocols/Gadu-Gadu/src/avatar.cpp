@@ -380,12 +380,12 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		return;
 	}
 
-	size_t avatarFileLen = (size_t)_filelength(file_fd);
+	long avatarFileLen = _filelength(file_fd);
 	char* avatarFile = (char*)mir_alloc(avatarFileLen);
 	_read(file_fd, avatarFile, avatarFileLen);
 	_close(file_fd);
 
-	ptrA avatarFileB64(mir_base64_encode((PBYTE)avatarFile, (unsigned)avatarFileLen));
+	ptrA avatarFileB64(mir_base64_encode((PBYTE)avatarFile, avatarFileLen));
 	mir_free(avatarFile);
 
 	ptrA avatarFileB64Enc(mir_urlEncode(avatarFileB64));
@@ -434,7 +434,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	httpHeaders[9].szValue = "http://avatars.nowe.gg/.static/index_new_22.0.2_595nwh.html";
 	req.headers = httpHeaders;
 	req.pData = data;
-	req.dataLength = dataLen;
+	req.dataLength = int(dataLen);
 
 	//send request
 	int resultSuccess = 0;
@@ -472,7 +472,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		req.headersCount = 10;
 		req.headers = httpHeaders;
 		req.pData = data;
-		req.dataLength = dataLen;
+		req.dataLength = int(dataLen);
 
 		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 		if (resp) {
