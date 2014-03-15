@@ -261,15 +261,13 @@ type
     szModuleName    :PAnsiChar;        // unique physical account name (matches database module name)
     tszAccountName  :TChar;            // user-defined account name
     szProtoName     :PAnsiChar;        // physical protocol name
-    bIsEnabled      :byte;             // is account enabled?
-    bIsVisible      :byte;             // is account visible?
-    bIsVirtual      :byte;             // is account virtual?
-    bOldProto       :byte;             // old-styled account (one instance per dll)
-    bDynDisabled    :byte;             // dynamic disable flag, is never written to db
-
-    bAccMgrUIChanged:byte;
+    bIsEnabled      :ByteBool;         // is account enabled?
+    bIsVisible      :ByteBool;         // is account visible?
+    bIsVirtual      :ByteBool;         // is account virtual?
+    bOldProto       :ByteBool;         // old-styled account (one instance per dll)
+    bDynDisabled    :ByteBool;         // dynamic disable flag, is never written to db
+    bAccMgrUIChanged:ByteBool;
     hwndAccMgrUI    :HWND;
-
     iOrder          :int;              // account order in various menus & lists
     ppro            :PPROTO_INTERFACE; // pointer to the underlying object
   end;
