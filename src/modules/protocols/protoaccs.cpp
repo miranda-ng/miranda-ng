@@ -84,7 +84,7 @@ void LoadDbAccounts(void)
 		db_free(&dbv);
 
 		_itoa(OFFSET_VISIBLE+i, buf, 10);
-		pa->bIsVisible = db_get_dw(NULL, "Protocols", buf, 1);
+		pa->bIsVisible = db_get_dw(NULL, "Protocols", buf, 1) != 0;
 
 		_itoa(OFFSET_PROTOPOS+i, buf, 10);
 		pa->iOrder = db_get_dw(NULL, "Protocols", buf, 1);
@@ -98,14 +98,14 @@ void LoadDbAccounts(void)
 			}
 
 			_itoa(OFFSET_ENABLED+i, buf, 10);
-			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1);
+			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1) != 0;
 
 			if (!db_get_s(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
 				pa->szProtoName = mir_strdup(dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
-		else pa->bIsEnabled = TRUE;
+		else pa->bIsEnabled = true;
 
 		if (!pa->szProtoName) {
 			pa->szProtoName = mir_strdup(pa->szModuleName);
@@ -118,11 +118,13 @@ void LoadDbAccounts(void)
 		accounts.insert(pa);
 	}
 
-	if (CheckProtocolOrder()) WriteDbAccounts();
+	if (CheckProtocolOrder())
+		WriteDbAccounts();
 
 	int anum = accounts.getCount();
 	CallService(MS_DB_MODULES_ENUM, 0, (LPARAM)EnumDbModules);
-	if (anum != accounts.getCount()) WriteDbAccounts();
+	if (anum != accounts.getCount())
+		WriteDbAccounts();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -422,7 +424,6 @@ static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, 
 
 BOOL ActivateAccount(PROTOACCOUNT *pa)
 {
-	PROTO_INTERFACE* ppi;
 	PROTOCOLDESCRIPTOR* ppd = Proto_IsProtocolLoaded(pa->szProtoName);
 	if (ppd == NULL)
 		return FALSE;
@@ -430,7 +431,7 @@ BOOL ActivateAccount(PROTOACCOUNT *pa)
 	if (ppd->fnInit == NULL)
 		return FALSE;
 
-	ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
+	PROTO_INTERFACE *ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
 	if (ppi == NULL)
 		return FALSE;
 

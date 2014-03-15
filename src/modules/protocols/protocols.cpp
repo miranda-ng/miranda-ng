@@ -120,11 +120,12 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 					pa->szModuleName = mir_strdup(pd->szName);
 					pa->szProtoName = mir_strdup(pd->szName);
 					pa->tszAccountName = mir_a2t(pd->szName);
-					pa->bIsVisible = pa->bIsEnabled = TRUE;
+					pa->bIsVisible = pa->bIsEnabled = true;
+					pa->bIsVirtual = (p->type == PROTOTYPE_VIRTUAL);
 					pa->iOrder = accounts.getCount();
 					accounts.insert(pa);
 				}
-				pa->bOldProto = TRUE;
+				pa->bOldProto = true;
 				pa->ppro = ppi;
 				p->fnInit = defInitProto;
 				p->fnUninit = FreeDefaultAccount;

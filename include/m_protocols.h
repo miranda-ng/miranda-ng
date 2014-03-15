@@ -281,15 +281,17 @@ typedef struct tagACCOUNT
 	char*  szModuleName;    // unique physical account name (matches database module name)
 	TCHAR* tszAccountName;  // user-defined account name
 	char*  szProtoName;     // physical protocol name
-	int    bIsEnabled;      // is account enabled?
-	int    bIsVisible;      // is account visible?
-	int    iOrder;          // account order in various menus & lists
-	BOOL   bOldProto;       // old-styled account (one instance per dll)
-	PROTO_INTERFACE *ppro;  // pointer to the underlying object
+	bool   bIsEnabled;      // is account enabled?
+	bool   bIsVisible;      // is account visible?
+	bool   bIsVirtual;      // is account virtual?
+	bool   bOldProto;       // old-styled account (one instance per dll)
+	bool   bDynDisabled;    // dynamic disable flag, is never written to db
 
+	bool   bAccMgrUIChanged;
 	HWND   hwndAccMgrUI;
-	BOOL   bAccMgrUIChanged;
-	BOOL   bDynDisabled;    // dynamic disable flag, is never written to db
+
+	int    iOrder;          // account order in various menus & lists
+	PROTO_INTERFACE *ppro;  // pointer to the underlying object
 }
 	PROTOACCOUNT;
 

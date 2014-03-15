@@ -707,7 +707,7 @@ begin
       p:=PPROTOACCOUNT(CallService(MS_PROTO_GETACCOUNT,0,lparam(@name)));
       if p=nil then
         result:=-2 // deleted
-      else if (p^.bIsEnabled=0) or p^.bDynDisabled then
+      else if (p^.bIsEnabled=0) or (p^.bDynDisabled<>0) then
         result:=-1; // disabled
     end
     else

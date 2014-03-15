@@ -345,7 +345,8 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 		return 0;
 	}
 
-	if (!options.bEnabled) {
+	PROTOACCOUNT *pa = Proto_GetAccount(cc->szProto);
+	if (!options.bEnabled || pa->bIsVirtual) {
 		// groups disabled - all meta menu options hidden
 		Menu_ShowItem(hMenuDefault, false);
 		Menu_ShowItem(hMenuDelete, false);
