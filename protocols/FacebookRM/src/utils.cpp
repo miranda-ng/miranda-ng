@@ -456,7 +456,7 @@ std::string utils::text::rand_string(int len, const char *chars)
 
 	srand(::time(NULL));
 	for (int i = 0; i < len; ++i) {
-		out << chars[utils::number::random(0, strlen(chars))];
+		out << chars[utils::number::random(0, (int)strlen(chars))];
 	}
 
 	return out.str();
