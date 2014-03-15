@@ -173,7 +173,7 @@ EventData* getEventFromDB(struct SrmmWindowData *dat, MCONTACT hContact, HANDLE 
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE)
 		db_event_markRead(hContact, hDbEvent);
 
-	evt->eventType = evt->custom ? EVENTTYPE_MESSAGE : dbei.eventType;
+	evt->eventType = dbei.eventType;
 	evt->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
 	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
 
@@ -637,10 +637,7 @@ static char* CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 				i = LOGICON_MSG_IN;
 			break;
 
-		case EVENTTYPE_JABBER_CHATSTATES:
-		case EVENTTYPE_JABBER_PRESENCE:
-		case EVENTTYPE_URL:
-		case EVENTTYPE_FILE:
+		default:
 			i = LOGICON_MSG_NOTICE;
 			break;
 		}
@@ -713,14 +710,6 @@ static char* CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s: ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 	}
 	switch (evt->eventType) {
-	case EVENTTYPE_MESSAGE:
-		if (gdat->flags & SMF_MSGONNEWLINE && showColon)
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line");
-
-		style = evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
-		AppendWithCustomLinks(evt, style, &buffer, &bufferEnd, &bufferAlloced);
-		break;
-
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 	case EVENTTYPE_URL:
@@ -758,6 +747,13 @@ static char* CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, stru
 				AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, evt->pszText2);
 			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(")"));
 		}
+		break;
+	default:
+		if (gdat->flags & SMF_MSGONNEWLINE && showColon)
+			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line");
+
+		style = evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
+		AppendWithCustomLinks(evt, style, &buffer, &bufferEnd, &bufferAlloced);
 		break;
 	}
 	if (dat->isMixed)
