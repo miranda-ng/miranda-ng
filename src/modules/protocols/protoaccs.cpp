@@ -32,6 +32,7 @@ void BuildProtoMenus();
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex);
 
 static BOOL bModuleInitialized = FALSE;
+static HANDLE hHooks[4];
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
 {
@@ -199,6 +200,7 @@ void WriteDbAccounts()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
 static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
@@ -275,10 +277,10 @@ int LoadAccountsModule(void)
 			pa->bDynDisabled = TRUE;
 	}
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
-	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbSettingsChanged);
+	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
+	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
+	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
+	hHooks[3] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbSettingsChanged);
 	return 0;
 }
 
@@ -582,6 +584,10 @@ void UnloadAccountsModule()
 		UnloadAccount(pa, false, false);
 		accounts.remove(i);
 	}
+	accounts.destroy();
+
+	for (int i = 0; i < SIZEOF(hHooks); i++)
+		UnhookEvent(hHooks[i]);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
