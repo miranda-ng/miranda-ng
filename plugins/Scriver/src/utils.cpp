@@ -429,25 +429,26 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 	}
 }
 
-void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen) {
+void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen)
+{
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
-    ci.cbSize = sizeof(ci);
-    ci.hContact = dat->windowData.hContact;
-    ci.szProto = dat->szProto;
-    ci.dwFlag = CNF_UNIQUEID;
+	ci.cbSize = sizeof(ci);
+	ci.hContact = dat->windowData.hContact;
+	ci.szProto = dat->szProto;
+	ci.dwFlag = CNF_UNIQUEID;
 	buf[0] = 0;
-    if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
-        switch (ci.type) {
-            case CNFT_ASCIIZ:
-                mir_snprintf(buf, maxlen, "%s", ci.pszVal);
-                mir_free(ci.pszVal);
-                break;
-            case CNFT_DWORD:
-                mir_snprintf(buf, maxlen, "%u", ci.dVal);
-                break;
-        }
-    }
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+		switch (ci.type) {
+		case CNFT_ASCIIZ:
+			mir_snprintf(buf, maxlen, "%s", ci.pszVal);
+			mir_free(ci.pszVal);
+			break;
+		case CNFT_DWORD:
+			mir_snprintf(buf, maxlen, "%u", ci.dVal);
+			break;
+		}
+	}
 }
 
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rect)
@@ -468,29 +469,28 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rec
 	ti.hinst = g_hInst;
 	ti.lpszText = ptszText;
 	ti.rect = *rect;
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 	return hwndTT;
 }
 
-void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle) {
-	TOOLINFO ti = { 0 };
-	ti.cbSize = sizeof(TOOLINFO);
+void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle)
+{
+	TOOLINFO ti = { sizeof(ti) };
 	ti.hinst = g_hInst;
 	ti.hwnd = hwndParent;
 	ti.lpszText = ptszText;
-	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM)(LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM)(LPTOOLINFO)&ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 }
 
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
 {
-	TOOLINFO ti = { 0 };
-	ti.cbSize = sizeof(TOOLINFO);
+	TOOLINFO ti = { sizeof(ti) };
 	ti.hinst = g_hInst;
 	ti.hwnd = hwndParent;
 	ti.rect = *rect;
-	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)(LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)(LPTOOLINFO)&ti);
 }
 
 /* toolbar-related stuff, to be moved to a separate file */

@@ -558,7 +558,7 @@ int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
-	if (cc != NULL && cc->IsMeta())
+	if (cc != NULL)
 		Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
 	return 0;
 }
