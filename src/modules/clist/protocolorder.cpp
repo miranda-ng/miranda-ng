@@ -201,7 +201,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							while (idx < accounts.getCount() && !ProtoToInclude(accounts[idx])) idx++;
 							pa->iOrder = idx++;
 							if (ppd->enabled)
-								pa->bIsVisible = ppd->show;
+								pa->bIsVisible = ppd->show != 0;
 						}
 					}
 

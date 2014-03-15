@@ -235,37 +235,17 @@ MCONTACT Meta_GetMostOnline(DBCachedContact *cc)
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability)
 {
 	if (cc == NULL || cc->nDefault == -1)
-		return 0;
-
-	int most_online_status = ID_STATUS_OFFLINE;
-	MCONTACT hContact;
-	int i;
+		return NULL;
 
 	// if the default is beyond the end of the list (eek!) return null
 	if (cc->nDefault >= cc->nSubs)
 		return NULL;
 
+	int most_online_status = ID_STATUS_OFFLINE;
 	MCONTACT most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
 	char *szProto = GetContactProto(most_online_contact);
-	DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
-	if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
-	// we are forced to do use default for sending - '-1' capability indicates no specific capability, but respect 'Force Default'
-	if (szProto && db_get_b(cc->contactID, META_PROTO, "ForceDefault", 0) && capability != 0 && (capability == -1 || (caps & capability) == capability)) // capability is 0 when we're working out status
-		return most_online_contact;
-
-	// a subcontact is being temporarily 'forced' to do sending
-	if ((most_online_contact = db_get_dw(cc->contactID, META_PROTO, "ForceSend", 0))) {
-		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
-		if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
-		if (szProto && (caps & capability) == capability && capability != 0) // capability is 0 when we're working out status
-			return most_online_contact;
-	}
-
-	most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
-	szProto = GetContactProto(most_online_contact);
 	if (szProto && CallProtoService(szProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
-		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
-		if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
+		DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
 		if (szProto && (capability == -1 || (caps & capability) == capability)) {
 			most_online_status = db_get_w(most_online_contact, szProto, "Status", ID_STATUS_OFFLINE);
 
@@ -280,18 +260,17 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 	char *most_online_proto = szProto;
 	// otherwise, check all the subcontacts for the one closest to the ONLINE state which supports the required capability
-	for (i = 0; i < cc->nSubs; i++) {
+	for (int i = 0; i < cc->nSubs; i++) {
 		if (i == cc->nDefault) // already checked that (i.e. initial value of most_online_contact and most_online_status are those of the default contact)
 			continue;
 
-		hContact = Meta_GetContactHandle(cc, i);
+		MCONTACT hContact = Meta_GetContactHandle(cc, i);
 		szProto = GetContactProto(hContact);
 
 		if (!szProto || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
-		caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
-		if (szProto && strcmp(szProto, "IRC") == 0) caps |= PF1_IM;
+		DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
 		if (szProto && (capability == -1 || (caps & capability) == capability)) {
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			if (status == ID_STATUS_ONLINE) {
@@ -567,14 +546,36 @@ INT_PTR CALLBACK DlgProcNull(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 void Meta_FixStatus(DBCachedContact *ccMeta)
 {
+	WORD status = ID_STATUS_OFFLINE;
+
 	MCONTACT most_online = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_1, 0);
 	if (most_online) {
 		char *szProto = GetContactProto(most_online);
-		if (szProto) {
-			WORD status = db_get_w(most_online, szProto, "Status", ID_STATUS_OFFLINE);
-			db_set_w(ccMeta->contactID, META_PROTO, "Status", status);
-		}
-		else db_set_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
+		if (szProto)
+			status = db_get_w(most_online, szProto, "Status", ID_STATUS_OFFLINE);
 	}
-	else db_set_w(ccMeta->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE);
+
+	db_set_w(ccMeta->contactID, META_PROTO, "Status", status);
+	Meta_UpdateSrmmIcon(ccMeta, status);
+}
+
+void Meta_UpdateSrmmIcon(DBCachedContact *ccMeta, int iStatus)
+{
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = META_PROTO;
+	sid.flags = MBF_HIDDEN;
+	if (ccMeta->IsMeta()) {
+		MCONTACT hSub = Meta_GetMostOnline(ccMeta);
+		char *szProto = GetContactProto(hSub);
+		if (szProto) {
+			sid.hIcon = LoadSkinnedProtoIcon(szProto, iStatus);
+
+			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+			if (pa) {
+				sid.flags = MBF_TCHAR;
+				sid.tszTooltip = pa->tszAccountName;
+			}
+		}
+	}
+	Srmm_ModifyIcon(ccMeta->contactID, &sid);
 }

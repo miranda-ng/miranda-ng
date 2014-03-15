@@ -62,7 +62,6 @@ int LoadMetacontacts(void)
 
 	db_set_resident(META_PROTO, "Status");
 	db_set_resident(META_PROTO, "IdleTS");
-	db_set_resident(META_PROTO, "WindowOpen");
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
 	for (MCONTACT hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {

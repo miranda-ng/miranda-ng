@@ -554,23 +554,12 @@ int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
-
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
-	if (cc == NULL)
+	if (mwed->uType != MSG_WINDOW_EVT_OPEN)
 		return 0;
 
-	if (cc->IsMeta() || cc->IsSub()) {
-		// contact is subcontact of metacontact, or an actual metacontact - record whether window is open or closed
-		if (mwed->uType == MSG_WINDOW_EVT_OPEN || mwed->uType == MSG_WINDOW_EVT_OPENING) {
-			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 1);
-
-			if (cc->IsSub())  // subcontact window opened - remove clist events we added for metacontact
-			while (!CallService(MS_CLIST_REMOVEEVENT, cc->parentID, mwed->hContact));
-		}
-		else if (mwed->uType == MSG_WINDOW_EVT_CLOSE || mwed->uType == MSG_WINDOW_EVT_CLOSING)
-			db_set_b(mwed->hContact, META_PROTO, "WindowOpen", 0);
-	}
-
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
+	if (cc != NULL && cc->IsMeta())
+		Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
 	return 0;
 }
 
@@ -610,7 +599,12 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	////////////////////////////////////////////////////////////////////////////
 	InitMenus();
 
-	// hook srmm window close/open events - message api ver 0.0.0.1+
+	// create srmm icon
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = META_PROTO;
+	Srmm_AddIcon(&sid);
+
+	// hook srmm window close/open events
 	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
 
 	// hook protocol nudge events to forward to subcontacts
