@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.2.2.1 |
+| Facebook Protocol RM 0.2.3.1 |
 |        for Miranda NG        |
-|         (27.11.2013)         |
+|          (15.3.2014)         |
 --------------------------------
 
 Autor: Robyer
@@ -34,6 +34,25 @@ Info:
 --------------------------------
        Version history
 --------------------------------
+
+0.2.3.1 - 15.3.2014
+ ! Allow more Miranda instances to be connected to same account at same time
+ ! Fix showing duplicates of sent messages (at the cost of slowing down whole processing and sending only one message at a time :()
+ ! Crash fix (thanks ghazan)
+
+0.2.3.0 - 11.3.2014
+ + Add option to keep messages unread and loading only inbox messages
+ + Add contact menu item to open "Conversation history" on website
+ * Mark messages as read when they are really read in Miranda (only for private conversations - group chats are still marked as read instantly)
+ * Don't notify errors marked as "silent" by Facebook
+ * Use user-defined account name in popups (thanks ghazan)
+ ! Hotfix for sticky number (some FB API update)
+ ! Fix loading unread (offline) messages
+ ! Fixed loading sent messages (from other connected devices)
+ ! Workaround to "receive" unsupported attachments in messages
+ ! Fixed url to (old) mobile website (thanks Naseem)
+ ! Various internal code fixes, changes and cleaning (thanks ghazan)
+
 0.2.2.1 - 27.11.2013
  ! Fixed marking messages of some multichats as read
  ! Fixed downloading avatars of some contacts (and repeated downloading of them again and again...)
