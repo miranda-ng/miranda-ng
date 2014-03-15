@@ -35,7 +35,6 @@ struct
 		 num_contacts;                        // DWORD number of contacts
 	MCONTACT hDeletedContacts[MAX_CONTACTS]; // HANDLEs of the subcontacts to be removed from this metacontact
 	MCONTACT hContact[MAX_CONTACTS];         // HANDLEs of the subcontacts, in the order they should be in
-	int force_default;
 }
 static g_data; // global CHANGES structure
 
@@ -173,9 +172,6 @@ static void ApplyChanges()
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 			db_set_ts(g_data.hMeta, "ContactPhoto", "File", AI.filename);
 	}
-
-	if (MetaAPI_GetForceState(g_data.hMeta, 0) != g_data.force_default)
-		MetaAPI_ForceDefault(g_data.hMeta, 0);
 }
 
 LRESULT ProcessCustomDraw(LPARAM lParam)
@@ -274,11 +270,8 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			g_data.hOfflineContact = Meta_GetContactHandle(g_data.cc, offline_contact_number);
 			for (i = 0; i < cc->nSubs; i++)
 				g_data.hContact[i] = Meta_GetContactHandle(g_data.cc, i);
-			g_data.force_default = MetaAPI_GetForceState(lParam, 0);
 
 			SendMessage(hwndDlg, WMU_SETTITLE, 0, lParam);
-
-			CheckDlgButton(hwndDlg, IDC_CHK_FORCEDEFAULT, g_data.force_default);
 
 			FillContactList(hwndDlg);
 		}
@@ -433,11 +426,6 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), (sel > 0));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel < g_data.num_contacts - 1));
-				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
-				return TRUE;
-
-			case IDC_CHK_FORCEDEFAULT:
-				g_data.force_default = IsDlgButtonChecked(hwndDlg, IDC_CHK_FORCEDEFAULT);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 			}

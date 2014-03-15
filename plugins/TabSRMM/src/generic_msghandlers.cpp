@@ -1397,12 +1397,6 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	LoadTimeZone(dat);
 
-	if (dat->hContact && dat->szProto != NULL && dat->bIsMeta) {
-		DWORD dwForcedContactNum = 0;
-		CallService(MS_MC_GETFORCESTATE, dat->hContact, (LPARAM)&dwForcedContactNum);
-		db_set_dw(dat->hContact, SRMSGMOD_T, "tabSRMM_forced", dwForcedContactNum);
-	}
-
 	dat->showUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 
 	dat->dwFlagsEx = M.GetByte(dat->hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;

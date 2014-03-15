@@ -224,34 +224,6 @@ INT_PTR Meta_Default(WPARAM hSub, LPARAM wParam)
 	return 0;
 }
 
-/** Set/unset (i.e. toggle) contact to force use of default contact
-*
-* Set the given contact to be the default one for the metacontact to which it is linked.
-*
-* @param wParam : HANDLE to the MetaContact to be set as default
-* @param lParam :HWND to the clist window
-(This means the function has been called via the contact menu).
-*/
-
-INT_PTR Meta_ForceDefault(WPARAM hMeta, LPARAM)
-{
-	// the wParam is a MetaContact
-	DBCachedContact *cc = CheckMeta(hMeta);
-	if (cc) {
-		BOOL current = db_get_b(hMeta, META_PROTO, "ForceDefault", 0);
-		current = !current;
-		db_set_b(hMeta, META_PROTO, "ForceDefault", (BYTE)current);
-
-		db_set_dw(hMeta, META_PROTO, "ForceSend", 0);
-
-		if (current)
-			NotifyEventHooks(hEventForceSend, hMeta, Meta_GetContactHandle(cc, cc->nDefault));
-		else
-			NotifyEventHooks(hEventUnforceSend, hMeta, 0);
-	}
-	return 0;
-}
-
 /** Called when the context-menu of a contact is about to be displayed
 *
 * This will test which of the 4 menu item should be displayed, depending

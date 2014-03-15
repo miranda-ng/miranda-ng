@@ -92,7 +92,6 @@ void  TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc);
 void  TSAPI ReflashContainer(TContainerData *pContainer);
-HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg);
 
 TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer);
 TContainerData* TSAPI RemoveContainerFromList(TContainerData *pContainer);

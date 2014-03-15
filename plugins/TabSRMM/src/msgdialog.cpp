@@ -3074,35 +3074,6 @@ quote_from_last:
 				BB_CustomButtonClick(dat, idFrom, (HWND)wParam, 1);
 				break;
 			}
-
-			if ((HWND)wParam == GetDlgItem(hwndDlg, IDC_NAME) && dat->hContact != 0) {
-				GetCursorPos(&pt);
-				HMENU hMC = BuildMCProtocolMenu(hwndDlg);
-				if (hMC == NULL)
-					break;
-
-				int iSelection = TrackPopupMenu(hMC, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-				if (iSelection < 1000 && iSelection >= 100) {        // the "force" submenu...
-					if (iSelection == 999) {                          // un-force
-						if (CallService(MS_MC_UNFORCESENDCONTACT, dat->hContact, 0) == 0)
-							db_set_dw(dat->hContact, SRMSGMOD_T, "tabSRMM_forced", -1);
-						else
-							_DebugPopup(dat->hContact, TranslateT("Unforce failed"));
-					}
-					else {
-						if (CallService(MS_MC_FORCESENDCONTACTNUM, dat->hContact, (LPARAM)(iSelection - 100)) == 0)
-							db_set_dw(dat->hContact, SRMSGMOD_T, "tabSRMM_forced", (DWORD)(iSelection - 100));
-						else
-							_DebugPopup(dat->hContact, TranslateT("The selected protocol cannot be forced at this time"));
-					}
-				}
-				else if (iSelection >= 1000) // the "default" menu...
-					db_mc_setDefaultNum(dat->hContact, iSelection - 1000);
-
-				DestroyMenu(hMC);
-				InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
-				return TRUE;
-			}
 		}
 		break;
 
@@ -3185,21 +3156,6 @@ quote_from_last:
 	case DM_CHECKAUTOHIDE:
 		DM_CheckAutoHide(dat, wParam, lParam);
 		return 0;
-
-	// metacontact support
-	case DM_UPDATEMETACONTACTINFO:     // update the icon in the statusbar for the "most online" protocol
-		{
-			DWORD isForced;
-			if ((isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1)) >= 0) {
-				char szTemp[64];
-				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", isForced);
-				if (db_get_w(dat->hContact, META_PROTO, szTemp, 0) == ID_STATUS_OFFLINE)
-					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, 
-						(LPARAM)TranslateT("Warning: you have selected a subprotocol for sending the following messages which is currently offline"));
-			}
-			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
-		}
-		break;
 
 	case DM_IEVIEWOPTIONSCHANGED:
 		if (dat->hwndIEView)

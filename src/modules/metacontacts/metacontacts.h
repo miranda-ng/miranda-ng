@@ -33,7 +33,6 @@ INT_PTR Meta_AddTo(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Edit(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam);
-INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam);
 
 INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam);
 int  Meta_ModifyMenu(WPARAM wParam,LPARAM lParam);
@@ -98,9 +97,6 @@ int GetRealPriority(char *proto, int status);
 
 // API function headers
 void CreateApiServices();
-INT_PTR MetaAPI_GetForceState(WPARAM, LPARAM);
-INT_PTR MetaAPI_ForceDefault(WPARAM hMetaContact, LPARAM);
-INT_PTR MetaAPI_UnforceSendContact(WPARAM hMetaContact, LPARAM);
 
 // extended db get/write setting functions, that handle unicode
 INT_PTR Mydb_get(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);

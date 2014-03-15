@@ -34,8 +34,6 @@ int previousMode,			// Previous status of the MetaContacts Protocol
 	mcStatus;				// Current status of the MetaContacts Protocol
 
 HANDLE
-	hEventForceSend,		 // HANDLE to the 'force send' event
-	hEventUnforceSend,    // HANDLE to the 'unforce send' event
 	hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
 	hEventNudge;
 
@@ -444,14 +442,9 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		strcat(buffer, _itoa(contact_number, szId, 10));
 		db_set_ts(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
-		// if the contact was forced, unforce it (which updates status)
-		if (db_get_dw(ccMeta->contactID, META_PROTO, "ForceSend", 0) == hContact)
-			MetaAPI_UnforceSendContact(ccMeta->contactID, 0);
-		else {
-			// set status to that of most online contact
-			Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
-			Meta_FixStatus(ccMeta);
-		}
+		// set status to that of most online contact
+		Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
+		Meta_FixStatus(ccMeta);
 
 		// most online contact with avatar support might have changed - update avatar
 		MCONTACT most_online = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
@@ -837,7 +830,6 @@ void Meta_InitServices()
 	CreateServiceFunction("MetaContacts/Edit", Meta_Edit);
 	CreateServiceFunction("MetaContacts/Delete", Meta_Delete);
 	CreateServiceFunction("MetaContacts/Default", Meta_Default);
-	CreateServiceFunction("MetaContacts/ForceDefault", Meta_ForceDefault);
 
 	// hidden contact menu items...ho hum
 	for (int i = 0; i < MAX_CONTACTS; i++) {
@@ -875,8 +867,6 @@ void Meta_InitServices()
 	CreateProtoServiceFunction(META_PROTO, PS_SEND_NUDGE, Meta_SendNudge);
 
 	// create our hookable events
-	hEventForceSend = CreateHookableEvent(ME_MC_FORCESEND);
-	hEventUnforceSend = CreateHookableEvent(ME_MC_UNFORCESEND);
 	hSubcontactsChanged = CreateHookableEvent(ME_MC_SUBCONTACTSCHANGED);
 
 	// hook other module events we need
@@ -890,8 +880,6 @@ void Meta_InitServices()
 
 	// hook our own events, used to call Meta_GetMostOnline which sets nick for metacontact
 	HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline);
-	HookEvent(ME_MC_FORCESEND, Meta_CallMostOnline);
-	HookEvent(ME_MC_UNFORCESEND, Meta_CallMostOnline);
 
 	// redirect nudge events
 	hEventNudge = CreateHookableEvent(META_PROTO "/Nudge");
@@ -900,9 +888,6 @@ void Meta_InitServices()
 //! Unregister all hooks and services from Miranda
 void Meta_CloseHandles()
 {
-	// destroy our hookable events
-	DestroyHookableEvent(hEventForceSend);
-	DestroyHookableEvent(hEventUnforceSend);
 	DestroyHookableEvent(hSubcontactsChanged);
 	DestroyHookableEvent(hEventNudge);
 }

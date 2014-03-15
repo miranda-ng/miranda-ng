@@ -374,8 +374,6 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactEvent);
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
-	HookEvent(ME_MC_FORCESEND, MetaContactEvent);
-	HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
 	return 0;
 }
 

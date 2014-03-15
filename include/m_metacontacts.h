@@ -35,41 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns a handle to the 'most online' contact
 #define MS_MC_GETMOSTONLINECONTACT			"MetaContacts/GetMostOnline"
 
-//forces the metacontact to send using a specific subcontact, using the subcontact's contact number
-//wParam=(HANDLE)hMetaContact
-//lParam=(DWORD)contact number
-//returns 0 on success
-#define MS_MC_FORCESENDCONTACTNUM			"MetaContacts/ForceSendContact"
-
-//forces the metacontact to send using a specific subcontact, using the subcontact's handle
-//wParam=(HANDLE)hMetaContact
-//lParam=(HANDLE)hSubcontact
-//returns 0 on success (will fail if 'force default' is in effect)
-#define MS_MC_FORCESENDCONTACT				"MetaContacts/ForceSendContactByHandle"
-
-//'unforces' the metacontact to send using a specific subcontact
-//wParam=(HANDLE)hMetaContact
-//lParam=0
-//returns 0 on success (will fail if 'force default' is in effect)
-#define MS_MC_UNFORCESENDCONTACT			"MetaContacts/UnforceSendContact"
-
-//'forces' or 'unforces' (i.e. toggles) the metacontact to send using it's default contact
-// overrides (and clears) 'force send' above, and will even force use of offline contacts
-// will send ME_MC_FORCESEND or ME_MC_UNFORCESEND event
-//wParam=(HANDLE)hMetaContact
-//lParam=0
-//returns 1(true) or 0(false) representing new state of 'force default'
-#define MS_MC_FORCEDEFAULT					"MetaContacts/ForceSendDefault"
-
-// method to get state of 'force' for a metacontact
-// wParam=(HANDLE)hMetaContact
-// lParam= (DWORD)&contact_number or NULL
-//
-// if lparam supplied, the contact_number of the contatct 'in force' will be copied to the address it points to,
-// or if none is in force, the value INVALID_CONTACT_ID will be copied
-// (v0.8.0.8+ returns 1 if 'force default' is true with *lParam == default contact number, else returns 0 with *lParam as above)
-#define MS_MC_GETFORCESTATE					"MetaContacts/GetForceState"
-
 // fired when a metacontact's default contact changes (fired upon creation of metacontact also, when default is initially set)
 // wParam=(HANDLE)hMetaContact
 // lParam=(HANDLE)hDefaultContact
@@ -81,23 +46,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // lParam=0
 #define ME_MC_SUBCONTACTSCHANGED			"MetaContacts/SubcontactsChanged"
 
-// fired when a metacontact is forced to send using a specific subcontact
-// wParam=(HANDLE)hMetaContact
-// lParam=(HANDLE)hForceContact
-#define ME_MC_FORCESEND						"MetaContacts/ForceSend"
-
-// fired when a metacontact is 'unforced' to send using a specific subcontact
-// wParam=(HANDLE)hMetaContact
-// lParam=0
-#define ME_MC_UNFORCESEND					"MetaContacts/UnforceSend"
-
-// added 0.9.5.0 (22/3/05)
 // wParam=(HANDLE)hContact
 // lParam=0
 // convert a given contact into a metacontact
 #define MS_MC_CONVERTTOMETA					"MetaContacts/ConvertToMetacontact"
 
-// added 0.9.5.0 (22/3/05)
 // wParam=(HANDLE)hContact
 // lParam=(HANDLE)hMeta
 // add an existing contact to a metacontact

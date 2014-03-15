@@ -2328,67 +2328,6 @@ HMENU TSAPI BuildContainerMenu()
 	return hMenu;
 }
 
-HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
-{
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (dat == NULL)
-		return NULL;
-
-	if (!dat->cache->isMeta())
-		return NULL;
-
-	HMENU hMenu = CreatePopupMenu();
-	HMENU hMCContextMenu = GetSubMenu(hMenu, 0);
-	HMENU hMCSubForce = CreatePopupMenu();
-	HMENU hMCSubDefault = CreatePopupMenu();
-
-	AppendMenu(hMenu, MF_STRING | MF_DISABLED | MF_GRAYED | MF_CHECKED, 1, TranslateT("Meta Contact"));
-	AppendMenu(hMenu, MF_SEPARATOR, 1, _T(""));
-
-	int iNumProtos = db_mc_getSubCount(dat->hContact);
-	int iDefaultProtoByNum = db_mc_getSubCount(dat->hContact);
-	MCONTACT hContactMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, dat->hContact, 0);
-	char *szProtoMostOnline = GetContactProto(hContactMostOnline);
-	int isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1);
-
-	for (int i = 0; i < iNumProtos; i++) {
-		char szTemp[50];
-		mir_snprintf(szTemp, sizeof(szTemp), "Protocol%d", i);
-
-		ptrA szProtoName(db_get_sa(dat->hContact, META_PROTO, szTemp));
-		if (szProtoName == NULL)
-			continue;
-
-		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProtoName);
-		if (acc && acc->tszAccountName) {
-			mir_snprintf(szTemp, sizeof(szTemp), "Handle%d", i);
-
-			TCHAR *nick = NULL, *szStatusText = NULL;
-			MCONTACT hContact;
-			if ((hContact = (MCONTACT)db_get_dw(dat->hContact, META_PROTO, szTemp, 0)) != 0) {
-				nick = pcli->pfnGetContactDisplayName(hContact, 0);
-				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
-				WORD wStatus = (WORD)db_get_w(dat->hContact, META_PROTO, szTemp, 0);
-				szStatusText = pcli->pfnGetStatusModeDescription(wStatus, 0);
-			}
-
-			TCHAR szMenuLine[128];
-			mir_sntprintf(szMenuLine, SIZEOF(szMenuLine), _T("%s: %s [%s] %s"), acc->tszAccountName, nick, szStatusText,
-				i == isForced ? TranslateT("(Forced)") : _T(""));
-			int iChecked = MF_UNCHECKED;
-			if (hContactMostOnline != 0 && hContactMostOnline == hContact)
-				iChecked = MF_CHECKED;
-			AppendMenu(hMCSubForce, MF_STRING | iChecked, 100 + i, szMenuLine);
-			AppendMenu(hMCSubDefault, MF_STRING | (i == iDefaultProtoByNum ? MF_CHECKED : MF_UNCHECKED), 1000 + i, szMenuLine);
-		}
-	}
-	AppendMenu(hMCSubForce, MF_SEPARATOR, 900, _T(""));
-	AppendMenu(hMCSubForce, MF_STRING | ((isForced == -1) ? MF_CHECKED : MF_UNCHECKED), 999, TranslateT("Autoselect"));
-	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)hMCSubForce, TranslateT("Use Protocol"));
-	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)hMCSubDefault, TranslateT("Set Default Protocol"));
-	return hMenu;
-}
-
 /*
 * flashes the container
 * iMode != 0: turn on flashing
