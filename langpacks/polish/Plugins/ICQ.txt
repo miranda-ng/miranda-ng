@@ -98,8 +98,8 @@ Wyślij wszystkie wiadomości w unicode, jeśli możliwe
 Użyj tego kodowania dla tłumaczenia Ansi <-> Unicode
 [Make me temporarily visible to contacts I send message to]
 Uczyń mnie tymczasowo widocznym dla kontaktów, którym wysyłam wiadomość
-[Notify me when a message delivery has failed (recommended)]
-Powiadom mnie, gdy dostarczenie wiadomości nie powiodło się (zalecane)
+[Notify me when a message delivery has failed (old method)]
+Powiadom mnie, gdy dostarczenie wiadomości nie powiodło się (stara metoda)
 [Never use legacy messaging (server acknowledgements)]
 Nigdy nie używaj potwierdzeń serwera legacy wiadomości
 [Peer-to-peer Messaging]

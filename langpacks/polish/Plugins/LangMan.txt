@@ -22,14 +22,13 @@ Wersja:
 Tłumaczenie:
 [Download more Language Packs]
 Pobierz więcej tłumaczeń
-[Please restart Miranda NG for your changes to take effect.]
+[Please restart Miranda NG for your changes to take full effect.]
 Zrestartuj Mirandę by wprowadzić zmiany.
-;file \plugins\LangMan\src\main.cpp
-[Reload langpack]
-Przeładuj pakiet językowy
+[Static]
+Statyczne
+[Langpack root folder]
+Folder główny
 ;file \plugins\LangMan\src\options.cpp
-[All installed plugins are included.]
-Wszystkie zainstalowane wtyczki są włączone.
 [(incompatible)]
 (niezgodne)
 [Unknown]

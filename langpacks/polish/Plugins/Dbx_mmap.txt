@@ -114,8 +114,6 @@ Nie można zapisać do pliku - dysk jest pełen? (%u)
 Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane
 [First event not marked as such: correcting]
 Pierwsze zdarzenie nie oznaczone jako: poprawianie
-[Event marked as first which is not: correcting]
-Zdarzenie oznaczone jako pierwsze, które nie jest: poprawianie
 [Extra flags found in event: removing]
 Dodatkowe flagi w przypadku: usuwanie
 [First unread event marked wrong: fixing]
