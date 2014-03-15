@@ -274,8 +274,8 @@ private:
 	{
 	public:
 		static ext::string getDTFormatString(const ext::string& strFormat);
-		static SYSTEMTIME toSystemTime(DWORD dwTimestamp);
-		static DWORD fromSystemTime(const SYSTEMTIME& st);
+		static SYSTEMTIME toSystemTime(time_t timestamp);
+		static time_t fromSystemTime(const SYSTEMTIME& st);
 
 	public:
 		bool m_bDisableChildsOnNone;
@@ -283,18 +283,18 @@ private:
 		ext::string m_strFormat;
 		ext::string m_strFormatDT;
 		bool m_bNone;
-		DWORD m_dwTimestamp;
+		time_t m_timestamp;
 		HWND m_hDateTimeWnd;
 
 	private:
 		void enableChildsDateTime();
 		bool getChildEnable();
-		DWORD getTimestampValue();
+		time_t getTimestampValue();
 		bool getTimestampNone();
 		ext::string getCombinedText();
 
 	public:
-		explicit DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, INT_PTR dwData);
+		explicit DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -308,8 +308,8 @@ private:
 
 		bool isNone();
 		void setNone();
-		DWORD getTimestamp();
-		void setTimestamp(DWORD dwTimestamp);
+		time_t getTimestamp();
+		void setTimestamp(time_t timestamp);
 		void onDateTimeChange();
 		bool isMonthCalVisible();
 	};

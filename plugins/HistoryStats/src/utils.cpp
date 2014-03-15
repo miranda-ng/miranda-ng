@@ -12,11 +12,11 @@
 
 namespace utils
 {
-	ext::string timestampToString(DWORD value, const TCHAR* format)
+	ext::string timestampToString(time_t value, const TCHAR* format)
 	{
 		TCHAR temp[100] = { 0 };
 
-		return (ext::strfunc::ftime(temp, 100, format, gmtime(reinterpret_cast<time_t*>(&value))) > 0) ? temp : _T("");
+		return (ext::strfunc::ftime(temp, 100, format, gmtime(&value)) > 0) ? temp : _T("");
 	}
 
 	ext::string tmStructToString(const tm& value, const TCHAR* format)
@@ -199,7 +199,7 @@ namespace utils
 		return szText;
 	}
 
-	ext::string replaceVariables(const ext::string& strFormat, DWORD timeValue, const TCHAR* szNick /* = _T("") */)
+	ext::string replaceVariables(const ext::string& strFormat, time_t timeValue, const TCHAR* szNick /* = _T("") */)
 	{
 		static const TCHAR* szMonthName[][2] = {
 			{ LPGENT("month3:Jan"), LPGENT("monthF:January") },
@@ -226,7 +226,7 @@ namespace utils
 			{ LPGENT("wday2:Su"), LPGENT("wday3:Sun"), LPGENT("wdayF:Sunday") },
 		};
 
-		struct tm timeTM = *gmtime(reinterpret_cast<time_t*>(&timeValue));
+		struct tm* timeTM = gmtime(&timeValue);
 
 		ext::string strOut = strFormat;
 		ext::string::size_type posOpen = strOut.find('%');
@@ -240,67 +240,67 @@ namespace utils
 
 				// match variable and generate substitution
 				if (strVar == _T("h")) {
-					strSubst = intToString(timeTM.tm_hour % 12 + (timeTM.tm_hour % 12 == 0 ? 12 : 0));
+					strSubst = intToString(timeTM->tm_hour % 12 + (timeTM->tm_hour % 12 == 0 ? 12 : 0));
 				}
 				else if (strVar == _T("hh")) {
-					strSubst = intToPadded(timeTM.tm_hour % 12 + (timeTM.tm_hour % 12 == 0 ? 12 : 0), 2);
+					strSubst = intToPadded(timeTM->tm_hour % 12 + (timeTM->tm_hour % 12 == 0 ? 12 : 0), 2);
 				}
 				else if (strVar == _T("H")) {
-					strSubst = intToString(timeTM.tm_hour);
+					strSubst = intToString(timeTM->tm_hour);
 				}
 				else if (strVar == _T("HH")) {
-					strSubst = intToPadded(timeTM.tm_hour, 2);
+					strSubst = intToPadded(timeTM->tm_hour, 2);
 				}
 				else if (strVar == _T("m")) {
-					strSubst = intToString(timeTM.tm_min);
+					strSubst = intToString(timeTM->tm_min);
 				}
 				else if (strVar == _T("mm")) {
-					strSubst = intToPadded(timeTM.tm_min, 2);
+					strSubst = intToPadded(timeTM->tm_min, 2);
 				}
 				else if (strVar == _T("s")) {
-					strSubst = intToString(timeTM.tm_sec);
+					strSubst = intToString(timeTM->tm_sec);
 				}
 				else if (strVar == _T("ss")) {
-					strSubst = intToPadded(timeTM.tm_sec, 2);
+					strSubst = intToPadded(timeTM->tm_sec, 2);
 				}
 				else if (strVar == _T("tt")) {
-					strSubst = timeTM.tm_hour / 12 ? TranslateT("pm") : TranslateT("am");
+					strSubst = timeTM->tm_hour / 12 ? TranslateT("pm") : TranslateT("am");
 				}
 				else if (strVar == _T("TT")) {
-					strSubst = timeTM.tm_hour / 12 ? TranslateT("PM") : TranslateT("AM");
+					strSubst = timeTM->tm_hour / 12 ? TranslateT("PM") : TranslateT("AM");
 				}
 				else if (strVar == _T("yy")) {
-					strSubst = intToPadded((timeTM.tm_year + 1900) % 100, 2);
+					strSubst = intToPadded((timeTM->tm_year + 1900) % 100, 2);
 				}
 				else if (strVar == _T("yyyy")) {
-					strSubst = intToPadded(timeTM.tm_year + 1900, 4);
+					strSubst = intToPadded(timeTM->tm_year + 1900, 4);
 				}
 				else if (strVar == _T("M")) {
-					strSubst = intToString(timeTM.tm_mon + 1);
+					strSubst = intToString(timeTM->tm_mon + 1);
 				}
 				else if (strVar == _T("MM")) {
-					strSubst = intToPadded(timeTM.tm_mon + 1, 2);
+					strSubst = intToPadded(timeTM->tm_mon + 1, 2);
 				}
 				else if (strVar == _T("MMM")) {
-					strSubst = stripPrefix(_T("month3:"), TranslateTS(szMonthName[timeTM.tm_mon % 12][0]));
+					strSubst = stripPrefix(_T("month3:"), TranslateTS(szMonthName[timeTM->tm_mon % 12][0]));
 				}
 				else if (strVar == _T("MMMM")) {
-					strSubst = stripPrefix(_T("monthF:"), TranslateTS(szMonthName[timeTM.tm_mon % 12][1]));
+					strSubst = stripPrefix(_T("monthF:"), TranslateTS(szMonthName[timeTM->tm_mon % 12][1]));
 				}
 				else if (strVar == _T("d")) {
-					strSubst = intToString(timeTM.tm_mday);
+					strSubst = intToString(timeTM->tm_mday);
 				}
 				else if (strVar == _T("dd")) {
-					strSubst = intToPadded(timeTM.tm_mday, 2);
+					strSubst = intToPadded(timeTM->tm_mday, 2);
 				}
 				else if (strVar == _T("ww")) {
-					strSubst = stripPrefix(_T("wday2:"), TranslateTS(szWDayName[(timeTM.tm_wday + 6) % 7][0]));
+					strSubst = stripPrefix(_T("wday2:"), TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][0]));
 				}
 				else if (strVar == _T("www")) {
-					strSubst = stripPrefix(_T("wday3:"), TranslateTS(szWDayName[(timeTM.tm_wday + 6) % 7][1]));
+					strSubst = stripPrefix(_T("wday3:"), TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][1]));
 				}
 				else if (strVar == _T("wwww")) {
-					strSubst = stripPrefix(_T("wdayF:"), TranslateTS(szWDayName[(timeTM.tm_wday + 6) % 7][2]));
+					strSubst = stripPrefix(_T("wdayF:"), TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][2]));
 				}
 				else if (strVar == _T("miranda_path")) {
 					strSubst = getMirandaPath();

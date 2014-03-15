@@ -103,11 +103,11 @@ ext::string OptionsCtrlImpl::DateTime::getDTFormatString(const ext::string& strF
 	return strOut;
 }
 
-SYSTEMTIME OptionsCtrlImpl::DateTime::toSystemTime(DWORD dwTimestamp)
+SYSTEMTIME OptionsCtrlImpl::DateTime::toSystemTime(time_t timestamp)
 {
 	SYSTEMTIME st;
 	FILETIME ft;
-	LONGLONG ll = Int32x32To64(dwTimestamp, 10000000) + 116444736000000000;
+	LONGLONG ll = Int32x32To64(timestamp, 10000000) + 116444736000000000;
 
 	ft.dwLowDateTime = static_cast<DWORD>(ll);
 	ft.dwHighDateTime = static_cast<DWORD>(ll >> 32);
@@ -117,19 +117,16 @@ SYSTEMTIME OptionsCtrlImpl::DateTime::toSystemTime(DWORD dwTimestamp)
 	return st;
 }
 
-DWORD OptionsCtrlImpl::DateTime::fromSystemTime(const SYSTEMTIME& st)
+time_t OptionsCtrlImpl::DateTime::fromSystemTime(const SYSTEMTIME& st)
 {
 	FILETIME ft;
 	LONGLONG ll;
-	DWORD dwTimestamp;
 
 	SystemTimeToFileTime(&st, &ft);
 
 	ll = (static_cast<LONGLONG>(ft.dwHighDateTime) << 32) | ft.dwLowDateTime;
 
-	dwTimestamp = static_cast<DWORD>((ll - 116444736000000000) / 10000000);
-
-	return dwTimestamp;
+	return static_cast<time_t>((ll - 116444736000000000) / 10000000);
 }
 
 void OptionsCtrlImpl::DateTime::enableChildsDateTime()
@@ -146,7 +143,7 @@ bool OptionsCtrlImpl::DateTime::getChildEnable()
 		m_bDisableChildsOnNone && !m_bNone && (!m_bDisableChilds || m_bEnabled);
 }
 
-DWORD OptionsCtrlImpl::DateTime::getTimestampValue()
+time_t OptionsCtrlImpl::DateTime::getTimestampValue()
 {
 	SYSTEMTIME st;
 
@@ -178,13 +175,13 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 	if (m_bNone)
 		strTemp += TranslateT("none");
 	else
-		strTemp += utils::timestampToString(m_dwTimestamp, m_strFormat.c_str());
+		strTemp += utils::timestampToString(m_timestamp, m_strFormat.c_str());
 
 	return strTemp;
 }
 
-OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, DWORD dwTimestamp, DWORD dwFlags, INT_PTR dwData)
-: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(NULL), m_strFormat(szFormat), m_dwTimestamp(dwTimestamp)
+OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData)
+: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(NULL), m_strFormat(szFormat), m_timestamp(timestamp)
 {
 	m_bDisableChildsOnNone = bool_(dwFlags & OCF_DISABLECHILDSONNONE);
 	m_bAllowNone = bool_(dwFlags & OCF_ALLOWNONE);
@@ -238,7 +235,7 @@ void OptionsCtrlImpl::DateTime::onSelect()
 				SendMessage(hTempWnd, DTM_SETSYSTEMTIME, GDT_NONE, 0);
 			}
 			else {
-				SYSTEMTIME st = toSystemTime(m_dwTimestamp);
+				SYSTEMTIME st = toSystemTime(m_timestamp);
 
 				SendMessage(hTempWnd, DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&st));
 			}
@@ -263,7 +260,7 @@ void OptionsCtrlImpl::DateTime::onDeselect()
 			bValidRect = true;
 		}
 
-		m_dwTimestamp = getTimestampValue();
+		m_timestamp = getTimestampValue();
 		m_bNone = getTimestampNone();
 
 		m_pCtrl->setNodeText(m_hItem, getCombinedText().c_str());
@@ -292,7 +289,7 @@ void OptionsCtrlImpl::DateTime::onActivate()
 void OptionsCtrlImpl::DateTime::onDateTimeChange()
 {
 	if (m_hDateTimeWnd) {
-		m_dwTimestamp = getTimestampValue();
+		m_timestamp = getTimestampValue();
 		m_bNone = getTimestampNone();
 
 		// enable childs?
@@ -329,7 +326,7 @@ void OptionsCtrlImpl::DateTime::setLabel(const TCHAR* szLabel)
 bool OptionsCtrlImpl::DateTime::isNone()
 {
 	if (m_hDateTimeWnd) {
-		m_dwTimestamp = getTimestampValue();
+		m_timestamp = getTimestampValue();
 		m_bNone = getTimestampNone();
 	}
 
@@ -355,23 +352,23 @@ void OptionsCtrlImpl::DateTime::setNone()
 	enableChildsDateTime();
 }
 
-DWORD OptionsCtrlImpl::DateTime::getTimestamp()
+time_t OptionsCtrlImpl::DateTime::getTimestamp()
 {
 	if (m_hDateTimeWnd) {
-		m_dwTimestamp = getTimestampValue();
-		m_bNone = getTimestampNone();
+		m_timestamp = getTimestampValue();
+		//m_bNone = getTimestampNone();/// @note : what was this supposed to be?
 	}
 
-	return m_dwTimestamp;
+	return m_timestamp;
 }
 
-void OptionsCtrlImpl::DateTime::setTimestamp(DWORD dwTimestamp)
+void OptionsCtrlImpl::DateTime::setTimestamp(time_t timestamp)
 {
 	m_bNone = false;
-	m_dwTimestamp = dwTimestamp;
+	m_timestamp = timestamp;
 
 	if (m_hDateTimeWnd) {
-		SYSTEMTIME st = toSystemTime(dwTimestamp);
+		SYSTEMTIME st = toSystemTime(timestamp);
 
 		SendMessage(m_hDateTimeWnd, DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&st));
 	}

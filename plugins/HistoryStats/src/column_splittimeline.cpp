@@ -176,10 +176,10 @@ void ColSplitTimeline::impl_contactDataBeginAcquire()
 	
 	if (params.alignment == 1)
 	{
-		DWORD dwOffset = 0;
-		tm offsetTM = *gmtime(reinterpret_cast<const time_t*>(&dwOffset));
+		time_t offset = 0;
+		struct tm* offsetTM = gmtime(&offset);
 
-		m_nTimeOffset = 86400 * ((offsetTM.tm_wday + 6) % 7);
+		m_nTimeOffset = 86400 * ((offsetTM->tm_wday + 6) % 7);
 	}
 	else
 	{

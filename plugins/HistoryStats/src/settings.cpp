@@ -47,19 +47,19 @@ Settings::Filter::Filter(const ext::string& strID)
 	: m_strID(strID), m_nMode(fwmWordsMatching), m_nRef(0)
 {
 	time_t curTime = time(NULL);
-	struct tm curTM = *localtime(&curTime);
+	struct tm* curTM = localtime(&curTime);
 
-	m_strName += utils::intToPadded(1900 + curTM.tm_year, 4);
+	m_strName += utils::intToPadded(1900 + curTM->tm_year, 4);
 	m_strName += _T("-");
-	m_strName += utils::intToPadded(1 + curTM.tm_mon, 2);
+	m_strName += utils::intToPadded(1 + curTM->tm_mon, 2);
 	m_strName += _T("-");
-	m_strName += utils::intToPadded(curTM.tm_mday, 2);
+	m_strName += utils::intToPadded(curTM->tm_mday, 2);
 	m_strName += _T(" ");
-	m_strName += utils::intToPadded(curTM.tm_hour, 2);
+	m_strName += utils::intToPadded(curTM->tm_hour, 2);
 	m_strName += _T(":");
-	m_strName += utils::intToPadded(curTM.tm_min, 2);
+	m_strName += utils::intToPadded(curTM->tm_min, 2);
 	m_strName += _T(":");
-	m_strName += utils::intToPadded(curTM.tm_sec, 2);
+	m_strName += utils::intToPadded(curTM->tm_sec, 2);
 	m_strName += _T(".");
 	m_strName += utils::intToPadded(GetTickCount() % 1000, 3);
 }

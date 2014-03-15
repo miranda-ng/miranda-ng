@@ -7,14 +7,14 @@
 namespace utils
 {
 	// time formatting
-	ext::string timestampToString(DWORD value, const TCHAR* format);
+	ext::string timestampToString(time_t value, const TCHAR* format);
 	ext::string tmStructToString(const tm& value, const TCHAR* format);
 	inline ext::string timestampToDateTime(DWORD value) { return timestampToString(value, _T("%c")); }
 	inline ext::string timestampToDate(DWORD value) { return timestampToString(value, _T("%x")); }
 	inline ext::string timestampToTime(DWORD value) { return timestampToString(value, _T("%X")); }
 	ext::string durationToString(DWORD value);
 	DWORD parseDate(const ext::string& date);
-	inline ext::string formatDate(DWORD dwTimestamp) { return timestampToString(dwTimestamp, _T("%Y-%m-%d")); }
+	inline ext::string formatDate(time_t timeValue) { return timestampToString(timeValue, _T("%Y-%m-%d")); }
 
 	// number formatting
 	ext::string intToString(int value);
@@ -32,7 +32,7 @@ namespace utils
 	inline ext::string replaceAll(ext::string text, const TCHAR* find, const TCHAR* replace) { replaceAllInPlace(text, find, replace); return text; }
 	inline ext::string htmlEscape(ext::string text) { htmlEscapeInPlace(text); return text; }
 	const TCHAR* stripPrefix(const TCHAR* szPrefix, const TCHAR* szText);
-	ext::string replaceVariables(const ext::string& strFormat, DWORD timeValue, const TCHAR* szNick = _T(""));
+	ext::string replaceVariables(const ext::string& strFormat, time_t timeValue, const TCHAR* szNick = _T(""));
 
 	// case conversion
 	ext::string toLowerCase(const ext::string& text);
