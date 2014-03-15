@@ -302,13 +302,6 @@ int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
 	return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, ack->hProcess, ack->lParam);
 }
 
-// hiding contacts on "CList/UseGroups" setting changed can cause a crash - do it in a seperate thread during idle time
-static DWORD sttHideContacts(BOOL param)
-{
-	Meta_HideMetaContacts((int)param);
-	return 0;
-}
-
 /** Call whenever a contact changes one of its settings (for example, the status)
 **
 * @param wParam HANDLE to the contact that has change of its setting.
@@ -320,17 +313,17 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	char buffer[512], szId[40];
 
-	// hide metacontacts when groups disabled
-	if (hContact == 0)
+	// the only global options we're interested in
+	if (hContact == 0) {
+		// hide metacontacts when groups disabled
 		if ((!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "UseGroups")) ||
-			 (!strcmp(dcws->szModule, META_PROTO) && !strcmp(dcws->szSetting, "Enabled"))) {
-			sttHideContacts(!options.bEnabled);
-			return 0;
+			 (!strcmp(dcws->szModule, META_PROTO) && !strcmp(dcws->szSetting, "Enabled")))
+		{
+			options.bEnabled = !options.bEnabled;
+			Meta_HideMetaContacts(!options.bEnabled);
 		}
-
-	// from here on, we're just interested in subcontact settings
-	if (hContact == 0)
 		return 0;
+	}
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	if (cc == NULL || !cc->IsSub())

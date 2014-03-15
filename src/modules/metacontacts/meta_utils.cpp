@@ -433,19 +433,24 @@ int Meta_HideLinkedContacts(void)
 	return 0;
 }
 
-int Meta_HideMetaContacts(int hide)
+int Meta_HideMetaContacts(bool bHide)
 {
 	// set status suppression
-	if (hide)
-		Meta_SuppressStatus(FALSE);
-	else
-		Meta_SuppressStatus(options.bSuppressStatus);
+	bool bSuppress = bHide ? FALSE : options.bSuppressStatus;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		if (CheckMeta(hContact) == NULL)
+		bool bSet;
+		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+		if (cc->IsSub()) { // show on hide, reverse flag
+			bSet = !bHide;
+			CallService(bSuppress ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
+		}
+		else if (cc->IsMeta())
+			bSet = bHide;
+		else
 			continue;
 
-		if (hide)
+		if (bSet)
 			db_set_b(hContact, "CList", "Hidden", 1);
 		else
 			db_unset(hContact, "CList", "Hidden");

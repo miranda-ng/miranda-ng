@@ -41,7 +41,7 @@ void Meta_RemoveContactNumber(DBCachedContact *cc, int number, bool bUpdateInfo)
 int  Meta_SetNick(char *proto);
 int  Meta_HideLinkedContacts(void);
 int  Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
-int  Meta_HideMetaContacts(int hide);
+int  Meta_HideMetaContacts(bool hide);
 int  Meta_SuppressStatus(int suppress);
 int  Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
 int  Meta_SetAllNicks();
