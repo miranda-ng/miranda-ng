@@ -34,7 +34,7 @@ void InitProtocolData()
 
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT* acc = protos[i];
-		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0' || acc->bOldProto)
+		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0' || acc->bIsVirtual)
 			continue;
 
 		// Found a protocol
