@@ -499,7 +499,9 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		std::string action = "/pull?channel=" + (this->chat_channel_.empty() ? "p_" + self_.user_id : this->chat_channel_);
 		action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
 		action += "&partition=" + (this->chat_channel_partition_.empty() ? "0" : this->chat_channel_partition_);
-		action += "&clientid=&cb=&idle=0&state=active";
+		action += "&clientid=" + this->chat_clientid_;
+		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz");
+		action += "&idle=0&state=active";
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
 

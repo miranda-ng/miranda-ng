@@ -39,7 +39,7 @@ public:
 	{
 		username_ = password_ = \
 		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
-		dtsg_ = logout_hash_ = chat_sticky_num_ = chat_conn_num_ = "";
+		dtsg_ = logout_hash_ = chat_sticky_num_ = chat_conn_num_ = chat_clientid_ = "";
 
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
 
@@ -75,6 +75,7 @@ public:
 	std::string chat_reconnect_reason_;
 	std::string chat_sticky_num_;
 	std::string chat_conn_num_;
+	std::string chat_clientid_;
 	bool    invisible_;
 	bool    is_typing_;
 	bool	is_idle_;

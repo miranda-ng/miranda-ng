@@ -450,8 +450,19 @@ std::string utils::text::source_get_form_data(std::string* data)
 	return values;
 }
 
-int utils::number::random()
+std::string utils::text::rand_string(int len, const char *chars)
 {
+	std::stringstream out;
+
 	srand(::time(NULL));
-	return rand();
+	for (int i = 0; i < len; ++i) {
+		out << chars[utils::number::random(0, strlen(chars))];
+	}
+
+	return out.str();
+}
+
+int utils::number::random(int min, int max)
+{	
+	return (rand() % (max - min)) + min;
 }
