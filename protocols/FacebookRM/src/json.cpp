@@ -262,6 +262,8 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 
 bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
 {
+	ScopedLock s(proto->facy.send_message_lock_);
+
 	std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.find(mid);
 	if (it != proto->facy.messages_ignore.end()) {
 		proto->debugLogA("????? Ignoring duplicit/sent message\n%s", text.c_str());
@@ -353,6 +355,14 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 
 int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications, bool inboxOnly)
 {
+	// remove old received messages from map		
+	for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end();) {
+		if (it->second)
+			it = proto->facy.messages_ignore.erase(it);
+		else
+			++it;
+	}
+
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
 	JSONNODE *root = json_parse(jsonData.c_str());
@@ -721,14 +731,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			}
 		} else
 			continue;
-	}
-
-	// remove received messages from map		
-	for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end(); ) {
-		if (it->second)
-			it = proto->facy.messages_ignore.erase(it);
-		else
-			++it;
 	}
 
 	json_delete(root);

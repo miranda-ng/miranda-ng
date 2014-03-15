@@ -1147,6 +1147,8 @@ bool facebook_client::channel()
 
 bool facebook_client::send_message(std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method)
 {
+	ScopedLock s(send_message_lock_);
+
 	handle_entry("send_message");
 
 	http::response resp;
