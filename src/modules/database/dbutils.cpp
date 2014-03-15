@@ -42,10 +42,10 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 {
 	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)lParam;
 	if (et == NULL || et->cbSize != sizeof(DBEVENTTYPEDESCR))
-		return 0;
+		return -1;
 
 	if (eventTypes.getIndex(et) != -1)
-		return 0;
+		return -1;
 
 	DBEVENTTYPEDESCR *p = (DBEVENTTYPEDESCR*)mir_calloc(sizeof(DBEVENTTYPEDESCR));
 	p->cbSize = sizeof(DBEVENTTYPEDESCR);
@@ -78,12 +78,7 @@ static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
 	DBEVENTTYPEDESCR tmp;
 	tmp.module = (char*)wParam;
 	tmp.eventType = lParam;
-
-	int idx;
-	if (!List_GetIndex((SortedList*)&eventTypes, &tmp, &idx))
-		return 0;
-
-	return (INT_PTR)eventTypes[idx];
+	return (INT_PTR)eventTypes.find(&tmp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
