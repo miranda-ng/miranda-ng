@@ -499,7 +499,7 @@ DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText
 	return MraSendCMD(MRIM_CS_CHANGE_USER_BLOG_STATUS, buf.Data(), buf.Len());
 }
 
-DWORD CMraProto::MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
+DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
 	LPBYTE lpbData = (LPBYTE)_alloca(dwDataSize + sizeof(mrim_packet_header_t));
 
@@ -514,7 +514,7 @@ DWORD CMraProto::MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwTyp
 	debugLogA("Sending packet %08x\n", dwType);
 
 	memcpy((lpbData + sizeof(mrim_packet_header_t)), lpData, dwDataSize);
-	return Netlib_Send(m_hConnection, (LPSTR)lpbData, (dwDataSize + sizeof(mrim_packet_header_t)), 0);
+	return Netlib_Send(hConnection, (LPSTR)lpbData, (dwDataSize + sizeof(mrim_packet_header_t)), 0);
 }
 
 DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)

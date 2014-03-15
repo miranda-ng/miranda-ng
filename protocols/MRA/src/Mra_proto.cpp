@@ -83,7 +83,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 				m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 			}
-			while (--dwCurConnectReTryCount && m_hConnection == NULL);
+				while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
 			if (m_hConnection) {
 				bConnected = TRUE;
@@ -102,8 +102,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	}
 
 	MraMPopSessionQueueFlush(hMPopSessionQueue);
-	Netlib_CloseHandle(m_hConnection);// called twice, if user set offline, its normal
-	m_hConnection = NULL;
+	NETLIB_CLOSEHANDLE(m_hConnection);
 	dwCMDNum = 0;
 
 	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
@@ -145,7 +144,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		nls.hReadConns[0] = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 	}
-	while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
+		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
 
 	if (nls.hReadConns[0]) {
 		nls.cbSize = sizeof(nls);

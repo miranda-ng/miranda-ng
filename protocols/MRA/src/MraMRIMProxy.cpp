@@ -4,15 +4,15 @@
 
 struct MRA_MRIMPROXY_DATA
 {
-	LPSTR			szEmail;		// LPS to
-	DWORD			dwIDRequest;	// DWORD id_request
-	DWORD			dwDataType;		// DWORD data_type
-	LPSTR			lpszUserData;	// LPS user_data
-	size_t			dwUserDataSize;
-	MRA_ADDR_LIST	malAddrList;	// LPS lps_ip_port
-	MRA_GUID		mguidSessionID;	// DWORD session_id[4]
-	HANDLE			m_hConnection;
-	HANDLE			hWaitHandle;	// internal
+	LPSTR         szEmail;        // LPS to
+	DWORD         dwIDRequest;    // DWORD id_request
+	DWORD         dwDataType;     // DWORD data_type
+	LPSTR         lpszUserData;   // LPS user_data
+	size_t        dwUserDataSize;
+	MRA_ADDR_LIST malAddrList;    // LPS lps_ip_port
+	MRA_GUID      mguidSessionID; // DWORD session_id[4]
+	HANDLE        hConnection;
+	HANDLE        hWaitHandle;    // internal
 };
 
 HANDLE MraMrimProxyCreate()
@@ -52,7 +52,7 @@ void MraMrimProxyFree(HANDLE hMraMrimProxyData)
 		MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 
 		CloseHandle(pmmpd->hWaitHandle);
-		Netlib_CloseHandle(pmmpd->m_hConnection);
+		Netlib_CloseHandle(pmmpd->hConnection);
 		mir_free(pmmpd->szEmail);
 		mir_free(pmmpd->lpszUserData);
 		MraAddrListFree(&pmmpd->malAddrList);
@@ -65,7 +65,7 @@ void MraMrimProxyCloseConnection(HANDLE hMraMrimProxyData)
 	if (hMraMrimProxyData) {
 		MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 		SetEvent(pmmpd->hWaitHandle);
-		Netlib_CloseHandle(pmmpd->m_hConnection);
+		NETLIB_CLOSEHANDLE(pmmpd->hConnection);
 	}
 }
 
@@ -100,7 +100,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 
 		dwRetErrorCode = ERROR_NO_NETWORK;
 		if (pmmpd->malAddrList.dwAddrCount) {
-			pmmpd->m_hConnection = NULL;
+			pmmpd->hConnection = NULL;
 			bIsHTTPSProxyUsed = IsHTTPSProxyUsed(m_hNetlibUser);
 			dwConnectReTryCount = getDword("ConnectReTryCountMRIMProxy", MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY);
 			nloc.cbSize = sizeof(nloc);
@@ -121,14 +121,14 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 
 					dwCurConnectReTryCount = dwConnectReTryCount;
 					do {
-						pmmpd->m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+						pmmpd->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 					}
-						while (--dwCurConnectReTryCount && pmmpd->m_hConnection == NULL);
+						while (--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
 
-					if (pmmpd->m_hConnection) {
+					if (pmmpd->hConnection) {
 						nls.cbSize = sizeof(nls);
 						nls.dwTimeout = (MRA_TIMEOUT_DIRECT_CONN*1000*2);
-						nls.hReadConns[0] = pmmpd->m_hConnection;
+						nls.hReadConns[0] = pmmpd->hConnection;
 						bContinue = TRUE;
 						dwRcvBuffSizeUsed = 0;
 
@@ -190,12 +190,10 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 				}// filtered
 			}// end for
 
-			if (dwRetErrorCode != NO_ERROR) { // кажется не туда подключились :)
-				Netlib_CloseHandle(pmmpd->m_hConnection);
-				pmmpd->m_hConnection = NULL;
-			}
+			if (dwRetErrorCode != NO_ERROR) // кажется не туда подключились :)
+				NETLIB_CLOSEHANDLE(pmmpd->hConnection);
 		}
-		*phConnection = pmmpd->m_hConnection;
+		*phConnection = pmmpd->hConnection;
 	}
 	else dwRetErrorCode = ERROR_INVALID_HANDLE;
 	return dwRetErrorCode;

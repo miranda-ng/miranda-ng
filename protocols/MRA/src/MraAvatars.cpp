@@ -20,7 +20,7 @@ struct MRA_AVATARS_QUEUE : public FIFO_MT
 {
 	volatile LONG bIsRunning;
 	volatile LONG lThreadsRunningCount;
-	HANDLE m_hNetlibUser;
+	HANDLE hNetlibUser;
 	HANDLE hThreadEvent;
 	int    iThreadsCount;
 	HANDLE hThread[MAXIMUM_WAIT_OBJECTS];
@@ -40,16 +40,14 @@ struct MRA_AVATARS_QUEUE_ITEM : public FIFO_MT_ITEM
 char szAvtSectName[MAX_PATH];
 #define MRA_AVT_SECT_NAME	szAvtSectName
 
-#define NETLIB_CLOSEHANDLE(m_hConnection) {Netlib_CloseHandle(m_hConnection); m_hConnection = NULL;}
-
-HANDLE MraAvatarsHttpConnect(HANDLE m_hNetlibUser, LPCSTR lpszHost, DWORD dwPort);
+HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPCSTR lpszHost, DWORD dwPort);
 
 #define MAHTRO_AVT		0
 #define MAHTRO_AVTMRIM		1
 #define MAHTRO_AVTSMALL		2
 #define MAHTRO_AVTSMALLMRIM	3
 
-DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCSTR lpszUser, LPCSTR lpszDomain, LPCSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime);
+DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR lpszUser, LPCSTR lpszDomain, LPCSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime);
 
 DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
@@ -71,8 +69,8 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 		nlu.szSettingsModule = MRA_AVT_SECT_NAME;
 		nlu.szDescriptiveName = szBuffer;
-		pmraaqAvatarsQueue->m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-		if (pmraaqAvatarsQueue->m_hNetlibUser) {
+		pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+		if (pmraaqAvatarsQueue->hNetlibUser) {
 			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
 			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 			pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
@@ -132,7 +130,7 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 	MraAvatarsQueueClear(hAvatarsQueueHandle);
 
 	FifoMTDestroy(pmraaqAvatarsQueue);
-	Netlib_CloseHandle(pmraaqAvatarsQueue->m_hNetlibUser);
+	Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
 	mir_free(pmraaqAvatarsQueue);
 }
 
@@ -170,7 +168,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	size_t dwAvatarSizeServer;
 	FILETIME ftLastModifiedTimeServer, ftLastModifiedTimeLocal;
 	SYSTEMTIME stAvatarLastModifiedTimeLocal;
-	HANDLE m_hConnection = NULL;
+	HANDLE hConnection = NULL;
 	NETLIBSELECT nls = { 0 };
 	INTERNET_TIME itAvatarLastModifiedTimeServer;
 	PROTO_AVATAR_INFORMATIONT pai;
@@ -183,7 +181,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 
 	while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, 0)) {
 		if (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) != NO_ERROR) { // waiting until service stop or new task
-			NETLIB_CLOSEHANDLE(m_hConnection);
+			NETLIB_CLOSEHANDLE(hConnection);
 			WaitForSingleObjectEx(pmraaqAvatarsQueue->hThreadEvent, MRA_AVT_DEFAULT_QE_CHK_INTERVAL, FALSE);
 			continue;
 		}
@@ -205,12 +203,12 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			CMStringA szDomain = szEmail.Tokenize("@", iStart);
 			if (!szUser.IsEmpty() && !szDomain.IsEmpty()) {
 				ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, NULL, 0);
-				if (m_hConnection == NULL)
-					m_hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->m_hNetlibUser, szServer, dwServerPort);
-				if (m_hConnection) {
+				if (hConnection == NULL)
+					hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
+				if (hConnection) {
 					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, NULL, 0);
 					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, NULL, 0);
-					if (!MraAvatarsHttpTransaction(m_hConnection, REQUEST_HEAD, szUser, szDomain, szServer, MAHTRO_AVTMRIM, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer)) {
+					if (!MraAvatarsHttpTransaction(hConnection, REQUEST_HEAD, szUser, szDomain, szServer, MAHTRO_AVTMRIM, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer)) {
 						switch (dwResultCode) {
 						case 200:
 							if (MraAvatarsGetContactTime(pmraaqiAvatarsQueueItem->hContact, "AvatarLastModifiedTime", &stAvatarLastModifiedTimeLocal)) {
@@ -253,16 +251,16 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 							break;
 						}
 					}
-					if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(m_hConnection);
+					if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(hConnection);
 				}
 
 				if (bDownloadNew) {
-					if (m_hConnection == NULL)
-						m_hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->m_hNetlibUser, szServer, dwServerPort);
+					if (hConnection == NULL)
+						hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
 
-					if (m_hConnection) {
+					if (hConnection) {
 						ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, NULL, 0);
-						if (MraAvatarsHttpTransaction(m_hConnection, REQUEST_GET, szUser, szDomain, szServer, MAHTRO_AVT, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR && dwResultCode == 200) {
+						if (MraAvatarsHttpTransaction(hConnection, REQUEST_GET, szUser, szDomain, szServer, MAHTRO_AVT, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR && dwResultCode == 200) {
 							if (bDefaultAvt)
 								dwAvatarFormat = PA_FORMAT_DEFAULT;
 
@@ -272,7 +270,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 									DWORD dwWritten = 0;
 									bContinue = TRUE;
 									nls.dwTimeout = (1000 * db_get_dw(NULL, MRA_AVT_SECT_NAME, "TimeOutReceive", MRA_AVT_DEFAULT_TIMEOUT_RECV));
-									nls.hReadConns[0] = m_hConnection;
+									nls.hReadConns[0] = hConnection;
 
 									while (bContinue) {
 										switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
@@ -283,7 +281,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 											bContinue = FALSE;
 											break;
 										case 1:
-											dwReceived = Netlib_Recv(m_hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
+											dwReceived = Netlib_Recv(hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
 											if (dwReceived == 0 || dwReceived == SOCKET_ERROR) {
 												dwErrorCode = GetLastError();
 												ShowFormattedErrorMessage(L"Avatars: error on receive file data", dwErrorCode);
@@ -316,7 +314,8 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 						}
 						else _CrtDbgBreak();
 
-						if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE) NETLIB_CLOSEHANDLE(m_hConnection);
+						if (bUseKeepAliveConn == FALSE || bKeepAlive == FALSE)
+							NETLIB_CLOSEHANDLE(hConnection);
 					}
 				}
 			}
@@ -347,34 +346,34 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 		}
 		mir_free(pmraaqiAvatarsQueueItem);
-	} /* while */
+	}
 
 	InterlockedDecrement((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount);
 }
 
-HANDLE MraAvatarsHttpConnect(HANDLE m_hNetlibUser, LPCSTR lpszHost, DWORD dwPort)
+HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPCSTR lpszHost, DWORD dwPort)
 {
 	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = (NLOCF_HTTP | NLOCF_V2);
 	nloc.szHost = lpszHost;
-	nloc.wPort = (IsHTTPSProxyUsed(m_hNetlibUser)) ? MRA_SERVER_PORT_HTTPS : dwPort;
+	nloc.wPort = (IsHTTPSProxyUsed(hNetlibUser)) ? MRA_SERVER_PORT_HTTPS : dwPort;
 	nloc.timeout = db_get_dw(NULL, MRA_AVT_SECT_NAME, "TimeOutConnect", MRA_AVT_DEFAULT_TIMEOUT_CONN);
 	if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
 	DWORD dwConnectReTryCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
 	DWORD dwCurConnectReTryCount = dwConnectReTryCount;
-	HANDLE m_hConnection;
+	HANDLE hConnection;
 	do {
-		m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+		hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
 	}
-	while (--dwCurConnectReTryCount && m_hConnection == NULL);
+		while (--dwCurConnectReTryCount && hConnection == NULL);
 
-	return m_hConnection;
+	return hConnection;
 }
 
-DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCSTR lpszUser, LPCSTR lpszDomain, LPCSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime)
+DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR lpszUser, LPCSTR lpszDomain, LPCSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime)
 {
 	if (pdwResultCode)      *pdwResultCode = 0;
 	if (pbKeepAlive)        *pbKeepAlive = FALSE;
@@ -382,7 +381,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 	if (pdwAvatarSize)      *pdwAvatarSize = 0;
 	if (pitLastModifiedTime) memset(pitLastModifiedTime, 0, sizeof(INTERNET_TIME));
 
-	if (!m_hConnection)
+	if (!hConnection)
 		return ERROR_INVALID_HANDLE;
 
 	LPSTR lpszReqObj;
@@ -413,11 +412,11 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 	nlhr.headersCount = 4;
 
-	DWORD dwSent = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)m_hConnection, (LPARAM)&nlhr);
+	DWORD dwSent = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)hConnection, (LPARAM)&nlhr);
 	if (dwSent == SOCKET_ERROR || !dwSent)
 		return GetLastError();
 
-	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)m_hConnection, 0);
+	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)hConnection, 0);
 	if (!pnlhr)
 		return GetLastError();
 

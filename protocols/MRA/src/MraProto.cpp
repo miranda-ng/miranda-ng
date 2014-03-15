@@ -512,7 +512,7 @@ int CMraProto::SetStatus(int iNewStatus)
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 
-		Netlib_CloseHandle(m_hConnection);
+		NETLIB_CLOSEHANDLE(m_hConnection);
 	}
 	else {
 		// если offline то сразу ставим connecting, но обработка как offline

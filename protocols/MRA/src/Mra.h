@@ -221,7 +221,7 @@ CMStringA CopyNumber(const CMStringA&);
 CMStringW DecodeXML(const CMStringW &lptszMessage);
 CMStringW EncodeXML(const CMStringW &lptszMessage);
 
-bool      IsHTTPSProxyUsed(HANDLE m_hNetlibUser);
+bool      IsHTTPSProxyUsed(HANDLE hConnection);
 bool      IsContactMraProto(MCONTACT hContact);
 bool      IsEMailMR(const CMStringA& szEmail);
 bool      GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail);
@@ -242,5 +242,7 @@ DWORD     GetMraXStatusIDFromMraUriStatus(const char *lpszStatusUri);
 INT_PTR CALLBACK DlgProcAccount(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
 #define LPS2ANSI(var, p, size) char *var = (char*)alloca(size+1); memcpy(var, p, size); var[size]=0;
+
+#define NETLIB_CLOSEHANDLE(hConnection) {Netlib_CloseHandle(hConnection); hConnection = NULL;}
 
 #endif // !defined(AFX_MRA_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

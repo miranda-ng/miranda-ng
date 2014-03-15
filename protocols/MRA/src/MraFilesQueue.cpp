@@ -37,7 +37,7 @@ struct MRA_FILES_QUEUE_ITEM : public LIST_MT_ITEM
 	LPWSTR                lpwszPath;
 	size_t                dwPathSize;
 	bool                  bSending;
-	HANDLE                m_hConnection;
+	HANDLE                hConnection;
 	HANDLE                hListen;
 	HANDLE                hThread;
 	HANDLE                hWaitHandle;
@@ -314,11 +314,8 @@ DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 
 		MraMrimProxyCloseConnection(dat->hMraMrimProxyData);
 
-		Netlib_CloseHandle(dat->hListen);
-		dat->hListen = NULL;
-
-		Netlib_CloseHandle(dat->m_hConnection);
-		dat->m_hConnection = NULL;
+		NETLIB_CLOSEHANDLE(dat->hListen);
+		NETLIB_CLOSEHANDLE(dat->hConnection);
 
 		SetEvent(dat->hWaitHandle);
 
@@ -381,15 +378,15 @@ DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDReq
 		MraAddrListGetFromBuff(szAddresses, &dat->malAddrList);
 		MraAddrListStoreToContact(dat->hContact, &dat->malAddrList);
 
-		dat->m_hConnection = NULL;
+		dat->hConnection = NULL;
 		SetEvent(dat->hWaitHandle);
 	}
 	return dwRetErrorCode;
 }
 
-bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITEM *dat)
+bool CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM *dat)
 {
-	if (m_hConnection && dat) {
+	if (hConnection && dat) {
 		BYTE btBuff[((MAX_EMAIL_LEN * 2) + (sizeof(MRA_FT_HELLO)* 2) + 8)] = { 0 };
 		size_t dwBuffSize;
 
@@ -400,10 +397,10 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITE
 		if (dat->bSending == FALSE) {
 			// receiving
 			dwBuffSize = mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1;
-			if (dwBuffSize == Netlib_Send(m_hConnection, (LPSTR)btBuff, (int)dwBuffSize, 0)) {
+			if (dwBuffSize == Netlib_Send(hConnection, (LPSTR)btBuff, (int)dwBuffSize, 0)) {
 				// my email sended
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
-				dwBuffSize = Netlib_Recv(m_hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
+				dwBuffSize = Netlib_Recv(hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
 				if ((szEmail.GetLength() + sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 					// email received
 					mir_snprintf(((LPSTR)btBuff + dwBuffSize), (SIZEOF(btBuff) - dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
@@ -413,7 +410,7 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITE
 			}
 		}
 		else {// sending
-			dwBuffSize = Netlib_Recv(m_hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
+			dwBuffSize = Netlib_Recv(hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
 			if ((szEmail.GetLength() + sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 				// email received
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
@@ -421,7 +418,7 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITE
 				if (!_memicmp(btBuff, btBuff + dwBuffSize, dwBuffSize)) {
 					// email verified
 					dwBuffSize = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1);
-					if (dwBuffSize == Netlib_Send(m_hConnection, (LPSTR)btBuff, dwBuffSize, 0))
+					if (dwBuffSize == Netlib_Send(hConnection, (LPSTR)btBuff, dwBuffSize, 0))
 						return true;
 				}
 			}
@@ -460,7 +457,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 			dwAddrCount = dat->malAddrList.dwAddrCount;
 
 		if (dwAddrCount) {
-			dat->m_hConnection = NULL;
+			dat->hConnection = NULL;
 			dwConnectReTryCount = getDword("ConnectReTryCountFileSend", MRA_DEFAULT_CONN_RETRY_COUNT_FILES);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
@@ -478,29 +475,26 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 
 					dwCurConnectReTryCount = dwConnectReTryCount;
 					do {
-						dat->m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+						dat->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 					}
-					while (--dwCurConnectReTryCount && dat->m_hConnection == NULL);
+						while (--dwCurConnectReTryCount && dat->hConnection == NULL);
 
-					if (dat->m_hConnection) {
+					if (dat->hConnection) {
 						ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-						if (MraFilesQueueHandCheck(dat->m_hConnection, dat)) {
+						if (MraFilesQueueHandCheck(dat->hConnection, dat)) {
 							// связь установленная с тем кем нужно
 							setDword(dat->hContact, "OldIP", getDword(dat->hContact, "IP", 0));
 							setDword(dat->hContact, "IP", ntohl(dat->malAddrList.pMailAddress[i].dwAddr));
 							break;
 						}
-						else {
-							// кажется не туда подключились :)
-							Netlib_CloseHandle(dat->m_hConnection);
-							dat->m_hConnection = NULL;
-						}
+						else // кажется не туда подключились :)
+							NETLIB_CLOSEHANDLE(dat->hConnection);
 					}
 				}
 			}
 		}
 	}
-	return dat->m_hConnection;
+	return dat->hConnection;
 }
 
 LPWSTR GetFileNameFromFullPathW(LPWSTR lpwszFullPath, size_t dwFullPathSize)
@@ -593,7 +587,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 			dat->hWaitHandle = NULL;
 		}
 	}
-	return dat->m_hConnection;
+	return dat->hConnection;
 }
 
 // This function is called from the Netlib when someone is connecting to
@@ -605,7 +599,7 @@ void MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, vo
 
 		ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 		if (dat->ppro->MraFilesQueueHandCheck(hNewConnection, dat)) { // связь установленная с тем кем нужно
-			dat->m_hConnection = hNewConnection;
+			dat->hConnection = hNewConnection;
 			ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 			dat->ppro->setDword(dat->hContact, "OldIP", dat->ppro->getDword(dat->hContact, "IP", 0));
 			dat->ppro->setDword(dat->hContact, "IP", dwRemoteIP);
@@ -763,8 +757,8 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 			else {
 				if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0)) {
 					ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->m_hConnection) == NO_ERROR) {// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
-						if (MraFilesQueueHandCheck(dat->m_hConnection, dat)) {// связь установленная с тем кем нужно// dat->bSending
+					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR) {// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
+						if (MraFilesQueueHandCheck(dat->hConnection, dat)) {// связь установленная с тем кем нужно// dat->bSending
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 							bConnected = TRUE;
 						}
@@ -806,7 +800,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				btBuff[dwBuffSizeUsed] = 0;
 				dwBuffSizeUsed++;
 
-				if (dwBuffSizeUsed == Netlib_Send(dat->m_hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0)) {// file request sended
+				if (dwBuffSizeUsed == Netlib_Send(dat->hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0)) {// file request sended
 					hFile = CreateFileW(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {// file opened/created, pre allocating disk space, for best perfomance
 						bOK = FALSE;
@@ -823,7 +817,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							bContinue = TRUE;
 							dwUpdateTimeNext = GetTickCount();
 							nls.dwTimeout = (1000 * getDword("TimeOutReceiveFileData", MRA_DEF_FS_TIMEOUT_RECV));
-							nls.hReadConns[0] = dat->m_hConnection;
+							nls.hReadConns[0] = dat->hConnection;
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 							while (bContinue) {
@@ -835,7 +829,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 									bContinue = FALSE;
 									break;
 								case 1:
-									dwReceived = Netlib_Recv(dat->m_hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
+									dwReceived = Netlib_Recv(dat->hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
 									if (dwReceived == 0 || dwReceived == SOCKET_ERROR) {
 										dwRetErrorCode = GetLastError();
 										ShowFormattedErrorMessage(L"Receive files: error on receive file data", dwRetErrorCode);
@@ -898,8 +892,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				}
 			}// end for
 
-			Netlib_CloseHandle(dat->m_hConnection);
-			dat->m_hConnection = NULL;
+			NETLIB_CLOSEHANDLE(dat->hConnection);
 		}
 
 		if (bFailed) {
@@ -1010,9 +1003,9 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	else {
 		if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0)) {
 			ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-			if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->m_hConnection) == NO_ERROR) {
+			if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR) {
 				// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
-				if (MraFilesQueueHandCheck(dat->m_hConnection, dat)) {
+				if (MraFilesQueueHandCheck(dat->hConnection, dat)) {
 					// связь установленная с тем кем нужно// dat->bSending
 					ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 					bConnected = TRUE;
@@ -1028,7 +1021,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 
 			dwBuffSizeUsed = 0;
 			while (TRUE) {
-				dwReceived = Netlib_Recv(dat->m_hConnection, ((LPSTR)btBuff + dwBuffSizeUsed), (SIZEOF(btBuff) - dwBuffSizeUsed), 0);
+				dwReceived = Netlib_Recv(dat->hConnection, ((LPSTR)btBuff + dwBuffSizeUsed), (SIZEOF(btBuff) - dwBuffSizeUsed), 0);
 				if (dwReceived == 0 || dwReceived == SOCKET_ERROR) { // err on receive file name to send
 					dwRetErrorCode = GetLastError();
 					ShowFormattedErrorMessage(L"Send files: file send request not received, error", dwRetErrorCode);
@@ -1076,7 +1069,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 
 							while (TRUE) { // read and sending
 								if (ReadFile(hFile, btBuff, dwSendBlockSize, (DWORD*)&dwBuffSizeUsed, NULL)) {
-									dwReceived = Netlib_Send(dat->m_hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0);
+									dwReceived = Netlib_Send(dat->hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0);
 									if (dwBuffSizeUsed == dwReceived) {
 										pfts.currentFileProgress += dwBuffSizeUsed;
 										pfts.totalProgress += dwBuffSizeUsed;
@@ -1141,8 +1134,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 			}
 		}// end for
 
-		Netlib_CloseHandle(dat->m_hConnection);
-		dat->m_hConnection = NULL;
+		NETLIB_CLOSEHANDLE(dat->hConnection);
 	}
 
 	if (bFailed) {

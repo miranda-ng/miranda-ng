@@ -697,10 +697,10 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 	}
 }
 
-bool IsHTTPSProxyUsed(HANDLE m_hNetlibUser)
+bool IsHTTPSProxyUsed(HANDLE hNetlibUser)
 {
 	NETLIBUSERSETTINGS nlus = { sizeof(nlus) };
-	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus))
+	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)hNetlibUser, (LPARAM)&nlus))
 	if (nlus.useProxy && nlus.proxyType == PROXYTYPE_HTTPS)
 		return true;
 
