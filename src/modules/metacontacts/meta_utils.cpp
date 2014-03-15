@@ -530,20 +530,6 @@ int Meta_SwapContacts(DBCachedContact *cc, int n1, int n2)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK DlgProcNull(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		HWND prog = GetDlgItem(hwndDlg, IDC_PROG);
-
-		TranslateDialogDefault(hwndDlg);
-
-		SendMessage(prog, PBM_SETPOS, 0, 0);
-		return TRUE;
-	}
-	return FALSE;
-}
-
 void Meta_FixStatus(DBCachedContact *ccMeta)
 {
 	WORD status = ID_STATUS_OFFLINE;

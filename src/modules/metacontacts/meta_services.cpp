@@ -563,6 +563,46 @@ int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+// we assume that it could be called only for the metacontacts
+int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
+{
+	StatusIconClickData *sicd = (StatusIconClickData*)lParam;
+	if (lstrcmpA(sicd->szModule, META_PROTO))
+		return 0;
+
+	DBCachedContact *cc = CheckMeta(hMeta);
+	if (cc == NULL)
+		return 0;
+
+	HMENU hMenu = CreatePopupMenu();
+	int iDefault = Meta_GetContactNumber(cc, Meta_GetMostOnline(cc));
+	TCHAR tszItemName[200];
+
+	MENUITEMINFO mii = { sizeof(mii) };
+	mii.fMask = MIIM_ID | MIIM_STATE | MIIM_STRING;
+	mii.dwTypeData = tszItemName;
+	mii.cch = SIZEOF(tszItemName);
+	for (int i = 0; i < cc->nSubs; i++)	{
+		char *szProto = GetContactProto(cc->pSubs[i]);
+		if (szProto == NULL) continue;
+
+		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		if (pa == NULL) continue;
+
+		mir_sntprintf(tszItemName, SIZEOF(tszItemName), _T("%s [%s]"),
+			cli.pfnGetContactDisplayName(cc->pSubs[i], 0), pa->tszAccountName);
+
+		mii.wID = i + 1;
+		mii.fState = (i == iDefault) ? MFS_CHECKED : MFS_ENABLED;
+		InsertMenuItem(hMenu, i, TRUE, &mii);
+	}
+
+	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, NULL);
+	if (res > 0)
+		db_mc_setDefault(cc->contactID, Meta_GetContactHandle(cc, res - 1));
+	return 0;
+}
+
 int Meta_ClistDoubleClicked(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
@@ -606,6 +646,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// hook srmm window close/open events
 	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
+	HookEvent(ME_MSG_ICONPRESSED, Meta_SrmmIconClicked);
 
 	// hook protocol nudge events to forward to subcontacts
 	int numberOfProtocols;
