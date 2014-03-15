@@ -837,7 +837,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus,WORD newStatus)
 		dbei.flags = DBEF_READ | DBEF_UTF;
 
 		dbei.timestamp = (DWORD)time(NULL);
-		dbei.szModule = szProto;
+		dbei.szModule = MODULE;
 		HANDLE hDBEvent = db_event_add(hContact, &dbei);
 		mir_free(blob);
 	}
@@ -1132,7 +1132,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	int count = 0;
 	PROTOACCOUNT **accounts = NULL;
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
+	ProtoEnumAccounts(&count, &accounts);
 	for (int i = 0; i < count; i++)
 		if (IsAccountEnabled(accounts[i]))
 			db_set_b(NULL, MODULE, accounts[i]->szModuleName, 0);

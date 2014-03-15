@@ -263,7 +263,7 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		dbei.flags = DBEF_READ | DBEF_UTF;
 
 		dbei.timestamp = (DWORD)time(NULL);
-		dbei.szModule = xsc->szProto;
+		dbei.szModule = MODULE;
 		HANDLE hDBEvent = db_event_add(xsc->hContact, &dbei);
 		mir_free(blob);
 
