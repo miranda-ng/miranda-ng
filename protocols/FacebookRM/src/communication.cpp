@@ -1138,6 +1138,11 @@ bool facebook_client::channel()
 	case HTTP_CODE_OK:
 		return handle_success("channel");
 
+	case HTTP_CODE_GATEWAY_TIMEOUT:
+		// Maybe we have same clientid as other connected client, try to generate different one
+		this->chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef");
+
+		// Intentionally fall to handle_error() below
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	case HTTP_CODE_FAKE_ERROR:
 	default:
