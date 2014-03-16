@@ -955,7 +955,8 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 
 void CJabberProto::RebuildInfoFrame()
 {
-	CallFunctionAsync(sttRebuildInfoFrameApcProc, this);
+	if (!g_bShutdown)
+		CallFunctionAsync(sttRebuildInfoFrameApcProc, this);
 }
 
 ////////////////////////////////////////////////////////////////////////

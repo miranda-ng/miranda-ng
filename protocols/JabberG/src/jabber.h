@@ -583,6 +583,8 @@ extern HANDLE hExtraActivity;
 
 extern TCHAR szCoreVersion[];
 
+extern bool g_bShutdown;
+
 extern int g_cbCountries;
 extern struct CountryListEntry* g_countries;
 
