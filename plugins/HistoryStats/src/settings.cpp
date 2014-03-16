@@ -492,7 +492,7 @@ ext::string Settings::getOutputFile(DWORD timeStarted) const
 		strFile = utils::replaceVariables(strFile, timeStarted, m_OwnNick.c_str());
 
 	if (utils::isRelative(strFile))
-		return utils::getMirandaPath() + strFile;
+		return utils::getProfilePath() + strFile;
 
 	return strFile;
 }
