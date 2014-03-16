@@ -105,8 +105,6 @@
 Ланцужок падзей пашкоджана, наступныя дадзеныя ігнараваны
 [First event not marked as such: correcting]
 Першая падзея не пазначана: выпраўленне
-[Event marked as first which is not: correcting]
-Падзея пазначана першым, але ім не з'яўляецца: выпраўленне
 [Extra flags found in event: removing]
 Дадатковыя сцягі знойдзены ў падзеі: выдаленне
 [First unread event marked wrong: fixing]

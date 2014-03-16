@@ -77,8 +77,6 @@
 השתמש בקוד או זה בשביל  Ansi <-> Unicode תרגום:
 [Make me temporarily visible to contacts I send message to]
 עשה אותי נראה זמנית למשתמשים שאני שולח להם הודעה
-[Notify me when a message delivery has failed (recommended)]
-הודע לי כשמשלוח הודעה נכשל - מומלץ
 [Peer-to-peer Messaging]
 הודעות חיבור לחיבור
 [Enable peer-to-peer message connections]

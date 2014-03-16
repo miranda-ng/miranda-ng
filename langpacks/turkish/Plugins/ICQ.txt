@@ -77,8 +77,6 @@ Olabildiğinde tüm iletileri unikod olarak gönder
 ANSI / unikod dönüşümü için bu kod sayfasını kullan
 [Make me temporarily visible to contacts I send message to]
 İleti gönderdiğim kişilere geçici olarak görün
-[Notify me when a message delivery has failed (recommended)]
-Bir ileti gönderilemediğinde beni uyar (önerilir)
 [Peer-to-peer Messaging]
 Uçtan-Uca İletişim
 [Enable peer-to-peer message connections]

@@ -98,8 +98,8 @@ ICQ аватари
 За Ansi <-> Unicode превод ще бъде използвана:
 [Make me temporarily visible to contacts I send message to]
 Желая да бъда временно видим за контактите до които изпращам съобщения
-[Notify me when a message delivery has failed (recommended)]
-Уведомяване при неуспешно доставяне на съобщение (препоръчително)
+[Notify me when a message delivery has failed (old method)]
+
 [Never use legacy messaging (server acknowledgements)]
 Без използване на остарели механизми за изпращане на съобщения (потвърждения от сървъра)
 [Peer-to-peer Messaging]

@@ -83,8 +83,6 @@ unicodeメッセージサポートを有効
 Ansi <-> Unicode 変換に使用するコードページ:
 [Make me temporarily visible to contacts I send message to]
 メッセージを送るときは一時的に可視になる
-[Notify me when a message delivery has failed (recommended)]
-メッセージ配信に失敗したら自分に通知する ( 推奨 )
 [Never use legacy messaging (server acknowledgements)]
 レガシーメッセージングの使用を禁止 ( サーバーの受信確認 )
 [Peer-to-peer Messaging]

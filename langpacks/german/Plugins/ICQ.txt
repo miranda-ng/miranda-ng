@@ -98,8 +98,8 @@ Alle Nachrichten in Unicode senden, wenn möglich
 Verwende diese Codetabelle für ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Temporär für Kontakte sichtbar machen beim Nachrichtenversand
-[Notify me when a message delivery has failed (recommended)]
-Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte (empfohlen)
+[Notify me when a message delivery has failed (old method)]
+
 [Never use legacy messaging (server acknowledgements)]
 Niemals Bestätigung alter Nachrichten einholen (Server Empfangsbestätigungen)
 [Peer-to-peer Messaging]

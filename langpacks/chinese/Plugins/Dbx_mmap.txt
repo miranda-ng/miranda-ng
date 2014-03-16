@@ -65,8 +65,6 @@
 事件链已损坏, 后续项目被忽略
 [First event not marked as such: correcting]
 首事件尚未标记: 正在修正
-[Event marked as first which is not: correcting]
-标记的并非首事件: 正在修正
 [Extra flags found in event: removing]
 事件中找到额外旗帜: 正在移除
 [First unread event marked wrong: fixing]

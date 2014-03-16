@@ -98,8 +98,8 @@ Envoyer tous les messages en unicode si possible
 Traduire de Ansi vers Unicode avec l'encodage:
 [Make me temporarily visible to contacts I send message to]
 Devenir temporairement visible lorsque j'envoi des messages
-[Notify me when a message delivery has failed (recommended)]
-Me prévenir lors de l'échec d'un envoi de message (recommandé) 
+[Notify me when a message delivery has failed (old method)]
+
 [Never use legacy messaging (server acknowledgements)]
 
 [Peer-to-peer Messaging]

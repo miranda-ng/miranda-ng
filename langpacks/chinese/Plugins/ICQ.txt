@@ -83,8 +83,6 @@ ICQ 头像
 使用此代码页做 Ansi <-> Unicode 转换: 
 [Make me temporarily visible to contacts I send message to]
 让我暂时可见发送消息联系人
-[Notify me when a message delivery has failed (recommended)]
-消息递送失败时通知我 (推荐)
 [Peer-to-peer Messaging]
 P2P 通信
 [Enable peer-to-peer message connections]

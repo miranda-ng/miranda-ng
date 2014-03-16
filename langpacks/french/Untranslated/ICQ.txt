@@ -7,6 +7,7 @@
 [Login Server:]
 [Secure Connection (SSL)]
 [Legacy fix (for ICQ Groupware or IServerD only)]
+[Notify me when a message delivery has failed (old method)]
 [Never use legacy messaging (server acknowledgements)]
 [Enable Custom status support for xtraz]
 [Enable Custom status support for moods]

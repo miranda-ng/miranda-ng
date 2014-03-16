@@ -101,8 +101,6 @@
 Ланцюжок подій пошкоджений, подальші дані ігноруються
 [First event not marked as such: correcting]
 Перша подія не позначена як така: виправлення
-[Event marked as first which is not: correcting]
-Подія, позначена як перша, не є такою: виправлення
 [Extra flags found in event: removing]
 У події знайдені додаткові прапори: видалення
 [First unread event marked wrong: fixing]

@@ -94,8 +94,6 @@
 Перакадоўка ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Станавіцца бачным для кантакту, якому пасылаеце паведамленне
-[Notify me when a message delivery has failed (recommended)]
-Абвяшчаць пра няўдалую дастаўку паведамленняў (рэкамендуецца)
 [Never use legacy messaging (server acknowledgements)]
 Ігнараваць стары метад, выкарыстоўваць паведамленні сервера пра дастаўку
 [Peer-to-peer Messaging]

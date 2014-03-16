@@ -79,8 +79,6 @@ Unicode üzenet támogatás bekapcsolása
 Használd ezt a kódlapot ANSI <-> Unicode fordításhoz:
 [Make me temporarily visible to contacts I send message to]
 Átmenetileg látható vagyok azoknak, akiknek üzenetet küldök
-[Notify me when a message delivery has failed (recommended)]
-Értesítést kérek ha az üzenetküldés sikertelen (ajánlott)
 [Peer-to-peer Messaging]
 Gép-gép üzenetkezelés
 [Enable peer-to-peer message connections]

@@ -98,7 +98,7 @@ Mensajería
 
 [Make me temporarily visible to contacts I send message to]
 
-[Notify me when a message delivery has failed (recommended)]
+[Notify me when a message delivery has failed (old method)]
 
 [Never use legacy messaging (server acknowledgements)]
 

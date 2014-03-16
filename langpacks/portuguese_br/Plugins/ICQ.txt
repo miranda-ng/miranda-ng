@@ -77,8 +77,6 @@ Ativar suporte a mensagens unicode
 Enviar todas as mensagens em Unicode, se possível
 [Make me temporarily visible to contacts I send message to]
 Faça-me temporariamente visível para os contatos que eu enviar mensagem
-[Notify me when a message delivery has failed (recommended)]
-Notifique-me quando a entrega da mensagem falhou (recomendado)
 [Peer-to-peer Messaging]
 Mensagem Peer-to-peer
 [Enable peer-to-peer message connections]
