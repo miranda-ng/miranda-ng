@@ -92,7 +92,7 @@ static IconItem iconList[] =
 	{ LPGEN("Contact rate High"),   "Rate4",  IDI_FAVORITE_3 }
 };
 
-static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM lParam)
+static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 {
 	BYTE bContactRate = db_get_b(hContact, "CList", "Rate", 0);
 	if ( bContactRate > SIZEOF(rates)-1)
@@ -104,15 +104,17 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM lParam)
 	mi.icolibItem = iconList[bContactRate].hIcolib;
 	mi.pszPopupName = (char *)-1;
 	mi.position = 0;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	if (!bContactRate)
 		mi.ptszName = FAVMENUROOTNAME;
 	else {
-		int bufsize = (lstrlen(FAVMENUROOTNAME)+lstrlen(rates[bContactRate])+15)*sizeof(TCHAR);
+		TCHAR *str1 = TranslateTS(FAVMENUROOTNAME), *str2 = TranslateTS(rates[bContactRate]);
+		int bufsize = (lstrlen(str1)+lstrlen(str2)+15)*sizeof(TCHAR);
 		TCHAR *name = (TCHAR*)_alloca(bufsize);
-		mir_sntprintf(name, bufsize/sizeof(TCHAR), _T("%s (%s)"),FAVMENUROOTNAME,rates[bContactRate]);
+		mir_sntprintf(name, bufsize/sizeof(TCHAR), _T("%s (%s)"),str1,str2);
 		mi.ptszName = name;
+		mi.flags |= CMIF_KEEPUNTRANSLATED;
 	}
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	if (!hFavoriteContactMenu)
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
