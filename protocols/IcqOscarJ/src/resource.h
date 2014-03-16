@@ -105,7 +105,6 @@
 #define IDC_IDLETIME                    1254
 #define IDC_STATUS                      1255
 #define IDC_SLOWSEND                    1301
-#define IDC_ONLYSERVERACKS              1302
 #define IDC_LOGLEVEL                    1331
 #define IDC_LEVELDESCR                  1332
 #define IDC_NOERRMULTI                  1333

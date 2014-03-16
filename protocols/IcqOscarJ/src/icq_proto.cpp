@@ -1460,98 +1460,49 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			// on failure, fallback to send thru server
 		}
 
-		if (!dwUin || !CheckContactCapabilities(hContact, CAPF_SRV_RELAY) ||
-			wRecipientStatus == ID_STATUS_OFFLINE || wRecipientStatus == ID_STATUS_INVISIBLE ||
-			getByte(hContact, "OnlyServerAcks", getByte("OnlyServerAcks", DEFAULT_ONLYSERVERACKS)) ||
-			!getByte(hContact, "SlowSend", getByte("SlowSend", DEFAULT_SLOWSEND))) {
-			/// TODO: add support for RTL & user customizable font
-				{
-					char *mng = MangleXml(puszText, strlennull(puszText));
-					int len = strlennull(mng);
-					mng = (char*)SAFE_REALLOC(mng, len + 28);
-					memmove(mng + 12, mng, len + 1);
-					memcpy(mng, "<HTML><BODY>", 12);
-					strcat(mng, "</BODY></HTML>");
-					if (bNeedFreeU) SAFE_FREE(&puszText);
-					puszText = mng;
-					bNeedFreeU = 1;
-				}
+		/// TODO: add support for RTL & user customizable font
+		{
+			char *mng = MangleXml(puszText, strlennull(puszText));
+			int len = strlennull(mng);
+			mng = (char*)SAFE_REALLOC(mng, len + 28);
+			memmove(mng + 12, mng, len + 1);
+			memcpy(mng, "<HTML><BODY>", 12);
+			strcat(mng, "</BODY></HTML>");
+			if (bNeedFreeU) SAFE_FREE(&puszText);
+			puszText = mng;
+			bNeedFreeU = 1;
+		}
 
-			WCHAR *pwszText = plain_ascii ? NULL : make_unicode_string(puszText);
-			if ((plain_ascii ? strlennull(puszText) : strlennull(pwszText) * sizeof(WCHAR)) > MAX_MESSAGESNACSIZE) { // max length check // TLV(2) is currently limited to 0xA00 bytes in online mode
-				// only limit to not get disconnected, all other will be handled by error 0x0A
-				dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered, it is too long.");
+		WCHAR *pwszText = plain_ascii ? NULL : make_unicode_string(puszText);
+		if ((plain_ascii ? strlennull(puszText) : strlennull(pwszText) * sizeof(WCHAR)) > MAX_MESSAGESNACSIZE) { // max length check // TLV(2) is currently limited to 0xA00 bytes in online mode
+			// only limit to not get disconnected, all other will be handled by error 0x0A
+			dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered, it is too long.");
 
-				// free the buffers if alloced
-				SAFE_FREE((void**)&pwszText);
-				if (bNeedFreeU) SAFE_FREE(&puszText);
-
-				return dwCookie;
-			}
-			// Rate check
-			if (IsServerOverRate(ICQ_MSG_FAMILY, ICQ_MSG_SRV_SEND, RML_LIMIT)) { // rate is too high, the message will not go thru...
-				dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered. You are sending too fast. Wait a while and try again.");
-
-				// free the buffers if alloced
-				SAFE_FREE((void**)&pwszText);
-				if (bNeedFreeU) SAFE_FREE(&puszText);
-
-				return dwCookie;
-			}
-
-			pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, FALSE);
-
-			if (plain_ascii)
-				dwCookie = icq_SendChannel1Message(dwUin, szUID, hContact, puszText, pCookieData);
-			else
-				dwCookie = icq_SendChannel1MessageW(dwUin, szUID, hContact, pwszText, pCookieData);
-			// free the unicode message
+			// free the buffers if alloced
 			SAFE_FREE((void**)&pwszText);
+			if (bNeedFreeU) SAFE_FREE(&puszText);
+
+			return dwCookie;
 		}
-		else {
-			WORD wPriority;
+		// Rate check
+		if (IsServerOverRate(ICQ_MSG_FAMILY, ICQ_MSG_SRV_SEND, RML_LIMIT)) { // rate is too high, the message will not go thru...
+			dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered. You are sending too fast. Wait a while and try again.");
 
-			char *srv_msg = puszText;
-			char *srv_cap = plain_ascii ? NULL : CAP_UTF8MSGS;
-			char *szUserAnsi = NULL;
+			// free the buffers if alloced
+			SAFE_FREE((void**)&pwszText);
+			if (bNeedFreeU) SAFE_FREE(&puszText);
 
-			if (!plain_ascii && oldAnsi) {
-				szUserAnsi = ConvertMsgToUserSpecificAnsi(hContact, puszText);
-				if (szUserAnsi) {
-					srv_msg = szUserAnsi;
-					srv_cap = NULL;
-				}
-			}
-
-			if (wRecipientStatus == ID_STATUS_ONLINE || wRecipientStatus == ID_STATUS_FREECHAT)
-				wPriority = 0x0001;
-			else
-				wPriority = 0x0021;
-
-			if (strlennull(srv_msg) + (!oldAnsi ? 144 : 102) > MAX_MESSAGESNACSIZE) { // max length check
-				dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered, it is too long.");
-
-				SAFE_FREE(&szUserAnsi);
-				// free the buffers if alloced
-				if (bNeedFreeU) SAFE_FREE(&puszText);
-
-				return dwCookie;
-			}
-			// Rate check
-			if (IsServerOverRate(ICQ_MSG_FAMILY, ICQ_MSG_SRV_SEND, RML_LIMIT)) { // rate is too high, the message will not go thru...
-				dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered. You are sending too fast. Wait a while and try again.");
-
-				SAFE_FREE(&szUserAnsi);
-				// free the buffers if alloced
-				if (bNeedFreeU) SAFE_FREE(&puszText);
-
-				return dwCookie;
-			}
-
-			pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, TRUE);
-			dwCookie = icq_SendChannel2Message(dwUin, hContact, srv_msg, strlennull(srv_msg), wPriority, pCookieData, srv_cap);
-			SAFE_FREE(&szUserAnsi);
+			return dwCookie;
 		}
+
+		pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, FALSE);
+
+		if (plain_ascii)
+			dwCookie = icq_SendChannel1Message(dwUin, szUID, hContact, puszText, pCookieData);
+		else
+			dwCookie = icq_SendChannel1MessageW(dwUin, szUID, hContact, pwszText, pCookieData);
+		// free the unicode message
+		SAFE_FREE((void**)&pwszText);
 
 		// This will stop the message dialog from waiting for the real message delivery ack
 		if (pCookieData && pCookieData->nAckType == ACKTYPE_NONE) {

@@ -363,7 +363,6 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			icq_EnableMultipleControls(hwndDlg, icqUnicodeControls, SIZEOF(icqUnicodeControls), byData ? TRUE : FALSE);
 			LoadDBCheckState(ppro, hwndDlg, IDC_TEMPVISIBLE, "TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
 			LoadDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend", DEFAULT_SLOWSEND);
-			LoadDBCheckState(ppro, hwndDlg, IDC_ONLYSERVERACKS, "OnlyServerAcks", DEFAULT_ONLYSERVERACKS);
 			byData = ppro->getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
 			CheckDlgButton(hwndDlg, IDC_DCENABLE, byData ? TRUE : FALSE);
 			CheckDlgButton(hwndDlg, IDC_DCPASSIVE, byData == 1 ? TRUE : FALSE);
@@ -437,7 +436,6 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			ppro->m_bTempVisListEnabled = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TEMPVISIBLE);
 			ppro->setByte("TempVisListEnabled", ppro->m_bTempVisListEnabled);
 			StoreDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend");
-			StoreDBCheckState(ppro, hwndDlg, IDC_ONLYSERVERACKS, "OnlyServerAcks");
 			if (IsDlgButtonChecked(hwndDlg, IDC_DCENABLE))
 				ppro->m_bDCMsgEnabled = IsDlgButtonChecked(hwndDlg, IDC_DCPASSIVE) ? 1 : 2;
 			else

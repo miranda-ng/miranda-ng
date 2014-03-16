@@ -142,8 +142,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,288,10
     CONTROL         "Notify me when a message delivery has failed (old method)",IDC_SLOWSEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,65,288,10
-    CONTROL         "Never use legacy messaging (server acknowledgements)",IDC_ONLYSERVERACKS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,77,288,10
     GROUPBOX        "Peer-to-peer Messaging",IDC_STATIC,4,95,302,41
     CONTROL         "Enable peer-to-peer message connections",IDC_DCENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,107,288,10
