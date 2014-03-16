@@ -523,6 +523,10 @@ xHTML формат чат сообщений
 Поддержка заметок Miranda NG
 [Supports Jingle]
 Поддержка Jingle
+[Supports Roster Exchange]
+Поддержка обмена ростера
+[Supports direct chat invitations (XEP-0249)]
+Поддержка прямых приглашений в чат (XEP-0249)
 [Enter the text you see]
 Введите текст, который видите
 [None]
@@ -2187,7 +2191,3 @@ Cмущённый
 Занятия
 [Set filter...]
 Фильтр...
-[Supports Roster Exchange]
-Поддержка обмена ростера
-[Supports direct chat invitations (XEP-0249)]
-Поддержка прямых приглашений в чат (XEP-0249)

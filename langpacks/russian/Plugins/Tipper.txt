@@ -7,42 +7,48 @@
 ;============================================================
 [Tool Tip notification windows.]
 Плагин всплывающих подсказок для списка контактов.
-[Options]
-Настройки
 [Layout]
 Размещение
 [Text indent:]
 Отступ текста:
-[Window]
-Окно
-[Max width:]
-Макс. ширина:
-[Max height:]
-Макс. высота:
-[Avatar size:]
-Аватар:
-[Show if list not focused]
-Список не в фокусе
+[Title indent:]
+Отступ заголовка:
+[Value indent:]
+Отступ значения:
 [General padding:]
 Основной отступ:
-[Hover time:]
-Задержка:
+[Text padding:]
+Межстрочный отступ:
+[Outer avatar padding:]
+Внеш. отступ аватара:
+[Inner avatar padding:]
+Внут. отступ аватара:
 [Alignment]
 Выравнивание
 [Labels:]
 Названия:
 [Values:]
 Значения:
+[Window]
+Окно
+[Max width:]
+Макс. ширина:
 [Min width:]
 Мин. ширина:
+[Max height:]
+Макс. высота:
 [Min height:]
 Мин. высота:
+[Avatar size:]
+Аватар:
 [Sidebar width:]
 Ширина врезки:
-[Text padding:]
-Межстрочный отступ:
-[Outer avatar padding:]
-Внеш. отступ аватара:
+[Hover time:]
+Задержка:
+[Show if list not focused]
+Список не в фокусе
+[Options]
+Настройки
 [Show title]
 Заголовок
 [Status bar tips]
@@ -53,20 +59,14 @@
 Округлять углы аватара
 [Keep original avatar size]
 Сохранять размер аватара
-[Title indent:]
-Отступ заголовка:
-[Value indent:]
-Отступ значения:
-[Inner avatar padding:]
-Внут. отступ аватара:
 [Substitution]
 Подстановка
 [Label:]
 Метка:
-[Contact protocol module]
-Модуль протокола контакта
 [Module:]
 Модуль:
+[Contact protocol module]
+Модуль протокола контакта
 [Setting or prefix:]
 Параметр, префикс:
 [Translation:]
@@ -103,76 +103,76 @@
 Изменить
 [Separator]
 Разделитель
-[Advanced options]
-Дополнительно
-[Retrieve XStatus details if auto-retrieve is disabled]
-Запрашивать подробный xСтатус, если автозапрос выключен
 [Extra icons]
 Экстра значки
 [Smileys support]
 Смайлы
 [Enable SmileyAdd support]
 Поддержка смайлов
-[Resize smileys]
-Масштабировать смайлы
 [Use protocol smileys]
 Смайлы протокола
+[Resize smileys]
+Масштабировать смайлы
 [Replace only isolated smileys]
 Только смайлы через пробел
-[Retrieve new status message]
-Запрашивать сообщение статуса
+[Advanced options]
+Дополнительно
 [Show tooltip after all content is ready (avatar && status message)]
 Показать подсказку только после загрузки всего содержимого
+[Retrieve new status message]
+Запрашивать сообщение статуса
+[Disable in invisible status]
+Отключить запрос, когда невидимый
+[Retrieve XStatus details if auto-retrieve is disabled]
+Запрашивать подробный xСтатус, если автозапрос выключен
 [Status bar and tray tooltip]
 Панель статуса и подсказка в трее
 [Limit status messages in status bar and tray tooltips to:]
 Ограничить сообщение в панели статуса и в подсказке трея до:
 [characters]
 символов
-[Disable in invisible status]
-Отключить запрос, когда невидимый
 [Skins]
 Скины
-[Opacity (%):]
-Непрозрачность (%):
-[Transparency]
-Прозрачность
-[Effects]
-Эффекты
-[Border]
-Рамка
-[Shadow]
-Тень
-[Round corners (window)]
-Округлять углы окна
-[Aero Glass (Vista+)]
-Эффект Aero Glass (Vista+)
-[Animation speed:]
-Скорость анимации:
-[Preview]
-Тест
-[No preview]
-Нет превью
-[Skin option]
-Настройка скина
-[Load fonts and colors]
-Загружать шрифты и цвета
-[Enable skin coloring]
-Раскраска скинов
 [Reload skin list]
 Обновить список скинов
 [Apply skin]
 Применить скин
-[Load tooltip proportions]
-Загружать пропорции подсказки
 [Get more skins]
 Скачать скины
+[Preview]
+Тест
+[No preview]
+Нет превью
+[Effects]
+Эффекты
+[Animation speed:]
+Скорость анимации:
+[Shadow]
+Тень
+[Border]
+Рамка
+[Round corners (window)]
+Округлять углы окна
+[Skin option]
+Настройка скина
+[Enable skin coloring]
+Раскраска скинов
+[Load tooltip proportions]
+Загружать пропорции подсказки
+[Load fonts and colors]
+Загружать шрифты и цвета
+[Transparency]
+Прозрачность
+[Opacity (%):]
+Непрозрачность (%):
+[Aero Glass (Vista+)]
+Эффект Aero Glass (Vista+)
 [Enable tray tooltips]
 Подсказки в трее
 [Handle tray tooltips by Tipper]
 Перехватывать подсказки в трее
-[Favorite contacts]
-Избранные контакты
+[Hide offline protocols]
+Прятать отключённые протоколы
 [Expand to second level after:]
 Второй ур-нь подсказки через:
 [ms]
@@ -181,8 +181,8 @@
 Подсказка первого уровня
 [Second level tooltip]
 Подсказка второго уровня
-[Hide offline protocols]
-Прятать отключённые протоколы
+[Favorite contacts]
+Избранные контакты
 [Hide offline]
 Скрыть отключённых
 [Append protocol name]

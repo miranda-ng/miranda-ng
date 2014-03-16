@@ -467,8 +467,6 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 &Вверх
 [Move &Down]
 &Вниз
-[Force use of default for sending (even if offline)]
-Всегда использовать по умолчанию (даже если оффлайн)
 [Send &Offline]
 В &оффлайн
 [Context Menu]

@@ -955,16 +955,6 @@ Esc закрывает сессию (иначе - сворачивает)
 Диалоги
 [Attach to]
 Объединить с:
-[Meta Contact]
-Метаконтакт
-[(Forced)]
-(Принудительно)
-[Autoselect]
-Автовыбор
-[Use Protocol]
-Использовать протокол
-[Set Default Protocol]
-Протокол по умолчанию
 [General options]
 Общие параметры
 [Window layout]
@@ -1247,12 +1237,6 @@ TabSRMM: Набирает
 время отправки истекло
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Вы редактируете заметки о пользователе. Нажмите на кнопку еще раз или используйте горячие клавиши (по умолчанию: Alt-N), чтобы сохранить заметки и вернуться в нормальный режим сообщений
-[Unforce failed]
-Невынужденная ошибка
-[The selected protocol cannot be forced at this time]
-Сейчас этот протокол не может быть выбран
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Внимание: вы выбрали протокол для отправки сообщений, который сейчас отключён.
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контакт не в сети и этот протокол не поддерживает оффлайн сообщения.
 [Error creating destination directory]
