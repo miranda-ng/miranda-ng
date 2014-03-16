@@ -1005,7 +1005,7 @@ bool Statistic::stepWriteHTML()
 	additionalCSSSelectors.clear();
 
 	tos << _T("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">") << ext::endl
-		<< _T("<html>") << ext::endl
+		<< _T("<html xmlns=\"http://www.w3.org/1999/xhtml\">") << ext::endl
 		<< _T("<head>") << ext::endl
 		<< _T("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />") << ext::endl
 		<< _T("<meta name=\"generator\" content=\"HistoryStats " << utils::versionToDotted(m_Settings.m_VersionCurrent) << "\" />") << ext::endl
