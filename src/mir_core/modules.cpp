@@ -563,7 +563,10 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 
 MIR_CORE_DLL(int) CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
 {
-	QueueMainThread((PAPCFUNC)func, arg, 0);
+	if (GetCurrentThreadId() == mainThreadId)
+		func(arg);
+	else
+		QueueMainThread((PAPCFUNC)func, arg, 0);
 	return 0;
 }
 
