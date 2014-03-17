@@ -28,6 +28,9 @@ Zrestartuj Mirandę by wprowadzić zmiany.
 Statyczne
 [Langpack root folder]
 Folder główny
+;file \plugins\LangMan\src\main.cpp
+[Reload langpack]
+Przeładuj pakiet językowy
 ;file \plugins\LangMan\src\options.cpp
 [(incompatible)]
 (niezgodne)
