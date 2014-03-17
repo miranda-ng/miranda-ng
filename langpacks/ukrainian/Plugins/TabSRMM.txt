@@ -1491,14 +1491,6 @@ ID користувача в панелі статусу
 ;============================================================
 ;Метаконтакти
 ;============================================================
-[Use Protocol]
-Використовувати протокол
-[Set Default Protocol]
-Протокол за замовчанням
-[Meta Contact]
-Метаконтакт
-[Autoselect]
-Автовибір
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Додайте користувача по його імені або по ID. Рекомендується використовувати маски.
 [You have chosen to disable all event notifications for open message windows.]
