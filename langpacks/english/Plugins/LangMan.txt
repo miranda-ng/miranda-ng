@@ -17,6 +17,8 @@
 [Please restart Miranda NG for your changes to take full effect.]
 [Static]
 [Langpack root folder]
+;file \plugins\LangMan\src\main.cpp
+[Reload langpack]
 ;file \plugins\LangMan\src\options.cpp
 [(incompatible)]
 [Unknown]
