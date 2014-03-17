@@ -1,10 +1,12 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by E:\Projects\C++\MirandaNG\plugins\LangMan\res\resource.rc
+// Used by d:\Projects\CPlusPlus\MirandaNG\plugins\LangMan\res\resource.rc
 //
 #define IDD_OPT_LANG                    101
 #define IDD_UPDATENOTIFY                102
 #define IDD_DOWNLOADLANG                103
+#define IDI_ICON1                       104
+#define IDI_RELOAD                      104
 #define IDC_LANGLIST                    1001
 #define IDC_LANGINFOFRAME               1002
 #define IDC_LANGAUTHORSLABEL            1003
@@ -42,7 +44,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           2001

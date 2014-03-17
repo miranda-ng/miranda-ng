@@ -39,8 +39,10 @@ typedef struct {
 	BYTE flags; /* see LPIF_* flags */
 } LANGPACK_INFO;
 
+BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL useRootFolder, const TCHAR *pszFile);
+
+void MovePacks(const TCHAR *pszFilePattern);
+
 /* Enum */
-BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *pszFile);
 typedef BOOL (*ENUM_PACKS_CALLBACK)(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lParam);
 BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const char *pszFileVersionHeader, WPARAM wParam, LPARAM lParam);
-void MovePacks(const TCHAR *pszFilePattern);

@@ -135,7 +135,7 @@ static void CleanupLastModifiedUsing(char *szLastModifiedUsing, int nSize)
 
 // pack struct should be initialized to zero before call
 // pack->szFileName needs to be filled in before call
-static BOOL LoadPackData(LANGPACK_INFO *pack, BOOL fEnabledPacks, const char *pszFileVersionHeader)
+static BOOL LoadPackData(LANGPACK_INFO *pack, BOOL useRootFolder, const char *pszFileVersionHeader)
 {
 	FILE *fp;
 	TCHAR szFileName[MAX_PATH];
@@ -153,7 +153,7 @@ static BOOL LoadPackData(LANGPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 		X-Version: 1.2.3.4 (non-standard extension)
 		see 'LangMan-Translation.txt' for some header quidelines 
 	*/
-	if ( !GetPackPath( szFileName, SIZEOF(szFileName), fEnabledPacks, pack->szFileName))
+	if ( !GetPackPath( szFileName, SIZEOF(szFileName), useRootFolder, pack->szFileName))
 		return FALSE;
 
 	fp = _tfopen(szFileName, _T("rt"));
@@ -236,7 +236,7 @@ static BOOL LoadPackData(LANGPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 
 /************************* Enum ***************************************/
 
-BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *pszFile)
+BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL useRootFolder, const TCHAR *pszFile)
 {
 	TCHAR *p;
 	/* main path */
@@ -244,7 +244,7 @@ BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *psz
 	p = _tcsrchr(pszPath, _T('\\'));
 	if (p!=NULL) *(p+1) = _T('\0');
 	/* subdirectory */
-	if (!fEnabledPacks) {
+	if (!useRootFolder) {
 		if (nSize<(lstrlen(pszPath)+10)) return FALSE;
 		lstrcat(pszPath, _T("Languages\\"));
 	}
@@ -268,7 +268,7 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const 
 
 	mir_ptr<TCHAR> langpack(db_get_tsa(NULL, "LangMan", "Langpack"));
 
-	/* enabled packs */
+	/* langpacks in root folder */
 	if (GetPackPath(pack.szFileName, SIZEOF(pack.szFileName), TRUE, pszFilePattern)) {
 		hFind = FindFirstFile(pack.szFileName, &wfd);
 		if (hFind!=INVALID_HANDLE_VALUE) {
@@ -294,7 +294,7 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const 
 		}
 	}
 
-	/* disabled packs */
+	/* langpacks in languages folder */
 	if (GetPackPath(pack.szFileName, SIZEOF(pack.szFileName), FALSE, pszFilePattern)) {
 		hFind = FindFirstFile(pack.szFileName, &wfd);
 		if (hFind!=INVALID_HANDLE_VALUE) {

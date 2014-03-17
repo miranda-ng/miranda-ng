@@ -21,9 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-HINSTANCE hInst;
-
 int hLangpack;
+HINSTANCE hInst;
 
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
@@ -99,25 +98,32 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
 
-	if (!IsRunAsAdmin())
-		MovePacks(_T("langpack_*.txt"));
+	//if (!IsRunAsAdmin())
+	MovePacks(_T("langpack_*.txt"));
 
 	/*INITCOMMONCONTROLSEX icc;
 	icc.dwSize = sizeof(icc);
 	icc.dwICC = ICC_TREEVIEW_CLASSES|ICC_USEREX_CLASSES;
 	InitCommonControlsEx(&icc);*/
 
-	TCHAR *langpack = db_get_tsa(NULL, "LangMan", "Langpack");
+	/* menu item */
+	CLISTMENUITEM mi = { sizeof(mi) }; 
+	mi.position = 2000089999; 
+	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RELOAD)); 
+	mi.pszName = LPGEN("Reload langpack"); 
+	mi.pszService = MS_LANGPACK_RELOAD; 
+	Menu_AddMainMenuItem(&mi); 
+
+	/* reset langpack */
+	mir_ptr<TCHAR> langpack(db_get_tsa(NULL, "LangMan", "Langpack"));
 	if (langpack)
 	{
-		TCHAR szPath[MAX_PATH], szFile[MAX_PATH];
-		mir_sntprintf(szFile, MAX_PATH, _T("Languages\\%s"), langpack);
-		GetPackPath(szPath, SIZEOF(szPath), TRUE, CharLower(szFile));
+		TCHAR szPath[MAX_PATH];
+		GetPackPath(szPath, SIZEOF(szPath), FALSE, langpack);
 
 		DWORD dwAttrib = GetFileAttributes(szPath);
 		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
 			CallService(MS_LANGPACK_RELOAD, 0, (LPARAM)szPath);
-		mir_free(langpack);
 	}
 
 	InitOptions();
@@ -128,6 +134,24 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitOptions();
+
+	/* move default langpack to root */
+	mir_ptr<TCHAR> langpack(db_get_tsa(NULL, "LangMan", "Langpack"));
+	if (langpack)
+	{
+		TCHAR szFrom[MAX_PATH], szDest[MAX_PATH];
+		GetPackPath(szFrom, SIZEOF(szFrom), FALSE, langpack);
+
+		DWORD dwAttrib = GetFileAttributes(szFrom);
+		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
+		{
+			GetPackPath(szDest, SIZEOF(szDest), TRUE, langpack);
+			if (!MoveFile(szFrom, szDest) && GetLastError() == ERROR_ALREADY_EXISTS) {
+				DeleteFile(szDest);
+				MoveFile(szFrom, szDest);
+			}
+		}
+	}
 
 	return 0;
 }
