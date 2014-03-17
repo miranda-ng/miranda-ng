@@ -8,42 +8,48 @@
 [Tool Tip notification windows.]
 Powiadomienia w okienkach
 ;file \plugins\TipperYM\res\resource.rc
-[Options]
-Opcje
 [Layout]
 Układ
 [Text indent:]
 Wcięcie tekstu:
-[Window]
-Okno
-[Max width:]
-Maks. szerokość:
-[Max height:]
-Maks. wysokość:
-[Avatar size:]
-Rozmiar:
-[Show if list not focused]
-Pokaż jeśli lista jest nieaktywna
+[Title indent:]
+Wcięcie tytułu:
+[Value indent:]
+Wcięcie wartości:
 [General padding:]
 Ogólne dopełnienie:
-[Hover time:]
-Wyświetl podpowiedź po:
+[Text padding:]
+Dopełnienie tekstu:
+[Outer avatar padding:]
+Zewnętrzne dopełnienie awatara:
+[Inner avatar padding:]
+Wewnętrzne dopełnienie awatara:
 [Alignment]
 Wyrównanie
 [Labels:]
 Etykiety:
 [Values:]
 Wartości:
+[Window]
+Okno
+[Max width:]
+Maks. szerokość:
 [Min width:]
 Min. szerokość:
+[Max height:]
+Maks. wysokość:
 [Min height:]
 Min. wysokość:
+[Avatar size:]
+Rozmiar:
 [Sidebar width:]
 Boczny pasek:
-[Text padding:]
-Dopełnienie tekstu:
-[Outer avatar padding:]
-Zewnętrzne dopełnienie awatara:
+[Hover time:]
+Wyświetl podpowiedź po:
+[Show if list not focused]
+Pokaż jeśli lista jest nieaktywna
+[Options]
+Opcje
 [Show title]
 Pokaż tytuł
 [Status bar tips]
@@ -54,20 +60,14 @@ Obramowanie awatara
 Zaokrąglone rogi (awatara)
 [Keep original avatar size]
 Oryginalny rozmiar awatara
-[Title indent:]
-Wcięcie tytułu:
-[Value indent:]
-Wcięcie wartości:
-[Inner avatar padding:]
-Wewnętrzne dopełnienie awatara:
 [Substitution]
 Zastępstwo
 [Label:]
 Etykieta:
-[Contact protocol module]
-Moduł protokołu kontaktu
 [Module:]
 Moduł:
+[Contact protocol module]
+Moduł protokołu kontaktu
 [Setting or prefix:]
 Ustawienie/Prefiks:
 [Translation:]
@@ -106,76 +106,76 @@ W dół
 Edytuj
 [Separator]
 Separator
-[Advanced options]
-Zaawansowane opcje
-[Retrieve XStatus details if auto-retrieve is disabled]
-Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
 [Extra icons]
 Dodatkowe ikony
 [Smileys support]
 Wsparcie dla emotikon
 [Enable SmileyAdd support]
 Włącz wsparcie dla SmileyAdd
-[Resize smileys]
-Dopasuj rozmiar emotikon
 [Use protocol smileys]
 Użyj emotikon protokołu
+[Resize smileys]
+Dopasuj rozmiar emotikon
 [Replace only isolated smileys]
 Zamień tylko odizolowane emotikony
-[Retrieve new status message]
-Pobierz nowe opisy statusów
+[Advanced options]
+Zaawansowane opcje
 [Show tooltip after all content is ready (avatar && status message)]
 Pokaż tooltip gdy zawartość będzie gotowa (awatar i status wiadomości)
+[Retrieve new status message]
+Pobierz nowe opisy statusów
+[Disable in invisible status]
+Wyłącz pobieranie opisu przy statusie "Niewidoczny"
+[Retrieve XStatus details if auto-retrieve is disabled]
+Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
 [Status bar and tray tooltip]
 Pasek statusu i podpowiedzi w zasobniku
 [Limit status messages in status bar and tray tooltips to:]
 Limituj opisy w podpowiedzi w zasobniku systemowym do:
 [characters]
 znaków
-[Disable in invisible status]
-Wyłącz pobieranie opisu przy statusie "Niewidoczny"
 [Skins]
 Skórki
-[Opacity (%):]
-Krycie (%):
-[Transparency]
-Przeźroczystość
-[Effects]
-Efekty
-[Border]
-Obramowanie
-[Shadow]
-Cień
-[Round corners (window)]
-Zaokrąglone rogi (okna)
-[Aero Glass (Vista+)]
-Aero Glass (Vista+)
-[Animation speed:]
-Szybkość animacji:
-[Preview]
-Podgląd
-[No preview]
-Brak obrazka
-[Skin option]
-Opcje skórki
-[Load fonts and colors]
-Włącz czcionki i kolory
-[Enable skin coloring]
-Włącz kolorowanie skórki
 [Reload skin list]
 Odśwież skórkę
 [Apply skin]
 Zatwierdź skórkę
-[Load tooltip proportions]
-Włącz proporcje tooltipa
 [Get more skins]
 Pobierz więcej skórek...
+[Preview]
+Podgląd
+[No preview]
+Brak obrazka
+[Effects]
+Efekty
+[Animation speed:]
+Szybkość animacji:
+[Shadow]
+Cień
+[Border]
+Obramowanie
+[Round corners (window)]
+Zaokrąglone rogi (okna)
+[Skin option]
+Opcje skórki
+[Enable skin coloring]
+Włącz kolorowanie skórki
+[Load tooltip proportions]
+Włącz proporcje tooltipa
+[Load fonts and colors]
+Włącz czcionki i kolory
+[Transparency]
+Przeźroczystość
+[Opacity (%):]
+Krycie (%):
+[Aero Glass (Vista+)]
+Aero Glass (Vista+)
 [Enable tray tooltips]
 Włącz podpowiedzi w zasobniku
 [Handle tray tooltips by Tipper]
 Rozszerzona podpowiedź w zasobniku
-[Favorite contacts]
-Ulubione kontakty
+[Hide offline protocols]
+Ukryj Rozłączone protokoły
 [Expand to second level after:]
 Rozszerz podpowiedź po:
 [ms]
@@ -184,8 +184,8 @@ ms
 Podstawowy Tooltip
 [Second level tooltip]
 Rozszerzony Tooltip
-[Hide offline protocols]
-Ukryj Rozłączone protokoły
+[Favorite contacts]
+Ulubione kontakty
 [Hide offline]
 Ukryj rozłączonych
 [Append protocol name]

@@ -964,16 +964,6 @@ Sesja rozmowy...
 Domyślny kontener
 [Attach to]
 Przyczep do
-[Meta Contact]
-Meta Kontakt
-[(Forced)]
-(Wymuszone)
-[Autoselect]
-Autowybór
-[Use Protocol]
-Użyj protokołu
-[Set Default Protocol]
-Ustaw domyślny protokół
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Opcje ogólne
@@ -1266,12 +1256,6 @@ Dostarczenie nie powiodło się: %s
 Przekroczono limit czasu wysyłania wiadomości
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: alt+n), aby zapisać notatki i powrócić do normalnego trybu wiadomości
-[Unforce failed]
-Nieudane wymuszenie
-[The selected protocol cannot be forced at this time]
-Wybrany protokół tym razem nie mógł zostać wymuszony
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Uwaga: wybrany do wysłania tych wiadomości podprotokół jest obecnie rozłączony
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt jest rozłączony, protokół nie wspiera wysyłania plików do rozłączonych kontaktów.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp

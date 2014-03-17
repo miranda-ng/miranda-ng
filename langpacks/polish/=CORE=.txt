@@ -473,8 +473,6 @@ Ustaw jako &domyślny
 W &górę
 [Move &Down]
 W &dół
-[Force use of default for sending (even if offline)]
-Wymuś domyślny do wysyłania (nawet jeśli rozłączony)
 [Send &Offline]
 Wysyłaj do &rozłączonego
 [Context Menu]

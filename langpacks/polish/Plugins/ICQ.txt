@@ -100,8 +100,6 @@ Użyj tego kodowania dla tłumaczenia Ansi <-> Unicode
 Uczyń mnie tymczasowo widocznym dla kontaktów, którym wysyłam wiadomość
 [Notify me when a message delivery has failed (old method)]
 Powiadom mnie, gdy dostarczenie wiadomości nie powiodło się (stara metoda)
-[Never use legacy messaging (server acknowledgements)]
-Nigdy nie używaj potwierdzeń serwera legacy wiadomości
 [Peer-to-peer Messaging]
 Wiadomości bezpośrednie
 [Enable peer-to-peer message connections]
