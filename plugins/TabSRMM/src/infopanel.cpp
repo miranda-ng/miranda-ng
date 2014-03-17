@@ -954,7 +954,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		}
 
 		POINT pt;
-		RECT  rc = {0, 0, 400, 600};
+		RECT rc = {0, 0, 400, 600};
 		GetCursorPos(&pt);
 		m_tip = new CTip(m_dat->hwnd, m_dat->hContact, str->c_str(), this);
 		delete str;
@@ -962,12 +962,10 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		return;
 	}
 
-	TCHAR szTitle[256];
-	mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("TabSRMM Information"));
 	::SendMessage(m_dat->hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&m_dat->ti);
 	::SendMessage(m_dat->hwndTip, TTM_SETMAXTIPWIDTH, 0, 350);
 
-	::SendMessage(m_dat->hwndTip, TTM_SETTITLE, 1, (LPARAM)szTitle);
+	::SendMessage(m_dat->hwndTip, TTM_SETTITLE, 1, (LPARAM)TranslateT("TabSRMM Information"));
 	::SendMessage(m_dat->hwndTip, TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_dat->ti);
 	::GetCursorPos(&m_dat->ptTipActivation);
 }

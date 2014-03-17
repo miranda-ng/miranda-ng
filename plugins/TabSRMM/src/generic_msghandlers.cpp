@@ -142,7 +142,8 @@ void TSAPI DM_InitTip(TWindowData *dat)
 	dat->ti.hwnd = dat->hwnd;
 	dat->ti.uFlags = TTF_TRACK | TTF_IDISHWND | TTF_TRANSPARENT;
 	dat->ti.uId = (UINT_PTR)dat->hwnd;
-	SendMessageA(dat->hwndTip, TTM_ADDTOOLA, 0, (LPARAM)&dat->ti);
+	SendMessage(dat->hwndTip, TTM_ADDTOOL, 0, (LPARAM)&dat->ti);
+	
 	SetWindowPos(dat->hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
