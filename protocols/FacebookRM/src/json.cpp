@@ -161,6 +161,35 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 	return EXIT_SUCCESS;
 }
 
+void parseUser(JSONNODE *it, facebook_user *fbu)
+{
+	fbu->user_id = json_name(it);
+
+	JSONNODE *name = json_get(it, "name");
+	JSONNODE *thumbSrc = json_get(it, "thumbSrc");
+	JSONNODE *gender = json_get(it, "gender");
+	//JSONNODE *vanity = json_get(it, "vanity"); // username
+	//JSONNODE *uri = json_get(it, "uri"); // profile url
+	//JSONNODE *is_friend = json_get(it, "is_friend"); // e.g. "True"
+	//JSONNODE *type = json_get(it, "type"); // e.g. "friend" (classic contact) or "user" (disabled/deleted account)
+
+	
+	if (name)
+		fbu->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(name)));
+	if (thumbSrc)
+		fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
+
+	if (gender)
+		switch (json_as_int(gender)) {
+		case 1: // female
+			fbu->gender = 70;
+			break;
+		case 2: // male
+			fbu->gender = 77;
+			break;
+	}
+}
+
 int facebook_json_parser::parse_friends(void* data, std::map< std::string, facebook_user* >* friends)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
@@ -177,35 +206,11 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 
 	for (unsigned int i = 0; i < json_size(payload); i++) {
 		JSONNODE *it = json_at(payload, i);
-		const char *id = json_name(it);
-
-		JSONNODE *name = json_get(it, "name");
-		JSONNODE *thumbSrc = json_get(it, "thumbSrc");
-		JSONNODE *gender = json_get(it, "gender");
-		//JSONNODE *vanity = json_get(it, "vanity"); // username
-		//JSONNODE *uri = json_get(it, "uri"); // profile url
-		//JSONNODE *is_friend = json_get(it, "is_friend"); // e.g. "True"
-		//JSONNODE *type = json_get(it, "type"); // e.g. "friend" (classic contact) or "user" (disabled/deleted account)
 
 		facebook_user *fbu = new facebook_user();
+		parseUser(it, fbu);
 
-		fbu->user_id = id;
-		if (name)
-			fbu->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(name)));
-		if (thumbSrc)
-			fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
-
-		if (gender)
-			switch (json_as_int(gender)) {
-			case 1: // female
-				fbu->gender = 70;
-				break;
-			case 2: // male
-				fbu-> gender = 77;
-				break;
-			}
-
-		friends->insert(std::make_pair(id, fbu));
+		friends->insert(std::make_pair(fbu->user_id, fbu));
 	}
 
 	json_delete(root);
@@ -958,6 +963,44 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 			continue;
 
 		*user_id = id;
+	}
+
+	json_delete(root);
+	return EXIT_SUCCESS;
+}
+
+
+int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
+{
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
+
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	JSONNODE *profiles = json_get(payload, "profiles");
+	if (profiles == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	std::map<std::string, std::string> user_ids;
+	for (unsigned int i = 0; i < json_size(profiles); i++) {
+		JSONNODE *it = json_at(profiles, i);
+		
+		// TODO: allow more users to parse at once
+		std::string id = json_name(it);
+
+		if (fbu->user_id == id) {
+			parseUser(it, fbu);
+			break;
+		}
 	}
 
 	json_delete(root);

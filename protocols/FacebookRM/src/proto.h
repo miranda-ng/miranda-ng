@@ -189,6 +189,7 @@ public:
 	MCONTACT ContactIDToHContact(std::string);
 	MCONTACT ChatIDToHContact(std::tstring);
 	std::string ThreadIDToContactID(std::string thread_id);
+	void FacebookProto::LoadContactInfo(facebook_user* fbu);
 	MCONTACT AddToContactList(facebook_user*, ContactType type, bool dont_check = false);
 	void     SetAllContactStatuses(int status);
 	MCONTACT HContactFromAuthEvent(HANDLE hEvent);
@@ -202,6 +203,7 @@ public:
 	void RemoveChatContact(const TCHAR *chat_id, const char *id);
 	void SetChatStatus(const char *chat_id, int status);
 	char *GetChatUsers(const TCHAR *chat_id);
+	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp);
 
 	// Connection client
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic

@@ -385,52 +385,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			}
 			chatrooms.clear();
 
-
-			for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {				
-				if (messages[i]->isChat) {
-					debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
-					UpdateChat(_A2T(messages[i]->thread_id.c_str()), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time);
-				} else if (messages[i]->user_id != facy.self_.user_id) {
-					debugLogA("      Got message: %s", messages[i]->message_text.c_str());
-					facebook_user fbu;
-					fbu.user_id = messages[i]->user_id;
-					fbu.real_name = messages[i]->sender_name;
-
-					// TODO: optimize this?
-					MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
-					setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
-					
-					// Save TID if not exists already
-					ptrA tid( getStringA(hContact, FACEBOOK_KEY_TID));
-					if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
-						setString(hContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
-
-					// TODO: if contact is newly added, get his user info
-					// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
-
-					ParseSmileys(messages[i]->message_text, hContact);
-
-					if (messages[i]->isIncoming) {
-						PROTORECVEVENT recv = {0};
-						recv.flags = PREF_UTF;
-						recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-						recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-						ProtoChainRecvMsg(hContact, &recv);
-					} else {
-						DBEVENTINFO dbei = {0};
-						dbei.cbSize = sizeof(dbei);
-						dbei.eventType = EVENTTYPE_MESSAGE;
-						dbei.flags = DBEF_SENT | DBEF_UTF;
-						dbei.szModule = m_szModuleName;
-						dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-						dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
-						dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
-						db_event_add(hContact, &dbei);
-					}
-				}
-				delete messages[i];
-			}
-			messages.clear();			
+			ReceiveMessages(messages, local_timestamp);
 
 			debugLogA("***** Unread messages processed");
 
@@ -450,6 +405,53 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 		
 		threads.clear(); // TODO: if we have limit messages from one user, there may be more unread messages... continue with it... otherwise remove that threadd from threads list -- or do it in json parser? hm			 = allow more than "limit" unread messages to be parsed
 	}
+}
+
+void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp)
+{
+	for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
+		debugLogA("      Got message: %s", messages[i]->message_text.c_str());
+		facebook_user fbu;
+		fbu.user_id = messages[i]->user_id;
+		fbu.real_name = messages[i]->sender_name;
+
+		MCONTACT hContact = ContactIDToHContact(fbu.user_id);
+		if (hContact == NULL) {
+			// We don't have this contact, lets load info about him
+			LoadContactInfo(&fbu);
+
+			hContact = AddToContactList(&fbu, CONTACT_NONE);
+		}
+		
+		setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
+
+		// Save TID if not exists already
+		ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
+		if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
+			setString(hContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
+
+		ParseSmileys(messages[i]->message_text, hContact);
+
+		if (messages[i]->isIncoming) {
+			PROTORECVEVENT recv = {0};
+			recv.flags = PREF_UTF;
+			recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
+			recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+			ProtoChainRecvMsg(hContact, &recv);
+		} else {
+			DBEVENTINFO dbei = {0};
+			dbei.cbSize = sizeof(dbei);
+			dbei.eventType = EVENTTYPE_MESSAGE;
+			dbei.flags = DBEF_SENT | DBEF_UTF;
+			dbei.szModule = m_szModuleName;
+			dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+			dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
+			dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
+			db_event_add(hContact, &dbei);
+		}
+		delete messages[i];
+	}
+	messages.clear();
 }
 
 // TODO: combine processmessages and processunreadmessages? (behavior of showing messages to user should be the same)
@@ -479,46 +481,7 @@ void FacebookProto::ProcessMessages(void* data)
 
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
 
-	for(std::vector<facebook_message*>::size_type i=0; i<messages.size(); i++)
-	{
-		debugLogA("      Got message: %s", messages[i]->message_text.c_str());
-		facebook_user fbu;
-		fbu.user_id = messages[i]->user_id;
-		fbu.real_name = messages[i]->sender_name;
-
-		MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
-		setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
-
-		// Save TID if not exists already
-		ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
-		if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
-			setString(hContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
-
-		// TODO: if contact is newly added, get his user info
-		// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
-
-		ParseSmileys(messages[i]->message_text, hContact);
-
-		if (messages[i]->isIncoming) {
-			PROTORECVEVENT recv = {0};
-			recv.flags = PREF_UTF;
-			recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-			recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-			ProtoChainRecvMsg(hContact, &recv);
-		} else {
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.flags = DBEF_SENT | DBEF_UTF;
-			dbei.szModule = m_szModuleName;
-			dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-			dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
-			dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
-			db_event_add(hContact, &dbei);
-		}
-		delete messages[i];
-	}
-	messages.clear();
+	ReceiveMessages(messages, local_timestamp);
 
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{

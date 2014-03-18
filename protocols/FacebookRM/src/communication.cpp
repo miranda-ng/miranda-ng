@@ -209,6 +209,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_HOME:
 //	case REQUEST_DTSG:
 //	case REQUEST_BUDDY_LIST:
+//	case REQUEST_LOAD_FRIEND:
 //	case REQUEST_LOAD_FRIENDS:
 //	case REQUEST_USER_INFO:
 //	case REQUEST_LOAD_REQUESTS:
@@ -276,6 +277,7 @@ int facebook_client::choose_method(RequestType request_type)
 //	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
+//	case REQUEST_LOAD_FRIEND:
 //	case REQUEST_LOAD_FRIENDS:
 //	case REQUEST_USER_INFO:
 //	case REQUEST_LOAD_REQUESTS:
@@ -318,6 +320,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 
 //	case REQUEST_LOGOUT:
 //	case REQUEST_BUDDY_LIST:
+//	case REQUEST_LOAD_FRIEND:
 //	case REQUEST_LOAD_FRIENDS:
 //	case REQUEST_FEEDS:
 //	case REQUEST_PAGES:
@@ -367,6 +370,16 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_BUDDY_LIST:
 		return "/ajax/chat/buddy_list.php?__a=1";
+
+	case REQUEST_LOAD_FRIEND:
+	{
+		std::string action = "/ajax/chat/user_info.php?__a=1&viewer=%s&__user=%s";
+		utils::text::replace_all(&action, "%s", self_.user_id);
+		if (get_data != NULL) {
+			action += "&" + (*get_data);
+		}
+		return action;
+	}
 
 	case REQUEST_LOAD_FRIENDS:
 	{

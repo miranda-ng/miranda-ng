@@ -111,8 +111,9 @@ enum RequestType {
 	REQUEST_NOTIFICATIONS_READ, // marking notifications read
 
 	REQUEST_BUDDY_LIST,			// getting regular updates (friends online, ...)
-	REQUEST_LOAD_FRIENDS,		// getting list of all friends
-	REQUEST_USER_INFO,			// getting info about particular user
+	REQUEST_LOAD_FRIEND,		// getting info about particular friend
+	REQUEST_LOAD_FRIENDS,		// getting info about all friends
+	REQUEST_USER_INFO,			// getting info about particular user (from mobile website)
 	REQUEST_REQUEST_FRIEND,		// requesting friendships
 	REQUEST_APPROVE_FRIEND,		// approving friendships
 	REQUEST_DELETE_FRIEND,		// deleting friendships

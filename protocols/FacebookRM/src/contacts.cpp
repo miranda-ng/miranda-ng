@@ -138,6 +138,30 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 	return user_id;
 }
 
+void FacebookProto::LoadContactInfo(facebook_user* fbu)
+{
+	// TODO: support for more friends at once
+	std::string get_query = "&ids[0]=" + utils::url::encode(fbu->user_id);
+	
+	http::response resp = facy.flap(REQUEST_LOAD_FRIEND, NULL, &get_query);
+
+	if (resp.code == HTTP_CODE_OK) {
+		CODE_BLOCK_TRY
+
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_user_info(&resp.data, fbu);
+		delete p;
+
+		debugLogA("***** Thread info processed");
+
+		CODE_BLOCK_CATCH
+
+			debugLogA("***** Error processing thread info: %s", e.what());
+
+		CODE_BLOCK_END
+	}
+}
+
 MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool dont_check)
 {
 	MCONTACT hContact;
