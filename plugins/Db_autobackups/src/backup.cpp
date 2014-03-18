@@ -237,7 +237,7 @@ int Backup(TCHAR* backup_filename)
 			bZip = true;
 	}
 	if (!options.disable_popups)
-		ShowPopup(dbname, TranslateT("Backup in progress"));
+		ShowPopup(dbname, TranslateT("Backup in progress"), NULL);
 
 	if (!options.disable_progress)
 		progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
@@ -274,7 +274,7 @@ int Backup(TCHAR* backup_filename)
 			{
 				int i;
 				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
-				for(i = (int)dest_file_len - 1; dest_file[i] != _T('\\'); i--);
+				for (i = (int)dest_file_len - 1; dest_file[i] != _T('\\'); i--);
 
 				lstrcpyn(puText, dest_file, i + 2);
 				lstrcat(puText, _T("\n"));
@@ -283,7 +283,10 @@ int Backup(TCHAR* backup_filename)
 			else
 				puText = mir_tstrdup(dest_file);
 
-			ShowPopup(puText, TranslateT("Database backed up"));
+			// Now we need to know, which folder we made a backup. Let's break unnecessary variables :)
+			while (dest_file[--dest_file_len] != L'\\');
+			dest_file[dest_file_len] = 0;
+			ShowPopup(puText, TranslateT("Database backed up"), dest_file);
 			mir_free(puText);
 		}
 	}

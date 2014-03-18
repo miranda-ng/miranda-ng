@@ -29,7 +29,7 @@
 #define DIR L"%miranda_userdata%"
 
 
-void ShowPopup(TCHAR* text, TCHAR* header);
+void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath);
 INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam);
 INT_PTR ABService(WPARAM wParam, LPARAM lParam);
 int Backup(TCHAR* backup_filename);

@@ -120,12 +120,40 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-void ShowPopup(TCHAR* text, TCHAR* header)
+LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+		case WM_COMMAND:
+		{
+			TCHAR* ptszPath = (TCHAR*)PUGetPluginData(hWnd);
+			if (ptszPath != 0)
+				ShellExecute(0, _T("open"), ptszPath, NULL, NULL, SW_SHOW);
+
+			PUDeletePopup(hWnd);
+			break;
+		}
+		case WM_CONTEXTMENU:
+			PUDeletePopup(hWnd);
+			break;
+
+		case UM_FREEPLUGINDATA:
+			TCHAR* ptszPath = (TCHAR*)PUGetPluginData(hWnd);
+			mir_free(ptszPath);
+			break;
+	}
+	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath)
 {
 	POPUPDATAT ppd = {0};
 
-	lstrcpy(ppd.lptzText, text);
-	lstrcpy(ppd.lptzContactName, header);
+	lstrcpy(ppd.lptzText, ptszText);
+	lstrcpy(ppd.lptzContactName, ptszHeader);
+	if (ptszPath != NULL)
+		ppd.PluginData = (void*)mir_tstrdup(ptszPath);
+	ppd.PluginWindowProc = DlgProcPopup;
 	ppd.lchIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
 
 	PUAddPopupT(&ppd);
