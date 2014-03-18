@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -94,8 +94,8 @@
 Перакадоўка ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
 Станавіцца бачным для кантакту, якому пасылаеце паведамленне
-[Never use legacy messaging (server acknowledgements)]
-Ігнараваць стары метад, выкарыстоўваць паведамленні сервера пра дастаўку
+[Notify me when a message delivery has failed]
+Абвяшчаць пра няўдачную дастаўку паведамленняў
 [Peer-to-peer Messaging]
 Абмен паведамленнямі паміж кантактамі
 [Enable peer-to-peer message connections]

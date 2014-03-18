@@ -152,6 +152,12 @@
 [Popups]
 Усплывальныя вокны
 ;file \plugins\Spamotron\src\popups.cpp
+[Message blocked due to preview action]
+Паведамленне заблакавана для прыкладу
+[Contact approved due to preview action]
+Кантакт падцверджаны для прыкладу
+[Challenge sent to preview contact]
+Адпраўка кантрольнага пытання для прыкладу
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Кантакт %s пацверджаны.
@@ -165,6 +171,10 @@
 Паведамленне ад %s заблакавана, бо ў яго высокая верагоднасць спаму.
 [Sending plain challenge to %s.]
 Адпраўка кантрольнага пытання %s.
+[Sending round-robin challenge to %s.]
+Адпраўка кантрольноага пытання %s.
+[Sending random challenge to %s.]
+Адпраўка выпадковага пытання %s.
 [Sending math expression challenge to %s.]
 Адпраўка кантрольнага пытання %s.
 ;file \plugins\Spamotron\src\utils.cpp

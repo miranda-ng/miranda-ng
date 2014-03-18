@@ -241,6 +241,8 @@
 Выдаліць плагін з базы
 [Delete module from Database... Loading]
 Выдаленне плагіна з базы... Загрузка
+[Delete module from all contacts (Includes Setting)]
+Выдаліць з усіх кантактаў (з наладамі)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлы

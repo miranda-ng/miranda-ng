@@ -249,6 +249,8 @@
 Драйвер: %s
 [Info: %s]
 Інфо: %s
+[Contact list]
+Спіс кантактаў
 [List]
 Спіс
 ;file \plugins\Clist_blind\src\clistopts.cpp

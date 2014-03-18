@@ -56,6 +56,12 @@
 Адкрыць
 [Status message]
 Паведамленне статусу
+[Log in history]
+Весьці лог
+[Log status changes in history]
+Запісваць змены статусаў у гісторыю
+[Only when message window is open]
+Толькі калі адчынена вакно паведамленняў
 [Change]
 Змена
 [Preview]
@@ -309,6 +315,8 @@
 Дадатковы статус выдалены
 [Toggle status notification]
 Укл/Выкл абвесткі пра змену статусу
+[Status change]
+Змена статуса
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Усе 

@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: HistoryStats.dll
 ;  Plugin: HistoryStats
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: Martin Afanasjew
 ;============================================================
+[Creates detailed, colorful and highly customizable statistics using your message history.]
+Стварае падрабязную, каляровую статыстыку вашай гісторыі паведамленняў
 ;file \plugins\HistoryStats\res\resource.rc
 [HistoryStats - Working...]
 HistoryStats - Працую...
@@ -492,6 +494,8 @@ HTML выснова немагчымы.
 Прымусова выводзіць PNG, магчыма ігнаруючы некаторыя налады калонкі
 [Prefer HTML output over PNG output, if available]
 Аддаваць перавагу выснову HTML, чым PNG, калі даступна
+[Miscellaneous]
+Іншае
 [Generate statistics in background thread with low priority]
 Ствараць статыстыку ў фонавым працэсе з нізкім прыярытэтам
 [Path to browser (leave blank for system default)]
@@ -784,6 +788,8 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 Гісторыя
 ;file \plugins\HistoryStats\src\mirandacontact.cpp
 ;file \plugins\HistoryStats\src\mirandahistory.cpp
+[(Unknown)]
+(невядомы)
 [(none)]
 (не)
 ;file \plugins\HistoryStats\src\optionsctrlimpl_datetime.cpp
@@ -827,6 +833,8 @@ HistoryStats не можа адкрыць файл для запісу (#{file})
 Канвертаванне дадзеных
 [Creating HTML]
 Стварэнне HTML
+[Done]
+Зроблена
 [Already existing file]
 Ужо існы файл
 [HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]

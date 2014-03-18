@@ -8,42 +8,50 @@
 [Tool Tip notification windows.]
 Усплывальныя падказкi для іншых плагiнаў.
 ;file \plugins\TipperYM\res\resource.rc
-[Options]
-Налады
 [Layout]
 Размяшчэнне
 [Text indent:]
 Водступ тэксту:
-[Window]
-Акно
-[Max width:]
-Макс. шырыня:
-[Max height:]
-Макс. вышыня:
-[Avatar size:]
-Аватар:
-[Show if list not focused]
-Спіс не ў фокусе
+[Title indent:]
+Водступ загалоўка:
+[Value indent:]
+Водступ значэння:
 [General padding:]
 Асноўны водступ:
-[Hover time:]
-Затрымка:
+[Text padding:]
+Міжрадковы водступ:
+[Outer avatar padding:]
+Зн. водступ аватара:
+[Inner avatar padding:]
+Унут. водступ аватара:
 [Alignment]
 Выраўноўванне
 [Labels:]
 Назвы:
 [Values:]
 Значэнні:
+[Window]
+Акно
+[Max width:]
+Макс. шырыня:
 [Min width:]
 Мін. шырыня:
+[Max height:]
+Макс. вышыня:
 [Min height:]
 Мін. вышыня:
+[Avatar size:]
+Аватар:
 [Sidebar width:]
 Шырыня ўрэзкі:
-[Text padding:]
-Міжрадковы водступ:
-[Outer avatar padding:]
-Зн. водступ аватара:
+[Hover time:]
+Затрымка:
+[Show if list not focused]
+Спіс не ў фокусе
+[Options]
+Налады
+[Show title]
+Загаловак
 [Status bar tips]
 Падказкі ў панэлі статусу
 [Avatar border]
@@ -52,20 +60,14 @@
 Акругляць куты аватара
 [Keep original avatar size]
 Захоўваць памер аватара
-[Title indent:]
-Водступ загалоўка:
-[Value indent:]
-Водступ значэння:
-[Inner avatar padding:]
-Унут. водступ аватара:
 [Substitution]
 Падстанова
 [Label:]
 Пазнака:
-[Contact protocol module]
-Плагін пратаколу кантакту
 [Module:]
 Плагін:
+[Contact protocol module]
+Плагін пратаколу кантакту
 [Setting or prefix:]
 Параметр, прэфікс:
 [Translation:]
@@ -102,76 +104,76 @@
 Змяніць
 [Separator]
 Падзельнік
-[Advanced options]
-Дадаткова
-[Retrieve XStatus details if auto-retrieve is disabled]
-Запытваць падрабязны xСтатус, калі аўтазапыт выключаны
 [Extra icons]
 Экстра абразкі
 [Smileys support]
 Смайлікі
 [Enable SmileyAdd support]
 Падтрымка смайлікаў
-[Resize smileys]
-Маштабаваць смайлы
 [Use protocol smileys]
 Смайлікі пратаколу
+[Resize smileys]
+Маштабаваць смайлы
 [Replace only isolated smileys]
 Толькі смайлы праз прабел
-[Retrieve new status message]
-Запытваць паведамленне статусу
+[Advanced options]
+Дадаткова
 [Show tooltip after all content is ready (avatar && status message)]
 Паказаць падказку толькі пасля загрузкі ўсяго змесціва
+[Retrieve new status message]
+Запытваць паведамленне статусу
+[Disable in invisible status]
+Адключыць запыт, калі нябачны
+[Retrieve XStatus details if auto-retrieve is disabled]
+Запытваць падрабязны xСтатус, калі аўтазапыт выключаны
 [Status bar and tray tooltip]
 Панэль статусу і падказка ў трэі
 [Limit status messages in status bar and tray tooltips to:]
 Абмежаваць паведамленне ў панэлі статусу і ў падказцы трэя да:
 [characters]
 знакаў
-[Disable in invisible status]
-Адключыць запыт, калі нябачны
 [Skins]
 Скіны
-[Opacity (%):]
-Непразрыстасць (%):
-[Transparency]
-Празрыстасць
-[Effects]
-Эфекты
-[Border]
-Рамка
-[Shadow]
-Цень
-[Round corners (window)]
-Акругляць куты вакна
-[Aero Glass (Vista+)]
-Эфект Aero Glass (Vista+)
-[Animation speed:]
-Хуткасць анімацыі:
-[Preview]
-Прагляд
-[No preview]
-Няма прэв'ю
-[Skin option]
-Налада скіна
-[Load fonts and colors]
-Загружаць шрыфты і колеры
-[Enable skin coloring]
-Размалёўка скінаў
 [Reload skin list]
 Абнавіць спіс скінаў
 [Apply skin]
 Ужыць скін
-[Load tooltip proportions]
-Загружаць прапорцыі падказкі
 [Get more skins]
 Запампаваць скіны
+[Preview]
+Прагляд
+[No preview]
+Няма прэв'ю
+[Effects]
+Эфекты
+[Animation speed:]
+Хуткасць анімацыі:
+[Shadow]
+Цень
+[Border]
+Рамка
+[Round corners (window)]
+Акругляць куты вакна
+[Skin option]
+Налада скіна
+[Enable skin coloring]
+Размалёўка скінаў
+[Load tooltip proportions]
+Загружаць прапорцыі падказкі
+[Load fonts and colors]
+Загружаць шрыфты і колеры
+[Transparency]
+Празрыстасць
+[Opacity (%):]
+Непразрыстасць (%):
+[Aero Glass (Vista+)]
+Эфект Aero Glass (Vista+)
 [Enable tray tooltips]
 Падказкі ў трэі
 [Handle tray tooltips by Tipper]
 Перахапляць падказкі ў трэі
-[Favorite contacts]
-Абраныя кантакты
+[Hide offline protocols]
+Хаваць адключаныя пратаколы
 [Expand to second level after:]
 Другі ўзровень падказкі праз:
 [ms]
@@ -180,8 +182,8 @@
 Падказка першага ўзроўня
 [Second level tooltip]
 Падказка другога ўзроўня
-[Hide offline protocols]
-Хаваць адключаныя пратаколы
+[Favorite contacts]
+Абраныя кантакты
 [Hide offline]
 Схаваць адключаных
 [Append protocol name]

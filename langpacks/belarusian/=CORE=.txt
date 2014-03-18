@@ -469,8 +469,6 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Угару
 [Move &Down]
 Уніз
-[Force use of default for sending (even if offline)]
-Заўсёды выкарыстоўваць па змаўчанні (нават калі афлайн)
 [Send &Offline]
 У афлайн
 [Context Menu]
@@ -2046,6 +2044,8 @@ URL ад %s
 [&Leave chat]
 Пакінуць чат
 ;file \src\modules\chat\clist.cpp
+[&Open chat window]
+Адчыніць гутарку
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s увайшоў

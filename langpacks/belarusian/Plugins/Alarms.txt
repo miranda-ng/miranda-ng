@@ -144,6 +144,10 @@
 [Window]
 Акно
 ;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+%d гадз. %d хв.
+[%dm]
+%d хв.
 [Hide reminders]
 Схаваць напамінкі
 [Show reminders]

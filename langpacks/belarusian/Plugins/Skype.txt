@@ -198,6 +198,8 @@ SkypeKit.exe не распакаваны.
 Новы пароль непрымальны 
 [Account was currently not logged in]
 Конт не далучаны
+[You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
+Вы не ўвялі Skype ID.\nУвядзіце яго ў Налады->Сеціва->%s і паспрабуйце зноў.
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Name]
 Імя

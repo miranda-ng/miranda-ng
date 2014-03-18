@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: Language pack manager
-;  Version: 1.0.2.3
+;  Version: 0.11.0.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Helps you manage Language Packs of different languages.]
-Дапамагае ў кіраванні файламі лакалізацыі.
+[Helps you manage language packs of different languages.]
+Дапамагае ў упраўленні перакладамі.
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Аўтар(ы):
@@ -22,14 +22,14 @@
 Мова:
 [Download more Language Packs]
 Загрузіць дадатковыя пераклады
-[Please restart Miranda NG for your changes to take effect.]
-Змены запрацуюць пасля перазапуску праграмы.
+[Please restart Miranda NG for your changes to take full effect.]
+Змены адбудуцца пасля перазапуску.
+[Langpack root folder]
+Тэчка перакладаў
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 Аднавіць пераклад
 ;file \plugins\LangMan\src\options.cpp
-[All installed plugins are included.]
-Усе плагіны перакладзены.
 [(incompatible)]
 (несумяшчальны)
 [Unknown]

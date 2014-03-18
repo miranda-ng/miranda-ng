@@ -30,6 +30,8 @@
 Аўтаматычна аўтарызоўваць кантакты ў спісе
 [Automatically grant authorization to new users]
 Аўтаматычна аўтарызоўваць новыя кантакты
+[Automatic authorization on Mail.ru web services]
+Аўтаматычная аўтарызацыя на вэб-сэрвісах Mail.ru
 [Notify me when a message delivery has failed]
 Абвясціць, калі паведамленне не дайшло
 [Notify about new mail if increment]
@@ -254,6 +256,8 @@ xСтатус "%s"
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+[&Send E-Mail]
+Звязацца па пошце
 [&Send postcard]
 Адправіць паштоўку
 [&View Album]
@@ -368,6 +372,8 @@ Mail.ru дадаткова
 Калі ласка, увядзіце e-mail у наладах
 [Please, setup password in options]
 Калі ласка, увядзіце пароль у наладах
+[Thread creation failure]
+Памылка стварэння струменя
 [Logon error: invalid login/password]
 Памылка пры праверкі імя карыстача/пароля
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
@@ -489,3 +495,5 @@ MRIM_CS_SMS_ACK: не знойдзены ў чэргі
 Зорка
 [Music]
 Музыка
+[Dating]
+Знаёмствы

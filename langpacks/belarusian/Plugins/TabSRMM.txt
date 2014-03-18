@@ -960,16 +960,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Кантэйнер по змаўчанню
 [Attach to]
 Аб'яднаць з:
-[Meta Contact]
-Метакантакт
-[(Forced)]
-(Прымусова)
-[Autoselect]
-Автўвыбар
-[Use Protocol]
-Праз пратакол
-[Set Default Protocol]
-Па змаўчанню праз
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Агульныя параметры
@@ -1039,6 +1029,8 @@ Esc зачыняе сесію (інакш - згортвае)
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Адно з дзеянняў усплываючых вокнаў наладжана на "Адмовіць падзею".\nГэта можа зрабіць нежаданы эфект, так як пазначае падзею прачытанай.\nЯк вынік, падзеі не будуць паказаны "новымі". Калі гэта не тое, што вы хацелі, перагледзьце налады ў раздзеле "Паведамленьні".
+[tabSRMM Warning Message]
+Папярэджанне
 [Incoming file]
 Уваходны файл
 [No description given]
@@ -1258,12 +1250,6 @@ TabSRMM: Набірае
 час адпраўкі мінула
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Вы рэдагуеце нататкі пра кантакт. Націсніце на кнопку яшчэ раз ці скарыстайце гарачыя клавішы (па змаўчанні: Alt-N), каб захаваць нататкі і вярнуцца ў нармальны рэжым паведамленняў
-[Unforce failed]
-Нявымушаная памылка
-[The selected protocol cannot be forced at this time]
-Зараз гэты пратакол не можа быць абраны
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Увага: для адпраўкі паведамленняў вы абралі конт, які зараз адключаны.
 [Contact is offline and this protocol does not support sending files to offline users.]
 Кантакт не далучаны а гэты пратакол не падтрымлівае афлайн паведамленні.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp

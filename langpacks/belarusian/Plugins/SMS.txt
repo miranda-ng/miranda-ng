@@ -71,6 +71,10 @@ ID паведамлення:
 [Network:]
 Аператар:
 ;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+Ад %s:\r\n\r\n
+[Events]
+Падзеі
 ;file \plugins\SMS\src\receive.cpp
 [SMS Message from %s]
 SMS ад %s
@@ -106,6 +110,13 @@ SMS пацверджанне ад %s
 Няслушны нумар тэлефона
 [<< Single]
 <<Аднаму
+;file \plugins\SMS\src\SMSConstans.h
+[SMS]
+СМС
+[Send &SMS...]
+Адправіць СМС
+[&SMS Message]
+СМС паведамленне
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Уваходнае SMS паведамленне

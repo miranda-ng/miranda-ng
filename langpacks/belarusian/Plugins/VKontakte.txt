@@ -26,6 +26,8 @@
 Падцверджанне дастаўкі з боку сервера
 [Hide chats on startup]
 Не адчыняць вокны пакояў пры далучэнні
+[Automatically wipe local contacts missing in your Friends list]
+Аўтаматычна выдаляць кантакты, якіх няма на серверы
 [Bots challenge test]
 Абарона ад ботаў
 [Instruction:]
