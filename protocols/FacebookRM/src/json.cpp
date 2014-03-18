@@ -578,7 +578,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					
 					message->isIncoming = (id != proto->facy.self_.user_id);
 					message->message_text = message_text;
-					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name)));
+					message->sender_name = message->isIncoming ? utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))) : "";
 					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 					message->thread_id = json_as_pstring(tid);
 					message->user_id = message->isIncoming ? id : proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
