@@ -776,7 +776,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus,WORD newStatus)
 			// to avoid notifying when meta went offline but default contact's proto still online
 			DBVARIANT dbv;
 			if (!db_get_s(hContact, szProto, "LastOnline", &dbv)) {
-				strcpy(szSubProto, dbv.pszVal);
+				szSubProto = NEWSTR_ALLOCA(dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
