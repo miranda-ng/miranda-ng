@@ -439,22 +439,18 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 		pcli->pfnBeginRenameSelection(hwnd, dat);
 		return 0;
 	case POPUP_DELETEGROUP:
-		if (contact->type != CLCIT_GROUP)
-			return 0;
-		CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
+		if (contact->type == CLCIT_GROUP)
+			CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
 		return 0;
 	case POPUP_GROUPSHOWOFFLINE:
-		if (contact->type != CLCIT_GROUP)
-			return 0;
-		CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
-						MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
-		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+		if (contact->type == CLCIT_GROUP) {
+			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
+			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+		}
 		return 0;
 	case POPUP_GROUPHIDEOFFLINE:
-		if (contact->type != CLCIT_GROUP)
-			return 0;
-		CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
-						MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
+		if (contact->type == CLCIT_GROUP)
+			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
 		return 0;
 	}
 
@@ -1687,7 +1683,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	}
 
 	if (db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOOFLINETOROOT_DEFAULT))
-		SendMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
+		pcli->pfnInitAutoRebuild(hwnd);
 	else {
 		pcli->pfnSortContacts();
 		PostMessage(hwnd, INTM_INVALIDATE, 0, 0);

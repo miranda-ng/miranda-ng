@@ -555,20 +555,21 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_DRAWITEM:
-	{
-		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-		if ( dis->hwndItem == pcli->hwndStatus ) {
-			DrawDataForStatusBar(dis);
-			return 0;
+		{
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+			if (dis->hwndItem == pcli->hwndStatus) {
+				DrawDataForStatusBar(dis);
+				return 0;
+			}
+			if (dis->CtlType != ODT_MENU)
+				return 0;
 		}
-		if ( dis->CtlType != ODT_MENU )
-			return 0;
 		break;
-	}
+
 	case WM_KEYDOWN:
-		CallService(MS_CLIST_MENUPROCESSHOTKEY,wParam,MPCF_MAINMENU|MPCF_CONTACTMENU);
+		CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_MAINMENU | MPCF_CONTACTMENU);
 		if (wParam == VK_F5)
-			SendMessage(pcli->hwndContactTree,CLM_AUTOREBUILD,0,0);
+			pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 		return TRUE;
 
 	case WM_GETMINMAXINFO:

@@ -30,15 +30,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void InsertContactIntoTree(MCONTACT hContact,int status);
 void CListSettings_FreeCacheItemDataOption( ClcCacheEntry *pDst, DWORD flag );
 
-int PostAutoRebuidMessage(HWND hwnd);
 static int displayNameCacheSize;
 
 LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
-BOOL CLM_AUTOREBUILD_WAS_POSTED = FALSE;
-char *GetProtoForContact(MCONTACT hContact);
-int GetStatusForContact(MCONTACT hContact,char *szProto);
-TCHAR *UnknownConctactTranslatedName = NULL;
+char*  GetProtoForContact(MCONTACT hContact);
+int    GetStatusForContact(MCONTACT hContact,char *szProto);
+TCHAR* UnknownConctactTranslatedName = NULL;
 
 void InvalidateDNCEbyPointer(MCONTACT hContact,ClcCacheEntry *pdnce,int SettingType);
 
@@ -409,13 +407,13 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
 		if (!strcmp(cws->szSetting, "IsSubcontact"))
-			PostMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0);
+			pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 
 		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (!mir_strcmp(cws->szModule, META_PROTO) && mir_strcmp(cws->szSetting, "Status")) {
 				int res = 0;
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
-					res = PostAutoRebuidMessage(pcli->hwndContactTree);
+					pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 
 				if ((db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_cache_cszProto)
 					amRequestAwayMsg(hContact);
@@ -480,13 +478,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	return 0;
-}
-
-int PostAutoRebuidMessage(HWND hwnd)
-{
-	if (!CLM_AUTOREBUILD_WAS_POSTED)
-		CLM_AUTOREBUILD_WAS_POSTED = PostMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
-	return CLM_AUTOREBUILD_WAS_POSTED;
 }
 
 int OnLoadLangpack(WPARAM, LPARAM)

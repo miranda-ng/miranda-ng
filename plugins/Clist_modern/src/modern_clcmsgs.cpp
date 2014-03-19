@@ -36,17 +36,17 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 	switch(msg) {
 	case CLM_DELETEITEM:
 		pcli->pfnDeleteItemFromTree(hwnd, wParam);
-		clcSetDelayTimer( TIMERID_DELAYEDRESORTCLC, hwnd, 1 ); //pcli->pfnSortCLC(hwnd, dat, 1);
-		clcSetDelayTimer( TIMERID_RECALCSCROLLBAR,  hwnd, 2 ); //pcli->pfnRecalcScrollBar(hwnd, dat);
+		clcSetDelayTimer(TIMERID_DELAYEDRESORTCLC, hwnd, 1); //pcli->pfnSortCLC(hwnd, dat, 1);
+		clcSetDelayTimer(TIMERID_RECALCSCROLLBAR, hwnd, 2); //pcli->pfnRecalcScrollBar(hwnd, dat);
 		return 0;
 
 	case CLM_AUTOREBUILD:
 		if (dat->force_in_dialog)
 			pcli->pfnSaveStateAndRebuildList(hwnd, dat);
-		else {
-			clcSetDelayTimer( TIMERID_REBUILDAFTER, hwnd );
-			CLM_AUTOREBUILD_WAS_POSTED = FALSE;
-		}
+		else
+			clcSetDelayTimer(TIMERID_REBUILDAFTER, hwnd);
+
+		pcli->bAutoRebuild = false;
 		return 0;
 
 	case CLM_SETFONT:
@@ -70,7 +70,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) &~ CLS_HIDEEMPTYGROUPS);
 			BOOL newval = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
 			if (newval != old)
-				SendMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
+				pcli->pfnInitAutoRebuild(hwnd);
 		}
 		return 0;
 

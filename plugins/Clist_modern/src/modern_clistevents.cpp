@@ -427,7 +427,7 @@ int EventArea_Create(HWND hCluiWnd)
 		0, 0, 0, h,hCluiWnd,NULL,g_hInst,NULL);
 
 	// register frame
-	CLISTFrame Frame = { sizeof(CLISTFrame) };
+	CLISTFrame Frame = { sizeof(Frame) };
 	Frame.hWnd = g_CluiData.hwndEventFrame;
 	Frame.align = alBottom;
 	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);

@@ -404,7 +404,7 @@ LBL_Def:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		if (lParam == 0)
-			SendMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
+			pcli->pfnInitAutoRebuild(hwnd);
 		goto LBL_Def;
 
 	case INTM_NAMECHANGED:

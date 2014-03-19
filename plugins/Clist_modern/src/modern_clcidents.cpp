@@ -113,10 +113,8 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 {
 	int index = 0, i;
 	int nowVisible = 1;
-	ClcGroup *group;
 
-	group = &dat->list;
-
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
 	group = &dat->list;
 
@@ -124,12 +122,12 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 		if (group->scanIndex == group->cl.count) {
 			ClcGroup *tgroup;
 			group = group->parent;
-			if (group == NULL) break;
+			if (group == NULL)
+				break;
+			
 			nowVisible = 1;
-			for (tgroup = group;tgroup;tgroup = tgroup->parent)
-			{
-				if (!tgroup->expanded)
-				{
+			for (tgroup = group; tgroup; tgroup = tgroup->parent) {
+				if (!tgroup->expanded) {
 					nowVisible = 0;
 					break;
 				}
@@ -161,24 +159,12 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 
 			return 1;
 		}
-		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->SubAllocated > 0)
-		{
-			for (i=0; i < group->cl.items[group->scanIndex]->SubAllocated; i++)
-			{
-				if (group->cl.items[group->scanIndex]->subcontacts[i].hContact == dwItem)
-				{
-#ifdef _DEBUG
-					if (IsBadWritePtr(&group->cl.items[group->scanIndex]->subcontacts[i], sizeof(ClcContact)))
-					{
-						log1("FindIltem->IsBadWritePtr | 2o  [%08x]", &group->cl.items[group->scanIndex]->subcontacts[i]);
-						PostMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 
-						return 0;
-					}
-#endif
+		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->SubAllocated > 0) {
+			for (i = 0; i < group->cl.items[group->scanIndex]->SubAllocated; i++) {
+				if (group->cl.items[group->scanIndex]->subcontacts[i].hContact == dwItem) {
 					if (contact) *contact = &group->cl.items[group->scanIndex]->subcontacts[i];
 					if (subgroup) *subgroup = group;
-
 					return 1;
 				}
 			}
@@ -201,73 +187,68 @@ int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGro
 
 void ClearRowByIndexCache()
 {
-	if (!CacheIndexClear)
-	{
+	if (!CacheIndexClear) {
 		memset(CacheIndex, 0, sizeof(CacheIndex));
 		CacheIndexClear = TRUE;
-	};
+	}
 }
+
 int cliGetRowByIndex(ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup)
 {
 	int index = 0, i;
 	ClcGroup *group = &dat->list;
 
 	if (testindex < 0) return (-1);
-	{
-		group->scanIndex = 0;
-		for (;;) {
-			if (group->scanIndex == group->cl.count) {
-				group = group->parent;
-				if (group == NULL) break;
-				group->scanIndex++;
-				continue;
-			}
-			if ((index>0) && (index < CacheArrSize))
-			{
-				CacheIndex[index] = group;
-				CacheIndexClear = FALSE;
-			};
 
-			if (testindex == index) {
-				if (contact) *contact = group->cl.items[group->scanIndex];
-				if (subgroup) *subgroup = group;
-				return index;
-			}
-
-			if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT)
-				if (group->cl.items[group->scanIndex]->SubAllocated)
-					if (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta)
-					{
-						for (i=0; i < group->cl.items[group->scanIndex]->SubAllocated; i++)
-						{
-							if ((index>0) && (index < CacheArrSize))
-							{
-								CacheIndex[index] = group;
-								CacheIndexClear = FALSE;
-							};
-							index++;
-							if (testindex == index) {
-								if (contact)
-								{
-									*contact = &group->cl.items[group->scanIndex]->subcontacts[i];
-									(*contact)->subcontacts = group->cl.items[group->scanIndex];
-								}
-
-								if (subgroup) *subgroup = group;
-								return index;
-							}
-						}
-
-					}
-					index++;
-					if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded) {
-						group = group->cl.items[group->scanIndex]->group;
-						group->scanIndex = 0;
-						continue;
-					}
-					group->scanIndex++;
+	group->scanIndex = 0;
+	for (;;) {
+		if (group->scanIndex == group->cl.count) {
+			group = group->parent;
+			if (group == NULL) break;
+			group->scanIndex++;
+			continue;
 		}
-	};
+		
+		if (index > 0 && index < CacheArrSize) {
+			CacheIndex[index] = group;
+			CacheIndexClear = FALSE;
+		}
+
+		if (testindex == index) {
+			if (contact) *contact = group->cl.items[group->scanIndex];
+			if (subgroup) *subgroup = group;
+			return index;
+		}
+
+		if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT)
+		if (group->cl.items[group->scanIndex]->SubAllocated)
+		if (group->cl.items[group->scanIndex]->SubExpanded && dat->expandMeta) {
+			for (i = 0; i < group->cl.items[group->scanIndex]->SubAllocated; i++) {
+				if ((index>0) && (index < CacheArrSize)) {
+					CacheIndex[index] = group;
+					CacheIndexClear = FALSE;
+				}
+				index++;
+				if (testindex == index) {
+					if (contact) {
+						*contact = &group->cl.items[group->scanIndex]->subcontacts[i];
+						(*contact)->subcontacts = group->cl.items[group->scanIndex];
+					}
+
+					if (subgroup) *subgroup = group;
+					return index;
+				}
+			}
+		}
+
+		index++;
+		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded) {
+			group = group->cl.items[group->scanIndex]->group;
+			group->scanIndex = 0;
+			continue;
+		}
+		group->scanIndex++;
+	}
 	return -1;
 }
 

@@ -738,7 +738,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				db_set_b(NULL, "CList", "PlaceOfflineToRoot", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_OFFLINETOROOT));
 
 				pcli->pfnLoadContactTree(); /* this won't do job properly since it only really works when changes happen */
-				SendMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0); /* force reshuffle */
+				pcli->pfnInitAutoRebuild(pcli->hwndContactTree); /* force reshuffle */
 				ClcOptionsChanged(); // Used to force loading avatar an list height related options
 				return TRUE;
 			}
@@ -888,7 +888,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				pcli->pfnTrayIconIconsChanged();
 				pcli->pfnLoadContactTree(); /* this won't do job properly since it only really works when changes happen */
-				SendMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0); /* force reshuffle */
+				pcli->pfnInitAutoRebuild(pcli->hwndContactTree); /* force reshuffle */
 				ClcOptionsChanged(); // Used to force loading avatar an list height related options
 				return TRUE;
 			}

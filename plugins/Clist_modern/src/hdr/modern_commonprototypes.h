@@ -23,7 +23,6 @@ extern CLIST_INTERFACE corecli;
 
 //Global variables
 extern int ON_SETALLEXTRAICON_CYCLE;
-extern BOOL CLM_AUTOREBUILD_WAS_POSTED;
 extern FRAMEWND *g_pfwFrames;
 extern int g_nFramesCount;
 extern RECT g_rcEdgeSizingRect;

@@ -215,6 +215,7 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 
 		cli.pfnGetContactIcon                  = fnGetContactIcon;
 		cli.pfnGetAverageMode                  = fnGetAverageMode;
+		cli.pfnInitAutoRebuild                 = fnInitAutoRebuild;
 
 		rc = LoadContactListModule2();
 		if (rc == 0)

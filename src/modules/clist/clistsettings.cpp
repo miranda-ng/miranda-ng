@@ -91,7 +91,7 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 {
 	if (hContact == INVALID_CONTACT_ID) {
 		FreeDisplayNameCache();
-		SendMessage(cli.hwndContactTree, CLM_AUTOREBUILD, 0, 0);
+		cli.pfnInitAutoRebuild(cli.hwndContactTree);
 	}
 	else {
 		int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);

@@ -422,7 +422,7 @@ typedef struct
 
 	HANDLE hPreBuildStatusMenuEvent;
 	int    currentStatusMenuItem, currentDesiredStatusMode;
-	BOOL   bDisplayLocked;
+	BOOL   bDisplayLocked, bAutoRebuild;
 
 	HGENMENU (*pfnGetProtocolMenu)(const char*);
 	int      (*pfnStub2)(int);
@@ -479,7 +479,7 @@ typedef struct
 	int    (*pfnGetContactIcon)(MCONTACT hContact);
 	int    (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	int    (*pfnGetAverageMode)(int *pNetProtoCount);
-
+	void   (*pfnInitAutoRebuild)(HWND hwnd);
 }
 	CLIST_INTERFACE;
 

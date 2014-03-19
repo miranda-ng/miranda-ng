@@ -226,7 +226,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							}
 							pcli->pfnTrayIconIconsChanged();
 							LoadContactTree(); /* this won't do job properly since it only really works when changes happen */
-							SendMessage(pcli->hwndContactTree,CLM_AUTOREBUILD,0,0); /* force reshuffle */
+							pcli->pfnInitAutoRebuild(pcli->hwndContactTree); /* force reshuffle */
 							return TRUE;
 					}
 					break;

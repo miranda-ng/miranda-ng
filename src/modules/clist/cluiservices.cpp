@@ -103,7 +103,7 @@ static INT_PTR ListEndRebuild(WPARAM, LPARAM)
 		rebuild = 1;
 	}
 	if (rebuild)
-		SendMessage(cli.hwndContactTree, CLM_AUTOREBUILD, 0, 0);
+		cli.pfnInitAutoRebuild(cli.hwndContactTree);
 	return 0;
 }
 

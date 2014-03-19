@@ -295,7 +295,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 					}
 				}
 				else if ( !strcmp(cws->szModule,"MetaContacts")) {
-					PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD,0,0);
+					pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 					return 0;
 				}
 				else return 0;

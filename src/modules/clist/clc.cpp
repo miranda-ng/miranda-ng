@@ -33,7 +33,7 @@ void UninitCustomMenus(void);
 
 void MTG_OnmodulesLoad(void);
 
-static BOOL bModuleInitialized = FALSE;
+static bool bModuleInitialized = false;
 static HANDLE hClcWindowList;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
@@ -42,6 +42,12 @@ static LIST<void> arEvents(10);
 int g_IconWidth, g_IconHeight;
 
 void FreeDisplayNameCache(void);
+
+void fnInitAutoRebuild(HWND hWnd)
+{
+	if (!cli.bAutoRebuild && hWnd)
+		cli.bAutoRebuild = PostMessage(hWnd, CLM_AUTOREBUILD, 0, 0) != 0;
+}
 
 void fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam)
 {
@@ -208,7 +214,7 @@ static void SortClcByTimer(HWND hwnd)
 
 int LoadCLCModule(void)
 {
-	bModuleInitialized = TRUE;
+	bModuleInitialized = true;
 
 	g_IconWidth = GetSystemMetrics(SM_CXSMICON);
 	g_IconHeight = GetSystemMetrics(SM_CYSMICON);
@@ -236,7 +242,8 @@ int LoadCLCModule(void)
 
 void UnloadClcModule()
 {
-	if (!bModuleInitialized) return;
+	if (!bModuleInitialized)
+		return;
 
 	for (int i = 0; i < arEvents.getCount(); i++)
 		UnhookEvent(arEvents[i]);
@@ -442,7 +449,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_NAMEORDERCHANGED:
-		PostMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
+		cli.pfnInitAutoRebuild(hwnd);
 		break;
 
 	case INTM_CONTACTADDED:

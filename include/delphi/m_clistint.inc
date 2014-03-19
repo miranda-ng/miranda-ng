@@ -487,6 +487,7 @@ type
     currentStatusMenuItem    : int;
     currentDesiredStatusMode : int;
     bDisplayLocked           : bool;
+    bAutoRebuild             : bool;
 
     pfnGetProtocolMenu : function (_para1:PAnsiChar):HGENMENU; cdecl;
     pfnStub2           : function (_para1:int):int; cdecl;
@@ -545,9 +546,10 @@ type
 	 * Miranda NG additions
 	 *************************************************************************************)
 
-	  pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
-	  pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
+	 pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
+	 pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
     pfnGetAverageMode:function(pNetProtoCount:pint):int; cdecl;
+    pfnInitAutoRebuild:procedure(hwnd:HWND); cdecl;
   end;
 
 {
