@@ -120,8 +120,8 @@ TCHAR* DoRtfToTags(char* pszText, SESSION_INFO *si)
 				iInd = RTFColorToIndex(pIndex, iCol, si);
 				bJustRemovedRTF = TRUE;
 
-				if (bTextHasStarted || iInd >= 0)
-					mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%c%02u" : "%%C", iInd);
+//				if (bTextHasStarted || iInd >= 0)
+//					mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%c%02u" : "%%C", iInd);
 			}
 			else if (!memcmp(p1, "\\highlight", 10)) { //background color
 				int iCol, iInd;
@@ -129,8 +129,8 @@ TCHAR* DoRtfToTags(char* pszText, SESSION_INFO *si)
 				iInd = RTFColorToIndex(pIndex, iCol, si);
 				bJustRemovedRTF = TRUE;
 
-				if (bTextHasStarted || iInd >= 0)
-					mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%f%02u" : "%%F", iInd);
+//				if (bTextHasStarted || iInd >= 0)
+//					mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%f%02u" : "%%F", iInd);
 			}
 			else if (!memcmp(p1, "\\lang", 5)) { // language id
 				bTextHasStarted = bJustRemovedRTF = TRUE;
