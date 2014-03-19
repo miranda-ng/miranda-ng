@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.2.3.1 |
+| Facebook Protocol RM 0.2.3.2 |
 |        for Miranda NG        |
-|          (15.3.2014)         |
+|          (19.3.2014)         |
 --------------------------------
 
 Autor: Robyer
@@ -34,6 +34,9 @@ Info:
 --------------------------------
        Version history
 --------------------------------
+0.2.3.1 - 19.3.2014
+ + Working manual refreshing of contact info
+ + Load user info when we're receiving message from someone who isn't in clist yet (fixes contacts with our own name)
 
 0.2.3.1 - 15.3.2014
  ! Allow more Miranda instances to be connected to same account at same time
