@@ -522,9 +522,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
-				LOGFONT lf;
-				pci->LoadMsgDlgFont(17, &lf, NULL);
-
 				if (lpPrevCmd) {
 					SETTEXTEX ste;
 					ste.flags = ST_DEFAULT;
@@ -641,9 +638,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
 		{
-			COLORREF cr;
-			pci->LoadMsgDlgFont(17, NULL, &cr);
-
 			CHARFORMAT2 cf;
 			cf.cbSize = sizeof(CHARFORMAT2);
 			cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
@@ -659,9 +653,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					Parentsi->iFG = index;
 				}
 
-				if (u == BST_UNCHECKED && cf.crTextColor != cr)
+				if (u == BST_UNCHECKED && cf.crTextColor != g_Settings.MessageAreaColor)
 					CheckDlgButton(GetParent(hwnd), IDC_COLOR, BST_CHECKED);
-				else if (u == BST_CHECKED && cf.crTextColor == cr)
+				else if (u == BST_CHECKED && cf.crTextColor == g_Settings.MessageAreaColor)
 					CheckDlgButton(GetParent(hwnd), IDC_COLOR, BST_UNCHECKED);
 			}
 
@@ -1230,18 +1224,14 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TAB), GWL_STYLE, (LONG_PTR)mask);
 			}
 			{
-				// messagebox
-				COLORREF	crFore;
-				pci->LoadMsgDlgFont(17, NULL, &crFore);
-
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwMask = CFM_COLOR|CFM_BOLD|CFM_UNDERLINE|CFM_BACKCOLOR;
 				cf.dwEffects = 0;
-				cf.crTextColor = crFore;
+				cf.crTextColor = g_Settings.MessageAreaColor;
 				cf.crBackColor = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 				SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETBKGNDCOLOR , 0, db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW)));
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM) g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM) g_Settings.MessageAreaFont, MAKELPARAM(TRUE, 0));
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, (WPARAM)SCF_ALL , (LPARAM)&cf);
 
 				// nicklist
@@ -2470,10 +2460,8 @@ LABEL_SHOWWINDOW:
 					}
 				}
 				else {
-					COLORREF cr;
-					pci->LoadMsgDlgFont(17, NULL, &cr);
 					cf.dwMask = CFM_COLOR;
-					cf.crTextColor = cr;
+					cf.crTextColor = g_Settings.MessageAreaColor;
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				}
 			}

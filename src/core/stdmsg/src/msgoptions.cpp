@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_fontservice.h"
 #include "m_modernopt.h"
 
-#define FONTF_BOLD   1
-#define FONTF_ITALIC 2
 struct FontOptionsList
 {
 	const TCHAR* szDescr;
@@ -38,11 +36,11 @@ static const fontOptionsList[] =
 {
 	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), _T("Arial"),    0, -12},
 	{ LPGENT("Incoming messages"), RGB(0, 0, 0),       _T("Arial"),    0, -12},
-	{ LPGENT("Outgoing name"),     RGB(89, 89, 89),    _T("Arial"),    FONTF_BOLD, -12},
-	{ LPGENT("Outgoing time"),     RGB(0, 0, 0),       _T("Terminal"), FONTF_BOLD, -9},
+	{ LPGENT("Outgoing name"),     RGB(89, 89, 89),    _T("Arial"),    DBFONTF_BOLD, -12},
+	{ LPGENT("Outgoing time"),     RGB(0, 0, 0),       _T("Terminal"), DBFONTF_BOLD, -9},
 	{ LPGENT("Outgoing colon"),    RGB(89, 89, 89),    _T("Arial"),    0, -11},
-	{ LPGENT("Incoming name"),     RGB(215, 0, 0),     _T("Arial"),    FONTF_BOLD, -12},
-	{ LPGENT("Incoming time"),     RGB(0, 0, 0),       _T("Terminal"), FONTF_BOLD, -9},
+	{ LPGENT("Incoming name"),     RGB(215, 0, 0),     _T("Arial"),    DBFONTF_BOLD, -12},
+	{ LPGENT("Incoming time"),     RGB(0, 0, 0),       _T("Terminal"), DBFONTF_BOLD, -9},
 	{ LPGENT("Incoming colon"),    RGB(215, 0, 0),     _T("Arial"),    0, -11},
 	{ LPGENT("Message area"),      RGB(0, 0, 0),       _T("Arial"),    0, -12},
 	{ LPGENT("Notices"),           RGB(90, 90, 160),   _T("Arial"),    0, -12},
@@ -72,8 +70,8 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		lf->lfOrientation = 0;
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSty", i);
 		int style = db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defStyle);
-		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
-		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
+		lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
+		lf->lfItalic = style & DBFONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = 0;
 		lf->lfStrikeOut = 0;
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -110,7 +108,7 @@ void RegisterSRMMFonts( void )
 		fontid.order = i;
 
 		fontid.flags &= ~FIDF_CLASSMASK;
-		fontid.flags |= (fontOptionsList[i].defStyle == FONTF_BOLD) ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL;
+		fontid.flags |= (fontOptionsList[i].defStyle == DBFONTF_BOLD) ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL;
 
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;

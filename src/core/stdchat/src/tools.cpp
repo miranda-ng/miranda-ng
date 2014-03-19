@@ -22,6 +22,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
+bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
+{
+	char str[32];
+	int i = 8; // MSGFONTID_MESSAGEAREA
+
+	if (colour) {
+		mir_snprintf(str, SIZEOF(str), "SRMFont%dCol", i);
+		*colour = db_get_dw(NULL, "SRMM", str, 0);
+	}
+	if (lf) {
+		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
+		lf->lfHeight = (char)db_get_b(NULL, "SRMM", str, -12);
+		lf->lfWidth = 0;
+		lf->lfEscapement = 0;
+		lf->lfOrientation = 0;
+		mir_snprintf(str, SIZEOF(str), "SRMFont%dSty", i);
+		int style = db_get_b(NULL, "SRMM", str, 0);
+		lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
+		lf->lfItalic = style & DBFONTF_ITALIC ? 1 : 0;
+		lf->lfUnderline = 0;
+		lf->lfStrikeOut = 0;
+		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
+		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
+		lf->lfQuality = DEFAULT_QUALITY;
+		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+		mir_snprintf(str, SIZEOF(str), "SRMFont%d", i);
+
+		DBVARIANT dbv;
+		if (db_get_ts(NULL, "SRMM", str, &dbv))
+			_tcscpy(lf->lfFaceName, _T("Arial"));
+		else {
+			lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
+			db_free(&dbv);
+		}
+		mir_snprintf(str, SIZEOF(str), "SRMFont%dSet", i);
+		lf->lfCharSet = db_get_b(NULL, "SRMM", str, DEFAULT_CHARSET);
+	}
+	return true;
+}
+
 int GetRichTextLength(HWND hwnd)
 {
 	GETTEXTLENGTHEX gtl;
@@ -56,14 +96,11 @@ void CheckColorsInModule(const char* pszModule)
 	int i = 0;
 	COLORREF crBG = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 
-	COLORREF crFG;
-	pci->LoadMsgDlgFont(17, NULL, &crFG);
-
 	if (!pMod)
 		return;
 
 	for (i = 0; i < pMod->nColorCount; i++) {
-		if (pMod->crColors[i] == crFG || pMod->crColors[i] == crBG) {
+		if (pMod->crColors[i] == g_Settings.MessageAreaColor || pMod->crColors[i] == crBG) {
 			if (pMod->crColors[i] == RGB(255, 255, 255))
 				pMod->crColors[i]--;
 			else

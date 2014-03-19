@@ -267,11 +267,12 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
+	if (g_Settings.MessageAreaFont)
+		DeleteObject(g_Settings.MessageAreaFont);
+
 	LOGFONT lf;
-	if (g_Settings.MessageBoxFont)
-		DeleteObject(g_Settings.MessageBoxFont);
-	pci->LoadMsgDlgFont(17, &lf, NULL);
-	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
+	LoadMessageFont(&lf, &g_Settings.MessageAreaColor);
+	g_Settings.MessageAreaFont = CreateFontIndirect(&lf);
 
 	g_Settings.iX = db_get_dw(NULL, CHAT_MODULE, "roomx", -1);
 	g_Settings.iY = db_get_dw(NULL, CHAT_MODULE, "roomy", -1);
@@ -337,7 +338,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	AddIcons();
 	RegisterFonts();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module"), FONTMODE_USE };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module"), FONTMODE_SKIP };
 	mir_getCI(&data);
 	saveCI = *pci;
 
@@ -388,8 +389,8 @@ extern "C" __declspec(dllexport) int Unload(void)
 	db_set_dw(NULL, CHAT_MODULE, "roomwidth", g_Settings.iWidth);
 	db_set_dw(NULL, CHAT_MODULE, "roomheight", g_Settings.iHeight);
 
-	if (g_Settings.MessageBoxFont)
-		DeleteObject(g_Settings.MessageBoxFont);
+	if (g_Settings.MessageAreaFont)
+		DeleteObject(g_Settings.MessageAreaFont);
 	DestroyMenu(g_hMenu);
 	return 0;
 }
