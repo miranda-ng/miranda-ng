@@ -149,10 +149,11 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
-	LOGFONT lf;
 	if (g_Settings.MessageBoxFont)
 		DeleteObject(g_Settings.MessageBoxFont);
-	pci->LoadMsgDlgFont(17, &lf, NULL);
+
+	LOGFONT lf;
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL);
 	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
 }
 
