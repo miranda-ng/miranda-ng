@@ -165,6 +165,12 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 {
 	fbu->user_id = json_name(it);
 
+	JSONNODE *id = json_get(it, "id");
+	if (id == NULL || json_as_pstring(id) == "0" || json_as_pstring(id).empty()) {
+		// this user has deleted account or is just unavailable for us (e.g., ignore list) -> don't read dummy name and avatar and rather ignore that completely
+		return;
+	}
+
 	JSONNODE *name = json_get(it, "name");
 	JSONNODE *thumbSrc = json_get(it, "thumbSrc");
 	JSONNODE *gender = json_get(it, "gender");
@@ -187,6 +193,7 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 		case 2: // male
 			fbu->gender = 77;
 			break;
+		// case 7: not available female?
 	}
 }
 

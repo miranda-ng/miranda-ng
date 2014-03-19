@@ -52,12 +52,6 @@ int FacebookProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **fil
 	return 1;
 }
 
-int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
-{
-	// TODO: Most probably some ProtoAck should be here instead
-	return 1;
-}
-
 HWND FacebookProto::SearchAdvanced(HWND owner)
 {
 	return NULL;

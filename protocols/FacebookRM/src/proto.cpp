@@ -311,6 +311,34 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	return 0;
 }
 
+int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
+{
+	facebook_user fbu;
+	fbu.user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+
+	if (fbu.user_id.empty())
+		return 1;
+
+	LoadContactInfo(&fbu);
+
+	// TODO: don't duplicate code this way, refactor all this userInfo loading
+
+	std::string homepage = FACEBOOK_URL_PROFILE + fbu.user_id;
+	setString(hContact, "Homepage", homepage.c_str());
+
+	if (!fbu.real_name.empty()) {
+		SaveName(hContact, &fbu);
+	}
+
+	if (fbu.gender)
+		setByte(hContact, "Gender", fbu.gender);
+
+	if (!fbu.image_url.empty())
+		setString(hContact, FACEBOOK_KEY_AV_URL, fbu.image_url.c_str());
+
+	return 1;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 // SERVICES
 
