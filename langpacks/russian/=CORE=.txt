@@ -1946,7 +1946,7 @@ URL от %s
 [Notice from user]
 Уведомление
 [The topic is ...]
-Смена темы
+Смена темы...
 [Information messages]
 Информационные сообщения
 [User enables status for ...]
@@ -2208,7 +2208,7 @@ Miranda NG не может открыть этот профиль
 [Handle]
 Название
 [&Find/Add contacts...]
-Добавить &контакты
+Добавить &контакты...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
 [Could not search on any of the protocols, are you online?]

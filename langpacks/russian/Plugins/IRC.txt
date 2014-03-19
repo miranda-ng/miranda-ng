@@ -508,7 +508,7 @@ WallOps от %s:\s
 [%s invites you to %s]
 %s приглашает вас на %s
 [%s is away]
-%s отсутствует...
+%s отсутствует
 [These are online: ]
 В сети:\s
 [CTCP %s reply sent to %s]

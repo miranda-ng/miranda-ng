@@ -292,7 +292,7 @@ JID / URL:
 [Add rule (Ins)]
 Добавить правило (Ins)
 [Edit rule... (F2)]
-Изменить правило (F2)
+Изменить правило... (F2)
 [Move rule up (Alt+Up)]
 Переместить вверх (Alt+вверх)
 [Move rule down (Alt+Down)]
@@ -808,7 +808,7 @@ Jabber ошибка
 [Discovery failed]
 Определение не удалось
 [Discovery in progress]
-Определение...
+Определение
 [Apply filter]
 Применить фильтр
 [Reset filter]

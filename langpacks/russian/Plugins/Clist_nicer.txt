@@ -836,7 +836,7 @@
 [Group menu]
 Меню групп
 [&Find/Add Contacts...]
-Добавить &контакты
+Добавить &контакты...
 [&Options...]
 &Настройки...
 [&About the contact list...]

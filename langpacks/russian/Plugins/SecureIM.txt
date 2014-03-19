@@ -62,7 +62,7 @@
 [&Import]
 &Импорт
 [Set &keyrings...]
-Установить &keyring
+Установить &keyring...
 [Disable keyrings use]
 Отключить keyrings
 [Load &Private key]
@@ -166,9 +166,9 @@ Secure IM Выключен
 [SecureIM established...]
 Безопасное соединение установлено...
 [Key exchange failed...]
-Обмен ключами не состоялся
+Обмен ключами не состоялся...
 [Key from disabled...]
-Ключ был отвергнут
+Ключ был отвергнут...
 [Sent back message received...]
 Обратное сообщение принято...
 [Sending back secure message...]

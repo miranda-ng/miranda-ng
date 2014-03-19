@@ -262,13 +262,13 @@ Cтатус-профиль
 [%s\t(will be set to %s)\r\n]
 %s\t(будет %s)\r\n
 [Resetting status... (last try (%d))%s]
-Сброс статуса.. (последняя попытка (%d))%s
+Сброс статуса... (последняя попытка (%d))%s
 [Resetting status... (next retry (%d) in %d s)%s]
-Сброс статуса.. (попытка № %d через %d с.)%s
+Сброс статуса... (попытка № %d через %d с.)%s
 [No internet connection seems available... (last try (%d))]
-Нет доступа к Интернету (последняя попытка (%d))
+Нет доступа к Интернету... (последняя попытка (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-Нет доступа к Интернету (попытка № %d через %d с.)
+Нет доступа к Интернету... (попытка № %d через %d с.)
 [Status was set ok]
 Статус установлен
 [Giving up]

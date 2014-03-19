@@ -60,7 +60,7 @@
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Этот список содержит заблокированных пользователей. Вы можете удалить одного, что позволит ему посылать вам сообщения.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
-Вы можете просто заблокировать кого-нибудь, щелчком правой кнопки по пользователю в списке контактов.
+Вы можете просто заблокировать кого-нибудь, щелчком правой кнопки по пользователю в списке контактов...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Этот файл используется для поиска и обнаружения игры. Файл содержит поддерживаемые игры Xfire.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
@@ -124,7 +124,7 @@
 [Search:]
 Искать:
 [Custom...]
-Изменить…
+Изменить...
 [Game exe:]
 exe игры:
 [Browse...]
@@ -184,7 +184,7 @@ exe игры:
 [&Rescan my games...]
 &Пересканировать мои игры...
 [Set &Nickname]
-&Псевдоним...
+&Псевдоним
 [Protocols]
 Протоколы
 [XFire game icon]
@@ -292,7 +292,7 @@ exe игры:
 [StatusMsg]
 Статусные сообщения
 [Please enter server password...]
-Введите пароль сервера.
+Введите пароль сервера...
 [Games found:%s%s]
 Найдены игры:%s%s
 [<not specified>]

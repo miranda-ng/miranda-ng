@@ -30,7 +30,7 @@
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Miranda нашла следующие профили. Выберите профиль из списка, или нажмите "Другой профиль", если вашего профиля нет в списке или список пустой.
 [&Other Profile...]
-&Другой профиль..
+&Другой профиль...
 [&Filename:]
 &Имя файла:
 [Now importing...]
@@ -138,7 +138,7 @@ Miranda нашла следующие профили. Выберите проф�
 [Import...]
 Импорт...
 [&Import...]
-&Импорт
+&Импорт...
 [The given file does not exist. Please check that you have entered the name correctly.]
 Данный файл не существует. Проверьте имя файла.
 [Miranda Import]

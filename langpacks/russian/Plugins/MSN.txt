@@ -166,7 +166,7 @@ MSN Чат
 [You must be talking to start Netmeeting]
 Вы должны разговаривать перед запуском Netmeeting
 [Set &Nickname]
-&Псевдоним...
+&Псевдоним
 [Create &Chat]
 Создать &чат
 [Display &Hotmail Inbox]

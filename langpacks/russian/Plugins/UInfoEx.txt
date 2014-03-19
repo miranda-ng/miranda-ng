@@ -600,7 +600,7 @@ E-Mail
 [&Import User Details]
 &Импорт данных пользователя
 [View/Change My &Details...]
-Личные &данные
+Личные &данные...
 [Export all contacts]
 Экспортировать все контакты
 [Import all contacts]
@@ -1152,7 +1152,7 @@ INI файл "%s"\nдля чтения контакта не может быть
 [all Contacts]
 Все контакты
 [Select a destination file...]
-Выберите имя файла для экспорта
+Выберите имя файла для экспорта...
 [Import User Details from VCard]
 Импорт деталей пользователя из vCard
 [Can't create xml file!\n%S]

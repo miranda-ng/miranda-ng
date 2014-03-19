@@ -12,7 +12,7 @@
 [Go to Customize -> Hotkeys to change the hotkey]
 Настройка в Тонкая настройка -> Горячие клавиши
 [When I press the hotkey:]
-Когда я нажму горячую кнопку...
+Когда я нажму горячую кнопку:
 [Change status to]
 Изменить статус на
 [Change only if current status is Online]
@@ -24,7 +24,7 @@
 [Show the Tray Icon]
 Показывать иконку в трее
 [When I return:]
-При возвращении...
+При возвращении:
 [Request password:]
 Спросить пароль:
 [Change status back]

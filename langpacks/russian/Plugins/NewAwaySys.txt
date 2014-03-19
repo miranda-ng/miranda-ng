@@ -56,7 +56,7 @@
 [Enable autoreply]
 Включить автоответчик
 [On event...]
-При:
+При...
 [Don't reply to ICQ contacts]
 Не отвечать контактам ICQ
 [Don't reply when I'm invisible to the contact]
@@ -130,7 +130,7 @@
 [Store protocol autoreply settings for each status separately]
 Хранить настройки автоответчика для каждого статуса отдельно
 [Remember last message used for a contact...]
-Запоминать последнее сообщение для контакта
+Запоминать последнее сообщение для контакта...
 [Store contact autoreply/ignore settings for each status separately]
 Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно
 [Enable contact menu items]

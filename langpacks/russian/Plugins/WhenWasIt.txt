@@ -128,7 +128,7 @@
 [Module]
 Модуль
 [Closing in %d seconds]
-Автозакрытие %d секунд...
+Закрытие через %d секунд
 [Closing in %d second]
 Закрытие через %d секунд
 [Check for birthdays]
@@ -200,7 +200,7 @@
 [Birthdays files]
 Файлы дней рождений
 [Please select a file to import birthdays from...]
-Выберите файл для импорта дней рождения
+Выберите файл для импорта дней рождения...
 [Importing birthdays from file: %s]
 Идет импорт в файл %s
 [Done importing birthdays]
@@ -208,7 +208,7 @@
 [All Files]
 Все файлы
 [Please select a file to export birthdays to...]
-Выберите файл для экспорта дней рождения
+Выберите файл для экспорта дней рождения...
 [Exporting birthdays to file: %s]
 Идет экспорт в файл %s
 [Done exporting birthdays]

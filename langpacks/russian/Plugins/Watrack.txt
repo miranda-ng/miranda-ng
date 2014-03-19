@@ -542,7 +542,7 @@ VBR или нет
 [Status (templates)]
 Статус (шаблоны)
 [Set XStatus when...]
-Устанавливать хСтатус когда
+Устанавливать хСтатус когда...
 [XStatus is empty or 'Music']
 нет хСтатуса или хСтатус "Музыка"
 ['Music' status is set]

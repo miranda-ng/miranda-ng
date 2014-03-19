@@ -380,7 +380,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
 ** Это сообщение было заблокировано сервером ICQ ** Отправитель забросал сервер сообщениями.
 [** This message was blocked by the ICQ server ** You are too evil.]
-** Это сообщение было заблокировано сервером ICQ ** Нехороший вы человек...
+** Это сообщение было заблокировано сервером ICQ ** Нехороший вы человек.
 [** Unknown missed message event.]
 ** Неизвестное пропущеное событие.
 [Error uploading avatar to server, server temporarily unavailable.]
@@ -1394,7 +1394,7 @@ ID пользователя
 [Ready...]
 Готово...
 [Server rate warning -> slowing down the process.]
-Предупреждение сервера о скорости -> замедляюсь...
+Предупреждение сервера о скорости -> замедляюсь.
 [Adding group "%s"...]
 Добавляю группу "%s"...
 [Uploading %s...]

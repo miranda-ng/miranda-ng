@@ -44,7 +44,7 @@ UTF8 в новых файлах
 [History file for %s (%s format %s)]
 Файл истории для %s (%s формат %s)
 [&Find...]
-&Найти
+&Найти...
 [&External]
 &Внешнее
 [&Close]
@@ -76,7 +76,7 @@ UTF8 в новых файлах
 [Color...]
 Цвет...
 [Font...]
-Шрифт
+Шрифт...
 [Syntax highlight]
 Подсветка синтаксиса
 [Failed to create file]

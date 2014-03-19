@@ -112,7 +112,7 @@
 [Background Color]
 Цвет фона
 [Custom...]
-Изменить…
+Изменить...
 [Reset]
 Сбросить
 [Text Color]

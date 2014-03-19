@@ -18,7 +18,7 @@
 [Refresh preview]
 Обновить
 [Variables help]
-Переменные...
+Переменные
 [Custom folders variables help]
 Помощь по переменным (Папки)
 [Close]
