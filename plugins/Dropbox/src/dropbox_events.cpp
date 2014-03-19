@@ -99,7 +99,7 @@ int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam)
 		bbd.pszModuleName = MODULE;
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		bbd.bbbFlags = BBSF_RELEASED;
-		if (ev->hContact == instance->GetDefaultContact() || !instance->HasAccessToken())
+		if (!instance->HasAccessToken() || ev->hContact == instance->GetDefaultContact() || !instance->HasAccessToken())
 			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
 		else if (status == ID_STATUS_OFFLINE && !canSendOffline)
 			bbd.bbbFlags = BBSF_DISABLED;
