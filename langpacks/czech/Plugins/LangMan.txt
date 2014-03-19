@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: Language pack manager
-;  Version: 1.0.2.3
+;  Version: 0.11.0.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Helps you manage Language Packs of different languages.]
-Usnadňuje správu souborů s překlady v různých jazycích.
+[Helps you manage language packs of different languages.]
+Usnadňuje správu jazykových balíčků.
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Autor:
@@ -22,14 +22,16 @@ Verze:
 Lokalizace:
 [Download more Language Packs]
 Stáhnout další jazykové balíčky
-[Please restart Miranda NG for your changes to take effect.]
+[Please restart Miranda NG for your changes to take full effect.]
 Poznámka: Tato změna vyžaduje restart programu Miranda NG.
+[Static]
+Statický
+[Langpack root folder]
+Kořenová složka jazykových balíčků
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 Znovu načíst jazyk
 ;file \plugins\LangMan\src\options.cpp
-[All installed plugins are included.]
-Všechny nainstalované doplňky jsou přeloženy.
 [(incompatible)]
 (nekompatibilní)
 [Unknown]
@@ -41,7 +43,7 @@ Nainstalované jazyky
 [File]
 Soubor
 [built-in]
-interní
+vestavěný
 [&Remove...]
 Odst&ranit...
 [Languages]

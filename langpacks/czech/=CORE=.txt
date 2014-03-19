@@ -473,8 +473,6 @@ Odst&ranit
 Nahor&u
 [Move &Down]
 &Dolů
-[Force use of default for sending (even if offline)]
-Nastavit jako výchozí pro odesílání (i když je offline)
 [Send &Offline]
 Poslat offline
 [Context Menu]

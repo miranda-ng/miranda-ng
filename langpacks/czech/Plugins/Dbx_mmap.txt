@@ -37,7 +37,7 @@ Standardní
 [Total]
 Kompletní
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné ve většině případů.
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
 Všechny řetězce a události v historii jsou šifrovány. To v důsledku způsobí pomalejší běh Mirandy a riziko ztráty veškerých dat v profilu při zapomenutí hesla. Doporučeno pouze pro paranoidní uživatele.
 [Set password]
@@ -114,8 +114,6 @@ Seznam událostí je poškozen; pokus o opravu...
 Seznam událostí je poškozen; ignorování dalších položek
 [First event not marked as such: correcting]
 První událost nebyla označena jako první: opraveno
-[Event marked as first which is not: correcting]
-Neplatné číslování události: opraveno
 [Extra flags found in event: removing]
 Neplatná značka události: odstraněno
 [First unread event marked wrong: fixing]

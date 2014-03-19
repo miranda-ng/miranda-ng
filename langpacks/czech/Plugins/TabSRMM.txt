@@ -964,16 +964,6 @@ Rozhovor...
 Výchozí kontejner
 [Attach to]
 Připojit k
-[Meta Contact]
-Meta kontakt
-[(Forced)]
-(Vynucený)
-[Autoselect]
-Automatický výběr
-[Use Protocol]
-Použít protokol
-[Set Default Protocol]
-Nastavit výchozí protokol
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Hlavní možnosti
@@ -1266,12 +1256,6 @@ Chyba při odesílání: %s
 Čas na odeslání vypršel
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Editujete poznámky k uživateli. Stiskněte tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt-N) pro uložení poznámek a návrat do normálního režimu
-[Unforce failed]
-Chyba při rušení vynuceného
-[The selected protocol cannot be forced at this time]
-Vybraný protokol nelze právě teď vynutit
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Upozornění: vybrali jste offline protokol pro odeslání následujících zpráv
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt je offline a tento protokol nepodporuje posílání souborů offline uživatelům
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
