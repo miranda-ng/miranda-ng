@@ -313,15 +313,18 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 
 int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
 {
-	facebook_user fbu;
-	fbu.user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA user_id(getStringA(hContact, FACEBOOK_KEY_ID));
 
-	if (fbu.user_id.empty())
+	if (user_id == NULL)
 		return 1;
+	
+	facebook_user fbu;
+	fbu.user_id = user_id;
 
 	LoadContactInfo(&fbu);
 
 	// TODO: don't duplicate code this way, refactor all this userInfo loading
+	// TODO: load more info about user (authorization state,...)
 
 	std::string homepage = FACEBOOK_URL_PROFILE + fbu.user_id;
 	setString(hContact, "Homepage", homepage.c_str());
