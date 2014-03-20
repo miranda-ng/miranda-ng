@@ -36,7 +36,7 @@ void ColNick::impl_configWrite(SettingsTree& settings) const
 void ColNick::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 {
 	m_hDetail       = Opt.insertCheck(hGroup, TranslateT("First/last message time (tooltip)"));
-	m_hContactCount = Opt.insertCheck(hGroup, TranslateT("Show countact count for omitted/totals (tooltip)"));
+	m_hContactCount = Opt.insertCheck(hGroup, TranslateT("Show contact count for omitted/totals (tooltip)"));
 
 	Opt.checkItem(m_hDetail      , m_bDetail      );
 	Opt.checkItem(m_hContactCount, m_bContactCount);
