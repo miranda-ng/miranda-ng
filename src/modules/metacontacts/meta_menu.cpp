@@ -364,17 +364,17 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 	bool bToggled = !db_mc_isEnabled();
 	db_set_b(0, META_PROTO, "Enabled", bToggled);
 	if (bToggled) {
-		mi.icolibItem = GetIconHandle(I_MENU);
-		mi.pszName = LPGEN("Toggle MetaContacts On");
-	}
-	else {
 		mi.icolibItem = GetIconHandle(I_MENUOFF);
 		mi.pszName = LPGEN("Toggle MetaContacts Off");
+	}
+	else {
+		mi.icolibItem = GetIconHandle(I_MENU);
+		mi.pszName = LPGEN("Toggle MetaContacts On");
 	}
 	Menu_ModifyItem(hMenuOnOff, &mi);
 
 	db_mc_enable(bToggled);
-	Meta_HideMetaContacts(bToggled);
+	Meta_HideMetaContacts(!bToggled);
 	return 0;
 }
 
