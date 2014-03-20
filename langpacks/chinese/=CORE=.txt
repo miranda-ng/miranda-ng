@@ -438,8 +438,6 @@ Miranda NG 正准备重启. \n请稍候...
 上移(&U)
 [Move &Down]
 下移(&D)
-[Force use of default for sending (even if offline)]
-发送时强制使用默认值 (即使离线)
 [Send &Offline]
 离线发送(&O)
 [Context Menu]

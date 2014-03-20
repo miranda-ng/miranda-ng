@@ -5,40 +5,40 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-[Options]
-Opções
-[Window]
-Janela
-[Max width:]
-Larg. máxima:
-[Max height:]
-Altura máxima:
-[Show if list not focused]
-Exibir se não visível
 [General padding:]
 Moldura geral:
-[Hover time:]
-Tempo destaque:
+[Text padding:]
+Moldura texto:
 [Labels:]
 Rótulos:
 [Values:]
 Valores:
+[Window]
+Janela
+[Max width:]
+Larg. máxima:
 [Min width:]
 Larg. Mínima:
+[Max height:]
+Altura máxima:
 [Min height:]
 Altura mínima:
-[Text padding:]
-Moldura texto:
+[Hover time:]
+Tempo destaque:
+[Show if list not focused]
+Exibir se não visível
+[Options]
+Opções
 [Status bar tips]
 Tb na Barra de status
 [Keep original avatar size]
 Manter tamanho original do avatar
 [Substitution]
 Substituição
-[Contact protocol module]
-Contactar o módulo de protocolo
 [Module:]
 Módulo:
+[Contact protocol module]
+Contactar o módulo de protocolo
 [Setting or prefix:]
 Configurações:
 [Translation:]
@@ -65,12 +65,12 @@ Adicionar
 Remover
 [Edit]
 Editar
-[Advanced options]
-Opções Avançadas
 [Extra icons]
 Ícones extras
 [Enable SmileyAdd support]
 Ativar adição de smileys
+[Advanced options]
+Opções Avançadas
 [Resize smileys]
 Redimensionar Smileys
 [Effects]

@@ -819,16 +819,6 @@ TabSRMM バージョン情報...
 デフォルトコンテナ
 [Attach to]
 添付
-[Meta Contact]
-メタコンタクト
-[(Forced)]
-( 強制 )
-[Autoselect]
-自動選択
-[Use Protocol]
-プロトコルを使用
-[Set Default Protocol]
-デフォルトプロトコルの設定
 [Window layout]
 ウィンドウレイアウト
 [Tabs and switch bar]
@@ -1033,12 +1023,6 @@ TabSRMM
 メッセージ送信はタイムアウトしました
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 あなたはユーザーメモの編集中です。もう一度ボタンをクリックするかホットキー ( デフォルト: Alt-N ) を使用すると , メモを保存して通常メッセージングモードに戻ります
-[Unforce failed]
-強制解除に失敗しました
-[The selected protocol cannot be forced at this time]
-選択されたプロトコルは現時点では強制できません
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-警告: あなたはメッセージの送信用に現在オフラインのサブプロトコルを選択しました
 [Contact is offline and this protocol does not support sending files to offline users.]
 コンタクトはオフラインです。このプロトコルはオフラインユーザーへのファイル送信はサポートされていません
 [Error creating destination directory]

@@ -246,7 +246,7 @@
 ;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
 
-[Show countact count for omitted/totals (tooltip)]
+[Show contact count for omitted/totals (tooltip)]
 
 [Nick]
 

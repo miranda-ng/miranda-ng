@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: Language pack manager
-;  Version: 1.0.2.3
+;  Version: 0.11.0.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Helps you manage Language Packs of different languages.]
+[Helps you manage language packs of different languages.]
 帮助您管理不同语言包. 
 [Author(s):]
 作者: 
@@ -19,10 +19,8 @@
 语系: 
 [Download more Language Packs]
 下载更多语言包
-[Please restart Miranda NG for your changes to take effect.]
+[Please restart Miranda NG for your changes to take full effect.]
 请重启 Miranda NG 让您的变更生效. 
-[All installed plugins are included.]
-包含所有已安装插件. 
 [(incompatible)]
 (不兼容)
 [Unknown]

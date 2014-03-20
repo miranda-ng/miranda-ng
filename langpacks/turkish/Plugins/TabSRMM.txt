@@ -577,16 +577,6 @@ Kullanıcı Geçmişini Göster
 İleti Oturumu...
 [Attach to]
 Şuna ekle
-[Meta Contact]
-Meta Kişi
-[(Forced)]
-(Zorlandı)
-[Autoselect]
-Kendin seç
-[Use Protocol]
-Kullanılacak Protokol
-[Set Default Protocol]
-Varsayılan Protokolü Ayarla
 [Title bar]
 Başlık Çubuğu
 [Contact avatars]
@@ -669,12 +659,6 @@ Seçim panoya kopyalandı
 Gönderilemedi: %s
 [The message send timed out]
 İleti zaman aşımından gönderilemedi
-[Unforce failed]
-Zorlama kaldırılamadı
-[The selected protocol cannot be forced at this time]
-Seçili protokol şu anda zorlanamaz
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Dikkat: şu çevrimdışı iletileri göndermek için bir alt protokol seçtiniz
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kişi çevrimdışı ve bu protokol çevrimdışı kişilere ileti gönderemiyor.
 [Error creating destination directory]

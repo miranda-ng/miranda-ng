@@ -473,8 +473,6 @@ Par &Défaut
 &Monter
 [Move &Down]
 &Baisser
-[Force use of default for sending (even if offline)]
-Utiliser le 'Par défaut' pour l'envoi (si Hors ligne)
 [Send &Offline]
 Envoi &hors ligne
 [Context Menu]

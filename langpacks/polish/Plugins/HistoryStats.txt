@@ -242,7 +242,7 @@ Graficzny podgląd przychodzących / wychodzących znaków, wiadomości lub rozm
 ;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
 Czas pierwszej / ostatniej wiadomości (tooltip)
-[Show countact count for omitted/totals (tooltip)]
+[Show contact count for omitted/totals (tooltip)]
 Pokaż liczby kontaktu dla pominiętych / wszystkich (tooltip)
 [Nick]
 Nick

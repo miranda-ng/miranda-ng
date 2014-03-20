@@ -637,16 +637,6 @@ Filtro de evento - clique direito para instalação, clique esquerdo para ativar
 Mensagem de Sessão...
 [Attach to]
 Anexar ao
-[Meta Contact]
-Meta Contato
-[(Forced)]
-(Forçada)
-[Autoselect]
-Autoselecionar
-[Use Protocol]
-Usar Protocolo
-[Set Default Protocol]
-Definir protocolo padrão
 [Window layout]
 Layout da janela
 [Title bar]
@@ -751,12 +741,6 @@ Seleção copiada para área de transferência
 A entrega falhou: %s
 [The message send timed out]
 O tempo de envio da mensagem se esgotou
-[Unforce failed]
-Não forçar falhou
-[The selected protocol cannot be forced at this time]
-O protocolo selecionado não pode ser forçado desta vez
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Atenção: você selecionou um subprotocolo para enviar as seguintes mensagens e está atualmente offline
 [Contact is offline and this protocol does not support sending files to offline users.]
 Contato está offline e esse protocolo não suporta o envio de arquivos para usuários offline.
 [Error creating destination directory]

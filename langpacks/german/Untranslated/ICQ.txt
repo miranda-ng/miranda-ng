@@ -1,0 +1,1 @@
+﻿[Notify me when a message delivery has failed (old method)]

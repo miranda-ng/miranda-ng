@@ -491,16 +491,6 @@ Se Brukerens Historikk
 Meldingsøkt...
 [Attach to]
 Fest til
-[Meta Contact]
-Meta Kontakt
-[(Forced)]
-(Tvunget)
-[Autoselect]
-Autovelg
-[Use Protocol]
-Bruk Protokoll
-[Set Default Protocol]
-Sett Standardprotokoll
 [Title bar]
 Tittellinje
 [Contact avatars]
@@ -581,12 +571,6 @@ Utvalg kopiert til utklippstavle
 Leverings feil: %s
 [The message send timed out]
 Sendingen av melding er tidsutløpt
-[Unforce failed]
-Av-tvinging feilet
-[The selected protocol cannot be forced at this time]
-Den valgte protokollen kan ikke påtvinges på dette tidspunkt
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Advarsel: du har valgt en underprotokoll for sending av følgende meldinger som for øyeblikket er frakoblet
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakten er frakoblet og denne protokollen støtter ikke sending av meldinger til frakoblede brukere.
 [Error creating destination directory]

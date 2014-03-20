@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -100,8 +100,6 @@ Verwende diese Codetabelle für ANSI <-> Unicode:
 Temporär für Kontakte sichtbar machen beim Nachrichtenversand
 [Notify me when a message delivery has failed (old method)]
 
-[Never use legacy messaging (server acknowledgements)]
-Niemals Bestätigung alter Nachrichten einholen (Server Empfangsbestätigungen)
 [Peer-to-peer Messaging]
 Direktverbindung Nachrichten
 [Enable peer-to-peer message connections]

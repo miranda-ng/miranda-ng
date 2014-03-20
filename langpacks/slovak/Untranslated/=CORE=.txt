@@ -143,7 +143,6 @@
 [&Set as Default]
 [Move &Up]
 [Move &Down]
-[Force use of default for sending (even if offline)]
 [Send &Offline]
 [Context Menu]
 [Use contact's unique ID]

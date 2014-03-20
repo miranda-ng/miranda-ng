@@ -575,16 +575,6 @@ Felhasználó elõzményeinek megtekintése
 Üzenet munkamenet...
 [Attach to]
 Csatolás ide
-[Meta Contact]
-Meta partner
-[(Forced)]
-(kényszerített)
-[Autoselect]
-Autokijelölés
-[Use Protocol]
-Protokol használata
-[Set Default Protocol]
-Alap protokoll beállítása
 [Title bar]
 Címsor
 [Contact avatars]
@@ -667,12 +657,6 @@ Kijelölés mentve a vágólapra
 Kézbesítési hiba: %s
 [The message send timed out]
 Az üzenetküldés idõtúllépés miatt meghiúsult
-[Unforce failed]
-Nem-kényszerített sikertelen
-[The selected protocol cannot be forced at this time]
-A kiválasztott protokoll jelenleg nem érvényes
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Vigyázat: Egy jelenleg nem elérhetõ alprotokollt választottál ki a következõ üzenetek küldéséhez
 [Contact is offline and this protocol does not support sending files to offline users.]
 A partner kilépett és ez a protokoll nem támogatja fájlok küldését kilépett felhasználóknak.
 [Error creating destination directory]

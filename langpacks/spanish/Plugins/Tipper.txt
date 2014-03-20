@@ -8,25 +8,21 @@
 [Tool Tip notification windows.]
 
 ;file \plugins\TipperYM\res\resource.rc
-[Options]
-Opciones
 [Layout]
 
 [Text indent:]
 
-[Window]
-Ventana
-[Max width:]
+[Title indent:]
 
-[Max height:]
-
-[Avatar size:]
-
-[Show if list not focused]
+[Value indent:]
 
 [General padding:]
 
-[Hover time:]
+[Text padding:]
+
+[Outer avatar padding:]
+
+[Inner avatar padding:]
 
 [Alignment]
 
@@ -34,16 +30,26 @@ Ventana
 
 [Values:]
 
+[Window]
+Ventana
+[Max width:]
+
 [Min width:]
+
+[Max height:]
 
 [Min height:]
 
+[Avatar size:]
+
 [Sidebar width:]
 
-[Text padding:]
+[Hover time:]
 
-[Outer avatar padding:]
+[Show if list not focused]
 
+[Options]
+Opciones
 [Show title]
 
 [Status bar tips]
@@ -54,19 +60,13 @@ Ventana
 
 [Keep original avatar size]
 
-[Title indent:]
-
-[Value indent:]
-
-[Inner avatar padding:]
-
 [Substitution]
 
 [Label:]
 
-[Contact protocol module]
-
 [Module:]
+
+[Contact protocol module]
 
 [Setting or prefix:]
 
@@ -106,25 +106,27 @@ Eliminar
 Editar
 [Separator]
 
-[Advanced options]
-
-[Retrieve XStatus details if auto-retrieve is disabled]
-
 [Extra icons]
 Iconos adicionales
 [Smileys support]
 
 [Enable SmileyAdd support]
 
-[Resize smileys]
-
 [Use protocol smileys]
+
+[Resize smileys]
 
 [Replace only isolated smileys]
 
-[Retrieve new status message]
+[Advanced options]
 
 [Show tooltip after all content is ready (avatar && status message)]
+
+[Retrieve new status message]
+
+[Disable in invisible status]
+
+[Retrieve XStatus details if auto-retrieve is disabled]
 
 [Status bar and tray tooltip]
 
@@ -132,49 +134,47 @@ Iconos adicionales
 
 [characters]
 
-[Disable in invisible status]
-
 [Skins]
 Pieles
-[Opacity (%):]
+[Reload skin list]
 
-[Transparency]
+[Apply skin]
 
-[Effects]
-Efectos
-[Border]
-
-[Shadow]
-
-[Round corners (window)]
-
-[Aero Glass (Vista+)]
-
-[Animation speed:]
+[Get more skins]
 
 [Preview]
 Previsualizar
 [No preview]
 
-[Skin option]
+[Effects]
+Efectos
+[Animation speed:]
 
-[Load fonts and colors]
+[Shadow]
+
+[Border]
+
+[Round corners (window)]
+
+[Skin option]
 
 [Enable skin coloring]
 
-[Reload skin list]
-
-[Apply skin]
-
 [Load tooltip proportions]
 
-[Get more skins]
+[Load fonts and colors]
+
+[Transparency]
+
+[Opacity (%):]
+
+[Aero Glass (Vista+)]
 
 [Enable tray tooltips]
 
 [Handle tray tooltips by Tipper]
 
-[Favorite contacts]
+[Hide offline protocols]
 
 [Expand to second level after:]
 
@@ -184,7 +184,7 @@ ms
 
 [Second level tooltip]
 
-[Hide offline protocols]
+[Favorite contacts]
 
 [Hide offline]
 

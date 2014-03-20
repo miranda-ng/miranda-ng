@@ -473,8 +473,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Move &Down]
 
-[Force use of default for sending (even if offline)]
-
 [Send &Offline]
 
 [Context Menu]

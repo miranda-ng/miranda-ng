@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: Language pack manager
-;  Version: 1.0.2.3
+;  Version: 0.11.0.1
 ;  Authors: H. Herkenrath
 ;============================================================
 [Author(s):]
@@ -11,7 +11,7 @@
 תאריך:
 [Locale:]
 מקומי:
-[Please restart Miranda NG for your changes to take effect.]
+[Please restart Miranda NG for your changes to take full effect.]
 .תצטרך להפעיל מחדש את המירנדה כדי שהשינויים יכנסו לתוקף
 [Unknown]
 לא ידוע

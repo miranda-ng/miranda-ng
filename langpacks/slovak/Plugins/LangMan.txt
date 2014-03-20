@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: Language pack manager
-;  Version: 1.0.2.3
+;  Version: 0.11.0.1
 ;  Authors: H. Herkenrath
 ;============================================================
 [E-mail:]

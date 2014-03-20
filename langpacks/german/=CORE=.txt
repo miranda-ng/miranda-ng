@@ -473,8 +473,6 @@ Al&s Standard setzen
 Hoch
 [Move &Down]
 Runter
-[Force use of default for sending (even if offline)]
-Standard beim Senden verwenden (selbst wenn offline)
 [Send &Offline]
 &Offline senden
 [Context Menu]

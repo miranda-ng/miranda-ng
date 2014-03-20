@@ -5,44 +5,44 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-[Options]
-Valg
-[Window]
-Vindu
-[Max width:]
-Maks bredde:
-[Max height:]
-Maks høyde:
-[Show if list not focused]
-Vis dersom listen ikke er i fokus
+[Title indent:]
+Tittel innrykk:
+[Value indent:]
+Verdi innrykk:
 [General padding:]
 Generelt fyll:
-[Hover time:]
-Svevetid:
-[Labels:]
-Etiketter:
-[Values:]
-Verdier:
-[Min width:]
-Min bredde:
-[Min height:]
-Min høyde:
 [Text padding:]
 Tekst fyll:
 [Outer avatar padding:]
 Ytre avatar fyll:
+[Inner avatar padding:]
+Indre avatar fyll:
+[Labels:]
+Etiketter:
+[Values:]
+Verdier:
+[Window]
+Vindu
+[Max width:]
+Maks bredde:
+[Min width:]
+Min bredde:
+[Max height:]
+Maks høyde:
+[Min height:]
+Min høyde:
+[Hover time:]
+Svevetid:
+[Show if list not focused]
+Vis dersom listen ikke er i fokus
+[Options]
+Valg
 [Status bar tips]
 Statuslinje tips
 [Avatar border]
 Avatar ramme
 [Keep original avatar size]
 Behold original avatar størrelse
-[Title indent:]
-Tittel innrykk:
-[Value indent:]
-Verdi innrykk:
-[Inner avatar padding:]
-Indre avatar fyll:
 [OK]
 OK
 [Cancel]
@@ -57,16 +57,16 @@ Legg til
 Fjern
 [Edit]
 Rediger
-[Advanced options]
-Avanserte valg
-[Retrieve XStatus details if auto-retrieve is disabled]
-Hent XStatus detaljer dersom auto-innhenting er deaktivert
 [Extra icons]
 Ekstra ikoner
 [Enable SmileyAdd support]
 Aktiver SmileyAdd støtte
 [Resize smileys]
 Endre smiley strl
+[Advanced options]
+Avanserte valg
+[Retrieve XStatus details if auto-retrieve is disabled]
+Hent XStatus detaljer dersom auto-innhenting er deaktivert
 [Effects]
 Effekter
 [Favorite contacts]

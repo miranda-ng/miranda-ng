@@ -964,16 +964,6 @@ Session de message...
 
 [Attach to]
 Attache à
-[Meta Contact]
-Meta Contact
-[(Forced)]
-(Forcé)
-[Autoselect]
-Auto-sélection
-[Use Protocol]
-Utiliser le protocole
-[Set Default Protocol]
-Protocole par défaut
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Options générales
@@ -1266,12 +1256,6 @@ Sélection mise dans le presse-papier
 Délai d'envoi du message expiré
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 
-[Unforce failed]
-Échec non-forcé
-[The selected protocol cannot be forced at this time]
-Le protocole sélectionné ne peut pas être forcé pour le moment
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Attention : vous avez choisi un sous-protocole actuellement hors ligne pour envoyer les messages suivants
 [Contact is offline and this protocol does not support sending files to offline users.]
 Contact non connecté. Ce protocole ne supporte pas les envois hors-ligne.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp

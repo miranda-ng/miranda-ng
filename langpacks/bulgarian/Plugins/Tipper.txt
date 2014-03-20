@@ -8,42 +8,48 @@
 [Tool Tip notification windows.]
 
 ;file \plugins\TipperYM\res\resource.rc
-[Options]
-Настройки
 [Layout]
 Изглед
 [Text indent:]
 Отстъп на текста:
-[Window]
-Прозорец
-[Max width:]
-Макс. ширина:
-[Max height:]
-Макс. височина:
-[Avatar size:]
-Аватар (размер):
-[Show if list not focused]
-Показване при дефокусиран списък
+[Title indent:]
+Отстъп на заглавието:
+[Value indent:]
+Отстъп на стойността:
 [General padding:]
 Основен отстъп:
-[Hover time:]
-
+[Text padding:]
+Отстъп между редовете:
+[Outer avatar padding:]
+Външен отстъп (аватар):
+[Inner avatar padding:]
+Вътрешен отстъп (аватар):
 [Alignment]
 Подреждане
 [Labels:]
 Етикети:
 [Values:]
 Стойности:
+[Window]
+Прозорец
+[Max width:]
+Макс. ширина:
 [Min width:]
 Мин. ширина:
+[Max height:]
+Макс. височина:
 [Min height:]
 Мин. височина:
+[Avatar size:]
+Аватар (размер):
 [Sidebar width:]
 Странична лента:
-[Text padding:]
-Отстъп между редовете:
-[Outer avatar padding:]
-Външен отстъп (аватар):
+[Hover time:]
+
+[Show if list not focused]
+Показване при дефокусиран списък
+[Options]
+Настройки
 [Show title]
 
 [Status bar tips]
@@ -54,20 +60,14 @@
 Закръглени ъгли (на аватара)
 [Keep original avatar size]
 Запазване на началния размер
-[Title indent:]
-Отстъп на заглавието:
-[Value indent:]
-Отстъп на стойността:
-[Inner avatar padding:]
-Вътрешен отстъп (аватар):
 [Substitution]
 Заместване
 [Label:]
 Етикет:
-[Contact protocol module]
-
 [Module:]
 Модул:
+[Contact protocol module]
+
 [Setting or prefix:]
 Настройка (представка):
 [Translation:]
@@ -106,76 +106,76 @@
 Редактиране
 [Separator]
 Разделител
-[Advanced options]
-Разширени настройки
-[Retrieve XStatus details if auto-retrieve is disabled]
-Извличане на подробности за хСъстояние при изключено автоизвличане
 [Extra icons]
 Допълнителни икони
 [Smileys support]
 Поддръжка на Smileys
 [Enable SmileyAdd support]
 Поддръжка на приставката SmileyAdd
-[Resize smileys]
-Оразмеряване на усмивките
 [Use protocol smileys]
 
+[Resize smileys]
+Оразмеряване на усмивките
 [Replace only isolated smileys]
 Замяна само на изолирани усмивки
-[Retrieve new status message]
-
+[Advanced options]
+Разширени настройки
 [Show tooltip after all content is ready (avatar && status message)]
 Показване след зареждане на цялото съдържание (аватар и текст за състояние)
+[Retrieve new status message]
+
+[Disable in invisible status]
+
+[Retrieve XStatus details if auto-retrieve is disabled]
+Извличане на подробности за хСъстояние при изключено автоизвличане
 [Status bar and tray tooltip]
 Подсказки в лентата за състояние и трея
 [Limit status messages in status bar and tray tooltips to:]
 Ограничаване на текста за състояние в подсказките до:
 [characters]
 знака
-[Disable in invisible status]
-
 [Skins]
 Облици
-[Opacity (%):]
-Плътност (%):
-[Transparency]
-Прозрачност
-[Effects]
-Ефекти
-[Border]
-Рамка
-[Shadow]
-Сянка
-[Round corners (window)]
-Закръглени ъгли (на прозореца)
-[Aero Glass (Vista+)]
-
-[Animation speed:]
-Скорост на анимирането:
-[Preview]
-Образец
-[No preview]
-Няма образец
-[Skin option]
-Настройки на облика
-[Load fonts and colors]
-Зареждане на шрифтове и цветове
-[Enable skin coloring]
-Оцветяване на облика
 [Reload skin list]
 Презареждане на списъка с облици
 [Apply skin]
 Прилагане на облика
-[Load tooltip proportions]
-
 [Get more skins]
 Сваляне на още облици
+[Preview]
+Образец
+[No preview]
+Няма образец
+[Effects]
+Ефекти
+[Animation speed:]
+Скорост на анимирането:
+[Shadow]
+Сянка
+[Border]
+Рамка
+[Round corners (window)]
+Закръглени ъгли (на прозореца)
+[Skin option]
+Настройки на облика
+[Enable skin coloring]
+Оцветяване на облика
+[Load tooltip proportions]
+
+[Load fonts and colors]
+Зареждане на шрифтове и цветове
+[Transparency]
+Прозрачност
+[Opacity (%):]
+Плътност (%):
+[Aero Glass (Vista+)]
+
 [Enable tray tooltips]
 Подсказки в трея
 [Handle tray tooltips by Tipper]
 
-[Favorite contacts]
-Любими контакти
+[Hide offline protocols]
+Без протоколите "Извън линия"
 [Expand to second level after:]
 Подсказка второ ниво след:
 [ms]
@@ -184,8 +184,8 @@ ms
 Подсказка първо ниво
 [Second level tooltip]
 Подсказка второ ниво
-[Hide offline protocols]
-Без протоколите "Извън линия"
+[Favorite contacts]
+Любими контакти
 [Hide offline]
 
 [Append protocol name]

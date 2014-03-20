@@ -953,16 +953,6 @@ Popups за събития
 Стандартен контейнер
 [Attach to]
 Прикрепване към
-[Meta Contact]
-Метаконтакт
-[(Forced)]
-(Принудително)
-[Autoselect]
-Автоизбиране
-[Use Protocol]
-
-[Set Default Protocol]
-Задаване на стандартен протокол
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Основни настройки
@@ -1255,12 +1245,6 @@ TabSRMM
 
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя.\nЗа запаметяване на промените и връщане към нормалния режим\nза писане/изпращане на съобщения натиснете отново бутона\nили клавишната комбинация, обикновено: Alt+N
-[Unforce failed]
-
-[The selected protocol cannot be forced at this time]
-
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Внимание: Избрали сте подпротокол, за изпращане на текущото съобщение, който в момента е "Извън линия"
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контактът е извън линия, а протоколът не поддържа изпращане на съобщения до контакти извън линия.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp

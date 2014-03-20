@@ -5,30 +5,30 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-[Options]
-选项
+[General padding:]
+常规补位: 
+[Text padding:]
+文本补位: 
+[Labels:]
+标签: 
+[Values:]
+数值:
 [Window]
 窗口
 [Max width:]
 最大宽度: 
-[Max height:]
-最大高度: 
-[Show if list not focused]
-列表非焦点时显示
-[General padding:]
-常规补位: 
-[Hover time:]
-悬停时间: 
-[Labels:]
-标签: 
-[Values:]
-数值: 
 [Min width:]
 最小宽度: 
+[Max height:]
+最大高度: 
 [Min height:]
 最小高度: 
-[Text padding:]
-文本补位: 
+[Hover time:]
+悬停时间: 
+[Show if list not focused]
+列表非焦点时显示
+[Options]
+选项
 [Status bar tips]
 状态栏提示
 [Avatar border]
@@ -37,10 +37,10 @@
 保持原头像大小
 [Substitution]
 替换
-[Contact protocol module]
-联系人协议模块
 [Module:]
 模块: 
+[Contact protocol module]
+联系人协议模块
 [Setting or prefix:]
 设置或前缀
 [Translation:]
@@ -83,12 +83,12 @@
 限制状态栏状态信息及托盘提示为:
 [Effects]
 效果
-[Favorite contacts]
-我的最爱
-[ms]
-毫秒
 [Hide offline protocols]
 隐藏离线协议
+[ms]
+毫秒
+[Favorite contacts]
+我的最爱
 [You must enter a label]
 您必须输入标签
 [Invalid Substitution]

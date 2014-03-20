@@ -8,42 +8,48 @@
 [Tool Tip notification windows.]
 ToolTip Fenster.
 ;file \plugins\TipperYM\res\resource.rc
-[Options]
-Einstellungen
 [Layout]
 Layout
 [Text indent:]
 Texteinzug:
-[Window]
-Fenster
-[Max width:]
-Maximale Breite:
-[Max height:]
-Maximale Höhe:
-[Avatar size:]
-Avatargröße:
-[Show if list not focused]
-Zeigen, wenn Liste unfokussiert
+[Title indent:]
+Titeleinzug:
+[Value indent:]
+Werteinzug:
 [General padding:]
 Allgemeiner Abstand:
-[Hover time:]
-Verzögerung:
+[Text padding:]
+Textabstand:
+[Outer avatar padding:]
+Avatarabstand außen:
+[Inner avatar padding:]
+Avatarabstand innen:
 [Alignment]
 Ausrichtung
 [Labels:]
 Titel:
 [Values:]
 Werte:
+[Window]
+Fenster
+[Max width:]
+Maximale Breite:
 [Min width:]
 Minimale Breite:
+[Max height:]
+Maximale Höhe:
 [Min height:]
 Minimale Höhe:
+[Avatar size:]
+Avatargröße:
 [Sidebar width:]
 Seitenleiste Breite:
-[Text padding:]
-Textabstand:
-[Outer avatar padding:]
-Avatarabstand außen:
+[Hover time:]
+Verzögerung:
+[Show if list not focused]
+Zeigen, wenn Liste unfokussiert
+[Options]
+Einstellungen
 [Show title]
 
 [Status bar tips]
@@ -54,20 +60,14 @@ Rahmen um Avatar
 Runde Ecken (Avatar)
 [Keep original avatar size]
 Originalavatargröße erhalten
-[Title indent:]
-Titeleinzug:
-[Value indent:]
-Werteinzug:
-[Inner avatar padding:]
-Avatarabstand innen:
 [Substitution]
 Ersetzung
 [Label:]
 Titel:
-[Contact protocol module]
-Kontaktprotokollmodul
 [Module:]
 Modul:
+[Contact protocol module]
+Kontaktprotokollmodul
 [Setting or prefix:]
 Einstellung/Präfix:
 [Translation:]
@@ -106,76 +106,76 @@ Ab
 Bearbeiten
 [Separator]
 Trennlinie
-[Advanced options]
-Erweiterte Einstellungen
-[Retrieve XStatus details if auto-retrieve is disabled]
-XStatus-Details abrufen, auch wenn automatischer Empfang deaktiviert
 [Extra icons]
 Extraicons
 [Smileys support]
 Smiley-Unterstützung
 [Enable SmileyAdd support]
 SmileyAdd-Unterstützung aktivieren
-[Resize smileys]
-Smiley-Größenanpassung
 [Use protocol smileys]
 Protokollspezifische Smileys
+[Resize smileys]
+Smiley-Größenanpassung
 [Replace only isolated smileys]
 Nur isolierte Smileys ersetzen
-[Retrieve new status message]
-Neue Statusnachricht abrufen
+[Advanced options]
+Erweiterte Einstellungen
 [Show tooltip after all content is ready (avatar && status message)]
 Tooltip erst anzeigen, wenn Inhalt verfügbar (Avatar && Statusnachricht)
+[Retrieve new status message]
+Neue Statusnachricht abrufen
+[Disable in invisible status]
+Im Unsichtbar-Status deaktivieren
+[Retrieve XStatus details if auto-retrieve is disabled]
+XStatus-Details abrufen, auch wenn automatischer Empfang deaktiviert
 [Status bar and tray tooltip]
 Statusleisten- und Tray-Tooltips
 [Limit status messages in status bar and tray tooltips to:]
 Maximale Länge von Statusnachrichten in Statusleisten- und Tray-Tooltips:
 [characters]
 Zeichen
-[Disable in invisible status]
-Im Unsichtbar-Status deaktivieren
 [Skins]
 Skins
-[Opacity (%):]
-Deckkraft (%):
-[Transparency]
-Transparenz
-[Effects]
-Effekte
-[Border]
-Rand
-[Shadow]
-Schatten
-[Round corners (window)]
-Runde Ecken (Fenster)
-[Aero Glass (Vista+)]
-Aero Glass (Vista+)
-[Animation speed:]
-Animationsgeschwindigkeit:
-[Preview]
-Vorschau
-[No preview]
-Keine Vorschau
-[Skin option]
-Skin-Einstellungen
-[Load fonts and colors]
-Schriften und Farben laden
-[Enable skin coloring]
-Skin-Farben aktivieren
 [Reload skin list]
 Skin-Liste aktualisieren
 [Apply skin]
 Skin anwenden
-[Load tooltip proportions]
-Größenverhältnisse laden
 [Get more skins]
 Weitere Skins herunterladen
+[Preview]
+Vorschau
+[No preview]
+Keine Vorschau
+[Effects]
+Effekte
+[Animation speed:]
+Animationsgeschwindigkeit:
+[Shadow]
+Schatten
+[Border]
+Rand
+[Round corners (window)]
+Runde Ecken (Fenster)
+[Skin option]
+Skin-Einstellungen
+[Enable skin coloring]
+Skin-Farben aktivieren
+[Load tooltip proportions]
+Größenverhältnisse laden
+[Load fonts and colors]
+Schriften und Farben laden
+[Transparency]
+Transparenz
+[Opacity (%):]
+Deckkraft (%):
+[Aero Glass (Vista+)]
+Aero Glass (Vista+)
 [Enable tray tooltips]
 Tray-Tooltips aktivieren
 [Handle tray tooltips by Tipper]
 Tray-Tooltips durch Tipper anzeigen
-[Favorite contacts]
-Favorisierte Kontakte
+[Hide offline protocols]
+Offline-Protokolle verstecken
 [Expand to second level after:]
 Erweiterte Anzeige nach:
 [ms]
@@ -184,8 +184,8 @@ ms
 Einfache Tooltip-Anzeige
 [Second level tooltip]
 Erweiterte Tooltip-Anzeige
-[Hide offline protocols]
-Offline-Protokolle verstecken
+[Favorite contacts]
+Favorisierte Kontakte
 [Hide offline]
 Offline verstecken
 [Append protocol name]

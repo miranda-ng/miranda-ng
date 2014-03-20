@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ Number:]
@@ -83,8 +83,6 @@ unicodeメッセージサポートを有効
 Ansi <-> Unicode 変換に使用するコードページ:
 [Make me temporarily visible to contacts I send message to]
 メッセージを送るときは一時的に可視になる
-[Never use legacy messaging (server acknowledgements)]
-レガシーメッセージングの使用を禁止 ( サーバーの受信確認 )
 [Peer-to-peer Messaging]
 P2P メッセージ
 [Enable peer-to-peer message connections]

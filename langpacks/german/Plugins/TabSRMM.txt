@@ -964,16 +964,6 @@ Nachrichtensitzung ...
 Standardcontainer
 [Attach to]
 Zuordnen zu
-[Meta Contact]
-Metakontakt
-[(Forced)]
-(Erzwungen)
-[Autoselect]
-Automatisch auswählen
-[Use Protocol]
-Benutze Protokoll
-[Set Default Protocol]
-Standardprotokoll festlegen
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Allgemeine Einstellungen
@@ -1266,12 +1256,6 @@ Zustellungsfehler: %s
 Zeitüberschreitung beim Versenden einer Nachricht
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
-[Unforce failed]
-Erzwingen fehlgeschlagen
-[The selected protocol cannot be forced at this time]
-Das ausgewählte Protokoll kann momentan nicht erzwungen werden.
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Achtung: Sie haben ein Unterprotokoll für die Zusendung der folgenden Meldungen ausgewählt, leider ist es derzeit offline.
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt ist offline, und das Protokoll unterstützt keine Datenübertragung zu Leuten, die offline sind.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp

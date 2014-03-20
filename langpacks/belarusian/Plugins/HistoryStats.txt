@@ -202,7 +202,7 @@ URL (усё)
 ;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
 Час першага/апошняга паведамлення (падказка)
-[Show countact count for omitted/totals (tooltip)]
+[Show contact count for omitted/totals (tooltip)]
 Паказаць рахунак апушчаных/усяго (падказка)
 [[First] #{first_time} / [Last] #{last_time}]
 (Першае) #{first_time} / (Апошняе) #{last_time}

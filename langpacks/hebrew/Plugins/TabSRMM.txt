@@ -357,12 +357,6 @@ BB קוד
 הצג היסטוריה עם משתמש
 [Attach to]
 חבר ל
-[Autoselect]
-בחירה אוטומטית
-[Use Protocol]
-השתמש בפרוטוקול
-[Set Default Protocol]
-בחר פרוטוקול ברירת מחדל
 [General options]
 אפשרויות כלליות
 [Title bar]

@@ -843,16 +843,6 @@ Ctrl+Enter 发送消息 (总是启用)
 默认容器
 [Attach to]
 吸附于
-[Meta Contact]
-中继联系人
-[(Forced)]
-(强制)
-[Autoselect]
-自动选择
-[Use Protocol]
-使用协议
-[Set Default Protocol]
-使用默认协议
 [General options]
 常规选项
 [Window layout]
@@ -1093,12 +1083,6 @@ TabSRMM 信息
 消息发送已经超时
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 您正在编辑用户注释. 再次点击按钮或使用热键 (默认: Alt-N) 保存注释并恢复正常通讯模式
-[Unforce failed]
-无法解除强制
-[The selected protocol cannot be forced at this time]
-所选协议无法在此时强制
-[Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-警告: 您已选择离线时子协议发送以下消息
 [Contact is offline and this protocol does not support sending files to offline users.]
 联系人离线, 协议不支持发送文件给离线用户. 
 [Error creating destination directory]

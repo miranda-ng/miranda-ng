@@ -112,7 +112,7 @@
 [In/out graph]
 [Column holding in/out bar graphs for characters, messages or chats.]
 [First/last message time (tooltip)]
-[Show countact count for omitted/totals (tooltip)]
+[Show contact count for omitted/totals (tooltip)]
 [Nick]
 [[First] #{first_time} / [Last] #{last_time}]
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]

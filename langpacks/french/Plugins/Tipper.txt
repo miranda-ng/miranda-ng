@@ -8,25 +8,21 @@
 [Tool Tip notification windows.]
 
 ;file \plugins\TipperYM\res\resource.rc
-[Options]
-Paramètres
 [Layout]
 Disposition
 [Text indent:]
 
-[Window]
-Fenêtre
-[Max width:]
-Largeur max :
-[Max height:]
-Hauteur max :
-[Avatar size:]
+[Title indent:]
 
-[Show if list not focused]
-Afficher si liste couverte
+[Value indent:]
+
 [General padding:]
 Remplissage général :
-[Hover time:]
+[Text padding:]
+
+[Outer avatar padding:]
+
+[Inner avatar padding:]
 
 [Alignment]
 Alignement
@@ -34,15 +30,27 @@ Alignement
 Nom :
 [Values:]
 Valeur :
+[Window]
+Fenêtre
+[Max width:]
+Largeur max :
 [Min width:]
 Largeur mini :
+[Max height:]
+Hauteur max :
 [Min height:]
 Hauteur mini :
+[Avatar size:]
+
 [Sidebar width:]
 
-[Text padding:]
+[Hover time:]
 
-[Outer avatar padding:]
+[Show if list not focused]
+Afficher si liste couverte
+[Options]
+Paramètres
+[Show title]
 
 [Status bar tips]
 Barre de popup d'états
@@ -54,20 +62,14 @@ Barre de popup d'états
 
 [Keep original avatar size]
 Conserver la taille de l'avatar
-[Title indent:]
-
-[Value indent:]
-
-[Inner avatar padding:]
-
 [Substitution]
 
 [Label:]
 
-[Contact protocol module]
-
 [Module:]
 Module :
+[Contact protocol module]
+
 [Setting or prefix:]
 
 [Translation:]
@@ -106,25 +108,27 @@ Bas
 Éditer
 [Separator]
 Séparateur
-[Advanced options]
-Options avancées
-[Retrieve XStatus details if auto-retrieve is disabled]
-
 [Extra icons]
 Icônes d'accès rapide
 [Smileys support]
 
 [Enable SmileyAdd support]
 Activer le support de SmileyAdd
-[Resize smileys]
-Redimensionner les avatars
 [Use protocol smileys]
 
+[Resize smileys]
+Redimensionner les avatars
 [Replace only isolated smileys]
+
+[Advanced options]
+Options avancées
+[Show tooltip after all content is ready (avatar && status message)]
 
 [Retrieve new status message]
 
-[Show tooltip after all content is ready (avatar && status message)]
+[Disable in invisible status]
+
+[Retrieve XStatus details if auto-retrieve is disabled]
 
 [Status bar and tray tooltip]
 
@@ -132,49 +136,47 @@ Redimensionner les avatars
 
 [characters]
 caractères
-[Disable in invisible status]
-
 [Skins]
 Skins
-[Opacity (%):]
+[Reload skin list]
 
-[Transparency]
+[Apply skin]
 
-[Effects]
-Effets
-[Border]
-Bordures
-[Shadow]
-
-[Round corners (window)]
-
-[Aero Glass (Vista+)]
-
-[Animation speed:]
+[Get more skins]
 
 [Preview]
 Aperçu
 [No preview]
 
-[Skin option]
+[Effects]
+Effets
+[Animation speed:]
 
-[Load fonts and colors]
+[Shadow]
+
+[Border]
+Bordures
+[Round corners (window)]
+
+[Skin option]
 
 [Enable skin coloring]
 
-[Reload skin list]
-
-[Apply skin]
-
 [Load tooltip proportions]
 
-[Get more skins]
+[Load fonts and colors]
+
+[Transparency]
+
+[Opacity (%):]
+
+[Aero Glass (Vista+)]
 
 [Enable tray tooltips]
 
 [Handle tray tooltips by Tipper]
 
-[Favorite contacts]
+[Hide offline protocols]
 
 [Expand to second level after:]
 
@@ -184,7 +186,7 @@ ms
 
 [Second level tooltip]
 
-[Hide offline protocols]
+[Favorite contacts]
 
 [Hide offline]
 
