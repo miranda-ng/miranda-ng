@@ -76,7 +76,6 @@ enum CListDisplayNameType {CNNT_NICK = 0, CNNT_DISPLAYNAME = 1};
 
 struct MetaOptions
 {
-	bool bEnabled;
 	bool bLockHandle;
 	bool bSuppressStatus;
 

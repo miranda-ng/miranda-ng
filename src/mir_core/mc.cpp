@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 static HANDLE hEventDefaultChanged;
+static bool g_bEnabled;
 
 void InitMetaContacts()
 {
@@ -33,22 +34,26 @@ void InitMetaContacts()
 
 DBCachedContact* CheckMeta(MCONTACT hMeta)
 {
+	if (!g_bEnabled)
+		return NULL;
+
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
 	return (cc == NULL || cc->nSubs == -1) ? NULL : cc;
 }
 
 int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact)
 {
-	for (int i = 0; i < cc->nSubs; i++)
-		if (cc->pSubs[i] == hContact)
-			return i;
+	if (g_bEnabled)
+		for (int i = 0; i < cc->nSubs; i++)
+			if (cc->pSubs[i] == hContact)
+				return i;
 
 	return -1;
 }
 
 MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number)
 {
-	if (contact_number >= cc->nSubs || contact_number < 0)
+	if (contact_number >= cc->nSubs || contact_number < 0 || !g_bEnabled)
 		return 0;
 
 	return cc->pSubs[contact_number];
@@ -57,9 +62,19 @@ MCONTACT Meta_GetContactHandle(DBCachedContact *cc, int contact_number)
 /////////////////////////////////////////////////////////////////////////////////////////
 // metacontacts
 
+MIR_CORE_DLL(BOOL) db_mc_isEnabled(void)
+{
+	return g_bEnabled;
+}
+
+MIR_CORE_DLL(void) db_mc_enable(BOOL bEnabled)
+{
+	g_bEnabled = bEnabled != 0;
+}
+
 MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact)
 {
-	if (currDb == NULL) return false;
+	if (currDb == NULL || !g_bEnabled) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	return (cc == NULL) ? false : cc->nSubs != -1;
@@ -67,7 +82,7 @@ MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact)
 
 MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact)
 {
-	if (currDb == NULL) return false;
+	if (currDb == NULL || !g_bEnabled) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	return (cc == NULL) ? false : cc->parentID != 0;
@@ -100,7 +115,7 @@ MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact)
 // returns parent hContact for a subcontact or INVALID_CONTACT_ID if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
 {
-	if (currDb == NULL) return NULL;
+	if (currDb == NULL || !g_bEnabled) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
 	return (cc == NULL) ? NULL : cc->parentID;

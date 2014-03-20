@@ -110,6 +110,14 @@ const
 /////////////////////////////////////////////////////////////////////////////////////////
 // binary interface to MC
 
+{ returns true if metacontacts are enabled or false otherwise }
+function db_mc_isEnabled():bool; stdcall;
+                 external CoreDLL name 'db_mc_isEnabled';
+
+{ returns true if a contact is a metacontact or false otherwise }
+procedure db_mc_enable(bEnabled:bool); stdcall;
+                 external CoreDLL name 'db_mc_enable';
+
 { returns true if a contact is a metacontact or false otherwise }
 function db_mc_isMeta(hContact:TMCONTACT):int; stdcall;
                  external CoreDLL name 'db_mc_isMeta';

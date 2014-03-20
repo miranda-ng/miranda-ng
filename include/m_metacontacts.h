@@ -70,6 +70,10 @@ extern "C"
 {
 #endif
 
+// checks whether metacontacts are enabled
+MIR_CORE_DLL(BOOL) db_mc_isEnabled(void);
+MIR_CORE_DLL(void) db_mc_enable(BOOL);
+
 // checks whether a contact is a metacontact
 MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hMetaContact);
 

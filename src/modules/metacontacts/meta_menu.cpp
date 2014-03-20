@@ -76,7 +76,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 	}
 
 	// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
-	if (!options.bEnabled)
+	if (!db_mc_isEnabled())
 		db_set_b(hMetaContact, "CList", "Hidden", 1);
 
 	return hMetaContact;
@@ -318,7 +318,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 	}
 
 	PROTOACCOUNT *pa = Proto_GetAccount(cc->szProto);
-	if (!options.bEnabled || pa->bIsVirtual) {
+	if (!db_mc_isEnabled() || pa->bIsVirtual) {
 		// groups disabled - all meta menu options hidden
 		Menu_ShowItem(hMenuDefault, false);
 		Menu_ShowItem(hMenuDelete, false);
@@ -360,20 +360,21 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON;
-	// just write to db - the rest is handled in the Meta_SettingChanged function
-	if (db_get_b(0, META_PROTO, "Enabled", 1)) {
-		db_set_b(0, META_PROTO, "Enabled", 0);
-		// modify main mi item
+
+	bool bToggled = !db_mc_isEnabled();
+	db_set_b(0, META_PROTO, "Enabled", bToggled);
+	if (bToggled) {
 		mi.icolibItem = GetIconHandle(I_MENU);
 		mi.pszName = LPGEN("Toggle MetaContacts On");
 	}
 	else {
-		db_set_b(0, META_PROTO, "Enabled", 1);
-		// modify main mi item
 		mi.icolibItem = GetIconHandle(I_MENUOFF);
 		mi.pszName = LPGEN("Toggle MetaContacts Off");
 	}
 	Menu_ModifyItem(hMenuOnOff, &mi);
+
+	db_mc_enable(bToggled);
+	Meta_HideMetaContacts(bToggled);
 	return 0;
 }
 
@@ -442,7 +443,7 @@ void InitMenus()
 
 	Meta_HideLinkedContacts();
 
-	if (!options.bEnabled) {
+	if (!db_mc_isEnabled()) {
 		// modify main menu item
 		mi.flags = CMIM_NAME | CMIM_ICON;
 		mi.icolibItem = GetIconHandle(I_MENU);

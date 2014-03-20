@@ -314,16 +314,8 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	char buffer[512], szId[40];
 
 	// the only global options we're interested in
-	if (hContact == 0) {
-		// hide metacontacts when groups disabled
-		if ((!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "UseGroups")) ||
-			 (!strcmp(dcws->szModule, META_PROTO) && !strcmp(dcws->szSetting, "Enabled")))
-		{
-			options.bEnabled = !options.bEnabled;
-			Meta_HideMetaContacts(!options.bEnabled);
-		}
+	if (hContact == 0)
 		return 0;
-	}
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	if (cc == NULL || !cc->IsSub())
@@ -521,7 +513,7 @@ INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 
 int Meta_ContactIsTyping(WPARAM hContact, LPARAM lParam)
 {
-	if (!options.bEnabled)
+	if (!db_mc_isEnabled())
 		return 0;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);

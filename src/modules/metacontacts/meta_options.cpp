@@ -160,7 +160,7 @@ int Meta_WriteOptions(MetaOptions *opt)
 
 int Meta_ReadOptions(MetaOptions *opt)
 {
-	opt->bEnabled = db_get_b(NULL, META_PROTO, "Enabled", true) != 0;
+	db_mc_enable(db_get_b(NULL, META_PROTO, "Enabled", true) != 0);
 	opt->bSuppressStatus = db_get_b(NULL, META_PROTO, "SuppressStatus", true) != 0;
 	opt->menu_contact_label = (int)db_get_w(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
 	opt->menu_function = (int)db_get_w(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
