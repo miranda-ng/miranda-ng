@@ -207,7 +207,7 @@ URL (все)
 Колонка содержащая график Принято/Отослано для символов, сообщений или диалогов.
 [First/last message time (tooltip)]
 Время первого/последнего сообщения (подсказка)
-[Show countact count for omitted/totals (tooltip)]
+[Show contact count for omitted/totals (tooltip)]
 Показать счёт опущенных/всего (подсказка)
 [Nick]
 Ник
