@@ -123,6 +123,9 @@ static int dbaddedevent(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
 		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
+		if (h == NULL)
+			h = WindowList_Find(g_dat.hMessageWindowList, hContact = db_event_getContact((HANDLE)lParam));
+
 		if (h)
 			SendMessage(h, HM_DBEVENTADDED, hContact, lParam);
 	}
@@ -133,11 +136,7 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (pAck && pAck->type == ACKTYPE_MESSAGE) {
-		MCONTACT hContact = db_mc_getMeta(pAck->hContact);
-		if (hContact == NULL)
-			hContact = pAck->hContact;
-
-		msgQueue_processack(hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
+		msgQueue_processack(pAck->hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
 
 		if (pAck->result == ACKRESULT_SUCCESS)
 			SkinPlaySound("SendMsg");

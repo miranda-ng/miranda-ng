@@ -91,12 +91,15 @@ static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 
 static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
+	HANDLE hDbEvent = (HANDLE)lParam;
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get((HANDLE)lParam, &dbei);
+	db_event_get(hDbEvent, &dbei);
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
 
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	if (hwnd == NULL)
+		hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact = db_event_getContact(hDbEvent));
 	if (hwnd)
 		SendMessage(hwnd, HM_DBEVENTADDED, hContact, lParam);
 
@@ -124,12 +127,12 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		CLISTEVENT cle = { sizeof(cle) };
 		cle.flags = CLEF_TCHAR;
 		cle.hContact = hContact;
-		cle.hDbEvent = (HANDLE)lParam;
+		cle.hDbEvent = hDbEvent;
 		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
 		mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 		cle.ptszTooltip = toolTip;
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	}
 	return 0;
 }

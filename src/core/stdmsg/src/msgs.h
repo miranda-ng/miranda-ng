@@ -35,6 +35,10 @@ struct NewMessageWindowLParam
 
 struct SrmmWindowData
 {
+	SrmmWindowData() :
+		cmdList(20)
+		{}
+
 	MCONTACT hContact;
 	HANDLE hDbEventFirst, hDbEventLast;
 	HBRUSH hBkgBrush;
@@ -60,7 +64,7 @@ struct SrmmWindowData
 	WORD wStatus;
 	WORD wOldStatus;
 	int cmdListInd;
-	SortedList *cmdList;
+	LIST<TCHAR> cmdList;
 	int bIsAutoRTL;
 	WORD wMinute;
 };

@@ -21,44 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int tcmdlist_append(SortedList *list, TCHAR *data)
-{
-	TCmdList *new_list;
-
-	if (!data)
-		return list->realCount - 1;
-
-	if (list->realCount >= 20)
-	{
-		TCmdList* n = (TCmdList*)list->items[0];
-		mir_free(n->szCmd);
-		mir_free(n);
-		List_Remove(list, 0);
-	}
-
-	new_list = (TCmdList*)mir_alloc(sizeof(TCmdList));
-	new_list->szCmd = mir_tstrdup(data);
-
-	List_InsertPtr(list, new_list);
-
-	return list->realCount - 1;
-}
-
-void tcmdlist_free(SortedList *list)
-{
-	int i;
-	TCmdList** n = (TCmdList**)list->items;
-
-	for (i = 0; i < list->realCount; ++i)
-	{
-		mir_free(n[i]->szCmd);
-		mir_free(n[i]);
-	}
-	List_Destroy(list);
-	mir_free(list);
-}
-
-static SortedList msgQueue = { NULL, 0, 0, 5, NULL };
+static LIST<TMsgQueue> msgQueue(5, NumericKeySortT);
 static CRITICAL_SECTION csMsgQueue;
 static UINT_PTR timerId;
 
@@ -67,26 +30,21 @@ void MessageFailureProcess(TMsgQueue *item, const char* err);
 static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	int i, ntl = 0;
-	TMsgQueue **tmlst = NULL;
+	LIST<TMsgQueue> arTimedOut(1);
 
 	EnterCriticalSection(&csMsgQueue);
 
-	for (i = 0; i < msgQueue.realCount; ++i)
-	{
-		TMsgQueue *item = (TMsgQueue*)msgQueue.items[i];
-		if (dwTime - item->ts > g_dat.msgTimeout)
-		{
-			if (!ntl)
-				tmlst = (TMsgQueue**)alloca((msgQueue.realCount - i) * sizeof(TMsgQueue*));
-			tmlst[ntl++] = item;
-
-			List_Remove(&msgQueue, i--);
+	for (i = msgQueue.getCount()-1; i >= 0; i--) {
+		TMsgQueue *item = msgQueue[i];
+		if (dwTime - item->ts > g_dat.msgTimeout) {
+			arTimedOut.insert(item);
+			msgQueue.remove(i);
 		}
 	}
 	LeaveCriticalSection(&csMsgQueue);
 
-	for (i = 0; i < ntl; ++i)
-		MessageFailureProcess(tmlst[i], LPGEN("The message send timed out."));
+	for (i = 0; i < arTimedOut.getCount(); ++i)
+		MessageFailureProcess(arTimedOut[i], LPGEN("The message send timed out."));
 }
 
 void msgQueue_add(MCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent)
@@ -99,9 +57,9 @@ void msgQueue_add(MCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent
 	item->ts = GetTickCount();
 
 	EnterCriticalSection(&csMsgQueue);
-	if (!msgQueue.realCount && !timerId)
+	if (!msgQueue.getCount() && !timerId)
 		timerId = SetTimer(NULL, 0, 5000, MsgTimer);
-	List_InsertPtr(&msgQueue, item);
+	msgQueue.insert(item);
 	LeaveCriticalSection(&csMsgQueue);
 
 }
@@ -111,17 +69,16 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* sz
 	int i;
 	TMsgQueue* item = NULL;
 
+	MCONTACT hMeta = db_mc_getMeta(hContact);
+
 	EnterCriticalSection(&csMsgQueue);
 
-	for (i = 0; i < msgQueue.realCount; ++i)
-	{
-		item = (TMsgQueue*)msgQueue.items[i];
-		if (item->hContact == hContact && item->id == id)
-		{
-			List_Remove(&msgQueue, i);
+	for (i = 0; i < msgQueue.getCount(); i++) {
+		item = msgQueue[i];
+		if ((item->hContact == hContact || item->hContact == hMeta) && item->id == id) {
+			msgQueue.remove(i); i--;
 
-			if (!msgQueue.realCount && timerId)
-			{
+			if (!msgQueue.getCount() && timerId) {
 				KillTimer(NULL, timerId);
 				timerId = 0;
 			}
@@ -131,15 +88,12 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* sz
 	}
 	LeaveCriticalSection(&csMsgQueue);
 
-	if (item)
-	{
-		if (success)
-		{
+	if (item) {
+		if (success) {
 			mir_free(item->szMsg);
 			mir_free(item);
 		}
-		else
-			MessageFailureProcess(item, szErr);
+		else MessageFailureProcess(item, szErr);
 	}
 }
 
@@ -150,17 +104,14 @@ void msgQueue_init(void)
 
 void msgQueue_destroy(void)
 {
-	int i;
-
 	EnterCriticalSection(&csMsgQueue);
 
-	for (i = 0; i < msgQueue.realCount; ++i)
-	{
-		TMsgQueue* item = (TMsgQueue*)msgQueue.items[i];
+	for (int i = 0; i < msgQueue.getCount(); i++) {
+		TMsgQueue *item = msgQueue[i];
 		mir_free(item->szMsg);
 		mir_free(item);
 	}
-	List_Destroy(&msgQueue);
+	msgQueue.destroy();
 
 	LeaveCriticalSection(&csMsgQueue);
 

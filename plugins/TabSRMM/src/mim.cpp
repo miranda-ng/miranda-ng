@@ -491,12 +491,14 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
  * improve the overall responsiveness when receiving messages.
  */
 
-int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
+int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 {
-	if (wParam) {
-		HWND h = M.FindWindow(wParam);
+	if (hContact) {
+		HWND h = M.FindWindow(hContact);
+		if (h == NULL)
+			h = M.FindWindow(hContact = db_event_getContact((HANDLE)lParam));
 		if (h)
-			PostMessage(h, HM_DBEVENTADDED, wParam, lParam);            // was SENDMESSAGE !!! XXX
+			PostMessage(h, HM_DBEVENTADDED, hContact, lParam);            // was SENDMESSAGE !!! XXX
 	}
 	return 0;
 }
@@ -520,6 +522,8 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	db_event_get(hDbEvent, &dbei);
 
 	HWND hwnd = M.FindWindow(hContact);
+	if (hwnd == NULL)
+		hwnd = M.FindWindow(hContact = db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);

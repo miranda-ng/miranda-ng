@@ -326,13 +326,13 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 		if (wParam == VK_UP && (GetKeyState(VK_CONTROL) & 0x8000) &&
 			((g_dat.flags & (SMF_AUTOCLOSE | SMF_CTRLSUPPORT)) == SMF_CTRLSUPPORT)) {
-			if (pdat->cmdList->realCount) {
+			if (pdat->cmdList.getCount()) {
 				if (pdat->cmdListInd < 0) {
-					pdat->cmdListInd = pdat->cmdList->realCount - 1;
-					SetEditorText(hwnd, tcmdlist_getitem(pdat->cmdList, pdat->cmdListInd));
+					pdat->cmdListInd = pdat->cmdList.getCount()-1;
+					SetEditorText(hwnd, pdat->cmdList[pdat->cmdListInd]);
 				}
 				else if (pdat->cmdListInd > 0) {
-					SetEditorText(hwnd, tcmdlist_getitem(pdat->cmdList, --pdat->cmdListInd));
+					SetEditorText(hwnd, pdat->cmdList[--pdat->cmdListInd]);
 				}
 			}
 			EnableWindow(GetDlgItem(GetParent(hwnd), IDOK), GetWindowTextLength(hwnd) != 0);
@@ -342,12 +342,12 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 		if (wParam == VK_DOWN && (GetKeyState(VK_CONTROL) & 0x8000) &&
 			((g_dat.flags & (SMF_AUTOCLOSE | SMF_CTRLSUPPORT)) == SMF_CTRLSUPPORT)) {
-			if (pdat->cmdList->realCount && pdat->cmdListInd >= 0) {
-				if (pdat->cmdListInd < (pdat->cmdList->realCount - 1))
-					SetEditorText(hwnd, tcmdlist_getitem(pdat->cmdList, ++pdat->cmdListInd));
+			if (pdat->cmdList.getCount() && pdat->cmdListInd >= 0) {
+				if (pdat->cmdListInd < (pdat->cmdList.getCount()-1))
+					SetEditorText(hwnd, pdat->cmdList[++pdat->cmdListInd]);
 				else {
 					pdat->cmdListInd = -1;
-					SetEditorText(hwnd,  tcmdlist_getitem(pdat->cmdList, pdat->cmdList->realCount - 1));
+					SetEditorText(hwnd, pdat->cmdList[pdat->cmdList.getCount()-1]);
 				}
 			}
 
@@ -685,7 +685,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
 			TranslateDialogDefault(hwndDlg);
-			dat = (SrmmWindowData *)mir_calloc(sizeof(SrmmWindowData));
+			dat = new SrmmWindowData();
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			dat->hContact = newData->hContact;
@@ -717,7 +717,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				dat->wStatus = ID_STATUS_OFFLINE;
 			dat->wOldStatus = dat->wStatus;
 			dat->splitterPos = (int)db_get_dw(db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT) ? dat->hContact : NULL, SRMMMOD, "splitterPos", (DWORD)-1);
-			dat->cmdList = List_Create(0, 20);
 			dat->cmdListInd = -1;
 			dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 			SetTimer(hwndDlg, TIMERID_TYPE, 1000, NULL);
@@ -1076,10 +1075,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (WPARAM) &cf);
 		}
 
-		/*
-		* configure message history for proper RTL formatting
-		*/
-
+		// configure message history for proper RTL formatting
 		{
 			PARAFORMAT2 pf2;
 			ZeroMemory((void *)&pf2, sizeof(pf2));
@@ -1478,7 +1474,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				HANDLE hNewEvent = SendMessageDirect(temp, dat->hContact, dat->szProto);
 				if (hNewEvent) {
-					tcmdlist_append(dat->cmdList, temp);
+					dat->cmdList.insert(mir_tstrdup(temp));
 
 					dat->cmdListInd = -1;
 					if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
@@ -1742,7 +1738,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			DeleteObject(dat->hBkgBrush);
 		if (dat->hwndStatus)
 			DestroyWindow(dat->hwndStatus);
-		tcmdlist_free(dat->cmdList);
+		
+		for (int i = 0; i < dat->cmdList.getCount(); i++)
+			mir_free(dat->cmdList[i]);
+		dat->cmdList.destroy();
+		
 		WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
 		db_set_dw(db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT) ? dat->hContact : NULL, SRMMMOD, "splitterPos", dat->splitterPos);
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_UNSUBCLASSED, 0, 0);
@@ -1777,7 +1777,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_HISTORY);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_USERMENU);
 		Window_FreeIcon_IcoLib(hwndDlg);
-		mir_free(dat);
+		delete dat;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}

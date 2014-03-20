@@ -254,10 +254,9 @@ information about the ACK.
 * @return			0 on success, 1 otherwise.
 */
 
-int Meta_HandleACK(WPARAM wParam, LPARAM lParam)
+int Meta_HandleACK(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-
 	DBCachedContact *cc = CheckMeta(ack->hContact);
 	if (cc == NULL)
 		return 0;
@@ -597,11 +596,13 @@ int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 
 int Meta_ClistDoubleClicked(WPARAM hMeta, LPARAM lParam)
 {
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
-	if (cc != NULL && cc->IsSub()) {
-		// simulate double click on the metacontact and stop event processing
-		CallService(MS_CLIST_CONTACTDOUBLECLICKED, cc->parentID, 0);
-		return 1;
+	if (db_mc_isEnabled()) {
+		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
+		if (cc != NULL && cc->IsSub()) {
+			// simulate double click on the metacontact and stop event processing
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, cc->parentID, 0);
+			return 1;
+		}
 	}
 
 	return 0;

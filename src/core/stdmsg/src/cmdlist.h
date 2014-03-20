@@ -22,28 +22,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_CMDLIST_H
 #define SRMM_CMDLIST_H
 
-typedef struct _TCmdList
-{
-	TCHAR *szCmd;
-}
-TCmdList;
-
-int tcmdlist_append(SortedList *list, TCHAR *data);
-void tcmdlist_free(SortedList *list);
-
-__inline TCHAR* tcmdlist_getitem(SortedList *list, int ind)
-{ return ((TCmdList*)list->items[ind])->szCmd; }
-
-
-typedef struct _TMsgQueue
+struct TMsgQueue
 {
 	int id;
 	MCONTACT hContact;
 	TCHAR* szMsg;
 	HANDLE hDbEvent;
 	unsigned ts;
-}
-TMsgQueue;
+};
 
 void msgQueue_add(MCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent);
 void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* szErr);

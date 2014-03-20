@@ -392,17 +392,17 @@ void ReloadGlobals()
 
 static int ackevent(WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *pAck = (ACKDATA *)lParam;
+	ACKDATA *pAck = (ACKDATA*)lParam;
 	if (!pAck)
 		return 0;
 
 	if (pAck->type != ACKTYPE_MESSAGE)
 		return 0;
 
-	MCONTACT hContact = db_mc_getMeta(pAck->hContact);
-	if (hContact == NULL)
-		hContact = pAck->hContact;
+	MCONTACT hContact = pAck->hContact;
 	MessageSendQueueItem *item = FindSendQueueItem(hContact, (HANDLE)pAck->hProcess);
+	if (item == NULL)
+		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), (HANDLE)pAck->hProcess);
 	if (item == NULL)
 		return 0;
 
