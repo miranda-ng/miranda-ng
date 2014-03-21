@@ -18,6 +18,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "dbchecker.h"
 
+static bool CheckBroken(const TCHAR *ptszFullPath)
+{
+	DATABASELINK *dblink = FindDatabasePlugin(ptszFullPath);
+	if (dblink == NULL || dblink->CheckDB == NULL)
+		return true;
+
+	int error = 0;
+	MIDatabaseChecker *dbChecker = dblink->CheckDB(ptszFullPath, &error);
+	if (dbChecker == NULL)
+		return true;
+
+	dbChecker->Destroy();
+	return false;
+}
+
 void OpenDatabase(HWND hdlg, INT iNextPage)
 {
 	TCHAR tszMsg[1024];
@@ -43,7 +58,8 @@ LBL_Error:
 		int error = 0;
 		opts.dbChecker = dblink->CheckDB(opts.filename, &error);
 		if (opts.dbChecker == NULL) {
-			opts.error = error;
+			if ((opts.error = GetLastError()) == 0)
+				opts.error = error;
 			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
 			return;
 		}
@@ -86,9 +102,10 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	if ( _tstat(filename, &st) == -1)
 		return -1;
 
-	int broken = 0;
 	DWORD totalSize = st.st_size;
 	DWORD wasted = 0;
+
+	bool isBroken = CheckBroken(filename);
 
 	const TCHAR *pName = _tcsrchr(filename, '\\');
 	if (pName == NULL)
@@ -108,7 +125,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	lvi.iSubItem = 0;
 	lvi.lParam = (LPARAM)_tcsdup(filename);
 	lvi.pszText = szName;
-	if (broken)
+	if (isBroken)
 		lvi.iImage = 3;
 	else if (wasted < 1024*128)
 		lvi.iImage = 0;
@@ -121,7 +138,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	TCHAR szSize[20];
 	mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
-	if (!broken) {
+	if (!isBroken) {
 		mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), wasted / 1048576.0);
 		ListView_SetItemText(hwndList, iNewItem, 2, szSize);
 	}

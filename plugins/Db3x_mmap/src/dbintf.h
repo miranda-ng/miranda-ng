@@ -44,6 +44,9 @@ DBHeader
 	     \--> ...
 */
 
+#define DBMODE_SHARED    0x0001
+#define DBMODE_READONLY  0x0002
+
 #define DB_OLD_VERSION   0x00000700u
 #define DB_094_VERSION   0x00000701u
 #define DB_095_VERSION   0x00000800u
@@ -174,7 +177,7 @@ struct ConvertedContact
 
 struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
-	CDb3Mmap(const TCHAR *tszFileName, bool bReadOnly);
+	CDb3Mmap(const TCHAR *tszFileName, int mode);
 	~CDb3Mmap();
 
 	int Load(bool bSkipInit);
@@ -275,7 +278,7 @@ protected:
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
-	bool     m_safetyMode, m_bReadOnly, m_bEncrypted, m_bUsesPassword;
+	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
