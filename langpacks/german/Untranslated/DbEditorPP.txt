@@ -1,7 +1,0 @@
-﻿[Byte]
-[Word]
-[Dword]
-[String]
-[Hexadecimal]
-[Decimal]
-[Delete module from all contacts (Includes Setting)]
