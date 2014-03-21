@@ -13,7 +13,7 @@ HTTP Web Server plugin für Miranda.
 [IPAddress2]
 
 [Max downloads]
-
+Max. Downloads
 [Address]
 Adresse
 [Mask]

@@ -57,11 +57,11 @@ Extra Status
 [Status message]
 Statusnachricht
 [Log in history]
-
+In Verlauf speichern
 [Log status changes in history]
-
+Statusänderungen im Verlauf speichern
 [Only when message window is open]
-
+Nur wenn Nachrichtenfenster offen ist
 [Change]
 Ändern
 [Preview]
@@ -318,7 +318,7 @@ Extra-Status wurde entfernt
 [Toggle status notification]
 Wechsel Statusbenachrichtigungen
 [Status change]
-
+Statusänderung
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Alle Dateien

@@ -91,9 +91,9 @@ ICQ Web pager
 [ICQ Email express]
 ICQ-E-Mail-Express
 [SMS Message]
-
+SMS-Nachricht
 [SMS Confirmation]
-
+SMS-Bestätigung
 [Unknown Event]
 Unbekanntes Ereignis
 [Notify of new events]

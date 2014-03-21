@@ -48,7 +48,7 @@ Log-Einstellungen (Strg+O)
 [Start logging in all tabs]
 Loggen in allen Tabs starten
 [Pause logging in all tabs]
-Loggen in allen tabs pausieren
+Loggen in allen Tabs pausieren
 [Close tab (Ctrl+W)]
 Tab schließen (Strg+W)
 [*** Console started ***]

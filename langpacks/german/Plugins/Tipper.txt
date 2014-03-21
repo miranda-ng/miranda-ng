@@ -51,7 +51,7 @@ Zeigen, wenn Liste unfokussiert
 [Options]
 Einstellungen
 [Show title]
-
+Titel anzeigen
 [Status bar tips]
 Tooltips in Statuszeile
 [Avatar border]
@@ -462,11 +462,11 @@ Wind:
 \# Farbfüllung
 ;file \plugins\TipperYM\src\subst.cpp
 [%dd %dh %dm]
-
+%dT %dS %dM
 [%dh %dm]
-
+%dS %dM
 [%dm]
-
+%dM
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Hintergrund
@@ -490,9 +490,9 @@ weiblich
 [Male]
 männlich
 [%dy %dd %dh %dm]
-
+&dJ %dT %dS %dM
 [%dd]
-
+%dT
 [[No translation]]
 \[Keine Umwandung]
 [WORD to status description]

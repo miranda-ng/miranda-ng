@@ -6,408 +6,408 @@
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
-
+Erweitertes Abwesenheitssystem mit vordefinierten Abwesenheitsnachrichten und vielen anderen Funktionen. 
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
-
+Popupbenachrichtigung
 [Popup text format]
-
+Popuptextformat
 [Preview]
-
+Vorschau
 [V]
-
+V
 [%extratext% is your status message]
-
+%extratext% ist ihre Statusnachricht
 [Click action]
-
+Aktion bei Klick
 [On left click]
-
+Bei Linksklick
 [On right click]
-
+Bei Rechtsklick
 [Delay]
-
+Verzögerung
 [Sec]
-
+Sek.
 [0 = Default]
-
+0 = Standard
 [-1 = Infinite]
-
+-1 = Unendlich
 [Colors]
-
+Farben
 [Background]
-
+Hintergrund
 [Use default]
-
+Standard verw.
 [Text]
-
+Text
 [Only notify when:]
-
+Benachrichtigen bei:
 [On&line]
-
+On&line
 [&Away]
-
+&Abwesend
 [&NA]
-
+Außer Haus
 [Occ&upied]
-
+Beschäftigt
 [&DND]
-
+Bitte nicht stören
 [&Free for chat]
-
+&Für Chat bereit
 [&Other]
-
+Andere
 [Log to a file only when popup notification for a contact is enabled]
-
+Nur in Datei loggen, wenn Popupbenachrichtigung für Kontakt aktiviert
 [Enable autoreply]
-
+Autoantwort aktivieren
 [On event...]
-
+Beim Ereignis...
 [Don't reply to ICQ contacts]
-
+ICQ-Kontakten nicht antworten
 [Don't reply when I'm invisible to the contact]
-
+Nicht antworten, wenn ich unsichtbar bin
 [Save autoreply to the history]
-
+Autoantwort im Verlauf speichern
 [Reply only when Idle]
-
+Nur antworten, wenn untätig
 [Reply only when contact's message window is closed]
-
+Nur antworten, wenn das Nachrichtenfenster des Kontaktes geschlossen ist
 [Send maximum]
-
+Sende maximal
 [times (-1=infinite)]
-
+-mal (-1=unendlich)
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
-
+Diesen Zähler auch zurücksetzen, wenn ich nur die Statusnachricht ändere\n(Statusicon verändert sich nicht)
 [Disable autoreply when...]
-
+Autoantwort deaktivieren wenn...
 [&Invisible]
-
+Uns&ichtbar
 [On the &phone]
-
+Am Telefon
 [Out to &lunch]
-
+Zum Essen
 [Autoreply format:]
-
+Format der Autoantwort:
 [OK]
-
+OK
 [&Variables]
-
+&Variablen
 [Se&ttings]
-
+Eins&tellungen
 [Ignore requests]
-
+Anfragen ignorieren
 [Send an autoreply]
-
+Autoantwort senden
 [&Delete]
-
+&Löschen
 [New &category]
-
+Neue Kategorie
 [Save as &new]
-
+Speichern u&nter
 [&Save]
-
+&Speichern
 [Title:]
-
+Titel:
 [Use this message as default for]
-
+Diese Nachricht als Standard verwenden
 [New message]
-
+Neue Nachricht
 [New category]
-
+Neue Kategorie
 [Delete]
-
+Löschen
 [Status messages:]
-
+Statusnachrichten:
 [Configure autoaway]
-
+Autoantwort einstellen
 [Wait]
-
+Warte
 [seconds before closing the status message dialog (-1=don't close)]
-
+Sekunden, bevor sich das Fenster schließt (-1 = nie schließen)
 [Store]
-
+Speichere
 [most recent messages (0=disable)]
-
+letzte Nachrichten (0 = keine)
 [Store for each status separately]
-
+Für jeden Status separat speichern
 [Use default...]
-
+Als Standard...
 [Use the most recent message]
-
+Letzte Nachricht verwenden
 [Use the default message]
-
+Standardnachricht verwenden
 [Reset per-protocol messages when changing global status]
-
+Protokollnachrichten bei globaler Statusänderung zurücksetzen
 [Store protocol messages for each status separately]
-
+Protokollnachrichten für jeden Status separat speichern
 [Store protocol autoreply settings for each status separately]
-
+Protokollautoantworteinstellungen für jeden Status separat speichern
 [Remember last message used for a contact...]
-
+Letzte Nachricht für einen Kontakt verwenden...
 [Store contact autoreply/ignore settings for each status separately]
-
+Kontaktautoantwort/-ignoriereinstellungen für jeden Status separat speichern
 [Enable contact menu items]
-
+Einträge im Kontaktmenü aktivieren
 [Use protocol specific nick for %nas_mynick%]
-
+Protokollspezifischen Alias für %nas_mynick% verwenden
 [Update status messages for non-ICQ protocols every]
-
+Aktualisiere Statusnachricht für Nicht-ICQ-Kontakte alle
 [seconds]
-
+Sekunden
 [Don't show the message dialog for]
-
+Nachrichtenfenster nicht zeigen für
 [%s message for %s]
-
+'%s'-Nachricht von %s
 [Retrieving %s message...]
-
+Rufe '%s'-Nachricht ab...
 [&Cancel]
-
+Abbre&chen
 [Notify of requests]
-
+Anfragen benachrichtigen
 [Don't notify of requests]
-
+Nicht benachrichtigen
 [Autoreply on]
-
+Autoantwort an
 [Autoreply off]
-
+Autoantwort aus
 [Don't send status message]
-
+Statusnachricht nicht senden
 [Note: these settings are applied to all status modes at once.]
-
+Hinweis: Diese Einstellungen betreffen alle Statusmodi.
 [Means the setting is different for different status modes / contacts]
-
+bedeutet, dass die Einstellung für unterschiedl. Statusmodi/Kontakte verschieden ist
 [Set away message window options]
-
+Abwesenheitsnachrichtenfenstereinstellungen setzen
 [Show predefined &messages]
-
+Vordefinierte &Nachrichten anzeigen
 [Show &contacts]
-
+&Kontakte anzeigen
 [Save default window settings &automatically]
-
+Standardfenstereinstellung &automatisch speichern
 [&Save current window settings as default]
-
+Aktuelle Fenstereinstellung als Standard &speichern
 [Disable parsing of status messages by Variables plugin]
-
+Parsen der Statusnachricht vom Variablenplugin deaktivieren
 [Create new &message]
-
+Neue &Nachricht erstellen
 [Create new &category]
-
+Neue &Kategorie erstellen
 [&Rename]
-
+&Umbenennen
 [Set as &default for]
-
+Als Stan&dard setzen für
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
 [Create new message]
-
+Neue Nachricht erstellen
 [Create new category]
-
+Neue Kategorie erstellen
 [Open Variables help dialog]
-
+Variablen-Hilfe öffnen
 [Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
-
+Ihre letzten Statusnachrichten werden in diese Kategorie gelegt. Es wird nicht empfohlen, Ihre Nachrichten manuell hier zu setzen, da sie durch Ihre neuen Nachrichten ersetzt werden.
 [You can put your frequently used and favorite messages in this category.]
-
+Sie können Ihre häufig verwendeten und bevorzugten Nachrichten hier ablegen.
 [Windows]
-
+Windows
 [Miranda]
-
+Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
-
+Wenn diese Einstellung aktiviert ist dann zählt NewAwaySys seit der letzten Statusnachrichtenänderung, auch wenn der Statusmodus nicht geändert wurde.\nWenn diese Einstellung nicht aktiviert ist dann wird seit der letzten Statusmodusänderung gezählt (d.h. deaktivierter Zustand ist restriktiver).
 [Message]
-
+Nachricht
 [URL]
-
+URL
 [File]
-
+Datei
 [** All contacts **]
-
+** Alle Kontakte **
 [** Not-on-list contacts **]
-
+** Kontakte nicht in der Liste **
 [Status messages]
-
+Statusnachrichten
 [Main options]
-
+Einstellungen
 [Autoreply]
-
+Autom. Antwort
 [Contacts]
-
+Kontakte
 [Predefined messages]
-
+Vordefinierte Nachrichten
 [Recent messages]
-
+Letzte Nachrichten
 [Gone fragging]
-
+Zocken
 [Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
-
+Ich bin zocken seit %nas_awaysince_time%, ich schreibe Ihnen später wenn der Adrenalinschub nachgelassen hat.
 [Creepy]
-
+Gruselig
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
-
+Euer Meister %nas_mynick% ist %nas_statdesc% seit dem Tag, der bekannt ist als ?nas_awaysince_date(dddd)... Sobald er zurückkommt, werde ich ihm von Euch berichten...
 [Default messages]
-
+Standardnachrichten
 [Online]
-
+Online
 [Yep, I'm here.]
-
+Ja, ich bin da.
 [Away]
-
+Abwesend
 [Been gone since %nas_awaysince_time%, will be back later.]
-
+Ich bin seit %nas_awaysince_time% nicht da. Ich bin später wieder da.
 [NA]
-
+Außer Haus
 [Give it up, I'm not in!]
-
+Gib's auf! Ich bin nicht da!
 [Occupied]
-
+Beschäftigt
 [Not right now.]
-
+Im Moment nicht!
 [DND]
-
+Bitte nicht stören
 [Give a guy some peace, would ya?]
-
+Lass' mich im Moment mal in Ruhe!
 [Free for chat]
-
+Für Chat bereit
 [I'm a chatbot!]
-
+Laber mich voll!
 [Invisible]
-
+Unsichtbar
 [I'm hiding from the mafia.]
-
+Ich zieh' mir ne Tarnkappe auf!
 [On the phone]
-
+Am Telefon
 [I've been on the phone since %nas_awaysince_time%, give me a sec!]
-
+Ich bin seit ?nas_awaysince_time(HH:mm) am Telefon. Bitte warte kurz!
 [Out to lunch]
-
+Zum Essen
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-
+Ich bin seit ?nas_awaysince_time(HH:mm) beim ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,Abendessen,Mittagessen),Frühstück),Abendessen)
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
 [Toggle On]
-
+Einschalten
 [Toggle Off]
-
+Ausschalten
 [) read your ]
-
+) liest Ihre\s
 [ message:\r\n]
-
+ Nachricht:\r\n
 [Set %s message for the contact]
-
+%s-Nachricht für diesen Kontakt
 [Re&ad %s message]
-
+'%s'-N&achricht lesen
 [Toggle autoreply on/off]
-
+Autom. Antwort ein-/ausschalten
 [Toggle autoreply off]
-
+Autom. Antwort ausschalten
 [Toggle autoreply on]
-
+Autom. Antwort einschalten
 [New Away System]
-
+Neues Abwesenheitssystem
 [Enable autoreply when you are %s]
-
+Autoantwort aktivieren wenn Sie %s sind
 ["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-
+"Kontaktautoantwort/-ignoriereinstellungen für jeden Status separat speichern" ist aktiviert, also ist diese Einstellung per-Kontakt und per-Status.
 [Don't send status message when you are %s]
-
+Nachricht nicht senden wenn Sie %s sind
 [Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-
+Statusnachrichtenanfragen von diesem Kontakt ignorieren und keine Autoantwort senden.\r\n"Kontaktautoantwort/-ignoriereinstellungen für jeden Status separat speichern" ist aktiviert, also ist diese Einstellung per-Kontakt und per-Status.
 [Ignore status message requests from this contact and don't send an autoreply]
-
+Statusnachrichtenanfragen von diesem Kontakt ignorieren und keine Autoantwort senden.
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
-
+Abwesenheitszeit im Standardformat; ?nas_awaysince_time(x) im Format x
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
-
+Abwesenheitsdatum im Standardformat; ?nas_awaysince_date(x) im Format x
 [Status description]
-
+Statusbeschreibung
 [Your nick for current protocol]
-
+Ihr Alias für derzeitiges Protokoll
 [Number of status message requests from the contact]
-
+Anzahl der Statusnachrichtenanfragen eines Kontaktes
 [Number of messages from the contact]
-
+Anzahl der Nachrichten eines Kontaktes
 [Time passed until request]
-
+Vergangene Zeit seit einer Anfrage
 [Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-
+Gibt eine der vordefinierten Nachrichten, benannt nach Titel, zurück: ?nas_predefinedmessage(Gruselig)
 [Current protocol name]
-
+Derzeitiger Protokollname
 [Stranger]
-
+Unbekannter
 [%d hours]
-
+%d Stunden
 [%d minutes]
-
+%d Minuten
 [%d seconds]
-
+%d Sekunden
 [Read status message]
-
+Statusnachricht lesen
 [Set status message]
-
+Statusnachricht setzen
 [On]
-
+Ein
 [Off]
-
+Aus
 [Use the default setting]
-
+Standardeinstellung verwenden
 [NewAwaySys: Incoming status message request]
-
+NewAwaySys: Eingehende Statusnachrichtenanfrage
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
-
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) hat Ihre %nas_statdesc%-Nachricht ausgelesen:\r\n%extratext%\r\n\r\n
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]
-
+Miranda-NG-Autoantwort >\r\n%extratext%
 [extended status]
-
+erweiterter Status
 [Away System]
-
+Abwesenheitssystem
 [Status]
-
+Status
 [Popups]
-
+Popups
 [Variables plugin is not installed]
-
+Variables-Plugin ist nicht installiert.
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
-
+Sie haben viele Einstellungen in der Nachrichtenbaumstruktur vorgenommen.\r\nMöchten Sie die Einstellungen beibehalten in "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
-
+"?\r\n\Drücken Sie Ja, um die Änderungen beizubehalten, oder Nein, um diese zu verwerfen und die Einstellungen in einer anderen Nachrichtenbaumstruktur zu speichern.
 [Do you really want to delete this category with its messages?]
-
+Möchten Sie diese Kategorie mit ihren Nachrichtan wirklich löschen?
 [Do you really want to delete this message?]
-
+Möchten Sie diese Nachricht wirklich löschen?
 ;file \plugins\NewAwaySysMod\src\Notification.cpp
 [Error #%d]
-
+Fehler #%d
 [Can't open log file ]
-
+Kann Log-Datei nicht öffnen\s
 ;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
-
+S&chließen
 ;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
-
+Speichern und ausgewählte Nachricht ersetzen
 [Save as a new message]
-
+Als neue Nachricht speichern
 [Show settings menu]
-
+Einstellungsmenü zeigen
 [Don't send the status message to selected contact(s)]
-
+Statusnachricht nicht an ausgewählte Kontakte senden
 [Send an autoreply to selected contact(s)]
-
+Autoantwort an ausgewählte Kontakte senden
 [Apply]
-
+Übernehmen
 [Do you want to apply the message?]
-
+Möchten Sie diese Nachricht übernehmen?
 [Set message for]
-
+Nachricht setzen für
 [Statuses]
-
+Status
 [message for]
-
+Nachricht für
 [for]
-
+für
 [available autoreply only]
-
+nur Autoantwort verfügbar
 [all accounts]
-
+alle konten
 [Closing in %d]
-
+In %d schließen

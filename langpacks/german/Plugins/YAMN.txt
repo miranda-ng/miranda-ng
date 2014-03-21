@@ -360,7 +360,7 @@ Dies ist kein gültiger Zahlenwert
 [Input error]
 Eingabefehler
 [Please select application to run]
-Bitte wählen SIe die auszuführende Anwendung aus
+Bitte wählen Sie die auszuführende Anwendung aus
 [Cannot allocate memory space for new account]
 Kein Speicher für neues Konto verfügbar
 [Memory error]

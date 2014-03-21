@@ -63,17 +63,17 @@ Abbrechen
 [Edit Setting]
 Einstellung ändern
 [Byte]
-
+Byte
 [Word]
-
+Word
 [Dword]
-
+Dword
 [String]
-
+String
 [Hexadecimal]
-
+Hexadezimal
 [Decimal]
-
+Dezimal
 [Value Name:]
 Name:
 [Value Data:]
@@ -258,7 +258,7 @@ Modul aus der Datenbank löschen
 [Delete module from Database... Loading]
 Modul aus der Datenbank löschen... Lade
 [Delete module from all contacts (Includes Setting)]
-
+Modul von allen Kontakten löschen (inkl. Einstell.)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI-Dateien

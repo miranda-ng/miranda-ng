@@ -1,5 +1,4 @@
-﻿[Ceiling]
-[Update1]
+﻿[Update1]
 [Update2]
 [WindDir1]
 [WindDir2]

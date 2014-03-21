@@ -31,7 +31,7 @@ Autorisierung für Benutzer in Kontaktliste automatisch gewähren
 [Automatically grant authorization to new users]
 Autorisierung automatisch neuen Nutzern gewähren
 [Automatic authorization on Mail.ru web services]
-
+Automatisch bei Mail.ru-Webdiensten autorisieren
 [Notify me when a message delivery has failed]
 Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
 [Notify about new mail if increment]
@@ -259,7 +259,7 @@ Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
 [&Send E-Mail]
-
+E-Mail &senden
 [&Send postcard]
 Postkarte &senden
 [&View Album]
@@ -375,7 +375,7 @@ Bitte E-Mail-Einstellungen in den Einstellungen einrichten
 [Please, setup password in options]
 Bitte richten Sie ein Kennwort in den Einstellungen ein.
 [Thread creation failure]
-
+Fehler beim Erzeugen des Threads
 [Logon error: invalid login/password]
 Anmeldefehler: Falscher Benutzername/Kennwort
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
@@ -498,4 +498,4 @@ Star
 [Music]
 Musik
 [Dating]
-
+Dating

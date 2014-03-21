@@ -2434,7 +2434,7 @@ Als Standardmetakontakt setzen
 [Delete MetaContact]
 Metakontakt löschen
 [Subcontacts]
-
+Unterkontakte
 ;file \src\modules\metacontacts\meta_options.cpp
 [<default>]
 <Standard>

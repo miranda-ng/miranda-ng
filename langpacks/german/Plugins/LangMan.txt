@@ -25,9 +25,9 @@ Weitere Sprachdateien herunterladen
 [Please restart Miranda NG for your changes to take full effect.]
 Sie müssen Miranda NG neu starten, bevor diese Änderungen wirksam werden.
 [Static]
-
+Statisch
 [Langpack root folder]
-
+Hauptverzeichnis der Sprachdateien
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 Sprachdatei neu laden

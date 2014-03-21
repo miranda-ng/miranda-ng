@@ -272,7 +272,7 @@ Ansi-Text
 [Removes all settings for the specified module]
 Entfernt alle Einstellungen im angegebenen Modul
 [Show window for new/changed profile password]
-
+Zeigt ein Fenster für ein neues/geändertes Profilpasswort an.
 [int 0]
 int 0
 [Import settings/contacts from file]
@@ -388,9 +388,9 @@ Ergebnis des Protokollserviceaufrufes
 [Send a general request through the protocol chain for a contact]
 Stellt eine generelle Anfrage durch die Protokollkette für einen Kontakt
 [str, account name]
-
+str, Kontenname
 [Return account name associated to contact (no need to free it)]
-
+Gibt den Kontennamen zu dem Kontakt an (muss nicht freigegeben werden).
 [displays the Account Manager]
 Zeigt den Kontenmanager an
 [Show the dialog to select the contact]
@@ -735,15 +735,15 @@ Gepackte Struktur
 Eingetragene Aktionen
 ; Actman30
 [INI]
-
+INI
 [INI file name]
-
+INI-Dateiname
 [Section]
-
+Sektion
 [Use LastResult]
-
+Letztes Ergebnis verwenden
 [UTF8 encoding]
-
+UTF8-Kodierung
 [Function call]
 Funktion aufrufen
 [Function name]
@@ -809,7 +809,7 @@ Skript ausführen nach
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
 [RTL]
-
+RTL
 [Right justified text]
 Rechts ausgerichteter Text
 [Database]
@@ -865,11 +865,11 @@ Ausgewähltes Makro
 [Select for FirstRun]
 Für FirstRun auswählen
 [Miranda event help]
-
+Miranda-Ereignishilfe
 [contact list]
-
+Kontaktliste
 [database driver]
-
+Datenbanktreiber
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Texteditor

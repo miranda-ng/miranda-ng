@@ -147,9 +147,9 @@ Hintergrund
 Fenster
 ;file \plugins\Alarms\src\frame.cpp
 [%dh %dm]
-
+%dS %dM
 [%dm]
-
+%dM
 [Hide reminders]
 Termine verstecken
 [Show reminders]

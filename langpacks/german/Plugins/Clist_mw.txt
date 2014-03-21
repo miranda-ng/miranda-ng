@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: Bethoven 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderungen an.
@@ -430,9 +430,9 @@ Ab
 Frames
 [Show All Frames]
 Alle Elemente anzeigen
-[Show all titlebars]
+[Show all title bars]
 Alle Titelleisten anzeigen
-[Hide all titlebars]
+[Hide all title bars]
 Alle Titelleisten verstecken
 [Lock Frame]
 Keine Größenänderung

@@ -55,9 +55,9 @@ Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbCh
 Datenbankprobleme
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-
+Ihre Datenbank muss in das neue Format konvertiert werden. Dies ist ein möglicherweise gefährlicher Vorgang, legen Sie daher bitte zuvor eine Sicherungskopie an.\n\nKlicken Sie auf Ja, um die Konvertierung zu starten, oder auf Nein, um Miranda zu beenden
 [Database conversion required]
-
+Konvertierung der Datenbank erforderlich
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Passwort ändern/entfernen
@@ -137,7 +137,7 @@ Verarbeite: Abschließende Arbeitsschritte
 [Database signature is corrupted, automatic repair is impossible]
 Datenbanksignatur ist beschädigt, automatische Reparatur nicht möglich
 [Database version doesn't match this driver's one. Convert a database first]
-
+Die Datenbankversion passt nicht zu der des Treibers. Konvertieren Sie zuerst die Datenbank
 [Database is newly created and has no data to process]
 Datenbank wurde neu erstellt und hat keine Daten zum Verarbeiten
 [Processing completed successfully]

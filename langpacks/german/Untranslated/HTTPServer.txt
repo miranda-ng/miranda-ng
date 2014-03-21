@@ -1,6 +1,5 @@
 ﻿[IPAddress1]
 [IPAddress2]
-[Max downloads]
 [Miranda NG HTTP-Server]
 [Failed to share new file]
 [Agent]

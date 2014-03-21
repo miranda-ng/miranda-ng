@@ -196,7 +196,7 @@ ein Foto
 [User sent %s:]
 Benutzer hat Ihnen %s gesendet:
 [User sent an unsupported attachment. Open your browser to see it.]
-
+Benutzer hat Ihnen einen nicht unterstützten Anhang gesendet. Öffnen Sie Ihren Browser, um ihn anzusehen.
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s
 [Message read: %s]
@@ -260,13 +260,13 @@ Newsfeed
 [Friendship details]
 Freundschaft-Details
 [Conversation]
-
+Unterhaltung
 [Visit profile]
 Profil besuchen
 [Visit friendship details]
 Freundschaft-Details besuchen
 [Visit conversation]
-
+Unterhaltung besuchen
 [Cancel friendship]
 Freundschaft beenden
 [Cancel friendship request]
