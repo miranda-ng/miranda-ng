@@ -292,8 +292,6 @@ void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char* module, char* s
 	additem(hwnd2Settings, hContact, module, setting, lvItem.iItem);
 }
 
-static WNDPROC SettingLabelEditSubClass;
-
 struct EditLabelInfoStruct
 {
 	MCONTACT hContact;
@@ -372,26 +370,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 						SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
 						return 0;
 					}
-					switch (dbv.type) {
-					case DBVT_UTF8:
-						db_set_utf(info->hContact, info->module, value, dbv.pszVal);
-						break;
-					case DBVT_ASCIIZ:
-						db_set_s(info->hContact, info->module, value, dbv.pszVal);
-						break;
-					case DBVT_BYTE:
-						db_set_b(info->hContact, info->module, value, dbv.bVal);
-						break;
-					case DBVT_WORD:
-						db_set_w(info->hContact, info->module, value, dbv.wVal);
-						break;
-					case DBVT_DWORD:
-						db_set_dw(info->hContact, info->module, value, dbv.dVal);
-						break;
-					case DBVT_BLOB:
-						db_set_blob(info->hContact, info->module, value, dbv.pbVal, dbv.cpbVal);
-						break;
-					}
+					db_set(info->hContact, info->module, value, &dbv);
 					db_unset(info->hContact, info->module, info->setting);
 					{
 						LVFINDINFO lvfi;
@@ -555,7 +534,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 	case WM_GETDLGCODE:
 		return DLGC_WANTALLKEYS;
 	}
-	return CallWindowProcW(SettingLabelEditSubClass, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, SettingLabelEditSubClassProc, msg, wParam, lParam);
 }
 
 void EditLabel(HWND hwnd2List, int item, int subitem)
@@ -659,7 +638,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 
 	db_free(&dbv);
 
-	SettingLabelEditSubClass = (WNDPROC)SetWindowLongPtr(info->hwnd2Edit, GWLP_WNDPROC, (LONG_PTR)SettingLabelEditSubClassProc);
+	mir_subclassWindow(info->hwnd2Edit, SettingLabelEditSubClassProc);
 
 	SendMessage(info->hwnd2Edit, WM_USER, 0, (LPARAM)data);
 }
