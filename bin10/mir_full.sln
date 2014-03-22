@@ -412,6 +412,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryStats", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dropbox", "..\plugins\Dropbox\Dropbox_10.vcxproj", "{CBA58126-3E02-4159-9BD3-059AF9DBC84E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sametime", "..\protocols\Sametime\sametime_10.vcxproj", "{BE22A21F-73B7-453F-86A0-B867F0056490}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1836,6 +1838,14 @@ Global
 		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|Win32.Build.0 = Release|Win32
 		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|x64.ActiveCfg = Release|x64
 		{CBA58126-3E02-4159-9BD3-059AF9DBC84E}.Release|x64.Build.0 = Release|x64
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|Win32.Build.0 = Debug|Win32
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|x64.ActiveCfg = Debug|x64
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|x64.Build.0 = Debug|x64
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|Win32.ActiveCfg = Release|Win32
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|Win32.Build.0 = Release|Win32
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|x64.ActiveCfg = Release|x64
+		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
