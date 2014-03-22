@@ -414,6 +414,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dropbox", "..\plugins\Dropb
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sametime", "..\protocols\Sametime\sametime_10.vcxproj", "{BE22A21F-73B7-453F-86A0-B867F0056490}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glib", "..\protocols\Sametime\src\glib\glib_10.vcxproj", "{12BCA020-EABF-429E-876A-A476BC9C10C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1846,6 +1848,14 @@ Global
 		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|Win32.Build.0 = Release|Win32
 		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|x64.ActiveCfg = Release|x64
 		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|x64.Build.0 = Release|x64
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Debug|Win32.Build.0 = Debug|Win32
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Debug|x64.ActiveCfg = Debug|x64
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Debug|x64.Build.0 = Debug|x64
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Release|Win32.ActiveCfg = Release|Win32
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Release|Win32.Build.0 = Release|Win32
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Release|x64.ActiveCfg = Release|x64
+		{12BCA020-EABF-429E-876A-A476BC9C10C0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
