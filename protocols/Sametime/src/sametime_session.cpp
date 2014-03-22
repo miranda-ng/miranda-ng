@@ -153,7 +153,7 @@ void __cdecl SessionAdmin(struct mwSession* session, const char* text)
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 	proto->debugLog(_T("SessionAdmin()"));
 	TCHAR* tt = mir_utf8decodeT(text);
-	MessageBox(0, tt, TranslateT("Sametime Administrator Message"), MB_OK);
+	MessageBox(0, tt, TranslateT("Sametime administrator message"), MB_OK);
 	mir_free(tt);
 }
 
@@ -166,7 +166,7 @@ void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from
 	TCHAR stzFromBuff[256];
 	stzFrom = mir_utf8decodeT(from->user_name);
 	stzText = mir_utf8decodeT(text);
-	mir_sntprintf(stzFromBuff, 256, TranslateT("Session Announcement - from '%s'"), stzFrom);
+	mir_sntprintf(stzFromBuff, 256, TranslateT("Session announcement - from '%s'"), stzFrom);
 	MessageBox(0, TranslateTS(stzText), stzFromBuff, MB_OK);
 	mir_free(stzText);
 	mir_free(stzFrom);
@@ -592,7 +592,7 @@ void CSametimeProto::InitSessionMenu()
 	mi.flags = CMIF_TCHAR;
 	mi.popupPosition = 500085001;
 	mi.position = 2000060000;
-	mi.ptszName = LPGENT("Send Announcement...");
+	mi.ptszName = LPGENT("Send announcement...");
 	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUANNOUNCESESSION);
 	mi.pszService = service;
 	mi.icolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);

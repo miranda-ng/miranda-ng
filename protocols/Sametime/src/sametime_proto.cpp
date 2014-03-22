@@ -176,7 +176,7 @@ DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 			ret = PF2_LIGHTDND;
 			break;
 		case PFLAG_UNIQUEIDTEXT:
-			ret = (DWORD_PTR) Translate("Id");
+			ret = (DWORD_PTR) Translate("ID");
 			break;
 		case PFLAG_MAXLENOFMESSAGE:
 			ret = MAX_MESSAGE_SIZE;

@@ -328,7 +328,7 @@ void CSametimeProto::ExportContactsToServer()
 	debugLog(_T("CSametimeProto::ExportContactsToServer() start"));
 	if (MW_SERVICE_IS_DEAD(service_storage)) {
 		debugLog(_T("CSametimeProto::ExportContactsToServer() Failed"));
-		showPopup(TranslateT("Failed to upload contacts - Storage service unavailable."), SAMETIME_POPUP_ERROR);
+		showPopup(TranslateT("Failed to upload contacts - storage service unavailable."), SAMETIME_POPUP_ERROR);
 		return;
 	}
 
@@ -658,7 +658,7 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	if (advanced == TRUE) {
 		// send column names
 		mcsr.psr.cbSize = 0;
-		_tcsncpy(mcsr.pszFields[0], TranslateT("Id"), 512);
+		_tcsncpy(mcsr.pszFields[0], TranslateT("ID"), 512);
 		_tcsncpy(mcsr.pszFields[1], TranslateT("Name"), 512);
 		_tcsncpy(mcsr.pszFields[2], TranslateT("Description"), 512);
 		_tcsncpy(mcsr.pszFields[3], TranslateT("Group?"), 512);

@@ -90,8 +90,8 @@ INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
 static IconItem iconList[] =
 {
 	  { LPGEN("Protocol icon"), "protoicon", IDI_ICON_PROTO, 0 }
-	, { LPGEN("Start Conference"), "leaveconference", IDI_ICON_INVITE, 0 }
-	, { LPGEN("Leave Conference"), "startconference", IDI_ICON_LEAVE, 0 }
+	, { LPGEN("Start conference"), "leaveconference", IDI_ICON_INVITE, 0 }
+	, { LPGEN("Leave conference"), "startconference", IDI_ICON_LEAVE, 0 }
 	, { LPGEN("Announce"), "announce", IDI_ICON_ANNOUNCE, 0 }
 	, { LPGEN("Notification"), "notify", IDI_ICON_NOTIFY, 0 }
 	, { LPGEN("Error"), "error", IDI_ICON_ERROR, 0 }
