@@ -5,6 +5,7 @@
 #define DEFAULT_ID		(0x1800)
 
 #define NUM_IDS		20
+
 TCHAR* client_names[NUM_IDS] = {
 	_T("Official Binary Library"),
 	_T("Official Java Applet"),
@@ -63,24 +64,21 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		proto = (CSametimeProto*)lParam;
 
-		{
+		WORD client_ver = proto->GetClientVersion();
+		if (client_ver) {
 			TCHAR verbuf[100];
-			WORD client_ver = proto->GetClientVersion();
-			WORD server_ver = proto->GetServerVersion();
-			if (client_ver)
-				mir_sntprintf(verbuf, SIZEOF(verbuf), _T("Client proto version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
-			else
-				mir_sntprintf(verbuf, SIZEOF(verbuf), _T("Disconnected"));
+			mir_sntprintf(verbuf, SIZEOF(verbuf), TranslateT("Client proto version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_CLIENTVER, verbuf);
-			if (server_ver)
-				mir_sntprintf(verbuf, SIZEOF(verbuf), _T("Server proto version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
-			else
-				mir_sntprintf(verbuf, SIZEOF(verbuf), _T("Disconnected"));
+		}
+
+		WORD server_ver = proto->GetServerVersion();
+		if (server_ver) {
+			TCHAR verbuf[100];
+			mir_sntprintf(verbuf, SIZEOF(verbuf), TranslateT("Server proto version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_SERVERVER, verbuf);
 		}
 
-		TCHAR* s;
-		s = mir_utf8decodeT(proto->options.server_name); SetDlgItemText(hwndDlg, IDC_ED_SNAME, s); mir_free(s);
+		TCHAR *s = mir_utf8decodeT(proto->options.server_name); SetDlgItemText(hwndDlg, IDC_ED_SNAME, s); mir_free(s);
 		s = mir_utf8decodeT(proto->options.id); SetDlgItemText(hwndDlg, IDC_ED_NAME, s); mir_free(s);
 		s = mir_utf8decodeT(proto->options.pword); SetDlgItemText(hwndDlg, IDC_ED_PWORD, s); mir_free(s);
 
@@ -291,10 +289,10 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-int CSametimeProto::OptInit(WPARAM wParam, LPARAM lParam)
+int CSametimeProto::OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTNET);
 	odp.ptszTitle = m_tszUserName;

@@ -76,10 +76,10 @@ INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
 			id = IDI_ICON_PROTO;
 			break;
 		default:
-			return (int) (HICON) NULL;
+			return NULL;
 	}
 
-	return (int) LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
+	return (INT_PTR) LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON),
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 	return 0;
@@ -126,7 +126,7 @@ void ReleaseIconEx(const char* name, BOOL big)
 
 
 // Copied from MSN plugin - sent acks need to be from different thread
-void __cdecl sttFakeAckInfoSuccessThread(void* param)
+void __cdecl sttFakeAckInfoSuccessThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
@@ -140,7 +140,7 @@ void __cdecl sttFakeAckInfoSuccessThread(void* param)
 	return;
 }
 
-void __cdecl sttFakeAckMessageSuccessThread(void* param)
+void __cdecl sttFakeAckMessageSuccessThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
@@ -154,7 +154,7 @@ void __cdecl sttFakeAckMessageSuccessThread(void* param)
 	return;
 }
 
-void __cdecl sttFakeAckMessageFailedThread(void* param)
+void __cdecl sttFakeAckMessageFailedThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
@@ -168,7 +168,7 @@ void __cdecl sttFakeAckMessageFailedThread(void* param)
 	return;
 }
 
-void __cdecl sttRecvAwayThread(void* param)
+void __cdecl sttRecvAwayThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
@@ -183,7 +183,7 @@ void __cdecl sttRecvAwayThread(void* param)
 }
 
 
-int CSametimeProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
+int CSametimeProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData* mwed = (MessageWindowEventData*)lParam;
 
@@ -196,7 +196,7 @@ int CSametimeProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CSametimeProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
+int CSametimeProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	if (!(lParam & IDF_PRIVACY)) {
 		is_idle = lParam & IDF_ISIDLE ? true : false;
@@ -217,7 +217,7 @@ int CSametimeProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 }
 
 
-int CSametimeProto::OnSametimeContactDeleted(WPARAM wParam, LPARAM lParam)
+int CSametimeProto::OnSametimeContactDeleted(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	ContactDeleted(hContact);
