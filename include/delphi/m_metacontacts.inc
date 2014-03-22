@@ -119,11 +119,11 @@ procedure db_mc_enable(bEnabled:bool); stdcall;
                  external CoreDLL name 'db_mc_enable';
 
 { returns true if a contact is a metacontact or false otherwise }
-function db_mc_isMeta(hContact:TMCONTACT):int; stdcall;
+function db_mc_isMeta(hContact:TMCONTACT):LongBool; stdcall;
                  external CoreDLL name 'db_mc_isMeta';
 
 { returns true if a contact is a subcontact or false otherwise }
-function db_mc_isSub(hContact:TMCONTACT):int; stdcall;
+function db_mc_isSub(hContact:TMCONTACT):LongBool; stdcall;
                  external CoreDLL name 'db_mc_isSub';
 
 { gets the handle for the default contact or 0 on error }
