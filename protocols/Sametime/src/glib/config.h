@@ -8,8 +8,6 @@
 /* define if asm blocks can use numeric local labels */
 /* #undef ASM_NUMERIC_LABELS */
 
-#define _CRT_SECURE_NO_WARNINGS
-
 /* poll doesn't work on devices */
 #define BROKEN_POLL 1
 
