@@ -76,7 +76,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\plugins\Icons\proto_metacontacts\Proto_MetaContacts_12.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sametime", "..\protocols\Sametime\sametime_12.vcxproj", "{BE22A21F-73B7-453F-86A0-B867F0056490}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protocols\Sametime\proto_sametime\Proto_Sametime_12.vcxproj", "{217C99B1-0D5E-4A85-A84F-836FCA167B25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -382,14 +382,14 @@ Global
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|Win32.ActiveCfg = Debug|Win32
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|Win32.Build.0 = Debug|Win32
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|x64.ActiveCfg = Debug|x64
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Debug|x64.Build.0 = Debug|x64
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|Win32.ActiveCfg = Release|Win32
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|Win32.Build.0 = Release|Win32
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|x64.ActiveCfg = Release|x64
-		{BE22A21F-73B7-453F-86A0-B867F0056490}.Release|x64.Build.0 = Release|x64
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.ActiveCfg = Debug|Win32
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.Build.0 = Debug|Win32
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|x64.ActiveCfg = Debug|x64
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|x64.Build.0 = Debug|x64
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|Win32.ActiveCfg = Release|Win32
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|Win32.Build.0 = Release|Win32
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|x64.ActiveCfg = Release|x64
+		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
