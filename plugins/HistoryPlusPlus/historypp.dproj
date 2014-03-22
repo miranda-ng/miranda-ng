@@ -51,6 +51,12 @@
 			<Cfg_2>true</Cfg_2>
 			<Base>true</Base>
 		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+			<Cfg_2_Win32>true</Cfg_2_Win32>
+			<CfgParent>Cfg_2</CfgParent>
+			<Cfg_2>true</Cfg_2>
+			<Base>true</Base>
+		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<VerInfo_Locale>1049</VerInfo_Locale>
 			<DCC_E>false</DCC_E>
@@ -106,11 +112,28 @@
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 			<DCC_Optimize>false</DCC_Optimize>
 			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+			<DCC_UnitSearchPath>..\..\include\delphi;..\..\plugins\ExternalAPI\delphi;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<DCC_BplOutput>..\..\bin10\Debug\Plugins\</DCC_BplOutput>
+			<BRCC_OutputDir>..\..\bin10\temp\res\</BRCC_OutputDir>
+			<DCC_ExeOutput>..\..\bin10\Debug\Plugins\</DCC_ExeOutput>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<DCC_DcpOutput>..\..\bin10\Debug\Obj\hpp\</DCC_DcpOutput>
+			<Manifest_File>None</Manifest_File>
+			<DCC_DcuOutput>..\..\bin10\Debug\Obj\hpp\</DCC_DcuOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-			<Manifest_File>None</Manifest_File>
-			<VerInfo_Locale>1033</VerInfo_Locale>
+			<Debugger_CWD>D:\Myranda\bin12\Debug64</Debugger_CWD>
+			<DCC_DebugDCUs>true</DCC_DebugDCUs>
+			<Debugger_HostApplication>D:\Myranda\bin12\Debug64\Miranda64.exe</Debugger_HostApplication>
+			<BRCC_OutputDir>..\..\bin10\temp\res\</BRCC_OutputDir>
+			<DCC_ExeOutput>..\..\bin12\Debug64\Plugins\</DCC_ExeOutput>
+			<DCC_BplOutput>..\..\bin12\Debug64\Plugins\</DCC_BplOutput>
+			<DCC_DcuOutput>..\..\bin12\Debug64\Obj\hpp\</DCC_DcuOutput>
+			<DCC_DcpOutput>..\..\bin12\Debug64\Obj\hpp\</DCC_DcpOutput>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<DCC_DebugDCUs>true</DCC_DebugDCUs>
 		</PropertyGroup>
 		<ItemGroup>
 			<DelphiCompile Include="$(MainSource)">

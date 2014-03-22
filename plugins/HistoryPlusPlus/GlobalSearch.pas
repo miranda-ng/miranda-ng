@@ -971,7 +971,6 @@ end;
 procedure TfmGlobalSearch.bnSearchClick(Sender: TObject);
 var
   SearchProtected: Boolean;
-  PassMode: Byte;
 begin
   if IsSearching then
   begin
@@ -1705,8 +1704,6 @@ begin
 end;
 
 procedure TfmGlobalSearch.FormShow(Sender: TObject);
-var
-  PassMode: Byte;
 begin
   paFilter.Visible := False;
   ToggleAdvancedPanel(False);

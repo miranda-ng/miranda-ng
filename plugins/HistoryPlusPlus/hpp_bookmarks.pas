@@ -53,24 +53,31 @@ uses windows, m_api;
 
 type
   TEventData = record
-    hDBEvent: THandle;
+    hDBEvent: DWord;
     CRC32: DWord;
     Timestamp: Cardinal;
   end;
   PEventData = ^TEventData;
+
+  TBadEventData = record
+    hDBEvent: THandle;
+    CRC32: DWord;
+    Timestamp: Cardinal;
+  end;
+  PBadEventData = ^TBadEventData;
 
   TBookmarksHash = class;
 
   TContactBookmarks = class(TObject)
   private
     Bookmarks: TBookmarksHash;
-    hContact: THandle;
+    FContact: TMCONTACT;
     FContactCP: Cardinal;
     function GetBookmarked(Index: THandle): Boolean;
     procedure SetBookmarked(Index: THandle; const Value: Boolean);
     function GetBookmarkName(Index: THandle): String;
     procedure SetBookmarkName(Index: THandle; const Value: String);
-    procedure LoadBookmarks;
+    procedure LoadBookmarks(hContact:TMCONTACT);
     procedure SaveBookmarks;
     procedure DeleteBookmarks;
     function GetCount: Integer;
@@ -85,7 +92,7 @@ type
     property Items[Index: Integer]: THandle read GetItems;
     property Names[Index: Integer]: String read GetNames;
     property Count: Integer read GetCount;
-    property Contact: THandle read hContact;
+    property Contact: TMCONTACT read FContact;
     property ContactCP: Cardinal read FContactCP;
   end;
   PContactBookmarks = ^TContactBookmarks;
@@ -254,17 +261,25 @@ end;
 { TContactBookmarks }
 
 constructor TContactBookmarks.Create(AContact: THandle);
+var
+  i, nSub : integer;
 begin
-  hContact := AContact;
-  FContactCP := GetContactCodepage(hContact);
+  FContact := AContact;
+  FContactCP := GetContactCodepage(FContact);
   Bookmarks := TBookmarksHash.Create(Self);
   // read bookmarks from DB here
-  LoadBookmarks;
+  LoadBookmarks(FContact);
+  if db_mc_isMeta(FContact) then
+  begin
+    nSub := db_mc_getSubCount(FContact);
+    for i := 0 to nSub-1 do
+      LoadBookmarks(db_mc_getSub(FContact, i));
+  end;
 end;
 
 procedure TContactBookmarks.DeleteBookmarks;
 begin
-  DBDelete(hContact,hppDBName,'Bookmarks');
+  DBDelete(FContact,hppDBName,'Bookmarks');
 end;
 
 destructor TContactBookmarks.Destroy;
@@ -296,7 +311,7 @@ begin
   Result := Bookmarks.GetItemName(hDBEvent)
 end;
 
-procedure TContactBookmarks.LoadBookmarks;
+procedure TContactBookmarks.LoadBookmarks(hContact:TMCONTACT);
 var
   i: Integer;
   mem: PEventData;
@@ -305,6 +320,8 @@ var
   rec_size: Word;
   rec_count: Integer;
   ed: PEventData;
+  tmp_ed: TEventData;
+  pbed: PBadEventData;
   AllOk: Boolean;
 begin
   if not GetDBBlob(hContact, hppDBName, 'Bookmarks', mem_org, mem_len) then
@@ -321,6 +338,17 @@ begin
     for i := 0 to rec_count - 1 do
     begin
       ed := PEventData(int_ptr(mem) + i * rec_size);
+      {$IFDEF WIN64}
+      if rec_size = SizeOf(TBadEventData) then
+      begin
+        pbed := PBadEventData(int_ptr(mem) + i * rec_size);
+        tmp_ed.hDBEvent := pbed^.hDBEvent;
+        tmp_ed.CRC32 := pbed^.CRC32;
+        tmp_ed.Timestamp := pbed^.Timestamp;
+        ed := @tmp_ed;
+        AllOk := false;
+      end;
+      {$ENDIF}
       if not Bookmarks.AddEventData(ed^) then
         AllOk := false;
     end;
@@ -352,7 +380,7 @@ begin
       dst := PEventData(int_ptr(mem) + SizeOf(Word) + i * SizeOf(TEventData));
       Move(src^, dst^, SizeOf(src^));
     end;
-    WriteDBBlob(hContact, hppDBName, 'Bookmarks', mem, mem_len);
+    WriteDBBlob(FContact, hppDBName, 'Bookmarks', mem, mem_len);
     FreeMem(mem, mem_len);
   end
   else
@@ -372,7 +400,7 @@ begin
   if res then
   begin
     SaveBookmarks;
-    NotifyAllForms(HM_NOTF_BOOKMARKCHANGED, hContact, Index);
+    NotifyAllForms(HM_NOTF_BOOKMARKCHANGED, FContact, Index);
   end;
 end;
 
@@ -561,18 +589,18 @@ end;
 
 function TBookmarksHash.AddItemName(hDBEvent: THandle; const Value: String): Boolean;
 begin
-  Result := (WriteDBWideStr(Contact.hContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)),Value) = 0);
+  Result := (WriteDBWideStr(Contact.FContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)),Value) = 0);
 end;
 
 function TBookmarksHash.GetItemName(hDBEvent: THandle): String;
 begin
-  Result := GetDBWideStr(Contact.hContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)),'');
+  Result := GetDBWideStr(Contact.FContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)),'');
 end;
 
 function TBookmarksHash.RemoveItemName(hDBEvent: THandle): Boolean;
 begin
-  if DBExists(Contact.hContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent))) then
-    Result := DBDelete(Contact.hContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)))
+  if DBExists(Contact.FContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent))) then
+    Result := DBDelete(Contact.FContact,hppDBName,AnsiString('bm'+intToStr(hDBEvent)))
   else
     Result := True;
 end;
@@ -607,11 +635,11 @@ var
 begin
   Result := false;
 
-  hDBEvent := db_event_first(Contact.hContact);
+  hDBEvent := db_event_first(Contact.FContact);
   if hDBEvent = 0 then
     exit;
   first_ts := GetEventTimestamp(hDBEvent);
-  hDBEvent := db_event_last(Contact.hContact);
+  hDBEvent := db_event_last(Contact.FContact);
   if hDBEvent = 0 then
     exit;
   last_ts := GetEventTimestamp(hDBEvent);
@@ -622,7 +650,7 @@ begin
 
   if StartFromFirst then
   begin
-    hDBEvent := db_event_first(Contact.hContact);
+    hDBEvent := db_event_first(Contact.FContact);
     while hDBEvent <> 0 do
     begin
       cur_ts := GetEventTimestamp(hDBEvent);
@@ -634,12 +662,12 @@ begin
         Result := True;
         break;
       end;
-      hDBEvent := db_event_next(Contact.hContact,hDBEvent);
+      hDBEvent := db_event_next(Contact.FContact,hDBEvent);
     end;
   end
   else
   begin
-    hDBEvent := db_event_last(Contact.hContact);
+    hDBEvent := db_event_last(Contact.FContact);
     while hDBEvent <> 0 do
     begin
       cur_ts := GetEventTimestamp(hDBEvent);
@@ -651,7 +679,7 @@ begin
         Result := True;
         break;
       end;
-      hDBEvent := db_event_prev(Contact.hContact,hDBEvent);
+      hDBEvent := db_event_prev(Contact.FContact,hDBEvent);
     end;
   end;
 end;
