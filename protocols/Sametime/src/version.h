@@ -6,6 +6,7 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME             "Sametime Protocol"
+#define __FILENAME                "Sametime.dll"
 #define __DESCRIPTION             "Implementation of Instant Messaging for the Lotus Sametime protocol."
 #define __AUTHOR                  "Scott Ellis, Szymon Tokarz"
 #define __AUTHOREMAIL             "mail"/*antispam*/"@"/*antispam*/"scottellis.com.au, wsx22"/*antispam*/"@"/*antispam*/"o2.pl"
