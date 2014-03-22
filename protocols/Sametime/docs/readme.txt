@@ -14,24 +14,6 @@ http://meanwhile.sourceforge.net/
 
 
 
-
-INSTALATION
-
-This plugin needs glib windows dll libraries copied into main Miranda directory (directory with Miranda32.exe or Miranda64.exe) to work.
-
-For 32 bit version (\docs\dll_x32\):
-libglib-2.0-0.dll   from http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.26/glib_2.26.1-1_win32.zip
-intl.dll            from http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/gettext-runtime_0.18.1.1-2_win32.zip
-
-For 64 bit version (\docs\dll_x64\):
-libglib-2.0-0.dll   from http://ftp.gnome.org/pub/gnome/binaries/win64/glib/2.26/glib_2.26.1-1_win64.zip
-libintl-8.dll       from http://ftp.gnome.org/pub/gnome/binaries/win64/dependencies/gettext-runtime_0.18.1.1-2_win64.zip
-
-
-
-
-
-
 KNOWN ISSUES
 
 1) 
