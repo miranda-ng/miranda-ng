@@ -372,7 +372,7 @@ read_thread (void *parameter)
 
       LeaveCriticalSection (&channel->mutex);
 
-      nbytes = read (channel->fd, buffer, nbytes);
+		nbytes = _read(channel->fd, buffer, nbytes);
       
       EnterCriticalSection (&channel->mutex);
 
@@ -397,14 +397,13 @@ read_thread (void *parameter)
     }
   
   channel->running = FALSE;
-  if (channel->needs_close)
-    {
-      if (channel->debug)
-	g_print ("read_thread %#x: channel fd %d needs closing\n",
-		 channel->thread_id, channel->fd);
-      close (channel->fd);
-      channel->fd = -1;
-    }
+  if (channel->needs_close) {
+	  if (channel->debug)
+		  g_print("read_thread %#x: channel fd %d needs closing\n",
+		  channel->thread_id, channel->fd);
+	  _close(channel->fd);
+	  channel->fd = -1;
+  }
 
   if (channel->debug)
     g_print ("read_thread %#x: EOF, rdp=%d, wrp=%d, setting data_avail\n",
@@ -492,7 +491,7 @@ write_thread (void *parameter)
 		 channel->thread_id, nbytes);
 
       LeaveCriticalSection (&channel->mutex);
-      nbytes = write (channel->fd, buffer, nbytes);
+		nbytes = _write(channel->fd, buffer, nbytes);
       EnterCriticalSection (&channel->mutex);
 
       if (channel->debug)
@@ -522,7 +521,7 @@ write_thread (void *parameter)
       if (channel->debug)
 	g_print ("write_thread %#x: channel fd %d needs closing\n",
 		 channel->thread_id, channel->fd);
-      close (channel->fd);
+		_close(channel->fd);
       channel->fd = -1;
     }
 
@@ -1201,7 +1200,7 @@ g_io_win32_fd_and_console_read (GIOChannel *channel,
       return buffer_read (win32_channel, buf, count, bytes_read, err);
     }
 
-  result = read (win32_channel->fd, buf, count);
+  result = _read(win32_channel->fd, buf, count);
 
   if (win32_channel->debug)
     g_print ("g_io_win32_fd_read: read() => %d\n", result);
@@ -1244,7 +1243,7 @@ g_io_win32_fd_and_console_write (GIOChannel  *channel,
       return buffer_write (win32_channel, buf, count, bytes_written, err);
     }
   
-  result = write (win32_channel->fd, buf, count);
+  result = _write(win32_channel->fd, buf, count);
   if (win32_channel->debug)
     g_print ("g_io_win32_fd_write: fd=%d count=%" G_GSIZE_FORMAT " => %d\n",
 	     win32_channel->fd, count, result);
@@ -1309,7 +1308,7 @@ g_io_win32_fd_seek (GIOChannel *channel,
       return G_IO_STATUS_ERROR;
     }
   
-  result = lseek (win32_channel->fd, tmp_offset, whence);
+  result = _lseek(win32_channel->fd, tmp_offset, whence);
   
   if (result < 0)
     {
@@ -1349,7 +1348,7 @@ g_io_win32_fd_close (GIOChannel *channel,
     {
       if (win32_channel->debug)
 	g_print ("closing fd %d\n", win32_channel->fd);
-      close (win32_channel->fd);
+		_close(win32_channel->fd);
       if (win32_channel->debug)
 	g_print ("closed fd %d, setting to -1\n",
 		 win32_channel->fd);
@@ -1407,7 +1406,7 @@ g_io_win32_console_close (GIOChannel *channel,
 {
   GIOWin32Channel *win32_channel = (GIOWin32Channel *)channel;
   
-  if (close (win32_channel->fd) < 0)
+  if (_close(win32_channel->fd) < 0)
     {
       g_set_error_literal (err, G_IO_CHANNEL_ERROR,
                            g_io_channel_error_from_errno (errno),

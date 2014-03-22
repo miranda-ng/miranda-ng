@@ -415,7 +415,7 @@ g_key_file_load_from_fd (GKeyFile       *key_file,
 
   do
     {
-      bytes_read = read (fd, read_buf, 4096);
+	  bytes_read = _read(fd, read_buf, 4096);
 
       if (bytes_read == 0)  /* End of File */
         break;
@@ -492,7 +492,7 @@ g_key_file_load_from_file (GKeyFile       *key_file,
     }
 
   g_key_file_load_from_fd (key_file, fd, flags, &key_file_error);
-  close (fd);
+  _close(fd);
 
   if (key_file_error)
     {
@@ -617,7 +617,7 @@ g_key_file_load_from_dirs (GKeyFile       *key_file,
 
       found_file = g_key_file_load_from_fd (key_file, fd, flags,
 	                                    &key_file_error);
-      close (fd);
+		_close(fd);
 
       if (key_file_error)
         {

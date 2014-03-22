@@ -93,6 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -128,6 +129,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -163,6 +165,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -198,6 +201,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -220,55 +224,75 @@
     <ClCompile Include="src\files.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\meanwhile\src\channel.c" />
-    <ClCompile Include="src\meanwhile\src\cipher.c" />
-    <ClCompile Include="src\meanwhile\src\common.c" />
-    <ClCompile Include="src\meanwhile\src\error.c" />
-    <ClCompile Include="src\meanwhile\src\message.c" />
-    <ClCompile Include="src\meanwhile\src\mpi\mpi.c" />
-    <ClCompile Include="src\meanwhile\src\mw_debug.c" />
-    <ClCompile Include="src\meanwhile\src\mw_util.c" />
-    <ClCompile Include="src\meanwhile\src\service.c" />
-    <ClCompile Include="src\meanwhile\src\session.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_aware.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_conf.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_dir.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_ft.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_im.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_place.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_resolve.c" />
-    <ClCompile Include="src\meanwhile\src\srvc_store.c" />
-    <ClCompile Include="src\meanwhile\src\st_list.c" />
-    <ClCompile Include="src\messaging.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\channel.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\options.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\cipher.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\places.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\common.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\sametime.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\error.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\sametime_proto.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\message.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\sametime_session.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\mpi\mpi.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\session_announce_win.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    <ClCompile Include="src\meanwhile\src\mw_debug.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mw_util.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\service.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\session.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_aware.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_conf.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_dir.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_ft.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_im.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_place.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_resolve.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_store.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\st_list.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\messaging.cpp"/>
+    <ClCompile Include="src\options.cpp"/>
+    <ClCompile Include="src\places.cpp"/>
+    <ClCompile Include="src\sametime.cpp"/>
+    <ClCompile Include="src\sametime_proto.cpp"/>
+    <ClCompile Include="src\sametime_session.cpp"/>
+    <ClCompile Include="src\session_announce_win.cpp"/>
     <ClCompile Include="src\StdAfx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\userlist.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\utils.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="src\userlist.cpp"/>
+    <ClCompile Include="src\utils.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\meanwhile\src\mpi\mpi-config.h" />

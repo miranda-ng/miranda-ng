@@ -260,7 +260,7 @@ g_rand_new (void)
       g_get_current_time (&now);
       seed[0] = now.tv_sec;
       seed[1] = now.tv_usec;
-      seed[2] = getpid ();
+      seed[2] = _getpid ();
 #ifdef G_OS_UNIX
       seed[3] = getppid ();
 #else

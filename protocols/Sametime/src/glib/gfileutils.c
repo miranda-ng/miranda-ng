@@ -904,7 +904,7 @@ write_to_temp_file (const gchar  *contents,
     }
 
   errno = 0;
-  file = fdopen (fd, "wb");
+  file = _fdopen(fd, "wb");
   if (!file)
     {
       save_errno = errno;
@@ -915,7 +915,7 @@ write_to_temp_file (const gchar  *contents,
 		   display_name,
 		   g_strerror (save_errno));
 
-      close (fd);
+		_close(fd);
       g_unlink (tmp_name);
       
       goto out;
@@ -1974,7 +1974,7 @@ g_mkstemp (gchar *tmpl)
       /* This is the backward compatibility system codepage version,
        * thus use normal open().
        */
-      fd = open (tmpl, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0600);
+		fd = _open(tmpl, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0600);
 
       if (fd >= 0)
 	return fd;

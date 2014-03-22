@@ -232,9 +232,6 @@
     <ClCompile Include="libintl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="win_iconv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="pcre\pcre_chartables.c">
       <Filter>Source Files\pcre</Filter>
     </ClCompile>

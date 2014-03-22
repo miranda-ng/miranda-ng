@@ -109,7 +109,7 @@ dup_noninherited (int fd,
   DuplicateHandle (GetCurrentProcess (), (LPHANDLE) _get_osfhandle (fd),
 		   GetCurrentProcess (), &filehandle,
 		   0, FALSE, DUPLICATE_SAME_ACCESS);
-  close (fd);
+  _close (fd);
   return _open_osfhandle ((gintptr) filehandle, mode | _O_NOINHERIT);
 }
 
@@ -243,7 +243,7 @@ close_and_invalidate (gint *fd)
   if (*fd < 0)
     return;
 
-  close (*fd);
+  _close (*fd);
   *fd = -1;
 }
 
@@ -323,7 +323,7 @@ read_helper_report (int      fd,
 		 __FILE__,
 		 sizeof(gintptr)*2 - bytes);
 
-      chunk = read (fd, ((gchar*)report) + bytes,
+      chunk = _read (fd, ((gchar*)report) + bytes,
 		    sizeof(gintptr)*2 - bytes);
 
       if (debug)
@@ -793,7 +793,7 @@ do_spawn_with_pipes (gint                 *exit_status,
        */
       g_assert (err_report != NULL);
       *err_report = child_err_report_pipe[0];
-      write (helper_sync_pipe[1], " ", 1);
+      _write (helper_sync_pipe[1], " ", 1);
       close_and_invalidate (&helper_sync_pipe[1]);
     }
   else
@@ -824,12 +824,12 @@ do_spawn_with_pipes (gint                 *exit_status,
 	    }
 	  else if (child_handle)
 	    *child_handle = 0;
-	  write (helper_sync_pipe[1], " ", 1);
+	  _write (helper_sync_pipe[1], " ", 1);
 	  close_and_invalidate (&helper_sync_pipe[1]);
 	  break;
 	  
 	default:
-	  write (helper_sync_pipe[1], " ", 1);
+	  _write (helper_sync_pipe[1], " ", 1);
 	  close_and_invalidate (&helper_sync_pipe[1]);
 	  set_child_error (helper_report, working_directory, error);
 	  goto cleanup_and_fail;
@@ -854,25 +854,25 @@ do_spawn_with_pipes (gint                 *exit_status,
   if (rc != -1)
     CloseHandle ((HANDLE) rc);
   if (child_err_report_pipe[0] != -1)
-    close (child_err_report_pipe[0]);
+    _close (child_err_report_pipe[0]);
   if (child_err_report_pipe[1] != -1)
-    close (child_err_report_pipe[1]);
+    _close (child_err_report_pipe[1]);
   if (helper_sync_pipe[0] != -1)
-    close (helper_sync_pipe[0]);
+    _close (helper_sync_pipe[0]);
   if (helper_sync_pipe[1] != -1)
-    close (helper_sync_pipe[1]);
+    _close (helper_sync_pipe[1]);
   if (stdin_pipe[0] != -1)
-    close (stdin_pipe[0]);
+    _close (stdin_pipe[0]);
   if (stdin_pipe[1] != -1)
-    close (stdin_pipe[1]);
+    _close (stdin_pipe[1]);
   if (stdout_pipe[0] != -1)
-    close (stdout_pipe[0]);
+    _close (stdout_pipe[0]);
   if (stdout_pipe[1] != -1)
-    close (stdout_pipe[1]);
+    _close (stdout_pipe[1]);
   if (stderr_pipe[0] != -1)
-    close (stderr_pipe[0]);
+    _close (stderr_pipe[0]);
   if (stderr_pipe[1] != -1)
-    close (stderr_pipe[1]);
+    _close (stderr_pipe[1]);
 
   return FALSE;
 }

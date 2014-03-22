@@ -35,8 +35,8 @@ write_err_and_exit (gint    fd,
 {
   gintptr en = errno;
   
-  write (fd, &msg, sizeof(gintptr));
-  write (fd, &en, sizeof(gintptr));
+  _write (fd, &msg, sizeof(gintptr));
+  _write (fd, &en, sizeof(gintptr));
   
   _exit (1);
 }
@@ -213,11 +213,11 @@ main (int ignored_argc, char **ignored_argv)
     ; /* Nothing */
   else if (__argv[ARG_STDIN][0] == 'z')
     {
-      fd = open ("NUL:", O_RDONLY);
+      fd = _open ("NUL:", O_RDONLY);
       if (fd != 0)
 	{
-	  dup2 (fd, 0);
-	  close (fd);
+	  _dup2 (fd, 0);
+	  _close (fd);
 	}
     }
   else
@@ -225,8 +225,8 @@ main (int ignored_argc, char **ignored_argv)
       fd = atoi (__argv[ARG_STDIN]);
       if (fd != 0)
 	{
-	  dup2 (fd, 0);
-	  close (fd);
+	  _dup2 (fd, 0);
+	  _close (fd);
 	}
     }
 
@@ -234,11 +234,11 @@ main (int ignored_argc, char **ignored_argv)
     ; /* Nothing */
   else if (__argv[ARG_STDOUT][0] == 'z')
     {
-      fd = open ("NUL:", O_WRONLY);
+      fd = _open ("NUL:", O_WRONLY);
       if (fd != 1)
 	{
-	  dup2 (fd, 1);
-	  close (fd);
+	  _dup2 (fd, 1);
+	  _close (fd);
 	}
     }
   else
@@ -246,8 +246,8 @@ main (int ignored_argc, char **ignored_argv)
       fd = atoi (__argv[ARG_STDOUT]);
       if (fd != 1)
 	{
-	  dup2 (fd, 1);
-	  close (fd);
+	  _dup2 (fd, 1);
+	  _close (fd);
 	}
     }
 
@@ -255,11 +255,11 @@ main (int ignored_argc, char **ignored_argv)
     ; /* Nothing */
   else if (__argv[ARG_STDERR][0] == 'z')
     {
-      fd = open ("NUL:", O_WRONLY);
+      fd = _open ("NUL:", O_WRONLY);
       if (fd != 2)
 	{
-	  dup2 (fd, 2);
-	  close (fd);
+	  _dup2 (fd, 2);
+	  _close (fd);
 	}
     }
   else
@@ -267,8 +267,8 @@ main (int ignored_argc, char **ignored_argv)
       fd = atoi (__argv[ARG_STDERR]);
       if (fd != 2)
 	{
-	  dup2 (fd, 2);
-	  close (fd);
+	  _dup2 (fd, 2);
+	  _close (fd);
 	}
     }
 
@@ -287,7 +287,7 @@ main (int ignored_argc, char **ignored_argv)
   if (__argv[ARG_CLOSE_DESCRIPTORS][0] == 'y')
     for (i = 3; i < 1000; i++)	/* FIXME real limit? */
       if (i != child_err_report_fd && i != helper_sync_fd)
-	close (i);
+	_close (i);
 
   /* We don't want our child to inherit the error report and
    * helper sync fds.
@@ -324,10 +324,10 @@ main (int ignored_argc, char **ignored_argv)
   if (handle == -1 && saved_errno != 0)
     write_err_and_exit (child_err_report_fd, CHILD_SPAWN_FAILED);
 
-  write (child_err_report_fd, &no_error, sizeof (no_error));
-  write (child_err_report_fd, &handle, sizeof (handle));
+  _write (child_err_report_fd, &no_error, sizeof (no_error));
+  _write (child_err_report_fd, &handle, sizeof (handle));
 
-  read (helper_sync_fd, &c, 1);
+  _read (helper_sync_fd, &c, 1);
 
   return 0;
 }

@@ -145,10 +145,10 @@ DUMMY (dcngettext,
 DUMMY (textdomain,
        (const char *domainname),
        (domainname ?
-	(free (current_domain), current_domain = strdup (domainname)) :
+		 (free(current_domain), current_domain = _strdup(domainname)) :
 	(current_domain ?
 	 current_domain :
-	 (current_domain = strdup ("messages")))))
+	 (current_domain = _strdup ("messages")))))
 
 /* bindtextdomain() should return the current dirname for the domain,
  * after possibly changing it. I don't think software usually checks
