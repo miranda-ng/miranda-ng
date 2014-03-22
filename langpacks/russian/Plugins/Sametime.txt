@@ -51,7 +51,6 @@ ID клиента
 Выделить всё
 [Invert\n selection]
 Обратить\n выделение
-;file \protocols\Sametime\src\conference.cpp
 [Invitation rejected - already present.]
 Приглашение отклонено - пользователь уже присутствует.
 [Your invitation has been rejected.]
@@ -64,16 +63,12 @@ ID клиента
 Покинуть комнату чата
 [Start conference]
 Создать комнату чата
-;file \protocols\Sametime\src\files.cpp
-;file \protocols\Sametime\src\messaging.cpp
 [No common encryption method. Try to enable encryption in protocol options.]
 Шифрование недоступно. Попробуйте включить шифрование в настройках протокола.
 [SERVICE NOT IMPLEMENTED. %s]
 СЛУЖБА НЕ РЕАЛИЗОВАНА. %s
-;file \protocols\Sametime\src\options.cpp
 [Network]
 Сеть
-;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 Значок протокола
 [Announce]
@@ -82,10 +77,8 @@ ID клиента
 Уведомление
 [Error]
 Ошибка
-;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 Соединение %s
-;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 Сообщение администратора Sametime
 [Session announcement - from '%s']
@@ -96,10 +89,8 @@ ID клиента
 Нет соединения с сервером!
 [Send announcement...]
 Отправить объявление...
-;file \protocols\Sametime\src\session_announce_win.cpp
 [Recipients]
 Получатели
-;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
 Не удалось выгрузить контакты - недоступна служба хранения.
 [Name]
@@ -112,4 +103,3 @@ ID клиента
 Истина
 [False]
 Ложь
-;file \protocols\Sametime\src\utils.cpp
