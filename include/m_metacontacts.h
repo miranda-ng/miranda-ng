@@ -75,10 +75,10 @@ MIR_CORE_DLL(BOOL) db_mc_isEnabled(void);
 MIR_CORE_DLL(void) db_mc_enable(BOOL);
 
 // checks whether a contact is a metacontact
-MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hMetaContact);
+MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hMetaContact);
 
 // checks whether a contact is a subcontact of existing MC
-MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hSubContact);
+MIR_CORE_DLL(BOOL) db_mc_isSub(MCONTACT hSubContact);
 
 //returns a handle to the default contact, or null on failure
 MIR_CORE_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact);

@@ -72,20 +72,20 @@ MIR_CORE_DLL(void) db_mc_enable(BOOL bEnabled)
 	g_bEnabled = bEnabled != 0;
 }
 
-MIR_CORE_DLL(int) db_mc_isMeta(MCONTACT hContact)
+MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
 {
-	if (currDb == NULL) return false;
+	if (currDb == NULL) return FALSE;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? false : cc->nSubs != -1;
+	return (cc == NULL) ? FALSE : cc->nSubs != -1;
 }
 
-MIR_CORE_DLL(int) db_mc_isSub(MCONTACT hContact)
+MIR_CORE_DLL(BOOL) db_mc_isSub(MCONTACT hContact)
 {
-	if (currDb == NULL) return false;
+	if (currDb == NULL) return FALSE;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? false : cc->parentID != 0;
+	return (cc == NULL) ? FALSE : cc->parentID != 0;
 }
 
 //returns a handle to the default contact, or null on failure
