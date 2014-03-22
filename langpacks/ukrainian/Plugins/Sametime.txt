@@ -1,0 +1,119 @@
+﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime Protocol
+;  Version: 0.7.0.0
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Implementation of instant messaging for the Lotus Sametime protocol.]
+Підтримка протоколу Lotus Sametime в Miranda NG.
+[Connection]
+Підключення
+[Password:]
+Пароль
+[Server name:]
+Сервер:
+[Port:]
+Порт:
+[Client ID]
+ID клієнта
+[Use old client version]
+Стара версія клієнта
+[Error display]
+Показ помилок
+[Use message boxes]
+Діалогові вікна
+[Use popups]
+Спливаючі вікна
+[Use system tray baloons]
+Підказки в треї
+[Contacts]
+Контакти
+[Get contacts from server]
+Завантажити з сервера
+[Upload contacts]
+Закачати контакти
+[Import from file...]
+Імпортувати з файлу...
+[Auto-add new contacts]
+Авт. додавати нові контакти
+[Treat 'idle' as 'away']
+Очікування як "Відсутній"
+[Encryption]
+Шифрування
+[40 or 128 bit]
+40 або 128 біт
+[None]
+Не шифрувати
+[Disconnected]
+Відключений
+[Send announcement]
+Надіслати оголошення
+[Cancel]
+Скасувати
+[Message text:]
+Текст повідомлення:
+[Select all]
+Вибрати все
+[Invert\nselection]
+Обернути\nвиділення
+[I'm outa here.]
+Мене немає.
+[Invitation rejected - already present.]
+Запрошення відхилено - користувач уже присутній.
+[Your invitation has been rejected.]
+Запрошення відхилено
+[Please join this meeting.]
+Будь ласка, приєднуйтеся до цієї конференції.
+[Normal]
+Звичайний
+[%s's conference]
+Чат-кімната користувача %s
+[Leave conference]
+Вийти з чату
+[Start conference]
+Створити чат-кімнату
+[No common encryption method. Try to enable encryption in protocol options.]
+Шифрування недоступне. Спробуйте ввімкнути шифрування у налаштуваннях протоколу.
+[SERVICE NOT IMPLEMENTED. %s]
+Служба не реалізована. %s
+[Client proto version: %03d.%03d]
+Версія клієнта: %03d.%03d
+[Server proto version: %03d.%03d]
+Версія сервера: %03d.%03d
+[Network]
+Мережа
+[Protocol icon]
+Значок протоколу
+[Announce]
+Оголошення
+[Notification]
+Сповіщення
+[Error]
+Помилка
+[%s connection]
+%s з'єднання
+[Sametime administrator message]
+Повідомлення адміністратора Sametime
+[Session announcement - from '%s']
+Оголошення від %s
+[Unknown user status: %d]
+Невідомий статус користувача: %d
+[No server connection!]
+Відсутнє з'єднання з сервером!
+[Send announcement...]
+Надіслати оголошення...
+[Recipients]
+Отримувачі
+[Failed to upload contacts - storage service unavailable.]
+Не вдалося закачати контакти - служба зберігання недоступна.
+[Name]
+Ім'я
+[Description]
+Опис
+[Group?]
+Група?
+[True]
+Правда
+[False]
+Брехня

@@ -2321,10 +2321,10 @@ Miranda не може відкрити цей профіль
 Ви впевнені?
 [Remove from metacontact]
 Видалити з метаконтакту
-[Toggle MetaContacts On]
-Ввімкнути метаконтакти
 [Toggle MetaContacts Off]
 Вимкнути метаконтакти
+[Toggle MetaContacts On]
+Ввімкнути метаконтакти
 [Add to existing MetaContact...]
 Додати до метаконтакту...
 [Edit MetaContact...]
@@ -2361,8 +2361,6 @@ Miranda не може відкрити цей профіль
 Помилка запису унікального ID контакту в метаконтакт
 [Could not write nickname of contact to MetaContact]
 Не можу записати нік контакту в метаконтакт
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-До вашого списку додано групу MetaContacts Hidden Group.\nЦе через список контактів на сервері. Для правильної роботи\nметаконтактів у майбутньому необхідно виконати такі дії:\n - вимкнути метаконтакти, використовуючи пункт у головному меню\n - перемістити всі контакти з цієї групи\n - синхронізувати свої контакти з сервером\n - знову ввімкнути метаконтакти
 [Standard netlib log]
 Стандартний журнал netlib
 [No times]
