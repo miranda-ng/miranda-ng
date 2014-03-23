@@ -98,8 +98,6 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 
 void Langpack_LoadLangpack(void)
 {
-	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
-
 	TCHAR szSearch[MAX_PATH];
 	PathToAbsoluteT(_T("\\"), szSearch);
 

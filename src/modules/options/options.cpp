@@ -33,6 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ALL_MODULES_FILTER LPGEN("<all modules>")
 #define CORE_MODULES_FILTER LPGEN("<core modules>")
 
+int LangpackOptionsInit(WPARAM, LPARAM);
+
 static HANDLE hOptionsInitEvent;
 static HWND hwndOptions = NULL;
 static HWND hFilterSearchWnd = NULL;
@@ -1381,6 +1383,8 @@ int LoadOptionsModule(void)
 {
 	hwndOptions = NULL;
 	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
+	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
+
 	CreateServiceFunction("Opt/AddPage", AddOptionsPage);
 	CreateServiceFunction("Opt/OpenOptions", OpenOptions);
 	CreateServiceFunction("Opt/OpenOptionsPage", OpenOptionsPage);

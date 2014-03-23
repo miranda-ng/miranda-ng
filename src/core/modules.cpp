@@ -118,6 +118,7 @@ int LoadDefaultModules(void)
 	if (LoadDatabaseModule()) return 1;
 
 	// database is available here
+	Langpack_LoadLangpack();
 	if (LoadButtonModule()) return 1;
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
@@ -155,7 +156,6 @@ int LoadDefaultModules(void)
 
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
 
-	Langpack_LoadLangpack();
 	Langpack_SortDuplicates();
 
 	if (LoadAccountsModule()) return 1;
