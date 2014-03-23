@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static bool bModuleInitialized = false;
 static HANDLE hIniChangeNotification;
 
-extern TCHAR mirandabootini[MAX_PATH];
-
 static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {

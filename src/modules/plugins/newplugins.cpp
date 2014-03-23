@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "plugins.h"
 #include "..\database\profilemanager.h"
+#include "..\langpack\langpack.h"
 
 void LoadExtraIconsModule();
 
@@ -652,6 +653,8 @@ static int LaunchServicePlugin(pluginEntry *p)
 		p->pclass |= PCLASS_LOADED;
 	}
 
+	Langpack_LoadLangpack();
+
 	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, 0, 0);
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
@@ -818,13 +821,6 @@ int LoadNewPluginsModuleInfos(void)
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini);
-
-	TCHAR tszDefaultLang[100];
-	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), mirandabootini)) {
-		TCHAR tszLangPath[MAX_PATH];
-		PathToAbsoluteT(tszDefaultLang, tszLangPath);
-		LoadLangPack(tszLangPath);
-	}
 
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);

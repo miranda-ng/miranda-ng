@@ -74,6 +74,7 @@ void KillModuleSounds(int hLangpack);
 extern HINSTANCE hInst;
 extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
+extern TCHAR mirandabootini[MAX_PATH];
 
 /**** newplugins.cpp *******************************************************************/
 

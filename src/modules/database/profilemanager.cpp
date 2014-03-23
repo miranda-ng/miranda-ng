@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 #include "..\plugins\plugins.h"
+#include "..\langpack\langpack.h"
 #include "profilemanager.h"
 #include <sys/stat.h>
 
@@ -799,6 +800,8 @@ static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE 
 
 int getProfileManager(PROFILEMANAGERDATA * pd)
 {
+	Langpack_LoadLangpack();
+
 	DetailsPageInit opi = { 0 };
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

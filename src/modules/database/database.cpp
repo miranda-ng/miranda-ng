@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "profilemanager.h"
 
 // contains the location of mirandaboot.ini
-extern TCHAR mirandabootini[MAX_PATH];
 bool g_bDbCreated;
 TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 TCHAR* g_defaultProfile;
