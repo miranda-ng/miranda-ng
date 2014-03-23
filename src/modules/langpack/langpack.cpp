@@ -107,10 +107,9 @@ void Langpack_LoadLangpack(void)
 		lstrcat(szSearch, langpack);
 
 		DWORD dwAttrib = GetFileAttributes(szSearch);
-		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)) {
-			LoadLangPack(szSearch);
-			return;
-		}
+		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
+			if (!LoadLangPack(szSearch))
+				return;
 	}
 	
 	// look into mirandaboot.ini
@@ -118,8 +117,8 @@ void Langpack_LoadLangpack(void)
 	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), mirandabootini)) {
 		TCHAR tszLangPath[MAX_PATH];
 		PathToAbsoluteT(tszDefaultLang, tszLangPath);
-		LoadLangPack(tszLangPath);
-		return;
+		if (!LoadLangPack(tszLangPath))
+			return;
 	}
 
 	// finally try to load first file
@@ -134,10 +133,12 @@ void Langpack_LoadLangpack(void)
 			/* load langpack */
 			PathToAbsoluteT(_T("\\"), szSearch);
 			lstrcat(szSearch, fd.cFileName);
-			if (!LoadLangPack(szSearch))
+			if (!LoadLangPack(szSearch)) {
 				db_set_ws(NULL, "Langpack", "Current", fd.cFileName);
-			break;
-		} while (FindNextFile(hFind, &fd));
+				break;
+			}
+		}
+			while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }
