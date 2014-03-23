@@ -47,7 +47,7 @@ static INT_PTR srvRegisterLP(WPARAM wParam, LPARAM lParam)
 {
 	PLUGININFOEX* ppi = (PLUGININFOEX*)lParam;
 	if (wParam && ppi)
-		*( int* )wParam = GetPluginFakeId(ppi->uuid, Langpack_MarkPluginLoaded(ppi));
+		*(int*)wParam = GetPluginFakeId(ppi->uuid, Langpack_MarkPluginLoaded(ppi));
 	return 0;
 }
 
@@ -69,22 +69,22 @@ static INT_PTR srvGetDefaultLocale(WPARAM, LPARAM)
 
 static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam)
 {
-	char* pszStr = (char*)lParam;
+	char *pszStr = (char*)lParam;
 	if (pszStr == NULL)
 		return NULL;
 
 	int len = (int)strlen(pszStr);
-	TCHAR* result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
+	TCHAR *result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
 	MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 	result[len] = 0;
-	return (INT_PTR)mir_wstrdup( TranslateW_LP(result, wParam));
+	return (INT_PTR)mir_wstrdup(TranslateW_LP(result, wParam));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
 {
-	ReloadLangpack(( TCHAR* )lParam);
+	ReloadLangpack((TCHAR*)lParam);
 	return 0;
 }
 
@@ -92,7 +92,7 @@ static INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR srvGetPluginLangpack(WPARAM wParam, LPARAM lParam)
 {
-	return GetPluginLangByInstance(( HINSTANCE )lParam);
+	return GetPluginLangByInstance((HINSTANCE)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
