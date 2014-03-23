@@ -519,6 +519,18 @@ Protokół:
 Domyślne
 [(Lower ranks are preferred)]
 (Preferowane niższe rangi)
+[Last modified using:]
+Ost. zmodyfikowano używając:
+[Date:]
+Data:
+[Locale:]
+Tłumaczenie:
+[Download more Language Packs]
+Pobierz więcej tłumaczeń
+[Current language:]
+Aktualne tłumaczenie:
+[Plugins included:]
+Uwzględnione wtyczki:
 [Tray]
 Zasobnik
 [&Hide/Show]
@@ -980,8 +992,6 @@ A&kceptuj
 &Odrzuć
 [From:]
 Od:
-[Date:]
-Data:
 [Files:]
 Pliki:
 [Save to:]
@@ -2358,6 +2368,15 @@ Zestawy ikon
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Wszystkie kontakty **
+;file \src\modules\langpack\lpopts.cpp
+[(incompatible)]
+(niezgodny)
+[Unknown]
+Nieznany
+[built-in]
+wbudowany
+[Languages]
+Języki
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Zamierzasz usunąć wszystkie kontakty skojarzone z tym metakontaktem.\nTo usunie metakontakt.\n\nKontynuować mimo to?
@@ -2389,8 +2408,6 @@ Błąd przypisania
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)
-[Unknown]
-Nieznany
 [ID]
 ID
 [Protocol]
@@ -2421,10 +2438,10 @@ To usunie metakontakt na stałe.\n\nKontynuować?
 Jesteś pewien?
 [Remove from metacontact]
 Usuń z metakontaktu
-[Toggle MetaContacts On]
-Włącz metakontakty
 [Toggle MetaContacts Off]
 Wyłącz metakontakty
+[Toggle MetaContacts On]
+Włącz metakontakty
 [Add to existing MetaContact...]
 Dodaj do istniejącego metakontaktu...
 [Edit MetaContact...]
@@ -2464,8 +2481,6 @@ Nie udało się zapisać protokołu kontaktu w metakontakcie
 Nie udało się zapisać unikalnego ID kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nie udało się zapisać nicka kontaktu do metakontaktu
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-Ukryta grupa metakontaktu została dodana do listy.\nPrawdopodobnie jest to spowodowane informacjami po stronie serwera. Aby to naprawić, tak by wtyczka MetaContacts mogła działać poprawnie, powinieneś:\n   - wyłączyć metakontakty używając opcji "Wyłącz metakontakty" w menu głównym\n   - przenieść wszystkie kontakty poza tą grupę\n   - zsynchronizować kontakty z serwerem\n   - ponownie włączyć metakontakty
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
 Standardowy log Netlib

@@ -8,20 +8,20 @@
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 
 ;file \protocols\Sametime\res\resource.rc
-[Server name:]
-Nazwa serwera:
-[Port:]
-Port:
-[Get contacts from server]
-Pobierz kontakty z serwera
-[Upload contacts]
-Wyślij kontakty
-[Import from file...]
-Importuj z pliku...
+[Connection]
+Połączenie
 [ID:]
 ID:
 [Password:]
 Hasło:
+[Server name:]
+Nazwa serwera:
+[Port:]
+Port:
+[Client ID]
+ID klienta
+[Use old client version]
+Użyj starej wersji klienta
 [Error display]
 
 [Use message boxes]
@@ -30,28 +30,28 @@ Użyj okienek
 Użyj popup
 [Use system tray baloons]
 Użyj systemowych baloników
-[Connection]
-Połączenie
 [Contacts]
 Kontakty
-[Client ID]
-ID klienta
+[Get contacts from server]
+Pobierz kontakty z serwera
+[Upload contacts]
+Wyślij kontakty
+[Import from file...]
+Importuj z pliku...
 [Auto-add new contacts]
 Autododawanie nowych kontaktów
+[Treat 'idle' as 'away']
+Traktuj "bezczynny" jako "zaraz wracam"
 [Encryption]
 Szyfrowanie
 [40 or 128 bit]
 40 lub 128 bit
 [None]
 Brak
-[Static]
-Statyczne
-[Treat 'idle' as 'away']
-Traktuj "bezczynny" jako "zaraz wracam"
 [Meanwhile lib ver: 1.0.2]
 
-[Use old client version]
-Użyj starej wersji klienta
+[Disconnected]
+Rozłączony
 [Send announcement]
 
 [OK]
@@ -62,7 +62,7 @@ Anuluj
 Tekst wiadomości:
 [Select all]
 Zaznacz wszystko
-[Invert\n selection]
+[Invert\nselection]
 
 ;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
@@ -88,6 +88,10 @@ Rozpocznij konferencję
 [SERVICE NOT IMPLEMENTED. %s]
 
 ;file \protocols\Sametime\src\options.cpp
+[Client proto version: %03d.%03d]
+
+[Server proto version: %03d.%03d]
+
 [Network]
 Protokoły
 ;file \protocols\Sametime\src\sametime.cpp
