@@ -157,52 +157,52 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 	if (((iSelection > 800 && iSelection < 1400) || iSelection == 20866)  && idFrom == IDC_LOG) {
 		dat->codePage = iSelection;
 		db_set_dw(dat->hContact, SRMSGMOD_T, "ANSIcodepage", dat->codePage);
-	} else if (iSelection == 500 && idFrom == IDC_LOG) {
+	}
+	else if (iSelection == 500 && idFrom == IDC_LOG) {
 		dat->codePage = CP_ACP;
 		db_unset(dat->hContact, SRMSGMOD_T, "ANSIcodepage");
-	} else {
+	}
+	else {
 		switch (iSelection) {
-			case IDM_COPY:
-				SendMessage(hwndFrom, WM_COPY, 0, 0);
-				break;
-			case IDM_CUT:
-				SendMessage(hwndFrom, WM_CUT, 0, 0);
-				break;
-			case IDM_PASTE:
-			case IDM_PASTEFORMATTED:
-				if (idFrom == IDC_MESSAGE)
-					SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
-				break;
-			case IDM_COPYALL:
-				SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-				SendMessage(hwndFrom, WM_COPY, 0, 0);
-				SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
-				break;
-				//MAD
-			case IDM_QUOTE:
-				SendMessage(hwndDlg,WM_COMMAND, IDC_QUOTE, 0);
-				break;
-				//MAD_
-			case IDM_SELECTALL:
-				SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-				break;
-			case IDM_CLEAR:
-				ClearLog(dat);
-				break;
-			case ID_LOG_FREEZELOG:
-				SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_KEYDOWN, VK_F12, 0);
-				break;
-			case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
-				PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
-				db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
-				M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 0);
-				SendMessage(hwndDlg, WM_SIZE, 0, 0);
-				if (dat->pContainer->hwndStatus)
-					RedrawWindow(dat->pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
-				break;
-			case ID_EDITOR_PASTEANDSENDIMMEDIATELY:
-				HandlePasteAndSend(dat);
-				break;
+		case IDM_COPY:
+			SendMessage(hwndFrom, WM_COPY, 0, 0);
+			break;
+		case IDM_CUT:
+			SendMessage(hwndFrom, WM_CUT, 0, 0);
+			break;
+		case IDM_PASTE:
+		case IDM_PASTEFORMATTED:
+			if (idFrom == IDC_MESSAGE)
+				SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
+			break;
+		case IDM_COPYALL:
+			SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
+			SendMessage(hwndFrom, WM_COPY, 0, 0);
+			SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
+			break;
+		case IDM_QUOTE:
+			SendMessage(hwndDlg, WM_COMMAND, IDC_QUOTE, 0);
+			break;
+		case IDM_SELECTALL:
+			SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
+			break;
+		case IDM_CLEAR:
+			ClearLog(dat);
+			break;
+		case ID_LOG_FREEZELOG:
+			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_KEYDOWN, VK_F12, 0);
+			break;
+		case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
+			PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
+			db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
+			M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 0);
+			SendMessage(hwndDlg, WM_SIZE, 0, 0);
+			if (dat->pContainer->hwndStatus)
+				RedrawWindow(dat->pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
+			break;
+		case ID_EDITOR_PASTEANDSENDIMMEDIATELY:
+			HandlePasteAndSend(dat);
+			break;
 		}
 	}
 	if (idFrom == IDC_LOG)
@@ -216,28 +216,22 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 
 static void ResizeIeView(const TWindowData *dat, DWORD px, DWORD py, DWORD cx, DWORD cy)
 {
-	RECT 			rcRichEdit;
-	POINT 			pt;
-	IEVIEWWINDOW 	ieWindow;
-	int 			iMode = dat->hwndIEView ? 1 : 2;
-	HWND			hwndDlg = dat->hwnd;
+	RECT rcRichEdit;
+	GetWindowRect(GetDlgItem(dat->hwnd, IDC_LOG), &rcRichEdit);
 
-	ZeroMemory(&ieWindow, sizeof(ieWindow));
-	GetWindowRect(GetDlgItem(hwndDlg, IDC_LOG), &rcRichEdit);
-	pt.x = rcRichEdit.left;
-	pt.y = rcRichEdit.top;
-	ScreenToClient(hwndDlg, &pt);
-	ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+	POINT pt = { rcRichEdit.left, rcRichEdit.top };
+	ScreenToClient(dat->hwnd, &pt);
+
+	IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
 	ieWindow.iType = IEW_SETPOS;
-	ieWindow.parent = hwndDlg;
-	ieWindow.hwnd = iMode == 1 ? dat->hwndIEView : dat->hwndHPP;
+	ieWindow.parent = dat->hwnd;
+	ieWindow.hwnd = dat->hwndIEView ? dat->hwndIEView : dat->hwndHPP;
 	ieWindow.x = pt.x;
 	ieWindow.y = pt.y;
 	ieWindow.cx = rcRichEdit.right - rcRichEdit.left;
 	ieWindow.cy = rcRichEdit.bottom - rcRichEdit.top;
-	if (ieWindow.cx != 0 && ieWindow.cy != 0) {
-		CallService(iMode == 1 ? MS_IEVIEW_WINDOW : MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-	}
+	if (ieWindow.cx != 0 && ieWindow.cy != 0)
+		CallService(dat->hwndIEView ? MS_IEVIEW_WINDOW : MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 }
 
 LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -432,7 +426,7 @@ void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControl
 
 void TSAPI SetDialogToType(HWND hwndDlg)
 {
-	TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	int showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 
 	if (dat->hContact) {
@@ -441,7 +435,8 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 			ShowMultipleControls(hwndDlg, addControls, 2, SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_SHOW);
 			SetWindowText(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), TranslateT("Contact not on list. You may add it..."));
-		} else {
+		}
+		else {
 			ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
 			dat->bNotOnList = FALSE;
 			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
@@ -454,8 +449,8 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
 		Utils::enableDlgControl(hwndDlg, IDC_LOG, FALSE);
 		Utils::showDlgControl(hwndDlg, IDC_MESSAGE, SW_SHOW);
-	} else
-		ShowMultipleControls(hwndDlg, sendControls, sizeof(sendControls) / sizeof(sendControls[0]), SW_SHOW);
+	}
+	else ShowMultipleControls(hwndDlg, sendControls, sizeof(sendControls) / sizeof(sendControls[0]), SW_SHOW);
 
 	ShowMultipleControls(hwndDlg, errorControls, sizeof(errorControls) / sizeof(errorControls[0]), dat->dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
 
@@ -504,13 +499,12 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			}
 		}
 		break;
-	
-	//MAD
+
 	case WM_CHAR:
 		if (wParam == 0x03 && isCtrl) // Ctrl+C
 			return DM_WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 		if (wParam == 0x11 && isCtrl)
-			SendMessage(mwdat->hwnd,WM_COMMAND, IDC_QUOTE, 0);
+			SendMessage(mwdat->hwnd, WM_COMMAND, IDC_QUOTE, 0);
 		break;
 
 	case WM_SYSKEYUP:
@@ -559,8 +553,8 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			ClientToScreen(hwnd, &pt);
 		}
 		else {
-			pt.x = (short) LOWORD(lParam);
-			pt.y = (short) HIWORD(lParam);
+			pt.x = (short)LOWORD(lParam);
+			pt.y = (short)HIWORD(lParam);
 		}
 
 		ShowPopupMenu(mwdat, IDC_LOG, hwnd, pt);
@@ -585,7 +579,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		GetKeyboardState(mwdat->kstate);
 		if (mwdat->kstate[VK_CONTROL] & 0x80 || mwdat->kstate[VK_SHIFT] & 0x80)
 			return 0;
-		
+
 		mwdat->fkeyProcessed = false;
 		return 0;
 	}
@@ -605,10 +599,10 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		{
 			BOOL isCtrl, isShift, isAlt;
 			KbdState(mwdat, isShift, isCtrl, isAlt);
-			//MAD: sound on typing..
+
 			if (PluginConfig.g_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_AllowTab))
 				SkinPlaySound("SoundOnTyping");
-			//MAD
+
 			if (isCtrl && !isAlt) {
 				switch (wParam) {
 				case 0x02:               // bold
@@ -663,10 +657,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			BOOL isCtrl, isShift, isAlt;
 			KbdState(mwdat, isShift, isCtrl, isAlt);
 
-			//MAD: sound on typing..
 			if (PluginConfig.g_bSoundOnTyping && !isAlt && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
 				SkinPlaySound("SoundOnTyping");
-			//
 
 			if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
 				mwdat->fInsertMode = !mwdat->fInsertMode;
@@ -686,7 +678,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 					}
 					else break;
 				}
-				if ((isCtrl && !isShift) ^(0 != PluginConfig.m_SendOnEnter)) {
+				if ((isCtrl && !isShift) ^ (0 != PluginConfig.m_SendOnEnter)) {
 					PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
 					return 0;
 				}
@@ -700,7 +692,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 							lastEnterTime = time(NULL);
 							SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);
 							break;
-						} else {
+						}
+						else {
 							SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
 							SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
 							PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
@@ -730,30 +723,29 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				case VK_NEXT:
 				case VK_HOME:
 				case VK_END:
-					{
-						WPARAM wp = 0;
+					WPARAM wp = 0;
 
-						SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-						if (wParam == VK_UP)
-							wp = MAKEWPARAM(SB_LINEUP, 0);
-						else if (wParam == VK_PRIOR)
-							wp = MAKEWPARAM(SB_PAGEUP, 0);
-						else if (wParam == VK_NEXT)
-							wp = MAKEWPARAM(SB_PAGEDOWN, 0);
-						else if (wParam == VK_HOME)
-							wp = MAKEWPARAM(SB_TOP, 0);
-						else if (wParam == VK_END) {
-							DM_ScrollToBottom(mwdat, 0, 0);
-							return 0;
-						} else if (wParam == VK_DOWN)
-							wp = MAKEWPARAM(SB_LINEDOWN, 0);
-
-						if (mwdat->hwndIEView == 0 && mwdat->hwndHPP == 0)
-							SendMessage(GetDlgItem(hwndParent, IDC_LOG), WM_VSCROLL, wp, 0);
-						else
-							SendMessage(mwdat->hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
+					SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+					if (wParam == VK_UP)
+						wp = MAKEWPARAM(SB_LINEUP, 0);
+					else if (wParam == VK_PRIOR)
+						wp = MAKEWPARAM(SB_PAGEUP, 0);
+					else if (wParam == VK_NEXT)
+						wp = MAKEWPARAM(SB_PAGEDOWN, 0);
+					else if (wParam == VK_HOME)
+						wp = MAKEWPARAM(SB_TOP, 0);
+					else if (wParam == VK_END) {
+						DM_ScrollToBottom(mwdat, 0, 0);
 						return 0;
 					}
+					else if (wParam == VK_DOWN)
+						wp = MAKEWPARAM(SB_LINEDOWN, 0);
+
+					if (mwdat->hwndIEView == 0 && mwdat->hwndHPP == 0)
+						SendMessage(GetDlgItem(hwndParent, IDC_LOG), WM_VSCROLL, wp, 0);
+					else
+						SendMessage(mwdat->hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
+					return 0;
 				}
 			}
 			if (wParam == VK_RETURN)
@@ -810,10 +802,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case WM_ERASEBKGND:
 		return(CSkin::m_skinEnabled ? 0 : 1);
 
-		/*
-		* sent by smileyadd when the smiley selection window dies
-		* just grab the focus :)
-		*/
+	// sent by smileyadd when the smiley selection window dies
+	// just grab the focus :)
 	case WM_USER + 100:
 		SetFocus(hwnd);
 		break;
@@ -825,9 +815,10 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM)& pt, (LPARAM)sel.cpMax);
 			ClientToScreen(hwnd, &pt);
-		} else {
-			pt.x = (short) LOWORD(lParam);
-			pt.y = (short) HIWORD(lParam);
+		}
+		else {
+			pt.x = (short)LOWORD(lParam);
+			pt.y = (short)HIWORD(lParam);
 		}
 
 		ShowPopupMenu(mwdat, IDC_MESSAGE, hwnd, pt);
@@ -874,7 +865,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			if (dat) {
 				GetClientRect(hwnd, &rc);
-				dat->savedSplitter = rc.right > rc.bottom ? (short) HIWORD(GetMessagePos()) + rc.bottom / 2 : (short) LOWORD(GetMessagePos()) + rc.right / 2;
+				dat->savedSplitter = rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2;
 				if (dat->bType == SESSIONTYPE_IM)
 					dat->savedSplitY = dat->splitterY;
 				else
@@ -890,7 +881,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (GetCapture() == hwnd) {
 			RECT rc;
 			GetClientRect(hwnd, &rc);
-			SendMessage(hwndParent, DM_SPLITTERMOVED, rc.right > rc.bottom ? (short) HIWORD(GetMessagePos()) + rc.bottom / 2 : (short) LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
+			SendMessage(hwndParent, DM_SPLITTERMOVED, rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
 		}
 		return 0;
 
@@ -899,17 +890,16 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_PAINT:
 		{
-			RECT 		rc;
 			PAINTSTRUCT ps;
-			HDC 		dc = BeginPaint(hwnd, &ps);
-			int 		ctrlId = GetDlgCtrlID(hwnd);
+			HDC dc = BeginPaint(hwnd, &ps);
 
+			RECT rc;
 			GetClientRect(hwnd, &rc);
 
 			if (dat && CSkin::m_skinEnabled)
 				CSkin::SkinDrawBG(hwnd, dat->pContainer->hwnd, dat->pContainer, &rc, dc);
 			else if (M.isAero() || M.isVSThemed()) {
-				if (ctrlId == IDC_PANELSPLITTER) {
+				if (GetDlgCtrlID(hwnd) == IDC_PANELSPLITTER) {
 					EndPaint(hwnd, &ps);
 					return 0;
 				}

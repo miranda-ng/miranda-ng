@@ -540,19 +540,6 @@ void Meta_UpdateSrmmIcon(DBCachedContact *ccMeta, int iStatus)
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = META_PROTO;
-	sid.flags = MBF_HIDDEN;
-	if (ccMeta->IsMeta()) {
-		MCONTACT hSub = Meta_GetMostOnline(ccMeta);
-		char *szProto = GetContactProto(hSub);
-		if (szProto) {
-			sid.hIcon = LoadSkinnedProtoIcon(szProto, iStatus);
-
-			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			if (pa) {
-				sid.flags = MBF_TCHAR;
-				sid.tszTooltip = pa->tszAccountName;
-			}
-		}
-	}
+	sid.flags = (ccMeta->IsMeta()) ? 0 : MBF_HIDDEN;
 	Srmm_ModifyIcon(ccMeta->contactID, &sid);
 }

@@ -635,6 +635,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// create srmm icon
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = META_PROTO;
+	sid.hIcon = LoadSkinnedProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
 
 	// hook srmm window close/open events
