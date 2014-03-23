@@ -394,11 +394,10 @@ MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *szLangPack, LANGPACK_INFO *lpIn
 	if (lpInfo == NULL)
 		return 1;
 
-	lstrcpy(lpInfo->tszFileName, szLangPack);
-	lstrcpy(lpInfo->tszFullPath, szLangPack);
+	_tcsncpy_s(lpInfo->tszFullPath, SIZEOF(lpInfo->tszFullPath), szLangPack, _TRUNCATE);
 	TCHAR *p = _tcsrchr(lpInfo->tszFullPath, '\\');
-	if (p)
-		p[1] = 0;
+	_tcsncpy_s(lpInfo->tszFileName, SIZEOF(lpInfo->tszFullPath), (p == NULL) ? szLangPack : p+1, _TRUNCATE);
+	CharLower(lpInfo->tszFileName);
 
 	FILE *fp = _tfopen(szLangPack, _T("rt"));
 	if (fp == NULL)
