@@ -139,6 +139,7 @@
       <TargetMachine>MachineX64</TargetMachine>
       <BaseAddress>0x5130000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
