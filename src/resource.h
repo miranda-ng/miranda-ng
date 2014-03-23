@@ -6,6 +6,7 @@
 #define IDC_NOTOALL                     3
 #define IDC_APPLY                       3
 #define IDC_DECIDELATER                 3
+#define IDD_OPT_LANGUAGES               101
 #define IDI_MIRANDA                     102
 #define IDD_ABOUT                       103
 #define IDI_SMS                         103
@@ -164,28 +165,42 @@
 #define IDI_AUTH_REVOKE                 327
 #define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
+#define IDC_LANGINFOFRAME               1002
 #define IDI_OUTTOLUNCH                  1003
+#define IDC_LANGAUTHORSLABEL            1003
 #define IDC_AUTOCLOSE                   1004
+#define IDC_LANGAUTHORS                 1004
 #define IDC_FROM                        1005
 #define IDC_AUTOMIN                     1005
+#define IDC_LANGEMAILLABEL              1005
 #define IDC_DATE                        1006
 #define IDC_DUMPRECV                    1006
+#define IDC_LANGEMAIL                   1006
 #define IDC_AUTOCLEAR                   1007
+#define IDC_LANGMODUSINGLABEL           1007
 #define IDC_MSG                         1008
 #define IDC_PROXYDNS                    1008
+#define IDC_LANGMODUSING                1008
 #define IDC_NAME                        1009
 #define IDC_PROXYTYPE                   1009
+#define IDC_LANGDATELABEL               1009
 #define IDC_STATIC23                    1010
 #define IDC_NAMEVAL                     1010
 #define IDC_LNK_NETWORK                 1010
+#define IDC_LANGDATE                    1010
 #define IDC_LNK_ADDONS                  1011
 #define IDC_SPECIFYPORTS                1013
 #define IDC_ST_ENTERMSG                 1013
+#define IDC_LANGLOCALELABEL             1013
 #define IDC_ST_ENTERURL                 1014
 #define IDC_SPECIFYPORTSO               1014
+#define IDC_LANGLOCALE                  1014
 #define IDC_ENABLEUPNP                  1015
+#define IDC_PLUGINSINCLUDEDLABEL        1015
 #define IDC_VALIDATESSL                 1016
+#define IDC_PLUGINSINCLUDED             1016
 #define IDC_ONLYAVAIL                   1017
+#define IDC_MORELANG                    1017
 #define IDC_METALIST                    1018
 #define IDC_CHK_SRT                     1019
 #define IDC_LST_CONTACTS                1020
@@ -549,6 +564,8 @@
 #define IDC_ADDCHECK                    1742
 #define IDC_GETMOREPLUGINS              1744
 #define IDC_DISABLEMENUICONS            1745
+#define IDC_COMBO1                      1746
+#define IDC_LANGUAGES                   1746
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -582,12 +599,12 @@
 #define ID_UNGROUP                      40067
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        328
+#define _APS_NEXT_RESOURCE_VALUE        329
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1746
+#define _APS_NEXT_CONTROL_VALUE         1747
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

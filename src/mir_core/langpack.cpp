@@ -21,7 +21,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
+#include "../modules/langpack/langpack.h"
 
 #define LANGPACK_BUF_SIZE 4000
 
@@ -45,20 +47,10 @@ struct LangPackEntry
 	LangPackEntry* pNext;  // for langpack items with the same hash value
 };
 
-struct
-{
-	TCHAR filename[MAX_PATH];
-	TCHAR filePath[MAX_PATH];
-	char  language[64];
-	char  lastModifiedUsing[64];
-	char  authors[256];
-	char  authorEmail[128];
-	LangPackEntry *entry;
-	int entryCount, entriesAlloced;
-	LCID localeID;
-	UINT defaultANSICp;
-}
-static langPack;
+static LANGPACK_INFO langPack;
+
+static LangPackEntry *g_pEntries;
+static int g_entryCount, g_entriesAlloced;
 
 static int IsEmpty(const char *str)
 {
@@ -223,13 +215,13 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 			if (!memcmp(line + 1, "include", 7)) {
 				TCHAR tszFileName[MAX_PATH];
 				TCHAR* fileName = mir_a2t(ltrim(line + 9));
-				mir_sntprintf(tszFileName, SIZEOF(tszFileName), _T("%s%s"), langPack.filePath, fileName);
+				mir_sntprintf(tszFileName, SIZEOF(tszFileName), _T("%s%s"), langPack.tszFullPath, fileName);
 				mir_free(fileName);
 
 				FILE *p = _tfopen(tszFileName, _T("r"));
 				if (p) {
 					line[0] = 0;
-					fgets(line, SIZEOF(line), p);
+					fgets(line, LANGPACK_BUF_SIZE, p);
 
 					UINT fileCp = CP_ACP;
 					if (strlen(line) >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf') {
@@ -237,7 +229,7 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 						fseek(p, 3, SEEK_SET);
 					}
 					else {
-						fileCp = langPack.defaultANSICp;
+						fileCp = langPack.codepage;
 						fseek(p, 0, SEEK_SET);
 					}
 
@@ -265,17 +257,17 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 
 		size_t cbLen = strlen(line) - 1;
 		if (cFirst == '[' && line[cbLen] == ']') {
-			if (langPack.entryCount && langPack.entry[langPack.entryCount - 1].wszLocal == NULL)
-				langPack.entryCount--;
+			if (g_entryCount && g_pEntries[g_entryCount-1].wszLocal == NULL)
+				g_entryCount--;
 
 			char *pszLine = line + 1;
 			line[cbLen] = '\0';
-			if (++langPack.entryCount > langPack.entriesAlloced) {
-				langPack.entriesAlloced += 128;
-				langPack.entry = (LangPackEntry*)mir_realloc(langPack.entry, sizeof(LangPackEntry)*langPack.entriesAlloced);
+			if (++g_entryCount > g_entriesAlloced) {
+				g_entriesAlloced += 128;
+				g_pEntries = (LangPackEntry*)mir_realloc(g_pEntries, sizeof(LangPackEntry)*g_entriesAlloced);
 			}
 
-			LangPackEntry *E = &langPack.entry[langPack.entryCount - 1];
+			LangPackEntry *E = &g_pEntries[g_entryCount - 1];
 			E->englishHash = mir_hashstr(pszLine);
 			E->szLocal = NULL;
 			E->wszLocal = NULL;
@@ -284,10 +276,10 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 			continue;
 		}
 
-		if (!langPack.entryCount)
+		if (!g_entryCount)
 			continue;
 
-		LangPackEntry *E = &langPack.entry[langPack.entryCount - 1];
+		LangPackEntry *E = &g_pEntries[g_entryCount - 1];
 		int iNeeded = MultiByteToWideChar(fileCp, 0, line, -1, 0, 0), iOldLen;
 		if (E->wszLocal == NULL) {
 			iOldLen = 0;
@@ -303,25 +295,11 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 	}
 }
 
-MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
+static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &startOfLine, UINT &fileCp)
 {
-	int startOfLine = 0;
-	USHORT langID;
+	char szLanguage[64]; szLanguage[0] = 0;
 
-	lstrcpy(langPack.filename, szLangPack);
-	lstrcpy(langPack.filePath, szLangPack);
-	TCHAR *p = _tcsrchr(langPack.filePath, '\\');
-	if (p)
-		p[1] = 0;
-
-	FILE *fp = _tfopen(szLangPack, _T("rt"));
-	if (fp == NULL)
-		return 1;
-
-	char line[LANGPACK_BUF_SIZE] = "";
-	fgets(line, SIZEOF(line), fp);
-
-	UINT fileCp = CP_ACP;
+	fgets(line, LANGPACK_BUF_SIZE, fp);
 	size_t lineLen = strlen(line);
 	if (lineLen >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf') {
 		fileCp = CP_UTF8;
@@ -329,15 +307,13 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
 	}
 
 	lrtrim(line);
-	if (lstrcmpA(line, "Miranda Language Pack Version 1")) {
-		fclose(fp);
+	if (lstrcmpA(line, "Miranda Language Pack Version 1"))
 		return 2;
-	}
 
-	//headers
+	// headers
 	while (!feof(fp)) {
 		startOfLine = ftell(fp);
-		if (fgets(line, SIZEOF(line), fp) == NULL)
+		if (fgets(line, LANGPACK_BUF_SIZE, fp) == NULL)
 			break;
 
 		lrtrim(line);
@@ -348,39 +324,94 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
 			break;
 
 		char *pszColon = strchr(line, ':');
-		if (pszColon == NULL) {
-			fclose(fp);
+		if (pszColon == NULL)
 			return 3;
-		}
 
 		*pszColon++ = 0;
-		if (!lstrcmpA(line, "Language")) { mir_snprintf(langPack.language, sizeof(langPack.language), "%s", pszColon); lrtrim(langPack.language); }
-		else if (!lstrcmpA(line, "Last-Modified-Using")) { mir_snprintf(langPack.lastModifiedUsing, sizeof(langPack.lastModifiedUsing), "%s", pszColon); lrtrim(langPack.lastModifiedUsing); }
-		else if (!lstrcmpA(line, "Authors")) { mir_snprintf(langPack.authors, sizeof(langPack.authors), "%s", pszColon); lrtrim(langPack.authors); }
-		else if (!lstrcmpA(line, "Author-email")) { mir_snprintf(langPack.authorEmail, sizeof(langPack.authorEmail), "%s", pszColon); lrtrim(langPack.authorEmail); }
+		if (!lstrcmpA(line, "Language")) { mir_snprintf(szLanguage, sizeof(szLanguage), "%s", pszColon); lrtrim(szLanguage); }
+		else if (!lstrcmpA(line, "Last-Modified-Using")) { mir_snprintf(lpinfo.szLastModifiedUsing, sizeof(lpinfo.szLastModifiedUsing), "%s", pszColon); lrtrim(lpinfo.szLastModifiedUsing); }
+		else if (!lstrcmpA(line, "Authors")) { mir_snprintf(lpinfo.szAuthors, sizeof(lpinfo.szAuthors), "%s", pszColon); lrtrim(lpinfo.szAuthors); }
+		else if (!lstrcmpA(line, "Author-email")) { mir_snprintf(lpinfo.szAuthorEmail, sizeof(lpinfo.szAuthorEmail), "%s", pszColon); lrtrim(lpinfo.szAuthorEmail); }
 		else if (!lstrcmpA(line, "Locale")) {
 			char szBuf[20], *stopped;
 
 			lrtrim(pszColon + 1);
-			langID = (USHORT)strtol(pszColon, &stopped, 16);
-			langPack.localeID = MAKELCID(langID, 0);
-			GetLocaleInfoA(langPack.localeID, LOCALE_IDEFAULTANSICODEPAGE, szBuf, 10);
+			USHORT langID = (USHORT)strtol(pszColon, &stopped, 16);
+			lpinfo.Locale = MAKELCID(langID, 0);
+			GetLocaleInfoA(lpinfo.Locale, LOCALE_IDEFAULTANSICODEPAGE, szBuf, 10);
 			szBuf[5] = 0;                       // codepages have max. 5 digits
-			langPack.defaultANSICp = atoi(szBuf);
+			lpinfo.codepage = atoi(szBuf);
 			if (fileCp == CP_ACP)
-				fileCp = langPack.defaultANSICp;
+				fileCp = lpinfo.codepage;
 		}
 	}
 
-	//body
+	MultiByteToWideChar(lpinfo.codepage, 0, szLanguage, -1, lpinfo.tszLanguage, SIZEOF(lpinfo.tszLanguage));
+
+	if (!lpinfo.tszLanguage[0] && (lpinfo.Locale == 0) || !GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, sizeof(lpinfo.tszLanguage))) {
+		TCHAR *p = _tcschr(lpinfo.tszFileName, '_');
+		lstrcpyn(lpinfo.tszLanguage, p != NULL ? p + 1 : lpinfo.tszFileName, sizeof(lpinfo.tszLanguage));
+		p = _tcsrchr(lpinfo.tszLanguage, _T('.'));
+		if (p != NULL) *p = '\0';
+	}
+	return 0;
+}
+
+MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
+{
+	lstrcpy(langPack.tszFileName, szLangPack);
+	lstrcpy(langPack.tszFullPath, szLangPack);
+	TCHAR *p = _tcsrchr(langPack.tszFullPath, '\\');
+	if (p)
+		p[1] = 0;
+
+	FILE *fp = _tfopen(szLangPack, _T("rt"));
+	if (fp == NULL)
+		return 1;
+
+	char line[LANGPACK_BUF_SIZE] = "";
+	UINT fileCp = CP_ACP;
+	int startOfLine = 0;
+	if (LoadLangDescr(langPack, fp, line, startOfLine, fileCp)) {
+		fclose(fp);
+		return 1;
+	}
+
+	// body
 	fseek(fp, startOfLine, SEEK_SET);
-	langPack.entriesAlloced = 0;
+	g_entriesAlloced = 0;
 
 	LoadLangPackFile(fp, line, fileCp);
 	fclose(fp);
 	pCurrentMuuid = NULL;
 
-	qsort(langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
+	qsort(g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
+	return 0;
+}
+
+MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *szLangPack, LANGPACK_INFO *lpInfo)
+{
+	if (lpInfo == NULL)
+		return 1;
+
+	lstrcpy(lpInfo->tszFileName, szLangPack);
+	lstrcpy(lpInfo->tszFullPath, szLangPack);
+	TCHAR *p = _tcsrchr(lpInfo->tszFullPath, '\\');
+	if (p)
+		p[1] = 0;
+
+	FILE *fp = _tfopen(szLangPack, _T("rt"));
+	if (fp == NULL)
+		return 1;
+
+	char line[LANGPACK_BUF_SIZE] = "";
+	UINT fileCp = CP_ACP;
+	int startOfLine = 0;
+	if (LoadLangDescr(*lpInfo, fp, line, startOfLine, fileCp)) {
+		fclose(fp);
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -395,12 +426,12 @@ static int SortLangPackHashesProc2(LangPackEntry *arg1, LangPackEntry *arg2)
 
 static char *LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const int W)
 {
-	if (langPack.entryCount == 0 || szEnglish == NULL)
+	if (g_entryCount == 0 || szEnglish == NULL)
 		return (char*)szEnglish;
 
 	LangPackEntry key, *entry;
 	key.englishHash = W ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
-	entry = (LangPackEntry*)bsearch(&key, langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2);
+	entry = (LangPackEntry*)bsearch(&key, g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2);
 	if (entry == NULL)
 		return (char*)szEnglish;
 
@@ -418,18 +449,18 @@ static char *LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const 
 		return (char*)entry->wszLocal;
 
 	if (entry->szLocal == NULL && entry->wszLocal != NULL)
-		entry->szLocal = mir_u2a_cp(entry->wszLocal, langPack.defaultANSICp);
+		entry->szLocal = mir_u2a_cp(entry->wszLocal, langPack.codepage);
 	return entry->szLocal;
 }
 
 MIR_CORE_DLL(int) Langpack_GetDefaultCodePage()
 {
-	return langPack.defaultANSICp;
+	return langPack.codepage;
 }
 
 MIR_CORE_DLL(int) Langpack_GetDefaultLocale()
 {
-	return (langPack.localeID == 0) ? LOCALE_USER_DEFAULT : langPack.localeID;
+	return (langPack.Locale == 0) ? LOCALE_USER_DEFAULT : langPack.Locale;
 }
 
 MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char *pszStr)
@@ -541,14 +572,14 @@ MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX *pInfo)
 
 MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 {
-	if (langPack.entryCount == 0)
+	if (g_entryCount == 0)
 		return;
 
-	LangPackEntry *s = langPack.entry + 1, *d = s, *pLast = langPack.entry;
-	DWORD dwSavedHash = langPack.entry->englishHash;
+	LangPackEntry *s = g_pEntries + 1, *d = s, *pLast = g_pEntries;
+	DWORD dwSavedHash = g_pEntries->englishHash;
 	bool bSortNeeded = false;
 
-	for (int i = 1; i < langPack.entryCount; i++, s++) {
+	for (int i = 1; i < g_entryCount; i++, s++) {
 		if (s->englishHash != dwSavedHash) {
 			pLast = d;
 			if (s != d)
@@ -566,8 +597,8 @@ MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 	}
 
 	if (bSortNeeded) {
-		langPack.entryCount = (int)(d - langPack.entry);
-		qsort(langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
+		g_entryCount = (int)(d - g_pEntries);
+		qsort(g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
 	}
 }
 
@@ -580,17 +611,6 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 	ZeroMemory(&langPack, sizeof(langPack));
 
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
-
-	TCHAR szSearch[MAX_PATH];
-	PathToAbsoluteT(_T("langpack_*.txt"), szSearch);
-
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(szSearch, &fd);
-	if (hFind != INVALID_HANDLE_VALUE) {
-		PathToAbsoluteT(fd.cFileName, szSearch);
-		FindClose(hFind);
-		LoadLangPack(szSearch);
-	}
 	return 0;
 }
 
@@ -603,8 +623,8 @@ void UnloadLangPackModule()
 		mir_free(lMuuids[i]);
 	lMuuids.destroy();
 
-	LangPackEntry *p = langPack.entry;
-	for (i = 0; i < langPack.entryCount; i++, p++) {
+	LangPackEntry *p = g_pEntries;
+	for (i = 0; i < g_entryCount; i++, p++) {
 		if (p->pNext != NULL) {
 			for (LangPackEntry *p1 = p->pNext; p1 != NULL;) {
 				LangPackEntry *p2 = p1; p1 = p1->pNext;
@@ -618,10 +638,10 @@ void UnloadLangPackModule()
 		mir_free(p->wszLocal);
 	}
 
-	if (langPack.entryCount) {
-		mir_free(langPack.entry);
-		langPack.entry = 0;
-		langPack.entryCount = 0;
+	if (g_entryCount) {
+		mir_free(g_pEntries);
+		g_pEntries = 0;
+		g_entryCount = 0;
 	}
 }
 
@@ -630,7 +650,7 @@ void UnloadLangPackModule()
 MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
 {
 	if (pszStr == NULL)
-		pszStr = langPack.filename;
+		pszStr = langPack.tszFileName;
 
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);

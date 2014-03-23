@@ -261,3 +261,4 @@ db_mc_setDefaultNum           @258
 mir_closeLog                  @259
 db_mc_enable                  @260
 db_mc_isEnabled               @261
+LoadLangPackDescr             @262

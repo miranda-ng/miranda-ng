@@ -79,6 +79,9 @@
     <Filter Include="Modules\metacontacts">
       <UniqueIdentifier>{79f0ee25-4708-4fd6-aeef-fb5f2628008b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Icons">
+      <UniqueIdentifier>{453959e1-554a-4053-b2c4-fdc3c903154f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\m_addcontact.h">
@@ -276,6 +279,10 @@
     <ClInclude Include="..\include\m_metacontacts.h">
       <Filter>Modules\metacontacts</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="modules\langpack\langpack.h">
+      <Filter>Modules\langpack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">
@@ -313,9 +320,6 @@
     </ClCompile>
     <ClCompile Include="modules\ignore\ignore.cpp">
       <Filter>Modules\ignore</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\langpack\lpservices.cpp">
-      <Filter>Modules\langpack</Filter>
     </ClCompile>
     <ClCompile Include="modules\netlib\netlib.cpp">
       <Filter>Modules\netlib</Filter>
@@ -622,6 +626,15 @@
     </ClCompile>
     <ClCompile Include="modules\metacontacts\meta_edit.cpp">
       <Filter>Modules\metacontacts</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\lpservices.cpp">
+      <Filter>Modules\langpack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\lpopts.cpp">
+      <Filter>Modules\langpack</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\langpack.cpp">
+      <Filter>Modules\langpack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

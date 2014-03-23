@@ -271,6 +271,7 @@
     <ClInclude Include="modules\extraicons\extraicons.h" />
     <ClInclude Include="modules\extraicons\usedIcons.h" />
     <ClInclude Include="modules\findadd\findadd.h" />
+    <ClInclude Include="modules\langpack\langpack.h" />
     <ClInclude Include="modules\metacontacts\metacontacts.h" />
     <ClInclude Include="modules\netlib\netlib.h" />
     <ClInclude Include="modules\options\filter.h" />
@@ -283,6 +284,7 @@
     <ClInclude Include="modules\icolib\IcoLib.h" />
     <ClInclude Include="..\include\m_xml.h" />
     <ClInclude Include="modules\xml\xmlParser.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\stdafx.cpp">
@@ -376,6 +378,12 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\ignore\ignore.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\langpack.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\lpopts.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\langpack\lpservices.cpp">
