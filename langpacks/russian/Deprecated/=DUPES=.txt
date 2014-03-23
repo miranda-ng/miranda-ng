@@ -1,51 +1,6623 @@
-﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+﻿;============================================================
+;  Module: lot's of duplicated strings from different modules.
+;  Если необходимо изменить перевод строки в каком-либо 
+;  плагине, используйте файл перевода этого плагина
+;  вместо правки =DUPES=.txt, поскольку этот файл будет со
+;  временем удален.	
 ;============================================================
-;  File: LangMan.dll
-;  Plugin: Language pack manager
-;  Version: 0.11.0.1
-;  Authors: H. Herkenrath
-;============================================================
-[Helps you manage language packs of different languages.]
-Помогает в управлении файлами локализации.
-[Author(s):]
-Автор(ы):
-[E-mail:]
-E-mail:
-[Last modified using:]
-Проверено на версии:
-[Date:]
-Дата:
+[-1 = Infinite]
+-1=Бесконечно
+[ Actions ]
+ Действия\s
+[ Colors ]
+ Цвета\s
+[ Delay ]
+ Задержка\s
+[ Protocols ]
+ Протоколы\s
+[%d Files]
+%d файлов
+[%s Custom Status]
+xСтатус %s
+[%s connection]
+%s подключение 
+[%s plugin connections]
+%s подключение к серверу
+[&Accept]
+Принять
+[&Default]
+По умолчанию
+[&Down]
+В&низ
+[&Export]
+&Экспорт
+[&File Transfers...]
+&Передача файлов...
+[&Import]
+Импорт
+[&Join]
+Зайти
+[&Refresh]
+Обновить
+[&Save]
+&Сохранить
+[&Up]
+&Вверх
+[&User details]
+Информация о контакте
+[(Default)]
+(По умолчанию)
+[(NULL)]
+(НЕТ)
+[** New contacts **]
+** Новые контакты **
+[<default>]
+<по умолчанию>
+[<Default>]
+<По умолчанию>
+[0 = Default]
+0=Умолчание
+[Abkhazian]
+Абхазский
+[About]
+Информация
+[Account]
+Учётная запись
+[Action]
+Действие
+[Actions]
+Действия
+[Active]
+Активно
+[Add new rooms to group:]
+Добавлять чат-комнаты в группу:
+[Add rule]
+Добавить правило
+[Add...]
+Добавить...
+[Address]
+Адрес
+[Advanced #1]
+Доп. слот #1
+[Advanced #2]
+Доп. слот #2
+[Advanced #3]
+Доп. слот #3
+[Advanced #4]
+Доп. слот #4
+[Advanced #5]
+Доп. слот #5
+[Advanced 1]
+Доп. слот #1
+[Advanced 2]
+Доп. слот #2
+[Advanced 3]
+Доп. слот #3
+[Advanced 4]
+Доп. слот #4
+[Advanced 5]
+Доп. слот #5
+[Advanced 6]
+Доп. слот #6
+[Advanced 7]
+Доп. слот #7
+[Advanced #6]
+Доп. слот #6
+[Advanced #7]
+Доп. слот #7
+[Advanced options]
+Дополнительно
+[Advanced Options]
+Дополнительно
+[Afar]
+Афар
+[Afrikaans]
+Африкаанс
+[Age]
+Возраст
+[Akan]
+Акан
+[Albanian]
+Албанский
+[All contacts]
+Все контакты
+[All Contacts]
+Все контакты
+[All]
+Все
+[Allow]
+Разрешить
+[Always]
+Всегда
+[Amharic]
+Амхарский
+[Angry]
+Злюсь
+[Anniversary]
+Праздник
+[ANSI string]
+строка ANSI
+[Any]
+Любое
+[Appearance]
+Внешний вид
+[April]
+Апрель
+[Arabic]
+Арабский
+[Aragonese]
+Арагонский
+[Are you sure?]
+Вы уверены?
+[Armenian]
+Армянский
+[Assamese]
+Ассамский
+[Audio]
+Аудио
+[August]
+Август
+[Author]
+Автор
+[Authorization request]
+Запрос авторизации
+[Authorization]
+Авторизация
+[Avaric]
+Аварский
+[Avatar]
+Аватар
+[Avatars]
+Аватары
+[Avestan]
+Авестийский
+[Aymara]
+Аймарский
+[Azerbaijani]
+Азербайджанский
+[Back]
+Фон
+[Background color]
+Цвет фона
+[Baltic]
+Балтийский
+[Bambara]
+Бамана
+[Bashkir]
+Башкирский
+[Basque]
+Баскский
+[Behavior]
+Поведение
+[Belarusian]
+Белоруский
+[Belorussian]
+Белорусский
+[Bengali]
+Бенгальский
+[Bhojpuri]
+Хойпурийский
+[Bihari]
+Бихари
+[Birthday]
+День рождения
+[Bislama]
+Бислама
+[BokmР•l, Norwegian; Norwegian BokmР•l]
+Норвежский
+[Bookmarks]
+Закладки
+[Border]
+Рамка
+[Bosnian]
+Боснийский
+[Breton]
+Бретонский
+[Browse...]
+Открыть...
+[Bulgarian]
+Болгарский
+[Burmese]
+Бурмезский
+[Buttons]
+Кнопки
+[C&lear]
+Очистить
+[Can't find a contact list plugin you need clist_classic or clist_mw.]
+Плагин списка контактов не найден. Вам нужен clist_*.dll
+[Cantonese]
+Катонезийский
+[Catalan; Valencian]
+Каталонский
+[Catalan]
+Каталанский
+[Cellular]
+Мобильный
+[Central European]
+Центральноевропейский
+[Central Khmer]
+Кхмерский (центральный)
+[Chamorro]
+Чаморрский
+[Change password]
+Изменить пароль
+[characters]
+символов
+[Chat]
+Чат
+[Chechen]
+Чеченский
+[Check every]
+Пров. каждые
+[Check for Updates]
+Проверить обновления
+[Chichewa; Chewa; Nyanja]
+Ньянджа
+[Chinese]
+Китайский
+[Church Slavic; Old Slavonic]
+Старославянский
+[Chuvash]
+Чувашский
+[Clear all]
+Очистить
+[Clear]
+Очистить
+[Click action]
+Действия по щелчку
+[Client:]
+Клиент:
+[Client]
+Клиент
+[Close popup]
+Закрыть окно
+[College]
+ВУЗ
+[Color]
+Цвет
+[Colors]
+Цвета
+[Style]
+Стиль
+[Bold]
+Жирный
+[Italic]
+Курсив
+[Underline]
+Подчёркивание
+[Common]
+Общие
+[Conference]
+Чат-комната
+[Configuration]
+Конфигурация
+[Connection]
+Подключение
+[Connection settings]
+Настройки подключения
+[Copy]
+Копировать
+[Cornish]
+Корнуоллский
+[Corsican]
+Корсиканский
+[Country]
+Страна
+[Cree]
+Кри
+[Croatian]
+Хорватский
+[current contact]
+текущий контакт
+[Cut]
+Вырезать
+[Cyrillic]
+Кириллица
+[Czech]
+Чешский
+[Danish]
+Датский
+[Date]
+Дата
+[day(s)]
+дней
+[day]
+день
+[Day]
+День
+[Days]
+Дней
+[Debug]
+Отладка
+[December]
+Декабрь
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+Показать в новом окне, если 'Фильтр событий' включён
+[default]
+по умолчанию
+[Delete rule]
+Удалить правило
+[Deny]
+Запретить
+[Description]
+Описание
+[Dialog]
+Диалог
+[Disable]
+Выключить
+[disabled]
+выключен
+[Disabled]
+Выключен
+[Disconnects]
+Отключения
+[Dismiss popup]
+Закрыть
+[Dismiss]
+Убрать
+[Display errors using popups]
+Показывать ошибки в окнах
+[Display Name:]
+Показывать имя:
+[Display]
+Показывать
+[Divehi; Dhivehi; Maldivian]
+Мальдивский
+[Don't log Status Message changes]
+Не сохранять смены статусного сообщения
+[Complete]
+Готово
+[Done]
+Готово
+[Down]
+Вниз
+[Dutch; Flemish]
+Фламандский
+[Dutch]
+Голландский
+[Dzongkha]
+Дзонгка
+[E-Mail]
+E-Mail
+[Eating]
+Кушаю
+[Edit rule]
+Изменить правило
+[Edit...]
+Правка...
+[Enable highlighting]
+Включить выделение
+[Enable popups]
+Всплывающие окна
+[Provides a common popup interface for different plugins.]
+Поддержка всплывающих сообщений для различных плагинов.
+[Enable tracking for these protocols:]
+Отслеживать следующие протоколы:
+[Enable]
+Включено
+[enabled]
+включён
+[Enabled]
+Включён
+[English]
+Английский
+[error]
+ошибка
+[Errors]
+Ошибки
+[Esperanto]
+Эсперанто
+[Estonian]
+Эстонский
+[events]
+события(й)
+[Ewe]
+Еве
+[Example]
+Пример
+[Expert]
+Эксперт
+[Export to file]
+Экспорт
+[Export]
+Экспорт
+[Extra icons]
+Экстра значки
+[Farsi]
+Фарси
+[Faroese]
+Фарерский
+[Favorites]
+Избранные
+[February]
+Февраль
+[Fijian]
+Фиджийский
+[File Transfer]
+Передача файла
+[Filename:]
+Имя файла:
+[Filter]
+Фильтр
+[Filters]
+Фильтры
+[Finnish]
+Финский
+[Flash in the system tray and in the contact list]
+Мигать в трее и в списке контактов
+[Flashing]
+Мигание
+[Format]
+Формат
+[Formatting options]
+Форматирование
+[Frames]
+Фреймы
+[French]
+Французский
+[Friends]
+Друзья
+[From Popup plugin]
+По умолчанию
+[From]
+От
+[Fulah]
+Фула
+[Gaelic; Scottish Gaelic]
+Гэльский
+[Gaelic]
+Гайский
+[Galician]
+Галисийский
+[Game]
+Игра
+[Games]
+Игры
+[Ganda]
+Ганда
+[Gender]
+Пол
+[General Options]
+Общие параметры
+[Georgian]
+Грузинский
+[German]
+Немецкий
+[Greek, Modern (1453-)]
+Греческий
+[Greek]
+Греческий
+[Guarani]
+Гуарани
+[Gujarati]
+Гуджаратский
+[Haitian; Haitian Creole]
+Гаитянский
+[Hausa]
+Науса
+[Hebrew]
+Иврит
+[Herero]
+Гереро
+[Hidden]
+Скрытый
+[Hide offline contacts]
+Скрыть отключённых
+[Hindi]
+Хинди
+[Hiri Motu]
+Хири Моту
+[Home]
+Дом
+[Homepage]
+Сайт
+[Hotkey]
+Горячая клавиша
+[Hottrack Text]
+Под курсором
+[Hottrack text]
+Под курсором
+[Hungarian]
+Венгерский
+[Icelandic]
+Исландский
+[Ido]
+Идо
+[Igbo]
+Игбо
+[Ignore all]
+Игнорировать все
+[Import]
+Импорт
+[Inactive]
+Неактивно
+[Incoming message]
+Входящее сообщение
+[Incoming messages]
+Входящие сообщения
+[Indent:]
+Отступ:
+[Indonesian]
+Индонезийский
+[Input error]
+Ошибка ввода
+[Input]
+Ввод
+[Interlingua (International Auxiliary Language Association)]
+Интерлингва (IALA)
+[Interlingue]
+Интерлингва
+[Inuktitut]
+Инуктитут
+[Inupiaq]
+Инуит
+[Irish]
+Ирландский
+[It is recommended that you create a backup of your current Miranda profile before importing.]
+Рекомендуется создать резервную копию текущего профиля перед импортированием.
+[Italian]
+Итальянский
+[January]
+Январь
+[Japanese]
+Японский
+[Javanese]
+Яванский
+[July]
+Июль
+[June]
+Июнь
+[Kalaallisut; Greenlandic]
+Гренландский
+[Kannada]
+Каннада
+[Kanuri]
+Канури
+[Kashmiri]
+Кашмирский
+[Kazakh]
+Казахский
+[Keep connection alive]
+Поддерживать соединение
+[Khmer]
+Хмерский
+[Kikuyu; Gikuyu]
+Кикуйю
+[Kinyarwanda]
+Кинаруанда
+[Kirghiz; Kyrgyz]
+Киргизский
+[Komi]
+Коми
+[Kongo]
+Конго
+[Korean ( Johab )]
+Корейский ( Johab )
+[Korean (Johab)]
+Корейский (Johab)
+[Korean]
+Корейский
+[Kuanyama; Kwanyama]
+Киньяма
+[Kurdish]
+Курдский
+[Language]
+Язык
+[Lao]
+Лаосский
+[Latin I]
+Западноевропейский
+[Latin]
+Латинский
+[Latvian]
+Латышский
+[Left click]
+Левый щелчок
+[Limburgan; Limburger; Limburgish]
+Лимбургийский
+[Limit log text to (events):]
+Ограничить журнал до (событий):
+[Line]
+Линия
+[Lingala]
+Лингала
+[Link]
+Ссылка
+[Lithuanian]
+Литовский
+[Loading...]
+Загрузка...
+[Lock Frame]
+Закрепить фрейм
+[Log timestamp]
+Записывать время
+[Log to file]
+Запись в файл
+[Logging]
+История
+[Login server:]
+Сервер:
+[Love]
+Любовь
+[Luba-Katanga]
+Луба-Катанга
+[Luxembourgish; Letzeburgesch]
+Люксембургский
+[Macedonian]
+Македонский
+[Main]
+Главный
+[Malagasy]
+Малагасийский
+[Malay]
+Малайский
+[Malayalam]
+Малаялам
+[Maltese]
+Мальтийский
+[Mandarin]
+Мандарин
+[Manx]
+Мэнский
+[Maori]
+Маорийский
+[Marathi]
+Марахатский
+[March]
+Март
+[Marital status:]
+Семейное положение:
+[Marshallese]
+Маршалльский
+[max]
+макс
+[May]
+Май
+[Menu]
+Меню
+[Message-Event only]
+Только для сообщений
+[Message Log]
+Журнал
+[Message log]
+Журнал
+[Message Session]
+Беседа
+[Message window]
+Окно сообщения
+[Message:]
+Диалог:
+[message]
+сообщение
+[messages]
+сообщений
+[Messaging]
+Сообщения
+[min]
+мин.
+[Minutes]
+минут(ы)
+[minutes]
+минут(ы)
+[Misc]
+Прочее
+[Miscellaneous]
+Прочее
+[Mode]
+Режим
+[Moldavian]
+Молдавский
+[Mongolian]
+Монгольский
+[ms]
+мс
+[Navajo; Navaho]
+Навахо
+[Ndebele, North; North Ndebele]
+Ндебеле, Северный
+[Ndebele, South; South Ndebele]
+Ндебеле, Южный
+[Ndonga]
+Ндонга
+[Nepali]
+Непальский
+[Next]
+Вперёд
+[Nick changes]
+Смена ника
+[nick]
+ник
+[Nickname Change]
+Смена псевдонима
+[Nickname]
+Ник
+[No description given]
+Без описания
+[No word to look up]
+Нет слов для просмотра
+[Northern Sami]
+Северносаамский
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+Норвежский
+[Norwegian]
+Норвежский
+[Note]
+Заметка
+[Nothing]
+Ничего
+[Notices]
+Уведомления
+[Notification]
+Уведомление
+[Notifications]
+Уведомления
+[Notify]
+Уведомление
+[November]
+Ноябрь
+[number value]
+число
+[Number:]
+Номер:
+[Occitan (post ); ProvenР\“al]
+Окситанский
+[Occupation:]
+Занятие:
+[October]
+Октябрь
+[Ojibwa]
+Оджибва
+[On left click:]
+Левый щелчок:
+[On left click]
+Левый щелчок
+[On right click:]
+Правый щелчок:
+[On right click]
+Правый щелчок
+[On]
+Вкл
+[Online since:]
+В сети с:
+[Offline since:]
+Не в сети с:
+[Only notify if status is]
+Показывать, если статус
+[Only prefix with timestamp if it has changed]
+Подставлять время, если есть изменения
+[Open contact details window]
+Открыть окно деталей контакта
+[Open contact history]
+Открыть историю контакта
+[Open contact menu]
+Открыть меню контакта
+[Open log file]
+Открыть журнал
+[Open message window]
+Открыть окно беседы
+[Open]
+Открыть
+[Oriya]
+Ория
+[Oromo]
+Оромо
+[Ossetian; Ossetic]
+Осетинский
+[Other name]
+Имена других
+[Other]
+Другое
+[Others]
+Другое
+[Outgoing message]
+Исходящее сообщение
+[Output]
+Вывод
+[Pali]
+Пали
+[Panjabi; Punjabi]
+Панджабский
+[Participants]
+Участники
+[password:]
+пароль:
+[Password]
+Пароль
+[Paste]
+Вставить
+[Pause]
+Пауза
+[Perform]
+Выполнить
+[Persian]
+Персидский
+[Phone/SMS]
+Телефон/SMS
+[Phone]
+Телефон
+[Plugin settings]
+Настройки
+[Polish]
+Польский
+[Popup notification]
+Всплывающее окно
+[Popup timeout:]
+Длительность:
+[Popup]
+Всплывающее окно
+[Popups]
+Всплывающие окна
+[Port]
+Порт
+[Portuguese]
+Португальский
+[Prefix all events with a timestamp]
+Подставлять время во все события
+[Prev]
+Назад
+[Preview]
+Тест
+[Progress1]
+Прогресс1
+[Protocol icon]
+Значок протокола
+[Protocol Order && Visibility]
+Настройка протоколов и видимость
+[Protocols to check]
+Проверять протоколы
+[Protocols]
+Протоколы
+[Punjabi]
+Панджабский
+[Pushto]
+Пушту
+[Quechua]
+Кечуа
+[Question]
+Вопрос
+[Refresh]
+Обновить
+[Reserved #1]
+Доп. слот #1
+[Reserved #2]
+Доп. слот #2
+[Reserved #3]
+Доп. слот #3
+[Reserved #4]
+Доп. слот #4
+[Reset to defaults]
+Стандартные
+[Right click]
+Правый щелчок
+[Romanian]
+Румынский
+[Romansh]
+Романшский
+[Round corners]
+Закруглённые углы
+[Rules]
+Правила
+[Rundi]
+Рунди
+[Russian]
+Русский
+[s]
+с
+[Samoan]
+Самоанский
+[Sango]
+Санго
+[Sanskrit]
+Санскрит
+[Sardinian]
+Сардинский
+[Save to history]
+Сохранять в историю
+[Save]
+Сохранить
+[Screen Saver is running]
+Запущена заставка
+[sec.]
+сек.
+[Sec]
+сек.
+[second(s)]
+секунд(ы)
+[seconds]
+секунд
+[Select all]
+Выделить всё
+[Select All]
+Выделить всё
+[Send file]
+Передать файл
+[Send Instant Message]
+Отправить мгновенное сообщение
+[Send message on 'Enter']
+Посылать по "Enter"
+[Send message on Enter]
+Посылать по "Enter"
+[Send message on double Enter]
+Посылать по двойному "Enter"
+[Send message on double 'Enter']
+Посылать по двойному "Enter"
+[Send]
+Отправить
+[September]
+Сентябрь
+[Serbian]
+Сербский
+[Serbo-Croatian]
+Сербохорватский
+[Server:]
+Сервер:
+[Server]
+Сервер
+[Service]
+Служба
+[Services]
+Службы
+[Settings]
+Настройки
+[Shona]
+Шона
+[Show actions]
+Действия
+[Show Avatars]
+Показывать аватары
+[Show balloon popup]
+Показывать всплывающую подсказку
+[Show history]
+Показать историю
+[Show icon in tray for actions]
+Действия
+[Show icon in tray for highlights]
+Подсвеченные сообщения
+[Show icon in tray for information messages]
+Информационные сообщения
+[Show icon in tray for messages]
+Сообщения
+[Show icon in tray for name changes]
+Смены псевдонимов
+[Show icon in tray for notices]
+Показывать значок уведомления в трее
+[Show icon in tray for status changes]
+Смены статусов
+[Show icon in tray for topic changes]
+Смена темы
+[Show icon in tray for users disconnecting]
+Отключения участников
+[Show icon in tray for users joining]
+Подключения участников
+[Show icon in tray for users kicking other user]
+Пинки
+[Show icon in tray for users leaving]
+Выходы участников
+[Show icons in tray only when the chat room is not active]
+Показывать значки только когда окно чат-комнаты неактивно
+[Show information messages]
+Информационные сообщения
+[Show messages]
+Сообщения
+[Show notices]
+Уведомления
+[Show popup for actions]
+Действия
+[Show popup for highlights]
+Подсвеченные сообщения
+[Show popup for information messages]
+Информационные сообщения
+[Show popup for messages]
+Сообщения
+[Show popup for name changes]
+Смены псевдонимов
+[Show popup for notices]
+Всплывающие окна уведомлений
+[Show popup for status changes]
+Смены статусов
+[Show popup for topic changes]
+Смена темы
+[Show popup for users disconnecting]
+Отключения участников
+[Show popup for users joining]
+Подключения участников
+[Show popup for users kicking other user]
+Пинки
+[Show popup for users leaving]
+Выходы участников
+[Show popup]
+Показывать вспл. окно
+[Show Popups when I connect]
+Окна при подключении
+[Show popups]
+Показывать всплывающие окна
+[Show protocol name]
+Показывать название протокола
+[Show seconds]
+Секунды
+[Show status changes of users]
+Смена статуса
+[Show topic changes]
+Смена темы
+[Show typing notification when no message dialog is open]
+Уведомлять о наборе текста, когда окно беседы не открыто
+[Show typing notifications when a user is typing a message]
+Показывать уведомления о наборе текста
+[Show user detail]
+Показать детали
+[Show user menu]
+Меню пользователя
+[Show users being kicked]
+Пинки из чат-комнаты
+[Show users changing name]
+Смена псевдонима
+[Show users disconnecting]
+Пользователи, покинувшие сервер
+[Show users joining]
+Новые пользователи
+[Show users leaving]
+Пользователи, покинувшие чат-комнату
+[Sichuan Yi]
+Сычуаньский
+[Simplified Chinese]
+Китайский (упрощённый)
+[Sindhi]
+Синди
+[Sinhala; Sinhalese]
+Сингальсткий
+[slot to draw the icon]
+слот для значка
+[Slovak]
+Словацкий
+[Slovenian]
+Словенский
+[Somali]
+Сомалийский
+[Sotho, Southern]
+Суто
+[Sound]
+Звук
+[Spanish; Castilian]
+Кастильский
+[Spanish]
+Испанский
+[Speak]
+Речь
+[Static]
+Статический
+[Statistics]
+Статистика
+[Status changes]
+Смены статуса
+[Status Message:]
+Сообщение статуса:
+[Status message]
+Сообщение статуса
+[Status Message]
+Статусное сообщение
+[status]
+статус
+[Statuses]
+Статусы
+[Sundanese]
+Сунданский
+[Swahili]
+Суахили
+[Swati]
+Свати
+[Swedish]
+Шведский
+[Tabs]
+Вкладки
+[Tagalog]
+Тагалог
+[Tahitian]
+Таитянский
+[Taiwanese]
+Тайваньский
+[Tajik]
+Таджикский
+[Tamil]
+Тамильский
+[Tatar]
+Татарский
+[Telugu]
+Телугу
+[Template:]
+Шаблон:
+[Template]
+Шаблон
+[Test Contact]
+Тестовый контакт
+[Test description]
+Тестовое описание
+[Test]
+Тест
+[Text color]
+Цвет текста
+[Thai]
+Тайский
+[Tibetan]
+Тибетский
+[Tigrinya]
+Тигринья
+[time]
+время
+[Time]
+Время
+[Timeout (s)]
+Длительность (с)
+[Timeout:]
+Таймаут:
+[Timestamp]
+Время
+[Timezone]
+Часовой пояс
+[Title:]
+Заголовок:
+[Title]
+Заголовок
+[Tonga (Tonga Islands)]
+Тонганский
+[Tooltips]
+Подсказки
+[Topic changes]
+Смены темы
+[Traditional Chinese]
+Китайский (традиционный)
+[Transparency]
+Прозрачность
+[Transparent background]
+Прозрачный фон
+[Travel]
+Путешествия
+[Tray Icon]
+Значок в трее
+[Tsonga]
+Тсонга
+[Tswana]
+Тсвана
+[Turkish]
+Турецкий
+[Turkmen]
+Туркменский
+[Twi]
+Тви
+[Type]
+Тип
+[Typing Notification Options]
+Настройки уведомлений набора
+[Typing Notify]
+Набирает текст
+[Typing notify]
+Набирает текст
+[U&se Popup colors]
+Цвета вспл. окон
+[Uighur; Uyghur]
+Уйгурский
+[Ukrainian]
+Украинский
+[Unicode string]
+строка Unicode
+[unknown]
+неизвестно
+[Unspecified]
+Не указано
+[Up]
+Вверх
+[Update]
+Обновить
+[Urdu]
+Урду
+[Use background image]
+Использовать фон
+[Use custom colors]
+Задать цвета
+[Use default]
+По умолчанию
+[Use same style as in the message log]
+Тот же стиль, что и в журнале
+[Use Windows colors]
+Цвета Windows
+[User &details]
+Данные контакта
+[User details]
+Информация о пользователе
+[User kicks]
+Пинки
+[User Name:]
+Логин:
+[User]
+Пользователь
+[Users joining]
+Входы в чат
+[Users leaving]
+Выходы из чата
+[Uzbek]
+Узбекский
+[Variables]
+Переменные
+[Venda]
+Венда
 [Version:]
 Версия:
-[Locale:]
-Язык:
-[Download more Language Packs]
-Загрузить дополнительные переводы
-[Please restart Miranda NG for your changes to take full effect.]
-Изменения вступят в силу после перезапуска программы.
-[Langpack root folder]
-Папка языковых пакетов
-[Reload langpack]
-Перезагрузить языковой пакет
-[(incompatible)]
-(несовместим)
-[Unknown]
-Неизвестно
+[Vietnamese]
+Вьетнамский
+[View]
+Вид
+[Visibility/Chat activity]
+Видимость/Активность чата
+[Visible]
+Видимо
+[Voice]
+Голос
+[VolapРk]
+Воляпюк
+[Volume]
+Громкость
+[Wait]
+Ждём
+[Walloon]
+Валлонский
+[Warning]
+Предупреждение
+[Web page]
+Web-страница
+[Welsh]
+Уэльский
+[Western Frisian]
+Фризский
+[Width]
+Ширина
+[Wolof]
+Волоф
+[Women]
+Женщины
+[Words to highlight (wildcards allowed)]
+Слова для подсветки (разрешены маски)
+[Working]
+Работаю
+[Xhosa]
+Коса
+[Year]
+Год
+[Yiddish]
+Идиш
+[Yoruba]
+Ёрубский
+[Your name]
+Ваше имя
+[Zhuang; Chuang]
+Чжуан
+[Zulu]
+Зулусский
+[Resize Smileys]
+Изменять размер смайлов
+[Show avatars]
+Аватары
+[Group chats]
+Чаты
+[Instant messages]
+Сообщения IM
+[Incoming (Focused Window)]
+Входящие (активное окно)
+[Incoming (focused window)]
+Входящие (активное окно)
+[Incoming (Unfocused Window)]
+Входящие (неактивное окно)
+[Incoming (unfocused window)]
+Входящие (неактивное окно)
+[Incoming (New Session)]
+Входящие (новый сеанс)
+[Incoming (new session)]
+Входящие (новый сеанс)
+[Message is highlighted]
+Сообщение выделено
+[The topic has been changed]
+Тема изменилась
+[User has changed name]
+Пользователь сменил имя
+[User has disconnected]
+Пользователь отключился
+[User has joined]
+Пользователь присоединился
+[User has kicked some other user]
+Пользователь выгнал другого
+[User has left]
+Пользователь ушёл
+[User has performed an action]
+Пользователь совершил действие
+[User has sent a notice]
+Пользователь отправил уведомление
+[Avatar size:]
+Аватар:
+[Author:]
+Автор:
+[Browse]
+Обзор
+[More...]
+Ещё...
+[Path:]
+Путь:
+[Popup Actions]
+Кнопки мыши
+[Popup Delay]
+Задержка окна
+[Popup Options]
+Всплывающие окна
+[Popup Title]
+Заголовок окна
+[Sunrise]
+Восход
+[Sunset]
+Закат
+[Updates]
+Обновления
+[Variable List]
+Переменные
+[&About]
+О программе
+[%s server connection]
+%s подключение к серверу 
+[%s client-to-client connections]
+%s подключения между клиентами
+[Use default colors]
+Цвета по умолчанию
+[Do nothing]
+Ничего не делать
+[Timeout]
+Таймаут
+[Status:]
+Статус:
+[Off]
+Откл.
+[Protocol:]
+Протокол:
+[Normal]
+Нормальный
+[Delay]
+Задержка
+[Permanent]
+Постоянно
+[Alerts]
+Уведомления
+[Add permanently]
+Добавить в список
+[Contact List]
+Список контактов
+[Contact list]
+Список контактов
+[Hide offline users]
+Скрыть отключённых
+[Hide empty groups]
+Скрыть пустые группы
+[Global]
+Глобальные
+[Disable groups]
+Отключить группы
+[Ask before deleting contacts]
+Подтверждение удаления
+[Disable icon blinking]
+Выключить мигание
+[System tray icon]
+Значок в трее
+[Single click interface]
+Один щелчок
+[Always show status in tooltip]
+Всегда показывать статус в подсказке
+[System tray icon when using multiple protocols]
+Значки протоколов в системном лотке
+[icon when statuses differ]
+при разных статусах
+[Cycle icons every]
+Менять каждые
+[Show multiple icons]
+Несколько значков
+[seconds, when statuses differ]
+секунд, при разных статусах
+[Only when statuses differ]
+При разных статусах
+[Items]
+Элементы
+[Show divider between online and offline contacts]
+Граница между подкл. и откл. пользователями
+[Hot track items as mouse passes over]
+Подсветка под курсором мыши
+[Disable drag and drop of items]
+Отключить перетаскивание элементов
+[Disable rename of items by clicking twice]
+Отключить переименование по двум щелчкам
+[Show selection even when list is not focused]
+Выделение, даже если окно неактивно
+[Make selection highlight translucent]
+Полупрозрачное выделение
+[Visual]
+Визуальные настройки
+[Scroll list smoothly]
+Плавная прокрутка
+[Time:]
+Время:
+[milliseconds]
+мс
+[Gray out entire list when:]
+Сделать серым, если:
+[Not focused]
+Не в фокусе
+[Always on top]
+Поверх всех окон
+[Minimize to tray]
+Скрыть в системный лоток
+[Show menu bar]
+Показывать меню
+[Easy move]
+Простое перемещение
+[Title bar text:]
+Заголовок окна:
+[Translucency options]
+Настройки прозрачности
+[Transparent contact list]
+Прозрачный список контактов
+[Active opacity:]
+Окно активно:
+[Inactive opacity:]
+Окно неактивно:
+[Fade contact list in/out]
+Плавно скрыть список
+[Hide contact list after it has been idle for]
+Скрыть список, если не активен в течение:
+[Automatically resize window to height of list]
+Автоматически изменять размер окна
+[maximum]
+максимум
+[% of screen]
+% от экрана
+[Size upwards]
+Растягивать вверх
+[If window is partially covered, bring to front instead of hiding]
+Поместить окно на передний план, если оно прикрыто другими окнами
+[Contact List Background]
+Фон списка
+[Contact list background]
+Фон списка
+[&Use Windows colors]
+&Цвета Windows
+[Stretch to height]
+Растянуть по высоте
+[Stretch to width]
+Растянуть по ширине
+[Tile horizontally]
+Горизонтальная мозаика
+[Tile vertically]
+Вертикальная мозаика
+[Scroll with text]
+Прокручивать с текстом
+[Stretch proportionally]
+Растянуть
+[Show status bar]
+Показывать панель статуса
+[Show icons]
+Показывать значки
+[Status Bar]
+Панель статуса
+[Status bar]
+Панель статуса
+[Show protocol names]
+Показывать протоколы
+[Show status text]
+Показывать текст статуса
+[Show bevels on panels]
+Бордюры на панелях
+[Make sections equal width]
+Разделы равной ширины
+[Right click opens status menu]
+Правый щелчок - меню статуса
+[Right click opens Miranda NG menu]
+Правый щелчок - главное меню
+[Contact list skin]
+Скин списка
+[Contact List Sorting]
+Сортировка списка контактов
+[Contact list sorting]
+Сортировка списка контактов
+[Groups]
+Группы
+[Draw a line alongside group names]
+Линия вдоль названий групп
+[Sort groups alphabetically]
+Сортировать группы по алфавиту
+[Quicksearch in open groups only]
+Быстрый поиск только в открытых группах
+[Quick search in open groups only]
+Быстрый поиск только в открытых группах
+[Dim idle contacts]
+Затемнить неактивных пользователей
+[Standard contacts]
+Стандартные контакты
+[Online contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (в сети)
+[Offline contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (отключённые)
+[Offline contacts]
+Отключённые контакты
+[Group member counts]
+Счётчики групп
+[Dividers]
+Разделители
+[Selected Text]
+Выделенный текст
+[Selected text]
+Выделенный текст
+[Quicksearch Text]
+Быстрый поиск
+[Quicksearch text]
+Быстрый поиск
+[Contacts which are 'not on list']
+Контакты 'не в списке'
+[Indent groups by:]
+Отступ для групп:
+[Second line]
+Вторая строка
+[Background color:]
+Цвет фона:
+[N/A]
+Недоступен
+[Text]
+Текст
+[Left]
+Слева
+[Right]
+Справа
+[Total time]
+Общее время
+[Default colors]
+По умолчанию
+[Information]
+Информация
+[Change]
+Изменить
+[No border]
+Без рамки
+[Protocol Icon]
+Значок протокола
+[Enable avatars support]
+Включить поддержку аватаров
+[Avatars Cache]
+Кэш аватаров
+[Error: Cannot connect to the server]
+Ошибка: Невозможно подключиться к серверу
+[Status message:]
+Статусное сообщение:
+[Single]
+В одиночестве
+[Engaged]
+В помолвке
+[Married]
+В браке
+[Education]
+Образование
+[Enter an authorization request]
+Текст запроса авторизации
+[Windows colors]
+Цвета Windows
+[Custom colors]
+Задать цвета
+[Video]
+Видео
+[Music]
+Музыка
+[Close button]
+Кнопка "Закрыть"
+[hours]
+часа(ов)
+[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
+GMT+00:00 Время по Гринвичу: Дублин, Лондон, Лиссабон, Эдинбург
+[GMT+10:00 East Australia; Guam; Vladivostok]
+GMT+10:00 Владивосток; Гуам; Восточная Австралия
+[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
+GMT+11:00 Магадан, Сахалин, Соломоновы о-ва
+[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
+GMT+12:00 Камчатка, Фиджи, Маршалловы о-ва, Окленд, Веллингтон
+[GMT+1:00 Central European Time; West Central Africa; Warsaw]
+GMT+01:00 Центрально-европейское время; Зап. Центр. Африка; Варшава
+[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
+GMT+02:00 Афины; Бухарест; Каир; Иерусалим; Хельсинки; Хараре
+[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
+GMT+03:00 Москва, Санкт-Петербург, Багдад, Найроби, Кувейт
+[GMT+3:30 Tehran]
+GMT+03:30 Тегеран
+[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
+GMT+04:00 Баку, Ереван, Тбилиси; Абу-Даби, Мускат
+[GMT+4:30 Kabul]
+GMT+04:30 Кабул
+[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
+GMT+05:00 Екатеринбург; Исламабад, Карачи, Ташкент
+[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
+GMT+06:00 Омск, Новосибирск, Алма-Ата; Астана, Дхака; Шри Джаяварденепура
+[GMT+6:30 Rangoon]
+GMT+06:30 Рангун
+[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
+GMT+07:00 Красноярск; Бангкок, Джакарта, Ханой
+[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
+GMT+08:00 Иркутск, Улан-Батор; Перт; Тайпей; Сингапур; Гонконг, Пекин
+[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
+GMT+09:00 Якутск; Сеул; Осака, Саппоро, Токио
+[GMT+9:30 Darwin; Adelaide]
+GMT+09:30 Дарвин; Аделаида
+[GMT-10:00 Hawaii]
+GMT-10:00 Гавайи
+[GMT-11:00 Midway Island; Samoa]
+GMT-11:00 о. Мидуэй, Самоа
+[GMT-12:00 Eniwetok; Kwajalein]
+GMT-12:00 Эневеток, Кваджалейн
+[GMT-1:00 Cape Verde Islands; Azores]
+GMT-01:00 о-ва Зеленого мыса, Азорские о-ва
+[GMT-2:00 Mid-Atlantic]
+GMT-02:00 Среднеатлантическое время
+[GMT-3:00 Greenland; Buenos Aires; Georgetown]
+GMT-03:00 Гренландия; Буэнос-Айрес, Джорджтаун
+[GMT-3:30 Newfoundland]
+GMT-03:30 Ньюфаундленд
+[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
+GMT-04:00 Атлантическое время; Сантьяго; Каракас, Ла Пас
+[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
+GMT-05:00 Восточное время; Богота, Лима, Кито; Индиана (восток)
+[GMT-6:00 Central Time; Central America; Saskatchewan]
+GMT-06:00 Центральное время; Центральная Америка; Саскачеван
+[GMT-7:00 Arizona; Mountain Time]
+GMT-07:00 Горное время (США и Канада)
+[GMT-8:00 Pacific Time; Tijuana]
+GMT-08:00 Тихоокеанское время; Тихуана
+[GMT-9:00 Alaska]
+GMT-09:00 Аляска
+[Show time]
+Показывать время
+['Hide offline' means to hide:]
+'Скрыть отключённых' - скрыть:
+[Left margin:]
+Левое поле:
+[Gamma correction]
+Коррекция гаммы
+[Show counts of number of contacts in a group]
+Показать количество пользователей в группах
+[Hide group counts when there are none online]
+Скрыть счётчик, если нет пользователей в сети
+[Last message received on %s at %s.]
+Последнее сообщение вы получили %s в %s.
+[%s is typing a message...]
+%s набирает текст...
+[signed off (was %s)]
+уходит (был(а) %s)
+[signed on (%s)]
+приходит (%s)
+[is now %s (was %s)]
+теперь %s (был(а) %s)
+[Others nicknames]
+Другие псевдонимы
+[Your nickname]
+Ваш псевдоним
+[User kicked ...]
+Пинок
+[User is now known as ...]
+Смена псевдонима
+[Notice from user]
+Уведомление
+[The topic is ...]
+Смена темы
+[Information messages]
+Информационные сообщения
+[User enables status for ...]
+Установка статуса
+[User disables status for ...]
+Снятие статуса
+[Action message]
+Действие
+[Highlighted message]
+Подсвеченное сообщение
+[Message typing area]
+Поле набора текста
+[User list members (away)]
+Пользователи (отсутствуют)
+[Outgoing messages]
+Исходящие сообщения
+[Outgoing name]
+Моё имя
+[Outgoing time]
+Время отправления
+[Outgoing colon]
+Двоеточие в исходящих сообщениях
+[Incoming name]
+Имя собеседника
+[Incoming time]
+Время получения
+[Incoming colon]
+Двоеточие во входящих сообщениях
+[Message area]
+Область сообщения
+[%s has joined]
+%s вошёл
+[%s has left]
+%s вышел
+[%s has disconnected]
+%s отключился
+[%s is now known as %s]
+%s сменил имя на %s
+[%s kicked %s]
+%s выкинул %s
+[You have joined %s]
+Вы пришли на '%s'
+[Notice from %s: %s]
+Уведомление от %s: %s
+[The topic is '%s%s']
+Тема '%s%s'
+[ (set by %s)]
+ (поставлена %s)
+[%s enables '%s' status for %s]
+%s включает статус '%s' для %s
+[%s disables '%s' status for %s]
+%s выключает статус '%s' для %s
+[You are now known as %s]
+Теперь вы известны как %s
+[Show the history (CTRL+H)]
+Показать историю (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Показать/скрыть список пользователей (CTRL+N)
+[Control this room (CTRL+O)]
+Контролировать эту чат-комнату (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Включить/выключить фильтр событий (CTRL+F)
+[Insert a smiley]
+Вставить смайл
+[Insert Emoticon]
+Смайлы
+[View user's history]
+История сообщений
+[View User's History]
+История сообщений
+[Byte]
+Байт
+[Word]
+Слово
+[Value]
+Значение
+[Setting]
+Параметр
+[Unicode]
+Юникод
+[Reload]
+Перегрузить
+[Display time:]
+Отображать:
+[Copy to clipboard]
+Копировать в буфер обмена
+[Use protocol smileys]
+Смайлики протокола
+[Move down]
+Ниже
+[Move up]
+Выше
+[Top]
+Верх
+[Show all contacts]
+Показать все контакты
+[Backup Database]
+Резервировать профиль
+[Select Backup Folder]
+Выберите папку для резервных копий
+[Backup progress]
+Ход процесса резервирования
+[Show icon]
+Показать значок
+[Enable SmileyAdd support]
+Поддержка смайликов
+[Always RTL]
+Справа налево
+[Always LTR]
+Слева направо
+[Show headers]
+Показать заголовки
+[Enable MathModule support]
+Поддержка MathModule
+[Other events]
+Другие события
+[closed chat session]
+закрыл окно чата
+[Privacy]
+Приватность
+[client]
+клиент
+[Other...]
+Другое...
+[Background image]
+Фоновое изображение
+[Clear Log]
+Очистить историю
+[&Import...]
+&Импорт
+[Now importing...]
+Импортируется...
+[connection]
+подключение
+[Neutral]
+Нейтрально
+[Upload]
+Загрузить
+[(0 = no limit)]
+(0=не ограничено)
+[Formatting]
+Форматирование
+[Message from %s]
+Сообщение от %s
+[XStatus message]
+Сообщение xСтатуса
+[Flags]
+Флаги
+[Service discovery]
+Просмотр служб
+[timeout]
+таймаут
+[cancel]
+отмена
+[close]
+закрыть
+[name]
+имя
+[N&o to All]
+Н&ет для всех
+[Write]
+Запись
+[Program]
+Программа
+[Read]
+Чтение
+[Text to insert]
+Текст для вставки
+[Use Variables]
+Включить переменные
+[Result as Hex]
+Результат Hex
+[Start minimized]
+Запуск свёрнутым
+[Call service]
+Вызов службы
+[Clipboard]
+Буфер обмена
+[Result as Int]
+Результат Int
+[Program path]
+Путь
+[Service name]
+Имя службы
+[Program args]
+Аргументы
+[Execute program]
+Выполнить
+[Choose Contact]
+Выбрать контакт
+[Module]
+Модуль
+[wParam type]
+Тип wParam
+[lParam type]
+Тип lParam
+[Manual]
+Ручной
+[Open contact window]
+Открыть окно контакта
+[Insert text]
+Вставить текст
+[Result as string]
+Результат строка
+[Signed value]
+Значение со знаком
+[Parameter]
+Параметр
+[MessageBox]
+Окно уведомления
+[Service help]
+Помощь
+[Undefined]
+Не определено
+[Return]
+Возвращаемое
+[Yes to &All]
+Да для &всех
+[User ID:]
+ID пользователя:
+[minutes of inactivity]
+минут неактивности
+[Play sound]
+Играть звук
+[Loop sound]
+Повторять звук
+[Prefix:]
+Префикс:
+[Sound:]
+Звук:
+[minute]
+минута(у)
+[second]
+секунда(у)
+[secs]
+сек.
+[AIM Link Protocol]
+Протокол AIM
+[&Edit...]
+&Изменить
+[Daily]
+Ежедневно
+[Monthly]
+Ежемесячно
+[Once]
+Один раз
+[Parameters:]
+Параметры:
+[Popup window]
+Всплывающее окно
+[Weekly]
+Еженедельно
+[Mark replied to messages as read]
+Отмечать ответы как прочитанные
+[Message with question]
+Сообщение с вопросом
+[Invite]
+Приглашение
+[Applications]
+Приложения
+[Adding rule]
+Добавить правило
+[Ask to set autoreply message when mode changes]
+Спрашивать о сообщении автоответчика при смене статуса
+[Away mode]
+Отсутствую
+[Contact name]
+Имя контакта
+[Custom rules]
+Правила
+[Disable when Miranda is switched on]
+Не отвечать, если Miranda активна
+[DND mode]
+Не беспокоить
+[Free for chat mode]
+Готов болтать
+[NA mode]
+Недоступен
+[Occupied mode]
+Занят
+[Online mode]
+В сети
+[Reply delay:]
+Задержка:
+[Rule name:]
+Имя правила:
+[Rule settings]
+Настройки правил
+[Save autoreplies to history]
+Сохранять сообщения автоответчика в историю
+[Select user from a list]
+Выберите пользователя из списка
+[Select]
+Выбрать
+[Set autoreply message]
+Установить сообщение автоответчика
+[Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
+Примечание: если вы не видите значки, поменяйте слот. Может быть он уже используется другим плагином.
+[Number of backups to keep:]
+Количество резервных копий:
+[ Track ]
+ Отслеживание\s
+[Protect the picture and prevent automatic avatars from overwriting it]
+Защитить изображение и не позволять аватарам его заменять
+[Protect the picture]
+Защитить изображение
+[Try to make picture background transparent]
+Попробовать сделать фон прозрачным
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Удалить аватар с диска (возможно, необходимо для сброса, но удалит локальное изображение)?
+[Contact has no avatar]
+У контакта нет аватара
+[Number of points to define background:]
+Количество точек фона:
+[When setting avatars, always make it square]
+Сделать аватар квадратным
+[Make transparency proportional to color diff]
+Прозрачность пропорциональна разнице цвета
+[Show warning messages]
+Показывать предупреждения
+[Contact pictures]
+Аватары
+[Active Protocols]
+Активные протоколы
+[Set proto picture]
+Выбрать изображение
+[Delete proto picture]
+Удалить изображение
+[Max allowed file size for avatars: (KBytes)]
+Максимальный размер файла аватара (КБ):
+[Color difference allowed:]
+Разрешённая разница цветов:
+[Make my avatars transparent too]
+Сделать мои аватары прозрачными
+[Make avatars grayscale]
+Чёрно-белые аватары
+[Contact picture]
+Аватар контакта
+[Set as hidden]
+Скрыть
+[Picture options]
+Настройки изображения
+[Use defaults]
+Стандартные
+[ Options ]
+ Параметры\s
+[Points:]
+Точки:
+[Color diff:]
+Изм.цвета:
+[Protocol Avatars Cache]
+Кеш аватаров протокола
+[Reset contact picture]
+Сброс аватара контакта
+[Enable contact menu item]
+Включить пункт меню контакта
+[On event...]
+При:
+[%d seconds]
+%d сек.
+[%d minutes]
+%d мин.
+[%d hours]
+%d ч.
+[Stranger]
+Новичок
+[Away System]
+Система сообщений
+[By default...]
+По умолчанию...
+[Use the default message]
+Стандартное сообщение
+[Creepy]
+(по умолчанию)
+[Gone fragging]
+Занят
+[Showing an invitation messages]
+Показать приглашения к игре
+[as events in the contact list]
+событиями в списке контактов
+[in Popup windows]
+во всплывающих окнах
+[Load &skin...]
+Загрузить &скин...
+[Filename]
+Имя файла
+[Check birthdays]
+Проверить дни рождения
+[Birthday reminder]
+Напоминание о дне рождения
+[Birthday reminder: it's coming]
+Напоминание о приближающемся дне рождения
+[Hotkey:]
+Клавиша:
+[Please enter password!]
+Пожалуйста, введите пароль!
+[Change only if current status is Online]
+Изменять только при статусе 'В сети'
+[Create a main menu item]
+Пункт в главном меню
+[Hide]
+Скрыть
+[not found]
+не найдено
+[Hide contact]
+Скрыть контакт
+[Unknown value]
+Неизвестное значение
+[Upload in progress...]
+Загрузка...
+[Upload in progress...%d%%]
+Загрузка...%d%%
+[Upload complete]
+Загрузка завершена
+[Change ICQ Details]
+Изменить данные ICQ
+[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
+Вы не подключены к сети ICQ. Чтобы обновлять данные, нужно подключиться к сети ICQ.
+[Appearance and functionality of chat room windows]
+Интерфейс и функциональность окон чата
+[Appearance of the message log]
+Внешний вид журнала сообщений
+[Icons to display in the message log]
+Значки журнала сообщений
+[Icons to display in the tray]
+Значки в системном лотке
+[Popups to display]
+Всплывающие окна
+[User's status was changed]
+Статус пользователя изменился
+[Window Icon]
+Значок окна
+[Window icon]
+Значок окна
+[Italics]
+Курсив
+[Underlined]
+Подчёркнутый
+[Smiley button]
+Смайлы
+[Room history]
+История
+[Event filter]
+Фильтр событий
+[Room settings]
+Настройки
+[Event filter disabled]
+Фильтр событий выключен
+[Event filter enabled]
+Фильтр событий включён
+[Hide userlist]
+Скрыть список пользователей
+[Show userlist]
+Показать список пользователей
+[Icon overlay]
+Значок поверх
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
+[Information (10x10)]
+Информация (10х10)
+[Highlight (10x10)]
+Выделить (10х10)
+[Topic (10x10)]
+Тема (10х10)
+[Nickchange (10x10)]
+Смена псевдонима (10х10)
+[Nick change (10x10)]
+Смена псевдонима (10х10)
+[Kick (10x10)]
+Выгнать (10х10)
+[Quit (10x10)]
+Выход (10х10)
+[Leave (10x10)]
+Покинуть (10х10)
+[Join (10x10)]
+Войти (10x10)
+[Remove status (10x10)]
+Удалить статус (10х10)
+[Add status (10x10)]
+Добавить статус (10х10)
+[Message out (10x10)]
+Отправленное сообщение (10х10)
+[Message in (10x10)]
+Принятое сообщение (10х10)
+[Notice (10x10)]
+Уведомление (10x10)
+[Action (10x10)]
+Действие (10x10)
+[%s: Message Session]
+%s: диалог
+[%s: message session]
+%s: диалог
+[%s: Message Session (%u users)]
+%s: диалог (%u пользователей)
+[%s: message session (%u users)]
+%s: диалог (%u пользователей)
+[Enable logging to disk]
+Запись журнала на диск
+[Log background]
+Фон журнала
+[Message background]
+Фон поля ввода
+[Userlist background]
+Фон списка пользователей
+[Trim to (KB)]
+Лимит (КБ)
+[Log directory]
+Папка журнала
+[Fonts 'n Colors]
+Шрифты и цвета
+[Log options]
+Настройки журнала
+[Popups for the Chat plugin]
+Всплывающие окна чата
+[Clear lo&g]
+Очистить ча&т
+[Co&py all]
+Копировать все
+[Open a &new browser window]
+Открыть в &новом окне
+[&Open in current browser window]
+&Открыть в текущем окне
+[Undo]
+Откат 
+[Redo]
+Вернуть
+[&Open at this position]
+Открыть в этом месте
+[&Close tab]
+Закрыть вкладку
+[%s wants your attention in %s]
+%s требует Вашего внимания в %s
+[%s speaks in %s]
+%s говорит в %s
+[%s has joined %s]
+%s вошёл в %s
+[%s has left %s]
+%s вышел из %s
+[%s kicked %s from %s]
+%s выкинул %s из %s
+[Notice from %s]
+Уведомление от %s
+[Topic change in %s]
+Смена темы в %s
+[Information in %s]
+Информация в %s
+[%s enables '%s' status for %s in %s]
+%s включает статус '%s' для %s в %s
+[%s disables '%s' status for %s in %s]
+%s выключает статус '%s' для %s в %s
+[%s says: %s]
+%s говорит: %s
+[%s has disconnected (%s)]
+%s отключился (%s)
+[%s kicked %s (%s)]
+%s выкинул %s (%s)
+[The topic is '%s']
+Тема '%s'
+[The topic is '%s' (set by %s)]
+Тема '%s' (установлена %s)
+[User list members (online)]
+Пользователи (в сети)
+[Flash window when someone speaks]
+Мигать окном, если есть новое сообщение
+[Flash window when a word is highlighted]
+Мигать окном, если есть подсвеченные сообщения
+[Show list of users in the chat room]
+Показывать список пользователей в чат-комнате
+[Show button menus when right clicking the buttons]
+Показывать меню кнопки по правому щелчку
+[Limit user names in the message log to 20 characters]
+Ограничить имена в журнале 20-ю символами
+[Show the topic of the room on your contact list (if supported)]
+Показывать тему чат-комнаты в списке контактов (если поддерживается)
+[Do not play sounds when the chat room is focused]
+Не играть звук, когда чат-комната на переднем плане
+[Do not pop up the window when joining a chat room]
+Не открывать окно чата при входе в чат-комнату
+[Toggle the visible state when double clicking in the contact list]
+Переключить видимость по двойному щелчку в списке контактов
+[Timestamp has same color as the event]
+Показывать время тем же цветом что и событие
+[Add ':' to auto-completed user names]
+Добавлять ":" к именам пользователей
+[Strip colors from messages in the log]
+Запретить цвета в журнале
+[Enable the 'event filter' for new rooms]
+Включить 'фильтр событий' для новых чат-комнат
+[Show icon for topic changes]
+Смены темы
+[Show icon for users joining]
+Новые пользователи
+[Show icon for users disconnecting]
+Отключения участников
+[Show icon for messages]
+Сообщения
+[Show icon for actions]
+Действия
+[Show icon for highlights]
+Подсвеченные сообщения
+[Show icon for users leaving]
+Выходы участников
+[Show icon for users kicking other user]
+Пинки
+[Show icon for notices]
+Уведомления
+[Show icon for name changes]
+Смены ников
+[Show icon for information messages]
+Информационные сообщения
+[Show icon for status changes]
+Смены статусов
+[Show popups only when the chat room is not active]
+Показывать вспл. окна только когда окно чат-комнаты не активно
+[%s has left (%s)]
+%s вышел (%s)
+[Custom1]
+Набор 1
+[Notice from %s: ]
+Уведомление от %s:\s
+[Show these events only:]
+Показывать только:
+[%s: Server]
+%s: Сервер
+[Chat rooms]
+Чаты
+[Display contact status icon before user role icon]
+Показывать значок статуса перед значком роли
+[Look up '%s':]
+Искать '%s':
+[Server: %s]
+Сервер: %s
+[Show contact statuses if protocol supports them]
+Показывать статусы, если есть поддержка в протоколе
+[Terminal]
+Терминал
+[Enable notification]
+Включить уведомление
+[List Background]
+Фон списка
+[List background]
+Фон списка
+[Pin to desktop]
+Прикрепить к столу
+[Show resize grip indicator]
+Индикатор изм. размера
+[Hide vertical scroll bar]
+Скрыть полосу прокрутки
+[Tool style main window]
+Стиль панели у заголовка
+[Rate]
+Рейтинг
+[Reset view mode]
+Сбросить режим
+[No view mode]
+Нет режима просмотра
+[Clear view mode and return to default display]
+Сбросить режим и перейти в режим по умолчанию
+[Select a view mode]
+Выбор режима просмотра
+[Ungrouped contacts]
+Контакты вне групп
+[And]
+И
+[Or]
+ИЛИ
+[Older than]
+старше, чем
+[Newer than]
+новее, чем
+[Delete a view mode]
+Удаление режима просмотра
+[Really delete this view mode? This cannot be undone]
+Действительно удалить режим? Отмена не возможна!
+[Last message]
+Последнее сообщение
+[Listening to]
+Слушаю
+[SubGroupMenu]
+Меню подгрупп
+[&New SubGroup]
+Создать подгруппу
+[GroupMenu]
+Меню групп
+[Event Area]
+Область событий
+[Hide All Titlebars]
+Скрыть названия
+[Show All Titlebars]
+Показывать названия
+[Show All Frames]
+Показать все фреймы
+[&Visible]
+Показывать
+[&Show TitleBar]
+Показывать название
+[&Locked]
+Закрепить
+[&Collapsed]
+Свёрнутое
+[&Floating Mode]
+Плавающий режим
+[&Border]
+&Рамка
+[&Align]
+Выравнивание
+[&Top]
+Верх
+[&Client]
+Вручную
+[&Bottom]
+Низ
+[&Position]
+Положение
+[&FrameTitle]
+&Заголовок фрейма
+[Align]
+Выравнивание
+[InsertSeparator]
+Разделитель
+[My Contacts]
+Мои контакты
+[Setup view modes]
+Настроить режимы вида
+[Show second line]
+Показывать вторую строку
+[View Modes]
+Режимы вида
+[Enable sounds]
+Включить звуки
+[Disable Sounds]
+Отключить звуки
+[Height]
+Высота
+[Text:]
+Текст:
+[Second Line]
+Вторая строка
+[Status menu]
+Меню статусов
+[Configure view modes]
+Настройка режимов вида
+[Filtering]
+Фильтрация
+[Sticky contacts]
+Закреплённые контакты
+[Available view modes]
+Доступные режимы вида
+[Include groups]
+Включить группы
+[Include protocols]
+Включить протоколы
+[Include status modes]
+Включить статусы
+[Status mode]
+Режим статуса
+[Duplicate name]
+Совпадающее имя
+[A view mode with this name does alredy exist]
+Режим отображения с таким именем уже присутствует
+[Automatically clear this view mode after]
+Автоматически сбрасывать этот режим после
+[Clear current View Mode]
+Очистить текущий режим вида
+[Event area]
+Область событий
+[Floating]
+Плавающее
+[View mode options]
+Настройки режима вида
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+Используя список контактов с левой стороны, вы можете выбрать контакты, которые будут закреплены за этим режимом просмотра. Эти контакты будут игнорировать стандартные правила фильтра и использовать только фильтр статуса ниже.
+[Setup View Modes...]
+Настроить режимы вида...
+[Medium]
+Средний
+[StatusBar Background]
+Фон панели статуса
+[New Menu System not Found...]
+Не найдена новая система меню...
+[Show Main Menu]
+Главное меню
+[Show status message]
+Статусное сообщение
+[*** All contacts ***]
+*** Все контакты ***
+[Transparency:]
+Прозрачность:
+[Protocol Type]
+Тип протокола
+[Show size grip]
+Индикатор изменения размера
+[&Floating Contact]
+Плавающий контакт
+[TabSRMM Menu]
+Меню TabSRMM
+[TabSRMM session list]
+Список сессий TabSRMM
+[Title bar]
+Заголовок
+[Alignment]
+Выравнивание
+[Display options]
+Опции отображения
+[Export to skin file]
+Сохранить в файл
+[Ignore none]
+Никакие события
+[Load from skin file]
+Загрузить из файла
+[Profiles]
+Профили
+[URL events]
+Ссылки (URL)
+[Show tooltips]
+Подсказки
+[Skin items]
+Элементы скина
+[<current>]
+<текущий>
+[Apply skin now]
+Применить скин
+[build time]
+время сборки
+[Custom Status]
+хСтатус
+[Incoming file transfers]
+Приём файлов
+[Load and apply]
+Загрузить и применить
+[Load this skin on startup]
+Загружать этот скин при старте
+[Opacity]
+Непрозрачность
+[Parameter mismatch]
+Несоответствие параметра
+[Raised]
+Приподнятый
+[Rounded border]
+Закруглённые
+[Show drop shadow (restart required)]
+Тень (нужен перезапуск)
+[Show TitleBar]
+Показать заголовок
+[Show Tool Bar]
+Показывать панель кнопок
+[Skin options]
+Настройки скина
+[Sounds are off]
+Звуки выкл.
+[Sunken]
+Утопленный
+[Support and latest version information]
+Поддержка и информация о последней версии
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+Для запрошенного действия необходим правильный выбор контакта. Выберите контакт из списка и повторите
+[Unload skin]
+Убрать скин
+[Classes]
+Классы
+[Hide from list]
+Скрыть из списка
+[Ignore...]
+Игнорировать...
+[Protocol...]
+Протокол...
+[Group...]
+Группа...
+[Send 'You were added']
+Отправить "Вас добавили"
+[Request Authorization]
+Запросить авторизацию
+[Copy ID]
+Копировать ID
+[Add protocol name]
+Добавить протокол
+[Copy Status Message]
+Копировать статус
+[Copy IP]
+Копировать IP
+[Copy MirVer]
+Копировать ID клиента
+[Browse Received Files]
+Принятые файлы
+[Last Online]
+Последний раз...
+[Month (01-12)]
+Месяц (01-12)
+[Month Name]
+Месяц (полный)
+[Month Name Short]
+Месяц (короткий)
+[Day (01-31)]
+День (01-31)
+[Day of Week]
+День недели
+[Day of Week Short]
+День недели (кратко)
+[Hour (01-24)]
+Час (01-24)
+[Hour (1-12)]
+Час (1-12)
+[Minutes (00-60)]
+Минуты (00-60)
+[Seconds (00-60)]
+Секунды (00-60)
+[X-Status Message]
+Сообщение xСтатуса
+[An error has occurred. The protocol reported the following error:]
+Протокол вернул следующую ошибку:
+[Try again]
+Ещё раз
+[View Homepage]
+Сайт
+[Show Menu Item]
+Вид отображения меню
+[Notification mode]
+Режим уведомления
+[Popup colors]
+Цвета всплывающих окон
+[&Update]
+&Обновление
+[My Notes:]
+Мои заметки:
+[Nick Name:]
+Ник:
+[Work:]
+Рабочая:
+[F]
+Ж
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda нашла повреждения в Вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
+[Database Panic]
+Проблема с базой
+[Please type in your new password]
+Пожалуйста, введите ваш новый пароль
+[Password is too short!]
+Пароль слишком короткий!
+[Database Error]
+Ошибка базы
+[Database failure. Miranda will now shutdown.]
+Ошибка базы. Miranda NG будет закрыта.
+[%s (CreateFileMapping failed. Code: %d)]
+%s (Ошибка CreateFileMapping. Код: %d)
+[%s (MapViewOfFile failed. Code: %d)]
+%s (Ошибка MapViewOfFile. Код: %d)
+[%s (Too large increment)]
+%s (Слишком большое приращение)
+[%s (Module Name not unique)]
+%s (Имя модуля не уникально)
+[%s (Module Offset not unique)]
+%s (Смещение модуля не уникально)
+[Copying database file...]
+Копирование файла базы...
+[Backups]
+Резервные копии
+[Please enter your new password]
+Пожалуйста, введите новый пароль
+[Wrong password!]
+Неверный пароль!
+[Backup profile]
+Резервировать профиль
+[Database backups]
+Резервирование профиля
+[Automatic backups]
+Автоматическое резервирование
+[Backup to folder:]
+Сохранять в папку:
+[Disable Popups]
+Отключить всплывающие окна
+[to]
+в
+[Incoming contacts]
+Входящие контакты
+[Incoming file]
+Входящий файл
+[You Were Added Message]
+Сообщение "Вас добавили"
+[Subject:]
+Тема:
+[New message]
+Новое сообщение
+[Precision]
+знаков после запятой
+[Variables...]
+Переменные...
+[Source:]
+Источник:
+[File:]
+Файл:
+[Use this message:]
+Использовать сообщение:
+[Advanced Settings]
+Расширенные параметры
+[But not during sign-on]
+Но не во время входа
+[Use Popup colors]
+Цвета вспл. окон
+[Timeouts]
+Перерывы
+[Round corners by]
+Округлить углы на
+[Events to react on]
+События
+[Incoming files]
+Входящие файлы
+[Incoming URLs]
+Входящие ссылки
+[Everything else]
+Все другие
+[Blink if message window is open]
+Мигать, если диал. окно открыто
+[and not in foreground]
+и не помещено на передний план
+[Only if last is]
+Если посл.
+[sec. old]
+сек. назад
+[Flash until]
+Мигать до:
+[is re-attended]
+обращения
+[Events are opened]
+События будут открыты
+[End of 'notify when' conditions]
+Окончание "оповещать когда"
+[Notify when]
+Оповещать, когда
+[Full Screen mode]
+Полноэкранный режим
+[Workstation is Locked]
+Компьютер заблокирован
+[Defined programs are running]
+Запущена указ. программа
+[All other situations]
+Все другие ситуации
+[Pending Events]
+Ожидающиеся события
+[Remind me every]
+Напом. каждые
+[Wait before starting flashing]
+Пауза перед началом мигания
+[Slow]
+Медленно
+[Fast]
+Быстро
+[Play]
+Пуск
+[Client Icons]
+Клиенты
+[Mail.ru Agent]
+Протокол Mail.ru Агент
+[Main Features]
+Главное
+[Properties]
+Свойства
+[Folders]
+Папки
+[Server name]
+Имя сервера
+[Copy URL to clipboard]
+Копировать ссылку в буфер обмена
+[Command line:]
+Ком. строка:
+[Variables Help]
+Помощь по переменным
+[contacts]
+контакта(ов)
+[Registration rejected]
+В регистрации отказано
+[<Last Status>]
+<Последний статус>
+[Automatically reconnect after unintentional disconnection]
+Переподключиться после неожиданного разрыва
+[&Save changes]
+Сохранить изменения
+[Internal IP:]
+Внутренний IP:
+[Me]
+Я
+[Search online users only]
+Только подключённых пользователей
+[Send messages slower, but with full acknowledgement]
+Отсылать сообщения медленнее, но с подтверждением
+[pixel]
+пикс.
+[Checking...]
+Проверяю...
+[Key ID:]
+ID ключа:
+[User ID]
+ID пользователя
+[Tags]
+Тэги
+[&Reset]
+&Сброс
+[Seconds]
+секунд
+[(Require Miranda restart)]
+(Требуется перезапуск программы)
+[Image]
+Изображение
+[Slider]
+Бегунок
+[Tool Bar]
+Панель инструментов
+[ Tracking ]
+ Уведомление\s
+[Log Status Message changes]
+Сохранять смены статусного сообщения
+[Don't log Nickname changes]
+Не сохранять смены псевдонима
+[Status change]
+Смена статуса
+[System message]
+Системное сообщение
+[Enter password]
+Введите пароль
+[Contact history]
+История контакта
+[Message direction]
+Направление сообщения
+[File transfer]
+Передача файла
+[Chats]
+Чаты
+[Case sensitive]
+Учёт регистра
+[Format:]
+Формат:
+[recognize all messages sent]
+Определять все посланные сообщения
+[recognize messages sent with hotkey only]
+Определять только сообщение отправленные гор.клавишей
+[Check]
+Отметить
+[XStatus]
+хСтатус
+[Run]
+Запустить
+[Dial]
+Позвонить
+[Function]
+Функция
+[Answer]
+Ответить
+[System up since:]
+Включён с:
+[Contact Information]
+Информация о контакте
+[No connection]
+Нет соединения
+[Features]
+Возможности
+[Meeting]
+Встреча
+[Coffee]
+Пью кофе
+[Business]
+Дела
+[Sleeping]
+Сплю
+[Cooking]
+Готовлю еду
+[Smoking]
+Курю
+[On WC]
+В туалете
+[You cannot send messages when you are offline.]
+Вы не можете отправлять сообщения без подключения к сети.
+[%s Avatar]
+Аватар %s
+[Previe&w]
+&Тест
+[Timeout (*)]
+Длительность (*)
+[Popup title]
+Заголовок окна
+[External IP:]
+Внешний IP:
+[Past]
+Прошлое
+[ICQ - Providing Help]
+ICQ - поддержка
+[Internet]
+Интернет
+[<empty>]
+<нет>
+[Always visible]
+Всегда видимый
+[Never visible]
+Всегда невидимый
+[Affiliation]
+Принадлежность
+[Other Services]
+Другое
+[Primary e-mail]
+Основной e-mail
+[Secondary e-mail]
+Вторичный e-mail
+[Tertiary e-mail]
+Третий e-mail
+[Web Building]
+Web-службы
+[Year of birth]
+Год рождения
+[ZIP/postcode]
+Индекс
+[Divorced]
+В разводе
+[Academic]
+Академия
+[Alumni Org.]
+Выпускники
+[Administrative]
+Администрация
+[Art]
+Искусство
+[Art/Entertainment]
+Развлечения
+[Astronomy]
+Астрономия
+[Audio and visual]
+Звук и визуализация
+[Business & Economy]
+Бизнес и экономика
+[Business services]
+Бизнес
+[Cars]
+Машины
+[Celebrity Fans]
+Фанат знаменитостей
+[Charity Org.]
+Благотворительная организация
+[Close relationships]
+В близких отношениях
+[Clothing]
+Одежда
+[Club/Social Org.]
+Клуб
+[Collections]
+Коллекционирование
+[College Student]
+Студент колледжа
+[Community & Social]
+Общество и социум
+[Community Org.]
+Общественное объединение
+[Computers]
+Компьютеры
+[Consumer electronics]
+Бытовые электроприборы
+[Cultural Org.]
+Культурное объединение
+[Culture & Literature]
+Культура и литература
+[Engineering]
+Инженер
+[Entertainment]
+Развлечения
+[Finance and corporate]
+Финансы
+[Financial Services]
+Финансы
+[Fitness]
+Фитнес
+[Government]
+Правительство
+[Health and beauty]
+Красота и здоровье
+[High School]
+Средняя школа
+[High School Student]
+Ученик средней школы
+[Hobbies]
+Хобби
+[Hobbyists Org.]
+Организация по увлечениям
+[Home automation]
+Бытовая автоматизация
+[Household products]
+Домашние продукты
+[Law]
+Закон
+[Lifestyle]
+Стиль жизни
+[Managerial]
+Управление
+[Manufacturing]
+Производство
+[Media]
+Медиа
+[Medical/Health]
+Медицина/Здоровье
+[Military]
+Военный
+[Nature and Environment]
+Природа и окружающая среда
+[Nature and Environment Org.]
+Природоохранная организация
+[Non-Government Organization]
+Неправительственная организация
+[Outdoor Activities]
+Активный отдых
+[Parenting]
+Воспитание
+[Parties]
+Вечеринки
+[Past Organization]
+Прошлая организация
+[Past Work Place]
+Прошлая работа
+[Pets/Animals]
+Животные
+[Professional]
+Профессионал
+[Professional Org.]
+Профсоюз
+[Publishing]
+Публикации
+[Religion]
+Религия
+[Retail stores]
+Розничная торговля
+[Retail]
+Розничный торговец
+[Retired]
+В отставке
+[Science & Research]
+Наука и исследования
+[Science/Technology]
+Наука/Технология
+[Scientific/Technical Org.]
+Научно-техническая организация
+[Self Improvement Group]
+Самосовершенствующаяся группа
+[Movies/TV]
+Кино/ТВ
+[Mystics]
+Мистика
+[News & Media]
+Новости и медиа
+[Skills]
+Навыки
+[Social science]
+Социология
+[Space]
+Космос
+[Spiritual/Religious Org.]
+Религиозная организация
+[Sporting and athletic]
+Спорт
+[Sports]
+Спорт
+[Sports Org.]
+Спортивная организация
+[Support Org.]
+Организация поддержки
+[Technical]
+Технический
+[University]
+Университет
+[University Student]
+Студент университета
+[Volunteer Org.]
+Волонтёрская организация
+[Separated]
+Разведён(а)
+[Fraternity/Sorority]
+Клуб по интересам/Женский клуб
+[Trade and Business Org.]
+Торговая организация
+[Web Design]
+Web Дизайн
+[Elementary School]
+Начальная школа
+[International Org.]
+Международная организация
+[Mail order catalog]
+Заказ товаров по почте
+[Union]
+Объединение
+[Widowed]
+Вдовец/Вдова
+[Auth]
+Авторизация
+[Name:]
+Имя:
+[Server port:]
+Порт сервера:
+[Details]
+Детали
+[Contact Info]
+Данные контакта
+[Enable last-sent-to]
+Включить последнее событие
+[ERROR]
+ОШИБКА
+[Use message grouping]
+Группировка сообщений
+[Show date]
+Дата
+[Use relative timestamp]
+Относительное время
+[Contact rate]
+Рейтинг контакта
+[Check3]
+Проверка3
+[Choose how you would like to import:]
+Выберите, откуда необходимо произвести импорт данных:
+[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
+Нажмите "Далее", чтобы выбрать информацию для импортирования, или "Отмена", чтобы выйти из этого мастера.
+[Start]
+Начать
+[Kb]
+Кб
+[Profile:]
+Профиль:
+[Del]
+Уд.
+[Bytes]
+Байт
+[Kilobytes]
+Килобайт
+[Megabytes]
+Мегабайт
+[Direction]
+Направление
+[Auto]
+Авто
+[Channel list]
+Список каналов
+[Kick]
+Выкинуть
+[&Kick]
+Выкинуть
+[Private]
+Конфиденциальный
+[Reconnect]
+Переподключение
+[Channel manager]
+Управление каналом
+[Admin]
+Админ
+[Add Ignore]
+Добавить игнор
+[Please wait...]
+Подождите, пожалуйста...
+[&Slap]
+&Шлепок
+[Internal server error]
+Внутренняя ошибка сервера
+[Hot]
+Горячий
+[Sick]
+Болен
+[Import from file]
+Импорт из файла
+[Enable avatars]
+Включить аватары
+[Disappointed]
+Разочарованный
+[Download]
+Скачать
+[Activate]
+Активировать
+[Dialogs]
+Диалоги
+[&Leave chat session]
+&Покинуть чат
+[Office]
+Офис
+[&Copy to clipboard]
+Скопировать в буфер обмена
+[hierarchy]
+иерархия
+[Lock workstation]
+Заблокировать компьютер
+[Relaxing]
+Расслабляюсь
+[Talking]
+Разговариваю
+[Options...]
+Настройки...
+[Play sounds]
+Проигрывать звуки
+[Last]
+Посл.
+[hour]
+час
+[Group Chat]
+Чат-комната
+[Keyboard Flash]
+Мигание клавиатуры
+[Themes]
+Темы
+[Current:]
+Текущий:
 [Current]
 Текущий
-[Current language:]
-Язык интерфейса:
-[Plugins included:]
-Плагины:
-[Installed Languages]
-Установленные локализации
-[File]
-Файл
-[built-in]
-встроенный
+[Locale:]
+Язык:
+[Copy to Clipboard]
+Копировать в буфер
+[General Settings]
+Основные настройки
+[Search for:]
+Найти:
+[ Contacts ]
+ Контакты\s
+[album]
+альбом
+[genre]
+жанр
+[Year:]
+Год:
+[Month:]
+Месяц:
+[Day:]
+День:
+[Contact Menu]
+Меню контакта
+[Notify always]
+Извещать всегда
+[Popup mouse click]
+Щелчок по окну кнопкой
+[MetaContacts]
+Метаконтакты
+[&Remove]
+Очистить
+[Show &during the next]
+Даты за ближайшие
+[&Font]
+&Шрифт
+[Notifications:]
+Уведомления:
+[Full e-mail:]
+Полный e-mail:
+[Duck]
+В ванной
+[Playing]
+Играет
+[Beer]
+Пью пиво
+[Notify me when a message delivery has failed]
+Оповещать о неудачной доставке сообщений
+[Your host (or router):]
+Ваш хост (или роутер):
+[New E-mail available in Inbox]
+Новая почта в папке "Входящие"
+[Equalizer]
+Эквалайзер
+[OFF]
+выкл
+[Room]
+Чат-комната
+[playing]
+играет
+[paused]
+пауза
+[stopped]
+остановлено
+[MessagePopup]
+Предупреждения
+[The changes you have made require you to restart Miranda NG before they take effect]
+Изменения вступят после перезапуска Miranda NG
+[Font name]
+Имя шрифта
+[Green]
+Зелёный
+[Yellow]
+Жёлтый
+[Red]
+Красный
+[Black]
+Чёрный
+[Max width:]
+Макс. ширина:
+[Back color]
+Цвет фона
+[Border color]
+Цвет границ
+[Fore color]
+Цвет текста
+[&Away]
+&Отсутствую
+[&DND]
+&Не беспокоить
+[&Free for chat]
+&Готов болтать
+[&Invisible]
+&Невидимый
+[&NA]
+&Недоступен
+[Occ&upied]
+Зан&ят
+[On the &Phone]
+На телефоне
+[On&line]
+В с&ети
+[Out to &Lunch]
+Обедаю
+[<no status message>]
+<нет сообщения статуса>
+[Contact Menu Icon]
+Значок в меню контакта
+[External History]
+Внешняя история
+[Internal History]
+Внутренняя история
+[Popup Notify]
+Уведомление вспл. окнами
+[Popup Enabled]
+Вспл. окна включены
+[Popup Disabled]
+Вспл. окна отключены
+[Enable/Disable external logging for this contact]
+Включить/выключить запись во внешний журнал для этого контакта
+[Maximum entries]
+Записей
+[Popup text]
+Текст окна
+[Enable/Disable internal logging for this contact]
+Включить/выключить запись во внутренний журнал для этого контакта
+[Enable/Disable popups for this contact]
+Включить/выключить всплывающие окна для этого контакта
+[Left Click Actions]
+По левому щелчку
+[Right Click Actions]
+По правому щелчку
+[History format]
+История
+[Log format]
+Журнал
+[Popup display time]
+Время отображения окна
+[Temporarily disable Popups]
+Временно выключить окна
+[Toolbar buttons]
+Кнопки панели кнопок
+[Filter Duplicate Messages (RECOMMENDED)]
+Фильтр дубликатов сообщений (РЕКОМЕНДУЕТСЯ)
+[Minimize on send]
+Сворачивать после отправки
+[&Quote]
+&Цитировать
+[&Paste]
+&Вставить
+[Retry]
+Ещё раз
+[NICK]
+НИК
+[Update inactive message window icons when a user is typing]
+Обновить значок неактивного окна при наборе сообщения Вам
+[Use windows colors]
+Цвета Windows
+[General options]
+Общие параметры
+[Disconnected]
+Отключён
+[min.]
+мин.
+[Main options]
+Основные настройки
+[Read status message]
+Читать статусное сообщение
+[Can't open log file ]
+Невозможно открыть файл журнала\s
+[Error #%d]
+Ошибка #%d
+[&Variables]
+&Переменные
+[all contacts]
+всех контактов
+[Open String Formatting Help]
+Помощь по формату строк
+[Reminder]
+Напоминание
+[(M) is back online!]
+снова в сети!
+[(F) is back online!]
+снова в сети!
+[(U) is back online!]
+снова в сети!
+[(M) went offline! :(]
+ушёл из сети! :(
+[(F) went offline! :(]
+ушла из сети! :(
+[(U) went offline! :(]
+ушёл из сети! :(
+[(M) hide in shadows...]
+спрятался в тени...
+[(F) hide in shadows...]
+спряталась в тени...
+[(U) hide in shadows...]
+спрятался в тени...
+[(M) hides in shadows...]
+спрятался в тени...
+[(F) hides in shadows...]
+спряталась в тени...
+[(U) hides in shadows...]
+спрятался в тени...
+[(M) feels talkative!]
+готов поболтать!
+[(F) feels talkative!]
+готова поболтать!
+[(U) feels talkative!]
+готов(а) поболтать!
+[(M) went Away]
+отошёл
+[(F) went Away]
+отошла
+[(U) went Away]
+отошёл
+[(M) isn't there anymore!]
+отсутствует!
+[(F) isn't there anymore!]
+отсутствует!
+[(U) isn't there anymore!]
+отсутствует!
+[(M) has something else to do.]
+занят чем-то другим.
+[(F) has something else to do.]
+занята чем-то другим.
+[(U) has something else to do.]
+занят чем-то другим.
+[(M) doesn't want to be disturbed!]
+не хотел бы, чтобы его беспокоили!
+[(F) doesn't want to be disturbed!]
+не хотела бы, чтобы её беспокоили!
+[(U) doesn't want to be disturbed!]
+не хотел бы, чтобы его беспокоили!
+[(M) is eating something]
+что-то ест
+[(F) is eating something]
+что-то ест
+[(U) is eating something]
+что-то ест
+[(M) had to answer the phone]
+говорит по телефону
+[(F) had to answer the phone]
+говорит по телефону
+[(U) had to answer the phone]
+говорит по телефону
+[Notify when a contact changes to one of these statuses]
+Сообщать, когда статус контакта изменяется на:
+[Plugin activation]
+Активизация плагина
+[Temporarily disable NewStatusNotify (disables popups and sounds)]
+Временно запретить NewStatusNotify (выключить окна и звуки)
+[Put an item in the main menu to easily enable/disable the plugin]
+Пункт в главном меню для включения/отключения плагина
+[Sound options]
+Параметры звука
+[Use Internal &Speaker]
+&Встроенный динамик
+[&Avoid clipping]
+&Не обрезать
+[Open message]
+Открыть сообщение
+[Open user menu]
+Меню контакта
+[Sound for the status]
+Звук для статуса
+[(default sound)]
+(по умолчанию)
+[&Change]
+&Изменить
+[Status Notify]
+Смена статуса
+[User: from offline (has priority!)]
+Пользователь:  из оффлайна (имеет приоритет!)
+[User: Online]
+Пользователь: в сети
+[User: Offline]
+Пользователь: не в сети
+[User: Away]
+Пользователь: отсутствует
+[User: Not Available]
+Пользователь: недоступен
+[User: Occupied]
+Пользователь: занят
+[User: Do Not Disturb]
+Пользователь: не беспокоить
+[User: Free For Chat]
+Пользователь: готов болтать
+[User: Invisible]
+Пользователь: невидимый
+[User: Out To Lunch]
+Пользователь: обедает
+[User: On The Phone]
+Пользователь: на телефоне
+[Disable status &notification]
+Выключить уведомления о смене статуса
+[Enable status &notification]
+Включить уведомления о смене статуса
+[Automatically turn off Popups and Sounds on status change]
+Выключить окна и звуки при изменении статуса
+[Configure]
+Настроить
+[Automatically disable sounds or popups when I change to:]
+Автоматически отключить звуки и окна при переходе в:
+[Do not warn me for people not in my Contact List]
+Не предупреждать для пользователей не в списке
+[Read status &message]
+Читать статусное сообщение
+[(was %s)]
+(было %s)
+[Show &previous status too]
+&Показывать предыдущий статус
+[&Log status changes to file]
+Записывать изменения статуса в файл
+[&From Popup plugin]
+Установки Popup
+[&Custom]
+Настроить
+[P&ermanent]
+Постоянно
+[Blink icon in the system tray]
+Мигающий значок в сист. панели
+[Use status icon]
+Значок статуса
+[Use standard &descriptions]
+&Стандартные описания
+[Always when changing from offline]
+Из статуса "Отключён"
+[From offline]
+Из оффлайна
+[with sounds]
+со звуками
+[with popups]
+с окнами
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Личные звуки выключены.\n\nЧтобы их включить, пойдите в Настройки - Статус - Уведомление, включите \n"Индивидуальные звуки", и снова откройте это окно.
+[Contact status change notifications]
+Уведомления о смене статуса
+[Enable sound notifications for this contact]
+Уведомлять звуком
+[Enable popup notifications for this contact]
+Уведомлять во всплывающем окне
+[Use &alternative descriptions]
+Альтернативные описания
+[Show contact &group name]
+Показывать имя &группы контакта
+[Use cus&tom colors]
+Настроить цвета
+[Use Pop&up colors]
+Цвета Pop&up
+[Use &Windows colors]
+Цвета Windows
+[Use individual sounds]
+Индивидуальные звуки
+[Prev&iew]
+Тест
+[You cannot specify a value lower than %d and higher than %d.]
+Значение меньшее %d или большее %d не допускается.
+[XStatus Notify]
+xСтатусы
+[removed XStatus]
+удалил хСтатус
+[to %s]
+на %s
+[message (%s)]
+сообщение (%s)
+[<no message>]
+<нет сообщения>
+[Templates]
+Шаблоны
+[XStatus Logging]
+Запись хСтатусов
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Скрыть "вкл/выкл звук" в главном меню (требуется перезапуск)
+[Popup duration]
+Длительность
+[Cannot send message]
+Не могу послать сообщение
+[Extra]
+Другое
+[Flags:]
+Флаги:
+[Skins]
+Скины
+[Open history]
+История
+[Display time]
+Показывать время
+[Popup History]
+История вспл.окон
+[Send message]
+Отправить
+[Last seen]
+Последнее появление
+[QuickSearch]
+Быстрый Поиск
+[Restart]
+Перезапуск
+[line break]
+с новой строки
+[Send Message]
+Отправить
+[Incoming message (10x10)]
+Входящее сообщение (10x10)
+[Outgoing message (10x10)]
+Исходящее сообщение (10x10)
+[Show times]
+Показывать время
+[Tabs at the bottom]
+Вкладки cнизу
+[Use long date format]
+Буквенный формат даты
+[Show warning when message has not been received after]
+Сообщать, если сообщение не удалось отправить в течение
+[Cascade new windows]
+Располагать новые окна каскадом
+[Use the contact's status icon as the window icon]
+Использовать в качестве значка окна значок статуса контакта
+[Enable transparency]
+Включить прозрачность
+[active]
+активн.
+[inactive]
+неактивн.
+[Show names]
+Показывать имена
+[Show status changes]
+Показывать изменения статуса
+[Message Window Event Log]
+Журнал в окне диалога
+[pixels]
+пикселей
+[Message Sessions]
+Беседы
+[Message sessions]
+Беседы
+[Send typing notifications to the following users when you are typing a message to them:]
+Оповещать отмеченных пользователей о том, что вы набираете сообщение:
+[Single Messaging]
+Сообщения
+[Add contact]
+Добавить контакт
+[Close session]
+Закрыть вкладку
+[&Action]
+Действие
+[Header]
+Заголовок
+[Hold call]
+Удержать звонок
+[Message Window]
+Окно сообщений
+[Animate]
+Анимация
+[Main menu item]
+Пункт в главном меню
+[Contact menu item]
+Пункт в меню контакта
+[Announce]
+Объявления
+[Thick]
+Жирный
+[The message send timed out.]
+Таймаут отправки сообщения
+[%s is typing a message]
+%s набирает текст
+[Typing Notification]
+Уведомление о наборе текста
+[Typing notification]
+Уведомление о наборе текста
+[Close the message window on send]
+Закрывать окно после отправки
+[Minimize the message window on send]
+Сворачивать окно после отправки
+[Load unread events only]
+Только непрочитанные события
+[Load number of previous events]
+Предыдущие события в количестве
+[Load previous events less than]
+События, полученные менее чем
+[Choose font...]
+Шрифт...
+[minutes old]
+минут назад
+[Load History Events]
+Подгрузка истории
+[Version Information]
+Версии
+[(UNKNOWN)]
+(НЕИЗВЕСТЕН)
+[Select font]
+Выбор шрифта
+[Retrieving...]
+Загрузка...
+[...is &typing]
+набирает &текст
+[...stopped t&yping]
+закончил набирать
+[Only &one popup for each contact]
+Только одно всплыв. окно на контакт
+[Show &entry in the main menu]
+Пункт в главном меню
+[Popup timeout (is typing)]
+Длительность (набирает)
+[From protocol]
+Из протокола
+[Popup timeout (stopped typing)]
+Длительность (закончил набирать)
+[...is typing a message.]
+... набирает текст.
+[...has stopped typing.]
+... закончил(а) набирать текст.
+[Typing Notify: is typing]
+Набирает текст: набирает
+[Typing Notify: stopped typing]
+Набирает текст: закончил(а) набирать текст
+[Disable &typing notification]
+Выключить уведомления о наборе текста
+[Enable &typing notification]
+Включить уведомления о наборе текста
+[Shadow]
+Тень
+[Label:]
+Метка:
+[Layout]
+Размещение
+[Sidebar]
+Врезка
+[Round corners (window)]
+Округлять углы окна
+[Round corners (avatar)]
+Округлять углы аватара
+[Opacity (%):]
+Непрозрачность (%):
+[Bottom right]
+Внизу справа
+[Bottom left]
+Внизу слева
+[Top right]
+Вверху справа
+[Top left]
+Вверху слева
+[Text indent:]
+Отступ текста:
+[Sidebar width:]
+Ширина врезки:
+[No avatar]
+Без аватара
+[Right avatar]
+Аватар справа
+[Left avatar]
+Аватар слева
+[Icon on left]
+Значок слева
+[Icon on right]
+Значок справа
+[Sunrise:]
+Восход:
+[Sunset:]
+Закат:
+[Birthday:]
+День рождения:
+[TopToolBar]
+Панель кнопок
+[Month]
+Месяц
+[Select protocols]
+Протоколы
+[Text color:]
+Цвет текста:
+[translates x]
+переводит х
+[Trigger when the following string changes]
+Срабатывать когда следующая строка изменяется
+[Birthday today]
+День рождения сегодня
+[Ready]
+Готово
+[UIN]
+Номер
+[He]
+Ему
+[She]
+Ей
+[He/She]
+Ему/ей
+[%s has birthday in %d days.]
+%s отмечает день рождения через %d дней.
+[%s has birthday today.]
+%s отмечает День рождения сегодня.
+[%s has birthday tomorrow.]
+%s отмечает День рождения завтра.
+[Show 'Restart' menu item]
+Пункт меню "Перезапуск"
+[Frame]
+Фрейм
+[artist]
+исполнитель
+[Enable &XStatus notification]
+Включить уведомление о смене хСтатусов
+[New Mail]
+Новая почта
+[List]
+Список
+[Show title bar]
+Показывать заголовок
+[%s: Chat Room (%u user)]
+%s: Чат-комната (%u пользователь)
+[%s: chat room (%u user)]
+%s: Чат-комната (%u пользователь)
+[%s: Chat Room (%u users)]
+%s: Чат-комната (%u пользователей)
+[%s: chat room (%u users)]
+%s: Чат-комната (%u пользователей)
+[Log status changes]
+Запись изменений статусов в журнал
+[Indent the second line of a message]
+Отступ второй строки сообщения
+[Show Date]
+Дата
+[Close Tab]
+Закрыть вкладку
+[Open chat window]
+Открыть окно чата
+[Hours]
+Часов
+[Change Password]
+Сменить пароль
+[Set Password]
+Установить пароль
+[Old password is too short!]
+Старый пароль слишком короток!
+[Password has been changed!]
+Пароль изменён!
+[Password has been removed!]
+Пароль убран!
+[Login to Miranda]
+Вход в Miranda NG
+[Password is not correct!]
+Пароль неправильный!
+[Periodically:]
+Периодически:
+[Backup complete!]
+Резервирование завершено!
+[Can't create backup file!]
+Невозможно создать копию!
+[Can't create profile directory! Check permissions please!]
+Невозможно создать папку профилей! Проверьте разрешения!
+[Backup folder does not exist and can't be created!]
+Папка для копий не существует и не может быть создана!
+[Are you sure you want to remove the password?]
+Вы уверены, что желаете убрать пароль ?
+[Old password does not match!]
+Старый пароль неправильный!
+[Backup folder name can not be created!]
+Невозможно создать папку для резервирования!
+[An error occurred while rotating old backups!]
+Ошибка при перегруппировке старых копий!
+[Backup was aborted by user!\nThe incomplete backup file will be deleted!]
+Резервирование отменено пользователем!\nНезаконченная копия будет удалена!
+[An error occurred while writing the database backup!]
+Ошибка при попытке записи копии базы данных!
+[db3xSA Plugin]
+Плагин db3xSA
+[Fatal error!]
+Фатальная ошибка!
+[The current version of encryption is no longer supported!\nYou need to convert your profile!]
+Текущая версия шифрования более не поддерживается.\nНеобходимо конвертировать профиль!
+[Passwords do not match!]
+Пароли не совпадают!
+[Old Password:]
+Старый пароль:
+[Confirm:]
+Повтор:
+[Please type in your password for]
+Пожалуйста, введите пароль для
+[(1/3) Deleting old Backups...]
+(1/3) Удаление старых копий...
+[(2/3) Rotating Backups...]
+(2/3) Чередование копий...
+[(3/3) Creating Backup...]
+(3/3) Создание копии...
+[Backup]
+Резервная копия
+[Changing password...]
+Смена пароля...
+[Do you want to encrypt the new database?]
+Зашифровать новую базу данных?
+[When Miranda starts]
+При запуске Miranda NG
+[When Miranda exits]
+При выходе из Miranda NG
+[Every:]
+Каждые:
+[Backup NOW]
+Сохранить СЕЙЧАС
+[Disable progress bar]
+Отключить индикатор выполнения
+[Backup in progress]
+Резервирование в процессе
+[Error code: %d]
+Ошибка код: %d
+[No effect]
+Без эффекта
+[Send Error]
+Ошибка отправки
+[Flash speed]
+Скорость вспышек
+[Comments]
+Комментарии
+[Yearly]
+Ежегодно
+[Login]
+Имя пользователя
+[Crazy]
+Сумасшедший
+[Default Timeout]
+Длительность по умолчанию
+[Fullscreen mode]
+Полный экран
+[Global settings]
+Глобальные настройки
+[Normal background]
+Фон обычной вкладки
+[Show previous status too]
+Показывать предыдущий cтатус
+[Account:]
+Учётная запись:
+[Site:]
+Сайт:
+[Frame background]
+Фон фрейма
+[Message text]
+Текст сообщения
+[Avatar Overlay]
+Оверлей аватара
+[Show protocol icon]
+Значок протокола
+[Client (fingerprint required)]
+Клиент (нужен плагин fingerprint)
+[Never]
+Никогда
+[Use &unknown flag if country cannot be determined]
+Показать неизвестный флаг, если страна не определена
+[Country Flags]
+Флаги стран
+[Show country flag as &status icon on message window]
+Показывать флаг, как значок статуса в окне беседы
+[User Menu]
+Меню пользователя
+[User menu]
+Меню пользователя
+[Server window]
+Окно сервера
+[Radio]
+Радио
+[Component Name]
+Имя компонента
+[Current Version]
+Текущая версия
+[New Version]
+Новая версия
+[Close Session]
+Закрыть вкладку
+[Nick list]
+Список ников
+[Message send error]
+Ошибка отправки сообщения
+[Rescan]
+Обновить
+["My Documents" folder for currently logged-on Windows user]
+папка "Мои документы" для текущего пользователя Windows
+["Desktop" folder for currently logged-on Windows user]
+папка "Рабочий стол" для текущего пользователя Windows
+[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+Подсказка: если Вы не укажете здесь пароль, Miranda NG будет запрашивать его каждый раз при подключении к сети.
+[INI Files]
+INI файлы
+[Basic HTML]
+Базовый HTML
+[Autosend download link to contact]
+Отослать ссылку автоматически
+[1 hour]
+1 час
+[1 day]
+1 день
+[Are You sure?]
+Вы уверены?
+[All Files (*.*)]
+Все файлы (*.*)
+[Use default codepage]
+Кодировка по умолчанию
+[Cyrillic KOI8-R]
+Кириллица KOI8-R
+[Restore defaults]
+Сбросить
+[User name]
+Логин
+[horizontal]
+горизонталь
+[Photo]
+Фото
+[Alien]
+Инопланетянин
+[Mask]
+Маска
+[Laughing]
+Смеюсь
+[Free for Chat]
+Хочу общаться
+[Ask]
+Спросить
+[Use]
+Использовать
+[Use background bitmap]
+Фоновое изображение
+[>> Outgoing timestamp]
+Исходящее время
+[<< Incoming timestamp]
+Входящее время
+[>> Outgoing name]
+Исходящее имя
+[<< Incoming name]
+Входящее имя
+[>> Outgoing messages]
+Исходящее сообщение
+[<< Incoming messages]
+Входящее сообщение
+[Show timestamps]
+Показывать время
+[Truncate message length to:]
+Обрезать сообщение до:
+[Show date in timestamps]
+Показывать дату 
+[Show seconds in timestamps]
+Показывать секунды
+[Group list]
+Список групп
+[Show event icons]
+Значки событий
+[Find Next]
+Найти дальше
+[All events]
+Все события
+[Reply &Quoted]
+Ответить с &цитатой
+[Incoming events]
+Входящие события
+[Outgoing events]
+Исходящие события
+[You were added]
+Вас добавили
+[SMTP Simple Email]
+Сообщение e-mail (SMTP Simple)
+[SMS message]
+Сообщение SMS
+[Today]
+Сегодня
+[Yesterday]
+Вчера
+[Repeat]
+Повторить
+[Current age]
+Текущий возраст
+[History Log]
+Просмотр истории
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[Sunday]
+Воскресенье
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Эта операция полностью удалит историю этого контакта.\nВы уверены?
+["%s" not found]
+"%s" не найдено
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ввели неверную кодовую страницу. Выберите кодовую страницу из выпадающего списка или введите правильное имя.
+[Invalid codepage]
+Неверная кодовая страница
+[Scheduler]
+Планировщик
+[ETA]
+Осталось дней
+[Toolbar]
+Панель кнопок
+[&New Group]
+Новая группа
+[&Hide Offline Users]
+Скрыть отключённых
+[Hide &Offline Users out here]
+Скрыть отключённых вне группы
+[Hide &Empty Groups]
+Скрыть пустые группы
+[Disable &Groups]
+Отключить группы
+[All Files]
+Все файлы
+[My Received Files]
+Принятые файлы
+[&Hide Offline Users in here]
+Скрыть отключённых в группе
+[&Rename Group]
+Переименовать группу
+[&Delete Group]
+Удалить группу
+[View &History]
+&История
+[&Show Offline Users in here]
+Показать отключённых в группе
+['%s' is disabled, re-enable?]
+'%s' отключён, включить?
+['(Unknown contact)' (not movable)]
+'(Неизвестный)' (всегда последнее)
+['(Unknown contact)']
+'(Неизвестный контакт)'
+[%d %s users found]
+Найдено %d пользователей %s
+[%d directories]
+%d каталога(ов)
+[%d directory]
+%d папка
+[%d file]
+%d файл
+[%d files]
+%d файла(ов)
+[%d users found (]
+Найдено %d пользователей (
+[%f will be replaced by the file or folder name to be scanned]
+%f = имя проверяемого файла или папки
+[%s (locked)]
+%s (заблокирован)
+[%s added you to their contact list]
+%s добавил вас в свой список
+[%s file]
+%s файл
+[%s icons]
+%s значки
+[Status icons]
+Значки статуса
+[%s is online]
+%s в сети
+[%s message for %s]
+%s (%s)
+[%s options]
+%s опции
+[%s requests authorization]
+%s запрашивает авторизацию
+[%s: user details]
+О пользователе %s
+[%s\nView personal user details and more]
+%s\nПросмотр личных данных пользователя
+[%u added you to their contact list]
+%u добавил вас в свой список
+[%u requests authorization]
+%u запрашивает авторизацию
+[&About...]
+&О программе
+[&Accounts...]
+Учётные записи
+[&Add permanently to list]
+&Добавить в постоянный список
+[&Add to list]
+&Добавить в список
+[&Add...]
+&Добавить
+[&Add]
+&Добавить
+[&Allow all further changes to this section]
+&Разрешить все изменения в этой секции
+[&Apply]
+Применить
+[&Authorize]
+&Разрешить
+[&Cancel]
+О&тмена
+[&Change...]
+&Изменить...
+[&Choose again...]
+&Выбрать снова...
+[&Close]
+&Закрыть
+[&Color:]
+Цвет:
+[&Copy link]
+&Копировать ссылку
+[&Copy]
+&Копировать
+[&Create]
+Создать
+[&Decline]
+&Отказать
+[&Delete group]
+Удалить группу
+[&Delete]
+&Удалить
+[&Deny]
+&Запретить
+[&Download Now]
+Загрузить
+[&E-mail]
+&E-mail
+[&Edit]
+Править
+[&Exit]
+Вы&ход
+[&File]
+&Файл
+[&Find next]
+&Следующий
+[&Find...]
+&Найти
+[&Find/Add Contacts...]
+Добавить &контакты
+[&Find/Add contacts...]
+Добавить &контакты
+[&Font:]
+Шрифт:
+[&Help]
+&Справка
+[&Hide offline users in here]
+Скрыть отключённых в группе
+[&Hide offline users]
+Скрыть отключённых
+[&Hide/Show]
+С&крыть/показать
+[&Import icons >>]
+&Импорт значков >>
+[&Leave]
+&Оставить
+[&Load icon set...]
+&Выбрать набор значков...
+[&Main menu]
+Главное меню
+[&Message]
+&Сообщение
+[&Miranda NG homepage]
+О&фициальный сайт Miranda NG
+[&Move to group]
+Группа
+[&Move/Rename]
+&Переместить/переименовать
+[&New group]
+Со&здать группу
+[&New subgroup]
+Создать подгруппу
+[&No]
+&Нет
+[&Open in existing window]
+Открыть в &текущем окне
+[&Open URL]
+&Открыть URL
+[&Options...]
+&Настройки
+[&Options]
+&Настройки
+[&Preview]
+&Тест
+[&Recycle]
+&Использовать снова
 [&Remove...]
-&Удалить...
-[Languages]
-Языки
+Удалить...
+[&Rename group]
+Переименовать группу
+[&Rename]
+&Переименовать
+[&Reply]
+Ответить
+[&Support]
+&Поддержка
+[&Report bug]
+Сооб&щить об ошибке
+[&Reset to default]
+&Сбросить
+[&Run]
+Запустить
+[&Search]
+&Искать
+[&Send]
+&Отправить
+[&Size:]
+Размер:
+[&Status]
+Статус
+[&Underline]
+Подчеркнуть
+[&Upgrade]
+&Обновить
+[&View contents]
+&Содержимое
+[&Yes]
+&Да
+[(Miranda core logging)]
+Ядро Miranda NG
+[(often %d)]
+(часто %d)
+[(Unknown Contact)]
+(Неизвестный контакт)
+[(Unknown contact)]
+(Неизвестный контакт)
+[(Unknown)]
+(неизвестный)
+[** All contacts **]
+** Все контакты **
+[** Unknown contacts **]
+** Неизвестные контакты **
+[< Copyright]
+< Права
+[<< &Import]
+<< &Импорт
+[<All connections>]
+<Все подключения>
+[<all modules>]
+<все модули>
+[<core modules>]
+<настройки ядра>
+[<In use>]
+<Используется>
+[<mixed>]
+<смешано>
+[<none>]
+<нет>
+[<not specified>]
+<не указано>
+[<Root group>]
+<Корневая группа>
+[<unknown>]
+<неизвестно>
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл с новыми настройками базы данных был помещён в каталог Miranda NG.
+[A new version of Miranda NG is now available.  Click the download button to download this new update.]
+Доступна новая версия Miranda NG. Нажмите кнопку "Загрузить", чтобы открыть страницу загрузки.
+[A&ccept]
+&Принять
+[About Miranda NG]
+О программе
+[About:]
+Информация:
+[Account %s is being deleted]
+Удаление учётной записи %s
+[Account %s is being disabled]
+Отключение учётной записи %s
+[Account ID]
+ID учётной записи
+[Account information:]
+Учётная запись:
+[Account is disabled. Please activate it to access options.]
+Учётная запись отключена. Активируйте для настроек.
+[Account order and visibility]
+Порядок учётных записей
+[Accounts\nConfigure your IM accounts]
+Учётные записи\nНастройка ваших учётных записей
+[Accounts]
+Учётные записи
+[Actions:]
+Действия:
+[Add %s]
+Добавить %s
+[Add another shortcut]
+Добавить сочетание
+[Add binding]
+Добавить сочетание
+[Add Contact]
+Добавить контакт
+[Add e-mail address]
+Добавить адрес
+[Add phone number]
+Добавить телефон
+[Add to list]
+Добавить в список
+[Add]
+Добавить
+[Added event]
+Событие добавления
+[Added notification]
+Уведомление о добавлении
+[Additional data due to proxy communication]
+Дополнительные данные о прокси
+[Additional:]
+Дополнительно:
+[Advanced >>]
+Дополнительно >>
+[Advanced]
+Дополнительно
+[Age:]
+Возраст:
+[All bitmaps]
+Все изображения
+[All files]
+Все файлы
+[All networks]
+Все сети
+[ANSI plugin]
+ANSI плагин
+[Apply]
+Применить
+[Are you sure you want to delete %s?]
+Удалить %s из списка?
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Вы уверены, что хотите удалить группу "%s"? Операция не может быть отменена.
+[Are you sure you want to delete this history item?]
+Удалить эту запись из истории?
+[As each file finishes downloading]
+По окончании загрузки каждого файла
+[Ask me]
+Спросить
+[Auth requests]
+Запросы авторизации
+[Author(s):]
+Автор(ы):
+[Auto-accept incoming files from people on my contact list]
+Автоматически принимать файлы от людей в списке контактов
+[Auto-detect text]
+Автоопределение текста
+[Away]
+Отсутствую
+[Background info]
+Биография
+[Base color:]
+Основной цвет:
+[Become idle if a terminal session is disconnected]
+Режим ожидания, если удалённая сессия завершена
+[Become idle if computer is left unattended for:]
+Режим бездействия, если компьютер неактивен больше:
+[Become idle if the computer is locked]
+Режим ожидания, если компьютер заблокирован
+[Become idle if the following is left unattended:]
+Перейти в режим ожидания, если неактивны:
+[Become idle if the screen saver is active]
+Режим ожидания, если включена заставка
+[Built %s %s]
+Сборка %s %s
+[By default, use the same message as last time]
+Использовать предыдущее сообщение
+[By default, use this message:]
+Использовать сообщение:
+[bytes]
+байт
+[C&lear log]
+Очистить журнал
+[Calling modules' names]
+Имена вызывающих модулей
+[Can't find a contact list plugin! You need StdClist.dll or any other clist plugin.]
+Не найден плагин списка контактов! Вам нужен StdClist.dll или clist_*.dll плагин.
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
+[Cancel change]
+Откатить изменения
+[Cancel import]
+Отменить импорт
+[Cancel transfer]
+Отмена
+[Cancel]
+Отмена
+[Canceled]
+Отменённые
+[Change %s message]
+Изменить сообщение "%s"
+[Change my status mode to:]
+Сменить статус на:
+[Check for Update]
+Проверить обновления
+[Choose events you wish to ignore:]
+Следующие события будут проигнорированы:
+[Choose font]
+Шрифт
+[Choose the protocol type]
+Выберите протокол
+[City:]
+Город:
+[Clear completed]
+Очистить завершённые
+[Close Miranda]
+Закрыть программу
+[Close window when transfer completes]
+Закрыть окно по окончании передачи
+[Close]
+Закрыть
+[Closing in %d]
+Закрыть (%d)
+[Company:]
+Компания:
+[Configuration files]
+Файлы конфигураций
+[Configure network...]
+Настройка сети...
+[Connected]
+Подключён
+[Connecting (attempt %d)]
+Подключение (%d попытка)
+[Connecting to proxy...]
+Подключение к прокси...
+[Connecting...]
+Подключение...
+[Connecting]
+Подключение
+[Contact display options]
+Параметры показа контактов
+[Contact menu]
+Меню контакта
+[ContactMenu]
+Меню контакта
+[Contact]
+Контакт
+[Contacts]
+Контакты
+[Contour heavy]
+Толстый контур
+[Contour thin]
+Тонкий контур
+[Copyright:]
+Права:
+[Could not search on any of the protocols, are you online?]
+Не могу запустить поиск ни в одной из сетей. Пожалуйста, проверьте подключение к сетям.
+[Could not start a search on '%s', there was a problem - is %s connected?]
+Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+Не могу переместить '%s' в корзину, выберите другое имя для профиля.
+[Country:]
+Страна:
+[Create new account]
+Новая учётная запись
+[Created]
+Создан
+[Credits >]
+Авторы >
+[Custom %d]
+Разное %d
+[Custom name:]
+Заданное имя:
+[Custom status]
+хСтатус
+[Custom]
+Настроить
 [Customize]
 Тонкая настройка
+[Database import complete]
+Импорт базы завершен
+[Database setting change]
+Изменение настроек базы данных
+[Database settings are being imported from]
+Настройки импортируются из
+[Database]
+Профиль
+[Date of birth:]
+Дата рождения:
+[Date:]
+Дата:
+[De&lete]
+&Удалить
+[Decision sent]
+Решение отправлено
+[Default]
+По умолчанию
+[Delete contact]
+Удалить контакт
+[Delete Group]
+Удаление группы
+[Delete group]
+Удаление группы
+[Delete history]
+Удалить историю
+[Delete]
+Удалить
+[Denied]
+Отказано
+[Department:]
+Отдел:
+[Description:]
+Описание:
+[Disable &groups]
+Отключить группы
+[DND]
+Не беспокоить
+[Do not let protocols report any idle information]
+Не позволять протоколам сообщать информацию об ожидании
+[Do not pop up dialog asking for new message]
+Не показывать диалог для нового сообщения
+[Do not reply to requests for this message]
+Не отвечать на запросы этого сообщения
+[Do not set status back to online when returning from idle]
+Не восстанавливать статус при возвращении из режима ожидания
+[Do you want to allow this change?]
+Разрешить изменение?
+[Do you want to import the settings now?]
+Импортировать настройки сейчас?
+[Down arrow]
+Вниз
+[Download more icons]
+Загрузить с сайта Miranda NG
+[Download more sounds]
+Загрузить с сайта Miranda NG
+[Drag icons to main list to assign them:]
+Перетащите значок в главное окно для замены:
+[Driver]
+Драйвер
+[E-mail address]
+Адрес e-mail
+[E&xit]
+Вы&ход
+[e.g. Miranda Database]
+напр. Miranda Database
+[e.g. Workplace]
+напр. "Рабочий"
+[Edit E-Mail address]
+Редактировать адрес E-mail
+[Edit]
+Изменить
+[Editing account]
+Изменение учётной записи
+[Effect:]
+Эффект:
+[Effects]
+Эффекты
+[Empty blob]
+Не заполнено
+[Use custom login (domain login picked up automatically)]
+Логин пользователя (вход с доменным логином автоматический)
+[Enable keyword search in options dialog]
+Включить поиск по ключевым словам в настройках
+[Enable sound events]
+Включить звуки событий
+[Enable UPnP port mapping]
+Включить перенаправление портов UPnP
+[Enter account name (for example, My Google)]
+Введите имя (например, Google)
+[Enter country, area code and phone number:]
+Введите страну, код города и номер телефона:
+[Enter description:]
+Описание:
+[Enter URL:]
+URL:
+[Error console]
+Консоль ошибок
+[Error notifications]
+Уведомления об ошибках
+[Error writing file]
+Ошибка записи в файл
+[Error]
+Ошибка
+[Event icon legend:]
+Описание значков событий:
+[Events]
+События
+[Example: 1050-1070, 2000-2010, 2500]
+Например: 1050-1070, 2000-2010, 2500
+[Executable files]
+Исполняемые файлы
+[Existing file]
+Существующий файл
+[Exit]
+Выход
+[Export...]
+Экспорт
+[Failed to create file]
+Ошибка создания файла
+[Fax]
+Факс
+[Female]
+Женский
+[File &transfers...]
+Передачи &файлов
+[File already exists]
+Файл уже существует
+[File being received]
+Принимаемый файл
+[File from %s]
+Файл от %s
+[File properties]
+Свойства файла
+[File received]
+Файл получен
+[File transfer denied]
+В передаче файла отказано
+[File transfer failed]
+Неудачная передача файла
+[File Transfers]
+Передача файлов
+[File transfers]
+Передача файлов
+[File(s):]
+Файл(ы):
+[File]
+Файл
+[Files:]
+Файлы:
+[Files]
+Файлы
+[Filled blob]
+Заполнено
+[Find user]
+Найти
+[Find what:]
+Найти:
+[Find/Add contacts\nHere you can add contacts to your contact list]
+Поиск контактов\nЗдесь Вы можете найти и добавить контакты в список контактов
+[Find/Add contacts]
+Найти/добавить контакты
+[find/add]
+найти/добавить
+[Find]
+Найти
+[First name:]
+Имя:
+[First Name]
+Имя
+[First:]
+Имя:
+[FirstName LastName]
+Имя Фамилия
+[LastName FirstName]
+Фамилия Имя
+[FirstName]
+Имя
+[Font effect]
+Эффект шрифта
+[Font st&yle:]
+Стиль шрифта:
+[Font]
+Шрифт
+[Fonts & Colors]
+Шрифты и цвета
+[Fonts and colors]
+Шрифты и цвета
+[Fonts]
+Шрифты
+[for]
+в течение
+[Free for chat]
+Готов болтать
+[From:]
+От:
+[Gender:]
+Пол:
+[General]
+Общее
+[Generic text]
+Основной текст
+[Get more protocols...]
+Загрузка протоколов...
+[GIF bitmaps]
+Изображения GIF
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[Give it up, I'm not in!]
+Меня нет.
+[Group (closed)]
+Группа (закрыта)
+[Group (open)]
+Группа (открыта)
+[Group:]
+Группа:
+[Group]
+Группа
+[Handle]
+Название
+[Headers:]
+Заголовки:
+[Headers]
+Заголовки
+[Help]
+Справка
+[Hide &empty groups]
+Скрыть пустые группы
+[Hide &offline users out here]
+Скрыть отключённых вне группы
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скрыть из списка (останутся история и настройки игнорирования/видимости)
+[Hide Miranda]
+Скрыть список контактов
+[History for %s]
+История для %s
+[History]
+История
+[Homepage:]
+Сайт:
+[Host:]
+Хост:
+[Hotkeys]
+Горячие клавиши
+[I'm a chatbot!]
+Свободен.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[I've been away since %time%.]
+Отошел в %time%. Скоро вернусь.
+[Icon index]
+Номер значка
+[Icon library:]
+Библиотека:
+[Icon sets]
+Наборы значков
+[IconOptions]
+Настройки значка
+[Icons]
+Значки
+[Idle (auto-away):]
+Режим бездействия:
+[Idle options]
+Режим ожидания
+[Idle]
+Ожидание
+[idleeeeeeee]
+ожидание...
+[If incoming files already exist]
+Если принимаемый файл уже есть
+[If this option is checked it allows you to search for option pages that contain the search string or plugin name.]
+Если выбран данный пункт, поиск будет осуществляться не только в заголовках настроек, но и в самих настройках.
+[Ignore]
+Игнорировать
+[Import multiple]
+Импорт нескольких
+[Incoming connections]
+Входящие соединения
+[Incoming file transfer]
+Входящий файл
+[Incoming nick]
+Имя собеседника
+[Incoming timestamp]
+Входящее время
+[Incoming URL]
+Входящий URL
+[Incoming]
+Входящие
+[Initializing...]
+Инициализация...
+[Insert separator]
+Вставить разделитель
+[Install database settings]
+Установить настройки базы данных
+[Installed Plugins]
+Установленные плагины
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Вместо показа псевдонимов,\nвыберите перетаскиванием другой приоритет показа имён:
+[Interests:]
+Интересы:
+[Invalid message]
+Сообщение повреждено
+[Invalid phone number]
+Неверный номер телефона
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
+[Invisible]
+Невидимый
+[Join chat]
+Войти в чат
+[JPEG bitmaps]
+Изображения JPEG
+[Key bindings]
+Горячие клавиши
+[Last modified:]
+Изменён:
+[Last name:]
+Фамилия:
+[Last Name]
+Фамилия
+[Last:]
+Фамилия:
+[LastName]
+Фамилия
+[Latest Version:]
+Последняя версия:
+[Leave chat]
+Покинуть чат
+[Loading... %d%%]
+Загрузка... %d%%
+[Local time:]
+Местное время:
+[Location:]
+Путь:
+[Location]
+Место
+[Locked status]
+Заблокированный статус
+[Log to]
+Писать в
+[Log]
+Журнал
+[Logging...]
+Журнал...
+[Main icons]
+Главные значки
+[Main menu]
+Главное меню
+[MainMenu]
+Главное меню
+[Male]
+Мужской
+[Menu icons]
+Меню
+[Menus]
+Меню
+[Message history]
+История сообщений
+[Message]
+Сообщение
+[Messages]
+Сообщения
+[Minimize the file transfer window]
+Свернуть окно передачи файлов
+[Minor notes:]
+Примечания:
+[minute(s)]
+минут(ы)
+[Miranda can't open that profile]
+Miranda NG не может открыть этот профиль
+[Miranda can't understand that profile]
+Miranda не может распознать этот профиль
+[Miranda NG options]
+Настройки Miranda NG
+[Miranda NG Profile Manager]
+Менеджер профилей Miranda NG
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll or equivalent.]
+Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nВам нужно установить плагин dbx_mmap.dll или подобный.
+[Miranda scope]
+Сочетание в Miranda
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
+Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭтот профиль также может быть повреждён, попробуйте исправить его с помощью DbChecker.
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Miranda NG не может открыть '%s'\nОн недоступен или занят другим приложением, или другой копией Miranda NG
+[Miranda website]
+Сайт Miranda NG
+[Mmm... food.]
+Ммм... поесть бы...
+[Mobile]
+Мобильный
+[Modify]
+Изменить
+[More options]
+Ещё настройки
+[Move to Group]
+Группа
+[Move to group]
+Группа
+[Moving to next file...]
+Следующий файл...
+[My custom name (not movable)]
+Заданное имя (всегда первое)
+[My notes:]
+Мои заметки:
+[My profiles]
+Мои профили
+[NA]
+Недоступен
+[Name]
+Имя
+[Netlib log options]
+Настройки журналирования сети
+[Network]
+Сеть
+[Never, do not use virus scanning]
+Никогда, не проверять на вирусы
+[New account]
+Новая учётная запись
+[New Group]
+Новая группа
+[New group]
+Новая группа
+[New profile]
+Создать профиль
+[Nick:]
+Ник:
+[Nick]
+Ник
+[Nickname:]
+Ник:
+[No data transferred]
+Данные не переданы
+[No tick]
+Не отмечено
+[No times]
+Без времени
+[No to all]
+Нет для всех
+[No Update Available]
+Нет обновлений
+[No users found]
+Пользователи не найдены
+[No]
+Нет
+[None]
+Нет
+[Nope, not here.]
+Нет, меня здесь нет.
+[Normal text:]
+Обычный текст:
+[Not right now.]
+Не сейчас.
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Важно: Изменения вступят в силу после перезапуска программы.
+[Notes]
+Заметки
+[Nowhere]
+Нигде
+[Occupied]
+Занят
+[Offline]
+Не в сети
+[On the phone]
+На телефоне
+[Online notification]
+Уведомление "В сети"
+[Online]
+В сети
+[Only the ticked contacts will be shown on the main contact list]
+Только помеченные контакты будут показаны в списке контактов
+[opacity:]
+непрозрачность:
+[Open file]
+Открыть файл
+[Open folder]
+Открыть папку
+[Open in &new window]
+&Открыть в новом окне
+[Open 'Find user' dialog]
+Открыть диалог поиска контактов
+[Open Options page]
+Открыть настройки
+[Open...]
+Открыть...
+[Options search]
+Поиск по настройкам
+[Options\nConfigure your Miranda NG options]
+Настройки\nОсновной диалог настроек Miranda NG
+[Options]
+Настройки
+[Or enter a full international number:]
+Или введите международный номер:
+[Out to lunch]
+Обедаю
+[Outgoing connections]
+Исходящие соединения
+[Outgoing file]
+Исходящий файл
+[Outgoing nick]
+Ваше имя
+[Outgoing timestamp]
+Исходящее время
+[Outgoing URL]
+Исходящий URL
+[Outgoing]
+Исходящие
+[Outline smooth]
+Гладкий контур
+[Outline]
+Контур
+[Overwrite all]
+Перезаписать все
+[Overwrite]
+Перезаписать
+[Owner]
+Владелец
+[Password:]
+Пароль:
+[Past background:]
+Прошлое:
+[Phone can receive SMS text messages]
+Телефон может получать SMS
+[Phone:]
+Телефон:
+[Please authorize my request and add me to your contact list.]
+Пожалуйста, разрешите добавить Вас в мой список контактов.
+[Please complete the following form to create a new user profile]
+Заполните форму для создания профиля пользователя
+[Please restart Miranda NG for your changes to take effect.]
+Изменения вступят в силу после перезапуска программы.
+[Please select a subentry from the list]
+Выберите подраздел из списка
+[Plugin]
+Плагин
+[Plugins]
+Плагины
+[PNG bitmaps]
+Изображения PNG
+[Port range:]
+Порты:
+[Port:]
+Порт:
+[Position:]
+Должность:
+[Postal code:]
+Индекс:
+[Primary]
+Главный
+[Problem creating profile]
+Проблема с созданием профиля
+[Problem moving profile]
+Проблема с перемещением профиля
+[Problem with search]
+Проблема с поиском
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_mmap.dll
+[Profile]
+Профиль
+[Protocol is not loaded.]
+Протокол не загружен.
+[Protocol]
+Протокол
+[Re-enable Miranda plugin?]
+Включить плагин?
+[Re&ad %s message]
+&Прочитать сообщение "%s"
+[Re&ad Away Message]
+Пр&очесть сообщение "Отсутствую"
+[Read Message]
+Прочитать сообщение
+[Read message]
+Прочитать сообщение
+[Reason:]
+Причина:
+[Received bytes]
+Полученные байты
+[Received files folder:]
+Каталог для файлов:
+[Receiving files]
+Прием файлов
+[Receiving...]
+Получение...
+[remaining]
+осталось
+[Remove shortcut]
+Удалить сочетание
+[Remove]
+Удалить
+[Rename (append " (1)", etc.)]
+Дописать "(1)" и т.д.
+[Rename Group]
+Переименовать группу
+[Rename group]
+Переименовать группу
+[Rename]
+Переименовать
+[Request sent, waiting for acceptance...]
+Запрос отправлен, ожидание подтверждения...
+[Reset to default]
+Сброс на умолчания
+[Reset]
+Сброс
+[Resolve hostnames through proxy]
+Отправлять запросы DNS через прокси
+[Results]
+Результаты
+[Resume all]
+Докачать все
+[Resume]
+Продолжить
+[Retrieving %s message...]
+Загрузка сообщения "%s"...
+[Run now]
+Зап. сейчас
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+Запустить программу при запуске (например, tail -f, dbgview и т.д.):
+[Running plugin]
+Запущенный плагин
+[Sample]
+Пример
+[Save as default]
+Сохранить настройки
+[Save as...]
+Сохранить как...
+[Save to:]
+Сохранять в:
+[Sc&ript:]
+Скрипт:
+[Scan files:]
+Проверять:
+[Scanning for viruses...]
+Проверка на вирусы...
+[Scope:]
+Где:
+[Search All]
+Найти всех
+[Search all]
+Найти всех
+[Search:]
+Искать:
+[Search]
+Поиск
+[Searching]
+Поиск
+[sec]
+с
+[Secondary color:]
+Вторичный цвет:
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед опасными изменениями.
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед небезопасными изменениями.
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед каждым произведённым изменением.
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+Система безопасности для предотвращения нежелательных изменений выключена. Вы не получите дальнейших предупреждений.
+[Select &all]
+Выделить &всё
+[Select folder]
+Выбрать папку
+[Manage your Miranda NG profile]
+Управление профилями пользователя
+[Select program to be run]
+Выбрать программу для запуска
+[Select where log file will be created]
+Выбрать путь к файлу журнала
+[Send &message]
+Отправить сообщение
+[Send authorization request]
+Отправить запрос авторизации
+[Send e-mail]
+Отправить e-mail
+[Send E-mail]
+Отправить почту
+[Send file(s)]
+Отправить файл(ы)
+[Send timed out]
+Время отправки истекло
+[Send URL to]
+Отправить URL
+[Sending...]
+Передача...
+[Sent bytes]
+Отправ. байты
+[Service:]
+Cлужба:
+[Set All Offline]
+Перейти в оффлайн
+[Set]
+Выбрать
+[Shadow at left]
+Тень слева
+[Shadow at right]
+Тень справа
+[Shortcut already assigned to "%s" action.\nIf you click "Add" the shortcut will be reassigned.]
+Сочетание уже назначено на действие "%s".\nЕсли нажать "Добавить" то сочетание переназначится.
+[Shortcut:]
+Сочетание:
+[Show category:]
+Категория:
+[Show expert options]
+Эксперт
+[Show/Hide Contact List]
+Показать/Скрыть список контактов
+[Show/Hide contact list]
+Показать/Скрыть список контактов
+[Show/Hide Offline Users]
+Показать/Скрыть отключённых
+[Show accounts in the following order,\ndrag to choose another order:]
+Порядок отображения учётных записей.\nПеретаскивайте для изменения:
+[Show this dialog box when Miranda NG starts]
+Показать этот диалог при запуске Miranda NG
+[Show]
+Показать
+[Show/Hide]
+Скрыть/показать
+[Size:]
+Размер:
+[Size]
+Размер
+[Skip]
+Пропуск
+[Small dot]
+Точка
+[Small text]
+Дополнительный текст
+[Smooth bump]
+Размытие
+[Sound information]
+Дополнительная информация
+[Sounds]
+Звуки
+[Specify the internal account name (optional)]
+Укажите внутреннее имя (не обязательно)
+[Spoken languages:]
+Языки:
+[SSL traffic]
+Трафик SSL
+[Standard hh:mm:ss times]
+Часы, минуты, секунды
+[Start in Service Mode with]
+Запуск в служебном режиме с
+[State:]
+Штат:
+[Status messages:]
+Сообщения статуса:
+[Status messages]
+Сообщения статуса
+[Status]
+Статус
+[Street:]
+Улица:
+[Stri&keout]
+Зачеркнутый
+[Summary]
+Резюме
+[System scope]
+Сочетание в системе
+[System]
+Система
+[Text dumps where available]
+Текстовые дампы (если есть)
+[Text effect]
+Эффект
+[That'll be the phone.]
+Да дайте же человеку поговорить по телефону...
+[The following events are being ignored:]
+Следующие события будут проигнорированы:
+[The import has completed from]
+Импорт завершен из
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Телефон должен начинаться с + и состоять только из цифр, пробелов, скобок и тире.
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Профиль '%s" уже существует. Хотите переместить его в корзину?\n\nВНИМАНИЕ: Профиль будет удалён, если корзина отключена\nВНИМАНИЕ: Профиль может содержать конфиденциальную информацию и должен быть правильно удалён.
+[The profile already exists]
+Профиль уже существует
+[There are no results to display.]
+Нет результатов.
+[This change is known to be potentially hazardous.]
+Это изменение потенциально опасно.
+[This change is known to be safe.]
+Это изменение известно, как безопасное.
+[This change is not known to be safe.]
+Неизвестно, будет ли изменение безопасным.
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Этот контакт находится в системе обмена мгновенными сообщениями, которая хранит списки контактов на сервере. Контакт будет удалён с сервера и из локального списка при следующем подключении.
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Этот файл ещё не проверялся антивирусом. Вы всё-таки хотите открыть его?
+[This file wishes to change the setting]
+Этот файл изменяет настройку
+[This font is used to display main section titles or text elements.]
+Шрифт для заголовков основных разделов или текстовых элементов.
+[This font is used to display most text element or section bodies.]
+Шрифт для большинства текстовых элементов или разделов.
+[This font is used to display various addtional notes.]
+Шрифт для различных дополнительных заметок.
+[This group]
+Эта группа
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+Для работы этого плагина нужен db3x плагин 0.5.1.0 или старше
+[This will erase all history and settings for this contact!]
+Это удалит всю историю и настройки для данного контакта!
+[Tick]
+Отмечено
+[Times in microseconds]
+Микросекунды
+[Times in milliseconds]
+Миллисекунды
+[Timezone:]
+Часовой пояс:
+[To default status icons]
+Значки по умолчанию
+[To main icons]
+Главные значки
+[to the value]
+на значение
+[To:]
+Для:
+[To]
+В
+[Total size:]
+Общий размер:
+[Transfer and virus scan complete]
+Передача и проверка на вирусы завершены
+[Transfer completed, open file(s).]
+Передача завершена, открыть файл(ы).
+[Transfer completed, open file.]
+Передача завершена, открыть файл.
+[Transfer completed, open folder.]
+Передача завершена, открыть папку.
+[Transfer completed.]
+Передача завершена.
+[Tray]
+Трей
+[Type:]
+Тип:
+[Typing]
+Набор текста
+[Unable to create the profile '%s', the error was %x]
+Не могу создать профиль '%s', ошибка %x
+[Unable to initiate transfer.]
+Невозможно начать передачу.
+[Unable to load plugin in Service Mode!]
+Невозможно загрузить плагин в служебном режиме!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+Невозможно загрузить ни один из установленных плагинов списка контактов. Даже отключённые в настройках не запускаются.
+[Undo changes]
+Отменить изменения
+[Unicode plugin]
+Юникод плагин
+[Unique ID:]
+Уник. ID:
+[Unloaded plugin]
+Выгруженный плагин
+[Update Notification Options]
+Уведомление об обновлениях
+[Update notification]
+Обновления ядра
+[Update Notify]
+Обновление ядра
+[Update now]
+Обновить
+[Updating]
+Обновление
+[Upgrade]
+Модернизировать
+[Upgrading account]
+Модернизация учётной записи
+[URL from %s]
+URL от %s
+[URL Received]
+Получен URL
+[URLs]
+Ссылки
+[Use %time% for the current time, %date% for the current date]
+%date% - сегодняшняя дата; %time% - текущее время
+[Use Options->Contacts->Ignore to unhide contacts.]
+Скрытые контакты: "Настройки->Контакты->Игнорировать"
+[Use proxy server]
+И&спользовать прокси
+[User has not registered an e-mail address]
+Пользователь не зарегистрировал свой адрес e-mail.
+[User online]
+Пользователь в сети
+[Username:]
+Пользователь:
+[Username]
+Имя пользователя
+[Validate SSL certificates]
+Проверять подпись сертификатов SSL
+[Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Переменные: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
+[Version]
+Версия
+[View &history]
+&История
+[View/Change My &Details...]
+Личные &данные
+[View/change my &details...]
+Личные &данные
+[Virus scanner]
+Антивирус
+[Visibility]
+Видимость
+[Waiting for connection...]
+Ожидание соединения
+[Warn me before opening a file that has not been scanned]
+Предупреждать при открытии непроверенного файла
+[Warning!\r\nThis menu object not support user defined options.]
+Внимание!\r\nЭтот пункт меню не поддаётся настройке.
+[Web page address (&URL)]
+Ссылка (&URL)
+[Web page:]
+Сайт:
+[Website:]
+Сайт:
+[What do you want to do with the file now?]
+Что вы желаете сделать с файлом?
+[When all files have been downloaded]
+По окончании загрузки всех файлов
+[Window]
+Окно
+[Windows bitmaps]
+Изображения Windows Bitmap
+[Work fax]
+Рабочий факс
+[Work phone]
+Рабочий телефон
+[Work]
+Работа
+[Yep, I'm here.]
+Да, я здесь.
+[Yes]
+Да
+[You already have a group with that name. Please enter a unique name for the group.]
+Группа с таким именем уже есть. Введите уникальное имя для группы.
+[You are about to receive the file]
+Вы принимаете файл
+[You are never visible to this person]
+Вы всегда невидимы для этого человека
+[You are running the latest version of Miranda NG.  No update is available at this time.]
+Вы используете последнюю версию Miranda NG. Нет доступных обновлений.
+[You are visible to this person even when in invisible mode]
+Вы всегда видимы для этого человека
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Выбор драйвера базы данных. Если вы не уверены какой следует выбрать - используйте драйвер по умолчанию.
+[You haven't filled in the search field. Please enter a search term and try again.]
+Вы не заполнили поле для поиска. Пожалуйста, введите запрос для поиска и попробуйте ещё раз.
+[You need an image services plugin to process PNG images.]
+Вам нужен плагин службы изображений для поддержки PNG.
+[You need to disable plugin to delete this account]
+Для удаления учётной записи необходимо отключить протокол
+[You will always be asked about files from people not on your contact list]
+Запрос всегда будет показан, если человек не в списке
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Изменения вступят в силу при следующем входе в сеть обмена сообщениями.
+[Your Version:]
+Ваша версия:
+[Configure...]
+Настройка...
+[Upgrade account]
+Модернизация
+[Remove account]
+Удалить
+[1 %s user found]
+Найден 1 пользователь %s
+[Automatically check for new versions of Miranda NG]
+Автоматически проверять новые версии Miranda NG
+[Check for updates for the following:]
+Проверять обновления для:
+[Stable releases]
+Стабильных версий
+[Preview releases (beta)]
+Предварительных версий (бета)
+[Development releases (alpha)]
+"Ночных" версий (альфа)
+[of]
+из
+[Afghanistan]
+Афганистан
+[Albania]
+Албания
+[Algeria]
+Алжир
+[Andorra]
+Андорра
+[Angola]
+Ангола
+[Anguilla]
+Ангуилья
+[Antigua and Barbuda]
+Антигуа и Барбуда
+[Argentina]
+Аргентина
+[Armenia]
+Армения
+[Aruba]
+Аруба
+[Ascension Island]
+о. Вознесения
+[Australia]
+Австралия
+[Australia, Antarctic Territory]
+Австралийская антарктическая территория
+[Australia, Christmas Island]
+о. Рождества (Австралия)
+[Australia, Cocos (Keeling) Islands]
+Кокосовые (Килинг) о-ва (Австралия)
+[Australia, Norfolk Island]
+о. Норфолк (Австралия)
+[Austria]
+Австрия
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Багамы
+[Bahrain]
+Бахрейн
+[Bangladesh]
+Бангладеш
+[Barbados]
+Барбадос
+[Belarus]
+Беларусь
+[Belgium]
+Бельгия
+[Belize]
+Белиз
+[Benin]
+Бенин
+[Bermuda]
+Бермудские о-ва
+[Bhutan]
+Бутан
+[Bolivia]
+Боливия
+[Bosnia and Herzegovina]
+Босния и Герцеговина
+[Botswana]
+Ботсвана
+[Brazil]
+Бразилия
+[British Virgin Islands]
+Британские Виргинские острова
+[Brunei]
+Бруней
+[Bulgaria]
+Болгария
+[Burkina Faso]
+Буркина Фасо
+[Burundi]
+Бурунди
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
+[Canary Islands]
+Канарские о-ва
+[Cape Verde Islands]
+о-ва Зеленого Мыса
+[Cayman Islands]
+Каймановы о-ва
+[Central African Republic]
+Центрально-Африканская Республика
+[Chad]
+Чад
+[Chile, Republic of]
+Республика Чили
+[China]
+Китай (КНР)
+[Colombia]
+Колумбия
+[Comoros]
+Коморские о-ва
+[Congo, Democratic Republic of (Zaire)]
+Демократическая республика Конго (Заир)
+[Congo, Republic of the]
+Республика Конго
+[Cook Islands]
+о-ва Кука
+[Costa Rica]
+Коста-Рика
+[Cote d'Ivoire (Ivory Coast)]
+Республика Кот-д’Ивуар
+[Croatia]
+Хорватия
+[Cuba]
+Куба
+[Greek, Republic of South Cyprus]
+Кипр (Республика Южного Кипра)
+[Czech Republic]
+Чешская республика
+[Denmark]
+Дания
+[Diego Garcia]
+Диего Гарсия
+[Djibouti]
+Джибути
+[Dominica]
+Доминика
+[Dominican Republic]
+Доминиканская республика
+[Ecuador]
+Эквадор
+[Egypt]
+Египет
+[El Salvador]
+Сальвадор
+[Equatorial Guinea]
+Экваториальная Гвинея
+[Eritrea]
+Эритрея
+[Estonia]
+Эстония
+[Ethiopia]
+Эфиопия
+[Europe]
+Европа
+[Faeroe Islands]
+о-ва Фаэро
+[Falkland Islands]
+Фолклендские о-ва
+[Fiji]
+Фиджи
+[Finland]
+Финляндия
+[France]
+Франция
+[French Antilles]
+Французские Антильские о-ва
+[French Guiana]
+Французская Гвиана
+[French Polynesia]
+Французская Полинезия
+[Gabon]
+Габон
+[Gambia]
+Гамбия
+[Georgia]
+Грузия
+[Germany]
+Германия
+[Ghana]
+Гана
+[Gibraltar]
+Гибралтар
+[Greece]
+Греция
+[Greenland]
+Гренландия
+[Grenada]
+Гренада
+[Guadeloupe]
+Гваделупа
+[Guam, US Territory of]
+Территория Гуам (США)
+[Guatemala]
+Гватемала
+[Guinea]
+Гвинея
+[Guinea-Bissau]
+Гвинея-Бисау
+[Guyana]
+Гайана
+[Haiti]
+Гаити
+[Honduras]
+Гондурас
+[Hong Kong]
+Гонконг
+[Hungary]
+Венгрия
+[Iceland]
+Исландия
+[India]
+Индия
+[Indonesia]
+Индонезия
+[Iran (Islamic Republic of)]
+Исламская Республика Иран
+[Iraq]
+Ирак
+[Ireland]
+Ирландия
+[Israel]
+Израиль
+[Italy]
+Италия
+[Jamaica]
+Ямайка
+[Japan]
+Япония
+[Jordan]
+Иордания
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кения
+[Kiribati]
+Кирибати
+[Korea, North]
+Северная Корея (КНДР)
+[Korea, South]
+Республика Корея
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Киргизия
+[Laos]
+Лаос
+[Latvia]
+Латвия
+[Lebanon]
+Ливан
+[Lesotho]
+Лесото
+[Liberia]
+Либерия
+[Libyan Arab Jamahiriya]
+Ливия
+[Liechtenstein]
+Лихтенштейн
+[Lithuania]
+Литва
+[Luxembourg]
+Люксембург
+[Macau]
+Макао
+[Macedonia, Republic of]
+Республика Македония
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малави
+[Malaysia]
+Малайзия
+[Maldives]
+Мальдивские о-ва
+[Mali]
+Мали
+[Malta]
+Мальта
+[Marshall Islands]
+Маршалловы о-ва
+[Martinique]
+Мартиника
+[Mauritania]
+Мавритания
+[Mauritius]
+Маврикий
+[Mayotte Island]
+о. Майотт
+[Mexico]
+Мексика
+[Micronesia, Federated States of]
+Микронезия
+[Moldova, Republic of]
+Республика Молдова
+[Monaco]
+Монако
+[Mongolia]
+Монголия
+[Montserrat]
+Монсеррат
+[Morocco]
+Марокко
+[Mozambique]
+Мозамбик
+[Myanmar]
+Мьянма
+[Namibia]
+Намибия
+[Nauru]
+Республика Науру
+[Nepal]
+Непал
+[Netherlands]
+Нидерланды
+[Netherlands Antilles]
+Нидерландские Антильские о-ва
+[St. Maarten]
+Синт-Маартен
+[Curacao]
+Кюрасао
+[Netherlands (Bonaire Island)]
+Нидерланды (о. Бонайре)
+[Netherlands (Saba Island)]
+Нидерланды  (о. Саба)
+[Netherlands (St. Eustatius Island)]
+Нидерланды (о. Синт-Эстатиус)
+[New Caledonia]
+Новая Каледония
+[New Zealand]
+Новая Зеландия
+[Nicaragua]
+Никарагуа
+[Niger]
+Нигер
+[Nigeria]
+Нигерия
+[Niue]
+Ниуэ
+[Northern Mariana Islands, US Territory of]
+Северные Марианские о-ва, территория США
+[Norway]
+Норвегия
+[Oman]
+Оман
+[Pakistan]
+Пакистан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа - Новая Гвинея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+Филиппины
+[Poland]
+Польша
+[Portugal]
+Португалия
+[Puerto Rico]
+Пуэрто-Рико
+[Qatar]
+Катар
+[Reunion Island]
+о. Реюньон
+[Romania]
+Румыния
+[Russia]
+Россия
+[Rwanda]
+Руанда
+[Samoa (USA)]
+Американские Самоа
+[Samoa, Western]
+Независимое государство Самоа
+[Saint Helena]
+о. Святой Елены
+[Saint Kitts and Nevis]
+Сент-Кристофер и Невис
+[Saint Lucia]
+Санта Лусия
+[Saint Pierre and Miquelon]
+Сен-Пьер и Микелон
+[Saint Vincent and the Grenadines]
+Сен-Винсент и Гренадины
+[San Marino]
+Сан-Марино
+[Sao Tome and Principe]
+Сан-Томе и Принсипи
+[Saudi Arabia]
+Саудовская Аравия
+[Scotland]
+Шотландия
+[Senegal]
+Сенегал
+[Seychelles]
+Сейшельские о-ва
+[Sierra Leone]
+Сьерра-Леоне
+[Singapore]
+Сингапур
+[Slovakia]
+Словакия
+[Slovenia]
+Словения
+[Solomon Islands]
+Соломоновы о-ва
+[Somalia]
+Сомали
+[South Africa]
+Южная Африка
+[Spain]
+Испания
+[Spain, Canary Islands]
+Канарские о-ва (Испания)
+[Sri Lanka]
+Шри Ланка
+[Sudan]
+Судан
+[Suriname]
+Суринам
+[Swaziland]
+Свазиленд
+[Sweden]
+Швеция
+[Switzerland]
+Швейцария
+[Syrian Arab Republic]
+Сирия
+[Taiwan]
+Тайвань
+[Tajikistan]
+Таджикистан
+[Tanzania]
+Танзания
+[Thailand]
+Тайланд
+[Timor, East]
+Восточный Тимор
+[Togo]
+Того
+[Tokelau]
+Токелау
+[Tonga]
+Тонга
+[Trinidad and Tobago]
+Тринидад и Тобаго
+[Tristan da Cunha]
+Тристан-да-Кунья
+[Tunisia]
+Тунис
+[Turkey]
+Турция
+[Turkey, Republic of Northern Cyprus]
+Турецкая Республика Северного Кипра
+[Turkmenistan]
+Туркменистан
+[Turks and Caicos Islands]
+о-ва Туркс и Кайкос
+[Tuvalu]
+Тувалу
+[Uganda]
+Уганда
+[Ukraine]
+Украина
+[United Arab Emirates]
+Объединённые Арабские Эмираты
+[United Kingdom]
+Великобритания
+[Uruguay]
+Уругвай
+[USA]
+США
+[Uzbekistan]
+Узбекистан
+[Vanuatu]
+Вануату
+[Vatican City]
+г. Ватикан
+[Venezuela]
+Венесуэла
+[Vietnam]
+Вьетнам
+[Virgin Islands (UK)]
+Виргинские о-ва (Англия)
+[Virgin Islands (USA)]
+Виргинские о-ва (США)
+[Wales]
+Уэльс
+[Wallis and Futuna Islands]
+о-ва Валлис и Футуна
+[Yemen]
+Йемен
+[Yugoslavia]
+Югославия
+[Serbia, Republic of]
+Республика Сербия
+[Kosovo, Republic of]
+Республика Косово
+[Montenegro, Republic of]
+Республика Черногория
+[Zambia]
+Замбия
+[Zimbabwe]
+Зимбабве
+[Aland Islands]
+Аландские о-ва
+[American Samoa]
+Американское Самоа
+[Antarctica]
+Антарктида
+[Bolivia, Plurinational State of]
+Боливия
+[Bonaire, Sint Eustatius and Saba]
+Бонайре, Синт-Эстатиус и Саба
+[Bouvet Island]
+о. Буве
+[British Indian Ocean Territory]
+Британская территория в Индийском океане
+[Brunei Darussalam]
+Бруней
+[Cape Verde]
+Кабо-Верде
+[Chile]
+Чили
+[Christmas Island]
+о. Рождества
+[Cocos (Keeling) Islands]
+Кокосовые о-ва
+[Congo]
+Конго, Республика
+[Congo, the Democratic Republic of the]
+Конго, Демократическая Республика
+[Cote d'Ivoire]
+Кот-д’Ивуар
+[Cyprus]
+Кипр
+[Falkland Islands (Malvinas)]
+Фолклендские о-ва
+[Faroe Islands]
+Фарерские о-ва
+[French Southern Territories]
+Французские Южные и Антарктические территории
+[Guam]
+Гуам
+[Guernsey]
+о. Гернси
+[Heard Island and McDonald Islands]
+о. Херд и о-ва Макдональд
+[Holy See (Vatican City State)]
+Ватикан
+[Iran, Islamic Republic of]
+Иран
+[Isle of Man]
+о. Мэн
+[Jersey]
+о. Джерси
+[Korea, Democratic People's Republic of]
+КНДР, Северная Корея
+[Korea, Republic of]
+Корея, Республика (Южная Корея)
+[Lao People's Democratic Republic]
+Лаос
+[Libya]
+Ливия
+[Macao]
+Макао
+[Macedonia, The Former Yugoslav Republic of]
+Македония
+[Mayotte]
+Майотта
+[Montenegro]
+Черногория
+[Norfolk Island]
+о. Норфолк
+[Northern Mariana Islands]
+Северные Марианские о-ва
+[Palestinian Territory, Occupied]
+Палестинские территории
+[Pitcairn]
+Питкэрн
+[Reunion]
+о. Реюньон
+[Russian Federation]
+Россия
+[Saint Barthelemy]
+Сен-Бартелеми
+[Saint Helena, Ascension and Tristan da Cunha]
+о-ва Св. Елены, Вознесения и Тристан-да-Кунья
+[Saint Martin (French part)]
+Сен-Мартен
+[Samoa]
+Самоа
+[Serbia]
+Сербия
+[Sint Maarten (Dutch part)]
+Синт-Маартен
+[South Georgia and the South Sandwich Islands]
+Южная Георгия и Южные Сандвичевы о-ва
+[South Sudan]
+Южный Судан
+[Svalbard and Jan Mayen]
+Шпицберген и Ян-Майен
+[Taiwan, Province of China]
+Тайвань
+[Tanzania, United Republic of]
+Танзания
+[Timor-Leste]
+Восточный Тимор
+[United States]
+США
+[United States Minor Outlying Islands]
+Внешние малые о-ва США
+[Venezuela, Bolivarian Republic of]
+Венесуэла
+[Viet Nam]
+Вьетнам
+[Virgin Islands, British]
+Британские Виргинские о-ва
+[Virgin Islands, U.S.]
+Виргинские о-ва (США)
+[Wallis and Futuna]
+о-ва Валлис и Футуна
+[Western Sahara]
+Сахарская Арабская Демократическая Республика
+[Unknown]
+Неизвестно
+[Menu objects]
+Виды меню
+[Menu items]
+Пункты меню
+[Decide &later]
+Решить &позже
+[Clear completed transfers on window closing]
+Очищать завершённые передачи при закрытии окна
+[View user's details]
+Информация о пользователе
+[Add contact permanently to list]
+Добавить в список
+[Auto rename]
+Автопереименование
+[Protocol menus]
+Меню протоколов
+[Move to the main menu]
+В главном меню
+[Move to the status bar]
+В панели статусов
+[%s requested authorization\n%u (%s) on %s]
+%s запросил(а) авторизацию\n%u (%s) в %s
+[%s requested authorization\n%u on %s]
+%s запросил(а) авторизацию\n%u в %s
+[%s requested authorization\n%s on %s]
+%s запросил(а) авторизацию\n%s в %s
+[Denial reason:]
+Причина отказа:
+[View User Details]
+Посмотреть информацию о пользователе
+[%s added you to the contact list\n%u (%s) on %s]
+%s добавил вас в свой список контактов\n%u (%s) в %s
+[%s added you to the contact list\n%u on %s]
+%s добавил вас в свой список контактов\n%u в %s
+[%s added you to the contact list\n%s on %s]
+%s добавил вас в свой список контактов\n%s в %s
+[Are you sure you want to remove profile "%s"?]
+Вы уверены, что хотите удалить профиль "%s"?
+[Modified]
+Изменён
+[Feature is not supported by protocol]
+Не поддерживается протоколом
+[Your database is located in Miranda root folder.\n]
+Файл вашего профиля находится в корневой папке Miranda.\n
+[Even though your profile folder is %s\n]
+Теперь папка вашего профиля это %s\n
+[Profiles are not allowed in the Miranda root folder.\n]
+Файл профиля не должен находится в корневой папке Miranda.\n
+[Please move Miranda database into the current profile folder.]
+Пожалуйста, переместите ваш профиль в правильную папку.
+[Profile cannot be placed into Miranda root folder.]
+Файл профиля не должен находится в корневой папке Miranda.
+[Please move Miranda profile to some other location.]
+Пожалуйста, переместите ваш профиль в другое место.
+[Miranda is trying upgrade your profile structure.\n]
+Miranda пытается обновить вашу структуру хранения профилей.\n
+[It cannot move profile %s to the new location %s automatically\n]
+Она не может автоматически переместить профиль %s на новое место %s\n
+[Most likely due to insufficient privileges. Please move profile manually.]
+Скорее всего, из-за недостатка прав. Пожалуйста, переместите профиль вручную.
+[Become idle if application full screen]
+Режим ожидания, если приложение запущено в полноэкранном режиме
+[Set custom time zone]
+Установить пользовательский часовой пояс
+[<unspecified>]
+<не указано>
+[Add to contact list if authorized]
+Добавить в список контактов после авторизации
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Добро пожаловать в менеджер учётных записей Miranda NG!\nЗдесь вы можете настроить свои учётные записи.\n\nСлева в списке можно выбрать учётную запись, или кликнуть на значок плюса снизу для добавления новой учётной записи.
+[Send "You were added"]
+Отправить "Вас добавили"
+[User:]
+Логин:
+[OutputDebugString()]
+Функция OutputDebugString()
+[Text files]
+Текстовые файлы
+[Sound files]
+Звуковые файлы
+[WAV files]
+Файлы WAV
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG перезапускается.\nПожалуйста, подождите...
+[Open logging options]
+Настройки журналирования сети
+[Account is online. Disable account?]
+Учётная запись в сети. Отключить?
+[Configuring view mode: %s]
+Настройка режима вида: %s
+[Editing view mode]
+Режим просмотра по умолчанию
+[Show contacts in groups]
+Показывать контакты в группах
+[Download more plugins]
+Скачать плагины
+[Re&ad status message]
+Читать статусное сообщение
+[Disable icons]
+Отключить значки
+[Disable sounds on idle]
+Отключить звуки при переходе в режим ожидания
+[Minimize Miranda]
+Cвернуть
+[Running core plugin]
+Неотключаемый плагин ядра
+[Non-loadable plugin]
+Незагружаемый плагин
+[Check database]
+Проверить базу
+[Fatal error]
+Фатальная ошибка
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
+[Switch to simple options]
+Упрощённый вид настроек
+[Miranda NG must be restarted to apply changes for these plugins:]
+Требуется перезапуск программы для следующих плагинов:
+[Do you want to restart it now?]
+Перезапустить программу сейчас?
+[Open contact's chat window]
+Открыть окно беседы с контактом
+[Account error]
+Ошибка учётной записи
+[Account name has to be unique. Please enter unique name.]
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
+[Standard netlib log]
+Стандартный журнал netlib
+[My received files]
+Принятые файлы
+[Edit phone number]
+Редактировать телефон
+[Avatars root folder]
+Корневая папка аватаров
+
+
+;ПЛАГИН КЛИСТА
+[ms delay]
+Задержка (мс)
+[Global Status Icons]
+Общие значки статуса
+[Contact Display]
+Контакты
+[HotKey1]
+Горячие клавиши 1
+[HotKey2]
+Горячие клавиши 2
+[Web Search:]
+Поиск в web:
+[Classic contact list]
+Список контактов (классик)
+[Row height:]
+Высота строки:
+[Selection color]
+Цвет выделения
+[Sort contacts by name]
+Сортировка по имени
+[Sort contacts by protocol]
+Сортировка по протоколу
+[Sort contacts by status]
+Сортировка по статусу
+[Enable docking]
+Парковать
+
+
+;ПЛАГИН ЧАТА
+[Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?.]
+Miranda не может загрузить плагин Chat, потому что отсутствует Microsoft Rich Edit версии 3.\nЕсли вы используете Windows 95/98/NT или WINE, обновите Rich Edit control.\n\nЗагрузить обновление?
+[Options for using a tabbed interface]
+Настройки вкладок
+[Use a tabbed interface]
+Использовать вкладки
+[Close tab on double click]
+Закрывать по двойному щелчку
+[Restore previously open tabs when showing the window]
+Восстанавливать открытые вкладки при показе окна
+[Show tabs at the bottom]
+Вкладки внизу
+[Chat log]
+Журнал чата
+[Users status was changed]
+Пользователь сменил статус
+[Chat windows]
+Окна чата
+[Toggle userlist]
+Перекл. список
+[Make the text bold (CTRL+B)]
+Сделать текст жирным (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Сделать текст курсивом (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Подчеркнуть текст (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Выбрать фон текста (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Выбрать цвет текста (CTRL+K)
+[%s wants your attention in room %s]
+%s просит вашего внимания в комнате %s
+[Close current tab (CTRL+F4)]
+Закрыть текущую вкладку (CTRL+F4)
+[Userlist user indent (pixels):]
+Отступ в списке (пиксели):
+[Userlist row distance (pixels):]
+Расстояние между строками (пикс.):
+[User list lines]
+Цвета линий в списке
+[C&lose other tabs]
+Закрыть остальные вкладки
+[User list members (Away)]
+Пользователи (отсутствуют)
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
+[User list members]
+Пользователи
+[User list background]
+Фон списка
+[Chat module]
+Модуль чата
+[User list statuses]
+Статусы пользователей
+[Send message by pressing the 'Enter' key]
+ВВОД отправляет сообщение
+[Send message by pressing the 'Enter' key twice]
+Двойной ВВОД отправляет сообщение
+[Show button for sending messages]
+Показывать кнопку отправки сообщения
+[Show name of the chat room in the top left of the window]
+Показывать название комнаты в левом верхнем углу
+[Show buttons for controlling the chat room]
+Показывать кнопки управления комнатой
+[Show buttons for formatting the text you are typing]
+Показывать кнопки форматирования текста
+[Show lines in the userlist]
+Показывать линии в списке
+[Show new windows cascaded]
+Уложить каскадом
+[Save the size and position of chat rooms]
+Сохранять размер и позицию окон комнат
+;;;
+[Custom2]
+Набор 2
+[Unique ID]
+Уник. ID
+[Word lookup]
+Найти слово
+[User list background (selected)]
+Заливка списка (выбрано)
+[Make the text bold]
+Полужирный
+[Make the text italicized]
+Наклонный
+[Make the text underlined]
+Подчеркнутый
+[Select a background color for the text]
+Цвет фона
+[Select a foreground color for the text]
+Цвет текста
+[Show the history]
+История
+[Show/hide the nicklist]
+Вкл/откл список ников
+[Control this room]
+Управление каналом
+[Enable/disable the event filter]
+Вкл/выкл фильтр
+[Save the size and position of chat rooms individually]
+Сохранять размер и позицию каждого окна
+[Chat: Incoming message]
+Чат: Входящее
+[Chat: Message is highlighted]
+Чат: Внимание!
+[Chat: The topic has been changed]
+Чат: Смена темы
+[Chat: User has changed name]
+Чат: Смена ника
+[Chat: User has disconnected]
+Чат: Выход из сети
+[Chat: User has joined]
+Чат: Вход на канал
+[Chat: User has kicked some other user]
+Чат: Кик с канала
+[Chat: User has left]
+Чат: Выход с канала
+[Chat: User has performed an action]
+Чат: Было выполнено действие
+[Chat: User has sent a notice]
+Чат: Уведомление!
+[Chat: Userґs status was changed]
+Чат: Смена статуса
+[Check temporary also]
+Проверять периодически
+[Event: Available]
+Событие: Доступен
+[Event: Away]
+Событие: Отошел
+[Event: Disconnect]
+Событие: Отключён
+[Event: DND]
+Событие: Не беспокоить
+[Event: Free for chat]
+Событие: Готов болтать
+[Event: N/A]
+Событие: Недоступен
+[Event: Occupied]
+Событие: Занят
+[Event: On the phone]
+Событие: На телефоне
+[Event: Out for lunch]
+Событие: Ушел обедать
+[Online notification of contacts]
+Проверка статуса контактов
+[Outgoing commands are not shown in the server window]
+Исходящие команды не будут показаны в серверном окне
+[Outgoing commands are shown in the server window]
+Исходящие команды будут показаны в серверном окне
+[The following is known about this user on the network. The information is not necessarily accurate]
+Об этом пользователе известно следующее (не обязательно достоверно)
+[timer (s): ]
+Таймер (с):\s
+[%s : Channel (%u Users)]
+%s : Канал (%u участников)
+[%s wants your attention in room %u]
+%s требует вашего внимания в комнате %u
+[Record all events in the room to a log file]
+Сохранять все события в журнале
+[&Message %s]
+&Сообщение %s
+
+
+;ПЛАГИН ОКНА СООБЩЕНИЙ
+[Send and receive instant messages]
+Плагин приема/отправки сообщений
+[Show balloon popup (unsupported system)]
+Показывать подсказки (неподдерживаемая система)
+[Messaging log]
+Журнал
+[An unknown error has occurred.]
+Неизвестная ошибка.
+[Save the window size and location individually for each contact]
+Сохранять размер и положение окна для каждого контакта
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не смогла загрузить встроенную систему сообщений, так как отсутствует riched20.dll. Нажмите "Да" для продолжения загрузки программы.
+[Show 'Send' button]
+Показывать кнопку "Отправить"
+[Show username on top row]
+Показывать имя в верхней строке
+[Show toolbar buttons on top row]
+Показывать кнопки в верхней строке
+[Show character count]
+Показывать счётчик символов
+[Support CTRL+Up/Down in message area to show previously sent messages]
+Показывать старые сообщения при нажатии Ctrl+ВВЕРХ/ВНИЗ
+[Delete temporary contacts when closing message window]
+Удалять временные контакты при закрытии окна сообщения
+[Enable avatar support in the message window]
+Поддержка аватаров в окне сообщения
+[Limit avatar height to]
+Ограничить высоту аватара
+[Show timestamp]
+Показывать время
+[Show dates]
+Показывать даты
+[Show formatting]
+Показывать форматирование
+[Save the window position for each contact]
+Сохранять позицию окна для каждого контакта
+[Message window behavior:]
+Поведение окна сообщений:
+[Messaging:]
+Сообщения:
+[Automatically popup window when:]
+Открывать окно, если:
+[Message Window Options]
+Настройки окна диалога
+[Send and receive instant messages using a split mode or single mode interface.]
+Отправляйте и принимайте мгновенные сообщения, используя диалог (ICQ2000+) или простое окно (ICQ99b) окно.
+[Send/Receive Messaging]
+Отправка/получение сообщений
+[%.200s: Message Received]
+%.200s: получено сообщение
+[%.200s: Send Message]
+%.200s: отправить сообщение
+[Display Time in Message Log]
+Показывать время в журнале
+[Read &Next (%u)]
+Следующее (%u)
+[Read &Next]
+&Следующее
+[Single Mode]
+Простой
+[Split Mode]
+Диалоговый
+[Contact started typing]
+Контакт начал набор сообщения
+[Contact stopped typing]
+Контакт закончил набор сообщения
+
+
+;ПЛАГИН ЭКСТРА ЗНАЧКОВ
+[Select the extra icons to be shown in the contact list:]
+Выберите какие экстра значки будут отображаться в списке контактов:
+[Ungroup]
+Разгруппировать
+[Chat activity]
+Активность в чате
+[*only the first %d icons will be shown]
+*будут отображаться только первые %d значков
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
+[Mobile State]
+Мобильность
+[Always invisible]
+Всегда невидимый
+[\nStyles and effects are disabled for this font.]
+Для этого шрифта настройка стилей и эффектов отключена.
+[Maximum number of flashes]
+Максимальное количество миганий
+[&Offline\tCtrl+0]
+Не в с&ети\tCtrl+0
+[On&line\tCtrl+1]
+В &сети\tCtrl+1
+[&Away\tCtrl+2]
+&Отсутствую\tCtrl+2
+[&NA\tCtrl+3]
+Не&доступен\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Занят\tCtrl+4
+[&DND\tCtrl+5]
+Не &беспокоить\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Готов болтать\tCtrl+7
+[&Invisible\tCtrl+7]
+&Невидимый\tCtrl+7
+[On the &phone\tCtrl+8]
+На &телефоне\tCtrl+8
+[Out to &lunch\tCtrl+9]
+Обед&аю\tCtrl+9
+[No profile support installed!]
+Нет установленных плагинов базы!
+[Group сhats log]
+Групповые чаты
+[&Show/hide nicklist]
+&Показать/Скрыть список ников
+[(Background) Color]
+(Фоновый) цвет
+[&Background color]
+Цвет фона
+[Send error]
+Ошибка отправки
+[Message window event log]
+Журнал в окне диалога
+[Load history events]
+Подгрузка истории
+[Paste and send]
+Вставить и отправить
+[Sample text]
+Пример текста
+
