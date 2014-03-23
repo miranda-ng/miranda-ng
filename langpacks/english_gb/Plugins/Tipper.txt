@@ -5,10 +5,10 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
-[Load fonts and colors]
-Load fonts and colours
 [Enable skin coloring]
 Enable skin colouring
+[Load fonts and colors]
+Load fonts and colours
 [Favorite contacts]
 Favourite contacts
 [Center]
