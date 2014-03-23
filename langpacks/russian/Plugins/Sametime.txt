@@ -7,18 +7,16 @@
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 Реализация обмена мгновенными сообщениями по протоколу Lotus Sametime в Miranda NG.
+[Connection]
+Соединения
+[Password:]
+Пароль
 [Server name:]
 Имя сервера:
 [Port:]
 Порт:
-[Get contacts from server]
-Получить контакты с сервера
-[Upload contacts]
-Выгрузить контакты
-[Import from file...]
-Импортировать из файла...
-[Password:]
-Пароль
+[Client ID]
+ID клиента
 [Error display]
 Показ ошибок
 [Use message boxes]
@@ -27,12 +25,14 @@
 Всплывающие окна
 [Use system tray baloons]
 Сообщения в трее
-[Connection]
-Соединения
 [Contacts]
 Контакты
-[Client ID]
-ID клиента
+[Get contacts from server]
+Получить контакты с сервера
+[Upload contacts]
+Выгрузить контакты
+[Import from file...]
+Импортировать из файла...
 [Auto-add new contacts]
 Автоматически добавлять новые контакты
 [Encryption]
@@ -49,8 +49,6 @@ ID клиента
 Текст сообщения:
 [Select all]
 Выделить всё
-[Invert\n selection]
-Обратить\n выделение
 [Invitation rejected - already present.]
 Приглашение отклонено - пользователь уже присутствует.
 [Your invitation has been rejected.]
@@ -79,6 +77,8 @@ ID клиента
 Ошибка
 [%s connection]
 Соединение %s
+[ID]
+ID
 [Sametime administrator message]
 Сообщение администратора Sametime
 [Session announcement - from '%s']

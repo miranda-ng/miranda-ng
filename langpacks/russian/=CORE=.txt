@@ -513,6 +513,18 @@ UIN, E-mail и т.д.
 Сброс
 [(Lower ranks are preferred)]
 (Предпочтительны более низкие ранги)
+[Last modified using:]
+Проверено на версии:
+[Date:]
+Дата:
+[Locale:]
+Язык:
+[Download more Language Packs]
+Загрузить дополнительные переводы
+[Current language:]
+Язык интерфейса:
+[Plugins included:]
+Плагины:
 [Tray]
 Трей
 [&Hide/Show]
@@ -965,8 +977,6 @@ UIN, E-mail и т.д.
 &Отказать
 [From:]
 От:
-[Date:]
-Дата:
 [Files:]
 Файлы:
 [Save to:]
@@ -2261,6 +2271,14 @@ Miranda NG не может открыть этот профиль
 Наборы значков
 [** All contacts **]
 ** Все контакты **
+[(incompatible)]
+(несовместим)
+[Unknown]
+Неизвестно
+[built-in]
+встроенный
+[Languages]
+Языки
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Удалить метаконтакт?
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
@@ -2289,8 +2307,6 @@ Miranda NG не может открыть этот профиль
 Неудачное назначение
 [(Unknown Contact)]
 (Неизвестный контакт)
-[Unknown]
-Неизвестно
 [ID]
 ID
 [Protocol]
@@ -2319,10 +2335,10 @@ ID
 Вы уверены?
 [Remove from metacontact]
 Удалить из метаконтакта
-[Toggle MetaContacts On]
-Включить метаконтакты
 [Toggle MetaContacts Off]
 Выключить метаконтакты
+[Toggle MetaContacts On]
+Включить метаконтакты
 [Add to existing MetaContact...]
 Добавить к метаконтакту...
 [Edit MetaContact...]
@@ -2359,8 +2375,6 @@ ID
 Ошибка записи уникального ID контакта в метаконтакт
 [Could not write nickname of contact to MetaContact]
 Не могу записать ник контакта в метаконтакт
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-Группа 'MetaContacts Hidden Group' добавлена в ваш список\nЭто из-за списка контактов на сервере. Для исправления,\nчтобы метаконтакты продолжили нормальную работу, вы должны:\n   - выключить метаконтакты используя пункт в главном меню\n   - переместить все контакты из этой группы\n   - синхронизировать ваши контакты с сервером\n   - опять включить метаконтакты
 [Standard netlib log]
 Стандартный журнал netlib
 [No times]

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_12.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -136,8 +136,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker", "..\plugins\SpellChecker\spellchecker_12.vcxproj", "{5DB86086-10E9-42E7-AC90-503D2678C2A2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alarms", "..\plugins\Alarms\alarms_12.vcxproj", "{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LangMan", "..\plugins\LangMan\langman_12.vcxproj", "{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZeroNotify", "..\plugins\ZeroNotification\Zero Notification_12.vcxproj", "{E37561EB-B9C5-4215-9FF9-DB559916FBA2}"
 EndProject
@@ -954,14 +952,6 @@ Global
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|Win32.Build.0 = Release|Win32
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|x64.ActiveCfg = Release|x64
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|x64.Build.0 = Release|x64
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Debug|Win32.Build.0 = Debug|Win32
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Debug|x64.ActiveCfg = Debug|x64
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Debug|x64.Build.0 = Debug|x64
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Release|Win32.ActiveCfg = Release|Win32
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Release|Win32.Build.0 = Release|Win32
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Release|x64.ActiveCfg = Release|x64
-		{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}.Release|x64.Build.0 = Release|x64
 		{E37561EB-B9C5-4215-9FF9-DB559916FBA2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E37561EB-B9C5-4215-9FF9-DB559916FBA2}.Debug|Win32.Build.0 = Debug|Win32
 		{E37561EB-B9C5-4215-9FF9-DB559916FBA2}.Debug|x64.ActiveCfg = Debug|x64
