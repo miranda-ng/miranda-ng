@@ -74,8 +74,6 @@ struct ProfileEnumData
 	TCHAR* szProfile;
 };
 
-extern TCHAR mirandabootini[MAX_PATH];
-
 void SetServiceModePlugin(pluginEntry *p);
 
 static void ThemeDialogBackground(HWND hwnd)

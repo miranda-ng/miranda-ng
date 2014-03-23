@@ -359,11 +359,16 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
 {
-	lstrcpy(langPack.tszFileName, szLangPack);
-	lstrcpy(langPack.tszFullPath, szLangPack);
+	if (!lstrcmp(szLangPack, langPack.tszFullPath))
+		return 0;
+
+	if (g_entryCount)
+		UnloadLangPackModule();
+
+	_tcsncpy_s(langPack.tszFullPath, SIZEOF(langPack.tszFullPath), szLangPack, _TRUNCATE);
 	TCHAR *p = _tcsrchr(langPack.tszFullPath, '\\');
-	if (p)
-		p[1] = 0;
+	_tcsncpy_s(langPack.tszFileName, SIZEOF(langPack.tszFullPath), (p == NULL) ? szLangPack : p + 1, _TRUNCATE);
+	CharLower(langPack.tszFileName);
 
 	FILE *fp = _tfopen(szLangPack, _T("rt"));
 	if (fp == NULL)
@@ -379,7 +384,6 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
 
 	// body
 	fseek(fp, startOfLine, SEEK_SET);
-	g_entriesAlloced = 0;
 
 	LoadLangPackFile(fp, line, fileCp);
 	fclose(fp);
@@ -640,7 +644,7 @@ void UnloadLangPackModule()
 	if (g_entryCount) {
 		mir_free(g_pEntries);
 		g_pEntries = 0;
-		g_entryCount = 0;
+		g_entryCount = g_entriesAlloced = 0;
 	}
 }
 

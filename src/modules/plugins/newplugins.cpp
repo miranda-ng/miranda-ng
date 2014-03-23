@@ -818,6 +818,14 @@ int LoadNewPluginsModuleInfos(void)
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini);
+
+	TCHAR tszDefaultLang[100];
+	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), mirandabootini)) {
+		TCHAR tszLangPath[MAX_PATH];
+		PathToAbsoluteT(tszDefaultLang, tszLangPath);
+		LoadLangPack(tszLangPath);
+	}
+
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
 

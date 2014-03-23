@@ -91,7 +91,7 @@ int  LoadDescButtonModule();
 
 int LoadDefaultModules(void)
 {
-	//load order is very important for these
+	// load order is very important for these
 	if (LoadSystemModule()) return 1;
 	if (LoadLangpackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
 	if (CheckRestart()) return 1;
