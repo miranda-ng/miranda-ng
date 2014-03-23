@@ -67,6 +67,8 @@ Skonfiguruj HistoryStats
 [Apply]
 Zastosuj
 ;file \plugins\HistoryStats\src\colbase_words.cpp
+[Extract words from]
+
 [Incoming messages]
 Przychodzące wiadomości
 [Outgoing messages]
@@ -210,6 +212,8 @@ dzień
 tydzień
 [month]
 miesiąc
+[#{data} per #{unit}]
+
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Wejście/Wyjście
@@ -306,6 +310,8 @@ dniach
 tygodni
 [Details for every bar (tooltip) are only available with HTML output.]
 Szczegóły dotyczące każdego słupka (tooltip) są dostępne tylko w HTML.
+["Split"]
+
 [incoming characters]
 przychodzące znaki
 [outgoing characters]
@@ -324,6 +330,8 @@ przychodzące rozmowy
 wychodzące rozmowy
 [all chats]
 wszystkich rozmów
+[#{type} for #{data}]
+
 [wday3:Mon]
 wday3:Pon
 [wday3:Tue]
@@ -354,12 +362,16 @@ Odrzuć starsze niż (dni, 0 = bez limitu)
 Liczba dni w grupie
 [Number of weeks to group]
 Liczba tygodni do grupy
+[Block unit]
+
 [Units per block]
 Słów w bloku
 [Blocks per column]
 Bloków w kolumnie
 [Number of columns to group]
 Liczba kolumn do grupy
+[Calculate maximum per column (not per graph)]
+
 [Characters (in/out ratio)]
 Znaki (zestawienie przych. / wych.)
 [Messages (in/out ratio)]
@@ -370,6 +382,8 @@ Rozmowy (zestawienie przych. / wych.)
 Godziny dnia osi czasu
 [Days of week timeline]
 Dni tygodnia osi czasu
+["Split" timeline]
+
 [in/out ratio of characters]
 zestawienie przych. / wych. znaków
 [in/out ratio of messages]
@@ -548,12 +562,18 @@ PNG
 ...będzie miała efekt jak: 
 [Nothing (column will be skipped)]
 Nic (kolumna zostanie pominięta)
+[HTML as fallback]
+
 [PNG, ignoring some sttings]
 PNG, ignorowanie niektórych ustawień
 [An internal column configuration error occured. Please contact the author of this plugin.]
 Wystąpił błąd wewnętrzny konfiguracji kolumny. Proszę skontaktować się z autorem tej wtyczki.
 [HistoryStats - Error]
 HistoryStats - Błąd
+[HTML output unsupported.]
+
+[Fallback to HTML due to setting.]
+
 [Setting ignored due to PNG output.]
 Ustawienie ignorowanie ze względu na PNG.
 ;file \plugins\HistoryStats\src\dlgoption_subexclude.cpp
@@ -580,6 +600,12 @@ Grafika
 Użyj tylko HTML do symulacji graficznej
 [Generate PNG files to represent graphics]
 Generuj pliki PNG do reprezentowania grafik
+[Fall back to HTML output, if column options require HTML output]
+
+[Enforce PNG output, possibly ignoring some column options]
+
+[Prefer HTML output over PNG output, if available]
+
 [Miscellaneous]
 Różne
 [Generate statistics in background thread with low priority]
@@ -592,8 +618,12 @@ Stwórz statystyki dla metakontaktów i subkontaktów
 Następujące informacje są właściwe tylko wtedy, jeśli używasz metakontaktów. W przypadku, gdy nie, należy używać w wersji 0.9.10.6 lub nowszej. \r\n\r\nHistoryStats doskonale integruje się z metakontakami i jest w stanie zbierać dane z metakontaktów, jak również z subkontaktów. Jest w stanie inteligentnie łączyć historię wszystkich subkontaktów i więcej. Możesz skonfigurować integrację metakontaktów w opcjach.
 [MetaContacts Plugin]
 Wtyczka MetaContact
+[Automatically get updates of HistoryStats]
+
 [Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
 Użyj tej wtyczki jeśli chcesz być automatycznie powiadamiany gdy zostanie opublikowana nowa wersja HistoryStats. Wtyczkę można zainstalować w zaktualizowanej wersji. Jak zawsze należy używać najnowszej wersji wtyczki choć nie powinna ona powodować błędów.
+[Updater|Updater (Unicode)]
+
 [Easily exchange icons in HistoryStats' user interface]
 Łatwa zmiana ikon w interfejsie użytkownika HistoryStats
 [Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
@@ -819,10 +849,36 @@ Pokaż statystyki (główne menu)
 Konfiguruj... (menu główne)
 [Contact menu]
 Menu kontaktu
+[Unexcluded contacts]
+
 [Excluded contacts]
 Wykluczone kontakty
 [Options tree]
 Drzewko opcji
+[Checkbox]
+
+[Checkbox (checked)]
+
+[Checkbox (disabled)]
+
+[Checkbox (checked & disabled)]
+
+[Radio button]
+
+[Radio button (checked)]
+
+[Radio button (disabled)]
+
+[Radio button (checked & disabled)]
+
+[Edit control]
+
+[Edit control (disabled)]
+
+[Combo box]
+
+[Combo box (disabled)]
+
 [Folder]
 Folder
 [Folder (disabled)]
@@ -883,6 +939,10 @@ HistoryStats nie może otworzyć pliku wyjściowego (#{file}) dla zapisu.\r\n\r\
 Statystyki dla #{nick} - HistoryStats
 [Statistics for #{nick}]
 Statystyki dla #{nick}
+[Writing omitted contacts]
+
+[Writing totals]
+
 [Created with #{plugin} #{version} on #{date} at #{time}]
 Stworzono przez #{plugin} #{version} dnia #{date} o godzinie #{time}
 [Initializing]
@@ -893,8 +953,14 @@ Czytanie bazy danych
 Usuwanie kontaktów
 [Sorting contacts]
 Sortowanie kontaktów
+[Precollecting column data]
+
 [Limiting number of contacts]
 Ograniczenie liczby kontaktów
+[Calculating totals]
+
+[Postcollecting column data]
+
 [Transforming data]
 Przekształcanie danych
 [Creating HTML]
@@ -982,3 +1048,11 @@ wdayF:Sobota
 wday2:Ni
 [wdayF:Sunday]
 wdayF:Niedziela
+[pm]
+
+[am]
+
+[PM]
+
+[AM]
+

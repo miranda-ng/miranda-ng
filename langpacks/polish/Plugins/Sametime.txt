@@ -1,0 +1,134 @@
+﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime Protocol
+;  Version: 0.7.0.0
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Implementation of instant messaging for the Lotus Sametime protocol.]
+
+;file \protocols\Sametime\res\resource.rc
+[Server name:]
+Nazwa serwera:
+[Port:]
+Port:
+[Get contacts from server]
+Pobierz kontakty z serwera
+[Upload contacts]
+Wyślij kontakty
+[Import from file...]
+Importuj z pliku...
+[ID:]
+ID:
+[Password:]
+Hasło:
+[Error display]
+
+[Use message boxes]
+Użyj okienek
+[Use popups]
+Użyj popup
+[Use system tray baloons]
+Użyj systemowych baloników
+[Connection]
+Połączenie
+[Contacts]
+Kontakty
+[Client ID]
+ID klienta
+[Auto-add new contacts]
+Autododawanie nowych kontaktów
+[Encryption]
+Szyfrowanie
+[40 or 128 bit]
+40 lub 128 bit
+[None]
+Brak
+[Static]
+Statyczne
+[Treat 'idle' as 'away']
+Traktuj "bezczynny" jako "zaraz wracam"
+[Meanwhile lib ver: 1.0.2]
+
+[Use old client version]
+Użyj starej wersji klienta
+[Send announcement]
+
+[OK]
+OK
+[Cancel]
+Anuluj
+[Message text:]
+Tekst wiadomości:
+[Select all]
+Zaznacz wszystko
+[Invert\n selection]
+
+;file \protocols\Sametime\src\conference.cpp
+[I'm outa here.]
+
+[Invitation rejected - already present.]
+
+[Your invitation has been rejected.]
+
+[Please join this meeting.]
+
+[Normal]
+Normalne
+[%s's conference]
+
+[Leave conference]
+Opuść konferencję
+[Start conference]
+Rozpocznij konferencję
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
+[No common encryption method. Try to enable encryption in protocol options.]
+
+[SERVICE NOT IMPLEMENTED. %s]
+
+;file \protocols\Sametime\src\options.cpp
+[Network]
+Protokoły
+;file \protocols\Sametime\src\sametime.cpp
+[Protocol icon]
+Ikona protokołu
+[Announce]
+Oznajmiaj
+[Notification]
+Powiadomienie
+[Error]
+Błąd
+;file \protocols\Sametime\src\sametime_proto.cpp
+[%s connection]
+Połączenie %s
+[ID]
+ID
+;file \protocols\Sametime\src\sametime_session.cpp
+[Sametime administrator message]
+
+[Session announcement - from '%s']
+
+[Unknown user status: %d]
+
+[No server connection!]
+
+[Send announcement...]
+
+;file \protocols\Sametime\src\session_announce_win.cpp
+[Recipients]
+
+;file \protocols\Sametime\src\userlist.cpp
+[Failed to upload contacts - storage service unavailable.]
+
+[Name]
+Nazwa
+[Description]
+Opis
+[Group?]
+
+[True]
+
+[False]
+
+;file \protocols\Sametime\src\utils.cpp

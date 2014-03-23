@@ -45,7 +45,7 @@ Eksportuj klucz prywatny
 [Change password]
 Zmień hasło
 [Set GPG bin path and keyring home dir.]
-Ustaw ścieżkę GPG bin oraz katalog domowy breloka.
+Ustaw ścieżkę GPG bin oraz katalog domowy kluczy.
 [Continue]
 Kontynuuj
 [Home directory:]

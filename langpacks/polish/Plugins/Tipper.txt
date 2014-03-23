@@ -125,7 +125,7 @@ Pokaż tooltip gdy zawartość będzie gotowa (awatar i status wiadomości)
 [Retrieve new status message]
 Pobierz nowe opisy statusów
 [Disable in invisible status]
-Wyłącz pobieranie opisu przy statusie "Niewidoczny"
+Wyłącz gdy status to "Niewidoczny"
 [Retrieve XStatus details if auto-retrieve is disabled]
 Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
 [Status bar and tray tooltip]
