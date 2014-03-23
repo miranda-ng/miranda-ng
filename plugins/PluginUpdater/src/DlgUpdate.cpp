@@ -401,6 +401,7 @@ static renameTable[] =
 	{ _T("gender.dll"),                     _T("") },
 	{ _T("srmm.dll"),                       _T("") },
 	{ _T("extraicons.dll"),                 _T("") },
+	{ _T("langman.dll"),                    _T("") },
 	{ _T("metacontacts.dll"),               _T("") },
 };
 
