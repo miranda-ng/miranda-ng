@@ -350,6 +350,8 @@ Szerkeszt
 &Feljavítás
 [&Remove...]
 &Eltávolítás...
+[Date:]
+Dátum:
 [Tray]
 Tálca
 [&Hide/Show]
@@ -760,8 +762,6 @@ El&fogadás
 Elutasít
 [From:]
 Küldõ:
-[Date:]
-Dátum:
 [Files:]
 Fájlok:
 [Save to:]
@@ -1774,6 +1774,8 @@ Betûtípusok
 Ikon beállítások
 [** All contacts **]
 ** Minden új partner **
+[Unknown]
+Ismeretlen
 [Contacts]
 Partnerek
 [Select where log file will be created]
@@ -1912,8 +1914,6 @@ GIF bitképek
 PNG bitképek
 [Unspecified]
 Nem meghatározott
-[Unknown]
-Ismeretlen
 [Afghanistan]
 Afganisztán
 [Albania]

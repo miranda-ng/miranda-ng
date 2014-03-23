@@ -478,6 +478,14 @@ Miranda NG 正准备重启. \n请稍候...
 排名: 
 [(Lower ranks are preferred)]
 (首选低排名)
+[Last modified using:]
+最后修改时使用: 
+[Date:]
+日期:
+[Locale:]
+语系: 
+[Download more Language Packs]
+下载更多语言包
 [Tray]
 托盘
 [&Hide/Show]
@@ -904,8 +912,6 @@ Miranda NG 正准备重启. \n请稍候...
 拒绝(&D)
 [From:]
 从: 
-[Date:]
-日期:
 [Files:]
 文件: 
 [Save to:]
@@ -2122,6 +2128,14 @@ Miranda 无法打开此配置文件
 图标集
 [** All contacts **]
 ** 所有联系人 **
+[(incompatible)]
+(不兼容)
+[Unknown]
+未知
+[built-in]
+内建
+[Languages]
+语言
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 您要移除所有关联至此中继联系人者. \n这样将删除此中继联系人. \n\n仍要继续? 
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
@@ -2148,8 +2162,6 @@ Miranda 无法打开此配置文件
 关联失败
 [(Unknown Contact)]
 (未知联系人)
-[Unknown]
-未知
 [Protocol]
 协议
 [Send Offline]
@@ -2174,10 +2186,10 @@ Miranda 无法打开此配置文件
 此操作将永久移除中继联系人. \n\n仍要继续? 
 [Remove from metacontact]
 从中继联系人中移除
-[Toggle MetaContacts On]
-切换中继联系人打开
 [Toggle MetaContacts Off]
 切换中继联系人关闭
+[Toggle MetaContacts On]
+切换中继联系人打开
 [Add to existing MetaContact...]
 加至已存在中继联系人...
 [Edit MetaContact...]
@@ -2208,8 +2220,6 @@ Miranda 无法打开此配置文件
 联系人独有 ID 无法写入中继联系人
 [Could not write nickname of contact to MetaContact]
 联系人昵称无法写入中继联系人
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-'中继联系人隐藏群组' 已加至您的联系人列表.\n这很可能是因服务器端联系人信息. 解决此问题, \n使中继联系人继续正常工作, 您可以:\n   - 使用主菜单项 '切换中继联系人关闭' 禁用中继联系人\n   - 将所有联系人移出此群组\n   - 从服务器端同步您的联系人\n   - 重新启用中继联系人
 [No times]
 无时间
 [Standard hh:mm:ss times]

@@ -380,6 +380,14 @@ Esta fonte é usada para exibir várias notas adicionais.
 Legenda de evento de ícone:
 [opacity:]
 Opacidade
+[Last modified using:]
+Última modificação:
+[Date:]
+Data:
+[Locale:]
+Local:
+[Download more Language Packs]
+Baixar mais Pacotes de idioma
 [Tray]
 Barra de tarefas
 [&Hide/Show]
@@ -790,8 +798,6 @@ A&ceitar
 &Recusar
 [From:]
 De:
-[Date:]
-Data:
 [Files:]
 Arquivos:
 [Save to:]
@@ -1842,6 +1848,8 @@ Texto pequeno
 Configuar Ícone
 [** All contacts **]
 ** Todos os contatos **
+[Unknown]
+Desconhecido
 [Contacts]
 Contatos
 [Select where log file will be created]
@@ -2000,8 +2008,6 @@ Imagens GIF
 Imagens PNG
 [Unspecified]
 Indefinido
-[Unknown]
-Desconhecido
 [Afghanistan]
 Afeganistão
 [Albania]

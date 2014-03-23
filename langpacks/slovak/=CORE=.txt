@@ -182,6 +182,8 @@ Prednastavené
 Klávesové skratky
 [Contacts]
 Kontakty
+[Date:]
+Dátum:
 [&Hide/Show]
 Skryť/Zobraziť
 [E&xit]
@@ -446,8 +448,6 @@ Prijať
 Odmietnúť
 [From:]
 Od:
-[Date:]
-Dátum:
 [Files:]
 Súbory:
 [Save to:]

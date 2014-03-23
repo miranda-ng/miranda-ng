@@ -366,6 +366,8 @@ Düz&elt
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG yeniden başlatılıyor.\nLütfen bekleyin...
+[Date:]
+Tarih:
 [Tray]
 Tepsi
 [&Hide/Show]
@@ -780,8 +782,6 @@ Size Dosya Gönderildi
 Re&ddet
 [From:]
 Kimden:
-[Date:]
-Tarih:
 [Files:]
 Dosyalar:
 [Save to:]
@@ -1800,6 +1800,8 @@ Yazı tipleri
 Simge Setleri
 [** All contacts **]
 ** Tüm kişiler **
+[Unknown]
+Bilinmeyen
 [Contacts]
 Kişiler
 [(Miranda core logging)]
@@ -1942,8 +1944,6 @@ GIF Bitmap
 PNG Bitmap
 [Unspecified]
 Belirtilmemiş
-[Unknown]
-Bilinmeyen
 [Afghanistan]
 Afganistan
 [Albania]

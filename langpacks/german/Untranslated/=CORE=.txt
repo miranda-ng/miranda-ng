@@ -1,0 +1,2 @@
+﻿[Current language:]
+[Plugins included:]

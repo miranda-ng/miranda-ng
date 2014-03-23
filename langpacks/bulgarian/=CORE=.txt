@@ -519,6 +519,18 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [(Lower ranks are preferred)]
 
+[Last modified using:]
+Посл. промяна с:
+[Date:]
+Дата:
+[Locale:]
+Език:
+[Download more Language Packs]
+Сваляне на още езикови пакети
+[Current language:]
+
+[Plugins included:]
+
 [Tray]
 Трей
 [&Hide/Show]
@@ -958,8 +970,6 @@ Wikipedia
 Отказ
 [From:]
 От:
-[Date:]
-Дата:
 [Files:]
 Файлове:
 [Save to:]
@@ -2327,6 +2337,15 @@ URL
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Всички контакти **
+;file \src\modules\langpack\lpopts.cpp
+[(incompatible)]
+(несъвместимо)
+[Unknown]
+Неизвестно
+[built-in]
+Вграден
+[Languages]
+Езици
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 
@@ -2358,8 +2377,6 @@ URL
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Непознат контакт)
-[Unknown]
-Неизвестно
 [ID]
 
 [Protocol]
@@ -2390,9 +2407,9 @@ URL
 Сигурни ли сте?
 [Remove from metacontact]
 
-[Toggle MetaContacts On]
-
 [Toggle MetaContacts Off]
+
+[Toggle MetaContacts On]
 
 [Add to existing MetaContact...]
 
@@ -2432,8 +2449,6 @@ URL
 [Could not write unique ID of contact to MetaContact]
 
 [Could not write nickname of contact to MetaContact]
-
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]

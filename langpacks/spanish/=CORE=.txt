@@ -519,6 +519,18 @@ Lista de contactos
 
 [(Lower ranks are preferred)]
 
+[Last modified using:]
+Última modificación usando:
+[Date:]
+Fecha:
+[Locale:]
+Local
+[Download more Language Packs]
+Descargar más paquetes de idioma
+[Current language:]
+
+[Plugins included:]
+
 [Tray]
 Bandeja
 [&Hide/Show]
@@ -980,8 +992,6 @@ Transferencia de archivos entrantes
 &Denegar
 [From:]
 De:
-[Date:]
-Fecha:
 [Files:]
 Archivos:
 [Save to:]
@@ -2358,6 +2368,15 @@ Conjuntos de iconos
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Todos los contactos **
+;file \src\modules\langpack\lpopts.cpp
+[(incompatible)]
+(incompatible)
+[Unknown]
+Desconocido
+[built-in]
+construido
+[Languages]
+Idiomas
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 
@@ -2389,8 +2408,6 @@ Conjuntos de iconos
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Contacto desconocido)
-[Unknown]
-Desconocido
 [ID]
 
 [Protocol]
@@ -2421,9 +2438,9 @@ Editar
 
 [Remove from metacontact]
 
-[Toggle MetaContacts On]
-
 [Toggle MetaContacts Off]
+
+[Toggle MetaContacts On]
 
 [Add to existing MetaContact...]
 
@@ -2463,8 +2480,6 @@ Editar
 [Could not write unique ID of contact to MetaContact]
 
 [Could not write nickname of contact to MetaContact]
-
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]

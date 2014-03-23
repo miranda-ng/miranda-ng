@@ -1,6 +1,0 @@
-﻿[Version:]
-[Static]
-[Langpack root folder]
-[Reload langpack]
-[(incompatible)]
-[built-in]

@@ -251,6 +251,8 @@ Scorciatoie
 &Aggiungi...
 [&Edit]
 &Modifica
+[Date:]
+Data:
 [&Hide/Show]
 &Nascondi/Mostra
 [E&xit]
@@ -555,8 +557,6 @@ A&ccetta
 &Rifiuta
 [From:]
 Da:
-[Date:]
-Data:
 [Files:]
 File
 [Save to:]
@@ -1181,6 +1181,8 @@ Caratteri
 Set di icone
 [** All contacts **]
 ** Tutti i contatti **
+[Unknown]
+Sconosciuta
 [Contacts]
 Contatti
 [No times]
@@ -1249,8 +1251,6 @@ Immagini JPEG
 Immagini GIF
 [Unspecified]
 Non specificato
-[Unknown]
-Sconosciuta
 [American Samoa]
 Samoa Americane
 [Antigua and Barbuda]

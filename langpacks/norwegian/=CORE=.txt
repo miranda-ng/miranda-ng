@@ -327,6 +327,8 @@ Snarveier
 Miranda NG
 [opacity:]
 Uklarhet:
+[Date:]
+Dato:
 [&Hide/Show]
 &Skjul/Vis
 [E&xit]
@@ -735,8 +737,6 @@ A&ksepter
 &Avslå
 [From:]
 Fra:
-[Date:]
-Dato:
 [Files:]
 Filer:
 [Save to:]
@@ -1755,6 +1755,8 @@ Skrifter
 Ikonpakker
 [** All contacts **]
 ** Alle kontakter **
+[Unknown]
+Ukjent
 [Contacts]
 Kontakter
 [Select where log file will be created]
@@ -1869,5 +1871,3 @@ JPEG Bitmaps
 GIF Bitmaps
 [PNG bitmaps]
 PNG Bitmaps
-[Unknown]
-Ukjent

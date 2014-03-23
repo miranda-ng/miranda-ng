@@ -1,2 +1,0 @@
-﻿[Static]
-[Langpack root folder]

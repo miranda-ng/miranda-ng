@@ -49,6 +49,8 @@ ID клиента
 Текст сообщения:
 [Select all]
 Выделить всё
+[Invert\nselection]
+Обратить\nвыделение
 [Invitation rejected - already present.]
 Приглашение отклонено - пользователь уже присутствует.
 [Your invitation has been rejected.]
@@ -65,6 +67,10 @@ ID клиента
 Шифрование недоступно. Попробуйте включить шифрование в настройках протокола.
 [SERVICE NOT IMPLEMENTED. %s]
 СЛУЖБА НЕ РЕАЛИЗОВАНА. %s
+[Client proto version: %03d.%03d]
+Клиентская версия протокола: %03d.%03d
+[Server proto version: %03d.%03d]
+Серверная версия протокола: %03d.%03d
 [Network]
 Сеть
 [Protocol icon]

@@ -514,12 +514,12 @@ UIN, E-mail и т.д.
 [(Lower ranks are preferred)]
 (Предпочтительны более низкие ранги)
 [Last modified using:]
-Проверено на версии:
+Проверен на версии:
 [Date:]
 Дата:
 [Locale:]
 Язык:
-[Download more Language Packs]
+[Download more language packs]
 Загрузить дополнительные переводы
 [Current language:]
 Язык интерфейса:

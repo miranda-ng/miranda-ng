@@ -275,6 +275,10 @@ OutputDebugString()
 הצג תת תוכן שם משתמש
 [Number of days to copy (0=all):]
 מספר ימים להעתיק(0=הכול):
+[Date:]
+תאריך:
+[Locale:]
+מקומי:
 [Tray]
 נסה
 [&Hide/Show]
@@ -643,8 +647,6 @@ OutputDebugString()
 &קבל
 [&Decline]
 &דחה
-[Date:]
-תאריך:
 [Files:]
 קבצים:
 [Save to:]
@@ -1455,10 +1457,10 @@ OutputDebugString()
 סטי סמלים
 [** All contacts **]
 ** כל הרשימה **
-[(Unknown Contact)]
-(איש קשר לא מוכר)
 [Unknown]
 לא ידוע
+[(Unknown Contact)]
+(איש קשר לא מוכר)
 [Protocol]
 פרוטוקול
 [Convert to MetaContact]

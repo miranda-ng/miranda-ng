@@ -519,6 +519,18 @@ Protocole:
 
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
+[Last modified using:]
+Pour:
+[Date:]
+Date:
+[Locale:]
+Locale:
+[Download more Language Packs]
+Télécharger plus de pack de traduction
+[Current language:]
+
+[Plugins included:]
+
 [Tray]
 Tray
 [&Hide/Show]
@@ -980,8 +992,6 @@ Transfert de fichier entrant
 &Refuser
 [From:]
 De :
-[Date:]
-Date :
 [Files:]
 Fichiers :
 [Save to:]
@@ -2358,6 +2368,15 @@ Polices
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Tous les contacts **
+;file \src\modules\langpack\lpopts.cpp
+[(incompatible)]
+
+[Unknown]
+Inconnu
+[built-in]
+
+[Languages]
+Langages
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Vous êtes sur le point d'enlever tous les contacts liés à ce MetaContact.\nCeci supprimera le MetaContact.\n\nVoulez-vous vraiment continuer ?
@@ -2389,8 +2408,6 @@ Assignement raté
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (Contact inconnu)
-[Unknown]
-Inconnu
 [ID]
 ID
 [Protocol]
@@ -2421,10 +2438,10 @@ Ceci supprimera complètement le MetaContact, mais pas le contact en lui-même.\
 Etes-vous sûr?
 [Remove from metacontact]
 Retirer du MetaContact
-[Toggle MetaContacts On]
-Activer MetaContact
 [Toggle MetaContacts Off]
 Désactiver MetaContact
+[Toggle MetaContacts On]
+Activer MetaContact
 [Add to existing MetaContact...]
 Ajouter à un MetaContact existant...
 [Edit MetaContact...]
@@ -2464,8 +2481,6 @@ Impossible d'écrire le protocole du contact au MetaContact
 Impossible d'écrire l'ID du contact au MetaContact
 [Could not write nickname of contact to MetaContact]
 Impossible d'écrire le pseudo du contact au MetaContact
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
 

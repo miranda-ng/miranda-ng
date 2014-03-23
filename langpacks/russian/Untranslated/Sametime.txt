@@ -4,8 +4,5 @@
 [Meanwhile lib ver: 1.0.2]
 [Disconnected]
 [OK]
-[Invert\nselection]
 [I'm outa here.]
 [Normal]
-[Client proto version: %03d.%03d]
-[Server proto version: %03d.%03d]
