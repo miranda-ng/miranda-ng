@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.11.0.1
+;  Version: 0.95.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -111,8 +111,6 @@ Doplněk databáze '%s' nepodporuje kontrolu.
 Databáze
 [Total size]
 Celková velikost
-[Wasted]
-Balast
 [Miranda Databases (*.dat)]
 Databáze Mirandy (*.dat)
 [All Files]

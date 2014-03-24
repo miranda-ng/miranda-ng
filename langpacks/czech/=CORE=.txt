@@ -519,6 +519,18 @@ Protokol:
 Vše resetovat
 [(Lower ranks are preferred)]
 (Nížší pořadí má vyšší prioritu)
+[Last modified using:]
+Určeno pro:
+[Date:]
+Datum:
+[Locale:]
+Lokalizace:
+[Download more language packs]
+Stáhnout další jazykové balíčky
+[Current language:]
+Zvolený jazyk:
+[Plugins included:]
+Přeložené doplňky:
 [Tray]
 Oznámení
 [&Hide/Show]
@@ -980,8 +992,6 @@ Nabídka &uživatele
 O&dmítnout
 [From:]
 Od:
-[Date:]
-Datum:
 [Files:]
 Soubory:
 [Save to:]
@@ -2358,6 +2368,15 @@ Sada ikon
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** všechny kontakty **
+;file \src\modules\langpack\lpopts.cpp
+[(incompatible)]
+(nekompatibilní)
+[Unknown]
+Neznámý
+[built-in]
+interní
+[Languages]
+Jazyky
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Chystáte se smazat metakontakt, což kromě této položky smaže\ni všechny kontakty asociované s daným metakontaktem.\nUrčitě chcete pokračovat a smazat metakontakt?
@@ -2389,8 +2408,6 @@ Chyba přiřazování
 ;file \src\modules\metacontacts\meta_edit.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
-[Unknown]
-neznámý
 [ID]
 ID
 [Protocol]
@@ -2421,10 +2438,10 @@ Tímto odstraníte metakontakt natrvalo.\n\nUrčitě chcete pokračovat?
 Opravdu chcete pokračovat?
 [Remove from metacontact]
 Odstranit z metakontaktu
-[Toggle MetaContacts On]
-Zapnout metakontakty
 [Toggle MetaContacts Off]
 Vypnout metakontakty
+[Toggle MetaContacts On]
+Zapnout metakontakty
 [Add to existing MetaContact...]
 Přidat k existujícímu metakontaktu...
 [Edit MetaContact...]
@@ -2464,8 +2481,6 @@ Nelze zapsat protokol kontaktu do metakontaktu
 Nelze zapsat identifikátor kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nelze zapsat přezdívku kontaktu do metakontaktu
-[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-Skrytá skupina pro metakontakty byla přidána do vašeho seznamu kontaktů.\nToto se stalo nejspíše kvůli informacím o kontaktu, které jsou uloženy na serveru. Aby metakontakty fungovaly nadále správně, měli byste:\n   - zakázat metakontakty skrz položku v hlavním menu\n   - přesunout všechny kontakty pryč ze skupiny 'MetaContacts Hidden Group'\n   - synchronizovat vaše kontakty se serverem\n   - znovu povolit metakontakty
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
 Výchozí záznam pro netlib

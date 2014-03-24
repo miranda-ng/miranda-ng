@@ -246,7 +246,7 @@ Graf (příchozí/odchozí data)
 ;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
 Čas první a poslední zprávy (tipy)
-[Show countact count for omitted/totals (tooltip)]
+[Show contact count for omitted/totals (tooltip)]
 
 [Nick]
 Přezdívka
@@ -317,7 +317,7 @@ Příchozí znaky
 [outgoing characters]
 Odchozí znaky
 [all characters]
-
+Všechny znaky
 [incoming messages]
 Příchozí zprávy
 [outgoing messages]
@@ -329,23 +329,23 @@ Příchozí diskuse
 [outgoing chats]
 Odchozí diskuse
 [all chats]
-
+Všechny diskuse
 [#{type} for #{data}]
 
 [wday3:Mon]
-
+wday3:Pon
 [wday3:Tue]
-
+wday3:Úte
 [wday3:Wed]
-
+wday3:Stř
 [wday3:Thu]
-
+wday3:Čtv
 [wday3:Fri]
-
+wday3:Pát
 [wday3:Sat]
-
+wday3:Sob
 [wday3:Sun]
-
+wday3:Neď
 [[#{hour}:00-#{hour}:59] #{amount}]
 
 [[#{day}] #{amount}]
@@ -373,11 +373,11 @@ Počet sloupců k seskupení
 [Calculate maximum per column (not per graph)]
 Vypočítat maximum na sloupec (ne na graf)
 [Characters (in/out ratio)]
-
+Znaky (poměr příchozí/odchozí)
 [Messages (in/out ratio)]
 Zprávy (poměr příchozí/odchozí)
 [Chats (in/out ratio)]
-
+Diskuse (poměr příchozí/odchozí)
 [Hours of day timeline]
 
 [Days of week timeline]
@@ -423,7 +423,7 @@ Další informace v tipu (v závislosti na druhu)
 [Total word count]
 Celkový počet slov
 [Distinct word count]
-
+Počet unikátních slov
 [#{distict_words} distinct]
 
 [#{words} total]
@@ -463,7 +463,7 @@ Slova
 
 ;file \plugins\HistoryStats\src\contact.cpp
 [(multiple)]
-
+(více položek)
 ;file \plugins\HistoryStats\src\dlgconfigure.cpp
 [You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
 
@@ -500,19 +500,19 @@ Globální nastavení
 [Exclude]
 Výjimky
 [Exclude contacts]
-
+Vynechané kontakty
 [Input]
 Vstup
 [Input settings]
-
+Nastavení vstupu
 [Columns]
 Sloupce
 [Column settings]
-
+Nastavení sloupce
 [Output]
 Výstup
 [Output settings]
-
+Nastavení výstupu
 [Create]
 Vytvořit
 [Create statistics]
@@ -585,15 +585,15 @@ Obecné
 [Create statistics on Miranda NG startup]
 Generovat statistiku během spuštění Mirandy NG
 [Add menu items to main menu]
-
+Přidat položky do hlavní nabídky
 [Put menu items into submenu]
-Umístit všechny položky do podmenu
+Umístit všechny položky do podnabídky
 [Add menu items to contact menu]
-
+Přidat položky do nabídky kontaktu
 [Don't hide menu items for pseudo protocols]
-
+Neskrývat položky nabídky pro pseudo protokoly
 [Hide menu items for protocol...]
-
+Skrýt položky nabídky pro protokol...
 [Graphics]
 Grafika
 [Only use HTML to simulate graphics]
@@ -646,7 +646,7 @@ Doba mezi dvěma rozhovory (v sek.)
 [Word delimiting characters]
 Znaky oddělující slova
 [Contact filtering]
-
+Filtrování kontaktů
 [Ignore all contacts with protocol...]
 Ignorovat kontakty používající protokol...
 [History read mode for MetaContacts]
@@ -672,15 +672,15 @@ Sloučit pouze kontakty ze stejné skupiny
 [Don't merge events]
 
 [Message filtering]
-
+Filtrování zpráv
 [Ignore messages...]
 Ignorovat zprávy...
 [...older than (days, 0=no limit)]
 ... starší než (dny; 0 = bez omezení)
 [...before date (none=no limit)]
-
+... před datem (žádné = bez omezení)
 [...after date (none=no limit)]
-
+... po datu (žádné = bez omezení)
 [Strip raw RTF control sequences from message]
 
 [Strip BBCode tags from messages]
@@ -844,7 +844,7 @@ Sestupně
 [Create statistics (main menu)]
 Generovat statistiku (hlavní nabídka)
 [Show statistics (main menu)]
-
+Zobrazit statistiku (hlavní nabídka)
 [Configure... (main menu)]
 Nastavit... (hlavní nabídka)
 [Contact menu]
@@ -880,7 +880,7 @@ Nabídka kontaktu
 [Combo box (disabled)]
 
 [Folder]
-
+Složka
 [Folder (disabled)]
 
 [Button]
@@ -899,21 +899,21 @@ Statistika
 [Configure...]
 Nastavit...
 [Configure statistics...]
-
+Nastavit statistiku...
 [You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
 
 [HistoryStats - Confirm]
-
+Statistika historie - potvrzení
 [Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.]
 
 [HistoryStats - Information]
-
+Statistika historie - informace
 [Exclude from statistics]
 Vyjmout ze statistiky
 [Copy history]
-
+Zkopírovat historii
 [Paste history...]
-
+Vložit historii...
 [History]
 Historie
 ;file \plugins\HistoryStats\src\mirandacontact.cpp
