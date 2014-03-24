@@ -520,17 +520,17 @@ Alle rückg.
 [(Lower ranks are preferred)]
 (niedrigere Ränge werden bevorzugt)
 [Last modified using:]
-Unter Verwendung von:
+Zuletzt geändert mit:
 [Date:]
 Datum:
 [Locale:]
-Lokale:
-[Download more Language Packs]
+Locale:
+[Download more language packs]
 Weitere Sprachdateien herunterladen
 [Current language:]
-
+Aktuelle Sprache:
 [Plugins included:]
-
+Beinhaltet Plugins:
 [Tray]
 Tray
 [&Hide/Show]

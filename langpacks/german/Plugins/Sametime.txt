@@ -6,133 +6,133 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
-
+Implementation von Instant Messaging für das Lotus Sametime-Protokoll.
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
-
+Verbindung
 [ID:]
-
+ID:
 [Password:]
-
+Passwort:
 [Server name:]
-
+Server-Name:
 [Port:]
-
+Port:
 [Client ID]
-
+Client-ID
 [Use old client version]
-
+Alte Client-Version verwenden
 [Error display]
-
+Fehlerbenachrichtigung
 [Use message boxes]
-
+Nachrichtenboxen verwenden
 [Use popups]
-
+Popups verwenden
 [Use system tray baloons]
-
+Systemtray-Ballons verwenden
 [Contacts]
-
+Kontakte
 [Get contacts from server]
-
+Kontakte vom Server laden
 [Upload contacts]
-
+Kontakte hochladen
 [Import from file...]
-
+Aus Datei importieren...
 [Auto-add new contacts]
-
+Neue Kontakte automatisch hinzufügen
 [Treat 'idle' as 'away']
-
+"Untätig" als "Abwesend" behandeln
 [Encryption]
-
+Verschlüsselung
 [40 or 128 bit]
-
+40 oder 128 Bit
 [None]
-
+Keine
 [Meanwhile lib ver: 1.0.2]
-
+Meanwhile lib ver: 1.0.2
 [Disconnected]
-
+Getrennt
 [Send announcement]
-
+Ansage senden
 [OK]
-
+OK
 [Cancel]
-
+Abbrechen
 [Message text:]
-
+Nachrichtentext:
 [Select all]
-
+Alles auswählen
 [Invert\nselection]
-
+Auswahl\numkehren
 ;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
-
+Ich bin hier raus.
 [Invitation rejected - already present.]
-
+Einladung abgelehnt - bereits vorhanden.
 [Your invitation has been rejected.]
-
+Ihre Einladung wurde abgelehnt.
 [Please join this meeting.]
-
+Bitte treten Sie diesem Treffen bei.
 [Normal]
-
+Normal
 [%s's conference]
-
+Konverenz von %s
 [Leave conference]
-
+Konferenz verlassen
 [Start conference]
-
+Konferenz starten
 ;file \protocols\Sametime\src\files.cpp
 ;file \protocols\Sametime\src\messaging.cpp
 [No common encryption method. Try to enable encryption in protocol options.]
-
+Keine gemeinsame Verschlüsselungsmethode. Aktivieren Sie Verschlüsselung in den Protokolleinstellungen.
 [SERVICE NOT IMPLEMENTED. %s]
-
+DIENST NICHT IMPLEMENTIERT. %s
 ;file \protocols\Sametime\src\options.cpp
 [Client proto version: %03d.%03d]
-
+Client-Protokollversion: %03d.%03d
 [Server proto version: %03d.%03d]
-
+Server-Protokollversion: %03d.%03d
 [Network]
-
+Netzwerk
 ;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
-
+Protokollicon
 [Announce]
-
+Ansagen
 [Notification]
-
+Benachrichtigung
 [Error]
-
+Fehler
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
-
+%s-Verbindung
 [ID]
-
+ID
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
-
+Sametime-Administratornachricht
 [Session announcement - from '%s']
-
+Sitzungsankündigung - von '%s'
 [Unknown user status: %d]
-
+Unbekannter Benutzerstatus: %d
 [No server connection!]
-
+Keine Verbindung zum Server
 [Send announcement...]
-
+Ansage senden...
 ;file \protocols\Sametime\src\session_announce_win.cpp
 [Recipients]
-
+Empfänger
 ;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
-
+Hochladen der Kontakte fehlgeschlagen - Speicherdienst nicht verfügbar.
 [Name]
-
+Name
 [Description]
-
+Beschreibung
 [Group?]
-
+Gruppe?
 [True]
-
+Ja
 [False]
-
+Nein
 ;file \protocols\Sametime\src\utils.cpp
