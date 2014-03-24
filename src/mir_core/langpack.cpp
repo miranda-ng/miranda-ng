@@ -216,10 +216,10 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 				TCHAR tszFileName[MAX_PATH];
 				TCHAR	*p = _tcsrchr(langPack.tszFullPath, '\\');
 				if (p)
-					p[1] = 0;
+					*p = 0;
 				mir_sntprintf(tszFileName, SIZEOF(tszFileName), _T("%s\\%S"), langPack.tszFullPath, ltrim(line + 9));
 				if (p)
-					p[1] = '\\';
+					*p = '\\';
 
 				FILE *fp = _tfopen(tszFileName, _T("r"));
 				if (fp) {
