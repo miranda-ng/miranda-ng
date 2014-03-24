@@ -214,27 +214,30 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 
 			if (!memcmp(line + 1, "include", 7)) {
 				TCHAR tszFileName[MAX_PATH];
-				TCHAR* fileName = mir_a2t(ltrim(line + 9));
-				mir_sntprintf(tszFileName, SIZEOF(tszFileName), _T("%s%s"), langPack.tszFullPath, fileName);
-				mir_free(fileName);
+				TCHAR	*p = _tcsrchr(langPack.tszFullPath, '\\');
+				if (p)
+					p[1] = 0;
+				mir_sntprintf(tszFileName, SIZEOF(tszFileName), _T("%s\\%S"), langPack.tszFullPath, ltrim(line + 9));
+				if (p)
+					p[1] = '\\';
 
-				FILE *p = _tfopen(tszFileName, _T("r"));
-				if (p) {
+				FILE *fp = _tfopen(tszFileName, _T("r"));
+				if (fp) {
 					line[0] = 0;
-					fgets(line, LANGPACK_BUF_SIZE, p);
+					fgets(line, LANGPACK_BUF_SIZE, fp);
 
 					UINT fileCp = CP_ACP;
 					if (strlen(line) >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf') {
 						fileCp = CP_UTF8;
-						fseek(p, 3, SEEK_SET);
+						fseek(fp, 3, SEEK_SET);
 					}
 					else {
 						fileCp = langPack.codepage;
-						fseek(p, 0, SEEK_SET);
+						fseek(fp, 0, SEEK_SET);
 					}
 
-					LoadLangPackFile(p, line, fileCp);
-					fclose(p);
+					LoadLangPackFile(fp, line, fileCp);
+					fclose(fp);
 				}
 			}
 			else if (!memcmp(line + 1, "muuid", 5)) {
