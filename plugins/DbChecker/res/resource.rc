@@ -249,8 +249,6 @@ IDE_HDRLOGO             EMF                     "dbthdr.emf"
 // remains consistent on all systems.
 IDI_DBTOOL              ICON                    "dbtool.ico"
 IDI_PROFILEGREEN        ICON                    "profileg.ico"
-IDI_PROFILEYELLOW       ICON                    "profiley.ico"
-IDI_PROFILERED          ICON                    "profiler.ico"
 IDI_BAD                 ICON                    "delete.ico"
 
 #endif    // Neutral resources

@@ -103,7 +103,6 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 		return -1;
 
 	DWORD totalSize = st.st_size;
-	DWORD wasted = 0;
 
 	bool isBroken = CheckBroken(filename);
 
@@ -125,23 +124,12 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	lvi.iSubItem = 0;
 	lvi.lParam = (LPARAM)_tcsdup(filename);
 	lvi.pszText = szName;
-	if (isBroken)
-		lvi.iImage = 3;
-	else if (wasted < 1024*128)
-		lvi.iImage = 0;
-	else if (wasted < 1024*256 + (DWORD)(totalSize > 2*1024*1024) ? 256 * 1024 : 0)
-		lvi.iImage = 1;
-	else
-		lvi.iImage = 2;
+	lvi.iImage = (isBroken) ? 1 : 0;
 
 	int iNewItem = ListView_InsertItem(hwndList, &lvi);
 	TCHAR szSize[20];
 	mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
-	if (!isBroken) {
-		mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), wasted / 1048576.0);
-		ListView_SetItemText(hwndList, iNewItem, 2, szSize);
-	}
 	return iNewItem;
 }
 
@@ -187,8 +175,6 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
 			ImageList_AddIcon(hIml, LoadIcon(hInst, MAKEINTRESOURCE(IDI_PROFILEGREEN)));
-			ImageList_AddIcon(hIml, LoadIcon(hInst, MAKEINTRESOURCE(IDI_PROFILEYELLOW)));
-			ImageList_AddIcon(hIml, LoadIcon(hInst, MAKEINTRESOURCE(IDI_PROFILERED)));
 			ImageList_AddIcon(hIml, LoadIcon(hInst, MAKEINTRESOURCE(IDI_BAD)));
 			ListView_SetImageList(GetDlgItem(hdlg, IDC_DBLIST), hIml, LVSIL_SMALL);
 		}
@@ -196,7 +182,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		{
 			LV_COLUMN lvc;
 			lvc.mask = LVCF_WIDTH | LVCF_FMT | LVCF_TEXT;
-			lvc.cx = 205;
+			lvc.cx = 290;
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.pszText = TranslateT("Database");
 			ListView_InsertColumn(GetDlgItem(hdlg, IDC_DBLIST), 0, &lvc);
@@ -204,8 +190,6 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			lvc.fmt = LVCFMT_RIGHT;
 			lvc.pszText = TranslateT("Total size");
 			ListView_InsertColumn(GetDlgItem(hdlg, IDC_DBLIST), 1, &lvc);
-			lvc.pszText = TranslateT("Wasted");
-			ListView_InsertColumn(GetDlgItem(hdlg, IDC_DBLIST), 2, &lvc);
 
 			TCHAR szMirandaPath[MAX_PATH];
 			GetModuleFileName(NULL, szMirandaPath, SIZEOF(szMirandaPath));

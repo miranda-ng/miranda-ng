@@ -9,9 +9,7 @@
 #define IDE_HDRLOGO                     103
 #define IDI_PROFILEGREEN                104
 #define IDR_DEFAULT1                    104
-#define IDI_PROFILEYELLOW               105
 #define IDD_WELCOME                     106
-#define IDI_PROFILERED                  106
 #define IDD_SELECTDB                    107
 #define IDD_OPENERROR                   108
 #define IDD_FILEACCESS                  109
