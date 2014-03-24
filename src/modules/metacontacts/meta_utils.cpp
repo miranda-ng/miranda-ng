@@ -251,7 +251,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 			// if our default is not offline, and option to use default is set - return default
 			// and also if our default is online, return it
-			if (most_online_status == ID_STATUS_ONLINE)
+			if (most_online_status != ID_STATUS_OFFLINE)
 				return most_online_contact;
 		}
 		else most_online_status = ID_STATUS_OFFLINE;
