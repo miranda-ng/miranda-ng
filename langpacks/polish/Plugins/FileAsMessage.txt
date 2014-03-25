@@ -31,13 +31,13 @@ Niewysłane
 [Sent]
 Wysłane
 [To send]
-Wysłać
+Do wysłania
 [Received]
 Otrzymany
 [Use only alphanumeric encoding on transfer]
 Używaj tylko alfa-numerycznego kodowania podczas transferu
 [Extra options: Events > File Transfers, "Receiving files" group]
-Dodatkowe opcje: Zdarzenia > Transfery plików, grupa "Odbieranie plików"
+Więcej: Zdarzenia > Transfery plików,grupa "Odbieranie plików"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Plik już istnieje. Nadpisać?

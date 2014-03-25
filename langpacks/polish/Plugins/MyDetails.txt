@@ -37,7 +37,7 @@ Zamieniaj emotikony
 [Resize Smileys]
 Dopasuj emotikony
 [...status message]
-..opis
+...opis
 [Top:]
 Góra:
 [Bottom:]
@@ -49,7 +49,7 @@ Prawa:
 [Avatar]
 Awatar
 [Custom size:]
-Niestandardowy rozmiar:
+Rozmiar:
 [pixels]
 px
 [Allow it to grow]

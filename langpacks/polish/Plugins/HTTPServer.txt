@@ -37,13 +37,13 @@ Nazwa serwera zewnętrznego
 [This is the link pasted to the message window]
 To jest link wklejany do okna rozmowy
 [Write log file]
-Stwórz plik z logiem
+Stwórz dziennik
 [Enable / Disable HTTP server]
 Włącz/Wyłącz serwer HTTP
 [Main menu items]
 Element głównego menu
 [Open log]
-Dziennik
+Otwórz
 [Show popups]
 Pokaż popupy
 [Page keyword]

@@ -96,7 +96,7 @@ Moduł UserInfo
 [Protocol module]
 Moduł protokołu
 [mBirthday module]
-moduł mBirthday
+Moduł mBirthday
 [Nothing]
 -Nic-
 [Dismiss]

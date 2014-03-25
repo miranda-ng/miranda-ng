@@ -45,7 +45,7 @@ Okno
 [Status]
 Status
 [Use Advanced Dialog]
-Użyj Zaawansowanego Okna
+Użyj zaawansowanego okna
 [The Message (characters: )]
 Wiadomość (znaków)
 [Default Settings]

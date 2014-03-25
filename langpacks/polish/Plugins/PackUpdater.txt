@@ -25,7 +25,7 @@ Pobieranie...
 [Pack update options]
 Opcje aktualizacji paczki
 [On startup]
-Podczas uruchamiania
+Przu starcie
 [Remind about not installed pack update]
 Przypomnij o niezainstalowanej aktualizacji paczki
 [Hotkey]
@@ -81,7 +81,7 @@ s
 [Not sets for "Message boxes"]
 Nie określa dla "Komunikaty"
 [Boxes]
-Okienka
+Okna
 [Popups]
 Popupy
 ;file \plugins\PackUpdater\Src\Events.cpp

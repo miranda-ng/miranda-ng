@@ -87,7 +87,7 @@ s
 [Not sets for "Message boxes"]
 Nie określa dla "Komunikaty"
 [Boxes]
-Okienka
+Okna
 [Popups]
 Popupy
 [Component list]

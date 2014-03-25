@@ -9,7 +9,7 @@
 Interfejs Mirandy dla API mowy Microsoft(SAPI).
 ;file \plugins\WinterSpeak\res\Speak.rc
 [Engine Settings]
-Ustawienia Silnika
+Ustawienia silnika
 [Engine]
 Silnik
 [Voice]
@@ -37,7 +37,7 @@ Zaraz wracam
 [DND]
 Nie przeszkadzać
 [NA]
-Niedostępny
+Wrócę później
 [Occupied]
 Zajęty
 [Free for chat]

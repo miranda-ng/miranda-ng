@@ -11,35 +11,35 @@ Antyspam dla ICQ w Mirandzie NG, z captcha i filtrowaniem Bayesa.
 [Enabled]
 Włączony
 [Learned ham messages:]
-Wiadomości przyswojone jako wysyłane przez człowieka:
+Przyswojone jako nie spam:
 [Learned spam messages:]
-Wiadomości przyswojone jako spam:
+Przyswojone jako spam:
 [Filtering options]
 Opcje filtrowania
 [Do not send challenge request if message score above]
-Nie wysyłaj prośby o rozwiązanie zadania, jeśli wynik wiadomości powyżej
+Nie wysyłaj prośby o rozwiązanie zadania, jeśli wynik wynosi powyżej
 [Auto approve contact if message score below]
-Automatycznie zatwierdź kontakt, gdy wynik wiadomości poniżej
+Zatwierdź kontakt, gdy wynik wynosi poniżej
 [and learn as ham]
-i ucz się jako wysyłanych przez człowieka
+i ucz się jako nie spam
 [Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
 Nie włączaj żadnej z tych opcji dopóki Spam-o-tron nie nauczy się przynajmniej 20 wiadomości wysyłanych przez człowieka oraz 50 wiadomości spam.
 [Learning options]
-Opcje uczenia się
+Ucz się wiadomości od
 [Auto-learn messages from approved contacts as ham]
-Automatycznie ucz się wiadomości od zatwierdzonych kontaktów jako wysyłanych przez człowieka
+Zatwierdzonych kontaktów jako nie spam
 [Auto-learn messages from contacts if not approved in]
-Automatycznie ucz się wiadomości od kontaktów, jeżeli niezatwierdzone w
+Kontaktów, jeżeli niezatwierdzone w
 [days as spam]
 dni jako spam
 [Auto-learn outgoing messages as ham]
-Automatycznie ucz się wiadomości wychodzących jako wysyłanych przez człowieka
+Automatycznie ucz się wiadomości wychodzących jako nie spam
 [Learn message:]
 Naucz się wiadomości:
 [Spam]
 Spam
 [Ham]
-Wysłane przez człowieka
+Nie spam
 [Analyze]
 Analizuj
 [Settings]
@@ -57,7 +57,7 @@ Ukryj kontakt dopóki nie zostanie zweryfikowany
 [Add permanently to list on verified]
 Dodaj na stałe do listy po zweryfikowaniu
 [Log actions to system history]
-Loguj akcje do historii systemowej
+Zapisuj akcje do historii systemowej
 [Flood protection]
 Ochrona przed floodem
 [Do not send more than]
@@ -148,7 +148,7 @@ Okno rozmowy
 [Messages]
 Wiadomości
 [Bayes]
-Bajtów
+Filtrowanie
 [Popups]
 Popupy
 ;file \plugins\Spamotron\src\popups.cpp

@@ -159,7 +159,7 @@ Użyj kolorów Windows
 [Use same colors as data window]
 Używaj tych samych kolorów co okno z danymi
 [Left click action]
-Akcja po kliknięciu lewym przyciskiem myszy
+Akcja po kliknięciu LPM
 [Open data display window]
 Otwórz okno wyświetlania danych
 [Open web page]
@@ -167,7 +167,7 @@ Otwórz stronę
 [Dismiss popup]
 Odrzuć popup
 [Right click action]
-Akcja po kliknięciu prawym przyciskiem myszy
+Akcja po kliknięciu PPM
 [Log]
 Dziennik
 [&Copy]

@@ -104,7 +104,7 @@ Włącz powiadomienia o nowych zdarzeniach
 Wyłącz powiadomienia o nowych zdarzeniach
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
-Powiadomienie
+Powiadomienia
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Otrzymano %d kontakty.

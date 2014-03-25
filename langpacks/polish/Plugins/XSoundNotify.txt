@@ -25,7 +25,7 @@ Domyślne
 [Ignore sound for this contact]
 Ignoruj dźwięk dla tego kontaktu
 [XSoundNotify]
-XSoundNotify
+Powiadomienia xStatus
 [OK]
 OK
 [Cancel]
@@ -41,7 +41,7 @@ Pliki WAV
 [Sounds]
 Dźwięki
 [XSound Notify]
-XSound Notify
+Powiadomienia xStatus
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Self status]
 Własny status

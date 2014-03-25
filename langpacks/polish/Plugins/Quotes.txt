@@ -39,7 +39,7 @@ F&ormat
 [V&ariables...]
 Z&mienne...
 [Add to &Log only if Value Changed]
-Dodaj do &loga tylko, jeśli wartość się zmieniła
+Dodaj do &dziennika tylko, jeśli wartość się zmieniła
 [Show &Popup Window]
 Pokaż okno &popup
 [Show Popup Window Only if Value &Changed]
@@ -97,7 +97,7 @@ Podgląd
 [&Refresh Quotes Every:]
 &Odświeżaj notowania co:
 [&Display in Contact List as:]
-&Wyświetlaj na liście kontaktów jako:
+&Wyświetlaj na liście jako:
 [&Status Message:]
 &Opis:
 [&Tendency:]

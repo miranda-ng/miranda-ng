@@ -520,15 +520,15 @@ Domyślne
 [(Lower ranks are preferred)]
 (Preferowane niższe rangi)
 [Last modified using:]
-Ost. zmodyfikowano używając:
+Zmodyfikowano dla:
 [Date:]
 Data:
 [Locale:]
-Tłumaczenie:
-[Download more Language Packs]
+Język:
+[Download more language packs]
 Pobierz więcej tłumaczeń
 [Current language:]
-Aktualne tłumaczenie:
+Aktualny język:
 [Plugins included:]
 Uwzględnione wtyczki:
 [Tray]

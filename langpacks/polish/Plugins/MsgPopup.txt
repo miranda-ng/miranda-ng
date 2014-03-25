@@ -9,7 +9,7 @@
 Zastępuje "Okna komunikatów" (tych tylko z przyciskiem OK), popup-ami.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
-styl gwiazdki
+Styl gwiazdki
 [Background color]
 Kolor tła
 [Text color]
@@ -23,9 +23,9 @@ Styl pytania
 [Preview]
 Podgląd
 [Timeout]
-Wyświetlaj
+Wyświetl
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-Specjalne wartości czasu oczekiwania:\n -1- nieskończoność, 0 - użyj domyślnej wartości czasu oczekiwania
+Specjalne wartości czasu oczekiwania:\n -1- nieskończoność, 0 - domyślna wartość
 [Emit a sound]
 Emituj dźwięk
 ;file \plugins\MsgPopup\src\main.cpp
