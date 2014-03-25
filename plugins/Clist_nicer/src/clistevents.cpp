@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HWND hwndEventFrame = 0;
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
-extern struct CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
+extern CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
 extern int ( *saveRemoveEvent )(MCONTACT hContact, HANDLE hDbEvent);
 extern FRAMEWND *wndFrameEventArea;
 
@@ -36,7 +36,8 @@ extern HPEN g_hPenCLUIFrames;
 
 HWND g_hwndEventArea = 0;
 
-struct CListEvent {
+struct CListEvent
+{
 	int imlIconIndex;
 	int flashesDone;
 	CLISTEVENT cle;
@@ -45,7 +46,8 @@ struct CListEvent {
 	int imlIconOverlayIndex;
 };
 
-struct CListImlIcon {
+struct CListImlIcon
+{
 	int index;
 	HICON hIcon;
 };
@@ -55,11 +57,11 @@ extern HIMAGELIST hCListImages;
 
 HANDLE hNotifyFrame = (HANDLE)-1;
 
-struct CListEvent* fnCreateEvent( void )
+CListEvent* fnCreateEvent( void )
 {
-	CListEvent *p = reinterpret_cast<CListEvent *>(mir_alloc(sizeof(struct CListEvent)));
+	CListEvent *p = reinterpret_cast<CListEvent *>(mir_alloc(sizeof(CListEvent)));
 	if (p)
-		ZeroMemory(p, sizeof(struct CListEvent));
+		ZeroMemory(p, sizeof(CListEvent));
 
 	return p;
 }
@@ -89,7 +91,7 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 	int i;
 
 	for (i = 0; i < pcli->events.count; i++) {
-		struct CListEvent* p = pcli->events.items[i];
+		CListEvent* p = pcli->events.items[i];
 		if (p->menuId == iSelection)
 			return &p->cle;
 	}
@@ -251,80 +253,76 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return TRUE;
 }
 
-struct CListEvent* AddEvent(CLISTEVENT *cle)
+CListEvent* AddEvent(CLISTEVENT *cle)
 {
-	struct CListEvent* p = saveAddEvent(cle);
-	if ( p == NULL )
+	CListEvent *p = saveAddEvent(cle);
+	if (p == NULL)
 		return NULL;
 
-	if (1) {
-		if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE)1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
-			int j;
-			struct NotifyMenuItemExData *nmi = 0;
-			char *szProto;
-			TCHAR *szName;
-			MENUITEMINFO mii = {0};
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
-			if (p->cle.pszService && !strncmp("SRMsg/ReadMessage", p->cle.pszService, 17)) {
-				// dup check only for msg events
-				for (j = 0; j < GetMenuItemCount(cfg::dat.hMenuNotify); j++) {
-					if (GetMenuItemInfo(cfg::dat.hMenuNotify, j, TRUE, &mii) != 0) {
-						nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-						if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->cle.hContact && nmi->iIcon == p->imlIconIndex)
-							return p;
-			}	}	}
+	if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE)1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+		MENUITEMINFO mii = { sizeof(mii) };
+		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
+		if (p->cle.pszService && !strncmp("SRMsg/ReadMessage", p->cle.pszService, 17)) {
+			// dup check only for msg events
+			for (int j = 0; j < GetMenuItemCount(cfg::dat.hMenuNotify); j++) {
+				if (GetMenuItemInfo(cfg::dat.hMenuNotify, j, TRUE, &mii) != 0) {
+					NotifyMenuItemExData *nmi = (NotifyMenuItemExData*) mii.dwItemData;
+					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->cle.hContact && nmi->iIcon == p->imlIconIndex)
+						return p;
+		}	}	}
 
-			szProto = GetContactProto(p->cle.hContact);
-			szName = pcli->pfnGetContactDisplayName(p->cle.hContact, 0);
-			if (szProto && szName) {
-				nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));
-				if (nmi) {
-					TCHAR szBuffer[128];
-					TCHAR* szStatus = pcli->pfnGetStatusModeDescription(cfg::getWord(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+		char *szProto = GetContactProto(p->cle.hContact);
+		TCHAR *szName = pcli->pfnGetContactDisplayName(p->cle.hContact, 0);
+		if (szProto && szName) {
+			NotifyMenuItemExData *nmi = (NotifyMenuItemExData*) malloc(sizeof(NotifyMenuItemExData));
+			if (nmi) {
+				TCHAR szBuffer[128];
+				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(cfg::getWord(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
-					TCHAR szwProto[64];
-					MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
-					szwProto[63] = 0;
-					mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: %s (%s)"), szwProto, szName, szStatus);
+				TCHAR szwProto[64];
+				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
+				szwProto[63] = 0;
+				mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: %s (%s)"), szwProto, szName, szStatus);
 
-					szBuffer[127] = 0;
-					AppendMenu(cfg::dat.hMenuNotify, MF_BYCOMMAND | MF_STRING, cfg::dat.wNextMenuID, szBuffer);
-					mii.hbmpItem = HBMMENU_CALLBACK;
-					nmi->hContact = p->cle.hContact;
-					nmi->iIcon = p->imlIconIndex;
-					nmi->hIcon = p->cle.hIcon;
-					nmi->hDbEvent = p->cle.hDbEvent;
-					mii.dwItemData = (ULONG_PTR) nmi;
-					mii.wID = cfg::dat.wNextMenuID;
-					SetMenuItemInfo(cfg::dat.hMenuNotify, cfg::dat.wNextMenuID, FALSE, &mii);
-					p->menuId = cfg::dat.wNextMenuID;
-					cfg::dat.wNextMenuID++;
-					if (cfg::dat.wNextMenuID > 0x7fff)
-						cfg::dat.wNextMenuID = 1;
-					cfg::dat.hIconNotify = p->imlIconIndex;
-				}
-			}
-		} else if (p->cle.hContact != 0 && (p->cle.flags & CLEF_ONLYAFEW)) {
-			cfg::dat.hIconNotify = p->imlIconIndex;
-			cfg::dat.hUpdateContact = p->cle.hContact;
-		}
-		if (cfg::dat.dwFlags & CLUI_STICKYEVENTS) {
-			HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM) p->cle.hContact, 0);
-			if (hItem) {
-				SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM) hItem, 1);
-				pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM) p->cle.hContact, 0);
+				szBuffer[127] = 0;
+				AppendMenu(cfg::dat.hMenuNotify, MF_BYCOMMAND | MF_STRING, cfg::dat.wNextMenuID, szBuffer);
+				mii.hbmpItem = HBMMENU_CALLBACK;
+				nmi->hContact = p->cle.hContact;
+				nmi->iIcon = p->imlIconIndex;
+				nmi->hIcon = p->cle.hIcon;
+				nmi->hDbEvent = p->cle.hDbEvent;
+				mii.dwItemData = (ULONG_PTR)nmi;
+				mii.wID = cfg::dat.wNextMenuID;
+				SetMenuItemInfo(cfg::dat.hMenuNotify, cfg::dat.wNextMenuID, FALSE, &mii);
+				p->menuId = cfg::dat.wNextMenuID;
+				cfg::dat.wNextMenuID++;
+				if (cfg::dat.wNextMenuID > 0x7fff)
+					cfg::dat.wNextMenuID = 1;
+				cfg::dat.hIconNotify = p->imlIconIndex;
 			}
 		}
-		if (pcli->events.count > 0) {
-			cfg::dat.bEventAreaEnabled = TRUE;
-			if (cfg::dat.notifyActive == 0) {
-				cfg::dat.notifyActive = 1;
-				HideShowNotifyFrame();
-			}
-		}
-		InvalidateRect(hwndEventFrame, NULL, FALSE);
 	}
+	else if (p->cle.hContact != 0 && (p->cle.flags & CLEF_ONLYAFEW)) {
+		cfg::dat.hIconNotify = p->imlIconIndex;
+		cfg::dat.hUpdateContact = p->cle.hContact;
+	}
+
+	if (cfg::dat.dwFlags & CLUI_STICKYEVENTS) {
+		HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM) p->cle.hContact, 0);
+		if (hItem) {
+			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM) hItem, 1);
+			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM) p->cle.hContact, 0);
+		}
+	}
+
+	if (pcli->events.count > 0) {
+		cfg::dat.bEventAreaEnabled = TRUE;
+		if (cfg::dat.notifyActive == 0) {
+			cfg::dat.notifyActive = 1;
+			HideShowNotifyFrame();
+		}
+	}
+	InvalidateRect(hwndEventFrame, NULL, FALSE);
 
 	return p;
 }
@@ -335,33 +333,27 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
 int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
 {
-	HANDLE hItem;
-	int i;
-	BOOL bUnstick = TRUE;
-
 	// Find the event that should be removed
-	for (i = 0; i < pcli->events.count; i++) {
-		if ((pcli->events.items[i]->cle.hContact == hContact) && (pcli->events.items[i]->cle.hDbEvent == hDbEvent)) {
+	int i;
+	for (i = 0; i < pcli->events.count; i++)
+		if ((pcli->events.items[i]->cle.hContact == hContact) && (pcli->events.items[i]->cle.hDbEvent == hDbEvent))
 			break;
-		}
-	}
 
 	// Event was not found
 	if (i == pcli->events.count)
 		return 1;
 
 	// remove event from the notify menu
-	if (1) {
-		if (pcli->events.items[i]->menuId > 0) {
-			MENUITEMINFO mii = {0};
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_DATA;
-			if (GetMenuItemInfo(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, FALSE, &mii) != 0) {
-				struct NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-				if (nmi && nmi->hContact == hContact && nmi->hDbEvent == hDbEvent) {
-					free(nmi);
-					DeleteMenu(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, MF_BYCOMMAND);
-	}	}	}	}
+	if (pcli->events.items[i]->menuId > 0) {
+		MENUITEMINFO mii = {0};
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_DATA;
+		if (GetMenuItemInfo(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, FALSE, &mii) != 0) {
+			struct NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
+			if (nmi && nmi->hContact == hContact && nmi->hDbEvent == hDbEvent) {
+				free(nmi);
+				DeleteMenu(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, MF_BYCOMMAND);
+	}	}	}
 
 	saveRemoveEvent(hContact, hDbEvent);
 
@@ -372,14 +364,12 @@ int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
 			HideShowNotifyFrame();
 	}	}
 
-	if (bUnstick) {
-		// clear "sticky" (sort) status
-
-		hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, hContact, 0);
-		if (hItem) {
-			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM) hItem, 0);
-			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, 0);
-	}	}
+	// clear "sticky" (sort) status
+	HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, hContact, 0);
+	if (hItem) {
+		SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM)hItem, 0);
+		pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, 0);
+	}
 
 	if (hContact == cfg::dat.hUpdateContact || (INT_PTR)hDbEvent == 1)
 		cfg::dat.hUpdateContact = 0;
