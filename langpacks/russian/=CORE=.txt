@@ -525,6 +525,8 @@ UIN, E-mail и т.д.
 Язык интерфейса:
 [Plugins included:]
 Плагины:
+[Reload langpack]
+Перезагрузить языковой пакет
 [Tray]
 Трей
 [&Hide/Show]
