@@ -104,6 +104,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lP
 	if (pack->flags & LPF_ENABLED) {
 		SendMessage((HWND)wParam, CB_SETCURSEL, idx, 0);
 		DisplayPackInfo(GetParent((HWND)wParam), pack);
+		EnableWindow(GetDlgItem(GetParent((HWND)wParam), IDC_RELOAD), !(pack->flags & LPF_DEFAULT));
 	}
 
 	return TRUE;
@@ -151,7 +152,20 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DisplayPackInfo(hwndDlg, pack);
 				if (!(pack->flags & LPF_ENABLED))
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_RELOAD), (pack->flags & LPF_ENABLED) && !(pack->flags & LPF_DEFAULT));
 			}
+			break;
+
+		case IDC_RELOAD:
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_RELOAD), FALSE);
+				int idx = ComboBox_GetCurSel(hwndList);
+				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, idx);
+				ReloadLangpack(pack->tszFullPath);
+				DisplayPackInfo(hwndDlg, pack);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_RELOAD), TRUE);
+			}
+			break;
 		}
 		break;
 
@@ -172,8 +186,16 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (tszPath[0]) {
 				ReloadLangpack(tszPath);
-				CloseWindow(GetParent(hwndDlg));
-				DestroyWindow(GetParent(hwndDlg));
+
+				if (LPNMHDR(lParam)->idFrom == IDC_APPLY) {
+					CloseWindow(GetParent(hwndDlg));
+					DestroyWindow(GetParent(hwndDlg));
+
+					OPENOPTIONSDIALOG ood = { sizeof(ood) };
+					ood.pszGroup = "Customize";
+					ood.pszPage = "Languages";
+					Options_Open(&ood);
+				}
 			}
 		}
 		break;

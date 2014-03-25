@@ -1115,10 +1115,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 				opd = dat->getCurrent();
 				if (opd != NULL) {
-					pshn.hdr.idFrom = 0;
 					pshn.lParam = 0;
 					pshn.hdr.code = PSN_KILLACTIVE;
 					pshn.hdr.hwndFrom = opd->hwnd;
+					pshn.hdr.idFrom = LOWORD(wParam);
 					if (SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
 						break;
 				}
