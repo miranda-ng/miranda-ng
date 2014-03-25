@@ -531,6 +531,8 @@ Pobierz więcej tłumaczeń
 Aktualny język:
 [Plugins included:]
 Uwzględnione wtyczki:
+[Reload langpack]
+Załaduj pakiet językowy ponownie
 [Tray]
 Zasobnik
 [&Hide/Show]
