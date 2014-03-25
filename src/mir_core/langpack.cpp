@@ -399,7 +399,7 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	_tcsncpy_s(langPack.tszFileName, SIZEOF(langPack.tszFullPath), (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
 	CharLower(langPack.tszFileName);
 
-	FILE *fp = _tfopen(ptszLangPack, _T("rt"));
+	FILE *fp = _tfopen(tszFullPath, _T("rt"));
 	if (fp == NULL)
 		return 1;
 
