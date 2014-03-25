@@ -525,12 +525,14 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Дата:
 [Locale:]
 Език:
-[Download more Language Packs]
+[Download more language packs]
 Сваляне на още езикови пакети
 [Current language:]
 
 [Plugins included:]
 
+[Reload langpack]
+Презареждане на пакета
 [Tray]
 Трей
 [&Hide/Show]

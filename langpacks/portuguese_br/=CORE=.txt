@@ -386,7 +386,7 @@ Opacidade
 Data:
 [Locale:]
 Local:
-[Download more Language Packs]
+[Download more language packs]
 Baixar mais Pacotes de idioma
 [Tray]
 Barra de tarefas

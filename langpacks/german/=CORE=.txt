@@ -531,6 +531,8 @@ Weitere Sprachdateien herunterladen
 Aktuelle Sprache:
 [Plugins included:]
 Beinhaltet Plugins:
+[Reload langpack]
+Sprachdatei neu laden
 [Tray]
 Tray
 [&Hide/Show]

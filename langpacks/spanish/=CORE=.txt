@@ -525,12 +525,14 @@ Lista de contactos
 Fecha:
 [Locale:]
 Local
-[Download more Language Packs]
+[Download more language packs]
 Descargar más paquetes de idioma
 [Current language:]
 
 [Plugins included:]
 
+[Reload langpack]
+Recargar langpack
 [Tray]
 Bandeja
 [&Hide/Show]

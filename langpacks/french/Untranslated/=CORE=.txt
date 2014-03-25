@@ -15,6 +15,7 @@
 [Reset All]
 [Current language:]
 [Plugins included:]
+[Reload langpack]
 [Status messages:]
 [&Emoticons]
 [&Italic]

@@ -525,11 +525,13 @@ Pour:
 Date:
 [Locale:]
 Locale:
-[Download more Language Packs]
+[Download more language packs]
 Télécharger plus de pack de traduction
 [Current language:]
 
 [Plugins included:]
+
+[Reload langpack]
 
 [Tray]
 Tray

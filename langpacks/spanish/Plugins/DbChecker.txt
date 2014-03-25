@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.0.2
+;  Version: 0.95.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -110,8 +110,6 @@ Error
 [Database]
 Base de datos
 [Total size]
-
-[Wasted]
 
 [Miranda Databases (*.dat)]
 

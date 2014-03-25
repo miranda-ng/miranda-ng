@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.0.2
+;  Version: 0.95.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -111,8 +111,6 @@ Sterownik bazy danych "%s" nie wspiera sprawdzania.
 Profil
 [Total size]
 Całkowity rozmiar
-[Wasted]
-Martwa przestrzeń
 [Miranda Databases (*.dat)]
 Bazy danych Mirandy (*.dat)
 [All Files]

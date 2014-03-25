@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.0.2
+;  Version: 0.95.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Welcome to the Miranda Database Wizard]
@@ -95,8 +95,6 @@ Miranda 数据库工具
 错误
 [Total size]
 累计大小
-[Wasted]
-浪费
 [Miranda Databases (*.dat)]
 Miranda 数据库 (*.dat)
 [All Files]

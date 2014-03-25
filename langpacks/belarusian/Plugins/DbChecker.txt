@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.0.2
+;  Version: 0.95.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -111,8 +111,6 @@
 Профіль
 [Total size]
 Памер
-[Wasted]
-Мёртва
 [Miranda Databases (*.dat)]
 Базы Miranda NG (*.dat)
 [All Files]

@@ -47,7 +47,6 @@
 [Database driver '%s' doesn't support checking.]
 [Database]
 [Total size]
-[Wasted]
 [Miranda Databases (*.dat)]
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 [%s\\Backup of %s]

@@ -484,7 +484,7 @@ Miranda NG 正准备重启. \n请稍候...
 日期:
 [Locale:]
 语系: 
-[Download more Language Packs]
+[Download more language packs]
 下载更多语言包
 [Tray]
 托盘

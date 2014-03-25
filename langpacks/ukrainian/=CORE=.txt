@@ -527,6 +527,8 @@ UIN, E-mail тощо
 Мова інтерфейсу:
 [Plugins included:]
 Плагіни:
+[Reload langpack]
+Перезавантажити мовний пакет
 [Tray]
 Трей
 [&Hide/Show]
