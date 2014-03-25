@@ -25,6 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "langpack.h"
 
+static void SetDlgItemText_CP(HWND hwndDlg, int ctrlID, int codepage, LPCSTR str)
+{
+	int cbSize = MultiByteToWideChar(codepage, 0, str, -1, NULL, 0);
+	WCHAR *wszBuf = (WCHAR*)_alloca(sizeof(WCHAR)*(cbSize + 1));
+	MultiByteToWideChar(codepage, 0, str, -1, wszBuf, cbSize);
+	wszBuf[cbSize] = 0;
+	SetDlgItemTextW(hwndDlg, ctrlID, wszBuf);
+}
+
 static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 {
 	/* locale string */
@@ -59,7 +68,7 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
 	
 	/* plugins included */
-	SetDlgItemTextA(hwndDlg, IDC_PLUGINSINCLUDED, pack->szPluginsIncluded);
+	SetDlgItemText_CP(hwndDlg, IDC_PLUGINSINCLUDED, pack->codepage, pack->szPluginsIncluded);
 	if (pack->szPluginsIncluded[0]) {
 		if (!IsWindowVisible(GetDlgItem(hwndDlg, IDC_PLUGINSINCLUDEDLABEL))) {
 			ShowWindow(GetDlgItem(hwndDlg,IDC_PLUGINSINCLUDEDLABEL), SW_SHOW);
@@ -72,9 +81,9 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	}
 	
 	/* general */
-	SetDlgItemTextA(hwndDlg, IDC_LANGMODUSING, pack->szLastModifiedUsing);
-	SetDlgItemTextA(hwndDlg, IDC_LANGAUTHORS, pack->szAuthors);
-	SetDlgItemTextA(hwndDlg, IDC_LANGEMAIL, pack->szAuthorEmail);
+	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->codepage, pack->szLastModifiedUsing);
+	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->codepage, pack->szAuthors);
+	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->codepage, pack->szAuthorEmail);
 	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateTS(pack->tszLanguage));
 }
 

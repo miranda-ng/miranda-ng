@@ -306,7 +306,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 	fgets(line, LANGPACK_BUF_SIZE, fp);
 	size_t lineLen = strlen(line);
 	if (lineLen >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf') {
-		fileCp = CP_UTF8;
+		lpinfo.codepage = fileCp = CP_UTF8;
 		memmove(line, line + 3, lineLen - 2);
 	}
 
