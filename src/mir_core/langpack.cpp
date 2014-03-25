@@ -301,6 +301,7 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &startOfLine, UINT &fileCp)
 {
 	char szLanguage[64]; szLanguage[0] = 0;
+	CMStringA szAuthors;
 
 	fgets(line, LANGPACK_BUF_SIZE, fp);
 	size_t lineLen = strlen(line);
@@ -333,7 +334,11 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 		*pszColon++ = 0;
 		if (!lstrcmpA(line, "Language")) { mir_snprintf(szLanguage, sizeof(szLanguage), "%s", pszColon); lrtrim(szLanguage); }
 		else if (!lstrcmpA(line, "Last-Modified-Using")) { mir_snprintf(lpinfo.szLastModifiedUsing, sizeof(lpinfo.szLastModifiedUsing), "%s", pszColon); lrtrim(lpinfo.szLastModifiedUsing); }
-		else if (!lstrcmpA(line, "Authors")) { mir_snprintf(lpinfo.szAuthors, sizeof(lpinfo.szAuthors), "%s", pszColon); lrtrim(lpinfo.szAuthors); }
+		else if (!lstrcmpA(line, "Authors")) {
+			if (!szAuthors.IsEmpty())
+				szAuthors.AppendChar(' ');
+			szAuthors.Append(lrtrim(pszColon));
+		}
 		else if (!lstrcmpA(line, "Author-email")) { mir_snprintf(lpinfo.szAuthorEmail, sizeof(lpinfo.szAuthorEmail), "%s", pszColon); lrtrim(lpinfo.szAuthorEmail); }
 		else if (!lstrcmpA(line, "Locale")) {
 			char szBuf[20], *stopped;
@@ -348,6 +353,8 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 				fileCp = lpinfo.codepage;
 		}
 	}
+
+	strncpy_s(lpinfo.szAuthors, SIZEOF(lpinfo.szAuthors), szAuthors, _TRUNCATE);
 
 	MultiByteToWideChar(lpinfo.codepage, 0, szLanguage, -1, lpinfo.tszLanguage, SIZEOF(lpinfo.tszLanguage));
 
