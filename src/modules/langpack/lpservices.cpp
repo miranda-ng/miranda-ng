@@ -97,8 +97,6 @@ static INT_PTR srvGetPluginLangpack(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(int)LoadLangPackModule(void);
-
 int LoadLangpackModule(void)
 {
 	LoadLangPackModule();

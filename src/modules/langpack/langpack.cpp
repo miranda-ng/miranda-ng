@@ -37,7 +37,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 	ptrT langpack(db_get_tsa(NULL, "Langpack", "Current"));
 
 	LANGPACK_INFO pack;
-	PathToAbsoluteT(_T("\\langpack_*.txt"), pack.tszFullPath);
+	PathToAbsoluteT(_T("\\Languages\\langpack_*.txt"), pack.tszFullPath);
 
 	BOOL fPackFound = FALSE;
 	WIN32_FIND_DATA wfd;
@@ -47,7 +47,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 			/* get data */
 			TCHAR tszFullPath[MAX_PATH];
-			PathToAbsoluteT(_T("\\"), tszFullPath);
+			PathToAbsoluteT(_T("\\Languages\\"), tszFullPath);
 			lstrcat(tszFullPath, wfd.cFileName);
 
 			ZeroMemory(&pack, sizeof(pack));
@@ -92,53 +92,4 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 	}
 
 	return fPackFound;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void Langpack_LoadLangpack(void)
-{
-	TCHAR szSearch[MAX_PATH];
-	PathToAbsoluteT(_T("\\"), szSearch);
-
-	// try to get the langpack's name from a profile first
-	ptrT langpack(db_get_tsa(NULL, "Langpack", "Current"));
-	if (langpack && langpack[0] != '\0') {
-		lstrcat(szSearch, langpack);
-
-		DWORD dwAttrib = GetFileAttributes(szSearch);
-		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
-			if (!LoadLangPack(szSearch))
-				return;
-	}
-	
-	// look into mirandaboot.ini
-	TCHAR tszDefaultLang[100];
-	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), mirandabootini)) {
-		TCHAR tszLangPath[MAX_PATH];
-		PathToAbsoluteT(tszDefaultLang, tszLangPath);
-		if (!LoadLangPack(tszLangPath))
-			return;
-	}
-
-	// finally try to load first file
-	lstrcat(szSearch, _T("langpack_*.txt"));
-
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(szSearch, &fd);
-	if (hFind != INVALID_HANDLE_VALUE) {
-		do {
-			/* search first langpack that could be loaded */
-			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
-			/* load langpack */
-			PathToAbsoluteT(_T("\\"), szSearch);
-			lstrcat(szSearch, fd.cFileName);
-			if (!LoadLangPack(szSearch)) {
-				db_set_ws(NULL, "Langpack", "Current", fd.cFileName);
-				break;
-			}
-		}
-			while (FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
 }

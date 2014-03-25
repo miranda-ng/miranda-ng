@@ -59,5 +59,3 @@ typedef BOOL(*ENUM_PACKS_CALLBACK) (LANGPACK_INFO *pack, WPARAM wParam, LPARAM l
 BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam);
 
 int LangpackOptionsInit(WPARAM wParam, LPARAM);
-
-void Langpack_LoadLangpack(void);

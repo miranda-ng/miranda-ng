@@ -152,7 +152,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			int idx = ComboBox_GetCurSel(hwndList);
 			int count = ComboBox_GetCount(hwndList);
 			for (int i = 0; i < count; i++) {
-				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, idx);
+				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, i);
 				if (i == idx) {
 					db_set_ws(NULL, "Langpack", "Current", pack->tszFileName);
 					lstrcpy(tszPath, pack->tszFullPath);
@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			if (tszPath[0]) {
-				CallService(MS_LANGPACK_RELOAD, 0, (LPARAM)tszPath);
+				ReloadLangpack(tszPath);
 				CloseWindow(GetParent(hwndDlg));
 				DestroyWindow(GetParent(hwndDlg));
 			}

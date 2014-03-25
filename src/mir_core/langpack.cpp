@@ -367,20 +367,39 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 	return 0;
 }
 
-MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
+MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 {
-	if (!lstrcmp(szLangPack, langPack.tszFullPath))
+	if (ptszLangPack == NULL)
+		return 1;
+
+	// ensure that a lang's name is a full file name
+	TCHAR tszFullPath[MAX_PATH];
+	if (!PathIsAbsoluteT(ptszLangPack)) {
+		PathToAbsoluteT(_T("\\Languages\\"), tszFullPath);
+		_tcsncat_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
+	}
+	else _tcsncpy_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
+
+	// exists & not a directory?
+	DWORD dwAttrib = GetFileAttributes(tszFullPath);
+	if (dwAttrib == INVALID_FILE_ATTRIBUTES || (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
+		return 3;
+
+	// this lang is already loaded? nothing to do then
+	if (!lstrcmp(tszFullPath, langPack.tszFullPath))
 		return 0;
 
+	// ok... loading a new langpack. remove the old one if needed
 	if (g_entryCount)
 		UnloadLangPackModule();
 
-	_tcsncpy_s(langPack.tszFullPath, SIZEOF(langPack.tszFullPath), szLangPack, _TRUNCATE);
+	// copy the full file name and extract a file name from it
+	_tcsncpy_s(langPack.tszFullPath, SIZEOF(langPack.tszFullPath), tszFullPath, _TRUNCATE);
 	TCHAR *p = _tcsrchr(langPack.tszFullPath, '\\');
-	_tcsncpy_s(langPack.tszFileName, SIZEOF(langPack.tszFullPath), (p == NULL) ? szLangPack : p + 1, _TRUNCATE);
+	_tcsncpy_s(langPack.tszFileName, SIZEOF(langPack.tszFullPath), (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
 	CharLower(langPack.tszFileName);
 
-	FILE *fp = _tfopen(szLangPack, _T("rt"));
+	FILE *fp = _tfopen(ptszLangPack, _T("rt"));
 	if (fp == NULL)
 		return 1;
 
@@ -403,17 +422,17 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *szLangPack)
 	return 0;
 }
 
-MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *szLangPack, LANGPACK_INFO *lpInfo)
+MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *ptszLangPack, LANGPACK_INFO *lpInfo)
 {
 	if (lpInfo == NULL)
 		return 1;
 
-	_tcsncpy_s(lpInfo->tszFullPath, SIZEOF(lpInfo->tszFullPath), szLangPack, _TRUNCATE);
+	_tcsncpy_s(lpInfo->tszFullPath, SIZEOF(lpInfo->tszFullPath), ptszLangPack, _TRUNCATE);
 	TCHAR *p = _tcsrchr(lpInfo->tszFullPath, '\\');
-	_tcsncpy_s(lpInfo->tszFileName, SIZEOF(lpInfo->tszFullPath), (p == NULL) ? szLangPack : p+1, _TRUNCATE);
+	_tcsncpy_s(lpInfo->tszFileName, SIZEOF(lpInfo->tszFullPath), (p == NULL) ? ptszLangPack : p+1, _TRUNCATE);
 	CharLower(lpInfo->tszFileName);
 
-	FILE *fp = _tfopen(szLangPack, _T("rt"));
+	FILE *fp = _tfopen(ptszLangPack, _T("rt"));
 	if (fp == NULL)
 		return 1;
 
@@ -624,6 +643,33 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 	ZeroMemory(&langPack, sizeof(langPack));
 
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
+
+	// look into mirandaboot.ini
+	TCHAR tszDefaultLang[100], tszPath[MAX_PATH];
+	PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
+	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath))
+		if (!LoadLangPack(tszDefaultLang))
+			return 0;
+
+	// finally try to load first file
+	PathToAbsoluteT(_T("\\Languages\\langpack_*.txt"), tszPath);
+
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = FindFirstFile(tszPath, &fd);
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			/* search first langpack that could be loaded */
+			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				continue;
+			
+			if (!LoadLangPack(fd.cFileName)) {
+				db_set_ws(NULL, "Langpack", "Current", fd.cFileName);
+				break;
+			}
+		}
+			while (FindNextFile(hFind, &fd));
+		FindClose(hFind);
+	}
 	return 0;
 }
 

@@ -354,6 +354,11 @@ MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto)
 extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase *_db)
 {
 	currDb = _db;
+
+	// try to get the langpack's name from a profile
+	ptrT langpack(db_get_tsa(NULL, "Langpack", "Current"));
+	if (langpack && langpack[0] != '\0')
+		LoadLangPack(langpack);
 }
 
 MIR_CORE_DLL(BOOL) db_set_resident(const char *szModule, const char *szService, BOOL bEnable)

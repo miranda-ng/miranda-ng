@@ -800,8 +800,6 @@ static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE 
 
 int getProfileManager(PROFILEMANAGERDATA * pd)
 {
-	Langpack_LoadLangpack();
-
 	DetailsPageInit opi = { 0 };
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };

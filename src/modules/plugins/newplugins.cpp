@@ -653,8 +653,6 @@ static int LaunchServicePlugin(pluginEntry *p)
 		p->pclass |= PCLASS_LOADED;
 	}
 
-	Langpack_LoadLangpack();
-
 	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, 0, 0);
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;

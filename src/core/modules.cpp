@@ -118,7 +118,6 @@ int LoadDefaultModules(void)
 	if (LoadDatabaseModule()) return 1;
 
 	// database is available here
-	Langpack_LoadLangpack();
 	if (LoadButtonModule()) return 1;
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
