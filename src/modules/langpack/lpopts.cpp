@@ -67,23 +67,11 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 		GetDateFormat((LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0), DATE_SHORTDATE, &stFileDate, NULL, szDate, SIZEOF(szDate));
 	SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
 	
-	/* plugins included */
-	SetDlgItemText_CP(hwndDlg, IDC_PLUGINSINCLUDED, pack->codepage, pack->szPluginsIncluded);
-	if (pack->szPluginsIncluded[0]) {
-		if (!IsWindowVisible(GetDlgItem(hwndDlg, IDC_PLUGINSINCLUDEDLABEL))) {
-			ShowWindow(GetDlgItem(hwndDlg,IDC_PLUGINSINCLUDEDLABEL), SW_SHOW);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_PLUGINSINCLUDED), SW_SHOW);
-		}
-	}
-	else {
-		ShowWindow(GetDlgItem(hwndDlg, IDC_PLUGINSINCLUDEDLABEL), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_PLUGINSINCLUDED), SW_HIDE);
-	}
-	
 	/* general */
 	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->codepage, pack->szLastModifiedUsing);
 	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->codepage, pack->szAuthors);
 	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->codepage, pack->szAuthorEmail);
+	SetDlgItemText_CP(hwndDlg, IDC_PLUGINSINCLUDED, pack->codepage, pack->szPluginsIncluded);
 	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateTS(pack->tszLanguage));
 }
 

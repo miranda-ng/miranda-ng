@@ -192,12 +192,10 @@
 #define IDC_RELOAD                      1011
 #define IDC_SPECIFYPORTS                1013
 #define IDC_ST_ENTERMSG                 1013
-#define IDC_LANGLOCALELABEL             1013
 #define IDC_ST_ENTERURL                 1014
 #define IDC_SPECIFYPORTSO               1014
 #define IDC_LANGLOCALE                  1014
 #define IDC_ENABLEUPNP                  1015
-#define IDC_PLUGINSINCLUDEDLABEL        1015
 #define IDC_VALIDATESSL                 1016
 #define IDC_PLUGINSINCLUDED             1016
 #define IDC_ONLYAVAIL                   1017
