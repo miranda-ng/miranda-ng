@@ -2,6 +2,6 @@
 Language: Japanese
 Locale: 1041
 Authors: Taguchi,Chie, Jerbifor
-Last-Modified-Using: Miranda NG 0.95.1.
+Last-Modified-Using: Miranda NG 0.94.6 
 ;	This translation is automatically generated from the Japanese langpack Miranda IM by Taguchi.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0

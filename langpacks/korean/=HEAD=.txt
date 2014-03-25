@@ -2,6 +2,6 @@
 Language: Korean (Korea)
 Locale: 0412
 Authors: Sang Min Kang, Jerbifor
-Last-Modified-Using: Miranda NG 0.95.1.
+Last-Modified-Using: Miranda NG 0.94.6
 ;	This translation is automatically generated from the Korean langpack Miranda IM by Sang Min Kang.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0
