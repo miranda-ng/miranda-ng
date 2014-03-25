@@ -360,58 +360,37 @@ static renameTable[] =
 	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
-	{ _T("clienticons_general.dll"),        _T("Icons\\fp_icons.dll") },
-	{ _T("clienticons_miranda.dll"),        _T("Icons\\fp_icons.dll") },
-	{ _T("fp_icq.dll"),                     _T("Icons\\fp_icons.dll") },
-	{ _T("fp_jabber.dll"),                  _T("Icons\\fp_icons.dll") },
-	{ _T("clienticons_aim.dll"),            _T("") },
-	{ _T("clienticons_gadu.dll"),           _T("") },
-	{ _T("clienticons_gg.dll"),             _T("") },
-	{ _T("clienticons_icq.dll"),            _T("") },
-	{ _T("clienticons_irc.dll"),            _T("") },
-	{ _T("clienticons_jabber.dll"),         _T("") },
-	{ _T("clienticons_mra.dll"),            _T("") },
-	{ _T("clienticons_msn.dll"),            _T("") },
-	{ _T("clienticons_multiproto.dll"),     _T("") },
-	{ _T("clienticons_multiprotocols.dll"), _T("") },
-	{ _T("clienticons_others.dll"),         _T("") },
-	{ _T("clienticons_overlays.dll"),       _T("") },
-	{ _T("clienticons_packs.dll"),          _T("") },
-	{ _T("clienticons_qq.dll"),             _T("") },
-	{ _T("clienticons_rss.dll"),            _T("") },
-	{ _T("clienticons_skype.dll"),          _T("") },
-	{ _T("clienticons_tlen.dll"),           _T("") },
-	{ _T("clienticons_voip.dll"),           _T("") },
-	{ _T("clienticons_weather.dll"),        _T("") },
-	{ _T("clienticons_yahoo.dll"),          _T("") },
-	{ _T("fp_aim.dll"),                     _T("") },
-	{ _T("fp_c6_mra_skype.dll"),            _T("") },
-	{ _T("fp_gg.dll"),                      _T("") },
-	{ _T("fp_irc.dll"),                     _T("") },
-	{ _T("fp_msn.dll"),                     _T("") },
-	{ _T("fp_packs.dll"),                   _T("") },
-	{ _T("fp_qq.dll"),                      _T("") },
-	{ _T("fp_rss.dll"),                     _T("") },
-	{ _T("fp_tlen.dll"),                    _T("") },
-	{ _T("fp_weather.dll"),                 _T("") },
-	{ _T("fp_yahoo.dll"),                   _T("") },
+	{ _T("clienticons_*.dll"),              _T("Icons\\fp_icons.dll") },
+	{ _T("fp_*.dll"),                       _T("Icons\\fp_icons.dll") },
+	
+	{ _T("langpack_*.txt"),                 _T("Languages\\*") },
 
-	{ _T("clist_classic.dll"),              _T("") },
-	{ _T("chat.dll"),                       _T("") },
-	{ _T("gender.dll"),                     _T("") },
-	{ _T("srmm.dll"),                       _T("") },
-	{ _T("extraicons.dll"),                 _T("") },
-	{ _T("langman.dll"),                    _T("") },
-	{ _T("metacontacts.dll"),               _T("") },
+	{ _T("clist_classic.dll"),              NULL },
+	{ _T("chat.dll"),                       NULL },
+	{ _T("gender.dll"),                     NULL },
+	{ _T("srmm.dll"),                       NULL },
+	{ _T("extraicons.dll"),                 NULL },
+	{ _T("langman.dll"),                    NULL },
+	{ _T("metacontacts.dll"),               NULL },
 };
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 {
-	for (int i=0; i < SIZEOF(renameTable); i++)
-		if (!_tcsicmp(ptszOldName, renameTable[i].oldName)) {
-			_tcscpy(pNewName, renameTable[i].newName);
-			return true;
+	for (int i = 0; i < SIZEOF(renameTable); i++) {
+		if (!wildcmpit(ptszOldName, renameTable[i].oldName))
+			continue;
+
+		TCHAR *ptszDest = renameTable[i].newName;
+		if (ptszDest == NULL)
+			*pNewName = 0;
+		else {
+			_tcsncpy_s(pNewName, MAX_PATH, ptszDest, _TRUNCATE);
+			size_t cbLen = _tcslen(ptszDest) - 1;
+			if (pNewName[cbLen] == '*')
+				_tcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, ptszOldName, _TRUNCATE);
 		}
+		return true;
+	}
 
 	return false;
 }
