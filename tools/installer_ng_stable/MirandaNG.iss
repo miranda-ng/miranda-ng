@@ -95,10 +95,10 @@ Source: "Files\Core\stduserinfo.dll"; DestDir: "{app}\Core"; Components: program
 Source: "Files\Core\stduseronline.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; LangPacks
-Source: "Files\langpack_czech.txt"; DestDir: "{app}"; Components: lang\czech; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\langpack_german.txt"; DestDir: "{app}"; Components: lang\german; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\langpack_polish.txt"; DestDir: "{app}"; Components: lang\polish; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\langpack_russian.txt"; DestDir: "{app}"; Components: lang\russian; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Languages\langpack_czech.txt"; DestDir: "{app}\Languages"; Components: lang\czech; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Languages\langpack_german.txt"; DestDir: "{app}\Languages"; Components: lang\german; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Languages\langpack_polish.txt"; DestDir: "{app}\Languages"; Components: lang\polish; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Languages\langpack_russian.txt"; DestDir: "{app}\Languages"; Components: lang\russian; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ;Plugins - not selectable
 Source: "Files\Plugins\AdvaImg.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
