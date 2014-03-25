@@ -262,3 +262,5 @@ mir_closeLog                  @259
 db_mc_enable                  @260
 db_mc_isEnabled               @261
 LoadLangPackDescr             @262
+PathIsAbsolute                @263
+PathIsAbsoluteW               @264

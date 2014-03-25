@@ -28,7 +28,7 @@ static char  szMirandaPathLower[MAX_PATH];
 static TCHAR szMirandaPathW[MAX_PATH];
 static TCHAR szMirandaPathWLower[MAX_PATH];
 
-static int pathIsAbsolute(const char *path)
+MIR_CORE_DLL(int) PathIsAbsolute(const char *path)
 {
 	if (strlen(path) <= 2)
 		return 0;
@@ -40,7 +40,7 @@ static int pathIsAbsolute(const char *path)
 MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut)
 {
 	if ( !pSrc || !strlen(pSrc) || strlen(pSrc)>MAX_PATH) return 0;
-	if ( !pathIsAbsolute(pSrc)) {
+	if ( !PathIsAbsolute(pSrc)) {
 		mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
 		return (int)strlen(pOut);
 	}
@@ -69,7 +69,7 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, char* base)
 	if (pSrc[0] < ' ')
 		return mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
 
-	if (pathIsAbsolute(pSrc))
+	if (PathIsAbsolute(pSrc))
 		return GetFullPathNameA(pSrc, MAX_PATH, pOut, NULL);
 
 	if (base == NULL)
@@ -115,7 +115,7 @@ MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int pathIsAbsoluteW(const TCHAR *path)
+MIR_CORE_DLL(int) PathIsAbsoluteW(const TCHAR *path)
 {
 	if (lstrlen(path) <= 2)
 		return 0;
@@ -126,10 +126,10 @@ static int pathIsAbsoluteW(const TCHAR *path)
 
 MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut)
 {
-	if ( !pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
+	if (!pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
 		return 0;
 
-	if ( !pathIsAbsoluteW(pSrc))
+	if (!PathIsAbsoluteW(pSrc))
 		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
 	else {
 		TCHAR szTmp[MAX_PATH];
@@ -137,7 +137,7 @@ MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut)
 		mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
 		_tcslwr(szTmp);
 		if (_tcsstr(szTmp, szMirandaPathWLower))
-			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc+lstrlen(szMirandaPathWLower));
+			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(szMirandaPathWLower));
 		else
 			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
 	}
@@ -146,7 +146,7 @@ MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut)
 
 MIR_CORE_DLL(int) PathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base)
 {
-	if ( !pSrc || !wcslen(pSrc) || wcslen(pSrc) > MAX_PATH) {
+	if (!pSrc || !wcslen(pSrc) || wcslen(pSrc) > MAX_PATH) {
 		*pOut = 0;
 		return 0;
 	}
@@ -155,7 +155,7 @@ MIR_CORE_DLL(int) PathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base)
 	if (pSrc[0] < ' ')
 		return mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
 
-	if (pathIsAbsoluteW(pSrc))
+	if (PathIsAbsoluteW(pSrc))
 		return GetFullPathName(pSrc, MAX_PATH, pOut, NULL);
 
 	if (base == NULL)
@@ -164,13 +164,13 @@ MIR_CORE_DLL(int) PathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base)
 	if (pSrc[0] != '\\')
 		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc);
 	else
-		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc+1);
+		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc + 1);
 	return GetFullPathName(buf, MAX_PATH, pOut, NULL);
 }
 
 MIR_CORE_DLL(void) CreatePathToFileW(WCHAR* wszFilePath)
 {
-	WCHAR* pszLastBackslash = wcsrchr(wszFilePath, '\\');
+	WCHAR *pszLastBackslash = wcsrchr(wszFilePath, '\\');
 	if (pszLastBackslash == NULL)
 		return;
 
@@ -182,7 +182,7 @@ MIR_CORE_DLL(void) CreatePathToFileW(WCHAR* wszFilePath)
 MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR* szDir)
 {
 	DWORD  dwAttributes;
-	WCHAR* pszLastBackslash, szTestDir[ MAX_PATH ];
+	WCHAR *pszLastBackslash, szTestDir[MAX_PATH];
 
 	lstrcpynW(szTestDir, szDir, SIZEOF(szTestDir));
 	if ((dwAttributes = GetFileAttributesW(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
