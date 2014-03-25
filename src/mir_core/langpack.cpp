@@ -702,6 +702,8 @@ void UnloadLangPackModule()
 		g_pEntries = 0;
 		g_entryCount = g_entriesAlloced = 0;
 	}
+
+	langPack.tszFileName[0] = langPack.tszFullPath[0] = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -709,7 +711,7 @@ void UnloadLangPackModule()
 MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
 {
 	if (pszStr == NULL)
-		pszStr = langPack.tszFileName;
+		pszStr = NEWTSTR_ALLOCA(langPack.tszFileName);
 
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);
