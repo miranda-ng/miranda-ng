@@ -2,6 +2,6 @@
 Language: Portuguese (Brazil)
 Locale: 0416
 Authors: Paulo Giovanni Pereira (Paulus),Welinton Oliveira (weblade), Márcio Ricardo (Richard MacWell) Diego K. Sampaio (Kriador), Jerbifor
-Last-Modified-Using: Miranda NG 0.94.6
+Last-Modified-Using: Miranda NG 0.95.1.
 ;	This translation is automatically generated from the Portuguese langpack Miranda IM.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0

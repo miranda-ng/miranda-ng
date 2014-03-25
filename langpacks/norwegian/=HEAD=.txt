@@ -2,6 +2,6 @@
 Language: Norwegian (Bokmål)
 Locale: 0414
 Authors: Håvard Ostnes, Jerbifor
-Last-Modified-Using: Miranda NG 0.94.6 
+Last-Modified-Using: Miranda NG 0.95.1. 
 ;	This translation is automatically generated from the Norwegian langpack Miranda IM by Håvard Ostnes.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0
