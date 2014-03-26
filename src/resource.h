@@ -197,7 +197,6 @@
 #define IDC_LANGLOCALE                  1014
 #define IDC_ENABLEUPNP                  1015
 #define IDC_VALIDATESSL                 1016
-#define IDC_PLUGINSINCLUDED             1016
 #define IDC_ONLYAVAIL                   1017
 #define IDC_MORELANG                    1017
 #define IDC_METALIST                    1018

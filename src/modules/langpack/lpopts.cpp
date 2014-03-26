@@ -71,7 +71,6 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->codepage, pack->szLastModifiedUsing);
 	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->codepage, pack->szAuthors);
 	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->codepage, pack->szAuthorEmail);
-	SetDlgItemText_CP(hwndDlg, IDC_PLUGINSINCLUDED, pack->codepage, pack->szPluginsIncluded);
 	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateTS(pack->tszLanguage));
 }
 

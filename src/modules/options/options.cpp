@@ -1108,41 +1108,40 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		case IDC_APPLY:
 			if (LOWORD(wParam) == IDOK && GetParent(GetFocus()) == GetDlgItem(hdlg, IDC_KEYWORD_FILTER))
 				return TRUE;
-			else {
-				PSHNOTIFY pshn;
-				EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
-				SetFocus(hwndTree);
 
-				opd = dat->getCurrent();
-				if (opd != NULL) {
-					pshn.lParam = 0;
-					pshn.hdr.code = PSN_KILLACTIVE;
-					pshn.hdr.hwndFrom = opd->hwnd;
-					pshn.hdr.idFrom = LOWORD(wParam);
-					if (SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
-						break;
-				}
+			PSHNOTIFY pshn;
+			EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
+			SetFocus(hwndTree);
 
-				pshn.hdr.code = PSN_APPLY;
-				for (int i = 0; i < dat->arOpd.getCount(); i++) {
-					if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed) continue;
-					dat->arOpd[i]->changed = 0;
-					pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
-					if (SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
-						dat->hCurrentPage = dat->arOpd[i]->hTreeItem;
-						TreeView_SelectItem(hwndTree, dat->hCurrentPage);
-						if (opd)
-							ShowWindow(opd->hwnd, SW_HIDE);
-						dat->currentPage = i;
-						if (opd)
-							ShowWindow(opd->hwnd, SW_SHOW);
-						return 0;
-					}
-				}
-
-				if (LOWORD(wParam) == IDOK)
-					DestroyWindow(hdlg);
+			opd = dat->getCurrent();
+			if (opd != NULL) {
+				pshn.lParam = 0;
+				pshn.hdr.code = PSN_KILLACTIVE;
+				pshn.hdr.hwndFrom = opd->hwnd;
+				pshn.hdr.idFrom = LOWORD(wParam);
+				if (SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
+					break;
 			}
+
+			pshn.hdr.code = PSN_APPLY;
+			for (int i = 0; i < dat->arOpd.getCount(); i++) {
+				if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed) continue;
+				dat->arOpd[i]->changed = 0;
+				pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
+				if (SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
+					dat->hCurrentPage = dat->arOpd[i]->hTreeItem;
+					TreeView_SelectItem(hwndTree, dat->hCurrentPage);
+					if (opd)
+						ShowWindow(opd->hwnd, SW_HIDE);
+					dat->currentPage = i;
+					if (opd)
+						ShowWindow(opd->hwnd, SW_SHOW);
+					return 0;
+				}
+			}
+
+			if (LOWORD(wParam) == IDOK)
+				DestroyWindow(hdlg);
 		}
 		break;
 

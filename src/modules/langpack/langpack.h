@@ -48,7 +48,6 @@ struct LANGPACK_INFO
 	char szAuthors[2048];
 	char szAuthorEmail[128];
 	char szLastModifiedUsing[64];
-	char szPluginsIncluded[4080];
 	FILETIME ftFileDate;
 	TCHAR tszFileName[MAX_PATH]; /* just the file name itself */
 	TCHAR tszFullPath[MAX_PATH]; /* full path to the langpack */
