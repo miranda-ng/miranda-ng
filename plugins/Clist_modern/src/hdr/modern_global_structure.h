@@ -16,7 +16,6 @@ typedef struct tagCLUIDATA
    BOOL   bEventAreaEnabled;
    BOOL   bNotifyActive;
    DWORD  dwFlags;
-   TCHAR *szNoEvents;
    int    hIconNotify;
 	MCONTACT hUpdateContact;
 

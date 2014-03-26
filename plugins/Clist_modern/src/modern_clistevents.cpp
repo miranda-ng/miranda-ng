@@ -354,7 +354,8 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	}
 	else {
 		HICON hIcon = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
-		ske_DrawText(hDC, g_CluiData.szNoEvents, lstrlen(g_CluiData.szNoEvents), &rc, DT_VCENTER | DT_SINGLELINE);
+		TCHAR *ptszEvents = TranslateT("No Events");
+		ske_DrawText(hDC, ptszEvents, lstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
 		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
 	}
@@ -426,7 +427,6 @@ int EventArea_Create(HWND hCluiWnd)
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME,-1,0);
 	EventArea_HideShowNotifyFrame();
 
-	g_CluiData.szNoEvents = TranslateT("No Events");
 	g_CluiData.hMenuNotify = CreatePopupMenu();
 	g_CluiData.wNextMenuID = 1;
 	EventArea_ConfigureEventArea();
