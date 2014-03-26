@@ -1,6 +1,6 @@
 ﻿Miranda Language Pack Version 1
 Language: Bulgarian
 Locale: 0402
-Last-Modified-Using: Miranda NG 0.94.4
+Last-Modified-Using: Miranda NG 0.95.1.
 Authors: NEOhidra, Castel
 Author-email: neohidra@gmail.com
