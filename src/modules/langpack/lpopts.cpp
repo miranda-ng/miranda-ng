@@ -97,6 +97,22 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lP
 	return TRUE;
 }
 
+static void CALLBACK OpenOptions(void*)
+{
+	OPENOPTIONSDIALOG ood = { sizeof(ood) };
+	ood.pszGroup = "Customize";
+	ood.pszPage = "Languages";
+	Options_Open(&ood);
+}
+
+static void ReloadOptions(void *hWnd)
+{
+	while (IsWindow((HWND)hWnd))
+		Sleep(50);
+
+	CallFunctionAsync(OpenOptions, 0);
+}
+
 INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LANGUAGES);
@@ -174,14 +190,10 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (tszPath[0]) {
 				ReloadLangpack(tszPath);
 
-				if (LPNMHDR(lParam)->idFrom == IDC_APPLY) {
-					CloseWindow(GetParent(hwndDlg));
-					DestroyWindow(GetParent(hwndDlg));
-
-					OPENOPTIONSDIALOG ood = { sizeof(ood) };
-					ood.pszGroup = "Customize";
-					ood.pszPage = "Languages";
-					Options_Open(&ood);
+				if (LPPSHNOTIFY(lParam)->lParam == IDC_APPLY) {
+					HWND hwndParent = GetParent(hwndDlg);
+					PostMessage(hwndParent, WM_CLOSE, 1, 0);
+					mir_forkthread(ReloadOptions, hwndParent);
 				}
 			}
 		}
