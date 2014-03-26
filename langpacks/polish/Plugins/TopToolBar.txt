@@ -46,7 +46,7 @@ Obsługa ramek nie została znaleziona, wtyczka zostanie wyłączona.\nAby ją u
 [TopToolBar]
 Pasek narzędzi
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Lista kontaktów
 [Toolbar]
 Pasek narzędzi

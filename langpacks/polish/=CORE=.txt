@@ -519,20 +519,18 @@ Protokół:
 Domyślne
 [(Lower ranks are preferred)]
 (Preferowane niższe rangi)
+[Current language:]
+Aktualny język:
 [Last modified using:]
 Zmodyfikowano dla:
 [Date:]
 Data:
 [Locale:]
 Język:
-[Download more language packs]
-Pobierz więcej tłumaczeń
-[Current language:]
-Aktualny język:
-[Plugins included:]
-Uwzględnione wtyczki:
 [Reload langpack]
 Załaduj pakiet językowy ponownie
+[Download more language packs]
+Pobierz więcej tłumaczeń
 [Tray]
 Zasobnik
 [&Hide/Show]

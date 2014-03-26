@@ -29,7 +29,7 @@ zminimalizowaną do zasobnika
 [Opened]
 otwartą
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 Lista kontaktów
 [Start position]
 Pozycja startowa
