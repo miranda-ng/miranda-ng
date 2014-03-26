@@ -177,10 +177,12 @@ VOID CheckCurrentFeed(MCONTACT hContact)
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
 											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-											pai.format = ProtoGetAvatarFormat(ext);
+											pai.format = ProtoGetAvatarFormat(url);
 
 											TCHAR *filename = dbVar.ptszVal;
+											StrReplace(_T("/"), _T("_"), filename);
 											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+											CreateDirectoryTreeT(tszRoot);
 											if (DownloadFile(url, pai.filename)) {
 												db_set_ts(hContact, MODULE, "ImagePath", pai.filename);
 												ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE) &pai, NULL);
