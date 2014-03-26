@@ -338,7 +338,7 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.hInstance   = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
 	odp.pszTitle    = LPGEN("Floating Contacts");
-	odp.pszGroup    = LPGEN("Contact List");
+	odp.pszGroup    = LPGEN("Contact list");
 	odp.pszTab      = LPGEN("Main Features");
 	odp.flags       = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc  = OptWndProc;
