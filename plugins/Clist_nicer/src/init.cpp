@@ -191,12 +191,6 @@ static int fnIconFromStatusMode(const char* szProto, int status, MCONTACT hConta
 	return IconFromStatusMode(szProto, status, hContact, NULL);
 }
 
-static int OnLangChange(WPARAM, LPARAM)
-{
-	cfg::dat.szNoEvents = TranslateT("No events...");
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) CListInitialise()
 {
 	mir_getLP( &pluginInfo );
@@ -246,8 +240,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.bFirstRun = cfg::getByte("CLUI", "firstrun", 1);
 	cfg::dat.langPackCP = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	cfg::dat.realTimeSaving = cfg::getByte("CLUI", "save_pos_always", 0);
-
-	OnLangChange(0, 0);
 
 	DWORD sortOrder = cfg::getDword("CList", "SortOrder", SORTBY_NAME);
 	cfg::dat.sortOrder[0] = LOBYTE(LOWORD(sortOrder));
@@ -317,7 +309,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	LoadButtonModule();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
-	HookEvent(ME_LANGPACK_CHANGED, OnLangChange);
 	return rc;
 }
 

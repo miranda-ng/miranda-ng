@@ -230,7 +230,8 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 	}
 	else {
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0));
-		DrawText(hDC, cfg::dat.szNoEvents, lstrlen(cfg::dat.szNoEvents), rc, DT_VCENTER | DT_SINGLELINE);
+		TCHAR *ptszNoEvents = TranslateT("No events...");
+		DrawText(hDC, ptszNoEvents, lstrlen(ptszNoEvents), rc, DT_VCENTER | DT_SINGLELINE);
 		DrawIconEx(hDC, 4, (rc->bottom + rc->top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
 	}

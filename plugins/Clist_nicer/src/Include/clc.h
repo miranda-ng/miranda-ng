@@ -234,7 +234,6 @@ struct TCluiData {
 	int wNextMenuID;
 	MCONTACT hUpdateContact;
 	DWORD sortTimer;
-	TCHAR *szNoEvents;
 	BOOL forceResize;
 	BOOL neeedSnap;
 	COLORREF avatarBorder;
