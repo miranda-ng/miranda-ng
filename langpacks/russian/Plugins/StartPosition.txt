@@ -27,7 +27,7 @@
 Скрытой в трей
 [Opened]
 Открытая
-[Contact List]
+[Contact list]
 Список контактов
 [Start position]
 Начальная позиция

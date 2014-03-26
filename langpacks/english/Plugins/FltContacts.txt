@@ -53,6 +53,6 @@
 [Show/Hide all thumbs]
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
-[Contact List]
+[Contact list]
 [Main Features]
 [Appearance]

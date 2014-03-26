@@ -87,7 +87,7 @@
 Показать/Скрыть все контакты
 [Floating Contacts]
 Плавающие контакты
-[Contact List]
+[Contact list]
 Список контактов
 [Main Features]
 Главное

@@ -513,20 +513,18 @@ UIN, E-mail и т.д.
 Сброс
 [(Lower ranks are preferred)]
 (Предпочтительны более низкие ранги)
+[Current language:]
+Язык интерфейса:
 [Last modified using:]
 Проверен на версии:
 [Date:]
 Дата:
 [Locale:]
 Язык:
-[Download more language packs]
-Загрузить дополнительные переводы
-[Current language:]
-Язык интерфейса:
-[Plugins included:]
-Плагины:
 [Reload langpack]
 Перезагрузить языковой пакет
+[Download more language packs]
+Загрузить дополнительные переводы
 [Tray]
 Трей
 [&Hide/Show]

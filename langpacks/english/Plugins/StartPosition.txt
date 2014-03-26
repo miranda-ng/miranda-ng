@@ -18,5 +18,5 @@
 [Minimized to System Tray]
 [Opened]
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 [Start position]
