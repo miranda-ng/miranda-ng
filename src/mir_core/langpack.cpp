@@ -198,7 +198,7 @@ static bool EnterMuuid(const char *p, MUUID &result)
 	return true;
 }
 
-static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
+static void LoadLangPackFile(FILE *fp, char *line)
 {
 	while (!feof(fp)) {
 		if (fgets(line, LANGPACK_BUF_SIZE, fp) == NULL)
@@ -236,7 +236,7 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 						fseek(fp, 0, SEEK_SET);
 					}
 
-					LoadLangPackFile(fp, line, fileCp);
+					LoadLangPackFile(fp, line);
 					fclose(fp);
 				}
 			}
@@ -256,7 +256,7 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 
 		char cFirst = line[0];
 
-		ConvertBackslashes(line, fileCp);
+		ConvertBackslashes(line, CP_UTF8);
 
 		size_t cbLen = strlen(line) - 1;
 		if (cFirst == '[' && line[cbLen] == ']') {
@@ -283,32 +283,32 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 			continue;
 
 		LangPackEntry *E = &g_pEntries[g_entryCount - 1];
-		int iNeeded = MultiByteToWideChar(fileCp, 0, line, -1, 0, 0), iOldLen;
+		int iNeeded = MultiByteToWideChar(CP_UTF8, 0, line, -1, 0, 0), iOldLen;
 		if (E->wszLocal == NULL) {
 			iOldLen = 0;
 			E->wszLocal = (wchar_t *)mir_alloc((iNeeded + 1) * sizeof(wchar_t));
-			MultiByteToWideChar(fileCp, 0, line, -1, E->wszLocal, iNeeded);
+			MultiByteToWideChar(CP_UTF8, 0, line, -1, E->wszLocal, iNeeded);
 		}
 		else {
 			iOldLen = (int)wcslen(E->wszLocal);
 			E->wszLocal = (wchar_t*)mir_realloc(E->wszLocal, (sizeof(wchar_t)* (iOldLen + iNeeded + 2)));
 			E->wszLocal[iOldLen++] = '\n';
 		}
-		MultiByteToWideChar(fileCp, 0, line, -1, E->wszLocal + iOldLen, iNeeded);
+		MultiByteToWideChar(CP_UTF8, 0, line, -1, E->wszLocal + iOldLen, iNeeded);
 	}
 }
 
-static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &startOfLine, UINT &fileCp)
+static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &startOfLine)
 {
 	char szLanguage[64]; szLanguage[0] = 0;
 	CMStringA szAuthors;
 
+	lpinfo.codepage = CP_ACP;
+
 	fgets(line, LANGPACK_BUF_SIZE, fp);
 	size_t lineLen = strlen(line);
-	if (lineLen >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf') {
-		lpinfo.codepage = fileCp = CP_UTF8;
+	if (lineLen >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf')
 		memmove(line, line + 3, lineLen - 2);
-	}
 
 	lrtrim(line);
 	if (lstrcmpA(line, "Miranda Language Pack Version 1"))
@@ -349,8 +349,6 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 			GetLocaleInfoA(lpinfo.Locale, LOCALE_IDEFAULTANSICODEPAGE, szBuf, 10);
 			szBuf[5] = 0;                       // codepages have max. 5 digits
 			lpinfo.codepage = atoi(szBuf);
-			if (fileCp == CP_ACP)
-				fileCp = lpinfo.codepage;
 		}
 	}
 
@@ -404,9 +402,8 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 		return 1;
 
 	char line[LANGPACK_BUF_SIZE] = "";
-	UINT fileCp = CP_ACP;
 	int startOfLine = 0;
-	if (LoadLangDescr(langPack, fp, line, startOfLine, fileCp)) {
+	if (LoadLangDescr(langPack, fp, line, startOfLine)) {
 		fclose(fp);
 		return 1;
 	}
@@ -414,7 +411,7 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	// body
 	fseek(fp, startOfLine, SEEK_SET);
 
-	LoadLangPackFile(fp, line, fileCp);
+	LoadLangPackFile(fp, line);
 	fclose(fp);
 	pCurrentMuuid = NULL;
 
@@ -437,9 +434,8 @@ MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *ptszLangPack, LANGPACK_INFO *lp
 		return 1;
 
 	char line[LANGPACK_BUF_SIZE] = "";
-	UINT fileCp = CP_ACP;
 	int startOfLine = 0;
-	if (LoadLangDescr(*lpInfo, fp, line, startOfLine, fileCp)) {
+	if (LoadLangDescr(*lpInfo, fp, line, startOfLine)) {
 		fclose(fp);
 		return 1;
 	}
