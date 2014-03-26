@@ -427,7 +427,7 @@ void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
 	char service[64];
 	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
-	CreateProtoService(service, &GGPROTO::sessions_view);
+	CreateProtoService(GGS_CONCUR_SESS, &GGPROTO::sessions_view);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
