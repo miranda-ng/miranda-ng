@@ -13,5 +13,5 @@ sekundit
 Taust
 [Offline contacts]
 Väljas olevad kontaktid
-[Contact List]
+[Contact list]
 Kontaktide nimekiri

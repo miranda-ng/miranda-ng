@@ -11,5 +11,5 @@ Naam:
 Instellen
 [Default]
 Standaard
-[Contact List]
+[Contact list]
 Persoon lijst

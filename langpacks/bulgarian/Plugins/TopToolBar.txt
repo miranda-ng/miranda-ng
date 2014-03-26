@@ -46,7 +46,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [TopToolBar]
 TopToolBar
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Списък с контакти
 [Toolbar]
 Лента с инструменти

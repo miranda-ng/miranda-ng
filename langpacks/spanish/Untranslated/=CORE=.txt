@@ -30,7 +30,6 @@
 [Reset All]
 [(Lower ranks are preferred)]
 [Current language:]
-[Plugins included:]
 [Group chat log background]
 [Chat log symbols (Webdings)]
 [&Leave chat]

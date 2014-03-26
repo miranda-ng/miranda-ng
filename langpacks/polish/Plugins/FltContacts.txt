@@ -98,7 +98,7 @@ Pokaż/Ukryj wszystkie kontakty
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Pływające kontakty
-[Contact List]
+[Contact list]
 Lista kontaktów
 [Main Features]
 Główne funkcje

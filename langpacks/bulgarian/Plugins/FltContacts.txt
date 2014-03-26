@@ -98,7 +98,7 @@ ms
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 
-[Contact List]
+[Contact list]
 Списък с контакти
 [Main Features]
 

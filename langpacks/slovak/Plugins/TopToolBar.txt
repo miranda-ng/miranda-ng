@@ -7,5 +7,5 @@
 ;============================================================
 [Default]
 Prednastavené
-[Contact List]
+[Contact list]
 Zoznam kontaktov

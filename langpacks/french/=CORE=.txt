@@ -519,20 +519,18 @@ Protocole:
 
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
+[Current language:]
+
 [Last modified using:]
 Pour:
 [Date:]
 Date:
 [Locale:]
 Locale:
-[Download more language packs]
-Télécharger plus de pack de traduction
-[Current language:]
-
-[Plugins included:]
-
 [Reload langpack]
 
+[Download more language packs]
+Télécharger plus de pack de traduction
 [Tray]
 Tray
 [&Hide/Show]

@@ -13,5 +13,5 @@ Navn:
 Åpne
 [Default]
 Standard
-[Contact List]
+[Contact list]
 Kontaktliste

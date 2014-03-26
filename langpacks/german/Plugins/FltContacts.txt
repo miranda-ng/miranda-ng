@@ -98,7 +98,7 @@ Zeige/Verstecke alle Floater
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Schwebende Kontakte
-[Contact List]
+[Contact list]
 Kontaktliste
 [Main Features]
 Funktionen

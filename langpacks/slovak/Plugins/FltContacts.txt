@@ -37,5 +37,5 @@ Odpojený užívatelia
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Contacts which are 'not on list']
 Užívatelia ktorí niesu v zozname
-[Contact List]
+[Contact list]
 Zoznam kontaktov

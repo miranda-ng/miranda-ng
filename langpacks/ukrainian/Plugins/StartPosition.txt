@@ -27,7 +27,7 @@
 Згорнутий до трею
 [Opened]
 Відкритий
-[Contact List]
+[Contact list]
 Список контактів
 [Start position]
 Початкова позиція

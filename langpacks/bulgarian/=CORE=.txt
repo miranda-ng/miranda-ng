@@ -519,20 +519,18 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [(Lower ranks are preferred)]
 
+[Current language:]
+
 [Last modified using:]
 Посл. промяна с:
 [Date:]
 Дата:
 [Locale:]
 Език:
-[Download more language packs]
-Сваляне на още езикови пакети
-[Current language:]
-
-[Plugins included:]
-
 [Reload langpack]
 Презареждане на пакета
+[Download more language packs]
+Сваляне на още езикови пакети
 [Tray]
 Трей
 [&Hide/Show]

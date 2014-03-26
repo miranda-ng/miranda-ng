@@ -5,5 +5,5 @@
 ;  Version: 0.2.0.3
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
-[Contact List]
+[Contact list]
 Kontaktide nimekiri

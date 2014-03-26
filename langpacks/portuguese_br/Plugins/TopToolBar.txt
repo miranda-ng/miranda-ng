@@ -13,5 +13,5 @@ Nome:
 Configurar
 [Default]
 Padrão
-[Contact List]
+[Contact list]
 Lista de Contatos

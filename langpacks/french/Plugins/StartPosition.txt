@@ -29,7 +29,7 @@ Minimisé dans le Systray
 [Opened]
 Ouvert
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 Liste de contacts
 [Start position]
 

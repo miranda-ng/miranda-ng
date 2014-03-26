@@ -35,5 +35,5 @@ Contatti non connessi
 Contatti offline per cui hai una visibilità differente
 [Contacts which are 'not on list']
 Contatto 'non in lista'
-[Contact List]
+[Contact list]
 Lista dei contatti

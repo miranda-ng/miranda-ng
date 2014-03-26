@@ -39,5 +39,5 @@ Partnerek, akik 'nincsenek a listán'
 Lebegõ partnerek
 [Floating Contacts]
 Lebegõ partnerek
-[Contact List]
+[Contact list]
 Kapcsolati lista

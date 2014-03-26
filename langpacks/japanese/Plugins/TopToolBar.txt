@@ -13,5 +13,5 @@
 設定
 [Default]
 デフォルト
-[Contact List]
+[Contact list]
 コンタクトリスト

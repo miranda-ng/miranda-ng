@@ -46,7 +46,7 @@ Défaut
 [TopToolBar]
 
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Liste de contacts
 [Toolbar]
 Barre d'outils

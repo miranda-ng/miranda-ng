@@ -41,5 +41,5 @@
 浮動コンタクト
 [Floating Contacts]
 浮動コンタクト
-[Contact List]
+[Contact list]
 コンタクトリスト

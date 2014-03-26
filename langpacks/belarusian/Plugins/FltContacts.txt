@@ -98,7 +98,7 @@
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Плывучыя кантакты
-[Contact List]
+[Contact list]
 Спіс кантактаў
 [Main Features]
 Галоўнае

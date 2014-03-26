@@ -41,5 +41,5 @@ Kontakter som 'ikke er på liste'
 Flytende kontakter
 [Floating Contacts]
 Flytende kontakter
-[Contact List]
+[Contact list]
 Kontaktliste

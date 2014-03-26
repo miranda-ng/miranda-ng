@@ -23,5 +23,5 @@
 ברירת מחדל
 [TopToolBar]
 סרגל כלים
-[Contact List]
+[Contact list]
 רשימת אנשי קשר

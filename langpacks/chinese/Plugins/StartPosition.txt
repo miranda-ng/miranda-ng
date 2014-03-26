@@ -19,5 +19,5 @@
 最小化至系统托盘
 [Opened]
 已打开
-[Contact List]
+[Contact list]
 联系人列表

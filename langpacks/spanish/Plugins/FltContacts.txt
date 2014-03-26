@@ -98,7 +98,7 @@ Mostrar/Ocultar todas las miniaturas
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Contactos flotantes
-[Contact List]
+[Contact list]
 Lista de contactos
 [Main Features]
 Características principales

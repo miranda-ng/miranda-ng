@@ -98,7 +98,7 @@ Afficher/Cacher tous les contacts flottants
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Contacts flottants
-[Contact List]
+[Contact list]
 Liste de contacts
 [Main Features]
 Fonctions Principales

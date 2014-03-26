@@ -46,7 +46,7 @@ Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu 
 [TopToolBar]
 TopToolBar
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Kontaktliste
 [Toolbar]
 Toolbar

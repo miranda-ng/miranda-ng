@@ -67,7 +67,7 @@
 显示/隐藏所有图钉
 [Floating Contacts]
 浮动联系人
-[Contact List]
+[Contact list]
 联系人列表
 [Main Features]
 主要功能

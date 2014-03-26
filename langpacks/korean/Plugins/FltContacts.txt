@@ -35,5 +35,5 @@
 다른 가시성을 지니고 있는 오프라인 대화 상대
 [Contacts which are 'not on list']
 '목록에 없는' 대화 상대
-[Contact List]
+[Contact list]
 대화 상대 목록

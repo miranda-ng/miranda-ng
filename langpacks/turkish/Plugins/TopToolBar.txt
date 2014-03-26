@@ -13,5 +13,5 @@ Ad:
 Ayarla
 [Default]
 Varsayılan
-[Contact List]
+[Contact list]
 Kişi Listesi

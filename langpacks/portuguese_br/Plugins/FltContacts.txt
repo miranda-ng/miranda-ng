@@ -41,5 +41,5 @@ Contatos que estão 'sem lista'
 Flutuação dos contatos
 [Floating Contacts]
 Flutuação dos contatos
-[Contact List]
+[Contact list]
 Lista de Contatos

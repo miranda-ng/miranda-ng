@@ -519,20 +519,18 @@ Protokoll:
 Alle rückg.
 [(Lower ranks are preferred)]
 (niedrigere Ränge werden bevorzugt)
+[Current language:]
+Aktuelle Sprache:
 [Last modified using:]
 Zuletzt geändert mit:
 [Date:]
 Datum:
 [Locale:]
 Locale:
-[Download more language packs]
-Weitere Sprachdateien herunterladen
-[Current language:]
-Aktuelle Sprache:
-[Plugins included:]
-Beinhaltet Plugins:
 [Reload langpack]
 Sprachdatei neu laden
+[Download more language packs]
+Weitere Sprachdateien herunterladen
 [Tray]
 Tray
 [&Hide/Show]

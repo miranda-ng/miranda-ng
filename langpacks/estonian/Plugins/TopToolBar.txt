@@ -9,5 +9,5 @@
 Nimi:
 [Set]
 Sea
-[Contact List]
+[Contact list]
 Kontaktide nimekiri

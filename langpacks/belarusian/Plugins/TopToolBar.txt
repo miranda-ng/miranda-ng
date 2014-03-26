@@ -46,7 +46,7 @@
 [TopToolBar]
 Панэль кнопак
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Спіс кантактаў
 [Toolbar]
 Панэль кнопак

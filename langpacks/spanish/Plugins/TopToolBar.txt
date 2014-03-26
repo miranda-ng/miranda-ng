@@ -46,7 +46,7 @@ No se ha encontrado el servicio Marcos, por lo que el plugin se desactivará.\nP
 [TopToolBar]
 Barra de herramientas superior
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Lista de contactos
 [Toolbar]
 Barra de herramientas

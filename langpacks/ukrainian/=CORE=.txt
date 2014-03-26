@@ -515,20 +515,18 @@ UIN, E-mail тощо
 Скинути
 [(Lower ranks are preferred)]
 (Переважні більш низькі ранги)
+[Current language:]
+Мова інтерфейсу:
 [Last modified using:]
 Перевірено на версії:
 [Date:]
 Дата:
 [Locale:]
 Мова:
-[Download more language packs]
-Завантажити додаткові переклади
-[Current language:]
-Мова інтерфейсу:
-[Plugins included:]
-Плагіни:
 [Reload langpack]
 Перезавантажити мовний пакет
+[Download more language packs]
+Завантажити додаткові переклади
 [Tray]
 Трей
 [&Hide/Show]

@@ -29,7 +29,7 @@ Minimizar a la bandeja del sistema
 [Opened]
 Abierto
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 Lista de contactos
 [Start position]
 Posición inicial

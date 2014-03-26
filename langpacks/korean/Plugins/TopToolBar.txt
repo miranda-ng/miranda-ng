@@ -5,5 +5,5 @@
 ;  Version: 0.8.0.3
 ;  Authors: Bethoven
 ;============================================================
-[Contact List]
+[Contact list]
 대화 상대 목록

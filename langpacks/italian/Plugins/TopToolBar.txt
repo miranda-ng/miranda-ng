@@ -19,5 +19,5 @@ Nome:
 Imposta
 [Default]
 Predefinito
-[Contact List]
+[Contact list]
 Lista dei contatti

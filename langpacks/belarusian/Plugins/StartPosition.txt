@@ -29,7 +29,7 @@
 [Opened]
 Адчынена
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 Спіс кантактаў
 [Start position]
 Пачатковае становішча

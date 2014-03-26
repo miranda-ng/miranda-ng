@@ -521,10 +521,10 @@ UIN, E-mail і г.д.
 Дата:
 [Locale:]
 Мова:
-[Download more language packs]
-Загрузіць дадатковыя пераклады
 [Reload langpack]
 Аднавіць пераклад
+[Download more language packs]
+Загрузіць дадатковыя пераклады
 [Tray]
 Трэй
 [&Hide/Show]

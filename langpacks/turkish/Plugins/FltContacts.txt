@@ -39,5 +39,5 @@ Farklı görünürlükte olduğunuz çevrimdışı kişiler
 Yüzen kişiler
 [Floating Contacts]
 Yüzen kişiler
-[Contact List]
+[Contact list]
 Kişi Listesi

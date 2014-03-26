@@ -95,7 +95,7 @@
 Показати/Приховати всі контакти
 [Floating Contacts]
 Плаваючі контакти
-[Contact List]
+[Contact list]
 Список контактів
 [Main Features]
 Головне

@@ -35,5 +35,5 @@ Offline personen
 Offline personen met een andere zichtbaarheid
 [Contacts which are 'not on list']
 Personen die 'niet op de lijst' staan
-[Contact List]
+[Contact list]
 Persoon lijst

@@ -39,5 +39,5 @@
 אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
 [Contacts which are 'not on list']
 אנשי קשר שלא נמצאים ברשימה
-[Contact List]
+[Contact list]
 רשימת אנשי קשר

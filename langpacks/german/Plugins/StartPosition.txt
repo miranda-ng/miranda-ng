@@ -29,7 +29,7 @@ Minimiert in Systemtray
 [Opened]
 Geöffnet
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 Kontaktliste
 [Start position]
 Startposition

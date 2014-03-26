@@ -519,20 +519,18 @@ Lista de contactos
 
 [(Lower ranks are preferred)]
 
+[Current language:]
+
 [Last modified using:]
 Última modificación usando:
 [Date:]
 Fecha:
 [Locale:]
 Local
-[Download more language packs]
-Descargar más paquetes de idioma
-[Current language:]
-
-[Plugins included:]
-
 [Reload langpack]
 Recargar langpack
+[Download more language packs]
+Descargar más paquetes de idioma
 [Tray]
 Bandeja
 [&Hide/Show]

@@ -13,5 +13,5 @@ Név:
 Beállít
 [Default]
 Alap
-[Contact List]
+[Contact list]
 Kapcsolati lista
