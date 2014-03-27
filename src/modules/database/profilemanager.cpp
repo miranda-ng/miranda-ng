@@ -392,7 +392,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ListView_InsertColumn(hwndList, 0, &col);
 
 			col.pszText = TranslateT("Driver");
-			col.cx = 150;
+			col.cx = 150 - GetSystemMetrics(SM_CXVSCROLL);
 			ListView_InsertColumn(hwndList, 1, &col);
 
 			col.pszText = TranslateT("Size");
@@ -455,11 +455,24 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			lvht.pt.x = GET_X_LPARAM(lParam);
 			lvht.pt.y = GET_Y_LPARAM(lParam);
 			ScreenToClient(hwndList, &lvht.pt);
-			if (ListView_HitTest(hwndList, &lvht) < 0)
-				break;
 
-			lvht.pt.x = GET_X_LPARAM(lParam);
-			lvht.pt.y = GET_Y_LPARAM(lParam);
+			if (ListView_HitTest(hwndList, &lvht) < 0) {
+				if (lParam != -1)
+					break;
+
+				lvht.iItem = ListView_GetSelectionMark(hwndList);
+				RECT rc = { 0 };
+				if (!ListView_GetItemRect(hwndList, lvht.iItem, &rc, LVIR_LABEL))
+					break;
+				
+				lvht.pt.x = rc.left;
+				lvht.pt.y = rc.bottom;
+				ClientToScreen(hwndList, &lvht.pt);
+			}
+			else {
+				lvht.pt.x = GET_X_LPARAM(lParam);
+				lvht.pt.y = GET_Y_LPARAM(lParam);
+			}
 
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
