@@ -807,7 +807,5 @@ Angeli-Ka (图形), FYR (模板)
 显示标题(&S)
 [&Expanded]
 扩展(&E)
-[Show title bar]
-显示标题栏
 [&New SubGroup]
 新增子群组(&N)

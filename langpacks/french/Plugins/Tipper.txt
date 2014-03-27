@@ -54,8 +54,6 @@ Paramètres
 
 [Status bar tips]
 Barre de popup d'états
-[Status bar tips]
-
 [Avatar border]
 
 [Round corners (avatar)]
