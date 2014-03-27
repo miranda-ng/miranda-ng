@@ -9,7 +9,7 @@
 Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell'a do sprawdzania.
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
-Zamiennik
+Korekta pisowni
 [Enable auto-replacements]
 Włącz automatyczną zamianę
 [Language:]
@@ -84,7 +84,7 @@ Niemcy
 [Message Sessions]
 Okno rozmowy
 [Auto-replacements]
-Automatyczna zamiana
+Korekta pisowni
 [Line]
 Linia
 [Dotted]

@@ -9,57 +9,57 @@
 Notatki i przypomnienia.
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
-Opcje Karteczek
+Opcje notatek
 [Default Note Size]
 Domyślny rozmiar notatki
 [Width (Pixels)]
-Szerokość (w pikselach)
+Szerokość (px)
 [Height (Pixels)]
-Wysokość (w pikselach)
+Wysokość (px)
 [Notes Appearance]
-Wygląd Notatek
+Wygląd notatek
 [Show Scrollbars]
-Pokazuj Paski Przewijania
+Pokaż pasek przewijania
 [Show Buttons]
 Pokaż przycisk
 [Title Date]
-Tytuł Data
+Data
 [Title Time]
-Tytuł Czas
+Czas
 [Startup options]
-Opcje Startu
+Opcje uruchamiania
 [Hide notes at startup]
 Ukryj notatki przy starcie
 [Add Contact list menu items]
 Dodaj elementy do listy kontaktów
 [(Requires Miranda restart)]
-Wymaga restartu Mirandy
+(Wymaga restartu Mirandy)
 [Reminder options]
-Opcje Przypomnień
+Opcje przypomnień
 [Add Reminder closes dialog]
-Dodanie przypomnienia zamyka okno
+Zamknij po dodaniu przypomienia
 [Use MCI to play alert sounds]
-Używaj MCI do odtwarzania dźwięków powiadomień
+Użyj MCI do odtwarzania dźwięków
 [Note transparency]
-Przezroczystość Notatki
+Przezroczystość notatki
 [Send Reminders through E-mail/SMS:]
-Wysyłaj przypomnienia przez E-mail/SMS
+Wysyłaj przypomnienia przez E-mail/SMS:
 [Open links with this program instead:]
 Otwórz link programem:
 [Reset to defaults]
-Ustaw domyślnie
+Przywróć domyślne
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-(Używanie MCI pozwala na odtwarzanie jednocześnie wielu dźwięków, może to nie być potrzebne, ani pożądane, gdy zainstalowana jest wtyczka pozwalająca na indywidualne przypisywanie dźwięków.)
+(Używanie MCI pozwala na odtwarzanie jednocześnie wielu dźwięków, może być zastąpiona przez inną wtyczkę.)
 [Add Reminder]
-Dodaj Przypomnienie
+Dodaj przypomnienie
 [Trigger On Time && Date:]
-Wywołaj o czasie i dacie:
+Wywołaj...
 [Date]
 Data
 [Time]
-Pokaż czas
+Czas
 [Reminder Note:]
-Notatka Do Przypomnienia:
+Treść notatki:
 [None]
 Brak
 [Daily]
@@ -156,7 +156,7 @@ Usuń &wszystkie notatki
 &Pokaż/Ukryj notatkę
 ;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
-Notatki i Przypomnienia
+Notatki i przypomnienia
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Nowa notatka
@@ -212,7 +212,7 @@ Przypomnienie uruchomione (Alternatywa 1)
 [Reminder triggered (Alternative 2)]
 Przypomnienie uruchomione (Alternatywa 2)
 [Notes && Reminders]
-Notatki i Przypomnienia
+Notatki i przypomnienia
 [New &Note]
 Nowa &notatka
 [Vie&w Notes]
@@ -268,22 +268,22 @@ Tekst notatki
 Data/Tytuł
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
-Opis karteczki
+Opis notatki
 [Sticky Note Background Color]
-Kolor tła karteczki
+Kolor tła notatki
 [Sticky Note Body]
-Treść karteczki
+Treść notatki
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
 Pliki wykonywalne\0*.exe\0Wszystkie pliki \0*.*\0\0
 [Select Executable]
 Wybierz plik wykonywalny
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
-Minuty
+Minut
 [Hours]
 Godzin
 [Hour]
-Godzin
+Godzina
 [Day]
 Dzień
 [Days]

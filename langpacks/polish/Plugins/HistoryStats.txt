@@ -303,11 +303,11 @@ Dostosowanie granicy tygodnia
 [Details for every bar (tooltip)]
 Szczegóły dla każdego słupka (tooltip)
 [Hours]
-Godzin
+Godziny
 [Days]
-dniach
+Dni
 [Weeks]
-tygodni
+Tygodnie
 [Details for every bar (tooltip) are only available with HTML output.]
 Szczegóły dotyczące każdego słupka (tooltip) są dostępne tylko w HTML.
 ["Split"]
@@ -363,7 +363,7 @@ Liczba dni w grupie
 [Number of weeks to group]
 Liczba tygodni do grupy
 [Block unit]
-
+Jednostka bloku
 [Units per block]
 Słów w bloku
 [Blocks per column]

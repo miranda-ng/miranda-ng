@@ -9,11 +9,11 @@
 Wyłącza popupy i dźwięki na 10-300 sekund od startu Mirandy i włącza ponownie zawsze (według ustawień komputera).
 ;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]
-Cisza przy starcie
+Cichy start
 [Settings for the next Computer Name:]
 Ustawienia dla następnej nazwy komputera:
 [Enable silence at startup]
-Włącz ciszę przy starcie
+Włącz cichy start
 [spin1]
 spin1
 [for]
@@ -51,15 +51,15 @@ Zezwól na popupy mRadio, pogody, itd.
 Zdarzenia
 ;file \plugins\StartupSilence\src\StartupSilence.h
 [Silence at startup]
-Cisza przy starcie
+Cichy start
 [Toggle Silence OFF]
-Wyłącz ciszę
+Wyłącz cichy start
 [Toggle Silence ON]
-Włącz ciszę
+Włącz cichy start
 [Toggle Silence OFF TTB]
-Wyłącz ciszę TTB
+Wyłącz cichy start TTB
 [Toggle Silence ON TTB]
-Włącz ciszę TTB
+Włącz cichy start TTB
 [Sounds and popups are enabled]
 Dźwięki i popupy są włączone
 [Filtered mode ON]
@@ -73,11 +73,11 @@ Tryb cichego startu zmieniony na włączony
 [Silent Startup mode changed to OFF]
 Tryb cichego startu zmieniony na wyłączony
 [Silence At Startup is ON]
-Cisza przy starcie jest włączona
+Cichy start jest włączony
 [Silence At Startup is OFF]
-Cisza przy starcie jest wyłączona
+Cichy start jest wyłączony
 [Toggle Silence At Startup]
-Przełącz ciszę przy starcie
+Przełącz cichy start
 [You have to install TopToolBar to use this option.]
 Musisz zainstalować TopToolbar, aby używać tej opcji.
 [You have to install "YAPP" or "Popup+" to use this option.]

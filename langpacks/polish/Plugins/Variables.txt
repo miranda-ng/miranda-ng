@@ -226,7 +226,7 @@ zawartość właściwości "y" protokołu o ID "x"
 [retrieves the subject, depending on situation]
 pobiera kontakt (z zakładki "%subject%"), w zależności od sytuacji
 [translates x]
-tłumaczy "x" (tłumacznie pobiera z aktualnie używanego pakietu językowego)
+tłumaczy "x" (tłumaczenie pobiera z aktualnie używanego pakietu językowego)
 [get the version of Miranda]
 wersja Mirandy
 [get the contact display name]

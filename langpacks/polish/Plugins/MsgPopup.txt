@@ -27,7 +27,7 @@ Wyświetl
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
 Specjalne wartości czasu oczekiwania:\n -1- nieskończoność, 0 - domyślna wartość
 [Emit a sound]
-Emituj dźwięk
+Włącz dźwięki
 ;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 Wirtualna ochrona zawiodła. Kod %d\nSpróbuj skontaktować się z autorem

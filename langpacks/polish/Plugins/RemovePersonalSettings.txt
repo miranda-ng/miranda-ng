@@ -11,9 +11,9 @@ Usuwa ustawienia osobiste, aby umożliwić wysłanie profilu innym, bez przesył
 [All your personal settings will be erased!\nMake sure you are running this from a copy of your profile (and not over the original one).\nRunning this will erase files/folders under Miranda main folder.\n\nAre you sure you want to remove all your personal settings?\n\n(You cannot say that I don't told you about the risks :P)]
 Wszystkie osobiste ustawienia zostaną usunięte!\nUpewnij się, że uruchamiasz ten proces z kopii swojego profilu, a nie jego oryginalnej wersji.\nJego uruchomienie usunie pliki i foldery umieszczone w folderze Mirandy.\n\nCzy na pewno chcesz usunąć wszystkie ustawienia osobiste?\n\n(Nie będziesz mógł powiedzieć, że nie ostrzegałem :P)
 [Remove Personal Settings]
-Usuń Ustawienia Osobiste
+Usuń ustawienia osobiste
 [Remove Personal Settings...]
-Usuń Ustawienia Osobiste...
+Usuń ustawienia osobiste...
 [Configuration file could not be found!]
 Plik konfiguracyjny nie mógł zostać znaleziony!
 [Settings are deleted now.]

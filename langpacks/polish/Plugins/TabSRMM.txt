@@ -1666,9 +1666,9 @@ Wyłącz powiadomienia
 [System tray icon]
 Ikona w zasobniku
 [Left click actions (popups only)]
-Akcje lewego przycisku (tylko popupy)
+Akcje LPM (tylko popupy)
 [Right click actions (popups only)]
-Akcje prawego przycisku (tylko popupy)
+Akcje PPM (tylko popupy)
 [Timeout actions (popups only)]
 Akcje po upłynięciu czasu wyświetlania (tylko popupy)
 [Combine notifications for the same contact]

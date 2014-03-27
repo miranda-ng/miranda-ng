@@ -55,7 +55,7 @@ Wtyczka SMS
 [Begining]
 Początku
 [End]
-Zamknij
+Końcu
 [Put signature at the:]
 Wstaw podpis na:
 [Use Signature]

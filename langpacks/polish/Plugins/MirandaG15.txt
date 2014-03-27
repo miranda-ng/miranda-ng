@@ -103,7 +103,7 @@ Kontakt loguje się
 [When a chat session is active, skip the following notifications for that contact:]
 Gdy aktywna jest sesja rozmowy, ignoruj następujące zdarzenia dla tego kontaktu:
 [Chat session specific]
-Dotyczące sesji rozmowy
+Sesja rozmowy
 [Show timestamps]
 Pokazuj czas
 [Messages]

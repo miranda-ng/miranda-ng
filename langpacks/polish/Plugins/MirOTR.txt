@@ -13,7 +13,7 @@ OTR Generowanie Klucza Prywatnego
 [Generating new private key - please wait.]
 Generowanie nowego klucza prywatnego. - Proszę czekać.
 [Default Policy]
-Domyślna Polityka
+Domyślna polityka
 [Always]
 Zawsze
 [Opportunistic]
@@ -27,7 +27,7 @@ Zamknij sesję podczas zamykania okna
 [End sessions when contacts go offline]
 Zamknij sesję kiedy kontakt rozłącza się
 [Prefix encrypted IMs:]
-Prefix szyfrowanych wiadomości:
+Prefiks szyfrowanych wiadomości:
 [Don't add encrypted messages to the history]
 Nie dodawaj szyfrowanych wiadomości do historii
 [Also remove OTR system messages]
@@ -37,7 +37,7 @@ Pokazuj wiadomości systemowe OTR w linii
 [Show OTR system messages as popup]
 Pokazuj wiadomości systemowe OTR jako popupy
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (uważaj!)
+Czas oczekiwania sesji MINĄŁ, powrót do rozmowy CZYSTYM TEKSTEM (uwaga!)
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
 [Set OTR policy per protocol]
@@ -53,9 +53,9 @@ Ustaw politykę OTR indywidualnie dla każdego kontaktu
 [View & Modify status of known fingerprints]
 Zobacz i modyfikuj status znanych odcisków palca
 [Set verified]
-Ustaw jako zweryfikowany
+Jako zweryfikowany
 [Set unknown]
-Ustaw jako nieznany
+Jako nieznany
 [Forget]
 Porzuć
 [Socialist Millionaires Protocol]
@@ -178,7 +178,7 @@ Aktywny
 [Fingerprint]
 Odcisk palca
 [Conv. HTML]
-Conv. HTML
+Konw. HTML
 [Default]
 Domyślny
 [Generating new key for '%s'. Continue?]

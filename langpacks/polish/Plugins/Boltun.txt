@@ -54,11 +54,11 @@ Pliki umysłu
 [All Files]
 Wszystkie pliki
 [Boltun/Auto Chat]
-Boltun czatuj automatycznie
+Boltun/Czatuj automatycznie
 [Boltun/Not to Chat]
-Boltun nie czatować
+Boltun/Nie czatuj
 [Boltun/Start Chatting]
-Boltun rozpocznij czat
+Boltun/Rozpocznij czat
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
 Cześć. Nazywam się Boltun! Będę rozmawiał z tobą pod nieobecność mojego właściciela. Proszę, pisz bez błędów.
 [Boltun Error]

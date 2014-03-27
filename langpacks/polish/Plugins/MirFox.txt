@@ -11,9 +11,9 @@ MirFox (Miranda NG) - plugin integrujący Miranda-Firefox - http://wsx22.3.xpdev
 [Send to contact action]
 Wyślij do kontaktu
 [on left mouse button click]
-po kliknięciu lewym przyciskiem myszy
+po kliknięciu LPM
 [on right mouse button click]
-po kliknięciu prawym przyciskiem myszy
+po kliknięciu PPM
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 po kliknięciu środkowym przyciskiem myszy\n(używając środkowego przycisku można wysłać wiadomość wielokrotnie)
 [Firefox profiles]

@@ -55,7 +55,7 @@ Przelicznik walut
 [&Swap]
 &Zamień
 [Convert]
-Konwerter
+Konwertuj
 [Info provided by <a href="http://www.google.com">Google</a>]
 Informacje dostarczone przez <a href="http://www.google.com">Google</a>
 [Close]
@@ -139,7 +139,7 @@ Nie ma nic do pokazania
 [Seconds]
 Sekund
 [Minutes]
-Minuty
+Minut
 [Hours]
 Godzin
 [Enter integer value between 1 and 60.]
@@ -261,7 +261,7 @@ Znak procenta (%)
 [Tabulation]
 Tabulacja
 [Left slash (\\)]
-Lewy slash (\\)
+Lewy ukośnik (\\)
 [Open Price]
 Cena otwarta
 [Percent Change to After Hours]

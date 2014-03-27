@@ -9,9 +9,9 @@
 Umieszcza predefiniowane wiadomości w oknie rozmowy.
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
-Wartość prawego przycisku myszy
+Wartość PPM
 [Button Left-Click menu]
-Menu lewego przycisku myszy
+Menu LPM
 [Buttons]
 Przyciski
 [Menu entry value:]
@@ -19,9 +19,9 @@ Wartość pozycji menu:
 [Misc.]
 Różne
 [Auto-send on Left-Click]
-Wyślij po LPM
+Wyślij po kliknięciu LPM
 [Auto-send on Right-Click]
-Wyślij po PPM
+Wyślij po kliknięciu PPM
 [Add to QuickMenu]
 Dodaj do szybkiego menu
 [Enable QuickMenu]

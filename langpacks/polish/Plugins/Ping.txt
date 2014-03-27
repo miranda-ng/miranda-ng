@@ -19,7 +19,7 @@ Zapisywanie
 [Log to File]
 Zapisz do pliku
 [Log Filename:]
-Nazwa pliku Logu
+Nazwa dziennika:
 [Network]
 Protokoły
 [Popups]
