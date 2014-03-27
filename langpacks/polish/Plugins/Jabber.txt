@@ -984,7 +984,7 @@ Typ danych węzła, zazwyczaj określany przez przestrzeń nazw jeśli w ogóle;
 [The JIDs of those to contact with questions]
 JIDy tych, z którymi należy się kontaktować w razie pytań
 [The datetime when the node was created]
-Data i czas stworzenia węzła
+Data i czas utworzenia węzła
 [The JID of the node creator]
 JID twórcy węzła
 [A description of the node]

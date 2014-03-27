@@ -42,7 +42,7 @@ Wyłącz popupy
 [Miranda NG database]
 Baza danych Miranda NG
 [Created by:]
-Stworzona przez:
+Utworzona przez:
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]

@@ -108,7 +108,7 @@ Błąd zapisywania pliku
 [History was saved successfully in file\r\n]
 Historia zapisana pomyślnie w pliku\r\n
 [Failed to create history dialog]
-Nie udało się stworzyć okna historii
+Nie udało się utworzyć okna historii
 ;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
 Wtyczka eksportu wiadomości Mirandy NG

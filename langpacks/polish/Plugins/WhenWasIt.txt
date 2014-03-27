@@ -212,7 +212,7 @@ Rozpoczęcie odświeżania danych kontaktu
 [Done refreshing user details]
 Ukończono odświeżanie danych kontaktu
 [Could not create worker thread. Error#%d - threadID %d]
-Nie udało się stworzyć wątku roboczego. Error#%d - threadID %d
+Nie udało się utworzyć wątku roboczego. Error#%d - threadID %d
 [Error]
 Błąd
 [Birthdays files]

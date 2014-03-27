@@ -468,7 +468,7 @@ Nie udało się znaleźć protokołu kontaktu. Być może nie jest aktywny!
 [No pages have been added. Canceling dialog creation!]
 Żadne strony nie zostały dodane. Anulowanie tworzenia okna!
 [Details dialog failed to be created. Returning error is %d.]
-Nie udało się stworzyć okna szczegółów. Zwrócony błąd to %d.
+Nie udało się utworzyć okna szczegółów. Zwrócony błąd to %d.
 [The Page to add has invalid size %d bytes!]
 Strona, którą chcesz dodać ma nieprawidłowy rozmiar %d bajtów!
 [General]
@@ -1167,7 +1167,7 @@ Przerwałeś importowanie nowego kontaktu.\nMoże brakować pewnych informacji o
 [Importing a new meta subcontact failed!]
 Importowanie nowego submetakontaktu nieudane!
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-Nowo-stworzony submetakontakt "%s"\nnie mógł zostać dodany do metakontaktu "%s"!\n\nCzy chcesz usunąć ten kontakt?
+Nowo-utworzony submetakontakt "%s"\nnie mógł zostać dodany do metakontaktu "%s"!\n\nCzy chcesz usunąć ten kontakt?
 [Settings: %S]
 Ustawienie: %S
 [Events: %S]

@@ -148,7 +148,7 @@ Zrób zrzut ekranu
 [Could not register Miranda service.]
 Nie można zarejestrować usługi Mirandy.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-Nie udało się stworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz prawa do zapisu?
+Nie udało się utworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz prawa do zapisu?
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Screenshot Icon1]
 Zrzut ekranu - ikona 1

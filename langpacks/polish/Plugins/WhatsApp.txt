@@ -70,16 +70,16 @@ Konto
 [WhatsApp Icon]
 Ikona WhatsApp
 [Add To Group]
-Dodaj Do Grupy
+Dodaj do grupy
 [Create Chat Group]
-Stwórz Czat Grupowy
+Utwórz czat grupowy
 [Remove From Chat Group]
-Usuń Z Czata Grupowego
+Usuń z czatu grupowego
 [Leave And Delete Group]
-Opuść I usuń Grupę
+Opuść i usuń grupę
 [Leave Group]
-Opuść Grupę
+Opuść grupę
 [Change Group Subject]
 Zmień temat grupy
 [Create Group]
-Stwórz grupę
+Utwórz grupę

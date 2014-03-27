@@ -240,7 +240,7 @@ Wyświetl szczegóły xStatusu
 [int hMenu handle]
 uchwyt int hMenu
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-Stwórz menu kontekstowe dla wskazanego kontaktu. Menu powinno być DestroyMenu() po utworzeniu
+Utwórz menu kontekstowe dla wskazanego kontaktu. Menu powinno być DestroyMenu() po utworzeniu
 [Show All Users]
 Pokaż wszystkich użytkowników
 [Show only Online Users]
@@ -450,7 +450,7 @@ zgłoś nazwę pliku
 [int 0, if unsuccessful]
 int 0, w przypadku niepowodzenia
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-Stwórz raport z logu i otwórz go (jeśli opcja jest ustawiona). Jeżeli lParam lub wParam są puste, użyte zostaną nazwy plików określone w opcjach.
+Utwórz raport z logu i otwórz go (jeśli opcja jest ustawiona). Jeżeli lParam lub wParam są puste, użyte zostaną nazwy plików określone w opcjach.
 [Show popup or Info window with current music information.]
 Pokaż popup lub okienko informacyjne z aktualnie słuchanym utworem.
 [WhenWasIt Birthday Reminder (whenwasit.dll)]

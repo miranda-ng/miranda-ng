@@ -68,7 +68,7 @@ Skonfiguruj HistoryStats
 Zastosuj
 ;file \plugins\HistoryStats\src\colbase_words.cpp
 [Extract words from]
-
+Wyodrębnij wyrazy z
 [Incoming messages]
 Przychodzące wiadomości
 [Outgoing messages]
@@ -78,7 +78,7 @@ Wszystkich wiadomości
 [Ignore words shorter than (chars)]
 Ignoruj słowa krótsze niż (znaków)
 [Ignore words longer than (chars, 0=no limit)]
-Ignoruj słowa dłuższe niż (znaków, 0 = bez limitu)
+Ignoruj słowa dłuższe niż (znaków, 0 - bez limitu)
 [Filter URLs/e-mail addresses]
 Filtruj linki / e-maile
 [Filter words/messages]
@@ -213,7 +213,7 @@ tydzień
 [month]
 miesiąc
 [#{data} per #{unit}]
-
+#{data} na #{unit}
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Wejście/Wyjście
@@ -311,7 +311,7 @@ tygodni
 [Details for every bar (tooltip) are only available with HTML output.]
 Szczegóły dotyczące każdego słupka (tooltip) są dostępne tylko w HTML.
 ["Split"]
-
+"Podział"
 [incoming characters]
 przychodzące znaki
 [outgoing characters]
@@ -331,7 +331,7 @@ wychodzące rozmowy
 [all chats]
 wszystkich rozmów
 [#{type} for #{data}]
-
+#{type} na #{data}
 [wday3:Mon]
 wday3:Pon
 [wday3:Tue]
@@ -371,7 +371,7 @@ Bloków w kolumnie
 [Number of columns to group]
 Liczba kolumn do grupy
 [Calculate maximum per column (not per graph)]
-
+Oblicz maksymalną ilość na kolumnę (nie na wykresie)
 [Characters (in/out ratio)]
 Znaki (zestawienie przych. / wych.)
 [Messages (in/out ratio)]
@@ -383,7 +383,7 @@ Godziny dnia osi czasu
 [Days of week timeline]
 Dni tygodnia osi czasu
 ["Split" timeline]
-
+"Podziel" linię czasu
 [in/out ratio of characters]
 zestawienie przych. / wych. znaków
 [in/out ratio of messages]
@@ -514,11 +514,11 @@ Dane wyjściowe
 [Output settings]
 Ustawienia wyjściowe
 [Create]
-Stwórz
+Utwórz
 [Create statistics]
-Stwórz statystyki
+Utwórz statystyki
 [Create statistics (there are warnings)]
-Stwórz statystyki (z możliwymi błędami)
+Utwórz statystyki (z możliwymi błędami)
 [You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
 Nie można przejść do okna konfiguracji HistoryStats tak długo jak opcje dialogowe Mirandy NG są otwarte. Proszę zamknąć okno dialogowe opcji i spróbować ponownie.\r\n\r\nTa możliwość daje takie same opcje jak w oknie dialogowym Mirandy NG.
 [You have unsaved settings. Do you want to save before running HistoryStats?]
@@ -543,7 +543,7 @@ Przesuń w górę
 [Show additional column info...]
 Pokaż dodatkowe informacje kolumny ...
 [General column settings]
-Główne ustawiania kolumn
+Główne ustawienia kolumn
 [Title (default if empty)]
 Tytuł (domyślnie pusty)
 [Column specific settings]
@@ -563,7 +563,7 @@ PNG
 [Nothing (column will be skipped)]
 Nic (kolumna zostanie pominięta)
 [HTML as fallback]
-
+HTML jako format awaryjny
 [PNG, ignoring some sttings]
 PNG, ignorowanie niektórych ustawień
 [An internal column configuration error occured. Please contact the author of this plugin.]
@@ -571,9 +571,9 @@ Wystąpił błąd wewnętrzny konfiguracji kolumny. Proszę skontaktować się z
 [HistoryStats - Error]
 HistoryStats - Błąd
 [HTML output unsupported.]
-
+Wyjście HTML jest nieobsługiwane.
 [Fallback to HTML due to setting.]
-
+Powrót do HTML ze względu na ustawienia.
 [Setting ignored due to PNG output.]
 Ustawienie ignorowanie ze względu na PNG.
 ;file \plugins\HistoryStats\src\dlgoption_subexclude.cpp
@@ -585,11 +585,11 @@ Integracja
 [Create statistics on Miranda NG startup]
 Twórz statystyki podczas uruchamiania Mirandy NG
 [Add menu items to main menu]
-Dodaj element menu do menu głównego
+Dodaj element do menu głównego
 [Put menu items into submenu]
-Umieść element menu w podmenu
+Umieść element w podmenu
 [Add menu items to contact menu]
-Dodaj element menu do menu kontaktu
+Dodaj element do menu kontaktu
 [Don't hide menu items for pseudo protocols]
 Nie ukrywaj menu dla pseudo protokołów
 [Hide menu items for protocol...]
@@ -601,11 +601,11 @@ Użyj tylko HTML do symulacji graficznej
 [Generate PNG files to represent graphics]
 Generuj pliki PNG do reprezentowania grafik
 [Fall back to HTML output, if column options require HTML output]
-
+Powrót do wyjścia HTML, jeśli opcje kolumn go wymagają
 [Enforce PNG output, possibly ignoring some column options]
-
+Wymuś wyjście PNG, ignorując ewentualnie niektóre opcje kolumn
 [Prefer HTML output over PNG output, if available]
-
+Preferuj wyjście HTML zamiast PNG, jeśli dostępne
 [Miscellaneous]
 Różne
 [Generate statistics in background thread with low priority]
@@ -613,17 +613,17 @@ Generuje statystyki w tle z niskim priorytetem
 [Path to browser (leave blank for system default)]
 Ścieżka do przeglądarki (pozostaw pustą jeśli chcesz użyć domyślnej)
 [Create statistics for meta-contacts and their subcontacts]
-Stwórz statystyki dla metakontaktów i subkontaktów
+Utwórz statystyki dla metakontaktów i subkontaktów
 [The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
 Następujące informacje są właściwe tylko wtedy, jeśli używasz metakontaktów. W przypadku, gdy nie, należy używać w wersji 0.9.10.6 lub nowszej. \r\n\r\nHistoryStats doskonale integruje się z metakontakami i jest w stanie zbierać dane z metakontaktów, jak również z subkontaktów. Jest w stanie inteligentnie łączyć historię wszystkich subkontaktów i więcej. Możesz skonfigurować integrację metakontaktów w opcjach.
 [MetaContacts Plugin]
 Wtyczka MetaContact
 [Automatically get updates of HistoryStats]
-
+Automatycznie instaluj aktualizacje HistoryStats
 [Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
 Użyj tej wtyczki jeśli chcesz być automatycznie powiadamiany gdy zostanie opublikowana nowa wersja HistoryStats. Wtyczkę można zainstalować w zaktualizowanej wersji. Jak zawsze należy używać najnowszej wersji wtyczki choć nie powinna ona powodować błędów.
 [Updater|Updater (Unicode)]
-
+Updater|Updater (Unicode)
 [Easily exchange icons in HistoryStats' user interface]
 Łatwa zmiana ikon w interfejsie użytkownika HistoryStats
 [Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
@@ -755,7 +755,7 @@ Zawsze nadpisuj istniejące pliki (niebezpieczne!)
 [Auto open statistics after being generated...]
 Automatycznie otwórz statystyki po wygenerowaniu...
 [...via button "Create statistics" in options]
-...za pomocą przycisku "Stwórz statystyki" w opcjach
+...za pomocą przycisku "Utwórz statystyki" w opcjach
 [...on Miranda NG startup]
 ...podczas uruchamiania Mirandy NG
 [...via Miranda NG main menu]
@@ -842,7 +842,7 @@ Rozmowy (wszystkie, średnia tygodniowa)
 Czas trwania rozmowy (łącznie godzin)
 ;file \plugins\HistoryStats\src\iconlib.cpp
 [Create statistics (main menu)]
-Stwórz statystyki (menu główne)
+Utwórz statystyki (menu główne)
 [Show statistics (main menu)]
 Pokaż statystyki (główne menu)
 [Configure... (main menu)]
@@ -850,50 +850,50 @@ Konfiguruj... (menu główne)
 [Contact menu]
 Menu kontaktu
 [Unexcluded contacts]
-
+Nie wykluczone kontakty
 [Excluded contacts]
 Wykluczone kontakty
 [Options tree]
 Drzewko opcji
 [Checkbox]
-
+Pole wyboru
 [Checkbox (checked)]
-
+Pole wyboru (zaznaczone)
 [Checkbox (disabled)]
-
+Pole wyboru (nieaktywne)
 [Checkbox (checked & disabled)]
-
+Pole wyboru (zaznaczone i nieaktywne)
 [Radio button]
-
+Przełącznik
 [Radio button (checked)]
-
+Przełącznik (zaznaczony)
 [Radio button (disabled)]
-
+Przełącznik (nieaktywny)
 [Radio button (checked & disabled)]
-
+Przełącznik (zaznaczony i nieaktywny)
 [Edit control]
-
+Pole edycji
 [Edit control (disabled)]
-
+Pole edycji (nieaktywne)
 [Combo box]
-
+Przycisk rozwijanego menu
 [Combo box (disabled)]
-
+Przycisk rozwijanego menu (nieaktywny)
 [Folder]
 Folder
 [Folder (disabled)]
-Folder (wyłączony)
+Folder (nieaktywny)
 [Button]
 Przycisk
 [Button (disabled)]
-Przycisk (wyłączony)
+Przycisk (nieaktywny)
 [Date/time picker]
 Data / czas wyboru
 [Date/time picker (disabled)]
-Data / czas wyboru (wyłączone)
+Data / czas wyboru (nieaktywny)
 ;file \plugins\HistoryStats\src\main.cpp
 [The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
-Nie można znaleźć statystyk. Statystyki nie zostały stworzone lub zostały przeniesione do innej lokalizacji.
+Nie można znaleźć statystyk. Statystyki nie zostały utworzone lub zostały przeniesione do innej lokalizacji.
 [Statistics]
 Statystyki
 [Configure...]
@@ -909,7 +909,7 @@ Pomyślnie przeczytano zdarzenia #{scuccess},#{fail_add} które nie mogą być d
 [HistoryStats - Information]
 HistoryStats - Informacje
 [Exclude from statistics]
-Wyklucz z statystyki
+Wyklucz ze statystyki
 [Copy history]
 Kopiuj historię
 [Paste history...]
@@ -940,11 +940,11 @@ Statystyki dla #{nick} - HistoryStats
 [Statistics for #{nick}]
 Statystyki dla #{nick}
 [Writing omitted contacts]
-
+Zapisywanie wykluczonych kontaktów
 [Writing totals]
-
+Zapisywanie sumy
 [Created with #{plugin} #{version} on #{date} at #{time}]
-Stworzono przez #{plugin} #{version} dnia #{date} o godzinie #{time}
+Utworzono przez #{plugin} #{version} dnia #{date} o godzinie #{time}
 [Initializing]
 Inicjalizacja
 [Reading database]
@@ -954,13 +954,13 @@ Usuwanie kontaktów
 [Sorting contacts]
 Sortowanie kontaktów
 [Precollecting column data]
-
+Wstępne gromadzenie danych z kolumn
 [Limiting number of contacts]
 Ograniczenie liczby kontaktów
 [Calculating totals]
-
+Obliczanie sumy
 [Postcollecting column data]
-
+Wstępne gromadzenie danych z kolumn
 [Transforming data]
 Przekształcanie danych
 [Creating HTML]

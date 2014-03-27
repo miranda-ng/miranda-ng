@@ -189,18 +189,18 @@ Pokaż &kontakty
 [Disable parsing of status messages by Variables plugin]
 Wyłącz przetwarzanie opisów przez wtyczkę Variables
 [Create new &message]
-Stwórz nowy &opis
+Utwórz nowy &opis
 [Create new &category]
-Stwórz nową &kategorię
+Utwórz nową &kategorię
 [&Rename]
 &Zmień nazwę
 [Set as &default for]
 Ustaw jako &domyślne dla
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
 [Create new message]
-Stwórz nowy opis
+Utwórz nowy opis
 [Create new category]
-Stwórz nową kategorię
+Utwórz nową kategorię
 [Open Variables help dialog]
 Otwórz okno pomocy zmiennych
 [Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]

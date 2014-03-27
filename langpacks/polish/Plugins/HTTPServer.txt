@@ -37,7 +37,7 @@ Nazwa serwera zewnętrznego
 [This is the link pasted to the message window]
 To jest link wklejany do okna rozmowy
 [Write log file]
-Stwórz dziennik
+Utwórz dziennik
 [Enable / Disable HTTP server]
 Włącz/Wyłącz serwer HTTP
 [Main menu items]

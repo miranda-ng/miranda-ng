@@ -447,7 +447,7 @@ Zmień nazwę
 [Create a new container]
 Utwórz nowy kontener
 [Create new]
-Stwórz nowy
+Utwórz nowy
 [Reset]
 Domyślne
 [Show in IM chats]

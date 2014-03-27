@@ -250,7 +250,7 @@ Nick już w użyciu, spróbuj innego. Porada: "%s" jest wolny.
 [You cannot register more than %s nicknames.]
 Nie możesz zarejestrować więcej niż %s nicków.
 [You cannot create more than %s chat rooms.]
-Nie możesz stworzyć więcej niż %s pokoi.
+Nie możesz utworzyć więcej niż %s pokoi.
 [You cannot join more than %s chat rooms.]
 Nie możesz dołączyć do więcej niż %s pokoi.
 [Anonymous nicknames are not allowed in this chat room.]

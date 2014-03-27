@@ -39,7 +39,7 @@ Wskazówka: Jeśli nie wpiszesz tutaj swojego hasła, Miranda poprosi o nie za k
 [Retrieve a lost password or ICQ number]
 Odzyskaj zapomniane hasło bądź numer ICQ
 [Create a new ICQ account using the ICQ website]
-Stwórz nowe konto za pośrednictwem oficjalnej strony ICQ
+Utwórz nowe konto za pośrednictwem oficjalnej strony ICQ
 [Connection settings]
 Ustawienia połączenia
 [Login Server:]
@@ -1401,7 +1401,7 @@ Połączenie z serwerem ICQ zostało niepomyślnie zamknięte
 [The contact's information was too big and was truncated.]
 Informacje o kontakcie były zbyt duże i zostały obcięte.
 [Failed to create the correct sub-group, the using closest parent group.]
-Nie udało się stworzyć właściwej podgrupy, używając najbliższej grupy nadrzędnej.
+Nie udało się utworzyć właściwej podgrupy, używając najbliższej grupy nadrzędnej.
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 NIE ZNALEZIONO

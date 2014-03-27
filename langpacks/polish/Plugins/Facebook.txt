@@ -13,7 +13,7 @@ E-mail:
 [Password:]
 Hasło:
 [Create a new Facebook account]
-Stwórz nowe konto na Facebooku
+Utwórz nowe konto na Facebooku
 [What's on your mind?]
 O czym teraz myślisz?
 [Wall:]

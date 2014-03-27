@@ -89,7 +89,7 @@ O czasie i dacie:
 [&Remind Again]
 &Przypomnij ponownie
 [&Create Note]
-&Stwórz notatkę
+&Utwórz notatkę
 [&Dismiss]
 &Zamknij
 [Reminders]
