@@ -74,7 +74,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 		lstrcpyA(pack.szAuthors, "Miranda NG Development Team");
 		lstrcpyA(pack.szAuthorEmail, "project-info@miranda-ng.org");
 		DWORD v = CallService(MS_SYSTEM_GETVERSION, 0, 0);
-		mir_snprintf(pack.szLastModifiedUsing, sizeof(pack.szLastModifiedUsing), "%d.%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF), (v & 0xFF));
+		mir_snprintf(pack.szLastModifiedUsing, sizeof(pack.szLastModifiedUsing), "%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 		/* file date */
 		if (GetModuleFileName(NULL, pack.tszFullPath, SIZEOF(pack.tszFullPath))) {
 			lstrcpy(pack.tszFileName, _tcsrchr(pack.tszFullPath, '\\') + 1);
