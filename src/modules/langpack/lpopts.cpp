@@ -25,13 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "langpack.h"
 
-static void SetDlgItemText_CP(HWND hwndDlg, int ctrlID, int codepage, LPCSTR str)
+static void SetDlgItemText_CP(HWND hwndDlg, int ctrlID, LPCSTR str)
 {
-	int cbSize = MultiByteToWideChar(codepage, 0, str, -1, NULL, 0);
-	WCHAR *wszBuf = (WCHAR*)_alloca(sizeof(WCHAR)*(cbSize + 1));
-	MultiByteToWideChar(codepage, 0, str, -1, wszBuf, cbSize);
-	wszBuf[cbSize] = 0;
-	SetDlgItemTextW(hwndDlg, ctrlID, wszBuf);
+	SetDlgItemText(hwndDlg, ctrlID, ptrT(mir_utf8decodeT(str)));
 }
 
 static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
@@ -68,9 +64,9 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
 	
 	/* general */
-	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->codepage, pack->szLastModifiedUsing);
-	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->codepage, pack->szAuthors);
-	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->codepage, pack->szAuthorEmail);
+	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->szLastModifiedUsing);
+	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->szAuthors);
+	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->szAuthorEmail);
 	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateTS(pack->tszLanguage));
 }
 
