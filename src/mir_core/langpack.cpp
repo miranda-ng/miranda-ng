@@ -226,15 +226,10 @@ static void LoadLangPackFile(FILE *fp, char *line)
 					line[0] = 0;
 					fgets(line, LANGPACK_BUF_SIZE, fp);
 
-					UINT fileCp = CP_ACP;
-					if (strlen(line) >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf') {
-						fileCp = CP_UTF8;
+					if (strlen(line) >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf')
 						fseek(fp, 3, SEEK_SET);
-					}
-					else {
-						fileCp = langPack.codepage;
+					else
 						fseek(fp, 0, SEEK_SET);
-					}
 
 					LoadLangPackFile(fp, line);
 					fclose(fp);
@@ -435,12 +430,9 @@ MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *ptszLangPack, LANGPACK_INFO *lp
 
 	char line[LANGPACK_BUF_SIZE] = "";
 	int startOfLine = 0;
-	if (LoadLangDescr(*lpInfo, fp, line, startOfLine)) {
-		fclose(fp);
-		return 1;
-	}
-
-	return 0;
+	int res = LoadLangDescr(*lpInfo, fp, line, startOfLine);
+	fclose(fp);
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
