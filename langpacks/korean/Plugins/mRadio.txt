@@ -1,7 +1,7 @@
 ﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
 ;============================================================
 ;  File: mRadio.dll
-;  Module: mRadio
+;  Plugin: mRadio Mod
 ;  Version: 0.0.2.3
 ;  Authors: Awkward
 ;============================================================

@@ -1,9 +1,9 @@
 ﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
 ;============================================================
 ;  File: HistoryPP.dll
-;  Module: History++
+;  Plugin: History++
 ;  Version: 1.5.1.5
-;  Authors: theMIROn
+;  Authors: theMIROn, Art Fedorov
 ;============================================================
 [Customize Filters]
 Customise Filters
