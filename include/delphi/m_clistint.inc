@@ -546,8 +546,8 @@ type
 	 * Miranda NG additions
 	 *************************************************************************************)
 
-	 pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
-	 pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
+	  pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
+	  pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
     pfnGetAverageMode:function(pNetProtoCount:pint):int; cdecl;
     pfnInitAutoRebuild:procedure(hwnd:HWND); cdecl;
   end;

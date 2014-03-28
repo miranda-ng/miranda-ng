@@ -33,14 +33,14 @@ type
 
     // get/set the instance key
     getKeyLength:function():size_t; stdcall;
-    getKey      :function(pKey:pByte; cbKeyLen:size_t):bool; stdcall;
-    setKey      :function(const pKey:pByte; cbKeyLen:size_t):bool; stdcall;
+    getKey      :function(pKey:pByte; cbKeyLen:size_t):ByteBool; stdcall;
+    setKey      :function(const pKey:pByte; cbKeyLen:size_t):ByteBool; stdcall;
 
-    generateKey:function():bool; stdcall; // creates a new key inside
+    generateKey:function():ByteBool; stdcall; // creates a new key inside
     purgeKey   :procedure(); stdcall;     // purges a key from memory
 
     // sets the master password (in utf-8)
-    checkPassword:function (const pszPassword:PAnsiChar):bool; stdcall;
+    checkPassword:function (const pszPassword:PAnsiChar):ByteBool; stdcall;
     setPassword  :procedure(const pszPassword:PAnsiChar); stdcall;
 
     // result must be freed using mir_free or assigned to mir_ptr<BYTE>

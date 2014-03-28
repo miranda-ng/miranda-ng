@@ -370,7 +370,6 @@ begin
       pcw:=#0;
       StrDupW(data.tags,pWideChar(@request));
       DestroyNode(root);
-      mFreeMem(pcw);
     end;
   end;
 end;
@@ -479,7 +478,6 @@ begin
       StrDupW(data.tags,pWideChar(@request));
 
       DestroyNode(root);
-      mFreeMem(pcw);
     end;
   end;
 end;
@@ -593,7 +591,6 @@ begin
       StrDupW(data.tags,pWideChar(@request));
 
       DestroyNode(root);
-      mFreeMem(pcw);
     end;
   end;
 end;

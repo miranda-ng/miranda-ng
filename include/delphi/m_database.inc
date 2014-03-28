@@ -142,7 +142,7 @@ decode a blob and return the event text in the required format, its prototype is
 to a call of MS_DB_EVENT_GETTEXT (see below)
   wParam=0
   lParam=(LPARAM)(DBEVENTTYPEDESCR*)
-Always returns 0.
+Returns -1 on error (e.g., event type already registred), 0 on success
 }
 
 type

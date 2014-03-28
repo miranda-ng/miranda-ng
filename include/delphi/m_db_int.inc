@@ -92,8 +92,8 @@ type
     FindFirstEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
     FindFirstUnreadEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
     FindLastEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
-    FindNextEvent:function(contactID:TMCONTACT; hDbEvent:THANDLE):THANDLE; stdcall;
-    FindPrevEvent:function(contactID:TMCONTACT; hDbEvent:THANDLE):THANDLE; stdcall;
+    FindNextEvent:function(contactID:TMCONTACT;hDbEvent:THANDLE):THANDLE; stdcall;
+    FindPrevEvent:function(contactID:TMCONTACT;hDbEvent:THANDLE):THANDLE; stdcall;
 
     EnumModuleNames:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
 

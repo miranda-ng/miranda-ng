@@ -32,40 +32,6 @@ const
     returns a handle to the 'most online' contact }
   MS_MC_GETMOSTONLINECONTACT = 'MetaContacts/GetMostOnline';
 
-  { forces the metacontact to send using a specific subcontact, using the subcontact's contact number
-    wParam=(HANDLE)hMetaContact
-    lParam=(dword)contact number
-    returns 0 on success }
-  MS_MC_FORCESENDCONTACTNUM = 'MetaContacts/ForceSendContact';
-
-  { forces the metacontact to send using a specific subcontact, using the subcontact's handle
-    wParam=(HANDLE)hMetaContact
-    lParam=(HANDLE)hSubcontact
-    returns 0 on success (will fail if 'force default' is in effect) }
-  MS_MC_FORCESENDCONTACT = 'MetaContacts/ForceSendContactByHandle';
-
-  { 'unforces' the metacontact to send using a specific subcontact
-    wParam=(HANDLE)hMetaContact
-    lParam=0
-    returns 0 on success (will fail if 'force default' is in effect) }
-  MS_MC_UNFORCESENDCONTACT = 'MetaContacts/UnforceSendContact';
-
-  { 'forces' or 'unforces' (i.e. toggles) the metacontact to send using it's default contact
-    overrides (and clears) 'force send' above, and will even force use of offline contacts
-    will send ME_MC_FORCESEND or ME_MC_UNFORCESEND event
-    wParam=(HANDLE)hMetaContact
-    lParam=0
-    returns 1(true) or 0(false) representing new state of 'force default' }
-  MS_MC_FORCEDEFAULT = 'MetaContacts/ForceSendDefault';
-
-  { method to get state of 'force' for a metacontact
-    wParam=(HANDLE)hMetaContact
-    lParam= (dword)&contact_number or NULL
-    if lparam supplied, the contact_number of the contatct 'in force' will be copied to the address it points to,
-    or if none is in force, the value INVALID_CONTACT_ID will be copied
-    (v0.8.0.8+ returns 1 if 'force default' is true with *lParam == default contact number, else returns 0 with *lParam as above) }
-  MS_MC_GETFORCESTATE = 'MetaContacts/GetForceState';
-
   { fired when a metacontact's default contact changes (fired upon creation of metacontact also, when default is initially set)
     wParam=(HANDLE)hMetaContact
     lParam=(HANDLE)hDefaultContact }
@@ -77,16 +43,6 @@ const
     wParam=(HANDLE)hMetaContact
     lParam=0 }
   ME_MC_SUBCONTACTSCHANGED = 'MetaContacts/SubcontactsChanged';
-
-  { fired when a metacontact is forced to send using a specific subcontact
-    wParam=(HANDLE)hMetaContact
-    lParam=(HANDLE)hForceContact  }
-  ME_MC_FORCESEND = 'MetaContacts/ForceSend';
-
-  { fired when a metacontact is 'unforced' to send using a specific subcontact
-    wParam=(HANDLE)hMetaContact
-    lParam=0  }
-  ME_MC_UNFORCESEND = 'MetaContacts/UnforceSend';
 
   { wParam=(HANDLE)hContact
     lParam=0
@@ -119,11 +75,11 @@ procedure db_mc_enable(bEnabled:bool); stdcall;
                  external CoreDLL name 'db_mc_enable';
 
 { returns true if a contact is a metacontact or false otherwise }
-function db_mc_isMeta(hContact:TMCONTACT):LongBool; stdcall;
+function db_mc_isMeta(hContact:TMCONTACT):bool; stdcall;
                  external CoreDLL name 'db_mc_isMeta';
 
 { returns true if a contact is a subcontact or false otherwise }
-function db_mc_isSub(hContact:TMCONTACT):LongBool; stdcall;
+function db_mc_isSub(hContact:TMCONTACT):bool; stdcall;
                  external CoreDLL name 'db_mc_isSub';
 
 { gets the handle for the default contact or 0 on error }
