@@ -21,11 +21,11 @@ Nie pokazuj popupów dla subkontaktów
 [Show popup when no birthdays are near]
 Pokaż popup kiedy nadchodzi rocznica
 [Popup mouse click]
-Kliknięcie myszą w popup
+Kliknięcie w popup
 [Left]
-Lewa
+LPM
 [Right]
-Prawa
+PPM
 [Sounds]
 Dźwięki
 [Play sounds when there are]

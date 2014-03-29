@@ -221,7 +221,7 @@ Tekst
 [Background]
 Tło
 [Timeout (seconds, 0 = default, -1 = no timeout)]
-Wyświetlaj (0 = Domyślny, -1 = Nie chowaj)
+Wyświetlaj (0 - Domyślny, -1 - Nie chowaj)
 [Default colors]
 Domyślne kolory
 [Others]
@@ -281,7 +281,7 @@ Maksymalizuj w pionie
 [Close or hide inactive container after]
 Zamknij lub ukryj nieaktywne kontenery po
 [sec. (0=never)]
-sec. (0 = nigdy)
+sec. (0 - nigdy)
 [Automatically size input area (*)]
 Automatyczny rozmiar obszaru wpisywania (*)
 [Use default setting]
@@ -375,7 +375,7 @@ Rozmiar i opcje skalowania dla wyświetlania awataru
 [Maximum display height (pixels)]
 Maksymalna wysokość wyświetlana (pixele)
 [(0 = no limit)]
-(0 = brak limitu)
+(0 - brak limitu)
 [Try to keep original size]
 Spróbuj utrzymać oryginalny rozmiar
 [Help on this]

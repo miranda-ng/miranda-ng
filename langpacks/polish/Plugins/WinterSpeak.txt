@@ -109,7 +109,7 @@ Przychodzący plik od %u
 %u mówi
 ;file \plugins\WinterSpeak\src\main.cpp
 [Speak]
-Mów
+Mowa
 [Engine/Voice]
 Silnik/Głos
 [Announce]

@@ -71,9 +71,9 @@ PPM
 [Timeout]
 Wyświetlaj
 [0 = Default]
-0 = Domyślny
+0 - Domyślny
 [-1 = Infinite]
--1 = Nie chowaj
+-1 - Nie chowaj
 [Sec]
 s
 [* Needs popup actions to be enabled]

@@ -31,13 +31,13 @@ Podpowiedzi
 [Miscellaneous]
 Różne
 [0 = Default]
-0 = Domyślny
+0 - Domyślny
 [*requires Tipper plugin]
 *wymagana wtyczka Tipper
 [Bring to front]
 Umieszczenie
 [Bring to front every]
-Do przodu każde
+Do przodu co każde
 [seconds]
 s
 [Hide when contact list is shown]

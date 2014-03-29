@@ -47,7 +47,7 @@ Ostrzeż przed usuwaniem modułów
 [Use popups when watched settings change values]
 Użyj popupów kiedy oglądane ustawienia zmieniają wartość.
 [Popup timeout (0 for infinite)]
-Wyświetlania (0 = Nie chowaj)
+Wyświetlania (0 - Nie chowaj)
 [Background color]
 Kolor tła
 [Add a module to contact]

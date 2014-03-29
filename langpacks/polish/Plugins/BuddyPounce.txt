@@ -118,15 +118,15 @@ błąd......
 [The Message    (0 Characters)]
 Wiadomość (0 znaków)
 [Reuse this message? (0 to use it once)]
-Użyj wiadomości ponownie (0 = tylko raz)
+Użyj wiadomości ponownie (0 - tylko raz)
 [Times]
 razy
 [Give up after... (0 to not give up)]
-Zrezygnuj po... (0 = nie rezygnuj)
+Zrezygnuj po... (0 - nie rezygnuj)
 [Days]
 dniach
 [Show confirmation window? (0 to not Show)]
-Pokaż okno potwierdzające (0 = nie pokazuj)
+Pokaż okno potwierdzające (0 - nie pokazuj)
 [Seconds to wait before sending]
 sekund przed wysłaniem
 [Pounce being sent to %s in %d seconds]

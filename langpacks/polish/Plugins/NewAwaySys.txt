@@ -29,9 +29,9 @@ Wyświetlaj
 [Sec]
 s
 [0 = Default]
-0 = Domyślny
+0 - Domyślny
 [-1 = Infinite]
--1 = Nie chowaj
+-1 - Nie chowaj
 [Colors]
 Kolory
 [Background]
@@ -75,7 +75,7 @@ Odpowiadaj tylko, gdy okno rozmowy kontaktu jest zamknięte
 [Send maximum]
 Wyślij maksimum
 [times (-1=infinite)]
-razy (-1 = nieskończenie)
+razy (-1 - nieskończenie)
 [Reset this counter also when I just change my status text\n(when status icon remains the same)]
 Resetuj ten licznik także wtedy, gdy tylko zmieniam opis\n(ikona statusu pozostaje taka sama)
 [Disable autoreply when...]
@@ -123,11 +123,11 @@ Skonfiguruj automatyczny status zaraz wracam
 [Wait]
 Odczekaj
 [seconds before closing the status message dialog (-1=don't close)]
-sekund przed zamknięciem okna opisu (-1 = nie zamykaj)
+sekund przed zamknięciem okna opisu (-1 - nie zamykaj)
 [Store]
 Zachowaj
 [most recent messages (0=disable)]
-ostatnich opisów (0 = wyłączone)
+ostatnich opisów (0 - wyłączone)
 [Store for each status separately]
 Zachowuj osobno dla każdego statusu
 [Use default...]

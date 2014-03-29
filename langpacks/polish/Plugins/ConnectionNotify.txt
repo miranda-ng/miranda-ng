@@ -19,7 +19,7 @@ Tekst
 [Close after:]
 Zamknij po:
 [sec (0 default, -1 disabled)]
-sek.(0 domyślnie, -1 wyłączone)
+s (0 - domyślny, -1 wyłączony)
 [Settings]
 Ustawienia
 [try resolve addresses]
@@ -27,13 +27,13 @@ Próbuj ustalić adresy
 [Version:]
 Wersja:
 [Show notification if no filter defined]
-Wyświetl powiadomienie, jeżeli żaden filtr nie jest zdefiniowany
+Wyświetl powiadomienie, jeśli nie ma filtrów
 [Attempt interval (ms)]
 Interwał próby (ms.)
 [X]
 X
 ['Online' means:]
-Środek Online
+"Dostępny", czyli:
 [Filters]
 Filtry
 [DN]

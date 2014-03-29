@@ -357,7 +357,7 @@ wday3:Nie
 Graficzny podgląd rozmowy w podziale na dni tygodnia lub godziny. Różnica ilości rozmów jest dostępna.
 ;file \plugins\HistoryStats\src\column_splittimeline.cpp
 [Drop everything older than (days, 0=no limit)]
-Odrzuć starsze niż (dni, 0 = bez limitu)
+Odrzuć starsze niż (dni, 0 - bez limitu)
 [Number of days to group]
 Liczba dni w grupie
 [Number of weeks to group]
@@ -676,11 +676,11 @@ Filtrowanie wiadomości
 [Ignore messages...]
 Ignoruj wiadomości...
 [...older than (days, 0=no limit)]
-...powyżej (dni, 0 = bez limitu)
+...powyżej (dni, 0 - bez limitu)
 [...before date (none=no limit)]
-...przed datą (nic = bez limitu)
+...przed datą (nic - bez limitu)
 [...after date (none=no limit)]
-...po dacie (nic = bez limitu)
+...po dacie (nic - bez limitu)
 [Strip raw RTF control sequences from message]
 Pomiń surowy RTF sekwencji w wiadomościach
 [Strip BBCode tags from messages]
@@ -727,7 +727,7 @@ Nagłówek tabeli
 [Output header]
 Nagłówek wyjściowy
 [Repeat header every n contacts (0=don't repeat)]
-Powtarzaj cyklicznie n kontaktów (0 = nie powtarzaj)
+Powtarzaj cyklicznie n kontaktów (0 - nie powtarzaj)
 [Make column titles more verbose]
 Dodaj do tytułu kolumny więcej szczegółów
 [Show tooltips with detailed information in column titles]

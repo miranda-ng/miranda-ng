@@ -55,7 +55,7 @@ Sprawdź przy starcie
 [Check interval [min]:]
 Odstęp sprawdzania [min]:
 [Only check when...]
-Sprawdź wyłącznie, gdy...
+Sprawdź tylko, gdy...
 [Auto retrieve body]
 Automatycznie pobierz treść
 [Check from menu]
@@ -81,13 +81,13 @@ Ikona w zasobniku
 [Execute Application]
 Uruchom program
 [Errors]
-Błędy
+Powiadom...
 [Sound notification if failed]
-Powiadomienie dźwiękiem, gdy niepowodzenie
+...dźwiękiem, gdy niepowodzenie
 [Message notification if failed]
-Powiadomienie wiadomością, jeśli niepowodzenie
+...wiadomością, jeśli niepowodzenie
 [Tray icon notification if failed]
-Powiadomienie ikoną w zasobniku, jeśli niepowodzenie
+...ikoną w zasobniku, jeśli niepowodzenie
 [Reset counter]
 Resetuj licznik
 [Check while...]
@@ -117,7 +117,7 @@ Pod telefonem
 [Out to lunch]
 Na obiedzie
 [YAMN General Options]
-Ogólne Opcje YAMN
+Ogólne opcje YAMN
 [TopToolBar button "Check mail"]
 Przycisk paska narzędzi "Sprawdź pocztę"
 [Enable YAMN Main Menu]
@@ -133,7 +133,7 @@ Pokaż długi, lokalny format daty
 [Don't show today's date]
 Nie pokazuj dzisiejszej daty
 [Date/Time Representation]
-Reprezentacja daty/czasu
+Format daty/czasu
 [Don't show seconds]
 Nie pokazuj sekund
 [Mail Notifications]

@@ -157,9 +157,9 @@ Wyłącz, jeśli okno wiadomości jest otwarte
 [Sec]
 s
 [0 = Default]
-0 = Domyślny
+0 - Domyślny
 [-1 = Infinite]
--1 = Nie chowaj
+-1 - Nie chowaj
 [Per-contact settings]
 Osobne ustawienia kontaktów
 [Show always]

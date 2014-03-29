@@ -59,7 +59,7 @@ Kolor tła:
 [Set timeout]
 Ustaw czas oczekiwania
 [Timeout value (0 = default):]
-Wartość czasu oczekiwania (0 = domyślna):
+Wartość czasu oczekiwania (0 - domyślna):
 ;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Popupy są włączone

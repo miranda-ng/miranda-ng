@@ -76,7 +76,7 @@ PPM
 Podgląd
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
-ChangeKeyboardLayout
+Układ klawiatury
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 Popup
