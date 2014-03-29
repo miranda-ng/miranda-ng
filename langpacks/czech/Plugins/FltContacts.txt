@@ -98,7 +98,7 @@ Zobrazit/skrýt všechny plovoucí kontakty
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Plovoucí kontakty
-[Contact List]
+[Contact list]
 Seznam kontaktů
 [Main Features]
 Hlavní vlastnosti

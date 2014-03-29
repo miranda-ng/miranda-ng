@@ -46,7 +46,7 @@ Služba pro rámečky nebyla nalezena, doplněk bude deaktivován.\nPro použit�
 [TopToolBar]
 Horní lišta
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[Contact List]
+[Contact list]
 Seznam kontaktů
 [Toolbar]
 Lišta tlačítek

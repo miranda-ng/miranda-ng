@@ -29,7 +29,7 @@ Miminalizovaný do lišty
 [Opened]
 Zobrazený
 ;file \plugins\StartPosition\src\main.cpp
-[Contact List]
+[Contact list]
 Seznam kontaktů
 [Start position]
 Startovní pozice

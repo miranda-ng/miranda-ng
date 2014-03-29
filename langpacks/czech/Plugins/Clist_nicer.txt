@@ -664,6 +664,9 @@ Skupiny a vzhled
 Extra
 [Skins]
 Skiny
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+<žádné události>
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Přidat natrvalo
@@ -770,9 +773,6 @@ Ukotvení seznamu kontaktů
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Použití
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
-<žádné události>
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Nesdružené kontakty

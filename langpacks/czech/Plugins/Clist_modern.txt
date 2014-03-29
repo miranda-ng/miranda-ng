@@ -817,12 +817,12 @@ Seznam
 [Window]
 Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Žádné události
 [Event area background]
 Pozadí oblasti oznámení
 [Event Area]
 Oblast pro události
-[No Events]
-Žádné události
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 P&riorita kontaktu

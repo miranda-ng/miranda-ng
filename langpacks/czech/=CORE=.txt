@@ -519,18 +519,18 @@ Protokol:
 Vše resetovat
 [(Lower ranks are preferred)]
 (Nížší pořadí má vyšší prioritu)
+[Current language:]
+Zvolený jazyk:
 [Last modified using:]
 Určeno pro:
 [Date:]
 Datum:
 [Locale:]
 Lokalizace:
+[Reload langpack]
+Znovu načíst jazyk
 [Download more language packs]
 Stáhnout další jazykové balíčky
-[Current language:]
-Zvolený jazyk:
-[Plugins included:]
-Přeložené doplňky:
 [Tray]
 Oznámení
 [&Hide/Show]
