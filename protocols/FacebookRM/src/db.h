@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_DISABLE_LOGOUT			"DisableLogout"	// [HIDDEN]
 #define	FACEBOOK_KEY_LOCALE					"Locale"		// [HIDDEN] - en_US, cs_CZ, etc.
 #define FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD	"UseLocalTimestampUnread" // [HIDDEN] - 1 = use local timestamp for offline messages
+#define FACEBOOK_KEY_NASEEMS_SPAM_MODE		"NaseemsSpamMode" // [HIDDEN] - 1 = don't load messages sent from other instances (e.g., browser) - known as "Naseem's spam mode"
 
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE     "EventNotificationsEnable"
 #define FACEBOOK_KEY_EVENT_FEEDS_ENABLE             "EventFeedsEnable"

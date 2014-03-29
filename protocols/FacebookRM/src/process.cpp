@@ -409,6 +409,8 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp)
 {
+	bool naseemsSpamMode = getBool(FACEBOOK_KEY_NASEEMS_SPAM_MODE, false);
+
 	for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
 		if (messages[i]->isChat) {
 			debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
@@ -425,6 +427,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			// RM TODO: better use check if chatroom exists/is in db/is online... no?
 			/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
 			if (GetChatUsers(tthread_id.c_str()) == NULL) {
+				// In Naseem's spam mode we ignore outgoing messages sent from other instances
+				if (naseemsSpamMode && !messages[i]->isIncoming)
+					continue;
+
 				AddChat(tthread_id.c_str(), tthread_id.c_str()); // TODO: use correct name for chat, not thread_id
 				hChatContact = ChatIDToHContact(tthread_id);
 				// Set thread id (TID) for later
@@ -445,6 +451,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			MCONTACT hContact = ContactIDToHContact(fbu.user_id);
 			if (hContact == NULL) {
+				// In Naseem's spam mode we ignore outgoing messages sent from other instances
+				if (naseemsSpamMode && !messages[i]->isIncoming)
+					continue;
+
 				// We don't have this contact, lets load info about him
 				LoadContactInfo(&fbu);
 
