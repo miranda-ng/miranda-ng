@@ -428,8 +428,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
 			if (GetChatUsers(tthread_id.c_str()) == NULL) {
 				// In Naseem's spam mode we ignore outgoing messages sent from other instances
-				if (naseemsSpamMode && !messages[i]->isIncoming)
+				if (naseemsSpamMode && !messages[i]->isIncoming) {
+					delete messages[i];
 					continue;
+				}
 
 				AddChat(tthread_id.c_str(), tthread_id.c_str()); // TODO: use correct name for chat, not thread_id
 				hChatContact = ChatIDToHContact(tthread_id);
@@ -452,8 +454,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			MCONTACT hContact = ContactIDToHContact(fbu.user_id);
 			if (hContact == NULL) {
 				// In Naseem's spam mode we ignore outgoing messages sent from other instances
-				if (naseemsSpamMode && !messages[i]->isIncoming)
+				if (naseemsSpamMode && !messages[i]->isIncoming) {
+					delete messages[i];
 					continue;
+				}
 
 				// We don't have this contact, lets load info about him
 				LoadContactInfo(&fbu);
