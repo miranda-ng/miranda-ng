@@ -337,6 +337,8 @@
 [Groups and layout]
 [Advanced]
 [Skins]
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 [Revert to default]
@@ -393,8 +395,6 @@
 [Contact list docking]
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 [And]

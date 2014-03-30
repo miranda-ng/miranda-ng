@@ -413,9 +413,9 @@
 [List]
 [Window]
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
 [Event area background]
 [Event Area]
-[No Events]
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 [None]
