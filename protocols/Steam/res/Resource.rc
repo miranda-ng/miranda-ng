@@ -1,0 +1,191 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral (Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_STEAM               ICON                    "steam.ico"
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ACCMGR DIALOGEX 0, 0, 199, 92
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Username:",IDC_STATIC,12,8,54,12
+    EDITTEXT        IDC_USERNAME,66,7,120,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,12,24,54,12
+    EDITTEXT        IDC_PASSWORD,66,23,120,12,ES_PASSWORD | ES_AUTOHSCROLL
+END
+
+IDD_OPT_MAIN DIALOGEX 0, 0, 305, 230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Account",-1,7,7,291,61
+    LTEXT           "Username:",-1,15,19,69,8
+    EDITTEXT        IDC_USERNAME,90,17,201,13,ES_AUTOHSCROLL
+    LTEXT           "Password:",-1,15,35,69,8
+    EDITTEXT        IDC_PASSWORD,90,33,201,13,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_GROUP,90,50,201,14,ES_AUTOHSCROLL
+    LTEXT           "Default group:",-1,15,52,69,8
+END
+
+IDD_CAPTCHA DIALOGEX 0, 0, 274, 91
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Captcha"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TEXT,7,51,260,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,164,70,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,217,70,50,14
+END
+
+IDD_GUARD DIALOGEX 0, 0, 274, 91
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Steam guard"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TEXT,7,51,260,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,164,70,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,217,70,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ACCMGR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 192
+        VERTGUIDE, 12
+        VERTGUIDE, 66
+        VERTGUIDE, 186
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 85
+    END
+
+    IDD_OPT_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        VERTGUIDE, 15
+        VERTGUIDE, 84
+        VERTGUIDE, 90
+        VERTGUIDE, 291
+        VERTGUIDE, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    IDD_CAPTCHA, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 84
+    END
+
+    IDD_GUARD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 84
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
