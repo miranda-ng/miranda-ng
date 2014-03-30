@@ -199,7 +199,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
 
-	if ( IsWinVerVistaPlus()) {
+	if (IsWinVerVistaPlus()) {
 		HINSTANCE hDwmApi = LoadLibraryA("dwmapi.dll");
 		if (hDwmApi) {
 			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
@@ -222,11 +222,11 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 
 	OleInitialize(NULL);
 
-	if ( IsWinVer7Plus())
+	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
 	int result = 0;
-	if ( LoadDefaultModules()) {
+	if (LoadDefaultModules()) {
 		SetEvent(hMirandaShutdown);
 		NotifyEventHooks(hPreShutdownEvent, 0, 0);
 		NotifyEventHooks(hShutdownEvent, 0, 0);

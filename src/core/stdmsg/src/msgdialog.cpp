@@ -264,7 +264,6 @@ static void SetEditorText(HWND hwnd, const TCHAR* txt)
 }
 
 #define EM_SUBCLASSED             (WM_USER+0x101)
-#define EM_UNSUBCLASSED           (WM_USER+0x102)
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -485,7 +484,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		else SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
 		return 0;
 
-	case EM_UNSUBCLASSED:
+	case WM_DESTROY:
 		mir_free(dat);
 		return 0;
 	}
@@ -1745,7 +1744,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		
 		WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
 		db_set_dw(db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT) ? dat->hContact : NULL, SRMMMOD, "splitterPos", dat->splitterPos);
-		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_UNSUBCLASSED, 0, 0);
 
 		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
 		if (hFont != NULL && hFont != (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))

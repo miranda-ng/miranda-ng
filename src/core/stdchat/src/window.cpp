@@ -706,7 +706,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 		break;
 
-	case EM_UNSUBCLASSED:
+	case WM_DESTROY:
 		mir_free(dat);
 		return 0;
 	}
@@ -2343,7 +2343,7 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_SHOWNICKLIST:
-			if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_SHOWNICKLIST)))
+			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_SHOWNICKLIST)))
 				break;
 			if (si->iType == GCW_SERVER)
 				break;
@@ -2370,8 +2370,8 @@ LABEL_SHOWWINDOW:
 				smaddInfo.targetWParam = TRUE;
 				smaddInfo.Protocolname = si->pszModule;
 				smaddInfo.Direction = 3;
-				smaddInfo.xPosition = rc.left+3;
-				smaddInfo.yPosition = rc.top-1;
+				smaddInfo.xPosition = rc.left + 3;
+				smaddInfo.yPosition = rc.top - 1;
 				smaddInfo.hContact = si->hContact;
 				smaddInfo.hwndParent = hwndDlg;
 
@@ -2403,17 +2403,17 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_CHANMGR:
-			if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHANMGR)))
+			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANMGR)))
 				break;
 			pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
 			break;
 
 		case IDC_FILTER:
-			if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_FILTER)))
+			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FILTER)))
 				break;
 
 			si->bFilterEnabled = !si->bFilterEnabled;
-			SendDlgItemMessage(hwndDlg,IDC_FILTER,BM_SETIMAGE,IMAGE_ICON,(LPARAM)LoadIconEx( si->bFilterEnabled ? "filter" : "filter2", FALSE ));
+			SendDlgItemMessage(hwndDlg, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(si->bFilterEnabled ? "filter" : "filter2", FALSE));
 			if (si->bFilterEnabled && db_get_b(NULL, CHAT_MODULE, "RightClickFilter", 0) == 0) {
 				SendMessage(hwndDlg, GC_SHOWFILTERMENU, 0, 0);
 				break;
@@ -2470,27 +2470,26 @@ LABEL_SHOWWINDOW:
 		case IDC_BOLD:
 		case IDC_ITALICS:
 		case IDC_UNDERLINE:
-			{
-				CHARFORMAT2 cf;
-				cf.cbSize = sizeof(CHARFORMAT2);
-				cf.dwMask = CFM_BOLD|CFM_ITALIC|CFM_UNDERLINE;
-				cf.dwEffects = 0;
+			CHARFORMAT2 cf;
+			cf.cbSize = sizeof(CHARFORMAT2);
+			cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE;
+			cf.dwEffects = 0;
 
-				if (LOWORD(wParam) == IDC_BOLD && !IsWindowEnabled(GetDlgItem(hwndDlg,IDC_BOLD)))
-					break;
-				if (LOWORD(wParam) == IDC_ITALICS && !IsWindowEnabled(GetDlgItem(hwndDlg,IDC_ITALICS)))
-					break;
-				if (LOWORD(wParam) == IDC_UNDERLINE && !IsWindowEnabled(GetDlgItem(hwndDlg,IDC_UNDERLINE)))
-					break;
-				if (IsDlgButtonChecked(hwndDlg, IDC_BOLD))
-					cf.dwEffects |= CFE_BOLD;
-				if (IsDlgButtonChecked(hwndDlg, IDC_ITALICS))
-					cf.dwEffects |= CFE_ITALIC;
-				if (IsDlgButtonChecked(hwndDlg, IDC_UNDERLINE))
-					cf.dwEffects |= CFE_UNDERLINE;
+			if (LOWORD(wParam) == IDC_BOLD && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BOLD)))
+				break;
+			if (LOWORD(wParam) == IDC_ITALICS && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ITALICS)))
+				break;
+			if (LOWORD(wParam) == IDC_UNDERLINE && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_UNDERLINE)))
+				break;
+			if (IsDlgButtonChecked(hwndDlg, IDC_BOLD))
+				cf.dwEffects |= CFE_BOLD;
+			if (IsDlgButtonChecked(hwndDlg, IDC_ITALICS))
+				cf.dwEffects |= CFE_ITALIC;
+			if (IsDlgButtonChecked(hwndDlg, IDC_UNDERLINE))
+				cf.dwEffects |= CFE_UNDERLINE;
 
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-		}	}
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		}
 		break;
 
 	case WM_KEYDOWN:
@@ -2498,7 +2497,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_MOVE:
-		SendMessage(hwndDlg,GC_SAVEWNDPOS,0,1);
+		SendMessage(hwndDlg, GC_SAVEWNDPOS, 0, 1);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -2540,7 +2539,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_DESTROY:
-		SendMessage(hwndDlg,GC_SAVEWNDPOS,0,0);
+		SendMessage(hwndDlg, GC_SAVEWNDPOS, 0, 0);
 
 		si->hWnd = NULL;
 		si->wState &= ~STATE_TALK;
@@ -2548,18 +2547,17 @@ LABEL_SHOWWINDOW:
 		si->hwndStatus = NULL;
 
 		if (si->hwndTooltip != NULL) {
-			HWND hNickList = GetDlgItem(hwndDlg,IDC_LIST);
+			HWND hNickList = GetDlgItem(hwndDlg, IDC_LIST);
 			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(TOOLINFO);
 			ti.uId = (UINT_PTR)hNickList;
 			ti.hwnd = hNickList;
-			SendMessage( si->hwndTooltip, TTM_DELTOOL, 0, (LPARAM)(LPTOOLINFO)&ti );
+			SendMessage(si->hwndTooltip, TTM_DELTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 		}
-		DestroyWindow( si->hwndTooltip );
+		DestroyWindow(si->hwndTooltip);
 		si->hwndTooltip = NULL;
 		if (si->pAccPropServicesForNickList) si->pAccPropServicesForNickList->Release();
-		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,0);
-		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_UNSUBCLASSED, 0, 0);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 	return FALSE;
