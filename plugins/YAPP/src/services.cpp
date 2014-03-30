@@ -384,21 +384,21 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	if (pdc->cbSize < sizeof(POPUPDATACLASS)) return 1;
 
 	POPUPCLASS *pc = 0;
-	if (wParam) 
+	if (wParam)
 		pc = (POPUPCLASS *)wParam;
 	else {
 		for (int i = 0; i < arClasses.getCount(); i++) {
-			if ( strcmp(arClasses[i]->pszName, pdc->pszClassName) == 0) {
+			if (strcmp(arClasses[i]->pszName, pdc->pszClassName) == 0) {
 				pc = arClasses[i];
 				break;
 			}
 		}
 	}
 	if (pc) {
-		if ( NotifyEventHooks(hEventNotify, (WPARAM)pdc->hContact, (LPARAM)pc->PluginWindowProc))
+		if (NotifyEventHooks(hEventNotify, (WPARAM)pdc->hContact, (LPARAM)pc->PluginWindowProc))
 			return 0;
 
-		PopupData pd = {sizeof(PopupData)};
+		PopupData pd = { sizeof(PopupData) };
 		if (pc->flags & PCF_UNICODE) pd.flags |= PDF_UNICODE;
 		pd.colorBack = pc->colorBack;
 		pd.colorText = pc->colorText;
@@ -410,7 +410,7 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 		pd.opaque = pdc->PluginData;
 		pd.pszTitle = (char *)pdc->pszTitle;
 		pd.pszText = (char *)pdc->pszText;
-	
+
 		ShowPopup(pd);
 	}
 	return 0;
