@@ -429,7 +429,7 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 	}
 }
 
-void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen)
+void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 {
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));

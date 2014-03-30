@@ -223,7 +223,7 @@ struct CREOleCallback2 : public CREOleCallback
 INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat);
+int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat);
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei);
 int DbEventIsMessageOrCustom(DBEVENTINFO *dbei);
 int safe_wcslen(wchar_t *msg, int maxLen);

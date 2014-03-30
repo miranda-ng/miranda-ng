@@ -539,7 +539,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 		break;
 
-	case EM_UNSUBCLASSED:
+	case WM_DESTROY:
 		mir_free(dat->szSearchQuery);
 		mir_free(dat->szSearchResult);
 		mir_free(dat);
@@ -2013,7 +2013,6 @@ LABEL_SHOWWINDOW:
 		NotifyLocalWinEvent(si->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING);
 		si->hWnd = NULL;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_UNSUBCLASSED, 0, 0);
 
 		SendMessage(GetParent(hwndDlg), CM_REMOVECHILD, 0, (LPARAM)hwndDlg);
 		if (si->windowData.hwndLog != NULL) {

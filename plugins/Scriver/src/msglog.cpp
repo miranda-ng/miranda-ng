@@ -133,7 +133,7 @@ int DbEventIsMessageOrCustom(DBEVENTINFO* dbei)
 	return dbei->eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei);
 }
 
-int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
+int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)
 {
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -151,7 +151,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 	return DbEventIsCustomForMsgWindow(dbei);
 }
 
-EventData* getEventFromDB(struct SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent)
+EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -343,7 +343,7 @@ static int AppendTToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced
 }
 
 //mir_free() the return value
-static char *CreateRTFHeader(struct SrmmWindowData *dat, struct GlobalMessageData *gdat)
+static char *CreateRTFHeader(SrmmWindowData *dat, struct GlobalMessageData *gdat)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -563,7 +563,7 @@ static void AppendWithCustomLinks(EventData *evt, int style, char **buffer, int 
 }
 
 //mir_free() the return value
-static char* CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *evt, struct GlobalMessageData *gdat, struct LogStreamData *streamData)
+static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, struct GlobalMessageData *gdat, struct LogStreamData *streamData)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -826,7 +826,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat)
 {
-	struct SrmmWindowData dat = { 0 };
+	SrmmWindowData dat = { 0 };
 	struct LogStreamData streamData = { 0 };
 	streamData.isFirst = TRUE;
 	streamData.events = GetTestEvents();
@@ -845,7 +845,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 	FINDTEXTEXA fi;
 	EDITSTREAM stream = { 0 };
 	struct LogStreamData streamData = { 0 };
-	struct SrmmWindowData *dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SrmmWindowData *dat = (SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 
 	// IEVIew MOD Begin

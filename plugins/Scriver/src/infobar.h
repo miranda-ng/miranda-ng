@@ -30,7 +30,7 @@ typedef struct InfobarWindowDataStruct
 	HWND	hXStatusTip;
 } InfobarWindowData;
 
-InfobarWindowData *CreateInfobar(HWND hParent, struct SrmmWindowData *dat);
+InfobarWindowData *CreateInfobar(HWND hParent, SrmmWindowData *dat);
 void SetupInfobar(InfobarWindowData* idat);
 void RefreshInfobar(InfobarWindowData* idat);
 

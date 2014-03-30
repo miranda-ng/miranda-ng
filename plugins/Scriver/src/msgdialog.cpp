@@ -33,7 +33,7 @@ extern HANDLE hHookWinPopup;
 extern CREOleCallback reOleCallback;
 extern CREOleCallback2 reOleCallback2;
 
-static void UpdateReadChars(HWND hwndDlg, struct SrmmWindowData * dat);
+static void UpdateReadChars(HWND hwndDlg, SrmmWindowData * dat);
 
 static ToolbarButton toolbarButtons[] = {
 	{LPGENT("Quote"), IDC_QUOTE, 0, 4, 24},
@@ -56,7 +56,7 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
     return 0;
 }
 
-static TCHAR *GetIEViewSelection(struct SrmmWindowData *dat)
+static TCHAR *GetIEViewSelection(SrmmWindowData *dat)
 {
 	IEVIEWEVENT evt = { sizeof(evt) };
 	evt.codepage = dat->windowData.codePage;
@@ -218,7 +218,7 @@ static void AddToFileList(TCHAR ***pppFiles,int *totalCount,const TCHAR* szFilen
 static void SetDialogToType(HWND hwndDlg)
 {
 	BOOL showToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
-	struct SrmmWindowData *dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SrmmWindowData *dat = (SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	ParentWindowData *pdat = dat->parent;
 
 	if (pdat->flags2 & SMF2_SHOWINFOBAR)
@@ -249,7 +249,7 @@ static void SetDialogToType(HWND hwndDlg)
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 }
 
-void SetStatusIcon(struct SrmmWindowData *dat)
+void SetStatusIcon(SrmmWindowData *dat)
 {
 	if (dat->szProto == NULL)
 		return;
@@ -280,7 +280,7 @@ void SetStatusIcon(struct SrmmWindowData *dat)
 	dat->statusIconOverlay = ImageList_GetIcon(g_dat.hHelperIconList, index, ILD_TRANSPARENT|INDEXTOOVERLAYMASK(1));
 }
 
-void GetTitlebarIcon(struct SrmmWindowData *dat, TitleBarData *tbd)
+void GetTitlebarIcon(SrmmWindowData *dat, TitleBarData *tbd)
 {
 	if (dat->showTyping && (g_dat.flags2 & SMF2_SHOWTYPINGWIN))
 		tbd->hIconNot = tbd->hIcon = GetCachedIcon("scriver_TYPING");
@@ -295,7 +295,7 @@ void GetTitlebarIcon(struct SrmmWindowData *dat, TitleBarData *tbd)
 	tbd->hIconBig = (g_dat.flags & SMF_STATUSICON) ? dat->statusIconBig : g_dat.hMsgIconBig;
 }
 
-HICON GetTabIcon(struct SrmmWindowData *dat)
+HICON GetTabIcon(SrmmWindowData *dat)
 {
 	if (dat->showTyping)
 		return GetCachedIcon("scriver_TYPING");
@@ -305,11 +305,6 @@ HICON GetTabIcon(struct SrmmWindowData *dat)
 	
 	return dat->statusIcon;
 }
-
-struct MsgEditSubclassData
-{
-	DWORD lastEnterTime;
-};
 
 static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -397,10 +392,17 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	return mir_callNextSubclass(hwnd, LogEditSubclassProc, msg, wParam, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct MsgEditSubclassData
+{
+	DWORD lastEnterTime;
+};
+
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct MsgEditSubclassData *dat = (MsgEditSubclassData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	struct SrmmWindowData *pdat = (SrmmWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+	MsgEditSubclassData *dat = (MsgEditSubclassData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	SrmmWindowData *pdat = (SrmmWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	CommonWindowData *windowData = &pdat->windowData;
 
 	int result = InputAreaShortcuts(hwnd, msg, wParam, lParam, windowData);
@@ -412,7 +414,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	switch (msg) {
 	case EM_SUBCLASSED:
-		dat = (struct MsgEditSubclassData *) mir_alloc(sizeof(struct MsgEditSubclassData));
+		dat = (MsgEditSubclassData*)mir_alloc(sizeof(MsgEditSubclassData));
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
 		DragAcceptFiles(hwnd, TRUE);
 		dat->lastEnterTime = 0;
@@ -483,21 +485,18 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		InputAreaContextMenu(hwnd, wParam, lParam, pdat->windowData.hContact);
 		return TRUE;
 
-	case EM_UNSUBCLASSED:
+	case WM_DESTROY:
 		mir_free(dat);
 		return 0;
 	}
 	return mir_callNextSubclass(hwnd, MessageEditSubclassProc, msg, wParam, lParam);
 }
 
-static void SubclassMessageEdit(HWND hwnd) {
+static void SubclassMessageEdit(HWND hwnd)
+{
 	RichUtil_SubClass(hwnd);
 	mir_subclassWindow(hwnd, MessageEditSubclassProc);
 	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
-}
-
-static void UnsubclassMessageEdit(HWND hwnd) {
-	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
 }
 
 static void SubclassLogEdit(HWND hwnd) {
@@ -506,11 +505,7 @@ static void SubclassLogEdit(HWND hwnd) {
 	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
 }
 
-static void UnsubclassLogEdit(HWND hwnd) {
-	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
-}
-
-static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w, int h)
+static void MessageDialogResize(HWND hwndDlg, SrmmWindowData *dat, int w, int h)
 {
 	ParentWindowData *pdat = dat->parent;
 	int hSplitterPos = dat->splitterPos, toolbarHeight = pdat->flags2&SMF2_SHOWTOOLBAR ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat.buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
@@ -670,7 +665,7 @@ static BOOL IsTypingNotificationEnabled(SrmmWindowData *dat)
 // Don't send to protocols that are offline
 // Don't send to users who are not visible and
 // Don't send to users who are not on the visible list when you are in invisible mode.
-static void NotifyTyping(struct SrmmWindowData *dat, int mode)
+static void NotifyTyping(SrmmWindowData *dat, int mode)
 {
 	if (!IsTypingNotificationSupported(dat))
 		return;
@@ -733,7 +728,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			int len = 0;
 			RECT minEditInit;
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam*)lParam;
-			dat = (SrmmWindowData*)mir_calloc(sizeof(struct SrmmWindowData));
+			dat = (SrmmWindowData*)mir_calloc(sizeof(SrmmWindowData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 			dat->windowData.hContact = newData->hContact;
 			NotifyLocalWinEvent(dat->windowData.hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
@@ -1962,8 +1957,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		tcmdlist_free(dat->windowData.cmdList);
 		WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
-		UnsubclassMessageEdit(GetDlgItem(hwndDlg, IDC_MESSAGE));
-		UnsubclassLogEdit(GetDlgItem(hwndDlg, IDC_LOG));
 
 		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
 		if (hFont != NULL && hFont != (HFONT) SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))

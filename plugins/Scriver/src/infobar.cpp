@@ -70,7 +70,7 @@ static HICON GetExtraStatusIcon(InfobarWindowData* idat)
 void RefreshInfobar(InfobarWindowData* idat)
 {
 	HWND hwnd = idat->hWnd;
-	struct SrmmWindowData *dat = idat->mwd;
+	SrmmWindowData *dat = idat->mwd;
 	TCHAR *szContactName = GetNickname(dat->windowData.hContact, dat->szProto);
 	TCHAR *szContactStatusMsg = db_get_tsa(dat->windowData.hContact, "CList", "StatusMsg");
 	TCHAR *szXStatusName = db_get_tsa(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusName");
@@ -280,7 +280,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-InfobarWindowData *CreateInfobar(HWND hParent, struct SrmmWindowData *dat)
+InfobarWindowData *CreateInfobar(HWND hParent, SrmmWindowData *dat)
 {
 	InfobarWindowData *idat = (InfobarWindowData *) mir_alloc(sizeof(InfobarWindowData));
 	idat->mwd = dat;
