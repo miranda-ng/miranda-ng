@@ -47,6 +47,8 @@
 Тест
 [Open mailbox]
 Открыть почтовый ящик
+[You've received an e-mail\n%s unread threads]
+Вам пришла почта\nНепрочитанных цепочек: %s
 [Popups]
 Всплывающие окна
 [Network]

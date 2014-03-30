@@ -647,6 +647,8 @@
 Дополнительно
 [Skins]
 Скины
+[No events...]
+Событий нет...
 [Add permanently]
 Добавить в список
 [Revert to default]
@@ -739,8 +741,6 @@
 Парковка списка контактов
 [Load and apply]
 Загрузить и применить
-[No events...]
-Событий нет...
 [Ungrouped contacts]
 Контакты вне групп
 [And]

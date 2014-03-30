@@ -809,12 +809,12 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Список
 [Window]
 Окно
+[No Events]
+Событий нет
 [Event area background]
 Фон области событий
 [Event Area]
 Область событий
-[No Events]
-Событий нет
 [&Contact rate]
 Рейтинг &контакта
 [None]
