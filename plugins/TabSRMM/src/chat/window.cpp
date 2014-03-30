@@ -1062,7 +1062,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	case WM_ERASEBKGND:
 		return CSkin::m_skinEnabled ? 0 : 1;
 
-	case EM_UNSUBCLASSED:
+	case WM_DESTROY:
 		mir_free(dat);
 		return 0;
 	}
@@ -3538,8 +3538,6 @@ LABEL_SHOWWINDOW:
 		si->dat = NULL;
 		si->pContainer = NULL;
 		dat->si = NULL;
-
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_UNSUBCLASSED, 0, 0);
 
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING, 0);
 

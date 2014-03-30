@@ -500,8 +500,7 @@ struct TNewWindowData
 #define EM_SEARCHSCROLLER        (TM_USER+0x103)
 #define EM_VALIDATEBOTTOM        (TM_USER+0x104)
 #define EM_THEMECHANGED          (TM_USER+0x105)
-#define EM_UNSUBCLASSED          (TM_USER+0x106)
-#define EM_REFRESHWITHOUTCLIP    (TM_USER+0x107)
+#define EM_REFRESHWITHOUTCLIP    (TM_USER+0x106)
 
 #define HM_EVENTSENT             (TM_USER+10)
 #define DM_REMAKELOG             (TM_USER+11)
