@@ -1,21 +1,18 @@
 #include "StdAfx.h"
 #include "sametime.h"
 
-
-CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserName)
-	: PROTO<CSametimeProto>(pszProtoName, tszUserName)
-	, is_idle(false)
-	, idle_status(false)
-	, first_online(true)
-	, idle_timerid(0)
-	, session(NULL)
-	, my_login_info(NULL)
-	, my_conference(NULL)
-	, service_places(NULL)
-	, service_conference(NULL)
-	, server_connection(0)
+CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserName) :
+	PROTO<CSametimeProto>(pszProtoName, tszUserName),
+	is_idle(false), idle_status(false),
+	first_online(true),
+	idle_timerid(0),
+	session(NULL),
+	my_login_info(NULL),
+	my_conference(NULL),
+	service_places(NULL),
+	service_conference(NULL),
+	server_connection(0)
 {
-
 	// Register m_hNetlibUser user
 	TCHAR name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
@@ -36,6 +33,7 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 	CreateProtoService(PS_GETSTATUS, &CSametimeProto::GetStatus);
 	CreateProtoService(PS_LOADICON, &CSametimeProto::SametimeLoadIcon);
 
+	HookProtoEvent(ME_SYSTEM_MODULESLOADED, &CSametimeProto::OnModulesLoaded);
 	HookProtoEvent(ME_SYSTEM_PRESHUTDOWN, &CSametimeProto::OnPreShutdown);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CSametimeProto::OnWindowEvent);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSametimeProto::OnIdleChanged);
@@ -55,11 +53,10 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 	previous_status = ID_STATUS_OFFLINE;
 	SetAllOffline();
 
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0 );
+	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
 	InitConferenceMenu();
 	InitSessionMenu();
-	InitGroupChats();
 
 	LoadOptions();
 
@@ -68,7 +65,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 
 CSametimeProto::~CSametimeProto()
 {
-
 	debugLog(_T("CSametimeProto::~CSametimeProto() start"));
 
 	DeinitSessionMenu();
@@ -82,8 +78,8 @@ CSametimeProto::~CSametimeProto()
 
 	UnRegisterGLibLogger();
 	Netlib_CloseHandle(m_hNetlibUser);
-
 }
+
 
 
 MCONTACT CSametimeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
@@ -99,7 +95,6 @@ MCONTACT CSametimeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEve
 	return 0;
 }
 
-
 int CSametimeProto::Authorize(HANDLE hDbEvent)
 {
 	debugLog(_T("CSametimeProto::Authorize()"));
@@ -112,7 +107,6 @@ int CSametimeProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason)
 	return 1;
 }
 
-
 int CSametimeProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT*)
 {
 	debugLog(_T("CSametimeProto::AuthRecv()"));
@@ -124,7 +118,6 @@ int CSametimeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
 	debugLog(_T("CSametimeProto::AuthRequest()"));
 	return 1;
 }
-
 
 HANDLE CSametimeProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
@@ -160,30 +153,30 @@ DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 {
 	int ret = 0;
 	switch (type) {
-		case PFLAGNUM_1:
-			ret = PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCHUI | PF1_ADDSEARCHRES | PF1_MODEMSG | PF1_FILE | PF1_CHAT;
-			break;
-		case PFLAGNUM_2:
-			ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
-			break;
-		case PFLAGNUM_3:
-			ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND;
-			break;
-		case PFLAGNUM_4:
-			ret = PF4_SUPPORTTYPING | PF4_IMSENDUTF;
-			break;
-		case PFLAGNUM_5:
-			ret = PF2_LIGHTDND;
-			break;
-		case PFLAG_UNIQUEIDTEXT:
-			ret = (DWORD_PTR) Translate("ID");
-			break;
-		case PFLAG_MAXLENOFMESSAGE:
-			ret = MAX_MESSAGE_SIZE;
-			break;
-		case PFLAG_UNIQUEIDSETTING:
-			ret = (DWORD_PTR) "stid";
-			break;
+	case PFLAGNUM_1:
+		ret = PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCHUI | PF1_ADDSEARCHRES | PF1_MODEMSG | PF1_FILE | PF1_CHAT;
+		break;
+	case PFLAGNUM_2:
+		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
+		break;
+	case PFLAGNUM_3:
+		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND;
+		break;
+	case PFLAGNUM_4:
+		ret = PF4_SUPPORTTYPING | PF4_IMSENDUTF;
+		break;
+	case PFLAGNUM_5:
+		ret = PF2_LIGHTDND;
+		break;
+	case PFLAG_UNIQUEIDTEXT:
+		ret = (DWORD_PTR)Translate("ID");
+		break;
+	case PFLAG_MAXLENOFMESSAGE:
+		ret = MAX_MESSAGE_SIZE;
+		break;
+	case PFLAG_UNIQUEIDSETTING:
+		ret = (DWORD_PTR) "stid";
+		break;
 	}
 	return ret;
 }
@@ -192,7 +185,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 {
 	// GetInfo - retrieves a contact info
 	debugLog(_T("CSametimeProto::GetInfo()  hContact=[%x], infoType=[%d]"), hContact, infoType);
-	
+
 	if (getByte(hContact, "ChatRoom", 0))
 		return 1;
 
@@ -209,7 +202,6 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 
 	return 0;
 }
-
 
 HANDLE CSametimeProto::SearchBasic(const PROTOCHAR* id)
 {
@@ -304,9 +296,9 @@ HANDLE CSametimeProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescriptio
 
 int CSametimeProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-
 	debugLog(_T("CSametimeProto::SendMsg()  hContact=[%x], flags=[%d]"), hContact, flags);
-	char* proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+
+	char *proto = GetContactProto(hContact);
 	int ret;
 
 	if (!proto || strcmp(proto, m_szModuleName) != 0 || db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
@@ -318,9 +310,9 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 		return 0;
 	}
 
-	char* msg_utf8;
+	char *msg_utf8;
 	if (flags & PREF_UNICODE)
-		msg_utf8 = mir_utf8encodeW((wchar_t*)&msg[ strlen( msg )+1 ] );
+		msg_utf8 = mir_utf8encodeW((wchar_t*)&msg[strlen(msg) + 1]);
 	else if (flags & PREF_UTF)
 		msg_utf8 = mir_strdup(msg);
 	else
@@ -332,7 +324,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	ret = (int)SendMessageToUser(hContact, msg_utf8);
 	mir_free(msg_utf8);
 
-	TFakeAckParams* tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
+	TFakeAckParams *tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
 	tfap->proto = this;
 	tfap->hContact = hContact;
 	tfap->lParam = (LPARAM)ret;
@@ -346,7 +338,6 @@ int CSametimeProto::SendUrl(MCONTACT hContact, int flags, const char* url)
 	debugLog(_T("CSametimeProto::SendUrl()"));
 	return 1;
 }
-
 
 int CSametimeProto::SetApparentMode(MCONTACT hContact, int mode)
 {
@@ -363,7 +354,8 @@ int CSametimeProto::SetStatus(int iNewStatus)
 			LogIn(iNewStatus, m_hNetlibUser);
 		else
 			SetSessionStatus(iNewStatus);
-	} else if (m_iStatus != ID_STATUS_OFFLINE && iNewStatus == ID_STATUS_OFFLINE) {
+	}
+	else if (m_iStatus != ID_STATUS_OFFLINE && iNewStatus == ID_STATUS_OFFLINE) {
 		LogOut();
 	}
 
@@ -381,7 +373,7 @@ HANDLE CSametimeProto::GetAwayMsg(MCONTACT hContact)
 		mir_forkthread(sttRecvAwayThread, (void*)tfap);
 		return (HANDLE)1;
 	}
-	return (HANDLE)0;
+	return NULL;
 }
 
 int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
@@ -392,20 +384,18 @@ int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt
 		TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
 		mir_free(pszMsg);
-	} else {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
 	}
+	else ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
 
 	return 0;
 }
 
 int CSametimeProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 {
-	debugLog(_T("CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]"), iStatus, msg == NULL ? -1 :_tcslen(msg));
+	debugLog(_T("CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]"), iStatus, msg == NULL ? -1 : _tcslen(msg));
 	SetSessionAwayMessage(iStatus, msg);
 	return 0;
 }
-
 
 int CSametimeProto::UserIsTyping(MCONTACT hContact, int type)
 {
@@ -414,15 +404,13 @@ int CSametimeProto::UserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
-
 int CSametimeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
-	switch(iEventType) {
-	case EV_PROTO_ONOPTIONS: {
+	switch (iEventType) {
+	case EV_PROTO_ONOPTIONS:
 		debugLog(_T("CSametimeProto::OnEvent() EV_PROTO_ONOPTIONS"));
 		OptInit(wParam, lParam);
 		break;
-		}
 	}
 
 	return TRUE;

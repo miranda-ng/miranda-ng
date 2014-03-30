@@ -66,6 +66,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	INT_PTR __cdecl GetStatus(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SametimeLoadIcon(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);
+	int __cdecl OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnPreShutdown(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnIdleChanged(WPARAM wParam, LPARAM lParam);
 	void SetAllOffline();
@@ -136,7 +137,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	WORD GetClientVersion();
 	WORD GetServerVersion();
 	INT_PTR __cdecl SessionAnnounce(WPARAM wParam, LPARAM lParam);
-	void InitGroupChats();
 	void InitAwayMsg();
 	void DeinitAwayMsg();
 	void InitMeanwhileServices();

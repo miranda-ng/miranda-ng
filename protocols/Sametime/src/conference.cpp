@@ -1,13 +1,11 @@
 #include "StdAfx.h"
 #include "sametime.h"
 
-
-
-void CloseMyConference(CSametimeProto* proto) {
+void CloseMyConference(CSametimeProto* proto)
+{
 	mwConference_destroy(proto->my_conference, 0, Translate("I'm outa here."));
 	proto->my_conference = 0;
 }
-
 
 CSametimeProto* getProtoFromMwConference(mwConference* conf)
 {
@@ -17,7 +15,6 @@ CSametimeProto* getProtoFromMwConference(mwConference* conf)
 	return (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 }
 
-
 /** triggered when we receive a conference invitation. Call
   mwConference_accept to accept the invitation and join the
   conference, or mwConference_close to reject the invitation.
@@ -26,8 +23,9 @@ CSametimeProto* getProtoFromMwConference(mwConference* conf)
   @param inviter  the indentity of the user who sent the invitation
   @param invite   the invitation text
 */
-void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const char* invite) {
 
+void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const char* invite)
+{
 	GList *members, *mem;
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLog(_T("mwServiceConf_on_invited() start"));
@@ -53,19 +51,20 @@ void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const ch
 	if (MessageBoxW(0, ws_invite, ws_username, MB_OKCANCEL) == IDOK) {
 		proto->debugLog(_T("mwServiceConf_on_invited() mwConference_accept"));
 		mwConference_accept(conf);
-	} else {
+	}
+	else {
 		proto->debugLog(_T("mwServiceConf_on_invited() mwConference_reject"));
 		char* temp = mir_utf8encodeT(TranslateT("Your invitation has been rejected."));
 		mwConference_reject(conf, 0, temp);
 		mir_free(temp);
 	}
-
 }
 
-void CSametimeProto::ClearInviteQueue() {
-	
+void CSametimeProto::ClearInviteQueue()
+{	
 	debugLog(_T("CSametimeProto::ClearInviteQueue() start"));
-	if (!my_conference) return;
+	if (!my_conference)
+		return;
 
 	mwIdBlock idb;
 	idb.community = 0;
@@ -170,9 +169,8 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	gcd.iType = GC_EVENT_CONTROL;
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
-	if (conf == proto->my_conference) {
+	if (conf == proto->my_conference)
 		proto->ClearInviteQueue();
-	}
 
 	mir_free(tszConfId);
 }
@@ -199,14 +197,12 @@ void mwServiceConf_conf_closed(mwConference* conf, guint32 reason)
 }
 
 /** triggered when someone joins the conference */
-void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo* user)
+void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLog(_T("mwServiceConf_on_peer_joined() start"));
 
-	TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
-
-	MCONTACT hContact = proto->FindContactByUserId(((mwLoginInfo*)user)->user_id);
+	MCONTACT hContact = proto->FindContactByUserId(user->user_id);
 	if (!hContact) {
 		mwIdBlock idb;
 		idb.user = ((mwLoginInfo *)user)->user_id;
@@ -223,6 +219,10 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo* user)
 		mir_free(utfs);
 	}
 
+	ptrT tszConfId(mir_utf8decodeT(mwConference_getName(conf)));
+	ptrT tszUserName(mir_utf8decodeT(user->user_name));
+	ptrT tszUserId(mir_utf8decodeT(user->login_id));
+
 	// add user
 	GCDEST gcd = { proto->m_szModuleName };
 	gcd.ptszID = tszConfId;
@@ -230,8 +230,6 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo* user)
 
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
-	TCHAR* tszUserName = mir_utf8decodeT(((mwLoginInfo*)user)->user_name);
-	TCHAR* tszUserId = mir_utf8decodeT(((mwLoginInfo*)user)->login_id);
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = _T("Normal");
@@ -250,7 +248,9 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLog(_T("mwServiceConf_on_peer_parted() start"));
 
-	TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
+	ptrT tszConfId(mir_utf8decodeT(mwConference_getName(conf)));
+	ptrT tszUserName(mir_utf8decodeT(user->user_name));
+	ptrT tszUserId(mir_utf8decodeT(user->login_id));
 
 	// remove user
 	GCDEST gcd = { proto->m_szModuleName };
@@ -259,18 +259,11 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
-	TCHAR* tszUserName = mir_utf8decodeT(((mwLoginInfo*)user)->user_name);
-	TCHAR* tszUserId = mir_utf8decodeT(((mwLoginInfo*)user)->login_id);
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = _T("Normal");
 	gce.time = (DWORD)time(0);
-
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *) &gce);
-
-	mir_free(tszUserName);
-	mir_free(tszUserId);
-	mir_free(tszConfId);
+	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
 /** triggered when someone says something */
@@ -289,8 +282,8 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	gce.dwFlags = GCEF_ADDTOLOG;
 
 	TCHAR* textT = mir_utf8decodeT(what);
-	TCHAR* tszUserName = mir_utf8decodeT(((mwLoginInfo*)user)->user_name);
-	TCHAR* tszUserId = mir_utf8decodeT(((mwLoginInfo*)user)->login_id);
+	TCHAR* tszUserName = mir_utf8decodeT(user->user_name);
+	TCHAR* tszUserId = mir_utf8decodeT(user->login_id);
 	gce.ptszText = textT;
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;

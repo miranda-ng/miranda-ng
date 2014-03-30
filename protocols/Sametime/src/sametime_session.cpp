@@ -13,7 +13,6 @@ struct {
 	char* szDND;
 } AwayMessages;
 
-
 void __cdecl SessionClear(mwSession* session)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
@@ -41,7 +40,8 @@ void __cdecl SessionClose(mwSession* session)
 void CSametimeProto::SessionStarted()
 {
 	UserListCreate();
-	if (options.get_server_contacts) UserListAddStored();
+	if (options.get_server_contacts)
+		UserListAddStored();
 }
 
 void CSametimeProto::SessionStopping()
@@ -73,11 +73,11 @@ void CSametimeProto::InitMeanwhileServices()
 	if (options.use_old_default_client_ver) {
 		mwSession_setProperty(session, mwSession_CLIENT_VER_MAJOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMajor", MW_PROTOCOL_VERSION_MAJOR)), 0);
 		mwSession_setProperty(session, mwSession_CLIENT_VER_MINOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMinor", MW_PROTOCOL_VERSION_MINOR)), 0);
-	} else {
+	}
+	else {
 		mwSession_setProperty(session, mwSession_CLIENT_VER_MAJOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMajor", 0x001e)), 0);
 		mwSession_setProperty(session, mwSession_CLIENT_VER_MINOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMinor", 0x196f)), 0);
 	}
-
 }
 
 void CSametimeProto::DeinitMeanwhileServices()
@@ -96,8 +96,7 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 	proto->debugLog(_T("SessionStateChange()  state=[%d]"), state);
 
-	switch(state) {
-
+	switch (state) {
 	case mwSession_STARTING:
 		break;
 
@@ -107,7 +106,7 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 	case mwSession_HANDSHAKE_ACK:
 		break;
 
-	case mwSession_STARTED: 
+	case mwSession_STARTED:
 		proto->SessionStarted();
 		break;
 
@@ -124,7 +123,7 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 
 	case mwSession_STOPPED:
 		break;
-		
+
 	case mwSession_LOGIN_REDIR:
 		proto->debugLog(_T("SessionStateChange()  mwSession_LOGIN_REDIR  info=[%s]"), _A2T((char*)info));
 		//options.server_name = str((char*)info);
@@ -144,7 +143,6 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 
 	case mwSession_UNKNOWN:
 		break;
-
 	}
 }
 
@@ -181,21 +179,20 @@ void __cdecl SessionSetPrivacyInfo(struct mwSession* session)
 void __cdecl SessionSetUserStatus(struct mwSession* session)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	
+
 	int new_status;
 	struct mwUserStatus us;
 	mwUserStatus_clone(&us, mwSession_getUserStatus(session));
 
 	proto->debugLog(_T("SessionSetUserStatus()  us.status=[%d]"), us.status);
 
-	switch(us.status) {
-
+	switch (us.status) {
 	case mwStatus_ACTIVE:
-		new_status = ID_STATUS_ONLINE; 
+		new_status = ID_STATUS_ONLINE;
 		break;
 
 	case mwStatus_AWAY:
-		new_status = ID_STATUS_AWAY; 
+		new_status = ID_STATUS_AWAY;
 		if (proto->idle_status) {
 			// ignore setting to away by idle module, after we've set ourselves idle
 			// most standard clients represent idle and away the same way anyway,
@@ -208,11 +205,11 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 		break;
 
 	case mwStatus_BUSY:
-		new_status = ID_STATUS_DND; 
+		new_status = ID_STATUS_DND;
 		break;
 
 	case mwStatus_IDLE:
-		new_status = ID_STATUS_AWAY; 
+		new_status = ID_STATUS_AWAY;
 		if (!proto->first_online && !proto->options.idle_as_away) { // show our status in clist as away if idle when going online or treating idle as away
 			mwUserStatus_clear(&us);
 			return;
@@ -224,17 +221,15 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 		break;
 
 	default:
-		{
-			TCHAR buff[512];
-			mir_sntprintf(buff, 512, TranslateT("Unknown user status: %d"), us.status);
-			proto->showPopup(buff, SAMETIME_POPUP_ERROR);
-			proto->debugLog(buff);
-		}
+		TCHAR buff[512];
+		mir_sntprintf(buff, 512, TranslateT("Unknown user status: %d"), us.status);
+		proto->showPopup(buff, SAMETIME_POPUP_ERROR);
+		proto->debugLog(buff);
+
 		mwUserStatus_clear(&us);
 		// just go online...to prevent us getting stuck 'connecting'
 		new_status = ID_STATUS_ONLINE;
 		break;
-
 	}
 
 	proto->m_iDesiredStatus = new_status;
@@ -244,9 +239,8 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 		//proto->showPopup(TranslateT("Setting login status"), SAMETIME_POPUP_INFO);
 		proto->debugLog(_T("Setting login status"));
 		proto->SetSessionStatus(proto->login_status);
-	} else {
-		proto->BroadcastNewStatus(new_status);
 	}
+	else proto->BroadcastNewStatus(new_status);
 
 	mwUserStatus_clear(&us);
 }
@@ -268,25 +262,25 @@ int CSametimeProto::SetSessionStatus(int status)
 	us.time = (DWORD)time(0);
 	//us.time = 0;
 
-	switch(status) {
-		case ID_STATUS_FREECHAT:
-		case ID_STATUS_ONLINE: 
-			us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE; 
-			break;
-		case ID_STATUS_NA:
-		case ID_STATUS_INVISIBLE:
-		case ID_STATUS_ONTHEPHONE:
-		case ID_STATUS_OUTTOLUNCH:
-		case ID_STATUS_AWAY: 
-			us.desc = AwayMessages.szAway; us.status = mwStatus_AWAY; 
-			break;
-		case ID_STATUS_OCCUPIED:
-		case ID_STATUS_DND: 
-			us.desc = AwayMessages.szDND; us.status = mwStatus_BUSY; 
-			break;
-		default:
-			// act as online for unsupported status
-			us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE; break;
+	switch (status) {
+	case ID_STATUS_FREECHAT:
+	case ID_STATUS_ONLINE:
+		us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE;
+		break;
+	case ID_STATUS_NA:
+	case ID_STATUS_INVISIBLE:
+	case ID_STATUS_ONTHEPHONE:
+	case ID_STATUS_OUTTOLUNCH:
+	case ID_STATUS_AWAY:
+		us.desc = AwayMessages.szAway; us.status = mwStatus_AWAY;
+		break;
+	case ID_STATUS_OCCUPIED:
+	case ID_STATUS_DND:
+		us.desc = AwayMessages.szDND; us.status = mwStatus_BUSY;
+		break;
+	default:
+		// act as online for unsupported status
+		us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE; break;
 	}
 
 	debugLog(_T("SetSessionStatus() mwSession_setUserStatus  us.status=[%d], us.desc:len=[%d]"), us.status, us.desc == NULL ? -1 : strlen(us.desc));
@@ -308,22 +302,22 @@ VOID CALLBACK IdleTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime
 		us.status = mwStatus_IDLE;
 		us.desc = 0;
 		mwSession_setUserStatus(proto->session, &us);
-	} else {
-		proto->SetSessionStatus(proto->m_iStatus);
 	}
+	else proto->SetSessionStatus(proto->m_iStatus);
 }
 
 int CSametimeProto::SetIdle(bool idle)
 {
-	// set a timer, to wait for any autoaway module which might set our status 
+	// set a timer, to wait for any autoaway module which might set our status
 	debugLog(_T("CSametimeProto::SetIdle()  idle=[%d], idle_status=[%d], idle_timerid=[%d]"), idle, idle_status, idle_timerid);
 	if (idle && !idle_status) {
 		idle_status = true;
-		if (!idle_timerid) 
+		if (!idle_timerid)
 			idle_timerid = SetTimer(0, (UINT_PTR)this, 200, IdleTimerProc);
-	} else if (idle_status) {
+	}
+	else if (idle_status) {
 		idle_status = false;
-		if (!idle_timerid) 
+		if (!idle_timerid)
 			idle_timerid = SetTimer(0, (UINT_PTR)this, 200, IdleTimerProc);
 	}
 	return 0;
@@ -334,30 +328,20 @@ void CSametimeProto::SetSessionAwayMessage(int status, const PROTOCHAR* msgT)
 	debugLog(_T("SetSessionAwayMessage() status=[%d], msgT:len=[%d]"), status, msgT == NULL ? -1 : _tcslen(msgT));
 
 	ptrA msg(mir_utf8encodeT(msgT));
-	if (status == ID_STATUS_ONLINE) {
-		mir_free(AwayMessages.szOnline);
-		if (msg) {
-			AwayMessages.szOnline = mir_strdup(msg);
-		} else AwayMessages.szOnline = 0;
-	} else if (status == ID_STATUS_AWAY) {
-		mir_free(AwayMessages.szAway);
-		if (msg) {
-			AwayMessages.szAway = mir_strdup(msg);
-		} else AwayMessages.szAway = 0;
-	} else if (status == ID_STATUS_DND) {
-		mir_free(AwayMessages.szDND);
-		if (msg) {
-			AwayMessages.szDND = mir_strdup(msg);
-		} else AwayMessages.szDND = 0;
-	} else 
+	if (status == ID_STATUS_ONLINE)
+		replaceStr(AwayMessages.szOnline, msg);
+	else if (status == ID_STATUS_AWAY)
+		replaceStr(AwayMessages.szAway, msg);
+	else if (status == ID_STATUS_DND)
+		replaceStr(AwayMessages.szDND, msg);
+	else
 		return; // unsupported status
 
-	if (session){
+	if (session)
 		SetSessionStatus(status); // update current away message
-	}
 }
 
-static VOID CALLBACK NullAPC (DWORD_PTR)
+static VOID CALLBACK NullAPC(DWORD_PTR)
 {
 	// This function intentionally left blank
 }
@@ -373,20 +357,20 @@ void __cdecl KeepAliveThread(LPVOID param)
 	int i = 120;
 	proto->debugLog(_T("KeepAliveThread() start"));
 
-	while(1) {
-		
-		if (i <= 0){
+	while (1) {
+
+		if (i <= 0) {
 			i = 120;
 			// send keepalive every 120 * 250 = 30000[ms]
-			if (mwSession_isStarted(proto->session) && proto->session){
+			if (mwSession_isStarted(proto->session) && proto->session) {
 				mwSession_sendKeepalive(proto->session);
 			}
 		}
-		
+
 		i--;
-		
+
 		SleepEx(250, TRUE);
-		
+
 		EnterCriticalSection(&(proto->session_cs));
 		if (Miranda_Terminated() || !proto->session) {
 			LeaveCriticalSection(&(proto->session_cs));
@@ -406,7 +390,6 @@ int waitcallback(unsigned int* timeout)
 
 void __cdecl SessionThread(LPVOID param)
 {
-
 	CSametimeProto* proto = (CSametimeProto*)param;
 	HANDLE hNetlibUser = proto->m_hNetlibUser;
 	proto->debugLog(_T("SessionThread() start"));
@@ -414,7 +397,7 @@ void __cdecl SessionThread(LPVOID param)
 	continue_connect = true;
 
 	//setup
-	NETLIBOPENCONNECTION conn_data = {0};
+	NETLIBOPENCONNECTION conn_data = { 0 };
 	conn_data.cbSize = sizeof(NETLIBOPENCONNECTION);
 	conn_data.flags = NLOCF_V2;
 	conn_data.szHost = proto->options.server_name;
@@ -439,7 +422,7 @@ void __cdecl SessionThread(LPVOID param)
 		return;
 	}
 
-	mwSessionHandler handler = {0};
+	mwSessionHandler handler = { 0 };
 	handler.clear = SessionClear;
 	handler.io_write = SessionWrite;
 	handler.io_close = SessionClose;
@@ -448,7 +431,7 @@ void __cdecl SessionThread(LPVOID param)
 	handler.on_announce = SessionAnnounce;
 	handler.on_setPrivacyInfo = SessionSetPrivacyInfo;
 	handler.on_setUserStatus = SessionSetUserStatus;
-	
+
 	EnterCriticalSection(&proto->session_cs);
 	proto->session = mwSession_new(&handler);
 
@@ -462,16 +445,18 @@ void __cdecl SessionThread(LPVOID param)
 	unsigned char* recv_buffer = (unsigned char*)mir_alloc(1024 * 32);
 	int bytes;
 	//while(session && server_connection && mwSession_getState(session) != mwSession_STOPPED) {
-	while(proto->server_connection) {// && session) {// && !mwSession_isStopped(session)) { // break on error
+	while (proto->server_connection) {// && session) {// && !mwSession_isStopped(session)) { // break on error
 		bytes = Netlib_Recv(proto->server_connection, (char *)recv_buffer, 1024 * 32, 0);
 		proto->debugLog(_T("SessionThread() Netlib_Recv'ed bytes=[%d]"), bytes);
 
 		if (bytes == 0) {
 			break;
-		} else if (bytes == SOCKET_ERROR) {
+		}
+		else if (bytes == SOCKET_ERROR) {
 			// this is normal - e.g. socket closed due to log off, during blocking read above
 			break;
-		} else {
+		}
+		else {
 			EnterCriticalSection(&proto->session_cs);
 			mwSession_recv(proto->session, recv_buffer, bytes);
 			LeaveCriticalSection(&proto->session_cs);
@@ -544,7 +529,7 @@ int CSametimeProto::LogOut()
 		mwSession_stop(session, 0);
 	}
 	LeaveCriticalSection(&session_cs);
-	
+
 	return 0;
 }
 
@@ -566,7 +551,7 @@ void SendAnnouncement(SendAnnouncementFunc_arg* arg)
 {
 	CSametimeProto* proto = arg->proto;
 	char* utfs = mir_utf8encodeT(arg->msg);
-	if (proto->session && arg->recipients) mwSession_sendAnnounce(proto->session, false , utfs, arg->recipients);
+	if (proto->session && arg->recipients) mwSession_sendAnnounce(proto->session, false, utfs, arg->recipients);
 	mir_free(utfs);
 }
 
@@ -616,19 +601,4 @@ void CSametimeProto::DeinitCritSection()
 {
 	debugLog(_T("CSametimeProto::DeinitCritSection()"));
 	DeleteCriticalSection(&session_cs);
-}
-
-void CSametimeProto::InitGroupChats()
-{
-	debugLog(_T("CSametimeProto::InitGroupChats()"));
-
-	// register with chat module
-	GCREGISTER gcr = { sizeof(gcr) };
-	gcr.pszModule = m_szModuleName;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.dwFlags = 0;
-	gcr.iMaxText = MAX_MESSAGE_SIZE;
-	gcr.nColors = 0;
-	gcr.pColors = 0;
-	CallService(MS_GC_REGISTER, 0, (LPARAM)(GCREGISTER*) &gcr);
 }

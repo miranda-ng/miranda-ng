@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "sametime.h"
 
-
 CSametimeProto* getProtoFromMwConversation(mwConversation* conv)
 {
 	mwServiceIm* serviceIM = mwConversation_getService(conv);
@@ -9,7 +8,6 @@ CSametimeProto* getProtoFromMwConversation(mwConversation* conv)
 	mwSession* session = mwService_getSession(service);
 	return (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 }
-
 
 void mwIm_conversation_opened(mwConversation* conv)
 {
@@ -28,11 +26,11 @@ void mwIm_conversation_opened(mwConversation* conv)
 		proto->AddContact(stuser, (proto->options.add_contacts ? false : true));
 		proto->GetMoreDetails(idb->user);
 	}
-	
+
 	ContactMessageQueue::iterator i;
 	EnterCriticalSection(&proto->q_cs);
 	if ((i = proto->contact_message_queue.find(hContact)) != proto->contact_message_queue.end()) {
-		while(i->second.size()) {
+		while (i->second.size()) {
 			mwConversation_send(conv, mwImSend_PLAIN, (gconstpointer)i->second.front().c_str());
 			i->second.pop();
 		}
@@ -48,25 +46,24 @@ void mwIm_conversation_opened(mwConversation* conv)
 void mwIm_conversation_closed(mwConversation* conv, guint32 err)
 {
 	CSametimeProto* proto = getProtoFromMwConversation(conv);
-	proto->debugLog(_T("mwIm_conversation_closed() start err=[%d]"),err);
+	proto->debugLog(_T("mwIm_conversation_closed() start err=[%d]"), err);
 
 	if (err & ERR_FAILURE && err != CONNECTION_RESET) {
 		char* msg = mwError(err);
 		proto->showPopup(TranslateTS(_A2T(msg)), SAMETIME_POPUP_ERROR);
 		g_free(msg);
-		if (err == ERR_NO_COMMON_ENCRYPT && !(proto->options.encrypt_session)) {
+		if (err == ERR_NO_COMMON_ENCRYPT && !(proto->options.encrypt_session))
 			proto->showPopup(TranslateT("No common encryption method. Try to enable encryption in protocol options."), SAMETIME_POPUP_INFO);
-		}
 	}
 
 	mwIdBlock* idb = mwConversation_getTarget(conv);
 	MCONTACT hContact = proto->FindContactByUserId(idb->user);
 	if (hContact) {
-		ContactMessageQueue::iterator i;
 		EnterCriticalSection(&proto->q_cs);
-		if ((i = proto->contact_message_queue.find(hContact)) != proto->contact_message_queue.end()) {
+		ContactMessageQueue::iterator i = proto->contact_message_queue.find(hContact);
+		if (i != proto->contact_message_queue.end())
 			proto->contact_message_queue.erase(i);
-		}
+
 		LeaveCriticalSection(&proto->q_cs);
 	}
 }
@@ -86,17 +83,16 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 		return;
 	}
 
-	if (type != mwImSend_PLAIN) return;
+	if (type != mwImSend_PLAIN)
+		return;
 
-	PROTORECVEVENT pre = {0};
+	PROTORECVEVENT pre = { 0 };
 	time_t t = time(NULL);
 	pre.timestamp = t;
 	pre.flags = PREF_UTF;
 	pre.szMessage = (char*)msg;
 	ProtoChainRecvMsg(hContact, &pre);
-
 }
-
 
 void mwIm_place_invite(struct mwConversation* conv, const char* message, const char* title, const char* name)
 {
@@ -114,7 +110,6 @@ void mwIm_place_invite(struct mwConversation* conv, const char* message, const c
 	mir_free(tszMessage);
 }
 
-
 mwImHandler mwIm_handler = {
 	mwIm_conversation_opened,
 	mwIm_conversation_closed,
@@ -123,14 +118,12 @@ mwImHandler mwIm_handler = {
 	NULL
 };
 
-
 HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, char* msg_utf8)
 {
 	debugLog(_T("CSametimeProto::SendMessageToUser()  hContact=[%x]"), hContact);
 
 	mwAwareIdBlock id_block;
 	if (GetAwareIdFromContact(hContact, &id_block)) {
-
 		mwIdBlock idb;
 		idb.user = id_block.user;
 		idb.community = id_block.community;
@@ -143,7 +136,8 @@ HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, char* msg_utf8)
 				contact_message_queue[hContact].push(msg_utf8);
 				LeaveCriticalSection(&q_cs);
 				mwConversation_open(conv);
-			} else {
+			}
+			else {
 				debugLog(_T("CSametimeProto::SendMessageToUser()  !mwConversation_isOpen"));
 				mwConversation_send(conv, mwImSend_PLAIN, (gconstpointer)msg_utf8);
 			}
@@ -158,11 +152,10 @@ HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, char* msg_utf8)
 	return 0;
 }
 
-
 void CSametimeProto::SendTyping(MCONTACT hContact, bool typing)
 {
 	debugLog(_T("CSametimeProto::SendTyping() hContact=[%x] type=[%d]"), hContact, typing);
-	
+
 	mwAwareIdBlock id_block;
 	if (GetAwareIdFromContact(hContact, &id_block)) {
 		mwIdBlock idb;
@@ -171,7 +164,7 @@ void CSametimeProto::SendTyping(MCONTACT hContact, bool typing)
 
 		mwConversation* conv = mwServiceIm_getConversation(service_im, &idb);
 		if (conv) {
-			if (mwConversation_isOpen(conv)){
+			if (mwConversation_isOpen(conv)) {
 				debugLog(_T("CSametimeProto::SendTyping() send"));
 				mwConversation_send(conv, mwImSend_TYPING, (gconstpointer)GUINT_TO_POINTER(typing ? 1 : 0));
 			}
@@ -180,7 +173,6 @@ void CSametimeProto::SendTyping(MCONTACT hContact, bool typing)
 		free(id_block.user);
 	}
 }
-
 
 void CSametimeProto::CloseIm(MCONTACT hContact)
 {
@@ -194,7 +186,7 @@ void CSametimeProto::CloseIm(MCONTACT hContact)
 
 		mwConversation* conv = mwServiceIm_getConversation(service_im, &idb);
 		if (conv) {
-			if (mwConversation_isOpen(conv)){
+			if (mwConversation_isOpen(conv)) {
 				debugLog(_T("CSametimeProto::CloseIm() mwConversation_close"));
 				mwConversation_close(conv, 0);
 			}
@@ -219,4 +211,3 @@ void CSametimeProto::DeinitMessaging()
 	service_im = 0;
 	DeleteCriticalSection(&q_cs);
 }
-

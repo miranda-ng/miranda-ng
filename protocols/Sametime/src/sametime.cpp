@@ -3,7 +3,8 @@
 #include "version.h"
 
 // plugin stuff
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -21,7 +22,6 @@ HINSTANCE hInst;
 LIST<CSametimeProto> g_Instances(1, PtrKeySortT);
 int hLangpack;
 
-
 // sametime.cpp: Defines the entry point for the DLL application.
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -36,10 +36,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
-
-
 // protocol related services
-
 
 /** Copy the name of the protocole into lParam
 * @param wParam :	max size of the name
@@ -70,31 +67,29 @@ INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
 {
 	
 	UINT id;
-	switch (wParam & 0xFFFF)
-	{
-		case PLI_PROTOCOL:
-			id = IDI_ICON_PROTO;
-			break;
-		default:
-			return NULL;
+	switch (wParam & 0xFFFF) {
+	case PLI_PROTOCOL:
+		id = IDI_ICON_PROTO;
+		break;
+	default:
+		return NULL;
 	}
 
 	return (INT_PTR) LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON),
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
-	return 0;
 }
 
 
 //icolib stuff
 static IconItem iconList[] =
 {
-	  { LPGEN("Protocol icon"), "protoicon", IDI_ICON_PROTO, 0 }
-	, { LPGEN("Start conference"), "leaveconference", IDI_ICON_INVITE, 0 }
-	, { LPGEN("Leave conference"), "startconference", IDI_ICON_LEAVE, 0 }
-	, { LPGEN("Announce"), "announce", IDI_ICON_ANNOUNCE, 0 }
-	, { LPGEN("Notification"), "notify", IDI_ICON_NOTIFY, 0 }
-	, { LPGEN("Error"), "error", IDI_ICON_ERROR, 0 }
+	{ LPGEN("Protocol icon"), "protoicon", IDI_ICON_PROTO, 0 },
+	{ LPGEN("Start conference"), "leaveconference", IDI_ICON_INVITE, 0 },
+	{ LPGEN("Leave conference"), "startconference", IDI_ICON_LEAVE, 0 },
+	{ LPGEN("Announce"), "announce", IDI_ICON_ANNOUNCE, 0 },
+	{ LPGEN("Notification"), "notify", IDI_ICON_NOTIFY, 0 },
+	{ LPGEN("Error"), "error", IDI_ICON_ERROR, 0 }
 };
 
 void SametimeInitIcons(void)
@@ -124,7 +119,6 @@ void ReleaseIconEx(const char* name, BOOL big)
 	Skin_ReleaseIcon(szSettingName, big);
 }
 
-
 // Copied from MSN plugin - sent acks need to be from different thread
 void __cdecl sttFakeAckInfoSuccessThread(void *param)
 {
@@ -137,7 +131,6 @@ void __cdecl sttFakeAckInfoSuccessThread(void *param)
 
 	proto->debugLog(_T("sttFakeAckInfoSuccessThread() end"));
 	mir_free(tParam);
-	return;
 }
 
 void __cdecl sttFakeAckMessageSuccessThread(void *param)
@@ -147,11 +140,10 @@ void __cdecl sttFakeAckMessageSuccessThread(void *param)
 	proto->debugLog(_T("sttFakeAckMessageSuccessThread() start"));
 
 	Sleep(100);
-	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->lParam, 0 );
+	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->lParam, 0);
 
 	proto->debugLog(_T("sttFakeAckMessageSuccessThread() end"));
 	mir_free(tParam);
-	return;
 }
 
 void __cdecl sttFakeAckMessageFailedThread(void *param)
@@ -165,7 +157,6 @@ void __cdecl sttFakeAckMessageFailedThread(void *param)
 
 	proto->debugLog(_T("sttFakeAckMessageFailedThread() end"));
 	mir_free(tParam);
-	return;
 }
 
 void __cdecl sttRecvAwayThread(void *param)
@@ -179,9 +170,7 @@ void __cdecl sttRecvAwayThread(void *param)
 
 	proto->debugLog(_T("sttRecvAwayThread() end"));
 	free(tParam);
-	return;
 }
-
 
 int CSametimeProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
@@ -206,25 +195,31 @@ int CSametimeProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-
-int CSametimeProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int CSametimeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (m_iStatus != ID_STATUS_OFFLINE){
+	// register with chat module
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.pszModule = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.iMaxText = MAX_MESSAGE_SIZE;
+	CallService(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	return 0;
+}
+
+int CSametimeProto::OnPreShutdown(WPARAM, LPARAM)
+{
+	if (m_iStatus != ID_STATUS_OFFLINE)
 		LogOut();
-	}
 
 	return 0;
 }
 
-
-int CSametimeProto::OnSametimeContactDeleted(WPARAM wParam, LPARAM)
+int CSametimeProto::OnSametimeContactDeleted(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = wParam;
 	ContactDeleted(hContact);
 	ChatDeleted(hContact);
 	return 0;
 }
-
 
 void CSametimeProto::SetAllOffline()
 {
@@ -234,20 +229,17 @@ void CSametimeProto::SetAllOffline()
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)) {
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 			continue;
-		} else {
-			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
-			db_set_dw(hContact, m_szModuleName, "IdleTS", 0);
 		}
+
+		db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
+		db_set_dw(hContact, m_szModuleName, "IdleTS", 0);
 	}
-
 }
-
 
 void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 {
-	if (m_iStatus == iNewStatus){
+	if (m_iStatus == iNewStatus)
 		return;
-	}
 
 	debugLog(_T("BroadcastNewStatus() m_iStatus=[%d], iNewStatus=[%d]"), m_iStatus, iNewStatus);
 
@@ -255,7 +247,6 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 	m_iStatus = iNewStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previous_status, m_iStatus);
 }
-
 
 static CSametimeProto* sametime_proto_init(const char* pszProtoName, const TCHAR* tszUserName)
 {
@@ -274,23 +265,18 @@ static int sametime_proto_uninit(PROTO_INTERFACE* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.szName = "Sametime";
 	pd.fnInit = (pfnInitProto)sametime_proto_init;
 	pd.fnUninit = (pfnUninitProto)sametime_proto_uninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload()
 {
-
 	g_Instances.destroy();
-
 	return 0;
-
 }
 

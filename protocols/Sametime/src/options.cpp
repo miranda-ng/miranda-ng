@@ -51,14 +51,12 @@ int client_ids[NUM_IDS] = {
 	0xFFFF
 };
 
-
 static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSametimeProto* proto = (CSametimeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG: {
-
 		TranslateDialogDefault(hwndDlg);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -87,11 +85,11 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		CheckDlgButton(hwndDlg, IDC_CHK_ADDCONTACTS, proto->options.add_contacts ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_IDLEAWAY, proto->options.idle_as_away ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_OLDDEFAULTVER, proto->options.use_old_default_client_ver ? TRUE : FALSE);
-		
+
 		SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_RESETCONTENT, 0, 0);
 		int pos = 0;
 		bool found = false;
-			
+
 		for (int i = 0; i < NUM_IDS; i++) {
 			pos = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_ADDSTRING, -1, (LPARAM)client_names[i]);
 			SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_SETITEMDATA, pos, client_ids[i]);
@@ -99,13 +97,13 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				found = true;
 				SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_SETCURSEL, pos, 0);
 				SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, client_ids[i], FALSE);
-				if (i != sizeof(client_ids) / sizeof(int) - 1) {
+				if (i != sizeof(client_ids) / sizeof(int)-1) {
 					HWND hw = GetDlgItem(hwndDlg, IDC_ED_CLIENTID);
 					EnableWindow(hw, false);
 				}
 			}
 		}
-			
+
 		if (!found) {
 			SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_SETCURSEL, pos, 0); // pos is last item, i.e. custom
 			SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, proto->options.client_id, FALSE);
@@ -122,27 +120,27 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 
 		switch (proto->options.err_method) {
-		case ED_POP: CheckDlgButton(hwndDlg, IDC_RAD_ERRPOP, TRUE); break;
-		case ED_MB: CheckDlgButton(hwndDlg, IDC_RAD_ERRMB, TRUE); break;
-		case ED_BAL: CheckDlgButton(hwndDlg, IDC_RAD_ERRBAL, TRUE); break;
+			case ED_POP: CheckDlgButton(hwndDlg, IDC_RAD_ERRPOP, TRUE); break;
+			case ED_MB: CheckDlgButton(hwndDlg, IDC_RAD_ERRMB, TRUE); break;
+			case ED_BAL: CheckDlgButton(hwndDlg, IDC_RAD_ERRBAL, TRUE); break;
 		}
 
 		if (proto->options.encrypt_session)
 			CheckDlgButton(hwndDlg, IDC_RAD_ENC, TRUE);
 		else
 			CheckDlgButton(hwndDlg, IDC_RAD_NOENC, TRUE);
-		
+
 		return FALSE;
 	}
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
+
 		if (HIWORD(wParam) == CBN_SELCHANGE) {
 			int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETCURSEL, 0, 0);
 			int id = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETITEMDATA, sel, 0);
-			bool custom = (id == client_ids[sizeof(client_ids) / sizeof(int) - 1]);
+			bool custom = (id == client_ids[sizeof(client_ids) / sizeof(int)-1]);
 
 			if (!custom)
 				SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, id, FALSE);
@@ -155,26 +153,24 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 
-		if (HIWORD(wParam) == BN_CLICKED ) {
+		if (HIWORD(wParam) == BN_CLICKED) {
 			switch (LOWORD(wParam)) {
 			case IDC_BTN_UPLOADCONTACTS:
 				{
-					HWND hBut = GetDlgItem(hwndDlg, IDC_BTN_UPLOADCONTACTS);
-					EnableWindow(hBut, FALSE);
-					hBut = GetDlgItem(hwndDlg, IDC_BTN_IMPORTCONTACTS);
-					EnableWindow(hBut, FALSE);
-					
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UPLOADCONTACTS), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_IMPORTCONTACTS), FALSE);
+
 					proto->ExportContactsToServer();
 
 					SendMessage(hwndDlg, WMU_STORECOMPLETE, 0, 0);
 				}
 				return TRUE;
+
 			case IDC_BTN_IMPORTCONTACTS:
 				{
-					OPENFILENAME ofn = {0};
-					TCHAR import_filename[MAX_PATH];
-					import_filename[0] = 0;
+					TCHAR import_filename[MAX_PATH]; import_filename[0] = 0;
 
+					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = sizeof(ofn);
 					ofn.lpstrFile = import_filename;
 					ofn.hwndOwner = hwndDlg;
@@ -199,6 +195,7 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					}
 				}
 				return TRUE;
+
 			case IDC_CHK_GETSERVERCONTACTS:
 			case IDC_CHK_ENCMESSAGES:
 			case IDC_RAD_ERRMB:
@@ -217,10 +214,9 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case IDC_RAD_OEM:
 			case IDC_RAD_UTF7:
 			case IDC_RAD_USERCP:
-				{
-					HWND hw = GetDlgItem(hwndDlg, IDC_CHK_USERCP);
-					EnableWindow(hw, !IsDlgButtonChecked(hwndDlg, IDC_RAD_USERCP));
-				}
+				HWND hw = GetDlgItem(hwndDlg, IDC_CHK_USERCP);
+				EnableWindow(hw, !IsDlgButtonChecked(hwndDlg, IDC_RAD_USERCP));
+
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				return TRUE;
 			}
@@ -228,12 +224,8 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WMU_STORECOMPLETE:
-		{
-			HWND hBut = GetDlgItem(hwndDlg, IDC_BTN_UPLOADCONTACTS);
-			EnableWindow(hBut, TRUE);
-			hBut = GetDlgItem(hwndDlg, IDC_BTN_IMPORTCONTACTS);
-			EnableWindow(hBut, TRUE);
-		}
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UPLOADCONTACTS), TRUE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_IMPORTCONTACTS), TRUE);
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -258,13 +250,13 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETCURSEL, 0, 0);
 			int id = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETITEMDATA, sel, 0);
 
-			if (id == client_ids[sizeof(client_ids) / sizeof(int) - 1]) {
+			if (id == client_ids[sizeof(client_ids) / sizeof(int)-1]) {
 				BOOL trans;
 				id = GetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, &trans, FALSE);
 				if (trans)
 					proto->options.client_id = id;
-			} else
-				proto->options.client_id = id;
+			}
+			else proto->options.client_id = id;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRMB)) proto->options.err_method = ED_MB;
 			else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRBAL)) proto->options.err_method = ED_BAL;
@@ -336,14 +328,14 @@ void CSametimeProto::LoadOptions()
 	// if want baloons but no balloons, try popups
 	// if want popups but no popups, try baloons
 	// if, after that, you want balloons but no balloons, revert to message boxes
-	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_POP; 
+	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_POP;
 	if (options.err_method == ED_POP && !ServiceExists(MS_POPUP_SHOWMESSAGE)) options.err_method = ED_BAL;
 	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_MB;
 
 	debugLog(_T("LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]"), options.server_name == NULL ? -1 : strlen(options.server_name), options.id == NULL ? -1 : strlen(options.id), options.pword == NULL ? -1 : strlen(options.pword));
 	debugLog(_T("LoadOptions() loaded: port=[%d], encrypt_session=[%d], client_id=[%d], use_old_default_client_ver=[%d]"), options.port, options.encrypt_session, options.client_id, options.use_old_default_client_ver);
 	debugLog(_T("LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]"), options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
-	
+
 }
 
 void CSametimeProto::SaveOptions()

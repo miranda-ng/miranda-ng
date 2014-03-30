@@ -4,29 +4,23 @@
 
 LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
-	{
-		case WM_COMMAND:
-		{
-			PUDeletePopup(hWnd);
-			break;
-		}
+	switch (msg) {
+	case WM_COMMAND:
+		PUDeletePopup(hWnd);
+		break;
 
-		case WM_CONTEXTMENU:
-			PUDeletePopup(hWnd);
-			break;
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hWnd);
+		break;
 
-		case UM_FREEPLUGINDATA:
-		{
-			PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
-			if (puData != NULL && puData != (PopupData*)CALLSERVICE_NOTFOUND)
-			{
-				mir_free(puData->title);
-				mir_free(puData->text);
-				mir_free(puData);
-			}
-			break;
+	case UM_FREEPLUGINDATA:
+		PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
+		if (puData != NULL && puData != (PopupData*)CALLSERVICE_NOTFOUND) {
+			mir_free(puData->title);
+			mir_free(puData->text);
+			mir_free(puData);
 		}
+		break;
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -63,7 +57,6 @@ void CSametimeProto::RegisterPopups()
 	puc.colorBack = GetSysColor(COLOR_BTNFACE);
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	hPopupError = Popup_RegisterClass(&puc);
-
 }
 
 
@@ -90,51 +83,46 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	if (disp == ED_POP && !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) disp = ED_BAL;
 	if (disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	if (disp == ED_POP){
-
-		POPUPDATACLASS ppd = {sizeof(ppd)};
+	if (disp == ED_POP) {
+		POPUPDATACLASS ppd = { sizeof(ppd) };
 		char szName[256];
 		ppd.ptszTitle = puData->title;
 		ppd.ptszText = puData->text;
-		if (puData->flag == SAMETIME_POPUP_ERROR){
+		if (puData->flag == SAMETIME_POPUP_ERROR)
 			mir_snprintf(szName, SIZEOF(szName), "%s_%s", proto->m_szModuleName, "Error");
-		} else {
+		else
 			mir_snprintf(szName, SIZEOF(szName), "%s_%s", proto->m_szModuleName, "Notify");
-		}
+		ppd.pszClassName = szName;
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-
-	} else if (disp == ED_BAL) {
-
+	}
+	else if (disp == ED_BAL) {
 		MIRANDASYSTRAYNOTIFY sn = { sizeof(sn) };
 		sn.szProto = proto->m_szModuleName;
 		sn.tszInfoTitle = puData->title;
 		sn.tszInfo = puData->text;
 		sn.dwInfoFlags = NIIF_INTERN_UNICODE;
-		if (puData->flag == SAMETIME_POPUP_ERROR){
+		if (puData->flag == SAMETIME_POPUP_ERROR) {
 			sn.dwInfoFlags = sn.dwInfoFlags | NIIF_WARNING;
 			sn.uTimeout = 1000 * 10;
-		} else {
+		}
+		else {
 			sn.dwInfoFlags = sn.dwInfoFlags | NIIF_INFO;
 			sn.uTimeout = 1000 * 8;
 		}
 		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&sn);
-
-	} else { //disp == ED_MB
-
-		if (puData->flag == SAMETIME_POPUP_ERROR){
+	}
+	else { //disp == ED_MB
+		if (puData->flag == SAMETIME_POPUP_ERROR)
 			MessageBox(NULL, puData->text, puData->title, MB_OK | MB_ICONWARNING);
-		} else {
+		else
 			MessageBox(NULL, puData->text, puData->title, MB_OK | MB_ICONINFORMATION);
-		}
-
 	}
 
-	if (disp != ED_POP){
+	if (disp != ED_POP) {
 		mir_free(puData->title);
 		mir_free(puData->text);
 		mir_free(puData);
 	}
-
 }
 
 void CSametimeProto::showPopup(const TCHAR* msg, SametimePopupEnum flag)

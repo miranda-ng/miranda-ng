@@ -18,9 +18,9 @@ MCONTACT CSametimeProto::FindContactByUserId(const char* id)
 
 bool CSametimeProto::GetAwareIdFromContact(MCONTACT hContact, mwAwareIdBlock* id_block)
 {
-	char* proto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )hContact,0 );
+	char *proto = GetContactProto(hContact);
 	DBVARIANT dbv;
-	if ( proto && !strcmp(m_szModuleName, proto)) {
+	if (proto && !strcmp(m_szModuleName, proto)) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal) {
 				id_block->type = mwAware_USER;
@@ -59,9 +59,8 @@ void CSametimeProto::AddGroup(const char* name, bool expanded)
 	}
 }
 
-MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary) 
+MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 {
-
 	debugLog(_T("CSametimeProto::AddContact() start"));
 	const char* id = mwSametimeUser_getUser(user);
 	const char* name = mwSametimeUser_getShortName(user);
@@ -77,13 +76,14 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 			debugLog(_T("AddContact(): Failed to create Sametime contact"));
 			return NULL; ///TODO error handling
 		}
-		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) m_szModuleName) != 0) {
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
+		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) != 0) {
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 			debugLog(_T("AddContact(): Failed to register Sametime contact"));
 			return NULL; ///TODO error handling
 		}
 		new_contact = true;
-	} else if (!temporary) {
+	}
+	else if (!temporary) {
 		db_unset(hContact, "CList", "NotOnList");
 		db_unset(hContact, "CList", "Hidden");
 	}
@@ -97,9 +97,11 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 
 	if (nick && strlen(nick)) {
 		db_set_utf(hContact, m_szModuleName, "Nick", nick);
-	} else if (name && strlen(name)) {
+	}
+	else if (name && strlen(name)) {
 		db_set_utf(hContact, m_szModuleName, "Nick", name);
-	} else {
+	}
+	else {
 		db_set_utf(hContact, m_szModuleName, "Nick", id);
 	}
 
@@ -111,7 +113,7 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 		if (GetAwareIdFromContact(hContact, &id_block)) {
 			GList* gl = g_list_prepend(NULL, &id_block);
 			mwAwareList_addAware(aware_list, gl);
-			g_list_free(gl);  
+			g_list_free(gl);
 			free(id_block.user);
 		}
 	}
@@ -119,7 +121,8 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	if (temporary) {
 		db_set_b(hContact, "CList", "NotOnList", 1);
 		db_set_b(hContact, "CList", "Hidden", 1);
-	} else {
+	}
+	else {
 		db_unset(hContact, "CList", "NotOnList");
 		db_unset(hContact, "CList", "Hidden");
 	}
@@ -172,7 +175,7 @@ void CSametimeProto::ImportContactsFromList(mwSametimeList* user_list, bool temp
 
 			GList* gl = g_list_prepend(NULL, &id_block);
 			mwAwareList_addAware(aware_list, gl);
-			g_list_free(gl);  
+			g_list_free(gl);
 		}
 
 		ul = utl = mwSametimeGroup_getUsers(stgroup);
@@ -215,7 +218,8 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 					if (!db_get_utf(hContact, "CList", "Group", &dbv2)) {
 						group_alias = _strdup(dbv2.pszVal);
 						db_free(&dbv2);
-					} else
+					}
+					else
 						group_alias = _strdup(Translate("None"));
 
 					if (group_alias) {
@@ -234,9 +238,10 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						if (!db_get_utf(0, szProtoGroups, buff, &dbv2)) {
 							group_name = _strdup(dbv2.pszVal);
 							db_free(&dbv2);
-						} else
+						}
+						else
 							group_name = _strdup(group_alias);
-						
+
 						//group_open = (db_get_b(0, szProtoGroups, buff, 0) == 1);
 
 						ptrT ptszGroup(mir_utf8decodeT(group_alias));
@@ -245,7 +250,8 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 							int expanded;
 							CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, (LPARAM)&expanded);
 							group_open = (expanded != 0);
-						} else {
+						}
+						else {
 							mir_snprintf(buff, SIZEOF(buff), "GO_%s", group_alias);
 							group_open = (db_get_b(0, szProtoGroups, buff, 0) == 1);
 						}
@@ -264,13 +270,15 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						if (!db_get_utf(hContact, m_szModuleName, "Name", &dbv2)) {
 							user_shortName = _strdup(dbv2.pszVal);
 							db_free(&dbv2);
-						} else
+						}
+						else
 							user_shortName = 0;
 
 						if (!db_get_utf(hContact, "CList", "MyHandle", &dbv2)) {
 							user_alias = _strdup(dbv2.pszVal);
 							db_free(&dbv2);
-						} else
+						}
+						else
 							user_alias = 0;
 
 						user_type = (mwSametimeUserType)db_get_b(hContact, m_szModuleName, "type", (BYTE)mwSametimeUser_NORMAL);
@@ -304,7 +312,7 @@ void CSametimeProto::ImportContactsFromFile(TCHAR* filename)
 	std::string text;
 	std::string line;
 	if (in.is_open()) {
-		while(!in.eof()) {
+		while (!in.eof()) {
 			std::getline(in, line);
 			text += line;
 			text += "\r\n";
@@ -381,7 +389,7 @@ void CSametimeProto::UserListAddStored()
 int CSametimeProto::ContactDeleted(MCONTACT hContact)
 {
 	mwAwareIdBlock id_block;
-	
+
 	if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 		return 0;
 
@@ -458,23 +466,23 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 	MCONTACT hContact = proto->FindContactByUserId(aware->id.user);
 	char* group = 0;
 	DBVARIANT dbv;
-	
+
 	// update self - necessary for some servers
 	if (aware->online && !db_get_utf(0, proto->m_szModuleName, "stid", &dbv) && strcmp(aware->id.user, dbv.pszVal) == 0) {
 		int new_status = ID_STATUS_OFFLINE;
 
-		switch(aware->status.status) {
+		switch (aware->status.status) {
 		case mwStatus_ACTIVE:
-			new_status = ID_STATUS_ONLINE; 
+			new_status = ID_STATUS_ONLINE;
 			break;
 		case mwStatus_AWAY:
-			new_status = ID_STATUS_AWAY; 
+			new_status = ID_STATUS_AWAY;
 			break;
 		case mwStatus_IDLE:
 			new_status = ID_STATUS_IDLE;
 			break;
 		case mwStatus_BUSY:
-			new_status = ID_STATUS_DND; 
+			new_status = ID_STATUS_DND;
 			break;
 		}
 		if (new_status != ID_STATUS_IDLE) //SetSessionStatus(new_status);
@@ -487,8 +495,8 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 		group = _strdup(dbv.pszVal);
 		db_free(&dbv);
 	}
-	
-	if (aware->group && (!group || strcmp(aware->group, group) || !hContact)) { 
+
+	if (aware->group && (!group || strcmp(aware->group, group) || !hContact)) {
 		// dynamic group member we're not already aware of
 		// resolve server alias to user id via resolver
 		mwSametimeList* user_list = mwSametimeList_new();
@@ -504,19 +512,20 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 		mwServiceResolve_resolve(proto->service_resolve, query, mwResolveFlag_USERS, mwResolve_handler_dyngroup_callback, (gpointer)stgroup, 0);
 		g_list_free(query);
 
-	} else if (hContact) {
+	}
+	else if (hContact) {
 
 		if (aware->online) {
 			int new_status = ID_STATUS_OFFLINE;
 
-			switch(aware->status.status) {
+			switch (aware->status.status) {
 			case mwStatus_ACTIVE:
-				new_status = ID_STATUS_ONLINE; 
+				new_status = ID_STATUS_ONLINE;
 				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", 0);
 				db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
 				break;
 			case mwStatus_AWAY:
-				new_status = ID_STATUS_AWAY; 
+				new_status = ID_STATUS_AWAY;
 				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", 0);
 				db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
 				break;
@@ -528,12 +537,13 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", (DWORD)time(0));
 				break;
 			case mwStatus_BUSY:
-				new_status = ID_STATUS_DND; 
+				new_status = ID_STATUS_DND;
 				db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
 				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", 0);
 				break;
 			}
-		} else
+		}
+		else
 			db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
 		if (proto->service_aware) {
@@ -553,21 +563,18 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 
 
 void mwAwareList_on_attrib(mwAwareList* list, mwAwareIdBlock* id, mwAwareAttribute* attrib)
-{
-}
+{}
 
 
 void mwAwareList_clear(mwAwareList* list)
+{}
+
+mwAwareListHandler mwAwareList_handler =
 {
-}
-
-
-mwAwareListHandler mwAwareList_handler = {
 	&mwAwareList_on_aware,
 	&mwAwareList_on_attrib,
 	&mwAwareList_clear
 };
-
 
 void CSametimeProto::UserListCreate()
 {
@@ -630,9 +637,8 @@ void CSametimeProto::UserRecvAwayMessage(MCONTACT hContact)
 	if (!db_get_s((MCONTACT)hContact, "CList", "StatusMsg", &dbv, DBVT_TCHAR)) {
 		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
-	} else {
-		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
 	}
+	else ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
 }
 
 void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code, GList* results, gpointer data)
@@ -640,7 +646,7 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
 	BOOL advanced = (BOOL)data;
 
-	MYCUSTOMSEARCHRESULTS mcsr = {0};
+	MYCUSTOMSEARCHRESULTS mcsr = { 0 };
 	mcsr.nSize = sizeof(MYCUSTOMSEARCHRESULTS);
 	//MYPROTOSEARCHRESULT mpsr = {0};
 	//mpsr.cbSize = sizeof(MYPROTOSEARCHRESULT);
@@ -669,9 +675,9 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 
 	if (code == mwResolveCode_SUCCESS) {
 		GList *ri = results, *mri;
-		for (;ri;ri = ri->next) {
+		for (; ri; ri = ri->next) {
 			mri = ((mwResolveResult *)ri->data)->matches;
-			for (;mri;mri = mri->next) {
+			for (; mri; mri = mri->next) {
 				strncpy(mcsr.psr.stid, ((mwResolveMatch *)mri->data)->id, 256);
 				mcsr.psr.stid[255] = 0;
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.stid, -1, mcsr.pszFields[0], 512);
@@ -689,7 +695,7 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 				//MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.name, -1, mcsr.pszFields[1], 512);
 				_tcsncpy(mcsr.pszFields[3], mcsr.psr.group ? TranslateT("True") : TranslateT("False"), 512);
 
-				if (advanced == TRUE) 
+				if (advanced == TRUE)
 					proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, (HANDLE)id, (LPARAM)&mcsr);
 				else
 					proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&mcsr.psr);
@@ -699,20 +705,19 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	}
 }
 
-
 void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32 id, guint32 code, GList* results, gpointer data)
 {
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
 
-	MYPROTOSEARCHRESULT mpsr = {0};
+	MYPROTOSEARCHRESULT mpsr = { 0 };
 	mpsr.cbSize = sizeof(mpsr);
 	mpsr.nick = mpsr.name;
 
 	if (code == mwResolveCode_SUCCESS) {
 		GList *ri = results, *mri;
-		for (;ri;ri = ri->next) {
+		for (; ri; ri = ri->next) {
 			mri = ((mwResolveResult *)ri->data)->matches;
-			for (;mri;mri = mri->next) {
+			for (; mri; mri = mri->next) {
 
 				MCONTACT hContact = proto->FindContactByUserId(((mwResolveMatch*)mri->data)->id);
 				if (hContact) {
@@ -728,7 +733,6 @@ void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32 id, guin
 	}
 }
 
-
 int CSametimeProto::SearchForUser(const char* name, BOOLEAN advanced)
 {
 	if (m_iStatus != ID_STATUS_OFFLINE && service_resolve) {
@@ -739,7 +743,6 @@ int CSametimeProto::SearchForUser(const char* name, BOOLEAN advanced)
 	}
 	return 0; // fail
 }
-
 
 int CSametimeProto::GetMoreDetails(const char* name)
 {
@@ -752,19 +755,15 @@ int CSametimeProto::GetMoreDetails(const char* name)
 	return 0; // fail
 }
 
-
 INT_PTR CALLBACK CALLBACK SearchDialogFunc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_INITDIALOG: 
-		{
-			TranslateDialogDefault(hwndDlg);
-			return TRUE;
-		}
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		return TRUE;
 	}
 	return FALSE;
 }
-
 
 MCONTACT CSametimeProto::AddSearchedUser(MYPROTOSEARCHRESULT* mpsr, bool temporary)
 {
@@ -773,10 +772,11 @@ MCONTACT CSametimeProto::AddSearchedUser(MYPROTOSEARCHRESULT* mpsr, bool tempora
 	mwSametimeList* user_list = mwSametimeList_new();
 	mwSametimeGroup* stgroup = 0;
 	if (mpsr->group) {
-		 stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_DYNAMIC, mpsr->stid);
-		 mwSametimeGroup_setAlias(stgroup, mpsr->name);
-		 ImportContactsFromList(user_list, temporary);
-	} else {
+		stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_DYNAMIC, mpsr->stid);
+		mwSametimeGroup_setAlias(stgroup, mpsr->name);
+		ImportContactsFromList(user_list, temporary);
+	}
+	else {
 		stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_NORMAL, Translate("None"));
 
 		mwIdBlock uid;
@@ -787,11 +787,10 @@ MCONTACT CSametimeProto::AddSearchedUser(MYPROTOSEARCHRESULT* mpsr, bool tempora
 
 		hContact = AddContact(stuser, temporary);
 		mwSametimeList_free(mwSametimeGroup_getList(stgroup));
-	}	
+	}
 
 	return hContact;
 }
-
 
 void mwServiceAware_on_attrib_callback(mwServiceAware* srvc, mwAwareAttribute* attrib)
 {
@@ -801,20 +800,18 @@ void mwServiceAware_clear_callback(mwServiceAware* srvc)
 {
 }
 
-
 void CSametimeProto::InitUserList()
 {
 	debugLog(_T("CSametimeProto::InitUserList()"));
 
 	mwSession_addService(session, (mwService*)(service_storage = mwServiceStorage_new(session)));
 	mwSession_addService(session, (mwService*)(service_resolve = mwServiceResolve_new(session)));
-	
+
 	mwAwareHandler mwAware_handler = {
 		&mwServiceAware_on_attrib_callback,
 		&mwServiceAware_clear_callback
 	};
 	mwSession_addService(session, (mwService*)(service_aware = mwServiceAware_new(session, &mwAware_handler)));
-
 }
 
 void CSametimeProto::DeinitUserList()
@@ -833,4 +830,3 @@ void CSametimeProto::DeinitUserList()
 	mwService_free((mwService*)service_storage);
 	service_storage = 0;
 }
-
