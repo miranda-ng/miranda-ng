@@ -154,7 +154,7 @@ static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
 static INT_PTR Service_Register(WPARAM, LPARAM lParam)
 {
 	GCREGISTER *gcr = (GCREGISTER *)lParam;
-	if (gcr == NULL || gcr->pszModule == NULL)
+	if (gcr == NULL)
 		return GC_REGISTER_ERROR;
 
 	if (gcr->cbSize != sizeof(GCREGISTER))
