@@ -69,7 +69,7 @@ MyBitmap::~MyBitmap()
 {
 	if (bitsSave)
 		delete [] bitsSave;
-	free();
+	freemem();
 }
 
 void MyBitmap::makeOpaque()
@@ -922,7 +922,7 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 
 bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 {
-	if (bits) free();
+	if (bits) freemem();
 
 	if (!strncmp(fn, "pixel:", lstrlenA("pixel:")))
 	{
@@ -974,7 +974,7 @@ void MyBitmap::allocate(int w, int h)
 	GdiFlush();
 }
 
-void MyBitmap::free()
+void MyBitmap::freemem()
 {
 	GdiFlush();
 

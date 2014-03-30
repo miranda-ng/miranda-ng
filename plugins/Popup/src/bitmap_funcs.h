@@ -41,7 +41,7 @@ private:
 	COLOR32 *bitsSave;
 	int width, height;
 
-	void free();
+	void freemem();
 
 	bool loadFromFile_pixel(const char *fn, const char *fnAlpha = 0);
 	bool loadFromFile_gradient(const char *fn, const char *fnAlpha = 0);
