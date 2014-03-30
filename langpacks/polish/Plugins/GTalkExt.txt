@@ -51,7 +51,7 @@ Test
 Otwórz skrzynkę pocztową
 ;file \protocols\GTalkExt\src\notifications.cpp
 [You've received an e-mail\n%s unread threads]
-
+Masz nową wiadomość e-mail\n%s nieczytanych wątków
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Popupy
