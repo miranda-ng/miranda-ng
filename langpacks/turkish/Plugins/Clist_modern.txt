@@ -617,10 +617,10 @@ Genel
 Liste
 [Window]
 Pencere
-[Event Area]
-Etkinlik alanı
 [No Events]
 Etkinlik Yok
+[Event Area]
+Etkinlik alanı
 [None]
 Yok
 [Contact rate None]

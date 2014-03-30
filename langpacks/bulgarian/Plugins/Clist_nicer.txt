@@ -662,6 +662,9 @@ URL събития
 Разширени
 [Skins]
 Облици
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Няма събития...
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Добавяне за постоянно
@@ -768,9 +771,6 @@ URL събития
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Зареждане и прилагане
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
-Няма събития...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Негрупирани контакти

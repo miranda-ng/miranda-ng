@@ -49,6 +49,7 @@
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Адкрыць паштовую скрыню
+;file \protocols\GTalkExt\src\notifications.cpp
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Усплывальныя вокны

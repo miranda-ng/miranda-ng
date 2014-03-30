@@ -651,10 +651,10 @@ Geral
 Lista
 [Window]
 Janela
-[Event Area]
-Área de eventos
 [No Events]
 Sem Eventos
+[Event Area]
+Área de eventos
 [&Contact rate]
 &Taxa de Contacto
 [None]

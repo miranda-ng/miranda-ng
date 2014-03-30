@@ -565,10 +565,10 @@ Generelt
 Liste
 [Window]
 Vindu
-[Event Area]
-Hendelsesområde
 [No Events]
 Ingen Hendelser
+[Event Area]
+Hendelsesområde
 [None]
 Ingen
 [Text]

@@ -664,6 +664,9 @@ Contactos
 Avanzado
 [Skins]
 Pieles
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 
@@ -769,9 +772,6 @@ Búsqueda rápida de texto
 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
-
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
 
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]

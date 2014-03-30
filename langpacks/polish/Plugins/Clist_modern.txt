@@ -817,12 +817,12 @@ Lista
 [Window]
 Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Brak zdarzeń
 [Event area background]
 Tło obszaru zdarzeń
 [Event Area]
 Obszar zdarzeń
-[No Events]
-Brak zdarzeń
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 &Ocena kontaktu

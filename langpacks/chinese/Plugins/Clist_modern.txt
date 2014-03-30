@@ -667,10 +667,10 @@ x100 毫秒
 列表
 [Window]
 窗口
-[Event Area]
-事件区域
 [No Events]
 没有事件
+[Event Area]
+事件区域
 [None]
 无
 [Low]

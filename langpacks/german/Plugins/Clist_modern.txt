@@ -817,12 +817,12 @@ Liste
 [Window]
 Fenster
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Keine Ereignisse
 [Event area background]
 Ereignisbereich Hintergrund
 [Event Area]
 Ereignisbereich
-[No Events]
-Keine Ereignisse
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Priorität des Kontakts

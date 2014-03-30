@@ -813,12 +813,12 @@ Modern contact list
 [Window]
 Прозорец
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Няма събития
 [Event area background]
 
 [Event Area]
 Зона за събития
-[No Events]
-Няма събития
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Оценка на контакта

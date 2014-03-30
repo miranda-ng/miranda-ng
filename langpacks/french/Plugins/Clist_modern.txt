@@ -817,12 +817,12 @@ Liste
 [Window]
 Fenêtre
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Pas d'évènement
 [Event area background]
 
 [Event Area]
 Zone d'évenement
-[No Events]
-Pas d'évènement
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Note du &contact

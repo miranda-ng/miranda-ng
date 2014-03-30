@@ -664,6 +664,9 @@ Układ grup
 Zaawansowane
 [Skins]
 Skórki
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Brak zdarzeń...
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Dodaj na stałe
@@ -770,9 +773,6 @@ Dokowanie listy
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Wczytaj i zastosuj
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
-Brak zdarzeń...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Niepogrupowane kontakty

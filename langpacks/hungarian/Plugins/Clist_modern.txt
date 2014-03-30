@@ -615,10 +615,10 @@ Jobb sarok mögött
 Lista
 [Window]
 Ablak
-[Event Area]
-Esemény terület
 [No Events]
 Nincsenek események
+[Event Area]
+Esemény terület
 [None]
 Egyik sem
 [Contact rate None]

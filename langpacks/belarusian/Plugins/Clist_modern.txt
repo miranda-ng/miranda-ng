@@ -815,12 +815,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Window]
 Акно
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No Events]
+Падзей няма
 [Event area background]
 Фон вобласці падзей
 [Event Area]
 Вобласць падзей
-[No Events]
-Падзей няма
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Рэйтынг кантакту

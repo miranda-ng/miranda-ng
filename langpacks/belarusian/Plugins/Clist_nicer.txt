@@ -658,6 +658,9 @@
 Дадаткова
 [Skins]
 Скіны
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Падзей няма...
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Дадаць у спіс
@@ -764,9 +767,6 @@
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Загрузіць і ўжыць
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
-Падзей няма...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Кантакты па-за гуртамі

@@ -49,6 +49,9 @@ Test
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Ouvrir la boite mail
+;file \protocols\GTalkExt\src\notifications.cpp
+[You've received an e-mail\n%s unread threads]
+
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Popups

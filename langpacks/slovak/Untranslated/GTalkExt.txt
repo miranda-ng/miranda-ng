@@ -16,6 +16,7 @@
 [0 means default timeout,\n-1 means no timeout]
 [Test]
 [Open mailbox]
+[You've received an e-mail\n%s unread threads]
 [Popups]
 [Why C sucks]
 [brickstrace@gmail.com [1]]

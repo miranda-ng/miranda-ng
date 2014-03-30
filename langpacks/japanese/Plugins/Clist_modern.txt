@@ -649,10 +649,10 @@ Miranda を非表示
 リスト
 [Window]
 ウィンドウ
-[Event Area]
-イベントエリア
 [No Events]
 イベントなし
+[Event Area]
+イベントエリア
 [None]
 なし
 [Low]

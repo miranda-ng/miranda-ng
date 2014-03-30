@@ -519,10 +519,10 @@ XStatus יש עדיפות
 רשימה
 [Window]
 חלון
-[Event Area]
-איזור אירוע
 [No Events]
 ללא אירועים
+[Event Area]
+איזור אירוע
 [None]
 ללא
 [Low]

@@ -799,12 +799,12 @@ Cписок неактивний
 Список
 [Window]
 Вікно
+[No Events]
+Немає подій
 [Event area background]
 Фон області подій
 [Event Area]
 Область подій
-[No Events]
-Немає подій
 [&Contact rate]
 Рейтинг &контакту
 [None]

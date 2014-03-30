@@ -664,6 +664,9 @@ Groupes et arrangement
 Avancé
 [Skins]
 Skins
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Pas d'évènement
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Ajouter ce contact
@@ -770,9 +773,6 @@ La CList ne peut être accouplé en utilisant la barre de titre et les bordures 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Charger et appliquer
-;file \plugins\Clist_nicer\src\init.cpp
-[No events...]
-Pas d'évènement
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Contacts non-groupés
