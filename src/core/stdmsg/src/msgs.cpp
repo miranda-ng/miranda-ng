@@ -145,7 +145,7 @@ static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	CLISTEVENT *cle = (CLISTEVENT *) lParam;
+	CLISTEVENT *cle = (CLISTEVENT *)lParam;
 	if (cle)
 		SendMessageCmd(cle->hContact, NULL, 0);
 
@@ -173,14 +173,14 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			tn.dwInfoFlags = NIIF_INFO;
 			tn.dwInfoFlags |= NIIF_INTERN_UNICODE;
 			tn.uTimeout = 1000 * 4;
-			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & tn);
+			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
 		}
 		else {
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = hContact;
 			cle.hDbEvent = (HANDLE)1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
-			cle.hIcon = LoadSkinnedIcon( SKINICON_OTHER_TYPING );
+			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
 			cle.pszService = "SRMsg/ReadMessage";
 			cle.ptszTooltip = szTip;
 			CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
@@ -198,14 +198,14 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
-		WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
+		WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
 	else if (hContact) {
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
-			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM) cws, 0);
+			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM)cws, 0);
 		else {
 			char *szProto = GetContactProto(hContact);
 			if (szProto && !strcmp(cws->szModule, szProto))
-				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
+				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
 		}
 	}
 	return 0;
@@ -236,8 +236,8 @@ static void RestoreUnreadMessageAlerts(void)
 		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			bool autoPopup = false;
 			dbei.cbBlob = 0;
-			db_event_get( hDbEvent, &dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+			db_event_get(hDbEvent, &dbei);
+			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 				int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
 					continue;
@@ -247,25 +247,25 @@ static void RestoreUnreadMessageAlerts(void)
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists) {
-					NewMessageWindowLParam newData = {0};
+					NewMessageWindowLParam newData = { 0 };
 					newData.hContact = hContact;
 					newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
+					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)& newData);
 				}
 				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
 					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
+					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
 				}
 			}
 		}
 	}
 }
 
-void RegisterSRMMFonts( void );
+void RegisterSRMMFonts(void);
 
-static int FontsChanged(WPARAM wParam,LPARAM lParam)
+static int FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	return 0;
@@ -279,7 +279,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
@@ -315,8 +315,8 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			// leave this menu item hidden for chats
-			if ( !db_get_b( hContact, szProto, "ChatRoom", 0 ))
-				if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
+			if (!db_get_b(hContact, szProto, "ChatRoom", 0))
+				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 					bEnabled = true;
 		}
 
@@ -327,7 +327,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 static INT_PTR GetWindowAPI(WPARAM wParam, LPARAM lParam)
 {
-	return PLUGIN_MAKE_VERSION(0,0,0,4);
+	return PLUGIN_MAKE_VERSION(0, 0, 0, 4);
 }
 
 static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
@@ -360,7 +360,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1;
 	if (mwid->hContact == NULL) return 1;
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1;
-	
+
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
@@ -402,7 +402,7 @@ int LoadSendRecvMessageModule(void)
 	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 
-	hHookWinEvt   = CreateHookableEvent(ME_MSG_WINDOWEVENT);
+	hHookWinEvt = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 
@@ -412,7 +412,7 @@ int LoadSendRecvMessageModule(void)
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
 	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
-	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
+	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);

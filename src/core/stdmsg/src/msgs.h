@@ -33,7 +33,7 @@ struct NewMessageWindowLParam
 	int noActivate;
 };
 
-struct SrmmWindowData
+struct SrmmWindowData : public MZeroedObject
 {
 	SrmmWindowData() :
 		cmdList(20)

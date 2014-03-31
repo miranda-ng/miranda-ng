@@ -64,7 +64,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
-		lf->lfHeight = (char) db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defSize);
+		lf->lfHeight = (char)db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
@@ -81,7 +81,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		mir_snprintf(str, SIZEOF(str), "SRMFont%d", i);
 
 		DBVARIANT dbv;
-		if ( db_get_ts(NULL, SRMMMOD, str, &dbv))
+		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
 			_tcscpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else {
 			lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
@@ -93,13 +93,13 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 	return true;
 }
 
-void RegisterSRMMFonts( void )
+void RegisterSRMMFonts(void)
 {
 	char idstr[10];
 
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
-	for (int i=0; i < SIZEOF(fontOptionsList); i++) {
+	for (int i = 0; i < SIZEOF(fontOptionsList); i++) {
 		strcpy(fontid.dbSettingsGroup, SRMMMOD);
 		_tcscpy(fontid.group, LPGENT("Message log"));
 		_tcscpy(fontid.name, fontOptionsList[i].szDescr);
@@ -131,21 +131,21 @@ void RegisterSRMMFonts( void )
 
 struct CheckBoxValues_t
 {
-    DWORD  style;
-    TCHAR* szDescr;
+	DWORD  style;
+	TCHAR* szDescr;
 }
 static const statusValues[] =
 {
-	{ MODEF_OFFLINE,  LPGENT("Offline")       },
-	{ PF2_ONLINE,     LPGENT("Online")        },
-	{ PF2_SHORTAWAY,  LPGENT("Away")          },
-	{ PF2_LONGAWAY,   LPGENT("NA")            },
-	{ PF2_LIGHTDND,   LPGENT("Occupied")      },
-	{ PF2_HEAVYDND,   LPGENT("DND")           },
-	{ PF2_FREECHAT,   LPGENT("Free for chat") },
-	{ PF2_INVISIBLE,  LPGENT("Invisible")     },
-	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch")  },
-	{ PF2_ONTHEPHONE, LPGENT("On the phone")  }
+	{ MODEF_OFFLINE, LPGENT("Offline") },
+	{ PF2_ONLINE, LPGENT("Online") },
+	{ PF2_SHORTAWAY, LPGENT("Away") },
+	{ PF2_LONGAWAY, LPGENT("NA") },
+	{ PF2_LIGHTDND, LPGENT("Occupied") },
+	{ PF2_HEAVYDND, LPGENT("DND") },
+	{ PF2_FREECHAT, LPGENT("Free for chat") },
+	{ PF2_INVISIBLE, LPGENT("Invisible") },
+	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch") },
+	{ PF2_ONTHEPHONE, LPGENT("On the phone") }
 };
 
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
@@ -159,23 +159,24 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
-		TreeView_InsertItem( hwndTree, &tvis );
-}	}
+		TreeView_InsertItem(hwndTree, &tvis);
+	}
+}
 
 static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 {
-    DWORD flags = 0;
-    TVITEM tvi;
+	DWORD flags = 0;
+	TVITEM tvi;
 
-    tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
-    tvi.hItem = TreeView_GetRoot(hwndTree);
-    while (tvi.hItem) {
-        TreeView_GetItem(hwndTree, &tvi);
-        if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
-            flags |= tvi.lParam;
-        tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-    }
-    return flags;
+	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
+	tvi.hItem = TreeView_GetRoot(hwndTree);
+	while (tvi.hItem) {
+		TreeView_GetItem(hwndTree, &tvi);
+		if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
+			flags |= tvi.lParam;
+		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
+	}
+	return flags;
 }
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -265,15 +266,15 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
-				if (hti.flags & TVHT_ONITEMSTATEICON) {
-					TVITEM tvi;
-					tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-					tvi.hItem = hti.hItem;
-					TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-					tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
-					TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
+					if (hti.flags & TVHT_ONITEMSTATEICON) {
+						TVITEM tvi;
+						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+						tvi.hItem = hti.hItem;
+						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
+						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
+						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
 			}
 			break;
 		case 0:
@@ -418,13 +419,13 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 static void ResetCList(HWND hwndDlg)
 {
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM)FALSE, 0);
 	else
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM)TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM) (HBITMAP) NULL);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT, 10, 0);
 	for (int i = 0; i <= FONTID_MAX; i++)
@@ -435,30 +436,30 @@ static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
 	BYTE defType = db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
 	if (hItemNew && defType)
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemNew, 1);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
 
 	if (hItemUnknown && db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
-		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemUnknown, 1);
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && db_get_b(hContact, SRMMMOD, SRMSGSET_TYPING, defType))
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 	}
 }
 
 static void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
 	if (hItemNew)
-		db_set_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemNew, 0) ? 1 : 0));
+		db_set_b(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
 
 	if (hItemUnknown)
-		db_set_b(NULL, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemUnknown, 0) ? 1 : 0));
+		db_set_b(NULL, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
-			db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0) ? 1 : 0));
+			db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
 	}
 }
 
@@ -473,9 +474,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
 			cii.pszText = TranslateT("** New contacts **");
-			hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+			hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)& cii);
 			cii.pszText = TranslateT("** Unknown contacts **");
-			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)& cii);
 		}
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE));
 		ResetCList(hwndDlg);
@@ -519,7 +520,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TYPETRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY)
-				&& ServiceExists(MS_CLIST_SYSTRAY_NOTIFY));
+							 && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY));
 			//fall-thru
 		case IDC_TYPEWIN:
 		case IDC_NOTIFYTRAY:
@@ -530,9 +531,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_NOTIFY:
-		switch (((NMHDR *) lParam)->idFrom) {
+		switch (((NMHDR *)lParam)->idFrom) {
 		case IDC_CLIST:
-			switch (((NMHDR *) lParam)->code) {
+			switch (((NMHDR *)lParam)->code) {
 			case CLN_OPTIONSCHANGED:
 				ResetCList(hwndDlg);
 				break;
@@ -542,17 +543,16 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 			break;
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				SaveList(hwndDlg, hItemNew, hItemUnknown);
-				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPING, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN));
-				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
-				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
+				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
+				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN));
+				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
+				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
 				ReloadGlobals();
 				WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 			}
-			break;
 		}
 		break;
 	}
@@ -592,7 +592,7 @@ static int ModernOptInitialise(WPARAM wParam, LPARAM lParam)
 	};
 
 	MODERNOPTOBJECT obj = { sizeof(obj) };
-	obj.dwFlags = MODEROPT_FLG_TCHAR|MODEROPT_FLG_NORESIZE;
+	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
 	obj.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	obj.hInstance = g_hInst;
 	obj.iSection = MODERNOPT_PAGE_MSGS;

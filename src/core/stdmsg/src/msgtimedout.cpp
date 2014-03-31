@@ -22,11 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include "msgs.h"
 
-typedef struct
+struct ErrorDlgParam
 {
 	const char *szMsg;
 	TMsgQueue *item;
-} ErrorDlgParam;
+};
 
 INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar);
 
@@ -34,22 +34,19 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 {
 	TMsgQueue *item = (TMsgQueue*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
 			RECT rc, rcParent;
-			ErrorDlgParam *param = (ErrorDlgParam *) lParam;
+			ErrorDlgParam *param = (ErrorDlgParam *)lParam;
 			item = param->item;
-
-			TranslateDialogDefault(hwndDlg);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)item);
 
 			if (!param->szMsg || !param->szMsg[0])
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
-			else
-			{
+			else {
 				TCHAR* ptszError = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)param->szMsg);
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ptszError);
 				mir_free(ptszError);
@@ -100,5 +97,5 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	SkinPlaySound("SendError");
 
 	ErrorDlgParam param = { err, item };
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwnd, ErrorDlgProc, (LPARAM) &param);
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwnd, ErrorDlgProc, (LPARAM)&param);
 }

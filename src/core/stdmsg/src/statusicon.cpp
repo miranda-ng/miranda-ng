@@ -90,7 +90,7 @@ int DeinitStatusIcons()
 int GetStatusIconsCount(MCONTACT hContact)
 {
 	int nIcon = 0;
-	while ( Srmm_GetNthIcon(hContact, nIcon) != NULL)
+	while (Srmm_GetNthIcon(hContact, nIcon) != NULL)
 		nIcon++;
 	return nIcon;
 }
