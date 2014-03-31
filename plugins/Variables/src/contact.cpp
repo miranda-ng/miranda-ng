@@ -227,29 +227,33 @@ int getContactFromString(CONTACTSINFO *ci)
 	}
 
 	/* contact was not in cache, do a search */
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	{
+		TCHAR *szFind = NULL;
+		BOOL bMatch = FALSE;
+
+		// <_HANDLE_:hContact>
+		size_t size = _tcslen(_T(PROTOID_HANDLE)) + 36;
+		szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
+		if (szFind != NULL)
+		{
+			mir_sntprintf(szFind, size, _T("<%s:%p>"), _T(PROTOID_HANDLE), hContact);
+			if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
+				bMatch = TRUE;
+
+			mir_free(szFind);
+		}
+
 		char *szProto = GetContactProto(hContact);
 		if (szProto == NULL)
 			continue;
 
 		// <proto:id> (exact)
-		TCHAR *szFind = NULL;
-		BOOL bMatch = FALSE;
-		if (ci->flags & CI_PROTOID) {
+		if ((ci->flags & CI_PROTOID) && !bMatch)
+		{
 			TCHAR *cInfo = getContactInfoT(CNF_UNIQUEID, hContact);
-			if (cInfo == NULL) {
-				// <HANDLE:hContact>
-				size_t size = _tcslen(_T(PROTOID_HANDLE)) + 36;
-				szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
-				if (szFind != NULL) {
-					mir_sntprintf(szFind, size, _T("<%s:%p>"), _T(PROTOID_HANDLE), hContact);
-					if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
-						bMatch = TRUE;
-
-					mir_free(szFind);
-				}
-			}
-			else {
+			if (cInfo)
+			{
 				size_t size = _tcslen(cInfo) + strlen(szProto) + 4;
 				szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 				if (szFind != NULL) {
