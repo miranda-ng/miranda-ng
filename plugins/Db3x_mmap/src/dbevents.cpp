@@ -190,7 +190,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 			}
 			DWORD ofsThis = dbeNext->ofsNext;
 			dbeNext = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
-			if (!(dbeNext->flags & NOT_UNREAD)) {
+			if (!dbeNext->markedRead()) {
 				dbc.ofsFirstUnread = ofsThis;
 				dbc.tsFirstUnread = dbeNext->timestamp;
 				break;
@@ -298,10 +298,10 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 	if (dbe->signature != DBEVENT_SIGNATURE || dbc.signature != DBCONTACT_SIGNATURE)
 		return -1;
 
-	if ((dbe->flags & DBEF_READ) || (dbe->flags & DBEF_SENT))
-		return (INT_PTR)dbe->flags;
+	if (dbe->markedRead())
+		return dbe->flags;
 
-	//log1("mark read @ %08x", hContact);
+	// log1("mark read @ %08x", hContact);
 	dbe->flags |= DBEF_READ;
 	DBWrite((DWORD)hDbEvent, dbe, sizeof(DBEvent));
 	BOOL ret = dbe->flags;
@@ -314,7 +314,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 			}
 			DWORD ofsThis = dbe->ofsNext;
 			dbe = (DBEvent*)DBRead(ofsThis, sizeof(DBEvent), NULL);
-			if (!(dbe->flags & (DBEF_READ | DBEF_SENT))) {
+			if (!dbe->markedRead()) {
 				dbc.ofsFirstUnread = ofsThis;
 				dbc.tsFirstUnread = dbe->timestamp;
 				break;
@@ -385,7 +385,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 		DBEvent *dbe = (DBEvent*)DBRead(dwOffset, sizeof(DBEvent), NULL);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return NULL;
-		if (dbe->contactID == contactID && !(dbe->flags & NOT_UNREAD))
+		if (dbe->contactID == contactID && !dbe->markedRead())
 			return HANDLE(dwOffset);
 		dwOffset = dbe->ofsNext;
 	}

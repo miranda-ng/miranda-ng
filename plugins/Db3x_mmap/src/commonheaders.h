@@ -47,8 +47,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 
-#define NOT_UNREAD (DBEF_READ | DBEF_SENT)
-
 extern HINSTANCE g_hInst;
 extern LIST<CDb3Mmap> g_Dbs;
 extern DBSignature dbSignatureU, dbSignatureE, dbSignatureIM, dbSignatureSA;

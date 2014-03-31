@@ -60,6 +60,8 @@ DBHeader
 #define DBVT_ENCRYPTED   250
 #define DBVT_UNENCRYPTED 251
 
+#define MARKED_READ (DBEF_READ | DBEF_SENT)
+
 #define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
 
@@ -163,6 +165,10 @@ struct DBEvent
 	WORD  wEventType;       // module-defined event type
 	DWORD cbBlob;           // number of bytes in the blob
 	BYTE  blob[1];          // the blob. module-defined formatting
+
+	bool __forceinline markedRead() const
+	{	return (flags & MARKED_READ) != 0;
+	}
 };
 
 #include <poppack.h>
