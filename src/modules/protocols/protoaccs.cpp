@@ -260,11 +260,9 @@ static int UninitializeStaticAccounts(WPARAM, LPARAM)
 
 int LoadAccountsModule(void)
 {
-	int i;
-
 	bModuleInitialized = TRUE;
 
-	for (i=0; i < accounts.getCount(); i++) {
+	for (int i=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 		pa->bDynDisabled = !Proto_IsProtocolLoaded(pa->szProtoName);
 		if (pa->ppro)
@@ -544,14 +542,10 @@ void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 void EraseAccount(const char* pszModuleName)
 {
 	// remove protocol contacts first
-	MCONTACT hContact = db_find_first();
-	while (hContact != NULL) {
-		MCONTACT h1 = hContact;
-		hContact = db_find_next(h1);
-
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !lstrcmpA(szProto, pszModuleName))
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)h1, 0);
+	for (MCONTACT hContact = db_find_first(pszModuleName); hContact != NULL;) {
+		MCONTACT hNext = db_find_next(hContact, pszModuleName);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		hContact = hNext;
 	}
 
 	// remove all protocol settings
