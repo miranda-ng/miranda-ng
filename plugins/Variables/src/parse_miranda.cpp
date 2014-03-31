@@ -436,6 +436,20 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 		if (szText != NULL)
 			szRes = _strdup(szText);
 	}
+	else if (!_tcscmp(ai->targv[2], _T(STR_PINICK)))
+	{
+		CONTACTINFO ci;
+
+		ci.cbSize = sizeof(CONTACTINFO);
+		ci.dwFlag = CNF_DISPLAY | CNF_UNICODE;
+		ci.hContact = NULL;
+		ci.szProto = szProto;
+		CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
+
+		tszRes = mir_tstrdup(ci.pszVal);
+
+		mir_free(ci.pszVal);
+	}
 	mir_free(szProto);
 	if (szRes == NULL && tszRes == NULL)
 		return NULL;

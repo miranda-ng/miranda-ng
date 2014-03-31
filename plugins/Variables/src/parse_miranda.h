@@ -42,6 +42,7 @@
 #define STR_PINAME			"name"
 #define STR_PIUIDTEXT		"uidtext"
 #define STR_PIUIDSETTING	"uidsetting"
+#define STR_PINICK			"nick"
 
 #define SEEN_MODULE			"SeenModule"
 
