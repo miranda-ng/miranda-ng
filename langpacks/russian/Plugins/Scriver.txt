@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.11.0.0
+;  Version: 2.11.0.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -745,7 +745,9 @@ Miranda не смогла загрузить встроенную систему
 ник текущего контакта (если определен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
-[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user-defined account name of current contact (if defined).]
+Имя учётной записи текущего контакта (если определено).
+[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID текущего контакта (если определен). Например, UIN для ICQ, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
