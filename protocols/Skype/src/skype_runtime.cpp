@@ -2,7 +2,7 @@
 
 #include "aes\aes.h" 
 
-#include "..\..\..\skypekit\key.h"
+#include "..\..\..\..\skypekit\key.h"
 
 char *CSkypeProto::LoadKeyPair()
 {

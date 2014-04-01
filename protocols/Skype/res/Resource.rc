@@ -40,8 +40,8 @@ IDI_CONTACT             ICON                    "contact.ico"
 // BIN
 //
 
-IDR_RUNTIME             BIN                     "..\\..\\..\\..\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
-IDR_KEY                 BIN                     "..\\..\\..\\..\\SkypeKit\\keypair.bin"
+IDR_RUNTIME             BIN                     "..\\..\\..\\..\\private-keys\\SkypeKit\\SDK\\bin\\windows-x86\\windows-x86-skypekit.exe"
+IDR_KEY                 BIN                     "..\\..\\..\\..\\private-keys\\SkypeKit\\keypair.bin"
 
 /////////////////////////////////////////////////////////////////////////////
 //
