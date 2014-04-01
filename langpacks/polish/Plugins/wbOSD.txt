@@ -31,7 +31,7 @@ Inne
 [Background color]
 Kolor tła
 [Transparent]
-Przeźroczysty
+Przezroczysty
 [Alpha:]
 Alpha:
 [Timeout (ms):]

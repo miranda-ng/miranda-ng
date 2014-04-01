@@ -231,7 +231,7 @@ Odstęp między ramkami
 [Translucency options]
 Opcje przezroczystości
 [Transparent contact list]
-Przeźroczysta lista kontaktów
+Przezroczysta lista kontaktów
 [Inactive opacity:]
 Nieaktywne okno:
 [Active opacity:]
@@ -253,7 +253,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia
+Przezroczyste podświetlenie zaznaczenia
 [Use full row for selection and hottracking]
 Użyj pełnego wiersza dla zaznaczenia i podświetlenia
 [Double click on avatar opens userinfo]
@@ -538,7 +538,7 @@ Kolor tekstu
 [Second color]
 Drugi kolor
 [Transparent]
-Przeźroczysty
+Przezroczysty
 [Alpha (percent)]
 Alpha (procent)
 [Item margins]

@@ -39,7 +39,7 @@ Pokaż/Ukryj z listą kontaktów
 [Auto size vertically]
 Rozmiar auto w pionie
 [Transparency (%):]
-Przeźroczystość (%):
+Przezroczystość (%):
 [Alert window]
 Okno alarmu
 [Round corners]

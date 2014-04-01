@@ -9,7 +9,7 @@
 Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów z dobrymi modyfikacjami wizualnymi. Wspierane zmiany z MW, rozszerzona współpraca z metakontaktami.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
-Przeźroczystość:
+Przezroczystość:
 [Window behavior:]
 Zachowanie okien:
 [List sorting:]
@@ -37,7 +37,7 @@ s
 [Fade contact list in/out]
 Wygaszaj/Rozjaśniaj listę
 [Transparent contact list]
-Przeźroczysta lista kontaktów
+Przezroczysta lista kontaktów
 [Inactive opacity:]
 Nieaktywne okno:
 [Active opacity:]
@@ -323,7 +323,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia
+Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 ['Hide Offline' means to hide:]

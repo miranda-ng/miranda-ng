@@ -23,7 +23,7 @@ Liczba punktów do określenia tła:
 [Color difference allowed:]
 Dozwolona różnica kolorów:
 [Make transparency proportional to color diff]
-Przeźroczystość proporcjonalna do róż. koloru
+Przezroczystość proporcjonalna do róż. koloru
 [Draw avatars grayscale]
 Rysuj awatary w odcieniach szarości
 [Show warning messages]
@@ -69,7 +69,7 @@ Opcje
 [Background]
 Tło
 [Transparent]
-Przeźroczysty
+Przezroczysty
 [Points:]
 Punkty:
 [Color diff:]

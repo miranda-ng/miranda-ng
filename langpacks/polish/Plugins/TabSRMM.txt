@@ -986,7 +986,7 @@ Szablon i pozycja okna
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
 Możesz wybrać prywatny szablon (plik .tabsrmm) dla tego kontenera, który nadpisze domyślny szablon wiadomości. Musisz zamknąć i ponownie otworzyć okno rozmowy po zmianie tej opcji.
 [Transparency]
-Przeźroczystość
+Przezroczystość
 [This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
 Ta funkcjonalność wymaga Windowsa 2000 lub późniejszego i nie jest dostępna, gdy kontener używa skinów.
 [Contact avatars]
@@ -1601,7 +1601,7 @@ Mleczne szkło
 [Carbon]
 Węgiel
 [Semi transparent, custom colors]
-Przeźroczystość, niestandardowe kolory
+Przezroczystość, niestandardowe kolory
 [Silver shadow]
 Srebrny cień
 [Custom (use own gradient colors)]

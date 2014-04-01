@@ -35,7 +35,7 @@ Zaokrąglone rogi (okna)
 [Preview]
 Podgląd
 [Transparent background]
-Przeźroczyste tło
+Przezroczyste tło
 [Layout]
 Układ
 [Avatar size:]

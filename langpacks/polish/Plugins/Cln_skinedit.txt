@@ -41,7 +41,7 @@ Kolor tekstu
 [Second color]
 Drugi kolor
 [Transparent]
-Przeźroczysty
+Przezroczysty
 [Alpha (percent)]
 Alfa (procent)
 [Item margins]

@@ -19,7 +19,7 @@ Pokaż wpisy w menu
 [Visibility]
 Widoczność
 [Show alpha icons]
-Przeźroczyste ikony
+Przezroczyste ikony
 [Hide from list]
 Ukryj na liście
 [Ignore]

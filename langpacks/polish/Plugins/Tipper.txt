@@ -165,7 +165,7 @@ Włącz proporcje tooltipa
 [Load fonts and colors]
 Włącz czcionki i kolory
 [Transparency]
-Przeźroczystość
+Przezroczystość
 [Opacity (%):]
 Krycie (%):
 [Aero Glass (Vista+)]

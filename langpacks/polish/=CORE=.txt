@@ -838,7 +838,7 @@ Opcje przezroczystości
 [Fade contact list in/out]
 Wygaszaj/Rozjaśniaj listę
 [Transparent contact list]
-Przeźroczysta lista kontaktów
+Przezroczysta lista kontaktów
 [Inactive opacity:]
 Nieaktywne okno:
 [Active opacity:]
@@ -856,7 +856,7 @@ Wyłącz zmianę nazwy po podwójnym kliknięciu
 [Show selection even when list is not focused]
 Pokazuj zaznaczenie na nieaktywnej liście
 [Make selection highlight translucent]
-Przeźroczyste podświetlenie zaznaczenia
+Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 ['Hide offline' means to hide:]
