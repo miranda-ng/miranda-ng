@@ -201,6 +201,9 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 
 	wchar_t *filePath = (wchar_t*)lParam;
 
+	if (hContact == NULL)
+		hContact = instance->GetDefaultContact();
+
 	FileTransferParam *ftp = new FileTransferParam();
 	ftp->withVisualisation = false;
 	ftp->pfts.flags |= PFTS_SENDING;
