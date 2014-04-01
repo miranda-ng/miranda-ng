@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.11.0.0
+;  Version: 2.11.0.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Behavior]

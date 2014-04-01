@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.11.0.0
+;  Version: 2.11.0.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -786,7 +786,9 @@ Iconos a mostrar en la bandeja
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 
-[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user-defined account name of current contact (if defined).]
+
+[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 
 [path to Miranda root folder]
 
