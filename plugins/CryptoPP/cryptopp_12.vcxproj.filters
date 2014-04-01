@@ -116,9 +116,6 @@
     <ClInclude Include="src\cryptopp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dllloader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\gettime.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -240,7 +240,6 @@
     <ClInclude Include="src\cpp_rsam.h" />
     <ClInclude Include="src\cpp_rsau.h" />
     <ClInclude Include="src\cryptopp.h" />
-    <ClInclude Include="src\dllloader.h" />
     <ClInclude Include="src\gettime.h" />
     <ClInclude Include="src\GPGw\gpg.h" />
     <ClInclude Include="src\GPGw\gpgw.h" />
