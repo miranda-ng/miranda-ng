@@ -21,7 +21,7 @@ void CDropbox::CommandContent(void *arg)
 
 	CMStringA url = DROPBOX_API_URL "/metadata/" DROPBOX_API_ROOT;
 	if (name)
-		url.AppendFormat("/%s", name);
+		url.AppendFormat("/%s", ptrA(mir_utf8encode(name)));
 
 	HttpRequest *request = new HttpRequest(param->instance->hNetlibUser, REQUEST_GET, url);
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -78,7 +78,7 @@ void CDropbox::CommandShare(void *arg)
 	{
 		CMStringA url = DROPBOX_API_URL "/shares/" DROPBOX_API_ROOT;
 		if (name)
-			url.AppendFormat("/%s", name);
+			url.AppendFormat("/%s", ptrA(mir_utf8encode(name)));
 
 		HttpRequest *request = new HttpRequest(param->instance->hNetlibUser, REQUEST_POST, url);
 		request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -122,7 +122,7 @@ void CDropbox::CommandDelete(void *arg)
 	char *name = (char*)param->data;
 	if (name)
 	{
-		CMStringA pparam = CMStringA("root=" DROPBOX_API_ROOT "&path=") + name;
+		CMStringA pparam = CMStringA("root=" DROPBOX_API_ROOT "&path=") + ptrA(mir_utf8encode(name));
 
 		HttpRequest *request = new HttpRequest(param->instance->hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/delete");
 		request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
