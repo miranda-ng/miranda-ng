@@ -47,6 +47,8 @@
 Тест
 [Open mailbox]
 Відкрити поштову скриньку
+[You've received an e-mail\n%s unread threads]
+Отримано нову пошту\nНепрочитаних ланцюжків: %s
 [Popups]
 Спливаючі вікна
 [Network]

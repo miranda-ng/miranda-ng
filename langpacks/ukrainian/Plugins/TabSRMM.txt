@@ -513,11 +513,13 @@ IRC-стиль(текстовий) індикаторів ролей в журн
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-назва протоколу поточного контакту (якщо зазначено). Ім'я облікового запису використовується коли протокол підтримує кілька облікових записів
-[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-ID поточного контакту (якщо він визначений). Наприклад, для ICQ UIN, JID для Jabber і т.д.
+ім'я протоколу поточного контакту (якщо вказано). Ім'я облікового запису використовується, коли протокол підтримує кілька облікових записів
+[user-defined account name of current contact (if defined).]
+ім'я облікового запису поточного контакту (якщо вказано).
+[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+ID поточного контакту (якщо визначено). Наприклад, UIN для ICQ, JID для Jabber тощо.
 [any environment variable defined in current Windows session (like %systemroot%% allusersprofile%, etc.)]
-будь-яка змінна середовища, визначена в поточній Windows сесії (наприклад, %systemroot%% allusersprofile% і т.д.)
+будь-яка змінна середовища, визначена в поточній сесії Windows (наприклад, %systemroot%% allusersprofile% тощо)
 [day of month, 1-31]
 день місяця, 1-31
 [day of month, 01-31]
