@@ -13,7 +13,7 @@
 #define DROPBOX_APICONTENT_URL "https://api-content.dropbox.com/" DROPBOX_API_VER
 
 #define DROPBOX_API_KEY "fa8du7gkf2q8xzg"
-#include "..\..\..\private-keys\Dropbox\secret_key.h"
+#include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
 
 #define DROPBOX_FILE_CHUNK_SIZE 4 * 1024 * 1024 //4 MB
 
