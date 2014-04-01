@@ -68,28 +68,27 @@ extern "C" __declspec(dllexport) int Load()
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	// hook events
-	HookEvent(ME_SYSTEM_MODULESLOADED,onModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	return 0;
 }
-
 
 extern "C" __declspec(dllexport) int Unload()
 {
 	return 0;
 }
 
-BOOL ExtractFileFromResource( HANDLE FH, int ResType, int ResId, DWORD* Size )
+BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 {
 	HRSRC RH = FindResource(g_hInst, MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
-	if ( RH == NULL )
+	if (RH == NULL)
 		return FALSE;
 
-	PBYTE	RP = (PBYTE) LoadResource( g_hInst, RH );
-	if ( RP == NULL )
+	PBYTE	RP = (PBYTE)LoadResource(g_hInst, RH);
+	if (RP == NULL)
 		return FALSE;
 
 	DWORD	x, s = SizeofResource(g_hInst, RH);
-	if ( !WriteFile(FH, RP, s, &x, NULL)) return FALSE;
+	if (!WriteFile(FH, RP, s, &x, NULL)) return FALSE;
 	if (x != s) return FALSE;
 	if (Size) *Size = s;
 	return TRUE;
@@ -97,24 +96,24 @@ BOOL ExtractFileFromResource( HANDLE FH, int ResType, int ResId, DWORD* Size )
 
 void ExtractFile(char *FileName, int ResType, int ResId)
 {
-    HANDLE FH = CreateFile( FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL );
-    if (FH == INVALID_HANDLE_VALUE)
-		 return;
+	HANDLE FH = CreateFile(FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	if (FH == INVALID_HANDLE_VALUE)
+		return;
 
-	 if (!ExtractFileFromResource( FH, ResType, ResId, NULL ))
-		 MessageBoxA(0,"Can't extract","!!!",MB_OK);
-    CloseHandle( FH );
+	if (!ExtractFileFromResource(FH, ResType, ResId, NULL))
+		MessageBoxA(0, "Can't extract", "!!!", MB_OK);
+	CloseHandle(FH);
 }
 
 size_t rtrim(LPCSTR str)
 {
 	size_t len = strlen(str);
-	LPSTR ptr = (LPSTR)str+len-1;
+	LPSTR ptr = (LPSTR)str + len - 1;
 
-	while( len ) {
+	while (len) {
 		char c = *ptr;
-		if ( c != '\x20' && c != '\x09' && c != '\x0A' && c != '\x0D' ) {
-			*(ptr+1) = '\0';
+		if (c != '\x20' && c != '\x09' && c != '\x0A' && c != '\x0D') {
+			*(ptr + 1) = '\0';
 			break;
 		}
 		len--; ptr--;
@@ -126,32 +125,33 @@ size_t rtrim(LPCSTR str)
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 HANDLE hNetlibUser;
 
-void InitNetlib() {
+void InitNetlib()
+{
 	NETLIBUSER nl_user;
-	memset(&nl_user,0,sizeof(nl_user));
+	memset(&nl_user, 0, sizeof(nl_user));
 	nl_user.cbSize = sizeof(nl_user);
 	nl_user.szSettingsModule = (LPSTR)szModuleName;
 	nl_user.szDescriptiveName = (LPSTR)szModuleName;
 	nl_user.flags = NUF_NOOPTIONS;
-
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
 }
 
-void DeinitNetlib() {
+void DeinitNetlib()
+{
 	if (hNetlibUser)
 		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);
 }
 
-int Sent_NetLog(const char *fmt,...)
+int Sent_NetLog(const char *fmt, ...)
 {
-  va_list va;
-  char szText[1024];
+	va_list va;
+	char szText[1024];
 
-  va_start(va,fmt);
-  mir_vsnprintf(szText,sizeof(szText),fmt,va);
-  va_end(va);
-  if (hNetlibUser)
-      return CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szText);
-  return 0;
+	va_start(va, fmt);
+	mir_vsnprintf(szText, sizeof(szText), fmt, va);
+	va_end(va);
+	if (hNetlibUser)
+		return CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)szText);
+	return 0;
 }
 #endif

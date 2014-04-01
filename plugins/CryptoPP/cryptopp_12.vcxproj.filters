@@ -48,9 +48,6 @@
     <ClCompile Include="src\cpp_svcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dllloader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gettime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

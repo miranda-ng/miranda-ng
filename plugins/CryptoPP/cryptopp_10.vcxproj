@@ -227,7 +227,6 @@
     <ClCompile Include="src\cpp_rsam.cpp" />
     <ClCompile Include="src\cpp_rsau.cpp" />
     <ClCompile Include="src\cpp_svcs.cpp" />
-    <ClCompile Include="src\dllloader.cpp" />
     <ClCompile Include="src\gettime.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mmi.cpp" />
@@ -239,7 +238,6 @@
     <ClInclude Include="src\cpp_rsam.h" />
     <ClInclude Include="src\cpp_rsau.h" />
     <ClInclude Include="src\cryptopp.h" />
-    <ClInclude Include="src\dllloader.h" />
     <ClInclude Include="src\gettime.h" />
     <ClInclude Include="src\GPGw\gpg.h" />
     <ClInclude Include="src\GPGw\gpgw.h" />

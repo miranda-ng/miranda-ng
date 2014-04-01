@@ -2,7 +2,7 @@
 
 string base64encode(const string& buf)
 {
-	return (char*)ptrA( mir_base64_encode((PBYTE)buf.data(), (unsigned)buf.length()));
+	return (char*)ptrA(mir_base64_encode((PBYTE)buf.data(), (unsigned)buf.length()));
 }
 
 string base64decode(const string& buf)
@@ -18,5 +18,3 @@ string base64decode(const char *buf)
 	char *plain = (char*)mir_base64_decode(buf, &len);
 	return (plain == NULL) ? string() : string(plain, len);
 }
-
-// EOF

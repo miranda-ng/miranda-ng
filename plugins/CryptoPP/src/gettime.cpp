@@ -1,6 +1,5 @@
 #include "commonheaders.h"
 
-
 /* FILETIME unit is 100 nanoseconds */
 const static long div_100_nsec = 10000000;
 
@@ -11,19 +10,17 @@ const static ULONGLONG ix_epoch = 116444736000000000;
 const static ULONGLONG ix_epoch = 116444736000000000LL;
 #endif
 
-u_int gettime(void) {
+u_int gettime(void)
+{
+	ULONGLONG diff_100_nsec;
+	union {
+		FILETIME f;
+		ULARGE_INTEGER	u;
+	} now;
 
-		ULONGLONG diff_100_nsec;
-		union {
-			FILETIME		f;
-			ULARGE_INTEGER	u;
-		} now;
+	GetSystemTimeAsFileTime(&now.f);
 
-		GetSystemTimeAsFileTime( &now.f );
+	diff_100_nsec = now.u.QuadPart - ix_epoch;
 
-		diff_100_nsec = now.u.QuadPart - ix_epoch;
-
-		return (u_int)( diff_100_nsec / div_100_nsec );
+	return (u_int)(diff_100_nsec / div_100_nsec);
 }
-
-// EOF
