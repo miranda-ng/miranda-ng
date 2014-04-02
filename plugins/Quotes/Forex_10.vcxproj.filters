@@ -257,4 +257,42 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\main.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Section.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\quote.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\up.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\down.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\CurrencyConverter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Refresh.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Export quotes.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\swap.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Import quotes.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notchanged.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icon_mai.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

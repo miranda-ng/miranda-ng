@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Forex.rc
+// Used by C:\Code\My code\Miranda NG\plugins\Quotes\res\Forex.rc
 //
 #define IDD_DIALOG_ECONOMIC_RATES       101
 #define IDI_ICON_MAIN                   102
@@ -24,6 +24,8 @@
 #define IDD_PROVIDER_ADV_SETTINGS       120
 #define IDI_ICON_SWAP                   121
 #define IDD_DIALOG_POPUP                121
+#define IDI_ICON_MAIN1                  122
+#define IDI_ICON_DISABLED               122
 #define IDD_DIALOG_VARIABLE_LIST        123
 #define IDC_TREE_ECONOMIC_RATES         1001
 #define IDC_EDIT_REFRESH_RATE           1002

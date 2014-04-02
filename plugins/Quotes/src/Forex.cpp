@@ -6,13 +6,16 @@
 int hLangpack;
 HINSTANCE g_hInstance = NULL;
 HANDLE g_hEventWorkThreadStop;
-int g_nStatus = ID_STATUS_OFFLINE;
+//int g_nStatus = ID_STATUS_OFFLINE;
+bool g_bAutoUpdate = true;
 HGENMENU g_hMenuEditSettings = NULL;
 HGENMENU g_hMenuOpenLogFile = NULL;
 #ifdef CHART_IMPLEMENT
 HGENMENU g_hMenuChart = NULL;
 #endif
 HGENMENU g_hMenuRefresh = NULL;
+
+#define DB_STR_AUTO_UPDATE "AutoUpdate"
 
 namespace
 {
@@ -21,6 +24,11 @@ namespace
 	THandles g_ahServices;
 	THandles g_ahThreads;
 	std::vector<HGENMENU> g_ahMenus;
+	HGENMENU g_hEnableDisableMenu;
+	HANDLE g_hTBButton;
+
+	LPSTR g_pszAutoUpdateCmd = "Quotes/Enable-Disable Auto Update";
+	LPSTR g_pszCurrencyConverter = "Quotes/CurrencyConverter";
 
 	PLUGININFOEX Global_pluginInfo =
 	{
@@ -37,10 +45,76 @@ namespace
 		{0xe882056d, 0xd1d, 0x4131, {0x9a, 0x98, 0x40, 0x4c, 0xba, 0xea, 0x6a, 0x9c}}
 	};
 
+	void UpdateMenu(bool bAutoUpdate)
+	{
+		CLISTMENUITEM mi = { sizeof(mi) };
+
+		if (bAutoUpdate) { // to enable auto-update
+			mi.pszName = LPGEN("Auto Update Enabled");
+			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
+			//opt.AutoUpdate = 1;
+		}
+		else { // to disable auto-update
+			mi.pszName = LPGEN("Auto Update Disabled");
+			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_DISABLED);
+			//opt.AutoUpdate = 0;
+		}
+
+		mi.flags = CMIM_ICON | CMIM_NAME;
+		Menu_ModifyItem(g_hEnableDisableMenu, &mi);
+		CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : TTBST_RELEASED);
+	}
+
+
+	INT_PTR QuoteProtoFunc_SetStatus(WPARAM wp,LPARAM /*lp*/)
+	{
+		if ((ID_STATUS_ONLINE == wp) || (ID_STATUS_OFFLINE == wp))
+		{
+			bool bAutoUpdate = (ID_STATUS_ONLINE == wp);
+			bool bOldFlag = g_bAutoUpdate;
+
+			if(bAutoUpdate != g_bAutoUpdate)
+			{
+				g_bAutoUpdate = bAutoUpdate;
+				db_set_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,g_bAutoUpdate);
+				if (bOldFlag && !g_bAutoUpdate)
+				{
+					BOOL b = ::SetEvent(g_hEventWorkThreadStop);
+					assert(b);
+				}
+				else if (g_bAutoUpdate && !bOldFlag)
+				{
+					BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
+					assert(b && "Failed to reset event");
+
+					const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+					const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
+					for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
+					{
+						const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
+						g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
+					}
+				}
+
+				UpdateMenu(g_bAutoUpdate);
+				//ProtoBroadcastAck(QUOTES_PROTOCOL_NAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,reinterpret_cast<HANDLE>(nOldStatus),g_nStatus);
+			}
+
+		}
+
+		return 0;
+	}
+
 	INT_PTR QuotesMenu_RefreshAll(WPARAM wp,LPARAM lp)
 	{
 		const CQuotesProviders::TQuotesProviders& apProviders = CModuleInfo::GetQuoteProvidersPtr()->GetProviders();
 		std::for_each(apProviders.begin(),apProviders.end(),boost::bind(&IQuotesProvider::RefreshAll,_1));
+		return 0;
+	}
+
+	INT_PTR QuotesMenu_EnableDisable(WPARAM wp,LPARAM lp)
+	{
+		QuoteProtoFunc_SetStatus(g_bAutoUpdate ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE,0L);
 		return 0;
 	}
 
@@ -53,22 +127,34 @@ namespace
 		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenuRoot);
 
+		mi.ptszName = LPGENT("Enable/Disable Auto Update");
+		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
+		mi.position = 10100001;
+		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
+		mi.pszService = g_pszAutoUpdateCmd;
+		mi.hParentMenu = hMenuRoot;
+		g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
+		g_ahMenus.push_back(g_hEnableDisableMenu);
+		HANDLE h = CreateServiceFunction(mi.pszService, QuotesMenu_EnableDisable);
+		g_ahServices.push_back(h);
+		UpdateMenu(g_bAutoUpdate);
+
 		mi.ptszName = LPGENT("Refresh All Quotes\\Rates");
 		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
-		//mi.position = 0x0FFFFFFF;
+		mi.position = 20100001;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = "Quotes/RefreshAll";
 		mi.hParentMenu = hMenuRoot;
-		HGENMENU hMenu = Menu_AddMainMenuItem(&mi);
+		auto hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
-		HANDLE h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
+		h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 		g_ahServices.push_back(h);
 
 		mi.ptszName = LPGENT("Currency Converter...");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
-		//mi.position = 0x0FFFFFFF;
+		mi.position = 20100002;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
-		mi.pszService = "Quotes/CurrencyConverter";
+		mi.pszService = g_pszCurrencyConverter;
 		hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
@@ -79,6 +165,7 @@ namespace
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 		mi.pszService = "Quotes/ExportAll";
+		mi.position = 20100003;
 		hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
@@ -88,6 +175,7 @@ namespace
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 		mi.pszService = "Quotes/ImportAll";
+		mi.position = 20100004;
 		hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_ImportAll);
@@ -169,6 +257,29 @@ namespace
 		g_ahServices.push_back(h);
 	}
 
+	int Quotes_OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
+	{
+		TTBButton ttb = { sizeof(ttb) };
+		ttb.name = LPGEN("Enable/Diable Quotes Auto Update");
+		ttb.pszService = g_pszAutoUpdateCmd;
+		ttb.pszTooltipUp = LPGEN("Quotes Auto Update Enabled");
+		ttb.pszTooltipDn = LPGEN("Quotes Auto Update Disabled");
+		ttb.hIconHandleUp = Quotes_GetIconHandle(IDI_ICON_MAIN);
+		ttb.hIconHandleDn = Quotes_GetIconHandle(IDI_ICON_DISABLED);
+		ttb.dwFlags = ((g_bAutoUpdate) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+		g_hTBButton = TopToolbar_AddButton(&ttb);
+
+		ttb.name = LPGEN("Currency Converter");
+		ttb.pszService = g_pszCurrencyConverter;
+		ttb.pszTooltipUp = LPGEN("Currency Converter");
+		ttb.pszTooltipDn = LPGEN("Currency Converter");
+		ttb.hIconHandleUp = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
+		ttb.hIconHandleDn = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
+		ttb.dwFlags = TTBBF_VISIBLE;
+		TopToolbar_AddButton(&ttb);
+
+		return 0;
+	}
 
 	int QuotesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 	{
@@ -182,6 +293,9 @@ namespace
 		g_ahEvents.push_back(h);
 
 		h = HookEvent(ME_CLIST_DOUBLECLICKED,Quotes_OnContactDoubleClick);
+		g_ahEvents.push_back(h);
+
+		h = HookEvent(ME_TTB_MODULELOADED, Quotes_OnToolbarLoaded);
 		g_ahEvents.push_back(h);
 
 		InitMenu();
@@ -205,7 +319,7 @@ namespace
 
 	INT_PTR QuoteProtoFunc_GetStatus(WPARAM/* wp*/,LPARAM/* lp*/)
 	{
-		return g_nStatus;
+		return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 	}
 
 	void WaitForWorkingThreads()
@@ -218,46 +332,10 @@ namespace
 		}
 	}
 
-	INT_PTR QuoteProtoFunc_SetStatus(WPARAM wp,LPARAM /*lp*/)
-	{
-		int nStatus = wp;
-		if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
-		{
-			int nOldStatus = g_nStatus;
-			if(nStatus != g_nStatus)
-			{
-				g_nStatus = nStatus;
-				if ((ID_STATUS_ONLINE == nOldStatus) && (ID_STATUS_OFFLINE == g_nStatus))
-				{
-					BOOL b = ::SetEvent(g_hEventWorkThreadStop);
-					assert(b);
-				}
-				else if ((ID_STATUS_ONLINE == g_nStatus) && (ID_STATUS_OFFLINE == nOldStatus))
-				{
-					BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
-					assert(b && "Failed to reset event");
-
-					const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
-					const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
-					for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
-					{
-						const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
-						g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
-					}
-				}
-
-				ProtoBroadcastAck(QUOTES_PROTOCOL_NAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,reinterpret_cast<HANDLE>(nOldStatus),g_nStatus);
-			}
-
-		}
-
-		return 0;
-	}
 
 	int QuotesEventFunc_PreShutdown(WPARAM wParam, LPARAM lParam)
 	{
 		QuoteProtoFunc_SetStatus(ID_STATUS_OFFLINE,0);
-		//WindowList_Broadcast(g_hWindowListEditSettings,WM_CLOSE,0,0);
 		CModuleInfo::GetInstance().OnMirandaShutdown();
 		return 0;
 	}
@@ -338,19 +416,6 @@ namespace
 		return CallService(MS_CLIST_REMOVECONTACTMENUITEM,reinterpret_cast<WPARAM>(h),0);
 	}
 
-// 	PROTO_INTERFACE* protoInit(const char* pszProtoName, const TCHAR* tszUserName)
-// 	{
-// 		CAimProto *ppro = new CAimProto(pszProtoName, tszUserName);
-// 		g_Instances.insert(ppro);
-// 		return ppro;
-// 	}
-//
-// 	int protoUninit(PROTO_INTERFACE* ppro)
-// 	{
-// 		g_Instances.remove((CAimProto*)ppro);
-// 		return 0;
-// 	}
-
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -368,7 +433,6 @@ extern "C"
 
 	int __declspec(dllexport) Load(void)
 	{
-
 		mir_getLP(&Global_pluginInfo);
  
 		if(false == CModuleInfo::Verify())
@@ -408,6 +472,7 @@ extern "C"
 		h = CreateServiceFunction(MS_QUOTES_IMPORT, Quotes_Import);
 		g_ahServices.push_back(h);
 
+		g_bAutoUpdate = 1 == db_get_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,1);
 		return 0;
 	}
 

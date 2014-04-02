@@ -255,6 +255,20 @@
     <ResourceCompile Include="res\Forex.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\CurrencyConverter.ico" />
+    <None Include="res\down.ico" />
+    <None Include="res\Export quotes.ico" />
+    <None Include="res\icon_mai.ico" />
+    <None Include="res\Import quotes.ico" />
+    <None Include="res\main.ico" />
+    <None Include="res\notchanged.ico" />
+    <None Include="res\quote.ico" />
+    <None Include="res\Refresh.ico" />
+    <None Include="res\Section.ico" />
+    <None Include="res\swap.ico" />
+    <None Include="res\up.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

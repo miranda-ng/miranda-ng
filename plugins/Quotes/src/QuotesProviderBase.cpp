@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-extern int g_nStatus;
+extern bool g_bAutoUpdate;
 extern HANDLE g_hEventWorkThreadStop;
 
 
@@ -235,7 +235,7 @@ const tstring& CQuotesProviderBase::GetURL()const
 
 bool CQuotesProviderBase::IsOnline()
 {
-	return ID_STATUS_ONLINE == g_nStatus;
+	return g_bAutoUpdate;
 }
 
 void CQuotesProviderBase::AddContact(MCONTACT hContact)

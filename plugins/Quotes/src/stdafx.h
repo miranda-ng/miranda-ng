@@ -36,6 +36,7 @@
 
 #include <m_variables.h>
 #include <m_Quotes.h>
+#include <m_toptoolbar.h>
 
 #include <boost\bind.hpp>
 #include <boost\scoped_ptr.hpp>

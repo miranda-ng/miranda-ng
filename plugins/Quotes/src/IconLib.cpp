@@ -3,6 +3,7 @@
 static IconItem iconList[] =
 {
 	{ LPGEN("Protocol icon"),          ICON_STR_MAIN,               IDI_ICON_MAIN },
+	{ LPGEN("Auto Update Disabled"),   ICON_STR_AUTO_UPDATE_DISABLED,               IDI_ICON_DISABLED },
 	{ LPGEN("Quote/Rate up"),          ICON_STR_QUOTE_UP,           IDI_ICON_UP },
 	{ LPGEN("Quote/Rate down"),        ICON_STR_QUOTE_DOWN,         IDI_ICON_DOWN },
 	{ LPGEN("Quote/Rate not changed"), ICON_STR_QUOTE_NOT_CHANGED,  IDI_ICON_NOTCHANGED },

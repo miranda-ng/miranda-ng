@@ -2,6 +2,7 @@
 #define __8821d334_afac_439e_9a81_76318e1ac4ef_IconLib_h__
 
 #define ICON_STR_MAIN "main"
+#define ICON_STR_AUTO_UPDATE_DISABLED "auto_update_disabled"
 #define ICON_STR_QUOTE_UP "quote_up"
 #define ICON_STR_QUOTE_DOWN "quote_down"
 #define ICON_STR_QUOTE_NOT_CHANGED "quote_not_changed"

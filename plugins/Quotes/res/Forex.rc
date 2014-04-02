@@ -37,7 +37,7 @@ IDI_ICON_EXPORT         ICON                    "Export quotes.ico"
 IDI_ICON_SWAP           ICON                    "swap.ico"
 IDI_ICON_IMPORT         ICON                    "Import quotes.ico"
 IDI_ICON_NOTCHANGED     ICON                    "notchanged.ico"
-
+IDI_ICON_DISABLED       ICON                    "AutoUpdateDisabled.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -417,7 +417,6 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
-
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
