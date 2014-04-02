@@ -41,7 +41,7 @@ public:
 		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
 		dtsg_ = logout_hash_ = chat_sticky_num_ = chat_conn_num_ = chat_clientid_ = "";
 
-		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
+		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = notifications_count_ = 0;
 
 		https_ = is_idle_ = invisible_ = is_typing_ = false;
 
@@ -82,6 +82,7 @@ public:
 	bool	https_;
 	time_t  last_feeds_update_;
 	unsigned __int64 last_notification_time_;
+	int     notifications_count_;
 	int     msgid_;
 
 	////////////////////////////////////////////////////////////

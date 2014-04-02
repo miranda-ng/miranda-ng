@@ -40,6 +40,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	CreateProtoService(PS_GETMYAVATART,   &FacebookProto::GetMyAvatar);
 	CreateProtoService(PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT, &FacebookProto::GetNotificationsCount);
 
 	CreateProtoService(PS_JOINCHAT,  &FacebookProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
@@ -378,6 +379,14 @@ int FacebookProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+INT_PTR FacebookProto::GetNotificationsCount(WPARAM wParam, LPARAM lParam)
+{
+	if (isOffline())
+		return 0;
+
+	return facy.notifications_count_;
 }
 
 //////////////////////////////////////////////////////////////////////////////

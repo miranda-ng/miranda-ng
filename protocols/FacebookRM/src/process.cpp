@@ -552,9 +552,6 @@ void FacebookProto::ProcessNotifications(void*)
 	if (isOffline())
 		return;
 
-	if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-		return;
-
 	facy.handle_entry("notifications");
 
 	// Get notifications
@@ -576,6 +573,11 @@ void FacebookProto::ProcessNotifications(void*)
 	facebook_json_parser* p = new facebook_json_parser(this);
 	p->parse_notifications(&(resp.data), &notifications);
 	delete p;
+
+	facy.notifications_count_ = notifications.size();
+
+	if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+		return;
 
 	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
 	{

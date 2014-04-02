@@ -599,13 +599,20 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					messages->push_back(message);
 				}
 			}
+		} else if (t == "notifications_read") {
+			JSONNODE *alerts = json_get(it, "alert_ids");
+			proto->facy.notifications_count_ -= json_size(alerts);
+			
+			if (proto->facy.notifications_count_ < 0)
+				proto->facy.notifications_count_ = 0;
 		} else if (t == "notification_json") {
 			// event notification
+			JSONNODE *nodes = json_get(it, "nodes");
+			proto->facy.notifications_count_ += json_size(nodes);
 
 			if (!proto->getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
 				continue;
-
-			JSONNODE *nodes = json_get(it, "nodes");
+			
 			for (unsigned int j = 0; j < json_size(nodes); j++) {
 				JSONNODE *itNodes = json_at(nodes, j);
 

@@ -125,6 +125,7 @@ public:
 	INT_PTR __cdecl CheckNewsfeeds(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckFriendRequests(WPARAM, LPARAM);
 	INT_PTR __cdecl RefreshBuddyList(WPARAM, LPARAM);
+	INT_PTR __cdecl GetNotificationsCount(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnJoinChat(WPARAM,LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM,LPARAM);
