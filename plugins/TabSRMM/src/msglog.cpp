@@ -595,7 +595,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		}
 	}
 
-	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT | DBEF_READ)))
+	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, lstrlenA((char *) dbei.pBlob));
 
 	if (rtfMessage == NULL) {
@@ -625,7 +625,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 	dwEffectiveFlags = dat->dwFlags;
 
-	dat->isHistory = (dbei.timestamp < dat->cache->getSessionStart() && (dbei.flags & DBEF_READ || dbei.flags & DBEF_SENT));
+	dat->isHistory = (dbei.timestamp < dat->cache->getSessionStart() && dbei.markedRead());
 	iFontIDOffset = dat->isHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
 	isSent = (dbei.flags & DBEF_SENT);
 

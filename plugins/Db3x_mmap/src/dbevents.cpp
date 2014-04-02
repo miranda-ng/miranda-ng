@@ -291,8 +291,18 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 {
+	DBCachedContact *cc;
+	if (contactID) {
+		if ((cc = m_cache->GetCachedContact(contactID)) == NULL)
+			return -1;
+		if (cc->IsSub())
+			if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
+				return -1;
+	}
+	else cc = NULL;
+
 	mir_cslockfull lck(m_csDbAccess);
-	DWORD ofsContact = GetContactOffset(contactID);
+	DWORD ofsContact = (cc) ? cc->dwDriverData : m_dbHeader.ofsUser;
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
 	if (dbe->signature != DBEVENT_SIGNATURE || dbc.signature != DBCONTACT_SIGNATURE)
