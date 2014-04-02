@@ -77,11 +77,9 @@ LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	mf.nmhdr.code = EN_MSGFILTER;
 	mf.nmhdr.hwndFrom = hwnd;
 	mf.nmhdr.idFrom = ctrlId;
-
 	mf.lParam = lParam;
 	mf.wParam = wParam;
 	mf.msg = msg;
-
 	return SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&mf);
 }
 
@@ -110,7 +108,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 		else CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		return;
 	}
-	
+
 	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
 	if (si != NULL) {
 		// session does exist, but no window is open for it
@@ -180,10 +178,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		break;
 
-		/*
-		* handle the popup menus (session list, favorites, recents...
-		* just draw some icons, nothing more :)
-		*/
+	// handle the popup menus (session list, favorites, recents...
+	// just draw some icons, nothing more :)
 	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT) lParam;
@@ -361,16 +357,12 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		break;
 
-		/*
-		 * handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
-		 * is posted to our invisible hotkey handler which does always run within the main thread.
-		 * wParam is the hContact
-		 * lParam the event handle
-		 */
+	// handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
+	// is posted to our invisible hotkey handler which does always run within the main thread.
+	// wParam is the hContact
+	// lParam the event handle
 	case DM_HANDLECLISTEVENT:
-		/*
-		 * if lParam == NULL, don't consider clist events, just open the message tab
-		 */
+		// if lParam == NULL, don't consider clist events, just open the message tab
 		if (lParam == 0)
 			HandleMenuEntryFromhContact(wParam);
 		else {
@@ -436,9 +428,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_free((void*)lParam);
 		return 0;
 
-		/*
-		 * sent from the popup to "dismiss" the event. we should do this in the main thread
-		 */
+	// sent from the popup to "dismiss" the event. we should do this in the main thread
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
 		db_event_markRead(wParam, (HANDLE)lParam);
@@ -468,11 +458,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		}
 		return 0;
-		/*
-		 * react to changes in the desktop composition state
-		 * (enable/disable DWM, change to a non-aero visual style
-		 * or classic Windows theme
-		 */
+
+	// react to changes in the desktop composition state
+	// (enable/disable DWM, change to a non-aero visual style
+	// or classic Windows theme
 	case WM_DWMCOMPOSITIONCHANGED:
 		{
 			bool fNewAero = M.getAeroState();					// refresh dwm state
@@ -494,22 +483,18 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
 		break;
 
-		/*
-		 * this message is fired when the user changes desktop color
-		 * settings (Desktop->personalize)
-		 * the handler reconfigures the aero-related skin images for
-		 * tabs and buttons to match the new desktop color theme.
-		 */
+	// this message is fired when the user changes desktop color
+	// settings (Desktop->personalize)
+	// the handler reconfigures the aero-related skin images for
+	// tabs and buttons to match the new desktop color theme.
 	case WM_DWMCOLORIZATIONCOLORCHANGED:
 		M.getAeroState();
 		Skin->setupAeroSkins();
 		CSkin::initAeroEffect();
 		break;
 
-		/*
-		 * user has changed the visual style or switched to/from
-		 * classic Windows theme
-		 */
+	// user has changed the visual style or switched to/from
+	// classic Windows theme
 	case WM_THEMECHANGED:
 		M.getAeroState();
 		Skin->setupTabCloseBitmap();
@@ -591,28 +576,20 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_TIMER:
 		if (wParam == TIMERID_SENDLATER) {
-			/*
-			 * send heartbeat to each container, they use this to update
-			 * dynamic content (i.e. local time in the info panel).
-			 */
+			// send heartbeat to each container, they use this to update
+			// dynamic content (i.e. local time in the info panel).
 			for (p = pFirstContainer; p; p = p->pNext)
 				SendMessage(p->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
-			/*
-			 * process send later contacts and jobs, if enough time has elapsed
-			 */
+			// process send later contacts and jobs, if enough time has elapsed
 			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
 				sendLater->setLastProcessed(time(0));
 
-				/*
-				 * check the list of contacts that may have new send later jobs
-				 * (added on user's request)
-				 */
+				// check the list of contacts that may have new send later jobs
+				// (added on user's request)
 				sendLater->processContacts();
 
-				/*
-				 * start processing the job list
-				 */
+				// start processing the job list
 				if (!sendLater->isJobListEmpty()) {
 					KillTimer(hwndDlg, wParam);
 					sendLater->startJobListProcess();
@@ -620,11 +597,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 			}
 		}
-		/*
-		 * process one entry per tick (default: 200ms)
-		 * TODO better timings, possibly slow down when many jobs are in the
-		 * queue.
-		 */
+
+		// process one entry per tick (default: 200ms)
+		// TODO better timings, possibly slow down when many jobs are in the
+		// queue.
 		else if (wParam == TIMERID_SENDLATER_TICK) {
 			if ( !sendLater->haveJobs()) {
 				KillTimer(hwndDlg, wParam);

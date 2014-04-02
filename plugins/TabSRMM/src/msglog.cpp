@@ -552,31 +552,17 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 
 static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, int prefixParaBreak, LogStreamData *streamData)
 {
-	char *buffer, c;
-	TCHAR ci, cc;
-	TCHAR	*szFinalTimestamp;
-	int   bufferAlloced, bufferEnd;
-	size_t iTemplateLen, i = 0;
-	DBEVENTINFO dbei = { 0 };
-	int isSent = 0;
-	int iFontIDOffset = 0;
-	TCHAR *szTemplate;
 	HANDLE hTimeZone;
-	BOOL skipToNext = FALSE, showTime = TRUE, showDate = TRUE, skipFont = FALSE;
+	BOOL skipToNext = FALSE, skipFont = FALSE;
 	struct tm event_time;
-	TTemplateSet *this_templateset;
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
-	DWORD dwEffectiveFlags;
 	DWORD dwFormattingParams = MAKELONG(PluginConfig.m_FormatWholeWordsOnly, 0);
-	BOOL  bIsStatusChangeEvent = FALSE;
-	TCHAR *msg, *formatted = NULL;
 	char *rtfMessage = NULL;
 
-	bufferEnd = 0;
-	bufferAlloced = 1024;
-	buffer = (char *) mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
+	int bufferEnd = 0, bufferAlloced = 1024;
+	char *buffer = (char *)mir_alloc(bufferAlloced); buffer[0] = '\0';
 
+	DBEVENTINFO dbei = { 0 };
 	if (streamData->dbei != 0)
 		dbei = *(streamData->dbei);
 	else {
@@ -598,19 +584,20 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, lstrlenA((char *) dbei.pBlob));
 
+	TCHAR *formatted = NULL;
 	if (rtfMessage == NULL) {
-		msg = DbGetEventTextT(&dbei, dat->codePage);
+		TCHAR *msg = DbGetEventTextT(&dbei, dat->codePage);
 		if (!msg) {
 			mir_free(dbei.pBlob);
 			mir_free(buffer);
 			return NULL;
 		}
 		TrimMessage(msg);
-		formatted = const_cast<TCHAR *>(Utils::FormatRaw(dat, msg, dwFormattingParams, isSent));
+		formatted = const_cast<TCHAR *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
 		mir_free(msg);
 	}
 
-	bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
+	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
@@ -623,11 +610,11 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	if (dbei.flags & DBEF_RTL)
 		dat->isAutoRTL |= 1;
 
-	dwEffectiveFlags = dat->dwFlags;
+	DWORD dwEffectiveFlags = dat->dwFlags;
 
 	dat->isHistory = (dbei.timestamp < dat->cache->getSessionStart() && dbei.markedRead());
-	iFontIDOffset = dat->isHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
-	isSent = (dbei.flags & DBEF_SENT);
+	int iFontIDOffset = dat->isHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
+	BOOL isSent = (dbei.flags & DBEF_SENT);
 
 	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(hContact, hDbEvent);
@@ -666,23 +653,22 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	streamData->isEmpty = FALSE;
 
 	if (dat->isAutoRTL & 1) {
-		if (dbei.flags & DBEF_RTL) {
+		if (dbei.flags & DBEF_RTL)
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrch\\rtlch");
-		} else {
+		else
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\rtlch\\ltrch");
-		}
 	}
 
-	/*
-	 * templated code starts here
-	 */
+	// templated code starts here
 	if (dwEffectiveFlags & MWF_LOG_SHOWTIME) {
 		hTimeZone = ((dat->dwFlags & MWF_LOG_LOCALTIME) && !isSent) ? dat->hTimeZone : NULL;
 		time_t local_time = tmi.timeStampToTimeZoneTimeStamp(hTimeZone, dbei.timestamp);
 		event_time = *gmtime(&local_time);
 	}
-	this_templateset = dbei.flags & DBEF_RTL ? dat->pContainer->rtl_templates : dat->pContainer->ltr_templates;
+	
+	TTemplateSet *this_templateset = dbei.flags & DBEF_RTL ? dat->pContainer->rtl_templates : dat->pContainer->ltr_templates;
 
+	TCHAR *szTemplate;
 	if (bIsStatusChangeEvent)
 		szTemplate = this_templateset->szTemplates[TMPL_STATUSCHG];
 	else if (dbei.eventType == EVENTTYPE_ERRMSG)
@@ -695,9 +681,9 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			szTemplate = isSent ? this_templateset->szTemplates[TMPL_MSGOUT] : this_templateset->szTemplates[TMPL_MSGIN];
 	}
 
-	iTemplateLen = lstrlen(szTemplate);
-	showTime = dwEffectiveFlags & MWF_LOG_SHOWTIME;
-	showDate = dwEffectiveFlags & MWF_LOG_SHOWDATES;
+	size_t iTemplateLen = lstrlen(szTemplate);
+	BOOL showTime = dwEffectiveFlags & MWF_LOG_SHOWTIME;
+	BOOL showDate = dwEffectiveFlags & MWF_LOG_SHOWDATES;
 
 	if (dat->hHistoryEvents) {
 		if (dat->curHistory == dat->maxHistory) {
@@ -709,10 +695,10 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ul0\\b0\\i0 ");
 
-	while (i < iTemplateLen) {
-		ci = szTemplate[i];
+	for (size_t i = 0; i < iTemplateLen; ) {
+		TCHAR ci = szTemplate[i];
 		if (ci == '%') {
-			cc = szTemplate[i + 1];
+			TCHAR cc = szTemplate[i + 1];
 			skipToNext = FALSE;
 			skipFont = FALSE;
 			/*
@@ -797,14 +783,14 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				break;
 			case 'D': // long date
 				if (showTime && showDate) {
-					szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)'D');
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)'D');
 					AppendTimeStamp(szFinalTimestamp, isSent, &buffer, &bufferEnd, &bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'E': // short date...
 				if (showTime && showDate) {
-					szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)'E');
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)'E');
 					AppendTimeStamp(szFinalTimestamp, isSent, &buffer, &bufferEnd, &bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -898,7 +884,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'R':
 			case 'r': // long date
 				if (showTime && showDate) {
-					szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, cc);
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, cc);
 					AppendTimeStamp(szFinalTimestamp, isSent, &buffer, &bufferEnd, &bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -906,13 +892,14 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 't':
 			case 'T':
 				if (showTime) {
-					szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (TCHAR)'t'));
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (TCHAR)'t'));
 					AppendTimeStamp(szFinalTimestamp, isSent, &buffer, &bufferEnd, &bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'S': // symbol
 				if (dwEffectiveFlags & MWF_LOG_SYMBOLS) {
+					char c;
 					if ((dwEffectiveFlags & MWF_LOG_INOUTICONS) && dbei.eventType == EVENTTYPE_MESSAGE)
 						c = isSent ? 0x37 : 0x38;
 					else {
