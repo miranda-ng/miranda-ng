@@ -426,6 +426,12 @@ int Meta_HideMetaContacts(bool bHide)
 			db_unset(hContact, "CList", "Hidden");
 	}
 
+	if (bHide) {
+		for (int i = 0; i < arMetaWindows.getCount(); i++)
+			SendMessage((HWND)arMetaWindows[i], WM_CLOSE, 0, 0);
+		arMetaWindows.destroy();
+	}
+
 	return 0;
 }
 

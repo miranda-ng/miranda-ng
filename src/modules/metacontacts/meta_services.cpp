@@ -40,6 +40,8 @@ HANDLE
 UINT_PTR setStatusTimerId = 0;
 BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
 
+LIST<void> arMetaWindows(1, HandleKeySortT);
+
 /** Get the capabilities of the "MetaContacts" protocol.
 *
 * @param wParam : 	equals to one of the following values :\n
@@ -540,17 +542,21 @@ int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 	return 1;
 }
 
-// handle message window api ver 0.0.0.1+ events - record window open/close status for subcontacts, so we know whether to
-// let received messages through and add db history to metacontact, or vice versa
+// record window open/close status for subs & metas
 int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
-	if (mwed->uType != MSG_WINDOW_EVT_OPEN)
-		return 0;
-
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
-	if (cc != NULL)
-		Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
+	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
+		DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
+		if (cc != NULL) {
+			Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
+			if (cc->IsMeta())
+				arMetaWindows.insert(mwed->hwndWindow);
+		}
+	}
+	else if (mwed->uType == MSG_WINDOW_EVT_CLOSING) {
+		arMetaWindows.remove(mwed->hwndWindow);
+	}
 	return 0;
 }
 

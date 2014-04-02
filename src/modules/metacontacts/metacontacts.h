@@ -28,6 +28,8 @@ INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
 void InitMenus();
 extern int mcStatus;
 
+extern LIST<void> arMetaWindows;
+
 INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_AddTo(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_Edit(WPARAM wParam,LPARAM lParam);
