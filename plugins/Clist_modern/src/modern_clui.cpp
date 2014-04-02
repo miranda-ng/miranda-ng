@@ -1030,7 +1030,7 @@ static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam, LPARAM lParam)
 	if (!szProto || !status)
 		return 0;
 
-	if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+	if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
 		PROTOTICKS *pt = CLUI_GetProtoTicksByProto(szProto);
 		if (pt != NULL) {
 			if (pt->nCycleStartTick == 0) {

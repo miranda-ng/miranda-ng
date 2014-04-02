@@ -172,11 +172,11 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 			}
 		}
 		else {
-			switch( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT)) {
+			switch (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT)) {
 			case SETTING_TRAYICON_SINGLE:
-				status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+				status = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
 
-				if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+				if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 					// 1 check if multi connecting icon
 					CListTray_GetGlobalStatus(0, 0);
 					if (g_bMultiConnectionMode) {
@@ -185,70 +185,70 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 
 						hIcon = (HICON)CLUI_GetConnectingIconService(NULL, 1);
 					}
-					else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
+					else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 				}
 				else {
-					ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
-					hIcon = cliGetIconFromStatusMode(NULL, szProto, (szProto) ? CallProtoService(szProto,PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
+					ptrA szProto(db_get_sa(NULL, "CList", "PrimaryStatus"));
+					hIcon = cliGetIconFromStatusMode(NULL, szProto, (szProto) ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 				}
 				if (hIcon)
-					return pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
+					return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
 				break;
 
 			case SETTING_TRAYICON_CYCLE:
-				status = szChangedProto ? CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0) : averageMode;
-				if ((g_StatusBarData.connectingIcon == 1 && CListTray_GetGlobalStatus(0, 0)
-					&&  ((status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) ||  g_bMultiConnectionMode )))
+				status = szChangedProto ? CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0) : averageMode;
+				if (g_StatusBarData.bConnectingIcon && CListTray_GetGlobalStatus(0, 0) &&
+					((status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) || g_bMultiConnectionMode))
 				{
 					//stop cycling
 					if (pcli->cycleTimerId)
-						KillTimer(NULL,pcli->cycleTimerId);
+						KillTimer(NULL, pcli->cycleTimerId);
 					pcli->cycleTimerId = 0;
 
 					// 1 check if multi connecting icon
 					if (g_bMultiConnectionMode) {
-						if (_strcmpi(szChangedProto,g_szConnectingProto))
+						if (_strcmpi(szChangedProto, g_szConnectingProto))
 							return -1;
-						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)"",1);
+						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)"", 1);
 					}
 					else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 					if (hIcon)
 						return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
 				}
 				else {
-					pcli->cycleTimerId = CLUI_SafeSetTimer(NULL, 0, db_get_w(NULL,"CList","CycleTime",SETTING_CYCLETIME_DEFAULT)*1000, pcli->pfnTrayCycleTimerProc);
-					return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szChangedProto,status),NULL);
+					pcli->cycleTimerId = CLUI_SafeSetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, pcli->pfnTrayCycleTimerProc);
+					return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL, szChangedProto, status), NULL);
 				}
 				break;
 
 			case SETTING_TRAYICON_MULTI:
 				if (!pcli->trayIcon)
-					pcli->pfnTrayIconRemove(NULL,NULL);
-				else if ( db_get_b(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT )) {
+					pcli->pfnTrayIconRemove(NULL, NULL);
+				else if (db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)) {
 					if (!pcli->pfnGetProtocolVisibility(szChangedProto))
 						return -1;
 
-					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
-					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
+					status = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
+					if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 					else
-						hIcon = cliGetIconFromStatusMode(NULL,szChangedProto,CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0));
+						hIcon = cliGetIconFromStatusMode(NULL, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
 					if (hIcon)
-						return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
+						return pcli->pfnTrayIconSetBaseInfo(hIcon, szChangedProto);
 				}
 				else if (pcli->pfnGetProtocolVisibility(szChangedProto)) {
 					int avg = pcli->pfnGetAverageMode(NULL);
-					int i = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szChangedProto,CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0)),szChangedProto);
+					int i = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0)), szChangedProto);
 					if (i < 0) {
 						pcli->pfnTrayIconDestroy(hwnd);
 						pcli->pfnTrayIconInit(hwnd);
 						return -1;
 					}
 
-					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
-					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+					status = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
+					if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 						if (hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0))
-							return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
+							return pcli->pfnTrayIconSetBaseInfo(hIcon, szChangedProto);
 					}
 					return i;
 				}
@@ -256,16 +256,16 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 			}
 		}
 	}
-	else if ( pcli->pfnGetProtocolVisibility(szChangedProto)) {
-		status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+	else if (pcli->pfnGetProtocolVisibility(szChangedProto)) {
+		status = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
 
-		if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+		if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 			if (hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0))
-				return pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
+				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
 		}
 		else if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_IDLE) {
-			ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
-			return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,status),NULL);
+			ptrA szProto(db_get_sa(NULL, "CList", "PrimaryStatus"));
+			return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL, szProto, status), NULL);
 		}
 	}
 
@@ -274,24 +274,24 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 
 static UINT_PTR autoHideTimerId;
 
-static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
+static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
-	KillTimer(hwnd,idEvent);
+	KillTimer(hwnd, idEvent);
 	HWND hwndClui = pcli->hwndContactList;
 	HWND ActiveWindow = GetActiveWindow();
 	if (ActiveWindow == hwndClui) return;
 	if (CLUI_CheckOwnedByClui(ActiveWindow)) return;
 
 	CListMod_HideWindow(hwndClui, SW_HIDE);
-	SetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
+	SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 }
 
 int cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam)
 {
-	if ( db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
-		if (GetActiveWindow() != pcli->hwndContactList && GetWindow(GetParent(GetActiveWindow()),GW_OWNER) != pcli->hwndContactList) {
-			KillTimer(NULL,autoHideTimerId);
-			autoHideTimerId = CLUI_SafeSetTimer(NULL, 0, 1000*db_get_w(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),TrayIconAutoHideTimer);
+	if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+		if (GetActiveWindow() != pcli->hwndContactList && GetWindow(GetParent(GetActiveWindow()), GW_OWNER) != pcli->hwndContactList) {
+			KillTimer(NULL, autoHideTimerId);
+			autoHideTimerId = CLUI_SafeSetTimer(NULL, 0, 1000 * db_get_w(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 		}
 	}
 
@@ -301,7 +301,7 @@ int cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam)
 void DestroyTrayMenu(HMENU hMenu)
 {
 	int cnt = GetMenuItemCount(hMenu);
-	for (int i=0; i < cnt; ++i) {
+	for (int i = 0; i < cnt; ++i) {
 		HMENU hSubMenu = GetSubMenu(hMenu, i);
 		if (hSubMenu && hSubMenu == hStatusMenu || hSubMenu == hMainMenu)
 			RemoveMenu(hMenu, i--, MF_BYPOSITION);
@@ -312,23 +312,23 @@ void DestroyTrayMenu(HMENU hMenu)
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 {
 	MSG *msg = (MSG*)wParam;
-	switch(msg->message) {
+	switch (msg->message) {
 	case WM_EXITMENULOOP:
 		if (pcli->bTrayMenuOnScreen)
 			pcli->bTrayMenuOnScreen = FALSE;
 		break;
 
 	case WM_ACTIVATE:
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
 		{
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
 			HWND h1 = (HWND)msg->lParam;
 			HWND h2 = h1 ? GetParent(h1) : NULL;
 			HWND h4 = pcli->hwndContactList;
-			if ( db_get_b(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT)) {
+			if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 				if (LOWORD(msg->wParam) == WA_INACTIVE && h2 != h4)
-					autoHideTimerId = CLUI_SafeSetTimer(NULL, 0, 1000*db_get_w(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),TrayIconAutoHideTimer);
+					autoHideTimerId = CLUI_SafeSetTimer(NULL, 0, 1000 * db_get_w(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 				else {
-					KillTimer(NULL,autoHideTimerId);
+					KillTimer(NULL, autoHideTimerId);
 					autoHideTimerId = 0;
 				}
 			}
@@ -340,7 +340,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		return FALSE; //to avoid autohideTimer in core
 
 	case TIM_CALLBACK:
-		if ((GetAsyncKeyState(VK_CONTROL)&0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL,"CList","Tray1Click",SETTING_TRAY1CLICK_DEFAULT)) {
+		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
 			POINT pt;
 			HMENU hMenu;
 			hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
@@ -350,12 +350,12 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			SetFocus(msg->hwnd);
 			GetCursorPos(&pt);
 			pcli->bTrayMenuOnScreen = TRUE;
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
+			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
 			PostMessage(msg->hwnd, WM_NULL, 0, 0);
 			g_mutex_bOnTrayRightClick = 0;
 			IS_WM_MOUSE_DOWN_IN_TRAY = 0;
 		}
-		else if (msg->lParam == WM_MBUTTONDOWN  || msg->lParam == WM_LBUTTONDOWN  || msg->lParam == WM_RBUTTONDOWN) {
+		else if (msg->lParam == WM_MBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN) {
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
 		}
 		else if (msg->lParam == WM_RBUTTONUP) {
@@ -369,7 +369,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 			GetCursorPos(&pt);
 			pcli->bTrayMenuOnScreen = TRUE;
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
+			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
 			DestroyTrayMenu(hMenu);
 			PostMessage(msg->hwnd, WM_NULL, 0, 0);
 		}
@@ -392,7 +392,7 @@ typedef struct{
 	char *szServiceName;
 	int Param1;
 }
-	TrayMenuExecParam,*lpTrayMenuExecParam;
+TrayMenuExecParam, *lpTrayMenuExecParam;
 
 /*
 wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
@@ -401,7 +401,7 @@ return 0 on success.
 
 static INT_PTR RemoveTrayMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	CallService(MO_REMOVEMENUITEM,wParam,0);
+	CallService(MO_REMOVEMENUITEM, wParam, 0);
 	return 0;
 }
 
@@ -414,9 +414,9 @@ static INT_PTR BuildTrayMenu(WPARAM wParam, LPARAM lParam)
 
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hTrayMenuObject;
-	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
+	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
 
-	tick = GetTickCount()-tick;
+	tick = GetTickCount() - tick;
 	return (INT_PTR)hMenu;
 }
 
@@ -429,7 +429,7 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam, LPARAM lParam)
 		return NULL;
 
 	lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)mir_alloc(sizeof(TrayMenuExecParam));
-	if ( mmep == NULL)
+	if (mmep == NULL)
 		return 0;
 
 	//we need just one parametr.
@@ -438,7 +438,7 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam, LPARAM lParam)
 	tmi.ownerdata = mmep;
 
 	OptParam op;
-	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hTrayMenuObject,(LPARAM)&tmi);
+	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hTrayMenuObject, (LPARAM)&tmi);
 	op.Setting = OPT_MENUITEMSETUNIQNAME;
 	op.Value = (INT_PTR)mi->pszService;
 	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
@@ -447,7 +447,7 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TrayMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
-	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
+	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
 	if (mii == NULL)
 		return 0;
 
@@ -478,11 +478,11 @@ INT_PTR TrayMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
-		if (!mir_strcmp(mmep->szServiceName,"Help/AboutCommand")) {
+		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
 		}
-		CallService(mmep->szServiceName,mmep->Param1,lParam);
+		CallService(mmep->szServiceName, mmep->Param1, lParam);
 	}
 	return(1);
 }
@@ -500,13 +500,13 @@ INT_PTR FreeOwnerDataTrayMenu(WPARAM wParam, LPARAM lParam)
 
 void InitTrayMenus(void)
 {
-	CreateServiceFunction("CLISTMENUSTRAY/ExecService",TrayMenuExecService);
-	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu",FreeOwnerDataTrayMenu);
-	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService",TrayMenuonAddService);
+	CreateServiceFunction("CLISTMENUSTRAY/ExecService", TrayMenuExecService);
+	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu", FreeOwnerDataTrayMenu);
+	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService", TrayMenuonAddService);
 
-	CreateServiceFunction("CList/AddTrayMenuItem",AddTrayMenuItem);
-	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM,RemoveTrayMenuItem);
-	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY,BuildTrayMenu);
+	CreateServiceFunction("CList/AddTrayMenuItem", AddTrayMenuItem);
+	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM, RemoveTrayMenuItem);
+	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY, BuildTrayMenu);
 
 	// Tray menu
 	hTrayMenuObject = MO_CreateMenuObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
@@ -565,8 +565,6 @@ void InitTrayMenus(void)
 void UninitTrayMenu()
 {
 	if (hTrayMenuObject && ServiceExists(MO_REMOVEMENUOBJECT))
-		CallService(MO_REMOVEMENUOBJECT,(WPARAM)hTrayMenuObject,0);
+		CallService(MO_REMOVEMENUOBJECT, (WPARAM)hTrayMenuObject, 0);
 	hTrayMenuObject = NULL;
 }
-
-//////////////////////////////END TRAY MENU/////////////////////////

@@ -551,7 +551,7 @@ void  CLCPaint::_AddParamShort( MODERNMASK *mpModernMask, DWORD dwParamIndex, DW
 }
 
 
-MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask( ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat )
+MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask( ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat )
 {
 	MODERNMASK *mpModernMask = NULL;
 	char buf[BUF2SIZE] = {0};
