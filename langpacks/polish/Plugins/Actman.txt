@@ -98,9 +98,9 @@ Wolna pamięć
 [Signed value]
 Podpisana wartość
 [wParam type]
-Typ wParm
+wParm
 [lParam type]
-Typ lParm
+lParm
 [number value]
 wartość
 [ANSI string]
@@ -282,9 +282,9 @@ Otwiera bądź aktywuje edytor bazy danych
 [Opens or activate user search dialog]
 Otwiera bądź aktywuje okno szukania kontaktów
 [displays File Transfer window]
-Wyświetla okno transferu plików
+wyświetla okno transferu plików
 [on Desktop]
-Na pulpicie
+na pulpicie
 [parent window handle]
 uchwyt okna rodzica
 [Show "About..." window]
@@ -380,11 +380,11 @@ Błąd
 [Popup window]
 Wyskakujące okno
 [YAPP only]
-tylko YAPP
+Tylko YAPP
 [Unicode Text]
 Tekst Unicode
 [result of protocol service call]
-Wynik wywołania usługi protokołu
+wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
 Wyślij ogólne zapytanie poprzez łańcuch protokołu dla kontaktu
 [str, account name]
@@ -392,7 +392,7 @@ str, nazwa konta
 [Return account name associated to contact (no need to free it)]
 Zwróć nazwę konta powiązanego z kontaktem (nie ma potrzeby jej uwalniania)
 [displays the Account Manager]
-Wyświetla menedżer kont
+wyświetla menedżer kont
 [Show the dialog to select the contact]
 Pokaż okno wyboru kontaktu
 [filter text]
@@ -402,7 +402,7 @@ wParam to unicode
 [wParam is Ansi]
 wParam to Ansi
 [Reserved]
-zarezerwowany
+Zarezerwowany
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Odtwarza dźwięk dodany przez Skin/Sounds/Addnew. W przypadku nie znalezienia dźwięku, odtwarzany jest domyślny dźwięk Windows.
 [Send Email to contact]
@@ -420,13 +420,13 @@ hContact;parametr
 [Opens message window for contact with handle in wparam]
 Otwiera okno rozmowy z kontaktem z uchwytem w wParam
 [remove all temporary contacts from db]
-Usuń wszystkie tymczasowe kontakty z bazy danych
+usuń wszystkie tymczasowe kontakty z bazy danych
 [Call avatar option dialog for contact]
 Wywołaj okno opcji awatara kontaktu
 [Avatar service (AVS.dll)]
 Usługa awatarów (AVS.dll)
 [Filename]
-Nazwapliku
+Nazwa pliku
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
 Ustaw i opcjonalnie chroń lokalny obraz kontaktu dla podanego hContact. Jeśli lParam=0, pokazane zostanie okno wyboru pliku.
 [Shows contact property window.]
@@ -530,7 +530,7 @@ Startuj normalnie
 [Start hidden]
 Startuj schowany
 [Start minimized]
-Uruchom zminimalizowane
+Uruchom zminimalizowany
 [Start maximized]
 Startuj zmaksymalizowany
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
@@ -548,9 +548,9 @@ Wklej z
 [File]
 Plik
 [Read]
-Odczyt
+Odczytaj
 [Write]
-Zapis
+Zapisz
 [Append]
 Dodaj
 [UTF8+sign]
@@ -634,7 +634,7 @@ Startuj od
 [Start immediately]
 Startuj natychmiast
 [Days]
-dniach
+Dni
 [Time]
 Czas
 [Date]
@@ -680,7 +680,7 @@ Użycie
 [TopToolbar]
 Pasek narzędzi
 [TabSRMM toolbar]
-Pasek narzędzi TabSRMM
+Okno rozmowy
 [Core Hotkey]
 Skróty
 [Main menu]
@@ -706,7 +706,7 @@ Normalny przycisk na pasku zadań
 [Pressed button tooltip]
 Wciśnięty przycisk na pasku zadań
 [Separated]
-W separacji
+Odseparowany
 [Root popup:]
 Źródło:
 [Menu item name:]
@@ -819,9 +819,9 @@ Zapisz wartość
 [Storage]
 Przestrzeń
 [LastResult to ]
-LastResult do
+Ostatni wynik do
 [LastResult from]
-LastResult z
+Ostatni wynik z
 [Slot 0]
 Slot 0
 [Slot 1]

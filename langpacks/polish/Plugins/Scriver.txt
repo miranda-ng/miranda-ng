@@ -783,11 +783,11 @@ Wygląd i zachowanie okien rozmowy
 [Icons to display in the tray]
 Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
-Nick obecnego kontaktu (jeśli zdefiniowany)
+nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wspiera wiele kont, użyta zostanie nazwa konta.
+nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
-
+nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
@@ -803,13 +803,13 @@ zwróci analizowany ciąg %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
-Nazwa obecnie zalogowanego użytkownika Windows
+nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
-Folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
+folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
-Folder "Pulpit" aktualnie zalogowanego użytkownika Windows
+folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
+dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
 [day of month, 1-31]
 dzień miesiąca, 1-31
 [day of month, 01-31]

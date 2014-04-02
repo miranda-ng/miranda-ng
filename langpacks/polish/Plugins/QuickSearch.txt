@@ -130,7 +130,7 @@ ostatni wynik
 [parameter]
 parametry
 [Result]
-WYNIK
+Wynik
 [Result type]
 Typ wyniku
 [Free memory]
