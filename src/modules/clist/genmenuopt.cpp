@@ -477,11 +477,11 @@ static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
 	return 0;
 }
 
-static void OnClickCheckbox(HWND hwndDlg, HWND hwndTree)
+static void OnClickCheckbox(HWND hwndDlg, HWND hwndTree, HTREEITEM hItem)
 {
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-	tvi.hItem = TreeView_GetSelection(hwndTree);
+	tvi.hItem = hItem;
 	TreeView_GetItem(hwndTree, &tvi);
 
 	tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
@@ -636,7 +636,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			case TVN_KEYDOWN:
 				if (((LPNMLVKEYDOWN)lParam)->wVKey == VK_SPACE)
-					OnClickCheckbox(hwndDlg, hdr->hwndFrom);
+					OnClickCheckbox(hwndDlg, hdr->hwndFrom, TreeView_GetSelection(hdr->hwndFrom));
 				break;
 
 			case NM_CLICK:
@@ -647,7 +647,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					ScreenToClient(hdr->hwndFrom, &hti.pt);
 					if (TreeView_HitTest(hdr->hwndFrom, &hti)) {
 						if (hti.flags & TVHT_ONITEMICON)
-							OnClickCheckbox(hwndDlg, hdr->hwndFrom);
+							OnClickCheckbox(hwndDlg, hdr->hwndFrom, hti.hItem);
 
 						/*--------MultiSelection----------*/
 						if (hti.flags & TVHT_ONITEMLABEL) {
