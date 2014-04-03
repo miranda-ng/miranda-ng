@@ -186,7 +186,6 @@ void CSend::svcSendMsgExit(const char* szMessage) {
 			Exit(ACKRESULT_FAILED); return;
 		}
 	}
-	Exit(ACKRESULT_SUCCESS);
 }
 
 void CSend::svcSendFileExit() {
@@ -233,7 +232,6 @@ void CSend::svcSendFileExit() {
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
-	Exit(ACKRESULT_SUCCESS);
 }
 
 //---------------------------------------------------------------------------
