@@ -109,7 +109,7 @@ BEGIN
     EDITTEXT        ID_edtSize,52,28,43,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
     CTEXT           "Target Tool",ID_lblDropInfo,162,1,51,8
     LTEXT           "",ID_bvlTarget,174,12,29,29,SS_NOTIFY | SS_SUNKEN
-    ICON            IDI_PLUG_ICON2,ID_imgTarget,178,16,20,20,SS_NOTIFY | SS_CENTERIMAGE | WS_GROUP
+    ICON            IDI_ICON2,ID_imgTarget,178,16,20,20,SS_NOTIFY | SS_CENTERIMAGE | WS_GROUP
 END
 
 IDD_UMain_CaptureDesktop DIALOGEX 0, 0, 214, 48
@@ -140,27 +140,27 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_PLUG_MAIN           ICON                    "ssCamera_1.ico"
-IDI_PLUG_ICON1          ICON                    "ssCamera_2.ico"
-IDI_PLUG_DEFAULT        ICON                    "ssDefault.ico"
-IDI_PLUG_ICON2          ICON                    "ssTarget.ico"
-IDI_PLUG_ICON3          ICON                    "ssMonitor.ico"
-IDI_PLUG_HELP           ICON                    "sshelp.ico"
-IDI_PLUG_FOLDERO        ICON                    "ssOpen.ico"
-IDI_PLUG_ARROWL         ICON                    "ssArrow_Left.ico"
-IDI_PLUG_ARROWR         ICON                    "ssArrow_Right.ico"
-IDI_PLUG_OVERLAYOFF     ICON                    "overlay_disabled.ico"
-IDI_PLUG_OVERLAYON      ICON                    "overlay_enabled.ico"
-IDI_PLUG_DESKOFF        ICON                    "ssDeskOff.ico"
-IDI_PLUG_DESKON         ICON                    "ssDeskOn.ico"
-IDI_PLUG_DELOFF         ICON                    "ssDelOff.ico"
-IDI_PLUG_DELON          ICON                    "ssDelOn.ico"
-IDI_PLUG_UPDATE         ICON                    "ssUpdate.ico"
-IDI_PLUG_OK             ICON                    "ssOk.ico"
-IDI_PLUG_CLOSE          ICON                    "ssClose.ico"
-IDI_PLUG_APPLY          ICON                    "ssApply.ico"
-IDI_PLUG_EDIT           ICON                    "ssEdit.ico"
-IDI_PLUG_DOWNARROW      ICON                    "ssDownarrow.ico"
+IDI_MAIN           ICON                    "ssCamera_1.ico"
+IDI_ICON1          ICON                    "ssCamera_2.ico"
+IDI_DEFAULT        ICON                    "ssDefault.ico"
+IDI_ICON2          ICON                    "ssTarget.ico"
+IDI_ICON3          ICON                    "ssMonitor.ico"
+IDI_HELP           ICON                    "sshelp.ico"
+IDI_FOLDERO        ICON                    "ssOpen.ico"
+IDI_ARROWL         ICON                    "ssArrow_Left.ico"
+IDI_ARROWR         ICON                    "ssArrow_Right.ico"
+IDI_OVERLAYOFF     ICON                    "overlay_disabled.ico"
+IDI_OVERLAYON      ICON                    "overlay_enabled.ico"
+IDI_DESKOFF        ICON                    "ssDeskOff.ico"
+IDI_DESKON         ICON                    "ssDeskOn.ico"
+IDI_DELOFF         ICON                    "ssDelOff.ico"
+IDI_DELON          ICON                    "ssDelOn.ico"
+IDI_UPDATE         ICON                    "ssUpdate.ico"
+IDI_OK             ICON                    "ssOk.ico"
+IDI_CLOSE          ICON                    "ssClose.ico"
+IDI_APPLY          ICON                    "ssApply.ico"
+IDI_EDIT           ICON                    "ssEdit.ico"
+IDI_DOWNARROW      ICON                    "ssDownarrow.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
