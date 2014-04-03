@@ -1,4 +1,4 @@
-#include "steam.h"
+#include "common.h"
 
 int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 {

@@ -1,4 +1,4 @@
-﻿#include "steam.h"
+﻿#include "common.h"
 //#include <gdiplus.h>
 //#pragma comment(lib, "GdiPlus.lib")
 
@@ -192,8 +192,8 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			proto = (CSteamProto*)lParam;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 
-			ptrA username(proto->getStringA("Username"));
-			SetDlgItemTextA(hwnd, IDC_USERNAME, username);
+			ptrW username(proto->getWStringA("Username"));
+			SetDlgItemText(hwnd, IDC_USERNAME, username);
 
 			ptrA password(proto->getStringA("Password"));
 			SetDlgItemTextA(hwnd, IDC_PASSWORD, password);
@@ -251,15 +251,15 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY/* && !proto->IsOnline()*/)
 		{
-			char username[128];
-			GetDlgItemTextA(hwnd, IDC_SL, username, SIZEOF(username));
-			proto->setString("Username", username);
+			wchar_t username[128];
+			GetDlgItemText(hwnd, IDC_USERNAME, username, SIZEOF(username));
+			proto->setWString("Username", username);
 			/*mir_free(proto->login);
 			proto->login = ::mir_wstrdup(sid);*/
 
 			char password[128];
-			GetDlgItemTextA(hwnd, IDC_PW, password, SIZEOF(password));
-			db_set_s(NULL, proto->m_szModuleName, "Password", password);
+			GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
+			proto->setString("Password", password);
 
 			/*wchar_t tstr[128];
 			GetDlgItemText(hwnd, IDC_GROUP, tstr, SIZEOF(tstr));

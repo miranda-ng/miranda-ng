@@ -1,7 +1,7 @@
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
-#include "steam.h"
+#include "common.h"
 
 enum HTTP_STATUS
 {
@@ -127,13 +127,21 @@ public:
 			m_szUrl.AppendFormat("&%s=%s", szName, szValue);
 	}
 
-	/*void AddParameter(LPCSTR szName, int value)
+	void AddParameter(LPCSTR szName, int value)
 	{
 		if (m_szUrl.Find('?') == -1)
 			m_szUrl.AppendFormat("?%s=%i", szName, value);
 		else
 			m_szUrl.AppendFormat("&%s=%i", szName, value);
-	}*/
+	}
+
+	void AddParameter(LPCSTR szName, UINT64 value)
+	{
+		if (m_szUrl.Find('?') == -1)
+			m_szUrl.AppendFormat("?%s=%llu", szName, value);
+		else
+			m_szUrl.AppendFormat("&%s=%llu", szName, value);
+	}
 
 	NETLIBHTTPREQUEST *Send()
 	{
@@ -147,5 +155,11 @@ private:
 	CMStringA m_szUrl;
 	HANDLE m_hNetlibUser;
 };
+
+/*class HttpPostRequest : public HttpRequest
+{
+public:
+	HttpPostRequest(HANDLE hNetlibUser, LPCSTR url) : HttpRequest(hNetlibUser, REQUEST_POST, url) { }
+};*/
 
 #endif //_HTTP_REQUEST_H_

@@ -1,8 +1,6 @@
 #ifndef _STEAM_PROTO_H_
 #define _STEAM_PROTO_H_
 
-#include "http_request.h"
-
 struct CaptchaParam
 {
 	BYTE *data;
@@ -12,9 +10,18 @@ struct CaptchaParam
 
 struct GuardParam
 {
-	char domain[32];
+	wchar_t emailDomain[32];
 	char code[10];
 };
+
+template<typename T, void (CSteamProto::*Callback)(T*)>
+void CallbackConverter(void *owner, void *arg)
+{
+	T *typedArg = (T*)arg;
+	CSteamProto *proto = (CSteamProto*)owner;
+	if (owner != NULL)
+		(proto->*Callback)(typedArg);
+}
 
 class CSteamProto : public PROTO<CSteamProto>
 {
@@ -67,23 +74,33 @@ public:
 
 	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
 
-	// accounts
-	static CSteamProto* InitAccount(const char* protoName, const wchar_t* userName);
-	static int UninitAccount(CSteamProto* ppro);
+	// instances
+	static CSteamProto* InitProtoInstance(const char* protoName, const wchar_t* userName);
+	static int UninitProtoInstance(CSteamProto* ppro);
 
-	static CSteamProto* GetContactAccount(MCONTACT hContact);
-	static void UninitAccounts();
+	static CSteamProto* GetContactProtoInstance(MCONTACT hContact);
+	static void UninitProtoInstances();
 
 protected:
+	bool m_bTerminated;
+	HANDLE m_hPollingThread;
+	CRITICAL_SECTION contact_search_lock;
 
-	NETLIBHTTPREQUEST *LoginRequest(const char *username, const char *password, const char *timestamp, const char *captchagid, const char *captcha_text, const char *emailauth, const char *emailsteamid);
-
-	bool Login();
-	bool Logout();
-
-	// accounts
+	// instances
 	static LIST<CSteamProto> InstanceList;
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
+
+	// pooling thread
+	int PollStatus();
+	void __cdecl PollingThread(void*);
+
+	// account
+	void __cdecl LogInThread(void*);
+
+	// contacts
+	MCONTACT FindContact(const char *steamId);
+	MCONTACT AddContact(const SteamWebApi::FriendApi::Friend &contact);
+	//void OnContactListLoadedAsync(Steam::FriendList::Result *result);
 
 	//events
 	int OnModulesLoaded(WPARAM, LPARAM);
