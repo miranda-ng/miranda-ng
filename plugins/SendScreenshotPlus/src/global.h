@@ -103,7 +103,7 @@ using namespace std;
 #define MSGINFO	(text) MessageBox(NULL, text, _T("SendSS"), MB_OK | MB_ICONINFORMATION)
 
 typedef struct _MGLOBAL {
-	DWORD       mirandaVersion;					// mirandaVersion
+	DWORD		mirandaVersion;					// mirandaVersion
 	BOOLEAN		PopupExist			: 1;		// Popup or MS_POPUP_ADDPOPUP exist
 	BOOLEAN		PopupActionsExist	: 1;		// Popup++ or MS_POPUP_REGISTERACTIONS exist
 	BOOLEAN		PluginHTTPExist		: 1;		// HTTPServer or MS_HTTP_ACCEPT_CONNECTIONS exist
@@ -123,6 +123,7 @@ extern MGLOBAL			myGlobals;
 extern HANDLE			hNetlibUser;
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
+#define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((void*)p);(p)=NULL;}}
 
 template<class _Elem>
 std::basic_string<_Elem> replace(const std::basic_string<_Elem> & Origninal, const std::basic_string<_Elem> & What, const std::basic_string<_Elem> & With)

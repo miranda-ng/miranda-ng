@@ -9,7 +9,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 Sï¿½rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 // main message handling is done inside TfrmMain::DlgTfrmMain
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), IcoLib_GetIcon(ICO_PLUG_SSTARGET));
+		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSTARGET));
 		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
 		TranslateDialogDefault(hDlg);
 		break;
@@ -90,7 +90,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureDesktop(HWND hDlg, UINT uMsg, WPARAM w
 // main message handling is done inside TfrmMain::DlgTfrmMain
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), IcoLib_GetIcon(ICO_PLUG_SSMONITOR));
+		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSMONITOR));
 		break;
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
@@ -186,8 +186,8 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	HWND hCtrl;
 	//Taskbar and Window icon
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW1, true));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL,	(LPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW2));
+	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 	LPTSTR pt = mir_a2t(__PLUGIN_NAME);
 	SetWindowText(m_hWnd, pt);
 	mir_freeAndNil(pt);
@@ -203,7 +203,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 	mir_freeAndNil(pt);
 
-	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, 0, (WPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW1, true));
+	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
 	//Timed controls
 	CheckDlgButton(m_hWnd,ID_chkTimed,				m_opt_chkTimed ? BST_CHECKED : BST_UNCHECKED);
@@ -215,8 +215,8 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	if(m_himlTab == 0){
 		//m_himlTab = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
 		m_himlTab = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(m_himlTab, IcoLib_GetIcon(ICO_PLUG_SSWINDOW2));
-		ImageList_AddIcon(m_himlTab, IcoLib_GetIcon(ICO_PLUG_SSWINDOW2));
+		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
+		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 	}
 
 	//create the tab control.
@@ -323,21 +323,21 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnAbout)) {
 		SendDlgItemMessage(m_hWnd, ID_btnAbout, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Information"), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_SSHELP);
+		HICON hIcon = Skin_GetIcon(ICO_COMMON_SSHELP);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("?"));
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnExplore)) {
 		SendDlgItemMessage(m_hWnd, ID_btnExplore, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Folder"), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_SSFOLDERO);
+		HICON hIcon = Skin_GetIcon(ICO_COMMON_SSFOLDERO);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("..."));
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDesc)) {
 		SendDlgItemMessage(m_hWnd, ID_btnDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
+		HICON hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("D"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDesc ? BST_CHECKED : BST_UNCHECKED, NULL);
@@ -345,7 +345,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDeleteAfterSend)) {
 		SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(m_opt_btnDeleteAfterSend ? ICO_PLUG_SSDELON : ICO_PLUG_SSDELOFF);
+		HICON hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("X"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDeleteAfterSend ? BST_CHECKED : BST_UNCHECKED, NULL);
@@ -353,11 +353,12 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnCapture)) {
 		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_OK);
+		HICON hIcon = Skin_GetIcon(ICO_BTN_OK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, TranslateT("&Capture"));
 		SendMessage(hCtrl, BUTTONSETDEFAULT, 1, NULL);
 	}
+	cboxSendByChange();		//enable disable controls
 
 //	CheckDlgButton(m_hWnd,ID_chkEditor, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED);
 	TranslateDialogDefault(m_hWnd);
@@ -401,13 +402,13 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					break;
 				case ID_btnDesc:{
 					m_opt_btnDesc=!m_opt_btnDesc;
-					HICON hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
+					HICON hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
 					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 					break;}
 				case ID_btnDeleteAfterSend:
 					{
 					m_opt_btnDeleteAfterSend = (m_opt_btnDeleteAfterSend == 0);
-					HICON hIcon = IcoLib_GetIcon(m_opt_btnDeleteAfterSend ? ICO_PLUG_SSDELON : ICO_PLUG_SSDELOFF);
+					HICON hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
 					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 					if(m_cSend) m_cSend->m_bDeleteAfterSend = m_opt_btnDeleteAfterSend;
 					}
@@ -498,7 +499,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(LPTSTR)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,hInst,NULL);
 			if(!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter,0,123,LWA_ALPHA);
-			SetSystemCursor(CopyCursor(IcoLib_GetIcon(ICO_PLUG_SSTARGET)),OCR_NORMAL);
+			SetSystemCursor(CopyCursor(Skin_GetIcon(ICO_COMMON_SSTARGET)),OCR_NORMAL);
 			Hide();
 		}
 		if(!(GetAsyncKeyState(primarymouse)&0x8000)){
@@ -846,12 +847,12 @@ void TfrmMain::cboxSendByChange() {
 		m_cSend->m_bDeleteAfterSend = m_opt_btnDeleteAfterSend;
 	}
 	bState = (itemFlag & SS_DLG_DELETEAFTERSSEND);
-	hIcon = IcoLib_GetIcon(m_opt_btnDeleteAfterSend ? ICO_PLUG_SSDELON : ICO_PLUG_SSDELOFF);
+	hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
 	SendMessage(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), bState);
 
 	bState = (itemFlag & SS_DLG_DESCRIPTION);
-	hIcon = IcoLib_GetIcon(m_opt_btnDesc ? ICO_PLUG_SSDESKON : ICO_PLUG_SSDESKOFF);
+	hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
 	SendMessage(GetDlgItem(m_hWnd, ID_btnDesc), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDesc), bState);
 }

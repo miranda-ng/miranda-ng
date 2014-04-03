@@ -1,5 +1,4 @@
 /*
-
 Miranda NG: the free IM client for Microsoft* Windows*
 
 Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org),
@@ -14,18 +13,17 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-aLONG with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef _DLG_MSGBOX
-#define _DLG_MSGBOX 1
+#ifndef _SVC_DLG_INCLUDED_
+#define _SVC_DLG_INCLUDED_ 1
 
-//---------------------------------------------------------------------------
 #define SET_POPUPMSGBOX			"PopupMsgBox"
 #define DEFVAL_POPUPMSGBOX		TRUE		//FALSE
 
@@ -54,7 +52,7 @@ Funktion returns: IDOK, IDYES, IDALL, IDNO or IDCANCEL
 #define MB_RETRYCANCEL			0x00000005L
 */
 #define MB_YESALLNO				0x00000007L
-#define MB_TYPE(p)				((p)&MB_TYPEMASK)
+#define MB_TYPE(p)				((p)&MB_TYPEMASK)	
 
 /*
 valid predefined icon values
@@ -74,27 +72,25 @@ flags
 #define MB_NOPOPUP				0x00000200L
 #define MB_CUSTOMCOLOR			0x00000300L
 
-typedef struct _MSGBOX
+typedef struct _MSGBOX 
 {
-	UINT		cbSize;			// size of this structure
-	UINT		uType;			// parameters
-	HICON		hiLogo;			// right upper icon of the info bar
-	HICON		hiMsg;			// icon left next to the message text
-	LPTSTR		ptszTitle;
-	LPTSTR		ptszInfoText;
-	LPTSTR		ptszMsg;
-	HWND		hParent;		// parent window for the messagebox
-	COLORREF	colorBack;		// valid if MB_CUSTOMCOLOR is set
-	COLORREF	colorText;		// valid if MB_CUSTOMCOLOR is set
+	UINT     cbSize;        // size of this structure
+	UINT     uType;         // parameters
+	HICON    hiLogo;        // right upper icon of the info bar
+	HICON    hiMsg;         // icon left next to the message text
+	LPTSTR   ptszTitle;
+	LPTSTR   ptszInfoText;
+	LPTSTR   ptszMsg;
+	HWND     hParent;	      // parent window for the messagebox
+	COLORREF colorBack;     // valid if MB_CUSTOMCOLOR is set 
+	COLORREF colorText;     // valid if MB_CUSTOMCOLOR is set
 } MSGBOX, *LPMSGBOX;
 
 
-INT_PTR CALLBACK	MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK	MsgBoxPop (HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-LRESULT CALLBACK	PopupProc (HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK	MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszInfo, LPCTSTR pszFormat, ...);
+INT_PTR CALLBACK	MsgErr(HWND hParent, LPCTSTR pszFormat, ...);
+INT_PTR				MsgBoxService(WPARAM wParam, LPARAM lParam);
 
-INT_PTR			MsgBoxService(WPARAM wParam, LPARAM lParam);
-INT_PTR 		MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...);
-INT_PTR			MsgErr(HWND hParent, LPCTSTR pszFormat, ...);
+LRESULT CALLBACK	PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-#endif /* _DLG_MSGBOX */
+#endif /* _SVC_DLG_INCLUDED_ */

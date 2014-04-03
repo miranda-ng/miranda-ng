@@ -9,7 +9,7 @@ This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 Sérgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 Sï¿½rgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 FI_INTERFACE	*FIP = 0;
 HINSTANCE		hInst;			//!< Global reference to the application
 MGLOBAL			myGlobals;
-int            hLangpack;
+int				hLangpack;
 
 
 //Information gathered by Miranda, displayed in the plugin pane of the Option Dialog
@@ -307,21 +307,21 @@ void AddMenuItems(void)
 	// Add item to contact menu
 	mi.position		= 1000000;
 	mi.ptszName		= LPGENT("Send Screenshot");
-	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
+	mi.hIcon		= Skin_GetIcon(ICO_COMMON_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_OPENDIALOG;
 	Menu_AddContactMenuItem(&mi);
 
 	// Add item to contact menu
 	mi.position		= 1000001;
 	mi.ptszName		= LPGENT("Send desktop screenshot");
-//	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
+//	mi.hIcon		= Skin_GetIcon(ICO_COMMON_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_SENDDESKTOP;
 	Menu_AddContactMenuItem(&mi);
 
 	// Add item to main menu
 	mi.position		= 1000001;
 	mi.ptszName		= LPGENT("Take a screenshot");
-//	mi.hIcon		= IcoLib_GetIcon(ICO_PLUG_SSWINDOW2);
+//	mi.hIcon		= Skin_GetIcon(ICO_COMMON_SSWINDOW2);
 	mi.pszService	= MS_SENDSS_OPENDIALOG;
 	Menu_AddMainMenuItem(&mi);
 }

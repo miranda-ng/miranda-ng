@@ -103,7 +103,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	mir_freeAndNil(pszPlug);
 	mir_freeAndNil(pszVer);
 	SetDlgItemText( m_hWnd, IDC_HEADERBAR, newTitle );
-	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, 0, (WPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW1, true));
+	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
 	//License
 	{	mir_tcsadd(pszTitle ,_T(__COPYRIGHT));
@@ -133,8 +133,8 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		mir_freeAndNil(pszTitle);
 	}
 
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW1, true));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL,	(LPARAM)IcoLib_GetIcon(ICO_PLUG_SSWINDOW2));
+	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL,	(LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 
 	//init controls
 	btnPageClick();
@@ -196,7 +196,7 @@ void TfrmAbout::btnPageClick() {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_SHOW);
 		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Credits >"), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_ARROWR);
+		HICON hIcon = Skin_GetIcon(ICO_COMMON_ARROWR);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? TranslateT("Credits") : TranslateT("Credits >"));
 	}
@@ -204,7 +204,7 @@ void TfrmAbout::btnPageClick() {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_SHOW);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_HIDE);
 		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("< Copyright"), MBBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_ARROWL);
+		HICON hIcon = Skin_GetIcon(ICO_COMMON_ARROWL);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? TranslateT("Copyright") : TranslateT("< Copyright"));
 	}

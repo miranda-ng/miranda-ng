@@ -367,7 +367,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 			bct->dwStyle = cs->style;
 			if (cs->style & MBS_DOWNARROW)
-				bct->arrow = IcoLib_GetIcon(ICO_PLUG_DOWNARROW);
+				bct->arrow = Skin_GetIcon(ICO_BTN_DOWNARROW);
 			LoadTheme(bct);
 			SetWindowLongPtr(hwndBtn, 0, (LONG_PTR)bct);
 			if (cs->lpszName) SetWindowText(hwndBtn, cs->lpszName);
@@ -400,8 +400,8 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			break;
 		case WM_SETTEXT:
 			bct->cHot = 0;
-			if ((LPTSTR)lParam) {
-				LPTSTR tmp = (LPTSTR)lParam;
+			if(lParam) {
+				TCHAR* tmp = (TCHAR*)lParam;
 				
 				while (*tmp) {
 					if (*tmp=='&' && *(tmp+1)) {
@@ -535,7 +535,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				}
 				ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 				ti.uId = (UINT_PTR)bct->hwnd;
-				ti.lpszText=(LPSTR)wParam;
+				ti.lpszText=(char*)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLA, 0, (LPARAM)&ti);
 			}
 						LeaveCriticalSection(&csTips);
