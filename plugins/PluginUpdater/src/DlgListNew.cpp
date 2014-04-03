@@ -233,9 +233,13 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			lvg.pszHeader = TranslateT("Icons");
 			lvg.iGroupId = 2;
 			ListView_InsertGroup(hwndList, 0, &lvg);
+			
+			lvg.pszHeader = TranslateT("Languages");
+			lvg.iGroupId = 3;
+			ListView_InsertGroup(hwndList, 0, &lvg);
 
 			lvg.pszHeader = TranslateT("Other");
-			lvg.iGroupId = 3;
+			lvg.iGroupId = 4;
 			ListView_InsertGroup(hwndList, 0, &lvg);
 
 			ListView_EnableGroupView(hwndList, TRUE);
@@ -247,12 +251,12 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			///
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (int i = 0; i < todo.getCount(); ++i) {
-				int groupId = 3;
 				LVITEM lvi = {0};
 				lvi.mask = LVIF_PARAM | LVIF_GROUPID | LVIF_TEXT | LVIF_IMAGE;
 				
+				int groupId = 4;
 				if (_tcschr(todo[i].tszOldName, L'\\') != NULL)
-					groupId = _tcsstr(todo[i].tszOldName, L"Plugins") != NULL ? 1 : 2;
+					groupId = (_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 : ((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 : 2);
 
 				lvi.iItem = i;
 				lvi.lParam = (LPARAM)&todo[i];
