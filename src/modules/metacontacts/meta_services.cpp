@@ -40,7 +40,7 @@ HANDLE
 UINT_PTR setStatusTimerId = 0;
 BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
 
-LIST<void> arMetaWindows(1, HandleKeySortT);
+LIST<void> arMetaWindows(1);
 
 /** Get the capabilities of the "MetaContacts" protocol.
 *
@@ -555,7 +555,9 @@ int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	else if (mwed->uType == MSG_WINDOW_EVT_CLOSING) {
-		arMetaWindows.remove(mwed->hwndWindow);
+		for (int i = 0; i < arMetaWindows.getCount(); i++)
+			if (arMetaWindows[i] == mwed->hwndWindow)
+				arMetaWindows.remove(i);
 	}
 	return 0;
 }
