@@ -31,9 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
 //---------------------------------------------------------------------------
-CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
-: CSend(Owner, hContact, bFreeOnExit){
-	m_EnableItem		= NULL ; //SS_DLG_DESCRIPTION| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
+CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
+: CSend(Owner, hContact, true){
+	m_EnableItem		= 0 ; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= LPGENT("FTPFile transfer");
 	m_pszFileName		= NULL;
 	m_URL				= NULL;
@@ -45,8 +45,9 @@ CSendFTPFile::~CSendFTPFile(){
 }
 
 //---------------------------------------------------------------------------
-void	CSendFTPFile::Send() {
-
+int CSendFTPFile::Send()
+{
+	if(!m_hContact) return 1;
 	/*********************************************************************************************
 	 * Send file (files) to the FTP server and copy file URL
 	 * to message log or clipboard (according to plugin setting)
@@ -64,8 +65,8 @@ void	CSendFTPFile::Send() {
 	m_pszFileName[size-1] = NULL;
 
 	//start Send thread
-	m_bFreeOnExit = TRUE;
 	mir_forkthread(&CSendFTPFile::SendThreadWrapper, this);
+	return 0;
 }
 
 void CSendFTPFile::SendThread() {
@@ -74,15 +75,16 @@ void CSendFTPFile::SendThread() {
 	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName,1);
 	if (ret != 0) {
 		Error(TranslateT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
-		Exit(ret);
+		Exit(ret); return;
 	}
 
 	//Can't delete the file since FTP File plugin will use it
 	m_bDeleteAfterSend = false;
 
 	if (m_URL && m_URL[0]!= NULL) {
-		m_ChatRoom ? svcSendChat(m_URL) : svcSendMsg(m_URL);
+		svcSendMsgExit(m_URL); return;
 	}
+	Exit(ACKRESULT_FAILED);
 }
 
 void	CSendFTPFile::SendThreadWrapper(void * Obj) {

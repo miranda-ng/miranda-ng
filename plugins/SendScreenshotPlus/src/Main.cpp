@@ -277,19 +277,17 @@ INT_PTR service_EditBitmap(WPARAM wParam, LPARAM lParam) {
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam) {
 	char* result = NULL;
 	CSendImageShack* cSend = new CSendImageShack(NULL, lParam, false);
-	cSend->m_pszFile = mir_a2t((char*)wParam);
-	cSend->m_bDeleteAfterSend = FALSE;
+	cSend->m_bDeleteAfterSend = false;
+	cSend->SetFile((char*)wParam);
 	if (lParam != NULL) {
-		cSend->Send();
-		return 0;
+		if(cSend->Send()) delete cSend;
+		return NULL;
 	}
-	cSend->SendSync(TRUE);
-	cSend->Send();
+	cSend->SendSilent();
 	if (cSend->GetURL()) {
-		result = mir_strdup(cSend->GetURL());
-	}
-	else {
-		result = cSend->GetError();
+		result=mir_strdup(cSend->GetURL());
+	}else{
+		result=cSend->GetError();
 	}
 	delete cSend;
 	return (INT_PTR)result;

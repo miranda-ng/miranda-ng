@@ -48,55 +48,51 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 class CSend {
 	public:
-		CSend(HWND Owner, MCONTACT hContact, bool bFreeOnExit); // oder (TfrmMain & Owner)
+		CSend(HWND Owner, MCONTACT hContact, bool bAsync); // oder (TfrmMain & Owner)
 		virtual ~CSend();
 
-		virtual void	Send() = 0;
-//		void			SendSync(bool Sync) {m_SendSync = Sync;};
-		bool			m_bFreeOnExit;		// need to "delete object;" on exit ?
-		void			SetContact(MCONTACT hContact);
-		BYTE			GetEnableItem() {return m_EnableItem;};
-		LPTSTR			GetErrorMsg() {return m_ErrorMsg;};
+		virtual int Send() = NULL; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
+		
+		void SetFile(TCHAR* file){mir_free(m_pszFile), m_pszFile=mir_tstrdup(file);};
+		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2t(file);};
+		void SetDescription(TCHAR* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_tstrdup(descr);};
+		void SetContact(MCONTACT hContact);
+		BYTE GetEnableItem() {return m_EnableItem;};
+		TCHAR* GetErrorMsg() {return m_ErrorMsg;};
 
-		LPTSTR			m_pszFile;
-		LPTSTR			m_pszFileDesc;
-
-		BOOL			m_bDeleteAfterSend;
-
-	private:
-
+		bool			m_bDeleteAfterSend;
 	protected:
-		LPTSTR   m_pszSendTyp;		//hold string for error mess
-		HWND     m_hWndO;			//window handle of caller
-		MCONTACT	m_hContact;			//Contact handle
-		char    *m_pszProto;			//Contact Proto Modul
-		BYTE     m_EnableItem;		//hold flag for send type
-		BYTE     m_ChatRoom;			//is Contact chatroom
-		void AfterSendDelete();
+		bool			m_bAsync;
+		TCHAR*			m_pszFile;
+		TCHAR*			m_pszFileDesc;
+		static int OnSend(void *obj, WPARAM wParam, LPARAM lParam);
+		TCHAR*			m_pszSendTyp;		//hold string for error mess
+		char*			m_pszProto;			//Contact Proto Modul
+		MCONTACT		m_hContact;			//Contact handle
+		BYTE			m_EnableItem;		//hold flag for send type
+		BYTE			m_ChatRoom;			//is Contact chatroom
 
-		bool			hasCap(unsigned int Flag);
-		unsigned int	m_PFflag;
+		bool hasCap(unsigned int Flag);
+//		unsigned int	m_PFflag;
 
-		void			svcSendFile();
-		void			svcSendUrl (const char* url);
-		void			svcSendMsg (const char* szMessage);
-		void			svcSendChat();						//main GC service
-		void			svcSendChat(const char* szMessage);	//GC ansi wrapper
+		void Error(LPCTSTR pszFormat, ...);
+		void svcSendFileExit();
+		void svcSendMsgExit(const char* szMessage);
+		void Exit(unsigned int Result);
 
 		DWORD			m_cbEventMsg;						//sizeof EventMsg(T) buffer
 		char*			m_szEventMsg;						//EventMsg char*
-		LPTSTR			m_szEventMsgT;						//EventMsg TCHAR*
 		HANDLE			m_hSend;							//protocol send handle
 		HANDLE			m_hOnSend;							//HookEventObj on ME_PROTO_ACK
-		int __cdecl		OnSend(WPARAM wParam, LPARAM lParam);
-		void			Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = NULL;}}
-		void			DB_EventAdd(WORD EventType);
-		void			Exit(unsigned int Result);
 
 		MSGBOX			m_box;
-		LPTSTR			m_ErrorMsg;
-		LPTSTR			m_ErrorTitle;
-		void			Error(LPCTSTR pszFormat, ...);
+		TCHAR*			m_ErrorMsg;
+		TCHAR*			m_ErrorTitle;
+		
+		void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = NULL;}}
+		void DB_EventAdd(WORD EventType);
+		
+		static INT_PTR CALLBACK ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
 };
 
 #endif

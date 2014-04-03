@@ -30,10 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
-: CSend(Owner, hContact, bFreeOnExit){
-	m_EnableItem		= SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION; // SS_DLG_AUTOSEND | ;
-	m_pszSendTyp		= _T("Email transfer");
+CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
+: CSend(Owner, hContact, true){
+	m_EnableItem		= SS_DLG_DESCRIPTION | SS_DLG_DELETEAFTERSSEND; // SS_DLG_AUTOSEND | ;
+	m_pszSendTyp		= LPGENT("Email transfer");
 	m_pszFileA			= NULL;
 	m_pszFileName		= NULL;
 	m_Email				= NULL;
@@ -50,8 +50,9 @@ CSendEmail::~CSendEmail(){
 }
 
 //---------------------------------------------------------------------------
-void	CSendEmail::Send() {
-
+int CSendEmail::Send()
+{
+	if(!m_hContact) return 1;
 	mir_freeAndNil(m_pszFileName);
 	m_pszFileName = GetFileNameA(m_pszFile);
 
@@ -81,8 +82,8 @@ void	CSendEmail::Send() {
 	//SendByEmail(m_pszFileA, "", m_FriendlyName, m_Email, m_Subject);
 
 	//start Send thread
-	m_bFreeOnExit = TRUE;
 	mir_forkthread(&CSendEmail::SendThreadWrapper, this);
+	return 0;
 }
 
 void CSendEmail::SendThread() {
@@ -100,7 +101,7 @@ void CSendEmail::SendThread() {
 	if (hMAPILib == NULL) {
 		//return -1;
 		Error(SS_ERR_INIT, m_pszSendTyp);
-		Exit(ACKRESULT_FAILED);
+		Exit(ACKRESULT_FAILED); return;
 	}
 
 	lpMAPISendMail = (MAPIFUNC)GetProcAddress(hMAPILib, "MAPISendMail");
@@ -108,7 +109,7 @@ void CSendEmail::SendThread() {
 		::FreeLibrary(hMAPILib);
 		//return -2;
 		Error(SS_ERR_INIT, m_pszSendTyp);
-		Exit(ACKRESULT_FAILED);
+		Exit(ACKRESULT_FAILED); return;
 	}
 
 	memset(&Msg, 0, sizeof(Msg));
@@ -150,9 +151,7 @@ void CSendEmail::SendThread() {
 		switch (res) {
 			case SUCCESS_SUCCESS:
 				//The call succeeded and the message was sent.
-				Exit(ACKRESULT_SUCCESS);
-				return;
-
+				Exit(ACKRESULT_SUCCESS); return;
 			// No message was sent
 			case MAPI_E_AMBIGUOUS_RECIPIENT:
 				err = LPGENT("A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set");
@@ -199,12 +198,10 @@ void CSendEmail::SendThread() {
 		}
 		Error(SS_ERR_MAPI, res, err);
 		Exit(ACKRESULT_FAILED);
-
 	} catch (...) {
 		::FreeLibrary(hMAPILib);
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
-		//return -3;
 		return;
 	}
 }

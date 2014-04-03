@@ -33,13 +33,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CSendFile : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendFile(HWND Owner, MCONTACT hContact, bool bFreeOnExit);
+		CSendFile(HWND Owner, MCONTACT hContact, bool bAsync);
 		~CSendFile();
 
-		void			Send();
+		int Send();
 
 	protected:
-
 };
 
 //---------------------------------------------------------------------------*/

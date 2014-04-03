@@ -22,6 +22,7 @@
 #define IDD_UMain_CaptureDesktop        103
 #define IDD_UEditForm                   104
 #define IDD_UAboutForm                  105
+#define IDD_UResultForm                 106
 #define IDD_MSGBOX                      110
 #define IDD_MSGBOXDUMMI                 111
 #define IDR_LICENSE                     120
@@ -91,6 +92,8 @@
 #define ID_btnDesc                      2003
 #define ID_btnDeleteAfterSend           2004
 #define ID_btnCapture                   2005
+#define ID_edtURL                       2010
+#define ID_bvlDesc                      2011
 #define IDE_StatusBar                   2501
 
 // Next default values for new objects

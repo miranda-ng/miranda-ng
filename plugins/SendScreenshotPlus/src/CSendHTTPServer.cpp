@@ -34,10 +34,10 @@ INT_PTR (*g_MirCallService)(const char *, WPARAM, LPARAM)=NULL;
 
 
 //---------------------------------------------------------------------------
-CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
-: CSend(Owner, hContact, bFreeOnExit){
+CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
+: CSend(Owner, hContact, true){
 	m_EnableItem		= SS_DLG_DESCRIPTION ; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp		= _T("HTTPServer transfer");
+	m_pszSendTyp		= LPGENT("HTTPServer transfer");
 	m_pszFileName		= NULL;
 	m_URL				= NULL;
 	m_fsi_pszSrvPath	= NULL;
@@ -52,11 +52,12 @@ CSendHTTPServer::~CSendHTTPServer(){
 }
 
 //---------------------------------------------------------------------------
-void	CSendHTTPServer::Send() {
-
+int CSendHTTPServer::Send()
+{
+	if(!m_hContact) return 1;
 	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, (WPARAM)true, 0) != 0) {
 		Error(NULL, TranslateT("Could not start the HTTP Server plugin."));
-		return;
+		return 1;
 	}
 
 	if (!m_pszFileName) {
@@ -77,8 +78,8 @@ void	CSendHTTPServer::Send() {
 	//m_fsi.dwOptions		= NULL;					//OPT_SEND_LINK only work on single chat;
 
 	//start Send thread
-	m_bFreeOnExit = TRUE;
 	mir_forkthread(&CSendHTTPServer::SendThreadWrapper, this);
+	return 0;
 }
 
 void CSendHTTPServer::SendThread() {
@@ -99,18 +100,17 @@ void CSendHTTPServer::SendThread() {
 		//send DATA and wait for reply
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 	}
-
+ 
 	if (ret != 0) {
 		Error(TranslateT("%s (%i):\nCould not add a share to the HTTP Server plugin."),TranslateTS(m_pszSendTyp),ret);
-		Exit(ret);
+		Exit(ret); return;
 	}
 
 	//Share the file by HTTP Server plugin, SendSS does not own the file anymore = auto-delete won't work
 	m_bDeleteAfterSend = false;
 
 	if (m_URL && m_URL[0]!= NULL) {
-		m_ChatRoom ? svcSendChat(m_URL) : svcSendMsg(m_URL);
-		return;
+		svcSendMsgExit(m_URL); return;
 	}
 	Exit(ACKRESULT_FAILED);
 }

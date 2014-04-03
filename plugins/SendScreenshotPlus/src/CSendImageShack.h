@@ -33,11 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CSendImageShack : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor
-		CSendImageShack(HWND Owner, MCONTACT hContact, bool bFreeOnExit);
+		CSendImageShack(HWND Owner, MCONTACT hContact, bool bAsync);
 		~CSendImageShack();
 
-		void					Send();
-		void					SendSync(bool Sync) {m_SendSync = Sync;};
+		int Send();
+		int SendSilent() {m_bAsync=m_Silent=true; return Send();};
 		char* GetURL(){return m_Url;};
 		char* GetError(){return mir_t2a(m_ErrorMsg);};
 
@@ -56,7 +56,7 @@ class CSendImageShack : public CSend {
 		char*					m_MFDRboundary;
 		void					MFDR_Reset();
 
-		bool					m_SendSync;
+		bool					m_Silent;
 		void					SendThread();
 		static void				SendThreadWrapper(void * Obj);
 

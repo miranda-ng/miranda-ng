@@ -295,28 +295,24 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
 	ComboBox_ResetContent(hCtrl);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<Only save>"))  ,SS_JUSTSAVE);
-	if (m_hContact) {
+	if(m_hContact){
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("File Transfer")),SS_FILESEND);
-	}
-	else if(m_opt_cboxSendBy == SS_FILESEND) {
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("E-mail"))       ,SS_EMAIL);
+		if (myGlobals.PluginHTTPExist) {
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("HTTP Server"))  ,SS_HTTPSERVER);
+		}else if(m_opt_cboxSendBy == SS_HTTPSERVER) {
+			m_opt_cboxSendBy = SS_IMAGESHACK;
+		}
+		if (myGlobals.PluginFTPExist) {
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("FTP File"))     ,SS_FTPFILE);
+		}else if(m_opt_cboxSendBy == SS_FTPFILE) {
+			m_opt_cboxSendBy = SS_IMAGESHACK;
+		}
+	}else if(m_opt_cboxSendBy == SS_FILESEND || m_opt_cboxSendBy == SS_EMAIL || m_opt_cboxSendBy == SS_HTTPSERVER || m_opt_cboxSendBy == SS_FTPFILE) {
 		m_opt_cboxSendBy = SS_IMAGESHACK;
 	}
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("E-mail"))       ,SS_EMAIL);
-	if (myGlobals.PluginHTTPExist) {
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("HTTP Server"))  ,SS_HTTPSERVER);
-	}
-	else if(m_opt_cboxSendBy == SS_HTTPSERVER) {
-		m_opt_cboxSendBy = SS_IMAGESHACK;
-	}
-	if (myGlobals.PluginFTPExist) {
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("FTP File"))     ,SS_FTPFILE);
-	}
-	else if(m_opt_cboxSendBy == SS_FTPFILE) {
-		m_opt_cboxSendBy = SS_IMAGESHACK;
-	}
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("ImageShack"))   ,(BYTE)SS_IMAGESHACK);
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("ImageShack")), SS_IMAGESHACK);
 	ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
-	cboxSendByChange();		//enable disable controls
 	}
 	//init footer options
 	CheckDlgButton(m_hWnd,ID_chkOpenAgain, m_opt_chkOpenAgain ? BST_CHECKED : BST_UNCHECKED);
@@ -768,7 +764,6 @@ void TfrmMain::SaveOptions(void) {
 void TfrmMain::Init(TCHAR* DestFolder, MCONTACT Contact) {
 	m_FDestFolder = mir_tstrdup(DestFolder);
 	m_hContact = Contact;
-	if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
 
 	// create window
 	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UMainForm),0,DlgTfrmMain,(LPARAM)this);
@@ -818,25 +813,23 @@ void TfrmMain::cboxSendByChange() {
 	BOOL bState;
 	HICON hIcon;
 	BYTE itemFlag = SS_DLG_DESCRIPTION;		//SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND |
-	if (m_cSend && !m_cSend->m_bFreeOnExit) {
+	if(m_cSend)
 		delete m_cSend;
-		m_cSend = NULL;
-	}
 	switch(m_opt_cboxSendBy) {
 		case SS_FILESEND:		//"File Transfer"
-			m_cSend = new CSendFile(m_hWnd, m_hContact, false);
+			m_cSend = new CSendFile(m_hWnd, m_hContact, true);
 			break;
 		case SS_EMAIL:			//"E-mail"
-			m_cSend = new CSendEmail(m_hWnd, m_hContact, false);
+			m_cSend = new CSendEmail(m_hWnd, m_hContact, true);
 			break;
 		case SS_HTTPSERVER:		//"HTTP Server"
-			m_cSend = new CSendHTTPServer(m_hWnd, m_hContact, false);
+			m_cSend = new CSendHTTPServer(m_hWnd, m_hContact, true);
 			break;
 		case SS_FTPFILE:		//"FTP File"
-			m_cSend = new CSendFTPFile(m_hWnd, m_hContact, false);
+			m_cSend = new CSendFTPFile(m_hWnd, m_hContact, true);
 			break;
 		case SS_IMAGESHACK:		//"ImageShack"
-			m_cSend = new CSendImageShack(m_hWnd, m_hContact, false);
+			m_cSend = new CSendImageShack(m_hWnd, m_hContact, true);
 			break;
 		default:				//SS_JUSTSAVE - "Just save it "
 			m_cSend = NULL;
@@ -1079,8 +1072,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		}
 
 		if(m_cSend) {
-			mir_freeAndNil(m_cSend->m_pszFile); m_cSend->m_pszFile=mir_tstrdup(m_pszFile);
-			mir_freeAndNil(m_cSend->m_pszFileDesc); m_cSend->m_pszFileDesc=mir_tstrdup(m_pszFileDesc);
+			m_cSend->SetFile(m_pszFile);
+			m_cSend->SetDescription(m_pszFileDesc);
 		}
 		return 0;//OK
 	}
@@ -1097,15 +1090,11 @@ void TfrmMain::FormClose() {
 		return;
 	}
 
-	if (m_cSend && m_pszFile && m_hContact && !m_bFormEdit) {
-		m_cSend->Send();
-		if (m_cSend->m_bFreeOnExit) cboxSendByChange();
-//		Not finish delete this if events from m_opt_cboxSendBy implementet
-		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
+	if (m_cSend && m_pszFile && !m_bFormEdit) {
+		if(!m_cSend->Send()) m_cSend=NULL; // not sent now, class deletes itself later
+		cboxSendByChange();
 	}
-	else {
-		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
-	}
+	SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
 }
 
 //---------------------------------------------------------------------------

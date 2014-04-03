@@ -30,20 +30,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSendFile::CSendFile(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
-: CSend(Owner, hContact, bFreeOnExit){
+CSendFile::CSendFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
+: CSend(Owner, hContact, true){
 	m_EnableItem		= SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION;
-	m_pszSendTyp		= _T("File transfer");
+	m_pszSendTyp		= LPGENT("File transfer");
 }
 
 CSendFile::~CSendFile(){
-	;
 }
 
 //---------------------------------------------------------------------------
-void	CSendFile::Send() {
-	m_bFreeOnExit = TRUE;
-	svcSendFile();
+int CSendFile::Send() {
+	svcSendFileExit();
+	return 0;
 }
 
 //---------------------------------------------------------------------------

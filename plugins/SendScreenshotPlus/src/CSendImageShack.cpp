@@ -30,15 +30,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSendImageShack::CSendImageShack(HWND Owner, MCONTACT hContact, bool bFreeOnExit)
-: CSend(Owner, hContact, bFreeOnExit) {
-	m_EnableItem		= SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION;
-	m_pszSendTyp		= _T("Image upload");
+CSendImageShack::CSendImageShack(HWND Owner, MCONTACT hContact, bool bAsync)
+: CSend(Owner, hContact, bAsync) {
+	m_EnableItem		= SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
+	m_pszSendTyp		= LPGENT("Image upload");
 	m_pszFileName		= NULL;
 	m_pszContentType	= NULL;
 	m_MFDRboundary		= NULL;
 	m_nlreply			= NULL;
-	m_SendSync			= false;
+	m_Silent			= false;
 	m_Url				= NULL;
 }
 
@@ -51,11 +51,11 @@ CSendImageShack::~CSendImageShack(){
 };
 
 //---------------------------------------------------------------------------
-void CSendImageShack::Send() {
+int CSendImageShack::Send() {
 	// check Netlib
 	if( !hNetlibUser ) {
 		//PrintError(1,TRUE);
-		return;
+		return 1;
 	}
 	if (!m_pszFileName) {
 		m_pszFileName = GetFileNameA(m_pszFile);
@@ -118,7 +118,7 @@ void CSendImageShack::Send() {
 	FILE * fileId = _tfsopen(m_pszFile, _T("rb"), _SH_DENYWR );
 	if( !fileId) {
 		//PrintError(1,TRUE);
-		return;
+		return 1;
 	}
 	fseek(fileId, NULL, SEEK_END);
 	size_t lenFile  = ftell(fileId);
@@ -173,13 +173,12 @@ void CSendImageShack::Send() {
 	AppendToData("--\r\n");
 
 //start upload thread
-	if (m_SendSync) {
-		m_bFreeOnExit = FALSE;
-		SendThread();
-		return;
+	if(m_bAsync){
+		mir_forkthread(&CSendImageShack::SendThreadWrapper, this);
+		return 0;
 	}
-	m_bFreeOnExit = TRUE;
-	mir_forkthread(&CSendImageShack::SendThreadWrapper, this);
+	SendThread();
+	return 1;
 }
 
 void CSendImageShack::SendThread() {
@@ -194,12 +193,9 @@ void CSendImageShack::SendThread() {
 			URL = GetTagContent(m_nlreply->pData, "<image_link>", "</image_link>");
 			if (URL && URL[0]!= NULL) {
 				m_Url = mir_strdup(URL);
-				if(m_SendSync) {
-					Exit(ACKRESULT_SUCCESS);
+				if(m_Silent)
 					return;
-				}
-				m_ChatRoom ? svcSendChat(URL) : svcSendMsg(URL);
-				return;
+				svcSendMsgExit(URL); return;
 			}else{//check error mess from server
 				TCHAR* err = mir_a2t(GetTagContent(m_nlreply->pData, "<error ", "</error>"));
 				if (!err || !*err){//fallback to server response mess
@@ -209,14 +205,12 @@ void CSendImageShack::SendThread() {
 				Error(NULL, err);
 				mir_free(err);
 			}
-		}
-		else {
+		}else{
 				Error(NULL, TranslateT("Upload server did not respond timely."));
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM) m_nlreply);
 		m_nlreply = NULL;
-	}
-	else {
+	}else{
 		Error(SS_ERR_INIT, m_pszSendTyp);
 	}
 	Exit(ACKRESULT_FAILED);
