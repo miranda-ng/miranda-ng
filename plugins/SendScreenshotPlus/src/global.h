@@ -76,6 +76,7 @@ using namespace std;
 #include <m_popup2.h>
 #include <m_sendss.h>
 #include <m_userinfoex.h>
+#include <m_dropbox.h>
 
 #include "mir_string.h"
 #include "mir_icolib.h"
@@ -85,6 +86,7 @@ using namespace std;
 #include "version.h"
 #include "main.h"
 #include "CSend.h"
+#include "CSendDropbox.h"
 #include "CSendEmail.h"
 #include "CSendFile.h"
 #include "CSendFTPFile.h"
@@ -108,6 +110,7 @@ typedef struct _MGLOBAL {
 	BOOLEAN		PopupActionsExist	: 1;		// Popup++ or MS_POPUP_REGISTERACTIONS exist
 	BOOLEAN		PluginHTTPExist		: 1;		// HTTPServer or MS_HTTP_ACCEPT_CONNECTIONS exist
 	BOOLEAN		PluginFTPExist		: 1;		// FTPFile or MS_FTPFILE_SHAREFILE exist
+	BOOLEAN		PluginDropboxExist	: 1;		// Dropbox or MS_DROPBOX_SEND_FILE exists
 
 } MGLOBAL, *LPMGLOBAL;
 

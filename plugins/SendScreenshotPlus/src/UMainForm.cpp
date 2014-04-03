@@ -311,6 +311,11 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}else if(m_opt_cboxSendBy == SS_FILESEND || m_opt_cboxSendBy == SS_EMAIL || m_opt_cboxSendBy == SS_HTTPSERVER || m_opt_cboxSendBy == SS_FTPFILE) {
 		m_opt_cboxSendBy = SS_IMAGESHACK;
 	}
+	if (myGlobals.PluginDropboxExist) {
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Dropbox")), SS_DROPBOX);
+	}else if(m_opt_cboxSendBy == SS_DROPBOX) {
+		m_opt_cboxSendBy = SS_IMAGESHACK;
+	}
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("ImageShack")), SS_IMAGESHACK);
 	ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
@@ -827,6 +832,9 @@ void TfrmMain::cboxSendByChange() {
 			break;
 		case SS_FTPFILE:		//"FTP File"
 			m_cSend = new CSendFTPFile(m_hWnd, m_hContact, true);
+			break;
+		case SS_DROPBOX:		//"Dropbox"
+			m_cSend = new CSendDropbox(m_hWnd, m_hContact, false);
 			break;
 		case SS_IMAGESHACK:		//"ImageShack"
 			m_cSend = new CSendImageShack(m_hWnd, m_hContact, true);

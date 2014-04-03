@@ -171,6 +171,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\CSendDropbox.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -190,6 +191,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CSendDropbox.h" />
     <ClInclude Include="src\DevKey.h" />
     <ClInclude Include="src\UAboutForm.h" />
     <ClInclude Include="src\UMainForm.h" />

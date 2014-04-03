@@ -34,7 +34,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SS_EMAIL		2
 #define SS_HTTPSERVER	3
 #define SS_FTPFILE		4
-#define SS_IMAGESHACK	5
+#define SS_DROPBOX		5
+#define SS_IMAGESHACK	6
 
 // Used for our own cheap TrackMouseEvent
 #define BUTTON_POLLDELAY    50
