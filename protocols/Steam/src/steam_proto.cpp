@@ -164,9 +164,6 @@ int CSteamProto::SetStatus(int new_status)
 	{
 		if (old_status == ID_STATUS_OFFLINE/* && !this->IsOnline()*/)
 		{
-			UINT64 id = 76561197960435530;
-			DWORD in_db = id;
-			id = in_db;
 
 			m_iStatus = ID_STATUS_CONNECTING;
 			ForkThread(&CSteamProto::LogInThread, NULL);

@@ -14,17 +14,20 @@ namespace SteamWebApi
 		private:
 			std::string steamId;
 
-			CMStringW nick;
+			std::wstring nickname;
 			std::string homepage;
 			std::string avatarUrl;
+
+			int status;
 
 			DWORD lastEvent;
 
 		public:
 			const char *GetSteamId() const { return steamId.c_str(); }
-			const wchar_t *GetNick() const { return nick.c_str(); }
+			const wchar_t *GetNickname() const { return nickname.c_str(); }
 			const char *GetHomepage() const { return homepage.c_str(); }
 			const char *GetAvatarUrl() const { return avatarUrl.c_str(); }
+			int GetStatus() const { return status; }
 			const DWORD GetLastEvent() const { return lastEvent; }
 		};
 
@@ -63,7 +66,10 @@ namespace SteamWebApi
 					result->steamId = steamId;
 
 					node = json_get(child, "personaname");
-					result->nick = json_as_string(node);
+					result->nickname = json_as_string(node);
+
+					node = json_get(child, "personastate");
+					result->status = json_as_int(node);
 
 					node = json_get(child, "profileurl");
 					result->homepage = ptrA(mir_u2a(json_as_string(node)));

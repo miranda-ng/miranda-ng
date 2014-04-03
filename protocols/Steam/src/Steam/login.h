@@ -13,13 +13,13 @@ namespace SteamWebApi
 		private:
 			std::string steamid;
 			std::string umqid;
-			std::string message;
+			UINT32 messageId;
 
 		public:
 
 			const char *GetSteamId() { return steamid.c_str(); }
 			const char *GetSessionId() { return umqid.c_str(); }
-			const char *GetMessageId() { return message.c_str(); }
+			UINT32 GetMessageId() { return messageId; }
 		};
 		
 		static void LogOn(HANDLE hConnection, const char *token, LogIn *login)
@@ -51,7 +51,7 @@ namespace SteamWebApi
 			login->umqid = ptrA(mir_u2a(json_as_string(node)));
 
 			node = json_get(root, "message");
-			login->message = ptrA(mir_u2a(json_as_string(node)));
+			login->messageId = json_as_int(node);
 
 			login->success = true;
 		}

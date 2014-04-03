@@ -88,7 +88,7 @@
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <ObjectFileName>$(IntDir)\%(RelativeDir)\</ObjectFileName>
-      <PrecompiledHeaderFile>steam.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -194,19 +194,28 @@
   <ItemGroup>
     <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\steam.h" />
+    <ClInclude Include="src\Steam\authorization.h" />
+    <ClInclude Include="src\Steam\crypto.h" />
+    <ClInclude Include="src\Steam\friend.h" />
+    <ClInclude Include="src\Steam\friend_list.h" />
+    <ClInclude Include="src\Steam\login.h" />
+    <ClInclude Include="src\Steam\poll.h" />
+    <ClInclude Include="src\Steam\steam.h" />
     <ClInclude Include="src\steam_proto.h" />
     <ClInclude Include="src\version.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\steam.cpp" />
-    <ClCompile Include="src\steam_accounts.cpp" />
+    <ClCompile Include="src\steam_account.cpp" />
+    <ClCompile Include="src\steam_contacts.cpp" />
     <ClCompile Include="src\steam_events.cpp" />
     <ClCompile Include="src\steam_dialogs.cpp" />
+    <ClCompile Include="src\steam_instances.cpp" />
     <ClCompile Include="src\steam_proto.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\steam_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc" />

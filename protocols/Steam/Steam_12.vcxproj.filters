@@ -13,6 +13,9 @@
     <Filter Include="Resource Files\Icon">
       <UniqueIdentifier>{4df49e9a-8abc-4fcc-978b-8a6e6f86d70f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Steam">
+      <UniqueIdentifier>{d01fa53f-d17d-468f-988d-ab1a2d154af5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
@@ -21,16 +24,22 @@
     <ClCompile Include="src\steam_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\steam.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\steam_accounts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\steam_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\steam_dialogs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_instances.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,6 +58,27 @@
     </ClInclude>
     <ClInclude Include="src\http_request.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\authorization.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\crypto.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\friend.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\friend_list.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\login.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\steam.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\poll.h">
+      <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

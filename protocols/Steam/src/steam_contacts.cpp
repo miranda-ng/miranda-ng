@@ -27,7 +27,7 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Friend &contact)
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)this->m_szModuleName);
 
 		this->setString(hContact, "SteamID", contact.GetSteamId());
-		this->setWString(hContact, "Nick", contact.GetNick());
+		this->setWString(hContact, "Nick", contact.GetNickname());
 		this->setString(hContact, "Homepage", contact.GetHomepage());
 		this->setDword(hContact, "LastEventDateTS", contact.GetLastEvent());
 

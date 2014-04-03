@@ -33,5 +33,6 @@ namespace SteamWebApi
 #include "Steam\login.h"
 #include "Steam\friend_list.h"
 #include "Steam\friend.h"
+#include "Steam\poll.h"
 
 #endif //_STEAM_H_

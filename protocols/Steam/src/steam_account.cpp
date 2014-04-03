@@ -45,6 +45,7 @@ void CSteamProto::LogInThread(void* param)
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
 			return;
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 		}
 
 		token = authResult.GetToken();
@@ -63,13 +64,16 @@ void CSteamProto::LogInThread(void* param)
 	}
 
 	setString("SessionID", login.GetSessionId());
-	setString("MessageID", login.GetMessageId());
+	setDword("MessageID", login.GetMessageId());
 
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iDesiredStatus);
 
-	if (m_hPollingThread == NULL)
+	if (m_hPollingThread == NULL && !m_bTerminated)
+	{
+		m_bTerminated = false;
 		m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, NULL, NULL);
+	}
 
 	SteamWebApi::FriendListApi::FriendList friendList;
 	SteamWebApi::FriendListApi::Load(m_hNetlibUser, token, login.GetSteamId(), &friendList);

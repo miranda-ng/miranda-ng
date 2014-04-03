@@ -19,6 +19,7 @@ namespace SteamWebApi
 			std::string emailsteamid;
 
 			bool emailauth_needed;
+//			bool emailauth_needed;
 
 		public:
 			bool IsEmailAuthNeeded() { return emailauth_needed; }
@@ -81,7 +82,6 @@ namespace SteamWebApi
 				{
 					node = json_get(root, "emailsteamid");
 					auth->emailsteamid = ptrA(mir_u2a(json_as_string(node)));
-					auth->emailauth_needed = false;
 
 					/*node = json_get(root, "emaildomain");
 					result->emaildomain = json_as_string(node);*/
@@ -114,6 +114,7 @@ namespace SteamWebApi
 				auth->token = ptrA(mir_u2a(json_as_string(node)));
 
 				auth->success = true;
+				auth->emailauth_needed = false;
 			}
 		}
 	};

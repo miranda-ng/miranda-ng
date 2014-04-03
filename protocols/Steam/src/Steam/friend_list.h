@@ -16,7 +16,7 @@ namespace SteamWebApi
 		public:
 			int GetCount() const { return friendIds.size(); }
 
-			const char * operator[](int idx) const { return friendIds[idx].c_str(); }
+			const char * operator[](int idx) const { return friendIds.at(idx).c_str(); }
 		};
 
 		static void Load(HANDLE hConnection, const char *token, const char *steamId, FriendList *friendList)
