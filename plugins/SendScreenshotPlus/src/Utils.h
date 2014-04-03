@@ -50,18 +50,27 @@ size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
 BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 
 FIBITMAP*		CaptureWindow(HWND hCapture, BOOL ClientArea);
-FIBITMAP*		CaptureMonitor(LPTSTR szDevice);
+FIBITMAP*		CaptureMonitor(TCHAR* szDevice);
 FIBITMAP*		CaptureScreen(HDC hDC, SIZE size, HWND hCapture=0);
 //FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
-LPTSTR			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTSTR pszExt, int flag=0);
+TCHAR*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, TCHAR* pszFilename, TCHAR* pszExt, int flag=0);
 
-INT_PTR			GetFileName(LPTSTR pszPath, UINT typ);
-INT_PTR			GetFileExt (LPTSTR pszPath, UINT typ);
+TCHAR*			GetFileNameW(TCHAR* pszPath);
+TCHAR*			GetFileExtW (TCHAR* pszPath);
+char*			GetFileNameA(TCHAR* pszPath);
+char*			GetFileExtA (TCHAR* pszPath);
+#ifdef _UNICODE
+#	define GetFileName GetFileNameW
+#	define GetFileExt GetFileExtW
+#else
+#	define GetFileName GetFileNameA
+#	define GetFileExt GetFileExtA
+#endif // _UNICODE
 
 BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder);
-//INT_PTR SavePNG(HBITMAP hBmp, LPTSTR szFilename);
-INT_PTR SaveGIF(HBITMAP hBmp, LPTSTR szFilename);
-INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename);
+//void SavePNG(HBITMAP hBmp, TCHAR* szFilename);
+void SaveGIF(HBITMAP hBmp, TCHAR* szFilename);
+void SaveTIF(HBITMAP hBmp, TCHAR* szFilename);
 
 //---------------------------------------------------------------------------
 /* Old stuff from Borland C++

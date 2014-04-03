@@ -38,18 +38,18 @@ class CSendImageShack : public CSend {
 
 		void					Send();
 		void					SendSync(bool Sync) {m_SendSync = Sync;};
-		LPSTR					GetURL(){return m_Url;};
-		LPSTR					GetError(){return mir_t2a(m_ErrorMsg);};
+		char* GetURL(){return m_Url;};
+		char* GetError(){return mir_t2a(m_ErrorMsg);};
 
 	protected:
-		LPSTR					m_pszFileName;
+		char*					m_pszFileName;
 		NETLIBHTTPREQUEST		m_nlhr;
 		NETLIBHTTPREQUEST*		m_nlreply;
 		char					m_nlheader_ContentType[64];
-		LPSTR					m_Url;
+		char*					m_Url;
 
 		void					AppendToData(const char *pszVal);		//append to netlib DATA
-		LPSTR					m_pszContentType;						//hold mimeType (does not need free)
+		char*					m_pszContentType;						//hold mimeType (does not need free)
 		void					GetContentType();						//get mimeType
 		const char *			GetTagContent(char * pszSource, const char * pszTagStart, const char * pszTagEnd);
 

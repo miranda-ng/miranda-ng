@@ -69,7 +69,7 @@ class TfrmMain{
 		bool		m_bOnExitSave;
 
 		static void Unload();
-		void		Init(LPTSTR DestFolder, MCONTACT Contact);
+		void		Init(TCHAR* DestFolder, MCONTACT Contact);
 		void		Close(){SendMessage(m_hWnd,WM_CLOSE,0,0);}
 		void		Show(){ShowWindow(m_hWnd,SW_SHOW);}
 		void		Hide(){ShowWindow(m_hWnd,SW_HIDE);}
@@ -84,9 +84,9 @@ class TfrmMain{
 		bool		m_bFormAbout, m_bFormEdit;
 		HWND		m_hTargetWindow, m_hLastWin;
 		HWND		m_hTargetHighlighter;
-		LPTSTR		m_FDestFolder;
-		LPTSTR		m_pszFile;
-		LPTSTR		m_pszFileDesc;
+		TCHAR*		m_FDestFolder;
+		TCHAR*		m_pszFile;
+		TCHAR*		m_pszFileDesc;
 		FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
 		RGBQUAD		m_AlphaColor;
 		CSend*		m_cSend;
@@ -111,7 +111,7 @@ class TfrmMain{
 		BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;
 		BYTE			m_opt_chkClientArea;		//TCheckBox *chkClientArea;
 		BYTE			m_opt_edtQuality;			//TLabeledEdit *edtQuality;
-		BYTE			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;
+		bool			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;
 		BYTE			m_opt_cboxFormat;			//TComboBox *cboxFormat;
 		BYTE			m_opt_edtTimed;				//TLabeledEdit *edtTimed;
 		bool			m_bCapture;					//is capture activ

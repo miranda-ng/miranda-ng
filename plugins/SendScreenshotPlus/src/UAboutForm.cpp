@@ -93,11 +93,11 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	HRSRC hResInfo;
 	DWORD ResSize;
 	TCHAR oldTitle[256], newTitle[256];
-	LPTSTR temp = NULL;
-	LPTSTR pszTitle = NULL;
+	TCHAR* temp = NULL;
+	TCHAR* pszTitle = NULL;
 	// Headerbar
-	LPTSTR pszPlug = mir_a2t(__PLUGIN_NAME);
-	LPTSTR pszVer  = mir_a2t(__VERSION_STRING_DOTS);
+	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
+	TCHAR* pszVer  = mir_a2t(__VERSION_STRING_DOTS);
 	GetDlgItemText( m_hWnd, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
 	mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, pszPlug, pszVer );
 	mir_freeAndNil(pszPlug);

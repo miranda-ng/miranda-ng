@@ -60,7 +60,7 @@ void	CSendHTTPServer::Send() {
 	}
 
 	if (!m_pszFileName) {
-		m_pszFileName = (LPSTR)GetFileName(m_pszFile, DBVT_ASCIIZ);
+		m_pszFileName = GetFileNameA(m_pszFile);
 	}
 	mir_freeAndNil(m_fsi_pszSrvPath);
 	mir_stradd(m_fsi_pszSrvPath, "/");
@@ -89,7 +89,7 @@ void CSendHTTPServer::SendThread() {
 		//patched plugin version
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 		if (!ret) {
-			m_URL = (LPSTR)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, NULL);
+			m_URL = (char*)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, NULL);
 		}
 	}
 	else {

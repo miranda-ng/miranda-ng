@@ -39,11 +39,11 @@ class CSendHTTPServer : public CSend {
 		void					Send();
 
 	protected:
-		LPSTR					m_pszFileName;
-		LPSTR					m_URL;
+		char*					m_pszFileName;
+		char*					m_URL;
 		STFileShareInfo			m_fsi;
-		LPSTR					m_fsi_pszSrvPath;
-		LPSTR					m_fsi_pszRealPath;
+		char*					m_fsi_pszSrvPath;
+		char*					m_fsi_pszRealPath;
 		void					SendThread();
 		static void				SendThreadWrapper(void * Obj);
 
@@ -51,7 +51,6 @@ class CSendHTTPServer : public CSend {
 		static CContactMapping _CContactMapping;
 
 //		static INT_PTR			MyCallService(const char *name, WPARAM wParam, LPARAM lParam);
-
 };
 
 //---------------------------------------------------------------------------

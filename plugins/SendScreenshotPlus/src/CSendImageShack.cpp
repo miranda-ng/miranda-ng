@@ -58,7 +58,7 @@ void CSendImageShack::Send() {
 		return;
 	}
 	if (!m_pszFileName) {
-		m_pszFileName = (LPSTR)GetFileName(m_pszFile, DBVT_ASCIIZ);
+		m_pszFileName = GetFileNameA(m_pszFile);
 	}
 	if (!m_pszContentType) GetContentType();
 
@@ -201,7 +201,7 @@ void CSendImageShack::SendThread() {
 				m_ChatRoom ? svcSendChat(URL) : svcSendMsg(URL);
 				return;
 			}else{//check error mess from server
-				LPTSTR err = mir_a2t(GetTagContent(m_nlreply->pData, "<error ", "</error>"));
+				TCHAR* err = mir_a2t(GetTagContent(m_nlreply->pData, "<error ", "</error>"));
 				if (!err || !*err){//fallback to server response mess
 					mir_freeAndNil(err);
 					err = mir_a2t(m_nlreply->pData);
@@ -239,7 +239,7 @@ void CSendImageShack::MFDR_Reset() {
 
 void CSendImageShack::GetContentType() {
 	if (m_pszContentType) mir_freeAndNil(m_pszContentType);
-	LPSTR FileExtension = (LPSTR)GetFileExt(m_pszFile, DBVT_ASCIIZ);
+	char* FileExtension = GetFileExtA(m_pszFile);
 
 	if ((strcmp(FileExtension, ".jpeg")==0) || (strcmp(FileExtension, ".jpe")==0) || (strcmp(FileExtension ,".jpg")==0))
 		m_pszContentType="image/jpeg";

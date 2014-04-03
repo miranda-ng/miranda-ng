@@ -114,7 +114,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HOTKEYDESC hkd={sizeof(hkd)};
 	hkd.pszName="Open SendSS+";
 	hkd.ptszDescription=LPGENT("Open SendSS+");
-	hkd.ptszSection=L"SendSS+";
+	hkd.ptszSection=_T("SendSS+");
 	hkd.pszService=MS_SENDSS_OPENDIALOG;
 	//hkd.DefHotKey=HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam=0xFFFF;
@@ -158,7 +158,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UnRegisterServices();
 	if(g_hookModulesLoaded) UnhookEvent(g_hookModulesLoaded),g_hookModulesLoaded=0;
 	if(g_hookSystemPreShutdown) UnhookEvent(g_hookSystemPreShutdown),g_hookSystemPreShutdown=0;
-	if(g_clsTargetHighlighter) UnregisterClass((LPTSTR)g_clsTargetHighlighter,hInst),g_clsTargetHighlighter=0;
+	if(g_clsTargetHighlighter) UnregisterClass((TCHAR*)g_clsTargetHighlighter,hInst),g_clsTargetHighlighter=0;
 	return 0;
 }
 
@@ -205,13 +205,13 @@ INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
 		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return -1;
 	}
-	LPTSTR pszPath=GetCustomPath();
+	TCHAR* pszPath=GetCustomPath();
 	if(!pszPath){
 		delete frmMain;
 		return -1;
 	}
 	MCONTACT hContact = (MCONTACT) wParam;
-	LPSTR  pszProto = GetContactProto(hContact);
+	char*  pszProto = GetContactProto(hContact);
 	bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
 	frmMain->m_opt_chkTimed			= false;
 	frmMain->m_opt_tabCapture		= 1;
@@ -234,7 +234,7 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam){
 		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return -1;
 	}
-	LPTSTR pszPath=GetCustomPath();
+	TCHAR* pszPath=GetCustomPath();
 	if(!pszPath){
 		delete frmMain;
 		return -1;
@@ -275,7 +275,7 @@ INT_PTR service_EditBitmap(WPARAM wParam, LPARAM lParam) {
 // wParam = (char*)filename
 // lParam = (HANDLE)contact (can be null)
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam) {
-	LPSTR result = NULL;
+	char* result = NULL;
 	CSendImageShack* cSend = new CSendImageShack(NULL, lParam, false);
 	cSend->m_pszFile = mir_a2t((char*)wParam);
 	cSend->m_bDeleteAfterSend = FALSE;
@@ -358,8 +358,8 @@ int UnRegisterServices(){
 }
 
 //---------------------------------------------------------------------------
-LPTSTR GetCustomPath() {
-	LPTSTR pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
+TCHAR* GetCustomPath() {
+	TCHAR* pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
 	if(hFolderScreenshot){
 		TCHAR szPath[1024]={0};
 		FoldersGetCustomPathT(hFolderScreenshot, szPath, 1024, pszPath);

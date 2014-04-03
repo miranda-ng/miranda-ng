@@ -53,7 +53,7 @@ CSendEmail::~CSendEmail(){
 void	CSendEmail::Send() {
 
 	mir_freeAndNil(m_pszFileName);
-	m_pszFileName = (LPSTR)GetFileName(m_pszFile, DBVT_ASCIIZ);
+	m_pszFileName = GetFileNameA(m_pszFile);
 
 	mir_freeAndNil(m_pszFileA);
 	m_pszFileA = mir_t2a(m_pszFile);
@@ -146,7 +146,7 @@ void CSendEmail::SendThread() {
 		int res = lpMAPISendMail(NULL, NULL, &Msg, MAPI_LOGON_UI|MAPI_DIALOG, 0);
 		::FreeLibrary(hMAPILib);
 
-		LPTSTR err;
+		TCHAR* err;
 		switch (res) {
 			case SUCCESS_SUCCESS:
 				//The call succeeded and the message was sent.

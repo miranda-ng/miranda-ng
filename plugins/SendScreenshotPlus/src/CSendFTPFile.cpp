@@ -58,9 +58,9 @@ void	CSendFTPFile::Send() {
 	 * if (!wParam || !lParam) return 1
 	 ********************************************************************************************/
 	mir_freeAndNil(m_pszFileName);
-	m_pszFileName = (LPSTR)GetFileName(m_pszFile, DBVT_ASCIIZ);
+	m_pszFileName = GetFileNameA(m_pszFile);
 	size_t size = sizeof(char)*(strlen(m_pszFileName)+2);
-	m_pszFileName = (LPSTR) mir_realloc(m_pszFileName, size);
+	m_pszFileName = (char*)mir_realloc(m_pszFileName, size);
 	m_pszFileName[size-1] = NULL;
 
 	//start Send thread

@@ -118,7 +118,7 @@ FIBITMAP* CaptureWindow  (HWND hCapture, BOOL ClientArea) {
 	return dib;
 }
 
-FIBITMAP* CaptureMonitor (LPTSTR szDevice) {
+FIBITMAP* CaptureMonitor (TCHAR* szDevice) {
 	SIZE size;
 	HDC hScrDC;
 	FIBITMAP *dib = NULL;
@@ -283,7 +283,7 @@ FIBITMAP* CaptureDesktop()  {//emulate print screen
 	} while (!bBitmap);
 	#ifdef _DEBUG
 		char mess[120] = {0};
-		LPSTR pszMess = mess;
+		char* pszMess = mess;
 		mir_snprintf(pszMess,120,"SS Bitmap counter: %i\r\n",i);
 		OutputDebugStringA( pszMess );
 	#endif
@@ -299,10 +299,10 @@ FIBITMAP* CaptureDesktop()  {//emulate print screen
 	return dib;
 }*/
 
-LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTSTR pszExt, int flag) {
+TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, TCHAR* pszFilename, TCHAR* pszExt, int flag) {
 	int ret=0;
-	LPTSTR pszFile = NULL;
-	LPTSTR FileExt = (LPTSTR)GetFileExt (pszFilename, DBVT_TCHAR);
+	TCHAR* pszFile = NULL;
+	TCHAR* FileExt = GetFileExt(pszFilename);
 	if(!FileExt) {
 		if(!pszExt) return NULL;
 		mir_tcsadd(pszFile, pszFilename);
@@ -328,47 +328,32 @@ LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTST
 }
 
 //---------------------------------------------------------------------------
-INT_PTR GetFileName(LPTSTR pszPath, UINT typ) {
-	/*DBVT_ASCIIZ, DBVT_WCHAR, DBVT_TCHAR*/
-	LPTSTR slash = _tcsrchr(pszPath,_T('\\'));
-	if (slash) {
-		switch (typ) {
-			case DBVT_ASCIIZ:
-				return (INT_PTR)mir_t2a(slash+1);
-			case DBVT_WCHAR:
-				return (INT_PTR)mir_t2u(slash+1);
-			default:
-				return 0;
-		}
-	}
-	else {
-		switch (typ) {
-			case DBVT_ASCIIZ:
-				return (INT_PTR)mir_t2a(pszPath);
-			case DBVT_WCHAR:
-				return (INT_PTR)mir_t2u(pszPath);
-			default:
-				return 0;
-		}
-	}
+TCHAR* GetFileNameW(TCHAR* pszPath) {
+	TCHAR* slash = _tcsrchr(pszPath,_T('\\'));
+	if(slash)
+		return mir_t2u(slash+1);
+	else
+		return mir_t2u(pszPath);
+}
+TCHAR* GetFileExtW(TCHAR* pszPath) {
+	TCHAR* slash = _tcsrchr(pszPath,_T('.'));
+	if(slash)
+		return mir_t2u(slash);
+	return NULL;
 }
 
-INT_PTR GetFileExt (LPTSTR pszPath, UINT typ) {
-	/*DBVT_ASCIIZ, DBVT_WCHAR, DBVT_TCHAR*/
-	LPTSTR slash = _tcsrchr(pszPath,_T('.'));
-	if (slash) {
-		switch (typ) {
-			case DBVT_ASCIIZ:
-				return (INT_PTR)mir_t2a(slash);
-			case DBVT_WCHAR:
-				return (INT_PTR)mir_t2u(slash);
-			default:
-				return 0;
-		}
-	}
-	else {
-		return NULL;
-	}
+char* GetFileNameA(TCHAR* pszPath) {
+	TCHAR* slash = _tcsrchr(pszPath,_T('\\'));
+	if(slash)
+		return mir_t2a(slash+1);
+	else
+		return mir_t2a(pszPath);
+}
+char* GetFileExtA(TCHAR* pszPath) {
+	TCHAR* slash = _tcsrchr(pszPath,_T('.'));
+	if(slash)
+		return mir_t2a(slash);
+	return NULL;
 }
 
 //---------------------------------------------------------------------------
@@ -393,7 +378,7 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder) {
 	return bOk;
 }
 /*
-INT_PTR SavePNG(HBITMAP hBmp, LPTSTR szFilename) {
+void SavePNG(HBITMAP hBmp, TCHAR* szFilename) {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR                    gdiplusToken;
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
@@ -410,10 +395,9 @@ INT_PTR SavePNG(HBITMAP hBmp, LPTSTR szFilename) {
 		delete pBitmap;
 	}
 	Gdiplus::GdiplusShutdown(gdiplusToken);
-	return 0;
 }*/
 
-INT_PTR SaveGIF(HBITMAP hBmp, LPTSTR szFilename) {
+void SaveGIF(HBITMAP hBmp, TCHAR* szFilename) {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR                    gdiplusToken;
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
@@ -430,10 +414,9 @@ INT_PTR SaveGIF(HBITMAP hBmp, LPTSTR szFilename) {
 		delete pBitmap;
 	}
 	Gdiplus::GdiplusShutdown(gdiplusToken);
-	return 0;
 }
 
-INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename) {
+void SaveTIF(HBITMAP hBmp, TCHAR* szFilename) {
 //http://www.codeproject.com/Messages/1406708/How-to-reduce-the-size-of-an-Image-using-GDIplus.aspx
 	ULONG_PTR						gdiplusToken;
 	Gdiplus::GdiplusStartupInput	gdiplusStartupInput;
@@ -470,5 +453,4 @@ INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename) {
 		delete pBitmap;
 	}
 	Gdiplus::GdiplusShutdown(gdiplusToken);
-	return 0;
 }

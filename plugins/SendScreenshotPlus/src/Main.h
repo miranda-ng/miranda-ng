@@ -54,7 +54,7 @@ INT_PTR	service_Send2ImageShack(WPARAM wParam, LPARAM lParam);
 
 int		OnSendScreenShot(WPARAM wParam, LPARAM lParam);
 
-LPTSTR	GetCustomPath();
+TCHAR*	GetCustomPath();
 
 //---------------------------------------------------------------------------
 #endif

@@ -39,11 +39,10 @@ class CSendFTPFile : public CSend {
 		void					Send();
 
 	protected:
-		LPSTR					m_pszFileName;
-		LPSTR					m_URL;
+		char*					m_pszFileName;
+		char*					m_URL;
 		void					SendThread();
 		static void				SendThreadWrapper(void * Obj);
-
 };
 
 //---------------------------------------------------------------------------

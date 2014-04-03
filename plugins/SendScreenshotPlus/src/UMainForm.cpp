@@ -188,14 +188,14 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	//Taskbar and Window icon
 	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
-	LPTSTR pt = mir_a2t(__PLUGIN_NAME);
+	TCHAR* pt = mir_a2t(__PLUGIN_NAME);
 	SetWindowText(m_hWnd, pt);
 	mir_freeAndNil(pt);
 
 	// Headerbar
-	pt = mir_tstrdup((LPTSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
+	pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
 	if (pt && (m_hContact != 0)) {
-		LPTSTR lptString = NULL;
+		TCHAR* lptString = NULL;
 		mir_tcsadd(lptString , TranslateT("Send screenshot to\n"));
 		mir_tcsadd(lptString , pt);
 		SetDlgItemText(m_hWnd, IDC_HEADERBAR, lptString);
@@ -479,12 +479,12 @@ void TfrmMain::SetTargetWindow(HWND hwnd){
 	}
 	m_hTargetWindow=hwnd;
 	int len=GetWindowTextLength(m_hTargetWindow)+1;
-	LPTSTR lpTitle;
+	TCHAR* lpTitle;
 	if(len>1){
-		lpTitle=(LPTSTR)mir_alloc(len*sizeof(TCHAR));
+		lpTitle=(TCHAR*)mir_alloc(len*sizeof(TCHAR));
 		GetWindowText(m_hTargetWindow,lpTitle,len);
 	}else{//no WindowText present, use WindowClass
-		lpTitle=(LPTSTR)mir_alloc(64*sizeof(TCHAR));
+		lpTitle=(TCHAR*)mir_alloc(64*sizeof(TCHAR));
 		RealGetWindowClass(m_hTargetWindow,lpTitle,64);
 	}
 	SetDlgItemText(m_hwndTabPage,ID_edtCaption,lpTitle);
@@ -496,7 +496,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 		static int primarymouse;
 		if(!m_hTargetHighlighter){
 			primarymouse=GetSystemMetrics(SM_SWAPBUTTON)?VK_RBUTTON:VK_LBUTTON;
-			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(LPTSTR)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,hInst,NULL);
+			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(TCHAR*)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,hInst,NULL);
 			if(!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter,0,123,LWA_ALPHA);
 			SetSystemCursor(CopyCursor(Skin_GetIcon(ICO_COMMON_SSTARGET)),OCR_NORMAL);
@@ -736,7 +736,7 @@ void TfrmMain::LoadOptions(void) {
 
 	m_opt_chkEditor				= db_get_b(NULL, SZ_SENDSS, "Preview", 0);
 	m_opt_btnDesc				= db_get_b(NULL, SZ_SENDSS, "AutoDescription", 1);
-	m_opt_btnDeleteAfterSend	= db_get_b(NULL, SZ_SENDSS, "DelAfterSend", 1);
+	m_opt_btnDeleteAfterSend	= db_get_b(NULL, SZ_SENDSS, "DelAfterSend", 1)!=0;
 	m_opt_chkOpenAgain			= db_get_b(NULL, SZ_SENDSS, "OpenAgain", 0);
 }
 
@@ -765,7 +765,7 @@ void TfrmMain::SaveOptions(void) {
 }
 
 //---------------------------------------------------------------------------
-void TfrmMain::Init(LPTSTR DestFolder, MCONTACT Contact) {
+void TfrmMain::Init(TCHAR* DestFolder, MCONTACT Contact) {
 	m_FDestFolder = mir_tstrdup(DestFolder);
 	m_hContact = Contact;
 	if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
@@ -918,10 +918,10 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl) {
 INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	//generate File name
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	LPTSTR ret;
-	LPTSTR path = NULL;
-	LPTSTR pszFilename = NULL;
-	LPTSTR pszFileDesc = NULL;
+	TCHAR* ret;
+	TCHAR* path = NULL;
+	TCHAR* pszFilename = NULL;
+	TCHAR* pszFileDesc = NULL;
 	if (!dib) return 1;		//error
 	unsigned FileNumber=db_get_dw(NULL,SZ_SENDSS,"FileNumber",0)+1;
 	if(FileNumber>99999) FileNumber=1;
@@ -930,7 +930,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	if (path[_tcslen(path)-1] != _T('\\')) mir_tcsadd(path, _T("\\"));
 	mir_tcsadd(path, _T("shot%.5u"));//on format change, adapt "len" below
 	size_t len=_tcslen(path)+2;
-	pszFilename = (LPTSTR)mir_alloc(sizeof(TCHAR)*(len));
+	pszFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len));
 	mir_sntprintf(pszFilename,len,path,FileNumber);
 	mir_free(path);
 
@@ -1010,7 +1010,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 		case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
 			{
-			LPTSTR pszFile = NULL;
+			TCHAR* pszFile = NULL;
 			mir_tcsadd(pszFile, pszFilename);
 			mir_tcsadd(pszFile, _T(".tif"));
 
@@ -1031,7 +1031,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			//dib24 = FIP->FI_ConvertTo8Bits(dib_new);
 			//ret = SaveImage(FIF_GIF,dib24, pszFilename, _T("gif"));
 			//FIP->FI_Unload(dib24);
-			LPTSTR pszFile = NULL;
+			TCHAR* pszFile = NULL;
 			mir_tcsadd(pszFile, pszFilename);
 			mir_tcsadd(pszFile, _T(".gif"));
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
@@ -1046,7 +1046,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	}
 /*	//load PNG and save file in user format (if differ)
 	//this get better result for transparent aereas
-	//LPTSTR pszFormat = (LPTSTR)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
+	//TCHAR* pszFormat = (TCHAR*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
 	TCHAR pszFormat[6];
 	ComboBox_GetText(hwndCombo, pszFormat, 6);
 	if(ret && (_tcsicmp (pszFormat,_T("png")) != 0)) {
