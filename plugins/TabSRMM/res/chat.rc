@@ -195,7 +195,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,164,279,10
     CONTROL         "Do not show popups when the channel window is not open",IDC_NOPOPUPSFORCLOSEDWINDOWS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,176,282,10
-    LTEXT           "Highlight event",IDC_STATIC,44,139,68,12
+    LTEXT           "Highlight event",IDC_STATIC,42,139,100,12
     COMBOBOX        IDC_LOGICONTYPE,12,204,171,38,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Line markers in the message log",IDC_STATIC,14,193,257,10
 END
@@ -287,6 +287,13 @@ BEGIN
         HORZGUIDE, 150
         HORZGUIDE, 174
     END
+
+    IDD_OPTIONS3, DIALOG
+    BEGIN
+        VERTGUIDE, 32
+        VERTGUIDE, 42
+        VERTGUIDE, 142
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -349,7 +356,7 @@ BEGIN
     MENUITEM "",                            65535
     POPUP "Message"
     BEGIN
-        MENUITEM "Undo",                      ID_MESSAGE_UNDO, GRAYED
+        MENUITEM "Undo",                        ID_MESSAGE_UNDO, GRAYED
         MENUITEM "Redo",                        ID_MESSAGE_REDO, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Copy",                        ID_MESSAGE_COPY, GRAYED
