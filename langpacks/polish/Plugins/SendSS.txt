@@ -33,7 +33,7 @@ Wyślij p&rzez:
 [E&xplore]
 P&rzeglądaj
 [&Fill description textbox.]
-&Wypełnij pole opisu.
+&Wypełnij pole opisu
 [Delete &after send]
 Usuń &po wysłaniu
 [Open again]
@@ -58,19 +58,36 @@ Uchwyć:
 Rozmiar (HxW):
 [Target Tool]
 Celownik
+[Result]
+Wynik
+[&Copy]
+&Kopiuj
+[Close]
+Zamknij
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+Otrzymany URL z\n
+[%s requires a valid contact!]
+%s wymaga poprawnego kontaktu!
+[Error]
+Błąd
 [GCHAT error]
 Błąd GCHAT
 [An unknown error has occurred.]
 Nieznany błąd.
-[Error]
-Błąd
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Nie można zainicjować %s.
 [MAPI error (%i):\n%s.]
 Błąd MAPI (%i):\n%s.
+;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
+[Dropbox transfer]
+Wyślij do Dropbox'a
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
+%s (%i):\nNie można udostępnić przez wtyczkę Dropbox.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+Wyślij przez e-mail
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 Odbiorca odpowiada więcej niż jednej strukturze opisującej odbiorców, przez co nie ustawiono MAPI_DIALOG
 [The specified attachment was not found]
@@ -99,17 +116,24 @@ Odbiorca nie pojawił się na liście adresów
 Użytkownik zamknął jedno z okien
 [Unknown Error]
 Nieznany błąd
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+Transfer plików
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 Transfer FTP
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nNie można dodać zasobu do wtyczki FTP File.
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+Transfer HTTPServer
 [Could not start the HTTP Server plugin.]
 Nie można uruchomić wtyczki serwera HTTP.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nNie można dodać zasobu do wtyczki serwera HTTP.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Image upload]
+Wyślij jako obrazek
 [Upload server did not respond timely.]
 Serwer nie odpowiada.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
@@ -221,6 +245,8 @@ Transfer plików
 E-mail
 [FTP File]
 Menedżer FTP
+[Dropbox]
+Dropbox
 [ImageShack]
 ImageShack
 [Information]

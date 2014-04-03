@@ -52,7 +52,7 @@ Wysłane wiadomości
 [Total messages: %sys:msg_count_all%]
 Wszystkich wiadomości: %sys:msg_count_all%
 [Last message: (%sys:last_msg_reltime% along)]
-Ostatnia wiadomość: (%sys:last_msg_reltime% назад)
+Ostatnia wiadomość: (%sys:last_msg_reltime% temu)
 [(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
 (odebrano: %sys:msg_count_in%, wysłano: %sys:msg_count_out%)
 [Coordinates]

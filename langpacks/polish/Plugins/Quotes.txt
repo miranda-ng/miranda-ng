@@ -154,8 +154,14 @@ Informacje dostarczone przez
 [Enter positive number.]
 Wprowadź liczbę dodatnią.
 ;file \plugins\Quotes\src\Forex.cpp
+[Auto Update Enabled]
+Włącz autoaktualizację
+[Auto Update Disabled]
+Wyłącz autoaktualizację
 [Quotes]
 Notowania giełdowe
+[Enable/Disable Auto Update]
+Włącz/Wyłącz autoaktualizację
 [Refresh All Quotes\\Rates]
 Odśwież wszystkie wskaźniki giełdowe
 [Currency Converter...]
@@ -172,6 +178,12 @@ Otwórz plik dziennika...
 Notowanie...
 [Edit Settings...]
 Edytuj ustawienia...
+[Enable/Diable Quotes Auto Update]
+Włącz/Wyłącz autoaktualizację notowań
+[Quotes Auto Update Enabled]
+Autoaktualizacja notowań włączona
+[Quotes Auto Update Disabled]
+Autoaktualziacja notowań wyłączona
 [Network]
 Protokoły
 ;file \plugins\Quotes\src\HTTPSession.cpp
