@@ -337,8 +337,7 @@ int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
 	if (fbu.gender)
 		setByte(hContact, "Gender", fbu.gender);
 
-	if (!fbu.image_url.empty())
-		setString(hContact, FACEBOOK_KEY_AV_URL, fbu.image_url.c_str());
+	CheckAvatarChange(hContact, fbu.image_url);
 
 	return 1;
 }
