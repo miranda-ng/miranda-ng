@@ -55,18 +55,32 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, std::string image_url)
 		return;
 	
 	bool big_avatars = getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
-	
-	// We've got url to avatar of default size 32x32px, let's change it to slightly bigger (50x50px) - looks like maximum size for square format
-	std::tstring::size_type pos = image_url.rfind("/s32x32/");
-	if (pos != std::wstring::npos)
-		image_url = image_url.replace(pos, 8, big_avatars ? "/s200x200/" : "/s50x50/");
-	
-	if (big_avatars)
-	{
-		pos = image_url.rfind("_q.");
-		if (pos != std::wstring::npos)
-			image_url = image_url.replace(pos, 3, "_s.");
+
+	// We've got url to avatar of default size 32x32px, let's change it to bigger one
+	std::tstring::size_type pos, pos2;
+
+	// Remove cropping and use bigger size
+	pos = image_url.find("/t1.0-1/");
+	if (pos != std::tstring::npos) {
+		pos += 8;
+
+		pos2 = image_url.find("/", pos);
+		if (pos2 != std::tstring::npos && image_url.find("/", pos2 + 1) != std::tstring::npos)
+			pos2 = image_url.find("/", pos2 + 1);
+		
+		// TODO: crop it somehow to square image
+
+		if (pos2 != std::tstring::npos)
+			image_url.replace(pos, pos2 - pos, big_avatars ? "p180x180" : "p50x50");
 	}
+
+	// Allow big images
+	pos = image_url.rfind("_s.");
+	if (pos == std::tstring::npos)
+		pos = image_url.rfind("_t.");
+		
+	if (pos != std::tstring::npos)
+		image_url = image_url.replace(pos, 3, "_q.");
 	
 	DBVARIANT dbv;
 	bool update_required = true;
