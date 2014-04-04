@@ -48,7 +48,7 @@ if not exist "..\..\langpacks\%language%\Langpack_%language%.txt" (
 
 echo Installing langpack...
 
-copy "..\..\langpacks\%language%\Langpack_%language%.txt" "%mirandaPath%\Langpack_%language%.txt"
+copy "..\..\langpacks\%language%\Langpack_%language%.txt" "%mirandaPath%\Languages\Langpack_%language%.txt"
 cd "%mirandaPath%"
 mimcmd.exe callservice LangPack/Reload 0 0
 
