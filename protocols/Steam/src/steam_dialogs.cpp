@@ -15,10 +15,19 @@ INT_PTR CALLBACK CSteamProto::GuardProc(HWND hwnd, UINT message, WPARAM wParam, 
 		{
 			guard = (GuardParam*)lParam;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+			// load steam icon
+			char iconName[100];
+			mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "main");
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(iconName, 16));
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(iconName, 32));
 		}
+		Utils_RestoreWindowPositionNoSize(hwnd, 0, "STEAM", "GuardWindow");
 		return TRUE;
 
 	case WM_CLOSE:
+		Skin_ReleaseIcon((HICON)SendMessage(hwnd, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwnd, WM_SETICON, ICON_SMALL, 0));
+		Utils_SaveWindowPosition(hwnd, NULL, "STEAM", "GuardWindow");
 		EndDialog(hwnd, 0);
 		break;
 
@@ -26,6 +35,11 @@ INT_PTR CALLBACK CSteamProto::GuardProc(HWND hwnd, UINT message, WPARAM wParam, 
 	{
 		switch (LOWORD(wParam))
 		{
+		case IDC_GETDOMAIN:
+			CallService(MS_UTILS_OPENURL, 0, (LPARAM)guard->domain);
+			SetFocus(GetDlgItem(hwnd, IDC_TEXT));
+			break;
+
 		case IDOK:
 			GetDlgItemTextA(hwnd, IDC_TEXT, guard->code, sizeof(guard->code));
 			EndDialog(hwnd, IDOK);
@@ -198,13 +212,16 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			ptrA password(proto->getStringA("Password"));
 			SetDlgItemTextA(hwnd, IDC_PASSWORD, password);
 
-			/*if (proto->IsOnline())
+			ptrW groupName(proto->getWStringA(NULL, "DefaultGroup"));
+			SetDlgItemText(hwnd, IDC_GROUP, groupName);
+			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
+
+			if (proto->IsOnline())
+			{
+				EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), FALSE);
+				EnableWindow(GetDlgItem(hwnd, IDC_PASSWORD), FALSE);
 				EnableWindow(GetDlgItem(hwnd, IDC_GROUP), FALSE);
-
-			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, SKYPE_GROUP_NAME_LIMIT, 0);
-
-			ptrW defgroup( db_get_wsa(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP));
-			SetDlgItemText(hwnd, IDC_GROUP, defgroup);*/
+			}
 		}
 		return TRUE;
 
@@ -215,12 +232,9 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			case IDC_USERNAME:
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
-
-					//if (/*!proto->IsOnline() && */db_get_w(NULL, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) <= ID_STATUS_OFFLINE)
-					/*{
-						char username[128];
-						GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
-					}*/
+					proto->delSetting("SteamID");
+					wchar_t username[128];
+					GetDlgItemText(hwnd, IDC_USERNAME, username, SIZEOF(username));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
@@ -228,48 +242,47 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			case IDC_PASSWORD:
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
-					//if (proto->IsOnline())
-					/*{
-						char password[128];
-						GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
-					}*/
+					proto->delSetting("TokenSecret");
+					char password[128];
+					GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
 
-			/*case IDC_GROUP:
+			case IDC_GROUP:
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 						return 0;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;*/
+				break;
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY/* && !proto->IsOnline()*/)
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
-			wchar_t username[128];
-			GetDlgItemText(hwnd, IDC_USERNAME, username, SIZEOF(username));
-			proto->setWString("Username", username);
-			/*mir_free(proto->login);
-			proto->login = ::mir_wstrdup(sid);*/
-
-			char password[128];
-			GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
-			proto->setString("Password", password);
-
-			/*wchar_t tstr[128];
-			GetDlgItemText(hwnd, IDC_GROUP, tstr, SIZEOF(tstr));
-			if (lstrlen(tstr) > 0)
+			if (!proto->IsOnline())
 			{
-				::db_set_ts(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, tstr);
-				::Clist_CreateGroup(0, tstr);
+				wchar_t username[128];
+				GetDlgItemText(hwnd, IDC_USERNAME, username, SIZEOF(username));
+				proto->setWString("Username", username);
+
+				char password[128];
+				GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
+				proto->setString("Password", password);
+
+				wchar_t groupName[128];
+				GetDlgItemText(hwnd, IDC_GROUP, groupName, SIZEOF(groupName));
+				if (lstrlen(groupName) > 0)
+				{
+					proto->setWString(NULL, "DefaultGroup", groupName);
+					Clist_CreateGroup(0, groupName);
+				}
+				else
+					proto->delSetting(NULL, "DefaultGroup");
 			}
-			else
-				::db_unset(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);*/
 
 			return TRUE;
 		}

@@ -92,7 +92,7 @@ namespace SteamWebApi
 		{
 			rsaKey->success = false;
 
-			HttpRequest request(hConnection, REQUEST_GET, "https://steamcommunity.com/mobilelogin/getrsakey");
+			HttpRequest request(hConnection, REQUEST_GET, STEAM_COMMUNITY_URL "/mobilelogin/getrsakey");
 			request.AddParameter("username", username);
 			
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());

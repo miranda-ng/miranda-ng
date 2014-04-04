@@ -24,52 +24,56 @@ int SteamToMirandaStatus(int state)
 }
 
 
-int CSteamProto::PollStatus()
+int CSteamProto::PollStatus(const char *sessionId, const char *steamId, UINT32 messageId)
 {
-	ptrA steamId(getStringA("SteamID"));
-	ptrA sessionId(getStringA("SessionID"));
-	ptrA messageId(getStringA("MessageID"));
+	SteamWebApi::PollApi::PollResult pollResult;
+	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, sessionId, steamId, messageId, &pollResult);
 
-	SteamWebApi::PollApi::Poll poll;
-	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, sessionId, steamId, messageId, &poll);
+	if (!pollResult.IsSuccess())
+		return 0;
 
-	if (!poll.IsSuccess())
-		return -1;
-
-	//setString
-
-	for (int i = 0; i < poll.GetItemCount(); i++)
+	for (int i = 0; i < pollResult.GetItemCount(); i++)
 	{
-		switch (poll[i]->GetType())
+		switch (pollResult[i]->GetType())
 		{
 		case SteamWebApi::PollApi::POOL_TYPE::TYPING:
 			break;
 
 		case SteamWebApi::PollApi::POOL_TYPE::MESSAGE:
 			{
-				const wchar_t *text = ((SteamWebApi::PollApi::Message*)poll[i])->GetText();
+				const wchar_t *text = ((SteamWebApi::PollApi::Message*)pollResult[i])->GetText();
 			}
 			break;
 
 		case SteamWebApi::PollApi::POOL_TYPE::STATE:
 			{
-				int status = ((SteamWebApi::PollApi::State*)poll[i])->GetStatus();
-				const wchar_t *nickname = ((SteamWebApi::PollApi::State*)poll[i])->GetNickname();
+				int status = ((SteamWebApi::PollApi::State*)pollResult[i])->GetStatus();
+				const wchar_t *nickname = ((SteamWebApi::PollApi::State*)pollResult[i])->GetNickname();
 			}
 			break;
 		}
 	}
 
-	return 0;
+	return pollResult.GetMessageId();
 }
 
 void CSteamProto::PollingThread(void*)
 {
 	debugLogA("CSteamProto::PollingThread: entering");
 
+	ptrA token(getStringA("TokenSecret"));
+	ptrA sessionId(getStringA("SessionID"));
+	UINT32 messageId = getDword("MessageID", 0);
+
 	while (!m_bTerminated)
-		if (PollStatus() == -1)
+	{
+		messageId = PollStatus(token, sessionId, messageId);
+		if (messageId == 0)
 			break;
+	}
+
+	if (messageId > 0)
+		setDword("MessageID", messageId);
 
 	m_hPollingThread = NULL;
 	debugLogA("CSteamProto::PollingThread: leaving");

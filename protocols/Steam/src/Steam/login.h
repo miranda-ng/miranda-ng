@@ -3,12 +3,12 @@
 
 namespace SteamWebApi
 {
-	class LogInApi : public BaseApi
+	class LoginApi : public BaseApi
 	{
 	public:
-		class LogIn : public Result
+		class LoginResult : public Result
 		{
-			friend LogInApi;
+			friend LoginApi;
 
 		private:
 			std::string steamid;
@@ -22,12 +22,13 @@ namespace SteamWebApi
 			UINT32 GetMessageId() { return messageId; }
 		};
 		
-		static void LogOn(HANDLE hConnection, const char *token, LogIn *login)
+		static void Logon(HANDLE hConnection, const char *token, LoginResult *loginResult)
 		{
-			login->success = false;
+			loginResult->success = false;
 
 			CMStringA data;
 			data.AppendFormat("access_token=%s", token);
+			data.Append("&ui_mode=web");
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -45,18 +46,34 @@ namespace SteamWebApi
 				return;
 
 			node = json_get(root, "steamid");
-			login->steamid = ptrA(mir_u2a(json_as_string(node)));
+			loginResult->steamid = ptrA(mir_u2a(json_as_string(node)));
 
 			node = json_get(root, "umqid");
-			login->umqid = ptrA(mir_u2a(json_as_string(node)));
+			loginResult->umqid = ptrA(mir_u2a(json_as_string(node)));
 
 			node = json_get(root, "message");
-			login->messageId = json_as_int(node);
+			loginResult->messageId = json_as_int(node);
 
-			login->success = true;
+			loginResult->success = true;
+		}
+
+		static void Relogon(HANDLE hConnection, const char *token, LoginResult *loginResult)
+		{
+		}
+
+		static void Logoff(HANDLE hConnection, const char *token, const char *sessionId)
+		{
+			CMStringA data;
+			data.AppendFormat("access_token=%s", token);
+			data.AppendFormat("&umqid=%s", sessionId);
+
+			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001");
+			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.SetData(data.GetBuffer(), data.GetLength());
+			
+			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 		}
 	};
 }
-
 
 #endif //_STEAM_LOGIN_H_

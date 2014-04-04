@@ -6,6 +6,26 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
 	InitializeCriticalSection(&this->contact_search_lock);
+
+	// icons
+	wchar_t filePath[MAX_PATH];
+	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
+
+	wchar_t sectionName[100];
+	mir_sntprintf(sectionName, SIZEOF(sectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+
+	char settingName[100];
+	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "main");
+
+	SKINICONDESC sid = {0};
+	sid.cbSize = sizeof(SKINICONDESC);
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszDefaultFile = filePath;
+	sid.pszName = settingName;
+	sid.ptszSection = sectionName;
+	sid.ptszDescription = LPGENT("Protocol icon");
+	sid.iDefaultIndex = -IDI_STEAM;
+	Skin_AddIcon(&sid);
 }
 
 CSteamProto::~CSteamProto()
@@ -149,6 +169,8 @@ int CSteamProto::SetStatus(int new_status)
 	{
 		m_bTerminated = true;
 
+		ForkThread(&CSteamProto::LogOutThread, NULL);
+
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
@@ -164,17 +186,12 @@ int CSteamProto::SetStatus(int new_status)
 	{
 		if (old_status == ID_STATUS_OFFLINE/* && !this->IsOnline()*/)
 		{
-
 			m_iStatus = ID_STATUS_CONNECTING;
 			ForkThread(&CSteamProto::LogInThread, NULL);
-
-				//ptrA steamId(getStringA("SteamID"));
-				//Steam::FriendList(m_hNetlibUser/*, token*/)
-				//	.LoadAsync(steamId, CallbackConverter<Steam::FriendList::Result, &CSteamProto::OnContactListLoadedAsync>, this);
 		}
 		else
 		{
-			/*if ( this->account->IsOnline())
+			/*if (IsOnline())
 			{
 				SetServerStatus(new_status);
 				return 0;

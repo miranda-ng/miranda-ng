@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\Steam\res\Resource.rc
+// Used by d:\Projects\CPlusPlus\MirandaNG\protocols\Steam\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
@@ -23,6 +23,8 @@
 #define IDC_GROUP                       1021
 #define IDC_BM_LIST                     1064
 #define IDC_TEXT                        1082
+#define IDC_OPENDOMAIN                  1200
+#define IDC_GETDOMAIN                   1200
 
 // Next default values for new objects
 // 

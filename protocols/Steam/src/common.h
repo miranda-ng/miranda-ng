@@ -11,6 +11,9 @@
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_json.h>
+//#include <m_skin.h>
+#include <m_icolib.h>
+#include <m_clist.h>
 #include <m_string.h>
 #include <m_freeimage.h>
 #include <m_protocols.h>

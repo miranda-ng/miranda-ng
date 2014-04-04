@@ -3,7 +3,8 @@
 
 namespace SteamWebApi
 {
-	#define STEAM_API_URL "https://api.steampowered.com"
+	#define STEAM_API_URL "https://api.steampowered.com:443"
+	#define STEAM_COMMUNITY_URL "https://steamcommunity.com"
 
 	struct Result
 	{

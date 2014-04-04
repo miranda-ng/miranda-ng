@@ -16,7 +16,7 @@ enum HTTP_STATUS
 	HTTP_STATUS_INSUFICIENTE_STORAGE = 507*/
 };
 
-class HttpRequest : private NETLIBHTTPREQUEST//, public MZeroedObject
+class HttpRequest : public NETLIBHTTPREQUEST//, public MZeroedObject
 {
 public:
 	HttpRequest(HANDLE hNetlibUser, int request, LPCSTR url)
@@ -28,11 +28,13 @@ public:
 		dataLength = 0;
 		headersCount = 0;
 		szResultDescr = NULL;
-		flags = NLHRF_HTTP11;
+		flags = NLHRF_HTTP11 | NLHRF_SSL;
 		requestType = request;
 
 		m_hNetlibUser = hNetlibUser;
 		m_szUrl = mir_strdup(url);
+
+		AddHeader("User-Agent", "Steam App / Miranda / 0.0.1");
 	}
 
 	~HttpRequest()

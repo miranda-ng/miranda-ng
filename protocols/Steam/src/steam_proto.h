@@ -1,27 +1,18 @@
 #ifndef _STEAM_PROTO_H_
 #define _STEAM_PROTO_H_
 
+struct GuardParam
+{
+	char code[10];
+	char domain[32];
+};
+
 struct CaptchaParam
 {
 	BYTE *data;
 	size_t size;
 	char text[10];
 };
-
-struct GuardParam
-{
-	wchar_t emailDomain[32];
-	char code[10];
-};
-
-template<typename T, void (CSteamProto::*Callback)(T*)>
-void CallbackConverter(void *owner, void *arg)
-{
-	T *typedArg = (T*)arg;
-	CSteamProto *proto = (CSteamProto*)owner;
-	if (owner != NULL)
-		(proto->*Callback)(typedArg);
-}
 
 class CSteamProto : public PROTO<CSteamProto>
 {
@@ -91,16 +82,18 @@ protected:
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
 	// pooling thread
-	int PollStatus();
+	int PollStatus(const char *sessionId, const char *steamId, UINT32 messageId);
 	void __cdecl PollingThread(void*);
 
 	// account
+	bool IsOnline();
+	void Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult);
 	void __cdecl LogInThread(void*);
+	void __cdecl LogOutThread(void*);
 
 	// contacts
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const SteamWebApi::FriendApi::Friend &contact);
-	//void OnContactListLoadedAsync(Steam::FriendList::Result *result);
 
 	//events
 	int OnModulesLoaded(WPARAM, LPARAM);
