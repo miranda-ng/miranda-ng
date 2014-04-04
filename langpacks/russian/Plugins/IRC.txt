@@ -22,7 +22,7 @@
 [Rejoin channel if kicked]
 Перезайти при переподключении
 [Rejoin channels on reconnect]
-Зайти в комнаты чата при подключении
+Зайти в комнаты при подключении
 [Disable tray balloon on error]
 Отключить сообщения в трее
 [Show addresses]
@@ -38,7 +38,7 @@
 ['Old style' mode changes]
 "Старый" стиль режимов
 [Update online statuses for users]
-Обновлять статусы для польз.
+Обновлять статусы для пользователей
 [Update statuses in channel nick list]
 Обнов. статусы в списке комнаты чата
 [Internet address]
@@ -72,7 +72,7 @@ ID пользователя
 [Check every (s):]
 Проверять каждые (с):
 [Don't check if more than (users):]
-Не проверять, если больше (польз):
+Не проверять, если польз. более:
 [User information]
 Информация
 [Ping]
