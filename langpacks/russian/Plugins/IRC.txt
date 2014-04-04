@@ -135,6 +135,10 @@ ID пользователя
 Авто
 [Off]
 Откл.
+[Host address]
+Адрес сервера
+[Server description]
+Описание
 [Network]
 Сеть
 [Channels on server]
