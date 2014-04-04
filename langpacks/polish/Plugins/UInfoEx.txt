@@ -209,7 +209,7 @@ Metakontakty
 [Scan SubContacts for missing information]
 Skanuj subkontakty żeby znaleźć brakujące informacje
 [Enable extended 'send/receive email' service (*)]
-Włącz rozszerzoną usługę "wyślij/odbierz email" (*)
+Włącz rozszerzoną usługę "wyślij/odbierz e-mail" (*)
 [Use Windows Timezone]
 Użyj strefy czasowej z Windows
 [(*) Requires Miranda to be restarted.]

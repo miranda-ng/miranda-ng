@@ -25,7 +25,7 @@ Pobieranie...
 [Pack update options]
 Opcje aktualizacji paczki
 [On startup]
-Przu starcie
+Przy starcie
 [Remind about not installed pack update]
 Przypomnij o niezainstalowanej aktualizacji paczki
 [Hotkey]

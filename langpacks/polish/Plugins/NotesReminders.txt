@@ -37,7 +37,7 @@ Dodaj elementy do listy kontaktów
 [Reminder options]
 Opcje przypomnień
 [Add Reminder closes dialog]
-Zamknij po dodaniu przypomienia
+Zamknij po dodaniu przypomnienia
 [Use MCI to play alert sounds]
 Użyj MCI do odtwarzania dźwięków
 [Note transparency]

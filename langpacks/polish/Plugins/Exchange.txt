@@ -9,7 +9,7 @@
 Powiadamia o nieprzeczytanych wiadomościach na serwerze Exchange.
 ;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
-Nieprzeczytane maile
+Nieprzeczytane e-maile
 [Close]
 Zamknij
 [Mark as read]
@@ -55,7 +55,7 @@ Masz %d nieprzeczytane wiadomości...
 [You have one unread email...]
 Masz jedną nieprzeczytaną wiadomość...
 [Exchange email]
-email Exchange
+E-mail Exchange
 [Do you want to see the email headers?]
 Czy chcesz widzieć nagłówki wiadomości?
 ;file \plugins\Exchange\src\hooked_events.cpp

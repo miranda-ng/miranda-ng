@@ -366,7 +366,7 @@ Inne zdarzenia (nieznane)
 [Webpager message]
 Wiadomość URL
 [EMail Express message]
-Wiadomość email
+Wiadomość e-mail
 [Grid options]
 Opcje siatki
 [Recent events on top]

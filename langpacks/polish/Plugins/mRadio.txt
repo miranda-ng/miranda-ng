@@ -176,7 +176,7 @@ Wymuś Mono
 [Play/Pause]
 Odtwarzaj/Pauza
 [Oops! BASS error]
-Uups! Błąd biblioteki BASS.
+Ups! Błąd biblioteki BASS.
 [Mute with Miranda]
 Wycisz z Mirandą
 [Advanced]

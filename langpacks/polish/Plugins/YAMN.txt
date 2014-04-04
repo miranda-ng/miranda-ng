@@ -273,7 +273,7 @@ Przeszukiwanie skrzynki
 [Reading body %s]
 Odczytywanie treści %s
 [Reading new mail messages (%d%% done)]
-Czytanie nowych wiadomości email (wykonano %d%%)
+Czytanie nowych wiadomości e-mail (wykonano %d%%)
 [Deleting requested mails]
 Usuwanie wybranych wiadomości
 [Deleting spam]

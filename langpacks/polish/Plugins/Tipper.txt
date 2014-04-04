@@ -272,7 +272,7 @@ Zmiana statusu protokołu
 [Logon time]
 Czas od zalogowania
 [Unread emails]
-Nieprzeczytane emaile
+Nieprzeczytane e-maile
 [Status]
 Status
 [Status message]
@@ -301,7 +301,7 @@ Klient
 [Log on:]
 Zalogowany:
 [Unread emails:]
-Nieprzeczytane emaile:
+Nieprzeczytane e-maile:
 [Status:]
 Status:
 [Status message:]

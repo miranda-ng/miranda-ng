@@ -406,7 +406,7 @@ Zarezerwowany
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Odtwarza dźwięk dodany przez Skin/Sounds/Addnew. W przypadku nie znalezienia dźwięku, odtwarzany jest domyślny dźwięk Windows.
 [Send Email to contact]
-Wyślij email do kontaktu
+Wyślij e-mail do kontaktu
 [struct]
 strukt
 [Returns the received files folder for a contact]

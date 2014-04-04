@@ -211,7 +211,7 @@ Sprawdź nazwę okna.
 [Check your Password.]
 Sprawdź hasło.
 [Check your Email Address.]
-Sprawdź adres email.
+Sprawdź adres e-mail.
 [Service temporarily unavailable.]
 Usługa tymczasowo niedostępna.
 [Field change temporarily unavailable.]
@@ -221,7 +221,7 @@ Niepoprawna nazwa okna.
 [Invalid Password.]
 Niepoprawne hasło.
 [Invalid Email.]
-Niepoprawny email.
+Niepoprawny e-mail.
 [Invalid Registration Preference.]
 Niepoprawne preferencje rejestracji.
 [Invalid Old Password.]
@@ -231,7 +231,7 @@ Niepoprawna długość nazwy okna.
 [Invalid Password Length.]
 Niepoprawna długość hasła.
 [Invalid Email Length.]
-Niepoprawna długość emaila.
+Niepoprawna długość e-maila.
 [Invalid Old Password Length.]
 Niepoprawna długość starego hasła.
 [Need Old Password.]
@@ -267,11 +267,11 @@ To nie jest status DT.
 [Outstanding Confirmation.]
 Wybitne potwierdzenie.
 [No Email Address.]
-Brak adresu email.
+Brak adresu e-mail.
 [Over Limit.]
 Ponad limit.
 [Email Host Fail.]
-Błąd hosta email.
+Błąd hosta e-mail.
 [DNS Fail.]
 Błąd DNS.
 ;file \protocols\AimOscar\src\file.cpp
@@ -328,7 +328,7 @@ Błąd przy wgrywaniu awatara. (Zabronione)
 [Error uploading avatar. (Unknown error)]
 Błąd przy wgrywaniu awatara. (Nieznany błąd).
 [A confirmation message has been sent to the new email address. Please follow its instructions.]
-Wiadomość została wysłana na nową skrzynkę email. Wykonaj polecenia, które zostały w niej zawarte.
+Wiadomość została wysłana na nową skrzynkę pocztową. Wykonaj polecenia, które zostały w niej zawarte.
 [A confirmation message has been sent to your email address. Please follow its instructions.]
 Wiadomość potwierdzająca została wysłana na adres e-mail. Postępuj zgodnie z zawartymi instrukcjami.
 [Unable to confirm at this time. Please try again later.]

@@ -474,7 +474,7 @@ Wsparcie dla listy elementów w 'przeglądarce usług'
 [Can inform about its Jabber capabilities]
 Informowanie o możliwościach Jabbera
 [Supports stream initiation (e.g., for filetransfers)]
-Wspiera inicjację strumienia np. w celu transferu plików
+Wsparcie dla inicjacji strumienia (np. dla transferu plików)
 [Supports stream initiation for file transfers]
 Wsparcie dla strumienia dla przesyłania plików
 [Supports file transfers via SOCKS5 Bytestreams]
@@ -524,9 +524,9 @@ Wsparcie dla funkcji publikowania autoryzacji
 [Supports SecureIM plugin for Miranda NG]
 Wsparcie dla wtyczki SecureIM w Mirandzie NG
 [Supports OTR (Off-the-Record Messaging)]
-Wspiera wtyczkę MirOtr dla Miranda NG
+Wsparcie dla wtyczki MirOtr w Mirandzie NG
 [Supports New_GPG plugin for Miranda NG]
-Wspiera wtyczkę New_GPG dla Miranda NG
+Wsparcie dla wtyczki New_GPG w Mirandzie NG
 [Blocks packets from another users/groupchats using Privacy lists]
 Możliwość blokowania komunikacji z innymi użytkownikami za pomocą list prywatności
 [Supports Message Receipts]
@@ -536,7 +536,7 @@ Możliwość raportowania informacji o odtwarzanych mediach
 [Receives information about the music to which a user is listening]
 Odbiera informacje o mediach, które odtwarza użytkownik
 [Supports private XML Storage (for bookmarks and other)]
-Wspiera prywatną przestrzeń xml na zakładki i inne.
+Wsparcie dla prywatnej przestrzeni XML (zakładki i inne)
 [Supports attention requests ('nudge')]
 Wsparcie dla proszenia o uwagę ('nudge')
 [Supports chat history retrieving]
@@ -554,7 +554,7 @@ Wsparcie dla rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
 Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
 [Supports direct chat invitations (XEP-0249)]
-Wspiera bezpośrednie zaproszenia do czatu (XEP-0249)
+Wsparcie dla bezpośrednich zaproszeń do czatu (XEP-0249)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -870,7 +870,7 @@ Nazwisko
 [Your URL]
 Twój link
 [Email Address]
-Adres email
+Adres e-mail
 [FAQ Entry]
 Wpis FAQ
 [Whether to allow occupants to invite others]
@@ -1034,7 +1034,7 @@ Imię lub podana nazwa użytkownika
 [Last name, surname, or family name of the user]
 Nazwisko użytkownika
 [Email address of the user]
-Adres email użytkownika
+Adres e-mail użytkownika
 [Street portion of a physical or mailing address]
 Ulica w adresie fizycznym lub pocztowym
 [Locality portion of a physical or mailing address]
@@ -2186,7 +2186,7 @@ Wspierane są tylko obrazki JPG, GIF i BMP mniejsze niż 40 KB.
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]
-Jabber vCard: Edytuj adres email
+Jabber vCard: Edytuj adres e-mail
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: Edytuj numer telefonu
 [Contacts]

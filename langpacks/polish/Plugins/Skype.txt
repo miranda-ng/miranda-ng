@@ -173,7 +173,7 @@ Baza danych SkypeKit już w użyciu
 [Invalid Skype name]
 Nieprawidłowa nazwa użytkownika Skype
 [Invalid email]
-Nieprawidłowy adres E-mail
+Nieprawidłowy adres e-mail
 [Unacceptable password]
 Nieakceptowane hasło
 [Skype name is taken]

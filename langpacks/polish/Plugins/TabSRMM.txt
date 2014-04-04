@@ -952,7 +952,7 @@ Zmień kolor tła
 [Toggle nick list]
 Pokaż/Ukryj listę nicków
 [Event filter - right click to setup, left click to activate/deactivate]
-Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/deaktywacja
+Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/dezaktywacja
 [Channel manager]
 Zarządzanie kanałem
 [<Separator>]
@@ -1951,7 +1951,7 @@ Protokół
 [Contacts local time]
 Lokalny czas kontaktu
 [Window caption (skinned mode)]
-Nagłówek okna (tryb skinowania)
+Nagłówek okna (tryb graficzny)
 [Open new chat rooms in the default container]
 Otwórz nowe okno rozmowy grupowej w domyślnym kontenerze
 [Flash window when someone speaks]

@@ -218,7 +218,7 @@ Oglądaj okno
 Odśwież oglądaną listę
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
-Nie można przekonwertować!
+Nie można skonwertować!
 [New BYTE value]
 Nowa wartość BYTE
 [Edit BYTE value]
