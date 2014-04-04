@@ -19,7 +19,7 @@ Do pliku
 [Support for miranda-vi.org]
 Wsparcie dla miranda-vi.org
 [Username]
-Użytkownik
+Użytkownik:
 [Password]
 Hasło:
 [Upload automatically when changed]

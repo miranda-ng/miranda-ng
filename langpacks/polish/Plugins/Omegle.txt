@@ -83,7 +83,7 @@ Obcy przestał pisać
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Recaptcha jest wymagana.\nOtwórz http://omegle.com, podaj kod wyświetlony na obrazku i spróbuj jeszcze raz.
 [Error: ]
-Błąd:
+Błąd: 
 [We are still waiting...]
 Wciąż czekamy...
 ;file \protocols\Omegle\src\connection.cpp

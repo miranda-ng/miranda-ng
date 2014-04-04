@@ -196,7 +196,7 @@ Ikona odtwarzania dźwięku
 [View Notes]
 Pokaż notatki
 [Sticky Notes]
-Karteczki
+Notatki
 [Plugins]
 Wtyczki
 [Add New Note]

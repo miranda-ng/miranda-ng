@@ -25,7 +25,7 @@ Podgląd
 [Timeout]
 Wyświetl
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-Specjalne wartości czasu oczekiwania:\n -1- nieskończoność, 0 - domyślna wartość
+Specjalne wartości czasu oczekiwania:\n0 - domyślnie, -1 - nie chowaj
 [Emit a sound]
 Włącz dźwięki
 ;file \plugins\MsgPopup\src\main.cpp

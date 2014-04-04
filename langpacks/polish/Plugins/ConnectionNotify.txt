@@ -47,7 +47,7 @@ Nazwa programu
 [Local IP:Port]
 Lokalne IP:Port
 [Action:]
-Czynność:
+Akcja:
 [OK]
 OK
 [Cancel]
@@ -78,7 +78,7 @@ Akcja
 [Plugins]
 Wtyczki
 [New Connection Notification]
-Powiadomienie o Nowym Połączeniu
+Powiadomienie o nowym połączeniu
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Najpierw zamknij okno opcji

@@ -13,7 +13,7 @@ Tworzenie kopii zapasowej profilu...
 [Cancel]
 Anuluj
 [Automatic backups]
-Automatyczne kopie zapasowe
+Kopie zapasowe
 [Backup NOW]
 Utwórz kopię
 [Disabled]
@@ -40,7 +40,7 @@ Wyłącz okienko ze wskaźnikiem postępu kopiowania
 Wyłącz popupy
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
-Baza danych Miranda NG
+Baza danych Mirandy NG
 [Created by:]
 Utworzona przez:
 [Miranda NG databases]

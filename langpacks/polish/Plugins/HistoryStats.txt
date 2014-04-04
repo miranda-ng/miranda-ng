@@ -524,7 +524,7 @@ Nie można przejść do okna konfiguracji HistoryStats tak długo jak opcje dial
 [You have unsaved settings. Do you want to save before running HistoryStats?]
 Ustawienia nie zostały zapisane. Czy chcesz zapisać przed uruchomieniem HistoryStats?
 [HistoryStats]
-HistoryStats
+Statystyki historii
 [Show warnings...]
 Pokaż błędy...
 [Show statistics]

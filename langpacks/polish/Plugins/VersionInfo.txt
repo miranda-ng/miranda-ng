@@ -43,7 +43,7 @@ Jednocześnie kopiuj informacje do schowka
 [Upload site settings]
 Strona do przesyłu
 [Username]
-Użytkownik
+Użytkownik:
 [Password]
 Hasło:
 [Highlight version number using]

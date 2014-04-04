@@ -564,7 +564,7 @@ Okno rozmowy
 [Text to insert]
 Tekst do wstawienia
 [Condition]
-Stan
+Forma
 [NOT]
 NIE
 [Value]

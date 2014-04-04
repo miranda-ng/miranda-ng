@@ -37,7 +37,7 @@ Otrzymany
 [Use only alphanumeric encoding on transfer]
 Używaj tylko alfa-numerycznego kodowania podczas transferu
 [Extra options: Events > File Transfers, "Receiving files" group]
-Więcej: Zdarzenia > Transfery plików,grupa "Odbieranie plików"
+Więcej: Zdarzenia > Transfery plików, grupa "Odbieranie plików"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 Plik już istnieje. Nadpisać?
