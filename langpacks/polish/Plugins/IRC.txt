@@ -37,7 +37,7 @@ Utrzymuj połączenie
 [Automatically join on invite]
 Automatycznie dołącz po zaproszeniu
 ['Old style' mode changes]
-'Stary styl' zmiany trybów
+"Stary styl" zmiany trybów
 [Update online statuses for users]
 Aktualizuj statusy połączonych kontaktów
 [Update statuses in channel nick list]
@@ -325,7 +325,7 @@ Pobrano: %u kanałów
 [(probably truncated by server)]
 (prawdopodobnie okrojona przez serwer)
 [Change nickname]
-Zmień ksywkę
+Zmień nick
 [IRC error]
 Błąd IRC
 [Unknown]
@@ -530,11 +530,11 @@ Zaawansowane
 [WallOps from %s: ]
 WallOps od %s:
 [%s invites you to %s]
-%s zaprasza ciebie na %s
+%s zaprasza do %s
 [%s is away]
-%s jest oddalony
+%s ma status Zaraz wracam
 [These are online: ]
-Online są:
+Dostępni są:
 [CTCP %s reply sent to %s]
 Odpowiedź CTCP %s wysłano do %s
 [CTCP %s reply sent to %s: %s]

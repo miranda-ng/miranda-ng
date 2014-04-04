@@ -21,11 +21,11 @@ przez
 [10-300 seconds (Default 20)]
 10-300 sekund (domyślnie 20)
 [Show Popup notification]
-Pokaż powiadomienie popup
+Pokaż popup
 [spin2]
 spin2
 [Popup time 1-30 seconds (Default 5)]
-Czas popupa 1-30 sekund (domyślnie 5)
+Wyświetlaj 1-30 sekund (domyślnie 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
 Opcja w menu głównym (wymagane przeładowanie wtyczki lub restart Mirandy)
 [TopToolBar button (Miranda restart required)]

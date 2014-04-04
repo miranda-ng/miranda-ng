@@ -4,7 +4,7 @@
 ;  Versions: 0.1.2.0
 ;============================================================
 [User '%s' not found on the server!]
-Użytkownik '%s' nie został znaleziony na serwerze!
+Użytkownik "%s" nie został znaleziony na serwerze!
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
 %s chce rozpocząć rozmowę telefoniczną z Tobą. Co chcesz zrobić?\n\nOdbierzesz czy bieżące połączenie zostanie zawieszone?
 [Answer]

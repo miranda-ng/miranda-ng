@@ -62,21 +62,21 @@ zamiast rozwijania do ścieżki profilu Mirandy.
 [Examples:]
 Przykład:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
-Jeżeli wartość ProfileDir w sekcji ProfileDir pliku mirandaboot.ini to '.\\profiles\', obecny
+Jeżeli wartość ProfileDir w sekcji ProfileDir pliku mirandaboot.ini to ".\\profiles\", obecny
 [profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
-profil to Default.dat, a ścieżka Mirandy to 'C:\Program Files\miranda ng', to wtedy
+profil to Default.dat, a ścieżka Mirandy to "C:\Program Files\miranda ng", to wtedy
 [will expand to 'c:\\program files\\miranda ng']
-zostanie rozwinięte do 'c:\\program files\\miranda ng'
+zostanie rozwinięte do "c:\\program files\\miranda ng"
 [will expand to 'c:\\program files\\miranda ng\\profiles']
-zostanie rozwinięte do 'c:\\program files\\miranda ng\\profiles'
+zostanie rozwinięte do "c:\\program files\\miranda ng\\profiles"
 [will expand to 'default']
-zostanie rozwinięte do 'domyślny'
+zostanie rozwinięte do "domyślny"
 [will expand to the temp folder of the current user.]
 zostanie rozwinięte do folderu tymczasowego aktualnego użytkownika.
 [will expand to 'c:\\program files\\miranda ng\\profiles\\default']
-zostanie rozwinięte do 'c:\\program files\\miranda ng\\profiles\\default'
+zostanie rozwinięte do "c:\\program files\\miranda ng\\profiles\\default"
 [will expand to 'c:\\program files\\miranda ng\\plugins\\config']
-zostanie rozwinięte do 'c:\\program files\\miranda ng\\plugins\\config
+zostanie rozwinięte do "c:\\program files\\miranda ng\\plugins\\config"
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 Zauważ, że spacje na początku i końcu ciągu są przycięte, zarówno jak i ostatnia.
 [Folders]

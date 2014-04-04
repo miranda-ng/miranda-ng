@@ -69,7 +69,7 @@ LPM
 [Copy to clipboard]
 Kopiuj do schowka
 [Dismiss]
-Zamknij
+Odrzuć
 [On right click]
 PPM
 [Preview]

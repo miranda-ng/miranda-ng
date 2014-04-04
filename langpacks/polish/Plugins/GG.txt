@@ -292,7 +292,7 @@ To jest moja własna konferencja.
 [Participants]
 Uczestnicy
 ['Unknown']
-'Nieznany'
+"Nieznany"
 [You have to be connected to open new conference.]
 Musisz być połączony, żeby otworzyć nową konferencję.
 [All ignored conferences are now unignored and the conference policy will act again.]

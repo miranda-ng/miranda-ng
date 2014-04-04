@@ -123,11 +123,11 @@ Przycisk paska narzędzi "Sprawdź pocztę"
 [Enable YAMN Main Menu]
 Włącz YAMN w menu głównym
 [Show YAMN as a Protocol (Require Restart)]
-Pokaż YAMN jako Protokół (Wymagany restart)
+Pokaż YAMN jako protokół (wymagany restart)
 [MailBrowser Options]
 Opcje przeglądania wiadomości
 [Enable Close on Delete Button]
-Włącz przycisk 'Zamknij przy Usuwaniu'
+Włącz przycisk "Zamknij przy usuwaniu"
 [Show long localised date]
 Pokaż długi, lokalny format daty
 [Don't show today's date]
@@ -174,7 +174,7 @@ Włącz aplikacje
 [YAMN]
 Powiadomienia e-mail
 [YAMN Account Folder]
-Folder kont mailowych
+Folder kont YAMN
 [Check mail]
 Sprawdź wiadomości e-mail
 [Connect Fail]
@@ -204,7 +204,7 @@ Konto: %s, Nowych wiadomości: %d, Łącznie: %d
 [- new mail message(s)]
 - nowych wiadomości E-mail
 [%s : %d new mail message(s), %d total]
-%s: nowych wiadomości: %d, Łącznie: %d
+%s: Nowych wiadomości: %d, Łącznie: %d
 [%d new mail message(s), %d total]
 Nowych wiadomości: %d, Łącznie: %d
 [No new mail message, %d spam(s)]

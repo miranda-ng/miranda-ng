@@ -100,7 +100,7 @@ Moduł mBirthday
 [Nothing]
 -Nic-
 [Dismiss]
-Zamknij
+Odrzuć
 [Message window]
 Okno rozmowy
 [All contacts]
@@ -166,7 +166,7 @@ Eksportuj urodziny
 Dodaj/Zmień datę &urodzin
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
-Element 'Sprawdź urodziny' w menu
+Element "Sprawdź urodziny" w menu
 [List birthdays menu item]
 Element menu pokaż listę urodzin
 [Add/change birthday]
@@ -245,4 +245,4 @@ Ostrzeżenie! Proszę nie mieszać wyeksportowanych plików urodzin o kodowaniu 
 Ten plik został wyeksportowany przy użyciu wersji Unicode WhenWasIt. Proszę używać tylko wersji Unicode do importu urodzin.
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
-Nie można odnaleźć UID '%s [%S]' w aktualnej bazie danych, pomijanie
+Nie można odnaleźć UID "%s [%S]" w aktualnej bazie danych, pomijanie

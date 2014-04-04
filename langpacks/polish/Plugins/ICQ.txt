@@ -329,7 +329,7 @@ Za szybko wysyłasz. Poczekaj chwilę i spróbuj ponownie. \r\nSNAC(4.1) Błąd 
 [The contact does not support receiving offline messages.]
 Kontakt nie obsługuje otrzymywania wiadomości kiedy jest niepołączony.
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Użytkownik się wylogował. Wybierz 'Spróbuj ponownie' żeby wysłać wiadomość do niepołączonego.\r\nSNAC(4.1) Błąd x04
+Użytkownik się wylogował. Wybierz "Ponów próbę" żeby wysłać wiadomość do niepołączonego.\r\nSNAC(4.1) Błąd x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
 Usługa wysyłania wiadomości jest czasowo niedostępna. Poczekaj chwilę i spróbuj ponownie.\r\nSNAC(4.1) Błąd x05
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]

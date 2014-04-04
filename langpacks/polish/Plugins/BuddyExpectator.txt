@@ -94,7 +94,7 @@ powrócił po dłuższym braku aktywności.
 [has returned after being absent since %#x]
 powrócił po braku aktywności od %#x
 [has not returned after a long absence.]
-nieaktywny od %#x
+nie powrócił(-a) po długiej nieobecności.
 [has not returned after being absent since %#x]
 nieaktywny od %#x
 [BuddyExpectator]

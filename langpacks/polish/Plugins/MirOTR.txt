@@ -156,7 +156,7 @@ OTR bez szyfrowania
 [OTR]
 OTR
 [Generating new private key for protocol '%s'.\nPlease Wait...]
-Generowanie nowego klucza prywatnego dla protokołu '%s'.\nProszę czekać...
+Generowanie nowego klucza prywatnego dla protokołu "%s".\nProszę czekać...
 [General]
 Ogólne
 [Protocols]
@@ -182,9 +182,9 @@ Konw. HTML
 [Default]
 Domyślny
 [Generating new key for '%s'. Continue?]
-Generowanie nowego klucza dla '%s'. Kontynuować?
+Generowanie nowego klucza dla "%s". Kontynuować?
 [Removing key for '%s'. Continue?]
-Usuwanie klucza dla '%s'. Kontynuować?
+Usuwanie klucza dla "%s". Kontynuować?
 [OTR Fingerprint Verification]
 Weryfikacja odcisku palca OTR
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]

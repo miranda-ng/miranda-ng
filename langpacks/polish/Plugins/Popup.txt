@@ -212,7 +212,7 @@ Dane kontaktu
 [Contact menu]
 Menu kontaktu
 [Dismiss popup]
-Anuluj popup
+Odrzuć popup
 [Pin popup]
 Przypnij popup
 [Copy to clipboard]

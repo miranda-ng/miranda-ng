@@ -55,7 +55,7 @@ Zachowanie
 [Misc]
 Inne
 [Obey 'Suppress online notification' settings]
-Stosuj ustawienia 'Usuń powiadomienia dostępności'
+Stosuj ustawienia "Usuń powiadomienia dostępności"
 [Auto positioning]
 Autopozycjowanie
 [Transparent input]

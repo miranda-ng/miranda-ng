@@ -101,7 +101,7 @@ Nie włączaj na starcie
 [No reminder]
 Nie przypominaj
 [Dismiss]
-Zamknij
+Odrzuć
 [Snooze]
 Drzemka
 [Static]

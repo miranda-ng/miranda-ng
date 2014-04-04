@@ -51,7 +51,7 @@ Skracaj długie ID
 [* Use Ctrl+click to see popup with the copied text]
 * Użyj Ctrl+klick aby zobaczyć dodatkowe opcje
 [Hide contact on 'Ignore all']
-Ukryj gdy 'Zablokowany'
+Ukryj gdy "Zablokowany"
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Opis

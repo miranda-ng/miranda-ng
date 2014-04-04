@@ -64,4 +64,4 @@ Sortuj w porządku:
 [World Time Protocol]
 Protokół Czasu na Świecie
 [Adds 'contacts' showing the time at specified locations around the world.]
-Dodaj 'kontakty' pokazujące czas w określonej lokacji wokół świata.
+Dodaj "kontakty" pokazujące czas w określonej lokacji wokół świata.

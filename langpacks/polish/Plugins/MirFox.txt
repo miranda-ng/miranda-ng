@@ -21,9 +21,9 @@ Profile Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
 Aktywuj MirFox tylko dla następujących profili Firefox (rozdzielone przecinkiem)
 [Show these contacts in 'Send ... to' option in Firefox]
-Pokazuj następujące kontakty w menu 'wyślij do' w Firefox
+Pokazuj następujące kontakty w menu "Wyślij ... do" w Firefox
 [Show these accounts in 'Set status message' option in Firefox]
-Pokazuj następujące konta w menu 'ustaw opis' w Firefox
+Pokazuj następujące konta w menu "Ustaw opis" w Firefox
 ;file \plugins\MirFox\src\MirandaInterface.cpp
 [MirFox/Notification]
 MirFox/Informacja

@@ -656,7 +656,7 @@ Edytor &kodu...
 [&User Name:]
 &Użytkownik:
 [(Unknown Contact)']
-(Nieznany kontakt)'
+(Nieznany kontakt)"
 [0 lines]
 0 linii
 [Other (unknown)]

@@ -291,7 +291,7 @@ Płeć
 [Misc]
 Inne
 [Show 'Restart' menu item]
-Pokaż 'Restart' w menu
+Pokaż "Restart" w menu
 [Use Zodiac as default avatar]
 Użyj znak zodiaku jako domyślny awatar
 [Country Flags]
@@ -456,7 +456,7 @@ Błąd
 [Upload Details]
 Wyślij dane
 [Protocol '%s' is offline]
-Protokół '%s' jest rozłączony
+Protokół "%s" jest rozłączony
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Obecnie nie jesteś podłączony do sieci ICQ.\n Musisz być połączony aby uaktualnić informacje na serwer.\n\nTwoje zmian zostaną zapisane tylko do profilu.
 [Uploading]
@@ -501,7 +501,7 @@ Błąd wysyłania
 Twoje dane nie zostały załadowane pomyślnie.\nZostały one zapisane tylko w bazie danych.
 ;file \plugins\UserInfoEx\src\init.cpp
 [Fatal error, image services not found. Flags Module will be disabled.]
-Błąd, nie znaleziono wtyczki 'advaimg.dll'. Usługa Flag zostanie wyłączona.
+Błąd, nie znaleziono wtyczki "advaimg.dll". Usługa Flag zostanie wyłączona.
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM Naming]
 Nazewnictwo IM

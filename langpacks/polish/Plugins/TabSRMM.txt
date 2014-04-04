@@ -1644,7 +1644,7 @@ Połącz nowe zdarzenia od tego samego w istniejącym popupie
 [Show headers]
 Pokaż nagłówki
 [Dismiss popup]
-Anuluj popup
+Odrzuć popup
 [Open event]
 Otwórz zdarzenie
 [Dismiss event]
@@ -1828,7 +1828,7 @@ Jesteś teraz znany jako %s
 [Notice from %s: ]
 Powiadomienie od %s:
 [The topic is '%s%s']
-Temat to '%s%s'
+Temat to "%s%s"
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]
@@ -2148,7 +2148,7 @@ Pokaż symbole tekstowe
 [%s%s says:%s %s]
 %s%s mówi: %s %s
 [Look up '%s':]
-Zobacz '%s':
+Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
 [&Message %s]

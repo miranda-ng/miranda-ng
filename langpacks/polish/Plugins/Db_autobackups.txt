@@ -84,7 +84,7 @@ folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
 folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%,%allusersprofile% itp.)
+dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
 [Variables]
 Zmienne
 [days]

@@ -219,7 +219,7 @@ Rozciągnij do góry
 [If window is partially covered, bring to front instead of hiding]
 Jeśli okno jest częściowo zakryte, przenieś na wierzch zamiast ukrywać
 [Always Hide On Taskbar]
-Zawsze 'ukryj na pasku narzędzi'
+Zawsze "ukryj na pasku narzędzi"
 [Client margins]
 Marginesy
 [Embedded frames border]

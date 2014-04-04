@@ -134,7 +134,7 @@ Zwróć
 [Effect]
 Efekt
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' w nazwie usługi zostaną zastąpione nazwą protokołu dla kontaktu obsługującego parametr
+"<proto>" w nazwie usługi zostaną zastąpione nazwą protokołu dla kontaktu obsługującego parametr
 [Undefined]
 Nieokreślony
 [Manage Jabber Bookmarks]
@@ -316,7 +316,7 @@ Ignoruj zmiany statusu na dostępny
 [Ignore requests]
 Ignoruj prośby
 [Ignore 'You were added']
-Ignoruj "zostałeś dodany"
+Ignoruj "Zostałeś dodany"
 [Ignore Contact]
 Ignoruj kontakt
 [Unignore Contact]
@@ -859,7 +859,7 @@ nazwa
 [value (name)]
 wartość (nazwa)
 [name 'value']
-nazwa 'wartość'
+nazwa "wartość"
 [Current Macro]
 Aktualne makro
 [Select for FirstRun]

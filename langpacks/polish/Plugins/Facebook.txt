@@ -39,7 +39,7 @@ Dane kontaktu
 [Default group:]
 Domyślna grupa:
 [Automatically set 'Ignore status change' flag]
-Automatycznie ustaw 'Ignoruj zmiany statusu'
+Automatycznie ustaw "Ignoruj zmiany statusu"
 [Contacts Settings]
 Opcje kontaktu
 [Use bigger avatars]
@@ -69,7 +69,7 @@ Pokazuj statusy Mirandy jako posty na Tablicy
 [Use secure connection also for channel requests]
 Również dla kanału próśb o dodanie do znajomych
 [Also disconnect chat when going to offline]
-Rozłączaj również 'Czat' przechodząc w status rozłączony
+Rozłączaj również "Czat" przechodząc w status rozłączony
 [Map non-standard statuses to Invisible (instead of Online)]
 Niestandardowy status jako Niewidoczny (zamiast Dostępnego)
 [Allow posting statuses to my pages (may slow down login)]
@@ -173,7 +173,7 @@ Domyślny
 [What's on your mind, %s?]
 O czym teraz myślisz, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Uwaga: Upewnij się, że wyłączyłeś opcję 'Potwierdzaj ważność certyfikatów SSL' w opcjach sieci, aby zapewnić poprawne działanie.
+Uwaga: Upewnij się, że wyłączyłeś opcję "Potwierdzaj ważność certyfikatów SSL" w opcjach sieci, aby zapewnić poprawne działanie.
 [Sample event]
 Próbne zdarzenie
 [Sample request]
@@ -239,7 +239,7 @@ Sprawdzanie zaproszeń do grona znajomych...
 [Refreshing buddy list...]
 Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
-Czy chcesz anulować znajomość z '%s'?
+Czy chcesz anulować znajomość z "%s"?
 [Show 'Share status' window]
 Pokaż okno "Udostępnij status"
 [Notification]

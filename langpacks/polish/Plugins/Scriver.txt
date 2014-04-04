@@ -504,7 +504,7 @@ Historia
 [Send]
 Wyślij
 [Look up '%s':]
-Zobacz '%s':
+Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
 [Add Contact Permanently to List]
@@ -633,7 +633,7 @@ Wiadomość od %s
 [Typing Notification]
 Kontakt
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżeli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "tak", aby kontynuować ładowanie Mirandy.
+Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżeli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]

@@ -23,7 +23,7 @@ ID klienta
 [Use old client version]
 Użyj starej wersji klienta
 [Error display]
-
+Wyświetlanie błędów
 [Use message boxes]
 Użyj okienek
 [Use popups]
@@ -63,14 +63,14 @@ Tekst wiadomości:
 [Select all]
 Zaznacz wszystko
 [Invert\nselection]
-
+Odwróć\nzaznaczone
 ;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
 
 [Invitation rejected - already present.]
-
+Zaproszenie odrzucone - już istnieje.
 [Your invitation has been rejected.]
-
+Twoje zaproszenie zostąło odrzucone.
 [Please join this meeting.]
 
 [Normal]
@@ -84,14 +84,14 @@ Rozpocznij konferencję
 ;file \protocols\Sametime\src\files.cpp
 ;file \protocols\Sametime\src\messaging.cpp
 [No common encryption method. Try to enable encryption in protocol options.]
-
+Nie wybrano metody szyfrowania. Spróbuj włączyć szyfrowanie w opcjach protokołu.
 [SERVICE NOT IMPLEMENTED. %s]
-
+USŁUGA NIEDOSTĘPNA. %s
 ;file \protocols\Sametime\src\options.cpp
 [Client proto version: %03d.%03d]
-
+Wersja protokołu klienta: %03d.%03d
 [Server proto version: %03d.%03d]
-
+Wersja protokołu serwera: %03d.%03d
 [Network]
 Protokoły
 ;file \protocols\Sametime\src\sametime.cpp
@@ -114,9 +114,9 @@ ID
 [Session announcement - from '%s']
 
 [Unknown user status: %d]
-
+Nieznany status użytkownika: %d
 [No server connection!]
-
+Brak połączenia!
 [Send announcement...]
 
 ;file \protocols\Sametime\src\session_announce_win.cpp
@@ -124,7 +124,7 @@ ID
 
 ;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
-
+Błąd wysyłania kontaktów - usługa przechowywania jest niedostępna.
 [Name]
 Nazwa
 [Description]
@@ -132,7 +132,7 @@ Opis
 [Group?]
 
 [True]
-
+Prawda
 [False]
-
+Fałsz
 ;file \protocols\Sametime\src\utils.cpp

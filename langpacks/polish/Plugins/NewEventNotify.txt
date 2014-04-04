@@ -6,7 +6,7 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
-Powiadamia Cię kiedy otrzymasz wiadomość, link, plik itp. wyświetlając popup.
+Powiadamia o otrzymaniu wiadomości, linku, pliku itp. wyświetlając popup.
 ;file \plugins\NewEventNotify\res\resource.rc
 [General options]
 Ogólne
@@ -17,7 +17,7 @@ Tymczasowo wyłącz popupy zdarzeń
 [Show preview of event in popup]
 Pokaż podgląd zdarzenia w popupie
 [Popup options]
-Opcje Popup
+Opcje popupów
 [Message]
 Wiadomość
 [URL]
@@ -49,7 +49,7 @@ Po upływie czasu
 [Message event only]
 Powiadomienia o wiadomościach
 [Don't show popup when message dialog is already open]
-Nie pokazuj Popupów przy otwartym oknie rozmowy
+Nie pokazuj popupów przy otwartym oknie rozmowy
 [Hide popup when sending new message]
 Ukryj popup przy wysyłaniu nowej wiadomości
 [Open reply dialog instead of reading the message]

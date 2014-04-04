@@ -72,7 +72,7 @@ Przycisk emotikon
 [Assign smiley category]
 Przypisz kategorię emotikon
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
-Tylko jedna wtyczka SmilleyAdd może być uruchomiona.\nUsuń duplikaty z folderu 'Plugins'
+Tylko jedna wtyczka SmilleyAdd może być uruchomiona.\nUsuń duplikaty z folderu "Plugins"
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Emotikony

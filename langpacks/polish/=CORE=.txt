@@ -1138,7 +1138,7 @@ Zapamiętaj rozmiar i położenie okna oddzielnie dla każdego kontaktu
 [Cascade new windows]
 Kaskaduj nowe okna
 [Show 'Send' button]
-Pokaż przycisk 'Wyślij'
+Pokaż przycisk "Wyślij"
 [Show username on top row]
 Pokazuj nazwę użytkownika w górnym wierszu
 [Show toolbar buttons on top row]
@@ -1634,7 +1634,7 @@ Dziennik czatu
 Popupy
 ;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
-Zobacz '%s':
+Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
 [&Message %s]
@@ -1899,7 +1899,7 @@ Wiadomość od %s
 [Typing notification]
 Pisanie
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda nie może załadować wbudowanego modułu wiadomości, brakuje riched20.dll. Wciśnij 'Tak' aby kontynuować.
+Miranda nie może załadować wbudowanego modułu wiadomości, brakuje riched20.dll. Wciśnij "Tak" aby kontynuować.
 [Instant messages]
 Wiadomości
 [Incoming (focused window)]
@@ -2082,7 +2082,7 @@ Jesteś teraz znany jako %s
 [Notice from %s: ]
 Powiadomienie od %s:
 [The topic is '%s%s']
-Temat to '%s%s'
+Temat to "%s%s"
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]
@@ -2186,7 +2186,7 @@ Personalizacja
 [New group]
 Nowa grupa
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Czy na pewno chcesz usunąć grupę '%s'? Ta operacja nie może być odwrócona.
+Czy na pewno chcesz usunąć grupę "%s"? Ta operacja nie może być odwrócona.
 [Delete group]
 Usuń grupę
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -2223,11 +2223,11 @@ Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do o
 [No profile support installed!]
 Nie zainstalowano wsparcia dla profili!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-Miranda nie mogła otworzyć '%s', jest w nieznanym formacie.\nTen profil może być uszkodzony, należy uruchomić DBChecker, który powinien być zainstalowany.
+Miranda nie mogła otworzyć "%s", jest w nieznanym formacie.\nTen profil może być uszkodzony, należy uruchomić DBChecker, który powinien być zainstalowany.
 [Miranda can't understand that profile]
 Miranda nie może otworzyć tego profilu
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
-Miranda nie może uruchomić profilu '%s'\nProgram jest już uruchomiony lub profil został uszkodzony!
+Miranda nie może uruchomić profilu "%s"\nProgram jest już uruchomiony lub profil został uszkodzony!
 [Miranda can't open that profile]
 Miranda nie może uruchomić profilu
 ;file \src\modules\database\dbini.cpp
@@ -2244,7 +2244,7 @@ Ta zmiana wydaje się być potencjalnie ryzykowna.
 [This change is not known to be safe.]
 Ta zmiana wydaje się być niebezpieczna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Nieprawidłowe ustawienie typu dla '%s'. Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
+Nieprawidłowe ustawienie typu dla "%s". Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Prośba o autoryzację od %s%s: %s
@@ -2254,7 +2254,7 @@ Zostałeś dodany przez %s%s
 Kontakty:
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Profil '%s' już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.
+Profil "%s" już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.
 [The profile already exists]
 Taki profil już istnieje
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -2523,7 +2523,7 @@ Opcje Mirandy NG
 &Opcje...
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Wtyczka rdzenia '%' nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
+Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
 [Fatal error]
 Krytyczny błąd
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]

@@ -154,9 +154,9 @@ Sprawdź aktualizacje
 Pobierz komponenty
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
-Przycisk 'Tak'
+Przycisk "Tak"
 ['No' Button]
-Przycisk 'Nie'
+Przycisk "Nie"
 [Plugin info]
 Informacje o wtyczkach
 [Plugin list]

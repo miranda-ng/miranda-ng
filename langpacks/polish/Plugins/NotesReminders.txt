@@ -91,7 +91,7 @@ O czasie i dacie:
 [&Create Note]
 &Utwórz notatkę
 [&Dismiss]
-&Zamknij
+&Odrzuć
 [Reminders]
 Przypomnienia
 [Add New]

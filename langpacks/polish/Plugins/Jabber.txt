@@ -468,9 +468,9 @@ Linki
 Proxy Bytestream nie jest dostępne
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
-Wsparcie dla 'przeglądarki usług'
+Wsparcie dla "przeglądarki usług"
 [Supports Service Discovery items list]
-Wsparcie dla listy elementów w 'przeglądarce usług'
+Wsparcie dla listy elementów "przeglądarki usług"
 [Can inform about its Jabber capabilities]
 Informowanie o możliwościach Jabbera
 [Supports stream initiation (e.g., for filetransfers)]
@@ -538,7 +538,7 @@ Odbiera informacje o mediach, które odtwarza użytkownik
 [Supports private XML Storage (for bookmarks and other)]
 Wsparcie dla prywatnej przestrzeni XML (zakładki i inne)
 [Supports attention requests ('nudge')]
-Wsparcie dla proszenia o uwagę ('nudge')
+Wsparcie dla proszenia o uwagę ("nudge")
 [Supports chat history retrieving]
 Wsparcie dla pobierania historii czatu
 [Supports chat history management]
@@ -548,7 +548,7 @@ Możliwość przekazywania informacji na temat aktywności użytkowników
 [Receives information about user activity]
 Odbiera informacje o aktywności użytkowników
 [Supports Miranda NG notes extension]
-Wsparcie 'notatek' w Mirandzie NG
+Wsparcie "notatek" w Mirandzie NG
 [Supports Jingle]
 Wsparcie dla rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
@@ -592,9 +592,9 @@ Konfiguracja pokoju została zmieniona.
 [Outcast]
 Wygnaniec
 [Affiliation of %s was changed to '%s'.]
-Powiązanie %s zmieniono na '%s'.
+Powiązanie %s zmieniono na "%s".
 [Role of %s was changed to '%s'.]
-Rolę %s zmieniono na '%s'.
+Rolę %s zmieniono na "%s".
 [because room is now members-only]
 ponieważ pokój jest teraz dostępny tylko dla członków
 [user banned]
@@ -758,7 +758,7 @@ Dodaj do rostera
 [Bookmark chatroom]
 Zakładki czatów
 [Add search directory]
-Dodaj do 'wyszukiwarki kontaktów'
+Dodaj do "wyszukiwarki kontaktów"
 [Use this proxy]
 Użyj proxy
 [Commands...]

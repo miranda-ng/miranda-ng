@@ -102,7 +102,7 @@ Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następ
 Nie ukończono jeszcze przetwarzania, jeśli teraz się wrócisz, wprowadzone zmiany zostaną cofnięte i zostanie przywrócony oryginalny profil. Nadal chcesz się wrócić?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Database Checker nie może znaleźć odpowiedniej wtyczki aby otworzyć profil '%s'.
+Database Checker nie może znaleźć odpowiedniej wtyczki aby otworzyć profil "%s".
 [Error]
 Błąd
 [Database driver '%s' doesn't support checking.]

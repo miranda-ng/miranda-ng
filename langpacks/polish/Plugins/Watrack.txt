@@ -544,9 +544,9 @@ Status (szablon)
 [Set XStatus when...]
 Użyj xStatus kiedy...
 [XStatus is empty or 'Music']
-xStatus jest pusty lub 'Muzyka'
+xStatus jest pusty lub "Muzyka"
 ['Music' status is set]
-status to 'Muzyka'
+status to "Muzyka"
 [any XStatus is set]
 jakikolwiek xStatus
 [Players list\n(F1 for note)]

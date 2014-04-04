@@ -34,7 +34,7 @@ Wyeksportowano:
 [contact(s).]
 kontakt(y),
 ['Export contact list' is busy.]
-'Eksportuj listę kontaktów" jest zajęta.
+"Eksportuj listę kontaktów" jest zajęta.
 [Import contact list]
 Importuj listę kontaktów
 [While importing MIM will be completely blocked until finished.]
@@ -50,7 +50,7 @@ Nic nie zostało importowane.
 [Imported:]
 Zaimportowano:
 ['Import contact list' is busy.]
-'Import listy kontaktów" jest zajęty.
+"Import listy kontaktów" jest zajęty.
 [DAT Files]
 Pliki DAT
 [Export contact history]

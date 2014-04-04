@@ -83,7 +83,7 @@ Schowek jest niedostępny, spróbuj ponownie.
 Informacje pomyślnie skopiowano do schowka.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Customize using folders plugin]
-Dostosuj używając wtyczki 'folders'
+Dostosuj używając wtyczki "Folders"
 [Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Czy na pewno chcesz włączyć tę opcję?\nNie jest to zalecane.
 [Show plugin UUIDs?]

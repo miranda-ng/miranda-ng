@@ -127,9 +127,9 @@ Usługi
 Wyczyść folder aktualizacji paczek
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
-Przycisk 'Tak'
+Przycisk "Tak"
 ['No' Button]
-Przycisk 'Nie'
+Przycisk "Nie"
 [Pack Updater HTTP connection]
 Połączenie HTTP aktualizatora paczek
 [URL for checking updates not found.]

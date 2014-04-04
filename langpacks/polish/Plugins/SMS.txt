@@ -63,7 +63,7 @@ Użyj sygnatury
 [Show server notifications]
 Pokazuj powiadomienia serwera
 [Auto popup on new message]
-Popup przy nowej wiadomości
+Popup dla nowej wiadomości
 [Save window position per contact]
 Zapisz pozycję okna dla kontaktu
 [SMS Message Sent]
