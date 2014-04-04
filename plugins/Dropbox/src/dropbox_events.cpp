@@ -92,6 +92,7 @@ int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam)
 	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact)
 	{
 		char *proto = GetContactProto(ev->hContact);
+		bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
 		WORD status = db_get_w(ev->hContact, proto, "Status", ID_STATUS_OFFLINE);
 		bool canSendOffline = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 
@@ -101,7 +102,7 @@ int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam)
 		bbd.bbbFlags = BBSF_RELEASED;
 		if (!instance->HasAccessToken() || ev->hContact == instance->GetDefaultContact() || !instance->HasAccessToken())
 			bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-		else if (status == ID_STATUS_OFFLINE && !canSendOffline)
+		else if (!isProtoOnline || (status == ID_STATUS_OFFLINE && !canSendOffline))
 			bbd.bbbFlags = BBSF_DISABLED;
 
 		CallService(MS_BB_SETBUTTONSTATE, ev->hContact, (LPARAM)&bbd);
