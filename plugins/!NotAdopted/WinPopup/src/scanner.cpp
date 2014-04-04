@@ -91,8 +91,8 @@ HANDLE contact_scanner::GetNextScannableContact()
 	{
 		// Проверка на совпадение протокола контакта
 		if ( IsMyContact( hContact ) &&
-			!DBGetContactSettingByte (hContact, "CList", "NotOnList", 0) &&
-			!DBGetContactSettingByte (hContact, "CList", "Hidden", 0) )
+			!db_get_b (hContact, "CList", "NotOnList", 0) &&
+			!db_get_b (hContact, "CList", "Hidden", 0) )
 		{
 			// Вычисление сколько секунд прошло со времени последнего
 			// обновления статуса контакта. Нужна проверка?
@@ -132,7 +132,7 @@ int contact_scanner::ScanContact(HANDLE  hContact)
 		int status = ID_STATUS_OFFLINE;
 
 		// Получение статуса "Always Online"
-		if ( DBGetContactSettingByte( hContact, modname, "AlwaysOnline", FALSE ) )
+		if ( db_get_b( hContact, modname, "AlwaysOnline", FALSE ) )
 			status = ID_STATUS_ONLINE;
 
 		// Получение имени контакта

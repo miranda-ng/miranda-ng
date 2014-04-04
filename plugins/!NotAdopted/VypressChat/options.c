@@ -495,7 +495,7 @@ static int options_hook_opt_initialise(
 	odp.pszTitle = Translate(VQCHAT_PROTO_NAME);
 	odp.pfnDlgProc = options_user_dlgproc;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	/* add network configuration page
 	 */
@@ -504,7 +504,7 @@ static int options_hook_opt_initialise(
 	odp.pszTitle = Translate(VQCHAT_PROTO_NAME " Network");
 	odp.pfnDlgProc = options_network_dlgproc;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0; /* success */
 }
@@ -758,7 +758,7 @@ static void options_load_settings()
 			/* ok, got name from db */
 			user_set_nickname(dbv.pszVal, FALSE);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	/* get user gender */
@@ -879,7 +879,7 @@ static void options_load_settings()
 			user_set_chanlist(dbv.pszVal, FALSE);
 		}
 	}
-	if(!rc) DBFreeVariant(&dbv);
+	if(!rc) db_free(&dbv);
 
 	/* convert broadcasts masks from old-style
 	 */

@@ -79,7 +79,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if (szProto != NULL && !lstrcmpi(szProto, PROTONAME)) 
 		{
-			if(DBGetContactSettingByte(hContact, PROTONAME, "ChatRoom", 0) == 0)
+			if(db_get_b(hContact, PROTONAME, "ChatRoom", 0) == 0)
 			{
 //				... do something with the hContact here;
 			}

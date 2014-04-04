@@ -44,17 +44,17 @@ CString GetNick(HANDLE hContact)
 {
 	CString sNick;
 	DBVARIANT dbv = {};
-	if ( ! DBGetContactSettingTString( hContact, modname, "Nick", &dbv ) )
+	if ( ! db_get_ts( hContact, modname, "Nick", &dbv ) )
 	{
 		sNick = dbv.ptszVal;
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 	return sNick;
 }
 
 void SetNick(HANDLE hContact, LPCTSTR szNick)
 {
-	DBWriteContactSettingTString( hContact, modname, "Nick", szNick );
+	db_set_ts( hContact, modname, "Nick", szNick );
 }
 
 CComAutoCriticalSection _LOG_SECTION;
@@ -173,7 +173,7 @@ bool InternalStartup()
 
 	bool err = false;
 
-	BYTE method = (BYTE) DBGetContactSettingByte (NULL, modname, "SendMethod", 0);
+	BYTE method = (BYTE) db_get_b (NULL, modname, "SendMethod", 0);
 	if ( method == 2 )
 	{
 		// Инициализация "Службы Сообщений" с запуском
@@ -471,7 +471,7 @@ void ReceiveContactMessage(LPCTSTR msg_from, LPCTSTR msg_to, LPCTSTR msg_text, i
 	Normalize( text );
 
 	// Дубликат?
-	if (DBGetContactSettingByte (NULL, modname, "Filter-dups", TRUE))
+	if (db_get_b (NULL, modname, "Filter-dups", TRUE))
 	{		
 		// Вычисление прошедшего времени с последнего сообщения
 		static FILETIME last_time = { 0, 0 };
@@ -559,7 +559,7 @@ void ReceiveContactMessage(LPCTSTR msg_from, LPCTSTR msg_to, LPCTSTR msg_text, i
 			CCSDATA ccs = { 0 };
 			ccs.szProtoService = PSR_MESSAGE;
 			ccs.hContact = hContact;
-			DBDeleteContactSetting (ccs.hContact, "CList", "Hidden");
+			db_unset (ccs.hContact, "CList", "Hidden");
 			ccs.lParam = (LPARAM) &pre;
 			CallServiceSync (MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
 
@@ -567,7 +567,7 @@ void ReceiveContactMessage(LPCTSTR msg_from, LPCTSTR msg_to, LPCTSTR msg_text, i
 			SetContactStatus( hContact, contact_scanner::ScanContact( hContact ), true );
 
 			// Авто-ответчик
-			if ( DBGetContactSettingByte( NULL, modname, "Auto-answer", FALSE ) )
+			if ( db_get_b( NULL, modname, "Auto-answer", FALSE ) )
 				Autoanswer( hContact );
 		}
 	}
@@ -678,23 +678,23 @@ HANDLE AddToListByName(const CString& sName, WPARAM flags, LPCTSTR about, bool b
 			CallService( MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)modname );
 			SetNick( hContact, sShortName );
 			SetGroup( hContact, bGroup );
-			DBWriteContactSettingTString( hContact, "CList", "MyHandle", sShortName );
-			DBWriteContactSettingByte( hContact, "CList", "NotOnList", 1 );
-			DBWriteContactSettingByte( hContact, "CList", "Hidden", 1 );
+			db_set_ts( hContact, "CList", "MyHandle", sShortName );
+			db_set_b( hContact, "CList", "NotOnList", 1 );
+			db_set_b( hContact, "CList", "Hidden", 1 );
 			SetContactIP( hContact, addr );
 			SetElapsed( hContact, "IPTime" );
 			if ( about )
-				DBWriteContactSettingTString( hContact, modname, "About", about );
+				db_set_ts( hContact, modname, "About", about );
 
 			contact_scanner::ScanContact( hContact );
 		}
 	}
 	if ( hContact && ! ( flags & PALF_TEMPORARY ) &&
-		DBGetContactSettingByte( hContact, "CList", "NotOnList", 1 ) )
+		db_get_b( hContact, "CList", "NotOnList", 1 ) )
 	{
 		// Оставляем контакт
-		DBDeleteContactSetting( hContact, "CList", "NotOnList" );
-		DBDeleteContactSetting( hContact, "CList", "Hidden" );
+		db_unset( hContact, "CList", "NotOnList" );
+		db_unset( hContact, "CList", "Hidden" );
 	}
 	return hContact;
 }
@@ -707,9 +707,9 @@ DWORD GetElapsed (HANDLE hContact, const char* name)
 	currentL.LowPart = current.dwLowDateTime;
 	currentL.HighPart = (LONG)current.dwHighDateTime;					
 	LARGE_INTEGER lastseenL = {};
-	lastseenL.LowPart = DBGetContactSettingDword (hContact, modname,
+	lastseenL.LowPart = db_get_dw (hContact, modname,
 		CStringA (name) + "L", 0);
-	lastseenL.HighPart = (LONG)DBGetContactSettingDword (hContact, modname,
+	lastseenL.HighPart = (LONG)db_get_dw (hContact, modname,
 		CStringA (name) + "H", 0);
 	return (DWORD) (((currentL.QuadPart - lastseenL.QuadPart) / 10000000L) & 0xffffffff);
 }
@@ -718,9 +718,9 @@ void SetElapsed (HANDLE hContact, const char* name)
 {
 	FILETIME current = {};
 	GetSystemTimeAsFileTime (&current);
-	DBWriteContactSettingDword (hContact, modname,
+	db_set_dw (hContact, modname,
 		CStringA (name) + "L", current.dwLowDateTime);
-	DBWriteContactSettingDword (hContact, modname,
+	db_set_dw (hContact, modname,
 		CStringA (name) + "H", current.dwHighDateTime);
 }
 
@@ -730,7 +730,7 @@ HANDLE GetContact (ip addr)
 	FOR_EACH_CONTACT( hContact )
 	{
 		// Получение имени контакта
-		ip contact_addr = DBGetContactSettingDword (hContact, modname, "IP", 0);
+		ip contact_addr = db_get_dw (hContact, modname, "IP", 0);
 		if (contact_addr && (contact_addr == addr))
 			// Найдено совпадение
 			break;
@@ -778,16 +778,16 @@ void SetContactStatus (HANDLE hContact, int status, bool simple)
 	else
 #endif // CHAT_ENABLED
 	{
-		int ns = DBGetContactSettingWord (hContact, modname, "Status", -1);
+		int ns = db_get_w (hContact, modname, "Status", -1);
 		if ( ns != status )
 		{
 			// Изменение статуса
 			if ( ! simple )
 				// Точная установка статуса
-				DBWriteContactSettingWord (hContact, modname, "Status", (WORD) status);
+				db_set_w (hContact, modname, "Status", (WORD) status);
 			else if ( ns == -1 || ns == ID_STATUS_OFFLINE || status != ID_STATUS_ONLINE )
 				// Примерная установка статуса
-				DBWriteContactSettingWord (hContact, modname, "Status", (WORD) status);
+				db_set_w (hContact, modname, "Status", (WORD) status);
 		}
 	}
 }
@@ -808,7 +808,7 @@ void GetAvatarInfoThread(LPVOID param)
 
 	// Получение кешированного аватара
 	DBVARIANT dbv = {};
-	if ( ! DBGetContactSettingTString( data->hContact, modname, "AvatarFile", &dbv ) )
+	if ( ! db_get_ts( data->hContact, modname, "AvatarFile", &dbv ) )
 	{
 		lstrcat( szPath, dbv.ptszVal );
 
@@ -857,7 +857,7 @@ void GetAvatarInfoThread(LPVOID param)
 				pai.format = PA_FORMAT_UNKNOWN;
 			}
 		}
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 	if ( ret )
 	{
@@ -919,10 +919,10 @@ void SetContactAvatar(HANDLE hContact, LPCVOID pBuffer, DWORD nLength)
 	{
 		// Получение старого имени
 		DBVARIANT dbv = {};
-		if ( ! DBGetContactSettingTString( hContact, modname, "AvatarFile", &dbv ) )
+		if ( ! db_get_ts( hContact, modname, "AvatarFile", &dbv ) )
 		{
 			sFilename = dbv.ptszVal;
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		}
 		else
 			// Генерация уникального имени
@@ -992,7 +992,7 @@ void SetContactAvatar(HANDLE hContact, LPCVOID pBuffer, DWORD nLength)
 
 	oAvatarFile.Close();
 
-	DBWriteContactSettingTString( hContact, modname, "AvatarFile", sFilename );
+	db_set_ts( hContact, modname, "AvatarFile", sFilename );
 
 	// Определение ожидающей нити по контакту
 	bool ret = false;
@@ -1035,7 +1035,7 @@ ip GetContactIP (HANDLE hContact)
 		{
 			got_nick = true;
 		}
-		else if ( ! DBGetContactSettingTString( hContact, "CList", "MyHandle", &dbv ) )
+		else if ( ! db_get_ts( hContact, "CList", "MyHandle", &dbv ) )
 		{
 			nick_invalid = true;
 			got_nick = true;
@@ -1050,7 +1050,7 @@ ip GetContactIP (HANDLE hContact)
 			// Если не истекло время кеширования адреса, то из контакта 
 			DWORD elapsed = GetElapsed (hContact, "IPTime");
 			if (elapsed <= MAX_TRUSTED_IP_TIME)
-				addr = DBGetContactSettingDword (hContact, modname, "IP", 0);
+				addr = db_get_dw (hContact, modname, "IP", 0);
 			if (addr == INADDR_NONE) {
 				// Разбор DNS-адреса
 				CString name (dbv.pszVal);
@@ -1060,7 +1060,7 @@ ip GetContactIP (HANDLE hContact)
 			}
 			if (addr != INADDR_NONE)
 				SetContactIP (hContact, addr);
-			DBFreeVariant (&dbv);
+			db_free (&dbv);
 		}
 	}
 	return addr;
@@ -1073,35 +1073,35 @@ void SetContactIP(HANDLE hContact, ip addr)
 
 	if ( hContact )
 	{
-		DBWriteContactSettingDword	(hContact, modname, "IP", addr);
-		DBWriteContactSettingDword	(hContact, modname, "RealIP", addr);
+		db_set_dw	(hContact, modname, "IP", addr);
+		db_set_dw	(hContact, modname, "RealIP", addr);
 	}
 }
 
 bool IsGroup(HANDLE hContact)
 {
-	return ( DBGetContactSettingByte( hContact, modname, "Group", 0u ) != 0u );
+	return ( db_get_b( hContact, modname, "Group", 0u ) != 0u );
 }
 
 void SetGroup(HANDLE hContact, bool bGroup)
 {
-	DBWriteContactSettingByte( hContact, modname, "Group", ( bGroup ? 1u : 0u ) );
+	db_set_b( hContact, modname, "Group", ( bGroup ? 1u : 0u ) );
 }
 
 bool IsLegacyOnline(HANDLE hContact)
 {
-	return ( DBGetContactSettingByte( hContact, modname, "Check00ForOnline", 0u ) != 0u );
+	return ( db_get_b( hContact, modname, "Check00ForOnline", 0u ) != 0u );
 }
 
 void SetLegacyOnline(HANDLE hContact, bool bOnline)
 {
-	DBWriteContactSettingByte( hContact, modname, "Check00ForOnline", ( bOnline ? 1u : 0u ) );
+	db_set_b( hContact, modname, "Check00ForOnline", ( bOnline ? 1u : 0u ) );
 }
 
 bool SendContactMessage(HANDLE hContact, LPCTSTR msg, DWORD& err)
 {
 	// Получение метода посылки
-	BYTE method = (BYTE)DBGetContactSettingByte( NULL, modname, "SendMethod", 0 );
+	BYTE method = (BYTE)db_get_b( NULL, modname, "SendMethod", 0 );
 	switch ( method )
 	{
 		case 0:

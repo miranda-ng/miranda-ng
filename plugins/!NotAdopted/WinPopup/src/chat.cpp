@@ -313,17 +313,17 @@ CString GetChatSession(HANDLE hContact)
 {
 	CString sContact;
 	DBVARIANT dbv = {};
-	if ( ! DBGetContactSettingTString( hContact, modname, "ChatRoomID", &dbv ) )
+	if ( ! db_get_ts( hContact, modname, "ChatRoomID", &dbv ) )
 	{
 		sContact = dbv.pszVal;
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 	return sContact;
 }
 
 bool IsChatRoom(HANDLE hContact)
 {
-	return ( DBGetContactSettingByte( hContact, modname, "ChatRoom", 0 ) != 0 );
+	return ( db_get_b( hContact, modname, "ChatRoom", 0 ) != 0 );
 }
 
 #endif // CHAT_ENABLED

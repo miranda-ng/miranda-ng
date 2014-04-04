@@ -79,7 +79,7 @@ static void FillTreeThread (LPVOID param)
 				if ( WNetGetResourceInformation( &nr, buf, &buf_size, &sys ) == NO_ERROR )
 				{
 					ftd->about = buf->lpComment;
-					DBWriteContactSettingTString( fttd->hContact, modname,
+					db_set_ts( fttd->hContact, modname,
 						"About", ftd->about );
 				}
 
@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcUserInfo (HWND hwndDlg, UINT Msg, WPARAM wParam, 
 					case PSN_INFOCHANGED:
 					{
 						// дыру "Always Online"
-						BOOL b = DBGetContactSettingByte ( data->hContact, modname,
+						BOOL b = db_get_b ( data->hContact, modname,
 							"AlwaysOnline", FALSE );
 						CheckDlgButton (hwndDlg, IDC_ONLINE_CHECK,
 							(UINT)( b ? BST_CHECKED : BST_UNCHECKED ) );
@@ -247,9 +247,9 @@ static INT_PTR CALLBACK DlgProcUserInfo (HWND hwndDlg, UINT Msg, WPARAM wParam, 
 					{
 						BOOL f_now = (IsDlgButtonChecked (hwndDlg, IDC_ONLINE_CHECK) ==
 							BST_CHECKED) ? TRUE : FALSE;
-						BOOL f_old = DBGetContactSettingByte ( data->hContact, modname,
+						BOOL f_old = db_get_b ( data->hContact, modname,
 							"AlwaysOnline", FALSE );
-						DBWriteContactSettingByte (data->hContact, modname,
+						db_set_b (data->hContact, modname,
 							"AlwaysOnline", (BYTE)( f_now ? TRUE : FALSE ) );
 						if ( ! f_old && f_now )
 							SetContactStatus( data->hContact, ID_STATUS_ONLINE, true );
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcUserInfo (HWND hwndDlg, UINT Msg, WPARAM wParam, 
 				{
 					BOOL f_now = (IsDlgButtonChecked (hwndDlg, IDC_ONLINE_CHECK) ==
 						BST_CHECKED) ? TRUE : FALSE;
-					BOOL f_old = DBGetContactSettingByte ( data->hContact, modname,
+					BOOL f_old = db_get_b ( data->hContact, modname,
 						"AlwaysOnline", FALSE );
 
 					if ( f_old != f_now )

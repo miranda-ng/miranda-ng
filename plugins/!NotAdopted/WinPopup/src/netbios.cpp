@@ -994,21 +994,21 @@ bool netbios::Register ()
 	{
 		// COMPUTER <01> U
 		netbios_name *pnn1 =
-			DBGetContactSettingByte (NULL, modname, "RegisterNick", TRUE) ? 
+			db_get_b (NULL, modname, "RegisterNick", TRUE) ? 
 			new netbios_name ( pluginMachineName, 0x01, false, m_le.lana [i]) : NULL;
 		if (pnn1)
 			m_names.Add (pnn1);
 
 		// COMPUTER <03> U
 		netbios_name *pnn2 =
-			DBGetContactSettingByte (NULL, modname, "RegisterNick", TRUE) ? 
+			db_get_b (NULL, modname, "RegisterNick", TRUE) ? 
 			new netbios_name ( pluginMachineName, 0x03, false, m_le.lana [i]) : NULL;
 		if (pnn2)
 			m_names.Add (pnn2);
 
 		// USER <03> U
 		netbios_name *pnn3 =
-			DBGetContactSettingByte (NULL, modname, "RegisterUser", TRUE) ? 
+			db_get_b (NULL, modname, "RegisterUser", TRUE) ? 
 			new netbios_name ( pluginUserName, 0x03, false, m_le.lana [i]) : NULL;
 		if (pnn3) {
 			// Проверка на совпадение имени пользователя и имени компьютера
@@ -1021,7 +1021,7 @@ bool netbios::Register ()
 
 		// MNS_STATUS <AB> G
 		netbios_name *pnn4 =
-			DBGetContactSettingByte (NULL, modname, "RegisterStatus", TRUE) ? 
+			db_get_b (NULL, modname, "RegisterStatus", TRUE) ? 
 			new netbios_name (MNS_STATUS, 0xab, true, m_le.lana [i]) : NULL;
 		if ( pnn4 )
 			m_names.Add( pnn4 );

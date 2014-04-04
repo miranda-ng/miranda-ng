@@ -312,7 +312,7 @@ service_contact_channel_settings(WPARAM wParam, LPARAM lParam)
 			chatroom_channel_show_settings_dlg(channel);
 
 			free(channel);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -367,7 +367,7 @@ service_contact_deleted(WPARAM wParam, LPARAM lParam)
 				free(channel);
 			}
 			
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	

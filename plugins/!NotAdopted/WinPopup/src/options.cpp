@@ -141,25 +141,25 @@ static INT_PTR CALLBACK DlgProcOptions (HWND hwndDlg, UINT Msg, WPARAM wParam, L
 			
 			TreeView_SetImageList (hTree, data->hTreeImages, TVSIL_NORMAL);
 
-			BOOL b = DBGetContactSettingByte (NULL, modname, "RegisterNick", TRUE);
+			BOOL b = db_get_b (NULL, modname, "RegisterNick", TRUE);
 			CheckDlgButton (hwndDlg, IDC_CHECK_NICK, (UINT)( b ? BST_CHECKED : BST_UNCHECKED ));
 			EnableWindow (GetDlgItem (hwndDlg, IDC_NICK1), b);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_NICK2), b);
 			
-			b = DBGetContactSettingByte (NULL, modname, "RegisterUser", TRUE);
+			b = db_get_b (NULL, modname, "RegisterUser", TRUE);
 			CheckDlgButton (hwndDlg, IDC_CHECK_USER, (UINT)( b ? BST_CHECKED : BST_UNCHECKED ));
 			EnableWindow (GetDlgItem (hwndDlg, IDC_USER), b);
 
 			CheckDlgButton (hwndDlg, IDC_AUTOANSWER,
-				(UINT)( DBGetContactSettingByte (NULL, modname, "Auto-answer", FALSE) ?
+				(UINT)( db_get_b (NULL, modname, "Auto-answer", FALSE) ?
 				BST_CHECKED : BST_UNCHECKED ) );
 			CheckDlgButton (hwndDlg, IDC_DUPS,
-				(UINT)( DBGetContactSettingByte (NULL, modname, "Filter-dups", TRUE) ?
+				(UINT)( db_get_b (NULL, modname, "Filter-dups", TRUE) ?
 				BST_CHECKED : BST_UNCHECKED ) );
 			CheckDlgButton (hwndDlg, IDC_ALWAYSCHECK00FORONLINE,
 				(UINT)( IsLegacyOnline( NULL ) ? BST_CHECKED : BST_UNCHECKED ) );
 			
-			BYTE method = (BYTE) DBGetContactSettingByte (NULL, modname, "SendMethod", 0);
+			BYTE method = (BYTE) db_get_b (NULL, modname, "SendMethod", 0);
 			CheckRadioButton (hwndDlg, IDC_USE_MAILSLOT, IDC_USE_NETSEND,
 				IDC_USE_MAILSLOT + method);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_USE_NETSEND), (fnNetMessageBufferSend != NULL));
@@ -178,11 +178,11 @@ static INT_PTR CALLBACK DlgProcOptions (HWND hwndDlg, UINT Msg, WPARAM wParam, L
 			}
 
 			DBVARIANT dbv = {};
-			if ( ! DBGetContactSettingTString( NULL, modname, "User", &dbv ) )
+			if ( ! db_get_ts( NULL, modname, "User", &dbv ) )
 			{
 				netbios_name nname (dbv.ptszVal, 3);
 				SetDlgItemText (hwndDlg, IDC_USER, CA2T( nname.GetANSIFullName() ) );
-				DBFreeVariant (&dbv);
+				db_free (&dbv);
 			}
 
 			bLastOnline = ! ( pluginCurrentStatus != ID_STATUS_OFFLINE );
@@ -303,15 +303,15 @@ static INT_PTR CALLBACK DlgProcOptions (HWND hwndDlg, UINT Msg, WPARAM wParam, L
 						return TRUE;
 
 					case PSN_APPLY:
-						DBWriteContactSettingByte (NULL, modname, "RegisterNick",
+						db_set_b (NULL, modname, "RegisterNick",
 							(BYTE)( (IsDlgButtonChecked (hwndDlg, IDC_CHECK_NICK) == BST_CHECKED ? TRUE : FALSE ) ));   
-						DBWriteContactSettingByte (NULL, modname, "RegisterUser",
+						db_set_b (NULL, modname, "RegisterUser",
 							(BYTE)( (IsDlgButtonChecked (hwndDlg, IDC_CHECK_USER) == BST_CHECKED ? TRUE : FALSE ) ));   
-						DBWriteContactSettingByte (NULL, modname, "Auto-answer",
+						db_set_b (NULL, modname, "Auto-answer",
 							(BYTE)( (IsDlgButtonChecked (hwndDlg, IDC_AUTOANSWER) == BST_CHECKED ? TRUE : FALSE ) ));   
-						DBWriteContactSettingByte (NULL, modname, "Filter-dups",
+						db_set_b (NULL, modname, "Filter-dups",
 							(BYTE)( (IsDlgButtonChecked (hwndDlg, IDC_DUPS) == BST_CHECKED ? TRUE : FALSE ) ));
-						DBWriteContactSettingByte (NULL, modname, "SendMethod",
+						db_set_b (NULL, modname, "SendMethod",
 							(BYTE)( (((IsDlgButtonChecked (hwndDlg, IDC_USE_MAILSLOT) == BST_CHECKED) ? 0 :
 							((IsDlgButtonChecked (hwndDlg, IDC_USE_NETBIOS) == BST_CHECKED) ? 1 :
 							((IsDlgButtonChecked (hwndDlg, IDC_USE_NETSEND) == BST_CHECKED) ? 2 :

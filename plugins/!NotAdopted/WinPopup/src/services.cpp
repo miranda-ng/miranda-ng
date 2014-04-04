@@ -353,7 +353,7 @@ INT_PTR RecvMessage (WPARAM /* flags */, LPARAM lParam)
 		PROTORECVEVENT *pre = (PROTORECVEVENT*) ccs->lParam;
 
 		// Добавление сообщения
-		DBDeleteContactSetting (ccs->hContact, "CList", "Hidden");
+		db_unset (ccs->hContact, "CList", "Hidden");
 		DBEVENTINFO ei = { 0 };
 		ei.cbSize = sizeof (DBEVENTINFO);
 		ei.szModule = modname;
@@ -499,14 +499,14 @@ INT_PTR SetMyAvatar(WPARAM /*wParam*/, LPARAM lParam)
 			SHFileOperation( &sfo );
 		}
 
-		DBWriteContactSettingTString( NULL, modname, "AvatarFile",
+		db_set_ts( NULL, modname, "AvatarFile",
 			_tcsrchr( szPath, _T('\\') ) + 1 );
 	}
 	else
 	{
 		// Удаление аватара в корзину
 		DBVARIANT dbv = {};
-		if ( ! DBGetContactSettingTString( NULL, modname, "AvatarFile", &dbv ) )
+		if ( ! db_get_ts( NULL, modname, "AvatarFile", &dbv ) )
 		{
 			lstrcat( szPath, dbv.ptszVal );
 
@@ -518,9 +518,9 @@ INT_PTR SetMyAvatar(WPARAM /*wParam*/, LPARAM lParam)
 				FOF_NOCONFIRMATION;
 			SHFileOperation( &sfo );
 
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 
-			DBDeleteContactSetting( NULL, modname, "AvatarFile" );
+			db_unset( NULL, modname, "AvatarFile" );
 		}
 	}
 
@@ -540,13 +540,13 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	GetAvatarCache( szPath );
 
 	DBVARIANT dbv = {};
-	if ( ! DBGetContactSettingTString( NULL, modname, "AvatarFile", &dbv ) )
+	if ( ! db_get_ts( NULL, modname, "AvatarFile", &dbv ) )
 	{
 		lstrcat( szPath, dbv.ptszVal );
 
 		ret = ( GetFileAttributes( szPath ) != INVALID_FILE_ATTRIBUTES );
 
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 
 	if ( ! ret )
@@ -749,10 +749,10 @@ int __cdecl SYSTEM_MODULESLOADED (WPARAM /* wParam */, LPARAM /* lParam */)
 		wsprintf( path + len, _T("%d"), StatusIcons[i].icon_id );
 		wsprintf( icon, modname_t _T("%d"), StatusIcons[i].status );
 		DBVARIANT dbv = {};
-		if ( ! DBGetContactSetting( NULL, "Icons", CT2A( icon ), &dbv ) )
-			DBFreeVariant( &dbv );
+		if ( ! db_get( NULL, "Icons", CT2A( icon ), &dbv ) )
+			db_free( &dbv );
 		else
-			DBWriteContactSettingTString( NULL, "Icons", CT2A( icon ), path );
+			db_set_ts( NULL, "Icons", CT2A( icon ), path );
 	}
 
 	// Определение имени компьютера
@@ -767,7 +767,7 @@ int __cdecl SYSTEM_MODULESLOADED (WPARAM /* wParam */, LPARAM /* lParam */)
 	GetUserName(
 		pluginUserName.GetBuffer( (int)iUserNameLength ), &iUserNameLength );
 	pluginUserName.ReleaseBuffer();
-	DBWriteContactSettingTString( NULL, modname, "User", pluginUserName );
+	db_set_ts( NULL, modname, "User", pluginUserName );
 
 	// Определение имени рабочей группы
 	if ( pluginOS.dwPlatformId == VER_PLATFORM_WIN32_NT )
@@ -798,7 +798,7 @@ int __cdecl SYSTEM_MODULESLOADED (WPARAM /* wParam */, LPARAM /* lParam */)
 			RegCloseKey (hKey);
 		}
 	}
-	DBWriteContactSettingTString (NULL, modname, "Workgroup", pluginDomainName);
+	db_set_ts (NULL, modname, "Workgroup", pluginDomainName);
 
 	// Регистрация в Chat
 #ifdef CHAT_ENABLED

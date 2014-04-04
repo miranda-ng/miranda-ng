@@ -355,7 +355,7 @@ DWORD * db_dword_list(
 		}
 	}
 	
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return list;
 }
 

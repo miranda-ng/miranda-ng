@@ -91,7 +91,7 @@ static int contacts_add_queued_message(
 	CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 
 	free(new_data);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	return 0;
 }
@@ -137,7 +137,7 @@ static char * contacts_fetch_queued_message(
 		CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return text;
 }
 
@@ -350,7 +350,7 @@ char * contacts_get_contact_property(
 		if(dbv.type == DBVT_ASCIIZ) {
 			value = strdup(dbv.pszVal);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if(value == NULL)
 		value = strdup("(unknown)");
@@ -448,7 +448,7 @@ char * contacts_get_nickname(HANDLE hContact)
 		
 		db_get(hContact, VQCHAT_PROTO, "Nick", &dbv);
 		nickname = util_loc2utf(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else {
 		nickname = strdup("(null)");
 	}
@@ -679,7 +679,7 @@ int contacts_is_user_contact(HANDLE hContact)
 	/* check that the contact has Nick set */
 	if(db_get(hContact, VQCHAT_PROTO, "Nick", &dbv)) return 0;
 	if(dbv.type != DBVT_ASCIIZ) return 0;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	
 	/* check if this is a chatroom */
 	if(db_byte_get(hContact, VQCHAT_PROTO, "ChatRoom", 0))

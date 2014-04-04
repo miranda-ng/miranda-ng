@@ -32,13 +32,13 @@ void pthread_r(struct pthread_arg *fa)
 {
     void (*callercode) (void *) = fa->threadcode;
     void *arg = fa->arg;
-    CallService(MS_SYSTEM_THREAD_PUSH, 0, 0);
+    Thread_Push(0, 0);
     SetEvent(fa->hEvent);
 /*    __try { */
         callercode(arg);
 /*    } */
 /*    __finally { */
-        CallService(MS_SYSTEM_THREAD_POP, 0, 0);
+        Thread_Pop();
 /*    } */
 }
 
