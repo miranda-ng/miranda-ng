@@ -728,7 +728,7 @@ void FacebookProto::ProcessFeeds(void* data)
 			utils::text::special_expressions_decode(
 				utils::text::remove_html(post_header)));
 
-		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "\\\"");
+		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
 		
 		nf->link = utils::text::special_expressions_decode(
 				utils::text::source_get_value(&post_link, 2, "href=\\\"", "\\\">"));

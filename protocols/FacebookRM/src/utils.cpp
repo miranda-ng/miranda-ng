@@ -249,11 +249,11 @@ std::string utils::text::edit_html(std::string data)
 	new_string = "";
 	while (end != std::string::npos)
 	{
-		end = data.find("translate_story_link\\\">", start);
+		end = data.find("role=\\\"button\\\">", start);
 		if (end != std::string::npos)
 		{
 			new_string += data.substr(start, end - start);
-			start = data.find("<\\/div", end);
+			start = data.find("<\\/a", end);
 		} else {
 			new_string += data.substr(start, data.length() - start);
 		}
