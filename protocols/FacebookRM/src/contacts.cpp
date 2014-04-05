@@ -377,14 +377,16 @@ void FacebookProto::SendPokeWorker(void *p)
 	http::response resp = facy.flap(REQUEST_POKE, &data);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
-		std::string message = utils::text::source_get_value(&resp.data, 3, "__html\":\"", "\\/button>", "\"}");
+		resp.data = utils::text::slashu_to_utf8(
+				utils::text::source_get_value(&resp.data, 2, "__html\":\"", "\"}"));
 
-		if (message.empty()) // message has different format, try to get whole message
-			message = utils::text::source_get_value(&resp.data, 2, "__html\":\"", "\"}");
+		std::string message = utils::text::source_get_value(&resp.data, 4, "<img", "<div", ">", "<\\/div>");
+
+		if (message.empty()) // message has different format, show whole message
+			message = resp.data;
 
 		message = utils::text::special_expressions_decode(
-			utils::text::remove_html(
-				utils::text::slashu_to_utf8(message)));
+			utils::text::remove_html(message));
 
 		ptrT tmessage( mir_utf8decodeT(message.c_str()));
 		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);
