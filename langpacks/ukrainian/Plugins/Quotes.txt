@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
-;  Version: 0.0.24.0
+;  Version: 0.0.25.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
@@ -53,10 +53,14 @@
 &Обміняти
 [Convert]
 Конвертувати
+[Info provided by <a href="http://www.google.com">Google</a>]
+Інформація надана <a href="http://www.google.com">Google</a>
 [Close]
 Закрити
 [Chart]
 Діаграма
+[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
+Інформація надана <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>
 [Filter:]
 Фільтр:
 [Popup Window Settings]
@@ -131,8 +135,14 @@
 Інформація надана
 [Enter positive number.]
 Додатнє число.
+[Auto Update Enabled]
+Автооновлення увімкнено
+[Auto Update Disabled]
+Автооновлення вимкнено
 [Quotes]
 Котування
+[Enable/Disable Auto Update]
+Ввімк./вимк. автооновлення
 [Refresh All Quotes\\Rates]
 Оновити всі котування\\курси валют
 [Currency Converter...]
@@ -149,6 +159,12 @@
 Діаграма...
 [Edit Settings...]
 Налаштування...
+[Enable/Diable Quotes Auto Update]
+Ввімк./вимк. автооновлення котувань
+[Quotes Auto Update Enabled]
+Автооновлення котувань увімкнено
+[Quotes Auto Update Disabled]
+Автооновлення котувань вимкнено
 [Network]
 Мережа
 [Quotes HTTP connections]
@@ -189,6 +205,8 @@ HTTP-з'єднання Quotes
 Місяць
 [Last Year]
 Рік
+[Error occurred during html parsing.]
+Помилка під час аналізу html.
 [Error occurred during site access.]
 Помилка при доступі до сайту.
 [Quote Symbol]

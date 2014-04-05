@@ -7,22 +7,50 @@
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Підтримка протоколу Internet Relay Chat (IRC) в Miranda NG.
+[Default network]
+Мережа за замовчанням
+[Enable]
+Увімкнено
+[Server name]
+Ім'я сервера
+[Internet address]
+Адреса у мережі
+[Port range]
+Діапазон портів
+[Password]
+Пароль
 [&Add]
 &Додати
 [&Edit]
 &Правити
 [&Del]
 &Видалити
-[Enable]
-Увімкнено
+[User info - Required]
+Інфо користувача - Необхідно
+[Nick]
+Нік
+[Alternative nick]
+Альтернат. нік
+[Full name (e-mail)]
+Повне ім'я
+[User ID (Ident)]
+ID користувача
+[Ident]
+Ідентифікація
+[System]
+Система
+[Port]
+Порт
 [only while connecting]
 Тільки на час з'єднання
+[Other]
+Інше
 [Force visible (-i)]
 Ввімкнути видимість (-i)
 [Rejoin channel if kicked]
-Перезайти при перепідключенні
+Перезайти після стусана
 [Rejoin channels on reconnect]
-Зайти в чат-кімнати при підключенні
+Перезайти при перепідключенні
 [Disable tray balloon on error]
 Відключити повідомлення в треї
 [Show addresses]
@@ -38,41 +66,13 @@
 ['Old style' mode changes]
 "Старий" стиль режимів
 [Update online statuses for users]
-Оновлювати статуси для корист.
-[Update statuses in channel nick list]
-Оновл. статуси в списку чат-кімнати
-[Internet address]
-Адреса у мережі
-[Port range]
-Діапазон портів
-[Nick]
-Нік
-[User ID (Ident)]
-ID користувача
-[Full name (e-mail)]
-Повне ім'я
-[Password]
-Пароль
-[Server name]
-Ім'я сервера
-[Alternative nick]
-Альтернат. нік
-[Ident]
-Ідентифікація
-[System]
-Система
-[Port]
-Порт
-[Default network]
-Мережа за замовчанням
-[User info - Required]
-Інфо користувача - Необхідно
-[Other]
-Інше
+Оновлювати статуси для користувачів
 [Check every (s):]
 Перевіряти кожні (с):
+[Update statuses in channel nick list]
+Оновл. статуси в списку чат-кімнати
 [Don't check if more than (users):]
-Не перевіряти, якщо більше (користувачів):
+Не перевіряти, якщо корист. більше
 [User information]
 Інформація
 [Ping]
@@ -267,8 +267,6 @@ Wildcard пошук по мережі
 Сервер:
 [Password:]
 Пароль:
-[Alternate nick]
-Альтернативний нік
 [CTCP chat request from %s]
 Запит СТСР-чату від %s
 [%s sets mode %s]

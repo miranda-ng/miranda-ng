@@ -53,12 +53,18 @@
 Розмір (ВхШ):
 [Target Tool]
 Інструмент прицілювання
+[Result]
+Результат
+[&Copy]
+&Копіювати
+[Close]
+Закрити
+[Error]
+Помилка
 [GCHAT error]
 Помилка GCHAT
 [An unknown error has occurred.]
 Невідома помилка.
-[Error]
-Помилка
 [Unable to initiate %s.]
 Не вдалося ініціювати %s.
 [MAPI error (%i):\n%s.]
