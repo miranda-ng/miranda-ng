@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Myranda\protocols\IRCG\res\IRC.rc
+// Used by ..\res\IRC.rc
 //
 #define ID_INFO_QUERY                   3
 #define IDD_PREFS_MAIN                  101

@@ -34,7 +34,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
-	CMString contactname = name; contactname += _T(DCCSTRING);
+	CMString contactname = name; contactname += DCCSTRING;
 
 	CONTACT user = { (TCHAR*)contactname.c_str(), NULL, NULL, false, false, true };
 	hContact = CList_AddContact(&user, false, false);

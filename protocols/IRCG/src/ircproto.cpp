@@ -975,7 +975,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 		ReplaceString(newStatus, _T("\r\n"), _T(" "));
 		if (m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus) {
 			if (msg == NULL || *msg == 0)
-				m_statusMessage = _T(STR_AWAYMESSAGE);
+				m_statusMessage = STR_AWAYMESSAGE;
 			else
 				m_statusMessage = newStatus;
 

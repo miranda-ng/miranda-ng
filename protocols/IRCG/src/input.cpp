@@ -677,7 +677,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hConta
 				ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 			if (ulAdr) {
-				CMString contact = two;  contact += _T(DCCSTRING);
+				CMString contact = two;  contact += DCCSTRING;
 				CONTACT user = { (TCHAR*)contact.c_str(), NULL, NULL, false, false, true };
 				MCONTACT hContact = CList_AddContact(&user, false, false);
 				setByte(hContact, "DCC", 1);
