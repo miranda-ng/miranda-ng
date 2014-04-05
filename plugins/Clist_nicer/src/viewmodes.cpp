@@ -988,6 +988,7 @@ clvm_reset_command:
 				SetWindowTextA(GetDlgItem(hwnd, IDC_SELECTMODE), Translate("No view mode"));
 				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)cfg::dat.boldHideOffline, 0);
 				cfg::dat.boldHideOffline = (BYTE)-1;
+				SetButtonStates(pcli->hwndContactList);
 				cfg::dat.current_viewmode[0] = 0;
 				cfg::dat.old_viewmode[0] = 0;
 				cfg::writeString(NULL, "CList", "LastViewMode", "");
@@ -1137,6 +1138,7 @@ void ApplyViewMode(const char *name)
 	CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 	SetWindowTextA(hwndSelector, name);
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+	SetButtonStates(pcli->hwndContactList);
 
 	cfg::writeString(NULL, "CList", "LastViewMode", cfg::dat.current_viewmode);
 }

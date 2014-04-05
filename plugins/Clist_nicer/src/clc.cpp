@@ -169,6 +169,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!__strcmp(cws->szModule, "Skin")) {
 		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
+		SetButtonStates(pcli->hwndContactList);
 	}
 	else if (szProto == NULL) {
 		if ( !__strcmp(cws->szSetting, "XStatusId"))

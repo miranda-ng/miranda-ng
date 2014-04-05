@@ -143,6 +143,16 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 
 	rect.bottom -= cfg::dat.bCBottom;
 
+	if (g_ButtonItems) {
+		while (btnItems) {
+			LONG x = (btnItems->xOff >= 0) ? rect.left + btnItems->xOff : rect.right - abs(btnItems->xOff);
+			LONG y = (btnItems->yOff >= 0) ? rect.top + btnItems->yOff : rect.bottom - cfg::dat.statusBarHeight;
+
+			SetWindowPos(btnItems->hWnd, 0, x, y, btnItems->width, btnItems->height, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
+			btnItems = btnItems->nextItem;
+		}
+	}
+
 	SetWindowPos(hTbMenu, 0, 2 + left_offset, rect.bottom - cfg::dat.statusBarHeight - 21 - 1,
 				 21 * 3, 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
 
@@ -464,6 +474,32 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 		}
 		SendMessage(buttonItem->hWnd, BM_SETCHECK, (WPARAM)result, 0);
 		buttonItem = buttonItem->nextItem;
+	}
+}
+
+// set states of standard buttons (pressed/unpressed)
+void SetButtonStates(HWND hwnd)
+{
+	ButtonItem *buttonItem = g_ButtonItems;
+
+	BYTE iMode = cfg::getByte("CList", "HideOffline", 0);
+	if (g_ButtonItems) {
+		while (buttonItem) {
+			if (buttonItem->dwFlags & BUTTON_ISINTERNAL) {
+				switch (buttonItem->uId) {
+					case IDC_TBSOUND:
+							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED, 0);
+							break;
+					case IDC_TBHIDEOFFLINE:
+							SendMessage(buttonItem->hWnd, BM_SETCHECK, iMode ? BST_CHECKED : BST_UNCHECKED, 0);
+							break;
+					case IDC_TBHIDEGROUPS: 
+							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+							break;
+				}
+			}
+			buttonItem = buttonItem->nextItem;
+		}
 	}
 }
 
@@ -853,6 +889,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		}
 
 		ConfigureFrame();
+		SetButtonStates(hwnd);
 
 		CreateCLC(hwnd);
 		cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);

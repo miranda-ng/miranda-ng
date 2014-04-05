@@ -334,6 +334,14 @@ struct NotifyMenuItemExData {
 
 // #define NOTIFY_HEIGHT 24
 
+struct CluiTopButton {
+	int ctrlid;
+	char *pszButtonID, *pszButtonDn, *pszButtonName;
+	int isPush, isVis, isAction;
+	HANDLE hButton;
+	HWND hwndButton;
+};
+
 struct TrayIconInfo {
 	union {
 		HICON hIcon;

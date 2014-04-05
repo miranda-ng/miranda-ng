@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int g_hottrack;
 
 extern HWND g_hwndViewModeFrame;
+extern struct CluiTopButton BTNS[];
 
 LIST<StatusItems_t> arStatusItems(10);
 ImageItem *g_ImageItems = NULL, *g_glyphItem = NULL;
@@ -1111,6 +1112,18 @@ static void BTN_ReadItem(char *itemName, char *file)
 			tmpItem.uId = nextButtonID++;
 		}
 	}
+	else if(_stricmp(szBuffer, "Custom")) {
+		int i = 0;
+
+		while(BTNS[i].ctrlid) {
+			if (!_stricmp(BTNS[i].pszButtonID, szBuffer)) {
+				tmpItem.uId = BTNS[i].ctrlid;
+				tmpItem.dwFlags |= BUTTON_ISINTERNAL;
+				break;
+			}
+			i++;
+		}
+	}
 
 	GetPrivateProfileStringA(itemName, "PassContact", "None", szBuffer, 1000, file);
 	if (_stricmp(szBuffer, "None")) {
@@ -1148,7 +1161,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 		curItem->nextItem = newItem;
 	}
 	newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
-	CustomizeButton(newItem->hWnd, false, false, false);
+	CustomizeButton(newItem->hWnd, false, false, true);
 	SendMessage(newItem->hWnd, BUTTONSETBTNITEM, 0, (LPARAM)newItem);
 	if (newItem->dwFlags & BUTTON_ISTOGGLE)
 		SendMessage(newItem->hWnd, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -1204,6 +1217,8 @@ void IMG_LoadItems()
 			BTN_ReadItem(p, szFileName);
 		p += (lstrlenA(p) + 1);
 	}
+	if (pcli && pcli->hwndContactList)
+		SetButtonStates(pcli->hwndContactList);
 	free(szSections);
 
 	if (g_ImageItems) {
@@ -1506,6 +1521,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_UNLOAD:
 			IMG_DeleteItems();
 			ConfigureFrame();
+			SetButtonStates(pcli->hwndContactList);
 			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 			PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			break;

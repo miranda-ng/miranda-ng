@@ -275,6 +275,7 @@ int SetHideOffline(WPARAM wParam, LPARAM lParam)
 	case -1:
 		cfg::writeByte("CList", "HideOffline", (BYTE) ! cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)); break;
 	}
+	SetButtonStates(pcli->hwndContactList);
 	LoadContactTree();
 	return 0;
 }

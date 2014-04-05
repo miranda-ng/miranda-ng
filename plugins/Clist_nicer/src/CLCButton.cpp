@@ -21,15 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_button_int.h>
 #include <m_toptoolbar.h>
 
-struct
-{
-	int    ctrlid;
-	char  *pszButtonID, *pszButtonDn, *pszButtonName;
-	int    isPush, isVis, isAction;
-	HANDLE hButton;
-	HWND   hwndButton;
-}
-static BTNS[] = 
+struct CluiTopButton BTNS[] = 
 {
 	{ IDC_TBTOPMENU,     "CLN_topmenu",      NULL,     LPGEN("Show menu"),                     1, 1, 1 },
 	{ IDC_TBHIDEOFFLINE, "CLN_online",       NULL,     LPGEN("Show / hide offline contacts"),  0, 1, 0 },
@@ -439,7 +431,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case BUTTONSETSKINNED:
-		bct->bIsSkinned = lParam != 0;
+		bct->bIsSkinned = wParam != 0;
 		bct->bIsThemed = bct->bIsSkinned ? FALSE : bct->bIsThemed;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
