@@ -385,7 +385,7 @@ INT_PTR FacebookProto::GetNotificationsCount(WPARAM wParam, LPARAM lParam)
 	if (isOffline())
 		return 0;
 
-	return facy.notifications_count_;
+	return facy.notifications.size();
 }
 
 //////////////////////////////////////////////////////////////////////////////

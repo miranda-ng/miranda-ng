@@ -225,7 +225,7 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 }
 
 
-int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_notification* > *notifications) 
+int facebook_json_parser::parse_notifications(void *data, std::map< std::string, facebook_notification* > *notifications) 
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 	
@@ -265,7 +265,10 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
 		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
 
-		notifications->push_back(notification);
+		if (notifications->find(notification->id) == notifications->end())
+			notifications->insert(std::make_pair(notification->id, notification));
+		else
+			delete notification;
 	}
 
 	json_delete(root);
@@ -365,7 +368,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 	}
 }
 
-int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications, bool inboxOnly)
+int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications, bool inboxOnly)
 {
 	// remove old received messages from map		
 	for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end();) {
@@ -599,20 +602,10 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					messages->push_back(message);
 				}
 			}
-		} else if (t == "notifications_read") {
-			JSONNODE *alerts = json_get(it, "alert_ids");
-			proto->facy.notifications_count_ -= json_size(alerts);
-			
-			if (proto->facy.notifications_count_ < 0)
-				proto->facy.notifications_count_ = 0;
 		} else if (t == "notification_json") {
 			// event notification
 			JSONNODE *nodes = json_get(it, "nodes");
-			proto->facy.notifications_count_ += json_size(nodes);
 
-			if (!proto->getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-				continue;
-			
 			for (unsigned int j = 0; j < json_size(nodes); j++) {
 				JSONNODE *itNodes = json_at(nodes, j);
 
@@ -645,7 +638,10 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					if (pos != std::string::npos)
 						notification->id = notification->id.substr(pos+1);
 
-					notifications->push_back(notification);
+					if (notifications->find(notification->id) == notifications->end())
+						notifications->insert(std::make_pair(notification->id, notification));
+					else
+						delete notification;
 				}
 			}
 		} else if (t == "typ") {
@@ -706,14 +702,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			/* if (!text.empty()) {
 				proto->NotifyEvent()
 			}*/
-		} else if (t == "inbox") {
-			// count of unread/unseen messages - pretty useless info for us
-			/* JSONNODE *unread_ = json_get(it, "unread");
-			JSONNODE *unseen_ = json_get(it, "unseen");
-			JSONNODE *other_unread_ = json_get(it, "other_unread");
-			JSONNODE *other_unseen_ = json_get(it, "other_unseen");
-			JSONNODE *seen_timestamp_ = json_get(it, "seen_timestamp"); */
-			continue;
 		} else if (t == "mercury") {
 			// rename multi user chat, ...
 
@@ -741,12 +729,20 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				proto->UpdateChat(thread_id.c_str(), NULL, NULL, message.c_str());
 			}
 		} else if (t == "notifications_read") {
-			// TODO: close popups with these IDs
-			JSONNODE *alert_ids = json_get(it, "alert_ids");
-			for (unsigned int n = 0; n < json_size(alert_ids); n++) {
-				JSONNODE *idItr = json_at(alert_ids, n);
+			JSONNODE *alerts = json_get(it, "alert_ids");
 
-				// PUDeletePopup(hWndPopup);
+			for (unsigned int j = 0; j < json_size(alerts); j++) {
+				JSONNODE *itAlerts = json_at(alerts, j);
+				std::string id = json_as_pstring(itAlerts);
+				
+				std::map<std::string, facebook_notification*>::iterator it = notifications->find(id);
+				if (it != notifications->end()) {
+					if (it->second->hWndPopup != NULL)
+						PUDeletePopup(it->second->hWndPopup); // close popup
+
+					delete it->second;
+					notifications->erase(it);
+				}
 			}
 		} else
 			continue;

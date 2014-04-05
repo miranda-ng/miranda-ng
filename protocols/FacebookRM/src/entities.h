@@ -135,10 +135,14 @@ struct facebook_notification
 	std::string text;
 	std::string link;
 	std::string id;
+	bool seen;
+	HWND hWndPopup;
 
 	facebook_notification()
 	{
 		this->user_id = this->text = this->link = this->id = "";
+		this->seen = false;
+		this->hWndPopup = NULL;
 	}
 };
 

@@ -51,6 +51,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.logout();
 
 		facy.clear_cookies();
+		facy.clear_notifications();
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
 		facy.pages.clear();

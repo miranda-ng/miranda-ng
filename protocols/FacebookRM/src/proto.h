@@ -235,5 +235,6 @@ public:
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	// Information providing
-	void NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url = NULL, std::string *notification_id = NULL);
+	HWND NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url = NULL, std::string *notification_id = NULL);
+	void ShowNotifications();
 };

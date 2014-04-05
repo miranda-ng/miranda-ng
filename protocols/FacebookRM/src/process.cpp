@@ -497,7 +497,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 	messages.clear();
 }
 
-// TODO: combine processmessages and processunreadmessages? (behavior of showing messages to user should be the same)
 void FacebookProto::ProcessMessages(void* data)
 {
 	if (data == NULL)
@@ -516,24 +515,16 @@ void FacebookProto::ProcessMessages(void* data)
 	CODE_BLOCK_TRY
 
 	std::vector< facebook_message* > messages;
-	std::vector< facebook_notification* > notifications;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_messages(data, &messages, &notifications, inboxOnly);
+	p->parse_messages(data, &messages, &facy.notifications, inboxOnly);
 	delete p;
 
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
 
 	ReceiveMessages(messages, local_timestamp);
 
-	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
-	{
-		debugLogA("      Got notification: %s", notifications[i]->text.c_str());
-		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
-		NotifyEvent(m_tszUserName, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
-		delete notifications[i];
-	}
-	notifications.clear();
+	ShowNotifications();
 
 	debugLogA("***** Messages processed");
 
@@ -545,6 +536,20 @@ void FacebookProto::ProcessMessages(void* data)
 
 exit:
 	delete resp;
+}
+
+void FacebookProto::ShowNotifications() {
+	if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+		return;
+	
+	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
+		if (it->second != NULL && !it->second->seen) {
+			debugLogA("      Got notification: %s", it->second->text.c_str());
+			ptrT szText(mir_utf8decodeT(it->second->text.c_str()));
+			it->second->hWndPopup = NotifyEvent(m_tszUserName, szText, ContactIDToHContact(it->second->user_id), FACEBOOK_EVENT_NOTIFICATION, &it->second->link, &it->second->id);
+			it->second->seen = true;
+		}
+	}
 }
 
 void FacebookProto::ProcessNotifications(void*)
@@ -568,25 +573,11 @@ void FacebookProto::ProcessNotifications(void*)
 
 	CODE_BLOCK_TRY
 
-	std::vector< facebook_notification* > notifications;
-
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_notifications(&(resp.data), &notifications);
+	p->parse_notifications(&(resp.data), &facy.notifications);
 	delete p;
 
-	facy.notifications_count_ = notifications.size();
-
-	if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-		return;
-
-	for(std::vector<facebook_notification*>::size_type i=0; i<notifications.size(); i++)
-	{
-		debugLogA("      Got notification: %s", notifications[i]->text.c_str());
-		ptrT szText( mir_utf8decodeT(notifications[i]->text.c_str()));
-		NotifyEvent(m_tszUserName, szText, ContactIDToHContact(notifications[i]->user_id), FACEBOOK_EVENT_NOTIFICATION, &notifications[i]->link, &notifications[i]->id);
-		delete notifications[i];
-	}
-	notifications.clear();
+	ShowNotifications();
 
 	debugLogA("***** Notifications processed");
 

@@ -679,6 +679,19 @@ void facebook_client::clear_cookies()
 		cookies.clear();
 }
 
+void facebook_client::clear_notifications()
+{	
+	for (std::map<std::string, facebook_notification*>::iterator it = notifications.begin(); it != notifications.end(); ) {
+		if (it->second->hWndPopup != NULL)
+			PUDeletePopup(it->second->hWndPopup); // close popup
+
+		delete it->second;
+		it = notifications.erase(it);
+	}
+
+	notifications.clear();
+}
+
 void loginError(FacebookProto *proto, std::string error_str) {
 	error_str = utils::text::trim(
 			utils::text::special_expressions_decode(

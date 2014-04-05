@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id)
+HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id)
 {
 	char name[256];
 
@@ -30,14 +30,14 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 	{
 	case FACEBOOK_EVENT_CLIENT:
 		if (!getByte(FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE))
-			return;
+			return NULL;
 		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Client");
 		flags |= NIIF_WARNING;
 		break;
 
 	case FACEBOOK_EVENT_NEWSFEED:
 		if (!getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
-			return;
+			return NULL;
 		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Newsfeed");
 		SkinPlaySound("NewsFeed");
 		flags |= NIIF_INFO;
@@ -45,7 +45,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 
 	case FACEBOOK_EVENT_NOTIFICATION:
 		if (!getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-			return;
+			return NULL;
 		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
 		SkinPlaySound("Notification");
 		flags |= NIIF_INFO;
@@ -53,7 +53,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 
 	case FACEBOOK_EVENT_OTHER:
 		if (!getByte(FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE))
-			return;
+			return NULL;
 		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Other");
 		SkinPlaySound("OtherEvent");
 		flags |= NIIF_INFO;
@@ -87,7 +87,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 			}
 
 			if (CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd) == 0)
-				return;
+				return NULL; // TODO: return popup window handle (to allow closing them)
 		}
 	} else {
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY))
@@ -105,10 +105,12 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 			err.tszInfo = info;
 			err.uTimeout = 10000;
 			if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & err) == 0)
-				return;
+				return NULL;
 		}
 	}
 
 	if (FLAG_CONTAINS(flags, FACEBOOK_EVENT_CLIENT))
 		MessageBox(NULL, info, title, MB_OK | MB_ICONINFORMATION);
+
+	return NULL;
 }

@@ -41,7 +41,7 @@ public:
 		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
 		dtsg_ = logout_hash_ = chat_sticky_num_ = chat_conn_num_ = chat_clientid_ = "";
 
-		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = notifications_count_ = 0;
+		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
 
 		https_ = is_idle_ = invisible_ = is_typing_ = false;
 
@@ -82,7 +82,6 @@ public:
 	bool	https_;
 	time_t  last_feeds_update_;
 	unsigned __int64 last_notification_time_;
-	int     notifications_count_;
 	int     msgid_;
 
 	////////////////////////////////////////////////////////////
@@ -100,6 +99,7 @@ public:
 	std::map<std::string, std::string> cookies;
 	std::map<std::string, std::string> pages;
 	std::map<std::tstring, facebook_chatroom> chat_rooms;
+	std::map<std::string, facebook_notification*> notifications;
 
 	std::string get_newsfeed_type();
 	std::string get_server_type();
@@ -107,7 +107,8 @@ public:
 
 	char*   load_cookies();
 	void    store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);
-	void    clear_cookies();	
+	void    clear_cookies();
+	void	clear_notifications();
 
 	////////////////////////////////////////////////////////////
 
