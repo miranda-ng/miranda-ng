@@ -201,6 +201,14 @@ begin
   else
     Menu_AddMainMenuItem(@mi);
 
+  mi.szName.w  :='Quick Open';
+  mi.position  :=4;
+  mi.pszService:=MS_RADIO_QUICKOPEN;
+  if doTray then
+    Menu_AddTrayMenuItem(@mi)
+  else
+    Menu_AddMainMenuItem(@mi);
+
   mi.szName.w :='Play Station';
   mi.position :=1000;
   mi.pszService:=nil;

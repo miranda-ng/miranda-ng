@@ -105,6 +105,12 @@ begin
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
 
+  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_OPEN),IMAGE_ICON,16,16,0);
+  sid.pszName        :=IcoBtnOpen;
+  sid.szDescription.a:='Quick Open';
+  Skin_AddIcon(@sid);
+  DestroyIcon(sid.hDefaultIcon);
+
   sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(IDI_ADD),IMAGE_ICON,16,16,0);
   sid.pszName        :=IcoBtnAdd;
   sid.szDescription.a:='Add EQ preset';

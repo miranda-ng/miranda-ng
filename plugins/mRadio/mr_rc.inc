@@ -77,6 +77,7 @@ const
 
   IDC_RADIO_MUTE = 1025;
   IDC_RADIO_VOL  = 1026;
+  IDC_RADIO_OPEN = 1027;
 
   BTN_RECUP = 202;
   BTN_RECDN = 203;
@@ -86,3 +87,4 @@ const
   IDI_OFF   = 304;
   IDI_ADD   = 305;
   IDI_DEL   = 306;
+  IDI_OPEN  = 307;

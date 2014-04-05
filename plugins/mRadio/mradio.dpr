@@ -173,19 +173,21 @@ begin
   // hooks and services
   hhRadioStatus:=CreateHookableEvent(ME_RADIO_STATUS);
 
-  CreateServiceFunction(MS_RADIO_PLAYSTOP,@Service_RadioPlayStop);
-  CreateServiceFunction(MS_RADIO_RECORD  ,@Service_RadioRecord);
-  CreateServiceFunction(MS_RADIO_SETTINGS,@Service_RadioSettings);
-  CreateServiceFunction(MS_RADIO_SETVOL  ,@Service_RadioSetVolume);
-  CreateServiceFunction(MS_RADIO_GETVOL  ,@Service_RadioGetVolume);
-  CreateServiceFunction(MS_RADIO_MUTE    ,@Service_RadioMute);
-  CreateServiceFunction(MS_RADIO_COMMAND ,@ControlCenter);
-  CreateServiceFunction(MS_RADIO_EQONOFF ,@Service_EqOnOff);
+  CreateServiceFunction(MS_RADIO_PLAYSTOP ,@Service_RadioPlayStop);
+  CreateServiceFunction(MS_RADIO_RECORD   ,@Service_RadioRecord);
+  CreateServiceFunction(MS_RADIO_SETTINGS ,@Service_RadioSettings);
+  CreateServiceFunction(MS_RADIO_SETVOL   ,@Service_RadioSetVolume);
+  CreateServiceFunction(MS_RADIO_GETVOL   ,@Service_RadioGetVolume);
+  CreateServiceFunction(MS_RADIO_MUTE     ,@Service_RadioMute);
+  CreateServiceFunction(MS_RADIO_COMMAND  ,@ControlCenter);
+  CreateServiceFunction(MS_RADIO_EQONOFF  ,@Service_EqOnOff);
 
-  CreateServiceFunction(MS_RADIO_TRAYMENU,@CreateTrayMenu);
+  CreateServiceFunction(MS_RADIO_TRAYMENU ,@CreateTrayMenu);
 
-  CreateServiceFunction(MS_RADIO_EXPORT  ,@ExportAll);
-  CreateServiceFunction(MS_RADIO_IMPORT  ,@ImportAll);
+  CreateServiceFunction(MS_RADIO_QUICKOPEN,@QuickOpen);
+
+  CreateServiceFunction(MS_RADIO_EXPORT   ,@ExportAll);
+  CreateServiceFunction(MS_RADIO_IMPORT   ,@ImportAll);
 
 
   CreateProtoServices;

@@ -281,3 +281,39 @@ begin
     end;
   end;
 end;
+
+function QuickOpen(wParam:WPARAM;lParam:LPARAM):int; cdecl;
+var
+  filter:pWideChar;
+  buf:array [0..MAX_PATH-1] of WideChar;
+begin
+  filter:=ConstructFilter;
+  if ShowDlgW(@buf,nil,filter) then
+  begin
+    result:=CallService(MS_DB_CONTACT_ADD,0,0);
+    if result<>0 then
+    begin
+      CallService(MS_PROTO_ADDTOCONTACT,result,tlparam(PluginName));
+      //
+//      DBWriteByte(result,strCList,'Hidden'   ,0);
+      DBWriteByte(result,strCList,'NotOnList',1);
+      // URL
+      DBWriteUnicode(result,PluginName,optStationURL,@buf);
+      DBWriteUnicode(result,PluginName,optFirstName ,@buf);
+      // Name
+      DBWriteUnicode(result,strCList  ,optMyHandle,@buf);
+      DBWriteUnicode(result,PluginName,optNick    ,@buf);
+
+      SetStatus(result,ID_STATUS_OFFLINE);
+
+      CallService(MS_IGNORE_IGNORE,result,IGNOREEVENT_USERONLINE{IGNOREEVENT_ALL});
+
+      CallService(MS_RADIO_COMMAND,MRC_PLAY,result);
+    end;
+  end
+  else
+  begin
+    result:=0;
+  end;
+  mFreeMem(filter);
+end;

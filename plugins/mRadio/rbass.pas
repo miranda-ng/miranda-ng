@@ -10,6 +10,7 @@ procedure BassError(text:PWideChar);
 procedure OpenURL(url:PWideChar); cdecl;
 procedure StopStation;
 function GetMusicFormat:PAnsiChar;
+function ConstructFilter:pointer;
 
 procedure EQ_ON;
 procedure EQ_OFF;
@@ -1113,6 +1114,73 @@ begin
     // play it!
     BASS_ChannelPlay(chan,FALSE);
   end;
+end;
+
+function MakeFilter(dst,descr,full,filter:PWideChar;show:bool=true):pWideChar;
+var
+  p:PWideChar;
+begin
+  if full<>nil then
+  begin
+    p:=StrEndW(full);
+    p^:=';';
+    StrCopyW(p+1,filter);
+  end;
+
+  dst:=StrCopyEW(dst,TranslateW(descr));
+  if show then
+  begin
+    dst^    :=' ';
+    (dst+1)^:='(';
+    dst:=StrCopyEW(dst+2,filter);
+    dst^:=')';
+    inc(dst);
+    dst^:=#0;
+  end;
+  inc(dst);
+  result:=StrCopyEW(dst,filter)+1;
+end;
+
+function ConstructFilter:pointer;
+var
+  pc:pWideChar;
+  ph:PDWord;
+  Info:PBASS_PLUGININFO;
+  i:integer;
+  full:array [0..511] of WideChar;
+  tmpbuf1,tmpbuf2:array [0..127] of WideChar;
+begin
+  mGetMem(pc,4096);
+//  FillChar(pc^,4096,0);
+  result:=pc;
+  full[0]:=#0;
+  pc:=MakeFilter(pc,'All files'     ,nil ,'*.*',false);
+  pc:=MakeFilter(pc,'Playlist files',full,'*.pls;*.m3u;*.m3u8;*.asx');
+  pc:=MakeFilter(pc,'BASS built-in' ,full,'*.mp3;*.mp2;*.mp1;*.ogg;*.wav;*.aif');
+
+  if BassStatus=rbs_null then
+    MyLoadBass;
+
+  if BassStatus<>rbs_null then
+  begin
+    ph:=pointer(BASS_PluginGetInfo(0));
+    if ph<>nil then
+    begin
+      while ph^<>0 do
+      begin
+        Info:=BASS_PluginGetInfo(ph^);
+        for i:=0 to Info^.formatc-1 do
+  //!! need to translate Ansi -> wide
+          with Info^.Formats[i] do
+          begin
+            pc:=MakeFilter(pc,FastAnsiToWideBuf(name,tmpbuf1),full,FastAnsiToWideBuf(exts,tmpbuf2));
+          end;
+        inc(ph);
+      end;
+    end;
+  end;
+  pc:=MakeFilter(pc,'All supported formats',nil,full,false);
+  pc^:=#0;
 end;
 
 end.

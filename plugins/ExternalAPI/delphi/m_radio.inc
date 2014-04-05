@@ -71,6 +71,11 @@ const
   MS_RADIO_MUTE:PAnsiChar = 'mRadio/Mute';
 
 {
+  wParam,lParam = 0
+}
+  MS_RADIO_QUICKOPEN:PAnsiChar = 'mRadio/QuickOpen';
+
+{
   Send command to mRadio
   wParam: command (see MRC_* constant)
   lParam: value (usually 0)

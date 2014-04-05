@@ -34,7 +34,7 @@ type
   TAIMP2FileInfo = packed record
     cbSizeOF    :dword;
     //
-    nActive     :LONGBOOL;
+    nActive     :LongBool;
     nBitRate    :dword;
     nChannels   :dword;
     nDuration   :dword;
@@ -142,28 +142,31 @@ begin
   s:=AIMP2_RemoteFileSize;
   p:=AIMP2_RemoteClass;
   FFile:=OpenFileMappingA(FILE_MAP_READ,True,p);
-  pStr:=MapViewOfFile(FFile,FILE_MAP_READ,0,0,s);
-  try
+  if FFile<>0 then
+  begin
+    pStr:=MapViewOfFile(FFile,FILE_MAP_READ,0,0,s);
     if pStr<>nil then
     begin
-      with PAIMP2FileInfo(pStr)^ do
-      begin
-        StrDupW(result,
-          pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo)+
-             (nAlbumLen+nArtistLen+nDateLen)*SizeOf(WideChar)),
-          nFileNameLen);
-          // Delete rest index (like "filename.cue:3")
-          pw :=StrRScanW(result,':');
-          if pw<>nil then
-          begin
-            pw1:=StrScanW (result,':');
-            if pw<>pw1 then
-              pw^:=#0;
-          end;
+      try
+        with PAIMP2FileInfo(pStr)^ do
+        begin
+          StrDupW(result,
+            pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo)+
+               (nAlbumLen+nArtistLen+nDateLen)*SizeOf(WideChar)),
+            nFileNameLen);
+            // Delete rest index (like "filename.cue:3")
+            pw :=StrRScanW(result,':');
+            if pw<>nil then
+            begin
+              pw1:=StrScanW (result,':');
+              if pw<>pw1 then
+                pw^:=#0;
+            end;
+        end;
+      except
       end;
+      UnmapViewOfFile(pStr);
     end;
-  finally
-    UnmapViewOfFile(pStr);
     CloseHandle(FFile);
   end;
 end;
@@ -250,65 +253,68 @@ begin
     s:=AIMP2_RemoteFileSize;
     p:=AIMP2_RemoteClass;
     FFile:=OpenFileMappingA(FILE_MAP_READ,True,p);
-    pStr:=MapViewOfFile(FFile,FILE_MAP_READ,0,0,s);
-    try
+    if FFile<>0 then
+    begin
+      pStr:=MapViewOfFile(FFile,FILE_MAP_READ,0,0,s);
       if pStr<>nil then
       begin
-        with SongInfo do
-        begin
-          with pStr^ do
+        try
+          with SongInfo do
           begin
-            if channels=0 then channels:=nChannels;
-            if kbps    =0 then kbps    :=nBitRate    div 1000;
-            if khz     =0 then khz     :=nSampleRate div 1000;
-            if total   =0 then total   :=nduration;
-            if fsize   =0 then fsize   :=nFileSize;
-            if track   =0 then track   :=nTrackID;
-
-            with PAIMP2FileInfo(pStr)^ do
+            with pStr^ do
             begin
-              if (artist=nil) and (nArtistLen>0) then
-              begin
-                StrDupW(artist,
-                  pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
-                     nAlbumLen,nArtistLen);
-              end;
-              if (album=nil) and (nAlbumLen>0) then
-              begin
-                StrDupW(album,
-                  pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo)),
-                  nAlbumLen);
-              end;
-              if (title=nil) and (nTitleLen>0) then
-              begin
-                StrDupW(title,
-                  pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
-                     nAlbumLen+nArtistLen+nDateLen+nFileNameLen+nGenreLen,
-                  nTitleLen);
-              end;
-              if (year=nil) and (nDateLen>0) then
-              begin
-                StrDupW(year,
-                  pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
-                     nAlbumLen+nArtistLen,
-                  nDateLen);
-              end;
-              if (genre=nil) and (nGenreLen>0) then
-              begin
-                StrDupW(genre,
-                  pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
-                     nAlbumLen+nArtistLen+nDateLen+nFileNameLen,
-                  nGenreLen);
-              end;
+              if channels=0 then channels:=nChannels;
+              if kbps    =0 then kbps    :=nBitRate    div 1000;
+              if khz     =0 then khz     :=nSampleRate div 1000;
+              if total   =0 then total   :=nduration;
+              if fsize   =0 then fsize   :=nFileSize;
+              if track   =0 then track   :=nTrackID;
 
-              if StrPosW(mfile,'://')<>nil then
-                TranslateRadio(SongInfo);
+              with PAIMP2FileInfo(pStr)^ do
+              begin
+                if (artist=nil) and (nArtistLen>0) then
+                begin
+                  StrDupW(artist,
+                    pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
+                       nAlbumLen,nArtistLen);
+                end;
+                if (album=nil) and (nAlbumLen>0) then
+                begin
+                  StrDupW(album,
+                    pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo)),
+                    nAlbumLen);
+                end;
+                if (title=nil) and (nTitleLen>0) then
+                begin
+                  StrDupW(title,
+                    pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
+                       nAlbumLen+nArtistLen+nDateLen+nFileNameLen+nGenreLen,
+                    nTitleLen);
+                end;
+                if (year=nil) and (nDateLen>0) then
+                begin
+                  StrDupW(year,
+                    pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
+                       nAlbumLen+nArtistLen,
+                    nDateLen);
+                end;
+                if (genre=nil) and (nGenreLen>0) then
+                begin
+                  StrDupW(genre,
+                    pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
+                       nAlbumLen+nArtistLen+nDateLen+nFileNameLen,
+                    nGenreLen);
+                end;
+
+                if StrPosW(mfile,'://')<>nil then
+                  TranslateRadio(SongInfo);
+              end;
             end;
           end;
+        except
         end;
+        UnmapViewOfFile(pStr);
       end;
-    finally
-      UnmapViewOfFile(pStr);
       CloseHandle(FFile);
     end;
   end

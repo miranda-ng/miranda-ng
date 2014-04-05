@@ -119,6 +119,7 @@ const
   IcoBtnRecDn   :PAnsiChar = 'Radio_RecDn';
   IcoBtnAdd     :PAnsiChar = 'Radio_Add';
   IcoBtnDel     :PAnsiChar = 'Radio_Del';
+  IcoBtnOpen    :PAnsiChar = 'Radio_Open';
 
 //----- EAX -----
 
@@ -162,7 +163,6 @@ function MakeMessage:pWideChar;
 procedure SetStatus(hContact:TMCONTACT;status:integer);
 function GetDefaultRecPath:pWideChar;
 function GetStatusText(status:integer;toCList:boolean=false):PWideChar;
-
 
 implementation
 

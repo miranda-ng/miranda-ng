@@ -381,6 +381,7 @@ const
   %nick%                -> a contact nick name.
   %proto%               -> internal protocol name for a given contact. NOT the user-
                            defined account name.
+  %accountname%         -> user-defined account name for a given contact.
   %userid%              -> Unique ID for a given contact (UIN, JID etc.)
 
   the following variables are system variables - unrelated to miranda profiles.

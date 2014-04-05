@@ -35,6 +35,7 @@ var
 function QSDlgResizer(Dialog:HWND;lParam:LPARAM;urc:PUTILRESIZECONTROL):int; cdecl;
 begin
   case urc^.wId of
+    IDC_RADIO_OPEN: result:=RD_ANCHORX_LEFT  or RD_ANCHORY_CENTRE;
     IDC_RADIO_MUTE: result:=RD_ANCHORX_RIGHT or RD_ANCHORY_CENTRE;
     IDC_RADIO_VOL : result:=RD_ANCHORX_WIDTH or RD_ANCHORY_CENTRE;
   else
@@ -115,21 +116,30 @@ begin
     end;
 
     WM_DRAWITEM: begin
-      if wParam=IDC_RADIO_MUTE then
-      begin
-        result:=1;
-        if gVolume<0 then
-          tmp:=IcoBtnOff
-        else
-          tmp:=IcoBtnOn;
-        DrawIconEx(PDRAWITEMSTRUCT(lParam)^.hDC,0,0,
-            CallService(MS_SKIN2_GETICON,0,TLPARAM(tmp)),
-            16,16,0,hbr,DI_NORMAL);
+      case wParam of
+        IDC_RADIO_OPEN: begin
+          result:=1;
+          DrawIconEx(PDRAWITEMSTRUCT(lParam)^.hDC,0,0,
+              CallService(MS_SKIN2_GETICON,0,TLPARAM(IcoBtnOpen)),
+              16,16,0,hbr,DI_NORMAL);
+        end;
+
+        IDC_RADIO_MUTE: begin
+          result:=1;
+          if gVolume<0 then
+            tmp:=IcoBtnOff
+          else
+            tmp:=IcoBtnOn;
+          DrawIconEx(PDRAWITEMSTRUCT(lParam)^.hDC,0,0,
+              CallService(MS_SKIN2_GETICON,0,TLPARAM(tmp)),
+              16,16,0,hbr,DI_NORMAL);
+        end;
       end;
     end;
 
     WM_CTLCOLORBTN: begin
-      if THANDLE(lParam)=GetDlgItem(Dialog,IDC_RADIO_MUTE) then
+      if (THANDLE(lParam)=GetDlgItem(Dialog,IDC_RADIO_MUTE)) or
+         (THANDLE(lParam)=GetDlgItem(Dialog,IDC_RADIO_OPEN)) then
       begin
         SetBkColor(wParam, frm_bkg);
         result:=hbr;
@@ -153,6 +163,9 @@ begin
 
         BN_CLICKED: begin
           case loword(wParam) of
+            IDC_RADIO_OPEN: begin
+              CallService(MS_RADIO_QUICKOPEN,0,0);
+            end;
             IDC_RADIO_MUTE: begin
               CallService(MS_RADIO_MUTE,0,1);
             end;
