@@ -20,9 +20,9 @@
 [Force visible (-i)]
 Включить видимость (-i)
 [Rejoin channel if kicked]
-Перезайти при переподключении
+Перезайти на канал после кика
 [Rejoin channels on reconnect]
-Зайти в комнаты при подключении
+Перезайти при переподключении
 [Disable tray balloon on error]
 Отключить сообщения в трее
 [Show addresses]
