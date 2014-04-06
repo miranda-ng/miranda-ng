@@ -1,11 +1,7 @@
 ﻿#include "common.h"
-//#include <gdiplus.h>
-//#pragma comment(lib, "GdiPlus.lib")
 
 INT_PTR CALLBACK CSteamProto::GuardProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	//HDC hdc;
-	//HBITMAP hBitmap, cBitmap;
 	GuardParam *guard = (GuardParam*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (message)
@@ -58,8 +54,6 @@ INT_PTR CALLBACK CSteamProto::GuardProc(HWND hwnd, UINT message, WPARAM wParam, 
 
 INT_PTR CALLBACK CSteamProto::CaptchaProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	//HDC hdc;
-	//HBITMAP hBitmap, cBitmap;
 	CaptchaParam *captcha = (CaptchaParam*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (message)
@@ -69,38 +63,6 @@ INT_PTR CALLBACK CSteamProto::CaptchaProc(HWND hwnd, UINT message, WPARAM wParam
 		{
 			captcha = (CaptchaParam*)lParam;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-
-			//HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, captcha->size);
-			//LPVOID pImage = GlobalLock(hMem);
-			//memcpy(pImage, captcha->data, captcha->size);
-			//GlobalUnlock(hMem);
-
-			//IStream* pStream = NULL;
-			//if (CreateStreamOnHGlobal(hMem, FALSE, &pStream) == S_OK)
-			//{
-			//	HANDLE hBmp = CreateBitmap(260, 40, 1, 24, captcha->data);
-			//	//Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromStream(pStream);
-			//	SendDlgItemMessage(hwnd, IDC_CAPTCHA, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)pBitmap);
-			//	delete pBitmap;
-			//	pStream->Release();
-			//}
-
-			//HANDLE hBmp = CreateBitmap(260, 40, 1, 24, captcha->data);
-
-			/*tagBITMAPFILEHEADER bfh = *(tagBITMAPFILEHEADER*)captcha->data;
-			tagBITMAPINFOHEADER bih = *(tagBITMAPINFOHEADER*)(captcha->data + sizeof(tagBITMAPFILEHEADER));
-			RGBQUAD rgb = *(RGBQUAD*)(captcha->data + sizeof(tagBITMAPFILEHEADER) + sizeof(tagBITMAPINFOHEADER));
-
-			BITMAPINFO bi;
-			bi.bmiColors[0] = rgb;
-			bi.bmiHeader = bih;
-
-			char* pPixels = ((char*)captcha->data + bfh.bfOffBits);
-
-			char* ppvBits;
-			hBitmap = CreateDIBSection(NULL, &bi, DIB_RGB_COLORS, (void**)&ppvBits, NULL, 0);
-			SetDIBits(NULL, hBitmap, 0, bih.biHeight, pPixels, &bi, DIB_RGB_COLORS);
-			GetObject(hBitmap, sizeof(BITMAP), &cBitmap);*/
 		}
 		return TRUE;
 
@@ -108,68 +70,43 @@ INT_PTR CALLBACK CSteamProto::CaptchaProc(HWND hwnd, UINT message, WPARAM wParam
 		EndDialog(hwnd, 0);
 		break;
 
-		//case WM_PAINT:
-		//	{
-		//		PAINTSTRUCT ps;
-		//		HDC hdc = BeginPaint(hwnd, &ps);
-		//		HBITMAP hBitmap = CreateBitmap(260, 40, 1, 24, captcha->data);
-		//		if(hBitmap != 0)
-		//		{
-		//			HDC hdcMem = CreateCompatibleDC(hdc);
-		//			SelectObject(hdcMem, hBitmap);
-		//			BitBlt(hdc, 10, 10, 260, 40, hdcMem, 0, 0, SRCCOPY);
-		//			DeleteDC(hdcMem);
-		//		}
-		//		EndPaint(hwnd, &ps);
-		//	}
-		//	return 0;
-
-	//case WM_DRAWITEM:
-	//	{
-	//		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-
-	//		if (dis->CtlType == ODT_BUTTON && dis->CtlID == IDC_CAPTCHA)
-	//		{
-	//			FI_INTERFACE *fei = 0;
-
-	//			FIBITMAP *fb = fei->FI_CreateDIBFromHBITMAP(hbm);
-	//			FIBITMAP *fbResized = fei->FI_Rescale(fb, newWidth, newHeight, FILTER_BICUBIC);
-	//			HBITMAP hbmResized = fei->FI_CreateHBITMAPFromDIB(fbResized);
-	//			fei->FI_Unload(fb);
-	//			fei->FI_Unload(fbResized);
-
-	//			HBITMAP hbmTempOld;
-	//			HDC hdcTemp = CreateCompatibleDC(r->hTargetDC);
-	//			hbmTempOld = (HBITMAP)SelectObject(hdcTemp, hbmResized);
-
-	//			GdiAlphaBlend(
-	//				r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight,
-	//				hdcTemp, 0, 0, newWidth, newHeight, bf);
-
-	//			SelectObject(hdcTemp, hbmTempOld);
-	//			DeleteObject(hbmResized);
-	//			DeleteDC(hdcTemp);
-
-	//			/*AVATARDRAWREQUEST avdrq = {0};
-	//			avdrq.cbSize = sizeof(avdrq);
-	//			avdrq.hTargetDC = dis->hDC;
-	//			avdrq.dwFlags |= AVDRQ_PROTOPICT;
-	//			avdrq.szProto = g_selectedProto;
-	//			GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
-	//			CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq);*/
-	//		}
-	//		return TRUE;
-	//	}
-
 	//case WM_PAINT:
 	//	{
+	//		/*FI_INTERFACE *fei = 0;
+
+	//		INT_PTR result = CALLSERVICE_NOTFOUND;
+	//		if (ServiceExists(MS_IMG_GETINTERFACE))
+	//			result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
+
+	//		if (fei == NULL || result != S_OK) {
+	//			MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
+	//			return 0;
+	//		}*/
+
 	//		PAINTSTRUCT ps;
-	//		HDC hdc = BeginPaint(hwnd, &ps);
-	//		//260x40
-	//		Image image(L"Image.png");
-	//		// Draw the original source image.
-	//		Graphics graphics(hdc);
-	//		graphics.DrawImage(&image, 10, 10);
+	//		HDC hDC = BeginPaint(hwnd, &ps);
+
+	//		//FreeImage_Initialise();
+	//		
+	//		/*FIMEMORY *stream = FreeImage_OpenMemory(captcha->data, captcha->size);
+	//		FIBITMAP *dib = FreeImage_LoadFromMemory(FIF_PNG, stream, PNG_DEFAULT);
+	//		FreeImage_CloseMemory(stream);
+
+	//		SetStretchBltMode(hDC, COLORONCOLOR);
+	//		StretchDIBits(
+	//			hDC,
+	//			0, 0,
+	//			206, 40,
+	//			0, 0,
+	//			FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
+	//			FreeImage_GetBits(dib),
+	//			FreeImage_GetInfo(dib),
+	//			DIB_RGB_COLORS, SRCCOPY);
+
+	//		FreeImage_Unload(dib);*/
+
+	//		//FreeImage_DeInitialise();
+
 	//		EndPaint(hwnd, &ps);
 	//	}
 	//	return 0;

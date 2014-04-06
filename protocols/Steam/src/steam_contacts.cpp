@@ -1,5 +1,23 @@
 #include "common.h"
 
+void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
+{
+	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	if (oldStatus != status)
+		setWord(hContact, "Status", status);
+}
+
+void CSteamProto::SetAllContactsStatus(WORD status)
+{
+	for (MCONTACT hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
+	{
+		if (this->isChatRoom(hContact))
+			continue;
+		//if (this->IsContactOnline(hContact))
+		setWord(hContact, "Status", status);
+	}
+}
+
 MCONTACT CSteamProto::FindContact(const char *steamId)
 {
 	MCONTACT hContact = NULL;
@@ -26,10 +44,11 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Friend &contact)
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)this->m_szModuleName);
 
-		this->setString(hContact, "SteamID", contact.GetSteamId());
-		this->setWString(hContact, "Nick", contact.GetNickname());
-		this->setString(hContact, "Homepage", contact.GetHomepage());
-		this->setDword(hContact, "LastEventDateTS", contact.GetLastEvent());
+		setString(hContact, "SteamID", contact.GetSteamId());
+		setWString(hContact, "Nick", contact.GetNickname());
+		setString(hContact, "Homepage", contact.GetHomepage());
+		setDword(hContact, "LastEventDateTS", contact.GetLastEvent());
+		db_set_ws(hContact, "CList", "MyHandle", contact.GetNickname());
 
 		DBVARIANT dbv;
 		if (!getWString("DefaultGroup", &dbv))

@@ -1,36 +1,23 @@
 #include "common.h"
 
-int SteamToMirandaStatus(int state)
-{
-	switch (state)
-	{
-	case 0: //Offline
-		return ID_STATUS_OFFLINE;
-	case 2: //Busy
-		return ID_STATUS_DND;
-	case 3: //Away
-		return ID_STATUS_AWAY;
-		/*case 4: //Snoozing
-			prim = PURPLE_STATUS_EXTENDED_AWAY;
-			break;
-			case 5: //Looking to trade
-			return "trade";
-			case 6: //Looking to play
-			return "play";*/
-		//case 1: //Online
-	default:
-		return ID_STATUS_ONLINE;
-	}
-}
-
-
-int CSteamProto::PollStatus(const char *sessionId, const char *steamId, UINT32 messageId)
+int CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 messageId)
 {
 	SteamWebApi::PollApi::PollResult pollResult;
-	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, sessionId, steamId, messageId, &pollResult);
+	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, token, sessionId, messageId, &pollResult);
 
 	if (!pollResult.IsSuccess())
 		return 0;
+
+	if (pollResult.IsNeedRelogin())
+	{
+		SteamWebApi::LoginApi::LoginResult loginResult;
+		SteamWebApi::LoginApi::Logon(m_hNetlibUser, token, &loginResult);
+
+		if (!loginResult.IsSuccess())
+			return 0;
+
+		return messageId;
+	}
 
 	for (int i = 0; i < pollResult.GetItemCount(); i++)
 	{
@@ -41,14 +28,73 @@ int CSteamProto::PollStatus(const char *sessionId, const char *steamId, UINT32 m
 
 		case SteamWebApi::PollApi::POOL_TYPE::MESSAGE:
 			{
-				const wchar_t *text = ((SteamWebApi::PollApi::Message*)pollResult[i])->GetText();
+				SteamWebApi::PollApi::Message *message = (SteamWebApi::PollApi::Message*)pollResult[i];
+
+				MCONTACT hContact = FindContact(message->GetSteamId());
+				if (hContact)
+				{
+					const wchar_t *text = message->GetText();
+
+					PROTORECVEVENT recv = { 0 };
+					recv.flags = PREF_UTF;
+					recv.timestamp = message->GetTimestamp();
+					recv.szMessage = mir_utf8encodeW(text);
+
+					ProtoChainRecvMsg(hContact, &recv);
+				}
+			}
+			break;
+
+		case SteamWebApi::PollApi::POOL_TYPE::MYMESSAGE:
+			{
+				SteamWebApi::PollApi::Message *message = (SteamWebApi::PollApi::Message*)pollResult[i];
+
+				MCONTACT hContact = FindContact(message->GetSteamId());
+				if (hContact)
+				{
+					const wchar_t *text = message->GetText();
+
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					dbei.szModule = this->m_szModuleName;
+					dbei.timestamp = message->GetTimestamp();
+					dbei.eventType = EVENTTYPE_MESSAGE;
+					dbei.cbBlob = lstrlen(text);
+					dbei.pBlob = (BYTE*)mir_utf8encodeW(text);
+					dbei.flags = DBEF_UTF | DBEF_SENT;
+
+					db_event_add(hContact, &dbei);
+				}
 			}
 			break;
 
 		case SteamWebApi::PollApi::POOL_TYPE::STATE:
 			{
-				int status = ((SteamWebApi::PollApi::State*)pollResult[i])->GetStatus();
-				const wchar_t *nickname = ((SteamWebApi::PollApi::State*)pollResult[i])->GetNickname();
+				SteamWebApi::PollApi::State *state = (SteamWebApi::PollApi::State*)pollResult[i];
+
+				WORD status = CSteamProto::SteamToMirandaStatus(state->GetStatus());
+				const char *cSteamId = state->GetSteamId();
+				const wchar_t *nickname = state->GetNickname();
+
+				ptrA steamId(getStringA("SteamID"));
+				if (!lstrcmpA(steamId, cSteamId))
+				{
+					const wchar_t *oldNickname = getWStringA("Nick");
+					if (lstrcmp(oldNickname, nickname))
+						setWString("Nick", nickname);
+						SetStatus(status);
+						
+				}
+				else
+				{
+					MCONTACT hContact = FindContact(cSteamId);
+					if (hContact)
+					{
+						const wchar_t *oldNickname = getWStringA(hContact, "Nick");
+						if (lstrcmp(oldNickname, nickname))
+							setWString(hContact, "Nick", nickname);
+						SetContactStatus(hContact, status);
+					}
+				}
 			}
 			break;
 		}

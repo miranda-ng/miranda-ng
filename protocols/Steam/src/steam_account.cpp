@@ -1,8 +1,77 @@
 #include "common.h"
 
+WORD CSteamProto::SteamToMirandaStatus(int state)
+{
+	switch (state)
+	{
+	case 0: //Offline
+		return ID_STATUS_OFFLINE;
+	case 2: //Busy
+		return ID_STATUS_DND;
+	case 3: //Away
+		return ID_STATUS_AWAY;
+		/*case 4: //Snoozing
+		prim = PURPLE_STATUS_EXTENDED_AWAY;
+		break;
+		case 5: //Looking to trade
+		return "trade";
+		case 6: //Looking to play
+		return "play";*/
+		//case 1: //Online
+	default:
+		return ID_STATUS_ONLINE;
+	}
+}
+
+int CSteamProto::MirandaToSteamState(int status)
+{
+	switch (status)
+	{
+	case ID_STATUS_ONLINE:
+		return 1; //Online
+	case ID_STATUS_DND:
+		return 2; //Busy
+	case ID_STATUS_AWAY:
+		return 3; //Away
+		/*case 4: //Snoozing
+		prim = PURPLE_STATUS_EXTENDED_AWAY;
+		break;
+		case 5: //Looking to trade
+		return "trade";
+		case 6: //Looking to play
+		return "play";*/
+		//case 1: //Online
+	default:
+		return ID_STATUS_OFFLINE;
+	}
+}
+
 bool CSteamProto::IsOnline()
 {
 	return m_iStatus > ID_STATUS_OFFLINE;
+}
+
+void CSteamProto::SetServerStatusThread(void *arg)
+{
+	WORD status = *((WORD*)arg);
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA sessionId(getStringA("SessionID"));
+
+	int state = CSteamProto::MirandaToSteamState(status);
+
+	// change status
+	if (m_iStatus == state)
+		return;
+
+	int oldStatus = m_iStatus;
+	m_iStatus = state;
+
+	SteamWebApi::MessageApi::SendResult sendResult;
+	SteamWebApi::MessageApi::SendStatus(m_hNetlibUser, token, sessionId, state, &sendResult);
+
+	if (sendResult.IsSuccess())
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 }
 
 void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult)

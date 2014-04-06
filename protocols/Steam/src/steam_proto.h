@@ -14,6 +14,13 @@ struct CaptchaParam
 	char text[10];
 };
 
+struct SendMessageParam
+{
+	MCONTACT hContact;
+	HANDLE hMessage;
+	const char *text;
+};
+
 class CSteamProto : public PROTO<CSteamProto>
 {
 public:
@@ -75,6 +82,7 @@ public:
 protected:
 	bool m_bTerminated;
 	HANDLE m_hPollingThread;
+	ULONG  hMessageProcess;
 	CRITICAL_SECTION contact_search_lock;
 
 	// instances
@@ -86,14 +94,25 @@ protected:
 	void __cdecl PollingThread(void*);
 
 	// account
+	static WORD SteamToMirandaStatus(int state);
+	static int MirandaToSteamState(int status);
+
 	bool IsOnline();
 	void Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult);
 	void __cdecl LogInThread(void*);
 	void __cdecl LogOutThread(void*);
+	void __cdecl SetServerStatusThread(void*);
 
 	// contacts
+	void SetContactStatus(MCONTACT hContact, WORD status);
+	void SetAllContactsStatus(WORD status);
+
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const SteamWebApi::FriendApi::Friend &contact);
+
+	// messages
+	void __cdecl SendMessageThread(void*);
+	void __cdecl SendTypingThread(void*);
 
 	//events
 	int OnModulesLoaded(WPARAM, LPARAM);

@@ -199,6 +199,7 @@
     <ClInclude Include="src\Steam\friend.h" />
     <ClInclude Include="src\Steam\friend_list.h" />
     <ClInclude Include="src\Steam\login.h" />
+    <ClInclude Include="src\Steam\message.h" />
     <ClInclude Include="src\Steam\poll.h" />
     <ClInclude Include="src\Steam\steam.h" />
     <ClInclude Include="src\steam_proto.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="src\steam_events.cpp" />
     <ClCompile Include="src\steam_dialogs.cpp" />
     <ClCompile Include="src\steam_instances.cpp" />
+    <ClCompile Include="src\steam_messages.cpp" />
     <ClCompile Include="src\steam_proto.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

@@ -1,7 +1,8 @@
 ﻿#include "common.h"
 
 CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CSteamProto>(protoName, userName)
+	PROTO<CSteamProto>(protoName, userName),
+	hMessageProcess(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
@@ -133,7 +134,15 @@ int __cdecl CSteamProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 
 int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
- return 0;
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = this->m_szModuleName;
+	dbei.timestamp = pre->timestamp;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = lstrlenA(pre->szMessage);
+	dbei.pBlob = (BYTE*)pre->szMessage;
+	dbei.flags = DBEF_UTF;
+
+	return (INT_PTR)db_event_add(hContact, &dbei);
 }
 
 int __cdecl CSteamProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT *) { return 0; }
@@ -150,7 +159,16 @@ HANDLE __cdecl CSteamProto::SendFile(MCONTACT hContact, const TCHAR *szDescripti
 
 int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
-	return 0;
+	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+
+	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
+	param->hContact = hContact;
+	param->text = mir_utf8encode(msg);
+	param->hMessage = (HANDLE)hMessage;
+
+	ForkThread(&CSteamProto::SendMessageThread, param);
+
+	return hMessage;
 }
 
 int __cdecl CSteamProto::SendUrl(MCONTACT hContact, int flags, const char *url) { return 0; }
@@ -168,7 +186,6 @@ int CSteamProto::SetStatus(int new_status)
 	if (new_status == ID_STATUS_OFFLINE)
 	{
 		m_bTerminated = true;
-
 		ForkThread(&CSteamProto::LogOutThread, NULL);
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -176,8 +193,8 @@ int CSteamProto::SetStatus(int new_status)
 
 		if (!Miranda_Terminated())
 		{
-			/*this->SetAllContactStatus(ID_STATUS_OFFLINE);
-			this->CloseAllChatSessions();*/
+			SetAllContactsStatus(ID_STATUS_OFFLINE);
+			//this->CloseAllChatSessions();
 		}
 
 		return 0;
@@ -191,11 +208,11 @@ int CSteamProto::SetStatus(int new_status)
 		}
 		else
 		{
-			/*if (IsOnline())
+			if (IsOnline())
 			{
-				SetServerStatus(new_status);
+				ForkThread(&CSteamProto::SetServerStatusThread, &new_status);
 				return 0;
-			}*/
+			}
 
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 

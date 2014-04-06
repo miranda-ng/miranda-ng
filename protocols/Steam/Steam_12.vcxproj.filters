@@ -42,6 +42,9 @@
     <ClCompile Include="src\steam_contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\steam_messages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\poll.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\message.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>
