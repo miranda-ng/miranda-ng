@@ -285,13 +285,22 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			if (ctl->hThemeButton && ctl->bIsThemed) {
 				int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 				POINT pt;
-				RECT rcParent;
+				RECT rcParent, rc = rcClient;
 
 				GetWindowRect(ctl->hwnd, &rcParent);
 				pt.x = rcParent.left;
 				pt.y = rcParent.top;
 				ScreenToClient(pcli->hwndContactList, &pt);
 				BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
+
+				if (ctl->bIsTTButton) {
+					GetWindowRect(ctl->hwnd, &rcParent);
+					pt.x = rcParent.left;
+					pt.y = rcParent.top;
+
+					ScreenToClient(g_hwndToolbarFrame, &pt);
+					BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcToolbar, pt.x, pt.y, SRCCOPY);
+				}
 
 				if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
 					DrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
