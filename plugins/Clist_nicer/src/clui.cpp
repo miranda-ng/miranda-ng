@@ -456,13 +456,13 @@ void SetButtonStates(HWND hwnd)
 		while (buttonItem) {
 			if (buttonItem->dwFlags & BUTTON_ISINTERNAL) {
 				switch (buttonItem->uId) {
-					case IDC_TBSOUND:
+					case IDC_STBSOUND:
 							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 							break;
-					case IDC_TBHIDEOFFLINE:
+					case IDC_STBHIDEOFFLINE:
 							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 							break;
-					case IDC_TBHIDEGROUPS: 
+					case IDC_STBHIDEGROUPS:
 							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 							break;
 				}

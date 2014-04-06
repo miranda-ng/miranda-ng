@@ -334,7 +334,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				if (ctl->iIcon)
 					ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 				else
-					DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+					DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 				ctl->sLabel.cx = ctl->sLabel.cy = 0;
 			}
 			else {
@@ -554,7 +554,7 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		}
 
 	case WM_DESTROY:
-		if (cfg::dat.hdcToolbar) {
+		if (cfg::dat.hdcToolbar && lParam == NULL) { // lParam is NULL when toolbar frame is being deleted
 			SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbarOld);
 			DeleteObject(cfg::dat.hbmToolbar);
 			DeleteDC(cfg::dat.hdcToolbar);
@@ -572,6 +572,8 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 		mir_subclassWindow(hWnd, ToolbarWndProc);
 
 		g_hwndToolbarFrame = hWnd;
+		TTBCtrl* pTBInfo = (TTBCtrl*)GetWindowLongPtr(hWnd, 0);
+		pTBInfo->bHardUpdate = FALSE;
 
 		InitDefaultButtons();
 		SetButtonToSkinned();
@@ -581,13 +583,13 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
 	mir_subclassWindow(hWnd, TSButtonWndProc);
 
-	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
+	MButtonExtension *bct = (MButtonExtension*)GetWindowLongPtr(hWnd, 0);
 	int idx = getButtonIndex(hButton);
 	if (idx != -1) { // adding built-in button
 		BTNS[idx].hwndButton = hWnd;
 		if (BTNS[idx].isAction) 
 			bct->bSendOnDown = true;
-		if ( !BTNS[idx].isPush)
+		if (!BTNS[idx].isPush)
 			bct->bIsPushBtn = true;
 	}
 	else {
