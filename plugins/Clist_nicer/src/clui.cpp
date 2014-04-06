@@ -482,16 +482,15 @@ void SetButtonStates(HWND hwnd)
 {
 	ButtonItem *buttonItem = g_ButtonItems;
 
-	BYTE iMode = cfg::getByte("CList", "HideOffline", 0);
 	if (g_ButtonItems) {
 		while (buttonItem) {
 			if (buttonItem->dwFlags & BUTTON_ISINTERNAL) {
 				switch (buttonItem->uId) {
 					case IDC_TBSOUND:
-							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED, 0);
+							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 							break;
 					case IDC_TBHIDEOFFLINE:
-							SendMessage(buttonItem->hWnd, BM_SETCHECK, iMode ? BST_CHECKED : BST_UNCHECKED, 0);
+							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 							break;
 					case IDC_TBHIDEGROUPS: 
 							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);

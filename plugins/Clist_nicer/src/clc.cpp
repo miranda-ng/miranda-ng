@@ -166,9 +166,9 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
-	else if (!__strcmp(cws->szModule, "Skin")) {
+	else if (!__strcmp(cws->szModule, "Skin") && !__strcmp(cws->szSetting, "UseSound")) {
 		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
-		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
+		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
 		SetButtonStates(pcli->hwndContactList);
 	}
 	else if (szProto == NULL) {
