@@ -497,11 +497,15 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			GetClientRect(hwnd, &rc);
 			rcClient = rc;
 
-			if (!cfg::dat.hdcToolbar) {
-				cfg::dat.hdcToolbar = CreateCompatibleDC(hdc);
-				cfg::dat.hbmToolbar = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
-				cfg::dat.hbmToolbarOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbar));
+			if (cfg::dat.hdcToolbar) {
+				SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbarOld);
+				DeleteObject(cfg::dat.hbmToolbar);
+				DeleteDC(cfg::dat.hdcToolbar);
+				cfg::dat.hdcToolbar = NULL;
 			}
+			cfg::dat.hdcToolbar = CreateCompatibleDC(hdc);
+			cfg::dat.hbmToolbar = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
+			cfg::dat.hbmToolbarOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbar));
 			HDC hdcMem = cfg::dat.hdcToolbar;
 			SetBkMode(hdcMem, TRANSPARENT);
 
