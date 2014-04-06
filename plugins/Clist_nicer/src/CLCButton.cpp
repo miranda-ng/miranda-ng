@@ -50,7 +50,7 @@ static int getButtonIndex(HANDLE hButton)
 	if (g_index != -1)
 		return g_index;
 
-	for (int i=0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < SIZEOF(BTNS); i++)
 		if (BTNS[i].hButton == hButton)
 			return i;
 
@@ -68,12 +68,12 @@ static int getLastIndex()
 
 static void InitDefaultButtons()
 {
-	for (int i=0; i < SIZEOF(BTNS); i++ ) {
+	for (int i = 0; i < SIZEOF(BTNS); i++ ) {
 		TTBButton tbb = { sizeof(tbb) };
 
 		g_index = i;
 		if (BTNS[i].pszButtonID) {
-			if ( !BTNS[i].isPush)
+			if (!BTNS[i].isPush)
 				tbb.dwFlags |= TTBBF_ASPUSHBUTTON;
 
 			tbb.pszTooltipUp = tbb.name = LPGEN(BTNS[i].pszButtonName);
@@ -83,7 +83,7 @@ static void InitDefaultButtons()
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 
-		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE : 0 );
+		tbb.dwFlags |= (BTNS[i].isVis ? TTBBF_VISIBLE : 0);
 		BTNS[i].hButton = TopToolbar_AddButton(&tbb);
 	}
 	g_index = -1;
@@ -95,7 +95,7 @@ static void InitDefaultButtons()
 
 void ClcSetButtonState(int ctrlid, int status)
 {
-	for (int i=0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < SIZEOF(BTNS); i++)
 		if (BTNS[i].ctrlid == ctrlid) {
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, status ? TTBST_PUSHED : TTBST_RELEASED);
 			break;
@@ -104,7 +104,7 @@ void ClcSetButtonState(int ctrlid, int status)
 
 HWND ClcGetButtonWindow(int ctrlid)
 {
-	for (int i=0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < SIZEOF(BTNS); i++)
 		if (BTNS[i].ctrlid == ctrlid)
 			return BTNS[i].hwndButton;
 
@@ -113,7 +113,7 @@ HWND ClcGetButtonWindow(int ctrlid)
 
 int ClcGetButtonId(HWND hwnd)
 {
-	for (int i=0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < SIZEOF(BTNS); i++)
 		if (BTNS[i].hwndButton == hwnd)
 			return BTNS[i].ctrlid;
 
@@ -135,8 +135,8 @@ struct MButtonExtension : public MButtonCtrl
 };
 
 // Used for our own cheap TrackMouseEvent
-#define BUTTON_POLLID       100
-#define BUTTON_POLLDELAY    50
+#define BUTTON_POLLID			100
+#define BUTTON_POLLDELAY		50
 
 static int TBStateConvert2Flat(int state)
 {
@@ -185,7 +185,8 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 					DrawThemeParentBackground(ctl->hwnd, hdcMem, &rc);
 				}
 				DrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rc, &rc);
-			} else {
+			}
+			else {
 				HBRUSH hbr;
 				RECT rc = rcClient;
 
@@ -212,7 +213,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 							glyphMetrics[3], g_glyphItem->bf);
 					}
 				}
-				else if (ctl->bIsSkinned) {      // skinned
+				else if (ctl->bIsSkinned) { // skinned
 					RECT rcParent;
 					POINT pt;
 					HWND hwndParent = pcli->hwndContactList;
@@ -262,7 +263,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 
 						hwndParent = GetParent(ctl->hwnd);
 						dc = GetDC(hwndParent);
-						hbr = (HBRUSH) SendMessage(hwndParent, WM_CTLCOLORDLG, (WPARAM) dc, (LPARAM) hwndParent);
+						hbr = (HBRUSH)SendMessage(hwndParent, WM_CTLCOLORDLG, (WPARAM)dc, (LPARAM)hwndParent);
 						ReleaseDC(hwndParent, dc);
 					}
 					if (hbr) {
@@ -270,17 +271,19 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 						DeleteObject(hbr);
 					}
 				}
-				if ( !ctl->bIsSkinned && ctl->buttonItem == 0) {
+				if (!ctl->bIsSkinned && ctl->buttonItem == 0) {
 					if (ctl->stateId == PBS_HOT || ctl->focus) {
 						if (ctl->bIsPushed)
 							DrawEdge(hdcMem, &rc, EDGE_ETCHED, BF_RECT | BF_SOFT);
 						else
 							DrawEdge(hdcMem, &rc, BDR_RAISEDOUTER, BF_RECT | BF_SOFT);
-					} else if (ctl->stateId == PBS_PRESSED)
+					}
+					else if (ctl->stateId == PBS_PRESSED)
 						DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT | BF_SOFT);
 				}
 			}
-		} else {
+		}
+		else {
 			// Draw background/border
 			if (ctl->hThemeButton && ctl->bIsThemed) {
 				int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
@@ -306,7 +309,8 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 					DrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
 				}
 				DrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
-			} else {
+			}
+			else {
 				UINT uState = DFCS_BUTTONPUSH | ((ctl->stateId == PBS_HOT) ? DFCS_HOT : 0) | ((ctl->stateId == PBS_PRESSED) ? DFCS_PUSHED : 0);
 				if (ctl->bIsDefault && ctl->stateId == PBS_NORMAL)
 					uState |= DLGC_DEFPUSHBUTTON;
@@ -332,7 +336,8 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				else
 					DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 				ctl->sLabel.cx = ctl->sLabel.cy = 0;
-			} else {
+			}
+			else {
 				GetTextExtentPoint32(hdcMem, ctl->szText, lstrlen(ctl->szText), &ctl->sLabel);
 
 				if (g_cxsmIcon + ctl->sLabel.cx + 8 > rcClient.right - rcClient.left)
@@ -344,10 +349,11 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				if (ctl->iIcon)
 					ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 				else
-					DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+					DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 				xOffset = ix + g_cxsmIcon + 4;
 			}
-		} else if (ctl->hBitmap) {
+		}
+		else if (ctl->hBitmap) {
 			BITMAP bminfo;
 			int ix, iy;
 
@@ -367,11 +373,11 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			CopyRect(&rcText, &rcClient);
 			SetBkMode(hdcMem, TRANSPARENT);
 			// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-			if ( !ctl->bIsSkinned)
+			if (!ctl->bIsSkinned)
 				SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
 			if (ctl->arrow)
-				DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
-			DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->szText, 0, xOffset + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->hThemeButton ? (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + 1 : (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + (ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->sLabel.cx, ctl->sLabel.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton ? DST_PREFIXTEXT | DSS_NORMAL : DST_PREFIXTEXT | DSS_DISABLED);
+				DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->szText, 0, xOffset + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->hThemeButton ? (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + 1 : (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + (ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->sLabel.cx, ctl->sLabel.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton ? DST_PREFIXTEXT | DSS_NORMAL : DST_PREFIXTEXT | DSS_DISABLED);
 		}
 		if (hOldFont)
 			SelectObject(hdcMem, hOldFont);
@@ -403,7 +409,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case BM_SETIMAGE:
-		if ( !lParam)
+		if (!lParam)
 			break;
 
 		bct->hIml = 0;
@@ -450,8 +456,8 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case BUTTONSETIMLICON:
 		if (bct->hIconPrivate)
 			DestroyIcon(bct->hIconPrivate);
-		bct->hIml = (HIMAGELIST) wParam;
-		bct->iIcon = (int) lParam;
+		bct->hIml = (HIMAGELIST)wParam;
+		bct->iIcon = (int)lParam;
 		bct->hIcon = bct->hIconPrivate = 0;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
@@ -472,9 +478,15 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NCHITTEST:
-		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
-		case HTLEFT:	case HTRIGHT:	case HTBOTTOM:	  case HTTOP:
-		case HTTOPLEFT: case HTTOPRIGHT: case HTBOTTOMLEFT:  case HTBOTTOMRIGHT:
+		switch (SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
+		case HTLEFT:
+		case HTRIGHT:
+		case HTBOTTOM:
+		case HTTOP:
+		case HTTOPLEFT:
+		case HTTOPRIGHT:
+		case HTBOTTOMLEFT:
+		case HTBOTTOMRIGHT:
 			return HTTRANSPARENT;
 		}
 	}
@@ -556,7 +568,6 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 {
-	// we don't customize the toolbar window, only buttons
 	if (hButton == TTB_WINDOW_HANDLE) {
 		mir_subclassWindow(hWnd, ToolbarWndProc);
 
@@ -578,7 +589,8 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 			bct->bSendOnDown = true;
 		if ( !BTNS[idx].isPush)
 			bct->bIsPushBtn = true;
-	} else {
+	}
+	else {
 		idx = getLastIndex();
 		BTNS[idx].hwndButton = hWnd;
 		BTNS[idx].pszButtonID = "plugin";
@@ -607,7 +619,7 @@ static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
 static int Nicer_ReloadToolbar(WPARAM wParam, LPARAM)
 {	
 	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
-	if ( !_stricmp(pInfo->shortName, "TopToolBar"))
+	if (!_stricmp(pInfo->shortName, "TopToolBar"))
 		TopToolbar_SetCustomProc(CustomizeToolbar, 0);
 	return 0;
 }

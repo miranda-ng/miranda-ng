@@ -88,37 +88,23 @@ HICON overlayicons[10];
 
 static IconItem myIcons[] =
 {
-	{ LPGEN("Toggle show online/offline"), "CLN_online",       IDI_HIDEOFFLINE },
-	{ LPGEN("Toggle groups"),              "CLN_groups",       IDI_HIDEGROUPS },
-	{ LPGEN("Find contacts"),              "CLN_findadd",      IDI_FINDANDADD },
-	{ LPGEN("Open preferences"),           "CLN_options",      IDI_TBOPTIONS },
-	{ LPGEN("Toggle sounds"),              "CLN_sound",        IDI_SOUNDSON },
-	{ LPGEN("Minimize contact list"),      "CLN_minimize",     IDI_MINIMIZE },
-	{ LPGEN("Show TabSRMM session list"),  "CLN_slist",        IDI_TABSRMMSESSIONLIST },
-	{ LPGEN("Show TabSRMM menu"),          "CLN_menu",         IDI_TABSRMMMENU },
-	{ LPGEN("Sounds are off"),             "CLN_soundsoff",    IDI_SOUNDSOFF },
-	{ LPGEN("Select view mode"),           "CLN_CLVM_select",  IDI_CLVM_SELECT },
-	{ LPGEN("Reset view mode"),            "CLN_CLVM_reset",   IDI_DELETE },
-	{ LPGEN("Configure view modes"),       "CLN_CLVM_options", IDI_CLVM_OPTIONS },
-	{ LPGEN("Show menu"),                  "CLN_topmenu",      IDI_TBTOPMENU },
-	{ LPGEN("Setup accounts"),             "CLN_accounts",     IDI_TBACCOUNTS }
+	{ LPGEN("Toggle show online/offline"),	"CLN_online",		IDI_HIDEOFFLINE },
+	{ LPGEN("Toggle groups"),				"CLN_groups",		IDI_HIDEGROUPS },
+	{ LPGEN("Find contacts"),				"CLN_findadd",		IDI_FINDANDADD },
+	{ LPGEN("Open preferences"),			"CLN_options",		IDI_TBOPTIONS },
+	{ LPGEN("Toggle sounds"),				"CLN_sound",		IDI_SOUNDSON },
+	{ LPGEN("Minimize contact list"),		"CLN_minimize",		IDI_MINIMIZE },
+	{ LPGEN("Show TabSRMM session list"),	"CLN_slist",		IDI_TABSRMMSESSIONLIST },
+	{ LPGEN("Show TabSRMM menu"),			"CLN_menu",			IDI_TABSRMMMENU },
+	{ LPGEN("Sounds are off"),				"CLN_soundsoff",	IDI_SOUNDSOFF },
+	{ LPGEN("Select view mode"),			"CLN_CLVM_select",	IDI_CLVM_SELECT },
+	{ LPGEN("Reset view mode"),				"CLN_CLVM_reset",	IDI_DELETE },
+	{ LPGEN("Configure view modes"),		"CLN_CLVM_options",	IDI_CLVM_OPTIONS },
+	{ LPGEN("Show menu"),					"CLN_topmenu",		IDI_TBTOPMENU },
+	{ LPGEN("Setup accounts"),				"CLN_accounts",		IDI_TBACCOUNTS }
 };
 
 HWND hTbMenu, hTbGlobalStatus;
-
-/*
- * simple service for testing purpose
- * get the *proper* time zone offset for the given contact
- * only UserInfoEx can currently set real time zones
- *
- * This stuff should go into the core...
- *
- * returns: timediff for the contact in seconds. This value has inverted sign,
- * so you need to SUBTRACT it from your current time in order to get the correct
- * target time.
- *
- * If no real time zone is set, the service falls back to ordinary GMT offsets
- */
 
 static void Tweak_It(COLORREF clr)
 {
@@ -154,10 +140,10 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 	}
 
 	SetWindowPos(hTbMenu, 0, 2 + left_offset, rect.bottom - cfg::dat.statusBarHeight - 21 - 1,
-				 21 * 3, 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
+		21 * 3, 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
 
 	SetWindowPos(hTbGlobalStatus, 0, left_offset + (3 * 21) + 3, rect.bottom - cfg::dat.statusBarHeight - 21 - 1,
-				 rect.right - delta - (3 * 21 + 5), 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
+		rect.right - delta - (3 * 21 + 5), 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
 
 }
 
@@ -168,30 +154,24 @@ static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
-* create the CLC control, but not yet the frame. The frame containing the CLC should be created as the
-* last frame of all.
-*/
-
+// create the CLC control, but not yet the frame. The frame containing the CLC should be created as the
+// last frame of all.
 static HWND PreCreateCLC(HWND parent)
 {
-	pcli->hwndContactTree = CreateWindow( _T(CLISTCONTROL_CLASS), _T(""),
-										 WS_CHILD | CLS_CONTACTLIST
-										 | (cfg::getByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-										 | CLS_HIDEOFFLINE
-										 //|(db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
-										 | (cfg::getByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
-										 | CLS_MULTICOLUMN
-										 , 0, 0, 0, 0, parent, NULL, g_hInst, (LPVOID)0xff00ff00);
+	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
+		WS_CHILD | CLS_CONTACTLIST
+		| (cfg::getByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
+		| CLS_HIDEOFFLINE
+		//|(db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
+		| (cfg::getByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
+		| CLS_MULTICOLUMN
+		, 0, 0, 0, 0, parent, NULL, g_hInst, (LPVOID)0xff00ff00);
 
 	cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
 	return pcli->hwndContactTree;
 }
 
-/*
-* create internal frames, including the last frame (actual CLC control)
-*/
-
+// create internal frames, including the last frame (actual CLC control)
 static int CreateCLC(HWND parent)
 {
 	pcli->pfnReloadExtraIcons();
@@ -214,10 +194,9 @@ static int CreateCLC(HWND parent)
 		HideShowNotifyFrame();
 		CreateViewModeFrame();
 	}
-	SetButtonToSkinned();
 
 	{
-		CLISTFrame Frame = { 0 };
+		CLISTFrame Frame = {0};
 		memset(&Frame, 0, sizeof(Frame));
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = pcli->hwndContactTree;
@@ -231,25 +210,18 @@ static int CreateCLC(HWND parent)
 		//free(Frame.name);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My Contacts"));
 
-		/*
-		* ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
-		*/
-
+		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
 		DWORD flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
 		flags |= F_VISIBLE;
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), flags);
 	}
+
+	SetButtonToSkinned();
 	return 0;
 }
 
 static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	static const char *szPrefix = "clist_nicer_plus ";
-
-	static char *component = "CList Nicer+";
-	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/versionW.txt";
-	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plusW.zip";
-
 	FS_RegisterFonts();
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 	return 0;
@@ -292,13 +264,13 @@ static void InitIcoLib()
 
 	PROTOACCOUNT **accs = NULL;
 	int p_count = 0;
-	ProtoEnumAccounts( &p_count, &accs );
+	ProtoEnumAccounts(&p_count, &accs);
 	for (int k = 0; k < p_count; k++) {
-		if ( !IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+		if (!IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 			continue;
 
 		TCHAR szDescr[128];
-		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s Connecting"), accs[k]->tszAccountName );
+		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s Connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
 		Icon_RegisterT(g_hInst, LPGENT("CList - Nicer/Connecting Icons"), &icon, 1, accs[k]->szModuleName);
 	}
@@ -312,25 +284,22 @@ static int IcoLibChanged(WPARAM wParam, LPARAM lParam)
 
 void CreateButtonBar(HWND hWnd)
 {
-	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBMENU, g_hInst, NULL);
+	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBMENU, g_hInst, NULL);
 	CustomizeButton(hTbMenu, false, false, false);
 	SetWindowText(hTbMenu, TranslateT("Menu"));
-	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MAINMENU));
+	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MAINMENU));
 	SendMessage(hTbMenu, BUTTONSETSENDONDOWN, TRUE, 0);
-	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Open main menu"), BATF_TCHAR);
+	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open main menu"), BATF_TCHAR);
 
-	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBGLOBALSTATUS, g_hInst, NULL);
+	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_hInst, NULL);
 	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
-	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
+	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
 	SendMessage(hTbGlobalStatus, BUTTONSETSENDONDOWN, TRUE, 0);
-	SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Set status modes"), BATF_TCHAR);
+	SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Set status modes"), BATF_TCHAR);
 }
 
-/*
-* if mode != 0 we do first time init, otherwise only reload the extra icon stuff
-*/
-
+// if mode != 0 we do first time init, otherwise only reload the extra icon stuff
 void CLN_LoadAllIcons(BOOL mode)
 {
 	if (mode) {
@@ -352,7 +321,8 @@ void ConfigureEventArea(HWND hwnd)
 			cfg::dat.notifyActive = iCount > 0 ? 1 : 0;
 		else
 			cfg::dat.notifyActive = 1;
-	} else
+	}
+	else
 		cfg::dat.notifyActive = 0;
 
 	if (oldstate != cfg::dat.notifyActive)
@@ -361,9 +331,9 @@ void ConfigureEventArea(HWND hwnd)
 
 void ConfigureFrame()
 {
-  int show = cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? SW_SHOW : SW_HIDE;
-  ShowWindow(hTbMenu,show);
-  ShowWindow(hTbGlobalStatus,show);
+	int show = cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? SW_SHOW : SW_HIDE;
+	ShowWindow(hTbMenu,show);
+	ShowWindow(hTbGlobalStatus, show);
 }
 
 void IcoLibReloadIcons()
@@ -391,7 +361,8 @@ void ConfigureCLUIGeometry(int mode)
 			SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
 			GetWindowRect(pcli->hwndStatus, &rcStatus);
 			cfg::dat.statusBarHeight = (rcStatus.bottom - rcStatus.top);
-		} else
+		}
+		else
 			cfg::dat.statusBarHeight = 0;
 	}
 
@@ -406,10 +377,7 @@ void ConfigureCLUIGeometry(int mode)
 	}
 }
 
-/*
- * set the states of defined database action buttons (only if button is a toggle)
-*/
-
+// set the states of defined database action buttons (only if button is a toggle)
 void SetDBButtonStates(MCONTACT hPassedContact)
 {
 	ButtonItem *buttonItem = g_ButtonItems;
@@ -428,7 +396,7 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 	while (buttonItem) {
 		BOOL result = FALSE;
 
-		if ( !(buttonItem->dwFlags & BUTTON_ISTOGGLE && buttonItem->dwFlags & BUTTON_ISDBACTION)) {
+		if (!(buttonItem->dwFlags & BUTTON_ISTOGGLE && buttonItem->dwFlags & BUTTON_ISDBACTION)) {
 			buttonItem = buttonItem->nextItem;
 			continue;
 		}
@@ -443,17 +411,19 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
 				szModule = GetContactProto(hContact);
 			hFinalContact = hContact;
-		} else
+		}
+		else
 			hFinalContact = 0;
 
 		if (buttonItem->type == DBVT_ASCIIZ) {
 			DBVARIANT dbv = {0};
 
-			if ( !cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
+			if (!cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
 				result = !strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
 				db_free(&dbv);
 			}
-		} else {
+		}
+		else {
 			switch (buttonItem->type) {
 				case DBVT_BYTE: {
 					BYTE val = cfg::getByte(hFinalContact, szModule, szSetting, 0);
@@ -612,7 +582,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (disableautoupd)
 		return;
 
-	if ( !cfg::getByte("CLUI", "AutoSize", 0))
+	if (!cfg::getByte("CLUI", "AutoSize", 0))
 		return;
 
 	if (Docking_IsDocked(0, 0))
@@ -719,7 +689,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 
 			uItemID -= ID_STATUS_OFFLINE;
 			item = arStatusItems[uItemID];
-			if ( !item->IGNORED) {
+			if (!item->IGNORED) {
 				int alpha = nmcsbcd->uState == CDIS_DISABLED ? item->ALPHA - 50 : item->ALPHA;
 				DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
 					item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
@@ -734,7 +704,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 				arrowItem = arStatusItems[ID_EXTBKSCROLLARROWDOWN - ID_STATUS_OFFLINE];
 			if (arrowItem && !arrowItem->IGNORED)
 				DrawAlpha(hdcScroll, &nmcsbcd->rect, arrowItem->COLOR, arrowItem->ALPHA, arrowItem->COLOR2, arrowItem->COLOR2_TRANSPARENT,
-				arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);
+					arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);
 			else if (arrowItem)
 				DrawFrameControl(hdcScroll, &nmcsbcd->rect, DFC_SCROLL, (nmcsbcd->uItem == HTSCROLL_UP ? DFCS_SCROLLUP : DFCS_SCROLLDOWN) | dfcFlags);
 
@@ -769,16 +739,18 @@ static void ShowCLUI(HWND hwnd)
 	int onTop = cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT);
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
-	if ( !cfg::getByte("CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+	if (!cfg::getByte("CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 		SetMenu(pcli->hwndContactList, NULL);
 	if (state == SETTING_STATE_NORMAL) {
 		SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 		ShowWindow(pcli->hwndContactList, SW_SHOWNORMAL);
 		SendMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
-	} else if (state == SETTING_STATE_MINIMIZED) {
+	}
+	else if (state == SETTING_STATE_MINIMIZED) {
 		cfg::dat.forceResize = TRUE;
 		ShowWindow(pcli->hwndContactList, SW_HIDE);
-	} else if (state == SETTING_STATE_HIDDEN) {
+	}
+	else if (state == SETTING_STATE_HIDDEN) {
 		cfg::dat.forceResize = TRUE;
 		ShowWindow(pcli->hwndContactList, SW_HIDE);
 	}
@@ -824,7 +796,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
-		if ( !cfg::dat.bFirstRun)
+		if (!cfg::dat.bFirstRun)
 			ConfigureEventArea(hwnd);
 		CluiProtocolStatusChanged(0, 0);
 		ConfigureCLUIGeometry(0);
@@ -867,13 +839,11 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 			ShowWindow(pcli->hwndContactList, SW_HIDE);
 			style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
-			if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT)
-			{
+			if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
 				style |= WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE;
 				style &= ~WS_EX_APPWINDOW;
 			}
-			else
-			{
+			else {
 				style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
 				if (cfg::getByte("CList", "AlwaysHideOnTB", 1))
 					style &= ~WS_EX_APPWINDOW;
@@ -908,7 +878,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
 			DBVARIANT dbv = {0};
-			if ( !db_get(NULL, "CList", "LastViewMode", &dbv)) {
+			if (!db_get(NULL, "CList", "LastViewMode", &dbv)) {
 				if (lstrlenA(dbv.pszVal) > 2) {
 					if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 						ApplyViewMode((char *)dbv.pszVal);
@@ -916,19 +886,21 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				db_free(&dbv);
 			}
 		}
-		if ( !cfg::dat.autosize)
+		if (!cfg::dat.autosize)
 			ShowCLUI(hwnd);
 		else {
 			show_on_first_autosize = TRUE;
 			RecalcScrollBar(pcli->hwndContactTree, cfg::clcdat);
 		}
 		return 0;
-							}
+	}
 	case WM_ERASEBKGND:
 		return TRUE;
+		/*
 		if (cfg::dat.bSkinnedButtonMode)
 			return TRUE;
 		return DefWindowProc(hwnd, msg, wParam, lParam);
+		*/
 
 	case WM_PAINT:
 		{
@@ -944,7 +916,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				GetClientRect(hwnd, &rcClient);
 			CopyRect(&rc, &rcClient);
 
-			if ( !cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
+			if (!cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
 				RECT rcWorkArea;
 
 				SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
@@ -982,7 +954,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 					GetWindowRect(hwnd, &rcWin);
 					BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, dc, rcWin.left, rcWin.top, SRCCOPY);
-				} else
+				}
+				else
 					FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
 			}
 
@@ -990,7 +963,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
 				int clip = cfg::dat.bClipBorder;
 
-				if ( !g_CLUISkinnedBkColor)
+				if (!g_CLUISkinnedBkColor)
 					FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
 				if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
 					rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
@@ -1029,7 +1002,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				if (cfg::dat.bSkinnedButtonMode)
 					rcFrame.bottom -= (cfg::dat.bottomOffset);
 				DrawEdge(hdc, &rcFrame, BDR_SUNKENOUTER, BF_RECT);
-			} else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
+			}
+			else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
 				if (cfg::dat.bmpBackground)
 					BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
 				cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
@@ -1084,7 +1058,7 @@ skipbg:
 		return TRUE;
 
 	case WM_WINDOWPOSCHANGED:
-		if ( Docking_IsDocked(0, 0))
+		if (Docking_IsDocked(0, 0))
 			break;
 
 	case WM_WINDOWPOSCHANGING:
@@ -1147,7 +1121,7 @@ skipbg:
 		}
 
 	case WM_MOVE:
-		if ( !IsIconic(hwnd)) {
+		if (!IsIconic(hwnd)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 
@@ -1162,7 +1136,7 @@ skipbg:
 				GetWindowRect(hwnd, &rc);
 
 				// if docked, dont remember pos (except for width)
-				if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 					cfg::writeDword("CList", "Height", (DWORD)(rc.bottom - rc.top));
 					cfg::writeDword("CList", "x", (DWORD) rc.left);
 					cfg::writeDword("CList", "y", (DWORD) rc.top);
@@ -1181,7 +1155,7 @@ skipbg:
 		if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && cfg::getByte("CList", "AlwaysHideOnTB", 0))
 			RemoveFromTaskBar(hwnd);
 		return 0;
-												}
+	}
 	case WM_ACTIVATE:
 		if (g_fading_active) {
 			if (wParam != WA_INACTIVE && cfg::dat.isTransparent)
@@ -1193,7 +1167,8 @@ skipbg:
 				if (cfg::dat.isTransparent)
 					if (transparentFocus)
 						SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
-		} else {
+		}
+		else {
 			if (cfg::dat.isTransparent) {
 				KillTimer(hwnd, TM_AUTOALPHA);
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
@@ -1206,7 +1181,7 @@ skipbg:
 
 	case WM_SETCURSOR:
 		if (cfg::dat.isTransparent) {
-			if ( !transparentFocus && GetForegroundWindow() != hwnd) {
+			if (!transparentFocus && GetForegroundWindow() != hwnd) {
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
@@ -1231,14 +1206,16 @@ skipbg:
 			if (pt.x > r.right - clip - 10)
 				return HTBOTTOMRIGHT;
 
-		} else if (pt.y >= r.top && pt.y <= r.top + 3 && !cfg::getByte("CLUI", "AutoSize", 0)) {
+		}
+		else if (pt.y >= r.top && pt.y <= r.top + 3 && !cfg::getByte("CLUI", "AutoSize", 0)) {
 			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
 				return HTTOP;
 			if (pt.x < r.left + clip + 10)
 				return HTTOPLEFT;
 			if (pt.x > r.right - clip - 10)
 				return HTTOPRIGHT;
-		} else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
+		}
+		else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
 			return HTLEFT;
 		else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
 			return HTRIGHT;
@@ -1248,10 +1225,10 @@ skipbg:
 			if (cfg::dat.autosize)
 				return HTCLIENT;
 		return result;
-							 }
+	}
 
 	case WM_TIMER:
-		if ((int) wParam == TM_AUTOALPHA) {
+		if ((int)wParam == TM_AUTOALPHA) {
 			int inwnd;
 
 			if (GetForegroundWindow() == hwnd) {
@@ -1261,8 +1238,8 @@ skipbg:
 			else {
 				POINT pt;
 				HWND hwndPt;
-				pt.x = (short) LOWORD(GetMessagePos());
-				pt.y = (short) HIWORD(GetMessagePos());
+				pt.x = (short)LOWORD(GetMessagePos());
+				pt.y = (short)HIWORD(GetMessagePos());
 				hwndPt = WindowFromPoint(pt);
 				inwnd = (hwndPt == hwnd || GetParent(hwndPt) == hwnd);
 			}
@@ -1274,9 +1251,10 @@ skipbg:
 				else
 					SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.autoalpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 			}
-			if ( !transparentFocus)
+			if (!transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
-		} else if (wParam == TIMERID_AUTOSIZE) {
+		}
+		else if (wParam == TIMERID_AUTOSIZE) {
 			KillTimer(hwnd, wParam);
 			SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
 			PostMessage(hwnd, WM_SIZE, 0, 0);
@@ -1309,7 +1287,7 @@ skipbg:
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 			if (noRecurse)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
-			if ( !cfg::dat.fadeinout)
+			if (!cfg::dat.fadeinout)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 
 			g_fading_active = 1;
@@ -1322,7 +1300,8 @@ skipbg:
 				ShowWindow(hwnd, SW_SHOW);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 				noRecurse = 0;
-			} else {
+			}
+			else {
 				sourceAlpha = cfg::dat.isTransparent ? (transparentFocus ? cfg::dat.alpha : cfg::dat.autoalpha) : 255;
 				destAlpha = 0;
 			}
@@ -1341,7 +1320,7 @@ skipbg:
 
 	case WM_SYSCOMMAND:
 		{
-			BYTE	bWindowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			BYTE bWindowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
 				if (wParam == SC_RESTORE) {
 					CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
@@ -1435,7 +1414,8 @@ skipbg:
 										pValue = fChecked ? item->bValueRelease : item->bValuePush;
 										if (fChecked && pValue[0] == 0)
 											fDelete = TRUE;
-									} else
+									}
+									else
 										pValue = item->bValuePush;
 
 									if (fDelete)
@@ -1456,10 +1436,11 @@ skipbg:
 											break;
 										}
 									}
-								} else if (item->dwFlags & BUTTON_ISTOGGLE)
+								}
+								else if (item->dwFlags & BUTTON_ISTOGGLE)
 									SendMessage(item->hWnd, BM_SETCHECK, 0, 0);
 							}
-							if ( !contactOK)
+							if (!contactOK)
 								MessageBox(0, TranslateT("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat"), TranslateT("Parameter mismatch"), MB_OK);
 							if (serviceFailure) {
 								char szError[512];
@@ -1480,7 +1461,7 @@ skipbg:
 				case IDC_STBTOPMENU:
 					{
 						RECT rc;
-						HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+						HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBMENU ? rc.top : rc.bottom, 0, hwnd, NULL);
 					}
@@ -1623,15 +1604,15 @@ buttons_done:
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR) lParam)->hwndFrom == pcli->hwndContactTree) {
-			switch (((LPNMHDR) lParam)->code) {
+		if (((LPNMHDR)lParam)->hwndFrom == pcli->hwndContactTree) {
+			switch (((LPNMHDR)lParam)->code) {
 			case CLN_LISTSIZECHANGE:
 				sttProcessResize(hwnd, (NMCLISTCONTROL*)lParam);
 				return FALSE;
 
 			case NM_CLICK:
 				{
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL *) lParam;
+					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
 					DWORD hitFlags;
 					HANDLE hItem;
 
@@ -1656,15 +1637,15 @@ buttons_done:
 			RECT rc;
 			POINT pt;
 
-			pt.x = (short) LOWORD(lParam);
-			pt.y = (short) HIWORD(lParam);
+			pt.x = (short)LOWORD(lParam);
+			pt.y = (short)HIWORD(lParam);
 			// x/y might be -1 if it was generated by a kb click
 			GetWindowRect(pcli->hwndContactTree, &rc);
 			if (pt.x == -1 && pt.y == -1) {
 				// all this is done in screen-coords!
 				GetCursorPos(&pt);
 				// the mouse isnt near the window, so put it in the middle of the window
-				if ( !PtInRect(&rc, pt)) {
+				if (!PtInRect(&rc, pt)) {
 					pt.x = rc.left + (rc.right - rc.left) / 2;
 					pt.y = rc.top + (rc.bottom - rc.top) / 2;
 				}
@@ -1699,7 +1680,7 @@ buttons_done:
 
 	case WM_DRAWITEM:
 		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 
 			if (hbmLockedPoint == 0) {
 				RECT rc = {0, 0, 5, 5};
@@ -1737,13 +1718,13 @@ buttons_done:
 						cst.flags = CSSF_MASK_STATUS;
 						cst.status = &xStatus;
 						if (ProtoServiceExists(pd->RealName, PS_GETCUSTOMSTATUSEX) && !ProtoCallService(pd->RealName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cst) && xStatus > 0)
-							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED);	// get OWN xStatus icon (if set)
+							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED); // get OWN xStatus icon (if set)
 						else
 							hIcon = LoadSkinnedProtoIcon(szProto, status);
 					}
 					else hIcon = LoadSkinnedProtoIcon(szProto, status);
 
-					if ( !(showOpts & 6) && cfg::dat.bEqualSections)
+					if (!(showOpts & 6) && cfg::dat.bEqualSections)
 						x = (dis->rcItem.left + dis->rcItem.right - 16) >> 1;
 					if (pd->protopos == 0)
 						x += (cfg::dat.bEqualSections ? (cfg::dat.bCLeft / 2) : cfg::dat.bCLeft);
@@ -1773,8 +1754,8 @@ buttons_done:
 
 				if (showOpts & 2) {
 					TCHAR szName[64];
-					PROTOACCOUNT *pa = ProtoGetAccount( szProto );
-					if ( pa ) {
+					PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+					if (pa) {
 						lstrcpyn( szName, pa->tszAccountName, SIZEOF(szName));
 						szName[ SIZEOF(szName)-1 ] = 0;
 					}
@@ -1843,12 +1824,10 @@ buttons_done:
 			DeleteObject(hbmLockedPoint);
 			DeleteDC(hdcLockedPoint);
 		}
-		/*
-		* if this has not yet been set, do it now.
-		* indicates that clist is shutting down and prevents various things
-		* from happening at shutdown.
-		*/
-		if ( !cfg::shutDown)
+		// if this has not yet been set, do it now.
+		// indicates that clist is shutting down and prevents various things
+		// from happening at shutdown.
+		if (!cfg::shutDown)
 			cfg::shutDown = 1;
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, 0);
 		break;
@@ -1957,7 +1936,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 static INT_PTR CLN_ShowAbout(WPARAM wParam, LPARAM lParam)
 {
-	if ( !g_AboutDlgActive)
+	if (!g_AboutDlgActive)
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CLNABOUT), 0, DlgProcAbout, 0);
 	return 0;
 }
@@ -1984,8 +1963,8 @@ static INT_PTR CLN_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#define MS_CLUI_SHOWMAINMENU   "CList/ShowMainMenu"
-#define MS_CLUI_SHOWSTATUSMENU "CList/ShowStatusMenu"
+#define MS_CLUI_SHOWMAINMENU	"CList/ShowMainMenu"
+#define MS_CLUI_SHOWSTATUSMENU	"CList/ShowStatusMenu"
 
 void LoadCLUIModule(void)
 {
@@ -2017,7 +1996,7 @@ void LoadCLUIModule(void)
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
 
-	if ( cfg::getByte("CLUI", "FloaterMode", 0)) {
+	if (cfg::getByte("CLUI", "FloaterMode", 0)) {
 		MessageBox(NULL,
 			TranslateT("You need the FloatingContacts plugin, cause the embedded floating contacts were removed"),
 			TranslateT("Warning"), MB_OK | MB_ICONWARNING);
@@ -2042,18 +2021,18 @@ struct
 }
 static clistFontDescr[] =
 {
-	{ LPGENT("Standard contacts"),                                        FIDF_CLASSGENERAL },
-	{ LPGENT("Online contacts to whom you have a different visibility"),  FIDF_CLASSGENERAL },
-	{ LPGENT("Offline contacts"),                                         FIDF_CLASSGENERAL },
-	{ LPGENT("Contacts which are 'not on list'"),                         FIDF_CLASSGENERAL },
-	{ LPGENT("Groups"),                                                   FIDF_CLASSHEADER  },
-	{ LPGENT("Group member counts"),                                      FIDF_CLASSHEADER  },
-	{ LPGENT("Dividers"),                                                 FIDF_CLASSSMALL   },
-	{ LPGENT("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
-	{ LPGENT("Status mode"),                                              FIDF_CLASSGENERAL },
-	{ LPGENT("Frame titles"),                                             FIDF_CLASSGENERAL },
-	{ LPGENT("Event area"),                                               FIDF_CLASSGENERAL },
-	{ LPGENT("Contact list local time"),                                  FIDF_CLASSGENERAL }
+	{ LPGENT("Standard contacts"),											FIDF_CLASSGENERAL },
+	{ LPGENT("Online contacts to whom you have a different visibility"),	FIDF_CLASSGENERAL },
+	{ LPGENT("Offline contacts"),											FIDF_CLASSGENERAL },
+	{ LPGENT("Contacts which are 'not on list'"),							FIDF_CLASSGENERAL },
+	{ LPGENT("Groups"),														FIDF_CLASSHEADER  },
+	{ LPGENT("Group member counts"),										FIDF_CLASSHEADER  },
+	{ LPGENT("Dividers"),													FIDF_CLASSSMALL   },
+	{ LPGENT("Offline contacts to whom you have a different visibility"),	FIDF_CLASSGENERAL },
+	{ LPGENT("Status mode"),												FIDF_CLASSGENERAL },
+	{ LPGENT("Frame titles"),												FIDF_CLASSGENERAL },
+	{ LPGENT("Event area"),													FIDF_CLASSGENERAL },
+	{ LPGENT("Contact list local time"),									FIDF_CLASSGENERAL }
 };
 
 void FS_RegisterFonts()

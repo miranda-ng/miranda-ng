@@ -22,49 +22,49 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define INTM_XSTATUSCHANGED  (WM_USER+26)
-#define INTM_METACHANGEDEVENT (WM_USER+27)
-#define INTM_CODEPAGECHANGED (WM_USER+28)
-#define INTM_AVATARCHANGED   (WM_USER+30)
-#define INTM_STATUSMSGCHANGED   (WM_USER+31)
-#define INTM_SORTCLC            (WM_USER+32)
-#define INTM_STATUSCHANGED      (WM_USER+33)
-#define INTM_METACHANGED        (WM_USER+34)
-#define INTM_INVALIDATECONTACT  (WM_USER+35)
+#define INTM_XSTATUSCHANGED		(WM_USER+26)
+#define INTM_METACHANGEDEVENT	(WM_USER+27)
+#define INTM_CODEPAGECHANGED	(WM_USER+28)
+#define INTM_AVATARCHANGED		(WM_USER+30)
+#define INTM_STATUSMSGCHANGED	(WM_USER+31)
+#define INTM_SORTCLC			(WM_USER+32)
+#define INTM_STATUSCHANGED		(WM_USER+33)
+#define INTM_METACHANGED		(WM_USER+34)
+#define INTM_INVALIDATECONTACT	(WM_USER+35)
 #define INTM_FORCESORT			(WM_USER+36)
 
-#define DEFAULT_TITLEBAR_HEIGHT		18
+#define DEFAULT_TITLEBAR_HEIGHT	18
 
-#define CLS_SKINNEDFRAME	0x0800   //this control will be the main contact list (v. 0.3.4.3+ 2004/11/02)
+#define CLS_SKINNEDFRAME		0x0800 //this control will be the main contact list (v. 0.3.4.3+ 2004/11/02)
 
-#define TIMERID_RENAME         10
-#define TIMERID_DRAGAUTOSCROLL 11
-#define TIMERID_INFOTIP        13
-#define TIMERID_SORT           15
-#define TIMERID_REFRESH        18
-#define TIMERID_PAINT          19
+#define TIMERID_RENAME			10
+#define TIMERID_DRAGAUTOSCROLL	11
+#define TIMERID_INFOTIP			13
+#define TIMERID_SORT			15
+#define TIMERID_REFRESH			18
+#define TIMERID_PAINT			19
 
-#define CONTACTF_ONLINE    1
-//#define CONTACTF_INVISTO   2
-//#define CONTACTF_VISTO     4
-#define CONTACTF_NOTONLIST 8
-#define CONTACTF_CHECKED   16
-#define CONTACTF_IDLE      32
-#define CONTACTF_STICKY    64
-#define CONTACTF_PRIORITY  128
+#define CONTACTF_ONLINE			1
+//#define CONTACTF_INVISTO		2
+//#define CONTACTF_VISTO		4
+#define CONTACTF_NOTONLIST		8
+#define CONTACTF_CHECKED		16
+#define CONTACTF_IDLE			32
+#define CONTACTF_STICKY			64
+#define CONTACTF_PRIORITY		128
 
-#define STATUSMSG_XSTATUSID 1
-#define STATUSMSG_XSTATUSNAME 2
-#define STATUSMSG_CLIST 4
-#define STATUSMSG_YIM 8
-#define STATUSMSG_GG 16
-#define STATUSMSG_XSTATUS 32
+#define STATUSMSG_XSTATUSID		1
+#define STATUSMSG_XSTATUSNAME	2
+#define STATUSMSG_CLIST			4
+#define STATUSMSG_YIM			8
+#define STATUSMSG_GG			16
+#define STATUSMSG_XSTATUS		32
 
-#define STATUSMSG_NOTFOUND 0
+#define STATUSMSG_NOTFOUND		0
 
-#define SMSG_MAXLEN 700
+#define SMSG_MAXLEN				700
 
-#define EXTRAIMAGECACHESIZE 1000
+#define EXTRAIMAGECACHESIZE		1000
 
 // extra cache contact flags
 
@@ -94,65 +94,65 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Extra icons settings */
 typedef struct _OrderTreeData
 {
-	BYTE	ID;
+	BYTE			ID;
 	const TCHAR *	Name;
-	BYTE	Position;
-	BOOL	Visible;
-	BOOL  fReserved;
+	BYTE			Position;
+	BOOL			Visible;
+	BOOL			fReserved;
 } *PORDERTREEDATA, ORDERTREEDATA;
 
 struct TExtraCache
 {
-	MCONTACT hContact;
-	HANDLE   hTimeZone;
-	BYTE     valid;
-	TCHAR   *statusMsg;
-	BYTE     bStatusMsgValid;
-	DWORD    dwCFlags;
-	DWORD    dwDFlags;     // display flags for caching only
-	StatusItems_t *status_item, *proto_status_item;
-	DWORD    dwLastMsgTime;
-	DWORD    msgFrequency;
-	BOOL     isChatRoom;
+	MCONTACT	hContact;
+	HANDLE		hTimeZone;
+	BYTE		valid;
+	TCHAR		*statusMsg;
+	BYTE		bStatusMsgValid;
+	DWORD		dwCFlags;
+	DWORD		dwDFlags; // display flags for caching only
+	StatusItems_t	*status_item, *proto_status_item;
+	DWORD		dwLastMsgTime;
+	DWORD		msgFrequency;
+	BOOL		isChatRoom;
 };
 
 struct ClcContact : public ClcContactBase
 {
-	BOOL     bIsMeta;
-	BYTE     xStatus;
-	int      xStatusIcon;
-	MCONTACT hSubContact;
-	char    *metaProto;
-	DWORD    codePage;
-	WORD     wStatus;
-	int      avatarLeft, extraIconRightBegin;
-	int      isRtl;
-	DWORD    cFlags;
-	BYTE     bSecondLine;
+	BOOL		bIsMeta;
+	BYTE		xStatus;
+	int			xStatusIcon;
+	MCONTACT	hSubContact;
+	char		*metaProto;
+	DWORD		codePage;
+	WORD		wStatus;
+	int			avatarLeft, extraIconRightBegin;
+	int			isRtl;
+	DWORD		cFlags;
+	BYTE		bSecondLine;
 
-	avatarCacheEntry *ace;
-	TExtraCache* pExtra;
+	avatarCacheEntry	*ace;
+	TExtraCache*		pExtra;
 };
 
-#define DRAGSTAGE_NOTMOVED  0
-#define DRAGSTAGE_ACTIVE    1
-#define DRAGSTAGEM_STAGE    0x00FF
-#define DRAGSTAGEF_MAYBERENAME  0x8000
-#define DRAGSTAGEF_OUTSIDE      0x4000
+#define DRAGSTAGE_NOTMOVED		0
+#define DRAGSTAGE_ACTIVE		1
+#define DRAGSTAGEM_STAGE		0x00FF
+#define DRAGSTAGEF_MAYBERENAME	0x8000
+#define DRAGSTAGEF_OUTSIDE		0x4000
 
-#define FONTID_CONTACTS    0
-#define FONTID_INVIS       1
-#define FONTID_OFFLINE     2
-#define FONTID_NOTONLIST   3
-#define FONTID_GROUPS      4
-#define FONTID_GROUPCOUNTS 5
-#define FONTID_DIVIDERS    6
-#define FONTID_OFFINVIS    7
-#define FONTID_STATUS      8
-#define FONTID_FRAMETITLE  9
-#define FONTID_EVENTAREA   10
-#define FONTID_TIMESTAMP   11
-#define FONTID_LAST        FONTID_TIMESTAMP
+#define FONTID_CONTACTS		0
+#define FONTID_INVIS		1
+#define FONTID_OFFLINE		2
+#define FONTID_NOTONLIST	3
+#define FONTID_GROUPS		4
+#define FONTID_GROUPCOUNTS	5
+#define FONTID_DIVIDERS		6
+#define FONTID_OFFINVIS		7
+#define FONTID_STATUS		8
+#define FONTID_FRAMETITLE	9
+#define FONTID_EVENTAREA	10
+#define FONTID_TIMESTAMP	11
+#define FONTID_LAST			FONTID_TIMESTAMP
 
 struct ClcData : public ClcDataBase
 {
@@ -172,7 +172,7 @@ struct ClcData : public ClcDataBase
 	BOOL bNeedPaint, bisEmbedded, bHideSubcontacts;
 	DWORD lastRepaint;
 	BOOL forceScroll;
-	int  oldSelection;
+	int oldSelection;
 };
 
 //#define CLUI_FRAME_SHOWTOPBUTTONS 1
@@ -192,21 +192,21 @@ struct ClcData : public ClcDataBase
 #define CLUI_FULLROWSELECT 16384
 #define CLUI_FRAME_EVENTAREASUNKEN 32768
 //#define CLUI_FRAME_BUTTONBARSUNKEN 65536
-#define CLUI_FRAME_AVATARS         0x20000
-#define CLUI_FRAME_AVATARSLEFT     0x40000
-#define CLUI_FRAME_GDIPLUS         0x80000
-#define CLUI_FRAME_AVATARBORDER    0x100000
-#define CLUI_FRAME_STATUSICONS     0x200000
-#define CLUI_FRAME_AVATARSRIGHTWITHNICK    0x400000
-#define CLUI_FRAME_TRANSPARENTAVATAR 0x800000
-#define CLUI_FRAME_ROUNDAVATAR      0x1000000
-#define CLUI_FRAME_ALWAYSALIGNNICK  0x2000000
-#define CLUI_FRAME_AVATARSRIGHT     0x4000000
-#define CLUI_FRAME_SHOWSTATUSMSG    0x8000000
-#define CLUI_FRAME_OVERLAYICONS    0x10000000
-#define CLUI_FRAME_SELECTIVEICONS  0x20000000
-#define CLUI_FRAME_ROUNDEDFRAME    0x40000000
-#define CLUI_FRAME_NOGROUPICON     0x80000000
+#define CLUI_FRAME_AVATARS				0x20000
+#define CLUI_FRAME_AVATARSLEFT			0x40000
+#define CLUI_FRAME_GDIPLUS				0x80000
+#define CLUI_FRAME_AVATARBORDER			0x100000
+#define CLUI_FRAME_STATUSICONS			0x200000
+#define CLUI_FRAME_AVATARSRIGHTWITHNICK	0x400000
+#define CLUI_FRAME_TRANSPARENTAVATAR	0x800000
+#define CLUI_FRAME_ROUNDAVATAR			0x1000000
+#define CLUI_FRAME_ALWAYSALIGNNICK		0x2000000
+#define CLUI_FRAME_AVATARSRIGHT			0x4000000
+#define CLUI_FRAME_SHOWSTATUSMSG		0x8000000
+#define CLUI_FRAME_OVERLAYICONS			0x10000000
+#define CLUI_FRAME_SELECTIVEICONS		0x20000000
+#define CLUI_FRAME_ROUNDEDFRAME			0x40000000
+#define CLUI_FRAME_NOGROUPICON			0x80000000
 
 #define MULTIROW_NEVER 0
 #define MULTIROW_ALWAYS 1
@@ -306,7 +306,7 @@ struct TCluiData {
 	BYTE bSkinnedScrollbar;
 	DWORD langPackCP;
 	BOOL fOnDesktop;
-	int  group_padding;
+	int group_padding;
 	DWORD t_now;
 	BOOL realTimeSaving;
 	TCHAR tszProfilePath[MAX_PATH];
@@ -380,12 +380,12 @@ void 	RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 size_t 	MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut);
 size_t 	MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut);
 
-#define DROPTARGET_OUTSIDE    0
-#define DROPTARGET_ONSELF     1
-#define DROPTARGET_ONNOTHING  2
-#define DROPTARGET_ONGROUP    3
-#define DROPTARGET_ONCONTACT  4
-#define DROPTARGET_INSERTION  5
+#define DROPTARGET_OUTSIDE		0
+#define DROPTARGET_ONSELF		1
+#define DROPTARGET_ONNOTHING	2
+#define DROPTARGET_ONGROUP		3
+#define DROPTARGET_ONCONTACT	4
+#define DROPTARGET_INSERTION	5
 int GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 void LoadClcOptions(HWND hwnd, struct ClcData *dat);
 void RecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
@@ -460,49 +460,49 @@ int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 
 // Buttons
 
-#define BUTTONSETIMLICON      (WM_USER+20)
-#define BUTTONSETSKINNED      (WM_USER+21)
-#define BUTTONSETBTNITEM      (WM_USER+22)
-#define BUTTONSETTTBUTTON     (WM_USER+23)
+#define BUTTONSETIMLICON		(WM_USER+20)
+#define BUTTONSETSKINNED		(WM_USER+21)
+#define BUTTONSETBTNITEM		(WM_USER+22)
+#define BUTTONSETTTBUTTON		(WM_USER+23)
 
 // Menus
 
 void IMG_DeleteItems();
 int CoolSB_SetupScrollBar();
 
-#define NIIF_INTERN_UNICODE 0x00000100
+#define NIIF_INTERN_UNICODE			0x00000100
 
-#define SETTING_WINDOWSTYLE_DEFAULT 0
+#define SETTING_WINDOWSTYLE_DEFAULT	0
 
-#define SETTING_TRAYICON_SINGLE   0
-#define SETTING_TRAYICON_CYCLE    1
-#define SETTING_TRAYICON_MULTI    2
+#define SETTING_TRAYICON_SINGLE		0
+#define SETTING_TRAYICON_CYCLE		1
+#define SETTING_TRAYICON_MULTI		2
 
-#define SETTING_STATE_HIDDEN      0
-#define SETTING_STATE_MINIMIZED   1
-#define SETTING_STATE_NORMAL      2
+#define SETTING_STATE_HIDDEN		0
+#define SETTING_STATE_MINIMIZED		1
+#define SETTING_STATE_NORMAL		2
 
-#define SETTING_BRINGTOFRONT_DEFAULT 0
+#define SETTING_BRINGTOFRONT_DEFAULT	0
 
-#define SETTING_WINDOWSTYLE_TOOLWINDOW 1
-#define SETTING_WINDOWSTYLE_THINBORDER 2
-#define SETTING_WINDOWSTYLE_NOBORDER 3
+#define SETTING_WINDOWSTYLE_TOOLWINDOW	1
+#define SETTING_WINDOWSTYLE_THINBORDER	2
+#define SETTING_WINDOWSTYLE_NOBORDER	3
 
-#define CLCHT_ONAVATAR       0x2000
-#define CLCHT_ONITEMSPACE     0x4000
+#define CLCHT_ONAVATAR			0x2000
+#define CLCHT_ONITEMSPACE		0x4000
 
-#define CLM_SETEXTRAIMAGEINT   (CLM_FIRST+101)
-#define CLM_SETSTICKY (CLM_FIRST+100)
-#define CLM_ISMULTISELECT (CLM_FIRST+102)
-#define CLM_SETEXTRAIMAGEINTMETA   (CLM_FIRST+104)
-#define CLM_GETSTATUSMSG (CLM_FIRST+105)
-#define CLM_SETHIDESUBCONTACTS (CLM_FIRST+106)
-#define CLM_TOGGLEPRIORITYCONTACT (CLM_FIRST+107)
-#define CLM_QUERYPRIORITYCONTACT (CLM_FIRST+108)
+#define CLM_SETEXTRAIMAGEINT		(CLM_FIRST+101)
+#define CLM_SETSTICKY				(CLM_FIRST+100)
+#define CLM_ISMULTISELECT			(CLM_FIRST+102)
+#define CLM_SETEXTRAIMAGEINTMETA	(CLM_FIRST+104)
+#define CLM_GETSTATUSMSG			(CLM_FIRST+105)
+#define CLM_SETHIDESUBCONTACTS		(CLM_FIRST+106)
+#define CLM_TOGGLEPRIORITYCONTACT	(CLM_FIRST+107)
+#define CLM_QUERYPRIORITYCONTACT	(CLM_FIRST+108)
 
-#define IDC_RESETMODES 110
-#define IDC_SELECTMODE 108
-#define IDC_CONFIGUREMODES 109
+#define IDC_RESETMODES		110
+#define IDC_SELECTMODE		108
+#define IDC_CONFIGUREMODES	109
 
 #define NR_CLIENTS 40
 

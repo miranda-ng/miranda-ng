@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commonheaders.h>
 
 TCluiData cfg::dat = {0};
-ClcData*  cfg::clcdat = 0;
+ClcData* cfg::clcdat = 0;
 
 static CRITICAL_SECTION cachecs;
 LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(NumericKeySortT));
@@ -54,121 +54,104 @@ void cfg::init()
 
 DWORD cfg::getDword(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0)
 {
-	return((DWORD)db_get_dw(hContact, szModule, szSetting, uDefault));
+	return ((DWORD)db_get_dw(hContact, szModule, szSetting, uDefault));
 }
 
-/*
- * read a setting from our default module (Tab_SRMSG)
- */
-
+// read a setting from our default module (Tab_SRMSG)
 DWORD cfg::getDword(const char *szSetting = 0, DWORD uDefault = 0)
 {
-	return((DWORD)db_get_dw(0, DEFAULT_MODULE, szSetting, uDefault));
+	return ((DWORD)db_get_dw(0, DEFAULT_MODULE, szSetting, uDefault));
 }
 
-/*
- * read a setting from module only
- */
-
+// read a setting from module only
 DWORD cfg::getDword(const char *szModule, const char *szSetting, DWORD uDefault)
 {
-	return((DWORD)db_get_dw(0, szModule, szSetting, uDefault));
+	return ((DWORD)db_get_dw(0, szModule, szSetting, uDefault));
 }
 
 
 WORD cfg::getWord(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD uDefault = 0)
 {
-	return((WORD)db_get_w(hContact, szModule, szSetting, uDefault));
+	return ((WORD)db_get_w(hContact, szModule, szSetting, uDefault));
 }
 
-/*
- * read a setting from our default module (Tab_SRMSG)
- */
-
+// read a setting from our default module (Tab_SRMSG)
 WORD cfg::getWord(const char *szSetting = 0, WORD uDefault = 0)
 {
-	return((WORD)db_get_w(0, DEFAULT_MODULE, szSetting, uDefault));
+	return ((WORD)db_get_w(0, DEFAULT_MODULE, szSetting, uDefault));
 }
 
-/*
- * read a setting from module only
- */
-
+// read a setting from module only
 WORD cfg::getWord(const char *szModule, const char *szSetting, WORD uDefault)
 {
-	return((WORD)db_get_w(0, szModule, szSetting, uDefault));
+	return ((WORD)db_get_w(0, szModule, szSetting, uDefault));
 }
 
-/*
- * same for bytes now
- */
+// same for bytes now
 int cfg::getByte(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, int uDefault = 0)
 {
-	return(db_get_b(hContact, szModule, szSetting, uDefault));
+	return (db_get_b(hContact, szModule, szSetting, uDefault));
 }
 
 int cfg::getByte(const char *szSetting = 0, int uDefault = 0)
 {
-	return(db_get_b(0, DEFAULT_MODULE, szSetting, uDefault));
+	return (db_get_b(0, DEFAULT_MODULE, szSetting, uDefault));
 }
 
 int cfg::getByte(const char *szModule, const char *szSetting, int uDefault)
 {
-	return(db_get_b(0, szModule, szSetting, uDefault));
+	return (db_get_b(0, szModule, szSetting, uDefault));
 }
 
 INT_PTR cfg::getTString(const MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	return(db_get_ts(hContact, szModule, szSetting, dbv));
+	return (db_get_ts(hContact, szModule, szSetting, dbv));
 }
 
 INT_PTR cfg::getString(const MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	return(db_get_s(hContact, szModule, szSetting, dbv));
+	return (db_get_s(hContact, szModule, szSetting, dbv));
 }
 
-/*
- * writer functions
- */
-
+// writer functions
 INT_PTR cfg::writeDword(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD value = 0)
 {
-	return(db_set_dw(hContact, szModule, szSetting, value));
+	return (db_set_dw(hContact, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeDword(const char *szModule = 0, const char *szSetting = 0, DWORD value = 0)
 {
-	return(db_set_dw(0, szModule, szSetting, value));
+	return (db_set_dw(0, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeWord(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD value = 0)
 {
-	return(db_set_w(hContact, szModule, szSetting, value));
+	return (db_set_w(hContact, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeWord(const char *szModule = 0, const char *szSetting = 0, WORD value = 0)
 {
-	return(db_set_w(0, szModule, szSetting, value));
+	return (db_set_w(0, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeByte(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, BYTE value = 0)
 {
-	return(db_set_b(hContact, szModule, szSetting, value));
+	return (db_set_b(hContact, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeByte(const char *szModule = 0, const char *szSetting = 0, BYTE value = 0)
 {
-	return(db_set_b(0, szModule, szSetting, value));
+	return (db_set_b(0, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeTString(const MCONTACT hContact, const char *szModule = 0, const char *szSetting = 0, const TCHAR *str = 0)
 {
-	return(db_set_ts(hContact, szModule, szSetting, str));
+	return (db_set_ts(hContact, szModule, szSetting, str));
 }
 
 INT_PTR cfg::writeString(const MCONTACT hContact, const char *szModule = 0, const char *szSetting = 0, const char *str = 0)
 {
-	return(db_set_s(hContact, szModule, szSetting, str));
+	return (db_set_s(hContact, szModule, szSetting, str));
 }
 
 TExtraCache* cfg::getCache(const MCONTACT hContact, const char *szProto)
@@ -209,7 +192,7 @@ void CSH_Destroy()
 
 			free(p->status_item);
 			p->status_item = 0;
-			for (int j = i; j < cfg::arCache.getCount(); j++)  // avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
+			for (int j = i; j < cfg::arCache.getCount(); j++) // avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
 				if (cfg::arCache[j]->status_item == item)
 					cfg::arCache[j]->status_item = 0;
 		}
@@ -228,7 +211,7 @@ void API::onInit()
 	if (sysConfig.isVistaPlus) {
 		if ((hDwm = Utils::loadSystemLibrary(_T("\\dwmapi.dll")), true) != 0) {
 			pfnDwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled_t)GetProcAddress(hDwm, "DwmIsCompositionEnabled");
-            pfnDwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea_t)GetProcAddress(hDwm,"DwmExtendFrameIntoClientArea");
+			pfnDwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea_t)GetProcAddress(hDwm, "DwmExtendFrameIntoClientArea");
 		}
 	}
 
@@ -274,7 +257,7 @@ INT_PTR CALLBACK API::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 {
 	WORD wNotifyCode, wID;
 
-	switch(uMsg) {
+	switch (uMsg) {
 		case WM_INITDIALOG: {
 				char szBuffer[2048];
 #ifdef _WIN64
@@ -301,8 +284,7 @@ INT_PTR CALLBACK API::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		case WM_COMMAND:
 			wNotifyCode = HIWORD(wParam);
 			wID = LOWORD(wParam);
-			if (wNotifyCode == BN_CLICKED)
-			{
+			if (wNotifyCode == BN_CLICKED) {
 				if (wID == IDOK || wID == IDCANCEL)
 					EndDialog(hwndDlg, wID);
 
@@ -323,7 +305,7 @@ void API::Ex_Handler()
 
 int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCHAR* szReason, bool fAllowContinue)
 {
-	char	szDrive[MAX_PATH], szDir[MAX_PATH], szName[MAX_PATH], szExt[MAX_PATH];
+	char szDrive[MAX_PATH], szDir[MAX_PATH], szName[MAX_PATH], szExt[MAX_PATH];
 
 	_splitpath(szFile, szDrive, szDir, szName, szExt);
 	memcpy(&exRecord, ep->ExceptionRecord, sizeof(EXCEPTION_RECORD));
@@ -340,17 +322,13 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCH
 }
 
 
-/**
- * enable or disable a dialog control
- */
+// enable or disable a dialog control
 void TSAPI Utils::enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable)
 {
 	::EnableWindow(::GetDlgItem(hwnd, id), fEnable);
 }
 
-/**
- * show or hide a dialog control
- */
+// show or hide a dialog control
 void TSAPI Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 {
 	::ShowWindow(::GetDlgItem(hwnd, id), showCmd);
@@ -364,8 +342,8 @@ void TSAPI Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
  */
 HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 {
-	TCHAR		sysPathName[MAX_PATH + 2];
-	HMODULE		_h = 0;
+	TCHAR sysPathName[MAX_PATH + 2];
+	HMODULE _h = 0;
 
 	try {
 		if (0 == ::GetSystemDirectory(sysPathName, MAX_PATH))
@@ -383,11 +361,11 @@ HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 		if (0 == _h)
 			throw(CRTException("Error while loading system library", szFilename));
 	}
-	catch(CRTException& ex) {
+	catch (CRTException& ex) {
 		ex.display();
 		return 0;
 	}
-	return(_h);
+	return (_h);
 }
 
 CRTException::CRTException(const char *szMsg, const TCHAR *szParam) : std::runtime_error(std::string(szMsg))
