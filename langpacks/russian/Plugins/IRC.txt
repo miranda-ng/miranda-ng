@@ -170,9 +170,9 @@ Wildcard поиск по сети
 [Excepts]
 Исключения
 [Only Ops set topic]
-Смена темы ОПами
+Смена темы только ОПами
 [No external messages]
-Сообщ. извне выкл
+Сообщения извне выключены
 [Invite only]
 По приглашениям
 [Moderated]
@@ -206,9 +206,9 @@ Wildcard поиск по сети
 [none]
 нет
 [everyone on the contact list]
-все в списке
+всех в списке
 [everyone]
-все
+всех
 [Disconnect DCC chats when disconnecting from server]
 Отключать DCC-чаты при выходе с сервера
 [Manually set external IP:]
@@ -222,13 +222,13 @@ Wildcard поиск по сети
 [Send mode:]
 Режим отправки:
 [Packet size (b):]
-Размер пакета (б):
+Размер пакета (байт):
 [Get IP address from server]
 Получить IP у сервера
 [Auto-accept from:]
 Автоприем от:
 [Send notice]
-Посылать уведомление
+Послать уведомление
 [CTCP Chat Request]
 Запрос на СТСР-чат
 [&Accept]
@@ -236,9 +236,9 @@ Wildcard поиск по сети
 [&Deny]
 &Запретить
 [Enable (*)]
-Активировать (*)
+Включено (*)
 [Ignore channel messages by default]
-Игнорировать сообщения комнаты чата по умолчанию
+Игнорировать сообщения комнаты чата по умолч.
 [Ignore filetransfer requests]
 Игнорировать передачи файлов
 [Ignore DCC Chat requests]
@@ -248,7 +248,7 @@ Wildcard поиск по сети
 [Ignore users]
 Игнорировать пользователей
 [(*) Queries from users on your contact list are never ignored]
-(*) Не игнорировать запросы от пользователей из списка
+(*) Запросы от пользователей из списка контактов не игнорируются
 [Queries]
 Запросы
 [Messages]
@@ -522,7 +522,7 @@ WallOps от %s:\s
 [Notice to %s: ]
 Уведомление для %s:\s
 [&Quick connect]
-&Быстрый коннект
+&Быстрое соединение
 [&Join channel]
 &Войти в комнату чата
 [&Change your nickname]
