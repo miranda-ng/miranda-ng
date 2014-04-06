@@ -253,8 +253,10 @@ struct TCluiData {
 	BYTE titleBarHeight;
 	BYTE bClipBorder, bRowSpacing;
 	HBITMAP bmpBackground, hbmBgOld, hbmBg;
+	HBITMAP hbmToolbar, hbmToolbarOld;
 	HDC hdcBg;
 	HDC hdcPic;
+	HDC hdcToolbar;
 	HBITMAP hbmPicOld;
 	BITMAP bminfoBg;
 	SIZE dcSize;
@@ -461,6 +463,7 @@ int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 #define BUTTONSETIMLICON      (WM_USER+20)
 #define BUTTONSETSKINNED      (WM_USER+21)
 #define BUTTONSETBTNITEM      (WM_USER+22)
+#define BUTTONSETTTBUTTON     (WM_USER+23)
 
 // Menus
 

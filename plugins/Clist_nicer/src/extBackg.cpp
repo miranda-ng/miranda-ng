@@ -362,6 +362,15 @@ static void SaveCompleteStructToDB(void)
 void SetButtonToSkinned()
 {
 	bool bSkinned = (cfg::dat.bSkinnedButtonMode = cfg::getByte("CLCExt", "bskinned", 0)) != 0;
+
+	for (int i = 0; ; i++) {
+		if (BTNS[i].pszButtonID == NULL)
+			break;
+		if (BTNS[i].hwndButton == 0 || BTNS[i].ctrlid == IDC_TBGLOBALSTATUS || BTNS[i].ctrlid == IDC_TBMENU)
+			continue;
+		CustomizeButton(BTNS[i].hwndButton, bSkinned, !bSkinned, bSkinned, true);
+	}
+
 	CustomizeButton( GetDlgItem(pcli->hwndContactList, IDC_TBMENU), bSkinned, !bSkinned, bSkinned);
 	CustomizeButton( GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), bSkinned, !bSkinned, bSkinned);
 	SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);
@@ -1433,6 +1442,7 @@ void extbk_import(char *file, HWND hwndDlg)
 
 	Reload3dBevelColors();
 	ReloadThemedOptions();
+	SetButtonToSkinned();
 	// refresh
 	if (hwndDlg && ServiceExists(MS_CLNSE_FILLBYCURRENTSEL))
 		CallService(MS_CLNSE_FILLBYCURRENTSEL, (WPARAM)hwndDlg, 0);

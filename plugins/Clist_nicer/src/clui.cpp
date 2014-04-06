@@ -48,7 +48,7 @@ extern RECT old_window_rect, new_window_rect;
 
 extern BOOL g_trayTooltipActive;
 extern POINT tray_hover_pos;
-extern HWND g_hwndViewModeFrame, g_hwndEventArea;
+extern HWND g_hwndViewModeFrame, g_hwndEventArea, g_hwndToolbarFrame;
 
 extern ImageItem *g_CLUIImageItem;
 extern HBRUSH g_CLUISkinnedBkColor;
@@ -888,6 +888,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
 		}
 
+		if (cfg::dat.bSkinnedButtonMode)
+			SetButtonToSkinned();
 		ConfigureFrame();
 		SetButtonStates(hwnd);
 

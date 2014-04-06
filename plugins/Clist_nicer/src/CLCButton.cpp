@@ -21,6 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_button_int.h>
 #include <m_toptoolbar.h>
 
+HWND g_hwndToolbarFrame;
+HANDLE hToolbarFrame = (HANDLE)-1;
+
 struct CluiTopButton BTNS[] = 
 {
 	{ IDC_TBTOPMENU,     "CLN_topmenu",      NULL,     LPGEN("Show menu"),                     1, 1, 1 },
@@ -49,6 +52,15 @@ static int getButtonIndex(HANDLE hButton)
 
 	for (int i=0; i < SIZEOF(BTNS); i++)
 		if (BTNS[i].hButton == hButton)
+			return i;
+
+	return -1;
+}
+
+static int getLastIndex()
+{
+	for (int i = 0; ; i++)
+		if (BTNS[i].pszButtonID == NULL)
 			return i;
 
 	return -1;
@@ -119,6 +131,7 @@ struct MButtonExtension : public MButtonCtrl
 	int iIcon;
 	ButtonItem *buttonItem;
 	LONG lastGlyphMetrics[4];
+	bool bIsTTButton;
 };
 
 // Used for our own cheap TrackMouseEvent
@@ -212,24 +225,28 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 
 					ScreenToClient(pcli->hwndContactList, &pt);
 
-					if (HIWORD(ctl->bIsSkinned))
+					if (ctl->bIsTTButton)
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKTBBUTTONMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKTBBUTTONSPRESSED : ID_EXTBKTBBUTTONSNPRESSED);
 					else
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKBUTTONSPRESSED : ID_EXTBKBUTTONSNPRESSED);
 					item = arStatusItems[item_id - ID_STATUS_OFFLINE];
 
-					SetTextColor(hdcMem, item->TEXTCOLOR);
-					if (item->IGNORED) {
-						if (pt.y < 10 || cfg::dat.bWallpaperMode)
-							BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
-						else
-							FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
+					if (pt.y < 10 || cfg::dat.bWallpaperMode)
+						BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
+					else
+						FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
+
+					if (ctl->bIsTTButton) {
+						GetWindowRect(ctl->hwnd, &rcParent);
+						pt.x = rcParent.left;
+						pt.y = rcParent.top;
+
+						ScreenToClient(g_hwndToolbarFrame, &pt);
+						BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcToolbar, pt.x, pt.y, SRCCOPY);
 					}
-					else {
-						if (pt.y < 10 || cfg::dat.bWallpaperMode)
-							BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
-						else
-							FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
+
+					SetTextColor(hdcMem, item->TEXTCOLOR);
+					if (!item->IGNORED) {
 						rc.top += item->MARGIN_TOP; rc.bottom -= item->MARGIN_BOTTOM;
 						rc.left += item->MARGIN_LEFT; rc.right -= item->MARGIN_RIGHT;
 						DrawAlpha(hdcMem, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
@@ -440,6 +457,11 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		bct->buttonItem = (ButtonItem *)lParam;
 		break;
 
+	case BUTTONSETTTBUTTON:
+		bct->bIsTTButton = wParam != 0;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+
 	case WM_NCHITTEST:
 		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
 		case HTLEFT:	case HTRIGHT:	case HTBOTTOM:	  case HTTOP:
@@ -452,11 +474,68 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	// standard buttons are processed in the main window
-	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED) {
-		int iCtrlId = ClcGetButtonId((HWND)lParam);
-		if (iCtrlId)
-			SendMessage(pcli->hwndContactList, msg, MAKELONG(iCtrlId, BN_CLICKED), lParam);
+	switch (msg) {
+	case WM_ERASEBKGND:
+		return TRUE;
+
+	case WM_NCPAINT:
+	case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
+
+			RECT rc, rcClient;
+			GetClientRect(hwnd, &rc);
+			rcClient = rc;
+
+			if (!cfg::dat.hdcToolbar) {
+				cfg::dat.hdcToolbar = CreateCompatibleDC(hdc);
+				cfg::dat.hbmToolbar = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
+				cfg::dat.hbmToolbarOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbar));
+			}
+			HDC hdcMem = cfg::dat.hdcToolbar;
+			SetBkMode(hdcMem, TRANSPARENT);
+
+			if (cfg::dat.bWallpaperMode)
+				SkinDrawBg(hwnd, hdcMem);
+
+			StatusItems_t *item = arStatusItems[ID_EXTBKBUTTONBAR - ID_STATUS_OFFLINE];
+			if (item->IGNORED)
+				FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
+			else {
+				rc.top += item->MARGIN_TOP;
+				rc.bottom -= item->MARGIN_BOTTOM;
+				rc.left += item->MARGIN_LEFT;
+				rc.right -= item->MARGIN_RIGHT;
+
+				DrawAlpha(hdcMem, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
+					item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+			}
+
+			BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, hdcMem, 0, 0, SRCCOPY);
+			ps.fErase = FALSE;
+			EndPaint(hwnd, &ps);
+			return 0;
+		}
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			int iCtrlId = ClcGetButtonId((HWND)lParam);
+			// standard buttons are processed in the main window
+			if (iCtrlId) {
+				SendMessage(pcli->hwndContactList, msg, MAKELONG(iCtrlId, BN_CLICKED), lParam);
+				return 0;
+			}
+		}
+
+	case WM_DESTROY:
+		if (cfg::dat.hdcToolbar) {
+			SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbarOld);
+			DeleteObject(cfg::dat.hbmToolbar);
+			DeleteDC(cfg::dat.hdcToolbar);
+			cfg::dat.hdcToolbar = NULL;
+		}
+		break;
 	}
 
 	return mir_callNextSubclass(hwnd, ToolbarWndProc, msg, wParam, lParam);
@@ -467,7 +546,11 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 	// we don't customize the toolbar window, only buttons
 	if (hButton == TTB_WINDOW_HANDLE) {
 		mir_subclassWindow(hWnd, ToolbarWndProc);
+
+		g_hwndToolbarFrame = hWnd;
+
 		InitDefaultButtons();
+		SetButtonToSkinned();
 		return;
 	}
 	
@@ -482,10 +565,16 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 			bct->bSendOnDown = true;
 		if ( !BTNS[idx].isPush)
 			bct->bIsPushBtn = true;
+	} else {
+		idx = getLastIndex();
+		BTNS[idx].hwndButton = hWnd;
+		BTNS[idx].pszButtonID = "plugin";
+		bool bSkinned = cfg::dat.bSkinnedButtonMode != 0;
+		CustomizeButton(hWnd, bSkinned, !bSkinned, bSkinned, true);
 	}
 }
 
-void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
+void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat, bool bIsTTButton)
 {
 	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
 	mir_subclassWindow(hWnd, TSButtonWndProc);
@@ -493,6 +582,7 @@ void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
 	SendMessage(hWnd, BUTTONSETSKINNED, bIsSkinned, 0);
 	SendMessage(hWnd, BUTTONSETASTHEMEDBTN, bIsThemed, 0);
 	SendMessage(hWnd, BUTTONSETASFLATBTN, bIsFlat, 0);
+	SendMessage(hWnd, BUTTONSETTTBUTTON, bIsTTButton, 0);
 }
 
 static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
