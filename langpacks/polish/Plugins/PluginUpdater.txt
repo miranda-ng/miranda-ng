@@ -119,6 +119,8 @@ Status
 Wtyczki
 [Icons]
 Ikony
+[Languages]
+Języki
 [Other]
 Inne
 [List is empty.]

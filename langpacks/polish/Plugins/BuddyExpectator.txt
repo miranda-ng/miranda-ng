@@ -10,6 +10,8 @@ Reaguje na powrót kontaktów lub na ich dłuższą nieobecność przy użyciu p
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 Kiedy kontakt będzie aktywny po:
+[or comes online for the first time]
+lub stanie się aktywny po raz pierwszy.
 [Show a popup]
 Pokaż popup
 [Add an event (flashing icon) to the contact]
@@ -22,16 +24,14 @@ Otwórz dane kontaktu
 Otwórz okno rozmowy
 [Return notification]
 Powiadom mnie o aktywności
-[When a contact is absent for]
-Kiedy kontakt jest nieaktywny od:
 [Long time no see]
 Długi czas braku aktywności
-[or comes online for the first time]
-lub stanie się aktywny po raz pierwszy.
-[Enable "Miss you" feature]
-Włącz funkcję "Daj mi znać"
+[When a contact is absent for]
+Kiedy kontakt jest nieaktywny od:
 [Hide when no messages for]
 Ukryj kiedy brak wiadomości od:
+[Enable "Miss you" feature]
+Włącz funkcję "Daj mi znać"
 [Colors]
 Kolory
 [Background]
