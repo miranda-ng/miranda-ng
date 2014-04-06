@@ -1126,7 +1126,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 
 		while(BTNS[i].ctrlid) {
 			if (!_stricmp(BTNS[i].pszButtonID, szBuffer)) {
-				tmpItem.uId = BTNS[i].ctrlid;
+				tmpItem.uId = BTNS[i].ctrlid - 20;
 				tmpItem.dwFlags |= BUTTON_ISINTERNAL;
 				break;
 			}

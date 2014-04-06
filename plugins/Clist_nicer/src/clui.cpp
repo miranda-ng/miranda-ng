@@ -1477,6 +1477,7 @@ skipbg:
 				switch (LOWORD(wParam)) {
 				case IDC_TBMENU:
 				case IDC_TBTOPMENU:
+				case IDC_STBTOPMENU:
 					{
 						RECT rc;
 						HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
@@ -1486,38 +1487,46 @@ skipbg:
 					return 0;
 
 				case IDC_TBTOPSTATUS:
+				case IDC_STBTOPSTATUS:
 				case IDC_TBGLOBALSTATUS:
 					{
 						RECT rc;
 						HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-						TrackPopupMenu(hmenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.top, 0, hwnd, NULL);
+						TrackPopupMenu(hmenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBGLOBALSTATUS ? rc.top : rc.bottom, 0, hwnd, NULL);
 					}
 					return 0;
 
 
 				case IDC_TBSOUND:
+				case IDC_STBSOUND:
 					cfg::dat.soundsOff = !cfg::dat.soundsOff;
 					cfg::writeByte("CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
 					cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
 					return 0;
 
 				case IDC_TBSELECTVIEWMODE:
+				case IDC_STBSELECTVIEWMODE:
 					SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_SELECTMODE, lParam);
 					break;
 				case IDC_TBCLEARVIEWMODE:
+				case IDC_STBCLEARVIEWMODE:
 					SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_RESETMODES, lParam);
 					break;
 				case IDC_TBCONFIGUREVIEWMODE:
+				case IDC_STBCONFIGUREVIEWMODE:
 					SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_CONFIGUREMODES, lParam);
 					break;
 				case IDC_TBFINDANDADD:
+				case IDC_STBFINDANDADD:
 					CallService(MS_FINDADD_FINDADD, 0, 0);
 					return 0;
 				case IDC_TBACCOUNTS:
+				case IDC_STBACCOUNTS:
 					CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 					break;
 				case IDC_TBOPTIONS:
+				case IDC_STBOPTIONS:
 					CallService("Options/OptionsCommand", 0, 0);
 					return 0;
 				}
@@ -1535,6 +1544,7 @@ buttons_done:
 				break;
 			case ID_TRAY_HIDE:
 			case IDC_TBMINIMIZE:
+			case IDC_STBMINIMIZE:
 				pcli->pfnShowHide(0, 0);
 				break;
 			case POPUP_NEWGROUP:
@@ -1544,6 +1554,7 @@ buttons_done:
 				break;
 			case POPUP_HIDEOFFLINE:
 			case IDC_TBHIDEOFFLINE:
+			case IDC_STBHIDEOFFLINE:
 				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
 				break;
 			case POPUP_HIDEOFFLINEROOT:
@@ -1557,6 +1568,7 @@ buttons_done:
 				}
 				break;
 			case IDC_TBHIDEGROUPS:
+			case IDC_STBHIDEGROUPS:
 			case POPUP_DISABLEGROUPS:
 				{
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
