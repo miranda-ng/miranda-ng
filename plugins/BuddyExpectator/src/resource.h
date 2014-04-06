@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by BuddyExpectator.rc
+// Used by ..\res\BuddyExpectator.rc
 //
 #define IDI_MAINICON                    101
 #define IDI_ENABLED                     102

@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -52,101 +50,76 @@ END
 // Dialog
 //
 
-IDD_OPTIONSPANEL DIALOGEX 0, 0, 227, 219
+IDD_OPTIONSPANEL DIALOGEX 0, 0, 295, 219
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0xCC
 BEGIN
-    LTEXT           "When a contact returns after",IDC_STATIC,21,16,112,8
-    EDITTEXT        IDC_EDIT_ABSENCE,137,13,22,13,ES_AUTOHSCROLL
-    COMBOBOX        IDC_COMBO_PERIOD,161,13,49,51,CBS_DROPDOWNLIST | 
-                    WS_TABSTOP
-    CONTROL         "Show a popup",IDC_CHECK_POPUP,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,21,38,189,10
-    CONTROL         "Add an event (flashing icon) to the contact",
-                    IDC_CHECK_FLASHICON,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,21,51,187,10
-    LTEXT           "On event action (double click) or popup click:",
-                    IDC_STATIC,21,63,187,8
-    CONTROL         "Open User Details",IDC_CHECK_UDETAILS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,32,75,176,10
-    CONTROL         "Open message window",IDC_CHECK_MSGWINDOW,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,32,86,176,10
-    GROUPBOX        "Return notification",IDC_STATIC,14,3,199,95
-    LTEXT           "When a contact is absent for",IDC_STATIC,20,114,112,8
-    EDITTEXT        IDC_EDIT_ABSENCE2,136,111,22,13,ES_AUTOHSCROLL
-    COMBOBOX        IDC_COMBO_PERIOD2,160,111,49,51,CBS_DROPDOWNLIST | 
-                    WS_TABSTOP
-    GROUPBOX        "Long time no see",IDC_STATIC,13,102,199,94
-    CONTROL         "or comes online for the first time",
-                    IDC_CHECK_FIRSTSIGHT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,32,27,176,10
-    CONTROL         "Show a popup",IDC_CHECK_POPUP2,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,20,127,189,10
-    CONTROL         "Add an event (flashing icon) to the contact",
-                    IDC_CHECK_FLASHICON2,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,20,140,187,10
-    LTEXT           "On event action (double click) or popup click:",
-                    IDC_STATIC,20,152,187,8
-    CONTROL         "Enable ""Miss you"" feature",IDC_CHECK_MISSYOU,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,20,201,186,9
-    EDITTEXT        IDC_EDIT_SILENTFOR,135,179,22,13,ES_AUTOHSCROLL
-    COMBOBOX        IDC_COMBO_PERIOD3,159,179,49,51,CBS_DROPDOWNLIST | 
-                    WS_TABSTOP
-    CONTROL         "Hide when no messages for",IDC_CHECK_NOMSGS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,20,180,113,11
-    COMBOBOX        IDC_COMBO_ACTIONS,32,163,100,57,CBS_DROPDOWNLIST | 
-                    WS_TABSTOP
+    LTEXT           "When a contact returns after",IDC_STATIC,21,16,167,8
+    EDITTEXT        IDC_EDIT_ABSENCE,196,13,22,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_PERIOD,225,13,49,51,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "or comes online for the first time",IDC_CHECK_FIRSTSIGHT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,27,242,10
+    CONTROL         "Show a popup",IDC_CHECK_POPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,38,253,10
+    CONTROL         "Add an event (flashing icon) to the contact",IDC_CHECK_FLASHICON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,51,253,10
+    LTEXT           "On event action (double click) or popup click:",IDC_STATIC,21,63,253,8
+    CONTROL         "Open User Details",IDC_CHECK_UDETAILS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,75,242,10
+    CONTROL         "Open message window",IDC_CHECK_MSGWINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,86,242,10
+    GROUPBOX        "Return notification",IDC_STATIC,14,3,268,95
+    GROUPBOX        "Long time no see",IDC_STATIC,14,102,268,94
+    LTEXT           "When a contact is absent for",IDC_STATIC,21,114,167,8
+    EDITTEXT        IDC_EDIT_ABSENCE2,196,111,22,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_PERIOD2,225,111,49,51,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "Show a popup",IDC_CHECK_POPUP2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,127,253,10
+    CONTROL         "Add an event (flashing icon) to the contact",IDC_CHECK_FLASHICON2,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,140,253,10
+    LTEXT           "On event action (double click) or popup click:",IDC_STATIC,21,152,253,8
+    COMBOBOX        IDC_COMBO_ACTIONS,32,163,156,57,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "Hide when no messages for",IDC_CHECK_NOMSGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,180,167,11
+    EDITTEXT        IDC_EDIT_SILENTFOR,195,179,23,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_PERIOD3,225,179,49,51,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "Enable ""Miss you"" feature",IDC_CHECK_MISSYOU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,201,186,9
 END
 
-IDD_POPUPPANEL DIALOGEX 0, 0, 190, 134
+IDD_POPUPPANEL DIALOGEX 0, 0, 251, 134
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Colors",IDC_STATIC,7,7,176,42
+    GROUPBOX        "Colors",IDC_STATIC,7,7,237,42
     LTEXT           "Background",IDC_STATIC,17,19,46,8
     LTEXT           "Text",IDC_STATIC,17,34,46,8
     CONTROL         "",IDC_COLOR_BGR,"ColourPicker",WS_TABSTOP,61,17,26,12
     CONTROL         "",IDC_COLOR_FRG,"ColourPicker",WS_TABSTOP,61,32,26,12
-    CONTROL         "Use Popups colors",IDC_COLORS_POPUP,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,94,17,82,12
-    CONTROL         "Use Windows colors",IDC_COLORS_WIN,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,94,33,82,9
-    GROUPBOX        "Delay",IDC_STATIC,7,50,176,52
-    CONTROL         "Default",IDC_DELAY_DEF,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP | WS_TABSTOP,18,61,120,10
-    CONTROL         "Custom",IDC_DELAY_CUST,"Button",BS_AUTORADIOBUTTON,18,
-                    74,62,10
-    CONTROL         "Permanent",IDC_DELAY_PERM,"Button",BS_AUTORADIOBUTTON,
-                    18,87,119,10
-    EDITTEXT        IDC_EDIT_POPUPDELAY,81,72,30,14,ES_AUTOHSCROLL
-    LTEXT           "sec",IDC_STATIC,116,75,34,8
+    CONTROL         "Use Popups colors",IDC_COLORS_POPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,17,141,12
+    CONTROL         "Use Windows colors",IDC_COLORS_WIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,33,141,9
+    GROUPBOX        "Delay",IDC_STATIC,7,50,237,52
+    CONTROL         "Default",IDC_DELAY_DEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,18,61,217,10
+    CONTROL         "Custom",IDC_DELAY_CUST,"Button",BS_AUTORADIOBUTTON,18,74,110,10
+    CONTROL         "Permanent",IDC_DELAY_PERM,"Button",BS_AUTORADIOBUTTON,18,87,217,10
+    EDITTEXT        IDC_EDIT_POPUPDELAY,134,72,32,14,ES_AUTOHSCROLL
+    LTEXT           "sec",IDC_STATIC,172,75,63,8
     PUSHBUTTON      "Preview",IDC_PREVIEW,58,106,75,17
 END
 
 IDD_USERINFO DIALOGEX 0, 0, 222, 132
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Last seen online:",IDC_STATIC,7,7,85,8
-    EDITTEXT        IDC_EDIT_LASTSEEN,99,7,116,12,ES_AUTOHSCROLL | 
-                    ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT_LASTSEEN,99,7,116,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Last input message:",IDC_STATIC,7,22,85,8
-    EDITTEXT        IDC_EDIT_LASTINPUT,99,22,116,12,ES_AUTOHSCROLL | 
-                    ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT_LASTINPUT,99,22,116,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Custom absence period:",IDC_STATIC,7,36,85,12
     EDITTEXT        IDC_EDITABSENCE,101,35,31,12,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPINABSENCE,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,163,14,8,13
+    CONTROL         "",IDC_SPINABSENCE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,163,14,8,13
     LTEXT           "days",IDC_STATIC,138,36,77,10
-    EDITTEXT        IDC_EDIT_WILLNOTICE,7,93,208,30,ES_MULTILINE | 
-                    ES_READONLY | NOT WS_BORDER
-    CONTROL         "Never hide this contact",IDC_CHECK_NEVERHIDE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,75,180,12
-    CONTROL         "Enable Miss You",IDC_CHECK_MISSYOU,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,47,200,19
-    CONTROL         "Notify always",IDC_CHECK_NOTIFYALWAYS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,27,64,188,10
+    EDITTEXT        IDC_EDIT_WILLNOTICE,7,93,208,30,ES_MULTILINE | ES_READONLY | NOT WS_BORDER
+    CONTROL         "Never hide this contact",IDC_CHECK_NEVERHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,75,180,12
+    CONTROL         "Enable Miss You",IDC_CHECK_MISSYOU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,47,200,19
+    CONTROL         "Notify always",IDC_CHECK_NOTIFYALWAYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,64,188,10
 END
 
 
@@ -156,12 +129,21 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONSPANEL, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 220
+        RIGHTMARGIN, 288
+        VERTGUIDE, 14
+        VERTGUIDE, 21
+        VERTGUIDE, 32
+        VERTGUIDE, 188
+        VERTGUIDE, 196
+        VERTGUIDE, 218
+        VERTGUIDE, 225
+        VERTGUIDE, 274
+        VERTGUIDE, 282
         TOPMARGIN, 7
         BOTTOMMARGIN, 217
     END
@@ -169,7 +151,9 @@ BEGIN
     IDD_POPUPPANEL, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 183
+        RIGHTMARGIN, 244
+        VERTGUIDE, 94
+        VERTGUIDE, 235
         TOPMARGIN, 7
         BOTTOMMARGIN, 127
     END
@@ -199,7 +183,7 @@ IDI_ENABLED             ICON                    "enabled.ico"
 IDI_DISABLED            ICON                    "disabled.ico"
 IDI_HIDE                ICON                    "hide.ico"
 IDI_NEVERHIDE           ICON                    "neverhide.ico"
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
