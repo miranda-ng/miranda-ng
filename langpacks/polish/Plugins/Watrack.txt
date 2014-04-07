@@ -653,6 +653,6 @@ Suwak - po naciśnięciu
 [WATrack status]
 Status WATrack
 [Enable WATrack]
-
+Włącz WATrack
 [Disable WATrack]
-
+Wyłącz WATrack
