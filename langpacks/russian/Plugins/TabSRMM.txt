@@ -1027,7 +1027,7 @@ Esc закрывает сессию (иначе - сворачивает)
 Входящий файл
 [No description given]
 Без описания
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 Входящий файл (неверный формат)
 [Unknown event]
 Неизвестное событие

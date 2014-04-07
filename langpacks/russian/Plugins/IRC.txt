@@ -202,7 +202,7 @@ Wildcard поиск по сети
 [Send-ahead]
 Упреждающий
 [Attempt reverse DCC (good if firewalled)]
-Реверсивное DCC (для брандмауэров)
+Реверсный DCC (для брандмауэров)
 [none]
 нет
 [everyone on the contact list]
@@ -267,8 +267,6 @@ Wildcard поиск по сети
 Сервер:
 [Password:]
 Пароль:
-[Alternate nick]
-Альтернативный ник
 [CTCP chat request from %s]
 Запрос СТСР-чата от %s
 [%s sets mode %s]
@@ -392,7 +390,7 @@ Jerk
 [DCC ERROR: No valid files specified]
 Ошибка DCC: Нет доступных файлов
 [DCC reversed file transfer request sent to %s [%s]]
-DCC-запрос на реверсивную передачу послан %s [%s]
+DCC-запрос на реверсную передачу послан %s [%s]
 [DCC file transfer request sent to %s [%s]]
 DCC-запрос на передачу файла послан %s [%s]
 [DCC ERROR: Unable to bind local port]
@@ -505,6 +503,8 @@ DCC-запрос на передачу файла послан %s [%s]
 Изменить игнор
 [Account]
 Учётная запись
+[DCC and CTCP]
+DCC и CTCP
 [Advanced]
 Дополнительно
 [WallOps from %s: ]
