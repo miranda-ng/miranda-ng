@@ -56,7 +56,7 @@ ID пользователя
 [Server name]
 Имя сервера
 [Alternative nick]
-Альтерн. ник
+Запасной ник
 [Ident]
 Идентификация
 [System]
@@ -221,7 +221,7 @@ Wildcard поиск по сети
 Чаты СТСР
 [Send mode:]
 Режим отправки:
-[Packet size (b):]
+[Packet size (bytes):]
 Размер пакета (байт):
 [Get IP address from server]
 Получить IP у сервера
@@ -256,7 +256,7 @@ Wildcard поиск по сети
 [Notices]
 Уведомления
 [Ignore mask ( nick!user@host )]
-Маска игнорирования( nick!user@host )
+Маска игнорирования ( nick!user@host )
 [Network (*)]
 Сеть (*)
 [Ignore events]
