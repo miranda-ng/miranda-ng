@@ -1671,7 +1671,7 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_CTCP);
-	odp.ptszTab = LPGENT("CTCP");
+	odp.ptszTab = LPGENT("DCC and CTCP");
 	odp.dwInitParam = (LPARAM)&OptCreateConn;
 	OptCreateConn.create = CCtcpPrefsDlg::Create;
 	OptCreateConn.param = this;
