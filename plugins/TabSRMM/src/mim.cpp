@@ -513,9 +513,7 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	BYTE bAutoPopup = FALSE, bAutoCreate = FALSE, bAutoContainer = FALSE, bAllowAutoCreate = 0;
 	TCHAR szName[CONTAINER_NAMELEN + 1];
-	DWORD dwStatusMask = 0;
 
 	HANDLE hDbEvent = (HANDLE)lParam;
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -523,7 +521,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd == NULL)
-		hwnd = M.FindWindow(hContact = db_event_getContact(hDbEvent));
+		hwnd = M.FindWindow(db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
@@ -532,27 +530,24 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
 
+	bool bAllowAutoCreate = false;
+	bool bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP) != 0;
+	bool bAutoCreate = M.GetByte("autotabs", 1) != 0;
+	bool bAutoContainer = M.GetByte("autocontainer", 1) != 0;
+	DWORD dwStatusMask = M.GetDword("autopopupmask", -1);
+
 	if (hwnd) {
 		TContainerData *pTargetContainer = 0;
-		WINDOWPLACEMENT wp={0};
-		wp.length = sizeof(wp);
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
-
 		if (pTargetContainer == NULL || !PluginConfig.m_HideOnClose || IsWindowVisible(pTargetContainer->hwnd))
 			return 0;
 
+		WINDOWPLACEMENT wp = { 0 };
+		wp.length = sizeof(wp);
 		GetWindowPlacement(pTargetContainer->hwnd, &wp);
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
-		bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-		bAutoCreate = M.GetByte("autotabs", 1);
-		bAutoContainer = M.GetByte("autocontainer", 1);
-		dwStatusMask = M.GetDword("autopopupmask", -1);
-
-		bAllowAutoCreate = FALSE;
-
 		if (bAutoPopup || bAutoCreate) {
-			BOOL bActivate = TRUE, bPopup = TRUE;
 			if (bAutoPopup) {
 				if (wp.showCmd == SW_SHOWMAXIMIZED)
 					ShowWindow(pTargetContainer->hwnd, SW_SHOWMAXIMIZED);
@@ -561,8 +556,6 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 				return 0;
 			}
 
-			bActivate = FALSE;
-			bPopup = (BOOL)M.GetByte("cpopup", 0);
 			TContainerData *pContainer = FindContainerByName(szName);
 			if (pContainer != NULL) {
 				if (bAutoContainer) {
@@ -589,11 +582,8 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		}
 	}
 
-	/*
-	 * if no window is open, we are not interested in anything else but unread message events
-	 */
-
-	/* new message */
+	// if no window is open, we are not interested in anything else but unread message events
+	// new message 
 	if (!nen_options.iNoSounds)
 		SkinPlaySound("AlertMsg");
 
@@ -602,15 +592,8 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
-	bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-	bAutoCreate = M.GetByte("autotabs", 1);
-	bAutoContainer = M.GetByte("autocontainer", 1);
-	dwStatusMask = M.GetDword("autopopupmask", -1);
-
-	bAllowAutoCreate = FALSE;
-
 	if (dwStatusMask == -1)
-		bAllowAutoCreate = TRUE;
+		bAllowAutoCreate = true;
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, META_PROTO)) {
@@ -620,24 +603,21 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		if (szProto) {
 			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
-				bAllowAutoCreate = TRUE;
+				bAllowAutoCreate = true;
 		}
 	}
 
 	if (bAllowAutoCreate && (bAutoPopup || bAutoCreate)) {
-		BOOL bActivate = TRUE, bPopup = TRUE;
 		if (bAutoPopup) {
-			bActivate = bPopup = TRUE;
 			TContainerData *pContainer = FindContainerByName(szName);
 			if (pContainer == NULL)
 				pContainer = CreateContainer(szName, FALSE, hContact);
 			if (pContainer)
-				CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, FALSE, 0);
+				CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
 			return 0;
 		}
 		
-		bActivate = FALSE;
-		bPopup = (BOOL)M.GetByte("cpopup", 0);
+		bool bActivate = false, bPopup = M.GetByte("cpopup", 0) != 0;
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != NULL) {
 			//if ((IsIconic(pContainer->hwnd)) && PluginConfig.haveAutoSwitch())
