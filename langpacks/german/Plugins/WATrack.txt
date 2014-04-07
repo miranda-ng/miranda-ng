@@ -652,3 +652,7 @@ Slider überfahren
 Slider gedrückt
 [WATrack status]
 WATrack-Status
+[Enable WATrack]
+
+[Disable WATrack]
+

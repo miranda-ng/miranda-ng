@@ -652,3 +652,7 @@ Suwak - po najechaniu
 Suwak - po naciśnięciu
 [WATrack status]
 Status WATrack
+[Enable WATrack]
+
+[Disable WATrack]
+

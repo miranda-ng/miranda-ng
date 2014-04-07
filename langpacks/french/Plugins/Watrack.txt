@@ -652,3 +652,7 @@ Titre xStatus / Texte
 
 [WATrack status]
 
+[Enable WATrack]
+
+[Disable WATrack]
+

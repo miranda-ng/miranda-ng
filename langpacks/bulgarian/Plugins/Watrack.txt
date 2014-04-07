@@ -652,3 +652,7 @@ Last.fm грешка:\s
 
 [WATrack status]
 
+[Enable WATrack]
+
+[Disable WATrack]
+

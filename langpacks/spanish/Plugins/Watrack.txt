@@ -652,3 +652,7 @@ Color
 
 [WATrack status]
 
+[Enable WATrack]
+
+[Disable WATrack]
+
