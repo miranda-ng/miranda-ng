@@ -138,6 +138,7 @@ procedure CreateTrayMenu();
 var
   mi:TCListMenuItem;
   playstr:pWideChar;
+  ico:pAnsiChar;
 begin
   FillChar(mi, sizeof(mi), 0);
   mi.cbSize  :=sizeof(mi);
@@ -154,9 +155,13 @@ begin
   mi.szPopupName:=TChar(trayradioparent);
 
   if PluginStatus=ID_STATUS_ONLINE then
-    mi.szName.w  :='mRadio off'
+  begin
+    mi.szName.w  :='mRadio off';
+  end
   else
+  begin
     mi.szName.w  :='mRadio on';
+  end;
   mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
   mi.position  :=0;
   srvtraystop:=CreateServiceFunction('mRadio/TrayProto',@TrayProto);
@@ -167,9 +172,16 @@ begin
     trayprotoh:=Menu_AddMainMenuItem(@mi);
 
   if gVolume<0 then
-    mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE or CMIF_CHECKED
+  begin
+    mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE or CMIF_CHECKED;
+    ico:=IcoBtnOff;
+  end
   else
+  begin
     mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
+    ico:=IcoBtnOn;
+  end;
+  mi.hIcon     :=CallService(MS_SKIN2_GETICON,0,tlparam(ico));
   mi.szName.w  :='Mute';
   mi.pszService:=MS_RADIO_MUTE;
   mi.position  :=1;
@@ -178,11 +190,17 @@ begin
   else
     traymute:=Menu_AddMainMenuItem(@mi);
 
+  mi.hIcon:=0;
   mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
   if CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET)<>RD_STATUS_PLAYING then
+  begin
     playstr:='Play'
+  end
   else
+  begin
     playstr:='Pause';
+  end;
+//  mi.hIcon:=CallService(MS_SKIN2_GETICON,0,tlparam(ico));
   mi.szName.w  :=playstr;
   mi.position  :=2;
   srvtrayplaypause:=CreateServiceFunction('mRadio/TrayPlayPause',@TrayPlayPause);
@@ -204,11 +222,13 @@ begin
   mi.szName.w  :='Quick Open';
   mi.position  :=4;
   mi.pszService:=MS_RADIO_QUICKOPEN;
+  mi.hIcon     :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnOpen));
   if doTray then
     Menu_AddTrayMenuItem(@mi)
   else
     Menu_AddMainMenuItem(@mi);
 
+  mi.hIcon    :=0;
   mi.szName.w :='Play Station';
   mi.position :=1000;
   mi.pszService:=nil;
@@ -222,23 +242,35 @@ function TrayPrebuild(wParam:WPARAM;lParam:LPARAM):int; cdecl;
 var
   mi:tClistMenuItem;
   playstr:pWideChar;
+  ico:pAnsiChar;
 begin
   FillChar(mi,sizeof(mi),0);
   mi.cbSize:=sizeof(mi);
 
   mi.flags:=CMIM_NAME or CMIF_UNICODE;
   if PluginStatus=ID_STATUS_ONLINE then
-    playstr:='mRadio off'
+  begin
+    playstr:='mRadio off';
+  end
   else
+  begin
     playstr:='mRadio on';
+  end;
   mi.szName.w:=playstr;
   CallService(MS_CLIST_MODIFYMENUITEM,trayprotoh,tlparam(@mi));
 
   if gVolume<0 then
-    mi.flags:=CMIM_FLAGS or CMIF_CHECKED
+  begin
+    ico:=IcoBtnOff;
+  end
   else
-    mi.flags:=CMIM_FLAGS;
+  begin
+    ico:=IcoBtnOn;
+  end;
+  mi.flags:=CMIM_FLAGS or CMIM_ICON;
+  mi.hIcon:=CallService(MS_SKIN2_GETICON,0,tlparam(ico));
   CallService(MS_CLIST_MODIFYMENUITEM,traymute,tlparam(@mi));
+  mi.hIcon:=0;
 
   mi.flags:=CMIM_NAME or CMIF_UNICODE;
   if CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET)<>RD_STATUS_PLAYING then

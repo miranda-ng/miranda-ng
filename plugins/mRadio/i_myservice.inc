@@ -118,9 +118,13 @@ begin
   else
     gVolume:=-gVolume;
   Result:=Service_RadioSetVolume(gVolume,0);
+  if hVolFrmMute<>0 then
+  begin
+    InvalidateRect(hVolFrmMute,nil,true);
+    RedrawWindow(hVolFrmMute,nil,0,RDW_INVALIDATE or RDW_ALLCHILDREN or RDW_ERASE);
+  end;
   if hVolFrmCtrl<>0 then
     EnableWindow(hVolFrmCtrl,gVolume>=0);
-
 end;
 
 function Service_EqOnOff(wParam:WPARAM;lParam:LPARAM):int;cdecl;

@@ -8,6 +8,7 @@ uses
 
 const
   hVolFrmCtrl:HWND=0;
+  hVolFrmMute:HWND=0;
 
 procedure CreateFrame(parent:HWND);
 procedure DestroyFrame;
@@ -80,7 +81,8 @@ begin
   result:=0;
   case hMessage of
     WM_DESTROY: begin
-      hVolFrmCtrl :=0;
+      hVolFrmCtrl:=0;
+      hVolFrmMute:=0;
       DeleteObject(hbr);
     end;
 
@@ -91,6 +93,7 @@ begin
       MakeTooltip(Dialog);
 
       hVolFrmCtrl:=GetDlgItem(Dialog,IDC_RADIO_VOL);
+      hVolFrmMute:=GetDlgItem(Dialog,IDC_RADIO_MUTE);
       SendMessage(hVolFrmCtrl,TBM_SETRANGE,0,MAKELONG(0,100));
       SendMessage(hVolFrmCtrl,TBM_SETPAGESIZE,0,20);
       SendMessage(hVolFrmCtrl,TBM_SETPOS,1,gVolume);
