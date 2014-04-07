@@ -548,7 +548,7 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 				}
 			}
 		}
-		return mir_tstrdup(TranslateT("Incoming file (invalid format"));
+		return mir_tstrdup(TranslateT("Incoming file (invalid format)"));
 
 	default:
 		if (nen_options.bPreview)
