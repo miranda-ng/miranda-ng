@@ -63,7 +63,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, true));
+		SendMessage(GetDlgItem(hwndDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInst, MAKEINTRESOURCE(iconList[0].defIconID)));
 
 		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
