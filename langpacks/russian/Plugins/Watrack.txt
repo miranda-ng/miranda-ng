@@ -648,3 +648,7 @@ VBR или нет
 Нажатый бегунок
 [WATrack status]
 Статус WATrack
+[Enable WATrack]
+Включить WATrack
+[Disable WATrack]
+Выключить WATrack

@@ -331,3 +331,5 @@
 [Slider Hovered]
 [Slider Pushed]
 [WATrack status]
+[Enable WATrack]
+[Disable WATrack]
