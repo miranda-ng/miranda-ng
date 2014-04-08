@@ -46,6 +46,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	dbe.cbBlob = dbei->cbBlob;
 	BYTE *pBlob = dbei->pBlob;
 
+	MCONTACT contactNotifyID = contactID;
 	DBCachedContact *ccSub = NULL;
 	if (contactID != 0) {
 		DBCachedContact *cc = m_cache->GetCachedContact(contactID);
@@ -57,10 +58,12 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			// set default sub to the event's source
 			db_mc_setDefault(cc->parentID, contactID);
 			contactID = cc->parentID; // and add an event to a metahistory
+			if (db_mc_isEnabled())
+				contactNotifyID = contactID;
 		}
 	}
 
-	if (NotifyEventHooks(hEventFilterAddedEvent, contactID, (LPARAM)dbei))
+	if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
 		return NULL;
 
 	mir_ptr<BYTE> pCryptBlob;
@@ -154,7 +157,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	// Notify only in safe mode or on really new events
 	if (neednotify)
-		NotifyEventHooks(hEventAddedEvent, contactID, (LPARAM)ofsNew);
+		NotifyEventHooks(hEventAddedEvent, contactNotifyID, (LPARAM)ofsNew);
 
 	return (HANDLE)ofsNew;
 }
