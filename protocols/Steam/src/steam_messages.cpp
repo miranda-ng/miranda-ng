@@ -17,20 +17,7 @@ void CSteamProto::SendMessageThread(void *arg)
 		sendResult.IsSuccess() ? ACKRESULT_SUCCESS : ACKRESULT_FAILED,
 		param->hMessage, 0);
 
-	if (sendResult.IsSuccess())
-	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.szModule = this->m_szModuleName;
-		dbei.timestamp = sendResult.GetTimestamp();
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.cbBlob = strlen(param->text);
-		dbei.pBlob = (BYTE*)param->text;
-		dbei.flags = DBEF_UTF | DBEF_SENT;
-		
-		db_event_add(param->hContact, &dbei);
-	}
-	
-	//mir_free((void*)param->text);
+	mir_free((void*)param->text);
 	mir_free(param);
 }
 

@@ -90,6 +90,12 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 	ptrW username(getWStringA("Username"));
 	ptrA base64RsaEncryptedPassword;
 
+	const wchar_t *nickname = getWStringA("Nick");
+	if (lstrlen(nickname) == 0 && username)
+		setWString("Nick", username);
+
+	return;
+
 	// get rsa public key
 	SteamWebApi::RsaKeyApi::RsaKey rsaKey;
 	SteamWebApi::RsaKeyApi::GetRsaKey(m_hNetlibUser, username, &rsaKey);
