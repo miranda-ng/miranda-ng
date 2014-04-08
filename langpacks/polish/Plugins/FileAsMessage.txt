@@ -94,8 +94,8 @@ Wznów
 Stop
 [Main]
 Ogólne
-[Plugins]
-Wtyczki
+[Events]
+Zdarzenia
 [File As Message...]
 Plik jako wiadomość
 ;file \plugins\FileAsMessage\src\main.h

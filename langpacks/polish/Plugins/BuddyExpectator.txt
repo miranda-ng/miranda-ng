@@ -59,7 +59,7 @@ Ostatnio widziany:
 [Last input message:]
 Ostatnia wiadomość:
 [Custom absence period:]
-Niestandardowy okres aktywności:
+Okres nieobecności:
 [days]
 dni
 [Never hide this contact]

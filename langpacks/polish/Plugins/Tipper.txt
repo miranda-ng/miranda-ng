@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
-Powiadomienia w okienkach
+Informacje o kontaktach i programie w wyskakujących okienkach.
 ;file \plugins\TipperYM\res\resource.rc
 [Layout]
 Układ

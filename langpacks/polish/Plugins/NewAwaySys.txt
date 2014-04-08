@@ -6,7 +6,7 @@
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
-Mod wtyczki New Away System dla Mirandy NG
+Mod wtyczki New Away System dla Mirandy NG.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
 Powiadomienie popup

@@ -6,7 +6,7 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 [Support for new options design.]
-Wsparcie dla nowego interfejsu opcji
+Wsparcie dla nowego interfejsu opcji.
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Odwiedź oficjalną stronę Mirandy NG

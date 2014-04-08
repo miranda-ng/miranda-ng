@@ -6,7 +6,7 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
-Menu ulubionych kontaktów
+Menu ulubionych kontaktów.
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Personalizacja

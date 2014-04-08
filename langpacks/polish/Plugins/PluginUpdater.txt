@@ -6,7 +6,7 @@
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
-Aktualizator wtyczek dla Mirandy NG
+Aktualizator wtyczek dla Mirandy NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Znaleziono aktualizacje!

@@ -1039,7 +1039,7 @@ Błąd tabSRMM
 Przychodzący plik
 [No description given]
 Brak opisu
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 Przychodzący plik (nieprawidłowy format)
 [Unknown event]
 Nieznane zdarzenie

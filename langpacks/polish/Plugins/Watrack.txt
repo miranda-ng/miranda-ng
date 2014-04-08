@@ -12,7 +12,7 @@ Emuluj klawisze multimedialne
 [xStatus will cleared before text changing and restored with new text later.]
 xStatus zostanie wyczyszczony przed zmianą tekstu i ustawiony na nowo później.
 [Paste played music info into message window or status text]
-Wklej informacje o odtwarzanych multimediach w oknie rozmowy lub statusie
+Wkleja informacje o odtwarzanych multimediach w oknie rozmowy lub statusie.
 [Use XStatus]
 Użyj xStatusu
 [If this option is "ON", XStatus doesn't depend on protocol status.]

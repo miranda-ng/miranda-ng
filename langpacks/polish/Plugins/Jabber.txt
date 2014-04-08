@@ -125,9 +125,9 @@ Adres 2:
 [City:]
 Miasto:
 [State:]
-Status:
+Stan:
 [ZIP:]
-ZIP:
+Kod pocztowy:
 [Country:]
 Kraj:
 [Full name:]

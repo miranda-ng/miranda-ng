@@ -93,7 +93,7 @@ Wykres
 [Enable]
 Włącz
 [Disable all pings]
-Wyłącz wszystkie pingi:
+Wyłącz wszystkie pingi
 [Enable all pings]
 Włącz wszystkie pingi
 [Options...]
@@ -107,7 +107,7 @@ Ping
 [Open log file]
 Otwórz raport pliku
 [All\0*.*\0Text\0*.TXT\0]
-Wszystkie\0*.*\0Tekst\0*.TXT\0
+Wszystkie\0*.*\0Pliki tekstowe\0*.TXT\0
 [<none>]
 <brak>
 [<all>]

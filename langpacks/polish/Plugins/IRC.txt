@@ -520,7 +520,7 @@ Dodaj ignorowanie
 Edytuj ignorowanie
 [Account]
 Konto
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC i CTCP
 [Advanced]
 Zaawansowane

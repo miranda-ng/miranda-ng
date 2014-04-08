@@ -13,9 +13,9 @@ Webview
 [Update data every]
 Aktualizuj dane co
 [minutes]
-minut
+min
 [Delay update on start]
-Opóźniaj aktualizację przy starcie
+Opóźniaj przy starcie
 [seconds]
 s
 [Hide icon on status bar]
@@ -47,7 +47,7 @@ Komunikaty o błędach
 [Suppress error messages]
 Ignoruj komunikaty o błędach
 [Display using Popup or OSD plugin]
-Wyświetlaj używając wtyczki Popup lub OSD
+Użyj wtyczki Popup lub OSD
 [Expert options]
 Opcje zaawansowane
 [Disable download protection]
@@ -55,7 +55,7 @@ Wyłącz ochronę przed pobieraniem
 [(not recommended)]
 (niezalecane)
 [Display data in popup on alert]
-Wyświetl dane w popupie przy powiadomieniu
+Powiadomienia
 [Display data in popup]
 Wyświetl dane w popupie
 [You may need to restart Miranda NG for this change to take effect.]
@@ -161,7 +161,7 @@ Używaj tych samych kolorów co okno z danymi
 [Left click action]
 Akcja po kliknięciu LPM
 [Open data display window]
-Otwórz okno wyświetlania danych
+Otwórz okno danych
 [Open web page]
 Otwórz stronę
 [Dismiss popup]
@@ -202,13 +202,13 @@ Otwórz folder Cache
 [Open/Close window]
 Otwórz/Zamknij okno
 [Update data]
-Zaktualizuj Dane
+Zaktualizuj dane
 [Contact options]
 Opcje kontaktu
 [Contact alert options]
 Opcje powiadomień kontaktu
 [Ping web site]
-Pinguj Stronę
+Pinguj stronę
 [Stop data processing]
 Zakończ przetwarzanie danych
 ;file \plugins\WebView\src\webview.cpp
