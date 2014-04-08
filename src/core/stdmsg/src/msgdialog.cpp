@@ -1108,7 +1108,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 					contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
-					if (strcmp(dat->szProto, "MetaContacts")) {
+					if (strcmp(dat->szProto, META_PROTO)) {
 						CONTACTINFO ci = { 0 };
 						ci.cbSize = sizeof(ci);
 						ci.hContact = dat->hContact;

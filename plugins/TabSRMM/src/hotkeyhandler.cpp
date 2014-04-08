@@ -73,7 +73,7 @@ static HOTKEYDESC _hotkeydescs[] = {
 
 LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR ctrlId)
 {
-	MSGFILTER  mf;
+	MSGFILTER mf;
 	mf.nmhdr.code = EN_MSGFILTER;
 	mf.nmhdr.hwndFrom = hwnd;
 	mf.nmhdr.idFrom = ctrlId;

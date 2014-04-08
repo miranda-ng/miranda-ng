@@ -74,7 +74,7 @@ MIR_CORE_DLL(void) db_mc_enable(BOOL bEnabled)
 
 MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
 {
-	if (currDb == NULL) return FALSE;
+	if (currDb == NULL || !g_bEnabled) return FALSE;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	return (cc == NULL) ? FALSE : cc->nSubs != -1;
@@ -82,7 +82,7 @@ MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
 
 MIR_CORE_DLL(BOOL) db_mc_isSub(MCONTACT hContact)
 {
-	if (currDb == NULL) return FALSE;
+	if (currDb == NULL || !g_bEnabled) return FALSE;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	return (cc == NULL) ? FALSE : cc->parentID != 0;

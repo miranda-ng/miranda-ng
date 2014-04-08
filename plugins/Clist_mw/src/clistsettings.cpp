@@ -294,7 +294,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 						else ChangeContactIcon(hContact, ExtIconFromStatusMode(hContact,cws->szModule, cws->value.wVal), 0); //by FYR
 					}
 				}
-				else if ( !strcmp(cws->szModule,"MetaContacts")) {
+				else if (!strcmp(cws->szModule, META_PROTO)) {
 					pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 					return 0;
 				}

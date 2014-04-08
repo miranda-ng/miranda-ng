@@ -1481,17 +1481,18 @@ void Options::init()
 		ProtocolSettings *proto;
 		char tmpPath[MAX_PATH];
 		char dbsName[256];
-		if (i==0) {
+		if (i == 0) {
 			proto = new ProtocolSettings("_default_");
 			proto->setSRMMEnable(true);
-		} else if (strcmp(pProtos[i-1]->szModuleName,"MetaContacts")) {
-			if ((CallProtoService(pProtos[i-1]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0) {
-				continue;
-			}
-			proto = new ProtocolSettings(pProtos[i-1]->szModuleName);
-		} else {
-			continue;
 		}
+		else if (strcmp(pProtos[i-1]->szModuleName, META_PROTO)) {
+			if ((CallProtoService(pProtos[i - 1]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
+				continue;
+
+			proto = new ProtocolSettings(pProtos[i - 1]->szModuleName);
+		}
+		else continue;
+
 		/* SRMM settings */
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_ENABLE);
 		proto->setSRMMEnable(i==0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));

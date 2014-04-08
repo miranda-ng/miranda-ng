@@ -917,7 +917,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		smre.cbSize = sizeof(SMADD_RICHEDIT3);
 		smre.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
 		smre.Protocolname = dat->szProto;
-		if (dat->szProto != NULL && strcmp(dat->szProto, "MetaContacts") == 0) {
+		if (dat->szProto != NULL && strcmp(dat->szProto, META_PROTO) == 0) {
 			MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
 			if (hContact != NULL)
 				smre.Protocolname = GetContactProto(hContact);

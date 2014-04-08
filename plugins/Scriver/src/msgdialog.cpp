@@ -1759,9 +1759,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				smaddInfo.targetMessage = EM_REPLACESEL;
 				smaddInfo.targetWParam = TRUE;
 				smaddInfo.Protocolname = dat->szProto;
-				if (dat->szProto!=NULL && strcmp(dat->szProto,"MetaContacts") == 0) {
+				if (dat->szProto != NULL && strcmp(dat->szProto, META_PROTO) == 0) {
 					MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
-					if (hContact!=NULL) {
+					if (hContact != NULL) {
 						smaddInfo.Protocolname = GetContactProto(hContact);
 					}
 				}

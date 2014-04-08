@@ -563,12 +563,10 @@ LBL_Def:
 			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				p = cfg::getCache(hContact, szProto);
 				if (!dat->bisEmbedded && szProto) {				// may be a subcontact, forward the xstatus
-					if (db_mc_isSub(hContact)) {
-						MCONTACT hMasterContact = (MCONTACT)cfg::getDword(hContact, META_PROTO, "Handle", 0);
-						if (hMasterContact && hMasterContact != hContact)				// avoid recursive call of settings handler
-							cfg::writeByte(hMasterContact, META_PROTO, "XStatusId", (BYTE)cfg::getByte(hContact, szProto, "XStatusId", 0));
-						break;
-					}
+					MCONTACT hMasterContact = db_mc_getMeta(hContact);
+					if (hMasterContact && hMasterContact != hContact)				// avoid recursive call of settings handler
+						cfg::writeByte(hMasterContact, META_PROTO, "XStatusId", (BYTE)cfg::getByte(hContact, szProto, "XStatusId", 0));
+					break;
 				}
 			}
 			else {

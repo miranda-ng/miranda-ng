@@ -262,7 +262,7 @@ void CopyToClipboard(HWND hwnd,LPSTR pszMsg, LPTSTR ptszMsg)
 BOOL isMetaContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
-	if (lstrcmpA(proto, "MetaContacts") == 0)
+	if (lstrcmpA(proto, META_PROTO) == 0)
 		return TRUE;
 
 	return FALSE;

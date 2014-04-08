@@ -247,10 +247,11 @@ void AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTota
 			return;
 		}
 	}
-	ClcContact *cont = AddContactToGroup(dat,group,cacheEntry);
+
+	ClcContact *cont = AddContactToGroup(dat, group, cacheEntry);
 	if (cont && cont->proto) {
 		cont->SubAllocated = 0;
-		if (strcmp(cont->proto,"MetaContacts") == 0)
+		if (strcmp(cont->proto, META_PROTO) == 0)
 			AddSubcontacts(cont);
 	}
 	if (updateTotalCount)
@@ -380,7 +381,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 		}
 		if (cont && cont->proto) {
 			cont->SubAllocated = 0;
-			if (strcmp(cont->proto,"MetaContacts") == 0)
+			if (strcmp(cont->proto, META_PROTO) == 0)
 				AddSubcontacts(cont);
 		}
 	}

@@ -97,13 +97,13 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if (hContact != NULL && !strcmp(cws->szModule,"MetaContacts") && !strcmp(cws->szSetting,"Handle"))
-		pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0 );
+	if (hContact != NULL && !strcmp(cws->szModule, META_PROTO) && !strcmp(cws->szSetting, "ParentMeta"))
+		pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 
-	if (hContact != NULL && !strcmp(cws->szModule,"CList")) {
-		if ( !strcmp( cws->szSetting, "noOffline" ))
+	if (hContact != NULL && !strcmp(cws->szModule, "CList")) {
+		if (!strcmp(cws->szSetting, "noOffline"))
 			pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
-		else if ( !strcmp(cws->szSetting,"StatusMsg"))
+		else if (!strcmp(cws->szSetting, "StatusMsg"))
 			pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, lParam);
 	}
 	return 0;
@@ -111,12 +111,12 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int ClcModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Status bar background")"/StatusBar"),0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("List background")"/CLC"),0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("Frames title bar background")"/FrameTitleBar"),0);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,BgClcChange);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,BgStatusBarChange);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,OnFrameTitleBarBackgroundChange);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Status bar background")"/StatusBar"), 0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("List background")"/CLC"), 0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Frames title bar background")"/FrameTitleBar"), 0);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, BgClcChange);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, BgStatusBarChange);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnFrameTitleBarBackgroundChange);
 	return 0;
 }
 
@@ -129,20 +129,20 @@ static int ClcShutdown(WPARAM wParam, LPARAM lParam)
 
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcData *dat = (struct ClcData*)GetWindowLongPtr(hwnd,0);
-	if ( msg >= CLM_FIRST && msg < CLM_LAST )
-		return pcli->pfnProcessExternalMessages(hwnd,dat,msg,wParam,lParam);
+	struct ClcData *dat = (struct ClcData*)GetWindowLongPtr(hwnd, 0);
+	if (msg >= CLM_FIRST && msg < CLM_LAST)
+		return pcli->pfnProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
 
 	switch (msg) {
 	case WM_CREATE:
-		dat = (struct ClcData*)mir_calloc( sizeof(struct ClcData));
-		SetWindowLongPtr(hwnd,0,(LONG_PTR)dat);
+		dat = (struct ClcData*)mir_calloc(sizeof(struct ClcData));
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 		InitDisplayNameCache(&dat->lCLCContactsCache);
 		break;
 
 	case INTM_ICONCHANGED:
 	{
-		int recalcScrollBar = 0,shouldShow;
+		int recalcScrollBar = 0, shouldShow;
 		MCONTACT hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
 		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(wParam);
@@ -157,14 +157,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			status = cacheEntry->status;
 
 		// this means an offline msg is flashing, so the contact should be shown
-		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE) & CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) &&
+		shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) &&
 			(!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline || pcli->pfnGetContactIcon(wParam) != LOWORD(lParam));
 
 		ClcContact *contact;
 		ClcGroup *group;
 		if (!FindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
-				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
+				if (dat->selection >= 0 && GetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
 				AddContactToTree(hwnd, dat, wParam, 0, 0);
 				needsResort = 1;
@@ -179,14 +179,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}
 		else {
 			//item in list already
-			DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
+			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 			if (contact->iImage == (WORD)lParam) break;
 			if (sortByStatus) dat->needsResort = 1;
 
-			if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
-				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
+			if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				if (dat->selection >= 0 && GetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
-				RemoveItemFromGroup(hwnd,group,contact,0);
+				RemoveItemFromGroup(hwnd, group, contact, 0);
 				recalcScrollBar = 1;
 				dat->needsResort = 1;
 			}
@@ -194,34 +194,35 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				int oldflags;
 				contact->iImage = (WORD)lParam;
 				oldflags = contact->flags;
-				if ( !pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags |= CONTACTF_ONLINE;
+				if (!pcli->pfnIsHiddenMode(dat, status) || cacheEntry->noHiddenOffline) contact->flags |= CONTACTF_ONLINE;
 				else contact->flags &= ~CONTACTF_ONLINE;
 				if (oldflags != contact->flags)
 					dat->needsResort = 1;
-		}	}
+			}
+		}
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if ( FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-				dat->selection = GetRowsPriorTo(&dat->list,selgroup,List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+			if (FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+				dat->selection = GetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 			else
 				dat->selection = -1;
 		}
 
 		SortClcByTimer(hwnd);
-		if (recalcScrollBar) RecalcScrollBar(hwnd,dat);
+		if (recalcScrollBar) RecalcScrollBar(hwnd, dat);
 		goto LBL_Exit;
 	}
 	case INTM_STATUSMSGCHANGED:
 	{
 		DBVARIANT dbv;
 
-		if ( !(dat->style & CLS_SHOWSTATUSMESSAGES))
+		if (!(dat->style & CLS_SHOWSTATUSMESSAGES))
 			break;
 
 		ClcContact *contact;
 		ClcGroup *group;
 		if (FindItem(hwnd, dat, wParam, &contact, &group, NULL) && contact != NULL) {
-			contact->flags  &=  ~CONTACTF_STATUSMSG;
+			contact->flags &= ~CONTACTF_STATUSMSG;
 			if (!db_get_ts(wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
 				if (dbv.ptszVal == NULL || _tcslen(dbv.ptszVal) == 0) break;
@@ -239,30 +240,30 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 		}
 
-		InvalidateRect(hwnd,NULL,TRUE);
+		InvalidateRect(hwnd, NULL, TRUE);
 
 		SortClcByTimer(hwnd);
-		RecalcScrollBar(hwnd,dat);
+		RecalcScrollBar(hwnd, dat);
 		goto LBL_Exit;
 	}
 
 	case WM_TIMER:
 		if (wParam == TIMERID_DELAYEDREPAINT) {
-			KillTimer(hwnd,TIMERID_DELAYEDREPAINT);
-			InvalidateRect(hwnd,NULL,FALSE);
+			KillTimer(hwnd, TIMERID_DELAYEDREPAINT);
+			InvalidateRect(hwnd, NULL, FALSE);
 			break;
 		}
 
-		if ( wParam == TIMERID_SUBEXPAND) {
-			KillTimer(hwnd,TIMERID_SUBEXPAND);
+		if (wParam == TIMERID_SUBEXPAND) {
+			KillTimer(hwnd, TIMERID_SUBEXPAND);
 			if (hitcontact) {
 				if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
-				db_set_b(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
+				db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->SubExpanded);
 			}
 			hitcontact = NULL;
 			dat->needsResort = 1;
-			SortCLC(hwnd,dat,1);
-			RecalcScrollBar(hwnd,dat);
+			SortCLC(hwnd, dat, 1);
+			RecalcScrollBar(hwnd, dat);
 			break;
 		}
 		break;
@@ -276,7 +277,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	LRESULT res = saveContactListControlWndProc(hwnd, msg, wParam, lParam);
 	switch (msg) {
 	case WM_CREATE:
-		mir_forkthread(StatusUpdaterThread,0);
+		mir_forkthread(StatusUpdaterThread, 0);
 		break;
 	}
 	return res;
@@ -289,12 +290,12 @@ int LoadCLCModule(void)
 {
 	LoadCLUIFramesModule();
 
-	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
+	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED,ClcModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
 	hSettingChanged1 = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
-	HookEvent(ME_OPT_INITIALISE,ClcOptInit);
-	HookEvent(ME_SYSTEM_SHUTDOWN,ClcShutdown);
+	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
+	HookEvent(ME_SYSTEM_SHUTDOWN, ClcShutdown);
 	return 0;
 }
 
@@ -306,7 +307,7 @@ static INT_PTR CLUIGetCapsService(WPARAM wParam, LPARAM lParam)
 	case CLUICAPS_FLAGS1:
 		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
 	case CLUICAPS_FLAGS2:
-		return MAKELONG(EXTRA_ICON_COUNT,1);
+		return MAKELONG(EXTRA_ICON_COUNT, 1);
 	}
 	return 0;
 }

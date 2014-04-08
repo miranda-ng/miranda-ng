@@ -3,7 +3,7 @@
 BOOL isProtoMetaContacts(MCONTACT hContact)
 {
 	LPSTR proto = GetContactProto(hContact);
-	if (proto && !strcmp(proto,"MetaContacts"))
+	if (proto && !strcmp(proto, META_PROTO))
 		return true;
 	return false;
 }

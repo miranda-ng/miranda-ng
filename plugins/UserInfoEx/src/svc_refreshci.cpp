@@ -691,12 +691,9 @@ public:
 	{
 		LPSTR pszProto = DB::Contact::Proto(hContact);
 
-		if ((mir_strcmp(pszProto, "Weather")!=0) && 
-				(mir_strcmp(pszProto, "MetaContacts")!=0) && 
-				IsProtoOnline(pszProto))
-		{
+		if ((mir_strcmp(pszProto, "Weather") != 0) && (mir_strcmp(pszProto, META_PROTO) != 0) && IsProtoOnline(pszProto))
 			return Add(iWait, hContact);
-		}
+
 		return 0;
 	}
 

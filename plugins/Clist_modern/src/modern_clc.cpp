@@ -208,7 +208,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(cws->szSetting, "TickTS"))
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
 		else if (!strcmp(cws->szModule, META_PROTO)) {
-			if (!strcmp(cws->szSetting, "Handle"))
+			if (!strcmp(cws->szSetting, "ParentMeta"))
 				pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 			else if (!strcmp(cws->szSetting, "Default"))
 				pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);

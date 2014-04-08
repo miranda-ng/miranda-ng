@@ -153,7 +153,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 	NotifyEventHooks(hEventChanged, hContact, (LPARAM)ace);
 
 	if ((node->dwFlags & MC_ISSUBCONTACT) && db_get_b(NULL, META_PROTO, "Enabled", 0)) {
-		MCONTACT hMasterContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
+		MCONTACT hMasterContact = db_mc_getMeta(hContact);
 		if (hMasterContact && (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMasterContact, 0) == hContact &&
 			!db_get_b(hMasterContact, "ContactPhoto", "Locked", 0))
 			NotifyEventHooks(hEventChanged, (WPARAM)hMasterContact, (LPARAM)ace);
