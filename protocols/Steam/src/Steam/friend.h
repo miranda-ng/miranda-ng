@@ -9,25 +9,30 @@ namespace SteamWebApi
 		struct Friend : public Result
 		{
 			friend FriendApi;
-			//LIST<char> friendIds;
 		
 		private:
 			std::string steamId;
 
 			std::wstring nickname;
+			std::wstring realname;
+			std::string countryCode;
 			std::string homepage;
 			std::string avatarUrl;
 
-			int status;
+			int state;
 
+			DWORD created;
 			DWORD lastEvent;
 
 		public:
 			const char *GetSteamId() const { return steamId.c_str(); }
 			const wchar_t *GetNickname() const { return nickname.c_str(); }
+			const wchar_t *GetRealname() const { return realname.c_str(); }
+			const char *GetCountryCode() const { return countryCode.c_str(); }
 			const char *GetHomepage() const { return homepage.c_str(); }
 			const char *GetAvatarUrl() const { return avatarUrl.c_str(); }
-			int GetStatus() const { return status; }
+			int GetState() const { return state; }
+			const DWORD GetCreated() const { return created; }
 			const DWORD GetLastEvent() const { return lastEvent; }
 		};
 
@@ -47,8 +52,6 @@ namespace SteamWebApi
 
 			JSONNODE *root = json_parse(response->pData), *node, *child;
 
-			/*node = json_get(root, "response");
-			root = json_as_node(node);*/
 			node = json_get(root, "players");
 			root = json_as_array(node);
 			if (root != NULL)
@@ -68,20 +71,32 @@ namespace SteamWebApi
 					node = json_get(child, "personaname");
 					result->nickname = json_as_string(node);
 
+					node = json_get(child, "realname");
+					if (node != NULL)
+						result->realname = json_as_string(node);
+
+					node = json_get(child, "loccountrycode");
+					if (node != NULL)
+						result->countryCode = ptrA(mir_u2a(json_as_string(node)));
+
 					node = json_get(child, "personastate");
-					result->status = json_as_int(node);
+					result->state = json_as_int(node);
 
 					node = json_get(child, "profileurl");
 					result->homepage = ptrA(mir_u2a(json_as_string(node)));
 
+					node = json_get(child, "timecreated");
+					result->created = json_as_int(node);
+
 					node = json_get(child, "lastlogoff");
-					//LastEventDateTS
 					result->lastEvent = json_as_int(node);
 
 					node = json_get(child, "avatarfull");
 					result->avatarUrl = ptrA(mir_u2a(json_as_string(node)));
 				}
 			}
+			else
+				return;
 
 			result->success = true;
 		}

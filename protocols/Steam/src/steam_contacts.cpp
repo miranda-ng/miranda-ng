@@ -60,3 +60,45 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Friend &contact)
 
 	return hContact;
 }
+
+void CSteamProto::SearchByIdThread(void* arg)
+{
+	ptrW steamIdW((wchar_t*)arg);
+	ptrA steamId(mir_u2a(steamIdW));
+
+	ptrA token(getStringA("TokenSecret"));
+
+	SteamWebApi::FriendApi::Friend rFriend;
+	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamId, &rFriend);
+
+	if (!rFriend.IsSuccess())
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
+		return;
+	}
+
+	PROTOSEARCHRESULT psr = { 0 };
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
+
+	psr.id = mir_wstrdup(steamIdW);
+	psr.nick  = mir_wstrdup(rFriend.GetNickname());
+
+	const wchar_t *realname = rFriend.GetRealname();
+	const wchar_t *p = wcschr(realname, ' ');
+	if (p == NULL)
+		psr.firstName = mir_wstrdup(realname);
+	else
+	{
+		int length = p - realname;
+		psr.firstName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
+		wmemcpy(psr.firstName, realname, length);
+		psr.firstName[length] = '\0';
+		psr.lastName = mir_wstrdup(p + 1);
+	}
+
+	//psr.reserved[0] = &psr;
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)STEAM_SEARCH_BYID, (LPARAM)&psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)STEAM_SEARCH_BYID, 0);
+}

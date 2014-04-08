@@ -36,6 +36,10 @@ CSteamProto::~CSteamProto()
 
 MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
+	/*CContact::Ref contact;
+	this->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(psr->id)), contact);
+	return this->AddContact(contact);*/
+
 	return 0;
 }
 
@@ -89,7 +93,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM;
+		return PF1_IM | PF1_BASICSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAG_UNIQUEIDTEXT:
@@ -105,7 +109,12 @@ int __cdecl CSteamProto::GetInfo(MCONTACT hContact, int infoType ) { return 0; }
 
 HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
 {
-	return 0;
+	if (!this->IsOnline())
+		return 0;
+
+	ForkThread(&CSteamProto::SearchByIdThread, mir_wstrdup(id));
+
+	return (HANDLE)STEAM_SEARCH_BYID;
 }
 
 HANDLE __cdecl CSteamProto::SearchByEmail(const TCHAR* email)
@@ -211,6 +220,7 @@ int CSteamProto::SetStatus(int new_status)
 			if (IsOnline())
 			{
 				ForkThread(&CSteamProto::SetServerStatusThread, &new_status);
+
 				return 0;
 			}
 

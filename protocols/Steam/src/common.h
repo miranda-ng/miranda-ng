@@ -22,6 +22,11 @@
 #include <m_protoint.h>
 #include <win2k.h>
 
+#include <vector>
+#include <string>
+
+//#include <openssl/rsa.h>
+
 #include "resource.h"
 #include "version.h"
 

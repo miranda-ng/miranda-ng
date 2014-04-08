@@ -1,6 +1,9 @@
 #ifndef _STEAM_PROTO_H_
 #define _STEAM_PROTO_H_
 
+#define STEAM_SEARCH_BYID 1001
+#define STEAM_SEARCH_BYNAME 1002
+
 struct GuardParam
 {
 	char code[10];
@@ -90,7 +93,7 @@ protected:
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
 	// pooling thread
-	int PollStatus(const char *sessionId, const char *steamId, UINT32 messageId);
+	void PollStatus(const char *sessionId, const char *steamId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult);
 	void __cdecl PollingThread(void*);
 
 	// account
@@ -98,6 +101,7 @@ protected:
 	static int MirandaToSteamState(int status);
 
 	bool IsOnline();
+	bool IsMe(const char *steamId);
 	void Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult);
 	void __cdecl LogInThread(void*);
 	void __cdecl LogOutThread(void*);
@@ -109,6 +113,8 @@ protected:
 
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const SteamWebApi::FriendApi::Friend &contact);
+
+	void __cdecl SearchByIdThread(void*);
 
 	// messages
 	void __cdecl SendMessageThread(void*);

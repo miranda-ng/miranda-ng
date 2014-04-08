@@ -57,10 +57,6 @@ namespace SteamWebApi
 			loginResult->success = true;
 		}
 
-		static void Relogon(HANDLE hConnection, const char *token, LoginResult *loginResult)
-		{
-		}
-
 		static void Logoff(HANDLE hConnection, const char *token, const char *sessionId)
 		{
 			CMStringA data;

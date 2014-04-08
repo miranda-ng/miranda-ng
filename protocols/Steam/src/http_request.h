@@ -129,20 +129,28 @@ public:
 			m_szUrl.AppendFormat("&%s=%s", szName, szValue);
 	}
 
-	void AddParameter(LPCSTR szName, int value)
+	/*void AddParameter(LPCSTR szName, int value)
 	{
 		if (m_szUrl.Find('?') == -1)
 			m_szUrl.AppendFormat("?%s=%i", szName, value);
 		else
 			m_szUrl.AppendFormat("&%s=%i", szName, value);
-	}
+	}*/
 
-	void AddParameter(LPCSTR szName, UINT64 value)
+	/*void AddParameter(LPCSTR szName, UINT64 value)
 	{
 		if (m_szUrl.Find('?') == -1)
 			m_szUrl.AppendFormat("?%s=%llu", szName, value);
 		else
 			m_szUrl.AppendFormat("&%s=%llu", szName, value);
+	}*/
+
+	void AddParameter(LPCSTR szValue)
+	{
+		if (m_szUrl.Find('?') == -1)
+			m_szUrl.AppendFormat("?%s", szValue);
+		else
+			m_szUrl.AppendFormat("&%s", szValue);
 	}
 
 	NETLIBHTTPREQUEST *Send()

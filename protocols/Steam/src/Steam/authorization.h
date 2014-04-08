@@ -56,7 +56,7 @@ namespace SteamWebApi
 			}
 		};
 
-		static void Authorize(HANDLE hConnection, const wchar_t *username, const char *password, AuthResult *authResult)
+		static void Authorize(HANDLE hConnection, const wchar_t *username, const char *password, const char *timestamp, AuthResult *authResult)
 		{
 			authResult->success = false;
 			authResult->captcha_needed = false;
@@ -64,7 +64,7 @@ namespace SteamWebApi
 
 			ptrA base64Username(mir_urlEncode(ptrA(mir_utf8encodeW(username))));
 
-			CryptoApi::RsaKey rsaKey;
+			/*CryptoApi::RsaKey rsaKey;
 			CryptoApi::GetRsaKey(hConnection, base64Username, &rsaKey);
 			if (!rsaKey.IsSuccess()) return;
 
@@ -72,16 +72,16 @@ namespace SteamWebApi
 			BYTE *rsaEncryptedPassword = (BYTE*)mir_alloc(size);
 			rsaKey.Encrypt((unsigned char*)password, strlen(password), rsaEncryptedPassword);
 			ptrA base64RsaEncryptedPassword(mir_base64_encode(rsaEncryptedPassword, size));
-			mir_free(rsaEncryptedPassword);
+			mir_free(rsaEncryptedPassword);*/
 
 			CMStringA data;
 			data.AppendFormat("username=%s", base64Username);
-			data.AppendFormat("&password=%s", ptrA(mir_urlEncode(base64RsaEncryptedPassword)));
+			data.AppendFormat("&password=%s", ptrA(mir_urlEncode(password)));
 			data.AppendFormat("&emailauth=%s", ptrA(mir_urlEncode(authResult->emailauth.c_str())));
 			data.AppendFormat("&emailsteamid=%s", authResult->emailsteamid.c_str());
-			data.AppendFormat("&captchagid=%s", authResult->captchagid);
+			data.AppendFormat("&captchagid=%s", authResult->captchagid.c_str());
 			data.AppendFormat("&captcha_text=%s", ptrA(mir_urlEncode(authResult->captcha_text.c_str())));
-			data.AppendFormat("&rsatimestamp=%llu", rsaKey.GetTimestamp());
+			data.AppendFormat("&rsatimestamp=%s", timestamp);
 			data.AppendFormat("&oauth_scope=%s", "read_profile write_profile read_client write_client");
 			data.Append("&oauth_client_id=DE45CD61");
 

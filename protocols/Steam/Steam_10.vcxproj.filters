@@ -42,6 +42,9 @@
     <ClCompile Include="src\steam_thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\steam_messages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -71,13 +74,19 @@
     <ClInclude Include="src\Steam\friend.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
-    <ClInclude Include="src\Steam\crypto.h">
-      <Filter>Header Files\Steam</Filter>
-    </ClInclude>
     <ClInclude Include="src\Steam\login.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\poll.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\message.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\search.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\rsa_key.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>

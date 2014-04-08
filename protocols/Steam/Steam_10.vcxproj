@@ -78,7 +78,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\OpenSSL\Win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
@@ -92,7 +92,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(ProfileDir)..\..\..\OpenSSL\Win32\lib\VC</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>comctl32.lib;libeay32MDd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>crypt32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -191,11 +191,13 @@
     <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\Steam\authorization.h" />
-    <ClInclude Include="src\Steam\crypto.h" />
+    <ClInclude Include="src\Steam\rsa_key.h" />
     <ClInclude Include="src\Steam\friend.h" />
     <ClInclude Include="src\Steam\friend_list.h" />
     <ClInclude Include="src\Steam\login.h" />
+    <ClInclude Include="src\Steam\message.h" />
     <ClInclude Include="src\Steam\poll.h" />
+    <ClInclude Include="src\Steam\search.h" />
     <ClInclude Include="src\Steam\steam.h" />
     <ClInclude Include="src\steam_proto.h" />
     <ClInclude Include="src\version.h" />
@@ -207,6 +209,7 @@
     <ClCompile Include="src\steam_contacts.cpp" />
     <ClCompile Include="src\steam_events.cpp" />
     <ClCompile Include="src\steam_dialogs.cpp" />
+    <ClCompile Include="src\steam_messages.cpp" />
     <ClCompile Include="src\steam_proto.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

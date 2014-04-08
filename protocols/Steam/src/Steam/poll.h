@@ -8,12 +8,12 @@ namespace SteamWebApi
 	public:
 		enum POOL_TYPE
 		{
-			UNKNOWN,
-			MESSAGE,
-			MYMESSAGE,
-			TYPING,
-			STATE,
-			//POOL_TYPE_RELATIONSHIP = 4
+			POOL_TYPE_UNKNOWN,
+			POOL_TYPE_MESSAGE,
+			POOL_TYPE_MYMESSAGE,
+			POOL_TYPE_TYPING,
+			POOL_TYPE_STATE,
+			//POOL_TYPE_RELATIONSHIP
 		};
 
 		class PoolItem : public Result
@@ -26,7 +26,7 @@ namespace SteamWebApi
 			POOL_TYPE type;
 
 		public:
-			PoolItem() : timestamp(0), type(POOL_TYPE::UNKNOWN) { }
+			PoolItem() : timestamp(0), type(POOL_TYPE_UNKNOWN) { }
 
 			const char *GetSteamId() const { return steamId.c_str(); }
 			const DWORD GetTimestamp() const { return timestamp; }
@@ -80,17 +80,18 @@ namespace SteamWebApi
 		static void PollStatus(HANDLE hConnection, const char *token, const char *sessionId, UINT32 messageId, PollResult *pollResult)
 		{
 			pollResult->success = false;
+			pollResult->need_relogin = false;
+			pollResult->items.clear();
 
 			CMStringA data;
 			data.AppendFormat("access_token=%s", token);
 			data.AppendFormat("&umqid=%s", sessionId);
-			data.AppendFormat("&message=%i", messageId);
-			//data.Append("&sectimeout=90");
+			data.AppendFormat("&message=%iu", messageId);
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data.GetBuffer(), data.GetLength());
-			request.timeout = 90000;
+			request.timeout = 90000; // may need to encrease timeout
 			
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response || response->resultCode != HTTP_STATUS_OK)
@@ -103,7 +104,7 @@ namespace SteamWebApi
 			if (!lstrcmpi(error, L"Not Logged On"))
 			{
 				pollResult->need_relogin = true;
-				pollResult->success = true;
+				//pollResult->success = true;
 				return;
 			}
 			else
@@ -139,9 +140,9 @@ namespace SteamWebApi
 						Message *message = new Message();
 
 						if (_tcsstr(type, L"my_") == NULL)
-							message->type = POOL_TYPE::MESSAGE;
+							message->type = POOL_TYPE_MESSAGE;
 						else
-							message->type = POOL_TYPE::MYMESSAGE;
+							message->type = POOL_TYPE_MYMESSAGE;
 
 						node = json_get(child, "text");
 						if (node != NULL) message->text = json_as_string(node);
@@ -154,12 +155,12 @@ namespace SteamWebApi
 					else if(!lstrcmpi(type, L"typing"))
 					{
 						item = new Typing();
-						item->type = POOL_TYPE::TYPING;
+						item->type = POOL_TYPE_TYPING;
 					}
 					else if (!lstrcmpi(type, L"personastate"))
 					{
 						State *state = new State();
-						state->type = POOL_TYPE::STATE;
+						state->type = POOL_TYPE_STATE;
 
 						node = json_get(child, "persona_state");
 						if (node != NULL) state->status = json_as_int(node);
@@ -171,7 +172,7 @@ namespace SteamWebApi
 					}
 					/*else if (!lstrcmpi(type, L"personarelationship"))
 					{
-						type = (int)POOL_TYPE::RELATIONSHIP;
+						type = POOL_TYPE_RELATIONSHIP;
 					}*/
 					/*else if (!lstrcmpi(type, L"leftconversation"))
 					{

@@ -3,7 +3,7 @@
 
 namespace SteamWebApi
 {
-	#define STEAM_API_URL "https://api.steampowered.com:443"
+	#define STEAM_API_URL "https://api.steampowered.com"
 	#define STEAM_COMMUNITY_URL "https://steamcommunity.com"
 
 	struct Result
@@ -26,15 +26,13 @@ namespace SteamWebApi
 	};
 }
 
-#include <vector>
-#include <string>
-
-#include "Steam\crypto.h"
+#include "Steam\rsa_key.h"
 #include "Steam\authorization.h"
 #include "Steam\login.h"
 #include "Steam\friend_list.h"
 #include "Steam\friend.h"
 #include "Steam\poll.h"
 #include "Steam\message.h"
+#include "Steam\search.h"
 
 #endif //_STEAM_H_

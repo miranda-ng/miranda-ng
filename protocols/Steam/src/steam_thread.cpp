@@ -1,34 +1,23 @@
 #include "common.h"
 
-int CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 messageId)
+void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult)
 {
-	SteamWebApi::PollApi::PollResult pollResult;
-	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, token, sessionId, messageId, &pollResult);
+	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, token, sessionId, messageId, pollResult);
 
-	if (!pollResult.IsSuccess())
-		return 0;
+	if (!pollResult->IsSuccess())
+		return;
 
-	if (pollResult.IsNeedRelogin())
+	for (int i = 0; i < pollResult->GetItemCount(); i++)
 	{
-		SteamWebApi::LoginApi::LoginResult loginResult;
-		SteamWebApi::LoginApi::Logon(m_hNetlibUser, token, &loginResult);
-
-		if (!loginResult.IsSuccess())
-			return 0;
-
-		return messageId;
-	}
-
-	for (int i = 0; i < pollResult.GetItemCount(); i++)
-	{
-		switch (pollResult[i]->GetType())
+		const SteamWebApi::PollApi::PoolItem *item = pollResult->operator[](i);
+		switch (item->GetType())
 		{
-		case SteamWebApi::PollApi::POOL_TYPE::TYPING:
+		case SteamWebApi::PollApi::POOL_TYPE_TYPING:
 			break;
 
-		case SteamWebApi::PollApi::POOL_TYPE::MESSAGE:
+		case SteamWebApi::PollApi::POOL_TYPE_MESSAGE:
 			{
-				SteamWebApi::PollApi::Message *message = (SteamWebApi::PollApi::Message*)pollResult[i];
+				SteamWebApi::PollApi::Message *message = (SteamWebApi::PollApi::Message*)item;
 
 				MCONTACT hContact = FindContact(message->GetSteamId());
 				if (hContact)
@@ -45,9 +34,9 @@ int CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 mes
 			}
 			break;
 
-		case SteamWebApi::PollApi::POOL_TYPE::MYMESSAGE:
+		case SteamWebApi::PollApi::POOL_TYPE_MYMESSAGE:
 			{
-				SteamWebApi::PollApi::Message *message = (SteamWebApi::PollApi::Message*)pollResult[i];
+				SteamWebApi::PollApi::Message *message = (SteamWebApi::PollApi::Message*)item;
 
 				MCONTACT hContact = FindContact(message->GetSteamId());
 				if (hContact)
@@ -67,31 +56,31 @@ int CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 mes
 			}
 			break;
 
-		case SteamWebApi::PollApi::POOL_TYPE::STATE:
+		case SteamWebApi::PollApi::POOL_TYPE_STATE:
 			{
-				SteamWebApi::PollApi::State *state = (SteamWebApi::PollApi::State*)pollResult[i];
+				SteamWebApi::PollApi::State *state = (SteamWebApi::PollApi::State*)item;
 
 				WORD status = CSteamProto::SteamToMirandaStatus(state->GetStatus());
-				const char *cSteamId = state->GetSteamId();
+				const char *steamId = state->GetSteamId();
 				const wchar_t *nickname = state->GetNickname();
 
-				ptrA steamId(getStringA("SteamID"));
-				if (!lstrcmpA(steamId, cSteamId))
+				if (IsMe(steamId))
 				{
 					const wchar_t *oldNickname = getWStringA("Nick");
 					if (lstrcmp(oldNickname, nickname))
 						setWString("Nick", nickname);
-						SetStatus(status);
-						
+
+					SetStatus(status);
 				}
 				else
 				{
-					MCONTACT hContact = FindContact(cSteamId);
+					MCONTACT hContact = FindContact(steamId);
 					if (hContact)
 					{
 						const wchar_t *oldNickname = getWStringA(hContact, "Nick");
 						if (lstrcmp(oldNickname, nickname))
 							setWString(hContact, "Nick", nickname);
+
 						SetContactStatus(hContact, status);
 					}
 				}
@@ -99,8 +88,6 @@ int CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 mes
 			break;
 		}
 	}
-
-	return pollResult.GetMessageId();
 }
 
 void CSteamProto::PollingThread(void*)
@@ -111,15 +98,34 @@ void CSteamProto::PollingThread(void*)
 	ptrA sessionId(getStringA("SessionID"));
 	UINT32 messageId = getDword("MessageID", 0);
 
+	SteamWebApi::PollApi::PollResult pollResult;
 	while (!m_bTerminated)
 	{
-		messageId = PollStatus(token, sessionId, messageId);
-		if (messageId == 0)
+		PollStatus(token, sessionId, messageId, &pollResult);
+		
+		if (pollResult.IsNeedRelogin())
+			debugLogA("CSteamProto::PollingThread: need to relogin");
+		/*{
+			SteamWebApi::LoginApi::LoginResult loginResult;
+			SteamWebApi::LoginApi::Logon(m_hNetlibUser, token, &loginResult);
+
+			if (!loginResult.IsSuccess())
+				break;
+
+			sessionId = mir_strdup(loginResult.GetSessionId());
+			setString("SessionID", sessionId);
+		}*/
+
+		if (!pollResult.IsSuccess())
 			break;
+
+		messageId = pollResult.GetMessageId();
 	}
 
-	if (messageId > 0)
+	if (pollResult.IsSuccess())
 		setDword("MessageID", messageId);
+	else
+		SetStatus(ID_STATUS_OFFLINE);
 
 	m_hPollingThread = NULL;
 	debugLogA("CSteamProto::PollingThread: leaving");
