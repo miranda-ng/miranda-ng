@@ -150,7 +150,7 @@ bool CContactCache::updateStatus()
  */
 void CContactCache::updateMeta(bool fForce)
 {
-	m_szMetaProto = (m_Valid) ? GetContactProto(db_mc_getDefault(cc->contactID)) : NULL;
+	m_szMetaProto = (m_Valid) ? GetContactProto(CallService(MS_MC_GETMOSTONLINECONTACT, cc->contactID, 0)) : NULL;
 }
 
 /**
