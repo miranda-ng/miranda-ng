@@ -124,7 +124,7 @@ protected:
 	int OnModulesLoaded(WPARAM, LPARAM);
 	int OnPreShutdown(WPARAM, LPARAM);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
-	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
+	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
 	//options
 	static INT_PTR CALLBACK GuardProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

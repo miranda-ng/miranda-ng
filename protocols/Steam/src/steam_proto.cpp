@@ -254,8 +254,8 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 	case EV_PROTO_ONEXIT:
 		return this->OnPreShutdown(wParam, lParam);
 
-	case EV_PROTO_ONOPTIONS:
-		return this->OnOptionsInit(wParam, lParam);
+	/*case EV_PROTO_ONOPTIONS:
+		return this->OnOptionsInit(wParam, lParam);*/
 
 	/*case EV_PROTO_ONCONTACTDELETED:
 		return this->OnContactDeleted(wParam, lParam);*/

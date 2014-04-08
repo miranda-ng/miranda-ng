@@ -2,6 +2,8 @@
 
 int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
+
 	TCHAR name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
 
@@ -24,7 +26,7 @@ int CSteamProto::OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR __cdecl CSteamProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
+INT_PTR CSteamProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 {
 	return (int)CreateDialogParam(
 		g_hInstance,
@@ -34,14 +36,16 @@ INT_PTR __cdecl CSteamProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 		(LPARAM)this);
 }
 
-int __cdecl CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+int CSteamProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 {
-	char *title = mir_t2a(this->m_tszUserName);
+	CSteamProto *instance = (CSteamProto*)obj;
+
+	char *title = mir_t2a(instance->m_tszUserName);
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
-	odp.dwInitParam = LPARAM(this);
+	odp.dwInitParam = LPARAM(obj);
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Network");
 

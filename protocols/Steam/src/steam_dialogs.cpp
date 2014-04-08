@@ -170,6 +170,8 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
 					proto->delSetting("SteamID");
+					proto->delSetting("Cookies");
+					proto->delSetting("TokenSecret");
 					wchar_t username[128];
 					GetDlgItemText(hwnd, IDC_USERNAME, username, SIZEOF(username));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -179,6 +181,7 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			case IDC_PASSWORD:
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+					proto->delSetting("Cookie");
 					proto->delSetting("TokenSecret");
 					char password[128];
 					GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));

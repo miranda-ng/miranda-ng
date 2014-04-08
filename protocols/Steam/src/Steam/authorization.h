@@ -14,6 +14,7 @@ namespace SteamWebApi
 		private:
 			std::string steamid;
 			std::string token;
+			std::string cookie;
 
 			std::string emailauth;
 			std::string emaildomain;
@@ -39,6 +40,7 @@ namespace SteamWebApi
 			bool IsEmailAuthNeeded() const { return emailauth_needed; }
 			const char *GetSteamid() const { return steamid.c_str(); }
 			const char *GetToken() const { return token.c_str(); }
+			const char *GetCookie() const { return cookie.c_str(); }
 			const char *GetAuthId() const { return emailauth.c_str(); }
 			const char *GetAuthCode() const { return emailsteamid.c_str(); }
 			const char *GetEmailDomain() const { return emaildomain.c_str(); }
@@ -63,16 +65,6 @@ namespace SteamWebApi
 			authResult->emailauth_needed = false;
 
 			ptrA base64Username(mir_urlEncode(ptrA(mir_utf8encodeW(username))));
-
-			/*CryptoApi::RsaKey rsaKey;
-			CryptoApi::GetRsaKey(hConnection, base64Username, &rsaKey);
-			if (!rsaKey.IsSuccess()) return;
-
-			int size = rsaKey.GetEncryptedSize();
-			BYTE *rsaEncryptedPassword = (BYTE*)mir_alloc(size);
-			rsaKey.Encrypt((unsigned char*)password, strlen(password), rsaEncryptedPassword);
-			ptrA base64RsaEncryptedPassword(mir_base64_encode(rsaEncryptedPassword, size));
-			mir_free(rsaEncryptedPassword);*/
 
 			CMStringA data;
 			data.AppendFormat("username=%s", base64Username);
@@ -141,6 +133,9 @@ namespace SteamWebApi
 
 				node = json_get(root, "oauth_token");
 				authResult->token = ptrA(mir_u2a(json_as_string(node)));
+
+				node = json_get(root, "webcookie");
+				authResult->cookie = ptrA(mir_u2a(json_as_string(node)));
 
 				authResult->success = true;
 				authResult->captcha_needed = false;

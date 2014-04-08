@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d:\Projects\CPlusPlus\MirandaNG\protocols\Steam\res\Resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\Steam\res\Resource.rc
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10

@@ -67,7 +67,7 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 				if (IsMe(steamId))
 				{
 					const wchar_t *oldNickname = getWStringA("Nick");
-					if (lstrcmp(oldNickname, nickname))
+					if (lstrcmp(oldNickname, nickname) && lstrlen(nickname))
 						setWString("Nick", nickname);
 
 					SetStatus(status);
@@ -78,7 +78,7 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 					if (hContact)
 					{
 						const wchar_t *oldNickname = getWStringA(hContact, "Nick");
-						if (lstrcmp(oldNickname, nickname))
+						if (lstrcmp(oldNickname, nickname) && lstrlen(nickname))
 							setWString(hContact, "Nick", nickname);
 
 						SetContactStatus(hContact, status);
