@@ -255,7 +255,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS |
 	                                                       CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
 	cfg::dat.dwFlags |= (cfg::getByte("CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
-	cfg::dat.soundsOff = cfg::getByte("CLUI", "NoSounds", 0);
+	cfg::dat.soundsOff = cfg::getByte("Skin", "UseSound", 1) ? 0 : 1;
 
 	CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)cfg::dat.tszProfilePath);
 	_tcslwr(cfg::dat.tszProfilePath);
