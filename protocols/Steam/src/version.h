@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "Steam Protocol"
 #define __INTERNAL_NAME            "Steam"
-#define __FILENAME                 "steam.dll"
+#define __FILENAME                 "Steam.dll"
 #define __DESCRIPTION              "Steam protocol support for Miranda NG."
 #define __AUTHOR                   "unsane"
 #define __AUTHOREMAIL              ""
