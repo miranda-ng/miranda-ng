@@ -66,20 +66,20 @@ namespace SteamWebApi
 
 			ptrA base64Username(mir_urlEncode(ptrA(mir_utf8encodeW(username))));
 
-			CMStringA data;
-			data.AppendFormat("username=%s", base64Username);
-			data.AppendFormat("&password=%s", ptrA(mir_urlEncode(password)));
-			data.AppendFormat("&emailauth=%s", ptrA(mir_urlEncode(authResult->emailauth.c_str())));
-			data.AppendFormat("&emailsteamid=%s", authResult->emailsteamid.c_str());
-			data.AppendFormat("&captchagid=%s", authResult->captchagid.c_str());
-			data.AppendFormat("&captcha_text=%s", ptrA(mir_urlEncode(authResult->captcha_text.c_str())));
-			data.AppendFormat("&rsatimestamp=%s", timestamp);
-			data.AppendFormat("&oauth_scope=%s", "read_profile write_profile read_client write_client");
-			data.Append("&oauth_client_id=DE45CD61");
+			char data[1024];
+			mir_snprintf(data, SIZEOF(data),
+				"username=%s&password=%s&emailauth=%s&emailsteamid=%s&captchagid=%s&captcha_text=%s&rsatimestamp=%s&oauth_client_id=DE45CD61",
+				base64Username,
+				ptrA(mir_urlEncode(password)),
+				ptrA(mir_urlEncode(authResult->emailauth.c_str())),
+				authResult->emailsteamid.c_str(),
+				authResult->captchagid.c_str(),
+				ptrA(mir_urlEncode(authResult->captcha_text.c_str())),
+				timestamp);
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_COM_URL "/mobilelogin/dologin");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			request.SetData(data.GetBuffer(), data.GetLength());
+			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)

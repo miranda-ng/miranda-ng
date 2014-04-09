@@ -58,14 +58,15 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
-	if ((error = RsaEncrypt(rsaKey, password, strlen(password), NULL, encryptedSize)) != 0)
+	DWORD passwordSize = (DWORD)strlen(password);
+	if ((error = RsaEncrypt(rsaKey, password, passwordSize, NULL, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::Rsa: encryption error (%lu)", error);
 		return;
 	}
 
 	BYTE *encryptedPassword = (BYTE*)mir_calloc(encryptedSize);
-	if ((error = RsaEncrypt(rsaKey, password, strlen(password), encryptedPassword, encryptedSize)) != 0)
+	if ((error = RsaEncrypt(rsaKey, password, passwordSize, encryptedPassword, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::Rsa: encryption error (%lu)", error);
 		return;

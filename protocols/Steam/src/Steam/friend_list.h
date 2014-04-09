@@ -14,9 +14,8 @@ namespace SteamWebApi
 			std::vector<std::string> items;
 
 		public:
-			int GetItemCount() const { return items.size(); }
-
-			const char *GetAt(int idx) const { return items.at(idx).c_str(); }
+			size_t GetItemCount() const { return items.size(); }
+			const char * GetAt(int idx) const { return items.at(idx).c_str(); }
 		};
 
 		static void Load(HANDLE hConnection, const char *token, const char *steamId, FriendList *friendList)

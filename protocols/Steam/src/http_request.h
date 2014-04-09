@@ -70,7 +70,7 @@ public:
 		if (pData != NULL)
 			mir_free(pData);
 		
-		dataLength = size;
+		dataLength = (int)size;
 		pData = (char*)mir_alloc(size);
 		memcpy(pData, data, size);
 	}

@@ -23,15 +23,16 @@ namespace SteamWebApi
 		{
 			sendResult->success = false;
 
-			CMStringA data;
-			data.AppendFormat("access_token=%s", token);
-			data.AppendFormat("&umqid=%s", sessionId);
-			data.AppendFormat("&persona_state=%u", state);
-			data.Append("&type=personastate");
+			char data[256];
+			mir_snprintf(data, SIZEOF(data),
+				"access_token=%s&umqid=%s&persona_state=%i&type=personastate",
+				token,
+				sessionId,
+				state);
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			request.SetData(data.GetBuffer(), data.GetLength());
+			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)
@@ -47,16 +48,17 @@ namespace SteamWebApi
 		{
 			sendResult->success = false;
 
-			CMStringA data;
-			data.AppendFormat("access_token=%s", token);
-			data.AppendFormat("&umqid=%s", sessionId);
-			data.AppendFormat("&steamid_dst=%s", steamId);
-			data.Append("&type=saytext");
-			data.AppendFormat("&text=%s", ptrA(mir_urlEncode(text)));
+			char data[1024];
+			mir_snprintf(data, SIZEOF(data),
+				"access_token=%s&umqid=%s&steamid_dst=%s&type=saytext&text=%s",
+				token,
+				sessionId,
+				steamId,
+				ptrA(mir_urlEncode(text)));
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			request.SetData(data.GetBuffer(), data.GetLength());
+			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)
@@ -83,15 +85,16 @@ namespace SteamWebApi
 		{
 			sendResult->success = false;
 
-			CMStringA data;
-			data.AppendFormat("access_token=%s", token);
-			data.AppendFormat("&umqid=%s", sessionId);
-			data.AppendFormat("&steamid_dst=%s", steamId);
-			data.Append("&type=typing");
+			char data[256];
+			mir_snprintf(data, SIZEOF(data),
+				"access_token=%s&umqid=%s&steamid_dst=%s&type=typing",
+				token,
+				sessionId,
+				steamId);
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			request.SetData(data.GetBuffer(), data.GetLength());
+			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)

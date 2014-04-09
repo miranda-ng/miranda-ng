@@ -72,8 +72,8 @@ namespace SteamWebApi
 			PollResult() : messageId(0), need_relogin(false) { }
 
 			UINT32 GetMessageId() const { return messageId; }
-			int IsNeedRelogin() const { return need_relogin; }
-			int GetItemCount() const { return items.size(); }
+			bool IsNeedRelogin() const { return need_relogin; }
+			size_t GetItemCount() const { return items.size(); }
 			const PoolItem *GetAt(int idx) const { return items.at(idx); }
 		};
 
@@ -83,14 +83,12 @@ namespace SteamWebApi
 			pollResult->need_relogin = false;
 			pollResult->items.clear();
 
-			CMStringA data;
-			data.AppendFormat("access_token=%s", token);
-			data.AppendFormat("&umqid=%s", sessionId);
-			data.AppendFormat("&message=%iu", messageId);
+			char data[512];
+			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s&message=%u", token, sessionId, messageId);
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			request.SetData(data.GetBuffer(), data.GetLength());
+			request.SetData(data, strlen(data));
 			request.SetTimeout(90000); // may need to encrease timeout
 			
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());

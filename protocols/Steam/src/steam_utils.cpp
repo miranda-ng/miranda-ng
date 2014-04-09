@@ -49,7 +49,7 @@ int CSteamProto::MirandaToSteamState(int status)
 int CSteamProto::RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const char *data, DWORD dataSize, BYTE *encryptedData, DWORD &encryptedSize)
 {
 	const char *pszModulus = rsaKey.GetModulus();
-	DWORD cchModulus = strlen(pszModulus);
+	DWORD cchModulus = (DWORD)strlen(pszModulus);
 
 	// convert hex string to byte array
 	DWORD cbLen = 0, dwSkip = 0, dwFlags = 0;
@@ -62,7 +62,7 @@ int CSteamProto::RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const 
 		return GetLastError();
 
 	// reverse byte array, because of microsoft
-	for (int i = 0; i < cbLen / 2; ++i)
+	for (int i = 0; i < (int)(cbLen / 2); ++i)
 	{
 		BYTE temp = pbBuffer[cbLen - i - 1];
 		pbBuffer[cbLen - i - 1] = pbBuffer[i];
@@ -117,7 +117,7 @@ int CSteamProto::RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const 
 		return GetLastError();
 
 	// reverse byte array again
-	for (int i = 0; i < encryptedSize / 2; ++i)
+	for (int i = 0; i < (int)(encryptedSize / 2); ++i)
 	{
 		BYTE temp = encryptedData[encryptedSize - i - 1];
 		encryptedData[encryptedSize - i - 1] = encryptedData[i];

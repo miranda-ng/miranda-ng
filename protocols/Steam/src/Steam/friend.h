@@ -44,7 +44,7 @@ namespace SteamWebApi
 			std::vector<Summary*> items;
 
 		public:
-			int GetItemCount() const { return items.size(); }
+			size_t GetItemCount() const { return items.size(); }
 			const Summary *GetAt(int idx) const { return items.at(idx); }
 		};
 
