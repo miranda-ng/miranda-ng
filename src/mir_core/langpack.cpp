@@ -373,11 +373,6 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	}
 	else _tcsncpy_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
 
-	// exists & not a directory?
-	DWORD dwAttrib = GetFileAttributes(tszFullPath);
-	if (dwAttrib == INVALID_FILE_ATTRIBUTES || (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
-		return 3;
-
 	// this lang is already loaded? nothing to do then
 	if (!lstrcmp(tszFullPath, langPack.tszFullPath))
 		return 0;
@@ -385,6 +380,11 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	// ok... loading a new langpack. remove the old one if needed
 	if (g_entryCount)
 		UnloadLangPackModule();
+
+	// exists & not a directory?
+	DWORD dwAttrib = GetFileAttributes(tszFullPath);
+	if (dwAttrib == INVALID_FILE_ATTRIBUTES || (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
+		return 3;
 
 	// copy the full file name and extract a file name from it
 	_tcsncpy_s(langPack.tszFullPath, SIZEOF(langPack.tszFullPath), tszFullPath, _TRUNCATE);
