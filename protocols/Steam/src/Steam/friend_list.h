@@ -11,12 +11,12 @@ namespace SteamWebApi
 			friend FriendListApi;
 
 		private:
-			std::vector<std::string> friendIds;
+			std::vector<std::string> items;
 
 		public:
-			int GetCount() const { return friendIds.size(); }
+			int GetItemCount() const { return items.size(); }
 
-			const char * operator[](int idx) const { return friendIds.at(idx).c_str(); }
+			const char *GetAt(int idx) const { return items.at(idx).c_str(); }
 		};
 
 		static void Load(HANDLE hConnection, const char *token, const char *steamId, FriendList *friendList)
@@ -47,7 +47,7 @@ namespace SteamWebApi
 						break;
 
 					node = json_get(child, "steamid");
-					friendList->friendIds
+					friendList->items
 						.push_back((char*)ptrA(mir_u2a(json_as_string(node))));
 				}
 			}
