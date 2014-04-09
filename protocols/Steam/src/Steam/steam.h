@@ -4,7 +4,7 @@
 namespace SteamWebApi
 {
 	#define STEAM_API_URL "https://api.steampowered.com"
-	#define STEAM_COMMUNITY_URL "https://steamcommunity.com"
+	#define STEAM_COM_URL "https://steamcommunity.com"
 
 	struct Result
 	{
@@ -18,10 +18,13 @@ namespace SteamWebApi
 		{
 		protected:
 			bool success;
+			HTTP_STATUS status;
 
 		public:
-			Result() : success(false) { }
+			Result() : success(false), status(HTTP_STATUS_NONE) { }
+
 			bool IsSuccess() const { return success; }
+			HTTP_STATUS GetStatus() const { return status; }
 		};
 	};
 }

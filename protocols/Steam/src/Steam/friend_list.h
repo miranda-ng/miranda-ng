@@ -28,7 +28,10 @@ namespace SteamWebApi
 			request.AddParameter("steamid", steamId);
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
+				return;
+
+			if ((friendList->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			JSONNODE *root = json_parse(response->pData), *node, *child;

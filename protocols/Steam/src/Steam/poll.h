@@ -16,7 +16,7 @@ namespace SteamWebApi
 			//POOL_TYPE_RELATIONSHIP
 		};
 
-		class PoolItem : public Result
+		class PoolItem// : public Result
 		{
 			friend PollApi;
 
@@ -74,7 +74,7 @@ namespace SteamWebApi
 			UINT32 GetMessageId() const { return messageId; }
 			int IsNeedRelogin() const { return need_relogin; }
 			int GetItemCount() const { return items.size(); }
-			const PoolItem * operator[](int idx) const { return items.at(idx); }
+			const PoolItem *GetAt(int idx) const { return items.at(idx); }
 		};
 
 		static void PollStatus(HANDLE hConnection, const char *token, const char *sessionId, UINT32 messageId, PollResult *pollResult)
@@ -91,10 +91,13 @@ namespace SteamWebApi
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data.GetBuffer(), data.GetLength());
-			request.timeout = 90000; // may need to encrease timeout
+			request.SetTimeout(90000); // may need to encrease timeout
 			
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
+				return;
+
+			if ((pollResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			JSONNODE *root = json_parse(response->pData), *node, *child;

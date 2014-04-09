@@ -6,7 +6,7 @@ namespace SteamWebApi
 	class FriendApi : public BaseApi
 	{
 	public:
-		struct Friend : public Result
+		struct Summary : public Result
 		{
 			friend FriendApi;
 		
@@ -36,18 +36,31 @@ namespace SteamWebApi
 			const DWORD GetLastEvent() const { return lastEvent; }
 		};
 
-		static void LoadSummaries(HANDLE hConnection, const char *token, const char *steamId, Friend *result)
+		struct Summaries : public Result
 		{
-			result->success = false;
+			friend FriendApi;
 
-			HttpRequest *request = new HttpRequest(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001");
-			request->AddParameter("access_token", token);
-			request->AddParameter("steamids", steamId);
+		private:
+			std::vector<Summary*> items;
 
-			mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
-			delete request;
+		public:
+			int GetItemCount() const { return items.size(); }
+			const Summary *GetAt(int idx) const { return items.at(idx); }
+		};
 
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+		static void LoadSummaries(HANDLE hConnection, const char *token, const char *steamIds, Summaries *summaries)
+		{
+			summaries->success = false;
+
+			HttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001");
+			request.AddParameter("access_token", token);
+			request.AddParameter("steamids", steamIds);
+
+			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
+			if (!response)
+				return;
+
+			if ((summaries->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			JSONNODE *root = json_parse(response->pData), *node, *child;
@@ -62,43 +75,44 @@ namespace SteamWebApi
 					if (child == NULL)
 						break;
 
+					Summary *item = new Summary();
+
 					node = json_get(child, "steamid");
-					ptrA cSteamId(ptrA(mir_u2a(json_as_string(node))));
-					if (lstrcmpA(steamId, cSteamId))
-						return;
-					result->steamId = steamId;
+					item->steamId = ptrA(mir_u2a(json_as_string(node)));
 
 					node = json_get(child, "personaname");
-					result->nickname = json_as_string(node);
+					item->nickname = json_as_string(node);
 
 					node = json_get(child, "realname");
 					if (node != NULL)
-						result->realname = json_as_string(node);
+						item->realname = json_as_string(node);
 
 					node = json_get(child, "loccountrycode");
 					if (node != NULL)
-						result->countryCode = ptrA(mir_u2a(json_as_string(node)));
+						item->countryCode = ptrA(mir_u2a(json_as_string(node)));
 
 					node = json_get(child, "personastate");
-					result->state = json_as_int(node);
+					item->state = json_as_int(node);
 
 					node = json_get(child, "profileurl");
-					result->homepage = ptrA(mir_u2a(json_as_string(node)));
+					item->homepage = ptrA(mir_u2a(json_as_string(node)));
 
 					node = json_get(child, "timecreated");
-					result->created = json_as_int(node);
+					item->created = json_as_int(node);
 
 					node = json_get(child, "lastlogoff");
-					result->lastEvent = json_as_int(node);
+					item->lastEvent = json_as_int(node);
 
 					node = json_get(child, "avatarfull");
-					result->avatarUrl = ptrA(mir_u2a(json_as_string(node)));
+					item->avatarUrl = ptrA(mir_u2a(json_as_string(node)));
+
+					summaries->items.push_back(item);
 				}
 			}
 			else
 				return;
 
-			result->success = true;
+			summaries->success = true;
 		}
 	};
 }

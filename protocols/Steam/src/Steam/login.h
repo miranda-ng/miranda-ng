@@ -28,16 +28,19 @@ namespace SteamWebApi
 
 			CMStringA data;
 			data.AppendFormat("access_token=%s", token);
-			data.Append("&ui_mode=web");
+			//data.Append("&ui_mode=web");
 
 			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data.GetBuffer(), data.GetLength());
-			
+
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
 				return;
-			
+
+			if ((loginResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+				return;
+
 			JSONNODE *root = json_parse(response->pData), *node;
 
 			node = json_get(root, "error");

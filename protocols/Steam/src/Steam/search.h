@@ -7,8 +7,15 @@ namespace SteamWebApi
 	{
 	public:
 
-		class SearchItem : public Result
+		class SearchItem// : public Result
 		{
+			friend SearchApi;
+
+		private:
+				std::string steamId;
+
+		public:
+			const char *GetSteamId() const { return steamId.c_str(); }
 		};
 
 		class SearchResult : public Result
@@ -22,7 +29,8 @@ namespace SteamWebApi
 		public:
 			SearchResult() : count(0) { }
 
-			int GetCount() { return count; }
+			int GetItemCount() { return count; }
+			const SearchItem *GetAt(int idx) const { return items.at(idx); }
 		};
 		
 		static void Search(HANDLE hConnection, const char *token, const char *text, SearchResult *searchResult)
@@ -31,15 +39,20 @@ namespace SteamWebApi
 			searchResult->count = 0;
 			searchResult->items.clear();
 
+			// todo: may need to load all results
+			// 15 first at now
 			HttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/Search/v0001");
-			request.AddParameter("access_token=%s", token);
-			request.AddParameter("&keywords=%s", text);
-			request.AddParameter("&offset=0&count=50&targets=users&fields=all");
-			
+			request.AddParameter("access_token", token);
+			request.AddParameter("keywords", ptrA(mir_urlEncode(text)));
+			request.AddParameter("offset=0&count=15&targets=users&fields=all");
+
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
 				return;
-			
+
+			if ((searchResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+				return;
+
 			JSONNODE *root = json_parse(response->pData), *node, *child;;
 
 			node = json_get(root, "success");
@@ -66,7 +79,12 @@ namespace SteamWebApi
 					if (child == NULL)
 						break;
 
-					SearchItem *item = NULL;
+					SearchItem *item = new SearchItem();
+
+					node = json_get(child, "steamid");
+					item->steamId = ptrA(mir_u2a(json_as_string(node)));
+
+					searchResult->items.push_back(item);
 				}
 			}
 

@@ -1,20 +1,6 @@
 ﻿#ifndef _STEAM_CRYPTO_H_
 #define _STEAM_CRYPTO_H_
 
-		//#include <openssl/rsa.h>
-		//#include <openssl/bio.h>
-		//#include <openssl/bn.h>
-		//#include <openssl/err.h>
-		//#include <openssl/evp.h>
-		//#include <openssl/rand.h>
-		//#include <openssl/engine.h>
-
-//#include "../RSA/RSA.h";
-//#include "../RSA/Key.h";
-//#include "../RSA/BigInt.h";
-//
-//#include <vector>;
-
 namespace SteamWebApi
 {
 	class RsaKeyApi : public BaseApi
@@ -42,11 +28,14 @@ namespace SteamWebApi
 
 			ptrA base64Username(mir_urlEncode(ptrA(mir_utf8encodeW(username))));
 
-			HttpRequest request(hConnection, REQUEST_GET, STEAM_COMMUNITY_URL "/mobilelogin/getrsakey");
+			HttpRequest request(hConnection, REQUEST_GET, STEAM_COM_URL "/mobilelogin/getrsakey");
 			request.AddParameter("username", (char*)base64Username);
-			
+
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
+				return;
+
+			if ((rsaKey->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			JSONNODE *root = json_parse(response->pData), *node;

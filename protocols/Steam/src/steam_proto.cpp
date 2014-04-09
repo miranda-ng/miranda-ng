@@ -27,6 +27,8 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	sid.ptszDescription = LPGENT("Protocol icon");
 	sid.iDefaultIndex = -IDI_STEAM;
 	Skin_AddIcon(&sid);
+
+	SetAllContactsStatus(ID_STATUS_OFFLINE);
 }
 
 CSteamProto::~CSteamProto()
@@ -36,11 +38,11 @@ CSteamProto::~CSteamProto()
 
 MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	/*CContact::Ref contact;
-	this->GetContact((char *)mir_ptr<char>(::mir_utf8encodeW(psr->id)), contact);
-	return this->AddContact(contact);*/
+	if (psr->cbSize != sizeof(STEAM_SEARCH_RESULT))
+		return 0;
 
-	return 0;
+	STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
+	return AddContact(ssr->contact);
 }
 
 MCONTACT __cdecl CSteamProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
@@ -93,7 +95,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH;
+		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAG_UNIQUEIDTEXT:
@@ -124,7 +126,18 @@ HANDLE __cdecl CSteamProto::SearchByEmail(const TCHAR* email)
 
 HANDLE __cdecl CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
-	return 0;
+	if (!this->IsOnline())
+		return 0;
+
+	CMString keywords;
+	keywords.AppendFormat(L" %s", nick);
+	keywords.AppendFormat(L" %s", firstName);
+	keywords.AppendFormat(L" %s", lastName);
+	keywords.Trim();
+
+	ForkThread(&CSteamProto::SearchByNameThread, mir_wstrdup(keywords));
+
+	return (HANDLE)STEAM_SEARCH_BYNAME;
 }
 
 HWND __cdecl CSteamProto::SearchAdvanced( HWND owner ) { return 0; }

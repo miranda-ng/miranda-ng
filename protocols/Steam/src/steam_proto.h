@@ -24,6 +24,13 @@ struct SendMessageParam
 	const char *text;
 };
 
+struct STEAM_SEARCH_RESULT
+{
+	PROTOSEARCHRESULT hdr;
+	const SteamWebApi::FriendApi::Summary *contact;
+};
+
+
 class CSteamProto : public PROTO<CSteamProto>
 {
 public:
@@ -97,9 +104,6 @@ protected:
 	void __cdecl PollingThread(void*);
 
 	// account
-	static WORD SteamToMirandaStatus(int state);
-	static int MirandaToSteamState(int status);
-
 	bool IsOnline();
 	bool IsMe(const char *steamId);
 	void Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult);
@@ -111,10 +115,14 @@ protected:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
-	MCONTACT FindContact(const char *steamId);
-	MCONTACT AddContact(const SteamWebApi::FriendApi::Friend &contact);
+	void UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *contact);
+	void __cdecl UpdateContactsThread(void*);
 
+	MCONTACT FindContact(const char *steamId);
+	MCONTACT AddContact(const SteamWebApi::FriendApi::Summary *contact);
+	
 	void __cdecl SearchByIdThread(void*);
+	void __cdecl SearchByNameThread(void*);
 
 	// messages
 	void __cdecl SendMessageThread(void*);
@@ -126,7 +134,13 @@ protected:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
-	//options
+	// utils
+	static WORD SteamToMirandaStatus(int state);
+	static int MirandaToSteamState(int status);
+
+	static int RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const char *data, DWORD dataSize, BYTE *encrypted, DWORD &encryptedSize);
+
+	// options
 	static INT_PTR CALLBACK GuardProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK CaptchaProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

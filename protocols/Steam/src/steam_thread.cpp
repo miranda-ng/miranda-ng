@@ -7,9 +7,10 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 	if (!pollResult->IsSuccess())
 		return;
 
+	CMStringA updatedIds;
 	for (int i = 0; i < pollResult->GetItemCount(); i++)
 	{
-		const SteamWebApi::PollApi::PoolItem *item = pollResult->operator[](i);
+		const SteamWebApi::PollApi::PoolItem *item = pollResult->GetAt(i);
 		switch (item->GetType())
 		{
 		case SteamWebApi::PollApi::POOL_TYPE_TYPING:
@@ -83,11 +84,19 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 
 						SetContactStatus(hContact, status);
 					}
+
+					if (updatedIds.IsEmpty())
+						updatedIds.Append(steamId);
+					else
+						updatedIds.AppendFormat(",%s", steamId);
 				}
 			}
 			break;
 		}
 	}
+
+	if (!updatedIds.IsEmpty())
+		ForkThread(&CSteamProto::UpdateContactsThread, mir_strdup(updatedIds));
 }
 
 void CSteamProto::PollingThread(void*)
@@ -117,15 +126,22 @@ void CSteamProto::PollingThread(void*)
 		}*/
 
 		if (!pollResult.IsSuccess())
+		{
+			SetStatus(ID_STATUS_OFFLINE);
+
+			// token has expired
+			if (pollResult.GetStatus() == HTTP_STATUS_UNAUTHORIZED)
+			{
+				delSetting("TokenSecret");
+				delSetting("Cookie");
+			}
+
 			break;
+		}
 
 		messageId = pollResult.GetMessageId();
-	}
-
-	if (pollResult.IsSuccess())
 		setDword("MessageID", messageId);
-	else
-		SetStatus(ID_STATUS_OFFLINE);
+	}
 
 	m_hPollingThread = NULL;
 	debugLogA("CSteamProto::PollingThread: leaving");

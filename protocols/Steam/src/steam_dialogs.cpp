@@ -167,8 +167,10 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			switch(LOWORD(wParam))
 			{
 			case IDC_USERNAME:
+				if ((HWND)lParam == GetFocus())
 				{
-					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+					EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), !proto->IsOnline());
+					if (HIWORD(wParam) != EN_CHANGE) return 0;
 					proto->delSetting("SteamID");
 					proto->delSetting("Cookies");
 					proto->delSetting("TokenSecret");
@@ -179,8 +181,10 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 				break;
 
 			case IDC_PASSWORD:
+				if ((HWND)lParam == GetFocus())
 				{
-					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+					EnableWindow(GetDlgItem(hwnd, IDC_PASSWORD), !proto->IsOnline());
+					if (HIWORD(wParam) != EN_CHANGE) return 0;
 					proto->delSetting("Cookie");
 					proto->delSetting("TokenSecret");
 					char password[128];
@@ -212,17 +216,17 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 				char password[128];
 				GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
 				proto->setString("Password", password);
-
-				wchar_t groupName[128];
-				GetDlgItemText(hwnd, IDC_GROUP, groupName, SIZEOF(groupName));
-				if (lstrlen(groupName) > 0)
-				{
-					proto->setWString(NULL, "DefaultGroup", groupName);
-					Clist_CreateGroup(0, groupName);
-				}
-				else
-					proto->delSetting(NULL, "DefaultGroup");
 			}
+
+			wchar_t groupName[128];
+			GetDlgItemText(hwnd, IDC_GROUP, groupName, SIZEOF(groupName));
+			if (lstrlen(groupName) > 0)
+			{
+				proto->setWString(NULL, "DefaultGroup", groupName);
+				Clist_CreateGroup(0, groupName);
+			}
+			else
+				proto->delSetting(NULL, "DefaultGroup");
 
 			return TRUE;
 		}

@@ -218,6 +218,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\steam_thread.cpp" />
+    <ClCompile Include="src\steam_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc" />

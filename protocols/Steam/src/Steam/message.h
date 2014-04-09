@@ -34,7 +34,10 @@ namespace SteamWebApi
 			request.SetData(data.GetBuffer(), data.GetLength());
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
+				return;
+
+			if ((sendResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			sendResult->success = true;
@@ -56,7 +59,10 @@ namespace SteamWebApi
 			request.SetData(data.GetBuffer(), data.GetLength());
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
+				return;
+
+			if ((sendResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			JSONNODE *root = json_parse(response->pData), *node;
@@ -88,7 +94,10 @@ namespace SteamWebApi
 			request.SetData(data.GetBuffer(), data.GetLength());
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
+				return;
+
+			if ((sendResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
 			sendResult->success = true;

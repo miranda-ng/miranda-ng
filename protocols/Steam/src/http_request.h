@@ -5,7 +5,8 @@
 
 enum HTTP_STATUS
 {
-	HTTP_STATUS_OK = 200/*,
+	HTTP_STATUS_NONE = 0,
+	HTTP_STATUS_OK = 200,
 	HTTP_STATUS_BAD_REQUEST = 400,
 	HTTP_STATUS_UNAUTHORIZED = 401,
 	HTTP_STATUS_FORBIDDEN = 403,
@@ -13,10 +14,10 @@ enum HTTP_STATUS
 	HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
 	HTTP_STATUS_TOO_MANY_REQUESTS = 429,
 	HTTP_STATUS_SERVICE_UNAVAILABLE = 503,
-	HTTP_STATUS_INSUFICIENTE_STORAGE = 507*/
+	HTTP_STATUS_INSUFICIENTE_STORAGE = 507
 };
 
-class HttpRequest : public NETLIBHTTPREQUEST//, public MZeroedObject
+class HttpRequest : protected NETLIBHTTPREQUEST//, public MZeroedObject
 {
 public:
 	HttpRequest(HANDLE hNetlibUser, int request, LPCSTR url)
@@ -74,48 +75,6 @@ public:
 		memcpy(pData, data, size);
 	}
 
-	/*void AddBasicAuthHeader(LPCSTR szLogin, LPCSTR szPassword)
-	{
-		char cPair[128];
-		mir_snprintf(
-			cPair,
-			SIZEOF(cPair),
-			"%s:%s",
-			szLogin,
-			szPassword);
-
-		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, (UINT)strlen(cPair));
-
-		char value[128];
-		mir_snprintf(
-			value,
-			SIZEOF(value),
-			"Basic %s",
-			ePair);
-
-		mir_free(ePair);
-
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
-		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
-		headersCount++;
-	}
-
-	void AddBearerAuthHeader(LPCSTR szValue)
-	{
-		char value[128];
-		mir_snprintf(
-			value,
-			SIZEOF(value),
-			"Bearer %s",
-			szValue);
-
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
-		headers[headersCount].szName = mir_strdup("Authorization");
-		headers[headersCount].szValue = mir_strdup(value);
-		headersCount++;
-	}*/
-
 	void AddUrlPart(LPCSTR szPart)
 	{
 		m_szUrl += szPart;
@@ -151,6 +110,11 @@ public:
 			m_szUrl.AppendFormat("?%s", szValue);
 		else
 			m_szUrl.AppendFormat("&%s", szValue);
+	}
+
+	void SetTimeout(int timeout)
+	{
+		timeout = timeout;
 	}
 
 	NETLIBHTTPREQUEST *Send()

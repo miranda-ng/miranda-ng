@@ -77,14 +77,17 @@ namespace SteamWebApi
 			data.AppendFormat("&oauth_scope=%s", "read_profile write_profile read_client write_client");
 			data.Append("&oauth_client_id=DE45CD61");
 
-			HttpRequest request(hConnection, REQUEST_POST, STEAM_COMMUNITY_URL "/mobilelogin/dologin");
+			HttpRequest request(hConnection, REQUEST_POST, STEAM_COM_URL "/mobilelogin/dologin");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data.GetBuffer(), data.GetLength());
-			
+
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
-			if (!response || response->resultCode != HTTP_STATUS_OK)
+			if (!response)
 				return;
-			
+
+			if ((authResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+				return;
+
 			JSONNODE *root = json_parse(response->pData), *node;
 
 			node = json_get(root, "success");
@@ -123,10 +126,7 @@ namespace SteamWebApi
 					return;
 
 				node = json_get(root, "oauth");
-				CMStringA oauth = mir_u2a(json_as_string(node));
-				oauth.Replace("\\\"", "\"");
-				root = json_parse(oauth.GetBuffer());
-				//root = json_as_node(node);
+				root = json_parse(ptrA(mir_u2a(json_as_string(node))));
 
 				node = json_get(root, "steamid");
 				authResult->steamid = ptrA(mir_u2a(json_as_string(node)));
@@ -134,8 +134,8 @@ namespace SteamWebApi
 				node = json_get(root, "oauth_token");
 				authResult->token = ptrA(mir_u2a(json_as_string(node)));
 
-				node = json_get(root, "webcookie");
-				authResult->cookie = ptrA(mir_u2a(json_as_string(node)));
+				/*node = json_get(root, "webcookie");
+				authResult->cookie = ptrA(mir_u2a(json_as_string(node)));*/
 
 				authResult->success = true;
 				authResult->captcha_needed = false;
