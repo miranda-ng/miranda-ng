@@ -6,7 +6,7 @@
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
-Skype протокол для Miranda NG.
+Поддержка протокола Skype в Miranda NG.
 [Invite contacts to conference]
 Пригласить в конференцию
 [Skype name:]
