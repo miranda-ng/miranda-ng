@@ -19,8 +19,8 @@
 Перевірочний код
 [Cancel]
 Скасувати
-[As an added accout security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-На цому облікового запису ввімкнено Steam Guard, тому необхідно ввести спеціальний код, який був надісланий на вашу адресу електронної пошти.
+[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+Для цього облікового запису ввімкнено Steam Guard, тому необхідно ввести спеціальний код, який було вислано на адресу вашої електронної пошти.
 [Go to email domain]
 Перейти до поштової скринки
 [%s connection]

@@ -754,21 +754,21 @@ ID поточного контакту (якщо визначено). Напри
 [path to Miranda root folder]
 шлях до кореневої папки Miranda
 [path to current Miranda profile]
-шлях до поточного профілю Miranda
+шлях до папки поточного профілю
 [name of current Miranda profile (filename, without extension)]
 ім'я поточного профілю (ім'я файлу без розширення)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-повернеться аналізованої рядки %miranda_profile%\\Profiles\\%miranda_profilename%
+поверне рядок виду %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
-повернеться аналізованого рядка %miranda_userdata%\\Logs
-[same as environment variable %APPDATA% for currently logged on Windows user]
-змінна оточення %APPDATA% для користувача що увійшов в систему.
+поверне рядок виду %miranda_userdata%\\Logs
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+аналог змінної середовища %APPDATA% для поточного користувача системи
 [username for currently logged on Windows user]
-ім'я користувача, що увійшов в систему користувача Windows
+ім'я поточного користувача системи
 ["My Documents" folder for currently logged on Windows user]
 папка "Мої документи" для поточного користувача Windows
 ["Desktop" folder for currently logged on Windows user]
-папка Робочий стіл для поточного користувача Windows
+папка "Робочий стіл" для поточного користувача Windows
 [any environment variable defined in current Windows session (like %systemroot%% allusersprofile%, etc.)]
 будь-які змінні, визначені в поточній сесії Windows (такі як %systemroot%% allusersprofile%, і ін.)
 [day of month, 1-31]
