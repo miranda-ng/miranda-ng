@@ -9,7 +9,6 @@
 [Rule editor]
 [Local IP:Port]
 [Action:]
-[OK]
 [* and ? wildcard characters also available (for port enter number or *)]
 [Remote IP:Port]
 [Always show popup]

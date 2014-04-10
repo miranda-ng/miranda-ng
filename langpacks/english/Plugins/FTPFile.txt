@@ -54,7 +54,6 @@
 [Delete from list]
 [Delete from FTP]
 [Enter file name]
-[OK]
 [Cancel]
 [File exists]
 [Rename]

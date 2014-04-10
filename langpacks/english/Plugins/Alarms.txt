@@ -28,7 +28,6 @@
 [Don't steal focus unless idle]
 [Preview]
 [Alarm]
-[OK]
 [Cancel]
 [Title:]
 [Description:]

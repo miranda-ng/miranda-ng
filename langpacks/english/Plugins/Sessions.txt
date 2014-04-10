@@ -39,7 +39,6 @@
 [Save and Close]
 [adv.]
 [Sessions Manager]
-[OK]
 [Cancel]
 [Save your current session?]
 ;file \plugins\Sessions\Src\Main.cpp

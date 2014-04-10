@@ -81,7 +81,6 @@
 [Variables]
 [Reset]
 [Disable notifications]
-[OK]
 [Cancel]
 [Disable globally]
 [Disable only if I change global status]

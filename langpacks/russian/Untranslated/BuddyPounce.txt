@@ -1,5 +1,4 @@
 ﻿[Allows you to send a message to contacts if they change status.]
-[OK]
 [Couldn't allocate enough memory]
 [error......]
 [The Message    (0 Characters)]

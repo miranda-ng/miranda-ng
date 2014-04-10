@@ -33,7 +33,6 @@
 [Set mode:]
 [About sets]
 [All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
-[OK]
 [Configure HistoryStats]
 [Apply]
 ;file \plugins\HistoryStats\src\colbase_words.cpp

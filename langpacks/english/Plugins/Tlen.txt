@@ -52,7 +52,6 @@
 [P&ermanent]
 [Preview]
 [Tlen Password]
-[OK]
 [Cancel]
 [Nickname:]
 [First name:]

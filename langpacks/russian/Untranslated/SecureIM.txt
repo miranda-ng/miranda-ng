@@ -2,6 +2,5 @@
 [GPG]
 [SHA1:]
 [Temp Dir:]
-[OK]
 [Set pre-shared key]
 [Delete pre-shared key]

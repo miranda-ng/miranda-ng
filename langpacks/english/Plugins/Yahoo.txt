@@ -31,7 +31,6 @@
 [&Remove]
 [Set Custom Status]
 [Show as busy]
-[OK]
 [Cancel]
 [Protocol:]
 [Client:]

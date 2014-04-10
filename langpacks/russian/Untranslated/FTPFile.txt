@@ -1,6 +1,5 @@
 ﻿[File Manager]
 [Enter file name]
-[OK]
 [File exists]
 [File with the same name already exists on the server.]
 [How to proceed?]

@@ -8,7 +8,6 @@
 [Shows a small tooltip above system tray area when a contact status is changed.]
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
-[OK]
 [Choose contacts]
 [Allow tooltip notifications for the following users:]
 [Cancel]

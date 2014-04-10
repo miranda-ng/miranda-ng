@@ -1,5 +1,4 @@
-﻿[OK]
-[Info provided by <a href="http://www.google.com">Google</a>]
+﻿[Info provided by <a href="http://www.google.com">Google</a>]
 [Chart]
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
 [Get data from:]

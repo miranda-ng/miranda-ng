@@ -9,7 +9,6 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 [Nickname:]
-[OK]
 [Cancel]
 [General]
 [...avatar]

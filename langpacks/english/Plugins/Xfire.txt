@@ -70,7 +70,6 @@
 [Enter Password]
 [Join]
 [Set Nickname]
-[OK]
 [Cancel]
 [New xfire_games.ini]
 [There is a new XFire gamelist online, do you want to update now?]

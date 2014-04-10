@@ -3,6 +3,5 @@
 [Treat 'idle' as 'away']
 [Meanwhile lib ver: 1.0.2]
 [Disconnected]
-[OK]
 [I'm outa here.]
 [Normal]

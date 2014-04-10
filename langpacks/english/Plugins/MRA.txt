@@ -78,7 +78,6 @@
 [Closing in %d]
 [Title:]
 [Message:]
-[OK]
 [Cancel]
 [Notify]
 [Written:]

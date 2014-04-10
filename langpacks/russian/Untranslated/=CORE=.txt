@@ -1,5 +1,4 @@
-﻿[OK]
-[E-mail:]
+﻿[E-mail:]
 [AaBbYyZz]
 [Miranda NG]
 [&OK]
@@ -14,4 +13,3 @@
 [Shift + ]
 [Win + ]
 [SMS]
-[OK (%d)]

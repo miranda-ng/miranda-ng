@@ -1,5 +1,4 @@
-﻿[OK]
-[Send screenshot to\n<unknown>]
+﻿[Send screenshot to\n<unknown>]
 [%s\nv%s]
 [Target Tool]
 [Result]

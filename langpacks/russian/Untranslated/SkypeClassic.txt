@@ -1,4 +1,3 @@
-﻿[OK]
-[&Kick user]
+﻿[&Kick user]
 [invited ]
 [Skype ID]

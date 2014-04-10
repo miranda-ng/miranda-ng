@@ -136,7 +136,6 @@
 [With "fullscreen" overlay]
 [Refresh skin list]
 [Popup Placement]
-[OK]
 [Cancel]
 [Popup Group]
 [Favorite Contact]

@@ -23,7 +23,6 @@
 [User key]
 [Get user key]
 [Configure formatting]
-[OK]
 [Cancel]
 [Up]
 [Down]

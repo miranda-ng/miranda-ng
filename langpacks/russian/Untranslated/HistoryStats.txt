@@ -1,5 +1,4 @@
 ﻿[Band]
-[OK]
 [Minimum chat duration]
 [[Sum] #{amount}]
 [Outgoing URLs]

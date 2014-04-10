@@ -16,7 +16,6 @@
 [Enter ICQ Password]
 [Enter a password for UIN %d:]
 [Remember this session password]
-[OK]
 [Cancel]
 [ICQ]
 [ICQ number:]

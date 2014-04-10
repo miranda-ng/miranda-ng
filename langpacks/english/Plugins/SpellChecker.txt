@@ -18,7 +18,6 @@
 [No separators and all lowercase chars]
 [Correction:]
 [Use variables in correction]
-[OK]
 [Cancel]
 [Spell Checker]
 [Default language:]

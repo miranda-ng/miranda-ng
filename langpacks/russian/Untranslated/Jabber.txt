@@ -1,5 +1,4 @@
-﻿[OK]
-[Jabber]
+﻿[Jabber]
 [X400]
 [Create or Join group chat]
 [JID:]
@@ -152,4 +151,3 @@
 [Google Talk!]
 [Odnoklassniki]
 [Choose the group chats you want to leave]
-[OK (%d)]

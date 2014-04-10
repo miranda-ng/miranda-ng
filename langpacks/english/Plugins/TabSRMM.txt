@@ -8,7 +8,6 @@
 [IM and group chat module for Miranda NG.]
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-[OK]
 [Cancel]
 [Show these events]
 [Actions]

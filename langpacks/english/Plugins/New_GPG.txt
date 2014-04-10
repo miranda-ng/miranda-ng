@@ -8,7 +8,6 @@
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
-[OK]
 [Load from file]
 [Select existing]
 [Turn on encryption]

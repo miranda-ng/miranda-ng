@@ -1,5 +1,4 @@
 ﻿[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-[OK]
 [r]
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 [TmplPast Work Place]

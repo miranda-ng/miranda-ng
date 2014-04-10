@@ -38,7 +38,6 @@
 [Close]
 [Show all contacts]
 [Set birthday:]
-[OK]
 [Manage anniversaries]
 [Title:]
 [Description:]

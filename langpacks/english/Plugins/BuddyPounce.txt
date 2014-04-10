@@ -12,7 +12,6 @@
 [Cancel]
 [Pounce being sent to]
 [Buddy Pounce]
-[OK]
 [The Message:]
 [Delete Pounce]
 [Load default Settings]

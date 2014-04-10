@@ -1,5 +1,4 @@
-﻿[OK]
-[Google]
+﻿[Google]
 [Removed]
 [Sent OK]
 [Deferred]

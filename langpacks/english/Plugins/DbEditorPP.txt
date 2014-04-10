@@ -31,7 +31,6 @@
 [Add a module to contact]
 [Add a module named]
 [Add to all contacts (Includes Settings)]
-[OK]
 [Cancel]
 [Edit Setting]
 [Byte]

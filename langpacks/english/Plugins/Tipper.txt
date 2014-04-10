@@ -39,7 +39,6 @@
 [Contact protocol module]
 [Setting or prefix:]
 [Translation:]
-[OK]
 [Cancel]
 [Item]
 [Value:]

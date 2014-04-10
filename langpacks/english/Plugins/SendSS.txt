@@ -8,7 +8,6 @@
 [Take a screenshot and send it to a contact.]
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
-[OK]
 [All]
 [None]
 [Cancel]

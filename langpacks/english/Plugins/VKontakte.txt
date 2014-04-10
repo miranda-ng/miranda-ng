@@ -22,7 +22,6 @@
 [Submit]
 [Cancel]
 [Invite user to chat]
-[OK]
 [Choose one of your contacts to be invited:]
 [Create group chat]
 [Mark users you want to invite to a new chat]

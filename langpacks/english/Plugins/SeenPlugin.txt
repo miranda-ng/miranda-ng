@@ -36,7 +36,6 @@
 [Offline]
 [Reset colors]
 [Last seen plugin]
-[OK]
 [You missed following contacts:]
 [Test\nTest]
 [Alert when user status changes]

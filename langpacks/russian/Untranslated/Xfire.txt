@@ -7,7 +7,6 @@
 [(manual added)]
 [Extra Command Line Parameters:]
 [IP:]
-[OK]
 [New xfire_games.ini]
 [There is a new XFire gamelist online, do you want to update now?]
 [New supported games:]

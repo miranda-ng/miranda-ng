@@ -37,7 +37,6 @@
 [Confirm resetting status]
 [Only set if current status is]
 [Command line]
-[OK]
 [Copy to clipboard]
 [Command line:]
 [Create shortcut]

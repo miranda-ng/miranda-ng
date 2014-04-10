@@ -31,7 +31,6 @@
 [Shutdown when all contacts are &offline]
 [Shutdown when all &file transfers are finished]
 [&Action:]
-[OK]
 [Cancel]
 [Unsaved data in open applications except Miranda NG might get lost.]
 [Please click "Cancel" if you would like to abort the process.]

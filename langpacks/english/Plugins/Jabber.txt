@@ -9,7 +9,6 @@
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 [Tags:]
-[OK]
 [Cancel]
 [Type:]
 [User:]
@@ -1119,7 +1118,6 @@
 ;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
 [Afraid]
 [Amazed]
 [Amorous]

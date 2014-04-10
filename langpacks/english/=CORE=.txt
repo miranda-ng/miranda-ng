@@ -2,7 +2,6 @@
 [Enter account name (for example, My Google)]
 [Choose the protocol type]
 [Specify the internal account name (optional)]
-[OK]
 [Cancel]
 [Add %s]
 [&Add]
@@ -1411,8 +1410,6 @@
 [JPEG bitmaps]
 [GIF bitmaps]
 [PNG bitmaps]
-;file \src\modules\utils\enterstring.cpp
-[OK (%d)]
 ;file \src\modules\utils\path.cpp
 [Avatars]
 [Avatars root folder]

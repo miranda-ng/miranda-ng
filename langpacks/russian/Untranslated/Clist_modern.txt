@@ -1,5 +1,4 @@
-﻿[OK]
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+﻿[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 [ layered]
 [( unknown )]
 [reVista for Modern v0.5]

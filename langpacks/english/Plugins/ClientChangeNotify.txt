@@ -8,7 +8,6 @@
 [Shows a notification when someone in your contact list changes his client.]
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
-[OK]
 [Fingerprint plugin not found.]
 [ClientChangeNotify requires it to work properly.]
 [Don't remind me anymore]

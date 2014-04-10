@@ -1,5 +1,4 @@
-﻿[OK]
-[Fortune]
+﻿[Fortune]
 [?cinfo(contact,property)]
 [?contact(string,property)]
 [?mstatus(protocol)]
@@ -23,4 +22,3 @@
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 [get the date (Simple Status Message compatible)]
 [<startup>]
-[OK (%d)]

@@ -13,7 +13,6 @@
 [Import]
 [Export]
 [Retrieve news at startup]
-[OK]
 [Cancel]
 [General Settings]
 [Title]

@@ -53,7 +53,6 @@
 [Description:]
 [&Save changes]
 [Enter token to continue]
-[OK]
 [Cancel]
 [Create Gadu-Gadu account]
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]

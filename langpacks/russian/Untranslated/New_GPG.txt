@@ -1,5 +1,4 @@
 ﻿[Load Public GPG key]
-[OK]
 [Email:]
 [Enter password for your secret key]
 [Received encrypted file]

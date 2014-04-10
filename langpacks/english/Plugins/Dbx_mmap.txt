@@ -9,7 +9,6 @@
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Login to Miranda NG]
 [EN]
-[OK]
 [Cancel]
 [New password]
 [Please enter your new password]

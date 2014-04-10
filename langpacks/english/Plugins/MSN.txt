@@ -42,7 +42,6 @@
 [Enable 'Contact left channel' popup]
 [Disable Contact List notifications]
 [Set Nickname]
-[OK]
 [Cancel]
 [Mobile Device (used for SMS)]
 [Spouse/Partner]

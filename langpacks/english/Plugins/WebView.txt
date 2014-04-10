@@ -46,7 +46,6 @@
 [Opens data window]
 [Display clean-up]
 [Remove HTML]
-[OK]
 [Cancel]
 [Apply]
 [Find]

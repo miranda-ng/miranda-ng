@@ -1,6 +1,5 @@
 ﻿[V]
 [Colors]
-[OK]
 [Configure autoaway]
 [Store for each status separately]
 [Use default...]

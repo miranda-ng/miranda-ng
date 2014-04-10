@@ -1,5 +1,4 @@
-﻿[OK]
-[Execute history task]
+﻿[Execute history task]
 [%s Files (*.%s)]
 [File does not contain selected contact]
 [File is corrupted]

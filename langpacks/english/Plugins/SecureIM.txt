@@ -68,7 +68,6 @@
 [Please type in your password]
 [Username:]
 [Password:]
-[OK]
 [Cancel]
 [SecureIM plugin Passphrase of private key]
 [Enter passphrase for the secret key:]

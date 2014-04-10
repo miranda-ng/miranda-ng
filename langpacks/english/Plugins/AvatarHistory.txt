@@ -17,7 +17,6 @@
 [Store this user's old avatars in disk]
 [Log this user's avatars changes to history]
 [Show popups for this user]
-[OK]
 [Protocols]
 [Enable tracking for these protocols:]
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]

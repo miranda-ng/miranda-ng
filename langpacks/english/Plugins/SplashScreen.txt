@@ -25,10 +25,8 @@
 ;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 [Error]
-[Call Splash Service]
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 [Sound Files]
 [Skins]
 [Splash Screen]
-;file \plugins\SplashScreen\src\services.cpp

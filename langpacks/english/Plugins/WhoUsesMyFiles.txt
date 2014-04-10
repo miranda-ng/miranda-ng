@@ -8,7 +8,6 @@
 [Scans for network users of your shared files and notify you with popups.]
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
-[OK]
 [Popup delay settings]
 [Popup Delay (seconds)]
 [Background color]

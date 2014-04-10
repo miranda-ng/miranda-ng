@@ -1,5 +1,4 @@
-﻿[OK]
-[The wrong word can't be empty!]
+﻿[The wrong word can't be empty!]
 [The correction can't be empty!]
 [The correction can't be equal to the wrong word!]
 [Tagalog (Philippines)]

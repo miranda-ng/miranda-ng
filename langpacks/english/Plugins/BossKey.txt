@@ -20,7 +20,6 @@
 [Change status back]
 [Hotkey]
 [Password:]
-[OK]
 [Cancel]
 [EN]
 [Workstation is locked]

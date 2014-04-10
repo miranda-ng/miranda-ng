@@ -29,7 +29,6 @@
 [Hint:]
 [Enter password]
 [Remember this session password]
-[OK]
 [Cancel]
 [Status text:]
 [Online since:]

@@ -31,7 +31,6 @@
 [Join conference with %s]
 [Answer call; set call to %s on hold]
 [Hang up]
-[OK]
 [Dialog]
 [Use Skype proxy connection over network instead of local Skype API]
 [Host:]

@@ -71,7 +71,6 @@
 [Export imported messages]
 [* Use negative values to filter younger events]
 [Execute task for specified contacts]
-[OK]
 [Cancel]
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]

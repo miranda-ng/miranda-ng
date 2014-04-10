@@ -1,5 +1,4 @@
-﻿[OK]
-[WWW:]
+﻿[WWW:]
 [SSL]
 [APOP]
 [Translate header error]

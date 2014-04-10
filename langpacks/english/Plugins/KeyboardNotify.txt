@@ -72,7 +72,6 @@
 [Override existing]
 [Set program list]
 [Program]
-[OK]
 [Cancel]
 [Set LEDs for events]
 [Num]

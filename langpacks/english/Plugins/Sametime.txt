@@ -30,7 +30,6 @@
 [Meanwhile lib ver: 1.0.2]
 [Disconnected]
 [Send announcement]
-[OK]
 [Cancel]
 [Message text:]
 [Select all]

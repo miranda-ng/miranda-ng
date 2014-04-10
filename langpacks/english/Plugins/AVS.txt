@@ -33,7 +33,6 @@
 [Set as hidden]
 [Try to make picture background transparent]
 [Use defaults]
-[OK]
 [Cancel]
 [Options]
 [Background]
