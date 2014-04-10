@@ -20,7 +20,6 @@
 [Use SSL connection (443 port)]
 [WhatsApp]
 [Cancel]
-[OK]
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 [Please enter a phone-number without country code.]
