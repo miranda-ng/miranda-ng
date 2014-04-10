@@ -1,4 +1,3 @@
-﻿[&OK]
-[[OTR INFO] ]
+﻿[[OTR INFO] ]
 [OTR: %s (%s)]
 [OTR %s (%s)]

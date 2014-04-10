@@ -35,7 +35,6 @@
 [Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [&Cancel]
-[&OK]
 [Socialist Millionaires Protocol\r\nVerification]
 [&No]
 [&Yes]

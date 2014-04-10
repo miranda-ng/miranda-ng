@@ -37,7 +37,6 @@
 [Auto popup on new message]
 [Save window position per contact]
 [SMS Message Sent]
-[&OK]
 [Message ID:]
 [Source:]
 [Network:]

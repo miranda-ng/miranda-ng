@@ -1,7 +1,6 @@
 ﻿[E-mail:]
 [AaBbYyZz]
 [Miranda NG]
-[&OK]
 [Google]
 [Wikipedia]
 [Miranda NG\n%s]

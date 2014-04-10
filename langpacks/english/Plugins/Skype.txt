@@ -23,7 +23,6 @@
 [Confirmation:]
 [Password hint:]
 [Configure conference]
-[&OK]
 [Join role:]
 [Set password]
 [Hint:]

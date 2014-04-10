@@ -1,5 +1,4 @@
 ﻿[Configure conference]
-[&OK]
 [Join role:]
 [LOGOUT_CALLED]
 [SERVER_CONNECT_FAILED]

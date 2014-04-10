@@ -226,7 +226,6 @@
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 [Add to Existing MetaContact]
 [Please select a MetaContact:]
-[&OK]
 [Sort Alphabetically]
 [Editing]
 [Information]

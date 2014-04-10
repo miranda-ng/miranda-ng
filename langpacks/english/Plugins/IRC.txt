@@ -59,7 +59,6 @@
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 [CTCP information]
 [Question]
-[&OK]
 [&Cancel]
 [Perform]
 [&Set]

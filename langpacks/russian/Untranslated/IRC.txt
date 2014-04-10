@@ -1,5 +1,4 @@
 ﻿[SSL]
-[&OK]
 [CTCP]
 [DCC]
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
