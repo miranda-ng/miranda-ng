@@ -77,7 +77,7 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 void NotifyError(DWORD dwError, const TCHAR* szSetting, int iLine)
 {
 	TCHAR str[1024];
-	mir_sntprintf(str, SIZEOF(str), TranslateT("Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d"), szSetting, GetFacility(dwError), GetErrorCode(dwError), iLine);
+	mir_sntprintf(str, SIZEOF(str), TranslateT("Something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d"), szSetting, GetFacility(dwError), GetErrorCode(dwError), iLine);
 	Log(str);
 }
 
