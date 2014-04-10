@@ -67,7 +67,7 @@ Kontakty ICQ przechowywane na serwerze
 [Manage server's list...]
 Zarządzaj listą na serwerze...
 [Enable server-side contact lists *]
-Uaktywnij listę kontaktów znajdującą się na serwerze. *]
+Uaktywnij listę kontaktów znajdującą się na serwerze. *
 [Add contacts to the server's list when I add them to mine]
 Wysyłaj kontakty na serwer, kiedy dodasz je do swojej listy
 [Update my contacts' details from the server *]
