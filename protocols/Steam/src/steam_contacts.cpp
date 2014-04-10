@@ -18,28 +18,88 @@ void CSteamProto::SetAllContactsStatus(WORD status)
 	}
 }
 
+MCONTACT CSteamProto::FindContact(const char *steamId)
+{
+	MCONTACT hContact = NULL;
+
+	EnterCriticalSection(&this->contact_search_lock);
+
+	for (hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
+	{
+		ptrA cSteamId(db_get_sa(hContact, this->m_szModuleName, "SteamID"));
+		if (!lstrcmpA(cSteamId, steamId))
+			break;
+	}
+
+	LeaveCriticalSection(&this->contact_search_lock);
+
+	return hContact;
+}
+
 void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *contact)
 {
+	// only if contact is in contact list
 	if (hContact && !FindContact(contact->GetSteamId()))
 		return;
 
 	// set common data
 	setWString(hContact, "Nick", contact->GetNickname());
-	setWord(hContact, "Status", SteamToMirandaStatus(contact->GetState()));
 	setString(hContact, "Homepage", contact->GetHomepage());
-	setDword(hContact, "LastEventDateTS", contact->GetLastEvent());
+	// only for contacts
+	if (hContact)
+	{
+		setWord(hContact, "Status", SteamToMirandaStatus(contact->GetState()));
+		setDword(hContact, "LastEventDateTS", contact->GetLastEvent());
+	}
 
 	// set name
 	ptrW realname(mir_wstrdup(contact->GetRealname()));
 	const wchar_t *p = wcschr(realname, ' ');
 	if (p == NULL)
+	{
 		setWString(hContact, "FirstName", realname);
+		delSetting(hContact, "LastName");
+	}
 	else
 	{
 		int length = p - (wchar_t*)realname;
 		realname[length] = '\0';
-		setWString(hContact, "LastName", realname);
+		setWString(hContact, "FirstName", realname);
 		setWString(hContact, "LastName", p + 1);
+	}
+
+	// avatar
+	ptrA oldAvatar(getStringA("AvatarUrl"));
+	if (lstrcmpiA(oldAvatar, contact->GetAvatarUrl()))
+	{
+		// todo: need to place in thread
+		SteamWebApi::AvatarApi::Avatar avatar;
+		SteamWebApi::AvatarApi::GetAvatar(m_hNetlibUser, contact->GetAvatarUrl(), &avatar);
+
+		if (avatar.IsSuccess() && avatar.GetDataSize() > 0)
+		{
+			ptrW avatarPath(GetAvatarFilePath(hContact));
+			FILE *fp = _wfopen(avatarPath, L"wb");
+			if (fp)
+			{
+				fwrite(avatar.GetData(), sizeof(char), avatar.GetDataSize(), fp);
+				fclose(fp);
+
+				if (hContact)
+				{
+					PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
+					pai.format = PA_FORMAT_JPEG;
+					pai.hContact = hContact;
+					wcscpy(pai.filename, avatarPath);
+
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+				}
+				else
+					CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)avatarPath);
+			}
+
+			setString("AvatarUrl", contact->GetAvatarUrl());
+		}
 	}
 
 	// set country
@@ -66,34 +126,21 @@ void CSteamProto::UpdateContactsThread(void *arg)
 	if (!summarues.IsSuccess())
 		return;
 
-	for (int i = 0; i < summarues.GetItemCount(); i++)
+	for (size_t i = 0; i < summarues.GetItemCount(); i++)
 	{
 		const SteamWebApi::FriendApi::Summary *contact = summarues.GetAt(i);
 		
-		MCONTACT hContact = this->FindContact(contact->GetSteamId());
-		if (!hContact)
+		if (IsMe(contact->GetSteamId()))
+			UpdateContact(NULL, contact);
+		else
 		{
-			UpdateContact(hContact, contact);
+			MCONTACT hContact = this->FindContact(contact->GetSteamId());
+			if (!hContact)
+			{
+				UpdateContact(hContact, contact);
+			}
 		}
 	}
-}
-
-MCONTACT CSteamProto::FindContact(const char *steamId)
-{
-	MCONTACT hContact = NULL;
-
-	EnterCriticalSection(&this->contact_search_lock);
-
-	for (hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
-	{
-		ptrA cSteamId(db_get_sa(hContact, this->m_szModuleName, "SteamID"));
-		if (!lstrcmpA(cSteamId, steamId))
-			break;
-	}
-
-	LeaveCriticalSection(&this->contact_search_lock);
-
-	return hContact;
 }
 
 MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Summary *contact)
@@ -120,6 +167,46 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Summary *contact)
 	}
 
 	return hContact;
+}
+
+void CSteamProto::LoadContactList()
+{
+	ptrA token(getStringA("TokenSecret"));
+	ptrA steamId(getStringA("SteamID"));
+
+	SteamWebApi::FriendListApi::FriendList friendList;
+	SteamWebApi::FriendListApi::Load(m_hNetlibUser, token, steamId, &friendList);
+	
+	if (friendList.IsSuccess())
+	{
+		CMStringA newContacts;
+		for (size_t i = 0; i < friendList.GetItemCount(); i++)
+		{
+			const char * steamId = friendList.GetAt(i);
+			if (!FindContact(steamId))
+			{
+				if (newContacts.IsEmpty())
+					newContacts.Append(steamId);
+				else
+					newContacts.AppendFormat(",%s", steamId);
+			}
+		}
+
+		if (!newContacts.IsEmpty())
+		{
+			SteamWebApi::FriendApi::Summaries summaries;
+			SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, newContacts, &summaries);
+
+			if (summaries.IsSuccess())
+			{
+				for (size_t i = 0; i < summaries.GetItemCount(); i++)
+				{
+					const SteamWebApi::FriendApi::Summary *summary = summaries.GetAt(i);
+					AddContact(summary);
+				}
+			}
+		}
+	}
 }
 
 void CSteamProto::SearchByIdThread(void* arg)
@@ -204,7 +291,7 @@ void CSteamProto::SearchByNameThread(void* arg)
 		return;
 	}
 
-	for (int i = 0; i < summarues.GetItemCount(); i++)
+	for (size_t i = 0; i < summarues.GetItemCount(); i++)
 	{
 		const SteamWebApi::FriendApi::Summary *contact = summarues.GetAt(i);
 

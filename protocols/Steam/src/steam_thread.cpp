@@ -8,7 +8,7 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 		return;
 
 	CMStringA updatedIds;
-	for (int i = 0; i < pollResult->GetItemCount(); i++)
+	for (size_t i = 0; i < pollResult->GetItemCount(); i++)
 	{
 		const SteamWebApi::PollApi::PoolItem *item = pollResult->GetAt(i);
 		switch (item->GetType())
@@ -66,30 +66,19 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 				const wchar_t *nickname = state->GetNickname();
 
 				if (IsMe(steamId))
-				{
-					const wchar_t *oldNickname = getWStringA("Nick");
-					if (lstrcmp(oldNickname, nickname) && lstrlen(nickname))
-						setWString("Nick", nickname);
-
 					SetStatus(status);
-				}
 				else
 				{
 					MCONTACT hContact = FindContact(steamId);
 					if (hContact)
-					{
-						const wchar_t *oldNickname = getWStringA(hContact, "Nick");
-						if (lstrcmp(oldNickname, nickname) && lstrlen(nickname))
-							setWString(hContact, "Nick", nickname);
-
 						SetContactStatus(hContact, status);
-					}
 
-					if (updatedIds.IsEmpty())
-						updatedIds.Append(steamId);
-					else
-						updatedIds.AppendFormat(",%s", steamId);
 				}
+				
+				if (updatedIds.IsEmpty())
+					updatedIds.Append(steamId);
+				else
+					updatedIds.AppendFormat(",%s", steamId);
 			}
 			break;
 		}

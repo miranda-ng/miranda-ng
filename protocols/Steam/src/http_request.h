@@ -29,7 +29,7 @@ public:
 		dataLength = 0;
 		headersCount = 0;
 		szResultDescr = NULL;
-		flags = NLHRF_HTTP11 | NLHRF_SSL;
+		flags = NLHRF_HTTP11;
 		requestType = request;
 
 		m_hNetlibUser = hNetlibUser;
@@ -135,5 +135,12 @@ private:
 public:
 	HttpPostRequest(HANDLE hNetlibUser, LPCSTR url) : HttpRequest(hNetlibUser, REQUEST_POST, url) { }
 };*/
+
+class SecureHttpRequest : public HttpRequest
+{
+public:
+	SecureHttpRequest(HANDLE hNetlibUser, int request, LPCSTR url)
+		: HttpRequest(hNetlibUser, request, url) { flags = NLHRF_HTTP11 | NLHRF_SSL; }
+};
 
 #endif //_HTTP_REQUEST_H_

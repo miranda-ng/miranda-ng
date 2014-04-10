@@ -41,7 +41,7 @@ namespace SteamWebApi
 
 			// todo: may need to load all results
 			// 15 first at now
-			HttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/Search/v0001");
+			SecureHttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/Search/v0001");
 			request.AddParameter("access_token", token);
 			request.AddParameter("keywords", ptrA(mir_urlEncode(text)));
 			request.AddParameter("offset=0&count=15&targets=users&fields=all");

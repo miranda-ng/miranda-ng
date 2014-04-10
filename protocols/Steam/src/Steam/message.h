@@ -30,7 +30,7 @@ namespace SteamWebApi
 				sessionId,
 				state);
 
-			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
+			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 
@@ -56,7 +56,7 @@ namespace SteamWebApi
 				steamId,
 				ptrA(mir_urlEncode(text)));
 
-			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
+			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 
@@ -92,7 +92,7 @@ namespace SteamWebApi
 				sessionId,
 				steamId);
 
-			HttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
+			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 

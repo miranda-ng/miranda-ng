@@ -37,5 +37,6 @@ namespace SteamWebApi
 #include "Steam\poll.h"
 #include "Steam\message.h"
 #include "Steam\search.h"
+#include "Steam\avatar.h"
 
 #endif //_STEAM_H_

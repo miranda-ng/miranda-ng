@@ -77,7 +77,7 @@ namespace SteamWebApi
 				ptrA(mir_urlEncode(authResult->captcha_text.c_str())),
 				timestamp);
 
-			HttpRequest request(hConnection, REQUEST_POST, STEAM_COM_URL "/mobilelogin/dologin");
+			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_COM_URL "/mobilelogin/dologin");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 

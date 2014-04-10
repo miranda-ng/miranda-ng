@@ -1,5 +1,5 @@
-﻿#ifndef _STEAM_CRYPTO_H_
-#define _STEAM_CRYPTO_H_
+﻿#ifndef _STEAM_RSA_KEY_H_
+#define _STEAM_RSA_KEY_H_
 
 namespace SteamWebApi
 {
@@ -28,7 +28,7 @@ namespace SteamWebApi
 
 			ptrA base64Username(mir_urlEncode(ptrA(mir_utf8encodeW(username))));
 
-			HttpRequest request(hConnection, REQUEST_GET, STEAM_COM_URL "/mobilelogin/getrsakey");
+			SecureHttpRequest request(hConnection, REQUEST_GET, STEAM_COM_URL "/mobilelogin/getrsakey");
 			request.AddParameter("username", (char*)base64Username);
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
@@ -59,4 +59,4 @@ namespace SteamWebApi
 }
 
 
-#endif //_STEAM_CRYPTO_H_
+#endif //_STEAM_RSA_KEY_H_

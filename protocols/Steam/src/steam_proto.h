@@ -120,6 +120,8 @@ protected:
 
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const SteamWebApi::FriendApi::Summary *contact);
+
+	void LoadContactList();
 	
 	void __cdecl SearchByIdThread(void*);
 	void __cdecl SearchByNameThread(void*);
@@ -127,6 +129,14 @@ protected:
 	// messages
 	void __cdecl SendMessageThread(void*);
 	void __cdecl SendTypingThread(void*);
+
+	// avatars
+	wchar_t * GetAvatarFilePath(MCONTACT hContact);
+
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	//events
 	int OnModulesLoaded(WPARAM, LPARAM);

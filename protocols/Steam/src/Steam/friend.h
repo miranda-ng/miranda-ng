@@ -52,7 +52,7 @@ namespace SteamWebApi
 		{
 			summaries->success = false;
 
-			HttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001");
+			SecureHttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001");
 			request.AddParameter("access_token", token);
 			request.AddParameter("steamids", steamIds);
 

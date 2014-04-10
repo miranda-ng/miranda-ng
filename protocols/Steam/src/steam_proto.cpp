@@ -29,6 +29,12 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	Skin_AddIcon(&sid);
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
+
+	// Avatar API
+	this->CreateProtoService(PS_GETAVATARINFOT, &CSteamProto::GetAvatarInfo);
+	this->CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
+	this->CreateProtoService(PS_GETMYAVATART, &CSteamProto::GetMyAvatar);
+	//this->CreateProtoService(PS_SETMYAVATART, &CSteamProto::SetMyAvatar);
 }
 
 CSteamProto::~CSteamProto()
@@ -98,6 +104,8 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
+	case PFLAGNUM_4:
+		return PF4_AVATARS;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("SteamID");
 	case PFLAG_UNIQUEIDSETTING:

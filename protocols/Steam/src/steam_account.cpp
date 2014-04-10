@@ -150,7 +150,7 @@ void CSteamProto::LogInThread(void* param)
 		if (loginResult.GetStatus() == HTTP_STATUS_UNAUTHORIZED)
 		{
 			delSetting("TokenSecret");
-			delSetting("Cookie");
+			//delSetting("Cookie");
 		}
 
 		// set status to offline
@@ -166,40 +166,8 @@ void CSteamProto::LogInThread(void* param)
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iDesiredStatus);
 
-	// get contact list
-	SteamWebApi::FriendListApi::FriendList friendList;
-	SteamWebApi::FriendListApi::Load(m_hNetlibUser, token, loginResult.GetSteamId(), &friendList);
-	
-	if (friendList.IsSuccess())
-	{
-		CMStringA newContacts;
-		for (int i = 0; i < friendList.GetItemCount(); i++)
-		{
-			const char * steamId = friendList.GetAt(i);
-			if (!FindContact(steamId))
-			{
-				if (newContacts.IsEmpty())
-					newContacts.Append(steamId);
-				else
-					newContacts.AppendFormat(",%s", steamId);
-			}
-		}
-
-		if (!newContacts.IsEmpty())
-		{
-			SteamWebApi::FriendApi::Summaries summaries;
-			SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, newContacts, &summaries);
-
-			if (summaries.IsSuccess())
-			{
-				for (int i = 0; i < summaries.GetItemCount(); i++)
-				{
-					const SteamWebApi::FriendApi::Summary *summary = summaries.GetAt(i);
-					AddContact(summary);
-				}
-			}
-		}
-	}
+	// load contact list
+	LoadContactList();
 
 	// start pooling thread
 	if (m_hPollingThread == NULL && !m_bTerminated)

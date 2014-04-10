@@ -48,6 +48,9 @@
     <ClCompile Include="src\steam_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\steam_avatars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\rsa_key.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\avatar.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>
