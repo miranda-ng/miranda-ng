@@ -34,8 +34,6 @@ Używaj połączenia SSL (port 443)
 WhatsApp
 [Cancel]
 Anuluj
-[OK]
-OK
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 Proszę podać numer kierunkowy kraju.

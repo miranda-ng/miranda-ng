@@ -36,8 +36,6 @@ Skrót
 Hasło:
 [Cancel]
 Anuluj
-[EN]
-EN
 [Workstation is locked]
 Komputer jest zablokowany
 [Screen Saver is running]

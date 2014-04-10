@@ -453,8 +453,6 @@ Możesz grupować wyświetlane ikony (CTRL+LPM) i użyć menu popup (PPM)
 Dodaj do istniejącego metakontaktu
 [Please select a MetaContact:]
 Proszę wybrać metakontakt:
-[&OK]
-&OK
 [Sort Alphabetically]
 Sortuj alfabetycznie
 [Editing]

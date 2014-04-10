@@ -68,8 +68,6 @@ Popup dla nowej wiadomości
 Zapisz pozycję okna dla kontaktu
 [SMS Message Sent]
 Wysłana wiadomość SMS
-[&OK]
-&OK
 [Message ID:]
 ID wiadomości:
 [Source:]

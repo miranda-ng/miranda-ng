@@ -164,8 +164,6 @@ Menu &użytkownika
 &Historia
 [&Quote]
 &Cytuj
-[&OK]
-&OK
 [Send To All Tabs]
 Wyślij do wszystkich zakładek
 [You are about to send a message to all open tabs.\nAre you sure?]

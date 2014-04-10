@@ -40,8 +40,6 @@ Potwierdzenie:
 Wskazówka dotycząca hasła:
 [Configure conference]
 Konfiguruj konferencję
-[&OK]
-&OK
 [Join role:]
 Dołącz w roli:
 [Set password]

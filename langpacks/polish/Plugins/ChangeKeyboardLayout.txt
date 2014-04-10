@@ -30,8 +30,6 @@ Kopiuj rezultat do schowka
 Pokaż wynik w popupie
 [Strings for keyboard layouts]
 Ciągi dla układów klawiatur
-[EN]
-EN
 [Default]
 Domyślny
 [Invert current state]

@@ -64,8 +64,6 @@ Protokół Socialist Millioneres
 Protokół Socialist Millioneres\r\nWeryfikacja w toku
 [&Cancel]
 &Anuluj
-[&OK]
-&OK
 [Socialist Millionaires Protocol\r\nVerification]
 Protokół Socialist Millioneres\r\nWeryfikacja
 [&No]
