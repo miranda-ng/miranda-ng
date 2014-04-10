@@ -19,6 +19,8 @@
 Проверочный код
 [Cancel]
 Отмена
+[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+На этой учётной записи включен Steam Guard, поэтому необходимо ввести специальный код, который был выслан на ваш адрес электронной почты.
 [Go to email domain]
 Перейти в почтовый ящик
 [%s connection]
