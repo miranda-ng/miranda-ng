@@ -38,8 +38,6 @@ class CSendDropbox : public CSend {
 		int Send();
 
 	protected:
-		char*					m_pszFileName;
-		char*					m_URL;
 		void SendThread();
 		static void SendThreadWrapper(void *Obj);
 };

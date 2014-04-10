@@ -362,7 +362,7 @@ TCHAR* GetCustomPath() {
 	if(hFolderScreenshot){
 		TCHAR szPath[1024]={0};
 		FoldersGetCustomPathT(hFolderScreenshot, szPath, 1024, pszPath);
-		mir_freeAndNil(pszPath);
+		mir_free(pszPath);
 		pszPath = mir_tstrdup(szPath);
 	}
 	if(!pszPath){

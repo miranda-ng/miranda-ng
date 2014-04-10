@@ -67,7 +67,7 @@ int CSendHTTPServer::Send()
 	mir_stradd(m_fsi_pszSrvPath, "/");
 	mir_stradd(m_fsi_pszSrvPath, m_pszFileName);
 
-	mir_freeAndNil(m_fsi_pszRealPath);
+	mir_free(m_fsi_pszRealPath);
 	m_fsi_pszRealPath = mir_t2a(m_pszFile);
 
 	ZeroMemory(&m_fsi, sizeof(m_fsi));
@@ -115,7 +115,7 @@ void CSendHTTPServer::SendThread() {
 	Exit(ACKRESULT_FAILED);
 }
 
-void	CSendHTTPServer::SendThreadWrapper(void * Obj) {
+void CSendHTTPServer::SendThreadWrapper(void * Obj) {
 	reinterpret_cast<CSendHTTPServer*>(Obj)->SendThread();
 }
 

@@ -2,6 +2,11 @@
 //
 #include "..\src\resource.h"
 
+#define MBS_DEFBUTTON		0x00001000L			// default button
+#define MBS_PUSHBUTTON		0x00002000L			// toggle button
+#define MBS_FLAT			0x00004000L			// flat button
+#define MBS_DOWNARROW		0x00008000L			// has arrow on the right
+
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -52,7 +57,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Send screenshot to\n<unknown>",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,231,25
-    CONTROL         "",IDC_CAPTURETAB,"SysTabControl32",TCS_RAGGEDRIGHT | WS_TABSTOP,8,36,218,68,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_CAPTURETAB,"SysTabControl32",TCS_RAGGEDRIGHT | WS_TABSTOP,8,36,218,68
     CONTROL         "Ti&med capture",ID_chkTimed,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,106,85,10
     RTEXT           "Time (secs):",ID_edtTimedLabel,9,119,49,8
     EDITTEXT        ID_edtTimed,62,117,31,13,ES_AUTOHSCROLL | ES_NUMBER
@@ -61,13 +66,13 @@ BEGIN
     COMBOBOX        ID_cboxFormat,100,117,41,84,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Send B&y:",ID_lblSendBy,148,107,75,8
     COMBOBOX        ID_cboxSendBy,148,117,75,84,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "?",ID_btnAbout,"UInfoButtonClass",WS_TABSTOP | 0x4000,3,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "E&xplore",ID_btnExplore,"UInfoButtonClass",WS_TABSTOP | 0x4000,21,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "&Fill description textbox.",ID_btnDesc,"UInfoButtonClass",WS_TABSTOP | 0x6000,39,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "?",ID_btnAbout,"UInfoButtonClass",WS_TABSTOP | MBS_FLAT,3,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "E&xplore",ID_btnExplore,"UInfoButtonClass",WS_TABSTOP | MBS_FLAT,21,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "&Fill description textbox.",ID_btnDesc,"UInfoButtonClass",WS_TABSTOP | MBS_PUSHBUTTON|MBS_FLAT,39,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Delete &after send",ID_btnDeleteAfterSend,
-                    "UInfoButtonClass",WS_TABSTOP | 0x6000,57,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
+                    "UInfoButtonClass",WS_TABSTOP | MBS_PUSHBUTTON|MBS_FLAT,57,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Open again",ID_chkOpenAgain,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,100,147,57,9
-    CONTROL         "&Capture",ID_btnCapture,"UInfoButtonClass",WS_GROUP | WS_TABSTOP | 0x1000,169,145,54,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "&Capture",ID_btnCapture,"UInfoButtonClass",WS_TABSTOP | MBS_DEFBUTTON,169,145,54,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,139,231,1
 END
 
@@ -78,9 +83,8 @@ CAPTION "About"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "%s\nv%s",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,214,25
-    CONTROL         "Credits >",IDA_CONTRIBLINK,"UInfoButtonClass",WS_GROUP | WS_TABSTOP,5,166,61,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Credits >",IDA_CONTRIBLINK,"UInfoButtonClass",WS_TABSTOP,5,166,61,14,WS_EX_NOACTIVATE | 0x10000000L
     PUSHBUTTON      "&Close",IDA_btnClose,149,166,60,14
-    LTEXT           "",IDC_WHITERECT,0,25,213,135,NOT WS_GROUP
     EDITTEXT        IDC_LICENSE,5,27,204,131,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
     EDITTEXT        IDC_CREDIT,5,27,204,131,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,160,213,1
@@ -101,28 +105,24 @@ IDD_UMain_CaptureWindow DIALOGEX 0, 0, 214, 48
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "",IDC_WHITERECT,0,0,214,48
-    CONTROL         "C&lient Area",ID_chkClientArea,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,100,30,62,8,WS_EX_RIGHT
     LTEXT           "Caption:",ID_edtCaptionLabel,4,1,158,8
     EDITTEXT        ID_edtCaption,4,12,158,13,ES_AUTOHSCROLL | ES_READONLY
     RTEXT           "Size (HxW):",ID_edtSizeLabel,0,30,50,8
     EDITTEXT        ID_edtSize,52,28,43,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "C&lient Area",ID_chkClientArea,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,100,30,62,8,WS_EX_RIGHT
     CTEXT           "Target Tool",ID_lblDropInfo,162,1,51,8
-    LTEXT           "",ID_bvlTarget,174,12,29,29,SS_NOTIFY | SS_SUNKEN
-    ICON            IDI_ICON2,ID_imgTarget,178,16,20,20,SS_NOTIFY | SS_CENTERIMAGE | WS_GROUP
+    ICON            IDI_ICON2,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
 END
 
 IDD_UMain_CaptureDesktop DIALOGEX 0, 0, 214, 48
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "",IDC_WHITERECT,0,0,214,48
     LTEXT           "Caption:",ID_edtCaptionLabel,4,1,158,8
+    COMBOBOX        ID_edtCaption,4,12,158,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_TABSTOP
     RTEXT           "Size (HxW):",ID_edtSizeLabel,0,30,50,8
     EDITTEXT        ID_edtSize,52,28,43,13,ES_AUTOHSCROLL | ES_READONLY
-    LTEXT           "",ID_bvlTarget,174,12,29,29,SS_NOTIFY | SS_SUNKEN
-    ICON            "",ID_imgTarget,178,16,20,20,SS_NOTIFY | SS_CENTERIMAGE | WS_GROUP
-    COMBOBOX        ID_edtCaption,4,12,158,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_TABSTOP
+    ICON            IDI_ICON3,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
 END
 
 IDD_UResultForm DIALOGEX 0, 0, 300, 87

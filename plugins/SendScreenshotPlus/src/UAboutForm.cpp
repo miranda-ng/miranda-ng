@@ -47,7 +47,6 @@ INT_PTR CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPA
 {
 	if (msg == WM_CTLCOLOREDIT || msg == WM_CTLCOLORSTATIC) {
 		switch ( GetWindowLongPtr(( HWND )lParam, GWL_ID )) {
-			case IDC_WHITERECT:
 			case IDC_CREDIT:
 			case IDC_LICENSE:
 				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
@@ -55,7 +54,6 @@ INT_PTR CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			default:
 				return FALSE;
 		}
-		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
 		return (LRESULT)GetStockObject(WHITE_BRUSH); 	//GetSysColorBrush(COLOR_WINDOW);
 	}
 
@@ -93,15 +91,15 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	HRSRC hResInfo;
 	DWORD ResSize;
 	TCHAR oldTitle[256], newTitle[256];
-	TCHAR* temp = NULL;
+	TCHAR* temp;
 	TCHAR* pszTitle = NULL;
 	// Headerbar
 	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
 	TCHAR* pszVer  = mir_a2t(__VERSION_STRING_DOTS);
 	GetDlgItemText( m_hWnd, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
 	mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, pszPlug, pszVer );
-	mir_freeAndNil(pszPlug);
-	mir_freeAndNil(pszVer);
+	mir_free(pszPlug);
+	mir_free(pszVer);
 	SetDlgItemText( m_hWnd, IDC_HEADERBAR, newTitle );
 	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
@@ -115,7 +113,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		temp = mir_a2t(pszMsg);
 		temp [ResSize] = 0;			//LockResource is not NULL terminatet !!
 		mir_tcsadd(pszTitle ,temp);
-		mir_freeAndNil(temp);
+		mir_free(temp);
 		SetDlgItemText(m_hWnd,IDC_LICENSE, pszTitle);
 		mir_freeAndNil(pszTitle);
 	}
@@ -128,7 +126,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		temp = mir_a2t(pszMsg);
 		temp [ResSize] = 0;			//LockResource is not NULL terminatet !!
 		mir_tcsadd(pszTitle ,temp);
-		mir_freeAndNil(temp);
+		mir_free(temp);
 		SetDlgItemText(m_hWnd,IDC_CREDIT, pszTitle);
 		mir_freeAndNil(pszTitle);
 	}

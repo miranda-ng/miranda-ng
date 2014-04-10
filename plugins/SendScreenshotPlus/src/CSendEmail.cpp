@@ -53,10 +53,10 @@ CSendEmail::~CSendEmail(){
 int CSendEmail::Send()
 {
 	if(!m_hContact) return 1;
-	mir_freeAndNil(m_pszFileName);
+	mir_free(m_pszFileName);
 	m_pszFileName = GetFileNameA(m_pszFile);
 
-	mir_freeAndNil(m_pszFileA);
+	mir_free(m_pszFileA);
 	m_pszFileA = mir_t2a(m_pszFile);
 
 

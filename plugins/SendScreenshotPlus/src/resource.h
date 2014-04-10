@@ -62,14 +62,12 @@
 #define ID_upQuality                    1204
 #define ID_edtTimed                     1205
 #define ID_upTimed                      1206
-#define IDC_WHITERECT                   1221
 #define ID_cboxFormat                   1301
 #define ID_cboxSendBy                   1302
 #define ID_lblFmtInfo                   1501
 #define IDE_Image                       1501
 #define ID_lblSendBy                    1502
 #define IDE_imgSelection                1502
-#define ID_bvlTarget                    1503
 #define IDC_COPYRIGHT                   1503
 #define ID_lblDropInfo                  1504
 #define ID_imgTarget                    1505

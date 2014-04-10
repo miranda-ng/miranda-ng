@@ -47,32 +47,12 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 	case WM_INITDIALOG:
 		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSTARGET));
 		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
-		TranslateDialogDefault(hDlg);
 		break;
-	case WM_CTLCOLOREDIT:		//ctrl is NOT read-only or disabled
-	case WM_CTLCOLORSTATIC:		//ctrl is read-only or disabled
-		// make the rectangle on the top white
-		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
-			case IDC_WHITERECT:
-			case ID_chkClientArea:
-			case ID_lblDropInfo:
-			case ID_edtCaption:
-			case ID_edtCaptionLabel:
-			case ID_edtSize:
-			case ID_edtSizeLabel:
-			case ID_bvlTarget:
-			case ID_imgTarget:
-				SetBkColor((HDC)wParam,GetSysColor(COLOR_WINDOW));
-				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
-
-				//SetBkMode((HDC)wParam,OPAQUE);
-				//return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-				return (LRESULT)GetStockObject(WHITE_BRUSH);
-			default:
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (LRESULT)GetStockObject(NULL_BRUSH);
-		}
-		break;	//this return false
+	case WM_CTLCOLORDLG:
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
+		return (INT_PTR)GetStockObject(WHITE_BRUSH);
 	case WM_COMMAND:
 		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
 		break;
@@ -92,26 +72,11 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureDesktop(HWND hDlg, UINT uMsg, WPARAM w
 	case WM_INITDIALOG:
 		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSMONITOR));
 		break;
+	case WM_CTLCOLORDLG:
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-		// make the rectangle on the top white
-		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
-			case IDC_WHITERECT:
-			case ID_lblDropInfo:
-			case ID_edtCaption:
-			case ID_edtCaptionLabel:
-			case ID_edtSize:
-			case ID_edtSizeLabel:
-			case ID_bvlTarget:
-			case ID_imgTarget:
-				SetBkColor((HDC)wParam,GetSysColor(COLOR_WINDOW));
-				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
-				return (LRESULT)GetStockObject(WHITE_BRUSH);
-			default:
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				return (LRESULT)GetStockObject(NULL_BRUSH);
-		}
-		break;
+		SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
+		return (INT_PTR)GetStockObject(WHITE_BRUSH);
 	case WM_COMMAND:
 		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
 		break;
@@ -132,7 +97,6 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 {
 	if (msg == WM_CTLCOLOREDIT || msg == WM_CTLCOLORSTATIC) {
 		switch ( GetWindowLongPtr(( HWND )lParam, GWL_ID )) {
-	/*		case IDC_WHITERECT:*/
 			case IDC_HEADERBAR:
 				SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
 				break;
@@ -190,7 +154,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 	TCHAR* pt = mir_a2t(__PLUGIN_NAME);
 	SetWindowText(m_hWnd, pt);
-	mir_freeAndNil(pt);
+	mir_free(pt);
 
 	// Headerbar
 	pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
@@ -201,7 +165,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		SetDlgItemText(m_hWnd, IDC_HEADERBAR, lptString);
 		mir_free(lptString);
 	}
-	mir_freeAndNil(pt);
+	mir_free(pt);
 
 	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
@@ -391,8 +355,8 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					m_opt_chkEditor = (BYTE)Button_GetCheck((HWND)lParam);
 					break;
 
-				case ID_bvlTarget:
-					if(m_opt_tabCapture==0) SetTimer(m_hWnd,ID_bvlTarget,BUTTON_POLLDELAY,NULL);
+				case ID_imgTarget:
+					if(m_opt_tabCapture==0) SetTimer(m_hWnd,ID_imgTarget,BUTTON_POLLDELAY,NULL);
 					break;
 
 				case ID_btnAbout:
@@ -493,7 +457,7 @@ void TfrmMain::SetTargetWindow(HWND hwnd){
 	edtSizeUpdate(m_hTargetWindow,m_opt_chkClientArea,m_hwndTabPage,ID_edtSize);
 }
 void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
-	if (wParam == ID_bvlTarget){// Timer for Target selector
+	if (wParam == ID_imgTarget){// Timer for Target selector
 		static int primarymouse;
 		if(!m_hTargetHighlighter){
 			primarymouse=GetSystemMetrics(SM_SWAPBUTTON)?VK_RBUTTON:VK_LBUTTON;
@@ -504,7 +468,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			Hide();
 		}
 		if(!(GetAsyncKeyState(primarymouse)&0x8000)){
-			KillTimer(m_hWnd,ID_bvlTarget);
+			KillTimer(m_hWnd,ID_imgTarget);
 			SystemParametersInfo(SPI_SETCURSORS,0,NULL,0);
 			DestroyWindow(m_hTargetHighlighter),m_hTargetHighlighter=NULL;
 			SetTargetWindow(m_hTargetWindow);
@@ -1058,7 +1022,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 		if(dib_new) {
 			DeleteFile(ret);
-			mir_freeAndNil(ret);
+			mir_free(ret);
 			FIBITMAP *dib_save = FIP->FI_ConvertTo24Bits(dib_new);
 			ret = SaveImage(FIF_UNKNOWN,dib_save, pszFilename, pszFormat);
 			FIP->FI_Unload(dib_new); dib_new = NULL;
@@ -1066,7 +1030,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		}
 	}*/
 	FIP->FI_Unload(dib_new);
-	mir_freeAndNil(pszFilename);
+	mir_free(pszFilename);
 
 	if(ret){
 		db_set_dw(NULL,SZ_SENDSS,"FileNumber",FileNumber);

@@ -58,7 +58,7 @@ int CSendFTPFile::Send()
 	 * Returns 0 on success or nonzero on failure
 	 * if (!wParam || !lParam) return 1
 	 ********************************************************************************************/
-	mir_freeAndNil(m_pszFileName);
+	mir_free(m_pszFileName);
 	m_pszFileName = GetFileNameA(m_pszFile);
 	size_t size = sizeof(char)*(strlen(m_pszFileName)+2);
 	m_pszFileName = (char*)mir_realloc(m_pszFileName, size);

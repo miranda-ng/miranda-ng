@@ -59,7 +59,7 @@ void CSendDropbox::SendThread() {
 	if(m_hContact)
 		ret = CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile);
 	if(!ret) {
-		Error(TranslateT("%s (%i):\nCould not add a share to the Dropbox plugin."),TranslateTS(m_pszSendTyp),ret);
+		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ACKRESULT_FAILED); return;
 	}
 	Exit(ACKRESULT_SUCCESS);
