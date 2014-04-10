@@ -221,3 +221,9 @@ HTTP подключение Quotes
 Значение на предыдущее закрытие
 [Change]
 Изменение
+[Enable/Diable Quotes Auto Update]
+Вкл/Выкл автообновление котировок
+[Quotes Auto Update Enabled]
+Автообновление котировок включено
+[Quotes Auto Update Disabled]
+Автообновление котировок выключено
