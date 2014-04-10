@@ -85,20 +85,15 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 				fwrite(avatar.GetData(), sizeof(char), avatar.GetDataSize(), fp);
 				fclose(fp);
 
-				if (hContact)
-				{
-					PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
-					pai.format = PA_FORMAT_JPEG;
-					pai.hContact = hContact;
-					wcscpy(pai.filename, avatarPath);
+				PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
+				pai.format = PA_FORMAT_JPEG;
+				pai.hContact = hContact;
+				wcscpy(pai.filename, avatarPath);
 
-					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
-				}
-				else
-					CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)avatarPath);
+				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+
+				setString("AvatarUrl", contact->GetAvatarUrl());
 			}
-
-			setString("AvatarUrl", contact->GetAvatarUrl());
 		}
 	}
 
@@ -130,16 +125,15 @@ void CSteamProto::UpdateContactsThread(void *arg)
 	{
 		const SteamWebApi::FriendApi::Summary *contact = summarues.GetAt(i);
 		
-		if (IsMe(contact->GetSteamId()))
-			UpdateContact(NULL, contact);
-		else
+		MCONTACT hContact = NULL;
+		if (!IsMe(contact->GetSteamId()))
 		{
-			MCONTACT hContact = this->FindContact(contact->GetSteamId());
-			if (!hContact)
-			{
-				UpdateContact(hContact, contact);
-			}
+			hContact = this->FindContact(contact->GetSteamId());
+			if (hContact == NULL)
+				return;
 		}
+
+		UpdateContact(hContact, contact);
 	}
 }
 

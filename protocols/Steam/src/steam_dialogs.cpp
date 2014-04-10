@@ -157,7 +157,6 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			{
 				EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), FALSE);
 				EnableWindow(GetDlgItem(hwnd, IDC_PASSWORD), FALSE);
-				EnableWindow(GetDlgItem(hwnd, IDC_GROUP), FALSE);
 			}
 		}
 		return TRUE;

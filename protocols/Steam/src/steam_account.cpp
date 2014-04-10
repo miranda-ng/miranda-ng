@@ -170,7 +170,7 @@ void CSteamProto::LogInThread(void* param)
 	LoadContactList();
 
 	// start pooling thread
-	if (m_hPollingThread == NULL && !m_bTerminated)
+	if (m_hPollingThread == NULL)
 	{
 		m_bTerminated = false;
 		m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, NULL, NULL);
@@ -182,6 +182,10 @@ void CSteamProto::LogOutThread(void*)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
 
+	while (m_hPollingThread != NULL)
+		Sleep(500);
+
+	m_bTerminated = false;
 	SteamWebApi::LoginApi::Logoff(m_hNetlibUser, token, sessionId);
 
 	delSetting("SessionID");

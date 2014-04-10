@@ -26,7 +26,7 @@ namespace SteamWebApi
 		{
 			loginResult->success = false;
 
-			char data[128];
+			char data[256];
 			mir_snprintf(data, SIZEOF(data), "access_token=%s", token);
 
 			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001");

@@ -66,7 +66,10 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 				const wchar_t *nickname = state->GetNickname();
 
 				if (IsMe(steamId))
+				{
+					debugLogA("Change own status to %i", status);
 					SetStatus(status);
+				}
 				else
 				{
 					MCONTACT hContact = FindContact(steamId);
