@@ -1,5 +1,4 @@
 ﻿[MSN]
 [Live ID:]
-[OK]
 [Live ID]
 [%I64u bytes]

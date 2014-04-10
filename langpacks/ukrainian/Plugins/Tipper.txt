@@ -447,6 +447,12 @@
 Вітер:
 [# Solid color fill]
 \# Заливка кольором
+[%dd %dh %dm]
+%dдн %dгод %dхв
+[%dh %dm]
+%dгод %dхв
+[%dm]
+%dхв
 [Background]
 Фон
 [Dividers]
@@ -467,6 +473,10 @@
 Жіноча
 [Male]
 Чоловіча
+[%dy %dd %dh %dm]
+%dр %dдн %dгод %dхв
+[%dd]
+%dд
 [[No translation]]
 (без перетворення)
 [WORD to status description]

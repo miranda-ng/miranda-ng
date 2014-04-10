@@ -1,5 +1,4 @@
 ﻿[V]
-[OK]
 [Configure autoaway]
 [Windows]
 [Miranda]

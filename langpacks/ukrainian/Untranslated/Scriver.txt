@@ -1,5 +1,4 @@
-﻿[OK]
-[Google]
+﻿[Google]
 [Bing]
 [Wikipedia (en)]
 [Foodnetwork]

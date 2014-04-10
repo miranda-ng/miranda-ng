@@ -1,7 +1,6 @@
 ﻿[PGP]
 [GPG]
 [SHA1:]
-[OK]
 [Pre-shared key]
 [Set pre-shared key]
 [Delete pre-shared key]

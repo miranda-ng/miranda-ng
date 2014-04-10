@@ -1,5 +1,4 @@
-﻿[OK]
-[%s\nv%s]
+﻿[%s\nv%s]
 [Resulting URL from]
 [%s requires a valid contact!]
 [Dropbox transfer]

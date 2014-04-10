@@ -4,7 +4,6 @@
 [(manual added)]
 [Extra Command Line Parameters:]
 [IP:]
-[OK]
 [There is a new XFire gamelist online, do you want to update now?]
 [New supported games:]
 [Launcher exe (optional):]

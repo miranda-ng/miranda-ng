@@ -41,8 +41,6 @@
 Ваша AdvaImg.dll застаріла або пошкоджена. Встановіть останню версію з сайту Miranda NG.
 [Error]
 Помилка
-[Call Splash Service]
-Виклик сервіса заставки
 [Graphic files]
 Графічні файли
 [Sound Files]

@@ -125,6 +125,8 @@
 Мої деталі
 [Background]
 Фон
+[Avatar Border]
+Рамка аватару
 [Show My Details]
 Показати мої деталі
 [Enable Listening To for %s]

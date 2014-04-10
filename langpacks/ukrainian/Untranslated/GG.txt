@@ -1,5 +1,4 @@
-﻿[OK]
-[Your details has been uploaded to the public directory.]
+﻿[Your details has been uploaded to the public directory.]
 [You have to be logged in before you can change your details.]
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]

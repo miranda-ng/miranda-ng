@@ -1,6 +1,5 @@
 ﻿[Image file and fitting mode]
 [Position:]
-[OK]
 [Editing view mode]
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 [Layered]

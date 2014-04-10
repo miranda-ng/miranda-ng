@@ -89,5 +89,5 @@ UUID плагінів
 Версії
 [Services]
 Служби
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 Щось трапилося з налаштуванням "%s". Повідомте авторові такі значення:\nFacility: %X\nError code: %X\nLine number: %d

@@ -1,5 +1,4 @@
-﻿[OK]
-[SSL]
+﻿[SSL]
 [APOP]
 [Translate header error]
 [Reading body %s]

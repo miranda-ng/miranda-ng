@@ -69,6 +69,8 @@
 Показати всі контакти
 [Set birthday:]
 Вказати день народження:
+[Manage anniversaries]
+Керування святами
 [Title:]
 Заголовок:
 [Description:]

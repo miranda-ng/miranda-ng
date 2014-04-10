@@ -1,5 +1,4 @@
 ﻿[Load Public GPG key]
-[OK]
 [Received encrypted file]
 [Decrypt]
 [Remember choice]

@@ -1,5 +1,4 @@
 ﻿[Band]
-[OK]
 [Incoming messages]
 [Outgoing messages]
 [All messages]
