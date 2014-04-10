@@ -138,8 +138,6 @@ Nadpisz istniejący
 Ustaw listę programów
 [Program]
 Program
-[OK]
-OK
 [Cancel]
 Anuluj
 [Set LEDs for events]

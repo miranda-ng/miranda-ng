@@ -26,8 +26,6 @@ Domyślne
 Ignoruj dźwięk dla tego kontaktu
 [XSoundNotify]
 Powiadomienia xStatus
-[OK]
-OK
 [Cancel]
 Anuluj
 ;file \plugins\XSoundNotify\src\dialog.cpp

@@ -144,8 +144,6 @@ Uwzględnione grupy
 Pokaż kontakty w grupach
 [Include status modes]
 Uwzględniony tryby statusu
-[OK]
-OK
 [Cancel]
 Anuluj
 [Sticky contacts]

@@ -34,8 +34,6 @@ Przywróć poprzedni status
 Skrót
 [Password:]
 Hasło:
-[OK]
-OK
 [Cancel]
 Anuluj
 [EN]

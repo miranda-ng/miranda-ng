@@ -266,8 +266,6 @@ Tło
 Opóźnienie (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 - Domyślny, -1 - Nie chowaj)
-[OK]
-OK
 [Log]
 Dziennik
 [&Copy]

@@ -78,8 +78,6 @@ Włącz popup "kontakt opuścił kanał"
 Wyłącz powiadomienia listy kontaktów
 [Set Nickname]
 Edytuj nick
-[OK]
-OK
 [Cancel]
 Anuluj
 [Mobile Device (used for SMS)]

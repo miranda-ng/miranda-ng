@@ -10,8 +10,6 @@ Umożliwia monitorowanie zmian kursów walutowych i cen akcji.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Lista zmiennych
-[OK]
-OK
 [Edit Settings]
 Edytuj ustawienia
 [Use contact specific settings]

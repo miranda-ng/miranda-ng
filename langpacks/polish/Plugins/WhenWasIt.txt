@@ -70,8 +70,6 @@ Zamknij
 Pokaż wszystkie kontakty
 [Set birthday:]
 Ustaw urodziny:
-[OK]
-OK
 [Manage anniversaries]
 Zarządzaj rocznicami
 [Title:]

@@ -68,8 +68,6 @@ Podgląd
 Ale nie podczas logowania
 [Enter Twitter PIN]
 Wpisz kod PIN
-[OK]
-OK
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 Wpisz kod PIN dostarczony przez Twittera aby się zalogować. Proces jest jednorazowy dla każdego konta.
 ;file \protocols\Twitter\src\connection.cpp

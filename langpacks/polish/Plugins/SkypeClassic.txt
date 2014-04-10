@@ -56,8 +56,6 @@ Przyłącz się do rozmowy grupowej z %s
 Odbierz rozmowę; zawieś rozmowę z %s
 [Hang up]
 Rozłącz się
-[OK]
-OK
 [Dialog]
 Okno
 [Use Skype proxy connection over network instead of local Skype API]

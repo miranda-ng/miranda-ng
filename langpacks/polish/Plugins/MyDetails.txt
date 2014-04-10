@@ -12,8 +12,6 @@ Pokazuje i pozwala edytować Twoje dane dla wszystkich protokołów.
 Ustaw mój nick
 [Nickname:]
 Nick:
-[OK]
-OK
 [Cancel]
 Anuluj
 [General]

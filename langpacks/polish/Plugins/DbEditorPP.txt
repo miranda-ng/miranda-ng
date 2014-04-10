@@ -56,8 +56,6 @@ Dodaj moduł do kontaktu
 Dodaj nazwę modułu
 [Add to all contacts (Includes Settings)]
 Dodaj do wszystkich kontaktów (razem z ustawieniami)
-[OK]
-OK
 [Cancel]
 Anuluj
 [Edit Setting]

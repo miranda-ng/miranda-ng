@@ -72,8 +72,6 @@ Moduł protokołu kontaktu
 Ustawienie/Prefiks:
 [Translation:]
 Tłumaczenie:
-[OK]
-OK
 [Cancel]
 Anuluj
 [Item]

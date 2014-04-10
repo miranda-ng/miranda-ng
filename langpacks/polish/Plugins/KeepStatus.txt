@@ -68,8 +68,6 @@ Potwierdź resetowanie statusu
 Ustaw tylko, gdy obecny status to:
 [Command line]
 Linia poleceń
-[OK]
-OK
 [Copy to clipboard]
 Kopiuj do schowka
 [Command line:]

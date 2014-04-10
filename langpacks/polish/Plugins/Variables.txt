@@ -42,8 +42,6 @@ Ustawienia
 Wyrażenie %extratext% jest tłumaczone na tekst zależny od tego przy jakiej sytuacji jest przetwarzane. Użyj tego okienka do symulacji tekstu, do którego tłumaczy %extratext%.
 [Close]
 Zamknij
-[OK]
-OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Wtyczka Variables tłumaczy różne wyrażenia na ustaloną wartość. Na przykład: Używam Mirandy w wersji %mirandaversion%. Fragment %mirandaversion% zostanie przetłumaczony na prawidłowy numer wersji. Ta lista przedstawia wszystkie możliwe wyrażenia.
 [Notes]

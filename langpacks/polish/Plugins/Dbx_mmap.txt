@@ -12,8 +12,6 @@ Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, u
 Logowanie do Mirandy NG
 [EN]
 EN
-[OK]
-OK
 [Cancel]
 Anuluj
 [New password]

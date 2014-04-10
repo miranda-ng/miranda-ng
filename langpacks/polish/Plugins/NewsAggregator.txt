@@ -20,8 +20,6 @@ Importuj
 Eksportuj
 [Retrieve news at startup]
 Pobieraj wiadomości podczas startu
-[OK]
-OK
 [Cancel]
 Anuluj
 [General Settings]

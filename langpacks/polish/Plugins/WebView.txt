@@ -86,8 +86,6 @@ Otwiera okno z danymi
 Wyświetl czyszczenie
 [Remove HTML]
 Usuń HTML
-[OK]
-OK
 [Cancel]
 Anuluj
 [Apply]

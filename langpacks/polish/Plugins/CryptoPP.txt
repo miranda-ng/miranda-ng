@@ -14,8 +14,6 @@ Wtyczka GnuPG - tekst szyfrujący
 Wprowadź tekst szyfrujący sekretnego klucza użytkownika:
 [User ID]
 ID użytkownika
-[OK]
-OK
 [Cancel]
 Anuluj
 [GnuPG Plugin - Select public key]

@@ -56,8 +56,6 @@ Wyłącz kiedy wszystkie kontakty zmienią status na &rozłączony
 Wyłącz kiedy wszystkie transfery &plików zostaną zakończone
 [&Action:]
 &Akcja:
-[OK]
-OK
 [Cancel]
 Anuluj
 [Unsaved data in open applications except Miranda NG might get lost.]

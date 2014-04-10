@@ -28,8 +28,6 @@ Przechowuj stare awatary tego kontaktu na dysku
 Zapisuj zmiany awatara tego kontaktu w historii
 [Show popups for this user]
 Pokaż popupy dla tego użytkownika
-[OK]
-OK
 [Protocols]
 Protokoły
 [Enable tracking for these protocols:]

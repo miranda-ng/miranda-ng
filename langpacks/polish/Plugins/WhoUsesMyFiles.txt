@@ -10,8 +10,6 @@ Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Aktualne połączenia
-[OK]
-OK
 [Popup delay settings]
 Ustawienia opóźnienia Popupa
 [Popup Delay (seconds)]

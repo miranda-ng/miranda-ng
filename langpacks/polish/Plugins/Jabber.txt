@@ -12,8 +12,6 @@ Zapewnia obsługę protokołu Jabber.
 Edytuj notatkę
 [Tags:]
 Tagi:
-[OK]
-OK
 [Cancel]
 Anuluj
 [Type:]
@@ -2197,8 +2195,6 @@ Uwagi
 [%s connection]
 Połączenie %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
-OK (%d)
 [Afraid]
 Przestraszony
 [Amazed]

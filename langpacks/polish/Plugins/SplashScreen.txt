@@ -43,8 +43,6 @@ Podgląd...
 Twoja kopia Advaimg.dll jest przestarzała lub uszkodzona. Zdobądź najnowszą wersję z kompilacji Alfa Mirandy.
 [Error]
 Błąd
-[Call Splash Service]
-Wywołaj usługę Splash
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Pliki graficzne
@@ -54,4 +52,3 @@ Dźwięki
 Skórki
 [Splash Screen]
 Ekran powitalny
-;file \plugins\SplashScreen\src\services.cpp

@@ -156,8 +156,6 @@ Zmienne
 Domyślne
 [Disable notifications]
 Wyłącz powiadomienia
-[OK]
-OK
 [Cancel]
 Anuluj
 [Disable globally]

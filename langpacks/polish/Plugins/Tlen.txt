@@ -98,8 +98,6 @@ S&tałe
 Podgląd
 [Tlen Password]
 Hasło Tlen
-[OK]
-OK
 [Cancel]
 Anuluj
 [Nickname:]

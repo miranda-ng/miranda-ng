@@ -30,8 +30,6 @@ Bez separatorów i wszystkich małych znaków
 Korekta:
 [Use variables in correction]
 Użyj zmiennej w korekcie
-[OK]
-OK
 [Cancel]
 Anuluj
 [Spell Checker]

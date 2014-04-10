@@ -72,8 +72,6 @@ Zapisz i zamknij
 +
 [Sessions Manager]
 Menedżer sesji
-[OK]
-OK
 [Cancel]
 Anuluj
 [Save your current session?]

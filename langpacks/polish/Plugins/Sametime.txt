@@ -54,8 +54,6 @@ Brak
 Rozłączony
 [Send announcement]
 
-[OK]
-OK
 [Cancel]
 Anuluj
 [Message text:]

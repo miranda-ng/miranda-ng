@@ -105,9 +105,9 @@ Pozwala na dostęp do zdefiniowanych przez użytkownika czatów.
 [Change Password]
 Zmień hasło
 [Original]
-Oryginalny
+Oryginalne
 [New]
-Nowy
+Nowe
 [Repeat]
 Powtórz
 [*Passwords don't match.]

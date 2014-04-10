@@ -10,8 +10,6 @@ Zapewnia obsługę szyfrowania przez GPG.
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 Wczytaj klucz publiczny GPG
-[OK]
-OK
 [Load from file]
 Wczytaj z pliku
 [Select existing]

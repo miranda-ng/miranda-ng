@@ -26,8 +26,6 @@ Wpisz hasło ICQ
 Wpisz hasło dla UIN %d:
 [Remember this session password]
 Zapamiętaj hasło dla tej sesji
-[OK]
-OK
 [Cancel]
 Anuluj
 [ICQ]

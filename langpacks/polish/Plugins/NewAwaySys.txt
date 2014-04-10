@@ -88,8 +88,6 @@ Pod &telefonem
 Na &obiedzie
 [Autoreply format:]
 Format autoodpowiedzi:
-[OK]
-OK
 [&Variables]
 &Zmienne
 [Se&ttings]

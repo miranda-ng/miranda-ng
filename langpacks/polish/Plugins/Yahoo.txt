@@ -56,8 +56,6 @@ Ignoruj tylko osoby z listy poniżej:
 Ustaw niestandardowy status
 [Show as busy]
 Pokaż jako zajęty
-[OK]
-OK
 [Cancel]
 Anuluj
 [Protocol:]

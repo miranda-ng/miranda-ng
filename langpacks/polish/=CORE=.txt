@@ -5,8 +5,6 @@ Utwórz nazwę konta (dla przykładu, Moje GG)
 Wybierz typ protokołu
 [Specify the internal account name (optional)]
 Utwórz wewnętrzną nazwę konta (opcjonalnie)
-[OK]
-OK
 [Cancel]
 Anuluj
 [Add %s]
@@ -2724,9 +2722,6 @@ Mapa bitowa JPEG
 Mapa bitowa GIF
 [PNG bitmaps]
 Mapa bitowa PNG
-;file \src\modules\utils\enterstring.cpp
-[OK (%d)]
-OK (%d)
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Awatary

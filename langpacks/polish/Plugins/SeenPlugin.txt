@@ -66,8 +66,6 @@ Rozłączony
 Domyślne
 [Last seen plugin]
 Wtyczka Last seen
-[OK]
-OK
 [You missed following contacts:]
 Przegapiłeś następujące kontakty:
 [Test\nTest]

@@ -11,7 +11,7 @@ Pobiera informacje o pogodzie wyświetlając je na Twojej liście kontaktów.
 [Update]
 Aktualizacja
 [Brief Info]
-Mniej
+Krótkie
 [Webpage]
 Strona WEB
 [Close]
@@ -115,7 +115,7 @@ Folder:
 [Link Settings]
 Ustawienia łącza
 [More Info URL]
-Więcej Info
+Więcej...
 [Weather Map]
 Mapa pogodowa
 [Other Options]
@@ -179,11 +179,11 @@ Błędy
 [Contact List]
 Lista kontaktów
 [Brief Info Title]
-Info w tytule
+Tytuł
 [Note Text]
-Zwykłe info
+Podstawowe
 [Extra Text]
-Dodatkowe info
+Dodatkowe
 [External Log]
 Zew. dziennik
 [History Log]
@@ -197,7 +197,7 @@ Domyślne
 [Status Message]
 Opis
 [Sunset]
-zachód słońca
+Zachód słońca
 [Feel-like]
 Odczuwalność
 [Today's Low]
@@ -323,7 +323,7 @@ Błąd HTTP: Przekroczono czas oczekiwania bramki (504)
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
 %c\nTemperatura: %t\nOdczuwalne: %f\nCiśnienie: %p\nWiatr: %i  %w\nWilgotność: %m\nPunkt rosy: %e\nWidoczność: %v\n\nWschód Słońca: %r\nZachód Słońca: %y\n\nPogoda na 5 dni:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Odczuwalne: %f\nCiśnienie:%p\nWiatr: %i  %w\nWilgotność: %m\nPunkt rosy: %e\nWidoczność: %v\n\nWschód słońca: %r\nZachód słońca: %y\n\nPogoda na 5 dni:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+Odczuwalne: %f\nCiśnienie: %p\nWiatr: %i  %w\nWilgotność: %m\nPunkt rosy: %e\nWidoczność: %v\n\nWschód słońca: %r\nZachód słońca: %y\n\nPogoda na 5 dni:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Warunki pogodowe dla %n na %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]

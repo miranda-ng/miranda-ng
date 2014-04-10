@@ -60,8 +60,6 @@ Ustaw jako ukryty
 Spróbuj zrobić tło obrazu przezroczyste
 [Use defaults]
 Domyślne
-[OK]
-OK
 [Cancel]
 Anuluj
 [Options]

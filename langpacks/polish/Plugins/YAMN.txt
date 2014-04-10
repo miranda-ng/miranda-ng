@@ -8,8 +8,6 @@
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołączona obsługa POP3.
 ;file \plugins\YAMN\res\YAMN.rc
-[OK]
-OK
 [Installed plugins]
 Zainstalowane wtyczki
 [Version:]

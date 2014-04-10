@@ -10,8 +10,6 @@ Robi zrzut ekranu i wysyła go do kontaktu.
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Okno
-[OK]
-OK
 [All]
 Wszystko
 [None]

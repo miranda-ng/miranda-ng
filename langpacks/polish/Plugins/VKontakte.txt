@@ -38,8 +38,6 @@ Wyślij
 Anuluj
 [Invite user to chat]
 Zaproś użytkownika do czatu
-[OK]
-OK
 [Choose one of your contacts to be invited:]
 Wybierz jeden z kontaktów, który chcesz zaprosić:
 [Create group chat]

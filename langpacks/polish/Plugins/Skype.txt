@@ -52,8 +52,6 @@ Info:
 Wprowadź hasło
 [Remember this session password]
 Zapamiętaj hasło dla tej sesji
-[OK]
-OK
 [Cancel]
 Anuluj
 [Status text:]

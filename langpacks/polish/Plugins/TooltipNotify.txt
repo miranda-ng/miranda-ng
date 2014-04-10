@@ -10,8 +10,6 @@ Pokazuje małe podpowiedzi w zasobniku systemowym o zmianach statusu kontaktów.
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Zaznacz protokoły
-[OK]
-OK
 [Choose contacts]
 Wybierz kontakt
 [Allow tooltip notifications for the following users:]

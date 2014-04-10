@@ -150,8 +150,6 @@ Zamykanie w %d
 Nazwa:
 [Message:]
 Wiadomość:
-[OK]
-OK
 [Cancel]
 Anuluj
 [Notify]

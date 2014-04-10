@@ -100,8 +100,6 @@ Opis:
 &Zapisz zmiany
 [Enter token to continue]
 Wprowadź token aby kontynuować
-[OK]
-OK
 [Cancel]
 Anuluj
 [Create Gadu-Gadu account]

@@ -40,8 +40,6 @@ Klucz użytkownika
 Pobierz klucz
 [Configure formatting]
 Konfiguruj formatowanie
-[OK]
-OK
 [Cancel]
 Anuluj
 [Up]

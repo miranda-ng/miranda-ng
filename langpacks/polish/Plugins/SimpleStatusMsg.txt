@@ -18,8 +18,6 @@ Odbieranie %s wiadomości
 Ko&piuj do schowka
 [%s Message (%s)]
 Opis - %s (%s)
-[OK]
-OK
 [Retrieving status message for %s...]
 Pobieranie opisu dla %s...
 [Behavior on status change]
@@ -211,8 +209,6 @@ pobierz datę (kompatybilne z Simple Status Message)
 Dodaj do ulubionych
 [Delete Selected]
 Usuń wybrane
-[OK (%d)]
-OK (%d)
 [Global]
 Globalne
 [Closing in %d]

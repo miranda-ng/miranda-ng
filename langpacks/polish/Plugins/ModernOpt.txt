@@ -16,8 +16,6 @@ Przykładowa strona
 Opcje Mirandy NG
 [Use arrow keys to choose category]
 Użyj strzałek do wyboru kategorii
-[OK]
-OK
 [Cancel]
 Anuluj
 [Apply]

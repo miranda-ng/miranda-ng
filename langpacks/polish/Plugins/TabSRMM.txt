@@ -10,8 +10,6 @@ Moduł obsługi zwykłych oraz grupowych rozmów dla Mirandy NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Możesz dodać osobę wybierając imię lub ID. Znaki dozwolone i rekomendowane.
-[OK]
-OK
 [Cancel]
 Anuluj
 [Show these events]

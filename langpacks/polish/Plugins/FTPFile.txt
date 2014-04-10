@@ -102,8 +102,6 @@ Usuń z listy
 Usuń z FTP
 [Enter file name]
 Wprowadź nazwę pliku
-[OK]
-OK
 [Cancel]
 Anuluj
 [File exists]

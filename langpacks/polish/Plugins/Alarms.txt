@@ -50,8 +50,6 @@ Nie centruj chyba że bezczynny
 Podgląd
 [Alarm]
 Alarm
-[OK]
-OK
 [Cancel]
 Anuluj
 [Title:]

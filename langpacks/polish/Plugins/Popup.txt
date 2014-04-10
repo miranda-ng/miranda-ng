@@ -260,8 +260,6 @@ Nakładka w "trybie pełnoekranowym"
 Odśwież listę skórek
 [Popup Placement]
 Rozmieszczenie
-[OK]
-OK
 [Cancel]
 Anuluj
 [Popup Group]

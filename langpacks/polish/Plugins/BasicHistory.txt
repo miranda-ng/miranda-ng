@@ -136,8 +136,6 @@ Eksportuj zaimportowane wiadomości
 * Użyj ujemne wartości do filtrowania nowszych zdarzeń
 [Execute task for specified contacts]
 Wykonaj zadanie dla określonych kontaktów
-[OK]
-OK
 [Cancel]
 Anuluj
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
