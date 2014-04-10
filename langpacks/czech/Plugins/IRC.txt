@@ -8,16 +8,46 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Internet Relay Chat (IRC) protokol pro Mirandu NG.
 ;file \protocols\IRCG\res\IRC.rc
+[Default network]
+Výchozí síť
+[Enable]
+Aktivovat
+[Server name]
+Název serveru
+[Internet address]
+Adresa
+[SSL]
+SSL
+[Port range]
+Rozsah portů
+[Password]
+Heslo
 [&Add]
 Přid&at
 [&Edit]
 Up&ravit
 [&Del]
 &Smaz
-[Enable]
-Aktivovat
+[User info - Required]
+Osobní informace (povinné)
+[Nick]
+Přezdívka
+[Alternative nick]
+Alt. přezdívka
+[Full name (e-mail)]
+Celé jméno (e-mail)
+[User ID (Ident)]
+Identifikátor
+[Ident]
+Ident
+[System]
+Systém
+[Port]
+Port
 [only while connecting]
 Pouze při připojování
+[Other]
+Ostatní
 [Force visible (-i)]
 Vynutit viditelnost (-i)
 [Rejoin channel if kicked]
@@ -40,40 +70,10 @@ Autom. se přidat po pozvání
 Měnit mód 'postaru'
 [Update online statuses for users]
 Aktualizovat stav lidí v seznamu
-[Update statuses in channel nick list]
-Aktualizovat stav účastníků na kanále
-[Internet address]
-Adresa
-[Port range]
-Rozsah portů
-[Nick]
-Přezdívka
-[User ID (Ident)]
-Identifikátor
-[Full name (e-mail)]
-Celé jméno (e-mail)
-[Password]
-Heslo
-[Server name]
-Název serveru
-[Alternative nick]
-Alt. přezdívka
-[Ident]
-Ident
-[System]
-Systém
-[Port]
-Port
-[Default network]
-Výchozí síť
-[User info - Required]
-Osobní informace (povinné)
-[Other]
-Ostatní
 [Check every (s):]
 Zjišťovat stav každých (s):
-[SSL]
-SSL
+[Update statuses in channel nick list]
+Aktualizovat stav účastníků na kanále
 [Don't check if more than (users):]
 Nezjišťovat, překročí-li počet:
 [User information]
@@ -226,8 +226,8 @@ Ostatní možnosti CTCP
 Privátní diskuse (DCC Chat)
 [Send mode:]
 Metoda odesílání:
-[Packet size (b):]
-Velikost paketu (B):
+[Packet size (bytes):]
+Velikost paketu (byty):
 [Get IP address from server]
 Zjistit IP adresu ze serveru
 [Auto-accept from:]
@@ -276,8 +276,6 @@ Události
 Server:
 [Password:]
 Heslo:
-[Alternate nick]
-Alt. přezdívka
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Žádost CTCP Chat od %s
@@ -522,7 +520,7 @@ Přidat mezi ignorované
 Upravit ignorované
 [Account]
 Účet
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC a CTCP
 [Advanced]
 Extra

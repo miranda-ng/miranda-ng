@@ -10,6 +10,8 @@
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 Vrátí-li se kontakt po době
+[or comes online for the first time]
+nebo se objeví poprvé online
 [Show a popup]
 Zobrazit oznámení
 [Add an event (flashing icon) to the contact]
@@ -22,16 +24,14 @@ Otevřít inf. o kontaktu
 Otevřít komunikační okno
 [Return notification]
 Návrat po kratší době
-[When a contact is absent for]
-Chybí-li kontakt delší dobu než
 [Long time no see]
 Návrat po dlouhé době
-[or comes online for the first time]
-nebo se objeví poprvé online
-[Enable "Miss you" feature]
-
+[When a contact is absent for]
+Chybí-li kontakt delší dobu než
 [Hide when no messages for]
 Skrýt pokud nepřijde zpráva během
+[Enable "Miss you" feature]
+
 [Colors]
 Barvy
 [Background]

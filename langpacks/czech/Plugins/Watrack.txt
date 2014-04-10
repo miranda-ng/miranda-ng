@@ -652,3 +652,7 @@ Posuvník
 
 [WATrack status]
 
+[Enable WATrack]
+Povolit WATrack
+[Disable WATrack]
+Zakázat WATrack

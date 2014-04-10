@@ -94,8 +94,8 @@ Obnovit
 Zastavit
 [Main]
 Hlavní
-[Plugins]
-Doplňky
+[Events]
+Události
 [File As Message...]
 Soubor jako zpráva...
 ;file \plugins\FileAsMessage\src\main.h

@@ -1039,8 +1039,8 @@ TabSRMM varování
 Příchozí soubor
 [No description given]
 Bez popisu
-[Incoming file (invalid format]
-Příchozí soubor (neplatný formát
+[Incoming file (invalid format)]
+Příchozí soubor (neplatný formát)
 [Unknown event]
 Neznámá událost
 [New messages: ]
@@ -2088,7 +2088,9 @@ Pozadí skupinového rozhovoru
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
-[User ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user-defined account name of current contact (if defined).]
+uživatelem definovaný název účtu (pokud je definován)
+[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy

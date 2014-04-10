@@ -43,8 +43,6 @@ Náhled...
 Knihovna advaimg.dll je buď zastaralá nebo porušená. Stáhněte si aktuální z distribuce Mirandy.
 [Error]
 Chyba
-[Call Splash Service]
-Zavolat službu pro 
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafické soubory
@@ -54,4 +52,3 @@ Zvukové soubory
 Skiny
 [Splash Screen]
 Logo při spuštění
-;file \plugins\SplashScreen\src\services.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
-;  Version: 0.0.24.0
+;  Version: 0.0.25.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
@@ -154,8 +154,14 @@ Informace poskytuje
 [Enter positive number.]
 
 ;file \plugins\Quotes\src\Forex.cpp
+[Auto Update Enabled]
+Deaktivovat automatickou aktualizaci
+[Auto Update Disabled]
+Aktivovat automatickou aktualizaci
 [Quotes]
 
+[Enable/Disable Auto Update]
+Povolit/zakázat automatickou aktualizaci
 [Refresh All Quotes\\Rates]
 
 [Currency Converter...]
@@ -172,6 +178,12 @@ Otevřít záznamový soubor...
 Graf...
 [Edit Settings...]
 Upravit nastavení...
+[Enable/Diable Quotes Auto Update]
+
+[Quotes Auto Update Enabled]
+
+[Quotes Auto Update Disabled]
+
 [Network]
 Sítě
 ;file \plugins\Quotes\src\HTTPSession.cpp

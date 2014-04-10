@@ -203,6 +203,8 @@ Zpráva byla přečtena: %s - %s
 Zpráva byla přečtena: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Tato zpráva již není dostupná, protože byla označena jako urážlivá nebo spam.
+[%s and more (%d)]
+%s a další (%d)
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.

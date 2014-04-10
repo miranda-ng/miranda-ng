@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -569,18 +569,18 @@ Zanořený (s rámováním)
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Zobrazit nabídku
-[Show / hide offline contacts]
-Zobrazit / Skrýt uživatele offline
-[Toggle group mode]
-Přepnout režim skupiny
+[Hide offline contacts]
+Skrýt uživatele offline
+[Enable group mode]
+Povolit režim skupin
 [Find and add contacts]
 Vyhledat a přidat kontakty
 [Accounts]
 Účty
 [Open preferences]
 Otevřít nastavení
-[Toggle sounds]
-Přepnout zvuky
+[Disable sounds]
+Zakázat zvuky
 [Minimize contact list]
 Minimalizovat seznam
 [Status menu]
@@ -696,6 +696,8 @@ Přepnout online/offline
 Přepnout skupiny
 [Find contacts]
 Vyhledat kontakty
+[Toggle sounds]
+Přepnout zvuky
 [Show TabSRMM session list]
 Zobrazit seznam relací TabSRMM
 [Show TabSRMM menu]

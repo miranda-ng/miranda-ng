@@ -58,19 +58,36 @@ Záhlaví okna:
 Velikost (v×š):
 [Target Tool]
 
+[Result]
+VÝSLEDEK
+[&Copy]
+Z&kopírovat
+[Close]
+Zavřít
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+
+[%s requires a valid contact!]
+%s vyžaduje platný kontakt!
+[Error]
+Chyba
 [GCHAT error]
 
 [An unknown error has occurred.]
 Neznámá chyba.
-[Error]
-Chyba
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
-
+Nelze inicializovat %s.
 [MAPI error (%i):\n%s.]
+Chyba MAPI (%s):\n%s.
+;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
+[Dropbox transfer]
+Přenos přes Dropbox
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+Přenost přes e-mail
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 
 [The specified attachment was not found]
@@ -99,17 +116,24 @@ Chyba
 
 [Unknown Error]
 Neznámá chyba
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+Přenos souboru
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
-
+Přenos přes FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+Přenos přes HTTPServer
 [Could not start the HTTP Server plugin.]
 Nelze spustit doplněk HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Image upload]
+Upload obrázku
 [Upload server did not respond timely.]
 
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
@@ -130,7 +154,7 @@ Filtrování
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 
 [Open SendSS+]
-
+Otevřít SendSS+
 [SendSS]
 
 [Screenshots]
@@ -221,14 +245,16 @@ Přenos souborů
 E-mail
 [FTP File]
 Soubory přes FTP
+[Dropbox]
+Dropbox
 [ImageShack]
 ImageShack
 [Information]
 Informace
 [Fill description textbox.]
-
+Vyplnit položku s popisem.
 [Delete after send]
-
+Smazat po odeslání
 [Capture]
 
 [Can't create a Screenshot]
@@ -238,8 +264,8 @@ Vyberte prosím požadované okno.
 [Screenshot ]
 
 [for Client area ]
-
+pro oblast 
 [of "]
-
+okna "
 [" Window]
-
+"

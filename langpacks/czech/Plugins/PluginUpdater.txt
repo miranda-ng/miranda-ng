@@ -119,6 +119,8 @@ Stav
 Doplňky
 [Icons]
 Ikony
+[Languages]
+Jazyky
 [Other]
 Ostatní
 [List is empty.]
