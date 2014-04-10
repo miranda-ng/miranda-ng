@@ -572,7 +572,7 @@ Pokaż menu
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 [Enable group mode]
-Włącz  tryb grup
+Włącz tryb grup
 [Find and add contacts]
 Szukaj i dodaj kontakt
 [Accounts]
