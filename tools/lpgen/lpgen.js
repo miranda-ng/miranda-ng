@@ -419,7 +419,7 @@ function ParseRCFile(FileTextVar,array) {
  //now make a job, till end of matching regexp
  while ((string = find.exec(FileTextVar)) != null) {
       // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-      onestring=string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList)|(%.(.*%)?))$/g,"");
+      onestring=string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|[Oo][Kk])|(%.(.*%)?))$/g,"");
 	  // ignore some popup menu craps
 	  if (string[1]=="POPUP" && onestring.match(/^([a-zA-Z ]*(menu|context|popup))|([A-Z][a-z]+([A-Z][a-z]*)+)|(new item)$/g))
 		continue;
@@ -465,7 +465,7 @@ function filter_T(string) {
 //filter not begin with symbols :.]?;#~{!/_+$
 //var filter1=/^[^\:\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
 //filter string starting from following words
-var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat[^a]|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
+var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat[^a]|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|[Oo][Kk]|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
 var filter3=/^.+(001|\/value|\*!\*|=)$/g;
 //filter from Kildor
