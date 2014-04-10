@@ -7,16 +7,44 @@
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
+[Default network]
+Сеть по умолчанию
+[Enable]
+Включено
+[Server name]
+Имя сервера
+[Internet address]
+Сетевой адрес
+[Port range]
+Диапазон портов
+[Password]
+Пароль
 [&Add]
 &Добавить
 [&Edit]
 &Править
 [&Del]
 &Удалить
-[Enable]
-Включено
+[User info - Required]
+Инфо пользователя - Необходимо
+[Nick]
+Ник
+[Alternative nick]
+Запасной ник
+[Full name (e-mail)]
+Полное имя
+[User ID (Ident)]
+ID пользователя
+[Ident]
+Идентификация
+[System]
+Система
+[Port]
+Порт
 [only while connecting]
 Только на время соединения
+[Other]
+Другое
 [Force visible (-i)]
 Включить видимость (-i)
 [Rejoin channel if kicked]
@@ -39,38 +67,10 @@
 "Старый" стиль режимов
 [Update online statuses for users]
 Обновлять статусы для пользователей
-[Update statuses in channel nick list]
-Обнов. статусы в списке комнаты чата
-[Internet address]
-Сетевой адрес
-[Port range]
-Диапазон портов
-[Nick]
-Ник
-[User ID (Ident)]
-ID пользователя
-[Full name (e-mail)]
-Полное имя
-[Password]
-Пароль
-[Server name]
-Имя сервера
-[Alternative nick]
-Запасной ник
-[Ident]
-Идентификация
-[System]
-Система
-[Port]
-Порт
-[Default network]
-Сеть по умолчанию
-[User info - Required]
-Инфо пользователя - Необходимо
-[Other]
-Другое
 [Check every (s):]
 Проверять каждые (с):
+[Update statuses in channel nick list]
+Обнов. статусы в списке комнаты чата
 [Don't check if more than (users):]
 Не проверять, если польз. более:
 [User information]

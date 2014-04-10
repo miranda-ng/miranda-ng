@@ -63,6 +63,7 @@
 [State]
 [Plugins]
 [Icons]
+[Languages]
 [Other]
 [List is empty.]
 [List loading already started!]

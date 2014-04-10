@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -553,18 +553,12 @@
 Вытравленный
 [Show menu]
 Меню
-[Show / hide offline contacts]
-Показать/скрыть оффлайн контакты
-[Toggle group mode]
-Показать/скрыть группы
 [Find and add contacts]
 Найти и добавить контакты
 [Accounts]
 Учётные записи
 [Open preferences]
 Открыть настройки
-[Toggle sounds]
-Вкл/выкл звуки
 [Minimize contact list]
 Скрыть список контактов
 [Status menu]
@@ -675,6 +669,8 @@
 Вкл/Выкл группы
 [Find contacts]
 Найти контакты
+[Toggle sounds]
+Вкл/выкл звуки
 [Show TabSRMM session list]
 Список сессий TabSRMM
 [Show TabSRMM menu]

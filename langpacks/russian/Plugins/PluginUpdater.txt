@@ -117,6 +117,8 @@
 Плагины
 [Icons]
 Значки
+[Languages]
+Языки
 [Other]
 Другое
 [List is empty.]

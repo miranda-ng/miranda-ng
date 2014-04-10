@@ -9,6 +9,8 @@
 Плагин уведомляет о возвращении контакта или его длительном отсутствии.
 [When a contact returns after]
 При появлении контакта после
+[or comes online for the first time]
+или выходит в сеть в первый раз
 [Show a popup]
 Показывать всплывающее окно
 [Add an event (flashing icon) to the contact]
@@ -21,16 +23,14 @@
 Открыть окно беседы
 [Return notification]
 Уведомление возвращения
-[When a contact is absent for]
-Когда контакт отсутствует
 [Long time no see]
 Давно не видел
-[or comes online for the first time]
-или выходит в сеть в первый раз
-[Enable "Miss you" feature]
-Включить функцию "Жду тебя"
+[When a contact is absent for]
+Когда контакт отсутствует
 [Hide when no messages for]
 Скрыть, если нет сообщений
+[Enable "Miss you" feature]
+Включить функцию "Жду тебя"
 [Colors]
 Цвета
 [Background]

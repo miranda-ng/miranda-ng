@@ -526,7 +526,7 @@
 [tabSRMM Warning Message]
 [Incoming file]
 [No description given]
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 [Unknown event]
 [New messages: ]
 [Unknown module or contact]

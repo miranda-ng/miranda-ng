@@ -51,7 +51,7 @@
 [Revive]
 [Stop]
 [Main]
-[Plugins]
+[Events]
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]

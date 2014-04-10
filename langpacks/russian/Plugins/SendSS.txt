@@ -49,12 +49,18 @@
 Заголовок:
 [Size (HxW):]
 Размер (ВxШ):
-[An unknown error has occurred.]
-Неизвестная ошибка.
+[&Copy]
+&Копировать
+[Close]
+Закрыть
 [Error]
 Ошибка
+[An unknown error has occurred.]
+Неизвестная ошибка.
 [Unknown Error]
 Неизвестная ошибка
+[File transfer]
+Передача файла
 [Could not start the HTTP Server plugin.]
 Не могу запустить плагин HTTP Сервер.
 [Retry]
