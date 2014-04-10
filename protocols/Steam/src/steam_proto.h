@@ -106,6 +106,7 @@ protected:
 	// account
 	bool IsOnline();
 	bool IsMe(const char *steamId);
+	void SetServerStatus(WORD status);
 	void Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult);
 	void __cdecl LogInThread(void*);
 	void __cdecl LogOutThread(void*);

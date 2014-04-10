@@ -106,6 +106,8 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 		return PF2_ONLINE;
 	case PFLAGNUM_4:
 		return PF4_AVATARS;
+	case PFLAGNUM_5:
+		return PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("SteamID");
 	case PFLAG_UNIQUEIDSETTING:
@@ -236,19 +238,19 @@ int CSteamProto::SetStatus(int new_status)
 			m_iStatus = ID_STATUS_CONNECTING;
 			ForkThread(&CSteamProto::LogInThread, NULL);
 		}
-		else
-		{
-			if (IsOnline())
-			{
-				ForkThread(&CSteamProto::SetServerStatusThread, &new_status);
+		//else
+		//{
+			//if (IsOnline())
+			//{
+			//	ForkThread(&CSteamProto::SetServerStatusThread, (void*)new_status);
 
-				return 0;
-			}
+			//	return 0;
+			//}
 
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+			//ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-			return 0;
-		}
+			//return 0;
+		//}
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);

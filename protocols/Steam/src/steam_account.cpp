@@ -16,7 +16,7 @@ bool CSteamProto::IsMe(const char *steamId)
 
 void CSteamProto::SetServerStatusThread(void *arg)
 {
-	WORD status = *((WORD*)arg);
+	WORD status = *((WORD*)&arg);
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
@@ -24,19 +24,27 @@ void CSteamProto::SetServerStatusThread(void *arg)
 	int state = CSteamProto::MirandaToSteamState(status);
 
 	// change status
-	if (m_iStatus == state)
-		return;
-
-	int oldStatus = m_iStatus;
-	m_iStatus = state;
+	WORD oldStatus = m_iStatus;
+	m_iDesiredStatus = status;
 
 	SteamWebApi::MessageApi::SendResult sendResult;
 	SteamWebApi::MessageApi::SendStatus(m_hNetlibUser, token, sessionId, state, &sendResult);
 
 	if (sendResult.IsSuccess())
+	{
+		m_iStatus = status;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	}
 	else
-		m_iStatus = oldStatus;
+		m_iDesiredStatus = m_iStatus;
+}
+
+void CSteamProto::SetServerStatus(WORD status)
+{
+	if (m_iStatus == status)
+		return;
+
+	ForkThread(&CSteamProto::SetServerStatusThread, (void*)status);
 }
 
 void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult)
@@ -163,8 +171,7 @@ void CSteamProto::LogInThread(void* param)
 	setDword("MessageID", loginResult.GetMessageId());
 
 	// set selected status
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iDesiredStatus);
+	//CSteamProto::SetServerStatusThread((void*)m_iDesiredStatus);
 
 	// load contact list
 	LoadContactList();

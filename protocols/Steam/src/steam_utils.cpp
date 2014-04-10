@@ -10,10 +10,9 @@ WORD CSteamProto::SteamToMirandaStatus(int state)
 		return ID_STATUS_DND;
 	case 3: //Away
 		return ID_STATUS_AWAY;
-		/*case 4: //Snoozing
-		prim = PURPLE_STATUS_EXTENDED_AWAY;
-		break;
-		case 5: //Looking to trade
+	case 4: //Playing
+		return PF2_OUTTOLUNCH;
+		/*case 5: //Looking to trade
 		return "trade";
 		case 6: //Looking to play
 		return "play";*/
@@ -33,12 +32,11 @@ int CSteamProto::MirandaToSteamState(int status)
 		return 2; //Busy
 	case ID_STATUS_AWAY:
 		return 3; //Away
-		/*case 4: //Snoozing
-		prim = PURPLE_STATUS_EXTENDED_AWAY;
-		break;
-		case 5: //Looking to trade
+	/*case PF2_OUTTOLUNCH:
+		return 4; //Playing
+	case 5: //Looking to trade
 		return "trade";
-		case 6: //Looking to play
+	case 6: //Looking to play
 		return "play";*/
 		//case 1: //Online
 	default:

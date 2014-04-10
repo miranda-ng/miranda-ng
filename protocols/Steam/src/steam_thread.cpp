@@ -68,7 +68,9 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 				if (IsMe(steamId))
 				{
 					debugLogA("Change own status to %i", status);
-					SetStatus(status);
+					WORD oldStatus = m_iStatus;
+					m_iStatus = m_iDesiredStatus = status;
+					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 				}
 				else
 				{

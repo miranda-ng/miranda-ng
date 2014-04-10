@@ -48,6 +48,16 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 	// only for contacts
 	if (hContact)
 	{
+		/*{
+			"type": "personastate",
+				"timestamp" : 130789088,
+				"utc_timestamp" : 1397151246,
+				"steamid_from" : "76561198010620323",
+				"status_flags" : 863,
+				"persona_state" : 4,
+				"persona_name" : "necrostorm"
+		}*/
+
 		setWord(hContact, "Status", SteamToMirandaStatus(contact->GetState()));
 		setDword(hContact, "LastEventDateTS", contact->GetLastEvent());
 	}

@@ -140,7 +140,9 @@ class SecureHttpRequest : public HttpRequest
 {
 public:
 	SecureHttpRequest(HANDLE hNetlibUser, int request, LPCSTR url)
-		: HttpRequest(hNetlibUser, request, url) { flags = NLHRF_HTTP11 | NLHRF_SSL; }
+		: HttpRequest(hNetlibUser, request, url) {
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND;
+	}
 };
 
 #endif //_HTTP_REQUEST_H_

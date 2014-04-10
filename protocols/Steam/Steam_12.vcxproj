@@ -192,9 +192,10 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\common.h" />
     <ClInclude Include="src\http_request.h" />
-    <ClInclude Include="src\steam.h" />
     <ClInclude Include="src\Steam\authorization.h" />
+    <ClInclude Include="src\Steam\avatar.h" />
     <ClInclude Include="src\Steam\crypto.h" />
     <ClInclude Include="src\Steam\friend.h" />
     <ClInclude Include="src\Steam\friend_list.h" />
@@ -208,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\steam_account.cpp" />
+    <ClCompile Include="src\steam_avatars.cpp" />
     <ClCompile Include="src\steam_contacts.cpp" />
     <ClCompile Include="src\steam_events.cpp" />
     <ClCompile Include="src\steam_dialogs.cpp" />

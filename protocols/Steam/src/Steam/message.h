@@ -25,7 +25,7 @@ namespace SteamWebApi
 
 			char data[256];
 			mir_snprintf(data, SIZEOF(data),
-				"access_token=%s&umqid=%s&persona_state=%i&type=personastate",
+				"access_token=%s&umqid=%s&type=personastate&persona_state=%i",
 				token,
 				sessionId,
 				state);
