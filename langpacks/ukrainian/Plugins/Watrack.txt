@@ -647,3 +647,7 @@ VBR чи ні
 Натиснутий бігунок
 [WATrack status]
 Статус WATrack
+[Enable WATrack]
+Увімкнути WATrack
+[Disable WATrack]
+Вимкнути WATrack

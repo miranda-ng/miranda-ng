@@ -30,7 +30,7 @@
 [Nick]
 Нік
 [Alternative nick]
-Альтернат. нік
+Запасний нік
 [Full name (e-mail)]
 Повне ім'я
 [User ID (Ident)]
@@ -170,9 +170,9 @@ Wildcard пошук по мережі
 [Excepts]
 Винятки
 [Only Ops set topic]
-Зміна теми ОПами
+Зміна теми лише ОПами
 [No external messages]
-Повідом. ззовні вимк.
+Повідомлення ззовні вимк.
 [Invite only]
 За запрошеннями
 [Moderated]
@@ -202,13 +202,13 @@ Wildcard пошук по мережі
 [Send-ahead]
 Випереджальний
 [Attempt reverse DCC (good if firewalled)]
-Реверсивне DCC (для брандмауерів)
+Реверсний DCC (для брандмауерів)
 [none]
 Нічого
 [everyone on the contact list]
 у списку
 [everyone]
-всі
+всіх
 [Disconnect DCC chats when disconnecting from server]
 Відключати DCC-чати при виході з сервера
 [Manually set external IP:]
@@ -221,8 +221,8 @@ Wildcard пошук по мережі
 Чати СТСР
 [Send mode:]
 Режим відправки:
-[Packet size (b):]
-Розмір пакета (б):
+[Packet size (bytes):]
+Розмір пакета (байт):
 [Get IP address from server]
 Отримати IP сервера
 [Auto-accept from:]
@@ -236,9 +236,9 @@ Wildcard пошук по мережі
 [&Deny]
 &Відхилити
 [Enable (*)]
-Активувати (*)
+Увімкнено (*)
 [Ignore channel messages by default]
-Ігнорувати повідомлення чат-кімнати за замовчанням
+Ігнорувати повідомлення чат-кімнати за замовч.
 [Ignore filetransfer requests]
 Ігнорувати передачі файлів
 [Ignore DCC Chat requests]
@@ -248,7 +248,7 @@ Wildcard пошук по мережі
 [Ignore users]
 Ігнорувати користувачів
 [(*) Queries from users on your contact list are never ignored]
-(*) Не ігнорувати запити від користувачів зі списку
+(*) Запити від користувачів зі списку не ігноруються
 [Queries]
 Запити
 [Messages]
@@ -390,7 +390,7 @@ DCC: Запит на продовження закачування файлу в
 [DCC ERROR: No valid files specified]
 Помилка DCC: Немає доступних файлів
 [DCC reversed file transfer request sent to %s [%s]]
-DCC-запит на реверсивну передачу надісланий %s [%s]
+DCC-запит на реверсну передачу надісланий %s [%s]
 [DCC file transfer request sent to %s [%s]]
 DCC-запит на передачу файлу надісланий %s [%s]
 [DCC ERROR: Unable to bind local port]
@@ -503,6 +503,8 @@ DCC-запит на передачу файлу надісланий %s [%s]
 Змінити ігнор
 [Account]
 Обліковий запис
+[DCC and CTCP]
+DCC і CTCP
 [Advanced]
 Додатково
 [WallOps from %s: ]
@@ -520,7 +522,7 @@ WallOps від %s:
 [Notice to %s: ]
 Повідомлення для %s:
 [&Quick connect]
-&Швидкий коннект
+&Швидке з'єдання
 [&Join channel]
 &Увійти в чат-кімнату
 [&Change your nickname]

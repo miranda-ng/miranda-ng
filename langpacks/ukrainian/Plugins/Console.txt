@@ -72,4 +72,4 @@
 [Save selection to file]
 Зберегти вибране
 [Save log to file]
-Зберегти журнал в файл
+Зберегти журнал у файл

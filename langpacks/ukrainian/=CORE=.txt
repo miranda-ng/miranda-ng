@@ -1376,7 +1376,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Show buttons for formatting the text you are typing]
 Показувати кнопки форматування тексту
 [Show button menus when right clicking the buttons]
-Показувати меню кнопоки за натисненням правої кнопки миші
+Показувати меню кнопки за натисненням правою кнопкою миші
 [Show new windows cascaded]
 Розміщувати нові вікна каскадом
 [Save the size and position of chat rooms]
@@ -2000,7 +2000,7 @@ URL від %s
 [%s has joined]
 %s увійшов
 [You have joined %s]
-Ви приєдналися %s
+Ви ввійшли до %s
 [%s has left]
 %s вийшов
 [%s has disconnected]
@@ -2008,7 +2008,7 @@ URL від %s
 [%s is now known as %s]
 %s змінив ім'я на %s
 [You are now known as %s]
-Ви відомі як %s
+Ви змінили ім'я на %s
 [%s kicked %s]
 %s вигнав %s
 [Notice from %s: ]
@@ -2022,7 +2022,7 @@ URL від %s
 [%s enables '%s' status for %s]
 %s вмикає статус '%s' для %s
 [%s disables '%s' status for %s]
-%s вимикає статус "%s" для %s
+%s вимикає статус '%s' для %s
 [<invalid>]
 <неправильно>
 [%s wants your attention in %s]
@@ -2314,7 +2314,7 @@ Miranda не може відкрити цей профіль
 [Protocol]
 Протокол
 [Send Offline]
-Відправка в оффлайн
+Відправка в офлайн
 [Delete MetaContact?]
 Видалити метаконтакт?
 [Toggle Off]

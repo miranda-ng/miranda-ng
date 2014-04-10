@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -17,6 +17,8 @@
 Закрити програму
 [About CList Nicer+]
 Про CList Nicer+
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+© 2004-2010 Проект Miranda IM, 2012-2013 Проект Miranda NG. Детальна інформація про авторські права знаходиться у файлі Readme.
 [Version]
 Версія
 [Support and latest version information]
@@ -551,18 +553,18 @@
 Гравірований
 [Show menu]
 Меню
-[Show / hide offline contacts]
-Показати/сховати відключених
-[Toggle group mode]
-Показати/сховати групи
+[Hide offline contacts]
+Сховати відключених
+[Enable group mode]
+Увімкнути групи
 [Find and add contacts]
 Знайти/додати контакти
 [Accounts]
 Облікові записи
 [Open preferences]
 Відкрити налаштування
-[Toggle sounds]
-Ввімк./Вимк. звуки
+[Disable sounds]
+Вимкнути звуки
 [Minimize contact list]
 Сховати список контактів
 [Status menu]
@@ -669,6 +671,8 @@ Cписок неактивний
 Ввімк./Вимк. групи
 [Find contacts]
 Знайти контакти
+[Toggle sounds]
+Ввімк./Вимк. звуки
 [Show TabSRMM session list]
 Список сесій TabSRMM
 [Show TabSRMM menu]

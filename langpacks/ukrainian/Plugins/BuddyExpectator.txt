@@ -9,6 +9,8 @@
 Сповіщає про повернення контакту або його тривалу відсутність.
 [When a contact returns after]
 При появі контакту після
+[or comes online for the first time]
+чи виходить у мережу вперше
 [Show a popup]
 Показувати спливаюче вікно
 [Add an event (flashing icon) to the contact]
@@ -21,16 +23,14 @@
 Відкрити вікно повідомлень
 [Return notification]
 Сповіщення повернення
-[When a contact is absent for]
-Коли контакт відсутній
 [Long time no see]
 Давно не бачив
-[or comes online for the first time]
-чи виходить у мережу вперше
-[Enable "Miss you" feature]
-Ввімкнути функцію "Чекаю тебе"
+[When a contact is absent for]
+Коли контакт відсутній
 [Hide when no messages for]
 Приховати, якщо немає повідомлень
+[Enable "Miss you" feature]
+Ввімкнути функцію "Чекаю тебе"
 [Colors]
 Кольори
 [Background]

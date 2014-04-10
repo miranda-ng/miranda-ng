@@ -91,8 +91,8 @@
 Зупинити
 [Main]
 Головний
-[Plugins]
-Плагіни
+[Events]
+Події
 [File As Message...]
 Файл через повідомлення...
 [File As Message]

@@ -6,7 +6,7 @@
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
-Підтримка протоколу Jabber в Miranda NG.
+Підтримка протоколу XMPP (Jabber) в Miranda NG.
 [Edit Note]
 Редагувати нотатку
 [Tags:]
