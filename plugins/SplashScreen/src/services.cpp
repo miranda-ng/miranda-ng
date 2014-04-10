@@ -41,29 +41,3 @@ INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam)
 
 	return 0;
 }
-
-#ifdef _DEBUG
-INT_PTR TestService(WPARAM wParam,LPARAM lParam)
-{
-	TCHAR szTempPath[MAX_PATH];
-
-	OPENFILENAME ofn={0};
-	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	TCHAR tmp[MAX_PATH];
-	mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
-	ofn.lpstrFilter = tmp;
-	ofn.hwndOwner=0;
-	ofn.lpstrFile = szTempPath;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.Flags = OFN_HIDEREADONLY;
-	ofn.lpstrInitialDir = szSplashFile;
-	*szTempPath = '\0';
-	ofn.lpstrDefExt = _T("");
-
-	if (GetOpenFileName(&ofn))
-		CallService(MS_SHOWSPLASH,(WPARAM)szTempPath,0);
-
-	return 0;
-}
-#endif

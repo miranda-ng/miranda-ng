@@ -290,19 +290,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CreateServiceFunction(MS_SHOWSPLASH, ShowSplashService);
 
 	#ifdef _DEBUG
-		CreateServiceFunction("Splash/Test", TestService);
-
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIF_TCHAR;
-		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-		mi.hotKey = 0;
-		mi.position = -0x7FFFFFFF;
-		mi.ptszName = LPGENT("Call Splash Service");
-		mi.pszService = "Splash/Test";
-		Menu_AddMainMenuItem(&mi);
-	#endif
-
-	#ifdef _DEBUG
 		logMessage(_T("Loading modules"), _T("done"));
 	#endif
 

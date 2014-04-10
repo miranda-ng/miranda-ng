@@ -88,8 +88,5 @@ extern int OptInit(WPARAM wParam, LPARAM lParam);
 extern BOOL ShowSplash(BOOL bpreview);
 extern VOID ReadDbConfig();
 extern INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam);
-#ifdef _DEBUG
-	extern INT_PTR TestService(WPARAM wParam,LPARAM lParam);
-#endif
 
 #endif //HEADERS_H
