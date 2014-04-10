@@ -60,8 +60,6 @@ Nastavit jako skrytý
 Pokusit se zprůhlednit pozadí obrázku
 [Use defaults]
 Použít výchozí
-[OK]
-OK
 [Cancel]
 Zrušit
 [Options]

@@ -16,8 +16,6 @@ Ukázková stránka
 Miranda - možnosti nastavení
 [Use arrow keys to choose category]
 Požadovanou kategorii vyberete pomocí šipek
-[OK]
-OK
 [Cancel]
 Zrušit
 [Apply]

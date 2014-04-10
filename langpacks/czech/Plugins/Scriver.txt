@@ -164,8 +164,6 @@ Přid&at
 &Historie
 [&Quote]
 &Citovat
-[&OK]
-&OK
 [Send To All Tabs]
 Odeslat všem otevřeným
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -266,8 +264,6 @@ Pozadí
 Prodleva (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 = výchozí nastavení, -1 = vypnutí prodlevy)
-[OK]
-OK
 [Log]
 Záznam
 [&Copy]

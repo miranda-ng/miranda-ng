@@ -86,8 +86,6 @@ Zobrazení
 
 [Remove HTML]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [Apply]

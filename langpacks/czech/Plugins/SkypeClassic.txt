@@ -56,8 +56,6 @@ Volá: %s
 Zvednout telefon; současný hovor (%s) přidržet
 [Hang up]
 Zavěsit
-[OK]
-OK
 [Dialog]
 Dialog
 [Use Skype proxy connection over network instead of local Skype API]

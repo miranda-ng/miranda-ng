@@ -68,8 +68,6 @@ Potvrdit návrat do původního stavu
 Nastavit pouze tehdy, je-li stav
 [Command line]
 Příkazový řádek
-[OK]
-OK
 [Copy to clipboard]
 Zkopírovat do schránky
 [Command line:]

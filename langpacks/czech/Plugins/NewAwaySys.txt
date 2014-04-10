@@ -88,8 +88,6 @@ Na &telefonu
 Na &obědě
 [Autoreply format:]
 Formát automatické odpovědi:
-[OK]
-OK
 [&Variables]
 &Proměnné
 [Se&ttings]

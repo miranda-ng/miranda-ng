@@ -150,8 +150,6 @@ Zavře se za %d sek.
 Název:
 [Message:]
 Zpráva:
-[OK]
-OK
 [Cancel]
 Zrušit
 [Notify]

@@ -102,8 +102,6 @@ Vybrat vše
 
 [Enter file name]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [File exists]

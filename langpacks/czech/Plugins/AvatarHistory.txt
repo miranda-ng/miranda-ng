@@ -28,8 +28,6 @@ Ukládat avatary kontaktu na disk
 Zapisovat změny avataru do historie
 [Show popups for this user]
 Zobrazit oznámení pro tento kontakt
-[OK]
-OK
 [Protocols]
 Protokoly
 [Enable tracking for these protocols:]

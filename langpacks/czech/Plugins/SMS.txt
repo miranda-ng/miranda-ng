@@ -68,8 +68,6 @@ Automaticky zobrazit přijaté zprávy
 Uložit pozici okna pro každý kontakt zvlášť
 [SMS Message Sent]
 Zpráva SMS odeslána
-[&OK]
-&OK
 [Message ID:]
 Identifikátor:
 [Source:]

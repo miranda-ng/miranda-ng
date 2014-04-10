@@ -56,8 +56,6 @@ Odst&ranit
 Změnit stavovou zprávu
 [Show as busy]
 Zobrazit jako 'Nemám čas'
-[OK]
-OK
 [Cancel]
 Zrušit
 [Protocol:]

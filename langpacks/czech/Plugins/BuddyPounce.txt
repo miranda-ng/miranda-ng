@@ -18,8 +18,6 @@ Zrušit
 Příjemce zprávy offline:
 [Buddy Pounce]
 Komunikace offline
-[OK]
-OK
 [The Message:]
 Zpráva:
 [Delete Pounce]

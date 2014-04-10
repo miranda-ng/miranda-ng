@@ -10,8 +10,6 @@ Při přechodu do vybraného stavu zobrazí v oznamovací oblasti příslušnou 
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Vybrat protokoly
-[OK]
-OK
 [Choose contacts]
 Vyberte kontakty
 [Allow tooltip notifications for the following users:]

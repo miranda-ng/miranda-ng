@@ -60,8 +60,6 @@ Nahoru
 Dolů
 [Edit Host]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [Address:]

@@ -10,8 +10,6 @@ Zobrazuje upozornění když někdo ve vašem seznamu kontaktů změní svého k
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 ClientChangeNotify :: chyba
-[OK]
-OK
 [Fingerprint plugin not found.]
 Doplněk Fingerprint nebyl nalezen.
 [ClientChangeNotify requires it to work properly.]

@@ -156,8 +156,6 @@ Proměnné
 Reset
 [Disable notifications]
 Vypnout oznámení
-[OK]
-OK
 [Cancel]
 Zrušit
 [Disable globally]

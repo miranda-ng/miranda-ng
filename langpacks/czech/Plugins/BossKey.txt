@@ -34,8 +34,6 @@ Vrátit původní stav
 Klávesy
 [Password:]
 Heslo:
-[OK]
-OK
 [Cancel]
 Zrušit
 [EN]

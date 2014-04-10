@@ -60,8 +60,6 @@ HistoryStats :: Filtrování slov a zpráv
 
 [All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
 
-[OK]
-OK
 [Configure HistoryStats]
 Nastavit HistoryStats
 [Apply]

@@ -12,8 +12,6 @@ Umožňuje čtení a zápis dat do uživatelského profilu: globální nastaven�
 Přihlášení do Mirandy NG
 [EN]
 EN
-[OK]
-OK
 [Cancel]
 Zrušit
 [New password]

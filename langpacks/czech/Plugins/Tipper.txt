@@ -72,8 +72,6 @@ Modul protokolu
 Volba nebo prefix:
 [Translation:]
 Překlad:
-[OK]
-OK
 [Cancel]
 Zrušit
 [Item]

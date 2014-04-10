@@ -66,8 +66,6 @@ Offline
 Výchozí barvy
 [Last seen plugin]
 Sledování změny stavu
-[OK]
-OK
 [You missed following contacts:]
 Zmeškali jste tyto kontakty:
 [Test\nTest]

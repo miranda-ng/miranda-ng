@@ -26,8 +26,6 @@ Zadejte heslo pro ICQ
 Zadejte heslo pro UIN %d:
 [Remember this session password]
 Zapamatovat heslo této relace
-[OK]
-OK
 [Cancel]
 Zrušit
 [ICQ]

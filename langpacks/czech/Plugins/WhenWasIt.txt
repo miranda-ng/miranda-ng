@@ -70,8 +70,6 @@ Zavřít
 Zobrazit všechny kontakty
 [Set birthday:]
 Nastavit narozeniny:
-[OK]
-OK
 [Manage anniversaries]
 Spravovat výročí
 [Title:]

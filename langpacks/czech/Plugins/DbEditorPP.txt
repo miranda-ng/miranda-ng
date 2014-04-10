@@ -56,8 +56,6 @@ Přidat modul ke kontaktu
 Název nového modulu
 [Add to all contacts (Includes Settings)]
 Přidat všem kontaktům (včetně nastavení)
-[OK]
-OK
 [Cancel]
 Zrušit
 [Edit Setting]

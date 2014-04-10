@@ -100,8 +100,6 @@ Popis:
 &Uložit změny
 [Enter token to continue]
 Pokračovat po zadání tokenu
-[OK]
-OK
 [Cancel]
 Zrušit
 [Create Gadu-Gadu account]

@@ -134,8 +134,6 @@ Zadejte heslo
 Připojit
 [Set Nickname]
 Nastavit přezdívku
-[OK]
-OK
 [Cancel]
 Zrušit
 [New xfire_games.ini]

@@ -10,8 +10,6 @@
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 
-[OK]
-OK
 [Popup delay settings]
 
 [Popup Delay (seconds)]

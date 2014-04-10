@@ -10,8 +10,6 @@ Vyfotí obrazovku a odešle obrázek kontaktu.
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Dialog
-[OK]
-OK
 [All]
 všechno
 [None]

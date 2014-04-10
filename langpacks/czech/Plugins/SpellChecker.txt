@@ -30,8 +30,6 @@ Chybné slovo:
 Oprava:
 [Use variables in correction]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [Spell Checker]

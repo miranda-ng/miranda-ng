@@ -100,8 +100,6 @@ U&končit
 
 [Help]
 Nápověda
-[OK]
-OK
 [Copy / Export contact]
 
 [&Export Non-IM Contact]

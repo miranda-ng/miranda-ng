@@ -10,8 +10,6 @@ Zobrazuje kurzy měn a ekonomické citace.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Seznam proměnných
-[OK]
-OK
 [Edit Settings]
 Upravit nastavení...
 [Use contact specific settings]

@@ -64,8 +64,6 @@ Socialistický milionářský protokol
 Socialistický milionářský protokol\r\nOvěřovací proces
 [&Cancel]
 &Zrušit
-[&OK]
-&OK
 [Socialist Millionaires Protocol\r\nVerification]
 Socialistický milionářský protokol\r\nOvěření
 [&No]

@@ -136,8 +136,6 @@ Exportovat importované zprávy
 * Použijte záporné hodnoty pro filtrování mladších událostí
 [Execute task for specified contacts]
 Vykonat úlohu pro konkrétní kontakty
-[OK]
-OK
 [Cancel]
 Zrušit
 ;file \plugins\BasicHistory\src\BasicHistory.cpp

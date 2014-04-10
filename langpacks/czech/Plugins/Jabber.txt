@@ -12,8 +12,6 @@ Jabber protokol pro Mirandu NG.
 Upravit poznámku
 [Tags:]
 Štítky:
-[OK]
-OK
 [Cancel]
 Zrušit
 [Type:]
@@ -2197,8 +2195,6 @@ Poznámka
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
-OK (%d)
 [Afraid]
 obavy
 [Amazed]

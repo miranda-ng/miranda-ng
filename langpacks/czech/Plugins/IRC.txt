@@ -112,8 +112,6 @@ Přehled informací získaný ze serveru. Vezměte na vědomí, že nic z toho n
 Informace CTCP
 [Question]
 Otázka
-[&OK]
-&OK
 [&Cancel]
 &Zrušit
 [Perform]

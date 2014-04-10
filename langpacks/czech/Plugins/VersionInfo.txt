@@ -10,8 +10,6 @@ Souhrn podrobných informací o programu Miranda, doplňcích a operačním syst
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Výstup do:
-[OK]
-OK
 [Cancel]
 Zrušit
 [Text file]
@@ -99,5 +97,5 @@ Informace o verzi
 Služby
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 

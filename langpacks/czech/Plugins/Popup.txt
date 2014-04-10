@@ -260,8 +260,6 @@ Překrytí pro celoobraz. režim
 Obnovit seznam skinů
 [Popup Placement]
 Umístění oznámení
-[OK]
-OK
 [Cancel]
 Zrušit
 [Popup Group]

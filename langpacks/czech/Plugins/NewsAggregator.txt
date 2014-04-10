@@ -20,8 +20,6 @@ Importovat
 Exportovat
 [Retrieve news at startup]
 Získat novinky při spuštění
-[OK]
-OK
 [Cancel]
 Zrušit
 [General Settings]

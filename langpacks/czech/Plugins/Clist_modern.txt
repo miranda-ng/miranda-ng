@@ -144,8 +144,6 @@ Včetně skupin
 Zobrazit kontakty ve skupinách
 [Include status modes]
 Včetně stavu
-[OK]
-OK
 [Cancel]
 Zrušit
 [Sticky contacts]

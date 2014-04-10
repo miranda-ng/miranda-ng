@@ -18,8 +18,6 @@ Zjištění automatické odpovědi ve stavu '%s'...
 Zko&pírovat
 [%s Message (%s)]
 Zpráva stavu %s (%s)
-[OK]
-OK
 [Retrieving status message for %s...]
 Zjišťování zprávy stavu pro '%s'...
 [Behavior on status change]
@@ -211,8 +209,6 @@ Miranda
 Přidat mezi předdefinované
 [Delete Selected]
 Smazat vybrané
-[OK (%d)]
-OK (%d)
 [Global]
 Globální
 [Closing in %d]

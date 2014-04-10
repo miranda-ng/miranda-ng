@@ -5,8 +5,6 @@ Zadejte název účtu (např. Google)
 Vyberte požadovaný protokol
 [Specify the internal account name (optional)]
 Zadejte interní název účtu (nepovinné)
-[OK]
-OK
 [Cancel]
 Zrušit
 [Add %s]
@@ -455,8 +453,6 @@ Můžete vytvořit nebo zrušit skupinu ikon jejich vybráním (CTRL+levé tlač
 Přidat k existujícímu metakontaktu
 [Please select a MetaContact:]
 Prosím vyberte metakontakt:
-[&OK]
-&OK
 [Sort Alphabetically]
 Seřadit abecedně
 [Editing]
@@ -2724,9 +2720,6 @@ Obrázky typu JPEG
 Obrázky typu GIF
 [PNG bitmaps]
 Obrázky typu PNG
-;file \src\modules\utils\enterstring.cpp
-[OK (%d)]
-OK (%d)
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatary

@@ -138,8 +138,6 @@ Přepsat existující
 Seznam vybraných programů
 [Program]
 Program
-[OK]
-OK
 [Cancel]
 Zrušit
 [Set LEDs for events]

@@ -48,8 +48,6 @@ Jméno aplikace
 Lokální IP:port
 [Action:]
 Akce:
-[OK]
-OK
 [Cancel]
 Zrušit
 [* and ? wildcard characters also available (for port enter number or *)]

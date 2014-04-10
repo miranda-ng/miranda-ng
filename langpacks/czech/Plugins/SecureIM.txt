@@ -130,8 +130,6 @@ Zadejte prosím své heslo
 Uživatel:
 [Password:]
 Heslo:
-[OK]
-OK
 [Cancel]
 Zrušit
 [SecureIM plugin Passphrase of private key]

@@ -50,8 +50,6 @@ Okno do popředí pouze v nečinnosti
 Náhled
 [Alarm]
 Připomínka
-[OK]
-OK
 [Cancel]
 Zrušit
 [Title:]

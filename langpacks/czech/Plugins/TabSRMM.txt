@@ -10,8 +10,6 @@ Komunikační modul pro rozhovory a chaty pro Mirandu NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Můžete přidat uživatelské jméno nebo identifikátor. Zástupné znaky jsou povoleny a doporučeny.
-[OK]
-OK
 [Cancel]
 Zrušit
 [Show these events]

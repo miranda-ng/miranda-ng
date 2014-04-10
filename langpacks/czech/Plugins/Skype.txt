@@ -40,8 +40,6 @@ Potvrzení:
 Nápověda k heslu:
 [Configure conference]
 Spravovat konferenci
-[&OK]
-&OK
 [Join role:]
 Role po připojení:
 [Set password]
@@ -52,8 +50,6 @@ Tip:
 Zadejte heslo
 [Remember this session password]
 Zapamatovat heslo této relace
-[OK]
-OK
 [Cancel]
 Zrušit
 [Status text:]

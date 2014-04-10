@@ -40,8 +40,6 @@ Nastavit...
 
 [Configure formatting]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [Up]

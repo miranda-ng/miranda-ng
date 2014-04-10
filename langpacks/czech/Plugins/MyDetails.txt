@@ -12,8 +12,6 @@ Zobrazuje a umožňuje upravit vaše detaily pro všechny účty.
 Nastavit přezdívku
 [Nickname:]
 Přezdívka:
-[OK]
-OK
 [Cancel]
 Zrušit
 [General]

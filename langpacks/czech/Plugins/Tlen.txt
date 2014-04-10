@@ -98,8 +98,6 @@ Trval&e
 Náhled
 [Tlen Password]
 Tlen :: Heslo
-[OK]
-OK
 [Cancel]
 Zrušit
 [Nickname:]

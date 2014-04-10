@@ -38,8 +38,6 @@ Potvrdit
 Zrušit
 [Invite user to chat]
 
-[OK]
-OK
 [Choose one of your contacts to be invited:]
 
 [Create group chat]

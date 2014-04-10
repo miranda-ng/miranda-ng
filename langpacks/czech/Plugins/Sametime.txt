@@ -54,8 +54,6 @@ Kontakty
 Odpojen od serveru
 [Send announcement]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [Message text:]

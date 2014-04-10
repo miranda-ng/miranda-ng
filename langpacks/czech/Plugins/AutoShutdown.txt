@@ -56,8 +56,6 @@ Ukončit po přechodu všech kontaktů &offline
 Ukončit po dokončení přenosu sou&borů
 [&Action:]
 &Akce:
-[OK]
-OK
 [Cancel]
 Zrušit
 [Unsaved data in open applications except Miranda NG might get lost.]

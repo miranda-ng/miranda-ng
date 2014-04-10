@@ -18,8 +18,6 @@ Původ
 Akt&ualizovat
 [Updating]
 Aktualizace
-[OK]
-OK
 [Cancel]
 Zrušit
 [Apply]

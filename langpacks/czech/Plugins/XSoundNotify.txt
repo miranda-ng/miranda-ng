@@ -26,8 +26,6 @@ Reset
 Ignorovat zvuky pro tento kontakt
 [XSoundNotify]
 XSoundNotify
-[OK]
-OK
 [Cancel]
 Zrušit
 ;file \plugins\XSoundNotify\src\dialog.cpp

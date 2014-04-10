@@ -72,8 +72,6 @@ Uložit a zavřít
 rozš.
 [Sessions Manager]
 Správce relací
-[OK]
-OK
 [Cancel]
 Zrušit
 [Save your current session?]

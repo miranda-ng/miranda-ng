@@ -42,8 +42,6 @@ Nastavení
 
 [Close]
 Zavřít
-[OK]
-OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 
 [Notes]

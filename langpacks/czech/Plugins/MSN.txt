@@ -78,8 +78,6 @@ Zapnout oznámení typu 'Odchod z kanálu'
 Vypnout upozornění ze seznamu kontatků
 [Set Nickname]
 Nastavit přezdívku
-[OK]
-OK
 [Cancel]
 Zrušit
 [Mobile Device (used for SMS)]
