@@ -1,0 +1,33 @@
+﻿#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam Protocol
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+[Steam protocol support for Miranda NG.]
+Підтримка протоколу Steam у Miranda NG.
+[Username:]
+Користувач:
+[Password:]
+Пароль:
+[Default group:]
+Група:
+[Account]
+Обліковий запис
+[Captcha]
+Перевірочний код
+[Cancel]
+Скасувати
+[As an added accout security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+На цому облікового запису ввімкнено Steam Guard, тому необхідно ввести спеціальний код, який був надісланий на вашу адресу електронної пошти.
+[Go to email domain]
+Перейти до поштової скринки
+[%s connection]
+%s подключення
+[Network]
+Мережа
+[Protocols]
+Протоколи
+[Protocol icon]
+Значок протоколу
