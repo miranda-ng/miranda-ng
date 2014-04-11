@@ -111,7 +111,7 @@ BEGIN
     EDITTEXT        ID_edtSize,52,28,43,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "C&lient Area",ID_chkClientArea,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,100,30,62,8,WS_EX_RIGHT
     CTEXT           "Target Tool",ID_lblDropInfo,162,1,51,8
-    ICON            IDI_ICON2,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
+    ICON            IDI_TARGET,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
 END
 
 IDD_UMain_CaptureDesktop DIALOGEX 0, 0, 214, 48
@@ -122,7 +122,7 @@ BEGIN
     COMBOBOX        ID_edtCaption,4,12,158,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_TABSTOP
     RTEXT           "Size (HxW):",ID_edtSizeLabel,0,30,50,8
     EDITTEXT        ID_edtSize,52,28,43,13,ES_AUTOHSCROLL | ES_READONLY
-    ICON            IDI_ICON3,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
+    ICON            IDI_MONITOR,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
 END
 
 IDD_UResultForm DIALOGEX 0, 0, 300, 87
@@ -146,17 +146,16 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MAIN           ICON                    "ssCamera_1.ico"
-IDI_ICON1          ICON                    "ssCamera_2.ico"
+IDI_MAIN           ICON                    "ssCamera.ico"
 IDI_DEFAULT        ICON                    "ssDefault.ico"
-IDI_ICON2          ICON                    "ssTarget.ico"
-IDI_ICON3          ICON                    "ssMonitor.ico"
+IDI_TARGET         ICON                    "ssTarget.ico"
+IDI_MONITOR        ICON                    "ssMonitor.ico"
 IDI_HELP           ICON                    "sshelp.ico"
 IDI_FOLDERO        ICON                    "ssOpen.ico"
 IDI_ARROWL         ICON                    "ssArrow_Left.ico"
 IDI_ARROWR         ICON                    "ssArrow_Right.ico"
-IDI_OVERLAYOFF     ICON                    "overlay_disabled.ico"
-IDI_OVERLAYON      ICON                    "overlay_enabled.ico"
+//IDI_OVERLAYOFF     ICON                    "overlay_disabled.ico"
+//IDI_OVERLAYON      ICON                    "overlay_enabled.ico"
 IDI_DESKOFF        ICON                    "ssDeskOff.ico"
 IDI_DESKON         ICON                    "ssDeskOn.ico"
 IDI_DELOFF         ICON                    "ssDelOff.ico"
@@ -164,7 +163,7 @@ IDI_DELON          ICON                    "ssDelOn.ico"
 IDI_UPDATE         ICON                    "ssUpdate.ico"
 IDI_OK             ICON                    "ssOk.ico"
 IDI_CLOSE          ICON                    "ssClose.ico"
-IDI_APPLY          ICON                    "ssApply.ico"
+//IDI_APPLY          ICON                    "ssApply.ico"
 IDI_EDIT           ICON                    "ssEdit.ico"
 IDI_DOWNARROW      ICON                    "ssDownarrow.ico"
 
@@ -173,8 +172,8 @@ IDI_DOWNARROW      ICON                    "ssDownarrow.ico"
 // Bitmap
 //
 
-IDB_Bmp1                BITMAP                  "UEditForm_nvr_1.bmp"
-IDB_Bmp2                BITMAP                  "UEditForm_nvr_2.bmp"
+//IDB_Bmp1                BITMAP                  "UEditForm_nvr_1.bmp"
+//IDB_Bmp2                BITMAP                  "UEditForm_nvr_2.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

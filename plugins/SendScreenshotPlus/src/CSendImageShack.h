@@ -39,7 +39,6 @@ class CSendImageShack : public CSend {
 		int Send();
 		int SendSilent() {m_bAsync=m_Silent=true; return Send();};
 		char* GetURL(){return m_Url;};
-		char* GetError(){return mir_t2a(m_ErrorMsg);};
 
 	protected:
 		char*					m_pszFileName;

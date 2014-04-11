@@ -47,12 +47,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define ICO_BTN_UPDATE			MODNAME"_plug_update"
 #define ICO_BTN_OK				MODNAME"_plug_ok"
 #define ICO_BTN_CANCEL			MODNAME"_plug_cancel"
-#define ICO_BTN_APPLY			MODNAME"_plug_apply"
+//#define ICO_BTN_APPLY			MODNAME"_plug_apply"
 #define ICO_BTN_EDIT			MODNAME"_plug_edit"
 #define ICO_BTN_DOWNARROW		MODNAME"_plug_downarrow"
 
-#define ICO_BTN_OVERLAYOFF		MODNAME"_plug_SSOverlayOff"
-#define ICO_BTN_OVERLAYON		MODNAME"_plug_SSOverlayOn"
+//#define ICO_BTN_OVERLAYOFF		MODNAME"_plug_SSOverlayOff"
+//#define ICO_BTN_OVERLAYON		MODNAME"_plug_SSOverlayOn"
 
 
 void	IcoLib_LoadModule();

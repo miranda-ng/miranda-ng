@@ -52,8 +52,6 @@ PLUGININFOEX pluginInfo={
 	{0xed39af7c, 0xbecd, 0x404e, {0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb}}
 };
 
-//static char szSendSS[]=SZ_SENDSS;
-
 HANDLE hsvc_SendScreenshot=0;
 HANDLE hsvc_SendDesktop=0;
 HANDLE hsvc_EditBitmap=0;
@@ -288,7 +286,7 @@ INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam) {
 	if (cSend->GetURL()) {
 		result=mir_strdup(cSend->GetURL());
 	}else{
-		result=cSend->GetError();
+		result=mir_t2a(cSend->GetErrorMsg());
 	}
 	delete cSend;
 	return (INT_PTR)result;
