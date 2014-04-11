@@ -239,7 +239,7 @@ Alati sees
 Alati väljas
 [Text color]
 Teksti värv
-[* Error and warning Messages]
+[* Error and warning messages]
 * Vea- ja hoiatusteated
 [Nickname]
 Hüüdnimi

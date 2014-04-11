@@ -855,7 +855,7 @@ Megjegyzés %s feladótól:
 * Állapot változások
 [* Dividers]
 * Határolók
-[* Error and warning Messages]
+[* Error and warning messages]
 * Hiba és figyelmeztetõ üzenetek
 [* Symbols (incoming)]
 * Szimbólumok (bejövõ)

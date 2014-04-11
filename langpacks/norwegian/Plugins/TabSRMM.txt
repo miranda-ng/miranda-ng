@@ -789,7 +789,7 @@ Loggbakgrunn
 * Statusendringer
 [* Dividers]
 * Delere
-[* Error and warning Messages]
+[* Error and warning messages]
 * Feil og varselsmeldinger
 [* Symbols (incoming)]
 * Symboler (innkommende)

@@ -477,7 +477,7 @@ ID користувача в панелі статусу
 Додаткова інформація
 [Windows Aero settings]
 Налаштування Aero
-[Use Aero UI elements(only when not using a custom skin)]
+[Use Aero UI elements (only when not using a custom skin)]
 Використовувати Aero Glass у вікні повідомлень (тільки без скінів)
 [Use Windows 7 task bar enhancements (restart required)]
 Використовувати можливості панелі завдань Windows 7 (потрібен перезапуск)
@@ -1019,8 +1019,8 @@ Esc закриває сесію (інакше - згортає)
 Відправляється %d повідомлень. Довжина повідомлення: %d байт, обмеження довжини: %d байт\n\n%d повідомлень у черзі для подальшої доставки.
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Одна з дій спливаючих вікон налаштована на "Відхилити подію".\nЦе може спричинити небажаний ефект, бо події будуть позначатися прочитаними.\nЯк наслідок, події не будуть показані "новими". Якщо це не те, чого ви хотіли, перегляньте налаштування в розділі "Сповіщення".
-[tabSRMM Warning Message]
-Попередження
+[TabSRMM warning message]
+Попередження TabSRMM
 [Incoming file]
 Вхідний файл
 [No description given]
@@ -1759,8 +1759,6 @@ TabSRMM: %s
 Закриття налаштувань|Щоб показати зміни, пов'язані з імпортом теми, у вікні налаштувань, воно повинно бути закрите після завантаження теми \\b1 і незбережені зміни можуть бути втрачені\\b0 .\n\nВи хочете продовжити?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Завантаження теми|Завантаження кольорів і шрифтів може змінити налаштування, встановлені вашим скіном.\n\nВи хочете продовжити?
-[TabSRMM warning message]
-Попередження
 [Text color]
 Колір тексту
 [%s has joined]
@@ -1885,7 +1883,7 @@ TabSRMM: %s
 * Зміни статусу
 [* Dividers]
 * Роздільники
-[* Error and warning Messages]
+[* Error and warning messages]
 * Помилки та попередження
 [* Symbols (incoming)]
 * Символи (вхідні)

@@ -1031,7 +1031,7 @@ Painel de informações
 * Mudanças de status
 [* Dividers]
 * Divisórias
-[* Error and warning Messages]
+[* Error and warning messages]
 * Mensagens de erro e de aviso
 [* Symbols (incoming)]
 * Símbolos (entrada)

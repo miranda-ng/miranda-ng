@@ -857,7 +857,7 @@ Artık %s olarak biliniyorsunuz
 * Durum değişiklikleri
 [* Dividers]
 * Ayıraçlar
-[* Error and warning Messages]
+[* Error and warning messages]
 * Hata ve uyarı iletileri
 [* Symbols (incoming)]
 * Simgeler (alınan)

@@ -482,7 +482,7 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Дадатковая інфармацыя
 [Windows Aero settings]
 Налады Aero
-[Use Aero UI elements(only when not using a custom skin)]
+[Use Aero UI elements (only when not using a custom skin)]
 Выкарыстоўваць Aero Glass у вакне паведамлення (толькі без скінаў)
 [Use Windows 7 task bar enhancements (restart required)]
 Выкарыстоўваць магчымасці панэлі задач Windows 7 (патрабуецца перазапуск)
@@ -1029,8 +1029,8 @@ Esc зачыняе сесію (інакш - згортвае)
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Адно з дзеянняў усплываючых вокнаў наладжана на "Адмовіць падзею".\nГэта можа зрабіць нежаданы эфект, так як пазначае падзею прачытанай.\nЯк вынік, падзеі не будуць паказаны "новымі". Калі гэта не тое, што вы хацелі, перагледзьце налады ў раздзеле "Паведамленьні".
-[tabSRMM Warning Message]
-Папярэджанне
+[TabSRMM warning message]
+Заўвага TabSRMM
 [Incoming file]
 Уваходны файл
 [No description given]
@@ -1795,8 +1795,6 @@ tabSRMM: %s
 Зачыненне налад|Каб паказаць змены, злучаныя з імпартам схемы, у вакне налад, яно павінна быць зачынена пасля загрузкі схемы \\b1 і незахаваныя змены могуць быць страчаны\\b0 .\n\nВы жадаеце працягнуць?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка колераў і шрыфтоў можа змяніць налады, усталяваныя Вашым скінам.\n\nВы жадаеце працягнуць?
-[TabSRMM warning message]
-Заўвага TabSRMM
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Колер тэксту
@@ -1924,7 +1922,7 @@ tabSRMM: %s
 Змены статусу
 [* Dividers]
 Падзельнікі
-[* Error and warning Messages]
+[* Error and warning messages]
 Памылкі і заўвагі
 [* Symbols (incoming)]
 Знакі (уваходныя)

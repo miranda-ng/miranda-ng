@@ -445,7 +445,7 @@ IM チャットに表示
 コンテナについてのヘルプ
 [Windows Aero settings]
 Windows Aero 設定
-[Use Aero UI elements(only when not using a custom skin)]
+[Use Aero UI elements (only when not using a custom skin)]
 Aero UI 要素を使用 ( カスタムスキンを使用していないときのみ )
 [Use Windows 7 task bar enhancements (restart required)]
 Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
@@ -873,6 +873,8 @@ TabSRMM バージョン情報...
 セッションリスト\nオープンセッションのリストは左クリック\nお気に入りへのアクセスとメッセージウィンドウの動作の簡易設定をするには右クリック
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 保留中の送信ジョブ: %d　個　メッセージ長: %d バイト　メッセージ長制限: %d バイト\n\n後で配信キューにあるメッセージ: %d 個
+[TabSRMM warning message]
+TabSRMM 警告メッセージ
 [Incoming file]
 着信ファイル
 [Incoming file (invalid format]
@@ -1397,8 +1399,6 @@ Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な
 閉じるオプションダイアログ | オプションダイアログにインポート中のテーマによる変更を反映させるにはテーマの読み込み後にダイアログを閉じなければいけません \\b1 保存されていない変更は失われます\\b0 \n\n継続しますか ?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 テーマの読み込み中 | 読み込み中の色とフォントテーマはあなたのスキンで定義されている設定を上書きします\n\n続行しますか ?
-[TabSRMM warning message]
-TabSRMM 警告メッセージ
 [Text color]
 テキスト色
 [%s has joined]
@@ -1493,7 +1493,7 @@ Aero 光彩効果
 * ステータス変更
 [* Dividers]
 * 境界線
-[* Error and warning Messages]
+[* Error and warning messages]
 * メッセージのエラーと警告
 [* Symbols (incoming)]
 * 記号 ( 着信 )

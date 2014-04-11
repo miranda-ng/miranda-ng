@@ -484,7 +484,7 @@ ms
 Pomoc dotycząca kontenerów
 [Windows Aero settings]
 Ustawienia Windows Aero
-[Use Aero UI elements(only when not using a custom skin)]
+[Use Aero UI elements (only when not using a custom skin)]
 Użyj elementów UI Aero (tylko, gdy nie jest używana niestandardowa skórka)
 [Use Windows 7 task bar enhancements (restart required)]
 Użyj paska zadań Windows 7 (wymaga restartu)
@@ -1031,8 +1031,8 @@ Lista sesji.\nLPM na listę otwiera sesje.\nPPM otwiera menu Ulubionych i szybki
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Jedna z twoich akcji popupów jest ustawiona na ODRZUĆ ZDARZENIE.\nTa opcja może mieć niepożądane efekty uboczne jak USUWANIE zdarzeń z kolejki nieprzeczytanych.\nMoże to doprowadzić do niepokazywania ich jako "nowych". Jeśli nie chcesz takiego zachowania zmień ustawienia w Powiadomieniach o Zdarzeniach.
-[tabSRMM Warning Message]
-Błąd tabSRMM
+[TabSRMM warning message]
+Ostrzeżenie TabSRMM
 [Incoming file]
 Przychodzący plik
 [No description given]
@@ -1803,8 +1803,6 @@ Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma ka
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Ładowanie skórki| Załadowanie skórki kolorów i czcionek może nadpisać twoje ustawienia.\n\nCzy chcesz kontynuować?
-[TabSRMM warning message]
-Ostrzeżenie TabSRMM
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Kolor tekstu
@@ -1934,7 +1932,7 @@ Nieprzeczytane - tło
 * Zmiana statusu
 [* Dividers]
 * Dzielnik
-[* Error and warning Messages]
+[* Error and warning messages]
 * Błąd lub ostrzeżenie
 [* Symbols (incoming)]
 * Znaki (przychodzące)

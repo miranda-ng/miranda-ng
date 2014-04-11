@@ -486,7 +486,7 @@ Millisekunden
 Hilfe zu Containern
 [Windows Aero settings]
 Windows-Aero-Einstellungen
-[Use Aero UI elements(only when not using a custom skin)]
+[Use Aero UI elements (only when not using a custom skin)]
 Aero-UI-Elemente verwenden (nur wenn kein eigener Skin verwendet wird)
 [Use Windows 7 task bar enhancements (restart required)]
 Windows-7-Taskleisten-Funktionen verwenden (Neustart nötig)
@@ -1033,7 +1033,7 @@ Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begr
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Eine Ihrer Popupaktionen ist auf "Ereignis verwerfen" gesetzt.\nBeachten Sie, dass diese Option unerwünschte Nebeneffekte haben könnte, da sie das Ereignis aus der Ungelesen-Warteschlange ENTFERNT.\nDies kann dazu führen, dass Ereignisse nicht als "neu" angezeigt werden. Wenn Sie dieses Verhalten nicht wollen, überprüfen Sie bitte die Ereignisbenachrichtigungen-Einstellungen.
-[tabSRMM Warning Message]
+[TabSRMM warning message]
 TabSRMM-Warnmeldung
 [Incoming file]
 Eingehende Datei
@@ -1805,8 +1805,6 @@ Fenster schließen|Sie sind dabei ein Fenster mit mehreren Tabs zu schließen.\n
 Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes im Optionsdialog vorgenommen werden, zu übernehmen, muss der Dialog nach dem Laden eines Themes geschlossen werden \\b1und ungespeicherte Änderungen könnten verloren gehen\\b0.\n\nMöchten Sie den Vorgang fortsetzen?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
-[TabSRMM warning message]
-TabSRMM-Warnmeldung
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Textfarbe
@@ -1936,7 +1934,7 @@ Ungelesener Hintergrund
 * Statusänderungen
 [* Dividers]
 * Trennlinien
-[* Error and warning Messages]
+[* Error and warning messages]
 * Fehler und Warnungen
 [* Symbols (incoming)]
 * Symbole (eingehend)

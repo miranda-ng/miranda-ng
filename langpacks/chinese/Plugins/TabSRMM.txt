@@ -900,7 +900,9 @@ Ctrl+Enter 发送消息 (总是启用)
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 有 %d 个待发送作业. 消息长度: %d 字节, 消息长度限制: %d 字节\n\n%d 消息已加入稍后发送队列
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
-您的其中一个弹视窗口操作已设为 "关闭事件". \n注意此选项可能会有副作用, 因为它会从未读事件队列中 "移除" 事件. \n可能会导致事件无法显示为 "新". 如果您不想有类似行为, 请查看事件通知设置页. 
+您的其中一个弹视窗口操作已设为 "关闭事件". \n注意此选项可能会有副作用, 因为它会从未读事件队列中 "移除" 事件. \n可能会导致事件无法显示为 "新". 如果您不想有类似行为, 请查看事件通知设置页.
+[TabSRMM warning message]
+TabSRMM 警告信息
 [Incoming file]
 传入文件
 [Incoming file (invalid format]
@@ -1475,8 +1477,6 @@ Aero peek 警告|您已启用 Aero Peek 功能并加载了自定义容器窗口�
 关闭选项对话框|想使由选项对话框中导入的主题生效, 加载主题后对话框必须关闭\\b1 未保存更改可能会丢失\\b0 .\n\n您是否想继续?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 加载主题|加载颜色和字体主题会覆盖现有皮肤设定.\n\n您是否想继续?
-[TabSRMM warning message]
-TabSRMM 警告信息
 [Text color]
 文本颜色
 [%s has joined]
@@ -1581,7 +1581,7 @@ Aero 发光效果
 * 状态变更
 [* Dividers]
 * 分隔器
-[* Error and warning Messages]
+[* Error and warning messages]
 * 错误及警告消息
 [* Symbols (incoming)]
 * 符号 (传入)

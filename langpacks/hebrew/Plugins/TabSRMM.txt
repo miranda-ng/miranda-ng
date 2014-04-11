@@ -553,7 +553,7 @@ IEView כפה
 * שינויי מצב
 [* Dividers]
 * קווים מפרידים
-[* Error and warning Messages]
+[* Error and warning messages]
 * הודעות אזהרה ושגיאה
 [* Symbols (incoming)]
 * (סמלים (נכנסים
