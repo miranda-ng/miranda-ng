@@ -19,7 +19,7 @@ Własność:
 [Contact:]
 Kontakt:
 [WWW:]
-WWW:
+Strona domowa:
 [Account]
 Konto
 [Name:]
@@ -33,7 +33,7 @@ SSL
 [APOP]
 APOP
 [User Name:]
-Login:
+Użytkownik:
 [Password:]
 Hasło:
 [Codepage:]
@@ -61,13 +61,13 @@ Sprawdź z menu
 [Use contact notification for this account]
 Użyj powiadomienia kontaktu dla tego konta
 [Replace nickname]
-Zastąp przydomek
+Zastąp nick
 [Disable Events]
 Wyłącz zdarzenia
 [Notifications]
 Powiadomienia
 [New Mail]
-Nowy mail
+Nowy e-mail
 [Sound]
 Dźwięk
 [Message]
@@ -145,7 +145,7 @@ Więcej popupów
 [Use custom color]
 Użyj niestandardowych kolorów
 [No new mail notifications]
-Powiadomienie o braku nowych wiadomości E-mail
+Powiadomienie o braku nowych wiadomości e-mail
 [Popup if no mail]
 Popup jeśli brak e-maili
 [Persistant message]
@@ -200,7 +200,7 @@ Nieznany błąd
 [%s - %d new mail messages, %d total]
 Konto: %s, Nowych wiadomości: %d, Łącznie: %d
 [- new mail message(s)]
-- nowych wiadomości E-mail
+- nowych wiadomości e-mail
 [%s : %d new mail message(s), %d total]
 %s: Nowych wiadomości: %d, Łącznie: %d
 [%d new mail message(s), %d total]

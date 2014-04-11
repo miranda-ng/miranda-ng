@@ -9,13 +9,13 @@
 Wsparcie protokołu WhatsApp dla Mirandy NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone-Number]
-Numer Telefonu
+Numer telefonu
 [Including country code, without '+' or '00']
 z kierunkowym kraju bez "+", ani "00"
 [Nickname]
 Nick
 [Password]
-Hasło:
+Hasło
 [Request Code]
 Poproś o kod
 [Register Code]
@@ -30,8 +30,6 @@ Wklej hasło z narzędzia WART
 Użyj narzędzia WART umieszczonego w folderze Plugins, aby zarejestrować numer i wygenerować hasło
 [Use SSL connection (443 port)]
 Używaj połączenia SSL (port 443)
-[WhatsApp]
-WhatsApp
 [Cancel]
 Anuluj
 ;file \protocols\WhatsApp\src\connection.cpp
@@ -40,9 +38,9 @@ Proszę podać numer kierunkowy kraju.
 [Please enter a phone-number without country code.]
 Proszę podać numer telefonu bez kierunkowego kraju.
 [Please enter a nickname.]
-Proszę podać ksywkę.
+Proszę podać nick.
 [Please enter a password.]
-Wprowadź hasło
+Wprowadź hasło.
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?

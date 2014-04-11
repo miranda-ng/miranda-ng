@@ -72,11 +72,11 @@ Ostrzeżenie
 [&Invite a user]
 &Zaproś użytkownika
 [View/change &title]
-Pokaż/zmień &nazwę
+Pokaż/Zmień &nazwę
 [&Destroy room]
 &Zniszcz pokój
 [&User details]
-Dane &użytkownika
+Dane &kontaktu
 [&Kick]
 &Wyrzuć
 ;file \protocols\VKontakte\src\vk_options.cpp

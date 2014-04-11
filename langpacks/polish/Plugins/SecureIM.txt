@@ -111,7 +111,7 @@ Czas popupów
 [Time in Seconds]
 Czas w sekundach
 [0 = Default Popup Timeout Value]
-0 - domyślny
+0 - domyślnie
 [Show a popup on established connection]
 Pokaż popup ustawionego połączenia
 [Show a popup on disabled connection]

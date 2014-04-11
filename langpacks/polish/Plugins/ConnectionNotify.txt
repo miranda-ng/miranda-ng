@@ -19,7 +19,7 @@ Tekst
 [Close after:]
 Zamknij po:
 [sec (0 default, -1 disabled)]
-s (0 - domyślny, -1 wyłączony)
+s (0 - domyślnie, -1 nie chowaj)
 [Settings]
 Ustawienia
 [try resolve addresses]

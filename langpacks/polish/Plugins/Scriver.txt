@@ -263,7 +263,7 @@ Tło
 [Timeout (s)]
 Opóźnienie (s)
 [(0 means default setting, -1 means indefinite time)]
-(0 - Domyślny, -1 - Nie chowaj)
+(0 - domyślnie, -1 - nie chowaj)
 [Log]
 Dziennik
 [&Copy]

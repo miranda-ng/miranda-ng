@@ -119,9 +119,9 @@ Zamień tylko odizolowane emotikony
 [Advanced options]
 Zaawansowane opcje
 [Show tooltip after all content is ready (avatar && status message)]
-Pokaż tooltip gdy zawartość będzie gotowa (awatar i status wiadomości)
+Pokaż podpowiedź gdy zawartość będzie gotowa (awatar i opis)
 [Retrieve new status message]
-Pobierz nowe opisy statusów
+Pobierz nowe opisy
 [Disable in invisible status]
 Wyłącz gdy status to "Niewidoczny"
 [Retrieve XStatus details if auto-retrieve is disabled]
@@ -143,7 +143,7 @@ Pobierz więcej skórek...
 [Preview]
 Podgląd
 [No preview]
-Brak obrazka
+Brak podglądu
 [Effects]
 Efekty
 [Animation speed:]
@@ -159,7 +159,7 @@ Opcje skórki
 [Enable skin coloring]
 Włącz kolorowanie skórki
 [Load tooltip proportions]
-Włącz proporcje tooltipa
+Włącz proporcje podpowiedzi
 [Load fonts and colors]
 Włącz czcionki i kolory
 [Transparency]
@@ -173,15 +173,15 @@ Włącz podpowiedzi w zasobniku
 [Handle tray tooltips by Tipper]
 Rozszerzona podpowiedź w zasobniku
 [Hide offline protocols]
-Ukryj Rozłączone protokoły
+Ukryj rozłączone protokoły
 [Expand to second level after:]
 Rozszerz podpowiedź po:
 [ms]
 ms
 [First level tooltip]
-Podstawowy Tooltip
+Podstawowa podpowiedź
 [Second level tooltip]
-Rozszerzony Tooltip
+Rozszerzony Podpowiedź
 [Favorite contacts]
 Ulubione kontakty
 [Hide offline]
@@ -319,9 +319,9 @@ Kopiuj wszystkie wpisy
 [Copy avatar]
 Kopiuj awatar
 [<No Label>: ]
-<Brak Etykiety>:
+<Brak etykiety>:
 [<No Value>]
-<Brak Wartości>
+<Brak wartości>
 [Fav. contacts]
 Ulub. kontakty
 [Other]
@@ -346,9 +346,9 @@ E-mail:
 [Gender:]
 Płeć:
 [Homepage]
-Strona WWW
+Strona domowa
 [Homepage:]
-WWW:
+Strona domowa:
 [Identifier]
 Identyfikator
 [Idle]
@@ -366,7 +366,7 @@ IP Wewnętrzne:
 [Last message]
 Ostatnia wiadomość
 [Last message: (%sys:last_msg_reltime% ago)]
-Ostatnia wiadomość: (%sys:last_msg_reltime% ago)
+Ostatnia wiadomość: (%sys:last_msg_reltime% temu)
 [Name]
 Nazwa
 [Name:]
@@ -374,39 +374,39 @@ Nazwa:
 [Number of received messages]
 Liczba otrzymanych wiadomości
 [Number of msg [IN]:]
-Liczba wiad. odebr.:
+Odebranych wiadomości:
 [Number of sent messages]
 Liczba wysłanych wiadomości
 [Number of msg [OUT]:]
-Liczba wiad. wysł.:
+Wysłanych wiadomości:
 [Contact time]
 Czas kontaktu
 [Time:]
 Czas:
 [XStatus title]
-xStatus
+Tytuł xStatus
 [XStatus title:]
 Tytuł xStatus:
 [XStatus text]
 Opis xStatus
 [XStatus text:]
-Tekst xStatus:
+Opis xStatus:
 [[jabber.dll] Activity title]
 [jabber.dll] Tytuł aktywności
 [Activity title:]
 Tytuł aktywności:
 [[jabber.dll] Activity text]
-[jabber.dll] Tekst aktywności
+[jabber.dll] Opis aktywności
 [Activity text:]
 Tekst aktywności:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Ostatnio widziano o
+[seenplugin.dll] Ostatnio widziany
 [Last seen time:]
-Czas:
+Ostatnio widziany:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Ostatnio widziany status
+[seenplugin.dll] Ostatni status
 [Last seen status:]
-Status:
+Ostatni status:
 [[weather.dll] Condition]
 [weather.dll] Warunki
 [Condition:]
@@ -416,7 +416,7 @@ Warunki:
 [Humidity:]
 Wilgotność
 [[weather.dll] Max/Min temperature]
-[weather.dll] Maks./Min. temperatura
+[weather.dll] Maks/Min temperatura
 [Max/Min:]
 Maks/Min:
 [[weather.dll] Moon]
@@ -446,7 +446,7 @@ Czas aktualizacji:
 [[weather.dll] UV Index]
 [weather.dll] Współczynnik UV
 [UV Index:]
-Indeks UV:
+Współczynnik UV:
 [[weather.dll] Visibility]
 [weather.dll] Widoczność
 [Visibility:]
@@ -460,9 +460,9 @@ Wiatr:
 \# Jednolity kolor
 ;file \plugins\TipperYM\src\subst.cpp
 [%dd %dh %dm]
-%ddni %dg. %dmin
+%ddni %dg %dmin
 [%dh %dm]
-%dg. %dmin
+%dg %dmin
 [%dm]
 %dmin
 ;file \plugins\TipperYM\src\tipper.cpp
@@ -488,11 +488,11 @@ Kobieta
 [Male]
 Mężczyzna
 [%dy %dd %dh %dm]
-%dlat %ddni %dg. %dmin
+%dlat %ddni %dg %dmin
 [%dd]
 %ddni
 [[No translation]]
-<brak tłumaczenia>
+<Brak tłumaczenia>
 [WORD to status description]
 WORD dla opisu statusu
 [DWORD timestamp to time]

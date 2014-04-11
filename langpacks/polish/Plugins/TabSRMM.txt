@@ -213,13 +213,13 @@ znaków
 [Only show event notifications when my status is...]
 Pokaż powiadomienie o zdarzeniach tylko, gdy następujący status to...
 [Popup Options]
-Opcje Popup
+Opcje popupów
 [Text]
 Tekst
 [Background]
 Tło
 [Timeout (seconds, 0 = default, -1 = no timeout)]
-Wyświetlaj (0 - Domyślny, -1 - Nie chowaj)
+Wyświetlaj (sekund, 0 - domyślnie, -1 - nie chowaj)
 [Default colors]
 Domyślne kolory
 [Others]
@@ -279,7 +279,7 @@ Maksymalizuj w pionie
 [Close or hide inactive container after]
 Zamknij lub ukryj nieaktywne kontenery po
 [sec. (0=never)]
-sec. (0 - nigdy)
+s (0 - nigdy)
 [Automatically size input area (*)]
 Automatyczny rozmiar obszaru wpisywania (*)
 [Use default setting]

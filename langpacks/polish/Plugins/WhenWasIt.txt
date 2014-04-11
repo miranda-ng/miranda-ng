@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-Powiadamia Cię o nadchodzących urodzinach.
+Powiadomienia o nadchodzących urodzinach.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 Powiadamiaj o urodzinach:
@@ -31,7 +31,7 @@ Dźwięki
 [Play sounds when there are]
 Odgrywaj dźwięk, gdy jest
 [days or less to birthday.]
-dni lub mniej do urodzin
+dni lub mniej do urodzin.
 [Start notifying]
 Zacznij powiadamiać
 [days in advance and]
@@ -179,7 +179,7 @@ Więcej niż %d dni do urodzin
 Przypominacz o urodzinach WhenWasIt
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
-Brak zbliżających się urodzin
+Brak zbliżających się urodzin.
 [%s has birthday in %d days.]
 %s ma urodziny w przeciągu %d dni.
 [%s has birthday tomorrow.]

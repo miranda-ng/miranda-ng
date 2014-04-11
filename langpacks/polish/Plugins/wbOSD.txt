@@ -66,5 +66,3 @@ Pomoc
 Miranda NG jest świetna, a to jest długa wiadomość.
 [Plugins]
 Wtyczki
-[OSD]
-OSD

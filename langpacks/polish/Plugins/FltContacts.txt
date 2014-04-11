@@ -31,7 +31,7 @@ Podpowiedzi
 [Miscellaneous]
 Różne
 [0 = Default]
-0 - Domyślny
+0 - domyślnie
 [*requires Tipper plugin]
 *wymagana wtyczka Tipper
 [Bring to front]

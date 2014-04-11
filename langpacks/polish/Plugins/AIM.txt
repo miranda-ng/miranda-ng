@@ -338,8 +338,6 @@ Twoje konto jest już zatwierdzone.
 [Can't start the confirmation procedure.]
 Nie można rozpocząć procedury potwierdzającej.
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-ICQ
 [Block]
 Blokuj
 [Profile]

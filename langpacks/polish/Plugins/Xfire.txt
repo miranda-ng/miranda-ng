@@ -11,7 +11,7 @@ Wsparcie dla protokołu xFire.
 [Password:]
 Hasło:
 [Login name:]
-Nazwa użytkownika:
+Użytkownik:
 [XFire]
 xFire
 [Nick:]

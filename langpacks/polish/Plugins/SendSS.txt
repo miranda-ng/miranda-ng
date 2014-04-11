@@ -48,12 +48,12 @@ Autorzy >
 &Zamknij
 [Edit]
 Edytuj
-[C&lient Area]
-O&bszar klienta
 [Caption:]
 Uchwyć:
 [Size (HxW):]
 Rozmiar (HxW):
+[C&lient Area]
+O&bszar klienta
 [Target Tool]
 Celownik
 [Result]
@@ -182,10 +182,6 @@ Celownik
 Pulpit
 [Default]
 Domyślny
-[Overlay on]
-Nakładka włączona
-[Overlay off]
-Nakładka wyłączona
 [Help]
 Pomoc
 [Open Folder]
@@ -204,8 +200,6 @@ Poprzedni
 Dalej
 [Update]
 Aktualizacja
-[Apply]
-Zastosuj
 [Down arrow]
 Strzałka w dół
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h

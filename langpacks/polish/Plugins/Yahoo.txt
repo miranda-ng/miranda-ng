@@ -196,7 +196,7 @@ Utwórz konferencję
 &Pokaż profil
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
- [Miranda] Masz zaproszenie do wideorozmowy. (obecnie nie obsługiwane)
+[Miranda] Masz zaproszenie do wideorozmowy. (obecnie nie obsługiwane)
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Przypomnienie o wydarzeniach
@@ -213,7 +213,7 @@ Nowy mail
 [You have %i unread msgs]
 Masz %s nieprzeczytanych wiad.
 [New Mail (%i msgs)]
-Nowy mail (%i wiad.)
+Nowy e-mail (%i wiadomości)
 [From: %s\nSubject: %s]
 Od: %s\nTemat: %s
 [Yahoo System Message]

@@ -23,7 +23,7 @@ Tekst
 [Close after:]
 Zamknij po:
 [sec (0 default,\n -1 disabled)]
-sek.(0 domyślne,\n -1 wyłączone)
+s (0 - domyślnie,\n -1 - nie chowaj)
 [...but only if popup not clicked]
 ...ale tylko te niekliknięte
 [Left button click cmd:]

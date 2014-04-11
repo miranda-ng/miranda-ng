@@ -121,18 +121,18 @@ Sesja rozmowy
 Otrzymano wiadomość
 ;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
-%u rozłączony
+%u (Rozłączony)
 [%u is now online]
-%u dostępny
+%u (Dostępny)
 [%u is away]
-%u zaraz wracam
+%u (Zaraz wracam)
 [%u is invisible]
-%u niewidoczny
+%u (Niewidoczny)
 [%u is not available]
-%u niedostępny
+%u (Wrócę później)
 [%u does not want to be disturbed]
-%u nie przeszkadzać
+%u (Nie przeszkadzać)
 [%u is occupied]
-%u zajęty
+%u (Zajęty)
 [%u is free for chat]
-%u porozmawiajmy
+%u (Porozmawiajmy)

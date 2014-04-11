@@ -40,7 +40,7 @@ Ustaw
 [Default]
 Domyślny
 [TopToolBar Background]
-Tło TopToolBar
+Tło paska narzędzi
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
 Obsługa ramek nie została znaleziona, wtyczka zostanie wyłączona.\nAby ją uruchomić należy zainstalować i/lub włączyć wpieraną wtyczkę listy kontaktów:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nMożesz je pobrać z http://Miranda-ng.org/
 [TopToolBar]

@@ -711,7 +711,7 @@ Tekst
 [Background]
 Tło
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(0 - Domyślne, -1 - Nie chowaj)
+(0 - domyślnie, -1 - nie chowaj)
 [List]
 Lista
 [&Message]

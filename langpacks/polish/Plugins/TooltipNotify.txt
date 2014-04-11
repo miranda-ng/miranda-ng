@@ -29,7 +29,7 @@ Pisanie
 [Protocols]
 Protokoły
 [Suppress notifications upon connection for]
-Usuń powiadomienia połączeń do
+Usuń powiadomienia połączeń dla
 [sec]
 s
 [Prefix protocol name]

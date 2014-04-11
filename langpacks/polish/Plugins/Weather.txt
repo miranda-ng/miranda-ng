@@ -13,7 +13,7 @@ Aktualizacja
 [Brief Info]
 Krótkie
 [Webpage]
-Strona WEB
+Strona domowa
 [Close]
 Zamknij
 [Options]
@@ -131,7 +131,7 @@ Zmień
 [Cancel]
 Anuluj
 [Popup Options]
-Opcje Popupu
+Opcje popupów
 [Enable popups]
 Włącz popupy
 [Popup only when condition changes]

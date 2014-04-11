@@ -48,8 +48,6 @@ Wyślij
 Importuj z pliku
 [Export to file]
 Eksportuj do pliku
-[Jabber]
-Jabber
 [Username:]
 Użytkownik:
 [Change password]

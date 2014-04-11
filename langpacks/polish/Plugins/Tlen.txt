@@ -89,9 +89,9 @@ Tekst
 [Delay]
 Wyświetlaj
 [&From Popup plugin]
-&Z wtyczki PopUp
+&Z wtyczki Popup
 [&Custom]
-&Własne
+&Niestandardowe
 [P&ermanent]
 S&tałe
 [Preview]
@@ -159,7 +159,7 @@ Rozmowa głosowa Tlen
 [Quality]
 Jakość
 [In]
-W
+Wejście
 [Out]
 Wyjście
 [Finish]
@@ -176,7 +176,7 @@ Otrzymano następujące zaproszenie do dołączenia do rozmowy głosowej.
 [Protocol icon]
 Ikona protokołu
 [Tlen inbox]
-Skrzynka odbiorcza Tlen
+Skrzynka pocztowa Tlen
 [Group chats]
 Rozmowy grupowe
 [Tlen chats]
@@ -291,7 +291,7 @@ Ignoruj obrazki od nieautoryzowanych kontaktów
 [Ignore all images]
 Ignoruj wszystkie obrazki
 [<Last message>]
-<Ostatnia wiadomość>
+<Ostatni opis>
 [Forwarding]
 Przekierowanie
 [SOCKS4]
@@ -358,7 +358,7 @@ brak
 nie na liście
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
-...Połączenie...
+...Łączenie...
 [...Waiting for connection...]
 ...Oczekuje na połączenie...
 [...Finished...]
