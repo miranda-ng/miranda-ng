@@ -174,7 +174,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\CSendDropbox.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -190,11 +189,12 @@
     <ClCompile Include="src\CSendFile.cpp" />
     <ClCompile Include="src\CSendFTPFile.cpp" />
     <ClCompile Include="src\CSendHTTPServer.cpp" />
+    <ClCompile Include="src\CSendDropbox.cpp" />
     <ClCompile Include="src\CSendImageShack.cpp" />
+    <ClCompile Include="src\CSendHost_uploadpie.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CSendDropbox.h" />
     <ClInclude Include="src\DevKey.h" />
     <ClInclude Include="src\UAboutForm.h" />
     <ClInclude Include="src\UMainForm.h" />
@@ -209,7 +209,9 @@
     <ClInclude Include="src\CSendFile.h" />
     <ClInclude Include="src\CSendFTPFile.h" />
     <ClInclude Include="src\CSendHTTPServer.h" />
+    <ClInclude Include="src\CSendDropbox.h" />
     <ClInclude Include="src\CSendImageShack.h" />
+    <ClInclude Include="src\CSendHost_uploadpie.h" />
     <ClInclude Include="src\global.h" />
     <ClInclude Include="src\Main.h" />
     <ClInclude Include="src\version.h" />

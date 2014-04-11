@@ -49,10 +49,10 @@ int CSendImageShack::Send() {
 	ZeroMemory(&m_nlhr, sizeof(m_nlhr));
 	char* tmp; tmp=mir_t2a(m_pszFile);
 	HTTPFormData frm[]={
-		{"fileupload",tmp,HTTPFORM_FILE},
+		{"fileupload",HTTPFORM_FILE(tmp)},
 		//{"rembar","yes"},// no info bar on thumb
 		{"public","no"},
-		{"key",DEVKEY_IMAGESHACK,HTTPFORM_8BIT},
+		{"key",HTTPFORM_8BIT(DEVKEY_IMAGESHACK)},
 	};
 	int error=HTTPFormCreate(&m_nlhr,REQUEST_POST,"http://imageshack.us/upload_api.php",frm,sizeof(frm)/sizeof(HTTPFormData));
 	mir_free(tmp);

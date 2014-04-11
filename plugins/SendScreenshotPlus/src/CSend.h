@@ -102,13 +102,21 @@ class CSend {
 		
 		/// HTTP upload helper stuff
 		enum HTTPFormFlags{
-			HTTPFORM_TEXT=0x00,
-			HTTPFORM_8BIT=0x01,
-			HTTPFORM_FILE=0x02,
+			HTTPFF_TEXT	=0x00,
+			HTTPFF_8BIT	=0x01,
+			HTTPFF_FILE	=0x02,
+			HTTPFF_INT	=0x04,
 		};
+		#define HTTPFORM_TEXT(str) str,HTTPFF_TEXT
+		#define HTTPFORM_8BIT(str) str,HTTPFF_8BIT
+		#define HTTPFORM_FILE(str) str,HTTPFF_FILE
+		#define HTTPFORM_INT(int) (const char*)int,HTTPFF_INT
 		struct HTTPFormData{
 			const char* name;
-			const char* value;
+			union{
+				const char* value_str;
+				intptr_t value_int;
+			};
 			int flags;
 		};
 		static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); /// changes "str", can be successfully used only once

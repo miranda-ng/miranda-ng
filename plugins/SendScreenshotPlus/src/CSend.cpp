@@ -450,6 +450,7 @@ void CSend::Exit(unsigned int Result) {
 
 /// helper functions used for HTTP uploads
 //---------------------------------------------------------------------------
+#define snprintf _snprintf
 const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag) {
 	char* begin=strstr(str,startTag);
 	if(!begin) return NULL;
@@ -525,11 +526,13 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 		memset(dataPos,'-',2); dataPos+=2;
 		memcpy(dataPos,boundary,sizeof(boundary)); dataPos+=sizeof(boundary);
 		memcpy(dataPos,"\r\nContent-Disposition: form-data; name=\"",40); dataPos+=40;
-		size_t namelen=strlen(iter->name), valuelen=strlen(iter->value);
-		if(iter->flags&HTTPFORM_FILE){
-			const char* filename	=strrchr(iter->value,'\\');
-			if(!filename) filename	=strrchr(iter->value,'/');
-			if(!filename) filename	=iter->value;
+		size_t namelen=strlen(iter->name), valuelen;
+		if(!(iter->flags&HTTPFF_INT))
+			valuelen=strlen(iter->value_str);
+		if(iter->flags&HTTPFF_FILE){
+			const char* filename	=strrchr(iter->value_str,'\\');
+			if(!filename) filename	=strrchr(iter->value_str,'/');
+			if(!filename) filename	=iter->value_str;
 			else ++filename;
 			valuelen=strlen(filename);
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+13+valuelen+17);
@@ -556,7 +559,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,"\r\n\r\n",4);
 			/// add file content
 			size_t filesize=0;
-			FILE* fp=fopen(iter->value,"rb");
+			FILE* fp=fopen(iter->value_str,"rb");
 			if(fp){
 				fseek(fp,0,SEEK_END);
 				filesize=ftell(fp); fseek(fp,0,SEEK_SET);
@@ -574,17 +577,24 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 				fclose(fp);
 			dataPos+=filesize;
 			memcpy(dataPos,"\r\n",2); dataPos+=2;
-		}else if(iter->flags&HTTPFORM_8BIT){
+		}else if(iter->flags&HTTPFF_8BIT){
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+38+valuelen+2);
 			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
 			memcpy(dataPos,"\"\r\nContent-Transfer-Encoding: 8bit\r\n\r\n",38); dataPos+=38;
-			memcpy(dataPos,iter->value,valuelen); dataPos+=valuelen;
+			memcpy(dataPos,iter->value_str,valuelen); dataPos+=valuelen;
+			memcpy(dataPos,"\r\n",2); dataPos+=2;
+		}else if(iter->flags&HTTPFF_INT){
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+5+17/*max numbers*/+2);
+			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
+			memcpy(dataPos,"\"\r\n\r\n",5); dataPos+=5;
+			int ret=snprintf(dataPos,17,"%Id",iter->value_int);
+			if(ret<17 && ret>0) dataPos+=ret;
 			memcpy(dataPos,"\r\n",2); dataPos+=2;
 		}else{
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+5+valuelen+2);
 			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
 			memcpy(dataPos,"\"\r\n\r\n",5); dataPos+=5;
-			memcpy(dataPos,iter->value,valuelen); dataPos+=valuelen;
+			memcpy(dataPos,iter->value_str,valuelen); dataPos+=valuelen;
 			memcpy(dataPos,"\r\n",2); dataPos+=2;
 		}
 	}
