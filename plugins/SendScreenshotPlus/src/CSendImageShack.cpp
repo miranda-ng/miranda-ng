@@ -193,7 +193,7 @@ void CSendImageShack::SendThread() {
 			URL = GetTagContent(m_nlreply->pData, "<image_link>", "</image_link>");
 			if (URL && URL[0]!= NULL) {
 				m_Url = mir_strdup(URL);
-				if(m_Silent)
+				if(m_bSilent)
 					return;
 				svcSendMsgExit(URL); return;
 			}else{//check error mess from server
