@@ -1,4 +1,7 @@
 /*
+imported from UserinfoEx plugin for Miranda NG
+Copyright:
+© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
@@ -14,14 +17,14 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-aLONG with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
-
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
+
 #ifndef _UINFOEX_BOTTONS_H_INCLUDED_
 #define _UINFOEX_BOTTONS_H_INCLUDED_ 1
 

@@ -1,6 +1,8 @@
 /*
-Miranda IM
-Copyright (C) 2002 Robert Rainwater
+imported from UserinfoEx plugin for Miranda NG
+
+Copyright:
+© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -9,12 +11,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "global.h"
@@ -34,17 +36,17 @@ typedef struct TMBCtrl{
 	HFONT		hFont;			// font
 
 	DWORD		dwStyle;	
-	BOOLEAN		bFocus;	
+	BYTE		bFocus;	
 	
-	INT			stateId;		// button state
-	INT			defbutton;		// default button
-	INT			pbState;
+	int			stateId;		// button state
+	int			defbutton;		// default button
+	int			pbState;
 	TCHAR		cHot;
 } BTNCTRL, *LPBTNCTRL;
 
 // External theme methods and properties
-CRITICAL_SECTION csTips;
-HWND hwndToolTips = NULL;
+static CRITICAL_SECTION csTips;
+static HWND hwndToolTips = NULL;
 
 /**
  * name:	DestroyTheme
@@ -52,8 +54,7 @@ HWND hwndToolTips = NULL;
  * param:	ctl - BTNCTRL structure with the information about the theme to close
  * return:	nothing
  **/
-static VOID __fastcall DestroyTheme(BTNCTRL *ctl)
-{
+static void __fastcall DestroyTheme(BTNCTRL *ctl) {
 	if (ctl->hThemeButton) {
 		CloseThemeData(ctl->hThemeButton);
 		ctl->hThemeButton = NULL;
@@ -70,8 +71,7 @@ static VOID __fastcall DestroyTheme(BTNCTRL *ctl)
  * param:	ctl - BTNCTRL structure with the information about the theme to load
  * return:	nothing
  **/
-static VOID __fastcall LoadTheme(BTNCTRL *ctl)
-{
+static void __fastcall LoadTheme(BTNCTRL *ctl) {
 	DestroyTheme(ctl);
 	ctl->hThemeButton = OpenThemeData(ctl->hwnd,L"BUTTON");
 	ctl->hThemeToolbar = OpenThemeData(ctl->hwnd,L"TOOLBAR");
@@ -83,11 +83,11 @@ static VOID __fastcall LoadTheme(BTNCTRL *ctl)
  * param:	state - state id for the normal theme button
  * return:	stateID for the flat theme button
  **/
-static INT __fastcall TBStateConvert2Flat(INT state) {
+static int __fastcall TBStateConvert2Flat(int state) {
 	switch (state) {
-		case PBS_NORMAL:	return TS_NORMAL;
-		case PBS_HOT:		return TS_HOT;
-		case PBS_PRESSED:	return TS_PRESSED;
+		case PBS_NORMAL:		return TS_NORMAL;
+		case PBS_HOT:			 return TS_HOT;
+		case PBS_PRESSED:	 return TS_PRESSED;
 		case PBS_DISABLED:	return TS_DISABLED;
 		case PBS_DEFAULTED: return TS_NORMAL;
 	}
@@ -104,7 +104,7 @@ static INT __fastcall TBStateConvert2Flat(INT state) {
  *			rcText		- rectangle of the text to draw later on
  * return:	nothing
  **/
-static VOID __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT rcClient, LPRECT rcText)
+static void __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT rcClient, LPRECT rcText)
 {
 	RECT rcImage;
 
@@ -152,7 +152,7 @@ static VOID __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT
  *			rcClient	- rectangle of the whole button
  * return:	nothing
  **/
-static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
+static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
 	WCHAR wszText[MAX_PATH] = { 0 };
@@ -160,7 +160,7 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 
 	// Draw the flat button
 	if ((ctl->dwStyle & MBS_FLAT) && ctl->hThemeToolbar) {
-		INT state = IsWindowEnabled(ctl->hwnd)
+		int state = IsWindowEnabled(ctl->hwnd)
 				? (ctl->stateId == PBS_NORMAL && ctl->defbutton 
 					? PBS_DEFAULTED
 					: ctl->stateId)
@@ -174,7 +174,7 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 	else {
 		// draw themed button background
 		if (ctl->hThemeButton) {
-			INT state = IsWindowEnabled(ctl->hwnd)
+			int state = IsWindowEnabled(ctl->hwnd)
 				? (ctl->stateId == PBS_NORMAL && ctl->defbutton 
 					? PBS_DEFAULTED
 					: ctl->stateId)
@@ -189,11 +189,13 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 	
 	// calculate text rect
 	{
+		RECT	sizeText;
+		HFONT	hOldFont;
 
 		ccText = GetWindowTextW(ctl->hwnd, wszText, sizeof(wszText) / sizeof(WCHAR));
+
 		if (ccText > 0) {
-			RECT sizeText;
-			HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 			
 			GetThemeTextExtent(
 				ctl->hThemeButton,
@@ -249,7 +251,7 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
  *			rcClient	- rectangle of the whole button
  * return:	nothing
  **/
-static VOID __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
+static void __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
 	TCHAR szText[MAX_PATH] = { 0 };
@@ -296,11 +298,13 @@ static VOID __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 	}
 	// calculate text rect
 	{
+		SIZE	sizeText;
+		HFONT	hOldFont;
 
 		ccText = GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
+
 		if (ccText > 0) {
-			SIZE sizeText;
-			HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 			GetTextExtentPoint32(hdcMem, szText, ccText, &sizeText);
 			if (ctl->cHot) {
 				SIZE sizeHot;
@@ -354,12 +358,12 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	LPBTNCTRL bct = (LPBTNCTRL)GetWindowLongPtr(hwndBtn, 0);
 	
 	switch (uMsg) {
-		case WM_NCCREATE:
+	case WM_NCCREATE:
 		{
 			LPCREATESTRUCT cs = (LPCREATESTRUCT)lParam;
 
 			cs->style |= BS_OWNERDRAW;
-			if (!(bct = (LPBTNCTRL)malloc(sizeof(BTNCTRL))))
+			if (!(bct = (LPBTNCTRL)mir_alloc(sizeof(BTNCTRL))))
 				return FALSE;
 			ZeroMemory(bct, sizeof(BTNCTRL));
 			bct->hwnd = hwndBtn;
@@ -373,79 +377,82 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			if (cs->lpszName) SetWindowText(hwndBtn, cs->lpszName);
 			return TRUE;
 		}
-		case WM_DESTROY:
-			if (bct) {
-				EnterCriticalSection(&csTips);
-				if (hwndToolTips) {
-					TOOLINFO ti;
+	case WM_DESTROY:
+		if (bct) {
+			EnterCriticalSection(&csTips);
+			if (hwndToolTips) {
+				TOOLINFO ti;
 
-					ZeroMemory(&ti, sizeof(ti));
-					ti.cbSize = sizeof(ti);
-					ti.uFlags = TTF_IDISHWND;
-					ti.hwnd = bct->hwnd;
-					ti.uId = (UINT_PTR)bct->hwnd;
-					if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
-						SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-					}
-					if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
-						DestroyWindow(hwndToolTips);
-						hwndToolTips = NULL;
-					}
+				ZeroMemory(&ti, sizeof(ti));
+				ti.cbSize = sizeof(ti);
+				ti.uFlags = TTF_IDISHWND;
+				ti.hwnd = bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
+				if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
+					SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 				}
-				LeaveCriticalSection(&csTips);
-				DestroyTheme(bct);
-				free(bct);
+				if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
+					DestroyWindow(hwndToolTips);
+					hwndToolTips = NULL;
+				}
 			}
-			SetWindowLongPtr(hwndBtn, 0, 0);
-			break;
-		case WM_SETTEXT:
-			bct->cHot = 0;
-			if(lParam) {
-				TCHAR* tmp = (TCHAR*)lParam;
-				
-				while (*tmp) {
-					if (*tmp=='&' && *(tmp+1)) {
-						bct->cHot = _totlower(*(tmp+1));
-						break;
-					}
-					tmp++;
+			LeaveCriticalSection(&csTips);
+			DestroyTheme(bct);
+			mir_free(bct);
+		}
+		SetWindowLongPtr(hwndBtn, 0, 0);
+		break;
+	case WM_SETTEXT:
+		bct->cHot = 0;
+		if ((LPTSTR)lParam) {
+			LPTSTR tmp = (LPTSTR)lParam;
+
+			while (*tmp) {
+				if (*tmp == '&' && *(tmp + 1)) {
+					bct->cHot = _totlower(*(tmp + 1));
+					break;
 				}
+				tmp++;
+			}
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		break;
+	case WM_SYSKEYUP:
+		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == _totlower((TCHAR)wParam)) {
+			if (bct->dwStyle & MBS_PUSHBUTTON) {
+				if (bct->pbState) bct->pbState = 0;
+				else bct->pbState = 1;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
-			break;
-		case WM_SYSKEYUP:
-			if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == _totlower((TCHAR)wParam)) {
-				if (bct->dwStyle & MBS_PUSHBUTTON) {
-					if (bct->pbState) bct->pbState = 0;
-					else bct->pbState = 1;
-					InvalidateRect(bct->hwnd, NULL, TRUE);
-				}
-				else
-					SetFocus(hwndBtn);
-				SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
-				return 0;
-			}
-			break;
-		case WM_THEMECHANGED: 
-		{
-			// themed changed, reload theme object
-			LoadTheme(bct);
-			InvalidateRect(bct->hwnd, NULL, TRUE); // repaint it
-			break;
+			else
+				SetFocus(hwndBtn);
+			SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
+			return 0;
 		}
-		case WM_SETFONT: // remember the font so we can use it later
-			bct->hFont = (HFONT)wParam; // maybe we should redraw?
-			break;
-		case WM_NCPAINT:
-		case WM_PAINT:
+		break;
+	case WM_THEMECHANGED: 
+		// themed changed, reload theme object
+		LoadTheme(bct);
+		InvalidateRect(bct->hwnd, NULL, TRUE); // repaint it
+		break;
+	case WM_SETFONT: // remember the font so we can use it later
+		bct->hFont = (HFONT)wParam; // maybe we should redraw?
+		break;
+	case WM_NCPAINT:
+	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			HDC hdcPaint = BeginPaint(hwndBtn, &ps);
-			if (hdcPaint) {
-				RECT rcClient; GetClientRect(bct->hwnd, &rcClient);
-				HDC hdcMem = CreateCompatibleDC(hdcPaint);
-				HBITMAP hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
-				HDC hOld = (HDC)SelectObject(hdcMem, hbmMem);
+			HDC hdcPaint;
+			HDC hdcMem;
+			HBITMAP hbmMem;
+			HDC hOld;
+			RECT rcClient;
+			
+			if (hdcPaint = BeginPaint(hwndBtn, &ps)) {
+				GetClientRect(bct->hwnd, &rcClient);
+				hdcMem = CreateCompatibleDC(hdcPaint);
+				hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+				hOld = (HDC)SelectObject(hdcMem, hbmMem);
 
 				// If its a push button, check to see if it should stay pressed
 				if ((bct->dwStyle & MBS_PUSHBUTTON) && bct->pbState) bct->stateId = PBS_PRESSED;
@@ -461,51 +468,49 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				DeleteDC(hdcMem);				
 				EndPaint(hwndBtn, &ps);
 			}
-			return 0;
 		}
-		case BM_SETIMAGE:
-			if (wParam == IMAGE_ICON) {
-				bct->hIcon = (HICON)lParam;
-				bct->hBitmap = NULL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			else if (wParam == IMAGE_BITMAP) {
-				bct->hIcon = NULL;
-				bct->hBitmap = (HBITMAP)lParam;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			else if (wParam == NULL && lParam == NULL) {
-				bct->hIcon = NULL;
-				bct->hBitmap = NULL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			break;
-		case BM_SETCHECK:
-			if (!(bct->dwStyle & MBS_PUSHBUTTON)) break;
-			if (wParam == BST_CHECKED) {
-				bct->pbState = 1;
-				bct->stateId = PBS_PRESSED;
-			}
-			else if (wParam == BST_UNCHECKED) {
-				bct->pbState = 0;
-				bct->stateId = PBS_NORMAL;
-			}
+		return 0;
+	case BM_SETIMAGE:
+		if (wParam == IMAGE_ICON) {
+			bct->hIcon = (HICON)lParam;
+			bct->hBitmap = NULL;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case BM_GETCHECK:
-			if (bct->dwStyle & MBS_PUSHBUTTON) return bct->pbState ? BST_CHECKED : BST_UNCHECKED;
-			return 0;
-		case BUTTONSETDEFAULT:
-			bct->defbutton = wParam ? 1 : 0;
+		}
+		else if (wParam == IMAGE_BITMAP) {
+			bct->hIcon = NULL;
+			bct->hBitmap = (HBITMAP)lParam;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case BUTTONADDTOOLTIP:
-		{
-			if (!wParam) break;
-						EnterCriticalSection(&csTips);
-			if (!hwndToolTips) {
+		}
+		else if (wParam == NULL && lParam == NULL) {
+			bct->hIcon = NULL;
+			bct->hBitmap = NULL;
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		break;
+	case BM_SETCHECK:
+		if (!(bct->dwStyle & MBS_PUSHBUTTON)) break;
+		if (wParam == BST_CHECKED) {
+			bct->pbState = 1;
+			bct->stateId = PBS_PRESSED;
+		}
+		else if (wParam == BST_UNCHECKED) {
+			bct->pbState = 0;
+			bct->stateId = PBS_NORMAL;
+		}
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case BM_GETCHECK:
+		if (bct->dwStyle & MBS_PUSHBUTTON) return bct->pbState ? BST_CHECKED : BST_UNCHECKED;
+		return 0;
+	case BUTTONSETDEFAULT:
+		bct->defbutton = (wParam != 0);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case BUTTONADDTOOLTIP:
+		if (wParam) {			
+			EnterCriticalSection(&csTips);
+			if (!hwndToolTips)
 				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
-			}
 
 			if (lParam == MBBF_UNICODE) {
 				TOOLINFOW ti;
@@ -522,7 +527,8 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				ti.uId = (UINT_PTR)bct->hwnd;
 				ti.lpszText=(LPWSTR)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLW, 0, (LPARAM)&ti);
-			} else {
+			}
+			else {
 				TOOLINFOA ti;
 
 				ZeroMemory(&ti, sizeof(TOOLINFOA));
@@ -535,84 +541,85 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				}
 				ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 				ti.uId = (UINT_PTR)bct->hwnd;
-				ti.lpszText=(char*)wParam;
+				ti.lpszText=(LPSTR)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLA, 0, (LPARAM)&ti);
 			}
-						LeaveCriticalSection(&csTips);
-			break;
+			LeaveCriticalSection(&csTips);
 		}
-		case BUTTONTRANSLATE:
+		break;
+	case BUTTONTRANSLATE:
 		{
 			TCHAR szButton[MAX_PATH];
 			GetWindowText(bct->hwnd, szButton, MAX_PATH);
 			SetWindowText(bct->hwnd, TranslateTS(szButton));
-			break;
 		}
-		case WM_SETFOCUS: // set keybord bFocus and redraw
-			bct->bFocus = 1;
+		break;
+	case WM_SETFOCUS: // set keybord bFocus and redraw
+		bct->bFocus = 1;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_KILLFOCUS: // kill bFocus and redraw
+		bct->bFocus = 0;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_WINDOWPOSCHANGED:
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_ENABLE: // windows tells us to enable/disable
+		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+	case WM_MOUSELEAVE: // faked by the WM_TIMER
+		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+			bct->stateId = PBS_NORMAL;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_KILLFOCUS: // kill bFocus and redraw
-			bct->bFocus = 0;
+		}
+		break;
+	case WM_LBUTTONDOWN:
+		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_WINDOWPOSCHANGED:
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_ENABLE: // windows tells us to enable/disable
-			bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-			break;
-		case WM_MOUSELEAVE: // faked by the WM_TIMER
-			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				bct->stateId = PBS_NORMAL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			break;
-		case WM_LBUTTONDOWN:
-			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				bct->stateId = PBS_PRESSED;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			break;
-		case WM_LBUTTONUP:
-			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				BOOLEAN bPressed = bct->stateId == PBS_PRESSED;
+		}
+		break;
+	case WM_LBUTTONUP:
+		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+			BYTE bPressed = bct->stateId == PBS_PRESSED;
 
-				if (bct->dwStyle & MBS_PUSHBUTTON) {
-					if (bct->pbState) bct->pbState = 0;
-					else bct->pbState = 1;
-				}
-				bct->stateId = PBS_HOT;
+			if (bct->dwStyle & MBS_PUSHBUTTON) {
+				if (bct->pbState) bct->pbState = 0;
+				else bct->pbState = 1;
+			}
+			bct->stateId = PBS_HOT;
 
-				// Tell your daddy you got clicked, if mouse is still over the button.
-				if ((bct->dwStyle & MBS_PUSHBUTTON) || bPressed)
-					SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
-				InvalidateRect(bct->hwnd, NULL, TRUE);
+			// Tell your daddy you got clicked, if mouse is still over the button.
+			if ((bct->dwStyle & MBS_PUSHBUTTON) || bPressed)
+				SendMessage(GetParent(hwndBtn), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndBtn), BN_CLICKED), (LPARAM)hwndBtn);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		break;
+	case WM_MOUSEMOVE:
+		if (bct->stateId == PBS_NORMAL) {
+			bct->stateId = PBS_HOT;
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+		}
+		// Call timer, used to start cheesy TrackMouseEvent faker
+		SetTimer(hwndBtn, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
+		break;
+	case WM_TIMER: // use a timer to check if they have did a mouseout
+		if (wParam == BUTTON_POLLID) {
+			RECT rc;
+			POINT pt;
+
+			GetWindowRect(hwndBtn, &rc);
+			GetCursorPos(&pt);
+			if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
+				PostMessage(hwndBtn, WM_MOUSELEAVE, 0, 0L);
+				KillTimer(hwndBtn, BUTTON_POLLID);
 			}
-			break;
-		case WM_MOUSEMOVE:
-			if (bct->stateId == PBS_NORMAL) {
-				bct->stateId = PBS_HOT;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-			// Call timer, used to start cheesy TrackMouseEvent faker
-			SetTimer(hwndBtn, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
-			break;
-		case WM_TIMER: // use a timer to check if they have did a mouseout
-			if (wParam == BUTTON_POLLID) {
-				RECT rc;
-				POINT pt;
-				GetWindowRect(hwndBtn,&rc);
-				GetCursorPos(&pt);
-				if(!PtInRect(&rc,pt)){ // mouse must be gone, trigger mouse leave
-					PostMessage(hwndBtn,WM_MOUSELEAVE,0,0L);
-					KillTimer(hwndBtn,BUTTON_POLLID);
-				}
-			}
-			break;
-		case WM_ERASEBKGND:
-			return 1;
+		}
+		break;
+	case WM_ERASEBKGND:
+		return 1;
 	}
 	return DefWindowProc(hwndBtn, uMsg, wParam, lParam);
 }
@@ -632,12 +639,12 @@ void CtrlButtonLoadModule()/// @fixme : compatibility with UInfoEx is everything
 	g_init=true;
 	
 	ZeroMemory(&wc, sizeof(wc));
-	wc.cbSize			= sizeof(wc);
+	wc.cbSize				 = sizeof(wc);
 	wc.lpszClassName	= UINFOBUTTONCLASS;
 	wc.lpfnWndProc		= Button_WndProc;
-	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra		= sizeof(LPBTNCTRL);
-	wc.style			= CS_GLOBALCLASS;
+	wc.hCursor				= LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra		 = sizeof(LPBTNCTRL);
+	wc.style					= CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	InitializeCriticalSection(&csTips);
 }
