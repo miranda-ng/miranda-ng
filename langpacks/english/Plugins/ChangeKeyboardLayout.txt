@@ -18,7 +18,6 @@
 [Copy result to clipboard]
 [Show result in Popup]
 [Strings for keyboard layouts]
-[EN]
 [Default]
 [Invert current state]
 [Switch off]

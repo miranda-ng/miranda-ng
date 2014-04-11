@@ -17,7 +17,6 @@
 [Send SMS]
 [To:]
 [Add number to list]
-[&H]
 [Save number]
 [Multiple >>]
 [Enter message:]

@@ -15,7 +15,6 @@
 [Test play]
 [Reset]
 [Ignore sound for this contact]
-[XSoundNotify]
 [Cancel]
 ;file \plugins\XSoundNotify\src\dialog.cpp
 [Custom sound for %s (%s)]

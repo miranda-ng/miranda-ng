@@ -37,4 +37,3 @@
 [Help]
 [Miranda NG is great and this is a long message.]
 [Plugins]
-[OSD]

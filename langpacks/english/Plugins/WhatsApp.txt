@@ -18,7 +18,6 @@
 [Paste password from WART utility]
 [Use WART utility from Plugins folder for registering your number and generating password]
 [Use SSL connection (443 port)]
-[WhatsApp]
 [Cancel]
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]

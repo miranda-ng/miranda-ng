@@ -27,7 +27,6 @@
 [Upload]
 [Import from file]
 [Export to file]
-[Jabber]
 [Username:]
 [Change password]
 [Priority:]

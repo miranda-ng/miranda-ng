@@ -21,7 +21,6 @@
 [Hotkey]
 [Password:]
 [Cancel]
-[EN]
 [Workstation is locked]
 [Screen Saver is running]
 [Windows is inactive]

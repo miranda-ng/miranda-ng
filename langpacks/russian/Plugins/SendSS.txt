@@ -43,12 +43,12 @@
 &Закрыть
 [Edit]
 Изменить
-[C&lient Area]
-Сод&ержимое
 [Caption:]
 Заголовок:
 [Size (HxW):]
 Размер (ВxШ):
+[C&lient Area]
+Сод&ержимое
 [&Copy]
 &Копировать
 [Close]
@@ -99,10 +99,6 @@ HTTP подключение SendSS
 Курсор рабочий стол
 [Default]
 По умолчанию
-[Overlay on]
-Оверлей вкл
-[Overlay off]
-Оверлей выкл
 [Help]
 Справка
 [Open Folder]
@@ -121,8 +117,6 @@ HTTP подключение SendSS
 Вперёд
 [Update]
 Обновить
-[Apply]
-Применить
 [Down arrow]
 Вниз
 [Buttons]

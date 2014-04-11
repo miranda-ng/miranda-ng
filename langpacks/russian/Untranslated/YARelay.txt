@@ -1,1 +1,1 @@
-﻿[yaRelay]
+﻿[Messages forwarding]
