@@ -31,7 +31,8 @@ namespace SteamWebApi
 		{
 			avatar->success = false;
 
-			HttpRequest request(hConnection, REQUEST_GET, avatarUrl);
+			HttpGetRequest request(hConnection, avatarUrl);
+			request.ResetFlags(NLHRF_HTTP11 | NLHRF_NODUMP);
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)

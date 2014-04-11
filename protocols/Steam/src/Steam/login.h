@@ -29,7 +29,7 @@ namespace SteamWebApi
 			char data[256];
 			mir_snprintf(data, SIZEOF(data), "access_token=%s", token);
 
-			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001");
+			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 
@@ -65,7 +65,7 @@ namespace SteamWebApi
 			data.AppendFormat("access_token=%s", token);
 			data.AppendFormat("&umqid=%s", sessionId);
 
-			SecureHttpRequest request(hConnection, REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001");
+			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data.GetBuffer(), data.GetLength());
 			

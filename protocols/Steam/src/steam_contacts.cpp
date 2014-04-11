@@ -48,18 +48,20 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 	// only for contacts
 	if (hContact)
 	{
-		/*{
-			"type": "personastate",
-				"timestamp" : 130789088,
-				"utc_timestamp" : 1397151246,
-				"steamid_from" : "76561198010620323",
-				"status_flags" : 863,
-				"persona_state" : 4,
-				"persona_name" : "necrostorm"
-		}*/
-
-		setWord(hContact, "Status", SteamToMirandaStatus(contact->GetState()));
+		WORD status = SteamToMirandaStatus(contact->GetState());
+		setWord(hContact, "Status", status);
 		setDword(hContact, "LastEventDateTS", contact->GetLastEvent());
+
+		if (status == ID_STATUS_OUTTOLUNCH)
+		{
+			db_set_ws(hContact, "CList", "StatusMsg", contact->GetGameInfo());
+			setDword(hContact, "GameID", contact->GetGameId());
+		}
+		else
+		{
+			db_unset(hContact, "CList", "StatusMsg");
+			delSetting(hContact, "GameID");
+		}
 	}
 
 	// set name
@@ -84,6 +86,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 	{
 		// todo: need to place in thread
 		SteamWebApi::AvatarApi::Avatar avatar;
+		debugLogA("CSteamProto::UpdateContact: SteamWebApi::AvatarApi::GetAvatar");
 		SteamWebApi::AvatarApi::GetAvatar(m_hNetlibUser, contact->GetAvatarUrl(), &avatar);
 
 		if (avatar.IsSuccess() && avatar.GetDataSize() > 0)
@@ -126,6 +129,7 @@ void CSteamProto::UpdateContactsThread(void *arg)
 	ptrA token(getStringA("TokenSecret"));
 
 	SteamWebApi::FriendApi::Summaries summarues;
+	debugLogA("CSteamProto::UpdateContactsThread: call SteamWebApi::FriendApi::LoadSummaries");
 	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamIds, &summarues);
 
 	if (!summarues.IsSuccess())
@@ -173,12 +177,13 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Summary *contact)
 	return hContact;
 }
 
-void CSteamProto::LoadContactList()
+void CSteamProto::LoadContactListThread(void*)
 {
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA("SteamID"));
 
 	SteamWebApi::FriendListApi::FriendList friendList;
+	debugLogA("CSteamProto::LoadContactListThread: call SteamWebApi::FriendListApi::Load");
 	SteamWebApi::FriendListApi::Load(m_hNetlibUser, token, steamId, &friendList);
 	
 	if (friendList.IsSuccess())
@@ -199,6 +204,7 @@ void CSteamProto::LoadContactList()
 		if (!newContacts.IsEmpty())
 		{
 			SteamWebApi::FriendApi::Summaries summaries;
+			debugLogA("CSteamProto::LoadContactListThread: call SteamWebApi::FriendApi::LoadSummaries");
 			SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, newContacts, &summaries);
 
 			if (summaries.IsSuccess())
@@ -221,6 +227,7 @@ void CSteamProto::SearchByIdThread(void* arg)
 	ptrA token(getStringA("TokenSecret"));
 
 	SteamWebApi::FriendApi::Summaries summarues;
+	debugLogA("CSteamProto::SearchByIdThread: call SteamWebApi::FriendApi::LoadSummaries");
 	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamId, &summarues);
 
 	if (!summarues.IsSuccess())
@@ -268,6 +275,7 @@ void CSteamProto::SearchByNameThread(void* arg)
 	ptrA token(getStringA("TokenSecret"));
 
 	SteamWebApi::SearchApi::SearchResult searchResult;
+	debugLogA("CSteamProto::SearchByNameThread: call SteamWebApi::SearchApi::Search");
 	SteamWebApi::SearchApi::Search(m_hNetlibUser, token, keywords, &searchResult);
 
 	if (!searchResult.IsSuccess())
@@ -287,6 +295,7 @@ void CSteamProto::SearchByNameThread(void* arg)
 	}
 
 	SteamWebApi::FriendApi::Summaries summarues;
+	debugLogA("CSteamProto::SearchByNameThread: call SteamWebApi::FriendApi::LoadSummaries");
 	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamIds, &summarues);
 
 	if (!summarues.IsSuccess())

@@ -9,6 +9,7 @@ void CSteamProto::SendMessageThread(void *arg)
 	ptrA steamId(getStringA(param->hContact, "SteamID"));
 
 	SteamWebApi::MessageApi::SendResult sendResult;
+	debugLogA("CSteamProto::SendMessageThread: call SteamWebApi::PollApi::SteamWebApi::MessageApi::SendMessage");
 	SteamWebApi::MessageApi::SendMessage(m_hNetlibUser, token, sessionId, steamId, param->text, &sendResult);
 
 	ProtoBroadcastAck(
@@ -30,5 +31,6 @@ void CSteamProto::SendTypingThread(void *arg)
 	ptrA steamId(getStringA(hContact, "SteamID"));
 
 	SteamWebApi::MessageApi::SendResult sendResult;
+	debugLogA("CSteamProto::SendTypingThread: call SteamWebApi::PollApi::SteamWebApi::MessageApi::SendMessage");
 	SteamWebApi::MessageApi::SendTyping(m_hNetlibUser, token, sessionId, steamId, &sendResult);
 }

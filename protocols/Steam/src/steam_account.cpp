@@ -28,6 +28,7 @@ void CSteamProto::SetServerStatusThread(void *arg)
 	m_iDesiredStatus = status;
 
 	SteamWebApi::MessageApi::SendResult sendResult;
+	debugLogA("CSteamProto::SetServerStatusThread: call SteamWebApi::MessageApi::SendStatus");
 	SteamWebApi::MessageApi::SendStatus(m_hNetlibUser, token, sessionId, state, &sendResult);
 
 	if (sendResult.IsSuccess())
@@ -58,6 +59,7 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 
 	// get rsa public key
 	SteamWebApi::RsaKeyApi::RsaKey rsaKey;
+	debugLogA("CSteamProto::Authorize: call SteamWebApi::RsaKeyApi::GetRsaKey");
 	SteamWebApi::RsaKeyApi::GetRsaKey(m_hNetlibUser, username, &rsaKey);
 	if (!rsaKey.IsSuccess())
 		return;
@@ -69,14 +71,14 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 	DWORD passwordSize = (DWORD)strlen(password);
 	if ((error = RsaEncrypt(rsaKey, password, passwordSize, NULL, encryptedSize)) != 0)
 	{
-		debugLogA("CSteamProto::Rsa: encryption error (%lu)", error);
+		debugLogA("CSteamProto::Authorize: encryption error (%lu)", error);
 		return;
 	}
 
 	BYTE *encryptedPassword = (BYTE*)mir_calloc(encryptedSize);
 	if ((error = RsaEncrypt(rsaKey, password, passwordSize, encryptedPassword, encryptedSize)) != 0)
 	{
-		debugLogA("CSteamProto::Rsa: encryption error (%lu)", error);
+		debugLogA("CSteamProto::Authorize: encryption error (%lu)", error);
 		return;
 	}
 
@@ -84,6 +86,7 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 	mir_free(encryptedPassword);
 
 	// try to authorize
+	debugLogA("CSteamProto::Authorize: call SteamWebApi::AuthorizationApi::Authorize");
 	SteamWebApi::AuthorizationApi::Authorize(m_hNetlibUser, username, base64RsaEncryptedPassword, rsaKey.GetTimestamp(), authResult);
 	if (authResult->IsEmailAuthNeeded() || authResult->IsCaptchaNeeded())
 	{
@@ -112,6 +115,7 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 			}
 
 			// try to authorize with emailauthcode or captcha taxt
+			debugLogA("CSteamProto::Authorize: call SteamWebApi::AuthorizationApi::Authorize");
 			SteamWebApi::AuthorizationApi::Authorize(m_hNetlibUser, username, base64RsaEncryptedPassword, rsaKey.GetTimestamp(), authResult);
 		} while (authResult->IsEmailAuthNeeded() || authResult->IsCaptchaNeeded());
 	}
@@ -132,7 +136,7 @@ void CSteamProto::LogInThread(void* param)
 		{
 			// todo: dosplay error message from authResult.GetMessage()
 			//ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-			debugLogA("CSteamProto::Authorize: Error (%s)", authResult.GetMessage());
+			debugLogA("CSteamProto::LogInThread: Authorization error (%s)", authResult.GetMessage());
 
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
@@ -147,12 +151,13 @@ void CSteamProto::LogInThread(void* param)
 	}
 
 	SteamWebApi::LoginApi::LoginResult loginResult;
+	debugLogA("CSteamProto::LogInThread: call SteamWebApi::LoginApi::Logon");
 	SteamWebApi::LoginApi::Logon(m_hNetlibUser, token, &loginResult);
 	
 	// if some error
 	if (!loginResult.IsSuccess())
 	{
-		debugLogA("CSteamProto::Login: Error (%d)", loginResult.GetStatus());
+		debugLogA("CSteamProto::LogInThread: Login error (%d)", loginResult.GetStatus());
 
 		// token has expired
 		if (loginResult.GetStatus() == HTTP_STATUS_UNAUTHORIZED)
@@ -174,7 +179,7 @@ void CSteamProto::LogInThread(void* param)
 	//CSteamProto::SetServerStatusThread((void*)m_iDesiredStatus);
 
 	// load contact list
-	LoadContactList();
+	LoadContactListThread(NULL);
 
 	// start pooling thread
 	if (m_hPollingThread == NULL)
@@ -193,6 +198,7 @@ void CSteamProto::LogOutThread(void*)
 		Sleep(500);
 
 	m_bTerminated = false;
+	debugLogA("CSteamProto::LogOutThread: call SteamWebApi::LoginApi::Logoff");
 	SteamWebApi::LoginApi::Logoff(m_hNetlibUser, token, sessionId);
 
 	delSetting("SessionID");

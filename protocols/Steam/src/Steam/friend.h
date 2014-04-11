@@ -18,6 +18,8 @@ namespace SteamWebApi
 			std::string countryCode;
 			std::string homepage;
 			std::string avatarUrl;
+			std::wstring gameInfo;
+			UINT32 gameId;
 
 			int state;
 
@@ -31,6 +33,8 @@ namespace SteamWebApi
 			const char *GetCountryCode() const { return countryCode.c_str(); }
 			const char *GetHomepage() const { return homepage.c_str(); }
 			const char *GetAvatarUrl() const { return avatarUrl.c_str(); }
+			const wchar_t *GetGameInfo() const { return gameInfo.c_str(); }
+			const DWORD GetGameId() const { return gameId; }
 			int GetState() const { return state; }
 			const DWORD GetCreated() const { return created; }
 			const DWORD GetLastEvent() const { return lastEvent; }
@@ -52,7 +56,7 @@ namespace SteamWebApi
 		{
 			summaries->success = false;
 
-			SecureHttpRequest request(hConnection, REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001");
+			SecureHttpGetRequest request(hConnection, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001");
 			request.AddParameter("access_token", token);
 			request.AddParameter("steamids", steamIds);
 
@@ -105,6 +109,12 @@ namespace SteamWebApi
 
 					node = json_get(child, "avatarfull");
 					item->avatarUrl = ptrA(mir_u2a(json_as_string(node)));
+
+					node = json_get(child, "gameextrainfo");
+					item->gameInfo = json_as_string(node);
+
+					node = json_get(child, "gameid");
+					item->gameId = json_as_int(node);
 
 					summaries->items.push_back(item);
 				}

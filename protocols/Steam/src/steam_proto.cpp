@@ -209,6 +209,8 @@ int __cdecl CSteamProto::SetApparentMode(MCONTACT hContact, int mode) { return 0
 
 int CSteamProto::SetStatus(int new_status)
 {
+	debugLogA("CSteamProto::SetStatus: from %i to %i", m_iStatus, new_status);
+
 	if (new_status == m_iDesiredStatus)
 		return 0;
 

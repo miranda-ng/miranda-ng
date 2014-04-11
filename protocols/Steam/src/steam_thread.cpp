@@ -1,8 +1,9 @@
 #include "common.h"
 
-void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult)
+void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult)
 {
-	SteamWebApi::PollApi::PollStatus(m_hNetlibUser, token, sessionId, messageId, pollResult);
+	debugLogA("CSteamProto::PollServer: call SteamWebApi::PollApi::Poll");
+	SteamWebApi::PollApi::Poll(m_hNetlibUser, token, sessionId, messageId, pollResult);
 
 	if (!pollResult->IsSuccess())
 		return;
@@ -90,7 +91,8 @@ void CSteamProto::PollStatus(const char *token, const char *sessionId, UINT32 me
 	}
 
 	if (!updatedIds.IsEmpty())
-		ForkThread(&CSteamProto::UpdateContactsThread, mir_strdup(updatedIds));
+		//ForkThread(&CSteamProto::UpdateContactsThread, mir_strdup(updatedIds));
+		UpdateContactsThread(mir_strdup(updatedIds));
 }
 
 void CSteamProto::PollingThread(void*)
@@ -104,7 +106,7 @@ void CSteamProto::PollingThread(void*)
 	SteamWebApi::PollApi::PollResult pollResult;
 	while (!m_bTerminated)
 	{
-		PollStatus(token, sessionId, messageId, &pollResult);
+		PollServer(token, sessionId, messageId, &pollResult);
 		
 		if (pollResult.IsNeedRelogin())
 			debugLogA("CSteamProto::PollingThread: need to relogin");
@@ -121,6 +123,7 @@ void CSteamProto::PollingThread(void*)
 
 		if (!pollResult.IsSuccess())
 		{
+			debugLogA("CSteamProto::PollServer: call SteamWebApi::PollApi::Poll");
 			SetStatus(ID_STATUS_OFFLINE);
 
 			// token has expired

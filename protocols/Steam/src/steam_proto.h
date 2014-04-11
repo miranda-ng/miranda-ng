@@ -100,7 +100,7 @@ protected:
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
 	// pooling thread
-	void PollStatus(const char *sessionId, const char *steamId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult);
+	void PollServer(const char *sessionId, const char *steamId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult);
 	void __cdecl PollingThread(void*);
 
 	// account
@@ -122,7 +122,7 @@ protected:
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const SteamWebApi::FriendApi::Summary *contact);
 
-	void LoadContactList();
+	void __cdecl LoadContactListThread(void*);
 	
 	void __cdecl SearchByIdThread(void*);
 	void __cdecl SearchByNameThread(void*);

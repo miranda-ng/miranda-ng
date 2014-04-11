@@ -29,11 +29,12 @@ public:
 		dataLength = 0;
 		headersCount = 0;
 		szResultDescr = NULL;
-		flags = NLHRF_HTTP11;
+		flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 		requestType = request;
 
 		m_hNetlibUser = hNetlibUser;
-		m_szUrl = mir_strdup(url);
+		szUrl = NULL;
+		m_szUrl = url;
 
 		AddHeader("User-Agent", "Steam App / Miranda / 0.0.1");
 	}
@@ -49,10 +50,16 @@ public:
 			}
 			mir_free(headers);
 		}
+		if (szUrl != NULL)
+			mir_free(szUrl);
 		if (pData != NULL)
 			mir_free(pData);
 	}
 
+	void ResetFlags(int newFlags)
+	{
+		flags = newFlags;
+	}
 
 	void AddHeader(LPCSTR szName, LPCSTR szValue)
 	{
@@ -82,34 +89,18 @@ public:
 
 	void AddParameter(LPCSTR szName, LPCSTR szValue)
 	{
-		if (m_szUrl.Find('?') == -1)
-			m_szUrl.AppendFormat("?%s=%s", szName, szValue);
+		if (m_szUrl.find('?') == -1)
+			m_szUrl.append("?").append(szName).append("=").append(szValue);
 		else
-			m_szUrl.AppendFormat("&%s=%s", szName, szValue);
+			m_szUrl.append("&").append(szName).append("=").append(szValue);
 	}
-
-	/*void AddParameter(LPCSTR szName, int value)
-	{
-		if (m_szUrl.Find('?') == -1)
-			m_szUrl.AppendFormat("?%s=%i", szName, value);
-		else
-			m_szUrl.AppendFormat("&%s=%i", szName, value);
-	}*/
-
-	/*void AddParameter(LPCSTR szName, UINT64 value)
-	{
-		if (m_szUrl.Find('?') == -1)
-			m_szUrl.AppendFormat("?%s=%llu", szName, value);
-		else
-			m_szUrl.AppendFormat("&%s=%llu", szName, value);
-	}*/
 
 	void AddParameter(LPCSTR szValue)
 	{
-		if (m_szUrl.Find('?') == -1)
-			m_szUrl.AppendFormat("?%s", szValue);
+		if (m_szUrl.find('?') == -1)
+			m_szUrl.append("?").append(szValue);
 		else
-			m_szUrl.AppendFormat("&%s", szValue);
+			m_szUrl.append("&").append(szValue);
 	}
 
 	void SetTimeout(int timeout)
@@ -119,30 +110,52 @@ public:
 
 	NETLIBHTTPREQUEST *Send()
 	{
-		szUrl = m_szUrl.GetBuffer();
-		/*CMStringA message; message.AppendFormat("Send request to %s", szUrl);
-		CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)message.GetBuffer());*/
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
+		szUrl = mir_strdup(m_szUrl.c_str());
+		NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
+		mir_free(szUrl);szUrl = NULL;
+		return response;
+
 	}
 
 private:
-	CMStringA m_szUrl;
+	std::string m_szUrl;
 	HANDLE m_hNetlibUser;
 };
 
-/*class HttpPostRequest : public HttpRequest
+class HttpGetRequest : public HttpRequest
+{
+public:
+	HttpGetRequest(HANDLE hNetlibUser, LPCSTR url) : HttpRequest(hNetlibUser, REQUEST_GET, url) { }
+};
+
+class HttpPostRequest : public HttpRequest
 {
 public:
 	HttpPostRequest(HANDLE hNetlibUser, LPCSTR url) : HttpRequest(hNetlibUser, REQUEST_POST, url) { }
-};*/
+};
 
 class SecureHttpRequest : public HttpRequest
 {
 public:
 	SecureHttpRequest(HANDLE hNetlibUser, int request, LPCSTR url)
-		: HttpRequest(hNetlibUser, request, url) {
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND;
+		: HttpRequest(hNetlibUser, request, url)
+	{
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 	}
+};
+
+class SecureHttpGetRequest : public SecureHttpRequest
+{
+public:
+	SecureHttpGetRequest(HANDLE hNetlibUser, LPCSTR url)
+		: SecureHttpRequest(hNetlibUser, REQUEST_GET, url) { }
+};
+
+class SecureHttpPostRequest : public SecureHttpRequest
+{
+public:
+	SecureHttpPostRequest(HANDLE hNetlibUser, LPCSTR url)
+		: SecureHttpRequest(hNetlibUser, REQUEST_POST, url) { }
 };
 
 #endif //_HTTP_REQUEST_H_
