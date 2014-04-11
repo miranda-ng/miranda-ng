@@ -62,6 +62,7 @@ void CSendDropbox::SendThread() {
 		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ACKRESULT_FAILED); return;
 	}
+	m_bSilent=true;
 	Exit(ACKRESULT_SUCCESS);
 }
 

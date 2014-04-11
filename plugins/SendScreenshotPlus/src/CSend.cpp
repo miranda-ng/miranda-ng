@@ -29,9 +29,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync) :
+CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_bDeleteAfterSend(false),
 	m_bAsync(bAsync),
+	m_bSilent(bSilent),
 	m_pszFile(NULL),
 	m_pszFileDesc(NULL),
 	m_pszSendTyp(NULL),
@@ -125,6 +126,9 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 	return FALSE;
 }
 void CSend::svcSendMsgExit(const char* szMessage) {
+	if(m_bSilent){
+		Exit(ACKRESULT_SUCCESS); return;
+	}
 	if(!m_hContact){
 		mir_free(m_ErrorTitle), m_ErrorTitle=mir_a2t(szMessage);
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UResultForm),0, ResultDialogProc,(LPARAM)this);
@@ -192,6 +196,9 @@ void CSend::svcSendFileExit() {
 //szMessage should be encoded as the File followed by the description, the
 //separator being a single nul (\0). If there is no description, do not forget
 //to end the File with two nuls.
+	if(m_bSilent){
+		Exit(ACKRESULT_SUCCESS); return;
+	}
 	if(!m_hContact){
 		Error(LPGENT("%s requires a valid contact!"), m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
@@ -208,9 +215,9 @@ void CSend::svcSendFileExit() {
 		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
 		lstrcpyA(m_szEventMsg+lstrlenA(szFile)+1,temp);
 		m_szEventMsg[m_cbEventMsg-1] = 0;
-		mir_freeAndNil(temp);
+		mir_free(temp);
 	}
-	mir_freeAndNil(szFile);
+	mir_free(szFile);
 
 	//create a HookEventObj on ME_PROTO_ACK
 	if (!m_hOnSend) {
@@ -329,36 +336,38 @@ void CSend::Error(LPCTSTR pszFormat, ...) {
 
 //---------------------------------------------------------------------------
 void CSend::Exit(unsigned int Result) {
-	bool err = true;
-	switch(Result) {
-		case ACKRESULT_SUCCESS:
-		case GC_RESULT_SUCCESS:
-			SkinPlaySound("FileDone");
-			err = false;
-			break;
-		case ACKRESULT_DENIED:
-			SkinPlaySound("FileDenied");
-			Error(_T("%s (%i):\nFile transfer denied."),TranslateTS(m_pszSendTyp),Result);
-			MsgBoxService(NULL, (LPARAM)&m_box);
-			err = false;
-			break;
-		case GC_RESULT_WRONGVER:	//.You appear to be using the wrong version of GC API.
-			Error(_T("%s (%i):\nYou appear to be using the wrong version of GC API"),TranslateT("GCHAT error"),Result);
-			break;
-		case GC_RESULT_ERROR:		// An internal GC error occurred.
-			Error(_T("%s (%i):\nAn internal GC error occurred."),TranslateT("GCHAT error"),Result);
-			break;
-		case GC_RESULT_NOSESSION:	// contact has no open GC session
-			Error(_T("%s (%i):\nContact has no open GC session."),TranslateT("GCHAT error"),Result);
-			break;
-		case ACKRESULT_FAILED:
-		default:
-			break;
-	}
-	if(err){
-		SkinPlaySound("FileFailed");
-		if(m_ErrorMsg) MsgBoxService(NULL, (LPARAM)&m_box);
-		else MsgErr(NULL, LPGENT("An unknown error has occurred."));
+	if(!m_bSilent){
+		bool err = true;
+		switch(Result) {
+			case ACKRESULT_SUCCESS:
+			case GC_RESULT_SUCCESS:
+				SkinPlaySound("FileDone");
+				err = false;
+				break;
+			case ACKRESULT_DENIED:
+				SkinPlaySound("FileDenied");
+				Error(_T("%s (%i):\nFile transfer denied."),TranslateTS(m_pszSendTyp),Result);
+				MsgBoxService(NULL, (LPARAM)&m_box);
+				err = false;
+				break;
+			case GC_RESULT_WRONGVER:	//.You appear to be using the wrong version of GC API.
+				Error(_T("%s (%i):\nYou appear to be using the wrong version of GC API"),TranslateT("GCHAT error"),Result);
+				break;
+			case GC_RESULT_ERROR:		// An internal GC error occurred.
+				Error(_T("%s (%i):\nAn internal GC error occurred."),TranslateT("GCHAT error"),Result);
+				break;
+			case GC_RESULT_NOSESSION:	// contact has no open GC session
+				Error(_T("%s (%i):\nContact has no open GC session."),TranslateT("GCHAT error"),Result);
+				break;
+			case ACKRESULT_FAILED:
+			default:
+				break;
+		}
+		if(err){
+			SkinPlaySound("FileFailed");
+			if(m_ErrorMsg) MsgBoxService(NULL, (LPARAM)&m_box);
+			else MsgErr(NULL, LPGENT("An unknown error has occurred."));
+		}
 	}
 	if(m_pszFile && *m_pszFile && m_bDeleteAfterSend && m_EnableItem&SS_DLG_DELETEAFTERSSEND) {
 		DeleteFile(m_pszFile), m_pszFile=NULL;

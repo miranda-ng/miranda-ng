@@ -48,10 +48,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 class CSend {
 	public:
-		CSend(HWND Owner, MCONTACT hContact, bool bAsync); // oder (TfrmMain & Owner)
+		CSend(HWND Owner, MCONTACT hContact, bool bAsync, bool bSilent=false); // oder (TfrmMain & Owner)
 		virtual ~CSend();
 
 		virtual int Send() = NULL; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
+		int SendSilent() {m_bAsync=m_bSilent=true; return Send();};
 		
 		void SetFile(TCHAR* file){mir_free(m_pszFile), m_pszFile=mir_tstrdup(file);};
 		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2t(file);};
@@ -63,6 +64,7 @@ class CSend {
 		bool			m_bDeleteAfterSend;
 	protected:
 		bool			m_bAsync;
+		bool			m_bSilent;
 		TCHAR*			m_pszFile;
 		TCHAR*			m_pszFileDesc;
 		static int OnSend(void *obj, WPARAM wParam, LPARAM lParam);

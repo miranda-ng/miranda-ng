@@ -74,7 +74,7 @@ void CSendFTPFile::SendThread() {
 
 	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName,1);
 	if (ret != 0) {
-		Error(TranslateT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
+		Error(LPGENT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ret); return;
 	}
 

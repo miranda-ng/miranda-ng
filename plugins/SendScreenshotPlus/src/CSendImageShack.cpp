@@ -38,7 +38,6 @@ CSendImageShack::CSendImageShack(HWND Owner, MCONTACT hContact, bool bAsync)
 	m_pszContentType	= NULL;
 	m_MFDRboundary		= NULL;
 	m_nlreply			= NULL;
-	m_Silent			= false;
 	m_Url				= NULL;
 }
 
@@ -52,10 +51,10 @@ CSendImageShack::~CSendImageShack(){
 
 //---------------------------------------------------------------------------
 int CSendImageShack::Send() {
-	// check Netlib
-	if( !hNetlibUser ) {
-		//PrintError(1,TRUE);
-		return 1;
+	if(!hNetlibUser){ /// check Netlib
+		Error(SS_ERR_INIT, m_pszSendTyp);
+		Exit(ACKRESULT_FAILED);
+		return !m_bAsync;
 	}
 	if (!m_pszFileName) {
 		m_pszFileName = GetFileNameA(m_pszFile);
@@ -117,8 +116,9 @@ int CSendImageShack::Send() {
 	//Now we add the file binary ($this->sendData($h))
 	FILE * fileId = _tfsopen(m_pszFile, _T("rb"), _SH_DENYWR );
 	if( !fileId) {
-		//PrintError(1,TRUE);
-		return 1;
+		Error(SS_ERR_INIT, m_pszSendTyp);
+		Exit(ACKRESULT_FAILED);
+		return !m_bAsync;
 	}
 	fseek(fileId, NULL, SEEK_END);
 	size_t lenFile  = ftell(fileId);
@@ -202,11 +202,11 @@ void CSendImageShack::SendThread() {
 					mir_freeAndNil(err);
 					err = mir_a2t(m_nlreply->pData);
 				}
-				Error(NULL, err);
+				Error(_T("%s"),err);
 				mir_free(err);
 			}
 		}else{
-			Error(NULL, TranslateT("Upload server did not respond timely."));
+			Error(LPGENT("Upload server did not respond timely."));
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM) m_nlreply);
 		m_nlreply = NULL;
