@@ -447,3 +447,165 @@ void CSend::Exit(unsigned int Result) {
 	if(m_bAsync)
 		delete this;/// deletes derived class since destructor is virtual (which also auto-calls base dtor)
 }
+
+/// helper functions used for HTTP uploads
+//---------------------------------------------------------------------------
+const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag) {
+	char* begin=strstr(str,startTag);
+	if(!begin) return NULL;
+	begin+=strlen(startTag);
+	char* end=strstr(begin,endTag);
+	if(end) *end=0;
+	return begin;
+}
+
+static void HTTPFormAppendData(NETLIBHTTPREQUEST* nlhr, size_t* dataMax, char** dataPos, const char* data,size_t len){
+	nlhr->dataLength=(*dataPos-nlhr->pData);
+	if(nlhr->dataLength+len >= *dataMax){
+		*dataPos=nlhr->pData;
+		*dataMax+=0x1000+0x1000*(len>>12);
+		nlhr->pData=(char*)mir_realloc(nlhr->pData,*dataMax);
+		if(!nlhr->pData) mir_free(*dataPos);
+		*dataPos=nlhr->pData;
+		if(!*dataPos)
+			return;
+		*dataPos+=nlhr->dataLength;
+	}
+	if(data){
+		memcpy(*dataPos,data,sizeof(char)*len); *dataPos+=len;
+		nlhr->dataLength+=len; // not necessary
+	}
+}
+void CSend::HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr)
+{
+	mir_free(nlhr->headers[0].szValue), nlhr->headers[0].szValue=NULL;
+	mir_free(nlhr->headers), nlhr->headers=NULL;
+	mir_free(nlhr->pData), nlhr->pData=NULL;
+}
+int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTPFormData* frm,size_t frmNum)
+{
+	char boundary[16];
+	memcpy(boundary,"--M461C/",8);
+	{
+		union{
+			DWORD num;
+			unsigned char cr[4];
+		};num=GetTickCount()^0x8000;
+		for(int i=0; i<4; ++i){
+			unsigned char chcode=cr[i]>>4;
+			boundary[8+i*2]=(chcode<0x0a ? '0' : 'a'-0x0a)+chcode;
+			chcode=cr[i]&0x0f;
+			boundary[9+i*2]=(chcode<0x0a ? '0' : 'a'-0x0a)+chcode;
+		}
+	}
+	nlhr->cbSize		=sizeof(NETLIBHTTPREQUEST);
+	nlhr->requestType	=requestType;
+	nlhr->flags			=NLHRF_HTTP11;
+	nlhr->szUrl			=url;
+	nlhr->headersCount	=3;
+	nlhr->headers		=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr->headersCount);
+	{
+		char* contenttype=(char*)mir_alloc(sizeof(char)*(30+1+sizeof(boundary)));
+		memcpy(contenttype,"multipart/form-data; boundary=",30);
+		memcpy(contenttype+30,boundary,sizeof(boundary));
+		contenttype[30+sizeof(boundary)]='\0';
+		nlhr->headers[0].szName		="Content-Type";
+		nlhr->headers[0].szValue	=contenttype;
+		nlhr->headers[1].szName		="User-Agent";
+		nlhr->headers[1].szValue	=__USER_AGENT_STRING;
+		nlhr->headers[2].szName		="Accept-Language";
+		nlhr->headers[2].szValue	="en-us,en;q=0.8";
+//		nlhr->headers[3].szName		="Referer";
+//		nlhr->headers[3].szValue	="http://www.imageshack.us/upload_api.php";
+	}
+	char* dataPos=nlhr->pData;
+	size_t dataMax=0;
+	for(HTTPFormData* iter=frm,* end=frm+frmNum; iter!=end; ++iter){
+		HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,2+sizeof(boundary)+40);
+		memset(dataPos,'-',2); dataPos+=2;
+		memcpy(dataPos,boundary,sizeof(boundary)); dataPos+=sizeof(boundary);
+		memcpy(dataPos,"\r\nContent-Disposition: form-data; name=\"",40); dataPos+=40;
+		size_t namelen=strlen(iter->name), valuelen=strlen(iter->value);
+		if(iter->flags&HTTPFORM_FILE){
+			const char* filename	=strrchr(iter->value,'\\');
+			if(!filename) filename	=strrchr(iter->value,'/');
+			if(!filename) filename	=iter->value;
+			else ++filename;
+			valuelen=strlen(filename);
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+13+valuelen+17);
+			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
+			memcpy(dataPos,"\"; filename=\"",13); dataPos+=13;
+			memcpy(dataPos,filename,valuelen); dataPos+=valuelen;
+			memcpy(dataPos,"\"\r\nContent-Type: ",17); dataPos+=17;
+			/// add mime type
+			const char* mime="application/octet-stream";
+			const char* fileext=strrchr(filename,'.');
+			if(fileext){
+				if(!strcmp(fileext,".jpg") || !strcmp(fileext,".jpeg") || !strcmp(fileext,".jpe"))
+					mime="image/jpeg";
+				else if(!strcmp(fileext,".bmp"))
+					mime="image/bmp";
+				else if(!strcmp(fileext,".png"))
+					mime="image/png";
+				else if(!strcmp(fileext,".gif"))
+					mime="image/gif";
+				else if(!strcmp(fileext,".tif") || !strcmp(fileext,".tiff"))
+					mime="image/tiff";
+			}
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,mime,strlen(mime));
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,"\r\n\r\n",4);
+			/// add file content
+			size_t filesize=0;
+			FILE* fp=fopen(iter->value,"rb");
+			if(fp){
+				fseek(fp,0,SEEK_END);
+				filesize=ftell(fp); fseek(fp,0,SEEK_SET);
+				HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,filesize+2);
+				if(fread(dataPos,1,filesize,fp)!=filesize){
+					fclose(fp), fp=NULL;
+				}
+			}
+			if(!fp){
+				HTTPFormDestroy(nlhr);
+				Error(_T("Error occurred when opening local file.\nAborting file upload..."));
+				Exit(ACKRESULT_FAILED);
+				return 1;
+			}else
+				fclose(fp);
+			dataPos+=filesize;
+			memcpy(dataPos,"\r\n",2); dataPos+=2;
+		}else if(iter->flags&HTTPFORM_8BIT){
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+38+valuelen+2);
+			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
+			memcpy(dataPos,"\"\r\nContent-Transfer-Encoding: 8bit\r\n\r\n",38); dataPos+=38;
+			memcpy(dataPos,iter->value,valuelen); dataPos+=valuelen;
+			memcpy(dataPos,"\r\n",2); dataPos+=2;
+		}else{
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+5+valuelen+2);
+			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
+			memcpy(dataPos,"\"\r\n\r\n",5); dataPos+=5;
+			memcpy(dataPos,iter->value,valuelen); dataPos+=valuelen;
+			memcpy(dataPos,"\r\n",2); dataPos+=2;
+		}
+	}
+	HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,2+sizeof(boundary)+4);
+	memset(dataPos,'-',2); dataPos+=2;
+	memcpy(dataPos,boundary,sizeof(boundary)); dataPos+=sizeof(boundary);
+	memcpy(dataPos,"--\r\n",4); dataPos+=4;
+	nlhr->dataLength=dataPos-nlhr->pData;
+	#ifdef _DEBUG /// print request content to "_sendss_tmp" file for debugging
+	{
+		FILE* fp=fopen("_sendss_tmp","wb");
+		if(fp){
+			fprintf(fp,"--Target-- %s\n",nlhr->szUrl);
+			for(int i=0; i<nlhr->headersCount; ++i){
+				fprintf(fp,"%s: %s\n",nlhr->headers[i].szName,nlhr->headers[i].szValue);
+			}
+			fprintf(fp,"\n\n");
+			fwrite(nlhr->pData,1,nlhr->dataLength,fp);
+			fclose(fp);
+		}
+	}
+	#endif // _DEBUG
+	return 0;
+}

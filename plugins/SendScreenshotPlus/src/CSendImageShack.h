@@ -37,22 +37,9 @@ class CSendImageShack : public CSend {
 		~CSendImageShack();
 
 		int Send();
-		char* GetURL(){return m_Url;};
 
 	protected:
-		char*					m_pszFileName;
 		NETLIBHTTPREQUEST		m_nlhr;
-		NETLIBHTTPREQUEST*		m_nlreply;
-		char					m_nlheader_ContentType[64];
-		char*					m_Url;
-
-		void					AppendToData(const char *pszVal);		//append to netlib DATA
-		char*					m_pszContentType;						//hold mimeType (does not need free)
-		void					GetContentType();						//get mimeType
-		const char *			GetTagContent(char * pszSource, const char * pszTagStart, const char * pszTagEnd);
-
-		char*					m_MFDRboundary;
-		void					MFDR_Reset();
 
 		void					SendThread();
 		static void				SendThreadWrapper(void * Obj);
