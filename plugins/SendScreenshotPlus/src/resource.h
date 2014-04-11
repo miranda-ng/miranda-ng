@@ -5,9 +5,9 @@
 #define IDOK                            1
 #define IDA_btnClose                    1
 #define IDCANCEL                        2
-#define IDB_Bmp1                        2
+//#define IDB_Bmp1                        2
 #define IDABORT                         3
-#define IDB_Bmp2                        3
+//#define IDB_Bmp2                        3
 #define IDRETRY                         4
 #define IDIGNORE                        5
 #define IDYES                           6
@@ -45,8 +45,11 @@
 #define IDI_OK                          205
 #define IDI_CLOSE                       206
 //#define IDI_APPLY                       207
-#define IDI_EDIT                        208
-#define IDI_DOWNARROW                   210
+//#define IDI_EDIT                        208
+#define IDI_COPY                        209
+#define IDI_BBC                         210
+#define IDI_BBC2                        211
+#define IDI_DOWNARROW                   212
 #define IDC_CAPTURETAB                  1005
 #define IDC_CREDIT                      1009
 #define STATIC_WHITERECT                1100
@@ -91,6 +94,14 @@
 #define ID_btnCapture                   2005
 #define ID_edtURL                       2010
 #define ID_bvlDesc                      2011
+#define ID_bvlLine                      2012
+#define ID_btnCopy                      2013//group I
+#define ID_btnBBC                       2014
+#define ID_btnThumbCopy                 2015//group II
+#define ID_btnThumbBBC                  2016
+#define ID_btnThumbBBC2                 2017//end group I 
+#define ID_edtURLthumbLabel             2018
+#define ID_edtURLthumb                  2019//end group II 
 #define IDE_StatusBar                   2501
 
 // Next default values for new objects

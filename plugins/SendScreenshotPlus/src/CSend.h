@@ -58,6 +58,8 @@ class CSend {
 		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2t(file);};
 		void SetDescription(TCHAR* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_tstrdup(descr);};
 		void SetContact(MCONTACT hContact);
+		char* GetURL(){return m_URL;};
+		char* GetURLthumbnail(){return m_URLthumb;};
 		BYTE GetEnableItem() {return m_EnableItem;};
 		TCHAR* GetErrorMsg() {return m_ErrorMsg;};
 
@@ -67,6 +69,8 @@ class CSend {
 		bool			m_bSilent;
 		TCHAR*			m_pszFile;
 		TCHAR*			m_pszFileDesc;
+		char*			m_URL;
+		char*			m_URLthumb;
 		static int OnSend(void *obj, WPARAM wParam, LPARAM lParam);
 		TCHAR*			m_pszSendTyp;		//hold string for error mess
 		char*			m_pszProto;			//Contact Proto Modul

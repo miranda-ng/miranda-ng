@@ -36,12 +36,10 @@ CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	m_EnableItem		= 0 ; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= LPGENT("FTPFile transfer");
 	m_pszFileName		= NULL;
-	m_URL				= NULL;
 }
 
 CSendFTPFile::~CSendFTPFile(){
 	mir_free(m_pszFileName);
-	mir_free(m_URL);
 }
 
 //---------------------------------------------------------------------------
@@ -70,7 +68,6 @@ int CSendFTPFile::Send()
 }
 
 void CSendFTPFile::SendThread() {
-	mir_freeAndNil(m_URL);
 
 	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName,1);
 	if (ret != 0) {
@@ -81,7 +78,7 @@ void CSendFTPFile::SendThread() {
 	//Can't delete the file since FTP File plugin will use it
 	m_bDeleteAfterSend = false;
 
-	if (m_URL && m_URL[0]!= NULL) {
+	if (m_URL && *m_URL) {/// @fixme : m_URL never set
 		svcSendMsgExit(m_URL); return;
 	}
 	Exit(ACKRESULT_FAILED);

@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "global.h"
+#define CSEND_DIALOG 8800
 
 //---------------------------------------------------------------------------
 CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
@@ -35,6 +36,8 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_bSilent(bSilent),
 	m_pszFile(NULL),
 	m_pszFileDesc(NULL),
+	m_URL(NULL),
+	m_URLthumb(NULL),
 	m_pszSendTyp(NULL),
 	m_pszProto(NULL),
 //	m_hContact(hContact), // initialized below
@@ -54,6 +57,8 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 CSend::~CSend(){
 	mir_free(m_pszFile);
 	mir_free(m_pszFileDesc);
+	mir_free(m_URL);
+	mir_free(m_URLthumb);
 	mir_free(m_szEventMsg);
 	mir_free(m_ErrorMsg);
 	mir_free(m_ErrorTitle);
@@ -88,19 +93,80 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 		mir_tcsadd(tmp,self->m_pszSendTyp);
 		SetDlgItemText(hwndDlg,IDC_HEADERBAR,tmp);
 		mir_free(tmp);
-		SendMessage(GetDlgItem(hwndDlg,IDC_HEADERBAR),WM_SETICON,ICON_BIG,(LPARAM)Skin_GetIcon(ICO_COMMON_ARROWR,1));
-		SetDlgItemText(hwndDlg,ID_edtURL,self->m_ErrorTitle);
-		if(self->m_pszFileDesc)
+		SendDlgItemMessage(hwndDlg,IDC_HEADERBAR,WM_SETICON,ICON_BIG,(LPARAM)Skin_GetIcon(ICO_COMMON_ARROWR,1));
+		SetDlgItemTextA(hwndDlg,ID_edtURL,self->m_URL);
+		if(self->m_URLthumb){
+			SetDlgItemTextA(hwndDlg,ID_edtURLthumb,self->m_URLthumb);
+		}else{
+			SetDlgItemTextA(hwndDlg,ID_edtURLthumb,"-");
+			for(int i=ID_btnThumbCopy; i<=ID_edtURLthumb; ++i){
+				EnableWindow(GetDlgItem(hwndDlg,i),FALSE);
+			}
+		}
+		if(!self->m_pszFileDesc)
+			SetDlgItemText(hwndDlg,ID_bvlDesc,self->m_ErrorTitle);
+		else
 			SetDlgItemText(hwndDlg,ID_bvlDesc,self->m_pszFileDesc);
-		SendMessage(GetDlgItem(hwndDlg,IDOK),BUTTONSETDEFAULT,1,NULL);
-		SendMessage(GetDlgItem(hwndDlg,IDOK),BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_EDIT));
-		SendMessage(GetDlgItem(hwndDlg,IDCANCEL),BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_CANCEL));
+		SendDlgItemMessage(hwndDlg,IDOK,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_COPY));
+		SendDlgItemMessage(hwndDlg,IDOK,BUTTONTRANSLATE,0,0);
+		SendDlgItemMessage(hwndDlg,IDCANCEL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_CANCEL));
+		SendDlgItemMessage(hwndDlg,IDCANCEL,BUTTONTRANSLATE,0,0);
+		for(int i=ID_btnCopy; i<=ID_btnThumbBBC2; ++i){
+			SendDlgItemMessage(hwndDlg,i,BUTTONSETASTHEMEDBTN,0,0);
+			SendDlgItemMessage(hwndDlg,i,BUTTONSETASFLATBTN,1,0);
+			switch(i){
+			case ID_btnCopy:
+			case ID_btnThumbCopy:
+				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_COPY));
+				SendDlgItemMessage(hwndDlg,i,BUTTONADDTOOLTIP,(WPARAM)LPGENT("Copy"),BATF_TCHAR);
+				break;
+			case ID_btnBBC:
+			case ID_btnThumbBBC:
+				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_BBC));
+				SendDlgItemMessage(hwndDlg,i,BUTTONADDTOOLTIP,(WPARAM)LPGENT("Copy BBCode"),BATF_TCHAR);
+				break;
+			default:
+				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_BBC2));
+				SendDlgItemMessage(hwndDlg,i,BUTTONADDTOOLTIP,(WPARAM)LPGENT("Copy BBCode w/ link"),BATF_TCHAR);
+			}
+		}
+		TranslateDialogDefault(hwndDlg);
 		return TRUE;}
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
-		case IDOK:{
-			TCHAR tmp[1024];
-			size_t len=GetDlgItemText(hwndDlg,ID_edtURL,tmp,1024);
+		case IDOK:
+		case ID_btnCopy:
+		case ID_btnThumbCopy:
+		case ID_btnBBC:
+		case ID_btnThumbBBC:
+		case ID_btnThumbBBC2:{
+			TCHAR tmp[2048];
+			int edtID=ID_edtURL;
+			int bbc=0;
+			switch(LOWORD(wParam)){
+			case ID_btnThumbBBC2: ++bbc;
+			case ID_btnThumbBBC: ++bbc;
+			case ID_btnThumbCopy:
+				edtID=ID_edtURLthumb;
+				break;
+			case ID_btnBBC: ++bbc;
+				break;
+			}
+			size_t len;
+			if(bbc){
+				if(bbc==1){
+					memcpy(tmp,_T("[img]"),5*sizeof(TCHAR)); len=5;
+					len+=GetDlgItemText(hwndDlg,edtID,tmp+len,2048-11);
+					memcpy(tmp+len,_T("[/img]"),7*sizeof(TCHAR)); len+=7;
+				}else{
+					memcpy(tmp,_T("[url="),5*sizeof(TCHAR)); len=5;
+					len+=GetDlgItemText(hwndDlg,ID_edtURL,tmp+len,1024);
+					memcpy(tmp+len,_T("][img]"),6*sizeof(TCHAR)); len+=6;
+					len+=GetDlgItemText(hwndDlg,edtID,tmp+len,1024);
+					memcpy(tmp+len,_T("[/img][/url]"),13*sizeof(TCHAR)); len+=12;
+				}
+			}else
+				len=GetDlgItemText(hwndDlg,edtID,tmp,2048);
 			int retries=3;
 			do{
 				if(!OpenClipboard(hwndDlg)){
@@ -116,7 +182,8 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 				CloseClipboard();
 				break;
 			}while(--retries);
-			DestroyWindow(hwndDlg);
+			if(LOWORD(wParam)==IDOK)
+				DestroyWindow(hwndDlg);
 			return TRUE;}
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
@@ -130,9 +197,9 @@ void CSend::svcSendMsgExit(const char* szMessage) {
 		Exit(ACKRESULT_SUCCESS); return;
 	}
 	if(!m_hContact){
-		mir_free(m_ErrorTitle), m_ErrorTitle=mir_a2t(szMessage);
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UResultForm),0, ResultDialogProc,(LPARAM)this);
-		Exit(ACKRESULT_SUCCESS); return;
+		if(!m_pszFileDesc)
+			m_pszFileDesc=mir_a2t(szMessage);
+		Exit(CSEND_DIALOG); return;
 	}
 	if(m_ChatRoom){
 		TCHAR* tmp = mir_a2t(szMessage);
@@ -339,6 +406,11 @@ void CSend::Exit(unsigned int Result) {
 	if(!m_bSilent){
 		bool err = true;
 		switch(Result) {
+			case CSEND_DIALOG:
+				SkinPlaySound("FileDone");
+				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UResultForm),0, ResultDialogProc,(LPARAM)this);
+				err = false;
+				break;
 			case ACKRESULT_SUCCESS:
 			case GC_RESULT_SUCCESS:
 				SkinPlaySound("FileDone");

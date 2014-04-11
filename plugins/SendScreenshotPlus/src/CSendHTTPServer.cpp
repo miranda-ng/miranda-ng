@@ -39,14 +39,12 @@ CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	m_EnableItem		= SS_DLG_DESCRIPTION ; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= LPGENT("HTTPServer transfer");
 	m_pszFileName		= NULL;
-	m_URL				= NULL;
 	m_fsi_pszSrvPath	= NULL;
 	m_fsi_pszRealPath	= NULL;
 }
 
 CSendHTTPServer::~CSendHTTPServer(){
 	mir_free(m_pszFileName);
-	mir_free(m_URL);
 	mir_free(m_fsi_pszSrvPath);
 	mir_free(m_fsi_pszRealPath);
 }
@@ -85,12 +83,12 @@ int CSendHTTPServer::Send()
 
 void CSendHTTPServer::SendThread() {
 	INT_PTR ret;
-	mir_freeAndNil(m_URL);
 
 	if (ServiceExists(MS_HTTP_GET_LINK)) {
 		//patched plugin version
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 		if (!ret) {
+			mir_free(m_URL);
 			m_URL = (char*)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, NULL);
 		}
 	}
@@ -110,7 +108,7 @@ void CSendHTTPServer::SendThread() {
 	//Share the file by HTTP Server plugin, SendSS does not own the file anymore = auto-delete won't work
 	m_bDeleteAfterSend = false;
 
-	if (m_URL && m_URL[0]!= NULL) {
+	if (m_URL && *m_URL) {
 		svcSendMsgExit(m_URL); return;
 	}
 	Exit(ACKRESULT_FAILED);
