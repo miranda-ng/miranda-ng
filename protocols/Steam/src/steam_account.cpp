@@ -123,8 +123,8 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 
 void CSteamProto::LogInThread(void* param)
 {
-	if (this->IsOnline())
-		return;
+	while (m_bTerminated && m_hPollingThread != NULL)
+		Sleep(500);
 
 	ptrA token(getStringA("TokenSecret"));
 	if (!token || lstrlenA(token) == 0)
@@ -194,12 +194,12 @@ void CSteamProto::LogOutThread(void*)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
 
-	while (m_hPollingThread != NULL)
+	while (m_bTerminated && m_hPollingThread != NULL)
 		Sleep(500);
 
-	m_bTerminated = false;
 	debugLogA("CSteamProto::LogOutThread: call SteamWebApi::LoginApi::Logoff");
 	SteamWebApi::LoginApi::Logoff(m_hNetlibUser, token, sessionId);
 
 	delSetting("SessionID");
+	m_bTerminated = false;
 }

@@ -11,7 +11,7 @@ WORD CSteamProto::SteamToMirandaStatus(int state)
 	case 3: //Away
 		return ID_STATUS_AWAY;
 	case 4: //Playing
-		return PF2_OUTTOLUNCH;
+		return ID_STATUS_OUTTOLUNCH;
 		/*case 5: //Looking to trade
 		return "trade";
 		case 6: //Looking to play

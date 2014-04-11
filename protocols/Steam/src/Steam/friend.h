@@ -27,6 +27,8 @@ namespace SteamWebApi
 			DWORD lastEvent;
 
 		public:
+			Summary() : gameId(0), created(0), lastEvent(0) { }
+
 			const char *GetSteamId() const { return steamId.c_str(); }
 			const wchar_t *GetNickname() const { return nickname.c_str(); }
 			const wchar_t *GetRealname() const { return realname.c_str(); }
@@ -114,7 +116,7 @@ namespace SteamWebApi
 					item->gameInfo = json_as_string(node);
 
 					node = json_get(child, "gameid");
-					item->gameId = json_as_int(node);
+					item->gameId = atol(ptrA(mir_u2a(json_as_string(node))));
 
 					summaries->items.push_back(item);
 				}

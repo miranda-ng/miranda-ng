@@ -68,30 +68,57 @@ void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 me
 
 				if (IsMe(steamId))
 				{
-					debugLogA("Change own status to %i", status);
-					WORD oldStatus = m_iStatus;
-					m_iStatus = m_iDesiredStatus = status;
-					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+					if (status == ID_STATUS_OFFLINE)
+						continue;
+
+					if (status != m_iStatus)
+					{
+						debugLogA("Change own status to %i", status);
+						WORD oldStatus = m_iStatus;
+						m_iStatus = m_iDesiredStatus = status;
+						ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+					}
 				}
-				else
+				/*else
 				{
 					MCONTACT hContact = FindContact(steamId);
 					if (hContact)
 						SetContactStatus(hContact, status);
+				}*/
 
-				}
-				
 				if (updatedIds.IsEmpty())
 					updatedIds.Append(steamId);
 				else
 					updatedIds.AppendFormat(",%s", steamId);
 			}
 			break;
+
+		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_ADDED:
+			{
+				SteamWebApi::PollApi::Relationship *crs = (SteamWebApi::PollApi::Relationship*)item;
+
+				const char *steamId = crs->GetSteamId();
+				if (updatedIds.IsEmpty())
+					updatedIds.Append(steamId);
+				else
+					updatedIds.AppendFormat(",%s", steamId);
+			}
+			break;
+
+		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_DELETED:
+			{
+				SteamWebApi::PollApi::Relationship *crs = (SteamWebApi::PollApi::Relationship*)item;
+
+				const char *steamId = crs->GetSteamId();
+				MCONTACT hContact = FindContact(steamId);
+				if (hContact)
+					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			}
+			break;
 		}
 	}
 
 	if (!updatedIds.IsEmpty())
-		//ForkThread(&CSteamProto::UpdateContactsThread, mir_strdup(updatedIds));
 		UpdateContactsThread(mir_strdup(updatedIds));
 }
 
@@ -109,17 +136,10 @@ void CSteamProto::PollingThread(void*)
 		PollServer(token, sessionId, messageId, &pollResult);
 		
 		if (pollResult.IsNeedRelogin())
+		{
 			debugLogA("CSteamProto::PollingThread: need to relogin");
-		/*{
-			SteamWebApi::LoginApi::LoginResult loginResult;
-			SteamWebApi::LoginApi::Logon(m_hNetlibUser, token, &loginResult);
-
-			if (!loginResult.IsSuccess())
-				break;
-
-			sessionId = mir_strdup(loginResult.GetSessionId());
-			setString("SessionID", sessionId);
-		}*/
+			SetStatus(ID_STATUS_OFFLINE);
+		}
 
 		if (!pollResult.IsSuccess())
 		{

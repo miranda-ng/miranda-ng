@@ -48,17 +48,22 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 	// only for contacts
 	if (hContact)
 	{
-		WORD status = SteamToMirandaStatus(contact->GetState());
-		setWord(hContact, "Status", status);
 		setDword(hContact, "LastEventDateTS", contact->GetLastEvent());
 
-		if (status == ID_STATUS_OUTTOLUNCH)
+		DWORD gameId = contact->GetGameId();
+		if (gameId >0)
 		{
+			setWord(hContact, "Status", ID_STATUS_OUTTOLUNCH);
 			db_set_ws(hContact, "CList", "StatusMsg", contact->GetGameInfo());
+
+			setWString(hContact, "GameInfo", contact->GetGameInfo());
 			setDword(hContact, "GameID", contact->GetGameId());
 		}
 		else
 		{
+			WORD status = SteamToMirandaStatus(contact->GetState());
+			setWord(hContact, "Status", status);
+
 			db_unset(hContact, "CList", "StatusMsg");
 			delSetting(hContact, "GameID");
 		}
@@ -144,6 +149,8 @@ void CSteamProto::UpdateContactsThread(void *arg)
 		{
 			hContact = this->FindContact(contact->GetSteamId());
 			if (hContact == NULL)
+				hContact = AddContact(contact);
+			if (hContact == NULL)
 				return;
 		}
 
@@ -163,7 +170,7 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Summary *contact)
 		setString(hContact, "SteamID", contact->GetSteamId());
 
 		// update info
-		UpdateContact(hContact, contact);
+		//UpdateContact(hContact, contact);
 
 		// move to default group
 		DBVARIANT dbv;
@@ -212,7 +219,9 @@ void CSteamProto::LoadContactListThread(void*)
 				for (size_t i = 0; i < summaries.GetItemCount(); i++)
 				{
 					const SteamWebApi::FriendApi::Summary *summary = summaries.GetAt(i);
-					AddContact(summary);
+					MCONTACT hContact = AddContact(summary);
+					if (hContact)
+						UpdateContact(hContact, summary);
 				}
 			}
 		}

@@ -226,36 +226,15 @@ int CSteamProto::SetStatus(int new_status)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		if (!Miranda_Terminated())
-		{
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
-			//this->CloseAllChatSessions();
-		}
-
-		return 0;
 	}
-	else
+	else if (old_status == ID_STATUS_OFFLINE)
 	{
-		if (old_status == ID_STATUS_OFFLINE/* && !this->IsOnline()*/)
-		{
-			m_iStatus = ID_STATUS_CONNECTING;
-			ForkThread(&CSteamProto::LogInThread, NULL);
-		}
-		//else
-		//{
-			//if (IsOnline())
-			//{
-			//	ForkThread(&CSteamProto::SetServerStatusThread, (void*)new_status);
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-			//	return 0;
-			//}
-
-			//ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-			//return 0;
-		//}
+		ForkThread(&CSteamProto::LogInThread, NULL);
 	}
-
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 	return 0;
 }

@@ -13,7 +13,9 @@ namespace SteamWebApi
 			POOL_TYPE_MYMESSAGE,
 			POOL_TYPE_TYPING,
 			POOL_TYPE_STATE,
-			//POOL_TYPE_RELATIONSHIP
+			POOL_TYPE_CONTACT_AUTH,
+			POOL_TYPE_CONTACT_ADDED,
+			POOL_TYPE_CONTACT_DELETED,
 		};
 
 		class PoolItem// : public Result
@@ -58,6 +60,8 @@ namespace SteamWebApi
 			int GetStatus() const { return status; }
 			const wchar_t *GetNickname() const { return nickname.c_str(); }
 		};
+
+		class Relationship : public PoolItem { friend PollApi; };
 
 		class PollResult : public Result
 		{
@@ -170,16 +174,35 @@ namespace SteamWebApi
 
 						item = state;
 					}
-					/*else if (!lstrcmpi(type, L"personarelationship"))
+					else if (!lstrcmpi(type, L"personarelationship"))
 					{
-						type = POOL_TYPE_RELATIONSHIP;
-					}*/
+						Relationship *crs = new Relationship();
+
+						node = json_get(child, "persona_state");
+						int state = json_as_int(node);
+						if (state == 0)
+						{
+							// contact was removed
+							crs->type = POOL_TYPE_CONTACT_DELETED;
+							
+						}
+						else if (state == 2)
+						{
+							// auth request
+							crs->type = POOL_TYPE_CONTACT_AUTH;
+						}
+						else if (state == 3)
+						{
+							// add to list
+							crs->type = POOL_TYPE_CONTACT_ADDED;
+						}
+					}
 					/*else if (!lstrcmpi(type, L"leftconversation"))
 					{
 					}*/
 					else
 					{
-						int z = 0;
+						continue;
 					}
 
 					node = json_get(child, "steamid_from");
