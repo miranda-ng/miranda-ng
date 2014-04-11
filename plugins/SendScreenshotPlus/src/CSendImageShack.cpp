@@ -90,6 +90,7 @@ void CSendImageShack::SendThread() {
 				}else{
 					mir_freeAndNil(m_URLthumb);
 				}
+				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)reply);
 				svcSendMsgExit(url); return;
 			}else{/// check error mess from server
 				url=GetHTMLContent(reply->pData,"<error ","</error>");

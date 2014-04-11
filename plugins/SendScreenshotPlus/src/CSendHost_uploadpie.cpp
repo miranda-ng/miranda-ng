@@ -69,8 +69,6 @@ void CSendHost_UploadPie::SendThread(void* obj)
 	if(reply){
 		if(reply->resultCode>=200 && reply->resultCode<300){
 			reply->pData[reply->dataLength]='\0';/// make sure its null terminated
-			
-			OutputDebugStringA(reply->pData);
 			char* url=reply->pData;
 			do{
 				char* pos;
@@ -87,6 +85,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 			}while(url);
 			if(url){
 				mir_free(self->m_URL), self->m_URL=mir_strdup(url);
+				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)reply);
 				self->svcSendMsgExit(url); return;
 			}else{/// check error mess from server
 				TCHAR* err=mir_a2t(reply->pData);
