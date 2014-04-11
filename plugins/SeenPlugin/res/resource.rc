@@ -136,7 +136,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,55,48,50,14
     LTEXT           "You missed following contacts:",IDC_TEXT,6,6,148,10
-    CTEXT           "Test\nTest",IDC_CONTACTS,6,22,148,16
+    CTEXT           "",IDC_CONTACTS,6,22,148,16
 END
 
 IDD_HISTORY DIALOGEX 0, 0, 200, 120
