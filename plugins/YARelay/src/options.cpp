@@ -191,9 +191,9 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.position = -1;
-	odp.pszGroup = LPGEN("Plugins");
+	odp.pszGroup = LPGEN("Message Sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.pszTitle = LPGEN("yaRelay");
+	odp.pszTitle = LPGEN("Messages forwarding");
 	odp.pfnDlgProc = OptionsFrameProc;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
