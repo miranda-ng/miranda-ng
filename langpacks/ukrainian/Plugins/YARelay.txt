@@ -59,7 +59,7 @@
 !ВСІМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРЕСИЛАТИ!
-[Plugins]
-Плагіни
-[yaRelay]
-YARelay
+[Message Sessions]
+Бесіди
+[Messages forwarding]
+Переадресація

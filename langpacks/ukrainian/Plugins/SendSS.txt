@@ -45,12 +45,12 @@
 &Закрити
 [Edit]
 Змінити
-[C&lient Area]
-В&міст
 [Caption:]
 Заголовок:
 [Size (HxW):]
 Розмір (ВхШ):
+[C&lient Area]
+В&міст
 [Target Tool]
 Інструмент прицілювання
 [Result]
@@ -149,10 +149,6 @@ HTTP-з'єднання SendSS
 Ціль робочий стіл
 [Default]
 За замовчанням
-[Overlay on]
-Оверлей ввімк.
-[Overlay off]
-Оверлей вимк.
 [Help]
 Довідка
 [Open Folder]
@@ -171,8 +167,6 @@ HTTP-з'єднання SendSS
 Наступне
 [Update]
 Оновити
-[Apply]
-Застосувати
 [Down arrow]
 Стрілка вниз
 [Buttons]
@@ -203,6 +197,8 @@ HTTP-з'єднання SendSS
 <Тільки зберегти>
 [File Transfer]
 Передача файлу
+[FTP File]
+Файл на FTP
 [Information]
 Інформація
 [Fill description textbox.]

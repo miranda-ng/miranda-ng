@@ -1,5 +1,4 @@
-﻿[Jabber]
-[X400]
+﻿[X400]
 [JID:]
 [Bytestream Proxy not available]
 [JID]

@@ -9,7 +9,6 @@
 [HTTPServer transfer]
 [Image upload]
 [E-mail]
-[FTP File]
 [Dropbox]
 [ImageShack]
 [for Client area ]

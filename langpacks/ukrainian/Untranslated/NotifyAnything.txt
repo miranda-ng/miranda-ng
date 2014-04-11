@@ -1,2 +1,0 @@
-﻿[NotifyAnything]
-[Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]

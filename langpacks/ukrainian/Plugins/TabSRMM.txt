@@ -422,7 +422,7 @@ ID користувача в панелі статусу
 [Miscellaneous options]
 Різне
 [Setup status modes for automatic tab creation...]
-Статуси для автоматичного створення вкладок
+Статуси для автоматичного створення вкладок...
 [Limit nicknames on tabs to]
 Обмежити імена на вкладках до
 [ESC key behavior]
@@ -532,7 +532,7 @@ ID користувача в панелі статусу
 [Revert to Default]
 Скинути на замовчання
 [Reset all templates...]
-Скинути всі шаблони
+Скинути всі шаблони...
 [Default width for fixed (single row) tabs]
 Стандартна ширина для фіксованих (один рядок) вкладок
 [Tab text label padding vertical]
@@ -868,7 +868,7 @@ Esc закриває сесію (інакше - згортає)
 [Show Status Bar]
 Показувати рядок статусу
 [Info Panel...]
-Інфо-панель
+Інфо-панель...
 [Toolbar]
 Панель кнопок
 [Show toolbar]
@@ -908,7 +908,7 @@ Esc закриває сесію (інакше - згортає)
 [Help]
 Довідка
 [About TabSRMM...]
-Про плагін TabSRMM
+Про плагін TabSRMM...
 [Protocol Button]
 Меню контакту
 [Info button]
@@ -1080,7 +1080,7 @@ TabSRMM: Набирає
 [&Messaging settings...]
 &Налаштування бесід...
 [&Send later job list...]
-&Завдання для відправки з затримкою
+&Завдання для відправки з затримкою...
 [Message from %s]
 Повідомлення від %s
 [signed off.]
@@ -1706,7 +1706,7 @@ TabSRMM: %s
 [Activate a minimized window when a new tab is created inside it]
 Відкривати згорнуте вікно при створенні нової вкладки
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Автозміна вкладок при нових повідомленнях (без Aero Peek)
+Автоперемикання вкладок при нових повідомленнях (без Aero Peek)
 [Remember and set keyboard layout per contact]
 Запам'ятовувати розкладку клавіатури поконтактно
 [Close button only hides message windows]
