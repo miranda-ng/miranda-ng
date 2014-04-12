@@ -10,6 +10,8 @@
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 Пры з'яўленні кантакту пасля
+[or comes online for the first time]
+ці выходзіць у сетку ў першы раз
 [Show a popup]
 Паказваць усплывальнае вакно
 [Add an event (flashing icon) to the contact]
@@ -22,16 +24,14 @@
 Адкрыць вакно гутаркі
 [Return notification]
 Абвестка пра вяртанне
-[When a contact is absent for]
-Калі кантакт адсутнічае
 [Long time no see]
 Даўно не бачыў
-[or comes online for the first time]
-ці выходзіць у сетку ў першы раз
-[Enable "Miss you" feature]
-Уключыць функцыю "Чакаю цябе"
+[When a contact is absent for]
+Калі кантакт адсутнічае
 [Hide when no messages for]
 Схаваць, калі няма паведамленняў
+[Enable "Miss you" feature]
+Уключыць функцыю "Чакаю цябе"
 [Colors]
 Колеры
 [Background]

@@ -1039,7 +1039,7 @@ Une des actions de popup a été désactivée.\nNotez que ces options peuvent av
 Fichier reçu
 [No description given]
 
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 
 [Unknown event]
 Évènement inconnu

@@ -10,6 +10,8 @@
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 
+[or comes online for the first time]
+
 [Show a popup]
 
 [Add an event (flashing icon) to the contact]
@@ -22,15 +24,13 @@
 
 [Return notification]
 
-[When a contact is absent for]
-
 [Long time no see]
 
-[or comes online for the first time]
-
-[Enable "Miss you" feature]
+[When a contact is absent for]
 
 [Hide when no messages for]
+
+[Enable "Miss you" feature]
 
 [Colors]
 Colores

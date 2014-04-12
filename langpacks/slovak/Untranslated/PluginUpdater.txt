@@ -44,6 +44,7 @@
 [Component Name]
 [State]
 [Plugins]
+[Languages]
 [Other]
 [List is empty.]
 [List loading already started!]

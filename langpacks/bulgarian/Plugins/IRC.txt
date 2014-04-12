@@ -8,16 +8,46 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Internet Relay Chat (IRC) в Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
+[Default network]
+Стандартна мрежа
+[Enable]
+Включване
+[Server name]
+Име на сървъра
+[Internet address]
+Интернет адрес
+[SSL]
+SSL
+[Port range]
+Портов обхват
+[Password]
+Парола
 [&Add]
 Добавяне
 [&Edit]
 Редактиране
 [&Del]
 Изтриване
-[Enable]
-Включване
+[User info - Required]
+Необходима информация
+[Nick]
+Прякор
+[Alternative nick]
+Заместващ прякор
+[Full name (e-mail)]
+Име (имейл)
+[User ID (Ident)]
+
+[Ident]
+
+[System]
+
+[Port]
+Порт
 [only while connecting]
 само при свързване
+[Other]
+Друго
 [Force visible (-i)]
 Винаги видим (-i)
 [Rejoin channel if kicked]
@@ -40,40 +70,10 @@
 
 [Update online statuses for users]
 Обновяване на потреб. състояние
-[Update statuses in channel nick list]
-Обновяване в списъка с прякори
-[Internet address]
-Интернет адрес
-[Port range]
-Портов обхват
-[Nick]
-Прякор
-[User ID (Ident)]
-
-[Full name (e-mail)]
-Име (имейл)
-[Password]
-Парола
-[Server name]
-Име на сървъра
-[Alternative nick]
-Заместващ прякор
-[Ident]
-
-[System]
-
-[Port]
-Порт
-[Default network]
-Стандартна мрежа
-[User info - Required]
-Необходима информация
-[Other]
-Друго
 [Check every (s):]
 Проверяване през (сек):
-[SSL]
-SSL
+[Update statuses in channel nick list]
+Обновяване в списъка с прякори
 [Don't check if more than (users):]
 Без проверка ако потр. са > от:
 [User information]
@@ -226,7 +226,7 @@ CTCP информация
 Чатове клиент-с-клиент
 [Send mode:]
 Режим на изпращане:
-[Packet size (b):]
+[Packet size (bytes):]
 Размер на пакета (б):
 [Get IP address from server]
 Назначаване на IP от сървъра
@@ -276,8 +276,6 @@ DCC
 Сървър:
 [Password:]
 Парола:
-[Alternate nick]
-Заместващ прякор
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP заявка от %s
@@ -522,7 +520,7 @@ Latin I
 Редактиране на игнориране
 [Account]
 Акаунт
-[DCC'n CTCP]
+[DCC and CTCP]
 
 [Advanced]
 Разширени

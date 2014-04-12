@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+デフォルトネットワーク
+[Server name]
+サーバー名
+[Internet address]
+インターネットアドレス
+[Port range]
+ポートの範囲
 [&Add]
 追加 (&A)
 [&Edit]
 編集 (&E)
 [&Del]
 削除 (&D)
+[User info - Required]
+ユーザー情報 - 必須
+[Nick]
+ニックネーム
+[Alternative nick]
+代替ニック
+[Full name (e-mail)]
+氏名 ( 電子メール )
+[User ID (Ident)]
+ユーザーID ( 識別 )
+[Ident]
+識別
+[System]
+システム
 [only while connecting]
 接続中のみ
+[Other]
+その他
 [Force visible (-i)]
 強制可視 ( - i )
 [Rejoin channel if kicked]
@@ -33,34 +57,10 @@
 ' 旧スタイル 'モードを変更
 [Update online statuses for users]
 ユーザーのオンラインステータスを更新
-[Update statuses in channel nick list]
-チャンネルニックリストステータス更新
-[Internet address]
-インターネットアドレス
-[Port range]
-ポートの範囲
-[Nick]
-ニックネーム
-[User ID (Ident)]
-ユーザーID ( 識別 )
-[Full name (e-mail)]
-氏名 ( 電子メール )
-[Server name]
-サーバー名
-[Alternative nick]
-代替ニック
-[Ident]
-識別
-[System]
-システム
-[Default network]
-デフォルトネットワーク
-[User info - Required]
-ユーザー情報 - 必須
-[Other]
-その他
 [Check every (s):]
 必ずチェック (s):
+[Update statuses in channel nick list]
+チャンネルニックリストステータス更新
 [Don't check if more than (users):]
 ユーザー数の超過をチェックしない:
 [User information]
@@ -181,7 +181,7 @@ Op のみがトピックを設定
 クライアント対クライアントチャット
 [Send mode:]
 送信モード:
-[Packet size (b):]
+[Packet size (bytes):]
 パケットサイズ (b):
 [Get IP address from server]
 サーバーから IP アドレスを取得
@@ -227,8 +227,6 @@ DCC
 (*) このマスクに空白を設定すると全ネットワークが対象
 [Password:]
 パスワード:
-[Alternate nick]
-代替ニック
 [CTCP chat request from %s]
 %s からの CTCP チャットリクエスト
 [%s sets mode %s]
@@ -427,7 +425,7 @@ WhoIs
 無視を追加
 [Edit ignore]
 無視を編集
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC と CTCP
 [Advanced]
 詳細

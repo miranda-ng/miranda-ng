@@ -8,16 +8,46 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 
 ;file \protocols\IRCG\res\IRC.rc
+[Default network]
+Réseau par défaut
+[Enable]
+Activer
+[Server name]
+Nom du Serveur
+[Internet address]
+Adresse Internet
+[SSL]
+SSL
+[Port range]
+Ports
+[Password]
+Mot de passe
 [&Add]
 &Ajouter
 [&Edit]
 &Modifier
 [&Del]
 &Effacer
-[Enable]
-Activer
+[User info - Required]
+Info usager - Obligatoire
+[Nick]
+Pseudo
+[Alternative nick]
+Pseudo alternatif
+[Full name (e-mail)]
+Nom (e-mail)
+[User ID (Ident)]
+Identifiant
+[Ident]
+Ident.
+[System]
+Système
+[Port]
+Port
 [only while connecting]
 seulement à la connexion
+[Other]
+Autre
 [Force visible (-i)]
 Forcer visibilité (-i)
 [Rejoin channel if kicked]
@@ -40,40 +70,10 @@ Rejoindre auto. si invité
 Changer mode "à l'ancienne"
 [Update online statuses for users]
 Mise à jour de l'état des contacts
-[Update statuses in channel nick list]
-Mise à jour de l'état dans la nicklist
-[Internet address]
-Adresse Internet
-[Port range]
-Ports
-[Nick]
-Pseudo
-[User ID (Ident)]
-Identifiant
-[Full name (e-mail)]
-Nom (e-mail)
-[Password]
-Mot de passe
-[Server name]
-Nom du Serveur
-[Alternative nick]
-Pseudo alternatif
-[Ident]
-Ident.
-[System]
-Système
-[Port]
-Port
-[Default network]
-Réseau par défaut
-[User info - Required]
-Info usager - Obligatoire
-[Other]
-Autre
 [Check every (s):]
 Vérifier toutes les (secondes):
-[SSL]
-SSL
+[Update statuses in channel nick list]
+Mise à jour de l'état dans la nicklist
 [Don't check if more than (users):]
 Ne pas vérifier si plus de (usagers):
 [User information]
@@ -226,7 +226,7 @@ Protocole client-à-client (CTCP)
 Chats client à client
 [Send mode:]
 Mode d'envoi:
-[Packet size (b):]
+[Packet size (bytes):]
 Taille du paquet:
 [Get IP address from server]
 Adresse IP du serveur
@@ -276,8 +276,6 @@ Ignorer les évènements
 Serveur:
 [Password:]
 Passe:
-[Alternate nick]
-Pseudo alternatif
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
@@ -522,7 +520,7 @@ Ignorer le masque
 
 [Account]
 Compte
-[DCC'n CTCP]
+[DCC and CTCP]
 
 [Advanced]
 Avancé

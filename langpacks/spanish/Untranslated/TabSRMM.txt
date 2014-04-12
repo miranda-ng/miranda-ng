@@ -413,7 +413,7 @@
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 [TabSRMM warning message]
 [No description given]
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 [Unknown event]
 [New messages: ]
 [Unknown module or contact]

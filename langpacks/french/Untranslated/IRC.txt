@@ -14,7 +14,7 @@
 [Flags]
 [Add ignore]
 [Edit ignore]
-[DCC'n CTCP]
+[DCC and CTCP]
 [Authentificate nick]
 [Identify nick]
 [Register nick]

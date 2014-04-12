@@ -58,19 +58,35 @@ Légende:
 Taille (HxW):
 [Target Tool]
 
+[Result]
+
+[&Copy]
+
+[Close]
+
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+
+[%s requires a valid contact!]
+
+[Error]
+Erreur
 [GCHAT error]
 
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
-[Error]
-Erreur
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 
 [MAPI error (%i):\n%s.]
+;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
+[Dropbox transfer]
+
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 
 [The specified attachment was not found]
@@ -99,17 +115,24 @@ Erreur
 
 [Unknown Error]
 
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+
 [Could not start the HTTP Server plugin.]
 Impossible de lancer le plugin "serveur HTTP".
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Image upload]
+
 [Upload server did not respond timely.]
 
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
@@ -220,6 +243,8 @@ Transfert de fichiers
 [E-mail]
 Courriel
 [FTP File]
+
+[Dropbox]
 
 [ImageShack]
 

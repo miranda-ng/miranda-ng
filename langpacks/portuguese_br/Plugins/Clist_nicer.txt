@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [About CList Nicer+]
@@ -425,9 +425,9 @@ Geral
 Cor do Texto
 [Show menu]
 Menu Exibir
-[Show / hide offline contacts]
-Mostrar / ocultar os contatos offline
-[Toggle group mode]
+[Hide offline contacts]
+Ocultar os contatos offline
+[Enable group mode]
 Alternar modo de grupo
 [Find and add contacts]
 Localizar e adicionar contatos
@@ -435,7 +435,7 @@ Localizar e adicionar contatos
 Contas
 [Open preferences]
 Abrir Preferências
-[Toggle sounds]
+[Disable sounds]
 Alternar sons
 [Minimize contact list]
 Minimizar a lista de contatos
@@ -529,6 +529,8 @@ Mostrar alternar online/offline
 Alternar grupos
 [Find contacts]
 Procurar contatos
+[Toggle sounds]
+Alternar sons
 [Show TabSRMM session list]
 Mostrar lista de sessão TabSRMM
 [Show TabSRMM menu]

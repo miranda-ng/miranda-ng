@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+Varsayılan ağ
+[Server name]
+Sunucu adı
+[Internet address]
+Internet adresi
+[Port range]
+Port aralığı
 [&Add]
 &Ekle
 [&Edit]
 Düz&elt
 [&Del]
 &Sil
+[User info - Required]
+Kullanıcı bilgisi - Gerekli
+[Nick]
+Kısa ad
+[Alternative nick]
+Diğer kısa ad
+[Full name (e-mail)]
+Tam ad (e-posta)
+[User ID (Ident)]
+Kullanıcı Kimliği
+[Ident]
+Kimlik
+[System]
+Sistem
 [only while connecting]
 yalnız bağlanırken
+[Other]
+Diğer
 [Force visible (-i)]
 Görünürü dayat (-i)
 [Rejoin channel if kicked]
@@ -33,34 +57,10 @@ Davetlere kendiliğinden katıl
 'Eski tarz' kip değişimi
 [Update online statuses for users]
 Kişilerin çevrim içi durumlarını güncelle
-[Update statuses in channel nick list]
-Kanal kısa ad listesindeki durumları güncelle
-[Internet address]
-Internet adresi
-[Port range]
-Port aralığı
-[Nick]
-Kısa ad
-[User ID (Ident)]
-Kullanıcı Kimliği
-[Full name (e-mail)]
-Tam ad (e-posta)
-[Server name]
-Sunucu adı
-[Alternative nick]
-Diğer kısa ad
-[Ident]
-Kimlik
-[System]
-Sistem
-[Default network]
-Varsayılan ağ
-[User info - Required]
-Kullanıcı bilgisi - Gerekli
-[Other]
-Diğer
 [Check every (s):]
 Şu aralıkla denetle:
+[Update statuses in channel nick list]
+Kanal kısa ad listesindeki durumları güncelle
 [Don't check if more than (users):]
 Şundan fazla kullanıcı varsa denetleme:
 [User information]
@@ -175,7 +175,7 @@ Dış IP adresini el ile ayarla:
 İstemci-İstemci Sohbetleri
 [Send mode:]
 Gönderme kipi:
-[Packet size (b):]
+[Packet size (bytes):]
 Pekt boyutu (b):
 [Get IP address from server]
 IP adresini sunucudan al
@@ -221,8 +221,6 @@ Etkinlikleri yoksay
 (*) Bu maskenin tüm ağlarda çalışması için boş bırakın
 [Password:]
 Parola:
-[Alternate nick]
-Kısa adı değiştir
 [CTCP chat request from %s]
 %s tarafından CTCP sohbet isteği
 [%s sets mode %s]
@@ -415,7 +413,7 @@ Bayraklar
 Yoksay ekle
 [Edit ignore]
 Yoksayı düzenle
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC CTCP
 [Advanced]
 Gelişmiş

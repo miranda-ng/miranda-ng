@@ -1028,7 +1028,7 @@ TabSRMM предупреждение
 Входящи файлове
 [No description given]
 Няма описание
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 
 [Unknown event]
 Неизвестно събитие

@@ -94,8 +94,8 @@ Fortsetzen
 Stopp
 [Main]
 Allgemein
-[Plugins]
-Plugins
+[Events]
+Ereignisse
 [File As Message...]
 Datei als Nachricht...
 ;file \plugins\FileAsMessage\src\main.h

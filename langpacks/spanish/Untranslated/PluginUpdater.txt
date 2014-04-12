@@ -1,1 +1,2 @@
+[Languages]
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]

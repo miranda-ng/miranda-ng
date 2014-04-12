@@ -119,6 +119,8 @@ Estado
 Plugins
 [Icons]
 Iconos
+[Languages]
+
 [Other]
 Otro
 [List is empty.]

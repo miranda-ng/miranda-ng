@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [About CList Nicer+]
@@ -443,9 +443,9 @@
 <无>
 [Show menu]
 显示菜单
-[Show / hide offline contacts]
+[Hide offline contacts]
 显示/隐藏离线联系人
-[Toggle group mode]
+[Enable group mode]
 切换群组模式
 [Find and add contacts]
 查找并添加联系人
@@ -453,7 +453,7 @@
 帐号
 [Open preferences]
 打开参数选项
-[Toggle sounds]
+[Disable sounds]
 切换声音
 [Minimize contact list]
 最小化联系人列表
@@ -551,6 +551,8 @@
 切换群组
 [Find contacts]
 查找联系人
+[Toggle sounds]
+切换声音
 [Show TabSRMM session list]
 显示 TabSRMM 会话列表
 [Show TabSRMM menu]

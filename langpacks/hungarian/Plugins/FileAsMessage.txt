@@ -9,5 +9,5 @@
 Méret:
 [bytes]
 bájt
-[Plugins]
-Beépülõk
+[Events]
+Események

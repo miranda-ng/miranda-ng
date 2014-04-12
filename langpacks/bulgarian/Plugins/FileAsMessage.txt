@@ -94,8 +94,8 @@ ms
 Стоп
 [Main]
 Основна
-[Plugins]
-Приставки
+[Events]
+Събития
 [File As Message...]
 
 ;file \plugins\FileAsMessage\src\main.h

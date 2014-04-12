@@ -94,8 +94,8 @@ Recibiendo...
 
 [Main]
 Principal
-[Plugins]
-Plugins
+[Events]
+Eventos
 [File As Message...]
 
 ;file \plugins\FileAsMessage\src\main.h

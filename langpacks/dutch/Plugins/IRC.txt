@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+Standaard netwerk
+[Server name]
+Server naam
+[Internet address]
+Internet adres
+[Port range]
+Poort bereik
 [&Add]
 Toevoegen
 [&Edit]
 B&ewerken
 [&Del]
 Verwij&deren
+[User info - Required]
+Gebruikers info - Verplicht
+[Nick]
+Bijnaam
+[Alternative nick]
+Alternatieve bijnaam
+[Full name (e-mail)]
+Volledige naam (e-mail)
+[User ID (Ident)]
+Gebruikers ID
+[Ident]
+Identificatie
+[System]
+Systeem
 [only while connecting]
 alleen tijdens verbinden
+[Other]
+Ander
 [Force visible (-i)]
 Forceer onzichtbaar (-i)
 [Rejoin channel if kicked]
@@ -29,30 +53,6 @@ Server scherm gebruiken
 Server scherm tonen bij opstarten
 [Automatically join on invite]
 Automatisch binnengaan bij uitnodiging
-[Internet address]
-Internet adres
-[Port range]
-Poort bereik
-[Nick]
-Bijnaam
-[User ID (Ident)]
-Gebruikers ID
-[Full name (e-mail)]
-Volledige naam (e-mail)
-[Server name]
-Server naam
-[Alternative nick]
-Alternatieve bijnaam
-[Ident]
-Identificatie
-[System]
-Systeem
-[Default network]
-Standaard netwerk
-[User info - Required]
-Gebruikers info - Verplicht
-[Other]
-Ander
 [User information]
 Gebruikers informatie
 [Version]
@@ -147,7 +147,7 @@ Client-to-Client Protocol
 Client-to-Client gesprekken
 [Send mode:]
 Verstuur modus:
-[Packet size (b):]
+[Packet size (bytes):]
 Pakket grootte (b):
 [Get IP address from server]
 Verkrijg IP adres van server

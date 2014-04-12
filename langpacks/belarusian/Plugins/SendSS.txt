@@ -55,12 +55,12 @@
 [Target Tool]
 Прыцэл
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Error]
+Памылка
 [GCHAT error]
 Памылка GCHAT
 [An unknown error has occurred.]
 Невядомая памылка.
-[Error]
-Памылка
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Не ўдалося ініцыяваць %s.

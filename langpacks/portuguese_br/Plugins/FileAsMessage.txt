@@ -9,5 +9,5 @@
 Tamanho:
 [bytes]
 bytes
-[Plugins]
-Plugins
+[Events]
+Eventos

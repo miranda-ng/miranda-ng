@@ -94,8 +94,8 @@
 Спыніць
 [Main]
 Галоўны
-[Plugins]
-Плагіны
+[Events]
+Падзеі
 [File As Message...]
 Файл праз паведамленне..
 ;file \plugins\FileAsMessage\src\main.h

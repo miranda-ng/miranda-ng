@@ -37,6 +37,6 @@
 [Revive]
 [Stop]
 [Main]
-[Plugins]
+[Events]
 [File As Message...]
 [File As Message]

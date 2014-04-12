@@ -7,6 +7,8 @@
 ;============================================================
 [When a contact returns after]
 当联系人返回于 
+[or comes online for the first time]
+或首次上线
 [Show a popup]
 显示弹出提示
 [Add an event (flashing icon) to the contact]
@@ -17,16 +19,14 @@
 打开用户详细资料
 [Return notification]
 返回通知
-[When a contact is absent for]
-当联系人消失
 [Long time no see]
 很久没见
-[or comes online for the first time]
-或首次上线
-[Enable "Miss you" feature]
-启用 "想你" 功能
+[When a contact is absent for]
+当联系人消失
 [Hide when no messages for]
 当无消息时隐藏于
+[Enable "Miss you" feature]
+启用 "想你" 功能
 [Background]
 背景
 [Text]

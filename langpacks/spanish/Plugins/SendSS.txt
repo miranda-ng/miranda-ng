@@ -58,19 +58,36 @@ Editar
 
 [Target Tool]
 
+[Result]
+
+[&Copy]
+
+[Close]
+
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+
+[%s requires a valid contact!]
+
+[Error]
+Error
 [GCHAT error]
 
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
-[Error]
-Error
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 
 [MAPI error (%i):\n%s.]
 
+;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
+[Dropbox transfer]
+
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 
 [The specified attachment was not found]
@@ -99,17 +116,24 @@ Error
 
 [Unknown Error]
 
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+
 [Could not start the HTTP Server plugin.]
 
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Image upload]
+
 [Upload server did not respond timely.]
 
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
@@ -220,6 +244,8 @@ Transferencia de Archivos
 [E-mail]
 E-mail
 [FTP File]
+
+[Dropbox]
 
 [ImageShack]
 

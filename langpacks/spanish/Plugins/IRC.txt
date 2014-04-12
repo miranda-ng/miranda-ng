@@ -8,16 +8,46 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 
 ;file \protocols\IRCG\res\IRC.rc
+[Default network]
+
+[Enable]
+Habilitar
+[Server name]
+
+[Internet address]
+
+[SSL]
+SSL
+[Port range]
+
+[Password]
+Contraseña
 [&Add]
 &Añadir
 [&Edit]
 &Editar
 [&Del]
 
-[Enable]
-Habilitar
+[User info - Required]
+
+[Nick]
+Apodo
+[Alternative nick]
+
+[Full name (e-mail)]
+
+[User ID (Ident)]
+
+[Ident]
+
+[System]
+Sistema
+[Port]
+Puerto
 [only while connecting]
 
+[Other]
+Otro
 [Force visible (-i)]
 
 [Rejoin channel if kicked]
@@ -40,39 +70,9 @@ Mantener viva la conexión
 
 [Update online statuses for users]
 
-[Update statuses in channel nick list]
-
-[Internet address]
-
-[Port range]
-
-[Nick]
-Apodo
-[User ID (Ident)]
-
-[Full name (e-mail)]
-
-[Password]
-Contraseña
-[Server name]
-
-[Alternative nick]
-
-[Ident]
-
-[System]
-Sistema
-[Port]
-Puerto
-[Default network]
-
-[User info - Required]
-
-[Other]
-Otro
 [Check every (s):]
 
-[SSL]
+[Update statuses in channel nick list]
 
 [Don't check if more than (users):]
 
@@ -226,7 +226,7 @@ Normal
 
 [Send mode:]
 
-[Packet size (b):]
+[Packet size (bytes):]
 
 [Get IP address from server]
 
@@ -276,8 +276,6 @@ Avisos
 
 [Password:]
 Contraseña:
-[Alternate nick]
-
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 
@@ -522,7 +520,7 @@ Cancelar
 
 [Account]
 Cuenta
-[DCC'n CTCP]
+[DCC and CTCP]
 
 [Advanced]
 Avanzado

@@ -191,7 +191,7 @@
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 [TabSRMM warning message]
 [No description given]
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 [Unknown module or contact]
 [Rich Edit file]
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]

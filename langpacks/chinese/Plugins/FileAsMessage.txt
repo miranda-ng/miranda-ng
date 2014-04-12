@@ -73,5 +73,5 @@
 正在传输中. 您真想关闭?
 [Revive]
 恢复
-[Plugins]
-插件
+[Events]
+事件

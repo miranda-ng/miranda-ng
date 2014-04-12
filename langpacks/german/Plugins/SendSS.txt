@@ -58,19 +58,36 @@ Fenstertitel:
 Größe (HxB):
 [Target Tool]
 Zielscheibe
+[Result]
+
+[&Copy]
+
+[Close]
+
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Resulting URL from\n]
+
+[%s requires a valid contact!]
+
+[Error]
+Fehler
 [GCHAT error]
 GCHAT-Fehler
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
-[Error]
-Fehler
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 Konnte %s nicht einleiten.
 [MAPI error (%i):\n%s.]
 MAPI-Fehler (%i):\n%s.
+;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
+[Dropbox transfer]
+
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 Ein Empfänger trifft auf mehr als einen der Empfänger in der Beschreibung überein und MAPI_DIALOG wurde nicht gesetzt.
 [The specified attachment was not found]
@@ -99,17 +116,24 @@ Ein Empfänger tauchte nicht in der Adressliste auf
 Der Benutzer hat einen der Dialoge abgebrochen
 [Unknown Error]
 Unbekannter Fehler
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 FTPFile-Übertragung
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nKonnte Freigabe nicht dem FTP-Datei-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+
 [Could not start the HTTP Server plugin.]
 Kann HTTP-Server-Plugin nicht starten.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nKonnte Freigabe nicht dem HTTP-Server-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Image upload]
+
 [Upload server did not respond timely.]
 Uploadserver hat nicht rechtzeitig geantwortet.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
@@ -221,6 +245,8 @@ Dateiübertragung
 E-Mail
 [FTP File]
 FTP-Datei
+[Dropbox]
+
 [ImageShack]
 ImageShack
 [Information]

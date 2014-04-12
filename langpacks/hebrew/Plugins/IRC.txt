@@ -5,12 +5,32 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+רשת ברירת מחדל
+[Server name]
+שם שרת
+[Internet address]
+כתובת אינטרנט
+[Port range]
+טווח פורטים
 [&Add]
 &הוסף
 [&Edit]
 ערוך&
+[User info - Required]
+אינפ' משתמש - נדרשת
+[Nick]
+כינוי
+[Alternative nick]
+כינוי חלופי
+[User ID (Ident)]
+מזהה משתמש
+[System]
+מערכת
 [only while connecting]
 רק אם אני מחובר
+[Other]
+אחר
 [Rejoin channel if kicked]
 התחבר מחדש אם נבעטתי
 [Rejoin channels on reconnect]
@@ -19,26 +39,6 @@
 הראה כתובת
 [Automatically join on invite]
 הצטרף אוטומטית להזמנות
-[Internet address]
-כתובת אינטרנט
-[Port range]
-טווח פורטים
-[Nick]
-כינוי
-[User ID (Ident)]
-מזהה משתמש
-[Server name]
-שם שרת
-[Alternative nick]
-כינוי חלופי
-[System]
-מערכת
-[Default network]
-רשת ברירת מחדל
-[User info - Required]
-אינפ' משתמש - נדרשת
-[Other]
-אחר
 [Version]
 גרסה
 [&Refresh]

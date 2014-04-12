@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -569,18 +569,18 @@ Pas encore supporté
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Afficher le menu
-[Show / hide offline contacts]
-Afficher/cacher les contacts Hors ligne
-[Toggle group mode]
-Basculer le mode de groupage
+[Hide offline contacts]
+Cacher les contacts Hors ligne
+[Enable group mode]
+Activer le mode de groupage
 [Find and add contacts]
 Chercher et ajouter des contacts
 [Accounts]
 Comptes
 [Open preferences]
 Ouvrir les préférences
-[Toggle sounds]
-Basculer le son
+[Disable sounds]
+Désactiver le son
 [Minimize contact list]
 Minimiser la liste de contact
 [Status menu]
@@ -696,6 +696,8 @@ Afficher En ligne/Hors ligne
 Ouvrir les groupes
 [Find contacts]
 Trouver contacts
+[Toggle sounds]
+Basculer le son
 [Show TabSRMM session list]
 Afficher la liste des sessions TabSRMM
 [Show TabSRMM menu]

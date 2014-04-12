@@ -119,6 +119,8 @@ Plugin Updater
 Приставки
 [Icons]
 Икони
+[Languages]
+
 [Other]
 Друго
 [List is empty.]

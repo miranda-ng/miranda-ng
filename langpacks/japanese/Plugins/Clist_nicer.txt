@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [About CList Nicer+]
@@ -441,9 +441,9 @@ Miranda を非表示
 < なし >
 [Show menu]
 メニューを表示
-[Show / hide offline contacts]
+[Hide offline contacts]
 オフラインコンタクトを表示 / 非表示
-[Toggle group mode]
+[Enable group mode]
 グループモードの切り替え
 [Find and add contacts]
 コンタクトを検索して追加
@@ -451,7 +451,7 @@ Miranda を非表示
 アカウント
 [Open preferences]
 プリファレンスを開く
-[Toggle sounds]
+[Disable sounds]
 音声の切り替え
 [Minimize contact list]
 コンタクトリストを最小化
@@ -549,6 +549,8 @@ RTL テキストのみ
 グループの切り替え
 [Find contacts]
 コンタクトを検索
+[Toggle sounds]
+音声の切り替え
 [Show TabSRMM session list]
 TabSRMM セッションリストを表示
 [Show TabSRMM menu]

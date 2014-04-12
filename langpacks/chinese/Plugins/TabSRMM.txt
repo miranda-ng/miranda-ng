@@ -905,8 +905,8 @@ Ctrl+Enter 发送消息 (总是启用)
 TabSRMM 警告信息
 [Incoming file]
 传入文件
-[Incoming file (invalid format]
-传入文件 (无效格式
+[Incoming file (invalid format)]
+传入文件 (无效格式)
 [Unknown event]
 未知事件
 [New messages: ]

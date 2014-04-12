@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+默认网络
+[Server name]
+服务器名称
+[Internet address]
+互联网地址
+[Port range]
+端口范围
 [&Add]
 添加(&A)
 [&Edit]
 编辑(&E)
 [&Del]
 删除(&D)
+[User info - Required]
+用户信息 - 必需
+[Nick]
+昵称
+[Alternative nick]
+替换昵称
+[Full name (e-mail)]
+完整名称 (邮箱)
+[User ID (Ident)]
+用户 ID (识别)
+[Ident]
+识别
+[System]
+系统
 [only while connecting]
 仅连接时
+[Other]
+其它
 [Force visible (-i)]
 强制可见 (-i)
 [Rejoin channel if kicked]
@@ -33,34 +57,10 @@
 '旧式' 模式变更
 [Update online statuses for users]
 更新用户在线状态
-[Update statuses in channel nick list]
-更新频道昵称列表的状态
-[Internet address]
-互联网地址
-[Port range]
-端口范围
-[Nick]
-昵称
-[User ID (Ident)]
-用户 ID (识别)
-[Full name (e-mail)]
-完整名称 (邮箱)
-[Server name]
-服务器名称
-[Alternative nick]
-替换昵称
-[Ident]
-识别
-[System]
-系统
-[Default network]
-默认网络
-[User info - Required]
-用户信息 - 必需
-[Other]
-其它
 [Check every (s):]
 检查每 (秒): 
+[Update statuses in channel nick list]
+更新频道昵称列表的状态
 [Don't check if more than (users):]
 不检查如多于 (用户): 
 [User information]
@@ -183,7 +183,7 @@ C2C 协议
 C2C 聊天
 [Send mode:]
 发送模式: 
-[Packet size (b):]
+[Packet size (bytes):]
 封包大小 (b): 
 [Get IP address from server]
 从服务器获取 IP 地址
@@ -225,8 +225,6 @@ CTCP 聊天请求
 (*) 留空将此掩码应用至所有网络
 [Password:]
 密码: 
-[Alternate nick]
-互换昵称
 [CTCP chat request from %s]
 CTCP 聊天请求自 %s
 [%s sets mode %s]
@@ -423,7 +421,7 @@ DCC 聊天连接尚未使用
 添加忽略
 [Edit ignore]
 编辑忽略
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC 及 CTCP
 [Advanced]
 高级

@@ -9,5 +9,5 @@
 Strl:
 [bytes]
 bytes
-[Plugins]
-Tillegg
+[Events]
+Hendelser

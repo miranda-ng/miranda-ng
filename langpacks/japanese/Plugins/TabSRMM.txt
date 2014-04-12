@@ -877,7 +877,7 @@ TabSRMM バージョン情報...
 TabSRMM 警告メッセージ
 [Incoming file]
 着信ファイル
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 着信ファイル ( 不正なフォーマット )
 [Unknown event]
 不明なイベント

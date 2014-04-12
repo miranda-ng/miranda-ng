@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+Rede padrão
+[Server name]
+Nome do servidor
+[Internet address]
+Endereço da Internet
+[Port range]
+Intervalo de porta
 [&Add]
 &Adicionar
 [&Edit]
 &Editar
 [&Del]
 &Apagar
+[User info - Required]
+Informação do utilizador - Obrigatório
+[Nick]
+Apelido
+[Alternative nick]
+Apelido Alternativo
+[Full name (e-mail)]
+Nome completo (e-mail)
+[User ID (Ident)]
+ID de Usuário (Identificação)
+[Ident]
+Identificação
+[System]
+Sistema
 [only while connecting]
 somente durante a conexão
+[Other]
+Outros
 [Force visible (-i)]
 Forçar visível (-i)
 [Rejoin channel if kicked]
@@ -33,34 +57,10 @@ Automaticamente juntar após convite
 Muda o estilo 'antigo'
 [Update online statuses for users]
 Status de atualização on-line para usuários
-[Update statuses in channel nick list]
-Atualização de status no canal lista de apelidos
-[Internet address]
-Endereço da Internet
-[Port range]
-Intervalo de porta
-[Nick]
-Apelido
-[User ID (Ident)]
-ID de Usuário (Identificação)
-[Full name (e-mail)]
-Nome completo (e-mail)
-[Server name]
-Nome do servidor
-[Alternative nick]
-Apelido Alternativo
-[Ident]
-Identificação
-[System]
-Sistema
-[Default network]
-Rede padrão
-[User info - Required]
-Informação do utilizador - Obrigatório
-[Other]
-Outros
 [Check every (s):]
 Verifique a cada (s):
+[Update statuses in channel nick list]
+Atualização de status no canal lista de apelidos
 [Don't check if more than (users):]
 Não verificar se mais de (utilizadores):
 [User information]
@@ -175,7 +175,7 @@ Protocolo Cliente-a-Cliente
 Bate-papo cliente-a-cliente
 [Send mode:]
 Modo enviar:
-[Packet size (b):]
+[Packet size (bytes):]
 Tamanho do pacote (b):
 [Get IP address from server]
 Obter o endereço IP do servidor
@@ -221,8 +221,6 @@ Ignorar eventos
 (*) Em branco para definir essa máscara para todas as redes
 [Password:]
 Senha:
-[Alternate nick]
-Apelido suprente
 [CTCP chat request from %s]
 Bate-papo CTCP pedido de %s
 [%s sets mode %s]
@@ -409,7 +407,7 @@ Bandeiras
 Adicionar ignorar
 [Edit ignore]
 Editar ignorar
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC no CTCP
 [Advanced]
 Avançado

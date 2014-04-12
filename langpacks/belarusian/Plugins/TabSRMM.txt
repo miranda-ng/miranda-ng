@@ -1035,7 +1035,7 @@ Esc зачыняе сесію (інакш - згортвае)
 Уваходны файл
 [No description given]
 Без апісання
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 Уваходны файл (няслушны фармат)
 [Unknown event]
 Невядомая з'ява

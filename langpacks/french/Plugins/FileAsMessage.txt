@@ -94,8 +94,8 @@ Pause
 
 [Main]
 Principales
-[Plugins]
-Plugins
+[Events]
+Évènements
 [File As Message...]
 Fichier comme message...
 ;file \plugins\FileAsMessage\src\main.h

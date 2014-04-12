@@ -1039,7 +1039,7 @@ Notificaciones
 Archivo entrante
 [No description given]
 
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 
 [Unknown event]
 

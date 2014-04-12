@@ -10,6 +10,8 @@ Reagiert auf die Rückkehr, oder eine längere Abwesenheit, von Kontakten mit Be
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 Wenn ein Kontakt erscheint nach
+[or comes online for the first time]
+oder zum ersten Mal online geht
 [Show a popup]
 Popup anzeigen
 [Add an event (flashing icon) to the contact]
@@ -22,16 +24,14 @@ Kontaktdetails öffnen
 Nachrichtenfenster öffnen
 [Return notification]
 Rückkehr-Benachrichtigung
-[When a contact is absent for]
-Falls Kontakt länger abwesend als
 [Long time no see]
 Lange Zeit nicht gesehen
-[or comes online for the first time]
-oder zum ersten Mal online geht
-[Enable "Miss you" feature]
-'Vermisst'-Funktion nutzen
+[When a contact is absent for]
+Falls Kontakt länger abwesend als
 [Hide when no messages for]
 Verstecken bei keiner Nachr. seit
+[Enable "Miss you" feature]
+'Vermisst'-Funktion nutzen
 [Colors]
 Farben
 [Background]

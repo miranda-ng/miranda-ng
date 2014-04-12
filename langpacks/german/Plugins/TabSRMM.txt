@@ -1039,7 +1039,7 @@ TabSRMM-Warnmeldung
 Eingehende Datei
 [No description given]
 Keine Beschreibung vorhanden.
-[Incoming file (invalid format]
+[Incoming file (invalid format)]
 Eingehende Datei (falsches Format)
 [Unknown event]
 Unbekanntes Ereignis

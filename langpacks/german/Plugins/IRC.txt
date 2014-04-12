@@ -8,16 +8,46 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Internet Relay Chat (IRC)-Protokollunterstützung für Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
+[Default network]
+Standardnetzwerk
+[Enable]
+Aktivieren
+[Server name]
+Servername
+[Internet address]
+Internetadresse
+[SSL]
+SSL
+[Port range]
+Portbereich
+[Password]
+Passwort
 [&Add]
 Hinzufügen
 [&Edit]
 B&earbeiten
 [&Del]
 Löschen
-[Enable]
-Aktivieren
+[User info - Required]
+Erforderliche Angaben
+[Nick]
+Nick
+[Alternative nick]
+Alternativer Nick
+[Full name (e-mail)]
+Voller Name (E-Mail)
+[User ID (Ident)]
+Nutzer-ID (Ident)
+[Ident]
+Ident
+[System]
+System
+[Port]
+Port
 [only while connecting]
 Nur beim Verbindungsaufbau
+[Other]
+Sonstige
 [Force visible (-i)]
 Sichtbar setzen (-i)
 [Rejoin channel if kicked]
@@ -40,40 +70,10 @@ Bei Einladung automatisch beitreten
 'Alter Stil' Statusänderungen
 [Update online statuses for users]
 Status für Kontakte aktualisieren
-[Update statuses in channel nick list]
-Status für Benutzerliste aktualisieren
-[Internet address]
-Internetadresse
-[Port range]
-Portbereich
-[Nick]
-Nick
-[User ID (Ident)]
-Nutzer-ID (Ident)
-[Full name (e-mail)]
-Voller Name (E-Mail)
-[Password]
-Passwort
-[Server name]
-Servername
-[Alternative nick]
-Alternativer Nick
-[Ident]
-Ident
-[System]
-System
-[Port]
-Port
-[Default network]
-Standardnetzwerk
-[User info - Required]
-Erforderliche Angaben
-[Other]
-Sonstige
 [Check every (s):]
 Prüfe alle (s):
-[SSL]
-SSL
+[Update statuses in channel nick list]
+Status für Benutzerliste aktualisieren
 [Don't check if more than (users):]
 Nicht prüfen bei mehr als (Ben.):
 [User information]
@@ -226,7 +226,7 @@ Client-to-Client-Protokoll
 Client-to-Client-Chats
 [Send mode:]
 Sendemodus:
-[Packet size (b):]
+[Packet size (bytes):]
 Paketgröße (b):
 [Get IP address from server]
 IP-Adresse vom Server beziehen
@@ -276,8 +276,6 @@ Zu ignorierende Ereignisse
 Server:
 [Password:]
 Passwort:
-[Alternate nick]
-Alternativer Nick
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP-Chatanfrage von %s
@@ -522,7 +520,7 @@ Hinzufügen
 Bearbeiten
 [Account]
 Konto
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC und CTCP
 [Advanced]
 Erweitert

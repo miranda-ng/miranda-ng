@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+Alap hálózat
+[Server name]
+Szervernév
+[Internet address]
+Internet cím
+[Port range]
+Port terület
 [&Add]
 &Új
 [&Edit]
 Szerkeszt
 [&Del]
 &Törlés
+[User info - Required]
+Felhasználó infók - Szükséges
+[Nick]
+Becenév
+[Alternative nick]
+Alternatív becenév
+[Full name (e-mail)]
+Teljes név (e-mail)
+[User ID (Ident)]
+Felhasználó ID (azonosító)
+[Ident]
+Behúzás
+[System]
+Rendszer
 [only while connecting]
 csak csatlakozás közben
+[Other]
+Egyéb
 [Force visible (-i)]
 Látható (-i) kényszerítése
 [Rejoin channel if kicked]
@@ -33,34 +57,10 @@ Automatikus részvétel meghíváskor
 'Régi stílusú' mód váltás
 [Update online statuses for users]
 Elérhetõ állapotok frissítése felhasználóknak
-[Update statuses in channel nick list]
-Állapotok frissítése csatorna becenévlistában
-[Internet address]
-Internet cím
-[Port range]
-Port terület
-[Nick]
-Becenév
-[User ID (Ident)]
-Felhasználó ID (azonosító)
-[Full name (e-mail)]
-Teljes név (e-mail)
-[Server name]
-Szervernév
-[Alternative nick]
-Alternatív becenév
-[Ident]
-Behúzás
-[System]
-Rendszer
-[Default network]
-Alap hálózat
-[User info - Required]
-Felhasználó infók - Szükséges
-[Other]
-Egyéb
 [Check every (s):]
 Összes ellenõrzése (s):
+[Update statuses in channel nick list]
+Állapotok frissítése csatorna becenévlistában
 [Don't check if more than (users):]
 Ne ellenõrizze ha (felhasználó) több, mint:
 [User information]
@@ -175,7 +175,7 @@ Kliens-kliens protokoll
 Kliens-kliens csevegések
 [Send mode:]
 Küldési mód:
-[Packet size (b):]
+[Packet size (bytes):]
 Csomag méret (b):
 [Get IP address from server]
 IP cím szervertõl
@@ -221,8 +221,6 @@ Események elvetése
 (*) ha üres, akkor minden hálózathoz ezt a maszkot állítja be
 [Password:]
 Jelszó:
-[Alternate nick]
-Becenév váltakozása
 [CTCP chat request from %s]
 CTCP csevegési felkérés ettõl: %s
 [%s sets mode %s]
@@ -415,7 +413,7 @@ Zászlók
 Elvetés hozzáadása
 [Edit ignore]
 Elvetés szerkesztése
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC'n CTCP
 [Advanced]
 Haladó

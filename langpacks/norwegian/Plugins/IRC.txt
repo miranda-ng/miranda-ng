@@ -5,14 +5,38 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Default network]
+Standard nettverk
+[Server name]
+Server navn
+[Internet address]
+Internettadresse
+[Port range]
+Portområde
 [&Add]
 &Legg til
 [&Edit]
 &Rediger
 [&Del]
 &Del
+[User info - Required]
+Brukerinfo - Påkrevd
+[Nick]
+Kallenavn
+[Alternative nick]
+Alternativt kallenavn
+[Full name (e-mail)]
+Fullt navn (e-post)
+[User ID (Ident)]
+Bruker ID (Ident)
+[Ident]
+Ident
+[System]
+System
 [only while connecting]
 bare under tilkobling
+[Other]
+Annet
 [Force visible (-i)]
 Tving synlig (-i)
 [Rejoin channel if kicked]
@@ -33,34 +57,10 @@ Automatisk join ved invitasjon
 'Eldre stiltype' modusforandringer
 [Update online statuses for users]
 Oppdater online statusene for brukere
-[Update statuses in channel nick list]
-Oppdater statuser i kanalens kallenavnliste
-[Internet address]
-Internettadresse
-[Port range]
-Portområde
-[Nick]
-Kallenavn
-[User ID (Ident)]
-Bruker ID (Ident)
-[Full name (e-mail)]
-Fullt navn (e-post)
-[Server name]
-Server navn
-[Alternative nick]
-Alternativt kallenavn
-[Ident]
-Ident
-[System]
-System
-[Default network]
-Standard nettverk
-[User info - Required]
-Brukerinfo - Påkrevd
-[Other]
-Annet
 [Check every (s):]
 Sjekk hvert (s):
+[Update statuses in channel nick list]
+Oppdater statuser i kanalens kallenavnliste
 [Don't check if more than (users):]
 Ikke sjekk hvis flere enn (brukere):
 [User information]
@@ -167,7 +167,7 @@ Klient-til-Klient Protokoll
 Klient-til-Klient Samtaler
 [Send mode:]
 Send modus:
-[Packet size (b):]
+[Packet size (bytes):]
 Pakkestørrelse (b):
 [Get IP address from server]
 Hent IP adresse fra server
@@ -385,7 +385,7 @@ Rediger denne ignoreringen
 Fjern denne ignoreringen
 [Ignore mask]
 Ignorer maske
-[DCC'n CTCP]
+[DCC and CTCP]
 DCC og CTCP
 [Advanced]
 Avansert

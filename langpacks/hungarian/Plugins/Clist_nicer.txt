@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.1
+;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [About CList Nicer+]
@@ -435,9 +435,9 @@ Szövegszín
 <nincs>
 [Show menu]
 Menü mutatása
-[Show / hide offline contacts]
+[Hide offline contacts]
 Kilépett partnerek mutatása/elrejtése
-[Toggle group mode]
+[Enable group mode]
 Csoport mód váltogatása
 [Find and add contacts]
 Partner keresése és felvétele
@@ -445,7 +445,7 @@ Partner keresése és felvétele
 Fiókok
 [Open preferences]
 Beállítások megnyitása
-[Toggle sounds]
+[Disable sounds]
 Hang ki/bekapcsolása
 [Minimize contact list]
 Partnerlista lekicsinyítése
@@ -541,6 +541,8 @@ Elérhetõ/kilépett mutatás váltogatása
 Csoportok váltogatása
 [Find contacts]
 Partnerek keresése
+[Toggle sounds]
+Hang ki/bekapcsolása
 [Show TabSRMM session list]
 TabSRMM munkamenetek mutatása
 [Show TabSRMM menu]

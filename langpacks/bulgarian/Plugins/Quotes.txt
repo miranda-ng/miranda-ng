@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
-;  Version: 0.0.24.0
+;  Version: 0.0.25.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
@@ -154,7 +154,13 @@ Quote\\Инф. за курса
 [Enter positive number.]
 Въведете положително число.
 ;file \plugins\Quotes\src\Forex.cpp
+[Auto Update Enabled]
+
+[Auto Update Disabled]
+
 [Quotes]
+
+[Enable/Disable Auto Update]
 
 [Refresh All Quotes\\Rates]
 Обновяване на всички Акции\\Курсове
@@ -172,6 +178,12 @@ Quote\\Инф. за курса
 Диаграма...
 [Edit Settings...]
 Редактиране на настройките...
+[Enable/Diable Quotes Auto Update]
+
+[Quotes Auto Update Enabled]
+
+[Quotes Auto Update Disabled]
+
 [Network]
 Мрежа
 ;file \plugins\Quotes\src\HTTPSession.cpp

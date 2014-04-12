@@ -13,5 +13,5 @@
 送信中...
 [Receiving...]
 受信中...
-[Plugins]
-プラグイン
+[Events]
+イベント

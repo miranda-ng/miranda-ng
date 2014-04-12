@@ -5,12 +5,12 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
-[Keep connection alive]
-Navždy zachovať pripojenie
-[Nick]
-Prezívka
 [SSL]
 SSL
+[Nick]
+Prezívka
+[Keep connection alive]
+Navždy zachovať pripojenie
 [Time]
 Čas
 [&Close]

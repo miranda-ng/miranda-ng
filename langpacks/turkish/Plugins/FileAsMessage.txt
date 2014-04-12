@@ -9,5 +9,5 @@
 Boyut:
 [bytes]
 bayt
-[Plugins]
-Eklentiler
+[Events]
+Etkinlikler

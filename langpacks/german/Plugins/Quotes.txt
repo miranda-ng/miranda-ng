@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
-;  Version: 0.0.24.0
+;  Version: 0.0.25.0
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
@@ -154,7 +154,13 @@ Informationen bereitgestellt von
 [Enter positive number.]
 Geben Sie eine positive Zahl ein.
 ;file \plugins\Quotes\src\Forex.cpp
+[Auto Update Enabled]
+
+[Auto Update Disabled]
+
 [Quotes]
+
+[Enable/Disable Auto Update]
 
 [Refresh All Quotes\\Rates]
 Erneuer Alle Quotes\\Raten
@@ -172,6 +178,12 @@ Aktualisieren
 
 [Edit Settings...]
 Ändere Einstellungen ...
+[Enable/Diable Quotes Auto Update]
+
+[Quotes Auto Update Enabled]
+
+[Quotes Auto Update Disabled]
+
 [Network]
 Netzwerk
 ;file \plugins\Quotes\src\HTTPSession.cpp

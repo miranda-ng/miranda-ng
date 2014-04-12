@@ -8,16 +8,46 @@
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Плагiн падтрымкі пратаколу IRC.
 ;file \protocols\IRCG\res\IRC.rc
+[Default network]
+Сетка па змаўчанні
+[Enable]
+Уключана
+[Server name]
+Імя сервера
+[Internet address]
+Сеткавы адрас
+[SSL]
+SSL
+[Port range]
+Дыяпазон портаў
+[Password]
+Пароль
 [&Add]
 &Дадаць
 [&Edit]
 Кіраваць
 [&Del]
 Выдаліць
-[Enable]
-Уключана
+[User info - Required]
+Пра кантакт - Неабходна
+[Nick]
+Мянушка
+[Alternative nick]
+Альт. мянушка
+[Full name (e-mail)]
+Поўнае імя
+[User ID (Ident)]
+ID кантакта
+[Ident]
+Ідэнтыфікацыя
+[System]
+Сістэма
+[Port]
+Порт
 [only while connecting]
 Толькі на час злучэння
+[Other]
+Іншае
 [Force visible (-i)]
 Уключыць бачнасць (-i)
 [Rejoin channel if kicked]
@@ -40,40 +70,10 @@
 "Стары" стыль рэжымаў
 [Update online statuses for users]
 Абнаўляць статусы для карысцяў.
-[Update statuses in channel nick list]
-Абнаўл. статусы ў спісе удзельнікаў
-[Internet address]
-Сеткавы адрас
-[Port range]
-Дыяпазон портаў
-[Nick]
-Мянушка
-[User ID (Ident)]
-ID кантакта
-[Full name (e-mail)]
-Поўнае імя
-[Password]
-Пароль
-[Server name]
-Імя сервера
-[Alternative nick]
-Альт. мянушка
-[Ident]
-Ідэнтыфікацыя
-[System]
-Сістэма
-[Port]
-Порт
-[Default network]
-Сетка па змаўчанні
-[User info - Required]
-Пра кантакт - Неабходна
-[Other]
-Іншае
 [Check every (s):]
 Правяраць кожныя (з):
-[SSL]
-SSL
+[Update statuses in channel nick list]
+Абнаўл. статусы ў спісе удзельнікаў
 [Don't check if more than (users):]
 Не правяраць, калі больш (карысцяў):
 [User information]
@@ -224,7 +224,7 @@ Wildcard пошук па сетцы
 Чаты CTCP
 [Send mode:]
 Рэжым адпраўкі:
-[Packet size (b):]
+[Packet size (bytes):]
 Памер пакета (б):
 [Get IP address from server]
 Атрымаць IP у сервера
@@ -270,8 +270,6 @@ Wildcard пошук па сетцы
 Сервер:
 [Password:]
 Пароль:
-[Alternate nick]
-Альт. мянушка
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запыт CTCP-чата ад %s
@@ -516,8 +514,8 @@ WhoIs
 Змяніць ігнор
 [Account]
 Конт
-[DCC'n CTCP]
-DCC'n CTCP
+[DCC and CTCP]
+DCC і CTCP
 [Advanced]
 Дадаткова
 ;file \protocols\IRCG\src\output.cpp

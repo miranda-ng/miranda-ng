@@ -119,6 +119,8 @@ Status
 Plugins
 [Icons]
 Icons
+[Languages]
+
 [Other]
 Andere
 [List is empty.]
