@@ -13,8 +13,6 @@
 포트:
 [&Add]
 &A 추가
-[OK]
-확인
 [Cancel]
 취소
 [&Deny]

@@ -81,8 +81,6 @@ FTP 文件管理
 从 FTP 删除
 [Enter file name]
 输入文件名
-[OK]
-确定
 [Cancel]
 取消
 [File exists]

@@ -19,8 +19,6 @@
 כינוי:
 [Description:]
 תיאור:
-[OK]
-אישור
 [Cancel]
 ביטול
 [Remove]

@@ -26,8 +26,6 @@ ICQ-Passwort eingeben
 Bitte Passwort für UIN %d eingeben:
 [Remember this session password]
 Dieses Sitzungspasswort merken
-[OK]
-OK
 [Cancel]
 Abbrechen
 [ICQ]

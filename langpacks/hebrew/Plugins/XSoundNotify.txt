@@ -11,8 +11,6 @@
 בחר
 [Reset]
 אפס
-[OK]
-אישור
 [Cancel]
 ביטול
 [Sounds]

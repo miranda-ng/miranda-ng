@@ -9,8 +9,6 @@
 닫기
 [Cancel]
 취소
-[OK]
-확인
 [Command line:]
 검사 프로그램:
 [Background color]

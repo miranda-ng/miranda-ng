@@ -11,8 +11,6 @@
 &Annulla
 [Background color]
 Colore di sfondo
-[OK]
-OK
 [Cancel]
 Annulla
 [E&xit]

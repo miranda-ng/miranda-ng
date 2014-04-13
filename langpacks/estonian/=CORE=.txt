@@ -2,8 +2,6 @@
 Sisesta konto nimi (nt. Minu Google')
 [Choose the protocol type]
 Vali protokolli tüüp
-[OK]
-OK
 [Cancel]
 Tühista
 [Add %s]

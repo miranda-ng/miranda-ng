@@ -54,8 +54,6 @@
 
 [Send announcement]
 
-[OK]
-
 [Cancel]
 
 [Message text:]

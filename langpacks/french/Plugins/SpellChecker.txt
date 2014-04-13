@@ -30,8 +30,6 @@ Retirer
 
 [Use variables in correction]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Spell Checker]

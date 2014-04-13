@@ -13,8 +13,6 @@ Grupo:
 &Sair
 [Help]
 Ajuda
-[OK]
-OK
 [Select Folder]
 Selecionar Pasta
 [Files]

@@ -60,8 +60,6 @@ Haut
 Bas
 [Edit Host]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Address:]

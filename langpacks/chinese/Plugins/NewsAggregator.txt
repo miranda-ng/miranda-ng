@@ -9,8 +9,6 @@
 添加
 [Remove]
 移除
-[OK]
-确定
 [Cancel]
 取消
 [Authentication]

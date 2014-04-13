@@ -31,8 +31,6 @@
 コピー
 [Enter Password]
 パスワードを入力してください
-[OK]
-OK
 [Cancel]
 Cancel
 [Search:]

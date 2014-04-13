@@ -17,8 +17,6 @@ Senha:
 Digite a Senha ICQ
 [Enter a password for UIN %d:]
 Digite uma senha para UIN% d:
-[OK]
-OK
 [Cancel]
 Cancelar
 [ICQ number:]

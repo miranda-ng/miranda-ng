@@ -138,8 +138,6 @@
 
 [Program]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Set LEDs for events]

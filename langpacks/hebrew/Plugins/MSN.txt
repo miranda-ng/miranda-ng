@@ -55,8 +55,6 @@
 אפשר פופאפ משתמש עזב ערוץ
 [Disable Contact List notifications]
 בטל הודעות רשימת משתמשים
-[OK]
-אישור
 [Cancel]
 ביטול
 [First Name]

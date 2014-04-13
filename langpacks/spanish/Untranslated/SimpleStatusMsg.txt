@@ -81,7 +81,6 @@
 [<startup>]
 [Add to Predefined]
 [Delete Selected]
-[OK (%d)]
 [Are you sure you want to clear status message history?]
 [Confirm clearing history]
 [Global status change]

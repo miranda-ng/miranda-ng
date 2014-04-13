@@ -9,8 +9,6 @@
 Groep:
 [&Exit]
 Afsluiten
-[OK]
-OK
 [Select Folder]
 Folder selecteren
 [Files]

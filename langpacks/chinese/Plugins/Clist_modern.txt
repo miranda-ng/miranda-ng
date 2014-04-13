@@ -107,8 +107,6 @@ W x H: 0 x 0 像素
 新增
 [Show contacts in groups]
 在群组中显示联系人
-[OK]
-确定
 [Cancel]
 取消
 [Clear all]

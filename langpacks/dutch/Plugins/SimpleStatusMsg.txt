@@ -9,8 +9,6 @@
 %s Bericht voor %s
 [&Cancel]
 Annuleren
-[OK]
-OK
 [Status messages]
 Status berichten
 [seconds]

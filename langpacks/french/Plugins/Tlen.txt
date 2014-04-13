@@ -98,8 +98,6 @@ Texte
 Aperçu
 [Tlen Password]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Nickname:]

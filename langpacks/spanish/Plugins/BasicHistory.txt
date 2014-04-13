@@ -136,8 +136,6 @@ Contraseña
 
 [Execute task for specified contacts]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 ;file \plugins\BasicHistory\src\BasicHistory.cpp

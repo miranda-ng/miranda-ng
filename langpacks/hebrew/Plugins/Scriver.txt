@@ -189,8 +189,6 @@
 (פסק זמן (ש
 [(0 means default setting, -1 means indefinite time)]
   0 אומר הגדרות ברירת מחדל    \n-1 אומר זמן ללא הגבלה\n\n\n\n\n\n\n
-[OK]
-אישור
 [Log]
 יומן
 [&Copy]

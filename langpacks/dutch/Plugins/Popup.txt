@@ -37,8 +37,6 @@ Positie:
 Uitschakelen wanneer:
 [User details]
 Gebruikersdetails
-[OK]
-OK
 [Cancel]
 Annuleren
 [Blocked Contact]

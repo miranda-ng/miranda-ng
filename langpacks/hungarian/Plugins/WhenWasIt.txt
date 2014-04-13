@@ -15,8 +15,6 @@ Mutat
 mp.
 [Close]
 Bezárás
-[OK]
-OK
 [Description:]
 Leírás:
 [Date:]

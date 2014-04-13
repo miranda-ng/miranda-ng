@@ -9,8 +9,6 @@
 삭제
 [Row height:]
 행 높이:
-[OK]
-확인
 [Cancel]
 취소
 [Description:]

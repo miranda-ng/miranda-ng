@@ -9,8 +9,6 @@
 Rediger...
 [Remove]
 Fjern
-[OK]
-OK
 [Cancel]
 Avbryt
 [Advanced]

@@ -7,8 +7,6 @@
 ;============================================================
 [Updating]
 Atualizando
-[OK]
-OK
 [Cancel]
 Cancelar
 [Apply]

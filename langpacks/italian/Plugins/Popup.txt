@@ -33,8 +33,6 @@ Posizione:
 Disattiva quando:
 [User details]
 Dettagli utente
-[OK]
-OK
 [Cancel]
 Annulla
 [Actions]

@@ -60,8 +60,6 @@ Régler comme "caché"
 Tenter de rendre l'arrière-plan transparent
 [Use defaults]
 Par défaut
-[OK]
-OK
 [Cancel]
 Annuler
 [Options]

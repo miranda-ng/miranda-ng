@@ -13,8 +13,6 @@ Slett
 &Avbryt
 [Save and Close]
 Lagre og lukk
-[OK]
-OK
 [Cancel]
 Avbryt
 [Message Sessions]

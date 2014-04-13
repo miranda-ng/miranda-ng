@@ -49,8 +49,6 @@
 添加模块名称
 [Add to all contacts (Includes Settings)]
 加至所有联系人 (包括设置)
-[OK]
-确定
 [Cancel]
 取消
 [Edit Setting]

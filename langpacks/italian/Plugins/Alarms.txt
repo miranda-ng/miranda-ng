@@ -11,8 +11,6 @@ Elimina
 minuti
 [Row height:]
 Altezza righe:
-[OK]
-OK
 [Cancel]
 Annulla
 [Description:]

@@ -13,8 +13,6 @@ Elimina
 Password:
 [Cancel]
 Annulla
-[OK]
-OK
 [Port:]
 Porta:
 [Name:]

@@ -9,7 +9,6 @@
 [Fade out:]
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-[Call Splash Service]
 [Graphic files]
 [Sound Files]
 [Splash Screen]

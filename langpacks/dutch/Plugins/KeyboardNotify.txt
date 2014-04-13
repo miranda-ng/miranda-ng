@@ -33,8 +33,6 @@ Toevoegen
 Verwijderen
 [Export...]
 Exporteren...
-[OK]
-OK
 [Cancel]
 Annuleren
 [The following events are being ignored:]

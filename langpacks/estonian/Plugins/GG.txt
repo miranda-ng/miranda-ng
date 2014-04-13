@@ -29,8 +29,6 @@ Sugu:
 Linn
 [Description:]
 Kirjeldus:
-[OK]
-OK
 [Cancel]
 Tühista
 [&Create]

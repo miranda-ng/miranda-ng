@@ -69,8 +69,6 @@ P2P 连接
 自定义(&C)
 [P&ermanent]
 永久(&E)
-[OK]
-确定
 [Cancel]
 取消
 [First name:]

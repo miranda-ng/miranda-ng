@@ -195,8 +195,6 @@ Miranda 窗口屏幕
 刷新皮肤列表
 [Popup Placement]
 弹出窗口方位
-[OK]
-确定
 [Cancel]
 取消
 [Popup Group]

@@ -102,8 +102,6 @@ Aus Liste löschen
 Vom FTP löschen
 [Enter file name]
 Dateinamen eingeben
-[OK]
-OK
 [Cancel]
 Abbrechen
 [File exists]

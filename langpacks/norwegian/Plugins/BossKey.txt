@@ -23,8 +23,6 @@ Be om passord:
 Endre status tilbake
 [Password:]
 Passord:
-[OK]
-OK
 [Cancel]
 Avbryt
 [Events]

@@ -11,8 +11,6 @@
 &S 보내기
 [&Cancel]
 &C 취소
-[OK]
-확인
 [Cancel]
 취소
 [Port:]

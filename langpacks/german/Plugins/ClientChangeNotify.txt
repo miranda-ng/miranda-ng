@@ -10,8 +10,6 @@ Zeigt eine Benachrichtigung, wenn ein Kontakt aus Ihrer Kontaktliste seinen Clie
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 ClientChangeNotify Fehler
-[OK]
-OK
 [Fingerprint plugin not found.]
 Fingerprint Plugin wurde nicht gefunden.
 [ClientChangeNotify requires it to work properly.]

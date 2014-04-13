@@ -138,8 +138,6 @@ Existierende überschreiben
 Programmliste festlegen
 [Program]
 Programm
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Set LEDs for events]

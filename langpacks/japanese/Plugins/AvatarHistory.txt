@@ -6,8 +6,6 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
-[OK]
-OK
 [Background color]
 背景色
 [Text color]

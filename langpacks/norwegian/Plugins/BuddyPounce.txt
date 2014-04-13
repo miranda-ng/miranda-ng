@@ -7,8 +7,6 @@
 ;============================================================
 [Cancel]
 Avbryt
-[OK]
-OK
 [Advanced >>]
 Avansert >>
 [Status]

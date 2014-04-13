@@ -56,8 +56,6 @@ Entfe&rnen
 Setze benutzerdef. Status
 [Show as busy]
 Zeige als beschäftigt
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Protocol:]

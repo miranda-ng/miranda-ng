@@ -15,8 +15,6 @@
 בטל
 [Del]
 מחק
-[OK]
-אישור
 [Cancel]
 ביטול
 [Message Sessions]

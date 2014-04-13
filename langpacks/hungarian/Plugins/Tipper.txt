@@ -11,8 +11,6 @@ Beállítások
 Ablak
 [Keep original avatar size]
 Eredeti avatárméret mgtartása
-[OK]
-OK
 [Cancel]
 Mégsem
 [Items]

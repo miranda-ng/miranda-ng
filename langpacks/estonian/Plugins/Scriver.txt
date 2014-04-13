@@ -77,8 +77,6 @@ Kasuta vaikimisi värve
 Tekst
 [Background]
 Taust
-[OK]
-OK
 [&Copy]
 Kopeeri
 [Co&py All]

@@ -962,7 +962,6 @@
 [Jabber vCard: Edit Email Address]
 [Jabber vCard: Edit Phone Number]
 [%s connection]
-[OK (%d)]
 [Afraid]
 [Amazed]
 [Amorous]

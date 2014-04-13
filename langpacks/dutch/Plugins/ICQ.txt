@@ -11,8 +11,6 @@ Wachtwoord:
 Ver&sturen
 [&Cancel]
 Annuleren
-[OK]
-OK
 [Cancel]
 Annuleren
 [Port:]

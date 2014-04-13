@@ -15,8 +15,6 @@ Hendelser
 Brukernavn:
 [Password:]
 Passord:
-[OK]
-OK
 [Cancel]
 Avbryt
 [Status]

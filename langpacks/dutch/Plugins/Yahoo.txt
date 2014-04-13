@@ -17,8 +17,6 @@ Poort:
 Terugzetten
 [&Add]
 Toevoegen
-[OK]
-OK
 [Cancel]
 Annuleren
 [&Join]

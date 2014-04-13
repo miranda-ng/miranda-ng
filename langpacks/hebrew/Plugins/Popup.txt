@@ -139,8 +139,6 @@
 רענן רשימת סקין
 [Popup Placement]
  מיקום פופאפ
-[OK]
-אישור
 [Cancel]
 ביטול
 [Popup Group]

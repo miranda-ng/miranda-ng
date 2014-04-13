@@ -7,8 +7,6 @@
 ;============================================================
 [Updating]
 in aggiornamento
-[OK]
-OK
 [Cancel]
 Annulla
 [Apply]

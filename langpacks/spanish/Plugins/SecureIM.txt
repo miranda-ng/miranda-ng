@@ -130,8 +130,6 @@ Eventos
 Usuario:
 [Password:]
 Contraseña:
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [SecureIM plugin Passphrase of private key]

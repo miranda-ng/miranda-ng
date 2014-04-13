@@ -11,8 +11,6 @@
 &Mégse
 [Background color]
 Háttérszín
-[OK]
-OK
 [Cancel]
 Mégsem
 [E&xit]

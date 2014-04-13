@@ -9,8 +9,6 @@
 Fundo
 [Text]
 Texto
-[OK]
-OK
 [Cancel]
 Cancelar
 [Show]

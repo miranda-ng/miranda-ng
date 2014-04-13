@@ -9,8 +9,6 @@
 Taust
 [Text]
 Tekst
-[OK]
-OK
 [Cancel]
 Tühista
 [Show]

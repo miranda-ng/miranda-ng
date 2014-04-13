@@ -13,8 +13,6 @@ Passord:
 &Send
 [&Cancel]
 &Avbryt
-[OK]
-OK
 [Cancel]
 Avbryt
 [ICQ number:]

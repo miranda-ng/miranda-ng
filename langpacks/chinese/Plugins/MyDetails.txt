@@ -9,8 +9,6 @@
 设置我的昵称
 [Nickname:]
 昵称: 
-[OK]
-确定
 [Cancel]
 取消
 [General]

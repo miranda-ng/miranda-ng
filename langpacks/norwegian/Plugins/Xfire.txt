@@ -33,8 +33,6 @@ Port:
 Brukerdetaljer
 [Copy]
 Kopier
-[OK]
-OK
 [Cancel]
 Avbryt
 [Search:]

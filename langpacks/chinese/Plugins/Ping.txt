@@ -45,8 +45,6 @@ Ping 超时 (秒):
 编辑
 [Edit Host]
 编辑 Host
-[OK]
-确定
 [Cancel]
 取消
 [Address:]

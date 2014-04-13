@@ -15,8 +15,6 @@
 שניות
 [Close]
 סגור
-[OK]
-אישור
 [Description:]
 תיאור:
 [Date:]

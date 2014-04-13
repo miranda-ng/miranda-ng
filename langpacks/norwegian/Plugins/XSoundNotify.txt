@@ -9,8 +9,6 @@
 Kallenavn:
 [Reset]
 Nullstill
-[OK]
-OK
 [Cancel]
 Avbryt
 [Sounds]

@@ -7,8 +7,6 @@
 ;============================================================
 [Configure]
 Konfigurovať
-[OK]
-OK
 [Cancel]
 Storno
 [User name]

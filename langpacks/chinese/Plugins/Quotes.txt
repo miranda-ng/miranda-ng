@@ -7,8 +7,6 @@
 ;============================================================
 [Variable List]
 变量列表
-[OK]
-确定
 [Use contact specific settings]
 使用联系人私有设置
 [Log]

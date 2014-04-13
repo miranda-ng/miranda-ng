@@ -31,8 +31,6 @@ Sesso:
 Città:
 [Description:]
 Descrizione:
-[OK]
-OK
 [Cancel]
 Annulla
 [New password:]

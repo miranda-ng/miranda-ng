@@ -89,8 +89,6 @@ Strl:
 høyde
 [W x H: 0 x 0 pixels]
 B x H: 0 x 0 piksler
-[OK]
-OK
 [Cancel]
 Avbryt
 [Protocol]

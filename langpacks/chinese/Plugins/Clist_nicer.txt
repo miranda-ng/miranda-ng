@@ -7,8 +7,6 @@
 ;============================================================
 [About CList Nicer+]
 关于 CList Nicer+
-[OK]
-确定
 [Version]
 版本
 [Delete Contact]

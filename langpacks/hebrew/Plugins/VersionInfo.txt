@@ -7,8 +7,6 @@
 ;============================================================
 [Output to:]
 :שמור ל
-[OK]
-אישור
 [Cancel]
 ביטול
 [Text file]
@@ -51,5 +49,5 @@
 &העתק טקסט
 [&Save to file]
 &שמור לקובץ
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 בסדר, משהו לא בסדר בהגדרת "%s". דווח בחזרה את הערכים הבאים:\nהתקן: &X\nשגיאת קוד: %X\nמספר שורה: %d

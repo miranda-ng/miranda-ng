@@ -157,8 +157,6 @@ Szöveg
 Háttér
 [Timeout (s)]
 Idõtúllépés (mp)
-[OK]
-OK
 [Log]
 Napló
 [&Copy]

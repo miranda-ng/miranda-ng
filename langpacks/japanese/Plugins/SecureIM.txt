@@ -15,8 +15,6 @@
 ユーザー名:
 [Password:]
 パスワード:
-[OK]
-OK
 [Cancel]
 Cancel
 [Status]

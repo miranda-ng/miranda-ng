@@ -37,8 +37,6 @@ Ekle
 Sil
 [Export...]
 Ver...
-[OK]
-Tamam
 [Cancel]
 İptal
 [The following events are being ignored:]

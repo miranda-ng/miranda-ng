@@ -9,8 +9,6 @@
 Ekle
 [Remove]
 Sil
-[OK]
-Tamam
 [Cancel]
 İptal
 [URL]

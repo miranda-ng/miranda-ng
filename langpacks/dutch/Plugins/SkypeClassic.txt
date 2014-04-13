@@ -13,8 +13,6 @@ Verwijderen
 Wachtwoord:
 [Cancel]
 Annuleren
-[OK]
-OK
 [Port:]
 Poort:
 [Name:]

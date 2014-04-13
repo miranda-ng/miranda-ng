@@ -51,8 +51,6 @@
 画像の背景を透明にする
 [Use defaults]
 デフォルトを使用
-[OK]
-OK
 [Cancel]
 Cancel
 [Options]

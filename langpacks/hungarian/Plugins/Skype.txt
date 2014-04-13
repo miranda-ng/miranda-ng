@@ -15,8 +15,6 @@
 Jelszó:
 [Hint:]
 Tipp:
-[OK]
-OK
 [Cancel]
 Mégsem
 [Date of birth:]

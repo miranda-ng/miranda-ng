@@ -19,8 +19,6 @@ Port:
 Háttér
 [Text]
 Szöveg
-[OK]
-OK
 [Cancel]
 Mégsem
 [First name:]

@@ -11,8 +11,6 @@ segundos
 Negrito
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Cancelar
 [Apply]

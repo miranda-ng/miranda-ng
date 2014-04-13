@@ -7,8 +7,6 @@
 ;============================================================
 [Save As...]
 Farklı Kaydet...
-[OK]
-Tamam
 [Background color]
 Art alan rengi
 [Text color]

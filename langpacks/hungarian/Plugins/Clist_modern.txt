@@ -91,8 +91,6 @@ magasság
 Sz x M: 0 x 0 pixel
 [Show contacts in groups]
 Partnerek csoportokban
-[OK]
-OK
 [Cancel]
 Mégsem
 [Protocol]

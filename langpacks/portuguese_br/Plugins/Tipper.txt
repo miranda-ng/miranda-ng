@@ -43,8 +43,6 @@ Contactar o módulo de protocolo
 Configurações:
 [Translation:]
 Tradução:
-[OK]
-OK
 [Cancel]
 Cancelar
 [Item]

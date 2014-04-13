@@ -17,8 +17,6 @@ Profiel
 Bericht
 [Set]
 Instellen
-[OK]
-OK
 [Other]
 Ander
 [Background color]

@@ -17,8 +17,6 @@ Profile
 İleti
 [Set]
 Ayarla
-[OK]
-Tamam
 [Command line:]
 Komut satırı:
 [Other]

@@ -43,8 +43,6 @@ Yahoo 無視リスト
 カスタムステータスを設定
 [Show as busy]
 多忙と表示
-[OK]
-OK
 [Cancel]
 Cancel
 [&Join]

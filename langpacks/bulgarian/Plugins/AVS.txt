@@ -60,8 +60,6 @@
 
 [Use defaults]
 Стандартно
-[OK]
-ОК
 [Cancel]
 Отказ
 [Options]

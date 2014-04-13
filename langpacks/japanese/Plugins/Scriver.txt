@@ -217,8 +217,6 @@ KB
 タイムアウト ( 秒 )
 [(0 means default setting, -1 means indefinite time)]
 ( 0 はデフォルト設定 , -1 は無制限 )
-[OK]
-OK
 [Log]
 ログ
 [&Copy]

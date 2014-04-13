@@ -31,8 +31,6 @@ Kjønn:
 By:
 [Description:]
 Beskrivelse:
-[OK]
-OK
 [Cancel]
 Avbryt
 [&Create]

@@ -86,8 +86,6 @@ Lien:
 
 [Remove HTML]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Apply]

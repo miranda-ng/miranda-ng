@@ -25,8 +25,6 @@ Beschikbaar voor gesprek
 Onzichtbaar
 [Offline]
 Offline
-[OK]
-OK
 [View User's Details]
 Details van de gebruiker bekijken
 [User Menu]

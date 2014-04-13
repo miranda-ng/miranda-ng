@@ -15,8 +15,6 @@ Vis navn
 Vis meldinger
 [Name]
 Navn
-[OK]
-OK
 [Cancel]
 Avbryt
 [View &History]

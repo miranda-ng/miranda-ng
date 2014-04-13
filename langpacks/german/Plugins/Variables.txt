@@ -42,8 +42,6 @@ Einstellung
 Die Variable %extratext% wird - je nach der Situation, in der sie verwendet wird - in einen speziellen Text umgewandelt. In diesem Dialog kann ein beliebiger Text als %extratext% verwendet werden.
 [Close]
 Schließen
-[OK]
-OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Das Variablen-Plugin übersetzt verschiedene Tokens in sichere Werte. Ein Beispiel: Sie benutzen Miranda NG %mirandaversion%. Der Substring %mirandaversion% wird übersetzt in die richtige Versionsnummer. Die folgende Liste zeigt alle verfügbare Tokens.
 [Notes]

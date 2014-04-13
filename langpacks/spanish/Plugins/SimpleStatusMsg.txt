@@ -18,8 +18,6 @@ Recuperando %s Mensaje(S)...
 
 [%s Message (%s)]
 
-[OK]
-Aceptar
 [Retrieving status message for %s...]
 
 [Behavior on status change]
@@ -210,8 +208,6 @@ Leer %s mensaje(s)
 [Add to Predefined]
 
 [Delete Selected]
-
-[OK (%d)]
 
 [Global]
 Global

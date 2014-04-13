@@ -11,7 +11,5 @@ Elimina
 &Annulla
 [Del]
 Canc
-[OK]
-OK
 [Cancel]
 Annulla

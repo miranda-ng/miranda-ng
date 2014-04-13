@@ -9,7 +9,5 @@
 다른 이름으로 저장...
 [Open Folder]
 폴더 열기
-[OK]
-확인
 [Background color]
 배경

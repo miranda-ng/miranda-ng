@@ -17,8 +17,6 @@ Disattiva tutti i contatti non inclusi nella mia lista contatti
 Reimposta
 [Other]
 Altro
-[OK]
-OK
 [Cancel]
 Annulla
 [First Name]

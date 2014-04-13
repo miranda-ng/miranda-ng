@@ -11,8 +11,6 @@ Opzioni
 Finestra
 [Module:]
 Modulo:
-[OK]
-OK
 [Cancel]
 Annulla
 [Items]

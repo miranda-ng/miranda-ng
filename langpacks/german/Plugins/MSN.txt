@@ -78,8 +78,6 @@ Popup 'Benutzer hat Channel verlassen' aktivieren
 Kontaktlisten-Benachrichtigungen deaktivieren
 [Set Nickname]
 Nickname setzen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Mobile Device (used for SMS)]

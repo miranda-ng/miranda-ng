@@ -1905,8 +1905,6 @@ Jabber vCard: рэдагаванне тэлефона
 [%s connection]
 Злучэнне %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
-OK (%d)
 [Afraid]
 Спалоханы
 [Amazed]

@@ -13,8 +13,6 @@ Slett
 Passord:
 [Cancel]
 Avbryt
-[OK]
-OK
 [Host:]
 Vert:
 [Port:]

@@ -21,8 +21,6 @@ Reimposta
 Imposta Stati Personalizzati
 [Show as busy]
 Mostra come 'Occupato'
-[OK]
-OK
 [Cancel]
 Annulla
 [&Join]

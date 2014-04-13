@@ -28,8 +28,6 @@ Sauver sur le disque (pour ce contact)
 Ajouter à l'historique (pour ce contact)
 [Show popups for this user]
 Popup pour ce contact
-[OK]
-OK
 [Protocols]
 Protocoles
 [Enable tracking for these protocols:]

@@ -68,8 +68,6 @@ Zurücksetzen des Status bestätigen
 Nur setzen bei akt. Status
 [Command line]
 Befehlszeile
-[OK]
-OK
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Command line:]

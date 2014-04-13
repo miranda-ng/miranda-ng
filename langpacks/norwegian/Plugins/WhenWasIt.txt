@@ -15,8 +15,6 @@ Vis
 sekunder
 [Close]
 Lukk
-[OK]
-OK
 [Description:]
 Beskrivelse:
 [Date:]

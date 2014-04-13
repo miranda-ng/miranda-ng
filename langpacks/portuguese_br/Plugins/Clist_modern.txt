@@ -105,8 +105,6 @@ altura
 W x H: 0 x 0 pixels
 [Show contacts in groups]
 Mostrar contatos em grupos
-[OK]
-OK
 [Cancel]
 Cancelar
 [Protocol]

@@ -26,8 +26,6 @@ RAZ
 
 [XSoundNotify]
 
-[OK]
-OK
 [Cancel]
 Annuler
 ;file \plugins\XSoundNotify\src\dialog.cpp

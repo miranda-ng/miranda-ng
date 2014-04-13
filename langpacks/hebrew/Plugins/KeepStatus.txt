@@ -17,8 +17,6 @@
 הודעה
 [Set]
 החל
-[OK]
-אישור
 [Command line:]
 שורת פקודה
 [Other]

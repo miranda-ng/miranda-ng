@@ -88,8 +88,6 @@
 
 [Autoreply format:]
 
-[OK]
-
 [&Variables]
 
 [Se&ttings]

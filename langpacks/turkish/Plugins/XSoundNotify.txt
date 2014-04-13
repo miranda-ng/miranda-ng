@@ -9,8 +9,6 @@
 Kısa Ad:
 [Reset]
 Sıfırla
-[OK]
-Tamam
 [Cancel]
 İptal
 [Sounds]

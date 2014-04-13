@@ -60,8 +60,6 @@ Auf
 Ab
 [Edit Host]
 Host bearbeiten
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Address:]

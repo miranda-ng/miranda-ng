@@ -7,8 +7,6 @@
 ;============================================================
 [seconds]
 saniye
-[OK]
-Tamam
 [Cancel]
 İptal
 [Background]

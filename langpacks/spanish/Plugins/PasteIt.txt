@@ -40,8 +40,6 @@ Configurar
 
 [Configure formatting]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Up]

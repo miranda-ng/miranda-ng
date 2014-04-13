@@ -13,8 +13,6 @@
 专家选项
 [URL:]
 链接:
-[OK]
-确定
 [Cancel]
 取消
 [Apply]

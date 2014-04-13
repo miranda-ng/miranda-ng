@@ -17,8 +17,6 @@
 削除
 [Edit]
 編集
-[OK]
-OK
 [Cancel]
 Cancel
 [Port:]

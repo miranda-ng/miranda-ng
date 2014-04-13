@@ -56,8 +56,6 @@ Beenden, wenn alle Kontakte &offline sind
 Beenden, wenn alle &Dateiübertragungen abgeschlossen sind
 [&Action:]
 &Vorgang:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Unsaved data in open applications except Miranda NG might get lost.]

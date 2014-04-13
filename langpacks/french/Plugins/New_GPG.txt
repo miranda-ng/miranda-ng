@@ -10,8 +10,6 @@
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 
-[OK]
-OK
 [Load from file]
 
 [Select existing]

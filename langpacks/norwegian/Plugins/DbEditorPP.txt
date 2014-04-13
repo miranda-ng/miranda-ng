@@ -17,8 +17,6 @@ Advar ved sletting av moduler
 Bruk popups når overvåkede innstillinger endrer verdier
 [Background color]
 Bakgrunnsfarge
-[OK]
-OK
 [Cancel]
 Avbryt
 [E&xit]

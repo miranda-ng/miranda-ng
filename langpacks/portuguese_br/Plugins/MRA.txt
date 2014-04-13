@@ -51,8 +51,6 @@ E-mail completo:
 Cor do Texto
 [Closing in %d]
 Fechando em %d
-[OK]
-OK
 [Cancel]
 Cancelar
 [Male]

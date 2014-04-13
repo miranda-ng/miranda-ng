@@ -18,8 +18,6 @@ Herkunft
 Akt&ualisieren
 [Updating]
 Aktualisieren
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Apply]

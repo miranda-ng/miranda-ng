@@ -33,8 +33,6 @@ Yahoo Yoksay Listesi
 Kişisel Durum Seç
 [Show as busy]
 Meşgul olarak göster
-[OK]
-Tamam
 [Cancel]
 İptal
 [&Join]

@@ -33,8 +33,6 @@ Pohlavie:
 Mesto:
 [Description:]
 Popis:
-[OK]
-OK
 [Cancel]
 Storno
 [to:]

@@ -48,8 +48,6 @@
 
 [Action:]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [* and ? wildcard characters also available (for port enter number or *)]

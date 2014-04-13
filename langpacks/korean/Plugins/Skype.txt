@@ -9,8 +9,6 @@
 &C 취소
 [Password:]
 비밀번호:
-[OK]
-확인
 [Cancel]
 취소
 [Date of birth:]

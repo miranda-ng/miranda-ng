@@ -77,8 +77,6 @@ Doğum yılı:
 Açıklama:
 [Enter token to continue]
 Devam etmek için işareti yazın
-[OK]
-Tamam
 [Cancel]
 İptal
 [Create Gadu-Gadu account]

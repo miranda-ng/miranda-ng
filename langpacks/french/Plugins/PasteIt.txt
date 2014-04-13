@@ -40,8 +40,6 @@ Clé d'utilisateur
 Obtenir une clé d'utilisateur
 [Configure formatting]
 Configurez la mise en forme
-[OK]
-OK
 [Cancel]
 Annuler
 [Up]

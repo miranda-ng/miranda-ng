@@ -12,8 +12,6 @@ Zeigt Ihre Details in der Kontaktliste an und bietet eine Möglichkeit, diese zu
 Mein Nicknamen setzen
 [Nickname:]
 Nickname:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [General]

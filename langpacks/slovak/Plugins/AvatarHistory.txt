@@ -9,8 +9,6 @@
 Uložiť ako...
 [Open Folder]
 Otvoriť zložku
-[OK]
-OK
 [Colors]
 Farby
 [Background color]

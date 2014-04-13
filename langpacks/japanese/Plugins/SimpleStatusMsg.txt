@@ -11,8 +11,6 @@
 Cancel(&C)
 [Retrieving %s message...]
 %s メッセージを復活...
-[OK]
-OK
 [Status messages]
 ステータスメッセージ
 [seconds]

@@ -9,8 +9,6 @@
 Becenevem bállítása
 [Nickname:]
 Becenév
-[OK]
-OK
 [Cancel]
 Mégsem
 [General]

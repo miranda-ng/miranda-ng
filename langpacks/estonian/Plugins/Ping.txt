@@ -13,8 +13,6 @@ Rea kõrgus:
 Lisa
 [Remove]
 Eemalda
-[OK]
-OK
 [Cancel]
 Tühista
 [Port:]

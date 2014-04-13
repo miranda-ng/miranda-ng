@@ -10,8 +10,6 @@
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 
-[OK]
-OK
 [Fingerprint plugin not found.]
 
 [ClientChangeNotify requires it to work properly.]

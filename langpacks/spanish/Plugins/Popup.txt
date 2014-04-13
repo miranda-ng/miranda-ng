@@ -260,8 +260,6 @@ Copiar al portapapeles
 
 [Popup Placement]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Popup Group]

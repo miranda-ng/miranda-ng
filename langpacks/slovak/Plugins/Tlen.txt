@@ -35,8 +35,6 @@ Z Popup pluginu
 Voliteľné
 [P&ermanent]
 Permanentne
-[OK]
-OK
 [Cancel]
 Storno
 [Nickname:]

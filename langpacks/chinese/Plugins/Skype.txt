@@ -21,8 +21,6 @@
 提示: 
 [Enter password]
 输入密码
-[OK]
-确定
 [Cancel]
 取消
 [Status text:]

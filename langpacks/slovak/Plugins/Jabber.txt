@@ -5,8 +5,6 @@
 ;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-[OK]
-OK
 [Cancel]
 Storno
 [Type:]

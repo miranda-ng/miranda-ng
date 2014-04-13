@@ -11,8 +11,6 @@ Excluir
 Editar
 [Row height:]
 Altura da linha:
-[OK]
-OK
 [Cancel]
 Cancelar
 [Description:]

@@ -13,8 +13,6 @@
 דקות
 [Row height:]
 גודל גובה:
-[OK]
-אישור
 [Cancel]
 ביטול
 [Description:]

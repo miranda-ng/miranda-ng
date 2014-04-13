@@ -26,8 +26,6 @@ Reiniciar
 Ignorar sonido para este contacto
 [XSoundNotify]
 XSoundNotify
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 ;file \plugins\XSoundNotify\src\dialog.cpp

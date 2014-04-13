@@ -9,8 +9,6 @@
 GnuPG 插件 - 口令短语
 [Enter passphrase for the secret key of user:]
 为用户安全密钥输入口令短语:
-[OK]
-确定
 [Cancel]
 取消
 [GnuPG Plugin - Select public key]

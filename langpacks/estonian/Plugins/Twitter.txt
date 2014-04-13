@@ -13,7 +13,5 @@ Tühista
 sek.
 [Text]
 Tekst
-[OK]
-OK
 [Network]
 Võrgustik

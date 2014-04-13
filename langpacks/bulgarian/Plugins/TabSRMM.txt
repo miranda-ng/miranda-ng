@@ -10,8 +10,6 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Show these events]

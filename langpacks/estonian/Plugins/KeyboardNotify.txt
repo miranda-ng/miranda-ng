@@ -33,8 +33,6 @@ Lisa
 Kustuta
 [Export...]
 Eksport...
-[OK]
-OK
 [Cancel]
 Tühista
 [Ignore]

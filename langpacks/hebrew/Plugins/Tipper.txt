@@ -13,8 +13,6 @@
 מודול:
 [Translation:]
 תרגום:
-[OK]
-אישור
 [Cancel]
 ביטול
 [Items]

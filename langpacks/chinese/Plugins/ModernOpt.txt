@@ -15,8 +15,6 @@
 Miranda NG 选项
 [Use arrow keys to choose category]
 使用方向键选择分类
-[OK]
-确定
 [Cancel]
 取消
 [Apply]

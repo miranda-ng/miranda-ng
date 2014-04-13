@@ -130,8 +130,6 @@ Bitte vergeben Sie ein Passwort!
 Benutzername:
 [Password:]
 Passwort:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [SecureIM plugin Passphrase of private key]

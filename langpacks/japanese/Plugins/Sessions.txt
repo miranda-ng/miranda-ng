@@ -13,8 +13,6 @@
 Cancel(&C)
 [Save and Close]
 保存して閉じる
-[OK]
-OK
 [Cancel]
 Cancel
 [Message Sessions]

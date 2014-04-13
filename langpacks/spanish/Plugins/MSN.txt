@@ -78,8 +78,6 @@ Otro
 
 [Set Nickname]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Mobile Device (used for SMS)]

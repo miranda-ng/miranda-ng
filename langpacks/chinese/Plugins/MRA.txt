@@ -95,8 +95,6 @@
 文本颜色
 [Closing in %d]
 %d 秒关闭
-[OK]
-确定
 [Cancel]
 取消
 [Select e-mail]

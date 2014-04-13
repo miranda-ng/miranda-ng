@@ -9,8 +9,6 @@
 Kısa Adımı Ayarla
 [Nickname:]
 Kısa Ad:
-[OK]
-Tamam
 [Cancel]
 İptal
 [General]

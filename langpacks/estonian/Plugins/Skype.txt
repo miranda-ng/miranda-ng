@@ -13,8 +13,6 @@ Lisa
 &Loo
 [Password:]
 Parool:
-[OK]
-OK
 [Cancel]
 Tühista
 [Date of birth:]

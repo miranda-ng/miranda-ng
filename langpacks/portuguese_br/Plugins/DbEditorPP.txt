@@ -13,8 +13,6 @@
 Pesquisar por
 [Background color]
 Cor do fundo
-[OK]
-OK
 [Cancel]
 Cancelar
 [E&xit]

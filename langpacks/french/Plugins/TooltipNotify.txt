@@ -10,8 +10,6 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 
-[OK]
-OK
 [Choose contacts]
 Choix des contacts
 [Allow tooltip notifications for the following users:]

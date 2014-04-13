@@ -9,8 +9,6 @@
 编辑笔记
 [Tags:]
 标签:
-[OK]
-确定
 [Cancel]
 取消
 [Type:]
@@ -1383,8 +1381,6 @@ Jabber vCard: 编辑邮箱地址
 Jabber vCard: 编辑电话号码
 [Contacts]
 联系人
-[OK (%d)]
-是 (%d)
 [Afraid]
 恐惧
 [Amazed]

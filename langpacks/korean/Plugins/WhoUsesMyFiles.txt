@@ -5,8 +5,6 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-[OK]
-확인
 [Background color]
 배경
 [File]

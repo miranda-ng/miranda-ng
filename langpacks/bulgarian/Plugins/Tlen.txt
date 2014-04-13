@@ -96,8 +96,6 @@
 Преглед
 [Tlen Password]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Nickname:]

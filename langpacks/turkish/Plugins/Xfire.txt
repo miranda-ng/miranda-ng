@@ -31,8 +31,6 @@ Port:
 Kullanıcı Detayları
 [Copy]
 Kopyala
-[OK]
-Tamam
 [Cancel]
 İptal
 [Search:]

@@ -23,8 +23,6 @@ Pildi valikud
 Proovi teha pildi taust läbipaistvaks
 [Use defaults]
 Kasuta vaikeväärtusi
-[OK]
-OK
 [Cancel]
 Tühista
 [Options]

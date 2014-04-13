@@ -15,8 +15,6 @@ Password:
 &OK
 [Enter password]
 Inserisci la password
-[OK]
-OK
 [Cancel]
 Annulla
 [Date of birth:]

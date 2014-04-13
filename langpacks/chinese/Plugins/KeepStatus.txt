@@ -19,8 +19,6 @@ KeepStatus, 一个连接检查插件, 可与 (或不与) StartupStatus 及/或 A
 消息
 [Set]
 设置
-[OK]
-确定
 [Command line:]
 命令行: 
 [Other]

@@ -13,8 +13,6 @@ Ativar substituição automática
 Editar...
 [Remove]
 Remover
-[OK]
-OK
 [Cancel]
 Cancelar
 [Spell Checker]

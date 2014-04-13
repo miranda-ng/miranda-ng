@@ -11,8 +11,6 @@ Otsi
 &Tühista
 [Background color]
 Taustavärv
-[OK]
-OK
 [Cancel]
 Tühista
 [E&xit]

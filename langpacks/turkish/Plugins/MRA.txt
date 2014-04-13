@@ -49,8 +49,6 @@ Windows renklerini k&ullan
 Yazı Rengi
 [Closing in %d]
 Kapanıyor %d
-[OK]
-Tamam
 [Cancel]
 İptal
 [Male]

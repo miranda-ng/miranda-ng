@@ -11,7 +11,5 @@ Kustuta
 &Tühista
 [Save and Close]
 Salvesta ja sulge
-[OK]
-OK
 [Cancel]
 Tühista

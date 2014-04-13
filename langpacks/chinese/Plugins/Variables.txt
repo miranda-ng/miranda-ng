@@ -35,8 +35,6 @@
 标记 %extratext% 根据字符解析情况转化为字符串. 使用此对话框将 %extratext% 转化为模拟字符串.
 [Close]
 关闭
-[OK]
-确定
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 变量插件转化不同标记至某一数值. 一个示例: 我正在运行 Miranda %mirandaversion%. 子串 %mirandaversion% 被转化为正确的版本号. 下方列表显示了所有可用标记.
 [Notes]

@@ -7,8 +7,6 @@
 ;============================================================
 [Language:]
 Jazyk:
-[OK]
-OK
 [Cancel]
 Storno
 [Advanced]

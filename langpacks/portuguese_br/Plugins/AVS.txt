@@ -53,8 +53,6 @@ Configurar como invisível
 Aplicar tranparência a imagem de fundo
 [Use defaults]
 Usar padrão
-[OK]
-OK
 [Cancel]
 Cancelar
 [Options]

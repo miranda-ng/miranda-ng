@@ -111,8 +111,6 @@
 设置程序列表
 [Program]
 程序
-[OK]
-确定
 [Cancel]
 取消
 [Set LEDs for events]

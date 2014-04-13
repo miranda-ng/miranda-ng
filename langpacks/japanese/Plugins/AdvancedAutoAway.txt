@@ -17,8 +17,6 @@ Cancel
 メッセージ
 [Set]
 設定
-[OK]
-OK
 [Command line:]
 コマンドライン:
 [Other]

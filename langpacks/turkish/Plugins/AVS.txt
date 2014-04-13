@@ -47,8 +47,6 @@ Gizle
 Resim art alanını saydam yapmayı dene
 [Use defaults]
 Varsayılanı kullan
-[OK]
-Tamam
 [Cancel]
 İptal
 [Options]

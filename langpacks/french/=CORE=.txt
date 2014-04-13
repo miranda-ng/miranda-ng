@@ -5,8 +5,6 @@ Entrez le nom du compte (ex: My Google)
 Choisissez le type de protocole
 [Specify the internal account name (optional)]
 Spécifiez le nom interne du compte (optionnel)
-[OK]
-OK
 [Cancel]
 Annuler
 [Add %s]
@@ -2724,9 +2722,6 @@ Images JPEG
 Images GIF
 [PNG bitmaps]
 Images PNG
-;file \src\modules\utils\enterstring.cpp
-[OK (%d)]
-
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatars

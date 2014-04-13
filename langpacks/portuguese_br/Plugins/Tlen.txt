@@ -21,8 +21,6 @@ Proxy requer autorização
 Fundo
 [Text]
 Texto
-[OK]
-OK
 [Cancel]
 Cancelar
 [First name:]

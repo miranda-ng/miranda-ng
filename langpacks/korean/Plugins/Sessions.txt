@@ -9,7 +9,5 @@
 삭제
 [&Cancel]
 &C 취소
-[OK]
-확인
 [Cancel]
 취소

@@ -5,8 +5,6 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-[OK]
-Tamam
 [Background color]
 Art alan rengi
 [Text color]

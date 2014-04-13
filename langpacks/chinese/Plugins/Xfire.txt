@@ -105,8 +105,6 @@
 输入密码
 [Join]
 加入
-[OK]
-确定
 [Cancel]
 取消
 [Add game]

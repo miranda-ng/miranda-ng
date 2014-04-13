@@ -15,8 +15,6 @@ Pre:
 Prezívka
 [Close]
 Zavrieť
-[OK]
-OK
 [Cancel]
 Storno
 [Overwrite]

@@ -15,8 +15,6 @@ Adicionar
 Senha:
 [Hint:]
 Dica:
-[OK]
-OK
 [Cancel]
 Cancelar
 [Date of birth:]

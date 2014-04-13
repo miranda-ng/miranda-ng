@@ -4,8 +4,6 @@ Digite o nome da conta (por exemplo, Meu Google)
 Escolha o tipo de protocolo
 [Specify the internal account name (optional)]
 Especifique o nome da conta interna (opcional)
-[OK]
-OK
 [Cancel]
 Cancelar
 [Add %s]

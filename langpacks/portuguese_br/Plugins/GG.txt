@@ -75,8 +75,6 @@ Ano de nascimento:
 Descrição
 [Enter token to continue]
 Digite a marca para continuar
-[OK]
-OK
 [Cancel]
 Cancelar
 [Create Gadu-Gadu account]

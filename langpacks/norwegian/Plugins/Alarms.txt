@@ -11,8 +11,6 @@ Slett
 Rediger
 [Row height:]
 Radhøyde:
-[OK]
-OK
 [Cancel]
 Avbryt
 [Description:]

@@ -38,8 +38,6 @@ Senden
 Abbrechen
 [Invite user to chat]
 Benutzer zum Chat einladen
-[OK]
-OK
 [Choose one of your contacts to be invited:]
 Wählen Sie einen Kontakt aus, den Sie einladen wollen:
 [Create group chat]

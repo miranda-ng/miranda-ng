@@ -100,8 +100,6 @@ Gadu-Gadu номер:
 Запис на промените
 [Enter token to continue]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Create Gadu-Gadu account]

@@ -15,8 +15,6 @@
 닫기
 [Options]
 옵션
-[OK]
-확인
 [Cancel]
 취소
 [Overwrite]

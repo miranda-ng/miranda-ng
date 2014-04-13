@@ -11,8 +11,6 @@ saniye
 Koyu
 [URL:]
 Web Adresi:
-[OK]
-Tamam
 [Cancel]
 İptal
 [Apply]

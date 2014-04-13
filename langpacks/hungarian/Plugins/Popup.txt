@@ -27,8 +27,6 @@ Pozíció:
 Felhasználó részletek
 [Contact menu]
 Partner Menü
-[OK]
-OK
 [Cancel]
 Mégsem
 [Blocked Contact]

@@ -43,8 +43,6 @@ Vorschau...
 Ihre advaimg.dll ist entweder veraltet oder beschädigt. Laden Sie sich die neuste aus den Miranda-Entwicklungsversionen.
 [Error]
 Fehler
-[Call Splash Service]
-Splash-Dienst aufrufen
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafikdateien
@@ -54,4 +52,3 @@ Klangdateien
 Skins
 [Splash Screen]
 Splash Screen
-;file \plugins\SplashScreen\src\services.cpp

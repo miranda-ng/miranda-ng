@@ -20,8 +20,6 @@ Eliminar
 
 [Retrieve news at startup]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [General Settings]

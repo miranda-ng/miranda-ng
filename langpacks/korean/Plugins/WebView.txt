@@ -9,8 +9,6 @@
 초
 [Bold]
 굵게
-[OK]
-확인
 [Cancel]
 취소
 [Apply]

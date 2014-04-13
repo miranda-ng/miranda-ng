@@ -79,8 +79,6 @@ SSL セキュア接続を使用
 説明:
 [Enter token to continue]
 継続するにはトークンを入力してください
-[OK]
-OK
 [Cancel]
 Cancel
 [Create Gadu-Gadu account]

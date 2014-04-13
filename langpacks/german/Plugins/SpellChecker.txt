@@ -30,8 +30,6 @@ Keine Leerzeichen und nur Kleinbuchstaben
 Korrektur:
 [Use variables in correction]
 Variabeln in Korrekturen benutzen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Spell Checker]

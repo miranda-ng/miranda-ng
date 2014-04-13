@@ -45,8 +45,6 @@
 设置或前缀
 [Translation:]
 翻译: 
-[OK]
-确定
 [Cancel]
 取消
 [Item]

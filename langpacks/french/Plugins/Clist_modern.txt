@@ -144,8 +144,6 @@ Groupes inclus
 Afficher les contacts dans des groupes
 [Include status modes]
 Inclure les états
-[OK]
-OK
 [Cancel]
 Annuler
 [Sticky contacts]

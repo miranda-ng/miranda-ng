@@ -91,8 +91,6 @@ yükseklik
 G x Y: 0 x piksel
 [Show contacts in groups]
 Kişileri gruplayarak göster
-[OK]
-Tamam
 [Cancel]
 İptal
 [Protocol]

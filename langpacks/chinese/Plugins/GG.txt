@@ -79,8 +79,6 @@ Gadu-Gadu 号码:
 描述: 
 [Enter token to continue]
 请输入标记继续
-[OK]
-确定
 [Cancel]
 取消
 [Create Gadu-Gadu account]

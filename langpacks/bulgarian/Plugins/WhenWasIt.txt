@@ -70,8 +70,6 @@ Popups
 
 [Set birthday:]
 
-[OK]
-ОК
 [Manage anniversaries]
 
 [Title:]

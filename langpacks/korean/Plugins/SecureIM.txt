@@ -13,8 +13,6 @@
 유저명:
 [Password:]
 비밀번호:
-[OK]
-확인
 [Cancel]
 취소
 [Status]

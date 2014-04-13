@@ -2706,7 +2706,6 @@ BMP
 Выявы GIF
 [PNG bitmaps]
 Выявы PNG
-;file \src\modules\utils\enterstring.cpp
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Аватары

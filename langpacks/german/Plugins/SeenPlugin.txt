@@ -66,8 +66,6 @@ Offline
 Standardfarben
 [Last seen plugin]
 Zuletzt gesehen
-[OK]
-OK
 [You missed following contacts:]
 Du hast folgende Kontakte verpasst:
 [Test\nTest]

@@ -72,8 +72,6 @@ Opciones
 
 [Translation:]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Item]

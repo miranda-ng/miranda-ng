@@ -10,8 +10,6 @@ Sucht nach Netzwerknutzern Ihrer freigegebenen Dateien und benachrichtigt Sie mi
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Aktuelle Verbindungen
-[OK]
-OK
 [Popup delay settings]
 Popup Verzögerung
 [Popup Delay (seconds)]

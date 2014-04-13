@@ -13,8 +13,6 @@ Miranda NG 公式ウェブサイトにアクセス
 Miranda NG オプション
 [Use arrow keys to choose category]
 カテゴリーの選択にカーソルキーを使用
-[OK]
-OK
 [Cancel]
 Cancel
 [Apply]

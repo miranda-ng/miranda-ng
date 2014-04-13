@@ -10,8 +10,6 @@
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Diálogo
-[OK]
-Aceptar
 [All]
 Todo
 [None]

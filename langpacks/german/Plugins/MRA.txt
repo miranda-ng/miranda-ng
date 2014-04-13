@@ -150,8 +150,6 @@ In %d schließen
 Titel:
 [Message:]
 Nachricht:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Notify]

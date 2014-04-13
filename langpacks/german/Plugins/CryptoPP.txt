@@ -14,8 +14,6 @@ GnuPG-Plugin - Passphrase
 Passwort des geheimen Schlüssels des Benutzers eingeben:
 [User ID]
 Nutzer-ID
-[OK]
-OK
 [Cancel]
 Abbrechen
 [GnuPG Plugin - Select public key]

@@ -86,8 +86,6 @@ URL:
 
 [Remove HTML]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Apply]

@@ -9,8 +9,6 @@
 %s 를 위한 메세지 %s
 [&Cancel]
 &C 취소
-[OK]
-확인
 [Status messages]
 상태 메세지
 [seconds]

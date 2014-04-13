@@ -11,8 +11,6 @@ Verwijderen
 Bewerken
 [Row height:]
 Rij hoogte:
-[OK]
-OK
 [Cancel]
 Annuleren
 [Description:]

@@ -100,8 +100,6 @@ Description:
 &Sauvegarder les changements
 [Enter token to continue]
 Entrer quelquechose pour continuer
-[OK]
-OK
 [Cancel]
 Annuler
 [Create Gadu-Gadu account]

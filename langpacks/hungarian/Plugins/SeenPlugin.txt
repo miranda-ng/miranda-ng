@@ -27,8 +27,6 @@ Csevegésre kész
 Láthatatlan
 [Offline]
 Kilépett
-[OK]
-OK
 [View User's Details]
 Felhasználó részletinek megtekintése
 [User Menu]

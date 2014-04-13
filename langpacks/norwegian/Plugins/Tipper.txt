@@ -43,8 +43,6 @@ Statuslinje tips
 Avatar ramme
 [Keep original avatar size]
 Behold original avatar størrelse
-[OK]
-OK
 [Cancel]
 Avbryt
 [Items]

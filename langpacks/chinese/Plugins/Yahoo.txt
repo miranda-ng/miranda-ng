@@ -41,8 +41,6 @@ Yahoo 忽略列表
 设置自定义状态
 [Show as busy]
 显示为忙碌
-[OK]
-确定
 [Cancel]
 取消
 [&Join]

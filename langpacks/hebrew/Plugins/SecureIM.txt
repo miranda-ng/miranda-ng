@@ -15,8 +15,6 @@
 שם משתמש:
 [Password:]
 סיסמא:
-[OK]
-אישור
 [Cancel]
 ביטול
 [Status]

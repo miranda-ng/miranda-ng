@@ -31,8 +31,6 @@ Port:
 Felhasználó részletek
 [Copy]
 Másol
-[OK]
-OK
 [Cancel]
 Mégsem
 [Search:]

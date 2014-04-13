@@ -10,8 +10,6 @@
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Liste variables
-[OK]
-OK
 [Edit Settings]
 
 [Use contact specific settings]

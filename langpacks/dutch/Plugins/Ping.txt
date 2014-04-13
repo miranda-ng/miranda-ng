@@ -15,8 +15,6 @@ Rij hoogte:
 Toevoegen
 [Edit]
 Bewerken
-[OK]
-OK
 [Cancel]
 Annuleren
 [Port:]

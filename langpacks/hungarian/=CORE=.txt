@@ -4,8 +4,6 @@ Add meg a fiók nevét (pl. Saját Google)
 Protokolltípus választása
 [Specify the internal account name (optional)]
 Belsõ fióknév megadása (tetszõleges)
-[OK]
-OK
 [Cancel]
 Mégsem
 [Add %s]

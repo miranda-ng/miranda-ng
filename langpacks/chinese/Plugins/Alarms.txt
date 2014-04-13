@@ -37,8 +37,6 @@
 除闲置外不要获取焦点
 [Alarm]
 闹钟
-[OK]
-确定
 [Cancel]
 取消
 [Description:]

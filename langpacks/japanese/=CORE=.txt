@@ -4,8 +4,6 @@
 プロトコルタイプを選択
 [Specify the internal account name (optional)]
 内部アカウント名を指定 ( 任意 )
-[OK]
-OK
 [Cancel]
 Cancel
 [Add %s]

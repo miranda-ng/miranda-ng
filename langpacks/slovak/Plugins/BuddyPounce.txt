@@ -7,8 +7,6 @@
 ;============================================================
 [Cancel]
 Storno
-[OK]
-OK
 [Advanced >>]
 Podrobne >>
 [Status]

@@ -33,8 +33,6 @@ Copia
 Inserisci la password
 [Join]
 Unione
-[OK]
-OK
 [Cancel]
 Annulla
 [Search:]

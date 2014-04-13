@@ -15,8 +15,6 @@
 &אישור
 [Enter password]
 הכנס סיסמה
-[OK]
-אישור
 [Cancel]
 ביטול
 [Date of birth:]

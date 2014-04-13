@@ -9,8 +9,6 @@
 メモの編集
 [Tags:]
 タグ:
-[OK]
-OK
 [Cancel]
 Cancel
 [Type:]

@@ -5,8 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-[OK]
-확인
 [Cancel]
 취소
 [Username]

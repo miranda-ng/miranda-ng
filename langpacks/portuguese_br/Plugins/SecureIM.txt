@@ -15,8 +15,6 @@ Eventos
 Usuário:
 [Password:]
 Senha:
-[OK]
-OK
 [Cancel]
 Cancelar
 [Status]

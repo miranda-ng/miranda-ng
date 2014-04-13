@@ -43,8 +43,6 @@ Aperçu...
 
 [Error]
 Erreur
-[Call Splash Service]
-
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 
@@ -54,4 +52,3 @@ Erreur
 Skins
 [Splash Screen]
 
-;file \plugins\SplashScreen\src\services.cpp

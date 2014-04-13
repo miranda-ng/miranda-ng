@@ -78,8 +78,6 @@ popup при излизане на контакт от канал
 Без уведомяване в списъка с контакти
 [Set Nickname]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Mobile Device (used for SMS)]

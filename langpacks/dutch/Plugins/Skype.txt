@@ -13,8 +13,6 @@ Toevoegen
 Wachtwoord:
 [Enter password]
 Voer wachtwoord in
-[OK]
-OK
 [Cancel]
 Annuleren
 [Date of birth:]

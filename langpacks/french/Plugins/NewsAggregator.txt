@@ -20,8 +20,6 @@ Retirer
 
 [Retrieve news at startup]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [General Settings]

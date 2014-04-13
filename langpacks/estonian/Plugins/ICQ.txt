@@ -13,8 +13,6 @@ Parool:
 Saada
 [&Cancel]
 &Tühista
-[OK]
-OK
 [Cancel]
 Tühista
 [ICQ number:]

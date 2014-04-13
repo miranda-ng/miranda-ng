@@ -9,8 +9,6 @@
 Apelido:
 [Reset]
 Limpar
-[OK]
-OK
 [Cancel]
 Cancelar
 [Sounds]

@@ -11,8 +11,6 @@
 &C 취소
 [Background color]
 배경
-[OK]
-확인
 [Cancel]
 취소
 [E&xit]

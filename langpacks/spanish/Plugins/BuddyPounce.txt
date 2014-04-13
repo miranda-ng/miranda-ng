@@ -18,8 +18,6 @@ Cancelar
 
 [Buddy Pounce]
 
-[OK]
-Aceptar
 [The Message:]
 
 [Delete Pounce]

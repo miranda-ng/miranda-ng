@@ -12,8 +12,6 @@
 
 [EN]
 
-[OK]
-
 [Cancel]
 
 [Enter password]

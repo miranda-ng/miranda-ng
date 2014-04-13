@@ -16,8 +16,6 @@
 Options de Miranda NG
 [Use arrow keys to choose category]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Apply]

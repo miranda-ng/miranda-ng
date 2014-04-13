@@ -40,8 +40,6 @@ Benutzer-Schlüssel:
 Schlüssel anfordern
 [Configure formatting]
 Formatierungseinstellungen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Up]

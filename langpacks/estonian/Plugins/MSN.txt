@@ -27,8 +27,6 @@ Sa sisaldud tema serveri nimekirjas
 Hotmail
 [Other]
 Muu
-[OK]
-OK
 [Cancel]
 Tühista
 [Nickname]

@@ -150,8 +150,6 @@ Cerrando en %d
 Título:
 [Message:]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Notify]

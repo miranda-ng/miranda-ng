@@ -260,8 +260,6 @@ Mit "Vollbild"-Überlagerung
 Skin-Liste aktualisieren
 [Popup Placement]
 Popup-Platzierung
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Popup Group]

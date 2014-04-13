@@ -30,8 +30,6 @@
 Поправка:
 [Use variables in correction]
 Ползване на променливи
-[OK]
-ОК
 [Cancel]
 Отказ
 [Spell Checker]

@@ -86,8 +86,6 @@ Datenfenster öffnen
 Bildschirmsäuberung
 [Remove HTML]
 HTML entfernen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Apply]

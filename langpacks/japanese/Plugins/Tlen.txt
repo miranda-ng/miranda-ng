@@ -19,8 +19,6 @@
 背景
 [Text]
 テキスト
-[OK]
-OK
 [Cancel]
 Cancel
 [First name:]

@@ -150,8 +150,6 @@ Fermeture dans %d
 Titre :
 [Message:]
 Message :
-[OK]
-OK
 [Cancel]
 Annuler
 [Notify]

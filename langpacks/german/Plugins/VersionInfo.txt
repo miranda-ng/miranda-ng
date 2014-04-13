@@ -10,8 +10,6 @@ Sammelt Informationen über Miranda, seine Plugins und das Betriebssystem, und g
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Ausgabe als:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Text file]
@@ -99,5 +97,5 @@ Versionsinformation
 Dienste
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 Etwas in den "%s"-Einstellungen ist falsch. Melde diesen Fehlerwert zurück: %d\nService: %X\nFehlercode:%X\nZeilennummer: %d]

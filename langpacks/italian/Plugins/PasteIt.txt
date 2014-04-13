@@ -7,8 +7,6 @@
 ;============================================================
 [Configure]
 Configura
-[OK]
-OK
 [Cancel]
 Annulla
 [Delete]

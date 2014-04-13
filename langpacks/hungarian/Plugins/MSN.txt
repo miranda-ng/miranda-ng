@@ -41,8 +41,6 @@ Egyéb
 'Csevegés Munkamenet létrejött' felugró bekapcsolása
 [Enable 'Contact left channel' popup]
 'Partner elhagyta a csatornát' felugró bekapcsolása
-[OK]
-OK
 [Cancel]
 Mégsem
 [First Name]

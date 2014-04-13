@@ -223,8 +223,6 @@
 超时 (秒)
 [(0 means default setting, -1 means indefinite time)]
 (0 默认设置, -1 无时间限制)
-[OK]
-确定
 [Log]
 记录
 [&Copy]

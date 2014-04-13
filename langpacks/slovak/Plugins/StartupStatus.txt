@@ -11,8 +11,6 @@ Zavrieť
 Storno
 [minutes of inactivity]
 minutách neaktivity
-[OK]
-OK
 [Command line:]
 Príkazový riadok:
 [Timeout]

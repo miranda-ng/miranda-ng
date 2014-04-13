@@ -27,8 +27,6 @@ Voľný k rozhovoru
 Neviditelný
 [Offline]
 Odpojený
-[OK]
-OK
 [View User's Details]
 Zobraziť informácie o užívatelovi
 [User Menu]

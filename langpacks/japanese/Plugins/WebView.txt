@@ -11,8 +11,6 @@
 太字
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Cancel
 [Apply]

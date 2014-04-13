@@ -18,8 +18,6 @@ Origine
 &Mettre à jour
 [Updating]
 Mise à jour
-[OK]
-OK
 [Cancel]
 Annuler
 [Apply]

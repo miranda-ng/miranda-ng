@@ -19,8 +19,6 @@ Port:
 Bakgrunn
 [Text]
 Tekst
-[OK]
-OK
 [Cancel]
 Avbryt
 [First name:]

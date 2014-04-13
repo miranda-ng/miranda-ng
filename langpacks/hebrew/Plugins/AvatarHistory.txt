@@ -9,8 +9,6 @@
 ...שמור בשם
 [Open Folder]
 פתח תיקיה
-[OK]
-אישור
 [Background color]
 צבע רקע
 [Text color]

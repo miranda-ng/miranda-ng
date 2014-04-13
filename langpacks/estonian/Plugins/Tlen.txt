@@ -19,8 +19,6 @@ Port:
 Taust
 [Text]
 Tekst
-[OK]
-OK
 [Cancel]
 Tühista
 [First name:]

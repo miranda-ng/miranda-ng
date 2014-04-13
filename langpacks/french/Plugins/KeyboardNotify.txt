@@ -138,8 +138,6 @@ Exportation...
 
 [Program]
 Programme
-[OK]
-OK
 [Cancel]
 Annuler
 [Set LEDs for events]

@@ -16,8 +16,6 @@ Beispielseite
 Miranda-NG-Einstellungen
 [Use arrow keys to choose category]
 Benutzen Sie Pfeiltasten, um eine Kategorie auszuwählen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Apply]

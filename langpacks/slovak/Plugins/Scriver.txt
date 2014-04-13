@@ -45,8 +45,6 @@ Miesto
 Text
 [Background]
 Pozadie
-[OK]
-OK
 [Log]
 Log
 [&Copy]

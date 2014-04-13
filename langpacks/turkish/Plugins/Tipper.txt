@@ -11,8 +11,6 @@ Seçenekler
 Pencere
 [Keep original avatar size]
 Gerçek avatar boyutunu tut
-[OK]
-Tamam
 [Cancel]
 İptal
 [Items]

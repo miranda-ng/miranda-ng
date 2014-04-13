@@ -157,8 +157,6 @@ Yazı
 Art Alan
 [Timeout (s)]
 Zamanaşımı (s)
-[OK]
-Tamam
 [Log]
 Günlük
 [&Copy]

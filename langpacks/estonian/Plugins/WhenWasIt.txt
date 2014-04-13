@@ -13,8 +13,6 @@ Kuva
 sekundit
 [Close]
 Sulge
-[OK]
-OK
 [Description:]
 Kirjeldus:
 [Date:]

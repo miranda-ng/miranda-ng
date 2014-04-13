@@ -11,8 +11,6 @@
 İ&ptal
 [Background color]
 Art alan rengi
-[OK]
-Tamam
 [Cancel]
 İptal
 [E&xit]

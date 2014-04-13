@@ -53,8 +53,6 @@
 关闭
 [Set birthday:]
 设置生日:
-[OK]
-确定
 [Manage anniversaries]
 管理周年纪念
 [Description:]

@@ -9,8 +9,6 @@
 Sea minu hüüdnimi
 [Nickname:]
 Hüüdnimi:
-[OK]
-OK
 [Cancel]
 Tühista
 [General]

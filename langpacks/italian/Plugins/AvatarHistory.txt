@@ -9,8 +9,6 @@
 Salva con nome
 [Open Folder]
 Apri cartella
-[OK]
-OK
 [Background color]
 Colore di sfondo
 [Text color]

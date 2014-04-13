@@ -7,8 +7,6 @@
 ;============================================================
 [seconds]
 sekundit
-[OK]
-OK
 [Cancel]
 Tühista
 [Background]

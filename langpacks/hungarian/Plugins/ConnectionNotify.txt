@@ -9,8 +9,6 @@
 Háttér
 [Text]
 Szöveg
-[OK]
-OK
 [Cancel]
 Mégsem
 [Show]

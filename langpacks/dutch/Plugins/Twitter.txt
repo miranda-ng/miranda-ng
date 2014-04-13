@@ -17,8 +17,6 @@ Aangepaste kleuren gebruiken
 Tekst
 [Custom]
 Aangepast
-[OK]
-OK
 [Network]
 Netwerk
 [Popups]

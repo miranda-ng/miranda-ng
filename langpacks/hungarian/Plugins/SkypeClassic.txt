@@ -13,8 +13,6 @@ Törlés
 Jelszó:
 [Cancel]
 Mégsem
-[OK]
-OK
 [Host:]
 Gép:
 [Port:]

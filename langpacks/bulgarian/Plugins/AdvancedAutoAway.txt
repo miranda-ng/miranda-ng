@@ -68,8 +68,6 @@
 Само при състояние:
 [Command line]
 Команден ред
-[OK]
-ОК
 [Copy to clipboard]
 Запис в клипборда
 [Command line:]

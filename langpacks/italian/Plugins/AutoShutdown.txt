@@ -9,8 +9,6 @@
 secondi
 [Configure]
 Configura
-[OK]
-OK
 [Cancel]
 Annulla
 [Background]

@@ -20,8 +20,6 @@ Importieren
 Exportieren
 [Retrieve news at startup]
 Neuigkeiten beim Start abrufen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [General Settings]

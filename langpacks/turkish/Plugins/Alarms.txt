@@ -11,8 +11,6 @@ Sil
 Değiştir
 [Row height:]
 Satır yüksekliği:
-[OK]
-Tamam
 [Cancel]
 İptal
 [Description:]

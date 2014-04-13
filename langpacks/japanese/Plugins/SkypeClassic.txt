@@ -15,8 +15,6 @@
 パスワード:
 [Cancel]
 Cancel
-[OK]
-OK
 [Host:]
 ホスト:
 [Port:]

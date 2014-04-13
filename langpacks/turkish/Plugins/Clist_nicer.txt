@@ -7,8 +7,6 @@
 ;============================================================
 [About CList Nicer+]
 Clist Nicer+ Hakkında
-[OK]
-Tamam
 [Clist Nicer+]
 Clist Nicer+
 [Version]

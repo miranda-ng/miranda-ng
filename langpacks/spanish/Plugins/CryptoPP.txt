@@ -14,8 +14,6 @@ GnuPG Plugin - Frase de contraseña
 Introduzca frase de contraseña secreta del usuario:
 [User ID]
 ID de usuario
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [GnuPG Plugin - Select public key]

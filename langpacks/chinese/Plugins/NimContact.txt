@@ -77,8 +77,6 @@
 返回...
 [Help]
 说明
-[OK]
-确定
 [Copy / Export contact]
 复制 / 导出联系人
 [&Export Non-IM Contact]

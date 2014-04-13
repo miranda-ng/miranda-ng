@@ -17,8 +17,6 @@ Jelszó:
 ICQ jelszó megadása
 [Enter a password for UIN %d:]
 Jelszó megadása ehhez: UIN %d:
-[OK]
-OK
 [Cancel]
 Mégsem
 [ICQ number:]

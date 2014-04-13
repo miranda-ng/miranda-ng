@@ -19,8 +19,6 @@
 שם
 [Day]
 יום
-[OK]
-אישור
 [Cancel]
 ביטול
 [Open History]

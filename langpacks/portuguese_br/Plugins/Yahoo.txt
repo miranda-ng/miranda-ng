@@ -41,8 +41,6 @@ ignorar somente as pessoas abaixo:
 Configurar Status Personalizado
 [Show as busy]
 Mostrar como ocupado
-[OK]
-OK
 [Cancel]
 Cancelar
 [&Join]

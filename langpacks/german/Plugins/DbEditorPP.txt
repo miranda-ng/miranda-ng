@@ -56,8 +56,6 @@ Modul zum Kontakt hinzufügen
 Name des Moduls
 [Add to all contacts (Includes Settings)]
 Modul zu allen Kontakten hinzufügen (inkl. Einstell.)
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Edit Setting]

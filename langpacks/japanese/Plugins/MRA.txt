@@ -49,8 +49,6 @@
 テキスト色
 [Closing in %d]
 %d 秒後に閉じる
-[OK]
-OK
 [Cancel]
 Cancel
 [Male]

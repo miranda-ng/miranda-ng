@@ -21,8 +21,6 @@
 记录此联系人头像变更至历史
 [Show popups for this user]
 为此用户显示弹出窗口
-[OK]
-确定
 [Enable tracking for these protocols:]
 启用以下协议追踪: 
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]

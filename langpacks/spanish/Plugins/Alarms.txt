@@ -50,8 +50,6 @@ Editar
 Previsualizar
 [Alarm]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Title:]

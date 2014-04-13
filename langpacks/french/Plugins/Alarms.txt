@@ -50,8 +50,6 @@ Coins arrondis
 Aperçu
 [Alarm]
 Alarme
-[OK]
-OK
 [Cancel]
 Annuler
 [Title:]

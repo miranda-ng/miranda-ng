@@ -13,8 +13,6 @@
 שלח
 [&Cancel]
 בטל
-[OK]
-אישור
 [Cancel]
 ביטול
 [ICQ number:]

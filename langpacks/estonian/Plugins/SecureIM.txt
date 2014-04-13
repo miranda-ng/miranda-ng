@@ -15,8 +15,6 @@ Sündmused
 Kasutajanimi:
 [Password:]
 Parool:
-[OK]
-OK
 [Cancel]
 Tühista
 [Status]

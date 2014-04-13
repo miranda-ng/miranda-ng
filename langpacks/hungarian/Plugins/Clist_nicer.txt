@@ -7,8 +7,6 @@
 ;============================================================
 [About CList Nicer+]
 A CList Nicer+ névjegye
-[OK]
-OK
 [Clist Nicer+]
 Clist Nicer+
 [Version]

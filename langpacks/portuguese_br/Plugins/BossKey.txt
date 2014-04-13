@@ -9,8 +9,6 @@
 Desativar Sons
 [Password:]
 Senha:
-[OK]
-OK
 [Cancel]
 Cancelar
 [Events]

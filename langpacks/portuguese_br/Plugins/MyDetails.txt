@@ -9,8 +9,6 @@
 Alterar Meu Apelido
 [Nickname:]
 Apelido:
-[OK]
-OK
 [Cancel]
 Cancelar
 [General]

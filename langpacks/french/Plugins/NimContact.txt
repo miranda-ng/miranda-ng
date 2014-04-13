@@ -100,8 +100,6 @@ Faire un ligne
 
 [Help]
 Aide
-[OK]
-OK
 [Copy / Export contact]
 Copier/Exporter le contact
 [&Export Non-IM Contact]

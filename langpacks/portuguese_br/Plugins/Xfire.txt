@@ -33,8 +33,6 @@ Porta:
 Detalhes do Usuário
 [Copy]
 Copiar
-[OK]
-OK
 [Cancel]
 Cancelar
 [Search:]

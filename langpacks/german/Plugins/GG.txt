@@ -100,8 +100,6 @@ Geburtsjahr:
 Änderungen &speichern
 [Enter token to continue]
 Geben Sie das Token ein, um fortzufahren
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Create Gadu-Gadu account]

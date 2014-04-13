@@ -18,8 +18,6 @@
 
 [Buddy Pounce]
 
-[OK]
-ОК
 [The Message:]
 
 [Delete Pounce]

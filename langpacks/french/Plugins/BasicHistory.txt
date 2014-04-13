@@ -136,8 +136,6 @@ Mot de passe
 
 [Execute task for specified contacts]
 
-[OK]
-OK
 [Cancel]
 Annuler
 ;file \plugins\BasicHistory\src\BasicHistory.cpp

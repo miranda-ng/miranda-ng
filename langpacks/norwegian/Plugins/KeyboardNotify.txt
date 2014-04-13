@@ -37,8 +37,6 @@ Legg til
 Slett
 [Export...]
 Eksporter..
-[OK]
-OK
 [Cancel]
 Avbryt
 [The following events are being ignored:]

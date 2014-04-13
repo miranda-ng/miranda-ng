@@ -266,8 +266,6 @@ Fondo
 Tiempo de espera (s)
 [(0 means default setting, -1 means indefinite time)]
 
-[OK]
-Aceptar
 [Log]
 Registro
 [&Copy]

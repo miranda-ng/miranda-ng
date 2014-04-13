@@ -56,8 +56,6 @@ Configurar
 
 [&Action:]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Unsaved data in open applications except Miranda NG might get lost.]

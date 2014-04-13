@@ -7,8 +7,6 @@
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 您可使用用户名或 ID 添加新用户. 允许并推荐使用通配符.
-[OK]
-确定
 [Cancel]
 取消
 [Show these events]

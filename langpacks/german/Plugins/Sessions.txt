@@ -72,8 +72,6 @@ Speichern und schließen
 Erw.
 [Sessions Manager]
 Sitzungsmanager
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Save your current session?]

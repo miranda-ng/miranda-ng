@@ -1,6 +1,4 @@
 ﻿
-[OK]
-OK
 [Cancel]
 Avbryt
 [Add %s]

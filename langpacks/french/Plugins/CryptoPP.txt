@@ -14,8 +14,6 @@
 
 [User ID]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [GnuPG Plugin - Select public key]

@@ -21,8 +21,6 @@ Užív. meno:
 Port:
 [Set Nickname]
 Nastav prezívku
-[OK]
-OK
 [Cancel]
 Storno
 [All Files]

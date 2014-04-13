@@ -70,7 +70,6 @@
 [<startup>]
 [<current>]
 [Add to Predefined]
-[OK (%d)]
 [Are you sure you want to clear status message history?]
 [Confirm clearing history]
 [Global status change]

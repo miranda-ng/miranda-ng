@@ -266,8 +266,6 @@ Hintergrund
 Zeitüberschreitung (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 ist die Standardeinstellung, -1 bedeutet unendlich)
-[OK]
-OK
 [Log]
 Verlauf
 [&Copy]

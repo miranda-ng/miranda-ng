@@ -68,8 +68,6 @@ Vorschau
 Aber nicht während der Anmeldung
 [Enter Twitter PIN]
 Twitter-PIN eingeben
-[OK]
-OK
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 Geben Sie die von Twitter bereitgestellte PIN ein, um die Anmeldung abzuschließen. Dies ist ein einmaliger Vorgang, bis Sie Ihr Miranda-Twitter-Konto neu erstellen.
 ;file \protocols\Twitter\src\connection.cpp

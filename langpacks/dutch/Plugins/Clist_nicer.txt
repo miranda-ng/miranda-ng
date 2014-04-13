@@ -5,8 +5,6 @@
 ;  Version: 0.9.2.2
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-[OK]
-OK
 [Version]
 Versie
 [Delete Contact]

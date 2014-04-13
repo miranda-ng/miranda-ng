@@ -49,8 +49,6 @@ Disponibile per chat
 Invisibile
 [Offline]
 Offline
-[OK]
-OK
 [You missed following contacts:]
 Hai perso i seguenti contatti:
 [Alert when user status changes]

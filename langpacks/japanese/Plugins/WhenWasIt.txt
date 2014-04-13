@@ -19,8 +19,6 @@
 背景で
 [Close]
 閉じる
-[OK]
-OK
 [Description:]
 説明:
 [Date:]

@@ -48,8 +48,6 @@ Anwendungsname
 Lokale IP:Port
 [Action:]
 Aktion:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [* and ? wildcard characters also available (for port enter number or *)]

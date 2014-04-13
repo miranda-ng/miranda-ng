@@ -17,8 +17,6 @@ Sormagasság:
 Eltávolítás
 [Edit]
 Szerkeszt
-[OK]
-OK
 [Cancel]
 Mégsem
 [Port:]

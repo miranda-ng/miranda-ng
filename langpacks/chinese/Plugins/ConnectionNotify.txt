@@ -15,8 +15,6 @@
 文本
 [Filters]
 过滤器
-[OK]
-确定
 [Cancel]
 取消
 [Show]

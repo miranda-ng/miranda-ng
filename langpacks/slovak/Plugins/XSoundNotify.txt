@@ -9,8 +9,6 @@
 Prezívka:
 [Reset]
 Reset
-[OK]
-OK
 [Cancel]
 Storno
 [Sounds]

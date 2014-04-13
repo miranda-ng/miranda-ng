@@ -17,8 +17,6 @@ Ekle
 Sil
 [Edit]
 Değiştir
-[OK]
-Tamam
 [Cancel]
 İptal
 [Port:]

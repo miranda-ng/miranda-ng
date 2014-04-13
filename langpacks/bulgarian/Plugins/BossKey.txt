@@ -34,8 +34,6 @@ BossKey
 Клавишна комбинация
 [Password:]
 Парола:
-[OK]
-ОК
 [Cancel]
 Отказ
 [EN]

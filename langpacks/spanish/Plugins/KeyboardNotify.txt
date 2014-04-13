@@ -138,8 +138,6 @@ Exportar...
 
 [Program]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Set LEDs for events]

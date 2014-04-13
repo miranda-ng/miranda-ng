@@ -39,8 +39,6 @@ Mostra un popup ad ogni ricezione protetta
 Nome utente:
 [Password:]
 Password:
-[OK]
-OK
 [Cancel]
 Annulla
 [Status]

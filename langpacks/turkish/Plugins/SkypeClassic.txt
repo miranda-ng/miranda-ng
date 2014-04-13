@@ -13,8 +13,6 @@ Sil
 Parola:
 [Cancel]
 İptal
-[OK]
-Tamam
 [Host:]
 Sunucu:
 [Port:]

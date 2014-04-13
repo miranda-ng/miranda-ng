@@ -52,8 +52,6 @@
 Въведете на парола
 [Remember this session password]
 Запомняне на паролата за сесията
-[OK]
-ОК
 [Cancel]
 Отказ
 [Status text:]

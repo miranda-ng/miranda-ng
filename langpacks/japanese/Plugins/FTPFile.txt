@@ -27,8 +27,6 @@ URL
 アップロード中...
 [Select All]
 全て選択
-[OK]
-OK
 [Cancel]
 Cancel
 [Rename]

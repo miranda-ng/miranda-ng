@@ -5,8 +5,6 @@
 ;  Version: 0.1.0.0
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
-[OK]
-OK
 [Cancel]
 Storno
 [Apply]

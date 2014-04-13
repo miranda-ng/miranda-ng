@@ -5,8 +5,6 @@
 ;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-[OK]
-OK
 [Cancel]
 Annulla
 [Actions]

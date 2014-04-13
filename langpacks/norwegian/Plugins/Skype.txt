@@ -13,8 +13,6 @@ Legg til
 &Lag
 [Password:]
 Passord:
-[OK]
-OK
 [Cancel]
 Avbryt
 [Date of birth:]

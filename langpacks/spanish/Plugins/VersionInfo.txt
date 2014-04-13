@@ -10,8 +10,6 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Text file]
@@ -99,5 +97,5 @@ Subir
 Servicios
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 

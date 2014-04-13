@@ -17,8 +17,6 @@ Profiil
 Teade
 [Set]
 Sea
-[OK]
-OK
 [Command line:]
 Käsurida:
 [Other]

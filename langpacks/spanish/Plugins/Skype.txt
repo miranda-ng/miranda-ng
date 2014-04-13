@@ -52,8 +52,6 @@ Indicio:
 
 [Remember this session password]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Status text:]

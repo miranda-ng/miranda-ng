@@ -27,8 +27,6 @@
 不可視
 [Offline]
 オフライン
-[OK]
-OK
 [View User's Details]
 ユーザーの詳細情報を表示
 [User Menu]

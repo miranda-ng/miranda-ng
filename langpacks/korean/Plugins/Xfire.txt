@@ -19,8 +19,6 @@
 유저명:
 [Port:]
 포트:
-[OK]
-확인
 [Cancel]
 취소
 [Search:]

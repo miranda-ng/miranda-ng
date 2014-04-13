@@ -11,8 +11,6 @@
 テキスト
 [Filters]
 フィルター
-[OK]
-OK
 [Cancel]
 Cancel
 [Show]

@@ -9,8 +9,6 @@
 Visite o site oficial do Miranda NG BR
 [Miranda NG Options]
 Opções do Miranda NG BR
-[OK]
-OK
 [Cancel]
 Cancelar
 [Apply]

@@ -1,6 +1,4 @@
 ﻿
-[OK]
-확인
 [Cancel]
 취소
 [Add %s]

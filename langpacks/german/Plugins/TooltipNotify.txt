@@ -10,8 +10,6 @@ Zeigt einen kleinen Tooltip über dem Systemtray wenn ein Kontakt seinen Status 
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Protokolle auswählen
-[OK]
-OK
 [Choose contacts]
 Kontakte auswählen
 [Allow tooltip notifications for the following users:]

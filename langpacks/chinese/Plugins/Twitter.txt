@@ -43,8 +43,6 @@ Twitter 订阅使用群聊
 自定义
 [But not during sign-on]
 但不在登录时
-[OK]
-确定
 [Send Tweet...]
 发送 Tweet...
 [Network]

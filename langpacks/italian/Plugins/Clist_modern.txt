@@ -51,8 +51,6 @@ File
 Posizione:
 [Size:]
 Dimensioni:
-[OK]
-OK
 [Cancel]
 Annulla
 [Clear all]

@@ -37,8 +37,6 @@
 削除
 [Export...]
 エクスポート...
-[OK]
-OK
 [Cancel]
 Cancel
 [The following events are being ignored:]

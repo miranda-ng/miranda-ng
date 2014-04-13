@@ -11,8 +11,6 @@
 İ&ptal
 [Retrieving %s message...]
 %s ileti alınıyor...
-[OK]
-Tamam
 [Status messages]
 Durum İletileri
 [seconds]

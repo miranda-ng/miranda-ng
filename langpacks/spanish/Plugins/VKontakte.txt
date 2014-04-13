@@ -38,8 +38,6 @@ Presentar
 Cancelar
 [Invite user to chat]
 
-[OK]
-
 [Choose one of your contacts to be invited:]
 
 [Create group chat]

@@ -17,8 +17,6 @@ Profil
 Melding
 [Set]
 Åpne
-[OK]
-OK
 [Command line:]
 Kommandolinje:
 [Other]

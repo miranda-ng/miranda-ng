@@ -130,8 +130,6 @@
 Потребител:
 [Password:]
 Парола:
-[OK]
-ОК
 [Cancel]
 Отказ
 [SecureIM plugin Passphrase of private key]

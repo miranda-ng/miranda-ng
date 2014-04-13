@@ -72,8 +72,6 @@ Module :
 
 [Translation:]
 Traduction :
-[OK]
-OK
 [Cancel]
 Annuler
 [Item]

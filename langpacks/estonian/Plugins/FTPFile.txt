@@ -19,8 +19,6 @@ Sulge
 Valikud
 [Select All]
 Vali kõik
-[OK]
-OK
 [Cancel]
 Tühista
 [Rename]

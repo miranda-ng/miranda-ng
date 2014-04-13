@@ -11,8 +11,6 @@
 &Mégse
 [Retrieving %s message...]
 %s üzenet helyreállítása...
-[OK]
-OK
 [Status messages]
 Állapot Üzenetek
 [seconds]

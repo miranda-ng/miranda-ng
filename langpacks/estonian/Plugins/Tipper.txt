@@ -11,8 +11,6 @@ Valikud
 Aken
 [Keep original avatar size]
 Hoia algset avatari suurust
-[OK]
-OK
 [Cancel]
 Tühista
 [Items]

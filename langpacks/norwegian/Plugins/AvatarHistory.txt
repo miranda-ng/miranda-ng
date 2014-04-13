@@ -7,8 +7,6 @@
 ;============================================================
 [Save As...]
 Lagre som...
-[OK]
-OK
 [Background color]
 Bakgrunnsfarge
 [Text color]

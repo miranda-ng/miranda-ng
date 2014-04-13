@@ -61,8 +61,6 @@ Hotmail
 ' チャンネルに残っているコンタクト ' ポップアップを有効
 [Disable Contact List notifications]
 コンタクトリスト通知を無効
-[OK]
-OK
 [Cancel]
 Cancel
 [Mobile Device (used for SMS)]

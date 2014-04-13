@@ -13,8 +13,6 @@ Kustuta
 Parool:
 [Cancel]
 Tühista
-[OK]
-OK
 [Host:]
 Host:
 [Port:]

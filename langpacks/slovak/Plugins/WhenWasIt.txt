@@ -13,8 +13,6 @@ Zobraziť
 sekúnd
 [Close]
 Zavrieť
-[OK]
-OK
 [Title:]
 Názov:
 [Description:]

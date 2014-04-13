@@ -11,8 +11,6 @@ sekundit
 Rasvane
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Tühista
 [Apply]

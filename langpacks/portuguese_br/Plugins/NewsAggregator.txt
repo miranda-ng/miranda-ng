@@ -9,8 +9,6 @@
 Adicionar
 [Remove]
 Remover
-[OK]
-OK
 [Cancel]
 Cancelar
 [Reset]

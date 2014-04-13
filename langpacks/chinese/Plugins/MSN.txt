@@ -55,8 +55,6 @@
 启用 '联系人离开频道' 弹出窗口
 [Disable Contact List notifications]
 禁用联系人列表通知
-[OK]
-确定
 [Cancel]
 取消
 [Mobile Device (used for SMS)]

@@ -19,8 +19,6 @@ Cancel(&C)
 ICQ パスワードを入力
 [Enter a password for UIN %d:]
 UIN %d のパスワードを入力:
-[OK]
-OK
 [Cancel]
 Cancel
 [ICQ number:]

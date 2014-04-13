@@ -9,8 +9,6 @@
 Achtergrond
 [Text]
 Tekst
-[OK]
-OK
 [Cancel]
 Annuleren
 [Show]

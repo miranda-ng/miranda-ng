@@ -9,8 +9,6 @@
 %s správa pre %s
 [Retrieving %s message...]
 Prijímam %s správu
-[OK]
-OK
 [seconds]
 sekúnd
 [Status:]

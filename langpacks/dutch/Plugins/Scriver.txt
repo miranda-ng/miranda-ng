@@ -97,8 +97,6 @@ Tekst
 Achtergrond
 [Timeout (s)]
 Timeout (s)
-[OK]
-OK
 [Log]
 Loggen
 [&Copy]

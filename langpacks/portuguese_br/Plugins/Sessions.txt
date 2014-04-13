@@ -13,8 +13,6 @@ Excluir
 &Cancelar
 [Save and Close]
 Salvar e fechar
-[OK]
-OK
 [Cancel]
 Cancelar
 [Message Sessions]

@@ -29,8 +29,6 @@ Als verborgen instellen
 Achtergrond van afbeelding doorzichtig maken
 [Use defaults]
 Gebruik standaard
-[OK]
-OK
 [Cancel]
 Annuleren
 [Options]

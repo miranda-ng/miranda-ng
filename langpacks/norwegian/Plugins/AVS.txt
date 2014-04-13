@@ -47,8 +47,6 @@ Sett som skjult
 Forsøk å gjøre bakgrunnsbildet gjennomsiktig
 [Use defaults]
 Bruk standarder
-[OK]
-OK
 [Cancel]
 Avbryt
 [Options]

@@ -17,8 +17,6 @@ Exibir mensagens
 Arquivo CSS externo
 [Name]
 Nome
-[OK]
-OK
 [Cancel]
 Cancelar
 [View &History]

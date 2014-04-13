@@ -7,8 +7,6 @@
 ;============================================================
 [Output to:]
 Utdata til:
-[OK]
-OK
 [Cancel]
 Avbryt
 [DialogBox]

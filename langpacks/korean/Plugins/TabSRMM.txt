@@ -5,8 +5,6 @@
 ;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
-[OK]
-확인
 [Cancel]
 취소
 [Information]

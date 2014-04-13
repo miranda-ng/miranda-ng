@@ -29,8 +29,6 @@ Gebruikersdetails
 Kopiëren
 [Enter Password]
 Voer wachtwoord in
-[OK]
-OK
 [Cancel]
 Annuleren
 [Search:]

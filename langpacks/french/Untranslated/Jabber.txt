@@ -729,7 +729,6 @@
 [Set activity...]
 [Note]
 [%s connection]
-[OK (%d)]
 [Afraid]
 [Amazed]
 [Amorous]

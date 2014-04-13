@@ -39,8 +39,6 @@ Outros
 Ativar popup 'Sessão de Ativação do Bate-papo'
 [Enable 'Contact left channel' popup]
 Ativar popup 'Canal direito do contato'
-[OK]
-OK
 [Cancel]
 Cancelar
 [First Name]

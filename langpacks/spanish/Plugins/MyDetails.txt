@@ -12,8 +12,6 @@
 
 [Nickname:]
 Apodo:
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [General]

@@ -39,8 +39,6 @@ Fail
 Suurus:
 [Height]
 kõrgus
-[OK]
-OK
 [Cancel]
 Tühista
 [Protocol]

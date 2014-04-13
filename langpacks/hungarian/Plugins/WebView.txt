@@ -11,8 +11,6 @@ mp.
 Félkövér
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Mégsem
 [Apply]

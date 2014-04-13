@@ -72,8 +72,6 @@ ms
 
 [Sessions Manager]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Save your current session?]

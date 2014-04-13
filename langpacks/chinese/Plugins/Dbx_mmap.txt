@@ -7,8 +7,6 @@
 ;============================================================
 [Login to Miranda NG]
 登录至 Miranda NG
-[OK]
-确定
 [Cancel]
 取消
 [Enter password]

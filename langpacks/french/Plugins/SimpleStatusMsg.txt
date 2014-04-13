@@ -18,8 +18,6 @@ Récupération du message %s...
 Co&pier dans le presse-papier
 [%s Message (%s)]
 
-[OK]
-OK
 [Retrieving status message for %s...]
 Récupération du message d'état de %s...
 [Behavior on status change]
@@ -211,8 +209,6 @@ Changer le message d'état
 
 [Delete Selected]
 Supprimer la sélection
-[OK (%d)]
-
 [Global]
 Général
 [Closing in %d]

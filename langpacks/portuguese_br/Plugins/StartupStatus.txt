@@ -17,8 +17,6 @@ Perfil
 Mensagem
 [Set]
 Configurar
-[OK]
-OK
 [Command line:]
 Linha de comando:
 [Other]

@@ -26,8 +26,6 @@ Entrer le passe ICQ
 Entrez un mot de passe pour l'UIN %d :
 [Remember this session password]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [ICQ]

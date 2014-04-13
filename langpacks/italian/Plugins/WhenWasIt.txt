@@ -15,8 +15,6 @@ Mostra
 secondi
 [Close]
 Chiudi
-[OK]
-OK
 [Description:]
 Descrizione:
 [Date:]

@@ -11,8 +11,6 @@
 이름 보이기
 [Name]
 이름
-[OK]
-확인
 [Cancel]
 취소
 [View &History]

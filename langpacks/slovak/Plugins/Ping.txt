@@ -11,8 +11,6 @@
 Sieť
 [Row height:]
 Výška riadku:
-[OK]
-OK
 [Cancel]
 Storno
 [Port:]

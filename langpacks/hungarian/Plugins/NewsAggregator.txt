@@ -9,8 +9,6 @@
 Új
 [Remove]
 Eltávolítás
-[OK]
-OK
 [Cancel]
 Mégsem
 [URL]

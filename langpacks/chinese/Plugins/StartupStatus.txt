@@ -19,8 +19,6 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 消息
 [Set]
 设置
-[OK]
-确定
 [Command line:]
 命令行: 
 [Other]

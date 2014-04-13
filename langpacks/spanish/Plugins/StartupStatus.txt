@@ -67,8 +67,6 @@ Confirmar el reajuste de estado
 Sólo establecer si el estado actual es
 [Command line]
 Línea de comandos
-[OK]
-Aceptar
 [Copy to clipboard]
 Copiar al portapapeles
 [Command line:]

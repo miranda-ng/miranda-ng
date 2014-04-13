@@ -49,8 +49,6 @@
 לא מחובר
 [Last seen plugin]
 פלאג נראה אחרון
-[OK]
-אישור
 [Alert when user status changes]
 הודע כאשר מצב איש הקשר משתנה
 [View User's Details]

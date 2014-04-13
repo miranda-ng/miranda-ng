@@ -9,8 +9,6 @@
 Altro
 [Text]
 Testo
-[OK]
-OK
 [Cancel]
 Annulla
 [Show]

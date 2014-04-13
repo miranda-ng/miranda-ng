@@ -23,8 +23,6 @@ Sluit
 Opties
 [Select All]
 Alles selecteren
-[OK]
-OK
 [Cancel]
 Annuleren
 [Overwrite]

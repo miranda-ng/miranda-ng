@@ -17,8 +17,6 @@ Berichten weergeven
 alle personen
 [Name]
 Naam
-[OK]
-OK
 [Cancel]
 Annuleren
 [View &History]

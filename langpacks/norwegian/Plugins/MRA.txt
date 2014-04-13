@@ -49,8 +49,6 @@ E-post konto:
 TekstFarge
 [Closing in %d]
 Lukker om %d
-[OK]
-OK
 [Cancel]
 Avbryt
 [Male]

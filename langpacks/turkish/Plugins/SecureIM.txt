@@ -15,8 +15,6 @@ Etkinlikler
 Kullanıcı Adı:
 [Password:]
 Parola:
-[OK]
-Tamam
 [Cancel]
 İptal
 [Status]

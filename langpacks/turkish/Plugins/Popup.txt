@@ -27,8 +27,6 @@ Konum:
 Kullanıcı detayları
 [Contact menu]
 Kişiler menüsü
-[OK]
-Tamam
 [Cancel]
 İptal
 [Blocked Contact]

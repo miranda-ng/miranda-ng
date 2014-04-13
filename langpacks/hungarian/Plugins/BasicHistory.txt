@@ -13,8 +13,6 @@ nevek mutatása
 Üzenetek megjelenítése
 [Name]
 Név
-[OK]
-OK
 [Cancel]
 Mégsem
 [View &History]

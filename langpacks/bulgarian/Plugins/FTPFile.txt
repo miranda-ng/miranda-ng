@@ -102,8 +102,6 @@ FTP File диспечер
 Изтриване от FTP
 [Enter file name]
 Въведете име на файла
-[OK]
-ОК
 [Cancel]
 Отказ
 [File exists]

@@ -52,8 +52,6 @@ Hinweis:
 Passwort eingeben
 [Remember this session password]
 Dieses Sitzungspasswort merken
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Status text:]

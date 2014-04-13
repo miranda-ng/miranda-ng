@@ -846,7 +846,6 @@
 [WAV files]
 [You need an image services plugin to process PNG images.]
 [PNG bitmaps]
-[OK (%d)]
 [Avatars]
 [Avatars root folder]
 [<unspecified>]

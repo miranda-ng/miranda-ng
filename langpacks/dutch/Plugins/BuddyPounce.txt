@@ -7,8 +7,6 @@
 ;============================================================
 [Cancel]
 Annuleren
-[OK]
-OK
 [Advanced >>]
 Gevanceerd >>
 [Status]

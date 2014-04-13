@@ -57,8 +57,6 @@
 保存并关闭
 [Sessions Manager]
 会话管理
-[OK]
-确定
 [Cancel]
 取消
 [Save your current session?]

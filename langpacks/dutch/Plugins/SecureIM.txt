@@ -13,8 +13,6 @@ Gebeurtenissen
 Gebruikersnaam:
 [Password:]
 Wachtwoord:
-[OK]
-OK
 [Cancel]
 Annuleren
 [Status]

@@ -15,8 +15,6 @@ Adicionar
 Remover
 [Edit]
 Editar
-[OK]
-OK
 [Cancel]
 Cancelar
 [Port:]

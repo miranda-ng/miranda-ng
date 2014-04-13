@@ -15,8 +15,6 @@ Események
 Felhasználónév:
 [Password:]
 Jelszó:
-[OK]
-OK
 [Cancel]
 Mégsem
 [Status]

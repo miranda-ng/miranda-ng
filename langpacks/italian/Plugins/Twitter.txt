@@ -17,8 +17,6 @@ Utilizza colori di Windows
 Testo
 [Custom]
 Personalizzato
-[OK]
-OK
 [Network]
 Rete
 [Popups]

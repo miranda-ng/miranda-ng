@@ -173,8 +173,6 @@ IM コンタクトのみに情報とメニューを追加
 これはエラーメッセージです
 [Popup History message]
 履歴メッセージをポップアップ
-[OK]
-OK
 [Cancel]
 Cancel
 [Blocked Contact]

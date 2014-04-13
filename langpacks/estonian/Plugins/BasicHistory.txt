@@ -11,8 +11,6 @@ Kuva nimed
 Kuva teated
 [Name]
 Nimi
-[OK]
-OK
 [Cancel]
 Tühista
 [View &History]

@@ -9,8 +9,6 @@
 ニック:
 [Reset]
 リセット
-[OK]
-OK
 [Cancel]
 Cancel
 [Sound files]

@@ -78,8 +78,6 @@ Activer le popup "Le contact a quitter le salon"
 
 [Set Nickname]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Mobile Device (used for SMS)]

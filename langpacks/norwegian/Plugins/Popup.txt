@@ -113,8 +113,6 @@ Kontaktmeny
 Fest popup
 [Hovered Action]
 Svevende Handling
-[OK]
-OK
 [Cancel]
 Avbryt
 [Blocked Contact]

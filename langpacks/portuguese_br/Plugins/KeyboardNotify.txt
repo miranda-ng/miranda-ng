@@ -33,8 +33,6 @@ Adicionar
 Excluir
 [Export...]
 Exportar...
-[OK]
-OK
 [Cancel]
 Cancelar
 [The following events are being ignored:]

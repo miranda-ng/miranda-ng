@@ -56,8 +56,6 @@ Liste des contacts à ignorer
 Personnaliser le message d'état
 [Show as busy]
 Signaler comme occupé
-[OK]
-OK
 [Cancel]
 Annuler
 [Protocol:]

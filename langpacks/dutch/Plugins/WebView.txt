@@ -9,8 +9,6 @@
 seconden
 [Bold]
 Vet
-[OK]
-OK
 [Cancel]
 Annuleren
 [Apply]

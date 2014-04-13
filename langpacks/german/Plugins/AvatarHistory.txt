@@ -28,8 +28,6 @@ Avatare auf Datenträger speichern
 Änderungen im Verlauf speichern
 [Show popups for this user]
 Popups für diesen Kontakt zeigen
-[OK]
-OK
 [Protocols]
 Protokolle
 [Enable tracking for these protocols:]

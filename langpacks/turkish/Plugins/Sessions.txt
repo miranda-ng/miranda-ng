@@ -13,8 +13,6 @@ Sil
 İ&ptal
 [Save and Close]
 Kaydet ve kapat
-[OK]
-Tamam
 [Cancel]
 İptal
 [Message Sessions]

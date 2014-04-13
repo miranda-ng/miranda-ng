@@ -260,8 +260,6 @@ Exemple de message d'erreur
 Rafraîchir la liste des skins
 [Popup Placement]
 Emplacement
-[OK]
-OK
 [Cancel]
 Annuler
 [Popup Group]

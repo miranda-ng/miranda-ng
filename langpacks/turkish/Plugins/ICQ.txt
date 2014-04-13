@@ -17,8 +17,6 @@ Parola:
 ICQ parolasını yazın
 [Enter a password for UIN %d:]
 %d UIN için parolayı yazın:
-[OK]
-Tamam
 [Cancel]
 İptal
 [ICQ number:]

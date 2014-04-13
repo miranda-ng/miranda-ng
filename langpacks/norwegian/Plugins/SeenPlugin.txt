@@ -29,8 +29,6 @@ Tilgjengelig for samtale
 Usynlig
 [Offline]
 Frakoblet
-[OK]
-OK
 [View User's Details]
 Se Brukerens Detaljer
 [User Menu]

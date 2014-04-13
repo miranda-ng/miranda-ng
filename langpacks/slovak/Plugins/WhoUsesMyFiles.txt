@@ -5,8 +5,6 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-[OK]
-OK
 [Popup Delay (seconds)]
 Popup dlžka (sekundy)
 [Background color]

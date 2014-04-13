@@ -23,8 +23,6 @@ Tekst
 Aangepast
 [P&ermanent]
 P&ermanent
-[OK]
-OK
 [Cancel]
 Annuleren
 [First name:]

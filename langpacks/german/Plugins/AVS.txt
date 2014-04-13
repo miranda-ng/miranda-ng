@@ -60,8 +60,6 @@ Als versteckt setzen
 Versuche Hintergrund transparent darzustellen
 [Use defaults]
 Standardwerte
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Options]

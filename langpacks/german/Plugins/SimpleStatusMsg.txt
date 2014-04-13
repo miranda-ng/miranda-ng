@@ -18,8 +18,6 @@ Rufe '%s'-Nachricht ab...
 Nachricht kopieren
 [%s Message (%s)]
 %s Nachricht (%s)
-[OK]
-OK
 [Retrieving status message for %s...]
 Statusnachricht für %s ermitteln...
 [Behavior on status change]
@@ -211,8 +209,6 @@ Datum abrufen (kompatibel mit Simple Status Message)
 Zu Vordefinierten hinzuf.
 [Delete Selected]
 Markierte löschen
-[OK (%d)]
-OK (%d)
 [Global]
 Global
 [Closing in %d]

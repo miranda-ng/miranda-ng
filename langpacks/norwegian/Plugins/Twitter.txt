@@ -21,8 +21,6 @@ Bruk egne farger
 Tekst
 [Custom]
 Selvvalgt
-[OK]
-OK
 [Network]
 Nettverk
 [Popups]

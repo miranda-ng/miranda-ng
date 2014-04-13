@@ -7,8 +7,6 @@
 ;============================================================
 [About CList Nicer+]
 Sobre o CList Nicer+
-[OK]
-OK
 [Clist Nicer+]
 Clist Nicer+
 [Version]

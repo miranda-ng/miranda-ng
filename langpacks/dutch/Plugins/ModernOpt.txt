@@ -7,8 +7,6 @@
 ;============================================================
 [Miranda NG Options]
 Miranda NG opties
-[OK]
-OK
 [Cancel]
 Annuleren
 [Apply]

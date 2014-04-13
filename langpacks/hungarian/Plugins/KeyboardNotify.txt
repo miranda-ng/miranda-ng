@@ -37,8 +37,6 @@ Kilépett
 Törlés
 [Export...]
 Exportálás...
-[OK]
-OK
 [Cancel]
 Mégsem
 [The following events are being ignored:]

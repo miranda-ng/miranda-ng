@@ -72,8 +72,6 @@ Guardar
 
 [Sessions Manager]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Save your current session?]

@@ -100,8 +100,6 @@ Detalles:
 
 [Enter token to continue]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Create Gadu-Gadu account]

@@ -100,8 +100,6 @@ URL
 
 [Help]
 Помощ
-[OK]
-ОК
 [Copy / Export contact]
 
 [&Export Non-IM Contact]

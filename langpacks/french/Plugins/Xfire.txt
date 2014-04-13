@@ -134,8 +134,6 @@ Entrez le passe
 Rejoindre
 [Set Nickname]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [New xfire_games.ini]

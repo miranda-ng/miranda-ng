@@ -136,8 +136,6 @@
 
 [Execute task for specified contacts]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 ;file \plugins\BasicHistory\src\BasicHistory.cpp

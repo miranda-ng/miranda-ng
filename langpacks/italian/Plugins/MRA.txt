@@ -49,8 +49,6 @@ Email completa:
 Colore del testo
 [Closing in %d]
 Chiusura in %d
-[OK]
-OK
 [Cancel]
 Annulla
 [Male]

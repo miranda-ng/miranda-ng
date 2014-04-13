@@ -88,8 +88,6 @@
 На обяд
 [Autoreply format:]
 
-[OK]
-ОК
 [&Variables]
 Променливи
 [Se&ttings]

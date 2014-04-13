@@ -10,8 +10,6 @@
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 
-[OK]
-ОК
 [All]
 Всички
 [None]

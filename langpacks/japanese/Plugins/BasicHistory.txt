@@ -15,8 +15,6 @@
 メッセージを表示
 [Name]
 名前
-[OK]
-OK
 [Cancel]
 Cancel
 [View &History]

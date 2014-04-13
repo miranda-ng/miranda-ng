@@ -11,8 +11,6 @@
 編集
 [Row height:]
 行の高さ:
-[OK]
-OK
 [Cancel]
 Cancel
 [Description:]

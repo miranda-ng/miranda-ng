@@ -56,8 +56,6 @@ Cancelar
 
 [Hang up]
 
-[OK]
-Aceptar
 [Dialog]
 Diálogo
 [Use Skype proxy connection over network instead of local Skype API]

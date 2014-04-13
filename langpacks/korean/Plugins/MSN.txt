@@ -9,8 +9,6 @@
 비밀번호:
 [Nickname:]
 대화명:
-[OK]
-확인
 [Cancel]
 취소
 [&Cancel]

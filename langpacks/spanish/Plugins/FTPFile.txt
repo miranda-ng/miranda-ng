@@ -102,8 +102,6 @@ Seleccionar todo
 
 [Enter file name]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [File exists]

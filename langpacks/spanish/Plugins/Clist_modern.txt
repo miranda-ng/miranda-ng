@@ -144,8 +144,6 @@ Incluir grupos
 Mostrar contactos en grupos
 [Include status modes]
 Incluir modos de estado
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Sticky contacts]

@@ -5,8 +5,6 @@ Introduzca el nombre de cuenta (por ejemplo, Mi Google)
 Seleccione el tipo de protocolo
 [Specify the internal account name (optional)]
 Especifique el nombre de la cuenta interna (opcional)
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Add %s]
@@ -2724,9 +2722,6 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG bitmaps]
 Mapas de bits PNG
-;file \src\modules\utils\enterstring.cpp
-[OK (%d)]
-
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatares

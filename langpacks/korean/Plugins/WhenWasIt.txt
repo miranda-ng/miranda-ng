@@ -13,8 +13,6 @@
 초
 [Close]
 닫기
-[OK]
-확인
 [Description:]
 설명:
 [Date:]

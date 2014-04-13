@@ -4,8 +4,6 @@ Hesap adını yazın (örneğin google hesabım)
 Protokol tipini seç
 [Specify the internal account name (optional)]
 İç hesap adını belirt (isteğe bağlı)
-[OK]
-Tamam
 [Cancel]
 İptal
 [Add %s]

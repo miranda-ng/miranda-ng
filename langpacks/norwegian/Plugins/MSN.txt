@@ -41,8 +41,6 @@ Annet
 Aktiver 'Samtaleøkt opprettet' popup
 [Enable 'Contact left channel' popup]
 Aktiver 'Kontakten forlot kanalen' popup
-[OK]
-OK
 [Cancel]
 Avbryt
 [Nickname]

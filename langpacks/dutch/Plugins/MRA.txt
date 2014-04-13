@@ -45,8 +45,6 @@ Windows kleuren gebr&uik
 Tekst kleur
 [Closing in %d]
 Sluiten in %d
-[OK]
-OK
 [Cancel]
 Annuleren
 [Male]

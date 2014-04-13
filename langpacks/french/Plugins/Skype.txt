@@ -52,8 +52,6 @@ Info:
 Entrez le passe
 [Remember this session password]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Status text:]

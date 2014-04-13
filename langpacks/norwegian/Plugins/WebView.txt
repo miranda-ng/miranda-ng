@@ -11,8 +11,6 @@ sekunder
 Fet
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Avbryt
 [Apply]

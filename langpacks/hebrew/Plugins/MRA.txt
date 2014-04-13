@@ -31,8 +31,6 @@
 צבע טקסט
 [Closing in %d]
 סוגר תוך %d
-[OK]
-אישור
 [Cancel]
 ביטול
 [Male]

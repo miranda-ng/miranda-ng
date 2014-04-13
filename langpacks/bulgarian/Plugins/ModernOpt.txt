@@ -16,8 +16,6 @@
 Miranda NG настройки
 [Use arrow keys to choose category]
 Използвайте стрелките, за да изберете категория
-[OK]
-ОК
 [Cancel]
 Отказ
 [Apply]

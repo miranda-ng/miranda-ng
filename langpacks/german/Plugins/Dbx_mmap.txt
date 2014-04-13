@@ -12,8 +12,6 @@ Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf,
 Einloggen bei Miranda NG
 [EN]
 EN
-[OK]
-OK
 [Cancel]
 Abbrechen
 [New password]

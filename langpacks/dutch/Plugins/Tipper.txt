@@ -9,8 +9,6 @@
 Opties
 [Window]
 Scherm
-[OK]
-OK
 [Cancel]
 Annuleren
 [Add]

@@ -29,8 +29,6 @@ Pozícia:
 Preradiť popups
 [Send message]
 Odoslať správu
-[OK]
-OK
 [Cancel]
 Storno
 [Send Message]

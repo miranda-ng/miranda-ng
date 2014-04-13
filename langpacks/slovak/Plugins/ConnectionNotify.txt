@@ -13,8 +13,6 @@ Pozadie
 Text
 [Version:]
 Verzia:
-[OK]
-OK
 [Cancel]
 Storno
 [Show]

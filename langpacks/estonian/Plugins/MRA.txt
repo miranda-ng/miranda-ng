@@ -41,8 +41,6 @@ Täis-e-mail:
 Teksti värv
 [Closing in %d]
 Sulgub %d s. pärast
-[OK]
-OK
 [Cancel]
 Tühista
 [Male]

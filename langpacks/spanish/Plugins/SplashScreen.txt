@@ -43,8 +43,6 @@ Vista previa...
 Su advaimg.dll es obsoleta o dañada. Obtenga reciente a partir de construcciones alfa de Miranda.
 [Error]
 Error
-[Call Splash Service]
-Llamer al Servicio de Splash
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Archivos gráficos
@@ -54,4 +52,3 @@ Archivos de sonido
 Pieles
 [Splash Screen]
 Imagen de pantalla
-;file \plugins\SplashScreen\src\services.cpp

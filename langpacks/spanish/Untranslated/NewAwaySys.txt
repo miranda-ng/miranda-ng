@@ -39,7 +39,6 @@
 [On the &phone]
 [Out to &lunch]
 [Autoreply format:]
-[OK]
 [&Variables]
 [Se&ttings]
 [Ignore requests]

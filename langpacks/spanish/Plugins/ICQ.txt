@@ -26,8 +26,6 @@ Contraseña:
 
 [Remember this session password]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [ICQ]

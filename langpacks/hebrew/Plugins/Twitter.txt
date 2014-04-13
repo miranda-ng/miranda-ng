@@ -19,8 +19,6 @@
 טקסט
 [Custom]
 מותאם
-[OK]
-אישור
 [Network]
 רשת
 [Popups]

@@ -28,8 +28,6 @@
 Запазване на промените в историята
 [Show popups for this user]
 Показване на popup за потребителя
-[OK]
-ОК
 [Protocols]
 Протоколи
 [Enable tracking for these protocols:]

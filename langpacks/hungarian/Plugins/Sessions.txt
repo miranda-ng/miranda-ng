@@ -13,8 +13,6 @@ Törlés
 &Mégse
 [Save and Close]
 Mentés és bezárás
-[OK]
-OK
 [Cancel]
 Mégsem
 [Message Sessions]

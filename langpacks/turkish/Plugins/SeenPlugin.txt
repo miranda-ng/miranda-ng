@@ -27,8 +27,6 @@ Sohbete uygun
 Görünmez
 [Offline]
 Çevrimdışı
-[OK]
-Tamam
 [View User's Details]
 Kullanıcı Detaylarını Göster
 [User Menu]

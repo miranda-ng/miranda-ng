@@ -10,8 +10,6 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Изберете протоколи
-[OK]
-ОК
 [Choose contacts]
 
 [Allow tooltip notifications for the following users:]

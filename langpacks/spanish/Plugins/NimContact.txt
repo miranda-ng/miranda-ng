@@ -100,8 +100,6 @@ Diálogo
 
 [Help]
 Ayuda
-[OK]
-Aceptar
 [Copy / Export contact]
 
 [&Export Non-IM Contact]

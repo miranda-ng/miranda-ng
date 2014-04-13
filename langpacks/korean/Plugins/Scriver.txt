@@ -59,8 +59,6 @@
 지역
 [Background]
 배경
-[OK]
-확인
 [&Copy]
 &C 복사
 [Co&py All]

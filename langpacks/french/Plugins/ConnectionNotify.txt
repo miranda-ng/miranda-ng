@@ -48,8 +48,6 @@ Nom de l'application
 
 [Action:]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [* and ? wildcard characters also available (for port enter number or *)]

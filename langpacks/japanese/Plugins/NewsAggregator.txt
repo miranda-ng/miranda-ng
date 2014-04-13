@@ -9,8 +9,6 @@
 追加
 [Remove]
 削除
-[OK]
-OK
 [Cancel]
 Cancel
 [URL]

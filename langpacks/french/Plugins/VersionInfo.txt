@@ -10,8 +10,6 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Enregistrer vers:
-[OK]
-OK
 [Cancel]
 Annuler
 [Text file]
@@ -99,5 +97,5 @@ Affichage de l'ID unique des Plugins!
 Services
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-OK, un truc est entré mal dans "%s". Faites un rapport avec ces valeurs:\nFacility: %X\nError code: %X\nLine number: %d
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Un truc est entré mal dans "%s". Faites un rapport avec ces valeurs:\nFacility: %X\nError code: %X\nLine number: %d

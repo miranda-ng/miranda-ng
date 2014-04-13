@@ -45,8 +45,6 @@
 הוסף
 [Delete]
 מחק
-[OK]
-אישור
 [Cancel]
 ביטול
 [The following events are being ignored:]

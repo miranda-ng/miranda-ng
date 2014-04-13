@@ -13,8 +13,6 @@ Annuleren
 Zoeken naar
 [Background color]
 Achtergrond kleur
-[OK]
-OK
 [Cancel]
 Annuleren
 [E&xit]

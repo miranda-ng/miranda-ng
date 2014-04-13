@@ -11,8 +11,6 @@ Törlés
 Szerkeszt
 [Row height:]
 Sormagasság:
-[OK]
-OK
 [Cancel]
 Mégsem
 [Description:]

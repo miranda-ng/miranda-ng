@@ -56,8 +56,6 @@ Quand tous vos contacts sont déconnectés
 Éteindre quand tous les fichiers auront été transféré
 [&Action:]
 &Action:
-[OK]
-OK
 [Cancel]
 Annuler
 [Unsaved data in open applications except Miranda NG might get lost.]

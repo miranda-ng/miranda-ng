@@ -9,8 +9,6 @@
 オプション
 [Window]
 ウィンドウ
-[OK]
-OK
 [Cancel]
 Cancel
 [Items]

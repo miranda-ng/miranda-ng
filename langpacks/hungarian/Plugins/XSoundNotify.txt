@@ -9,8 +9,6 @@
 Becenév:
 [Reset]
 Alapraállítás
-[OK]
-OK
 [Cancel]
 Mégsem
 [Sounds]

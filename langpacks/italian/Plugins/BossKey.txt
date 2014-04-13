@@ -11,8 +11,6 @@ BossKey
 Disattiva suoni
 [Password:]
 Password:
-[OK]
-OK
 [Cancel]
 Annulla
 [Events]

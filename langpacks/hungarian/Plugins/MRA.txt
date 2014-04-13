@@ -49,8 +49,6 @@ Windows színek használata
 Szövegszín
 [Closing in %d]
 Bezárás %d
-[OK]
-OK
 [Cancel]
 Mégsem
 [Male]

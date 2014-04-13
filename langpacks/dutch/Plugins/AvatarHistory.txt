@@ -7,8 +7,6 @@
 ;============================================================
 [Save As...]
 Opslaan als...
-[OK]
-OK
 [Background color]
 Achtergrond kleur
 [Text color]

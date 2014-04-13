@@ -19,8 +19,6 @@ Port:
 Art Alan
 [Text]
 Yazı
-[OK]
-Tamam
 [Cancel]
 İptal
 [First name:]

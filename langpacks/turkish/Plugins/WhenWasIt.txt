@@ -15,8 +15,6 @@ Göster
 saniye
 [Close]
 Kapat
-[OK]
-Tamam
 [Description:]
 Açıklama:
 [Date:]

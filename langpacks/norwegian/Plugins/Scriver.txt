@@ -153,8 +153,6 @@ Tekst
 Bakgrunn
 [Timeout (s)]
 Tidsutkobling (s)
-[OK]
-OK
 [Log]
 Logg
 [&Copy]

@@ -7,8 +7,6 @@
 ;============================================================
 [WUMF: Current connections]
 WUMF: 当前连接
-[OK]
-确定
 [Popup delay settings]
 弹出窗口超时设定
 [Background color]

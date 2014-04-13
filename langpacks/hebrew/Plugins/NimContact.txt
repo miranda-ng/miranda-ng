@@ -13,8 +13,6 @@
 קבוצה:
 [Help]
 עזרה
-[OK]
-אישור
 [Select Folder]
 בחר תיקייה
 [Files]

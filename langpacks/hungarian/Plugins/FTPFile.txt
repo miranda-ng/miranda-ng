@@ -25,8 +25,6 @@ Beállítások
 Betöltés...
 [Select All]
 Összes kijelölése
-[OK]
-OK
 [Cancel]
 Mégsem
 [Rename]

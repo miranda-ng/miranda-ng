@@ -9,8 +9,6 @@
 Sett Mitt Kallenavn
 [Nickname:]
 Kallenavn:
-[OK]
-OK
 [Cancel]
 Avbryt
 [General]

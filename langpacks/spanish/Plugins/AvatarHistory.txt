@@ -28,8 +28,6 @@ Abrir carpeta
 
 [Show popups for this user]
 
-[OK]
-Aceptar
 [Protocols]
 Protocolos
 [Enable tracking for these protocols:]

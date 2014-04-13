@@ -5,8 +5,6 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
-[OK]
-OK
 [Background color]
 Bakgrunnsfarge
 [Text color]

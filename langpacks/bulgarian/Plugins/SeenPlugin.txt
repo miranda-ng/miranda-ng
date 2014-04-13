@@ -66,8 +66,6 @@ Popup цветове
 Анулиране
 [Last seen plugin]
 
-[OK]
-ОК
 [You missed following contacts:]
 Изпуснахте следните контакти:
 [Test\nTest]

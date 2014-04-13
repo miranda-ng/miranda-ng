@@ -15,8 +15,6 @@ Csoport:
 &Kilépés
 [Help]
 Súgó
-[OK]
-OK
 [Select Folder]
 Mappa kijelölése
 [Files]

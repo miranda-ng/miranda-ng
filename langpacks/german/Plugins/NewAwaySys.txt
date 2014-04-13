@@ -88,8 +88,6 @@ Am Telefon
 Zum Essen
 [Autoreply format:]
 Format der Autoantwort:
-[OK]
-OK
 [&Variables]
 &Variablen
 [Se&ttings]

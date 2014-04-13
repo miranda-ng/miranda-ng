@@ -9,8 +9,6 @@
 Hľadať
 [Background color]
 Farba pozadia
-[OK]
-OK
 [Cancel]
 Storno
 [Value Name:]

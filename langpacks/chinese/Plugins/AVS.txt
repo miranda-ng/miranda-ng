@@ -53,8 +53,6 @@
 尝试图片背景透明
 [Use defaults]
 使用默认值
-[OK]
-确定
 [Cancel]
 取消
 [Options]

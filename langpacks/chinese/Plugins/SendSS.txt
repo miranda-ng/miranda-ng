@@ -7,8 +7,6 @@
 ;============================================================
 [Take a screenshot and send it to a contact.]
 制作屏幕截图并发送至联系人
-[OK]
-确定
 [None]
 无
 [Cancel]

@@ -13,8 +13,6 @@ Excluir
 Senha:
 [Cancel]
 Cancelar
-[OK]
-OK
 [Port:]
 Porta:
 [Name:]

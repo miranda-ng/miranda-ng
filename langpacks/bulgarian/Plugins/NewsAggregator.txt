@@ -20,8 +20,6 @@
 Износ
 [Retrieve news at startup]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [General Settings]

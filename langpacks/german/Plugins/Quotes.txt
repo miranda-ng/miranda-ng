@@ -10,8 +10,6 @@ Zeigt Wechselkurse und wirtschaftliche Raten.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Variablenliste
-[OK]
-OK
 [Edit Settings]
 Einstellungen bearbeiten
 [Use contact specific settings]

@@ -9,8 +9,6 @@
 Udalosť
 [Close]
 Zavrieť
-[OK]
-OK
 [Notes]
 Poznámky
 [Cancel]

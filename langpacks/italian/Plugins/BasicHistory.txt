@@ -15,8 +15,6 @@ Mostra nomi
 Nome
 [Day]
 giorno
-[OK]
-OK
 [Cancel]
 Annulla
 [View &History]

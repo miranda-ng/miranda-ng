@@ -12,8 +12,6 @@ Jabber-Protokollunterstützung für Miranda NG.
 Notiz bearbeiten
 [Tags:]
 Schlagwörter:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Type:]
@@ -2197,8 +2195,6 @@ Hinweis
 [%s connection]
 %s-Verbindung
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
-OK (%d)
 [Afraid]
 Ängstlich
 [Amazed]

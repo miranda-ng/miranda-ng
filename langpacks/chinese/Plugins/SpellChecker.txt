@@ -23,8 +23,6 @@
 修正:
 [Use variables in correction]
 校正使用变量
-[OK]
-确定
 [Cancel]
 取消
 [Spell Checker]

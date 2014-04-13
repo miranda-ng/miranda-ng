@@ -10,8 +10,6 @@
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Списък с променливи
-[OK]
-ОК
 [Edit Settings]
 Редактиране на настройките
 [Use contact specific settings]

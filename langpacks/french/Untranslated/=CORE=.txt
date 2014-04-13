@@ -173,7 +173,6 @@
 [Locked status]
 [Sound files]
 [WAV files]
-[OK (%d)]
 [Avatars root folder]
 [Afghanistan]
 [Aland Islands]

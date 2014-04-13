@@ -15,8 +15,6 @@ Grupp:
 &Välju
 [Help]
 Spikker
-[OK]
-OK
 [Select Folder]
 Vali kaust
 [Files]

@@ -70,8 +70,6 @@ Schließen
 Alle Kontakte zeigen
 [Set birthday:]
 Geburtstag setzen:
-[OK]
-OK
 [Manage anniversaries]
 Jahrestage verwalten
 [Title:]

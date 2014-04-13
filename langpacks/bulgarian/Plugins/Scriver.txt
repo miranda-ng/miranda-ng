@@ -266,8 +266,6 @@ KB
 Времетраене (сек)
 [(0 means default setting, -1 means indefinite time)]
 (0 = стандартна стойност, -1 = безкрайност)
-[OK]
-ОК
 [Log]
 Дневник
 [&Copy]

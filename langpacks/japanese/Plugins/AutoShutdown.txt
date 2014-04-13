@@ -9,8 +9,6 @@
 秒
 [Configure]
 設定
-[OK]
-OK
 [Cancel]
 Cancel
 [Background]

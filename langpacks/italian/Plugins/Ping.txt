@@ -13,8 +13,6 @@ Popup
 Interfaccia
 [Row height:]
 Altezza righe:
-[OK]
-OK
 [Cancel]
 Annulla
 [Port:]

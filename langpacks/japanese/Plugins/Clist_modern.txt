@@ -105,8 +105,6 @@
 幅 × 高さ: 0 x 0 ピクセル
 [Show contacts in groups]
 グループのコンタクトを表示
-[OK]
-OK
 [Cancel]
 Cancel
 [Protocol]

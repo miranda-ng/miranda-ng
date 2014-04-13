@@ -15,8 +15,6 @@ Ekle
 Parola:
 [Hint:]
 İpucu:
-[OK]
-Tamam
 [Cancel]
 İptal
 [Date of birth:]

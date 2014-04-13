@@ -10,8 +10,6 @@ Sofortnachrichten- und Gruppenchat-Modul für Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Sie können den Nutzer nach Benutzernamen oder seiner ID hinzufügen. Platzhalter sind erlaubt und empfohlen.
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Show these events]

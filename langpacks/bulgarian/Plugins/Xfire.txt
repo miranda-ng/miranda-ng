@@ -134,8 +134,6 @@
 
 [Set Nickname]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [New xfire_games.ini]

@@ -1,6 +1,4 @@
-﻿[OK]
-OK
-[Cancel]
+﻿[Cancel]
 Storno
 [Authorization request]
 Požiadavka na autorizáciu

@@ -26,8 +26,6 @@ ICQ номер:
 Въведете парола за UIN %d:
 [Remember this session password]
 Запомняне на паролата за сесията
-[OK]
-ОК
 [Cancel]
 Отказ
 [ICQ]

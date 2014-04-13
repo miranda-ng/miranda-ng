@@ -19,8 +19,6 @@ Kişisel renkleri kullan
 Yazı
 [Custom]
 Kişisel
-[OK]
-Tamam
 [Network]
 Ağ
 [Popups]

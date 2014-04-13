@@ -47,8 +47,6 @@
 위치:
 [Size:]
 크기:
-[OK]
-확인
 [Cancel]
 취소
 [Status Bar]

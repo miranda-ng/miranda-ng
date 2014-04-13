@@ -56,8 +56,6 @@ Popup времетраене (0=безкрайност)
 Име на модула за добавяне
 [Add to all contacts (Includes Settings)]
 Добавяне във всички контакти (и настройки)
-[OK]
-OK
 [Cancel]
 Отказ
 [Edit Setting]

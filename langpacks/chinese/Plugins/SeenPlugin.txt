@@ -59,8 +59,6 @@
 重置颜色
 [Last seen plugin]
 最后看见插件
-[OK]
-确定
 [You missed following contacts:]
 您错过了这些联系人: 
 [Test\nTest]

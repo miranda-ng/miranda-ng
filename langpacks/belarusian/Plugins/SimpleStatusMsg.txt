@@ -161,8 +161,6 @@
 У Прадусталяваныя
 [Delete Selected]
 Удаліць абранае
-[OK (%d)]
-OK (%d)
 [Global]
 Глабальныя
 [Closing in %d]

@@ -5,8 +5,6 @@
 ;  Version: 0.2.6.1
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
-[OK]
-OK
 [Cancel]
 Annulla
 [Advanced]

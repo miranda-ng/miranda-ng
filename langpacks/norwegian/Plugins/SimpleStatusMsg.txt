@@ -11,8 +11,6 @@
 &Avbryt
 [Retrieving %s message...]
 Henter %s melding...
-[OK]
-OK
 [Max length:]
 Maks lengde:
 [Pop up dialog box]

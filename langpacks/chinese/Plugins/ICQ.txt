@@ -19,8 +19,6 @@ ICQ 号码:
 输入 ICQ 密码
 [Enter a password for UIN %d:]
 请输入 UIN %d 的密码: 
-[OK]
-确定
 [Cancel]
 取消
 [ICQ number:]

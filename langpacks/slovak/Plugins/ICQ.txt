@@ -9,8 +9,6 @@
 Heslo:
 [&Send]
 Odoslať
-[OK]
-OK
 [Cancel]
 Storno
 [Create a new ICQ account using the ICQ website]

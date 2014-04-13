@@ -9,8 +9,6 @@
 Bijnaam:
 [Reset]
 Terugzetten
-[OK]
-OK
 [Cancel]
 Annuleren
 [Sounds]

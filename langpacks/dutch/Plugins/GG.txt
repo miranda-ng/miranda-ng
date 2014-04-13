@@ -25,8 +25,6 @@ Geslacht:
 Plaats:
 [Description:]
 Omschr.:
-[OK]
-OK
 [Cancel]
 Annuleren
 [to:]

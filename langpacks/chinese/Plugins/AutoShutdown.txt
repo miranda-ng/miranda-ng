@@ -55,8 +55,6 @@
 当所有文件传输都已完成时关闭(&F)
 [&Action:]
 操作(&A): 
-[OK]
-确定
 [Cancel]
 取消
 [Unsaved data in open applications except Miranda NG might get lost.]

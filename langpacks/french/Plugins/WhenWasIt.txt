@@ -70,8 +70,6 @@ Fermer
 
 [Set birthday:]
 
-[OK]
-OK
 [Manage anniversaries]
 Gestion des fêtes
 [Title:]

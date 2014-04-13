@@ -12,8 +12,6 @@
 
 [EN]
 EN
-[OK]
-OK
 [Cancel]
 Annuler
 [New password]

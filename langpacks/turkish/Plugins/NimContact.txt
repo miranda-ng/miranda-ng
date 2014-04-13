@@ -15,8 +15,6 @@ Grup:
 Çı&kış
 [Help]
 Yardım
-[OK]
-Tamam
 [Select Folder]
 Klasör Seç
 [Files]

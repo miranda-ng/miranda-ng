@@ -134,8 +134,6 @@ Passwort eingeben
 Betreten
 [Set Nickname]
 Nickname setzen
-[OK]
-OK
 [Cancel]
 Abbrechen
 [New xfire_games.ini]

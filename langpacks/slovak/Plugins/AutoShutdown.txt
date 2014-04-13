@@ -9,8 +9,6 @@
 sekúnd
 [Configure]
 Konfigurovať
-[OK]
-OK
 [Cancel]
 Storno
 [Background]

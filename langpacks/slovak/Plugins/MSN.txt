@@ -21,8 +21,6 @@ Vaše PC (alebo router):
 Hotmail
 [Set Nickname]
 Nastav prezívku
-[OK]
-OK
 [Cancel]
 Storno
 [First Name]

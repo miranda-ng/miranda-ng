@@ -26,8 +26,6 @@
 
 [XSoundNotify]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 ;file \plugins\XSoundNotify\src\dialog.cpp

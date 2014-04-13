@@ -72,8 +72,6 @@ Sauver puis fermer
 
 [Sessions Manager]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Save your current session?]

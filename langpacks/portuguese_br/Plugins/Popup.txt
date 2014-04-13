@@ -159,8 +159,6 @@ Com sobre posição de tela cheia
 Recarregar lista de capas
 [Popup Placement]
 Localização do popup
-[OK]
-OK
 [Cancel]
 Cancelar
 [Popup Group]

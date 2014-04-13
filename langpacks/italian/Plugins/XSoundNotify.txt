@@ -9,8 +9,6 @@
 Nick:
 [Reset]
 Reimposta
-[OK]
-OK
 [Cancel]
 Annulla
 [Sounds]

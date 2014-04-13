@@ -9,8 +9,6 @@
 옵션
 [Window]
 윈도우
-[OK]
-확인
 [Cancel]
 취소
 [Items]

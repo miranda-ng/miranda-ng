@@ -7,8 +7,6 @@
 ;============================================================
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 ユーザー名もしくはユーザー ID でユーザーの追加が可能です。ワイルドカードは許可及び推奨されています
-[OK]
-OK
 [Cancel]
 Cancel
 [Show these events]

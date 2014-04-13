@@ -60,8 +60,6 @@ Reiniciar
 
 [Use defaults]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Options]

@@ -72,8 +72,6 @@ Kontaktprotokollmodul
 Einstellung/Präfix:
 [Translation:]
 Übersetzung:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Item]

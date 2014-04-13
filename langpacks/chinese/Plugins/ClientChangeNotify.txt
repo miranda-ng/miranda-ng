@@ -7,8 +7,6 @@
 ;============================================================
 [ClientChangeNotify error]
 ClientChangeNotify 错误
-[OK]
-确定
 [Fingerprint plugin not found.]
 指纹插件未安装.
 [ClientChangeNotify requires it to work properly.]

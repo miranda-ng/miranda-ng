@@ -9,8 +9,6 @@
 Salvesta kui...
 [Open Folder]
 Ava kaust
-[OK]
-OK
 [Background color]
 Taustavärv
 [Text color]

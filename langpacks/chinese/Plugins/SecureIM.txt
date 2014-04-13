@@ -95,8 +95,6 @@ RSA 密钥
 用户名: 
 [Password:]
 密码: 
-[OK]
-确定
 [Cancel]
 取消
 [SecureIM plugin Passphrase of private key]

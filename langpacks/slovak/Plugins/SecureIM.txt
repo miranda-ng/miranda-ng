@@ -17,8 +17,6 @@ Udalosti
 Užív. meno:
 [Password:]
 Heslo:
-[OK]
-OK
 [Cancel]
 Storno
 [Status]

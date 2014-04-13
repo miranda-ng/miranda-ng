@@ -15,8 +15,6 @@
 密码: 
 [Cancel]
 取消
-[OK]
-确定
 [Host:]
 主机: 
 [Port:]

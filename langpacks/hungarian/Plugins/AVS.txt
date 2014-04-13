@@ -47,8 +47,6 @@ Beállítás rejtettnek
 Próbálja átlátszóvá tenni a kép hátterét
 [Use defaults]
 Alapértékek használata
-[OK]
-OK
 [Cancel]
 Mégsem
 [Options]

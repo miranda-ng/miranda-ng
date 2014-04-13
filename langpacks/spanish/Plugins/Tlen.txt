@@ -98,8 +98,6 @@ Retardo
 Previsualizar
 [Tlen Password]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Nickname:]

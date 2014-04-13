@@ -15,8 +15,6 @@ Port:
 Algväärtusta
 [&Add]
 &Lisa
-[OK]
-OK
 [Cancel]
 Tühista
 [&Join]

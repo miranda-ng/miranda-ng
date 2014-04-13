@@ -25,8 +25,6 @@ sekundit
 Kasutaja detailid
 [Contact menu]
 Kontaktide menüü
-[OK]
-OK
 [Cancel]
 Tühista
 [Blocked Contact]

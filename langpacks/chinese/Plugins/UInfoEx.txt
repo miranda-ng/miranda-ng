@@ -13,8 +13,6 @@
 更新(&U)
 [Updating]
 更新中
-[OK]
-确定
 [Cancel]
 取消
 [Apply]

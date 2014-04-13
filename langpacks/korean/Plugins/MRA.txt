@@ -35,8 +35,6 @@
 도시:
 [Closing in %d]
 %d 에서 닫는중
-[OK]
-확인
 [Cancel]
 취소
 [Male]

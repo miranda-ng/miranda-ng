@@ -13,8 +13,6 @@ Zobraziť mená
 Meno
 [Time]
 Čas
-[OK]
-OK
 [Cancel]
 Storno
 [Open History]

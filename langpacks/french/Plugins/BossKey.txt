@@ -34,8 +34,6 @@ Remettre l'état précédent
 Raccourci clavier
 [Password:]
 Passe:
-[OK]
-OK
 [Cancel]
 Annuler
 [EN]

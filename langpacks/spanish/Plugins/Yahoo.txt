@@ -56,8 +56,6 @@ Reiniciar
 
 [Show as busy]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Protocol:]

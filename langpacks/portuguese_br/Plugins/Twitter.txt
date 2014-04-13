@@ -23,8 +23,6 @@ Usar cores personalizadas
 Texto
 [Custom]
 Padrão
-[OK]
-OK
 [Send Tweet...]
 Enviar Tweet...
 [Network]

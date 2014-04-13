@@ -15,8 +15,6 @@
 复制到剪贴板(&P)
 [%s Message (%s)]
 %s 消息 (%s)
-[OK]
-确定
 [Retrieving status message for %s...]
 检索状态信息 %s...
 [Apply to all]
@@ -131,8 +129,6 @@ Miranda 相关
 添加至预定义
 [Delete Selected]
 删除已选项目
-[OK (%d)]
-是 (%d)
 [Global]
 全局
 [Closing in %d]

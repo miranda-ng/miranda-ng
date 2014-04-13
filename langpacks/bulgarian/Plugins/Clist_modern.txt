@@ -144,8 +144,6 @@
 Показване на контактите в групи
 [Include status modes]
 Включени състояния
-[OK]
-ОК
 [Cancel]
 Отказ
 [Sticky contacts]

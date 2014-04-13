@@ -56,8 +56,6 @@
 
 [&Action:]
 
-[OK]
-ОК
 [Cancel]
 Отказ
 [Unsaved data in open applications except Miranda NG might get lost.]

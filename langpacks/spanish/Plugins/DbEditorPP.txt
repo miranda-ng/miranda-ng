@@ -56,8 +56,6 @@ Color de fondo
 
 [Add to all contacts (Includes Settings)]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Edit Setting]

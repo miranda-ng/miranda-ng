@@ -7,8 +7,6 @@
 ;============================================================
 [Save As...]
 Mentés másként...
-[OK]
-OK
 [Background color]
 Háttérszín
 [Text color]

@@ -29,8 +29,6 @@ Port:
 Kasutaja detailid
 [Copy]
 Kopeeri
-[OK]
-OK
 [Cancel]
 Tühista
 [Search:]

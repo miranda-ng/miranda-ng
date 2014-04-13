@@ -77,8 +77,6 @@ Születési év:
 Leírás:
 [Enter token to continue]
 Kód megadása folytatáshoz
-[OK]
-OK
 [Cancel]
 Mégsem
 [Create Gadu-Gadu account]

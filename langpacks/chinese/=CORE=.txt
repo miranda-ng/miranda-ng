@@ -4,8 +4,6 @@
 选择协议类型
 [Specify the internal account name (optional)]
 指定内部帐号名称 (选填)
-[OK]
-确定
 [Cancel]
 取消
 [Add %s]

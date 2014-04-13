@@ -10,8 +10,6 @@ Erstellt einen Screenshot und sendet ihn einem Kontakt
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Dialog
-[OK]
-OK
 [All]
 Alle
 [None]

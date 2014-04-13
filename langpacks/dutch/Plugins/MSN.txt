@@ -29,8 +29,6 @@ Geblokkeerd persoon
 Iemand heeft u toegevoegd aan zijn/haar server lijst
 [Other]
 Ander
-[OK]
-OK
 [Cancel]
 Annuleren
 [&Cancel]

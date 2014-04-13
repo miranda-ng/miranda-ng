@@ -9,8 +9,6 @@
 Lisa
 [Remove]
 Eemalda
-[OK]
-OK
 [Cancel]
 Tühista
 [URL]

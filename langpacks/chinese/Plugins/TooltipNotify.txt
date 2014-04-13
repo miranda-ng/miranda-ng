@@ -7,8 +7,6 @@
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
 当联系人状态改变时显示一个小工具提示于系统托盘区域.
-[OK]
-确定
 [Cancel]
 取消
 [Notify upon the following events]

@@ -12,8 +12,6 @@
 Редактиране на бележка
 [Tags:]
 Тагове:
-[OK]
-ОК
 [Cancel]
 Отказ
 [Type:]
@@ -2187,8 +2185,6 @@ Jabber vCard: Редактиране на телефонен номер
 [%s connection]
 %s връзка
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
-
 [Afraid]
 Уплашен
 [Amazed]

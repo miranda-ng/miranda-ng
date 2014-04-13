@@ -1,6 +1,4 @@
 ﻿
-[OK]
-OK
 [Cancel]
 Annuleren
 [Add %s]

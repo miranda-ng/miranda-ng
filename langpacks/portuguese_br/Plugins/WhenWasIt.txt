@@ -13,8 +13,6 @@ Mostrar
 segundos
 [Close]
 Fechar
-[OK]
-OK
 [Description:]
 Descrição
 [Date:]

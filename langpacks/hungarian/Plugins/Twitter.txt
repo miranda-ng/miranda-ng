@@ -19,8 +19,6 @@ Egyedi színek használata
 Szöveg
 [Custom]
 Egyedi
-[OK]
-OK
 [Network]
 Hálózat
 [Popups]

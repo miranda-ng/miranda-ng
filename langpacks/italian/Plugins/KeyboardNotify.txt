@@ -43,8 +43,6 @@ Lento
 An&teprima
 [Delete]
 Elimina
-[OK]
-OK
 [Cancel]
 Annulla
 [The following events are being ignored:]

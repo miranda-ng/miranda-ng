@@ -9,8 +9,6 @@
 Sesleri Kapat
 [Password:]
 Parola:
-[OK]
-Tamam
 [Cancel]
 İptal
 [Events]

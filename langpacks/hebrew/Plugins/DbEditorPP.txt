@@ -19,8 +19,6 @@
 פסק זמן פופאפ 0 ללא הגבלה
 [Background color]
 צבע רקע
-[OK]
-אישור
 [Cancel]
 ביטול
 [Database Editor++]

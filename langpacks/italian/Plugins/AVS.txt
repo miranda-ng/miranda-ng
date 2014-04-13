@@ -9,8 +9,6 @@
 Elimina
 [Reset]
 Reimposta
-[OK]
-OK
 [Cancel]
 Annulla
 [Options]

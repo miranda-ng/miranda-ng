@@ -15,8 +15,6 @@ Weergeven
 seconden
 [Close]
 Sluit
-[OK]
-OK
 [Description:]
 Omschr.:
 [Date:]

@@ -17,8 +17,6 @@
 消息
 [Set]
 设置
-[OK]
-确定
 [Command line:]
 命令行: 
 [Other]

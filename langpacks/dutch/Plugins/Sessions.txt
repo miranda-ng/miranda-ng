@@ -11,7 +11,5 @@ Bewerken
 Verwijderen
 [&Cancel]
 Annuleren
-[OK]
-OK
 [Cancel]
 Annuleren

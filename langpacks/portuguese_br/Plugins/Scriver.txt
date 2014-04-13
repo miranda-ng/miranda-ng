@@ -157,8 +157,6 @@ Texto
 Fundo
 [Timeout (s)]
 Tempo final (s)
-[OK]
-OK
 [Log]
 Registro
 [&Copy]

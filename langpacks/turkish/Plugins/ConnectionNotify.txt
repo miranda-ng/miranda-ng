@@ -9,8 +9,6 @@
 Art Alan
 [Text]
 Yazı
-[OK]
-Tamam
 [Cancel]
 İptal
 [Show]

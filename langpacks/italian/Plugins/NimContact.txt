@@ -15,8 +15,6 @@ Gruppo:
 &Esci
 [Help]
 Aiuto
-[OK]
-OK
 [Select Folder]
 Seleziona cartella
 [Files]

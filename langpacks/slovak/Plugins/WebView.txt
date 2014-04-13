@@ -17,8 +17,6 @@ Kurzíva
 Podtrhnuté
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Storno
 [Apply]

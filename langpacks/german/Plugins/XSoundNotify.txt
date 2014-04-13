@@ -26,8 +26,6 @@ Standard
 Sound für diesen Kontakt ignorieren
 [XSoundNotify]
 XSoundNotify
-[OK]
-OK
 [Cancel]
 Abbrechen
 ;file \plugins\XSoundNotify\src\dialog.cpp

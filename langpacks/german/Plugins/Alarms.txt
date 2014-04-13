@@ -50,8 +50,6 @@ Fokus nur stehlen, wenn IDLE
 Vorschau
 [Alarm]
 Alarm
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Title:]

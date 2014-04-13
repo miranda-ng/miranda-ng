@@ -98,8 +98,6 @@ Dau&erhaft
 Vorschau
 [Tlen Password]
 Tlen-Passwort
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Nickname:]

@@ -59,8 +59,6 @@ Ukázať
 Zavrieť (za %d s)
 [Title:]
 Názov:
-[OK]
-OK
 [Cancel]
 Storno
 [Notify]

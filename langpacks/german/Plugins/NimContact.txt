@@ -100,8 +100,6 @@ file()
 filename()
 [Help]
 Hilfe
-[OK]
-OK
 [Copy / Export contact]
 Kontakt kopieren/exportieren
 [&Export Non-IM Contact]

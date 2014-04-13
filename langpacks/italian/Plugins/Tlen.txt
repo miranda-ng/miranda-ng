@@ -29,8 +29,6 @@ Testo
 Personalizzato
 [P&ermanent]
 Permanente
-[OK]
-OK
 [Cancel]
 Annulla
 [First name:]

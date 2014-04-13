@@ -15,8 +15,6 @@ Gruppe:
 &Avslutt
 [Help]
 Hjelp
-[OK]
-OK
 [Select Folder]
 Velg Mapper
 [Files]

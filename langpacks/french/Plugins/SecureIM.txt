@@ -130,8 +130,6 @@ VEuillez taper un mot de passe
 Identifiant:
 [Password:]
 Passe:
-[OK]
-OK
 [Cancel]
 Annuler
 [SecureIM plugin Passphrase of private key]

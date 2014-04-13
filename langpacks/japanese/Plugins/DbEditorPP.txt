@@ -13,8 +13,6 @@ Cancel(&C)
 次を検索
 [Background color]
 背景色
-[OK]
-OK
 [Cancel]
 Cancel
 [&Main]

@@ -9,8 +9,6 @@
 收集并打印 Miranda, 插件及系统相关信息.
 [Output to:]
 输出至: 
-[OK]
-确定
 [Cancel]
 取消
 [Text file]
@@ -79,5 +77,5 @@ Miranda 版本消息
 版本信息
 [Output folder]
 输出目录
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Ok, "%s" 设置有点问题. 请回报这些数值: \n设备: %X\n错误代码: %X\n行号: %d
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+"%s" 设置有点问题. 请回报这些数值: \n设备: %X\n错误代码: %X\n行号: %d

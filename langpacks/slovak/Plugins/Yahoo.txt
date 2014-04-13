@@ -21,8 +21,6 @@ Prihlasovací server
 Port:
 [Reset]
 Reset
-[OK]
-OK
 [Cancel]
 Storno
 [User &details]

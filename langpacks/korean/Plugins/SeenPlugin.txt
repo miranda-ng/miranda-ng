@@ -25,8 +25,6 @@
 오프라인으로 표시
 [Offline]
 오프라인
-[OK]
-확인
 [View User's Details]
 유저 세부사항 보기
 [User Menu]

@@ -34,8 +34,6 @@ Status zurücksetzen
 Hotkey
 [Password:]
 Passwort:
-[OK]
-OK
 [Cancel]
 Abbrechen
 [EN]

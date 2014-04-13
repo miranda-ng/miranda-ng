@@ -7,8 +7,6 @@
 ;============================================================
 [About CList Nicer+]
 CList Nicer+ バージョン情報
-[OK]
-OK
 [Clist Nicer+]
 Clist Nicer+
 [Version]

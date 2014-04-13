@@ -12,8 +12,6 @@ Compatibilidad con el protocolo Jabber para Miranda NG.
 Editar Nota
 [Tags:]
 Etiquetas:
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Type:]
@@ -2197,8 +2195,6 @@ Contactos
 [%s connection]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[OK (%d)]
-
 [Afraid]
 
 [Amazed]

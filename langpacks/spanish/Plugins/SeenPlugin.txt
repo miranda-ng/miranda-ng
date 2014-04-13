@@ -66,8 +66,6 @@ Fuera de línea
 
 [Last seen plugin]
 
-[OK]
-Aceptar
 [You missed following contacts:]
 
 [Test\nTest]

@@ -10,8 +10,6 @@ Unterstützung für GPG, basierend auf Code aus dem alten GPG Plugin und SecureI
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 Öffentlichen GPG-Schlüssel laden
-[OK]
-OK
 [Load from file]
 Aus Datei laden
 [Select existing]

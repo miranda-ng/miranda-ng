@@ -13,8 +13,6 @@
 突袭将发送至
 [Buddy Pounce]
 好友突袭
-[OK]
-确定
 [The Message:]
 消息: 
 [Delete Pounce]

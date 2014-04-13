@@ -13,8 +13,6 @@ secondi
 Grassetto
 [URL:]
 URL:
-[OK]
-OK
 [Cancel]
 Annulla
 [Apply]

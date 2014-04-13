@@ -9,8 +9,6 @@
 昵称: 
 [Reset]
 重置
-[OK]
-确定
 [Cancel]
 取消
 [Sounds]

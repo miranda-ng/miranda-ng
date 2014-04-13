@@ -33,8 +33,6 @@ Yahoo Elvetési Lista
 Egyéni Állapot beállítása
 [Show as busy]
 Elfoglaltnak mutatás
-[OK]
-OK
 [Cancel]
 Mégsem
 [&Join]

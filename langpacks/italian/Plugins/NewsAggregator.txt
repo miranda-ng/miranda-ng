@@ -5,8 +5,6 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-[OK]
-OK
 [Cancel]
 Annulla
 [URL]

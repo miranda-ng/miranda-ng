@@ -19,8 +19,6 @@ Cancel(&C)
 ヒント:
 [Enter password]
 パスワードを入力してください
-[OK]
-OK
 [Cancel]
 Cancel
 [Date of birth:]

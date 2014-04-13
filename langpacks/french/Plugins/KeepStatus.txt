@@ -68,8 +68,6 @@ OK
 
 [Command line]
 
-[OK]
-OK
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]

@@ -260,8 +260,6 @@ Popups са изключени
 Обновяване на списъка с облици
 [Popup Placement]
 Popup позиция
-[OK]
-ОК
 [Cancel]
 Отказ
 [Popup Group]

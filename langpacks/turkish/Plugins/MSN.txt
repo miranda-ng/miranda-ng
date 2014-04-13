@@ -53,8 +53,6 @@ Diğer
 'Kişi kanaldan ayrıldı' açılan penceresini etkinleştir
 [Disable Contact List notifications]
 Kişi Listesi uyarılarını kapat
-[OK]
-Tamam
 [Cancel]
 İptal
 [First Name]

@@ -13,8 +13,6 @@ Adları göster
 İletileri göster
 [Name]
 Ad
-[OK]
-Tamam
 [Cancel]
 İptal
 [View &History]

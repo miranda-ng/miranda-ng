@@ -30,8 +30,6 @@ Eliminar
 
 [Use variables in correction]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Spell Checker]

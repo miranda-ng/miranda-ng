@@ -15,8 +15,6 @@ Password:
 &Annulla
 [Enter ICQ Password]
 Inserisci la Password di ICQ
-[OK]
-OK
 [Cancel]
 Annulla
 [ICQ number:]

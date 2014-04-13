@@ -15,8 +15,6 @@ URL
 終了 (&E)
 [Help]
 ヘルプ
-[OK]
-OK
 [Select Folder]
 フォルダーを選択
 [Files]

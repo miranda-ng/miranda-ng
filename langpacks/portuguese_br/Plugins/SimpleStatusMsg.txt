@@ -11,8 +11,6 @@ Mensagem de %s para %s
 &Cancelar
 [Retrieving %s message...]
 Reecuperando %s mensagem(s)...
-[OK]
-OK
 [Status messages]
 Mensagens de status
 [seconds]

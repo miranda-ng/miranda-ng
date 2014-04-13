@@ -12,8 +12,6 @@
 Changer mon pseudo
 [Nickname:]
 Pseudo:
-[OK]
-OK
 [Cancel]
 Annuler
 [General]

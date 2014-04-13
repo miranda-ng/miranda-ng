@@ -13,8 +13,6 @@ Oorsprong
 &Bijwerken
 [Updating]
 Bijwerken
-[OK]
-OK
 [Cancel]
 Annuleren
 [Apply]

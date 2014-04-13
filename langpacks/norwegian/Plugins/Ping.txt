@@ -17,8 +17,6 @@ Legg til
 Fjern
 [Edit]
 Rediger
-[OK]
-OK
 [Cancel]
 Avbryt
 [Port:]

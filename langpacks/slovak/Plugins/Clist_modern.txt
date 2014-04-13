@@ -55,8 +55,6 @@ Súbor
 Pozícia:
 [Size:]
 Veľkosť:
-[OK]
-OK
 [Cancel]
 Storno
 [Clear all]

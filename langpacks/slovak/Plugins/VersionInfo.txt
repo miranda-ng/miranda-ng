@@ -5,11 +5,9 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
-[OK]
-OK
 [Cancel]
 Storno
 [Close]
 Zavrieť
-[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Ok, niečo je zlé v "%s" nastavení. Spätný report má hodnoty:\nFacility: %X\nKód chyby: %X\nČíslo riadku: %d
+[Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Niečo je zlé v "%s" nastavení. Spätný report má hodnoty:\nFacility: %X\nKód chyby: %X\nČíslo riadku: %d

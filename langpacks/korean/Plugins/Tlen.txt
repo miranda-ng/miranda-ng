@@ -21,8 +21,6 @@
 프록시 권한 필요
 [Background]
 배경
-[OK]
-확인
 [Cancel]
 취소
 [First name:]

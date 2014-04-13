@@ -17,7 +17,5 @@ Farby
 Späť
 [Text]
 Text
-[OK]
-OK
 [Network]
 Sieť

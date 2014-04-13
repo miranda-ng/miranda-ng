@@ -11,8 +11,6 @@
 בטל
 [Retrieving %s message...]
 ... משיג הודעת %s
-[OK]
-אישור
 [Status messages]
 הודעות מצב
 [seconds]

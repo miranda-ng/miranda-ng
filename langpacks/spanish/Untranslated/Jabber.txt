@@ -918,7 +918,6 @@
 [Jabber vCard: Edit Phone Number]
 [Note]
 [%s connection]
-[OK (%d)]
 [Afraid]
 [Amazed]
 [Amorous]

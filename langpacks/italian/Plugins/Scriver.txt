@@ -75,8 +75,6 @@ Provenienza
 Testo
 [Background]
 Altro
-[OK]
-OK
 [Log]
 Registro (Log file)
 [&Copy]

@@ -17,8 +17,6 @@ Profil
 Üzenet
 [Set]
 Beállít
-[OK]
-OK
 [Command line:]
 Parancssor:
 [Other]

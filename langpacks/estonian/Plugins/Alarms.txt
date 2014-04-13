@@ -9,8 +9,6 @@
 Kustuta
 [Row height:]
 Rea kõrgus:
-[OK]
-OK
 [Cancel]
 Tühista
 [Description:]

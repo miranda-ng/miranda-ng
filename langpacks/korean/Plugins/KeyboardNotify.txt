@@ -31,8 +31,6 @@
 &P 미리듣기
 [Delete]
 삭제
-[OK]
-확인
 [Cancel]
 취소
 [The following events are being ignored:]

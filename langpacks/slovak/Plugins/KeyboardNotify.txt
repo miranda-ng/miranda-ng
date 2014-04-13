@@ -29,8 +29,6 @@ Na obede
 Odpojený
 [&Preview]
 Prehrať
-[OK]
-OK
 [Cancel]
 Storno
 [The following events are being ignored:]

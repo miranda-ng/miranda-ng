@@ -7,8 +7,6 @@
 ;============================================================
 [Variable List]
 Lista variabili
-[OK]
-OK
 [Log]
 Registro (Log file)
 [Cancel]

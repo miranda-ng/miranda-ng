@@ -11,8 +11,6 @@ Messaggio di '%s' per %s
 &Annulla
 [Retrieving %s message...]
 Recupero messaggio di %s...
-[OK]
-OK
 [Status messages]
 Messaggi di stato
 [seconds]
