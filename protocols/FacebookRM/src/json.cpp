@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -521,85 +521,29 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (message_text.empty())
 					continue;
 
-				// Multi-user
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
 				if (gthreadinfo != NULL) {
-					std::tstring thread_id = json_as_string(tid);
-
-					// This is a recent 5 person listing of participants.
-					JSONNODE *participants_ids = json_get(gthreadinfo, "participant_ids");
-					JSONNODE *participants_names = json_get(gthreadinfo, "participant_names");
-
-					JSONNODE *thread_name_ = json_get(gthreadinfo, "name");
-					std::tstring name = json_as_string(thread_name_);
-
-					// if there is no name for this room, set own name
-					if (name.empty()) {
-						unsigned int namesCount = 3; // how many names should be in room name; max. 5
-
-						for (unsigned int n = 0; n < json_size(participants_names) && n < namesCount; n++) {
-							JSONNODE *nameItr = json_at(participants_names, n);
-							
-							if (!name.empty())
-								name += _T(", ");
-
-							name += json_as_string(nameItr);
-						}
-						JSONNODE *count_ = json_get(gthreadinfo, "participant_total_count");
-						unsigned int count = json_as_int(count_);
-
-						if (count > namesCount) {
-							TCHAR more[200];
-							mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), name.c_str(), count - namesCount);
-							name = more;
-						}
-					}
-
-					MCONTACT hChatContact = NULL;
-
-					// RM TODO: better use check if chatroom exists/is in db/is online... no?
-					/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
-					if (proto->GetChatUsers(thread_id.c_str()) == NULL) {
-						proto->AddChat(thread_id.c_str(), name.c_str());
-						hChatContact = proto->ChatIDToHContact(thread_id);
-						// Set thread id (TID) for later
-						proto->setTString(hChatContact, FACEBOOK_KEY_TID, thread_id.c_str());
-					}
-
-					if (!hChatContact)
-						hChatContact = proto->ChatIDToHContact(thread_id);
-
-					for (unsigned int n = 0; n < json_size(participants_ids); n++) {
-						JSONNODE *idItr = json_at(participants_ids, n);
-						std::string pId = json_as_pstring(idItr);
-
-						JSONNODE *nameItr = json_at(participants_names, n);
-						std::string pName = json_as_pstring(nameItr);
-
-						if (!proto->IsChatContact(thread_id.c_str(), pId.c_str())) {
-							proto->AddChatContact(thread_id.c_str(), pId.c_str(), pName.c_str());
-						}
-					}
-
-					std::string senderName = json_as_pstring(sender_name);
-					/*std::string::size_type pos;
-					if ((pos = senderName.find(" ")) != std::string::npos) {
-						senderName = senderName.substr(0, pos);							
-					}*/
-
-					// Last fall-back for adding this sender (in case he was not in the participants) - is this even needed?
-					if (!proto->IsChatContact(thread_id.c_str(), id.c_str())) {
-						proto->AddChatContact(thread_id.c_str(), id.c_str(), senderName.c_str());
-					}
-
-					// Update chat with message
-					// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?)
-					proto->UpdateChat(thread_id.c_str(), id.c_str(), senderName.c_str(), message_text.c_str(), utils::time::fix_timestamp(json_as_float(timestamp)));
-					proto->setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, message_id.c_str());
-					proto->ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
-				} else {
+					// Multi-user message
 					facebook_message* message = new facebook_message();
-					
+
+					message->isChat = true;
+					message->isUnread = true;
+					message->isIncoming = (id != proto->facy.self_.user_id);
+					message->message_text = message_text;
+					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))); // TODO: or if not incomming use my own name from facy.self_ ?
+					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+					message->thread_id = json_as_pstring(tid); // TODO: or if not incomming use my own id from facy.self_ ?
+					message->user_id = id;
+					message->message_id = message_id;
+
+					messages->push_back(message);
+				}
+				else {
+					// Standard message
+					facebook_message* message = new facebook_message();
+
+					message->isChat = false;
+					message->isUnread = true;
 					message->isIncoming = (id != proto->facy.self_.user_id);
 					message->message_text = message_text;
 					message->sender_name = message->isIncoming ? utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))) : "";
@@ -846,6 +790,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
 		JSONNODE *thread_id = json_get(it, "thread_id");
 		JSONNODE *name = json_get(it, "name");
+		//JSONNODE *message_count = json_get(it, "message_count");
 		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
 		JSONNODE *folder = json_get(it, "folder");
 		
@@ -1025,3 +970,62 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 	json_delete(root);
 	return EXIT_SUCCESS;
 }
+
+/* TODO: implement this somehow
+int facebook_json_parser::parse_chat_info(void* data, facebook_chat* fbu) {
+	// This is a recent 5 person listing of participants.
+	JSONNODE *participants_ids = json_get(gthreadinfo, "participant_ids");
+	JSONNODE *participants_names = json_get(gthreadinfo, "participant_names");
+
+	JSONNODE *thread_name_ = json_get(gthreadinfo, "name");
+	std::tstring name = json_as_string(thread_name_);
+
+	// if there is no name for this room, set own name
+	if (name.empty()) {
+		unsigned int namesCount = 3; // how many names should be in room name; max. 5
+
+		for (unsigned int n = 0; n < json_size(participants_names) && n < namesCount; n++) {
+			JSONNODE *nameItr = json_at(participants_names, n);
+
+			if (!name.empty())
+			name += _T(", ");
+
+			name += json_as_string(nameItr);
+		}
+		JSONNODE *count_ = json_get(gthreadinfo, "participant_total_count");
+		unsigned int count = json_as_int(count_);
+
+		if (count > namesCount) {
+			TCHAR more[200];
+			mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), name.c_str(), count - namesCount);
+			name = more;
+		}
+	}
+
+	if (name.empty())
+		name = thread_id;
+
+	for (unsigned int n = 0; n < json_size(participants_ids); n++) {
+		JSONNODE *idItr = json_at(participants_ids, n);
+		std::string pId = json_as_pstring(idItr);
+
+		JSONNODE *nameItr = json_at(participants_names, n);
+		std::string pName = json_as_pstring(nameItr);
+
+		if (!proto->IsChatContact(thread_id.c_str(), pId.c_str())) {
+			proto->AddChatContact(thread_id.c_str(), pId.c_str(), pName.c_str());
+		}
+	}
+
+	std::string senderName = json_as_pstring(sender_name);
+	std::string::size_type pos;
+	if ((pos = senderName.find(" ")) != std::string::npos) {
+		senderName = senderName.substr(0, pos);
+	}
+
+	// Last fall-back for adding this sender (in case he was not in the participants) - is this even needed?
+	if (!proto->IsChatContact(thread_id.c_str(), id.c_str())) {
+		proto->AddChatContact(thread_id.c_str(), id.c_str(), senderName.c_str());
+	}
+}
+*/

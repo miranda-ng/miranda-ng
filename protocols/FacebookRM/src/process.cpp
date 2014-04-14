@@ -411,20 +411,16 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 	bool naseemsSpamMode = getBool(FACEBOOK_KEY_NASEEMS_SPAM_MODE, false);
 
 	for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
+		DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+
 		if (messages[i]->isChat) {
+			// Multi-user message
 			debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
 
 			std::tstring tthread_id = _A2T(messages[i]->thread_id.c_str());
-			std::string user_id = messages[i]->user_id;
-			std::string user_name = messages[i]->sender_name;
-			std::string message_text = messages[i]->message_text;
-			std::string message_id = messages[i]->message_id;
-			DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-
-			MCONTACT hChatContact = ChatIDToHContact(tthread_id);
 
 			// RM TODO: better use check if chatroom exists/is in db/is online... no?
-			/// e.g. HANDLE hChatContact = proto->ChatIDToHContact(thread_id); ?
+			// like: if (ChatIDToHContact(tthread_id) == NULL) {
 			if (GetChatUsers(tthread_id.c_str()) == NULL) {
 				// In Naseem's spam mode we ignore outgoing messages sent from other instances
 				if (naseemsSpamMode && !messages[i]->isIncoming) {
@@ -432,20 +428,35 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 					continue;
 				}
 
-				AddChat(tthread_id.c_str(), tthread_id.c_str()); // TODO: use correct name for chat, not thread_id
-				hChatContact = ChatIDToHContact(tthread_id);
-				// Set thread id (TID) for later
-				setTString(hChatContact, FACEBOOK_KEY_TID, tthread_id.c_str());
+				// TODO: We don't have this chat, lets load info about it (name, list of users, last messages, etc.)
+				//LoadChatInfo(&fbu); // In this method use json's parse_chat_info
+				std::tstring tthread_name = tthread_id; // TODO: use correct name for chat, not thread_id
+
+				AddChat(tthread_id.c_str(), tthread_name.c_str());
 			}
 
-			if (!hChatContact)
-				hChatContact = ChatIDToHContact(tthread_id);
+			MCONTACT hChatContact = ChatIDToHContact(tthread_id);
 
-			UpdateChat(tthread_id.c_str(), user_id.c_str(), user_name.c_str(), message_text.c_str(), timestamp);
-			setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, message_id.c_str());
+			// Save last (this) message ID
+			setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
+
+			// Save TID if not exists already
+			ptrA tid(getStringA(hChatContact, FACEBOOK_KEY_TID));
+			if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
+				setString(hChatContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
+
+			ParseSmileys(messages[i]->message_text, hChatContact);
+
+			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
+			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
+			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), timestamp);
+
+			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
 			ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
 		} else {
+			// Single-user message
 			debugLogA("      Got message: %s", messages[i]->message_text.c_str());
+
 			facebook_user fbu;
 			fbu.user_id = messages[i]->user_id;
 			fbu.real_name = messages[i]->sender_name;
@@ -464,6 +475,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				hContact = AddToContactList(&fbu, CONTACT_NONE);
 			}
 
+			// Save last (this) message ID
 			setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 
 			// Save TID if not exists already
@@ -477,7 +489,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				PROTORECVEVENT recv = { 0 };
 				recv.flags = PREF_UTF;
 				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-				recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+				recv.timestamp = timestamp;
 				ProtoChainRecvMsg(hContact, &recv);
 			} else {
 				DBEVENTINFO dbei = { 0 };
@@ -485,7 +497,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = m_szModuleName;
-				dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+				dbei.timestamp = timestamp;
 				dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
 				dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
 				db_event_add(hContact, &dbei);
