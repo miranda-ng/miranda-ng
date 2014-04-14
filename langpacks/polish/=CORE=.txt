@@ -450,7 +450,7 @@ Tylko zaznaczone ikony będą pokazywane na liście kontaktów:
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Możesz grupować wyświetlane ikony (CTRL+LPM) i użyć menu popup (PPM)
 [Add to Existing MetaContact]
-Dodaj do istniejącego metakontaktu
+Dodaj do metakontaktu
 [Please select a MetaContact:]
 Proszę wybrać metakontakt:
 [Sort Alphabetically]
@@ -464,13 +464,13 @@ Kontakty
 [&Remove]
 &Usuń
 [&Set as Default]
-Ustaw jako &domyślny
+Jako &domyślny
 [Move &Up]
 W &górę
 [Move &Down]
 W &dół
 [Send &Offline]
-Wysyłaj do &rozłączonego
+Do &rozłączonego
 [Context Menu]
 Menu kontekstowe
 [Use contact's unique ID]
@@ -2439,11 +2439,11 @@ Wyłącz metakontakty
 [Toggle MetaContacts On]
 Włącz metakontakty
 [Add to existing MetaContact...]
-Dodaj do istniejącego metakontaktu...
+Dodaj do metakontaktu...
 [Edit MetaContact...]
 Edytuj metakontakt...
 [Set as MetaContact default]
-Ustaw jako domyślny metakontakt
+Ustaw jako domyślny
 [Delete MetaContact]
 Usuń metakontakt
 [Subcontacts]

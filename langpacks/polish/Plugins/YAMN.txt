@@ -159,9 +159,9 @@ Popup gdy niepowodzenie
 [Preview]
 Podgląd
 [Background color]
-Kolor tła
+Tło
 [Text color]
-Kolor tekstu
+Tekst
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Sprawdź wiadomości e-&mail

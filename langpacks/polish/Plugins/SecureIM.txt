@@ -109,7 +109,7 @@ Zdarzenia
 [Popup Timeout]
 Czas popupów
 [Time in Seconds]
-Czas w sekundach
+w sekundach
 [0 = Default Popup Timeout Value]
 0 - domyślnie
 [Show a popup on established connection]

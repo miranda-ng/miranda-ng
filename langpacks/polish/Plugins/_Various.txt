@@ -109,3 +109,12 @@ NIC
 PRZERWA
 [JUMP]
 SKOCZ
+;=======================================================================
+;  CList Nicer
+;=======================================================================
+[Overlay Icons]
+Nakładki ikon
+[CList - Nicer]
+Lista kontaktów
+[Connecting Icons]
+Ikony łączenia

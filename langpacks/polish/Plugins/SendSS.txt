@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -58,6 +58,8 @@ O&bszar klienta
 Celownik
 [Result]
 Wynik
+[Thumbnail]
+Miniatura
 [&Copy]
 &Kopiuj
 [Close]
@@ -65,6 +67,12 @@ Zamknij
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
 Otrzymany URL z\n
+[Copy]
+Kopiuj
+[Copy BBCode]
+Kopiuj BBCode
+[Copy BBCode w/ link]
+Kopiuj BBcode w/ link
 [%s requires a valid contact!]
 %s wymaga poprawnego kontaktu!
 [Error]
@@ -122,6 +130,11 @@ Transfer plików
 Transfer FTP
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nNie można dodać zasobu do wtyczki FTP File.
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+[Image upload]
+Wyślij jako obrazek
+[Upload server did not respond timely.]
+Serwer nie odpowiada.
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 Transfer HTTPServer
@@ -200,6 +213,10 @@ Poprzedni
 Dalej
 [Update]
 Aktualizacja
+[BBC]
+BBC
+[BBC link]
+BBC link
 [Down arrow]
 Strzałka w dół
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
@@ -241,6 +258,12 @@ Menedżer FTP
 Dropbox
 [ImageShack]
 ImageShack
+[Upload Pie (30m)]
+Upload Pie (30m)
+[Upload Pie (1d)]
+Upload Pie (1d)
+[Upload Pie (1w)]
+Upload Pie (1t)
 [Information]
 Informacje
 [Fill description textbox.]

@@ -137,7 +137,7 @@ Przenieś zdarzenia na początek listy\nlub grupy
 [Do not separate offline contacts]
 Nie oddzielaj rozłączonych kontaktów
 [Hide as offline]
-Ukryj w trybie rozł.
+Ukryj jako rozłączone:
 [Right align contacts]
 Wyrównanie do prawej
 [Avatars]

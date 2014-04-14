@@ -139,9 +139,9 @@ Tylko przy zmianie warunków
 [Colors]
 Kolory
 [Background color]
-Kolor tła
+Tło
 [Text color]
-Kolor tekstu
+Tekst
 [Use Windows colors]
 Użyj kolorów Windows
 [Popup Actions]

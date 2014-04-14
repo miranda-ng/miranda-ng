@@ -10,8 +10,6 @@ Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, u
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Login to Miranda NG]
 Logowanie do Mirandy NG
-[EN]
-EN
 [Cancel]
 Anuluj
 [New password]

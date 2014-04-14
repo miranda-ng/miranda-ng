@@ -325,7 +325,7 @@ Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 ['Hide Offline' means to hide:]
-"Ukryj rozłączonych" tzn.:
+Ukryj jako rozłączone:
 [Groups]
 Grupy
 [Draw a line alongside group names]

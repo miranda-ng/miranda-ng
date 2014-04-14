@@ -39,9 +39,9 @@ Pokaż popup kiedy kontakt zmieni swój awatar
 [Colors]
 Kolory
 [Background color]
-Kolor tła
+Tło
 [Text color]
-Kolor tekstu
+Tekst
 [Use Windows colors]
 Użyj kolorów Windows
 [Use default colors]

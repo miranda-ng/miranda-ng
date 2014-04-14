@@ -121,9 +121,9 @@ Automatycznie rozłącz przy wyjściu
 [Dial-up (experimental)]
 Połączenie (eksperymentalne)
 [Background color]
-Kolor tła
+Tło
 [Text color]
-Kolor tekstu
+Tekst
 [Use Windows colors]
 Użyj kolorów Windows
 [Use default colors]

@@ -157,7 +157,7 @@ Wygląd
 [Back Color]
 Tło
 [Text Color]
-Kolor tekstu
+Tekst
 [Timeout]
 Wyświetlaj
 [Note]
