@@ -72,7 +72,6 @@ namespace utils
 	namespace conversion
 	{
 		DWORD to_timestamp(std::string data);
-		struct tm *fbtime_to_timeinfo(unsigned __int64 timestamp);
 		std::string to_string(void*, WORD type);
 
 		template <class T>

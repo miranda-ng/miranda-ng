@@ -72,11 +72,6 @@ DWORD utils::conversion::to_timestamp(std::string data)
 	return timestamp;
 }
 
-struct tm *utils::conversion::fbtime_to_timeinfo(unsigned __int64 timestamp) {
-	time_t time = utils::time::fix_timestamp(timestamp);
-	return localtime(&time);
-}
-
 std::string utils::conversion::to_string(void* data, WORD type)
 {
 	std::stringstream out;

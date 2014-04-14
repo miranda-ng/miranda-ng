@@ -317,7 +317,6 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	int offset = 0;
 	int limit = 21;
 
-	// don't use local_timestamp for unread messages by default, use hidden setting to enable it
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
 
 	// receive messages from all folders by default, use hidden setting to receive only inbox messages

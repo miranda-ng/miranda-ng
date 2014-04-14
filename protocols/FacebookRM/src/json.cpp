@@ -415,6 +415,13 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (reader == NULL || time == NULL)
 					continue;
 
+				// check if we should use use local_timestamp for unread messages and use it for read time too
+				bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
+				time_t timestamp = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
+
+				TCHAR ttime[64];
+				_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
+
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
 					std::tstring tid = json_as_string(threadid);
@@ -424,6 +431,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					if (chatroom != proto->facy.chat_rooms.end()) {
 						std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(reader_id);
 						if (participant == chatroom->second.participants.end()) {
+							// TODO: remove or write better all of this
 							std::string tidA = _T2A(tid.c_str());
 							std::string search = utils::url::encode(tidA) + "?";
 							http::response resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
@@ -458,17 +466,18 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 								chatroom->second.message_readers += ", ";
 							chatroom->second.message_readers += participant_name;
 
-							TCHAR ttime[64], tstr[100];
-							_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
-							mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s by %s"), ttime, ptrT(mir_utf8decodeT(chatroom->second.message_readers.c_str())));
+							ptrT readers(mir_utf8decodeT(chatroom->second.message_readers.c_str()));
+
+							TCHAR tstr[200];														
+							mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s by %s"), ttime, readers);
+
 							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)tstr);
 						}
 					}
  				} else { // classic contact
 					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 					if (hContact) {
-						TCHAR ttime[64], tstr[100];
-						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
+						TCHAR tstr[100];
 						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
 
 						CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)tstr);
