@@ -176,6 +176,8 @@ void FacebookProto::ReadMessageWorker(void *p)
 	if (mid == NULL)
 		return;
 
+	// TODO: for multi-chat messages we might need to mark as read threadID and not messageID, but I'm not sure about that now...
+
 	std::string data = "ids[" + utils::url::encode(std::string(mid)) + "]=true";
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 	data += "&__user=" + facy.self_.user_id;

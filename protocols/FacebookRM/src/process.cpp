@@ -384,7 +384,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			}
 			chatrooms.clear();
 
-			ReceiveMessages(messages, local_timestamp);
+			ReceiveMessages(messages, local_timestamp, true);
 
 			debugLogA("***** Unread messages processed");
 
@@ -406,9 +406,47 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	}
 }
 
-void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp)
+void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates)
 {
 	bool naseemsSpamMode = getBool(FACEBOOK_KEY_NASEEMS_SPAM_MODE, false);
+
+	// TODO: make this checking more lightweight as now it is not effective at all...
+	if (check_duplicates) {
+		// 1. check if there are some message that we already have (compare FACEBOOK_KEY_MESSAGE_ID = last received message ID)
+		for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
+
+			MCONTACT hContact = messages[i]->isChat
+				? ChatIDToHContact(std::tstring(_A2T(messages[i]->thread_id.c_str())))
+				: ContactIDToHContact(messages[i]->user_id);
+
+			if (hContact == NULL)
+				continue;
+
+			ptrA lastId(getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
+			if (lastId == NULL)
+				continue;
+
+			if (!messages[i]->message_id.compare(lastId)) {
+				// Equal, ignore all older messages (including this) from same contact
+				for (std::vector<facebook_message*>::size_type j = 0; j < messages.size(); j++) {
+					bool equalsId = messages[i]->isChat
+						? (messages[j]->thread_id == messages[i]->thread_id)
+						: (messages[j]->user_id == messages[i]->user_id);
+
+					if (equalsId && messages[j]->time <= messages[i]->time)
+						messages[j]->flag_ = 1;
+				}
+			}
+		}
+
+		// 2. remove all marked messages from list
+		for (std::vector<facebook_message*>::iterator it = messages.begin(); it != messages.end();) {
+			if ((*it)->flag_ == 1)
+				it = messages.erase(it);
+			else
+				++it;
+		}
+	}
 
 	for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
 		DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;

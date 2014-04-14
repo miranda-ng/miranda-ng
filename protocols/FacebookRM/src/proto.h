@@ -204,7 +204,7 @@ public:
 	void RemoveChatContact(const TCHAR *chat_id, const char *id);
 	void SetChatStatus(const char *chat_id, int status);
 	char *GetChatUsers(const TCHAR *chat_id);
-	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp);
+	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates = false);
 
 	// Connection client
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic

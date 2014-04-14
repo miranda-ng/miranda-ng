@@ -107,12 +107,15 @@ struct facebook_message
 	bool isUnread;
 	bool isChat;
 
+	int flag_;
+
 	facebook_message()
 	{
 		this->user_id = this->message_text = this->sender_name = this->message_id = this->thread_id = "";
 		this->time = 0;
 		this->isUnread = this->isIncoming = true;
 		this->isChat = false;
+		this->flag_ = 0;
 	}
 
 	facebook_message(const facebook_message& msg)
@@ -126,6 +129,7 @@ struct facebook_message
 		this->isIncoming = msg.isIncoming;
 		this->isUnread = msg.isUnread;
 		this->isChat = msg.isChat;
+		this->flag_ = msg.flag_;
 	}
 };
 
