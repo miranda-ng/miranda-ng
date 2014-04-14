@@ -93,6 +93,8 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 		return;
 
 	if (ccSub->parentID == ccMeta->contactID) {
+		db_unset(ccSub->contactID, "CList", "Hidden");
+
 		// stop ignoring, if we were
 		if (options.bSuppressStatus)
 			CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
