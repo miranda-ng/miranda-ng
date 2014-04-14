@@ -5,6 +5,11 @@
 #ifndef name_day_core_h
 #define name_day_core_h
 
+#pragma warning(disable:4996)
+
+#define MIID_NAMEDAY { 0x5dc83ad2, 0x868c, 0x4c50, { 0xad, 0x33, 0x40, 0x51, 0x22, 0xe8, 0xcb, 0x38 } }
+
+
 #include "calendar/calendar.h"
 
 // WInd00z stuff

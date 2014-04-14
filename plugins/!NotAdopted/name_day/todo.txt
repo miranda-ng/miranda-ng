@@ -1,0 +1,23 @@
+ 1. Kontrola svátků o půlnoci a po spuštění
+ 2. Možnost výběru kalendáře
+ 4. Zobrazení ikony v seznamu kontaktů u lidí, kteří mají dnes svátek (něco jako ikona narozenin od jiných pluginů)
+ 5. Kalendář načítán z externího souboru? / možnost vlastního kalendáře z ini?
+ 6. Položka v menu pro zjištění, kdo má aktuálně svátek.
+ 7. Oznamování státních svátků a podobných významných dnů
+ 8. 64bit verze
+ 9. Oznamování popupem jméno kdo má dnes svátek nebo i všechny lidi kteří ho mají?
+10. Přepsat jména aby byly v kalendáři s diakritikou
+
+
+V hlavním menu položka Name day
+-> Zobrazit dnešní svátek (popup nebo dialog, dle nastavení použití)
+-> Vyhledat kontakty, kteří mají dnes svátek (a zobrazit s nima popup)
+ -- tyhle 2 akce by se asi měly dělat po spuštění a po půlnoci (zase dle nastavení)
+
+
+0.0.1.1
+
+
+0.0.1.0 beta
+- Ignorování diakritiky a velikosti písmen
+- Kontrolování i upraveného jména uloženého skrz UserInfoEx
