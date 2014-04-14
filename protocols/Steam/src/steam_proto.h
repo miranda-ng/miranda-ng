@@ -30,6 +30,16 @@ struct STEAM_SEARCH_RESULT
 	const SteamWebApi::FriendApi::Summary *contact;
 };
 
+enum
+{
+	//CMI_AUTH_REQUEST,
+	//CMI_AUTH_GRANT,
+	//CMI_AUTH_REVOKE,
+	//CMI_BLOCK,
+	CMI_JOIN_GAME,
+	CMI_MAX   // this item shall be the last one
+};
+
 
 class CSteamProto : public PROTO<CSteamProto>
 {
@@ -89,6 +99,10 @@ public:
 	static CSteamProto* GetContactProtoInstance(MCONTACT hContact);
 	static void UninitProtoInstances();
 
+	// menus
+	static void InitMenus();
+	static void UninitMenus();
+
 protected:
 	bool m_bTerminated;
 	HANDLE m_hPollingThread;
@@ -116,11 +130,20 @@ protected:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
+	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
+
 	void UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *contact);
 	void __cdecl UpdateContactsThread(void*);
 
 	MCONTACT FindContact(const char *steamId);
-	MCONTACT AddContact(const SteamWebApi::FriendApi::Summary *contact);
+	MCONTACT AddContact(const char *steamId);
+
+	void __cdecl RaiseAuthRequestThread(void*);
+	void __cdecl AuthAllowThread(void*);
+	void __cdecl AuthDenyThread(void*);
+
+	void __cdecl AddContactThread(void*);
+	void __cdecl RemoveContactThread(void*);
 
 	void __cdecl LoadContactListThread(void*);
 	
@@ -131,13 +154,24 @@ protected:
 	void __cdecl SendMessageThread(void*);
 	void __cdecl SendTypingThread(void*);
 
+	// menus
+	HGENMENU m_hMenuRoot;
+	static HANDLE hChooserMenu;
+	static HGENMENU contactMenuItems[CMI_MAX];
+
+	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
+
+	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
+
+	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+
 	// avatars
 	wchar_t * GetAvatarFilePath(MCONTACT hContact);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
-	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	//events
 	int OnModulesLoaded(WPARAM, LPARAM);
@@ -150,6 +184,8 @@ protected:
 	static int MirandaToSteamState(int status);
 
 	static int RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const char *data, DWORD dataSize, BYTE *encrypted, DWORD &encryptedSize);
+
+	HANDLE AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
 	// options
 	static INT_PTR CALLBACK GuardProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

@@ -30,8 +30,8 @@ namespace SteamWebApi
 			Summary() : gameId(0), created(0), lastEvent(0) { }
 
 			const char *GetSteamId() const { return steamId.c_str(); }
-			const wchar_t *GetNickname() const { return nickname.c_str(); }
-			const wchar_t *GetRealname() const { return realname.c_str(); }
+			const wchar_t *GetNickName() const { return nickname.c_str(); }
+			const wchar_t *GetRealName() const { return realname.c_str(); }
 			const char *GetCountryCode() const { return countryCode.c_str(); }
 			const char *GetHomepage() const { return homepage.c_str(); }
 			const char *GetAvatarUrl() const { return avatarUrl.c_str(); }
@@ -40,6 +40,26 @@ namespace SteamWebApi
 			int GetState() const { return state; }
 			const DWORD GetCreated() const { return created; }
 			const DWORD GetLastEvent() const { return lastEvent; }
+
+			const wchar_t *GetFirstName() const
+			{
+				size_t pos = realname.find(' ', 1);
+				if (pos > 0)
+					return realname.substr(0, pos - 1).c_str();
+
+				return realname.c_str();
+			}
+
+			const wchar_t *GetLastName() const
+			{
+				size_t pos = realname.find(' ', 1);
+				if (pos > 0)
+				{
+					return realname.substr(pos + 1).c_str();
+				}
+
+				return L"";
+			}
 		};
 
 		struct Summaries : public Result

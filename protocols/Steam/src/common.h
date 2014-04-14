@@ -2,6 +2,7 @@
 #define _COMMON_H_
 
 #include <windows.h>
+#include <time.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -14,6 +15,7 @@
 #include <m_avatars.h>
 #include <m_icolib.h>
 #include <m_clist.h>
+#include <m_genmenu.h>
 #include <m_string.h>
 #include <m_freeimage.h>
 #include <m_protocols.h>

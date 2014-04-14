@@ -130,3 +130,16 @@ int CSteamProto::RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const 
 
 	return 0;
 }
+
+HANDLE CSteamProto::AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = timestamp;
+	dbei.eventType = type;
+	dbei.cbBlob = cbBlob;
+	dbei.pBlob = pBlob;
+	dbei.flags = flags;
+
+	return db_event_add(hContact, &dbei);
+}

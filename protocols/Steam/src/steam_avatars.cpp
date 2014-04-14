@@ -100,7 +100,3 @@ INT_PTR CSteamProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 	return -1;
 }
-
-//INT_PTR CSteamProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
-//{
-//}

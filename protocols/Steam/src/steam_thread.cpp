@@ -45,15 +45,7 @@ void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 me
 				{
 					const wchar_t *text = message->GetText();
 
-					DBEVENTINFO dbei = { sizeof(dbei) };
-					dbei.szModule = this->m_szModuleName;
-					dbei.timestamp = message->GetTimestamp();
-					dbei.eventType = EVENTTYPE_MESSAGE;
-					dbei.cbBlob = lstrlen(text);
-					dbei.pBlob = (BYTE*)mir_utf8encodeW(text);
-					dbei.flags = DBEF_UTF | DBEF_SENT;
-
-					db_event_add(hContact, &dbei);
+					AddDBEvent(hContact, EVENTTYPE_MESSAGE, time(NULL), DBEF_UTF | DBEF_SENT, lstrlen(text), (BYTE*)mir_utf8encodeW(text));
 				}
 			}
 			break;
@@ -93,7 +85,7 @@ void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 me
 			}
 			break;
 
-		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_ADDED:
+		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_ADD:
 			{
 				SteamWebApi::PollApi::Relationship *crs = (SteamWebApi::PollApi::Relationship*)item;
 
@@ -105,7 +97,7 @@ void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 me
 			}
 			break;
 
-		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_DELETED:
+		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_REMOVE:
 			{
 				SteamWebApi::PollApi::Relationship *crs = (SteamWebApi::PollApi::Relationship*)item;
 
@@ -113,6 +105,19 @@ void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 me
 				MCONTACT hContact = FindContact(steamId);
 				if (hContact)
 					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			}
+			break;
+
+		case SteamWebApi::PollApi::POOL_TYPE_CONTACT_REQUEST:
+			{
+				SteamWebApi::PollApi::Relationship *crs = (SteamWebApi::PollApi::Relationship*)item;
+
+				const char *steamId = crs->GetSteamId();
+				MCONTACT hContact = FindContact(steamId);
+				if (!hContact)
+					hContact = AddContact(steamId);
+
+				
 			}
 			break;
 		}

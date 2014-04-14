@@ -51,6 +51,9 @@
     <ClCompile Include="src\steam_avatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\steam_menus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\invitation.h">
+      <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

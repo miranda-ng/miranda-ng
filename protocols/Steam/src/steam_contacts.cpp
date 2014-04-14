@@ -18,6 +18,25 @@ void CSteamProto::SetAllContactsStatus(WORD status)
 	}
 }
 
+MCONTACT CSteamProto::GetContactFromAuthEvent(HANDLE hEvent)
+{
+	DWORD body[3];
+	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	dbei.cbBlob = sizeof(DWORD)* 2;
+	dbei.pBlob = (PBYTE)&body;
+
+	if (db_event_get(hEvent, &dbei))
+		return INVALID_CONTACT_ID;
+
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
+		return INVALID_CONTACT_ID;
+
+	if (strcmp(dbei.szModule, m_szModuleName) != 0)
+		return INVALID_CONTACT_ID;
+
+	return DbGetAuthEventContact(&dbei);
+}
+
 MCONTACT CSteamProto::FindContact(const char *steamId)
 {
 	MCONTACT hContact = NULL;
@@ -43,7 +62,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 		return;
 
 	// set common data
-	setWString(hContact, "Nick", contact->GetNickname());
+	setWString(hContact, "Nick", contact->GetNickName());
 	setString(hContact, "Homepage", contact->GetHomepage());
 	// only for contacts
 	if (hContact)
@@ -70,19 +89,17 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 	}
 
 	// set name
-	ptrW realname(mir_wstrdup(contact->GetRealname()));
-	const wchar_t *p = wcschr(realname, ' ');
-	if (p == NULL)
+	const wchar_t *firstName = contact->GetFirstName();
+	const wchar_t *lastName = contact->GetLastName();
+	if (lstrlen(lastName) == 0)
 	{
-		setWString(hContact, "FirstName", realname);
+		setWString(hContact, "FirstName", firstName);
 		delSetting(hContact, "LastName");
 	}
 	else
 	{
-		int length = p - (wchar_t*)realname;
-		realname[length] = '\0';
-		setWString(hContact, "FirstName", realname);
-		setWString(hContact, "LastName", p + 1);
+		setWString(hContact, "FirstName", firstName);
+		setWString(hContact, "LastName", lastName);
 	}
 
 	// avatar
@@ -147,9 +164,10 @@ void CSteamProto::UpdateContactsThread(void *arg)
 		MCONTACT hContact = NULL;
 		if (!IsMe(contact->GetSteamId()))
 		{
-			hContact = this->FindContact(contact->GetSteamId());
+			const char *steamId = contact->GetSteamId();
+			hContact = this->FindContact(steamId);
 			if (hContact == NULL)
-				hContact = AddContact(contact);
+				hContact = AddContact(steamId);
 			if (hContact == NULL)
 				return;
 		}
@@ -158,16 +176,16 @@ void CSteamProto::UpdateContactsThread(void *arg)
 	}
 }
 
-MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Summary *contact)
+MCONTACT CSteamProto::AddContact(const char *steamId)
 {
-	MCONTACT hContact = this->FindContact(contact->GetSteamId());
+	MCONTACT hContact = this->FindContact(steamId);
 	if (!hContact)
 	{
 		// create contact
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)this->m_szModuleName);
 
-		setString(hContact, "SteamID", contact->GetSteamId());
+		setString(hContact, "SteamID", steamId);
 
 		// update info
 		//UpdateContact(hContact, contact);
@@ -182,6 +200,97 @@ MCONTACT CSteamProto::AddContact(const SteamWebApi::FriendApi::Summary *contact)
 	}
 
 	return hContact;
+}
+
+void CSteamProto::RaiseAuthRequestThread(void *arg)
+{
+	ptrA steamId((char*)arg);
+	ptrA token(getStringA("TokenSecret"));
+
+	MCONTACT hContact = FindContact(steamId);
+	if (!hContact)
+		hContact = AddContact(steamId);
+
+	SteamWebApi::FriendApi::Summaries summaries;
+	debugLogA("CSteamProto::LoadContactListThread: call SteamWebApi::FriendApi::LoadSummaries");
+	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamId, &summaries);
+
+	if (summaries.IsSuccess())
+	{
+		const SteamWebApi::FriendApi::Summary *contact = summaries.GetAt(0);
+
+		char *nickName = mir_utf8encodeW(contact->GetNickName());
+		char *firstName = mir_utf8encodeW(contact->GetFirstName());
+		char *lastName = mir_utf8encodeW(contact->GetLastName());
+		char reason[MAX_PATH];
+		mir_snprintf(reason, SIZEOF(reason), Translate("%s has added you to his or her Friend List"), nickName);
+
+		// blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)
+		DWORD cbBlob = (DWORD)(sizeof(DWORD)* 2 + strlen(nickName) + strlen(firstName) + strlen(lastName) + strlen(steamId) + strlen(reason) + 5);
+
+		PBYTE pBlob, pCurBlob;
+		pCurBlob = pBlob = (PBYTE)mir_alloc(cbBlob);
+
+		*((PDWORD)pCurBlob) = 0;
+		pCurBlob += sizeof(DWORD);
+		*((PDWORD)pCurBlob) = (DWORD)hContact;
+		pCurBlob += sizeof(DWORD);
+		strcpy((char*)pCurBlob, nickName);
+		pCurBlob += strlen(nickName) + 1;
+		strcpy((char*)pCurBlob, firstName);
+		pCurBlob += strlen(firstName) + 1;
+		strcpy((char*)pCurBlob, lastName);
+		pCurBlob += strlen(lastName) + 1;
+		strcpy((char*)pCurBlob, steamId);
+		pCurBlob += strlen(steamId) + 1;
+		strcpy((char*)pCurBlob, mir_strdup(reason));
+
+		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
+	}
+}
+
+void CSteamProto::AuthAllowThread(void *arg)
+{
+	MCONTACT hContact = (MCONTACT)arg;
+	if (!hContact)
+		return;
+
+	ptrA sessionId(getStringA("SessionID"));
+	ptrA steamId(getStringA("SteamID"));
+	ptrA who(getStringA(hContact, "SteamID"));
+
+	SteamWebApi::InvitationApi::Result result;
+	debugLogA("CSteamProto::AuthAllowThread: call SteamWebApi::InvitationApi::Accept");
+	SteamWebApi::InvitationApi::Accept(m_hNetlibUser, sessionId, steamId, who, &result);
+
+	if (result.IsSuccess())
+	{
+		delSetting(hContact, "Auth");
+		delSetting(hContact, "Grant");
+	}
+}
+
+void CSteamProto::AuthDenyThread(void *arg)
+{
+	MCONTACT hContact = (MCONTACT)arg;
+	if (!hContact)
+		return;
+
+	ptrA sessionId(getStringA("SessionID"));
+	ptrA steamId(getStringA("SteamID"));
+	ptrA who(getStringA(hContact, "SteamID"));
+
+	SteamWebApi::InvitationApi::Result result;
+	debugLogA("CSteamProto::AuthDenyThread: call SteamWebApi::InvitationApi::Ignore");
+	SteamWebApi::InvitationApi::Ignore(m_hNetlibUser, sessionId, steamId, who, &result);
+}
+
+void CSteamProto::AddContactThread(void *arg)
+{
+}
+
+void CSteamProto::RemoveContactThread(void *arg)
+{
 }
 
 void CSteamProto::LoadContactListThread(void*)
@@ -219,7 +328,7 @@ void CSteamProto::LoadContactListThread(void*)
 				for (size_t i = 0; i < summaries.GetItemCount(); i++)
 				{
 					const SteamWebApi::FriendApi::Summary *summary = summaries.GetAt(i);
-					MCONTACT hContact = AddContact(summary);
+					MCONTACT hContact = AddContact(summary->GetSteamId());
 					if (hContact)
 						UpdateContact(hContact, summary);
 				}
@@ -255,20 +364,9 @@ void CSteamProto::SearchByIdThread(void* arg)
 	ssr.hdr.flags = PSR_TCHAR;
 	
 	ssr.hdr.id = mir_wstrdup(steamIdW);
-	ssr.hdr.nick  = mir_wstrdup(contact->GetNickname());
-
-	const wchar_t *realname = contact->GetRealname();
-	const wchar_t *p = wcschr(realname, ' ');
-	if (p == NULL)
-		ssr.hdr.firstName = mir_wstrdup(realname);
-	else
-	{
-		int length = p - realname;
-		ssr.hdr.firstName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
-		wmemcpy(ssr.hdr.firstName, realname, length);
-		ssr.hdr.firstName[length] = '\0';
-		ssr.hdr.lastName = mir_wstrdup(p + 1);
-	}
+	ssr.hdr.nick  = mir_wstrdup(contact->GetNickName());
+	ssr.hdr.firstName = mir_wstrdup(contact->GetFirstName());
+	ssr.hdr.lastName = mir_wstrdup(contact->GetLastName());
 	
 	ssr.contact = contact;
 
@@ -322,20 +420,9 @@ void CSteamProto::SearchByNameThread(void* arg)
 		ssr.hdr.flags = PSR_TCHAR;
 
 		ssr.hdr.id = mir_a2u(contact->GetSteamId());
-		ssr.hdr.nick  = mir_wstrdup(contact->GetNickname());
-
-		const wchar_t *realname = contact->GetRealname();
-		const wchar_t *p = wcschr(realname, ' ');
-		if (p == NULL)
-			ssr.hdr.firstName = mir_wstrdup(realname);
-		else
-		{
-			int length = p - realname;
-			ssr.hdr.firstName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
-			wmemcpy(ssr.hdr.firstName, realname, length);
-			ssr.hdr.firstName[length] = '\0';
-			ssr.hdr.lastName = mir_wstrdup(p + 1);
-		}
+		ssr.hdr.nick  = mir_wstrdup(contact->GetNickName());
+		ssr.hdr.firstName = mir_wstrdup(contact->GetFirstName());
+		ssr.hdr.lastName = mir_wstrdup(contact->GetLastName());
 
 		ssr.contact = contact;
 

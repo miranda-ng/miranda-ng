@@ -13,9 +13,11 @@ namespace SteamWebApi
 			POOL_TYPE_MYMESSAGE,
 			POOL_TYPE_TYPING,
 			POOL_TYPE_STATE,
-			POOL_TYPE_CONTACT_AUTH,
-			POOL_TYPE_CONTACT_ADDED,
-			POOL_TYPE_CONTACT_DELETED,
+			POOL_TYPE_CONTACT_REQUEST,
+			//POOL_TYPE_CONTACT_REQUESTED,
+			POOL_TYPE_CONTACT_ADD,
+			POOL_TYPE_CONTACT_IGNORE,
+			POOL_TYPE_CONTACT_REMOVE,
 		};
 
 		class PoolItem// : public Result
@@ -182,20 +184,26 @@ namespace SteamWebApi
 						int state = json_as_int(node);
 						if (state == 0)
 						{
-							// contact was removed
-							crs->type = POOL_TYPE_CONTACT_DELETED;
-							
+							// removed
+							crs->type = POOL_TYPE_CONTACT_REMOVE;
+						}
+						
+						else if (state == 1)
+						{
+							// ignored
+							crs->type = POOL_TYPE_CONTACT_IGNORE;
 						}
 						else if (state == 2)
 						{
 							// auth request
-							crs->type = POOL_TYPE_CONTACT_AUTH;
+							crs->type = POOL_TYPE_CONTACT_REQUEST;
 						}
 						else if (state == 3)
 						{
 							// add to list
-							crs->type = POOL_TYPE_CONTACT_ADDED;
+							crs->type = POOL_TYPE_CONTACT_ADD;
 						}
+						else continue;
 					}
 					/*else if (!lstrcmpi(type, L"leftconversation"))
 					{

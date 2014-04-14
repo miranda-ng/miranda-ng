@@ -123,7 +123,7 @@ void CSteamProto::Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResul
 
 void CSteamProto::LogInThread(void* param)
 {
-	while (m_bTerminated && m_hPollingThread != NULL)
+	while (m_bTerminated || m_hPollingThread != NULL)
 		Sleep(500);
 
 	ptrA token(getStringA("TokenSecret"));
@@ -134,7 +134,7 @@ void CSteamProto::LogInThread(void* param)
 		// if some error
 		if (!authResult.IsSuccess())
 		{
-			// todo: dosplay error message from authResult.GetMessage()
+			// todo: display error message from authResult.GetMessage()
 			//ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 			debugLogA("CSteamProto::LogInThread: Authorization error (%s)", authResult.GetMessage());
 

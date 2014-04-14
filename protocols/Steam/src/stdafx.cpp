@@ -43,12 +43,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnUninit = (pfnUninitProto)CSteamProto::UninitProtoInstance;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
+	CSteamProto::InitMenus();
+
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	CSteamProto::UninitProtoInstances();
+
+	CSteamProto::UninitMenus();
 
 	return 0;
 }

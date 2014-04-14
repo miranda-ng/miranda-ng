@@ -53,6 +53,50 @@ namespace SteamWebApi
 
 			friendList->success = true;
 		}
+
+		static void AddFriend(HANDLE hConnection, const char *sessionId, const char *steamId, Result *result)
+		{
+			result->success = false;
+
+			char data[128];
+			mir_snprintf(data, SIZEOF(data),
+				"steamid=%s&sessionID=%s",
+				sessionId,
+				steamId);
+
+			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/actions/AddFriendAjax");
+
+			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
+			if (!response)
+				return;
+
+			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+				return;
+
+			result->success = true;
+		}
+
+		static void RemoveFriend(HANDLE hConnection, const char *sessionId, const char *steamId, Result *result)
+		{
+			result->success = false;
+
+			char data[128];
+			mir_snprintf(data, SIZEOF(data),
+				"steamid=%s&sessionID=%s",
+				sessionId,
+				steamId);
+
+			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/actions/RemoveFriendAjax");
+
+			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
+			if (!response)
+				return;
+
+			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+				return;
+
+			result->success = true;
+		}
 	};
 }
 

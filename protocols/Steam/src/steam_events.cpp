@@ -13,6 +13,8 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSteamProto::PrebuildContactMenu);
+
 	return 0;
 }
 

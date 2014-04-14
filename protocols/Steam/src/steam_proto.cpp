@@ -30,11 +30,12 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
-	// Avatar API
-	this->CreateProtoService(PS_GETAVATARINFOT, &CSteamProto::GetAvatarInfo);
-	this->CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
-	this->CreateProtoService(PS_GETMYAVATART, &CSteamProto::GetMyAvatar);
-	//this->CreateProtoService(PS_SETMYAVATART, &CSteamProto::SetMyAvatar);
+	// services
+	CreateServiceFunction(MODULE"/MenuChoose", CSteamProto::MenuChooseService);
+	// avatar API
+	CreateProtoService(PS_GETAVATARINFOT, &CSteamProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATART, &CSteamProto::GetMyAvatar);
 }
 
 CSteamProto::~CSteamProto()
@@ -48,7 +49,9 @@ MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		return 0;
 
 	STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
-	return AddContact(ssr->contact);
+	MCONTACT hContact = AddContact(ssr->contact->GetSteamId());
+	UpdateContact(hContact, ssr->contact);
+	return hContact;
 }
 
 MCONTACT __cdecl CSteamProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
@@ -58,7 +61,18 @@ MCONTACT __cdecl CSteamProto::AddToListByEvent(int flags, int iContact, HANDLE h
 
 int __cdecl CSteamProto::Authorize(HANDLE hDbEvent)
 {
-	return 0;
+	if (IsOnline() && hDbEvent)
+	{
+		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
+		if (hContact == INVALID_CONTACT_ID)
+			return 1;
+
+		ForkThread(&CSteamProto::AuthAllowThread, (void*)hContact);
+		// todo: how to return real status?
+		return 0;
+	}
+
+	return 1;
 }
 
 int __cdecl CSteamProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
@@ -105,7 +119,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAGNUM_4:
-		return PF4_AVATARS;
+		return PF4_NOCUSTOMAUTH | PF4_AVATARS | PF4_NOAUTHDENYREASON;
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:
@@ -166,15 +180,7 @@ int __cdecl CSteamProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 
 int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = this->m_szModuleName;
-	dbei.timestamp = pre->timestamp;
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = lstrlenA(pre->szMessage);
-	dbei.pBlob = (BYTE*)pre->szMessage;
-	dbei.flags = DBEF_UTF;
-
-	return (INT_PTR)db_event_add(hContact, &dbei);
+	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, time(NULL), DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
 }
 
 int __cdecl CSteamProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT *) { return 0; }
