@@ -164,7 +164,7 @@ X - Y - ...
 [path to current Miranda profile]
 шлях до папки поточного профілю
 [name of current Miranda profile (filename, without extension)]
-ім'я поточного профілю (лише ім'я, без розширення)
+ім'я поточного профілю (тільки ім'я, без розширення)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 повертає рядок виду %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
@@ -174,7 +174,7 @@ X - Y - ...
 [Miranda Core OS]
 Змінні оточення в Miranda
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-те саме, що й змінна оточення %APPDATA% для поточного користувача системи
+те саме, що й змінна середовища %APPDATA% для поточного користувача системи
 [username for currently logged-on Windows user]
 ім'я поточного користувача системи
 ["My Documents" folder for currently logged-on Windows user]

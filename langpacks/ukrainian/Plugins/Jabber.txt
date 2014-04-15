@@ -128,7 +128,7 @@ TLS
 [Full name:]
 Повне ім'я:
 [Nickname:]
-Псевдонім:
+Нік:
 [First name:]
 Ім'я
 [Middle:]

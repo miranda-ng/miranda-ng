@@ -22,9 +22,9 @@
 [Hide windows on close]
 Прятать окна при закрытии
 [Send message on 'Enter']
-Посылать по "Enter"
+Посылать по Enter
 [Send message on double 'Enter']
-Посылать по двойному "Enter"
+Посылать по двойному Enter
 [Remember unsent messages]
 Помнить неотправленные сообщения
 [Delete temporary contacts on closing]
@@ -80,7 +80,7 @@
 [Min input area size]
 Минимальный размер поля ввода
 [lines]
-линий
+строк
 [Message Window Event Log]
 Журнал в окне диалога
 [Enable IEView]
@@ -116,13 +116,13 @@
 [Unread events only]
 Только непрочитанные события
 [Last]
-Посл.
+Последние
 [Events in the last]
 События полученные позже, чем
 [events]
-события(й)
+событий
 [minutes]
-минут(ы)
+минут
 [Typing Notification Options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -448,13 +448,13 @@ Yahoo
 [Navigate: Tab %d]
 Навигация: Вкладка %d
 [Window: Toggle status bar]
-Окно: вкл./выкл. панели статуса
+Окно: Вкл./выкл. панель статуса
 [Window: Toggle title bar]
-Окно: вкл./выкл. панели заголовка
+Окно: Вкл./выкл. заголовок
 [Window: Toggle toolbar]
-Окно: вкл./выкл. панели кнопок
+Окно: Вкл./выкл. панель кнопок
 [Window: Toggle info bar]
-Окно: вкл./выкл. панели информации
+Окно: Вкл./выкл. панель информации
 [Window: Clear log]
 Окно: Очистить лог
 [Window: Minimize]
@@ -514,11 +514,11 @@ Yahoo
 [Yesterday]
 Вчера
 [File sent]
-Посылка файла
+Отправлен файл
 [File received]
 Файл получен
 [URL sent]
-Посылка URL'a
+Отправлен URL
 [URL received]
 Получен URL
 [General]
@@ -526,7 +526,7 @@ Yahoo
 [Event Log]
 Журнал событий
 [Group Chat Log]
-Лог чата
+Журнал чатов
 [Outgoing messages]
 Исходящие сообщения
 [Outgoing background]
@@ -640,13 +640,13 @@ Miranda не смогла загрузить встроенную систему
 [Do not play sounds when focused]
 Не воспроизводить звук, когда окно чата на переднем плане
 [Do not pop up when joining]
-Не показывать всплывающие окна, когда кто-то заходит
+Не раскрывать окно при входе в комнату
 [Show and hide by double clicking in the contact list]
-Показывать и скрывать список контактов по двойному щелчку
+Показывать и скрывать окно чата по двойному щелчку в списке контактов
 [Show contact statuses (if supported)]
 Показывать статусы (если поддерживается)
 [Display contact status icon before role icon]
-Показывать значок статуса, после значка ролей
+Показывать значок статуса перед значком роли
 [Add ':' to auto-completed names]
 Добавлять ":" к именам пользователей
 [Prefix all events with a timestamp]
@@ -808,7 +808,7 @@ ID текущего контакта (если определен). Наприм
 [Manager]
 Настройки комнаты
 [Nick list]
-Список ников
+Список пользователей
 [Insert a smiley]
 Вставить смайл
 [Make the text bold (CTRL+B)]
@@ -840,6 +840,6 @@ ID текущего контакта (если определен). Наприм
 [%s: Chat Room (%u users)]
 %s: Комната чата (%u пользователей)
 [%s: Message Session]
-%s: диалог
+%s: Беседа
 [%s: Message Session (%u users)]
-%s: диалог (%u пользователей)
+%s: Беседа (%u пользователей)

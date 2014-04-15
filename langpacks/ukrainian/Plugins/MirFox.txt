@@ -46,7 +46,7 @@ MirFox/Помилка
 [Accounts]
 Облікові записи
 [MirFox log]
-Лог MirFox
+Журнал MirFox
 [Message sent to %s (%s)]
 Повідомлення для %s (%s) надіслано
 [Message sent]

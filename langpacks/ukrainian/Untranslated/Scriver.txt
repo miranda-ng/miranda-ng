@@ -6,6 +6,3 @@
 [to tiny bits, in Thy mercy]
 [Lorem ipsum dolor sit amet,]
 [consectetur adipisicing elit]
-["My Documents" folder for currently logged-on Windows user]
-["Desktop" folder for currently logged-on Windows user]
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]

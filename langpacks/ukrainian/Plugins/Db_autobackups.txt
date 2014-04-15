@@ -72,7 +72,7 @@
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 поверне рядок виду %miranda_profile%\\Profiles\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-аналог змінної середовища %APPDATA% для поточного користувача системи
+те саме, що й змінна середовища %APPDATA% для поточного користувача системи
 [username for currently logged-on Windows user]
 ім'я поточного користувача системи
 ["My Documents" folder for currently logged-on Windows user]
@@ -80,7 +80,7 @@
 ["Desktop" folder for currently logged-on Windows user]
 папка "Робочий стіл" для поточного користувача Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-будь-які змінні, визначені в поточній сесії Windows (такі як %systemroot%, %allusersprofile% тощо)
+будь-яка змінна середовища, визначена в поточній сесії Windows (наприклад, %systemroot%, %allusersprofile% тощо)
 [Variables]
 Змінні
 [days]

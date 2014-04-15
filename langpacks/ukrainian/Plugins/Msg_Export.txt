@@ -154,7 +154,7 @@ UTF8 у нових файлах
 [Failed to write URL/File to the file :\n]
 Не вдалося записати передачу файлу або URL у файл:\n
 [Nick      :]
-Псевдонім :
+Нік       :
 [FirstName :]
 Ім'я      :
 [LastName  :]

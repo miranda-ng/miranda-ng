@@ -172,7 +172,7 @@
 [You must be talking to start Netmeeting]
 Ви повинні розмовляти перед запуском NetMeeting
 [Set &Nickname]
-Псевдонім...
+Нік...
 [Create &Chat]
 Створити &чат
 [Display &Hotmail Inbox]

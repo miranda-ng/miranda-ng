@@ -270,11 +270,11 @@ dat (mContacts)
 [>> Outgoing timestamp]
 >> Вихідний час
 [Outgoing background]
-Вихідний фон
+Фон вихідних
 [<< Incoming timestamp]
 << Вхідний час
 [Incoming background]
-Вхідний фон
+Фон вхідних
 [>> Outgoing name]
 >> Вихідне ім'я
 [<< Incoming name]

@@ -12,7 +12,7 @@
 [Cancel]
 Скасувати
 [Show these events]
-Показувати елементи
+Показувати події
 [Actions]
 Дії
 [Messages]
@@ -44,7 +44,7 @@
 [Add new rooms to group:]
 Додавати кімнати до групи:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Вбудований чат вимкнено. Ви можете ввімкнути його, після чого необхідно буде перезапустити Miranda.\n\nСтандартный модуль Chat повинен бути відключений, якщо ви вмикаєте підтримку чатів тут. Інакше чати можуть не працювати зовсім.
+Вбудований чат вимкнено. Ви можете ввімкнути його, після чого необхідно буде перезапустити Miranda.\n\nСтандартний модуль Chat повинен бути відключений, якщо ви вмикаєте підтримку чатів тут. Інакше чати можуть не працювати зовсім.
 [Log files]
 Файли журналу
 [Enable logging to disk]
@@ -78,7 +78,7 @@
 [Show Popup]
 Сплив. вікно
 [Notify in tray]
-Трей
+У треї
 [Suppress tray notifications for focused channel windows]
 Вимкнути сповіщення у треї при активному вікні чату
 [Do not show popups when the channel window is not open]
@@ -298,7 +298,7 @@ ID користувача в панелі статусу
 [Hide the toolbar]
 Сховати панель кнопок
 [Place the toolbar at the bottom (*)]
-Панель кнопок знизу (*)
+Панель кнопок унизу (*)
 [Show the info panel]
 Показати інфо-панель
 [Hide title bar]
@@ -878,7 +878,7 @@ Esc закриває сесію (інакше - згортає)
 [Title Bar]
 Заголовок
 [Tabs at the bottom]
-Вкладки знизу
+Вкладки унизу
 [Window Flashing]
 Блимання вікна
 [Use default Value]
@@ -986,7 +986,7 @@ Esc закриває сесію (інакше - згортає)
 [Configure container options for\n%s]
 Налаштування для контейнера\n%s
 [Tabs at the top]
-Вкладки зверху
+Вкладки вгорі
 [Switch bar on the left side]
 Панель перемикання ліворуч
 [Switch bar on the right side]
@@ -1404,7 +1404,7 @@ TabSRMM: Набирає
 [Save and close]
 Зберегти та закрити
 [Smiley button]
-Смайли
+Вставити смайл
 [Format bold]
 Жирний
 [Format italic]
@@ -1448,13 +1448,13 @@ TabSRMM: Набирає
 [Session List]
 Список сесій
 [Frame 1]
-Фрейм 1
+Кадр 1
 [Frame 2]
-Фрейм 2
+Кадр 2
 [Frame 3]
-Фрейм 3
+Кадр 3
 [Frame 4]
-Фрейм 4
+Кадр 4
 [Message Log]
 Журнал
 [Animated Tray]
@@ -1487,10 +1487,14 @@ TabSRMM: Набирає
 Помилка відправлення з затримкою.\nОригінальне повідомлення: %s
 [<All contacts>]
 <Усі контакти>
+[Removed]
+Видалено
 [Failed]
-Невдало
+Не вдалося
 [Sent OK]
-Успішно
+Надіслано
+[Suspended]
+Затримано
 [Pending]
 Очікує
 [Contact]
@@ -1554,7 +1558,7 @@ TabSRMM: %s
 [TabSRMM themes]
 Теми TabSRMM
 [No effect]
-Без эфекту
+Без ефекту
 [Milky Glass]
 Молочне скло
 [Carbon]
@@ -1872,11 +1876,11 @@ TabSRMM: %s
 [>> Outgoing name (old)]
 >> Ваше ім'я (старе)
 [>> Outgoing timestamp (old)]
->> Час надсилання (старе)
+>> Час надсилання (старий)
 [<< Incoming name (old)]
 << Ім'я співрозмовника (старе)
 [<< Incoming timestamp (old)]
-<< Час отримання (старе)
+<< Час отримання (старий)
 [* Message Input Area]
 * Поле введення повідомлення
 [* Status changes]
@@ -1916,15 +1920,15 @@ TabSRMM: %s
 [Show button menus when right clicking the buttons]
 Показувати меню кнопки за натисненням правою кнопкою миші
 [Show topic as status message on the contact list]
-Показати тему чат-кімнати в списку контактів як повідомлення статусу
+Показувати тему чат-кімнати в списку контактів як повідомлення статусу
 [Do not pop up the window when joining a chat room]
 Не відкривати вікно чату при вході до кімнати
 [Hide or show the window by double click in the contact list]
-Відкрити або сховати вікно чату за подвійним клацанням у списку контактів
+Показувати та ховати вікно чату за подвійним клацанням у списку контактів
 [Sync splitter position with standard IM sessions]
 Синхронізувати позицію роздільника зі стандартом
 [Show contact's status modes if supported by the protocol]
-Показувати значки статусів, якщо підтримується протоколом
+Показувати значки статусів (якщо підтримується протоколом)
 [Display contact's status icon before user role icon]
 Показувати значок статусу перед значком ролі
 [Use IRC style status indicators in the nick list]
@@ -1936,7 +1940,7 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 [Timestamp only when event time differs]
 Показувати час, якщо він змінився
 [Timestamp has same color as the event]
-Часова мітка того ж кольору що й подія
+Часова мітка того ж кольору, що й подія
 [Indent the second line of a message]
 Відступ другого рядка повідомлення
 [Limit user names in the message log to 20 characters]
@@ -1948,7 +1952,7 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 [Strip colors from messages in the log]
 Заборонити кольори в журналі
 [Enable the 'event filter' for new rooms]
-Ввімкнути "Фільтр подій" для нових кімнат
+Увімкнути "Фільтр подій" для нових кімнат
 [Use IRC style status indicators in the log]
 IRC-стиль (текстовий) індикаторів ролей у журналі чату
 [Allow clickable user names in the message log]
@@ -2050,7 +2054,7 @@ ID поточного контакту (якщо визначено). Напри
 [will return parsed string %miranda_userdata%\\Logs]
 поверне рядок виду %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-аналог змінної середовища %APPDATA% для поточного користувача системи
+те саме, що й змінна середовища %APPDATA% для поточного користувача системи
 [username for currently logged-on Windows user]
 ім'я поточного користувача системи
 ["My Documents" folder for currently logged-on Windows user]
@@ -2098,7 +2102,7 @@ ID поточного контакту (якщо визначено). Напри
 [No word to look up]
 Нічого шукати
 [&Message %s]
-&Повідомлення %s
+&Написати %s
 [Highlight User...]
 Підсвічувати користувачів...
 [Edit Highlight List...]
