@@ -1,0 +1,147 @@
+/*
+    ICQ Corporate protocol plugin for Miranda IM.
+    Copyright (C) 2003-2005 Eugene Tarasenko <zlyden13@inbox.ru>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Icon's
+//
+///////////////////////////////////////////////////////////////////////////////
+
+IDI_ICQCORP ICON        "corp.ico"
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Dialog's
+//
+///////////////////////////////////////////////////////////////////////////////
+
+IDD_INFO_ICQCORP DIALOGEX 0, 0, 222, 132
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "UIN:",IDC_STATIC,5,5,56,8
+    EDITTEXT        IDC_INFO_UIN,61,5,156,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "External IP:",IDC_STATIC,5,18,56,8
+    EDITTEXT        IDC_INFO_IP,61,18,83,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Internal IP:",IDC_STATIC,5,31,56,8
+    EDITTEXT        IDC_INFO_REALIP,61,31,156,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Port:",IDC_STATIC,5,44,56,8
+    EDITTEXT        IDC_INFO_PORT,61,44,156,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "ICQ Version:",IDC_STATIC,5,57,56,8
+    EDITTEXT        IDC_INFO_VERSION,61,57,156,8,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Miranda Version:",IDC_STATIC,5,70,56,8
+    EDITTEXT        IDC_INFO_MIRVER,61,70,156,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Ping:",IDC_STATIC,147,18,34,8
+    EDITTEXT        IDC_INFO_PING,182,18,35,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP
+END
+
+///////////////////////////////////////////////////////////////////////////////
+
+IDD_OPT_ICQCORP DIALOGEX 0, 0, 261, 160
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "ICQ Corp",IDC_STATIC,4,4,253,147
+    RTEXT           "Login Server:",IDC_STATIC,12,34,44,8
+    EDITTEXT        IDC_OPT_SERVER,64,32,100,12,ES_AUTOHSCROLL
+    RTEXT           "Port:",IDC_STATIC,173,34,21,11
+    EDITTEXT        IDC_OPT_PORT,204,32,40,12,ES_AUTOHSCROLL
+    RTEXT           "ICQ#:",IDC_STATIC,15,65,42,8
+    EDITTEXT        IDC_OPT_UIN,64,63,100,12,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Password:",IDC_STATIC,15,79,42,8
+    EDITTEXT        IDC_OPT_PASSWORD,64,78,100,12,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    LTEXT           "You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.",
+                    IDC_OPT_RECONNECT,14,119,237,16,NOT WS_VISIBLE
+END
+
+///////////////////////////////////////////////////////////////////////////////
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
