@@ -83,14 +83,14 @@ namespace SteamWebApi
 			const PoolItem *GetAt(int idx) const { return items.at(idx); }
 		};
 
-		static void Poll(HANDLE hConnection, const char *token, const char *sessionId, UINT32 messageId, PollResult *pollResult)
+		static void Poll(HANDLE hConnection, const char *token, const char *umqId, UINT32 messageId, PollResult *pollResult)
 		{
 			pollResult->success = false;
 			pollResult->need_relogin = false;
 			pollResult->items.clear();
 
 			char data[256];
-			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s&message=%u", token, sessionId, messageId);
+			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s&message=%u", token, umqId, messageId);
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");

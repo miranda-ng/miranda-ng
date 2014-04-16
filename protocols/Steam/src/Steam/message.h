@@ -19,7 +19,7 @@ namespace SteamWebApi
 			const DWORD GetTimestamp() const { return timestamp; }
 		};
 
-		static void SendStatus(HANDLE hConnection, const char *token, const char *sessionId, int state, SendResult *sendResult)
+		static void SendStatus(HANDLE hConnection, const char *token, const char *umqId, int state, SendResult *sendResult)
 		{
 			sendResult->success = false;
 
@@ -27,7 +27,7 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data),
 				"access_token=%s&umqid=%s&type=personastate&persona_state=%i",
 				token,
-				sessionId,
+				umqId,
 				state);
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
@@ -44,7 +44,7 @@ namespace SteamWebApi
 			sendResult->success = true;
 		}
 
-		static void SendMessage(HANDLE hConnection, const char *token, const char *sessionId, const char *steamId, const char *text, SendResult *sendResult)
+		static void SendMessage(HANDLE hConnection, const char *token, const char *umqId, const char *steamId, const char *text, SendResult *sendResult)
 		{
 			sendResult->success = false;
 
@@ -52,7 +52,7 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data),
 				"access_token=%s&umqid=%s&steamid_dst=%s&type=saytext&text=%s",
 				token,
-				sessionId,
+				umqId,
 				steamId,
 				ptrA(mir_urlEncode(text)));
 
@@ -81,7 +81,7 @@ namespace SteamWebApi
 			sendResult->success = true;
 		}
 
-		static void SendTyping(HANDLE hConnection, const char *token, const char *sessionId, const char *steamId, SendResult *sendResult)
+		static void SendTyping(HANDLE hConnection, const char *token, const char *umqId, const char *steamId, SendResult *sendResult)
 		{
 			sendResult->success = false;
 
@@ -89,7 +89,7 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data),
 				"access_token=%s&umqid=%s&steamid_dst=%s&type=typing",
 				token,
-				sessionId,
+				umqId,
 				steamId);
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");

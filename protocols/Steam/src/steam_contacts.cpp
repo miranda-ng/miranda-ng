@@ -55,32 +55,32 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 	return hContact;
 }
 
-void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *contact)
+void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *summary)
 {
 	// only if contact is in contact list
-	if (hContact && !FindContact(contact->GetSteamId()))
+	if (hContact && !FindContact(summary->GetSteamId()))
 		return;
 
 	// set common data
-	setWString(hContact, "Nick", contact->GetNickName());
-	setString(hContact, "Homepage", contact->GetHomepage());
+	setWString(hContact, "Nick", summary->GetNickName());
+	setString(hContact, "Homepage", summary->GetHomepage());
 	// only for contacts
 	if (hContact)
 	{
-		setDword(hContact, "LastEventDateTS", contact->GetLastEvent());
+		setDword(hContact, "LastEventDateTS", summary->GetLastEvent());
 
-		DWORD gameId = contact->GetGameId();
+		DWORD gameId = summary->GetGameId();
 		if (gameId >0)
 		{
 			setWord(hContact, "Status", ID_STATUS_OUTTOLUNCH);
-			db_set_ws(hContact, "CList", "StatusMsg", contact->GetGameInfo());
+			db_set_ws(hContact, "CList", "StatusMsg", summary->GetGameInfo());
 
-			setWString(hContact, "GameInfo", contact->GetGameInfo());
-			setDword(hContact, "GameID", contact->GetGameId());
+			setWString(hContact, "GameInfo", summary->GetGameInfo());
+			setDword(hContact, "GameID", summary->GetGameId());
 		}
 		else
 		{
-			WORD status = SteamToMirandaStatus(contact->GetState());
+			WORD status = SteamToMirandaStatus(summary->GetState());
 			setWord(hContact, "Status", status);
 
 			db_unset(hContact, "CList", "StatusMsg");
@@ -89,9 +89,14 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 	}
 
 	// set name
-	const wchar_t *firstName = contact->GetFirstName();
-	const wchar_t *lastName = contact->GetLastName();
-	if (lstrlen(lastName) == 0)
+	const wchar_t *firstName = summary->GetFirstName();
+	const wchar_t *lastName = summary->GetLastName();
+	if (lstrlen(firstName) == 0)
+	{
+		delSetting(hContact, "FirstName");
+		delSetting(hContact, "LastName");
+	}
+	else if (lstrlen(lastName) == 0)
 	{
 		setWString(hContact, "FirstName", firstName);
 		delSetting(hContact, "LastName");
@@ -104,12 +109,12 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 
 	// avatar
 	ptrA oldAvatar(getStringA("AvatarUrl"));
-	if (lstrcmpiA(oldAvatar, contact->GetAvatarUrl()))
+	if (lstrcmpiA(oldAvatar, summary->GetAvatarUrl()))
 	{
 		// todo: need to place in thread
 		SteamWebApi::AvatarApi::Avatar avatar;
 		debugLogA("CSteamProto::UpdateContact: SteamWebApi::AvatarApi::GetAvatar");
-		SteamWebApi::AvatarApi::GetAvatar(m_hNetlibUser, contact->GetAvatarUrl(), &avatar);
+		SteamWebApi::AvatarApi::GetAvatar(m_hNetlibUser, summary->GetAvatarUrl(), &avatar);
 
 		if (avatar.IsSuccess() && avatar.GetDataSize() > 0)
 		{
@@ -127,13 +132,13 @@ void CSteamProto::UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi:
 
 				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 
-				setString("AvatarUrl", contact->GetAvatarUrl());
+				setString("AvatarUrl", summary->GetAvatarUrl());
 			}
 		}
 	}
 
 	// set country
-	const char *isoCode = contact->GetCountryCode();
+	const char *isoCode = summary->GetCountryCode();
 	if (!lstrlenA(isoCode))
 		this->delSetting(hContact, "Country");
 	else
@@ -204,24 +209,26 @@ MCONTACT CSteamProto::AddContact(const char *steamId)
 
 void CSteamProto::RaiseAuthRequestThread(void *arg)
 {
-	ptrA steamId((char*)arg);
-	ptrA token(getStringA("TokenSecret"));
-
-	MCONTACT hContact = FindContact(steamId);
+	MCONTACT hContact = (MCONTACT)arg;
 	if (!hContact)
-		hContact = AddContact(steamId);
+		debugLogA("CSteamProto::RaiseAuthRequestThread: error (contact is NULL)");
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA steamId(getStringA(hContact, "SteamID"));
 
 	SteamWebApi::FriendApi::Summaries summaries;
-	debugLogA("CSteamProto::LoadContactListThread: call SteamWebApi::FriendApi::LoadSummaries");
+	debugLogA("CSteamProto::RaiseAuthRequestThread: call SteamWebApi::FriendApi::LoadSummaries");
 	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamId, &summaries);
 
 	if (summaries.IsSuccess())
 	{
-		const SteamWebApi::FriendApi::Summary *contact = summaries.GetAt(0);
+		const SteamWebApi::FriendApi::Summary *summary = summaries.GetAt(0);
 
-		char *nickName = mir_utf8encodeW(contact->GetNickName());
-		char *firstName = mir_utf8encodeW(contact->GetFirstName());
-		char *lastName = mir_utf8encodeW(contact->GetLastName());
+		UpdateContact(hContact, summary);
+
+		char *nickName = mir_utf8encodeW(summary->GetNickName());
+		char *firstName = mir_utf8encodeW(summary->GetFirstName());
+		char *lastName = mir_utf8encodeW(summary->GetLastName());
 		char reason[MAX_PATH];
 		mir_snprintf(reason, SIZEOF(reason), Translate("%s has added you to his or her Friend List"), nickName);
 
@@ -255,13 +262,14 @@ void CSteamProto::AuthAllowThread(void *arg)
 	if (!hContact)
 		return;
 
+	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
 	ptrA steamId(getStringA("SteamID"));
 	ptrA who(getStringA(hContact, "SteamID"));
 
 	SteamWebApi::InvitationApi::Result result;
 	debugLogA("CSteamProto::AuthAllowThread: call SteamWebApi::InvitationApi::Accept");
-	SteamWebApi::InvitationApi::Accept(m_hNetlibUser, sessionId, steamId, who, &result);
+	SteamWebApi::InvitationApi::Accept(m_hNetlibUser, token, sessionId, steamId, who, &result);
 
 	if (result.IsSuccess())
 	{
@@ -307,13 +315,28 @@ void CSteamProto::LoadContactListThread(void*)
 		CMStringA newContacts;
 		for (size_t i = 0; i < friendList.GetItemCount(); i++)
 		{
-			const char * steamId = friendList.GetAt(i);
-			if (!FindContact(steamId))
+			const SteamWebApi::FriendListApi::FriendListItem *item = friendList.GetAt(i);
+
+			const char *steamId = item->GetSteamId();
+			SteamWebApi::FriendListApi::FRIEND_TYPE type = item->GetType();
+
+			if (type == SteamWebApi::FriendListApi::FRIEND_TYPE_FRIEND)
 			{
-				if (newContacts.IsEmpty())
-					newContacts.Append(steamId);
-				else
-					newContacts.AppendFormat(",%s", steamId);
+				if (!FindContact(steamId))
+				{
+					if (newContacts.IsEmpty())
+						newContacts.Append(steamId);
+					else
+						newContacts.AppendFormat(",%s", steamId);
+				}
+			}
+			else if (type == SteamWebApi::FriendListApi::FRIEND_TYPE_NONE)
+			{
+				MCONTACT hContact = FindContact(steamId);
+				if (!hContact)
+					hContact = AddContact(steamId);
+
+				RaiseAuthRequestThread((void*)hContact);
 			}
 		}
 

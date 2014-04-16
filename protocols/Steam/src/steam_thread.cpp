@@ -1,9 +1,9 @@
 #include "common.h"
 
-void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult)
+void CSteamProto::PollServer(const char *token, const char *umqId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult)
 {
 	debugLogA("CSteamProto::PollServer: call SteamWebApi::PollApi::Poll");
-	SteamWebApi::PollApi::Poll(m_hNetlibUser, token, sessionId, messageId, pollResult);
+	SteamWebApi::PollApi::Poll(m_hNetlibUser, token, umqId, messageId, pollResult);
 
 	if (!pollResult->IsSuccess())
 		return;
@@ -113,11 +113,14 @@ void CSteamProto::PollServer(const char *token, const char *sessionId, UINT32 me
 				SteamWebApi::PollApi::Relationship *crs = (SteamWebApi::PollApi::Relationship*)item;
 
 				const char *steamId = crs->GetSteamId();
+				
 				MCONTACT hContact = FindContact(steamId);
 				if (!hContact)
 					hContact = AddContact(steamId);
 
-				
+				setByte(hContact, "Auth", 1);
+				setByte(hContact, "Grant", 1);
+				RaiseAuthRequestThread((void*)hContact);
 			}
 			break;
 		}
@@ -132,13 +135,13 @@ void CSteamProto::PollingThread(void*)
 	debugLogA("CSteamProto::PollingThread: entering");
 
 	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
+	ptrA umqId(getStringA("UMQID"));
 	UINT32 messageId = getDword("MessageID", 0);
 
 	SteamWebApi::PollApi::PollResult pollResult;
 	while (!m_bTerminated)
 	{
-		PollServer(token, sessionId, messageId, &pollResult);
+		PollServer(token, umqId, messageId, &pollResult);
 		
 		if (pollResult.IsNeedRelogin())
 		{

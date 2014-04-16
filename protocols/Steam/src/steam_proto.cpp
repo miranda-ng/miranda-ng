@@ -77,7 +77,17 @@ int __cdecl CSteamProto::Authorize(HANDLE hDbEvent)
 
 int __cdecl CSteamProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 {
-	return 0;
+	if (IsOnline() && hDbEvent)
+	{
+		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
+		if (hContact == INVALID_CONTACT_ID)
+			return 1;
+
+		ForkThread(&CSteamProto::AuthDenyThread, (void*)hContact);
+		// todo: how to return real status?
+		return 0;
+	}
+	return 1;
 }
 
 int __cdecl CSteamProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)

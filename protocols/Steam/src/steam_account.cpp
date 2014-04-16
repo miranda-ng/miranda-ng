@@ -19,7 +19,7 @@ void CSteamProto::SetServerStatusThread(void *arg)
 	WORD status = *((WORD*)&arg);
 
 	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
+	ptrA umqId(getStringA("UMQID"));
 
 	int state = CSteamProto::MirandaToSteamState(status);
 
@@ -29,7 +29,7 @@ void CSteamProto::SetServerStatusThread(void *arg)
 
 	SteamWebApi::MessageApi::SendResult sendResult;
 	debugLogA("CSteamProto::SetServerStatusThread: call SteamWebApi::MessageApi::SendStatus");
-	SteamWebApi::MessageApi::SendStatus(m_hNetlibUser, token, sessionId, state, &sendResult);
+	SteamWebApi::MessageApi::SendStatus(m_hNetlibUser, token, umqId, state, &sendResult);
 
 	if (sendResult.IsSuccess())
 	{
@@ -172,11 +172,12 @@ void CSteamProto::LogInThread(void* param)
 		return;
 	}
 
-	setString("SessionID", loginResult.GetSessionId());
+	setString("UMQID", loginResult.GetUmqId());
 	setDword("MessageID", loginResult.GetMessageId());
 
 	// set selected status
-	//CSteamProto::SetServerStatusThread((void*)m_iDesiredStatus);
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 
 	// load contact list
 	LoadContactListThread(NULL);
@@ -192,14 +193,14 @@ void CSteamProto::LogInThread(void* param)
 void CSteamProto::LogOutThread(void*)
 {
 	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
+	ptrA umqId(getStringA("UMQID"));
 
 	while (m_bTerminated && m_hPollingThread != NULL)
 		Sleep(500);
 
 	debugLogA("CSteamProto::LogOutThread: call SteamWebApi::LoginApi::Logoff");
-	SteamWebApi::LoginApi::Logoff(m_hNetlibUser, token, sessionId);
+	SteamWebApi::LoginApi::Logoff(m_hNetlibUser, token, umqId);
 
-	delSetting("SessionID");
+	delSetting("UMQID");
 	m_bTerminated = false;
 }

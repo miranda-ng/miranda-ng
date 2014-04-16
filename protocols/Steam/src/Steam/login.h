@@ -18,7 +18,7 @@ namespace SteamWebApi
 		public:
 
 			const char *GetSteamId() { return steamid.c_str(); }
-			const char *GetSessionId() { return umqid.c_str(); }
+			const char *GetUmqId() { return umqid.c_str(); }
 			UINT32 GetMessageId() { return messageId; }
 		};
 		
@@ -59,11 +59,11 @@ namespace SteamWebApi
 			loginResult->success = true;
 		}
 
-		static void Logoff(HANDLE hConnection, const char *token, const char *sessionId)
+		static void Logoff(HANDLE hConnection, const char *token, const char *umqId)
 		{
 			CMStringA data;
 			data.AppendFormat("access_token=%s", token);
-			data.AppendFormat("&umqid=%s", sessionId);
+			data.AppendFormat("&umqid=%s", umqId);
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");

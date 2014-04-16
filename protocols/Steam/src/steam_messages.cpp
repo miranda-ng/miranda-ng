@@ -5,12 +5,12 @@ void CSteamProto::SendMessageThread(void *arg)
 	SendMessageParam *param = (SendMessageParam*)arg;
 
 	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
+	ptrA umqId(getStringA("UMQID"));
 	ptrA steamId(getStringA(param->hContact, "SteamID"));
 
 	SteamWebApi::MessageApi::SendResult sendResult;
 	debugLogA("CSteamProto::SendMessageThread: call SteamWebApi::PollApi::SteamWebApi::MessageApi::SendMessage");
-	SteamWebApi::MessageApi::SendMessage(m_hNetlibUser, token, sessionId, steamId, param->text, &sendResult);
+	SteamWebApi::MessageApi::SendMessage(m_hNetlibUser, token, umqId, steamId, param->text, &sendResult);
 
 	ProtoBroadcastAck(
 		param->hContact,
@@ -27,10 +27,10 @@ void CSteamProto::SendTypingThread(void *arg)
 	MCONTACT hContact = (MCONTACT)arg;
 
 	ptrA token(getStringA("TokenSecret"));
-	ptrA sessionId(getStringA("SessionID"));
+	ptrA umqId(getStringA("UMQID"));
 	ptrA steamId(getStringA(hContact, "SteamID"));
 
 	SteamWebApi::MessageApi::SendResult sendResult;
 	debugLogA("CSteamProto::SendTypingThread: call SteamWebApi::PollApi::SteamWebApi::MessageApi::SendMessage");
-	SteamWebApi::MessageApi::SendTyping(m_hNetlibUser, token, sessionId, steamId, &sendResult);
+	SteamWebApi::MessageApi::SendTyping(m_hNetlibUser, token, umqId, steamId, &sendResult);
 }

@@ -132,7 +132,7 @@ protected:
 
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
-	void UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *contact);
+	void UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *summary);
 	void __cdecl UpdateContactsThread(void*);
 
 	MCONTACT FindContact(const char *steamId);

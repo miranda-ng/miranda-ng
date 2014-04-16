@@ -14,7 +14,9 @@ namespace SteamWebApi
 			std::string steamId;
 
 			std::wstring nickname;
-			std::wstring realname;
+			std::wstring firstname;
+			std::wstring lastname;
+			std::wstring secondname;
 			std::string countryCode;
 			std::string homepage;
 			std::string avatarUrl;
@@ -31,7 +33,6 @@ namespace SteamWebApi
 
 			const char *GetSteamId() const { return steamId.c_str(); }
 			const wchar_t *GetNickName() const { return nickname.c_str(); }
-			const wchar_t *GetRealName() const { return realname.c_str(); }
 			const char *GetCountryCode() const { return countryCode.c_str(); }
 			const char *GetHomepage() const { return homepage.c_str(); }
 			const char *GetAvatarUrl() const { return avatarUrl.c_str(); }
@@ -43,22 +44,12 @@ namespace SteamWebApi
 
 			const wchar_t *GetFirstName() const
 			{
-				size_t pos = realname.find(' ', 1);
-				if (pos > 0)
-					return realname.substr(0, pos - 1).c_str();
-
-				return realname.c_str();
+				return firstname.c_str();
 			}
 
 			const wchar_t *GetLastName() const
 			{
-				size_t pos = realname.find(' ', 1);
-				if (pos > 0)
-				{
-					return realname.substr(pos + 1).c_str();
-				}
-
-				return L"";
+				return lastname.c_str();
 			}
 		};
 
@@ -111,7 +102,18 @@ namespace SteamWebApi
 
 					node = json_get(child, "realname");
 					if (node != NULL)
-						item->realname = json_as_string(node);
+					{
+						std::wstring realname = json_as_string(node);
+						if (!realname.empty())
+						{
+							size_t pos = realname.find(' ', 1);
+							if (pos > 0)
+							{
+								item->firstname = realname.substr(0, pos);
+								item->lastname = realname.substr(pos + 1).c_str();
+							}
+						}
+					}
 
 					node = json_get(child, "loccountrycode");
 					if (node != NULL)

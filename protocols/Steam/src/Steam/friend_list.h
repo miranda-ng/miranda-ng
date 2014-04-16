@@ -6,16 +6,38 @@ namespace SteamWebApi
 	class FriendListApi : public BaseApi
 	{
 	public:
+
+		enum FRIEND_TYPE
+		{
+			FRIEND_TYPE_NONE,
+			FRIEND_TYPE_FRIEND,
+			FRIEND_TYPE_IGNORED,
+		};
+		class FriendListItem
+		{
+			friend FriendListApi;
+
+		private:
+			std::string steamId;
+			FRIEND_TYPE type;
+
+		public:
+			FriendListItem() : type(FRIEND_TYPE_NONE) { }
+
+			const char *GetSteamId() const { return steamId.c_str(); }
+			FRIEND_TYPE GetType() const { return type; }
+		};
+
 		class FriendList : public Result
 		{
 			friend FriendListApi;
 
 		private:
-			std::vector<std::string> items;
+			std::vector<FriendListItem*> items;
 
 		public:
 			size_t GetItemCount() const { return items.size(); }
-			const char * GetAt(int idx) const { return items.at(idx).c_str(); }
+			const FriendListItem * GetAt(int idx) const { return items.at(idx); }
 		};
 
 		static void Load(HANDLE hConnection, const char *token, const char *steamId, FriendList *friendList)
@@ -25,6 +47,7 @@ namespace SteamWebApi
 			SecureHttpGetRequest request(hConnection, STEAM_API_URL "/ISteamUserOAuth/GetFriendList/v0001");
 			request.AddParameter("access_token", token);
 			request.AddParameter("steamid", steamId);
+			//relationship = friend, requestrecipient
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)
@@ -45,9 +68,26 @@ namespace SteamWebApi
 					if (child == NULL)
 						break;
 
+					FriendListItem *item = new FriendListItem();
+
 					node = json_get(child, "steamid");
+					item->steamId = ptrA(mir_u2a(json_as_string(node)));
+
+					node = json_get(child, "relationship");
+					ptrA relationship(mir_u2a(json_as_string(node)));
+					if (!lstrcmpiA(relationship, "friend"))
+						item->type = FRIEND_TYPE_FRIEND;
+					else if (!lstrcmpiA(relationship, "ignoredfriend"))
+						item->type = FRIEND_TYPE_IGNORED;
+					else if (!lstrcmpiA(relationship, "requestrecipient"))
+						item->type = FRIEND_TYPE_NONE;
+					else
+					{
+						continue;
+					}
+
 					friendList->items
-						.push_back((char*)ptrA(mir_u2a(json_as_string(node))));
+						.push_back(item);
 				}
 			}
 
