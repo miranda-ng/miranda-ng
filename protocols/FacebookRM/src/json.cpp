@@ -681,7 +681,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				proto->UpdateChat(thread_id.c_str(), NULL, NULL, message.c_str());
 			}
-		} else if (t == "notifications_read") {
+		} else if (t == "notifications_read" || t == "notifications_seen") {
 			JSONNODE *alerts = json_get(it, "alert_ids");
 
 			for (unsigned int j = 0; j < json_size(alerts); j++) {
