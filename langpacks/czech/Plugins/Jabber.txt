@@ -48,8 +48,6 @@ Nahrát na server
 Importovat...
 [Export to file]
 Exportovat...
-[Jabber]
-Jabber
 [Username:]
 Uživatel:
 [Change password]

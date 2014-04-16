@@ -18,8 +18,6 @@ Výchozí skupina:
 Účet
 [Captcha]
 Ověřovací kód
-[OK]
-OK
 [Cancel]
 Zrušit
 [Steam Guard]

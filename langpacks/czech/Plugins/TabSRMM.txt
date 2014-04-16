@@ -484,7 +484,7 @@ ms
 Nápověda ke kontejnerům
 [Windows Aero settings]
 Nastavení Windows Aero
-[Use Aero UI elements(only when not using a custom skin)]
+[Use Aero UI elements (only when not using a custom skin)]
 Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
 Použít vylepšení lišty úloh z Windows 7 (vyžadován restart)
@@ -1031,7 +1031,7 @@ Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprá
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
-[tabSRMM Warning Message]
+[TabSRMM warning message]
 TabSRMM varování
 [Incoming file]
 Příchozí soubor
@@ -1803,8 +1803,6 @@ Zavírání okna|Pokoušíte se zavřít okno s několika otevřenými panely.\n
 Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí být po nahrání tématu toto okno zavřeno\\b1 a neuložené změny mohou být ztraceny\\b0 .\n\nPřejete si pokračovat?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
-[TabSRMM warning message]
-TabSRMM varování
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Barva textu
@@ -1934,7 +1932,7 @@ Příchozí časový údaj (starý)
 * Změny stavu
 [* Dividers]
 * Oddělovače
-[* Error and warning Messages]
+[* Error and warning messages]
 * Chyby a upozornění
 [* Symbols (incoming)]
 * Symboly (příchozí)

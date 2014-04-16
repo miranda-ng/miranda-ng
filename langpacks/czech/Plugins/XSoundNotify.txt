@@ -24,8 +24,6 @@ Přehrát
 Reset
 [Ignore sound for this contact]
 Ignorovat zvuky pro tento kontakt
-[XSoundNotify]
-XSoundNotify
 [Cancel]
 Zrušit
 ;file \plugins\XSoundNotify\src\dialog.cpp

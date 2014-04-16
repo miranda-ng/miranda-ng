@@ -61,7 +61,7 @@ Pozn.: Zprávy od tohoto kontaktu nebudou přeposílány
 !VŠICHNI!
 [!DON'T FORWARD!]
 !NEPŘEPOSÍLAT!
-[Plugins]
-Doplňky
-[yaRelay]
-Přeposílač zpráv
+[Message Sessions]
+Komunikace
+[Messages forwarding]
+Přeposílání zpráv

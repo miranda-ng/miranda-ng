@@ -10,8 +10,6 @@ Umožňuje čtení a zápis dat do uživatelského profilu: globální nastaven�
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Login to Miranda NG]
 Přihlášení do Mirandy NG
-[EN]
-EN
 [Cancel]
 Zrušit
 [New password]

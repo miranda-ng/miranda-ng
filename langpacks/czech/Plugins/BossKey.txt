@@ -36,8 +36,6 @@ Klávesy
 Heslo:
 [Cancel]
 Zrušit
-[EN]
-EN
 [Workstation is locked]
 Pracovní stanice je uzamčena
 [Screen Saver is running]

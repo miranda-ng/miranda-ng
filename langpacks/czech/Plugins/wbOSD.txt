@@ -66,5 +66,3 @@ Nápověda
 Miranda NG je skvělá a toto je dostatečně dlouhá zpráva.
 [Plugins]
 Doplňky
-[OSD]
-OSD

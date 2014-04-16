@@ -68,8 +68,6 @@ Výchozí barvy
 Sledování změny stavu
 [You missed following contacts:]
 Zmeškali jste tyto kontakty:
-[Test\nTest]
-Test\nTest
 [Alert when user status changes]
 Upozornit při změně stavu
 ;file \plugins\SeenPlugin\src\history.cpp

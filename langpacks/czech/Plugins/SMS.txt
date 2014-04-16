@@ -28,8 +28,6 @@ Poslat SMS
 Pro:
 [Add number to list]
 Přidat číslo do seznamu
-[&H]
-&H
 [Save number]
 Uložit číslo
 [Multiple >>]

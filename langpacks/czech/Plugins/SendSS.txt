@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -48,22 +48,30 @@ Poděkování >
 &Zavřít
 [Edit]
 Upravit
-[C&lient Area]
-Bez okraje okna
 [Caption:]
 Záhlaví okna:
 [Size (HxW):]
 Velikost (v×š):
+[C&lient Area]
+Bez okraje okna
 [Target Tool]
 
 [Result]
 VÝSLEDEK
+[Thumbnail]
+
 [&Copy]
 Z&kopírovat
 [Close]
 Zavřít
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
+
+[Copy]
+Zkopírovat
+[Copy BBCode]
+
+[Copy BBCode w/ link]
 
 [%s requires a valid contact!]
 %s vyžaduje platný kontakt!
@@ -122,6 +130,11 @@ Přenos souboru
 Přenos přes FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+[Image upload]
+Upload obrázku
+[Upload server did not respond timely.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 Přenos přes HTTPServer
@@ -130,10 +143,6 @@ Nelze spustit doplněk HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-[Image upload]
-Upload obrázku
-[Upload server did not respond timely.]
-
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Znovu
@@ -182,10 +191,6 @@ Odeslat obrázek
 
 [Default]
 Výchozí
-[Overlay on]
-
-[Overlay off]
-
 [Help]
 Nápověda
 [Open Folder]
@@ -204,8 +209,10 @@ Předchozí
 Další
 [Update]
 Aktualizovat
-[Apply]
-Použít
+[BBC]
+
+[BBC link]
+
 [Down arrow]
 Šipka dolů
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
@@ -247,6 +254,12 @@ Soubory přes FTP
 Dropbox
 [ImageShack]
 ImageShack
+[Upload Pie (30m)]
+
+[Upload Pie (1d)]
+
+[Upload Pie (1w)]
+
 [Information]
 Informace
 [Fill description textbox.]

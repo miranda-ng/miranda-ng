@@ -30,12 +30,8 @@ Zadejte heslo vygenerované nástrojem WART
 Použijte nástroj WART ze složky Plugins pro zaregistrování vašeho čísla a vygenerování hesla
 [Use SSL connection (443 port)]
 Použít SSL připojení (port 443)
-[WhatsApp]
-WhatsApp
 [Cancel]
 Zrušit
-[OK]
-OK
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 Zadejte kód oblasti.
