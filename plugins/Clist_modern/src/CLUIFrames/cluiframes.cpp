@@ -1176,7 +1176,7 @@ static int UpdateTBToolTip(int framepos)
 	TOOLINFO ti = { sizeof(ti) };
 	ti.lpszText = g_pfwFrames[framepos].TitleBar.tooltip;
 	ti.hinst = g_hInst;
-	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
+	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 	ti.uId = (UINT_PTR)g_pfwFrames[framepos].TitleBar.hwnd;
 	return SendMessage(g_pfwFrames[framepos].TitleBar.hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
 }
@@ -1840,40 +1840,31 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 
 	//Frames[nFramescount].OwnerWindow = 0;
 
-
-
 	g_pfwFrames[g_nFramesCount].TitleBar.hwnd
-		 = CreateWindow(CLUIFrameTitleBarClassName,g_pfwFrames[g_nFramesCount].name,
-		( db_get_b(0, CLUIFrameModule,"RemoveAllTitleBarBorders",1)?0:WS_BORDER)
-
-		|WS_CHILD|WS_CLIPCHILDREN|
-		(g_pfwFrames[g_nFramesCount].TitleBar.ShowTitleBar?WS_VISIBLE:0)|
+		= CreateWindow(CLUIFrameTitleBarClassName, g_pfwFrames[g_nFramesCount].name,
+		(db_get_b(0, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
+		| WS_CHILD | WS_CLIPCHILDREN |
+		(g_pfwFrames[g_nFramesCount].TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
 		WS_CLIPCHILDREN,
-		0, 0, 0, 0, pcli->hwndContactList,NULL,g_hInst,NULL);
-	SetWindowLongPtr(g_pfwFrames[g_nFramesCount].TitleBar.hwnd,GWLP_USERDATA,g_pfwFrames[g_nFramesCount].id);
-
+		0, 0, 0, 0, pcli->hwndContactList, NULL, g_hInst, NULL);
+	SetWindowLongPtr(g_pfwFrames[g_nFramesCount].TitleBar.hwnd, GWLP_USERDATA, g_pfwFrames[g_nFramesCount].id);
 
 	g_pfwFrames[g_nFramesCount].TitleBar.hwndTip
-		 = CreateWindowExA(0, TOOLTIPS_CLASSA, NULL,
+		 = CreateWindowEx(0, TOOLTIPS_CLASS, NULL,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		pcli->hwndContactList, NULL, g_hInst,
 		NULL);
 
-	SetWindowPos(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0,
-		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	SetWindowPos(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	{
-		TOOLINFOA ti;
-		int res;
-
-		ZeroMemory(&ti,sizeof(ti));
-		ti.cbSize = sizeof(ti);
-		ti.lpszText = "";
+		TOOLINFO ti = { sizeof(ti) };
+		ti.lpszText = _T("");
 		ti.hinst = g_hInst;
-		ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
+		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 		ti.uId = (UINT_PTR)g_pfwFrames[g_nFramesCount].TitleBar.hwnd;
-		res = SendMessageA(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip,TTM_ADDTOOL, 0, (LPARAM)&ti);
+		SendMessage(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 	}
 
 	SendMessageA(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)g_pfwFrames[g_nFramesCount].TitleBar.ShowTitleBarTip,0);
@@ -1889,14 +1880,9 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 
 	CLUIFramesLoadFrameSettings(id2pos(retval));
 	if (g_pfwFrames[g_nFramesCount-1].collapsed == FALSE)
-	{
 		g_pfwFrames[g_nFramesCount-1].height = 0;
-	}
 
 	// create frame
-
-
-	//    else Frames[nFramescount-1].height = Frames[nFramescount-1].HeightWhenCollapsed;
 
 	style = GetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].hWnd,GWL_STYLE);
 	style &= (~WS_BORDER);
@@ -1906,8 +1892,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 	SetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE,GetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE)&~(WS_VSCROLL|WS_HSCROLL));
 
 	if (g_pfwFrames[g_nFramesCount-1].order == 0){g_pfwFrames[g_nFramesCount-1].order = g_nFramesCount;};
-
-
+																  
 	//need to enlarge parent
 	{
 		RECT mainRect;
