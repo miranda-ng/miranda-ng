@@ -312,7 +312,7 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
-	char buffer[512], szId[40];
+	char buffer[512];
 
 	// the only global options we're interested in
 	if (hContact == 0)
@@ -361,14 +361,12 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else if (!strcmp(dcws->szSetting, "Nick") && !dcws->value.type == DBVT_DELETED) {
 		// subcontact nick has changed - update metacontact
-		strcpy(buffer, "Nick");
-		strcat(buffer, _itoa(contact_number, szId, 10));
+		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
 		DBVARIANT dbv;
 		if (db_get_s(hContact, "CList", "MyHandle", &dbv, 0)) {
-			strcpy(buffer, "CListName");
-			strcat(buffer, _itoa(contact_number, szId, 10));
+			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 		}
 		else db_free(&dbv);
@@ -394,8 +392,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "MyHandle")) {
 		if (dcws->value.type == DBVT_DELETED) {
 			char *proto = GetContactProto(hContact);
-			strcpy(buffer, "CListName");
-			strcat(buffer, _itoa(contact_number, szId, 10));
+			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
 
 			DBVARIANT dbv;
 			if (proto && !db_get_ts(hContact, proto, "Nick", &dbv)) {
@@ -406,8 +403,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else {
 			// subcontact clist displayname has changed - update metacontact
-			strcpy(buffer, "CListName");
-			strcat(buffer, _itoa(contact_number, szId, 10));
+			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 		}
 
@@ -420,12 +416,10 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// subcontact changing status
 
 		// update subcontact status setting
-		strcpy(buffer, "Status");
-		strcat(buffer, _itoa(contact_number, szId, 10));
+		mir_snprintf(buffer, SIZEOF(buffer), "Status%d", contact_number);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
-
-		strcpy(buffer, "StatusString");
-		strcat(buffer, _itoa(contact_number, szId, 10));
+		
+		mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", contact_number);
 		db_set_ts(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
 		// set status to that of most online contact
@@ -636,6 +630,9 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
 	HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked);
+	// hook srmm window close/open events
+	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
+	HookEvent(ME_MSG_ICONPRESSED, Meta_SrmmIconClicked);
 
 	////////////////////////////////////////////////////////////////////////////
 	InitMenus();
@@ -645,10 +642,6 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	sid.szModule = META_PROTO;
 	sid.hIcon = LoadSkinnedProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
-
-	// hook srmm window close/open events
-	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
-	HookEvent(ME_MSG_ICONPRESSED, Meta_SrmmIconClicked);
 
 	// hook protocol nudge events to forward to subcontacts
 	int numberOfProtocols;
@@ -690,15 +683,11 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 		// open message window if protocol supports message sending or chat, else simulate double click
 		char *proto = GetContactProto(hContact);
 		if (proto) {
-			char buffer[512];
-			strcpy(buffer, proto);
-			strcat(buffer, PS_GETCAPS);
-
-			int caps = CallService(buffer, PFLAGNUM_1, 0);
-			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT) || (proto && strcmp(proto, "IRC") == 0)) {
+			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);
+			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT)) {
 				// set default contact for sending/status and open message window
 				db_mc_setDefaultNum(hMeta, lParam);
-				CallService(MS_MSG_SENDMESSAGE, hMeta, 0);
+				CallService(MS_MSG_SENDMESSAGET, hMeta, 0);
 			}
 			else // protocol does not support messaging - simulate double click
 				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
@@ -731,7 +720,7 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 
 	char *proto = GetContactProto(most_online);
 	if (proto)
-		return (int)(CallContactService(most_online, PSS_FILE, ccs->wParam, ccs->lParam));
+		return CallContactService(most_online, PSS_FILE, ccs->wParam, ccs->lParam);
 
 	return 0; // fail
 }
@@ -752,7 +741,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	ccs->hContact = most_online;
-	return (int)(CallContactService(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam));
+	return CallContactService(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam);
 }
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)

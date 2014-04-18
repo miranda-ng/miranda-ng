@@ -208,9 +208,6 @@ LRESULT ProcessCustomDraw(LPARAM lParam)
 
 static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-	int sel, i;
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -225,7 +222,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			// Disable the 'Apply' button.
 			EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), FALSE);
 
-			hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
+			HWND hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 			ListView_SetExtendedListViewStyle(hwnd, LVS_EX_FULLROWSELECT);
 
 			// Create list columns
@@ -268,7 +265,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			g_data.num_deleted = 0;
 			g_data.hDefaultContact = Meta_GetContactHandle(g_data.cc, cc->nDefault);
 			g_data.hOfflineContact = Meta_GetContactHandle(g_data.cc, offline_contact_number);
-			for (i = 0; i < cc->nSubs; i++)
+			for (int i = 0; i < cc->nSubs; i++)
 				g_data.hContact[i] = Meta_GetContactHandle(g_data.cc, i);
 
 			SendMessage(hwndDlg, WMU_SETTITLE, 0, lParam);
@@ -283,7 +280,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			if (ptszCDN == NULL)
 				ptszCDN = TranslateT("(Unknown Contact)");
 
-			SetWindowText(GetDlgItem(hwndDlg, IDC_ED_NAME), ptszCDN);
+			SetDlgItemText(hwndDlg, IDC_ED_NAME, ptszCDN);
 		}
 		return TRUE;
 
@@ -291,7 +288,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		switch (LOWORD(wParam)) { // hit control
 		case IDC_LST_CONTACTS:      // did we hit our ListView contorl?
 			if (((LPNMHDR)lParam)->code == NM_CLICK) {
-				sel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LST_CONTACTS), -1, LVNI_FOCUSED | LVNI_SELECTED); // return item selected
+				int sel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LST_CONTACTS), -1, LVNI_FOCUSED | LVNI_SELECTED); // return item selected
 
 				// enable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), sel != -1);
@@ -339,9 +336,9 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				EndDialog(hwndDlg, IDCANCEL);
 				return TRUE;
 
-			case IDC_BTN_SETDEFAULT:
-				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
-				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
+			case IDC_BTN_SETDEFAULT: {
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
+				int sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				InvalidateRect(hwnd, 0, TRUE);
 				g_data.hDefaultContact = g_data.hContact[sel];
 				SendMessage(hwndDlg, WMU_SETTITLE, 0, (LPARAM)g_data.hContact[sel]);
@@ -351,10 +348,10 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
-
-			case IDC_BTN_SETOFFLINE:
-				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
-				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
+			}
+			case IDC_BTN_SETOFFLINE: {
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
+				int sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				InvalidateRect(hwnd, 0, TRUE);
 				g_data.hOfflineContact = g_data.hContact[sel];
 
@@ -363,10 +360,10 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
-
-			case IDC_BTN_REM:
-				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
-				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
+			}
+			case IDC_BTN_REM: {
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
+				int sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				g_data.num_contacts--;
 				g_data.hDeletedContacts[g_data.num_deleted++] = g_data.hContact[sel];
 				if (g_data.hDefaultContact == g_data.hContact[sel]) {
@@ -380,7 +377,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 					}
 				}
 
-				for (i = sel; i < g_data.num_contacts; i++)
+				for (int i = sel; i < g_data.num_contacts; i++)
 					g_data.hContact[i] = g_data.hContact[i + 1];
 				FillContactList(hwndDlg);
 
@@ -394,10 +391,10 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				// Enable the 'Apply' button.
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
-
-			case IDC_BTN_UP:
-				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
-				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
+			}
+			case IDC_BTN_UP: {
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
+				int sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				{
 					MCONTACT temp = g_data.hContact[sel];
 					g_data.hContact[sel] = g_data.hContact[sel - 1];
@@ -411,10 +408,10 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel < g_data.num_contacts - 1));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
-
+			}
 			case IDC_BTN_DOWN:
-				hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
-				sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
+				HWND hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
+				int sel = ListView_GetNextItem(hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				{
 					MCONTACT temp = g_data.hContact[sel];
 					g_data.hContact[sel] = g_data.hContact[sel + 1];

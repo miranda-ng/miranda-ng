@@ -170,7 +170,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		switch (LOWORD(wParam)) {
 			case IDOK:
 			{
-				int item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETCURSEL, 0, 0);	// Get the index of the selected metacontact
+				int item = SendDlgItemMessage(hwndDlg, IDC_METALIST, LB_GETCURSEL, 0, 0);	// Get the index of the selected metacontact
 				if (item == -1)
 					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a MetaContact"), TranslateT("No MetaContact selected"), MB_ICONHAND);
 

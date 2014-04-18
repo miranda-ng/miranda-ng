@@ -106,24 +106,24 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 		Meta_SwapContacts(ccMeta, i, i - 1);
 
 	// remove the last one
-	char buffer[512], idStr[20];
-	_itoa(ccMeta->nSubs - 1, idStr, 10);
-	strcpy(buffer, "Protocol"); strcat(buffer, idStr);
+	int id = ccMeta->nSubs - 1;
+	char buffer[512];
+	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	strcpy(buffer, "Status"); strcat(buffer, idStr);
+	mir_snprintf(buffer, SIZEOF(buffer), "Status%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	strcpy(buffer, "StatusString"); strcat(buffer, idStr);
+	mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	strcpy(buffer, "Login"); strcat(buffer, idStr);
+	mir_snprintf(buffer, SIZEOF(buffer), "Login%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	strcpy(buffer, "Nick"); strcat(buffer, idStr);
+	mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	strcpy(buffer, "CListName"); strcat(buffer, idStr);
+	mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	ccSub->parentID = 0;
@@ -157,7 +157,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 			AI.format = PA_FORMAT_UNKNOWN;
 			_tcscpy(AI.filename, _T("X"));
 
-			if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+			if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
 		}
 	}
@@ -320,7 +320,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 	}
 
 	PROTOACCOUNT *pa = Proto_GetAccount(cc->szProto);
-	if (!db_mc_isEnabled() || pa->bIsVirtual) {
+	if (!db_mc_isEnabled() || !pa || pa->bIsVirtual) {
 		// groups disabled - all meta menu options hidden
 		Menu_ShowItem(hMenuDefault, false);
 		Menu_ShowItem(hMenuDelete, false);
@@ -428,7 +428,6 @@ void InitMenus()
 	mi.pszName = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
-	char buffer[512], buffer2[512];
 
 	mi.flags = CMIF_HIDDEN | CMIF_CHILDPOPUP;
 	mi.hParentMenu = hMenuRoot;
@@ -436,8 +435,8 @@ void InitMenus()
 		mi.position--;
 		mi.pszName = "";
 
-		strcpy(buffer, "MetaContacts/MenuFunc");
-		strcat(buffer, _itoa(i, buffer2, 10));
+		char buffer[512];
+		mir_snprintf(buffer, SIZEOF(buffer),"MetaContacts/MenuFunc%d", i);
 		mi.pszService = buffer;
 
 		hMenuContact[i] = Menu_AddContactMenuItem(&mi);
