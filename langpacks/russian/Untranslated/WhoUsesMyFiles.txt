@@ -1,2 +1,0 @@
-﻿[Common Dialog Error 0x%lx]
-[Wumf]

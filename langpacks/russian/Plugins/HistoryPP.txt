@@ -157,8 +157,8 @@ EMail Express
 Показать в &контексте
 [Set &Bookmark]
 Поставить &закладку
-[Rename &Bookmark]
-Переименовать &закладку
+[&Rename Bookmark]
+&Переименовать закладку
 [Copy &Text]
 Копировать &текст
 [&Save Selected...]
