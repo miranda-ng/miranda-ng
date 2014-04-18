@@ -73,7 +73,7 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 			lvc.mask = LVCF_TEXT|LVCF_FMT|LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.cx = 40;
-			lvc.pszText = TranslateT("ID");
+			lvc.pszText = _T("ID");
 			ListView_InsertColumn(hList, 0, &lvc);
 			lvc.cx = 50;
 			lvc.pszText = TranslateT("User");
