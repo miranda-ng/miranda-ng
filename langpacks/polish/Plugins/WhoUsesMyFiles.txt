@@ -55,8 +55,6 @@ Wyłączone opcje będą dostępne w następnej wersji
 [Show current connections]
 Pokaż aktualne połączenia
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
-ID
 [User]
 Użytkownika
 [File]
@@ -86,8 +84,8 @@ Powszechny błąd dialogu 0x%lx
 Jeszcze nie zaimplementowano...
 [Show connections list]
 Pokaż listę połączeń
-[Wumf]
-Wumf
+[Who uses my files]
+Who uses my files
 [Services]
 Usługi
 [Popups]

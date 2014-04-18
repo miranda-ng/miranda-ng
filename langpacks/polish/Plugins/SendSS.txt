@@ -143,10 +143,6 @@ Nie można uruchomić wtyczki serwera HTTP.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nNie można dodać zasobu do wtyczki serwera HTTP.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-[Image upload]
-Wyślij jako obrazek
-[Upload server did not respond timely.]
-Serwer nie odpowiada.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Gotowy

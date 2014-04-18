@@ -86,10 +86,6 @@ Kontakty
 Zostałeś dodany!
 [Requests your authorization]
 Prośba o twoją autoryzację
-[ICQ Web pager]
-Strona WWW ICQ
-[ICQ Email express]
-Adres e-mail ICQ
 [SMS Message]
 Wiadomość SMS
 [SMS Confirmation]

@@ -36,8 +36,6 @@ Wiele >>
 Wpisz wiadomość:
 [Chars:]
 Znaków:
-[%d/160]
-%d/160
 [&Send]
 &Wyślij
 [SMS Message Didn't Send]
@@ -119,8 +117,6 @@ Nieprawidłowy numer telefonu
 [<< Single]
 << Pojedynczy
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
-SMS
 [Send &SMS...]
 Wyślij &SMS...
 [&SMS Message]
