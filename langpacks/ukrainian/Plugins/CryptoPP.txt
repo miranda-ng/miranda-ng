@@ -16,6 +16,6 @@ ID користувача
 [Cancel]
 Скасувати
 [GnuPG Plugin - Select public key]
-Вибрати публічний ключ плагіну GnuPG
+Плагін GnuPG - Вибрати публічний ключ
 [Refresh]
 Оновити

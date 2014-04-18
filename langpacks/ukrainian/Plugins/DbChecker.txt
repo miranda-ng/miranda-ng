@@ -127,6 +127,8 @@
 Активовано відновлення працездатності бази
 [<check only>]
 <тільки перевірити>
+[ (Output).dat]
+ (Вихідний).dat
 [Can't create output file (%u)]
 Неможливо створити файл на виході (%u)
 [Processing aborted by user]

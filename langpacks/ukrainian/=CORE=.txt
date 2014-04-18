@@ -1584,7 +1584,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Appearance of the message log]
 Вигляд журналу повідомлень
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-Показувати в новому вікні, якщо "Фільтр подій" ввімкнений
+Показувати в новому вікні, якщо "Фільтр подій" увімкнений
 [Icons to display in the message log]
 Значки в журналі повідомлень
 [Icons to display in the tray]

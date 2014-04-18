@@ -1,2 +1,0 @@
-﻿[ID]
-[Common Dialog Error 0x%lx]

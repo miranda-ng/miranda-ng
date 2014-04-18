@@ -75,12 +75,14 @@ WUMF: Поточні з'єднання
 Увімкнути вікна WUMF
 [Disable WUMF popups]
 Вимкнути вікна WUMF
+[Common Dialog Error 0x%lx]
+Помилка діалогу 0x%lx
 [Not implemented yet...]
 Ще не реалізовано...
 [Show connections list]
 Показати список підключень
-[Wumf]
-WUMF
+[Who uses my files]
+Використання файлів
 [Services]
 Служби
 [Popups]

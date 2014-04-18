@@ -8,7 +8,7 @@
 [Music Player Daemon support for Watrack.]
 Підтримка Music Player Daemon для плагіна Watrack.
 [MPD Host]
-Хост:
+MPD хост:
 [Port]
 Порт:
 [Password]
