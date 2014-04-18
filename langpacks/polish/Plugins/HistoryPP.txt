@@ -157,8 +157,8 @@ Wyczyść wyszukiwanie
 Po&każ w kontekście
 [Set &Bookmark]
 Ustaw &zakładkę
-[Rename &Bookmark]
-Zmień nazwę &zakładki
+[&Rename Bookmark]
+&Zmień nazwę zakładki
 [Copy &Text]
 Kopiuj &tekst
 [&Save Selected...]
