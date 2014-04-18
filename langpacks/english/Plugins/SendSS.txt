@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -32,10 +32,14 @@
 [C&lient Area]
 [Target Tool]
 [Result]
+[Thumbnail]
 [&Copy]
 [Close]
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
+[Copy]
+[Copy BBCode]
+[Copy BBCode w/ link]
 [%s requires a valid contact!]
 [Error]
 [GCHAT error]
@@ -67,13 +71,14 @@
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 [%s (%i):\nCould not add a share to the FTP File plugin.]
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+[Image upload]
+[Upload server did not respond timely.]
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 [Could not start the HTTP Server plugin.]
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-[Image upload]
-[Upload server did not respond timely.]
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 [Yes]
@@ -109,6 +114,8 @@
 [Prev]
 [Next]
 [Update]
+[BBC]
+[BBC link]
 [Down arrow]
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
@@ -131,6 +138,9 @@
 [FTP File]
 [Dropbox]
 [ImageShack]
+[Upload Pie (30m)]
+[Upload Pie (1d)]
+[Upload Pie (1w)]
 [Information]
 [Fill description textbox.]
 [Delete after send]

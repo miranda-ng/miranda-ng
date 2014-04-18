@@ -108,7 +108,6 @@
 [Message read: %s by %s]
 [Message read: %s]
 [This message is no longer available, because it was marked as abusive or spam.]
-[%s and more (%d)]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 ;file \protocols\FacebookRM\src\process.cpp

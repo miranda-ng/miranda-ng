@@ -31,7 +31,6 @@
 [Disabled options will be available in the next version]
 [Show current connections]
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
 [User]
 [File]
 [Access]
@@ -47,7 +46,7 @@
 [Common Dialog Error 0x%lx]
 [Not implemented yet...]
 [Show connections list]
-[Wumf]
+[Who uses my files]
 [Services]
 [Popups]
 [WUMF: Show connections]

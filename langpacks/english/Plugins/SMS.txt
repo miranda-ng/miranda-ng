@@ -21,7 +21,6 @@
 [Multiple >>]
 [Enter message:]
 [Chars:]
-[%d/160]
 [&Send]
 [SMS Message Didn't Send]
 [&Try again]
@@ -65,7 +64,6 @@
 [Invalid phone number]
 [<< Single]
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
 [Send &SMS...]
 [&SMS Message]
 ;file \plugins\SMS\src\SMS_svc.cpp

@@ -53,8 +53,6 @@ WUMF: Текущие соединения
 Будут доступны в следующей версии
 [Show current connections]
 Показать соединения
-[ID]
-ID
 [User]
 Пользователь
 [File]
@@ -77,10 +75,14 @@ ID
 Включить WUMF окна
 [Disable WUMF popups]
 Выключить WUMF окна
+[Common Dialog Error 0x%lx]
+Ошибка диалога 0x%lx
 [Not implemented yet...]
 Еще не реализовано...
 [Show connections list]
 Показать список подключений
+[Who uses my files]
+Используемые файлы
 [Services]
 Службы
 [Popups]

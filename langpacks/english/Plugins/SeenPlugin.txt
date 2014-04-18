@@ -37,7 +37,6 @@
 [Reset colors]
 [Last seen plugin]
 [You missed following contacts:]
-[Test\nTest]
 [Alert when user status changes]
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]

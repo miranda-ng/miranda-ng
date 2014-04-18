@@ -47,8 +47,6 @@
 [Contacts]
 [You were added!]
 [Requests your authorization]
-[ICQ Web pager]
-[ICQ Email express]
 [SMS Message]
 [SMS Confirmation]
 [Unknown Event]

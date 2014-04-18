@@ -21,6 +21,8 @@
 Отключить историю
 [History Enabled]
 История включена
+[History Disabled]
+История выключена
 [Disable]
 Выключить
 [Enable]
