@@ -479,7 +479,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.position = 945000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = LPGEN("Wumf");
+	odp.pszTitle = LPGEN("Who uses my files");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszGroup = LPGEN("Services");
 	odp.flags = ODPF_BOLDGROUPS;
