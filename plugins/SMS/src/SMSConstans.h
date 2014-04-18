@@ -4,7 +4,7 @@
 #define PROTOCOL_NAMEA			"SMSPlugin"
 #define PROTOCOL_NAME_LEN		(sizeof(PROTOCOL_NAMEA)-1)
 #define PROTOCOL_NAME_SIZE		sizeof(PROTOCOL_NAMEA)
-#define PROTOCOL_DISPLAY_NAME_ORIG	LPGEN("SMS")
+#define PROTOCOL_DISPLAY_NAME_ORIG	"SMS"
 
 #define TIMEOUT_MSGSEND			60000			// send sms timeout
 #define MIN_SMS_DBEVENT_LEN		4				// для фильтрации событий авторизации от джабер плагина
