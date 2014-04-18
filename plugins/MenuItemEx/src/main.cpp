@@ -733,7 +733,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 			return 0;
 	}
 	if (MessageBox(NULL, (LPCTSTR)TranslateT("Do you want to send authorization request\nto new contact?"),
-		TranslateT("Miranda NG"), MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
+		_T("Miranda NG"), MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
 
 		onSendAuthRequest((WPARAM)hContactNew, 0);
 
