@@ -19,7 +19,7 @@ Informační okno
 [DialogBox]
 Dialogové okno
 [Output Debug String]
-
+Výstupní ladící řetězec
 [Clipboard]
 Schránka
 [Select output:]
@@ -83,7 +83,7 @@ Požadované informace byly zkopírovány do schránky.
 [Customize using folders plugin]
 Určit pomocí doplňku Folders
 [Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
-
+Opravdu si přejete povolit tuto volbu?\nPovolte ji pouze pokud jste si opravdu jistí co děláte nebo pokud vás o to někdo požádal.
 [Show plugin UUIDs?]
 Zobrazit UUID doplňků
 ;file \plugins\VersionInfo\src\hooked_events.cpp
@@ -98,4 +98,4 @@ Služby
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-
+Nastal problém s nastavením "%s". Nahlaste vývojáři tyto hodnoty:\nFacility: %X\nError code: %X\nLine number: %d

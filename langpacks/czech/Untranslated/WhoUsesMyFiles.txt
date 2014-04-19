@@ -28,5 +28,5 @@
 [Common Dialog Error 0x%lx]
 [Not implemented yet...]
 [Show connections list]
-[Wumf]
+[Who uses my files]
 [WUMF: Show connections]

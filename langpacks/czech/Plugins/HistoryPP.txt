@@ -157,7 +157,7 @@ Vymazat zadané
 Zobrazit v kontextu
 [Set &Bookmark]
 Vložit záložku
-[Rename &Bookmark]
+[&Rename Bookmark]
 Přejmenovat &záložku
 [Copy &Text]
 Zkopírovat &text

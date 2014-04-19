@@ -355,10 +355,6 @@ Identifikátor
 Nečinnost
 [Idle:]
 Nečinnost:
-[IP]
-IP
-[IP:]
-IP:
 [IP internal]
 IP interní
 [IP internal:]

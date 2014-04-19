@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
-
+Zasílá ping na zvolené IP adresy nebo doménové jména.
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Doba mezi dotazy (sek.):
@@ -35,7 +35,7 @@ Procházet...
 [Interface]
 Rozhraní
 [Do not change icon when testing]
-
+Neměnit ikonu během testování
 [Use the Customize/Fonts options to change text size and color.]
 Změnu písma a barev provedete v sekci Vlastní úpravy -> Písma a barvy.
 [Indent:]
@@ -47,7 +47,7 @@ Výška řádku:
 [Attach to contact list]
 
 [Use CSV format]
-
+Použít formát CSV
 [Add]
 Přidat
 [Remove]
@@ -59,7 +59,7 @@ Nahoru
 [Down]
 Dolů
 [Edit Host]
-
+Upravit hostitele
 [Cancel]
 Zrušit
 [Address:]
@@ -97,7 +97,7 @@ Deaktivovat všechny pingy
 [Options...]
 Možnosti...
 [Hosts...]
-
+Hostitelé...
 ;file \plugins\Ping\src\menu.cpp
 [Ping]
 Ping
@@ -109,21 +109,21 @@ Zobrazit záznam
 [<none>]
 <žádný>
 [<all>]
-
+<všechny>
 [Settings]
 Nastavení
 [Hosts]
-
+Hostitelé
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
-
+Ping doplněk
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
-
+Zobrazit mřížku
 [Show stats]
-
+Zobrazit statistiky
 [%d ms]
-
+%d ms
 [AVG %.1lf ms]
 
 [MAX %hd ms]
@@ -158,14 +158,14 @@ Seznam
 Upozornění! Zahlcujete hostitele %s\npříliš velkým množstvím dat. Zvyšte dobu mezi\njednotlivými dotazy (=pingy).
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
-
+Neznámá adresa
 [Unknown]
-neznámý
+Neznámý
 [Responding]
-
+Odpovídá
 [Not Responding]
-
+Neodpovídá
 [Testing]
-
+Testování
 [Disabled]
 Vypnuto

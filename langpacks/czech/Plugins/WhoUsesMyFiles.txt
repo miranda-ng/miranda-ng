@@ -55,8 +55,6 @@ Použít výchozí barvy
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
-ID
 [User]
 Uživatel
 [File]
@@ -86,7 +84,7 @@ Chyba
 
 [Show connections list]
 
-[Wumf]
+[Who uses my files]
 
 [Services]
 Služby

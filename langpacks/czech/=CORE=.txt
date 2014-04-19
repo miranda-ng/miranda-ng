@@ -505,16 +505,16 @@ Mazání historie
 Prosím čekejte, historie kontaktu se maže.
 [Subcontact Priorities]
 Priority podkontaktů
-[Rank:]
-Pořadí:
-[Status:]
-Stav:
 [Protocol:]
 Protokol:
-[Reset All]
-Vše resetovat
+[Status:]
+Stav:
+[Rank:]
+Pořadí:
 [(Lower ranks are preferred)]
 (Nížší pořadí má vyšší prioritu)
+[Reset All]
+Vše resetovat
 [Current language:]
 Zvolený jazyk:
 [Last modified using:]

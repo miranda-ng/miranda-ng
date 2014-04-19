@@ -95,8 +95,6 @@ Psaní zprávy
 Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
 [Do you want to send authorization request\nto new contact?]
 Přejete si odeslat požadavek o autorizaci\nnového kontaktu?
-[Miranda NG]
-Miranda NG
 [MenuItemEx]
 Rozšíření menu
 [Open ignore settings]

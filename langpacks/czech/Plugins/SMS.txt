@@ -36,8 +36,6 @@ Hromadně >>
 Zadejte zprávu:
 [Chars:]
 Znaků:
-[%d/160]
-%d/160
 [&Send]
 Po&slat
 [SMS Message Didn't Send]
@@ -119,8 +117,6 @@ Neplatné telefonní číslo
 [<< Single]
 << Jednotlivě
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
-SMS
 [Send &SMS...]
 Poslat &SMS
 [&SMS Message]

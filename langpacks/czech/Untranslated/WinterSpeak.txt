@@ -1,6 +1,0 @@
-﻿[Miranda interface to the Microsoft Speech API.]
-[Lexicon]
-[Occurring Events]
-[incoming URL from %u]
-[%u requests your authorization]
-[Message Received]

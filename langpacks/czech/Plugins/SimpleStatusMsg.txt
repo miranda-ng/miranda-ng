@@ -219,7 +219,7 @@ Určitě chcete smazat celou historii stavových zpráv?
 Potvrdit smazání historie
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
-
+Změna globálního stavu
 [Open String Formatting Help]
 Otevřít nápovědu o proměnných
 [Hide]
