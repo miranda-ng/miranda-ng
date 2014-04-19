@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
+[Take a screenshot and send it to a contact.]
+Urobte screenshot a pošlite kontaktom.
 [None]
 Žiadne
 [Cancel]
@@ -29,8 +31,6 @@ Prednastavené
 Pomoc
 [Open Folder]
 Otvoriť zložku
-[Apply]
-Aplikovať
 [Window]
 Okno
 [E-mail]

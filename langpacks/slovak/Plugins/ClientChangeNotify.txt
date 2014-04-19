@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
+[Shows a notification when someone in your contact list changes his client.]
+Zobrazí oznámenie, keď niekto zo zoznamu kontaktov zmení klienta.
 [On left click]
 јavým klikom
 [On right click]

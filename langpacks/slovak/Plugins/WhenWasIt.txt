@@ -5,6 +5,8 @@
 ;  Version: 0.3.3.5
 ;  Authors: Cristian Libotean
 ;============================================================
+[Notifies you of upcoming birthdays.]
+Oznamuje blížiace sa narodeniny.
 [Sounds]
 Zvuky
 [Show]

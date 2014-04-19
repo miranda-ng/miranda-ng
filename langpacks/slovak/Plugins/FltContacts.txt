@@ -5,6 +5,8 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
+[Floating Contacts plugin for Miranda.]
+Doplnok pre možnosť "plávajúcich" kontaktov pre Mirandu NG.
 [pixels]
 pixelov
 [seconds]

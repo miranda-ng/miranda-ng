@@ -5,5 +5,7 @@
 ;  Version: 0.1.0.0
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Modul ikon Fingerprint NG (klientová verzia) pre Mirandu NG.
 [Icons]
 Ikony

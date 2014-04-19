@@ -5,6 +5,8 @@
 ;  Version: 0.2.6.1
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Kontrola pravopisu pre okná správ.
 [Language:]
 Jazyk:
 [Cancel]

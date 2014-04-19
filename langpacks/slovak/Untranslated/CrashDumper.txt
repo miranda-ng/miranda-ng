@@ -1,5 +1,4 @@
-﻿[Crash Dumper for Miranda NG.]
-[View Version Information]
+﻿[View Version Information]
 [Copy To Clipboard]
 [To File]
 [Support for miranda-vi.org]

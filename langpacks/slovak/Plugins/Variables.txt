@@ -5,6 +5,8 @@
 ;  Version: 0.2.3.10
 ;  Authors: P Boon
 ;============================================================
+[Adds support for dynamic variables in strings for plugins.]
+Podpora dynamických premenných v reťazcoch pre doplnky.
 [Description]
 Udalosť
 [Close]

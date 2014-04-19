@@ -1,5 +1,4 @@
-﻿[ToptoolBar adds buttons in top frame for fast access.]
-[Buttons Order && Visibility]
+﻿[Buttons Order && Visibility]
 [Button height]
 [Button width]
 [Interval between buttons]

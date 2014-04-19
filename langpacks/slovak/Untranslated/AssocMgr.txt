@@ -1,5 +1,4 @@
-﻿[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-[Registered associations for Miranda NG:]
+﻿[Registered associations for Miranda NG:]
 [Miscellaneous]
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]

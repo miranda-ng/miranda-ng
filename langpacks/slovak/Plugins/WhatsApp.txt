@@ -5,11 +5,11 @@
 ;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Podpora WhatsApp protokolu pre Mirandu NG.
 [Nickname]
 Prezívka
 [Cancel]
 Storno
-[OK]
-OK
 [Network]
 Sieť

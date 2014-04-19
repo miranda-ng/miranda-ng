@@ -1,5 +1,4 @@
-﻿[GTalk extensions for Jabber protocol]
-[Popup notifications (needs popup plugin)]
+﻿[Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 [Notify in contact list]

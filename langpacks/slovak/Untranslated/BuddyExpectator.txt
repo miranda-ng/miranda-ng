@@ -1,5 +1,4 @@
-﻿[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-[When a contact returns after]
+﻿[When a contact returns after]
 [or comes online for the first time]
 [Show a popup]
 [Add an event (flashing icon) to the contact]

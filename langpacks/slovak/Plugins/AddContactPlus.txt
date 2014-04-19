@@ -5,6 +5,8 @@
 ;  Version: 0.9.9.2
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
+[Provides the ability to quickly add new contacts.]
+Poskytuje možnosť rýchleho pridania nových kontaktov.
 [Authorization request]
 Požiadavka na autorizáciu
 [None]

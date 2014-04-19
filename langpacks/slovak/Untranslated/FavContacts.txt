@@ -1,5 +1,4 @@
-﻿[Favorite contacts menu.]
-[Customize]
+﻿[Customize]
 [Show second line]
 [Show avatars]
 [Draw avatar border]

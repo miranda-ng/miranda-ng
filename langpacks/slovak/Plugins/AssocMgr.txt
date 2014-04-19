@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
+[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
+Narába s asociáciami súborových typov a s URL ako aim, ymsgr, xmpp, wpmsg, gg, tlen.
 [Type]
 typ
 [Description]

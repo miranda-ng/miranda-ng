@@ -5,6 +5,8 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
+[A contact list for blind folks.]
+Zoznam kontaktov pre nevidiacich.
 [Delete Contact]
 Zmazať kontakt
 [Yes]

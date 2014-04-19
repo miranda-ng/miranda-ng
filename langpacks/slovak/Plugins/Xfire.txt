@@ -5,6 +5,8 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
+[Xfire protocol support for Miranda NG.]
+Podpora Xfire protokolu pre Mirandu NG.
 [Password:]
 Heslo:
 [Nick:]
@@ -36,7 +38,7 @@ Telefonuje
 [Mmm... food.]
 Mmm... obed.
 [Set &Nickname]
-Nastav prezívku 
+Nastav prezívku
 [No]
 Nie
 [Daily]

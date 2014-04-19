@@ -1,5 +1,4 @@
-﻿[Microsoft Network (MSN) protocol support for Miranda NG.]
-[Live ID:]
+﻿[Live ID:]
 [Create a new Windows Live account]
 [Send message font color/size info inside messages]
 [Disable all contacts not included into my contact list]

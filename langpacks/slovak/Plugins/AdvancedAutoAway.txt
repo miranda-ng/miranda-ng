@@ -5,6 +5,8 @@
 ;  Version: 0.8.1.1
 ;  Authors: P Boon
 ;============================================================
+[An Auto Away module with some more options than the original.]
+Auto Away modul s viacerými možnosťami ako originál.
 [Close]
 Zavrieť
 [Cancel]

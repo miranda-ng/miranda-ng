@@ -5,6 +5,8 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
+[File transfer by using the messaging services - as plain text.]
+Posiela súbory ako jednoduchý text cez správu.
 [Size:]
 Veľkosť:
 [bytes]

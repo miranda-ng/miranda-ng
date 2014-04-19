@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
+[Adding traffic and time counters.]
+Pridanie časovača a počítadla prevádzky.
 [Background color:]
 Farba pozadia:
 [Bytes]

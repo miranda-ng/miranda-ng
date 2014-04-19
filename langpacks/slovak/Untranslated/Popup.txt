@@ -1,5 +1,4 @@
-﻿[Provides popup notification services for different plugins.]
-[Content && Style]
+﻿[Content && Style]
 [Go to Customize > Fonts && Colors for fonts and colors options]
 [Miscellaneous]
 [Live Preview]

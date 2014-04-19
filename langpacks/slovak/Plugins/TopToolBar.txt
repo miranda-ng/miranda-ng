@@ -5,6 +5,8 @@
 ;  Version: 0.8.0.3
 ;  Authors: Bethoven
 ;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+Pridáva tlačidlá pre rýchly prístup do najvrchnejšej časti zoznamu kontaktov.
 [Default]
 Prednastavené
 [Contact list]

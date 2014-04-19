@@ -1,5 +1,4 @@
-﻿[Provides extended options for sound notifications.]
-[Account:]
+﻿[Account:]
 [Sound:]
 [Not set]
 [Choose]

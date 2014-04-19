@@ -5,6 +5,8 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
+[Collects and prints information related to Miranda, the plugins and the OS.]
+Zozbiera informácie o Mirande, doplnkoch a operačnom systéme. Informácie je možné vytlačiť.
 [Cancel]
 Storno
 [Close]

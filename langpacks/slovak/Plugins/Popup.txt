@@ -5,6 +5,8 @@
 ;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[Provides popup notification services for different plugins.]
+Poskytuje popup oznámenia pre rôzne doplnky.
 [Effects]
 Efekty
 [events]

@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+Podpora pre nové GPG šifrovanie, založené na kóde zo starého GPG doplnku a doplnku SecureIM.
 [Browse]
 Listovať
 [Ignore]

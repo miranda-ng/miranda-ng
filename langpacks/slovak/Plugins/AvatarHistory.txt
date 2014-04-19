@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+Uchováva zálohy všetkých zmien avatarov Vašich kontaktov a/alebo zobrazuje vyskakovacie okná (popups).
 [Save As...]
 Uložiť ako...
 [Open Folder]

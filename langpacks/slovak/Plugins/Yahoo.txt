@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Gennady Feldman
 ;============================================================
+[Yahoo Protocol support for Miranda NG.]
+Podpora Yahoo protokolu pre Mirandu NG.
 [Yahoo]
 YAHOO
 [ID:]

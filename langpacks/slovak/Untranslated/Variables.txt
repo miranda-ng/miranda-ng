@@ -1,5 +1,4 @@
-﻿[Adds support for dynamic variables in strings for plugins.]
-[Parse options]
+﻿[Parse options]
 [Automatically strip "end of line" characters]
 [Automatically strip white space]
 [Automatically strip all non-parsing characters]

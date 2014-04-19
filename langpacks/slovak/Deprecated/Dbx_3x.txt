@@ -7,7 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 
-;file \plugins\Db3x\res\resource.rc
 [Install Database Settings]
 Aplikovať nastavenia databázy
 [Yes]

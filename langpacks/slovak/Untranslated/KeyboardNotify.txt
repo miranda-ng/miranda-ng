@@ -1,5 +1,4 @@
-﻿[Flashes your keyboard LEDs when a message has arrived.]
-[Accounts to check]
+﻿[Accounts to check]
 [Events to react on]
 [Incoming messages]
 [Incoming files]

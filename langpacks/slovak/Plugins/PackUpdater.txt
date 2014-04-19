@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
+[Simple updater for Miranda NG premodified packs.]
+Jednoduchý aktualizovač pre prednastavené balíky Mirandy NG.
 [Cancel]
 Storno
 [Description]

@@ -5,5 +5,7 @@
 ;  Version: 1.0.4.8
 ;  Authors: Baloo
 ;============================================================
+[Crypto++ library for SecureIM plugin.]
+Crypto++ knižnica pre doplnok SecureIM.
 [Cancel]
 Storno

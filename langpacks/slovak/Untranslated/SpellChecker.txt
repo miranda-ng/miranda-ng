@@ -1,5 +1,4 @@
-﻿[Spell checker for the message windows. Uses Hunspell to do the checking.]
-[Replacements]
+﻿[Replacements]
 [Enable auto-replacements]
 [Add...]
 [Edit...]

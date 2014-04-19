@@ -1,5 +1,4 @@
-﻿[MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
-[Send to contact action]
+﻿[Send to contact action]
 [on left mouse button click]
 [on right mouse button click]
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]

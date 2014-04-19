@@ -5,5 +5,7 @@
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
+[Service offering misc country utilities as flag icons and an IP-to-Country database.]
+Služba, ktorá ponúka rôzne nástroje pre krajiny ako ikony zástav a databázu IP-to-Country.
 [Icons]
 Ikony

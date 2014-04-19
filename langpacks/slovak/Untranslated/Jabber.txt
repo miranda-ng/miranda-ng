@@ -1,5 +1,4 @@
-﻿[Jabber protocol support for Miranda NG.]
-[Edit Note]
+﻿[Edit Note]
 [Tags:]
 [User:]
 [Domain/Server:]

@@ -5,6 +5,8 @@
 ;  Version: 0.0.3.0
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
+[Boltun, the chat bot in the russian language.]
+Rozprávací bot (chat bot) v ruskom jazyku.
 [sec]
 sek
 [All Files]

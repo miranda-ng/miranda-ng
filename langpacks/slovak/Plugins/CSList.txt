@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
+[This plugin offers simple management functions to keep your extra statuses on one place.]
+Ponúka jednoduché funkcie na udržanie Vašich extra statusov na jednom mieste.
 [Cancel]
 Storno
 [Status]

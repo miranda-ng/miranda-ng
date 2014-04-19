@@ -5,6 +5,8 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
+[Retrieves weather information and displays it in your contact list.]
+Získava správy o počasí a zobrazuje ich vo Vašom zozname kontaktov.
 [Close]
 Zavrieť
 [Visibility]

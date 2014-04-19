@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.3
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Podpora Gadu-Gadu protokolu pre Mirandu NG.
 [Password:]
 Heslo:
 [E-mail:]

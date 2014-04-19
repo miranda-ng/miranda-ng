@@ -5,6 +5,8 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
+[Send SMS text messages to mobile phones through the IM networks.]
+Posielanie SMS textových správ na mobilné čísla cez IM siete.
 [&Reply]
 &Odpovedať
 [&Close]
@@ -20,7 +22,7 @@ Znaky:
 [&Send]
 Odoslať
 [View User's History]
-Zobraziť históriu 
+Zobraziť históriu
 [Invalid Phone Number]
 Neplatné telefónne číslo
 [Invalid phone number]

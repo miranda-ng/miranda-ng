@@ -1,5 +1,4 @@
-﻿[Displays contacts, event notifications, protocol status.]
-[CList Nicer exception]
+﻿[CList Nicer exception]
 [Copy to clipboard]
 [Continue]
 [Exit Miranda]

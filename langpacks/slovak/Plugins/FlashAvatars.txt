@@ -1,0 +1,9 @@
+﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
+;============================================================
+;  File: FlashAvatars.dll
+;  Plugin: Flash avatars
+;  Version: 0.0.1.14
+;  Authors: Big Muscle
+;============================================================
+[Loads and displays Flash avatars.]
+Načítanie a zobrazovanie Flash avatarov.

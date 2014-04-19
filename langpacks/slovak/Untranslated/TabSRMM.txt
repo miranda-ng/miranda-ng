@@ -1,5 +1,4 @@
-﻿[IM and group chat module for Miranda NG.]
-[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
+﻿[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 [Show these events]
 [Actions]
 [Messages]

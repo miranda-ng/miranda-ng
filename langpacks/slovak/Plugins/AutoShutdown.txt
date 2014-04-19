@@ -5,6 +5,8 @@
 ;  Version: 1.4.0.2
 ;  Authors: H. Herkenrath
 ;============================================================
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Pridáva možnosť vypnutia pc, keď nastane nejaká špecifická udalosť.
 [seconds]
 sekúnd
 [Configure]

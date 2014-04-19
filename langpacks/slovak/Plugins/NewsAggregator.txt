@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
+[RSS/Atom news aggregator.]
+RSS/Atom zoskupovač správ.
 [Cancel]
 Storno
 [Reset]

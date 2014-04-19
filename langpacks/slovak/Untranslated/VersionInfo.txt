@@ -1,5 +1,4 @@
-﻿[Collects and prints information related to Miranda, the plugins and the OS.]
-[Output to:]
+﻿[Output to:]
 [Text file]
 [MessageBox]
 [DialogBox]

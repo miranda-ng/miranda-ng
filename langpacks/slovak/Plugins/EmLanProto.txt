@@ -5,6 +5,8 @@
 ;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
+[E-mage LAN protocol support for Miranda NG.]
+Podpora E-mage LAN protokolu pre Mirandu NG.
 [Your name]
 Vaše meno
 [Network]

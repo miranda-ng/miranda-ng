@@ -1,5 +1,4 @@
-﻿[VKontakte protocol support for Miranda NG.]
-[E-mail or phone number:]
+﻿[E-mail or phone number:]
 [Open VKontakte site]
 [Login settings]
 [Local settings]

@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.8
 ;  Authors: Mataes, George Hazan
 ;============================================================
+[Plugin updater for Miranda NG.]
+Aktualizovač doplnkov pre Mirandu NG.
 [Cancel]
 Storno
 [Select &all]

@@ -5,6 +5,8 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
+[Shows ignore state of contact in contact list.]
+Zobrazuje stav ignorácie pre kontakty v zozname kontaktov.
 [User Online]
 Pripojený užívatel
 [You Were Added]

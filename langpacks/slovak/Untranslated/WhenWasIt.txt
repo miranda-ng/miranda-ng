@@ -1,5 +1,4 @@
-﻿[Notifies you of upcoming birthdays.]
-[Notify of birthdays:]
+﻿[Notify of birthdays:]
 [Popups]
 [Popup timeout:]
 [Preview]

@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
+[Imports contacts and messages from another Miranda profile or from an external program.]
+Importuje kontakty a správy z iného Miranda profilu alebo z externého programu.
 [Cancel]
 Storno
 [File Transfers]

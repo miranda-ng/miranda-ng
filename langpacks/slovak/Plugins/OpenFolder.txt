@@ -5,5 +5,7 @@
 ;  Version: 1.1.0.0
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
+[Adds a menu/toobar item which opens the main Miranda NG folder.]
+Pridanie položky do menu alebo do panela nástrojov, ktorá otvára hlavný priečinok Mirandy NG.
 [Open Folder]
 Otvoriť zložku

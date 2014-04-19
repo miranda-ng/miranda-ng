@@ -1,5 +1,4 @@
-﻿[Sets once-off, daily, weekly and weekday alarms.]
-[New]
+﻿[New]
 [Delete]
 [Edit]
 [Alarms]

@@ -1,5 +1,4 @@
-﻿[Shows a notification when someone in your contact list changes his client.]
-[ClientChangeNotify error]
+﻿[ClientChangeNotify error]
 [Fingerprint plugin not found.]
 [ClientChangeNotify requires it to work properly.]
 [Don't remind me anymore]

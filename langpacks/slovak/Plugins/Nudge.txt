@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.0
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
+[Plugin to shake the contact list and chat window.]
+Doplnok pre zatrasenie zoznamu kontaktov a okna správ.
 [Text]
 Text
 [Offline]

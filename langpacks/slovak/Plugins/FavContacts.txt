@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.7
 ;  Authors: Victor Pavlychko
 ;============================================================
+[Favorite contacts menu.]
+Menu pre obľúbené kontakty.
 [Show]
 Zobraziť
 [Background]

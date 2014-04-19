@@ -5,6 +5,8 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Smiley support for Miranda NG.]
+Podpora smajlíkov pre Mirandu NG.
 [Author:]
 Autor:
 [Version:]

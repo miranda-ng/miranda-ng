@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
+[VKontakte protocol support for Miranda NG.]
+Podpora VKontakte protokolu pre Mirandu NG.
 [Password:]
 Heslo:
 [Advanced]

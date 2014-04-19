@@ -5,6 +5,8 @@
 ;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
+Pridáva rozšírenú možnosť pre lokálnu úpravu informácií o Vašich kontaktoch.
 [Updating]
 Aktualizujem
 [Cancel]

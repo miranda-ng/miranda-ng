@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
+[Forwards messages to some contact when you are not available.]
+Preposiela správy pre niektoré kontakty, keď nie ste dostupní.
 [Contact]
 Kontakt
 [Offline]

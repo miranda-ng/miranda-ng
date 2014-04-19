@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Plugin: mRadio Mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Awkward
 ;============================================================
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+Prehráva a nahráva internetové rádiové toky (streams). Takisto môže prehrať lokálne mediálne súbory.
 [connecting]
 Pripájam sa
 [Advanced]

@@ -5,6 +5,8 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
+[Tlen protocol support for Miranda NG.]
+Podpora Tlen protokolu pre Mirandu NG.
 [Username:]
 Užív. meno:
 [Password:]
@@ -67,8 +69,8 @@ Od:
 Podrobne
 [Network]
 Sieť
-[Enter password for %s@%s.]
-Zadať heslo pre %s@%s.
+[Enter password for %s]
+Zadať heslo pre %s
 [Tlen Connection Error]
 Tlen pripájacia chyba
 [From]

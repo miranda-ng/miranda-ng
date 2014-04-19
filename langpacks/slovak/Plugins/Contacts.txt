@@ -5,6 +5,8 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
+[Allows you to send and receive contacts.]
+Povoľuje posielať a prijímať kontakty.
 [User &details]
 Informácie o užívatelovi
 [&Send]
@@ -32,6 +34,6 @@ Pridať kontakt do zoznamu
 [View User's Details]
 Zobraziť informácie o užívatelovi
 [View User's History]
-Zobraziť históriu 
+Zobraziť históriu
 [User Menu]
 Menu užívatela

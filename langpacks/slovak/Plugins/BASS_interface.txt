@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
+[un4seen's BASS interface Miranda NG plugin.]
+BASS užívateľské rozhranie pre Mirandu NG od užívateľa Un4seen.
 [Offline]
 Odpojený
 [Online]

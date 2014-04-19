@@ -5,6 +5,8 @@
 ;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
+[Tool Tip notification windows.]
+Podpora pre oznamovacie tooltip okná.
 [Window]
 Okno
 [Cancel]

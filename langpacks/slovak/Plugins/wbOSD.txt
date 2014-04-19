@@ -5,6 +5,8 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
+[Shows new message/status change info using on-screen display.]
+Zobrazuje informácie o nových správach alebo zmenách statusov priamo na obrazovke (OSD - on screen display).
 [Background color]
 Farba pozadia
 [Text color]

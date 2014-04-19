@@ -5,6 +5,8 @@
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
+[Twitter protocol support for Miranda NG.]
+Podpora Twitter protokolu pre Mirandu NG.
 [Username:]
 Užív. meno:
 [Cancel]

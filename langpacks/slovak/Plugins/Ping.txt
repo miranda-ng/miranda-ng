@@ -5,6 +5,8 @@
 ;  Version: 0.9.1.1
 ;  Authors: Scott Ellis
 ;============================================================
+[Ping labelled IP addresses or domain names.]
+Umožňuje ping-ovať IP adresy alebo názvy domén.
 [Timeout]
 Časový limit
 [Network]

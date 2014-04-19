@@ -5,6 +5,8 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+Oznamuje, keď si kontakt zmení status, extra status alebo statusovú správu.
 [Notify when a contact changes to one of these statuses]
 Oznám keď sa kontakt zmení na jeden zo stavov
 [Online]
@@ -53,8 +55,6 @@ sek
 Pravým klikom
 [Reset]
 Reset
-[OK]
-OK
 [Cancel]
 Storno
 [Show Popups when I connect]

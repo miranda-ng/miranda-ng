@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
+Podpora Skype protokolu pre Mirandu NG.
 [Password:]
 Heslo:
 [Cancel]

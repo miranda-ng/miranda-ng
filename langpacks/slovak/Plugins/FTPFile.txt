@@ -5,6 +5,8 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+Pošlite súbor cez FTP na server a pošlite URL kontaktu.
 [Speed:]
 Rýchlosť
 [Summary]

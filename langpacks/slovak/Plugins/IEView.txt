@@ -5,6 +5,8 @@
 ;  Version: 1.4.0.0
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
+[IE Based Chat Log.]
+Okno správ založené na IE.
 [Size:]
 Veľkosť:
 [Scroll with text]

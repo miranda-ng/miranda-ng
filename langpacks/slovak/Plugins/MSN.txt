@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Podpora Microsoft Network (MSN) protokolu pre Mirandu NG.
 [MSN]
 MSN
 [Password:]
@@ -38,7 +40,7 @@ Hotmail od %s (%s)
 [Hotmail from %s]
 Hotmail od %s
 [Set &Nickname]
-Nastav prezívku 
+Nastav prezívku
 [Notify]
 Notifikácia
 [Error]

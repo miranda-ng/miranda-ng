@@ -1,5 +1,4 @@
-﻿[Tool Tip notification windows.]
-[Layout]
+﻿[Layout]
 [Text indent:]
 [Title indent:]
 [Value indent:]

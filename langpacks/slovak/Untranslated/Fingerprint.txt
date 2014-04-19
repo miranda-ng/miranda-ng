@@ -1,5 +1,4 @@
-﻿[Fingerprint NG (client version) icons module for Miranda NG.]
-[Fingerprint overlays icons]
+﻿[Fingerprint overlays icons]
 [Miranda clients]
 [Miranda packs overlays]
 [Show Miranda version at Overlay#2]

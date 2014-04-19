@@ -5,6 +5,8 @@
 ;  Version: 0.0.1.6
 ;  Authors: Yasnovidyashii
 ;============================================================
+[Plugin for changing keyboard layout of text (multilayout).]
+Mení rozloženie textu na klávesnici.
 [Hotkeys]
 Klávesové skratky
 [Default]

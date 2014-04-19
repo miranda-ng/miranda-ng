@@ -1,5 +1,4 @@
-﻿[Imports history saved in TXT files from other clients.]
-[Import history to ]
+﻿[Import history to ]
 [Import history]
 [Choose a file...]
 [Choose a pattern...]

@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
+[Database autobackuper plugin.]
+Automatický zálohovač databázy.
 [Cancel]
 Storno
 [All files]

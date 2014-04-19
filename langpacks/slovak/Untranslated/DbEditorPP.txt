@@ -1,5 +1,4 @@
-﻿[Advanced Database Editor.]
-[Database Editor++ Search and Replace]
+﻿[Database Editor++ Search and Replace]
 [Case Sensitive]
 [Module Name]
 [Exact Match]

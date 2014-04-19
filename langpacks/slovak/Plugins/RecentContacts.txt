@@ -5,6 +5,8 @@
 ;  Version: 0.0.2.0
 ;  Authors: ValeraVi, Kildor
 ;============================================================
+[Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
+Pridanie položky do hlavného menu, ktorá otvorí okno so zoznamom kontaktov, s ktorými sa naposledy komunikovalo.
 [Contacts]
 Kontakty
 [Contact]

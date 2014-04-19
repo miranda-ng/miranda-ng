@@ -5,6 +5,8 @@
 ;  Version: 0.0.1.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
+Importuje a vytvára skupiny Yahoo definované v programe Yahoo Messenger.
 [Notify]
 Notifikácia
 [Warning]

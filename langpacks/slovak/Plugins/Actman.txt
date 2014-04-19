@@ -5,11 +5,11 @@
 ;  Version: 0.2.0.1 - 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+Doplnok pre manažovanie rôznych činností Mirandy.
 [type]
 typ
 [data]
 dáta
 [Apply]
 Aplikovať
-; Actman30
-; these lines are not present in the sources, but they are present in compiled plugin

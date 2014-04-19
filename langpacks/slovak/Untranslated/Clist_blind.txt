@@ -1,5 +1,4 @@
-﻿[A contact list for blind folks.]
-[Are you sure you want to delete %s?]
+﻿[Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 [Use Options->Contacts->Ignore to unhide contacts.]

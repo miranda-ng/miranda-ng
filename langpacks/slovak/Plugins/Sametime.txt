@@ -1,0 +1,9 @@
+﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime Protocol
+;  Version: 0.7.0.0
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Implementation of instant messaging for the Lotus Sametime protocol.]
+Podpora Lotus Sametime protokolu pre Mirandu NG.

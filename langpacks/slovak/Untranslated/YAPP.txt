@@ -1,5 +1,4 @@
-﻿[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-[Popup history]
+﻿[Popup history]
 [Case sensitive]
 [Default Timeout]
 [Never timeout]

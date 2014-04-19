@@ -5,6 +5,8 @@
 ;  Version: 0.1.0.2
 ;  Authors: Nikolay Redko
 ;============================================================
+[Scans for network users of your shared files and notify you with popups.]
+Skenuje sieťových používateľov pre zdieľané súbory a oznamuje ich používanie popup-mi.
 [Popup Delay (seconds)]
 Popup dlžka (sekundy)
 [Background color]

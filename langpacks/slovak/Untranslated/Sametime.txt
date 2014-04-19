@@ -1,5 +1,4 @@
-﻿[Implementation of instant messaging for the Lotus Sametime protocol.]
-[Connection]
+﻿[Connection]
 [ID:]
 [Password:]
 [Server name:]

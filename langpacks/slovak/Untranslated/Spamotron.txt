@@ -1,5 +1,4 @@
-﻿[Anti-spam plugin with captcha and Bayes filtering.]
-[Enabled]
+﻿[Enabled]
 [Learned ham messages:]
 [Learned spam messages:]
 [Filtering options]

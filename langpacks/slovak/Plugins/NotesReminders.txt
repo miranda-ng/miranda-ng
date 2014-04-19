@@ -5,6 +5,8 @@
 ;  Version: 0.0.5.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
+[Sticky Notes & Reminders Implementation for Miranda NG.]
+Poznámky a pripomienky pre Mirandu NG.
 [Default Note Size]
 Prednastavená veľkosť znaku
 [Width (Pixels)]

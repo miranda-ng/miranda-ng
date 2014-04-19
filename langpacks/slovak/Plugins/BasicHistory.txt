@@ -5,6 +5,8 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
+[History viewer for Miranda NG.]
+Prehliadač histórie pre Mirandu NG.
 [Message History]
 História správ
 [Show names]

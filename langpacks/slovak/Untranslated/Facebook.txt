@@ -1,5 +1,4 @@
-﻿[Facebook protocol support for Miranda NG.]
-[Create a new Facebook account]
+﻿[Create a new Facebook account]
 [What's on your mind?]
 [Wall:]
 [Visibility:]

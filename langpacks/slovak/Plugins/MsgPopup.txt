@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.3
 ;  Authors: StDenis
 ;============================================================
+[Plugin replaces message boxes (those having only OK button) with popups.]
+Nahrádza oznamovacie okná (také, ktoré majú iba tlačidlo "OK") s "popup-mi".
 [Background color]
 Pozadie
 [Text color]

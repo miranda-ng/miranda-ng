@@ -5,6 +5,8 @@
 ;  Version: 0.8.0.47
 ;  Authors: P Boon
 ;============================================================
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
+Umožňuje definovať status Mirandy pri spustení.
 [Close]
 Zavrieť
 [Cancel]

@@ -1,5 +1,4 @@
-﻿[Tlen protocol support for Miranda NG.]
-[Create new account]
+﻿[Create new account]
 [Tlen]
 [Options]
 [Automatically reconnect after unintentional disconnection]

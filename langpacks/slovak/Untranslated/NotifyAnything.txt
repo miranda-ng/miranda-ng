@@ -1,5 +1,4 @@
-﻿[Displays popups for custom events, triggered by UDP packages.]
-[Property Page]
+﻿[Property Page]
 [Security]
 [Only listen to localhost]
 [Sound]

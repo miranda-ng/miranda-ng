@@ -1,5 +1,4 @@
-﻿[Plugin for changing keyboard layout of text (multilayout).]
-[Changing layout:]
+﻿[Changing layout:]
 ["Current word" mode]
 [Changing layout (alternative):]
 [Inverting lettercase:]

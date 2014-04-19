@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.0
 ;  Authors: Robert Pösel
 ;============================================================
+[Omegle protocol support for Miranda NG.]
+Podpora Omegle protokolu pre Mirandu NG.
 [Language:]
 Jazyk:
 [Connecting...]

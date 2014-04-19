@@ -1,5 +1,4 @@
-﻿[Shows currency rates and economic quotes.]
-[Variable List]
+﻿[Variable List]
 [Edit Settings]
 [Use contact specific settings]
 [Use &Internal History]

@@ -1,5 +1,4 @@
-﻿[Yahoo Protocol support for Miranda NG.]
-[Create a new Yahoo account using the Yahoo website]
+﻿[Create a new Yahoo account using the Yahoo website]
 [Use Yahoo Address Book (YAB)]
 [Show Avatars]
 [AutoLogin to Yahoo Website(s)]

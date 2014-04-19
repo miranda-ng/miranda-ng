@@ -1,5 +1,4 @@
-﻿[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-[Check connection]
+﻿[Check connection]
 [Max. retries]
 [Account connection]
 [Delay between retries (secs)]

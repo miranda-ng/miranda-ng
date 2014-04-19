@@ -1,5 +1,4 @@
-﻿[Provides a simple way to set status and away messages.]
-[&Cancel]
+﻿[&Cancel]
 [Co&py to Clipboard]
 [%s Message (%s)]
 [Retrieving status message for %s...]

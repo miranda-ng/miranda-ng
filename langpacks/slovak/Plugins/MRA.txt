@@ -5,6 +5,8 @@
 ;  Version: 2.1.0.8
 ;  Authors: Rozhuk Ivan
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
+Podpora Mail.ru Agent (MRA) protokolu pre Mirandu NG.
 [E-mail:]
 E-mail:
 [Password:]

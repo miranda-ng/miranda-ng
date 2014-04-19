@@ -713,7 +713,7 @@ Spustitelné súbory
 [Events]
 Udalosti
 [View user's history]
-Zobraziť históriu 
+Zobraziť históriu
 [User menu]
 Menu užívatela
 [%d files]

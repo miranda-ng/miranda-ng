@@ -5,6 +5,8 @@
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
+[Exports every message, URL or file you receive to a text file.]
+Exportuje každú správu, URL alebo súbor, čo ste dostali do textového súboru.
 [Browse]
 Listovať
 [Use internal viewer]
@@ -80,7 +82,7 @@ Všetky súbory
 [Select Destination Directory]
 Vyber cieľový adresár
 [Message export]
-Exportovať správu 
+Exportovať správu
 [(Unknown Contact)]
 (neznámý kontakt)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]

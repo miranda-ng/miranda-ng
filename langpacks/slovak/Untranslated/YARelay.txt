@@ -1,5 +1,4 @@
-﻿[Forwards messages to some contact when you are not available.]
-[Forward messages from...]
+﻿[Forward messages from...]
 [Everyone]
 [Forward when your status is...]
 [Forward messages to...]

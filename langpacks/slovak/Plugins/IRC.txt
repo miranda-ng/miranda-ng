@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+Podpora Internet Relay Chat (IRC) protokolu pre Mirandu NG.
 [SSL]
 SSL
 [Nick]

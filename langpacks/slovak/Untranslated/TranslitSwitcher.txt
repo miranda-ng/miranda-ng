@@ -1,5 +1,4 @@
-﻿[Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
-[TranslitSwitcher]
+﻿[TranslitSwitcher]
 [Switch Layout and Send]
 [Translit and Send]
 [Invert Case and Send]

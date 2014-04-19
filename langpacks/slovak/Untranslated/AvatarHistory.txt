@@ -1,5 +1,4 @@
-﻿[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-[Avatar List Popup]
+﻿[Avatar List Popup]
 [Delete this entry]
 [Delete this entry and the bitmap file]
 [Avatar History]

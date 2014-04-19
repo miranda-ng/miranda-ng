@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
+[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
+Oznamuje, keď sa nejaký kontakt vráti po dlhšej nečinnosti.
 [Colors]
 Farby
 [Background]

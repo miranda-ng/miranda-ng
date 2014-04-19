@@ -1,5 +1,4 @@
-﻿[Easy, fast and feature complete history viewer.]
-[Voice calls]
+﻿[Voice calls]
 [Voice call]
 [Sh&ow in history]
 [Log default]

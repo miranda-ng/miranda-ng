@@ -5,5 +5,7 @@
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
+[Anti-spam plugin for Miranda NG.]
+Anti-spam doplnok.
 [Advanced]
 Podrobne

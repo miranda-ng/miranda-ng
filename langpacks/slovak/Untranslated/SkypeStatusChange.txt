@@ -1,5 +1,4 @@
-﻿[Skype status change according to Miranda status.]
-[Synchronize status message]
+﻿[Synchronize status message]
 [&Check any protocol or any status to exclude it from synchronization:]
 [Synchronize if current status differs from previous one]
 [Change Skype status]

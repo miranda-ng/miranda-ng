@@ -5,6 +5,8 @@
 ;  Version: 1.0.0.0
 ;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
 ;============================================================
+[Open contact-specific windows by hotkey.]
+Otváranie špecifických okien pre kontakty pomocou skratiek.
 [Contacts]
 Kontakty
 [Send URL]

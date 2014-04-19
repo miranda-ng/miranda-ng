@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
+[Skype protocol support for Miranda NG.]
+Podpora Skype protokolu pre Mirandu NG.
 [Password:]
 Heslo:
 [Cancel]

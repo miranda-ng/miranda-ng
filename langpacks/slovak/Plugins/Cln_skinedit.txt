@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.4
 ;  Authors: Nightwish, Pixel
 ;============================================================
+[Allows inline skin item editing for clist nicer.]
+Povoľuje úpravy riadkov v "skin-e" pre doplnok Clist_nicer.
 [Text color]
 Fraba textu
 [<None>]

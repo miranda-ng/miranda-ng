@@ -5,6 +5,8 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
+[Flashes your keyboard LEDs when a message has arrived.]
+Zasvieti Vaše LED podsvietené klávesy, keď dostanete správu.
 [seconds]
 sekúnd
 [Online]

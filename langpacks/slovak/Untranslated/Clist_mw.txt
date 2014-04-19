@@ -1,5 +1,4 @@
-﻿[Displays contacts, event notifications, protocol status with MW modifications.]
-[Settings]
+﻿[Settings]
 [Tile vertically according to Row Height]
 [Warning!\r\nThis MenuObject not support user defined options.]
 [MenuObjects]

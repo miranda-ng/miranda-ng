@@ -1,5 +1,4 @@
-﻿[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
-[Check connection]
+﻿[Check connection]
 [Max. retries]
 [Account connection]
 [Delay between retries (secs)]

@@ -1,5 +1,4 @@
-﻿[Notifies you if you have unread email on an exchange server.]
-[Unread emails]
+﻿[Unread emails]
 [Mark as read]
 [Dialog]
 [Server:]

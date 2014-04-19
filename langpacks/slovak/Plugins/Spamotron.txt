@@ -5,6 +5,8 @@
 ;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
+[Anti-spam plugin with captcha and Bayes filtering.]
+Anti-spam doplnok pre ICQ.
 [Reset to defaults]
 Späť na prednastavené
 [Background]

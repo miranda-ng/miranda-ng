@@ -5,6 +5,8 @@
 ;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+Zaznamenávajte, kedy bol kontakt naposledy videný online a ktoré kontakty boli online, kým ste boli preč.
 [Text]
 Text
 [Online]

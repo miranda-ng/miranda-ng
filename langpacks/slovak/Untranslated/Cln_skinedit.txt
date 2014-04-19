@@ -1,5 +1,4 @@
-﻿[Allows inline skin item editing for clist nicer.]
-[Skin items]
+﻿[Skin items]
 [General]
 [Gradient]
 [Left to right]

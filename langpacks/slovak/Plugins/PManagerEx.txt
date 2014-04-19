@@ -1,0 +1,9 @@
+﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;============================================================
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
+[Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
+Pridá položku do menu na zmenenie alebo nahratie iného Miranda NG profilu.

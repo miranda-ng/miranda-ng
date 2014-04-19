@@ -5,6 +5,8 @@
 ;  Version: 0.4.0.5
 ;  Authors: Scott Ellis
 ;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+Nastavte jednorázové, denné, týždenné alarmy alebo alarmy v pracovné dni.
 [Row height:]
 Výška riadku:
 [Cancel]

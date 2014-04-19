@@ -5,6 +5,8 @@
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Zobrazí malý tooltip nad systémovým panelom úloh (lištou), keď kontakt zmení status.
 [Cancel]
 Storno
 [Online]

@@ -5,6 +5,8 @@
 ;  Version: 0.2.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Facebook protocol support for Miranda NG.]
+Podpora Facebook protokolu pre Mirandu NG.
 [E-mail:]
 E-mail:
 [Password:]

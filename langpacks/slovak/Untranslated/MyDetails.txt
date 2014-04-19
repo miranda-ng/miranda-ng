@@ -1,5 +1,4 @@
-﻿[Shows and allows you to edit your details for all protocols.]
-[Set My Nickname]
+﻿[Set My Nickname]
 [General]
 [...avatar]
 [RTL]

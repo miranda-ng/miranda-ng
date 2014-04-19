@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.2
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
+[HTTP Web Server plugin for Miranda.]
+HTTP web server pre Mirandu NG.
 [&Copy link]
 Kopírovať odkaz
 [All files]

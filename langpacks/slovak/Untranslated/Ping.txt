@@ -1,5 +1,4 @@
-﻿[Ping labelled IP addresses or domain names.]
-[Delay between pings (secs):]
+﻿[Delay between pings (secs):]
 [Ping timeout (secs):]
 [Logging]
 [Log to File]

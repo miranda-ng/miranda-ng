@@ -1,5 +1,4 @@
-﻿[Xfire protocol support for Miranda NG.]
-[Login name:]
+﻿[Login name:]
 [XFire]
 [Current protocol version:]
 [Note: You can only change these settings, if you are connected to Xfire.]

@@ -5,6 +5,8 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
+[Handles listening information to/for contacts.]
+Spracováva "listening" informácie pre kontakty.
 [Music]
 Hudba
 [Contacts]

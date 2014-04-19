@@ -1,0 +1,9 @@
+﻿#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
+;============================================================
+;  File: mTextControl.dll
+;  Plugin: Miranda text control
+;  Version: 0.8.0.1
+;  Authors: Merlin_de, Victor Pavlychko
+;============================================================
+[Provides text render API for different plugins.]
+Poskytuje API na renderovanie textu pre rôzne doplnky.

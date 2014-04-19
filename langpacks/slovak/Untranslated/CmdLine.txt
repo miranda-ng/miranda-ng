@@ -1,5 +1,4 @@
-﻿[This plugin lets you control Miranda from the command line.]
-[No help for '%s'.]
+﻿[No help for '%s'.]
 [Available commands: ]
 [Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 [%s usage:\n]

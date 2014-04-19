@@ -5,6 +5,8 @@
 ;  Version: 0.1.1.0
 ;  Authors: bems
 ;============================================================
+[GTalk extensions for Jabber protocol]
+Rozšírenie protokolu Jabber o GTalk.
 [Background color]
 Farba pozadia
 [Text color]

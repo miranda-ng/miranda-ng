@@ -5,6 +5,8 @@
 ;  Version: 2.11.0.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
+[Scriver - send and receive instant messages.]
+Jednoduchý a ľahký doplnok na posielanie správ.
 [Send message on 'Enter']
 Odoslať správu po stlačení Enter
 [Send message on double 'Enter']
@@ -84,7 +86,7 @@ Pridať kontakt do zoznamu
 [View User's Details]
 Zobraziť informácie o užívatelovi
 [View User's History]
-Zobraziť históriu 
+Zobraziť históriu
 [Send Message]
 Odoslať správu
 [File received]

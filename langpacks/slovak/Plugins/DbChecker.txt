@@ -5,6 +5,8 @@
 ;  Version: 0.95.0.3
 ;  Authors: George Hazan
 ;============================================================
+[Miranda NG Database Checker.]
+Kontrolovač databázy pre Mirandu NG.
 [Cancel]
 Storno
 [Error]

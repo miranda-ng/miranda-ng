@@ -5,6 +5,8 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
+[SecureIM plugin for Miranda NG.]
+Doplnok SecureIM pre Mirandu NG.
 [sec]
 sek
 [Back]

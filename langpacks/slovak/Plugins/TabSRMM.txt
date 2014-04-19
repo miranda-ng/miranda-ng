@@ -5,6 +5,8 @@
 ;  Version: 3.3.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
+[IM and group chat module for Miranda NG.]
+Najpokročilejší doplnok pre posielanie správ pre Mirandu.
 [Cancel]
 Storno
 [Your name]
@@ -88,7 +90,7 @@ Zobraziť stavový riadok
 [Help]
 Pomoc
 [View User's History]
-Zobraziť históriu 
+Zobraziť históriu
 [General options]
 Základné nastavenia
 [Incoming file]

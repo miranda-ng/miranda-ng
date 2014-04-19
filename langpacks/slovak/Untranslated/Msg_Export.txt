@@ -1,5 +1,4 @@
-﻿[Exports every message, URL or file you receive to a text file.]
-[Use UTF8 in new files]
+﻿[Use UTF8 in new files]
 [Use << and >>]
 [History file for %s (%s format %s)]
 [&External]

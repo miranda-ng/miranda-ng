@@ -1,5 +1,4 @@
-﻿[Boltun, the chat bot in the russian language.]
-[Boltun]
+﻿[Boltun]
 [Boltun Autochat everybody]
 [Boltun Autochat everybody not in contact list]
 [Boltun Autochat everybody while away]

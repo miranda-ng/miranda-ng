@@ -5,6 +5,8 @@
 ;  Version: 0.0.25.0
 ;  Authors: Dioksin
 ;============================================================
+[Shows currency rates and economic quotes.]
+Ukazuje menové kurzy a informácie o akciách na burze.
 [Log]
 Log
 [Cancel]

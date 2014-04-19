@@ -5,6 +5,8 @@
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
+Nahráva text na web stránku a posiela URL kontaktom.
 [Configure]
 Konfigurovať
 [Cancel]

@@ -1,5 +1,4 @@
-﻿[Notifies you when a contact changes his/her (X)status or status message.]
-[Always when changing from offline]
+﻿[Always when changing from offline]
 [Notify me for people not in my Contact List]
 [Blink icon in the system tray]
 [Use status icon]

@@ -5,5 +5,7 @@
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
+[Shows a splash at Miranda startup.]
+Zobrazí okno s logom pri spustení Mirandy.
 [Error]
 Chyba

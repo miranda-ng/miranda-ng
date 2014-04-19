@@ -5,5 +5,7 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
+[Prevent Miranda from storing any history.]
+Doplnok zabraňujúci Mirande ukladať históriu.
 [** All contacts **]
 ** Všetky kontakty **

@@ -5,6 +5,8 @@
 ;  Version: 0.0.4.22
 ;  Authors: borkra
 ;============================================================
+[Crash Dumper for Miranda NG.]
+Uloženie informácií o zlyhaní pre Miranda NG.
 [Close]
 Zavrieť
 [&Copy]

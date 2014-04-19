@@ -5,6 +5,8 @@
 ;  Version: 0.0.2.8
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
+[Displays popups for custom events, triggered by UDP packages.]
+Zobrazuje popup-y pre špecifické udalosti, spúštané UDP paketmi.
 [Port:]
 Port:
 [Password:]

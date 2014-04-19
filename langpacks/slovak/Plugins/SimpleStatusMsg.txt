@@ -5,6 +5,8 @@
 ;  Version: 1.9.0.4
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
+[Provides a simple way to set status and away messages.]
+Poskytuje jednoduchý spôsob ako zmeniť statusové správy a správy o neprítomnosti.
 [%s Message for %s]
 %s správa pre %s
 [Retrieving %s message...]

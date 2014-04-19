@@ -5,10 +5,11 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Vypíše informácie o prehrávanej hudbe do okna správ alebo do status správy.
 [none]
 žiadne
 [Color]
 Farba
 [Choose font...]
 Výber písma...
-;other strings

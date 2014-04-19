@@ -5,6 +5,8 @@
 ;  Version: 0.9.0.13
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+Zobrazuje kontakty, upozornenia na udalosti a statusy protokolov s rozšírenými vizuálnymi úpravami.
 [Show counts of number of contacts in a group]
 Zobrazovať počet kontaktov v skupine za názvom skupiny
 [Hide group counts when there are none online]

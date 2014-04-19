@@ -1,5 +1,4 @@
-﻿[Open contact-specific windows by hotkey.]
-[Last Sent]
+﻿[Last Sent]
 [Enable last-sent-to]
 [recognize all messages sent]
 [recognize messages sent with hotkey only]

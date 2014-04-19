@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
+[Generates a list of extracted URIs from the history.]
+Vytvorí zoznam URL vytiahnutých z histórie.
 [Search]
 Hľadať
 [Close]

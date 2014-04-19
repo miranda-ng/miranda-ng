@@ -5,6 +5,8 @@
 ;  Version: 1.5.1.5
 ;  Authors: theMIROn, Art Fedorov
 ;============================================================
+[Easy, fast and feature complete history viewer.]
+Jednoduchý, rýchly a funkciami bohatý prehliadač histórie pre Mirandu NG.
 [&Copy Link]
 Kopírovať odkaz
 [&System History]
@@ -24,8 +26,8 @@ Vybrať všetko
 [Send &Message]
 Odoslať správu
 [View user's history]
-Zobraziť históriu 
+Zobraziť históriu
 [View User's History]
-Zobraziť históriu 
+Zobraziť históriu
 [View &History]
 Zobraziť &históriu
