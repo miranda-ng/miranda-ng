@@ -44,8 +44,7 @@ private:
 	ULONG  hFileProcess;
 	ULONG  hMessageProcess;
 
-	HANDLE hFileSendFailedHook;
-	HANDLE hFileSendSuccessedHook;
+	HANDLE hFileSentEventHook;
 	
 	MCONTACT hDefaultContact;
 	MCONTACT hTransferContact;
@@ -67,8 +66,6 @@ private:
 	static int OnFileDialogCancelled(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnFileDialogSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
 
-	static int OnSendSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
-
 	// services
 	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
 
@@ -78,7 +75,6 @@ private:
 	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static INT_PTR SendFileToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
-	static INT_PTR SendFilesToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// commands
 	static void CommandHelp(void *arg);
@@ -108,6 +104,8 @@ private:
 	int CreateDownloadUrl(const char *path, wchar_t *url);
 
 	static UINT SendFilesAsync(void *owner, void *arg);
+	static UINT SendFilesAndEventAsync(void *owner, void *arg);
+	static UINT SendFilesAndReportAsync(void *owner, void *arg);
 
 	// contacts
 	MCONTACT GetDefaultContact();
@@ -118,6 +116,8 @@ private:
 	// menus
 	void InitializeMenus();
 	static void Menu_DisableItem(HGENMENU hMenuItem, BOOL bDisable);
+
+	static INT_PTR SendFilesToDropboxCommand(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// dialogs
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

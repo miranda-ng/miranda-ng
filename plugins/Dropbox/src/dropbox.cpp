@@ -11,9 +11,7 @@ CDropbox::CDropbox()
 	HookEventObj(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown, this);
 	HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
 
-	hFileSendFailedHook = CreateHookableEvent(ME_DROPBOX_SEND_FAILED);
-	hFileSendSuccessedHook = CreateHookableEvent(ME_DROPBOX_SEND_SUCCEEDED);
-	HookEventObj(ME_DROPBOX_SEND_SUCCEEDED, OnSendSuccessed, this);
+	hFileSentEventHook = CreateHookableEvent(ME_DROPBOX_SENT);
 
 	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, SendFileToDropbox, this);
 
@@ -36,8 +34,7 @@ CDropbox::CDropbox()
 
 CDropbox::~CDropbox()
 {
-	DestroyHookableEvent(hFileSendFailedHook);
-	DestroyHookableEvent(hFileSendSuccessedHook);
+	DestroyHookableEvent(hFileSentEventHook);
 }
 
 MCONTACT CDropbox::GetDefaultContact()

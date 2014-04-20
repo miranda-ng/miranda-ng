@@ -128,6 +128,10 @@ int CDropbox::CreateFolder(const char *folderName)
 
 	delete request;
 
+	// forder exists on server
+	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
+		return 0;
+
 	return HandleHttpResponseError(hNetlibUser, response);
 }
 
@@ -167,10 +171,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 	CDropbox *instance = (CDropbox*)owner;
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
-	CMString urls;
-
-	if (ftp->withVisualisation)
-		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
+	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
 	if (ftp->pwszFolders)
 	{
@@ -184,11 +185,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				{
 					wchar_t url[MAX_PATH];
 					if (!instance->CreateDownloadUrl(utf8_folderName, url))
-					{
-						if (!urls.IsEmpty())
-							urls += "\r\n";
-						urls += url;
-					}
+						ftp->AddUrl(url);
 					else
 					{
 						error = true;
@@ -221,16 +218,14 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				size_t fileSize = ftell(file);
 				fseek(file, 0, SEEK_SET);
 
-				if (ftp->withVisualisation)
-				{
-					ftp->pfts.currentFileNumber = i;
-					ftp->pfts.currentFileSize = fileSize;
-					ftp->pfts.currentFileProgress = 0;
-					ftp->pfts.wszCurrentFile = wcsrchr(ftp->pfts.pwszFiles[i], '\\') + 1;
+				ftp->pfts.currentFileNumber = i;
+				ftp->pfts.currentFileSize = fileSize;
+				ftp->pfts.currentFileProgress = 0;
+				ftp->pfts.wszCurrentFile = wcsrchr(ftp->pfts.pwszFiles[i], '\\') + 1;
 
-					ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
-				}
+				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 
+				//
 				int offset = 0;
 				char *uploadId = new char[32];
 
@@ -268,13 +263,10 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 						}
 					}
 
-					if (ftp->withVisualisation)
-					{
-						ftp->pfts.currentFileProgress += count;
-						ftp->pfts.totalProgress += count;
+					ftp->pfts.currentFileProgress += count;
+					ftp->pfts.totalProgress += count;
 
-						ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
-					}
+					ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 				}
 
 				fclose(file);
@@ -294,11 +286,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 						{
 							wchar_t url[MAX_PATH];
 							if (!instance->CreateDownloadUrl(utf8_fileName, url))
-							{
-								if (!urls.IsEmpty())
-									urls += "\r\n";
-								urls += url;
-							}
+								ftp->AddUrl(url);
 							else
 							{
 								error = true;
@@ -306,13 +294,10 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 							}
 						}
 
-						if (ftp->withVisualisation)
-						{
-							ftp->pfts.currentFileProgress = ftp->pfts.currentFileSize;
+						ftp->pfts.currentFileProgress = ftp->pfts.currentFileSize;
 
-							if (i < ftp->pfts.totalFiles - 1)
-								ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
-						}
+						if (i < ftp->pfts.totalFiles - 1)
+							ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftp->hProcess, 0);
 					}
 				}
 			}
@@ -324,22 +309,108 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 		}
 	}
 
-	if (!error)
+	if (error)
 	{
-		if (ftp->withVisualisation)
-			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
+		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
 
-		NotifyEventHooks(instance->hFileSendSuccessedHook, ftp->hContact, (LPARAM)urls.GetBuffer());
+		return 1;
 	}
-	else
-	{
-		if (ftp->withVisualisation)
-			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
 
-		NotifyEventHooks(instance->hFileSendFailedHook, ftp->hContact, 0);
+	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftp->hProcess, 0);
+
+	return 0;
+}
+
+UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
+{
+	CDropbox *instance = (CDropbox*)owner;
+	FileTransferParam *ftp = (FileTransferParam*)arg;
+
+	int res = SendFilesAsync(owner, arg);
+	if (!res)
+	{
+		CMString urls;
+		for (int i = 0; ftp->pwszUrls[i]; i++)
+			urls.AppendFormat(L"%s\r\n", ftp->pwszUrls[i]);
+		wchar_t *data = urls.GetBuffer();
+
+		if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
+		{
+			char *message = mir_utf8encodeW(data);
+			if (ftp->hContact != instance->GetDefaultContact())
+			{
+				if (CallContactService(ftp->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED)
+				{
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					dbei.flags = DBEF_UTF | DBEF_SENT/* | DBEF_READ*/;
+					dbei.szModule = MODULE;
+					dbei.timestamp = time(NULL);
+					dbei.eventType = EVENTTYPE_MESSAGE;
+					dbei.cbBlob = wcslen(data);
+					dbei.pBlob = (PBYTE)message;
+					db_event_add(ftp->hContact, &dbei);
+				}
+				else
+					CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)ftp->hContact, (LPARAM)data);
+			}
+			else
+			{
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.flags = DBEF_UTF;
+				dbei.szModule = MODULE;
+				dbei.timestamp = time(NULL);
+				dbei.eventType = EVENTTYPE_MESSAGE;
+				dbei.cbBlob = wcslen(data);
+				dbei.pBlob = (PBYTE)message;
+				db_event_add(ftp->hContact, &dbei);
+			}
+		}
+
+		if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
+			CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)ftp->hContact, (LPARAM)data);
+
+		if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
+		{
+			if (OpenClipboard(NULL))
+			{
+				EmptyClipboard();
+				size_t size = sizeof(wchar_t) * (urls.GetLength() + 1);
+				HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
+				if (hClipboardData)
+				{
+					wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
+					if (pchData)
+					{
+						memcpy(pchData, (wchar_t*)data, size);
+						GlobalUnlock(hClipboardData);
+						SetClipboardData(CF_UNICODETEXT, hClipboardData);
+					}
+				}
+				CloseClipboard();
+			}
+		}
 	}
 
 	delete ftp;
 
-	return 0;
+	return res;
+}
+
+UINT CDropbox::SendFilesAndEventAsync(void *owner, void *arg)
+{
+	CDropbox *instance = (CDropbox*)owner;
+	FileTransferParam *ftp = (FileTransferParam*)arg;
+
+	int res = SendFilesAsync(owner, arg);
+
+	TRANSFERINFO ti = { 0 };
+	ti.hProcess = ftp->hProcess;
+	ti.status = res;
+	ti.data = ftp->pwszUrls;
+
+	NotifyEventHooks(instance->hFileSentEventHook, ftp->hContact, (LPARAM)&ti);
+
+	delete ftp;
+
+	return res;
 }

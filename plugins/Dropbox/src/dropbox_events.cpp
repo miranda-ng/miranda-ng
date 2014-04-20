@@ -177,82 +177,12 @@ int CDropbox::OnFileDialogSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnSendSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
-{
-	wchar_t *data = (wchar_t*)lParam;
-	CDropbox *instance = (CDropbox*)obj;
-
-	if (instance->hTransferContact)
-		instance->hTransferContact = 0;
-
-	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
-	{
-		char *message = mir_utf8encodeW(data);
-		if (hContact != instance->GetDefaultContact())
-		{
-			if (CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED)
-			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				dbei.flags = DBEF_UTF | DBEF_SENT/* | DBEF_READ*/;
-				dbei.szModule = MODULE;
-				dbei.timestamp = time(NULL);
-				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.cbBlob = wcslen(data);
-				dbei.pBlob = (PBYTE)message;
-				db_event_add(hContact, &dbei);
-			}
-			else
-				CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)hContact, (LPARAM)data);
-		}
-		else
-		{
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			dbei.flags = DBEF_UTF;
-			dbei.szModule = MODULE;
-			dbei.timestamp = time(NULL);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.cbBlob = wcslen(data);
-			dbei.pBlob = (PBYTE)message;
-			db_event_add(hContact, &dbei);
-		}
-	}
-
-	CMString urls = data; urls += L"\r\n";
-
-	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
-		CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)hContact, (LPARAM)urls.GetBuffer());
-
-	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
-	{
-		if (OpenClipboard(NULL))
-		{
-			EmptyClipboard();
-			size_t size = sizeof(wchar_t) * (urls.GetLength() + 1);
-			HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
-			if (hClipboardData)
-			{
-				wchar_t* pchData = (wchar_t*)GlobalLock(hClipboardData);
-				if (pchData)
-				{
-					memcpy(pchData, (wchar_t*)urls.GetString(), size);
-					GlobalUnlock(hClipboardData);
-					SetClipboardData(CF_UNICODETEXT, hClipboardData);
-				}
-			}
-			CloseClipboard();
-		}
-	}
-
-	return 0;
-}
-
 int CDropbox::OnProtoAck(void *obj, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*) lParam;
 
-	if ( !strcmp(ack->szModule, MODULE)) {
+	if (!strcmp(ack->szModule, MODULE))
 		return 0; // don't rebroadcast our own acks
-	}
 
 	if (ack->type == ACKTYPE_STATUS/* && ((int)ack->lParam != (int)ack->hProcess)*/)
 	{

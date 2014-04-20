@@ -13,7 +13,7 @@ struct FileTransferParam
 	wchar_t **pwszFolders;
 	int relativePathStart;
 
-	bool withVisualisation;
+	wchar_t **pwszUrls;
 
 	FileTransferParam()
 	{
@@ -32,6 +32,8 @@ struct FileTransferParam
 		pfts.pszFiles = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.wszCurrentFile = NULL;
+
+		pwszUrls = NULL;
 	}
 
 	~FileTransferParam()
@@ -56,6 +58,32 @@ struct FileTransferParam
 			}
 			mir_free(pwszFolders);
 		}
+
+		if (pwszUrls)
+		{
+			for (int i = 0; pwszUrls[i]; i++)
+			{
+				if (pwszUrls[i]) mir_free(pwszUrls[i]);
+			}
+			mir_free(pwszUrls);
+		}
+	}
+
+	void AddUrl(const wchar_t *url)
+	{
+		int count = 0;
+		if (pwszUrls == NULL)
+			pwszUrls = (wchar_t**)mir_alloc(sizeof(wchar_t*) * 2);
+		else
+		{
+			for (; pwszUrls[count]; count++);
+			pwszUrls = (wchar_t**)mir_realloc(pwszUrls, sizeof(wchar_t*) * (count + 2));
+		}
+		int length = wcslen(url);
+		pwszUrls[count] = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
+		wcscpy(pwszUrls[count], url);
+		pwszUrls[count][length] = '\0';
+		pwszUrls[count + 1] = NULL;
 	}
 };
 

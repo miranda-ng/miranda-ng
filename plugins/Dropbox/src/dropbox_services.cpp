@@ -33,7 +33,6 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	FileTransferParam *ftp = new FileTransferParam();
-	ftp->withVisualisation = true;
 	ftp->pfts.flags |= PFTS_SENDING;
 	ftp->pfts.hContact = pccsd->hContact;
 	ftp->hContact = (instance->hTransferContact) ? instance->hTransferContact : pccsd->hContact;
@@ -99,7 +98,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 	ULONG fileId = InterlockedIncrement(&instance->hFileProcess);
 	ftp->hProcess = (HANDLE)fileId;
 
-	mir_forkthreadowner(CDropbox::SendFilesAsync, obj, ftp, 0);
+	mir_forkthreadowner(CDropbox::SendFilesAndReportAsync, obj, ftp, 0);
 
 	return fileId;
 }
@@ -199,13 +198,12 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 	if (!instance->HasAccessToken())
 		return 0;
 
-	wchar_t *filePath = (wchar_t*)lParam;
-
 	if (hContact == NULL)
 		hContact = instance->GetDefaultContact();
 
+	wchar_t *filePath = (wchar_t*)lParam;
+
 	FileTransferParam *ftp = new FileTransferParam();
-	ftp->withVisualisation = false;
 	ftp->pfts.flags |= PFTS_SENDING;
 	ftp->pfts.hContact = hContact;
 	ftp->pfts.totalFiles = 1;
@@ -224,30 +222,7 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 	ULONG fileId = InterlockedIncrement(&instance->hFileProcess);
 	ftp->hProcess = (HANDLE)fileId;
 
-	mir_forkthreadowner(CDropbox::SendFilesAsync, obj, ftp, 0);
+	mir_forkthreadowner(CDropbox::SendFilesAndEventAsync, obj, ftp, 0);
 
 	return fileId;
-}
-
-INT_PTR CDropbox::SendFilesToDropbox(void *obj, WPARAM hContact, LPARAM)
-{
-	CDropbox *instance = (CDropbox*)obj;
-
-	if (!instance->HasAccessToken())
-		return 1;
-
-	instance->hTransferContact = hContact;
-
-	HWND hwnd =  (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
-
-	instance->dcftp[hwnd] = hContact;
-
-	BBButton bbd = { sizeof(bbd) };
-	bbd.pszModuleName = MODULE;
-	bbd.dwButtonID = BBB_ID_FILE_SEND;
-	bbd.bbbFlags = BBSF_DISABLED;
-
-	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
-
-	return 0;
 }
