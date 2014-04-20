@@ -28,8 +28,6 @@ Envoyer SMS
 À:
 [Add number to list]
 Ajouter à la Liste
-[&H]
-
 [Save number]
 Enregistrer
 [Multiple >>]
@@ -38,8 +36,6 @@ Enregistrer
 Tapez un message:
 [Chars:]
 Lettres:
-[%d/160]
-
 [&Send]
 &Envoyer
 [SMS Message Didn't Send]
@@ -68,8 +64,6 @@ Où mettre la signature:
 
 [SMS Message Sent]
 Envoi d'un message SMS
-[&OK]
-OK
 [Message ID:]
 ID du message:
 [Source:]
@@ -123,8 +117,6 @@ Numéro invalide
 [<< Single]
 << Simple
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
-
 [Send &SMS...]
 
 [&SMS Message]

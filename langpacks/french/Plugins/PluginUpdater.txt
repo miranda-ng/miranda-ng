@@ -120,7 +120,7 @@ Plugins
 [Icons]
 Icônes
 [Languages]
-
+Langages
 [Other]
 Autre
 [List is empty.]

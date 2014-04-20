@@ -112,8 +112,6 @@ Le serveur a retourné l'information suivante. Veuillez noter que cette informat
 Information CTCP
 [Question]
 Question
-[&OK]
-OK
 [&Cancel]
 &Annuler
 [Perform]

@@ -156,8 +156,6 @@ Modèles
 RAZ
 [Disable notifications]
 
-[OK]
-OK
 [Cancel]
 Annuler
 [Disable globally]
@@ -318,7 +316,7 @@ Contact: Au Téléphone
 [Toggle status notification]
 
 [Status change]
-
+Changement d'état
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Tous les fichiers

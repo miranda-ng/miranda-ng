@@ -36,8 +36,6 @@ Raccourci clavier
 Passe:
 [Cancel]
 Annuler
-[EN]
-EN
 [Workstation is locked]
 Poste de travail est verrouillé
 [Screen Saver is running]

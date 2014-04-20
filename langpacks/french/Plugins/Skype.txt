@@ -11,7 +11,7 @@
 [Invite contacts to conference]
 
 [Skype name:]
-Pseudo:
+Pseudo :
 [&Invite]
 &Inviter
 [&Cancel]
@@ -19,7 +19,7 @@ Pseudo:
 [Add]
 Ajouter
 [Create conference]
-
+&Créer une conférence
 [&Create]
 &Créer
 [Topic:]
@@ -33,21 +33,19 @@ Ajouter
 [Create with password]
 
 [Password:]
-Passe:
+Passe :
 [Confirmation:]
-
+Confirmation :
 [Password hint:]
 
 [Configure conference]
 
-[&OK]
-OK
 [Join role:]
 
 [Set password]
 Mot de passe du profil
 [Hint:]
-Info:
+Info :
 [Enter password]
 Entrez le passe
 [Remember this session password]
@@ -57,7 +55,7 @@ Annuler
 [Status text:]
 
 [Online since:]
-
+En ligne depuis :
 [Last event date:]
 
 [Last profile change:]
@@ -65,23 +63,23 @@ Annuler
 [Full name:]
 Nom complet :
 [Date of birth:]
-Anniversaire:
+Anniversaire :
 [Gender:]
 Sexe:
 [Homepage:]
-Page web:
+Page web :
 [Language:]
 Langage :
 [About:]
-À propos:
+À propos :
 [Mood:]
-
+Humeur :
 [E-mail 1:]
-
+Courriel 1 :
 [E-mail 2:]
-
+Courriel 2 :
 [E-mail 3:]
-
+Courriel 3 :
 [Mobile phone:]
 
 [Home phone:]
@@ -89,13 +87,13 @@ Langage :
 [Office phone:]
 
 [City:]
-Ville:
+Ville :
 [State:]
-État:
+État :
 [Country:]
-Pays:
+Pays :
 [Timezone:]
-Fuseau horaire:
+Fuseau horaire :
 [Skype credit:]
 
 [Change password]
@@ -103,7 +101,7 @@ Changer le mot de passe
 [Old password:]
 
 [New password:]
-Nouveau mot de passe:
+Nouveau mot de passe :
 [Register new account]
 
 [Account]
@@ -117,9 +115,9 @@ Compte
 [Use ports 80 and 443 as alternative incoming]
 
 [Default group:]
-Groupes:
+Groupes :
 [Block]
-
+Bloquer
 [Allow IMs from...]
 
 [Anyone]

@@ -43,7 +43,7 @@ Défaut
 [Disable STLS]
 Désactiver STLS
 [Status:]
-
+État :
 [Options]
 Paramètres
 [Check this account]

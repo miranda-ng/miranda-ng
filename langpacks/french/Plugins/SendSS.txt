@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -48,22 +48,30 @@ Crédits >
 &Fermer
 [Edit]
 Éditer
-[C&lient Area]
-Zone du client
 [Caption:]
 Légende:
 [Size (HxW):]
 Taille (HxW):
+[C&lient Area]
+Zone du client
 [Target Tool]
 
 [Result]
 
+[Thumbnail]
+
 [&Copy]
-
+&Copier
 [Close]
-
+Fermer
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
+
+[Copy]
+Copier
+[Copy BBCode]
+
+[Copy BBCode w/ link]
 
 [%s requires a valid contact!]
 
@@ -77,6 +85,7 @@ Une erreur inconnue s'est produite.
 [Unable to initiate %s.]
 
 [MAPI error (%i):\n%s.]
+
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
 
@@ -115,11 +124,16 @@ Une erreur inconnue s'est produite.
 
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-
+Transfert de fichiers
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
+
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+[Image upload]
+
+[Upload server did not respond timely.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
@@ -129,10 +143,6 @@ Impossible de lancer le plugin "serveur HTTP".
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-[Image upload]
-
-[Upload server did not respond timely.]
-
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 
@@ -181,10 +191,6 @@ Prendre un screenshot
 
 [Default]
 Défaut
-[Overlay on]
-
-[Overlay off]
-
 [Help]
 Aide
 [Open Folder]
@@ -203,8 +209,10 @@ Préc
 Suivant
 [Update]
 Mise à jour
-[Apply]
-Appliquer
+[BBC]
+
+[BBC link]
+
 [Down arrow]
 Flèche bas
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
@@ -245,6 +253,12 @@ Courriel
 [Dropbox]
 
 [ImageShack]
+
+[Upload Pie (30m)]
+
+[Upload Pie (1d)]
+
+[Upload Pie (1w)]
 
 [Information]
 Informations

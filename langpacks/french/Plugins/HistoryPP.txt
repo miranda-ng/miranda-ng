@@ -157,8 +157,8 @@ Effacer la recherche
 Afficher dans le menu &contextuel
 [Set &Bookmark]
 Mettre en &favori
-[Rename &Bookmark]
-Renommer le favori
+[&Rename Bookmark]
+&Renommer le favori
 [Copy &Text]
 Copier le &Texte
 [&Save Selected...]

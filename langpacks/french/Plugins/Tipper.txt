@@ -51,7 +51,7 @@ Afficher si liste couverte
 [Options]
 Paramètres
 [Show title]
-
+Voir le titre
 [Status bar tips]
 Barre de popup d'états
 [Avatar border]
@@ -301,11 +301,11 @@ E-mails non-lus
 [Unread emails:]
 
 [Status:]
-
+État :
 [Status message:]
 Message d'état :
 [Mood:]
-
+Humeur :
 [XStatus:]
 
 [Activity:]

@@ -3,7 +3,6 @@
 [Not set]
 [Test play]
 [Ignore sound for this contact]
-[XSoundNotify]
 [Custom sound for %s (%s)]
 [Sound files]
 [WAV files]

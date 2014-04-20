@@ -61,7 +61,6 @@
 [Extra status message changed]
 [Extra status removed]
 [Toggle status notification]
-[Status change]
 [This is status message]
 [Do you want to reset all templates to default?]
 [Reset templates]

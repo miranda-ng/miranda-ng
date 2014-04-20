@@ -66,5 +66,3 @@ Aide
 
 [Plugins]
 Plugins
-[OSD]
-

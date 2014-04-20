@@ -15,7 +15,6 @@
 [Avatar]
 [Public avatar]
 [Version:]
-[Status:]
 [Finish]
 [Protocol icon]
 [Tlen inbox]

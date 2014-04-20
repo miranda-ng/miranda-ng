@@ -27,6 +27,7 @@
 [EMail Express]
 [Other event]
 [Include password-protected contacts]
+[&Rename Bookmark]
 [Stop]
 [Enter the history password to search.]
 [Delete &Bookmark]

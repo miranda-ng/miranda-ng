@@ -64,8 +64,6 @@ Jamais
 
 [&Cancel]
 &Annuler
-[&OK]
-OK
 [Socialist Millionaires Protocol\r\nVerification]
 
 [&No]

@@ -151,9 +151,9 @@ Vers
 [Extra Search Criterias]
 Recherche Supplémentaire
 [Status:]
-
+État :
 [Plan:]
-Plan:
+Plan :
 [Tlen Voice Chat]
 Chat Vocal Tlen
 [Quality]

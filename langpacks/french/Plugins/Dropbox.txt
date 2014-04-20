@@ -21,7 +21,7 @@
 [Initiate authorization]
 
 [Authorize]
-
+Autoriser
 [Download link]
 
 [Use shortened download links]
@@ -29,7 +29,7 @@
 [Check status of authorization]
 
 [Autosend download link to contact]
-
+Envoyer automatiquement l'URL au contact
 [Paste download link into message input area]
 
 [Copy download link to clipboard]
@@ -69,10 +69,10 @@
 [Send files to Dropbox]
 
 [Network]
-
+Réseau
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocols]
-
+Protocoles
 [Protocol icon]
 
 ;file \plugins\Dropbox\src\dropbox_menus.cpp

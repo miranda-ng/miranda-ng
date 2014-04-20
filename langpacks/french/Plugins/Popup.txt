@@ -406,7 +406,7 @@ Avertissement
 [Favorite]
 
 [Block]
-
+Bloquer
 [Popup Mode: Auto]
 
 [Popup Mode: Favorite]

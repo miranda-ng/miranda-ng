@@ -6,6 +6,5 @@
 [Skipped.]
 [Failed!]
 [Plugin Updater]
-[Languages]
 [List loading already started!]
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]

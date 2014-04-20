@@ -24,8 +24,6 @@ Changer
 RAZ
 [Ignore sound for this contact]
 
-[XSoundNotify]
-
 [Cancel]
 Annuler
 ;file \plugins\XSoundNotify\src\dialog.cpp

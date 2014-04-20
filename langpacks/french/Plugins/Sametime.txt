@@ -11,13 +11,13 @@
 [Connection]
 
 [ID:]
-
+ID :
 [Password:]
-
+Passe :
 [Server name:]
 
 [Port:]
-
+Port :
 [Client ID]
 
 [Use old client version]
@@ -31,7 +31,7 @@
 [Use system tray baloons]
 
 [Contacts]
-
+Contacts
 [Get contacts from server]
 
 [Upload contacts]
@@ -47,19 +47,19 @@
 [40 or 128 bit]
 
 [None]
-
+Aucun
 [Meanwhile lib ver: 1.0.2]
 
 [Disconnected]
-
+Déconnecté
 [Send announcement]
 
 [Cancel]
-
+Annuler
 [Message text:]
 
 [Select all]
-
+Tout sélectionner
 [Invert\nselection]
 
 ;file \protocols\Sametime\src\conference.cpp
@@ -72,7 +72,7 @@
 [Please join this meeting.]
 
 [Normal]
-
+Normale
 [%s's conference]
 
 [Leave conference]
@@ -91,7 +91,7 @@
 [Server proto version: %03d.%03d]
 
 [Network]
-
+Réseau
 ;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 
@@ -100,12 +100,12 @@
 [Notification]
 
 [Error]
-
+Erreur
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 
 [ID]
-
+ID
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 
@@ -124,7 +124,7 @@
 [Failed to upload contacts - storage service unavailable.]
 
 [Name]
-
+Nom
 [Description]
 
 [Group?]

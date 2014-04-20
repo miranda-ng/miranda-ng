@@ -338,10 +338,8 @@ Le contact que vous tentez de modifier n'est pas présent dans votre liste.
 [Can't start the confirmation procedure.]
 
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-
 [Block]
-
+Bloquer
 [Profile]
 Profil
 [AOL Mail]

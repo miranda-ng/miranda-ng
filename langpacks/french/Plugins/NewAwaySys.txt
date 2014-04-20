@@ -13,47 +13,47 @@
 [Popup text format]
 
 [Preview]
-
+Aperçu
 [V]
 
 [%extratext% is your status message]
 
 [Click action]
-
+Action du clic
 [On left click]
-
+Clic gauche
 [On right click]
-
+Clic droit
 [Delay]
 
 [Sec]
-
+secondes
 [0 = Default]
-
+0 = Défaut
 [-1 = Infinite]
-
+-1 = Infini
 [Colors]
-
+Couleurs
 [Background]
-
+Arrière-plan
 [Use default]
 
 [Text]
-
+Texte
 [Only notify when:]
 
 [On&line]
-
+&En ligne
 [&Away]
-
+&Absent
 [&NA]
-
+&Indisponible
 [Occ&upied]
-
+&Occupé
 [&DND]
-
+&Ne pas déranger
 [&Free for chat]
-
+&OK pour un chat
 [&Other]
 
 [Log to a file only when popup notification for a contact is enabled]
@@ -83,9 +83,9 @@
 [&Invisible]
 
 [On the &phone]
-
+&Au téléphone
 [Out to &lunch]
-
+&Parti manger
 [Autoreply format:]
 
 [&Variables]
@@ -97,15 +97,15 @@
 [Send an autoreply]
 
 [&Delete]
-
+&Effacer
 [New &category]
 
 [Save as &new]
 
 [&Save]
-
+&Sauvegarder
 [Title:]
-
+Titre :
 [Use this message as default for]
 
 [New message]
@@ -113,7 +113,7 @@
 [New category]
 
 [Delete]
-
+Effacer
 [Status messages:]
 
 [Configure autoaway]
@@ -151,15 +151,15 @@
 [Update status messages for non-ICQ protocols every]
 
 [seconds]
-
+secondes
 [Don't show the message dialog for]
 
 [%s message for %s]
-
+Message %s pour %s
 [Retrieving %s message...]
-
+Récupération du message %s...
 [&Cancel]
-
+&Annuler
 [Notify of requests]
 
 [Don't notify of requests]
@@ -191,7 +191,7 @@
 [Create new &category]
 
 [&Rename]
-
+&Renommer
 [Set as &default for]
 
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
@@ -206,29 +206,29 @@
 [You can put your frequently used and favorite messages in this category.]
 
 [Windows]
-
+Windows
 [Miranda]
-
+Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 
 [Message]
-
+Message
 [URL]
-
+Lien
 [File]
-
+Fichier
 [** All contacts **]
-
+** Tous les contacts **
 [** Not-on-list contacts **]
 
 [Status messages]
-
+Messages d'état
 [Main options]
 
 [Autoreply]
 
 [Contacts]
-
+Contacts
 [Predefined messages]
 
 [Recent messages]
@@ -244,39 +244,39 @@
 [Default messages]
 
 [Online]
-
+En ligne
 [Yep, I'm here.]
-
+Oui, je suis là.
 [Away]
-
+Absent
 [Been gone since %nas_awaysince_time%, will be back later.]
 
 [NA]
-
+Indisponible
 [Give it up, I'm not in!]
-
+Laisse tomber, je suis sorti !
 [Occupied]
-
+Occupé
 [Not right now.]
-
+Pas maintenant, merci.
 [DND]
-
+Ne pas déranger
 [Give a guy some peace, would ya?]
-
+Tu veux bien me laisser en paix ?
 [Free for chat]
-
+OK pour un chat
 [I'm a chatbot!]
-
+Je suis un robot de discussion !
 [Invisible]
-
+Invisible
 [I'm hiding from the mafia.]
-
+Je me cache de la mafia.
 [On the phone]
-
+Au téléphone
 [I've been on the phone since %nas_awaysince_time%, give me a sec!]
 
 [Out to lunch]
-
+Parti manger
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
@@ -291,7 +291,7 @@
 [Set %s message for the contact]
 
 [Re&ad %s message]
-
+&Message d'état de "%s"
 [Toggle autoreply on/off]
 
 [Toggle autoreply off]
@@ -329,15 +329,15 @@
 [Current protocol name]
 
 [Stranger]
-
+Étranger
 [%d hours]
-
+%d heures
 [%d minutes]
-
+%d minutes
 [%d seconds]
 
 [Read status message]
-
+Lire le message d'état
 [Set status message]
 
 [On]
@@ -358,9 +358,9 @@
 [Away System]
 
 [Status]
-
+État
 [Popups]
-
+Popups
 [Variables plugin is not installed]
 
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
@@ -379,7 +379,7 @@
 
 ;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
-
+&Fermer
 ;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
 
@@ -392,7 +392,7 @@
 [Send an autoreply to selected contact(s)]
 
 [Apply]
-
+Appliquer
 [Do you want to apply the message?]
 
 [Set message for]
@@ -402,10 +402,10 @@
 [message for]
 
 [for]
-
+pendant
 [available autoreply only]
 
 [all accounts]
 
 [Closing in %d]
-
+Fermeture dans %d

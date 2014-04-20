@@ -453,8 +453,6 @@ Couleur secondaire :
 Ajouter à un MetaContact existant
 [Please select a MetaContact:]
 Veuillez choisir un MetaContact:
-[&OK]
-OK
 [Sort Alphabetically]
 Trier alphabétiquement
 [Editing]

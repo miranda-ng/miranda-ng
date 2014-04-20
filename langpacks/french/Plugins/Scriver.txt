@@ -164,8 +164,6 @@ Session message
 
 [&Quote]
 &Citer
-[&OK]
-OK
 [Send To All Tabs]
 Envoyer à tous les onglets
 [You are about to send a message to all open tabs.\nAre you sure?]

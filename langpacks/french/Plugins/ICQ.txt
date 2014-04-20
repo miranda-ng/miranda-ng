@@ -28,8 +28,6 @@ Entrez un mot de passe pour l'UIN %d :
 
 [Cancel]
 Annuler
-[ICQ]
-
 [ICQ number:]
 Identifiant:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -96,7 +94,7 @@ Envoyer tous les messages en unicode si possible
 Traduire de Ansi vers Unicode avec l'encodage:
 [Make me temporarily visible to contacts I send message to]
 Devenir temporairement visible lorsque j'envoi des messages
-[Notify me when a message delivery has failed (old method)]
+[Notify me when a message delivery has failed]
 
 [Peer-to-peer Messaging]
 Envoi de message en peer-to-peer
@@ -191,13 +189,13 @@ Protocole version :
 [User Client:]
 Client :
 [Online since:]
-
+En ligne depuis :
 [System up since:]
 Démarré depuis :
 [Idle since:]
 Inactif depuis :
 [Status:]
-
+État:
 [Summary]
 Résumé
 [Nickname:]
@@ -398,7 +396,6 @@ Modification du nom du groupe-serveur échouée.
 
 [Error uploading avatar to server, server refused to accept the image.]
 
-;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 

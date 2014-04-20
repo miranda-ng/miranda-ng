@@ -4,7 +4,6 @@
 [Dismiss popup]
 [Message event only]
 [No popups for read messages]
-[ICQ Web pager]
 [SMS Message]
 [SMS Confirmation]
 [Received %d contacts.]

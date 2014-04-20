@@ -79,7 +79,6 @@
 [User sent an unsupported attachment. Open your browser to see it.]
 [Message read: %s by %s]
 [This message is no longer available, because it was marked as abusive or spam.]
-[%s and more (%d)]
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
 [Unable to get Netlib connection for Facebook]

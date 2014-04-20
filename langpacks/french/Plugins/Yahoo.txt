@@ -59,7 +59,7 @@ Signaler comme occupé
 [Cancel]
 Annuler
 [Protocol:]
-
+Protocole :
 [Client:]
 
 [Chat Room Invitation Request]
@@ -191,7 +191,7 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 [&Calendar]
 &Calendrier
 [Create Conference]
-
+&Créer une conférence
 [&Show Profile]
 &Afficher le profil
 ;file \protocols\Yahoo\src\webcam.cpp

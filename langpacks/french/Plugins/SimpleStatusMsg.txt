@@ -109,9 +109,9 @@ Autre
 [miliseconds]
 millisecondes
 [Protocol:]
-
+Protocole:
 [Status:]
-
+État:
 [Independent setting for each protocol]
 
 [Pop up dialog asking for status message]

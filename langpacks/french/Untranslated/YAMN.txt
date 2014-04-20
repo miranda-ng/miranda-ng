@@ -2,7 +2,6 @@
 [Version:]
 [WWW:]
 [APOP]
-[Status:]
 [Only check when...]
 [New Mail]
 [Sound]

@@ -55,8 +55,6 @@ Utiliser les couleurs de Windows
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
-ID
 [User]
 Utilisateur
 [File]
@@ -86,7 +84,7 @@ Erreur
 
 [Show connections list]
 
-[Wumf]
+[Who uses my files]
 
 [Services]
 Services
