@@ -607,7 +607,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			facebook_user fbu;
 			fbu.user_id = json_as_pstring(from);
 
-			MCONTACT hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
+			MCONTACT hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND); // only friends are able to send typing notifications
 
 			JSONNODE *st = json_get(it, "st");
 			if (json_as_int(st) == 1)
