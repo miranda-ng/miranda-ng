@@ -1047,10 +1047,10 @@ wday2:Ni
 [wdayF:Sunday]
 wdayF:Niedziela
 [pm]
-
+pm
 [am]
-
+am
 [PM]
-
+PM
 [AM]
-
+AM
