@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
-	//ForkThread(&FacebookProto::ReadMessageWorker, (void*)hContact);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 
 	return Proto_RecvMessage(hContact, pre);
@@ -126,7 +125,7 @@ int FacebookProto::UserIsTyping(MCONTACT hContact,int type)
 
 void FacebookProto::SendTypingWorker(void *p)
 {
-	if(p == NULL)
+	if (p == NULL)
 		return;
 
 	send_typing *typing = static_cast<send_typing*>(p);
@@ -147,16 +146,22 @@ void FacebookProto::SendTypingWorker(void *p)
 		return;
 	}
 	
-	ptrA id( getStringA(typing->hContact, FACEBOOK_KEY_ID));
+	const char *value = (isChatRoom(typing->hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
+	ptrA id( getStringA(typing->hContact, value));
 	if (id != NULL) {
 		std::string data = "&source=mercury-chat";
-		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0"); // PROTOTYPE_SELFTYPING_OFF
-		data += "&to=" + utils::url::encode(std::string(id));
+		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0");
+		
+		data += "&to=";
+		if (isChatRoom(typing->hContact))
+			data += "&thread=";
+		data += utils::url::encode(std::string(id));
+
 		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 		data += "&lsd=&phstamp=0&__user=" + facy.self_.user_id;
 		
 		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
-	}		
+	}
 
 	delete typing;
 }
