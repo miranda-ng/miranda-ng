@@ -84,8 +84,6 @@ struct facebook_user
 
 struct facebook_chatroom
 {
-	HANDLE handle;
-
 	std::tstring chat_name;
 	std::tstring thread_id;
 	std::map<std::string, std::string> participants;

@@ -431,40 +431,18 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					if (chatroom != proto->facy.chat_rooms.end()) {
 						std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(reader_id);
 						if (participant == chatroom->second.participants.end()) {
-							// TODO: remove or write better all of this
-							std::string tidA = _T2A(tid.c_str());
-							std::string search = utils::url::encode(tidA) + "?";
-							http::response resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
-
-							if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
-								search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MOBILE"/", "_rdr", true);
-								resp = proto->facy.flap(REQUEST_USER_INFO, NULL, &search);
-							}
-
-							if (resp.code == HTTP_CODE_OK) {
-								std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "<div id=\"footer");
-
-								std::string name = utils::text::source_get_value(&about, 3, "class=\"profileName", ">", "</");
-								std::string surname;
-
-								std::string::size_type pos;
-								if ((pos = name.find(" ")) != std::string::npos) {
-									surname = name.substr(pos + 1, name.length() - pos - 1);
-									name = name.substr(0, pos);
-								}
-
-								proto->AddChatContact(tid.c_str(), reader_id.c_str(), name.c_str());
-							}
+							// TODO: load name of this participant
+							std::string name = reader_id;
+							proto->AddChatContact(tid.c_str(), reader_id.c_str(), name.c_str());
 						}
 
 						participant = chatroom->second.participants.find(reader_id);
 						if (participant != chatroom->second.participants.end()) {
 							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
-							const char *participant_name = participant->second.c_str();
 
 							if (!chatroom->second.message_readers.empty())
 								chatroom->second.message_readers += ", ";
-							chatroom->second.message_readers += participant_name;
+							chatroom->second.message_readers += participant->second;
 
 							ptrT readers(mir_utf8decodeT(chatroom->second.message_readers.c_str()));
 
