@@ -23,10 +23,16 @@
 Для цього облікового запису ввімкнено Steam Guard, тому необхідно ввести спеціальний код, який було вислано на адресу вашої електронної пошти.
 [Go to email domain]
 Перейти до поштової скринки
+[%s has added you to his or her Friend List]
+%s додав(ла) вас до списку друзів
 [%s connection]
 %s подключення
 [Network]
 Мережа
+[Steam menu chooser]
+Вибір меню Steam
+[Join to game]
+Приєднатися до гри
 [Protocols]
 Протоколи
 [Protocol icon]
