@@ -614,6 +614,44 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)60);
 			else
 				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+		} else if (t == "ttyp") {
+			// multi chat typing notification
+
+			JSONNODE *from_ = json_get(it, "from");
+			JSONNODE *thread_ = json_get(it, "thread");
+			JSONNODE *st_ = json_get(it, "st");
+
+			if (from_ == NULL || thread_ == NULL || st_ == NULL)
+				continue;
+
+			std::tstring tid = json_as_string(thread_);
+			std::string from_id = json_as_pstring(from_);
+
+			std::map<std::tstring, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
+			if (chatroom != proto->facy.chat_rooms.end()) {
+				std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(from_id);
+				if (participant == chatroom->second.participants.end()) {
+					// TODO: load name of this participant
+					std::string name = from_id;
+					proto->AddChatContact(tid.c_str(), from_id.c_str(), name.c_str());
+				}
+
+				participant = chatroom->second.participants.find(from_id);
+				if (participant != chatroom->second.participants.end()) {
+					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
+					ptrT name(mir_utf8decodeT(participant->second.c_str()));
+
+					TCHAR tstr[200];
+
+					if (json_as_int(st_) == 1)
+						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("%s is typing a message..."), name);
+					else
+						mir_sntprintf(tstr, SIZEOF(tstr), _T(""));
+
+					// TODO: support proper MS_PROTO_CONTACTISTYPING service for chatrooms (when it will be implemented)
+					CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)tstr);
+				}
+			}
 		} else if (t == "privacy_changed") {
 			// settings changed
 
