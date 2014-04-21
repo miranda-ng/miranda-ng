@@ -463,6 +463,8 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	case REQUEST_NOTIFICATIONS:
 	{
 		std::string action = "/ajax/notifications/get.php?__a=1&user=%s&time=0&version=2&__user=%s";
+		// TODO: use better format notifications request
+		// std::string action = "/ajax/notifications/client/get.php?__a=1&user=%s&time=0&version=2&__user=%s";
 		utils::text::replace_all(&action, "%s", self_.user_id);
 		return action;
 	}
@@ -1122,6 +1124,11 @@ bool facebook_client::channel()
 
 	// Get update
 	http::response resp = flap(REQUEST_MESSAGES_RECEIVE);
+
+	if (resp.data.empty()) {
+		// Something went wrong
+		return handle_error("channel");
+	}
 
 	std::string type = utils::text::source_get_value(&resp.data, 2, "\"t\":\"", "\"");
 	if (type == "continue" || type == "heartbeat") {
