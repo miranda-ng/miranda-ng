@@ -174,8 +174,6 @@ int FacebookProto::SetStatus(int new_status)
 		return 0;
 	}
 
-	facy.invisible_ = (new_status == ID_STATUS_INVISIBLE);
-
 	ForkThread(&FacebookProto::ChangeStatus, this);
 	return 0;
 }

@@ -120,13 +120,8 @@ void FacebookProto::ChangeStatus(void*)
 		ToggleStatusMenuItems(true);
 		debugLogA("***** SignOn complete");
 	}
-	else if (new_status == ID_STATUS_INVISIBLE)
-	{
-		facy.buddies.clear();
-		this->SetAllContactStatuses(ID_STATUS_OFFLINE);
-	}
 
-	facy.chat_state(m_iDesiredStatus != ID_STATUS_INVISIBLE);	
+	facy.chat_state(m_iDesiredStatus != ID_STATUS_INVISIBLE);
 	facy.buddy_list();
 
 	m_iStatus = facy.self_.status_id = m_iDesiredStatus;
@@ -181,9 +176,8 @@ void FacebookProto::UpdateLoop(void *)
 	for (int i = -1; !isOffline(); i = ++i % 50)
 	{
 		if (i != -1) {
-			if (!facy.invisible_)
-				if (!facy.buddy_list())
-    				break;
+			if (!facy.buddy_list())
+    			break;
 		}
 		if (i == 2 && getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
 			if (!facy.feeds())
