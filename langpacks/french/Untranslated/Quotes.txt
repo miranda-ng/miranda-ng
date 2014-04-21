@@ -41,7 +41,6 @@
 [Previous Rate:]
 [&Convert:]
 [&Watched currency rates:]
-[&Remove]
 [&Refresh Rates Every:]
 [Quote\\Rate Info]
 [Type &Stock Name or Symbol:]

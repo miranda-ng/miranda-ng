@@ -181,9 +181,9 @@ Non
 [&Underline]
 &Souligné
 [&Color]
-
+&Couleur
 [&Background color]
-
+&Couleur de fond
 [&Filter]
 
 [&Room Settings]
@@ -631,7 +631,7 @@ Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Si vous utilisez Windows 95 ou WINE, veuillez vous assurer que vous avez installé riched20.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
-
+Messages instantanés
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]

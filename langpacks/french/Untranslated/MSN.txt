@@ -28,7 +28,6 @@
 [Live ID]
 [Chat #]
 [Me]
-[&Invite user...]
 [&Leave chat session]
 [User &history]
 [%I64u bytes]

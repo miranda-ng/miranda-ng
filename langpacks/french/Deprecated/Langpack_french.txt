@@ -2921,6 +2921,8 @@ Commun
 ; Actman30
 [Case sensitive]
 Respecter la casse
+[RTL]
+Lecture inversée
 [Settings]
 Paramètres
 [Contact list]
@@ -3230,6 +3232,8 @@ Erreur ? vous avez tenté d'ajouter un contact ICQ à votre liste AIM.
 Impossible d'ajouter de contact car il nécessite une autorisation.
 [Item you want to modify not found in list.]
 Le contact que vous tentez de modifier n'est pas présent dans votre liste.
+[Block]
+Bloquer
 [Profile]
 Profil
 [Background Color]
@@ -7403,8 +7407,14 @@ Erreur à la création du répertoire de sauvegarde
 ;  Version: 0.11.0.3
 ;  Authors: unsane
 ;============================================================
+[Authorize]
+Autoriser
+[Autosend download link to contact]
+Envoyer automatiquement l'URL au contact
 [Network]
 Réseau
+[Protocols]
+Protocoles
 #muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
 ;============================================================
 ;  File: EmLanProto.dll
@@ -8470,6 +8480,8 @@ Effacer la recherche
 Afficher dans le menu &contextuel
 [Set &Bookmark]
 Mettre en &favori
+[&Rename Bookmark]
+&Renommer le favori
 [Copy &Text]
 Copier le &Texte
 [&Save Selected...]
@@ -8757,12 +8769,22 @@ maximum
 Adresses URL
 [Files]
 Fichiers
+[Incoming URLs]
+Liens reçus
+[Incoming files]
+Fichiers entrants
 [Events]
 Évènements
 [Group]
 Groupe
+[Characters]
+caractères
 [Messages]
 Messages
+[day]
+jour
+[month]
+mois
 [Outgoing]
 Sortant
 [Incoming]
@@ -8771,24 +8793,50 @@ Entrant
 Pseudo
 [Protocol]
 Protocole
+[Hours]
+Heures
+[Days]
+Jours
+[Weeks]
+semaines
 [incoming messages]
 Messages reçus
 [outgoing messages]
 Messages envoyés
 [Global]
 Général
+[Global settings]
+Paramètres généraux
+[Input]
+Entrée
+[Columns]
+colonnes
+[Output]
+Sortie
+[Delete column]
+Effacer la colonne
 [** All contacts **]
 ** Tous les contacts **
+[Miscellaneous]
+Divers
 [Contact menu]
 Menu Contact
+[Button]
+Bouton
+[Statistics]
+Statistiques
 [Configure...]
 Configurer...
 [History]
 Historique
 [(Unknown)]
 (Inconnu)
+[(none)]
+(aucun)
 [none]
 Aucun
+[Done]
+Terminé
 #muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
@@ -9024,6 +9072,8 @@ IP interne :
 Protocole version :
 [User Client:]
 Client :
+[Online since:]
+En ligne depuis :
 [System up since:]
 Démarré depuis :
 [Idle since:]
@@ -12791,14 +12841,48 @@ Liste de contacts
 ;  Version: 0.4.0.3
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
+[Preview]
+Aperçu
+[Click action]
+Action du clic
+[On left click]
+Clic gauche
+[On right click]
+Clic droit
 [Sec]
 secondes
+[0 = Default]
+0 = Défaut
+[-1 = Infinite]
+-1 = Infini
+[Colors]
+Couleurs
 [Background]
 Arrière-plan
 [Text]
 Texte
+[On&line]
+&En ligne
+[&Away]
+&Absent
+[&NA]
+&Indisponible
+[Occ&upied]
+&Occupé
+[&DND]
+&Ne pas déranger
+[&Free for chat]
+&OK pour un chat
+[On the &phone]
+&Au téléphone
+[Out to &lunch]
+&Parti manger
 [&Delete]
 &Effacer
+[&Save]
+&Sauvegarder
+[Title:]
+Titre :
 [Delete]
 Effacer
 [seconds]
@@ -12848,7 +12932,7 @@ Tu veux bien me laisser en paix ?
 [Free for chat]
 OK pour un chat
 [I'm a chatbot!]
-Je suis un robot de chat !
+Je suis un robot de discussion !
 [Invisible]
 Invisible
 [I'm hiding from the mafia.]
@@ -12859,6 +12943,14 @@ Au téléphone
 Parti manger
 [Re&ad %s message]
 &Message d'état de "%s"
+[Stranger]
+Étranger
+[%d hours]
+%d heures
+[%d minutes]
+%d minutes
+[Read status message]
+Lire le message d'état
 [Status]
 État
 [Popups]
@@ -13204,6 +13296,8 @@ est au téléphone
 est au téléphone
 [User: On The Phone]
 Contact: Au Téléphone
+[Status change]
+Changement d'état
 [All Files]
 Tous les fichiers
 [Log]
@@ -14352,6 +14446,8 @@ Rafraîchir
 Erreur
 [Warning]
 Avertissement
+[Block]
+Bloquer
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
 ;============================================================
 ;  File: QuickContacts.dll
@@ -14587,6 +14683,8 @@ Ignorer ce contact
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
+[ID:]
+ID :
 [Password:]
 Passe :
 [Port:]
@@ -14595,10 +14693,14 @@ Port :
 Contacts
 [None]
 Aucun
+[Disconnected]
+Déconnecté
 [Cancel]
 Annuler
 [Select all]
 Tout sélectionner
+[Normal]
+Normale
 [Network]
 Réseau
 [Error]
@@ -15731,53 +15833,69 @@ Occupééééé
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype name:]
-Pseudo:
+Pseudo :
 [&Invite]
 &Inviter
 [&Cancel]
 &Annuler
 [Add]
 Ajouter
+[Create conference]
+&Créer une conférence
 [&Create]
 &Créer
 [Password:]
-Passe:
+Passe :
+[Confirmation:]
+Confirmation :
 [Set password]
 Mot de passe du profil
 [Hint:]
-Info:
+Info :
 [Enter password]
 Entrez le passe
 [Cancel]
 Annuler
+[Online since:]
+En ligne depuis :
 [Full name:]
 Nom complet :
 [Date of birth:]
-Anniversaire:
+Anniversaire :
 [Gender:]
 Sexe:
 [Homepage:]
-Page web:
+Page web :
 [Language:]
 Langage :
 [About:]
-À propos:
+À propos :
+[Mood:]
+Humeur :
+[E-mail 1:]
+Courriel 1 :
+[E-mail 2:]
+Courriel 2 :
+[E-mail 3:]
+Courriel 3 :
 [City:]
-Ville:
+Ville :
 [State:]
-État:
+État :
 [Country:]
-Pays:
+Pays :
 [Timezone:]
-Fuseau horaire:
+Fuseau horaire :
 [Change password]
 Changer le mot de passe
 [New password:]
-Nouveau mot de passe:
+Nouveau mot de passe :
 [Account]
 Compte
 [Default group:]
-Groupes:
+Groupes :
+[Block]
+Bloquer
 [Show avatars]
 Montrer les avatars
 [Block this person]
@@ -16336,10 +16454,16 @@ Changement d'état
 Identifiant :
 [Password:]
 Passe :
+[Default group:]
+Groupes:
+[Account]
+Compte
 [Cancel]
 Annuler
 [Network]
 Réseau
+[Protocols]
+Protocoles
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
@@ -17580,6 +17704,8 @@ Hauteur mini :
 Afficher si liste couverte
 [Options]
 Paramètres
+[Show title]
+Voir le titre
 [Status bar tips]
 Barre de popup d'états
 [Keep original avatar size]
@@ -17671,9 +17797,11 @@ E-mails non-lus
 [%s (locked)]
 %s (verrouillé)
 [Status:]
-État:
+État :
 [Status message:]
 Message d'état :
+[Mood:]
+Humeur :
 [Other]
 Autre
 [Account]
@@ -17850,9 +17978,9 @@ Vers
 [Extra Search Criterias]
 Recherche Supplémentaire
 [Status:]
-État:
+État :
 [Plan:]
-Plan:
+Plan :
 [Tlen Voice Chat]
 Chat Vocal Tlen
 [Quality]
@@ -20067,7 +20195,7 @@ Signaler comme occupé
 [Cancel]
 Annuler
 [Protocol:]
-Protocole:
+Protocole :
 [&Join]
 Re&joindre
 [&Deny]
@@ -20140,6 +20268,8 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 &Mon profil
 [&Calendar]
 &Calendrier
+[Create Conference]
+&Créer une conférence
 [&Show Profile]
 &Afficher le profil
 [[miranda] Got webcam invite. (not currently supported)]
@@ -20231,7 +20361,7 @@ Défaut
 [Disable STLS]
 Désactiver STLS
 [Status:]
-État:
+État :
 [Options]
 Paramètres
 [Check this account]

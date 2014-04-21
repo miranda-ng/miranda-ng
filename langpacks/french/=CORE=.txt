@@ -44,7 +44,7 @@ Ceci effacera tout l'historique et réglages de ce contact !
 [Contact display options]
 Options d'affichage des contacts
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Plutôt que d'afficher les contacts par ordre alphabétique,\ncliquer/glisser pour choisir un autre ordre: 
+Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
 [Miranda NG Profile Manager]
 Gestionnaire de profil Miranda NG
 [&Run]
@@ -190,7 +190,7 @@ Afficher la catégorie
 [Download more icons]
 Télécharger plus d'icônes
 [The following events are being ignored:]
-Les évènements suivants sont ignorés:
+Les événements suivants sont ignorés :
 [Messages]
 Messages
 [URLs]
@@ -412,7 +412,7 @@ Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG redémarre.\nVeuillez patienter...
 [Error console]
-
+Erreur console
 [Error notifications]
 
 [Headers:]
@@ -462,7 +462,7 @@ Informations
 [Contacts]
 Contacts
 [&Remove]
-
+&Supprimer
 [&Set as Default]
 Par &Défaut
 [Move &Up]
@@ -505,16 +505,16 @@ Effacer l'historique
 Patienter pendant la suppression de l'historique.
 [Subcontact Priorities]
 Priorités des sous-contacts
+[Protocol:]
+Protocole :
+[Status:]
+État :
 [Rank:]
 Rang:
-[Status:]
-État:
-[Protocol:]
-Protocole:
-[Reset All]
-
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
+[Reset All]
+
 [Current language:]
 
 [Last modified using:]
@@ -637,9 +637,9 @@ Fermeture dans %d
 [&Italic]
 
 [&Color]
-
+&Couleur
 [&Background color]
-
+&Couleur de fond
 [&History]
 
 [&Filter]
@@ -1053,7 +1053,7 @@ Minimiser la fenêtre de transfert
 [Close window when transfer completes]
 Fermer la fenêtre quand le transfert est achevé
 [Clear completed transfers on window closing]
-
+Effacer les transferts terminés lors de la fermeture de fenêtre
 [Virus scanner]
 Analyse antivirus
 [Scan files:]
@@ -1190,7 +1190,7 @@ Voir les secondes
 [Load history events]
 Derniers échanges
 [Show formatting]
-
+Afficher le formatage
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
@@ -1897,7 +1897,7 @@ Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
-
+Messages instantanés
 [Incoming (focused window)]
 Entrant (fenêtre active)
 [Incoming (unfocused window)]
@@ -2169,7 +2169,7 @@ Nom Prénom
 ['(Unknown contact)']
 '(Contacts Inconnus)'
 [Contact names]
-
+Noms des contacts
 ;file \src\modules\clist\genmenu.cpp
 [Menu icons]
 Menus
@@ -2272,7 +2272,7 @@ Taille
 [Run]
 Lancer
 [Check database]
-
+Vérifiez la base de données
 [Created]
 Créée
 [Modified]
@@ -2616,7 +2616,7 @@ Système
 [Add binding]
 
 [Modify]
-
+Modifier
 [System scope]
 
 [Miranda scope]
@@ -2673,7 +2673,7 @@ Joindre un salon
 [Leave chat]
 
 [Move to group]
-
+Déplacer vers le groupe
 [On]
 
 [Off]
@@ -2706,7 +2706,7 @@ Icônes principales
 [Sound files]
 
 [WAV files]
-
+Fichiers WAV
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.

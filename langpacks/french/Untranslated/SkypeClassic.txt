@@ -54,7 +54,6 @@
 [&Open group chat]
 [Import Skype history]
 [Add Skype contact]
-[&Invite user...]
 [Me]
 [&Leave chat session]
 [Set &Topic...]

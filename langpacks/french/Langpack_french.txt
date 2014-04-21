@@ -50,7 +50,7 @@ Ceci effacera tout l'historique et réglages de ce contact !
 [Contact display options]
 Options d'affichage des contacts
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Plutôt que d'afficher les contacts par ordre alphabétique,\ncliquer/glisser pour choisir un autre ordre: 
+Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
 [Miranda NG Profile Manager]
 Gestionnaire de profil Miranda NG
 [&Run]
@@ -196,7 +196,7 @@ Afficher la catégorie
 [Download more icons]
 Télécharger plus d'icônes
 [The following events are being ignored:]
-Les évènements suivants sont ignorés:
+Les événements suivants sont ignorés :
 [Messages]
 Messages
 [URLs]
@@ -413,6 +413,8 @@ Récupérer d'autres protocoles...
 Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG redémarre.\nVeuillez patienter...
+[Error console]
+Erreur console
 [Headers:]
 En-têtes
 [Normal text:]
@@ -441,6 +443,8 @@ Trier alphabétiquement
 Informations
 [Contacts]
 Contacts
+[&Remove]
+&Supprimer
 [&Set as Default]
 Par &Défaut
 [Move &Up]
@@ -483,12 +487,12 @@ Effacer l'historique
 Patienter pendant la suppression de l'historique.
 [Subcontact Priorities]
 Priorités des sous-contacts
+[Protocol:]
+Protocole :
+[Status:]
+État :
 [Rank:]
 Rang:
-[Status:]
-État:
-[Protocol:]
-Protocole:
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
 [Last modified using:]
@@ -599,6 +603,10 @@ Fermeture dans %d
 &Envoyer
 [&Bold]
 &Gras
+[&Color]
+&Couleur
+[&Background color]
+&Couleur de fond
 [Show these events only:]
 Voir ces évènements si :
 [Nick changes]
@@ -991,6 +999,8 @@ Accepter automatiquement les fichiers provenant de la liste de contacts
 Minimiser la fenêtre de transfert
 [Close window when transfer completes]
 Fermer la fenêtre quand le transfert est achevé
+[Clear completed transfers on window closing]
+Effacer les transferts terminés lors de la fermeture de fenêtre
 [Virus scanner]
 Analyse antivirus
 [Scan files:]
@@ -1119,6 +1129,8 @@ minutes
 Voir les secondes
 [Load history events]
 Derniers échanges
+[Show formatting]
+Afficher le formatage
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
@@ -1715,6 +1727,8 @@ Message de %s
 Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Instant messages]
+Messages instantanés
 [Incoming (focused window)]
 Entrant (fenêtre active)
 [Incoming (unfocused window)]
@@ -1939,6 +1953,8 @@ Prénom Nom
 Nom Prénom
 ['(Unknown contact)']
 '(Contacts Inconnus)'
+[Contact names]
+Noms des contacts
 [Menu icons]
 Menus
 [Menus]
@@ -1985,6 +2001,8 @@ Souci à la création de profil
 Taille
 [Run]
 Lancer
+[Check database]
+Vérifiez la base de données
 [Created]
 Créée
 [Manage your Miranda NG profile]
@@ -2203,6 +2221,8 @@ Effacer le raccourci
 Ajouter un autre raccourci
 [System]
 Système
+[Modify]
+Modifier
 [User online]
 Utilisateur en ligne
 [Group (open)]
@@ -2249,6 +2269,8 @@ Afficher/Masquer
 Quitter
 [Join chat]
 Joindre un salon
+[Move to group]
+Déplacer vers le groupe
 [Frames]
 Cadres
 [Request authorization]
@@ -2265,6 +2287,8 @@ Icônes d'état
 Icônes %s
 [Main icons]
 Icônes principales
+[WAV files]
+Fichiers WAV
 [You need an image services plugin to process PNG images.]
 Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
 [All bitmaps]
@@ -3164,6 +3188,8 @@ Appliquer
 Message
 [Others]
 Autres
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
@@ -5235,6 +5261,8 @@ Voulez-vous que le contact '%s' soit transféré du MetaContact '%s' au MetaCont
 Changement de MetaContact (Déplacement)
 [Do you want contact '%s' to be added to MetaContact '%s'?]
 Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
+[Contact names]
+Noms des contacts
 [Row items]
 Détail des lignes
 [Standard contacts]
@@ -6999,6 +7027,8 @@ Annuler
 État
 [Add]
 Ajouter
+[Modify]
+Modifier
 [Warning]
 Avertissement
 [Favorites]
@@ -7457,37 +7487,67 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.3.2
+;  Version: 0.2.4.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Facebook protocol support for Miranda NG.]
+Support du protocole Facebook pour Miranda NG.
 [E-mail:]
-E-mail:
+Courriel :
 [Password:]
-Passe:
+Passe :
+[Create a new Facebook account]
+Créer un nouveau compte Facebook
+[What's on your mind?]
+Exprimez-vous
+[Wall:]
+Mur :
+[Visibility:]
+Visibilité :
 [URL:]
-Lien:
+Lien :
+[Share]
+Partager
 [Cancel]
 Annuler
 [User details]
 Détails du contact
 [Default group:]
-Groupes:
+Groupes :
 [Notifications]
 Notifications
+[Other events]
+Autres événements
 [Preview]
 Aperçu
 [Advanced Settings]
 Options Avancées
+[Force secure (HTTPS) connection]
+Se connecter via une connection sécurisée HTTPS
+[Post Miranda statuses to Wall]
+Poster les statuts de Miranda sur le mur
 [Message sessions]
 Sessions de message
+[Keep messages as unread on server (don't send "seen" info)]
+Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
+[Status update was successful.]
+Mise à jour du statut avec succès.
+[Classic website]
+Site internet classique
 [Default]
 Défaut
 [files]
 Fichiers
 [Message read: %s]
 Message lu : %s
+[This message is no longer available, because it was marked as abusive or spam.]
+Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
+[%s is typing a message...]
+%s vous écrit un message...
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 [%s server connection]
@@ -8480,6 +8540,8 @@ Effacer la recherche
 Afficher dans le menu &contextuel
 [Set &Bookmark]
 Mettre en &favori
+[&Rename Bookmark]
+&Renommer le favori
 [Copy &Text]
 Copier le &Texte
 [&Save Selected...]
@@ -11860,6 +11922,8 @@ Programme
 Annuler
 [URL events]
 Liens URL
+[Other events]
+Autres événements
 [Use custom theme]
 Thème personnalisé
 [The following events are being ignored:]
@@ -12080,8 +12144,6 @@ Utilisateur en ligne
 Vous avez été ajouté
 [Typing Notify]
 Notification de frappe
-[Miranda NG]
-Miranda NG
 [Request authorization]
 Demander l'autorisation
 [Customize]
@@ -12642,6 +12704,8 @@ Pseudo
 Ajouter
 [Others]
 Autres
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [Contact tried to open an audio conference (not currently supported)]
@@ -12930,7 +12994,7 @@ Tu veux bien me laisser en paix ?
 [Free for chat]
 OK pour un chat
 [I'm a chatbot!]
-Je suis un robot de chat !
+Je suis un robot de discussion !
 [Invisible]
 Invisible
 [I'm hiding from the mafia.]
@@ -14209,6 +14273,10 @@ Une erreur est survenue lors de la vérification des mises à jour.
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
+[Check Database]
+Vérifiez la base de données
+[Check database]
+Vérifiez la base de données
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: Popup.dll
@@ -14626,6 +14694,8 @@ Aperçu
 Statique
 [&Add]
 &Ajouter
+[&Remove]
+&Supprimer
 [Seconds]
 secondes
 [Minutes]
@@ -14880,6 +14950,10 @@ Non
 &Gras
 [&Underline]
 &Souligné
+[&Color]
+&Couleur
+[&Background color]
+&Couleur de fond
 [Show these events only:]
 Voir ces évènements si:
 [Messages]
@@ -15216,6 +15290,8 @@ Message de %s
 Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Si vous utilisez Windows 95 ou WINE, veuillez vous assurer que vous avez installé riched20.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Instant messages]
+Messages instantanés
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]
@@ -15989,6 +16065,8 @@ Aperçu
 &Fichier
 [Unknown]
 Inconnu
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [MALE]
@@ -16448,12 +16526,14 @@ Changement d'état
 ;  Version: 0.11.0.1
 ;  Authors: unsane
 ;============================================================
+[Steam protocol support for Miranda NG.]
+Support du protocole Steam pour Miranda NG.
 [Username:]
 Identifiant :
 [Password:]
 Passe :
 [Default group:]
-Groupes:
+Groupes :
 [Account]
 Compte
 [Cancel]
@@ -16617,6 +16697,8 @@ Ouvrir à cet endroit
 &Envoyer
 [&Add]
 &Ajouter
+[&Remove]
+&Supprimer
 [Other options]
 Autres options
 [Advanced tweaks]
@@ -16913,6 +16995,8 @@ Réduire la fenêtre à l'envoi
 Notifications :
 [URL events]
 Liens URL
+[Other events]
+Autres événements
 [&Copy]
 &Copier
 [&Quote]
@@ -17161,6 +17245,8 @@ Nouveaux messages :
 Version
 [Last received: %s at %s]
 Dernière réception : le %s à %s
+[Instant messages]
+Messages instantanés
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]
@@ -17795,7 +17881,7 @@ E-mails non-lus
 [%s (locked)]
 %s (verrouillé)
 [Status:]
-État:
+État :
 [Status message:]
 Message d'état :
 [Mood:]
@@ -17830,6 +17916,8 @@ XStatus - Titre
 Aube :
 [Sunset:]
 Aurore :
+[Visibility:]
+Visibilité :
 [Background]
 Arrière-plan
 [Dividers]
@@ -17976,9 +18064,9 @@ Vers
 [Extra Search Criterias]
 Recherche Supplémentaire
 [Status:]
-État:
+État :
 [Plan:]
-Plan:
+Plan :
 [Tlen Voice Chat]
 Chat Vocal Tlen
 [Quality]
@@ -20147,6 +20235,8 @@ Changer
 RAZ
 [Cancel]
 Annuler
+[WAV files]
+Fichiers WAV
 [Sounds]
 Sons
 #muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
@@ -20186,6 +20276,8 @@ RAZ
 Liste des contacts à ignorer
 [&Add]
 &Ajouter
+[&Remove]
+&Supprimer
 [Set Custom Status]
 Personnaliser le message d'état
 [Show as busy]
@@ -20193,7 +20285,7 @@ Signaler comme occupé
 [Cancel]
 Annuler
 [Protocol:]
-Protocole:
+Protocole :
 [&Join]
 Re&joindre
 [&Deny]
@@ -20208,6 +20300,8 @@ Ajouter
 {Miranda} Invitation à la conférence ici: %s message: %s
 [Others]
 Autres
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [Main]
@@ -20359,7 +20453,7 @@ Défaut
 [Disable STLS]
 Désactiver STLS
 [Status:]
-État:
+État :
 [Options]
 Paramètres
 [Check this account]

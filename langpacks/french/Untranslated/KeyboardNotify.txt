@@ -24,7 +24,6 @@
 [Scroll]
 [Message events]
 [File events]
-[Other events]
 [Consider event opened after]
 [Ignore others]
 [Set xStatus list]

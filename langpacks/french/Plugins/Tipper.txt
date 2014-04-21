@@ -355,10 +355,6 @@ Page web :
 Inactif
 [Idle:]
 Inactivité :
-[IP]
-
-[IP:]
-
 [IP internal]
 
 [IP internal:]
@@ -450,7 +446,7 @@ Aurore :
 [[weather.dll] Visibility]
 
 [Visibility:]
-
+Visibilité :
 [[weather.dll] Wind]
 
 [Wind:]

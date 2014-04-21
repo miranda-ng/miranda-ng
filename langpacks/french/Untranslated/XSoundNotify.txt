@@ -5,7 +5,6 @@
 [Ignore sound for this contact]
 [Custom sound for %s (%s)]
 [Sound files]
-[WAV files]
 [XSound Notify]
 [Self status]
 [Custom contact sound]

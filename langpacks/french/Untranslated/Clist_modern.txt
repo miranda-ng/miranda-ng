@@ -29,7 +29,6 @@
 [Status Overlay]
 [Menu background]
 [Frames title bar background]
-[Contact names]
 [Frame texts]
 [Special colors]
 [Hot text]

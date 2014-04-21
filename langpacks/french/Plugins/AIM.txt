@@ -142,7 +142,7 @@ Message
 [Others]
 Autres
 [&Invite user...]
-
+&Inviter l'utilisateur...
 [&Leave chat session]
 
 [User &details]

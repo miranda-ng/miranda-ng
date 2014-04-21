@@ -32,7 +32,7 @@ Annuler
 [Sound files]
 
 [WAV files]
-
+Fichiers WAV
 ;file \plugins\XSoundNotify\src\options.cpp
 [Sounds]
 Sons

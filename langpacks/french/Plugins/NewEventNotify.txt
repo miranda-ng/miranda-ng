@@ -86,6 +86,10 @@ Contacts
 Vous avez été ajouté !
 [Requests your authorization]
 Demande votre autorisation
+[ICQ Web pager]
+
+[ICQ Email express]
+
 [SMS Message]
 
 [SMS Confirmation]

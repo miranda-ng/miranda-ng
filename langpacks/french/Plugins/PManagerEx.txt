@@ -11,13 +11,13 @@
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 
 [Check Database]
-
+Vérifiez la base de données
 [Load profile]
 
 [Change profile]
 
 [Check database]
-
+Vérifiez la base de données
 [Restart]
 
 [Database]

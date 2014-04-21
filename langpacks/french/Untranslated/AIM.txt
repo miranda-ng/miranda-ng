@@ -30,7 +30,6 @@
 [Chat Room Invitation Request]
 [Room]
 [Me]
-[&Invite user...]
 [&Leave chat session]
 [User &history]
 [Invalid Screen Name or password.]

@@ -161,7 +161,7 @@ Aperçu
 [Unknown]
 Inconnu
 [&Invite user...]
-
+&Inviter l'utilisateur...
 [Me]
 
 [&Leave chat session]

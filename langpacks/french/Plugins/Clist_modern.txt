@@ -697,7 +697,7 @@ Changement de MetaContact (Déplacement)
 Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
-
+Noms des contacts
 [Row items]
 Détail des lignes
 [Frame texts]

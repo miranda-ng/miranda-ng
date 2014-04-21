@@ -2,32 +2,32 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.3.2
+;  Version: 0.2.4.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-
+Support du protocole Facebook pour Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
-E-mail:
+Courriel :
 [Password:]
-Passe:
+Passe :
 [Create a new Facebook account]
-
+Créer un nouveau compte Facebook
 [What's on your mind?]
-
+Exprimez-vous
 [Wall:]
-
+Mur :
 [Visibility:]
-
+Visibilité :
 [Text:]
 
 [URL:]
-Lien:
+Lien :
 [Place:]
 
 [Share]
-
+Partager
 [Cancel]
 Annuler
 [Contacts >>]
@@ -37,7 +37,7 @@ Annuler
 [User details]
 Détails du contact
 [Default group:]
-Groupes:
+Groupes :
 [Automatically set 'Ignore status change' flag]
 
 [Contacts Settings]
@@ -53,7 +53,7 @@ Notifications
 [News Feed types to notify:]
 
 [Other events]
-
+Autres événements
 [Client notifications]
 
 [Preview]
@@ -63,9 +63,9 @@ Aperçu
 [Advanced Settings]
 Options Avancées
 [Force secure (HTTPS) connection]
-
+Se connecter via une connection sécurisée HTTPS
 [Post Miranda statuses to Wall]
-
+Poster les statuts de Miranda sur le mur
 [Use secure connection also for channel requests]
 
 [Also disconnect chat when going to offline]
@@ -83,12 +83,12 @@ Options Avancées
 [Message sessions]
 Sessions de message
 [Keep messages as unread on server (don't send "seen" info)]
-
+Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 [Receive messages from "inbox" folder only]
 
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
-
+&Inviter l'utilisateur...
 [&Leave chat session]
 
 [User &details]
@@ -117,7 +117,7 @@ Sessions de message
 [Timeout when sending message.]
 
 [Status update was successful.]
-
+Mise à jour du statut avec succès.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 
@@ -137,7 +137,7 @@ Sessions de message
 [Apps and Games]
 
 [Classic website]
-
+Site internet classique
 [Mobile website]
 
 [Smartphone website]
@@ -202,7 +202,9 @@ Fichiers
 [Message read: %s]
 Message lu : %s
 [This message is no longer available, because it was marked as abusive or spam.]
-
+Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
+[%s is typing a message...]
+%s vous écrit un message...
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
@@ -272,6 +274,8 @@ Voir les détails
 [Request friendship]
 
 [Approve friendship]
+
+[Visit notifications]
 
 [Services...]
 

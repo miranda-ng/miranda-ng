@@ -155,7 +155,7 @@ Annuler
 [URL events]
 Liens URL
 [Other events]
-
+Autres événements
 [Consider event opened after]
 
 [Use custom theme]

@@ -119,7 +119,7 @@ Statique
 [&Watched currency rates:]
 
 [&Remove]
-
+&Supprimer
 [&Refresh Rates Every:]
 
 [Quote\\Rate Info]

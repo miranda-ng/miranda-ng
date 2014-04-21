@@ -162,7 +162,7 @@ Ouvrir à cet endroit
 [&Add]
 &Ajouter
 [&Remove]
-
+&Supprimer
 ;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 
@@ -689,7 +689,7 @@ Notifications :
 [URL events]
 Liens URL
 [Other events]
-
+Autres événements
 [Send message on Ctrl+Enter (always enabled)]
 
 [&Copy]
@@ -1070,7 +1070,7 @@ Dernière réception : le %s à %s
 
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
-
+Messages instantanés
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]

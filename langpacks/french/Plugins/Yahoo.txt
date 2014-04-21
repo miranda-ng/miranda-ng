@@ -51,7 +51,7 @@ Liste des contacts à ignorer
 [&Add]
 &Ajouter
 [&Remove]
-
+&Supprimer
 [Set Custom Status]
 Personnaliser le message d'état
 [Show as busy]
@@ -96,7 +96,7 @@ Ajouter
 [Others]
 Autres
 [&Invite user...]
-
+&Inviter l'utilisateur...
 [&Leave chat session]
 
 [User &details]

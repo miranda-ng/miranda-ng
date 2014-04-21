@@ -6,14 +6,14 @@
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
-
+Support du protocole Steam pour Miranda NG.
 ;file \protocols\Steam\res\Resource.rc
 [Username:]
 Identifiant :
 [Password:]
 Passe :
 [Default group:]
-Groupes:
+Groupes :
 [Account]
 Compte
 [Captcha]
@@ -26,11 +26,19 @@ Annuler
 
 [Go to email domain]
 
+;file \protocols\Steam\src\steam_contacts.cpp
+[%s has added you to his or her Friend List]
+
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 
 [Network]
 Réseau
+;file \protocols\Steam\src\steam_menus.cpp
+[Steam menu chooser]
+
+[Join to game]
+
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protocoles

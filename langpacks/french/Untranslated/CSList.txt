@@ -10,7 +10,6 @@
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 [Add new item]
 [Modify item]
-[Modify]
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 [Regular statuses]
 [Title]
