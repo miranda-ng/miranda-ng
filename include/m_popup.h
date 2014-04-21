@@ -157,19 +157,6 @@ static void __inline * PUGetPluginData(HWND hPopupWindow) {
 	return (void*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hPopupWindow, (LPARAM)uselessPointer);
 }
 
-/* Popup/IsSecondLineShown
-Checks if second line is enable
-
-wParam = 0
-lParam = 0
-
-Returns: 0 if the user has chosen not to have the second line, 1 if he choose to have the second line.
-*/
-#define MS_POPUP_ISSECONDLINESHOWN "Popup/IsSecondLineShown"
-static BOOL __inline PUIsSecondLineShown() {
-	return (BOOL)CallService(MS_POPUP_ISSECONDLINESHOWN, 0, 0);
-}
-
 /* Popup/Query
 
 Requests an action or an answer from Popup module.
@@ -332,6 +319,7 @@ typedef struct {
 	WNDPROC PluginWindowProc;
 
 	int iSeconds;
+	LPARAM lParam; //APF_RETURN_HWND, APF_CUSTOM_POPUP  ... as above
 } POPUPCLASS;
 
 #define PCF_UNICODE			0x0001

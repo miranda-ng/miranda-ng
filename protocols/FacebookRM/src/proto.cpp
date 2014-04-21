@@ -811,7 +811,8 @@ void FacebookProto::InitPopups()
 {		
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;		
-	ppc.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppc.PluginWindowProc = PopupDlgProc;
+	ppc.lParam = APF_RETURN_HWND;
 
 	TCHAR desc[256];
 	char name[256];

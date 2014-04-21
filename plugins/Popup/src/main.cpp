@@ -387,7 +387,6 @@ MIRAPI int Load(void)
 
 	CreateServiceFunction(MS_POPUP_GETCONTACT,           Popup_GetContact);
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        Popup_GetPluginData);
-	CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN,    Popup_IsSecondLineShown);
 
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          Popup_ShowMessage);
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         Popup_ShowMessageW);

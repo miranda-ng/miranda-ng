@@ -16,8 +16,7 @@ PopupHistoryList::~PopupHistoryList()
 
 void PopupHistoryList::Clear()
 {
-	int i;
-	for (i = 0; i < count; i++)
+	for (int i = 0; i < count; i++)
 	{
 		DeleteData(i);
 	}
@@ -26,9 +25,8 @@ void PopupHistoryList::Clear()
 
 void PopupHistoryList::RemoveItem(int index)
 {
-	int i;
 	DeleteData(index); //free the mem for that particular item
-	for (i = index + 1; i < count; i++)
+	for (int i = index + 1; i < count; i++)
 	{
 		historyData[i - 1] = historyData[i]; //shift all items to the left
 	}

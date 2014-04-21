@@ -187,12 +187,6 @@ INT_PTR Popup_GetPluginData(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)(-1);
 }
 
-//===== Popup/IsSecondLineShown
-INT_PTR Popup_IsSecondLineShown(WPARAM wParam, LPARAM lParam)
-{
-	return 1;
-}
-
 //===== Popup/ChangeTextW
 INT_PTR Popup_ChangeTextW(WPARAM wParam, LPARAM lParam)
 {
@@ -307,7 +301,7 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 }
 
 //===== Popup/Query
-INT_PTR Popup_Query(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_Query(WPARAM wParam, LPARAM)
 {
 	if (!gbPopupLoaded) return -1;
 
@@ -348,7 +342,7 @@ INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 }
 
 
-INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM)
 {
 	return (INT_PTR)RegisterNotification((LPPOPUPNOTIFICATION)wParam);
 }
@@ -386,7 +380,7 @@ INT_PTR Popup_RegisterVfx(WPARAM wParam, LPARAM lParam)
 }
 
 //===== Popup/RegisterClass		(for core class api support)
-INT_PTR Popup_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 {
 	char setting[256];
 	POPUPCLASS *pc	= (POPUPCLASS *)lParam;
@@ -410,39 +404,39 @@ INT_PTR Popup_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	//we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
 	mir_snprintf(setting, 256, "%s/TextCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
-	FontID fid = {0};
-	fid.cbSize = sizeof(FontID);
-	mir_snprintf(fid.group, sizeof(fid.group), "%s/%s", PU_FNT_AND_COLOR, ptd->pupClass.pszName);
+	FontIDT fid = {0};
+	fid.cbSize = sizeof(FontIDT);
+	mir_sntprintf(fid.group, SIZEOF(fid.group), _T("%s/%S"), PU_FNT_AND_COLOR, ptd->pupClass.pszName);
 	strcpy(fid.dbSettingsGroup, PU_MODULCLASS);
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
-	strcpy(fid.deffontsettings.szFace, "Verdana");
-	strcpy(fid.name, PU_FNT_NAME_TEXT);
-	strcpy(fid.prefix, setting);
+	_tcsncpy(fid.deffontsettings.szFace, _T("Verdana"), SIZEOF(fid.deffontsettings.szFace));
+	_tcsncpy(fid.name, PU_FNT_NAME_TEXT, SIZEOF(fid.name));
+	strncpy(fid.prefix, setting, SIZEOF(fid.prefix));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style  = 0;
 	fid.deffontsettings.colour = fonts.clText;
-	FontRegister(&fid);
+	FontRegisterT(&fid);
 
 	//we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, 256, "%s/BgCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorBack				= (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
-	ColourID cid = {0};
-	cid.cbSize = sizeof(ColourID);
-	mir_snprintf(cid.group, sizeof(cid.group), "%s/%s", PU_FNT_AND_COLOR, ptd->pupClass.pszName);
+	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+	ColourIDT cid = {0};
+	cid.cbSize = sizeof(ColourIDT);
+	mir_sntprintf(cid.group, SIZEOF(cid.group), _T("%s/%S"), PU_FNT_AND_COLOR, ptd->pupClass.pszName);
 	strcpy(cid.dbSettingsGroup, PU_MODULCLASS);
-	strcpy(cid.name, PU_COL_BACK_NAME);
+	_tcsncpy(cid.name, PU_COL_BACK_NAME, SIZEOF(cid.name));
 	mir_snprintf(cid.setting, sizeof(cid.setting), "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
-	ColourRegister(&cid);
+	ColourRegisterT(&cid);
 
 	gTreeData.insert(ptd);
 	num_classes++;
 	return (INT_PTR)ptd;
 }
 
-INT_PTR Popup_UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPTREEDATA *ptd = (POPUPTREEDATA*)lParam;
 	if (ptd == NULL)
@@ -460,18 +454,19 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
 
 //===== Popup/AddPopupClass		(for core class api support)
 INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
-	int ret = 1;
+	INT_PTR ret = 1;
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
 	if (pdc->cbSize != sizeof(POPUPDATACLASS)) return ret;
 
-	POPUPCLASS		*pc  = NULL;
-	POPUPTREEDATA	*ptd = NULL;
+	POPUPCLASS *pc  = NULL;
 
-	if (wParam) pc = (POPUPCLASS*)wParam;
+	if (wParam)
+		pc = (POPUPCLASS*)wParam;
 	else {
 		LPTSTR group = mir_a2t(pdc->pszClassName);
-		ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
-		if (ptd) pc = &ptd->pupClass;
+		POPUPTREEDATA *ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
+		if (ptd)
+			pc = &ptd->pupClass;
 	}
 	if (pc) {
 		POPUPDATA2 ppd2 = { sizeof(ppd2) };
@@ -493,7 +488,7 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 		ppd2.lchContact = pdc->hContact;
 		ppd2.PluginData = pdc->PluginData;
 
-		ret = Popup_AddPopup2((WPARAM)&ppd2, 0);
+		return Popup_AddPopup2((WPARAM)&ppd2, pc->lParam);
 	}
 	return ret!=0 ? 1 : 0;
 }

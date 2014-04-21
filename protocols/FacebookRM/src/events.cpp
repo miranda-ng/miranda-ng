@@ -86,8 +86,7 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 				pd.PluginData = data;
 			}
 
-			if (CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd) == 0)
-				return NULL; // TODO: return popup window handle (to allow closing them)
+			return (HWND) CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd);
 		}
 	} else {
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY))

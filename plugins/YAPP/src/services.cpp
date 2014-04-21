@@ -191,11 +191,6 @@ static INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)data;
 }
 
-static INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam)
-{
-	return TRUE;
-}
-
 void UpdateMenu()
 {
 	bool isEnabled = db_get_b(0, MODULE, "Enabled", 1) == 1;
@@ -432,7 +427,6 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_CHANGEW, PopupChangeW);
 	CreateServiceFunction(MS_POPUP_GETCONTACT, GetContact);
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetOpaque);
-	CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN, IsSecondLineShown);
 	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, ShowMessage);
