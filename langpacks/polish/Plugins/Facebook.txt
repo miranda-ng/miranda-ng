@@ -276,7 +276,7 @@ Zaproś do grona znajomych
 [Approve friendship]
 Zatwierdź znajomość
 [Visit notifications]
-
+Przejdź do powiadomień
 [Services...]
 Usługi...
 [Refresh Buddy List]

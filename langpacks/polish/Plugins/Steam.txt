@@ -6,7 +6,7 @@
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
-Zapewnia obsługę protokołu Steam.
+Wsparcie protokołu Steam dla Mirandy NG
 ;file \protocols\Steam\res\Resource.rc
 [Username:]
 Użytkownik:
@@ -17,24 +17,32 @@ Domyślna grupa:
 [Account]
 Konto
 [Captcha]
-Captcha
+Kod Captcha
 [Cancel]
 Anuluj
 [Steam Guard]
 Steam Guard
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Jako dodatkowy środek bezpieczeństwa konta, trzeba przyznać dostęp poprzez wpisanie specjalnego kodu wysłanego na twój e-mail.
+Jako środek bezpieczeństwa dodanego konta, będziesz musiał udzielić dostępu podając specjalny kod, który właśnie wysłaliśmy na twój adres email.
 [Go to email domain]
-Otwórz skrzynkę e-mail
+Przejdź do domeny email
+;file \protocols\Steam\src\steam_contacts.cpp
+[%s has added you to his or her Friend List]
+%s dodał cię do swoich kontaktów
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 Połączenie %s
 [Network]
 Sieć
+;file \protocols\Steam\src\steam_menus.cpp
+[Steam menu chooser]
+Wybór menu Steam
+[Join to game]
+Dołącz do gry
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły
 [Protocol icon]
 Ikona protokołu
 [SteamID]
-ID Steam
+SteamID
