@@ -20,7 +20,7 @@ Wyślij prośbę o autoryzację
 [Open contact's chat window]
 Otwórz okno rozmowy z kontaktem
 [Custom name:]
-Niestandardowa nazwa:
+Nazwa:
 [Group:]
 Grupa:
 [Options]
@@ -505,16 +505,16 @@ Usuwanie historii
 Usuwanie historii. Proszę czekać...
 [Subcontact Priorities]
 Priorytet subkontaktu
-[Rank:]
-Ranga:
-[Status:]
-Status:
 [Protocol:]
 Protokół:
-[Reset All]
-Domyślne
+[Status:]
+Status:
+[Rank:]
+Ranga:
 [(Lower ranks are preferred)]
 (Preferowane niższe rangi)
+[Reset All]
+Domyślne
 [Current language:]
 Aktualny język:
 [Last modified using:]

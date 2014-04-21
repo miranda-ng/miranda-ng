@@ -355,10 +355,6 @@ Identyfikator
 Bezczynność
 [Idle:]
 Bezczynny:
-[IP]
-IP
-[IP:]
-IP:
 [IP internal]
 IP Wewnętrzne
 [IP internal:]

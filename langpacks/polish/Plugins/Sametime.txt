@@ -1,4 +1,4 @@
-#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
 ;============================================================
 ;  File: Sametime.dll
 ;  Plugin: Sametime Protocol
