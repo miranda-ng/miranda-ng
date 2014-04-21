@@ -1,7 +1,7 @@
 --------------------------------
-| Facebook Protocol RM 0.2.3.2 |
+| Facebook Protocol RM 0.2.4.0 |
 |        for Miranda NG        |
-|          (19.3.2014)         |
+|          (21.4.2014)         |
 --------------------------------
 
 Autor: Robyer
@@ -18,7 +18,7 @@ Info:
    Information about statuses
 --------------------------------
  - Online = connected to fb, chat is online
- - Invisible = connected to fb, but only for getting feeds and notifications - CHAT is OFFLINE
+ - Invisible = connected to fb, chat is offline, but you can still see other people online, receive messages, newsfeeds and notifications
  - Offline = disconnected
  
 --------------------------------
@@ -30,11 +30,28 @@ Info:
 "Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
 "UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages
 "KeepUnread" (Byte) - 1 = Don't mark messages as read on server (works globally or per contact)
+"NaseemsSpamMode" (Byte) - 1 = Don't add contacts when we send message to them from other instances, add them only when they reply
 
 --------------------------------
        Version history
 --------------------------------
-0.2.3.1 - 19.3.2014
+0.2.4.0 - 21.4.2014
+ + Support true invisible status (they don't see you, but you see them)
+ + Don't load "unread messages" which we received already (but didn't read them yet)
+ + Add support for showing unread notifications count as "unread emails" in clist
+ + Add status menu item "Visit Notifications" and icons for other items
+ + Hidden setting for Naseem's spam mode
+ * Respect "use local timestamp" setting also for "message read" events
+ * Refactor receiving multi-chat messages (it doesn't load chat participants and chat names, etc. but it will be fixed in future versions)
+ * Various typing notifications changes/fixes
+   + Support receiving typing notifications for multi chats (and prepare for sending it, when *srmm will be ready for that)
+   * Don't switch contact to online when he is typing (he can type from invisible)
+   * Send typing notifications even to offline contacts
+ ! Fix not to load offline multi chat messages to single contacts
+ ! Fix size of downloaded avatars (use 50x50 for smaller and 180x180 for bigger)
+ ! Various other fixes (crashes, poke/newsfeed texts,...)
+
+0.2.3.2 - 19.3.2014
  + Working manual refreshing of contact info
  + Load user info when we're receiving message from someone who isn't in clist yet (fixes contacts with our own name)
 
