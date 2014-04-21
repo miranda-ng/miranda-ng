@@ -607,6 +607,12 @@ INT_PTR FacebookProto::VisitConversation(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR FacebookProto::VisitNotifications(WPARAM wParam, LPARAM lParam)
+{
+	OpenUrl(FACEBOOK_URL_NOTIFICATIONS);
+	return 0;
+}
+
 INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())

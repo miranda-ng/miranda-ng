@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_URL_HOMEPAGE					"http://www.facebook.com"
 #define FACEBOOK_URL_REQUESTS					"http://www.facebook.com/n/?reqs.php"
 #define FACEBOOK_URL_MESSAGES					"http://www.facebook.com/n/?inbox"
-#define FACEBOOK_URL_NOTIFICATIONS				"http://www.facebook.com/n/?notifications.php"
+#define FACEBOOK_URL_NOTIFICATIONS				"http://www.facebook.com/n/?notifications"
 #define FACEBOOK_URL_PROFILE					"http://www.facebook.com/profile.php?id="
 #define FACEBOOK_URL_GROUP						"http://www.facebook.com/n/?home.php&sk=group_"
 #define FACEBOOK_URL_PICTURE					"http://graph.facebook.com/%s/picture"
