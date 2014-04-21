@@ -51,7 +51,6 @@
 [Typing Notify]
 [Please authorize me to add you to my contact list.]
 [Do you want to send authorization request\nto new contact?]
-[Miranda NG]
 [MenuItemEx]
 [Open ignore settings]
 [Request authorization]

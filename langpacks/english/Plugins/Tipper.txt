@@ -183,8 +183,6 @@
 [Identifier]
 [Idle]
 [Idle:]
-[IP]
-[IP:]
 [IP internal]
 [IP internal:]
 [Last message]

@@ -16,9 +16,14 @@
 [Steam Guard]
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 [Go to email domain]
+;file \protocols\Steam\src\steam_contacts.cpp
+[%s has added you to his or her Friend List]
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 [Network]
+;file \protocols\Steam\src\steam_menus.cpp
+[Steam menu chooser]
+[Join to game]
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 [Protocol icon]
