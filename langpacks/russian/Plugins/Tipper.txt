@@ -345,8 +345,6 @@ xСтатус
 Ожидание
 [Idle:]
 В ожидании:
-[IP]
-IP
 [IP internal]
 Внутренний IP
 [IP internal:]

@@ -23,13 +23,17 @@
 На этой учётной записи включен Steam Guard, поэтому необходимо ввести специальный код, который был выслан на ваш адрес электронной почты.
 [Go to email domain]
 Перейти в почтовый ящик
+[%s has added you to his or her Friend List]
+%s добавил вас в свой список друзей
 [%s connection]
 %s подключение
 [Network]
 Сеть
+[Steam menu chooser]
+Выбор меню Steam
+[Join to game]
+Присоединиться к игре
 [Protocols]
 Протоколы
 [Protocol icon]
 Значок протокола
-[Join to game]
-Присоединиться к игре
