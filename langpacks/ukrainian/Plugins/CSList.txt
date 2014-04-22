@@ -12,7 +12,7 @@
 [No items available in the database.\nClick the Add button to define some.]
 Немає записів у базі даних.\nНатисніть на кнопку "Додати", щоб заповнити список.
 [Add/Modify Custom Status]
-Додати/Змінити статус
+Додати/змінити хСтатус
 [Add/Modify]
 Додати/Змінити
 [Cancel]

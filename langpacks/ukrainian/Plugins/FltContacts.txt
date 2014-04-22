@@ -22,7 +22,7 @@
 [Hide when a fulscreen app is active]
 Сховати коли розгорнуто програму
 [Show tooltips*]
-Показувати підказки
+Показувати підказки*
 [ms]
 мс
 [Tooltips]
@@ -52,9 +52,9 @@
 [Draw border]
 Показувати рамку
 [Left-top edge's color:]
-Колір лівого-верхнього краю:
+Колір лівого верхнього краю:
 [Right-bottom edge's color:]
-Колір правого-нижнього краю:
+Колір правого нижнього краю:
 [Background]
 Фон
 [Background color:]

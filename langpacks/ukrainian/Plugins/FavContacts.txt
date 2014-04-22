@@ -44,7 +44,7 @@
 [recent contacts]
 недавніх контактів
 [<no group>]
-Немає груп
+<без групи>
 [Favorite Contact]
 Обрані контакти
 [Regular Contact]

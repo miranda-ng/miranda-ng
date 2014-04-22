@@ -120,11 +120,11 @@
 [Filter]
 Фільтр
 [no filter]
-немає фільтру
+без фільтру
 [Search Filter]
 Пошуковий фільтр
 [no settings]
-немає налаштувань
+без налаштувань
 [&Create Linklist]
 &Створити список
 [History]

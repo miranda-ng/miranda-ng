@@ -60,9 +60,9 @@ C&касувати
 [Listening to]
 Слухаю
 [Activity title]
-Заголовок "активності"
+Заголовок заняття
 [Activity text]
-Повідомлення "активності"
+Текст заняття
 [Show in list]
 Показувати у списку
 [Always visible]

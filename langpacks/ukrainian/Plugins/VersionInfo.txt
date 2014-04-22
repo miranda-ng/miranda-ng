@@ -18,7 +18,7 @@
 [DialogBox]
 Діалогове вікно
 [Output Debug String]
-Висновок налагоджувальних рядків
+Вивід налагоджувальних рядків
 [Clipboard]
 Буфер обміну
 [Select output:]
@@ -32,7 +32,7 @@
 [Do it now]
 Зробити
 [Show window in taskbar]
-Показати вікно панелі завдань
+Показати вікно на панелі завдань
 [Ask every time]
 Завжди питати
 [Also copy info to clipboard]
@@ -66,7 +66,9 @@ UUID плагіна
 [Upload]
 Завантажити
 [&Save to file]
-&Файл
+&У файл
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+Якщо ви збираєтеся використати цей звіт у повідомленні про помилку, не забудьте перевірити сайт для відповідей на запитання або допомоги розробникам.\r\nПеревіряйте своє повідомлення про помилку, якщо ви не надасте звортного зв'язку, помилка не буде виправлена!
 [Information successfully written to file: "%s".]
 Інформацію успішно записано у файл: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]

@@ -54,7 +54,7 @@
 [Status bar tips]
 Підказки в панелі статусу
 [Avatar border]
-Рамка аватара
+Рамка аватару
 [Round corners (avatar)]
 Заокруглені кути аватарів
 [Keep original avatar size]
@@ -476,7 +476,7 @@
 [%dy %dd %dh %dm]
 %dр %dдн %dгод %dхв
 [%dd]
-%dд
+%dдн
 [[No translation]]
 (без перетворення)
 [WORD to status description]

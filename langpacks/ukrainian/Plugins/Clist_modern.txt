@@ -567,6 +567,8 @@ x100 мс
 Плаваюче
 [Frames Order]
 Порядок фреймів
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+У розробці!!!           Не працює
 [Row template]
 Шаблон
 [Add container]
@@ -897,12 +899,20 @@ Cписок неактивний
 Завантажити/Зберегти
 [Object editor]
 Редактор об'єктів
+[( unknown )]
+(невідомо)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(и):\t %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(и): %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
+[reVista for Modern v0.5]
+reVista для Modern v0.5
 [This is second default Modern Contact list skin in Vista Aero style]
 Це другий стандартний скін списку контактів в стилі Vista Aero
+[Angeli-Ka (graphics), FYR (template)]
+Angeli-Ka (графіка), FYR (шаблон)
+[Inside library]
+Вбудований
 [Skin Information]
 Інформація про скін
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
@@ -915,6 +925,8 @@ Cписок неактивний
 Попередній перегляд недоступний\n\n%s\n----------------------\n\n%s\n\nАвтор(и):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nАВТОРИ:\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+графіка - Angeli-Ka\nшаблон - FYR
 [Select skin from list]
 Виберіть скін зі списку
 [Please select skin to apply]

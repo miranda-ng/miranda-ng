@@ -1493,6 +1493,8 @@ TabSRMM: Набирає
 Не вдалося
 [Sent OK]
 Надіслано
+[Deferred]
+Відкладено
 [Suspended]
 Затримано
 [Pending]

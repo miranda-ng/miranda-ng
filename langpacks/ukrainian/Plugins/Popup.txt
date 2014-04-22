@@ -237,6 +237,20 @@ History++ для історії вікон
 Наведена дія
 [Clock]
 Час
+[Title]
+Заголовок
+[Text]
+Текст
+[Background]
+Фон
+[Border]
+Рамка
+[Sidebar]
+Врізка
+[Title underline]
+Підкреслення заголовка
+[Avatar Border]
+Рамка аватару
 [Popup History is disabled]
 Історія спливаючих вікон вимкнена
 [Popup History message]

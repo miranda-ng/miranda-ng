@@ -173,6 +173,8 @@
 &Вигнати
 [Do a SkypeOut-call]
 Подзвонити по SkypeOut
+[invited]
+запросив
 [Phone call]
 Дзвінок
 [Incoming Skype Call]

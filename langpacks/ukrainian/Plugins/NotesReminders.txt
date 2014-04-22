@@ -251,6 +251,8 @@
 Білий
 [Are you sure you want to delete this note?]
 Впевнені, що хочете видалити нотатку?
+[V]
+Вид.
 [Notes]
 Нотатка
 [Note text]

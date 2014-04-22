@@ -62,9 +62,9 @@ Mind файли
 [Boltun Error]
 Помилка Базіки
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
-Не вдалося завантажити базу реплік. Помилка в рядку %d %s. (Або кілька рядків).
+Не вдалося завантажити базу реплік. Помилка в рядку %d файлу %s (або кількома рядками вище).
 [Failed to save base of remarks to %s]
-Не вдалося зберегти базу реплік: %s
+Не вдалося зберегти базу реплік у файл %s
 [General Settings]
 Основні налаштування
 [Engine Settings]

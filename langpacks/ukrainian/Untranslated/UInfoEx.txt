@@ -8,4 +8,3 @@
 [(uinfoex)]
 [The function caused an exception!]
 [%s has the following anniversaries:\0]
-[Miranda NG]

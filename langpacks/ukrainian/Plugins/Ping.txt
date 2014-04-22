@@ -99,10 +99,12 @@ TCP-з'єднання
 Хости...
 [Ping]
 Пінг
+[Text Files (*.txt)]
+Текстові файли (*.txt)
+[All Files]
+Усі файли
 [Open log file]
 Відкрити журнал
-[All\0*.*\0Text\0*.TXT\0]
-Всі\0*.*\0Текст\0*.TXT\0
 [<none>]
 <немає>
 [<all>]
@@ -125,10 +127,16 @@ TCP-з'єднання
 МАКС %hd мс
 [MIN %hd ms]
 МІН %hd мс
+[Ping Graph]
+Граф пінгів
 [%s - setting status of protocol '%S' (%d)]
 %d - встановлення статусу протоколу '%S' (%d)
+[Ping Reply]
+Пінг відповідь
 [%s - reply, %d]
 %s - відповідь, %d
+[Ping Timeout]
+Таймаут пінгів
 [%s - timeout]
 %s - таймаут
 [Disable]

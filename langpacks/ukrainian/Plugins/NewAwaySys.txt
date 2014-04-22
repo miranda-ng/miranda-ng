@@ -13,6 +13,8 @@
 Формат повідомлення у сплив. вікні
 [Preview]
 Тест
+[V]
+Змін.
 [%extratext% is your status message]
 %extratext% - ваше статусне повідомлення
 [Click action]
