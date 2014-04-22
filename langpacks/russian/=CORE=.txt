@@ -293,6 +293,8 @@
 Описание:
 [Author(s):]
 Автор(ы):
+[E-mail:]
+Почта:
 [Homepage:]
 Сайт:
 [Unique ID:]
@@ -1783,6 +1785,8 @@ UIN, E-mail и т.д.
 Передача и проверка на вирусы завершены
 [Outgoing]
 Исходящие
+[v]
+версия
 [< Copyright]
 < Права
 [&About...]
@@ -2083,6 +2087,8 @@ URL от %s
 Ник
 [FirstName]
 Имя
+[E-mail]
+Почта
 [LastName]
 Фамилия
 [Username]

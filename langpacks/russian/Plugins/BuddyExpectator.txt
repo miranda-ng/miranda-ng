@@ -77,6 +77,10 @@
 Скрыть
 [Never hide]
 Никогда не прятать
+[Hiding %s (%S)]
+Скрытие %s (%S)
+[%d days since last message]
+%d дней с последнего сообщения
 [Disable Miss You]
 Выключить "Жду тебя"
 [You awaited this contact!]

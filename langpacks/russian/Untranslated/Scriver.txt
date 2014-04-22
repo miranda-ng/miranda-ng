@@ -1,5 +1,4 @@
-﻿[Google]
-[Bing]
+﻿[Bing]
 [Yandex]
 [Wikipedia (en)]
 [Google Maps]

@@ -289,6 +289,8 @@ xСтатус
 Клиент
 [%s (locked)]
 %s (заблокирован)
+[%s ago]
+%s назад
 [Log on:]
 В сети:
 [Unread emails:]
@@ -333,6 +335,8 @@ xСтатус
 Клиент:
 [Email]
 Почта
+[Email:]
+Почта:
 [Gender:]
 Пол:
 [Homepage]
@@ -469,6 +473,10 @@ xСтатус
 Женский
 [Male]
 Мужской
+[%dy %dd %dh %dm]
+%dлет %dдн %dчас %dмин
+[%dd]
+%dдн
 [[No translation]]
 (без преобразования)
 [WORD to status description]

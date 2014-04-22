@@ -1,3 +1,1 @@
 ﻿[%n   (%u)]
-[Temperature: %[Temperature]]
-[No update data file is found. Please check your Plugins\\Weather directory.]

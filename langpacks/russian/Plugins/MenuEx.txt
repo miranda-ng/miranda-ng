@@ -59,6 +59,10 @@
 Сообщение xСтатуса
 [Listening to]
 Слушаю
+[Activity title]
+Заголовок занятия
+[Activity text]
+Текст занятия
 [Show in list]
 Показывать в списке
 [Always visible]

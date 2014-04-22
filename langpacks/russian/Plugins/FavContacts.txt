@@ -43,6 +43,8 @@
 Показать
 [recent contacts]
 недавних контактов
+[<no group>]
+<без группы>
 [Favorite Contact]
 Избранный контакт
 [Regular Contact]
@@ -65,3 +67,5 @@
 Контакты
 [Favorites]
 Избранные
+[&Favorite Contacts...]
+&Избранные контакты...
