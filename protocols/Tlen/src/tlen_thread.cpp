@@ -541,24 +541,24 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode* node)
 		switch ( osvi.dwPlatformId ) {
 		case VER_PLATFORM_WIN32_NT:
 			if ( osvi.dwMajorVersion == 5 ) {
-				if ( osvi.dwMinorVersion == 2 ) os = TlenTextEncode( Translate( "Windows Server 2003" ));
-				else if ( osvi.dwMinorVersion == 1 ) os = TlenTextEncode( Translate( "Windows XP" ));
-				else if ( osvi.dwMinorVersion == 0 ) os = TlenTextEncode( Translate( "Windows 2000" ));
+				if ( osvi.dwMinorVersion == 2 ) os = TlenTextEncode("Windows Server 2003");
+				else if ( osvi.dwMinorVersion == 1 ) os = TlenTextEncode("Windows XP");
+				else if ( osvi.dwMinorVersion == 0 ) os = TlenTextEncode("Windows 2000");
 			}
 			else if ( osvi.dwMajorVersion <= 4 ) {
-				os = TlenTextEncode( Translate( "Windows NT" ));
+				os = TlenTextEncode("Windows NT");
 			}
 			break;
 		case VER_PLATFORM_WIN32_WINDOWS:
 			if ( osvi.dwMajorVersion == 4 ) {
-				if ( osvi.dwMinorVersion == 0 ) os = TlenTextEncode( Translate( "Windows 95" ));
-				if ( osvi.dwMinorVersion == 10 ) os = TlenTextEncode( Translate( "Windows 98" ));
-				if ( osvi.dwMinorVersion == 90 ) os = TlenTextEncode( Translate( "Windows ME" ));
+				if ( osvi.dwMinorVersion == 0 ) os = TlenTextEncode("Windows 95");
+				if ( osvi.dwMinorVersion == 10 ) os = TlenTextEncode("Windows 98");
+				if ( osvi.dwMinorVersion == 90 ) os = TlenTextEncode("Windows ME");
 			}
 			break;
 	}	}
 
-	if ( os == NULL ) os = TlenTextEncode( Translate( "Windows" ));
+	if ( os == NULL ) os = TlenTextEncode("Windows");
 
 	strcpy(mversion, "Miranda NG ");
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof( mversion ) - 11, ( LPARAM )mversion + 11 );
