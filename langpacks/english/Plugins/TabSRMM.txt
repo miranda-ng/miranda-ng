@@ -61,7 +61,6 @@
 [Clear lo&g]
 [Co&py all]
 [Word lookup]
-[Google]
 [Wikipedia]
 [Link]
 [Open a &new browser window]

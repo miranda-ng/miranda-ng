@@ -126,6 +126,14 @@
 ;file \plugins\Popup\src\font.cpp
 [Hovered Action]
 [Clock]
+;file \plugins\Popup\src\font.h
+[Title]
+[Text]
+[Background]
+[Border]
+[Sidebar]
+[Title underline]
+[Avatar Border]
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]

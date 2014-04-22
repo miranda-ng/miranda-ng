@@ -140,7 +140,6 @@
 [Co&py All]
 [Select &All]
 [Word lookup]
-[Google]
 [Bing]
 [Yandex]
 [Wikipedia (en)]
