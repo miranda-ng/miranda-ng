@@ -147,7 +147,7 @@ static void ApplyChanges()
 	NotifyEventHooks(hSubcontactsChanged, g_data.hMeta, g_data.hDefaultContact);
 
 	// set default
-	db_mc_setDefaultNum(g_data.hMeta, (g_data.hDefaultContact) ? Meta_GetContactNumber(g_data.cc, g_data.hDefaultContact) : 0);
+	db_mc_setDefaultNum(g_data.hMeta, (g_data.hDefaultContact) ? Meta_GetContactNumber(g_data.cc, g_data.hDefaultContact) : 0, true);
 
 	// set offline
 	if (g_data.hOfflineContact)

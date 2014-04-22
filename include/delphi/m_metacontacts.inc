@@ -103,10 +103,10 @@ function db_mc_getSubCount(hContact:TMCONTACT):int; stdcall;
                  external CoreDLL name 'db_mc_getSubCount';
 
 { sets the default contact, using the subcontact's handle }
-function db_mc_setDefault(hContact,hSub:TMCONTACT):int; stdcall;
+function db_mc_setDefault(hContact,hSub:TMCONTACT; bWriteDb:bool):int; stdcall;
                  external CoreDLL name 'db_mc_setDefault';
 
 { sets the default contact, using the subcontact's number }
-function db_mc_setDefaultNum(hContact:TMCONTACT; idx:int):int; stdcall;
+function db_mc_setDefaultNum(hContact:TMCONTACT; idx:int; bWriteDb:bool):int; stdcall;
                  external CoreDLL name 'db_mc_setDefaultNum';
 {$ENDIF}

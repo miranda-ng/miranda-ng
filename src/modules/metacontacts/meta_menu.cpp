@@ -136,7 +136,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 		int iNumber = ccMeta->nDefault-1;
 		if (iNumber < 0)
 			iNumber = 0;
-		db_mc_setDefaultNum(ccMeta->contactID, iNumber);
+		db_mc_setDefaultNum(ccMeta->contactID, iNumber, true);
 	}
 	
 	ccMeta->nSubs--;
@@ -222,7 +222,7 @@ INT_PTR Meta_Default(WPARAM hSub, LPARAM wParam)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(db_mc_getMeta(hSub));
 	if (cc && cc->IsMeta())
-		db_mc_setDefault(cc->contactID, hSub);
+		db_mc_setDefault(cc->contactID, hSub, true);
 	return 0;
 }
 

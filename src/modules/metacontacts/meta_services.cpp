@@ -592,7 +592,7 @@ int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 
 	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, NULL);
 	if (res > 0)
-		db_mc_setDefault(cc->contactID, Meta_GetContactHandle(cc, res - 1));
+		db_mc_setDefault(cc->contactID, Meta_GetContactHandle(cc, res-1), true);
 	return 0;
 }
 
@@ -686,7 +686,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT)) {
 				// set default contact for sending/status and open message window
-				db_mc_setDefaultNum(hMeta, lParam);
+				db_mc_setDefaultNum(hMeta, lParam, false);
 				CallService(MS_MSG_SENDMESSAGET, hMeta, 0);
 			}
 			else // protocol does not support messaging - simulate double click

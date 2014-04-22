@@ -1283,7 +1283,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be default?"), contSour->szText);
 							int res = MessageBox(hwnd, Wording, TranslateT("Set default contact"), MB_OKCANCEL | MB_ICONQUESTION);
 							if (res == 1)
-								db_mc_setDefault(contDest->hContact, hsour);
+								db_mc_setDefault(contDest->hContact, hsour, true);
 						}
 						else {
 							MCONTACT hcontact = contSour->hContact;

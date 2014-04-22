@@ -129,7 +129,7 @@ MIR_CORE_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum)
 }
 
 //sets the default contact, using the subcontact's handle
-MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub)
+MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWriteDb)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -140,14 +140,15 @@ MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub)
 		return 1;
 
 	cc->nDefault = contact_number;
-	currDb->MetaSetDefault(cc);
+	if (bWriteDb)
+		currDb->MetaSetDefault(cc);
 	
 	NotifyEventHooks(hEventDefaultChanged, hMetaContact, hSub);
 	return 0;
 }
 
 //sets the default contact, using the subcontact's number
-MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum)
+MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWriteDb)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
 	if (cc == NULL)
@@ -156,7 +157,8 @@ MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum)
 		return 1;
 
 	cc->nDefault = iNum;
-	currDb->MetaSetDefault(cc);
+	if (bWriteDb)
+		currDb->MetaSetDefault(cc);
 
 	NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, iNum));
 	return 0;

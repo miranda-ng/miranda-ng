@@ -96,10 +96,10 @@ MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact);
 MIR_CORE_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum);
 
 //sets the default contact, using the subcontact's handle
-MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub);
+MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWriteDb);
 
 //sets the default contact, using the subcontact's number
-MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum);
+MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWriteDb);
 
 #if defined(__cplusplus)
 }
