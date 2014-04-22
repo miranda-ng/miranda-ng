@@ -203,7 +203,6 @@
 [&Options]
 [&Upgrade]
 [&Remove...]
-[Miranda NG]
 [Miranda NG is being restarted.\nPlease wait...]
 [Error console]
 [Error notifications]
@@ -928,6 +927,7 @@
 ;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 ;file \src\core\stdhelp\about.cpp
+[v]
 [< Copyright]
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -1366,7 +1366,6 @@
 [History]
 [Down arrow]
 [Find user]
-[SMS]
 [Search all]
 [Tick]
 [No tick]

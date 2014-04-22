@@ -607,7 +607,6 @@
 [Required modules]
 [Optional modules]
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Miranda NG]
 [Shows Miranda's installation directory.]
 [Shows the directory with all your Miranda's profiles.]
 [The OpenFileDialog returned an error: %d!]

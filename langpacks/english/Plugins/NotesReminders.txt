@@ -135,6 +135,8 @@
 [Aqua]
 [White]
 [Are you sure you want to delete this note?]
+[V]
+[T]
 [Notes]
 [Note text]
 [Date/Title]
