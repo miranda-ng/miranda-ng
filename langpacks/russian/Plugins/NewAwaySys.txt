@@ -14,7 +14,7 @@
 [Preview]
 Тест
 [V]
-версия
+Пер.
 [%extratext% is your status message]
 %extratext% это ваше сообщение статуса
 [Click action]

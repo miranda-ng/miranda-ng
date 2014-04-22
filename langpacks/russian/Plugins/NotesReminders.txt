@@ -226,7 +226,7 @@
 [Are you sure you want to delete this note?]
 Уверены, что хотите удалить заметку?
 [V]
-версия
+Вид.
 [Notes]
 Заметка
 [Note text]
