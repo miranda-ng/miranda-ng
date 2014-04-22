@@ -61,6 +61,10 @@ Mind файлы
 Привет, я - Болтун! Я с тобой поговорю, пока хозяина нет. Пожалуйста, пиши без ошибок!
 [Boltun Error]
 Ошибка Болтуна
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+Не удалось загрузить базу реплик. Ошибка в строке %d файла %s. (Или несколькими строками ранее).
+[Failed to save base of remarks to %s]
+Не удалось сохранить базу реплик в файл %s
 [General Settings]
 Основные настройки
 [Engine Settings]

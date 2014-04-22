@@ -329,6 +329,8 @@ INI файл погоды для этой станции не найден (20)
 %n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nСегодня:  макс. %h, мин. %l
+[Temperature: %[Temperature]]
+Температура: %[Temperature]
 [Current weather information for %s.]
 Текущая информация о погоде для %s.
 [%s is now the default weather station]
@@ -439,6 +441,8 @@ HTTP подключение Weather
 Описание:
 [Here is a list of custom variables that are currently available]
 Список дополнительных переменных, доступных на данный момент
+[No update data file is found. Please check your Plugins\\Weather directory.]
+Не найдено ни одного файла INI. Пожалуйста, проверьте папку Plugins\\Weather.
 [Invalid ini format for: %s]
 Собственный формат ini для: %s
 [All update data has been reloaded.]

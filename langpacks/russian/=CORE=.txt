@@ -715,6 +715,8 @@ UIN, E-mail и т.д.
 Очистить ча&т
 [Word lookup]
 Найти слово
+[Wikipedia]
+Википедия
 [Link]
 Ссылка
 [Open a &new browser window]

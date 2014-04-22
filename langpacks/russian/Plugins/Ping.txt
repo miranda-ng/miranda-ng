@@ -123,10 +123,16 @@ TCP соединение
 МАКС %hd мс
 [MIN %hd ms]
 МИН %hd мс
+[Ping Graph]
+Граф пингов
 [%s - setting status of protocol '%S' (%d)]
 %s - установка статуса протокола '%S' (%d)
+[Ping Reply]
+Пинг ответ
 [%s - reply, %d]
 %s - ответ, %d
+[Ping Timeout]
+Таймаут пингов
 [%s - timeout]
 %s - таймаут
 [Disable]

@@ -119,6 +119,12 @@
 исходящие
 [Filter]
 Фильтр
+[no filter]
+без фильтра
+[Search Filter]
+Фильтр поиска
+[no settings]
+без настроек
 [&Create Linklist]
 &Создать Линк-лист
 [History]
@@ -141,3 +147,5 @@
 RTF файл
 [All files]
 Все файлы
+[Save RTF File]
+Сохранить RTF файл

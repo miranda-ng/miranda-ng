@@ -169,6 +169,8 @@ SkypeOut контакты в статусе:
 &Информация
 [User &history]
 &История пользователя
+[&Kick user]
+Выгнать пользователя
 [Do a SkypeOut-call]
 Позвонить по SkypeOut
 [Phone call]
