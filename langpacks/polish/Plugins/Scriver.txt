@@ -274,8 +274,6 @@ Ko&piuj wszystko
 Zaznacz &wszystko
 [Word lookup]
 Wyszukaj słowo
-[Google]
-Google
 [Bing]
 Bing
 [Yandex]

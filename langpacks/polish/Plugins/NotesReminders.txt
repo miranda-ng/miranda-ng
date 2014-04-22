@@ -260,6 +260,10 @@ Aqua
 Biały
 [Are you sure you want to delete this note?]
 Czy na pewno chcesz usunąć tę notatkę?
+[V]
+V
+[T]
+T
 [Notes]
 Notatki
 [Note text]

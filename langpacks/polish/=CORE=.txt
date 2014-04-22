@@ -407,8 +407,6 @@ Pobierz więcej wtyczek...
 &Aktualizuj
 [&Remove...]
 &Usuń...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG jest restartowana.\nProszę czekać...
 [Error console]
@@ -720,8 +718,6 @@ Lista
 Wyczyść dzienn&ik
 [Word lookup]
 Wyszukaj słowo
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -1826,6 +1822,8 @@ Ukończono przesyłanie i skanowanie wirusów
 [Outgoing]
 Wychodzące
 ;file \src\core\stdhelp\about.cpp
+[v]
+V
 [< Copyright]
 < Prawa aut.
 ;file \src\core\stdhelp\help.cpp
@@ -2638,8 +2636,6 @@ Historia
 Strzałka w dół
 [Find user]
 Szukaj kontaktu
-[SMS]
-SMS
 [Search all]
 Przeszukaj wszystko
 [Tick]

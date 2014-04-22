@@ -111,13 +111,13 @@ Czas trwania rozmowy
 [(unknown)]
 (Nieznany)
 [[Min] #{amount}]
-[Minimalny] #{amount}
+Minimalny: #{amount}
 [[Avg] #{amount}]
-[Średni] #{amount}
+Średni: #{amount}
 [[Max] #{amount}]
-[Maksymalny] #{amount}
+Maksymalny: #{amount}
 [[Sum] #{amount}]
-[Suma] #{amount}
+Suma: #{amount}
 ;file \plugins\HistoryStats\src\column_chatduration.h
 [Column holding the amount of time you have chatted with the given contact.]
 Graficzny podgląd czasu rozmowy z danym kontaktem.
@@ -233,9 +233,9 @@ Wychodzących
 [Incoming]
 Przychodzących
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
-[Wychodzących] #{out_amount} (#{out_ratio}) / [Przychodzących] #{in_amount} (#{in_ratio})
+Wychodzących: #{out_amount} (#{out_ratio}) / Przychodzących: #{in_amount} (#{in_ratio})
 [[Out] #{out_amount} / [In] #{in_amount}]
-[Wychodzących] #{out_amount} / [Przychodzących] #{in_amount}
+Wychodzących: #{out_amount} / Przychodzących: #{in_amount}
 ;file \plugins\HistoryStats\src\column_inoutgraph.h
 [In/out graph]
 Wykres przych. / wych.
@@ -249,9 +249,9 @@ Pokaż liczby kontaktu dla pominiętych / wszystkich (tooltip)
 [Nick]
 Nick
 [[First] #{first_time} / [Last] #{last_time}]
-[Pierwsza] #{first_time} / [Ostatnia] #{last_time}
+Pierwsza: #{first_time} / Ostatnia: #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
-#{count} kontakty / [Pierwsza] #{first_time} / [Ostatnia] #{last_time}
+#{count} kontakty / Pierwsza: #{first_time} / Ostatnia: #{last_time}
 [#{count} contacts]
 #{count} kontakty
 [Omitted]
@@ -453,7 +453,7 @@ Pokaż oddzielne liczby dla przych. / wych.
 [Color words according to in/out ratio]
 Koloruj słowa zgodnie z zestawieniem przych. / wych.
 [[Out] #{out_words} / [In] #{in_words}]
-[Wychodzących] #{out_words} / [Przychodzących] #{in_words}
+Wychodzących: #{out_words} / Przychodzących: #{in_words}
 ;file \plugins\HistoryStats\src\column_words.h
 [Words]
 Słowa

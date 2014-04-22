@@ -1178,8 +1178,6 @@ Wymagane moduły
 [Optional modules]
 Opcjonalne moduły
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Miranda NG]
-Miranda NG
 [Shows Miranda's installation directory.]
 Pokaż folder instalacyjny Mirandy
 [Shows the directory with all your Miranda's profiles.]

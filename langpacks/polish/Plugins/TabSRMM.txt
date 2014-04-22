@@ -116,8 +116,6 @@ Wyczyść dzienn&ik
 Ko&piuj wszystko
 [Word lookup]
 Wyszukaj słowo
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

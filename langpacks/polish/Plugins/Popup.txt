@@ -242,6 +242,21 @@ Blaknięcie
 Akcje po najechaniu
 [Clock]
 Zegar
+;file \plugins\Popup\src\font.h
+[Title]
+Tytuł
+[Text]
+Tekst
+[Background]
+Tło
+[Border]
+Obramowanie
+[Sidebar]
+Boczny pasek
+[Title underline]
+Podkreślony tytuł
+[Avatar Border]
+Obramowanie awatara
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Historia popupów jest wyłączona
