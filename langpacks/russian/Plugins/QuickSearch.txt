@@ -61,6 +61,8 @@ ID пользователя
 Группа
 [Container]
 Контейнер
+[E-mail]
+Почта
 [Client ID]
 ID клиента
 [Ext IP]

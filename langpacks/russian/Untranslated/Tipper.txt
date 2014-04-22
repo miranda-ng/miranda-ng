@@ -1,4 +1,0 @@
-﻿[%s ago]
-[Email:]
-[%dy %dd %dh %dm]
-[%dd]

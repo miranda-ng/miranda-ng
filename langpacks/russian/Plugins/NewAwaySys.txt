@@ -13,6 +13,8 @@
 Формат сообщения во вспл. окне
 [Preview]
 Тест
+[V]
+версия
 [%extratext% is your status message]
 %extratext% это ваше сообщение статуса
 [Click action]

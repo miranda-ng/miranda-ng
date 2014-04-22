@@ -1,5 +1,0 @@
-﻿[Google]
-[Removed]
-[Sent OK]
-[Deferred]
-[Suspended]

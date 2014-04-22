@@ -1,4 +1,0 @@
-﻿[*** Console started ***]
-[*** Console paused ***]
-[*** Console resumed ***]
-[*** Console cleared ***]

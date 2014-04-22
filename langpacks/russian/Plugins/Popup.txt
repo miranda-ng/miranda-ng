@@ -235,6 +235,10 @@ History++ для истории окон
 Наведённое действие
 [Clock]
 Время
+[Text]
+Текст
+[Background]
+Фон
 [Popup History is disabled]
 История всплывающих окон отключена
 [Popup History message]

@@ -1,5 +1,4 @@
-﻿[E-mail]
-[Contact add time]
+﻿[Contact add time]
 [IP]
 [Attach to &Tab container]
 [Column content is simple database setting.]

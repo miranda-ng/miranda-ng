@@ -1,4 +1,0 @@
-﻿[no filter]
-[Search Filter]
-[no settings]
-[Save RTF File]

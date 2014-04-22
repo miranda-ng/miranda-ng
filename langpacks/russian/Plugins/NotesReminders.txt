@@ -225,6 +225,8 @@
 Белый
 [Are you sure you want to delete this note?]
 Уверены, что хотите удалить заметку?
+[V]
+версия
 [Notes]
 Заметка
 [Note text]
