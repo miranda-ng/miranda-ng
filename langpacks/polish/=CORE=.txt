@@ -1086,8 +1086,6 @@ Autorzy >
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
 [Windows]
 Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Przejdź w bezczynność gdy działa wygaszacz ekranu
 [Become idle if the computer is locked]

@@ -261,9 +261,9 @@ Biały
 [Are you sure you want to delete this note?]
 Czy na pewno chcesz usunąć tę notatkę?
 [V]
-V
+Widoczny
 [T]
-T
+Na wierzchu
 [Notes]
 Notatki
 [Note text]

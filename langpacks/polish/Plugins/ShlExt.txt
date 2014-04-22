@@ -44,8 +44,6 @@ Czy jesteś pewien? Ustawienia zostaną usunięte z profilu i Explorera
 [Disable/Remove shlext]
 Wyłącz/Usuń shlext
 ;file \plugins\ShellExt\src\shlcom.cpp
-[Miranda]
-Miranda
 [Recently]
 Ostatnio
 [Clear entries]

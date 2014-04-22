@@ -102,10 +102,12 @@ Hosty...
 [Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+Pliki tekstowe (*.txt)
+[All Files]
+Wszystkie pliki
 [Open log file]
-Otwórz raport pliku
-[All\0*.*\0Text\0*.TXT\0]
-Wszystkie\0*.*\0Pliki tekstowe\0*.TXT\0
+Otwórz plik raportu
 [<none>]
 <brak>
 [<all>]
