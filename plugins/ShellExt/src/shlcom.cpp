@@ -414,7 +414,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 			pMMT->dwFlags = HIPC_NOICONS;
 
 		// see if we have a custom string for 'Miranda'
-		szMiranda = Translate("Miranda");
+		szMiranda = _T("Miranda");
 		lstrcpynA(pMMT->MirandaName, szMiranda, sizeof(pMMT->MirandaName) - 1);
 
 		// for the MRU menu
