@@ -1,2 +1,2 @@
 rem echo off
-cscript /nologo lpgen.js /crap:"yes"
+cscript /nologo lpgen.js
