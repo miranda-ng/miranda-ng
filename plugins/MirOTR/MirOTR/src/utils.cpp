@@ -186,14 +186,10 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 	if(line1 && line2) {
 		_tcsncpy( ppd.lptzContactName, line1, MAX_CONTACTNAME-1 );
 		_tcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
-	} else if(line1) {
-		if (PUIsSecondLineShown()) _tcsncpy( ppd.lptzText, line1, MAX_SECONDLINE-1 );
-		else  _tcsncpy( ppd.lptzContactName, line1, MAX_CONTACTNAME-1 );
-	}
-	else if(line2) {
-		if (PUIsSecondLineShown()) _tcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
-		else  _tcsncpy( ppd.lptzContactName, line2, MAX_CONTACTNAME-1 );
-	}
+	} else if(line1)
+		_tcsncpy( ppd.lptzText, line1, MAX_SECONDLINE-1 );
+	else if(line2)
+		_tcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
 
 	ppd.iSeconds = timeout;
 
