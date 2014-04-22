@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME        "MRA"
+#define __PLUGIN_NAME        "MRA protocol"
 #define __FILENAME           "MRA.dll"
 #define __DESCRIPTION        "Miranda Mail.ru Agent protocol plugin."
 #define __AUTHOR             "Rozhuk Ivan"
