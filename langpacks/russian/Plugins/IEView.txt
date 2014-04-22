@@ -69,6 +69,8 @@
 Буквенный формат даты
 [Use relative timestamp]
 Относительное время
+[Outgoing File Transfer]
+Исходящий файл
 [Incoming File Transfer]
 Входящий файл
 [URL sent]
@@ -79,6 +81,8 @@
 (Неизвестный контакт)
 [ requested authorization]
  запросил(а) авторизацию
+[ was added.]
+ был добавлен.
 [RESULT]
 результат
 [ERROR]

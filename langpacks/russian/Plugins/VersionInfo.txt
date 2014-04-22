@@ -27,6 +27,8 @@
 Закачать на сайт
 [Forum style formatting]
 Форматировать для форума
+[Additional options:]
+Дополнительные настройки:
 [Do it now]
 Сделать
 [Show window in taskbar]
@@ -65,6 +67,8 @@ UUID плагина
 Загрузить
 [&Save to file]
 &В файл
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+Если вы собираетесь использовать этот отчет для сообщения об ошибке, не забудьте проверить сайт для ответов на вопросы или помощи разработчикам.\r\nЕсли вы не проверите сообщение об ошибке и не дадите обратной связи, ошибка не будет исправлена!
 [Information successfully written to file: "%s".]
 Информация успешно записана в файл: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]

@@ -1,7 +1,6 @@
 ﻿[AaBbYyZz]
 [Miranda NG\n%s]
 [Windows]
-[Miranda]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

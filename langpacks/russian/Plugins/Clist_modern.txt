@@ -573,6 +573,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Плавающее
 [Frames Order]
 Порядок фреймов
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+РАЗРАБАТЫВАЕТСЯ!!!           НЕ РАБОТАЕТ
 [Row template]
 Шаблон
 [Add container]
@@ -895,6 +897,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 линий
 [%s, contain %s]
 %s, содержит %s
+[ layered]
+ слои
 [- Empty - (do not draw this object)]
  - НЕТ - (не рисовать этот объект)
 [Solid fill object]
@@ -921,12 +925,18 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Загрузить/Сохранить
 [Object editor]
 Редактор объектов
+[( unknown )]
+( неизвестно )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(ы):\t %s\nКонтакт:\t %s\nWeb:\t %s\n\nФайл:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(ы): %s\nКонтакт:\t %s\nВеб:\t %s\n\nФайл:\t %s
+[reVista for Modern v0.5]
+reVista для Modern v0.5
 [This is second default Modern Contact list skin in Vista Aero style]
 Это второй стандартный скин списка контактов в стиле Vista Aero
+[Angeli-Ka (graphics), FYR (template)]
+Angeli-Ka (графика), FYR (шаблон)
 [Inside library]
 Внутри библиотеки
 [Skin Information]
@@ -941,6 +951,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Предпросмотр не доступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nАВТОРЫ:\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+графика - Angeli-Ka\nшаблон - FYR
 [Select skin from list]
 Выберите скин из списка
 [Please select skin to apply]

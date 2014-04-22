@@ -67,6 +67,10 @@
 Закрыть
 [Show all contacts]
 Показать все контакты
+[Set birthday:]
+Установить день рождения:
+[Manage anniversaries]
+Управление юбилеями
 [Title:]
 Заголовок:
 [Description:]
@@ -109,6 +113,8 @@
 Выберите плагин хранения дней рождений.\r\n"UserInfo" по умолчанию.\r\nИcп. "Плагин протокола" чтобы видеть данные в данных контакта\n"mBirthday плагин" сохраняет так же, как и плагин mBirthday
 [Set birthday for %s:]
 День рождения %s
+[%S protocol]
+Протокол %S
 [N/A]
 Недоступен
 [Unknown]
@@ -172,13 +178,15 @@
 [%s has birthday in %d days.]
 %s отмечает день рождения через %d дней.
 [%s has birthday tomorrow.]
-%s отмечает День рождения завтра.
+%s отмечает день рождения завтра.
 [%s has birthday today.]
-%s отмечает День рождения сегодня.
+%s отмечает день рождения сегодня.
 [%s had birthday %d days ago.]
 У %s был день рождения %d дней назад.
 [%s had birthday yesterday.]
 У %s вчера был день рождения.
+[%s has birthday today (Should not happen, please report).]
+%s отмечает день рождения сегодня (не забудьте поздравить).
 [Birthday - %s]
 День рождения %s
 [He]
@@ -195,6 +203,8 @@
 Начало обновления информации о пользователях
 [Done refreshing user details]
 Обновление информации о пользователях завершено
+[Could not create worker thread. Error#%d - threadID %d]
+Не удалось создать рабочий поток. Ошибка #%d - threadID %d
 [Error]
 Ошибка
 [Birthdays files]
@@ -225,3 +235,5 @@
 Предупреждение! Пожалуйста, не путайте экспортированные файлы в кодировках Unicode и Ansi. Необходимо использовать ту же версию WhenWasIt (Ansi/Unicode), которая использовалась для экспорта.\n
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 Этот файл был создан Unicode-версией WhenWasIt. Пожалуйста, используйте только Unicode-версию плагина для импорта дней рождения.\n
+[Could not find UID '%s [%S]' in current database, skipping]
+Не удалось найти UID '%s [%S]' в текущем профиле, пропускаю
