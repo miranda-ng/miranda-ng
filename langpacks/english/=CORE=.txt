@@ -546,7 +546,6 @@
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 [Windows]
-[Miranda]
 [Become idle if the screen saver is active]
 [Become idle if the computer is locked]
 [Become idle if a terminal session is disconnected]

@@ -26,6 +26,5 @@
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 [Disable/Remove shlext]
 ;file \plugins\ShellExt\src\shlcom.cpp
-[Miranda]
 [Recently]
 [Clear entries]
