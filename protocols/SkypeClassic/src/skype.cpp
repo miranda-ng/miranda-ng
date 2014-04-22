@@ -1042,8 +1042,6 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type,"LEFT") || (bAddedMembers = strcmp(type,"ADDEDMEMBERS")==0)) 
 				{
-					char *pszInvited = Translate("invited ");
-
 					LOG(("FetchMessageThread CHAT LEFT or ADDEDMEMBERS"));
 					if (bAddedMembers) {
 						GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_ACTION };
@@ -1051,9 +1049,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 						gce.dwFlags = GCEF_ADDTOLOG;
 						gce.time = timestamp;
 						if (users=SkypeGetErr (cmdMessage, args.msgnum, "USERS")) {
-							// We assume that users buffer has enough room for "invited" string
-							memmove (users+strlen(pszInvited), users, strlen(users)+1);
-							memcpy (users, pszInvited, strlen(pszInvited));
+							CMString(FORMAT, _T("%S %s"), users, TranslateT("invited"));
 							gce.ptszText= make_tchar_string((const unsigned char*)users);
 							if (who=SkypeGetErr (cmdMessage, args.msgnum, szPartnerHandle)) {
 								DBVARIANT dbv;
