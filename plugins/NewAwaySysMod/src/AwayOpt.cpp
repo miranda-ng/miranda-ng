@@ -519,8 +519,8 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				int Meaning;
 			}
 			static IdleComboValues[] = {
-				LPGENT("Windows"), AUTOREPLY_IDLE_WINDOWS,
-				LPGENT("Miranda"), AUTOREPLY_IDLE_MIRANDA
+				_T("Windows"), AUTOREPLY_IDLE_WINDOWS,
+				_T("Miranda"), AUTOREPLY_IDLE_MIRANDA
 			};
 
 			for (int i = 0; i < SIZEOF(IdleComboValues); i++)
