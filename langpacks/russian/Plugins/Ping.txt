@@ -99,6 +99,10 @@ TCP соединение
 Хосты...
 [Ping]
 Пинг
+[Text Files (*.txt)]
+Текстовые файлы (*.txt)
+[All Files]
+Все файлы
 [Open log file]
 Открыть журнал
 [<none>]
