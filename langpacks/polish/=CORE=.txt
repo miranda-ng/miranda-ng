@@ -1084,8 +1084,6 @@ Autorzy >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
-[Windows]
-Windows
 [Become idle if the screen saver is active]
 Przejdź w bezczynność gdy działa wygaszacz ekranu
 [Become idle if the computer is locked]

@@ -315,22 +315,6 @@ Musisz być połączony z kontem Tlen aby móc ustawić awatar.
 Wprowadź hasło dla %s
 [Tlen Connection Error]
 Błąd połączenia Tlen
-[Windows Server 2003]
-Windows Server 2003
-[Windows XP]
-Windows XP
-[Windows 2000]
-Windows 2000
-[Windows NT]
-Windows NT
-[Windows 95]
-Windows 95
-[Windows 98]
-Windows 98
-[Windows ME]
-Windows ME
-[Windows]
-Windows
 [%s Web Messages]
 %s wiadomości w przeglądarce
 [Web message]

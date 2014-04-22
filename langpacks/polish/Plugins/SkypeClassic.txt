@@ -85,7 +85,7 @@ Telefon domowy:
 [Office phone:]
 Telefon służbowy:
 [Homepage:]
-WWW:
+Strona domowa:
 [Save]
 Zapisz
 [Enable Skype menu options (currently: Find/Add user)]
@@ -177,7 +177,7 @@ Ustaw &temat...
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Rozpocznij rozmowę SkypeOut
-[invited ]
+[invited]
 zaproszony
 [Phone call]
 Rozmowa telefoniczna
