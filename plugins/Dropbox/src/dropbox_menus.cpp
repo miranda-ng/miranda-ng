@@ -27,7 +27,7 @@ void CDropbox::InitializeMenus()
 {
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(CLISTMENUITEM);
-	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
+	mi.flags = CMIF_TCHAR;
 
 	mi.pszService = MODULE"/SendFilesToDropbox";
 	mi.ptszName = LPGENT("Send files to Dropbox");
