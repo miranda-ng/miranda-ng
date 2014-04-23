@@ -1877,6 +1877,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			dat->fInsertMode = FALSE;
 
+			// Typing support for GCW_PRIVMESS sessions
+			if (si->iType == GCW_PRIVMESS) {
+				dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF; 
+				SetTimer(hwndDlg, TIMERID_TYPE, 1000, NULL);
+			}
+
 			dat->codePage = M.GetDword(dat->hContact, "ANSIcodepage", CP_ACP);
 			dat->Panel->getVisibility();
 			dat->Panel->Configure();
@@ -2218,6 +2224,20 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
 		return TRUE;
+		
+	case DM_TYPING: {
+		// Typing support for GCW_PRIVMESS sessions
+		if (si->iType == GCW_PRIVMESS) {
+			int preTyping = dat->nTypeSecs != 0;
+			dat->nTypeSecs = (int) lParam > 0 ? (int) lParam : 0;
+
+			if(dat->nTypeSecs)
+				dat->showTyping = 0;
+
+			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, preTyping);
+		}
+		return TRUE;
+	}
 
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC) wParam, g_Settings.crUserListBGColor);
@@ -2524,6 +2544,13 @@ LABEL_SHOWWINDOW:
 		if (wParam == TIMERID_FLASHWND)
 			if (dat->mayFlashTab)
 				FlashTab(dat, hwndTab, dat->iTabID, &dat->bTabFlash, TRUE, dat->hTabIcon);
+
+		// Typing support for GCW_PRIVMESS sessions
+		if (si->iType == GCW_PRIVMESS) {
+			if (wParam == TIMERID_TYPE)
+				DM_Typing(dat);
+		}
+
 		break;
 
 	case WM_ACTIVATE:
@@ -2975,6 +3002,13 @@ LABEL_SHOWWINDOW:
 
 				Utils::enableDlgControl(hwndDlg, IDOK, FALSE);
 
+				// Typing support for GCW_PRIVMESS sessions
+				if (si->iType == GCW_PRIVMESS) {
+					if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON) {
+						DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
+					}
+				}
+
 				bool fSound = true;
 				if (ptszText[0] == '/' || si->iType == GCW_SERVER)
 					fSound = false;
@@ -3012,6 +3046,21 @@ LABEL_SHOWWINDOW:
 				dat->pContainer->dwLastActivity = dat->dwLastActivity;
 				SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASNORMAL, GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)) != 0, 0);
 				Utils::enableDlgControl(hwndDlg, IDOK, GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)) != 0);
+				
+				// Typing support for GCW_PRIVMESS sessions
+				if (si->iType == GCW_PRIVMESS) {
+					if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
+						dat->nLastTyping = GetTickCount();
+						if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE))) {
+							if (dat->nTypeMode == PROTOTYPE_SELFTYPING_OFF) {
+								if (!(dat->dwFlags & MWF_INITMODE))
+									DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_ON);
+							}
+						}
+						else if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
+							DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
+					}
+				}
 			}
 			break;
 
@@ -3547,6 +3596,12 @@ LABEL_SHOWWINDOW:
 
 		if (dat->pContainer->settings->fPrivate && !IsAutoSplitEnabled(dat))
 			db_set_w(NULL, CHAT_MODULE, "splitY", (WORD)g_Settings.iSplitterY);
+
+		// Typing support for GCW_PRIVMESS sessions
+		if (si->iType == GCW_PRIVMESS) {
+			if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
+				DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
+		}
 
 		DM_FreeTheme(dat);
 
