@@ -725,7 +725,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			//
 			// set icons
 			//
-			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN));
+			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN));
+			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN, 32));
 			DlgProc(hDlg, HM_RELOADICONS, NULL, NULL);
 
 			//
