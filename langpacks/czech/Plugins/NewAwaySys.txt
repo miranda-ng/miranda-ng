@@ -15,7 +15,7 @@ Formát textu oznámení
 [Preview]
 Náhled
 [V]
-
+v
 [%extratext% is your status message]
 %extratext% je vaše stavová zpráva
 [Click action]
@@ -205,10 +205,6 @@ Otevřít nápovědu o proměnných
 Do této kategorie jsou ukládány nejčastěji používané stavové zprávy. Sem není vhodné ukládat zprávy ručně, neboť budou nahrazeny těmi, které používáte nejčastěji.
 [You can put your frequently used and favorite messages in this category.]
 Do této kategorie můžete zadat často používané a oblíbené odpovědi.
-[Windows]
-Windows
-[Miranda]
-Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 
 [Message]

@@ -25,6 +25,6 @@
 [Display error messages]
 [&Open group chat]
 [&Kick user]
-[invited ]
+[invited]
 [Connection to Skype lost]
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]

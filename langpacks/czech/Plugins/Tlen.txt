@@ -315,22 +315,6 @@ Přeposílání
 Zadejte heslo pro %s
 [Tlen Connection Error]
 Tlen :: Chyba spojení
-[Windows Server 2003]
-Windows Server 2003
-[Windows XP]
-Windows XP
-[Windows 2000]
-Windows 2000
-[Windows NT]
-Windows NT
-[Windows 95]
-Windows 95
-[Windows 98]
-Windows 98
-[Windows ME]
-Windows ME
-[Windows]
-Windows
 [%s Web Messages]
 
 [Web message]

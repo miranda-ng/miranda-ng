@@ -242,6 +242,21 @@ Přechod s kostičkováním
 Po najetí myši
 [Clock]
 Čas
+;file \plugins\Popup\src\font.h
+[Title]
+Název
+[Text]
+Text
+[Background]
+Pozadí
+[Border]
+Okraj
+[Sidebar]
+Boční pruh
+[Title underline]
+Podtržení záhlaví
+[Avatar Border]
+Rámeček avataru
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Historie oznámení je vypnuta

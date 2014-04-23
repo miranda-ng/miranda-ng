@@ -177,7 +177,7 @@ Zobrazit &historii
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Zavolat přes SkypeOut
-[invited ]
+[invited]
 
 [Phone call]
 Hovor

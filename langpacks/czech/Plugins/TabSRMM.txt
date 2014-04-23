@@ -116,8 +116,6 @@ Vy&mazat záznam
 Zko&pírovat vše
 [Word lookup]
 Vyhledávání slova
-[Google]
-Google
 [Wikipedia]
 Wikipedie
 [Link]
@@ -1054,12 +1052,14 @@ Problém v nastavení|Funkce bezobslužného odesílání je zakázána. Funkce 
 Nemůžete upravovat poznámky k uživateli pokud existují neodeslané zprávy.
 [Version]
 Verze
-[%s is typing a message.]
-%s píše zprávu.
+[%s is typing a message...]
+%s píše zprávu...
 [Last received: %s at %s]
 Poslední zpráva přijata %s v %s
 [%s has entered text.]
 %s dopsal/a zprávu.
+[%s is typing a message]
+%s píše zprávu
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Automatické posouvání je vypnuto, %d zpráva/y) ve frontě (stiskněte F12 pro zapnutí)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

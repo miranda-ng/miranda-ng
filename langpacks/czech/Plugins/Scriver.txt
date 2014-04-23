@@ -274,8 +274,6 @@ Zko&pírovat vše
 Vybr&at vše
 [Word lookup]
 Vyhledávání slova
-[Google]
-Google
 [Bing]
 Bing
 [Yandex]

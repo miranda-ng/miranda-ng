@@ -44,8 +44,6 @@ Opravdu chcete smazat všechna nastavení ve vašem profilu a všechny položky 
 [Disable/Remove shlext]
 Zakázat/odstranit shlext
 ;file \plugins\ShellExt\src\shlcom.cpp
-[Miranda]
-Miranda
 [Recently]
 Často používané
 [Clear entries]

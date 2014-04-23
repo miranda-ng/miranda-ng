@@ -70,6 +70,7 @@
 [Fuchsia]
 [Aqua]
 [Are you sure you want to delete this note?]
+[T]
 [Date/Title]
 [Sticky Note Caption]
 [Sticky Note Background Color]

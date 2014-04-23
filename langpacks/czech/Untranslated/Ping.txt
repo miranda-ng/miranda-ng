@@ -1,6 +1,5 @@
 ﻿[Repeats for success/failure:]
 [Attach to contact list]
-[All\0*.*\0Text\0*.TXT\0]
 [AVG %.1lf ms]
 [MAX %hd ms]
 [MIN %hd ms]

@@ -407,8 +407,6 @@ M&ožnosti
 Aktualizovat
 [&Remove...]
 Odst&ranit...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Restart programu Miranda NG.\nPočkejte prosím...
 [Error console]
@@ -720,8 +718,6 @@ Seznam
 Vy&mazat záznam
 [Word lookup]
 Vyhledávání slova
-[Google]
-Google
 [Wikipedia]
 Wikipedie
 [Link]
@@ -1088,10 +1084,6 @@ Poděkování >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Přejít do stavu nečinnosti pokud běží spořič obrazovky
 [Become idle if the computer is locked]
@@ -1826,6 +1818,8 @@ Přenos a kontrola antivirem dokončena
 [Outgoing]
 Odchozí
 ;file \src\core\stdhelp\about.cpp
+[v]
+v
 [< Copyright]
 < Copyright
 ;file \src\core\stdhelp\help.cpp
@@ -2638,8 +2632,6 @@ Historie
 Šipka dolů
 [Find user]
 Vyhledat kontakt
-[SMS]
-SMS
 [Search all]
 Prohledat vše
 [Tick]

@@ -102,10 +102,12 @@ Hostitelé...
 [Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+Textové soubory (*.txt)
+[All Files]
+Všechny soubory
 [Open log file]
 Zobrazit záznam
-[All\0*.*\0Text\0*.TXT\0]
-
 [<none>]
 <žádný>
 [<all>]

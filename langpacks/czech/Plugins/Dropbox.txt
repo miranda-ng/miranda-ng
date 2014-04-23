@@ -34,9 +34,6 @@ Automaticky odeslat odkaz kontaktu
 Vložit odkaz do pole pro zadání textu
 [Copy download link to clipboard]
 Zkopírovat odkaz do schránky
-;file \plugins\Dropbox\proto_dropbox\src\resource.h
-[Send files to Dropbox]
-Odeslat soubory do Dropboxu
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 probíhá...
@@ -69,6 +66,8 @@ je smazaný
 [you are not authorized yet]
 není autorizováno
 ;file \plugins\Dropbox\src\dropbox_events.cpp
+[Send files to Dropbox]
+Odeslat soubory do Dropboxu
 [Network]
 Sítě
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
