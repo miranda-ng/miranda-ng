@@ -28,6 +28,7 @@ struct facebook_user
 
 	std::string user_id;
 	std::string real_name;
+	std::string nick;
 
 	unsigned int status_id;
 	unsigned int gender;
@@ -43,7 +44,7 @@ struct facebook_user
 	facebook_user()
 	{
 		this->handle = NULL;
-		this->user_id = this->real_name = this->image_url = "";
+		this->user_id = this->real_name = this->nick = this->image_url = "";
 		this->status_id = ID_STATUS_OFFLINE;
 		this->gender = this->last_active = 0;
 		this->deleted = this->idle = false;
@@ -55,6 +56,7 @@ struct facebook_user
 		this->handle = fu->handle;
 		this->user_id = fu->user_id;
 		this->real_name = fu->real_name;
+		this->nick = fu->nick;
 		this->status_id = fu->status_id;
 		this->gender = fu->gender;
 		this->last_active = fu->last_active;

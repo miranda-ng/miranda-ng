@@ -175,23 +175,16 @@ void FacebookProto::ProcessFriendList(void* data)
 				// Update gender
 				if (getByte(hContact, "Gender", 0) != fbu->gender)
 					setByte(hContact, "Gender", fbu->gender);
-
-				// Update name
-				DBVARIANT dbv;
-				bool update_required = true;
-
-				// TODO: remove in some future version?
+				
+				// TODO: remove this in some future version?
+				// Remove old useless "RealName" field
 				ptrA realname(getStringA(hContact, "RealName"));
 				if (realname != NULL) {
 					delSetting(hContact, "RealName");
 				}
-				else if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv))
-				{
-					update_required = strcmp(dbv.pszVal, fbu->real_name.c_str()) != 0;
-					db_free(&dbv);
-				}
-				if (update_required)
-				{
+
+				// Update real name and nick
+				if (!fbu->real_name.empty()) {
 					SaveName(hContact, fbu);
 				}
 

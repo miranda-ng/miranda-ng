@@ -916,12 +916,23 @@ bool facebook_client::home()
 	{
 	case HTTP_CODE_OK:
 	{		
-		// Get real_name
+		// Get real name
 		this->self_.real_name = utils::text::source_get_value(&resp.data, 2, "<strong class=\"profileName\">", "</strong>");
-		if (!this->self_.real_name.empty()) {
-			parent->SaveName(NULL, &this->self_);
-			parent->debugLogA("      Got self real name: %s", this->self_.real_name.c_str());
-		} else {
+
+		// Get and strip optional nickname
+		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
+		if (pos != std::string::npos) {
+			this->self_.nick = utils::text::source_get_value(&this->self_.real_name, 2, "<span class=\"alternate_name\">(", ")</span>");
+			parent->debugLogA("      Got self nick name: %s", this->self_.nick.c_str());
+
+			this->self_.real_name = this->self_.real_name.substr(0, pos - 1);
+		}
+		parent->debugLogA("      Got self real name: %s", this->self_.real_name.c_str());
+
+		// Save name and nickname
+		parent->SaveName(NULL, &this->self_);
+
+		if (this->self_.real_name.empty()) {
 			client_notify(TranslateT("Something happened to Facebook. Maybe there was some major update so you should wait for an update."));
 			return handle_error("home", FORCE_QUIT);
 		}

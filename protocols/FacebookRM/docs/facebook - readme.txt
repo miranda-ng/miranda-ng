@@ -31,10 +31,16 @@ Info:
 "UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages
 "KeepUnread" (Byte) - 1 = Don't mark messages as read on server (works globally or per contact)
 "NaseemsSpamMode" (Byte) - 1 = Don't add contacts when we send message to them from other instances, add them only when they reply
+"NameAsNick" (Byte) - 0 = don't use real name as nickname, use nickname if possible (default is 1)
 
 --------------------------------
        Version history
 --------------------------------
+0.2.?.? - ?.?.2014
+ + Hidden setting "NameAsNick" to not save real name as nickname (but it's pretty useless now)
+ ! Improved saving names (save only when changed)
+ ! Fixed loading own name
+
 0.2.4.0 - 21.4.2014
  + Support true invisible status (they don't see you, but you see them)
  + Don't load "unread messages" which we received already (but didn't read them yet)

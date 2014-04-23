@@ -22,37 +22,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
-{
-	if (fbu->real_name.empty()) {
-		delSetting(hContact, FACEBOOK_KEY_NICK);
-		delSetting(hContact, FACEBOOK_KEY_FIRST_NAME);
-		delSetting(hContact, FACEBOOK_KEY_SECOND_NAME);
-		delSetting(hContact, FACEBOOK_KEY_LAST_NAME);
-		return;
+void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, std::string value) {
+	bool update_required = true;
+	
+	DBVARIANT dbv;
+	if (!proto->getStringUtf(hContact, key, &dbv)) {
+		update_required = strcmp(dbv.pszVal, value.c_str()) != 0;
+		db_free(&dbv);
 	}
 
-	setStringUtf(hContact, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
+	if (update_required) {
+		proto->setStringUtf(hContact, key, value.c_str());
+	}
+}
+
+void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
+{
+	// Save nick
+	std::string nick = fbu->real_name;
+	if (!getBool(FACEBOOK_KEY_NAME_AS_NICK, 1) && !fbu->nick.empty())
+		nick = fbu->nick;
+
+	updateStringUtf(this, hContact, FACEBOOK_KEY_NICK, nick);
 
 	// Explode whole name into first, second and last name
 	std::vector<std::string> names;
 	utils::text::explode(fbu->real_name, " ", &names);
 
-	setStringUtf(hContact, FACEBOOK_KEY_FIRST_NAME, names.front().c_str());
-	setStringUtf(hContact, FACEBOOK_KEY_LAST_NAME, names.back().c_str());
+	updateStringUtf(this, hContact, FACEBOOK_KEY_FIRST_NAME, names.front().c_str());
+	updateStringUtf(this, hContact, FACEBOOK_KEY_LAST_NAME, names.back().c_str());
 
+	std::string middle = "";
 	if (names.size() > 2) {
-		std::string middle = "";
 		for (std::string::size_type i = 1; i < names.size() - 1; i++) {
 			if (!middle.empty())
 				middle += " ";
 
 			middle += names.at(i);
 		}
-		setStringUtf(hContact, FACEBOOK_KEY_SECOND_NAME, middle.c_str());
-	} else {
-		delSetting(hContact, FACEBOOK_KEY_SECOND_NAME);
 	}
+	updateStringUtf(this, hContact, FACEBOOK_KEY_SECOND_NAME, middle);
 }
 
 bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
