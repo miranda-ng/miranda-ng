@@ -393,7 +393,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 
 		if (lParam) {
 			TCHAR szTip[256];
-			mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message."), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 			if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
 				MIRANDASYSTRAYNOTIFY tn;
 				tn.szProto = NULL;

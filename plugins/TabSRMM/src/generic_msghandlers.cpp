@@ -1082,7 +1082,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 	TCHAR szBuf[100];
 	if (dat->showTyping) {
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
-		mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
+		mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message..."), dat->cache->getNick());
 	}
 	else {
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
@@ -1313,7 +1313,7 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
 
 /**
  * send out message typing notifications (MTN) when the
- * user is typing/editing text in the messgae input area.
+ * user is typing/editing text in the message input area.
  */
 void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 {
@@ -1473,7 +1473,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 		UpdateStatusBar(dat);
 	}
 	else if (dat->nTypeSecs > 0) {
-		mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s is typing a message."), dat->cache->getNick());
+		mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s is typing a message"), dat->cache->getNick());
 
 		dat->nTypeSecs--;
 		if (hwndStatus && dat->pContainer->hwndActive == hwndDlg) {
