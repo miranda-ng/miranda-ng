@@ -49,17 +49,17 @@ void OmegleProto::SendTypingWorker(void *p)
 		return;
 
 	// Save typing info
-	bool typ = !_tcscmp(static_cast<TCHAR*>(p), _T("1"));
-	mir_free(p);
+	bool typ = (*static_cast<int*>(p) == PROTOTYPE_SELFTYPING_ON);
+	delete p;
 
 	// Ignore same typing info
-	if ( facy.typing_ == typ )
+	if (facy.typing_ == typ)
 		return;
 
 	facy.typing_ = typ;
 	// Wait for eventually changes to typing info by other thread and ignore if changed
-	SleepEx( 2000, true );
-	if ( facy.typing_ != typ || facy.old_typing_ == typ || facy.state_ != STATE_ACTIVE )
+	SleepEx(2000, true);
+	if (facy.typing_ != typ || facy.old_typing_ == typ || facy.state_ != STATE_ACTIVE)
 		return;	
 
 	facy.old_typing_ = typ;

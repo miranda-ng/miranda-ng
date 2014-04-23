@@ -90,7 +90,7 @@ DWORD_PTR OmegleProto::GetCaps( int type, MCONTACT hContact )
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF; // | PF4_SUPPORTTYPING;
+		return PF4_IMSENDUTF | PF4_SUPPORTTYPING;
 	case PFLAG_MAXLENOFMESSAGE:
 		return OMEGLE_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
@@ -174,7 +174,7 @@ int OmegleProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	// Register group chat
 	GCREGISTER gcr = {sizeof(gcr)};
-	gcr.dwFlags = GC_TYPNOTIF; //GC_ACKMSG;
+	gcr.dwFlags = 0; //GC_TYPNOTIF; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
@@ -213,5 +213,13 @@ int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 	//MCONTACT hContact = (MCONTACT)wparam;
 
 	OnLeaveChat(NULL, NULL);
+	return 0;
+}
+
+int OmegleProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (hContact && facy.state_ == STATE_ACTIVE)
+		ForkThread(&OmegleProto::SendTypingWorker, new int(type));
+
 	return 0;
 }

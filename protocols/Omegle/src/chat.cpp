@@ -175,11 +175,6 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 		break;
 	}
 
-	case GC_USER_TYPNOTIFY:
-		if ( facy.state_ == STATE_ACTIVE )
-			ForkThread(&OmegleProto::SendTypingWorker, mir_tstrdup(hook->ptszText));
-		break;
-
 	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
 		mir_free( facy.nick_ );
