@@ -619,21 +619,14 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				participant = chatroom->second.participants.find(from_id);
 				if (participant != chatroom->second.participants.end()) {
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
-
-					if (!chatroom->second.message_typers.empty())
-						chatroom->second.message_typers += ", ";
-					chatroom->second.message_typers += participant->second.c_str();
-
-					ptrT typers(mir_utf8decodeT(chatroom->second.message_typers.c_str()));
+					ptrT name(mir_utf8decodeT(participant->second.c_str()));
 
 					TCHAR tstr[200];
 
-					if (json_as_int(st_) == 1) {
-						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("%s is typing a message..."), typers);
-					} else {
-						chatroom->second.message_typers = "";
+					if (json_as_int(st_) == 1)
+						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("%s is typing a message..."), name);
+					else
 						mir_sntprintf(tstr, SIZEOF(tstr), _T(""));
-					}
 
 					// TODO: support proper MS_PROTO_CONTACTISTYPING service for chatrooms (when it will be implemented)
 					CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)tstr);

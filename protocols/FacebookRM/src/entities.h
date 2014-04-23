@@ -91,7 +91,6 @@ struct facebook_chatroom
 	std::map<std::string, std::string> participants;
 
 	std::string message_readers;
-	std::string message_typers;
 
 	DWORD last_active;
 };
