@@ -131,7 +131,7 @@ void FacebookProto::SendTypingWorker(void *p)
 	send_typing *typing = static_cast<send_typing*>(p);
 
 	// Dont send typing notifications to not friends - Facebook won't give them that info anyway
-	if (getWord(typing->hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
+	if (!isChatRoom(typing->hContact) && getWord(typing->hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
 		delete typing;
 		return;
 	}
