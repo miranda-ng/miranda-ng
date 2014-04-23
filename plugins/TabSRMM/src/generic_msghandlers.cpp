@@ -1952,7 +1952,7 @@ void DrawStatusIcons(TWindowData *dat, HDC hDC, RECT r, int gap)
 					cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 			}
 			else if (si->dwId == MSG_ICON_UTN) {
-				if (dat->bType == SESSIONTYPE_IM) {
+				if (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
 					DrawIconEx(hDC, x, y, db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
@@ -2007,7 +2007,7 @@ void SI_CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, 
 				InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 			}
 		}
-		else if (si->dwId == MSG_ICON_UTN && code != NM_RCLICK && dat->bType == SESSIONTYPE_IM) {
+		else if (si->dwId == MSG_ICON_UTN && code != NM_RCLICK && (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
 			SendMessage(dat->pContainer->hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 		}

@@ -3203,6 +3203,22 @@ LABEL_SHOWWINDOW:
 				cf.dwEffects |= CFE_UNDERLINE;
 
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+			break;
+
+		case IDC_SELFTYPING:
+			// Typing support for GCW_PRIVMESS sessions
+			if (si->iType == GCW_PRIVMESS) {
+				if (dat->hContact) {
+					int iCurrentTypingMode = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+
+					if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
+						DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
+						dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
+					}
+					db_set_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+				}
+			}
+			break;
 		}
 		break;
 
