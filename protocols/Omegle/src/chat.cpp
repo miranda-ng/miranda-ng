@@ -262,7 +262,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 {	
 	// Create the group chat session
 	GCSESSION gcw = {sizeof(gcw)};
-	gcw.iType = GCW_CHATROOM;
+	gcw.iType = GCW_PRIVMESS;
 	gcw.ptszID = m_tszUserName;
 	gcw.ptszName = m_tszUserName;
 	gcw.pszModule = m_szModuleName;

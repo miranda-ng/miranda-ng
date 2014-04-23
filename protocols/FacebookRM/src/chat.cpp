@@ -212,7 +212,7 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 {
 	// Create the group chat session
 	GCSESSION gcw = { sizeof(gcw) };
-	gcw.iType = GCW_CHATROOM;
+	gcw.iType = GCW_PRIVMESS;
 	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = tname;
@@ -256,7 +256,7 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 
 	// Create the group chat session
 	gcw.dwFlags   = GC_TCHAR;
-	gcw.iType     = GCW_CHATROOM;
+	gcw.iType     = GCW_PRIVMESS;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName  = m_tszUserName;
 	gcw.ptszID    = m_tszUserName;
