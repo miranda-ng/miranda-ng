@@ -88,7 +88,7 @@ static void SM_FreeSession(SESSION_INFO *si)
 	// contact may have been deleted here already, since function may be called after deleting
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
 	if (si->hContact && db_get_b(si->hContact, si->pszModule, "ChatRoom", 0) != 0) {
-		ci.SetOffline(si->hContact, si->iType == GCW_CHATROOM ? TRUE : FALSE);
+		ci.SetOffline(si->hContact, (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) ? TRUE : FALSE);
 		db_set_s(si->hContact, si->pszModule, "Topic", "");
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 		db_unset(si->hContact, "CList", "StatusMsg");
@@ -552,7 +552,7 @@ static BOOL SM_SendUserMessage(const TCHAR *pszID, const char *pszModule, const 
 	SESSION_INFO *pTemp = ci.wndList;
 	while (pTemp != NULL) {
 		if ((!pszID || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
-			if (pTemp->iType == GCW_CHATROOM)
+			if (pTemp->iType == GCW_CHATROOM || pTemp->iType == GCW_PRIVMESS)
 				DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_USER_MESSAGE, NULL, pszText, 0);
 			if (pszID)
 				return TRUE;

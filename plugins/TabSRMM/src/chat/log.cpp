@@ -824,7 +824,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	while (lin) {
 		// filter
-		if (streamData->si->iType != GCW_CHATROOM || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags & lin->iType) != 0) {
+		if ((streamData->si->iType != GCW_CHATROOM && streamData->si->iType != GCW_PRIVMESS) || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags & lin->iType) != 0) {
 			if (lin->next != NULL)
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par ");
 
@@ -987,7 +987,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 	streamData.bStripFormat = FALSE;
 	streamData.dat = dat;
 
-	if (!bRedraw && si->iType == GCW_CHATROOM && si->bFilterEnabled && (si->iLogFilterFlags & lin->iType) == 0)
+	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && (si->iLogFilterFlags & lin->iType) == 0)
 		return;
 
 	bool bFlag = false, fDoReplace;

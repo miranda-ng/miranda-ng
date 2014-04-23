@@ -66,7 +66,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	streamData.bStripFormat = FALSE;
 	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(hwndRich, CP_ACP, FALSE) == 0);
 
-	if (!bRedraw && si->iType == GCW_CHATROOM && si->bFilterEnabled && !(si->iLogFilterFlags & lin->iType))
+	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && !(si->iLogFilterFlags & lin->iType))
 		return;
 
 	BOOL bFlag = FALSE;
