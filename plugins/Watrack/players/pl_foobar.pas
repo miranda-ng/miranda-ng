@@ -13,12 +13,12 @@ uses {$IFDEF KOL_MCK}err,{$ENDIF}
   {$IFDEF KOL_MCK}
   ,kolcomobj
   {$ELSE}
-  ,mComObj
+  ,ComObj
   {$ENDIF}
 ;
 
 const
-  COMName:PAnsiChar = 'Foobar2000.Application.0.7';
+  COMName:PWideChar = 'Foobar2000.Application.0.7';
 const
   dummywnd  = 'uninteresting';
 const
@@ -38,7 +38,7 @@ const
 var
   WinampWindow:HWND;
 
-function proc(awnd:hwnd;param:pdword):boolean; stdcall;
+function proc(awnd:HWND;param:pdword):boolean; stdcall;
 var
   s:array [0..255] of AnsiChar;
 begin
@@ -258,23 +258,23 @@ var
   winampwnd:HWND;
 begin
   try
-    result:=WAT_MES_STOPPED;
+    result:=WAT_PLS_STOPPED;
     v:=GetActiveOleObject(COMName);
     tmp:=v.Playback.IsPaused;
     if tmp then
-      result:=WAT_MES_PAUSED
+      result:=WAT_PLS_PAUSED
     else
     begin
       tmp:=v.Playback.IsPlaying;
       if tmp then
-        result:=WAT_MES_PLAYING;
+        result:=WAT_PLS_PLAYING;
     end;
   except
     winampwnd:=WinampFindWindow(wnd);
     if winampwnd<>0 then
       result:=WinampGetStatus(winampwnd)
     else
-      result:=WAT_MES_UNKNOWN;
+      result:=WAT_PLS_UNKNOWN;
   end;
   v:=null;
 end;
@@ -430,7 +430,7 @@ begin
       else if (flags and WAT_OPT_CHANGES)<>0 then
       begin
         volume:=GetVolume(v);
-        if status<>WAT_MES_STOPPED then
+        if status<>WAT_PLS_STOPPED then
           time:=GetElapsedTime(v);
       end
       else

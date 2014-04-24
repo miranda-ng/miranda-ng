@@ -5,25 +5,30 @@ interface
 
 uses windows,wat_api;
 
+// dialog procedures
 procedure DefFillFormatList (hwndList:HWND);
 procedure DefCheckFormatList(hwndList:HWND);
+
+// init/free procedures
 function ProcessFormatLink:integer;
-
-function GetFileFormatInfo(var dst:tSongInfo):integer;
-function CheckExt(fname:pWideChar):integer;
-
-function DeleteKnownExt(src:pWideChar):pWideChar;
-function KnownFileType(fname:PWideChar):boolean;
-function isContainer(fname:PWideChar):boolean;
-
-function ServiceFormat(wParam:WPARAM;lParam:LPARAM):integer;cdecl;
-procedure RegisterFormat(ext:PAnsiChar;proc:tReadFormatProc;flags:dword=0);
 procedure ClearFormats;
+
+function CheckExt      (fname:pWideChar):integer;
+// support functions
+function DeleteKnownExt(fname:pWideChar):pWideChar;
+function KnownFileType (fname:PWideChar):boolean;
+function isContainer   (fname:PWideChar):boolean;
+
+// miranda-like service function
+function ServiceFormat(wParam:WPARAM;lParam:LPARAM):integer;cdecl;
+// internal helper (can be moved to implementation section)
+procedure RegisterFormat(ext:PAnsiChar;proc:tReadFormatProc;flags:dword=0);
 
 type
   MusEnumProc = function(param:PAnsiChar;lParam:LPARAM):bool;stdcall;
 
 function EnumFormats(param:MusEnumProc;lParam:LPARAM):bool;
+function GetActiveFormat:pMusicFormat;
 
 type
   pwFormat = ^twFormat;
@@ -35,10 +40,12 @@ type
 const
   FormatLink:pwFormat=nil;
   
+
 implementation
 
 uses
   CommCtrl,common;
+
 type
   pFmtArray = ^tFmtArray;
   tFmtArray = array [0..10] of tMusicFormat;
@@ -52,18 +59,10 @@ const
   FmtNum:integer=0;
   FmtMax:integer=0;
 
-function ProcessFormatLink:integer;
-var
-  ptr:pwFormat;
+
+function GetActiveFormat:pMusicFormat;
 begin
-  result:=0;
-  ptr:=FormatLink;
-  while ptr<>nil do
-  begin
-    RegisterFormat(@ptr.This.ext,ptr.This.proc,ptr.This.flags);
-    inc(result);
-    ptr:=ptr^.Next;
-  end;
+  result:=@fmtLink^[0];
 end;
 
 function EnumFormats(param:MusEnumProc;lParam:LPARAM):bool;
@@ -110,6 +109,8 @@ begin
   end;
   result:=WAT_RES_NOTFOUND;
 end;
+
+//----- dialog procedures -----
 
 procedure DefFillFormatList(hwndList:HWND);
 var
@@ -173,68 +174,92 @@ begin
   end;
 end;
 
-function DeleteKnownExt(src:pWideChar):pWideChar;
+
+//!! case-sensitive (but GetExt return Upper case ext)
+function FindExt(fname:pWideChar):integer;
 var
   s :array [0..7] of WideChar;
   ss:array [0..7] of AnsiChar;
-  i,j:integer;
+  i:integer;
 begin
-  GetExt(src,s);
+  GetExt(fname,s);
   if s[0]<>#0 then
   begin
-    int64(ss):=0;
+    // translate ext to int64
     i:=0;
+    int64(ss):=0;
     while (s[i]<>#0) and (i<8) do
     begin
       ss[i]:=AnsiChar(s[i]);
       inc(i);
     end;
-    j:=0;
-    while j<FmtNum do
+
+    // search number
+    i:=0;
+    while i<FmtNum do
     begin
-      if int64(fmtLink^[j].ext)=int64(ss) then
+      if int64(fmtLink^[i].ext)=int64(ss) then
       begin
-        i:=StrLenW(s);
-        src[integer(StrLenW(src))-i-1]:=#0;
-        break;
+        result:=i;
+        exit;
       end;
-      inc(j);
+      inc(i);
     end;
   end;
-  result:=src;
+
+  result:=-1;
+end;
+
+function DeleteKnownExt(fname:pWideChar):pWideChar;
+var
+  i:integer;
+begin
+  i:=FindExt(fname);
+  if i>=0 then
+  begin
+    i:=StrLen(fmtLink^[i].ext);
+    fname[integer(StrLenW(fname))-i-1]:=#0;
+  end;
+
+  result:=fname;
 end;
 
 function KnownFileType(fname:PWideChar):boolean;
 var
   i:integer;
-  s :array [0..7] of WideChar;
-  ss:array [0..7] of AnsiChar;
 begin
   result:=false;
-  if (fname=nil) or (fname^=#0) then
-    exit;
-  GetExt(fname,s);
-  int64(ss):=0;
-  if s[0]<>#0 then
+
+  i:=FindExt(fname);
+  if i>=0 then
   begin
-    i:=0;
-    while (s[i]<>#0) and (i<8) do
-    begin
-      ss[i]:=AnsiChar(s[i]);
-      inc(i);
-    end;
-    i:=0;
-    while i<FmtNum do
-    begin
-      if (int64(fmtLink^[i].ext)=int64(ss)) then
-      begin
-        if ((fmtLink^[i].flags and WAT_OPT_DISABLED)=0) then
-          result:=true;
-        break;
-      end;
-      inc(i);
-    end;
+    if ((fmtLink^[i].flags and WAT_OPT_DISABLED)=0) then
+      result:=true;
   end;
+end;
+
+function CheckExt(fname:pWideChar):integer;
+var
+  tmp:tMusicFormat;
+  i:integer;
+begin
+  i:=FindExt(fname);
+  if i>=0 then
+  begin
+    if (fmtLink^[i].flags and WAT_OPT_DISABLED)=0 then
+    begin
+      // move to top
+      tmp:=fmtLink^[i];
+      move(fmtLink^[0],fmtLink^[1],SizeOf(tMusicFormat)*i);
+      fmtLink^[0]:=tmp;
+
+      result:=WAT_RES_OK;
+    end
+    else
+      result:=WAT_RES_DISABLED;
+  end
+  else
+    result:=WAT_RES_NOTFOUND;
 end;
 
 function isContainer(fname:PWideChar):boolean;
@@ -247,53 +272,6 @@ begin
     result:=false;
 end;
 
-function GetFileFormatInfo(var dst:tSongInfo):integer;
-begin
-  result:=CheckExt(dst.mfile);
-  if result=WAT_RES_OK then
-  begin
-    fmtLink^[0].proc(dst);
-  end;
-end;
-
-function CheckExt(fname:pWideChar):integer;
-var
-  i:integer;
-  tmp:tMusicFormat;
-  ls:array [0..7] of WideChar;
-  ss:array [0..7] of AnsiChar;
-begin
-  GetExt(fname,ls);
-  i:=0;
-  int64(ss):=0;
-  while (ls[i]<>#0) and (i<8) do
-  begin
-    ss[i]:=AnsiChar(ls[i]);
-    inc(i);
-  end;
-  i:=0;
-  while i<FmtNum do
-  begin
-    if (int64(fmtLink^[i].ext)=int64(ss)) then
-    begin
-      if ((fmtLink^[i].flags and WAT_OPT_DISABLED)=0) then
-      begin
-        if i>0 then
-        begin
-          tmp:=fmtLink^[i];
-          move(fmtLink^[0],fmtLink^[1],SizeOf(tMusicFormat)*i);
-          fmtLink^[0]:=tmp;
-        end;
-        result:=WAT_RES_OK;
-        exit;
-      end
-      else
-        break;
-    end;
-    inc(i);
-  end;
-  result:=WAT_RES_NOTFOUND;
-end;
 
 function ServiceFormat(wParam:WPARAM;lParam:LPARAM):integer;cdecl;
 var
@@ -301,78 +279,79 @@ var
   nl:pFmtArray;
 begin
   result:=WAT_RES_NOTFOUND;
-  if LoWord(wParam)<>WAT_ACT_REGISTER then
-    p:=FindFormat(PAnsiChar(lParam))
-  else
-    p:=0;
-  case LoWord(wParam) of
-    WAT_ACT_REGISTER: begin
-      if @pMusicFormat(lParam)^.proc=nil then
+
+  if LoWord(wParam)=WAT_ACT_REGISTER then
+  begin
+    if @pMusicFormat(lParam)^.proc=nil then
+      exit;
+
+    p:=FindFormat(pMusicFormat(lParam)^.ext);
+    if (p=WAT_RES_NOTFOUND) or ((wParam and WAT_ACT_REPLACE)<>0) then
+    begin
+      if (p<>WAT_RES_NOTFOUND) and ((fmtLink^[p].flags and WAT_OPT_ONLYONE)<>0) then
         exit;
-      p:=FindFormat(pMusicFormat(lParam)^.ext);
-      if (p=WAT_RES_NOTFOUND) or ((wParam and WAT_ACT_REPLACE)<>0) then
+
+      if FmtNum=FmtMax then // expand array when append
       begin
-        if (p<>WAT_RES_NOTFOUND) and ((fmtLink^[p].flags and WAT_OPT_ONLYONE)<>0) then
-          exit;
-        if FmtNum=FmtMax then // expand array when append
+        if FmtMax=0 then
+          FmtMax:=StartSize
+        else
+          inc(FmtMax,Step);
+        GetMem(nl,FmtMax*SizeOf(tMusicFormat));
+        if fmtLink<>nil then
         begin
-          if FmtMax=0 then
-            FmtMax:=StartSize
-          else
-            inc(FmtMax,Step);
-          GetMem(nl,FmtMax*SizeOf(tMusicFormat));
-          if fmtLink<>nil then
-          begin
-            move(fmtLink^,nl^,FmtNum*SizeOf(tMusicFormat));
-            FreeMem(fmtLink);
-          end;
-          fmtLink:=nl;
+          move(fmtLink^,nl^,FmtNum*SizeOf(tMusicFormat));
+          FreeMem(fmtLink);
         end;
-        if p=WAT_RES_NOTFOUND then
-        begin
-          p:=FmtNum;
-          result:=WAT_RES_OK;
-          inc(FmtNum);
-        end
-        else
-          result:=int_ptr(@fmtLink^[p].proc);
-        move(pMusicFormat(lParam)^,fmtLink^[p],SizeOf(tMusicFormat));// fill
+        fmtLink:=nl;
       end;
-    end;
-    WAT_ACT_UNREGISTER: begin
-      if p<>WAT_RES_NOTFOUND then
+
+      if p=WAT_RES_NOTFOUND then
       begin
-        dec(FmtNum);
-        if p<FmtNum then // last
-          Move(fmtLink^[p+1],fmtLink^[p],SizeOf(tMusicFormat)*(FmtNum-p));
+        p:=FmtNum;
         result:=WAT_RES_OK;
-      end;
+        inc(FmtNum);
+      end
+      else
+        result:=int_ptr(@fmtLink^[p].proc);
+
+      move(pMusicFormat(lParam)^,fmtLink^[p],SizeOf(tMusicFormat));// fill
     end;
-    WAT_ACT_DISABLE: begin
-      if p<>WAT_RES_NOTFOUND then
-      begin
-        fmtLink^[p].flags:=fmtLink^[p].flags or WAT_OPT_DISABLED;
-        result:=WAT_RES_DISABLED
-      end;
-    end;
-    WAT_ACT_ENABLE: begin
-      if p<>WAT_RES_NOTFOUND then
-      begin
-        fmtLink^[p].flags:=fmtLink^[p].flags and not WAT_OPT_DISABLED;
-        result:=WAT_RES_ENABLED
-      end;
-    end;
-    WAT_ACT_GETSTATUS: begin
-      if p<>WAT_RES_NOTFOUND then
-      begin
-        if (fmtLink^[p].flags and WAT_OPT_DISABLED)<>0 then
-          result:=WAT_RES_DISABLED
-        else
+  end
+  else
+  begin
+    p:=FindFormat(PAnsiChar(lParam));
+    if p<>WAT_RES_NOTFOUND then
+      case LoWord(wParam) of
+        WAT_ACT_UNREGISTER: begin
+          dec(FmtNum);
+          if p<FmtNum then // last
+            Move(fmtLink^[p+1],fmtLink^[p],SizeOf(tMusicFormat)*(FmtNum-p));
+          result:=WAT_RES_OK;
+        end;
+
+        WAT_ACT_DISABLE: begin
+          fmtLink^[p].flags:=fmtLink^[p].flags or WAT_OPT_DISABLED;
+          result:=WAT_RES_DISABLED;
+        end;
+
+        WAT_ACT_ENABLE: begin
+          fmtLink^[p].flags:=fmtLink^[p].flags and not WAT_OPT_DISABLED;
           result:=WAT_RES_ENABLED;
+        end;
+
+        WAT_ACT_GETSTATUS: begin
+          if (fmtLink^[p].flags and WAT_OPT_DISABLED)<>0 then
+            result:=WAT_RES_DISABLED
+          else
+            result:=WAT_RES_ENABLED;
+        end;
       end;
-    end;
+
   end;
 end;
+
+//----- init/free procedures -----
 
 procedure RegisterFormat(ext:PAnsiChar;proc:tReadFormatProc;flags:dword=0);
 var
@@ -380,9 +359,23 @@ var
 begin
   FillChar(tmp,SizeOf(tMusicFormat),0);
   StrCopy (tmp.ext,ext,7);
-  tmp.proc:=proc;
+  tmp.proc :=proc;
   tmp.flags:=flags;
   ServiceFormat(WAT_ACT_REGISTER,LPARAM(@tmp));
+end;
+
+function ProcessFormatLink:integer;
+var
+  ptr:pwFormat;
+begin
+  result:=0;
+  ptr:=FormatLink;
+  while ptr<>nil do
+  begin
+    RegisterFormat(@ptr.This.ext, ptr.This.proc, ptr.This.flags);
+    inc(result);
+    ptr:=ptr^.Next;
+  end;
 end;
 
 procedure ClearFormats;

@@ -92,14 +92,6 @@ begin
         'or firewall alarm.');
       CheckDlgButton(Dialog,IDC_IMPLANTANT,UseImplant);
 
-      MakeHint(Dialog,IDC_MTHCHECK,
-        'Use this option if WATrack freeze while player running. Slower processing.');
-      CheckDlgButton(Dialog,IDC_MTHCHECK,MTHCheck);
-
-      MakeHint(Dialog,IDC_TIMEOUT,
-        'Timeout (ms) for separate thread handles checking.');
-      SetDlgItemInt(Dialog,IDC_TIMEOUT,TimeoutForThread,false);
-
       MakeHint(Dialog,IDC_KEEPOLD,
         'Keep opened file as active, not newly founded.');
       CheckDlgButton(Dialog,IDC_KEEPOLD,KeepOld);
@@ -107,6 +99,10 @@ begin
       MakeHint(Dialog,IDC_CHECKALL,
         'Check all marked players for active (started and playing) or stop at first founded');
       CheckDlgButton(Dialog,IDC_CHECKALL,CheckAll);
+
+      MakeHint(Dialog,IDC_CHECKUNKN,
+        'Check unknown file formats if player gives info.');
+      CheckDlgButton(Dialog,IDC_CHECKUNKN,CheckUnknown);
 
 //      MakeHint(Dialog,IDC_COVERFN,
 //        'Cover filename searching templates');
@@ -228,16 +224,17 @@ begin
             StartTimer;
           end;
 
+{
           TimeoutForThread:=GetDlgItemInt(Dialog,IDC_TIMEOUT,tmp,false);
           if TimeoutForThread>=100 then
             TimeoutForThread:=SysWin.ThreadTimeout;
-
-          CheckTime :=IsDlgButtonChecked(Dialog,IDC_CHECKTIME);
-          UseImplant:=IsDlgButtonChecked(Dialog,IDC_IMPLANTANT);
-          MTHCheck  :=IsDlgButtonChecked(Dialog,IDC_MTHCHECK);
-          KeepOld   :=IsDlgButtonChecked(Dialog,IDC_KEEPOLD);
-          mmkeyemu  :=IsDlgButtonChecked(Dialog,IDC_APPCOMMAND);
-          CheckAll  :=IsDlgButtonChecked(Dialog,IDC_CHECKALL);
+}
+          CheckTime   :=IsDlgButtonChecked(Dialog,IDC_CHECKTIME);
+          UseImplant  :=IsDlgButtonChecked(Dialog,IDC_IMPLANTANT);
+          KeepOld     :=IsDlgButtonChecked(Dialog,IDC_KEEPOLD);
+          mmkeyemu    :=IsDlgButtonChecked(Dialog,IDC_APPCOMMAND);
+          CheckAll    :=IsDlgButtonChecked(Dialog,IDC_CHECKALL);
+          CheckUnknown:=IsDlgButtonChecked(Dialog,IDC_CHECKUNKN);
 
           mFreeMem(CoverPaths);
           CoverPaths:=GetDlgText(Dialog,IDC_COVERFN);

@@ -190,13 +190,6 @@ You may pass additional creation flags via lParam:
   MS_POPUP_GETPLUGINDATA:PAnsiChar = 'Popup/GetPluginData';
 
 {
-  wParam = 0
-  lParam = 0
-  Returns: 0 if the user has chosen not to have the second line, 1 if he choose to have the second line.
-}
-  MS_POPUP_ISSECONDLINESHOWN:PAnsiChar = 'Popup/IsSecondLineShown';
-
-{
   Requests an action or an answer from Popup module.
   wParam = (WPARAM)wpQuery
   returns 0 on success, -1 on error, 1 on stupid calls ;-)
@@ -232,7 +225,7 @@ You may pass additional creation flags via lParam:
 {
   wParam = hPopupWindow
   lParam = lpzNewText
-  returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown. (but you could call PUIsSecondLineShown() before changing the text...)
+  returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown.
   Changes the text displayed in the second line of the popup.
 }
   MS_POPUP_CHANGETEXTW:PAnsiChar = 'Popup/ChangetextW';
@@ -337,6 +330,7 @@ type
     colorText       :TCOLORREF;
     PluginWindowProc:pointer;
     iSeconds        :int;
+    lParam          :LPARAM; //APF_RETURN_HWND, APF_CUSTOM_POPUP  ... as above
   end;
 
 const

@@ -217,19 +217,19 @@ function GetStatus:integer; cdecl;
 begin
   if CurrentStation<>0 then
   begin
-    result:=WAT_MES_PLAYING;
+    result:=WAT_PLS_PLAYING;
     case CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET) of
-      RD_STATUS_PAUSED : result:=WAT_MES_PAUSED;
+      RD_STATUS_PAUSED : result:=WAT_PLS_PAUSED;
       RD_STATUS_STOPPED: begin
-        result:=WAT_MES_STOPPED;
+        result:=WAT_PLS_STOPPED;
         mFreeMem(prevfile);
       end;
       RD_STATUS_NOSTATION,
-      RD_STATUS_ABORT  : result:=WAT_MES_UNKNOWN;
+      RD_STATUS_ABORT  : result:=WAT_PLS_UNKNOWN;
     end;
   end
   else
-    result:=WAT_MES_STOPPED;
+    result:=WAT_PLS_STOPPED;
 end;
 
 function GetInfo(var SongInfo:tSongInfo;flags:integer):integer;cdecl;
@@ -260,7 +260,7 @@ begin
         isRemote:=StrPosW(mfile,'://')<>nil;
         if (prevfile=nil) or isRemote or (StrCmpW(prevfile,mfile)<>0) then
         begin
-          ClearTrackInfo(SongInfo,false);
+          ClearTrackInfo(SongInfo);
           mFreeMem(prevfile);
           StrDupW(prevfile,mfile);
 

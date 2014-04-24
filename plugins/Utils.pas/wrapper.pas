@@ -536,7 +536,7 @@ end;
 
 procedure GetUnitSize(wnd:HWND; var baseUnitX, baseUnitY: integer);
 var
-  DC  :HDC;
+  dc  :HDC;
   hfo :HFONT;
   tm  :TTEXTMETRIC;
   size:TSIZE;

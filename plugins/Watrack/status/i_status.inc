@@ -63,7 +63,7 @@ begin
 
     WAT_EVENT_PLAYERSTATUS: begin
       LastStatus:=lParam;
-      if (loword(lParam)=WAT_PLS_NORMAL) then
+      if not (lParam in [WAT_PLS_NOTFOUND,WAT_PLS_STOPPED]) then
         exit;
       doClear:=true;
     end;

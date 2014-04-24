@@ -393,6 +393,7 @@ begin
         repeat
           StrCopyW(pc,fd.cFileName);
           if BASS_PluginLoad(pAnsiChar(basspath),BASS_UNICODE)=0 then
+            break;
         until not FindNextFileW(fh,fd);
         FindClose(fh);
       end;

@@ -195,11 +195,11 @@ function GetStatus(wnd:HWND):integer; cdecl;
 begin
   result:=SendMessage(wnd,WM_REMOCON_GETSTATUS,0,GET_STATUS_STATUS);
   case result of
-    MCI_MODE_STOP : result:=WAT_MES_STOPPED;
-    MCI_MODE_PAUSE: result:=WAT_MES_PAUSED;
-    MCI_MODE_PLAY : result:=WAT_MES_PLAYING;
+    MCI_MODE_STOP : result:=WAT_PLS_STOPPED;
+    MCI_MODE_PAUSE: result:=WAT_PLS_PAUSED;
+    MCI_MODE_PLAY : result:=WAT_PLS_PLAYING;
   else
-    result:=WAT_MES_UNKNOWN;
+    result:=WAT_PLS_UNKNOWN;
   end;
 end;
 
@@ -317,7 +317,7 @@ begin
     begin
       wndtext:=GetWndText;
       volume :=GetVolume(plwnd);
-      if status<>WAT_MES_STOPPED then
+      if status<>WAT_PLS_STOPPED then
 //        if time=0 then
           time:=GetElapsedTime(plwnd);
     end

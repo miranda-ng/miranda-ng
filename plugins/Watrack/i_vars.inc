@@ -14,11 +14,10 @@ var
   hMenuDisable:THANDLE;
 var
   CoverPaths:PWideChar;
-  MTHCheck,
   KeepOld,
   UseImplant,
   CheckAll,
+  CheckUnknown,
   CheckTime:dword;
   mmkeyemu: dword;
   mTimer:dword;
-  TimeoutForThread:cardinal;

@@ -99,16 +99,21 @@ function WinampGetStatus(wnd:HWND):integer;
 begin
   result:=SendMessage(wnd,WM_WA_IPC,0,IPC_ISPLAYING);
   // 0 - stopped, 1 - playing
-  if result>1 then
-    result:=WAT_MES_PAUSED;
+  case result of
+    0: result:=WAT_PLS_STOPPED;
+    1: result:=WAT_PLS_PLAYING;
+  else
+    if result>1 then
+      result:=WAT_PLS_PAUSED;
+  end;
 {
   if result=0 then // !! only for remote media!
   begin
     result:=SendMessage(wnd,WM_WA_IPC,0,IPC_ISFULLSTOP);
     if result<>0 then
-      result:=WAT_MES_STOPPED
+      result:=WAT_PLS_STOPPED
     else
-      result:=WAT_MES_PLAYING;
+      result:=WAT_PLS_PLAYING;
   end;
 }
 end;
@@ -193,7 +198,7 @@ begin
     else if (lParam and WAT_OPT_CHANGES)<>0 then
     begin
       volume:=GetVolume(wnd);
-      if status<>WAT_MES_STOPPED then
+      if status<>WAT_PLS_STOPPED then
         time:=GetElapsedTime(wnd);
 //      wndtext:=WinampGetWindowText(wnd);
     end

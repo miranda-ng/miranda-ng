@@ -101,7 +101,7 @@ begin
   result:=nil;
   if (flags and WAT_OPT_IMPLANTANT)<>0 then
   begin
-    if SendMessage(wnd,WM_WA_IPC,0,IPC_ISPLAYING)<>WAT_MES_STOPPED then
+    if SendMessage(wnd,WM_WA_IPC,0,IPC_ISPLAYING)<>WAT_PLS_STOPPED then
     begin
       fpos :=SendMessage(wnd,WM_USER,0   ,IPC_GETLISTPOS);
       fname:=SendMessage(wnd,WM_USER,fpos,IPC_GETPLAYLISTFILE);

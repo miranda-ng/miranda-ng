@@ -13,6 +13,7 @@ begin
   DBWriteString(0,PluginShort,optLogin   ,msh_login);
   DBWriteByte  (0,PluginShort,optTries   ,msh_tries);
   DBWriteByte  (0,PluginShort,optScrobPos,msh_scrobpos);
+//  DBWriteWord  (0,PluginShort,optTries   ,msh_timeout);
   DBWriteByte  (0,PluginShort,optScrobble,msh_on and 1);
 end;
 

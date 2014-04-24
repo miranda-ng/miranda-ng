@@ -119,7 +119,8 @@ begin
 
     WAT_EVENT_PLAYERSTATUS: begin
       case integer(loword(lParam)) of
-        WAT_PLS_NOMUSIC,WAT_PLS_NOTFOUND: begin
+        WAT_PLS_STOPPED,
+        WAT_PLS_NOTFOUND: begin
           if hTimer<>0 then
           begin
             KillTimer(0,hTimer);

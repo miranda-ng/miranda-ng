@@ -76,8 +76,8 @@ procedure ShellSort(size:integer;Compare,Swap:tSortProc);
 
 //----- String processing -----
 
-function FormatStrW(fmt:pWideChar; arr:array of pWideChar):pWideChar;
-function FormatSimpleW(fmt:pWideChar; arr:array of const):pWideChar;
+function FormatStrW   (fmt:pWideChar; const arr:array of pWideChar):pWideChar;
+function FormatSimpleW(fmt:pWideChar; const arr:array of const):pWideChar;
 
 const
   SIGN_UNICODE    = $FEFF;
@@ -1293,7 +1293,7 @@ end;
 
 //----- String processing -----
 
-function FormatStrW(fmt:pWideChar; arr:array of pWideChar):pWideChar;
+function FormatStrW(fmt:pWideChar; const arr:array of pWideChar):pWideChar;
 var
   i,len:integer;
   pc:pWideChar;
@@ -1333,7 +1333,7 @@ begin
   pc^:=#0;
 end;
 
-function FormatSimpleW(fmt:pWideChar; arr:array of const):pWideChar;
+function FormatSimpleW(fmt:pWideChar; const arr:array of const):pWideChar;
 var
   i,len:integer;
   pc:pWideChar;
@@ -2036,7 +2036,7 @@ var
 begin
   result:=dst;
   dst^:=#0;
-  if fname<>nil then
+  if (fname<>nil) and (fname^<>#0) then
   begin
     pc:=StrEndW(fname)-1;
     while (pc>fname) and ((pc^='"') or (pc^=' ')) do dec(pc);
@@ -2073,7 +2073,7 @@ var
 begin
   result:=dst;
   dst^:=#0;
-  if fname<>nil then
+  if (fname<>nil) and (fname^<>#0) then
   begin
     pc:=StrEnd(fname)-1;
     while (pc>fname) and ((pc^='"') or (pc^=' ')) do dec(pc);

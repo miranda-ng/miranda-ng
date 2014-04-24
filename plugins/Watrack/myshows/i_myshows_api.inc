@@ -154,7 +154,7 @@ var
   buf:array [0..511] of AnsiChar;
 //  bufw:array [0..511] of WideChar;
   res,pc:PAnsiChar;
-  epId:pAnsiChar;
+  {img,}epId:pAnsiChar;
   shId:pWideChar;
 //  imgw:pWideChar;
   jn,jroot:PJSONNODE;

@@ -12,12 +12,12 @@ uses windows,messages,winampapi,common,srv_player,wat_api
   {$IFDEF KOL_MCK}
   ,kolcomobj
   {$ELSE}
-  ,mComObj
+  ,ComObj
   {$ENDIF}
 ;
 
 const
-  COMName:PAnsiChar = 'SongsDB.SDBApplication';
+  COMName:PWideChar = 'SongsDB.SDBApplication';
 
 const
   WM_WA_IPC      = WM_USER;

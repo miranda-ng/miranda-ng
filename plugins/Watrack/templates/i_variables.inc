@@ -73,14 +73,14 @@ begin
       else if WriteCBR<>0 then
         ws:=chCBR;
     mn_status: case si^.status of
-      WAT_MES_STOPPED: ws:=TranslateW(splStopped);
-      WAT_MES_PLAYING: ws:=TranslateW(splPlaying);
-      WAT_MES_PAUSED : ws:=TranslateW(splPaused);
+      WAT_PLS_STOPPED: ws:=TranslateW(splStopped);
+      WAT_PLS_PLAYING: ws:=TranslateW(splPlaying);
+      WAT_PLS_PAUSED : ws:=TranslateW(splPaused);
     end;
     mn_nstatus: case si^.status of
-      WAT_MES_STOPPED: ws:=splStopped;
-      WAT_MES_PLAYING: ws:=splPlaying;
-      WAT_MES_PAUSED : ws:=splPaused;
+      WAT_PLS_STOPPED: ws:=splStopped;
+      WAT_PLS_PLAYING: ws:=splPlaying;
+      WAT_PLS_PAUSED : ws:=splPaused;
     end;
     mn_mono: begin
       case si^.channels of

@@ -8,6 +8,19 @@ uses windows;
 
 function GenreName(idx:cardinal):pWideChar;
 
+// support procedures
+procedure ClearSongInfoData(var dst:tSongInfo);
+procedure ClearPlayerInfo  (var dst:tSongInfo);
+procedure ClearFileInfo    (var dst:tSongInfo);
+procedure ClearChangingInfo(var dst:tSongInfo);
+procedure ClearTrackInfo   (var dst:tSongInfo);
+
+procedure CopyPlayerInfo  (const src:tSongInfo;var dst:tSongInfo);
+procedure CopyFileInfo    (const src:tSongInfo;var dst:tSongInfo);
+procedure CopyChangingInfo(const src:tSongInfo;var dst:tSongInfo);
+procedure CopyTrackInfo   (const src:tSongInfo;var dst:tSongInfo);
+
+
 implementation
 
 uses common;
@@ -179,5 +192,128 @@ begin
   else
     result:=nil;
 end;
+
+//----- support procedures -----
+
+// changing data
+procedure ClearChangingInfo(var dst:tSongInfo);
+begin
+  dst.time  :=0;
+  dst.volume:=0;
+
+  mFreeMem(dst.wndtext);
+end;
+
+procedure CopyChangingInfo(const src:tSongInfo;var dst:tSongInfo);
+begin
+  dst.time   :=src.time;
+  dst.volume :=src.volume;
+
+  StrDupW(dst.wndtext,src.wndtext);
+end;
+
+// file data
+procedure ClearFileInfo(var dst:tSongInfo);
+begin
+  mFreeMem(dst.mfile);
+
+  dst.fsize:=0;
+  dst.date :=0;
+end;
+
+procedure CopyFileInfo(const src:tSongInfo;var dst:tSongInfo);
+begin
+  StrDupW(dst.mfile,src.mfile);
+
+  dst.fsize:=src.fsize;
+  dst.date :=src.date;
+end;
+
+// player data
+procedure ClearPlayerInfo(var dst:tSongInfo);
+begin
+  mFreeMem(dst.player);
+  mFreeMem(dst.txtver);
+  mFreeMem(dst.url);
+
+  if dst.icon<>0 then
+    DestroyIcon(dst.icon);
+  dst.icon     :=0;
+
+  dst.plyver   :=0;
+  dst.plwnd    :=0;
+  dst.winampwnd:=0;
+end;
+
+procedure CopyPlayerInfo(const src:tSongInfo;var dst:tSongInfo);
+begin
+  StrDupW(dst.player,src.player);
+  StrDupW(dst.txtver,src.txtver);
+  StrDupW(dst.url   ,src.url);
+
+  if src.icon<>0 then
+    dst.icon:=CopyIcon(src.icon);
+
+  dst.plyver   :=src.plyver;
+  dst.plwnd    :=src.plwnd;
+  dst.winampwnd:=src.winampwnd;
+end;
+
+// track data
+procedure ClearTrackInfo(var dst:tSongInfo);
+begin
+  mFreeMem(dst.artist);
+  mFreeMem(dst.title);
+  mFreeMem(dst.album);
+  mFreeMem(dst.genre);
+  mFreeMem(dst.comment);
+  mFreeMem(dst.year);
+  mFreeMem(dst.lyric);
+  mFreeMem(dst.cover);
+
+  dst.kbps    :=0;
+  dst.khz     :=0;
+  dst.channels:=0;
+  dst.track   :=0;
+  dst.total   :=0;
+  dst.vbr     :=0;
+  dst.codec   :=0;
+  dst.width   :=0;
+  dst.height  :=0;
+  dst.fps     :=0;
+end;
+
+procedure CopyTrackInfo(const src:tSongInfo;var dst:tSongInfo);
+begin
+  StrDupW(dst.artist ,src.artist);
+  StrDupW(dst.title  ,src.title);
+  StrDupW(dst.album  ,src.album);
+  StrDupW(dst.genre  ,src.genre);
+  StrDupW(dst.comment,src.comment);
+  StrDupW(dst.year   ,src.year);
+  StrDupW(dst.lyric  ,src.lyric);
+  StrDupW(dst.cover  ,src.cover);
+
+  dst.kbps    :=src.kbps;
+  dst.khz     :=src.khz;
+  dst.channels:=src.channels;
+  dst.track   :=src.track;
+  dst.total   :=src.total;
+  dst.vbr     :=src.vbr;
+  dst.codec   :=src.codec;
+  dst.width   :=src.width;
+  dst.height  :=src.height;
+  dst.fps     :=src.fps;
+end;
+
+
+procedure ClearSongInfoData(var dst:tSongInfo);
+begin
+  ClearPlayerInfo  (dst);
+  ClearChangingInfo(dst);
+  ClearFileInfo    (dst);
+  ClearTrackInfo   (dst);
+end;
+
 
 end.

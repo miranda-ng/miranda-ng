@@ -63,7 +63,7 @@ begin
 
   if D.Trackbar<>nil then
   begin
-    if (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,tlparam(@psi))<>WAT_PLS_NOTFOUND) then
+    if (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,tlparam(@psi))<>WAT_RES_NOTFOUND) then
     begin
       SetTrackBarPosition(D.Trackbar,(psi^.time*1000) div D.UpdInterval)
     end;
@@ -412,7 +412,7 @@ begin
       RegisterButtonIcons;
       D.Trackbar:=MakeNewTrackbar(@self);
       // for case when TB creating after track start (fastest way)
-      // can use (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,tlparam(@psi))<>WAT_PLS_NOTFOUND)
+      // can use (CallService(MS_WAT_GETMUSICINFO,WAT_INF_CHANGES,tlparam(@psi))<>WAT_RES_NOTFOUND)
       psi:=pointer(CallService(MS_WAT_RETURNGLOBAL,WAT_INF_UNICODE,1));
       TrackbarSetRange(D.Trackbar,D.UpdInterval,psi^.total);
     end;

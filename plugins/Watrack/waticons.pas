@@ -51,13 +51,17 @@ var
 begin
   result:=true;
   sid.szDefaultFile.a:='icons\'+ICOCtrlName;
+//    ConvertFileName(sid.szDefaultFile.a,buf);
   PathToAbsolute(sid.szDefaultFile.a,buf);
+//  CallService(MS_UTILS_PATHTOABSOLUTE,wparam(sid.szDefaultFile),lparam(@buf));
 
   hIconDLL:=LoadLibraryA(buf);
   if hIconDLL=0 then // not found
   begin
     sid.szDefaultFile.a:='plugins\'+ICOCtrlName;
+//      ConvertFileName(sid.szDefaultFile.a,buf);
     PathToAbsolute(sid.szDefaultFile.a,buf);
+//    CallService(MS_UTILS_PATHTOABSOLUTE,wparam(sid.szDefaultFile),lparam(@buf));
     hIconDLL:=LoadLibraryA(buf);
   end;
 
@@ -142,13 +146,17 @@ begin
   if not IconsLoaded then
   begin
     path:='icons\'+ICOCtrlName;
+//    ConvertFileName(sid.szDefaultFile.a,buf);
     PathToAbsolute(path,buf);
+//    CallService(MS_UTILS_PATHTOABSOLUTE,wparam(path),lparam(@buf));
 
     hIconDLL:=LoadLibraryA(buf);
     if hIconDLL=0 then // not found
     begin
       sid.szDefaultFile.a:='plugins\'+ICOCtrlName;
+//      ConvertFileName(sid.szDefaultFile.a,buf);
       PathToAbsolute(path,buf);
+//      CallService(MS_UTILS_PATHTOABSOLUTE,wparam(path),lparam(@buf));
       hIconDLL:=LoadLibraryA(buf);
     end;
 

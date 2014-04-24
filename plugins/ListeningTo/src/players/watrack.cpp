@@ -96,7 +96,7 @@ void WATrack::GetData()
 	FreeData();
 
 	// See if something is playing
-	if (playing !=  WAT_PLS_NORMAL
+	if (playing ==  WAT_RES_NOTFOUND
 		|| si == NULL
 		|| si->status != 1
 		|| ( IsEmpty(si->artist) && IsEmpty(si->title)) )

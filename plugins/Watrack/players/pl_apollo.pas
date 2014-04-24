@@ -66,7 +66,7 @@ var
   tmpwnd:HWND;
   ps:array [0..255] of AnsiChar;
 begin
-  if GetStatus(wnd)<>WAT_MES_STOPPED then
+  if GetStatus(wnd)<>WAT_PLS_STOPPED then
   begin
     tmpwnd:=SendMessage(wnd,WM_APOLLO_COMMAND,APOLLO_GETCURRENTLYPLAYEDFILENAME,0);
     ps[0]:=#0;
@@ -209,7 +209,7 @@ begin
   begin
     with SongInfo do
     begin
-      if (status<>WAT_MES_STOPPED) and
+      if (status<>WAT_PLS_STOPPED) and
          (mfile<>nil) and (StrPosW(mfile,'://')<>nil) and (album=nil) then
         album:=GetRemoteTitle(plwnd);
     end;

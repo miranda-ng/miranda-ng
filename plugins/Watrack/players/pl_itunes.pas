@@ -12,7 +12,7 @@ uses windows,common,srv_player,wat_api
   {$IFDEF KOL_MCK}
   ,kolcomobj
   {$ELSE}
-  ,mComObj
+  ,ComObj
   {$ENDIF}
 ;
 
@@ -99,11 +99,11 @@ begin
     v:=CreateOleObject(COMName);
     tmp:=v.PlayerState;
     if tmp=1 then
-      result:=WAT_MES_PLAYING
+      result:=WAT_PLS_PLAYING
     else
-      result:=WAT_MES_STOPPED;
+      result:=WAT_PLS_STOPPED;
   except
-    result:=WAT_MES_UNKNOWN;
+    result:=WAT_PLS_UNKNOWN;
   end;
   v:=Null;
 end;
@@ -316,7 +316,7 @@ begin
       else if (flags and WAT_OPT_CHANGES)<>0 then
       begin
         volume:=GetVolume(v);
-        if status<>WAT_MES_STOPPED then
+        if status<>WAT_PLS_STOPPED then
           time:=GetElapsedTime(v);
       end
       else

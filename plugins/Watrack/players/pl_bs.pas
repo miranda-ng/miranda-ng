@@ -194,7 +194,7 @@ begin
     if (flags and WAT_OPT_CHANGES)<>0 then
     begin
       volume:=GetVolume(plwnd);
-      if status<>WAT_MES_STOPPED then
+      if status<>WAT_PLS_STOPPED then
         time:=GetElapsedTime(plwnd);
     end
     else

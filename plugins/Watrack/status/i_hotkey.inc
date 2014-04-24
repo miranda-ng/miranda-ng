@@ -12,7 +12,7 @@ begin
   result:=0;
   if DisablePlugin=dsPermanent then
     exit;
-  if Loword(LastStatus)<>WAT_PLS_NORMAL then
+  if LastStatus in [WAT_PLS_NOTFOUND,WAT_PLS_STOPPED] then
     exit;
 //  i:=CallService(MS_WAT_GETMUSICINFO,0,0);
   if UseMessages=BST_CHECKED then

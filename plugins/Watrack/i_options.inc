@@ -23,12 +23,10 @@ const
   opt_CheckTime :PAnsiChar = 'checktime';
   opt_coverpaths:PAnsiChar = 'coverpaths';
   opt_Implantant:PAnsiChar = 'useimplantant';
-  opt_MTHCheck  :PAnsiChar = 'mthcheck';
   opt_KeepOld   :PAnsiChar = 'keepold';
   opt_mmkeyemu  :PAnsiChar = 'mmkeyemu';
   opt_CheckAll  :PAnsiChar = 'checkall';
-
-  opt_ThTimeout :PAnsiChar = 'thtimeout';
+  opt_CheckUnkn :PAnsiChar = 'checkunknown';
 
 procedure _loadopt;
 begin
@@ -40,9 +38,9 @@ begin
   globhotkey   :=DBReadWord(0,PluginShort,opt_HotKey    ,defhotkey);
   CheckTime    :=DBReadByte(0,PluginShort,opt_CheckTime ,BST_CHECKED);
   UseImplant   :=DBReadByte(0,PluginShort,opt_Implantant,BST_UNCHECKED);
-  MTHCheck     :=DBReadByte(0,PluginShort,opt_MTHCheck  ,BST_CHECKED);
   KeepOld      :=DBReadByte(0,PluginShort,opt_KeepOld   ,BST_UNCHECKED);
   CheckAll     :=DBReadByte(0,PluginShort,opt_CheckAll  ,BST_UNCHECKED);
+  CheckUnknown :=DBReadByte(0,PluginShort,opt_CheckUnkn ,BST_UNCHECKED);
   mTimer       :=DBReadWord(0,PluginShort,opt_Timer     ,3000);
   if mTimer<500 then
     mTimer:=mTimer*1000;
@@ -50,20 +48,17 @@ begin
   CoverPaths   :=DBReadUnicode(0,PluginShort,opt_coverpaths,defcoverpaths);
 
   mmkeyemu     :=DBReadByte (0,PluginShort,opt_mmkeyemu  ,BST_UNCHECKED);
-
-  TimeoutForThread:=DBReadByte(0,PluginShort,opt_ThTimeout,SysWin.ThreadTimeout);
 end;
 
 procedure _saveopt;
 begin
   DBWriteWord(0,PluginShort,opt_InsHotKey ,inshotkey);
   DBWriteWord(0,PluginShort,opt_HotKey    ,globhotkey);
-  DBWriteByte(0,PluginShort,opt_ThTimeout ,TimeoutForThread);
   DBWriteByte(0,PluginShort,opt_CheckTime ,CheckTime);
   DBWriteByte(0,PluginShort,opt_Implantant,UseImplant);
-  DBWriteByte(0,PluginShort,opt_MTHCheck  ,MTHCheck);
   DBWriteByte(0,PluginShort,opt_KeepOld   ,KeepOld);
   DBWriteByte(0,PluginShort,opt_CheckAll  ,CheckAll);
+  DBWriteByte(0,PluginShort,opt_CheckUnkn ,CheckUnknown);
   DBWriteWord(0,PluginShort,opt_Timer     ,mTimer);
   DBWriteWord(0,PluginShort,opt_UserCP    ,UserCP);
 

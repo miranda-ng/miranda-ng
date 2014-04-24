@@ -158,7 +158,7 @@ begin
 
     if present then
     begin
-      if CallService(MS_WAT_GETMUSICINFO,0,0)=WAT_PLS_NOTFOUND then
+      if CallService(MS_WAT_GETMUSICINFO,0,0)=WAT_RES_NOTFOUND then
         s:=nil
       else
       begin
@@ -257,7 +257,7 @@ begin
         curpos:=nil;
         if DisablePlugin<>dsPermanent then
         begin
-          if CallService(MS_WAT_GETMUSICINFO,0,0)=WAT_PLS_NOTFOUND then
+          if CallService(MS_WAT_GETMUSICINFO,0,0)=WAT_RES_NOTFOUND then
           begin
             s:=#0#0#0'No player found at this time';
             textpos:=s+3;

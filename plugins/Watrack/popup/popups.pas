@@ -150,16 +150,10 @@ var
   Icon:HICON;
   sec:integer;
   cb,ct:TCOLORREF;
-  line:boolean;
   tmp:pAnsiChar;
 begin
-  line:=CallService(MS_POPUP_ISSECONDLINESHOWN,0,0)<>0;
-
   descr:=PWideChar(CallService(MS_WAT_REPLACETEXT,0,lparam(PopText)));
-  if line then
-    title:=PWideChar(CallService(MS_WAT_REPLACETEXT,0,lparam(PopTitle)))
-  else
-    title:=nil;
+  title:=PWideChar(CallService(MS_WAT_REPLACETEXT,0,lparam(PopTitle)));
 
   if (descr<>nil) or (title<>nil) then
   begin
@@ -204,13 +198,8 @@ begin
         colorText       :=ct;
         PluginWindowProc:=@DumbPopupDlgProc;
 
-        if line then
-        begin
-          pzTitle.w:=title;
-          pzText .w:=descr;
-        end
-        else
-          pzTitle.w:=descr;
+        pzTitle.w:=title;
+        pzText .w:=descr;
 
         if ActionList=nil then
           flag:=0
@@ -245,22 +234,14 @@ begin
       FillChar(ppdu^,SizeOf(TPOPUPDATAW),0);
       with ppdu^ do
       begin
-        if line then
-        begin
-          if title<>nil then
-            StrCopyW(lpwzContactName,title,MAX_CONTACTNAME-1)
-          else
-            lpwzContactName[0]:=' ';
-          if descr<>nil then
-            StrCopyW(lpwzText,descr,MAX_SECONDLINE-1)
-          else
-            lpwzText[0]:=' ';
-        end
+        if title<>nil then
+          StrCopyW(lpwzContactName,title,MAX_CONTACTNAME-1)
         else
-        begin
-          StrCopyW(ppdu^.lpwzContactName,title,MAX_CONTACTNAME-1);
+          lpwzContactName[0]:=' ';
+        if descr<>nil then
+          StrCopyW(lpwzText,descr,MAX_SECONDLINE-1)
+        else
           lpwzText[0]:=' ';
-        end;
 
         lchIcon         :=Icon;
         PluginWindowProc:=@DumbPopupDlgProc;
@@ -301,7 +282,7 @@ begin
   result:=0;
   if DisablePlugin<>dsEnabled then
     exit;
-  if CallService(MS_WAT_GETMUSICINFO,0,tlparam(@si))=WAT_PLS_NORMAL then
+  if CallService(MS_WAT_GETMUSICINFO,0,tlparam(@si))=WAT_RES_OK then
   begin
     if PopupPresent then
       ShowPopup(si)

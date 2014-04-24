@@ -285,19 +285,11 @@ begin
     exit;
 
   FillChar(ppdu,SizeOf(TPOPUPDATAW),0);
-  if CallService(MS_POPUP_ISSECONDLINESHOWN,0,0)<>0 then
-  begin
-    StrCopyW(ppdu.lpwzText,text,MAX_SECONDLINE-1);
-    if title<>nil then
-      StrCopyW(ppdu.lpwzContactName,title,MAX_CONTACTNAME-1)
-    else
-      ppdu.lpwzContactName[0]:=' ';
-  end
+  StrCopyW(ppdu.lpwzText,text,MAX_SECONDLINE-1);
+  if title<>nil then
+    StrCopyW(ppdu.lpwzContactName,title,MAX_CONTACTNAME-1)
   else
-  begin
-    StrCopyW(ppdu.lpwzContactName,text,MAX_CONTACTNAME-1);
-    ppdu.lpwzText[0]:=' ';
-  end;
+    ppdu.lpwzContactName[0]:=' ';
   CallService(MS_POPUP_ADDPOPUPW,wparam(@ppdu),APF_NO_HISTORY);
 end;
 

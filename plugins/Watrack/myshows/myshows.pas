@@ -27,8 +27,10 @@ type
   end;
 var
   msh_tries,
+//  msh_timeout,
   msh_scrobpos:integer;
   sic:THANDLE;
+//  slastinf:THANDLE;
   slast:THANDLE;
   MSData:tMyShowsData;
 const
@@ -90,7 +92,7 @@ begin
 
   if (msh_login   <>nil) and (msh_login^   <>#0) and
      (msh_password<>nil) and (msh_password^<>#0) then
-    mir_forkthread(@ThScrobble,nil);
+    {CloseHandle}(mir_forkthread(@ThScrobble,nil));
 end;
 
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
@@ -109,6 +111,7 @@ begin
       begin
         if pSongInfo(lParam).width>0 then // for video only
         begin
+//!!          if ServiceExists(MS_JSON_GETINTERFACE)<>0 then
           begin
             timervalue:=integer(pSongInfo(lParam).total)*10*msh_scrobpos; // 1000(msec) div 100(%)
             if timervalue=0 then
@@ -145,7 +148,8 @@ begin
 
     WAT_EVENT_PLAYERSTATUS: begin
       case integer(loword(lParam)) of
-        WAT_PLS_NOMUSIC,WAT_PLS_NOTFOUND: begin
+        WAT_PLS_STOPPED,
+        WAT_PLS_NOTFOUND: begin
           if hTimer<>0 then
           begin
             KillTimer(0,hTimer);
@@ -254,6 +258,7 @@ end;
 
 var
   plStatusHook:THANDLE;
+
 function InitProc(aGetStatus:boolean=false):integer;
 begin
 //  slastinf:=CreateServiceFunction(MS_WAT_MYSHOWSINFO,@SrvMyShowsInfo);
@@ -285,7 +290,9 @@ end;
 procedure DeInitProc(aSetDisable:boolean);
 begin
   if aSetDisable then
-    SetModStatus(0);
+    SetModStatus(0)
+  else
+;//    DestroyServiceFunction(slastinf);
 
   DestroyServiceFunction(slast);
   UnhookEvent(plStatusHook);
@@ -320,7 +327,6 @@ begin
   mmyshows.Check     :=nil;
   mmyshows.ModuleName:='MyShows.ru';
   ModuleLink         :=@mmyshows;
-
 end;
 
 begin

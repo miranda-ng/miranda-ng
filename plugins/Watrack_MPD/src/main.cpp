@@ -256,14 +256,14 @@ int Parser()
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
 		if(strstr(tmp, "play"))
-			gbState = WAT_MES_PLAYING;
+			gbState = WAT_PLS_PLAYING;
 		if(strstr(tmp, "pause"))
-			gbState = WAT_MES_PAUSED;
+			gbState = WAT_PLS_PAUSED;
 		if(strstr(tmp, "stop"))
-			gbState = WAT_MES_STOPPED;
+			gbState = WAT_PLS_STOPPED;
 	}
 	else if(!gbState)
-		gbState = WAT_MES_UNKNOWN;
+		gbState = WAT_PLS_UNKNOWN;
 	return 0;
 }
 
@@ -297,9 +297,9 @@ LPCHECKPROC CheckPlayer(HWND wnd, int flags)
 		return 0;
 	}
 	if(Parser())
-		return (LPCHECKPROC)WAT_MES_STOPPED;
+		return (LPCHECKPROC)WAT_PLS_STOPPED;
 	if(Connected)		
-		return (LPCHECKPROC)WAT_MES_PLAYING;
+		return (LPCHECKPROC)WAT_PLS_PLAYING;
 	return 0;
 }
 
@@ -384,7 +384,7 @@ LPCOMMANDPROC SendCommand(HWND wnd, int command, int value)
 		Netlib_Send(ghConnection, "previous\n", (int)strlen("previous\n"), 0);
 		break;
 	case WAT_CTRL_PLAY: //add resuming support
-		if(gbState != WAT_MES_PAUSED)
+		if(gbState != WAT_PLS_PAUSED)
 			Netlib_Send(ghConnection, "play\n", (int)strlen("play\n"), 0);
 		else
 			Netlib_Send(ghConnection, "pause 0\n", (int)strlen("pause 0\n"), 0);

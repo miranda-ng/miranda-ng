@@ -207,7 +207,7 @@ begin
   end;
 
   SendMessage(wnd,EM_SETSEL,sstart,sstart+integer(StrLenW(txt))-CharCount(txt));
-  mGetMem(tmp,RTFBufferSize);
+  mGetMem (tmp ,RTFBufferSize);
   FillChar(tmp^,RTFBufferSize,0);
   ReadRTF(wnd,tmp);
   ReplaceTags(tmp);

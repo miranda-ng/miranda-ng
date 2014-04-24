@@ -18,6 +18,7 @@ var
   XStatusSet    :cardinal;
   ClearXStat    :cardinal;
   hINS          :THANDLE;
+//  hLTo          :THANDLE;
   plStatusHook  :THANDLE;
 
 const

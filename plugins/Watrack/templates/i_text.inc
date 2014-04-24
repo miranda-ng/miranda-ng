@@ -87,10 +87,10 @@ begin
   Replace(ls,mn_length,IntToTime(ws,Info^.total));
   Replace(ls,mn_total ,ws);
   case Info^.status of
-    WAT_MES_PLAYING: pp:=splPlaying;
-    WAT_MES_PAUSED : pp:=splPaused;
+    WAT_PLS_PLAYING: pp:=splPlaying;
+    WAT_PLS_PAUSED : pp:=splPaused;
   else
-    {WAT_MES_STOPPED:} pp:=splStopped;
+    {WAT_PLS_STOPPED:} pp:=splStopped;
   end;
   Replace(ls,mn_status,TranslateW(pp));
   Replace(ls,mn_nstatus,pp);

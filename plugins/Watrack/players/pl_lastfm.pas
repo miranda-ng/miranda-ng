@@ -76,9 +76,9 @@ var
 begin
   txt:=GetWndText(wnd);
   if StrCmpW(txt,LFMText,Length(LFMText))<>0 then
-    result:=WAT_MES_PLAYING
+    result:=WAT_PLS_PLAYING
   else
-    result:=WAT_MES_STOPPED;
+    result:=WAT_PLS_STOPPED;
   mFreeMem(txt);
 end;
 
