@@ -154,7 +154,7 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_MAIN           ICON                    "ssCamera.ico"
-IDI_DEFAULT        ICON                    "ssDefault.ico"
+//IDI_DEFAULT        ICON                    "ssDefault.ico"
 IDI_TARGET         ICON                    "ssTarget.ico"
 IDI_MONITOR        ICON                    "ssMonitor.ico"
 IDI_HELP           ICON                    "sshelp.ico"

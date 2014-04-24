@@ -28,7 +28,7 @@
 #define IDR_LICENSE                     120
 #define IDR_CREDIT                      121
 #define IDI_MAIN                        190
-#define IDI_DEFAULT                     191
+//#define IDI_DEFAULT                     191
 #define IDI_TARGET                      192
 #define IDI_MONITOR                     193
 #define IDI_HELP                        194

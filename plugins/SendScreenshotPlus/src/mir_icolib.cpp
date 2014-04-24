@@ -46,7 +46,7 @@ static ICODESC icoDesc[] =
 	{ ICO_COMMON_SSWINDOW2,	LPGEN("Screenshot Icon2"),	SECT_COMMON,	IDI_MAIN,			0 },
 	{ ICO_COMMON_SSTARGET,	LPGEN("Target Cursor"),		SECT_COMMON,	IDI_TARGET,			1 },
 	{ ICO_COMMON_SSMONITOR,	LPGEN("Target Desktop"),	SECT_COMMON,	IDI_MONITOR,		1 },
-	{ ICO_COMMON_SSDEFAULT,	LPGEN("Default"),			SECT_COMMON,	IDI_DEFAULT,		0 },
+	//{ ICO_COMMON_SSDEFAULT,	LPGEN("Default"),			SECT_COMMON,	IDI_DEFAULT,		0 },
 	// overlays
 //	{ ICO_BTN_OVERLAYON,	LPGEN("Overlay on"),		SECT_OVERLAY,	IDI_OVERLAYON,		0 },
 //	{ ICO_BTN_OVERLAYOFF,	LPGEN("Overlay off"),		SECT_OVERLAY,	IDI_OVERLAYOFF,		0 },
@@ -88,7 +88,7 @@ static ICODESC icoDesc[] =
  *
  * @return	This function returns the HANDLE of the icon item.
  **/
-static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, LPTSTR szDefaultFile, int idIcon, int Size, HICON hDefIcon)
+static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, LPTSTR szDefaultFile, int idIcon, int Size)
 {
 	HANDLE hIconHandle = NULL;
 
@@ -120,12 +120,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 			}
 
 			sid.ptszDefaultFile = szDefaultFile;
-			if (sid.ptszDefaultFile && sid.ptszDefaultFile[0])
-				sid.iDefaultIndex = -idIcon;
-			else {
-				sid.hDefaultIcon = hDefIcon;
-				sid.iDefaultIndex = -1;
-			}
+			sid.iDefaultIndex = -idIcon;
 			hIconHandle = Skin_AddIcon(&sid);
 		}
 		MIR_FREE(sid.ptszDescription);
@@ -148,12 +143,8 @@ void IcoLib_LoadModule()
 {
 	LPTSTR szDefaultFile = _T("Plugins\\")_T(__FILENAME);
 
-	// load default icon if required
-	ghDefIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, 
-							 GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
-
 	for (int i = 0; i < SIZEOF(icoDesc); i++)
 		IcoLib_RegisterIconHandleEx(
 			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection, 
-			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);
+			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size);
 }
