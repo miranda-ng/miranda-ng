@@ -39,7 +39,7 @@ int CSendHost_UploadPie::Send()
 		{"MAX_FILE_SIZE",HTTPFORM_INT(3145728)},// ??
 		{"upload",HTTPFORM_INT(1)},// ??
 		{"uploadedfile",HTTPFORM_FILE(tmp)},
-		{"expire",HTTPFORM_INT(1)},// 30m
+		{"expire",HTTPFORM_INT(m_expire)},// 30m
 		//{"expire",HTTPFORM_INT(2,},// 1h
 		//{"expire",HTTPFORM_INT(3)},// 6h
 		//{"expire",HTTPFORM_INT(4)},// 1d
