@@ -250,13 +250,6 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			LvCol.cx = 85;
 			ListView_InsertColumn(hwndList, 4, &LvCol);
 
-			// disable buttons until a selection is made in the list
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
-
 			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
 			ZeroMemory(&g_data, sizeof(g_data));
@@ -294,9 +287,13 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				// enable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), sel != -1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), sel != -1 && g_data.hContact[sel] != g_data.hDefaultContact);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact);
+				
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), sel > 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), (sel != -1 && sel < g_data.num_contacts - 1));
+
+				HWND hwndOffline = GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE);
+				EnableWindow(hwndOffline, sel != -1);
+				SetWindowText(hwndOffline, TranslateTS((sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact) ? LPGENT("Send &Offline") : LPGENT("Send &Online")));
 			}
 		}
 		break;
@@ -352,11 +349,13 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			case IDC_BTN_SETOFFLINE:
 				sel = ListView_GetNextItem(hwndList, -1, LVNI_FOCUSED | LVNI_SELECTED);
 				InvalidateRect(hwndList, 0, TRUE);
-				g_data.hOfflineContact = g_data.hContact[sel];
+				if (g_data.hContact[sel] != g_data.hOfflineContact)
+					g_data.hOfflineContact = g_data.hContact[sel];
+				else
+					g_data.hOfflineContact = 0;
 
 				FillContactList(hwndList);
 				SetListSelection(hwndList, sel);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VALIDATE), TRUE);
 				return TRUE;
 
@@ -382,7 +381,6 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				// disable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETDEFAULT), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_UP), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DOWN), FALSE);
 
