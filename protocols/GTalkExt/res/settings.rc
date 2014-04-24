@@ -21,41 +21,42 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Popup notifications (needs popup plugin)",IDC_POPUPSENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,8,271,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,8,287,14
     CONTROL         "Notify in fullscreen mode too",IDC_POPUPSINFULLSCREEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,22,267,14
-    LTEXT           "Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus",IDC_POPUPSINFULLSCREENLABEL,34,38,234,27,NOT WS_GROUP
-    CONTROL         "Notify in contact list",IDC_PSEUDOCONTACTENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,60,271,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,22,275,14
+    LTEXT           "Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus",IDC_POPUPSINFULLSCREENLABEL,18,38,275,21,NOT WS_GROUP
+    CONTROL         "Notify in contact list",IDC_PSEUDOCONTACTENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,60,287,14
     CONTROL         "Clear pseudocontact history before adding new events",IDC_CLEARPSEUDOCONTACTLOG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,74,254,15
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,74,275,15
     CONTROL         "Mark history event read when popup closed",IDC_MARKEVENTREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,88,284,15
-    CONTROL         "Add message snip to notification",IDC_ADDSNIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,102,282,15
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,88,287,15
+    CONTROL         "Add message snip to notification",IDC_ADDSNIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,102,287,15
     CONTROL         "Try to login before open mailbox",IDC_AUTHONMAILBOX,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,116,279,15
-    LTEXT           "This works only if password is saved in the database. Has no effect on links in pseudocontact message log",IDC_AUTHONMAILBOXLABEL,19,130,269,26,NOT WS_GROUP
-    LTEXT           "Choose GMail view you use in web interface",IDC_MAILBOXVIEWLABEL,7,154,280,9,NOT WS_GROUP
-    CONTROL         "I don't know",IDC_UNKNOWNVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,167,153,8
-    CONTROL         "Standard view",IDC_STANDARDVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,178,157,8
-    CONTROL         "Basic HTML",IDC_HTMLVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,189,158,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,116,287,15
+    LTEXT           "This works only if password is saved in the database. Has no effect on links in pseudocontact message log",IDC_AUTHONMAILBOXLABEL,18,130,275,22,NOT WS_GROUP
+    LTEXT           "Choose GMail view you use in web interface",IDC_MAILBOXVIEWLABEL,6,154,287,9,NOT WS_GROUP
+    CONTROL         "I don't know",IDC_UNKNOWNVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,167,275,8
+    CONTROL         "Standard view",IDC_STANDARDVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,178,275,8
+    CONTROL         "Basic HTML",IDC_HTMLVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,189,275,8
 END
 
-IDD_POPUPSETTINGS DIALOGEX 0, 0, 304, 65
+IDD_POPUPSETTINGS DIALOGEX 0, 0, 304, 105
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "",IDC_GROUP,0,0,304,65
+    GROUPBOX        "",IDC_GROUP,0,0,298,97
     LTEXT           "Background color",IDC_BACKCOLORLABEL,10,10,60,15,NOT WS_GROUP
     CONTROL         "",IDC_BACKCOLORPICKER,"ColourPicker",WS_TABSTOP,70,10,39,10
-    LTEXT           "Text color",IDC_TEXTCOLORLABEL,10,25,50,15,NOT WS_GROUP
+    LTEXT           "Text color",IDC_TEXTCOLORLABEL,10,25,60,15,NOT WS_GROUP
     CONTROL         "",IDC_TEXTCOLORPICKER,"ColourPicker",WS_TABSTOP,70,25,39,10
-    LTEXT           "Timeout",IDC_TIMEOUTLABEL,10,40,50,13,NOT WS_GROUP
-    EDITTEXT        IDC_TIMEOUTEDIT,70,40,39,10
-    LTEXT           "If both colors set to the same value, default colors will be used",IDC_DEFCOLORSLABEL,120,10,120,25,NOT WS_GROUP
-    LTEXT           "0 means default timeout,\n-1 means no timeout",IDC_DEFTIMEOUTLABEL,120,40,120,20,NOT WS_GROUP
-    PUSHBUTTON      "Test",IDC_TESTBUTTON,245,17,50,25
+    LTEXT           "Timeout",IDC_TIMEOUTLABEL,10,40,60,13,NOT WS_GROUP
+    EDITTEXT        IDC_TIMEOUTEDIT,70,40,39,12
+    LTEXT           "If both colors set to the same value, default colors will be used",IDC_DEFCOLORSLABEL,120,10,172,25,NOT WS_GROUP
+    LTEXT           "0 means default timeout,\n-1 means no timeout",IDC_DEFTIMEOUTLABEL,120,40,172,20,NOT WS_GROUP
+    PUSHBUTTON      "Test",IDC_TESTBUTTON,244,68,50,25
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -72,6 +73,24 @@ IDI_POPUP               ICON                    "PopupIcon.ico"
 //
 
 IDI_PSEUDOAVA           PNG                     "pseudoava.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_POPUPSETTINGS, DIALOG
+    BEGIN
+        VERTGUIDE, 120
+        VERTGUIDE, 292
+        BOTTOMMARGIN, 65
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
