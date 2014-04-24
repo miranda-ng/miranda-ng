@@ -71,8 +71,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	TCHAR path[MAX_PATH];
 	mir_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
-	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL,
-		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hDumpFile != INVALID_HANDLE_VALUE)
 	{
@@ -339,7 +338,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
-	packlcid = (LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0);
+	packlcid = (LCID)Langpack_GetDefaultLocale();
 
 	InitIcons();
 

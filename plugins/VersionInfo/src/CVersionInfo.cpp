@@ -408,79 +408,24 @@ int SaveInfo(const char *data, const char *lwrData, const char *search, TCHAR *d
 
 bool CVersionInfo::GetLangpackInfo()
 {
-	TCHAR langpackPath[MAX_PATH] = {0};
-	TCHAR search[MAX_PATH] = {0};
-
-	lpzLangpackModifiedDate = _T("");
-	GetModuleFileName(GetModuleHandle(NULL), langpackPath, SIZEOF(langpackPath));
-	TCHAR* p = _tcsrchr(langpackPath, '\\');
-	if (p) {
-		WIN32_FIND_DATA data = {0};
-		HANDLE hLangpack;
-
-		p[1] = '\0';
-		_tcscpy(search, langpackPath);
-		_tcscat(search, _T("langpack_*.txt"));
-		hLangpack = FindFirstFile(search, &data);
-		if (hLangpack != INVALID_HANDLE_VALUE) {
-			char buffer[1024];
-			char temp[1024];
-			FillLocalTime(lpzLangpackModifiedDate, &data.ftLastWriteTime);
-
-			TCHAR locale[128] = {0};
-			TCHAR language[128] = {0};
-			TCHAR version[128] = {0};
-			_tcscpy(version, _T("N/A"));
-
-			_tcsncpy(language, data.cFileName, SIZEOF(language));
-			p = _tcsrchr(language, '.');
-			p[0] = '\0';
-
-			_tcscat(langpackPath, data.cFileName);
-			FILE *fin = _tfopen(langpackPath, _T("rt"));
-			if (fin) {
-				size_t len;
-				while (!feof(fin)) {
-					fgets(buffer, SIZEOF(buffer), fin);
-					len = strlen(buffer);
-					if (buffer[len - 1] == '\n') buffer[len - 1] = '\0';
-					strncpy(temp, buffer, SIZEOF(temp));
-					_strlwr(temp);
-					if (SaveInfo(buffer, temp, "language: ", language, SIZEOF(language))) {
-						if (SaveInfo(buffer, temp, "locale: ", locale, SIZEOF(locale))) {
-							char* p = strstr(buffer, "; FLID: ");
-							if (p) {
-								int ok = 1;
-								int i;
-								for (i = 0; ((i < 3) && (ok)); i++) {
-									p = strrchr(temp, '.');
-									if (p)
-										p[0] = '\0';
-									else
-										ok = 0;
-								}
-								p = strrchr(temp, ' ');
-								if ((ok) && (p))
-									_tcsncpy(version, _A2T(&buffer[p - temp + 1]), SIZEOF(version));
-								else
-									_tcsncpy(version, _T("<unknown>"), SIZEOF(version));
-				}	}	}	}
-
-				lpzLangpackInfo = std::tstring(language) + _T(" [") + std::tstring(locale) + _T("]");
-				if ( version[0] )
-					lpzLangpackInfo += _T(" v. ") + std::tstring(version);
-
-				fclose(fin);
+	LCID packlcid = Langpack_GetDefaultLocale();
+	
+	if (packlcid != LOCALE_USER_DEFAULT) {
+		TCHAR lang[MAX_PATH], ctry[MAX_PATH];
+		if(GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, lang, MAX_PATH)) {
+			if(GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, ctry, MAX_PATH)) {
+				TCHAR langpackInfo[MAX_PATH];
+				mir_sntprintf(langpackInfo,SIZEOF(langpackInfo),TEXT("%s (%s) [%04x]"), lang, ctry, packlcid);
+				lpzLangpackInfo = langpackInfo;
 			}
-			else {
-				int err = GetLastError();
-				lpzLangpackInfo = _T("<error> Could not open file " + std::tstring(data.cFileName));
-			}
-			FindClose(hLangpack);
+			else
+				lpzLangpackInfo.append(lang);
 		}
-		else lpzLangpackInfo = _T("No language pack installed");
+		else
+			lpzLangpackInfo = _T("Locale id invalid");
 	}
-
+	else 
+		lpzLangpackInfo = _T("No language pack installed");
 	return true;
 }
 

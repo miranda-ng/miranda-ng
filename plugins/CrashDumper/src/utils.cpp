@@ -205,13 +205,12 @@ void GetOSDisplayString(CMString& buffer)
 
 			if (osvi.wProductType == VER_NT_WORKSTATION)
 				buffer.Append(TEXT("Professional"));
-			else {
-				if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
-					buffer.Append(TEXT("Datacenter Server"));
-				else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-					buffer.Append(TEXT("Advanced Server"));
-				else buffer.Append(TEXT("Server"));
-			}
+			else if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
+				buffer.Append(TEXT("Datacenter Server"));
+			else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
+				buffer.Append(TEXT("Advanced Server"));
+			else
+				buffer.Append(TEXT("Server"));
 		}
 
 		if (osvi.szCSDVersion[0] != 0) {
@@ -593,54 +592,19 @@ void GetLanguageString(CMString& buffer)
 void GetLanguagePackString(CMString& buffer)
 {
 	buffer.Append(TEXT("Language pack: ")); 
-	if (packlcid == LOCALE_USER_DEFAULT)
-		buffer.Append(TEXT("No language pack installed"));
-	else {
-		TCHAR path[MAX_PATH] = TEXT("Locale id invalid");
-		GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, path, MAX_PATH);
-		buffer.Append(path);
-
-		GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, path, MAX_PATH);
-		buffer.AppendFormat(TEXT(" (%s) [%04x]"), path, packlcid);
-
-		GetModuleFileName(NULL, path, MAX_PATH);
-
-		LPTSTR fname = _tcsrchr(path, TEXT('\\'));
-		if (fname == NULL) fname = path;
-		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\langpack_*.txt"));
-
-		WIN32_FIND_DATA FindFileData;
-		HANDLE hFind = FindFirstFile(path, &FindFileData);
-		if (hFind == INVALID_HANDLE_VALUE) return;
-		FindClose(hFind);
-
-		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\%s"), FindFileData.cFileName);
-		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hDumpFile != INVALID_HANDLE_VALUE) {
-			char buf[8192];
-
-			DWORD bytes = 0;
-			ReadFile(hDumpFile, buf, 8190, &bytes, NULL);
-			buf[bytes] = 0;
-
-			char *id = strstr(buf, "FLID:");
-			if (id != NULL) {
-				char *endid = strchr(id, '\r');
-				if (endid != NULL) *endid = 0;
-
-				endid = strchr(id, '\n');
-				if (endid != NULL) *endid = 0;
-
-				TCHAR mirtime[30];
-				GetLastWriteTime(path, mirtime, 30);
-
-				TCHAR* tid;
-				crsi_a2t(tid, id+5);
-				buffer.AppendFormat(TEXT(", %s, modified: %s"), tid, mirtime);
-			}
-			CloseHandle(hDumpFile);
+	if (packlcid != LOCALE_USER_DEFAULT) {
+		TCHAR lang[MAX_PATH], ctry[MAX_PATH];
+		if(GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, lang, MAX_PATH)) {
+			if(GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, ctry, MAX_PATH))
+				buffer.AppendFormat(TEXT("%s (%s) [%04x]"), lang, ctry, packlcid);
+			else
+				buffer.Append(lang);
 		}
+		else
+			buffer.Append(TEXT("Locale id invalid"));
 	}
+	else 
+		buffer.Append(TEXT("No language pack installed"));
 }
 
 void GetWow64String(CMString& buffer)
