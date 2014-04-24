@@ -65,7 +65,6 @@ void CSametimeProto::InitMeanwhileServices()
 
 	mwSession_setProperty(session, "PROTO_STRUCT_PTR", this, NULL);
 
-	///TODO InitMeanwhileServices DeinitMeanwhileServices on LogIn LogOut, do not need restart
 	mwSession_setProperty(session, mwSession_AUTH_USER_ID, options.id, NULL);
 	mwSession_setProperty(session, mwSession_AUTH_PASSWORD, options.pword, NULL);
 	mwSession_setProperty(session, mwSession_CLIENT_TYPE_ID, (void*)options.client_id, NULL);

@@ -28,22 +28,6 @@
 
 
 // Glib
-//
-// Subset of libs and includes from Glib v 2.26 from:
-// http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.26/glib-dev_2.26.1-1_win32.zip
-// http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.26/glib-dev_2.26.1-1_win64.zip
-//
-//
-// dll files needed in main Miranda directory:
-//
-// x32
-// libglib-2.0-0.dll   from http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.26/glib_2.26.1-1_win32.zip
-// intl.dll            from http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/gettext-runtime_0.18.1.1-2_win32.zip
-//
-// x64
-// libglib-2.0-0.dll   from http://ftp.gnome.org/pub/gnome/binaries/win64/glib/2.26/glib_2.26.1-1_win64.zip
-// libintl-8.dll       from http://ftp.gnome.org/pub/gnome/binaries/win64/dependencies/gettext-runtime_0.18.1.1-2_win64.zip
-// 
 #include <glib.h>		//for	meanwhile and session.cpp
 
 
