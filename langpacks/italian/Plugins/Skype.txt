@@ -11,8 +11,6 @@
 &Crea
 [Password:]
 Password:
-[&OK]
-&OK
 [Enter password]
 Inserisci la password
 [Cancel]

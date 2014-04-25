@@ -64,8 +64,6 @@ Socialist Millionaire Protocol
 Socialist Millionaire Protocol\r\nVerifizierung läuft
 [&Cancel]
 Abbre&chen
-[&OK]
-&OK
 [Socialist Millionaires Protocol\r\nVerification]
 Socialist Millionaire Protocol\r\nVerifizierung
 [&No]

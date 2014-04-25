@@ -453,8 +453,6 @@ Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg-Taste aus. Drü
 Zu Metakontakt hinzufügen
 [Please select a MetaContact:]
 Bitte einen Metakontakt wählen:
-[&OK]
-&OK
 [Sort Alphabetically]
 Alphabetisch sortieren
 [Editing]

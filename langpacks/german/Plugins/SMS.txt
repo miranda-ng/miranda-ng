@@ -68,8 +68,6 @@ Fenster bei neuer Nachricht automatisch öffnen
 Fenster-Position per Kontat speichern
 [SMS Message Sent]
 SMS-Nachricht versandt
-[&OK]
-&OK
 [Message ID:]
 Nachricht-ID:
 [Source:]

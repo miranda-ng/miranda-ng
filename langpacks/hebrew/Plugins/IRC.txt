@@ -47,8 +47,6 @@
 סגור
 [Name]
 שם
-[&OK]
-&אישור
 [&Cancel]
 בטל
 [Add server]

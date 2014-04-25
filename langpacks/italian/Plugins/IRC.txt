@@ -57,8 +57,6 @@ Nome
 Canali
 [Away Info]
 Info Altrove
-[&OK]
-&OK
 [&Cancel]
 &Annulla
 [&Set]

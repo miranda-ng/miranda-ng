@@ -48,7 +48,6 @@
 [Show typing notification switch in the status bar]
 [Update message window icons when a user is typing]
 [&Quote]
-[&OK]
 [Send To All Tabs]
 [You are about to send a message to all open tabs.\nAre you sure?]
 [Remember my choice for this container]

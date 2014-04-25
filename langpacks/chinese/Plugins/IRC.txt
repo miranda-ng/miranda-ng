@@ -85,8 +85,6 @@
 服务器已返回此信息. 请注意这些信息可能有误导或虚假成份. 
 [CTCP information]
 CTCP 信息
-[&OK]
-确定(&O)
 [&Cancel]
 取消(&C)
 [Perform]

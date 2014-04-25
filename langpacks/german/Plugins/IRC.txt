@@ -112,8 +112,6 @@ Der Server liefert die folgenden Informationen. Beachten Sie aber, dass diese ve
 CTCP-Informationen
 [Question]
 Frage
-[&OK]
-&OK
 [&Cancel]
 Abbre&chen
 [Perform]

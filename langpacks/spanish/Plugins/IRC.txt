@@ -112,8 +112,6 @@ Autenticación
 
 [Question]
 
-[&OK]
-
 [&Cancel]
 &Cancelar
 [Perform]

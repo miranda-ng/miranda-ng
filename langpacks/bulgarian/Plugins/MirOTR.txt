@@ -64,8 +64,6 @@ OTR създаване на нов частен ключ
 
 [&Cancel]
 Отказ
-[&OK]
-ОК
 [Socialist Millionaires Protocol\r\nVerification]
 
 [&No]

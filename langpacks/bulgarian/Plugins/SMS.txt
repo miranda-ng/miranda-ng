@@ -68,8 +68,6 @@
 
 [SMS Message Sent]
 
-[&OK]
-ОК
 [Message ID:]
 
 [Source:]

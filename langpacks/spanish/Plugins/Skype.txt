@@ -40,8 +40,6 @@ Contraseña:
 
 [Configure conference]
 
-[&OK]
-
 [Join role:]
 
 [Set password]

@@ -53,8 +53,6 @@ Sessione messaggi
 &Dettagli utente
 [&Add]
 &Aggiungi
-[&OK]
-&OK
 [Yes]
 Sì
 [No]

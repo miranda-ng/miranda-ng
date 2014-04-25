@@ -453,8 +453,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Please select a MetaContact:]
 
-[&OK]
-ОК
 [Sort Alphabetically]
 
 [Editing]

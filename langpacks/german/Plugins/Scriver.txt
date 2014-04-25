@@ -164,8 +164,6 @@ Smil&eys
 &Verlauf
 [&Quote]
 &Zitieren
-[&OK]
-&OK
 [Send To All Tabs]
 An alle Tabs senden
 [You are about to send a message to all open tabs.\nAre you sure?]

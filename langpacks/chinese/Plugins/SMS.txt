@@ -53,8 +53,6 @@ SMS 插件
 使用签名
 [SMS Message Sent]
 SMS 消息已发出
-[&OK]
-确定(&O)
 [Message ID:]
 消息 ID: 
 [Source:]

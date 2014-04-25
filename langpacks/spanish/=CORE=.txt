@@ -453,8 +453,6 @@ Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y us
 
 [Please select a MetaContact:]
 
-[&OK]
-
 [Sort Alphabetically]
 
 [Editing]

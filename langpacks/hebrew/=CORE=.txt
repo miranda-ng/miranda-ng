@@ -255,8 +255,6 @@ OutputDebugString()
 טישטוש
 [Add to existing MetaContact...]
 הוסף למידע תוכן משותף...
-[&OK]
-&אישור
 [Information]
 מידע
 [Contacts]

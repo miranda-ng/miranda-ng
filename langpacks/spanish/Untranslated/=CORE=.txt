@@ -1,6 +1,5 @@
 ﻿[Add to Existing MetaContact]
 [Please select a MetaContact:]
-[&OK]
 [Sort Alphabetically]
 [Editing]
 [&Remove]

@@ -35,8 +35,6 @@ All'inizio
 Alla fine
 [Put signature at the:]
 Metti la firma:
-[&OK]
-&OK
 [View User's History]
 Visualizza storico utente
 [Invalid Phone Number]

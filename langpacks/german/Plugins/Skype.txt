@@ -40,8 +40,6 @@ Bestätigung:
 Passwort-Hinweis:
 [Configure conference]
 Konferenz einrichten
-[&OK]
-&OK
 [Join role:]
 Beitreten in Rolle:
 [Set password]

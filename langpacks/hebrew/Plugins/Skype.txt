@@ -11,8 +11,6 @@
 הוסף
 [Password:]
 סיסמא:
-[&OK]
-&אישור
 [Enter password]
 הכנס סיסמה
 [Cancel]

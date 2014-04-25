@@ -13,8 +13,6 @@
 建立(&C)
 [Password:]
 密码: 
-[&OK]
-确定(&O)
 [Set password]
 设置密码
 [Hint:]

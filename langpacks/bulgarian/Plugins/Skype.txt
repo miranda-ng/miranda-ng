@@ -40,8 +40,6 @@
 
 [Configure conference]
 
-[&OK]
-ОК
 [Join role:]
 
 [Set password]

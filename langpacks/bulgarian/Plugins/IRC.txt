@@ -112,8 +112,6 @@ SSL
 CTCP информация
 [Question]
 Въпрос
-[&OK]
-ОК
 [&Cancel]
 Отказ
 [Perform]

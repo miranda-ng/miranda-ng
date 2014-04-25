@@ -27,8 +27,6 @@
 סוף
 [Put signature at the:]
 שים חתימה ב:
-[&OK]
-&אישור
 [Source:]
 מקור:
 [View User's History]
