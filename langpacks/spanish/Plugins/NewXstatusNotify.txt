@@ -156,8 +156,6 @@ Variables
 Reiniciar
 [Disable notifications]
 
-[OK]
-Aceptar
 [Cancel]
 Cancelar
 [Disable globally]

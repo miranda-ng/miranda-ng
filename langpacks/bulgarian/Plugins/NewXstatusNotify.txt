@@ -154,8 +154,6 @@ Popups
 Анулиране
 [Disable notifications]
 Без уведомяване
-[OK]
-ОК
 [Cancel]
 Отказ
 [Disable globally]

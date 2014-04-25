@@ -156,8 +156,6 @@ Variablen
 Standard
 [Disable notifications]
 Benachrichtigungen deaktivieren
-[OK]
-OK
 [Cancel]
 Abbrechen
 [Disable globally]

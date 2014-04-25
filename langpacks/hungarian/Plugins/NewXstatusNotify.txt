@@ -43,8 +43,6 @@ Windows színek használata
 mp.
 [Reset]
 Alapraállítás
-[OK]
-OK
 [Cancel]
 Mégsem
 [General]

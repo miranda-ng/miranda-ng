@@ -71,8 +71,6 @@
 显示状态描述
 [Reset]
 重置
-[OK]
-确定
 [Cancel]
 取消
 [Extra status log]

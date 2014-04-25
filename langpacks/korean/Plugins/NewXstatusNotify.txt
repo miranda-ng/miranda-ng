@@ -33,8 +33,6 @@
 배경
 [Sec]
 초
-[OK]
-확인
 [Cancel]
 취소
 [All files]

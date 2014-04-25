@@ -37,8 +37,6 @@ Usar Janelas coloridas
 seg
 [Reset]
 Limpar
-[OK]
-OK
 [Cancel]
 Cancelar
 [General]

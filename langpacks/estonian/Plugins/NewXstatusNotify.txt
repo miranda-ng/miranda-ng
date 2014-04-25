@@ -35,8 +35,6 @@ Tekst
 sek.
 [Reset]
 Algväärtusta
-[OK]
-OK
 [Cancel]
 Tühista
 [General]

@@ -53,8 +53,6 @@ Aangepaste kleuren gebruiken
 Windows kleuren gebruiken
 [Reset]
 Terugzetten
-[OK]
-OK
 [Cancel]
 Annuleren
 [General]

@@ -57,8 +57,6 @@ Testo popup
 sec
 [Reset]
 Reimposta
-[OK]
-OK
 [Cancel]
 Annulla
 [General]

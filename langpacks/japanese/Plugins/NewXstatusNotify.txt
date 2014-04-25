@@ -49,8 +49,6 @@
 秒
 [Reset]
 リセット
-[OK]
-OK
 [Cancel]
 Cancel
 [General]

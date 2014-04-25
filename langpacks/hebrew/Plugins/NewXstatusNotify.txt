@@ -45,8 +45,6 @@
 שניות
 [Reset]
 אפס
-[OK]
-אישור
 [Cancel]
 ביטול
 [General]

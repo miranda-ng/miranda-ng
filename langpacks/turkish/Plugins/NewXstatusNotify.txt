@@ -45,8 +45,6 @@ Açılan Pencere Yazısı
 sn
 [Reset]
 Sıfırla
-[OK]
-Tamam
 [Cancel]
 İptal
 [General]
