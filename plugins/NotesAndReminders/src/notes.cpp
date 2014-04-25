@@ -1965,14 +1965,14 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = TranslateT("T");
+			S = TranslateT("Top");
 			lvCol.pszText = S;
 			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[2];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = TranslateT("V");
+			S = TranslateT("Visible");
 			lvCol.pszText = S;
 			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_notesListColGeom[1];

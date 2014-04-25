@@ -5,7 +5,7 @@
 ;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-[Jabber protocol support for Miranda NG.]
+[Jabber (XMPP) protocol support for Miranda NG.]
 Поддержка протокола Jabber (XMPP) в Miranda NG.
 [Edit Note]
 Редактировать заметку

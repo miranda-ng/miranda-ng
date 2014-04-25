@@ -225,10 +225,10 @@
 Белый
 [Are you sure you want to delete this note?]
 Уверены, что хотите удалить заметку?
-[V]
-Видима
-[T]
-Сверху
+[Visible]
+Видимая
+[Top]
+Поверх
 [Notes]
 Заметка
 [Note text]
