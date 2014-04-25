@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define STR_VERSION_FORMAT "%s%S"
+#define STR_VERSION_FORMAT _T("v%S")
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -51,7 +51,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(productVersion), (LPARAM)productVersion);
 
 			TCHAR str[64];
-			mir_sntprintf(str, SIZEOF(str), _T(STR_VERSION_FORMAT), TranslateT("v"), productVersion);
+			mir_sntprintf(str, SIZEOF(str), STR_VERSION_FORMAT, productVersion);
 
 			TCHAR oldTitle[256], newTitle[256];
 			GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
