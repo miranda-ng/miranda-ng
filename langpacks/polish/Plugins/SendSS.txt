@@ -189,8 +189,6 @@ Zrzut ekranu - ikona 2
 Celownik
 [Target Desktop]
 Pulpit
-[Default]
-Domyślny
 [Help]
 Pomoc
 [Open Folder]

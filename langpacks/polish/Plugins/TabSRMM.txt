@@ -1052,12 +1052,14 @@ Problem konfiguracji|Funkcja wysyłania wiadomości nienadzorowanych jest wyłą
 Nie możesz edytować notatek o użytkowniku, podczas gdy istnieją niewysłane wiadomości
 [Version]
 Wersja
-[%s is typing a message.]
+[%s is typing a message...]
 %s pisze wiadomość...
 [Last received: %s at %s]
 Ostatnia wiadomość: %s o %s
 [%s has entered text.]
 %s wpisuje tekst.
+[%s is typing a message]
+%s pisze wiadomość...
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoprzewijanie wyłączone, napisano %d wiadomości (naciśnij F12 aby włączyć)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

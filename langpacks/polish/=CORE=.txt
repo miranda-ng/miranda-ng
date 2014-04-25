@@ -2404,6 +2404,8 @@ ID
 Protokół
 [Send Offline]
 Wysyłaj do rozłączonego
+[Send &Online]
+Wysyłaj do dostępnego
 [Delete MetaContact?]
 Usunąć metakontakt?
 ;file \src\modules\metacontacts\meta_main.cpp
