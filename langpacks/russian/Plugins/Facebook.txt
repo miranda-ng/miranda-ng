@@ -196,7 +196,7 @@ URL:
 [This message is no longer available, because it was marked as abusive or spam.]
 Сообщение недоступно, поскольку было отмечено, как оскорбительное или спам.
 [%s is typing a message...]
-%s набирает текст...
+%s набирает сообщение...
 [You cannot send messages when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
 [Contact is back on server-list.]

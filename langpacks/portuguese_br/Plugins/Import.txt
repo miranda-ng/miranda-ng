@@ -8,7 +8,7 @@
 [Choose how you would like to import:]
 Escolha como você gostaria importar:
 [From a Miranda NG database.]
-A partir de bases de dados do Miranda NG BR.
+A partir de bases de dados do Miranda NG.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
 Clique "Avançar" para escolher a informação que deseja importar, ou clique "Cancelar" para sair do assistente e continuar a utilizar o Miranda.
 [It is recommended that you create a backup of your current Miranda profile before importing.]

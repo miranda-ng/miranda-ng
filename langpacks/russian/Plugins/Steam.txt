@@ -24,7 +24,7 @@
 [Go to email domain]
 Перейти в почтовый ящик
 [%s has added you to his or her Friend List]
-%s добавил вас в свой список друзей
+Вы добавлены в список друзей %s
 [%s connection]
 %s подключение
 [Network]

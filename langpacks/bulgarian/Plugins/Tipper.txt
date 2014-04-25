@@ -345,10 +345,6 @@ Miranda работи от:
 Бездействие
 [Idle:]
 Бездействие:
-[IP]
-
-[IP:]
-
 [IP internal]
 Вътрешно IP
 [IP internal:]

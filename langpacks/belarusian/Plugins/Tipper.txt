@@ -355,10 +355,6 @@ Email
 Чаканне
 [Idle:]
 У чаканні:
-[IP]
-IP
-[IP:]
-IP:
 [IP internal]
 Унутраны IP
 [IP internal:]

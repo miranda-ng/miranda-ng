@@ -505,15 +505,15 @@ Lista de contactos
 
 [Subcontact Priorities]
 
-[Rank:]
+[Protocol:]
 
 [Status:]
 
-[Protocol:]
-
-[Reset All]
+[Rank:]
 
 [(Lower ranks are preferred)]
+
+[Reset All]
 
 [Current language:]
 

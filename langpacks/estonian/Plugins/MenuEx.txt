@@ -27,7 +27,5 @@ Kasutaja sees
 Sa oled lisatud
 [Typing Notify]
 Trükkimise teavitus
-[Miranda NG]
-Miranda NG
 [Customize]
 Kohandamine

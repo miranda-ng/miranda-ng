@@ -355,10 +355,6 @@ Nutzer-ID
 Untätigkeit
 [Idle:]
 Untätig:
-[IP]
-IP
-[IP:]
-IP:
 [IP internal]
 Interne IP
 [IP internal:]

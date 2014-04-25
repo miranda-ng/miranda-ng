@@ -505,16 +505,16 @@ Verlauf entfernen
 Verlauf wird entfernt, bitte warten.
 [Subcontact Priorities]
 Prioritäten der Unterkontakte
-[Rank:]
-Rang:
-[Status:]
-Status:
 [Protocol:]
 Protokoll:
-[Reset All]
-Alle rückg.
+[Status:]
+Status:
+[Rank:]
+Rang:
 [(Lower ranks are preferred)]
 (niedrigere Ränge werden bevorzugt)
+[Reset All]
+Alle rückg.
 [Current language:]
 Aktuelle Sprache:
 [Last modified using:]

@@ -504,16 +504,15 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [Please wait while the contact's history is removed.]
 
 [Subcontact Priorities]
-
-[Rank:]
-
-[Status:]
-Състояние:
 [Protocol:]
 Протокол:
-[Reset All]
+[Status:]
+Състояние:
+[Rank:]
 
 [(Lower ranks are preferred)]
+
+[Reset All]
 
 [Current language:]
 

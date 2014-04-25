@@ -29,8 +29,6 @@ Bruker Pålogget
 Du Ble Lagt til
 [Typing Notify]
 Skrivevarsling
-[Miranda NG]
-Miranda NG
 [Request authorization]
 Forespør godkjenning
 [Customize]

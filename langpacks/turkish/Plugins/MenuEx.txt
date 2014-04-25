@@ -29,8 +29,6 @@ Kullanıcı Çevrimiçi
 Eklendiniz
 [Typing Notify]
 Yazıyor Uyarısı
-[Miranda NG]
-Miranda NG
 [Request authorization]
 İzin iste
 [Customize]

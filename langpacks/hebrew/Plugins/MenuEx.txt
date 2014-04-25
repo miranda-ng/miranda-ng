@@ -55,8 +55,6 @@
 אתה צורפת
 [Typing Notify]
 התראת כתיבה
-[Miranda NG]
-מירנדה
 [MenuItemEx]
 פריטי תפריט משתמש
 [Request authorization]

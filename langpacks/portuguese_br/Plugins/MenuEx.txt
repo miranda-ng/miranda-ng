@@ -27,8 +27,6 @@ Usuário Online
 Você foi adicionado
 [Typing Notify]
 Escrevendo Notificação
-[Miranda NG]
-Miranda NG BR
 [Request authorization]
 Pedindo autorização
 [Customize]

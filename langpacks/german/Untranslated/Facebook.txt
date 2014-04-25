@@ -1,0 +1,2 @@
+﻿[%s is typing a message...]
+[Visit notifications]

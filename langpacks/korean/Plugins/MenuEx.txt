@@ -17,5 +17,3 @@
 당신은 추가되었습니다.
 [Typing Notify]
 입력 알림
-[Miranda NG]
-미란다 IM

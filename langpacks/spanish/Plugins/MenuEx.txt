@@ -95,8 +95,6 @@ Notificación de escritura
 
 [Do you want to send authorization request\nto new contact?]
 
-[Miranda NG]
-Miranda NG
 [MenuItemEx]
 
 [Open ignore settings]

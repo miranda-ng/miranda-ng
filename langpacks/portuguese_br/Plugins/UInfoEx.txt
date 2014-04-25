@@ -180,6 +180,6 @@ Automação residencial
 [Send e-mail]
 Enviar e-mail
 [Miranda NG]
-Miranda NG BR
+Miranda NG
 [Complete]
 Completo

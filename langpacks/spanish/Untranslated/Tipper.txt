@@ -138,8 +138,6 @@
 [Homepage]
 [Identifier]
 [Idle:]
-[IP]
-[IP:]
 [IP internal]
 [IP internal:]
 [Last message: (%sys:last_msg_reltime% ago)]

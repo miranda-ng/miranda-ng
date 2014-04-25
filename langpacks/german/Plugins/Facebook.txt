@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.3.2
+;  Version: 0.2.4.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -203,6 +203,8 @@ Nachricht gelesen: %s von %s
 Nachricht gelesen: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Diese Nachricht ist nicht mehr verfügbar, da sie als Missbrauch oder Spam markiert wurde.
+[%s is typing a message...]
+
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
@@ -273,6 +275,8 @@ Freundschaftsanfrage abbrechen
 Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
+[Visit notifications]
+
 [Services...]
 Dienste...
 [Refresh Buddy List]

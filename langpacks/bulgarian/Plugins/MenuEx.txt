@@ -95,8 +95,6 @@ URL
 Моля, упълномощете ме да ви добавя в списъка си с контакти.
 [Do you want to send authorization request\nto new contact?]
 Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
-[Miranda NG]
-Miranda NG
 [MenuItemEx]
 
 [Open ignore settings]

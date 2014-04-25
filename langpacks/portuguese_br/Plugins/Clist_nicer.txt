@@ -268,7 +268,7 @@ Mostrar status
 [Right click opens status menu]
 Clique com o botão direito abre o menu de status
 [Right click opens Miranda NG menu]
-Clique com o botão direto abre o menu Miranda NG BR
+Clique com o botão direto abre o menu Miranda NG
 [Make sections equal width]
 Fazer seções de tamanhos iguais
 [Show bevels on panels]

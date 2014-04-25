@@ -505,16 +505,16 @@ UIN, E-mail і г.д.
 Калі ласка, пачакайце, пакуль гісторыя выдаліцца
 [Subcontact Priorities]
 Прыярытэты субкантактаў
-[Rank:]
-Ранг:
-[Status:]
-Статус:
 [Protocol:]
 Пратакол:
-[Reset All]
-Скід
+[Status:]
+Статус:
+[Rank:]
+Ранг:
 [(Lower ranks are preferred)]
 (Пераважныя ніжэйшыя рангі)
+[Reset All]
+Скід
 [Last modified using:]
 Праверана на версіі:
 [Date:]

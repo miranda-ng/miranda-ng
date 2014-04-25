@@ -29,8 +29,6 @@ URL
 あなたは追加されました
 [Typing Notify]
 入力中通知
-[Miranda NG]
-Miranda NG
 [Request authorization]
 認証リクエスト
 [Customize]

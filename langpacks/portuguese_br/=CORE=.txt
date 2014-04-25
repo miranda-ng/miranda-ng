@@ -37,7 +37,7 @@ Isto apagará todo histórico e configuraçõe para este contato!
 [Contact display options]
 Exibir Opções dos Contatos
 [Miranda NG Profile Manager]
-Gerenciador de Perfil do Miranda NG BR
+Gerenciador de Perfil do Miranda NG
 [&Run]
 &Executar
 [&Exit]
@@ -81,7 +81,7 @@ Sim
 [No]
 Não
 [A file containing new database settings has been placed in the Miranda NG directory.]
-Um arquivo contendo novas opções da base de dados foi colocado na pasta do Miranda NG BR.
+Um arquivo contendo novas opções da base de dados foi colocado na pasta do Miranda NG.
 [Do you want to import the settings now?]
 Você deseja importar as configurações agora?
 [No to all]
@@ -143,7 +143,7 @@ Arquivo
 [Run now]
 Executar agora
 [Show this dialog box when Miranda NG starts]
-Mostrar esta caixa de diálogo quando inicia Miranda NG BR
+Mostrar esta caixa de diálogo quando inicia Miranda NG
 [Sounds]
 Sons
 [&Change...]
@@ -265,7 +265,7 @@ ID único:
 [Copyright:]
 Direitos autorais:
 [Please restart Miranda NG for your changes to take effect.]
-Por favor reinicie o Miranda NG BR para que as alterações tenham efeito.
+Por favor reinicie o Miranda NG para que as alterações tenham efeito.
 [Fonts and colors]
 Fontes e Cores
 [Undo]
@@ -321,7 +321,7 @@ Configurar
 [Account order and visibility]
 Ordem das Contas
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-Nota: Miranda NG BR deverá ser reiniciado para que as alterações tenham efeito.
+Nota: Miranda NG deverá ser reiniciado para que as alterações tenham efeito.
 [Key bindings]
 Chave de ligação
 [Shortcut:]
@@ -339,7 +339,7 @@ Atalhos
 [Accounts]
 Contas
 [Accounts\nConfigure your IM accounts]
-Contas\nConfigure as contas de seu Miranda NG BR
+Contas\nConfigure as contas de seu Miranda NG
 [Account information:]
 Informação da conta
 [Additional:]
@@ -359,9 +359,9 @@ Adquira mais protocolos...
 [&Remove...]
 &Remover...
 [Miranda NG]
-Miranda NG BR
+Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
-Miranda NG BR está sendo reiniciado.\nPor favor, aguarde...
+Miranda NG está sendo reiniciado.\nPor favor, aguarde...
 [Headers:]
 Cabeçalhos:
 [This font is used to display main section titles or text elements.]
@@ -749,7 +749,7 @@ Mostrar status
 [Right click opens status menu]
 Clique com o botão direito abre o menu de status
 [Right click opens Miranda NG menu]
-Clique com o botão direto abre o menu Miranda NG BR
+Clique com o botão direto abre o menu Miranda NG
 [Make sections equal width]
 Fazer seções de tamanhos iguais
 [Show bevels on panels]
@@ -883,13 +883,13 @@ Renomear
 [You will always be asked about files from people not on your contact list]
 Será sempre questionado sobre arquivos de pessoas que não estão na sua lista
 [About Miranda NG]
-Sobre o Miranda NG BR
+Sobre o Miranda NG
 [Become idle if the following is left unattended:]
 Passar a inativo se não se registrar ação nos items seguintes:
 [Windows]
 Windows
 [Miranda]
-Miranda NG BR
+Miranda NG
 [Become idle if the screen saver is active]
 Ficar inativo se o screensaver está ativo
 [Become idle if a terminal session is disconnected]
@@ -1865,7 +1865,7 @@ módulos core
 [%s options]
 %s opções
 [Miranda NG options]
-Opções do Miranda NG BR
+Opções do Miranda NG
 [&Options...]
 &Opções...
 ['%s' is disabled, re-enable?]

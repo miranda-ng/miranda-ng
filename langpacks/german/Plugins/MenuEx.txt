@@ -95,8 +95,6 @@ Tippbenachrichtigungen
 Bitte autorisieren Sie mich, Sie zu meiner Kontaktliste hinzufügen zu können.
 [Do you want to send authorization request\nto new contact?]
 Wollen Sie eine Autorisierungsanfrage an\nden neuen Kontakt senden?
-[Miranda NG]
-Miranda NG
 [MenuItemEx]
 MenuItemEx
 [Open ignore settings]
