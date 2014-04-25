@@ -1178,8 +1178,6 @@ Web дизайн
 [Optional modules]
 Избираеми модули
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Miranda NG]
-Miranda NG
 [Shows Miranda's installation directory.]
 Показва директорията, в която е инсталирана Miranda.
 [Shows the directory with all your Miranda's profiles.]

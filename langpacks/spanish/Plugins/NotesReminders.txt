@@ -260,6 +260,10 @@ Alertas
 
 [Are you sure you want to delete this note?]
 
+[V]
+
+[T]
+
 [Notes]
 Notas
 [Note text]

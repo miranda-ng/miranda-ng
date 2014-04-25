@@ -102,10 +102,12 @@ TCP злучэнне
 [Ping]
 Пінг
 ;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+Тэкставыя файлы (*.txt)
+[All Files]
+Усе файлы
 [Open log file]
 Глядзець гістроыю
-[All\0*.*\0Text\0*.TXT\0]
-Усе\0*.*\0Тэкст\0*.TXT\0
 [<none>]
 <не>
 [<all>]

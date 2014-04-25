@@ -223,8 +223,6 @@ Tlen 协议选项
 Tlen 登录
 [Tlen Connection Error]
 Tlen 连接错误
-[Windows]
-窗口
 [%s Web Messages]
 %s 网络信息
 [Web message]

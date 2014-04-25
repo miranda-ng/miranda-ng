@@ -102,9 +102,11 @@ Désactiver tous les pings
 [Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+Fichier texte (*.txt)
+[All Files]
+Tous les fichiers
 [Open log file]
-
-[All\0*.*\0Text\0*.TXT\0]
 
 [<none>]
 <aucun>

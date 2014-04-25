@@ -18,7 +18,7 @@ seg
 [Check for pack updates]
 Verificar atualizações
 [Pack Updater]
-Atualizador do Miranda BR
+Atualizador do Miranda NG
 [Current Version]
 Versão atual
 [New Version]

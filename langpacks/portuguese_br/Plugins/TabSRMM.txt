@@ -73,8 +73,6 @@ Limpar R&egistro
 Co&piar tudo
 [Word lookup]
 Visual da Palavra
-[Google]
-Google
 [Wikipedia]
 Wikipédia
 [Link]

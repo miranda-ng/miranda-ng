@@ -43,8 +43,6 @@ Grupivestlused
 Üldine
 [Network]
 Võrgustik
-[Windows]
-Aknad
 [E-mail]
 E-mail
 [none]

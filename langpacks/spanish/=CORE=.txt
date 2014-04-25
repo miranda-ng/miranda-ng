@@ -407,8 +407,6 @@ Obtener más protocolos...
 Act&ualizar
 [&Remove...]
 &Retirar...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG se reinicia.\nPor favor espere...
 [Error console]
@@ -720,8 +718,6 @@ Lista
 Limpiar re&gistro
 [Word lookup]
 Palabra de búsqueda
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -1088,10 +1084,6 @@ Créditos >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
-[Windows]
-Ventanas
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Pasar a inactivo si el salvapantallas está activo
 [Become idle if the computer is locked]
@@ -2638,8 +2630,6 @@ Historial
 Flecha abajo
 [Find user]
 Buscar usuario
-[SMS]
-SMS
 [Search all]
 Buscar en todo
 [Tick]

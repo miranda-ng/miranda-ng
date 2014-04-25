@@ -68,7 +68,7 @@
 [&Help]
 Помощ
 [Text Files (*.txt)]
-
+Текстови файлове (*.txt)
 [All Files]
 Всички файлове
 [Save selection to file]

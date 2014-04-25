@@ -1002,8 +1002,6 @@ Miranda NG 正准备重启. \n请稍候...
 贡献者 >
 [Become idle if the following is left unattended:]
 下列无故离开情况变为闲置: 
-[Windows]
-窗口
 [Become idle if the screen saver is active]
 屏幕保护程序启用时变为闲置
 [Become idle if a terminal session is disconnected]

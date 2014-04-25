@@ -227,8 +227,6 @@ KB
 全て選択(&A)
 [Word lookup]
 単語検索
-[Google]
-Google
 [Bing]
 Bing
 [Wikipedia (en)]

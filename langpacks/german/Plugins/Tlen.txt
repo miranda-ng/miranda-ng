@@ -315,22 +315,6 @@ Sie müssen mit Tlen verbunden sein um Ihr Avatar zu setzen.
 Passwort für %s eingeben
 [Tlen Connection Error]
 Tlen-Verbindungsfehler
-[Windows Server 2003]
-Windows Server 2003
-[Windows XP]
-Windows XP
-[Windows 2000]
-Windows 2000
-[Windows NT]
-Windows NT
-[Windows 95]
-Windows 95
-[Windows 98]
-Windows 98
-[Windows ME]
-Windows ME
-[Windows]
-Windows
 [%s Web Messages]
 %s Web-Nachrichten
 [Web message]

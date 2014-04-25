@@ -193,10 +193,6 @@
 Вашы апошнія статусныя паведамленні знаходзяцца ў гэтай катэгорыі. Не рэкамендуецца абнаўляць іх тут, бо яны будуць заменены навейшымі паведамленнямі.
 [You can put your frequently used and favorite messages in this category.]
 Вы можаце змесцаваць часта выкарыстоўваныя і каханыя паведамленні ў гэтай катэгорыі.
-[Windows]
-Windows
-[Miranda]
-Miranda
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 Калі гэта галачка ўсталявана, модуль NewAwaySys лічыць колькасць адправак пачынальна з апошняй змены паведамлення статуту, нават калі статут не змяняўся.\n Калі не ўсталявана, колькасць адправак лічыцца з апошняй змены статуту (выключаны стан больш абмежавана).
 [Message]

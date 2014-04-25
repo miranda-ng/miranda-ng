@@ -247,8 +247,6 @@ OutputDebugString()
 &הוסף...
 [&Edit]
 ערוך&
-[Miranda NG]
-מירנדה
 [Normal text:]
 טקסט רגיל:
 [opacity:]
@@ -721,10 +719,6 @@ OutputDebugString()
 אודות מירנדה
 [Become idle if the following is left unattended:]
 :הפוך ללא נמצא אם הבאים אינם נמצאים בשימוש
-[Windows]
-חלונות
-[Miranda]
-מירנדה
 [Become idle if the screen saver is active]
 הפוך ללא נמצא אם שומר המסך מופעל
 [Do not let protocols report any idle information]
@@ -1507,8 +1501,6 @@ OutputDebugString()
 היסטוריה\n
 [Find user]
 מצא משתמש
-[SMS]
-סמס
 [Help]
 עזרה
 [Show/Hide]

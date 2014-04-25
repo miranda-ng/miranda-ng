@@ -407,8 +407,6 @@ Cлужба:
 &Мадэрнізацыя
 [&Remove...]
 Выдаліць...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перазапускаецца.\nКалі ласка, пачакайце...
 [Error console]
@@ -1082,10 +1080,6 @@ Miranda NG\n%s
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Рэжым чакання, калі ўключана застаўка
 [Become idle if the computer is locked]
@@ -2624,8 +2618,6 @@ ID конта
 Уніз
 [Find user]
 Знайсці
-[SMS]
-СМС
 [Search all]
 Знайсці ўсіх
 [Tick]

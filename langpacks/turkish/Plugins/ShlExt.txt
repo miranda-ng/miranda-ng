@@ -9,5 +9,3 @@
 Menüler
 [Remove]
 Sil
-[Miranda]
-Miranda

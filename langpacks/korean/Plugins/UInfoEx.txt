@@ -93,5 +93,3 @@
 '(알 수 없는 대화 상대)'
 [Send e-mail]
 이메일 보내기
-[Miranda NG]
-미란다 IM

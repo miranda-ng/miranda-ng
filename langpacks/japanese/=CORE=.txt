@@ -388,8 +388,6 @@ AaBbYyZz
 アップグレード (&U)
 [&Remove...]
 削除 (&R)...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG は再起動中です\nお待ちください...
 [Error console]
@@ -594,8 +592,6 @@ Miranda を非表示
 ログをクリア (&g)
 [Word lookup]
 単語検索
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -950,10 +946,6 @@ Miranda NG\n%s
 クレジット >
 [Become idle if the following is left unattended:]
 以下が無人状態になったらアイドルになる:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 スクリーンセーバーがアクティブになったらアイドルになる
 [Become idle if a terminal session is disconnected]
@@ -2124,8 +2116,6 @@ Miranda の適用範囲
 下向き矢印
 [Find user]
 ユーザー検索
-[SMS]
-SMS
 [Search all]
 全て検索
 [Tick]

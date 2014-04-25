@@ -43,8 +43,6 @@
 고급
 [Network]
 네트워크
-[Windows]
-창
 [E-mail]
 이메일
 [none]

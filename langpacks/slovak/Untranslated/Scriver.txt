@@ -107,7 +107,6 @@
 [Timeout (s)]
 [(0 means default setting, -1 means indefinite time)]
 [Word lookup]
-[Google]
 [Bing]
 [Yandex]
 [Wikipedia (en)]

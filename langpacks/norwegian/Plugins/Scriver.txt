@@ -163,8 +163,6 @@ Ko&pier Alt
 Velg &Alt
 [Word lookup]
 Ord oppslag
-[Google]
-Google
 [C&lear Log]
 K&larer Logg
 [&Copy link]

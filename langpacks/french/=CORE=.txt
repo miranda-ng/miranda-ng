@@ -407,8 +407,6 @@ Récupérer d'autres protocoles...
 &Mettre à jour...
 [&Remove...]
 &Effacer...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG redémarre.\nVeuillez patienter...
 [Error console]
@@ -720,8 +718,6 @@ Liste
 Effacer le journal
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -1088,10 +1084,6 @@ Crédits >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Devient "Inactif" si l'écran de veille est activé.
 [Become idle if the computer is locked]
@@ -2638,8 +2630,6 @@ Historique
 Flèche bas
 [Find user]
 Chercher un contact
-[SMS]
-
 [Search all]
 rechercher tous
 [Tick]

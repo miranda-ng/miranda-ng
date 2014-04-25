@@ -152,7 +152,6 @@
 [Add binding]
 [System scope]
 [Miranda scope]
-[SMS]
 [Leave chat]
 [On]
 [Off]

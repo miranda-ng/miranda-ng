@@ -31,8 +31,6 @@ Teade
 Puhasta logi
 [Co&py all]
 Kopeeri kõik
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

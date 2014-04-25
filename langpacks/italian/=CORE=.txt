@@ -631,8 +631,6 @@ Rinomina (aggiungi " (1)", ecc.)
 Ti verrà sempre richiesto cosa fare con file da persone non sulla lista contatti
 [About Miranda NG]
 Questo è Miranda NG
-[Windows]
-Finestre
 [Close the message window on send]
 Chiudi la finestra del messaggio all'invio
 [Minimize the message window on send]
@@ -1225,8 +1223,6 @@ In connessione
 Dettagli utente
 [History]
 Storico
-[SMS]
-SMS
 [Help]
 Aiuto
 [Exit]

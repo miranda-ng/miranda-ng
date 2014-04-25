@@ -167,7 +167,5 @@
 איזכור ימי הולדת
 [Birthday reminder: it's coming]
 איזכור ימי הולדת: זה מגיע
-[Miranda NG]
-מירנדה
 [Complete]
 הושלם

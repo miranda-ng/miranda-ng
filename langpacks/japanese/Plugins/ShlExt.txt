@@ -9,5 +9,3 @@
 メニュー
 [Remove]
 削除
-[Miranda]
-Miranda

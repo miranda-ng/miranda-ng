@@ -1,1 +1,2 @@
-﻿[All\0*.*\0Text\0*.TXT\0]
+﻿[Text Files (*.txt)]
+[All Files]

@@ -9,5 +9,3 @@
 Menyer
 [Remove]
 Fjern
-[Miranda]
-Miranda

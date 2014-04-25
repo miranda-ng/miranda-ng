@@ -1178,8 +1178,6 @@ Modules requis
 [Optional modules]
 Modules optionnels
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Miranda NG]
-Miranda NG
 [Shows Miranda's installation directory.]
 Afficher le répertoire d'installation de miranda
 [Shows the directory with all your Miranda's profiles.]

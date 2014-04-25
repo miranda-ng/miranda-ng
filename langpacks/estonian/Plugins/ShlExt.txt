@@ -9,5 +9,3 @@
 Menüüd
 [Remove]
 Eemalda
-[Miranda]
-Miranda

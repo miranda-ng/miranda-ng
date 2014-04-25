@@ -167,8 +167,6 @@ Co&piar Tudo
 Selecionar &Tudo
 [Word lookup]
 Visual da Palavra
-[Google]
-Google
 [C&lear Log]
 L&impar Registro
 [&Copy link]

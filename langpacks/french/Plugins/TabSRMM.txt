@@ -116,8 +116,6 @@ Effacer le journal
 &Tout copier
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

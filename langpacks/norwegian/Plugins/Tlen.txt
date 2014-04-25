@@ -53,8 +53,6 @@ Generelt
 Avansert
 [Network]
 Nettverk
-[Windows]
-Windows
 [E-mail]
 E-post
 [none]

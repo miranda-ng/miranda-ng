@@ -73,8 +73,6 @@ Napló ürítése
 Mindet másol
 [Word lookup]
 Szó keresés
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

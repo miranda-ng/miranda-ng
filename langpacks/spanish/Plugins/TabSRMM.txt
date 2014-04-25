@@ -116,8 +116,6 @@ Limpiar re&gistro
 Co&piar todo
 [Word lookup]
 Palabra de búsqueda
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

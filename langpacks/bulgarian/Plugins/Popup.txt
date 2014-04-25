@@ -242,6 +242,21 @@ Popup действията са малките бутони под текста.
 Посочено действие
 [Clock]
 Час
+;file \plugins\Popup\src\font.h
+[Title]
+
+[Text]
+
+[Background]
+
+[Border]
+
+[Sidebar]
+
+[Title underline]
+
+[Avatar Border]
+
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 

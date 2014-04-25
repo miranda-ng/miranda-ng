@@ -1148,8 +1148,6 @@ Web Дызайн
 [Optional modules]
 Дадатковыя плагіны
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Miranda NG]
-Miranda NG
 [Shows Miranda's installation directory.]
 Паказваць тэчку ўстаноўкі Miranda NG.
 [Shows the directory with all your Miranda's profiles.]

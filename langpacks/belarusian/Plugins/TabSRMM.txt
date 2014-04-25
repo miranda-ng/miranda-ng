@@ -116,8 +116,6 @@
 Капіяваць усё
 [Word lookup]
 Знайсці слова
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

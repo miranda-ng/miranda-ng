@@ -102,9 +102,11 @@ Popups
 [Ping]
 
 ;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+Текстови файлове (*.txt)
+[All Files]
+Всички файлове
 [Open log file]
-
-[All\0*.*\0Text\0*.TXT\0]
 
 [<none>]
 <няма>

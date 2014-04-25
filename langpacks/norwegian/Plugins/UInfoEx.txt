@@ -245,7 +245,5 @@ Bursdagspåminnelse
 Bursdagspåminnelse: nært forestående
 [Anniversary Reminder]
 Årsdags Påminnelse
-[Miranda NG]
-Miranda NG
 [Complete]
 Ferdig

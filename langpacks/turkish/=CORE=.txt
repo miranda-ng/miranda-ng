@@ -360,8 +360,6 @@ Düz&elt
 &Güncelle
 [&Remove...]
 &Sil...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG yeniden başlatılıyor.\nLütfen bekleyin...
 [Date:]
@@ -530,8 +528,6 @@ Liste
 &Günlüğü temizle
 [Word lookup]
 Kelime arama
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -868,10 +864,6 @@ Miranda NG Hakkında
 Emekçiler >
 [Become idle if the following is left unattended:]
 Şuna dokunulmadıysa boşta duruma geç:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Ekran koruyucu etkinse boşta duruma geç
 [Become idle if a terminal session is disconnected]
@@ -1880,8 +1872,6 @@ Geçmiş
 Aşağı Ok
 [Find user]
 Kullanıcı Bul
-[SMS]
-SMS
 [Search all]
 Tümünü Ara
 [Tick]

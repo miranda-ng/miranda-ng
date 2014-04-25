@@ -113,6 +113,8 @@
 [Aqua]
 [White]
 [Are you sure you want to delete this note?]
+[V]
+[T]
 [Note text]
 [Date/Title]
 [Sticky Note Caption]

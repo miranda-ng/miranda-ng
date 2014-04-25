@@ -102,9 +102,11 @@ Habilitar
 [Ping]
 
 ;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+Archivos de texto (*.txt)
+[All Files]
+Todos los archivos
 [Open log file]
-
-[All\0*.*\0Text\0*.TXT\0]
 
 [<none>]
 <Nada>

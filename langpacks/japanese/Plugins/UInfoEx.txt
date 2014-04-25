@@ -159,7 +159,5 @@ Fax
 '( 不明なコンタクト )'
 [Send e-mail]
 電子メールの送信
-[Miranda NG]
-Miranda NG
 [Complete]
 完了

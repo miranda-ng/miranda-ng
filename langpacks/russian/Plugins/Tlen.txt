@@ -255,8 +255,6 @@ Tlen чаты
 Перенаправление
 [Enter password for %s]
 Введите пароль для %s
-[Windows]
-Windows
 [%s Web Messages]
 %s Web сообщений
 [From]

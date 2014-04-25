@@ -203,8 +203,6 @@ OutputDebugString()
 &H 도움말
 [Hotkeys]
 단축키
-[Miranda NG]
-미란다 NG
 [Date:]
 날짜:
 [&Hide/Show]
@@ -561,10 +559,6 @@ OutputDebugString()
 대화 상대 목록에 없는 사람으로부터의 파일에 대해 항상 물어보기
 [About Miranda NG]
 미란다 IM에 대하여
-[Windows]
-창
-[Miranda]
-미란다 IM
 [minute(s)]
 분(s)
 [Change my status mode to:]

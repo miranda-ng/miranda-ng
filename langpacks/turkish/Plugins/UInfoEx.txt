@@ -173,7 +173,5 @@ Ev otomasyonu
 '(Bilinmeyen Kişi)'
 [Send e-mail]
 E-posta gönder
-[Miranda NG]
-Miranda NG
 [Complete]
 Tamamlandı

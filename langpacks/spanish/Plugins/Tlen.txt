@@ -315,22 +315,6 @@ Red
 
 [Tlen Connection Error]
 
-[Windows Server 2003]
-
-[Windows XP]
-
-[Windows 2000]
-
-[Windows NT]
-
-[Windows 95]
-
-[Windows 98]
-
-[Windows ME]
-
-[Windows]
-Ventanas
 [%s Web Messages]
 
 [Web message]

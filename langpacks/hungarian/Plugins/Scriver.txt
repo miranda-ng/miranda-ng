@@ -167,8 +167,6 @@ Mindet másol
 &Összes kijelölése
 [Word lookup]
 Szó keresés
-[Google]
-Google
 [C&lear Log]
 Napló törlése
 [&Copy link]

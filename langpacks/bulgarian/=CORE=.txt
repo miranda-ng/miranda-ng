@@ -407,8 +407,6 @@ Copyright:
 Надграждане
 [&Remove...]
 Премахване...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG се рестартира.\nМоля, изчакайте...
 [Error console]
@@ -701,8 +699,6 @@ Popup за приставката Chat
 Изчистване на дневника
 [Word lookup]
 Търсене на дума
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -1063,10 +1059,6 @@ Miranda NG\n%s
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Бездействащ при липса на активност в:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Бездействащ при активен screen saver
 [Become idle if the computer is locked]
@@ -2606,8 +2598,6 @@ Win +\s
 Стрелка надолу
 [Find user]
 Търсене на потребител
-[SMS]
-SMS
 [Search all]
 Търсене на всичко
 [Tick]

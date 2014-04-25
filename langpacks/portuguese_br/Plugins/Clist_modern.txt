@@ -152,7 +152,7 @@ Mostrar e-mails não lidos (se suportado)
 [Right click opens status menu]
 Clique com o botão direito abre o menu de status
 [Right click opens Miranda menu]
-Clique com o botão direto abre o menu Miranda BR
+Clique com o botão direto abre o menu Miranda
 [Space on Left]
 Espaço a Esquerda
 [Space on right]

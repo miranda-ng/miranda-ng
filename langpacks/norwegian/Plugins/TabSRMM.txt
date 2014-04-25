@@ -61,8 +61,6 @@ Fjern lo&gg
 Ko&pier alt
 [Word lookup]
 Ord oppslag
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

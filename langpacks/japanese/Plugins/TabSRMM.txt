@@ -109,8 +109,6 @@ Cancel
 全てコピー (&p)
 [Word lookup]
 単語検索
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

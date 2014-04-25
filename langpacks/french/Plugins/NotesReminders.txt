@@ -260,6 +260,10 @@ Eau
 
 [Are you sure you want to delete this note?]
 
+[V]
+
+[T]
+
 [Notes]
 Notes
 [Note text]

@@ -489,7 +489,6 @@
 [All Contacts]
 [Required modules]
 [Optional modules]
-[Miranda NG]
 [Shows Miranda's installation directory.]
 [Shows the directory with all your Miranda's profiles.]
 [The OpenFileDialog returned an error: %d!]

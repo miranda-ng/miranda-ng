@@ -44,8 +44,6 @@
 [Disable/Remove shlext]
 Адключыць/Выдаліць shlext
 ;file \plugins\ShellExt\src\shlcom.cpp
-[Miranda]
-Miranda
 [Recently]
 Апошнія
 [Clear entries]

@@ -44,8 +44,6 @@ Eliminar
 [Disable/Remove shlext]
 
 ;file \plugins\ShellExt\src\shlcom.cpp
-[Miranda]
-Miranda
 [Recently]
 
 [Clear entries]

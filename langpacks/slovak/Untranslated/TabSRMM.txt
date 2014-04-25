@@ -46,7 +46,6 @@
 [Highlight messages containing my own nickname]
 [Clear lo&g]
 [Word lookup]
-[Google]
 [Wikipedia]
 [Link]
 [Open a &new browser window]

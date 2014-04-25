@@ -274,8 +274,6 @@ KB
 Маркиране на всичко
 [Word lookup]
 Търсене на дума
-[Google]
-Google
 [Bing]
 Bing
 [Yandex]

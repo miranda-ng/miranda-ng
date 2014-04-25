@@ -57,22 +57,6 @@ Haladó
 Hálózat
 [Tlen Connection Error]
 Tlen Kapcsolat Hiba
-[Windows Server 2003]
-Windows Szerver 2003
-[Windows XP]
-Windows XP
-[Windows 2000]
-Windows 2000
-[Windows NT]
-Windows NT
-[Windows 95]
-Windows 95
-[Windows 98]
-Windows 98
-[Windows ME]
-Windows ME
-[Windows]
-Windows
 [E-mail]
 E-levél
 [none]

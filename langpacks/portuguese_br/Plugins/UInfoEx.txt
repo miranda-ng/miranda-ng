@@ -179,7 +179,5 @@ Automação residencial
 '(Contato Desconhecido)'
 [Send e-mail]
 Enviar e-mail
-[Miranda NG]
-Miranda NG
 [Complete]
 Completo

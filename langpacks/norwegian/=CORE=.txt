@@ -321,8 +321,6 @@ Fjern
 Snarveier
 [&Edit]
 &Rediger
-[Miranda NG]
-Miranda NG
 [opacity:]
 Uklarhet:
 [Date:]
@@ -487,8 +485,6 @@ Liste
 Fjern lo&gg
 [Word lookup]
 Ord oppslag
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -811,10 +807,6 @@ Om Miranda NG
 Takk >
 [Become idle if the following is left unattended:]
 Bli inaktiv hvis følgende ikke brukes:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Bli inaktiv hvis skjermsparer er aktiv
 [Become idle if a terminal session is disconnected]
@@ -1813,8 +1805,6 @@ Historikk
 Pil Ned
 [Find user]
 Finn Bruker
-[SMS]
-SMS
 [Search all]
 Søk Alle
 [Tick]

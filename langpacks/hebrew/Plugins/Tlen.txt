@@ -49,8 +49,6 @@
 מתקדם
 [Network]
 רשת
-[Windows]
-חלונות
 [E-mail]
 אימייל
 [none]

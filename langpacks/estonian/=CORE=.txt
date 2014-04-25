@@ -228,8 +228,6 @@ Lisa...
 &Valikud
 [&Remove...]
 Eemalda...
-[Miranda NG]
-Miranda NG
 [&Hide/Show]
 Kuva/&Peida
 [E&xit]
@@ -322,8 +320,6 @@ Nimekiri
 Teade
 [Clear lo&g]
 Puhasta logi
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -524,10 +520,6 @@ Kui sisenevad failid juba eksisteerivad
 Küsi minult
 [About Miranda NG]
 Info Miranda NG kohta
-[Windows]
-Aknad
-[Miranda]
-Miranda
 [minute(s)]
 minutit
 [Idle options]
@@ -994,8 +986,6 @@ Kasutaja detailid
 Ajalugu
 [Find user]
 Otsi kasutajat
-[SMS]
-SMS
 [Search all]
 Otsi kõiki
 [Help]

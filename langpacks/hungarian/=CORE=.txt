@@ -512,8 +512,6 @@ Lista
 Napló ürítése
 [Word lookup]
 Szó keresés
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -846,10 +844,6 @@ A kapcsolati listádon nem szereplõktõl érkezõ fájlokról mindig megkérdez
 Köszönet >
 [Become idle if the following is left unattended:]
 Inaktívvá válás ha a következõ gazdátlan marad:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Inaktívvá válás képernyõvédõ bekapcsolódásakor
 [Become idle if a terminal session is disconnected]
@@ -1850,8 +1844,6 @@ Elõzmény
 Le Nyíl
 [Find user]
 Felhasználó keresése
-[SMS]
-SMS
 [Search all]
 Összes keresése
 [Tick]

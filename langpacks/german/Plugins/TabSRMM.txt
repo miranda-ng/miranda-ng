@@ -116,8 +116,6 @@ Verlauf löschen
 Alles ko&pieren
 [Word lookup]
 Wort nachschlagen
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

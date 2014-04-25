@@ -83,8 +83,6 @@ Kopeeri
 Kopeeri kõik
 [Select &All]
 Vali &kõik
-[Google]
-Google
 [C&lear Log]
 Puhasta logi
 [&Copy link]

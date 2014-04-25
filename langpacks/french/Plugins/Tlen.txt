@@ -315,22 +315,6 @@ login Tlen
 
 [Tlen Connection Error]
 Erreur lors de la connexion à Tlen
-[Windows Server 2003]
-
-[Windows XP]
-
-[Windows 2000]
-
-[Windows NT]
-
-[Windows 95]
-
-[Windows 98]
-
-[Windows ME]
-
-[Windows]
-Windows
 [%s Web Messages]
 %s messages web
 [Web message]

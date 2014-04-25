@@ -407,8 +407,6 @@ B&earbeiten
 &Upgrade
 [&Remove...]
 Entfe&rnen...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Mianda NG wird neu gestartet.\nBitte warten...
 [Error console]
@@ -720,8 +718,6 @@ Nachricht
 &Verlauf löschen
 [Word lookup]
 Wort nachschlagen
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -1088,10 +1084,6 @@ Dank an >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Untätig werden, wenn keine Aktion innerhalb von:
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Untätig werden, wenn Bildschirmschoner aktiviert wird
 [Become idle if the computer is locked]
@@ -2638,8 +2630,6 @@ Verlauf
 Pfeil nach unten
 [Find user]
 Kontakte suchen/hinzufügen
-[SMS]
-SMS
 [Search all]
 Suche überall
 [Tick]

@@ -274,8 +274,6 @@ Journal
 Tout &sélectionner
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Bing]
 Bing
 [Yandex]

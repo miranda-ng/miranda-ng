@@ -167,8 +167,6 @@ Tümünü Ko&pyala
 &Tümünü Seç
 [Word lookup]
 Kelime arama
-[Google]
-Google
 [C&lear Log]
 Gün&lüğü temizle
 [&Copy link]

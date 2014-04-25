@@ -63,8 +63,6 @@ Avanzate
 Rete
 [Tlen Connection Error]
 Errore di connessione di Tlen
-[Windows]
-Finestre
 [E-mail]
 Email
 [none]

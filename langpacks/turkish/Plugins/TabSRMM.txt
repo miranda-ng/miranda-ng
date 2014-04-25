@@ -73,8 +73,6 @@ Günlük
 Tümünü ko&pyala
 [Word lookup]
 Kelime arama
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]

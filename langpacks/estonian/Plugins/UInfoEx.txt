@@ -113,5 +113,3 @@ Uudised ja meedia
 '(Tundmatu kontakt)'
 [Send e-mail]
 Saada e-mail
-[Miranda NG]
-Miranda NG

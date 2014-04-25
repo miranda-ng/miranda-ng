@@ -358,8 +358,6 @@ Adquira mais protocolos...
 &Atualizar
 [&Remove...]
 &Remover...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG está sendo reiniciado.\nPor favor, aguarde...
 [Headers:]
@@ -550,8 +548,6 @@ Lista
 Limpar R&egistro
 [Word lookup]
 Visual da Palavra
-[Google]
-Google
 [Wikipedia]
 Wikipédia
 [Link]
@@ -886,10 +882,6 @@ Será sempre questionado sobre arquivos de pessoas que não estão na sua lista
 Sobre o Miranda NG
 [Become idle if the following is left unattended:]
 Passar a inativo se não se registrar ação nos items seguintes:
-[Windows]
-Windows
-[Miranda]
-Miranda NG
 [Become idle if the screen saver is active]
 Ficar inativo se o screensaver está ativo
 [Become idle if a terminal session is disconnected]
@@ -1936,8 +1928,6 @@ Histórico
 Baixar
 [Find user]
 Localizar usuário
-[SMS]
-SMS
 [Search all]
 Pesquisar Tudo
 [Tick]

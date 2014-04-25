@@ -44,8 +44,6 @@ Sind Sie sich sicher? Alle Einstellungen im Profil sowie alle Registrierungseint
 [Disable/Remove shlext]
 ShlExt deaktivieren/entfernen
 ;file \plugins\ShellExt\src\shlcom.cpp
-[Miranda]
-Miranda
 [Recently]
 Zuletzt
 [Clear entries]
