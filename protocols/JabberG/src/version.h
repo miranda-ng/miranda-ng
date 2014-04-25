@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME         "Jabber Protocol"
+#define __PLUGIN_NAME         "Jabber protocol"
 #define __DESCRIPTION         "Jabber (XMPP) protocol support for Miranda NG."
 #define __AUTHOR              "George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura"
 #define __AUTHOREMAIL         "ghazan@miranda.im"

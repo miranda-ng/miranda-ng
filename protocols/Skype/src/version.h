@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME              "Skype Protocol"
+#define __PLUGIN_NAME              "Skype protocol"
 #define __INTERNAL_NAME            "Skype"
 #define __FILENAME                 "Skype.dll"
 #define __DESCRIPTION              "Skype protocol support for Miranda NG."

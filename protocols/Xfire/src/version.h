@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "Xfire Protocol"
+#define __PLUGIN_NAME            "Xfire protocol"
 #define __FILENAME               "Xfire.dll"
 #define __DESCRIPTION             "Xfire protocol support for Miranda NG."
 #define __AUTHOR               "dufte"

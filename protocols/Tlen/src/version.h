@@ -8,7 +8,7 @@
 #define TLENMUCC_VERSION_STRING      "2.1.0.0"
 #define TLEN_VERSION_STRING         TLENMUCC_VERSION_STRING
 
-#define __PLUGIN_NAME            "Tlen Protocol"
+#define __PLUGIN_NAME            "Tlen protocol"
 #define __FILENAME               "Tlen.dll"
 #define __DESCRIPTION             "Tlen protocol support for Miranda NG."
 #define __AUTHOR               "Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki"

@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME              "Skype Protocol (Classic)"
+#define __PLUGIN_NAME              "Skype protocol (Classic)"
 #define __INTERNAL_NAME            "SkypeClassic"
 #define __FILENAME                 "SkypeClassic.dll"
 #define __DESCRIPTION              "Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client."

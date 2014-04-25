@@ -25,7 +25,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME             "Gadu-Gadu Protocol"
+#define __PLUGIN_NAME             "Gadu-Gadu protocol"
 #define __DESCRIPTION             "Gadu-Gadu protocol support for Miranda NG."
 #define __AUTHOR                  "Bartosz Bialek, Adam Strzelecki"
 #define __AUTHOREMAIL             "dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com"

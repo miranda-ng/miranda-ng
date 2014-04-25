@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "MSN Protocol"
+#define __PLUGIN_NAME            "MSN protocol"
 #define __DESCRIPTION            "Microsoft Network (MSN) protocol support for Miranda NG."
 #define __AUTHOR                 "Boris Krasnovskiy, George Hazan, Richard Hughes"
 #define __AUTHOREMAIL            "borkra@miranda-im.org"

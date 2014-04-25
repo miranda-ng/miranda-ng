@@ -5,8 +5,8 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "Yahoo Protocol"
-#define __DESCRIPTION            "Yahoo Protocol support for Miranda NG."
+#define __PLUGIN_NAME            "Yahoo protocol"
+#define __DESCRIPTION            "Yahoo protocol support for Miranda NG."
 #define __AUTHOR                 "Gennady Feldman"
 #define __AUTHOREMAIL            "gena01@miranda-im.org"
 #define __COPYRIGHT              "© 2003-2010 Gennady Feldman, Laurent Marechal"
