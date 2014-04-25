@@ -111,7 +111,7 @@ Zoeken schonen
 In c&ontext tonen
 [Set &Bookmark]
 &Bladwijzer zetten
-[Rename &Bookmark]
+[&Rename Bookmark]
 &Bladwijzer hernoemen
 [Copy &Text]
 &Tekst kopiëren

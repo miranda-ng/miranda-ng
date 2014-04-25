@@ -87,8 +87,6 @@ Limpar Pesquisa
 &Mostrar no contexto
 [Set &Bookmark]
 Colocar &marcador
-[Rename &Bookmark]
-Rename &Bookmark
 [Copy &Text]
 Copiar &Texto
 [&Save Selected...]

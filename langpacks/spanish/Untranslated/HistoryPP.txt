@@ -73,7 +73,7 @@
 [Clear Search]
 [Sh&ow in context]
 [Set &Bookmark]
-[Rename &Bookmark]
+[&Rename Bookmark]
 [Copy &Text]
 [&Save Selected...]
 [Save History]

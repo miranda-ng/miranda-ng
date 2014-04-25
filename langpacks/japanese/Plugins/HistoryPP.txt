@@ -117,8 +117,8 @@ History++ エクスポート
 コンテキストに表示
 [Set &Bookmark]
 ブックマークを設定 (&B)
-[Rename &Bookmark]
-ブックマークの名前変更 (&B)
+[&Rename Bookmark]
+ブックマークの名前変更 (&R)
 [Copy &Text]
 テキストをコピー (&T)
 [&Save Selected...]

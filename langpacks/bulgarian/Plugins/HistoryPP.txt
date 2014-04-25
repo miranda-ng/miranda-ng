@@ -157,7 +157,7 @@ History++ износ
 Показване в контекста
 [Set &Bookmark]
 Поставяне на отметка
-[Rename &Bookmark]
+[&Rename Bookmark]
 Преименуване на отметката
 [Copy &Text]
 Копиране на текста

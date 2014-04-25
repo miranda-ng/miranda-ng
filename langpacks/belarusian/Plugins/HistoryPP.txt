@@ -157,7 +157,7 @@ EMail Express
 Паказаць у &кантэксце
 [Set &Bookmark]
 Паставіць &закладку
-[Rename &Bookmark]
+[&Rename Bookmark]
 Пераназваць закладку
 [Copy &Text]
 Капіяваць &тэкст

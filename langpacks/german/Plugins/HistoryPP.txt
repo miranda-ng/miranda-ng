@@ -157,7 +157,7 @@ Suche löschen
 Im Zusammenhang anzeigen
 [Set &Bookmark]
 Lesezeichen setzen
-[Rename &Bookmark]
+[&Rename Bookmark]
 Lesezeichen um&benennen
 [Copy &Text]
 &Text kopieren

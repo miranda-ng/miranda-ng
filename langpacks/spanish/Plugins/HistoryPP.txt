@@ -157,7 +157,7 @@
 
 [Set &Bookmark]
 
-[Rename &Bookmark]
+[&Rename Bookmark]
 
 [Copy &Text]
 

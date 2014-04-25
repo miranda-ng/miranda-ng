@@ -133,8 +133,8 @@ History++ 导出
 在环境显示(&O)
 [Set &Bookmark]
 设置书签(&B)
-[Rename &Bookmark]
-重命名书签(&B)
+[&Rename Bookmark]
+重命名书签(&R)
 [Copy &Text]
 复制文本(&T)
 [&Save Selected...]
