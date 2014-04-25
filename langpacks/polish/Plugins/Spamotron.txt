@@ -29,7 +29,7 @@ Ucz się wiadomości od
 [Auto-learn messages from approved contacts as ham]
 Zatwierdzonych kontaktów jako nie spam
 [Auto-learn messages from contacts if not approved in]
-Kontaktów, jeżeli niezatwierdzone w
+Kontaktów, jeśli niezatwierdzone w
 [days as spam]
 dni jako spam
 [Auto-learn outgoing messages as ham]

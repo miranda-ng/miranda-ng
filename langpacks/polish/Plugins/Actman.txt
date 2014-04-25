@@ -348,7 +348,7 @@ Wszystkie protokoły
 [Protocol]
 Protokół
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
-zalogowany -2 jeżeli protokół nie może tego ustawić -1 jeżeli nie można znaleźć protokołu, w przeciwnym razie 0
+zalogowany -2 jeśli protokół nie może tego ustawić, -1 jeśli nie można znaleźć protokołu, w przeciwnym razie 0
 [Shows a dialog to set the avatar for all possible protocols]
 Pokazuje okno ustawienia awatara dla wszystkich możliwych protokołów
 [Shows the next protocol in the frame]
@@ -450,7 +450,7 @@ zgłoś nazwę pliku
 [int 0, if unsuccessful]
 int 0, w przypadku niepowodzenia
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-Utwórz raport z logu i otwórz go (jeśli opcja jest ustawiona). Jeżeli lParam lub wParam są puste, użyte zostaną nazwy plików określone w opcjach.
+Utwórz raport z dziennika i otwórz go (jeśli opcja jest ustawiona). Jeśli lParam lub wParam są puste, użyte zostaną nazwy plików określone w opcjach.
 [Show popup or Info window with current music information.]
 Pokaż popup lub okienko informacyjne z aktualnie słuchanym utworem.
 [WhenWasIt Birthday Reminder (whenwasit.dll)]

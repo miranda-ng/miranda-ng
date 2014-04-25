@@ -70,7 +70,7 @@ Wyślij
 &Zapisz do pliku
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-Jeżeli zamierzasz użyć tego raportu w celu zgłoszenia błędu, pamiętaj, by przejrzeć stronę internetową w poszukiwaniu dodatkowych pytań lub innej pomocy jakiej mogą potrzebować twórcy.\r\nJeżeli nie sprawdzisz swojego raportu błędu i nie odpowiesz, błąd nie zostanie naprawiony.
+Jeśli zamierzasz użyć tego raportu w celu zgłoszenia błędu, pamiętaj, by przejrzeć stronę internetową w poszukiwaniu dodatkowych pytań lub innej pomocy jakiej mogą potrzebować twórcy.\r\nJeśli nie sprawdzisz swojego raportu błędu i nie odpowiesz, błąd nie zostanie naprawiony.
 [Information successfully written to file: "%s".]
 Informacje zostały pomyślnie zapisane w pliku: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]

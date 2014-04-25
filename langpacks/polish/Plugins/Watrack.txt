@@ -278,7 +278,7 @@ Tylko jeśli wiadomość nie jest użyta
 [Don't use]
 Nie używaj
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
-Czas odświeżania (w sekundach) to czas co jaki odświeżane są informacje o muzyce, statystyki oraz opisy. Jeżeli 0, automatyczne odświeżanie jest wyłączone.
+Czas odświeżania (w sekundach) to czas co jaki odświeżane są informacje o muzyce, statystyki oraz opisy. Jeśli 0, automatyczne odświeżanie jest wyłączone.
 [All uppercase]
 Wszystkie dużymi
 [Do not change]
@@ -376,7 +376,7 @@ Niezależny xStatus
 [FPS (Frames per second)]
 FPS (klatek na sekundę)
 [If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Jeżeli używana jest usługa zmiennych, zwrócona wartość zostanie podana w kodowaniu ANSI (domyślnie w UTF8)
+Jeśli używana jest usługa zmiennych, zwrócona wartość zostanie podana w kodowaniu ANSI (domyślnie w UTF8)
 [Save settings in INI-file]
 Zapisz ustawienia w INI
 [VBR or not]
@@ -456,7 +456,7 @@ Nazwa xStatus
 [- track number]
 - numer ścieżki
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
-Czas odświeżania (w sekundach) to czas, co jaki odświeżane są informacje o muzyce oraz opisy. Gdy 0, automatyczne odświeżanie jest wyłączone.\nTylko jeżeli ustawiony status "Muzyka" - zmień status, gdy ustawiony jest już XStatus.\nUtrzymuj XStatus "Muzyka" - jeżeli odtwarzanie zostanie zatrzymane lub odtwarzacz zamknięty, utrzymaj lub nie XStatus "Muzyka" (w przeciwnym razie zmień na pusty).
+Czas odświeżania (w sekundach) to czas, co jaki odświeżane są informacje o muzyce oraz opisy. Gdy 0, automatyczne odświeżanie jest wyłączone.\nTylko jeśli ustawiony status "Muzyka" - zmień status, gdy ustawiony jest już xStatus.\nUtrzymuj xStatus "Muzyka" - jeśli odtwarzanie zostanie zatrzymane lub odtwarzacz zamknięty, utrzymaj lub nie xStatus "Muzyka" (w przeciwnym razie zmień na pusty).
 ["Variables" module use]
 Użyto moduł "Variables"
 [Acoustic]

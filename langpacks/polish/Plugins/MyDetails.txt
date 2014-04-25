@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-Pokazuje i pozwala edytować Twoje dane dla wszystkich protokołów.
+Pokazuje i pozwala edytować twoje dane dla wszystkich protokołów.
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Ustaw mój nick

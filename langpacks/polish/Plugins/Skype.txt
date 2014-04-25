@@ -226,7 +226,7 @@ Zaloguj się aby zmienić hasło
 Nie podałeś nazwy użytkownika Skype.\nSkonfiguruj ją w Opcje -> Protokoły, i spróbuj jeszcze raz.
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-Czy na pewno chcesz zablokować "%s" (%s)? Nie będzie on/ona w stanie zadzwonić do Ciebie, ani pokazywać się na twojej liście kontaktów.
+Czy na pewno chcesz zablokować "%s" (%s)? Nie będzie on/ona w stanie zadzwonić do ciebie, ani pokazywać się na twojej liście kontaktów.
 [Name]
 Nazwa
 ;file \protocols\Skype\src\skype_bookmarks.cpp
@@ -290,7 +290,7 @@ Rozpoczęto przychodzącą rozmowę grupową
 [You did not select any contact]
 Nie wybrałeś żadnych kontaktów
 [Hi! I'd like to add you to my contact list]
-Cześć! Chciałbym dodać Cię do mojej listy kontaktów
+Cześć! Chciałbym dodać cię do mojej listy kontaktów
 ;file \protocols\Skype\src\skype_contacts.cpp
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów

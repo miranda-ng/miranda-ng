@@ -6,7 +6,7 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
-Eksportuje każdą wiadomość, URL lub plik jaki otrzymasz do pliku tekstowego.
+Eksportuje każdą wiadomość, link lub plik jaki otrzymasz do pliku tekstowego.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Przeglądaj
@@ -226,7 +226,7 @@ Nie udało się zapisać daty i nazwy użytkownika do pliku:\n
 [Failed to write message to the file :\n]
 Nie udało się zapisać wiadomości do pliku:\n
 [URL: ]
-URL: 
+Link: 
 [File: ]
 Plik: 
 [Description: ]

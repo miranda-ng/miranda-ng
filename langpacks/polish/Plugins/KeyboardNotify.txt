@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-W momencie otrzymania wiadomości, diody na Twojej klawiaturze zaczną migać.
+W momencie otrzymania wiadomości, diody na twojej klawiaturze zaczną migać.
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Konta do sprawdzenia
@@ -17,7 +17,7 @@ Przychodzące wiadomości
 [Incoming files]
 Przychodzące pliki
 [Incoming URLs]
-Przychodzące URL
+Przychodzące linki
 [Everything else]
 Pozostałe
 [Message-Event only]
@@ -113,7 +113,7 @@ Wolno
 [&Preview]
 &Podgląd
 [Emulate keypresses (Use this option if you are using a USB keyboard)]
-Emuluj naciśnięcia klawiszy (włącz tą funkcję, jeżeli używasz klawiatury na USB)
+Emuluj naciśnięcia klawiszy (włącz tą funkcję, jeśli używasz klawiatury na USB)
 [Create/Edit Themes]
 Twórz/Edytuj Motywy
 [Theme]

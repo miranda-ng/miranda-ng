@@ -48,7 +48,7 @@ Tu możesz dopasować pod siebie okna rozmowy.
 [Ignore]
 Ignorowanie
 [Ban those users and events, you are annoyed with.]
-Zablokuj tych użytkowników i zdarzenia, które Cię denerwują.
+Zablokuj tych użytkowników i zdarzenia, które cię denerwują.
 [Status]
 Status
 [Set your status messages and idle reporting.]

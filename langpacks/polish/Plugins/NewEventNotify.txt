@@ -21,7 +21,7 @@ Opcje popupów
 [Message]
 Wiadomość
 [URL]
-URL
+Link
 [File]
 Plik
 [Others]
@@ -115,7 +115,7 @@ Otrzymano %d kontakty.
 [This is a sample message event :-)]
 To jest przykładowe powiadomienie o wiadomości :-)
 [This is a sample URL event ;-)]
-To jest przykładowe powiadomienie o linku (URL) ;-)
+To jest przykładowe powiadomienie o linku ;-)
 [This is a sample file event :-D]
 To jest przykładowe powiadomienie o pliku :-D
 [This is a sample other event ;-D]

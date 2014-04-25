@@ -6,7 +6,7 @@
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Wyświetla ikony klientów używanych przez Twoje kontakty.
+Wyświetla ikony klientów używanych przez twoje kontakty.
 ;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Ikony nakładek
@@ -192,7 +192,7 @@ Nakładka TM/QQ 2005
 [QQ 2004 overlay]
 Nakładka QQ 2004
 [TM 3.x / QQ 2003 overlay]
-Nakładka 3.x / QQ 2003
+Nakładka 3.x/QQ 2003
 [TM 2.x overlay]
 Nakładka TM 2.x
 [TM 1.x overlay]

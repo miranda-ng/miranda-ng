@@ -17,7 +17,7 @@ Pokaż flagę kraju jako &dodatkową ikonę na liście kontaktów
 [Use &IP-to-country database for country detection]
 Użyj &IP kraju do wykrycia flagi
 [Use &unknown flag if the country cannot be determined]
-Użyj &pustej flagi jeżeli nie rozpoznano kraju
+Użyj &pustej flagi jeśli nie rozpoznano kraju
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 Flaga kraju

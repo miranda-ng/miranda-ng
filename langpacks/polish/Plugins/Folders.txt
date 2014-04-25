@@ -46,7 +46,7 @@ w sekcji ProfileDir (zazwyczaj w folderze Mirandy).
 [Expands to your current profile name without the extenstion.]
 Rozwija się do nazwy obecnie załadowanego profilu bez rozszerzenia jego pliku.
 [(e.g., default if your your profile is default.dat).]
-(np. default, jeżeli Twój profil to default.dat).
+(np. default, jeśli twój profil to default.dat).
 [Environment variables]
 Zmienne środowiskowe
 [The plugin can also expand environment variables; the variables are specified like in any other]
@@ -54,7 +54,7 @@ Wtyczka może także rozwijać zmienne środowiskowe; zmienne te są określone 
 [program that can use environment variables, i.e., %<env variable>%.]
 programie, który obsługuje zmienne środowiskowe, czyli %<env variable>%.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
-Uwaga: zmienne środowiskowe są rozwijane przed jakimikolwiek zmiennymi Mirandy. Dlatego jeżeli posiadasz
+Uwaga: zmienne środowiskowe są rozwijane przed jakimikolwiek zmiennymi Mirandy. Dlatego jeśli posiadasz
 [example, %profile_path% defined as a system variable then it will be expanded to that value]
 np. ścieżkę profilu zdefiniowaną jako zmienną systemową, zostanie ona rozwinięta do tej wartości.
 [instead of expanding to Miranda's profile path.]
@@ -62,7 +62,7 @@ zamiast rozwijania do ścieżki profilu Mirandy.
 [Examples:]
 Przykład:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
-Jeżeli wartość ProfileDir w sekcji ProfileDir pliku mirandaboot.ini to ".\\profiles\", obecny
+Jeśli wartość ProfileDir w sekcji ProfileDir pliku mirandaboot.ini to ".\\profiles\", obecny
 [profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
 profil to Default.dat, a ścieżka Mirandy to "C:\Program Files\miranda ng", to wtedy
 [will expand to 'c:\\program files\\miranda ng']

@@ -80,7 +80,7 @@ Wszystko
 [Messages]
 Wiadomości
 [URL]
-URL
+Link
 [Files]
 Pliki
 [User Online]
@@ -92,7 +92,7 @@ Zostałeś dodany
 [Typing Notify]
 Pisanie
 [Please authorize me to add you to my contact list.]
-Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
+Proszę autoryzuj mnie, bym mógł dodać cię do swoich kontaktów.
 [Do you want to send authorization request\nto new contact?]
 Czy chcesz wysłać prośbę o autoryzacje?\ndo nowego kontaktu?
 [MenuItemEx]

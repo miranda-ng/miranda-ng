@@ -63,7 +63,7 @@ Restart Mirandy NG, może być potrzebny by te zmiany weszły w życie.
 [Contact name:]
 Nazwa kontaktu:
 [URL:]
-URL:
+Link:
 [Display]
 Wyświetlanie
 [Between start and end strings]

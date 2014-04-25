@@ -267,11 +267,11 @@ Konferencja
 [Transport]
 Transport
 [URL]
-URL
+Link
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Auto-dołączenie (Automatyczne dołączanie do zakładek musi być włączone w opcjach)
 [Room JID/ URL:]
-URL / JID pokoju:
+Adres/JID pokoju:
 [Bookmark Name:]
 Nazwa zakładki:
 [Privacy Lists]
@@ -452,7 +452,7 @@ Proszę czekać...
 [Bookmark Name]
 Nazwa zakładki
 [Address (JID or URL)]
-Adres (JID lub URL)
+Adres (JID lub link)
 [Nickname]
 Nick
 [Conferences]
@@ -1676,7 +1676,7 @@ Powtórz hasło
 [Passwords do not match.]
 Hasła różnią się od siebie.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
-To polecenie usunie Twoje konto, listę kontaktów i wszystkie inne informacje z serwera. Jesteś pewien, że chcesz to zrobić?
+To polecenie usunie twoje konto, listę kontaktów i wszystkie inne informacje z serwera. Jesteś pewien, że chcesz to zrobić?
 [Account removal warning]
 Ostrzeżenie o usuwaniu konta
 [You can change your password only when you are online]
@@ -1898,7 +1898,7 @@ zapytania
 [Else ]
 W przeciwnym razie\s
 [If Jabber ID is ']
-Jeżeli ID Jabber'a to '
+Jeśli ID Jabber'a to '
 [ (nickname: ]
  (pseudonim:\s
 [If group is ']

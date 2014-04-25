@@ -767,7 +767,7 @@ Wąskie obramowanie
 Bez obramowanie
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Lista nie może być dokowana, jeżeli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
+Lista nie może być dokowana, jeśli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
 [Contact list docking]
 Dokowanie listy
 ;file \plugins\Clist_nicer\src\extBackg.cpp

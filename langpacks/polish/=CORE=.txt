@@ -934,7 +934,7 @@ Sortowanie:
 [Contact list:]
 Lista kontaktów:
 [If window is partially covered, bring it to front]
-Jeżeli okno jest częściowo zasłonięte, przenieś je na pierwszy plan
+Jeśli okno jest częściowo zasłonięte, przenieś je na pierwszy plan
 [Window:]
 Okno:
 [Contact list background:]
@@ -1291,13 +1291,13 @@ Pozycja:
 Strona WEB:
 ;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
-%s prosi o Twoją autoryzację
+%s prosi o autoryzację
 [%u requests authorization]
-%u prosi o Twoją autoryzację
+%u prosi o autoryzację
 [%s added you to their contact list]
-%s dodał(a) Cię do listy kontaktów
+%s dodał(a) cię do listy kontaktów
 [%u added you to their contact list]
-%u dodał(a) Cię do swojej listy kontaktów
+%u dodał(a) cię do swojej listy kontaktów
 [Alerts]
 Alarmy
 [Added event]
@@ -1310,11 +1310,11 @@ Dodaj kontakt na stałe do listy
 [<Unknown>]
 <Nieznany>
 [%s added you to the contact list\n%u (%s) on %s]
-%s dodał(a) Cię do listy kontaktów\n%u (%s) na %s
+%s dodał(a) cię do listy kontaktów\n%u (%s) na %s
 [%s added you to the contact list\n%u on %s]
-%s dodał(a) Cię do listy kontaktów\n%u na %s
+%s dodał(a) cię do listy kontaktów\n%u na %s
 [%s added you to the contact list\n%s on %s]
-%s dodał(a) Cię do listy kontaktów\n%s na %s
+%s dodał(a) cię do listy kontaktów\n%s na %s
 [(Unknown)]
 (Nieznany)
 [%s requested authorization\n%u (%s) on %s]
@@ -1932,11 +1932,11 @@ Usuń historię
 Zobacz &historię
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
-URL od %s
+Link od %s
 [Web page address (&URL)]
-Adres strony internetowej (&URL)
+Adres strony internetowej (&link)
 [URL]
-URL
+Link
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Wyślij link do
@@ -2085,7 +2085,7 @@ Temat to "%s%s"
 <niepoprawny>
 ;file \src\modules\chat\tools.cpp
 [%s wants your attention in %s]
-%s chce Twojej uwagi w pokoju: %s
+%s chce twojej uwagi w pokoju: %s
 [%s speaks in %s]
 %s mówi w %s
 [%s has joined %s]

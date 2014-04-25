@@ -186,9 +186,9 @@ Usuwanie klucza dla "%s". Kontynuować?
 [OTR Fingerprint Verification]
 Weryfikacja odcisku palca OTR
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-Sesja szyfrowania OTR z "%s".\nOdcisk palca używany przez Twój kontakt jest niezweryfikowany.\nCzy ufasz mu?
+Sesja szyfrowania OTR z "%s".\nOdcisk palca używany przez twój kontakt jest niezweryfikowany.\nCzy ufasz mu?
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
-Sesja szyfrowania OTR z "%s".\nOdcisk palca używany przez Twój kontakt jest już zweryfikowany.\nCzy ufasz mu nadal?
+Sesja szyfrowania OTR z "%s".\nOdcisk palca używany przez twój kontakt jest już zweryfikowany.\nCzy ufasz mu nadal?
 [Your Fingerprint to tell your contact (use a trusted channel!)]
 Użyj zaufanego kanału, aby podać swój odcisk palca kontaktowi.
 [VERIFY: Fingerprint from contact]
@@ -222,17 +222,17 @@ Autentykacja OTR: %s (%s)
 [Authenticating contact:\n%s (%s)]
 Autentykacja kontaktu:\n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-Sesja szyfrowania OTR z "%s" (niezweryfikowany).\nUżyj pytania, na które odpowiedzieć może tylko Twój partner.
+Sesja szyfrowania OTR z "%s" (niezweryfikowany).\nUżyj pytania, na które odpowiedzieć może tylko twój partner.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
-Sesja szyfrowania OTR z "%s" (zweryfikowany)\nZweryfikuj sesję ponownie zadając pytanie, na które odpowiedzieć może tylko Twój partner.
+Sesja szyfrowania OTR z "%s" (zweryfikowany)\nZweryfikuj sesję ponownie zadając pytanie, na które odpowiedzieć może tylko twój partner.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
 Sesja szyfrowania OTR z "%s" (niezweryfikowany).\nUżyj znanego hasła.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
 Sesja szyfrowania OTR z "%s" (zweryfikowany)\nZweryfikuj sesję ponownie używając znanego hasła.
 [Your contact '%s' wants to verify your identity with a question only you can answer.]
-Twój kontakt "%s" chce zweryfikować Twoją tożsamość zadając Ci pytanie, na które tylko Ty możesz odpowiedzieć.
+Twój kontakt "%s" chce zweryfikować twoją tożsamość zadając ci pytanie, na które tylko ty możesz odpowiedzieć.
 [Your contact '%s' wants to verify your identity with a secret password you should know.]
-Twój kontakt "%s" chce zweryfikować Twoją tożsamość za pomocą sekretnego hasła, które powinieneś znać.
+Twój kontakt "%s" chce zweryfikować twoją tożsamość za pomocą sekretnego hasła, które powinieneś znać.
 [Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
 Odcisk palca "%s" wciąż w użyciu w rozmowie z "%s" (%s).\nNie możesz go usunąć!
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]

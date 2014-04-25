@@ -627,7 +627,7 @@ Wiadomość od %s
 [Typing Notification]
 Kontakt
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżeli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
+Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeśli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]
@@ -779,7 +779,7 @@ Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wspiera wiele kont, użyta zostanie nazwa konta.
+nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]

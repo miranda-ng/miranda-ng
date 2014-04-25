@@ -20,7 +20,7 @@ Wszystko
 [Messages]
 Wiadomości
 [URL]
-URL
+Link
 [Files]
 Pliki
 [User Online]

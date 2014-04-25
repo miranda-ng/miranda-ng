@@ -93,7 +93,7 @@ Włącz elementy menu Skype (obecnie Szukaj/Dodaj kontakty)
 [Use popup plugin for displaying messages]
 Używaj wtyczki Popup do wyświetlania komunikatów
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
-Ignoruj wszystkie komunikaty o błędach (niezalecane, ale jeżeli cię denerwują... ;)
+Ignoruj wszystkie komunikaty o błędach (niezalecane, ale jeśli cię denerwują... ;)
 [Use group chat interface for conversations (requires group chat module)]
 Używaj interfejsu rozmów grupowych dla konwersacji (wymaga modułu czatów grupowych)
 [Mark group chat message as read to avoid notification]
@@ -188,7 +188,7 @@ Przychodząca rozmowa od %s
 [Connection to Skype lost]
 Utracono połączenie ze Skype
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-Wygląda na to, że po raz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeżeli wybierzesz "Nie" możesz to później zmienić w opcjach wtyczek.
+Wygląda na to, że po raz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeśli wybierzesz "Nie" możesz to później zmienić w opcjach wtyczek.
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
 Podgląd komunikatu błędu

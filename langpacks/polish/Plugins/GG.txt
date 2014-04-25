@@ -175,7 +175,7 @@ Połączenie z hubem Gadu-Gadu nie udało się.
 [Cannot establish secure connection.]
 Nie można nawiązać bezpiecznego połączenia.
 [Server disconnected asking you for changing your e-mail.]
-Serwer rozłączył się prosząc o zmianę Twojego adresu e-mail.
+Serwer rozłączył się prosząc o zmianę twojego adresu e-mail.
 [Too many login attempts with invalid password.]
 Za dużo prób połączeń z podaniem błędnego hasła.
 [Gadu-Gadu servers are now down. Try again later.]
@@ -234,7 +234,7 @@ Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami Twojego konta.\nCzy chcesz się rozłączyć ?
+Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami twojego konta.\nCzy chcesz się rozłączyć ?
 [Allow]
 Zezwól
 [Ask]
@@ -391,7 +391,7 @@ Powiązanie protokołu Gadu-Gadu
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Hasło nie mogło zostać przypomniane z powodu błędu:\n\t%s (błąd: %d)
 [Password was sent to your e-mail.]
-Hasło zostało wysłane na Twój e-mail.
+Hasło zostało wysłane na twój e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
 [Notify]
 Powiadomienia

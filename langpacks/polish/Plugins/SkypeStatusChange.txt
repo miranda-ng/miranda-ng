@@ -13,7 +13,7 @@ Synchronizuj opis
 [&Check any protocol or any status to exclude it from synchronization:]
 &Zaznacz którykolwiek status lub protokół, by wyłączyć go z synchronizacji:
 [Synchronize if current status differs from previous one]
-Synchronizuj, jeżeli obecny status różni się od poprzedniego
+Synchronizuj, jeśli obecny status różni się od poprzedniego
 ;file \plugins\SkypeStatusChange\src\options.cpp
 [Change Skype status]
 Zmień status Skype

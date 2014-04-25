@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-Pobiera informacje o pogodzie wyświetlając je na Twojej liście kontaktów.
+Pobiera informacje o pogodzie wyświetlając je na twojej liście kontaktów.
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Aktualizacja

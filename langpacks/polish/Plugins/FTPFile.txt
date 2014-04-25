@@ -17,7 +17,7 @@ Użytkownika
 [Password]
 Hasło:
 [URL]
-URL
+Link
 [Directory on server]
 Folder na serwerze
 [Port]

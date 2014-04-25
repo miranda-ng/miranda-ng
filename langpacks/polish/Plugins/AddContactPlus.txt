@@ -42,7 +42,7 @@ Brak
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
 Nie można dodać kontaktu do listy. Upewnij się, że ID kontaktu jest prawidłowe.
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
-Nie można dodać kontaktu do listy. Jeżeli nie jesteś zalogowany do wybranego konta, spróbuj to zrobić. Upewnij się także, że ID kontaktu jest prawidłowe.
+Nie można dodać kontaktu do listy. Jeśli nie jesteś zalogowany do wybranego konta, spróbuj to zrobić. Upewnij się także, że ID kontaktu jest prawidłowe.
 ;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
 &Dodaj kontakt...

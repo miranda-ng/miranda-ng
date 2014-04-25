@@ -25,7 +25,7 @@ Dodaj
 [HistoryStats - Conflicting files]
 HistoryStats - pliki, które mogą się nadpisać
 [Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
-Niektóre pliki zostały tymczasowo zapisane w innym miejscu, by uniknąć nadpisania. Jeżeli zawsze chcesz nadpisywać istniejące pliki, jest od tego opcja.
+Niektóre pliki zostały tymczasowo zapisane w innym miejscu, by uniknąć nadpisania. Jeśli zawsze chcesz nadpisywać istniejące pliki, jest od tego opcja.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Następujące pliki, nie mogły zostać zapisane, ponieważ istnieją już pliki o tej samej nazwie. Proszę zdecydować czy powinny być nadpisane czy anulowane.
 [Overwrite existing]
@@ -78,9 +78,9 @@ Ignoruj słowa krótsze niż (znaków)
 [Ignore words longer than (chars, 0=no limit)]
 Ignoruj słowa dłuższe niż (znaków, 0 - bez limitu)
 [Filter URLs/e-mail addresses]
-Filtruj linki / e-maile
+Filtruj linki/e-maile
 [Filter words/messages]
-Filtruj słowa / wiadomości
+Filtruj słowa/wiadomości
 [Define...]
 Definiuj...
 ;file \plugins\HistoryStats\src\column_chatduration.cpp
@@ -141,7 +141,7 @@ Linki
 [Files]
 Pliki
 [Incoming URLs]
-Przychodzące URL
+Przychodzące linki
 [Outgoing URLs]
 Wychodzące linki
 [Incoming files]
@@ -221,7 +221,7 @@ Graficzny podgląd liczby dla przychodzących, wychodzących lub łącznie znak�
 [Show sum of incoming and outgoing]
 Pokaż sumę przychodzących i wychodzących
 [In/out details (tooltip)]
-Detale przychodzących / wychodzących (tooltip)
+Detale przychodzących/wychodzących (tooltip)
 [Percentage in tooltip]
 Procentowe w tooltipie
 [Absolute in tooltip if average selected and vice versa]
@@ -238,14 +238,14 @@ Wychodzących: #{out_amount} (#{out_ratio}) / Przychodzących: #{in_amount} (#{i
 Wychodzących: #{out_amount} / Przychodzących: #{in_amount}
 ;file \plugins\HistoryStats\src\column_inoutgraph.h
 [In/out graph]
-Wykres przych. / wych.
+Wykres przych./wych.
 [Column holding in/out bar graphs for characters, messages or chats.]
-Graficzny podgląd przychodzących / wychodzących znaków, wiadomości lub rozmów w słupkach.
+Graficzny podgląd przychodzących/wychodzących znaków, wiadomości lub rozmów w słupkach.
 ;file \plugins\HistoryStats\src\column_nick.cpp
 [First/last message time (tooltip)]
-Czas pierwszej / ostatniej wiadomości (tooltip)
+Czas pierwszej/ostatniej wiadomości (tooltip)
 [Show contact count for omitted/totals (tooltip)]
-Pokaż liczby kontaktu dla pominiętych / wszystkich (tooltip)
+Pokaż liczby kontaktu dla pominiętych/wszystkich (tooltip)
 [Nick]
 Nick
 [[First] #{first_time} / [Last] #{last_time}]
@@ -260,7 +260,7 @@ Pominięte
 Wszystkich
 ;file \plugins\HistoryStats\src\column_nick.h
 [Column holding the contact's nick and first/last message time if selected.]
-Graficzny podgląd nicku kontaktu i czasu pierwszej / ostatniej wiadomości jeśli wybrany.
+Graficzny podgląd nicku kontaktu i czasu pierwszej/ostatniej wiadomości jeśli wybrany.
 ;file \plugins\HistoryStats\src\column_protocol.cpp
 [Protocol]
 Protokół
@@ -371,11 +371,11 @@ Liczba kolumn do grupy
 [Calculate maximum per column (not per graph)]
 Oblicz maksymalną ilość na kolumnę (nie na wykresie)
 [Characters (in/out ratio)]
-Znaki (zestawienie przych. / wych.)
+Znaki (zestawienie przych./wych.)
 [Messages (in/out ratio)]
-Wiadomości (zestawienie przych. / wych.)
+Wiadomości (zestawienie przych./wych.)
 [Chats (in/out ratio)]
-Rozmowy (zestawienie przych. / wych.)
+Rozmowy (zestawienie przych./wych.)
 [Hours of day timeline]
 Godziny dnia osi czasu
 [Days of week timeline]
@@ -383,11 +383,11 @@ Dni tygodnia osi czasu
 ["Split" timeline]
 "Podziel" linię czasu
 [in/out ratio of characters]
-zestawienie przych. / wych. znaków
+zestawienie przych./wych. znaków
 [in/out ratio of messages]
-zestawienie przych. / wych. wiadomości
+zestawienie przych./wych. wiadomości
 [in/out ratio of chats]
-zestawienie przych. / wych. rozmów
+zestawienie przych./wych. rozmów
 ;file \plugins\HistoryStats\src\column_splittimeline.h
 [Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.]
 Graficzny podgląd zachowań w rozmowie (wychodzące, przychodzące, wszystkie, zestawienie) od pierwszego do ostatniego dnia historii. Informacje znajdują się wzdłuż osi x i osi y i wartości są zakodowane jako wartości kolorów. Środki zachowania różnych rozmów są dostępne.
@@ -415,7 +415,7 @@ Typ liczby słów
 [Distinct words]
 Wyróżnione słowa
 [Ratio total/distinct words]
-Zestawienie wszystkich / wyraźnych słów
+Zestawienie wszystkich/wyraźnych słów
 [Additional info in tooltip (depends on type)]
 Dodatkowe informacje w tooltipie (zależy od typu)
 [Total word count]
@@ -449,16 +449,16 @@ Liczba słów pominiętych w wychodzących
 [Word count for each word (tooltip)]
 Liczba słów w zestawieniu do każdego słowa (tooltip)
 [Show separate counts for incoming/outgoing]
-Pokaż oddzielne liczby dla przych. / wych.
+Pokaż oddzielne liczby dla przych./wych.
 [Color words according to in/out ratio]
-Koloruj słowa zgodnie z zestawieniem przych. / wych.
+Koloruj słowa zgodnie z zestawieniem przych./wych.
 [[Out] #{out_words} / [In] #{in_words}]
 Wychodzących: #{out_words} / Przychodzących: #{in_words}
 ;file \plugins\HistoryStats\src\column_words.h
 [Words]
 Słowa
 [Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
-Podgląd listy dla specyficznej liczby najbardziej / najmniej popularnych słów lub najdłuższe słowa użyte przez użytkownika, kontakt lub obu.
+Podgląd listy dla specyficznej liczby najbardziej/najmniej popularnych słów lub najdłuższe słowa użyte przez użytkownika, kontakt lub obu.
 ;file \plugins\HistoryStats\src\contact.cpp
 [(multiple)]
 (wieloraki)
@@ -809,9 +809,9 @@ Czas trwania rozmowy (średni)
 [Chat duration (maximum)]
 Czas trwania rozmowy (maksymalny)
 [Time of first message to/from contact]
-Czas pierwszej wiadomości do / od kontaktu
+Czas pierwszej wiadomości do/od kontaktu
 [Time of last message to/from contact]
-Czas ostatniej wiadomości do / od kontaktu
+Czas ostatniej wiadomości do/od kontaktu
 [(nothing)]
 (nic)
 [Ascending]
@@ -886,9 +886,9 @@ Przycisk
 [Button (disabled)]
 Przycisk (nieaktywny)
 [Date/time picker]
-Data / czas wyboru
+Data/Czas wyboru
 [Date/time picker (disabled)]
-Data / czas wyboru (nieaktywny)
+Data/Czas wyboru (nieaktywny)
 ;file \plugins\HistoryStats\src\main.cpp
 [The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
 Nie można znaleźć statystyk. Statystyki nie zostały utworzone lub zostały przeniesione do innej lokalizacji.

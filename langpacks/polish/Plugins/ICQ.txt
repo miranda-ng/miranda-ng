@@ -139,7 +139,7 @@ Pozwól innym zobaczyć mój status Dostępny/Rozłączony w sieci (Web Aware)
 [Allow others to view my primary e-mail address]
 Umożliwiaj innym wyświetlenie mojego adresu e-mail
 [Only reply to status message requests from users on my contact list]
-Pokazuj opis statusu dla użytkowników na Twojej liście
+Pokazuj opis statusu dla użytkowników na twojej liście
 [Only reply to status message request from visible contacts]
 Pokazuj opis statusu dla użytkowników widocznych
 [Some options are grayed out because they can only be changed when you are online.]
@@ -378,7 +378,7 @@ Błąd bezpiecznego logowania.\nSerwer nie odpowiada.
 Błąd bezpiecznego logowania.\nBłędna długość klucza.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
-Czy na pewno chcesz cofnąć autoryzację?\nNa niektórych klientach usunie Cię to z jej/jego listy.
+Czy na pewno chcesz cofnąć autoryzację?\nNa niektórych klientach usunie cię to z jej/jego listy.
 [Confirmation]
 Potwierdź
 [** This message was blocked by the ICQ server ** The message was invalid.]
@@ -1387,7 +1387,7 @@ Nie udało się połączyć z serwerem logowania ICQ. Nie udało się wynegocjow
 [Unable to connect to ICQ login server]
 Nie można połączyć się z serwerem logowania ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeżeli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w M->Opcje->ICQ->Sieć.
+Miranda nie była w stanie przydzielić portu nasłuchu połączeń bezpośrednich P2P pomiędzy klientami. Będziesz w stanie używać większości funkcji sieci ICQ normalnie, ale możesz napotkać na problemy przy próbie wysyłania i odbierania plików.\n\nJeśli używasz firewalla, może być to czynnik blokujący Mirandę. W tym przypadku skonfiguruj firewall tak, by pozostawić otwarte porty, a następnie wskaż Mirandzie porty, które powinny być używane w M->Opcje->ICQ->Sieć.
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Połączenie nieudane.\nSekwencja logowania nie powiodła się z nieznanej przyczyny.\nSpróbuj ponownie później.
 [Your connection with the ICQ server was abortively closed]
@@ -1838,7 +1838,7 @@ NIE wysłano
 W tej chwili nie jesteś połączony z siecią ICQ. Musisz być połączony żeby zaktualizować informacje na serwerze.
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 [Please authorize me to add you to my contact list.]
-Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
+Proszę autoryzuj mnie, bym mógł dodać cię do swoich kontaktów.
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Wpisz hasło dla UIN %u:

@@ -58,7 +58,7 @@ Włącz EAX
 [Under Water]
 Pod wodą
 [Station URL (required)]
-URL do stacji (wymagany)
+Link do stacji (wymagany)
 [To INI]
 Do pliku
 [Buffer, ms (5000)]
@@ -114,7 +114,7 @@ Nagrywaj
 [Stop record]
 Przerwij nagrywanie
 [Currently played URL]
-Aktualnie odtwarzany URL
+Aktualnie odtwarzany link
 [Current stream title]
 Aktualny tytuł strumienia
 [Station/playlist URL]

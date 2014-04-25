@@ -11,7 +11,7 @@ Rozszerzony moduł danych kontaktów dla Mirandy NG. Dostarcza interfejs do edyc
 [Edit Contact Information]
 Edytuj informacje o kontakcie
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Edytuj informacje o kontakcie\nTa lista daje Ci pewien obraz wszystkich rocznic kontaktu.
+Edytuj informacje o kontakcie\nTa lista daje ci pewien obraz wszystkich rocznic kontaktu.
 [Origin]
 Pochodzenie
 [&Update]

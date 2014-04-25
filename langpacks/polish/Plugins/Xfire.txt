@@ -180,7 +180,7 @@ Opcje xFire
 [Please choose one game in the list!]
 Proszę wybrać jedną grę z listy!
 [If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-Jeśli wybierzesz moda gry wspieranej przez xFire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, Twoi znajomi zobaczą ikonę Half-Life obok Twojego kontaktu, a czas gry będzie mierzony.
+Jeśli wybierzesz moda gry wspieranej przez xFire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, twoi znajomi zobaczą ikonę Half-Life obok twojego kontaktu, a czas gry będzie mierzony.
 [Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
 Każda gra w xFire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do xFire, gdy rozpoczniesz grę.
 [Please enter a game name.]
@@ -209,7 +209,7 @@ Nie teraz.
 [Give a guy some peace, would ya?]
 Proszę, daj mi spokój!
 [Well, I would talk to you if Miranda ICQ supported chat]
-Hmm, chętnie bym z Tobą porozmawiał, gdyby Miranda ICQ wspierała czat.
+Hmm, chętnie bym z tobą porozmawiał, gdyby Miranda ICQ wspierała czat.
 [That'll be the phone.]
 Muszę odebrać telefon.
 [Mmm... food.]
@@ -326,7 +326,7 @@ Czy na pewno chcesz usunąć znajomego %s?
 [Confirm Delete]
 Zatwierdź usuwanie
 [Block this user from ever contacting you again?]
-Czy chcesz zablokować tą osobę, by nie kontaktowała się z Tobą w przyszłości?
+Czy chcesz zablokować tą osobę, by nie kontaktowała się z tobą w przyszłości?
 [Block Confirmation]
 Potwierdzenie zablokowania
 ;file \protocols\Xfire\src\options.cpp

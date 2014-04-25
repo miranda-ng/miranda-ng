@@ -359,7 +359,7 @@ Odebrana bezpieczna wiadomość
 [Sent Secured Message]
 Wysłana bezpieczna wiadomość
 [Menu State]
-Stan Menu
+Stan menu
 [Always Try]
 Zawsze próbuj
 [Overlays]

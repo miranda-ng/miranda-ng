@@ -6,7 +6,7 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
-Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów w sieci, i powiadamia Cię za pomocą popupa.
+Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów w sieci, i powiadamia cię za pomocą popupa.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Aktualne połączenia

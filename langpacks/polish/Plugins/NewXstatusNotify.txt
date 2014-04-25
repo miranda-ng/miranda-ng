@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
-Powiadamia Cię, kiedy kontakt zmieni swój (x)status lub opis.
+Powiadamia, kiedy kontakt zmieni swój (x)status lub opis.
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Powiadamiaj kiedy kontakt zmieni status na:

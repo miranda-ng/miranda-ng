@@ -23,7 +23,7 @@ Widoczność:
 [Text:]
 Tekst:
 [URL:]
-URL:
+Link:
 [Place:]
 Miejsce:
 [Share]

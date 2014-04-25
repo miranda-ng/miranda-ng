@@ -29,7 +29,7 @@ Inne opcje
 [Use group chat for Twitter feed]
 Użyj pokoju czatowego dla osi czasu Twitter
 [Base URL:]
-URL:
+Link:
 [Polling rate:]
 Sprawdzaj:
 [Once every]
@@ -74,7 +74,7 @@ Wpisz kod PIN dostarczony przez Twittera aby się zalogować. Proces jest jednor
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Zmienne OAuth są poza sekwencją, ale zostały przywrócone. Proszę ponownie połączyć się i powtórnie autoryzować Mirandę na Twitter.com (kod PIN)
 [Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
-Nie udało się uzyskać tokenów dostępu do Twittera, rozłącz się i spróbuj jeszcze raz. Jeżeli sytuacja się powtórzy, sprawdź połączenie internetowe.
+Nie udało się uzyskać tokenów dostępu do Twittera, rozłącz się i spróbuj jeszcze raz. Jeśli sytuacja się powtórzy, sprawdź połączenie internetowe.
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
 W bazie danych brakuje klucza Nick. Nie jest to dużym problemem, ale możesz zauważyć pewne problemy (samego siebie na liście, brak wyróżnienia wiadomości wychodzącej w czacie grupowym itp.). Aby to naprawić, dodaj brakujący klucz ręcznie lub zresetuj konto Twittera w opcjach kont Mirandy.
 ;file \protocols\Twitter\src\proto.cpp

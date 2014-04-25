@@ -27,7 +27,7 @@ Ogólne
 [Title]
 Nazwa
 [URL]
-URL
+Link
 [Check every]
 Sprawdzaj co
 [minutes]

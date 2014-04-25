@@ -103,9 +103,9 @@ Pobieranie aktualizacji paczki...
 [Downloading update...]
 Pobieranie aktualizacji...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
+Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
+Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Wybrałeś, aby nie instalować pobranych aktualizacji.\nMożesz zainstalować je ręcznie z lokalizacji:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
@@ -133,7 +133,7 @@ Przycisk "Nie"
 [Pack Updater HTTP connection]
 Połączenie HTTP aktualizatora paczek
 [URL for checking updates not found.]
-URL do sprawdzania aktualizacji nie został odnaleziony.
+Link do sprawdzania aktualizacji nie został odnaleziony.
 [Downloading version info...]
 Pobieranie informacji o wersji...
 [Name of Update's file is not supported.]

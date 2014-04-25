@@ -31,7 +31,7 @@ Czytaj wiadomość:
 [Web Search:]
 Wyszukiwarka:
 [URL:]
-URL:
+Link:
 [Open in new browser window]
 Otwórz w nowej karcie przeglądarki
 [Show Options]

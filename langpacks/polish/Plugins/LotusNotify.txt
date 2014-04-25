@@ -55,7 +55,7 @@ Serwer zapasowy:
 [Check interval:]
 Sprawdź co:
 [(0-disabled)]
-(0-wyłączone)
+(0 - wyłączone)
 [min.]
 min.
 [Password:]
@@ -63,7 +63,7 @@ Hasło:
 [Offline status mean:]
 Status niepołączony gdy:
 [To / CopyTo]
-Do / Kopia do
+Do/Kopia do
 [autoregister]
 Zarejestruj
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
