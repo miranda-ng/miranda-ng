@@ -55,8 +55,6 @@ Color de texto
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
-
 [User]
 
 [File]
@@ -86,7 +84,7 @@ Error
 
 [Show connections list]
 
-[Wumf]
+[Who uses my files]
 
 [Services]
 Servicios

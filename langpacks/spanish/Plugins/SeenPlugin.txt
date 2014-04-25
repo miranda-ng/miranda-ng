@@ -68,8 +68,6 @@ Fuera de línea
 
 [You missed following contacts:]
 
-[Test\nTest]
-
 [Alert when user status changes]
 
 ;file \plugins\SeenPlugin\src\history.cpp

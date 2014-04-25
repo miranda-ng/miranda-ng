@@ -68,8 +68,6 @@
 Апошняе з'яўленне
 [You missed following contacts:]
 Прапушчаны наступныя кантакты:
-[Test\nTest]
-Прагляд\nПрагляд
 [Alert when user status changes]
 Папярэджваць пры змене статусу
 ;file \plugins\SeenPlugin\src\history.cpp

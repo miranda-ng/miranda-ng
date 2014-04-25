@@ -55,8 +55,6 @@
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[ID]
-Идентификатор
 [User]
 Потребител
 [File]
@@ -86,7 +84,7 @@
 
 [Show connections list]
 
-[Wumf]
+[Who uses my files]
 
 [Services]
 Услуги

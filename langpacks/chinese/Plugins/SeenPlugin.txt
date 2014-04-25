@@ -61,8 +61,6 @@
 最后看见插件
 [You missed following contacts:]
 您错过了这些联系人: 
-[Test\nTest]
-测试\n测试
 [Alert when user status changes]
 当用户状态变更时发出提醒
 [last seen history]

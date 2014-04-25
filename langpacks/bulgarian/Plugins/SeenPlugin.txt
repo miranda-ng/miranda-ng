@@ -68,8 +68,6 @@ Popup цветове
 
 [You missed following contacts:]
 Изпуснахте следните контакти:
-[Test\nTest]
-Проба\nПроба
 [Alert when user status changes]
 Уведомяване, ако контакта смени състоянието си
 ;file \plugins\SeenPlugin\src\history.cpp

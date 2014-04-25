@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -58,12 +58,20 @@ Fensterinha&lt
 Zielscheibe
 [Result]
 
+[Thumbnail]
+
 [&Copy]
 
 [Close]
 
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
+
+[Copy]
+
+[Copy BBCode]
+
+[Copy BBCode w/ link]
 
 [%s requires a valid contact!]
 
@@ -122,6 +130,11 @@ Unbekannter Fehler
 FTPFile-Übertragung
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nKonnte Freigabe nicht dem FTP-Datei-Plugin hinzufügen.
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+[Image upload]
+
+[Upload server did not respond timely.]
+Uploadserver hat nicht rechtzeitig geantwortet.
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 
@@ -130,10 +143,6 @@ Kann HTTP-Server-Plugin nicht starten.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nKonnte Freigabe nicht dem HTTP-Server-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
-[Image upload]
-
-[Upload server did not respond timely.]
-Uploadserver hat nicht rechtzeitig geantwortet.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Wiederholen
@@ -200,6 +209,10 @@ Zurück
 Weiter
 [Update]
 Aktualisieren
+[BBC]
+
+[BBC link]
+
 [Down arrow]
 Pfeil runter
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
@@ -241,6 +254,12 @@ FTP-Datei
 
 [ImageShack]
 ImageShack
+[Upload Pie (30m)]
+
+[Upload Pie (1d)]
+
+[Upload Pie (1w)]
+
 [Information]
 Information
 [Fill description textbox.]

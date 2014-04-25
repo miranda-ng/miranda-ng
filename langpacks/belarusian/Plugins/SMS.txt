@@ -111,8 +111,6 @@ SMS пацверджанне ад %s
 [<< Single]
 <<Аднаму
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
-СМС
 [Send &SMS...]
 Адправіць СМС
 [&SMS Message]

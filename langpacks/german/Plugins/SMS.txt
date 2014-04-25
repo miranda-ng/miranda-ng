@@ -36,8 +36,6 @@ Mehr >>
 Nachrichteingabe:
 [Chars:]
 Zeichen:
-[%d/160]
-%d/160
 [&Send]
 &Senden
 [SMS Message Didn't Send]
@@ -119,8 +117,6 @@ Ungültige Telefonnummer
 [<< Single]
 << Weniger
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
-SMS
 [Send &SMS...]
 &SMS senden...
 [&SMS Message]

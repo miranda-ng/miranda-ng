@@ -36,8 +36,6 @@
 
 [Chars:]
 
-[%d/160]
-
 [&Send]
 Изпращане
 [SMS Message Didn't Send]
@@ -119,8 +117,6 @@
 [<< Single]
 
 ;file \plugins\SMS\src\SMSConstans.h
-[SMS]
-
 [Send &SMS...]
 
 [&SMS Message]

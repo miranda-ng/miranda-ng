@@ -68,8 +68,6 @@ Standardfarben
 Zuletzt gesehen
 [You missed following contacts:]
 Du hast folgende Kontakte verpasst:
-[Test\nTest]
-Test\nTest
 [Alert when user status changes]
 Melden, wenn Benutzerstatus sich ändert
 ;file \plugins\SeenPlugin\src\history.cpp

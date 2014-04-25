@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.3.1
+;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -55,6 +55,8 @@
 [Target Tool]
 Прыцэл
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Copy]
+Капіяваць
 [Error]
 Памылка
 [GCHAT error]
@@ -75,6 +77,7 @@
 Невядомая памылка
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 [Could not start the HTTP Server plugin.]
 Не магу запусціць плагін HTTP Server.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp

@@ -203,8 +203,6 @@ Nachricht gelesen: %s von %s
 Nachricht gelesen: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Diese Nachricht ist nicht mehr verfügbar, da sie als Missbrauch oder Spam markiert wurde.
-[%s and more (%d)]
-%s und mehr (%d)
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.

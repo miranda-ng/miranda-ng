@@ -17,7 +17,6 @@
 [Reset colors]
 [Last seen plugin]
 [You missed following contacts:]
-[Test\nTest]
 [Alert when user status changes]
 [last seen history]
 [Send Instant Message]

@@ -10,8 +10,6 @@ Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf,
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Login to Miranda NG]
 Einloggen bei Miranda NG
-[EN]
-EN
 [Cancel]
 Abbrechen
 [New password]
