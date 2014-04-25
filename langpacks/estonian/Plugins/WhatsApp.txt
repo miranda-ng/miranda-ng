@@ -9,7 +9,5 @@
 Hüüdnimi
 [Cancel]
 Tühista
-[OK]
-OK
 [Network]
 Võrgustik

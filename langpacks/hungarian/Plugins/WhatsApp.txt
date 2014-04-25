@@ -9,7 +9,5 @@
 Becenév
 [Cancel]
 Mégsem
-[OK]
-OK
 [Network]
 Hálózat

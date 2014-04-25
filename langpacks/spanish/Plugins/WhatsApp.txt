@@ -34,8 +34,6 @@ Contraseña
 
 [Cancel]
 Cancelar
-[OK]
-Aceptar
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 

@@ -9,8 +9,6 @@
 昵称
 [Cancel]
 取消
-[OK]
-确定
 [Please enter a password.]
 请输入密码.
 [Network]

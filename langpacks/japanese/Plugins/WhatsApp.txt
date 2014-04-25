@@ -9,8 +9,6 @@
 ニックネーム
 [Cancel]
 Cancel
-[OK]
-OK
 [Please enter a password.]
 パスワードを入力してください
 [Network]

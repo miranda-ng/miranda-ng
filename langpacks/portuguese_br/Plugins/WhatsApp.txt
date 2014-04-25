@@ -9,7 +9,5 @@
 Apelido
 [Cancel]
 Cancelar
-[OK]
-OK
 [Network]
 Rede

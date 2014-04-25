@@ -34,8 +34,6 @@ SSL-Verbindung verwenden (Port 443)
 WhatsApp
 [Cancel]
 Abbrechen
-[OK]
-OK
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 Bitte geben Sie einen Landescode ein.

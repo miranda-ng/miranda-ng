@@ -34,8 +34,6 @@
 
 [Cancel]
 Отказ
-[OK]
-ОК
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country-code.]
 

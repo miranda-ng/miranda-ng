@@ -9,7 +9,5 @@
 Kallenavn
 [Cancel]
 Avbryt
-[OK]
-OK
 [Network]
 Nettverk

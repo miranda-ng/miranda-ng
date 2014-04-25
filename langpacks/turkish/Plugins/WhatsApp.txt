@@ -9,7 +9,5 @@
 Kısa ad
 [Cancel]
 İptal
-[OK]
-Tamam
 [Network]
 Ağ
