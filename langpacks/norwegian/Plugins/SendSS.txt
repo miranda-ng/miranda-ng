@@ -29,8 +29,6 @@ Ignorer
 Standard
 [Help]
 Hjelp
-[Apply]
-Lagre
 [Down arrow]
 Pil Ned
 [Window]

@@ -30,8 +30,6 @@
 Показване на резултата в Popup
 [Strings for keyboard layouts]
 Низове за клавиатурните подредби
-[EN]
-EN
 [Default]
 Стандарт
 [Invert current state]

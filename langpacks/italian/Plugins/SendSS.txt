@@ -29,8 +29,6 @@ Predefinito
 Aiuto
 [Open Folder]
 Apri cartella
-[Apply]
-Applica
 [Window]
 Finestra
 [E-mail]

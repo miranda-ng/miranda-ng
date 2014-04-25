@@ -23,8 +23,6 @@ Ignoreeri
 Spikker
 [Open Folder]
 Ava kaust
-[Apply]
-Rakenda
 [Window]
 Aken
 [E-mail]

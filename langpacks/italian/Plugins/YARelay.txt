@@ -23,5 +23,3 @@ Non disturbare
 Disponibile per chat
 [Invisible]
 Invisibile
-[Plugins]
-Plugin

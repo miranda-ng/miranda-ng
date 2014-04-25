@@ -4,7 +4,6 @@
 [Number:]
 [Send SMS]
 [Add number to list]
-[&H]
 [Save number]
 [Multiple >>]
 [%d/160]

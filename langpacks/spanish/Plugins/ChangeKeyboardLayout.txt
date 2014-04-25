@@ -30,8 +30,6 @@ Opciones
 
 [Strings for keyboard layouts]
 
-[EN]
-
 [Default]
 Por defecto
 [Invert current state]

@@ -46,12 +46,12 @@
 &Зачыніць
 [Edit]
 Змяніць
-[C&lient Area]
-Змесціва
 [Caption:]
 Загаловак:
 [Size (HxW):]
 Памер (HxW):
+[C&lient Area]
+Змесціва
 [Target Tool]
 Прыцэл
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
@@ -116,10 +116,6 @@ HTTP далучэнне SendSS
 Абразок здымка 2
 [Default]
 Змаўчанні
-[Overlay on]
-Адбітак укл.
-[Overlay off]
-Адбітак вык.
 [Help]
 Даведка
 [Open Folder]
@@ -138,8 +134,6 @@ HTTP далучэнне SendSS
 Наперад
 [Update]
 Абнавіць
-[Apply]
-Ужыць
 [Down arrow]
 Стрэлка ўніз
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h

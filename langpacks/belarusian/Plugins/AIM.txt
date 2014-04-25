@@ -338,8 +338,6 @@ AIM Усталяваць Instant Idle
 [Can't start the confirmation procedure.]
 Не ўдаецца запусціць працэдуру пацвярджэння.
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-ICQ
 [Block]
 Заблакаваць
 [Profile]

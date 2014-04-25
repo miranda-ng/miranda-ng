@@ -66,5 +66,3 @@ Ayuda
 Miranda NG es grande y este es un mensaje largo.
 [Plugins]
 Plugins
-[OSD]
-OSD

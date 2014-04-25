@@ -338,8 +338,6 @@ AIM настройки
 [Can't start the confirmation procedure.]
 Процедурата по потвърждаване не може да бъде стартирана.
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-ICQ
 [Block]
 Блокиране
 [Profile]

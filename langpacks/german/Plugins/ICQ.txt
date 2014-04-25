@@ -28,8 +28,6 @@ Bitte Passwort für UIN %d eingeben:
 Dieses Sitzungspasswort merken
 [Cancel]
 Abbrechen
-[ICQ]
-ICQ
 [ICQ number:]
 ICQ-Nummer:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -398,7 +396,6 @@ Bestätigung
 Fehler beim Upload des Avatars auf den Server, der Server ist vorübergehend nicht verfügbar.
 [Error uploading avatar to server, server refused to accept the image.]
 Fehler beim Avatarupload zum Server, der Server akzeptiert das Bild nicht.
-;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Afghanistan

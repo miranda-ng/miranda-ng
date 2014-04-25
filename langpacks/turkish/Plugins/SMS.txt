@@ -13,8 +13,6 @@
 Kimden:
 [To:]
 Kime:
-[&H]
-&H
 [&Send]
 &Gönder
 [&Cancel]

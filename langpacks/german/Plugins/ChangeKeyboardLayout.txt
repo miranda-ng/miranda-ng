@@ -30,8 +30,6 @@ Ergebnis in Zwischenablage kopieren
 Ergebnis als Popup zeigen
 [Strings for keyboard layouts]
 Zeichenketten für Tastaturlayout
-[EN]
-EN
 [Default]
 Standard
 [Invert current state]

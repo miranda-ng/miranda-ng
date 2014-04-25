@@ -48,11 +48,11 @@
 Затваряне
 [Edit]
 Редактиране
-[C&lient Area]
-
 [Caption:]
 
 [Size (HxW):]
+
+[C&lient Area]
 
 [Target Tool]
 
@@ -180,10 +180,6 @@
 
 [Default]
 Стандарт
-[Overlay on]
-
-[Overlay off]
-
 [Help]
 Помощ
 [Open Folder]
@@ -202,8 +198,6 @@
 Следващо
 [Update]
 Обнови
-[Apply]
-Прилагане
 [Down arrow]
 Стрелка надолу
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h

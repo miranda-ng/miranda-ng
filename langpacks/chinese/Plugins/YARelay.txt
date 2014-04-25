@@ -25,5 +25,5 @@
 有空聊天
 [Invisible]
 隐身
-[Plugins]
-插件
+[Message Sessions]
+消息会话

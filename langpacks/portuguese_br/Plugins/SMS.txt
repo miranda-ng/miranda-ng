@@ -13,8 +13,6 @@
 De:
 [To:]
 Para:
-[&H]
-&H
 [&Send]
 &Enviar
 [&Cancel]

@@ -48,11 +48,11 @@ Créditos >
 &Cerrar
 [Edit]
 Editar
-[C&lient Area]
-
 [Caption:]
 
 [Size (HxW):]
+
+[C&lient Area]
 
 [Target Tool]
 
@@ -182,10 +182,6 @@ Ignorar
 
 [Default]
 Por defecto
-[Overlay on]
-
-[Overlay off]
-
 [Help]
 Ayuda
 [Open Folder]
@@ -204,8 +200,6 @@ Abrir carpeta
 Siguiente
 [Update]
 Actualizar
-[Apply]
-Aplicar
 [Down arrow]
 Flecha abajo
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h

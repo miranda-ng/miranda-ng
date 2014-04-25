@@ -23,5 +23,3 @@
 대화 가능
 [Invisible]
 오프라인으로 표시
-[Plugins]
-플러그인

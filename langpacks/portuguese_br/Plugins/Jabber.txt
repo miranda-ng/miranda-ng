@@ -25,8 +25,6 @@ Ir
 Serviço de pesquisa
 [Roster Editor]
 Editor de Registro
-[Jabber]
-Jabber
 [Username:]
 Usuário:
 [Priority:]

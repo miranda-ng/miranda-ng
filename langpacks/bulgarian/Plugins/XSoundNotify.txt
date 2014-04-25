@@ -24,8 +24,6 @@
 Анулиране
 [Ignore sound for this contact]
 
-[XSoundNotify]
-
 [Cancel]
 Отказ
 ;file \plugins\XSoundNotify\src\dialog.cpp

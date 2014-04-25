@@ -9,7 +9,6 @@
 [When I return:]
 [Request password:]
 [Change status back]
-[EN]
 [Workstation is locked]
 [Screen Saver is running]
 [Windows is inactive]

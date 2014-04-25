@@ -46,8 +46,6 @@
 Імпарт з файла
 [Export to file]
 Экспарт
-[Jabber]
-Jabber
 [Username:]
 Карыстач:
 [Change password]

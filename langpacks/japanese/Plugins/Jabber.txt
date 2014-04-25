@@ -35,8 +35,6 @@ Cancel
 リストエディター
 [Roster editor\nView and modify your server-side contact list.]
 リストエディター\nサーバー側のコンタクトリストの表示と変更
-[Jabber]
-Jabber
 [Username:]
 ユーザー名:
 [Priority:]

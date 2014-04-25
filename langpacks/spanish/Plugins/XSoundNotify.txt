@@ -24,8 +24,6 @@ Probar reproducción
 Reiniciar
 [Ignore sound for this contact]
 Ignorar sonido para este contacto
-[XSoundNotify]
-XSoundNotify
 [Cancel]
 Cancelar
 ;file \plugins\XSoundNotify\src\dialog.cpp

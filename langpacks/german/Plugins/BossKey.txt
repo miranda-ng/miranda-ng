@@ -36,8 +36,6 @@ Hotkey
 Passwort:
 [Cancel]
 Abbrechen
-[EN]
-EN
 [Workstation is locked]
 Arbeitsstation gesperrt ist
 [Screen Saver is running]

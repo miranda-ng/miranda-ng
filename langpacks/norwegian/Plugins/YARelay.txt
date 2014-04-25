@@ -25,5 +25,5 @@ Ikke forstyrr
 Tilgjengelig for samtale
 [Invisible]
 Usynlig
-[Plugins]
-Tillegg
+[Message Sessions]
+Meldingsøkter

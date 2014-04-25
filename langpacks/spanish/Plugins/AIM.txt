@@ -338,8 +338,6 @@ Mensaje
 [Can't start the confirmation procedure.]
 
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-
 [Block]
 
 [Profile]

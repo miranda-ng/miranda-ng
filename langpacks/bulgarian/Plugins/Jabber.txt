@@ -48,8 +48,6 @@
 Внос от файл
 [Export to file]
 Износ във файл
-[Jabber]
-Jabber
 [Username:]
 Потребител:
 [Change password]

@@ -19,8 +19,6 @@
 무시
 [Open Folder]
 폴더 열기
-[Apply]
-적용
 [Credits]
 크레딧
 [Window]

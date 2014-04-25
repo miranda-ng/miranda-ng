@@ -5,7 +5,6 @@
 [Enter ICQ Password]
 [Enter a password for UIN %d:]
 [Remember this session password]
-[ICQ]
 [ICQ number:]
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
 [Retrieve a lost password or ICQ number]

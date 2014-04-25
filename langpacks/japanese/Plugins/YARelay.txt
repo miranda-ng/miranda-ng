@@ -25,5 +25,5 @@
 チャット OK!
 [Invisible]
 不可視
-[Plugins]
-プラグイン
+[Message Sessions]
+メッセージセッション

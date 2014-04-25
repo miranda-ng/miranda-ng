@@ -12,7 +12,6 @@
 [Upload]
 [Import from file]
 [Export to file]
-[Jabber]
 [Change password]
 [Priority:]
 [Use hostname as resource]

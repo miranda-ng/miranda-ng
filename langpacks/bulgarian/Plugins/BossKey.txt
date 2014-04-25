@@ -36,8 +36,6 @@ BossKey
 Парола:
 [Cancel]
 Отказ
-[EN]
-EN
 [Workstation is locked]
 
 [Screen Saver is running]

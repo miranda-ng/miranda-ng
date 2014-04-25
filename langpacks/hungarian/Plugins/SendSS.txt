@@ -29,8 +29,6 @@ Mellõz
 Alap
 [Help]
 Súgó
-[Apply]
-Alkalmaz
 [Down arrow]
 Le Nyíl
 [Window]

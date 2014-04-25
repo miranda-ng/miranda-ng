@@ -24,8 +24,6 @@
 Скід
 [Ignore sound for this contact]
 Ігнараваць гук для гэтага кантакту
-[XSoundNotify]
-XSoundNotify
 [Cancel]
 Скасаваць
 ;file \plugins\XSoundNotify\src\dialog.cpp

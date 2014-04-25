@@ -338,8 +338,6 @@ Ihr Account wurde bereits bestätigt.
 [Can't start the confirmation procedure.]
 Kann die Verbindungsprozedur nicht starten.
 ;file \protocols\AimOscar\src\theme.cpp
-[ICQ]
-ICQ
 [Block]
 Blockieren
 [Profile]

@@ -23,5 +23,3 @@ Niet storen
 Beschikbaar voor gesprek
 [Invisible]
 Onzichtbaar
-[Plugins]
-Plugins

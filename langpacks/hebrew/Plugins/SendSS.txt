@@ -51,8 +51,6 @@
 עזרה
 [Open Folder]
 פתח תיקיה
-[Apply]
-החל
 [Window]
 חלון
 [E-mail]

@@ -143,7 +143,6 @@
 [Unable to confirm at this time. Please try again later.]
 [Your account has already been confirmed.]
 [Can't start the confirmation procedure.]
-[ICQ]
 [Block]
 [AOL Mail]
 [AIM Icon]

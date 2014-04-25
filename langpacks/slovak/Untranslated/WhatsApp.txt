@@ -8,7 +8,6 @@
 [Paste password from WART utility]
 [Use WART utility from Plugins folder for registering your number and generating password]
 [Use SSL connection (443 port)]
-[WhatsApp]
 [Please enter a country-code.]
 [Please enter a phone-number without country code.]
 [Please enter a nickname.]

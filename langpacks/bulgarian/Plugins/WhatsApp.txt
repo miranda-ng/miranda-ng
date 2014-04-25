@@ -30,8 +30,6 @@
 
 [Use SSL connection (443 port)]
 
-[WhatsApp]
-
 [Cancel]
 Отказ
 ;file \protocols\WhatsApp\src\connection.cpp

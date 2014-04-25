@@ -25,5 +25,5 @@ Dokunma
 Sohbete uygun
 [Invisible]
 Görünmez
-[Plugins]
-Eklentiler
+[Message Sessions]
+İleti Oturumları

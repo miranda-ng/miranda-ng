@@ -21,5 +21,3 @@ Hõivatud
 Vestluseks vaba
 [Invisible]
 Nähtamatu
-[Plugins]
-Pluginad

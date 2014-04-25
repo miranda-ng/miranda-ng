@@ -396,7 +396,6 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 Памылка загрузкі аватара на сервер. Сервер часова недаступны.
 [Error uploading avatar to server, server refused to accept the image.]
 Памылка загрузкі аватара на сервер, сервер не прыняў малюнак.
-;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Афганістан

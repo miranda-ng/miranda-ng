@@ -31,12 +31,12 @@ Apagar depois de enviar
 &Fechar
 [Edit]
 Editar
-[C&lient Area]
-Área cliente
 [Caption:]
 Título:
 [Size (HxW):]
 Tamanho (AxL):
+[C&lient Area]
+Área cliente
 [An unknown error has occurred.]
 Ocorreu um erro desconhecido.
 [Error]
@@ -61,8 +61,6 @@ Tirar foto da tela
 Padrão
 [Help]
 Ajuda
-[Apply]
-Aplicar
 [Down arrow]
 Baixar
 [Drag&Drop the target on the desired window.]

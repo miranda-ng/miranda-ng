@@ -13,8 +13,6 @@
 Fra:
 [To:]
 Til:
-[&H]
-&H
 [&Send]
 &Send
 [&Cancel]

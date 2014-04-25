@@ -61,7 +61,7 @@
 
 [!DON'T FORWARD!]
 
-[Plugins]
-Приставки
-[yaRelay]
+[Message Sessions]
+Разговори
+[Messages forwarding]
 

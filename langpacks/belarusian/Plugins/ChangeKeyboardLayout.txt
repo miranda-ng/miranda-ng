@@ -30,8 +30,6 @@
 Паказаць вынік у вакне
 [Strings for keyboard layouts]
 Радкі для раскладак клавіятуры
-[EN]
-EN
 [Default]
 Змаўчанні
 [Invert current state]

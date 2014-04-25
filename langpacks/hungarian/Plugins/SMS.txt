@@ -13,8 +13,6 @@
 Küldõ:
 [To:]
 Címzett:
-[&H]
-&H
 [&Send]
 &Küldés
 [&Cancel]

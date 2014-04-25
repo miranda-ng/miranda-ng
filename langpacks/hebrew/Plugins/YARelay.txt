@@ -23,5 +23,5 @@
 פנוי לשיחה
 [Invisible]
 בלתי נראה
-[Plugins]
-תוספים
+[Message Sessions]
+חלון הודעות

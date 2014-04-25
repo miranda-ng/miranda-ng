@@ -31,8 +31,6 @@ Cancel
 ヘルプ
 [Prev]
 前へ
-[Apply]
-適用
 [Down arrow]
 下向き矢印
 [< Copyright]

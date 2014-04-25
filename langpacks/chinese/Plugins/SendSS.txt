@@ -39,12 +39,12 @@
 关闭(&C)
 [Edit]
 编辑
-[C&lient Area]
-客户端区域(&L)
 [Caption:]
 标题: 
 [Size (HxW):]
 大小 (HxW): 
+[C&lient Area]
+客户端区域(&L)
 [An unknown error has occurred.]
 发生未知错误
 [Error]
@@ -77,8 +77,6 @@
 说明
 [Prev]
 上一个
-[Apply]
-应用
 [Down arrow]
 向下箭头
 [Overlays]

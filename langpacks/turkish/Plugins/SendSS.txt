@@ -29,8 +29,6 @@ Yoksay
 Varsayılan
 [Help]
 Yardım
-[Apply]
-Uygula
 [Down arrow]
 Aşağı Ok
 [Window]

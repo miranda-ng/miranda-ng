@@ -48,8 +48,6 @@ Subir
 Importar desde archivo
 [Export to file]
 Importar a archivo
-[Jabber]
-Jabber
 [Username:]
 Usuario:
 [Change password]

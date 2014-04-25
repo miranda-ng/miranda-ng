@@ -25,5 +25,5 @@ Ne zavarjanak
 Csevegésre kész
 [Invisible]
 Láthatatlan
-[Plugins]
-Beépülõk
+[Message Sessions]
+Üzenet mukamenetek

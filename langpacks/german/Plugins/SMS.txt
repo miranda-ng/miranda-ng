@@ -28,8 +28,6 @@ SMS-Nachricht
 An:
 [Add number to list]
 Nummer zur Liste hinzufügen
-[&H]
-&H
 [Save number]
 Nummer speichern
 [Multiple >>]

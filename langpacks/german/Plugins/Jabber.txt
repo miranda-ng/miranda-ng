@@ -48,8 +48,6 @@ Hochladen
 Importieren
 [Export to file]
 Exportieren
-[Jabber]
-Jabber
 [Username:]
 Benutzername:
 [Change password]

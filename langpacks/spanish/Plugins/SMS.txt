@@ -28,8 +28,6 @@ De:
 A:
 [Add number to list]
 
-[&H]
-&H
 [Save number]
 
 [Multiple >>]

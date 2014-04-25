@@ -61,7 +61,7 @@ Invisible
 
 [!DON'T FORWARD!]
 
-[Plugins]
-Plugins
-[yaRelay]
+[Message Sessions]
+Sesiones de mensaje
+[Messages forwarding]
 

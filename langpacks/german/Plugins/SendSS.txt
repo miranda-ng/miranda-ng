@@ -48,12 +48,12 @@ Dank an >
 S&chließen
 [Edit]
 Bearbeiten
-[C&lient Area]
-Fensterinha&lt
 [Caption:]
 Fenstertitel:
 [Size (HxW):]
 Größe (HxB):
+[C&lient Area]
+Fensterinha&lt
 [Target Tool]
 Zielscheibe
 [Result]
@@ -182,10 +182,6 @@ Target Cursor]
 Target Desktop
 [Default]
 Standard
-[Overlay on]
-Overlay ein
-[Overlay off]
-Overlay aus
 [Help]
 Hilfe
 [Open Folder]
@@ -204,8 +200,6 @@ Zurück
 Weiter
 [Update]
 Aktualisieren
-[Apply]
-Übernehmen
 [Down arrow]
 Pfeil runter
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h

@@ -36,8 +36,6 @@ Tecla de acceso directo
 Contraseña:
 [Cancel]
 Cancelar
-[EN]
-
 [Workstation is locked]
 
 [Screen Saver is running]

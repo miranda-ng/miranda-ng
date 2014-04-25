@@ -28,8 +28,6 @@ ICQ номер:
 Запомняне на паролата за сесията
 [Cancel]
 Отказ
-[ICQ]
-ICQ
 [ICQ number:]
 ICQ номер:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -398,7 +396,6 @@ ICQ бележка
 Грешка при качването на аватара на сървъра. Сървъра е временно недостъпен.
 [Error uploading avatar to server, server refused to accept the image.]
 Грешка при качването на аватара. Сървъра не приема изображението.
-;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Афганистан
