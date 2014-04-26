@@ -125,7 +125,7 @@ In &neuem Browserfenster öffnen
 [&Open in current browser window]
 In aktuellem Br&owserfenster öffnen
 [&Copy link]
-Link kopieren
+Link &kopieren
 [Message]
 Nachricht
 [Undo]
@@ -149,7 +149,7 @@ Tab s&chließen
 [C&lose other tabs]
 Andere Tabs sch&ließen
 [&Open at this position]
-An dieser Position öffnen
+An dieser Position &öffnen
 ;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
 &Wiederholen
@@ -597,7 +597,7 @@ Ereignistypicons im Nachrichtenverlauf
 [Text symbols as event markers]
 Textsymbole als 'Ereignis-Marker'
 [Use different icons to mark incoming and outgoing messages]
-Verwende unterschiedliche Icons für ein- und ausgehende Nachrichten
+Unterschiedliche Icons für ein- und ausgehende Nachrichten verwenden
 [Date and time]
 Datum und Uhrzeit
 [Show timestamps]
@@ -607,7 +607,7 @@ Sekunden im Zeitstempel anzeigen
 [Show date in timestamps]
 Datum im Zeitstempel anzeigen
 [Use contacts local time]
-lokale Kontaktzeit verwenden
+Lokale Kontaktzeit verwenden
 [Format]
 Format
 [Indent message body]
@@ -705,7 +705,7 @@ Verlauf einfrieren
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
-In bestehendem Fenster öffnen
+In bestehendem Fenster &öffnen
 [Editor]
 Editor
 [Paste formatted Text]
@@ -719,7 +719,7 @@ Nachrichtenlänge grafisch anzeigen
 [Close Tab]
 Tab schließen
 [Close Other Tabs]
-andere Tabs schließen
+Andere Tabs schließen
 [Leave Chat Room]
 Chatraum verlassen
 [Save Tab Position]
@@ -759,7 +759,7 @@ An &mehrere Kontakte senden
 [Send to &Container]
 An den &Container senden
 [Send &Later]
-Später senden
+S&päter senden
 [Force &ANSI]
 &ANSI erzwingen
 [Send unsafe (ignore Timeouts)]
@@ -787,7 +787,7 @@ Niemals senden
 [Unread Menu]
 Ungelesen-Menü
 [Recent Sessions]
-Zuletzt geöffnet
+Letzte Sitzungen
 [Favorites]
 Favoriten
 [Show the Tray Icon]
@@ -829,7 +829,7 @@ Formatierung entfernen
 [Dummy]
 Dummy
 [No Message Sessions opened]
-Keine offenen Nachrichtenfenster
+Keine offenen Nachrichtensitzungen
 [Add Contact to Favorites]
 Kontakt zu Favoriten hinzufügen
 [Remove Contact from Favorites]
@@ -857,9 +857,9 @@ Ausgewähltes fortsetzen
 [Cancel all Multisend Jobs]
 Alle Mehrfach-Senden-Liste Aufgaben abbrechen
 [Copy Message to Clipboard]
-Kopiere Nachrichten in Zwischenablage
+Nachrichten in Zwischenablage kopieren
 [&File]
-Datei
+&Datei
 [Save Message Log As...]
 Verlauf speichern als...
 [Close Message Session\tCtrl-W]
@@ -955,7 +955,7 @@ Channelmanager
 <Trennlinie>
 ;file \plugins\TabSRMM\src\container.cpp
 [Message Session...]
-Nachrichtensitzung ...
+Nachrichtensitzung...
 [Default container]
 Standardcontainer
 [Attach to]
@@ -1192,9 +1192,9 @@ Immer aus
 [Always on]
 Immer an
 [Use default size]
-Standardgröße
+Standardgröße verwenden
 [Use private size]
-Private Größe
+Private Größe verwenden
 [Use Global Setting]
 Globale Einstellung verwenden
 [Show always (if present)]
@@ -1272,7 +1272,7 @@ Entweder das Nudge-Plugin ist nicht installiert oder das Kontakt-Protokoll unter
 ['(Unknown Contact)']
 (Unbekannter Kontakt)
 [JPEG-compressed images]
-JPEG_komprimierte Grafiken
+JPEG-komprimierte Bilder
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 Thailändisch
@@ -1400,7 +1400,7 @@ Ereignisbenachrichtigungen
 [Message window]
 Nachrichtenfenster
 [Load and apply]
-Skin laden
+Laden und Übernehmen
 [Window layout tweaks]
 Fenster-Anordnung
 [Settings]
@@ -1834,9 +1834,9 @@ Das Thema ist '%s%s'
 ;file \plugins\TabSRMM\src\chat\main.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
-Füge Benutzer zur "Highlight"-Liste hinzu
+Füge Benutzer zur Hervorhebungsliste hinzu
 [Edit user highlight list]
-Editiere Benutzer-"Highlight"-Liste
+Benutzerhervorhebungsliste bearbeiten
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Input area background]
 Nachrichteneingabefeld Hintergrund
@@ -2071,7 +2071,7 @@ Markierter Hintergrund
 [Selected text]
 Markierter Text
 [Incremental search highlight]
-Inkrementelle Suche
+Inkrementelle Suchhervorhebung
 [Fields background]
 Felder-Hintergrund
 [Nick list background]
@@ -2083,7 +2083,7 @@ Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [user-defined account name of current contact (if defined).]
-
+Selbstgewählter Kontenname des aktuellen Kontaktes (falls definiert).
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to Miranda root folder]

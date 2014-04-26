@@ -49,7 +49,7 @@ Offline-Kontakte ausblenden
 [Hide empty groups]
 Leere Gruppen ausblenden
 [Disable groups]
-Gruppenfunktion ausschalten
+Gruppen deaktivieren
 [Ask before deleting contacts]
 Vor Löschen von Kontakten fragen
 [Disable icon blinking]
@@ -473,19 +473,19 @@ Nirgends
 [&New Group]
 &Neue Gruppe
 [&Hide Offline Users]
-Offline-Kontakte ausblenden
+Offline-Kontakte &ausblenden
 [Hide &Offline Users out here]
 &Offline-Kontakte außerhalb ausblenden
 [Hide &Empty Groups]
 L&eere Gruppen ausblenden
 [Disable &Groups]
-&Gruppenfunktion ausschalten
+&Gruppen deaktivieren
 [Hide Miranda]
-Miranda NG ausblenden
+Miranda ausblenden
 [&New Subgroup]
 &Neue Untergruppe
 [&Hide Offline Users in here]
-Offline-Kontakte &hier ausblenden
+Offlinekontakte &hier ausblenden
 [&Rename Group]
 G&ruppe umbenennen
 [&Delete Group]
@@ -568,9 +568,9 @@ Eingestochen
 [Show menu]
 Hauptmenü
 [Hide offline contacts]
-
+Offlinekontakte ausblenden
 [Enable group mode]
-
+Gruppenmodus aktivieren
 [Find and add contacts]
 Kontakte suchen und hinzufügen
 [Accounts]
@@ -578,7 +578,7 @@ Konten
 [Open preferences]
 Einstellungen
 [Disable sounds]
-
+Klänge deaktivieren
 [Minimize contact list]
 Kontaktliste minimieren
 [Status menu]

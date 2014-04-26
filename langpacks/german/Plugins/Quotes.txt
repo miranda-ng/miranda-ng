@@ -6,28 +6,28 @@
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
-Zeigt Wechselkurse und wirtschaftliche Raten.
+Zeigt Wechselraten und wirtschaftliche Kurse.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Variablenliste
 [Edit Settings]
 Einstellungen bearbeiten
 [Use contact specific settings]
-Kontaktspezifische Einstellungen
+Kontaktspezifische Einstellungen verwenden
 [Log]
 Verlauf
 [Use &Internal History]
-Benutze &internen Verlauf
+&Internen Verlauf verwenden
 [&Format:]
 &Format:
 [&Variables...]
 &Variablen...
 [&Add to History only if Value Changed]
-Zum Verl&auf nur hinzufügen, falls Wert sich ändert
+Nur zum Verl&auf hinzufügen, falls der Wert sich ändert
 [Use &External File]
-Benutze &externe Datei
+&Externe Datei verwenden
 [&Select File:]
-Wähle Datei au&s:
+Datei au&swählen:
 [&Browse...]
 &Durchsuchen...
 [Variables Allowed: %miranda_userdata%,%quotename%]
@@ -39,21 +39,21 @@ V&ariablen....
 [Add to &Log only if Value Changed]
 Nur dem &Log hinzufügen, falls der Wert sich ändert
 [Show &Popup Window]
-Zeige Popupfenster
+&Popupfenster anzeigen
 [Show Popup Window Only if Value &Changed]
-Zeige Popup-Fenster nur, falls Wert sich ändert
+Popupfenster nur anzeigen, falls der Wert sich ändert
 [Cancel]
 Abbrechen
 [Popup settings...]
 Popup-Einstellungen...
 [Currency Converter]
-Aktueller Konverter
+Währungsumrechner
 [&to:]
 zu:
 [&Swap]
 Tau&sche
 [Convert]
-Convert
+Umrechnen
 [Info provided by <a href="http://www.google.com">Google</a>]
 Info bereitgestellt durch <a href="http://www.google.com">Google</a>
 [Close]
@@ -73,7 +73,7 @@ Farben
 [Use default colors]
 Standardfarben verwenden
 [Use user-defined colors]
-Benutzerdefinierte Farben
+Benutzerdefinierte Farben verwenden
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -91,48 +91,48 @@ Nicht zum Popup-Verlauf hinzufügen
 [Preview]
 Vorschau
 [&Choose Quotes to watch in contact list:]
-Wählen Sie Quotes aus, die in der Kontaktliste beobachtet werden sollen:
+Wählen Sie die Kurse aus, die in der Kontaktliste beobachtet werden sollen:
 [&Refresh Quotes Every:]
-Aktualisie&re Quotes alle:
+Kurse aktualisie&ren alle:
 [&Display in Contact List as:]
-Zeige in Kontaktliste als:
+In &Kontaktliste anzeigen als:
 [&Status Message:]
 &Statusnachricht:
 [&Tendency:]
 &Tendenz:
 [&Advanced Settings...]
-Erweiterte Einstellungen
+Erweiterte &Einstellungen...
 [Static]
 Statisch
 [<a>SysLink1</a>]
 <a>SysLink1</a>
 [Current Rate:]
-Aktueller Kurs:
+Aktuelle Rate:
 [Rate Fetch Time:]
-
+Abrufzeit der Rate:
 [Previous Rate:]
-
+Vorherige Rate:
 [&Convert:]
-Konvertiere:
+&Umrechnen:
 [&Add]
 Hinzufügen
 [&Watched currency rates:]
-Beobachte aktuelle Raten:
+Beobachtete &Währungsraten:
 [&Remove]
 Entfe&rnen
 [&Refresh Rates Every:]
-Aktualisiere &Raten alle:
+&Raten aktualisieren alle:
 [Quote\\Rate Info]
-
+Kurs/Rate Info
 [Type &Stock Name or Symbol:]
-
+Aktienname oder -&symbol eingeben:
 [&Watched Quotes:]
-Beobachte folgende Quotes:
+&Folgende Kurse beobachten:
 [Status &Message:]
-
+Status&nachricht:
 ;file \plugins\Quotes\src\Chart.h
 [There is no to show]
-
+Es gibt nichts anzuzeigen
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 Sekunden
@@ -153,57 +153,57 @@ Informationen bereitgestellt von
 Geben Sie eine positive Zahl ein.
 ;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
-
+Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
-
+Autom. Aktualisierung deaktiviert
 [Quotes]
-
+Kurse
 [Enable/Disable Auto Update]
-
+Auto-Update de-/aktivieren
 [Refresh All Quotes\\Rates]
-Erneuer Alle Quotes\\Raten
+Alle Kurse/Raten aktualisieren
 [Currency Converter...]
-Aktueller Konverter
+Währungsumrechner...
 [Export All Quotes]
-Exportiere alle Quotes
+Alle Kurse exportieren
 [Import All Quotes]
-Importiere alle Quotes
+Alle Kurse importieren
 [Refresh]
 Aktualisieren
 [Open Log File...]
-
+Logdatei öffnen...
 [Chart...]
-
+Chart...
 [Edit Settings...]
-Ändere Einstellungen ...
+Einstellungen bearbeiten...
 [Enable/Diable Quotes Auto Update]
-
+Automatische Aktualisierung der Kurse (de-)aktivieren
 [Quotes Auto Update Enabled]
-
+Automatische Aktualisierung der Kurse aktiviert
 [Quotes Auto Update Disabled]
-
+Automatische Aktualisierung der Kurse deaktiviert
 [Network]
 Netzwerk
 ;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
-
+Kurse-HTTP-Verbindungen
 ;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Protokollicon
 [Quote/Rate up]
-Quote/Rate nach oben
+Kurs/Rate hoch
 [Quote/Rate down]
-Quote/Rate nach unten
+Kurs/Rate runter
 [Quote/Rate not changed]
-
+Kurs/Rate unverändert
 [Quote Section]
-
+Kursauswahl
 [Quote]
-Zitat
+Kurs
 [Export]
 Exportieren
 [Swap button]
-
+Buttons vertauschen
 [Import]
 Importieren
 ;file \plugins\Quotes\src\ImportExport.cpp
@@ -220,7 +220,7 @@ Miranda NG konnte das Quotes-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt
 [Log File]
 Logdatei
 [Miranda's History]
-Mirandas verlauf
+Mirandas Verlauf
 [All]
 Alle
 [Last Day]
@@ -241,61 +241,61 @@ Fehler während des HTML-Parsens.
 Fehler während des Seitenzugriffs.
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
-
+Kurssymbol
 [Quote Name]
-
+Kursname
 [From Currency Full Name]
-Vom aktuellen vollen Namen
+Voller Name der Ausgangswährung
 [From Currency Short Name]
-Vom aktuellen kurzen Namen
+Kurzer Name der Ausgangswährung
 [Into Currency Full Name]
-In aktuellen vollen Namen
+Voller Name der Zielwährung
 [Into Currency Short Name]
-In aktuellen kurzen Namen
+Kurzer Name der Zielwährung
 [Short notation for "%f/%i"]
-
+Kurze Notation für "%f/%i"
 [Source of Information]
-Quelle der Informationen
+Quelle der Information
 [Rate Value]
 Ratenwerte
 [Previous Rate Value]
-Vorherige Ratenwerte
+Vorheriger Ratenwert
 [Fetch Time]
-Zeit holen
+Abrufszeit
 [Fetch Date]
-Datum holen
+Abrufsdatum
 [Fetch Time and Date]
-Zeit und Datum holen
+Abrufszeit und -datum
 [Percentage Character (%)]
 Prozentzeichen (%)
 [Tabulation]
-
+Tabulator
 [Left slash (\\)]
 Linker Schrägstrich (\\)
 [Open Price]
-
+Offener Preis
 [Percent Change to After Hours]
-Prozentual nach Stunden geändert
+Prozentuale Änderung nach Stunden
 [Percent Change to Yesterday Close]
-Prozentual nach den gestrigen Schließen geändert
+Prozentuale Änderung nach gestrigem Schluss
 [Day's High]
-
+Tageshoch
 [Day's Low]
-
+Tagestief
 [Previous Close]
-
+Vorheriger Schluss
 [Change]
-Ändern
+Änderung
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
-
+Logdateien (*.txt,*.log)
 [Enter integer value]
-
+Ganzzahligen Wert eingeben
 [Enter log file name.]
-
+Namen der Logdatei eingeben.
 [Enter log file format.]
-
+Format der Logdatei eingeben.
 [Enter history format.]
-
+Verlaufsformat eingeben.
 [Enter popup window format.]
-
+Pupupfensterformat eingeben.

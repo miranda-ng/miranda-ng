@@ -204,7 +204,7 @@ Nachricht gelesen: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Diese Nachricht ist nicht mehr verfügbar, da sie als Missbrauch oder Spam markiert wurde.
 [%s is typing a message...]
-
+%s tippt eine Nachricht...
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
@@ -276,7 +276,7 @@ Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
 [Visit notifications]
-
+Benachrichtigungen besuchen
 [Services...]
 Dienste...
 [Refresh Buddy List]

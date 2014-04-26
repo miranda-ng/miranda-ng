@@ -260,10 +260,10 @@ wasserblau
 Weiß
 [Are you sure you want to delete this note?]
 Sind Sie sich sicher, dass Sie diese Notiz löschen wollen?
-[V]
-
-[T]
-
+[Visible]
+Sichtbar
+[Top]
+Oben
 [Notes]
 Notizen
 [Note text]

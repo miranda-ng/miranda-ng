@@ -21,7 +21,7 @@ Screenshot senden
 [Send screenshot to\n<unknown>]
 Sende Screenshot an\n<unbekannt>
 [Ti&med capture]
-Verzögerte Aufnahme
+Verzögerte Aufnah&me
 [Time (secs):]
 Zeit (Sek.):
 [&Format:]
@@ -29,7 +29,7 @@ Zeit (Sek.):
 [Send B&y:]
 Senden per:
 [E&xplore]
-Öffnen
+&Öffnen
 [&Fill description textbox.]
 Beschreibungs-Textbox aus&füllen
 [Delete &after send]
@@ -37,7 +37,7 @@ N&ach dem Senden löschen
 [Open again]
 Erneut öffnen
 [&Capture]
-&Starten
+Auf&nehmen
 [About]
 Über
 [%s\nv%s]
@@ -57,24 +57,24 @@ Fensterinha&lt
 [Target Tool]
 Zielscheibe
 [Result]
-
+Ergebnis
 [Thumbnail]
-
+Vorschaubild
 [&Copy]
-
+&Kopieren
 [Close]
-
+Schließen
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
-
+Zurückgegebene URL von\n
 [Copy]
-
+Kopieren
 [Copy BBCode]
-
+BBCode kopieren
 [Copy BBCode w/ link]
-
+BBCode mit Link kopieren
 [%s requires a valid contact!]
-
+%s benötigt einen gültigen Kontakt!
 [Error]
 Fehler
 [GCHAT error]
@@ -88,12 +88,12 @@ Konnte %s nicht einleiten.
 MAPI-Fehler (%i):\n%s.
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
-
+Dropbox-Übertragung
 [%s (%i):\nCould not add a share to the Dropbox plugin.]
-
+%s (%i):\nKonnte freigegebene Datei nicht zum Dropbox-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
-
+E-Mail-Übertragung
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 Ein Empfänger trifft auf mehr als einen der Empfänger in der Beschreibung überein und MAPI_DIALOG wurde nicht gesetzt.
 [The specified attachment was not found]
@@ -124,7 +124,7 @@ Der Benutzer hat einen der Dialoge abgebrochen
 Unbekannter Fehler
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-
+Dateiübertragung
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 FTPFile-Übertragung
@@ -132,12 +132,12 @@ FTPFile-Übertragung
 %s (%i):\nKonnte Freigabe nicht dem FTP-Datei-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 [Image upload]
-
+Bild hochladen
 [Upload server did not respond timely.]
 Uploadserver hat nicht rechtzeitig geantwortet.
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
-
+HTTPServer-Übertragungen
 [Could not start the HTTP Server plugin.]
 Kann HTTP-Server-Plugin nicht starten.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
@@ -186,9 +186,9 @@ Screenshot Icon1
 [Screenshot Icon2]
 Screenshot Icon2
 [Target Cursor]
-Target Cursor]
+Zielcursor
 [Target Desktop]
-Target Desktop
+Zieldesktop
 [Default]
 Standard
 [Help]
@@ -210,9 +210,9 @@ Weiter
 [Update]
 Aktualisieren
 [BBC]
-
+BBC
 [BBC link]
-
+BBC-Link
 [Down arrow]
 Pfeil runter
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
@@ -251,23 +251,23 @@ E-Mail
 [FTP File]
 FTP-Datei
 [Dropbox]
-
+Dropbox
 [ImageShack]
 ImageShack
 [Upload Pie (30m)]
-
+Upload Pie (30M)
 [Upload Pie (1d)]
-
+Upload Pie (1T)
 [Upload Pie (1w)]
-
+Upload Pie (1W)
 [Information]
 Information
 [Fill description textbox.]
-Fülle Beschreibungstextbox.
+Beschreibungstextbox ausfüllen.
 [Delete after send]
 Nach dem Senden löschen
 [Capture]
-Einfangen
+Aufnehmen
 [Can't create a Screenshot]
 Konnte kein Screenshot erstellen.
 [Select a target window.]
@@ -275,7 +275,7 @@ Bitte gewünschtes Fenster auswählen.
 [Screenshot ]
 Screenshot\s
 [for Client area ]
-für Client-Bereich\s
+für Fensterinhalt\s
 [of "]
 vom "
 [" Window]

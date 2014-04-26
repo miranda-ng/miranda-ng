@@ -64,4 +64,4 @@ Hinweis: Nachrichten von diesem Kontakt werden nicht weitergeleitet
 [Message Sessions]
 Nachrichtensitzungen
 [Messages forwarding]
-
+Nachrichtenweiterleitung

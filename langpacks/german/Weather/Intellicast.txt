@@ -3,7 +3,7 @@
 ;  Module: weather
 ;============================================================
 [Ceiling]
-oben abgewinkelt
+Aufgehend
 [Mon]
 Mo
 [Tue]
@@ -79,9 +79,9 @@ Mondaufgang
 [MoonSet]
 Monduntergang
 [Update1]
-
+Update1
 [Update2]
-
+Update2
 [Wind Chill]
 Windchill
 [Wind Direction]
@@ -121,9 +121,9 @@ WNW
 [ESE]
 OSO
 [WindDir1]
-
+WindDir1
 [WindDir2]
-
+WindDir2
 [Broken Clouds]
 Gebrochene Wolken
 [Scattered Clouds]

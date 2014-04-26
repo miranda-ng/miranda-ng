@@ -653,6 +653,6 @@ Slider gedrückt
 [WATrack status]
 WATrack-Status
 [Enable WATrack]
-
+WATrack aktivieren
 [Disable WATrack]
-
+WATrack deaktivieren

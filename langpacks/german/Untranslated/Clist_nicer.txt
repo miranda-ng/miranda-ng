@@ -1,3 +1,0 @@
-﻿[Hide offline contacts]
-[Enable group mode]
-[Disable sounds]

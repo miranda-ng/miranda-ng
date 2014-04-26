@@ -107,7 +107,7 @@ gefühlt
 [Forcast Update]
 Vorhersage aktualisiert
 [Forcast Update VAR]
-
+Forcast Update VAR
 [Forecast Day 0]
 Vorhersage Tag 0
 [Forecast Day 1]
@@ -145,7 +145,7 @@ Station
 [Pressure Tendency]
 Luftdrucktendenz
 [Update VAR]
-
+Update VAR
 [UV]
 UV
 [UV Index]

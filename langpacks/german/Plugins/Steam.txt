@@ -1,0 +1,48 @@
+﻿#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam Protocol
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+[Steam protocol support for Miranda NG.]
+Unterstützung für das Steam-Protokoll für Miranda NG.
+;file \protocols\Steam\res\Resource.rc
+[Username:]
+Benutzername:
+[Password:]
+Passwort:
+[Default group:]
+Standardgruppe:
+[Account]
+Konto
+[Captcha]
+Captcha
+[Cancel]
+Abbrechen
+[Steam Guard]
+Steam Guard
+[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+Als zusätzliche Sicherheitsmaßnahme müssen Sie Zugriff gewähren indem Sie den Spezialcode, welchen wir soeben an Ihre E-Mail gesendet haben, eingeben.
+[Go to email domain]
+Gehe zur E-Mail-Domain
+;file \protocols\Steam\src\steam_contacts.cpp
+[%s has added you to his or her Friend List]
+%s hat Sie zu seiner/ihrer Freundesliste hinzugefügt.
+;file \protocols\Steam\src\steam_events.cpp
+[%s connection]
+%s-Verbindung
+[Network]
+Netzwerk
+;file \protocols\Steam\src\steam_menus.cpp
+[Steam menu chooser]
+Steam-Menüauswahl
+[Join to game]
+Zum Spiel beitreten
+;file \protocols\Steam\src\steam_proto.cpp
+[Protocols]
+Protokolle
+[Protocol icon]
+Protokollicon
+[SteamID]
+SteamID

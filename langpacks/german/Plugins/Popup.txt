@@ -244,19 +244,19 @@ Markierte Aktion
 Uhrzeit
 ;file \plugins\Popup\src\font.h
 [Title]
-
+Titel
 [Text]
-
+Text
 [Background]
-
+Hintergrund
 [Border]
-
+Rand
 [Sidebar]
-
+Seitenleiste
 [Title underline]
-
+Trennlinie unter Titel
 [Avatar Border]
-
+Avatar-Rahmen
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Popupverlauf ist deaktiviert
