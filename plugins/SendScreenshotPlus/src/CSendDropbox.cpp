@@ -32,7 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 CSendDropbox::CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync)
 : CSend(Owner, hContact, bAsync){
-	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
+/// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
+	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND/* | SS_DLG_DELETEAFTERSSEND*/;
 	m_pszSendTyp = LPGENT("Dropbox transfer");
 }
 
@@ -53,6 +54,7 @@ int CSendDropbox::Send() {
 
 
 void CSendDropbox::SendThread() {
+/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 	INT_PTR ret=0;
 	if(!m_hContact)
 		SetContact(db_find_first("Dropbox"));
