@@ -29,8 +29,8 @@ void InitFonts() {
 	// Fonts
 	FontIDT fid = {0};
 	fid.cbSize = sizeof(FontIDT);
-	lstrcpy(fid.group, _T(PU_FNT_AND_COLOR));
-	strcpy(fid.dbSettingsGroup, PU_FNT_AND_COLOR_DB);
+	lstrcpyn(fid.group, _T(PU_FNT_AND_COLOR), SIZEOF(fid.group));
+	strncpy(fid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
@@ -38,32 +38,32 @@ void InitFonts() {
 	lstrcpyn(fid.backgroundName,PU_COL_BACK_NAME, SIZEOF(fid.backgroundName));
 	lstrcpyn(fid.deffontsettings.szFace, _T("Tahoma"), SIZEOF(fid.deffontsettings.szFace));
 
-	lstrcpyn(fid.name, PU_FNT_NAME_TITLE, SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_TITLE), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style  = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0,0,0);
 	FontRegisterT(&fid);
 
-	lstrcpyn(fid.name, PU_FNT_NAME_CLOCK, SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_CLOCK), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
 	//fid.deffontsettings.style  = DBFONTF_BOLD;
 	//fid.deffontsettings.colour = RGB(0,0,0);
 	FontRegisterT(&fid);
 
-	lstrcpyn(fid.name, PU_FNT_NAME_TEXT, SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style  = 0;
 	//fid.deffontsettings.colour = RGB(0,0,0);
 	FontRegisterT(&fid);
 
-	lstrcpyn(fid.name, _T("Action"), SIZEOF(fid.name));
-	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, "Action");
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_ACTION), SIZEOF(fid.name));
+	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	//fid.deffontsettings.style  = 0;
 	fid.deffontsettings.colour = RGB(0,0,255);
 	FontRegisterT(&fid);
 
-	lstrcpyn(fid.name, LPGENT("Hovered Action"), SIZEOF(fid.name));
-	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, "Hovered Action");
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION), SIZEOF(fid.name));
+	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style  = DBFONTF_UNDERLINE;
 	//fid.deffontsettings.colour = RGB(0,0,255);
 	FontRegisterT(&fid);
@@ -100,25 +100,25 @@ void ReloadFonts()
 	fid.cbSize	= sizeof(FontIDT);
 	lstrcpyn(fid.group, _T(PU_FNT_AND_COLOR),SIZEOF(fid.name));
 
-	lstrcpyn(fid.name, PU_FNT_NAME_TITLE,SIZEOF(fid.name));
-	fonts.clTitle	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
-	fonts.title		= CreateFontIndirect(&lf);
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_TITLE),SIZEOF(fid.name));
+	fonts.clTitle = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.title = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, LPGENT("Clock"),SIZEOF(fid.name));
-	fonts.clClock	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
-	fonts.clock		= CreateFontIndirect(&lf);
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_CLOCK),SIZEOF(fid.name));
+	fonts.clClock = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clock = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, PU_FNT_NAME_TEXT,SIZEOF(fid.name));
-	fonts.clText	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
-	fonts.text		= CreateFontIndirect(&lf);
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_TEXT),SIZEOF(fid.name));
+	fonts.clText = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.text = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, LPGENT("Action"),SIZEOF(fid.name));
-	fonts.clAction	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
-	fonts.action	= CreateFontIndirect(&lf);
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_ACTION),SIZEOF(fid.name));
+	fonts.clAction = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.action = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, LPGENT("Hovered Action"),SIZEOF(fid.name));
-	fonts.clActionHover	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
-	fonts.actionHover	= CreateFontIndirect(&lf);
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION),SIZEOF(fid.name));
+	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.actionHover = CreateFontIndirect(&lf);
 
 	ColourIDT cid = {0};
 	cid.cbSize = sizeof(ColourIDT);

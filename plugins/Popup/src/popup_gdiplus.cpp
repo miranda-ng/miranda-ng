@@ -71,14 +71,11 @@ using namespace Gdiplus;
 
 HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
 {
-    BITMAPINFO RGB32BitsBITMAPINFO; 
-    UINT * ptPixels;
-    HBITMAP DirectBitmap;
-
     if ( cx < 0 || cy < 0 ) {
         return NULL;
     }
 
+    BITMAPINFO RGB32BitsBITMAPINFO; 
     ZeroMemory(&RGB32BitsBITMAPINFO,sizeof(BITMAPINFO));
     RGB32BitsBITMAPINFO.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
     RGB32BitsBITMAPINFO.bmiHeader.biWidth=cx;//bm.bmWidth;
@@ -88,11 +85,8 @@ HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
     // pointer used for direct Bitmap pixels access
 
 
-    DirectBitmap = CreateDIBSection(NULL, 
-        (BITMAPINFO *)&RGB32BitsBITMAPINFO, 
-        DIB_RGB_COLORS,
-        (void **)&ptPixels, 
-        NULL, 0);
+    UINT *ptPixels;
+    HBITMAP DirectBitmap = CreateDIBSection(NULL, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels,  NULL, 0);
     if ((DirectBitmap == NULL || ptPixels == NULL) && cx!= 0 && cy!=0) 
     {
         ;
@@ -109,9 +103,8 @@ BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
 {
 	int nFrameCount=0;
 	Image image(szName);
-	UINT count = 0;
 
-	count = image.GetFrameDimensionsCount();
+	UINT count = image.GetFrameDimensionsCount();
 	GUID* pDimensionIDs = new GUID[count];
 
 	// Get the list of frame dimensions from the Image object.
