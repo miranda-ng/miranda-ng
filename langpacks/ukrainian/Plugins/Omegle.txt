@@ -1,8 +1,8 @@
 ﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;============================================================
 ;  File: Omegle.dll
-;  Plugin: Omegle Protocol
-;  Version: 0.1.2.0
+;  Plugin: Omegle protocol
+;  Version: 0.1.2.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]

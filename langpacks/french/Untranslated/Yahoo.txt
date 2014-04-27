@@ -1,4 +1,4 @@
-﻿[Yahoo Protocol support for Miranda NG.]
+﻿[Yahoo protocol support for Miranda NG.]
 [AutoLogin to Yahoo Website(s)]
 [Create a new Yahoo account]
 [Connection Settings]

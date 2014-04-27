@@ -1,7 +1,7 @@
 ﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
 ;============================================================
 ;  File: SkypeClassic.dll
-;  Plugin: Skype Protocol (Classic)
+;  Plugin: Skype protocol (Classic)
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
@@ -177,8 +177,8 @@ Benutzer &kicken
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Einen SkypeOut-Anruf tätigen
-[invited ]
-eingeladen\s
+[invited]
+eingeladen
 [Phone call]
 Telefonanruf
 [Incoming Skype Call]

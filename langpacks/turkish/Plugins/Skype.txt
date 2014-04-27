@@ -1,7 +1,7 @@
 ﻿#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
 ;============================================================
 ;  File: Skype.dll
-;  Plugin: Skype Protocol
+;  Plugin: Skype protocol
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================

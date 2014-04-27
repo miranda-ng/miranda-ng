@@ -151,8 +151,6 @@ HTTP-з'єднання SendSS
 Ціль вікно у фокусі
 [Target Desktop]
 Ціль робочий стіл
-[Default]
-За замовчанням
 [Help]
 Довідка
 [Open Folder]

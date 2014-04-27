@@ -1,7 +1,7 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: IcqOscarJ Protocol
+;  Plugin: IcqOscarJ protocol
 ;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================

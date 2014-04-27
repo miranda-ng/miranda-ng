@@ -1,11 +1,11 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber Protocol
+;  Plugin: Jabber protocol
 ;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-[Jabber protocol support for Miranda NG.]
+[Jabber (XMPP) protocol support for Miranda NG.]
 Podpora Jabber (XMPP) protokolu pre Mirandu NG.
 [Cancel]
 Storno

@@ -60,7 +60,7 @@
 [User &history]
 [&Kick user]
 [Do a SkypeOut-call]
-[invited ]
+[invited]
 [Phone call]
 [Incoming Skype Call]
 [Incoming call from %s]
