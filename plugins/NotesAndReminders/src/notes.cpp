@@ -1794,8 +1794,8 @@ static void InitListView(HWND AHLV)
 	STICKYNOTE *pNote;
 	TREEELEMENT *TTE;
 
-	char *V = Translate("V");
-	char *T = Translate("T");
+	char *V = Translate("Visible");
+	char *T = Translate("Top");
 
 	ListView_SetHoverTime(AHLV,700);
 	ListView_SetExtendedListViewStyle(AHLV,LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
