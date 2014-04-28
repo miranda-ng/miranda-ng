@@ -1,6 +1,0 @@
-﻿[Set birthday:]
-[Manage anniversaries]
-[%S protocol]
-[%s has birthday today (Should not happen, please report).]
-[Could not create worker thread. Error#%d - threadID %d]
-[Could not find UID '%s [%S]' in current database, skipping]

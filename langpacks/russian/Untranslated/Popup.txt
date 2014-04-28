@@ -1,5 +1,4 @@
 ﻿[Disable if message window is open]
-[Title]
 [Border]
 [Sidebar]
 [Title underline]
