@@ -2370,6 +2370,8 @@ URL
 Протокол
 [Send Offline]
 
+[Send &Online]
+
 [Delete MetaContact?]
 
 ;file \src\modules\metacontacts\meta_main.cpp
