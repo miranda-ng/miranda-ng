@@ -2319,6 +2319,8 @@ ID
 Протокол
 [Send Offline]
 Отправка в оффлайн
+[Send &Online]
+Отправка в &онлайн
 [Delete MetaContact?]
 Удалить метаконтакт?
 [Toggle Off]
