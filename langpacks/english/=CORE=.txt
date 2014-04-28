@@ -925,7 +925,6 @@
 ;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 ;file \src\core\stdhelp\about.cpp
-[v]
 [< Copyright]
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -1243,6 +1242,7 @@
 [ID]
 [Protocol]
 [Send Offline]
+[Send &Online]
 [Delete MetaContact?]
 ;file \src\modules\metacontacts\meta_main.cpp
 [Toggle Off]

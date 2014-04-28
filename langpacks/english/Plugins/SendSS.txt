@@ -104,7 +104,6 @@
 [Screenshot Icon2]
 [Target Cursor]
 [Target Desktop]
-[Default]
 [Help]
 [Open Folder]
 [Description off]
