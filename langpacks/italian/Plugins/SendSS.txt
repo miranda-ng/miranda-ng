@@ -23,8 +23,6 @@ No
 Annulla
 [Ignore]
 Ignora
-[Default]
-Predefinito
 [Help]
 Aiuto
 [Open Folder]

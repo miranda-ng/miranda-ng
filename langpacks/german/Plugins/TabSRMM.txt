@@ -1052,12 +1052,14 @@ Konfigurationsproblem|Die Funktion zum unbeaufsichtigten Senden ist deaktiviert.
 Sie können keine Benutzernachrichten editieren, wenn ungesendete Nachrichten ausstehen.
 [Version]
 Version
-[%s is typing a message.]
-%s tippt eine Nachricht.
+[%s is typing a message...]
+%s tippt eine Nachricht...
 [Last received: %s at %s]
 Letzte Nachricht am %s um %s empfangen
 [%s has entered text.]
 %s hat einen Text eingegeben.
+[%s is typing a message]
+%s tippt eine Nachricht
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

@@ -52,6 +52,7 @@
 [Assignment failure]
 [ID]
 [Send Offline]
+[Send &Online]
 [Delete MetaContact?]
 [Toggle Off]
 [Toggle On]

@@ -1052,11 +1052,13 @@ Nouveaux messages :
 
 [Version]
 Version
-[%s is typing a message.]
+[%s is typing a message...]
 
 [Last received: %s at %s]
 Dernière réception : le %s à %s
 [%s has entered text.]
+
+[%s is typing a message]
 
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 

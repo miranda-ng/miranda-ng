@@ -71,8 +71,6 @@
 进行截图
 [Could not register Miranda service.]
 无法注册 Miranda 服务. 
-[Default]
-默认
 [Help]
 说明
 [Prev]

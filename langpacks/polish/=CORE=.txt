@@ -1818,8 +1818,6 @@ Ukończono przesyłanie i skanowanie wirusów
 [Outgoing]
 Wychodzące
 ;file \src\core\stdhelp\about.cpp
-[v]
-V
 [< Copyright]
 < Prawa aut.
 ;file \src\core\stdhelp\help.cpp

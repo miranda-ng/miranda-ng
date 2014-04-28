@@ -189,8 +189,6 @@ Ignorar
 
 [Target Desktop]
 
-[Default]
-Por defecto
 [Help]
 Ayuda
 [Open Folder]

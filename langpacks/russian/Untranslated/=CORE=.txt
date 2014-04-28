@@ -1,5 +1,6 @@
 ﻿[AaBbYyZz]
 [Miranda NG\n%s]
+[Send &Online]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

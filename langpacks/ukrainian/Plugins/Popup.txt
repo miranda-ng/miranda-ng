@@ -122,7 +122,7 @@ History++ для історії вікон
 [Icons aligned to the right]
 Значки праворуч
 [Show Actions: (requires apply)]
-Дії: (вимагає "Застосувати")
+Дії (вимагає "Застосувати"):
 [Mouse Actions Overwrite]
 Дії за натисканням мишки
 [Left Button]
@@ -233,14 +233,16 @@ History++ для історії вікон
 Це повідомлення про помилку
 [Square fading]
 Шахматика
-[Hovered Action]
-Наведена дія
-[Clock]
-Час
+[Popups]
+Спливаючі вікна
 [Title]
 Заголовок
+[Clock]
+Час
 [Text]
 Текст
+[Hovered Action]
+Наведена дія
 [Background]
 Фон
 [Border]
@@ -309,8 +311,6 @@ History++ для історії вікон
 Спливаючі вікна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Помилка: не вдалося зареєструвати клас Popup Window.\r\nПлагін не працюватиме.
-[%s (colors only)]
-%s (тільки кольори)
 [No effect]
 Без ефекту
 [Fade in/out]
@@ -342,13 +342,13 @@ History++ для історії вікон
 [Width]
 Ширина
 [upper left corner]
-ліворуч зверху
+вгорі ліворуч
 [lower left corner]
-ліворуч знизу
+внизу ліворуч
 [lower right corner]
-праворуч знизу
+внизу праворуч
 [upper right corner]
-праворуч зверху
+вгорі праворуч
 [horizontal]
 горизонталь
 [vertical]

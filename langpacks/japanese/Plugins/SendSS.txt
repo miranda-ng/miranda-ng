@@ -25,8 +25,6 @@ Cancel
 いいえ
 [Ignore]
 無視
-[Default]
-デフォルト
 [Help]
 ヘルプ
 [Prev]

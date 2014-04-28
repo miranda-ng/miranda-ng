@@ -72,9 +72,9 @@ Omegle - чудовий спосіб знайти нових друзів!
 [You and the Stranger both like: ]
 Вам і незнайомцю подобається:\s
 [Stranger is typing.]
-Незнайомець набирає.
+Незнайомець друкує.
 [Stranger stopped typing.]
-Незнайомець припинив набирати.
+Незнайомець закінчив друкувати.
 [%s disconnected.]
 %s відключився.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]

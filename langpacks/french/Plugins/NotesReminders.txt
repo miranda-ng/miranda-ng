@@ -260,10 +260,10 @@ Eau
 
 [Are you sure you want to delete this note?]
 
-[V]
-
-[T]
-
+[Visible]
+Visible
+[Top]
+Haut
 [Notes]
 Notes
 [Note text]

@@ -118,6 +118,7 @@
 [Icon sets]
 [(incompatible)]
 [built-in]
+[Send &Online]
 [Toggle Off]
 [Toggle On]
 [Add to Existing]

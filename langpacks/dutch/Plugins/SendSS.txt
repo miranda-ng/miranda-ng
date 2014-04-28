@@ -21,8 +21,6 @@ Ne
 Afbreken
 [Ignore]
 Negeer
-[Default]
-Standaard
 [Prev]
 Vorige
 [Window]

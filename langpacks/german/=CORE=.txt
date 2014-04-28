@@ -2402,6 +2402,8 @@ ID
 Protokoll
 [Send Offline]
 Offline senden
+[Send &Online]
+
 [Delete MetaContact?]
 Metakontakt löschen?
 ;file \src\modules\metacontacts\meta_main.cpp

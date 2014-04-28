@@ -117,8 +117,6 @@ HTTP далучэнне SendSS
 Абразок здымка 1
 [Screenshot Icon2]
 Абразок здымка 2
-[Default]
-Змаўчанні
 [Help]
 Даведка
 [Open Folder]

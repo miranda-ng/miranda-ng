@@ -99,8 +99,6 @@ HTTP подключение SendSS
 Курсор цель
 [Target Desktop]
 Курсор рабочий стол
-[Default]
-По умолчанию
 [Help]
 Справка
 [Open Folder]

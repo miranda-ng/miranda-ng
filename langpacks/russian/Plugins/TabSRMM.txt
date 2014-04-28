@@ -1043,12 +1043,14 @@ Esc закрывает сессию (иначе - сворачивает)
 Вы не можете править заметки, если есть неотправленные сообщения
 [Version]
 Версия
-[%s is typing a message.]
-%s набирает сообщение.
+[%s is typing a message...]
+%s набирает сообщение...
 [Last received: %s at %s]
 Последнее сообщение было получено %s в %s
 [%s has entered text.]
 %s ввел(а) текст.
+[%s is typing a message]
+%s набирает сообщение
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка отключена, %d сообщений в очереди (нажмите F12 для включения)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

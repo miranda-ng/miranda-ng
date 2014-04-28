@@ -887,12 +887,14 @@ TabSRMM 警告メッセージ
 設定の問題 | 無人送信機能は無効になっています \\b1 後で送信 \\b0 と \\b1 複数コンタクトに送信 \\b0 機能はその機能に依存しています\n\nそのため \\b1 オプション -> メッセージセッション -> 高度な調整 で有効に設定してください\\b0 このオプションの変更には再起動が必要です
 [You cannot edit user notes when there are unsent messages]
 未送信メッセージに対してユーザーメモの編集はできません
-[%s is typing a message.]
-%s はメッセージを入力中です
+[%s is typing a message...]
+%s はメッセージを入力中です...
 [Last received: %s at %s]
 最終受信:  %s %s
 [%s has entered text.]
 %s はテキストを入力しました
+[%s is typing a message]
+%s はメッセージを入力中です
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 自動スクロールは無効です。%d メッセージがキューにあります ( 有効にするには F12 を押してください )
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

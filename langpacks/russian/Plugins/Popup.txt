@@ -231,12 +231,16 @@ History++ для истории окон
 Это сообщение об ошибке
 [Square fading]
 Шахматика
-[Hovered Action]
-Наведённое действие
+[Popups]
+Всплывающие окна
+[Title]
+Заголовок
 [Clock]
 Время
 [Text]
 Текст
+[Hovered Action]
+Наведённое действие
 [Background]
 Фон
 [Popup History is disabled]
@@ -295,8 +299,6 @@ History++ для истории окон
 Отключить всплывающие окна
 [Popup Plus]
 Всплывающие окна
-[%s (colors only)]
-%s (только цвета)
 [No effect]
 Без эффекта
 [Fade in/out]

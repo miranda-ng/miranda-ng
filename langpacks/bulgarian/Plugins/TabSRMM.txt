@@ -1041,12 +1041,14 @@ TabSRMM предупреждение
 Редактирането на бележките за потребителя е невъзможно докато има неизпратени съобщения
 [Version]
 Версия
-[%s is typing a message.]
-%s пише съобщение.
+[%s is typing a message...]
+%s пише съобщение...
 [Last received: %s at %s]
 Последно получено: %s в %s
 [%s has entered text.]
 %s въведе текст.
+[%s is typing a message]
+%s пише съобщение
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автоматичното придвижване е изключено, %d непрегледани съобщения (за включване натиснете клавиш F12)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

@@ -187,8 +187,6 @@
 
 [Target Desktop]
 
-[Default]
-Стандарт
 [Help]
 Помощ
 [Open Folder]

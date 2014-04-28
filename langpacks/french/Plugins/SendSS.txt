@@ -189,8 +189,6 @@ Prendre un screenshot
 
 [Target Desktop]
 
-[Default]
-Défaut
 [Help]
 Aide
 [Open Folder]

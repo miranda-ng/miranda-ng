@@ -915,12 +915,14 @@ TabSRMM 警告信息
 配置问题|自动发送功能禁用. \\b1 稍后发送\\b0  和 \\b1 多重发送\\b0  功能信赖于此.\n\n您必须启用其于 \\b1选项->消息会话->高级调整\\b0. 更改选项需重启生效.
 [You cannot edit user notes when there are unsent messages]
 有未发消息时您不能编辑用户注释
-[%s is typing a message.]
-%s 正在输入消息.
+[%s is typing a message...]
+%s 正在输入消息...
 [Last received: %s at %s]
 最后接收于: %s %s
 [%s has entered text.]
 %s 正在输入.
+[%s is typing a message]
+%s 正在输入消息
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 自动卷屏已禁用, %d 条消息队列 (按下 F12 开启)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

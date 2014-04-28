@@ -484,7 +484,7 @@ ID користувача в панелі статусу
 [Popups]
 Спливаючі вікна
 [...is &typing]
-...друкує повідомленння
+...друкує повідомлення
 [...stopped t&yping]
 ...закінчив др&укувати
 [Back]
@@ -498,7 +498,7 @@ ID користувача в панелі статусу
 [Show &entry in the main menu]
 &Пункт у головному меню
 [...is typing]
-...друкує повідомленння
+...друкує повідомлення
 [From Popup plugin]
 За замовчанням
 [From protocol]
@@ -1042,13 +1042,13 @@ Esc закриває сесію (інакше - згортає)
 [Version]
 Версія
 [%s is typing a message...]
-%s набирає повідомлення...
+%s друкує вам повідомлення...
 [Last received: %s at %s]
 Останнє повідомлення отримане %s о %s
 [%s has entered text.]
 %s ввів(ла) текст.
 [%s is typing a message]
-%s набирає повідомлення
+%s друкує вам повідомлення
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка вимкнена, %d повідомлень у черзі (натисніть F12, щоб увімкнути)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
@@ -1728,13 +1728,13 @@ TabSRMM: %s
 [Enable &typing notification]
 Увімкнути сповіщення про &друк
 [...is typing a message.]
-...набирає текст.
+...друкує.
 [...has stopped typing.]
-...закінчив(ла) набирати текст
+...закінчив друкувати
 [Contact started typing]
-Контакт почав набір повідомлення
+Співрозмовник почав друкувати
 [Contact stopped typing]
-Контакт закінчив набір повідомлення
+Співрозмовник закінчив друкувати
 [Always On]
 Завжди ввімкнено
 [Always Off]

@@ -45,8 +45,6 @@
 התעלם
 [Send Screenshot]
 שלח תמונת מסך
-[Default]
-ברירת מחדל
 [Help]
 עזרה
 [Open Folder]

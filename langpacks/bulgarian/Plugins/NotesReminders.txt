@@ -260,10 +260,10 @@
 Бял
 [Are you sure you want to delete this note?]
 
-[V]
-
-[T]
-
+[Visible]
+Видима
+[Top]
+Горе
 [Notes]
 Бележки
 [Note text]

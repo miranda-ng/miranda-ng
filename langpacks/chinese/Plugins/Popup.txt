@@ -179,10 +179,10 @@ Miranda 窗口屏幕
 这是警告消息
 [This is an error message]
 这是错误消息
-[Hovered Action]
-悬停操作
 [Clock]
 时钟
+[Hovered Action]
+悬停操作
 [Popup History is disabled]
 弹出历史已禁用
 [Popup History message]

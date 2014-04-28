@@ -1048,12 +1048,14 @@ Esc зачыняе сесію (інакш - згортвае)
 Праблема канфігурацыі|Аўтаматычная адпраўка адключана. \\b1Адпраўка з затрымкай\\b0 і \\b1мультыадпраўка\\b0 залежаць ад яе.\n\nВы павінны ўключыць яе \\b1Налады->Гутаркі->Дадатковыя налады\\b0. Пасля змены гэтай опцыі, патрабуецца перазапуск.
 [You cannot edit user notes when there are unsent messages]
 Вы не можаце правіць нататкі, калі ёсць не адпраўненныя паведамленні
-[%s is typing a message.]
-%s набірае паведамленне.
+[%s is typing a message...]
+%s набірае паведамленне...
 [Last received: %s at %s]
 Апошняе паведамленне было атрымана %s у %s
 [%s has entered text.]
 %s увёў тэкст.
+[%s is typing a message]
+%s набірае паведамленне
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Аўтапрагортка адключана, %d паведамленняў у чэргі (націсніце F12 для ўключэння)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

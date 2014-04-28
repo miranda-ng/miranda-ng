@@ -260,9 +260,9 @@ Alertas
 
 [Are you sure you want to delete this note?]
 
-[V]
+[Visible]
 
-[T]
+[Top]
 
 [Notes]
 Notas

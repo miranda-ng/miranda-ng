@@ -1,3 +1,2 @@
-﻿[%s (colors only)]
-[Failed to GetClassInfoExW from EDIT class.]
+﻿[Failed to GetClassInfoExW from EDIT class.]
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]

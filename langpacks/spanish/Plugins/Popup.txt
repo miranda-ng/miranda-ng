@@ -237,15 +237,16 @@ Copiar al portapapeles
 ;file \plugins\Popup\src\effects.cpp
 [Square fading]
 
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
+;file \plugins\Popup\src\font.h
+[Popups]
+
+[Title]
 
 [Clock]
 
-;file \plugins\Popup\src\font.h
-[Title]
-
 [Text]
+
+[Hovered Action]
 
 [Background]
 
@@ -317,9 +318,6 @@ Avanzado
 [Popup Plus]
 
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
-
-;file \plugins\Popup\src\notifications.cpp
-[%s (colors only)]
 
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]

@@ -2402,6 +2402,8 @@ ID
 Protocole
 [Send Offline]
 Envoi hors ligne
+[Send &Online]
+
 [Delete MetaContact?]
 Supprimer ce MetaContact ?
 ;file \src\modules\metacontacts\meta_main.cpp

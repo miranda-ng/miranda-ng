@@ -237,16 +237,17 @@ Dies ist eine Fehlermeldung
 ;file \plugins\Popup\src\effects.cpp
 [Square fading]
 Quadratisch einblenden
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
-Markierte Aktion
-[Clock]
-Uhrzeit
 ;file \plugins\Popup\src\font.h
+[Popups]
+Popups
 [Title]
 Titel
+[Clock]
+Uhrzeit
 [Text]
 Text
+[Hovered Action]
+Markierte Aktion
 [Background]
 Hintergrund
 [Border]
@@ -318,9 +319,6 @@ Popups deaktivieren
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Fehler: Das Popup-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
-;file \plugins\Popup\src\notifications.cpp
-[%s (colors only)]
-
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Kein Effekt

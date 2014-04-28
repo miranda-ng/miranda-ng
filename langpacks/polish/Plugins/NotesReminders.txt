@@ -260,9 +260,9 @@ Aqua
 Biały
 [Are you sure you want to delete this note?]
 Czy na pewno chcesz usunąć tę notatkę?
-[V]
+[Visible]
 Widoczny
-[T]
+[Top]
 Na wierzchu
 [Notes]
 Notatki

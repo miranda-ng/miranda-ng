@@ -19,7 +19,7 @@
 [Flat borders]
 Плоскі кордони
 [Draw gradient background]
-Фон с градієнтом
+Фон з градієнтом
 [Show icon]
 Показувати значок
 [Show avatars]

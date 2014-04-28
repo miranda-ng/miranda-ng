@@ -189,8 +189,6 @@ Screenshot Icon2
 Zielcursor
 [Target Desktop]
 Zieldesktop
-[Default]
-Standard
 [Help]
 Hilfe
 [Open Folder]

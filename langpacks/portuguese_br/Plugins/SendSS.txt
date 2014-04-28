@@ -57,8 +57,6 @@ Enviar foto da tela
 Enviar foto do desktop
 [Take a screenshot]
 Tirar foto da tela
-[Default]
-Padrão
 [Help]
 Ajuda
 [Down arrow]

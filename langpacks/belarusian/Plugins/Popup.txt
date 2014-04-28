@@ -233,11 +233,19 @@ History++ для гісторыі вокнаў
 [This is an error message]
 Гэта паведамленне пра памылку
 ;file \plugins\Popup\src\effects.cpp
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
-Наведзенае дзеянне
+;file \plugins\Popup\src\font.h
+[Popups]
+Усплывальныя вокны
+[Title]
+Загаловак
 [Clock]
 Час
+[Text]
+Тэкст
+[Hovered Action]
+Наведзенае дзеянне
+[Background]
+Фон
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Гісторыя ўсплывальных вокнаў адключана

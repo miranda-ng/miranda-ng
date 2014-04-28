@@ -709,6 +709,7 @@
 [ID]
 [Protocol]
 [Send Offline]
+[Send &Online]
 [Delete MetaContact?]
 [Toggle Off]
 [Toggle On]
