@@ -192,7 +192,7 @@
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\Steam\authorization.h" />
     <ClInclude Include="src\Steam\avatar.h" />
-    <ClInclude Include="src\Steam\invitation.h" />
+    <ClInclude Include="src\Steam\pending.h" />
     <ClInclude Include="src\Steam\rsa_key.h" />
     <ClInclude Include="src\Steam\friend.h" />
     <ClInclude Include="src\Steam\friend_list.h" />
@@ -200,6 +200,7 @@
     <ClInclude Include="src\Steam\message.h" />
     <ClInclude Include="src\Steam\poll.h" />
     <ClInclude Include="src\Steam\search.h" />
+    <ClInclude Include="src\Steam\session.h" />
     <ClInclude Include="src\Steam\steam.h" />
     <ClInclude Include="src\steam_proto.h" />
     <ClInclude Include="src\version.h" />
