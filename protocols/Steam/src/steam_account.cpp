@@ -146,8 +146,9 @@ void CSteamProto::LogInThread(void* param)
 		token = mir_strdup(authResult.GetToken());
 
 		setString("TokenSecret", token);
-		//setString("Cookie", authResult.GetCookie());
+		setString("Cookie", authResult.GetCookie());
 		setString("SteamID", authResult.GetSteamid());
+		setString("SessionID", authResult.GetSessionId());
 	}
 
 	SteamWebApi::LoginApi::LoginResult loginResult;
@@ -178,6 +179,16 @@ void CSteamProto::LogInThread(void* param)
 	// set selected status
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+
+	ptrA sessionId(getStringA("SessionID"));
+	if (!sessionId || lstrlenA(sessionId) == 0)
+	{
+		SteamWebApi::SessionApi::SessionId result;
+		debugLogA("CSteamProto::LogInThread: call SteamWebApi::SessionApi::GetSessionId");
+		SteamWebApi::SessionApi::GetSessionId(m_hNetlibUser, token, loginResult.GetSteamId(), &result);
+		if (result.IsSuccess())
+			setString("SessionID", result.GetSessionId());
+	}
 
 	// load contact list
 	LoadContactListThread(NULL);

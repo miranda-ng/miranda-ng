@@ -7,7 +7,7 @@ namespace SteamWebApi
 	#define STEAM_COM_URL "https://steamcommunity.com"
 
 	class FriendListApi;
-	class InvitationApi;
+	class PendingApi;
 
 	class BaseApi
 	{
@@ -15,7 +15,7 @@ namespace SteamWebApi
 		class Result
 		{
 			friend FriendListApi;
-			friend InvitationApi;
+			friend PendingApi;
 
 		protected:
 			bool success;
@@ -33,8 +33,9 @@ namespace SteamWebApi
 #include "Steam\rsa_key.h"
 #include "Steam\authorization.h"
 #include "Steam\login.h"
+#include "Steam\session.h"
 #include "Steam\friend_list.h"
-#include "Steam\invitation.h"
+#include "Steam\pending.h"
 #include "Steam\friend.h"
 #include "Steam\poll.h"
 #include "Steam\message.h"

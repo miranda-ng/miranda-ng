@@ -98,7 +98,10 @@
     <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Steam\invitation.h">
+    <ClInclude Include="src\Steam\pending.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\session.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>

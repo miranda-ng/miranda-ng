@@ -94,45 +94,63 @@ namespace SteamWebApi
 			friendList->success = true;
 		}
 
-		static void AddFriend(HANDLE hConnection, const char *sessionId, const char *steamId, Result *result)
+		static void AddFriend(HANDLE hConnection, const char *token, const char *sessionId, const char *steamId, const char *who, Result *result)
 		{
 			result->success = false;
 
+			char login[MAX_PATH];
+			mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
+
+			char cookie[MAX_PATH];
+			mir_snprintf(cookie, SIZEOF(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+
 			char data[128];
 			mir_snprintf(data, SIZEOF(data),
-				"steamid=%s&sessionID=%s",
+				"sessionID=%s&steamid=%s",
 				sessionId,
-				steamId);
+				who);
 
 			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/actions/AddFriendAjax");
+			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.AddHeader("Cookie", cookie);
+			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)
 				return;
 
-			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 				return;
 
 			result->success = true;
 		}
 
-		static void RemoveFriend(HANDLE hConnection, const char *sessionId, const char *steamId, Result *result)
+		static void RemoveFriend(HANDLE hConnection, const char *token, const char *sessionId, const char *steamId, const char *who, Result *result)
 		{
 			result->success = false;
 
+			char login[MAX_PATH];
+			mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
+
+			char cookie[MAX_PATH];
+			mir_snprintf(cookie, SIZEOF(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+
 			char data[128];
 			mir_snprintf(data, SIZEOF(data),
-				"steamid=%s&sessionID=%s",
+				"sessionID=%s&steamid=%s",
 				sessionId,
-				steamId);
+				who);
 
 			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/actions/RemoveFriendAjax");
+			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.AddHeader("Cookie", cookie);
+			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)
 				return;
 
-			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
+			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 				return;
 
 			result->success = true;

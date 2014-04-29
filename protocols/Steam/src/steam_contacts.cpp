@@ -267,14 +267,23 @@ void CSteamProto::AuthAllowThread(void *arg)
 	ptrA steamId(getStringA("SteamID"));
 	ptrA who(getStringA(hContact, "SteamID"));
 
-	SteamWebApi::InvitationApi::Result result;
-	debugLogA("CSteamProto::AuthAllowThread: call SteamWebApi::InvitationApi::Accept");
-	SteamWebApi::InvitationApi::Accept(m_hNetlibUser, token, sessionId, steamId, who, &result);
+	SteamWebApi::PendingApi::Result result;
+	debugLogA("CSteamProto::AuthAllowThread: call SteamWebApi::PendingApi::Accept");
+	SteamWebApi::PendingApi::Accept(m_hNetlibUser, token, sessionId, steamId, who, &result);
 
 	if (result.IsSuccess())
 	{
 		delSetting(hContact, "Auth");
 		delSetting(hContact, "Grant");
+
+		/*SteamWebApi::FriendApi::Summaries summaries;
+		debugLogA("CSteamProto::AuthAllowThread: call SteamWebApi::FriendApi::LoadSummaries");
+		SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, who, &summaries);
+
+		if (summaries.IsSuccess())
+		{
+			UpdateContact(hContact, summaries.GetAt(0));
+		}*/
 	}
 }
 
@@ -284,13 +293,14 @@ void CSteamProto::AuthDenyThread(void *arg)
 	if (!hContact)
 		return;
 
+	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
 	ptrA steamId(getStringA("SteamID"));
 	ptrA who(getStringA(hContact, "SteamID"));
 
-	SteamWebApi::InvitationApi::Result result;
-	debugLogA("CSteamProto::AuthDenyThread: call SteamWebApi::InvitationApi::Ignore");
-	SteamWebApi::InvitationApi::Ignore(m_hNetlibUser, sessionId, steamId, who, &result);
+	SteamWebApi::PendingApi::Result result;
+	debugLogA("CSteamProto::AuthDenyThread: call SteamWebApi::PendingApi::Ignore");
+	SteamWebApi::PendingApi::Ignore(m_hNetlibUser, token, sessionId, steamId, who, &result);
 }
 
 void CSteamProto::AddContactThread(void *arg)
@@ -299,6 +309,17 @@ void CSteamProto::AddContactThread(void *arg)
 
 void CSteamProto::RemoveContactThread(void *arg)
 {
+	if (!arg)
+		return;
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA sessionId(getStringA("SessionID"));
+	ptrA steamId(getStringA("SteamID"));
+	ptrA who((char*)arg);
+
+	SteamWebApi::FriendListApi::Result result;
+	debugLogA("CSteamProto::RemoveContactThread: call SteamWebApi::FriendListApi::RemoveFriend");
+	SteamWebApi::FriendListApi::RemoveFriend(m_hNetlibUser, token, sessionId, steamId, who, &result);
 }
 
 void CSteamProto::LoadContactListThread(void*)

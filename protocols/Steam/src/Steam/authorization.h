@@ -16,6 +16,8 @@ namespace SteamWebApi
 			std::string token;
 			std::string cookie;
 
+			std::string sessionid;
+
 			std::string emailauth;
 			std::string emaildomain;
 			std::string emailsteamid;
@@ -41,6 +43,7 @@ namespace SteamWebApi
 			const char *GetSteamid() const { return steamid.c_str(); }
 			const char *GetToken() const { return token.c_str(); }
 			const char *GetCookie() const { return cookie.c_str(); }
+			const char *GetSessionId() const { return sessionid.c_str(); }
 			const char *GetAuthId() const { return emailauth.c_str(); }
 			const char *GetAuthCode() const { return emailsteamid.c_str(); }
 			const char *GetEmailDomain() const { return emaildomain.c_str(); }
@@ -68,14 +71,15 @@ namespace SteamWebApi
 
 			char data[1024];
 			mir_snprintf(data, SIZEOF(data),
-				"username=%s&password=%s&emailauth=%s&emailsteamid=%s&captchagid=%s&captcha_text=%s&rsatimestamp=%s&oauth_client_id=DE45CD61",
+				"username=%s&password=%s&emailauth=%s&emailsteamid=%s&captchagid=%s&captcha_text=%s&rsatimestamp=%s&donotcache=%ld&remember_login=true&oauth_client_id=DE45CD61&oauth_scope=read_profile write_profile read_client write_client",
 				base64Username,
 				ptrA(mir_urlEncode(password)),
 				ptrA(mir_urlEncode(authResult->emailauth.c_str())),
 				authResult->emailsteamid.c_str(),
 				authResult->captchagid.c_str(),
 				ptrA(mir_urlEncode(authResult->captcha_text.c_str())),
-				timestamp);
+				timestamp,
+				time(NULL));
 
 			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/mobilelogin/dologin");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -135,8 +139,35 @@ namespace SteamWebApi
 				node = json_get(root, "oauth_token");
 				authResult->token = ptrA(mir_u2a(json_as_string(node)));
 
-				/*node = json_get(root, "webcookie");
-				authResult->cookie = ptrA(mir_u2a(json_as_string(node)));*/
+				node = json_get(root, "webcookie");
+				authResult->cookie = ptrA(mir_u2a(json_as_string(node)));
+
+				mir_snprintf(data, SIZEOF(data),
+					"oauth_token=%s&steamid=%s&webcookie=%s",
+					authResult->token.c_str(),
+					authResult->steamid.c_str(),
+					authResult->cookie.c_str());
+
+				SecureHttpPostRequest second_request(hConnection, STEAM_COM_URL "/mobileloginsucceeded");
+				second_request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+				second_request.ResetFlags(NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP);
+				second_request.SetData(data, strlen(data));
+
+				response = second_request.Send();
+				if (!response)
+					return;
+
+				for (int i = 0; i < response->headersCount; i++)
+				{
+					if (lstrcmpiA(response->headers[i].szName, "Set-Cookie"))
+						continue;
+
+					std::string cookies = response->headers[i].szValue;
+					size_t start = cookies.find("sessionid=") + 10;
+					size_t end = cookies.substr(start).find(';');
+					authResult->sessionid = cookies.substr(start, end - start + 10);
+					break;
+				}
 
 				authResult->success = true;
 				authResult->captcha_needed = false;

@@ -277,8 +277,9 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 	/*case EV_PROTO_ONOPTIONS:
 		return this->OnOptionsInit(wParam, lParam);*/
 
-	/*case EV_PROTO_ONCONTACTDELETED:
-		return this->OnContactDeleted(wParam, lParam);*/
+	case EV_PROTO_ONCONTACTDELETED:
+		ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
+		return 0;
 
 	/*case EV_PROTO_ONMENU:
 		this->OnInitStatusMenu();

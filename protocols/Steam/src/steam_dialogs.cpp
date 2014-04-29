@@ -17,7 +17,7 @@ INT_PTR CALLBACK CSteamProto::GuardProc(HWND hwnd, UINT message, WPARAM wParam, 
 			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(iconName, 16));
 			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(iconName, 32));
 		}
-		Utils_RestoreWindowPositionNoSize(hwnd, 0, "STEAM", "GuardWindow");
+		Utils_RestoreWindowPosition(hwnd, NULL, "STEAM", "GuardWindow");
 		return TRUE;
 
 	case WM_CLOSE:
