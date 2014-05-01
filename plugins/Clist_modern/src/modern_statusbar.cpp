@@ -127,12 +127,11 @@ int LoadStatusBarData()
 	return 1;
 }
 
-int BgStatusBarChange(WPARAM wParam, LPARAM lParam)
+int BgStatusBarChange(WPARAM, LPARAM)
 {
-	if (MirandaExiting())
-		return 0;
+	if (!MirandaExiting())
+		LoadStatusBarData();
 
-	LoadStatusBarData();
 	return 0;
 }
 
@@ -185,6 +184,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	if (protoCount == 0)
 		return 0;
 
+	int iProtoInStatusMenu = 0;
 	for (int j = 0; j < protoCount; j++) {
 		int i = pcli->pfnGetAccountIndexByPos(j);
 		if (i == -1)
@@ -197,16 +197,19 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szProto);
 
-		ProtoItemData *p = new ProtoItemData;
+		ProtoItemData *p = NULL;
 
 		if (g_StatusBarData.perProtoConfig && db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT)) {
 			mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szProto);
-			if (db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT))
+			if (db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT)) {
+				iProtoInStatusMenu++;
 				continue;
+			}
 
 			mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szProto);
 
 			BYTE showOps = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+			p = new ProtoItemData;
 			p->bShowProtoIcon = (showOps & 1) != 0;
 			p->bShowProtoName = (showOps & 2) != 0;
 			p->bShowStatusName = (showOps & 4) != 0;
@@ -230,6 +233,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
 		}
 		else {
+			p = new ProtoItemData;
 			p->bShowProtoIcon = g_StatusBarData.bShowProtoIcon;
 			p->bShowProtoName = g_StatusBarData.bShowProtoName;
 			p->bShowStatusName = g_StatusBarData.bShowStatusName;
@@ -257,7 +261,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		p->szAccountName = mir_strdup(szProto);
 		p->szProtoName = mir_strdup(accs[i]->szProtoName);
 		p->tszProtoStatusText = mir_tstrdup(pcli->pfnGetStatusModeDescription(p->iProtoStatus, 0));
-		p->iProtoPos = ProtosData.getCount();
+		p->iProtoPos = iProtoInStatusMenu++;
 
 		p->bIsDimmed = 0;
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
@@ -578,23 +582,21 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	return 0;
 }
 
-static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
+static BOOL _ModernStatus_OnExtraIconClick(ProtoItemData *p)
 {
-	ProtoItemData &p = ProtosData[protoIndex];
-	if (!mir_strcmpi(p.szProtoName, "ICQ")) {
-		if (p.iProtoStatus < ID_STATUS_ONLINE)
+	if (!mir_strcmpi(p->szProtoName, "ICQ")) {
+		if (p->iProtoStatus < ID_STATUS_ONLINE)
 			return FALSE;
 
 		HMENU hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 		if (!hMainStatusMenu)
 			return FALSE;
 
-		HMENU hProtoStatusMenu = GetSubMenu(hMainStatusMenu, protoIndex);
+		HMENU hProtoStatusMenu = GetSubMenu(hMainStatusMenu, p->iProtoPos);
 		if (!hProtoStatusMenu)
 			return FALSE;
 
-		int extraStatusMenuIndex = 1;
-		HMENU hExtraStatusMenu = GetSubMenu(hProtoStatusMenu, extraStatusMenuIndex);
+		HMENU hExtraStatusMenu = GetSubMenu(hProtoStatusMenu, 1);
 		if (!hExtraStatusMenu)
 			return FALSE;
 
@@ -603,15 +605,14 @@ static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 		TrackPopupMenu(hExtraStatusMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
 		return TRUE;
 	}
-
-	if (!mir_strcmpi(p.szProtoName, "JABBER")) {
-		if (p.iProtoStatus < ID_STATUS_ONLINE)
+	else if (!mir_strcmpi(p->szProtoName, "JABBER")) {
+		if (p->iProtoStatus < ID_STATUS_ONLINE)
 			return FALSE;
 
 		// Show Moods
 		#define PS_JABBER_MOOD "/AdvStatusSet/Mood"
-		if (ProtoServiceExists(p.szAccountName, PS_JABBER_MOOD)) {
-			ProtoCallService(p.szAccountName, PS_JABBER_MOOD, 0, 0);
+		if (ProtoServiceExists(p->szAccountName, PS_JABBER_MOOD)) {
+			ProtoCallService(p->szAccountName, PS_JABBER_MOOD, 0, 0);
 			return TRUE;
 		}
 	}
@@ -812,7 +813,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				BOOL bShift = (GetKeyState(VK_SHIFT) & 0x8000);
 				BOOL bCtrl = (GetKeyState(VK_CONTROL) & 0x8000);
 
-				if ((msg == WM_MBUTTONDOWN || (msg == WM_RBUTTONDOWN && bCtrl) || isOnExtra) && _ModernStatus_OnExtraIconClick(i))
+				if ((msg == WM_MBUTTONDOWN || (msg == WM_RBUTTONDOWN && bCtrl) || isOnExtra) && _ModernStatus_OnExtraIconClick(&p))
 					return TRUE;
 
 				if (msg == WM_LBUTTONDOWN && bCtrl) {
@@ -888,15 +889,9 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					}
 					else {
 						hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-						unsigned int cpnl = 0;
-						int mcnt = GetMenuItemCount(hMenu);
-						for (int j = 0; j < mcnt; ++j) {
-							HMENU hMenus = GetSubMenu(hMenu, j);
-							if (hMenus && cpnl++ == i) {
-								hMenu = hMenus;
-								break;
-							}
-						}
+						HMENU hSubMenu = GetSubMenu(hMenu, p.iProtoPos);
+						if (hSubMenu)
+							hMenu = hSubMenu;
 					}
 				}
 
