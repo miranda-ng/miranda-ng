@@ -21,9 +21,9 @@ uses
   ,status    in 'status\status.pas'
   ,tmpl      in 'status\tmpl.pas'
   ,templates in 'templates\templates.pas'
-{.$IFDEF KOL_MCK}
+{$IFDEF KOL_MCK}
   ,kolframe  in 'kolframe\kolframe.pas'
-{.$ENDIF}
+{$ENDIF}
   {$include lst_players.inc}
   {$include lst_formats.inc}
 ;
