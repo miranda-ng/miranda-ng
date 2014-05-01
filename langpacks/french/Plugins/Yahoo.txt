@@ -115,7 +115,7 @@ e-mail
 [Profile]
 Profil
 [Refresh]
-
+Actualiser
 [Address Book]
 Carnet d'adresses
 [Set Status]

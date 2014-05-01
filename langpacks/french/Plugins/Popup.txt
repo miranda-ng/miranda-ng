@@ -239,19 +239,19 @@ Exemple de message d'erreur
 
 ;file \plugins\Popup\src\font.h
 [Popups]
-
+Popups
 [Title]
 
 [Clock]
 
 [Text]
-
+Texte
 [Hovered Action]
 
 [Background]
-
+Arrière-plan
 [Border]
-
+Bordures
 [Sidebar]
 
 [Title underline]

@@ -19,4 +19,4 @@ Annuler
 [GnuPG Plugin - Select public key]
 
 [Refresh]
-
+Actualiser

@@ -35,7 +35,6 @@
 [Result type]
 [Free memory]
 [All]
-[Refresh]
 [ContactInfo]
 [LastEvent]
 [EventCount]

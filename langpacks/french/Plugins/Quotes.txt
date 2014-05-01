@@ -169,7 +169,7 @@ Heures
 [Import All Quotes]
 
 [Refresh]
-
+Actualiser
 [Open Log File...]
 
 [Chart...]

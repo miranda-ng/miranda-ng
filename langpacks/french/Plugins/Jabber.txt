@@ -19,11 +19,11 @@ Type :
 [User:]
 Contact :
 [Domain/Server:]
-Domaine/serveur :
+Serveur :
 [Password:]
 Passe :
 [Save password]
-Enregistrer le mot de passe
+Enregistrer le passe
 [Resource:]
 Ressource :
 [Register new user]
@@ -51,11 +51,11 @@ Exporter vers un fichier
 [Username:]
 Identifiant :
 [Change password]
-Changer le mot de passe
+Changer le passe
 [Priority:]
 Priorité :
 [Use hostname as resource]
-Utilisez le nom d'hôte en tant que ressource
+Utilisez le nom de l'ordinateur
 [List of public servers]
 Liste des serveurs publics
 [Port:]
@@ -69,7 +69,7 @@ Désenregistrer
 [Expert]
 Expert
 [Manually specify connection host]
-Indiquer l'hôte manuellement
+Choisir un hôte manuellement
 [Host:]
 Hôte :
 [Keep connection alive]
@@ -333,7 +333,7 @@ Nom de la nouvelle liste :
 [Favorites]
 Favoris
 [Refresh]
-
+Actualiser
 [JID:]
 JID :
 [Node:]
@@ -345,7 +345,7 @@ Type de compte :
 [Register account now]
 Enregistrer le compte
 [Jabber Account Information:]
-
+Informations sur le compte Jabber :
 [Member Information]
 
 [Member Information\n<user ID>]
@@ -367,7 +367,7 @@ Message d'état :
 [Custom messages]
 
 [Quit:]
-
+Quitter :
 [Slap:]
 
 [Authorization request]
@@ -864,9 +864,9 @@ Nom
 [Desired Nickname]
 
 [Your URL]
-
+Votre URL
 [Email Address]
-
+Courriel
 [FAQ Entry]
 
 [Whether to allow occupants to invite others]
@@ -1287,7 +1287,7 @@ Erreurs
 [Send note to %s]
 
 [From: %s]
-
+De : %s
 [All tags]
 
 [Notes are not saved, close this window without uploading data to server?]
@@ -2108,7 +2108,7 @@ Aucun
 [Logoff message]
 
 [<no information available>]
-
+<aucune information disponible>
 [Last active resource]
 
 [Please switch online to see more details.]
@@ -2326,7 +2326,7 @@ Fier
 [Restless]
 
 [Sad]
-
+Triste
 [Sarcastic]
 Sarcastique
 [Satisfied]
@@ -2338,7 +2338,7 @@ Choqué
 [Shy]
 Timide
 [Sick]
-
+Malade
 [Sleepy]
 
 [Spontaneous]
@@ -2498,7 +2498,7 @@ Au téléphone
 [driving]
 
 [in a car]
-
+dans un véhicule
 [on a bus]
 
 [on a plane]

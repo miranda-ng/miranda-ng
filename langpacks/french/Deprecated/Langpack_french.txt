@@ -50,7 +50,7 @@ Ceci effacera tout l'historique et réglages de ce contact !
 [Contact display options]
 Options d'affichage des contacts
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Plutôt que d'afficher les contacts par ordre alphabétique,\ncliquer/glisser pour choisir un autre ordre: 
+Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
 [Miranda NG Profile Manager]
 Gestionnaire de profil Miranda NG
 [&Run]
@@ -196,7 +196,7 @@ Afficher la catégorie
 [Download more icons]
 Télécharger plus d'icônes
 [The following events are being ignored:]
-Les évènements suivants sont ignorés:
+Les événements suivants sont ignorés :
 [Messages]
 Messages
 [URLs]
@@ -409,10 +409,10 @@ Récupérer d'autres protocoles...
 &Mettre à jour...
 [&Remove...]
 &Effacer...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG redémarre.\nVeuillez patienter...
+[Error console]
+Erreur console
 [Headers:]
 En-têtes
 [Normal text:]
@@ -441,6 +441,8 @@ Trier alphabétiquement
 Informations
 [Contacts]
 Contacts
+[&Remove]
+&Supprimer
 [&Set as Default]
 Par &Défaut
 [Move &Up]
@@ -483,12 +485,12 @@ Effacer l'historique
 Patienter pendant la suppression de l'historique.
 [Subcontact Priorities]
 Priorités des sous-contacts
+[Protocol:]
+Protocole :
+[Status:]
+État :
 [Rank:]
 Rang:
-[Status:]
-État:
-[Protocol:]
-Protocole:
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
 [Last modified using:]
@@ -599,6 +601,10 @@ Fermeture dans %d
 &Envoyer
 [&Bold]
 &Gras
+[&Color]
+&Couleur
+[&Background color]
+&Couleur de fond
 [Show these events only:]
 Voir ces évènements si :
 [Nick changes]
@@ -667,8 +673,6 @@ Liste
 Effacer le journal
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -991,6 +995,8 @@ Accepter automatiquement les fichiers provenant de la liste de contacts
 Minimiser la fenêtre de transfert
 [Close window when transfer completes]
 Fermer la fenêtre quand le transfert est achevé
+[Clear completed transfers on window closing]
+Effacer les transferts terminés lors de la fermeture de fenêtre
 [Virus scanner]
 Analyse antivirus
 [Scan files:]
@@ -1023,10 +1029,6 @@ Miranda NG\n%s
 Crédits >
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Devient "Inactif" si l'écran de veille est activé.
 [Become idle if the computer is locked]
@@ -1119,6 +1121,8 @@ minutes
 Voir les secondes
 [Load history events]
 Derniers échanges
+[Show formatting]
+Afficher le formatage
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
@@ -1715,6 +1719,8 @@ Message de %s
 Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Instant messages]
+Messages instantanés
 [Incoming (focused window)]
 Entrant (fenêtre active)
 [Incoming (unfocused window)]
@@ -1939,6 +1945,8 @@ Prénom Nom
 Nom Prénom
 ['(Unknown contact)']
 '(Contacts Inconnus)'
+[Contact names]
+Noms des contacts
 [Menu icons]
 Menus
 [Menus]
@@ -1985,6 +1993,8 @@ Souci à la création de profil
 Taille
 [Run]
 Lancer
+[Check database]
+Vérifiez la base de données
 [Created]
 Créée
 [Manage your Miranda NG profile]
@@ -2203,6 +2213,8 @@ Effacer le raccourci
 Ajouter un autre raccourci
 [System]
 Système
+[Modify]
+Modifier
 [User online]
 Utilisateur en ligne
 [Group (open)]
@@ -2249,6 +2261,8 @@ Afficher/Masquer
 Quitter
 [Join chat]
 Joindre un salon
+[Move to group]
+Déplacer vers le groupe
 [Frames]
 Cadres
 [Request authorization]
@@ -2265,6 +2279,8 @@ Icônes d'état
 Icônes %s
 [Main icons]
 Icônes principales
+[WAV files]
+Fichiers WAV
 [You need an image services plugin to process PNG images.]
 Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
 [All bitmaps]
@@ -3164,6 +3180,8 @@ Appliquer
 Message
 [Others]
 Autres
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
@@ -5235,6 +5253,8 @@ Voulez-vous que le contact '%s' soit transféré du MetaContact '%s' au MetaCont
 Changement de MetaContact (Déplacement)
 [Do you want contact '%s' to be added to MetaContact '%s'?]
 Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
+[Contact names]
+Noms des contacts
 [Row items]
 Détail des lignes
 [Standard contacts]
@@ -6999,6 +7019,8 @@ Annuler
 État
 [Add]
 Ajouter
+[Modify]
+Modifier
 [Warning]
 Avertissement
 [Favorites]
@@ -7457,37 +7479,67 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.3.2
+;  Version: 0.2.4.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Facebook protocol support for Miranda NG.]
+Support du protocole Facebook pour Miranda NG.
 [E-mail:]
-E-mail:
+Courriel :
 [Password:]
-Passe:
+Passe :
+[Create a new Facebook account]
+Créer un nouveau compte Facebook
+[What's on your mind?]
+Exprimez-vous
+[Wall:]
+Mur :
+[Visibility:]
+Visibilité :
 [URL:]
-Lien:
+Lien :
+[Share]
+Partager
 [Cancel]
 Annuler
 [User details]
 Détails du contact
 [Default group:]
-Groupes:
+Groupes :
 [Notifications]
 Notifications
+[Other events]
+Autres événements
 [Preview]
 Aperçu
 [Advanced Settings]
 Options Avancées
+[Force secure (HTTPS) connection]
+Se connecter via une connection sécurisée HTTPS
+[Post Miranda statuses to Wall]
+Poster les statuts de Miranda sur le mur
 [Message sessions]
 Sessions de message
+[Keep messages as unread on server (don't send "seen" info)]
+Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
+[Status update was successful.]
+Mise à jour du statut avec succès.
+[Classic website]
+Site internet classique
 [Default]
 Défaut
 [files]
 Fichiers
 [Message read: %s]
 Message lu : %s
+[This message is no longer available, because it was marked as abusive or spam.]
+Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
+[%s is typing a message...]
+%s vous écrit un message...
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 [%s server connection]
@@ -8022,7 +8074,7 @@ Avancé
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: Gadu-Gadu Protocol
+;  Plugin: Gadu-Gadu protocol
 ;  Version: 0.11.0.3
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
@@ -8918,7 +8970,7 @@ Activer HTTP server
 #muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: IcqOscarJ Protocol
+;  Plugin: IcqOscarJ protocol
 ;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
@@ -10894,12 +10946,12 @@ Retirer l'exception?
 #muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber Protocol
+;  Plugin: Jabber protocol
 ;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-[Jabber protocol support for Miranda NG.]
-Support du protocole Jabber  pour Miranda NG.
+[Jabber (XMPP) protocol support for Miranda NG.]
+Support du protocole Jabber (XMPP) pour Miranda NG.
 [Edit Note]
 Modifier la note
 [Cancel]
@@ -11862,6 +11914,8 @@ Programme
 Annuler
 [URL events]
 Liens URL
+[Other events]
+Autres événements
 [Use custom theme]
 Thème personnalisé
 [The following events are being ignored:]
@@ -12082,8 +12136,6 @@ Utilisateur en ligne
 Vous avez été ajouté
 [Typing Notify]
 Notification de frappe
-[Miranda NG]
-Miranda NG
 [Request authorization]
 Demander l'autorisation
 [Customize]
@@ -12238,7 +12290,7 @@ Ignorer
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;============================================================
 ;  File: MRA.dll
-;  Plugin: MRA
+;  Plugin: MRA protocol
 ;  Version: 2.1.0.8
 ;  Authors: Rozhuk Ivan
 ;============================================================
@@ -12586,7 +12638,7 @@ EmailExpress de:
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN Protocol
+;  Plugin: MSN protocol
 ;  Version: 0.11.0.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
@@ -12644,6 +12696,8 @@ Pseudo
 Ajouter
 [Others]
 Autres
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [Contact tried to open an audio conference (not currently supported)]
@@ -12895,10 +12949,6 @@ Récupération du message %s...
 &Annuler
 [&Rename]
 &Renommer
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Message]
 Message
 [URL]
@@ -13574,6 +13624,10 @@ Gris
 Argent
 [Aqua]
 Eau
+[Visible]
+Visible
+[Top]
+Haut
 [Notes]
 Notes
 [Note text]
@@ -13681,8 +13735,8 @@ Tremblement des fenêtres
 #muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;============================================================
 ;  File: Omegle.dll
-;  Plugin: Omegle Protocol
-;  Version: 0.1.2.0
+;  Plugin: Omegle protocol
+;  Version: 0.1.2.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Server:]
@@ -14027,6 +14081,10 @@ Activer tous les pings
 Désactiver tous les pings
 [Ping]
 Ping
+[Text Files (*.txt)]
+Fichier texte (*.txt)
+[All Files]
+Tous les fichiers
 [<none>]
 <aucun>
 [<all>]
@@ -14211,6 +14269,10 @@ Une erreur est survenue lors de la vérification des mises à jour.
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
+[Check Database]
+Vérifiez la base de données
+[Check database]
+Vérifiez la base de données
 #muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: Popup.dll
@@ -14376,6 +14438,14 @@ Exemple de notification
 Exemple de message d'avertissement
 [This is an error message]
 Exemple de message d'erreur
+[Popups]
+Popups
+[Text]
+Texte
+[Background]
+Arrière-plan
+[Border]
+Bordures
 [Refresh skin list]
 Rafraîchir la liste des skins
 [Popup Placement]
@@ -14628,6 +14698,8 @@ Aperçu
 Statique
 [&Add]
 &Ajouter
+[&Remove]
+&Supprimer
 [Seconds]
 secondes
 [Minutes]
@@ -14679,7 +14751,7 @@ Ignorer ce contact
 #muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
 ;============================================================
 ;  File: Sametime.dll
-;  Plugin: Sametime Protocol
+;  Plugin: Sametime protocol
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
@@ -14882,6 +14954,10 @@ Non
 &Gras
 [&Underline]
 &Souligné
+[&Color]
+&Couleur
+[&Background color]
+&Couleur de fond
 [Show these events only:]
 Voir ces évènements si:
 [Messages]
@@ -14958,8 +15034,6 @@ Journal
 Tout &sélectionner
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Bing]
 Bing
 [Yandex]
@@ -15218,6 +15292,8 @@ Message de %s
 Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Si vous utilisez Windows 95 ou WINE, veuillez vous assurer que vous avez installé riched20.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Instant messages]
+Messages instantanés
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]
@@ -15617,8 +15693,6 @@ Envoyer la capture
 Envoyer une capture
 [Take a screenshot]
 Prendre un screenshot
-[Default]
-Défaut
 [Help]
 Aide
 [Open Folder]
@@ -15683,8 +15757,6 @@ Sessions de message
 Menus
 [Remove]
 Retirer
-[Miranda]
-Miranda
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
 ;  File: SimpleAR.dll
@@ -15828,7 +15900,7 @@ Occupééééé
 #muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
 ;============================================================
 ;  File: Skype.dll
-;  Plugin: Skype Protocol
+;  Plugin: Skype protocol
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
@@ -15947,7 +16019,7 @@ Pseudo
 #muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
 ;============================================================
 ;  File: SkypeClassic.dll
-;  Plugin: Skype Protocol (Classic)
+;  Plugin: Skype protocol (Classic)
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
@@ -15991,6 +16063,8 @@ Aperçu
 &Fichier
 [Unknown]
 Inconnu
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [MALE]
@@ -16450,12 +16524,14 @@ Changement d'état
 ;  Version: 0.11.0.1
 ;  Authors: unsane
 ;============================================================
+[Steam protocol support for Miranda NG.]
+Support du protocole Steam pour Miranda NG.
 [Username:]
 Identifiant :
 [Password:]
 Passe :
 [Default group:]
-Groupes:
+Groupes :
 [Account]
 Compte
 [Cancel]
@@ -16577,8 +16653,6 @@ Effacer le journal
 &Tout copier
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -16619,6 +16693,8 @@ Ouvrir à cet endroit
 &Envoyer
 [&Add]
 &Ajouter
+[&Remove]
+&Supprimer
 [Other options]
 Autres options
 [Advanced tweaks]
@@ -16915,6 +16991,8 @@ Réduire la fenêtre à l'envoi
 Notifications :
 [URL events]
 Liens URL
+[Other events]
+Autres événements
 [&Copy]
 &Copier
 [&Quote]
@@ -17161,8 +17239,14 @@ Fichier reçu
 Nouveaux messages : 
 [Version]
 Version
+[%s is typing a message...]
+%s vous écrit un message...
 [Last received: %s at %s]
 Dernière réception : le %s à %s
+[%s is typing a message]
+%s écrit un message
+[Instant messages]
+Messages instantanés
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]
@@ -17832,6 +17916,8 @@ XStatus - Titre
 Aube :
 [Sunset:]
 Aurore :
+[Visibility:]
+Visibilité :
 [Background]
 Arrière-plan
 [Dividers]
@@ -17863,7 +17949,7 @@ Vietnamien
 #muuid {748f8934-781a-528d-5208-001265404ab3}
 ;============================================================
 ;  File: Tlen.dll
-;  Plugin: Tlen Protocol
+;  Plugin: Tlen protocol
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
@@ -18083,8 +18169,6 @@ Envoi en cours
 login Tlen
 [Tlen Connection Error]
 Erreur lors de la connexion à Tlen
-[Windows]
-Windows
 [%s Web Messages]
 %s messages web
 [Web message]
@@ -18292,7 +18376,7 @@ Effacer la valeur courante (maintenant)
 #muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
 ;  File: Twitter.dll
-;  Plugin: Twitter
+;  Plugin: Twitter protocol
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
@@ -18853,8 +18937,6 @@ tous les contacts
 Modules requis
 [Optional modules]
 Modules optionnels
-[Miranda NG]
-Miranda NG
 [Shows Miranda's installation directory.]
 Afficher le répertoire d'installation de miranda
 [Shows the directory with all your Miranda's profiles.]
@@ -20042,7 +20124,7 @@ Session message
 #muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;============================================================
 ;  File: Xfire.dll
-;  Plugin: Xfire Protocol
+;  Plugin: Xfire protocol
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
@@ -20149,12 +20231,14 @@ Changer
 RAZ
 [Cancel]
 Annuler
+[WAV files]
+Fichiers WAV
 [Sounds]
 Sons
 #muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo Protocol
+;  Plugin: Yahoo protocol
 ;  Version: 0.11.0.1
 ;  Authors: Gennady Feldman
 ;============================================================
@@ -20188,6 +20272,8 @@ RAZ
 Liste des contacts à ignorer
 [&Add]
 &Ajouter
+[&Remove]
+&Supprimer
 [Set Custom Status]
 Personnaliser le message d'état
 [Show as busy]
@@ -20210,6 +20296,8 @@ Ajouter
 {Miranda} Invitation à la conférence ici: %s message: %s
 [Others]
 Autres
+[&Invite user...]
+&Inviter l'utilisateur...
 [User &details]
 &Détails du contact
 [Main]

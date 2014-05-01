@@ -142,7 +142,7 @@ Sauver
 [Close]
 Fermer
 [Refresh]
-
+Actualiser
 [QuickSearch]
 Recherche rapide
 [Show Offline contacts]

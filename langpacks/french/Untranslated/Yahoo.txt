@@ -19,7 +19,6 @@
 [User &history]
 [Join My Conference...]
 [No, thank you...]
-[Refresh]
 [Set Status]
 [YAHOO plugin HTTP connections]
 [Connection]

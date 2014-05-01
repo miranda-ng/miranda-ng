@@ -57,7 +57,7 @@ Contact bloqué
 [Somebody included you in his/her server list]
 Vous êtes dans la liste de ce contact
 [Refresh]
-
+Actualiser
 [Hotmail]
 
 [Disable Popup notifications]

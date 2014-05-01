@@ -1053,13 +1053,13 @@ Nouveaux messages :
 [Version]
 Version
 [%s is typing a message...]
-
+%s écrit un message...
 [Last received: %s at %s]
 Dernière réception : le %s à %s
 [%s has entered text.]
 
 [%s is typing a message]
-
+%s écrit un message
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]

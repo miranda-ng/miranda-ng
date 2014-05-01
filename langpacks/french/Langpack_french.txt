@@ -409,8 +409,6 @@ Récupérer d'autres protocoles...
 &Mettre à jour...
 [&Remove...]
 &Effacer...
-[Miranda NG]
-Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG redémarre.\nVeuillez patienter...
 [Error console]
@@ -675,8 +673,6 @@ Liste
 Effacer le journal
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -1033,10 +1029,6 @@ Miranda NG\n%s
 Crédits >
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Become idle if the screen saver is active]
 Devient "Inactif" si l'écran de veille est activé.
 [Become idle if the computer is locked]
@@ -2943,6 +2935,8 @@ Commun
 [&No]
 &Non
 ; Actman30
+[Refresh]
+Actualiser
 [Case sensitive]
 Respecter la casse
 [RTL]
@@ -7014,6 +7008,8 @@ Afficher
 ;============================================================
 [Cancel]
 Annuler
+[Refresh]
+Actualiser
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
@@ -8082,7 +8078,7 @@ Avancé
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: Gadu-Gadu Protocol
+;  Plugin: Gadu-Gadu protocol
 ;  Version: 0.11.0.3
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
@@ -8978,7 +8974,7 @@ Activer HTTP server
 #muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: IcqOscarJ Protocol
+;  Plugin: IcqOscarJ protocol
 ;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
@@ -10954,12 +10950,12 @@ Retirer l'exception?
 #muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber Protocol
+;  Plugin: Jabber protocol
 ;  Version: 0.11.0.4
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
-[Jabber protocol support for Miranda NG.]
-Support du protocole Jabber  pour Miranda NG.
+[Jabber (XMPP) protocol support for Miranda NG.]
+Support du protocole Jabber (XMPP) pour Miranda NG.
 [Edit Note]
 Modifier la note
 [Cancel]
@@ -10969,11 +10965,11 @@ Type :
 [User:]
 Contact :
 [Domain/Server:]
-Domaine/serveur :
+Serveur :
 [Password:]
 Passe :
 [Save password]
-Enregistrer le mot de passe
+Enregistrer le passe
 [Resource:]
 Ressource :
 [Register new user]
@@ -10991,11 +10987,11 @@ Exporter vers un fichier
 [Username:]
 Identifiant :
 [Change password]
-Changer le mot de passe
+Changer le passe
 [Priority:]
 Priorité :
 [Use hostname as resource]
-Utilisez le nom d'hôte en tant que ressource
+Utilisez le nom de l'ordinateur
 [List of public servers]
 Liste des serveurs publics
 [Port:]
@@ -11009,7 +11005,7 @@ Désenregistrer
 [Expert]
 Expert
 [Manually specify connection host]
-Indiquer l'hôte manuellement
+Choisir un hôte manuellement
 [Host:]
 Hôte :
 [Keep connection alive]
@@ -11244,14 +11240,20 @@ Nom de la nouvelle liste :
 Nom de la nouvelle liste :
 [Favorites]
 Favoris
+[Refresh]
+Actualiser
 [JID:]
 JID :
 [Account type:]
 Type de compte :
 [Register account now]
 Enregistrer le compte
+[Jabber Account Information:]
+Informations sur le compte Jabber :
 [Status message:]
 Message d'état :
+[Quit:]
+Quitter :
 [Authorization request]
 Demande d'autorisation
 [Authorize]
@@ -11334,6 +11336,10 @@ Catégorie
 Prénom
 [Last Name]
 Nom
+[Your URL]
+Votre URL
+[Email Address]
+Courriel
 [Loading...]
 Chargement...
 [Notes]
@@ -11396,6 +11402,8 @@ Vers
 les 2
 [Errors]
 Erreurs
+[From: %s]
+De : %s
 [Are you sure?]
 Etes-vous sûr?
 [Arabic]
@@ -11588,6 +11596,8 @@ les 2
 Vers
 [none]
 Aucun
+[<no information available>]
+<aucune information disponible>
 [Copy]
 Copier
 [format]
@@ -11678,6 +11688,8 @@ Neutre
 Offensé
 [Proud]
 Fier
+[Sad]
+Triste
 [Sarcastic]
 Sarcastique
 [Serious]
@@ -11686,6 +11698,8 @@ Sérieux
 Choqué
 [Shy]
 Timide
+[Sick]
+Malade
 [Stressed]
 Stressé
 [Surprised]
@@ -11706,6 +11720,8 @@ Fait les courses
 Regarde la télé
 [on the phone]
 Au téléphone
+[in a car]
+dans un véhicule
 [studying]
 Étudie
 #muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
@@ -12298,7 +12314,7 @@ Ignorer
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;============================================================
 ;  File: MRA.dll
-;  Plugin: MRA
+;  Plugin: MRA protocol
 ;  Version: 2.1.0.8
 ;  Authors: Rozhuk Ivan
 ;============================================================
@@ -12426,6 +12442,8 @@ Connexions
 Fichiers
 [Avatars]
 Avatars
+[Sick]
+Malade
 [Home]
 Domicile
 [Duck]
@@ -12646,7 +12664,7 @@ EmailExpress de:
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN Protocol
+;  Plugin: MSN protocol
 ;  Version: 0.11.0.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
@@ -12682,6 +12700,8 @@ Contact autorisé
 Contact bloqué
 [Somebody included you in his/her server list]
 Vous êtes dans la liste de ce contact
+[Refresh]
+Actualiser
 [Other]
 Autre
 [Enable 'Chat Session Established' popup]
@@ -12957,10 +12977,6 @@ Récupération du message %s...
 &Annuler
 [&Rename]
 &Renommer
-[Windows]
-Windows
-[Miranda]
-Miranda
 [Message]
 Message
 [URL]
@@ -13636,6 +13652,10 @@ Gris
 Argent
 [Aqua]
 Eau
+[Visible]
+Visible
+[Top]
+Haut
 [Notes]
 Notes
 [Note text]
@@ -13743,8 +13763,8 @@ Tremblement des fenêtres
 #muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;============================================================
 ;  File: Omegle.dll
-;  Plugin: Omegle Protocol
-;  Version: 0.1.2.0
+;  Plugin: Omegle protocol
+;  Version: 0.1.2.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Server:]
@@ -14089,6 +14109,10 @@ Activer tous les pings
 Désactiver tous les pings
 [Ping]
 Ping
+[Text Files (*.txt)]
+Fichier texte (*.txt)
+[All Files]
+Tous les fichiers
 [<none>]
 <aucun>
 [<all>]
@@ -14442,6 +14466,14 @@ Exemple de notification
 Exemple de message d'avertissement
 [This is an error message]
 Exemple de message d'erreur
+[Popups]
+Popups
+[Text]
+Texte
+[Background]
+Arrière-plan
+[Border]
+Bordures
 [Refresh skin list]
 Rafraîchir la liste des skins
 [Popup Placement]
@@ -14616,6 +14648,8 @@ contact actuel
 Sauver
 [Close]
 Fermer
+[Refresh]
+Actualiser
 [QuickSearch]
 Recherche rapide
 [Show Offline contacts]
@@ -14702,6 +14736,8 @@ secondes
 Minutes
 [Hours]
 Heures
+[Refresh]
+Actualiser
 [Network]
 Réseau
 [All files (*.*)]
@@ -14747,7 +14783,7 @@ Ignorer ce contact
 #muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
 ;============================================================
 ;  File: Sametime.dll
-;  Plugin: Sametime Protocol
+;  Plugin: Sametime protocol
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
@@ -15030,8 +15066,6 @@ Journal
 Tout &sélectionner
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Bing]
 Bing
 [Yandex]
@@ -15691,8 +15725,6 @@ Envoyer la capture
 Envoyer une capture
 [Take a screenshot]
 Prendre un screenshot
-[Default]
-Défaut
 [Help]
 Aide
 [Open Folder]
@@ -15757,8 +15789,6 @@ Sessions de message
 Menus
 [Remove]
 Retirer
-[Miranda]
-Miranda
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
 ;  File: SimpleAR.dll
@@ -15902,7 +15932,7 @@ Occupééééé
 #muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
 ;============================================================
 ;  File: Skype.dll
-;  Plugin: Skype Protocol
+;  Plugin: Skype protocol
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
@@ -16021,7 +16051,7 @@ Pseudo
 #muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
 ;============================================================
 ;  File: SkypeClassic.dll
-;  Plugin: Skype Protocol (Classic)
+;  Plugin: Skype protocol (Classic)
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
@@ -16655,8 +16685,6 @@ Effacer le journal
 &Tout copier
 [Word lookup]
 Consultation de mot
-[Google]
-Google
 [Wikipedia]
 Wikipedia
 [Link]
@@ -17243,8 +17271,12 @@ Fichier reçu
 Nouveaux messages : 
 [Version]
 Version
+[%s is typing a message...]
+%s écrit un message...
 [Last received: %s at %s]
 Dernière réception : le %s à %s
+[%s is typing a message]
+%s écrit un message
 [Instant messages]
 Messages instantanés
 [Incoming (Focused Window)]
@@ -17949,7 +17981,7 @@ Vietnamien
 #muuid {748f8934-781a-528d-5208-001265404ab3}
 ;============================================================
 ;  File: Tlen.dll
-;  Plugin: Tlen Protocol
+;  Plugin: Tlen protocol
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
@@ -18169,8 +18201,6 @@ Envoi en cours
 login Tlen
 [Tlen Connection Error]
 Erreur lors de la connexion à Tlen
-[Windows]
-Windows
 [%s Web Messages]
 %s messages web
 [Web message]
@@ -18378,7 +18408,7 @@ Effacer la valeur courante (maintenant)
 #muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
 ;  File: Twitter.dll
-;  Plugin: Twitter
+;  Plugin: Twitter protocol
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
@@ -18939,8 +18969,6 @@ tous les contacts
 Modules requis
 [Optional modules]
 Modules optionnels
-[Miranda NG]
-Miranda NG
 [Shows Miranda's installation directory.]
 Afficher le répertoire d'installation de miranda
 [Shows the directory with all your Miranda's profiles.]
@@ -20128,7 +20156,7 @@ Session message
 #muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;============================================================
 ;  File: Xfire.dll
-;  Plugin: Xfire Protocol
+;  Plugin: Xfire protocol
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
@@ -20242,7 +20270,7 @@ Sons
 #muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo Protocol
+;  Plugin: Yahoo protocol
 ;  Version: 0.11.0.1
 ;  Authors: Gennady Feldman
 ;============================================================
@@ -20310,6 +20338,8 @@ Principales
 e-mail
 [Profile]
 Profil
+[Refresh]
+Actualiser
 [Address Book]
 Carnet d'adresses
 [Calendar]

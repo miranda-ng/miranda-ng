@@ -7,7 +7,6 @@
 [Notify me when a message delivery has failed]
 [Your host (or router):]
 [Contact is on your local list]
-[Refresh]
 [Hotmail]
 [Disable Popup notifications]
 [Disable Tray notifications]

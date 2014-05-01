@@ -767,7 +767,7 @@ Commun
 [Close for macro]
 
 [Refresh]
-
+Actualiser
 [Get from active window]
 
 [Chain]

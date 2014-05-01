@@ -60,7 +60,6 @@
 [Currency Converter...]
 [Export All Quotes]
 [Import All Quotes]
-[Refresh]
 [Open Log File...]
 [Chart...]
 [Edit Settings...]

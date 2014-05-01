@@ -296,7 +296,6 @@
 [Keep to end]
 [Close immediately]
 [Close for macro]
-[Refresh]
 [Get from active window]
 [Chain]
 [Keep old result]

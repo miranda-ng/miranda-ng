@@ -400,7 +400,7 @@ Avatars
 
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
-
+Malade
 [Home]
 Domicile
 [Eating]
