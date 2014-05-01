@@ -80,7 +80,7 @@ begin
       else if StrCmp(res,'BADAUTH' )=0 then StrCopy(tmp,Translate('Bad Auth. Check login and password'))
       else if StrCmp(res,'BADTIME' )=0 then StrCopy(tmp,Translate('Bad TimeStamp'))
       else if StrCmp(res,'FAILED',6)=0 then StrCopy(tmp,res+7);
-      CallService(MS_POPUP_SHOWMESSAGEW,wparam(@request),SM_ERROR);
+      CallService(MS_POPUP_SHOWMESSAGE,wparam(@request),SM_ERROR);
     end;
     mFreeMem(res);
   end;

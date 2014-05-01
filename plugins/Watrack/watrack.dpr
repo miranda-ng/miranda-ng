@@ -21,9 +21,9 @@ uses
   ,status    in 'status\status.pas'
   ,tmpl      in 'status\tmpl.pas'
   ,templates in 'templates\templates.pas'
-{$IFDEF KOL_MCK}
+{.$IFDEF KOL_MCK}
   ,kolframe  in 'kolframe\kolframe.pas'
-{$ENDIF}
+{.$ENDIF}
   {$include lst_players.inc}
   {$include lst_formats.inc}
 ;
@@ -252,8 +252,10 @@ begin
            isContainer(WorkSI.mfile))) then      // ... or container like CUE
         begin
           // requirement: old artist/title for remote files
-          result:=GetInfo(WorkSI,flags);
           newtrack:=result=WAT_RES_NEWFILE;
+          result:=GetInfo(WorkSI,flags);
+          if not newtrack then
+            newtrack:=result=WAT_RES_NEWFILE;
         end;
       end;
     end;
