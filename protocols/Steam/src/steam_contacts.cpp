@@ -181,7 +181,7 @@ void CSteamProto::UpdateContactsThread(void *arg)
 	}
 }
 
-MCONTACT CSteamProto::AddContact(const char *steamId)
+MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 {
 	MCONTACT hContact = this->FindContact(steamId);
 	if (!hContact)
@@ -194,6 +194,13 @@ MCONTACT CSteamProto::AddContact(const char *steamId)
 
 		// update info
 		//UpdateContact(hContact, contact);
+
+		if (isTemporary)
+		{
+			setByte(hContact, "Auth", 1);
+			//setByte(hContact, "Grant", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
+		}
 
 		// move to default group
 		DBVARIANT dbv;
@@ -215,6 +222,9 @@ void CSteamProto::RaiseAuthRequestThread(void *arg)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA(hContact, "SteamID"));
+
+	//setByte(hContact, "Auth", 1);
+	setByte(hContact, "Grant", 1);
 
 	SteamWebApi::FriendApi::Summaries summaries;
 	debugLogA("CSteamProto::RaiseAuthRequestThread: call SteamWebApi::FriendApi::LoadSummaries");
@@ -275,6 +285,7 @@ void CSteamProto::AuthAllowThread(void *arg)
 	{
 		delSetting(hContact, "Auth");
 		delSetting(hContact, "Grant");
+		db_unset(hContact, "CList", "NotOnList");
 
 		/*SteamWebApi::FriendApi::Summaries summaries;
 		debugLogA("CSteamProto::AuthAllowThread: call SteamWebApi::FriendApi::LoadSummaries");
@@ -305,6 +316,22 @@ void CSteamProto::AuthDenyThread(void *arg)
 
 void CSteamProto::AddContactThread(void *arg)
 {
+	MCONTACT hContact = (MCONTACT)arg;
+	if (!hContact)
+		return;
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA sessionId(getStringA("SessionID"));
+	ptrA steamId(getStringA("SteamID"));
+	ptrA who(getStringA(hContact, "SteamID"));
+
+	//db_unset(hContact, "CList", "NotOnList");
+
+	SteamWebApi::FriendListApi::Result result;
+	debugLogA("CSteamProto::AddContactThread: call SteamWebApi::FriendListApi::AddFriend");
+	SteamWebApi::FriendListApi::AddFriend(m_hNetlibUser, token, sessionId, steamId, who, &result);
+
+	ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, result.IsSuccess() ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)hContact, NULL);
 }
 
 void CSteamProto::RemoveContactThread(void *arg)
@@ -355,7 +382,7 @@ void CSteamProto::LoadContactListThread(void*)
 			{
 				MCONTACT hContact = FindContact(steamId);
 				if (!hContact)
-					hContact = AddContact(steamId);
+					hContact = AddContact(steamId, true);
 
 				RaiseAuthRequestThread((void*)hContact);
 			}

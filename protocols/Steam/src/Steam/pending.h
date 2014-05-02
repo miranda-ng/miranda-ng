@@ -23,7 +23,6 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data), "sessionID=%s&id=%s&perform=accept&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
 			SecureHttpPostRequest request(hConnection, url);
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.AddHeader("Cookie", cookie);
 			request.SetData(data, strlen(data));
 
@@ -54,7 +53,6 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data), "sessionID=%s&id=%s&perform=ignore&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
 			SecureHttpPostRequest request(hConnection, url);
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.AddHeader("Cookie", cookie);
 			request.SetData(data, strlen(data));
 
@@ -85,7 +83,6 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data), "sessionID=%s&id=%s&perform=block&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
 			SecureHttpPostRequest request(hConnection, url);
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.AddHeader("Cookie", cookie);
 			request.SetData(data, strlen(data));
 

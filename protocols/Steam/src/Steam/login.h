@@ -30,7 +30,6 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data), "access_token=%s", token);
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001");
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());

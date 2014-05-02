@@ -45,12 +45,26 @@ CSteamProto::~CSteamProto()
 
 MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	if (psr->cbSize != sizeof(STEAM_SEARCH_RESULT))
-		return 0;
+	MCONTACT hContact = NULL;
 
-	STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
-	MCONTACT hContact = AddContact(ssr->contact->GetSteamId());
-	UpdateContact(hContact, ssr->contact);
+	if (psr->cbSize == sizeof(PROTOSEARCHRESULT))
+	{
+		char *steamId = mir_u2a(psr->id);
+		if (!FindContact(steamId))
+		{
+			hContact = AddContact(steamId, true);
+			ForkThread(&CSteamProto::UpdateContactsThread, (void*)steamId);
+		}
+		else
+			mir_free(steamId);
+	}
+	else if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT))
+	{
+		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
+		hContact = AddContact(ssr->contact->GetSteamId(), true);
+		UpdateContact(hContact, ssr->contact);
+	}
+
 	return hContact;
 }
 
@@ -68,7 +82,7 @@ int __cdecl CSteamProto::Authorize(HANDLE hDbEvent)
 			return 1;
 
 		ForkThread(&CSteamProto::AuthAllowThread, (void*)hContact);
-		// todo: how to return real status?
+
 		return 0;
 	}
 
@@ -84,9 +98,10 @@ int __cdecl CSteamProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 			return 1;
 
 		ForkThread(&CSteamProto::AuthDenyThread, (void*)hContact);
-		// todo: how to return real status?
+
 		return 0;
 	}
+
 	return 1;
 }
 
@@ -97,25 +112,32 @@ int __cdecl CSteamProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 
 int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
-	return 0;
+	if (IsOnline() && hContact)
+	{
+		ForkThread(&CSteamProto::AddContactThread, (void*)hContact);
+
+		return hContact;
+	}
+
+	return 1;
 }
 
-HANDLE __cdecl CSteamProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath ) 
+HANDLE __cdecl CSteamProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 { 
 	return 0;
 }
 
-int __cdecl CSteamProto::FileCancel(MCONTACT hContact, HANDLE hTransfer ) 
+int __cdecl CSteamProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	return 0;
 }
 
-int __cdecl CSteamProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason )
+int __cdecl CSteamProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	return 0;
 }
 
-int __cdecl CSteamProto::FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename )
+int __cdecl CSteamProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
 	return 0;
 }
@@ -125,11 +147,11 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME;
+		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_AUTHREQ | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_AVATARS | PF4_NOAUTHDENYREASON;
+		return PF4_NOCUSTOMAUTH | PF4_AVATARS | PF4_NOAUTHDENYREASON;// | PF4_FORCEAUTH | PF4_FORCEADDED;
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:
@@ -190,7 +212,7 @@ int __cdecl CSteamProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 
 int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, time(NULL), DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
+	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
 }
 
 int __cdecl CSteamProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT *) { return 0; }
@@ -278,7 +300,8 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 		return this->OnOptionsInit(wParam, lParam);*/
 
 	case EV_PROTO_ONCONTACTDELETED:
-		ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
+		if (this->IsOnline())
+			ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
 		return 0;
 
 	/*case EV_PROTO_ONMENU:

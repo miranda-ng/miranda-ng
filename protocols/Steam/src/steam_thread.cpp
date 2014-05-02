@@ -116,10 +116,8 @@ void CSteamProto::PollServer(const char *token, const char *umqId, UINT32 messag
 				
 				MCONTACT hContact = FindContact(steamId);
 				if (!hContact)
-					hContact = AddContact(steamId);
+					hContact = AddContact(steamId, true);
 
-				setByte(hContact, "Auth", 1);
-				setByte(hContact, "Grant", 1);
 				RaiseAuthRequestThread((void*)hContact);
 			}
 			break;
@@ -158,7 +156,7 @@ void CSteamProto::PollingThread(void*)
 			if (pollResult.GetStatus() == HTTP_STATUS_UNAUTHORIZED)
 			{
 				delSetting("TokenSecret");
-				delSetting("Cookie");
+				//delSetting("Cookie");
 			}
 
 			break;

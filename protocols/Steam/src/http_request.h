@@ -115,7 +115,6 @@ public:
 		NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
 		mir_free(szUrl);szUrl = NULL;
 		return response;
-
 	}
 
 private:
@@ -156,7 +155,10 @@ class SecureHttpPostRequest : public SecureHttpRequest
 {
 public:
 	SecureHttpPostRequest(HANDLE hNetlibUser, LPCSTR url)
-		: SecureHttpRequest(hNetlibUser, REQUEST_POST, url) { }
+		: SecureHttpRequest(hNetlibUser, REQUEST_POST, url)
+	{
+		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+	}
 };
 
 #endif //_HTTP_REQUEST_H_

@@ -82,7 +82,6 @@ namespace SteamWebApi
 				time(NULL));
 
 			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/mobilelogin/dologin");
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.ResetFlags(NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP);
 			request.SetData(data, strlen(data));
 
@@ -149,7 +148,6 @@ namespace SteamWebApi
 					authResult->cookie.c_str());
 
 				SecureHttpPostRequest second_request(hConnection, STEAM_COM_URL "/mobileloginsucceeded");
-				second_request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 				second_request.ResetFlags(NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP);
 				second_request.SetData(data, strlen(data));
 

@@ -93,7 +93,6 @@ namespace SteamWebApi
 			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s&message=%u", token, umqId, messageId);
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001");
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.SetData(data, strlen(data));
 			request.SetTimeout(90000); // may need to encrease timeout
 

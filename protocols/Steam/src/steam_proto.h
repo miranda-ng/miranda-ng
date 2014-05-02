@@ -136,7 +136,7 @@ protected:
 	void __cdecl UpdateContactsThread(void*);
 
 	MCONTACT FindContact(const char *steamId);
-	MCONTACT AddContact(const char *steamId);
+	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
 
 	void __cdecl RaiseAuthRequestThread(void*);
 	void __cdecl AuthAllowThread(void*);

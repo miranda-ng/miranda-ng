@@ -47,6 +47,7 @@ namespace SteamWebApi
 			SecureHttpGetRequest request(hConnection, STEAM_API_URL "/ISteamUserOAuth/GetFriendList/v0001");
 			request.AddParameter("access_token", token);
 			request.AddParameter("steamid", steamId);
+			request.AddParameter("relationship=friend,ignoredfriend,requestrecipient");
 			//relationship = friend, requestrecipient
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
@@ -111,7 +112,6 @@ namespace SteamWebApi
 				who);
 
 			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/actions/AddFriendAjax");
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.AddHeader("Cookie", cookie);
 			request.SetData(data, strlen(data));
 
@@ -119,7 +119,10 @@ namespace SteamWebApi
 			if (!response)
 				return;
 
-			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+			JSONNODE *root = json_parse(response->pData), *node;
+			node = json_get(root, "success");
+
+			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK || json_as_int(node) == 0)
 				return;
 
 			result->success = true;
@@ -142,7 +145,6 @@ namespace SteamWebApi
 				who);
 
 			SecureHttpPostRequest request(hConnection, STEAM_COM_URL "/actions/RemoveFriendAjax");
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.AddHeader("Cookie", cookie);
 			request.SetData(data, strlen(data));
 
