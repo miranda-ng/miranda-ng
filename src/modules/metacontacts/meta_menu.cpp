@@ -436,7 +436,7 @@ void InitMenus()
 		mi.pszName = "";
 
 		char buffer[512];
-		mir_snprintf(buffer, SIZEOF(buffer),"MetaContacts/MenuFunc%d", i);
+		mir_snprintf(buffer, SIZEOF(buffer), "MetaContacts/MenuFunc%d", i);
 		mi.pszService = buffer;
 
 		hMenuContact[i] = Menu_AddContactMenuItem(&mi);
@@ -451,7 +451,10 @@ void InitMenus()
 		mi.pszName = LPGEN("Toggle MetaContacts On");
 		Menu_ModifyItem(hMenuOnOff, &mi);
 
-		Meta_HideMetaContacts(TRUE);
+		Meta_HideMetaContacts(true);
 	}
-	else Meta_SuppressStatus(options.bSuppressStatus);
+	else {
+		Meta_SuppressStatus(options.bSuppressStatus);
+		Meta_HideMetaContacts(false);
+	}
 }

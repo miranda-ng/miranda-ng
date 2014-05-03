@@ -115,9 +115,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the contact's protocol
-	int id = ccDest->nSubs + 1;
 	char buffer[512];
-	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", id);
+	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", ccDest->nSubs);
 	if (db_set_s(hMeta, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -125,7 +124,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the login
-	mir_snprintf(buffer, SIZEOF(buffer), "Login%d", id);
+	mir_snprintf(buffer, SIZEOF(buffer), "Login%d", ccDest->nSubs);
 	if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 		MessageBox(0, TranslateT("Could not write unique ID of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -137,7 +136,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// If we can get the nickname of the subcontact...
 	if (!db_get(hSub, szProto, "Nick", &dbv)) {
 		// write the nickname
-		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", id);
+		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", ccDest->nSubs);
 		if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 			MessageBox(0, TranslateT("Could not write nickname of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 			db_free(&dbv);
@@ -148,22 +147,22 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the display name
-	mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", id);
+	mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", ccDest->nSubs);
 	db_set_ts(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
 
 	// Get the status
 	WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
-	mir_snprintf(buffer, SIZEOF(buffer), "Status%d", id);
+	mir_snprintf(buffer, SIZEOF(buffer), "Status%d", ccDest->nSubs);
 	db_set_w(hMeta, META_PROTO, buffer, status);
 
 	// write the handle
-	mir_snprintf(buffer, SIZEOF(buffer), "Handle%d", id);
+	mir_snprintf(buffer, SIZEOF(buffer), "Handle%d", ccDest->nSubs);
 	db_set_dw(hMeta, META_PROTO, buffer, hSub);
 
 	// write status string
-	mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", id);
+	mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", ccDest->nSubs);
 
 	TCHAR *szStatus = cli.pfnGetStatusModeDescription(status, 0);
 	db_set_ts(hMeta, META_PROTO, buffer, szStatus);
@@ -173,9 +172,10 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	db_set_b(hSub, META_PROTO, "IsSubcontact", true);
 
 	// update count of contacts
-	db_set_dw(hMeta, META_PROTO, "NumContacts", id);
-	ccDest->pSubs = (MCONTACT*)mir_realloc(ccDest->pSubs, sizeof(MCONTACT)*id);
-	ccDest->pSubs[ccDest->nSubs++] = hSub;
+	db_set_dw(hMeta, META_PROTO, "NumContacts", ccDest->nSubs+1);
+	ccDest->nSubs++;
+	ccDest->pSubs = (MCONTACT*)mir_realloc(ccDest->pSubs, sizeof(MCONTACT)*ccDest->nSubs);
+	ccDest->pSubs[ccDest->nSubs-1] = hSub;
 	ccSub->parentID = hMeta;
 
 	if (set_as_default)
@@ -381,17 +381,10 @@ int Meta_HideLinkedContacts(void)
 
 		if (options.bSuppressStatus)
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
-	}
 
-	// do metacontacts after handles set properly above
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		DBCachedContact *cc = CheckMeta(hContact);
-		if (cc == NULL)
-			continue;
-
-		MCONTACT hMostOnline = Meta_GetMostOnline(cc); // set nick
-		Meta_CopyContactNick(cc, hMostOnline);
-		Meta_FixStatus(cc);
+		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta); // set nick
+		Meta_CopyContactNick(ccMeta, hMostOnline);
+		Meta_FixStatus(ccMeta);
 	}
 
 	return 0;
@@ -414,10 +407,7 @@ int Meta_HideMetaContacts(bool bHide)
 		else
 			continue;
 
-		if (bSet)
-			db_set_b(hContact, "CList", "Hidden", 1);
-		else
-			db_unset(hContact, "CList", "Hidden");
+		db_set_b(hContact, "CList", "Hidden", bSet);
 	}
 
 	if (bHide) {
