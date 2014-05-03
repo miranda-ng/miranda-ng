@@ -46,20 +46,17 @@ static int Proto_GetContactInfoSetting(MCONTACT hContact, const char *szProto, c
 static void Proto_FreeInfoVariant(DBVARIANT *dbv)
 {
 	switch (dbv->type) {
-		case DBVT_ASCIIZ:
-		case DBVT_UTF8:
-		case DBVT_WCHAR:
-		{
-			mir_free(dbv->pszVal);
-			dbv->pszVal = 0;
-			break;
-		}
-		case DBVT_BLOB:
-		{
-			mir_free(dbv->pbVal);
-			dbv->pbVal = 0;
-			break;
-		}
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+	case DBVT_WCHAR:
+		mir_free(dbv->pszVal);
+		dbv->pszVal = 0;
+		break;
+
+	case DBVT_BLOB:
+		mir_free(dbv->pbVal);
+		dbv->pbVal = 0;
+		break;
 	}
 	dbv->type = 0;
 }
@@ -67,8 +64,8 @@ static void Proto_FreeInfoVariant(DBVARIANT *dbv)
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
 {
 	char str[80], *pstr = NULL;
-	TCHAR* ptstr = NULL;
-	char* szProto = GetContactProto(hContact);
+	TCHAR *ptstr = NULL;
+	char *szProto = GetContactProto(hContact);
 	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
 	DBVARIANT dbv = { DBVT_DELETED };
@@ -81,8 +78,8 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 	else
 		unspecified = db_get_s(hContact, szModule, szSetting, &dbv, 0);
 
-	if ( !unspecified) {
-		switch(dbv.type) {
+	if (!unspecified) {
+		switch (dbv.type) {
 		case DBVT_BYTE:
 			if (special == SVS_GENDER) {
 				if (dbv.cVal == 'M') ptstr = TranslateT("Male");
@@ -90,9 +87,9 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				else unspecified = 1;
 			}
 			else if (special == SVS_MONTH) {
-				if (dbv.bVal>0 && dbv.bVal <= 12) {
+				if (dbv.bVal > 0 && dbv.bVal <= 12) {
 					pstr = str;
-					GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1-1+dbv.bVal, str, SIZEOF(str));
+					GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1-1 + dbv.bVal, str, SIZEOF(str));
 				}
 				else unspecified = 1;
 			}
@@ -100,12 +97,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
 					pstr = str;
-					mir_snprintf(str, SIZEOF(str), dbv.cVal?"UTC%+d:%02d":"UTC", -dbv.cVal/2, (dbv.cVal&1)*30);
+					mir_snprintf(str, SIZEOF(str), dbv.cVal ? "UTC%+d:%02d" : "UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			}
 			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-				pstr = _itoa(special == SVS_SIGNED?dbv.cVal:dbv.bVal, str, 10);
+				pstr = _itoa(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
 			}
 			break;
 
@@ -115,7 +112,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (wSave == (WORD)-1) {
 					char szSettingName[100];
 					mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sName", szSetting);
-					if ( !db_get_ts(hContact, szModule, szSettingName, &dbv)) {
+					if (!db_get_ts(hContact, szModule, szSettingName, &dbv)) {
 						ptstr = dbv.ptszVal;
 						unspecified = false;
 						break;
@@ -127,7 +124,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			}
 			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-				pstr = _itoa(special == SVS_SIGNED?dbv.sVal:dbv.wVal, str, 10);
+				pstr = _itoa(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
 			}
 			break;
 
@@ -139,7 +136,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				pstr = inet_ntoa(ia);
 				if (dbv.dVal == 0) unspecified = 1;
 			}
-			else pstr = _itoa(special == SVS_SIGNED?dbv.lVal:dbv.dVal, str, 10);
+			else pstr = _itoa(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			break;
 
 		case DBVT_ASCIIZ:
@@ -149,12 +146,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 
 		case DBVT_UTF8:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-			if ( !unspecified)
-			{	WCHAR* wszStr;
-			Utf8Decode(dbv.pszVal, &wszStr);
-			SetDlgItemTextW(hwndDlg, idCtrl, TranslateTS(wszStr));
-			mir_free(wszStr);
-			goto LBL_Exit;
+			if (!unspecified) {
+				WCHAR *wszStr;
+				Utf8Decode(dbv.pszVal, &wszStr);
+				SetDlgItemTextW(hwndDlg, idCtrl, TranslateTS(wszStr));
+				mir_free(wszStr);
+				goto LBL_Exit;
 			}
 
 			pstr = dbv.pszVal;
