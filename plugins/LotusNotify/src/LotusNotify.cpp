@@ -1535,7 +1535,7 @@ static int modulesloaded(WPARAM wParam, LPARAM lParam)
 
 			log(L"Initializing Lotus");
 
-			if((NotesInitExtended1) (__argc, __argv)){
+			if((NotesInitExtended1) (0, NULL)){
 
 				//initialize lotus    //TODO: Lotus can terminate miranda process here with msgbox "Shared Memory from a previous Notes/Domino run has been detected, this process will exit now"
 				startuperror += 4;
@@ -1716,7 +1716,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 		Plugin_Terminated = false;
 		hInst = hinstDLL;
 		break;
-    case DLL_PROCESS_DETACH:
+	case DLL_PROCESS_DETACH:
 		/* Deregister extension manager callbacks */
 		Plugin_Terminated = true;
 		ExtClear();
