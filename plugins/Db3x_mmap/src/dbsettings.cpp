@@ -223,7 +223,7 @@ LBL_Seek:
 	}
 
 	// try to get the missing mc setting from the active sub
-	if (cc && cc->IsMeta()) {
+	if (cc && cc->IsMeta() && strcmp(szModule, "CList")) {
 		contactID = db_mc_getDefault(contactID);
 		goto LBL_Seek;
 	}
