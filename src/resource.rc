@@ -637,7 +637,7 @@ BEGIN
     LTEXT           "This font is used to display most text element or section bodies.",IDC_STATIC,10,66,249,16,SS_CENTERIMAGE
     LTEXT           "Minor notes:",IDC_TXT_TITLE3,0,109,259,8
     PUSHBUTTON      "...",IDC_CHOOSEFONTSMALL,244,139,16,14
-    LTEXT           "This font is used to display various addtional notes.",IDC_STATIC,10,120,249,16,SS_CENTERIMAGE
+    LTEXT           "This font is used to display various additional notes.",IDC_STATIC,10,120,249,16,SS_CENTERIMAGE
     CONTROL         "",IDC_PREVIEWSMALL,"Static",SS_OWNERDRAW,10,139,229,15,WS_EX_STATICEDGE
     CONTROL         "",IDC_PREVIEWGENERAL,"Static",SS_OWNERDRAW,10,84,229,15,WS_EX_STATICEDGE
     CONTROL         "",IDC_PREVIEWHEADER,"Static",SS_OWNERDRAW,10,30,229,15,WS_EX_STATICEDGE
