@@ -1,0 +1,9 @@
+﻿#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam protocol
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+[Request authorization]
+Request authorisation

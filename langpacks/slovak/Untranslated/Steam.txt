@@ -12,6 +12,7 @@
 [%s connection]
 [Network]
 [Steam menu chooser]
+[Request authorization]
 [Join to game]
 [Protocols]
 [Protocol icon]

@@ -1,7 +1,7 @@
 ﻿#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
 ;============================================================
 ;  File: Steam.dll
-;  Plugin: Steam Protocol
+;  Plugin: Steam protocol
 ;  Version: 0.11.0.1
 ;  Authors: unsane
 ;============================================================
@@ -31,6 +31,8 @@
 Мережа
 [Steam menu chooser]
 Вибір меню Steam
+[Request authorization]
+Запитати авторизацію
 [Join to game]
 Приєднатися до гри
 [Protocols]

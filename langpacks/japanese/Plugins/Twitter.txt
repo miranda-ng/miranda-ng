@@ -1,7 +1,7 @@
 ﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
 ;  File: Twitter.dll
-;  Plugin: Twitter
+;  Plugin: Twitter protocol
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
