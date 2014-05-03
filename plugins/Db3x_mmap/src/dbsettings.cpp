@@ -45,6 +45,17 @@ BOOL CDb3Mmap::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
+{
+	if (!strcmp(szModule, META_PROTO))
+		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
+
+	if (!strcmp(szModule, "Ignore"))
+		return false;
+
+	return true;
+}
+
 int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
 {																											  
 	if (szSetting == NULL || szModule == NULL)
@@ -68,10 +79,10 @@ int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 
 	mir_cslock lck(m_csDbAccess);
 
+LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 	log3("get [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
-LBL_Seek:
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
 	if (pCachedValue != NULL) {
 		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
@@ -223,9 +234,13 @@ LBL_Seek:
 	}
 
 	// try to get the missing mc setting from the active sub
-	if (cc && cc->IsMeta() && !(!strcmp(szModule, META_PROTO) || !strcmp(szModule, "Ignore"))) {
-		contactID = db_mc_getDefault(contactID);
-		goto LBL_Seek;
+	if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
+		if (contactID = db_mc_getDefault(contactID)) {
+			if (szModule = GetContactProto(contactID)) {
+				moduleNameLen = (int)strlen(szModule);
+				goto LBL_Seek;
+			}
+		}
 	}
 
 	logg();
