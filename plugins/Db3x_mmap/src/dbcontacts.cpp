@@ -78,19 +78,17 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::FindNextContact(MCONTACT contactID, const char
 
 STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 {
-	if (contactID == NULL)
+	if (contactID == 0) // global contact cannot be removed
 		return 1;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == NULL)
-		return 1;
+	DWORD ofsContact = GetContactOffset(contactID);
 
-	DBContact *dbc = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 1;
 
-	if (cc->dwDriverData == m_dbHeader.ofsUser) {
+	if (ofsContact == m_dbHeader.ofsUser) {
 		log0("FATAL: del of user chain attempted.");
 		return 1;
 	}
@@ -124,7 +122,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	}
 
 	// find previous contact in chain and change ofsNext
-	if (m_dbHeader.ofsFirstContact == cc->dwDriverData) {
+	if (m_dbHeader.ofsFirstContact == ofsContact) {
 		m_dbHeader.ofsFirstContact = dbc->ofsNext;
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	}
@@ -132,7 +130,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 		DWORD ofsNext = dbc->ofsNext;
 		ofsThis = m_dbHeader.ofsFirstContact;
 		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis, sizeof(DBContact), NULL);
-		while (dbcPrev->ofsNext != cc->dwDriverData) {
+		while (dbcPrev->ofsNext != ofsContact) {
 			if (dbcPrev->ofsNext == 0) DatabaseCorruption(NULL);
 			ofsThis = dbcPrev->ofsNext;
 			dbcPrev = (DBContact*)DBRead(ofsThis, sizeof(DBContact), NULL);
@@ -142,7 +140,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	}
 
 	// delete contact
-	DeleteSpace(cc->dwDriverData, sizeof(DBContact));
+	DeleteSpace(ofsContact, sizeof(DBContact));
 
 	// decrement contact count
 	m_dbHeader.contactCount--;
@@ -493,11 +491,14 @@ void CDb3Mmap::FillContacts()
 	}
 }
 
-DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID)
+DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID, DBCachedContact **pcc)
 {
-	if (contactID == 0)
+	if (contactID == 0) {
+		if (pcc) *pcc = NULL;
 		return m_dbHeader.ofsUser;
+	}
 
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+	if (pcc) *pcc = cc;
 	return (cc == NULL) ? 0 : cc->dwDriverData;
 }

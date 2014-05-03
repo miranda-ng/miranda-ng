@@ -237,8 +237,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 
 	// also update a sub
 	if (dbc.dwContactID != contactID) {
-		DBCachedContact *cc = m_cache->GetCachedContact(dbc.dwContactID);
-		DBContact *pSub = (DBContact*)DBRead(cc->dwDriverData, sizeof(DBContact), NULL);
+		DBContact *pSub = (DBContact*)DBRead(GetContactOffset(dbc.dwContactID), sizeof(DBContact), NULL);
 		if (pSub->eventCount > 0)
 			pSub->eventCount--;
 	}
@@ -351,10 +350,11 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::GetEventContact(HANDLE hDbEvent)
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+	DBCachedContact *cc;
+	DWORD ofsContact = GetContactOffset(contactID, &cc);
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead((cc) ? cc->dwDriverData : m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
@@ -379,10 +379,11 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+	DBCachedContact *cc;
+	DWORD ofsContact = GetContactOffset(contactID, &cc);
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead((cc) ? cc->dwDriverData : m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
@@ -407,10 +408,11 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 
 STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+	DBCachedContact *cc;
+	DWORD ofsContact = GetContactOffset(contactID, &cc);
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead((cc) ? cc->dwDriverData : m_dbHeader.ofsUser, sizeof(DBContact), NULL);
+	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())

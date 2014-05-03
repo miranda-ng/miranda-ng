@@ -306,7 +306,7 @@ protected:
 	DWORD    CreateNewSpace(int bytes);
 	void     DeleteSpace(DWORD ofs, int bytes);
 	DWORD    ReallocSpace(DWORD ofs, int oldSize, int newSize);
-	DWORD    GetContactOffset(MCONTACT contactID);
+	DWORD    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = NULL);
 
 	////////////////////////////////////////////////////////////////////////////
 	// settings 

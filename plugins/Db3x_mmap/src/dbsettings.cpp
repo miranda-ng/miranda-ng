@@ -71,6 +71,7 @@ int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 	log3("get [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
+LBL_Seek:
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
 	if (pCachedValue != NULL) {
 		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
@@ -105,8 +106,10 @@ int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 	if (szCachedSettingName[-1] != 0)
 		return 1;
 
+	DBCachedContact *cc;
+	DWORD ofsContact = GetContactOffset(contactID, &cc);
+
 	DWORD ofsModuleName = GetModuleNameOfs(szModule);
-	DWORD ofsContact = GetContactOffset(contactID);
 
 	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
@@ -217,6 +220,12 @@ int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 			MoveAlong(1 + GetSettingValueLength(pBlob));
 			NeedBytes(1);
 		}
+	}
+
+	// try to get the missing mc setting from the active sub
+	if (cc && cc->IsMeta()) {
+		contactID = db_mc_getDefault(contactID);
+		goto LBL_Seek;
 	}
 
 	logg();
