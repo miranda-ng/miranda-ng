@@ -180,7 +180,20 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			if (ctl->hThemeToolbar && ctl->bIsThemed) {
 				RECT rc = rcClient;
 				int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
-				SkinDrawBg(ctl->hwnd, hdcMem);
+
+				if (ctl->bIsTTButton) {
+					POINT pt;
+					RECT rcParent;
+					GetWindowRect(ctl->hwnd, &rcParent);
+					pt.x = rcParent.left;
+					pt.y = rcParent.top;
+
+					ScreenToClient(g_hwndToolbarFrame, &pt);
+					BitBlt(hdcMem, 0, 0, rc.right, rc.bottom, cfg::dat.hdcToolbar, pt.x, pt.y, SRCCOPY);
+				}
+				else
+					SkinDrawBg(ctl->hwnd, hdcMem);
+
 				if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state))) {
 					DrawThemeParentBackground(ctl->hwnd, hdcMem, &rc);
 				}

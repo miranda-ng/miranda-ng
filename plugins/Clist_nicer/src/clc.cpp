@@ -171,6 +171,9 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
 		SetButtonStates(pcli->hwndContactList);
 	}
+	else if (!__strcmp(cws->szModule, "TopToolBar") && !__strcmp(cws->szSetting, "UseFlatButton")) {
+		SetButtonToSkinned();
+	}
 	else if (szProto == NULL) {
 		if ( !__strcmp(cws->szSetting, "XStatusId"))
 			CluiProtocolStatusChanged(0, cws->szModule);

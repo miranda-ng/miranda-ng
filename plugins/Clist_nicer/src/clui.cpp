@@ -798,8 +798,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
 		if (!cfg::dat.bFirstRun)
 			ConfigureEventArea(hwnd);
-		CluiProtocolStatusChanged(0, 0);
 		ConfigureCLUIGeometry(0);
+		CluiProtocolStatusChanged(0, 0);
 
 		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 			statusNames[i-ID_STATUS_OFFLINE] = pcli->pfnGetStatusModeDescription(i, 0);

@@ -362,13 +362,14 @@ static void SaveCompleteStructToDB(void)
 void SetButtonToSkinned()
 {
 	bool bSkinned = (cfg::dat.bSkinnedButtonMode = cfg::getByte("CLCExt", "bskinned", 0)) != 0;
+	bool bFlat = bSkinned ? true : cfg::getByte("TopToolBar", "UseFlatButton", 0);
 
 	for (int i = 0; ; i++) {
 		if (BTNS[i].pszButtonID == NULL)
 			break;
 		if (BTNS[i].hwndButton == 0 || BTNS[i].ctrlid == IDC_TBGLOBALSTATUS || BTNS[i].ctrlid == IDC_TBMENU)
 			continue;
-		CustomizeButton(BTNS[i].hwndButton, bSkinned, !bSkinned, bSkinned, true);
+		CustomizeButton(BTNS[i].hwndButton, bSkinned, !bSkinned, bFlat, true);
 	}
 
 	CustomizeButton(GetDlgItem(pcli->hwndContactList, IDC_TBMENU), bSkinned, !bSkinned, bSkinned);
