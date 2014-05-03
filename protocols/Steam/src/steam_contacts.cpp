@@ -316,7 +316,9 @@ void CSteamProto::AuthDenyThread(void *arg)
 
 void CSteamProto::AddContactThread(void *arg)
 {
-	MCONTACT hContact = (MCONTACT)arg;
+	SendAuthParam *param = (SendAuthParam*)arg;
+
+	MCONTACT hContact = param->hContact;
 	if (!hContact)
 		return;
 
@@ -331,7 +333,16 @@ void CSteamProto::AddContactThread(void *arg)
 	debugLogA("CSteamProto::AddContactThread: call SteamWebApi::FriendListApi::AddFriend");
 	SteamWebApi::FriendListApi::AddFriend(m_hNetlibUser, token, sessionId, steamId, who, &result);
 
-	ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, result.IsSuccess() ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)hContact, NULL);
+	if (result.IsSuccess())
+	{
+		delSetting(hContact, "Auth");
+		delSetting(hContact, "Grant");
+		db_unset(hContact, "CList", "NotOnList");
+	}
+
+	ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, result.IsSuccess() ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, param->hAuth, 0);
+
+	mir_free(param);
 }
 
 void CSteamProto::RemoveContactThread(void *arg)

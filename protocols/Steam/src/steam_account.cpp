@@ -177,8 +177,7 @@ void CSteamProto::LogInThread(void* param)
 	setDword("MessageID", loginResult.GetMessageId());
 
 	// set selected status
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 
 	/*ptrA sessionId(getStringA("SessionID"));
 	if (!sessionId || lstrlenA(sessionId) == 0)

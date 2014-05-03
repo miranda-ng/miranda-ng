@@ -120,9 +120,16 @@ namespace SteamWebApi
 				return;
 
 			JSONNODE *root = json_parse(response->pData), *node;
+
+			//{"failed_invites":["xxxxxxxxxxxxxxxxx"], "failed_invites_result" : [41], "success" : 1}
+			/*bool fail = false;
+			node = json_get(root, "failed_invites_result");
+			if (node)
+				fail = true;*/
+
 			node = json_get(root, "success");
 
-			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK || json_as_int(node) == 0)
+			if ((result->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK || json_as_int(node) == 0/* || fail*/)
 				return;
 
 			result->success = true;

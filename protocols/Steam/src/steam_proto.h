@@ -17,6 +17,12 @@ struct CaptchaParam
 	char text[10];
 };
 
+struct SendAuthParam
+{
+	MCONTACT hContact;
+	HANDLE hAuth;
+};
+
 struct SendMessageParam
 {
 	MCONTACT hContact;
@@ -32,7 +38,7 @@ struct STEAM_SEARCH_RESULT
 
 enum
 {
-	//CMI_AUTH_REQUEST,
+	CMI_AUTH_REQUEST,
 	//CMI_AUTH_GRANT,
 	//CMI_AUTH_REVOKE,
 	//CMI_BLOCK,
@@ -106,6 +112,7 @@ public:
 protected:
 	bool m_bTerminated;
 	HANDLE m_hPollingThread;
+	ULONG  hAuthProcess;
 	ULONG  hMessageProcess;
 	CRITICAL_SECTION contact_search_lock;
 
@@ -159,6 +166,7 @@ protected:
 	static HANDLE hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
 
+	int __cdecl AuthRequestCommand(WPARAM, LPARAM);
 	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);

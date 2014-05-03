@@ -18,6 +18,13 @@ INT_PTR CSteamProto::MenuChooseService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
+{
+	CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
+
+	return 0;
+}
+
 int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 {
 	char url[MAX_PATH];
@@ -38,6 +45,10 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		return 0;
 
 	//bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+
+	bool authNeeded = getBool(hContact, "Auth", 0);
+	Menu_ShowItem(contactMenuItems[CMI_AUTH_REQUEST], authNeeded);
+
 	DWORD gameId = getDword(hContact, "GameID", 0);
 	Menu_ShowItem(contactMenuItems[CMI_JOIN_GAME], gameId > 0);
 
@@ -61,13 +72,23 @@ void CSteamProto::InitMenus()
 	// Contact menu initialization
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(CLISTMENUITEM);
-	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
+	mi.flags = CMIF_TCHAR;
+
+	// "Join to game"
+	mi.pszService = MODULE"/AuthRequest";
+	mi.ptszName = LPGENT("Request authorization");
+	mi.position = -201001000 + CMI_AUTH_REQUEST;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	contactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::AuthRequestCommand>);
+
+	mi.flags |= CMIF_NOTOFFLINE;
 
 	// "Join to game"
 	mi.pszService = MODULE"/JoinToGame";
 	mi.ptszName = LPGENT("Join to game");
 	mi.position = -200001000 + CMI_JOIN_GAME;
-	//mi.icolibItem = CSkypeProto::GetSkinIconHandle("block");
+	mi.icolibItem = NULL;
 	contactMenuItems[CMI_JOIN_GAME] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::JoinToGameCommand>);
 }

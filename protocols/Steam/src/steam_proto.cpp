@@ -2,6 +2,7 @@
 
 CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CSteamProto>(protoName, userName),
+	hAuthProcess(1),
 	hMessageProcess(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
@@ -49,14 +50,12 @@ MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 	if (psr->cbSize == sizeof(PROTOSEARCHRESULT))
 	{
-		char *steamId = mir_u2a(psr->id);
+		ptrA steamId(mir_u2a(psr->id));
 		if (!FindContact(steamId))
 		{
 			hContact = AddContact(steamId, true);
-			ForkThread(&CSteamProto::UpdateContactsThread, (void*)steamId);
+			ForkThread(&CSteamProto::UpdateContactsThread, (void*)mir_strdup(steamId));
 		}
-		else
-			mir_free(steamId);
 	}
 	else if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT))
 	{
@@ -114,9 +113,15 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
 	if (IsOnline() && hContact)
 	{
-		ForkThread(&CSteamProto::AddContactThread, (void*)hContact);
+		UINT hAuth = InterlockedIncrement(&hAuthProcess);
 
-		return hContact;
+		SendAuthParam *param = (SendAuthParam*)mir_calloc(sizeof(SendAuthParam));
+		param->hContact = hContact;
+		param->hAuth = (HANDLE)hAuth;
+
+		ForkThread(&CSteamProto::AddContactThread, param);
+
+		return hAuth;
 	}
 
 	return 1;
@@ -147,11 +152,11 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_AUTHREQ | PF1_SERVERCLIST;
+		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_ADDSEARCHRES;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_AVATARS | PF4_NOAUTHDENYREASON;// | PF4_FORCEAUTH | PF4_FORCEADDED;
+		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:
@@ -300,8 +305,7 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 		return this->OnOptionsInit(wParam, lParam);*/
 
 	case EV_PROTO_ONCONTACTDELETED:
-		if (this->IsOnline())
-			ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
+		ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
 		return 0;
 
 	/*case EV_PROTO_ONMENU:
