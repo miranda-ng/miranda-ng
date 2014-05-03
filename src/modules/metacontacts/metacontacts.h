@@ -100,9 +100,6 @@ int GetRealPriority(char *proto, int status);
 // API function headers
 void CreateApiServices();
 
-// extended db get/write setting functions, that handle unicode
-INT_PTR Mydb_get(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-
 typedef enum {I_MENUOFF, I_MENU, I_CONVERT, I_ADD, I_EDIT, I_SETDEFAULT, I_REMOVE} IconIndex;
 HICON LoadIconEx(IconIndex i);
 HANDLE GetIconHandle(IconIndex i);
