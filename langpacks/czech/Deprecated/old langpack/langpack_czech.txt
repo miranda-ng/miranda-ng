@@ -1371,7 +1371,7 @@ Bìžný text:
 Používá se k zobrazení vìtšiny textù v programu.
 [Minor notes:]
 Poznámky:
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Používá se k zobrazení dodatkových textù a poznámek.
 [Sample Text]
 Ukázka textu

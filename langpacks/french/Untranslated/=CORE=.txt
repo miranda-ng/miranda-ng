@@ -4,7 +4,7 @@
 [This font is used to display main section titles or text elements.]
 [This font is used to display most text element or section bodies.]
 [Minor notes:]
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 [Event icon legend:]
 [Font effect]
 [Select the extra icons to be shown in the contact list:]

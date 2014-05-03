@@ -425,7 +425,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Шрифт для большинства текстовых элементов или разделов.
 [Minor notes:]
 Примечания:
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Шрифт для различных дополнительных заметок.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Добро пожаловать в менеджер учётных записей Miranda NG!\nЗдесь вы можете настроить свои учётные записи.\n\nСлева в списке можно выбрать учётную запись, или кликнуть на значок плюса снизу для добавления новой учётной записи.

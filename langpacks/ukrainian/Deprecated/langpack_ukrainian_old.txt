@@ -438,7 +438,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Шрифт для більшості текстових елементів чи розділів.
 [Minor notes:]
 Дрібний текст:
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Шрифт для додаткового тексту, приміток.
 [Event icon legend:]
 Події:

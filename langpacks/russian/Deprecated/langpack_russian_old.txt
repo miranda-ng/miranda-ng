@@ -1246,7 +1246,7 @@ Cлужба:
 Шрифт для заголовков основных разделов или текстовых элементов.
 [This font is used to display most text element or section bodies.]
 Шрифт для большинства текстовых элементов или разделов.
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Шрифт для различных дополнительных заметок.
 [This group]
 Эта группа

@@ -370,7 +370,7 @@ Texto normal:
 Esta fonte é usada para exibir a maioria dos elementos de texto e do corpo das seções.
 [Minor notes:]
 Notas menores
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Esta fonte é usada para exibir várias notas adicionais.
 [Event icon legend:]
 Legenda de evento de ícone:

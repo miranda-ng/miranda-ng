@@ -423,7 +423,7 @@ Zwykły tekst:
 Ta czcionka jest używana do wyświetlania większości tekstu.
 [Minor notes:]
 Pozostałe informacje:
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Witaj w menedżerze kont Mirandy NG.\nTutaj możesz skonfigurować konta w swoich komunikatorach.\n\nWybierz konto z listy po lewej, aby zobaczyć dostępne opcje. Możesz także kliknąć znaczek "+" pod listą, aby utworzyć nowe konto.

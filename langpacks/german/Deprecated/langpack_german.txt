@@ -4048,7 +4048,7 @@ Beispieltext
 Diese Schriftart wird für die Haupttitel-Sektionen oder Textelemente verwendet.
 [This font is used to display most text element or section bodies.]
 Diese Schriftart wird für die meisten Textelemente oder für Sektionen verwendet.
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Diese Schriftart wird für Zusatztexte in der Kontaktliste verwendet.
 
 ;ignore

@@ -423,7 +423,7 @@ Normaler Text:
 Diese Schriftart wird für die meisten Textelemente oder für Sektionen verwendet.
 [Minor notes:]
 Zusatztexte:
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Diese Schriftart wird für Zusatztexte in der Kontaktliste verwendet.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.

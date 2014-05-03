@@ -423,7 +423,7 @@ Texto normal:
 Esta fuente se utiliza para mostrar más elementos de texto o sección de cuerpos.
 [Minor notes:]
 Notas menores:
-[This font is used to display various addtional notes.]
+[This font is used to display various additional notes.]
 Esta fuente se utiliza para mostrar diferentes notas complementarias.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 ¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
