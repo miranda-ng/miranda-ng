@@ -163,3 +163,8 @@ MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWri
 	NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, iNum));
 	return 0;
 }
+
+extern "C" MIR_CORE_DLL(void) db_mc_notifyDefChange(WPARAM wParam, LPARAM lParam)
+{
+	NotifyEventHooks(hEventDefaultChanged, wParam, lParam);
+}

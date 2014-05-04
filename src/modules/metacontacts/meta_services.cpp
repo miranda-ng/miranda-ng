@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
+extern "C" MIR_CORE_DLL(void) db_mc_notifyDefChange(WPARAM wParam, LPARAM lParam);
+
 char *pendingACK = 0;    // Name of the protocol in which an ACK is about to come.
 
 int previousMode,        // Previous status of the MetaContacts Protocol
@@ -418,7 +420,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// set status to that of most online contact
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
 		if (hMostOnline != db_mc_getDefault(ccMeta->contactID))
-			db_mc_setDefault(ccMeta->contactID, hMostOnline, false);
+			db_mc_notifyDefChange(ccMeta->contactID, hMostOnline);
 
 		Meta_CopyContactNick(ccMeta, hMostOnline);
 		Meta_FixStatus(ccMeta);
