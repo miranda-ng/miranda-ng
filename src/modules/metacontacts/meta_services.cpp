@@ -595,26 +595,6 @@ int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-int Meta_ClistDoubleClicked(WPARAM hMeta, LPARAM lParam)
-{
-	if (db_mc_isEnabled()) {
-		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
-		if (cc != NULL && cc->IsSub()) {
-			// simulate double click on the metacontact and stop event processing
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, cc->parentID, 0);
-			return 1;
-		}
-	}
-
-	return 0;
-}
-
-INT_PTR Meta_ClistMessageEventClicked(WPARAM wParam, LPARAM lParam)
-{
-	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
-	return Meta_ClistDoubleClicked(hContact, (LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
-}
-
 int NudgeRecieved(WPARAM wParam, LPARAM lParam)
 {
 	return 0;
@@ -628,7 +608,7 @@ int NudgeRecieved(WPARAM wParam, LPARAM lParam)
 int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
-	HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked);
+
 	// hook srmm window close/open events
 	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, Meta_SrmmIconClicked);
@@ -880,7 +860,6 @@ void Meta_InitServices()
 	CreateApiServices();
 
 	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
-	CreateServiceFunction("MetaContacts/CListMessageEvent", Meta_ClistMessageEventClicked);
 
 	CreateProtoServiceFunction(META_PROTO, PS_SEND_NUDGE, Meta_SendNudge);
 
