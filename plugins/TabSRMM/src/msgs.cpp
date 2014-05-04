@@ -285,6 +285,9 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
+	if (db_mc_isSub(hContact))
+		hContact = db_mc_getMeta(hContact);
+
 	// does the MCONTACT's protocol support IM messages?
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)

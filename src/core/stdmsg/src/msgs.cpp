@@ -108,6 +108,9 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar)
 	if (!szProto || (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
+	if (db_mc_isSub(hContact))
+		hContact = db_mc_getMeta(hContact);
+
 	HWND hwnd;
 	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact)) {
 		if (msg) {
@@ -115,7 +118,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar)
 			hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
 			if (isWchar)
-				SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)msg);
+				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)msg);
 			else
 				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)msg);
 		}
