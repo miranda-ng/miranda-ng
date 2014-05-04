@@ -442,12 +442,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 		TCHAR tszNewName[MAX_PATH];
 		if (!CheckFileRename(ffd.cFileName, tszNewName)) {
 			if (level == 0)
-				_tcscpy(tszNewName, ffd.cFileName);
+				_tcsncpy(tszNewName, ffd.cFileName, MAX_PATH);
 			else
 				mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s\\%s"), tszFolder+cbBaseLen, ffd.cFileName);
 		}
 
-		bool bHasNewVersion = false;
+		bool bHasNewVersion = true;
 		TCHAR *ptszUrl;
 		int MyCRC = 0;
 		mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
@@ -470,23 +470,24 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			}
 
 			ptszUrl = item->m_name;
-
-			char szMyHash[33];
-			__try {
-				CalculateModuleHash(tszBuf, szMyHash);
-				bHasNewVersion = opts.bForceRedownload ? true : strcmp(szMyHash, item->m_szHash) != 0;
-			}
-			__except(EXCEPTION_EXECUTE_HANDLER) {
-				ZeroMemory(szMyHash, 0);
-				bHasNewVersion = true;	// smth went wrong, reload a file from scratch
+			// No need to hash a file if we are forcing a redownload anyway
+			if (!opts.bForceRedownload) {
+				// try to hash the file
+				char szMyHash[33];
+				__try {
+					CalculateModuleHash(tszBuf, szMyHash);
+					bHasNewVersion = strcmp(szMyHash, item->m_szHash) != 0;
+				}
+				__except(EXCEPTION_EXECUTE_HANDLER) {
+					ZeroMemory(szMyHash, 0);
+					// smth went wrong, reload a file from scratch
+				}
 			}
 
 			MyCRC = item->m_crc;
 		}
-		else { // file was marked for deletion, add it to the list anyway
-			bHasNewVersion = true;
+		else // file was marked for deletion, add it to the list anyway
 			ptszUrl = _T("");
-		}
 
 		// Compare versions
 		if (bHasNewVersion) { // Yeah, we've got new version.
