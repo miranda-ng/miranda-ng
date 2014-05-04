@@ -26,12 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-#define PREF_METANODB	0x2000	// Flag to indicate message should not be added to db by filter when sending
+char *pendingACK = 0;    // Name of the protocol in which an ACK is about to come.
 
-char *pendingACK = 0;		// Name of the protocol in which an ACK is about to come.
-
-int previousMode,			// Previous status of the MetaContacts Protocol
-	mcStatus;				// Current status of the MetaContacts Protocol
+int previousMode,        // Previous status of the MetaContacts Protocol
+	mcStatus;             // Current status of the MetaContacts Protocol
 
 HANDLE
 	hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
@@ -216,8 +214,8 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	}
 
-	MCONTACT most_online = Meta_GetMostOnline(cc);
-	if (!most_online) {
+	MCONTACT hMostOnline = Meta_GetMostOnline(cc);
+	if (!hMostOnline) {
 		// send failure to notify user of reason
 		HANDLE hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 
@@ -233,14 +231,11 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		return 10;
 	}
 
-	Meta_CopyContactNick(cc, most_online);
+	Meta_CopyContactNick(cc, hMostOnline);
 
-	ccs->hContact = most_online;
-	char *proto = GetContactProto(most_online);
+	ccs->hContact = hMostOnline;
+	char *proto = GetContactProto(hMostOnline);
 	Meta_SetNick(proto);	// (no matter what was there before)
-
-	// prevent send filter from adding another copy of this send event to the db
-	ccs->wParam |= PREF_METANODB;
 
 	return CallContactService(ccs->hContact, PSS_MESSAGE, ccs->wParam, ccs->lParam);
 }
@@ -276,9 +271,9 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 			DBVARIANT dbv;
 
 			// change avatar if the most online supporting avatars changes, or if we don't have one
-			MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
-			//if (AI.hContact == 0 || AI.hContact != most_online) {
-			if (ack->hContact == 0 || ack->hContact != most_online) {
+			MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
+			//if (AI.hContact == 0 || AI.hContact != hMostOnline) {
+			if (ack->hContact == 0 || ack->hContact != hMostOnline) {
 				return 0;
 			}
 
@@ -372,8 +367,8 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		else db_free(&dbv);
 
 		// copy nick to metacontact, if it's the most online
-		MCONTACT most_online = Meta_GetMostOnline(ccMeta);
-		Meta_CopyContactNick(ccMeta, most_online);
+		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
+		Meta_CopyContactNick(ccMeta, hMostOnline);
 
 		return 0;
 	}
@@ -408,13 +403,11 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 
 		// copy nick to metacontact, if it's the most online
-		MCONTACT most_online = Meta_GetMostOnline(ccMeta);
-		Meta_CopyContactNick(ccMeta, most_online);
+		Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
 		return 0;
 	}
+	// subcontact changing status
 	else if (!strcmp(dcws->szSetting, "Status") && !dcws->value.type == DBVT_DELETED) {
-		// subcontact changing status
-
 		// update subcontact status setting
 		mir_snprintf(buffer, SIZEOF(buffer), "Status%d", contact_number);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
@@ -423,12 +416,16 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		db_set_ts(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
 		// set status to that of most online contact
-		Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
+		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
+		if (hMostOnline != db_mc_getDefault(ccMeta->contactID))
+			db_mc_setDefault(ccMeta->contactID, hMostOnline, false);
+
+		Meta_CopyContactNick(ccMeta, hMostOnline);
 		Meta_FixStatus(ccMeta);
 
 		// most online contact with avatar support might have changed - update avatar
-		MCONTACT most_online = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
-		if (most_online) {
+		hMostOnline = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
+		if (hMostOnline) {
 			PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 			AI.hContact = ccMeta->contactID;
 			AI.format = PA_FORMAT_UNKNOWN;
@@ -487,15 +484,15 @@ INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 		return 0;
 
 	// forward to sending protocol, if supported
-	MCONTACT most_online = Meta_GetMostOnline(cc);
-	Meta_CopyContactNick(cc, most_online);
-	if (!most_online)
+	MCONTACT hMostOnline = Meta_GetMostOnline(cc);
+	Meta_CopyContactNick(cc, hMostOnline);
+	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(most_online);
+	char *proto = GetContactProto(hMostOnline);
 	if (proto)
 		if (ProtoServiceExists(proto, PSS_USERISTYPING))
-			ProtoCallService(proto, PSS_USERISTYPING, most_online, lParam);
+			ProtoCallService(proto, PSS_USERISTYPING, hMostOnline, lParam);
 
 	return 0;
 }
@@ -714,13 +711,13 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 	if (cc == NULL || cc->nDefault == -1)
 		return 0;
 
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_FILESEND);
-	if (!most_online)
+	MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_FILESEND);
+	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(most_online);
+	char *proto = GetContactProto(hMostOnline);
 	if (proto)
-		return CallContactService(most_online, PSS_FILE, ccs->wParam, ccs->lParam);
+		return CallContactService(hMostOnline, PSS_FILE, ccs->wParam, ccs->lParam);
 
 	return 0; // fail
 }
@@ -732,15 +729,15 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 	if (cc == NULL || cc->nDefault == -1)
 		return 0;
 
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_MODEMSGRECV);
-	if (!most_online)
+	MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_1, PF1_MODEMSGRECV);
+	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(most_online);
+	char *proto = GetContactProto(hMostOnline);
 	if (!proto)
 		return 0;
 
-	ccs->hContact = most_online;
+	ccs->hContact = hMostOnline;
 	return CallContactService(ccs->hContact, PSS_GETAWAYMSG, ccs->wParam, ccs->lParam);
 }
 
@@ -781,11 +778,11 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	if (cc == NULL || cc->nDefault == -1)
 		return 0;
 
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
-	if (!most_online)
+	MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
+	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(most_online);
+	char *proto = GetContactProto(hMostOnline);
 	if (!proto)
 		return 0;
 
@@ -797,13 +794,13 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 		db_set_ts(ccs->hContact, "ContactPhoto", "File", AI.filename);
 
-	most_online = Meta_GetMostOnline(cc);
-	Meta_CopyContactNick(cc, most_online);
+	hMostOnline = Meta_GetMostOnline(cc);
+	Meta_CopyContactNick(cc, hMostOnline);
 
-	if (!most_online)
+	if (!hMostOnline)
 		return 0;
 
-	ccs->hContact = most_online;
+	ccs->hContact = hMostOnline;
 	if (!ProtoServiceExists(proto, PSS_GETINFO))
 		return 0; // fail
 
@@ -904,7 +901,7 @@ void Meta_InitServices()
 	hEventNudge = CreateHookableEvent(META_PROTO "/Nudge");
 }
 
-//! Unregister all hooks and services from Miranda
+// Unregister all hooks and services from Miranda
 void Meta_CloseHandles()
 {
 	DestroyHookableEvent(hSubcontactsChanged);
