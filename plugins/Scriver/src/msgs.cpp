@@ -137,66 +137,55 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR SendMessageCommandW(WPARAM hContact, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
 {
-   /* does the MCONTACT's protocol support IM messages? */
+	if (db_mc_isSub(hContact))
+		hContact = db_mc_getMeta(hContact);
+
+	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
-   if (szProto == NULL)
-      return 1; /* unknown contact */
+	if (szProto == NULL)
+		return 1; /* unknown contact */
 
 	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 1;
 
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	if (hwnd != NULL) {
-		if (lParam) {
+		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR *) lParam);
+			if (isWchar)
+				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
+			else
+				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
 		}
 		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
 	}
 	else {
 		NewMessageWindowLParam newData = { 0 };
 		newData.hContact = hContact;
-		newData.szInitialText = (const char *) lParam;
-		newData.isWchar = 1;
+		newData.szInitialText = pszMsg;
+		newData.isWchar = isWchar;
 		HWND hParent = GetParentWindow(newData.hContact, FALSE);
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)& newData);
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
 	}
 	return 0;
+}
+
+static INT_PTR SendMessageCommandW(WPARAM hContact, LPARAM lParam)
+{
+	return SendMessageCommandWorker(hContact, LPCSTR(lParam), true);
 }
 
 static INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
-	char *szProto = GetContactProto(hContact);
-	//logInfo("Show message window for: %s (%s)", CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, 0), szProto);
-	if (szProto) {
-		/* does the MCONTACT's protocol support IM messages? */
-		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
-			return 1;
-	}
-	else /* unknown contact */
-		return 1;
-
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
-	if (hwnd != NULL) {
-		if (lParam) {
-			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
-			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char*) lParam);
-		}
-		SendMessage(GetParent(hwnd), CM_POPUPWINDOW, 0, (LPARAM)hwnd);
-	}
-	else {
-		NewMessageWindowLParam newData = { 0 };
-		newData.hContact = hContact;
-		newData.szInitialText = (const char *)lParam;
-		HWND hParent = GetParentWindow(newData.hContact, FALSE);
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)& newData);
-	}
-	return 0;
+	return SendMessageCommandWorker(hContact, LPCSTR(lParam), false);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
 {
