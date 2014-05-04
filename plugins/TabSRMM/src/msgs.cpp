@@ -264,21 +264,20 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-// this is the Unicode version of the SendMessageCommand handler. It accepts wchar_t strings
-// for filling the message input box with a passed message
+// the SendMessageCommand() invokes a message session window for the given contact.
+// e.g. it is called when user double clicks a contact on the contact list
+// it is implemented as a service, so external plugins can use it to open a message window.
+// contacts handle must be passed in wParam.
 
-INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
+INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
 {
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
 	// make sure that only the main UI thread will handle window creation
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
-		if (lParam) {
-			unsigned iLen = lstrlenW((wchar_t *)lParam);
-			wchar_t *tszText = (wchar_t *)mir_alloc((iLen + 1) * sizeof(wchar_t));
-			wcsncpy(tszText, (wchar_t *)lParam, iLen + 1);
-			tszText[iLen] = 0;
+		if (pszMsg) {
+			wchar_t *tszText = (isWchar) ? mir_wstrdup((WCHAR*)pszMsg) : mir_a2u(pszMsg);
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, (LPARAM)tszText);
 		}
 		else PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, 0);
@@ -297,81 +296,37 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 
 	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
-		if (lParam) {
+		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR*)lParam);
+			if (isWchar)
+				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
+			else
+				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
 		}
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);
 	}
 	else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
-
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
+
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, 1, (const char *)lParam, TRUE, TRUE, FALSE, 0);
+			CreateNewTabForContact(pContainer, hContact, isWchar, pszMsg, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
 
-// the SendMessageCommand() invokes a message session window for the given contact.
-// e.g. it is called when user double clicks a contact on the contact list
-// it is implemented as a service, so external plugins can use it to open a message window.
-// contacts handle must be passed in wParam.
-
 INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
-	TNewWindowData newData = { 0 };
-	int isSplit = 1;
+	return SendMessageCommand_Worker(hContact, LPCSTR(lParam), false);
+}
 
-	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
-		if (lParam) {
-			unsigned iLen = lstrlenA((char *)lParam);
-			char *szText = (char *)mir_alloc(iLen + 1);
-			strncpy(szText, (char *)lParam, iLen + 1);
-			szText[iLen] = 0;
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, (LPARAM)szText);
-		}
-		else PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, 0);
-		return 0;
-	}
-
-	if (db_mc_isSub(hContact))
-		hContact = db_mc_getMeta(hContact);
-
-	/* does the MCONTACT's protocol support IM messages? */
-	char *szProto = GetContactProto(hContact);
-	if (szProto) {
-		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
-			return 0;
-	}
-	else {
-		/* unknown contact */
-		return 0;
-	}
-	
-	HWND hwnd = M.FindWindow(hContact);
-	if (hwnd) {
-		if (lParam) {
-			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
-			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char *)lParam);
-		}
-		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);          // ask the message window about its parent...
-	}
-	else {
-		TCHAR szName[CONTAINER_NAMELEN + 1];
-		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
-		TContainerData *pContainer = FindContainerByName(szName);
-		if (pContainer == NULL)
-			pContainer = CreateContainer(szName, FALSE, hContact);
-		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, 0, (const char *)lParam, TRUE, TRUE, FALSE, 0);
-	}
-	return 0;
+INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
+{
+	return SendMessageCommand_Worker(hContact, LPCSTR(lParam), true);
 }
 
 // open a window when user clicks on the flashing "typing message" tray icon.
