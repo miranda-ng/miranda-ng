@@ -419,7 +419,7 @@ Záhlaví:
 Používá se k zobrazení textu v záhlaví sekcí nebo odstavců.
 [Normal text:]
 Běžný text:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Používá se k zobrazení většiny textů v programu.
 [Minor notes:]
 Poznámky:

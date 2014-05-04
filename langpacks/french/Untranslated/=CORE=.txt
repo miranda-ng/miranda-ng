@@ -2,7 +2,7 @@
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 [Error notifications]
 [This font is used to display main section titles or text elements.]
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 [Minor notes:]
 [This font is used to display various additional notes.]
 [Event icon legend:]

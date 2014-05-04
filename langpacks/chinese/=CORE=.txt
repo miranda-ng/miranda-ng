@@ -392,7 +392,7 @@ Miranda NG 正准备重启. \n请稍候...
 此字体用于显示主要章节标题及文本内容.
 [Normal text:]
 普通文本:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 此字体用于显示常用文本内容及部分主体.
 [Minor notes:]
 次要提示:

@@ -419,7 +419,7 @@ Fehlerbenachrichtigungen
 Diese Schriftart wird für die Haupttitel-Sektionen oder Textelemente verwendet.
 [Normal text:]
 Normaler Text:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Diese Schriftart wird für die meisten Textelemente oder für Sektionen verwendet.
 [Minor notes:]
 Zusatztexte:

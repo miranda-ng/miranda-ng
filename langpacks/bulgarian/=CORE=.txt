@@ -419,7 +419,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Шрифт за изобразяване етикети на секции или текстови елементи.
 [Normal text:]
 Нормален текст:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Шрифт за повечето текстови елементи или съдържанието на секциите.
 [Minor notes:]
 Малки бележки:

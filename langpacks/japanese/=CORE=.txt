@@ -400,7 +400,7 @@ Miranda NG は再起動中です\nお待ちください...
 このフォントはメインセクションのタイトルやテキスト要素の表示に使用されています
 [Normal text:]
 標準テキスト:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 このフォントは大部分のテキスト要素や本文のセクションの本文に使用されています
 [Minor notes:]
 マイナーメモ:

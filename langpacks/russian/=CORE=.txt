@@ -421,7 +421,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Шрифт для заголовков основных разделов или текстовых элементов.
 [Normal text:]
 Обычный текст:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Шрифт для большинства текстовых элементов или разделов.
 [Minor notes:]
 Примечания:

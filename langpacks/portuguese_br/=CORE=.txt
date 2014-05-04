@@ -366,7 +366,7 @@ Cabeçalhos:
 Esta fonte é usada para exibir a seção principal ou elementos de texto.
 [Normal text:]
 Texto normal:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Esta fonte é usada para exibir a maioria dos elementos de texto e do corpo das seções.
 [Minor notes:]
 Notas menores

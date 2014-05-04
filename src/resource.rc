@@ -634,7 +634,7 @@ BEGIN
     LTEXT           "This font is used to display main section titles or text elements.",IDC_STATIC,10,11,249,16,SS_CENTERIMAGE
     LTEXT           "Normal text:",IDC_TXT_TITLE2,0,55,259,8
     PUSHBUTTON      "...",IDC_CHOOSEFONTGENERAL,244,84,16,14
-    LTEXT           "This font is used to display most text element or section bodies.",IDC_STATIC,10,66,249,16,SS_CENTERIMAGE
+    LTEXT           "This font is used to display most text elements or section bodies.",IDC_STATIC,10,66,249,16,SS_CENTERIMAGE
     LTEXT           "Minor notes:",IDC_TXT_TITLE3,0,109,259,8
     PUSHBUTTON      "...",IDC_CHOOSEFONTSMALL,244,139,16,14
     LTEXT           "This font is used to display various additional notes.",IDC_STATIC,10,120,249,16,SS_CENTERIMAGE

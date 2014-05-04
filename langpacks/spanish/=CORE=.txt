@@ -419,7 +419,7 @@ Cabeceras
 Esta fuente se utiliza para mostrar secciones de títulos principales o elementos de texto.
 [Normal text:]
 Texto normal:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Esta fuente se utiliza para mostrar más elementos de texto o sección de cuerpos.
 [Minor notes:]
 Notas menores:

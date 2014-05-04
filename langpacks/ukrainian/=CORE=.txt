@@ -421,7 +421,7 @@ Miranda NG перезапускається.\nЗачекайте...
 Шрифт для заголовків основних розділів чи текстових елементів.
 [Normal text:]
 Звичайний текст:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Шрифт для більшості текстових елементів чи розділів.
 [Minor notes:]
 Дрібний текст:

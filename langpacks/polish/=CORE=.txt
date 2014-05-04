@@ -419,7 +419,7 @@ Nagłówki:
 Ta czcionka jest używana do wyświetlania tytułów i tekstu gł. elementów.
 [Normal text:]
 Zwykły tekst:
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 Ta czcionka jest używana do wyświetlania większości tekstu.
 [Minor notes:]
 Pozostałe informacje:

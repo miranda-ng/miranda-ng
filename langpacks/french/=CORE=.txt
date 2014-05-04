@@ -419,7 +419,7 @@ En-têtes
 
 [Normal text:]
 Texte normal :
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 
 [Minor notes:]
 
