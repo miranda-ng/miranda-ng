@@ -32,28 +32,24 @@
 
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
-REOLECallback*		mREOLECallback;
-NEN_OPTIONS 		nen_options;
-static HANDLE 		hUserPrefsWindowLis = 0;
-HMODULE 			g_hIconDLL = 0;
+REOLECallback *mREOLECallback;
+NEN_OPTIONS    nen_options;
+static HANDLE  hUserPrefsWindowLis = 0;
+HMODULE        g_hIconDLL = 0;
 
-static void 	UnloadIcons();
+static void UnloadIcons();
 
 void Chat_AddIcons(void);
 
-/*
- * fired event when user changes IEView plugin options. Apply them to all open tabs
- */
+// fired event when user changes IEView plugin options. Apply them to all open tabs
 
-int IEViewOptionsChanged(WPARAM,LPARAM)
+int IEViewOptionsChanged(WPARAM, LPARAM)
 {
 	M.BroadcastMessage(DM_IEVIEWOPTIONSCHANGED, 0, 0);
 	return 0;
 }
 
-/*
- * fired event when user changes smileyadd options. Notify all open tabs about the changes
- */
+// fired event when user changes smileyadd options. Notify all open tabs about the changes
 
 int SmileyAddOptionsChanged(WPARAM,LPARAM)
 {
@@ -62,12 +58,9 @@ int SmileyAddOptionsChanged(WPARAM,LPARAM)
 	return 0;
 }
 
-/*
- * Message API 0.0.0.3 services
- */
+// Message API 0.0.0.3 services
 
 static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
-
 {
 	char *szBuf = (char*)wParam;
 	int size = (int)lParam;
@@ -75,12 +68,10 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
- * service function. retrieves the message window data for a given hcontact or window
- * wParam == hContact of the window to find
- * lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
- * is directly used as the handle for the target window
- */
+// service function. retrieves the message window data for a given hcontact or window
+// wParam == hContact of the window to find
+// lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
+// is directly used as the handle for the target window
 
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
@@ -125,9 +116,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-/*
- * service function. Sets a status bar text for a contact
- */
+// service function. Sets a status bar text for a contact
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
@@ -160,9 +149,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
- * service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
- */
+// service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
 
 static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 {
@@ -175,9 +162,7 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*
- * service function - open the tray menu from the TTB button
- */
+// service function - open the tray menu from the TTB button
 
 static INT_PTR Service_OpenTrayMenu(WPARAM wParam, LPARAM lParam)
 {
@@ -185,17 +170,14 @@ static INT_PTR Service_OpenTrayMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
- * service function. retrieves the message window flags for a given hcontact or window
- * wParam == hContact of the window to find
- * lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
- * is directly used as the handle for the target window
- */
+// service function. retrieves the message window flags for a given hcontact or window
+// wParam == hContact of the window to find
+// lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
+// is directly used as the handle for the target window
 
 static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndTarget = (HWND)lParam;
-
 	if (hwndTarget == 0)
 		hwndTarget = M.FindWindow(wParam);
 
@@ -206,27 +188,23 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 	return (dat) ? dat->dwFlags : 0;
 }
 
-/*
- * return the version of the window api supported
- */
+// return the version of the window api supported
 
-static INT_PTR GetWindowAPI(WPARAM,LPARAM)
+static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 {
 	return PLUGIN_MAKE_VERSION(0, 0, 0, 2);
 }
 
-/*
- * service function finds a message session
- * wParam = contact handle for which we want the window handle
- * thanks to bio for the suggestion of this service
- * if wParam == 0, then lParam is considered to be a valid window handle and
- * the function tests the popup mode of the target container
+// service function finds a message session
+// wParam = contact handle for which we want the window handle
+// thanks to bio for the suggestion of this service
+// if wParam == 0, then lParam is considered to be a valid window handle and
+// the function tests the popup mode of the target container
 
- * returns the hwnd if there is an open window or tab for the given hcontact (wParam),
- * or (if lParam was specified) the hwnd if the window exists.
- * 0 if there is none (or the popup mode of the target container was configured to "hide"
- * the window..
- */
+// returns the hwnd if there is an open window or tab for the given hcontact (wParam),
+// or (if lParam was specified) the hwnd if the window exists.
+// 0 if there is none (or the popup mode of the target container was configured to "hide"
+// the window..
 
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 {
@@ -236,7 +214,7 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	if (wParam)
 		hwnd = M.FindWindow(wParam);
 	else if (lParam)
-		hwnd = (HWND) lParam;
+		hwnd = (HWND)lParam;
 	else
 		return NULL;
 
@@ -263,15 +241,13 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-/*
- * ReadMessageCommand is executed whenever the user wants to manually open a window.
- * This can happen when double clicking a contact on the clist OR when opening a new
- * message (clicking on a popup, clicking the flashing tray icon and so on).
- */
+// ReadMessageCommand is executed whenever the user wants to manually open a window.
+// This can happen when double clicking a contact on the clist OR when opening a new
+// message (clicking on a popup, clicking the flashing tray icon and so on).
 
 static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
-	MCONTACT hContact = ((CLISTEVENT *) lParam)->hContact;
+	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
 
 	HWND hwndExisting = M.FindWindow(hContact);
 	if (hwndExisting != 0)
@@ -288,20 +264,15 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-
-/*
- * this is the Unicode version of the SendMessageCommand handler. It accepts wchar_t strings
- * for filling the message input box with a passed message
- */
+// this is the Unicode version of the SendMessageCommand handler. It accepts wchar_t strings
+// for filling the message input box with a passed message
 
 INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 {
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
-	/*
-	 * make sure that only the main UI thread will handle window creation
-     */
+	// make sure that only the main UI thread will handle window creation
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
 		if (lParam) {
 			unsigned iLen = lstrlenW((wchar_t *)lParam);
@@ -314,25 +285,23 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	/* does the MCONTACT's protocol support IM messages? */
+	// does the MCONTACT's protocol support IM messages?
 	char *szProto = GetContactProto(hContact);
-	if (szProto) {
-		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
-			return 0;
-	} else {
-		/* unknown contact */
+	if (szProto == NULL)
+		return 0; // unknown contact
+	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 0;
-	}
-	
+
 	HWND hwnd = M.FindWindow(hContact);
 	if (hwnd) {
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR*) lParam);
+			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR*)lParam);
 		}
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);
-	} else {
+	}
+	else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
@@ -345,12 +314,10 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/*
- * the SendMessageCommand() invokes a message session window for the given contact.
- * e.g. it is called when user double clicks a contact on the contact list
- * it is implemented as a service, so external plugins can use it to open a message window.
- * contacts handle must be passed in wParam.
- */
+// the SendMessageCommand() invokes a message session window for the given contact.
+// e.g. it is called when user double clicks a contact on the contact list
+// it is implemented as a service, so external plugins can use it to open a message window.
+// contacts handle must be passed in wParam.
 
 INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
@@ -364,17 +331,21 @@ INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 			strncpy(szText, (char *)lParam, iLen + 1);
 			szText[iLen] = 0;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, (LPARAM)szText);
-		} else
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, 0);
+		}
+		else PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, hContact, 0);
 		return 0;
 	}
+
+	if (db_mc_isSub(hContact))
+		hContact = db_mc_getMeta(hContact);
 
 	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 			return 0;
-	} else {
+	}
+	else {
 		/* unknown contact */
 		return 0;
 	}
@@ -384,7 +355,7 @@ INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char *) lParam);
+			SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(char *)lParam);
 		}
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);          // ask the message window about its parent...
 	}
@@ -395,22 +366,19 @@ INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, 0, (const char *) lParam, TRUE, TRUE, FALSE, 0);
+			CreateNewTabForContact(pContainer, hContact, 0, (const char *)lParam, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
 
-/*
- * open a window when user clicks on the flashing "typing message" tray icon.
- * just calls SendMessageCommand() for the given contact.
- */
+// open a window when user clicks on the flashing "typing message" tray icon.
+// just calls SendMessageCommand() for the given contact.
+
 static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	CLISTEVENT *cle = (CLISTEVENT *) lParam;
-
-	if (!cle)
-		return 0;
-	SendMessageCommand((WPARAM)cle->hContact, 0);
+	CLISTEVENT *cle = (CLISTEVENT*)lParam;
+	if (cle)
+		SendMessageCommand((WPARAM)cle->hContact, 0);
 	return 0;
 }
 
@@ -484,9 +452,9 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 				dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
 				SendMessage(dat->hwnd, WM_SIZE, 0, 1);
 			}
-				dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
-				RedrawWindow(dat->hwnd, NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
-				SendMessage(dat->hwnd, WM_SIZE, 0, 1);
+			dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
+			RedrawWindow(dat->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			SendMessage(dat->hwnd, WM_SIZE, 0, 1);
 			ShowPicture(dat, TRUE);
 			dat->dwFlagsEx |= MWF_EX_AVATARCHANGED;
 			dat->pContainer->SideBar->updateSession(dat);
@@ -511,24 +479,22 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/**
- * initialises the internal API, services, events etc...
- */
+// initialises the internal API, services, events etc...
 
 static void TSAPI InitAPI()
 {
-	CreateServiceFunction(MS_MSG_SENDMESSAGE,     SendMessageCommand);
+	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWAPI,    GetWindowAPI);
-	CreateServiceFunction(MS_MSG_GETWINDOWCLASS,  GetWindowClass);
-	CreateServiceFunction(MS_MSG_GETWINDOWDATA,   GetWindowData);
-	CreateServiceFunction(MS_MSG_SETSTATUSTEXT,   SetStatusText);
+	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
+	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
+	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
+	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
 
-	CreateServiceFunction("SRMsg/ReadMessage",    ReadMessageCommand);
-	CreateServiceFunction("SRMsg/TypingMessage",  TypingMessageCommand);
+	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
+	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
-	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT,  Service_OpenTrayMenu);
-	CreateServiceFunction(MS_TABMSG_SLQMGR,       CSendLater::svcQMgr);
+	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
+	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
 
 	CreateServiceFunction(MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags);
 	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
@@ -536,10 +502,7 @@ static void TSAPI InitAPI()
 	SI_InitStatusIcons();
 	CB_InitCustomButtons();
 
-	/*
-	 * the event API
-	 */
-
+	// the event API
 	PluginConfig.m_event_MsgWin = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	PluginConfig.m_event_MsgPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 	PluginConfig.m_event_WriteEvent = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
@@ -554,7 +517,7 @@ int LoadSendRecvMessageModule(void)
 
 	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	icex.dwICC  = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;
+	icex.dwICC = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 
 	Utils::loadSystemLibrary(L"\\riched20.dll");
@@ -590,27 +553,24 @@ int LoadSendRecvMessageModule(void)
 STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
 {
 	LPLOCKBYTES lpLockBytes = NULL;
-    SCODE sc  = ::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
-    if (sc != S_OK)
+	SCODE sc = ::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
+	if (sc != S_OK)
 		return sc;
-    sc = ::StgCreateDocfileOnILockBytes(lpLockBytes, STGM_SHARE_EXCLUSIVE|STGM_CREATE|STGM_READWRITE, 0, lplpstg);
-    if (sc != S_OK)
+	sc = ::StgCreateDocfileOnILockBytes(lpLockBytes, STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, lplpstg);
+	if (sc != S_OK)
 		lpLockBytes->Release();
-    return sc;
+	return sc;
 }
 
-
-/*
- * tabbed mode support functions...
- * (C) by Nightwish
- *
- * this function searches and activates the tab belonging to the given hwnd (which is the
- * hwnd of a message dialog window)
- */
+// tabbed mode support functions...
+// (C) by Nightwish
+// 
+// this function searches and activates the tab belonging to the given hwnd (which is the
+// hwnd of a message dialog window)
 
 int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
-	TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
 	if (!dat || !pContainer)
 		return FALSE;
 
@@ -626,16 +586,15 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(pContainer->hwnd);
 	}
-	//MaD - hide on close feature
+	
+	// hide on close feature
 	if (!IsWindowVisible(pContainer->hwnd)) {
-		WINDOWPLACEMENT wp={0};
+		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->hwnd, &wp);
 
-		/*
-		 * all tabs must re-check the layout on activation because adding a tab while
-		 * the container was hidden can make this necessary
-		 */
+		// all tabs must re-check the layout on activation because adding a tab while
+		// the container was hidden can make this necessary
 		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
 			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
@@ -645,32 +604,29 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		}
 		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
 	}
-	//MaD_
 	else if (GetForegroundWindow() != pContainer->hwnd)
 		SetForegroundWindow(pContainer->hwnd);
+
 	if (dat->bType == SESSIONTYPE_IM)
 		SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
 	return TRUE;
 }
 
-/*
- * this function creates and activates a new tab within the given container.
- * bActivateTab: make the new tab the active one
- * bPopupContainer: restore container if it was minimized, otherwise flash it...
- */
+// this function creates and activates a new tab within the given container.
+// bActivateTab: make the new tab the active one
+// bPopupContainer: restore container if it was minimized, otherwise flash it...
 
 HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
 {
-	TCHAR  newcontactname[128], tabtitle[128];
-	int		newItem;
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 
 	if (M.FindWindow(hContact) != 0) {
 		_DebugPopup(hContact, _T("Warning: trying to create duplicate window"));
 		return 0;
 	}
+
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M.GetByte("limittabs", 0) &&  !_tcsncmp(pContainer->szName, _T("default"), 6)) {
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6)) {
 		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
 			mir_sntprintf(szName, CONTAINER_NAMELEN, _T("default"));
@@ -679,7 +635,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		}
 	}
 
-	TNewWindowData newData = {0};
+	TNewWindowData newData = { 0 };
 	newData.hContact = hContact;
 	newData.isWchar = isSend;
 	newData.szInitialText = pszInitialText;
@@ -690,10 +646,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	// obtain various status information about the contact
 	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
 
-	/*
-	 * cut nickname if larger than x chars...
-	 */
-
+	// cut nickname if larger than x chars...
+	TCHAR newcontactname[128], tabtitle[128];
 	if (contactName && lstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
@@ -701,10 +655,9 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			lstrcpyn(newcontactname, contactName, SIZEOF(newcontactname));
 			newcontactname[127] = 0;
 		}
-		//Mad: to fix tab width for nicknames with ampersands
 		Utils::DoubleAmpersands(newcontactname);
-	} else
-		lstrcpyn(newcontactname, _T("_U_"), SIZEOF(newcontactname));
+	}
+	else lstrcpyn(newcontactname, _T("_U_"), SIZEOF(newcontactname));
 
 	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
 	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
@@ -724,29 +677,26 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (pContainer->hwndActive && bActivateTab)
 		ShowWindow(pContainer->hwndActive, SW_HIDE);
 
-	{
-		int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
-		int iCount = TabCtrl_GetItemCount(hwndTab);
-		TCITEM item = {0};
-		int relPos;
-		int i;
+	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
+	int iCount = TabCtrl_GetItemCount(hwndTab);
+	TCITEM item = {0};
 
-		pContainer->iTabIndex = iCount;
-		if (iCount > 0) {
-			for (i = iCount - 1; i >= 0; i--) {
-				item.mask = TCIF_PARAM;
-				TabCtrl_GetItem(hwndTab, i, &item);
-				HWND hwnd = (HWND)item.lParam;
-				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				if (dat) {
-					relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
-					if (iTabIndex_wanted <= relPos)
-						pContainer->iTabIndex = i;
-				}
+	pContainer->iTabIndex = iCount;
+	if (iCount > 0) {
+		for (int i = iCount - 1; i >= 0; i--) {
+			item.mask = TCIF_PARAM;
+			TabCtrl_GetItem(hwndTab, i, &item);
+			HWND hwnd = (HWND)item.lParam;
+			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			if (dat) {
+				int relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
+				if (iTabIndex_wanted <= relPos)
+					pContainer->iTabIndex = i;
 			}
 		}
 	}
-	newItem = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &newData.item);
+
+	int newItem = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &newData.item);
 	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
 		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), newItem);
@@ -759,9 +709,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	newData.hdbEvent = hdbEvent;
 	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM)&newData);
 
-	/*
-	 * switchbar support
-	 */
+	// switchbar support
 	if (pContainer->dwFlags & CNT_SIDEBAR) {
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
 		if (dat)
@@ -797,9 +745,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		RedrawWindow(pContainer->hwndActive, NULL, NULL, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
-	//MaD
 	if (PluginConfig.m_HideOnClose&&!IsWindowVisible(pContainer->hwnd)) {
-		WINDOWPLACEMENT wp={0};
+		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->hwnd, &wp);
 
@@ -816,20 +763,18 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 
 	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled)
-		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING|MB_OK);
+		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
 
 	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0))
-		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING|MB_YESNO))
+		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING | MB_YESNO))
 			db_set_b(0, "HistoryPlusPlus", "IEViewAPI", 0);
 
 	return hwndNew;		// return handle of the new dialog
 }
 
-/*
- * this is used by the 2nd containermode (limit tabs on default containers).
- * it searches a container with "room" for the new tabs or otherwise creates
- * a new (cloned) one.
- */
+// this is used by the 2nd containermode (limit tabs on default containers).
+// it searches a container with "room" for the new tabs or otherwise creates
+// a new (cloned) one.
 
 TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hContact)
 {
@@ -845,21 +790,16 @@ TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hConta
 	return FindContainerByName(szName);
 }
 
-/*
- * load some global icons.
- */
+// load some global icons.
 
 void TSAPI CreateImageList(BOOL bInitial)
 {
 	int cxIcon = GetSystemMetrics(SM_CXSMICON);
 	int cyIcon = GetSystemMetrics(SM_CYSMICON);
 
-	/*
-	 * the imagelist is now a fake. It is still needed to provide the tab control with a
-	 * image list handle. This will make sure that the tab control will reserve space for
-	 * an icon on each tab. This is a blank and empty icon
-	 */
-
+	// the imagelist is now a fake. It is still needed to provide the tab control with a
+	// image list handle. This will make sure that the tab control will reserve space for
+	// an icon on each tab. This is a blank and empty icon
 	if (bInitial) {
 		PluginConfig.g_hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
 		HICON hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, NULL, NULL);
@@ -901,15 +841,13 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 		se.hwnd = hwnd;
 		se.extraFlags = (unsigned int)(LOWORD(subType));
 		se.local = (void*)dat->sendBuffer;
-		mwe.local = (void*) & se;
+		mwe.local = (void*)&se;
 	}
 
 	return NotifyEventHooks(PluginConfig.m_event_MsgWin, 0, (LPARAM)&mwe);
 }
 
-/*
- * standard icon definitions
- */
+// standard icon definitions
 
 static TIconDesc _toolbaricons[] =
 {
@@ -935,10 +873,10 @@ static TIconDesc _exttoolbaricons[] =
 
 static TIconDesc _chattoolbaricons[] =
 {
-	{ "chat_bkgcol",LPGEN("Background color"), &PluginConfig.g_buttonBarIcons[31] ,-IDI_BKGCOLOR, 1 },
-	{ "chat_settings",LPGEN("Room settings"),  &PluginConfig.g_buttonBarIcons[32],-IDI_TOPICBUT, 1 },
-	{ "chat_filter",LPGEN("Event filter"), &PluginConfig.g_buttonBarIcons[33] ,-IDI_FILTER2, 1 },
-	{ "chat_shownicklist",LPGEN("Nick list"),&PluginConfig.g_buttonBarIcons[35]  ,-IDI_SHOWNICKLIST, 1 }
+	{ "chat_bkgcol", LPGEN("Background color"), &PluginConfig.g_buttonBarIcons[31], -IDI_BKGCOLOR, 1 },
+	{ "chat_settings", LPGEN("Room settings"), &PluginConfig.g_buttonBarIcons[32], -IDI_TOPICBUT, 1 },
+	{ "chat_filter", LPGEN("Event filter"), &PluginConfig.g_buttonBarIcons[33], -IDI_FILTER2, 1 },
+	{ "chat_shownicklist", LPGEN("Nick list"), &PluginConfig.g_buttonBarIcons[35], -IDI_SHOWNICKLIST, 1 }
 };
 
 static TIconDesc _logicons[] =
@@ -974,12 +912,12 @@ struct {
 	int nItems;
 }
 static ICONBLOCKS[] = {
-	{ LPGEN("Message Sessions")"/"LPGEN("Default"),       _deficons,          SIZEOF(_deficons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"),       _toolbaricons,		  SIZEOF(_toolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"),       _exttoolbaricons,	  SIZEOF(_exttoolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"),       _chattoolbaricons,  SIZEOF(_chattoolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Message Log"),   _logicons,			  SIZEOF(_logicons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon,			  SIZEOF(_trayIcon) }
+	{ LPGEN("Message Sessions")"/"LPGEN("Default"), _deficons, SIZEOF(_deficons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _toolbaricons, SIZEOF(_toolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _exttoolbaricons, SIZEOF(_exttoolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _chattoolbaricons, SIZEOF(_chattoolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Message Log"), _logicons, SIZEOF(_logicons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon, SIZEOF(_trayIcon) }
 };
 
 static int GetIconPackVersion(HMODULE hDLL)
@@ -1003,14 +941,12 @@ static int GetIconPackVersion(HMODULE hDLL)
 	}
 
 	if (version < 5)
-		CWarning::show(CWarning::WARN_ICONPACK_VERSION, MB_OK|MB_ICONERROR);
+		CWarning::show(CWarning::WARN_ICONPACK_VERSION, MB_OK | MB_ICONERROR);
 	return version;
 }
 
-/*
- * setup default icons for the IcoLib service. This needs to be done every time the plugin is loaded
- * default icons are taken from the icon pack in either \icons or \plugins
- */
+// setup default icons for the IcoLib service. This needs to be done every time the plugin is loaded
+// default icons are taken from the icon pack in either \icons or \plugins
 
 static int TSAPI SetupIconLibConfig()
 {
@@ -1020,7 +956,7 @@ static int TSAPI SetupIconLibConfig()
 	_tcsncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
 	g_hIconDLL = LoadLibrary(szFilename);
 	if (g_hIconDLL == 0) {
-		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE|MB_ICONERROR|MB_OK);
+		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
 		return 0;
 	}
 
@@ -1034,9 +970,9 @@ static int TSAPI SetupIconLibConfig()
 	sid.ptszDefaultFile = szFilename;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	for (int n=0; n < SIZEOF(ICONBLOCKS); n++) {
+	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++) {
 		sid.pszSection = ICONBLOCKS[n].szSection;
-		for (int i=0; i < ICONBLOCKS[n].nItems; i++) {
+		for (int i = 0; i < ICONBLOCKS[n].nItems; i++) {
 			sid.pszName = ICONBLOCKS[n].idesc[i].szName;
 			sid.pszDescription = ICONBLOCKS[n].idesc[i].szDesc;
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
@@ -1073,7 +1009,7 @@ static int TSAPI SetupIconLibConfig()
 static int TSAPI LoadFromIconLib()
 {
 	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
-		for (int i=0; i < ICONBLOCKS[n].nItems; i++)
+		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
 			*(ICONBLOCKS[n].idesc[i].phIcon) = Skin_GetIcon(ICONBLOCKS[n].idesc[i].szName);
 
 	PluginConfig.g_buttonBarIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
@@ -1082,7 +1018,7 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_buttonBarIconHandles[1] = LoadSkinnedIconHandle(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIconHandles[20] = LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS);
 
-	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = 
+	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] =
 		PluginConfig.g_buttonBarIcons[12] = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
 	PluginConfig.g_IconChecked = LoadSkinnedIcon(SKINICON_OTHER_TICK);
 	PluginConfig.g_IconUnchecked = LoadSkinnedIcon(SKINICON_OTHER_NOTICK);
@@ -1098,9 +1034,7 @@ static int TSAPI LoadFromIconLib()
 	return 0;
 }
 
-/*
- * load icon theme from either icon pack or IcoLib
- */
+// load icon theme from either icon pack or IcoLib
 
 void TSAPI LoadIconTheme()
 {
@@ -1116,7 +1050,7 @@ void TSAPI LoadIconTheme()
 static void UnloadIcons()
 {
 	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
-		for (int i=0; i < ICONBLOCKS[n].nItems; i++)
+		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
 			if (*(ICONBLOCKS[n].idesc[i].phIcon) != 0) {
 				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
 				*(ICONBLOCKS[n].idesc[i].phIcon) = 0;
@@ -1125,7 +1059,7 @@ static void UnloadIcons()
 	if (PluginConfig.g_hbmUnknown)
 		DeleteObject(PluginConfig.g_hbmUnknown);
 
-	for (int i=0; i < 4; i++) 
+	for (int i = 0; i < 4; i++)
 		if (PluginConfig.m_AnimTrayIcons[i])
 			DestroyIcon(PluginConfig.m_AnimTrayIcons[i]);
 }
