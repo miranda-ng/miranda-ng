@@ -1,6 +1,5 @@
 ﻿[Contact add time]
 [IP]
-[Attach to &Tab container]
 [Column content is simple database setting.]
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
 [Column content is contact property (see list). Can be empty.]

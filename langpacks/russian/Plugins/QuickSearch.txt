@@ -151,6 +151,8 @@ ID клиента
 Тип переменной:
 [New Column]
 Добавить колонку
+[Attach to &Tab container]
+Присоединить к &контейнеру
 [Column Up]
 Выше
 [Column Down]
