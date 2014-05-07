@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = MODULE;
 	pd.type = PROTOTYPE_VIRTUAL;
-	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, NewsAggrGetCaps);
@@ -89,6 +89,16 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKFEED, CheckFeed);
 	CreateServiceFunction(MS_NEWSAGGREGATOR_CHANGEFEED, ChangeFeed);
 	CreateServiceFunction(MS_NEWSAGGREGATOR_ENABLED, EnableDisable);
+
+	HOTKEYDESC hkd = { sizeof(hkd) };
+	hkd.dwFlags = HKD_TCHAR;
+	hkd.pszName = "NewsAggregator/CheckAllFeeds";
+	hkd.ptszDescription = LPGENT("Check All Feeds");
+	hkd.ptszSection = LPGENT("News Aggregator");
+	hkd.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'O') | HKF_MIRANDA_LOCAL;
+	Hotkey_Register(&hkd);
+
 	return 0;
 }
 

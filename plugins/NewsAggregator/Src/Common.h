@@ -39,6 +39,7 @@ Boston, MA 02111-1307, USA.
 #include <m_protomod.h>
 #include <m_xml.h>
 #include <m_avatars.h>
+#include <m_hotkeys.h>
 
 #include <m_folders.h>
 #include <m_toptoolbar.h>
@@ -149,15 +150,15 @@ MCONTACT GetContactByURL(const TCHAR *url);
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_ADDFEED	"NewsAggregator/AddNewsFeed"
 
-// Add new Feed channel
+// Change Feed channel
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_CHANGEFEED	"NewsAggregator/ChangeNewsFeed"
 
-// Import Feed chanels from file
+// Import Feed channels from file
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_IMPORTFEEDS	"NewsAggregator/ImportFeeds"
 
-// Export Feed chanels to file
+// Export Feed channels to file
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_EXPORTFEEDS	"NewsAggregator/ExportFeeds"
 
@@ -165,6 +166,6 @@ MCONTACT GetContactByURL(const TCHAR *url);
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_CHECKFEED	"NewsAggregator/CheckFeed"
 
-// Check Feed info
+// Enable/disable getting feed info
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_ENABLED	"NewsAggregator/Enabled"
