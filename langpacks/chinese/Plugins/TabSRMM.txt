@@ -908,7 +908,7 @@ TabSRMM 警告信息
 [Unknown event]
 未知事件
 [New messages: ]
-新消息: 
+新消息:\s
 [Unknown module or contact]
 未知模块或联系人
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
@@ -1018,7 +1018,7 @@ TabSRMM 菜单
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b 状态消息:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b 扩展状态信息:\\ul0\\b0 \\par 
+\\par\\par\\tab \\ul\\b 扩展状态信息:\\ul0\\b0 \\par\s
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b 聆听信息:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1494,7 +1494,7 @@ Aero peek 警告|您已启用 Aero Peek 功能并加载了自定义容器窗口�
 [%s kicked %s]
 %s 已被踢走 %s
 [Notice from %s: ]
-%s 的公告: 
+%s 的公告:\s
 [The topic is '%s%s']
 主题为 '%s%s'
 [ (set by %s on %s)]

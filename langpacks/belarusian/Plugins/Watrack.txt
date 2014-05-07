@@ -628,7 +628,7 @@ VBR ці няма
 Эпізод
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-Памылка Last.fm:
+Памылка Last.fm:\s
 [Client is banned]
 Кліент заблакаваны
 [Bad Auth. Check login and password]

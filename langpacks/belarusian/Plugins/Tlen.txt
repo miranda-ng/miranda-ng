@@ -211,7 +211,7 @@ Tlen пошта
 Аўтэнтыфікацыя Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-Вас выгналі. Чыннік: %s
+Вас выгналі. Чыннік: %s\s
 [You cannot join this chat room, because you are banned.]
 Вы не можаце ўвайсці ў чат, таму што Вы заблакаваны.
 [Chat room not found.]

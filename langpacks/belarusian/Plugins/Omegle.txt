@@ -83,7 +83,7 @@ Omegle гэта новы спосаб сяброўства!
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Патрэбны код праверкі.\nПерайдзіце на http://omegle.com, увядзіце там капчу і паспрабуйце ізноў.
 [Error: ]
-Памылка:
+Памылка:\s
 [We are still waiting...]
 Мы доўга чакаем...
 ;file \protocols\Omegle\src\connection.cpp

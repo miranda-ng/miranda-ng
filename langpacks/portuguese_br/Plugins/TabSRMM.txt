@@ -664,7 +664,7 @@ Uma de suas ações popup está definido para descartar EVENTO.\nNote que esta o
 [Incoming file]
 Arquivo Chegando
 [New messages: ]
-Novas mensagens:
+Novas mensagens:\s
 [Last received: %s at %s]
 Recebido: %s at %s
 [Incoming (Focused Window)]
@@ -992,7 +992,7 @@ Vocês está conhecido agora com %s
 [%s kicked %s]
 %s agora é conhecido como %s
 [Notice from %s: ]
-Notificação de %s:
+Notificação de %s:\s
 [ (set by %s on %s)]
 (definido por %s sobre %s)
 [ (set by %s)]

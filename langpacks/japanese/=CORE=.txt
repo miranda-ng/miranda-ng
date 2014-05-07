@@ -1217,7 +1217,7 @@ SMS テキストメッセージを受信できる電話
 [%s kicked %s]
 %s は %s を排除しました
 [Notice from %s: ]
-%s からの通知:
+%s からの通知:\s
 [ (set by %s on %s)]
 ( %s を %s に設定)
 [ (set by %s)]

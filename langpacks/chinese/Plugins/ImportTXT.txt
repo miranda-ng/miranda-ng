@@ -6,7 +6,7 @@
 ;  Authors: Abyss
 ;============================================================
 [Import history to ]
-导入历史记录至 
+导入历史记录至\s
 [Import history]
 导入历史记录
 [Choose a file...]
@@ -18,7 +18,7 @@
 [Text files (*.txt)]
 文本文件 (*.txt)
 [Error in cfg file: ]
-CFG 文件错误: 
+CFG 文件错误:\s
 [No Files Patterns Found]
 文件模式未找到
 [No messages in this file]

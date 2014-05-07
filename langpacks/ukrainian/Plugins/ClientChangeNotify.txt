@@ -60,7 +60,7 @@
 [%s (was %s)]
 %s (був %s)
 [) changed client to ]
-) змінив клієнт на
+) змінив клієнт на\s
 [Client change notifications:]
 Сповіщення про зміну клієнта:
 [Never, ignore client changes for this contact]
@@ -86,7 +86,7 @@
 [Error #%d]
 Помилка #%d
 [Can't open log file ]
-Неможливо відкрити файл журналу
+Неможливо відкрити файл журналу\s
 [(you can use regular expressions here)]
 (Можна також використовувати регулярні вирази)
 [Open message window]

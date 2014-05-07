@@ -1277,7 +1277,7 @@ Miranda NG 正准备重启. \n请稍候...
 [%s kicked %s]
 %s 已被踢走 %s
 [Notice from %s: ]
-%s 的公告: 
+%s 的公告:\s
 [The topic is '%s%s']
 主题为 '%s%s'
 [ (set by %s on %s)]

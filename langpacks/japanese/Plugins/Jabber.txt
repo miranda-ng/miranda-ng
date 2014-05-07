@@ -890,15 +890,15 @@ JID の追加
 [Message]
 メッセージ
 [allow ]
-許可 
+許可\s
 [deny ]
-否認 
+否認\s
 [all.]
 all.
 [messages]
 メッセージ
 [ and ]
- と 
+ と\s
 [incoming presences]
 着信プレゼンス
 [outgoing presences]
@@ -906,7 +906,7 @@ all.
 [queries]
 クエリー
 [Else ]
-もしくは
+もしくは\s
 [If Jabber ID is ']
 Jabber ID が次の時 '
 [ (nickname: ]
@@ -916,7 +916,7 @@ Jabber ID が次の時 '
 [If subscription is ']
 予約が次の時 '
 [then ]
-であるなら 
+であるなら\s
 [ (act., def.)]
  (act., def.)
 [ (active)]

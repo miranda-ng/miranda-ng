@@ -94,9 +94,9 @@ Chyba v ukončení súboru :\n
 [Failed to write message to the file :\n]
 Chyba pri zápise správy do súboru :\n
 [File: ]
-Súbor:
+Súbor:\s
 [Description: ]
-Popis:
+Popis:\s
 [Failed to write URL/File to the file :\n]
 Chyba pri zápise URL/Súboru do súboru :\n
 [Nick      :]

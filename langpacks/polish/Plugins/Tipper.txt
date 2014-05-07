@@ -319,7 +319,7 @@ Kopiuj wszystkie wpisy
 [Copy avatar]
 Kopiuj awatar
 [<No Label>: ]
-<Brak etykiety>:
+<Brak etykiety>:\s
 [<No Value>]
 <Brak wartości>
 [Fav. contacts]

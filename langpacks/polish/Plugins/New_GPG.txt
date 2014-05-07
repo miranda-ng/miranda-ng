@@ -237,7 +237,7 @@ Zastąp
 [Accept]
 Akceptuj
 [Received key from ]
-Otrzymany klucz od 
+Otrzymany klucz od\s
 [You must set encryption algorithm first]
 Musisz najpierw ustawić algorytm szyfrujący
 [Key length must be of length from 1024 to 4096 bits]
@@ -343,13 +343,13 @@ Wybierz gpg.exe
 [Set home directory]
 Ustaw folder domowy
 [Load Public GPG Key for ]
-Wczytaj klucz publiczny GPG dla 
+Wczytaj klucz publiczny GPG dla\s
 [Turn off encryption]
 Wyłącz szyfrowanie
 [ found in presence, and exists in keyring.)]
  znaleziono w obecności, a także istnieje w breloku.)
 [Load Public GPG Key (Key ID: ]
-Wczytaj klucz publiczny GPG (ID klucza: 
+Wczytaj klucz publiczny GPG (ID klucza:\s
 [ found in presence.)]
  znaleziono w obecności.)
 [This is not public or private key]

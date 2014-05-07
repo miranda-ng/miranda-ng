@@ -62,7 +62,7 @@
 [%s (was %s)]
 %s (быў %s)
 [) changed client to ]
-) змяніў кліент на 
+) змяніў кліент на\s
 [Client change notifications:]
 Абвесткі пра змену кліента:
 [Never, ignore client changes for this contact]

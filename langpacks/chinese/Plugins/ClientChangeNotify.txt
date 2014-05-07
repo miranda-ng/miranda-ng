@@ -36,7 +36,7 @@ ClientChangeNotify 错误
 [%s (was %s)]
 %s (是 %s)
 [) changed client to ]
-) 已变更客户端为
+) 已变更客户端为\s
 [Disable c&lient change notification]
 禁用客户端变更通知(&L)
 [Enable c&lient change notification]
@@ -52,6 +52,6 @@ ClientChangeNotify: 客户端已变更
 [Error #%d]
 错误 #%d
 [Can't open log file ]
-无法打开日志文件 
+无法打开日志文件\s
 [(you can use regular expressions here)]
 (您可在此使用正则表达式)

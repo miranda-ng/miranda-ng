@@ -780,15 +780,15 @@ Lista eltávolítása
 [Message]
 Üzenet
 [allow ]
-engedélyezés 
+engedélyezés\s
 [deny ]
-megtagadás 
+megtagadás\s
 [all.]
 összes.
 [messages]
 üzenetek
 [ and ]
- és 
+ és\s
 [incoming presences]
 bejövõ jelenlétek
 [outgoing presences]
@@ -796,17 +796,17 @@ kimenõ jelenlétek
 [queries]
 kérdõívek
 [Else ]
-Más 
+Más\s
 [If Jabber ID is ']
 Ha a Jabber azonosító '
 [ (nickname: ]
- (becenév: )
+ (becenév:\s
 [If group is ']
 Ha a csoport '
 [If subscription is ']
 Ha a hozzájárulás '
 [then ]
-akkor 
+akkor\s
 [ (act., def.)]
  (akt., alapért.)
 [ (active)]

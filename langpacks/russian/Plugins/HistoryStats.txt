@@ -460,11 +460,11 @@ HistoryStats - Предупреждение
 [For this config the selected column...]
 Опции для этой выбранной колонки...
 [...can be output as: ]
-...может выводиться как:
+...может выводиться как:\s
 [PNG (partial)]
 PNG (частично)
 [...will be output as: ]
-...будет выводиться как:
+...будет выводиться как:\s
 [Nothing (column will be skipped)]
 Ничего (колонка будет пропущена)
 [HTML as fallback]

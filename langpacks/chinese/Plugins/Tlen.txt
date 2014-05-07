@@ -162,7 +162,7 @@ Tlen 聊天
 [Tlen Authentication]
 Tlen 验证
 [You have been kicked. Reason: %s ]
-您已被踢. 理由: %s 
+您已被踢. 理由: %s\s
 [You cannot join this chat room, because you are banned.]
 您已被封锁, 无法加入此聊天室.
 [Chat room not found.]

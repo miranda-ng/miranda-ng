@@ -281,7 +281,7 @@ Włącz przełączanie
 [Toggle Off]
 Wyłącz przełączanie
 [) read your ]
-) przeczytaj swój 
+) przeczytaj swój\s
 [ message:\r\n]
  opis:\r\n
 [Set %s message for the contact]
@@ -372,7 +372,7 @@ Czy na pewno chcesz usunąć ten opis?
 [Error #%d]
 Błąd #%d
 [Can't open log file ]
-Nie można otworzyć pliku dziennika
+Nie można otworzyć pliku dziennika\s
 ;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
 &Zamknij

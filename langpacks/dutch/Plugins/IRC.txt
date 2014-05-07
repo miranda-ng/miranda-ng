@@ -290,11 +290,11 @@ Server verwijderen
 [Edit server]
 Server bewerken
 [<Resolved IP: ]
-<Gevonden IP:
+<Gevonden IP:\s
 [<Automatic>]
 <Automatisch>
 [<Local IP: ]
-<Lokaal IP:
+<Lokaal IP:\s
 [Click to set commands that will be performed for this event]
 Klik om opdrachten in te stellen die worden uitgevoerd voor deze gebeurtenis
 [Click to delete the commands for this event]
@@ -302,19 +302,19 @@ Klik om de opdrachten te verwijderen voor deze gebeurtenis
 [Advanced]
 Geavanceerd
 [WallOps from %s: ]
-WallOps van %s:
+WallOps van %s:\s
 [%s invites you to %s]
 %s nodigt uw uit voor %s
 [%s is away]
 %s is weg
 [These are online: ]
-Deze zijn online
+Deze zijn online:\s
 [CTCP %s reply sent to %s]
 CTCP %s antwoord verzonden naar %s
 [CTCP %s reply sent to %s: %s]
 CTCP %s antwoord verzonden naar %s: %s
 [Notice to %s: ]
-Melding naar %s:
+Melding naar %s:\s
 [&Quick connect]
 Snel verbinden
 [&Change your nickname]

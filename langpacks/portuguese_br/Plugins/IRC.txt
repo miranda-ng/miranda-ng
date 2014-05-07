@@ -412,19 +412,19 @@ DCC no CTCP
 [Advanced]
 Avançado
 [WallOps from %s: ]
-WallOps(msg de operadores) de %s:
+WallOps(msg de operadores) de %s:\s
 [%s invites you to %s]
 %s convida-o para %s
 [%s is away]
 %s está afastado
 [These are online: ]
-Estes são on-line:
+Estes são on-line:\s
 [CTCP %s reply sent to %s]
 CTCP %s resposta enviada para %s
 [CTCP %s reply sent to %s: %s]
 CTCP %s resposta enviada para %s: %s
 [Notice to %s: ]
-Observe a %s:
+Observe a %s:\s
 [&Quick connect]
 &Ligação rápida
 [&Join channel]

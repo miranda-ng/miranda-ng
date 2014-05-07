@@ -164,7 +164,7 @@ Kontaktide avatarid
 [Incoming file]
 Sisenev tulev fail
 [New messages: ]
-Uued teated: 
+Uued teated:\s
 [Outgoing]
 Väljuv
 [Other]

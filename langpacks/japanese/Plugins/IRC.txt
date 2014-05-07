@@ -400,11 +400,11 @@ WhoIs
 [Edit server]
 サーバーを編集
 [<Resolved IP: ]
-< 解決済み IP:
+< 解決済み IP:\s
 [<Automatic>]
 < 自動 >
 [<Local IP: ]
-< ローカル IP:
+< ローカル IP:\s
 [Click to set commands that will be performed for this event]
 クリックして , このイベントに対して実行されるコマンドを設定してください
 [Click to delete the commands for this event]
@@ -430,13 +430,13 @@ DCC と CTCP
 [Advanced]
 詳細
 [WallOps from %s: ]
-%s からの WallOps:
+%s からの WallOps:\s
 [%s invites you to %s]
 %s があなたを %s に招待しています
 [%s is away]
 %s は離席中です
 [These are online: ]
-オンライン:
+オンライン:\s
 [CTCP %s reply sent to %s]
 CTCP %s は &s に返信を送信
 [CTCP %s reply sent to %s: %s]

@@ -368,11 +368,11 @@ Slett server
 [Edit server]
 Rediger server
 [<Resolved IP: ]
-<Innhentet IP:
+<Innhentet IP:\s
 [<Automatic>]
 <Automatisk>
 [<Local IP: ]
-<Lokal IP:
+<Lokal IP:\s
 [Click to set commands that will be performed for this event]
 Klikk for å sette kommandoer som vil utføres for denne hendelsen
 [Click to delete the commands for this event]
@@ -390,19 +390,19 @@ DCC og CTCP
 [Advanced]
 Avansert
 [WallOps from %s: ]
-WallOps fra %s:
+WallOps fra %s:\s
 [%s invites you to %s]
 %s inviterer deg til %s
 [%s is away]
 %s er borte
 [These are online: ]
-Følgende er påkoblet:
+Følgende er påkoblet:\s
 [CTCP %s reply sent to %s]
 CTCP %s svar sendt til %s
 [CTCP %s reply sent to %s: %s]
 CTCP %S svar sendt til s: %s
 [Notice to %s: ]
-Varsel til %s:
+Varsel til %s:\s
 [&Quick connect]
 &Rask tilkobling
 [&Change your nickname]

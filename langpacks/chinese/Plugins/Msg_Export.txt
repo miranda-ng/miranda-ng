@@ -118,9 +118,9 @@
 [Failed to write message to the file :\n]
 消息写入文件失败 :\n
 [File: ]
-文件: 
+文件:\s
 [Description: ]
-描述: 
+描述:\s
 [Failed to write URL/File to the file :\n]
 URL/文件写入文件失败 :\n
 [Nick      :]

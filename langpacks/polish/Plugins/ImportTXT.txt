@@ -8,7 +8,7 @@
 [Imports history saved in TXT files from other clients.]
 Importuje historię z innych klientów, zapisaną w plikach TXT.
 [Import history to ]
-Importuj historię do 
+Importuj historię do\s
 [Import history]
 Importuj historię
 [Choose a file...]
@@ -22,7 +22,7 @@ Plik tekstowy (*.txt)
 [All files (*.*)]
 Wszystkie pliki (*.*)
 [Error in cfg file: ]
-Błąd w pliku konfiguracyjnym: 
+Błąd w pliku konfiguracyjnym:\s
 [No Files Patterns Found]
 Nie znaleziono szablonów plików
 [No messages in this file]

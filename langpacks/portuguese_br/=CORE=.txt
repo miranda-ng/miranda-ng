@@ -1121,7 +1121,7 @@ Vocês está conhecido agora com %s
 [%s kicked %s]
 %s agora é conhecido como %s
 [Notice from %s: ]
-Notificação de %s:
+Notificação de %s:\s
 [ (set by %s on %s)]
 (definido por %s sobre %s)
 [ (set by %s)]

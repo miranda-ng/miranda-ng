@@ -11,7 +11,7 @@
 [No help for '%s'.]
 Няма дапамогі для '%s'.
 [Available commands: ]
-Даступныя каманды: 
+Даступныя каманды:\s
 [Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 Miranda была зачынена ці адбылася памылка пры чаканні выніку, немагчыма апрацаваць запыт.
 ;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp

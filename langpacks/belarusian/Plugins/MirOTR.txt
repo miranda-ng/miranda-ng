@@ -128,7 +128,7 @@ OTR не можа шыфраваць падчас адпраўкі паведа�
 [OTR Information]
 OTR Інфармацыя
 [[OTR INFO] ]
-OTR INFO 
+OTR INFO\s
 [Authentication from %s]
 Ідэнтыфікацыя ад %s
 [Authenticae %s]

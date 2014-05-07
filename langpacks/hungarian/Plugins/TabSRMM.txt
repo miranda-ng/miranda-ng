@@ -594,7 +594,7 @@ Gépelés értesítés állapota: %s.
 [Incoming file]
 Bejövõ fájl
 [New messages: ]
-Új üzenetek: 
+Új üzenetek:\s
 [Last received: %s at %s]
 Utolsó fogadva: %s napon %s idõpontban
 [Incoming (Focused Window)]
@@ -824,7 +824,7 @@ Az új beceneve: %s
 [%s kicked %s]
 %s kirúgta õt: %s
 [Notice from %s: ]
-Megjegyzés %s feladótól:
+Megjegyzés %s feladótól:\s
 [ (set by %s on %s)]
  (beállította: %s, ekkor: %s)
 [ (set by %s)]

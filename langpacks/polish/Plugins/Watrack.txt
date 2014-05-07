@@ -628,7 +628,7 @@ Pobierz informacje o serii
 Odcinek
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-Błąd Last.fm: 
+Błąd Last.fm:\s
 [Client is banned]
 Klient jest zbanowany
 [Bad Auth. Check login and password]
@@ -640,7 +640,7 @@ Błędny znacznik czasu
 Podobni artyści
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
-Info muzyczne z 
+Info muzyczne z\s
 [You Get Error]
 Otrzymujesz błąd
 ;other strings

@@ -230,7 +230,7 @@ Authentifizierung für %s@%s fehlgeschlagen.
 Tlen-Authentifizierung
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-Sie wurden gekickt. Grund: %s
+Sie wurden gekickt. Grund: %s\s
 [You cannot join this chat room, because you are banned.]
 Sie können diesen Chatraum nicht betreten, da Sie gebannt wurden.
 [Chat room not found.]

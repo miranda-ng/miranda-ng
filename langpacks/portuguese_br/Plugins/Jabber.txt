@@ -768,15 +768,15 @@ Remover Lista
 [** Subsription: none **]
 ** Subscrição: nenhuma **
 [allow ]
-permitir
+permitir\s
 [deny ]
-negar
+negar\s
 [all.]
 todos.
 [messages]
 mensagens
 [ and ]
-e
+e\s
 [incoming presences]
 presenças de entrada
 [outgoing presences]
@@ -784,17 +784,17 @@ presenças de saída
 [queries]
 consultas
 [Else ]
-Diferente
+Diferente\s
 [If Jabber ID is ']
 Se Jabber ID é '
 [ (nickname: ]
-(apelidoe:
+(apelidoe:\s
 [If group is ']
 Se o grupo é '
 [If subscription is ']
 Se a assinatura for '
 [then ]
-então
+então\s
 [ (act., def.)]
 (ativ., def.)
 [ (active)]

@@ -536,7 +536,7 @@ Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
 Réponse CTCP %s envoyée à %s: %s
 [Notice to %s: ]
-Notice à %s: 
+Notice à %s:\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Connexion &rapide

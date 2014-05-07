@@ -142,7 +142,7 @@ Miranda NG (Плагін экспарту паведамленняў)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
 [\nError: ]
-\nПамылка: 
+\nПамылка:\s
 [\nMessage has not been saved!\n]
 \nПаведамленне не захаванае!\n
 [Failed to open or create file :\n]
@@ -182,9 +182,9 @@ Miranda NG (Плагін экспарту паведамленняў)
 [Failed to write message to the file :\n]
 Не атрымалася запісаць паведамленне ў файл:\n
 [URL: ]
-URL: 
+URL:\s
 [File: ]
-Файл: 
+Файл:\s
 [Description: ]
 Апісанне:\s
 [Failed to write URL/File to the file :\n]

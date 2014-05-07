@@ -62,7 +62,7 @@ zmienił(a) klienta na %s
 [%s (was %s)]
 %s (z %s)
 [) changed client to ]
-) zmienił(a) klienta na 
+) zmienił(a) klienta na\s
 [Client change notifications:]
 Powiadomienia o zmianie klienta:
 [Never, ignore client changes for this contact]
@@ -89,7 +89,7 @@ Powiadomienia o zmianie klienta
 [Error #%d]
 Błąd #%d
 [Can't open log file ]
-Nie można otworzyć pliku dziennika
+Nie można otworzyć pliku dziennika\s
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (możesz użyć wyrażeń regularnych)

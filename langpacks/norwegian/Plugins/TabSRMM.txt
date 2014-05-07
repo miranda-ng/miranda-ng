@@ -512,7 +512,7 @@ Skrivevarsling er %s,
 [Incoming file]
 Innkommende fil
 [New messages: ]
-Nye meldinger:
+Nye meldinger:\s
 [Last received: %s at %s]
 Sist mottatt: %s kl. %s
 [Incoming (Focused Window)]
@@ -758,7 +758,7 @@ Du er nå kjent som %s
 [%s kicked %s]
 %s kicket %s
 [Notice from %s: ]
-Varsel fra %s;
+Varsel fra %s:\s
 [ (set by %s)]
  (satt av %s)
 [Log background]

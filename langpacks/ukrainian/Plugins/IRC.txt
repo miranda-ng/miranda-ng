@@ -508,19 +508,19 @@ DCC і CTCP
 [Advanced]
 Додатково
 [WallOps from %s: ]
-WallOps від %s:
+WallOps від %s:\s
 [%s invites you to %s]
 %s запрошує вас на %s
 [%s is away]
 %s відсутній...
 [These are online: ]
-В мережі:
+В мережі:\s
 [CTCP %s reply sent to %s]
 СТСР %s відповідь надіслана для %s
 [CTCP %s reply sent to %s: %s]
 СТСР %s відповідь послана для %s: %s
 [Notice to %s: ]
-Повідомлення для %s:
+Повідомлення для %s:\s
 [&Quick connect]
 &Швидке з'єдання
 [&Join channel]

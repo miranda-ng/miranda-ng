@@ -90,11 +90,11 @@ URL 地址
 [No share selected]
 无已选定共享
 [Current IP Address: ]
-当前 IP 地址: 
+当前 IP 地址:\s
 [Current Address: ]
-当前地址: 
+当前地址:\s
 [IP Adress: ]
-IP 地址: 
+IP 地址:\s
 [You are browsing from]
 您正浏览从
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]

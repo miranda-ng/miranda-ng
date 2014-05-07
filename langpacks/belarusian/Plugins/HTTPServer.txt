@@ -123,11 +123,11 @@ Miranda NG HTTP-сервер
 [No share selected]
 Тэчка не абрана
 [Current IP Address: ]
-Цяперашні адрас IP:
+Цяперашні адрас IP:\s
 [Current Address: ]
-Цяперашні адрас:
+Цяперашні адрас:\s
 [IP Adress: ]
-Адрас IP:
+Адрас IP:\s
 [You are browsing from]
 Вы праглядаеце з
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
@@ -151,11 +151,11 @@ HTTP Новы агульны файл
 [Failed to move to the end of the log file]
 Памылка перасоўвання ў канец лога
 [Failed to open or create file ]
-Памылка адкрыцця ці стварэння файла
+Памылка адкрыцця ці стварэння файла\s
 [Failed to write xml header to file ]
-Памылка запісу ў загаловак XML файлу
+Памылка запісу ў загаловак XML файлу\s
 [Failed to write xml data to file ]
-Памылка запісу у XML файл
+Памылка запісу у XML файл\s
 [Disable HTTP server]
 Адключыць HTTP сервер
 [Enable HTTP server]

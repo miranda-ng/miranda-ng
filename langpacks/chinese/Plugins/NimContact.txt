@@ -54,7 +54,7 @@
 [Unless Non-IM Contacts protocol is OFFLINE]
 除非非即时通信联系人协议离线
 [Timer Intervals.  ]
-计时器间隔. 
+计时器间隔.\s
 [Away as another status]
 外出当其它状态
 [Disable timer]

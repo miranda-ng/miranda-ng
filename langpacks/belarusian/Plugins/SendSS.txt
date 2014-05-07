@@ -181,7 +181,7 @@ HTTP далучэнне SendSS
 [Select a target window.]
 Абярыце вакно для адпраўкі.
 [Screenshot ]
-Здымак экрану
+Здымак экрану\s
 [of "]
 з "
 [" Window]

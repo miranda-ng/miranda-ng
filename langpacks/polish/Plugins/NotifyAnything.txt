@@ -53,7 +53,7 @@ Nie podano argumentu dla opcji msg.
 [ID is required for replacement.]
 ID jest wymagany w celu zamiany.
 [Invalid argument for replace option: ]
-Niepoprawny argument dla opcji replace:
+Niepoprawny argument dla opcji replace:\s
 [Empty message ignored.]
 Ignoruj puste wiadomości.
 [Failed to write to log file.]

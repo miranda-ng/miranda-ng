@@ -2068,7 +2068,7 @@ Usted ahora se conoce como %s
 [%s kicked %s]
 %s sacado %s
 [Notice from %s: ]
-Aviso de %s: 
+Aviso de %s:\s
 [The topic is '%s%s']
 El tema es '%s%s'
 [ (set by %s on %s)]
@@ -2590,13 +2590,13 @@ Es necesario desactivar plugin para eliminar esta cuenta
 &Cuentas...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
-Ctrl +
+Ctrl +\s
 [Alt + ]
-Alt +
+Alt +\s
 [Shift + ]
-Shift +
+Shift +\s
 [Win + ]
-Win +
+Win +\s
 [Remove shortcut]
 Eliminar atajo
 [Add another shortcut]

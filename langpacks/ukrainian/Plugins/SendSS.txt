@@ -214,7 +214,7 @@ HTTP-з'єднання SendSS
 [Select a target window.]
 Виберіть вікно, щоб зробити знімок.
 [Screenshot ]
-Знімок екрану
+Знімок екрану\s
 [of "]
 з "
 [" Window]

@@ -1122,15 +1122,15 @@ Facebook 聊天
 [Message]
 消息
 [allow ]
-允许
+允许\s
 [deny ]
-拒绝
+拒绝\s
 [all.]
-全部. 
+全部.\s
 [messages]
 消息
 [ and ]
- 及
+ 及\s
 [incoming presences]
 传入存在信息
 [outgoing presences]
@@ -1138,17 +1138,17 @@ Facebook 聊天
 [queries]
 查询
 [Else ]
-否则
+否则\s
 [If Jabber ID is ']
 如果 Jabber ID 为 '
 [ (nickname: ]
- (昵称: 
+ (昵称:\s
 [If group is ']
 如果群组为 '
 [If subscription is ']
 如果订阅状态为 '
 [then ]
-时, 
+时,\s
 [ (act., def.)]
  (使用, 默认)
 [ (active)]
@@ -1156,7 +1156,7 @@ Facebook 聊天
 [ (default)]
  (默认值)
 [Ready.]
-就绪. 
+就绪.\s
 [Privacy lists are not saved, discard any changes and exit?]
 隐私列表尚未保存, 放弃所有变更并离开? 
 [Please save list before activating]

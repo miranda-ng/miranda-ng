@@ -123,11 +123,11 @@ Błąd ListView_GetItem
 [No share selected]
 Nie wybrano udziału
 [Current IP Address: ]
-Aktualny adres IP:
+Aktualny adres IP:\s
 [Current Address: ]
-Aktualny adres:
+Aktualny adres:\s
 [IP Adress: ]
-Adres IP:
+Adres IP:\s
 [You are browsing from]
 Przeglądasz z
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
@@ -157,13 +157,13 @@ Nie udało się przejść do końca pliku loga
 [Failed to write some part of the log file]
 Nie udało się zapisać pewnej części pliku loga
 [Failed to open or create file ]
-Błąd otwierania lub tworzenia pliku 
+Błąd otwierania lub tworzenia pliku\s
 [Failed to write xml header to file ]
-Nie udało się zapisać nagłówka XML do pliku 
+Nie udało się zapisać nagłówka XML do pliku\s
 [Failed to write xml data to file ]
-Nie udało się zapisać danych XML do pliku
+Nie udało się zapisać danych XML do pliku\s
 [Failed to write xml tail to file ]
-Nie udało się zapisać znaku XML do pliku
+Nie udało się zapisać znaku XML do pliku\s
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 Nie udało się połączyć do portu %s\r\nPrawdopodobnie inny program lub usługa używa tego portu.
 [Disable HTTP server]

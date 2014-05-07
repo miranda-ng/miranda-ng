@@ -176,7 +176,7 @@ Nazwa pliku dla kontaktu "%s" zmieniła się!\n\nz:\t%s\nna:\t%s\n\nCzy chcesz z
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Nie można zmienić nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
 [\nError: ]
-\nBłąd: 
+\nBłąd:\s
 [\nMessage has not been saved!\n]
 \nWiadomość nie została zapisana!\n
 [Do you wish to save debug information?]
@@ -226,11 +226,11 @@ Nie udało się zapisać daty i nazwy użytkownika do pliku:\n
 [Failed to write message to the file :\n]
 Nie udało się zapisać wiadomości do pliku:\n
 [URL: ]
-Link: 
+Link:\s
 [File: ]
-Plik: 
+Plik:\s
 [Description: ]
-Opis: 
+Opis:\s
 [Failed to write URL/File to the file :\n]
 Nie udało się zapisać Linku/Pliku do pliku:\n
 [Nick      :]

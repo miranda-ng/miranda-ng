@@ -2068,7 +2068,7 @@ Jesteś teraz znany jako %s
 [%s kicked %s]
 %s wyrzucił uczestnika %s
 [Notice from %s: ]
-Powiadomienie od %s:
+Powiadomienie od %s:\s
 [The topic is '%s%s']
 Temat to "%s%s"
 [ (set by %s on %s)]
@@ -2239,7 +2239,7 @@ Prośba o autoryzację od %s%s: %s
 [You were added by %s%s]
 Zostałeś dodany przez %s%s
 [Contacts: ]
-Kontakty:
+Kontakty:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil "%s" już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.
@@ -2590,13 +2590,13 @@ Musisz wyłączyć wtyczkę, by usunąć to konto.
 &Konta...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
-Ctrl + 
+Ctrl +\s
 [Alt + ]
-Alt + 
+Alt +\s
 [Shift + ]
-Shift + 
+Shift +\s
 [Win + ]
-Win + 
+Win +\s
 [Remove shortcut]
 Usuń skrót
 [Add another shortcut]

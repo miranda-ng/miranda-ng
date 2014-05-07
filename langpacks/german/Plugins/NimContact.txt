@@ -61,7 +61,7 @@ Kontakt ist immer sichtbar
 [Unless Non-IM Contacts protocol is OFFLINE]
 Falls Nicht-IM-Kontakte-Protokoll nicht offline ist
 [Timer Intervals.  ]
-Zeitintervalle.  
+Zeitintervalle. \s
 [Dialog]
 Dialog
 [Away as another status]

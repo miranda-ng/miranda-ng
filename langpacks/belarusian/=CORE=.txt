@@ -2064,7 +2064,7 @@ URL ад %s
 [%s kicked %s]
 %s выкінуў %s
 [Notice from %s: ]
-Абвестка ад %s: 
+Абвестка ад %s:\s
 [The topic is '%s%s']
 Тэма '%s%s'
 [ (set by %s on %s)]

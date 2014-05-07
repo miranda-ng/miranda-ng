@@ -780,15 +780,15 @@ Listeyi sil
 [Message]
 İleti
 [allow ]
-izin 
+izin\s
 [deny ]
-red 
+red\s
 [all.]
 tüm.
 [messages]
 iletiler
 [ and ]
- ve 
+ ve\s
 [incoming presences]
 gelen varlıklar
 [outgoing presences]
@@ -796,17 +796,17 @@ giden varlıklar
 [queries]
 sorgular
 [Else ]
-Değilse
+Değilse\s
 [If Jabber ID is ']
 Eğer Jabber kimliği '
 [ (nickname: ]
- (kısa ad:
+ (kısa ad:\s
 [If group is ']
 Eğer grup '
 [If subscription is ']
 Eğer abonelik '
 [then ]
-sonra 
+sonra\s
 [ (act., def.)]
  (etkin, vars.)
 [ (active)]

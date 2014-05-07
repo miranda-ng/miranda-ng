@@ -132,11 +132,11 @@ HTTP Новий розшарений файл
 [Failed to move to the end of the log file]
 Помилка переміщення в кінець журналу
 [Failed to open or create file ]
-Помилка відкриття або створення файлу
+Помилка відкриття або створення файлу\s
 [Failed to write xml header to file ]
-Помилка запису в заголовок XML файлу
+Помилка запису в заголовок XML файлу\s
 [Failed to write xml data to file ]
-Помилка запису у XML файл
+Помилка запису у XML файл\s
 [Disable HTTP server]
 Вимкнути HTTP-сервер
 [Enable HTTP server]

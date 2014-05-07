@@ -520,19 +520,19 @@ DCC і CTCP
 Дадаткова
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
-WallOps ад %s:
+WallOps ад %s:\s
 [%s invites you to %s]
 %s запрашае вас на %s
 [%s is away]
 %s адсутнічае...
 [These are online: ]
-У сетцы:
+У сетцы:\s
 [CTCP %s reply sent to %s]
 CTCP %s адказ пасланы для %s
 [CTCP %s reply sent to %s: %s]
 CTCP %s адказ пасланы для %s: %s
 [Notice to %s: ]
-Абвестка для %s:
+Абвестка для %s:\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Хуткае далучэнне

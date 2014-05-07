@@ -388,11 +388,11 @@ Sunucuyu sil
 [Edit server]
 Sunucuyu düzenle
 [<Resolved IP: ]
-<Çözülmüş IP:
+<Çözülmüş IP:\s
 [<Automatic>]
 <Kendiliğinden>
 [<Local IP: ]
-<Yerel IP:
+<Yerel IP:\s
 [Click to set commands that will be performed for this event]
 Bu etkinlikle yürütülecek komutları ayarlamak için tıklayın
 [Click to delete the commands for this event]
@@ -418,19 +418,19 @@ DCC CTCP
 [Advanced]
 Gelişmiş
 [WallOps from %s: ]
-%s duvar operatörleri:
+%s duvar operatörleri:\s
 [%s invites you to %s]
 %s sizi %s odasına çağırdı
 [%s is away]
 %s uzakta
 [These are online: ]
-Şunlar çevrim içi:
+Şunlar çevrim içi:\s
 [CTCP %s reply sent to %s]
 CTCP %s yanıtı %s kişisine gönderildi
 [CTCP %s reply sent to %s: %s]
 CTCP %s yanıtı %s kişisine gönderildi: %s
 [Notice to %s: ]
-%s kişisine uyarı:
+%s kişisine uyarı:\s
 [&Quick connect]
 &Hızlı bağlan
 [&Join channel]

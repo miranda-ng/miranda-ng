@@ -1040,7 +1040,7 @@ Przychodzący plik (nieprawidłowy format)
 [Unknown event]
 Nieznane zdarzenie
 [New messages: ]
-Nowych wiadomości:
+Nowych wiadomości:\s
 [Unknown module or contact]
 Nieznany moduł lub kontakt
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -1170,7 +1170,7 @@ Kopiuj do schowka
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\ul\\b Opis:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\ul\\b xStatus:\\ul0\\b0 \\par \\par
+\\par\\par\\ul\\b xStatus:\\ul0\\b0 \\par \\par\s
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\ul\\b Teraz odtwarza:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1822,7 +1822,7 @@ Jesteś teraz znany jako %s
 [%s kicked %s]
 %s wyrzucił uczestnika %s
 [Notice from %s: ]
-Powiadomienie od %s:
+Powiadomienie od %s:\s
 [The topic is '%s%s']
 Temat to "%s%s"
 [ (set by %s on %s)]

@@ -1040,7 +1040,7 @@ Fichier reçu
 [Unknown event]
 Évènement inconnu
 [New messages: ]
-Nouveaux messages : 
+Nouveaux messages :\s
 [Unknown module or contact]
 
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -1822,7 +1822,7 @@ Vous êtes connu en tant que %s
 [%s kicked %s]
 %s a exclu %s
 [Notice from %s: ]
-Notice de %s : 
+Notice de %s :\s
 [The topic is '%s%s']
 Le sujet est '%s%s'
 [ (set by %s on %s)]

@@ -1824,7 +1824,7 @@ Usted ahora se conoce como %s
 [%s kicked %s]
 %s sacado %s
 [Notice from %s: ]
-Aviso de %s: 
+Aviso de %s:\s
 [The topic is '%s%s']
 El tema es '%s%s'
 [ (set by %s on %s)]

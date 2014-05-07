@@ -388,11 +388,11 @@ Szerver törlése
 [Edit server]
 Szerver szerkesztése
 [<Resolved IP: ]
-<Feloldott IP:
+<Feloldott IP:\s
 [<Automatic>]
 <Automatikus>
 [<Local IP: ]
-<Helyi IP:
+<Helyi IP:\s
 [Click to set commands that will be performed for this event]
 Aktuális esemény parancsainak beállításához kattints
 [Click to delete the commands for this event]
@@ -418,19 +418,19 @@ DCC'n CTCP
 [Advanced]
 Haladó
 [WallOps from %s: ]
-Opok innen %s:
+Opok innen %s:\s
 [%s invites you to %s]
 %s meghív ide: %s
 [%s is away]
 %s állapota: távol
 [These are online: ]
-Ezek elérhetõek:
+Ezek elérhetõek:\s
 [CTCP %s reply sent to %s]
 CTCP %s válasz küldve ennek: %s
 [CTCP %s reply sent to %s: %s]
 CTCP %s válasz: %s, küldve ennek: %s
 [Notice to %s: ]
-Jegyzet ennek: %s:
+Jegyzet ennek: %s:\s
 [&Quick connect]
 &Gyorscsatlakozás
 [&Join channel]

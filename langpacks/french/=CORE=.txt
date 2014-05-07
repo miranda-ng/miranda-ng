@@ -2239,7 +2239,7 @@ Ce changement est connu pour être sûr.
 [You were added by %s%s]
 
 [Contacts: ]
-Contacts :
+Contacts :\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 

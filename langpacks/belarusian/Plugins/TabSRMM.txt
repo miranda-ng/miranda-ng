@@ -1038,7 +1038,7 @@ Esc зачыняе сесію (інакш - згортвае)
 [Unknown event]
 Невядомая з'ява
 [New messages: ]
-Новыя паведамленні: 
+Новыя паведамленні:\s
 [Unknown module or contact]
 Невядомы плагін ці кантакт
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -1166,7 +1166,7 @@ TabSRMM: Набірае
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b Паведамленне статусу:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b хстатус:\\ul0\\b0 \\par 
+\\par\\par\\tab \\ul\\b хстатус:\\ul0\\b0 \\par\s
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b Слухае:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1814,7 +1814,7 @@ tabSRMM: %s
 [%s kicked %s]
 %s выкінуў %s
 [Notice from %s: ]
-Абвестка ад %s: 
+Абвестка ад %s:\s
 [The topic is '%s%s']
 Тэма '%s%s'
 [ (set by %s on %s)]

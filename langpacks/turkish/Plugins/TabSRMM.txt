@@ -596,7 +596,7 @@ kapalı
 [Incoming file]
 Alınan Dosya
 [New messages: ]
-Yeni iletiler
+Yeni iletiler:\s
 [Last received: %s at %s]
 Son alınan: %s %s saatinde
 [Incoming (Focused Window)]
@@ -826,7 +826,7 @@ Artık %s olarak biliniyorsunuz
 [%s kicked %s]
 %s tekmelendi %s
 [Notice from %s: ]
-%s dikkat çekti:
+%s dikkat çekti:\s
 [ (set by %s on %s)]
 %s tarafından %s saatinde ayarlandı
 [ (set by %s)]

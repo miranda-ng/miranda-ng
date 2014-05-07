@@ -819,7 +819,7 @@ Zapisz wartość
 [Storage]
 Przestrzeń
 [LastResult to ]
-Ostatni wynik do
+Ostatni wynik do\s
 [LastResult from]
 Ostatni wynik z
 [Slot 0]

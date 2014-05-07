@@ -1590,15 +1590,15 @@ Odnoklassniki
 [List has no rules, empty lists will be deleted then changes applied]
 У спісе няма правіл, пустыя спісы будуць выдаленыя
 [allow ]
-дазволіць
+дазволіць\s
 [deny ]
-забараніць
+забараніць\s
 [all.]
 усё.
 [messages]
 паведамленняў
 [ and ]
- і
+ і\s
 [incoming presences]
 уваходная прысутнасць
 [outgoing presences]
@@ -1606,17 +1606,17 @@ Odnoklassniki
 [queries]
 запыты
 [Else ]
-Інакш
+Інакш\s
 [If Jabber ID is ']
 Калі JID  '
 [ (nickname: ]
- (мянушка:
+ (мянушка:\s
 [If group is ']
 Калі гурт '
 [If subscription is ']
 Калі падпіска  '
 [then ]
-то
+то\s
 [ (act., def.)]
 (актыўна, змаўч.)
 [ (active)]

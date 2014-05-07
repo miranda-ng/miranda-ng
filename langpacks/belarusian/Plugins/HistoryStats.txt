@@ -447,7 +447,7 @@ HistoryStats - Папярэджанне
 [For this config the selected column...]
 Опцыі для гэтай абранай калонкі...
 [...can be output as: ]
-...можа выводзіцца як:
+...можа выводзіцца як:\s
 [PNG (partial)]
 PNG (часткова)
 [...will be output as: ]

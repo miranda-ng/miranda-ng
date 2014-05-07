@@ -394,11 +394,11 @@ DCC 聊天连接尚未使用
 [Edit server]
 编辑服务器
 [<Resolved IP: ]
-<已解析 IP: 
+<已解析 IP:\s
 [<Automatic>]
 <自动>
 [<Local IP: ]
-<本地 IP: 
+<本地 IP:\s
 [Click to set commands that will be performed for this event]
 点击此处设定事件执行命令
 [Click to delete the commands for this event]
@@ -424,19 +424,19 @@ DCC 及 CTCP
 [Advanced]
 高级
 [WallOps from %s: ]
-%s 发出 WallOps: 
+%s 发出 WallOps:\s
 [%s invites you to %s]
 %s 邀请您到 %s
 [%s is away]
 %s 已外出
 [These are online: ]
-这些人在线: 
+这些人在线:\s
 [CTCP %s reply sent to %s]
 CTCP %s 回复已送达 %s
 [CTCP %s reply sent to %s: %s]
 CTCP %s 回复已送达 %s: %s
 [Notice to %s: ]
-给 %s 的公告: 
+给 %s 的公告:\s
 [&Quick connect]
 快速连接(&Q)
 [&Join channel]

@@ -956,7 +956,7 @@ TabSRMMメニュー
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b ステータスメッセージ:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b 拡張ステータス情報:\\ul0\\b0 \\par 
+\\par\\par\\tab \\ul\\b 拡張ステータス情報:\\ul0\\b0 \\par\s
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b リッスン中:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1414,7 +1414,7 @@ Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な
 [%s kicked %s]
 %s は %s を排除しました
 [Notice from %s: ]
-%s からの通知:
+%s からの通知:\s
 [ (set by %s on %s)]
 ( %s を %s に設定)
 [ (set by %s)]
