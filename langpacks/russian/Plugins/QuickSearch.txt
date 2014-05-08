@@ -151,8 +151,6 @@ ID клиента
 Тип переменной:
 [New Column]
 Добавить колонку
-[Attach to &Tab container]
-Присоединить к &контейнеру
 [Column Up]
 Выше
 [Column Down]
@@ -207,6 +205,8 @@ ID клиента
 &Копировать
 [C&onvert to Meta]
 Прео&бразовать в метаконтакт
+[Attach to &Tab container]
+Присоединить к &контейнеру
 [&Move to Group]
 &Переместить в группу
 [Some of selected contacts in different metacontacts already]

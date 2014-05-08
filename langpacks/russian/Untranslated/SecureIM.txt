@@ -1,6 +1,3 @@
 ﻿[PGP]
 [GPG]
 [SHA1:]
-[Temp Dir:]
-[Set pre-shared key]
-[Delete pre-shared key]

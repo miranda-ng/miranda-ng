@@ -1,8 +1,0 @@
-﻿[Allows you to send a message to contacts if they change status.]
-[Couldn't allocate enough memory]
-[error......]
-[The Message    (0 Characters)]
-[Reuse this message? (0 to use it once)]
-[Give up after... (0 to not give up)]
-[Show confirmation window? (0 to not Show)]
-[Seconds to wait before sending]
