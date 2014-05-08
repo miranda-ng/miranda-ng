@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define STR_VERSION_FORMAT _T("v%S")
+#define STR_VERSION_FORMAT _T("Miranda NG\nv%S")
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
