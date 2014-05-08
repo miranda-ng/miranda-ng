@@ -209,7 +209,7 @@
 [Headers:]
 [This font is used to display main section titles or text elements.]
 [Normal text:]
-[This font is used to display most text element or section bodies.]
+[This font is used to display most text elements or section bodies.]
 [Minor notes:]
 [This font is used to display various additional notes.]
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
@@ -541,7 +541,6 @@
 [You will always be asked about files from people not on your contact list]
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
-[Miranda NG\n%s]
 [Credits >]
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]

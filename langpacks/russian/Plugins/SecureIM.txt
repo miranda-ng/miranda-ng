@@ -73,6 +73,8 @@
 Исполняемые:
 [Home Directory:]
 Домашний каталог:
+[Temp Dir:]
+Временный каталог:
 [Key Assignment]
 Назначение ключей
 [Debug]
@@ -146,11 +148,15 @@ Secure IM Включён
 [Secure IM Disabled]
 Secure IM Выключен
 [Pre-shared key]
-Настроить ключ
+Общий ключ
 [Set key]
 Установить ключ
 [Delete key]
 Удалить ключ
+[Set pre-shared key]
+Установить общий ключ
+[Delete pre-shared key]
+Удалить общий ключ
 [Public key]
 Открытый ключ
 [Export key]

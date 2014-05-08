@@ -5,6 +5,8 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
+[Allows you to send a message to contacts if they change status.]
+Позволяет вам отправлять сообщения контактам, если они меняют статус.
 [Confirm Pounce send]
 Подтверждение отправки отложенных
 [Send]
@@ -105,10 +107,24 @@
 -> Обедаю
 [The Message    (%d Characters)]
 Сообщение      (%d символов)
+[Couldn't allocate enough memory]
+Не удалось выделить достаточное количество памяти
+[error......]
+ошибка......
+[The Message    (0 Characters)]
+Сообщение    (0 символов)
+[Reuse this message? (0 to use it once)]
+Повторить сообщение? (0, чтобы не повторять)
 [Times]
 Время
+[Give up after... (0 to not give up)]
+Отказаться после... (0, чтобы не отказываться)
 [Days]
 Дней
+[Show confirmation window? (0 to not Show)]
+Показать окно подтверждения? (0, чтобы не показывать)
+[Seconds to wait before sending]
+Секунд подождать перед отправкой
 [Pounce being sent to %s in %d seconds]
 Pounce отослан %s за %d секунд
 [Retry]

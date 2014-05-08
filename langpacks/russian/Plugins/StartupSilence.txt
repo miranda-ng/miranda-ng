@@ -13,16 +13,12 @@
 Настройки для компьютера:
 [Enable silence at startup]
 Включить тихий запуск
-[spin1]
-Вращение1
 [for]
 на
 [10-300 seconds (Default 20)]
 10-300 секунд (По умолчанию 20)
 [Show Popup notification]
 Уведомлять во всплывающих окнах
-[spin2]
-Вращение2
 [Popup time 1-30 seconds (Default 5)]
 Время показа 1-30 секунд (По умолчанию 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
@@ -35,8 +31,16 @@
 Необходимо один раз настраивать для нового компьютера, где вы запускаете Miranda NG.
 [No Apply button required.]
 Настройки сохраняются автоматически.
+[After startup set:]
+Установить после запуска:
+[Filtered popups only (leave uncheck for no popups)]
+Только отфильтрованные всплывающие окна (не ставьте галку, чтобы не было всплывающих окон)
 [Enable sounds]
 Включить звуки
+[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+Разрешины звуки и отфильтрованные всплывающие окна после запуска (снимите галку для всех всплывающих окон и звуков)
+[Allow mRadio or Weather popups, etc.]
+Разрешины всплывающие окна от mRadio или Weather и т.д.
 [Events]
 События
 [Silence at startup]
@@ -51,8 +55,12 @@
 Включен тихий запуск TTB
 [Sounds and popups are enabled]
 Звуки и всплывающие окна включены
+[Filtered mode ON]
+Режим фильтрации включен
 [Sounds and popups are disabled temporarily]
 Звуки и всплывающие окна временно выключены
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
+Звуки и всплывающие окна временно выключены\nРазрешины всплывающие окна от mRadio или Weather и т.д.
 [Silent Startup mode changed to ON]
 Тихий запуск включен
 [Silent Startup mode changed to OFF]

@@ -151,6 +151,8 @@ History++ для истории окон
 Цвета настраиваются в\r\nТонкая настройка > Шрифты и цвета
 [More...]
 Ещё...
+[Disable if message window is open]
+Отключить, если открыто окно сообщений
 [Sec]
 сек.
 [0 = Default]
@@ -243,6 +245,14 @@ History++ для истории окон
 Наведённое действие
 [Background]
 Фон
+[Border]
+Рамка
+[Sidebar]
+Врезка
+[Title underline]
+Подчеркивание заголовка
+[Avatar Border]
+Рамка аватара
 [Popup History is disabled]
 История всплывающих окон отключена
 [Popup History message]
@@ -299,6 +309,8 @@ History++ для истории окон
 Отключить всплывающие окна
 [Popup Plus]
 Всплывающие окна
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+Ошибка: Не удалось зарегистрировать класс Popup Window.\r\nПлагин не будет работать.
 [No effect]
 Без эффекта
 [Fade in/out]
@@ -351,6 +363,8 @@ History++ для истории окон
 Настройка 'Упорядочивать (сдвигать) окна' отключена.\r\nЭто может привести к перекосу при использовании с\r\nаватарами и заменой текста (с плагином NewXstatusNotify).\r\n\r\nВключить упорядочивание (сдвигание) окон?\r\n
 [Popup Plus Warning]
 Предупреждение Popup Plus
+[Failed to register %s class.]
+Не удалось зарегистрировать класс %s.
 [Skin preview]
 Просмотр скина
 [Just take a look at this skin... ;)]
@@ -371,12 +385,18 @@ History++ для истории окон
 Глобальные настройки
 [Refresh List]
 Обновить список
+[Failed to GetClassInfoExW from EDIT class.]
+Не удалось выполнить GetClassInfoExW из класса EDIT.
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+Не удалось зарегистрировать класс custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
 [Error]
 Ошибка
 [Warning]
 Предупреждение
 [Notify]
 Уведомление
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+Скин, который вы пытаетесь загрузить разработан\r\nдля более новой версии плагина Popup Plus. И не будет|r\nотображаться корректно.\r\n\r\nПожалуйста, выберите другой скин.
 [Auto]
 Авто
 [Favorite]
@@ -385,6 +405,8 @@ History++ для истории окон
 Заблокировать
 [Popup Mode: Auto]
 Режим всплывающих окон: по умолчанию
+[Popup Mode: Favorite]
+Режим всплывающих окон: избранные
 [Popup Mode: Ignore fullscreen]
 Режим всплывающих окон: игнорировать полноэкранные приложения
 [Popup Mode: Block contact]

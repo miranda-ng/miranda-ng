@@ -64,6 +64,7 @@
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 [Change feed]
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 [Enter Feed URL]
