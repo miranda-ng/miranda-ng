@@ -148,11 +148,15 @@ Secure IM увімкнено
 [Secure IM Disabled]
 Secure IM вимкнено
 [Pre-shared key]
-Налаштувати ключ
+Загальний ключ
 [Set key]
 Встановити ключ
 [Delete key]
 Видалити ключ
+[Set pre-shared key]
+Встановити загальний ключ
+[Delete pre-shared key]
+Видалити загальний ключ
 [Public key]
 Відкритий ключ
 [Export key]

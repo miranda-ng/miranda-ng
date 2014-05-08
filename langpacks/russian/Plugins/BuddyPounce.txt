@@ -34,7 +34,7 @@
 [<< Simple]
 << Простой
 [Advanced >>]
-Дополнительно >>
+Расширенный >>
 [The Message]
 Сообщение
 [Dialog]
@@ -56,13 +56,13 @@
 [Send If They Change Status to...]
 Посылать, если они изменяют статус на...
 [Reuse Pounce]
-Применить отложенное
+Повторить отложенное
 [Give Up delay]
 Задержка отмены
 [Confirmation Window]
 Окно подтверждения
 [Send If My Status Is]
-Послать, если мой статус
+Посылать, если мой статус
 [Any]
 Любое
 [Online]
@@ -116,7 +116,7 @@
 [Reuse this message? (0 to use it once)]
 Повторить сообщение? (0, чтобы не повторять)
 [Times]
-Время
+Раз
 [Give up after... (0 to not give up)]
 Отказаться после... (0, чтобы не отказываться)
 [Days]

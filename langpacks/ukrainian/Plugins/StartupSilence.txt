@@ -31,8 +31,14 @@
 Необхідно один раз налаштовувати для нового комп'ютера, де ви запускаєте Miranda NG.
 [No Apply button required.]
 Налаштування зберігаються автоматично.
+[After startup set:]
+Встановити після запуску:
+[Filtered popups only (leave uncheck for no popups)]
+Тільки відфільтровані сплив. вікна (не вмикайте, щоб сплив. вікон не було)
 [Enable sounds]
 Ввімкнути звуки
+[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+Дозволити звуки та відфільтровані сплив. вікна після запуску (вимкніть опцію для всіх сплив. вікон і звуків)
 [Allow mRadio or Weather popups, etc.]
 Дозволити сплив. вікна mRadio, Weather тощо
 [Events]
@@ -49,6 +55,8 @@
 Ввімкнено тихий запуск TTB
 [Sounds and popups are enabled]
 Звуки і спливаючі вікна ввімкнено
+[Filtered mode ON]
+Режим фільтрації ввімкнено
 [Sounds and popups are disabled temporarily]
 Звуки і спливаючі вікна тимчасово вимкнено
 [Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]

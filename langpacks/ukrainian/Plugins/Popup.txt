@@ -385,12 +385,18 @@ History++ для історії вікон
 Глобальні налаштування
 [Refresh List]
 Оновити список
+[Failed to GetClassInfoExW from EDIT class.]
+Не вдалося виконати GetClassInfoExW з класу EDIT.
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+Не вдалося зареєструвати клас custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
 [Error]
 Помилка
 [Warning]
 Попередження
 [Notify]
 Сповіщення
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+Скін, який ви намагаєтеся завантажити, зроблений\r\nдля новішої версії плагіна Popup Plus.\r\nВін не працюватиме коректно.\r\n\r\nБудь ласка, виберіть інший скін.
 [Auto]
 Авто
 [Favorite]

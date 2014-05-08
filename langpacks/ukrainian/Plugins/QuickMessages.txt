@@ -55,6 +55,8 @@
 Швидкі повідомлення
 [Enter Value]
 Введіть значення
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+Вітаємо!\r\nВи натиснули на кнопку 100 разів!\r\nТрапилося порушення прав доступу...\r\nІ тепер має бути запущена функція вивільнення ресурсів...\r\nАле ні, відбудеться лише переривання :D
 [You win!]
 Ви виграли!
 [New Button]

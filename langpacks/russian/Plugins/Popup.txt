@@ -396,7 +396,7 @@ History++ для истории окон
 [Notify]
 Уведомление
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-Скин, который вы пытаетесь загрузить, разработан\r\nдля более новой версии плагина Popup Plus. И не будет|r\nотображаться корректно.\r\n\r\nПожалуйста, выберите другой скин.
+Скин, который вы пытаетесь загрузить, разработан\r\nдля более новой версии плагина Popup Plus. И не будет\r\nотображаться корректно.\r\n\r\nПожалуйста, выберите другой скин.
 [Auto]
 Авто
 [Favorite]
