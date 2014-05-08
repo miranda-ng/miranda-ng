@@ -1077,8 +1077,6 @@ Siempre que se pregunte sobre archivos de personas que no están en la lista
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Acerca de Miranda NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Créditos >
 ;file \src\core\stdidle\resource.rc

@@ -1077,8 +1077,6 @@ Vous serez avisé des fichiers ne provenant pas de votre liste de contacts
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 À propos de Miranda NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Crédits >
 ;file \src\core\stdidle\resource.rc

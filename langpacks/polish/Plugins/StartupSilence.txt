@@ -14,16 +14,12 @@ Cichy start
 Ustawienia dla następnej nazwy komputera:
 [Enable silence at startup]
 Włącz cichy start
-[spin1]
-spin1
 [for]
 przez
 [10-300 seconds (Default 20)]
 10-300 sekund (domyślnie 20)
 [Show Popup notification]
 Pokaż popup
-[spin2]
-spin2
 [Popup time 1-30 seconds (Default 5)]
 Wyświetlaj 1-30 sekund (domyślnie 5)
 [Main Menu Item (plugin reload or Miranda restart required)]

@@ -117,6 +117,7 @@ Autom. Aktualisierung deaktiviert
 Feed prüfen
 [Change feed]
 Feed ändern
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 Feednamen eingeben:

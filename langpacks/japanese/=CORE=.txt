@@ -940,8 +940,6 @@ Wikipedia
 あなたのコンタクトリストにない人からのファイルは毎回確認
 [About Miranda NG]
 Miranda NG のバージョン情報
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 クレジット >
 [Become idle if the following is left unattended:]

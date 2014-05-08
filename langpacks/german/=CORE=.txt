@@ -1077,8 +1077,6 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Über Miranda NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Dank an >
 ;file \src\core\stdidle\resource.rc

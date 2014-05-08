@@ -1,5 +1,4 @@
 ﻿[AaBbYyZz]
-[Miranda NG\n%s]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

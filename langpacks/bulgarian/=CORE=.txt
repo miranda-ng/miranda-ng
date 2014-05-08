@@ -1052,8 +1052,6 @@ Wikipedia
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Относно Miranda NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Заслуги >
 ;file \src\core\stdidle\resource.rc

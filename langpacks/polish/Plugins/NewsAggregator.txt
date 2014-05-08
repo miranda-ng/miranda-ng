@@ -117,6 +117,7 @@ Auto-aktualizacja wyłączona
 Sprawdź kanał
 [Change feed]
 Zmień ustawienia kanału
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 Wpisz nazwę kanału

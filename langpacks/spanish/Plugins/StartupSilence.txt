@@ -14,15 +14,11 @@
 
 [Enable silence at startup]
 
-[spin1]
-
 [for]
 para
 [10-300 seconds (Default 20)]
 
 [Show Popup notification]
-
-[spin2]
 
 [Popup time 1-30 seconds (Default 5)]
 

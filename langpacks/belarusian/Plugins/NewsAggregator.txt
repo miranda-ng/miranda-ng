@@ -117,6 +117,7 @@
 Праверыць канал
 [Change feed]
 Змяніць канал
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 Увядзіце імя канала

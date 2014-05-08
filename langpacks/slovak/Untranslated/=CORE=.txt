@@ -272,7 +272,6 @@
 [Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 [Clear completed transfers on window closing]
 [About Miranda NG]
-[Miranda NG\n%s]
 [Credits >]
 [Become idle if the following is left unattended:]
 [Become idle if the screen saver is active]

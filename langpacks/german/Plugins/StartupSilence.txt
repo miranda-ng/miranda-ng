@@ -14,16 +14,12 @@ Rihe beim Start
 Einstellungen für folgenden Computernamen:
 [Enable silence at startup]
 Ruhe beim Start aktivieren
-[spin1]
-
 [for]
 für
 [10-300 seconds (Default 20)]
 10-300 Sekunden (Standard 20)
 [Show Popup notification]
 Popup-Benachrichtigungen anzeigen
-[spin2]
-
 [Popup time 1-30 seconds (Default 5)]
 Popup-Zeit 1-30 Sekunden (Standard 5)
 [Main Menu Item (plugin reload or Miranda restart required)]

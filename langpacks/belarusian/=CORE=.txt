@@ -1073,8 +1073,6 @@ UIN, E-mail і г.д.
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Аб праграме
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Аўтары >
 ;file \src\core\stdidle\resource.rc

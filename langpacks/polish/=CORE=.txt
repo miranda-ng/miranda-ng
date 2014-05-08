@@ -1077,8 +1077,6 @@ Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 O Mirandzie NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Autorzy >
 ;file \src\core\stdidle\resource.rc
