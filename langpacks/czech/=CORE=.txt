@@ -1077,8 +1077,6 @@ Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 O programu Miranda NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Poděkování >
 ;file \src\core\stdidle\resource.rc
@@ -1818,8 +1816,6 @@ Přenos a kontrola antivirem dokončena
 [Outgoing]
 Odchozí
 ;file \src\core\stdhelp\about.cpp
-[v]
-v
 [< Copyright]
 < Copyright
 ;file \src\core\stdhelp\help.cpp
@@ -2404,6 +2400,8 @@ ID
 Protokol
 [Send Offline]
 Poslat offline
+[Send &Online]
+Poslat &online
 [Delete MetaContact?]
 Smazat metakontakt?
 ;file \src\modules\metacontacts\meta_main.cpp

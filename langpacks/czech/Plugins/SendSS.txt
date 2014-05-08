@@ -189,8 +189,6 @@ Odeslat obrázek
 
 [Target Desktop]
 
-[Default]
-Výchozí
 [Help]
 Nápověda
 [Open Folder]

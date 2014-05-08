@@ -117,6 +117,7 @@ Aktivovat automatickou aktualizaci
 Zkont. zdroj
 [Change feed]
 Změnit zdroj
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 

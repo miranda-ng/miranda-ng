@@ -260,10 +260,10 @@ Modrá
 Bílá
 [Are you sure you want to delete this note?]
 
-[V]
-v
-[T]
-
+[Visible]
+Viditelné
+[Top]
+Nahoře
 [Notes]
 Poznámky
 [Note text]

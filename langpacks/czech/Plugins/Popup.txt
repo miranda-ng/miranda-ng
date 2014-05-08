@@ -237,16 +237,17 @@ Toto je chybové hlášení :-(
 ;file \plugins\Popup\src\effects.cpp
 [Square fading]
 Přechod s kostičkováním
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
-Po najetí myši
-[Clock]
-Čas
 ;file \plugins\Popup\src\font.h
+[Popups]
+Oznámení
 [Title]
 Název
+[Clock]
+Čas
 [Text]
 Text
+[Hovered Action]
+Po najetí myši
 [Background]
 Pozadí
 [Border]
@@ -318,9 +319,6 @@ Vypnout oznámení
 Oznámení plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Chyba: Nelze zaregistrovat třídu Popup Window.\r\nDoplněk nebude fungovat.
-;file \plugins\Popup\src\notifications.cpp
-[%s (colors only)]
-%s (pouze barvy)
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Bez efektu
