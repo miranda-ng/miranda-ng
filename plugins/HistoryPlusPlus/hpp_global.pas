@@ -166,7 +166,7 @@ const
   hppAuthorEmail = 'themiron@mail.ru, artemf@mail.ru';
   hppCopyright   = '© 2006-2009 theMIROn, 2003-2006 Art Fedorov. History+ parts © 2001 Christian Kastner';
 
-  hppHomePageURL  = 'http://themiron.miranda.im/';
+  hppHomePageURL  = 'http://miranda-ng.org/p/HistoryPP';
 
   hppIPName     = 'historypp_icons.dll';
 
