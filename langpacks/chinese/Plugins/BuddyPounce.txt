@@ -14,7 +14,7 @@
 [Buddy Pounce]
 好友突袭
 [The Message:]
-消息: 
+消息:
 [Delete Pounce]
 删除突袭
 [Load default Settings]

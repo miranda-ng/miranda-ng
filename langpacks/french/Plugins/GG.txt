@@ -61,7 +61,7 @@ Voir les erreurs de connexion
 [Manually specify connection servers' hosts]
 Spécifier l'hôte du serveur de connexion
 [* new line is separator\n** hostname:port format]
-* la nouvelle ligne est séparateur \n** format hôte:port 
+* la nouvelle ligne est séparateur \n** format hôte:port
 [Use SSL secure connection]
 Utiliser une connexion sécurisée SSL
 [File Transfer]

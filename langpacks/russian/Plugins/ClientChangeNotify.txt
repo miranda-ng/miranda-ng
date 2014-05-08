@@ -18,11 +18,11 @@
 [Enable notification]
 Включить уведомление
 [Show previous client name]
-Показывать предыдущее имя клиента 
+Показывать предыдущее имя клиента
 [Notify also when just client version changes]
-Уведомлять, когда сменится версия клиента 
+Уведомлять, когда сменится версия клиента
 [Show client version]
-Показать версию клиента 
+Показать версию клиента
 [Don't notify for contacts with disabled status notification]
 Не уведомлять для контактов с отключённым уведомлением статуса
 [Click action]

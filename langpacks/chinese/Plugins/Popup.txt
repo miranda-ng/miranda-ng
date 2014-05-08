@@ -148,13 +148,13 @@ Miranda 窗口屏幕
 [Maximum width]
 最大宽度
 [Position:]
-职务: 
+职务:
 [Layout:]
 布局:
 [Reorder Popups]
 排序弹出窗口
 [Disable when:]
-禁用于: 
+禁用于:
 [Always (has priority)]
 永远 (高优先级)
 [Fullscreen mode]

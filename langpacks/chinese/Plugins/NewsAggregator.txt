@@ -20,7 +20,7 @@
 [Visualization]
 视觉
 [Display news using the following format:]
-使用下列格式显示新闻: 
+使用下列格式显示新闻:
 [All item's tags are valid. Put them between #. Example: #<author>#]
 所有项目标签都是有效的. 请将他们放于 # 之间. 例如: #<author>#
 [Reset]
@@ -32,7 +32,7 @@
 [Error]
 错误
 [%s\nis a valid feed's address.]
-%s\n是有效订阅地址. 
+%s\n是有效订阅地址.
 [Wait...]
 稍候...
 [Network]

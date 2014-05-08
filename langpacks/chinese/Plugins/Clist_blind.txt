@@ -8,9 +8,9 @@
 [Delete Contact]
 删除联系人
 [Are you sure you want to delete %s?]
-您确定要删除 %s? 
+您确定要删除 %s?
 [This will erase all history and settings for this contact!]
-此操作将删除联系人所有历史及相关设置! 
+此操作将删除联系人所有历史及相关设置!
 [Yes]
 是
 [No]
@@ -20,11 +20,11 @@
 [Hotkeys]
 热键
 [Show/Hide:]
-显示/隐藏: 
+显示/隐藏:
 [Read Message:]
-阅读消息: 
+阅读消息:
 [Web Search:]
-网上搜索: 
+网上搜索:
 [URL:]
 链接:
 [Open in new browser window]
@@ -94,15 +94,15 @@
 [Size upwards]
 向上量度大小
 [Title bar text:]
-标题栏文本: 
+标题栏文本:
 [Fade contact list in/out]
 联系人列表淡入/淡出
 [Transparent contact list]
 联系人列表透明化
 [Inactive opacity:]
-未激活时透明度: 
+未激活时透明度:
 [Active opacity:]
-激活时透明度: 
+激活时透明度:
 [Show menu bar]
 显示菜单栏
 [Easy move]
@@ -118,7 +118,7 @@
 [Items]
 项目
 ['Hide Offline' means to hide:]
-'隐藏离线' 的意思是隐藏: 
+'隐藏离线' 的意思是隐藏:
 [Groups]
 群组
 [Show counts of number of contacts in a group]
@@ -130,7 +130,7 @@
 [Quicksearch in open groups only]
 仅在打开的群组内快速搜索
 [Group:]
-群组: 
+群组:
 [Status Bar]
 状态栏
 [Show status bar]

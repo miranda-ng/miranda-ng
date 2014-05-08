@@ -122,7 +122,7 @@ WORD para descrição do status
 [DWORD timestamp to time]
 DWORD marca para tempo
 [DWORD timestamp to time difference]
-DWORD marca para diferença horária 
+DWORD marca para diferença horária
 [BYTE to Yes/No]
 BYTE para Sim/Não
 [BYTE to Male/Female (ICQ)]

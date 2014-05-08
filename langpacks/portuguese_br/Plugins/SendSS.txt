@@ -16,7 +16,7 @@ Captura temporizada
 [Time (secs):]
 Tempo (segs):
 [&Format:]
-Formato: 
+Formato:
 [Send B&y:]
 Enviar por:
 [E&xplore]

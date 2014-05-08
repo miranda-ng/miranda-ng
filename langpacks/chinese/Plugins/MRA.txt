@@ -6,9 +6,9 @@
 ;  Authors: Rozhuk Ivan
 ;============================================================
 [E-mail:]
-邮件: 
+邮件:
 [Password:]
-密码: 
+密码:
 [Configuration]
 设置
 [Port:]
@@ -28,27 +28,27 @@
 [Summary]
 总结
 [Nickname:]
-昵称: 
+昵称:
 [First name:]
-名字: 
+名字:
 [Last name:]
-姓氏: 
+姓氏:
 [Gender:]
-性别: 
+性别:
 [Age:]
-年龄: 
+年龄:
 [from:]
 从:
 [to:]
-给: 
+给:
 [Location]
 位置
 [Country:]
-国家: 
+国家:
 [State:]
-州: 
+州:
 [City:]
-城市: 
+城市:
 [Enable avatars support (loading)]
 启用头像支持(加载中)
 [Updates check interval, min]

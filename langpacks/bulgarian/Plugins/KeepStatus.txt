@@ -285,7 +285,7 @@ Dial-up (експериментално)
 [No internet connection seems available... (last try (%d))]
 Няма налична връзка с интернет... (нов опит (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-Няма налична връзка с интернет... (нов опит (%d) след %dсек) 
+Няма налична връзка с интернет... (нов опит (%d) след %dсек)
 [Status was set ok]
 Зададено е състояние
 [Giving up]

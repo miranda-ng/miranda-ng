@@ -22,7 +22,7 @@
 [Allow actions to execute programs]
 允许执行程序操作
 [Password:]
-密码: 
+密码:
 [NotifyAnything]
 通知所有
 [Error]

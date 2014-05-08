@@ -6,9 +6,9 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [E-mail:]
-邮件: 
+邮件:
 [Password:]
-密码: 
+密码:
 [Create a new Facebook account]
 新建 Facebook 账号
 [What's on your mind?]

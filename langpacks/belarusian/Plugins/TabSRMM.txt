@@ -177,7 +177,7 @@ Wikipedia
 [Large]
 Вялікі
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
-Рада: Вы можаце задаваць свой памер, пацягнуўшы за ніжні край панэлі 
+Рада: Вы можаце задаваць свой памер, пацягнуўшы за ніжні край панэлі
 [Other options]
 Іншыя параметры
 [Note: All settings are applied immediately]
@@ -395,7 +395,7 @@ RTL шаблоны
 [Load number of previous events]
 Папярэднія падзеі ў колькасці
 [Load previous events less than]
-Падзеі, атрыманыя 
+Падзеі, атрыманыя
 [minutes old]
 хвілін назад
 [Global message log display]
@@ -603,7 +603,7 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 [Show seconds in timestamp]
 Паказваць секунды
 [Show date in timestamps]
-Паказваць дату 
+Паказваць дату
 [Use contacts local time]
 Выкарыстоўваць лакальны час кантакту
 [Format]
@@ -1694,7 +1694,7 @@ tabSRMM: %s
 [Message log icons]
 Значкі лога паведамленняў
 [Show dates in timestamps]
-Паказваць дату 
+Паказваць дату
 [Show seconds in timestamps]
 Паказваць секунды
 [Use contacts local time (if timezone info available)]

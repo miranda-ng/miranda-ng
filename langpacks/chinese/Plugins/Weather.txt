@@ -36,7 +36,7 @@
 [Fahrenheit]
 华氏
 [Degree sign:]
-温度符号: 
+温度符号:
 [Wind]
 风力
 [km/h]
@@ -166,7 +166,7 @@
 [Weather Protocol INI Setup]
 天气协议 INI 设置
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-天气协议无法找到任何保存于您电脑中的天气 INI 文件. 安装天气 INI 并添加气象站, 请按照下列步骤: 
+天气协议无法找到任何保存于您电脑中的天气 INI 文件. 安装天气 INI 并添加气象站, 请按照下列步骤:
 [Click here to download a weather ini file from Miranda file listing]
 点此从 Miranda 文件列表中下载天气 ini 文件
 [Extract the weather ini file from archive to this directory]
@@ -182,7 +182,7 @@ INI 文件累计
 [Reload INI]
 重新加载 INI
 [City:]
-城市: 
+城市:
 [Open brief information]
 打开概要信息
 [Open complete forecast]
@@ -264,23 +264,23 @@ HTTP 错误: 网关已超时 (504)
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\n今天:   最高 %h, 最低 %l
 [Current weather information for %s.]
-%s 当前天气信息. 
+%s 当前天气信息.
 [%s is now the default weather station]
 %s 现在成为默认气象站
 [Weather Protocol]
 天气协议
 [Please try again after weather update is completed.]
-请在天气更新完成后重试. 
+请在天气更新完成后重试.
 [<Enter station name here>]
 <在此输入站点名称>
 [<Enter station ID here>]
 <在此输入站点 ID>
 [Weather condition was not logged.]
-天气情况尚未记录. 
+天气情况尚未记录.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
-完整预报网址尚未设置. 您可在编辑设置对话框中设定. 
+完整预报网址尚未设置. 您可在编辑设置对话框中设定.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-尚未设置气象图网址. 您可在编辑设置对话框中设定. 
+尚未设置气象图网址. 您可在编辑设置对话框中设定.
 [Get city name from ID]
 从 ID 获取城市名称
 [Weather INI information]
@@ -324,33 +324,33 @@ HTTP 错误 %1
 [Items]
 项目
 [The corresponding INI file for "%s" is not found.]
-找不到 "%s" 对应 INI 文件. 
+找不到 "%s" 对应 INI 文件.
 [Weather INI information for "%s":]
-"%s" 天气 INI 信息: 
+"%s" 天气 INI 信息:
 [Name:]
-名称: 
+名称:
 [Internal Name:]
-内部名称: 
+内部名称:
 [INI Version:]
-INI 版本: 
+INI 版本:
 [File Name:]
-文件名称: 
+文件名称:
 [Item Count:]
-项目总数: 
+项目总数:
 [Memory Used:]
-使用内存: 
+使用内存:
 [bytes]
 字节
 [Description:]
-描述: 
+描述:
 [Here is a list of custom variables that are currently available]
 这里是当前可用自定义变量列表
 [No update data file is found. Please check your Plugins\\Weather directory.]
-找不到任何更新资料文件. 请检查您的 Plugins\\Weather 目录. 
+找不到任何更新资料文件. 请检查您的 Plugins\\Weather 目录.
 [Invalid ini format for: %s]
 无效 ini 格式: %s
 [All update data has been reloaded.]
-所有更新资料已重新读取. 
+所有更新资料已重新读取.
 [Frame Font]
 框架字体
 [Frame Title Font]

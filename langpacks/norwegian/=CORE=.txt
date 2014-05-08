@@ -176,7 +176,7 @@ Alle Hendelser
 [None]
 Ingen
 [Only the ticked contacts will be shown on the main contact list]
-Bare den avmerkede kontakten vil vises i hovedkontaktlisten 
+Bare den avmerkede kontakten vil vises i hovedkontaktlisten
 [Ignore]
 Ignorer
 [Added notification]
@@ -242,7 +242,7 @@ Profil
 [e.g., Workplace]
 eks. Arbeidsplass
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Du kan velge å bruke en annen profildriver enn den som er standard, den kan tilby flere muligheter, men hvis du er i tvil velg standard. 
+Du kan velge å bruke en annen profildriver enn den som er standard, den kan tilby flere muligheter, men hvis du er i tvil velg standard.
 [e.g., Miranda Database]
 eks. Miranda Database
 [Driver]
@@ -854,7 +854,7 @@ Slett midlertidige kontakter når samtalevinduet lukkes
 [Enable avatar support in the message window]
 Aktiver avatarstøtte i samtalevinduet
 [Limit avatar height to]
-Begrens avatarhøyde til 
+Begrens avatarhøyde til
 [Send error]
 Sendefeil
 [An error has occurred. The protocol reported the following error:]
@@ -874,7 +874,7 @@ Vis tidsmerknad
 [Show dates]
 Vis datoer
 [Load unread events only]
-Last kun inn ulese hendelser 
+Last kun inn ulese hendelser
 [Load number of previous events]
 Last inn antall tidligere hendelser
 [Load previous events less than]
@@ -1374,7 +1374,7 @@ Unik ID
 [Standard contacts]
 Standard kontakter
 [Online contacts to whom you have a different visibility]
-Påloggede kontakter du har en annen synlighet ovenfor 
+Påloggede kontakter du har en annen synlighet ovenfor
 [Offline contacts]
 Frakoblede kontakter
 [Contacts which are 'not on list']

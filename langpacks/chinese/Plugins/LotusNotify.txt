@@ -20,7 +20,7 @@
 [min.]
 分钟
 [Password:]
-密码: 
+密码:
 [Status]
 状态
 [Plugins]

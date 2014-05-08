@@ -105,7 +105,7 @@
 [Time in Seconds]
 Час (з)
 [0 = Default Popup Timeout Value]
-0 = Па змаўчанні 
+0 = Па змаўчанні
 [Show a popup on established connection]
 Усталяванне злучэння
 [Show a popup on disabled connection]
@@ -127,7 +127,7 @@
 [Cancel]
 Скасаваць
 [SecureIM plugin Passphrase of private key]
-Плагін SecureIM. Фраза-пароль для прыватнага ключа 
+Плагін SecureIM. Фраза-пароль для прыватнага ключа
 [Enter passphrase for the secret key:]
 Увядзіце фразу-пароль для сакрэтнага ключа:
 [Mode]

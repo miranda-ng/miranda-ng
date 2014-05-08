@@ -125,7 +125,7 @@ Sangría de grupos por:
 [Margins and spacing]
 
 [Contact List Sorting]
-Clasificación de la lista de contacto 
+Clasificación de la lista de contacto
 [First by]
 
 [Then by]

@@ -10,7 +10,7 @@
 [Close]
 关闭
 [Search for:]
-搜索: 
+搜索:
 [Message direction]
 消息方向
 [Message types]

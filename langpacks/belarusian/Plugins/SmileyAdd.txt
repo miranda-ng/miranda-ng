@@ -65,7 +65,7 @@
 [Smiley cache]
 Кэш смайлаў
 [SmileyAdd HTTP connections]
-HTTP далучэнне SmileyAdd 
+HTTP далучэнне SmileyAdd
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
 Кнопка смайла

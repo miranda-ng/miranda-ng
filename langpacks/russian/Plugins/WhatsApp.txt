@@ -48,7 +48,7 @@ SMS-код:
 [Did not unpack registration utility WART-1.5.4.0.exe.]
 Не распакована программа для регистрации WART-1.5.4.0.exe.
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [Unable to get Netlib connection for WhatsApp]
 Невозможно создать подключение Netlib для WhatsApp
 [Network-connection error.]

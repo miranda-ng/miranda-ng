@@ -6,9 +6,9 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [Filename:]
-文件名称: 
+文件名称:
 [Size:]
-大小: 
+大小:
 [Chunk size]
 块大小
 [ms]

@@ -236,7 +236,7 @@ CTCP Verzió kérés általa: %s
 [CTCP SOURCE requested by %s]
 CTCP Forrás kérés általa: %s
 [CTCP USERINFO requested by %s]
-CTCP Felhasználói infó kérés általa: %s 
+CTCP Felhasználói infó kérés általa: %s
 [CTCP PING requested by %s]
 CTCP Ping kérés általa: %s
 [CTCP TIME requested by %s]
@@ -250,7 +250,7 @@ DCC: Fordított fájlátviteli kérés ettõl: %s megtagadva [Nem helyi IP]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
 DCC hiba: Sérült CTCP kérés általa: %s [%s]
 [DCC: File transfer resume request from %s denied]
-DCC: Fájlátvitel folytatási kérés ettõl: %s megtagadva 
+DCC: Fájlátvitel folytatási kérés ettõl: %s megtagadva
 [CTCP %s requested by %s]
 CTCP %s kérés általa: %s
 [CTCP PING reply from %s: %u sec(s)]

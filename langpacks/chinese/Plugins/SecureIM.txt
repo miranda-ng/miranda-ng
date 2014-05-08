@@ -28,15 +28,15 @@
 [Mode in Context Menu]
 在环境菜单中显示模式
 [Key Exchange Timeout:]
-密钥交换超时: 
+密钥交换超时:
 [sec]
 秒
 [Offline Key Timeout:]
-离线密钥超时: 
+离线密钥超时:
 [Split Messages]
 拆分信息
 [Online:]
-上线时长: 
+上线时长:
 [Offline:]
 离线:
 [RSA Key]
@@ -92,9 +92,9 @@ RSA 密钥
 [Please type in your password]
 请输入您的密码
 [Username:]
-用户名: 
+用户名:
 [Password:]
-密码: 
+密码:
 [Cancel]
 取消
 [SecureIM plugin Passphrase of private key]

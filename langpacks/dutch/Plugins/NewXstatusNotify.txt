@@ -96,7 +96,7 @@ zij is spraakzaam!
 [(U) feels talkative!]
 is spraakzaam!
 [User: Free For Chat]
-Gebruiker: Beschikbaar voor gesprek 
+Gebruiker: Beschikbaar voor gesprek
 [(M) went Away]
 hij ging weg
 [(F) went Away]

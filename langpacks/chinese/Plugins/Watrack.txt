@@ -180,7 +180,7 @@ Freq. 专辑
 [by Length]
 按长度
 [Unicode to Ansi translation codepage:]
-Unicode 至 Ansi 转换代码页: 
+Unicode 至 Ansi 转换代码页:
 [VBR macro]
 VBR 宏
 [Insert in messages]

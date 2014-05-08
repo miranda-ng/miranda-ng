@@ -192,7 +192,7 @@ Fichier de sauvegarde des statistiques
 [Autosort period, days]
 Générer tout les (jours):
 [Template file]
-Ficher modèle 
+Ficher modèle
 [Export default]
 Export. défaut
 [Freq. album]

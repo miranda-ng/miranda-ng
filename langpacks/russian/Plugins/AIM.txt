@@ -154,9 +154,9 @@ E-mail
 [AIM Link Protocol]
 Протокол AIM
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [%s Client-to-client connection]
-%s подключения между клиентами 
+%s подключения между клиентами
 [[Auto-Response]:]
 (Автоответ):
 [No information has been provided by the server.]

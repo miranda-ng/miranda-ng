@@ -8,11 +8,11 @@
 [Gadu-Gadu User Details]
 Gadu-Gadu 用户详细资料
 [Gadu-Gadu Number:]
-Gadu-Gadu 号码: 
+Gadu-Gadu 号码:
 [Password:]
-密码: 
+密码:
 [E-mail:]
-邮件: 
+邮件:
 [Create new account]
 建立新帐号
 [Remove account]
@@ -26,19 +26,19 @@ Gadu-Gadu 号码:
 [Show offline users with status message as invisible in contact list]
 在联系人列表中以隐身显示含状态消息的离线用户
 [After disconnection leave away message of status:]
-在断开连接后保持状态外出消息: 
+在断开连接后保持状态外出消息:
 [Receive image and after image is received use:]
-接收图片或接收图片后使用: 
+接收图片或接收图片后使用:
 [Show links from unknown contacts]
 显示未知联系人链接
 [You will need to reconnect for the changes you have made on this page to take effect.]
-您需要重新连接才能让当前页变更生效. 
+您需要重新连接才能让当前页变更生效.
 [Conference policy]
 会议规则
 [if total participant count greater than:]
-如果参与者总数大于: 
+如果参与者总数大于:
 [if unknown participant count greater than:]
-如果未知参与者总数大于: 
+如果未知参与者总数大于:
 [in other case]
 在其它情况下
 [Advanced Configuration]
@@ -58,25 +58,25 @@ Gadu-Gadu 号码:
 [Use forwarding]
 使用中转
 [Host:]
-主机: 
+主机:
 [First name:]
-名字: 
+名字:
 [Last name:]
-姓氏: 
+姓氏:
 [Family name:]
-姓氏: 
+姓氏:
 [Nickname:]
-昵称: 
+昵称:
 [Gender:]
-性别: 
+性别:
 [City:]
-城市: 
+城市:
 [Origin city:]
-籍贯: 
+籍贯:
 [Birth year:]
-出生年份: 
+出生年份:
 [Description:]
-描述: 
+描述:
 [Enter token to continue]
 请输入标记继续
 [Cancel]
@@ -84,11 +84,11 @@ Gadu-Gadu 号码:
 [Create Gadu-Gadu account]
 建立 Gadu-Gadu 帐号
 [New password:]
-新密码: 
+新密码:
 [Confirm password:]
-确认密码: 
+确认密码:
 [New e-mail:]
-新邮件: 
+新邮件:
 [&Create]
 建立(&C)
 [Remove Gadu-Gadu account]
@@ -102,9 +102,9 @@ Gadu-Gadu 号码:
 [Change Gadu-Gadu e-mail]
 变更 Gadu-Gadu 邮件
 [Age from:]
-年龄从: 
+年龄从:
 [to:]
-给: 
+给:
 [&Close]
 关闭(&C)
 [&Send]
@@ -114,17 +114,17 @@ Gadu-Gadu 号码:
 [Unknown]
 未知
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
-外部直连主机名称 %s 无效. 禁用外部主机转送. 
+外部直连主机名称 %s 无效. 禁用外部主机转送.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
-服务器主机名称 %s 无效. 使用网络所提供的默认主机名称. 
+服务器主机名称 %s 无效. 使用网络所提供的默认主机名称.
 [Age:]
-年龄: 
+年龄:
 [List import successful.]
-列表导入完成. 
+列表导入完成.
 [List remove successful.]
-列表移除完成. 
+列表移除完成.
 [List export successful.]
-列表导出完成. 
+列表导出完成.
 [Male]
 男
 [Female]
@@ -144,11 +144,11 @@ Gadu-Gadu 号码:
 [Message with [img] BBCode]
 通信使用 [img] BBCode
 [You need to specify your registration e-mail first.]
-您需要先指定注册邮箱. 
+您需要先指定注册邮箱.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
-您的密码将会发送到注册邮箱. \n要继续吗? 
+您的密码将会发送到注册邮箱. \n要继续吗?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-您应该在做出任何帐号永久变更前先断开连接. \n您想立即断开连接吗? 
+您应该在做出任何帐号永久变更前先断开连接. \n您想立即断开连接吗?
 [Allow]
 允许
 [Ignore]
@@ -176,19 +176,19 @@ Gadu-Gadu 号码
 [&Clear ignored conferences]
 清除已忽略会议(&C)
 [%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s 已发起会议, 有 %d 名参与者 (其中 %d 已知). \n您要加入吗? 
+%s 已发起会议, 有 %d 名参与者 (其中 %d 已知). \n您要加入吗?
 [%s initiated the conference.]
-%s 已经开始会议. 
+%s 已经开始会议.
 [This is my own conference.]
-这是私人会议. 
+这是私人会议.
 ['Unknown']
 '未知'
 [You have to be connected to open new conference.]
-您需要先连接才能打开新会议. 
+您需要先连接才能打开新会议.
 [All ignored conferences are now unignored and the conference policy will act again.]
-所有已忽略会议现已解除忽略, 会议规则将继续生效. 
+所有已忽略会议现已解除忽略, 会议规则将继续生效.
 [There are no ignored conferences.]
-无已忽略会议. 
+无已忽略会议.
 [Import list from server]
 从服务器导入列表
 [Import list from text file]
@@ -214,7 +214,7 @@ Gadu-Gadu 号码
 [&Image]
 图片(&I)
 [Image cannot be written to disk.]
-无法将图片写入磁盘. 
+无法将图片写入磁盘.
 [Delete image from the list]
 从列表中删除图像
 [Save image to disk]
@@ -226,9 +226,9 @@ Gadu-Gadu 号码
 [Select picture to send]
 选择要发出的图片
 [Image exceeds maximum allowed size of 255 KB.]
-图片超过最大允许大小 255 KB. 
+图片超过最大允许大小 255 KB.
 [You have to be connected before you can import/export contacts from/to server.]
-您需要先连接才能从服务器导入/导出联系人. 
+您需要先连接才能从服务器导入/导出联系人.
 [Text files]
 文本文件
 [All Files]
@@ -246,13 +246,13 @@ Gadu-Gadu 号码
 [Export List To &Text File...]
 导出列表至文本文件(&T)...
 [Password was sent to your e-mail.]
-密码已发送至您的邮箱. 
+密码已发送至您的邮箱.
 [Error]
 错误
 [Token retrieval failed because of error:\n\t%s]
 由于下列错误无法获取标记: \n\t%s
 [Could not load token image.]
-无法加载标记图片. 
+无法加载标记图片.
 [Cannot register new account because of error:\n\t%s]
 由于下列错误无法注册新帐号: \n\t%s
 [Registration rejected]
@@ -262,16 +262,16 @@ Gadu-Gadu 号码
 [Bad number or password]
 号码或密码不正确
 [Your account has been removed.]
-您的帐号已移除. 
+您的帐号已移除.
 [Your password cannot be changed because of error:\n\t%s]
 由于下列错误无法变更您的密码: \n\t%s
 [Invalid data entered]
 输入数据无效
 [Your password has been changed.]
-您的密码已变更. 
+您的密码已变更.
 [Your e-mail cannot be changed because of error:\n\t%s]
 由于下列错误无法变更您的邮箱: \n\t%s
 [Bad old e-mail or password]
 旧邮箱或密码不正确
 [Your e-mail has been changed.]
-您的邮箱已变更. 
+您的邮箱已变更.

@@ -87,7 +87,7 @@
 [Last Name]
 Прозвішча
 [Anniversary]
-Свята 
+Свята
 [Birthday]
 Дзень нараджэння
 [Nickname]

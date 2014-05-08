@@ -552,7 +552,7 @@ Yemekteki kişiler
 [Online contacts to whom you have a different visibility]
 Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
 [Offline contacts to whom you have a different visibility]
-Farklı görünürlükte olduğunuz çevrimdışı kişiler 
+Farklı görünürlükte olduğunuz çevrimdışı kişiler
 [Contacts who are 'not on list']
 'Listede değil' kişiler
 [Open groups]
@@ -678,7 +678,7 @@ Bu Vista Aero stilindeki ikinci varsayılan Modern Contact Liste temasıdır
 [Inside library]
 İç kütüphane
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Tema düzenleyicide kaydedilmemiş değişiklikler var.\n\nTüm değişiklikler kaybolacak.\n\n Yeni tema yüklensin mi? 
+Tema düzenleyicide kaydedilmemiş değişiklikler var.\n\nTüm değişiklikler kaybolacak.\n\n Yeni tema yüklensin mi?
 [Warning!]
 Dikkat!
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]

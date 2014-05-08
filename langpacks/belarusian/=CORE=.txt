@@ -1168,7 +1168,7 @@ UIN, E-mail і г.д.
 [Load number of previous events]
 Папярэднія падзеі ў колькасці
 [Load previous events less than]
-Падзеі, атрыманыя 
+Падзеі, атрыманыя
 [minutes old]
 хвілін назад
 [Show seconds]
@@ -1511,7 +1511,7 @@ UIN, E-mail і г.д.
 [Show popup for users leaving]
 Выйсці ўдзельнікаў
 [Show popup for users kicking other user]
-Выспятак 
+Выспятак
 [Show popup for notices]
 Вакно абвесткі
 [Show popup for name changes]
@@ -2236,7 +2236,7 @@ Miranda NG не можа адкрыць гэты профіль
 Кантакты:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nУвага: Профіль будзе выдалены, калі ён адключаны.\nУвага: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены. 
+Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nУвага: Профіль будзе выдалены, калі ён адключаны.\nУвага: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены.
 [The profile already exists]
 Профіль ужо існуе
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
@@ -2944,7 +2944,7 @@ BMP
 [North Korea]
 Паўночная Карэя
 [South Korea]
-Рэспубліка Карэя 
+Рэспубліка Карэя
 [Kuwait]
 Кувейт
 [Kyrgyzstan]
@@ -3108,7 +3108,7 @@ BMP
 [Singapore]
 Сінгапур
 [Sint Maarten (Dutch part)]
- 
+
 [Slovakia]
 Славакія
 [Slovenia]

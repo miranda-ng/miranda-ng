@@ -12,17 +12,17 @@
 [Cancel]
 取消
 [Type:]
-类型: 
+类型:
 [User:]
-用户: 
+用户:
 [Password:]
-密码: 
+密码:
 [Resource:]
 资源
 [Register new user]
 注册新用户
 [Use custom connection host and port:]
-使用自定义主机及端口: 
+使用自定义主机及端口:
 [Go]
 前进
 [Search service]
@@ -32,7 +32,7 @@
 [Roster editor\nView and modify your server-side contact list.]
 名册编辑\n查看及修改您的服务器端联系人列表.
 [Username:]
-用户名: 
+用户名:
 [Priority:]
 优先级
 [Use hostname as resource]
@@ -50,73 +50,73 @@
 [Manually specify connection host]
 自行指定连接主机
 [Host:]
-主机: 
+主机:
 [User directory:]
-用户目录: 
+用户目录:
 [Language for human-readable resources:]
-供人阅读资源语言:  
+供人阅读资源语言:
 [Allow file sending through direct peer-to-peer connection]
 允许使用直接 P2P 连接发送文件
 [Specify external address:]
-指定外部地址: 
+指定外部地址:
 [Allow file sending through bytestream proxy server:]
-允许使用代理服务器字节流发送文件: 
+允许使用代理服务器字节流发送文件:
 [Hint:]
-提示: 
+提示:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
-如果您发送文件时遇到麻烦, 请尝试取消选定以上所有选项. 但发送大型文件时可能出现问题. 
+如果您发送文件时遇到麻烦, 请尝试取消选定以上所有选项. 但发送大型文件时可能出现问题.
 [Jabber Account Registration]
 Jabber 帐号注册
 [Jabber Form]
 Jabber 表单
 [Instruction:]
-操作指南: 
+操作指南:
 [Submit]
 提交
 [Complete]
 完成
 [Address1:]
-地址 1: 
+地址 1:
 [Address2:]
-地址 2: 
+地址 2:
 [City:]
-城市: 
+城市:
 [State:]
-州: 
+州:
 [ZIP:]
-邮政编码: 
+邮政编码:
 [Country:]
-国家: 
+国家:
 [First name:]
-名字: 
+名字:
 [Middle:]
-中间名: 
+中间名:
 [Last name:]
-姓氏: 
+姓氏:
 [Date of birth:]
-出生日期: 
+出生日期:
 [Gender:]
-性别: 
+性别:
 [Homepage:]
-主页: 
+主页:
 [Company:]
-公司: 
+公司:
 [Department:]
-部门: 
+部门:
 [E-mail:]
-邮件: 
+邮件:
 [Phone:]
-电话: 
+电话:
 [Jabber vCard: Add Email Address]
 Jabber vCard: 添加邮箱地址
 [Email address:]
-邮箱地址: 
+邮箱地址:
 [Work]
 工作
 [Jabber vCard: Add Phone Number]
 Jabber vCard: 添加电话号码
 [Phone number:]
-电话号码: 
+电话号码:
 [Fax]
 传真
 [Pager]
@@ -130,13 +130,13 @@ Jabber vCard: 添加电话号码
 [Delete]
 删除
 [Description:]
-描述: 
+描述:
 [Current Password:]
-当前密码: 
+当前密码:
 [New Password:]
-新密码: 
+新密码:
 [Confirm New Password:]
-确认新密码: 
+确认新密码:
 [Create or Join group chat]
 建立或加入群组聊天
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
@@ -174,7 +174,7 @@ JID 列表
 [with following reason:]
 以下原因:
 [Nickname:]
-昵称: 
+昵称:
 [Jabber Bookmarks]
 Jabber 书签
 [Server side bookmarks\nStore conference rooms and web links on server.]
@@ -194,17 +194,17 @@ Jabber 书签
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 自动加入 (必须启用 "Miranda 选项 - 自动加入书签" )
 [Room JID/ URL:]
-房间 JID/ URL: 
+房间 JID/ URL:
 [Bookmark Name:]
-书签名称: 
+书签名称:
 [Privacy Lists]
 隐私列表
 [Privacy Lists\nFlexible way to configure visibility and more.]
 隐私列表\n灵活配置可见性及其它.
 [Lists:]
-列表: 
+列表:
 [Rules:]
-规则: 
+规则:
 [Simple Mode]
 简单模式
 [Advanced Mode]
@@ -230,11 +230,11 @@ Jabber 书签
 [Privacy rule]
 隐私规则
 [If:]
-如果: 
+如果:
 [Then:]
-那么: 
+那么:
 [following stanza types:]
-以下节类型: 
+以下节类型:
 [Messages]
 消息
 [Queries]
@@ -244,9 +244,9 @@ Jabber 书签
 [Outgoing presence]
 发送知会
 [New privacy list name:]
-新增隐私列表名称: 
+新增隐私列表名称:
 [Enter the name of the new list:]
-输入新列表名称: 
+输入新列表名称:
 [Service Discovery]
 服务探索
 [View as tree]
@@ -256,49 +256,49 @@ Jabber 书签
 [Favorites]
 我的最爱
 [Node:]
-节点: 
+节点:
 [Account type:]
-帐号类型: 
+帐号类型:
 [Register account now]
 立即注册帐号
 [Jabber Account Information:]
-Jabber 帐号信息: 
+Jabber 帐号信息:
 [Member Information]
 会员信息
 [Member Information\n<user ID>]
 成员信息\n<用户 ID>
 [Role:]
-角色: 
+角色:
 [Set role]
-设置角色: 
+设置角色:
 [Affiliation:]
-联盟: 
+联盟:
 [Set affiliation]
 设置联盟
 [Status message:]
-状态消息: 
+状态消息:
 [Chat options]
 聊天选项
 [Custom messages]
 自定义消息
 [Quit:]
-离开: 
+离开:
 [Slap:]
-掌击: 
+掌击:
 [Authorization request]
 授权请求
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP 授权\n同意或拒绝收到的请求
 [Someone (maybe you) has requested the following file:]
-某人 (可能是您) 已请求此文件: 
+某人 (可能是您) 已请求此文件:
 [Request was sent from JID:]
-请求由此 JID 发送: 
+请求由此 JID 发送:
 [The transaction identifier is:]
-交易识别: 
+交易识别:
 [Request method is:]
-请求方法: 
+请求方法:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
-如果您希望确认此请求, 请点击授权. 否则请击拒绝. 
+如果您希望确认此请求, 请点击授权. 否则请击拒绝.
 [Authorize]
 授权
 [Deny]
@@ -368,19 +368,19 @@ Jabber 代理注册
 [Moderators]
 管理员
 [User %s is now banned.]
-用户 %s 当前已被封锁. 
+用户 %s 当前已被封锁.
 [User %s changed status to %s with message: %s]
 用户 %s 已变更状态至 %s 并附消息: %s
 [User %s changed status to %s]
 用户 %s 已变更状态至 %s
 [Room configuration was changed.]
-房间设置已变更. 
+房间设置已变更.
 [Outcast]
 外部广播
 [Affiliation of %s was changed to '%s'.]
-%s 关联性已变更为 '%s'. 
+%s 关联性已变更为 '%s'.
 [Role of %s was changed to '%s'.]
-%s 角色已变更为 '%s'. 
+%s 角色已变更为 '%s'.
 [because room is now members-only]
 因为房间现在仅限会员
 [user banned]
@@ -526,19 +526,19 @@ Jabber 错误
 [Last Name]
 姓氏
 [Failed to retrieve room list from server.]
-无法从服务器获取房间列表. 
+无法从服务器获取房间列表.
 [No rooms available on server.]
-服务器无可用房间. 
+服务器无可用房间.
 [Room list request timed out.]
-房间列表请求已超时. 
+房间列表请求已超时.
 [<no nick>]
 <无昵称>
 [Loading...]
 加载中...
 [Please wait for room list to download.]
-下载房间列表中, 请稍候. 
+下载房间列表中, 请稍候.
 [Please specify group chat directory first.]
-请先指定群组聊天目录. 
+请先指定群组聊天目录.
 [Bookmarks...]
 书签...
 [has set the subject to:]
@@ -620,9 +620,9 @@ Jabber 认证
 [Registration successful]
 注册成功
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-密码已成功变更. 请不要忘记在 Jabber 协议选项中更新您的密码. 
+密码已成功变更. 请不要忘记在 Jabber 协议选项中更新您的密码.
 [Password cannot be changed.]
-密码无法变更. 
+密码无法变更.
 [Jabber Bookmarks Error]
 Jabber 书签错误
 [%s, %d items (%s)]
@@ -954,7 +954,7 @@ Jabber 资源
 [Zulu]
 祖鲁语
 [These changes will take effect the next time you connect to the Jabber network.]
-这些设置将于您下次连接至 Jabber 网络时生效. 
+这些设置将于您下次连接至 Jabber 网络时生效.
 [Jabber Protocol Option]
 Jabber 协议选项
 [Confirm password]
@@ -1060,13 +1060,13 @@ Jabber 协议选项
 [Facebook Chat]
 Facebook 聊天
 [Some changes will take effect the next time you connect to the Jabber network.]
-某些变更将于您下次连接至 Jabber 网络时生效. 
+某些变更将于您下次连接至 Jabber 网络时生效.
 [New password does not match.]
-新密码不匹配. 
+新密码不匹配.
 [Current password is incorrect.]
-当前密码不正确. 
+当前密码不正确.
 [Warning: privacy lists were changed on server.]
-警告: 私密列表已在服务器变更. 
+警告: 私密列表已在服务器变更.
 [Error occurred while applying changes]
 应用变更时发生错误
 [Privacy lists successfully saved]
@@ -1158,7 +1158,7 @@ Facebook 聊天
 [Ready.]
 就绪.\s
 [Privacy lists are not saved, discard any changes and exit?]
-隐私列表尚未保存, 放弃所有变更并离开? 
+隐私列表尚未保存, 放弃所有变更并离开?
 [Please save list before activating]
 激活前请先保存列表
 [First, save the list]
@@ -1166,7 +1166,7 @@ Facebook 聊天
 [Please save list before you make it the default list]
 在您将其标示为默认列表前请先保存此列表
 [Unable to save list because you are currently offline.]
-因为您现在离线所以无法保存列表. 
+因为您现在离线所以无法保存列表.
 [List Editor...]
 列表编辑器...
 [Command completed successfully]
@@ -1312,7 +1312,7 @@ Miranda 核心版本
 [Last active resource]
 最后活动资源
 [Please switch online to see more details.]
-请切换为在线以查看更多详细资料. 
+请切换为在线以查看更多详细资料.
 [Copy]
 复制
 [Copy only this value]
@@ -1374,7 +1374,7 @@ Miranda 核心版本
 [Female]
 女
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-仅支持发送小于 40KB 的 JPG, GIF, 和 BMP 图片文件. 
+仅支持发送小于 40KB 的 JPG, GIF, 和 BMP 图片文件.
 [Jabber vCard: Edit Email Address]
 Jabber vCard: 编辑邮箱地址
 [Jabber vCard: Edit Phone Number]

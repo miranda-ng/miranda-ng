@@ -464,7 +464,7 @@ Personen zoeken/toevoegen...
 [- Empty - (do not draw this object)]
 - Leeg - (dit object niet tekenen)
 [Solid fill object]
-Object vullen 
+Object vullen
 [Image (draw image)]
 Afbeelding (afbeelding tekenen)
 [Fragment (draw portion of image)]

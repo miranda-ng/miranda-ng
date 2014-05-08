@@ -8,7 +8,7 @@
 [Set My Nickname]
 设置我的昵称
 [Nickname:]
-昵称: 
+昵称:
 [Cancel]
 取消
 [General]
@@ -26,15 +26,15 @@
 [Resize Smileys]
 重置表情大小
 [Top:]
-顶端: 
+顶端:
 [Bottom:]
-底部: 
+底部:
 [Left:]
-左: 
+左:
 [Right:]
-右: 
+右:
 [Custom size:]
-自定义大小: 
+自定义大小:
 [pixels]
 像素
 [Allow it to grow]
@@ -48,7 +48,7 @@
 [Set My Status Message for All Status]
 为所有状态设置我的状态消息
 [Status Message:]
-状态消息: 
+状态消息:
 [&Offline]
 离线(&O)
 [On&line]

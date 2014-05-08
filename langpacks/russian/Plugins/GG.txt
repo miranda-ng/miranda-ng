@@ -226,7 +226,7 @@ HTTP неизвестная ошибка
 [Contact list]
 Список контактов
 [%s connection]
-%s подключение 
+%s подключение
 [Images]
 Изображения
 [Gadu-Gadu Number]

@@ -2511,7 +2511,7 @@ Miranda NG opciones
 &Opciones
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Módulo básico '%s' no se puede cargar o falta. 
+Módulo básico '%s' no se puede cargar o falta.
 [Fatal error]
 Error fatal
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
@@ -2956,7 +2956,7 @@ Kenia
 [Kiribati]
 Kiribati
 [North Korea]
-Corea del Norte 
+Corea del Norte
 [South Korea]
 Corea del Sur
 [Kuwait]

@@ -36,9 +36,9 @@
 [Transparent contact list]
 联系人列表透明化
 [Inactive opacity:]
-未激活时透明度: 
+未激活时透明度:
 [Active opacity:]
-激活时透明度: 
+激活时透明度:
 [Animate Avatars]
 动态头像
 [Show contact time in list]
@@ -68,11 +68,11 @@
 [Apply]
 应用
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
-\n\n\n请选择一个可用皮肤. \n\n或浏览未在列表中的皮肤. 
+\n\n\n请选择一个可用皮肤. \n\n或浏览未在列表中的皮肤.
 [Skin Preview]
 预览皮肤
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-警告: \t皮肤将会修改您当前配置文件, 且不可恢复. \n\t\t请在应用皮肤前先备份您的数据库. 
+警告: \t皮肤将会修改您当前配置文件, 且不可恢复. \n\t\t请在应用皮肤前先备份您的数据库.
 [* Restart may be required for all changes to take effect]
 * 可能需要重启才能让所有变更生效
 [Available objects]
@@ -96,9 +96,9 @@
 [Fragment location]
 片段位置
 [Position:]
-职务: 
+职务:
 [Size:]
-大小: 
+大小:
 [Height]
 高度
 [W x H: 0 x 0 pixels]
@@ -130,11 +130,11 @@ W x H: 0 x 0 像素
 [Horizontal Align]
 水平对齐
 [Multiline status bar:]
-多行状态栏: 
+多行状态栏:
 [Accounts per line]
 在每一行显示帐号
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* 增加状态栏高度: \n由主菜单: 框架->状态栏->显示标题栏, 然后将状态栏标题向上或向下拉. 
+* 增加状态栏高度: \n由主菜单: 框架->状态栏->显示标题栏, 然后将状态栏标题向上或向下拉.
 [Hold [Shift] to inverse [Right Click] behavior]
 按下 [Shift] 键反向 [右击] 行为
 [Set options per account]
@@ -174,9 +174,9 @@ W x H: 0 x 0 像素
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
 [Are you sure you want to delete %s?]
-您确定要删除 %s? 
+您确定要删除 %s?
 [This will erase all history and settings for this contact!]
-此操作将删除联系人所有历史及相关设置! 
+此操作将删除联系人所有历史及相关设置!
 [Hide offline users]
 隐藏离线用户
 [Hide empty groups]
@@ -266,7 +266,7 @@ x100 毫秒
 [Dim idle contacts]
 暗淡化闲置联系人
 ['Hide Offline' means to hide:]
-'隐藏离线' 的意思是隐藏: 
+'隐藏离线' 的意思是隐藏:
 [Groups]
 群组
 [Draw a line alongside group names]
@@ -276,17 +276,17 @@ x100 毫秒
 [Quicksearch in open groups only]
 仅在打开的群组内快速搜索
 [Indent groups by:]
-缩排群组: 
+缩排群组:
 [Visual]
 视觉
 [Scroll list smoothly]
 平滑滚动列表
 [Time:]
-时间: 
+时间:
 [milliseconds]
 毫秒
 [Fade out entire list when:]
-将整个列表淡出当: 
+将整个列表淡出当:
 [Single click interface]
 通过单击打开项目
 [Always show status in tooltip]
@@ -316,7 +316,7 @@ x100 毫秒
 [Additional stuff]
 附加项目
 [Subcontacts indent:]
-子联系人缩排: 
+子联系人缩排:
 [Show time only if it is different from current time]
 仅与当前时间不同时才显示时间
 [Show contact time as row item]
@@ -334,7 +334,7 @@ x100 毫秒
 [Show title bar]
 显示标题栏
 [Title bar text:]
-标题栏文本: 
+标题栏文本:
 [Tool style main window]
 工具栏样式主窗口
 [Minimize to tray]
@@ -342,9 +342,9 @@ x100 毫秒
 [Frames]
 框架
 [Between frames:]
-框架间: 
+框架间:
 [After captions:]
-标题后: 
+标题后:
 [Gaps]
 间隔
 [Use Non-Layered mode]
@@ -356,11 +356,11 @@ x100 毫秒
 [Enable Aero Glass (Vista+)]
 启用 Aero Glass (Vista+)
 [Order of items:]
-项目顺序: 
+项目顺序:
 [Min row height:]
-最小列高: 
+最小列高:
 [Row border:]
-列框线: 
+列框线:
 [Variable row height]
 可变列高
 [Align left items to left]
@@ -368,9 +368,9 @@ x100 毫秒
 [Align right items to right]
 右对齐右侧项目
 [Left margin:]
-左边界: 
+左边界:
 [Right margin:]
-右边界: 
+右边界:
 [Draw border on avatar]
 头像绘制框线
 [Draw overlay icons]
@@ -380,7 +380,7 @@ x100 毫秒
 [Ignore size for row height calcs]
 忽略计算列高
 [Border color:]
-背景颜色: 
+背景颜色:
 [Normal overlay icon]
 标准层叠图标
 [Protocol status icon]
@@ -420,7 +420,7 @@ x100 毫秒
 [Trim long text with ellipsis]
 以省略号截短长文本
 [Top space:]
-顶部空间: 
+顶部空间:
 [Draw smileys on second line]
 在第二行绘制表情
 [Status]
@@ -460,19 +460,19 @@ x100 毫秒
 [Remove container]
 移除容器
 [Vertical align:]
-垂直对齐: 
+垂直对齐:
 [Horizontal align:]
-水平对齐: 
+水平对齐:
 [Container type:]
-容器类型: 
+容器类型:
 [Container width:]
-容器宽度: 
+容器宽度:
 [Container height:]
-容器高度: 
+容器高度:
 [Layered]
 层叠
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-此选项页尚在开发中, 请忽视此处的任何问题. \n仅适用于高层次设计意见. 
+此选项页尚在开发中, 请忽视此处的任何问题. \n仅适用于高层次设计意见.
 [&Main menu]
 主菜单(&M)
 [E&xit]
@@ -532,27 +532,27 @@ x100 毫秒
 [Status bar background]
 状态栏背景
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
-您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人? 
+您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人?
 [Converting to MetaContact]
 转换为中继联系人
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
-您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人 (从 %s 移除)? 
+您想将联系人 '%s' 转换为中继联系人并将 '%s' 加至该中继联系人 (从 %s 移除)?
 [Converting to MetaContact (Moving)]
 转换为中继联系人 (正在移动)
 [Do you want contact '%s' to be added to metacontact '%s'?]
-您想将联系人 '%s' 加至中继联系人 '%s'? 
+您想将联系人 '%s' 加至中继联系人 '%s'?
 [Adding contact to MetaContact]
 添加联系人至中继联系人
 [Do you want contact '%s' to be default?]
-您想将联系人 '%s' 设为默认值? 
+您想将联系人 '%s' 设为默认值?
 [Set default contact]
 设置默认联系人
 [Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
-您想将联系人 '%s' 从中继联系人 '%s' 移除, 并加至 '%s'? 
+您想将联系人 '%s' 从中继联系人 '%s' 移除, 并加至 '%s'?
 [Changing MetaContacts (Moving)]
 变更中继联系人 (正在移动)
 [Do you want contact '%s' to be added to MetaContact '%s'?]
-您想将联系人 '%s' 加至中继联系人 '%s'? 
+您想将联系人 '%s' 加至中继联系人 '%s'?
 [Row items]
 行内对象
 [Standard contacts]
@@ -732,7 +732,7 @@ x100 毫秒
 [Image size is]
 图片大小为
 [You need an image services plugin to process PNG images.]
-您需要图片服务插件处理 PNG 图片. 
+您需要图片服务插件处理 PNG 图片.
 [Error]
 错误
 [Load/Save]
@@ -754,11 +754,11 @@ Angeli-Ka (图形), FYR (模板)
 [Skin Information]
 皮肤信息
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-皮肤编辑器变更尚未保存. \n\n所有变更将会丢失. \n\n继续加载新皮肤吗? 
+皮肤编辑器变更尚未保存. \n\n所有变更将会丢失. \n\n继续加载新皮肤吗?
 [Warning!]
-警告! 
+警告!
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-当前皮肤尚未保存至文件. \n\n所有变更将会丢失. \n\n继续加载新皮肤吗? 
+当前皮肤尚未保存至文件. \n\n所有变更将会丢失. \n\n继续加载新皮肤吗?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 预览无法使用\n\n%s\n----------------------\n\n%s\n\n作者: \n%s\n\n联络: \n%s\n\n主页: \n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]

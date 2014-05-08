@@ -15,7 +15,7 @@ No parpadear CList cuando:
 [No SysTray blink when:]
 No parpadear bandeja del sistema cuando:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
-Oculta la opción de menú "alternar sonido" 
+Oculta la opción de menú "alternar sonido"
 ;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 Deshabilitar &sonidos

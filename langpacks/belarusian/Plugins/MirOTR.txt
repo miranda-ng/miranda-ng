@@ -222,7 +222,7 @@ OTR-Ідэнтыфікацыя з: %s (%s)
 [Authenticating contact:\n%s (%s)]
 Ідэнтыфікацыя кантакту: \n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-Шыфраваная сесія з '%s' (неправераны).\n Выкарыстоўвайце пытанне на які можа адказаць толькі Ваш суразмоўца. 
+Шыфраваная сесія з '%s' (неправераны).\n Выкарыстоўвайце пытанне на які можа адказаць толькі Ваш суразмоўца.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
 Шыфраваная сесія з '%s' (правераны).\n Праверце сесію зноў, выкарыстоўваючы пытанне на які можа адказаць толькі Ваш суразмоўца.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]

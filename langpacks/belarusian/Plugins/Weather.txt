@@ -323,7 +323,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
 %c\n Тэмпература: %t\n Адчуванне: %f\n Ціск: %p\n Вецер: %i  %w\n Вільготнасць: %m\n Раса: %e\n Бачнасць: %v\n\n Узыход: %r\n Заход: %y\n\n Прагноз на 5 дзён:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Адчуванне: %f\n Ціск: %p\n Вецер: %i  %w\n Вільготнасць: %m\n Раса: %e\n Бачнасць: %v\n\n Узыход: %r\n Заход: %y\n\n Прагноз на 5 дзён:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5] 
+Адчуванне: %f\n Ціск: %p\n Вецер: %i  %w\n Вільготнасць: %m\n Раса: %e\n Бачнасць: %v\n\n Узыход: %r\n Заход: %y\n\n Прагноз на 5 дзён:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Стан надвор'я для %n на %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]

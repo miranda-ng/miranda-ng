@@ -851,7 +851,7 @@ Aceitar automaticamente arquivos dos meus contatos
 [Minimize the file transfer window]
 Minimizar janela de transferência de arquivos
 [Close window when transfer completes]
-Fechar a janela após a transferência 
+Fechar a janela após a transferência
 [Clear completed transfers on window closing]
 Limpar transferências completas ao fechar a janela
 [Virus scanner]
@@ -859,7 +859,7 @@ Escaneamento de virus
 [Scan files:]
 Verificar:
 [Never, do not use virus scanning]
-Nunca, não utilizar verificação de vírus 
+Nunca, não utilizar verificação de vírus
 [When all files have been downloaded]
 Quando terminarem todas as transferências de arquivos
 [As each file finishes downloading]
@@ -895,7 +895,7 @@ para
 [Change my status mode to:]
 Alterar o meu status para:
 [Do not set status back to online when returning from idle]
-Não alterar o meu status para online após deixar de estar inativo 
+Não alterar o meu status para online após deixar de estar inativo
 [Idle options]
 Opções de Inatividade
 [Become idle if computer is left unattended for:]
@@ -1661,7 +1661,7 @@ Número de Telefone Inválido
 [Primary]
 Primário
 [Custom %d]
-%d Personalizado 
+%d Personalizado
 [Fax]
 Fax
 [Mobile]

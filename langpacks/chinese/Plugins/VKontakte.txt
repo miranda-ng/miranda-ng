@@ -6,11 +6,11 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Password:]
-密码: 
+密码:
 [Advanced]
 高级
 [Instruction:]
-操作指南: 
+操作指南:
 [Submit]
 提交
 [Cancel]

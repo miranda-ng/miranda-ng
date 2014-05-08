@@ -256,7 +256,7 @@ DNS エラー
 [Failed to add buddy to list: Item already exist.]
 メンバーをリストに追加することに失敗: 項目は既に存在します
 [Error adding buddy (invalid ID or already in list?)]
-メンバー追加エラー ( 不正な ID ?, 既に追加済み ? ) 
+メンバー追加エラー ( 不正な ID ?, 既に追加済み ? )
 [Cannot add buddy. Limit for this type of item exceeded.]
 メンバーを追加できません。この項目タイプの上限を超えました
 [Error? Attempting to add ICQ contact to an AIM list.]

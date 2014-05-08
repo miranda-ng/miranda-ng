@@ -14,7 +14,7 @@ AIM beállítások
 [Message Delivery Confirmation]
 Üzenetküldés megerõsítése
 [Do Not Autoreply When Away]
-Nincs autoválasz Távol módban 
+Nincs autoválasz Távol módban
 [Convert Incoming Messages to BBCode]
 Bejövõ üzenetek konvertálása BBkódba
 [Convert Outgoing Messages to HTML]

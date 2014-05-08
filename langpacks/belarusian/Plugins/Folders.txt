@@ -30,7 +30,7 @@
 [Changes not saved]
 Змены не захаваны
 [Don't forget to click on Apply to save the changes. If you don't then the changes won't]
-Не забудзьце націснуць Прымяніць для захавання змяненняў. 
+Не забудзьце націснуць Прымяніць для захавання змяненняў.
 [be saved to the database, they will only be valid for this session.]
 Інакш змяненні не захаваюцца ў базе і будуць выкарыстаны толькі для сучаснай сесіі.
 [Variable string]

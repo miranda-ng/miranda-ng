@@ -114,7 +114,7 @@ Netlib log opties
 [Show]
 Weergeven
 [Received bytes]
-Bytes ontvangen 
+Bytes ontvangen
 [Sent bytes]
 Bytes verstuurd
 [Additional data due to proxy communication]

@@ -62,7 +62,7 @@ partner megpróbált audiókonferenciát nyitni (jelenleg nem támogatott)
 [MSN Protocol]
 MSN Protokoll
 [MSN Alert]
-MSN Riasztás 
+MSN Riasztás
 [Chat session established by my request]
 Csevegés munkamenet létrehozva kérésemre
 [Chat session established by contact request]

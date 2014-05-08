@@ -191,11 +191,11 @@ SkypeKit.exe не распакаваны.
 [Failed to verify password. No connection to server]
 Немагчыма праверыць пароль. Няма падлучэння да сервера
 [Password was set but server didn't like it much]
-Пароль быў адпрэчаны серверам 
+Пароль быў адпрэчаны серверам
 [New password was exactly the same as old one]
-Уведзены пароль сапраўды такой жа як стары 
+Уведзены пароль сапраўды такой жа як стары
 [The new password was unacceptable]
-Новы пароль непрымальны 
+Новы пароль непрымальны
 [Account was currently not logged in]
 Конт не далучаны
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]

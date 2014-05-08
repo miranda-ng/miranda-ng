@@ -106,11 +106,11 @@
 [%s, %s. %s changed to: %s (was: %s).\r\n]
 %s, %s. %s 已变更为: %s (先前是: %s). \r\n
 [(M) is back online!]
-(M) 已再次上线! 
+(M) 已再次上线!
 [(F) is back online!]
-(F) 已再次上线! 
+(F) 已再次上线!
 [(U) is back online!]
-(U) 已再次上线! 
+(U) 已再次上线!
 [User: Online]
 用户: 上线
 [(M) went offline! :(]
@@ -124,11 +124,11 @@
 [User: Invisible]
 用户: 隐藏
 [(M) feels talkative!]
-(M) 感觉很健谈! 
+(M) 感觉很健谈!
 [(F) feels talkative!]
-(F) 感觉很健谈! 
+(F) 感觉很健谈!
 [(U) feels talkative!]
-(U) 感觉很健谈! 
+(U) 感觉很健谈!
 [User: Free For Chat]
 用户: 空闲聊天
 [(M) went Away]
@@ -140,27 +140,27 @@
 [User: Away]
 用户: 外出
 [(M) isn't there anymore!]
-(M) 已不在这里! 
+(M) 已不在这里!
 [(F) isn't there anymore!]
-(F) 已不在这里! 
+(F) 已不在这里!
 [(U) isn't there anymore!]
-(U) 已不在这里! 
+(U) 已不在这里!
 [User: Not Available]
 用户: 无法使用
 [(M) has something else to do.]
-(M) 有其他事要做. 
+(M) 有其他事要做.
 [(F) has something else to do.]
-(F) 有其他事要做. 
+(F) 有其他事要做.
 [(U) has something else to do.]
-(U) 有其他事要做. 
+(U) 有其他事要做.
 [User: Occupied]
 用户: 忙碌中
 [(M) doesn't want to be disturbed!]
-(M) 不想被打扰! 
+(M) 不想被打扰!
 [(F) doesn't want to be disturbed!]
-(F) 不想被打扰! 
+(F) 不想被打扰!
 [(U) doesn't want to be disturbed!]
-(U) 不想被打扰! 
+(U) 不想被打扰!
 [User: Do Not Disturb]
 用户: 请勿打扰
 [(M) is eating something]

@@ -26,7 +26,7 @@
 [Search For]
 搜索项目
 [In:]
-于: 
+于:
 [Replace With]
 替换为
 [Entirely]
@@ -54,13 +54,13 @@
 [Edit Setting]
 编辑设置
 [Value Name:]
-数值名称: 
+数值名称:
 [Value Data:]
-数值资料: 
+数值资料:
 [Base]
 基数
 [Save Value as:]
-数值另存为: 
+数值另存为:
 [Watched Database Variables]
 监视数据库变量
 [Copy module to contact]
@@ -74,7 +74,7 @@
 [Insert &CR/LF]
 插入 CR/LF(&C)
 [Paste the Settings to import here.]
-在此粘贴要导入设置. 
+在此粘贴要导入设置.
 [Database Editor++]
 数据库编辑器
 [&Main]
@@ -184,7 +184,7 @@
 [Reload Watch List]
 重新加载监视列表
 [Cannot Convert!]
-无法转换! 
+无法转换!
 [New BYTE value]
 新增 BYTE 值
 [Edit BYTE value]
@@ -210,9 +210,9 @@
 [Edit BLOB value]
 编辑 BLOB 值
 [Couldn't allocate enough memory!]
-无法分配足够内存! 
+无法分配足够内存!
 [Are you sure you want to delete module "%s"?]
-您确定要删除模块 "%s"? 
+您确定要删除模块 "%s"?
 [Confirm Module Deletion]
 确认删除模块
 [Delete module from Database]
@@ -266,7 +266,7 @@ INI 文件
 [Open user tree in DBE++]
 在数据库编辑器中打开用户树
 [Are you sure you want to delete contact "%s"?]
-您确定要删除联系人 "%s"? 
+您确定要删除联系人 "%s"?
 [Confirm Contact Delete]
 确认删除联系人
 [Loading contacts...]

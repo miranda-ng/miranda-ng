@@ -573,7 +573,7 @@ Veuillez entrer votre code d'authentification
 [Authentificate nick]
 
 [Are you sure you want to unregister your current nick?]
-Êtes vous sur de vouloir désenregistrer votre pseudo actuel? 
+Êtes vous sur de vouloir désenregistrer votre pseudo actuel?
 [Delete nick]
 Effacer le pseudo
 [Identify nick]

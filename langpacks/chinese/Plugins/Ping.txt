@@ -30,7 +30,7 @@ Ping 超时 (秒):
 [Use the Customize/Fonts options to change text size and color.]
 使用自定义/字体选项改变文本大小及颜色.
 [Row height:]
-列高: 
+列高:
 [Repeats for success/failure:]
 重复成功/失败:
 [Attach to contact list]

@@ -6,9 +6,9 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Password:]
-密码: 
+密码:
 [Nickname:]
-昵称: 
+昵称:
 [Create a new Windows Live account]
 新建 Windows Live 帐号
 [Send message font color/size info inside messages]
@@ -100,11 +100,11 @@ MSN 警告
 [Contact left channel]
 联系人已离开频道
 [This conversation has been inactive, participants will be removed.]
-此会话已停止使用, 与会者将被移走. 
+此会话已停止使用, 与会者将被移走.
 [To resume the conversation, please quit this session and start a new chat session.]
 要恢复对话, 请退出本次会议, 开启新聊天会话.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
-只剩 1 人聊天, 您是否想切换回标准消息窗口? 
+只剩 1 人聊天, 您是否想切换回标准消息窗口?
 [MSN Chat]
 MSN 聊天
 [Message delivery failed]
@@ -156,7 +156,7 @@ MSN 服务器
 [Local list]
 本地列表
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-服务器群组导入可能在下次登录时改变您的联系人列表布局. 您想把群组上传至服务器吗? 
+服务器群组导入可能在下次登录时改变您的联系人列表布局. 您想把群组上传至服务器吗?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 您所作出变更需要重新连接至 MSN Messenger 网络才能生效
 [MSN Options]
@@ -168,7 +168,7 @@ MSN 选项
 [IP info available only after login]
 IP 信息仅登录后才能使用
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-MSN 协议要求消息超时不低于 60 秒. 请修正超时值. 
+MSN 协议要求消息超时不低于 60 秒. 请修正超时值.
 [Network]
 网络
 [Server list]

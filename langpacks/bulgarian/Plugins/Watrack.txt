@@ -28,7 +28,7 @@
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
 
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
-Интервал (сек) за обновяване на информацията за музиката, текста на състоянията и статистиката. Ако зададете 0 автоматичното обновяване ще бъде изключено. Стойности по-големи от 499 се приемат за милисекунди. 
+Интервал (сек) за обновяване на информацията за музиката, текста на състоянията и статистиката. Ако зададете 0 автоматичното обновяване ще бъде изключено. Стойности по-големи от 499 се приемат за милисекунди.
 [Text insertion to other Apps]
 
 [Share music list]

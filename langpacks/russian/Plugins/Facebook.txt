@@ -204,7 +204,7 @@ URL:
 [Contact is no longer on server-list.]
 Контакта больше нет в списке на сервере.
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [Unable to get Netlib connection for Facebook]
 Не удается установить соединение с Facebook
 [Facebook ID must be numeric value.]
@@ -230,7 +230,7 @@ URL:
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
 [Show 'Share status' window]
-Сообщение статуса Facebook 
+Сообщение статуса Facebook
 [Notification]
 Уведомление
 [News Feed]

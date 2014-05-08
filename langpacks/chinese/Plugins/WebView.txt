@@ -22,7 +22,7 @@
 [&Find next]
 找下一个(&F)
 [Find what:]
-查找什么: 
+查找什么:
 [Append data to file]
 附加数据至文件
 [Popup delay]

@@ -6,9 +6,9 @@
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
 [Username:]
-用户名: 
+用户名:
 [Password:]
-密码: 
+密码:
 [Create new account]
 建立新帐号
 [Options]
@@ -52,9 +52,9 @@ P2P 连接
 [Use proxy for incoming connections]
 传入连接使用代理服务器
 [Proxy type:]
-代理服务器类型: 
+代理服务器类型:
 [Proxy server:]
-代理服务器: 
+代理服务器:
 [Proxy requires authorization]
 代理服务器需要授权
 [Mail Notification]
@@ -72,17 +72,17 @@ P2P 连接
 [Cancel]
 取消
 [First name:]
-名字: 
+名字:
 [Last name:]
-姓氏: 
+姓氏:
 [E-mail:]
-邮件: 
+邮件:
 [Gender:]
-性别: 
+性别:
 [Year of birth:]
 出生年份:
 [City:]
-城市: 
+城市:
 [School:]
 学校:
 [Looking for:]
@@ -102,15 +102,15 @@ Tlen 登录:
 [Subscription:]
 订阅:
 [Software:]
-软件: 
+软件:
 [System:]
-系统: 
+系统:
 [Personal Information]
 个人信息
 [Nickname:]
-昵称: 
+昵称:
 [Age:]
-年龄: 
+年龄:
 [to]
 至
 [Extra Search Criterias]
@@ -128,7 +128,7 @@ Tlen 语音聊天
 [Tlen Voice Chat Invitation]
 Tlen 语音聊天聊天邀请
 [From:]
-从: 
+从:
 [The following invitation to join a voice chat is received.]
 收到以下邀请, 邀请您加入语音聊天.
 [Group chats]

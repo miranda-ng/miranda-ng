@@ -10,9 +10,9 @@
 [Close]
 关闭
 [Username:]
-用户名: 
+用户名:
 [Password:]
-密码: 
+密码:
 [seconds]
 秒
 [Plugins]

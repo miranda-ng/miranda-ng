@@ -335,7 +335,7 @@ Popups
 [Mail.ru extra info]
 
 [E-mail address]
-e-mail 
+e-mail
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 

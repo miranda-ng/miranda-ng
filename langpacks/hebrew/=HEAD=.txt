@@ -2,6 +2,6 @@
 Language: Hebrew (Israel)
 Locale: 040d
 Authors: ofir aviram, Jerbifor
-Last-Modified-Using: Miranda NG 0.95.1. 
+Last-Modified-Using: Miranda NG 0.95.1
 ;	This translation is automatically generated from the Hebrew langpack Miranda IM by ofir aviram.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0

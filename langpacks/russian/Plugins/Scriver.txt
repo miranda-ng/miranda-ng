@@ -10,7 +10,7 @@
 [Behavior]
 Поведение
 [Automatically pop up the window when]
-Автоматически показывать окно когда 
+Автоматически показывать окно когда
 [and stay minimized]
 и оставаться свёрнутым
 [Cascade new windows]

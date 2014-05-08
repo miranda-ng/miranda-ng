@@ -16,21 +16,21 @@
 [Use popup plugin]
 使用弹出窗口插件
 [Default snooze:]
-默认打盹: 
+默认打盹:
 [Row height:]
-列高: 
+列高:
 [Reminder frame]
 提醒框架
 [Auto hide/show]
 自动隐藏/显示
 [Period (hours):]
-间隔 (小时): 
+间隔 (小时):
 [Hide/show with clist]
 与列表隐藏/显示
 [Auto size vertically]
 自动设置垂直大小
 [Transparency (%):]
-透明度 (%): 
+透明度 (%):
 [Alert window]
 提醒窗口
 [Don't steal focus unless idle]
@@ -40,13 +40,13 @@
 [Cancel]
 取消
 [Description:]
-描述: 
+描述:
 [Actions]
 操作
 [Run command:]
-运行命令: 
+运行命令:
 [Parameters:]
-参数: 
+参数:
 [Alert 1]
 提醒 1
 [Alert 2]
@@ -88,7 +88,7 @@
 [Example alarm]
 范例闹钟
 [Some example text. Example, example, example.]
-一些范例文本. 范例, 范例, 范例. 
+一些范例文本. 范例, 范例, 范例.
 [Background]
 背景
 [Window]
@@ -112,10 +112,10 @@
 [Menu: Show/Hide reminders]
 菜单: 显示/隐藏提醒
 [Please enter a title for this alarm.]
-请输入此警告标题. 
+请输入此警告标题.
 [Error]
 错误
 [The alarm time you have selected is in the past.]
-您所选择警告时间已是过去. 
+您所选择警告时间已是过去.
 [Events]
 事件

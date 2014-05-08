@@ -22,15 +22,15 @@
 [Receiving text]
 接收文本
 [Allow sending* one nudge to the same contact every:]
-允许发送* 一次闪屏到相同联系人于每: 
+允许发送* 一次闪屏到相同联系人于每:
 [Allow receiving one nudge from the same contact every:]
-允许从相同联系人接收一次闪屏于每: 
+允许从相同联系人接收一次闪屏于每:
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* 闪屏发送延时为固定数值不能修改. 
+* 闪屏发送延时为固定数值不能修改.
 [Text]
 文本
 [Allow nudges when you're:]
-当您在下列状态时允许闪屏: 
+当您在下列状态时允许闪屏:
 [Offline]
 离线
 [Online]

@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [When a contact returns after]
-当联系人返回于 
+当联系人返回于
 [or comes online for the first time]
 或首次上线
 [Show a popup]

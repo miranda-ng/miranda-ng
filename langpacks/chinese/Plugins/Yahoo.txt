@@ -6,9 +6,9 @@
 ;  Authors: Gennady Feldman
 ;============================================================
 [Password:]
-密码: 
+密码:
 [Nick:]
-昵称: 
+昵称:
 [Create a new Yahoo account using the Yahoo website]
 使用 Yahoo 网站建立新 Yahoo 帐号
 [Use Yahoo Address Book (YAB)]
@@ -70,7 +70,7 @@ Yahoo 忽略列表
 [Yahoo Error]
 Yahoo 错误
 [The message send timed out.]
-发送消息已超时. 
+发送消息已超时.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 消息过长: Yahoo 消息仅限 800 个 UTF8 字符
 [YAHOO Link Protocol]
@@ -82,17 +82,17 @@ YAHOO 插件 HTTP 连接
 [YAHOO Options]
 YAHOO 选项
 [You need to be connected to Yahoo to add to Ignore List.]
-您需要连接至 Yahoo 才能添加忽略列表. 
+您需要连接至 Yahoo 才能添加忽略列表.
 [Yahoo Ignore]
 Yahoo 忽略
 [Please enter a valid buddy name to ignore.]
-请输入有效好友名称以忽略. 
+请输入有效好友名称以忽略.
 [The buddy is already on your ignore list.]
 此好友已在您的忽略列表中.
 [You need to be connected to Yahoo to remove from the ignore list.]
-您需要连接至 Yahoo 才能从忽略列表中移除. 
+您需要连接至 Yahoo 才能从忽略列表中移除.
 [Please select a buddy on the ignore list to remove.]
-请在忽略列表中选择要移除的好友. 
+请在忽略列表中选择要移除的好友.
 [Network]
 网络
 [Ignore List]
@@ -126,7 +126,7 @@ Yahoo 邮箱(&Y)
 [Calendar Reminder]
 日历提醒
 [%s has rejected your request and sent the following message:]
-%s 已拒绝您的请求, 并发送了以下消息: 
+%s 已拒绝您的请求, 并发送了以下消息:
 [You have %i unread msgs]
 您有 %i 个未读消息
 [New Mail (%i msgs)]
@@ -136,17 +136,17 @@ Yahoo 邮箱(&Y)
 [Yahoo Ping Error]
 Yahoo Ping 错误
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
-无法登录到 Yahoo 服务 - 用户名无效. 请确认您的用户名填写正确. 
+无法登录到 Yahoo 服务 - 用户名无效. 请确认您的用户名填写正确.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
-无法登录到 Yahoo 服务 - 密码错误. 请确认您的用户名和密码填写正确. 
+无法登录到 Yahoo 服务 - 密码错误. 请确认您的用户名和密码填写正确.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
-无法登录到 Yahoo 服务. 您的帐号已被锁定. \n请访问 %s 激活. 
+无法登录到 Yahoo 服务. 您的帐号已被锁定. \n请访问 %s 激活.
 [You have been logged out of the Yahoo service, possibly due to a duplicate login.]
-您的 Yahoo 服务已登出, 可能是因为重复登录. 
+您的 Yahoo 服务已登出, 可能是因为重复登录.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
-无法连接至 Yahoo 服务器. 请检查您的服务器/端口和代理服务器设置. 
+无法连接至 Yahoo 服务器. 请检查您的服务器/端口和代理服务器设置.
 [Could not log in, unknown reason: %d.]
-无法登录, 未知原因: %d. 
+无法登录, 未知原因: %d.
 [Unknown error %s]
 未知错误 %s
 [Custom error %s]
@@ -164,4 +164,4 @@ Yahoo Ping 错误
 [Server Connection Error: %s]
 服务器连接错误: %s
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
-无法连接至 Yahoo 服务器. 请确认您已联网, 且传呼主机和端口正确设置. 
+无法连接至 Yahoo 服务器. 请确认您已联网, 且传呼主机和端口正确设置.

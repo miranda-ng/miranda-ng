@@ -14,11 +14,11 @@
 [Never timeout]
 永不超时
 [Set timeout:]
-设置超时: 
+设置超时:
 [Width:]
-宽度: 
+宽度:
 [Maximum height:]
-最大高度: 
+最大高度:
 [Options]
 选项
 [Transparent background]
@@ -28,11 +28,11 @@
 [Global hover]
 全域局鼠标指向
 [Padding:]
-补位: 
+补位:
 [Set timeout]
 设置超时
 [Timeout value (0 = default):]
-超时值 (0 = 默认值): 
+超时值 (0 = 默认值):
 [Popup History]
 弹出窗口历史
 [YAPP Popups]
@@ -42,7 +42,7 @@ YAPP 弹出窗口
 [Example With a Long Title]
 长标题范例
 [An avatar.]
-一个头像. 
+一个头像.
 [No time]
 无时间
 [Time on left]
@@ -56,7 +56,7 @@ YAPP 弹出窗口
 [Full-screen app running]
 全屏应用程序运行中
 [You cannot set a default timeout of 0.\nValue has been reset.]
-您无法设置 0 为默认超时. \n此值已被重置. 
+您无法设置 0 为默认超时. \n此值已被重置.
 [Error]
 错误
 [Popups]

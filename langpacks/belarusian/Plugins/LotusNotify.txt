@@ -25,7 +25,7 @@
 [sec (0 default,\n -1 disabled)]
 с (0 змаўчанне,\n -1 выключана)
 [...but only if popup not clicked]
-... Але толькі калі не націснута вакно 
+... Але толькі калі не націснута вакно
 [Left button click cmd:]
 Каманда па левай пстрычцы мышы:
 [Command parameters:]

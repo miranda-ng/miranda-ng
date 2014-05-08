@@ -10,7 +10,7 @@
 [Enable auto-replacements]
 启用自动替换
 [Edit...]
-编辑: 
+编辑:
 [Remove]
 移除
 [Add auto-replace word]

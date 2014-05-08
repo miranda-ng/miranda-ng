@@ -148,7 +148,7 @@ Quote\\Инф. за курса
 Въведете текст за изобразяване в списъка с контакти.
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
-Източник 
+Източник
 [Enter positive number.]
 Въведете положително число.
 ;file \plugins\Quotes\src\Forex.cpp

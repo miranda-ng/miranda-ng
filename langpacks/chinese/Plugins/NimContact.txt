@@ -32,7 +32,7 @@
 [Link]
 链接
 [Program parameters:]
-程序参数: 
+程序参数:
 [O&pen File]
 打开文件(&P)
 [O&pen Folder]
@@ -40,7 +40,7 @@
 [Contact list settings]
 联系人列表设置
 [Group:]
-群组: 
+群组:
 [Status Icon]
 状态图标
 [Group\\Sub-Group]

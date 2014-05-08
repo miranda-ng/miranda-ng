@@ -44,7 +44,7 @@
 [Stretch proportionally]
 按比例拉伸
 [Opacity:]
-不透明度: 
+不透明度:
 [Standard contacts]
 标准联系人
 [Online contacts to whom you have a different visibility]

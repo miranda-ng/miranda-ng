@@ -48,7 +48,7 @@
 Загаловак новага пакою:
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
-Абразок формы 
+Абразок формы
 [Protocols]
 Пратаколы
 [VKontakte]

@@ -70,7 +70,7 @@ Você foi adicionado
 [SMTP Simple Email]
 Mensagem SMTP
 [SMS message]
-Mensagem SMS 
+Mensagem SMS
 [Messages]
 Mensagens
 [Searching]

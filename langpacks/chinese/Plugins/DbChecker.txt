@@ -8,11 +8,11 @@
 [Welcome to the Miranda Database Wizard]
 欢迎使用 Miranda 数据库向导
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-您可使用此向导压缩您的 Miranda 配置数据库, 移除正常使用中占用的垃圾空间, 还可以修复很多可能影响数据库的问题. 
+您可使用此向导压缩您的 Miranda 配置数据库, 移除正常使用中占用的垃圾空间, 还可以修复很多可能影响数据库的问题.
 [To continue, click Next.]
-继续, 请按 "下一步" . 
+继续, 请按 "下一步" .
 [This program is licenced under the terms of the GNU General Public License.]
-此程序基于 GNU 通用公共许可证. 
+此程序基于 GNU 通用公共许可证.
 [Miranda Database Tool]
 Miranda 数据库工具
 [Cancel]
@@ -22,75 +22,75 @@ Miranda 数据库工具
 [You can choose the Miranda profile database to compact or repair.]
 您可以选择要压缩或修复的 Miranda 配置文件数据库
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-从下面的列表中选择配置文件数据库. 如果您想使用的数据库尚未列出, 请按 "其它" 浏览您的计算机. 
+从下面的列表中选择配置文件数据库. 如果您想使用的数据库尚未列出, 请按 "其它" 浏览您的计算机.
 [&File:]
-文件(&F): 
+文件(&F):
 [&Other...]
 其它(&O)...
 [Error Opening Database]
 打开数据库错误
 [There was an error opening the profile database given.]
-打开指定配置数据库时发生错误. 
+打开指定配置数据库时发生错误.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
-请按 "下一步" 尝试再次打开该文件, 或按 "上一步" 选择其它需要维护的配置文件数据库. 
+请按 "下一步" 尝试再次打开该文件, 或按 "上一步" 选择其它需要维护的配置文件数据库.
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-文件可能被 Miranda 运行使用中. 请退出所有运行中 Miranda, 按 "下一步" 重试. 
+文件可能被 Miranda 运行使用中. 请退出所有运行中 Miranda, 按 "下一步" 重试.
 [File Access Options]
 文件存取选项
 [You can select low level options to determine how the database is processed.]
-您可以选择低阶选项以决定数据库应如何处理. 
+您可以选择低阶选项以决定数据库应如何处理.
 [Create backup]
 建立备份
 [Creates a backup copy of the database before any of the requested changes are made.]
-在执行任何变更请求前先创建数据库的备份. 
+在执行任何变更请求前先创建数据库的备份.
 [Aggressively find corruption]
 积极地查找损坏部分
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-扫描数据库查找无链接数据. 这需要更多磁盘空间和时间, 所以仅在您怀疑数据受损时使用. 
+扫描数据库查找无链接数据. 这需要更多磁盘空间和时间, 所以仅在您怀疑数据受损时使用.
 [Check consistency only]
 仅检查完整性
 [Just checks that the database is valid, without writing anything to the disk.]
-仅检查数据库是否有效, 不会向磁盘写入任何数据. 
+仅检查数据库是否有效, 不会向磁盘写入任何数据.
 [Cleaning Options]
 清除选项
 [You can choose to remove information from the database while it is being processed.]
-您可以选择在数据库处理时移除信息. 
+您可以选择在数据库处理时移除信息.
 [Erase all histories]
 删除所有历史
 [Removes all the saved history for all contacts in the database.]
-移除数据库中全部联系人所有已存历史. 
+移除数据库中全部联系人所有已存历史.
 [Mark all events read]
 将所有事件标记为己读
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-将所有历史事件标记为己读. 这将纠正一些旧消息总是出现在消息窗口中的问题. 
+将所有历史事件标记为己读. 这将纠正一些旧消息总是出现在消息窗口中的问题.
 [Convert old Unicode messages to UTF8]
 转换旧版 Unicode 消息为 UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-转换 0.7 版以前的历史消息格式 (ANSI+UCS2) 为 0.7 版支持的新 UTF8 格式. 在多数情况下能节省数据库空间 (推荐). 
+转换 0.7 版以前的历史消息格式 (ANSI+UCS2) 为 0.7 版支持的新 UTF8 格式. 在多数情况下能节省数据库空间 (推荐).
 [Working...]
 工作中...
 [Please wait while the requested operations are being performed.]
-请稍候所请求操作正在执行中. 
+请稍候所请求操作正在执行中.
 [Finished!]
-已完成! 
+已完成!
 [All tasks have been completed.]
-所有任务已完成. 
+所有任务已完成.
 [Launch Miranda with this profile]
 使用此配置文件运行 Miranda
 [Launches Miranda with the profile that was just worked on.]
 使用此前使用的配置文件运行 Miranda
 [Backup:]
-备份: 
+备份:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-数据库处理已完成. 请按 "下一步" 返回向导开始选择其它要检查的数据库, 或按 "完成" 结束向导. 
+数据库处理已完成. 请按 "下一步" 返回向导开始选择其它要检查的数据库, 或按 "完成" 结束向导.
 [&Finish]
 完成(&F)
 [Click Next to continue]
 请按 "下一步" 继续
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-处理尚未完成, 如果您现在取消, 已作出变更将被回滚且原始数据库将被还原. 您仍然要取消吗? 
+处理尚未完成, 如果您现在取消, 已作出变更将被回滚且原始数据库将被还原. 您仍然要取消吗?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
-处理尚未完成, 如果您现在返回, 已作出变更将被回滚且原始数据库将被还原. 您仍然要返回吗? 
+处理尚未完成, 如果您现在返回, 已作出变更将被回滚且原始数据库将被还原. 您仍然要返回吗?
 [Error]
 错误
 [Total size]
@@ -100,7 +100,7 @@ Miranda 数据库 (*.dat)
 [All Files]
 所有文件
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-发生错误, 但您并未选择备份原数据库. 我们建议您备份以避免有重要资料被遗漏. 您要备份原数据库吗? 
+发生错误, 但您并未选择备份原数据库. 我们建议您备份以避免有重要资料被遗漏. 您要备份原数据库吗?
 [%s\\Backup of %s]
 %s\\%s 的备份
 [%s\\Backup (%d) of %s]

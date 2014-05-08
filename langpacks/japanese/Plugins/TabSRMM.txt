@@ -420,13 +420,13 @@ IM チャットに表示
 [Tabs should be used in the following way]
 タブは以下の方法で使用しなければならない
 [Use contact list groups for organizing tabs (one window per group)]
-整理タブ用コンタクトリストグループを使用 ( グループ毎に1つのウィンドウ ) 
+整理タブ用コンタクトリストグループを使用 ( グループ毎に1つのウィンドウ )
 [Tabbed interface, limit the maximum number of tabs per window to:]
 タブインターフェース , ウィンドウ毎のタブの数の最大数を次の数に制限:
 [No tabs at all, each session has its own top level window]
 タブが全くない場合 , 全てのセッションにトップレベルウインドウがあります
 [Default mode (tabbed interface, manual assignments)]
-デフォルトモード ( タブインターフェース , 手動割り当て ) 
+デフォルトモード ( タブインターフェース , 手動割り当て )
 [Container flashing]
 コンテナをフラッシュ
 [Flash containers]

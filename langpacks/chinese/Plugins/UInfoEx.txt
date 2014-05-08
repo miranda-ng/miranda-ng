@@ -18,73 +18,73 @@
 [Apply]
 应用
 [Nick:]
-昵称: 
+昵称:
 [First name:]
-名字: 
+名字:
 [Second name:]
-中名: 
+中名:
 [Last name:]
-姓氏: 
+姓氏:
 [Female]
 女
 [Male]
 男
 [Marital status:]
-婚姻状况: 
+婚姻状况:
 [Partner:]
-伙伴: 
+伙伴:
 [Language skills]
 语言技巧
 [Street:]
-街道: 
+街道:
 [Postal code:]
-邮政编码: 
+邮政编码:
 [City:]
-城市: 
+城市:
 [County/State:]
-国家/县: 
+国家/县:
 [Country:]
-国家: 
+国家:
 [Contact added to contact list:]
-联系人已加至联系人列表: 
+联系人已加至联系人列表:
 [Your contact's local time is:]
-您的联系人本地时间为: 
+您的联系人本地时间为:
 [Timezone:]
-时区: 
+时区:
 [Company:]
-公司: 
+公司:
 [Department:]
-部门: 
+部门:
 [Office:]
-办工室: 
+办工室:
 [Position:]
-职务: 
+职务:
 [Superior:]
-上级: 
+上级:
 [Assistant:]
-助理: 
+助理:
 [Add Phone Number]
 添加电话号码
 [Enter a category for this number:]
-请输入此号码分类: 
+请输入此号码分类:
 [Enter country, area code and phone number:]
-请输入国家, 区号及电话号码: 
+请输入国家, 区号及电话号码:
 [Or enter a full international number:]
-或输入完整的国际号码: 
+或输入完整的国际号码:
 [Phone can receive SMS text messages]
 此电话号码可接收 SMS 文本消息
 [Add E-Mail]
 添加邮箱
 [Enter a representitive name for the e-mail address here.]
-在此为邮箱地址输入代表名称. 
+在此为邮箱地址输入代表名称.
 [Enter the e-mail address here.]
-在此输入邮箱地址. 
+在此输入邮箱地址.
 [Show menu items]
 显示菜单项目
 [Remind me]
 提醒我
 [days before.]
-天之前. 
+天之前.
 [hours]
 小时
 [Icon flashing on event]
@@ -92,9 +92,9 @@
 [Perform check on each startup]
 在每次启动时检查
 [Time of last check:]
-上次检查时间: 
+上次检查时间:
 [Birthday compatibility mode:]
-生日兼容模式: 
+生日兼容模式:
 [Automatically backup and keep protocol based birthdays up to date]
 自动备份及保持基于协议生日资料最新
 [Use ignore list]
@@ -118,7 +118,7 @@
 [Anniversary popup colors]
 周年弹出窗口颜色
 [Homepage:]
-主页: 
+主页:
 [Add Affiliation]
 添加从属关系
 [Add Past]
@@ -128,21 +128,21 @@
 [Delete]
 删除
 [Enter a name for the anniversary here please:]
-请在此输入周年纪念名称: 
+请在此输入周年纪念名称:
 [Anniversary list]
 周年纪念列表
 [Statistics:]
-统计: 
+统计:
 [with birthday:]
-按生日: 
+按生日:
 [female:]
-女性: 
+女性:
 [male:]
-男性: 
+男性:
 [number of contacts:]
-联系人数量: 
+联系人数量:
 [average age:]
-平均年龄: 
+平均年龄:
 [Show &during the next]
 显示持续
 [day(s)]
@@ -162,7 +162,7 @@
 [Use Windows Timezone]
 使用 Windows 时区
 [(*) Requires Miranda to be restarted.]
-(*) 需要重启 Miranda. 
+(*) 需要重启 Miranda.
 [Reset factory defaults]
 重置为出厂设置
 [Protocol's information]
@@ -174,13 +174,13 @@
 [Changed information]
 已变更信息
 [Enable colors to give information about information's status.]
-启用颜色以提供信息状态资料. 
+启用颜色以提供信息状态资料.
 [Make protocol based contact information readonly.]
-使基于协议联系人信息只读. 
+使基于协议联系人信息只读.
 [Enable groups in details dialog's treeview.]
-在详细信息对话框树状查看中启用群组. 
+在详细信息对话框树状查看中启用群组.
 [Sort all tree items alphabetically.]
-按字母顺序排列所有树项目. 
+按字母顺序排列所有树项目.
 [Info of a MetaContact's SubContact]
 中继联系人子联系人信息
 [Common]
@@ -202,7 +202,7 @@
 [Extra Icons]
 额外图标
 [Replace the following default icons:]
-替换这些默认图标: 
+替换这些默认图标:
 [Homepage]
 主页
 [Phone]
@@ -216,9 +216,9 @@
 [Use &unknown flag if country cannot be determined]
 如不能确定国籍则使用未知标志(&U)
 [Age:]
-年龄: 
+年龄:
 [Zodiac:]
-生肖: 
+生肖:
 [not found]
 找不到
 [Refresh Contact Details]
@@ -226,7 +226,7 @@
 [Preparing...]
 准备...
 [What do you want to export?]
-您想导出什么? 
+您想导出什么?
 [Contact Information]
 联系人信息
 [Contact History]
@@ -262,7 +262,7 @@
 [Pisces]
 双鱼座
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
-%s 通过协议提供新生日. \n现在是 %s, 旧有为 %s. \n\n您想使用它作为此联系人新生日吗? 
+%s 通过协议提供新生日. \n现在是 %s, 旧有为 %s. \n\n您想使用它作为此联系人新生日吗?
 [Update custom birthday]
 更新自定义生日
 [Keeps your custom birthday up to date.]
@@ -274,7 +274,7 @@
 [Hide Item]
 隐藏项目
 [Show Items:]
-显示项目: 
+显示项目:
 [Creating unique name for a page failed with %d and error code %d]
 创建唯一名称页面失败 %d 错误代码 %d
 [Creating the label for a page failed with %d and error code %d]
@@ -292,15 +292,15 @@
 [Edit Phone Number]
 编辑电话号码
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
-电话号码应该由 + 开始, 由数字, 空格, 括号及连字符号组成. 
+电话号码应该由 + 开始, 由数字, 空格, 括号及连字符号组成.
 [Choose the item to display.]
-请选择要显示项目. 
+请选择要显示项目.
 [Edit the currently displayed item.]
-编辑当前显示项目. 
+编辑当前显示项目.
 [Add a new custom item.]
-添加新自定义项目: 
+添加新自定义项目:
 [Delete the selected item.]
-删除已选定项目. 
+删除已选定项目.
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 关键: 无法修改记录!\n这是本不该发生的!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
@@ -330,7 +330,7 @@
 [Upload Details]
 上传详细资料
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-您当前尚未连接至 ICQ 网络. \n您必须先上线才能更新服务器信息. \n\n您的变更将仅保存至数据库中. 
+您当前尚未连接至 ICQ 网络. \n您必须先上线才能更新服务器信息. \n\n您的变更将仅保存至数据库中.
 [Uploading]
 上传中
 [General]
@@ -352,7 +352,7 @@
 [IM Naming]
 IM 命名
 [Marital status]
-婚姻状况: 
+婚姻状况:
 [Export: Modules]
 导出: 模块
 [Export: Folder]
@@ -456,15 +456,15 @@ IM 命名
 [Extended UserInfo]
 扩展用户信息
 [My Notes:]
-我的便笺: 
+我的便笺:
 [About:]
-关于: 
+关于:
 [Please enter a valid Description first!]
 请先输入有效描述!
 [No valid date selected for editing!]
 编辑时未选定有效日期
 [Do you really want to delete the %s?]
-您真的要删除 %s? 
+您真的要删除 %s?
 [Address & Contact]
 地址 & 联系人
 [Company]
@@ -546,7 +546,7 @@ TmplPast 组织
 [Send e-mail]
 发送邮件
 [Memory allocation error!]
-内存分配错误! 
+内存分配错误!
 [Gender (uinfoex)]
 性别 (uinfoex)
 [User has no valid homepage]
@@ -566,7 +566,7 @@ Miranda 必须在线才能刷新联系人信息!
 [The function caused an exception!]
 此功能导致一个例外!
 [%s has %s today.]
-%s 今天 %s. 
+%s 今天 %s.
 [an anniversary]
 周年
 [%s has the following anniversaries:\0]
@@ -578,7 +578,7 @@ Miranda 必须在线才能刷新联系人信息!
 [%d. %s in %d days\0]
 %d. %s 于 %d 天\0
 [\n%s becomes %d years old.]
-\n%s 变为 %d 岁. 
+\n%s 变为 %d 岁.
 [No anniversaries to remind of]
 无周年纪念需提醒
 [Backing up and syncing all birthdays complete!]
@@ -598,9 +598,9 @@ Miranda 必须在线才能刷新联系人信息!
 [Optional modules]
 可选模块
 [Shows Miranda's installation directory.]
-显示 Miranda 安装目录. 
+显示 Miranda 安装目录.
 [Shows the directory with all your Miranda's profiles.]
-显示所有 Miranda 配置文件目录. 
+显示所有 Miranda 配置文件目录.
 [The OpenFileDialog returned an error: %d!]
 打开文件对话框返回错误: %d!
 [The SaveFileDialog returned an error: %d!]

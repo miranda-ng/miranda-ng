@@ -8,17 +8,17 @@
 [Enable Auto Replier]
 启用简易自动回复插件
 [Reply Message Heading:]
-回复消息标题: 
+回复消息标题:
 [Reply Message when]
 回复消息于
 [No-repeat Interval:]
-不重复提示间隔: 
+不重复提示间隔:
 [mins]
 分
 [&Default]
 默认值(&D)
 [Dear %user%, the owner left the following message:]
-亲爱的 %user%, 所有者留下了此消息: 
+亲爱的 %user%, 所有者留下了此消息:
 [Simple Auto Replier]
 简易自动回复插件
 [Message Sessions]

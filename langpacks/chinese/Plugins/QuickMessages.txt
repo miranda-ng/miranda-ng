@@ -54,6 +54,6 @@
 [Enter Value]
 输入数值
 [You win!]
-您胜利了! 
+您胜利了!
 [Message Sessions]
 消息会话

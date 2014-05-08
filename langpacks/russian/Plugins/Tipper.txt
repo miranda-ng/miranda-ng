@@ -308,7 +308,7 @@ xСтатус
 [Listening to:]
 Слушаю:
 [Copy all items with labels]
-Копировать все с метками 
+Копировать все с метками
 [Copy all items]
 Копировать все
 [Copy avatar]
@@ -408,7 +408,7 @@ xСтатус
 [[weather.dll] Max/Min temperature]
 (weather.dll) Макс/мин температура
 [Max/Min:]
-Макс./мин. температура: 
+Макс./мин. температура:
 [[weather.dll] Moon]
 (weather.dll) Луна
 [Moon:]

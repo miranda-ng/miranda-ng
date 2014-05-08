@@ -21,7 +21,7 @@ fichier
 [URL]
 Lien
 [Update URL every]
-Màj toutes les 
+Màj toutes les
 [Intervals]
 Intervalle
 [If the protocol timer is disabled web pages won't be updated]

@@ -110,15 +110,15 @@
 [Start automatic shutdown]
 Запустить автовыключение
 [Stop automatic shutdown]
-Остановить автовыключение 
+Остановить автовыключение
 [Stop automatic &shutdown]
-Остановить &автовыключение 
+Остановить &автовыключение
 [Automatic &shutdown...]
 &Автовыключение...
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG автоматически закроется через %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-Все протоколы 
+Все протоколы
 [You will be logged off automatically in %u second(s).]
 Выход из системы через %u секунд(ы).
 [The computer will automatically be restarted in %u second(s).]

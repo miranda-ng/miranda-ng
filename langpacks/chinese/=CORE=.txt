@@ -13,13 +13,13 @@
 [&Cancel]
 取消(&C)
 [Send "You were added"]
-发送 "您已被添加" 
+发送 "您已被添加"
 [Send authorization request]
 发送授权请求
 [Custom name:]
-自定义名称: 
+自定义名称:
 [Group:]
-群组: 
+群组:
 [Options]
 选项
 [Authorization request]
@@ -33,9 +33,9 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
 [Are you sure you want to delete %s?]
-您确定要删除 %s? 
+您确定要删除 %s?
 [This will erase all history and settings for this contact!]
-此操作将删除联系人所有历史及相关设置! 
+此操作将删除联系人所有历史及相关设置!
 [Contact display options]
 联系人显示选项
 [Miranda NG Profile Manager]
@@ -49,17 +49,17 @@ Miranda NG 配置文件管理员
 [Find/Add contacts]
 查找/添加联系人
 [Search:]
-搜索: 
+搜索:
 [E-mail address]
 邮箱地址
 [Name]
 名称
 [Nick:]
-昵称: 
+昵称:
 [First:]
-名字: 
+名字:
 [Last:]
-姓氏: 
+姓氏:
 [Advanced]
 高级
 [Advanced >>]
@@ -85,15 +85,15 @@ Miranda NG 配置文件管理员
 [No]
 否
 [A file containing new database settings has been placed in the Miranda NG directory.]
-Miranda NG 目录下有包含新数据库设置的文件. 
+Miranda NG 目录下有包含新数据库设置的文件.
 [Do you want to import the settings now?]
-您想现在导入这些设置吗? 
+您想现在导入这些设置吗?
 [No to all]
 全部否
 [&View contents]
 查看内容(&V)
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-防恶意变更安全系统已启用, 任何无法确知是否安全的变更, 都将警告. 
+防恶意变更安全系统已启用, 任何无法确知是否安全的变更, 都将警告.
 [Database setting change]
 数据库设置变更
 [Database settings are being imported from]
@@ -103,7 +103,7 @@ Miranda NG 目录下有包含新数据库设置的文件.
 [to the value]
 的值
 [Do you want to allow this change?]
-您是否允许此项变更? 
+您是否允许此项变更?
 [&Allow all further changes to this section]
 允许此部分中所有其它变更(&A)
 [Cancel import]
@@ -113,7 +113,7 @@ Miranda NG 目录下有包含新数据库设置的文件.
 [The import has completed from]
 导入已完成于
 [What do you want to do with the file now?]
-您现在想对此文件做什么? 
+您现在想对此文件做什么?
 [&Recycle]
 循环使用(&R)
 [&Delete]
@@ -159,23 +159,23 @@ Miranda NG 启动时显示此对话框
 [Sound information]
 声音信息
 [Location:]
-位置: 
+位置:
 [Name:]
-名称: 
+名称:
 [Enable sound events]
 启用声音事件
 [Icons]
 图标
 [Show category:]
-显示分类: 
+显示分类:
 [&Load icon set...]
-加载图标集(&L): 
+加载图标集(&L):
 [&Import icons >>]
 导入图标(&I) >>
 [Download more icons]
 下载更多图标
 [The following events are being ignored:]
-这些事件将被忽略: 
+这些事件将被忽略:
 [Messages]
 消息
 [URLs]
@@ -207,9 +207,9 @@ Miranda NG 启动时显示此对话框
 [Icon index]
 图标索引
 [Icon library:]
-图标库: 
+图标库:
 [Drag icons to main list to assign them:]
-拖放图标至主列表可关联它们: 
+拖放图标至主列表可关联它们:
 [Import multiple]
 多重导入
 [To main icons]
@@ -227,21 +227,21 @@ Miranda NG 启动时显示此对话框
 [Use proxy server]
 使用代理服务器
 [Type:]
-类型: 
+类型:
 [Host:]
-主机: 
+主机:
 [Port:]
 端口:
 [(often %d)]
 (通常是 %d)
 [Username:]
-用户名: 
+用户名:
 [Password:]
-密码: 
+密码:
 [Resolve hostnames through proxy]
 通过代理服务器解析主机名称
 [Port range:]
-端口范围: 
+端口范围:
 [Example: 1050-1070, 2000-2010, 2500]
 例如: 1050-1070,2000-2010,2500
 [Validate SSL certificates]
@@ -251,7 +251,7 @@ Miranda NG 启动时显示此对话框
 [Enable UPnP port mapping]
 启用 UPnP 端口对应
 [You will need to reconnect for the changes you have made on this page to take effect.]
-您需要重新连接才能让当前页变更生效. 
+您需要重新连接才能让当前页变更生效.
 [Please complete the following form to create a new user profile]
 请填写以下表格以创建新配置文件
 [Profile]
@@ -259,25 +259,25 @@ Miranda NG 启动时显示此对话框
 [e.g., Workplace]
 例如工作地点
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-您可以不使用默认配置驱动程序, 可提供更多功能. 如有疑问, 请使用默认. 
+您可以不使用默认配置驱动程序, 可提供更多功能. 如有疑问, 请使用默认.
 [e.g., Miranda Database]
 例如 Miranda 数据库
 [Driver]
 驱动程序
 [Description:]
-描述: 
+描述:
 [Author(s):]
-作者: 
+作者:
 [E-mail:]
-邮件: 
+邮件:
 [Homepage:]
-主页: 
+主页:
 [Unique ID:]
-独有 ID: 
+独有 ID:
 [Copyright:]
-版权: 
+版权:
 [Please restart Miranda NG for your changes to take effect.]
-请重启 Miranda NG 让您的变更生效. 
+请重启 Miranda NG 让您的变更生效.
 [Fonts and colors]
 字体及颜色
 [Undo]
@@ -297,13 +297,13 @@ Miranda NG 启动时显示此对话框
 [Font]
 字体
 [&Font:]
-字体(&F): 
+字体(&F):
 [Font st&yle:]
-字体样式(&Y): 
+字体样式(&Y):
 [\nStyles and effects are disabled for this font.]
 \n此字体禁用样式和效果.
 [&Size:]
-大小(&S): 
+大小(&S):
 [Effects]
 效果
 [Stri&keout]
@@ -311,11 +311,11 @@ Miranda NG 启动时显示此对话框
 [&Underline]
 下划线(&U)
 [&Color:]
-颜色(&C): 
+颜色(&C):
 [Sample]
 范例
 [Sc&ript:]
-字符集(&R): 
+字符集(&R):
 [&Apply]
 应用(&A)
 [&Help]
@@ -331,11 +331,11 @@ Miranda NG 启动时显示此对话框
 [Move to the status bar]
 移至状态栏
 [Warning!\r\nThis menu object not support user defined options.]
-警告! \r\n此 MenuObject 不支持用户自定义选项. 
+警告! \r\n此 MenuObject 不支持用户自定义选项.
 [Insert separator]
 插入分隔器
 [Service:]
-服务: 
+服务:
 [Default]
 默认
 [Set]
@@ -343,11 +343,11 @@ Miranda NG 启动时显示此对话框
 [Account order and visibility]
 帐号顺序及可见
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-注意: Miranda NG 需要重启使变更生效. 
+注意: Miranda NG 需要重启使变更生效.
 [Key bindings]
 按键绑定
 [Shortcut:]
-快速键: 
+快速键:
 [Add]
 添加
 [Remove]
@@ -363,9 +363,9 @@ Miranda NG 启动时显示此对话框
 [Accounts\nConfigure your IM accounts]
 账号\n配置您的 IM 账号
 [Account information:]
-帐号信息: 
+帐号信息:
 [Additional:]
-附加: 
+附加:
 [Configure network...]
 设置网络...
 [Get more protocols...]
@@ -399,7 +399,7 @@ Miranda NG 正准备重启. \n请稍候...
 [This font is used to display various additional notes.]
 此字体用于显示各种附加说明.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-欢迎使用 Miranda NG 帐号管理员! \n您可以在此设置您的即时通讯帐号. \n\n请从左方列表选择帐号查看可用选项. 您也可以点击列表下面的 "新增" 按钮设置新的即时通讯帐号. 
+欢迎使用 Miranda NG 帐号管理员! \n您可以在此设置您的即时通讯帐号. \n\n请从左方列表选择帐号查看可用选项. 您也可以点击列表下面的 "新增" 按钮设置新的即时通讯帐号.
 [Event icon legend:]
 事件图标图例:
 [Font effect]
@@ -419,7 +419,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Add to Existing MetaContact]
 加至已存在中继联系人
 [Please select a MetaContact:]
-请选择一位中继联系人: 
+请选择一位中继联系人:
 [Sort Alphabetically]
 按字母顺序排序
 [Editing]
@@ -463,23 +463,23 @@ Miranda NG 正准备重启. \n请稍候...
 [History Copy]
 复制历史
 [Please wait while the contact's history is copied.]
-正在复制联系人历史, 请稍候. 
+正在复制联系人历史, 请稍候.
 [History Remove]
 移除历史
 [Please wait while the contact's history is removed.]
-正在移除联系人历史, 请稍候. 
+正在移除联系人历史, 请稍候.
 [Subcontact Priorities]
 子联系人优先级
 [Rank:]
-排名: 
+排名:
 [(Lower ranks are preferred)]
 (首选低排名)
 [Last modified using:]
-最后修改时使用: 
+最后修改时使用:
 [Date:]
 日期:
 [Locale:]
-语系: 
+语系:
 [Download more language packs]
 下载更多语言包
 [Tray]
@@ -547,7 +547,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Decide &later]
 稍后决定(&L)
 [Reason:]
-原因: 
+原因:
 [Denial reason:]
 拒绝原因:
 [Add to contact list if authorized]
@@ -567,7 +567,7 @@ Miranda NG 正准备重启. \n请稍候...
 [By default, use the same message as last time]
 默认使用与最后一次相同的消息
 [By default, use this message:]
-默认使用此消息: 
+默认使用此消息:
 [Use %time% for the current time, %date% for the current date]
 请使用 %time% 作为当前时间, %date% 作为当前日期
 [Status messages:]
@@ -579,7 +579,7 @@ Miranda NG 正准备重启. \n请稍候...
 [&Send]
 发送(&S)
 [Show these events only:]
-仅显示下列事件: 
+仅显示下列事件:
 [Actions]
 操作
 [Nick changes]
@@ -611,7 +611,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Enable highlighting]
 启用突出显示
 [Limit log text to (events):]
-限制记录文本为 (事件): 
+限制记录文本为 (事件):
 [Trim to (KB)]
 截短为 (KB)
 [Words to highlight (wildcards allowed)]
@@ -623,9 +623,9 @@ Miranda NG 正准备重启. \n请稍候...
 [Other]
 其它
 [Add new rooms to group:]
-添加新房间到群组: 
+添加新房间到群组:
 [Nick list row distance (pixels):]
-用户列表列间距 (像素): 
+用户列表列间距 (像素):
 [Use same style as in the message log]
 消息记录使用相同的样式
 [Use default colors]
@@ -733,7 +733,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Show title bar]
 显示标题栏
 [Title bar text:]
-标题栏文本: 
+标题栏文本:
 [Show drop shadow (restart required)]
 使用下拉阴影 (需要重启)
 [Pin to desktop]
@@ -759,9 +759,9 @@ Miranda NG 正准备重启. \n请稍候...
 [Transparent contact list]
 联系人列表透明化
 [Inactive opacity:]
-未激活时透明度: 
+未激活时透明度:
 [Active opacity:]
-激活时透明度: 
+激活时透明度:
 [Items]
 项目
 [Show divider between online and offline contacts]
@@ -779,7 +779,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Dim idle contacts]
 暗淡化闲置联系人
 ['Hide offline' means to hide:]
-'隐藏离线' 的意思是隐藏: 
+'隐藏离线' 的意思是隐藏:
 [Groups]
 群组
 [Draw a line alongside group names]
@@ -793,7 +793,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Quick search in open groups only]
 仅在打开的群组内快速搜索
 [Indent groups by:]
-缩排群组: 
+缩排群组:
 [pixels]
 像素
 [Visual]
@@ -801,19 +801,19 @@ Miranda NG 正准备重启. \n请稍候...
 [Scroll list smoothly]
 平滑滚动列表
 [Time:]
-时间: 
+时间:
 [milliseconds]
 毫秒
 [Left margin:]
-左边界: 
+左边界:
 [Hide vertical scroll bar]
 隐藏垂直滚动条
 [Row height:]
-列高: 
+列高:
 [Gamma correction]
 伽玛亮度校正
 [Gray out entire list when:]
-下列清况将整个列表变灰: 
+下列清况将整个列表变灰:
 [Contact list background]
 联系人列表背景
 [Background color]
@@ -893,13 +893,13 @@ Miranda NG 正准备重启. \n请稍候...
 [Send file(s)]
 发送文件
 [To:]
-给: 
+给:
 [File(s):]
-文件: 
+文件:
 [&Choose again...]
 再次选择(&C)...
 [Total size:]
-累计大小: 
+累计大小:
 [Incoming file transfer]
 传入文件传输
 [A&ccept]
@@ -907,17 +907,17 @@ Miranda NG 正准备重启. \n请稍候...
 [&Decline]
 拒绝(&D)
 [From:]
-从: 
+从:
 [Files:]
-文件: 
+文件:
 [Save to:]
-保存至: 
+保存至:
 [&Open...]
 打开...
 [Open &folder]
 打开文件夹
 [Transfer completed, open file(s).]
-传输已完成, 打开文件. 
+传输已完成, 打开文件.
 [No data transferred]
 无已传输资料
 [File already exists]
@@ -943,9 +943,9 @@ Miranda NG 正准备重启. \n请稍候...
 [Existing file]
 已存在文件
 [Size:]
-大小: 
+大小:
 [Last modified:]
-最后修改于: 
+最后修改于:
 [Open file]
 打开文件
 [File properties]
@@ -961,7 +961,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Receiving files]
 接收文件
 [Received files folder:]
-已接收文件的文件夹: 
+已接收文件的文件夹:
 [Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
 允许变量: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%
 [Auto-accept incoming files from people on my contact list]
@@ -975,7 +975,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Virus scanner]
 病毒扫描程序
 [Scan files:]
-扫描文件: 
+扫描文件:
 [Never, do not use virus scanning]
 永不, 不使用病毒扫描
 [When all files have been downloaded]
@@ -983,7 +983,7 @@ Miranda NG 正准备重启. \n请稍候...
 [As each file finishes downloading]
 当每个文件完成下载时
 [Command line:]
-命令行: 
+命令行:
 [%f will be replaced by the file or folder name to be scanned]
 %f 将会被扫描的文件或文件夹名称所替换
 [Warn me before opening a file that has not been scanned]
@@ -1001,7 +1001,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Credits >]
 贡献者 >
 [Become idle if the following is left unattended:]
-下列无故离开情况变为闲置: 
+下列无故离开情况变为闲置:
 [Become idle if the screen saver is active]
 屏幕保护程序启用时变为闲置
 [Become idle if a terminal session is disconnected]
@@ -1013,7 +1013,7 @@ Miranda NG 正准备重启. \n请稍候...
 [for]
 于
 [Change my status mode to:]
-将我的状态变为: 
+将我的状态变为:
 [Do not set status back to online when returning from idle]
 从闲置返回时不要将状态置为在线
 [Idle options]
@@ -1025,7 +1025,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Idle (auto-away):]
 闲置 (自动离开):
 [Automatically popup window when:]
-自动弹出窗口当: 
+自动弹出窗口当:
 [In background]
 在背景
 [Close the message window on send]
@@ -1065,9 +1065,9 @@ Miranda NG 正准备重启. \n请稍候...
 [Send error]
 发送错误
 [An error has occurred. The protocol reported the following error:]
-发生错误. 协议已回报了此错误: 
+发生错误. 协议已回报了此错误:
 [while sending the following message:]
-发送下列消息时: 
+发送下列消息时:
 [Try again]
 再试一次
 [Message session]
@@ -1097,7 +1097,7 @@ Miranda NG 正准备重启. \n请稍候...
 [Show formatting]
 显示格式
 [Send typing notifications to the following users when you are typing a message to them:]
-当您键入消息时, 发送键入通知给这些用户: 
+当您键入消息时, 发送键入通知给这些用户:
 [Show typing notifications when a user is typing a message]
 当用户键入消息时显示键入通知
 [Update inactive message window icons when a user is typing]
@@ -1125,7 +1125,7 @@ Miranda NG 正准备重启. \n请稍候...
 [&Find next]
 找下一个(&F)
 [Find what:]
-查找什么: 
+查找什么:
 [Message history]
 消息历史
 [&Find...]
@@ -1133,9 +1133,9 @@ Miranda NG 正准备重启. \n请稍候...
 [Add phone number]
 添加电话号码
 [Enter country, area code and phone number:]
-请输入国家, 区号及电话号码: 
+请输入国家, 区号及电话号码:
 [Or enter a full international number:]
-或输入完整的国际号码: 
+或输入完整的国际号码:
 [Phone can receive SMS text messages]
 此电话号码可接收 SMS 文本消息
 [Add e-mail address]
@@ -1149,57 +1149,57 @@ Miranda NG 正准备重启. \n请稍候...
 [Updating]
 更新中
 [Nickname:]
-昵称: 
+昵称:
 [First name:]
-名字: 
+名字:
 [Gender:]
-性别: 
+性别:
 [Last name:]
-姓氏: 
+姓氏:
 [Age:]
-年龄: 
+年龄:
 [Date of birth:]
-出生日期: 
+出生日期:
 [Marital status:]
-婚姻状况: 
+婚姻状况:
 [Phone:]
-电话: 
+电话:
 [Web page:]
-网页: 
+网页:
 [Past background:]
-过往背景: 
+过往背景:
 [Interests:]
-兴趣: 
+兴趣:
 [About:]
-关于: 
+关于:
 [My notes:]
-我的便笺: 
+我的便笺:
 [Street:]
-街道: 
+街道:
 [City:]
-城市: 
+城市:
 [State:]
-州: 
+州:
 [Postal code:]
-邮政编码: 
+邮政编码:
 [Country:]
-国家: 
+国家:
 [Spoken languages:]
-口语: 
+口语:
 [Timezone:]
-时区: 
+时区:
 [Local time:]
-本地时间: 
+本地时间:
 [Set custom time zone]
 设置自定义时区
 [Company:]
-公司: 
+公司:
 [Department:]
-部门: 
+部门:
 [Position:]
-职务: 
+职务:
 [Website:]
-网站: 
+网站:
 [%s requests authorization]
 %s 请求授权
 [%u requests authorization]
@@ -1239,25 +1239,25 @@ Miranda NG 正准备重启. \n请稍候...
 [Re&ad status message]
 阅读状态消息(&A)
 [I've been away since %time%.]
-我已在 %time% 外出. 
+我已在 %time% 外出.
 [Give it up, I'm not in!]
-放弃吧, 我不在! 
+放弃吧, 我不在!
 [Not right now.]
-现在不行. 
+现在不行.
 [Give a guy some peace, would ya?]
-给我一点安宁, 好吗? 
+给我一点安宁, 好吗?
 [I'm a chatbot!]
-我是聊天机器人! 
+我是聊天机器人!
 [Yep, I'm here.]
-是, 我在这里. 
+是, 我在这里.
 [Nope, not here.]
-不, 不在这里. 
+不, 不在这里.
 [I'm hiding from the mafia.]
-我现在正在躲仇家. 
+我现在正在躲仇家.
 [That'll be the phone.]
-电话联系吧. 
+电话联系吧.
 [Mmm... food.]
-嗯... 食物. 
+嗯... 食物.
 [idleeeeeeee]
 闲置
 [Status]
@@ -1739,7 +1739,7 @@ Miranda NG 正准备重启. \n请稍候...
 [%d directories]
 %d 个目录
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
-此文件尚未扫描病毒. 您确定要打开? 
+此文件尚未扫描病毒. 您确定要打开?
 [File received]
 已接收文件
 [of]
@@ -1801,13 +1801,13 @@ Miranda NG 主页(&M)
 [Idle]
 闲置
 [The message send timed out.]
-发送消息已超时. 
+发送消息已超时.
 [Incoming message (10x10)]
 传入消息 (10x10)
 [Outgoing message (10x10)]
 发送消息 (10x10)
 [Last message received on %s at %s.]
-最后消息接收于 %s %s. 
+最后消息接收于 %s %s.
 [%s is typing a message...]
 %s 正在键入消息...
 [File sent]
@@ -1879,7 +1879,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [History for %s]
 %s 的历史
 [Are you sure you want to delete this history item?]
-您确定要删除此历史项目? 
+您确定要删除此历史项目?
 [Delete history]
 删除历史
 [View &history]
@@ -1897,7 +1897,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [Edit phone number]
 编辑电话号码
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-电话号码应以 + 开头, 由数字, 空格, 括号及直线组成. 
+电话号码应以 + 开头, 由数字, 空格, 括号及直线组成.
 [Invalid phone number]
 无效电话号码
 [Primary]
@@ -1939,7 +1939,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [Add contact]
 添加联系人
 [Please authorize my request and add me to your contact list.]
-请授权我的请求, 并将我加至您的联系人列表中. 
+请授权我的请求, 并将我加至您的联系人列表中.
 [Custom status]
 自定义状态
 [%s (locked)]
@@ -1949,7 +1949,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [(Unknown contact)]
 (未知联系人)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
-此联系人保存于即时通信系统中央服务器的联系人列表中. 下次登录时将从服务器和您的联系人列表中移除此联系人. 
+此联系人保存于即时通信系统中央服务器的联系人列表中. 下次登录时将从服务器和您的联系人列表中移除此联系人.
 [De&lete]
 删除(&L)
 [&Rename]
@@ -1987,7 +1987,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [Delete group]
 删除群组
 [You already have a group with that name. Please enter a unique name for the group.]
-您已有同名群组. 请为群组输入独有的名称. 
+您已有同名群组. 请为群组输入独有的名称.
 [Rename group]
 重命名群组
 [This group]
@@ -2005,9 +2005,9 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 [<Root group>]
 <根群组>
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
-Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_mmap.dll 或类似插件. 
+Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_mmap.dll 或类似插件.
 [No profile support installed!]
-未安装配置文件支持! 
+未安装配置文件支持!
 [Miranda can't understand that profile]
 Miranda 无法识别此配置文件
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2029,7 +2029,7 @@ Miranda 无法打开此配置文件
 [The profile already exists]
 配置文件已存在
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-无法将 '%s' 移到回收站. 请选择其它配置文件名称. 
+无法将 '%s' 移到回收站. 请选择其它配置文件名称.
 [Problem moving profile]
 移动配置文件出现问题
 [Unable to create the profile '%s', the error was %x]
@@ -2041,7 +2041,7 @@ Miranda 无法打开此配置文件
 [<In use>]
 <使用中>
 [Are you sure you want to remove profile "%s"?]
-您确定想移除配置文件 "%s"? 
+您确定想移除配置文件 "%s"?
 [Size]
 大小
 [Run]
@@ -2057,13 +2057,13 @@ Miranda 无法打开此配置文件
 [Extra icons]
 额外图标
 [You haven't filled in the search field. Please enter a search term and try again.]
-您尚未填写检索字段. 请输入搜索条件重试. 
+您尚未填写检索字段. 请输入搜索条件重试.
 [Search]
 搜索
 [Results]
 结果
 [There are no results to display.]
-无可显示结果. 
+无可显示结果.
 [Searching]
 正在搜索
 [All networks]
@@ -2073,9 +2073,9 @@ Miranda 无法打开此配置文件
 [&Find/Add contacts...]
 查找/添加联系人(&F)...
 [Could not start a search on '%s', there was a problem - is %s connected?]
-无法在 '%s' 启动搜索, 出现问题 - %s 是否已连接? 
+无法在 '%s' 启动搜索, 出现问题 - %s 是否已连接?
 [Could not search on any of the protocols, are you online?]
-无法搜索任何协议, 您是否已上线? 
+无法搜索任何协议, 您是否已上线?
 [Problem with search]
 搜索错误
 [1 %s user found]
@@ -2131,13 +2131,13 @@ Miranda 无法打开此配置文件
 [Languages]
 语言
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
-您要移除所有关联至此中继联系人者. \n这样将删除此中继联系人. \n\n仍要继续? 
+您要移除所有关联至此中继联系人者. \n这样将删除此中继联系人. \n\n仍要继续?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
-此联系人为中继联系人. \n\n您无法将中继联系人加至其他中继联系人中. \n\n请选择其他. 
+此联系人为中继联系人. \n\n您无法将中继联系人加至其他中继联系人中. \n\n请选择其他.
 [MetaContact Conflict]
 中继联系人冲突
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
-此联系人已经关联至中继联系人. \n\n您无法将一位联系人加至多个中继联系人中. 
+此联系人已经关联至中继联系人. \n\n您无法将一位联系人加至多个中继联系人中.
 [Multiple MetaContacts]
 多重中继联系人
 [No suitable MetaContact found]
@@ -2151,7 +2151,7 @@ Miranda 无法打开此配置文件
 [No MetaContact selected]
 无选定中继联系人
 [Assignment to the MetaContact failed.]
-中继联系人关联失败. 
+中继联系人关联失败.
 [Assignment failure]
 关联失败
 [(Unknown Contact)]
@@ -2161,7 +2161,7 @@ Miranda 无法打开此配置文件
 [Send Offline]
 离线发送
 [Delete MetaContact?]
-删除中继联系人? 
+删除中继联系人?
 [Toggle Off]
 切换关闭
 [Toggle On]
@@ -2177,7 +2177,7 @@ Miranda 无法打开此配置文件
 [There was a problem in assigning the contact to the MetaContact]
 指派中继联系人时发生错误
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
-此操作将永久移除中继联系人. \n\n仍要继续? 
+此操作将永久移除中继联系人. \n\n仍要继续?
 [Remove from metacontact]
 从中继联系人中移除
 [Toggle MetaContacts Off]
@@ -2197,7 +2197,7 @@ Miranda 无法打开此配置文件
 [Priorities]
 优先级
 [No online contacts found.]
-找不到任何联系人. 
+找不到任何联系人.
 [Could not retreive contact protocol]
 无法获取联系人协议
 [Assignment error]
@@ -2205,7 +2205,7 @@ Miranda 无法打开此配置文件
 [Could not get unique ID of contact]
 无法获取联系人独有 ID
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
-联系人 '不在列表中' - 请在指派前先将该联系人加至您的联系人列表中. 
+联系人 '不在列表中' - 请在指派前先将该联系人加至您的联系人列表中.
 [MetaContact is full]
 中继联系人已满员
 [Could not write contact protocol to MetaContact]
@@ -2247,13 +2247,13 @@ Miranda NG 选项
 [Fatal error]
 致命错误
 ['%s' is disabled, re-enable?]
-'%s' 已禁用, 重新启用? 
+'%s' 已禁用, 重新启用?
 [Re-enable Miranda plugin?]
-重新启用 Miranda 插件? 
+重新启用 Miranda 插件?
 [Unable to load plugin in Service Mode!]
-无法以服务模式加载插件! 
+无法以服务模式加载插件!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-无法启用任何已安装联系人列表插件, 甚至忽略参数选项中选定联系人列表都无法加载. 
+无法启用任何已安装联系人列表插件, 甚至忽略参数选项中选定联系人列表都无法加载.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 无法找到联系人列表插件! 您需要 clist_classic 或其它 clist 插件.
 [Plugin]
@@ -2269,7 +2269,7 @@ Miranda NG 选项
 [Upgrading account]
 升级帐号
 [Account is disabled. Please activate it to access options.]
-帐号已被禁用. 请激活以存取选项. 
+帐号已被禁用. 请激活以存取选项.
 [New account]
 新帐号
 [Remove account]
@@ -2387,7 +2387,7 @@ ANSI 插件
 [Main icons]
 主要图标
 [You need an image services plugin to process PNG images.]
-您需要图片服务插件处理 PNG 图片. 
+您需要图片服务插件处理 PNG 图片.
 [All bitmaps]
 所有位图
 [Windows bitmaps]
@@ -2423,7 +2423,7 @@ PNG 位图
 [Armenia]
 亚美尼亚
 [Aruba]
- 阿鲁巴岛 
+阿鲁巴岛
 [Australia]
 澳大利亚
 [Austria]
@@ -2737,7 +2737,7 @@ PNG 位图
 [Saint Kitts and Nevis]
 圣克里斯托弗及尼维斯
 [Saint Lucia]
- 圣卢西亚 
+圣卢西亚
 [Saint Pierre and Miquelon]
 圣皮埃尔及密克隆
 [Saint Vincent and the Grenadines]
@@ -2789,7 +2789,7 @@ PNG 位图
 [Tajikistan]
 塔吉克斯坦
 [Tanzania]
- 坦桑尼亚 
+坦桑尼亚
 [Thailand]
 泰国
 [Togo]

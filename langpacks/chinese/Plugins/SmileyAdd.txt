@@ -10,7 +10,7 @@
 [Specify smiley pack for each category]
 为每个分类指定表情包
 [Name:]
-名称: 
+名称:
 [Replace only smileys surrounded by spaces]
 仅替换以空格包围表情
 [Scale smiley to text height]

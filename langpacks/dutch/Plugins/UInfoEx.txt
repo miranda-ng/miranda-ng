@@ -402,7 +402,7 @@ Alle personen importeren
 [Backup birthdays]
 Verjaardagen backuppen
 [Check anniversaries]
-Controleer feesten 
+Controleer feesten
 [Extended UserInfo]
 Extended UserInfo
 [My Notes:]

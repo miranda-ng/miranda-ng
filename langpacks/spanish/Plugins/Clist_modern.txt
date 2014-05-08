@@ -247,7 +247,7 @@ No mover usuario fuera de línea al final
 [Contact list]
 Lista de contactos
 [Contact list sorting]
-Clasificación de la lista de contacto 
+Clasificación de la lista de contacto
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
 [Gamma correction]

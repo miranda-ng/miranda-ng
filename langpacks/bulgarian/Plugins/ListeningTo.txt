@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
-Борави с информацията за възпроизведаното (песен, видео). 
+Борави с информацията за възпроизведаното (песен, видео).
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 Слуша.. информация

@@ -482,7 +482,7 @@ VBR или нет
 [Statistic]
 Статистика
 [Export text template]
-Шаблон текста экспорта 
+Шаблон текста экспорта
 [Use listening info]
 Использовать "Listening To"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]

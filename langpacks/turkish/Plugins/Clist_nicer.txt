@@ -570,7 +570,7 @@ Grup üyelerinin sayısı
 [Dividers]
 Ayıraçlar
 [Offline contacts to whom you have a different visibility]
-Farklı görünürlükte olduğunuz çevrimdışı kişiler 
+Farklı görünürlükte olduğunuz çevrimdışı kişiler
 [Frame titles]
 Başlıkları çerçevele
 [Contact list local time]

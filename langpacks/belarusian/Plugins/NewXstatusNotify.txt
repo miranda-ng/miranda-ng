@@ -319,7 +319,7 @@
 Змена статуса
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
-Усе 
+Усе
 [Log]
 Лог
 [This is status message]

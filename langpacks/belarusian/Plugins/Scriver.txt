@@ -11,7 +11,7 @@
 [Behavior]
 Паводзіны
 [Automatically pop up the window when]
-Аўтаматычна паказваць вакно калі 
+Аўтаматычна паказваць вакно калі
 [and stay minimized]
 і заставацца згорнутым
 [Cascade new windows]
@@ -741,7 +741,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 [Show popup for users leaving]
 Выйсці ўдзельнікаў
 [Show popup for users kicking other user]
-Выспятак 
+Выспятак
 [Show popup for notices]
 Паказаць вокны для абвестак
 [Show popup for name changes]

@@ -54,7 +54,7 @@ Seu nome
 [Other name]
 Outro nome
 [Timestamp (window)]
-Fuso Horário (janela) 
+Fuso Horário (janela)
 [Timestamp (logfile)]
 Fuso Horário (Registro)
 [Maximum number of events in the message window]
@@ -324,7 +324,7 @@ Definir até 5 cores que você pode usar com algumas variáveis
 [Close]
 Fechar
 [Update Preview]
-Atualizar Amostra 
+Atualizar Amostra
 [Save Template]
 Salvar modelo
 [Revert to Default]
@@ -602,7 +602,7 @@ Sobre o TabSRMM...
 [Protocol Button]
 Botão do Protocolo
 [Info button]
-Botão info 
+Botão info
 [Bold text]
 Texto em negrito
 [Italic text]
@@ -694,7 +694,7 @@ entrou e agora é %s.
 [changed status from %s to %s.]
 Estado alterado de %s para %s.
 [Smiley selector]
-Seletor de Smiley 
+Seletor de Smiley
 [TabSRMM Information]
 Informação do TabSRMM
 [contact]

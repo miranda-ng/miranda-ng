@@ -26,7 +26,7 @@ Saindo notificação WATrack
 [&Copy Link]
 &Copiar Link
 [WATrack notify]
-Notificar WATrack 
+Notificar WATrack
 [Imitate IEView API]
 Imitate IEView API
 [Enable raw RTF support]
@@ -54,7 +54,7 @@ Delimitar Pesquisa
 [Copy All]
 Copie todos
 [SMS Message]
-Mensagem SMS 
+Mensagem SMS
 [Global History Search]
 Pesquisar Histórico Global
 [Search for]

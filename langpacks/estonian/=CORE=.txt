@@ -539,7 +539,7 @@ Kuva hoiatus, kui teadet ei ole saadud peale
 [Enable avatar support in the message window]
 Võimalda avatari-toetus teadete aknas
 [Limit avatar height to]
-Limiteeri avatari kõrgus 
+Limiteeri avatari kõrgus
 [Send error]
 Saada viga
 [Try again]

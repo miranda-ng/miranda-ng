@@ -230,7 +230,7 @@ z контакт со свойством y, описанным в x, приме�
 [(ANSI input only) substring match number z found in subject y with pattern x]
 (Только ANSI ввод) подстрока совпадения z найдена в теме y с шаблоном x
 [String Functions]
-Строковые функции 
+Строковые функции
 [converts each first letter of a word to uppercase, all others to lowercase]
 переводит каждую первую букву слова в ЗАГЛАВНУЮ, все остальные в строчные
 [converts each first letter of a word to uppercase]

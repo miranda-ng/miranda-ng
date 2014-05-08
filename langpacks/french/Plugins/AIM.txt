@@ -165,13 +165,13 @@ Limite de taux de serveur dépassée.
 [Client rate limit exceeded]
 
 [Recipient is not logged in.]
-Le destinataire n'est pas connecté. 
+Le destinataire n'est pas connecté.
 [Requested service is unavailable.]
 Le service demandé est indisponible.
 [Requested service is not defined.]
 Le service demandé n'est pas défini.
 [You sent obsolete SNAC.]
-Vous avez envoyé un SNAC obsolète. 
+Vous avez envoyé un SNAC obsolète.
 [Not supported by server.]
 Non supporté par le serveur.
 [Not supported by the client.]

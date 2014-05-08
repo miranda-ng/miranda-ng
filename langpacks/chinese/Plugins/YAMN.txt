@@ -8,17 +8,17 @@
 [Installed plugins]
 已安装插件
 [Description:]
-描述: 
+描述:
 [Copyright:]
-版权: 
+版权:
 [Name:]
-名称: 
+名称:
 [Port:]
 端口:
 [User Name:]
 用户名:
 [Password:]
-密码: 
+密码:
 [Codepage:]
 代码页:
 [Default]
@@ -32,7 +32,7 @@
 [Startup check]
 启动时检查
 [Check interval [min]:]
-检查间隔 [分钟]: 
+检查间隔 [分钟]:
 [Only check when...]
 仅检查当...
 [Auto retrieve body]
@@ -172,7 +172,7 @@ YAMN: 连接已失败
 [Size]
 大小
 [Do you really want to delete %d selected mails?]
-您真的想删除 %d 个已选定邮件? 
+您真的想删除 %d 个已选定邮件?
 [Delete confirmation]
 确认删除
 [Part]
@@ -182,17 +182,17 @@ YAMN: 连接已失败
 [POP3 protocol (internal)]
 POP3 协议 (内置)
 [Found new version of account book, not compatible with this version of YAMN.]
-找到新版本帐户簿, 与此版本 YAMN 不兼容. 
+找到新版本帐户簿, 与此版本 YAMN 不兼容.
 [YAMN (internal POP3) read error]
 YAMN (内置 POP3) 读取错误
 [Error reading account file. Account file corrupted.]
-无法读取帐号文件. 帐号文件已损坏. 
+无法读取帐号文件. 帐号文件已损坏.
 [Memory allocation error while data reading]
 读取资料时发生内存分配错误
 [Reading file error. File already in use?]
-文件读取时发生错误. 文件已在使用中? 
+文件读取时发生错误. 文件已在使用中?
 [Error while copying data to disk occurred. Is file in use?]
-复制资料至磁盘时发生错误. 文件正在使用中? 
+复制资料至磁盘时发生错误. 文件正在使用中?
 [POP3 plugin - write file error]
 POP3 插件 - 读取文件错误
 [Connecting to server]
@@ -210,49 +210,49 @@ POP3 插件 - 读取文件错误
 [Deleting spam]
 正在删除垃圾邮件
 [Memory allocation error.]
-内存分配错误. 
+内存分配错误.
 [Account is about to be stopped.]
-帐号正准备停止. 
+帐号正准备停止.
 [Cannot connect to POP3 server.]
-无法连接至 POP3 服务器. 
+无法连接至 POP3 服务器.
 [Cannot allocate memory for received data.]
-无法为接收资料分配内存. 
+无法为接收资料分配内存.
 [Cannot login to POP3 server.]
-无法登录 POP3 服务器. 
+无法登录 POP3 服务器.
 [Bad user or password.]
-用户名或密码不正确. 
+用户名或密码不正确.
 [Server does not support APOP authorization.]
-服务器不支持 APOP 认证. 
+服务器不支持 APOP 认证.
 [Error while executing POP3 command.]
-当运行 POP3 命令时出错. 
+当运行 POP3 命令时出错.
 [Cannot connect to server with NetLib.]
-无法以 NetLib 连接至服务器. 
+无法以 NetLib 连接至服务器.
 [Cannot send data.]
-无法发送资料. 
+无法发送资料.
 [Cannot receive data.]
-无法接收资料. 
+无法接收资料.
 [OpenSSL not loaded.]
-未加载 OpenSSL. 
+未加载 OpenSSL.
 [Windows socket 2.0 init failed.]
-Windows socket 2.0 初始化失败. 
+Windows socket 2.0 初始化失败.
 [DNS lookup error.]
-DNS 查找出错. 
+DNS 查找出错.
 [Error while creating base socket.]
-建立底层套接字时出错. 
+建立底层套接字时出错.
 [Error connecting to server with socket.]
-以套接字连接至服务器时出错. 
+以套接字连接至服务器时出错.
 [Error while creating SSL structure.]
 建立 SSL 结构时出错
 [Error connecting socket with SSL.]
 以 SSL 连接套接字时出错
 [Server rejected connection with SSL.]
-服务器已拒绝 SSL 连接. 
+服务器已拒绝 SSL 连接.
 [Cannot write SSL data.]
-无法写入 SSL 资料. 
+无法写入 SSL 资料.
 [Cannot read SSL data.]
-无法读取 SSL 资料. 
+无法读取 SSL 资料.
 [Error %d-%d-%d-%d:]
-错误 %d-%d-%d-%d: 
+错误 %d-%d-%d-%d:
 [Network]
 网络
 [Accounts]
@@ -276,11 +276,11 @@ DNS 查找出错.
 [Failed]
 已失败
 [Do you really want to delete this account?]
-您真的要删除此帐号? 
+您真的要删除此帐号?
 [Delete account confirmation]
 确认删除帐号
 [Please wait while no account is in use.]
-请稍后直至无帐号使用中. 
+请稍后直至无帐号使用中.
 [This is not a valid number value]
 非有效数值
 [Input error]

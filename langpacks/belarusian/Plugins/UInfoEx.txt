@@ -420,7 +420,7 @@ E-Mail
 [Age/Nr.]
 Узрост
 [Anniversary]
-Свята 
+Свята
 [Date]
 Дата
 [All contacts]

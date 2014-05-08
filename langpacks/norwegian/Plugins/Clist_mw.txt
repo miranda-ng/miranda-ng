@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: Bethoven 
+;  Authors: Bethoven
 ;============================================================
 [Stretch to width]
 Strekk til bredde
@@ -262,7 +262,7 @@ Bakgrunner
 [Standard contacts]
 Standard kontakter
 [Online contacts to whom you have a different visibility]
-Påloggede kontakter du har en annen synlighet ovenfor 
+Påloggede kontakter du har en annen synlighet ovenfor
 [Offline contacts]
 Frakoblede kontakter
 [Contacts which are 'not on list']

@@ -130,7 +130,7 @@ Convites
 [Excepts]
 Excertos
 [Only Ops set topic]
-Apenas opções do conjunto tópico 
+Apenas opções do conjunto tópico
 [No external messages]
 Não há mensagens externas
 [Invite only]
@@ -320,7 +320,7 @@ CTCP pedido %s enviado para %s
 [DCC ERROR: Unable to automatically resolve external IP]
 ERRO de DCC: Impossível determinar automaticamente o IP externo
 [DCC CHAT request sent to %s]
-DCC CHAT pedido enviado para %s 
+DCC CHAT pedido enviado para %s
 [DCC ERROR: Unable to bind port]
 DCC ERRO: Não é possível vincular porta
 [Input command]
@@ -604,7 +604,7 @@ Conectando-se a
 [Channel]
 Canal
 [---- Not listed server ----]
----- Servidor não listado ---- 
+---- Servidor não listado ----
 [Type new server address here]
 Digite o endereço do servidor novo aqui
 [Add ban/invite/exception]

@@ -151,7 +151,7 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 [Contact '%s' has %d events in history.]
 Кантакт '%s' мае %d падзей у гісторыі.
 [Error setting nickname to '%s' for protocol '%s']
-Памылка ўстаноўкі мянушкі '%s' для пратакола '%s' 
+Памылка ўстаноўкі мянушкі '%s' для пратакола '%s'
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 Немагчыма стварыць сервер CommandLine!

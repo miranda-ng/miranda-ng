@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable sending listening information to contacts:]
-启用发送聆听信息给联系人: 
+启用发送聆听信息给联系人:
 [Radio]
 收音机
 [You also have to enable it per protocol in the main menu]
@@ -14,7 +14,7 @@
 [XStatus]
 扩展状态
 [For protocols that don't support listening to but support XStatus:]
-为不支持聆听但支持扩展状态协议: 
+为不支持聆听但支持扩展状态协议:
 [Set XStatus to Music and show listening info]
 设置扩展状态为音乐并显示聆听信息
 [If other XStatus is not set, set XStatus to Music and show listening info]
@@ -44,7 +44,7 @@ foobar2000 (需要手动安装插件)
 [Template:]
 模板:
 [Variables:]
-变量: 
+变量:
 [%artist% - Artist name]
 %artist% - 演唱者姓名
 [%album% - Album name]
@@ -64,13 +64,13 @@ foobar2000 (需要手动安装插件)
 [%type% - Media type (Music, Radio, Video, etc.)]
 %type% - 媒体类型 (音乐, 广播, 视频等)
 [When variable not found, use:]
-找不到变量时, 使用: 
+找不到变量时, 使用:
 [Other Variables:]
-其它变量: 
+其它变量:
 [%listening% - Listening to info (as set above)]
 %listening% - 聆听信息 (设置如上)
 [When nothing is playing, replace %listening% with:]
-未播放时, 把 %listening% 替换为: 
+未播放时, 把 %listening% 替换为:
 [Send to %s]
 发送给 %s
 [ListeningTo]

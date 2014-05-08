@@ -20,6 +20,6 @@
 [User name or '*']
 Имя пользователя или '*'
 [E-mage LAN protocol]
-Протокол E-mage LAN 
+Протокол E-mage LAN
 [Network]
 Сеть

@@ -496,7 +496,7 @@ Jabber エージェント登録
 [Jabber Error]
 Jabber エラー
 [Outgoing XML parsing error]
-発信 XML 解析エラー 
+発信 XML 解析エラー
 [request timeout.]
 リクエストはタイムアウトしました
 [Node hierarchy]

@@ -50,13 +50,13 @@ ZIP 支持
 [Completed:]
 完成:
 [Speed:]
-速度: 
+速度:
 [Remaining:]
 剩余:
 [Summary]
 总结
 [To:]
-给: 
+给:
 [Nick]
 昵称
 [Close]

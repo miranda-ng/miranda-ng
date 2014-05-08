@@ -18,9 +18,9 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
 [Are you sure you want to delete %s?]
-您确定要删除 %s? 
+您确定要删除 %s?
 [This will erase all history and settings for this contact!]
-此操作将删除联系人所有历史及相关设置! 
+此操作将删除联系人所有历史及相关设置!
 [Contact List]
 联系人列表
 [Hide offline users]
@@ -92,11 +92,11 @@
 [Row gap]
 行距
 [Minimum row height:]
-最小行高: 
+最小行高:
 [Group row height]
 群组行高
 [Indent groups by:]
-缩排群组: 
+缩排群组:
 [Inner Row vertical padding]
 内部行垂直补位
 [Margins and spacing]
@@ -136,7 +136,7 @@
 [Display status message when available]
 当可用时显示状态消息
 [Show second text line:]
-显示第二行文本: 
+显示第二行文本:
 [Show contacts local time]
 显示联系人本地时间
 [Only when timezone differs]
@@ -168,7 +168,7 @@
 [Rounded border]
 圆角边框
 [Title bar text:]
-标题栏文本: 
+标题栏文本:
 [Pin to desktop]
 固定在桌面上
 [Show drop shadow (restart required)]
@@ -200,9 +200,9 @@
 [Transparent contact list]
 联系人列表透明化
 [Inactive opacity:]
-未激活时透明度: 
+未激活时透明度:
 [Active opacity:]
-激活时透明度: 
+激活时透明度:
 [Fade contact list in/out]
 联系人列表淡入/淡出
 [Fully transparent (like TweakUI)]
@@ -230,13 +230,13 @@
 [Scroll list smoothly]
 平滑滚动列表
 [Time:]
-时间: 
+时间:
 [milliseconds]
 毫秒
 [Hide vertical scroll bar]
 隐藏垂直滚动条
 [Gray out entire list when:]
-下列清况将整个列表变灰: 
+下列清况将整个列表变灰:
 [Contact List Background]
 联系人列表背景
 [Use Windows colors]
@@ -260,7 +260,7 @@
 [Use these settings to skin the entire background]
 使用这些设置绘制整个背景
 [If you enable this, the background settings will affect the entire contact list frame.]
-如果您启用此选项, 背景设置将影响整个联系人列表框架. 
+如果您启用此选项, 背景设置将影响整个联系人列表框架.
 [Status Bar]
 状态栏
 [Show status bar]
@@ -302,7 +302,7 @@
 [Last message]
 最后消息
 [Per contact skins:]
-每位联系人皮肤: 
+每位联系人皮肤:
 [< Reload]
 < 重新加载
 [Contact list skin]
@@ -360,15 +360,15 @@
 [Hide this contact from the list]
 从列表隐藏此联系人
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-要显示之前被隐藏的联系人, 请从 "选项->事件->忽略" , 由列表中搜索该联系人并选定. 
+要显示之前被隐藏的联系人, 请从 "选项->事件->忽略" , 由列表中搜索该联系人并选定.
 [Display options]
 显示选项
 [Show contact with priority]
 按优先级显示联系人
 [Show Avatar:]
-显示联系人: 
+显示联系人:
 [Show 2nd line:]
-显示第二行: 
+显示第二行:
 [Draw overlay icon on avatar]
 在头像上绘制层叠图标
 [Show local time]
@@ -604,7 +604,7 @@
 [No border]
 无框线
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-使用默认标题栏及框线时无法停靠联系人列表. 请改用工具窗口或无框线样式. 
+使用默认标题栏及框线时无法停靠联系人列表. 请改用工具窗口或无框线样式.
 [Contact list docking]
 停靠联系人列表
 [No events...]

@@ -15,7 +15,7 @@ Flash.ocx не зарэгістраваны!
 [Bugged Flash detected!]
 Выяўлены памылковы Flash!
 [You have installed Flash 8.\r\nThis version of Flash contains a bug which can cause random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
-Вы ўсталявалі Flash 8.\r\nДадзеная версія ўспышкі змяшчае памылку, якая можа выклікаць выпадковыя збоі.\r\nРэкамендуецца абнавіць ці панізіць вашу версію Flash 
+Вы ўсталявалі Flash 8.\r\nДадзеная версія ўспышкі змяшчае памылку, якая можа выклікаць выпадковыя збоі.\r\nРэкамендуецца абнавіць ці панізіць вашу версію Flash.
 [Flash avatars]
 Далучэнне Flash Avatars
 [Avatars]

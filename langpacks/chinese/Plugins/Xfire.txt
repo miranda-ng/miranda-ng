@@ -6,11 +6,11 @@
 ;  Authors: dufte
 ;============================================================
 [Password:]
-密码: 
+密码:
 [Login name:]
 登录名:
 [Nick:]
-昵称: 
+昵称:
 [Current protocol version:]
 当前协议版本:
 [Note: You can only change these settings, if you are connected to Xfire.]
@@ -70,7 +70,7 @@
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 支持以下变量: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]
-状态消息: 
+状态消息:
 [Change the status to occupied or dnd]
 更改状态为忙碌或请勿打扰
 [The status message and status will be reset, if you close the game.]
@@ -86,15 +86,15 @@
 [Remove]
 移除
 [Edit...]
-编辑: 
+编辑:
 [Username:]
-用户名: 
+用户名:
 [Game]
 游戏
 [Voicechat]
 语音聊天
 [Name:]
-名称: 
+名称:
 [Port:]
 端口:
 [User details]
@@ -110,7 +110,7 @@
 [Add game]
 添加游戏
 [Search:]
-搜索: 
+搜索:
 [Game exe:]
 游戏 exe:
 [Browse...]
@@ -126,19 +126,19 @@ XFire 选项
 [Please choose one game in the list!]
 请于列表选择一个游戏!
 [Yep, I'm here.]
-是, 我在这里. 
+是, 我在这里.
 [I've been away since %time%.]
-我已在 %time% 外出. 
+我已在 %time% 外出.
 [Give it up, I'm not in!]
-放弃吧, 我不在! 
+放弃吧, 我不在!
 [Not right now.]
-现在不行. 
+现在不行.
 [Give a guy some peace, would ya?]
-给我一点安宁, 好吗? 
+给我一点安宁, 好吗?
 [That'll be the phone.]
-电话联系吧. 
+电话联系吧.
 [Mmm... food.]
-嗯... 食物. 
+嗯... 食物.
 [Login failed.]
 登录失败.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]

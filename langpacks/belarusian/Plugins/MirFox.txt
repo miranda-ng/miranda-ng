@@ -17,7 +17,7 @@ MirFox (Міранда NG) - частка Міранда-Firefox інтэгра�
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
 пры націску сярэдняй кнопкі мышы\n(нататка: выкарыстоўвайце, каб адправіць некалькі паведамленняў з Firefox)
 [Firefox profiles]
-Конт Firefox 
+Конт Firefox
 [Show Miranda menu only in these Firefox profiles (comma delimited)]
 Паказаць Міранда меню толькі для гэтых профіляў (падзельнік коска)
 [Show these contacts in 'Send ... to' option in Firefox]

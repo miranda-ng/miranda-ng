@@ -12,11 +12,11 @@
 [&Create]
 建立(&C)
 [Password:]
-密码: 
+密码:
 [Set password]
 设置密码
 [Hint:]
-提示: 
+提示:
 [Enter password]
 输入密码
 [Cancel]
@@ -24,23 +24,23 @@
 [Status text:]
 状态文本:
 [Date of birth:]
-出生日期: 
+出生日期:
 [Gender:]
-性别: 
+性别:
 [Homepage:]
-主页: 
+主页:
 [About:]
-关于: 
+关于:
 [City:]
-城市: 
+城市:
 [State:]
-州: 
+州:
 [Country:]
-国家: 
+国家:
 [Timezone:]
-时区: 
+时区:
 [New password:]
-新密码: 
+新密码:
 [Name]
 名称
 [Conferences]

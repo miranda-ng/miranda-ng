@@ -38,7 +38,7 @@
 [in birthday list window]
 在生日列表窗口中
 [Timeout:]
-超时: 
+超时:
 [seconds]
 秒
 [Notify for]
@@ -56,7 +56,7 @@
 [Manage anniversaries]
 管理周年纪念
 [Description:]
-描述: 
+描述:
 [Date:]
 日期:
 [Delete]

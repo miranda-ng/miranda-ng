@@ -6,7 +6,7 @@
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
-Erweitertes Abwesenheitssystem mit vordefinierten Abwesenheitsnachrichten und vielen anderen Funktionen. 
+Erweitertes Abwesenheitssystem mit vordefinierten Abwesenheitsnachrichten und vielen anderen Funktionen.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
 Popupbenachrichtigung

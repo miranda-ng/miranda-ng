@@ -8,7 +8,7 @@
 [Log]
 Registro
 [&Format:]
-Formato: 
+Formato:
 [Cancel]
 Cancelar
 [Close]

@@ -16,9 +16,9 @@
 [Comment:]
 注释:
 [Password:]
-密码: 
+密码:
 [Current password:]
-当前密码: 
+当前密码:
 [Email]
 邮箱
 [Name]

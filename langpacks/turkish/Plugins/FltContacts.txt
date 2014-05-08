@@ -32,7 +32,7 @@ Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
 [Offline contacts]
 Çevrimdışı kişiler
 [Offline contacts to whom you have a different visibility]
-Farklı görünürlükte olduğunuz çevrimdışı kişiler 
+Farklı görünürlükte olduğunuz çevrimdışı kişiler
 [Contacts which are 'not on list']
 'listede olmayan' kişiler
 [Floating contacts]

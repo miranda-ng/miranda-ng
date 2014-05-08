@@ -320,7 +320,7 @@ xСтатус "%s"
 [Popups]
 Всплывающие окна
 [%s connection]
-%s подключение 
+%s подключение
 [Mail.ru Xstatus]
 Mail.ru Xstatus
 [Mail.ru extra info]

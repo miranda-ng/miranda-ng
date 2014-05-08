@@ -24,7 +24,7 @@
 [Change status back]
 恢复状态为
 [Password:]
-密码: 
+密码:
 [Cancel]
 取消
 [Windows is inactive]

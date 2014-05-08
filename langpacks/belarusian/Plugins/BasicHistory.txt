@@ -53,7 +53,7 @@
 [Limit messages to:]
 Абмежаваць паведамленні да:
 [Show date in timestamps]
-Паказваць дату 
+Паказваць дату
 [Show seconds in timestamps]
 Паказваць секунды
 [Enable Smileys]

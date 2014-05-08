@@ -8,7 +8,7 @@
 [Clear xStatus before set new one]
 Clear xStatus before set new one
 [Emulate Multimedia keys]
-Emular comandos Multimedia 
+Emular comandos Multimedia
 [Use XStatus]
 Use XStatus
 [Text insertion to other Apps]
@@ -42,7 +42,7 @@ Mostra barra da musica
 [Cover padding]
 Cover padding
 [Frame refresh time]
-Tempo de atualização do Frame 
+Tempo de atualização do Frame
 [Hide frame when no music played]
 Hide frame when no music played
 [Center horizontally]
@@ -128,7 +128,7 @@ Macro VBR
 [Insert in messages]
 Insert in messages
 [Use status messages]
-Use mensagens de status 
+Use mensagens de status
 [Independed XStatus]
  XStatus Independente
 [Use process implantation]
@@ -156,7 +156,7 @@ User message
 [Channel message]
 Mensagem do canal
 [Keep 'Music' XStatus]
-Mantem o XStatus 'Music' 
+Mantem o XStatus 'Music'
 [Add report file ext.]
 Add report file ext.
 [Freq. artists]

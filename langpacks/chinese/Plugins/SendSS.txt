@@ -16,15 +16,15 @@
 [Ti&med capture]
 定时抓取(&M)
 [Time (secs):]
-时间 (秒): 
+时间 (秒):
 [&Format:]
-格式(&F): 
+格式(&F):
 [Send B&y:]
-发送方法(&Y): 
+发送方法(&Y):
 [E&xplore]
 探索(&X)
 [&Fill description textbox.]
-填写描述文本框(&F). 
+填写描述文本框(&F).
 [Delete &after send]
 发送后删除(&A)
 [Open again]
@@ -40,9 +40,9 @@
 [Edit]
 编辑
 [Caption:]
-标题: 
+标题:
 [Size (HxW):]
-大小 (HxW): 
+大小 (HxW):
 [C&lient Area]
 客户端区域(&L)
 [An unknown error has occurred.]
@@ -50,7 +50,7 @@
 [Error]
 错误
 [Could not start the HTTP Server plugin.]
-无法启动 HTTP 服务器插件. 
+无法启动 HTTP 服务器插件.
 [Yes]
 是
 [No]
@@ -62,7 +62,7 @@
 [Screenshots]
 屏幕截图
 [Could not create main dialog.]
-无法建立主对话框. 
+无法建立主对话框.
 [Send Screenshot]
 发送屏幕截图
 [Send desktop screenshot]
@@ -70,7 +70,7 @@
 [Take a screenshot]
 进行截图
 [Could not register Miranda service.]
-无法注册 Miranda 服务. 
+无法注册 Miranda 服务.
 [Help]
 说明
 [Prev]
@@ -82,7 +82,7 @@
 [< Copyright]
 < 版权所有
 [Drag&Drop the target on the desired window.]
-请拖放目标至您所期望窗口. 
+请拖放目标至您所期望窗口.
 [Window]
 窗口
 [E-mail]

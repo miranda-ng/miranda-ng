@@ -378,7 +378,7 @@ Jerk
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 Ошибка DCC: Невозможно открыть локальный порт для пассивной передачи файлов
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [%s client-to-client connections]
 %s подключения между клиентами
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]

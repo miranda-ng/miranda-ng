@@ -12,21 +12,21 @@
 [User name:]
 用户名:
 [Password:]
-密码: 
+密码:
 [Cancel]
 取消
 [Host:]
-主机: 
+主机:
 [Port:]
 端口:
 [Name:]
-名称: 
+名称:
 [City:]
-城市: 
+城市:
 [Country:]
-国家: 
+国家:
 [Homepage:]
-主页: 
+主页:
 [seconds]
 秒
 [Background]

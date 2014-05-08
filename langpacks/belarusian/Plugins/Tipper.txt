@@ -313,7 +313,7 @@
 [Listening to:]
 Слухаю:
 [Copy all items with labels]
-Капіяваць усё з пазнакамі 
+Капіяваць усё з пазнакамі
 [Copy all items]
 Капіяваць усё
 [Copy avatar]
@@ -414,7 +414,7 @@ Email
 [[weather.dll] Max/Min temperature]
 (weather.dll) Макс/мін тэмпература
 [Max/Min:]
-Макс./мін. тэмпература: 
+Макс./мін. тэмпература:
 [[weather.dll] Moon]
 (weather.dll) Месяц
 [Moon:]

@@ -15,7 +15,7 @@
 [Add/Modify Custom Status]
 Дадаць/Змяніць хстатус
 [Add/Modify]
-Дадаць/Змяніць 
+Дадаць/Змяніць
 [Cancel]
 Скасаваць
 [List settings]

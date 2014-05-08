@@ -38,9 +38,9 @@
 [Options]
 选项
 [Add new rooms to group:]
-添加新房间到群组: 
+添加新房间到群组:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-聊天整合已禁用. 您可由此启用, 变更后 "必须重启" Miranda 生效. \n\n在此启用群组聊天支持后, 您 "必须" 禁用标准聊天插件. 否则都不能正常工作. 
+聊天整合已禁用. 您可由此启用, 变更后 "必须重启" Miranda 生效. \n\n在此启用群组聊天支持后, 您 "必须" 禁用标准聊天插件. 否则都不能正常工作.
 [Log files]
 日志文件
 [Enable logging to disk]
@@ -184,7 +184,7 @@
 [entries]
 项
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-以星号 (*) 标记选项将在 Miranda 重启后才会生效. 
+以星号 (*) 标记选项将在 Miranda 重启后才会生效.
 [More about advanced tweaks]
 关于高级调整的更多信息
 [Revert to (safe) defaults]
@@ -214,15 +214,15 @@
 [Message log view mode (does not affect open windows)]
 消息日志查看模式 (不影响已打开容器)
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-选择如何显示消息记录. 当所列出插件有未安装时, 此设置可能被忽略. 
+选择如何显示消息记录. 当所列出插件有未安装时, 此设置可能被忽略.
 [Send text formatting method]
 发送消息格式方式
 [You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
-您可在此覆盖文本格式化全局设置. 使用 "强制关闭" 可永不向此联系人发送格式化信息. 
+您可在此覆盖文本格式化全局设置. 使用 "强制关闭" 可永不向此联系人发送格式化信息.
 [ANSI codepage]
 ANSI 代码页
 [Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
-当发送或接收非 Unicode 消息时所使用的 ANSI 编码/解码代码页. 
+当发送或接收非 Unicode 消息时所使用的 ANSI 编码/解码代码页.
 [Info panel mode]
 信息面板模式
 [Show avatar in message window]
@@ -366,7 +366,7 @@ ANSI 代码页
 [Typing Notification]
 键入通知
 [Send typing notifications to the following users when you are typing a message to the them:]
-当您正在键入消息时, 发送键入通知给这些用户: 
+当您正在键入消息时, 发送键入通知给这些用户:
 [        Show typing notifications in the message window]
           在消息窗口显示键入通知
 [Flash window once on typing events (only if flashing enabled)]
@@ -418,7 +418,7 @@ ESC 键行为
 [Insert Separator]
 插件分隔器
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
-若要设置容器选项, 请使用容器设置对话框. 对话框可用以下方法呼出: \n1. 从容器系统菜单选择 "容器设置" \n2. 在任何消息窗口按钮栏或标签上鼠标右键. 
+若要设置容器选项, 请使用容器设置对话框. 对话框可用以下方法呼出: \n1. 从容器系统菜单选择 "容器设置" \n2. 在任何消息窗口按钮栏或标签上鼠标右键.
 [Tabs should be used in the following way]
 标签应使用以下方法
 [Use contact list groups for organizing tabs (one window per group)]
@@ -464,7 +464,7 @@ ESC 键行为
 [Edit template]
 编辑模板
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
-在模板上双击鼠标编辑. 从列表选择模板并点击 "更新预览" 显示预览消息. 
+在模板上双击鼠标编辑. 从列表选择模板并点击 "更新预览" 显示预览消息.
 [Get more help on variables]
 获取更多变量说明
 [Define up to 5 colors which you can use with some variables]
@@ -484,15 +484,15 @@ ESC 键行为
 [Tab text label padding vertical]
 标签文本垂直补位
 [Tab page padding:]
-标签补位: 
+标签补位:
 [inner]
 内部
 [outer]
 外部
 [Bottom tabs vertical adjustment:]
-底部标签垂直调整: 
+底部标签垂直调整:
 [NOTE: some settings will not affect open containers.]
-注意: 某些设置不会影响已打开容器. 
+注意: 某些设置不会影响已打开容器.
 [Tab layout tweaks]
 标签布局调整
 [About TabSRMM]
@@ -654,7 +654,7 @@ Ctrl+Enter 发送消息 (总是启用)
 [Always keep the button bar at full width]
 永远保持按钮栏完整宽度
 [Save this Picture As...]
-保存此图片为: 
+保存此图片为:
 [&Message Log Settings]
 消息记录设置(&M)
 [&Global...]
@@ -892,7 +892,7 @@ Ctrl+Enter 发送消息 (总是启用)
 [disabled]
 禁用
 [Sending typing notifications is %s.]
-发送键入通知当前%s. 
+发送键入通知当前%s.
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 会话列表.\n左键点击列表打开会话.\n右键访问我的最爱及快速配置消息窗口行为
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
@@ -960,11 +960,11 @@ TabSRMM 菜单
 [Message from %s]
 从 %s 收到的消息
 [signed off.]
-已注销. 
+已注销.
 [signed on and is now %s.]
-已登录, 当前%s. 
+已登录, 当前%s.
 [changed status from %s to %s.]
-的状态已由 %s 变更为 %s. 
+的状态已由 %s 变更为 %s.
 [Most recent unread session]
 最近未读会话
 [Paste and send]
@@ -1064,11 +1064,11 @@ TabSRMM 信息
 [Contact not on list. You may add it...]
 联系人不在名单中. 您可将其加上...
 [A message failed to send successfully.]
-无法成功发送消息. 
+无法成功发送消息.
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
-警告: 您正在粘贴的消息超过当前协议的消息大小限制. 它将被分段(最多 %d 字符)发送. 
+警告: 您正在粘贴的消息超过当前协议的消息大小限制. 它将被分段(最多 %d 字符)发送.
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
-您正在粘贴的消息超过当前协议的消息大小限制. 仅发送起始 %d 个字符. 
+您正在粘贴的消息超过当前协议的消息大小限制. 仅发送起始 %d 个字符.
 [Save and close session]
 保存并关闭会话
 [Autoscrolling is disabled (press F12 to enable it)]
@@ -1086,17 +1086,17 @@ TabSRMM 信息
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 您正在编辑用户注释. 再次点击按钮或使用热键 (默认: Alt-N) 保存注释并恢复正常通讯模式
 [Contact is offline and this protocol does not support sending files to offline users.]
-联系人离线, 协议不支持发送文件给离线用户. 
+联系人离线, 协议不支持发送文件给离线用户.
 [Error creating destination directory]
 建立目的目录发生错误
 [Save contact picture]
 保存联系人图片
 [The file exists. Do you want to overwrite it?]
-文件已存在. 您想覆盖它吗? 
+文件已存在. 您想覆盖它吗?
 [Set Your Avatar...]
 设置您的头像...
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
- "粘贴并发送" 功能已关闭. 您可以由 "选项 -> 发送消息 -> 常规" 里启用. 
+ "粘贴并发送" 功能已关闭. 您可以由 "选项 -> 发送消息 -> 常规" 里启用.
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 无论闪屏插件未安装或联系人协议不支持发送闪屏事件.
 ['(Unknown Contact)']
@@ -1104,7 +1104,7 @@ TabSRMM 信息
 [<no skin>]
 <无皮肤>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
-您想从主题中读取消息模板吗? \n注意: 这样将覆盖模板集, 并严重影响您的消息窗口显示方式. \n选择 "取消" 将不加载任何内容. 
+您想从主题中读取消息模板吗? \n注意: 这样将覆盖模板集, 并严重影响您的消息窗口显示方式. \n选择 "取消" 将不加载任何内容.
 [Load theme]
 加载主题
 [IEView plugin]
@@ -1260,11 +1260,11 @@ History++ 插件
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 此消息无法延迟或多重发送, 因为它超出了允许最大消息长度 %d 字节
 [A message delivery has failed.\nClick to open the message window.]
-一项消息递送已失败. \n请点击打开消息窗口. 
+一项消息递送已失败. \n请点击打开消息窗口.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 一项消息递送在聊天窗口关闭后失败. 您可能想重新发送最后消息
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-有正等候确认的未发消息. \n如果您现在关闭窗口, Miranda 将尝试发送他们, 但可能无法通知您任何递送错误. \n您确定要关闭窗口? 
+有正等候确认的未发消息. \n如果您现在关闭窗口, Miranda 将尝试发送他们, 但可能无法通知您任何递送错误. \n您确定要关闭窗口?
 [Message window warning]
 消息窗口警告
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
@@ -1294,9 +1294,9 @@ TabSRMM 消息 (%s)
 [Template Set Editor]
 模板集编辑器
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-此操作将重置模板集成的默认内置模板. 您确定想这样做? 
+此操作将重置模板集成的默认内置模板. 您确定想这样做?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-模板集已被重置完成, 请关闭并重新打开所有消息窗口. 此模板编辑器窗口现在将会关闭. 
+模板集已被重置完成, 请关闭并重新打开所有消息窗口. 此模板编辑器窗口现在将会关闭.
 [Semi transparent, custom colors]
 半透明, 自定义颜色
 [Silver shadow]
@@ -1304,7 +1304,7 @@ TabSRMM 消息 (%s)
 [Custom (use own gradient colors)]
 自定义 (使用自有渐变色)
 [All message containers need to close before the skin can be changed\nProceed?]
-在皮肤变更前需要先关闭所有消息容器\n要进行吗? 
+在皮肤变更前需要先关闭所有消息容器\n要进行吗?
 [Change skin]
 变更皮肤
 [Message window tweaks]
@@ -1444,9 +1444,9 @@ TabSRMM 消息 (%s)
 [Enable &typing notification]
 启用键入通知(&T)
 [...is typing a message.]
-...正在键入消息. 
+...正在键入消息.
 [...has stopped typing.]
-...已停止键入. 
+...已停止键入.
 [Contact started typing]
 联系人开始输入
 [Contact stopped typing]

@@ -8,7 +8,7 @@
 [ICQ Number:]
 ICQ 号码:
 [Password:]
-密码: 
+密码:
 [Create a new ICQ account]
 新建 ICQ 账号
 [&Send]
@@ -18,13 +18,13 @@ ICQ 号码:
 [Enter ICQ Password]
 输入 ICQ 密码
 [Enter a password for UIN %d:]
-请输入 UIN %d 的密码: 
+请输入 UIN %d 的密码:
 [Cancel]
 取消
 [ICQ number:]
-ICQ 号: 
+ICQ 号:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-提示: 如果您不在此输入密码, Miranda 将在每次上线时询问密码. 
+提示: 如果您不在此输入密码, Miranda 将在每次上线时询问密码.
 [Retrieve a lost password or ICQ number]
 取回丢失密码或 ICQ 号
 [Create a new ICQ account using the ICQ website]
@@ -44,7 +44,7 @@ ICQ 号:
 [Ignore concurrent error messages]
 忽略同时发生的错误消息
 [Show connection error messages:]
-显示连接错误消息: 
+显示连接错误消息:
 [ICQ contacts stored on server]
 ICQ 联系人存储在服务器中
 [Manage server's list...]
@@ -66,9 +66,9 @@ ICQ 头像
 [Load avatars automatically (like ICQ Lite)]
 自动加载头像 (类似 ICQ Lite)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-您需要重新连接至 ICQ 网络才能让本页所作变更生效. 
+您需要重新连接至 ICQ 网络才能让本页所作变更生效.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
-当您连接至 ICQ 网络时, 无法启用/禁用服务器端联系人列表. 
+当您连接至 ICQ 网络时, 无法启用/禁用服务器端联系人列表.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 注意: 以星号标记选项具有严重的副作用, 可能最初在帮助中未明确说明.
 [Messaging]
@@ -78,7 +78,7 @@ ICQ 头像
 [Send all messages in unicode if possible]
 如果可能的话以 Unicode 发送所有消息
 [Use this codepage for Ansi <-> Unicode translation:]
-使用此代码页做 Ansi <-> Unicode 转换: 
+使用此代码页做 Ansi <-> Unicode 转换:
 [Make me temporarily visible to contacts I send message to]
 让我暂时可见发送消息联系人
 [Peer-to-peer Messaging]
@@ -104,7 +104,7 @@ P2P 通信
 [Direct connections]
 直接连接
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
-允许直接连接将暴露您的 IP 地址, 但要使某些 ICQ 功能正常, 必须如此. 
+允许直接连接将暴露您的 IP 地址, 但要使某些 ICQ 功能正常, 必须如此.
 [Allow direct connections with any user]
 允许与任何用户直接连接
 [Allow direct connections with users on my contact list]
@@ -128,7 +128,7 @@ P2P 通信
 [Only reply to status message request from visible contacts]
 仅答复可见联系人的状态消息请求
 [Some options are grayed out because they can only be changed when you are online.]
-一些选项已被禁用, 因为它们只能在您在线时才能变更. 
+一些选项已被禁用, 因为它们只能在您在线时才能变更.
 [Options]
 选项
 [Enable popup support]
@@ -152,57 +152,57 @@ P2P 通信
 [Use default colors]
 使用默认颜色
 [External IP:]
-外部 IP: 
+外部 IP:
 [Protocol Version:]
-协议版本: 
+协议版本:
 [User Client:]
-用户客户端: 
+用户客户端:
 [System up since:]
-开机时间: 
+开机时间:
 [Idle since:]
-闲置时间: 
+闲置时间:
 [Summary]
 总结
 [Nickname:]
-昵称: 
+昵称:
 [First name:]
-名字: 
+名字:
 [Last name:]
-姓氏: 
+姓氏:
 [E-mail:]
-邮件: 
+邮件:
 [Gender:]
-性别: 
+性别:
 [Age:]
-年龄: 
+年龄:
 [Marital status:]
-婚姻状况: 
+婚姻状况:
 [Keywords:]
-关键字: 
+关键字:
 [Work]
 工作
 [Company:]
-公司: 
+公司:
 [Department:]
-部门: 
+部门:
 [Position:]
-职务: 
+职务:
 [Organization:]
-组织: 
+组织:
 [Location]
 位置
 [Country:]
-国家: 
+国家:
 [State:]
-州: 
+州:
 [City:]
-城市: 
+城市:
 [Background info]
 背景资料
 [Interests]
 兴趣
 [Category:]
-分类: 
+分类:
 [Homepage]
 主页
 [Other]
@@ -220,55 +220,55 @@ P2P 通信
 [Confirm Password Change]
 确认密码变更
 [Please re-type your new password:]
-请重新输入您的新密码: 
+请重新输入您的新密码:
 [Enter your current password:]
-请输入您的当前密码: 
+请输入您的当前密码:
 [Unable to connect to migrated ICQ communication server]
 无法连接至迁移 ICQ 通讯服务器
 [Unable to connect to ICQ communication server]
 无法连接至 ICQ 通讯服务器
 [You could not sign on because the server returned invalid data. Try again.]
-您无法登录, 因为服务器返回无效. 请重试. 
+您无法登录, 因为服务器返回无效. 请重试.
 [You have been disconnected from the ICQ network because the current server shut down.]
-您已从 ICQ 网络中离线, 因为当前服务器关机. 
+您已从 ICQ 网络中离线, 因为当前服务器关机.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
-连接失败. \n您的 ICQ 号码或密码被拒绝 (%d). 
+连接失败. \n您的 ICQ 号码或密码被拒绝 (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
-连接失败. \n服务器暂时无法使用 (%d). 
+连接失败. \n服务器暂时无法使用 (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
-连接失败. \n服务器已有过多您的 IP 连接 (%d). 
+连接失败. \n服务器已有过多您的 IP 连接 (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-连接失败. \n您的连接过于频繁, \n请稍候, 10 至 20 分钟后再重试 (%d). 
+连接失败. \n您的连接过于频繁, \n请稍候, 10 至 20 分钟后再重试 (%d).
 [Connection failed.\nThe server did not accept this client version.]
-连接失败. \n服务器不接受此客户端版本. 
+连接失败. \n服务器不接受此客户端版本.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
-服务器已发送警告, 此版本过旧. \n请尝试更新. 
+服务器已发送警告, 此版本过旧. \n请尝试更新.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-连接失败. \n您由于未知原因被服务器拒绝. 这可能在 UIN 已连接情况下发生. 
+连接失败. \n您由于未知原因被服务器拒绝. 这可能在 UIN 已连接情况下发生.
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
-连接失败. \n此帐号不支持安全 (MD5) 登录. 
+连接失败. \n此帐号不支持安全 (MD5) 登录.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
 连接失败. \n登录时发生未知错误: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
-您已从 ICQ 网络上断开连接, 因为您已从其它位置使用相同 ICQ 号码登录. 
+您已从 ICQ 网络上断开连接, 因为您已从其它位置使用相同 ICQ 号码登录.
 [Unknown runtime error: 0x%02x]
 未知运行时间错误: 0x%02x
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
-一项服务器迁移已失败, 因为服务器返回无效. 您必须手动重连. 
+一项服务器迁移已失败, 因为服务器返回无效. 您必须手动重连.
 [Failed to request offline messages. They may be received next time you log in.]
-无法请求离线消息. 他们可能在您下次登录时会接收. 
+无法请求离线消息. 他们可能在您下次登录时会接收.
 [Spambot Detected]
 检测出滥发机器
 [Contact deleted & further events blocked.]
-联系人已被清除, 相关事件封锁. 
+联系人已被清除, 相关事件封锁.
 [Incoming URL:]
-传入网址: 
+传入网址:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
 您的发送速度过快. 请稍后继续. \r\nSNAC(4.1) 错误 x02
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
 您的发送速度过快. 请稍后继续. \r\nSNAC(4.1) 错误 x03
 [The contact does not support receiving offline messages.]
-该联系人不支持接收离线消息. 
+该联系人不支持接收离线消息.
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
 用户已注销. 请选择 '重试' 发送离线消息. \r\nSNAC(4.1) 错误 x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
@@ -284,57 +284,57 @@ SNAC 格式已被服务器拒绝. \nSNAC(4.1) 错误 x0E
 [SNAC(4.1) SENDMSG Error (x%02x)]
 SNAC(4.1) SENDMSG 错误 (x%02x)
 [Contact "%s" has closed the message window.]
-联系人 "%s" 已关闭消息窗口. 
+联系人 "%s" 已关闭消息窗口.
 [ICQ Note]
 ICQ 提示
 [Server contact list is unavailable, Miranda will use local contact list.]
-无法使用服务器联系人列表, Miranda 将使用本地联系人列表. 
+无法使用服务器联系人列表, Miranda 将使用本地联系人列表.
 [Updating of server contact failed.]
-更新服务器联系人失败. 
+更新服务器联系人失败.
 [Adding of privacy item to server list failed.]
-添加私有项目至服务器列表失败. 
+添加私有项目至服务器列表失败.
 [Removing of privacy item from server list failed.]
-从服务器列表移除私有项目失败. 
+从服务器列表移除私有项目失败.
 [Adding of contact to server list failed.]
-添加联系人至服务器列表失败. 
+添加联系人至服务器列表失败.
 [Adding of group to server list failed.]
-添加群组至服务器列表失败. 
+添加群组至服务器列表失败.
 [Removing of contact from server list failed.]
-从服务器列表移除联系人失败. 
+从服务器列表移除联系人失败.
 [Updating of group on server list failed.]
-更新服务器列表联系人失败. 
+更新服务器列表联系人失败.
 [Removing of group from server list failed.]
-从服务器列表移除群组失败. 
+从服务器列表移除群组失败.
 [Moving of user to another group on server list failed.]
-移动用户至服务器列表其它群组失败. 
+移动用户至服务器列表其它群组失败.
 [Renaming of server group failed.]
-重命名服务器群组失败. 
+重命名服务器群组失败.
 [Contact "%s" was authorized in the server list.]
-联系人 "%s" 已被授权加入服务器列表. 
+联系人 "%s" 已被授权加入服务器列表.
 [Contact "%s" lost its authorization in the server list.]
-联系人 "%s" 已丢失服务器列表授权. 
+联系人 "%s" 已丢失服务器列表授权.
 [User "%s" was removed from server list.]
 用户 "%s" 已从服务器列表移除
 [Secure login failed.\nInvalid server response.]
-安全登录失败. \n服务器响应无效. 
+安全登录失败. \n服务器响应无效.
 [Secure login failed.\nInvalid key length.]
-安全登录失败. \n密钥长度无效. 
+安全登录失败. \n密钥长度无效.
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
-您确定要撤销用户的授权 (某些客户端会将您从他/她的列表中移除)? 
+您确定要撤销用户的授权 (某些客户端会将您从他/她的列表中移除)?
 [** This message was blocked by the ICQ server ** The message was invalid.]
-** 此消息已被 ICQ 服务器封锁 ** 消息无效. 
+** 此消息已被 ICQ 服务器封锁 ** 消息无效.
 [** This message was blocked by the ICQ server ** The message was too long.]
-** 此消息已被 ICQ 服务器封锁 ** 消息过长. 
+** 此消息已被 ICQ 服务器封锁 ** 消息过长.
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
-** 此消息已被 ICQ 服务器封锁 ** 发送人阻塞服务器. 
+** 此消息已被 ICQ 服务器封锁 ** 发送人阻塞服务器.
 [** This message was blocked by the ICQ server ** You are too evil.]
-** 此消息已被 ICQ 服务器封锁 ** 你也太恶毒了. 
+** 此消息已被 ICQ 服务器封锁 ** 你也太恶毒了.
 [** Unknown missed message event.]
 ** 未知失误消息事件.
 [Error uploading avatar to server, server temporarily unavailable.]
-上传头像至服务器发生错误, 服务器暂时无效使用. 
+上传头像至服务器发生错误, 服务器暂时无效使用.
 [Error uploading avatar to server, server refused to accept the image.]
-上传头像至服务器发生错误, 服务器拒绝接受图片. 
+上传头像至服务器发生错误, 服务器拒绝接受图片.
 [Afghanistan]
 阿富汗
 [Albania]
@@ -354,7 +354,7 @@ ICQ 提示
 [Armenia]
 亚美尼亚
 [Aruba]
- 阿鲁巴岛 
+阿鲁巴岛
 [Ascension Island]
 亚森松岛
 [Australia]
@@ -706,7 +706,7 @@ ICQ 提示
 [Saint Kitts and Nevis]
 圣克里斯托弗及尼维斯
 [Saint Lucia]
- 圣卢西亚 
+圣卢西亚
 [Saint Pierre and Miquelon]
 圣皮埃尔及密克隆
 [Saint Vincent and the Grenadines]
@@ -760,7 +760,7 @@ ICQ 提示
 [Tajikistan]
 塔吉克斯坦
 [Tanzania]
- 坦桑尼亚 
+坦桑尼亚
 [Thailand]
 泰国
 [Timor, East]
@@ -920,9 +920,9 @@ ICQ - 帮助
 [Open relationship]
 开放关系
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-您的文件传输被中断, 因为选定文件之一无法从磁盘读取. 可能已被删除或移走. 
+您的文件传输被中断, 因为选定文件之一无法从磁盘读取. 可能已被删除或移走.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
-您的文件接收被中断, 因为 Miranda 无法写入目标文件. 您可能正尝试保存至只读文件夹. 
+您的文件接收被中断, 因为 Miranda 无法写入目标文件. 您可能正尝试保存至只读文件夹.
 [Request authorization]
 要求授权
 [Grant authorization]
@@ -966,13 +966,13 @@ ICQ - 帮助
 [Unable to connect to ICQ login server]
 无法连接至 ICQ 登录服务器
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使用大部分 ICQ 网络功能, 但可能无法发送或接收文件. \n\n如果您装有防火墙, 可能会封锁 Miranda, 在此情况下您应该设置防火墙保持某些端口开放, 并在 菜单->选项->ICQ->网络里设定 Miranda 使用端口. 
+Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使用大部分 ICQ 网络功能, 但可能无法发送或接收文件. \n\n如果您装有防火墙, 可能会封锁 Miranda, 在此情况下您应该设置防火墙保持某些端口开放, 并在 菜单->选项->ICQ->网络里设定 Miranda 使用端口.
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-连接失败. \n登录顺序未知原因失败. \n请稍后再试. 
+连接失败. \n登录顺序未知原因失败. \n请稍后再试.
 [Your connection with the ICQ server was abortively closed]
 您与 ICQ 服务器连接已被放弃性关闭
 [The contact's information was too big and was truncated.]
-联系人信息过大, 已被截短. 
+联系人信息过大, 已被截短.
 [NOT FOUND]
 找不到
 [ALREADY EXISTS]
@@ -984,11 +984,11 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 [FAILED]
 已失败
 [Select contacts you want to store on server.]
-请选择您想保存至服务器的联系人. 
+请选择您想保存至服务器的联系人.
 [Ready...]
 准备就绪...
 [Server rate warning -> slowing down the process.]
-服务器速率警告 -> 正在减慢处理. 
+服务器速率警告 -> 正在减慢处理.
 [Adding group "%s"...]
 正在加入群组 "%s"...
 [Uploading %s...]
@@ -1018,7 +1018,7 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 [Close]
 关闭
 [You have to be online to sychronize the server-list!]
-您需要在线才能同步服务器列表! 
+您需要在线才能同步服务器列表!
 [** All contacts **]
 ** 所有联系人 **
 [Taking a bath]
@@ -1072,7 +1072,7 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 [Custom Status]
 自定义状态
 [Greeting card:]
-贺年卡: 
+贺年卡:
 [ICQ XStatus]
 ICQ 扩展状态
 [ICQ Warning]
@@ -1082,19 +1082,19 @@ ICQ 错误
 [ICQ Fatal]
 ICQ 严重错误
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
-服务器在规定时间内无应答, 可能暂时停机. 请稍后再试. 
+服务器在规定时间内无应答, 可能暂时停机. 请稍后再试.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢失网络连接导致 (例如, 您的调制解调器已断线), 如果您使用代理服务器, 您可能需要使用 "菜单->选项->网络->通过代理服务器解析主机名" 选项. 
+Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢失网络连接导致 (例如, 您的调制解调器已断线), 如果您使用代理服务器, 您可能需要使用 "菜单->选项->网络->通过代理服务器解析主机名" 选项.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-代理服务器已拒绝您所提供的用户名和密码. 请在 "菜单->选项->网络" 中检查设置. 
+代理服务器已拒绝您所提供的用户名和密码. 请在 "菜单->选项->网络" 中检查设置.
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-您尝试连接的服务器不存在. 请在 "菜单->选项->网络->ICQ" 中检查您的拼写. 
+您尝试连接的服务器不存在. 请在 "菜单->选项->网络->ICQ" 中检查您的拼写.
 [error]
 错误
 [%d Files]
 %d 个文件
 [The file transfer was aborted by the other user.]
-文件传输已被其他用户取消. 
+文件传输已被其他用户取消.
 [The file transfer failed: Proxy error]
 文件传输已失败: 代理服务器错误
 [The file transfer failed: Invalid request]
@@ -1102,15 +1102,15 @@ Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢�
 [The file transfer failed: Proxy unavailable]
 文件传输已失败: 代理服务器无法使用
 [Failed to Initialize File Transfer. No valid files were specified.]
-无法初始化文件传输. 尚未指定有效的文件. 
+无法初始化文件传输. 尚未指定有效的文件.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
-无法初始化文件传输. 无法对应本地端口且文件代理服务器也无法使用. 
+无法初始化文件传输. 无法对应本地端口且文件代理服务器也无法使用.
 [Connection lost during file transfer.]
-文件传输时丢失连接. 
+文件传输时丢失连接.
 [File transfer negotiation failed for unknown reason.]
-文件传输交涉失败, 原因未知. 
+文件传输交涉失败, 原因未知.
 [The checksum of file "%s" does not match, the file is probably damaged.]
-文件 "%s" 校验值不符, 文件可能已损坏. 
+文件 "%s" 校验值不符, 文件可能已损坏.
 [<invalid>]
 <无效>
 [Personal]
@@ -1212,19 +1212,19 @@ ZIP/邮政编码
 [Interest areas 4]
 兴趣领域 4
 [The password does not match your current password. Check Caps Lock and try again.]
-您所输入的密码与当前密码不符. 请检查 Caps Lock, 再试一次. 
+您所输入的密码与当前密码不符. 请检查 Caps Lock, 再试一次.
 [Change ICQ Details]
 变更 ICQ 详细资料
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
-您所输入的密码与原密码不符. 请检查 Caps Lock, 再试一次. 
+您所输入的密码与原密码不符. 请检查 Caps Lock, 再试一次.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码. 
+ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码.
 [<unremovable once applied>]
 <应用后无法移除>
 [Unknown value]
 未知值
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-您已在 ICQ 详细资料中做出一些改动, 但尚未保存至服务器. 您确定要关闭此对话框? 
+您已在 ICQ 详细资料中做出一些改动, 但尚未保存至服务器. 您确定要关闭此对话框?
 [Upload in progress...]
 上传进行中...
 [Upload in progress...%d%%]
@@ -1236,14 +1236,14 @@ ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码.
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 您尚未连接至 ICQ 网络. 必须上线后才能更新您在服务器上的资料
 [Enter a password for UIN %u:]
-请输入 UIN %u 密码: 
+请输入 UIN %u 密码:
 [ (DC Established)]
  (已建立 DC)
 [ScreenName:]
-显示名: 
+显示名:
 [<not specified>]
 <未指定>
 [Member since:]
-会员加入日期: 
+会员加入日期:
 [%s Details]
 %s 详细资料

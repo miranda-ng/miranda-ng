@@ -30,7 +30,7 @@ Uklarhet:
 [Standard contacts]
 Standard kontakter
 [Online contacts to whom you have a different visibility]
-Påloggede kontakter du har en annen synlighet ovenfor 
+Påloggede kontakter du har en annen synlighet ovenfor
 [Offline contacts]
 Frakoblede kontakter
 [Offline contacts to whom you have a different visibility]

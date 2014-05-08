@@ -60,7 +60,7 @@ WATrack: 请求被拒绝
 [Filter Properties]
 过滤器属性
 [&Name:]
-名称(&N): 
+名称(&N):
 [Show all except selected events]
 显示选择以外事件
 [Show only selected events]
@@ -74,9 +74,9 @@ WATrack: 请求被拒绝
 [Customize Toolbar]
 自定义工具栏
 [A&vailable buttons:]
-可使用按钮: 
+可使用按钮:
 [Buttons on &toolbar:]
-工具栏按钮(&T): 
+工具栏按钮(&T):
 [&Add >>]
 添加(&A) >>
 [<< &Remove]
@@ -90,7 +90,7 @@ WATrack: 请求被拒绝
 [Event Info]
 事件信息
 [Date/Time:]
-日期/时间: 
+日期/时间:
 [Copy All]
 全部复制
 [SMS Message]
@@ -142,7 +142,7 @@ History++ 导出
 [Save History]
 保存历史
 [%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
-找到 %.0n 项目于 %d 位联系人. 搜索了 %.1f 秒于 %.0n 个项目. 
+找到 %.0n 项目于 %d 位联系人. 搜索了 %.1f 秒于 %.0n 个项目.
 [All Results]
 所有结果
 [&System History]
@@ -152,7 +152,7 @@ History++ 导出
 [Searching "%s"...]
 正在搜索 "%s"...
 [Searching... Please wait.]
-搜索中...请稍候. 
+搜索中...请稍候.
 [Preparing search...]
 正在准备搜索...
 [Searching... %.0n items in %d contacts found]
@@ -174,7 +174,7 @@ History++ 导出
 [HotSearch: %s (F3 to find next)]
 热搜索: %s (按 F3 找下一个)
 [Do you want to continue searching at the beginning?]
-您想继续从头开始搜索? 
+您想继续从头开始搜索?
 [History++ Search]
 History++ 搜索
 [Saving...]
@@ -182,7 +182,7 @@ History++ 搜索
 [Deleting...]
 删除中...
 [Do you really want to delete selected items (%.0f)?]
-您真的要删除选定项目 (%.0f)? 
+您真的要删除选定项目 (%.0f)?
 [Delete Selected]
 删除已选项目
 [History is empty]
@@ -394,7 +394,7 @@ ANSI 编码
 [&Empty History]
 清空历史(&E)
 [Do you really want to delete ALL items for this contact?]
-您真的确定要删除此联系人 "所有" 项目? 
+您真的确定要删除此联系人 "所有" 项目?
 [Note: It can take several minutes for large histories]
 注意: 历史项目较多时可能需要几分钟
 [Empty history of subcontacts also]

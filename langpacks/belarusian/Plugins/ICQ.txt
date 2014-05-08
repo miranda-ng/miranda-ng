@@ -1494,7 +1494,7 @@ ID кантакта
 [Picnic]
 Пікнік
 [Cooking]
-Гатую 
+Гатую
 [Smoking]
 Палю
 [I'm high]

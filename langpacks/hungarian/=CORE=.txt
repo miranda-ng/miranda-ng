@@ -893,7 +893,7 @@ Control fel/le támogatása az elõzõleg elküldött üzenetek mutatásához
 [Enable avatar support in the message window]
 Avatarok az üzenet ablakokban
 [Limit avatar height to]
-Avatár maximális magassága 
+Avatár maximális magassága
 [Send error]
 Hiba küldése
 [An error has occurred. The protocol reported the following error:]
@@ -1743,7 +1743,7 @@ Kezelés
 [&Find/Add contacts...]
 &Partnerek keresése/hozzáadása
 [Could not start a search on '%s', there was a problem - is %s connected?]
-'%s' átkutatása sikertelen, hiba lépett fel - %s csatlakozva van? 
+'%s' átkutatása sikertelen, hiba lépett fel - %s csatlakozva van?
 [Could not search on any of the protocols, are you online?]
 Keresés a protokollokon sikertelen, online módban vagy?
 [Problem with search]

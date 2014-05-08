@@ -16,9 +16,9 @@
 [Standard]
 标准
 [Disk is full. Miranda will now shut down.]
-磁盘已满. Miranda 现在将关闭. 
+磁盘已满. Miranda 现在将关闭.
 [Database failure. Miranda will now shut down.]
-数据库失败. Miranda 现在将关闭. 
+数据库失败. Miranda 现在将关闭.
 [Database Error]
 数据库错误
 [Database Panic]

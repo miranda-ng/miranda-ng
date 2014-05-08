@@ -58,11 +58,11 @@
 [Update online statuses for users]
 更新用户在线状态
 [Check every (s):]
-检查每 (秒): 
+检查每 (秒):
 [Update statuses in channel nick list]
 更新频道昵称列表的状态
 [Don't check if more than (users):]
-不检查如多于 (用户): 
+不检查如多于 (用户):
 [User information]
 用户信息
 [Version]
@@ -82,7 +82,7 @@
 [Away Info]
 外出信息
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
-服务器已返回此信息. 请注意这些信息可能有误导或虚假成份. 
+服务器已返回此信息. 请注意这些信息可能有误导或虚假成份.
 [CTCP information]
 CTCP 信息
 [&Cancel]
@@ -92,13 +92,13 @@ CTCP 信息
 [&Set]
 设置(&S)
 [Perform on event:]
-执行事件: 
+执行事件:
 [Scripting support]
 脚本支持
 [Quit message:]
-退出消息: 
+退出消息:
 [Server code page:]
-服务器代码页: 
+服务器代码页:
 [Enable UTF8 autodetection]
 启用自动检测 UTF8
 [Add server]
@@ -144,9 +144,9 @@ CTCP 信息
 [Moderated]
 已主持
 [Key:]
-键值: 
+键值:
 [User limit:]
-用户限制: 
+用户限制:
 [Secret]
 秘密
 [Topic]
@@ -156,7 +156,7 @@ CTCP 信息
 [Channel modes]
 频道模式
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
-请使用选项设置此频道模式. 通常需要操作员或更高权限才能修改. 
+请使用选项设置此频道模式. 通常需要操作员或更高权限才能修改.
 [Strip colors]
 条列颜色
 [Send-ahead]
@@ -172,7 +172,7 @@ CTCP 信息
 [Disconnect DCC chats when disconnecting from server]
 当从服务器断线时中断 DCC 聊天
 [Manually set external IP:]
-手动设置外部 IP: 
+手动设置外部 IP:
 [Client-to-Client File Transfers]
 C2C 文件传输
 [Client-to-Client Protocol]
@@ -180,13 +180,13 @@ C2C 协议
 [Client-to-Client Chats]
 C2C 聊天
 [Send mode:]
-发送模式: 
+发送模式:
 [Packet size (bytes):]
-封包大小 (b): 
+封包大小 (b):
 [Get IP address from server]
 从服务器获取 IP 地址
 [Auto-accept from:]
-自动接受从: 
+自动接受从:
 [Send notice]
 发送公告
 [CTCP Chat Request]
@@ -222,7 +222,7 @@ CTCP 聊天请求
 [(*) blank to set this mask for all networks]
 (*) 留空将此掩码应用至所有网络
 [Password:]
-密码: 
+密码:
 [CTCP chat request from %s]
 CTCP 聊天请求自 %s
 [%s sets mode %s]
@@ -286,7 +286,7 @@ IRC 错误
 [*Disconnected*]
 *已断开连接*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-在执行缓冲区使用 /AWAY 是受限制的, \n因为 IRC 会自动发送此命令. 
+在执行缓冲区使用 /AWAY 是受限制的, \n因为 IRC 会自动发送此命令.
 [IRC Error]
 IRC 错误
 [The buddy check function is enabled]
@@ -314,7 +314,7 @@ IRC 错误
 [The time interval for the buddy check function is now %u seconds]
 好友检查功能间隔时间现已设为 %u 秒
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-此命令不建议用于这种大小的网络中! \r\n这样可能导致高 CPU 使用率 及/或 高带宽占用\r\n约 %u 至 %u 分钟. \r\n\r\n您真的想继续? 
+此命令不建议用于这种大小的网络中! \r\n这样可能导致高 CPU 使用率 及/或 高带宽占用\r\n约 %u 至 %u 分钟. \r\n\r\n您真的想继续?
 [IRC warning]
 IRC 警告
 [Aborted]
@@ -352,9 +352,9 @@ DCC 错误: 无法监听本地端口
 [The dcc chat connection is not active]
 DCC 聊天连接尚未使用
 [Please choose an IRC-network to go online. This network will be the default.]
-请选择要上线的 IRC 网络. 此网络将设为默认值. 
+请选择要上线的 IRC 网络. 此网络将设为默认值.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-无法建立连接! 您尚未完成所有必需项 (昵称, 用户 ID 及 m_name). 
+无法建立连接! 您尚未完成所有必需项 (昵称, 用户 ID 及 m_name).
 [Add]
 添加
 [Apply]
@@ -456,7 +456,7 @@ WhoIs 信息(&W)
 [&Add to ignore list]
 添加至忽略列表(&A)
 [%s (%s) is requesting a client-to-client chat connection.]
-%s (%s) 正在请求 C2C 聊天连接. 
+%s (%s) 正在请求 C2C 聊天连接.
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
 请输入主机掩码 (昵称!用户@主机)\n注意! 您列表中的联系人永远不忽略
 [Join channel]
@@ -472,7 +472,7 @@ WhoIs 信息(&W)
 [Authentificate nick]
 认证昵称
 [Are you sure you want to unregister your current nick?]
-您确定要解除注册当前昵称? 
+您确定要解除注册当前昵称?
 [Delete nick]
 删除昵称
 [Identify nick]
@@ -634,7 +634,7 @@ WhoIs 信息(&W)
 [Set this topic for the channel]
 为频道设定此主题
 [You have not applied all changes!\n\nApply before exiting?]
-您尚未应用所有变更! \n\n在离开前应用? 
+您尚未应用所有变更! \n\n在离开前应用?
 [Add ban]
 添加踢走
 [Add invite]
@@ -646,12 +646,12 @@ WhoIs 信息(&W)
 [Edit ban]
 编辑踢走
 [Edit invite?]
-编辑邀请? 
+编辑邀请?
 [Edit exception?]
-编辑例外? 
+编辑例外?
 [Remove ban?]
-移除踢走? 
+移除踢走?
 [Remove invite?]
-移除邀请? 
+移除邀请?
 [Remove exception?]
-移除例外? 
+移除例外?

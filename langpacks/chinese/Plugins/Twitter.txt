@@ -8,7 +8,7 @@
 [Create a new Twitter account]
 新建 Twitter 账号
 [Username:]
-用户名: 
+用户名:
 [Send Tweet]
 发送 Tweet
 [Cancel]

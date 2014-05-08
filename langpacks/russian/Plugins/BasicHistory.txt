@@ -52,7 +52,7 @@
 [Limit messages to:]
 Ограничить сообщения до:
 [Show date in timestamps]
-Показывать дату 
+Показывать дату
 [Show seconds in timestamps]
 Показывать секунды
 [Enable Smileys]

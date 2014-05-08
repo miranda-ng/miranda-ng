@@ -49,7 +49,7 @@ Chats vocaux
 [Voice chat policy]
 
 [Recording device:]
-Enregistreur: 
+Enregistreur:
 [Playback device:]
 Lecteur:
 [Expert Options]

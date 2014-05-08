@@ -62,7 +62,7 @@
 [Smiley cache]
 Кэш смайлов
 [SmileyAdd HTTP connections]
-HTTP-подключение SmileyAdd 
+HTTP-подключение SmileyAdd
 [Button smiley]
 Кнопка смайла
 [Assign smiley category]

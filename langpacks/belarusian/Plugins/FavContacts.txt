@@ -25,7 +25,7 @@
 [Use system colors and fonts]
 Сістэмныя колеры і шрыфты
 [Hotkey shows menu centered on screen]
-Меню па гарачай кн. у цэнтры экрана 
+Меню па гарачай кн. у цэнтры экрана
 [Menu item preview:]
 Прадпрагляд меню:
 [Favorite Contacts]

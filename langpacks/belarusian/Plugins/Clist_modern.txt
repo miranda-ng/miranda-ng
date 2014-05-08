@@ -599,7 +599,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Move down]
 Ніжэй
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-Гэта старонка ў распрацоўцы. 
+Гэта старонка ў распрацоўцы.
 [&Main menu]
 Галоўнае меню
 [E&xit]

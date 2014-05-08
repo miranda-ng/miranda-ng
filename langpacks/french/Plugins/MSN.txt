@@ -131,7 +131,7 @@ Autres
 
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (not currently supported)]
-Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée) 
+Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée)
 [%I64u bytes]
 
 [Accept NetMeeting request from %s?]
@@ -262,7 +262,7 @@ Notifications
 [Contact tried to send its webcam data (not currently supported)]
 Le contact vous a envoyé un flux webcam (actuellement non supporté)
 [Contact tried to view your webcam data (not currently supported)]
-Le contact a essayé de connecter à votre webcam (actuellement non supporté) 
+Le contact a essayé de connecter à votre webcam (actuellement non supporté)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 

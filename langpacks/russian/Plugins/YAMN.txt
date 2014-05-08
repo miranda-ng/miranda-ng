@@ -224,7 +224,7 @@ YAMN: сбой подключения
 [Delete confirmation]
 Подтверждение удаления
 [%s connection]
-%s подключение 
+%s подключение
 [Disconnected]
 Отключён
 [POP3 protocol (internal)]

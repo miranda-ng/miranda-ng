@@ -77,7 +77,7 @@ Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Contact List Sorting]
-Clasificación de la lista de contacto 
+Clasificación de la lista de contacto
 [Window]
 Ventana
 [Always on top]

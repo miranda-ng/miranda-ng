@@ -6,7 +6,7 @@
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [New Away System Mod plugin for Miranda NG.]
-Плагин New Away System Mod для Miranda NG. 
+Плагин New Away System Mod для Miranda NG.
 [Popup notification]
 Всплывающее окно
 [Popup text format]
@@ -274,7 +274,7 @@
 [Re&ad %s message]
 &Прочитать сообщение "%s"
 [Toggle autoreply on/off]
-Автоответчик вкл/выкл 
+Автоответчик вкл/выкл
 [Toggle autoreply off]
 Выключить автоответчик
 [Toggle autoreply on]

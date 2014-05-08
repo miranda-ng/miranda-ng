@@ -239,7 +239,7 @@ Facebook ID павінна быць лічбавым значэннем.
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
 [Show 'Share status' window]
-Паведамленне статуса Facebook 
+Паведамленне статуса Facebook
 [Notification]
 Абвестка
 [News Feed]

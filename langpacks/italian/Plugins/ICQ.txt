@@ -466,7 +466,7 @@ Errore di ICQ
 [ICQ Fatal]
 Errore fatale di ICQ
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
-Il server non ha risposto al tentativo di connessione in un tempo ragionevole, potrebbe essere temporaneamente inattivo. Riprova più tardi. 
+Il server non ha risposto al tentativo di connessione in un tempo ragionevole, potrebbe essere temporaneamente inattivo. Riprova più tardi.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
 Miranda non è riuscito a recuperare dal nome del server il suo indirizzo numerico. Questo è molto probabilmente causato da una perdita catastrofica della connnessione alla rete (ad esempio, il tuo modem si è disconnesso), ma se sei dietro un proxy, potresti dover usare l'opzione 'Recupera nomi host attraverso proxy' in Opzioni->Rete.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]

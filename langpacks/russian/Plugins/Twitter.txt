@@ -80,7 +80,7 @@ URL:
 [Popups]
 Всплывающие окна
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [%s avatar connection]
 %s подключение аватаров
 [Twitter Icon]

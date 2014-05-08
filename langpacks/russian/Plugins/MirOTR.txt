@@ -214,7 +214,7 @@ OTR-Идентификация с: %s (%s)
 [Authenticating contact:\n%s (%s)]
 Идентификация контакта: \n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос, на который может ответить только ваш собеседник. 
+Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос, на который может ответить только ваш собеседник.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
 Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя вопрос, на который может ответить только ваш собеседник.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]

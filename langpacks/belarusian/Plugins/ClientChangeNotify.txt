@@ -19,11 +19,11 @@
 [Enable notification]
 Уключыць абвесткі
 [Show previous client name]
-Паказваць папярэдняе імя кліента 
+Паказваць папярэдняе імя кліента
 [Notify also when just client version changes]
-Абвесціць, калі зменіцца версія кліента 
+Абвесціць, калі зменіцца версія кліента
 [Show client version]
-Паказаць версію кліента 
+Паказаць версію кліента
 [Don't notify for contacts with disabled status notification]
 Не абвяшчаць для кантактаў з адключанай абвесткай статусу
 [Click action]

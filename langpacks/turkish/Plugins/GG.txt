@@ -24,7 +24,7 @@ Seçenekler
 [Friends only]
 Yalnız arkadaşlar
 [Show offline users with status message as invisible in contact list]
-Kişi listesindeki çevrim dışı kişileri görünmez kişilerle göster 
+Kişi listesindeki çevrim dışı kişileri görünmez kişilerle göster
 [After disconnection leave away message of status:]
 Bağlantı kesildikten sonra uzakta durum iletisi şu olsun:
 [Receive image and after image is received use:]
@@ -258,6 +258,6 @@ Parolanız değiştirildi.
 [Your e-mail cannot be changed because of error:\n\t%s]
 E-postanız şu hata yüzünden değiştirilemedi:\n\t%s
 [Bad old e-mail or password]
-Yanlış esk ie-posta veya parola 
+Yanlış esk ie-posta veya parola
 [Your e-mail has been changed.]
 E-postanız değiştirildi.

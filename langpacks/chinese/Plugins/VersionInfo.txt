@@ -8,7 +8,7 @@
 [Collects and prints information related to Miranda, the plugins and the OS.]
 收集并打印 Miranda, 插件及系统相关信息.
 [Output to:]
-输出至: 
+输出至:
 [Cancel]
 取消
 [Text file]
@@ -18,13 +18,13 @@
 [DialogBox]
 对话框
 [Select output:]
-选择输出: 
+选择输出:
 [Upload to site]
 上传至站点
 [Forum style formatting]
 论坛样式格式化
 [Additional options:]
-附加选项: 
+附加选项:
 [Do it now]
 立即运行
 [Show window in taskbar]
@@ -58,21 +58,21 @@ Miranda 版本消息
 [&Save to file]
 保存至文件(&S)
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-如果您打算用这份报告来提交缺陷, 请记得检查网站已有议题或开发者需要帮助. \r\n如果您不检查缺陷报告并提供反馈信息, 它将无法修复! 
+如果您打算用这份报告来提交缺陷, 请记得检查网站已有议题或开发者需要帮助. \r\n如果您不检查缺陷报告并提供反馈信息, 它将无法修复!
 [Information successfully written to file: "%s".]
-信息已成功写入文件: "%s". 
+信息已成功写入文件: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
-建立文件 "%s" 时发生错误. 磁盘可能已满或有写入保护. 
+建立文件 "%s" 时发生错误. 磁盘可能已满或有写入保护.
 [The clipboard is not available, retry.]
-剪贴板无法使用, 请重试. 
+剪贴板无法使用, 请重试.
 [Information successfully copied into clipboard.]
-信息已成功复制到剪贴板. 
+信息已成功复制到剪贴板.
 [Customize using folders plugin]
 使用文件夹插件自定义
 [Are you sure you want to enable this option?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
-您确定要启用此选项? \n如您知道在做什么, 知道此选项功用或某人让您这样做时, 请启用此项目. 
+您确定要启用此选项? \n如您知道在做什么, 知道此选项功用或某人让您这样做时, 请启用此项目.
 [Show plugin UUIDs?]
-显示插件 UUID? 
+显示插件 UUID?
 [VersionInfo]
 版本信息
 [Output folder]

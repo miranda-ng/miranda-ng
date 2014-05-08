@@ -50,7 +50,7 @@ Gelişmiş
 [Popups]
 Açılır Pencereler
 [I've been away since %time%.]
-Bilgisayar başından kalktım: %time% 
+Bilgisayar başından kalktım: %time%
 [Give it up, I'm not in!]
 Boşver ben yokum
 [Not right now.]

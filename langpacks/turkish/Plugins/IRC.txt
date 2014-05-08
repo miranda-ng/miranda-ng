@@ -284,7 +284,7 @@ Salak
 [*Disconnected*]
 *Bağlantısı kesildi*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Başarım arabelleğinizde /AWAY kullanımına IRC bu komutu\n kendiliğinden gönderdiğinden izin verilmiyor. 
+Başarım arabelleğinizde /AWAY kullanımına IRC bu komutu\n kendiliğinden gönderdiğinden izin verilmiyor.
 [IRC Error]
 IRC Hatası
 [The buddy check function is enabled]

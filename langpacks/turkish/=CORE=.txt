@@ -7,7 +7,7 @@ Protokol tipini seç
 [Cancel]
 İptal
 [Add %s]
-%s ekle 
+%s ekle
 [&Add]
 &Ekle
 [&Cancel]
@@ -441,7 +441,7 @@ Eklendiniz
 [Status messages]
 Durum İletileri
 [Do not reply to requests for this message]
-Bu durumdayken istekleri yanıtlama 
+Bu durumdayken istekleri yanıtlama
 [Do not pop up dialog asking for new message]
 Yeni durum için açılan pencere olmasın
 [By default, use the same message as last time]
@@ -899,7 +899,7 @@ Kişi adını en üst satırda göster
 [Show toolbar buttons on top row]
 Araç çubuğu düğmelerini en üst satırda göster
 [Send message on double 'Enter']
-İletileri çift 'Enter' ile gönder 
+İletileri çift 'Enter' ile gönder
 [Send message on 'Enter']
 İletileri 'Enter' ile gönder
 [Show character count]
@@ -1053,7 +1053,7 @@ Kişiyi listeye kalıcı olarak ekle
 [Re&ad %s message]
 %s iletisini &oku
 [I've been away since %time%.]
-Bilgisayar başından kalktım: %time% 
+Bilgisayar başından kalktım: %time%
 [Give it up, I'm not in!]
 Boşver ben yokum
 [Not right now.]
@@ -1125,7 +1125,7 @@ Bilgi iletileri
 [User enables status for ...]
 Kişinin şu durumları etkin ...
 [User disables status for ...]
-Kişinin şu durumları devre dışı ... 
+Kişinin şu durumları devre dışı ...
 [Action message]
 Eylem iletisi
 [Highlighted message]
@@ -1453,7 +1453,7 @@ Grup üyelerinin sayısı
 [Dividers]
 Ayıraçlar
 [Offline contacts to whom you have a different visibility]
-Farklı görünürlükte olduğunuz çevrimdışı kişiler 
+Farklı görünürlükte olduğunuz çevrimdışı kişiler
 [Selected text]
 Seçili yazı
 [Hottrack text]
@@ -1687,7 +1687,7 @@ Ana Menü
 [(Unknown contact)]
 (Bilinmmeyen Kişi)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
-Bu kişi, kişi listesini merkez bir sunucu üzerinde tutan bir iletişim sisteminde. Bu kişi ağa yeniden bağlandığınızda sunucudan ve kişi listenizden kaldırılacak. 
+Bu kişi, kişi listesini merkez bir sunucu üzerinde tutan bir iletişim sisteminde. Bu kişi ağa yeniden bağlandığınızda sunucudan ve kişi listenizden kaldırılacak.
 [De&lete]
 Si&l
 [&Rename]
@@ -1819,7 +1819,7 @@ Miranda eklentisi yeniden etkinleştirilsin mi?
 [Unable to load plugin in Service Mode!]
 Eklenti Hizmet kipinde yüklenemedi.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Kurulu kişi listesi eklentilerinden hiçbiri ayarlar gözardı edilmesine rağmen başlatılamadı. 
+Kurulu kişi listesi eklentilerinden hiçbiri ayarlar gözardı edilmesine rağmen başlatılamadı.
 [Plugin]
 Eklenti
 [Version]

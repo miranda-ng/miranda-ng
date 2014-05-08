@@ -39,7 +39,7 @@ Message reçu
 [Allow sending* one nudge to the same contact every:]
 
 [Allow receiving one nudge from the same contact every:]
-Autoriser la réception d'un wizz du même contact toutes les 
+Autoriser la réception d'un wizz du même contact toutes les
 [* Nudge sending delay is hardcoded and cannot be changed.]
 
 [Preview]

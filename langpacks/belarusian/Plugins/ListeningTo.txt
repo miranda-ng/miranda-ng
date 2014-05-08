@@ -159,4 +159,4 @@ mRadio
 Прымаць у 'Слухаю'
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
-Прымаць у 'Слухаю' з WMP 
+Прымаць у 'Слухаю' з WMP

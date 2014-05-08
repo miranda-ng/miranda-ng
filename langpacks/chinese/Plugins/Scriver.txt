@@ -106,7 +106,7 @@
 [Typing Notification Options]
 键入通知选项
 [Send typing notifications to the following users when you are typing a message to them:]
-当您键入消息时, 发送键入通知给这些用户: 
+当您键入消息时, 发送键入通知给这些用户:
 [Show typing notification switch in the status bar]
 在状态栏显示键入通知开关
 [Show typing notifications when a user is typing a message]
@@ -122,9 +122,9 @@
 [Send Error]
 发送错误
 [An error has occurred. The protocol reported the following error:]
-发生错误. 协议已回报了此错误: 
+发生错误. 协议已回报了此错误:
 [while sending the following message:]
-发送下列消息时: 
+发送下列消息时:
 [Try again]
 再试一次
 [Cancel]
@@ -140,7 +140,7 @@
 [Send To All Tabs]
 发送到所有标签
 [You are about to send a message to all open tabs.\nAre you sure?]
-您正准备发送消息至所有已打开标签.\n您确定吗? 
+您正准备发送消息至所有已打开标签.\n您确定吗?
 [Remember my choice for this container]
 记住针对此容器的决定
 [Yes]
@@ -150,7 +150,7 @@
 [&Underline]
 下划线(&U)
 [Show these events only:]
-仅显示下列事件: 
+仅显示下列事件:
 [Actions]
 操作
 [Messages]
@@ -178,7 +178,7 @@
 [Other]
 其它
 [Add new rooms to group:]
-添加新房间到群组: 
+添加新房间到群组:
 [Nick list row height]
 用户列表行高
 [pixels]
@@ -194,7 +194,7 @@
 [Log timestamp]
 记录时间戳
 [Limit log text to (events):]
-限制记录文本为 (事件): 
+限制记录文本为 (事件):
 [Enable highlighting]
 启用突出显示
 [Words to highlight (wildcards allowed)]
@@ -416,7 +416,7 @@ Unicode 已关闭
 [%s is typing a message...]
 %s 正在键入消息...
 [Last message received on %s at %s.]
-最后消息接收于 %s %s. 
+最后消息接收于 %s %s.
 [File sent]
 已发送文件
 [File received]
@@ -512,7 +512,7 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Win
 [Always On Top]
 永远置顶
 [The message send timed out.]
-发送消息已超时. 
+发送消息已超时.
 [Nick list background]
 用户列表背景
 [Nick list lines]

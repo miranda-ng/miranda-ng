@@ -40,7 +40,7 @@
 [Load number of previous events]
 이전 이벤트 개수 로드
 [Load previous events less than]
-이전 이벤트 불러오기 
+이전 이벤트 불러오기
 [minutes old]
 분 이전 것만
 [Send typing notifications to the following users when you are typing a message to the them:]

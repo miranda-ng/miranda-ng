@@ -200,7 +200,7 @@ RTL maler...
 [Load History Events]
 Last Historikkhendelser
 [Load unread events only]
-Last kun inn ulese hendelser 
+Last kun inn ulese hendelser
 [Load number of previous events]
 Last inn antall tidligere hendelser
 [Load previous events less than]

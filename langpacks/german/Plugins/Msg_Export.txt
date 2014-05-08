@@ -176,7 +176,7 @@ Dateiname von Benutzer "%s" hat sich geändert!\n\nVon:\t%s\nIn:\t%s\n\nMöchten
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Umbenennen der Datei\n\nvon:\t%s\nzu:\t%s\n\nmit folgendem Fehler: %s fehlgeschlagen
 [\nError: ]
-\nFehler: 
+\nFehler:\s
 [\nMessage has not been saved!\n]
 \nNachricht wurde nicht gespeichert!\n
 [Do you wish to save debug information?]

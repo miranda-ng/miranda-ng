@@ -550,7 +550,7 @@ OutputDebugString()
 [%f will be replaced by the file or folder name to be scanned]
 %f은(는) 검사된 파일 또는 폴더명으로 대체되어질 것입니다
 [Warn me before opening a file that has not been scanned]
-검사가 이루어지지 않은 파일을 열기전에 경고 
+검사가 이루어지지 않은 파일을 열기전에 경고
 [If incoming files already exist]
 받으려는 파일이 이미 존재하면
 [Ask me]
@@ -598,7 +598,7 @@ OutputDebugString()
 [Load number of previous events]
 이전 이벤트 개수 로드
 [Load previous events less than]
-이전 이벤트 불러오기 
+이전 이벤트 불러오기
 [minutes old]
 분 이전 것만
 [Load history events]
@@ -972,7 +972,7 @@ riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어
 [1 %s user found]
 1 %s 유저를 찾았습니다
 [%d %s users found]
-%d %s 유저를 찾았습니다 
+%d %s 유저를 찾았습니다
 [%d users found (]
 %d 유저를 찾았습니다 (
 [No users found]

@@ -16,7 +16,7 @@ Her kişi için boyut ve konumu kaydet
 [Send message on 'Enter']
 İletileri 'Enter' ile gönder
 [Send message on double 'Enter']
-İletileri çift 'Enter' ile gönder 
+İletileri çift 'Enter' ile gönder
 [Show warning when message has not been received after]
 İleti şundan sonra alınamadığında uyarı göster
 [seconds]

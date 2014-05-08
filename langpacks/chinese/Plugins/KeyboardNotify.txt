@@ -120,7 +120,7 @@
 [Use custom theme]
 使用自定义主题
 [The following events are being ignored:]
-这些事件将被忽略: 
+这些事件将被忽略:
 [Ignore messages]
 忽略消息
 [Ignore URLs]

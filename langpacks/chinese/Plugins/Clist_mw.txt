@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: Bethoven 
+;  Authors: Bethoven
 ;============================================================
 [Stretch to width]
 拉伸至宽度
@@ -18,7 +18,7 @@
 [Stretch proportionally]
 按比例拉伸
 [Warning!\r\nThis MenuObject not support user defined options.]
-警告! \r\n此 MenuObject 不支持用户自定义选项. 
+警告! \r\n此 MenuObject 不支持用户自定义选项.
 [MenuObjects]
 菜单对象
 [MenuItems]
@@ -26,9 +26,9 @@
 [InsertSeparator]
 插入分隔器
 [Service:]
-服务: 
+服务:
 [Name:]
-名称: 
+名称:
 [Set]
 设置
 [Default]
@@ -42,9 +42,9 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
 [Are you sure you want to delete %s?]
-您确定要删除 %s? 
+您确定要删除 %s?
 [This will erase all history and settings for this contact!]
-此操作将删除联系人所有历史及相关设置! 
+此操作将删除联系人所有历史及相关设置!
 [Hide offline users]
 隐藏离线用户
 [Hide empty groups]
@@ -96,7 +96,7 @@
 [Rows]
 列数
 [Row height:]
-列高: 
+列高:
 [pixels]
 像素
 [Gamma correction]
@@ -116,15 +116,15 @@
 [Size upwards]
 向上量度大小
 [Title bar text:]
-标题栏文本: 
+标题栏文本:
 [Fade contact list in/out]
 联系人列表淡入/淡出
 [Transparent contact list]
 联系人列表透明化
 [Inactive opacity:]
-未激活时透明度: 
+未激活时透明度:
 [Active opacity:]
-激活时透明度: 
+激活时透明度:
 [Show menu bar]
 显示菜单栏
 [Easy move]
@@ -148,7 +148,7 @@
 [Make selection highlight translucent]
 将选定项目突出显示透明
 ['Hide Offline' means to hide:]
-'隐藏离线' 的意思是隐藏: 
+'隐藏离线' 的意思是隐藏:
 [Groups]
 群组
 [Draw a line alongside group names]
@@ -162,19 +162,19 @@
 [Quicksearch in open groups only]
 仅在打开的群组内快速搜索
 [Indent groups by:]
-缩排群组: 
+缩排群组:
 [Visual]
 视觉
 [Scroll list smoothly]
 平滑滚动列表
 [Time:]
-时间: 
+时间:
 [milliseconds]
 毫秒
 [Left margin:]
-左边界: 
+左边界:
 [Gray out entire list when:]
-下列清况将整个列表变灰: 
+下列清况将整个列表变灰:
 [Dim idle contacts]
 暗淡化闲置联系人
 [Contact list background]

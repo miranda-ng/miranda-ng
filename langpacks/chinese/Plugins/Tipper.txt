@@ -6,25 +6,25 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [General padding:]
-常规补位: 
+常规补位:
 [Text padding:]
-文本补位: 
+文本补位:
 [Labels:]
-标签: 
+标签:
 [Values:]
 数值:
 [Window]
 窗口
 [Max width:]
-最大宽度: 
+最大宽度:
 [Min width:]
-最小宽度: 
+最小宽度:
 [Max height:]
-最大高度: 
+最大高度:
 [Min height:]
-最小高度: 
+最小高度:
 [Hover time:]
-悬停时间: 
+悬停时间:
 [Show if list not focused]
 列表非焦点时显示
 [Options]
@@ -38,19 +38,19 @@
 [Substitution]
 替换
 [Module:]
-模块: 
+模块:
 [Contact protocol module]
 联系人协议模块
 [Setting or prefix:]
 设置或前缀
 [Translation:]
-翻译: 
+翻译:
 [Cancel]
 取消
 [Item]
 项目
 [Value:]
-值: 
+值:
 [Draw a line above]
 在上面绘制横线
 [Value on a new line]
@@ -100,7 +100,7 @@
 [Center]
 中间
 [Max avatar size:]
-最大头像大小: 
+最大头像大小:
 [None]
 无
 [Customize]
@@ -130,17 +130,17 @@ Jabber 活动
 [%s (locked)]
 %s (已锁定)
 [Status message:]
-状态消息: 
+状态消息:
 [Other]
 其它
 [Email]
 邮箱
 [Gender:]
-性别: 
+性别:
 [Homepage]
 主页
 [Homepage:]
-主页: 
+主页:
 [Idle]
 闲置
 [Last message]
@@ -148,13 +148,13 @@ Jabber 活动
 [Name]
 名称
 [Name:]
-名称: 
+名称:
 [Time:]
-时间: 
+时间:
 [Sunrise:]
-日出: 
+日出:
 [Sunset:]
-日落: 
+日落:
 [Background]
 背景
 [Dividers]

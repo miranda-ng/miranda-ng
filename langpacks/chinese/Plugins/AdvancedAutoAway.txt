@@ -18,7 +18,7 @@
 [Set]
 设置
 [Command line:]
-命令行: 
+命令行:
 [Other]
 其它
 [Status on startup]
@@ -56,25 +56,25 @@
 [Auto Away]
 自动离开
 [I've been away since %time%.]
-我已在 %time% 外出. 
+我已在 %time% 外出.
 [Give it up, I'm not in!]
-放弃吧, 我不在! 
+放弃吧, 我不在!
 [Not right now.]
-现在不行. 
+现在不行.
 [Give a guy some peace, would ya?]
-给我一点安宁, 好吗? 
+给我一点安宁, 好吗?
 [I'm a chatbot!]
-我是聊天机器人! 
+我是聊天机器人!
 [Yep, I'm here.]
-是, 我在这里. 
+是, 我在这里.
 [Nope, not here.]
-不, 不在这里. 
+不, 不在这里.
 [I'm hiding from the mafia.]
-我现在正在躲仇家. 
+我现在正在躲仇家.
 [That'll be the phone.]
-电话联系吧. 
+电话联系吧.
 [Mmm... food.]
-嗯... 食物. 
+嗯... 食物.
 [idleeeeeeee]
 闲置
 [Protocol]

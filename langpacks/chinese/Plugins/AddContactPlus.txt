@@ -8,13 +8,13 @@
 [Add contact]
 添加联系人
 [Custom name:]
-自定义名称: 
+自定义名称:
 [Group:]
-群组: 
+群组:
 [Options]
 选项
 [Send "You were added"]
-发送 "您已被添加" 
+发送 "您已被添加"
 [Send authorization request]
 发送授权请求
 [Authorization request]
@@ -24,7 +24,7 @@
 [&Cancel]
 取消(&C)
 [Please authorize my request and add me to your contact list.]
-请授权我的请求, 并将我加至您的联系人列表中. 
+请授权我的请求, 并将我加至您的联系人列表中.
 [None]
 无
 [AddContact+]

@@ -86,7 +86,7 @@ Geçerli &web tarayıcı penceresinde aç
 [Message]
 İleti
 [Undo]
-Geri Al 
+Geri Al
 [Redo]
 Yeniden
 [Copy]
@@ -384,7 +384,7 @@ Hayır
 [Send message on 'Enter']
 İletileri 'Enter' ile gönder
 [Send message on double 'Enter']
-İletileri çift 'Enter' ile gönder 
+İletileri çift 'Enter' ile gönder
 [Minimize the message window on send]
 Gönderdikten sonra ileti penceresini küçült
 [&Copy]

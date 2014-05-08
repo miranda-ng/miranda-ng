@@ -496,7 +496,7 @@ Ute til lunsj-kontakter
 [Offline contacts]
 Frakoblede kontakter
 [Online contacts to whom you have a different visibility]
-Påloggede kontakter du har en annen synlighet ovenfor 
+Påloggede kontakter du har en annen synlighet ovenfor
 [Offline contacts to whom you have a different visibility]
 Frakoblede brukere du har annen synlighet ovenfor
 [Contacts who are 'not on list']

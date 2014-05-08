@@ -3,7 +3,7 @@
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list
 ;  Version: 0.9.0.0
-;  Authors: Bethoven 
+;  Authors: Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
 
@@ -107,7 +107,7 @@ Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Contact List Sorting]
-Clasificación de la lista de contacto 
+Clasificación de la lista de contacto
 [Don't move offline user to bottom]
 No mover usuario fuera de línea al final
 [Pin to desktop]

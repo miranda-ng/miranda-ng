@@ -28,7 +28,7 @@
 [Count times]
 计数
 [Accounts to watch:]
-要监视协议: 
+要监视协议:
 [Use popups]
 使用弹出窗口
 [Text]
@@ -60,7 +60,7 @@
 [Last seen plugin]
 最后看见插件
 [You missed following contacts:]
-您错过了这些联系人: 
+您错过了这些联系人:
 [Alert when user status changes]
 当用户状态变更时发出提醒
 [last seen history]

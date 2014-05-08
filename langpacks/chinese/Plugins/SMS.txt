@@ -14,13 +14,13 @@
 [Read Next]
 读下一个
 [From:]
-从: 
+从:
 [Message received:]
-已接收消息: 
+已接收消息:
 [Send SMS]
 发送 SMS
 [To:]
-给: 
+给:
 [Add number to list]
 将号码加至列表
 [Save number]
@@ -28,9 +28,9 @@
 [Multiple >>]
 多重 >>
 [Enter message:]
-请输入消息: 
+请输入消息:
 [Chars:]
-字数: 
+字数:
 [&Send]
 发送(&S)
 [SMS Message Didn't Send]
@@ -48,17 +48,17 @@ SMS 插件
 [End]
 结束
 [Put signature at the:]
-将签名放于: 
+将签名放于:
 [Use Signature]
 使用签名
 [SMS Message Sent]
 SMS 消息已发出
 [Message ID:]
-消息 ID: 
+消息 ID:
 [Source:]
-来源: 
+来源:
 [Network:]
-网络: 
+网络:
 [From %s:\r\n\r\n]
 从 %s:\r\n\r\n
 [SMS Message from %s]
@@ -78,15 +78,15 @@ SMS 消息已发出
 [Shows How Much Chars You've Typed]
 显示您键入字符数量
 [The SMS message send to %s timed out.]
-发送给 %s 的 SMS 消息已经超时. 
+发送给 %s 的 SMS 消息已经超时.
 [Invalid Phone Number]
 无效电话号码
 [Message is too long, press OK to continue.]
-消息过长, 请按 "确定" 继续. 
+消息过长, 请按 "确定" 继续.
 [Error - Message too long]
 错误 - 消息过长
 [There must be numbers in the list first.]
-列表中必须以数字开始. 
+列表中必须以数字开始.
 [No Numbers]
 无号码
 [Invalid phone number]

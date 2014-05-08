@@ -6,29 +6,29 @@
 ;  Authors: Miranda team
 ;============================================================
 [Choose how you would like to import:]
-请选择您想如何导入: 
+请选择您想如何导入:
 [From a Miranda NG database.]
-从 Miranda NG 数据库. 
+从 Miranda NG 数据库.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
-请点击 "下一步" 选择您想导入的信息, 或按 "取消" 离开此向导继续使用 Miranda. 
+请点击 "下一步" 选择您想导入的信息, 或按 "取消" 离开此向导继续使用 Miranda.
 [It is recommended that you create a backup of your current Miranda profile before importing.]
-建议导入前先备份当前 Miranda 配置文件. 
+建议导入前先备份当前 Miranda 配置文件.
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
-如果您希望导入更多信息, 请点击  "下一步" 返回向导起始位置, 否则请点击  "完成" 开始使用 Miranda. 
+如果您希望导入更多信息, 请点击  "下一步" 返回向导起始位置, 否则请点击  "完成" 开始使用 Miranda.
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
-您可能不再需要此向导, 可在启动 Miranda 时不加载此插件以节省内存. 这将意味着导入菜单不再可用. 
+您可能不再需要此向导, 可在启动 Miranda 时不加载此插件以节省内存. 这将意味着导入菜单不再可用.
 [Do not load the import plugin at startup again]
 启动时不要加载导入插件
 [Import completed]
 导入已完成
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
-如果将来您想再次使用此向导, 可于 "选项 - 插件" 中点选以使其重新加载. 
+如果将来您想再次使用此向导, 可于 "选项 - 插件" 中点选以使其重新加载.
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的项目, 如果您的数据库尚未列出请按 "其它配置文件" . 
+Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的项目, 如果您的数据库尚未列出请按 "其它配置文件" .
 [&Other Profile...]
 其它配置文件(&O)...
 [&Filename:]
-文件名称(&F): 
+文件名称(&F):
 [Now importing...]
 导入中...
 [Import Information Wizard]
@@ -42,9 +42,9 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 [Custom import]
 自定义导入
 [Select this if you want to import as much data as possible. This is the recommended option.]
-如果您想导入更多资料, 请选择此项. (推荐) 
+如果您想导入更多资料, 请选择此项. (推荐)
 [Select this if you want to import contacts but don't want to import any message history.]
-如果您想导入联系人但不想导入任何消息历史, 请选择此项. 
+如果您想导入联系人但不想导入任何消息历史, 请选择此项.
 [Select this if you want to customize what to import.]
 如您想自定义导入选此.
 [New contacts && groups]
@@ -52,13 +52,13 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 [System history]
 系统历史
 [Select items to import:]
-选择要导入项目: 
+选择要导入项目:
 [Incoming]
 传入
 [Outgoing]
 发送
 [Only since:]
-仅从: 
+仅从:
 [Messages]
 消息
 [URLs]
@@ -78,40 +78,40 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 [Number of contacts in database: %d]
 数据库中联系人数量: %d
 [Importing groups.]
-正在导入群组. 
+正在导入群组.
 [Group import failed.]
-无法导入群组. 
+无法导入群组.
 [Importing contacts.]
-正在导入联系人. 
+正在导入联系人.
 [Skipping new contacts import.]
-正在跳过导入新联系人. 
+正在跳过导入新联系人.
 [Importing system history.]
-正在导入系统历史. 
+正在导入系统历史.
 [Skipping system history import.]
-正在跳过导入系统历史. 
+正在跳过导入系统历史.
 [Importing history.]
 正在导入历史
 [Skipping history import.]
-正在跳过导入历史. 
+正在跳过导入历史.
 [Import completed in %d seconds.]
-导入 %d 秒完成. 
+导入 %d 秒完成.
 [Added %d contacts and %d groups.]
-已剂 %d 位联系人和 %d 个群组. 
+已剂 %d 位联系人和 %d 个群组.
 [Added %d contacts, %d groups and %d events.]
-已添加 %d 位联系人, %d 个群组及 %d 个事件. 
+已添加 %d 位联系人, %d 个群组及 %d 个事件.
 [Skipped %d contacts.]
-已跳过 %d 位联系人. 
+已跳过 %d 位联系人.
 [Skipped %d duplicates and %d filtered events.]
-已跳过 %d 个重复及 %d 个已过滤的事件. 
+已跳过 %d 个重复及 %d 个已过滤的事件.
 [Skipped %d duplicates.]
-已跳过 %d 个重复项目. 
+已跳过 %d 个重复项目.
 [&Import...]
 导入(&I)...
 [The given file does not exist. Please check that you have entered the name correctly.]
-指定文件不存在. 请确定输入名称正确. 
+指定文件不存在. 请确定输入名称正确.
 [Miranda NG database]
 Miranda NG 数据库
 [All Files]
 所有文件
 [Skipping duplicate group %s.]
-正在跳过重复群组 %s. 
+正在跳过重复群组 %s.

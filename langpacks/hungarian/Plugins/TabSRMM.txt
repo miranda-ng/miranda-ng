@@ -124,7 +124,7 @@ Beviteli elõzmények mérete
 [entries]
 bejegyzések
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-A csillaggal (*) jelölt beállítások csak a Miranda újraindításával lépnek életbe. 
+A csillaggal (*) jelölt beállítások csak a Miranda újraindításával lépnek életbe.
 [More about advanced tweaks]
 Részletek haladó beállításokról
 [Revert to (safe) defaults]
@@ -264,7 +264,7 @@ Egyéb beállításai
 [Setup status modes for automatic tab creation...]
 Állapotmódok beállítása automatikus füllétrehozáshoz...
 [Limit nicknames on tabs to]
-Becenevek korlátozása füleken 
+Becenevek korlátozása füleken
 [Select container]
 Befoglaló kiválasztása
 [Available containers]
@@ -778,7 +778,7 @@ Sablon beállításkezelõ
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ez visszaállítja a sablonbeállítást az alapért. beépített sablonra. Biztos, hogy ezt akarod tenni?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Sablonbeállítás sikeresen átállítva, kérlek zárj be és nyiss meg újra minden üzenetablakot. Ez a sablonkezelõ ablak most bezárul. 
+Sablonbeállítás sikeresen átállítva, kérlek zárj be és nyiss meg újra minden üzenetablakot. Ez a sablonkezelõ ablak most bezárul.
 [All message containers need to close before the skin can be changed\nProceed?]
 Minden üzenetbefoglalót be kell zárni a bõr váltásához\nFolytatod?
 [Change skin]

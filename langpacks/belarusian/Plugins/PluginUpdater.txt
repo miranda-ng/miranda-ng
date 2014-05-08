@@ -93,7 +93,7 @@
 [Component list]
 Спіс кампанентаў
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
-Вось поўны спіс даступных кампанентаў Міранды.Адзначце кампаненты, якія вы хочаце загрузіць.\n\nНацісьніце на абразок інфармацыі, каб праглядзець старонку інфармацыі пра кампанент. 
+Вось поўны спіс даступных кампанентаў Міранды.Адзначце кампаненты, якія вы хочаце загрузіць.\n\nНацісьніце на абразок інфармацыі, каб праглядзець старонку інфармацыі пра кампанент.
 [Download]
 Запампаваць
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp

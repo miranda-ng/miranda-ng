@@ -271,7 +271,7 @@
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Toggle autoreply on/off]
-Аўтаадказнік вкл/выкл 
+Аўтаадказнік вкл/выкл
 [Toggle autoreply off]
 Выключыць аўтаадказнік
 [Toggle autoreply on]

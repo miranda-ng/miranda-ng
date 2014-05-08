@@ -8,9 +8,9 @@
 [Buttons Order && Visibility]
 按钮顺序及可见性
 [Button width]
-按钮宽度: 
+按钮宽度:
 [Buttons order:]
-按钮顺序: 
+按钮顺序:
 [Add Separator]
 添加分隔器
 [Add Launch]

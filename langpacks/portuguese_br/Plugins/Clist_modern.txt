@@ -630,7 +630,7 @@ Nome
 [Name (use locale settings)]
 Nome (utilizar as definições locais)
 [Last message time]
-Última mensagem 
+Última mensagem
 [Account Name]
 Nome da Conta
 [-Nothing-]
@@ -720,7 +720,7 @@ Estreitar ambos os sentidos
 [Stretch Vertical, Tile Horizontal]
 Estreitar vertical, alongar Horizontal
 [Tile Vertical, Stretch Horizontal]
-Alongar Vertical,Estreitar Horizontal 
+Alongar Vertical, Estreitar Horizontal
 [Tile Both directions]
 Alongar Ambos os sentidos
 [Image size is]
@@ -780,7 +780,7 @@ Mostrar contatos offline
 [Find user]
 Localizar usuário
 [Use/Disable groups]
-Usar / desativar grupos 
+Usar / desativar grupos
 [Disable Groups]
 Desativar Grupos
 [Enable/Disable sounds]

@@ -548,7 +548,7 @@ Sett statusmodus
 [Standard contacts]
 Standard kontakter
 [Online contacts to whom you have a different visibility]
-Påloggede kontakter du har en annen synlighet ovenfor 
+Påloggede kontakter du har en annen synlighet ovenfor
 [Offline contacts]
 Frakoblede kontakter
 [Contacts which are 'not on list']

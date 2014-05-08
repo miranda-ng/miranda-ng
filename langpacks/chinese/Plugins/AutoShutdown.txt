@@ -12,7 +12,7 @@
 [&Show confirmation dialog before shutdown]
 关闭前显示确认对话框
 [&Countdown starts at:]
-倒计时开始于(&C): 
+倒计时开始于(&C):
 [seconds]
 秒
 [Shutdown Events]
@@ -24,7 +24,7 @@
 [Critical Shutdown Events]
 严重关机事件
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-发生下列事件时自动关机并截断电源: 
+发生下列事件时自动关机并截断电源:
 [&Thunderstorm warning is issued (Weather)]
 闪速警告已发出 (天气) (&T)
 [&Harddrive overheats (HDD Info)]
@@ -36,9 +36,9 @@
 [Shutdown at &specific time]
 于指定时间关闭(&S)
 [Shutdown a&t:]
-关闭于(&T): 
+关闭于(&T):
 [Shutdown i&n:]
-关闭在(&N): 
+关闭在(&N):
 [Shutdown when a &message is received containing the following text:]
 当接收到含此文本消息时关闭(&M)
 [Shutdown when Miranda NG becomes &idle]
@@ -46,7 +46,7 @@
 [Configure]
 设置
 [Shutdown when &prozessor usage drops below:]
-当处理器使用率下降至(&P): 
+当处理器使用率下降至(&P):
 [(current: 0%)]
 (当前: 0%)
 [Shutdown when all contacts are &offline]
@@ -54,19 +54,19 @@
 [Shutdown when all &file transfers are finished]
 当所有文件传输都已完成时关闭(&F)
 [&Action:]
-操作(&A): 
+操作(&A):
 [Cancel]
 取消
 [Unsaved data in open applications except Miranda NG might get lost.]
-除 Miranda NG 外已打开应用程序中未保存资料可能会丢失. 
+除 Miranda NG 外已打开应用程序中未保存资料可能会丢失.
 [Please click "Cancel" if you would like to abort the process.]
-如果您想中止进程请按 "取消". 
+如果您想中止进程请按 "取消".
 [&Now!]
-立即(&N)! 
+立即(&N)!
 [Shutdown at:]
-关闭于: 
+关闭于:
 [Time left:]
-剩余时间: 
+剩余时间:
 [Paused]
 暂停
 [&Unpause Countdown]
@@ -110,23 +110,23 @@
 [Automatic &shutdown...]
 自动关闭(&S)...
 [Miranda NG is going to be automatically closed in %u second(s).]
-Miranda NG 将于 %u 秒自动关闭. 
+Miranda NG 将于 %u 秒自动关闭.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-所有 Miranda NG 协议将于 %u 秒后自动设为离线. 
+所有 Miranda NG 协议将于 %u 秒后自动设为离线.
 [You will be logged off automatically in %u second(s).]
-您将于 %u 秒被自动注销. 
+您将于 %u 秒被自动注销.
 [The computer will automatically be restarted in %u second(s).]
-此电脑将于 %u 秒自动重启. 
+此电脑将于 %u 秒自动重启.
 [The computer will automatically be set to standby mode in %u second(s).]
-此电脑将于 %u 秒自动进入待命模式. 
+此电脑将于 %u 秒自动进入待命模式.
 [The computer will automatically be set to hibernate mode in %u second(s).]
-此电脑将于 %u 秒自动进入休眠模式. 
+此电脑将于 %u 秒自动进入休眠模式.
 [The workstation will automatically get locked in %u second(s).]
-此工作站将于 %u 秒被自动锁定. 
+此工作站将于 %u 秒被自动锁定.
 [All dialup connections will be closed in %u second(s).]
-所有拨号连接将于 %u 秒关闭. 
+所有拨号连接将于 %u 秒关闭.
 [The computer will automatically be shut down in %u second(s).]
-此电脑将于 %u 秒自动关机. 
+此电脑将于 %u 秒自动关机.
 [Automatic Shutdown Error]
 自动关闭错误
 [The shutdown process failed!\nReason: %s]
@@ -152,23 +152,23 @@ Miranda NG 将于 %u 秒自动关闭.
 [Hang up dialup connections]
 挂断拨号连接
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
-设置所有 Miranda NG 协议离线并关闭 Miranda NG. 
+设置所有 Miranda NG 协议离线并关闭 Miranda NG.
 [Sets all Miranda NG protocols to offline.]
-设置所有 Miranda NG 协议离线. 
+设置所有 Miranda NG 协议离线.
 [Logs the current Windows user off so that another user can log in.]
-将当前 Windows 用户注销使其他用户可登录. 
+将当前 Windows 用户注销使其他用户可登录.
 [Shuts down Windows and then restarts Windows.]
-关闭 Windows 并重启. 
+关闭 Windows 并重启.
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
-关闭所有正在运行的程序并关闭 Windows 直到可以安全关闭电源. 
+关闭所有正在运行的程序并关闭 Windows 直到可以安全关闭电源.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
-保存当前 Windows 会话至内存并使系统进入待命模式. 
+保存当前 Windows 会话至内存并使系统进入待命模式.
 [Saves the current Windows session on harddisc, so that the power can be turned off.]
-保存当前 Windows 会话至硬盘, 使电源可以被关闭. 
+保存当前 Windows 会话至硬盘, 使电源可以被关闭.
 [Locks the computer. To unlock the computer, you must log in.]
-锁定电脑. 要解除锁定, 您必须登录. 
+锁定电脑. 要解除锁定, 您必须登录.
 [Sets all protocols to offline and closes all RAS connections.]
-设定所有协议离线并关闭所有 RAS 连接. 
+设定所有协议离线并关闭所有 RAS 连接.
 [Alerts]
 提醒
 [Automatic Shutdown Countdown]

@@ -265,7 +265,7 @@ Ignorer l'envoi de timeouts
 [Load only actual history]
 Charger uniquement l'historique en cours
 [Always trim message log to]
-Toujours fixer à 
+Toujours fixer à
 [Events]
 Évènements
 [Only show tab bar when it's needed]

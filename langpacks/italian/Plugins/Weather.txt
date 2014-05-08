@@ -76,7 +76,7 @@ Azioni popup al click
 [Left Click]
 Tasto sx
 [Right Click]
-Tasto dx 
+Tasto dx
 [Popup Delay]
 Ritardo popup
 [seconds]

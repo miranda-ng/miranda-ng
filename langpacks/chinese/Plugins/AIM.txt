@@ -10,7 +10,7 @@ AIM 用户详细资料
 [Screen Name:]
 显示名:
 [Password:]
-密码: 
+密码:
 [AIM Options]
 AIM 选项
 [Message Delivery Confirmation]
@@ -56,9 +56,9 @@ AIM 选项
 [AIM Instant Idler]
 AIM 立即闲置
 [Number of Hours:]
-小时: 
+小时:
 [Number of Minutes:]
-分钟: 
+分钟:
 [Set Idle]
 设置闲置
 [Unset Idle]
@@ -250,11 +250,11 @@ DNS 故障.
 [%s Client-to-client connection]
 %s C2C 连接
 [[Auto-Response]:]
- [自动响应]: 
+[自动响应]:
 [Contact tried to open an audio/video conference (not currently supported)]
 联系人试图开启一个音频/视频会议 (尚不支持)
 [No information has been provided by the server.]
-服务器尚未提供任何资料. 
+服务器尚未提供任何资料.
 [Item you want to delete not found in list.]
 您想要删除项目不在列表中.
 [Failed to add buddy to list: Item already exist.]
