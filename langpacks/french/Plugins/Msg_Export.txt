@@ -226,11 +226,11 @@ Page web  : %Homepage%\r\n
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
-Lien:\s
+Lien :\s
 [File: ]
-Fichier:\s
+Fichier :\s
 [Description: ]
-Description:\s
+Description :\s
 [Failed to write URL/File to the file :\n]
 Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]

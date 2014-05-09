@@ -230,7 +230,7 @@ Fichiers %d
 Authentification Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-Vous avez été kické. Motif: %s\s
+Vous avez été kické. Motif : %s\s
 [You cannot join this chat room, because you are banned.]
 Vous ne pouvez rejoindre ce salon, car vous avez été banni.
 [Chat room not found.]

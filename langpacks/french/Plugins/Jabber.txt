@@ -1896,7 +1896,7 @@ Messages
 [queries]
 recherches
 [Else ]
-Sinon 
+Sinon\s
 [If Jabber ID is ']
 
 [ (nickname: ]
@@ -1906,7 +1906,7 @@ Sinon
 [If subscription is ']
 
 [then ]
-puis 
+puis\s
 [ (act., def.)]
 
 [ (active)]

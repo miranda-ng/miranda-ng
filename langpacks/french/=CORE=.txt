@@ -2237,7 +2237,7 @@ Demande d'autorisation de %s%s : %s
 [You were added by %s%s]
 Vous avez été ajouté par %s%s
 [Contacts: ]
-Contacts :
+Contacts :\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé. 

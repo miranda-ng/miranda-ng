@@ -491,11 +491,11 @@ Effacer le serveur
 [Edit server]
 Éditer le serveur
 [<Resolved IP: ]
-<IP trouvé:\s
+<IP trouvé :\s
 [<Automatic>]
 <Automatique>
 [<Local IP: ]
-<IP Local:\s
+<IP Local :\s
 [Click to set commands that will be performed for this event]
 Cliquez pour définir la commande pour cet évènement
 [Click to delete the commands for this event]
@@ -524,19 +524,19 @@ Compte
 Avancé
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
-WallOps de %stify
+WallOps de %stify :\s
 [%s invites you to %s]
 %s vous invite à %s
 [%s is away]
 %s est sorti
 [These are online: ]
-Ils sont en ligne:\s
+Ils sont en ligne :\s
 [CTCP %s reply sent to %s]
 Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
 Réponse CTCP %s envoyée à %s: %s
 [Notice to %s: ]
-Notice à %s:\s
+Notice à %s :\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Connexion &rapide
