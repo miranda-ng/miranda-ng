@@ -15,7 +15,7 @@ Annuler
 [Show these events]
 Afficher ces événements
 [Actions]
-
+Actions
 [Messages]
 Messages
 [Nick changes]
@@ -1182,7 +1182,7 @@ Information de TabSRMM
 [chat room]
 
 [contact]
-
+Contact
 [Do not synchronize the panel height with IM windows]
 
 [Do not synchronize the panel height with group chat windows]
@@ -1526,7 +1526,7 @@ Ce nom est déjà utilisé
 [Pending]
 
 [Contact]
-
+Contact
 [Original timestamp]
 
 [Message text]
@@ -2148,7 +2148,7 @@ Sélectionnez un répertoire
 [No word to look up]
 Aucun mot à chercher
 [&Message %s]
-
+&Message %s
 [Highlight User...]
 
 [Edit Highlight List...]

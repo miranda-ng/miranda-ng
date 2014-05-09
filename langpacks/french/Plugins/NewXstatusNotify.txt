@@ -184,7 +184,7 @@ Comptes
 
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
-
+Fichiers son
 [All files]
 Tous les fichiers
 [Wave files]
@@ -204,7 +204,7 @@ Hors ligne
 [<no status message>]
 <aucun message d'état>
 [Contact]
-
+Contact
 [connecting]
 Connexion...
 [aborting]

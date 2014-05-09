@@ -57,7 +57,7 @@ Titre :
 [Description:]
 Description:
 [Actions]
-
+Actions
 [Popup window]
 
 [Sound:]

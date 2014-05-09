@@ -45,9 +45,9 @@ Téléchargement
 [Upload]
 
 [Import from file]
-Importer d'un fichier
+Importer
 [Export to file]
-Exporter vers un fichier
+Exporter
 [Username:]
 Identifiant :
 [Change password]
@@ -177,11 +177,11 @@ Voix
 [Fax]
 Fax
 [Pager]
-
+Pagineur
 [Text/Messaging]
 Texte/Messagerie
 [Cellular]
-
+Portable
 [Video]
 Video
 [BBS]
@@ -265,7 +265,7 @@ Type du favori
 [Conference]
 Chat
 [Transport]
-
+Transport
 [URL]
 Lien
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
@@ -1088,7 +1088,7 @@ Chargement...
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
-
+transport
 [Notes]
 Notes
 [Multi-User Conference]
@@ -1390,7 +1390,7 @@ Fidjien
 [Finnish]
 
 [French]
-
+Français
 [Western Frisian]
 Frison occidental
 [Fulah]
@@ -1896,7 +1896,7 @@ Messages
 [queries]
 recherches
 [Else ]
-Sinon\s
+Sinon 
 [If Jabber ID is ']
 
 [ (nickname: ]
@@ -1906,7 +1906,7 @@ Sinon\s
 [If subscription is ']
 
 [then ]
-puis\s
+puis 
 [ (act., def.)]
 
 [ (active)]
@@ -1964,7 +1964,7 @@ Changerl'état
 [Extended Away (N/A)]
 
 [Do Not Disturb]
-
+Ne pas déranger
 [Invisible]
 Invisible
 [Offline]
@@ -2074,7 +2074,7 @@ Système
 [unknown]
 Inconnu
 [Idle since]
-
+Inactif depuis
 [Client capabilities]
 
 [Software information]
@@ -2204,7 +2204,7 @@ Contacts
 [Annoyed]
 
 [Anxious]
-
+Anxieux
 [Aroused]
 
 [Ashamed]
@@ -2340,7 +2340,7 @@ Timide
 [Sick]
 Malade
 [Sleepy]
-
+Somnolent
 [Spontaneous]
 
 [Stressed]
@@ -2524,7 +2524,7 @@ dans un véhicule
 [Set Activity]
 
 [Listening To]
-
+Écoute
 [Moods]
 
 [Activities]

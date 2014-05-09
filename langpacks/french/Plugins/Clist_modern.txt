@@ -533,7 +533,7 @@ Pseudo
 [Status Message]
 
 [Listening to]
-
+Écoute
 [Contact time]
 
 [Show status if there is no status message]

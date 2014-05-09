@@ -52,7 +52,6 @@
 [Send Message]
 [Dismiss Popup]
 [Classes]
-[Actions]
 [Toggle Popups]
 [Enable Popups]
 [Disable Popups]

@@ -212,7 +212,7 @@ Contacts
 [Attach to &Tab container]
 
 [&Move to Group]
-
+&Déplacer vers le groupe
 [Some of selected contacts in different metacontacts already]
 
 [Do you really want to delete selected contacts?]

@@ -7,7 +7,6 @@
 [Indent:]
 [Edit Host]
 [Label:]
-[Contact]
 [Options...]
 [Hosts...]
 [Open log file]

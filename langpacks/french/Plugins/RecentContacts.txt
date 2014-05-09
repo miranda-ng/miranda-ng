@@ -25,7 +25,7 @@ Contacts
 [Main icon]
 
 [Contact]
-
+Contact
 [Toggle Ignore]
 
 [Ignore Contact]

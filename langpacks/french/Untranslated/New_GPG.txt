@@ -128,7 +128,6 @@
 [failed to encrypt message, GPG returned error, turn on debug log for more details]
 [Something is wrong, GPG does not understand us, aborting encryption.]
 [GnuPG Variables]
-[Contact]
 [Key ID]
 [This key is not used by any contact. Do you want to remove it from public keyring?]
 [Key info]

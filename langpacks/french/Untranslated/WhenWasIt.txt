@@ -29,7 +29,6 @@
 [Set birthday for %s:]
 [N/A]
 [Birthday list (%d)]
-[Contact]
 [DTB]
 [Birthday]
 [Age]

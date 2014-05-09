@@ -30,7 +30,7 @@ Annuler
 [Custom sound for %s (%s)]
 
 [Sound files]
-
+Fichiers son
 [WAV files]
 Fichiers WAV
 ;file \plugins\XSoundNotify\src\options.cpp

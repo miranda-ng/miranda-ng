@@ -13,7 +13,7 @@ Envoyer le message à...
 [Everyone]
 Tous le monde
 [Contact]
-
+Contact
 [Forward when your status is...]
 Envoyer si vous êtes...
 [Offline]

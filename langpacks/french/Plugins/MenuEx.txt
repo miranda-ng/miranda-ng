@@ -60,7 +60,7 @@ XStatus - Titre
 [XStatus message]
 
 [Listening to]
-
+Écoute
 [Activity title]
 
 [Activity text]

@@ -5,7 +5,6 @@
 [Mode in Context Menu]
 [PGP]
 [GPG]
-[Reset All]
 [Split Messages]
 [Online:]
 [Offline:]

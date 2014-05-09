@@ -2,7 +2,6 @@
 [Avatar List Popup]
 [Delay]
 [Permanent]
-[Actions]
 [Track]
 [Avatar History for %s]
 [Avatar History is empty!]

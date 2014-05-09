@@ -1,4 +1,3 @@
 ﻿[Forwards messages to some contact when you are not available.]
-[Contact]
 [Template]
 [Messages forwarding]

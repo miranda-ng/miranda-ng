@@ -30,7 +30,6 @@
 [Use this message as default for]
 [New message]
 [New category]
-[Status messages:]
 [Configure autoaway]
 [Wait]
 [seconds before closing the status message dialog (-1=don't close)]

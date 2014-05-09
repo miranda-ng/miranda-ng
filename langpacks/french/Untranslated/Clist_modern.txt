@@ -17,7 +17,6 @@
 [Show second line]
 [Text:]
 [Status Message]
-[Listening to]
 [Contact time]
 [Show status if there is no status message]
 [Show listening to if there is no status message]

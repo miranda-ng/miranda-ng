@@ -2,7 +2,7 @@
 Language: French (France)
 Locale: 040c
 Authors: Dagobert_78, Jerbifor, soopah
-Last-Modified-Using: Miranda NG 0.95.1.
+Last-Modified-Using: Miranda NG 0.95.1
 ;	This translation is automatically generated from the French langpack Miranda IM by Dagobert_78.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0
 [Enter account name (for example, My Google)]
@@ -1023,8 +1023,6 @@ Renommer (ajouter (1), (2), etc.)
 Vous serez avisé des fichiers ne provenant pas de votre liste de contacts
 [About Miranda NG]
 À propos de Miranda NG
-[Miranda NG\n%s]
-Miranda NG\n%s
 [Credits >]
 Crédits >
 [Become idle if the following is left unattended:]
@@ -1978,7 +1976,7 @@ Miranda ne comprend pas ce profil !
 [This change is known to be safe.]
 Ce changement est connu pour être sûr.
 [Contacts: ]
-Contacts :
+Contacts :\s
 [The profile already exists]
 Le profil existe déjà
 [Problem moving profile]
@@ -2935,6 +2933,8 @@ Commun
 [&No]
 &Non
 ; Actman30
+[Refresh]
+Actualiser
 [Case sensitive]
 Respecter la casse
 [RTL]
@@ -3191,13 +3191,13 @@ En-tête SNAC invalide.
 [Server rate limit exceeded.]
 Limite de taux de serveur dépassée.
 [Recipient is not logged in.]
-Le destinataire n'est pas connecté. 
+Le destinataire n'est pas connecté.
 [Requested service is unavailable.]
 Le service demandé est indisponible.
 [Requested service is not defined.]
 Le service demandé n'est pas défini.
 [You sent obsolete SNAC.]
-Vous avez envoyé un SNAC obsolète. 
+Vous avez envoyé un SNAC obsolète.
 [Not supported by server.]
 Non supporté par le serveur.
 [Not supported by the client.]
@@ -7006,6 +7006,8 @@ Afficher
 ;============================================================
 [Cancel]
 Annuler
+[Refresh]
+Actualiser
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
@@ -8123,7 +8125,7 @@ Voir les erreurs de connexion
 [Manually specify connection servers' hosts]
 Spécifier l'hôte du serveur de connexion
 [* new line is separator\n** hostname:port format]
-* la nouvelle ligne est séparateur \n** format hôte:port 
+* la nouvelle ligne est séparateur \n** format hôte:port
 [Use SSL secure connection]
 Utiliser une connexion sécurisée SSL
 [File Transfer]
@@ -10776,7 +10778,7 @@ Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
 Réponse CTCP %s envoyée à %s: %s
 [Notice to %s: ]
-Notice à %s: 
+Notice à %s:\s
 [&Quick connect]
 Connexion &rapide
 [&Join channel]
@@ -10810,7 +10812,7 @@ Veuillez entrer un pseudo unique
 [Please enter your authentification code]
 Veuillez entrer votre code d'authentification
 [Are you sure you want to unregister your current nick?]
-Êtes vous sur de vouloir désenregistrer votre pseudo actuel? 
+Êtes vous sur de vouloir désenregistrer votre pseudo actuel?
 [Delete nick]
 Effacer le pseudo
 [Please enter your password]
@@ -10961,11 +10963,11 @@ Type :
 [User:]
 Contact :
 [Domain/Server:]
-Domaine/serveur :
+Serveur :
 [Password:]
 Passe :
 [Save password]
-Enregistrer le mot de passe
+Enregistrer le passe
 [Resource:]
 Ressource :
 [Register new user]
@@ -10983,11 +10985,11 @@ Exporter vers un fichier
 [Username:]
 Identifiant :
 [Change password]
-Changer le mot de passe
+Changer le passe
 [Priority:]
 Priorité :
 [Use hostname as resource]
-Utilisez le nom d'hôte en tant que ressource
+Utilisez le nom de l'ordinateur
 [List of public servers]
 Liste des serveurs publics
 [Port:]
@@ -11001,7 +11003,7 @@ Désenregistrer
 [Expert]
 Expert
 [Manually specify connection host]
-Indiquer l'hôte manuellement
+Choisir un hôte manuellement
 [Host:]
 Hôte :
 [Keep connection alive]
@@ -11236,14 +11238,20 @@ Nom de la nouvelle liste :
 Nom de la nouvelle liste :
 [Favorites]
 Favoris
+[Refresh]
+Actualiser
 [JID:]
 JID :
 [Account type:]
 Type de compte :
 [Register account now]
 Enregistrer le compte
+[Jabber Account Information:]
+Informations sur le compte Jabber :
 [Status message:]
 Message d'état :
+[Quit:]
+Quitter :
 [Authorization request]
 Demande d'autorisation
 [Authorize]
@@ -11326,6 +11334,10 @@ Catégorie
 Prénom
 [Last Name]
 Nom
+[Your URL]
+Votre URL
+[Email Address]
+Courriel
 [Loading...]
 Chargement...
 [Notes]
@@ -11388,6 +11400,8 @@ Vers
 les 2
 [Errors]
 Erreurs
+[From: %s]
+De : %s
 [Are you sure?]
 Etes-vous sûr?
 [Arabic]
@@ -11523,9 +11537,9 @@ Messages
 [queries]
 recherches
 [Else ]
-Sinon 
+Sinon\s
 [then ]
-puis 
+puis\s
 [Quit Miranda NG]
 Quitter Miranda-IM
 [Change Status]
@@ -11580,6 +11594,8 @@ les 2
 Vers
 [none]
 Aucun
+[<no information available>]
+<aucune information disponible>
 [Copy]
 Copier
 [format]
@@ -11670,6 +11686,8 @@ Neutre
 Offensé
 [Proud]
 Fier
+[Sad]
+Triste
 [Sarcastic]
 Sarcastique
 [Serious]
@@ -11678,6 +11696,8 @@ Sérieux
 Choqué
 [Shy]
 Timide
+[Sick]
+Malade
 [Stressed]
 Stressé
 [Surprised]
@@ -11698,6 +11718,8 @@ Fait les courses
 Regarde la télé
 [on the phone]
 Au téléphone
+[in a car]
+dans un véhicule
 [studying]
 Étudie
 #muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
@@ -12405,7 +12427,7 @@ Erreur
 [Popups]
 Popups
 [E-mail address]
-e-mail 
+e-mail
 [Are you sure?]
 Etes-vous sûr?
 [Network]
@@ -12418,6 +12440,8 @@ Connexions
 Fichiers
 [Avatars]
 Avatars
+[Sick]
+Malade
 [Home]
 Domicile
 [Duck]
@@ -12606,7 +12630,7 @@ Page web  : %Homepage%\r\n
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
-Lien:
+Lien:\s
 [File: ]
 Fichier:\s
 [Description: ]
@@ -12674,6 +12698,8 @@ Contact autorisé
 Contact bloqué
 [Somebody included you in his/her server list]
 Vous êtes dans la liste de ce contact
+[Refresh]
+Actualiser
 [Other]
 Autre
 [Enable 'Chat Session Established' popup]
@@ -12701,7 +12727,7 @@ Autres
 [User &details]
 &Détails du contact
 [Contact tried to open an audio conference (not currently supported)]
-Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée) 
+Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée)
 [MSN Protocol]
 Protocole MSN
 [MSN Alert]
@@ -12761,7 +12787,7 @@ Notifications
 [Contact tried to send its webcam data (not currently supported)]
 Le contact vous a envoyé un flux webcam (actuellement non supporté)
 [Contact tried to view your webcam data (not currently supported)]
-Le contact a essayé de connecter à votre webcam (actuellement non supporté) 
+Le contact a essayé de connecter à votre webcam (actuellement non supporté)
 [You cannot send message to yourself]
 Vous ne pouvez vous envoyer de message à vous-même
 [Message is too long: SMS page limited to 133 UTF8 chars]
@@ -13435,7 +13461,7 @@ fichier
 [URL]
 Lien
 [Update URL every]
-Màj toutes les 
+Màj toutes les
 [Intervals]
 Intervalle
 [Contacts Tooltip]
@@ -13689,7 +13715,7 @@ Message envoyé
 [Receiving text]
 Message reçu
 [Allow receiving one nudge from the same contact every:]
-Autoriser la réception d'un wizz du même contact toutes les 
+Autoriser la réception d'un wizz du même contact toutes les
 [Preview]
 Aperçu
 [Text]
@@ -14620,6 +14646,8 @@ contact actuel
 Sauver
 [Close]
 Fermer
+[Refresh]
+Actualiser
 [QuickSearch]
 Recherche rapide
 [Show Offline contacts]
@@ -14706,6 +14734,8 @@ secondes
 Minutes
 [Hours]
 Heures
+[Refresh]
+Actualiser
 [Network]
 Réseau
 [All files (*.*)]
@@ -16520,7 +16550,7 @@ Changement d'état
 #muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
 ;============================================================
 ;  File: Steam.dll
-;  Plugin: Steam Protocol
+;  Plugin: Steam protocol
 ;  Version: 0.11.0.1
 ;  Authors: unsane
 ;============================================================
@@ -16538,6 +16568,8 @@ Compte
 Annuler
 [Network]
 Réseau
+[Request authorization]
+Demander l'autorisation
 [Protocols]
 Protocoles
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
@@ -16758,7 +16790,7 @@ Ignorer l'envoi de timeouts
 [Load only actual history]
 Charger uniquement l'historique en cours
 [Always trim message log to]
-Toujours fixer à 
+Toujours fixer à
 [Events]
 Évènements
 [Only show tab bar when it's needed]
@@ -17236,11 +17268,11 @@ Fichier reçu
 [Unknown event]
 Évènement inconnu
 [New messages: ]
-Nouveaux messages : 
+Nouveaux messages :\s
 [Version]
 Version
 [%s is typing a message...]
-%s vous écrit un message...
+%s écrit un message...
 [Last received: %s at %s]
 Dernière réception : le %s à %s
 [%s is typing a message]
@@ -17600,7 +17632,7 @@ Vous êtes connu en tant que %s
 [%s kicked %s]
 %s a exclu %s
 [Notice from %s: ]
-Notice de %s : 
+Notice de %s :\s
 [The topic is '%s%s']
 Le sujet est '%s%s'
 [ (set by %s)]
@@ -17980,7 +18012,7 @@ Utiliser le plugin Nudge
 [Voice Chats]
 Chats vocaux
 [Recording device:]
-Enregistreur: 
+Enregistreur:
 [Playback device:]
 Lecteur:
 [Expert Options]
@@ -18108,7 +18140,7 @@ Fichiers %d
 [Tlen Authentication]
 Authentification Tlen
 [You have been kicked. Reason: %s ]
-Vous avez été kické. Motif: %s 
+Vous avez été kické. Motif: %s\s
 [You cannot join this chat room, because you are banned.]
 Vous ne pouvez rejoindre ce salon, car vous avez été banni.
 [Chat room not found.]
@@ -19217,7 +19249,7 @@ Fichier de sauvegarde des statistiques
 [Autosort period, days]
 Générer tout les (jours):
 [Template file]
-Ficher modèle 
+Ficher modèle
 [Export default]
 Export. défaut
 [by Length]
@@ -20306,6 +20338,8 @@ Principales
 e-mail
 [Profile]
 Profil
+[Refresh]
+Actualiser
 [Address Book]
 Carnet d'adresses
 [Calendar]

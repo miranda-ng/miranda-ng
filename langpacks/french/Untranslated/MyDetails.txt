@@ -15,8 +15,6 @@
 [Cycle through accounts]
 [Don't cycle through accounts]
 [Status Message]
-[Listening To]
 [Avatar Border]
-[Listening to]
 [Previous protocol]
 [Next protocol]

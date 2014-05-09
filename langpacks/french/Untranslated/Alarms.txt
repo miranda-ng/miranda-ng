@@ -3,7 +3,6 @@
 [Reminder frame]
 [Loop sound]
 [Don't steal focus unless idle]
-[Actions]
 [Popup window]
 [Sound:]
 [Weekly]

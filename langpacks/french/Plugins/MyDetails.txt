@@ -125,7 +125,7 @@ Pseudo
 [Status Message]
 
 [Listening To]
-
+Écoute
 [My Details]
 Mes détails
 [Background]
@@ -146,7 +146,7 @@ Changer mon message d'état pour %s...
 Cacher mes détails
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Listening to]
-
+Écoute
 [Previous protocol]
 
 [Next protocol]

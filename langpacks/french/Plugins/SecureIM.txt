@@ -43,7 +43,7 @@ jours
 [GPG]
 
 [Reset All]
-
+Tout réinitialiser
 [Protocols]
 Protocoles
 [Split Messages]

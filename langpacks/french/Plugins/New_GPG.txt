@@ -313,7 +313,7 @@ Messages
 [Advanced]
 Avancé
 [Contact]
-
+Contact
 [Key ID]
 
 [Protocol]

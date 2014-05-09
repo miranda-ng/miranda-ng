@@ -8,7 +8,6 @@
 [iTunes]
 [foobar2000 (need to install the plugin manually)]
 [mRadio]
-[Listening to]
 [Variables:]
 [%artist% - Artist name]
 [%album% - Album name]

@@ -79,7 +79,7 @@ Réussi, si mon état est:
 [Execute the following command on double-click:]
 Exécuter les commandes suivantes suite à un double-clique:
 [Contact]
-
+Contact
 [Protocols]
 Protocoles
 [(Optional) Command Parameters:]

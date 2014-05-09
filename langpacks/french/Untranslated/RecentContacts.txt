@@ -4,7 +4,6 @@
 [Number of shown contacts:\n (0 to show all)]
 [Format of date and time\n(Look to readme for placeholders help)]
 [Main icon]
-[Contact]
 [Toggle Ignore]
 [Show Contact]
 [Show Recent Contacts]

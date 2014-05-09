@@ -58,7 +58,6 @@
 [OTR]
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 [Fingerprints]
-[Contact]
 [Verified]
 [Fingerprint]
 [Conv. HTML]

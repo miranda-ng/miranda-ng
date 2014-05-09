@@ -418,7 +418,7 @@ Autre
 [ETA]
 
 [Contact]
-
+Contact
 [Proto]
 
 [Age/Nr.]
@@ -538,7 +538,7 @@ Mise à jour
 [Fax]
 Fax
 [Cellular]
-
+Portable
 [Custom Phone]
 Téléphone
 [e-mail]
@@ -764,7 +764,7 @@ Arabe
 [Finnish]
 
 [French]
-
+Français
 [Gaelic]
 
 [German]

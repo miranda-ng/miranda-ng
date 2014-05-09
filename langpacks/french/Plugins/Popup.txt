@@ -304,7 +304,7 @@ Ajouter le contact
 [Classes]
 
 [Actions]
-
+Actions
 [Contacts]
 Contacts
 [Advanced]

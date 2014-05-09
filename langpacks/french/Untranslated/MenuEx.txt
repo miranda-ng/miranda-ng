@@ -17,7 +17,6 @@
 [Hide contact on 'Ignore all']
 [Status message]
 [XStatus message]
-[Listening to]
 [Activity title]
 [Activity text]
 [Show in list]

@@ -55,7 +55,7 @@ Défini
 [Permanent]
 
 [Actions]
-
+Actions
 [On right click:]
 Clic droit:
 [On left click:]

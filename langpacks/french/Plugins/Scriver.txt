@@ -153,7 +153,7 @@ Annuler
 [Message Session]
 Session message
 [&User menu]
-
+&Menu utilisateur
 [User &details]
 &Détails du contact
 [&Emoticons]
@@ -161,7 +161,7 @@ Session message
 [&Add]
 &Ajouter
 [&History]
-
+&Historique
 [&Quote]
 &Citer
 [Send To All Tabs]
@@ -177,7 +177,7 @@ Non
 [&Bold]
 &Gras
 [&Italic]
-
+&Italique
 [&Underline]
 &Souligné
 [&Color]
@@ -193,7 +193,7 @@ Non
 [Show these events only:]
 Voir ces évènements si:
 [Actions]
-
+Actions
 [Messages]
 Messages
 [Nick changes]
@@ -747,7 +747,7 @@ Messages d'information
 [Show icon in tray for status changes]
 Changements d'état du contact
 [Show popups only when the chat room is not active]
-
+st pas actif
 [Show popup for topic changes]
 
 [Show popup for users joining]
@@ -836,7 +836,7 @@ Sélectionnez un répertoire
 Popups
 ;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
-
+&Message %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 

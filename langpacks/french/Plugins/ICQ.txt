@@ -398,7 +398,7 @@ Modification du nom du groupe-serveur échouée.
 
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
-
+Afghanistan
 [Albania]
 Albanie
 [Algeria]
@@ -434,7 +434,7 @@ Autriche
 [Azerbaijan]
 Azerbaïdjan
 [Bahamas]
-
+Bahamas
 [Bahrain]
 Bahrain
 [Bangladesh]
@@ -508,7 +508,7 @@ Côte d'Ivoire
 [Croatia]
 Croatie
 [Cuba]
-
+Cuba
 [Greek, Republic of South Cyprus]
 
 [Czech Republic]
@@ -704,7 +704,7 @@ Antilles Hollandaises
 [St. Maarten]
 
 [Curacao]
-
+Curaçao
 [Netherlands (Bonaire Island)]
 
 [Netherlands (Saba Island)]
@@ -722,7 +722,7 @@ Niger
 [Nigeria]
 Nigéria
 [Niue]
-
+Niue
 [Northern Mariana Islands, US Territory of]
 
 [Norway]
@@ -886,7 +886,7 @@ Serbie
 [Kosovo, Republic of]
 
 [Montenegro]
-
+Monténégro
 [Zambia]
 Zambie
 [Zimbabwe]
@@ -1038,7 +1038,7 @@ Arabe
 [Finnish]
 
 [French]
-
+Français
 [Gaelic]
 
 [German]
@@ -1714,7 +1714,7 @@ Nom
 [Password]
 Mot de passe
 [Contact]
-
+Contact
 [Primary e-mail]
 
 [Secondary e-mail]

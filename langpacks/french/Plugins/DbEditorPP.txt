@@ -370,7 +370,7 @@ Taille
 
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
-
+Contact
 [Module]
 
 [Setting]

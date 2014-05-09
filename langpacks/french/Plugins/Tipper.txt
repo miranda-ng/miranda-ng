@@ -278,7 +278,7 @@ E-mails non-lus
 [Extra status]
 
 [Listening to]
-
+Écoute
 [Miranda uptime]
 
 [Contact list event]
@@ -581,7 +581,7 @@ Arabe
 [Finnish]
 
 [French]
-
+Français
 [Gaelic]
 
 [German]

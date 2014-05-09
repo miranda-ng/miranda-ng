@@ -41,6 +41,5 @@
 [STRING]
 [Decoded string..]
 [Encoded string..]
-[Contact]
 [Module]
 [Setting]

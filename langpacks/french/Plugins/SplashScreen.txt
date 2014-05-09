@@ -47,7 +47,7 @@ Erreur
 [Graphic files]
 
 [Sound Files]
-
+Fichiers son
 [Skins]
 Skins
 [Splash Screen]

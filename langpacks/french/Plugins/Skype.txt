@@ -342,7 +342,7 @@ Chat
 [Send contact]
 
 [Contact]
-
+Contact
 [Delete]
 Effacer
 [Protocols]

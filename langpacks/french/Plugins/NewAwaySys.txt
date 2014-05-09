@@ -115,7 +115,7 @@ Titre :
 [Delete]
 Effacer
 [Status messages:]
-
+Messages d'état :
 [Configure autoaway]
 
 [Wait]

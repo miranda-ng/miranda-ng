@@ -13,11 +13,11 @@ Envoi des contacts
 [&Add]
 &Ajouter
 [&User menu]
-
+&Menu utilisateur
 [User &details]
 &Détails du contact
 [&History]
-
+&Historique
 [Choose contacts to be send:]
 Choisir contacts à envoyer:
 [&Send]
