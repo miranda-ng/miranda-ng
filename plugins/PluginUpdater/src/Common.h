@@ -127,10 +127,12 @@ extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer, hPipe;
-extern HWND hwndDialog;
 
 void DoCheck(int iFlag);
 void DoGetList(int iFlag);
+
+void UninitCheck(void);
+void UninitListNew(void);
 
 struct AutoHandle
 {

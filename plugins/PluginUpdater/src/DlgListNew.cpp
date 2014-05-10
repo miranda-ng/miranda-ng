@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+static HWND hwndDialog;
+
 static void SelectAll(HWND hDlg, bool bEnable)
 {
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
@@ -457,4 +459,10 @@ void DoGetList(int iFlag)
 	}
 	else if (iFlag)
 		hListThread = mir_forkthread(GetList, 0);
+}
+
+void UninitListNew()
+{
+	if (hwndDialog != NULL)
+		DestroyWindow(hwndDialog);
 }

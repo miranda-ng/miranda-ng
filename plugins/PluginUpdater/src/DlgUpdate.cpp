@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 #define UM_ERROR (WM_USER+1)
 
 static bool bShowDetails;
+static HWND hwndDialog;
 
 static void SelectAll(HWND hDlg, bool bEnable)
 {
@@ -571,4 +572,10 @@ void DoCheck(int iFlag)
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 		hCheckThread = mir_forkthread(CheckUpdates, 0);		
 	}
+}
+
+void UninitCheck()
+{
+	if (hwndDialog != NULL)
+		DestroyWindow(hwndDialog);
 }

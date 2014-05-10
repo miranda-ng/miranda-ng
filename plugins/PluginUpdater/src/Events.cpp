@@ -90,7 +90,7 @@ int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	CancelWaitableTimer(Timer);
 	CloseHandle(Timer);
 
-	if (hwndDialog != NULL)
-		DestroyWindow(hwndDialog);
+	UninitCheck();
+	UninitListNew();
 	return 0;
 }
