@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,8 +49,8 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 	std::vector<std::string> names;
 	utils::text::explode(fbu->real_name, " ", &names);
 
-	updateStringUtf(this, hContact, FACEBOOK_KEY_FIRST_NAME, names.front().c_str());
-	updateStringUtf(this, hContact, FACEBOOK_KEY_LAST_NAME, names.back().c_str());
+	updateStringUtf(this, hContact, FACEBOOK_KEY_FIRST_NAME, names.size() > 0 ? names.front().c_str() : "");
+	updateStringUtf(this, hContact, FACEBOOK_KEY_LAST_NAME, names.size() > 1 ? names.back().c_str() : "");
 
 	std::string middle = "";
 	if (names.size() > 2) {

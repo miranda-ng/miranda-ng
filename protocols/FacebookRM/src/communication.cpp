@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -918,6 +918,10 @@ bool facebook_client::home()
 	{		
 		// Get real name
 		this->self_.real_name = utils::text::source_get_value(&resp.data, 2, "<strong class=\"profileName\">", "</strong>");
+		
+		// Try to get name again, if we've got some some weird version of Facebook
+		if (this->self_.real_name.empty())
+			this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
 
 		// Get and strip optional nickname
 		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
@@ -929,13 +933,13 @@ bool facebook_client::home()
 		}
 		parent->debugLogA("      Got self real name: %s", this->self_.real_name.c_str());
 
-		// Save name and nickname
-		parent->SaveName(NULL, &this->self_);
-
 		if (this->self_.real_name.empty()) {
 			client_notify(TranslateT("Something happened to Facebook. Maybe there was some major update so you should wait for an update."));
 			return handle_error("home", FORCE_QUIT);
 		}
+
+		// Save name and nickname
+		parent->SaveName(NULL, &this->self_);
 
 		// Get avatar
 		this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "class=\"l\"", "<img src=\"", "\"");
