@@ -192,7 +192,7 @@ public:
 	MCONTACT ChatIDToHContact(std::tstring);
 	std::string ThreadIDToContactID(std::string thread_id);
 	void FacebookProto::LoadContactInfo(facebook_user* fbu);
-	MCONTACT AddToContactList(facebook_user*, ContactType type, bool dont_check = false);
+	MCONTACT AddToContactList(facebook_user*, ContactType type, bool force_save = false);
 	void     SetAllContactStatuses(int status);
 	MCONTACT HContactFromAuthEvent(HANDLE hEvent);
 

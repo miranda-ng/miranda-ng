@@ -232,15 +232,13 @@ void FacebookProto::ProcessFriendList(void* data)
 	}
 
 	// Check remaining contacts in map and add them to contact list
-	for (std::map< std::string, facebook_user* >::iterator iter = friends.begin(); iter != friends.end(); ++iter) {
-		facebook_user *fbu = iter->second;
+	for (std::map< std::string, facebook_user* >::iterator it = friends.begin(); it != friends.end(); ) {
+		if (!it->second->deleted)
+			AddToContactList(it->second, CONTACT_FRIEND, true); // there could be race-condition between this thread and channel/buddy_list thread, so this contact might be created already
 
-		if (!fbu->deleted)
-			MCONTACT hContact = AddToContactList(fbu, CONTACT_FRIEND/*, true*/); // This contact is surely new ...am I sure? ...I'm not, so "true" is commented now
-
-		delete fbu;
+		delete it->second;
+		it = friends.erase(it);
 	}
-	
 	friends.clear();
 
 	debugLogA("***** Friend list processed");
