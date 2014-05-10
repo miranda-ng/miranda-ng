@@ -40,7 +40,7 @@ static void ApplyDownloads(void *param)
 	// if we need to escalate priviledges, launch a atub
 
 	if (!PrepareEscalation()) {
-		DestroyWindow(hDlg);
+		EndDialog(hDlg, 0);
 		return;
 	}
 
@@ -118,9 +118,7 @@ static void ApplyDownloads(void *param)
 	if (rc == IDYES)
 		CallFunctionAsync(OpenPluginOptions, 0);
 
-	CloseWindow(hDlg);
-	DestroyWindow(hDlg);
-	hwndDialog = NULL;
+	EndDialog(hDlg, 0);
 	return;
 }
 
@@ -361,6 +359,10 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			// The minimum height in points
 			mmi->ptMinTrackSize.y = 300;
 		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hDlg);
 		break;
 
 	case WM_DESTROY:

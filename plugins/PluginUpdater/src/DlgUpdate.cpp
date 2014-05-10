@@ -48,7 +48,7 @@ static void ApplyUpdates(void *param)
 	// if we need to escalate priviledges, launch a atub
 
 	if (!PrepareEscalation()) {
-		DestroyWindow(hDlg);
+		EndDialog(hDlg, 0);
 		return;
 	}
 
@@ -147,7 +147,8 @@ static void ApplyUpdates(void *param)
 		if (rc == IDYES)
 			CallFunctionAsync(RestartMe, 0);
 	}
-	DestroyWindow(hDlg);
+	EndDialog(hDlg, 0);
+	return;
 }
 
 static void ResizeVert(HWND hDlg, int yy)
@@ -305,7 +306,6 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				break;
 
 			case IDCANCEL:
-				Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 				DestroyWindow(hDlg);
 				return TRUE;
 			}
@@ -314,6 +314,10 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 	case UM_ERROR:
 		MessageBox(hDlg, TranslateT("Update failed! One of the components wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+		DestroyWindow(hDlg);
+		break;
+
+	case WM_CLOSE:
 		DestroyWindow(hDlg);
 		break;
 

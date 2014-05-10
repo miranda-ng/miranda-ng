@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-#include "m_pluginupdater.h"
-
 static INT_PTR srvParseHashes(WPARAM wParam, LPARAM lParam)
 {
 	LPCTSTR ptszUrl = (LPCTSTR)wParam;
