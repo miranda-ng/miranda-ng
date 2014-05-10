@@ -182,6 +182,8 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 	if (hContact && !force_save)
 		return hContact;
 
+	force_save = !hContact;
+
 	// If not, try to make a new contact
 	if (!hContact) {
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -194,17 +196,25 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 
 	// If we have some contact, we'll save its data
 	if (hContact) {
-		setString(hContact, FACEBOOK_KEY_ID, fbu->user_id.c_str());
+		if (force_save) {
+			// Save these values only when adding new contact, not when updating existing
+			setString(hContact, FACEBOOK_KEY_ID, fbu->user_id.c_str());
 
-		std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
-		setString(hContact, "Homepage", homepage.c_str());
-		setTString(hContact, "MirVer", fbu->getMirVer());
+			std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
+			setString(hContact, "Homepage", homepage.c_str());
+			setTString(hContact, "MirVer", fbu->getMirVer());
 
-		db_unset(hContact, "CList", "MyHandle");
+			db_unset(hContact, "CList", "MyHandle");
 
-		ptrT group( getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP));
-		if (group)
-			db_set_ts(hContact, "CList", "Group", group);
+			ptrT group(getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP));
+			if (group)
+				db_set_ts(hContact, "CList", "Group", group);
+
+			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
+
+			if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
+				CallService(MS_IGNORE_IGNORE, hContact, (LPARAM)IGNOREEVENT_USERONLINE);
+		}
 
 		if (!fbu->real_name.empty())
 			SaveName(hContact, fbu);
@@ -214,11 +224,6 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 
 		if (!fbu->image_url.empty())
 			setString(hContact, FACEBOOK_KEY_AV_URL, fbu->image_url.c_str());
-
-		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
-
-		if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
-			CallService(MS_IGNORE_IGNORE, hContact, (LPARAM)IGNOREEVENT_USERONLINE);
 	}
 
 	return hContact;
