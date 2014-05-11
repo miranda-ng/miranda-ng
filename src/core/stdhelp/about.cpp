@@ -52,11 +52,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			TCHAR str[64];
 			mir_sntprintf(str, SIZEOF(str), STR_VERSION_FORMAT, productVersion);
-
-			TCHAR oldTitle[256], newTitle[256];
-			GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
-			mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, str);
-			SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{
