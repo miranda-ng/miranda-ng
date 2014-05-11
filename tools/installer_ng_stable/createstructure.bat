@@ -8,7 +8,6 @@ pushd tmp
 for /F "tokens=1,2 delims= " %%i in (build.no) do set ver1=%%i.%%j
 for /F "tokens=3 delims= " %%k in (build.no) do (set /a "ver2=%%k-1")
 set Mirver=%ver1%.%ver2%
-del /F /Q build.no
 popd
 rem end
 

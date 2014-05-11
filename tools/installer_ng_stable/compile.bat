@@ -1,7 +1,9 @@
 @echo off
 rem Get version
 if not exist tmp mkdir tmp
+if exist tmp\build.no goto mkver
 Tools\wget.exe -O tmp\build.no http://svn.miranda-ng.org/main/trunk/build/build.no
+:mkver
 pushd tmp
 for /F "tokens=1,2 delims= " %%i in (build.no) do set ver1=%%i.%%j
 for /F "tokens=3 delims= " %%k in (build.no) do (set /a "ver2=%%k-1")
