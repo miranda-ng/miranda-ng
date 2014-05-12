@@ -91,8 +91,6 @@
 &Тенденция:
 [&Advanced Settings...]
 &Дополнительные настройки...
-[Static]
-Статический
 [Current Rate:]
 Текущее значение:
 [Rate Fetch Time:]

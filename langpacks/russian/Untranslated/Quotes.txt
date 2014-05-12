@@ -3,7 +3,6 @@
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
 [Get data from:]
 [Do not add to popup's history]
-[<a>SysLink1</a>]
 [There is no to show]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
