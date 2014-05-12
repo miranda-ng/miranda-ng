@@ -1373,7 +1373,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 				{
 					this->AuthRequest(
 						this->AddContact(contact),
-						LPGENT("Hi! I\'d like to add you to my contact list"));
+						LPGENT("Hi! I'd like to add you to my contact list"));
 				}
 			}
 			break;
