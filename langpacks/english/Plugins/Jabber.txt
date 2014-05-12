@@ -983,7 +983,7 @@
 [Unable to save list because you are currently offline.]
 [List Editor...]
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]

@@ -1928,7 +1928,7 @@ Facebook чат
 [List Editor...]
 Редактиране на списък...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 Не съществува съвместим механизъм за обмен на файлове
 [Protocol is offline or no JID]
 Протоколът е "Извън линия" или няма JID

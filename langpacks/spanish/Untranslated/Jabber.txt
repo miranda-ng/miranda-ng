@@ -807,7 +807,7 @@
 [Sorry]
 [Unable to save list because you are currently offline.]
 [List Editor...]
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
 [Command completed successfully]
 [Error occurred during processing command]

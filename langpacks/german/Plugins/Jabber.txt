@@ -1934,7 +1934,7 @@ Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
 Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 Kein kompatibler Dateiübertragungsmechanismus vorhanden
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID

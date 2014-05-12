@@ -937,7 +937,7 @@ Ready.
 現在オフラインのため , リストの保存ができません
 [List Editor...]
 リストエディター...
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 互換性のあるファイル転送メカニズムが存在しません
 [Protocol is offline or no JID]
 プロトコルはオフラインか JID がありません

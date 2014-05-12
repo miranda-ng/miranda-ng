@@ -15935,7 +15935,7 @@ XML для MS Excel (кодування UTF-8)
 Неможливо зберегти список, тому що ви не в мережі.
 [List Editor...]
 Редактор списків...
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 Не знайдено жодного сумісного механізму передачі файлів
 [Protocol is offline or no JID]
 Протокол не в мережі чи ні JID

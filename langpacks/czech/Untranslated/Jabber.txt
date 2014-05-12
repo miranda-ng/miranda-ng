@@ -292,7 +292,7 @@
 [Error occurred while setting default list]
 [Please save list before you make it the default list]
 [Unable to save list because you are currently offline.]
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 [Protocol is offline or no JID]
 [Command completed successfully]
 [Leave group chats]

@@ -17436,7 +17436,7 @@ Cлужба недоступна
 [Unable to save list because you are currently offline.]
 Невозможно сохранить список, т.к. вы не в сети.
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer machanism exist]
+[No compatible file transfer mechanism exists]
 Не найдено ни одного совместимого механизма передачи файлов
 [Protocol is offline or no jid]
 Протокол не в сети или нет JID

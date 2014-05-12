@@ -956,7 +956,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const TCHAR *szDescript
 		|| (jcb == JABBER_RESOURCE_CAPS_NONE)
 		// XEP-0096 and OOB not supported?
 		|| !(jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_OOB))) {
-		MsgPopup(hContact, TranslateT("No compatible file transfer machanism exist"), item->jid);
+		MsgPopup(hContact, TranslateT("No compatible file transfer mechanism exists"), item->jid);
 		return 0;
 	}
 
