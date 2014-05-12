@@ -449,7 +449,7 @@ function ParseSourceFile (FileTextVar,array) {
 	//remove first and last "
 	nofirstlaststring=noslashstring.slice(1, -1)
     //remove escape slashes before ' and "
-    stringtolangpack=nofirstlaststring.replace(/\\(['"])/g,"$1");
+    stringtolangpack=nofirstlaststring.replace(/\\(")/g,"$1");
     ///if our string still exist, and length at least one symbol
     if (stringtolangpack.length>0) {
         //brand new _T() crap filtering engine :)
