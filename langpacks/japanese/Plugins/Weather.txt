@@ -245,18 +245,18 @@ HTTP エラー: 不正なゲートウェイです (502)
 HTTPエラー: サービスは利用できません (503)
 [HTTP Error: Gateway timeout (504)]
 HTTPエラー: ゲートウェイはタイムアウトしました (504)
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\n気温: %t\n体感気温: %f\n気圧: %p\n風: %i  %w\n湿度: %m\n露点: %e\n視界: %v\n\n日の出: %r\n日の入り: %y\n\n5 日分の天気予報:\n%[ 予報 1 日目 ]\n%[ 予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-体感気温: %f\n気圧: %p\n風: %i  %w\n湿度: %m\n露点: %e\n視界: %v\n\n日の出: %r\n日の入り: %y\n\n5 日分の天気予報:\n%[ 予報 1 日目 ]\n%[予報 2 日目 ]\n%[ 予報 3 日目 ]\n%[ 予報 4 日目 ]\n%[ 予報 5 日目 ]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\n気温: %t\\n体感気温: %f\\n気圧: %p\\n風: %i  %w\\n湿度: %m\\n露点: %e\\n視界: %v\\n\\n日の出: %r\\n日の入り: %y\\n\\n5 日分の天気予報:\\n%[ 予報 1 日目 ]\\n%[ 予報 2 日目 ]\\n%[ 予報 3 日目 ]\\n%[ 予報 4 日目 ]\\n%[ 予報 5 日目 ]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+体感気温: %f\\n気圧: %p\\n風: %i  %w\\n湿度: %m\\n露点: %e\\n視界: %v\\n\\n日の出: %r\\n日の入り: %y\\n\\n5 日分の天気予報:\\n%[ 予報 1 日目 ]\\n%[予報 2 日目 ]\\n%[ 予報 3 日目 ]\\n%[ 予報 4 日目 ]\\n%[ 予報 5 日目 ]
 [Weather Condition for %n as of %u]
 %u 現在の %n の天気
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %c, %t ( 体感気温 %f)	風: %i %w	湿度: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n %u:	%c, %t ( 体感気温 %f)	風: %i %w	湿度: %m
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\n今日:  最高 %h, 最低 %l
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\n今日:  最高 %h, 最低 %l
 [Current weather information for %s.]
 %s の現在の天気情報
 [%s is now the default weather station]
@@ -349,7 +349,7 @@ INI バージョン:
 全般
 [Popups]
 ポップアップ
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\t現在の状況\n%d\t現在の日付\n%e\t露点\n%f\t体感気温\n%h\t今日の最高気温\n%i\t風向\n%l\t今日の最低気温\n%m\t湿度\n%n\t気象台名\n%p\t気圧\n%r\t日の出時間\n%s\t気象台 ID\n%t\t気温\n%u\t更新時間\n%v\t視界\n%w\t風速\n%y\t日の入り
 [Weather Protocol Text Preview]
 Weather プロトコルテキストプレビュー

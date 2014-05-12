@@ -35,7 +35,6 @@
 [&Status Message:]
 [&Tendency:]
 [&Advanced Settings...]
-[<a>SysLink1</a>]
 [Current Rate:]
 [Rate Fetch Time:]
 [Previous Rate:]

@@ -320,18 +320,18 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 Памылка HTTP: Сэрвіс недасяжны (503)
 [HTTP Error: Gateway timeout (504)]
 Памылка HTTP: Затрымка шлюза (504)
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\n Тэмпература: %t\n Адчуванне: %f\n Ціск: %p\n Вецер: %i  %w\n Вільготнасць: %m\n Раса: %e\n Бачнасць: %v\n\n Узыход: %r\n Заход: %y\n\n Прагноз на 5 дзён:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Адчуванне: %f\n Ціск: %p\n Вецер: %i  %w\n Вільготнасць: %m\n Раса: %e\n Бачнасць: %v\n\n Узыход: %r\n Заход: %y\n\n Прагноз на 5 дзён:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\n Тэмпература: %t\\n Адчуванне: %f\\n Ціск: %p\\n Вецер: %i  %w\\n Вільготнасць: %m\\n Раса: %e\\n Бачнасць: %v\\n\\n Узыход: %r\\n Заход: %y\\n\\n Прагноз на 5 дзён:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Адчуванне: %f\\n Ціск: %p\\n Вецер: %i  %w\\n Вільготнасць: %m\\n Раса: %e\\n Бачнасць: %v\\n\\n Узыход: %r\\n Заход: %y\\n\\n Прагноз на 5 дзён:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Стан надвор'я для %n на %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n у %u:	%c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\n Сёння:  макс. %h, мін. %l
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\n Сёння:  макс. %h, мін. %l
 [Temperature: %[Temperature]]
 Тэмпература: %[Temperature]
 ;file \plugins\Weather\src\weather_addstn.cpp
@@ -474,7 +474,7 @@ HTTP падлучэнне Weather
 Паказваць
 [Popups]
 Усплывальныя вокны
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c   прагноз на сёння\n%d   бягучая дата\n%e   раса\n%f   адчуванне\n%h   максімум\n%i   кірунак ветра\n%l   мінімум\n%m   вільготнасць\n%n   горад\n%p   ціск\n%r   узыход\n%s   ID гарады\n%t   тэмпература\n%u   абнаўленне\n%v   бачнасць\n%w   хуткасць ветра\n%y   заход
 [Weather Protocol Text Preview]
 Прагляд конту надвор'я

@@ -315,18 +315,18 @@ INI-файл погоди для цієї станції не знайдений
 Помилка HTTP: Сервіс недоступний (503)
 [HTTP Error: Gateway timeout (504)]
 Помилка HTTP: Таймаут шлюзу (504)
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\nТемпература: %t\nВідчуття: %f\nТиск: %p\nВітер: %i  %w\nВологість: %m\nРоса: %e\nВидимість: %v\n\nСхід: %r\nЗахід: %y\n\nПрогноз на 5 днів:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Відчуття: %f\nТиск: %p\nВітер: %i  %w\nВологість: %m\nРоса: %e\nВидимість: %v\n\nСхід: %r\nЗахід: %y\n\nПрогноз на 5 днів:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nТемпература: %t\\nВідчуття: %f\\nТиск: %p\\nВітер: %i  %w\\nВологість: %m\\nРоса: %e\\nВидимість: %v\\n\\nСхід: %r\\nЗахід: %y\\n\\nПрогноз на 5 днів:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Відчуття: %f\\nТиск: %p\\nВітер: %i  %w\\nВологість: %m\\nРоса: %e\\nВидимість: %v\\n\\nСхід: %r\\nЗахід: %y\\n\\nПрогноз на 5 днів:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Стан погоди для %n на %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %c, %t (відчувається %f)	Вітер: %i %w	Вологість: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n о %u:	%c, %t (відчувається %f)	Вітер: %i %w	Вологість: %m
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\nСьогодні: макс. %h, мін. %l
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nСьогодні: макс. %h, мін. %l
 [Temperature: %[Temperature]]
 Температура: %[Temperature]
 [Current weather information for %s.]
@@ -459,7 +459,7 @@ HTTP-з'єднання Weather
 Показувати
 [Popups]
 Спливаючі вікна
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c прогноз на сьогодні\n%d поточна дата\n%e роса\n%f відчуття\n%h максимум\n%i напрямок вітру\n%l мінімум\n%m вологість\n%n місто\n%p тиск\n%r схід\n%s ID міста\n%t температура\n%u оновлення\n%v видимість\n%w швидкість вітру\n%y захід
 [Weather Protocol Text Preview]
 Перегляд протоколу погоди

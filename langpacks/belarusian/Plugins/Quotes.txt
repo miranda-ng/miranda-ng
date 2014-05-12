@@ -102,8 +102,6 @@
 &Тэндэнцыя:
 [&Advanced Settings...]
 Дадатковыя налады...
-[Static]
-Статычны
 [Current Rate:]
 Бягучае значэнне:
 [Rate Fetch Time:]

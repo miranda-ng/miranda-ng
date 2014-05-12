@@ -439,7 +439,7 @@ Contacts
 
 [Path to file]
 
-[FTP path must contain '/' instead '\' and start with '/'.]
+[FTP path must contain '/' instead '\\' and start with '/'.]
 
 [FTP path cannot contain <date> in import task.]
 

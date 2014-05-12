@@ -102,10 +102,6 @@ Popup настройки...
 Тенденция:
 [&Advanced Settings...]
 Допълнителни настройки...
-[Static]
-Статичен
-[<a>SysLink1</a>]
-
 [Current Rate:]
 Текущ курс:
 [Rate Fetch Time:]

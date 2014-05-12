@@ -102,10 +102,6 @@ Podgląd
 &Tendencja:
 [&Advanced Settings...]
 &Zaawansowane ustawienia...
-[Static]
-Statyczne
-[<a>SysLink1</a>]
-<a>SysLink1</a>
 [Current Rate:]
 Aktualna ocena:
 [Rate Fetch Time:]

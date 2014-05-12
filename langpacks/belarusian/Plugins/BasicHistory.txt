@@ -439,8 +439,8 @@ _файлы
 Для стварэння сесіі, адчыніце WinSCP, націсніце "Новая сесія", увядзіце дату і захавайце пад пэўным іменем. Памятайце, калі FTP сервер выкарыстоўвае пароль, то вы павінны захаваць яго ў WinSCP.
 [Path to file]
 Шлях да файла
-[FTP path must contain '/' instead '\' and start with '/'.]
-FTP шлях павінен змяшчаць '/' замест '\', а пачынацца з '/'.
+[FTP path must contain '/' instead '\\' and start with '/'.]
+FTP шлях павінен змяшчаць '/' замест '\\', а пачынацца з '/'.
 [FTP path cannot contain <date> in import task.]
 Шлах FTP не можа ўтрымліваць <date> для імпарту.
 [Unknown error]

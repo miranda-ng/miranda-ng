@@ -169,7 +169,7 @@
 [Path to output file]
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 [Path to file]
-[FTP path must contain '/' instead '\' and start with '/'.]
+[FTP path must contain '/' instead '\\' and start with '/'.]
 [FTP path cannot contain <date> in import task.]
 [Cannot get FTP file(s).]
 [Cannot unzip file(s).]

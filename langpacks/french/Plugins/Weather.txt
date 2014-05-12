@@ -320,10 +320,10 @@ Erreur HTTP: mauvaise passerelle (502)
 Erreur HTTP: service indisponible (503)
 [HTTP Error: Gateway timeout (504)]
 Erreur HTTP: délai d'attente de la passerelle dépassé (504)
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\nTempérature: %t\nRessenti: %f\nPression: %p\Vent: %i  %w\nHumidité: %m\nPoint de rosée: %e\nVisibilité: %v\n\nLever de Soleil: %r\nCoucher de Soleil: %y\n\nPrévisions sur 5 Jours:\n%[Prévisions Jour 1]\n%[Prévisions Jour 2]\n%[Prévisions Jour 3]\n%[Prévisions Jour 4]\n%[Prévisions Jour 5]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Ressenti: %f\nPression: %p\nVent: %i  %w\nHumidité: %m\nDew Point: %e\nVisibilité: %v\n\nLever de Soleil: %r\nCoucher de Soleil: %y\n\nPrévisions sur 5 Jours:\n%[Prévisions Jour 1]\n%[Prévisions Jour 2]\n%[Prévisions Jour 3]\n%[Prévisions Jour 4]\n%[Prévisions Jour 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTempérature: %t\\nRessenti: %f\\nPression: %p\Vent: %i  %w\\nHumidité: %m\\nPoint de rosée: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Ressenti: %f\\nPression: %p\\nVent: %i  %w\\nHumidité: %m\\nDew Point: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
 [Weather Condition for %n as of %u]
 Conditions Météo de %n à %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -332,8 +332,8 @@ Conditions Météo de %n à %u
 %n at %u:	%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
 [%n   (%u)]
 
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\nAujourd'hui:  maxi %h, mini %l]
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nAujourd'hui:  maxi %h, mini %l]
 [Temperature: %[Temperature]]
 
 ;file \plugins\Weather\src\weather_addstn.cpp
@@ -476,7 +476,7 @@ Général
 
 [Popups]
 Popups
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 
 [Weather Protocol Text Preview]
 Prévisualisation de Weather Protocole

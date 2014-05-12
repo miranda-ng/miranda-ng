@@ -1,5 +1,4 @@
 ﻿[Get data from:]
-[<a>SysLink1</a>]
 [There is no to show]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]

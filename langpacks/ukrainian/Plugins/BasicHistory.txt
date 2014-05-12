@@ -427,8 +427,8 @@ dat (mContacts)
 Щоб створити сесію, відкрийте WinSCP, натисніть "Нова сесія", введіть дату та збережіть під певним ім'ям. Пам'ятайте, якщо FTP-сервер використовує пароль, то ви повинні зберегти його в WinSCP.
 [Path to file]
 Шлях до файлу
-[FTP path must contain '/' instead '\' and start with '/'.]
-FTP-шлях повинен містити '/' замість '\' і починатися з '/'.
+[FTP path must contain '/' instead '\\' and start with '/'.]
+FTP-шлях повинен містити '/' замість '\\' і починатися з '/'.
 [FTP path cannot contain <date> in import task.]
 FTP-шлях не може містити <date> в задачі імпорту.
 [Unknown error]

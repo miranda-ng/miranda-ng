@@ -102,10 +102,6 @@ In &Kontaktliste anzeigen als:
 &Tendenz:
 [&Advanced Settings...]
 Erweiterte &Einstellungen...
-[Static]
-Statisch
-[<a>SysLink1</a>]
-<a>SysLink1</a>
 [Current Rate:]
 Aktuelle Rate:
 [Rate Fetch Time:]

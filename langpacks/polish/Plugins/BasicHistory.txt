@@ -439,8 +439,8 @@ Załaduj na FTP
 Aby utworzyć sesję: otwórz WinSCP, naciśnij Nowa Sesja, wprowadź dane i zapisz z określoną nazwą. Pamiętaj, jeśli serwer FTP używa hasła, powinieneś zapisać go w WinSCP.
 [Path to file]
 Ścieżka do pliku
-[FTP path must contain '/' instead '\' and start with '/'.]
-Ścieżka FTP musi zawierać "/" zamiast "\" i zaczynać się od "/".
+[FTP path must contain '/' instead '\\' and start with '/'.]
+Ścieżka FTP musi zawierać "/" zamiast "\\" i zaczynać się od "/".
 [FTP path cannot contain <date> in import task.]
 Ścieżka FTP nie może zawierać <date> w zadaniu importu.
 [Unknown error]

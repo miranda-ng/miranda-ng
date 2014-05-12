@@ -61,10 +61,10 @@
 замест зменнай %profile_path% Miranda NG.
 [Examples:]
 Прыклады:
-[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
-Калі значэнне ProfileDir паказана ў mirandaboot.ini, секцыя ProfileDir як  '.\\profiles\', цяперашні
-[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
-профіль гэта 'default.dat' і шлях да Міранды 'c:\\program files\\miranda ng\' то:
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
+Калі значэнне ProfileDir паказана ў mirandaboot.ini, секцыя ProfileDir як '.\\profiles\\', цяперашні
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
+профіль гэта 'default.dat' і шлях да Міранды 'c:\\program files\\miranda ng\\' то:
 [will expand to 'c:\\program files\\miranda ng']
 верне 'c:\\program files\\miranda ng'
 [will expand to 'c:\\program files\\miranda ng\\profiles']

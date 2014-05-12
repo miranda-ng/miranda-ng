@@ -99,8 +99,6 @@
 &Тенденція:
 [&Advanced Settings...]
 &Додаткові параметри...
-[Static]
-Статичний
 [Current Rate:]
 Поточне значення:
 [Rate Fetch Time:]

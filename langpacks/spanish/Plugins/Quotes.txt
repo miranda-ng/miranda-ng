@@ -102,10 +102,6 @@ Previsualizar
 
 [&Advanced Settings...]
 
-[Static]
-
-[<a>SysLink1</a>]
-
 [Current Rate:]
 
 [Rate Fetch Time:]

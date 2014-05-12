@@ -61,9 +61,9 @@ np. ścieżkę profilu zdefiniowaną jako zmienną systemową, zostanie ona rozw
 zamiast rozwijania do ścieżki profilu Mirandy.
 [Examples:]
 Przykład:
-[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
-Jeśli wartość ProfileDir w sekcji ProfileDir pliku mirandaboot.ini to ".\\profiles\", obecny
-[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
+Jeśli wartość ProfileDir w sekcji ProfileDir pliku mirandaboot.ini to ".\\profiles\\", obecny
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
 profil to Default.dat, a ścieżka Mirandy to "C:\Program Files\miranda ng", to wtedy
 [will expand to 'c:\\program files\\miranda ng']
 zostanie rozwinięte do "c:\\program files\\miranda ng"

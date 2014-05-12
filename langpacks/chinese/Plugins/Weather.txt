@@ -251,18 +251,18 @@ HTTP 错误: 网关不正确 (502)
 HTTP 错误: 服务无法使用 (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP 错误: 网关已超时 (504)
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\n气温: %t\n感觉像: %f\n气压: %p\n风力: %i  %w\n湿度: %m\n结露点: %e\n能见度: %v\n\n日出: %r\n日落: %y\n\n5 天预报: \n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-感觉像: %f\n气压: %p\n风力: %i  %w\n湿度: %m\n结露点: %e\n能见度: %v\n\n日出: %r\n日落: %y\n\n5 天预报: \n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\n气温: %t\\n感觉像: %f\\n气压: %p\\n风力: %i  %w\\n湿度: %m\\n结露点: %e\\n能见度: %v\\n\\n日出: %r\\n日落: %y\\n\\n5 天预报: \\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+感觉像: %f\\n气压: %p\\n风力: %i  %w\\n湿度: %m\\n结露点: %e\\n能见度: %v\\n\\n日出: %r\\n日落: %y\\n\\n5 天预报: \\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 %n 在 %u 天气情况
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %c, %t (感觉像 %f)	风力: %i %w	湿度: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n 于 %u: 	%c, %t (感觉像 %f)	风力: %i %w	湿度: %m
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\n今天:   最高 %h, 最低 %l
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\n今天:   最高 %h, 最低 %l
 [Current weather information for %s.]
 %s 当前天气信息.
 [%s is now the default weather station]
@@ -361,7 +361,7 @@ INI 版本:
 常规
 [Popups]
 弹出窗口
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\t当前情况\n%d\t当前日期\n%e\t结露点\n%f\t感觉像气温\n%h\t今天最高\n%i\t风向\n%l\t今天最低\n%m\t湿度\n%n\t站点名称\n%p\t气压\n%r\t日出时间\n%s\t站点 ID\n%t\t气温\n%u\t更新时间\n%v\t能见度\n%w\t风速\n%y\t日落
 [Weather Protocol Text Preview]
 天气协议文本预览
