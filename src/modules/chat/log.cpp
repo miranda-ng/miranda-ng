@@ -292,7 +292,7 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 		break;
 	case GC_EVENT_TOPIC:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is \'%s%s\'"), streamData->lin->ptszText, _T("%r"));
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is '%s%s'"), streamData->lin->ptszText, _T("%r"));
 		if (streamData->lin->ptszNick)
 			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
 			streamData->lin->ptszUserInfo ? TranslateT(" (set by %s on %s)") : TranslateT(" (set by %s)"),
@@ -304,11 +304,11 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 		break;
 	case GC_EVENT_ADDSTATUS:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s enables \'%s\' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s enables '%s' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
 		break;
 	case GC_EVENT_REMOVESTATUS:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s disables \'%s\' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s disables '%s' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
 		break;
 	}
 }

@@ -121,10 +121,10 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 		ci.AddEvent(si->hContact, ci.hIcons[ICON_INFO], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
 		break;
 	case GC_EVENT_ADDSTATUS:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_ADDSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s enables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_ADDSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s enables '%s' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		ci.AddEvent(si->hContact, ci.hIcons[ICON_REMSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s disables \'%s\' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
+		ci.AddEvent(si->hContact, ci.hIcons[ICON_REMSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s disables '%s' status for %s in %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick, si->ptszName);
 		break;
 	}
 
@@ -256,18 +256,18 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	case GC_EVENT_TOPIC:
 		if (!gce->ptszNick)
-			ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, ci.aFonts[11].color, TranslateT("The topic is \'%s\'"), RemoveFormatting(gce->ptszText));
+			ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, ci.aFonts[11].color, TranslateT("The topic is '%s'"), RemoveFormatting(gce->ptszText));
 		else
-			ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, ci.aFonts[11].color, TranslateT("The topic is \'%s\' (set by %s)"), RemoveFormatting(gce->ptszText), gce->ptszNick);
+			ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_TOPIC], si->pszModule, si->ptszName, ci.aFonts[11].color, TranslateT("The topic is '%s' (set by %s)"), RemoveFormatting(gce->ptszText), gce->ptszNick);
 		break;
 	case GC_EVENT_INFORMATION:
 		ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_INFO], si->pszModule, si->ptszName, ci.aFonts[12].color, _T("%s"), RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ADDSTATUS:
-		ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_ADDSTATUS], si->pszModule, si->ptszName, ci.aFonts[13].color, TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
+		ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_ADDSTATUS], si->pszModule, si->ptszName, ci.aFonts[13].color, TranslateT("%s enables '%s' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_REMSTATUS], si->pszModule, si->ptszName, ci.aFonts[14].color, TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
+		ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_REMSTATUS], si->pszModule, si->ptszName, ci.aFonts[14].color, TranslateT("%s disables '%s' status for %s"), gce->ptszText, (char *)gce->ptszStatus, gce->ptszNick);
 		break;
 	}
 
@@ -585,9 +585,9 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	case GC_EVENT_TOPIC:
 		p = '#';
 		if (!gce->ptszNick)
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is \'%s\'"), ci.RemoveFormatting(gce->ptszText));
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is '%s'"), ci.RemoveFormatting(gce->ptszText));
 		else
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is \'%s\' (set by %s)"), ci.RemoveFormatting(gce->ptszText), gce->ptszNick);
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is '%s' (set by %s)"), ci.RemoveFormatting(gce->ptszText), gce->ptszNick);
 		break;
 	case GC_EVENT_INFORMATION:
 		p = '!';
@@ -595,11 +595,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	case GC_EVENT_ADDSTATUS:
 		p = '+';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables \'%s\' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
 		break;
 	case GC_EVENT_REMOVESTATUS:
 		p = '-';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
 		break;
 	}
 
