@@ -289,6 +289,15 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 		break;
 
+	case WM_MOUSELEAVE:
+	case BUTTONSETASPUSHBTN:
+		return 0;
+
+	case WM_ENABLE: // windows tells us to enable/disable
+		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
+		InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		return 0;
+
 	case WM_LBUTTONDOWN:
 		{
 			POINT ptMouse = UNPACK_POINT(lParam);
