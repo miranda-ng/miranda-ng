@@ -393,6 +393,8 @@ Dat (мКонтакты)
 Путь к файлу
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 Для создания сессии, откройте WinSCP, нажмите "Новая сессия", введите дату и сохраните под определённым именем. Помните, если FTP сервер использует пароль, то вы должны сохранить его в WinSCP.
+[FTP path must contain '/' instead '\\' and start with '/'.]
+FTP путь должен содержать '/' вместо '\\' и начинаться с '/'.
 [Unknown error]
 Неизвестная ошибка
 ["%s" not found]
