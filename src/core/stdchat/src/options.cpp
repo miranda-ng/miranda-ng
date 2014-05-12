@@ -62,9 +62,9 @@ static const struct branch_t branch2[] = {
 	{ LPGENT("Timestamp has same color as the event"), "TimeStampEventColour", 0,0},
 	{ LPGENT("Indent the second line of a message"), "LogIndentEnabled", 0,1},
 	{ LPGENT("Limit user names in the message log to 20 characters"), "LogLimitNames", 0,1},
-	{ LPGENT("Add \':\' to auto-completed user names"), "AddColonToAutoComplete", 0, 1},
+	{ LPGENT("Add ':' to auto-completed user names"), "AddColonToAutoComplete", 0, 1},
 	{ LPGENT("Strip colors from messages in the log"), "StripFormatting", 0, 0},
-	{ LPGENT("Enable the \'event filter\' for new rooms"), "FilterEnabled", 0,0}
+	{ LPGENT("Enable the 'event filter' for new rooms"), "FilterEnabled", 0,0}
 };
 
 static const struct branch_t branch3[] = {
@@ -338,7 +338,7 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 		hListHeading0 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Options for using a tabbed interface"), db_get_b(NULL, CHAT_MODULE, "Branch0Exp", 0)?TRUE:FALSE);
 		hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Appearance and functionality of chat room windows"), db_get_b(NULL, CHAT_MODULE, "Branch1Exp", 0)?TRUE:FALSE);
 		hListHeading2 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Appearance of the message log"), db_get_b(NULL, CHAT_MODULE, "Branch2Exp", 0)?TRUE:FALSE);
-		hListHeading3 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Default events to show in new chat rooms if the \'event filter\' is enabled"), db_get_b(NULL, CHAT_MODULE, "Branch3Exp", 0)?TRUE:FALSE);
+		hListHeading3 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(NULL, CHAT_MODULE, "Branch3Exp", 0)?TRUE:FALSE);
 		hListHeading4 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Icons to display in the message log"), db_get_b(NULL, CHAT_MODULE, "Branch4Exp", 0)?TRUE:FALSE);
 		hListHeading5 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Icons to display in the tray"), db_get_b(NULL, CHAT_MODULE, "Branch5Exp", 0)?TRUE:FALSE);
 		if (PopupInstalled)
