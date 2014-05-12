@@ -240,7 +240,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		bChatInstalled = TRUE;
 	}
 	else {
-		if (IDYES == MessageBox(0, TranslateT("The IRC protocol depends on another plugin called \'Chat\'\n\nDo you want to download it from the Miranda NG web site now?"), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
+		if (IDYES == MessageBox(0, TranslateT("The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?"), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 	}
 
@@ -721,7 +721,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 				if (m_sendNotice) {
 					mir_sntprintf(szTemp, SIZEOF(szTemp),
-						_T("/NOTICE %s I am sending the file \'\002%s\002\' (%I64u kB) to you, please accept it. [Reverse transfer]"),
+						_T("/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [Reverse transfer]"),
 						dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024);
 					PostIrcMessage(szTemp);
 				}
@@ -740,7 +740,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 					if (m_sendNotice) {
 						mir_sntprintf(szTemp, SIZEOF(szTemp),
-							_T("/NOTICE %s I am sending the file \'\002%s\002\' (%I64u kB) to you, please accept it. [IP: %s]"),
+							_T("/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [IP: %s]"),
 							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (TCHAR*)_A2T(ConvertIntegerToIP(ulAdr)));
 						PostIrcMessage(szTemp);
 					}
