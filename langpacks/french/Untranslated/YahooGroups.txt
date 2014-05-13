@@ -1,5 +1,4 @@
 ﻿[This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
-[Dialog]
 [Move Yahoo contacts to groups now]
 [Move Yahoo contacts automatically on startup]
 [Yahoo Groups]

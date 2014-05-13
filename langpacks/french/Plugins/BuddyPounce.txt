@@ -39,7 +39,7 @@ Avancé >>
 [The Message]
 Le Message
 [Dialog]
-
+Dialogue
 [Status]
 État
 [Use Advanced Dialog]

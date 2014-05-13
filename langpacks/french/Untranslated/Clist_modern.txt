@@ -15,7 +15,6 @@
 [Use old render method (fast, but has artefacts)]
 [Use protocol smileys]
 [Show second line]
-[Text:]
 [Status Message]
 [Contact time]
 [Show status if there is no status message]

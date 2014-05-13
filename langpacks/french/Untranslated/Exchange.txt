@@ -1,5 +1,4 @@
 ﻿[Notifies you if you have unread email on an exchange server.]
-[Dialog]
 [Connection]
 [Check every]
 [Force reconnect every]

@@ -251,7 +251,7 @@ Option/Évènement (20/100)
 [John Doe (1/10)]
 
 [Dialog]
-
+Dialogue
 [All]
 
 [None]
@@ -718,9 +718,9 @@ Définir cette valeur
 Voulez-vous vraiment supprimer cette information ?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
-
+Afrikaans
 [Albanian]
-
+Albanais
 [Arabic]
 Arabe
 [Armenian]
@@ -734,9 +734,9 @@ Arabe
 [Bosnian]
 
 [Bulgarian]
-
+Bulgare
 [Burmese]
-
+Birman
 [Cantonese]
 
 [Catalan]
@@ -744,31 +744,31 @@ Arabe
 [Chamorro]
 
 [Chinese]
-
+Chinois
 [Croatian]
-
+Croate
 [Czech]
-
+Tchèque
 [Danish]
-
+Danois
 [Dutch]
 
 [English]
-
+Anglais
 [Esperanto]
-
+Esperanto
 [Estonian]
-
+Estonien
 [Farsi]
 
 [Finnish]
-
+Finnois
 [French]
 Français
 [Gaelic]
 
 [German]
-
+Allemand
 [Greek]
 Grecque
 [Gujarati]
@@ -776,15 +776,15 @@ Grecque
 [Hebrew]
 Hébreux
 [Hindi]
-
+Hindi
 [Hungarian]
-
+Hongrois
 [Icelandic]
-
+Islandais
 [Indonesian]
-
+Indonésien
 [Italian]
-
+Italien
 [Japanese]
 Japonais
 [Khmer]
@@ -792,51 +792,51 @@ Japonais
 [Korean]
 Coréen
 [Kurdish]
-
+Kurde
 [Lao]
 
 [Latvian]
-
+Letton
 [Lithuanian]
-
+Lituanien
 [Macedonian]
-
+Macédonien
 [Malay]
-
+Malais
 [Mandarin]
 
 [Mongolian]
-
+Mongol
 [Norwegian]
-
+Norvégien
 [Persian]
-
+Perse
 [Polish]
-
+Polonais
 [Portuguese]
-
+Portugais
 [Punjabi]
 
 [Romanian]
-
+Roumain
 [Russian]
-
+Russe
 [Serbo-Croatian]
 
 [Sindhi]
 
 [Slovak]
-
+Slovaque
 [Slovenian]
-
+Slovène
 [Somali]
-
+Somali
 [Spanish]
 
 [Swahili]
 
 [Swedish]
-
+Suédois
 [Tagalog]
 
 [Taiwanese]
@@ -850,7 +850,7 @@ Thaïlandais
 [Turkish]
 Turque
 [Ukrainian]
-
+Ukrainien
 [Urdu]
 
 [Vietnamese]
@@ -858,7 +858,7 @@ Vietnamien
 [Welsh]
 
 [Yiddish]
-
+Yiddish
 [Yoruba]
 
 [Academic]

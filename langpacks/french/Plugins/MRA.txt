@@ -355,7 +355,7 @@ e-mail
 [Are you sure?]
 Etes-vous sûr?
 [Services...]
-
+Services...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Réseau
@@ -404,15 +404,15 @@ Malade
 [Home]
 Domicile
 [Eating]
-
+Mange
 [Compass]
 
 [On WC]
 
 [Cooking]
-
+Cuisine
 [Walking]
-
+Marche
 [Alien]
 
 [Shrimp]
@@ -420,13 +420,13 @@ Domicile
 [Got lost]
 
 [Crazy]
-
+Fou
 [Duck]
 Canard
 [Playing]
 en lecture
 [Smoking]
-
+Fume
 [Office]
 Bureau
 [Meeting]
@@ -436,7 +436,7 @@ Bière
 [Coffee]
 
 [Working]
-
+Travail
 [Relaxing]
 
 [On the phone]
@@ -456,13 +456,13 @@ Au téléphone
 [Blind]
 
 [Disappointed]
-
+Désappointé
 [Almost crying]
 
 [Fearful]
 
 [Angry]
-
+En colère
 [Vampire]
 
 [Ass]

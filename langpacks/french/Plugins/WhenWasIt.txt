@@ -51,7 +51,7 @@ Afficher
 [in birthday list window]
 
 [Dialog]
-
+Dialogue
 [Timeout:]
 Délai:
 [seconds]

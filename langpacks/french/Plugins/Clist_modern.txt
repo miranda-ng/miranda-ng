@@ -525,7 +525,7 @@ Séparation:
 [Draw smileys on second line]
 Afficher les smileys
 [Text:]
-
+Texte :
 [Status]
 État
 [Nickname]

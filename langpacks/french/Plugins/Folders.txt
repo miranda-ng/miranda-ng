@@ -9,7 +9,7 @@
 
 ;file \plugins\Folders\res\folders.rc
 [Dialog]
-
+Dialogue
 [Custom folders]
 Répertoires personnalisés
 [Preview]

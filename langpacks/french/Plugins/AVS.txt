@@ -41,7 +41,7 @@ Avatar en carré
 [Resize the avatar to fit max allowed protocol size]
 Redimensionner l'avatar pour correspondre au protocole
 [Dialog]
-
+Dialogue
 [Contact picture]
 Avatar
 [Change]

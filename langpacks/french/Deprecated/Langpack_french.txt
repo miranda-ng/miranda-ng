@@ -230,9 +230,9 @@ Index de l'icône
 [Icon library:]
 Bibliothèque :
 [Drag icons to main list to assign them:]
-Déplacer les icônes jusqu'à la liste principale pour les assigner:
+Déplacer les icônes jusqu'à la liste principale pour les assigner :
 [Import multiple]
-Importer plusieurs icônes vers:
+Importer plusieurs icônes vers :
 [To main icons]
 Icônes principales
 [To]
@@ -285,6 +285,8 @@ Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibil
 ex : Miranda Database
 [Driver]
 Pilote
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Impossible de trouver un plugin de base de données, cela signifie que vous ne pouvez pas créer un nouveau profil, vous devez installer "dbx_mmap.dll"
 [Download more plugins]
 Télécharger plus de plugins
 [Description:]
@@ -306,7 +308,7 @@ Police et Couleurs
 [Undo]
 Annuler
 [Reset]
-RAZ
+Réinitialiser
 [Export...]
 Exportation...
 [Color/background]
@@ -316,7 +318,7 @@ Effet du texte
 [Text color]
 Couleur du texte
 [Choose font]
-Autre police
+Choisir la police
 [Font]
 Police
 [&Font:]
@@ -330,7 +332,7 @@ St&yle :
 [Effects]
 Effets
 [Stri&keout]
-&Dé-barré
+&Barré
 [&Underline]
 &Souligné
 [&Color:]
@@ -414,9 +416,13 @@ Miranda NG redémarre.\nVeuillez patienter...
 [Error console]
 Erreur console
 [Headers:]
-En-têtes
+En-têtes :
+[This font is used to display main section titles or text elements.]
+Cette police est utilisée pour afficher les titres ou des éléments de texte.
 [Normal text:]
 Texte normal :
+[Minor notes:]
+Notes :
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
 [Choose events you wish to ignore:]
@@ -429,6 +435,10 @@ Couleur de base :
 opacité :
 [Secondary color:]
 Couleur secondaire :
+[Select the extra icons to be shown in the contact list:]
+Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts :
+[*only the first %d icons will be shown]
+*Seulement les premières icônes %d seront affichés
 [Add to Existing MetaContact]
 Ajouter à un MetaContact existant
 [Please select a MetaContact:]
@@ -490,15 +500,19 @@ Protocole :
 [Status:]
 État :
 [Rank:]
-Rang:
+Rang :
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
+[Reset All]
+Tout réinitialiser
+[Current language:]
+Langue actuelle :
 [Last modified using:]
-Pour:
+Pour :
 [Date:]
-Date:
+Date :
 [Locale:]
-Locale:
+Locale :
 [Download more language packs]
 Télécharger plus de pack de traduction
 [Tray]
@@ -566,7 +580,7 @@ Dégrouper
 [&Deny]
 &Refuser
 [Decide &later]
-Décider plus &Tard
+Décider plus &tard
 [Reason:]
 Motif :
 [Denial reason:]
@@ -593,6 +607,8 @@ Par défaut, utiliser le même message que la dernière fois
 Par défaut, utiliser ce message :
 [Use %time% for the current time, %date% for the current date]
 Utiliser %time% et %date% pour l'heure et la date actuelles.
+[Status messages:]
+Messages d'état :
 [Change %s message]
 Changer le message de \"%s\"
 [Closing in %d]
@@ -601,12 +617,18 @@ Fermeture dans %d
 &Envoyer
 [&Bold]
 &Gras
+[&Italic]
+&Italique
 [&Color]
 &Couleur
 [&Background color]
 &Couleur de fond
+[&History]
+&Historique
 [Show these events only:]
 Voir ces évènements si :
+[Actions]
+Actions
 [Nick changes]
 Changements de pseudo
 [Users joining]
@@ -660,7 +682,7 @@ Couleurs personnalisées
 [Popups for the Chat plugin]
 Popups pour le plugin Chat
 [Timeout (s)]
-Délai (*)
+Délai (s)
 [Text]
 Texte
 [Background]
@@ -923,6 +945,8 @@ Fichier(s) :
 &Sélectionner...
 [Total size:]
 Taille totale :
+[&User menu]
+&Menu utilisateur
 [Incoming file transfer]
 Transfert de fichier entrant
 [A&ccept]
@@ -1040,7 +1064,7 @@ minute(s)
 [for]
 pendant
 [Change my status mode to:]
-Changer mon état en:
+Changer mon état en :
 [Do not set status back to online when returning from idle]
 Ne pas mettre l'état "En ligne" quand vous revenez d'inactif.
 [Idle options]
@@ -1049,6 +1073,8 @@ Options d'inactivité
 Devenir inactif si une application est en plein-écran
 [Disable sounds on idle]
 Désactiver les sons quand inactif
+[Become idle if computer is left unattended for:]
+Devenir inactif si l'ordinateur n'est pas utilisé pendant :
 [Automatically popup window when:]
 Fenêtre en popup quand :
 [In background]
@@ -1090,9 +1116,9 @@ Nombre maximum de clignotements
 [Send error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [while sending the following message:]
-tout en envoyant le message suivant:
+tout en envoyant le message suivant :
 [Try again]
 Réessayer
 [Message session]
@@ -1135,6 +1161,8 @@ Signaler dans le systray et dans la liste de contacts
 Afficher un popup
 [Save the window position for each contact]
 Sauvegarder la position de la fenêtre pour chaque contact
+[Message window behavior:]
+Comportement de la fenêtre de message :
 [&Open link]
 &Ouvrir le lien
 [Paste and send]
@@ -1160,9 +1188,11 @@ Ou entrer un numéro international entier :
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add e-mail address]
-Ajouter l'adresse électronique
+Ajouter le courriel
 [%s: user details]
 %s : Détails du contact
+[%s\nView personal user details and more]
+%s\nVoir les informations personnelles de l'utilisateur et plus
 [Update now]
 Mettre à jour
 [Updating]
@@ -1206,7 +1236,7 @@ Pays :
 [Spoken languages:]
 Langues parlées :
 [Timezone:]
-Fuseau horaire :
+Fuseau :
 [Local time:]
 Heure locale :
 [Set custom time zone]
@@ -1223,6 +1253,8 @@ Site Web :
 %s demande une autorisation
 [%u requests authorization]
 %u demande une autorisation
+[%s added you to their contact list]
+%s vous a ajouté à sa liste de contacts 
 [%u added you to their contact list]
 %u vous a ajouté à sa liste de contacts
 [Alerts]
@@ -1370,7 +1402,7 @@ Messages d'information
 [Show icon for status changes]
 Changements d'état du contact
 [Show icons in tray only when the chat room is not active]
-N'afficher les icônes dans le systray que si le salon est inactif
+Afficher les icônes dans le systray que si le salon est inactif
 [Show icon in tray for topic changes]
 Changements de sujet
 [Show icon in tray for users joining]
@@ -1393,6 +1425,8 @@ Changements de nom
 Messages d'information
 [Show icon in tray for status changes]
 Changements d'état du contact
+[Show popups only when the chat room is not active]
+st pas actif
 [Window icon]
 Icônes de la fenêtre
 [Bold]
@@ -1483,6 +1517,8 @@ Fenêtre de chat
 Popups
 [No word to look up]
 Aucun mot à chercher
+[&Message %s]
+&Message %s
 [Insert a smiley]
 Insérer un smiley
 [Make the text bold (CTRL+B)]
@@ -1760,7 +1796,7 @@ Envoi le lien à
 [Send timed out]
 Délai d'envoi expiré
 [Edit E-Mail address]
-Éditer l'adresse électronique
+Éditer le courriel
 [Edit phone number]
 Éditer le numéro de téléphone
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1787,6 +1823,8 @@ Femme
 <non spécifié>
 [Summary]
 Résumé
+[Contact]
+Contact
 [Location]
 Lieu
 [Work]
@@ -1855,6 +1893,10 @@ Usager a envoyé une notice
 Le sujet a été changé
 [&Join chat]
 Re&joindre
+[&Leave chat]
+&Quitter le chat
+[&Open chat window]
+&Ouvrir la fenêtre de chat
 [%s has joined]
 %s est arrivé
 [You have joined %s]
@@ -1941,6 +1983,8 @@ ID
 Prénom Nom
 [LastName FirstName]
 Nom Prénom
+['(Unknown contact)' (not movable)]
+'(Contact inconnu)' (non déplaçable)
 ['(Unknown contact)']
 '(Contacts Inconnus)'
 [Contact names]
@@ -1963,22 +2007,48 @@ Nom de groupe déjà existant, veuillez en choisir un autre.
 Renommer un groupe
 [This group]
 Ce groupe
+[Show/Hide contact list]
+Afficher/Masquer la liste de contacts
 [Read message]
 Lire le message
+[&Move to group]
+&Déplacer vers le groupe
 [<Root group>]
 <sans groupe>
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
+Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas déplacer le profil %s vers le nouvel emplacement %s\nCar un profil avec ce nom existe déjà. Veuillez résoudre le problème manuellement.
+[Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+Le profil ne peut être placé dans le dossier racine de Miranda.\nVeuillez déplacer le profil à un autre endroit.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mmap.dll
 [No profile support installed!]
 Pas de support de profil installé !
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
+Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.\nCe profil peut également être endommagé, s'il vous plaît exécuter DbChecker qui doit être installé. 
 [Miranda can't understand that profile]
 Miranda ne comprend pas ce profil !
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda 
+[Miranda can't open that profile]
+Miranda ne peut pas ouvrir ce profil
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+Le système de sécurité pour empêcher les modifications malveillantes est actif et vous serez averti avant chaque changements connus pour être dangereux.
 [This change is known to be safe.]
 Ce changement est connu pour être sûr.
+[This change is known to be potentially hazardous.]
+Ce changement est connu pour être potentiellement dangereux.
+[Authorization request from %s%s: %s]
+Demande d'autorisation de %s%s : %s
+[You were added by %s%s]
+Vous avez été ajouté par %s%s
 [Contacts: ]
 Contacts :\s
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé. 
 [The profile already exists]
 Le profil existe déjà
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+Impossible de déplacer '%s' vers la Corbeille. S'il vous plaît sélectionner un autre nom de profil. 
 [Problem moving profile]
 Problème de déplacement du profil
 [Unable to create the profile '%s', the error was %x]
@@ -1987,6 +2057,8 @@ Impossible de créer le profil '%s', l'erreur était %x
 Souci à la création de profil
 [&Create]
 &Créer
+[Are you sure you want to remove profile "%s"?]
+Êtes-vous sûr que vous voulez supprimer le profil "%s"?
 [Size]
 Taille
 [Run]
@@ -1997,6 +2069,8 @@ Vérifiez la base de données
 Créée
 [Manage your Miranda NG profile]
 Gérez votre profil Miranda NG
+[My profiles]
+Mes profils
 [New profile]
 Nouveau profil
 [Extra icons]
@@ -2037,14 +2111,22 @@ Aucun utilisateur trouvé
 Ombre à gauche
 [Shadow at right]
 Ombre à droite
+[Outline]
+Contour
 [Text files]
 Fichiers Texte
 [Error writing file]
 Erreur d'écriture du fichier
+[Sample text]
+Exemple
 [Fonts]
 Polices
+[Small text]
+Petit texte
 [** All contacts **]
 ** Tous les contacts **
+[(incompatible)]
+(incompatible)
 [Unknown]
 Inconnu
 [Languages]
@@ -2151,18 +2233,26 @@ Sélectionnez le programme à lancer
 Réseau
 [<all modules>]
 < Tous les plugins >
+[%s options]
+%s options
 [Miranda NG options]
 Options de Miranda NG
 [&Options...]
 &Paramètres...
 [Fatal error]
 Erreur fatale
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
+Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'un des plugins de liste de contact, par exemple, "StdClist.dll"
+[Plugin]
+Plugin
 [Version]
 Version
 [Miranda NG must be restarted to apply changes for these plugins:]
@@ -2171,12 +2261,18 @@ Miranda NG doit être redémarré pour appliquer les modifications de ces plugin
 Voulez-vous redémarrer maintenant?
 [Plugins]
 Plugins
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+ATTENTION! Le compte va être supprimé. Cela signifie que tous les paramètres, les contacts et les historiques seront également effacés.\n\nÊtes-vous absolument sûr?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Votre compte a été mis à jour. Pour l'activer, un redémarrage de Miranda est nécessaire. \n\nSi vous voulez redémarrer Miranda maintenant, appuyez sur Oui, si vous voulez mettre à jour un autre compte, appuyez sur Non
 [Create new account]
 Créer un compte
 [Editing account]
 Modifier ce compte
 [Upgrading account]
 Mise à jour du compte
+[Account name has to be unique. Please enter unique name.]
+Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
 [Account is disabled. Please activate it to access options.]
 Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
 [New account]
@@ -2199,6 +2295,8 @@ Renommer
 Configurer
 [Upgrade]
 Mise à jour
+[Account is online. Disable account?]
+Le compte est en ligne. Désactivez le compte?
 [Account %s is being deleted]
 Le compte %s est supprimé.
 [You need to disable plugin to delete this account]
@@ -2211,6 +2309,8 @@ Effacer le raccourci
 Ajouter un autre raccourci
 [System]
 Système
+[Actions:]
+Actions :
 [Modify]
 Modifier
 [User online]
@@ -2259,6 +2359,8 @@ Afficher/Masquer
 Quitter
 [Join chat]
 Joindre un salon
+[Leave chat]
+Quitter le chat
 [Move to group]
 Déplacer vers le groupe
 [Frames]
@@ -2271,12 +2373,18 @@ Accorder l'autorisation
 Enlever l'autorisation
 [Always visible]
 Toujours visible
+[Always invisible]
+Toujours invisible
+[Locked status]
+État verrouillé
 [Status icons]
 Icônes d'état
 [%s icons]
 Icônes %s
 [Main icons]
 Icônes principales
+[Sound files]
+Fichiers son
 [WAV files]
 Fichiers WAV
 [You need an image services plugin to process PNG images.]
@@ -2293,10 +2401,16 @@ Images GIF
 Images PNG
 [Avatars]
 Avatars
+[Avatars root folder]
+Dossier des avatars
 [<unspecified>]
 <non spécifié>
 [Unspecified]
 Non spécifié
+[Afghanistan]
+Afghanistan
+[Aland Islands]
+Åland
 [Albania]
 Albanie
 [Algeria]
@@ -2325,6 +2439,8 @@ Australie
 Autriche
 [Azerbaijan]
 Azerbaïdjan
+[Bahamas]
+Bahamas
 [Bahrain]
 Bahrain
 [Bangladesh]
@@ -2351,6 +2467,8 @@ Bonaire, Saint-Eustache et Saba
 Bosnie et Herzégovine
 [Botswana]
 Botswana
+[Bouvet Island]
+Île Bouvet
 [Brazil]
 Brésil
 [British Indian Ocean Territory]
@@ -2401,6 +2519,10 @@ Costa Rica
 Côte d'Ivoire
 [Croatia]
 Croatie
+[Cuba]
+Cuba
+[Curacao]
+Curaçao
 [Cyprus]
 Chypre
 [Czech Republic]
@@ -2429,6 +2551,8 @@ Guinée Équatoriale
 Estonie
 [Ethiopia]
 Éthiopie
+[Falkland Islands (Malvinas)]
+Îles Malouines
 [Faroe Islands]
 Iles Féroé
 [Fiji]
@@ -2463,6 +2587,8 @@ Groenland
 Grenade
 [Guadeloupe]
 Guadeloupe
+[Guam]
+Guam
 [Guatemala]
 Guatemala
 [Guernsey]
@@ -2475,6 +2601,8 @@ Guinée-Bissau
 Guyana
 [Haiti]
 Haïti
+[Heard Island and McDonald Islands]
+Îles Heard-et-MacDonald
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2575,6 +2703,8 @@ Moldavie
 Monaco
 [Mongolia]
 Mongolie
+[Montenegro]
+Monténégro
 [Montserrat]
 Montserrat
 [Morocco]
@@ -2601,6 +2731,8 @@ Nicaragua
 Niger
 [Nigeria]
 Nigéria
+[Niue]
+Niue
 [Norfolk Island]
 Île Norfolk
 [Northern Mariana Islands]
@@ -2625,6 +2757,8 @@ Paraguay
 Pérou
 [Philippines]
 Philippines
+[Pitcairn Islands]
+Îles Pitcairn
 [Poland]
 Pologne
 [Portugal]
@@ -2649,6 +2783,8 @@ Sainte-Hélène, Ascension et Tristan da Cunha
 Saint Kitts and Nevis
 [Saint Lucia]
 Sainte Lucie
+[Saint Martin (French part)]
+Saint-Martin (Antilles françaises)
 [Saint Pierre and Miquelon]
 Saint Pierre et Miquelon
 [Saint Vincent and the Grenadines]
@@ -2671,6 +2807,8 @@ Seychelles
 Sierra Leone
 [Singapore]
 Singapour
+[Sint Maarten (Dutch part)]
+Saint-Martin (Royaume des Pays-Bas)
 [Slovakia]
 Slovaquie
 [Slovenia]
@@ -2681,6 +2819,8 @@ Slovénie
 Somalie
 [South Africa]
 Afrique du Sud
+[South Georgia and the South Sandwich Islands]
+Géorgie du Sud-et-les Îles Sandwich du Sud
 [South Sudan]
 Sud-Soudan
 [Spain]
@@ -2737,6 +2877,8 @@ Ukraine
 Royaume-Uni
 [United States]
 États-Unis
+[United States Minor Outlying Islands]
+Îles mineures éloignées des États-Unis
 [Uruguay]
 Uruguay
 [Uzbekistan]
@@ -2768,6 +2910,8 @@ Zimbabwe
 ;  Version: 0.2.0.1 - 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
+[Actions]
+Actions
 [New]
 Nouveau
 [Up]
@@ -2782,6 +2926,8 @@ Effacer
 Test
 [Help]
 Aide
+[Contact]
+Contact
 [Program]
 Programme
 [Text]
@@ -2804,6 +2950,8 @@ Chaine unicode
 contact actuel
 [Name]
 Nom
+[Plugin]
+Plugin
 [Effect]
 Effets
 [Undefined]
@@ -3323,6 +3471,8 @@ Annuler
 Titre :
 [Description:]
 Description:
+[Actions]
+Actions
 [Run command:]
 Lignes de commandes:
 [Parameters:]
@@ -3706,6 +3856,8 @@ Couleurs par défaut
 Comme le plugin Popup
 [Custom]
 Défini
+[Actions]
+Actions
 [On right click:]
 Clic droit:
 [On left click:]
@@ -5115,6 +5267,8 @@ Afficher les smileys
 État
 [Nickname]
 Pseudo
+[Listening to]
+Écoute
 [XStatus has priority]
 Préférer XStatus
 [Use 'XStatus: XMessage']
@@ -6922,8 +7076,12 @@ Tous les fichiers
 Envoi des contacts
 [&Add]
 &Ajouter
+[&User menu]
+&Menu utilisateur
 [User &details]
 &Détails du contact
+[&History]
+&Historique
 [Choose contacts to be send:]
 Choisir contacts à envoyer:
 [&Send]
@@ -7330,6 +7488,8 @@ Taille
 <non supporté>
 [<unknown>]
 <inconnu>
+[Contact]
+Contact
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
@@ -9282,6 +9442,8 @@ Modification du nom du groupe-serveur échouée.
 ** Ce message a été bloqué par le serveur ICQ ** L'expéditeur a surchargé le serveur.
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** Ce message a été bloqué par le serveur ICQ ** Vous êtes trop mauvais.
+[Afghanistan]
+Afghanistan
 [Albania]
 Albanie
 [Algeria]
@@ -9308,6 +9470,8 @@ Australie
 Autriche
 [Azerbaijan]
 Azerbaïdjan
+[Bahamas]
+Bahamas
 [Bahrain]
 Bahrain
 [Bangladesh]
@@ -9380,6 +9544,8 @@ Costa Rica
 Côte d'Ivoire
 [Croatia]
 Croatie
+[Cuba]
+Cuba
 [Czech Republic]
 République Tchèque
 [Denmark]
@@ -9566,6 +9732,8 @@ Népal
 Hollande
 [Netherlands Antilles]
 Antilles Hollandaises
+[Curacao]
+Curaçao
 [New Caledonia]
 Nouvelle Calédonie
 [New Zealand]
@@ -9576,6 +9744,8 @@ Nicaragua
 Niger
 [Nigeria]
 Nigéria
+[Niue]
+Niue
 [Norway]
 Norvège
 [Oman]
@@ -9722,6 +9892,8 @@ Yémen
 Yougoslavie
 [Serbia]
 Serbie
+[Montenegro]
+Monténégro
 [Zambia]
 Zambie
 [Zimbabwe]
@@ -9760,6 +9932,8 @@ Sport & Athlétisme
 Sports
 [Arabic]
 Arabe
+[French]
+Français
 [Greek]
 Grecque
 [Hebrew]
@@ -9972,6 +10146,8 @@ Prénom
 Nom
 [Password]
 Mot de passe
+[Contact]
+Contact
 [Street]
 Rue
 [City]
@@ -10744,11 +10920,11 @@ Effacer le serveur
 [Edit server]
 Éditer le serveur
 [<Resolved IP: ]
-<IP trouvé:\s
+<IP trouvé :\s
 [<Automatic>]
 <Automatique>
 [<Local IP: ]
-<IP Local:\s
+<IP Local :\s
 [Click to set commands that will be performed for this event]
 Cliquez pour définir la commande pour cet évènement
 [Click to delete the commands for this event]
@@ -10766,19 +10942,19 @@ Compte
 [Advanced]
 Avancé
 [WallOps from %s: ]
-WallOps de %stify
+WallOps de %stify :\s
 [%s invites you to %s]
 %s vous invite à %s
 [%s is away]
 %s est sorti
 [These are online: ]
-Ils sont en ligne:\s
+Ils sont en ligne :\s
 [CTCP %s reply sent to %s]
 Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
 Réponse CTCP %s envoyée à %s: %s
 [Notice to %s: ]
-Notice à %s:\s
+Notice à %s :\s
 [&Quick connect]
 Connexion &rapide
 [&Join channel]
@@ -10979,9 +11155,9 @@ Recherche
 [Download]
 Téléchargement
 [Import from file]
-Importer d'un fichier
+Importer
 [Export to file]
-Exporter vers un fichier
+Exporter
 [Username:]
 Identifiant :
 [Change password]
@@ -11106,8 +11282,12 @@ Téléphone :
 Voix
 [Fax]
 Fax
+[Pager]
+Pagineur
 [Text/Messaging]
 Texte/Messagerie
+[Cellular]
+Portable
 [Video]
 Video
 [BBS]
@@ -11190,6 +11370,8 @@ Détails du favori
 Type du favori
 [Conference]
 Chat
+[Transport]
+Transport
 [URL]
 Lien
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
@@ -11340,6 +11522,8 @@ Votre URL
 Courriel
 [Loading...]
 Chargement...
+[transport]
+transport
 [Notes]
 Notes
 [Personal vCard]
@@ -11444,6 +11628,8 @@ Boutani
 Féroé
 [Fijian]
 Fidjien
+[French]
+Français
 [Western Frisian]
 Frison occidental
 [Fulah]
@@ -11546,6 +11732,8 @@ Quitter Miranda-IM
 Changerl'état
 [Status]
 État
+[Do Not Disturb]
+Ne pas déranger
 [Invisible]
 Invisible
 [Offline]
@@ -11588,6 +11776,8 @@ Version
 Système
 [unknown]
 Inconnu
+[Idle since]
+Inactif depuis
 [both]
 les 2
 [to]
@@ -11658,6 +11848,8 @@ Détails Jabber : Éditer l'adresse électronique
 Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
+[Anxious]
+Anxieux
 [Calm]
 Calme
 [Distracted]
@@ -11698,6 +11890,8 @@ Choqué
 Timide
 [Sick]
 Malade
+[Sleepy]
+Somnolent
 [Stressed]
 Stressé
 [Surprised]
@@ -11722,6 +11916,8 @@ Au téléphone
 dans un véhicule
 [studying]
 Étudie
+[Listening To]
+Écoute
 #muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
@@ -12070,6 +12266,8 @@ Actualiser toutes les:
 secondes
 [Allow auto-loading plugins into players (affect players with *)]
 (*) Autoriser le chargement automatique des plugins dans les lecteurs
+[Listening to]
+Écoute
 [Template:]
 Modèle:
 [When variable not found, use:]
@@ -12144,6 +12342,8 @@ Demander l'autorisation
 Voir Les Fichiers Reçus
 [XStatus title]
 XStatus - Titre
+[Listening to]
+Écoute
 [Always visible]
 Toujours visible
 [Messages]
@@ -12263,6 +12463,8 @@ Général
 Protocoles
 [Contacts]
 Contacts
+[Contact]
+Contact
 [Protocol]
 Protocole
 [Policy]
@@ -12630,11 +12832,11 @@ Page web  : %Homepage%\r\n
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
-Lien:\s
+Lien :\s
 [File: ]
-Fichier:\s
+Fichier :\s
 [Description: ]
-Description:\s
+Description :\s
 [Failed to write URL/File to the file :\n]
 Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]
@@ -12892,6 +13094,8 @@ Afficher ce que l'autre écoute
 Pseudo
 [Status]
 État
+[Listening To]
+Écoute
 [My Details]
 Mes détails
 [Background]
@@ -12908,6 +13112,8 @@ Changer mon pseudo pour %s...
 Changer mon message d'état pour %s...
 [Hide My Details]
 Cacher mes détails
+[Listening to]
+Écoute
 [Set My Nickname for %s]
 Changer mon pseudo pour %s
 [Set My Status Message for %s]
@@ -12965,6 +13171,8 @@ Texte
 Titre :
 [Delete]
 Effacer
+[Status messages:]
+Messages d'état :
 [seconds]
 secondes
 [%s message for %s]
@@ -13278,6 +13486,8 @@ Annuler
 Général
 [Accounts]
 Comptes
+[Sound files]
+Fichiers son
 [All files]
 Tous les fichiers
 [Status]
@@ -13292,6 +13502,8 @@ Hors ligne
 (son par défaut)
 [<no status message>]
 <aucun message d'état>
+[Contact]
+Contact
 [connecting]
 Connexion...
 [playing]
@@ -13435,6 +13647,8 @@ Principales
 Messages
 [Advanced]
 Avancé
+[Contact]
+Contact
 [Protocol]
 Protocole
 [info]
@@ -14091,6 +14305,8 @@ Régler mon état en:
 Réussi, si mon état est:
 [Execute the following command on double-click:]
 Exécuter les commandes suivantes suite à un double-clique:
+[Contact]
+Contact
 [Protocols]
 Protocoles
 [(Optional) Command Parameters:]
@@ -14488,6 +14704,8 @@ Popup verrouillé
 Menu Contact
 [Add Contact Permanently]
 Ajouter le contact
+[Actions]
+Actions
 [Contacts]
 Contacts
 [Advanced]
@@ -14676,6 +14894,8 @@ Contacts
 &Effacer
 [&Copy]
 &Copier
+[&Move to Group]
+&Déplacer vers le groupe
 [Warning]
 Avertissement
 [Online]
@@ -14762,6 +14982,8 @@ Note du contact
 Cacher les contacts Hors-Ligne
 [Contacts]
 Contacts
+[Contact]
+Contact
 [Ignore Contact]
 Ignorer ce contact
 #muuid {60e94b84-a799-4021-9449-5b838fc06a7c}
@@ -14964,10 +15186,14 @@ Réessayer
 Annuler
 [Message Session]
 Session message
+[&User menu]
+&Menu utilisateur
 [User &details]
 &Détails du contact
 [&Add]
 &Ajouter
+[&History]
+&Historique
 [&Quote]
 &Citer
 [Send To All Tabs]
@@ -14982,6 +15208,8 @@ Oui
 Non
 [&Bold]
 &Gras
+[&Italic]
+&Italique
 [&Underline]
 &Souligné
 [&Color]
@@ -14990,6 +15218,8 @@ Non
 &Couleur de fond
 [Show these events only:]
 Voir ces évènements si:
+[Actions]
+Actions
 [Messages]
 Messages
 [Nick changes]
@@ -15394,6 +15624,8 @@ Changements de nom
 Messages d'information
 [Show icon in tray for status changes]
 Changements d'état du contact
+[Show popups only when the chat room is not active]
+st pas actif
 [Icons to display in the tray]
 Icônes à afficher dans la zone de notification système (tray)
 [Appearance]
@@ -15402,6 +15634,8 @@ Apparence
 Sélectionnez un répertoire
 [Popups]
 Popups
+[&Message %s]
+&Message %s
 [Insert a smiley]
 Insérer un smiley
 [Make the text bold (CTRL+B)]
@@ -15465,6 +15699,8 @@ secondes
 Clef hors-ligne expir.:
 [days]
 jours
+[Reset All]
+Tout réinitialiser
 [Protocols]
 Protocoles
 [Private]
@@ -16030,6 +16266,8 @@ Domicile
 Général
 [Conference]
 Chat
+[Contact]
+Contact
 [Delete]
 Effacer
 [Protocols]
@@ -16347,6 +16585,8 @@ ms
 Aperçu...
 [Error]
 Erreur
+[Sound Files]
+Fichiers son
 [Skins]
 Skins
 #muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
@@ -16629,6 +16869,8 @@ Avancé
 Annuler
 [Show these events]
 Afficher ces événements
+[Actions]
+Actions
 [Messages]
 Messages
 [Nick changes]
@@ -17311,6 +17553,8 @@ Sélecteur de smileys
 Copier dans le Presse-Papiers
 [TabSRMM Information]
 Information de TabSRMM
+[contact]
+Contact
 [Always off]
 Toujours désactiver
 [Always on]
@@ -17495,6 +17739,8 @@ Vous ne pouvez pas renommer le conteneur par défaut
 Ce nom est déjà utilisé
 [Failed]
 ÉCHOUÉ
+[Contact]
+Contact
 [Message text]
 Message
 [Status]
@@ -17769,6 +18015,8 @@ Tous les fichiers
 Sélectionnez un répertoire
 [No word to look up]
 Aucun mot à chercher
+[&Message %s]
+&Message %s
 [Unique ID]
 ID unique
 [Nick]
@@ -17910,6 +18158,8 @@ Contenu
 E-mails non-lus
 [Status]
 État
+[Listening to]
+Écoute
 [%s (locked)]
 %s (verrouillé)
 [Status:]
@@ -17964,6 +18214,8 @@ Femme
 Homme
 [Arabic]
 Arabe
+[French]
+Français
 [Greek]
 Grecque
 [Hebrew]
@@ -18140,7 +18392,7 @@ Fichiers %d
 [Tlen Authentication]
 Authentification Tlen
 [You have been kicked. Reason: %s ]
-Vous avez été kické. Motif: %s\s
+Vous avez été kické. Motif : %s\s
 [You cannot join this chat room, because you are banned.]
 Vous ne pouvez rejoindre ce salon, car vous avez été banni.
 [Chat room not found.]
@@ -18733,6 +18985,8 @@ Voulez-vous vraiment effacer les réglages sélectionnés ?\n\t%s\n\t%s
 Autre
 [<Unspecified>]
 <non spécifié>
+[Contact]
+Contact
 [Age/Nr.]
 Age
 [All contacts]
@@ -18799,6 +19053,8 @@ Défaut
 Mise à jour
 [Fax]
 Fax
+[Cellular]
+Portable
 [Custom Phone]
 Téléphone
 [e-mail]
@@ -18875,6 +19131,8 @@ Définir cette valeur
 Voulez-vous vraiment supprimer cette information ?
 [Arabic]
 Arabe
+[French]
+Français
 [Greek]
 Grecque
 [Hebrew]
@@ -20037,6 +20295,8 @@ tous les contacts
 Inconnu
 [Protocol]
 Protocole
+[Contact]
+Contact
 [Check for birthdays]
 Vérifier si anniversaire
 [Contacts]
@@ -20263,6 +20523,8 @@ Changer
 RAZ
 [Cancel]
 Annuler
+[Sound files]
+Fichiers son
 [WAV files]
 Fichiers WAV
 [Sounds]
@@ -20836,6 +21098,8 @@ Copier date et heure
 Envoyer le message à...
 [Everyone]
 Tous le monde
+[Contact]
+Contact
 [Forward when your status is...]
 Envoyer si vous êtes...
 [Offline]

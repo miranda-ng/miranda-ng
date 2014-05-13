@@ -233,7 +233,7 @@ Erreurs
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 
 [Dialog]
-
+Dialogue
 [All modes]
 Tous les modes
 [Choose modes]

@@ -992,9 +992,9 @@ Sports
 [Women]
 
 [Afrikaans]
-
+Afrikaans
 [Albanian]
-
+Albanais
 [Arabic]
 Arabe
 [Armenian]
@@ -1008,9 +1008,9 @@ Arabe
 [Bosnian]
 
 [Bulgarian]
-
+Bulgare
 [Burmese]
-
+Birman
 [Cantonese]
 
 [Catalan]
@@ -1018,31 +1018,31 @@ Arabe
 [Chamorro]
 
 [Chinese]
-
+Chinois
 [Croatian]
-
+Croate
 [Czech]
-
+Tchèque
 [Danish]
-
+Danois
 [Dutch]
 
 [English]
-
+Anglais
 [Esperanto]
-
+Esperanto
 [Estonian]
-
+Estonien
 [Farsi]
 
 [Finnish]
-
+Finnois
 [French]
 Français
 [Gaelic]
 
 [German]
-
+Allemand
 [Greek]
 Grecque
 [Gujarati]
@@ -1050,15 +1050,15 @@ Grecque
 [Hebrew]
 Hébreux
 [Hindi]
-
+Hindi
 [Hungarian]
-
+Hongrois
 [Icelandic]
-
+Islandais
 [Indonesian]
-
+Indonésien
 [Italian]
-
+Italien
 [Japanese]
 Japonais
 [Khmer]
@@ -1066,51 +1066,51 @@ Japonais
 [Korean]
 Coréen
 [Kurdish]
-
+Kurde
 [Lao]
 
 [Latvian]
-
+Letton
 [Lithuanian]
-
+Lituanien
 [Macedonian]
-
+Macédonien
 [Malay]
-
+Malais
 [Mandarin]
 
 [Mongolian]
-
+Mongol
 [Norwegian]
-
+Norvégien
 [Persian]
-
+Perse
 [Polish]
-
+Polonais
 [Portuguese]
-
+Portugais
 [Punjabi]
 
 [Romanian]
-
+Roumain
 [Russian]
-
+Russe
 [Serbian]
-
+Serbe
 [Sindhi]
 
 [Slovak]
-
+Slovaque
 [Slovenian]
-
+Slovène
 [Somali]
-
+Somali
 [Spanish]
 
 [Swahili]
 
 [Swedish]
-
+Suédois
 [Tagalog]
 
 [Taiwanese]
@@ -1124,7 +1124,7 @@ Thaïlandais
 [Turkish]
 Turque
 [Ukrainian]
-
+Ukrainien
 [Urdu]
 
 [Vietnamese]
@@ -1132,7 +1132,7 @@ Vietnamien
 [Welsh]
 
 [Yiddish]
-
+Yiddish
 [Yoruba]
 
 [Elementary School]
@@ -1448,11 +1448,11 @@ Vous devez être En ligne pour synchroniser le serveur!
 ** Tous les contacts **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Angry]
-
+En colère
 [Taking a bath]
-
+prend un bain
 [Tired]
-
+Fatigué
 [Birthday]
 
 [Drinking beer]
@@ -1460,7 +1460,7 @@ Boit de la bière
 [Thinking]
 Pensif
 [Eating]
-
+Mange
 [Watching TV]
 Regarde la télé
 [Meeting]
@@ -1488,15 +1488,15 @@ Malade
 [Surfing]
 Surfe
 [Working]
-
+Travail
 [Typing]
 Écrit
 [Picnic]
 Pique-nique
 [Cooking]
-
+Cuisine
 [Smoking]
-
+Fume
 [I'm high]
 Plane
 [On WC]
@@ -1598,7 +1598,7 @@ OK pour un chat
 [On my mobile]
 
 [Depressed]
-
+Déprimé
 [Beetle]
 
 [Double Rainbow]
@@ -1614,7 +1614,7 @@ OK pour un chat
 [Playing]
 en lecture
 [Writing]
-
+Écrit
 [%s Custom Status]
 %s État Personnel
 [None]

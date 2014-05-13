@@ -395,7 +395,7 @@ Charger depuis un fichier de skin
 [Export to skin file]
 Exporter dans un fichier de skin
 [Dialog]
-
+Dialogue
 [Ignore these events]
 Ignorer ces évènements
 [Messages]

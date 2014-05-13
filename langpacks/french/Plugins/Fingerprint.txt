@@ -79,7 +79,7 @@
 [Platform]
 
 [Security]
-
+Sécurité
 [Protocol]
 Protocole
 ;file \plugins\FingerprintNG\src\masks.cpp

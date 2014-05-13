@@ -444,7 +444,7 @@ Contacts
 [FTP path cannot contain <date> in import task.]
 
 [Unknown error]
-
+Erreur inconnue
 [Cannot get FTP file(s).]
 
 [Cannot unzip file(s).]

@@ -6,7 +6,6 @@
 [Timer Settings]
 [Use Timer]
 [Timer Intervals.  ]
-[Dialog]
 [Away as another status]
 [Disable timer]
 [Timer interval (in seconds)]

@@ -9,7 +9,7 @@
 
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
-
+Dialogue
 [All]
 
 [None]
@@ -121,7 +121,7 @@ Une erreur inconnue s'est produite.
 [The user canceled one of the dialog boxes]
 
 [Unknown Error]
-
+Erreur inconnue
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
 Transfert de fichiers

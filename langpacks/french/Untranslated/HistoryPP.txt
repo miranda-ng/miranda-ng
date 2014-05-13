@@ -25,7 +25,6 @@
 [SMS Message]
 [WebPager]
 [EMail Express]
-[Other event]
 [Include password-protected contacts]
 [Stop]
 [Enter the history password to search.]

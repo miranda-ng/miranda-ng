@@ -17,7 +17,6 @@
 [Join conference with %s]
 [Answer call; set call to %s on hold]
 [Hang up]
-[Dialog]
 [Use Skype proxy connection over network instead of local Skype API]
 [* You must restart Miranda NG in order to let the settings take effect]
 [This Skype proxy requires password authentication:]

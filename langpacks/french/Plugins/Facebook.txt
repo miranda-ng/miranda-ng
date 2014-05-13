@@ -21,7 +21,7 @@ Mur :
 [Visibility:]
 Visibilité :
 [Text:]
-
+Texte :
 [URL:]
 Lien :
 [Place:]
@@ -31,7 +31,7 @@ Partager
 [Cancel]
 Annuler
 [Contacts >>]
-
+Contacts >>
 [Attach contacts:]
 
 [User details]
@@ -41,15 +41,15 @@ Groupes :
 [Automatically set 'Ignore status change' flag]
 
 [Contacts Settings]
-
+Configuration des contacts
 [Use bigger avatars]
-
+Utiliser des grands avatars
 [Event notifications]
 
 [Notifications]
 Notifications
 [News feeds]
-
+Fil d'actualité
 [News Feed types to notify:]
 
 [Other events]
@@ -75,17 +75,17 @@ Poster les statuts de Miranda sur le mur
 [Allow posting statuses to my pages (may slow down login)]
 
 [Use this server for opening links:]
-
+Utiliser ce serveur pour ouvrir les liens :
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 
 [Use local time for received messages]
-
+Utiliser l'heure locale pour les messages reçus
 [Message sessions]
 Sessions de message
 [Keep messages as unread on server (don't send "seen" info)]
 Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 [Receive messages from "inbox" folder only]
-
+Recevoir uniquement les messages de la boîte de réception
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Inviter l'utilisateur...
@@ -99,7 +99,7 @@ Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 [Login error: %s]
 
 [Unknown error]
-
+Erreur inconnue
 [Login error: Invalid request.]
 
 [Login error: Some Facebook things are required.]
@@ -120,9 +120,9 @@ Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 Mise à jour du statut avec succès.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
-
+Veuillez entrer un nom d'utilisateur.
 [Please enter a password.]
-
+S'il vous plaît entrer un mot de passe.
 ;file \protocols\FacebookRM\src\constants.h
 [Most Recent]
 
@@ -131,19 +131,19 @@ Mise à jour du statut avec succès.
 [Top News]
 
 [Photos]
-
+Photos
 [Links]
-
+Liens
 [Apps and Games]
-
+Applications et Jeux
 [Classic website]
 Site internet classique
 [Mobile website]
-
+Site internet Mobile
 [Smartphone website]
-
+Site internet Mobile
 [Public]
-
+Public
 [Friends of friends]
 
 [Friends]
@@ -154,7 +154,7 @@ Site internet classique
 
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
-
+Le contact a été supprimé de votre liste sur le serveur.
 [Error occurred when removing contact from server.]
 
 [Request for friendship was sent.]
@@ -184,15 +184,15 @@ Défaut
 
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
-
+un autocollant
 [files]
 Fichiers
 [a file]
-
+un fichier
 [photos]
-
+photos
 [a photo]
-
+une photo
 [User sent %s:]
 
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -212,7 +212,7 @@ Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 [Contact is back on server-list.]
 
 [Contact is no longer on server-list.]
-
+Le contact n'est plus sur la liste du serveur.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s serveur connexion
@@ -247,20 +247,20 @@ Partager le statut
 [News Feed]
 
 [Other Event]
-
+Autre événement
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 
 [Mind]
 
 [Poke]
-
+Poke
 [Newsfeed]
 
 [Friendship details]
 
 [Conversation]
-
+Conversation
 [Visit profile]
 Visiter le profil
 [Visit friendship details]
@@ -268,7 +268,7 @@ Voir les détails
 [Visit conversation]
 
 [Cancel friendship]
-
+Supprimer
 [Cancel friendship request]
 
 [Request friendship]
@@ -278,9 +278,9 @@ Voir les détails
 [Visit notifications]
 
 [Services...]
-
+Services...
 [Refresh Buddy List]
-
+Actualiser la liste d'amis
 [Services]
 Services
 [Check Friends Requests]

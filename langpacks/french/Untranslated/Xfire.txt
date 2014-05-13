@@ -157,7 +157,6 @@
 [Are you sure you want to remove this game?]
 [Please select a game.]
 [Error: unknown game ID.]
-[Not supported]
 [Configuration saved!]
 [Game not found?!]
 [Features]

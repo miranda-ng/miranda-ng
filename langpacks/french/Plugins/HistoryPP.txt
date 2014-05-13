@@ -120,7 +120,7 @@ Tout copier
 [EMail Express]
 
 [Other event]
-
+Autre événement
 [Global History Search]
 Recherche dans l'historique système
 [Search for]

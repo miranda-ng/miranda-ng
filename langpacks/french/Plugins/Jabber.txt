@@ -79,7 +79,7 @@ Supprimer automatiquement les contacts non dans ma liste
 [User directory:]
 Adresse utilisateur :
 [Language for human-readable resources:]
-
+Langue pour les ressources lisibles :
 [File Transfer]
 Transfert de fichiers
 [Allow file sending through direct peer-to-peer connection]
@@ -389,7 +389,7 @@ Autoriser
 [Deny]
 Refuser
 [Dialog]
-
+Dialogue
 [Jabber Notebook]
 
 [Jabber notebook\nStore notes on server and access them from anywhere.]
@@ -426,7 +426,7 @@ Erreur %s %s
 [Select Command]
 Choississez une commande
 [Not supported]
-
+Non supporté
 [Done]
 Terminé
 [In progress. Please Wait...]
@@ -458,7 +458,7 @@ Pseudo
 [Conferences]
 Conférences
 [Links]
-
+Liens
 ;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 
@@ -740,7 +740,7 @@ Effacer tous les favoris
 [Contact Menu...]
 Menu du contact...
 [View vCard]
-
+Voir la vCard
 [Join chatroom]
 
 [Refresh Info]
@@ -764,7 +764,7 @@ Commandes...
 [Logoff]
 
 [Copy JID]
-
+Copier le JID
 [Copy node name]
 
 [Copy node information]
@@ -842,7 +842,7 @@ Catégorie
 [The password for an account]
 
 [Password verification]
-
+Vérification du mot de passe
 [A list of registered entities]
 
 [The number of registered entities]
@@ -854,7 +854,7 @@ Catégorie
 [The family (last) name of a user]
 
 [The text of a welcome message]
-
+Le texte du message de bienvenue
 [A list of entities with whom communication is allowed]
 
 [First Name]
@@ -1030,7 +1030,7 @@ Courriel
 [Last name, surname, or family name of the user]
 
 [Email address of the user]
-
+Courriel de l'utilisateur
 [Street portion of a physical or mailing address]
 
 [Locality portion of a physical or mailing address]
@@ -1071,7 +1071,7 @@ Courriel
 [Room list request timed out.]
 
 [<no nick>]
-
+<aucun pseudo>
 [Loading...]
 Chargement...
 [Please wait for room list to download.]
@@ -1079,7 +1079,7 @@ Chargement...
 [Please specify group chat directory first.]
 
 [Bookmarks...]
-
+Favoris...
 [Change nickname in <%s>]
 
 [has set the subject to:]
@@ -1128,7 +1128,7 @@ Réinitialiser le filtre
 [Browse node]
 
 [RSS service]
-
+Service RSS
 [Server]
 Serveur
 [Storage service]
@@ -1236,7 +1236,7 @@ Dernière activité
 [Options...]
 
 [Services...]
-
+Services...
 [Registered Transports]
 
 [Local Server Transports]
@@ -1276,7 +1276,7 @@ Haute priorité (choix du serveur)
 [To]
 Vers
 [From]
-
+De
 [Both]
 les 2
 [Errors]
@@ -1300,15 +1300,15 @@ Etes-vous sûr?
 [Afar]
 
 [Abkhazian]
-
+Abkhaze
 [Afrikaans]
-
+Afrikaans
 [Akan]
 
 [Albanian]
-
+Albanais
 [Amharic]
-
+Amharique
 [Arabic]
 Arabe
 [Aragonese]
@@ -1330,7 +1330,7 @@ Bachkir
 [Bambara]
 
 [Basque]
-
+Basque
 [Belarusian]
 Biélorusse
 [Bengali]
@@ -1342,11 +1342,11 @@ Bichelamar
 [Bosnian]
 
 [Breton]
-
+Breton
 [Bulgarian]
-
+Bulgare
 [Burmese]
-
+Birman
 [Catalan; Valencian]
 Catalan; Valence
 [Chamorro]
@@ -1354,7 +1354,7 @@ Catalan; Valence
 [Chechen]
 Tchétchène
 [Chinese]
-
+Chinois
 [Church Slavic; Old Slavonic]
 Église slaves; paléoslave
 [Chuvash]
@@ -1366,9 +1366,9 @@ Corse
 [Cree]
 
 [Czech]
-
+Tchèque
 [Danish]
-
+Danois
 [Divehi; Dhivehi; Maldivian]
 Divehi; Divehi, Maldivien
 [Dutch; Flemish]
@@ -1376,11 +1376,11 @@ Néerlandais; Flamand
 [Dzongkha]
 Boutani
 [English]
-
+Anglais
 [Esperanto]
-
+Esperanto
 [Estonian]
-
+Estonien
 [Ewe]
 Éwé
 [Faroese]
@@ -1388,7 +1388,7 @@ Féroé
 [Fijian]
 Fidjien
 [Finnish]
-
+Finnois
 [French]
 Français
 [Western Frisian]
@@ -1398,17 +1398,17 @@ Peul
 [Georgian]
 Géorgien
 [German]
-
+Allemand
 [Gaelic; Scottish Gaelic]
 
 [Irish]
-
+Irlandais
 [Galician]
 
 [Manx]
 
 [Greek, Modern (1453-)]
-
+Grec moderne
 [Guarani]
 
 [Gujarati]
@@ -1422,15 +1422,15 @@ Hébreux
 [Herero]
 
 [Hindi]
-
+Hindi
 [Hiri Motu]
-
+Hiri Motu
 [Hungarian]
-
+Hongrois
 [Igbo]
 
 [Icelandic]
-
+Islandais
 [Ido]
 
 [Sichuan Yi]
@@ -1442,13 +1442,13 @@ Hébreux
 [Interlingua (International Auxiliary Language Association)]
 
 [Indonesian]
-
+Indonésien
 [Inupiaq]
 
 [Italian]
-
+Italien
 [Javanese]
-
+Javanais
 [Japanese]
 Japonais
 [Kalaallisut; Greenlandic]
@@ -1472,55 +1472,55 @@ Japonais
 [Komi]
 
 [Kongo]
-
+Kongo
 [Korean]
 Coréen
 [Kuanyama; Kwanyama]
 
 [Kurdish]
-
+Kurde
 [Lao]
 
 [Latin]
-
+Latin
 [Latvian]
-
+Letton
 [Limburgan; Limburger; Limburgish]
 
 [Lingala]
 
 [Lithuanian]
-
+Lituanien
 [Luxembourgish; Letzeburgesch]
-
+Luxembourgeois
 [Luba-Katanga]
 
 [Ganda]
 
 [Macedonian]
-
+Macédonien
 [Marshallese]
 
 [Malayalam]
-
+Malayalam
 [Maori]
-
+Maori
 [Marathi]
-
+Marathi
 [Malay]
-
+Malais
 [Malagasy]
-
+Malgache
 [Maltese]
 
 [Moldavian]
-
+Moldave
 [Mongolian]
-
+Mongol
 [Nauru]
 Nauru
 [Navajo; Navaho]
-
+Navajo
 [Ndebele, South; South Ndebele]
 
 [Ndebele, North; North Ndebele]
@@ -1528,35 +1528,35 @@ Nauru
 [Ndonga]
 
 [Nepali]
-
+Népalais
 [Norwegian Nynorsk; Nynorsk, Norwegian]
-
+Norvégien
 [Bokmaal, Norwegian; Norwegian Bokmaal]
 
 [Norwegian]
-
+Norvégien
 [Chichewa; Chewa; Nyanja]
 
 [Occitan (post 1500); Provencal]
-
+Occitan
 [Ojibwa]
 
 [Oriya]
 
 [Oromo]
-
+Oromo
 [Ossetian; Ossetic]
 
 [Panjabi; Punjabi]
 
 [Persian]
-
+Perse
 [Pali]
 
 [Polish]
-
+Polonais
 [Portuguese]
-
+Portugais
 [Pushto]
 
 [Quechua]
@@ -1564,27 +1564,27 @@ Nauru
 [Romansh]
 
 [Romanian]
-
+Roumain
 [Rundi]
 
 [Russian]
-
+Russe
 [Sango]
 
 [Sanskrit]
 
 [Serbian]
-
+Serbe
 [Croatian]
-
+Croate
 [Sinhala; Sinhalese]
 
 [Slovak]
-
+Slovaque
 [Slovenian]
-
+Slovène
 [Northern Sami]
-
+Same du Nord
 [Samoan]
 
 [Shona]
@@ -1592,23 +1592,23 @@ Nauru
 [Sindhi]
 
 [Somali]
-
+Somali
 [Sotho, Southern]
 
 [Spanish; Castilian]
-
+Espagnol; Castillan
 [Sardinian]
-
+Sarde
 [Swati]
 
 [Sundanese]
-
+Soundanais
 [Swahili]
 
 [Swedish]
-
+Suédois
 [Tahitian]
-
+Tahitien
 [Tamil]
 
 [Tatar]
@@ -1622,7 +1622,7 @@ Nauru
 [Thai]
 Thaïlandais
 [Tibetan]
-
+Tibétain
 [Tigrinya]
 
 [Tonga (Tonga Islands)]
@@ -1632,7 +1632,7 @@ Thaïlandais
 [Tsonga]
 
 [Turkmen]
-
+Turkmène
 [Turkish]
 Turque
 [Twi]
@@ -1640,17 +1640,17 @@ Turque
 [Uighur; Uyghur]
 
 [Ukrainian]
-
+Ukrainien
 [Urdu]
 
 [Uzbek]
-
+Ouzbek
 [Venda]
 
 [Vietnamese]
 Vietnamien
 [Volapuk]
-
+Volapuk
 [Welsh]
 
 [Walloon]
@@ -1660,19 +1660,19 @@ Vietnamien
 [Xhosa]
 
 [Yiddish]
-
+Yiddish
 [Yoruba]
 
 [Zhuang; Chuang]
 
 [Zulu]
-
+Zoulou
 [These changes will take effect the next time you connect to the Jabber network.]
 Ces changements ne prendront effet qu'à la prochaine connexion au réseau Jabber.
 [Jabber Protocol Option]
 Options du protocole Jabber
 [Confirm password]
-
+Confirmez le mot de passe
 [Passwords do not match.]
 
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
@@ -1732,7 +1732,7 @@ Ajouter auto. un contact après une autorisation acceptée
 [Keep contacts assigned to local groups (ignore roster group)]
 
 [Security]
-
+Sécurité
 [Allow servers to request version (XEP-0092)]
 
 [Show information about operating system in version replies]
@@ -1788,13 +1788,13 @@ Compte
 [Advanced]
 Avancé
 [Public XMPP Network]
-
+Réseau XMPP publique
 [Secure XMPP Network]
-
+Réseau  XMPP sécurisé 
 [Secure XMPP Network (old style)]
 
 [Google Talk!]
-
+Google Talk!
 [LiveJournal Talk]
 
 [Facebook Chat]
@@ -1802,7 +1802,7 @@ Avancé
 [Odnoklassniki]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
-
+Certaines modifications prendront effet la prochaine fois que vous vous connecterez au réseau Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
 
@@ -1858,7 +1858,7 @@ Effacer la règle
 [Remove list]
 Effacer
 [** Default **]
-
+** Par défaut **
 [** Subsription: both **]
 
 [** Subsription: to **]
@@ -1880,15 +1880,15 @@ Message
 [List has no rules, empty lists will be deleted then changes applied]
 
 [allow ]
-
+autoriser\s
 [deny ]
 
 [all.]
-
+tous.
 [messages]
 Messages
 [ and ]
-
+ et\s
 [incoming presences]
 
 [outgoing presences]
@@ -1902,7 +1902,7 @@ Sinon\s
 [ (nickname: ]
 
 [If group is ']
-
+Si le groupe est '
 [If subscription is ']
 
 [then ]
@@ -1912,9 +1912,9 @@ puis\s
 [ (active)]
 
 [ (default)]
-
+ (par défaut)
 [Ready.]
-
+Prêt.
 [Privacy lists are not saved, discard any changes and exit?]
 
 [Please save list before activating]
@@ -1924,11 +1924,11 @@ puis\s
 [Please save list before you make it the default list]
 
 [No list selected]
-
+Aucune liste sélectionnée
 [Can't remove active or default list]
 
 [Sorry]
-
+Désolé
 [Unable to save list because you are currently offline.]
 
 [List Editor...]
@@ -1982,7 +1982,7 @@ Hors ligne
 [Automatically Accept File Transfers]
 
 [Play sounds]
-
+Jouer des sons
 [Disable remote controlling (check twice what you are doing)]
 
 [There is no messages to forward]
@@ -2002,7 +2002,7 @@ Hors ligne
 [Confirmation needed]
 
 [Please confirm Miranda NG shutdown]
-
+Veuillez confirmer la fermeture de Miranda NG
 [There is no group chats to leave]
 
 [Choose the group chats you want to leave]
@@ -2045,7 +2045,7 @@ Pseudo :
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
-
+Entrez le mot de passe pour %s
 [Error: Not enough memory]
 Erreur: Mémoire insuffisante
 [Error: Cannot connect to the server]
@@ -2066,7 +2066,7 @@ Envoi des infos d'enregistrement...
 [<not specified>]
 <non spécifié>
 [Software]
-
+Logiciel
 [Version]
 Version
 [System]
@@ -2076,15 +2076,15 @@ Inconnu
 [Idle since]
 Inactif depuis
 [Client capabilities]
-
+Capacités du client
 [Software information]
 
 [Operating system]
-
+Système d'exploitation
 [Operating system version]
-
+Version du système d'exploitation
 [Software version]
-
+Version du logiciel
 [Miranda core version]
 
 [Mood]
@@ -2098,7 +2098,7 @@ les 2
 [to]
 Vers
 [from]
-
+de
 [none]
 Aucun
 [Last logoff time]
@@ -2161,7 +2161,7 @@ Service indisponible
 [Remote server timeout]
 Délai du serveur distant dépassé
 [Unknown error]
-
+Erreur inconnue
 [Error]
 Erreur
 [Unknown error message]
@@ -2194,117 +2194,117 @@ Contacts
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
-
+Effrayé
 [Amazed]
-
+Stupéfait
 [Amorous]
-
+Amoureux
 [Angry]
-
+En colère
 [Annoyed]
-
+Contrarié
 [Anxious]
 Anxieux
 [Aroused]
-
+Éveillé
 [Ashamed]
-
+Honteux
 [Bored]
-
+S'ennuie
 [Brave]
-
+Courageux
 [Calm]
 Calme
 [Cautious]
-
+Prudent
 [Cold]
-
+Froid
 [Confident]
-
+Confiant
 [Confused]
-
+Désorienté
 [Contemplative]
-
+Contemplatif
 [Contented]
-
+Satisfait
 [Cranky]
-
+Excentrique
 [Crazy]
-
+Fou
 [Creative]
-
+Créatif
 [Curious]
-
+Curieux
 [Dejected]
-
+Découragé
 [Depressed]
-
+Déprimé
 [Disappointed]
-
+Désappointé
 [Disgusted]
-
+Dégoûté
 [Dismayed]
-
+Consterné
 [Distracted]
 Distret
 [Embarrassed]
-
+Embarrassé
 [Envious]
-
+Envieux
 [Excited]
 Éxcité
 [Flirtatious]
-
+Charmeur
 [Frustrated]
 Frusté
 [Grateful]
-
+Reconnaissant
 [Grieving]
-
+En deuil
 [Grumpy]
-
+Grincheux
 [Guilty]
-
+Coupable
 [Happy]
 Heureux
 [Hopeful]
-
+Optimiste
 [Hot]
 Chaud
 [Humbled]
-
+Humble
 [Humiliated]
 Humilié
 [Hungry]
-
+Affamé
 [Hurt]
-
+Blessé
 [Impressed]
-
+Impressionné
 [In awe]
-
+Craintif
 [In love]
-
+Amoureux
 [Indignant]
-
+Indigné
 [Interested]
 Intéressé
 [Intoxicated]
 Intoxcité
 [Invincible]
-
+Invincible
 [Jealous]
-
+Jaloux
 [Lonely]
 Seul
 [Lost]
-
+Perdu
 [Lucky]
-
+Chanceux
 [Mean]
-
+Méchant
 [Moody]
-
+Mal luné
 [Nervous]
 Nerveux
 [Neutral]
@@ -2312,25 +2312,25 @@ Neutre
 [Offended]
 Offensé
 [Outraged]
-
+Outré
 [Playful]
-
+Espiègle
 [Proud]
 Fier
 [Relaxed]
-
+Décontracté
 [Relieved]
-
+Soulagé
 [Remorseful]
-
+Plein de remords
 [Restless]
-
+Agité
 [Sad]
 Triste
 [Sarcastic]
 Sarcastique
 [Satisfied]
-
+Satisfait
 [Serious]
 Sérieux
 [Shocked]
@@ -2342,23 +2342,23 @@ Malade
 [Sleepy]
 Somnolent
 [Spontaneous]
-
+Spontané
 [Stressed]
 Stressé
 [Strong]
-
+Fort
 [Surprised]
 Surpris
 [Thankful]
-
+Reconnaissant
 [Thirsty]
-
+Assoiffé
 [Tired]
-
+Fatigué
 [Undefined]
 Non défini
 [Weak]
-
+Faible
 [Worried]
 Inquiet
 [Mood: %s]
@@ -2372,15 +2372,15 @@ Inquiet
 [cleaning]
 
 [cooking]
-
+cuisine
 [doing maintenance]
 
 [doing the dishes]
-
+fait la vaisselle
 [doing the laundry]
 
 [gardening]
-
+jardine
 [running an errand]
 
 [walking the dog]
@@ -2394,7 +2394,7 @@ Inquiet
 [having tea]
 
 [Eating]
-
+Mange
 [having a snack]
 
 [having breakfast]
@@ -2420,13 +2420,13 @@ Inquiet
 [skiing]
 
 [swimming]
-
+nage
 [working out]
 
 [Grooming]
 
 [at the spa]
-
+au spa
 [brushing teeth]
 
 [getting a haircut]
@@ -2434,9 +2434,9 @@ Inquiet
 [shaving]
 
 [taking a bath]
-
+prend un bain
 [taking a shower]
-
+prend une douche
 [Having appointment]
 
 [Inactive]
@@ -2448,7 +2448,7 @@ Inactive
 [hiding]
 
 [on vacation]
-
+en vacances
 [praying]
 
 [scheduled holiday]
@@ -2460,7 +2460,7 @@ Pensif
 [Relaxing]
 
 [fishing]
-
+pêche
 [gaming]
 Joue
 [going out]
@@ -2474,7 +2474,7 @@ Joue
 [shopping]
 Fait les courses
 [smoking]
-
+fume
 [socializing]
 
 [sunbathing]
@@ -2482,9 +2482,9 @@ Fait les courses
 [watching TV]
 Regarde la télé
 [watching a movie]
-
+regarde un film
 [Talking]
-
+discute
 [in real life]
 
 [on the phone]
@@ -2500,29 +2500,29 @@ Au téléphone
 [in a car]
 dans un véhicule
 [on a bus]
-
+dans le bus
 [on a plane]
-
+en avion
 [on a train]
-
+Dans le train
 [on a trip]
-
+en voyage
 [walking]
-
+marche
 [Working]
-
+travail
 [coding]
 
 [in a meeting]
-
+en réunion
 [studying]
 Étudie
 [writing]
-
+écrit
 [Activity: %s]
-
+Activité : %s
 [Set Activity]
-
+Definir
 [Listening To]
 Écoute
 [Moods]

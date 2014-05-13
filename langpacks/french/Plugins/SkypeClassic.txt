@@ -57,7 +57,7 @@ Annuler
 [Hang up]
 
 [Dialog]
-
+Dialogue
 [Use Skype proxy connection over network instead of local Skype API]
 
 [Host:]

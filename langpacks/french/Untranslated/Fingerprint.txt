@@ -33,7 +33,6 @@
 [Overlays]
 [Resource]
 [Platform]
-[Security]
 [Miranda NG stable]
 [Miranda IM (old versions)]
 [Miranda (unknown)]

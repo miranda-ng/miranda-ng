@@ -10,7 +10,6 @@
 [Offline:]
 [RSA Key]
 [SHA1:]
-[Public]
 [&Copy SHA1]
 [E&xport]
 [&Export]

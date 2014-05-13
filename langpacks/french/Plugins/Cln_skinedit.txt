@@ -55,7 +55,7 @@ Bordures 3D (clair/foncé)
 [Item ignored]
 Éléments ignorés
 [Dialog]
-
+Dialogue
 [Not yet supported]
 Pas encore supporté
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp

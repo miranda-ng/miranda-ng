@@ -9,7 +9,6 @@
 [By default use]
 [to save birthday data.]
 [in birthday list window]
-[Dialog]
 [Notify for]
 [afterwards]
 [Show all contacts]

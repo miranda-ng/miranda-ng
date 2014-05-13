@@ -3,7 +3,6 @@
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
 [When setting avatars, always make them square]
 [This uses the same additional options as in "Contact Avatars" tab]
-[Dialog]
 [Change]
 [Global avatar for %s accounts]
 [Avatar Service]

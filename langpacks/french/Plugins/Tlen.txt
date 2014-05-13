@@ -312,7 +312,7 @@ login Tlen
 
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for %s]
-
+Entrez le mot de passe pour %s
 [Tlen Connection Error]
 Erreur lors de la connexion à Tlen
 [%s Web Messages]
@@ -320,7 +320,7 @@ Erreur lors de la connexion à Tlen
 [Web message]
 message Web
 [From]
-
+De
 [E-mail]
 e-mail
 [An alert has been received.]
@@ -335,7 +335,7 @@ Compte
 [both]
 les 2
 [from]
-
+de
 [none]
 Aucun
 [not on roster]

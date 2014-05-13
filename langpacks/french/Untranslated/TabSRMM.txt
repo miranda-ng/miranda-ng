@@ -39,7 +39,6 @@
 [Default colors]
 [Use the message log color theme for group chat popups]
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
-[Dialog]
 [Choose modes]
 [Message log view mode (does not affect open windows)]
 [Show avatar in message window]

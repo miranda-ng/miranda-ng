@@ -11,13 +11,13 @@
 [Property Page]
 
 [Security]
-
+Sécurité
 [Only listen to localhost]
 
 [Sound]
 
 [Play sounds]
-
+Jouer des sons
 [Use internal speaker]
 
 [Debug]

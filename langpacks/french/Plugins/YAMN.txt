@@ -193,7 +193,7 @@ Pas de nouveaux e-mail
 [An error occurred. Error code: %d]
 
 [Unknown error]
-
+Erreur inconnue
 [ - connection error]
  - échec de connexion
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
@@ -224,7 +224,7 @@ Supprimer la sélection
 [Select All]
 Tout sélectionner
 [From]
-
+De
 [Subject]
 
 [Size]

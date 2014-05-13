@@ -3,7 +3,6 @@
 [Buddy Pounce]
 [Setting Value]
 [<< Simple]
-[Dialog]
 [Default Settings]
 [These settings are also used when sending a "Simple" pounce]
 [Couldn't allocate enough memory]

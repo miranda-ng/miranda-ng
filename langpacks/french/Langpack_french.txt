@@ -2042,7 +2042,7 @@ Demande d'autorisation de %s%s : %s
 [You were added by %s%s]
 Vous avez été ajouté par %s%s
 [Contacts: ]
-Contacts :
+Contacts :\s
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé. 
 [The profile already exists]
@@ -2980,10 +2980,18 @@ Parti manger
 Texte
 [None]
 Aucun
+[Angry]
+En colère
+[Taking a bath]
+Prend un bain
+[Tired]
+Fatigué
 [Drinking beer]
 Boit de la bière
 [Thinking]
 Pensif
+[Eating]
+Mange
 [Watching TV]
 Regarde la télé
 [Business]
@@ -3004,10 +3012,16 @@ Fait les courses
 Malade
 [Surfing]
 Surfe
+[Working]
+Travail
 [Typing]
 Écrit
 [Picnic]
 Pique-nique
+[Cooking]
+Cuisine
+[Smoking]
+Fume
 [I'm high]
 Plane
 [To be or not to be]
@@ -3963,6 +3977,8 @@ Protéger l'image et empêcher les avatars automatiques de la changer
 Avatar en carré
 [Resize the avatar to fit max allowed protocol size]
 Redimensionner l'avatar pour correspondre au protocole
+[Dialog]
+Dialogue
 [Contact picture]
 Avatar
 [Delete]
@@ -4160,6 +4176,8 @@ Page de code invalide
 Menu
 [Contacts]
 Contacts
+[Unknown error]
+Erreur inconnue
 ["%s" not found]
 "%s" non trouvé
 [Search]
@@ -4359,6 +4377,8 @@ Envoyer Pounce au contact:
 Avancé >>
 [The Message]
 Le Message
+[Dialog]
+Dialogue
 [Status]
 État
 [Use Advanced Dialog]
@@ -5263,6 +5283,8 @@ Terminer les longs textes par des points de suspensions
 Séparation:
 [Draw smileys on second line]
 Afficher les smileys
+[Text:]
+Texte :
 [Status]
 État
 [Nickname]
@@ -6513,6 +6535,8 @@ Ignorer la sélection des groupes
 Charger depuis un fichier de skin
 [Export to skin file]
 Exporter dans un fichier de skin
+[Dialog]
+Dialogue
 [Ignore these events]
 Ignorer ces évènements
 [Messages]
@@ -7000,6 +7024,8 @@ Style des bordures
 Bordures 3D (clair/foncé)
 [Item ignored]
 Éléments ignorés
+[Dialog]
+Dialogue
 [Not yet supported]
 Pas encore supporté
 [<None>]
@@ -7244,8 +7270,10 @@ Champ trouvé
 &Annuler
 [Search For]
 Recherche de
+[Text:]
+Texte :
 [In:]
-avec
+Dans :
 [Replace With]
 Remplacer par
 [Entirely]
@@ -7623,6 +7651,8 @@ E-mails non-lus
 Fermer
 [Mark as read]
 Marquer comme lu
+[Dialog]
+Dialogue
 [Username:]
 Identifiant:
 [Password:]
@@ -7641,7 +7671,7 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.4.0
+;  Version: 0.2.4.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -7658,18 +7688,28 @@ Exprimez-vous
 Mur :
 [Visibility:]
 Visibilité :
+[Text:]
+Texte :
 [URL:]
 Lien :
 [Share]
 Partager
 [Cancel]
 Annuler
+[Contacts >>]
+Contacts >>
 [User details]
 Détails du contact
 [Default group:]
 Groupes :
+[Contacts Settings]
+Configuration des contacts
+[Use bigger avatars]
+Utiliser des grands avatars
 [Notifications]
 Notifications
+[News feeds]
+Fil d'actualité
 [Other events]
 Autres événements
 [Preview]
@@ -7680,22 +7720,56 @@ Options Avancées
 Se connecter via une connection sécurisée HTTPS
 [Post Miranda statuses to Wall]
 Poster les statuts de Miranda sur le mur
+[Use this server for opening links:]
+Utiliser ce serveur pour ouvrir les liens :
+[Use local time for received messages]
+Utiliser l'heure locale pour les messages reçus
 [Message sessions]
 Sessions de message
 [Keep messages as unread on server (don't send "seen" info)]
 Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
+[Receive messages from "inbox" folder only]
+Recevoir uniquement les messages de la boîte de réception
 [&Invite user...]
 &Inviter l'utilisateur...
 [User &details]
 &Détails du contact
+[Unknown error]
+Erreur inconnue
 [Status update was successful.]
 Mise à jour du statut avec succès.
+[Please enter a username.]
+Veuillez entrer un nom d'utilisateur.
+[Please enter a password.]
+S'il vous plaît entrer un mot de passe.
+[Photos]
+Photos
+[Links]
+Liens
+[Apps and Games]
+Applications et Jeux
 [Classic website]
 Site internet classique
+[Mobile website]
+Site internet Mobile
+[Smartphone website]
+Site internet Mobile
+[Public]
+Public
+[Contact was removed from your server list.]
+Le contact a été supprimé de votre liste sur le serveur.
 [Default]
 Défaut
+[a sticker]
+un autocollant
 [files]
 Fichiers
+[a file]
+un fichier
+[photos]
+photos
+[a photo]
+une photo
 [Message read: %s]
 Message lu : %s
 [This message is no longer available, because it was marked as abusive or spam.]
@@ -7704,6 +7778,8 @@ Ce message n'est plus disponible, car il a été marqué comme injurieux ou ind�
 %s vous écrit un message...
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
+[Contact is no longer on server-list.]
+Le contact n'est plus sur la liste du serveur.
 [%s server connection]
 %s serveur connexion
 [Network]
@@ -7716,10 +7792,22 @@ Compte
 Avancées
 [Share status...]
 Partager le statut
+[Other Event]
+Autre événement
+[Poke]
+Poke
+[Conversation]
+Conversation
 [Visit profile]
 Visiter le profil
 [Visit friendship details]
 Voir les détails
+[Cancel friendship]
+Supprimer
+[Services...]
+Services...
+[Refresh Buddy List]
+Actualiser la liste d'amis
 [Services]
 Services
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
@@ -7831,6 +7919,8 @@ Fichier comme message...
 ;  Version: 0.1.0.0
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
+[Security]
+Sécurité
 [Protocol]
 Protocole
 [Icons]
@@ -7966,6 +8056,8 @@ Apparence
 ;  Version: 0.2.0.1
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
+[Dialog]
+Dialogue
 [Custom folders]
 Répertoires personnalisés
 [Preview]
@@ -8660,6 +8752,8 @@ Détails d'évènement
 Date/Heure:
 [Copy All]
 Tout copier
+[Other event]
+Autre événement
 [Global History Search]
 Recherche dans l'historique système
 [Search for]
@@ -9930,24 +10024,98 @@ Magasins
 Sport & Athlétisme
 [Sports]
 Sports
+[Afrikaans]
+Afrikaans
+[Albanian]
+Albanais
 [Arabic]
 Arabe
+[Bulgarian]
+Bulgare
+[Burmese]
+Birman
+[Chinese]
+Chinois
+[Croatian]
+Croate
+[Czech]
+Tchèque
+[Danish]
+Danois
+[English]
+Anglais
+[Esperanto]
+Esperanto
+[Estonian]
+Estonien
+[Finnish]
+Finnois
 [French]
 Français
+[German]
+Allemand
 [Greek]
 Grecque
 [Hebrew]
 Hébreux
+[Hindi]
+Hindi
+[Hungarian]
+Hongrois
+[Icelandic]
+Islandais
+[Indonesian]
+Indonésien
+[Italian]
+Italien
 [Japanese]
 Japonais
 [Korean]
 Coréen
+[Kurdish]
+Kurde
+[Latvian]
+Letton
+[Lithuanian]
+Lituanien
+[Macedonian]
+Macédonien
+[Malay]
+Malais
+[Mongolian]
+Mongol
+[Norwegian]
+Norvégien
+[Persian]
+Perse
+[Polish]
+Polonais
+[Portuguese]
+Portugais
+[Romanian]
+Roumain
+[Russian]
+Russe
+[Serbian]
+Serbe
+[Slovak]
+Slovaque
+[Slovenian]
+Slovène
+[Somali]
+Somali
+[Swedish]
+Suédois
 [Thai]
 Thaïlandais
 [Turkish]
 Turque
+[Ukrainian]
+Ukrainien
 [Vietnamese]
 Vietnamien
+[Yiddish]
+Yiddish
 [Past Work Place]
 Anciens lieux de travail
 [Past Organization]
@@ -10070,10 +10238,18 @@ Fermer
 Vous devez être En ligne pour synchroniser le serveur!
 [** All contacts **]
 ** Tous les contacts **
+[Angry]
+En colère
+[Taking a bath]
+prend un bain
+[Tired]
+Fatigué
 [Drinking beer]
 Boit de la bière
 [Thinking]
 Pensif
+[Eating]
+Mange
 [Watching TV]
 Regarde la télé
 [Shooting]
@@ -10092,10 +10268,16 @@ Fait les courses
 Malade
 [Surfing]
 Surfe
+[Working]
+Travail
 [Typing]
 Écrit
 [Picnic]
 Pique-nique
+[Cooking]
+Cuisine
+[Smoking]
+Fume
 [I'm high]
 Plane
 [To be or not to be]
@@ -10108,8 +10290,12 @@ Singe
 Chien
 [Free for Chat]
 OK pour un chat
+[Depressed]
+Déprimé
 [Playing]
 en lecture
+[Writing]
+Écrit
 [%s Custom Status]
 %s État Personnel
 [None]
@@ -10920,11 +11106,11 @@ Effacer le serveur
 [Edit server]
 Éditer le serveur
 [<Resolved IP: ]
-<IP trouvé:\s
+<IP trouvé :\s
 [<Automatic>]
 <Automatique>
 [<Local IP: ]
-<IP Local:\s
+<IP Local :\s
 [Click to set commands that will be performed for this event]
 Cliquez pour définir la commande pour cet évènement
 [Click to delete the commands for this event]
@@ -10942,19 +11128,19 @@ Compte
 [Advanced]
 Avancé
 [WallOps from %s: ]
-WallOps de %stify
+WallOps de %stify :\s
 [%s invites you to %s]
 %s vous invite à %s
 [%s is away]
 %s est sorti
 [These are online: ]
-Ils sont en ligne:\s
+Ils sont en ligne :\s
 [CTCP %s reply sent to %s]
 Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
 Réponse CTCP %s envoyée à %s: %s
 [Notice to %s: ]
-Notice à %s:\s
+Notice à %s :\s
 [&Quick connect]
 Connexion &rapide
 [&Join channel]
@@ -11188,6 +11374,8 @@ Garder la connection active
 Supprimer automatiquement les contacts non dans ma liste
 [User directory:]
 Adresse utilisateur :
+[Language for human-readable resources:]
+Langue pour les ressources lisibles :
 [File Transfer]
 Transfert de fichiers
 [Allow file sending through direct peer-to-peer connection]
@@ -11440,10 +11628,14 @@ Demande d'autorisation
 Autoriser
 [Deny]
 Refuser
+[Dialog]
+Dialogue
 [Error %s %s]
 Erreur %s %s
 [Select Command]
 Choississez une commande
+[Not supported]
+Non supporté
 [Done]
 Terminé
 [In progress. Please Wait...]
@@ -11466,6 +11658,8 @@ Adresse (JID ou URL)
 Pseudo
 [Conferences]
 Conférences
+[Links]
+Liens
 [None]
 Aucun
 [Member]
@@ -11502,16 +11696,24 @@ Erreur Jabber
 Effacer tous les favoris
 [Contact Menu...]
 Menu du contact...
+[View vCard]
+Voir la vCard
 [Add to favorites]
 Ajouter aux favoris
 [Add to roster]
 Ajouter
 [Commands...]
 Commandes...
+[Copy JID]
+Copier le JID
 [category]
 catégorie
 [Category]
 Catégorie
+[Password verification]
+Vérification du mot de passe
+[The text of a welcome message]
+Le texte du message de bienvenue
 [First Name]
 Prénom
 [Last Name]
@@ -11520,8 +11722,14 @@ Nom
 Votre URL
 [Email Address]
 Courriel
+[Email address of the user]
+Courriel de l'utilisateur
+[<no nick>]
+<aucun pseudo>
 [Loading...]
 Chargement...
+[Bookmarks...]
+Favoris...
 [transport]
 transport
 [Notes]
@@ -11532,6 +11740,8 @@ Détails personnels
 Appliquer le filtre
 [Reset filter]
 Réinitialiser le filtre
+[RSS service]
+Service RSS
 [Server]
 Serveur
 [Protocols]
@@ -11574,12 +11784,16 @@ Dernière activité
 &Convertir en contact
 [&Convert to Chat Room]
 &Convertir en salon
+[Services...]
+Services...
 [Privacy lists]
 Listes confidentielle
 [Highest priority (server's choice)]
 Haute priorité (choix du serveur)
 [To]
 Vers
+[From]
+De
 [Both]
 les 2
 [Errors]
@@ -11588,6 +11802,14 @@ Erreurs
 De : %s
 [Are you sure?]
 Etes-vous sûr?
+[Abkhazian]
+Abkhaze
+[Afrikaans]
+Afrikaans
+[Albanian]
+Albanais
+[Amharic]
+Amharique
 [Arabic]
 Arabe
 [Aragonese]
@@ -11600,14 +11822,24 @@ Avar
 Avestique
 [Bashkir]
 Bachkir
+[Basque]
+Basque
 [Belarusian]
 Biélorusse
 [Bislama]
 Bichelamar
+[Breton]
+Breton
+[Bulgarian]
+Bulgare
+[Burmese]
+Birman
 [Catalan; Valencian]
 Catalan; Valence
 [Chechen]
 Tchétchène
+[Chinese]
+Chinois
 [Church Slavic; Old Slavonic]
 Église slaves; paléoslave
 [Chuvash]
@@ -11616,18 +11848,30 @@ Tchouvache
 Cornique
 [Corsican]
 Corse
+[Czech]
+Tchèque
+[Danish]
+Danois
 [Divehi; Dhivehi; Maldivian]
 Divehi; Divehi, Maldivien
 [Dutch; Flemish]
 Néerlandais; Flamand
 [Dzongkha]
 Boutani
+[English]
+Anglais
+[Esperanto]
+Esperanto
+[Estonian]
+Estonien
 [Ewe]
 Éwé
 [Faroese]
 Féroé
 [Fijian]
 Fidjien
+[Finnish]
+Finnois
 [French]
 Français
 [Western Frisian]
@@ -11636,24 +11880,132 @@ Frison occidental
 Peul
 [Georgian]
 Géorgien
+[German]
+Allemand
+[Irish]
+Irlandais
+[Greek, Modern (1453-)]
+Grec moderne
 [Hebrew]
 Hébreux
+[Hindi]
+Hindi
+[Hiri Motu]
+Hiri Motu
+[Hungarian]
+Hongrois
+[Icelandic]
+Islandais
+[Indonesian]
+Indonésien
+[Italian]
+Italien
+[Javanese]
+Javanais
 [Japanese]
 Japonais
+[Kongo]
+Kongo
 [Korean]
 Coréen
+[Kurdish]
+Kurde
+[Latin]
+Latin
+[Latvian]
+Letton
+[Lithuanian]
+Lituanien
+[Luxembourgish; Letzeburgesch]
+Luxembourgeois
+[Macedonian]
+Macédonien
+[Malayalam]
+Malayalam
+[Maori]
+Maori
+[Marathi]
+Marathi
+[Malay]
+Malais
+[Malagasy]
+Malgache
+[Moldavian]
+Moldave
+[Mongolian]
+Mongol
 [Nauru]
 Nauru
+[Navajo; Navaho]
+Navajo
+[Nepali]
+Népalais
+[Norwegian Nynorsk; Nynorsk, Norwegian]
+Norvégien
+[Norwegian]
+Norvégien
+[Occitan (post 1500); Provencal]
+Occitan
+[Oromo]
+Oromo
+[Persian]
+Perse
+[Polish]
+Polonais
+[Portuguese]
+Portugais
+[Romanian]
+Roumain
+[Russian]
+Russe
+[Serbian]
+Serbe
+[Croatian]
+Croate
+[Slovak]
+Slovaque
+[Slovenian]
+Slovène
+[Northern Sami]
+Same du Nord
+[Somali]
+Somali
+[Spanish; Castilian]
+Espagnol; Castillan
+[Sardinian]
+Sarde
+[Sundanese]
+Soundanais
+[Swedish]
+Suédois
+[Tahitian]
+Tahitien
 [Thai]
 Thaïlandais
+[Tibetan]
+Tibétain
+[Turkmen]
+Turkmène
 [Turkish]
 Turque
+[Ukrainian]
+Ukrainien
+[Uzbek]
+Ouzbek
 [Vietnamese]
 Vietnamien
+[Volapuk]
+Volapuk
+[Yiddish]
+Yiddish
+[Zulu]
+Zoulou
 [These changes will take effect the next time you connect to the Jabber network.]
 Ces changements ne prendront effet qu'à la prochaine connexion au réseau Jabber.
 [Jabber Protocol Option]
 Options du protocole Jabber
+[Confirm password]
+Confirmez le mot de passe
 [Account removal warning]
 Avertissement d'effacement de comtpe
 [Messaging]
@@ -11670,6 +12022,8 @@ Autre
 Voir les services de transports dans ma liste de contact
 [Automatically add contact when accept authorization]
 Ajouter auto. un contact après une autorisation acceptée
+[Security]
+Sécurité
 [General]
 Général
 [Autoaccept multiuser chat invitations]
@@ -11694,6 +12048,14 @@ Réseau
 Compte
 [Advanced]
 Avancé
+[Public XMPP Network]
+Réseau XMPP publique
+[Secure XMPP Network]
+Réseau  XMPP sécurisé 
+[Google Talk!]
+Google Talk!
+[Some changes will take effect the next time you connect to the Jabber network.]
+Certaines modifications prendront effet la prochaine fois que vous vous connecterez au réseau Jabber.
 [New password does not match.]
 Nouveau passe non fonctionnel
 [Current password is incorrect.]
@@ -11714,18 +12076,36 @@ Ajouter une règle
 Effacer la règle
 [Remove list]
 Effacer
+[** Default **]
+** Par défaut **
 [<none>]
 <aucun>
 [Message]
 Message
+[allow ]
+autoriser\s
+[all.]
+tous.
 [messages]
 Messages
+[ and ]
+ et\s
 [queries]
 recherches
 [Else ]
-Sinon 
+Sinon\s
+[If group is ']
+Si le groupe est '
 [then ]
-puis 
+puis\s
+[ (default)]
+ (par défaut)
+[Ready.]
+Prêt.
+[No list selected]
+Aucune liste sélectionnée
+[Sorry]
+Désolé
 [Quit Miranda NG]
 Quitter Miranda-IM
 [Change Status]
@@ -11738,10 +12118,14 @@ Ne pas déranger
 Invisible
 [Offline]
 Hors ligne
+[Play sounds]
+Jouer des sons
 [%d message(s) to be forwarded]
 %d message(s) à envoyer
 [%d message(s) forwarded]
 %d message(s) ont été envoyé
+[Please confirm Miranda NG shutdown]
+Veuillez confirmer la fermeture de Miranda NG
 [Error %s %s\r\nPlease select other server]
 Erreur %s %s\r\nVeuiller choisir un autre serveur
 [Error: unknown reply received\r\nPlease select other server]
@@ -11760,6 +12144,8 @@ session chat fermée
 Pseudo :
 [Status:]
 État:
+[Enter password for %s]
+Entrez le mot de passe pour %s
 [Error: Not enough memory]
 Erreur: Mémoire insuffisante
 [Error: Cannot connect to the server]
@@ -11770,6 +12156,8 @@ Erreur: Connexion perdue
 Envoi des infos d'enregistrement...
 [<not specified>]
 <non spécifié>
+[Software]
+Logiciel
 [Version]
 Version
 [System]
@@ -11778,10 +12166,20 @@ Système
 Inconnu
 [Idle since]
 Inactif depuis
+[Client capabilities]
+Capacités du client
+[Operating system]
+Système d'exploitation
+[Operating system version]
+Version du système d'exploitation
+[Software version]
+Version du logiciel
 [both]
 les 2
 [to]
 Vers
+[from]
+de
 [none]
 Aucun
 [<no information available>]
@@ -11830,6 +12228,8 @@ Erreur du serveur distant
 Service indisponible
 [Remote server timeout]
 Délai du serveur distant dépassé
+[Unknown error]
+Erreur inconnue
 [Error]
 Erreur
 [Unknown error message]
@@ -11848,40 +12248,144 @@ Détails Jabber : Éditer l'adresse électronique
 Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
+[Afraid]
+Effrayé
+[Amazed]
+Stupéfait
+[Amorous]
+Amoureux
+[Angry]
+En colère
+[Annoyed]
+Contrarié
 [Anxious]
 Anxieux
+[Aroused]
+Éveillé
+[Ashamed]
+Honteux
+[Bored]
+S'ennuie
+[Brave]
+Courageux
 [Calm]
 Calme
+[Cautious]
+Prudent
+[Cold]
+Froid
+[Confident]
+Confiant
+[Confused]
+Désorienté
+[Contemplative]
+Contemplatif
+[Contented]
+Satisfait
+[Cranky]
+Excentrique
+[Crazy]
+Fou
+[Creative]
+Créatif
+[Curious]
+Curieux
+[Dejected]
+Découragé
+[Depressed]
+Déprimé
+[Disappointed]
+Désappointé
+[Disgusted]
+Dégoûté
+[Dismayed]
+Consterné
 [Distracted]
 Distret
+[Embarrassed]
+Embarrassé
+[Envious]
+Envieux
 [Excited]
 Éxcité
+[Flirtatious]
+Charmeur
 [Frustrated]
 Frusté
+[Grateful]
+Reconnaissant
+[Grieving]
+En deuil
+[Grumpy]
+Grincheux
+[Guilty]
+Coupable
 [Happy]
 Heureux
+[Hopeful]
+Optimiste
 [Hot]
 Chaud
+[Humbled]
+Humble
 [Humiliated]
 Humilié
+[Hungry]
+Affamé
+[Hurt]
+Blessé
+[Impressed]
+Impressionné
+[In awe]
+Craintif
+[In love]
+Amoureux
+[Indignant]
+Indigné
 [Interested]
 Intéressé
 [Intoxicated]
 Intoxcité
+[Invincible]
+Invincible
+[Jealous]
+Jaloux
 [Lonely]
 Seul
+[Lost]
+Perdu
+[Lucky]
+Chanceux
+[Mean]
+Méchant
+[Moody]
+Mal luné
 [Nervous]
 Nerveux
 [Neutral]
 Neutre
 [Offended]
 Offensé
+[Outraged]
+Outré
+[Playful]
+Espiègle
 [Proud]
 Fier
+[Relaxed]
+Décontracté
+[Relieved]
+Soulagé
+[Remorseful]
+Plein de remords
+[Restless]
+Agité
 [Sad]
 Triste
 [Sarcastic]
 Sarcastique
+[Satisfied]
+Satisfait
 [Serious]
 Sérieux
 [Shocked]
@@ -11892,30 +12396,88 @@ Timide
 Malade
 [Sleepy]
 Somnolent
+[Spontaneous]
+Spontané
 [Stressed]
 Stressé
+[Strong]
+Fort
 [Surprised]
 Surpris
+[Thankful]
+Reconnaissant
+[Thirsty]
+Assoiffé
+[Tired]
+Fatigué
 [Undefined]
 Non défini
+[Weak]
+Faible
 [Worried]
 Inquiet
+[cooking]
+cuisine
+[doing the dishes]
+fait la vaisselle
+[gardening]
+jardine
+[Eating]
+Mange
+[swimming]
+nage
+[at the spa]
+au spa
+[taking a bath]
+prend un bain
+[taking a shower]
+prend une douche
 [Inactive]
 Inactive
+[on vacation]
+en vacances
 [thinking]
 Pensif
+[fishing]
+pêche
 [gaming]
 Joue
 [shopping]
 Fait les courses
+[smoking]
+fume
 [watching TV]
 Regarde la télé
+[watching a movie]
+regarde un film
+[Talking]
+discute
 [on the phone]
 Au téléphone
 [in a car]
 dans un véhicule
+[on a bus]
+dans le bus
+[on a plane]
+en avion
+[on a train]
+Dans le train
+[on a trip]
+en voyage
+[walking]
+marche
+[Working]
+travail
+[in a meeting]
+en réunion
 [studying]
 Étudie
+[writing]
+écrit
+[Activity: %s]
+Activité : %s
+[Set Activity]
+Definir
 [Listening To]
 Écoute
 #muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
@@ -12632,6 +13194,8 @@ Popups
 e-mail
 [Are you sure?]
 Etes-vous sûr?
+[Services...]
+Services...
 [Network]
 Réseau
 [Account]
@@ -12646,16 +13210,32 @@ Avatars
 Malade
 [Home]
 Domicile
+[Eating]
+Mange
+[Cooking]
+Cuisine
+[Walking]
+Marche
+[Crazy]
+Fou
 [Duck]
 Canard
 [Playing]
 en lecture
+[Smoking]
+Fume
 [Office]
 Bureau
 [Beer]
 Bière
+[Working]
+Travail
 [On the phone]
 Au téléphone
+[Disappointed]
+Désappointé
+[Angry]
+En colère
 [Music]
 Musique
 #muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
@@ -12832,11 +13412,11 @@ Page web  : %Homepage%\r\n
 [Failed to write message to the file :\n]
 Échec d'écriture du message dans le fichier :\n
 [URL: ]
-Lien:\s
+Lien :\s
 [File: ]
-Fichier:\s
+Fichier :\s
 [Description: ]
-Description:\s
+Description :\s
 [Failed to write URL/File to the file :\n]
 Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]
@@ -13702,6 +14282,8 @@ Groupe\\sous-groupe
 Contact toujours visible
 [Unless Non-IM Contacts protocol is OFFLINE]
 Sauf si le protocole Non-IM est Hors ligne
+[Dialog]
+Dialogue
 [String Maker]
 Faire un ligne
 [&Test String]
@@ -13899,6 +14481,10 @@ Date d'activation
 ;  Version: 0.0.2.8
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
+[Security]
+Sécurité
+[Play sounds]
+Jouer des sons
 [Port:]
 Port:
 [Password:]
@@ -14363,7 +14949,7 @@ Désactivé
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -14942,8 +15528,6 @@ Comme le plugin Popup
 Défini
 [Preview]
 Aperçu
-[Static]
-Statique
 [&Add]
 &Ajouter
 [&Remove]
@@ -15703,6 +16287,8 @@ jours
 Tout réinitialiser
 [Protocols]
 Protocoles
+[Public]
+Public
 [Private]
 Privé
 [Load &Private key]
@@ -15897,6 +16483,8 @@ Inconnu
 ;  Version: 0.8.4.0
 ;  Authors: Merlin
 ;============================================================
+[Dialog]
+Dialogue
 [None]
 Aucun
 [Cancel]
@@ -15941,6 +16529,8 @@ Copier
 Erreur
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
+[Unknown Error]
+Erreur inconnue
 [File transfer]
 Transfert de fichiers
 [Could not start the HTTP Server plugin.]
@@ -16303,6 +16893,8 @@ Passe :
 Numéro:
 [Cancel]
 Annuler
+[Dialog]
+Dialogue
 [Host:]
 Hôte:
 [Port:]
@@ -17007,6 +17599,8 @@ Aperçu
 Chats
 [Errors]
 Erreurs
+[Dialog]
+Dialogue
 [All modes]
 Tous les modes
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
@@ -18212,24 +18806,96 @@ Valeurs
 Femme
 [Male]
 Homme
+[Afrikaans]
+Afrikaans
+[Albanian]
+Albanais
 [Arabic]
 Arabe
+[Bulgarian]
+Bulgare
+[Burmese]
+Birman
+[Chinese]
+Chinois
+[Croatian]
+Croate
+[Czech]
+Tchèque
+[Danish]
+Danois
+[English]
+Anglais
+[Esperanto]
+Esperanto
+[Estonian]
+Estonien
+[Finnish]
+Finnois
 [French]
 Français
+[German]
+Allemand
 [Greek]
 Grecque
 [Hebrew]
 Hébreux
+[Hindi]
+Hindi
+[Hungarian]
+Hongrois
+[Icelandic]
+Islandais
+[Indonesian]
+Indonésien
+[Italian]
+Italien
 [Japanese]
 Japonais
 [Korean]
 Coréen
+[Kurdish]
+Kurde
+[Latvian]
+Letton
+[Lithuanian]
+Lituanien
+[Macedonian]
+Macédonien
+[Malay]
+Malais
+[Mongolian]
+Mongol
+[Norwegian]
+Norvégien
+[Persian]
+Perse
+[Polish]
+Polonais
+[Portuguese]
+Portugais
+[Romanian]
+Roumain
+[Russian]
+Russe
+[Slovak]
+Slovaque
+[Slovenian]
+Slovène
+[Somali]
+Somali
+[Swedish]
+Suédois
 [Thai]
 Thaïlandais
 [Turkish]
 Turque
+[Ukrainian]
+Ukrainien
 [Vietnamese]
 Vietnamien
+[Yiddish]
+Yiddish
 #muuid {748f8934-781a-528d-5208-001265404ab3}
 ;============================================================
 ;  File: Tlen.dll
@@ -18392,7 +19058,7 @@ Fichiers %d
 [Tlen Authentication]
 Authentification Tlen
 [You have been kicked. Reason: %s ]
-Vous avez été kické. Motif: %s\s
+Vous avez été kické. Motif : %s\s
 [You cannot join this chat room, because you are banned.]
 Vous ne pouvez rejoindre ce salon, car vous avez été banni.
 [Chat room not found.]
@@ -18451,12 +19117,16 @@ Ignorer toutes les invitations
 Envoi en cours
 [Tlen login]
 login Tlen
+[Enter password for %s]
+Entrez le mot de passe pour %s
 [Tlen Connection Error]
 Erreur lors de la connexion à Tlen
 [%s Web Messages]
 %s messages web
 [Web message]
 message Web
+[From]
+De
 [E-mail]
 e-mail
 [An alert has been received.]
@@ -18467,6 +19137,8 @@ Chat privé
 Compte
 [both]
 les 2
+[from]
+de
 [none]
 Aucun
 [...Connecting...]
@@ -18891,6 +19563,8 @@ Commun
 Changer mes détails ICQ avec UserInfoEx (désactivé si ICQ le ne supporte pas)
 [Setting/Event (20/100)]
 Option/Évènement (20/100)
+[Dialog]
+Dialogue
 [None]
 Aucun
 [MainMenu]
@@ -19129,24 +19803,96 @@ Modifier la catégorie
 Définir cette valeur
 [Do you really want to delete this entry?]
 Voulez-vous vraiment supprimer cette information ?
+[Afrikaans]
+Afrikaans
+[Albanian]
+Albanais
 [Arabic]
 Arabe
+[Bulgarian]
+Bulgare
+[Burmese]
+Birman
+[Chinese]
+Chinois
+[Croatian]
+Croate
+[Czech]
+Tchèque
+[Danish]
+Danois
+[English]
+Anglais
+[Esperanto]
+Esperanto
+[Estonian]
+Estonien
+[Finnish]
+Finnois
 [French]
 Français
+[German]
+Allemand
 [Greek]
 Grecque
 [Hebrew]
 Hébreux
+[Hindi]
+Hindi
+[Hungarian]
+Hongrois
+[Icelandic]
+Islandais
+[Indonesian]
+Indonésien
+[Italian]
+Italien
 [Japanese]
 Japonais
 [Korean]
 Coréen
+[Kurdish]
+Kurde
+[Latvian]
+Letton
+[Lithuanian]
+Lituanien
+[Macedonian]
+Macédonien
+[Malay]
+Malais
+[Mongolian]
+Mongol
+[Norwegian]
+Norvégien
+[Persian]
+Perse
+[Polish]
+Polonais
+[Portuguese]
+Portugais
+[Romanian]
+Roumain
+[Russian]
+Russe
+[Slovak]
+Slovaque
+[Slovenian]
+Slovène
+[Somali]
+Somali
+[Swedish]
+Suédois
 [Thai]
 Thaïlandais
 [Turkish]
 Turque
+[Ukrainian]
+Ukrainien
 [Vietnamese]
 Vietnamien
+[Yiddish]
+Yiddish
 [Sports]
 Sports
 [Art]
@@ -19992,18 +20738,18 @@ Erreur HTTP: mauvaise passerelle (502)
 Erreur HTTP: service indisponible (503)
 [HTTP Error: Gateway timeout (504)]
 Erreur HTTP: délai d'attente de la passerelle dépassé (504)
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\nTempérature: %t\nRessenti: %f\nPression: %p\Vent: %i  %w\nHumidité: %m\nPoint de rosée: %e\nVisibilité: %v\n\nLever de Soleil: %r\nCoucher de Soleil: %y\n\nPrévisions sur 5 Jours:\n%[Prévisions Jour 1]\n%[Prévisions Jour 2]\n%[Prévisions Jour 3]\n%[Prévisions Jour 4]\n%[Prévisions Jour 5]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Ressenti: %f\nPression: %p\nVent: %i  %w\nHumidité: %m\nDew Point: %e\nVisibilité: %v\n\nLever de Soleil: %r\nCoucher de Soleil: %y\n\nPrévisions sur 5 Jours:\n%[Prévisions Jour 1]\n%[Prévisions Jour 2]\n%[Prévisions Jour 3]\n%[Prévisions Jour 4]\n%[Prévisions Jour 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTempérature: %t\\nRessenti: %f\\nPression: %p\Vent: %i  %w\\nHumidité: %m\\nPoint de rosée: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Ressenti: %f\\nPression: %p\\nVent: %i  %w\\nHumidité: %m\\nDew Point: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
 [Weather Condition for %n as of %u]
 Conditions Météo de %n à %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n at %u:	%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\nAujourd'hui:  maxi %h, mini %l]
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nAujourd'hui:  maxi %h, mini %l]
 [Current weather information for %s.]
 Information météo en cours pour %s.
 [%s is now the default weather station]
@@ -20226,6 +20972,8 @@ Pseudo
 Mot de passe
 [Cancel]
 Annuler
+[Please enter a password.]
+S'il vous plaît entrer un mot de passe.
 [%s server connection]
 %s serveur connexion
 [Network]
@@ -20261,6 +21009,8 @@ heures
 Une seule fois par jour.
 [Show]
 Afficher
+[Dialog]
+Dialogue
 [Timeout:]
 Délai:
 [seconds]
@@ -20500,6 +21250,8 @@ Caché
 Non
 [<Root Group>]
 <sans groupe>
+[Not supported]
+Non supporté
 [Network]
 Réseau
 [Account]
@@ -20705,6 +21457,8 @@ Impossible de connecter à Yahoo. Veuillez vérifier votre connexion Internet et
 ;  Version: 0.0.1.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[Dialog]
+Dialogue
 [Plugins]
 Plugins
 [Warning]
@@ -20854,6 +21608,8 @@ YAMN: échec connexion
 Pseudo
 [No new mail message]
 Pas de nouveaux e-mail
+[Unknown error]
+Erreur inconnue
 [ - connection error]
  - échec de connexion
 [%s - %d new mail messages, %d total]
@@ -20878,6 +21634,8 @@ Lancer l'application
 Supprimer la sélection
 [Select All]
 Tout sélectionner
+[From]
+De
 [Size]
 Taille
 [Do you really want to delete %d selected mails?]

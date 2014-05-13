@@ -170,11 +170,11 @@ Texte
 [None]
 Aucun
 [Angry]
-
+En colère
 [Taking a bath]
-
+Prend un bain
 [Tired]
-
+Fatigué
 [Birthday]
 
 [Drinking beer]
@@ -182,7 +182,7 @@ Boit de la bière
 [Thinking]
 Pensif
 [Eating]
-
+Mange
 [Watching TV]
 Regarde la télé
 [Meeting]
@@ -214,15 +214,15 @@ Surfe
 [Browsing]
 
 [Working]
-
+Travail
 [Typing]
 Écrit
 [Picnic]
 Pique-nique
 [Cooking]
-
+Cuisine
 [Smoking]
-
+Fume
 [I'm high]
 Plane
 [On WC]

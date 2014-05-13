@@ -1,6 +1,5 @@
 ﻿[Advanced Database Editor.]
 [Setting Value]
-[Text:]
 [Add to all contacts (Includes Settings)]
 [Byte]
 [Word]

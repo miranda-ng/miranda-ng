@@ -1,5 +1,4 @@
 ﻿[Allows inline skin item editing for clist nicer.]
-[Dialog]
 [Copy from]
 [Raised]
 [Sunken]

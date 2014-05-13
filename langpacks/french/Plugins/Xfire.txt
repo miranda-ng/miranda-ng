@@ -411,7 +411,7 @@ Non
 [Error: unknown game ID.]
 
 [Not supported]
-
+Non supporté
 [Configuration saved!]
 
 [Game not found?!]
