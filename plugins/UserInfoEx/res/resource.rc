@@ -216,7 +216,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Birthday popup colors",IDC_STATIC,25,55,125,73,WS_GROUP
-    CONTROL         "r",CLR_BBACK,"ColourPicker",WS_TABSTOP,32,69,29,12
+    CONTROL         "",CLR_BBACK,"ColourPicker",WS_TABSTOP,32,69,29,12
     LTEXT           "Background color",TXT_OPT_POPUP_CLR_BACK,67,70,80,8
     CONTROL         "",CLR_BTEXT,"ColourPicker",WS_TABSTOP,32,84,29,13
     LTEXT           "Text color",TXT_OPT_POPUP_CLR_TEXT,66,85,80,8
@@ -230,7 +230,7 @@ BEGIN
     CONTROL         "Show reminder messages as popups (if reminder is enabled)",CHECK_OPT_POPUP_ENABLED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,36,267,10
     GROUPBOX        "Anniversary popup colors",IDC_STATIC,159,55,125,73,WS_GROUP
-    CONTROL         "r",CLR_ABACK,"ColourPicker",WS_TABSTOP,166,69,29,12
+    CONTROL         "",CLR_ABACK,"ColourPicker",WS_TABSTOP,166,69,29,12
     LTEXT           "Background color",TXT_OPT_POPUP_CLR_ABACK,201,70,80,8
     CONTROL         "",CLR_ATEXT,"ColourPicker",WS_TABSTOP,166,84,29,13
     LTEXT           "Text color",TXT_OPT_POPUP_CLR_ATEXT,200,85,80,8
