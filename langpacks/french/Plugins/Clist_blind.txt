@@ -25,13 +25,13 @@ Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 [Hotkeys]
 Raccourcis clavier
 [Show/Hide:]
-Afficher/Cacher:
+Afficher/Cacher :
 [Read Message:]
-Lire le message:
+Lire le message :
 [Web Search:]
-Recherche web:
+Recherche web :
 [URL:]
-Lien:
+Lien :
 [Open in new browser window]
 Ouvrir dans une nouvelle fenêtre
 [Show Options]
@@ -87,7 +87,7 @@ Fenêtre principale style 'Outil'
 [Minimize to tray]
 Minimiser dans barre système
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après:
+Cacher la liste de contacts après :
 [seconds]
 secondes
 [Automatically resize window to height of list]
@@ -99,7 +99,7 @@ maximum
 [Size upwards]
 Agrandir vers le haut
 [Title bar text:]
-Texte du titre:
+Texte du titre :
 [Translucency options]
 Options de transparence
 [Fade contact list in/out]
@@ -107,9 +107,9 @@ Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive:
+Opacité si inactive :
 [Active opacity:]
-Opacité si active:
+Opacité si active :
 [Show menu bar]
 Afficher la barre de menu
 [Easy move]
@@ -125,7 +125,7 @@ Afficher l'ombre (redémarr. nécessaire)
 [Items]
 Objets
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque:
+"Cacher les Hors ligne" masque :
 [Groups]
 Groupes
 [Show counts of number of contacts in a group]
@@ -141,7 +141,7 @@ Modèles
 [Contact:]
 Contact :
 [Group:]
-Groupe:
+Groupe :
 [Divider:]
 
 [Info:]

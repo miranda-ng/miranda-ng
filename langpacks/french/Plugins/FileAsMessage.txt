@@ -11,9 +11,9 @@
 [fileAsMessage]
 
 [Filename:]
-Fichier:
+Fichier :
 [Size:]
-Taille:
+Taille :
 [Chunk size]
 Taille des morceaux
 [ms]
@@ -44,7 +44,7 @@ Veuillez utiliser uniquement de l'alphanumérique sur les transferts
 [Couldn't open a file]
 Impossible d'ouvrir le fichier
 [Size: %d bytes]
-Taille: %d octets
+Taille : %d octets
 [Request sent. Awaiting of acceptance..]
 Requête envoyée. Attente de confirmation...
 [Sending...]

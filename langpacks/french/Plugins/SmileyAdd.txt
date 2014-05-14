@@ -13,7 +13,7 @@ Catégories de smileys
 [Specify smiley pack for each category]
 Spécifier un pack de smileys par catégorie
 [Name:]
-Nom:
+Nom :
 [Author:]
 
 [Version:]

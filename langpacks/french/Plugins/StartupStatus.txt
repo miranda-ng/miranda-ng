@@ -71,7 +71,7 @@ OK
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]
-Commande:
+Commande :
 [Create shortcut]
 
 [Add new profile]

@@ -53,9 +53,9 @@ Sauver les messages envoyés dans l'historique
 [split parts (0 = all)]
 morceaux (0 = tous)
 [Note: Max size - it's a size of %m parameter]
-NOTE: Taille maxi - c'est la taille du\n              paramètre %m
+NOTE : Taille maxi - c'est la taille du\n              paramètre %m
 [Note: messages from this contact will not be forwarded]
-NOTE: Les messages de ce contact ne pourront être envoyés
+NOTE : Les messages de ce contact ne pourront être envoyés
 ;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
 UN SEUL CONTACT

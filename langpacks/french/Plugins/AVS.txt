@@ -19,9 +19,9 @@ Effacer l'image
 [Try to draw avatar background transparent (for images without transparency)]
 Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)
 [Number of points to define background:]
-Nombre de points pour le fond:
+Nombre de points pour le fond :
 [Color difference allowed:]
-Nombre de couleurs autorisées:
+Nombre de couleurs autorisées :
 [Make transparency proportional to color diff]
 Transparence proportionnelle au nombre de couleurs
 [Draw avatars grayscale]
@@ -69,9 +69,9 @@ Arrière-plan
 [Transparent]
 Transparent
 [Points:]
-Point:
+Point :
 [Color diff:]
-Couleurs:
+Couleurs :
 [Set]
 OK
 [Use per protocol avatars]

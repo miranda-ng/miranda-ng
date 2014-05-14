@@ -25,7 +25,7 @@ Vous devez également l'activer par protocole dans le menu principal
 [XStatus]
 
 [For protocols that don't support listening to but support XStatus:]
-Pour les protocoles qui ne supportent pas "En écoute", mais XStatus:
+Pour les protocoles qui ne supportent pas "En écoute", mais XStatus :
 [Set XStatus to Music and show listening info]
 Changer le XStatus en "Écoute de la musique" et afficher "En écoute"
 [If other XStatus is not set, set XStatus to Music and show listening info]
@@ -41,7 +41,7 @@ Appliquer le modèle sur les contacts (écrase le modèle des contacts)
 [Get info from WATrack plugin]
 Recevoir les informations du plugin WATrack
 [Get info from these players:]
-Recevoir les informations de ces lecteurs:
+Recevoir les informations de ces lecteurs :
 [Winamp (*)]
 
 [Windows Media Player]
@@ -53,7 +53,7 @@ Recevoir les informations de ces lecteurs:
 [Other players]
 Autres lecteurs
 [Ask for new info every]
-Actualiser toutes les:
+Actualiser toutes les :
 [seconds]
 secondes
 [Allow auto-loading plugins into players (affect players with *)]
@@ -63,7 +63,7 @@ secondes
 [Listening to]
 Écoute
 [Template:]
-Modèle:
+Modèle :
 [Variables:]
 
 [%artist% - Artist name]
@@ -85,7 +85,7 @@ Modèle:
 [%type% - Media type (Music, Radio, Video, etc.)]
 
 [When variable not found, use:]
-Si la variable est vide, utiliser:
+Si la variable est vide, utiliser :
 [Title:]
 Titre :
 [Message:]
@@ -95,7 +95,7 @@ Message :
 [%listening% - Listening to info (as set above)]
 %listening% - (comme configuré ci-dessus)
 [When nothing is playing, replace %listening% with:]
-Si rien n'est en lecture, remplacer %listening% par:
+Si rien n'est en lecture, remplacer %listening% par :
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 Envoyer à %s

@@ -214,7 +214,7 @@ en lecture
 [%s is now %s]
 
 [%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s change en: %s (était: %s).\r\n]
+%s, %s. %s change en : %s (était : %s).\r\n
 [(M) is back online!]
 est connecté
 [(F) is back online!]
@@ -222,7 +222,7 @@ est connectée
 [(U) is back online!]
 est connecté(e)
 [User: Online]
-Contact: En ligne
+Contact : En ligne
 [(M) went offline! :(]
 s'est déconnecté
 [(F) went offline! :(]
@@ -230,7 +230,7 @@ s'est déconnectée
 [(U) went offline! :(]
 s'est déconnecté(e)
 [User: Offline]
-Contact: Hors ligne
+Contact : Hors ligne
 [(M) hides in shadows...]
 
 [(F) hides in shadows...]
@@ -238,7 +238,7 @@ Contact: Hors ligne
 [(U) hides in shadows...]
 
 [User: Invisible]
-Contact: Invisible
+Contact : Invisible
 [(M) feels talkative!]
 est d'humeur bavarde !
 [(F) feels talkative!]
@@ -246,7 +246,7 @@ est d'humeur bavarde !
 [(U) feels talkative!]
 est d'humeur bavarde !
 [User: Free For Chat]
-Contact: OK pour un chat
+Contact : OK pour un chat
 [(M) went Away]
 est parti
 [(F) went Away]
@@ -254,7 +254,7 @@ est partie
 [(U) went Away]
 est parti(e)
 [User: Away]
-Contact: Absent
+Contact : Absent
 [(M) isn't there anymore!]
 n'est plus là.
 [(F) isn't there anymore!]
@@ -262,7 +262,7 @@ n'est plus là.
 [(U) isn't there anymore!]
 n'est plus là.
 [User: Not Available]
-Utilisateur: Pas disponible
+Contact : Pas disponible
 [(M) has something else to do.]
 a autre chose à faire
 [(F) has something else to do.]
@@ -270,7 +270,7 @@ a autre chose à faire
 [(U) has something else to do.]
 a autre chose à faire
 [User: Occupied]
-Contact: Occupé
+Contact : Occupé
 [(M) doesn't want to be disturbed!]
 ne veut plus être dérangé!
 [(F) doesn't want to be disturbed!]
@@ -278,7 +278,7 @@ ne veut plus être dérangée!
 [(U) doesn't want to be disturbed!]
 ne veut plus être dérangé!
 [User: Do Not Disturb]
-Contact: Ne Pas Déranger
+Contact : Ne Pas Déranger
 [(M) is eating something]
 est parti manger.
 [(F) is eating something]
@@ -286,7 +286,7 @@ est partie manger.
 [(U) is eating something]
 est parti manger.
 [User: Out To Lunch]
-Contact: Parti Manger
+Contact : Parti Manger
 [(M) had to answer the phone]
 est au téléphone
 [(F) had to answer the phone]
@@ -294,7 +294,7 @@ est au téléphone
 [(U) had to answer the phone]
 est au téléphone
 [User: On The Phone]
-Contact: Au Téléphone
+Contact : Au Téléphone
 [Enable status notification]
 
 [Disable status notification]

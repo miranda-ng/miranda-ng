@@ -169,7 +169,7 @@ Internet
 [X400]
 X400
 [Jabber vCard: Add Phone Number]
-Détails Jabber: Ajout d'un téléphone
+Détails Jabber : Ajout d'un téléphone
 [Phone number:]
 Téléphone :
 [Voice]
@@ -2011,7 +2011,7 @@ Veuillez confirmer la fermeture de Miranda NG
 [Error %s %s\r\nPlease select other server]
 Erreur %s %s\r\nVeuiller choisir un autre serveur
 [Error: unknown reply received\r\nPlease select other server]
-Erreur: réponse inconnue\r\nVeuillez sélectionner un autre serveur
+Erreur : réponse inconnue\r\nVeuillez sélectionner un autre serveur
 [Error %s %s\r\nTry to specify more detailed]
 Erreur %s %s\r\nVeuillez indiquer plus de renseignement
 [Search error]
@@ -2038,7 +2038,7 @@ session chat fermée
 [Nick:]
 Pseudo :
 [Status:]
-État:
+État :
 [Status text:]
 
 [Real JID:]
@@ -2047,11 +2047,11 @@ Pseudo :
 [Enter password for %s]
 Entrez le mot de passe pour %s
 [Error: Not enough memory]
-Erreur: Mémoire insuffisante
+Erreur : Mémoire insuffisante
 [Error: Cannot connect to the server]
-Erreur: Connexion impossible au Serveur
+Erreur : Connexion impossible au Serveur
 [Error: Connection lost]
-Erreur: Connexion perdue
+Erreur : Connexion perdue
 [Requesting registration instruction...]
 
 [Authentication failed for %s@%S.]

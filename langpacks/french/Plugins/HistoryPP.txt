@@ -44,9 +44,9 @@ Notifications de WATrack
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
 
 [WATrack: %s]
-WATrack: %s
+WATrack : %s
 [WATrack: request denied]
-WATrack: requête refusée
+WATrack : requête refusée
 [Imitate IEView API]
 Comme IEView
 [Text formatting options]
@@ -78,7 +78,7 @@ Filtres personnalisables
 [Filter Properties]
 Options du filtre
 [&Name:]
-&Nom:
+&Nom :
 [Show all except selected events]
 Afficher tous les évènements sauf ceux sélectionnés
 [Show only selected events]
@@ -92,9 +92,9 @@ Entrant & sortant
 [Customize Toolbar]
 Barre d'outils personnalisable
 [A&vailable buttons:]
-Boutons disponibles:
+Boutons disponibles :
 [Buttons on &toolbar:]
-Boutons en barre d'outils:
+Boutons en barre d'outils :
 [&Add >>]
 &Ajouter >>
 [<< &Remove]
@@ -108,7 +108,7 @@ Détails d'évènement
 [Event Info]
 
 [Date/Time:]
-Date/Heure:
+Date/Heure :
 [Copy All]
 Tout copier
 [&Select All]
@@ -204,7 +204,7 @@ Vers %s
 [Advanced <<]
 
 [HotSearch: %s (F3 to find next)]
-Rechercher rapide: %s (F3 pour le suivant)
+Rechercher rapide : %s (F3 pour le suivant)
 [You have reached the end of the history.]
 
 [Do you want to continue searching at the beginning?]
@@ -282,7 +282,7 @@ Continuer depuis le haut
 [Continued from the bottom]
 Continuer depuis le bas
 [Search: %s (F3 to find next)]
-Résultat: %s (F3 = suivant)
+Résultat : %s (F3 = suivant)
 [%d event]
 %d évènement
 [%0.n events (%s)]
@@ -324,33 +324,33 @@ Mettre en favori
 [Hide headers]
 Cacher l'entête
 [Outgoing file transfer: %s]
-Envoi de fichier: %s
+Envoi de fichier : %s
 [Incoming file transfer: %s]
-Réception de fichier: %s
+Réception de fichier : %s
 [Authorization request by %s (%s%d): %s]
 
 [You were added by %s (%s%d)]
 Vous avez été ajouté par %s (%s%d)
 [Outgoing contacts: %s]
-Contacts sortants: %s
+Contacts sortants : %s
 [Incoming contacts: %s]
-Contacts entrants: %s
+Contacts entrants : %s
 [Webpager message from %s (%s): %s]
-Message Webpager de %s (%s): %s
+Message Webpager de %s (%s) : %s
 [Email express from %s (%s): %s]
-e-mail express de %s (%s): %s
+e-mail express de %s (%s) : %s
 [Status change: %s]
-État changé: %s
+État changé : %s
 [Authorization request granted by %s (%d): %s]
-Autorisation acceptée par %s (%d): %s
+Autorisation acceptée par %s (%d) : %s
 [Authorization request denied by %s (%d): %s]
-Autorisation refusée par %s (%d): %s
+Autorisation refusée par %s (%d) : %s
 [User %s (%d) removed himself from your contact list: %s]
-%s (%d) s'est retiré de votre liste de contacts: %s
+%s (%d) s'est retiré de votre liste de contacts : %s
 [Authorization future request by %s (%d): %s]
-Demande d'autorisation par %s (%d): %s
+Demande d'autorisation par %s (%d) : %s
 [Broadcast message from %s (%s): %s]
-Modèle de message de %s (%s): %s
+Modèle de message de %s (%s) : %s
 [All except status]
 
 [Show all events]
@@ -488,11 +488,11 @@ Codepage inconnu %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 
 [User %s (%d) changed ICQ client: %s]
-%s (%d) a changé de client ICQ: %s
+%s (%d) a changé de client ICQ : %s
 [Status request by %s (%d):%s]
-Demande d'état par %s (%d): %s
+Demande d'état par %s (%d) : %s
 [Ignored status request by %s (%d):%s]
-Demande d'état ignoré par %s (%d): %s
+Demande d'état ignoré par %s (%d) : %s
 [Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
 
 [No "%s" items]
@@ -514,7 +514,7 @@ Mess. suivant
 [Do you really want to delete ALL items for this contact?]
 Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
 [Note: It can take several minutes for large histories]
-Note: Ceci peut prendre du temps sur de longs historiques
+Note : Ceci peut prendre du temps sur de longs historiques
 [Empty history of subcontacts also]
 Effacer également celui des sous-contacts.
 [Previous message]
@@ -662,7 +662,7 @@ Désactiver les bordures
 [Other (unknown)]
 
 [Database:]
-Base de données:
+Base de données :
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 
 [History++ Error]

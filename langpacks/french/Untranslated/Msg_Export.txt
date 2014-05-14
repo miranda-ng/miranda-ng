@@ -27,7 +27,6 @@
 [No_Group]
 [Database: Attempt to get wrong type of value, string]
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
-[\nError: ]
 [\nMessage has not been saved!\n]
 [Do you wish to save debug information?]
 [All\0*.*\0Text\0*.TXT\0\0]

@@ -49,27 +49,27 @@ Cacher les comptes inactifs
 [Other]
 Autres
 [Automatically delete file from FTP server after (experimental):]
-Effacer le fichier sur le FTP automatiquement après (expérimental):
+Effacer le fichier sur le FTP automatiquement après (expérimental) :
 [ZIP support]
 Compression Zip
 [Enter archive name manually]
 Entrer le nom de l'archive manuellement
 [Compression level:]
-Niveau de compression:
+Niveau de compression :
 [Upload File Manager]
 Gestionnaire de transfert de fichiers
 [File:]
-Fichier:
+Fichier :
 [Completed:]
-Complété:
+Complété :
 [Speed:]
-Vitesse:
+Vitesse :
 [Remaining:]
-Restant:
+Restant :
 [Summary]
 Résumé
 [To:]
-À:
+À :
 [Nick]
 Pseudo
 [Close]
@@ -83,7 +83,7 @@ Pause
 [File Manager]
 Gestionnaire de fichiers
 [Server:]
-Serveur:
+Serveur :
 [User info]
 Informations Utilisateur
 [UPLOADING...]
@@ -219,7 +219,7 @@ Erreur lors de la compression du(des) fichier(s).
 [Do you really want to cancel this upload?]
 Voulez-vous vraiment annuler ce transfert?
 [Status: %s\r\nFile: %s\r\nServer: %s]
-État: %s\r\nFichier: %s\r\nServeur: %s
+État : %s\r\nFichier : %s\r\nServeur : %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 Fichier existant - %s
@@ -230,11 +230,11 @@ Une erreur est survenue lors de l'initialisation libcurl.\nTransfert annulé...
 [FTP error occurred.\n%s]
 Erreur FTP.\n%s
 [Download link:]
-Lien de téléchargement:
+Lien de téléchargement :
 [Do you really want to cancel running upload?]
 Voulez-vous vraiment annuler les transfert en cours?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-%s\r\nVitesse: %s\r\nCompleté: %s\r\nRestant: %s]
+%s\r\nVitesse : %s\r\nCompleté : %s\r\nRestant : %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Vous devez remplir et activer au moins un serveur FTP dans les paramètres.

@@ -19,11 +19,11 @@ Dialogue
 [Connection]
 
 [Username:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Server:]
-Serveur:
+Serveur :
 [Preferences]
 Préférences
 [Check every]

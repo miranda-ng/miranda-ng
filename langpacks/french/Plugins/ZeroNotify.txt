@@ -9,11 +9,11 @@
 
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
-Pas de sons si:
+Pas de sons si :
 [No CList blink when:]
-Pas de flash CList si:
+Pas de flash CList si :
 [No SysTray blink when:]
-Pas de flash systray si:
+Pas de flash systray si :
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Cacher le Menu "toggle sound" (nécessite le redémarrage de Miranda)
 ;file \plugins\ZeroNotification\src\common.h

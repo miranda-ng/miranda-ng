@@ -23,7 +23,7 @@ Largeur
 [Single line]
 
 [Buttons order:]
-Ordre des boutons:
+Ordre des boutons :
 [Add Separator]
 Ajouter
 [Add Launch]
@@ -31,7 +31,7 @@ Ajouter Fonction
 [Del Sep/Launch Button]
 
 [Name:]
-Nom:
+Nom :
 [Path:]
 
 [Set]

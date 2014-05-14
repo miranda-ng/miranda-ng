@@ -15,7 +15,7 @@ AIM
 [Display Name:]
 
 [Password:]
-Passe:
+Passe :
 [Login Server:]
 
 [AIM Options]
@@ -49,7 +49,7 @@ Transfert de fichier par Proxy
 [Connection]
 
 [Port:]
-Port:
+Port :
 [Reset]
 RAZ
 [Disable SSL]
@@ -65,9 +65,9 @@ Enregistrer
 [AIM Instant Idler]
 AIM - configuration de l'inactivité
 [Number of Hours:]
-Nombre d'heure:
+Nombre d'heure :
 [Number of Minutes:]
-Nombre de minutes:
+Nombre de minutes :
 [Set Idle]
 Être inactif
 [Unset Idle]

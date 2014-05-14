@@ -65,7 +65,7 @@ Nom complet :
 [Date of birth:]
 Anniversaire :
 [Gender:]
-Sexe:
+Sexe :
 [Homepage:]
 Page web :
 [Language:]

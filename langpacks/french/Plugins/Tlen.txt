@@ -9,9 +9,9 @@
 
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Save password]
 Enregistrer le mot de passe
 [Create new account]
@@ -49,17 +49,17 @@ Chats vocaux
 [Voice chat policy]
 
 [Recording device:]
-Enregistreur:
+Enregistreur :
 [Playback device:]
-Lecteur:
+Lecteur :
 [Expert Options]
 Options expert
 [Login server:]
 
 [Connection Host:]
-Connexion sur l'hôte:
+Connexion sur l'hôte :
 [Port:]
-Port:
+Port :
 [Keep connection alive]
 Garder la connection active
 [Enable encryption]
@@ -71,9 +71,9 @@ Connexions p2p
 [Use proxy for incoming connections]
 Utiliser un Proxy pour les connexions entrantes
 [Proxy type:]
-Type de proxy:
+Type de proxy :
 [Proxy server:]
-Serveur Proxy:
+Serveur Proxy :
 [Proxy requires authorization]
 Proxy demandant une identification
 [Mail Notification]
@@ -101,25 +101,25 @@ Aperçu
 [Cancel]
 Annuler
 [Nickname:]
-Pseudo:
+Pseudo :
 [First name:]
-Prénom:
+Prénom :
 [Last name:]
-Nom:
+Nom :
 [E-mail:]
-e-mail:
+e-mail :
 [Gender:]
-Sexe:
+Sexe :
 [Year of birth:]
-Année de naiss.:
+Année de naiss. :
 [City:]
-Ville:
+Ville :
 [School:]
-École:
+École :
 [Occupation:]
 Profession :
 [Looking for:]
-Recherche:
+Recherche :
 [Voice chats]
 Chats vocaux
 [Publicly visible status]
@@ -133,19 +133,19 @@ Avatar
 [Public avatar]
 
 [Tlen login:]
-Login Tlen:
+Login Tlen :
 [Subscription:]
-Inscription:
+Inscription :
 [Software:]
-Client:
+Client :
 [Version:]
 
 [System:]
-Système:
+Système :
 [Personal Information]
 Infos personnelles
 [Age:]
-Age:
+Age :
 [to]
 Vers
 [Extra Search Criterias]
@@ -169,7 +169,7 @@ Invitation à un chat vocal Tlen
 [&Accept]
 &Accepter
 [From:]
-De:
+De :
 [The following invitation to join a voice chat is received.]
 L'invitation suivante à un chat vocal, a été reçue.
 ;file \protocols\Tlen\src\tlen.cpp
@@ -244,7 +244,7 @@ Salon de Chat déjà créé.
 [Nickname '%s' is already registered.]
 Le pseudo '%s' est déjà utilisé.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-Ce pseudo est déjà utilisé, choisissez en un autre. Conseil: '%s' .
+Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' .
 [You cannot register more than %s nicknames.]
 Vous ne pouvez enregistrer plus de %s pseudo.
 [You cannot create more than %s chat rooms.]
@@ -254,7 +254,7 @@ Vous ne pouvez rejoindre plus de %s salon.
 [Anonymous nicknames are not allowed in this chat room.]
 les pseudos anonymes ne sont pas permis dans ce salon.
 [Unknown error code: %d]
-Code erreur inconnu: %d
+Code erreur inconnu : %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Général

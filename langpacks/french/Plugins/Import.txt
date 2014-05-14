@@ -9,7 +9,7 @@
 
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
-Choisissez comment vous aimeriez importer:
+Choisissez comment vous aimeriez importer :
 [From a Miranda NG database.]
 Depuis une base de données IM Miranda (Profil).
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
@@ -33,7 +33,7 @@ Miranda a trouvé les profils Miranda avec les noms suivants. Veuillez sélectio
 [&Other Profile...]
 &Autre profil...
 [&Filename:]
-&Fichier:
+&Fichier :
 [Now importing...]
 Importation...
 [Import Information Wizard]
@@ -67,7 +67,7 @@ Entrant
 [Outgoing]
 Sortant
 [Only since:]
-Seulement depuis:
+Seulement depuis :
 [Messages]
 Messages
 [URLs]

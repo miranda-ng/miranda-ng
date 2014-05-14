@@ -29,9 +29,9 @@ Entrez un mot de passe pour l'UIN %d :
 [Cancel]
 Annuler
 [ICQ number:]
-Identifiant:
+Identifiant :
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Note: Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
+Note : Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
 [Retrieve a lost password or ICQ number]
 Retrouver un mot de passe perdu ou un numéro ICQ
 [Create a new ICQ account using the ICQ website]
@@ -57,7 +57,7 @@ Garder la connexion active (activez cette option si vous utilisez un serveur pro
 [Ignore concurrent error messages]
 Ignorer les messsages d'erreur concourant
 [Show connection error messages:]
-Afficher les erreurs de connexion:
+Afficher les erreurs de connexion :
 [ICQ contacts stored on server]
 Contacts ICQ sauvegardés sur le serveur
 [Manage server's list...]
@@ -91,7 +91,7 @@ Activer le support des messages unicode
 [Send all messages in unicode if possible]
 Envoyer tous les messages en unicode si possible
 [Use this codepage for Ansi <-> Unicode translation:]
-Traduire de Ansi vers Unicode avec l'encodage:
+Traduire de Ansi vers Unicode avec l'encodage :
 [Make me temporarily visible to contacts I send message to]
 Devenir temporairement visible lorsque j'envoi des messages
 [Notify me when a message delivery has failed]
@@ -195,7 +195,7 @@ Démarré depuis :
 [Idle since:]
 Inactif depuis :
 [Status:]
-État:
+État :
 [Summary]
 Résumé
 [Nickname:]
@@ -271,7 +271,7 @@ Récupération de l'état personnalisé...
 [Confirm Password Change]
 Confirmer le mot de passe
 [Please re-type your new password:]
-Veuillez retaper votre mot de passe:
+Veuillez retaper votre mot de passe :
 [Enter your current password:]
 Entrez le mot de passe actuel :
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
@@ -294,7 +294,7 @@ Connexion échouée.\nVous vous êtes reconnecté trop rapidement,\nveuillez ré
 [Connection failed.\nThe server did not accept this client version.]
 Connexion échouée.\nLe serveur n'a pas accepté votre version de client.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
-Le serveur a envoyé un avertissement: version trop vieille.\nEssayez de trouver une plus récente.
+Le serveur a envoyé un avertissement : version trop vieille.\nEssayez de trouver une plus récente.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
 Connexion échouée.\nVous avez été rejeté du serveur pour une raison inconnue.\nCeci peut arriver si votre ID est déjà connecté.
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
@@ -1639,7 +1639,7 @@ Le serveur n'a pas répondu à la tentative de connexion dans un délai raisonna
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Miranda n'a pas pu résoudre le nom du serveur en adresse IP numérique. Cela est sûrement dû par une perte brutale de votre connexion réseau (par exemple: votre modem a été déconnecté), mais si vous êtes derrière un proxy, vous pouvez avoir besoin d'utiliser l'option 'Résoudre les noms à travers un proxy' dans M->Options->ICQ->Réseau.
+Miranda n'a pas pu résoudre le nom du serveur en adresse IP numérique. Cela est sûrement dû par une perte brutale de votre connexion réseau (par exemple : votre modem a été déconnecté), mais si vous êtes derrière un proxy, vous pouvez avoir besoin d'utiliser l'option 'Résoudre les noms à travers un proxy' dans M->Options->ICQ->Réseau.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]

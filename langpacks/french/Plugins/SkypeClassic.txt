@@ -39,13 +39,13 @@ Effacer
 [times to connect to Skype API before giving up]
 
 [User name:]
-Votre nom:
+Votre nom :
 [Password:]
 Passe :
 [Dial]
 
 [Number:]
-Numéro:
+Numéro :
 [Cancel]
 Annuler
 [%s is calling]
@@ -61,19 +61,19 @@ Dialogue
 [Use Skype proxy connection over network instead of local Skype API]
 
 [Host:]
-Hôte:
+Hôte :
 [Port:]
-Port:
+Port :
 [* You must restart Miranda NG in order to let the settings take effect]
 
 [This Skype proxy requires password authentication:]
 
 [Name:]
-Nom:
+Nom :
 [Birthday:]
 
 [Sex:]
-
+Sexe :
 [City:]
 Ville :
 [Country:]
@@ -85,7 +85,7 @@ Pays :
 [Office phone:]
 
 [Homepage:]
-Page web:
+Page web :
 [Save]
 Sauver
 [Enable Skype menu options (currently: Find/Add user)]

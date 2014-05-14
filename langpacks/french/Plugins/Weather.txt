@@ -217,7 +217,7 @@ Fichier INI de configuration pour Weather
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants:
+Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :
 [Click here to download a weather ini file from Miranda file listing]
 Cliquez ici pour télécharger ce fichier INI depuis le site de Miranda
 [Extract the weather ini file from archive to this directory]
@@ -233,7 +233,7 @@ Quantité de mémoire utilisée
 [Reload INI]
 Recharger l'INI
 [City:]
-Ville:
+Ville :
 [Menu]
 Menu
 [Dismiss Popup]
@@ -279,7 +279,7 @@ Service invalide (12)
 [Weather service ini for this station is not found (20)]
 L'ini. du service Weather n'a pas été trouvé sur cet ordinateur (20)
 [Netlib error - check your internet connection (30)]
-Erreur Netlib: vérifiez votre connexion Internet (30)
+Erreur Netlib : vérifiez votre connexion Internet (30)
 [Empty data is retrieved (40)]
 Des données vides ont été trouvées (40)
 [Document not found (42)]
@@ -289,53 +289,53 @@ Document trop court pour contenir une donnée weather (43)
 [Unknown error (99)]
 Erreur inconnue (99)
 [HTTP Error: No content (204)]
-Erreur HTTP: contenu vide (204)
+Erreur HTTP : contenu vide (204)
 [HTTP Error: Data moved (301)]
-Erreur HTTP: données transférées (301)
+Erreur HTTP : données transférées (301)
 [HTTP Error: Use proxy (305)]
-Erreur HTTP: utiliser un proxy (305)
+Erreur HTTP : utiliser un proxy (305)
 [HTTP Error: Temporary redirect (307)]
-Erreur HTTP: redirection temporaire (307)
+Erreur HTTP : redirection temporaire (307)
 [HTTP Error: Bad request (400)]
-Erreur HTTP: requête non valide (400)
+Erreur HTTP : requête non valide (400)
 [HTTP Error: Unauthorized (401)]
-Erreur HTTP: non autorisé (401)
+Erreur HTTP : non autorisé (401)
 [HTTP Error: Payment required (402)]
-Erreur HTTP: paiement requis (402)
+Erreur HTTP : paiement requis (402)
 [HTTP Error: Forbidden (403)]
-Erreur HTTP: interdit (403)
+Erreur HTTP : interdit (403)
 [HTTP Error: Not found (404)]
-Erreur HTTP: rien trouvé (404)
+Erreur HTTP : rien trouvé (404)
 [HTTP Error: Method not allowed (405)]
-Erreur HTTP: méthode non autorisée (405)
+Erreur HTTP : méthode non autorisée (405)
 [HTTP Error: Proxy authentication required (407)]
-Erreur HTTP: authentification proxy nécessaire (407)
+Erreur HTTP : authentification proxy nécessaire (407)
 [HTTP Error: Gone (410)]
-Erreur HTTP: parti (410)
+Erreur HTTP : parti (410)
 [HTTP Error: Internal server error (500)]
-Erreur HTTP: erreur interne au serveur (500)
+Erreur HTTP : erreur interne au serveur (500)
 [HTTP Error: Bad gateway (502)]
-Erreur HTTP: mauvaise passerelle (502)
+Erreur HTTP : mauvaise passerelle (502)
 [HTTP Error: Service unavailable (503)]
-Erreur HTTP: service indisponible (503)
+Erreur HTTP : service indisponible (503)
 [HTTP Error: Gateway timeout (504)]
-Erreur HTTP: délai d'attente de la passerelle dépassé (504)
+Erreur HTTP : délai d'attente de la passerelle dépassé (504)
 [%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTempérature: %t\\nRessenti: %f\\nPression: %p\Vent: %i  %w\\nHumidité: %m\\nPoint de rosée: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
+%c\\nTempérature : %t\\nRessenti : %f\\nPression : %p\Vent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ressenti: %f\\nPression: %p\\nVent: %i  %w\\nHumidité: %m\\nDew Point: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
+Ressenti : %f\\nPression : %p\\nVent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Conditions Météo de %n à %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
+%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n at %u:	%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
+%n at %u :	%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
 [%n   (%u)]
 
 [%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nAujourd'hui:  maxi %h, mini %l]
+%c, %t\\nAujourd'hui :  maxi %h, mini %l
 [Temperature: %[Temperature]]
-
+Température : %[Temperature]
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Information météo en cours pour %s.
@@ -387,7 +387,7 @@ Erreur HTTP %i
 [<Enter city name here>]
 <Entrez la ville ici>
 [Error when obtaining data: %s]
-Erreur à l'obtention des données: %s
+Erreur à l'obtention des données : %s
 ;file \plugins\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 Connexions HTTP de Weather
@@ -430,34 +430,34 @@ Objets
 [The corresponding INI file for "%s" is not found.]
 Le fichier INI correspondant à %s n'a pas été trouvé.
 [Weather INI information for "%s":]
-Information sur l'INI de Weather pour %s:
+Information sur l'INI de Weather pour %s :
 [Name:]
-Nom:
+Nom :
 [Internal Name:]
-Nom Interne:
+Nom Interne :
 [Author:]
 
 [Version:]
 
 [INI Version:]
-Version de l'ini:
+Version de l'ini :
 [File Name:]
-Nom de fichier:
+Nom de fichier :
 [Item Count:]
-Décompte d'article:
+Décompte d'article :
 [Memory Used:]
-Mémoire utilisée:
+Mémoire utilisée :
 [bytes]
 octets
 [Description:]
-Description:
+Description :
 [Here is a list of custom variables that are currently available]
-Voici la liste des variables actuellement disponibles:
+Voici la liste des variables actuellement disponibles :
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Aucun fichier de mise à jour trouvé. Vérifiez le dossier Plugins\\Weather.
 [Invalid ini format for: %s]
-Format ini invalide de: %s
+Format ini invalide de : %s
 [All update data has been reloaded.]
 Toutes les données ont bien été mise à jour.
 ;file \plugins\Weather\src\weather_mwin.cpp
@@ -519,7 +519,7 @@ Impossible de retrouver la météo de %s
 [Current condition for %n]
 Condition actuelles de %n
 [Last update on:   %u]
-Dernière mise à jour: %u
+Dernière mise à jour : %u
 [Variable]
 
 [Information]

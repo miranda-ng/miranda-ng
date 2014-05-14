@@ -174,9 +174,9 @@ Général
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Échec du renommage/déplacement du fichier\n\nde:\t%s\n en:\t%s\n\nErreur: %s
+Échec du renommage/déplacement du fichier\n\nde :\t%s\nen :\t%s\n\nErreur : %s
 [\nError: ]
-
+\nErreur :\s
 [\nMessage has not been saved!\n]
 
 [Do you wish to save debug information?]
@@ -234,7 +234,7 @@ Description :\s
 [Failed to write URL/File to the file :\n]
 Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]
-Pseudo   :
+Pseudo    :
 [FirstName :]
 Prénom    :
 [LastName  :]
@@ -248,15 +248,15 @@ Motif     :
 [Failed to write Invalid Database event the file :\n]
 
 [The following user made an authorization request:]
-Le contact suivant vous fait une demande d'autorisation:
+Le contact suivant vous fait une demande d'autorisation :
 [The following user added you to their contact list:]
-Le contact suivant vous a ajouté à sa liste:
+Le contact suivant vous a ajouté à sa liste :
 [UIN       :]
 
 [Failed to write AUTHREQUEST or ADDED to the file :\n]
 
 [EmailExpress from:]
-EmailExpress de:
+EmailExpress de :
 [WebPager from:]
 
 [No from address]

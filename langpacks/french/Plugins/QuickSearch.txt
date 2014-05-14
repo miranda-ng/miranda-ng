@@ -112,7 +112,7 @@ Horodateur
 [Module:]
 Module :
 [Setting:]
-Paramètre:
+Paramètre :
 [Service:]
 Service :
 [Param]
@@ -152,7 +152,7 @@ Nouvelle colonne
 [Save Item]
 Sauver
 [InfoType:]
-InfoType:
+InfoType :
 [New Column]
 Nouvelle colonne
 [Column Up]

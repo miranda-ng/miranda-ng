@@ -19,7 +19,7 @@ Pounce a envoyé à
 [Buddy Pounce]
 
 [The Message:]
-Le message:
+Le message :
 [Delete Pounce]
 Effacer Pounce
 [Load default Settings]
@@ -31,7 +31,7 @@ Paramétrages du texte.....
 [Settings]
 Paramètres
 [Contact To Send Pounce To]
-Envoyer Pounce au contact:
+Envoyer Pounce au contact :
 [<< Simple]
 
 [Advanced >>]
@@ -45,7 +45,7 @@ Dialogue
 [Use Advanced Dialog]
 Fonctions avancées
 [The Message (characters: )]
-Message (caractères: )
+Message (caractères : )
 [Default Settings]
 
 [Show Delivery Messages]
@@ -108,19 +108,19 @@ Au téléphone
 [To Out To Lunch]
 Parti manger
 [The Message    (%d Characters)]
-Message:     (%d caractères)
+Message :    (%d caractères)
 [Couldn't allocate enough memory]
 
 [error......]
 
 [The Message    (0 Characters)]
-Message:     (0 caractère)
+Message :    (0 caractère)
 [Reuse this message? (0 to use it once)]
 Réutiliser ce message ?  (0 = une seule fois)
 [Times]
 Heures
 [Give up after... (0 to not give up)]
-Réitérer après (0=désactivé):
+Réitérer après (0=désactivé) :
 [Days]
 Jours
 [Show confirmation window? (0 to not Show)]

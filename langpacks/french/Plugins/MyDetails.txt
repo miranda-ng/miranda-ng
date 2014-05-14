@@ -11,7 +11,7 @@
 [Set My Nickname]
 Changer mon pseudo
 [Nickname:]
-Pseudo:
+Pseudo :
 [Cancel]
 Annuler
 [General]
@@ -37,17 +37,17 @@ Retailler les smileys
 [...status message]
 
 [Top:]
-Haut:
+Haut :
 [Bottom:]
-Bas:
+Bas :
 [Left:]
-Gauche:
+Gauche :
 [Right:]
-Droite:
+Droite :
 [Avatar]
 
 [Custom size:]
-Taille:
+Taille :
 [pixels]
 pixels
 [Allow it to grow]
@@ -77,7 +77,7 @@ Compte
 [Set My Status Message for All Status]
 Changer le message pour tous les états
 [Status Message:]
-Message d'état:
+Message d'état :
 [&Offline]
 &Hors ligne
 [On&line]

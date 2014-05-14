@@ -71,7 +71,7 @@ OK
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]
-Commande:
+Commande :
 [Create shortcut]
 
 [Add new profile]
@@ -280,11 +280,11 @@ Erreur d'indentification, annulation de la reconnexion
 [%s\t(will be set to %s)\r\n]
 
 [Resetting status... (last try (%d))%s]
-RAZ de l'état... (dernière tentative (%d))%s]
+RAZ de l'état... (dernière tentative (%d))%s
 [Resetting status... (next retry (%d) in %d s)%s]
 
 [No internet connection seems available... (last try (%d))]
-Pas de connexion Internet... (dernière tentative (%d))]
+Pas de connexion Internet... (dernière tentative (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
 
 [Status was set ok]

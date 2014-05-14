@@ -183,7 +183,7 @@ Barre des états
 [Accounts per line]
 Comptes par ligne
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-Pour réduire la barre des états:\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
+Pour réduire la barre des états :\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
 [Hold [Shift] to inverse [Right Click] behavior]
 Maintenez la touche [Maj] pour inverser le comportement [clic droit]
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
@@ -341,7 +341,7 @@ Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée:
+Durée :
 [milliseconds]
 millisecondes
 [Hide vertical scrollbar]
@@ -393,7 +393,7 @@ Paramètres avancés
 [Allow internal requesting of status message text]
 Autoriser la demande interne du texte de message d'état
 [Subcontacts indent:]
-Décalage des sous-contacts:
+Décalage des sous-contacts :
 [Remove status message if contact became offline]
 
 [Use improved search method in contact list]
@@ -521,7 +521,7 @@ Terminer les longs textes par des points de suspensions
 [Show second line]
 
 [Top space:]
-Séparation:
+Séparation :
 [Draw smileys on second line]
 Afficher les smileys
 [Text:]
@@ -942,9 +942,9 @@ Charger/Sauver
 [( unknown )]
 
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAuteur(s):\t %s\nContact:\t %s\nPage Web:\t %s\n\nFichier:\t %s
+%s\n\n%s\n\nAuteur(s) :\t %s\nContact :\t %s\nPage Web :\t %s\n\nFichier :\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAuteur(s): %s\nContact:\t %s\nWeb:\t %s\n\nFichier:\t %s
+%s\n\n%s\n\nAuteur(s) : %s\nContact :\t %s\nWeb :\t %s\n\nFichier :\t %s
 [reVista for Modern v0.5]
 
 [This is second default Modern Contact list skin in Vista Aero style]
@@ -962,9 +962,9 @@ Attention !
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 Le skin actuel n'a pas été sauvegardé.\n\nTous les changements vont être perdus.\n\n Voulez-vous quand même charger un autre skin ?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S):\n%s\n\nCONTACT:\n%s\n\nPAGE WEB:\n%s
+Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S) :\n%s\n\nCONTACT :\n%s\n\nPAGE WEB :\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n%s\n\nAUTEURS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n
+%s\n\n%s\n\nAUTEURS :\n%s\n\nCONTACT :\n%s\n\nWEB :\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
 
 [Select skin from list]
@@ -1038,7 +1038,7 @@ Heures
 [Days]
 Jours
 [Configuring view mode: %s]
-Configurer le mode d'affichage: %s
+Configurer le mode d'affichage : %s
 [All contacts]
 tous les contacts
 [Filtering]

@@ -13,7 +13,7 @@ BossKey
 [Go to Customize -> Hotkeys to change the hotkey]
 Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
 [When I press the hotkey:]
-Quand je presse le raccourci suivant:
+Quand je presse le raccourci suivant :
 [Change status to]
 Changer d'état à
 [Change only if current status is Online]
@@ -25,15 +25,15 @@ Sons désactivés
 [Show the Tray Icon]
 
 [When I return:]
-Quand je reviens:
+Quand je reviens :
 [Request password:]
-Mot de passe:
+Mot de passe :
 [Change status back]
 Remettre l'état précédent
 [Hotkey]
 Raccourci clavier
 [Password:]
-Passe:
+Passe :
 [Cancel]
 Annuler
 [Workstation is locked]
@@ -43,7 +43,7 @@ Poste de travail est verrouillé
 [Windows is inactive]
 Windows est inactif
 [Hide Miranda when:]
-Cachez Miranda lorsque:
+Cachez Miranda lorsque :
 [Miranda is inactive]
 Miranda est inactif
 [min]

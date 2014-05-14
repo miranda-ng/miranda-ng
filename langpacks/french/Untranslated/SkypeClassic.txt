@@ -21,7 +21,6 @@
 [* You must restart Miranda NG in order to let the settings take effect]
 [This Skype proxy requires password authentication:]
 [Birthday:]
-[Sex:]
 [Province:]
 [Home phone:]
 [Office phone:]

@@ -33,7 +33,7 @@
 [Generate and use random key]
 
 [Account:]
-Compte:
+Compte :
 [Key ID:]
 
 [Copy public key]
@@ -47,7 +47,7 @@ Changer le mot de passe
 [Continue]
 Continuer
 [Home directory:]
-Page web:
+Page web :
 [GnuPG binary:]
 
 [Browse]
@@ -93,7 +93,7 @@ Annuler
 [Enter password for your secret key]
 
 [Password:]
-Passe:
+Passe :
 [Save password to database]
 
 [Default password]
@@ -121,7 +121,7 @@ Passe:
 [Change private key password]
 
 [Current password:]
-Passe actuel:
+Passe actuel :
 [New password twice:]
 
 [User list:]
@@ -233,7 +233,7 @@ Info
 [New public key was received, do you want to import it?]
 
 [Replace]
-Remplacer:
+Remplacer :
 [Accept]
 Accepter
 [Received key from ]

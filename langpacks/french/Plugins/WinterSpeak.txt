@@ -73,7 +73,7 @@ Messages d'état
 [Active Users]
 
 [The following events are being ignored:]
-Les évènements suivants sont ignorés:
+Les évènements suivants sont ignorés :
 [Messages]
 Messages
 [Online Notification]

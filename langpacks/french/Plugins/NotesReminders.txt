@@ -43,7 +43,7 @@ Ajouter au menu de la liste de contacts
 [Note transparency]
 
 [Send Reminders through E-mail/SMS:]
-Envoyer les Rappels par Courriel/SMS:
+Envoyer les Rappels par Courriel/SMS :
 [Open links with this program instead:]
 
 [Reset to defaults]

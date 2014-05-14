@@ -13,7 +13,7 @@
 [Restore defaults]
 Restaurer les valeurs par défaut
 [Answer:]
-Réponse:
+Réponse :
 [Congratulation:]
 
 [Auth. request reply:]

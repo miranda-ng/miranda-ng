@@ -17,9 +17,9 @@ Compte :
 [Contact ID:]
 
 [Custom name:]
-Nom à afficher:
+Nom à afficher :
 [Group:]
-Groupe:
+Groupe :
 [Options]
 Paramètres
 [Add temporarily]

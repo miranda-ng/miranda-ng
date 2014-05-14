@@ -13,7 +13,7 @@ Démarrage
 [Launch Miranda NG at system startup]
 Lancer Miranda NG au démarrage de Windows
 [Note: At startup Miranda NG will use current profile]
-NOTE: Au prochain démarrage de Miranda NG,\nvous utiliserez le profil actuel
+NOTE : Au prochain démarrage de Miranda NG,\nvous utiliserez le profil actuel
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
 Services

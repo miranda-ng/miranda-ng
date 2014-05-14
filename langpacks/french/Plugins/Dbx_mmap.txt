@@ -67,7 +67,7 @@ Mot de passe
 [Password is not correct!]
 Mot de passe incorrect !
 [Please type in your password]
-VEuillez taper un mot de passe
+Veuillez taper un mot de passe
 [Wrong old password entered!]
 
 [Password is too short!]

@@ -23,17 +23,17 @@ Annuler
 [Apply]
 Appliquer
 [Nick:]
-Pseudo:
+Pseudo :
 [Display Name:]
 
 [Title:]
 Titre :
 [First name:]
-Prénom:
+Prénom :
 [Second name:]
-Second prénom:
+Second prénom :
 [Last name:]
-Nom:
+Nom :
 [Prefix:]
 
 [Female]
@@ -41,53 +41,53 @@ Femme
 [Male]
 Homme
 [Marital status:]
-Situation:
+Situation :
 [Partner:]
-Concubin:
+Concubin :
 [Language skills]
 Langues parlées
 [Street:]
-Rue:
+Rue :
 [Postal code:]
-Code postal:
+Code postal :
 [City:]
-Ville:
+Ville :
 [County/State:]
-Pays/État:
+Pays/État :
 [Country:]
-Pays:
+Pays :
 [Contact added to contact list:]
-Contact ajouté:
+Contact ajouté :
 [Just from the beginning.]
 
 [Your contact's local time is:]
-Heure locale de votre contact:
+Heure locale de votre contact :
 [Timezone:]
-Fuseau horaire:
+Fuseau horaire :
 [Company:]
-Entreprise:
+Entreprise :
 [Department:]
-Département:
+Département :
 [Office:]
-Bureau:
+Bureau :
 [Position:]
-Position:
+Position :
 [Occupation:]
 Profession :
 [Superior:]
-Supérieur:
+Supérieur :
 [Assistant:]
-Assistant:
+Assistant :
 [Add Phone Number]
 Ajouter le téléphone
 [Enter your phone number\nand don't worry about formating.]
 
 [Enter a category for this number:]
-Entrer une catégorie pour ce numéro:
+Entrer une catégorie pour ce numéro :
 [Enter country, area code and phone number:]
-Entrer le pays, le code de la zone et le numéro de téléphone:
+Entrer le pays, le code de la zone et le numéro de téléphone :
 [Or enter a full international number:]
-Ou entrer un numéro international entier:
+Ou entrer un numéro international entier :
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add E-Mail]
@@ -169,7 +169,7 @@ Effacer
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 
 [Enter a name for the anniversary here please:]
-veuillez indiquer un nom d'anniversaire:
+veuillez indiquer un nom d'anniversaire :
 [Anniversary list]
 Liste des anniv.
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
@@ -600,7 +600,7 @@ Recherche
 [Anniversary later]
 
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Attention: La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
+Attention : La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 
 [Main]
@@ -1149,7 +1149,7 @@ Aucun anniversaire pour
 [Birthday reminder]
 Rappel d'anniversaire
 [Birthday reminder: it's coming]
-Rappel d'anniversaire: c'est bientôt
+Rappel d'anniversaire : c'est bientôt
 [Anniversary Reminder]
 Rappel d'anniversaire
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
@@ -1167,7 +1167,7 @@ Rappel d'anniversaire
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
 
 [Settings: %S]
-Options: %S
+Options : %S
 [Events: %S]
 
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
@@ -1212,7 +1212,7 @@ Importer les détails depuis un vCard
 [Export took %f ms]
 
 [Contact: %s (%S)]
-Contact: %s (%S)
+Contact : %s (%S)
 [Importing %s caused error %d]
 
 [Loading contact %s from xml failed with error %d]

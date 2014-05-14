@@ -23,11 +23,11 @@ Envoyer la capture
 [Ti&med capture]
 Retardateur
 [Time (secs):]
-Temps (sec):
+Temps (sec) :
 [&Format:]
 
 [Send B&y:]
-Envoyer par:
+Envoyer par :
 [E&xplore]
 Explorer
 [&Fill description textbox.]
@@ -49,9 +49,9 @@ Crédits >
 [Edit]
 Éditer
 [Caption:]
-Légende:
+Légende :
 [Size (HxW):]
-Taille (HxW):
+Taille (HxW) :
 [C&lient Area]
 Zone du client
 [Target Tool]

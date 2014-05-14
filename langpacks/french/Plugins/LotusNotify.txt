@@ -47,7 +47,7 @@ Texte
 [Primary server:]
 
 [Database:]
-Base de données:
+Base de données :
 [try detect]
 
 [Secondary server:]
@@ -59,7 +59,7 @@ Base de données:
 [min.]
 
 [Password:]
-Passe:
+Passe :
 [Offline status mean:]
 
 [To / CopyTo]

@@ -19,11 +19,11 @@ Alarmes
 [Use popup plugin]
 Utiliser le plugin Popup
 [Default snooze:]
-Son par défaut:
+Son par défaut :
 [minutes]
 minutes
 [Row height:]
-Taille des colonnes:
+Taille des colonnes :
 [Indent:]
 
 [Reminder frame]
@@ -33,13 +33,13 @@ Cacher/Montrer automatiquement
 [Loop sound]
 
 [Period (hours):]
-Période (heure):
+Période (heure) :
 [Hide/show with clist]
 Comme les contacts
 [Auto size vertically]
 Taille verticale auto
 [Transparency (%):]
-Transparence (%):
+Transparence (%) :
 [Alert window]
 Fenêtre d'alerte
 [Round corners]
@@ -55,7 +55,7 @@ Annuler
 [Title:]
 Titre :
 [Description:]
-Description:
+Description :
 [Actions]
 Actions
 [Popup window]
@@ -63,9 +63,9 @@ Actions
 [Sound:]
 
 [Run command:]
-Lignes de commandes:
+Lignes de commandes :
 [Parameters:]
-Paramètres:
+Paramètres :
 [Alert 1]
 Alerte 1
 [Alert 2]
@@ -158,15 +158,15 @@ Cadres
 Rappels d'alarme
 ;file \plugins\Alarms\src\icons.cpp
 [Menu: Set alarm]
-Menu: Régler l'Alarme
+Menu : Régler l'Alarme
 [Reminder: Soon]
-Rappel: Bientôt
+Rappel : Bientôt
 [Reminder: Very soon]
-Rappel: Très Bientôt
+Rappel : Très Bientôt
 [Alarm: System tray]
-Alarme: Systray
+Alarme : Systray
 [Menu: Show/Hide reminders]
-Menu: Voir/Cacher les Rappels
+Menu : Voir/Cacher les Rappels
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
 

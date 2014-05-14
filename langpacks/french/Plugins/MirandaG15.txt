@@ -21,11 +21,11 @@ Simple
 [Message log:]
 
 [Contact list:]
-Liste de contacts:
+Liste de contacts :
 [Titles:]
 
 [Notifications:]
-Notifications:
+Notifications :
 [Turn off backlights]
 
 [If the applet is active:]

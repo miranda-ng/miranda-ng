@@ -53,13 +53,13 @@ Bordures
 [Draw border]
 Afficher les bordures
 [Left-top edge's color:]
-Couleur du bord Haut-Gauche:
+Couleur du bord Haut-Gauche :
 [Right-bottom edge's color:]
-Couleur du bord Bas-Droit:
+Couleur du bord Bas-Droit :
 [Background]
 Arrière-plan
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Use background bitmap]
 Utiliser une image d'arrière-plan
 [Stretch to width]
@@ -73,7 +73,7 @@ Mosaïque verticale
 [Stretch proportionally]
 Étirer proportionnellement
 [Opacity:]
-Opacité:
+Opacité :
 ;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Contacts standards

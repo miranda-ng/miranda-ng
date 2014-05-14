@@ -53,7 +53,7 @@ Afficher
 [Dialog]
 Dialogue
 [Timeout:]
-Délai:
+Délai :
 [seconds]
 secondes
 [Notify for]
@@ -75,9 +75,9 @@ Gestion des fêtes
 [Title:]
 Titre :
 [Description:]
-Description:
+Description :
 [Date:]
-Date:
+Date :
 [Save]
 Sauver
 [Delete]

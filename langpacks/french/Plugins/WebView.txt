@@ -31,7 +31,7 @@ secondes
 [Window appearance]
 
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Text color:]
 
 [Bold]
@@ -63,7 +63,7 @@ Options expert
 [Contact name:]
 
 [URL:]
-Lien:
+Lien :
 [Display]
 
 [Between start and end strings]
@@ -95,7 +95,7 @@ Chercher
 [&Find next]
 &Suivant
 [Find what:]
-Chercher:
+Chercher :
 [Search was completed.]
 
 [Alert options]

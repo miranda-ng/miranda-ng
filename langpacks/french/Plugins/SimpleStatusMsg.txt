@@ -25,7 +25,7 @@ Récupération du message d'état de %s...
 [Apply to all]
 
 [Max length:]
-Taille maxi:
+Taille maxi :
 [Pop up dialog box]
 
 [Do not change status message]
@@ -75,7 +75,7 @@ Afficher les états
 [Show icons in status list]
 
 [Buttons:]
-Boutons:
+Boutons :
 [Show icons in message list]
 
 [Other]
@@ -109,9 +109,9 @@ Autre
 [miliseconds]
 millisecondes
 [Protocol:]
-Protocole:
+Protocole :
 [Status:]
-État:
+État :
 [Independent setting for each protocol]
 
 [Pop up dialog asking for status message]

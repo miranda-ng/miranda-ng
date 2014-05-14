@@ -179,9 +179,9 @@ Vérif. des messages
 Échec de la connexion
 ;file \plugins\YAMN\src\main.h
 [YAMN: new mail message]
-YAMN: nouvel e-mail
+YAMN : nouvel e-mail
 [YAMN: connect failed]
-YAMN: échec connexion
+YAMN : échec connexion
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Pseudo
@@ -334,7 +334,7 @@ Popups
 [No account selected]
 Aucun compte sélectionné
 [Time left to next check [s]: %d]
-Prochaine vérification: [s]: %d
+Prochaine vérification [s] : %d
 [New Account]
 Nouveau compte
 [Executables]

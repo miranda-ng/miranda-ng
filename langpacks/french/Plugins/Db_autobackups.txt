@@ -23,11 +23,11 @@ Au démarrage de Miranda
 [When Miranda exits]
 À la fermeture de Miranda
 [Every:]
-Tous les:
+Tous les :
 [Number of backups to keep:]
-Nombre de sauvegarde à conserver:
+Nombre de sauvegarde à conserver :
 [Backup to folder:]
-Dossier de sauvegarde:
+Dossier de sauvegarde :
 [Browse...]
 
 [Go to the "Customize -> Folders" to change settings]

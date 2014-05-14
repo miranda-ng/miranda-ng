@@ -9,7 +9,7 @@
 
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
-Serveur:
+Serveur :
 [Language:]
 Langage :
 [Visible name:]

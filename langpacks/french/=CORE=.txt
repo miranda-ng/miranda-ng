@@ -1,6 +1,6 @@
 ﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
-Entrez le nom du compte (ex: My Google)
+Entrez le nom du compte (ex : My Google)
 [Choose the protocol type]
 Choisissez le type de protocole
 [Specify the internal account name (optional)]
@@ -158,7 +158,7 @@ OutputDebugString()
 [File]
 Fichier
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
-Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.):
+Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
 [Run now]
 Exécuter maintenant
 [Show this dialog box when Miranda NG starts]
@@ -450,7 +450,7 @@ Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts
 [Add to Existing MetaContact]
 Ajouter à un MetaContact existant
 [Please select a MetaContact:]
-Veuillez choisir un MetaContact:
+Veuillez choisir un MetaContact :
 [Sort Alphabetically]
 Trier alphabétiquement
 [Editing]
@@ -2109,7 +2109,7 @@ Informations dans %s
 [%s kicked %s (%s)]
 %s a kické %s (%s)
 [Notice from %s: %s]
-Notice de %s: %s
+Notice de %s : %s
 [The topic is '%s']
 Le sujet est '%s'
 [The topic is '%s' (set by %s)]

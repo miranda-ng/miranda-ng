@@ -9,13 +9,13 @@
 
 ;file \protocols\Twitter\res\twitter.rc
 [Server:]
-Serveur:
+Serveur :
 [Create a new Twitter account]
 
 [Default group:]
-Groupes:
+Groupes :
 [Username:]
-Identifiant:
+Identifiant :
 [<Sign in to link your Twitter account>]
 
 [Send Tweet]

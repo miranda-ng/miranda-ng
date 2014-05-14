@@ -553,7 +553,7 @@ sortant
 [Bottom tabs vertical adjustment:]
 Ajustement vertical du bas de l'onglet :
 [NOTE: some settings will not affect open containers.]
-Note: certains paramètres n'affecteront pas les conteneurs ouverts.
+Note : certains paramètres n'affecteront pas les conteneurs ouverts.
 [Tab layout tweaks]
 
 [About TabSRMM]

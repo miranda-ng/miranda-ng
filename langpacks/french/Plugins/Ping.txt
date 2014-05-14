@@ -9,17 +9,17 @@
 
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
-Délai entre chaque requêtes (secs):
+Délai entre chaque requêtes (secs) :
 [Timeout]
 Délai du popup
 [Ping timeout (secs):]
-Délai d'échec (secs):
+Délai d'échec (secs) :
 [Logging]
 
 [Log to File]
 
 [Log Filename:]
-Sauver dans:
+Sauver dans :
 [Network]
 Réseau
 [Popups]
@@ -41,9 +41,9 @@ Aller dans Apparence => Polices pour changer la taille et la couleur de la polic
 [Indent:]
 
 [Row height:]
-Hauteur de ligne:
+Hauteur de ligne :
 [Repeats for success/failure:]
-Répéter si succès/échec:
+Répéter si succès/échec :
 [Attach to contact list]
 Attacher à la liste de contacts
 [Use CSV format]
@@ -63,27 +63,27 @@ Bas
 [Cancel]
 Annuler
 [Address:]
-Adresse:
+Adresse :
 [Label:]
 
 [TCP Connect]
 Connexion TCP
 [Port:]
-Port:
+Port :
 [Control Protocol:]
-Protocole:
+Protocole :
 [Set my status to:]
-Régler mon état en:
+Régler mon état en :
 [On success, if my status is:]
-Réussi, si mon état est:
+Réussi, si mon état est :
 [Execute the following command on double-click:]
-Exécuter les commandes suivantes suite à un double-clique:
+Exécuter les commandes suivantes suite à un double-clique :
 [Contact]
 Contact
 [Protocols]
 Protocoles
 [(Optional) Command Parameters:]
-Lignes de commandes (facultatif):
+Lignes de commandes (facultatif) :
 [Menu]
 Menu
 [Graph]

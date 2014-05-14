@@ -115,11 +115,11 @@ Marges gauche/droite
 [Row gap]
 Espace
 [Minimum row height:]
-Hauteur mini lignes:
+Hauteur mini lignes :
 [Group row height]
 Largeur du groupe
 [Indent groups by:]
-Décaler les contacts de:
+Décaler les contacts de :
 [Inner Row vertical padding]
 
 [Margins and spacing]
@@ -163,7 +163,7 @@ Seconde ligne
 [Display status message when available]
 Afficher le message d'état si disponible
 [Show second text line:]
-Afficher une seconde ligne:
+Afficher une seconde ligne :
 [Show contacts local time]
 Afficher l'heure locale du contact
 [Only when timezone differs]
@@ -197,13 +197,13 @@ Cadre arrondi
 [Border]
 Bordures
 [Title bar text:]
-Texte du titre:
+Texte du titre :
 [Pin to desktop]
 Épingler au bureau
 [Show drop shadow (restart required)]
 Afficher l'ombre (redémarr. nécessaire)
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après:
+Cacher la liste de contacts après :
 [seconds]
 secondes
 [Automatically resize window to height of list]
@@ -231,9 +231,9 @@ Options de transparence
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive:
+Opacité si inactive :
 [Active opacity:]
-Opacité si active:
+Opacité si active :
 [Fade contact list in/out]
 Fondu de la liste de contacts
 [Fully transparent (like TweakUI)]
@@ -261,13 +261,13 @@ Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée:
+Durée :
 [milliseconds]
 millisecondes
 [Hide vertical scroll bar]
 Cacher l'ascenseur vertical
 [Gray out entire list when:]
-Griser toute la liste quand:
+Griser toute la liste quand :
 [Contact List Background]
 Arrière-plan de la liste
 [Use Windows colors]
@@ -353,7 +353,7 @@ Paramètres des modes d'affichages
 [Last message]
 Dernier message
 [Per contact skins:]
-Skins par contact:
+Skins par contact :
 [< Reload]
 < Recharger
 [Contact list skin]
@@ -431,9 +431,9 @@ Options d'affichage
 [Show contact with priority]
 Afficher le contact avec sa priorité
 [Show Avatar:]
-Afficher l'avatar:
+Afficher l'avatar :
 [Show 2nd line:]
-Afficher une seconde ligne:
+Afficher une seconde ligne :
 [Draw overlay icon on avatar]
 Icônes de sur-couche sur les avatars
 [Show local time]
@@ -791,7 +791,7 @@ Heures
 [Days]
 Jours
 [Current view mode: %s]
-Mode actuel: %s
+Mode actuel : %s
 [Filtering]
 Filtres
 [*** All contacts ***]

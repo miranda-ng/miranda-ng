@@ -31,7 +31,7 @@ Toujours activer si possible
 [Mode in Context Menu]
 
 [Key Exchange Timeout:]
-Délai d'envoi des clef:
+Délai d'envoi des clef :
 [sec]
 secondes
 [Offline Key Timeout:]
@@ -77,9 +77,9 @@ Charger une clef privée
 [Basic]
 Basique
 [Executable:]
-Programme:
+Programme :
 [Home Directory:]
-Page web:
+Page web :
 [Temp Dir:]
 
 [Key Assignment]
@@ -125,11 +125,11 @@ Afficher un popup dés envoi sécurisé
 [Show a popup on each secure receive]
 Afficher un popup dés réception sécurisée
 [Please type in your password]
-VEuillez taper un mot de passe
+Veuillez taper un mot de passe
 [Username:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Cancel]
 Annuler
 [SecureIM plugin Passphrase of private key]

@@ -88,7 +88,7 @@ Re&joindre
 Ajouter
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-{Miranda} Invitation à la conférence ici: %s message: %s
+{Miranda} Invitation à la conférence ici : %s message : %s
 [%s denied invitation with message: %s]
 
 [Me]
@@ -128,7 +128,7 @@ Erreur Yahoo
 [The message send timed out.]
 Délai d'envoi du message expiré
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-Message trop grand: Les messages de Yahoo sont limités à 800 caractères de type UTF8
+Message trop grand : Les messages de Yahoo sont limités à 800 caractères de type UTF8
 ;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
 Raccourci du protocole Yahoo
@@ -201,7 +201,7 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 [Calendar Reminder]
 
 [%s has rejected your request and sent the following message:]
-%s a rejeté votre requête et vous envoie le message suivant:
+%s a rejeté votre requête et vous envoie le message suivant :
 [Invalid Contact]
 
 [The ID you tried to add is invalid.]
@@ -231,7 +231,7 @@ Vous avez été déconnecté de Yahoo. Probablement à cause d'un double login.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Impossible de se connecter à Yahoo. Vérifier l'adresse, le port du serveur + param proxy
 [Could not log in, unknown reason: %d.]
-Pas de connexion à Yahoo, raison inconnue: %d
+Pas de connexion à Yahoo, raison inconnue : %d
 [Unknown error %s]
 Erreur inconnue %s
 [Custom error %s]

@@ -74,4 +74,4 @@ Sujet\n    %s\nDe\n%s\n%s\n
 Sujet\n    %s\nDe\n%s
 ;file \protocols\GTalkExt\src\tipper_items.cpp
 [Unread threads:]
-Courriers non lus:
+Courriers non lus :

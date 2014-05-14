@@ -127,7 +127,7 @@ minutes
 [Typing Notification Options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
-Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné:
+Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
 [Show typing notification switch in the status bar]
 Afficher le commutateur de notification de  frappe dans la barre d'état
 [Show typing notifications when a user is typing a message]
@@ -143,9 +143,9 @@ Afficher un popup
 [Send Error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [while sending the following message:]
-tout en envoyant le message suivant:
+tout en envoyant le message suivant :
 [Try again]
 Réessayer
 [Cancel]
@@ -191,7 +191,7 @@ Non
 [&Show/hide nick list]
 
 [Show these events only:]
-Voir ces évènements si:
+Voir ces évènements si :
 [Actions]
 Actions
 [Messages]
@@ -219,7 +219,7 @@ Paramètres
 [Other]
 Autre
 [Add new rooms to group:]
-Ajouter salons au groupe:
+Ajouter salons au groupe :
 [Nick list row height]
 Hauteur de ligne de la liste de contact
 [pixels]
@@ -235,7 +235,7 @@ Heure
 [Log timestamp]
 Format heure
 [Limit log text to (events):]
-Limite texte (évènements):
+Limite texte (évènements) :
 [Enable highlighting]
 Autoriser surlignage
 [Words to highlight (wildcards allowed)]
@@ -516,7 +516,7 @@ Citer
 [User Menu - %s]
 Menu Contact - %s
 [Sending in progress: %d message(s) left...]
-Envoi en cours: il reste %d message(s)...
+Envoi en cours : il reste %d message(s)...
 [%s is typing a message...]
 %s vous écrit un message...
 [Last message received on %s at %s.]
@@ -875,10 +875,10 @@ ID unique
 [Status]
 État
 [%s: Chat Room (%u user)]
-%s: Salon de chat (%u usager)
+%s : Salon de chat (%u usager)
 [%s: Chat Room (%u users)]
-%s: Salon de chat (%u usagers)
+%s : Salon de chat (%u usagers)
 [%s: Message Session]
-%s: Session de message
+%s : Session de message
 [%s: Message Session (%u users)]
-%s: Session de message (%u usagers)
+%s : Session de message (%u usagers)

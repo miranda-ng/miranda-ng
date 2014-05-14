@@ -27,13 +27,13 @@ Jouer des sons
 [Message debugging]
 
 [Port:]
-Port:
+Port :
 [(Default is 12001)]
 
 [Allow actions to execute programs]
 
 [Password:]
-Passe:
+Passe :
 ;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 
