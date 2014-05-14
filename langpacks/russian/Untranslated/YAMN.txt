@@ -1,7 +1,3 @@
 ﻿[WWW:]
 [SSL]
 [APOP]
-[Translate header error]
-[Part]
-[Reading body %s]
-[Dialog box error]

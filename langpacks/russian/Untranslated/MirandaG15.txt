@@ -1,7 +1,4 @@
 ﻿[Mirandag15 + TrillianG15]
 [mail@mkleinhans.de]
 [© 2006 by Martin Kleinhans]
-[Skip driver missing notification]
-[Don't skip when replying]
-[Cut off channel names after]
 [MirandaG15]
