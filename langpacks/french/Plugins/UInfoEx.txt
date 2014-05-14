@@ -126,8 +126,6 @@ Compatibilité des anniversaires :
 Utiliser la liste des ignorés
 [Birthday popup colors]
 Popups des anniversaires
-[r]
-
 [Background color]
 Couleur de fond
 [Text color]
@@ -1100,7 +1098,7 @@ Voir la page web
 [Homepage (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[(uinfoex)]
+[Phone (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]

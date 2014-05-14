@@ -126,8 +126,6 @@ Reproducir sonido
 
 [Birthday popup colors]
 
-[r]
-
 [Background color]
 Color de fondo
 [Text color]
@@ -1100,7 +1098,7 @@ Enviar e-mail
 [Homepage (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[(uinfoex)]
+[Phone (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]

@@ -126,8 +126,6 @@ Sound abspielen
 Ignorierliste verwenden
 [Birthday popup colors]
 Farben für Erinnerung
-[r]
-r
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -1100,8 +1098,8 @@ Homepage ansehen
 [Homepage (uinfoex)]
 Homepage (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[(uinfoex)]
-(UInfoEx)
+[Phone (uinfoex)]
+Telefon (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [b]%s (%S)...[/b]\n%d verbleibende Kontakte

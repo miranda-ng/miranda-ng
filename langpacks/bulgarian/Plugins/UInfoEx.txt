@@ -126,8 +126,6 @@
 Ползване на списък за игнориране
 [Birthday popup colors]
 popup за рожден ден
-[r]
-
 [Background color]
 Фонов цвят
 [Text color]
@@ -1100,7 +1098,7 @@ Web дизайн
 [Homepage (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[(uinfoex)]
+[Phone (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]

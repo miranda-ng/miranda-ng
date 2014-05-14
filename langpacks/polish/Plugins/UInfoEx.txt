@@ -126,8 +126,6 @@ Odtwarzaj dźwięk
 Użyj listy blokowania
 [Birthday popup colors]
 Kolory popupów urodzin
-[r]
-r
 [Background color]
 Kolor tła
 [Text color]
@@ -1100,8 +1098,8 @@ Pokaż stronę domową
 [Homepage (uinfoex)]
 Strona domowa (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[(uinfoex)]
-(uinfoex)
+[Phone (uinfoex)]
+Telefon (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [b]%s (%S)...[/b]\n%d Kontaktów pozostało
