@@ -99,6 +99,8 @@ Hotmail
 Удалить из адресной книги Hotmail
 [Block Contact]
 Заблокировать
+[Invite Contact To Chat]
+Пригласить контакт в чат
 [&Invite]
 &Пригласить
 [&Cancel]
@@ -121,6 +123,10 @@ Hotmail
 &История пользователя
 [Contact tried to open an audio conference (not currently supported)]
 Контакт пытался открыть аудиоконференцию (не поддерживается)
+[%I64u bytes]
+%I64u байт
+[Accept NetMeeting request from %s?]
+Принять NetMeeting запрос от %s?
 [MSN Protocol]
 Протокол MSN
 [MSN Alert]
@@ -147,6 +153,8 @@ MSN Чат
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контакт %s был удален с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
+[%s protocol]
+Протокол %s
 [Subject: %s]
 Тема: %s
 [Hotmail from %s (%S)]
@@ -247,6 +255,8 @@ Live уведомление
 %s подключение к серверу
 [Contact already in your contact list]
 Контакт уже в вашем списке
+[Protocol is offline]
+Протокол не в сети
 [You cannot send message to yourself]
 Вы не можете посылать сообщения самому себе
 [Message is too long: SMS page limited to 133 UTF8 chars]

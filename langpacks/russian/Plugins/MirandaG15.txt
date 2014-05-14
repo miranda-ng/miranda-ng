@@ -49,6 +49,8 @@
 Если активна заставка:
 [Lock the screen]
 Заблокировать экран
+[Skip driver missing notification]
+Пропустить уведомление об отсутствии драйвера
 [Notifications]
 Уведомления
 [Notification screen title]
@@ -117,8 +119,12 @@
 символов
 [Show protocol labels]
 Показывать протоколы
+[Don't skip when replying]
+Не пропускать при повторе
 [Exceptions:]
 Исключения:
+[Cut off channel names after]
+Отрезать имена каналов после
 [Contact list]
 Список контактов
 [Show the contacts protocols]

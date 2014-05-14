@@ -509,6 +509,8 @@ Yahoo
 Неизвестный контакт
 [Me]
 Я
+[My Contact]
+Мой контакт
 [Today]
 Сегодня
 [Yesterday]
@@ -757,6 +759,8 @@ ID текущего контакта (если определен). Наприм
 имя текущего профиля (только имя, без расширения)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_userdata%\\Logs]
+возвратит строку вида %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]

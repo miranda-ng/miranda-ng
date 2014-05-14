@@ -17,6 +17,8 @@
 Порт:
 [Client ID]
 ID клиента
+[Use old client version]
+Использовать старую версию клиента
 [Error display]
 Показ ошибок
 [Use message boxes]
@@ -35,12 +37,18 @@ ID клиента
 Импортировать из файла...
 [Auto-add new contacts]
 Автоматически добавлять новые контакты
+[Treat 'idle' as 'away']
+Обрабатывать 'режим ожидания' как 'отсутствую'
 [Encryption]
 Шифрование
 [40 or 128 bit]
 40 или 128 бит
 [None]
 Отсутствует
+[Meanwhile lib ver: 1.0.2]
+Версия библиотеки Meanwhile: 1.0.2
+[Disconnected]
+Отключён
 [Send announcement]
 Отправить объявление
 [Cancel]
@@ -51,12 +59,16 @@ ID клиента
 Выделить всё
 [Invert\nselection]
 Обратить\nвыделение
+[I'm outa here.]
+Меня здесь нет.
 [Invitation rejected - already present.]
 Приглашение отклонено - пользователь уже присутствует.
 [Your invitation has been rejected.]
 Ваше приглашение отклонено.
 [Please join this meeting.]
 Пожалуйста, присоединитесь к этой комнате чата.
+[Normal]
+Обычный
 [%s's conference]
 Комната чата пользователя %s
 [Leave conference]

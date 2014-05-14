@@ -23,15 +23,41 @@
 Пароль:
 [Server:]
 Сервер:
+[Preferences]
+Настройки
 [Check every]
 Пров. каждые
 [seconds]
 секунд
+[Force reconnect every]
+Принудительно переподключаться каждые
 [minutes]
 минут(ы)
+[Check server before trying to connect]
+Проверять сервер перед подключением
+[Try to connect]
+Подключиться
+[times before giving up]
+раз, прежде чем отказаться
+[Show email notifications using popup module]
+ПОказывать оповещения о почте во всплывающих окнах
+[Entry ID]
+ID записи
 [Subject]
 Тема
 [Sender]
 Отправитель
+[You have %d unread emails...]
+У вас %d непрочитанных писем...
+[You have one unread email...]
+У вас 1 непрочитанное письмо...
+[Exchange email]
+Почта Exchange
+[Do you want to see the email headers?]
+Вы хотите видеть заголовки писем?
+[Check exchange mailbox]
+Проверить почтовый ящик Exchange
+[Exchange notify]
+Exchange уведомление
 [Plugins]
 Плагины
