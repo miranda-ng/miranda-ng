@@ -7,6 +7,8 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Заметки и напоминания для Miranda NG.
+[Sticky Notes Options]
+Настройки заметок
 [Default Note Size]
 Размер заметки
 [Width (Pixels)]
@@ -215,6 +217,8 @@
 Чёрный
 [Green]
 Зелёный
+[Gray]
+Серый
 [Red]
 Красный
 [Yellow]
@@ -237,6 +241,8 @@
 Дата/заголовок
 [Sticky Note Caption]
 Заголовок
+[Sticky Note Background Color]
+Фон
 [Sticky Note Body]
 Окно
 [Select Executable]

@@ -6,36 +6,72 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-Всплывающие сообщения при установке сетевых соединений.
+Всплывающие окна при установке сетевых соединений.
+[Set popup colors]
+Цвет всплывающих окон
 [Popup options]
 Всплывающие окна
 [Background]
 Фон
 [Text]
 Текст
+[Close after:]
+Закрывать после:
+[sec (0 default, -1 disabled)]
+с (0 - по умолчанию, -1 - постоянно)
 [Settings]
 Настройки
+[try resolve addresses]
+пробовать разрешать адреса
 [Version:]
 Версия:
+[Show notification if no filter defined]
+Показывать уведомление, если не фильтры не определены
+[Attempt interval (ms)]
+Интервал попыток (мс)
 ['Online' means:]
 "В сети" значит:
 [Filters]
 Фильтры
+[DN]
+Вниз
 [UP]
 Вверх
+[Rule editor]
+Редактор правил
 [Application name]
 Имя приложения
+[Local IP:Port]
+Локальный IP:Порт
+[Action:]
+Действие:
 [Cancel]
 Отмена
+[* and ? wildcard characters also available (for port enter number or *)]
+Разрешены маски * и ? (для порта только числовое значение или *)
+[Remote IP:Port]
+Удалённый IP:Порт
 [Show]
 Показать
 [Hide]
 Скрыть
+[Always show popup]
+Всегда показывать вспл. окна
+[Never show popup]
+Никогда не показывать вспл. окна
 [Status]
 Статус
 [Application]
 Приложение
+[Internal socket]
+Внутренный сокет
+[External socket]
+Внешний сокет
 [Action]
 Действие
 [Plugins]
 Плагины
+[New Connection Notification]
+уведомление о новом подключении
+[First close options window]
+Сначала надо закрыть окно настроек

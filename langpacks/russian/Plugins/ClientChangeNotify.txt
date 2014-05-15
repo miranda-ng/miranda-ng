@@ -61,6 +61,16 @@
 %s (был %s)
 [) changed client to ]
 ) сменил клиент на\s
+[Client change notifications:]
+уведомления о смене клиента:
+[Never, ignore client changes for this contact]
+Никогда, игнорировать смену клиентов для этого контакта
+[Always except when client change notifications are disabled globally]
+Всегда, за исключением когда уведовления о смене клиентов отключены глобально
+[Always, even when client change notifications are disabled globally]
+Всегда, даже когда уведовления о смене клиентов отключены глобально
+[Use global settings (default)]
+Глобальные настройки (по умолчанию)
 [Disable c&lient change notification]
 Выключить уведомления о смене к&лиента
 [Enable c&lient change notification]
@@ -71,6 +81,8 @@
 Уведомление о смене клиента: Клиент изменился
 [ClientChangeNotify]
 Уведомление о смене клиента
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) сменил клиент на %extratext%
 [Error #%d]
 Ошибка #%d
 [Can't open log file ]

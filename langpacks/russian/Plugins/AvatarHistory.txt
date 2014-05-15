@@ -7,6 +7,8 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Плагин сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
+[Avatar List Popup]
+Всплывающие окна списка аватаров
 [Save As...]
 Сохранить как...
 [Delete this entry]
@@ -91,6 +93,8 @@
 История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<время> (одинаковые аватары могут быть сохранены несколько раз)
+[Avatar History for %s]
+История аватаров для %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Вы уверены, что хотите удалить эту запись из истории?\nБудет удалена только сама запись, файл изображения останется!
 [Delete avatar log?]
@@ -103,8 +107,26 @@
 Удалить аватар?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены ярлык и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько ярлыков!
+[Avatar History is empty!]
+История аватаров пуста!
+[avatar path is null.]
+Путь к аватару не задан.
 [View Avatar History]
 Показать историю аватаров
+[Save Avatar for %s]
+Сохранить аватар для %s
+[Save Avatar]
+Сохранить аватар
+[AVH Debug]
+Отладка AVH
+[Removed avatar, no avatar before...skipping]
+Аватар удалён, нет аватаров ранее...пропускаем
+[Hashes are the same... skipping]
+Хэши аватаров совпадают... пропускаем
+[Avatar History: Unable to save avatar]
+История аватаров: невозможно сохранить аватар
+[AVH Debug: File copied successfully]
+Отладка AVH: файл успешно скопирован
 [Avatars]
 Аватары
 [Contact changed avatar]
@@ -141,3 +163,9 @@
 Неизвестный номер
 [Unknown Protocol]
 Неизвестный протокол
+[AVH Debug: GetOldStyleAvatarName]
+Отладка AVH: GetOldStyleAvatarName
+[Avatar History: Unable to create shortcut]
+История аватаров: невозможно создать ярлык
+[AVH Debug: Shortcut created successfully]
+Отладка AVH: ярлык успешно создан
