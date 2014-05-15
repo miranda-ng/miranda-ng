@@ -82,7 +82,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Utils::enableDlgControl(hwndDlg, IDC_HIDETIME, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			Utils::enableDlgControl(hwndDlg, IDC_HIDETIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			Utils::enableDlgControl(hwndDlg, IDC_STATIC01, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
-			if ( !IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE)) {
+			if (!IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC21, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC22, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_MAXSIZEHEIGHT, FALSE);
@@ -90,17 +90,18 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				Utils::enableDlgControl(hwndDlg, IDC_AUTOSIZEUPWARD, FALSE);
 			} {
 				DBVARIANT dbv;
-				if ( !cfg::getTString(NULL, "CList", "TitleText", &dbv)) {
+				if (!cfg::getTString(NULL, "CList", "TitleText", &dbv)) {
 					SetDlgItemText(hwndDlg, IDC_TITLETEXT, dbv.ptszVal);
 					db_free(&dbv);
-				} else
+				}
+				else
 					SetDlgItemTextA(hwndDlg, IDC_TITLETEXT, MIRANDANAME);
 			}
 
 			CheckDlgButton(hwndDlg, IDC_TRANSPARENT, cfg::dat.isTransparent ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_FULLTRANSPARENT, cfg::dat.bFullTransparent ? BST_CHECKED : BST_UNCHECKED);
 
-			if ( !IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
+			if (!IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC11, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC12, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_TRANSACTIVE, FALSE);
@@ -141,9 +142,11 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Utils::enableDlgControl(hwndDlg, IDC_MAXSIZESPIN, IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 			Utils::enableDlgControl(hwndDlg, IDC_AUTOSIZEUPWARD, IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 		}
-		if ((LOWORD(wParam) == IDC_FRAMEGAP || LOWORD(wParam) == IDC_HIDETIME || LOWORD(wParam) == IDC_CLIPBORDER || LOWORD(wParam) == IDC_ROWGAP || LOWORD(wParam) == IDC_TITLETEXT ||
+		if ((LOWORD(wParam) == IDC_FRAMEGAP || LOWORD(wParam) == IDC_HIDETIME || LOWORD(wParam) == IDC_CLIPBORDER || LOWORD(wParam) == IDC_TITLETEXT ||
 			LOWORD(wParam) == IDC_MAXSIZEHEIGHT || LOWORD(wParam) == IDC_CLEFT || LOWORD(wParam) == IDC_CRIGHT || LOWORD(wParam) == IDC_CTOP
-			|| LOWORD(wParam) == IDC_CBOTTOM) && (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			|| LOWORD(wParam) == IDC_CBOTTOM) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+			return 0;
+		if (LOWORD(wParam) == IDC_BORDERSTYLE && (HIWORD(wParam) != CBN_SELCHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		opt_clui_changed = 1;
@@ -164,16 +167,16 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR) lParam)->code == PSN_APPLY) {
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			BOOL translated;
 			BYTE oldFading;
 			BYTE windowStyle = (BYTE)SendDlgItemMessage(hwndDlg, IDC_BORDERSTYLE, CB_GETCURSEL, 0, 0);
 			COLORREF clr_cluiframes;
 
-			if ( !opt_clui_changed)
+			if (!opt_clui_changed)
 				return TRUE;
 
-			cfg::writeByte("CLUI", "FadeInOut", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT));
+			cfg::writeByte("CLUI", "FadeInOut", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT));
 			cfg::dat.fadeinout = IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT) ? 1 : 0;
 			oldFading = cfg::dat.fadeinout;
 			cfg::dat.fadeinout = FALSE;
@@ -182,7 +185,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cfg::dat.gapBetweenFrames = GetDlgItemInt(hwndDlg, IDC_FRAMEGAP, &translated, FALSE);
 
 			cfg::writeDword("CLUIFrames", "GapBetweenFrames", cfg::dat.gapBetweenFrames);
-			cfg::writeByte("CList", "OnTop", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
+			cfg::writeByte("CList", "OnTop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
 			SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 			cfg::dat.bCLeft = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLEFTSPIN, UDM_GETPOS, 0, 0);
@@ -193,7 +196,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cfg::writeDword("CLUI", "clmargins", MAKELONG(MAKEWORD(cfg::dat.bCLeft, cfg::dat.bCRight), MAKEWORD(cfg::dat.bCTop, cfg::dat.bCBottom)));
 			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 
-			cfg::writeByte("CList", "BringToFront", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT));
+			cfg::writeByte("CList", "BringToFront", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT));
 			cfg::writeByte("CList", "AlwaysHideOnTB", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYSHIDEONTASKBAR));
 
 			if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
@@ -213,15 +216,13 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SetWindowPlacement(pcli->hwndContactList, &p);
 				ShowWindow(pcli->hwndContactList, SW_SHOW);
 			}
-			else
-			{
+			else {
 				LONG style;
 				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
 				style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
 				if (cfg::getByte("CList", "AlwaysHideOnTB", 1))
 					style &= ~WS_EX_APPWINDOW;
-				else
-				{
+				else {
 					style |= WS_EX_APPWINDOW;
 					AddToTaskBar(pcli->hwndContactList);
 				}
@@ -232,8 +233,8 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
 			cfg::writeByte("CLUI", "clipborder", cfg::dat.bClipBorder);
 
-			cfg::writeByte("CLUI", "ShowMainMenu", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
-			cfg::writeByte("CLUI", "ClientAreaDrag", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG));
+			cfg::writeByte("CLUI", "ShowMainMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
+			cfg::writeByte("CLUI", "ClientAreaDrag", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG));
 
 			clr_cluiframes = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_CLUIFRAMESBDR, CPM_GETCOLOUR, 0, 0);
 
@@ -244,7 +245,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			ApplyCLUIBorderStyle(pcli->hwndContactList);
 
-			if ( !IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
+			if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
 				SetMenu(pcli->hwndContactList, NULL);
 			else
 				SetMenu(pcli->hwndContactList, pcli->hMenuMain);
@@ -256,26 +257,26 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SetWindowText(pcli->hwndContactList, title);
 			}
 			cfg::dat.dwFlags = IsDlgButtonChecked(hwndDlg, IDC_ROUNDEDBORDER) ? cfg::dat.dwFlags | CLUI_FRAME_ROUNDEDFRAME : cfg::dat.dwFlags & ~CLUI_FRAME_ROUNDEDFRAME;
-			cfg::writeByte("CLUI", "AutoSize", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
+			cfg::writeByte("CLUI", "AutoSize", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 
 			if ((cfg::dat.autosize = IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE) ? 1 : 0)) {
 				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 			}
 
-			cfg::writeByte("CLUI", "MaxSizeHeight", (BYTE) GetDlgItemInt(hwndDlg, IDC_MAXSIZEHEIGHT, NULL, FALSE));
-			cfg::writeByte("CLUI", "AutoSizeUpward", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZEUPWARD));
-			cfg::writeByte("CList", "AutoHide", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
-			cfg::writeWord("CList", "HideTime", (WORD) SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
+			cfg::writeByte("CLUI", "MaxSizeHeight", (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXSIZEHEIGHT, NULL, FALSE));
+			cfg::writeByte("CLUI", "AutoSizeUpward", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZEUPWARD));
+			cfg::writeByte("CList", "AutoHide", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
+			cfg::writeWord("CList", "HideTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 
-			cfg::writeByte("CList", "Transparent", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT));
+			cfg::writeByte("CList", "Transparent", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT));
 			cfg::dat.isTransparent = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT) ? 1 : 0;
-			cfg::writeByte("CList", "Alpha", (BYTE) SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
-			cfg::dat.alpha = (BYTE) SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
-			cfg::writeByte("CList", "AutoAlpha", (BYTE) SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
-			cfg::dat.autoalpha = (BYTE) SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
-			cfg::writeByte("CList", "WindowShadow", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_DROPSHADOW));
-			cfg::writeByte("CList", "OnDesktop", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
+			cfg::writeByte("CList", "Alpha", (BYTE)SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
+			cfg::dat.alpha = (BYTE)SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
+			cfg::writeByte("CList", "AutoAlpha", (BYTE)SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
+			cfg::dat.autoalpha = (BYTE)SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
+			cfg::writeByte("CList", "WindowShadow", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DROPSHADOW));
+			cfg::writeByte("CList", "OnDesktop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
 			cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
 			cfg::dat.bFullTransparent = IsDlgButtonChecked(hwndDlg, IDC_FULLTRANSPARENT) ? 1 : 0;
 			cfg::writeByte("CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
@@ -299,9 +300,10 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
 					(BYTE)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
 					(DWORD)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
-			} else {
+			}
+			else {
 				SetLayeredWindowAttributes(pcli->hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
-				if ( !cfg::dat.bLayeredHack)
+				if (!cfg::dat.bLayeredHack)
 					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 			}
 
@@ -345,7 +347,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, cfg::dat.bShowXStatusOnSbar);
 		CheckDlgButton(hwndDlg, IDC_MARKLOCKED, cfg::getByte("CLUI", "sbar_showlocked", 1));
 
-		if ( !IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
+		if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWICON, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWPROTO, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWSTATUS, FALSE);
@@ -373,27 +375,27 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		opt_sbar_changed = 1;
 		break;
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->code) {
+		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			if ( !opt_sbar_changed)
+			if (!opt_sbar_changed)
 				return TRUE;
 
-			cfg::writeByte("CLUI", "ShowSBar", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
-			cfg::writeByte("CLUI", "SBarShow", (BYTE) ((IsDlgButtonChecked(hwndDlg, IDC_SHOWICON) ? 1 : 0) | (IsDlgButtonChecked(hwndDlg, IDC_SHOWPROTO) ? 2 : 0) | (IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUS) ? 4 : 0)));
-			cfg::writeByte("CLUI", "SBarRightClk", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA));
-			cfg::writeByte("CLUI", "EqualSections", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
-			cfg::writeByte("CLUI", "sb_skinned", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SKINBACKGROUND));
-			cfg::writeByte("CLUI", "sbar_showlocked", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_MARKLOCKED));
+			cfg::writeByte("CLUI", "ShowSBar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
+			cfg::writeByte("CLUI", "SBarShow", (BYTE)((IsDlgButtonChecked(hwndDlg, IDC_SHOWICON) ? 1 : 0) | (IsDlgButtonChecked(hwndDlg, IDC_SHOWPROTO) ? 2 : 0) | (IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUS) ? 4 : 0)));
+			cfg::writeByte("CLUI", "SBarRightClk", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA));
+			cfg::writeByte("CLUI", "EqualSections", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
+			cfg::writeByte("CLUI", "sb_skinned", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SKINBACKGROUND));
+			cfg::writeByte("CLUI", "sbar_showlocked", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MARKLOCKED));
 
 			cfg::dat.bEqualSections = IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS) ? 1 : 0;
 			cfg::dat.bSkinnedStatusBar = IsDlgButtonChecked(hwndDlg, IDC_SKINBACKGROUND) ? 1 : 0;
 			cfg::dat.bShowXStatusOnSbar = IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) ? 1 : 0;
 			cfg::writeByte("CLUI", "xstatus_sbar", (BYTE)cfg::dat.bShowXStatusOnSbar);
-			cfg::writeByte("CLUI", "SBarBevel", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SBPANELBEVEL));
-			if (cfg::getByte("CLUI", "ShowGrip", 1) != (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP)) {
+			cfg::writeByte("CLUI", "SBarBevel", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SBPANELBEVEL));
+			if (cfg::getByte("CLUI", "ShowGrip", 1) != (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP)) {
 				HWND parent = GetParent(pcli->hwndStatus);
 				int flags = WS_CHILD | CCS_BOTTOM;
-				cfg::writeByte("CLUI", "ShowGrip", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP));
+				cfg::writeByte("CLUI", "ShowGrip", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWGRIP));
 				ShowWindow(pcli->hwndStatus, SW_HIDE);
 				mir_unsubclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
 				DestroyWindow(pcli->hwndStatus);
@@ -444,7 +446,7 @@ void ApplyCLUIBorderStyle(HWND hwnd)
 {
 	BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 	WINDOWPLACEMENT p;
-	bool	minToTray = TRUE;
+	bool minToTray = TRUE;
 
 	p.length = sizeof(p);
 	GetWindowPlacement(pcli->hwndContactList, &p);
