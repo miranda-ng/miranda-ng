@@ -121,7 +121,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		if (!ret || !_tcscmp(dbvOldHash.ptszVal, _T("-"))) {
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
-			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before...skipping"));
+			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before... skipping"));
 			db_free(&dbvOldHash);
 			return 0;
 		}
