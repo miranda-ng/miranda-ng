@@ -124,7 +124,7 @@
 [Exceptions:]
 Исключения:
 [Cut off channel names after]
-Отрезать имена каналов после
+Обрезать имена каналов после
 [Contact list]
 Список контактов
 [Show the contacts protocols]

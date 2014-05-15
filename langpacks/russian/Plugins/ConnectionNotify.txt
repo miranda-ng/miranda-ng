@@ -22,7 +22,7 @@
 [Settings]
 Настройки
 [try resolve addresses]
-пробовать разрешать адреса
+преобразовывать IP-адреса в имена
 [Version:]
 Версия:
 [Show notification if no filter defined]

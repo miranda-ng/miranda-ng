@@ -40,7 +40,7 @@
 [times before giving up]
 раз, прежде чем отказаться
 [Show email notifications using popup module]
-ПОказывать оповещения о почте во всплывающих окнах
+Показывать оповещения о почте во всплывающих окнах
 [Entry ID]
 ID записи
 [Subject]
@@ -58,6 +58,6 @@ ID записи
 [Check exchange mailbox]
 Проверить почтовый ящик Exchange
 [Exchange notify]
-Exchange уведомление
+Уведомление Exchange
 [Plugins]
 Плагины

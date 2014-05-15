@@ -110,7 +110,7 @@
 [Avatar History is empty!]
 История аватаров пуста!
 [avatar path is null.]
-Путь к аватару не задан.
+Не задан путь к аватарам.
 [View Avatar History]
 Показать историю аватаров
 [Save Avatar for %s]
@@ -120,7 +120,7 @@
 [AVH Debug]
 Отладка AVH
 [Removed avatar, no avatar before...skipping]
-Аватар удалён, нет аватаров ранее...пропускаем
+Аватар удалён, нет более ранних аватаров... пропускаем
 [Hashes are the same... skipping]
 Хэши аватаров совпадают... пропускаем
 [Avatar History: Unable to save avatar]

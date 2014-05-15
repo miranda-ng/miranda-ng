@@ -362,7 +362,7 @@ E-Mail
 [Due to a parameter error, one of the treeitems can't be added!]
 Из-за ошибки в параметре, один из элементов дерева не может быть добавлен!
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
-Фатальная ошибка при добавлении страницы свойств!\nСоздание диалога отменено!
+Неустранимая ошибка при добавлении страницы свойств!\nСоздание диалога отменено!
 [Rename Item]
 Переименовать
 [Hide Item]

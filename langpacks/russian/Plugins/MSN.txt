@@ -126,7 +126,7 @@ Hotmail
 [%I64u bytes]
 %I64u байт
 [Accept NetMeeting request from %s?]
-Принять NetMeeting запрос от %s?
+Принять запрос NetMeeting от %s?
 [MSN Protocol]
 Протокол MSN
 [MSN Alert]

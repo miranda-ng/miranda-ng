@@ -215,16 +215,36 @@
 &Переместить на передний план
 [Black]
 Чёрный
+[Maroon]
+Тёмно-бордовый
 [Green]
 Зелёный
+[Olive]
+Оливковый
+[Navy]
+Тёмно-синий
+[Purple]
+Пурпурный
+[Teal]
+Тёмный циан
 [Gray]
 Серый
+[Silver]
+Серебряный
 [Red]
 Красный
+[Orange]
+Оранжевый
+[Lime]
+Лайм
 [Yellow]
 Жёлтый
 [Blue]
 Синий
+[Fuchsia]
+Фуксия
+[Aqua]
+Морская волна
 [White]
 Белый
 [Are you sure you want to delete this note?]
