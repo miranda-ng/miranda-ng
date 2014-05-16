@@ -92,6 +92,7 @@ static const colourOptionsList[] = {
 	{ LPGENT("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, 0, COLOR_WINDOW},
 	{ LPGENT("Outgoing background"), SRMSGSET_OUTGOINGBKGCOLOUR, 0, COLOR_WINDOW},
 	{ LPGENT("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
+	{ LPGENT("Line between messages"), SRMSGSET_LINECOLOUR, 0, COLOR_3DLIGHT},
 };
 
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam)
@@ -631,7 +632,6 @@ static void ShowPreview(HWND hwndDlg)
 	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_MESSAGEONNEWLINE) ? SMF_MSGONNEWLINE : 0;
 	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_DRAWLINES) ? SMF_DRAWLINES : 0;
 	gdat.flags |= IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT) ? SMF_INDENTTEXT : 0;
-	gdat.logLineColour = SendDlgItemMessage(hwndDlg, IDC_LINECOLOUR, CPM_GETCOLOUR, 0, 0);
 	gdat.indentSize = (int)SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_GETPOS, 0, 0);
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_OFFSET;
@@ -691,7 +691,6 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		CheckDlgButton(hwndDlg, IDC_MARKFOLLOWUPS, db_get_b(NULL, SRMMMOD, SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS));
 		CheckDlgButton(hwndDlg, IDC_MESSAGEONNEWLINE, db_get_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE));
 		CheckDlgButton(hwndDlg, IDC_DRAWLINES, db_get_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_LINECOLOUR), IsDlgButtonChecked(hwndDlg, IDC_DRAWLINES));
 
 		CheckDlgButton(hwndDlg, IDC_INDENTTEXT, db_get_b(NULL, SRMMMOD, SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSIZE), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
@@ -699,7 +698,6 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 		SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE));
 
-		SendDlgItemMessage(hwndDlg, IDC_LINECOLOUR, CPM_SETCOLOUR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR));
 		{
 			PARAFORMAT2 pf2;
 			ZeroMemory(&pf2, sizeof(pf2));
@@ -748,18 +746,14 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_SHOWSECONDS:
 		case IDC_USELONGDATE:
 		case IDC_USERELATIVEDATE:
-		case IDC_LINECOLOUR:
 		case IDC_MARKFOLLOWUPS:
 		case IDC_SHOWLOGICONS:
 		case IDC_MESSAGEONNEWLINE:
+		case IDC_DRAWLINES:
 			ShowPreview(hwndDlg);
 			break;
 		case IDC_GROUPMESSAGES:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
-			ShowPreview(hwndDlg);
-			break;
-		case IDC_DRAWLINES:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LINECOLOUR), IsDlgButtonChecked(hwndDlg, IDC_DRAWLINES));
 			ShowPreview(hwndDlg);
 			break;
 		case IDC_INDENTTEXT:
@@ -807,7 +801,6 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				db_set_b(NULL, SRMMMOD, SRMSGSET_MARKFOLLOWUPS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MARKFOLLOWUPS));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MESSAGEONNEWLINE));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAWLINES));
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SendDlgItemMessage(hwndDlg, IDC_LINECOLOUR, CPM_GETCOLOUR, 0, 0));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_USEIEVIEW, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEIEVIEW));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_INDENTTEXT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
 				db_set_w(NULL, SRMMMOD, SRMSGSET_INDENTSIZE, (WORD)SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_GETPOS, 0, 0));

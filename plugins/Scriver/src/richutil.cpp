@@ -40,8 +40,8 @@ static SortedList sListInt;
 
 static int RichUtil_CmpVal(void *p1, void *p2)
 {
-	TRichUtil *tp1 = (TRichUtil*)p1;
-	TRichUtil *tp2 = (TRichUtil*)p2;
+	TRichUtil *tp1 = (TRichUtil *)p1;
+	TRichUtil *tp2 = (TRichUtil *)p2;
 	return (int)((INT_PTR)tp1->hwnd - (INT_PTR)tp2->hwnd);
 }
 
@@ -69,7 +69,7 @@ int RichUtil_SubClass(HWND hwndEdit)
 	if (IsWindow(hwndEdit)) {
 		int idx;
 
-		TRichUtil *ru = (TRichUtil*)mir_calloc(sizeof(TRichUtil));
+		TRichUtil *ru = (TRichUtil *)mir_calloc(sizeof(TRichUtil));
 
 		ru->hwnd = hwndEdit;
 		ru->hasUglyBorder = 0;
@@ -96,10 +96,10 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	EnterCriticalSection(&csRich);
 	if (List_GetIndex(&sListInt, &tru, &idx))
-		ru = (TRichUtil*)sListInt.items[idx];
+		ru = (TRichUtil *)sListInt.items[idx];
 	LeaveCriticalSection(&csRich);
 
-	switch(msg) {
+	switch (msg) {
 	case WM_THEMECHANGED:
 	case WM_STYLECHANGED:
 		RichUtil_ClearUglyBorder(ru);
@@ -111,8 +111,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		{
 			HANDLE hTheme = OpenThemeData(ru->hwnd, L"EDIT");
 
-			if (hTheme)
-			{
+			if (hTheme) {
 				RECT rcBorder;
 				RECT rcClient;
 				int nState;
@@ -148,19 +147,19 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_NCCALCSIZE:
 		{
 			ret = mir_callNextSubclass(hwnd, RichUtil_Proc, msg, wParam, lParam);
-			NCCALCSIZE_PARAMS *ncsParam = (NCCALCSIZE_PARAMS*)lParam;
+			NCCALCSIZE_PARAMS *ncsParam = (NCCALCSIZE_PARAMS *)lParam;
 
 			if (ru->hasUglyBorder && IsThemeActive()) {
 				HANDLE hTheme = OpenThemeData(hwnd, L"EDIT");
 				if (hTheme) {
-					RECT rcClient ={0};
+					RECT rcClient = {0};
 					HDC hdc = GetDC(GetParent(hwnd));
 
 					if (GetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient) == S_OK) {
-						ru->rect.left = rcClient.left-ncsParam->rgrc[0].left;
-						ru->rect.top = rcClient.top-ncsParam->rgrc[0].top;
-						ru->rect.right = ncsParam->rgrc[0].right-rcClient.right;
-						ru->rect.bottom = ncsParam->rgrc[0].bottom-rcClient.bottom;
+						ru->rect.left = rcClient.left - ncsParam->rgrc[0].left;
+						ru->rect.top = rcClient.top - ncsParam->rgrc[0].top;
+						ru->rect.right = ncsParam->rgrc[0].right - rcClient.right;
+						ru->rect.bottom = ncsParam->rgrc[0].bottom - rcClient.bottom;
 						ncsParam->rgrc[0] = rcClient;
 
 						CloseThemeData(hTheme);

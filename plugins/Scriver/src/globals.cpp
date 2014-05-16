@@ -392,7 +392,7 @@ void ReloadGlobals()
 
 static int ackevent(WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *pAck = (ACKDATA*)lParam;
+	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (!pAck)
 		return 0;
 
@@ -415,14 +415,15 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 			if (hwndSender != NULL) {
 				ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
 				ewd->szName = GetNickname(item->hContact, item->proto);
-				ewd->szDescription = mir_a2t((char*)pAck->lParam);
+				ewd->szDescription = mir_a2t((char *)pAck->lParam);
 				ewd->szText = GetSendBufferMsg(item);
 				ewd->hwndParent = hwndSender;
 				ewd->queueItem = item;
 				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
 			}
-			else RemoveSendQueueItem(item);
+			else
+				RemoveSendQueueItem(item);
 		}
 		return 0;
 	}
@@ -436,13 +437,13 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 	dbei.timestamp = time(NULL);
 	dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
 	if (!(item->flags & PREF_UTF))
-		dbei.cbBlob *= sizeof(TCHAR)+1;
+		dbei.cbBlob *= sizeof(TCHAR) + 1;
 	dbei.pBlob = (PBYTE)item->sendBuffer;
 
 	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
 
-	item->sendBuffer = (char*)dbei.pBlob;
+	item->sendBuffer = (char *)dbei.pBlob;
 	db_event_add(item->hContact, &dbei);
 
 	if (item->hwndErrorDlg != NULL)

@@ -253,7 +253,6 @@
 #define ID_MESS                         50001
 #define ID_COPYALL                      50006
 #define ID_Menu                         50026
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

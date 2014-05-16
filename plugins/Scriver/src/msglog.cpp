@@ -383,7 +383,7 @@ static char *CreateRTFHeader(SrmmWindowData *dat, struct GlobalMessageData *gdat
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR);
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	colour = gdat->logLineColour;
+	colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}");
 	return buffer;
@@ -764,9 +764,9 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, struct Glob
 	return buffer;
 }
 
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	struct LogStreamData *dat = (struct LogStreamData *) dwCookie;
+	struct LogStreamData *dat = (struct LogStreamData *)dwCookie;
 
 	if (dat->buffer == NULL) {
 		dat->bufferOffset = 0;
@@ -835,7 +835,7 @@ void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat)
 
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR) & streamData;
+	stream.dwCookie = (DWORD_PTR)&streamData;
 	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM)&stream);
 	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
 }
