@@ -35,7 +35,6 @@
 #define IDI_GOOGLE_TRANSLATE            145
 #define IDI_YAHOO                       146
 #define IDI_FOODNETWORK                 147
-#define IDI_LASTICON                    148
 #define IDR_CONTEXT                     180
 #define IDD_CHANNEL                     401
 #define IDD_OPTIONS1                    402
@@ -87,8 +86,10 @@
 #define IDC_TABCLOSEBUTTON              1009
 #define IDC_LIMITTABS                   1010
 #define IDC_LIMITTABSNUM                1011
-#define IDC_LIMITCHATSTABS              1012
-#define IDC_LIMITCHATSTABSNUM           1013
+#define IDC_LIMITTABSNUMSPIN            1012
+#define IDC_LIMITCHATSTABS              1013
+#define IDC_LIMITCHATSTABSNUM           1014
+#define IDC_LIMITCHATSTABSNUMSPIN       1015
 #define IDC_SPLITTER                    1017
 #define IDC_SHOWNAMES                   1020
 #define IDC_USETABS                     1022
@@ -105,7 +106,6 @@
 #define IDC_SAVEPERCONTACT              1037
 #define IDC_LOADCOUNTN                  1039
 #define IDC_LOADCOUNTSPIN               1040
-#define IDC_SHOWINFOLINE                1041
 #define IDC_SHOWSTATUSBAR               1041
 #define IDC_SHOWTOOLBAR                 1042
 #define IDC_LOADUNREAD                  1043
@@ -134,13 +134,13 @@
 #define IDC_SHOWNOTIFY                  1600
 #define IDC_STATUSWIN                   1601
 #define IDC_TYPEWIN                     1602
-#define IDC_CHARCOUNT                   1603
 #define IDC_TYPETRAY                    1603
 #define IDC_TABSATBOTTOM                1603
 #define IDC_CASCADE                     1604
 #define IDC_SECONDS                     1605
-#define IDC_NOTIFYTRAY                  1606
-#define IDC_NOTIFYBALLOON               1607
+#define IDC_SECONDSSPIN                 1606
+#define IDC_NOTIFYTRAY                  1607
+#define IDC_NOTIFYBALLOON               1608
 #define IDC_DELTEMP                     1609
 #define IDC_AVATARSUPPORT               1611
 #define IDC_LIMITNAMES                  1615
@@ -152,25 +152,22 @@
 #define IDC_ITRANSPARENCYVALUE          1621
 #define IDC_ITRANSPARENCYPERC           1622
 #define IDC_ALWAYSSHOWTABS              1623
-#define IDC_SENDALL                     1624
 #define IDC_TRANSPARENCYTEXT1           1627
 #define IDC_TRANSPARENCYTEXT2           1628
 #define IDC_DRAWLINES                   1629
-#define IDC_LINECOLOUR                  1630
 #define IDC_SAVEDRAFTS                  1631
 #define IDC_POPLIST                     1632
 #define IDC_LIMITNAMESLEN               1633
-#define IDC_CHARS                       1634
-#define IDC_INDENTTEXT                  1635
-#define IDC_INDENTSIZE                  1636
-#define IDC_INDENTSPIN                  1637
-#define IDC_HIDECONTAINERS              1638
-#define IDC_ORIGINALAVATARH             1639
+#define IDC_LIMITNAMESLENSPIN           1634
+#define IDC_CHARS                       1635
+#define IDC_INDENTTEXT                  1636
+#define IDC_INDENTSIZE                  1637
+#define IDC_INDENTSPIN                  1638
+#define IDC_HIDECONTAINERS              1639
 #define IDC_TYPINGSWITCH                1640
 #define IDC_LOADCOUNTTEXT2              1641
 #define IDC_CHAT_NICKROWTEXT2           1642
 #define IDC_CHAT_LIMITTEXT2             1643
-#define IDC_INFOBAR                     1644
 #define IDC_AVATAR                      1645
 #define IDC_XSTATUSICON                 1646
 #define IDC_INPUTLINES                  1647
@@ -188,7 +185,6 @@
 #define IDC_CHAT_SHOWNICKLIST           5016
 #define IDC_CHAT_COLOR                  5017
 #define IDC_CHAT_BKGCOLOR               5019
-#define IDC_CHAT_FONTSIZE               5020
 #define IDC_CHAT_CHECKBOXES             5021
 #define IDC_CHAT_HISTORY                5022
 #define IDC_CHAT_NICKROW                5024
@@ -241,7 +237,6 @@
 #define IDM_COPYLINK                    40016
 #define IDM_CLOSETAB                    40020
 #define IDM_CLOSEOTHERTABS              40021
-#define IDM_TOPMOST                     40040
 #define IDM_SEARCH_GOOGLE               40080
 #define IDM_SEARCH_BING                 40081
 #define IDM_SEARCH_YANDEX               40082
@@ -260,7 +255,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -267,7 +267,6 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_LIMITNAMES		1
 #define SRMSGSET_LIMITNAMESLEN		"LimitNamesLength"
 #define SRMSGDEFSET_LIMITNAMESLEN	20
-#define SRMSGSET_LIMITNAMESLEN_MIN	0
 #define SRMSGSET_HIDEONETAB			"HideOneTab"
 #define SRMSGDEFSET_HIDEONETAB		1
 #define SRMSGSET_SEPARATECHATSCONTAINERS "SeparateChatsContainers"
@@ -327,7 +326,6 @@ extern int fontOptionsListSize;
 #define SRMSGDEFSET_DELTEMP			0
 #define SRMSGSET_MSGTIMEOUT			"MessageTimeout"
 #define SRMSGDEFSET_MSGTIMEOUT		10000
-#define SRMSGSET_MSGTIMEOUT_MIN		4000 // minimum value (4 seconds)
 #define SRMSGSET_FLASHCOUNT			"FlashMax"
 #define SRMSGDEFSET_FLASHCOUNT		3
 

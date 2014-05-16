@@ -287,16 +287,16 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			CheckDlgButton(hwndDlg, IDC_SWITCHTOACTIVE, db_get_b(NULL, SRMMMOD, SRMSGSET_SWITCHTOACTIVE, SRMSGDEFSET_SWITCHTOACTIVE));
 			CheckDlgButton(hwndDlg, IDC_TABCLOSEBUTTON, db_get_b(NULL, SRMMMOD, SRMSGSET_TABCLOSEBUTTON, SRMSGDEFSET_TABCLOSEBUTTON));
 			CheckDlgButton(hwndDlg, IDC_LIMITNAMES, db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITNAMES, SRMSGDEFSET_LIMITNAMES));
-			int limitLength = db_get_dw(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
-			SetDlgItemInt(hwndDlg, IDC_LIMITNAMESLEN, limitLength >= SRMSGSET_LIMITNAMESLEN_MIN ? limitLength : SRMSGDEFSET_LIMITNAMESLEN, FALSE);
+			SendDlgItemMessage(hwndDlg, IDC_LIMITNAMESLENSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
+			SendDlgItemMessage(hwndDlg, IDC_LIMITNAMESLENSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN));
 
 			CheckDlgButton(hwndDlg, IDC_LIMITTABS, db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITTABS, SRMSGDEFSET_LIMITTABS));
-			limitLength = db_get_dw(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
-			SetDlgItemInt(hwndDlg, IDC_LIMITTABSNUM, limitLength >= 1 ? limitLength : 1, FALSE);
+			SendDlgItemMessage(hwndDlg, IDC_LIMITTABSNUMSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
+			SendDlgItemMessage(hwndDlg, IDC_LIMITTABSNUMSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM));
 
 			CheckDlgButton(hwndDlg, IDC_LIMITCHATSTABS, db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABS, SRMSGDEFSET_LIMITCHATSTABS));
-			limitLength = db_get_dw(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
-			SetDlgItemInt(hwndDlg, IDC_LIMITCHATSTABSNUM, limitLength >= 1 ? limitLength : 1, FALSE);
+			SendDlgItemMessage(hwndDlg, IDC_LIMITCHATSTABSNUMSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
+			SendDlgItemMessage(hwndDlg, IDC_LIMITCHATSTABSNUMSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM));
 
 			CheckDlgButton(hwndDlg, IDC_SEPARATECHATSCONTAINERS, db_get_b(NULL, SRMMMOD, SRMSGSET_SEPARATECHATSCONTAINERS, SRMSGDEFSET_SEPARATECHATSCONTAINERS));
 
@@ -310,13 +310,16 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITTABS), bChecked);
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS) && IsDlgButtonChecked(hwndDlg, IDC_LIMITNAMES);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITNAMESLEN), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITNAMESLENSPIN), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHARS), bChecked);
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS) && IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITTABSNUM), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITTABSNUMSPIN), bChecked);
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS) && IsDlgButtonChecked(hwndDlg, IDC_SEPARATECHATSCONTAINERS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITCHATSTABS), bChecked);
 			bChecked = bChecked && IsDlgButtonChecked(hwndDlg, IDC_LIMITCHATSTABS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITCHATSTABSNUM), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITCHATSTABSNUMSPIN), bChecked);
 		}
 		return TRUE;
 
@@ -324,17 +327,18 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		switch (LOWORD(wParam)) {
 		case IDC_USETABS:
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SWITCHTOACTIVE), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TABSATBOTTOM), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITNAMES), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSSHOWTABS), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TABSATBOTTOM), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SWITCHTOACTIVE), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TABCLOSEBUTTON), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITNAMES), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SEPARATECHATSCONTAINERS), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITTABS), bChecked);
 
 		case IDC_LIMITTABS:
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS) && IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITTABSNUM), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITTABSNUMSPIN), bChecked);
 
 		case IDC_SEPARATECHATSCONTAINERS:
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS) && IsDlgButtonChecked(hwndDlg, IDC_SEPARATECHATSCONTAINERS);
@@ -344,10 +348,12 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_USETABS) && IsDlgButtonChecked(hwndDlg, IDC_SEPARATECHATSCONTAINERS) &&
 				IsDlgButtonChecked(hwndDlg, IDC_LIMITCHATSTABS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITCHATSTABSNUM), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITCHATSTABSNUMSPIN), bChecked);
 
 		case IDC_LIMITNAMES:
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_LIMITNAMES) && IsDlgButtonChecked(hwndDlg, IDC_USETABS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITNAMESLEN), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITNAMESLENSPIN), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHARS), bChecked);
 			break;
 		case IDC_LIMITNAMESLEN:
@@ -365,19 +371,15 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				int limitLength;
 				db_set_b(NULL, SRMMMOD, SRMSGSET_USETABS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USETABS));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_TABSATBOTTOM, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TABSATBOTTOM));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_LIMITNAMES, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LIMITNAMES));
-				(limitLength = GetDlgItemInt(hwndDlg, IDC_LIMITNAMESLEN, NULL, TRUE)) >= SRMSGSET_LIMITNAMESLEN_MIN ? GetDlgItemInt(hwndDlg, IDC_LIMITNAMESLEN, NULL, TRUE) : SRMSGSET_LIMITNAMESLEN_MIN;
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, limitLength);
+				db_set_w(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, (WORD)SendDlgItemMessage(hwndDlg, IDC_LIMITNAMESLENSPIN, UDM_GETPOS, 0, 0));
 
 				db_set_b(NULL, SRMMMOD, SRMSGSET_LIMITTABS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS));
-				limitLength = GetDlgItemInt(hwndDlg, IDC_LIMITTABSNUM, NULL, TRUE) >= 1 ? GetDlgItemInt(hwndDlg, IDC_LIMITTABSNUM, NULL, TRUE) : 1;
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, limitLength);
+				db_set_w(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, (WORD)SendDlgItemMessage(hwndDlg, IDC_LIMITTABSNUMSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LIMITCHATSTABS));
-				limitLength = GetDlgItemInt(hwndDlg, IDC_LIMITCHATSTABSNUM, NULL, TRUE) >= 1 ? GetDlgItemInt(hwndDlg, IDC_LIMITCHATSTABSNUM, NULL, TRUE) : 1;
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, limitLength);
+				db_set_w(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, (WORD)SendDlgItemMessage(hwndDlg, IDC_LIMITCHATSTABSNUMSPIN, UDM_GETPOS, 0, 0));
 
 				db_set_b(NULL, SRMMMOD, SRMSGSET_HIDEONETAB, (BYTE)!IsDlgButtonChecked(hwndDlg, IDC_ALWAYSSHOWTABS));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SWITCHTOACTIVE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWITCHTOACTIVE));
@@ -395,28 +397,28 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int bChecked;
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			char str[10];
-			int bChecked;
 			TranslateDialogDefault(hwndDlg);
 			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSBAR, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR));
 			CheckDlgButton(hwndDlg, IDC_SHOWTITLEBAR, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR));
 			CheckDlgButton(hwndDlg, IDC_SHOWTOOLBAR, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE));
 			CheckDlgButton(hwndDlg, IDC_SHOWINFOBAR, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR));
 			CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, db_get_b(NULL, SRMMMOD, SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY));
-			SendDlgItemMessage(hwndDlg,IDC_ATRANSPARENCYVALUE,TBM_SETRANGE, FALSE, MAKELONG(0,255));
-			SendDlgItemMessage(hwndDlg,IDC_ATRANSPARENCYVALUE,TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
-			SendDlgItemMessage(hwndDlg,IDC_ITRANSPARENCYVALUE,TBM_SETRANGE, FALSE, MAKELONG(0,255));
-			SendDlgItemMessage(hwndDlg,IDC_ITRANSPARENCYVALUE,TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
+			SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0,255));
+			SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
+			SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0,255));
+			SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
 			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 			SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
 			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 			SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
-			SetDlgItemInt(hwndDlg, IDC_INPUTLINES, db_get_dw(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES), FALSE);
 			SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
-			SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETPOS, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES));
+			SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES));
 
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYVALUE), bChecked);
@@ -435,15 +437,13 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_TRANSPARENCY:
-			{
-				int bChecked = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYVALUE), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYPERC), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYVALUE), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYPERC), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT1), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT2), bChecked);
-			}
+			bChecked = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYVALUE), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ATRANSPARENCYPERC), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYVALUE), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ITRANSPARENCYPERC), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT1), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENCYTEXT2), bChecked);
 			break;
 
 		case IDC_INPUTLINES:
@@ -470,8 +470,6 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				UINT lines;
-
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSBAR));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTITLEBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTOOLBAR));
@@ -486,8 +484,7 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				db_set_b(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATARSUPPORT));
 
-				lines = GetDlgItemInt(hwndDlg, IDC_INPUTLINES, NULL, FALSE);
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, lines ? lines : SRMSGDEFSET_AUTORESIZELINES);
+				db_set_w(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, (WORD)SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_GETPOS, 0, 0));
 				LoadInfobarFonts();
 
 				ApplyChanges(16);
@@ -504,31 +501,28 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{
-			DWORD msgTimeout;
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE, (GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_POPLIST), statusValues, sizeof(statusValues) / sizeof(statusValues[0]),
-				db_get_dw(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
-			CheckDlgButton(hwndDlg, IDC_AUTOPOPUP, db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP));
-			CheckDlgButton(hwndDlg, IDC_STAYMINIMIZED, db_get_b(NULL, SRMMMOD, SRMSGSET_STAYMINIMIZED, SRMSGDEFSET_STAYMINIMIZED));
-			CheckDlgButton(hwndDlg, IDC_AUTOMIN, db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN));
-			CheckDlgButton(hwndDlg, IDC_SAVEDRAFTS, db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEDRAFTS, SRMSGDEFSET_SAVEDRAFTS));
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE, (GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_POPLIST), statusValues, sizeof(statusValues) / sizeof(statusValues[0]),
+			db_get_dw(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
+		CheckDlgButton(hwndDlg, IDC_AUTOPOPUP, db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP));
+		CheckDlgButton(hwndDlg, IDC_STAYMINIMIZED, db_get_b(NULL, SRMMMOD, SRMSGSET_STAYMINIMIZED, SRMSGDEFSET_STAYMINIMIZED));
+		CheckDlgButton(hwndDlg, IDC_AUTOMIN, db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN));
+		CheckDlgButton(hwndDlg, IDC_SAVEDRAFTS, db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEDRAFTS, SRMSGDEFSET_SAVEDRAFTS));
 
-			CheckDlgButton(hwndDlg, IDC_DELTEMP, db_get_b(NULL, SRMMMOD, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP));
-			msgTimeout = db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
-			SetDlgItemInt(hwndDlg, IDC_SECONDS, msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout / 1000 : SRMSGDEFSET_MSGTIMEOUT / 1000, FALSE);
+		CheckDlgButton(hwndDlg, IDC_DELTEMP, db_get_b(NULL, SRMMMOD, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP));
+		SendDlgItemMessage(hwndDlg, IDC_SECONDSSPIN, UDM_SETRANGE, 0, MAKELONG(60, 4));
+		SendDlgItemMessage(hwndDlg, IDC_SECONDSSPIN, UDM_SETPOS, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT) / 1000);
 
-			CheckDlgButton(hwndDlg, IDC_SAVEPERCONTACT, db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT));
-			CheckDlgButton(hwndDlg, IDC_CASCADE, db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE));
-			CheckDlgButton(hwndDlg, IDC_SENDONENTER, db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER));
-			CheckDlgButton(hwndDlg, IDC_SENDONDBLENTER, db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER));
-			CheckDlgButton(hwndDlg, IDC_STATUSWIN, db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON));
+		CheckDlgButton(hwndDlg, IDC_SAVEPERCONTACT, db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT));
+		CheckDlgButton(hwndDlg, IDC_CASCADE, db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE));
+		CheckDlgButton(hwndDlg, IDC_SENDONENTER, db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER));
+		CheckDlgButton(hwndDlg, IDC_SENDONDBLENTER, db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER));
+		CheckDlgButton(hwndDlg, IDC_STATUSWIN, db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON));
 
-			CheckDlgButton(hwndDlg, IDC_HIDECONTAINERS, db_get_b(NULL, SRMMMOD, SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS));
+		CheckDlgButton(hwndDlg, IDC_HIDECONTAINERS, db_get_b(NULL, SRMMMOD, SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS));
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_STAYMINIMIZED), IsDlgButtonChecked(hwndDlg, IDC_AUTOPOPUP));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_POPLIST), IsDlgButtonChecked(hwndDlg, IDC_AUTOPOPUP));
-		}
+		EnableWindow(GetDlgItem(hwndDlg, IDC_STAYMINIMIZED), IsDlgButtonChecked(hwndDlg, IDC_AUTOPOPUP));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_POPLIST), IsDlgButtonChecked(hwndDlg, IDC_AUTOPOPUP));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -588,7 +582,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				DWORD msgTimeout;
 				db_set_dw(NULL, SRMMMOD, SRMSGSET_POPFLAGS, MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_POPLIST)));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_AUTOPOPUP, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOPOPUP));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_STAYMINIMIZED, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_STAYMINIMIZED));
@@ -596,8 +589,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SAVEDRAFTS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVEDRAFTS));
 
 				db_set_b(NULL, SRMMMOD, SRMSGSET_DELTEMP, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DELTEMP));
-				msgTimeout = GetDlgItemInt(hwndDlg, IDC_SECONDS, NULL, TRUE) >= SRMSGSET_MSGTIMEOUT_MIN / 1000 ? GetDlgItemInt(hwndDlg, IDC_SECONDS, NULL, TRUE) * 1000 : SRMSGDEFSET_MSGTIMEOUT;
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, msgTimeout);
+				db_set_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, (DWORD)SendDlgItemMessage(hwndDlg, IDC_SECONDSSPIN, UDM_GETPOS, 0, 0) * 1000);
 
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SENDONENTER));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SENDONDBLENTER));
@@ -643,6 +635,8 @@ static void ShowPreview(HWND hwndDlg)
 
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int bChecked;
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -669,32 +663,36 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(12 * 60, 0));
 		SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
-		CheckDlgButton(hwndDlg, IDC_SHOWLOGICONS, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS));
-		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, !db_get_b(NULL, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES));
-		CheckDlgButton(hwndDlg, IDC_SHOWTIMES, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME));
-		CheckDlgButton(hwndDlg, IDC_SHOWSECONDS, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-		CheckDlgButton(hwndDlg, IDC_SHOWDATES, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE));
-		CheckDlgButton(hwndDlg, IDC_USELONGDATE, db_get_b(NULL, SRMMMOD, SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE));
-		CheckDlgButton(hwndDlg, IDC_USERELATIVEDATE, db_get_b(NULL, SRMMMOD, SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-
+		CheckDlgButton(hwndDlg, IDC_USEIEVIEW, db_get_b(NULL, SRMMMOD, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW));
 		if (!g_dat.ieviewInstalled)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USEIEVIEW), FALSE);
 
-		CheckDlgButton(hwndDlg, IDC_USEIEVIEW, db_get_b(NULL, SRMMMOD, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW));
+		CheckDlgButton(hwndDlg, IDC_SHOWLOGICONS, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS));
+		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, !db_get_b(NULL, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES));
+
+		CheckDlgButton(hwndDlg, IDC_SHOWTIMES, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME));
+		bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), bChecked);
+		CheckDlgButton(hwndDlg, IDC_SHOWSECONDS, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS));
+		CheckDlgButton(hwndDlg, IDC_SHOWDATES, db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE));
+		bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), bChecked);
+		CheckDlgButton(hwndDlg, IDC_USELONGDATE, db_get_b(NULL, SRMMMOD, SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE));
+		CheckDlgButton(hwndDlg, IDC_USERELATIVEDATE, db_get_b(NULL, SRMMMOD, SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE));
 
 		CheckDlgButton(hwndDlg, IDC_GROUPMESSAGES, db_get_b(NULL, SRMMMOD, SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
 		CheckDlgButton(hwndDlg, IDC_MARKFOLLOWUPS, db_get_b(NULL, SRMMMOD, SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
+
 		CheckDlgButton(hwndDlg, IDC_MESSAGEONNEWLINE, db_get_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE));
 		CheckDlgButton(hwndDlg, IDC_DRAWLINES, db_get_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES));
 
 		CheckDlgButton(hwndDlg, IDC_INDENTTEXT, db_get_b(NULL, SRMMMOD, SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSIZE), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSPIN), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
+		bChecked = IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSIZE), bChecked);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSPIN), bChecked);
 		SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 		SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE));
 
@@ -729,19 +727,23 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_LOADUNREAD:
 		case IDC_LOADCOUNT:
 		case IDC_LOADTIME:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTN), IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTSPIN), IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTTEXT2), IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMEN), IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMESPIN), IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_STMINSOLD), IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
+			bChecked = IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTN), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTSPIN), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADCOUNTTEXT2), bChecked);
+			bChecked = IsDlgButtonChecked(hwndDlg, IDC_LOADTIME);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMEN), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMESPIN), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STMINSOLD), bChecked);
 			break;
 		case IDC_SHOWTIMES:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
+			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), bChecked);
 		case IDC_SHOWDATES:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
+			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), bChecked);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), bChecked);
 		case IDC_SHOWNAMES:
 		case IDC_SHOWSECONDS:
 		case IDC_USELONGDATE:
