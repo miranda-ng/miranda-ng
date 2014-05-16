@@ -589,6 +589,8 @@ Lien reçu
 
 [Info bar status message]
 
+[Line between messages]
+
 [Offline]
 Hors ligne
 [Online]

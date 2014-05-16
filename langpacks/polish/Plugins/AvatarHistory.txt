@@ -122,7 +122,7 @@ Zapisz awatar
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
 AVH Debug
-[Removed avatar, no avatar before...skipping]
+[Removed avatar, no avatar before... skipping]
 Usuwanie awataru, brak awataru... pomijanie
 [Hashes are the same... skipping]
 Sumy kontrolne są identyczne... Pominięto

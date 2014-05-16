@@ -589,6 +589,8 @@ Statusleisten Kontaktname
 Infoleiste Hintergrund
 [Info bar status message]
 Infoleiste Statusnachricht
+[Line between messages]
+
 [Offline]
 Offline
 [Online]

@@ -118,7 +118,7 @@
 [Save Avatar]
 Захаваць аватар
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Removed avatar, no avatar before...skipping]
+[Removed avatar, no avatar before... skipping]
 Аватара няма ці ён быў выдалены раней. Пропуск
 [Hashes are the same... skipping]
 Хэшы аднолькавыя. Пропуск

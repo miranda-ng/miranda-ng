@@ -589,6 +589,8 @@ Nazwa kontaktu w pasku informacyjnym
 Tło paska informacyjnego
 [Info bar status message]
 Opis w pasku informacyjnym
+[Line between messages]
+
 [Offline]
 Rozłączony
 [Online]

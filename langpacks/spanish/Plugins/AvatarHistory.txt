@@ -122,7 +122,7 @@ Previsualizar
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
 
-[Removed avatar, no avatar before...skipping]
+[Removed avatar, no avatar before... skipping]
 
 [Hashes are the same... skipping]
 

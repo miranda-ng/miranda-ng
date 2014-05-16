@@ -119,7 +119,7 @@
 Сохранить аватар
 [AVH Debug]
 Отладка AVH
-[Removed avatar, no avatar before...skipping]
+[Removed avatar, no avatar before... skipping]
 Аватар удалён, нет более ранних аватаров... пропускаем
 [Hashes are the same... skipping]
 Хэши аватаров совпадают... пропускаем

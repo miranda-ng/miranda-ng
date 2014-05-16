@@ -589,6 +589,8 @@ URL entrante
 
 [Info bar status message]
 
+[Line between messages]
+
 [Offline]
 Fuera de línea
 [Online]

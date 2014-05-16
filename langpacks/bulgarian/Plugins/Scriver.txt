@@ -589,6 +589,8 @@ Latin I
 Фон на информационната лента
 [Info bar status message]
 Текст за състояние в информационната лента
+[Line between messages]
+
 [Offline]
 Извън линия
 [Online]

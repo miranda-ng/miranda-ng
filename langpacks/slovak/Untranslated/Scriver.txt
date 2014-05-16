@@ -242,6 +242,7 @@
 [Info bar contact name]
 [Info bar background]
 [Info bar status message]
+[Line between messages]
 [** New contacts **]
 [Show balloon popup (unsupported system)]
 [Message Sessions]

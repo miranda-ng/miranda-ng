@@ -117,8 +117,8 @@
 Зберегти аватар %s
 [Save Avatar]
 Зберегти аватар
-[Removed avatar, no avatar before...skipping]
-Видалений аватар, небуло раніше аватару...пропустити
+[Removed avatar, no avatar before... skipping]
+Видалений аватар, небуло раніше аватару... пропустити
 [Hashes are the same... skipping]
 Хеши ті ж самі...пропустити
 [Avatar History: Unable to save avatar]
