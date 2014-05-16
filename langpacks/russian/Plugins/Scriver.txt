@@ -22,9 +22,9 @@
 [Hide windows on close]
 Прятать окна при закрытии
 [Send message on 'Enter']
-Посылать по Enter
+Отправлять по Enter
 [Send message on double 'Enter']
-Посылать по двойному Enter
+Отправлять по двойному Enter
 [Remember unsent messages]
 Помнить неотправленные сообщения
 [Delete temporary contacts on closing]
@@ -464,7 +464,7 @@ Yahoo
 [Action: Quote]
 Действие: Цитировать
 [Action: Send to all]
-Действие: Послать всем
+Действие: Отправить всем
 [Action: Paste and send]
 Действие: Вставить и отправить
 [Quote]

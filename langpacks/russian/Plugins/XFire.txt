@@ -58,7 +58,7 @@
 [Blocked User List]
 Заблокированный список пользователей
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
-Этот список содержит заблокированных пользователей. Вы можете удалить одного, что позволит ему посылать вам сообщения.
+Этот список содержит заблокированных пользователей. Вы можете удалить одного, что позволит ему отправлять вам сообщения.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Вы можете просто заблокировать кого-нибудь, щелчком правой кнопки по пользователю в списке контактов...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]

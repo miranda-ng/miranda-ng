@@ -228,7 +228,7 @@ Wildcard поиск по сети
 [Auto-accept from:]
 Автоприем от:
 [Send notice]
-Послать уведомление
+Отправить уведомление
 [CTCP Chat Request]
 Запрос на СТСР-чат
 [&Accept]
@@ -650,7 +650,7 @@ WallOps от %s:\s
 [&Invite to channel]
 &Пригласить
 [Send &notice]
-Посылать &уведомление
+Отправить &уведомление
 [&Slap]
 &Шлепок
 [Nickserv info]

@@ -6,9 +6,9 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 [Allows you to send and receive contacts.]
-Позволяет вам посылать и получать контакты.
+Позволяет вам отправлять и принимать контакты.
 [Send contacts]
-Послать контакты
+Отправить контакты
 [&Add]
 &Добавить
 [&User menu]
@@ -48,7 +48,7 @@
 [Send Message]
 Отправить
 [Contacts received from]
-Получены контакты от
+Приняты контакты от
 [Contacts]
 Контакты
 [Incoming Contacts]

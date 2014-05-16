@@ -14,7 +14,7 @@
 [Contact]
 Контакт
 [Forward when your status is...]
-Персылать, если ваш статус...
+Пересылать, если ваш статус...
 [Offline]
 Не в сети
 [Online]
@@ -42,7 +42,7 @@
 [Split message (%m)]
 Разделить сообщение (%m)
 [Send only first]
-Отсылать первые
+Отправлять первые
 [Max size of split part (chars)]
 Макс. размер части (симв.)
 [Mark received messages as 'read']

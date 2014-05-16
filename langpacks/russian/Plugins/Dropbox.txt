@@ -28,7 +28,7 @@
 [Check status of authorization]
 Проверить статус авторизации
 [Autosend download link to contact]
-Автоматически отсылать ссылку контакту
+Автоматически отправлять ссылку контакту
 [Paste download link into message input area]
 Вставить сылку в поле ввода
 [Copy download link to clipboard]

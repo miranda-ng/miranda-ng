@@ -6,7 +6,7 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-Плагин позволяет загрузить файл на FTP сервер с помощью Miranda NG и послать ссылку своим контактам.
+Плагин позволяет загрузить файл на FTP сервер с помощью Miranda NG и отправить ссылку своим контактам.
 [FTP accounts]
 Учётные записи FTP
 [Host name]
@@ -38,7 +38,7 @@
 [Copy download link to message log]
 Копировать ссылку в лог сообщений
 [Autosend download link to contact]
-Отослать ссылку автоматически
+Автоматически отправить ссылку
 [Menu items]
 Пункты в меню
 [Use submenu (restart required)]

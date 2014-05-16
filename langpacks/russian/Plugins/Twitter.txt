@@ -18,7 +18,7 @@
 [<Sign in to link your Twitter account>]
 <Войдите, чтобы подключить учётную запись Twitter>
 [Send Tweet]
-Послать Tweet
+Отправить твит
 [Send]
 Отправить
 [Cancel]
@@ -72,7 +72,7 @@ URL:
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (еще раз с PIN-кодом)
 [Send Tweet...]
-Послать твит...
+Отправить твит...
 [Network]
 Сеть
 [Basic]

@@ -52,9 +52,9 @@
 [These settings are also used when sending a "Simple" pounce]
 Эти настройки также используются для "простых" отлож.сообщений
 [Send If My Status Is...]
-Посылать, если мой статус...
+Отправлять, если мой статус...
 [Send If They Change Status to...]
-Посылать, если они изменяют статус на...
+Отправлять, если они изменяют статус на...
 [Reuse Pounce]
 Повторить отложенное
 [Give Up delay]
@@ -62,7 +62,7 @@
 [Confirmation Window]
 Окно подтверждения
 [Send If My Status Is]
-Посылать, если мой статус
+Отправлять, если мой статус
 [Any]
 Любое
 [Online]
@@ -84,7 +84,7 @@
 [Out To Lunch]
 Обедаю
 [Send If Their Status changes]
-Посылать, если они изменяют статус
+Отправлять, если они изменяют статус
 [From Offline]
 Из оффлайна
 [To Online]

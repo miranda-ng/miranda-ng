@@ -110,7 +110,7 @@ URL:
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Что-то происходит с сервисом Facebook. Возможно там было крупное обновление, в таком случае подождите обновления с нашей стороны.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново послать сообщение этому контакту!
+Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново отправить сообщение этому контакту!
 [Timeout when sending message.]
 Таймаут отсылки сообщения.
 [Status update was successful.]

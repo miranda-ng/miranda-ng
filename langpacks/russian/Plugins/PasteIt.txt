@@ -18,7 +18,7 @@
 [Show confirmation dialog box]
 Показывать диалоговое окно подтверждения
 [Autosend download link to contact]
-Отослать ссылку автоматически
+Отправить ссылку автоматически
 [Web page settings]
 Настройки web-страницы
 [Web page to configure]

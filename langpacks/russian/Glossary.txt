@@ -1,3 +1,6 @@
 ﻿account - учётная запись
 contact list - список контактов
+forward - пересылка
 icon - значок
+receive - приём
+send - отправка

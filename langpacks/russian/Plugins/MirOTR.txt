@@ -202,7 +202,7 @@ OTR идентификация: %s (%s)
 [Authentication sucessful.]
 Успешная идентификация.
 [You contact authenticated you sucessful. You can send your own request to authenticate him.]
-Ваш контакт успешно идентифицирован. Вы можете послать ваш собственный запрос идентификации.
+Ваш контакт успешно идентифицирован. Вы можете отправить ваш собственный запрос идентификации.
 [Error during authentication.]
 Ошибка при идентификации
 [Authentication failed]

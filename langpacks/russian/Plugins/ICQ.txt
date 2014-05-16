@@ -88,7 +88,7 @@
 [Enable unicode messaging support]
 Включить поддержку Unicode
 [Send all messages in unicode if possible]
-Отсылать в Unicode (если возможно)
+Отправлять в Unicode (если возможно)
 [Use this codepage for Ansi <-> Unicode translation:]
 Перекодировка ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]

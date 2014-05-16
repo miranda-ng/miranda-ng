@@ -112,7 +112,7 @@ SMS подтверждение от %s
 [<< Single]
 <<Одному
 [Send &SMS...]
-Послать SMS...
+Отправить SMS...
 [&SMS Message]
 Сообщение SMS
 [Incoming SMS Message]

@@ -402,7 +402,7 @@ RTL шаблоны...
 [Typing Notification]
 Уведомление о наборе текста
 [Send typing notifications to the following users when you are typing a message to the them:]
-Посылать уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
+Отправлять уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
 [        Show typing notifications in the message window]
        Показывать уведомление о наборе в окне сообщений
 [Flash window once on typing events (only if flashing enabled)]
@@ -654,11 +654,11 @@ Esc закрывает сессию (иначе - сворачивает)
 [Create new windows in minimized state]
 Создавать новые окна свёрнутыми
 [Send on Shift+Enter]
-Посылать по Shift+Enter
+Отправлять по Shift+Enter
 [Send message on 'Enter']
-Посылать по "Enter"
+Отправлять по "Enter"
 [Send message on double 'Enter']
-Посылать по двойному "Enter"
+Отправлять по двойному "Enter"
 [Minimize the message window on send]
 Сворачивать окно после отправки
 [Tabs:]
@@ -686,7 +686,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Other events]
 Другие события
 [Send message on Ctrl+Enter (always enabled)]
-Посылать по Ctrl+Enter (всегда включено)
+Отправлять по Ctrl+Enter (всегда включено)
 [&Copy]
 &Копировать
 [&Quote]
@@ -750,13 +750,13 @@ Esc закрывает сессию (иначе - сворачивает)
 [&For this Contact...]
 &Для этого контакта...
 [Send &Default]
-Посылать &обычно
+Отправить &обычно
 [Send to &multiple Users]
-Послать &нескольким
+Отправить &нескольким
 [Send to &Container]
-Послать всему &контейнеру
+Отправить всему &контейнеру
 [Send &Later]
-Послать &позже
+Отправить &позже
 [Force &ANSI]
 Принудительно &ANSI
 [Send unsafe (ignore Timeouts)]
@@ -1102,7 +1102,7 @@ TabSRMM: Набирает
 [Send nudge]
 Встряхнуть
 [Send a file]
-Послать файл
+Отправить файл
 [Quote message]
 Цитировать сообщение
 [Toggle send later]
@@ -1230,7 +1230,7 @@ TabSRMM: Набирает
 [Retry]
 Ещё раз
 [Send later]
-Послать позже
+Отправить позже
 [Selection copied to clipboard]
 Выделенный текст скопирован в буфер
 [Delivery failure: %s]

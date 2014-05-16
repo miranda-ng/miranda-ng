@@ -166,7 +166,7 @@
 [Show typing notifications]
 Отображать
 [Send typing notifications]
-Отсылать
+Отправлять
 [Maximizing]
 Полный экран
 [When maximized:]

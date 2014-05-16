@@ -56,7 +56,7 @@ E-mail:
 [Automatically reconnect after unintentional disconnection]
 Переподключиться после неожиданного разрыва
 [Send messages slower, but with full acknowledgement]
-Отсылать сообщения медленнее, но с подтверждением
+Отправлять сообщения медленнее, но с подтверждением
 [Manually specify connection servers' hosts]
 Указать серверы вручную
 [* new line is separator\n** hostname:port format]

@@ -686,7 +686,7 @@ xHTML формат чат сообщений
 [Reason to destroy %s]
 Причина уничтожения %s
 [Can't send data while you are offline.]
-Невозможно послать - не в сети.
+Невозможно отправить - не в сети.
 [Jabber Error]
 Jabber ошибка
 [request timeout.]
@@ -1366,7 +1366,7 @@ Jabber ошибка
 [Messaging]
 Сообщения
 [Send messages slower, but with full acknowledgement]
-Отсылать сообщения медленнее, но с подтверждением
+Отправлять сообщения медленнее, но с подтверждением
 [Enable avatars]
 Включить аватары
 [Log chat state changes]
@@ -1416,7 +1416,7 @@ Jabber ошибка
 [Allow servers to request version (XEP-0092)]
 Отвечать серверу на запросы о версиях ПО (XEP-0092)
 [Show information about operating system in version replies]
-Посылать информацию об операционной системе в запросах версии
+Отправлять информацию об операционной системе в запросах версии
 [Accept only in band incoming filetransfers (don't disclose own IP)]
 Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]

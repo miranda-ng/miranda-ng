@@ -78,7 +78,7 @@
 [Shaking Message Window Options]
 Тряска окна сообщений
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Нельзя посылать много встрясок (только 1 каждые %d сек, %d сек осталось)
+Нельзя отправлять много встрясок (только 1 каждые %d сек, %d сек осталось)
 [Nudge]
 Тряска
 [Default Nudge]

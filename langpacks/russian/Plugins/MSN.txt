@@ -258,7 +258,7 @@ Live уведомление
 [Protocol is offline]
 Протокол не в сети
 [You cannot send message to yourself]
-Вы не можете посылать сообщения самому себе
+Вы не можете отправлять сообщения самому себе
 [Message is too long: SMS page limited to 133 UTF8 chars]
 Слишком большое сообщение, максимум 133 символа UTF8
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
