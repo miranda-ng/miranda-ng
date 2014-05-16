@@ -5,7 +5,77 @@
 ;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Supporto del protocollo WhatsApp per Miranda NG.
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Phone-Number]
+Numero di telefono
+[Including country code, without '+' or '00']
+Compreso il codice del paese, senza '+' o '00'
+[Nickname]
+nome
+[Password]
+Password
+[Request Code]
+Codice Richiesta
+[Register Code]
+Codice Rgistrazione
+[SMS-Code:]
+SMS-Codice:
+[Will only be used for registration]
+Saranno utilizzati solo per la registrazione
+[Paste password from WART utility]
+Incolla la password dall'utility WART
+[Use WART utility from Plugins folder for registering your number and generating password]
+Usa l'utility WART (dalla cartella Plugins) per registrare il tuo numero e la generazione della password
+[Use SSL connection (443 port)]
+Usa connessione SSL (porta 443)
 [Cancel]
 Annulla
+;file \protocols\WhatsApp\src\connection.cpp
+[Please enter a country-code.]
+Inserire codice del paese (39)
+[Please enter a phone-number without country code.]
+Inserire in numero di telefono senza il codice paese (39)
+[Please enter a nickname.]
+Inserire il nome.
+[Please enter a password.]
+Inserire la password.
+;file \protocols\WhatsApp\src\dialogs.cpp
+[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+Un SMS con la registrazione-codice verrà inviato al tuo telefono cellulare. \nSi noti che non siete in grado di utilizzare il vero WhatsApp e questo plugin contemporaneamente! \nContinuare?
+[Please correctly specify your registration code received by SMS]
+Si prega di inserire correttamente il codice di registrazione ricevuto via SMS
+[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+La tua password è stata impostata automaticamente. \nSe si modifica la password manualmente si può perdere e necessario richiedereun nuovo codice!
+;file \protocols\WhatsApp\src\main.cpp
+[Did not unpack registration utility WART-1.5.4.0.exe.]
+Non decomprimere utilità di registrazione WART-1.5.4.0.exe.
+;file \protocols\WhatsApp\src\proto.cpp
+[%s server connection]
+%s connessione server
+[Unable to get Netlib connection for WhatsApp]
+Impossibile ottenere la connessione Netlib per WhatsApp
+[Network-connection error.]
+Errore di connessione alla rete
 [Network]
 Rete
+[Account]
+Account
+;file \protocols\WhatsApp\src\theme.cpp
+[WhatsApp Icon]
+Icone WhatsApp
+[Add To Group]
+Aggiungi al gruppo
+[Create Chat Group]
+Creare Gruppo Chat
+[Remove From Chat Group]
+Rimuovere dal Gruppo Chat
+[Leave And Delete Group]
+Lascia ed elimina il Gruppo
+[Leave Group]
+Lascia il Gruppo
+[Change Group Subject]
+Cambiare Oggetto del Gruppo
+[Create Group]
+Crea Gruppo
