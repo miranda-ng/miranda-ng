@@ -590,7 +590,7 @@ Tło paska informacyjnego
 [Info bar status message]
 Opis w pasku informacyjnym
 [Line between messages]
-
+Linia pomiędzy wiadomościami
 [Offline]
 Rozłączony
 [Online]
