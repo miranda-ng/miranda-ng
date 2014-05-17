@@ -75,7 +75,7 @@ int UnpackRegisterUtility(HINSTANCE hInstance, const wchar_t *profileName)
 	wchar_t *RegisterUtilityPath = ::wcsrchr(fileName, '\\');
 	if (RegisterUtilityPath != NULL)
 		*RegisterUtilityPath = 0;
-	::mir_snwprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"WART-1.6.3.0.exe");
+	::mir_snwprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"WART-1.6.8.0.exe");
 	if ( ::GetFileAttributes(fileName) == DWORD(-1))
 	{
 		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(IDR_REGISTERUTILITY), L"BIN");
@@ -204,7 +204,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	if ( !UnpackRegisterUtility(g_hInstance, (TCHAR *)profilename))
 	{
-		::MessageBox(NULL, TranslateT("Did not unpack registration utility WART-1.5.4.0.exe."), _T("WhatsApp"), MB_OK | MB_ICONERROR);
+		::MessageBox(NULL, TranslateT("Did not unpack registration utility WART-1.6.8.0.exe."), _T("WhatsApp"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
