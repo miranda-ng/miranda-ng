@@ -135,7 +135,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	return ret;
 }
 
-int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
+int InitOptionsCallback(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -200000000;
