@@ -164,7 +164,7 @@ IDI_REMOVE_USER_FROM_GROUP ICON                    "remove-user-from-group.ico"
 // BIN
 //
 
-IDR_REGISTERUTILITY     BIN                     "WART-1.6.3.0.exe"
+IDR_REGISTERUTILITY     BIN                     "WART-1.6.8.0.exe"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
