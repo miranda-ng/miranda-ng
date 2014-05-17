@@ -35,6 +35,7 @@
 #define IDI_GOOGLE_TRANSLATE            145
 #define IDI_YAHOO                       146
 #define IDI_FOODNETWORK                 147
+#define IDI_LASTICON                    148
 #define IDR_CONTEXT                     180
 #define IDD_CHANNEL                     401
 #define IDD_OPTIONS1                    402
@@ -152,6 +153,7 @@
 #define IDC_ITRANSPARENCYVALUE          1621
 #define IDC_ITRANSPARENCYPERC           1622
 #define IDC_ALWAYSSHOWTABS              1623
+#define IDC_SENDALL                     1624
 #define IDC_TRANSPARENCYTEXT1           1627
 #define IDC_TRANSPARENCYTEXT2           1628
 #define IDC_DRAWLINES                   1629
@@ -237,6 +239,7 @@
 #define IDM_COPYLINK                    40016
 #define IDM_CLOSETAB                    40020
 #define IDM_CLOSEOTHERTABS              40021
+#define IDM_TOPMOST                     40040
 #define IDM_SEARCH_GOOGLE               40080
 #define IDM_SEARCH_BING                 40081
 #define IDM_SEARCH_YANDEX               40082
