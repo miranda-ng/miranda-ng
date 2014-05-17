@@ -743,6 +743,24 @@ void PlayChangeSound(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 int ContactStatusChanged(MCONTACT hContact, WORD oldStatus,WORD newStatus)
 {
+	if(opt.LogToDB && (!opt.CheckMessageWindow || CheckMsgWnd(hContact))) {
+		TCHAR stzStatusText[MAX_SECONDLINE] = {0};
+		GetStatusText(hContact,newStatus,oldStatus,stzStatusText);
+		char *blob = mir_utf8encodeT(stzStatusText);
+
+		DBEVENTINFO dbei = {0};
+		dbei.cbSize = sizeof(dbei);
+		dbei.cbBlob = (DWORD)strlen(blob) + 1;
+		dbei.pBlob = (PBYTE) blob;
+		dbei.eventType = EVENTTYPE_STATUSCHANGE;
+		dbei.flags = DBEF_READ | DBEF_UTF;
+
+		dbei.timestamp = (DWORD)time(NULL);
+		dbei.szModule = MODULE;
+		HANDLE hDBEvent = db_event_add(hContact, &dbei);
+		mir_free(blob);
+	}	
+
 	bool bEnablePopup = true, bEnableSound = true;
 
 	char *szProto = GetContactProto(hContact);
@@ -823,24 +841,6 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus,WORD newStatus)
 
 	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && db_get_b(hContact, MODULE, "EnableSounds", 1))
 		PlayChangeSound(hContact, oldStatus, newStatus);
-
-	if(opt.LogToDB && (!opt.CheckMessageWindow || CheckMsgWnd(hContact))) {
-		TCHAR stzStatusText[MAX_SECONDLINE] = {0};
-		GetStatusText(hContact,newStatus,oldStatus,stzStatusText);
-		char *blob = mir_utf8encodeT(stzStatusText);
-
-		DBEVENTINFO dbei = {0};
-		dbei.cbSize = sizeof(dbei);
-		dbei.cbBlob = (DWORD)strlen(blob) + 1;
-		dbei.pBlob = (PBYTE) blob;
-		dbei.eventType = EVENTTYPE_STATUSCHANGE;
-		dbei.flags = DBEF_READ | DBEF_UTF;
-
-		dbei.timestamp = (DWORD)time(NULL);
-		dbei.szModule = MODULE;
-		HANDLE hDBEvent = db_event_add(hContact, &dbei);
-		mir_free(blob);
-	}
 
 	if (opt.Log) {
 		TCHAR stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[1024];
