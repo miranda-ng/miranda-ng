@@ -88,7 +88,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load()
 {
 	SkinAddNewSoundEx("Gmail", "Other", "Gmail: New Thread(s)");
-	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrower);
+	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = pluginName;

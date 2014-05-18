@@ -1,6 +1,6 @@
 #include "gmail.h"
 
-int OpenBrower(WPARAM hContact, LPARAM lParam)
+int OpenBrowser(WPARAM hContact, LPARAM lParam)
 {
 	char *proto = GetContactProto(hContact);
 	if (proto && !lstrcmpA(proto, pluginName)) {
@@ -23,11 +23,11 @@ int OpenBrower(WPARAM hContact, LPARAM lParam)
 
 INT_PTR Notifying(WPARAM wParam, LPARAM lParam)
 {
-	OpenBrower(((CLISTEVENT*)lParam)->hContact, 0);
+	OpenBrowser(((CLISTEVENT*)lParam)->hContact, 0);
 	return 0;
 }
 
-static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = PUGetContact(hWnd);
 	Account *curAcc = GetAccountByContact(hContact);
@@ -39,7 +39,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED)
-			OpenBrower((WPARAM)hContact, 0);
+			OpenBrowser((WPARAM)hContact, 0);
 		break;
 	
 	case WM_CONTEXTMENU:

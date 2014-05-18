@@ -87,7 +87,7 @@ void NotifyUser(Account *);
 int OptInit(WPARAM, LPARAM);
 void Check_ThreadFunc(LPVOID);
 void Login_ThreadFunc(LPVOID);
-int OpenBrower(WPARAM , LPARAM);
+int OpenBrowser(WPARAM , LPARAM);
 int ParsePage(char *, resultLink *);
 void DeleteResults(resultLink *);
 void BuildList(void);
