@@ -15,34 +15,38 @@
 Отмена
 [General]
 Общие
-[...avatar]
-...аватар
 [RTL]
 RTL
 [Align text to right]
 Выровнять справа
-[...nickname]
-...ник
 [Auto-resize frame]
 Выравнивать фрейм
 [Use contact list smileys]
 Смайлы спиcка контактов
-[...status]
-...статус
 [Replace Smileys]
 Заменять смайлы
 [Resize Smileys]
 Изменять размер смайлов
+[Global On...]
+Глобальный...
+[...avatar]
+...аватар
+[...nickname]
+...ник
+[...status]
+...статус
 [...status message]
 ...статусное сообщение
-[Top:]
-Верх:
-[Bottom:]
-Низ:
-[Left:]
-Лево:
-[Right:]
-Право:
+[Account]
+Учётная запись
+[Show account name]
+Показывать имя учётной записи
+[Show account cycle button]
+Кнопки смены учётных записей
+[Cycle through accounts every:]
+Менять учётные записи каждые:
+[seconds]
+секунд
 [Avatar]
 Аватар
 [Custom size:]
@@ -59,20 +63,16 @@ RTL
 Размер угла:
 [Use free space (under avatar) to other texts]
 Использовать свободное место (под аватарами) для текста
-[Global On...]
-Глобальный...
 [Frame Options]
 Настройки фрейма
-[Cycle through accounts every:]
-Менять учётные записи каждые:
-[seconds]
-секунд
-[Account]
-Учётная запись
-[Show account name]
-Показывать имя учётной записи
-[Show account cycle button]
-Кнопки смены учётных записей
+[Top:]
+Верх:
+[Bottom:]
+Низ:
+[Left:]
+Лево:
+[Right:]
+Право:
 [Set My Status Message for All Status]
 Статусное сообщение для всех статусов
 [Status Message:]
