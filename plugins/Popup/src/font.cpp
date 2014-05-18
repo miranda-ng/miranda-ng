@@ -34,38 +34,39 @@ void InitFonts() {
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
-	lstrcpyn(fid.backgroundGroup,_T(PU_FNT_AND_COLOR), SIZEOF(fid.backgroundGroup));
-	lstrcpyn(fid.backgroundName,PU_COL_BACK_NAME, SIZEOF(fid.backgroundName));
+	lstrcpyn(fid.backgroundGroup, _T(PU_FNT_AND_COLOR), SIZEOF(fid.backgroundGroup));
+	lstrcpyn(fid.backgroundName, PU_COL_BACK_NAME, SIZEOF(fid.backgroundName));
 	lstrcpyn(fid.deffontsettings.szFace, _T("Tahoma"), SIZEOF(fid.deffontsettings.szFace));
 
 	lstrcpyn(fid.name, _T(PU_FNT_NAME_TITLE), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style  = DBFONTF_BOLD;
-	fid.deffontsettings.colour = RGB(0,0,0);
+	fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterT(&fid);
 
 	lstrcpyn(fid.name, _T(PU_FNT_NAME_CLOCK), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
 	//fid.deffontsettings.style  = DBFONTF_BOLD;
-	//fid.deffontsettings.colour = RGB(0,0,0);
+	//fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterT(&fid);
 
 	lstrcpyn(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style  = 0;
-	//fid.deffontsettings.colour = RGB(0,0,0);
+	//fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterT(&fid);
 
 	lstrcpyn(fid.name, _T(PU_FNT_NAME_ACTION), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
-	//fid.deffontsettings.style  = 0;
-	fid.deffontsettings.colour = RGB(0,0,255);
+	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
+	//fid.deffontsettings.style = 0;
+	fid.deffontsettings.colour = RGB(0, 0, 255);
 	FontRegisterT(&fid);
 
 	lstrcpyn(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
-	fid.deffontsettings.style  = DBFONTF_UNDERLINE;
-	//fid.deffontsettings.colour = RGB(0,0,255);
+	fid.deffontsettings.style = DBFONTF_UNDERLINE;
+	//fid.deffontsettings.colour = RGB(0, 0, 255);
 	FontRegisterT(&fid);
 
 	ColourIDT cid = {0};
@@ -95,49 +96,49 @@ void ReloadFonts()
 	if (fonts.action)		DeleteObject(fonts.action);
 	if (fonts.actionHover)	DeleteObject(fonts.actionHover);
 
-	LOGFONT lf	= {0};
-	FontIDT fid	= {0};
-	fid.cbSize	= sizeof(FontIDT);
-	lstrcpyn(fid.group, _T(PU_FNT_AND_COLOR),SIZEOF(fid.name));
+	LOGFONT lf = {0};
+	FontIDT fid = {0};
+	fid.cbSize = sizeof(FontIDT);
+	lstrcpyn(fid.group, _T(PU_FNT_AND_COLOR), SIZEOF(fid.name));
 
-	lstrcpyn(fid.name, _T(PU_FNT_NAME_TITLE),SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_TITLE), SIZEOF(fid.name));
 	fonts.clTitle = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.title = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, _T(PU_FNT_NAME_CLOCK),SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_CLOCK), SIZEOF(fid.name));
 	fonts.clClock = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.clock = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, _T(PU_FNT_NAME_TEXT),SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name));
 	fonts.clText = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.text = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, _T(PU_FNT_NAME_ACTION),SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_ACTION), SIZEOF(fid.name));
 	fonts.clAction = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.action = CreateFontIndirect(&lf);
 
-	lstrcpyn(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION),SIZEOF(fid.name));
+	lstrcpyn(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION), SIZEOF(fid.name));
 	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.actionHover = CreateFontIndirect(&lf);
 
 	ColourIDT cid = {0};
 	cid.cbSize = sizeof(ColourIDT);
-	lstrcpyn(cid.group, _T(PU_FNT_AND_COLOR),SIZEOF(cid.group));
-	lstrcpyn(cid.name,  PU_COL_BACK_NAME,SIZEOF(cid.name));
+	lstrcpyn(cid.group, _T(PU_FNT_AND_COLOR), SIZEOF(cid.group));
+	lstrcpyn(cid.name, PU_COL_BACK_NAME, SIZEOF(cid.name));
 	fonts.clBack = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, (LPARAM)&lf);
 
-	lstrcpyn(cid.group, _T(PU_FNT_AND_COLOR),SIZEOF(cid.group));
-	lstrcpyn(cid.name,  PU_COL_AVAT_NAME,SIZEOF(cid.name));
+	lstrcpyn(cid.group, _T(PU_FNT_AND_COLOR), SIZEOF(cid.group));
+	lstrcpyn(cid.name, PU_COL_AVAT_NAME, SIZEOF(cid.name));
 	fonts.clAvatarBorder = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, (LPARAM)&lf);
 
 	//update class popupps(only temp at this point, must rework)
 	char setting[256];
-	for(int i=0; i < gTreeData.getCount(); i++) {
+	for (int i = 0; i < gTreeData.getCount(); i++) {
 		if (gTreeData[i]->typ == 2) {
 			mir_snprintf(setting, 256, "%s/TextCol", gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText = 
 				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
-			mir_snprintf(setting, 256, "%s/BgCol",   gTreeData[i]->pupClass.pszName);
+			mir_snprintf(setting, 256, "%s/BgCol", gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorBack = gTreeData[i]->pupClass.colorBack = 
 				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 		}

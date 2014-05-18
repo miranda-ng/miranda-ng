@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PU_FNT_NAME_CLOCK		LPGEN("Clock")
 #define PU_FNT_NAME_TEXT		LPGEN("Text")
 #define PU_FNT_NAME_ACTION		LPGEN("Action")
-#define PU_FNT_NAME_HOVERED_ACTION LPGEN("Hovered Action")
+#define PU_FNT_NAME_HOVERED_ACTION LPGEN("Hovered action")
 
 #define PU_COL_BACK_NAME		LPGENT("Background")
 #define PU_COL_BACK_SETTING		"ColourBg"
@@ -43,7 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PU_COL_SIDE_SETTING		"ColourSidebar"
 #define PU_COL_LINE_NAME		LPGENT("Title underline")
 #define PU_COL_LINE_SETTING		"ColourUnderline"
-#define PU_COL_AVAT_NAME		LPGENT("Avatar Border")
+#define PU_COL_AVAT_NAME		LPGENT("Avatar border")
 #define PU_COL_AVAT_SETTING		"ColourAvatarBorder"
 
 struct PopupFonts
