@@ -77,13 +77,12 @@ void FacebookProto::ChangeStatus(void*)
 
 		ResetEvent(update_loop_lock_);
 
-		if (NegotiateConnection() && facy.home())
+		if (NegotiateConnection() && facy.home() && facy.reconnect())
 		{		
-			facy.reconnect();
-			facy.load_friends();
-			facy.load_pages();
+			// Load all friends
+			ProcessFriendList(NULL);
 
-			// Process Friends requests
+			// Process friendship requests
 			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 
 			// Get unread messages
@@ -91,6 +90,9 @@ void FacebookProto::ChangeStatus(void*)
 
 			// Get notifications
 			ForkThread(&FacebookProto::ProcessNotifications, NULL);
+
+			// Load pages for post status dialog
+			ForkThread(&FacebookProto::ProcessPages, NULL);
 
 			setDword("LogonTS", (DWORD)time(NULL));
 			ForkThread(&FacebookProto::UpdateLoop,  NULL);
@@ -122,7 +124,8 @@ void FacebookProto::ChangeStatus(void*)
 	}
 
 	facy.chat_state(m_iDesiredStatus != ID_STATUS_INVISIBLE);
-	facy.buddy_list();
+
+	ForkThread(&FacebookProto::ProcessBuddyList, NULL);
 
 	m_iStatus = facy.self_.status_id = m_iDesiredStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -175,16 +178,14 @@ void FacebookProto::UpdateLoop(void *)
 
 	for (int i = -1; !isOffline(); i = ++i % 50)
 	{
-		if (i != -1) {
-			if (!facy.buddy_list())
-    			break;
-		}
+		if (i != -1)
+			ProcessBuddyList(NULL);
+
 		if (i == 2 && getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
-			if (!facy.feeds())
-				break;
+			ProcessFeeds(NULL);
 
 		if (i == 49)
-			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
+			ProcessFriendRequests(NULL);
 
 		debugLogA("***** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
 		if (WaitForSingleObjectEx(update_loop_lock_, GetPollRate() * 1000, true) != WAIT_TIMEOUT)

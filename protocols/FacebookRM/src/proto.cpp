@@ -523,7 +523,7 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Loading newsfeeds..."));
-		facy.feeds();
+		ForkThread(&FacebookProto::ProcessFeeds, NULL);
 	}
 	return 0;
 }
@@ -541,7 +541,7 @@ INT_PTR FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Refreshing buddy list..."));
-		facy.buddy_list();
+		ForkThread(&FacebookProto::ProcessBuddyList, NULL);
 	}
 	return 0;
 }

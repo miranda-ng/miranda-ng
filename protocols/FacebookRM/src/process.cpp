@@ -22,24 +22,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void FacebookProto::ProcessBuddyList(void* data)
+void FacebookProto::ProcessBuddyList(void*)
 {
-	if (data == NULL)
-		return;
-
 	ScopedLock s(facy.buddies_lock_);
 
-	std::string* resp = (std::string*)data;
-
 	if (isOffline())
-		goto exit;
+		return;
+
+	facy.handle_entry("ProcessBuddyList");
+
+	// Prepare update data
+	std::string post_data = "user=" + facy.self_.user_id + "&fetch_mobile=true&phstamp=0&fb_dtsg=" + facy.dtsg_ + "&__user=" + facy.self_.user_id + "&cached_user_info_ids=";
+	
+	int counter = 0;
+	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL; i = i->next, counter++)
+	{
+		post_data += i->data->user_id + "%2C";
+	}
+
+	// Get buddy list
+	http::response resp = facy.flap(REQUEST_BUDDY_LIST, &post_data);
+
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("buddy_list");
+		return;
+	}
 
 	debugLogA("***** Starting processing buddy list");
 
 	CODE_BLOCK_TRY
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_buddy_list(data, &facy.buddies);
+	p->parse_buddy_list(&resp.data, &facy.buddies);
 	delete p;
 
 	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL;)
@@ -130,17 +144,24 @@ void FacebookProto::ProcessBuddyList(void* data)
 	debugLogA("***** Error processing buddy list: %s", e.what());
 
 	CODE_BLOCK_END
-
-exit:
-	delete resp;
 }
 
-void FacebookProto::ProcessFriendList(void* data)
+void FacebookProto::ProcessFriendList(void*)
 {
-	if (data == NULL)
+	ScopedLock s(facy.buddies_lock_);
+
+	if (isOffline())
 		return;
 
-	std::string* resp = (std::string*)data;
+	facy.handle_entry("load_friends");
+
+	// Get buddy list
+	http::response resp = facy.flap(REQUEST_LOAD_FRIENDS);
+
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("load_friends");
+		return;
+	}	
 
 	debugLogA("***** Starting processing friend list");
 
@@ -149,7 +170,7 @@ void FacebookProto::ProcessFriendList(void* data)
 	std::map<std::string, facebook_user*> friends;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_friends(data, &friends);
+	p->parse_friends(&resp.data, &friends);
 	delete p;
 
 
@@ -234,7 +255,7 @@ void FacebookProto::ProcessFriendList(void* data)
 	// Check remaining contacts in map and add them to contact list
 	for (std::map< std::string, facebook_user* >::iterator it = friends.begin(); it != friends.end(); ) {
 		if (!it->second->deleted)
-			AddToContactList(it->second, CONTACT_FRIEND, true); // there could be race-condition between this thread and channel/buddy_list thread, so this contact might be created already
+			AddToContactList(it->second, CONTACT_FRIEND, true); // we know this contact doesn't exists, so we force add it
 
 		delete it->second;
 		it = friends.erase(it);
@@ -248,8 +269,6 @@ void FacebookProto::ProcessFriendList(void* data)
 	debugLogA("***** Error processing friend list: %s", e.what());
 
 	CODE_BLOCK_END
-
-	delete resp;
 }
 
 void FacebookProto::ProcessUnreadMessages(void*)
@@ -269,30 +288,30 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
 
-	if (resp.code == HTTP_CODE_OK) {
-		
-		CODE_BLOCK_TRY
-		
-		std::vector<std::string> threads;
-
-		facebook_json_parser* p = new facebook_json_parser(this);
-		p->parse_unread_threads(&resp.data, &threads, inboxOnly);
-		delete p;
-
-		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
-
-		debugLogA("***** Unread threads list processed");
-
-		CODE_BLOCK_CATCH
-
-		debugLogA("***** Error processing unread threads list: %s", e.what());
-
-		CODE_BLOCK_END
-	
-		facy.handle_success("ProcessUnreadMessages");
-	} else {
+	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("ProcessUnreadMessages");
-	}	
+		return;
+	}
+	
+	CODE_BLOCK_TRY
+		
+	std::vector<std::string> threads;
+
+	facebook_json_parser* p = new facebook_json_parser(this);
+	p->parse_unread_threads(&resp.data, &threads, inboxOnly);
+	delete p;
+
+	ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
+
+	debugLogA("***** Unread threads list processed");
+
+	CODE_BLOCK_CATCH
+
+	debugLogA("***** Error processing unread threads list: %s", e.what());
+
+	CODE_BLOCK_END
+	
+	facy.handle_success("ProcessUnreadMessages");
 }
 
 void FacebookProto::ProcessUnreadMessage(void *p)
@@ -717,13 +736,21 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 void FacebookProto::ProcessFeeds(void* data)
 {
-	if (data == NULL)
+	if (!isOnline())
 		return;
 
-	std::string* resp = (std::string*)data;
+	facy.handle_entry("feeds");
 
-	if (!isOnline())
-		goto exit;
+	// Get feeds
+	http::response resp = facy.flap(REQUEST_FEEDS);
+
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("feeds");
+		return;
+	}
+
+	if (resp.data.empty() || resp.data.find("\"num_stories\":0") != std::string::npos)
+		return;
 
 	CODE_BLOCK_TRY
 
@@ -734,16 +761,16 @@ void FacebookProto::ProcessFeeds(void* data)
 	std::string::size_type pos = 0;
 	UINT limit = 0;
 
-	*resp = utils::text::slashu_to_utf8(*resp);	
-	*resp = utils::text::source_get_value(resp, 2, "\"html\":\"", ">\"");
+	resp.data = utils::text::slashu_to_utf8(resp.data);	
+	resp.data = utils::text::source_get_value(&resp.data, 2, "\"html\":\"", ">\"");
 
-	while ((pos = resp->find("<div class=\\\"mainWrapper\\\"", pos)) != std::string::npos && limit <= 25)
+	while ((pos = resp.data.find("<div class=\\\"mainWrapper\\\"", pos)) != std::string::npos && limit <= 25)
 	{		
-		std::string::size_type pos2 = resp->find("<div class=\\\"mainWrapper\\\"", pos+5);
+		std::string::size_type pos2 = resp.data.find("<div class=\\\"mainWrapper\\\"", pos+5);
 		if (pos2 == std::string::npos)
-			pos2 = resp->length();
+			pos2 = resp.data.length();
 		
-		std::string post = resp->substr(pos, pos2 - pos);
+		std::string post = resp.data.substr(pos, pos2 - pos);
 		pos += 5;
 
 		std::string post_header = utils::text::source_get_value(&post, 4, "<h5 class=", "uiStreamHeadline", ">", "<\\/h5>");
@@ -817,8 +844,54 @@ void FacebookProto::ProcessFeeds(void* data)
 
 	CODE_BLOCK_END
 
-exit:
-	delete resp;
+	facy.handle_success("feeds");
+}
+
+void FacebookProto::ProcessPages(void *data)
+{
+	if (!getByte(FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES))
+		return;
+
+	facy.handle_entry("load_pages");
+
+	// Get feeds
+	http::response resp = facy.flap(REQUEST_PAGES);
+
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("load_pages");
+		return;
+	}
+
+	std::string content = utils::text::source_get_value(&resp.data, 2, "id=\"bookmarksSeeAllSection\"", "</code>");
+
+	std::string::size_type start, end;
+	start = content.find("<li", 0);
+	while (start != std::string::npos) {
+		end = content.find("<li", start + 1);
+		if (end == std::string::npos)
+			end = content.length();
+
+		std::string item = content.substr(start, end - start);
+		//item = utils::text::source_get_value(&item, 2, "data-gt=", ">");
+
+		start = content.find("<li", start + 1);
+
+		std::string id = utils::text::source_get_value(&item, 3, "data-gt=", "bmid&quot;:&quot;", "&quot;");
+		std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&item, 3, "data-gt=", "title=\"", "\"")));
+		std::string href = utils::text::source_get_value(&item, 3, "data-gt=", "href=\"", "\"");
+
+		// Ignore pages channel
+		if (href.find("/pages/feed") != std::string::npos)
+			continue;
+
+		if (id.empty() || title.empty())
+			continue;
+
+		debugLogA("      Got page: %s (%s)", title.c_str(), id.c_str());
+		facy.pages[id] = title;
+	}
+
+	facy.handle_success("load_pages");
 }
 
 void FacebookProto::SearchAckThread(void *targ)

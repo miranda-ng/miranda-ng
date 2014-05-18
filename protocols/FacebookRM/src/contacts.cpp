@@ -171,50 +171,43 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	}
 }
 
-MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_save)
+MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add)
 {
-	MCONTACT hContact;
+	// First, check if this contact exists (and if does, just return it)
+	if (!force_add) {
+		MCONTACT hContact = ContactIDToHContact(fbu->user_id);
 
-	// First, check if this contact exists
-	hContact = ContactIDToHContact(fbu->user_id);
+		if (hContact)
+			return hContact;
+	}
 
-	// If we have contact and don't need to force save data, just return it
-	if (hContact && !force_save)
-		return hContact;
+	// Try to make a new contact
+	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 
-	force_save = !hContact;
-
-	// If not, try to make a new contact
-	if (!hContact) {
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-
-		if (hContact && CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) != 0) {
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
-			hContact = NULL;
-		}
+	if (hContact && CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) != 0) {
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		hContact = NULL;
 	}
 
 	// If we have some contact, we'll save its data
 	if (hContact) {
-		if (force_save) {
-			// Save these values only when adding new contact, not when updating existing
-			setString(hContact, FACEBOOK_KEY_ID, fbu->user_id.c_str());
+		// Save these values only when adding new contact, not when updating existing
+		setString(hContact, FACEBOOK_KEY_ID, fbu->user_id.c_str());
 
-			std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
-			setString(hContact, "Homepage", homepage.c_str());
-			setTString(hContact, "MirVer", fbu->getMirVer());
+		std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
+		setString(hContact, "Homepage", homepage.c_str());
+		setTString(hContact, "MirVer", fbu->getMirVer());
 
-			db_unset(hContact, "CList", "MyHandle");
+		db_unset(hContact, "CList", "MyHandle");
 
-			ptrT group(getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP));
-			if (group)
-				db_set_ts(hContact, "CList", "Group", group);
+		ptrT group(getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP));
+		if (group)
+			db_set_ts(hContact, "CList", "Group", group);
 
-			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
+		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
 
-			if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
-				CallService(MS_IGNORE_IGNORE, hContact, (LPARAM)IGNOREEVENT_USERONLINE);
-		}
+		if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
+			CallService(MS_IGNORE_IGNORE, hContact, (LPARAM)IGNOREEVENT_USERONLINE);
 
 		if (!fbu->real_name.empty())
 			SaveName(hContact, fbu);
