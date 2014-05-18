@@ -1,36 +1,36 @@
-﻿#muuid {0465f65d-36fb-4fec-826e-26e86a33a3aa}
+﻿#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
-;  File: gmailm.dll
-;  Module: Gmail Multiple Notifier
-;  Versions: 0.4.0.14
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4381
-;  Source: 
-;  Authors: borkra
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.0
+;  Authors: Mixwind
 ;============================================================
-[Check your Gmail inboxes locally]
-Проверяет Ваш почтовый ящик Gmail
-[GmailMNotifier]
-Уведомление о почте Gmail
-[Gmail Account]
-Учётная запись Gmail
+[Name:]
+Имя:
+[Password:]
+Пароль:
 [Check Gmail Inbox every]
 Проверять каждые
 [Notifier on:]
 Уведомлять:
-[System Tray]
-Трей
-[Popup Plugin]
-Вспл. окна
 [Duration:]
 Длит.:
 [On DBClick:]
 Дв. клик:
+[Add]
+Добавить
+[Delete]
+Удалить
+[System Tray]
+Трей
+[PopUp Plugin]
+Вспл. окна
 [Login using default browser]
 Запустить браузер по умолчанию
 [Login using Internet Explorer]
 Запустить Internet Explorer
-[Run custom program]
-Запустить другую программу
+[Run]
+Запустить
 [Use online contacts when no new mail]
 Показывать контакты, когда нет новой почты
 [Enable icon selection and icon in status bar (restart)]
@@ -39,16 +39,8 @@
 Отключить автопроверку
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (вкл. историю)
-[Enable icon in status bar (restart required)]
-Значок в панели статуса (необходим перезапуск)
-[Mark database events as unread.]
-Пометить события в базе как прочитанные
-[Gmail Interface]
-Интерфейс Gmail
-[&Check All Gmail Inboxes]
-Проверить все ящики Gmail
-[&Check Gmail Inbox]
-Проверить ящик Gmail
+[Gmail Account]
+Учётная запись Gmail
 [Can't open Internet!]
 Не могу войти в Интернет!
 [Can't reach server!]
@@ -57,9 +49,11 @@
 Не могу прочитать RSS-ленту!
 [Wrong name or password!]
 Неправильное имя или пароль!
-[Gmail: New Thread(s)]
-Gmail: Новое сообщение
-[Gmail Notifier]
-Gmail уведомление
-[No user name or password!]
-Нет имени или пароля!
+[&Check All Gmail Inboxes]
+Проверить все ящики Gmail
+[&Check Gmail Inbox]
+Проверить ящик Gmail
+[GmailMNotifier]
+Уведомление о почте Gmail
+[Network]
+Сеть
