@@ -307,7 +307,7 @@ static UINT expertOnlyControls[] =
 
 int CluiOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.pszTitle = LPGEN("Window");
@@ -317,7 +317,7 @@ int CluiOptInit(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
-	odp.pszTitle = LPGEN("Status Bar");
+	odp.pszTitle = LPGEN("Status bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
