@@ -5,20 +5,30 @@
 ;  Version: 0.3.1.0
 ;  Authors: Mixwind
 ;============================================================
+[Check your Gmail inboxes locally.]
+Проверка входящей почты Gmail
 [Name:]
 Имя:
 [Password:]
 Пароль:
 [Check Gmail Inbox every]
 Проверять каждые
+[minutes]
+минут
 [Notifier on:]
 Уведомлять:
 [Duration:]
 Длит.:
+[custom program]
+своё приложение
+[sec.]
+сек.
 [On DBClick:]
 Дв. клик:
 [Add]
 Добавить
+[Save]
+Сохранить
 [Delete]
 Удалить
 [System Tray]
@@ -41,10 +51,14 @@
 Записывать непрочтённое в базу (вкл. историю)
 [Gmail Account]
 Учётная запись Gmail
+[Checking...]
+Проверка...
 [Can't open Internet!]
 Не могу войти в Интернет!
 [Can't reach server!]
 Не могу связаться с сервером!
+[Can't send account data!]
+Не могу отправить данные учётной записи!
 [Can't get rss feed!]
 Не могу прочитать RSS-ленту!
 [Wrong name or password!]
