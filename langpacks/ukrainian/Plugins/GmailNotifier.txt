@@ -1,0 +1,73 @@
+﻿#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.0
+;  Authors: Mixwind
+;============================================================
+[Check your Gmail inboxes locally.]
+Перевірка вхідної пошти Gmail
+[Name:]
+Ім'я:
+[Password:]
+Пароль:
+[Check Gmail Inbox every]
+Переверяти кожні
+[minutes]
+хвилин
+[Notifier on:]
+Інформувати:
+[Duration:]
+Трив.:
+[custom program]
+свій додаток
+[sec.]
+сек. 
+[On DBClick:]
+Подв. клик:
+[Add]
+Додати
+[Save]
+Зберегти
+[Delete]
+Видалити
+[System Tray]
+Трей
+[PopUp Plugin]
+Сплив. вікна
+[Login using default browser]
+Запустить браузер за зпиовчанням
+[Login using Internet Explorer]
+Запустить Internet Explorer
+[Run]
+Запустить
+[Use online contacts when no new mail]
+Показувати контакти, коди немає нової почти
+[Enable icon selection and icon in status bar (restart)]
+Значки протоколу у панелі статусу (перезавантажити)
+[This is a shared computer so disable Auto Login]
+Вимкнути авторепевірку
+[Log unread threads into database (enable history)]
+Записувати непрочитане у базу (вімк. історію)
+[Gmail Account]
+Обліковий запис Gmail
+[Checking...]
+Перевірка...
+[Can't open Internet!]
+Не можу війти у Інтернет!
+[Can't reach server!]
+Не можу зв'язатися с сервером!
+[Can't send account data!]
+Не можу відправити данні облікового запису!
+[Can't get rss feed!]
+Не можу прочитати RSS-стрічку!
+[Wrong name or password!]
+Не вірне ім'я користувача або пароль!
+[&Check All Gmail Inboxes]
+Перевірити всі скринькі Gmail
+[&Check Gmail Inbox]
+Перевіряти скриньку Gmail
+[GmailMNotifier]
+Повідомлення про почту Gmail
+[Network]
+Мережа
