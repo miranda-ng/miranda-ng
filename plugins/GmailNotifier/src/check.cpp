@@ -93,7 +93,7 @@ void CheckMailInbox(Account *curAcc)
 	InternetSetOption(hHTTPRequest, INTERNET_OPTION_USERNAME, _A2T(curAcc->name), (int)strlen(curAcc->name) + 1);
 	InternetSetOption(hHTTPRequest, INTERNET_OPTION_PASSWORD, _A2T(curAcc->pass), (int)strlen(curAcc->pass) + 1);
 	if (!HttpSendRequest(hHTTPRequest, NULL, 0, NULL, 0)) {
-		lstrcatA(curAcc->results.content, Translate("Can't get rss feed!"));
+		lstrcatA(curAcc->results.content, Translate("Can't get RSS feed!"));
 		goto error_handle;
 	}
 	while (InternetReadFile(hHTTPRequest, temp, _MAX_DOWN_BUFFER, &bufferLength) && bufferLength > 0) {

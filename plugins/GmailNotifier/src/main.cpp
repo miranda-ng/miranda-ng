@@ -135,11 +135,11 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
 	mi.hIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_ONLINE);
-	mi.pszName = LPGEN("&Check All Gmail Inboxes");
+	mi.pszName = LPGEN("&Check all Gmail inboxes");
 	mi.pszContactOwner = pluginName;
 	mi.pszService = "GmailMNotifier/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
-	mi.pszName = LPGEN("&Check Gmail Inbox");
+	mi.pszName = LPGEN("&Check Gmail inbox");
 	Menu_AddContactMenuItem(&mi);
 	return 0;
 }
