@@ -18,13 +18,13 @@
 [Notifier on:]
 Уведомлять:
 [Duration:]
-Длит.:
+Длительность:
 [Text|Background:]
-Текст|Фон
+Текст|Фон:
 [custom program]
 своё приложение
-[sec.]
-сек.
+[seconds]
+секунд(ы)
 [On double click:]
 Двойной клик:
 [Add]
