@@ -11,7 +11,7 @@
 Имя:
 [Password:]
 Пароль:
-[Check Gmail Inbox every]
+[Check Gmail inbox every]
 Проверять каждые
 [minutes]
 минут
@@ -19,21 +19,23 @@
 Уведомлять:
 [Duration:]
 Длит.:
+[Text|Background:]
+Текст|Фон
 [custom program]
 своё приложение
 [sec.]
 сек.
-[On DBClick:]
-Дв. клик:
+[On double click:]
+Двойной клик:
 [Add]
 Добавить
 [Save]
 Сохранить
 [Delete]
 Удалить
-[System Tray]
+[System tray]
 Трей
-[PopUp Plugin]
+[Popup plugin]
 Вспл. окна
 [Login using default browser]
 Запустить браузер по умолчанию
@@ -45,12 +47,14 @@
 Показывать контакты, когда нет новой почты
 [Enable icon selection and icon in status bar (restart)]
 Значки протокола в панели статуса (перезапуск)
-[This is a shared computer so disable Auto Login]
+[This is a shared computer so disable auto login]
 Отключить автопроверку
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (вкл. историю)
-[Gmail Account]
+[Gmail account]
 Учётная запись Gmail
+[Configuration]
+Конфигурация
 [Checking...]
 Проверка...
 [Can't open Internet!]
@@ -59,13 +63,13 @@
 Не могу связаться с сервером!
 [Can't send account data!]
 Не могу отправить данные учётной записи!
-[Can't get rss feed!]
+[Can't get RSS feed!]
 Не могу прочитать RSS-ленту!
 [Wrong name or password!]
 Неправильное имя или пароль!
-[&Check All Gmail Inboxes]
+[&Check all Gmail inboxes]
 Проверить все ящики Gmail
-[&Check Gmail Inbox]
+[&Check Gmail inbox]
 Проверить ящик Gmail
 [GmailMNotifier]
 Уведомление о почте Gmail
