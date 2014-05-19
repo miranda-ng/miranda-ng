@@ -756,6 +756,8 @@ Aufrufart
 Argumente
 [Number of arguments]
 Anzahl Argumente
+[Argument]
+
 [Result]
 Ergebnis
 [DLL Handle Cache]
@@ -870,10 +872,22 @@ Miranda-Ereignishilfe
 Kontaktliste
 [database driver]
 Datenbanktreiber
+[Main settings]
+
+[Custom settings]
+
+[Separated]
+
+[Do not translate]
+
 ; these lines are not present in the sources, but they are present in compiled plugin
+[Param type]
+
 [Text Editor]
 Texteditor
 [Script]
 Skript
 [Wrap Text]
 Text umbrechen
+[Structure size]
+

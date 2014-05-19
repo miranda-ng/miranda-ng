@@ -130,7 +130,7 @@
 [Plugin]
 Плагин
 [Return]
-Возвращаемое
+Возвращает
 [Effect]
 Действие
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
@@ -436,7 +436,7 @@ UTF16+сигнатура
 [Info]
 Информация
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Текст <last> заменяется\r\nпоследним результатом\r\n\r\nВозвращаемое:\r\n--------\r\nOK\t\t= 1\r\nОтмена\t\t= 2\r\nПрервать\t= 3\r\nПовтор\t\t= 4\r\nПропустить\t= 5\r\nДа\t\t= 6\r\nНет\t\t= 7\r\nЗакрыть\t\t= 8
+Текст <last> заменяется\r\nпоследним результатом\r\n\r\nВозвращает:\r\n--------\r\nOK\t\t= 1\r\nОтмена\t\t= 2\r\nПрервать\t= 3\r\nПовтор\t\t= 4\r\nПропустить\t= 5\r\nДа\t\t= 6\r\nНет\t\t= 7\r\nЗакрыть\t\t= 8
 [Buttons]
 Кнопки
 [OK, Cancel]
@@ -496,7 +496,7 @@ UTF16+сигнатура
 [The context menu for a contact is about to be built]
 Построение контекстного меню для контакта
 [New contact added to database]
-В базу добавлен новый контакт
+Добавление нового контакта в базу
 [Contact deleting]
 Удаление контакта
 [Use Actions]
@@ -584,6 +584,8 @@ UTF16+сигнатура
 Аргументы
 [Number of arguments]
 Количество аргументов
+[Argument]
+Аргумент
 [Result]
 Результат
 [DLL Handle Cache]
@@ -698,10 +700,22 @@ UTF16+сигнатура
 список контактов
 [database driver]
 драйвер базы
+[Main settings]
+Основные настройки
+[Custom settings]
+Дополнительные настройки
+[Separated]
+С разделителем
+[Do not translate]
+Без перевода
 ; these lines are not present in the sources, but they are present in compiled plugin
+[Param type]
+Тип параметра
 [Text Editor]
 Текстовый редактор
 [Script]
 Скрипт
 [Wrap Text]
 Перенос строк
+[Structure size]
+Размер структуры

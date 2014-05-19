@@ -756,6 +756,8 @@ Typ wywołania
 Argumenty
 [Number of arguments]
 Liczba argumentów
+[Argument]
+
 [Result]
 Wynik
 [DLL Handle Cache]
@@ -870,10 +872,22 @@ Pomoc zdarzeń Mirandy
 lista kontaktów
 [database driver]
 sterownik bazy danych
+[Main settings]
+
+[Custom settings]
+
+[Separated]
+
+[Do not translate]
+
 ; these lines are not present in the sources, but they are present in compiled plugin
+[Param type]
+
 [Text Editor]
 Edytor tekstu
 [Script]
 Skrypt
 [Wrap Text]
 Zawijaj tekst
+[Structure size]
+

@@ -756,6 +756,8 @@ Commun
 
 [Number of arguments]
 
+[Argument]
+
 [Result]
 
 [DLL Handle Cache]
@@ -870,10 +872,22 @@ Nom
 Liste de contacts
 [database driver]
 
+[Main settings]
+
+[Custom settings]
+
+[Separated]
+
+[Do not translate]
+
 ; these lines are not present in the sources, but they are present in compiled plugin
+[Param type]
+
 [Text Editor]
 
 [Script]
 
 [Wrap Text]
+
+[Structure size]
 
