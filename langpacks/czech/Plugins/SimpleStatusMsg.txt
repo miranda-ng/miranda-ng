@@ -117,7 +117,7 @@ Nastavení pro každý protokol zvlášť
 [Pop up dialog asking for status message]
 Zobrazit dialog pro zadání zprávy stavu
 [Fortune]
-
+Věštecká koule
 [?cinfo(contact,property)]
 ?cinfo(kontakt,vlastnost)
 [?contact(string,property)]
@@ -195,11 +195,11 @@ Zpráva stavu...
 [External Applications]
 Externí programy
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-
+získá název aktuálně přehrávané písničky ve Winampu (kompatibilní s jednoduchým správcem stavů)
 [Miranda Related]
 Miranda
 [get the date (Simple Status Message compatible)]
-
+získá datum (kompatibilní s jednoduchým správcem stavů)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 <při spuštění>
@@ -250,7 +250,7 @@ Předdefinovaná zpráva
 [Go to URL in Away Message]
 Přejít na URL ze zprávy stavu
 [Simple Status Message]
-
+Jednoduchý správce stavů
 [I've been away since %time%.]
 Jsem pryč od %time%
 [Give it up, I'm not in!]

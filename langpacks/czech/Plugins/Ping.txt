@@ -43,9 +43,9 @@ Odstup:
 [Row height:]
 Výška řádku:
 [Repeats for success/failure:]
-
+Opakování pro úspěch/chybu:
 [Attach to contact list]
-
+Přichytit k seznamu kontaktů
 [Use CSV format]
 Použít formát CSV
 [Add]
@@ -127,32 +127,32 @@ Zobrazit statistiky
 [%d ms]
 %d ms
 [AVG %.1lf ms]
-
+AVG %.1lf ms
 [MAX %hd ms]
-
+MAX %hd ms
 [MIN %hd ms]
-
+MIN %hd ms
 [Ping Graph]
-
+Graf Ping
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%S' (%d)]
-
+%s - nastavení stavu protokolu '%S' (%d)
 [Ping Reply]
-
+Ping - přijata odpověď
 [%s - reply, %d]
-
+%s - přijata odpověď, %d
 [Ping Timeout]
-
+Ping - čas vypršel
 [%s - timeout]
-
+%s - čas vypršel
 [Disable]
 Vypnout
 [enabled]
 zapnuto
 [double clicked]
-
+dvojité kliknutí
 [Show/Hide &Ping Window]
-
+Zobrazit/skrýt okno &Ping
 [List]
 Seznam
 ;file \plugins\Ping\src\rawping.cpp

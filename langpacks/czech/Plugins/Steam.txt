@@ -23,12 +23,12 @@ Zrušit
 [Steam Guard]
 Steam Guard
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-
+Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním speciálního kódu, který jsme vám právě odeslali na vaši e-mailovou adresu.
 [Go to email domain]
-
+Navštívit doménu e-mailu
 ;file \protocols\Steam\src\steam_contacts.cpp
 [%s has added you to his or her Friend List]
-
+%s si vás přidal do svého seznamu kontaktů
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 %s - spojení se serverem
@@ -36,11 +36,11 @@ Steam Guard
 Sítě
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
-
+Volba nabídky Steam
 [Request authorization]
 Požádat o autorizaci
 [Join to game]
-
+Přidat se do hry
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoly

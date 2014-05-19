@@ -6,45 +6,45 @@
 ;  Authors: StDenis
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
-
+Doplněk nahrazuje informační dialogy (ty s tlačítkem OK) oznámeními.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
-
+Styl HVĚZDIČKY
 [Background color]
 Barva pozadí
 [Text color]
 Barva textu
 [ERROR style]
-
+Styl CHYBY
 [EXCLAMATION style]
-
+Styl VYKŘIČNÍKU
 [QUESTION style]
-
+Styl OTAZNÍKU
 [Preview]
 Náhled
 [Timeout]
 Doba zobrazení
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-
+Speciální hodnoty pro dobu zobrazení:\n -1 - nekonečno, 0 - výchozí doba zobrazení
 [Emit a sound]
-
+Přehrát zvuk
 ;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
-
+VirtualProtect selhal. Kód %d\nZkuste kontaktovat autora
 [Error]
 Chyba
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-
+Hmm. Nastala chyba. Nelze zapisovat do paměti.\nA jak vidíte, nebyla vyvolána žádná výjimka...\nZkuste kontaktovat autora
 [MessagePopup]
-
+Informační okna jako oznámení
 [Popups]
 Oznámení
 ;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
-
+Zpráva s otazníkem
 [Message with exclamation]
-
+Zpráva s vykřičníkem
 [Message with error]
-
+Zpráva s chybou
 [Message with asterisk]
-
+Zpráva s hvězdičkou

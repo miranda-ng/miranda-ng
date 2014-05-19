@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-
+Pomocí oznámení a dalších akcí informuje o dlouhé absenci kontaktů a jejich návratu.
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after]
 Vrátí-li se kontakt po době
@@ -31,7 +31,7 @@ Chybí-li kontakt delší dobu než
 [Hide when no messages for]
 Skrýt pokud nepřijde zpráva během
 [Enable "Miss you" feature]
-
+Povolit funkci "Chybíš mi"
 [Colors]
 Barvy
 [Background]
@@ -57,20 +57,20 @@ Náhled
 [Last seen online:]
 Naposledy spatřen:
 [Last input message:]
-
+Poslední přijatá zpráva:
 [Custom absence period:]
-
+Vlastní doba absence:
 [days]
 dnů
 [Never hide this contact]
 Nikdy neskrývat tento kontakt
 [Enable Miss You]
-
+Povolit funkci "Chybíš mi"
 [Notify always]
 Upozornit vždy
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
-
+Ikona v liště/oznámení
 [Enabled]
 Zapnuto
 [Disabled]
@@ -84,7 +84,7 @@ Skrývání %s (%S)
 [%d days since last message]
 %d dní od poslední zprávy
 [Disable Miss You]
-
+Zakázat funkci "Chybíš mí"
 [You awaited this contact!]
 Čekali jste na tento kontakt!
 [has gone online for the first time.]
@@ -94,28 +94,28 @@ je znovu online po delší době.
 [has returned after being absent since %#x]
 je znovu online od %#x
 [has not returned after a long absence.]
-
+je stále pryč po dlouhou dobu.
 [has not returned after being absent since %#x]
-
+je stále pryč od %#x
 [BuddyExpectator]
-
+Tak ty žiješ, Karle
 [Contact returned]
-
+Kontakt je znovu online
 [Contact still absent]
-
+Kontakt je stále pryč
 [Miss you event]
-
+Událost "Chybíš mi"
 [Hide contact event]
-
+Skrýt událost kontaktu
 [Buddy Expectator]
 Tak ty žiješ, Karle
 [Hide contact]
 Skrýt kontakt
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
-týd.
+týdnů
 [months]
-měs.
+měsíců
 [years]
 let
 [Do nothing]
@@ -125,14 +125,14 @@ Odstranit kontakt
 [Contact name]
 Jméno kontaktu
 [has returned after being absent since %d days]
-
+je znovu online po %d dnech
 [Contacts]
 Kontakty
 [Popups]
 Oznámení
 [not detected]
-nedekováno
+není zjištěno
 [not found]
-nenalezeno
+není nalezeno
 [This contact has been absent for an extended period of time.]
-
+Tento kontakt byl pryč po velmi dlouhou dobu.
