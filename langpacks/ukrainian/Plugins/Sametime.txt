@@ -45,6 +45,8 @@ ID клієнта
 40 або 128 біт
 [None]
 Не шифрувати
+[Meanwhile lib ver: 1.0.2]
+Версія бібліотеки Meanwhile: 1.0.2
 [Disconnected]
 Відключений
 [Send announcement]

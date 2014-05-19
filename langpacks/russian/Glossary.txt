@@ -2,5 +2,7 @@
 contact list - список контактов
 forward - пересылка
 icon - значок
+notification - уведомление
+notify - уведомлять
 receive - приём
 send - отправка

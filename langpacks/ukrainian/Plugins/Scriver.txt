@@ -567,6 +567,8 @@ Unicode вимкнено
 Фон інфо-панелі
 [Info bar status message]
 Інфо-панель: статусне повідомлення
+[Line between messages]
+Лінії між повідомленнями
 [Offline]
 Не в мережі
 [Online]

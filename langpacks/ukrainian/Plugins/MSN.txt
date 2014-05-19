@@ -123,6 +123,8 @@
 Історія користувача
 [Contact tried to open an audio conference (not currently supported)]
 Контакт намагався відкрити аудіоконференцію (не підтримується)
+[%I64u bytes]
+%I64u байт
 [Accept NetMeeting request from %s?]
 Прийняти запит NetMeeting від %s?
 [MSN Protocol]
@@ -152,7 +154,7 @@
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контакт %s був видалений з сервера.\nХочете залишити його у локальному списку, щоб зберегти історію?
 [%s protocol]
-%s протокол
+Протокол %s
 [Subject: %s]
 Тема: %s
 [Hotmail from %s (%S)]

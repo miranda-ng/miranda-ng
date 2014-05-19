@@ -40,7 +40,7 @@
 [times before giving up]
 раз, прежде чем отказаться
 [Show email notifications using popup module]
-Показывать оповещения о почте во всплывающих окнах
+Показывать уведомления о почте во всплывающих окнах
 [Entry ID]
 ID записи
 [Subject]

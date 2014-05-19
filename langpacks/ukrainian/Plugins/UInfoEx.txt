@@ -9,6 +9,8 @@
 Плагін розширеної інформації про користувача. Дозволяє редагувати всю інформацію про контакт.
 [Edit Contact Information]
 Редагувати дані контакту
+[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
+Редагувати дані контакту\nСписок включає усі свята ваших контактів.
 [Origin]
 Походження
 [&Update]
@@ -357,6 +359,8 @@
 Резервує налаштовані дні народження.
 [Due to a parameter error, one of the treeitems can't be added!]
 Неможливо додати один з елементів дерева через помилку в параметрі.
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
+Невиправна помилка при додаванні сторінки властивостей.\nСтворення діалогу скасовано.
 [Rename Item]
 Перейменувати
 [Hide Item]
@@ -1061,6 +1065,8 @@ Web-дизайн
 &Сайт
 [Homepage (uinfoex)]
 Сайт (uinfoex)
+[Phone (uinfoex)]
+Телефон (uinfoex)
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [b]%s (%S)...[/b]\n%d контактів залишилось
 [Abort Refreshing Contact Details]
@@ -1069,6 +1075,8 @@ Web-дизайн
 Справді скасувати оновлення даних?
 [Miranda must be online for refreshing contact information!]
 Для оновлення даних необхідно, щоб протоколи були в мережі.
+[The function caused an exception!]
+Функція спричинила помилку.
 [%s has %s today.]
 %s святкує %s сьогодні.
 [an anniversary]
@@ -1079,6 +1087,8 @@ Web-дизайн
 Їй
 [He/She]
 Йому/їй
+[%s has the following anniversaries:\0]
+У %s такі свята:\0
 [%d. %s today\0]
 %d. %s сьогодні\0
 [%d. %s tomorrow\0]

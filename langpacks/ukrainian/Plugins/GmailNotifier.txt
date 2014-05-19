@@ -6,12 +6,12 @@
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
-Перевірка вхідної пошти Gmail
+Перевірка вхідної пошти Gmail.
 [Name:]
 Ім'я:
 [Password:]
 Пароль:
-[Check Gmail Inbox every]
+[Check Gmail inbox every]
 Переверяти кожні
 [minutes]
 хвилин
@@ -19,55 +19,59 @@
 Інформувати:
 [Duration:]
 Трив.:
+[Text|Background:]
+Текст|Фон
 [custom program]
 свій додаток
 [sec.]
-сек. 
-[On DBClick:]
-Подв. клик:
+с
+[On double click:]
+Подв. клік:
 [Add]
 Додати
 [Save]
 Зберегти
 [Delete]
 Видалити
-[System Tray]
+[System tray]
 Трей
-[PopUp Plugin]
+[Popup plugin]
 Сплив. вікна
 [Login using default browser]
-Запустить браузер за зпиовчанням
+Запустити браузер за замовчанням
 [Login using Internet Explorer]
-Запустить Internet Explorer
+Запустити Internet Explorer
 [Run]
-Запустить
+Запустити
 [Use online contacts when no new mail]
-Показувати контакти, коди немає нової почти
+Показувати контакти, коли немає нової пошти
 [Enable icon selection and icon in status bar (restart)]
-Значки протоколу у панелі статусу (перезавантажити)
-[This is a shared computer so disable Auto Login]
-Вимкнути авторепевірку
+Значки протоколу в панелі статусу (перезавантажити)
+[This is a shared computer so disable auto login]
+Вимкнути автоперевірку
 [Log unread threads into database (enable history)]
-Записувати непрочитане у базу (вімк. історію)
-[Gmail Account]
+Записувати непрочитане в базу (ввімк. історію)
+[Gmail account]
 Обліковий запис Gmail
+[Configuration]
+Конфігурація
 [Checking...]
 Перевірка...
 [Can't open Internet!]
-Не можу війти у Інтернет!
+Не можу ввійти в Інтернет!
 [Can't reach server!]
-Не можу зв'язатися с сервером!
+Не можу зв'язатися з сервером!
 [Can't send account data!]
-Не можу відправити данні облікового запису!
-[Can't get rss feed!]
-Не можу прочитати RSS-стрічку!
+Не можу відправити дані облікового запису!
+[Can't get RSS feed!]
+Не можу прочитати стрічку RSS!
 [Wrong name or password!]
-Не вірне ім'я користувача або пароль!
-[&Check All Gmail Inboxes]
-Перевірити всі скринькі Gmail
-[&Check Gmail Inbox]
-Перевіряти скриньку Gmail
+Неправильне ім'я користувача або пароль!
+[&Check all Gmail inboxes]
+Перевірити всі скриньки Gmail
+[&Check Gmail inbox]
+Перевірити скриньку Gmail
 [GmailMNotifier]
-Повідомлення про почту Gmail
+Повідомлення про пошту Gmail
 [Network]
 Мережа

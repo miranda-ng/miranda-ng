@@ -342,7 +342,7 @@ ID пользователя в панели статуса
 [Use button tabs (*)]
 Вкладки-кнопки (*)
 [You have chosen to disable all event notifications for open message windows.]
-Вы отключли все оповещения о событиях, которые открывают окно сообщений.
+Вы отключли все уведомления о событиях, которые открывают окно сообщений.
 [Show contact avatars]
 Показывать аватары
 [Show my own avatars]

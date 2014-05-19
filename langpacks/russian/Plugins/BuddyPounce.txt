@@ -50,7 +50,7 @@
 [Show Delivery Messages]
 Показ. доставл. сообщения
 [These settings are also used when sending a "Simple" pounce]
-Эти настройки также используются для "простых" отлож.сообщений
+Эти настройки также используются для "простых" отлож. сообщений
 [Send If My Status Is...]
 Отправлять, если мой статус...
 [Send If They Change Status to...]
@@ -64,7 +64,7 @@
 [Send If My Status Is]
 Отправлять, если мой статус
 [Any]
-Любое
+Любой
 [Online]
 В сети
 [Away]
@@ -116,15 +116,15 @@
 [Reuse this message? (0 to use it once)]
 Повторить сообщение? (0, чтобы не повторять)
 [Times]
-Раз
+раз
 [Give up after... (0 to not give up)]
 Отказаться после... (0, чтобы не отказываться)
 [Days]
-Дней
+дней
 [Show confirmation window? (0 to not Show)]
 Показать окно подтверждения? (0, чтобы не показывать)
 [Seconds to wait before sending]
-Секунд подождать перед отправкой
+секунд подождать перед отправкой
 [Pounce being sent to %s in %d seconds]
 Pounce отослан %s за %d секунд
 [Retry]

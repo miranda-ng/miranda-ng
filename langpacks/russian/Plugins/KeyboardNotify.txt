@@ -38,9 +38,9 @@
 [Events are opened]
 События будут открыты
 [End of 'notify when' conditions]
-Окончание "оповещать когда"
+Окончание "уведомлять когда"
 [Notify when]
-Оповещать, когда
+Уведомлять, когда
 [Full Screen mode]
 Полноэкранный режим
 [Screen Saver is running]
