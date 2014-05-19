@@ -31,11 +31,11 @@ STYLE DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "Tahoma"
 BEGIN
-    LTEXT           "Name:",IDC_STATIC,40,19,36,9,NOT WS_GROUP
-    LTEXT           "Password:",IDC_STATIC,40,35,36,9,NOT WS_GROUP
+    LTEXT           "Name:",IDC_STATIC,26,19,36,9,NOT WS_GROUP
+    LTEXT           "Password:",IDC_STATIC,26,35,36,9,NOT WS_GROUP
     LTEXT           "Check Gmail Inbox every",IDC_STATIC,40,78,81,9
     LTEXT           "minutes",IDC_STATIC,141,78,26,9
-    LTEXT           "Notifier on:",IDC_STATIC,40,93,37,9
+    LTEXT           "Notifier on:",IDC_STATIC,26,93,51,9
     LTEXT           "<",IDC_STATIC_LESS,133,105,8,10,NOT WS_VISIBLE | NOT 
                     WS_GROUP
     LTEXT           "Duration:",IDC_STATIC_DURATION,140,100,29,9,NOT 
@@ -45,14 +45,14 @@ BEGIN
     LTEXT           "custom program",IDC_STATIC_CUSTOM,104,146,52,9,NOT 
                     WS_GROUP
     LTEXT           "sec.",IDC_STATIC_SEC,185,100,14,9,NOT WS_VISIBLE
-    LTEXT           "On DBClick:",IDC_STATIC,40,123,38,9
-    COMBOBOX        IDC_NAME,77,17,100,50,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+    LTEXT           "On DBClick:",IDC_STATIC,26,123,51,9
+    COMBOBOX        IDC_NAME,63,17,114,50,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
                     WS_VSCROLL | WS_TABSTOP | 0x8000
-    EDITTEXT        IDC_PASS,78,33,98,11,ES_PASSWORD | ES_AUTOHSCROLL | NOT 
+    EDITTEXT        IDC_PASS,63,33,114,11,ES_PASSWORD | ES_AUTOHSCROLL | NOT 
                     WS_BORDER,WS_EX_STATICEDGE
-    PUSHBUTTON      "Add",IDC_BTNADD,191,13,29,11,0,WS_EX_STATICEDGE
-    PUSHBUTTON      "Save",IDC_BTNSAV,191,26,29,11,0,WS_EX_STATICEDGE
-    PUSHBUTTON      "Delete",IDC_BTNDEL,191,39,29,11,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Add",IDC_BTNADD,191,13,43,11,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Save",IDC_BTNSAV,191,26,43,11,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Delete",IDC_BTNDEL,191,39,43,11,0,WS_EX_STATICEDGE
     EDITTEXT        IDC_CIRCLE,121,77,18,10,NOT WS_BORDER,WS_EX_STATICEDGE
     CONTROL         "System Tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,78,93,56,10
@@ -69,18 +69,18 @@ BEGIN
     PUSHBUTTON      "...",IDC_PRGBROWSE,208,145,12,10,NOT WS_VISIBLE,
                     WS_EX_STATICEDGE
     CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,40,160,186,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,26,160,186,10
     CONTROL         "Enable icon selection and icon in status bar (restart)",
-                    IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
+                    IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,
                     172,186,10
     CONTROL         "This is a shared computer so disable Auto Login",
-                    IDC_AUTOLOGIN,"Button",BS_AUTO3STATE | WS_TABSTOP,40,184,
+                    IDC_AUTOLOGIN,"Button",BS_AUTO3STATE | WS_TABSTOP,26,184,
                     186,10
     CONTROL         "Log unread threads into database (enable history)",
-                    IDC_LOGTHREADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
+                    IDC_LOGTHREADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,
                     196,186,10
-    GROUPBOX        "Gmail Account",IDC_GROUPMAIN,30,2,199,56
-    GROUPBOX        "Configuration",IDC_CONFIG,30,65,199,148
+    GROUPBOX        "Gmail Account",IDC_GROUPMAIN,5,2,250,56
+    GROUPBOX        "Configuration",IDC_CONFIG,5,65,250,148
     EDITTEXT        IDC_DURATION,170,100,14,8,NOT WS_VISIBLE | NOT WS_BORDER,
                     WS_EX_STATICEDGE
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",NOT WS_VISIBLE | 
