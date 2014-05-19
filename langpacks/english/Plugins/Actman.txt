@@ -441,7 +441,6 @@
 [database driver]
 [Main settings]
 [Custom settings]
-[Separated]
 [Do not translate]
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Param type]
