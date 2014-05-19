@@ -50,7 +50,7 @@
 [This is a shared computer so disable auto login]
 Отключить автопроверку
 [Log unread threads into database (enable history)]
-Записывать непрочтённое в базу (вкл. историю)
+Записывать непрочтённое в базу (включает сохранение истории)
 [Gmail account]
 Учётная запись Gmail
 [Configuration]
