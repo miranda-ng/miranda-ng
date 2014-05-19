@@ -876,8 +876,6 @@ sterownik bazy danych
 Główne ustawienia
 [Custom settings]
 Ustawienia niestandardowe
-[Separated]
-Oddzielone
 [Do not translate]
 Nie tłumacz
 ; these lines are not present in the sources, but they are present in compiled plugin

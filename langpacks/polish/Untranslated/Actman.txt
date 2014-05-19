@@ -1,7 +1,6 @@
 ﻿[Argument]
 [Main settings]
 [Custom settings]
-[Separated]
 [Do not translate]
 [Param type]
 [Structure size]

@@ -876,8 +876,6 @@ Puede usar macros %name%, %uid%, %account% y %group%
 
 [Custom settings]
 
-[Separated]
-
 [Do not translate]
 
 ; these lines are not present in the sources, but they are present in compiled plugin

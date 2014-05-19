@@ -265,7 +265,6 @@
 [database driver]
 [Main settings]
 [Custom settings]
-[Separated]
 [Do not translate]
 [Param type]
 [Text Editor]

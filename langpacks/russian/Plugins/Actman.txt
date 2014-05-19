@@ -534,7 +534,7 @@ UTF16+сигнатура
 [Pressed button tooltip]
 Подсказка к кнопке в нажатом положении
 [Separated]
-Разделитель
+С разделителем
 [Root popup:]
 Корень подменю:
 [Menu item name:]
@@ -704,8 +704,6 @@ UTF16+сигнатура
 Основные настройки
 [Custom settings]
 Дополнительные настройки
-[Separated]
-С разделителем
 [Do not translate]
 Без перевода
 ; these lines are not present in the sources, but they are present in compiled plugin
