@@ -13,7 +13,7 @@ Znaleziono aktualizacje!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 PluginUpdater wykrył aktualizacje komponentów. Kliknij w przycisk "Szczegóły" po więcej informacji.
 [Update]
-Aktualizacja
+Aktualizuj
 [Details >>]
 Szczegóły >>
 [Cancel]

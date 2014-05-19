@@ -706,7 +706,7 @@ Normalny przycisk na pasku zadań
 [Pressed button tooltip]
 Wciśnięty przycisk na pasku zadań
 [Separated]
-Odseparowany
+Oddzielone
 [Root popup:]
 Źródło:
 [Menu item name:]
@@ -757,7 +757,7 @@ Argumenty
 [Number of arguments]
 Liczba argumentów
 [Argument]
-
+Argument
 [Result]
 Wynik
 [DLL Handle Cache]
@@ -873,16 +873,16 @@ lista kontaktów
 [database driver]
 sterownik bazy danych
 [Main settings]
-
+Główne ustawienia
 [Custom settings]
-
+Ustawienia niestandardowe
 [Separated]
-
+Oddzielone
 [Do not translate]
-
+Nie tłumacz
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Param type]
-
+Typ parametru
 [Text Editor]
 Edytor tekstu
 [Script]
@@ -890,4 +890,4 @@ Skrypt
 [Wrap Text]
 Zawijaj tekst
 [Structure size]
-
+Rozmiar struktury

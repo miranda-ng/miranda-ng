@@ -6,76 +6,76 @@
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
-
+Lokalnie sprawdź swoje skrzynki Gmail
 ;file \plugins\GmailNotifier\res\options.rc
 [Name:]
-
+Nazwa użytkownika:
 [Password:]
-
+Hasło:
 [Check Gmail Inbox every]
-
+Sprawdzaj skrzynkę Gmail co
 [minutes]
-
+minut
 [Notifier on:]
-
+Powiadomienia podczas:
 [Duration:]
-
+Czas trwania:
 [TXT|BG:]
-
+Tło tekstu:
 [custom program]
-
+Własny program
 [sec.]
-
+sek.
 [On DBClick:]
-
+Po podwójnym kliknięciu:
 [Add]
-
+Dodaj
 [Save]
-
+Zapisz
 [Delete]
-
+Usuń
 [System Tray]
-
+Zasobnik systemowy
 [PopUp Plugin]
-
+Wtyczka PopUp
 [Login using default browser]
-
+Zaloguj używając domyślnej przeglądarki
 [Login using Internet Explorer]
-
+Zaloguj używając Internet Explorera
 [Run]
-
+Uruchom
 [Use online contacts when no new mail]
-
+Używaj dostępnych kontaktów przy braku nowych wiadomości
 [Enable icon selection and icon in status bar (restart)]
-
+Używaj wyboru ikon oraz ikon w pasku stanu (restart)
 [This is a shared computer so disable Auto Login]
-
+To jest komputer współdzielony, więc wyłącz automatyczne logowanie
 [Log unread threads into database (enable history)]
-
+Zapisuj nieczytane wątki w bazie daych(włącz historię)
 [Gmail Account]
-
+Konto Gmail
 [Configuration]
-
+Konfiguracja
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
-
+Sprawdzanie...
 [Can't open Internet!]
-
+Nie udało się otworzyć przeglądarki!
 [Can't reach server!]
-
+Nie udało się połączyć z serwerem!
 [Can't send account data!]
-
+Nie udało się wysłać danych konta!
 [Can't get rss feed!]
-
+Nie udało się pobrać kanału RSS!
 [Wrong name or password!]
-
+Błędna nazwa użytkownika lub hasło!
 ;file \plugins\GmailNotifier\src\main.cpp
 [&Check All Gmail Inboxes]
-
+Sprawdź wszystkie skrzynki Gmail
 [&Check Gmail Inbox]
-
+Sprawdź skrzynkę Gmail
 ;file \plugins\GmailNotifier\src\options.cpp
 [GmailMNotifier]
-
+GmailMNotifier
 [Network]
-
+Sieć
