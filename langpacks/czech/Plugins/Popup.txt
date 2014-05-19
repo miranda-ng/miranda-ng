@@ -246,7 +246,7 @@ Název
 Čas
 [Text]
 Text
-[Hovered Action]
+[Hovered action]
 Po najetí myši
 [Background]
 Pozadí
@@ -256,8 +256,8 @@ Okraj
 Boční pruh
 [Title underline]
 Podtržení záhlaví
-[Avatar Border]
-Rámeček avataru
+[Avatar border]
+Orámovat avatary
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Historie oznámení je vypnuta

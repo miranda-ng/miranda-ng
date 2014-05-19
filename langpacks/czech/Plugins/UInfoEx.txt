@@ -81,7 +81,7 @@ Asistent:
 [Add Phone Number]
 Přidat telefonní číslo
 [Enter your phone number\nand don't worry about formating.]
-
+Zadejte vaše telefonní číslo\na neřešte v jakém je formátu.
 [Enter a category for this number:]
 Určete kategorii pro toto číslo:
 [Enter country, area code and phone number:]
@@ -126,8 +126,6 @@ Přehrát zvuk
 Použít seznam filtrování kontaktů
 [Birthday popup colors]
 Barvy upozornění na narozeniny
-[r]
-r
 [Background color]
 Barva pozadí
 [Text color]
@@ -245,7 +243,7 @@ Vykreslit stránky vlastností skrz aero.
 [Import]
 Importovat
 [Importing...\nPlease wait!]
-
+Probíhá import...\nProsím čekejte!
 [Setting/Event (20/100)]
 
 [John Doe (1/10)]
@@ -614,11 +612,11 @@ Export/Import kontaktů
 [User &details]
 &Detaily uživatele
 [&Export User Details]
-
+&Exportovat detaily uživatele
 [&Import]
 &Importovat
 [&Import User Details]
-
+&Importovat detaily uživatele
 [View/Change My &Details...]
 In&formace o sobě...
 [Export all contacts]
@@ -1089,7 +1087,7 @@ Chyba při alokování paměti!
 E-mail (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
-
+Pohlaví (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Uživatel nemá uvedenou platnou domácí stránku
@@ -1100,8 +1098,8 @@ Zobrazit domovskou stránku
 [Homepage (uinfoex)]
 Domovská stránka (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
-[(uinfoex)]
-(uinfoex)
+[Phone (uinfoex)]
+Telefon (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
  [b]%s (%S)...[/b]\n%d kontaktů zbývá
@@ -1239,5 +1237,5 @@ přidané kontakty: %u / %u\npřidaná nastavení: %u / %u\npřidané události 
 CHYBA: vznikla výjimka při importu kontaktů z XMLCard!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
-
+Vlajky (uinfoex)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

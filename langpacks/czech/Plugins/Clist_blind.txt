@@ -70,13 +70,13 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[Contact List]
+[Contact list]
 Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
-[Contact List Sorting]
+[Contact list sorting]
 Řazení seznamu kontaktů
 [Window]
 Okno
@@ -124,7 +124,7 @@ Zobrazit stín (vyžaduje restart)
 Připíchnout na plochu
 [Items]
 Položky
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
@@ -146,7 +146,7 @@ Skupina:
 Oddělovač:
 [Info:]
 Informace:
-[Status Bar]
+[Status bar]
 Stavová lišta
 [Show status bar]
 Zobrazit stavovou lištu
@@ -188,9 +188,9 @@ Ner&ušit!\tCtrl+5
 &Mám volno\tCtrl+6
 [&Invisible\tCtrl+7]
 Nev&iditelný\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Mám tele&fon\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
 [Tray]
 Oznámení
@@ -198,27 +198,27 @@ Oznámení
 Skrýt/Zo&brazit
 [Nowhere]
 Nikde
-[&New Group]
+[&New group]
 &Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 &Skrýt uživatele offline
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skrýt uživatele &offline mimo skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 S&krýt prázdné skupiny
-[Disable &Groups]
+[Disable &groups]
 Vypnout zobrazení s&kupin
 [Hide Miranda]
 Skrýt Mirandu
 [Group]
 Skupina
-[&New Subgroup]
+[&New subgroup]
 &Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skrýt uživatele o&ffline
-[&Rename Group]
+[&Rename group]
 Př&ejmenovat skupinu
-[&Delete Group]
+[&Delete group]
 &Smazat skupinu
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
@@ -249,8 +249,6 @@ Skupina: %name% %count% [%mode%]
 Oddělovač: %s
 [Info: %s]
 Informace: %s
-[Contact list]
-Seznam kontaktů
 [List]
 Seznam
 ;file \plugins\Clist_blind\src\clistopts.cpp

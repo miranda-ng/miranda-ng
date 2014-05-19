@@ -16,34 +16,38 @@ Přezdívka:
 Zrušit
 [General]
 Obecné
-[...avatar]
-...avatar
 [RTL]
 Psát zprava doleva
 [Align text to right]
 Zarovnat text doprava
-[...nickname]
-...přezdívka
 [Auto-resize frame]
 Měnit velikost okna
 [Use contact list smileys]
 Použít smajlíky pro kontakty
-[...status]
-...stav
 [Replace Smileys]
 Vykreslovat smajlíky
 [Resize Smileys]
 Měnit velikost smajlíků
+[Global On...]
+Globální pro...
+[...avatar]
+...avatar
+[...nickname]
+...přezdívku
+[...status]
+...stav
 [...status message]
 ...zpráva stavu
-[Top:]
-Nahoře:
-[Bottom:]
-Dole:
-[Left:]
-Vlevo:
-[Right:]
-Vpravo:
+[Account]
+Účet
+[Show account name]
+Zobrazit název účtu
+[Show account cycle button]
+Zobrazit tlačítka pro přepínání účtů
+[Cycle through accounts every:]
+Přepínat mezi účty každých:
+[seconds]
+sekund
 [Avatar]
 Avatar
 [Custom size:]
@@ -60,20 +64,16 @@ Zaoblit rohy
 Velikost zakulacení:
 [Use free space (under avatar) to other texts]
 Využít místo pod avatarem pro další texty
-[Global On...]
-Globální pro...
 [Frame Options]
 Možnosti rámečku
-[Cycle through accounts every:]
-Přepínat mezi účty každých:
-[seconds]
-sekund
-[Account]
-Účet
-[Show account name]
-Zobrazit název účtu
-[Show account cycle button]
-Zobrazit tlačítka pro přepínání účtů
+[Top:]
+Nahoře:
+[Bottom:]
+Dole:
+[Left:]
+Vlevo:
+[Right:]
+Vpravo:
 [Set My Status Message for All Status]
 Nastavit zprávu pro všechny stavy
 [Status Message:]

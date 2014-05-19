@@ -589,6 +589,8 @@ Jméno v informační liště
 Pozadí informační lišty
 [Info bar status message]
 Stav v informační liště
+[Line between messages]
+Oddělovač mezi zprávami
 [Offline]
 Offline
 [Online]

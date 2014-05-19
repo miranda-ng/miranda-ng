@@ -61,9 +61,9 @@ Změny nebyly uloženy
 
 [Examples:]
 
-[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
 
-[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\' then:]
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
 
 [will expand to 'c:\\program files\\miranda ng']
 

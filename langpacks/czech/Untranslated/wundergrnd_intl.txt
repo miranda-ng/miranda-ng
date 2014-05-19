@@ -82,7 +82,6 @@
 [Showers Snow Low Drifting Snow]
 [Light Freezing Rain Light Snow]
 [Day Length Diff]
-[Elevation]
 [Visible Light Length]
 [Wind Gust]
 [Showers Rain Snow]

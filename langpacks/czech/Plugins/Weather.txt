@@ -81,9 +81,9 @@ beze změny
 [3 chars]
 3 znaky
 [Elevation]
-
+Výška
 [ft]
-
+ft
 [m]
 m
 [Do not append units to values]
@@ -215,7 +215,7 @@ Více...
 [Weather Protocol INI Setup]
 Nastavení konfiguračního souboru pro počasí
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
-
+Správa INI souborů pro počasí\nZde můžete nainstalovat a načíst vaše ini soubory pro počasí
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Nelze najít požadovaný konfigurační soubor pro počasí. Řiďte se prosím následujícími pokyny:
 [Click here to download a weather ini file from Miranda file listing]
@@ -227,11 +227,11 @@ Načíst data nového konfiguračního souboru
 [Add new weather station and close this dialog]
 Přidat novou meteorologickou stanici a zavřít dialog
 [Total INI files]
-
+Počet INI souborů
 [Total memory used]
-
+Využití paměti
 [Reload INI]
-
+Znovu načíst INI
 [City:]
 Město:
 [Menu]
@@ -271,7 +271,7 @@ Počasí (varování)
 [N/A]
 <neuvedeno>
 [Invalid ID format, missing "/" (10)]
-
+Neplatný formát ID, chybí "/" (č.10)
 [Invalid service (11)]
 Neplatná služba (č.11)
 [Invalid station (12)]
@@ -289,41 +289,41 @@ Dokument neobsahuje data o počasí (č.43)
 [Unknown error (99)]
 Neznámá chyba (č.99)
 [HTTP Error: No content (204)]
-
+HTTP Chyba: Netřeba měnit dokument (204)
 [HTTP Error: Data moved (301)]
-
+HTTP Chyba: Objekt trvale přesunut (301)
 [HTTP Error: Use proxy (305)]
-
+HTTP Chyba: Použij proxy (305)
 [HTTP Error: Temporary redirect (307)]
-
+HTTP Chyba: Dočasně přesunuto (307)
 [HTTP Error: Bad request (400)]
-
+HTTP Chyba: Chybný požadavek (400)
 [HTTP Error: Unauthorized (401)]
-
+HTTP Chyba: Neautorizovaný přístup (401)
 [HTTP Error: Payment required (402)]
-
+HTTP Chyba: Vyžadován poplatek (402)
 [HTTP Error: Forbidden (403)]
-
+HTTP Chyba: Přístup zamítnut (403)
 [HTTP Error: Not found (404)]
-
+HTTP Chyba: Objekt nenalezen (404)
 [HTTP Error: Method not allowed (405)]
-
+HTTP Chyba: Nepovolená metoda (405)
 [HTTP Error: Proxy authentication required (407)]
-
+HTTP Chyba: Je požadována proxy autentifikace (407)
 [HTTP Error: Gone (410)]
-
+HTTP Chyba: Ukončeno (410)
 [HTTP Error: Internal server error (500)]
-
+HTTP Chyba: Vnitřní chyba serveru (500)
 [HTTP Error: Bad gateway (502)]
-
+HTTP Chyba: Špatná brána (502)
 [HTTP Error: Service unavailable (503)]
-
+HTTP Chyba: Služba není dostupná (503)
 [HTTP Error: Gateway timeout (504)]
-
-[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\nTeplota: %t\nSubj. teplota: %f\nTlak: %p\nVítr: %i  %w\nVlhkost: %m\nRosný bod: %e\nViditelnost: %v\n\nVýchod slunce: %r\nZápad slunce: %y\n\nPředpověď na 5 dnů:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
-[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Subj. teplota: %f\nTlak: %p\nVítr: %i  %w\nVlhkost: %m\nRosný bod: %e\nViditelnost: %v\n\nVýchod slunce: %r\nZápad slunce: %y\n\nPředpověď na 5 dnů:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+HTTP Chyba: Doba průchodu vypršela (504)
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTeplota: %t\\nSubj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Subj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Aktuální situace: %n, %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -332,8 +332,8 @@ Aktuální situace: %n, %u
 %n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
 [%n   (%u)]
 %n   (%u)
-[%c, %t\nToday:  High %h, Low %l]
-%c, %t\nDnes:  Max. %h, min. %l
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nDnes:  Max. %h, min. %l
 [Temperature: %[Temperature]]
 Teplota: %[Temperature]]
 ;file \plugins\Weather\src\weather_addstn.cpp
@@ -428,9 +428,9 @@ Název
 [File Name]
 Název souboru
 [The corresponding INI file for "%s" is not found.]
-
+INI soubor pro "%s" nebyl nalezen.
 [Weather INI information for "%s":]
-
+INI s informacemi o počasí pro "%s":
 [Name:]
 Název:
 [Internal Name:]
@@ -476,13 +476,13 @@ Obecné
 Zobrazení
 [Popups]
 Oznámení
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce\n----------\n\\n\tnový řádek
 [Weather Protocol Text Preview]
 Počasí - náhled
 ;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-
+%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
 [%[..]\tcustom variables]
 %[..]\tspeciální proměnné
 ;file \plugins\Weather\src\weather_svcs.cpp
@@ -529,4 +529,4 @@ Aktualizace dat, počkejte prosím...
 [More Info]
 Informace
 [No information available.\r\nPlease update weather condition first.]
-
+Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.

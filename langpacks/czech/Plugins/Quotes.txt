@@ -102,10 +102,6 @@ Zpráva &stavu
 
 [&Advanced Settings...]
 Pokročilé nastavení...
-[Static]
-Statický
-[<a>SysLink1</a>]
-
 [Current Rate:]
 
 [Rate Fetch Time:]

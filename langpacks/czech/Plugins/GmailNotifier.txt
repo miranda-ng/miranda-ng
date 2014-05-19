@@ -1,0 +1,81 @@
+﻿#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.0
+;  Authors: Mixwind
+;============================================================
+[Check your Gmail inboxes locally.]
+Lokálně kontroluje vaše schránky na Gmailu.
+;file \plugins\GmailNotifier\res\options.rc
+[Name:]
+Název:
+[Password:]
+Heslo:
+[Check Gmail inbox every]
+Zkontrolovat každých
+[minutes]
+min.
+[Notifier on:]
+Oznámení:
+[Duration:]
+Doba:
+[Text|Background:]
+Text|Pozadí:
+[custom program]
+libov. program
+[sec.]
+sek.
+[On double click:]
+Při dvojím kliknutí:
+[Add]
+Přidat
+[Save]
+Uložit
+[Delete]
+Smazat
+[System tray]
+Oznam. obl.
+[Popup plugin]
+Dopl. PopUp
+[Login using default browser]
+Přihlásit (výchozí prohlížeč)
+[Login using Internet Explorer]
+Přihlásit (Internet Explorer)
+[Run]
+Spustit
+[Use online contacts when no new mail]
+Použít online kontakty, když nemáte nový mail
+[Enable icon selection and icon in status bar (restart)]
+Zobrazit ikonu ve stavové liště (restart)
+[This is a shared computer so disable auto login]
+Nepřihlašovat automaticky (veřejný počítač)
+[Log unread threads into database (enable history)]
+Zapsat nepřečtené zprávy do databáze (historie)
+[Gmail account]
+Účet na Gmailu
+[Configuration]
+Nastavení
+;file \plugins\GmailNotifier\src\check.cpp
+[Checking...]
+Kontrolování...
+[Can't open Internet!]
+Chyba připojení k internetu!
+[Can't reach server!]
+Chyba připojení k serveru!
+[Can't send account data!]
+Nelze zaslat data o účtu!
+[Can't get RSS feed!]
+Nelze přečíst kanál RSS!
+[Wrong name or password!]
+Neplatné jméno nebo heslo!
+;file \plugins\GmailNotifier\src\main.cpp
+[&Check all Gmail inboxes]
+&Zkontrolovat všechny účty (Gmail)
+[&Check Gmail inbox]
+&Zkontrolovat účet (Gmail)
+;file \plugins\GmailNotifier\src\options.cpp
+[GmailMNotifier]
+GmailMNotifier
+[Network]
+Sítě

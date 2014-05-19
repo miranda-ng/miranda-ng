@@ -441,7 +441,7 @@ ledové kuličky
 [Day Length Diff]
 
 [Elevation]
-
+Výška
 [Feel]
 Subj.
 [Alert]
