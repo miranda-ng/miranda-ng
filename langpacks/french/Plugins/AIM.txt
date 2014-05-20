@@ -292,7 +292,7 @@ File du serveur pleine.
 
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-{Auto-Response}:
+{Auto-Response} :
 [Contact tried to open an audio/video conference (not currently supported)]
 
 [No information has been provided by the server.]

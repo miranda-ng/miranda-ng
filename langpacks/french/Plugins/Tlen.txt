@@ -244,7 +244,7 @@ Salon de Chat déjà créé.
 [Nickname '%s' is already registered.]
 Le pseudo '%s' est déjà utilisé.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' .
+Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' est libre.
 [You cannot register more than %s nicknames.]
 Vous ne pouvez enregistrer plus de %s pseudo.
 [You cannot create more than %s chat rooms.]

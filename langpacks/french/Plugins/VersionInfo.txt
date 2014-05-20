@@ -98,4 +98,4 @@ Services
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Un truc est entré mal dans "%s". Faites un rapport avec ces valeurs :\nFacility : %X\nError code : %X\nLine number : %d
+Quelque chose est entré mal dans "%s". Faites un rapport avec ces valeurs :\nService : %X\nCode d'erreur : %X\nNumero de ligne : %d

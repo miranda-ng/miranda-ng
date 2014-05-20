@@ -384,4 +384,4 @@ Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvell
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
 Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Réglages changés dans la base de données : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (UTF8) "%s"
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (UTF8) "%s"

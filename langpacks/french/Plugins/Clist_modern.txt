@@ -543,7 +543,7 @@ Pseudo
 [XStatus has priority]
 Préférer XStatus
 [Use 'XStatus: XMessage']
-Utiliser 'XStatus: XMessage'
+Utiliser 'XStatus : XMessage'
 [(Variables will be replaced)]
 (Utilisé des variables)
 [Show third line]

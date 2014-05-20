@@ -35,7 +35,7 @@ Délai d'envoi des clef :
 [sec]
 secondes
 [Offline Key Timeout:]
-Clef hors-ligne expir.:
+Clef hors-ligne expir. :
 [days]
 jours
 [PGP]
