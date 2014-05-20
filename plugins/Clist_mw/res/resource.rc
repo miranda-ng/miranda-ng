@@ -148,10 +148,10 @@ BEGIN
     LTEXT           "seconds, when statuses differ",IDC_STATIC,154,172,151,8,NOT WS_GROUP
     CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,9,184,98,10
     CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,184,198,10
-    GROUPBOX        "Contact List",IDC_STCLISTGROUP,2,2,135,139
+    GROUPBOX        "Contact list",IDC_STCLISTGROUP,2,2,135,139
     GROUPBOX        "System tray icon",IDC_STATIC,143,71,169,70
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,142,310,57
-    GROUPBOX        "Contact List Sorting",IDC_STATIC,143,2,169,69,WS_GROUP
+    GROUPBOX        "Contact list sorting",IDC_STATIC,143,2,169,69,WS_GROUP
     CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,177,109,11,12
     CONTROL         "Don't move offline user to bottom",IDC_NOOFFLINEMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,26,142,10
@@ -224,7 +224,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,73,179,10
     CONTROL         "Make selection highlight translucent",IDC_NOTNOTRANSLUCENTSEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,88,179,10
-    LTEXT           "'Hide Offline' means to hide:",IDC_STATIC,191,10,112,8
+    LTEXT           "'Hide offline' means to hide:",IDC_STATIC,191,10,112,8
     CONTROL         "Tree1",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_TABSTOP,191,20,112,80
     GROUPBOX        "Groups",IDC_STATIC,2,120,148,121
     CONTROL         "Draw a line alongside group names",IDC_LINEWITHGROUPS,
@@ -284,15 +284,15 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Use 'Meta' protocol icons for Metacontacts",IDC_META,
+    CONTROL         "Use 'Meta' protocol icons for MetaContacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,13,233,10
     CONTROL         "Avoid doubleclick expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,29,233,10
-    CONTROL         "Hide all 'Extra icons' for subcontacts",IDC_METASUBEXTRA,
+    CONTROL         "Hide all extra icons for subcontacts",IDC_METASUBEXTRA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,45,233,10
     GROUPBOX        "MetaContacts supporting",-1,2,2,252,90
-    CONTROL         "Ignore Empty Extra icons places (arrange to right).",IDC_METASUBEXTRA_IGN,
+    CONTROL         "Ignore empty extra icons places (arrange to right)",IDC_METASUBEXTRA_IGN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,75,233,10
-    CONTROL         "Hide offline subcontacts.",IDC_METASUB_HIDEOFFLINE,
+    CONTROL         "Hide offline subcontacts",IDC_METASUB_HIDEOFFLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,60,233,10
 END
 
@@ -301,7 +301,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Status Bar",IDC_STATIC,4,4,170,201
+    GROUPBOX        "Status bar",IDC_STATIC,4,4,170,201
     CONTROL         "Show status bar",IDC_SHOWSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,17,152,10
     CONTROL         "Show icons",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,35,142,10
     CONTROL         "Show protocol names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,47,142,10
@@ -314,7 +314,7 @@ BEGIN
     PUSHBUTTON      "-",IDC_DEFBKCOLOR,135,175,6,10
     CONTROL         "Show size grip",IDC_SHOWSIZEGRIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,72,142,10
     CONTROL         "Show bevel effect on panels",IDC_SBPANELBEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,86,107,10
-    CONTROL         "Use connecting Icon",IDC_USECONNECTINGICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,97,82,10
+    CONTROL         "Use connecting icon",IDC_USECONNECTINGICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,97,82,10
     CONTROL         "Use new drawer for status bar",IDC_USEOWNERDRAW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,160,142,10
 END
 
@@ -479,8 +479,8 @@ BEGIN
         MENUITEM "&DND\tCtrl+5",                ID_STATUS_DND
         MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
         MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
-        MENUITEM "On the &Phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
-        MENUITEM "Out to &Lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
+        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
     END
 END
 
@@ -494,22 +494,22 @@ BEGIN
     END
     POPUP "Nowhere"
     BEGIN
-        MENUITEM "&New Group",                  POPUP_NEWGROUP
+        MENUITEM "&New group",                  POPUP_NEWGROUP
         MENUITEM SEPARATOR
-        MENUITEM "&Hide Offline Users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &Offline Users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &Empty Groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &Groups",             POPUP_DISABLEGROUPS
+        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
+        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
+        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
+        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
         MENUITEM SEPARATOR
         MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
     END
     POPUP "Group"
     BEGIN
-        MENUITEM "&New Subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide Offline Users in here", POPUP_GROUPHIDEOFFLINE
+        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
+        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Rename Group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete Group",               POPUP_DELETEGROUP
+        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
+        MENUITEM "&Delete group",               POPUP_DELETEGROUP
     END
 END
 

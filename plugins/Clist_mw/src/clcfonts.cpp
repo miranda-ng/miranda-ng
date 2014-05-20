@@ -40,8 +40,8 @@ static clistFontDescr[] =
 	{ LPGENT("Dividers"),                                                 FIDF_CLASSSMALL   },
 	{ LPGENT("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
 	{ LPGENT("Status messages"),                                          FIDF_CLASSGENERAL },
-	{ LPGENT("Group Closed"),                                             FIDF_CLASSGENERAL },
-	{ LPGENT("Hover Contacts"),                                           FIDF_CLASSGENERAL }
+	{ LPGENT("Group closed"),                                             FIDF_CLASSGENERAL },
+	{ LPGENT("Hovered contacts"),                                         FIDF_CLASSGENERAL }
 };
 
 #define CLCDEFAULT_BKCOLOUR      GetSysColor(COLOR_3DFACE)
@@ -96,19 +96,19 @@ void RegisterCListFonts()
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Selected Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Selected text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Hottrack Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Hottrack text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Quicksearch Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
 	ColourRegisterT(&colourid);

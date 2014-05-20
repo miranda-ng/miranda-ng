@@ -228,7 +228,7 @@ void InitTrayMenus(void)
 	mi.position = 200000;
 	mi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FINDUSER));
 	mi.pszService = "FindAdd/FindAddCommand";
-	mi.pszName = LPGEN("&Find/Add Contacts...");
+	mi.pszName = LPGEN("&Find/Add contacts...");
 	AddTrayMenuItem(0,(LPARAM)&mi);
 
 	memset(&mi,0,sizeof(mi));
