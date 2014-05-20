@@ -13,11 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Нейтральный resources
+// Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -81,8 +81,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "History",IDC_STATIC,3,3,143,56
     CONTROL         "Enable popup history",IDC_ENABLE_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,15,134,8
-    RTEXT           "Store last",IDC_HISTORY_STATIC1,8,25,58,12,SS_CENTERIMAGE
-    EDITTEXT        IDC_HISTORYSIZE,68,25,26,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Store last",IDC_HISTORY_STATIC1,8,25,47,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_HISTORYSIZE,57,25,37,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "events",IDC_HISTORY_STATIC2,99,25,42,12,SS_CENTERIMAGE
     CONTROL         "",IDC_SHOWHISTORY,"MButtonClass",WS_TABSTOP,9,37,16,15
     CONTROL         "Use History++ to render log",IDC_HPPLOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,40,111,8
@@ -110,7 +110,7 @@ BEGIN
     CONTROL         "Opaque popups under cursor",IDC_TRANS_OPAQUEONHOVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,175,40,118,8
     GROUPBOX        "Effects",IDC_STATIC,151,63,146,84
-    CONTROL         "Slide Popup",IDC_USEANIMATIONS,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,157,79,136,8
+    CONTROL         "Slide popup",IDC_USEANIMATIONS,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,157,79,136,8
     LTEXT           "Effect:",IDC_EFFECT_TXT,157,90,33,12,SS_CENTERIMAGE
     COMBOBOX        IDC_EFFECT,191,91,78,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "Time (in):",IDC_FADEIN_TXT1,157,107,69,12,SS_CENTERIMAGE
@@ -122,9 +122,11 @@ BEGIN
     CONTROL         "",IDC_FADEOUT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,257,121,11,14
     LTEXT           "ms",IDC_FADEOUT_TXT2,274,122,20,12,SS_CENTERIMAGE
     LTEXT           "Limit window amount to:",IDC_STATIC,154,159,96,12,SS_CENTERIMAGE
-    EDITTEXT        IDC_MAXPOPUPS,255,159,26,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_MAXPOPUPS,255,159,37,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     ICON            IDI_MB_WARN,IDC_ICO_RESTART,8,201,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE | NOT WS_VISIBLE
     PUSHBUTTON      "Live Preview",IDC_PREVIEW,219,203,73,14
+    CONTROL         "",IDC_HISTORYSIZE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,84,25,11,14
+    CONTROL         "",IDC_MAXPOPUPS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,282,159,11,14
 END
 
 IDD_OPT_SKIN2 DIALOGEX 0, 0, 304, 228
@@ -166,7 +168,7 @@ BEGIN
     EDITTEXT        IDC_TXT_RIGHT,155,70,25,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_TXT_BOTTOM,83,105,25,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Desktop",IDC_STATIC,10,25,71,8
-    LTEXT           "Popup Area",IDC_STATIC,44,48,99,8
+    LTEXT           "Popup area",IDC_STATIC,44,48,99,8
     LTEXT           "pixel(s)",IDC_STATIC,112,25,38,14,SS_CENTERIMAGE
     LTEXT           "pixel(s)",IDC_STATIC,112,104,38,14,SS_CENTERIMAGE
     CTEXT           "pixel(s)",IDC_STATIC,10,84,25,8
@@ -186,9 +188,9 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "General",IDC_STATIC,3,3,143,45
     CONTROL         "Enable popup actions",IDC_CHK_ENABLEACTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,14,136,10
-    ICON            IDI_MB_INFO,IDC_ICO_INFO,6,23,21,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
-    LTEXT           "Popup Actions are those tiny buttons below notification text.",IDC_STATIC,27,24,116,22
-    GROUPBOX        "Common Actions",IDC_GRP_CUSTOMACTIONS,3,51,143,71
+    ICON            IDI_MB_INFO,IDC_ICO_INFO,6,23,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    LTEXT           "Popup actions are those tiny buttons below notification text.",IDC_STATIC,27,24,116,22
+    GROUPBOX        "Common actions",IDC_GRP_CUSTOMACTIONS,3,51,143,71
     LTEXT           "Please choose in what cases default actions should be added:",IDC_TXT_CUSTOMACTIONS,8,61,136,17
     CONTROL         "Add info && menu for IM contacts only",IDC_CHK_IMCONTACTSONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,82,136,10
@@ -196,20 +198,20 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,95,136,10
     CONTROL         "Don't close popups on default actions",IDC_CHK_DONTCLOSE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,107,136,10
-    GROUPBOX        "Size && Position",IDC_GRP_SIZEPOSITION,3,125,143,72
+    GROUPBOX        "Size and position",IDC_GRP_SIZEPOSITION,3,125,143,72
     CONTROL         "Use large icons",IDC_CHK_LARGEICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,136,10
     LTEXT           "Popup actions will be displayed as:",IDC_TXT_POSITION,8,147,136,8
     CONTROL         "Icons and labels below text",IDC_RD_TEXT,"Button",BS_AUTORADIOBUTTON,26,159,117,10
     CONTROL         "Icons on the left",IDC_RD_LEFTICONS,"Button",BS_AUTORADIOBUTTON,26,171,117,10
     CONTROL         "Icons aligned to the right",IDC_RD_RIGHTICONS,"Button",BS_AUTORADIOBUTTON,26,183,117,10
-    GROUPBOX        "Show Actions: (requires apply)",IDC_GRP_ACTIONS,151,3,146,134
+    GROUPBOX        "Show actions: (requires apply)",IDC_GRP_ACTIONS,151,3,146,134
     CONTROL         "",IDC_ACTIONS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,156,13,136,118
-    GROUPBOX        "Mouse Actions Overwrite",IDC_GRP_SIZEPOSITION2,151,141,146,56
-    CONTROL         "Left Button",IDC_TXT_POSITION2,"Static",SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP,157,152,64,12
+    GROUPBOX        "Mouse actions overwrite",IDC_GRP_SIZEPOSITION2,151,141,146,56
+    CONTROL         "Left button",IDC_TXT_POSITION2,"Static",SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP,157,152,64,12
     COMBOBOX        IDC_CB_LEFT,223,152,69,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Middle Button",IDC_TXT_MIDDLE,"Static",SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP,157,166,64,12
+    CONTROL         "Middle button",IDC_TXT_MIDDLE,"Static",SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP,157,166,64,12
     COMBOBOX        IDC_CB_MIDDLE,223,166,69,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Right Button",IDC_TXT_RIGHT,"Static",SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP,157,180,64,12
+    CONTROL         "Right button",IDC_TXT_RIGHT,"Static",SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP,157,180,64,12
     COMBOBOX        IDC_CB_RIGHT,223,180,69,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Live Preview",IDC_PREVIEW,219,203,73,14
 END
@@ -250,8 +252,8 @@ BEGIN
     CONTROL         "",IDC_SINVISIBLE2,"MButtonClass",WS_TABSTOP,244,151,15,14
     CONTROL         "",IDC_SPHONE2,"MButtonClass",WS_TABSTOP,260,151,15,14
     CONTROL         "",IDC_SLUNCH2,"MButtonClass",WS_TABSTOP,276,151,16,14
-    ICON            IDI_MB_INFO,IDC_ICO_INFO,112,170,21,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
-    LTEXT           "Colors can be configured in\r\nCustomize > Fonts && Colors",IDC_TXT_COLORS,132,171,108,24
+    ICON            IDI_MB_INFO,IDC_ICO_INFO,112,170,20,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    LTEXT           "Colors can be configured in\r\nCustomize > Fonts and colors",IDC_TXT_COLORS,132,171,108,24
     PUSHBUTTON      "More...",IDC_MORE,242,176,50,14
     PUSHBUTTON      "Live Preview",IDC_PREVIEW,219,203,73,14
     CONTROL         "Disable if message window is open",IDC_CHECKWINDOW,
@@ -285,14 +287,14 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Default Timeout",IDC_STATIC,3,3,143,53
+    GROUPBOX        "Default timeout",IDC_STATIC,3,3,143,53
     CONTROL         "Infinite popup delay",IDC_INFINITEDELAY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,9,15,133,8
     LTEXT           "Popup delay:",IDC_SECONDS_STATIC1,18,26,50,12,SS_CENTERIMAGE
     EDITTEXT        IDC_SECONDS,70,26,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SECONDS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,92,25,11,12
     LTEXT           "seconds",IDC_SECONDS_STATIC2,107,26,35,12,SS_CENTERIMAGE
     CONTROL         "Do not close hovered popups",IDC_LEAVEHOVERED,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,18,41,124,8
-    GROUPBOX        "Size && Position",IDC_STATIC,3,60,143,83
+    GROUPBOX        "Size and position",IDC_STATIC,3,60,143,83
     CONTROL         "Dynamically resize the popups",IDC_DYNAMICRESIZE,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,9,71,133,8
     CONTROL         "Minimum width",IDC_USEMINIMUMWIDTH,"Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_NOTIFY | WS_TABSTOP,7,81,88,12,WS_EX_RIGHT
     EDITTEXT        IDC_MINIMUMWIDTH,100,81,40,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
@@ -306,7 +308,7 @@ BEGIN
     RTEXT           "Layout:",IDC_STATIC,7,125,34,12,SS_CENTERIMAGE
     COMBOBOX        IDC_LAYOUT,46,125,94,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Miscellaneous",IDC_STATIC,3,147,143,50
-    CONTROL         "Reorder Popups",IDC_REORDERPOPUPS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,9,158,133,8
+    CONTROL         "Reorder popups",IDC_REORDERPOPUPS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,9,158,133,8
     GROUPBOX        "Disable when:",IDC_STATIC,151,3,146,194
     CONTROL         "Always (has priority)",IDC_POPUPENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,15,135,8
     CONTROL         "Fullscreen mode",IDC_DISABLEINFS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,159,26,135,8
@@ -338,6 +340,34 @@ IDB_NOAVATAR            BITMAP                  "avatar.bmp"
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_POPUP_ADVANCED, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_SKIN2, DIALOG
+    BEGIN
+    END
+
+    IDD_HISTORY, DIALOG
+    BEGIN
+    END
+
+    IDD_POSITION, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_ACTIONS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_NOTIFICATIONS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_CONTACTS, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_POPUP_GENERAL, DIALOG
     BEGIN
         HORZGUIDE, 203
@@ -346,6 +376,7 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
+#ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
@@ -368,7 +399,9 @@ BEGIN
     "\0"
 END
 
-#endif    // Нейтральный resources
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

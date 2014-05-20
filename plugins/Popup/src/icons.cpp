@@ -32,30 +32,30 @@ static IconItem iconList[] =
 	//                               common popup
 	{ LPGEN("Popups are enabled"),          ICO_POPUP_ON,       IDI_POPUP          },
 	{ LPGEN("Popups are disabled"),         ICO_POPUP_OFF,      IDI_NOPOPUP        },
-	{ LPGEN("With \"favorite\" overlay"),  ICO_FAV,            IDI_PU_FAVOURITE   },
+	{ LPGEN("With \"favorite\" overlay"),   ICO_FAV,            IDI_PU_FAVOURITE   },
 	{ LPGEN("With \"fullscreen\" overlay"), ICO_FULLSCREEN,     IDI_PU_FULLSCREEN  },
 	{ LPGEN("Popup History"),               ICO_HISTORY,        IDI_HISTORY        },
 
 	//                               option
 	{ LPGEN("Refresh skin list"),           ICO_OPT_RELOAD,     IDI_RELOAD         },
-	{ LPGEN("Popup Placement"),             ICO_OPT_RESIZE,     IDI_RESIZE         },
+	{ LPGEN("Popup placement"),             ICO_OPT_RESIZE,     IDI_RESIZE         },
 	{ LPGEN("OK"),                          ICO_OPT_OK,         IDI_ACT_OK         },
 	{ LPGEN("Cancel"),                      ICO_OPT_CANCEL,     IDI_ACT_CLOSE      },
-	{ LPGEN("Popup Group"),                 ICO_OPT_GROUP,      IDI_OPT_GROUP      },
+	{ LPGEN("Popup group"),                 ICO_OPT_GROUP,      IDI_OPT_GROUP      },
 	{ LPGEN("Show default"),                ICO_OPT_DEF,        IDI_ACT_OK         },
-	{ LPGEN("Favorite Contact"),            ICO_OPT_FAV,        IDI_OPT_FAVORITE   },
-	{ LPGEN("Show in Fullscreen"),          ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
-	{ LPGEN("Blocked Contact"),             ICO_OPT_BLOCK,      IDI_OPT_BLOCK      },
+	{ LPGEN("Favorite contact"),            ICO_OPT_FAV,        IDI_OPT_FAVORITE   },
+	{ LPGEN("Show in fullscreen"),          ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
+	{ LPGEN("Blocked contact"),             ICO_OPT_BLOCK,      IDI_OPT_BLOCK      },
 
 	//                               action
-	{ LPGEN("Quick Reply"),                 ICO_ACT_REPLY,      IDI_ACT_REPLY      },
-	{ LPGEN("Pin Popup"),                   ICO_ACT_PIN,        IDI_ACT_PIN        },
-	{ LPGEN("Pinned Popup"),                ICO_ACT_PINNED,     IDI_ACT_PINNED     },
-	{ LPGEN("Send Message"),                ICO_ACT_MESS,       IDI_ACT_MESSAGE    },
+	{ LPGEN("Quick reply"),                 ICO_ACT_REPLY,      IDI_ACT_REPLY      },
+	{ LPGEN("Pin popup"),                   ICO_ACT_PIN,        IDI_ACT_PIN        },
+	{ LPGEN("Pinned popup"),                ICO_ACT_PINNED,     IDI_ACT_PINNED     },
+	{ LPGEN("Send message"),                ICO_ACT_MESS,       IDI_ACT_MESSAGE    },
 	{ LPGEN("User details"),                ICO_ACT_INFO,       IDI_ACT_INFO       },
-	{ LPGEN("Contact Menu"),                ICO_ACT_MENU,       IDI_ACT_MENU       },
-	{ LPGEN("Add Contact Permanently"),     ICO_ACT_ADD,        IDI_ACT_ADD        },
-	{ LPGEN("Dismiss Popup"),               ICO_ACT_CLOSE,      IDI_ACT_CLOSE      },
+	{ LPGEN("Contact menu"),                ICO_ACT_MENU,       IDI_ACT_MENU       },
+	{ LPGEN("Add contact permanently"),     ICO_ACT_ADD,        IDI_ACT_ADD        },
+	{ LPGEN("Dismiss popup"),               ICO_ACT_CLOSE,      IDI_ACT_CLOSE      },
 	{ LPGEN("Copy to clipboard"),           ICO_ACT_COPY,       IDI_ACT_COPY       }
 
 };
@@ -75,7 +75,7 @@ HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
 void InitIcons()
 {
 	Icon_Register(hInst, SECT_TOLBAR, iconList, 2);
-	Icon_Register(hInst, SECT_POPUP,  iconList+2, 5);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT,  iconList+7, 9);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT,  iconList+16, 9);
+	Icon_Register(hInst, SECT_POPUP, iconList + 2, 5);
+	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT, iconList + 7, 9);
+	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT, iconList + 16, 9);
 }

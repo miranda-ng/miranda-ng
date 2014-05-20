@@ -35,30 +35,30 @@ void LoadActions()
 {
 	POPUPACTION actions[] =
 	{
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_REPLY,0),		"General/Quick reply",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MESS,0),		"General/Send message",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_INFO,0),		"General/User details",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MENU,0),		"General/Contact menu",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_ADD,0),		"General/Add permanently",		0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_PIN,0),		"General/Pin popup",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE,0),		"General/Dismiss popup",		0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_COPY,0),		"General/Copy to clipboard",	0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_REPLY, 0),	"General/Quick reply",			0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MESS, 0),		"General/Send message",			0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_INFO, 0),		"General/User details",			0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MENU, 0),		"General/Contact menu",			0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_ADD, 0),		"General/Add permanently",		0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_PIN, 0),		"General/Pin popup",			0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0),	"General/Dismiss popup",		0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_COPY, 0),		"General/Copy to clipboard",	0},
 
 		//remove popup action
 	#if defined(_DEBUG)
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON,0),		"Popup Plus/Test action",			PAF_ENABLED},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE,0),		"Popup Plus/Second test action",	0},
-		{ sizeof(POPUPACTION), LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),		"Popup Plus/One more action",		PAF_ENABLED},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON, 0),		"Popup Plus/Test action",			PAF_ENABLED},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0),	"Popup Plus/Second test action",	0},
+		{ sizeof(POPUPACTION), LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),	"Popup Plus/One more action",	PAF_ENABLED},
 	#endif
 	};
 
-	for (int i=0; i < SIZEOF(actions); ++i)
+	for (int i = 0; i < SIZEOF(actions); ++i)
 		RegisterAction(&actions[i]);
 }
 
 void UnloadActions()
 {
-	for (int i=0; i < gActions.getCount(); ++i)
+	for (int i = 0; i < gActions.getCount(); ++i)
 		delete gActions[i];
 	gActions.destroy();
 }
@@ -104,9 +104,9 @@ DWORD MouseOverride(HWND hCombo, int number)
 {
 	DWORD dwItem = 0;
 	DWORD ItemActive = 0;
-	if (number<0 || number >7)
+	if (number < 0 || number > 7)
 		number = 0;
-	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("no overwrite"));
+	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("No overwrite"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 0);
 	if (number == 0)
 		ItemActive = dwItem;
@@ -149,9 +149,9 @@ DWORD MouseOverride(HWND hCombo, int number)
 
 void LoadOption_Actions() {
 	PopupOptions.actions			= db_get_dw(NULL, MODULNAME, "Actions",
-									  ACT_ENABLE|ACT_RIGHTICONS|ACT_DEF_KEEPWND|ACT_DEF_IMONLY|
-									  ACT_DEF_NOGLOBAL|ACT_DEF_MESSAGE|ACT_DEF_DETAILS|ACT_DEF_MENU|
-									  ACT_DEF_ADD|ACT_DEF_DISMISS|ACT_DEF_PIN);
+										ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
+										ACT_DEF_NOGLOBAL | ACT_DEF_MESSAGE | ACT_DEF_DETAILS | ACT_DEF_MENU |
+										ACT_DEF_ADD | ACT_DEF_DISMISS | ACT_DEF_PIN);
 	PopupOptions.overrideLeft		= db_get_dw(NULL,MODULNAME, "OverrideLeft", 0);
 	PopupOptions.overrideMiddle		= db_get_dw(NULL,MODULNAME, "OverrideMiddle", 0);
 	PopupOptions.overrideRight		= db_get_dw(NULL,MODULNAME, "OverrideRight", 0);
@@ -192,16 +192,16 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		TranslateDialogDefault(hwnd);
 
-		SendMessage(GetDlgItem(hwnd, IDC_ICO_INFO), STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY,0), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_ICO_INFO), STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY, 0), 0);
 
-		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions&ACT_ENABLE ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions&ACT_DEF_IMONLY ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_CONTACTSONLY, PopupOptions.actions&ACT_DEF_NOGLOBAL ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_DONTCLOSE, PopupOptions.actions&ACT_DEF_KEEPWND ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_LARGEICONS, PopupOptions.actions&ACT_LARGE ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_RD_TEXT, PopupOptions.actions&ACT_TEXT ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_RD_LEFTICONS, PopupOptions.actions&ACT_LEFTICONS ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_RD_RIGHTICONS, PopupOptions.actions&ACT_RIGHTICONS ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions & ACT_ENABLE ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions & ACT_DEF_IMONLY ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_CHK_CONTACTSONLY, PopupOptions.actions & ACT_DEF_NOGLOBAL ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_CHK_DONTCLOSE, PopupOptions.actions & ACT_DEF_KEEPWND ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_CHK_LARGEICONS, PopupOptions.actions & ACT_LARGE ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_RD_TEXT, PopupOptions.actions & ACT_TEXT ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_RD_LEFTICONS, PopupOptions.actions & ACT_LEFTICONS ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_RD_RIGHTICONS, PopupOptions.actions & ACT_RIGHTICONS ? TRUE : FALSE);
 
 		{
 			DWORD dwActiveItem = 0;
@@ -220,12 +220,12 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwnd, IDC_CB_RIGHT, CB_SETCURSEL, dwActiveItem, 0);
 
 			HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
-			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES|LVS_EX_LABELTIP);
+			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
 			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 10, 1);
 			ListView_SetImageList(hwndList, hImgList, LVSIL_SMALL);
 
 			LVCOLUMN column = {0};
-			column.mask = LVCF_TEXT|LVCF_WIDTH;
+			column.mask = LVCF_TEXT | LVCF_WIDTH;
 			column.pszText = TranslateT("Action");
 			column.cx = 175;
 			ListView_InsertColumn(hwndList, 0, &column);
@@ -247,7 +247,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				{
 					LVGROUP group = {0};
 					group.cbSize = sizeof(group);
-					group.mask = LVGF_HEADER|LVGF_GROUPID;
+					group.mask = LVGF_HEADER | LVGF_GROUPID;
 					LPWSTR wszGroup = mir_a2u(szGroup);
 					group.pszHeader = TranslateW(wszGroup);
 					group.cchHeader = lstrlenW(wszGroup);
@@ -258,9 +258,9 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				}
 
 				LVITEM item = {0};
-				item.mask = LVIF_IMAGE|LVIF_PARAM|LVIF_TEXT|LVIF_STATE|LVIF_INDENT;
+				item.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_TEXT | LVIF_STATE | LVIF_INDENT;
 				item.iItem = i;
-				ptrT tszName( mir_a2t(szName));
+				ptrT tszName(mir_a2t(szName));
 				item.pszText = TranslateTS(tszName);
 				item.iImage = ImageList_AddIcon(hImgList, gActions[i]->lchIcon);
 				item.lParam = i;
@@ -272,7 +272,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				ListView_SetItemState(hwndList, i, (gActions[i]->flags & PAF_ENABLED) ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
 			}
 
-			BOOL enabled = (PopupOptions.actions&ACT_ENABLE) ? TRUE : FALSE;
+			BOOL enabled = (PopupOptions.actions & ACT_ENABLE) ? TRUE : FALSE;
 			for (i = 0; i < SIZEOF(controls); ++i)
 				EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
 		}
@@ -284,10 +284,10 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_CHK_ENABLEACTIONS:
 			PopupOptions.actions &= ~ACT_ENABLE;
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_CHK_ENABLEACTIONS) ? ACT_ENABLE : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			{
 				BOOL enabled = (PopupOptions.actions & ACT_ENABLE) ? TRUE : FALSE;
-				for (i=0; i < SIZEOF(controls); ++i)
+				for (i = 0; i < SIZEOF(controls); ++i)
 					EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
 			}
 			break;
@@ -295,37 +295,37 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_CHK_IMCONTACTSONLY:
 			PopupOptions.actions &= ~ACT_DEF_IMONLY;
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_CHK_IMCONTACTSONLY) ? ACT_DEF_IMONLY : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_CHK_CONTACTSONLY:
 			PopupOptions.actions &= ~ACT_DEF_NOGLOBAL;
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_CHK_CONTACTSONLY) ? ACT_DEF_NOGLOBAL : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_CHK_DONTCLOSE:
 			PopupOptions.actions &= ~ACT_DEF_KEEPWND;
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_CHK_DONTCLOSE) ? ACT_DEF_KEEPWND : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_CHK_LARGEICONS:
 			PopupOptions.actions &= ~ACT_LARGE;
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_CHK_LARGEICONS) ? ACT_LARGE : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_RD_TEXT:
-			PopupOptions.actions &= ~(ACT_TEXT|ACT_LEFTICONS|ACT_RIGHTICONS);
+			PopupOptions.actions &= ~(ACT_TEXT | ACT_LEFTICONS | ACT_RIGHTICONS);
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_CHK_ENABLEACTIONS) ? ACT_TEXT : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_RD_LEFTICONS:
-			PopupOptions.actions &= ~(ACT_TEXT|ACT_LEFTICONS|ACT_RIGHTICONS);
+			PopupOptions.actions &= ~(ACT_TEXT | ACT_LEFTICONS | ACT_RIGHTICONS);
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_RD_LEFTICONS) ? ACT_LEFTICONS : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_RD_RIGHTICONS:
-			PopupOptions.actions &= ~(ACT_TEXT|ACT_LEFTICONS|ACT_RIGHTICONS);
+			PopupOptions.actions &= ~(ACT_TEXT | ACT_LEFTICONS | ACT_RIGHTICONS);
 			PopupOptions.actions |= IsDlgButtonChecked(hwnd, IDC_RD_RIGHTICONS) ? ACT_RIGHTICONS : 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_PREVIEW:
 			PopupPreview();
@@ -334,12 +334,13 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_CB_MIDDLE:
 		case IDC_CB_RIGHT:
 			PopupOptions.overrideLeft = SendDlgItemMessage(hwnd, IDC_CB_LEFT, CB_GETITEMDATA,
-				SendDlgItemMessage(hwnd, IDC_CB_LEFT, CB_GETCURSEL,0,0),0);
+				SendDlgItemMessage(hwnd, IDC_CB_LEFT, CB_GETCURSEL, 0, 0), 0);
 			PopupOptions.overrideMiddle = SendDlgItemMessage(hwnd, IDC_CB_MIDDLE, CB_GETITEMDATA,
-				SendDlgItemMessage(hwnd, IDC_CB_MIDDLE, CB_GETCURSEL,0,0),0);
+				SendDlgItemMessage(hwnd, IDC_CB_MIDDLE, CB_GETCURSEL, 0, 0), 0);
 			PopupOptions.overrideRight = SendDlgItemMessage(hwnd, IDC_CB_RIGHT, CB_GETITEMDATA,
-				SendDlgItemMessage(hwnd, IDC_CB_RIGHT, CB_GETCURSEL,0,0),0);
-			SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+				SendDlgItemMessage(hwnd, IDC_CB_RIGHT, CB_GETCURSEL, 0, 0), 0);
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		}
 		break;
 
@@ -355,9 +356,9 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				db_set_dw(NULL, MODULNAME, "Actions", PopupOptions.actions);
 				HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
 
-				for (i=0; i < gActions.getCount(); ++i) {
+				for (i = 0; i < gActions.getCount(); ++i) {
 					gActions[i]->flags = (ListView_GetItemState(hwndList, i, LVIS_STATEIMAGEMASK) == 0x2000) ? PAF_ENABLED : 0;
-					db_set_b(NULL, "PopupActions", gActions[i]->lpzTitle, (gActions[i]->flags&PAF_ENABLED) ? 1 : 0);
+					db_set_b(NULL, "PopupActions", gActions[i]->lpzTitle, (gActions[i]->flags & PAF_ENABLED) ? 1 : 0);
 				}
 
 				//overrideActions
@@ -370,7 +371,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_ACTIONS:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 			if (windowInitialized && nmlv && nmlv->hdr.code == LVN_ITEMCHANGED && nmlv->uOldState != 0 && (nmlv->uNewState == 0x1000 || nmlv->uNewState == 0x2000))
-				SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		}
 	}
 	return FALSE;
