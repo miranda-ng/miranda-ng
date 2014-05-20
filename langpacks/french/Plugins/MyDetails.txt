@@ -16,34 +16,38 @@ Pseudo :
 Annuler
 [General]
 Général
-[...avatar]
-
 [RTL]
 Lecture inversée
 [Align text to right]
 Aligner à droite
-[...nickname]
-
 [Auto-resize frame]
 Cadre dynamique
 [Use contact list smileys]
 Smileys dans la CList
-[...status]
-
 [Replace Smileys]
 Remplacer les smileys
 [Resize Smileys]
 Retailler les smileys
+[Global On...]
+
+[...avatar]
+
+[...nickname]
+
+[...status]
+
 [...status message]
 
-[Top:]
-Haut :
-[Bottom:]
-Bas :
-[Left:]
-Gauche :
-[Right:]
-Droite :
+[Account]
+Compte
+[Show account name]
+
+[Show account cycle button]
+
+[Cycle through accounts every:]
+
+[seconds]
+secondes
 [Avatar]
 
 [Custom size:]
@@ -60,20 +64,16 @@ Coins arrondis
 Personnaliser la taille des angles :
 [Use free space (under avatar) to other texts]
 Utiliser l'espace libre sous l'avatar pour d'autres textes
-[Global On...]
-
 [Frame Options]
 
-[Cycle through accounts every:]
-
-[seconds]
-secondes
-[Account]
-Compte
-[Show account name]
-
-[Show account cycle button]
-
+[Top:]
+Haut :
+[Bottom:]
+Bas :
+[Left:]
+Gauche :
+[Right:]
+Droite :
 [Set My Status Message for All Status]
 Changer le message pour tous les états
 [Status Message:]

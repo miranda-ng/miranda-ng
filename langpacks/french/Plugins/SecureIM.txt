@@ -31,11 +31,11 @@ Toujours activer si possible
 [Mode in Context Menu]
 
 [Key Exchange Timeout:]
-Délai d'envoi des clef :
+Délai d'envoi des clefs :
 [sec]
 secondes
 [Offline Key Timeout:]
-Clef hors-ligne expir. :
+Clef hors-ligne expirée :
 [days]
 jours
 [PGP]

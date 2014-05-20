@@ -6,7 +6,7 @@ Last-Modified-Using: Miranda NG 0.95.1
 ;	This translation is automatically generated from the French langpack Miranda IM by Dagobert_78.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0
 [Enter account name (for example, My Google)]
-Entrez le nom du compte (ex: My Google)
+Entrez le nom du compte (ex : My Google)
 [Choose the protocol type]
 Choisissez le type de protocole
 [Specify the internal account name (optional)]
@@ -164,7 +164,7 @@ OutputDebugString()
 [File]
 Fichier
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
-Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.):
+Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
 [Run now]
 Exécuter maintenant
 [Show this dialog box when Miranda NG starts]
@@ -442,7 +442,7 @@ Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts
 [Add to Existing MetaContact]
 Ajouter à un MetaContact existant
 [Please select a MetaContact:]
-Veuillez choisir un MetaContact:
+Veuillez choisir un MetaContact :
 [Sort Alphabetically]
 Trier alphabétiquement
 [Editing]
@@ -1944,7 +1944,7 @@ Informations dans %s
 [%s kicked %s (%s)]
 %s a kické %s (%s)
 [Notice from %s: %s]
-Notice de %s: %s
+Notice de %s : %s
 [The topic is '%s']
 Le sujet est '%s'
 [The topic is '%s' (set by %s)]
@@ -3128,9 +3128,9 @@ Ajouter un contact\nAjouter un contact à votre liste de contacts
 [Account:]
 Compte :
 [Custom name:]
-Nom à afficher:
+Nom à afficher :
 [Group:]
-Groupe:
+Groupe :
 [Options]
 Paramètres
 [Add temporarily]
@@ -3190,7 +3190,7 @@ OK
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]
-Commande:
+Commande :
 [Other]
 Autre
 [ms]
@@ -3275,7 +3275,7 @@ Fermeture dans %d
 [AIM User Details]
 AIM
 [Password:]
-Passe:
+Passe :
 [Message Delivery Confirmation]
 Demander un accusé de réception
 [Do Not Autoreply When Away]
@@ -3299,7 +3299,7 @@ Transfert de fichier par Proxy
 [*Aim must be reconnected for some option to take effect]
 *AIM doit être reconnecter pour valider certaines options
 [Port:]
-Port:
+Port :
 [Reset]
 RAZ
 [Manage Server Groups]
@@ -3309,9 +3309,9 @@ Enregistrer
 [AIM Instant Idler]
 AIM - configuration de l'inactivité
 [Number of Hours:]
-Nombre d'heure:
+Nombre d'heure :
 [Number of Minutes:]
-Nombre de minutes:
+Nombre de minutes :
 [Set Idle]
 Être inactif
 [Unset Idle]
@@ -3397,7 +3397,7 @@ File du serveur pleine.
 [%s server connection]
 %s serveur connexion
 [[Auto-Response]:]
-{Auto-Response}:
+{Auto-Response} :
 [No information has been provided by the server.]
 Aucune information n'a été fournie par le serveur.
 [Item you want to delete not found in list.]
@@ -3456,21 +3456,21 @@ Alarmes
 [Use popup plugin]
 Utiliser le plugin Popup
 [Default snooze:]
-Son par défaut:
+Son par défaut :
 [minutes]
 minutes
 [Row height:]
-Taille des colonnes:
+Taille des colonnes :
 [Auto hide/show]
 Cacher/Montrer automatiquement
 [Period (hours):]
-Période (heure):
+Période (heure) :
 [Hide/show with clist]
 Comme les contacts
 [Auto size vertically]
 Taille verticale auto
 [Transparency (%):]
-Transparence (%):
+Transparence (%) :
 [Alert window]
 Fenêtre d'alerte
 [Round corners]
@@ -3484,13 +3484,13 @@ Annuler
 [Title:]
 Titre :
 [Description:]
-Description:
+Description :
 [Actions]
 Actions
 [Run command:]
-Lignes de commandes:
+Lignes de commandes :
 [Parameters:]
-Paramètres:
+Paramètres :
 [Alert 1]
 Alerte 1
 [Alert 2]
@@ -3554,15 +3554,15 @@ Cadres
 [Alarm reminders]
 Rappels d'alarme
 [Menu: Set alarm]
-Menu: Régler l'Alarme
+Menu : Régler l'Alarme
 [Reminder: Soon]
-Rappel: Bientôt
+Rappel : Bientôt
 [Reminder: Very soon]
-Rappel: Très Bientôt
+Rappel : Très Bientôt
 [Alarm: System tray]
-Alarme: Systray
+Alarme : Systray
 [Menu: Show/Hide reminders]
-Menu: Voir/Cacher les Rappels
+Menu : Voir/Cacher les Rappels
 [Please enter a title for this alarm.]
 Indiquez un nom pour cette alarme.
 [Error]
@@ -3581,7 +3581,7 @@ L'heure qui vous avez indiqué est dépassée.
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 Permet de gérer les associations de fichier et d'ULR comme AIM, Yahoo messenger, xmpp, MSN messenger, Gadu-Gadu et Tlen.
 [Registered associations for Miranda NG:]
-Associations enregistrées pour Miranda-NG:
+Associations enregistrées pour Miranda-NG :
 [Miscellaneous]
 Divers
 [&Start Miranda NG automatically when the computer starts (using current profile)]
@@ -3597,13 +3597,13 @@ Types de fichier
 [File association error]
 Erreur d'association de fichier
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-Il s'est produit une erreur lors de la modification de l'association du type fichier/URL dans la base de registre.\nMotif: %s
+Il s'est produit une erreur lors de la modification de l'association du type fichier/URL dans la base de registre.\nMotif : %s
 [Unknown]
 Inconnu
 [Autostart error]
 Erreur de lancement automatique
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Il s'est produit une erreur lors de la modification de la liste des lancements automatiques.\n\nMotif: %s
+Il s'est produit une erreur lors de la modification de la liste des lancements automatiques.\n\nMotif : %s
 [Services]
 Services
 [Miranda NG database]
@@ -3639,7 +3639,7 @@ Démarrage
 [Launch Miranda NG at system startup]
 Lancer Miranda NG au démarrage de Windows
 [Note: At startup Miranda NG will use current profile]
-NOTE: Au prochain démarrage de Miranda NG,\nvous utiliserez le profil actuel
+NOTE : Au prochain démarrage de Miranda NG,\nvous utiliserez le profil actuel
 [Services]
 Services
 #muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
@@ -3656,7 +3656,7 @@ Arrêt Système
 [&Show confirmation dialog before shutdown]
 &Demander confirmation avant de fermer
 [&Countdown starts at:]
-&Compte à rebours à:
+&Compte à rebours à :
 [seconds]
 secondes
 [Shutdown Events]
@@ -3668,7 +3668,7 @@ secondes
 [Critical Shutdown Events]
 Évènements d'extinction critque
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-Éteindre automatiquement l'ordinateur si:
+Éteindre automatiquement l'ordinateur si :
 [&Thunderstorm warning is issued (Weather)]
 Un &orage est annoncé (plugin Weather)
 [&Harddrive overheats (HDD Info)]
@@ -3680,25 +3680,25 @@ Sélectionner l'évènement qui fermera Miranda-IM
 [Shutdown at &specific time]
 À une heure précise
 [Shutdown a&t:]
-Extinction à:
+Extinction à :
 [Shutdown i&n:]
-Extinction dans:
+Extinction dans :
 [Shutdown when a &message is received containing the following text:]
-À la réception d'un message contenant le texte suivant:
+À la réception d'un message contenant le texte suivant :
 [Shutdown when Miranda NG becomes &idle]
 Quand Miranda NG devient inactif
 [Configure]
 Configurer
 [Shutdown when &prozessor usage drops below:]
-Extinction si la charge processeur descend à:
+Extinction si la charge processeur descend à :
 [(current: 0%)]
-(actuel: 0%)
+(actuel : 0%)
 [Shutdown when all contacts are &offline]
 Quand tous vos contacts sont déconnectés
 [Shutdown when all &file transfers are finished]
 Éteindre quand tous les fichiers auront été transféré
 [&Action:]
-&Action:
+&Action :
 [Cancel]
 Annuler
 [Unsaved data in open applications except Miranda NG might get lost.]
@@ -3708,9 +3708,9 @@ Cliquer sur "Annuler" pour annuler cette action, ou sur "Maintenant" pour ne pas
 [&Now!]
 &Maintenant !
 [Shutdown at:]
-Heure d'extinction:
+Heure d'extinction :
 [Time left:]
-Temps restant:
+Temps restant :
 [Paused]
 EN PAUSE
 [&Unpause Countdown]
@@ -3744,7 +3744,7 @@ Semaine(s)
 [Month(s)]
 Mois
 [(current: %u%%)]
-(actuel: %u%%)
+(actuel : %u%%)
 [Start/Stop automatic shutdown]
 Lancer/Arrêter l'arrêt automatique
 [Start automatic shutdown]
@@ -3776,11 +3776,11 @@ L'ordinateur s'éteindra automatiquement dans %u seconde(s).
 [Automatic Shutdown Error]
 Erreur de Automatic Shutdown
 [The shutdown process failed!\nReason: %s]
-La procédure d'extinction a échouée !\nMotif:%s
+La procédure d'extinction a échouée !\nMotif : %s
 [Unknown]
 Inconnu
 [Inititiating the shutdown process failed!\nReason: %s]
-Échec de l'initialisation d'extinction !\nMotif: %s
+Échec de l'initialisation d'extinction !\nMotif : %s
 [Close Miranda NG]
 Fermer Miranda NG
 [Set Miranda NG offline]
@@ -3851,9 +3851,9 @@ Popup pour ce contact
 [Protocols]
 Protocoles
 [Enable tracking for these protocols:]
-Surveiller les protocoles suivants:
+Surveiller les protocoles suivants :
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-Les MetaContacts ont un traitement spécial: l'info est copiée aux sous-contacts (les notifications des MetaContacts seront ignorées)
+Les MetaContacts ont un traitement spécial : l'info est copiée aux sous-contacts (les notifications des MetaContacts seront ignorées)
 [Show popup when a contact change his avatar]
 Afficher un popup au changement d'avatar
 [Colors]
@@ -3873,17 +3873,17 @@ Défini
 [Actions]
 Actions
 [On right click:]
-Clic droit:
+Clic droit :
 [On left click:]
-Clic gauche:
+Clic gauche :
 [Avatar change:]
-Avatar changé:
+Avatar changé :
 [Avatar removal:]
-Avatar effacé:
+Avatar effacé :
 [Preview]
 Aperçu
 [Avatar History: Select how to store history avatars]
-Avatar History: Méthode d'enregistrement des avatars.
+Avatar History : Méthode d'enregistrement des avatars.
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Veuillez choisir comment l'historique des avatars sera stocker. Ce choix NE POURRAS PAS être modifier, sauf si vous voulez perdre tous les historiques.
 [Store history in Miranda history and all history avatars in same folder]
@@ -3915,11 +3915,11 @@ Effacer le journal des avatars ?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
 Êtes-vous sùr de vouloir effacer le raccourci à l'avatar ?\nSeule le raccourci sera effacé, l'avatar sera conservé !
 [Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
-Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera la ligne de l'historique et l'avatar qui lui est associé.\nATTENTION: Ceci peut affecter plus d'une ligne de l'historique !
+Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera la ligne de l'historique et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'une ligne de l'historique !
 [Delete avatar?]
 Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
-Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION: Ceci peut affecter plus d'un raccourci !
+Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'un raccourci !
 [View Avatar History]
 Historique des avatars...
 [Avatars]
@@ -3935,9 +3935,9 @@ Afficher l'historique des avatars
 [Show contact history]
 Afficher l'historique du contact
 [Test Contact]
-Test: Contact
+Test : Contact
 [Test description]
-Test: Description
+Test : Description
 [Popups]
 Popups
 [Avatar Change]
@@ -3960,9 +3960,9 @@ Effacer l'image
 [Try to draw avatar background transparent (for images without transparency)]
 Tenter de rendre l'arrière-plan transparent (pour des images sans transparence)
 [Number of points to define background:]
-Nombre de points pour le fond:
+Nombre de points pour le fond :
 [Color difference allowed:]
-Nombre de couleurs autorisées:
+Nombre de couleurs autorisées :
 [Make transparency proportional to color diff]
 Transparence proportionnelle au nombre de couleurs
 [Draw avatars grayscale]
@@ -4004,9 +4004,9 @@ Arrière-plan
 [Transparent]
 Transparent
 [Points:]
-Point:
+Point :
 [Color diff:]
-Couleurs:
+Couleurs :
 [Set]
 OK
 [Use per protocol avatars]
@@ -4244,7 +4244,7 @@ BossKey
 [Go to Customize -> Hotkeys to change the hotkey]
 Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
 [When I press the hotkey:]
-Quand je presse le raccourci suivant:
+Quand je presse le raccourci suivant :
 [Change status to]
 Changer d'état à
 [Change only if current status is Online]
@@ -4254,15 +4254,15 @@ Utilisez le message d'état par défaut
 [Disable Sounds]
 Sons désactivés
 [When I return:]
-Quand je reviens:
+Quand je reviens :
 [Request password:]
-Mot de passe:
+Mot de passe :
 [Change status back]
 Remettre l'état précédent
 [Hotkey]
 Raccourci clavier
 [Password:]
-Passe:
+Passe :
 [Cancel]
 Annuler
 [Workstation is locked]
@@ -4272,7 +4272,7 @@ Poste de travail est verrouillé
 [Windows is inactive]
 Windows est inactif
 [Hide Miranda when:]
-Cachez Miranda lorsque:
+Cachez Miranda lorsque :
 [Miranda is inactive]
 Miranda est inactif
 [min]
@@ -4362,7 +4362,7 @@ Annuler
 [Pounce being sent to]
 Pounce a envoyé à
 [The Message:]
-Le message:
+Le message :
 [Delete Pounce]
 Effacer Pounce
 [Load default Settings]
@@ -4372,7 +4372,7 @@ Paramétrages du texte.....
 [Settings]
 Paramètres
 [Contact To Send Pounce To]
-Envoyer Pounce au contact:
+Envoyer Pounce au contact :
 [Advanced >>]
 Avancé >>
 [The Message]
@@ -4384,7 +4384,7 @@ Dialogue
 [Use Advanced Dialog]
 Fonctions avancées
 [The Message (characters: )]
-Message (caractères: )
+Message (caractères : )
 [Show Delivery Messages]
 Afficher les msg. envoyés
 [Send If My Status Is...]
@@ -4442,15 +4442,15 @@ Au téléphone
 [To Out To Lunch]
 Parti manger
 [The Message    (%d Characters)]
-Message:     (%d caractères)
+Message :    (%d caractères)
 [The Message    (0 Characters)]
-Message:     (0 caractère)
+Message :    (0 caractère)
 [Reuse this message? (0 to use it once)]
 Réutiliser ce message ?  (0 = une seule fois)
 [Times]
 Heures
 [Give up after... (0 to not give up)]
-Réitérer après (0=désactivé):
+Réitérer après (0=désactivé) :
 [Days]
 Jours
 [Show confirmation window? (0 to not Show)]
@@ -4561,13 +4561,13 @@ Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 [Hotkeys]
 Raccourcis clavier
 [Show/Hide:]
-Afficher/Cacher:
+Afficher/Cacher :
 [Read Message:]
-Lire le message:
+Lire le message :
 [Web Search:]
-Recherche web:
+Recherche web :
 [URL:]
-Lien:
+Lien :
 [Open in new browser window]
 Ouvrir dans une nouvelle fenêtre
 [Show Options]
@@ -4623,7 +4623,7 @@ Fenêtre principale style 'Outil'
 [Minimize to tray]
 Minimiser dans barre système
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après:
+Cacher la liste de contacts après :
 [seconds]
 secondes
 [Automatically resize window to height of list]
@@ -4635,7 +4635,7 @@ maximum
 [Size upwards]
 Agrandir vers le haut
 [Title bar text:]
-Texte du titre:
+Texte du titre :
 [Translucency options]
 Options de transparence
 [Fade contact list in/out]
@@ -4643,9 +4643,9 @@ Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive:
+Opacité si inactive :
 [Active opacity:]
-Opacité si active:
+Opacité si active :
 [Show menu bar]
 Afficher la barre de menu
 [Easy move]
@@ -4661,7 +4661,7 @@ Afficher l'ombre (redémarr. nécessaire)
 [Items]
 Objets
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque:
+"Cacher les Hors ligne" masque :
 [Groups]
 Groupes
 [Show counts of number of contacts in a group]
@@ -4677,7 +4677,7 @@ Modèles
 [Contact:]
 Contact :
 [Group:]
-Groupe:
+Groupe :
 [Info:]
 Info :
 [Status Bar]
@@ -4964,7 +4964,7 @@ Barre des états
 [Accounts per line]
 Comptes par ligne
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-Pour réduire la barre des états:\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
+Pour réduire la barre des états :\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
 [Hold [Shift] to inverse [Right Click] behavior]
 Maintenez la touche [Maj] pour inverser le comportement [clic droit]
 [Set options per account]
@@ -5116,7 +5116,7 @@ Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée:
+Durée :
 [milliseconds]
 millisecondes
 [Hide vertical scrollbar]
@@ -5160,7 +5160,7 @@ Paramètres avancés
 [Allow internal requesting of status message text]
 Autoriser la demande interne du texte de message d'état
 [Subcontacts indent:]
-Décalage des sous-contacts:
+Décalage des sous-contacts :
 [Use improved search method in contact list]
 Utilisez une meilleure méthode de recherche dans la liste de contacts
 [Show time only if it is different from current time]
@@ -5280,7 +5280,7 @@ Afficher le pseudo si différent du nom personnalisé
 [Trim long text with ellipsis]
 Terminer les longs textes par des points de suspensions
 [Top space:]
-Séparation:
+Séparation :
 [Draw smileys on second line]
 Afficher les smileys
 [Text:]
@@ -5294,7 +5294,7 @@ Pseudo
 [XStatus has priority]
 Préférer XStatus
 [Use 'XStatus: XMessage']
-Utiliser 'XStatus: XMessage'
+Utiliser 'XStatus : XMessage'
 [(Variables will be replaced)]
 (Utilisé des variables)
 [Show third line]
@@ -5612,9 +5612,9 @@ Charger/Sauver
 [Object editor]
 Éditeur de skin
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAuteur(s):\t %s\nContact:\t %s\nPage Web:\t %s\n\nFichier:\t %s
+%s\n\n%s\n\nAuteur(s) :\t %s\nContact :\t %s\nPage Web :\t %s\n\nFichier :\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-%s\n\n%s\n\nAuteur(s): %s\nContact:\t %s\nWeb:\t %s\n\nFichier:\t %s
+%s\n\n%s\n\nAuteur(s) : %s\nContact :\t %s\nWeb :\t %s\n\nFichier :\t %s
 [This is second default Modern Contact list skin in Vista Aero style]
 Voici le second skin Aero Vista pour Modern CList
 [Inside library]
@@ -5626,9 +5626,9 @@ Attention !
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 Le skin actuel n'a pas été sauvegardé.\n\nTous les changements vont être perdus.\n\n Voulez-vous quand même charger un autre skin ?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S):\n%s\n\nCONTACT:\n%s\n\nPAGE WEB:\n%s
+Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S) :\n%s\n\nCONTACT :\n%s\n\nPAGE WEB :\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-%s\n\n%s\n\nAUTEURS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n
+%s\n\n%s\n\nAUTEURS :\n%s\n\nCONTACT :\n%s\n\nWEB :\n%s\n\n\n
 [Select skin from list]
 Sélectionnez un des skins de la liste
 [Please select skin to apply]
@@ -5682,7 +5682,7 @@ Heures
 [Days]
 Jours
 [Configuring view mode: %s]
-Configurer le mode d'affichage: %s
+Configurer le mode d'affichage : %s
 [All contacts]
 tous les contacts
 [Filtering]
@@ -5755,7 +5755,7 @@ Cadre vérouillé
 [Settings]
 Paramètres
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Selection color:]
 Couleur de sélection :
 [Use background bitmap]
@@ -5781,9 +5781,9 @@ Boutons
 [InsertSeparator]
 Séparateur
 [Service:]
-Service:
+Service :
 [Name:]
-Nom:
+Nom :
 [Set]
 OK
 [Default]
@@ -5813,7 +5813,7 @@ Demander avant de supprimer
 [Always on top]
 Toujours visible
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après:
+Cacher la liste de contacts après :
 [seconds]
 secondes
 [Sort contacts by name]
@@ -5857,7 +5857,7 @@ Ne pas déplacez les utilisateur déconnecté en bas
 [Rows]
 Lignes
 [Row height:]
-Hauteur de ligne:
+Hauteur de ligne :
 [pixels]
 pixels
 [Gamma correction]
@@ -5877,7 +5877,7 @@ maximum
 [Size upwards]
 Agrandir vers le haut
 [Title bar text:]
-Texte du titre:
+Texte du titre :
 [Translucency options]
 Options de transparence
 [Fade contact list in/out]
@@ -5885,9 +5885,9 @@ Fondu de la liste de contacts
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive:
+Opacité si inactive :
 [Active opacity:]
-Opacité si active:
+Opacité si active :
 [Show menu bar]
 Afficher la barre de menu
 [Easy move]
@@ -5913,7 +5913,7 @@ Afficher la sélection même si la liste n'est pas visible
 [Make selection highlight translucent]
 Activer la sélection translucide
 ['Hide Offline' means to hide:]
-"Cacher les Hors ligne" masque:
+"Cacher les Hors ligne" masque :
 [Groups]
 Groupes
 [Draw a line alongside group names]
@@ -5927,19 +5927,19 @@ Classer les groupes par ordre alphabétique
 [Quicksearch in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
-Décaler les contacts de:
+Décaler les contacts de :
 [Visual]
 Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée:
+Durée :
 [milliseconds]
 millisecondes
 [Left margin:]
-Marge gauche:
+Marge gauche :
 [Gray out entire list when:]
-Griser toute la liste quand:
+Griser toute la liste quand :
 [Dim idle contacts]
 Estomper les contacts inactifs
 [Hide vertical scrollbar]
@@ -6264,11 +6264,11 @@ Marges gauche/droite
 [Row gap]
 Espace
 [Minimum row height:]
-Hauteur mini lignes:
+Hauteur mini lignes :
 [Group row height]
 Largeur du groupe
 [Indent groups by:]
-Décaler les contacts de:
+Décaler les contacts de :
 [Margins and spacing]
 Marges et espaces
 [Contact List Sorting]
@@ -6310,7 +6310,7 @@ Seconde ligne
 [Display status message when available]
 Afficher le message d'état si disponible
 [Show second text line:]
-Afficher une seconde ligne:
+Afficher une seconde ligne :
 [Show contacts local time]
 Afficher l'heure locale du contact
 [Only when timezone differs]
@@ -6344,13 +6344,13 @@ Cadre arrondi
 [Border]
 Bordures
 [Title bar text:]
-Texte du titre:
+Texte du titre :
 [Pin to desktop]
 Épingler au bureau
 [Show drop shadow (restart required)]
 Afficher l'ombre (redémarr. nécessaire)
 [Hide contact list after it has been idle for]
-Cacher la liste de contacts après:
+Cacher la liste de contacts après :
 [seconds]
 secondes
 [Automatically resize window to height of list]
@@ -6376,9 +6376,9 @@ Options de transparence
 [Transparent contact list]
 Liste de contact transparente
 [Inactive opacity:]
-Opacité si inactive:
+Opacité si inactive :
 [Active opacity:]
-Opacité si active:
+Opacité si active :
 [Fade contact list in/out]
 Fondu de la liste de contacts
 [Fully transparent (like TweakUI)]
@@ -6406,13 +6406,13 @@ Visuel
 [Scroll list smoothly]
 Activer le défilement fluide
 [Time:]
-Durée:
+Durée :
 [milliseconds]
 millisecondes
 [Hide vertical scroll bar]
 Cacher l'ascenseur vertical
 [Gray out entire list when:]
-Griser toute la liste quand:
+Griser toute la liste quand :
 [Contact List Background]
 Arrière-plan de la liste
 [Use Windows colors]
@@ -6494,7 +6494,7 @@ Paramètres des modes d'affichages
 [Last message]
 Dernier message
 [Per contact skins:]
-Skins par contact:
+Skins par contact :
 [< Reload]
 < Recharger
 [Contact list skin]
@@ -6572,9 +6572,9 @@ Options d'affichage
 [Show contact with priority]
 Afficher le contact avec sa priorité
 [Show Avatar:]
-Afficher l'avatar:
+Afficher l'avatar :
 [Show 2nd line:]
-Afficher une seconde ligne:
+Afficher une seconde ligne :
 [Draw overlay icon on avatar]
 Icônes de sur-couche sur les avatars
 [Show local time]
@@ -6892,7 +6892,7 @@ Heures
 [Days]
 Jours
 [Current view mode: %s]
-Mode actuel: %s
+Mode actuel : %s
 [Filtering]
 Filtres
 [*** All contacts ***]
@@ -7109,7 +7109,7 @@ Envoi des contacts
 [&History]
 &Historique
 [Choose contacts to be send:]
-Choisir contacts à envoyer:
+Choisir contacts à envoyer :
 [&Send]
 &Envoyer
 [Cancel]
@@ -7117,7 +7117,7 @@ Annuler
 [Received contacts]
 Réception de contacts
 [Add to &group:]
-Ajouter au &groupe:
+Ajouter au &groupe :
 [&Details]
 &Détails
 [Close]
@@ -7125,7 +7125,7 @@ Fermer
 [Contacts send error]
 Erreur dans l'envoi de contacts
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [Try again]
 Réessayer
 [Add to List]
@@ -7287,7 +7287,7 @@ Avertir avant la suppression d'un ou plusieurs modules
 [Use popups when watched settings change values]
 Afficher un popup quand les réglages sous surveillance sont modifiés
 [Popup timeout (0 for infinite)]
-Délai du Popup (0 pour infini):
+Délai du Popup (0 pour infini) :
 [Background color]
 Couleur de fond
 [Add a module to contact]
@@ -7299,11 +7299,11 @@ Annuler
 [Edit Setting]
 Modifier réglage
 [Value Name:]
-Nom de valeur:
+Nom de valeur :
 [Value Data:]
-Données de valeur:
+Données de valeur :
 [Save Value as:]
-Enregistrer valeur sous:
+Enregistrer valeur sous :
 [Watched Database Variables]
 Variables de la base surveillées
 [Copy module to contact]
@@ -7519,15 +7519,15 @@ Taille
 [Contact]
 Contact
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (BYTE) %d
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (WORD) %d
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (WORD) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: (DWORD) %d
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (DWORD) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Réglage de base de données modifié: \nModule "%s" , Réglage: "%s"\nNouvelle valeur: "%s"
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Réglages changés dans la base de données: \nModule: "%s" , Réglages: "%s"\nNouvelle valeur (UTF8): "%s"
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (UTF8) "%s"
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -7560,7 +7560,7 @@ Mot de passe
 [Password is not correct!]
 Mot de passe incorrect !
 [Please type in your password]
-VEuillez taper un mot de passe
+Veuillez taper un mot de passe
 [Passwords do not match!]
 Mot de passe incorrect !
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -7583,11 +7583,11 @@ Au démarrage de Miranda
 [When Miranda exits]
 À la fermeture de Miranda
 [Every:]
-Tous les:
+Tous les :
 [Number of backups to keep:]
-Nombre de sauvegarde à conserver:
+Nombre de sauvegarde à conserver :
 [Backup to folder:]
-Dossier de sauvegarde:
+Dossier de sauvegarde :
 [Disable progress bar]
 Désactiver la barre de progression
 [Miranda NG database]
@@ -7654,11 +7654,11 @@ Marquer comme lu
 [Dialog]
 Dialogue
 [Username:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Server:]
-Serveur:
+Serveur :
 [Preferences]
 Préférences
 [seconds]
@@ -7671,7 +7671,7 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.4.1
+;  Version: 0.2.5.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -7839,9 +7839,9 @@ Favoris
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [Filename:]
-Fichier:
+Fichier :
 [Size:]
-Taille:
+Taille :
 [Chunk size]
 Taille des morceaux
 [ms]
@@ -7867,7 +7867,7 @@ Veuillez utiliser uniquement de l'alphanumérique sur les transferts
 [Couldn't open a file]
 Impossible d'ouvrir le fichier
 [Size: %d bytes]
-Taille: %d octets
+Taille : %d octets
 [Request sent. Awaiting of acceptance..]
 Requête envoyée. Attente de confirmation...
 [Sending...]
@@ -8000,13 +8000,13 @@ Bordures
 [Draw border]
 Afficher les bordures
 [Left-top edge's color:]
-Couleur du bord Haut-Gauche:
+Couleur du bord Haut-Gauche :
 [Right-bottom edge's color:]
-Couleur du bord Bas-Droit:
+Couleur du bord Bas-Droit :
 [Background]
 Arrière-plan
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Use background bitmap]
 Utiliser une image d'arrière-plan
 [Stretch to width]
@@ -8020,7 +8020,7 @@ Mosaïque verticale
 [Stretch proportionally]
 Étirer proportionnellement
 [Opacity:]
-Opacité:
+Opacité :
 [Standard contacts]
 Contacts standards
 [Online contacts to whom you have a different visibility]
@@ -8130,27 +8130,27 @@ Cacher les comptes inactifs
 [Other]
 Autres
 [Automatically delete file from FTP server after (experimental):]
-Effacer le fichier sur le FTP automatiquement après (expérimental):
+Effacer le fichier sur le FTP automatiquement après (expérimental) :
 [ZIP support]
 Compression Zip
 [Enter archive name manually]
 Entrer le nom de l'archive manuellement
 [Compression level:]
-Niveau de compression:
+Niveau de compression :
 [Upload File Manager]
 Gestionnaire de transfert de fichiers
 [File:]
-Fichier:
+Fichier :
 [Completed:]
-Complété:
+Complété :
 [Speed:]
-Vitesse:
+Vitesse :
 [Remaining:]
-Restant:
+Restant :
 [Summary]
 Résumé
 [To:]
-À:
+À :
 [Nick]
 Pseudo
 [Close]
@@ -8164,7 +8164,7 @@ Pause
 [File Manager]
 Gestionnaire de fichiers
 [Server:]
-Serveur:
+Serveur :
 [User info]
 Informations Utilisateur
 [UPLOADING...]
@@ -8294,7 +8294,7 @@ Erreur lors de la compression du(des) fichier(s).
 [Do you really want to cancel this upload?]
 Voulez-vous vraiment annuler ce transfert?
 [Status: %s\r\nFile: %s\r\nServer: %s]
-État: %s\r\nFichier: %s\r\nServeur: %s
+État : %s\r\nFichier : %s\r\nServeur : %s
 [File exists - %s]
 Fichier existant - %s
 [Error occurred when opening local file.\nAborting file upload...]
@@ -8304,11 +8304,11 @@ Une erreur est survenue lors de l'initialisation libcurl.\nTransfert annulé...
 [FTP error occurred.\n%s]
 Erreur FTP.\n%s
 [Download link:]
-Lien de téléchargement:
+Lien de téléchargement :
 [Do you really want to cancel running upload?]
 Voulez-vous vraiment annuler les transfert en cours?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-%s\r\nVitesse: %s\r\nCompleté: %s\r\nRestant: %s]
+%s\r\nVitesse : %s\r\nCompleté : %s\r\nRestant : %s
 [You have to fill and enable at least one FTP server in setting.]
 Vous devez remplir et activer au moins un serveur FTP dans les paramètres.
 [Clear All]
@@ -8335,11 +8335,11 @@ Avancé
 [Gadu-Gadu User Details]
 Identifiants Gadu-Gadu
 [Gadu-Gadu Number:]
-Numéro Gadu-Gadu:
+Numéro Gadu-Gadu :
 [Password:]
-Passe:
+Passe :
 [E-mail:]
-E-mail:
+E-mail :
 [Create new account]
 Créer un compte
 [Remove account]
@@ -8355,17 +8355,17 @@ Seulement les amis
 [Show offline users with status message as invisible in contact list]
 Voir les contacts Hors ligne avec le motif d'invisibilité dans la liste
 [After disconnection leave away message of status:]
-Après déconnexion, se remettre dans l'état:
+Après déconnexion, se remettre dans l'état :
 [Receive image and after image is received use:]
-Receptionner les image, puis utiliser:
+Receptionner les image, puis utiliser :
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Vous devrez vous reconnecter afin de valider les modifications de cette page.
 [Conference policy]
 Police
 [if total participant count greater than:]
-si il y'a plus de participants que:
+si il y'a plus de participants que :
 [if unknown participant count greater than:]
-si il y'a plus de participants inconnus que:
+si il y'a plus de participants inconnus que :
 [in other case]
 dans une autre case
 [Advanced Configuration]
@@ -8385,33 +8385,33 @@ Transfert de fichiers
 [Use direct connections]
 Utiliser une connexion directe
 [Port:]
-Port:
+Port :
 [Use forwarding]
 Utiliser le \'forwarding\'
 [Host:]
-Hôte:
+Hôte :
 [Number:]
-Numéro:
+Numéro :
 [Internal IP:]
-IP interne:
+IP interne :
 [First name:]
-Prénom:
+Prénom :
 [Last name:]
-Nom:
+Nom :
 [Family name:]
-Nom de Famille:
+Nom de Famille :
 [Nickname:]
-Pseudo:
+Pseudo :
 [Gender:]
-Sexe:
+Sexe :
 [City:]
-Ville:
+Ville :
 [Origin city:]
-Ville d'origine:
+Ville d'origine :
 [Birth year:]
-Né en:
+Né en :
 [Description:]
-Description:
+Description :
 [&Save changes]
 &Sauvegarder les changements
 [Enter token to continue]
@@ -8423,11 +8423,11 @@ Créer un compte Gadu-Gadu
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 Créer un compte Gadu-Gadu\nCeci va créer un nouveau compte Gadu-Gadu
 [New password:]
-Nouveau mot de passe:
+Nouveau mot de passe :
 [Confirm password:]
-Confirmer le passe:
+Confirmer le passe :
 [New e-mail:]
-Nouvel e-mail:
+Nouvel e-mail :
 [&Create]
 &Créer
 [Remove Gadu-Gadu account]
@@ -8445,9 +8445,9 @@ Changer le mot de passe Gadu-Gadu\nChange le mot de passe du compte Gadu-Gadu co
 [Change Gadu-Gadu e-mail]
 Changer l'e-mail Gadu-Gadu
 [Age from:]
-Agé de:
+Agé de :
 [to:]
-À:
+À :
 [Search online users only]
 Chercher les utilisateurs en ligne seulement
 [&Close]
@@ -8479,7 +8479,7 @@ Inconnu
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Nom d'Hôte du serveur %s invalide. Utilisez celui par défaut par le réseau.
 [Age:]
-Age:
+Age :
 [List import successful.]
 Liste importée avec succès.
 [List remove successful.]
@@ -8517,19 +8517,19 @@ Demander
 [Ignore]
 Ignorer
 [HTTP failed memory]
-Erreur HTTP: mémoire
+Erreur HTTP : mémoire
 [HTTP failed connecting]
-Erreur HTTP: connexion
+Erreur HTTP : connexion
 [HTTP failed reading]
-Erreur HTTP: lecture
+Erreur HTTP : lecture
 [HTTP failed writing]
-Erreur HTTP: écriture
+Erreur HTTP : écriture
 [Unknown HTTP error]
 Erreur HTTP inconnue
 [Contact list]
 Liste de contacts
 [Gadu-Gadu Number]
-Numéro Gadu-Gadu:
+Numéro Gadu-Gadu :
 [Open &conference...]
 Ouvrir un &chat...
 [&Clear ignored conferences]
@@ -8603,29 +8603,54 @@ Erreur
 [Whois]
 WhoIs
 [Token retrieval failed because of error:\n\t%s]
-Une récupération a échoué. Erreur:\n\t%s
+Une récupération a échoué. Erreur :\n\t%s
 [Cannot register new account because of error:\n\t%s]
-Enregistrement du nouveau compte impossible Erreur:\n\t%s
+Enregistrement du nouveau compte impossible Erreur :\n\t%s
 [Registration rejected]
 Enregistrement refusé
 [Your account cannot be removed because of error:\n\t%s]
-Votre compte n'a pu être effacé. Erreur:\n\t%s
+Votre compte n'a pu être effacé. Erreur :\n\t%s
 [Bad number or password]
 Numéro ou mot de passe erroné
 [Your account has been removed.]
 Votre compte a bien été effacé.
 [Your password cannot be changed because of error:\n\t%s]
-Votre mot de passe n'a pu être changé. Erreur:\n\t%s
+Votre mot de passe n'a pu être changé. Erreur :\n\t%s
 [Invalid data entered]
 Données entrées invalides
 [Your password has been changed.]
 Votre mot de passe a bien été changé.
 [Your e-mail cannot be changed because of error:\n\t%s]
-Votre e-mail n'a pu être changé. Erreur:\n\t%s
+Votre e-mail n'a pu être changé. Erreur :\n\t%s
 [Bad old e-mail or password]
 Ancien e-mail ou mot de passe erroné
 [Your e-mail has been changed.]
 Votre e-mail a bien été changé.
+#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.0
+;  Authors: Mixwind
+;============================================================
+[Name:]
+Nom :
+[Password:]
+Passe :
+[minutes]
+minutes
+[Add]
+Ajouter
+[Save]
+Sauver
+[Delete]
+Effacer
+[Run]
+Lancer
+[Configuration]
+Configuration
+[Network]
+Réseau
 #muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;============================================================
 ;  File: GTalkExt.dll
@@ -8684,7 +8709,7 @@ Sujet\n    %s\nDe\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
 Sujet\n    %s\nDe\n%s
 [Unread threads:]
-Courriers non lus:
+Courriers non lus :
 #muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
 ;============================================================
 ;  File: HistoryPP.dll
@@ -8705,9 +8730,9 @@ Besoin de plus de fonctions ?
 [WATrack notify]
 Notifications de WATrack
 [WATrack: %s]
-WATrack: %s
+WATrack : %s
 [WATrack: request denied]
-WATrack: requête refusée
+WATrack : requête refusée
 [Imitate IEView API]
 Comme IEView
 [Enable raw RTF support]
@@ -8721,7 +8746,7 @@ Filtres personnalisables
 [Filter Properties]
 Options du filtre
 [&Name:]
-&Nom:
+&Nom :
 [Show all except selected events]
 Afficher tous les évènements sauf ceux sélectionnés
 [Show only selected events]
@@ -8735,9 +8760,9 @@ Entrant & sortant
 [Customize Toolbar]
 Barre d'outils personnalisable
 [A&vailable buttons:]
-Boutons disponibles:
+Boutons disponibles :
 [Buttons on &toolbar:]
-Boutons en barre d'outils:
+Boutons en barre d'outils :
 [&Add >>]
 &Ajouter >>
 [<< &Remove]
@@ -8749,7 +8774,7 @@ Détails d'évènement
 [&Reply Quoted]
 &Répondre en citant
 [Date/Time:]
-Date/Heure:
+Date/Heure :
 [Copy All]
 Tout copier
 [Other event]
@@ -8827,7 +8852,7 @@ De %s
 [To %s]
 Vers %s
 [HotSearch: %s (F3 to find next)]
-Rechercher rapide: %s (F3 pour le suivant)
+Rechercher rapide : %s (F3 pour le suivant)
 [Do you want to continue searching at the beginning?]
 Voulez-vous reprendre la recherche depuis le début ?
 [History++ Search]
@@ -8881,7 +8906,7 @@ Continuer depuis le haut
 [Continued from the bottom]
 Continuer depuis le bas
 [Search: %s (F3 to find next)]
-Résultat: %s (F3 = suivant)
+Résultat : %s (F3 = suivant)
 [%d event]
 %d évènement
 [%0.n events (%s)]
@@ -8897,31 +8922,31 @@ Mettre en favori
 [Hide headers]
 Cacher l'entête
 [Outgoing file transfer: %s]
-Envoi de fichier: %s
+Envoi de fichier : %s
 [Incoming file transfer: %s]
-Réception de fichier: %s
+Réception de fichier : %s
 [You were added by %s (%s%d)]
 Vous avez été ajouté par %s (%s%d)
 [Outgoing contacts: %s]
-Contacts sortants: %s
+Contacts sortants : %s
 [Incoming contacts: %s]
-Contacts entrants: %s
+Contacts entrants : %s
 [Webpager message from %s (%s): %s]
-Message Webpager de %s (%s): %s
+Message Webpager de %s (%s) : %s
 [Email express from %s (%s): %s]
-e-mail express de %s (%s): %s
+e-mail express de %s (%s) : %s
 [Status change: %s]
-État changé: %s
+État changé : %s
 [Authorization request granted by %s (%d): %s]
-Autorisation acceptée par %s (%d): %s
+Autorisation acceptée par %s (%d) : %s
 [Authorization request denied by %s (%d): %s]
-Autorisation refusée par %s (%d): %s
+Autorisation refusée par %s (%d) : %s
 [User %s (%d) removed himself from your contact list: %s]
-%s (%d) s'est retiré de votre liste de contacts: %s
+%s (%d) s'est retiré de votre liste de contacts : %s
 [Authorization future request by %s (%d): %s]
-Demande d'autorisation par %s (%d): %s
+Demande d'autorisation par %s (%d) : %s
 [Broadcast message from %s (%s): %s]
-Modèle de message de %s (%s): %s
+Modèle de message de %s (%s) : %s
 [Show all events]
 Afficher tous les évènements
 [Avatar changes]
@@ -8973,11 +8998,11 @@ Cacher le menu
 [Unknown codepage %u]
 Codepage inconnu %u
 [User %s (%d) changed ICQ client: %s]
-%s (%d) a changé de client ICQ: %s
+%s (%d) a changé de client ICQ : %s
 [Status request by %s (%d):%s]
-Demande d'état par %s (%d): %s
+Demande d'état par %s (%d) : %s
 [Ignored status request by %s (%d):%s]
-Demande d'état ignoré par %s (%d): %s
+Demande d'état ignoré par %s (%d) : %s
 [No "%s" items]
 "%s" non trouvé
 [Next message]
@@ -8989,7 +9014,7 @@ Mess. suivant
 [Do you really want to delete ALL items for this contact?]
 Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
 [Note: It can take several minutes for large histories]
-Note: Ceci peut prendre du temps sur de longs historiques
+Note : Ceci peut prendre du temps sur de longs historiques
 [Empty history of subcontacts also]
 Effacer également celui des sous-contacts.
 [Previous message]
@@ -9017,7 +9042,7 @@ Désactiver les bordures
 [(Unknown Contact)']
 (Contact inconnu)'
 [Database:]
-Base de données:
+Base de données :
 [&Reset to Default]
 &Paramètres par défaut
 [Contact history]
@@ -9245,9 +9270,9 @@ Entrez un mot de passe pour l'UIN %d :
 [Cancel]
 Annuler
 [ICQ number:]
-Identifiant:
+Identifiant :
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Note: Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
+Note : Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
 [Retrieve a lost password or ICQ number]
 Retrouver un mot de passe perdu ou un numéro ICQ
 [Create a new ICQ account using the ICQ website]
@@ -9265,7 +9290,7 @@ Garder la connexion active (activez cette option si vous utilisez un serveur pro
 [Ignore concurrent error messages]
 Ignorer les messsages d'erreur concourant
 [Show connection error messages:]
-Afficher les erreurs de connexion:
+Afficher les erreurs de connexion :
 [ICQ contacts stored on server]
 Contacts ICQ sauvegardés sur le serveur
 [Manage server's list...]
@@ -9299,7 +9324,7 @@ Activer le support des messages unicode
 [Send all messages in unicode if possible]
 Envoyer tous les messages en unicode si possible
 [Use this codepage for Ansi <-> Unicode translation:]
-Traduire de Ansi vers Unicode avec l'encodage:
+Traduire de Ansi vers Unicode avec l'encodage :
 [Make me temporarily visible to contacts I send message to]
 Devenir temporairement visible lorsque j'envoi des messages
 [Peer-to-peer Messaging]
@@ -9387,7 +9412,7 @@ Démarré depuis :
 [Idle since:]
 Inactif depuis :
 [Status:]
-État:
+État :
 [Summary]
 Résumé
 [Nickname:]
@@ -9457,7 +9482,7 @@ Récupération de l'état personnalisé...
 [Confirm Password Change]
 Confirmer le mot de passe
 [Please re-type your new password:]
-Veuillez retaper votre mot de passe:
+Veuillez retaper votre mot de passe :
 [Enter your current password:]
 Entrez le mot de passe actuel :
 [Unable to connect to ICQ communication server]
@@ -9475,7 +9500,7 @@ Connexion échouée.\nVous vous êtes reconnecté trop rapidement,\nveuillez ré
 [Connection failed.\nThe server did not accept this client version.]
 Connexion échouée.\nLe serveur n'a pas accepté votre version de client.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
-Le serveur a envoyé un avertissement: version trop vieille.\nEssayez de trouver une plus récente.
+Le serveur a envoyé un avertissement : version trop vieille.\nEssayez de trouver une plus récente.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
 Connexion échouée.\nVous avez été rejeté du serveur pour une raison inconnue.\nCeci peut arriver si votre ID est déjà connecté.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
@@ -10311,7 +10336,7 @@ Erreur fatale ICQ
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Le serveur n'a pas répondu à la tentative de connexion dans un délai raisonnable, il peut être temporairement inaccessible. Réessayez plus tard.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Miranda n'a pas pu résoudre le nom du serveur en adresse IP numérique. Cela est sûrement dû par une perte brutale de votre connexion réseau (par exemple: votre modem a été déconnecté), mais si vous êtes derrière un proxy, vous pouvez avoir besoin d'utiliser l'option 'Résoudre les noms à travers un proxy' dans M->Options->ICQ->Réseau.
+Miranda n'a pas pu résoudre le nom du serveur en adresse IP numérique. Cela est sûrement dû par une perte brutale de votre connexion réseau (par exemple : votre modem a été déconnecté), mais si vous êtes derrière un proxy, vous pouvez avoir besoin d'utiliser l'option 'Résoudre les noms à travers un proxy' dans M->Options->ICQ->Réseau.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
 Le mot de passe ou nom d'utilisateur que vous avez fourni a été rejeté par le proxy. Veuillez les vérifier dans M->Options->Réseau.
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
@@ -10460,7 +10485,7 @@ Voir les sources
 [Options]
 Paramètres
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Les BBCodes suivant sont supportés:  [b][i][u][s][img][size][color][url]
+Les BBCodes suivant sont supportés : [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Activer le support de fichiers Flash pour les smileys et BBCodes
 [Enable workaround for PNG transparency]
@@ -10472,7 +10497,7 @@ Mettre des smiley dans les pseudos
 [Hide window border]
 Cacher les bordures
 [Size:]
-Taille:
+Taille :
 [Compatibility Mode]
 Mode compatibilité
 [Use External CSS]
@@ -10566,7 +10591,7 @@ Icônes
 ;  Authors: Miranda team
 ;============================================================
 [Choose how you would like to import:]
-Choisissez comment vous aimeriez importer:
+Choisissez comment vous aimeriez importer :
 [From a Miranda NG database.]
 Depuis une base de données IM Miranda (Profil).
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -10588,7 +10613,7 @@ Miranda a trouvé les profils Miranda avec les noms suivants. Veuillez sélectio
 [&Other Profile...]
 &Autre profil...
 [&Filename:]
-&Fichier:
+&Fichier :
 [Now importing...]
 Importation...
 [Import Information Wizard]
@@ -10616,7 +10641,7 @@ Entrant
 [Outgoing]
 Sortant
 [Only since:]
-Seulement depuis:
+Seulement depuis :
 [Messages]
 Messages
 [URLs]
@@ -10714,11 +10739,11 @@ Changer mode "à l'ancienne"
 [Update online statuses for users]
 Mise à jour de l'état des contacts
 [Check every (s):]
-Vérifier toutes les (secondes):
+Vérifier toutes les (secondes) :
 [Update statuses in channel nick list]
 Mise à jour de l'état dans la nicklist
 [Don't check if more than (users):]
-Ne pas vérifier si plus de (usagers):
+Ne pas vérifier si plus de (usagers) :
 [User information]
 Information usager
 [Ping]
@@ -10760,13 +10785,13 @@ Action
 [&Set]
 &Régler
 [Perform on event:]
-Action sur l'évènement:
+Action sur l'évènement :
 [Scripting support]
 Support des scripts
 [Quit message:]
-Message de départ:
+Message de départ :
 [Server code page:]
-Page de code du serveur:
+Page de code du serveur :
 [Enable UTF8 autodetection]
 Auto-détection de l'UTF8
 [Add server]
@@ -10814,9 +10839,9 @@ Sur invitation
 [Moderated]
 Modéré
 [Key:]
-Code:
+Code :
 [User limit:]
-Nb max usager:
+Nb max usager :
 [Private]
 Privé
 [Secret]
@@ -10854,13 +10879,13 @@ Protocole client-à-client (CTCP)
 [Client-to-Client Chats]
 Chats client à client
 [Send mode:]
-Mode d'envoi:
+Mode d'envoi :
 [Packet size (bytes):]
-Taille du paquet:
+Taille du paquet :
 [Get IP address from server]
 Adresse IP du serveur
 [Auto-accept from:]
-Accepter automatiq. de:
+Accepter automatiq. de :
 [Send notice]
 Envoyer une notice
 [CTCP Chat Request]
@@ -10902,9 +10927,9 @@ Ignorer les évènements
 [(*) blank to set this mask for all networks]
 (*) laisser vide pour couvrir tous les réseaux
 [Server:]
-Serveur:
+Serveur :
 [Password:]
-Passe:
+Passe :
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
 [%s sets mode %s]
@@ -10924,27 +10949,27 @@ PING CTCP requis par %s
 [CTCP TIME requested by %s]
 HEURE CTCP requis par %s
 [DCC: Chat request from %s denied]
-DCC: Rejet de la requête de chat de %s
+DCC : Rejet de la requête de chat de %s
 [DCC: File transfer request from %s denied]
-DCC: Rejet de la requête de transfert de fichier DCC de %s
+DCC : Rejet de la requête de transfert de fichier DCC de %s
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC: Rejet de la requête de transfert inversé de fichier de %s [pas d'IP locale]
+DCC : Rejet de la requête de transfert inversé de fichier de %s [pas d'IP locale]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
-Erreur DCC: Requête CTCP de s% mal formulée
+Erreur DCC : Requête CTCP de s% mal formulée
 [DCC: File transfer resume request from %s denied]
-DCC: Rejet de la requête de reprise de transfert de s%
+DCC : Rejet de la requête de reprise de transfert de s%
 [CTCP %s requested by %s]
 %s CTCP requis par %s
 [CTCP PING reply from %s: %u sec(s)]
-Réponse PING CTCP de %s: %u sec (s)
+Réponse PING CTCP de %s : %u sec (s)
 [CTCP %s reply from %s: %s]
-Réponse %s CTCP de %s: %s
+Réponse %s CTCP de %s : %s
 [Downloading list (%u%%) - %u channels]
 Chargement de la liste (%u%%) - %u canaux
 [Downloading list - %u channels]
 Chargement de la liste - u canaux
 [Done: %u channels]
-Terminé: %u canaux
+Terminé : %u canaux
 [(probably truncated by server)]
 (probablement tronqué par le serveur)
 [Change nickname]
@@ -10954,7 +10979,7 @@ Erreur IRC
 [Unknown]
 Inconnu
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Entrer le masque d'hôte nick!user@host)\nNote: les contacts de votre liste ne seront jamais ignorés
+Entrer le masque d'hôte nick!user@host)\nNote : les contacts de votre liste ne seront jamais ignorés
 [Ignore]
 Ignorer
 [Please enter the reason]
@@ -10974,7 +10999,7 @@ La fonction de vérification des amis est activée
 [The buddy check function is disabled]
 La fonction de vérification des amis est désactivée
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-Paramètre incorrecte. Utiliser: /sleep [ms], ms doit être compris entre 0 et 4000.
+Paramètre incorrecte. Utiliser : /sleep [ms], ms doit être compris entre 0 et 4000.
 [Ignore system is enabled]
 Filtre usagers activé
 [Ignore system is disabled]
@@ -11002,11 +11027,11 @@ Abandon
 [CTCP %s request sent to %s]
 Requête CTCP %s envoyée à %s
 [DCC ERROR: Unable to automatically resolve external IP]
-Erreur DCC: Impossible de déterminer automatiquement l'IP externe
+Erreur DCC : Impossible de déterminer automatiquement l'IP externe
 [DCC CHAT request sent to %s]
 Requête de chat DCC envoyée à %s
 [DCC ERROR: Unable to bind port]
-Erreur DCC: Impossible de joindre le port
+Erreur DCC : Impossible de joindre le port
 [Input command]
 Saisir commande
 [Please enter the reply]
@@ -11024,13 +11049,13 @@ Informations
 [Nickname]
 Pseudo
 [DCC ERROR: No valid files specified]
-Erreur DCC: Fichiers spécifiés invalide
+Erreur DCC : Fichiers spécifiés invalide
 [DCC reversed file transfer request sent to %s [%s]]
 Requête de transfert de fichier DCC inversé à %s [%s]
 [DCC file transfer request sent to %s [%s]]
 Requête de transfert DCC envoyée à %s [%s]
 [DCC ERROR: Unable to bind local port]
-Erreur DCC: Impossible de joindre le port local
+Erreur DCC : Impossible de joindre le port local
 [The protocol is not online]
 Le protocole n'est pas en ligne
 [The dcc chat connection is not active]
@@ -11138,7 +11163,7 @@ Ils sont en ligne :\s
 [CTCP %s reply sent to %s]
 Réponse CTCP %s envoyée à %s
 [CTCP %s reply sent to %s: %s]
-Réponse CTCP %s envoyée à %s: %s
+Réponse CTCP %s envoyée à %s : %s
 [Notice to %s: ]
 Notice à %s :\s
 [&Quick connect]
@@ -11463,7 +11488,7 @@ Internet
 [X400]
 X400
 [Jabber vCard: Add Phone Number]
-Détails Jabber: Ajout d'un téléphone
+Détails Jabber : Ajout d'un téléphone
 [Phone number:]
 Téléphone :
 [Voice]
@@ -12129,7 +12154,7 @@ Veuillez confirmer la fermeture de Miranda NG
 [Error %s %s\r\nPlease select other server]
 Erreur %s %s\r\nVeuiller choisir un autre serveur
 [Error: unknown reply received\r\nPlease select other server]
-Erreur: réponse inconnue\r\nVeuillez sélectionner un autre serveur
+Erreur : réponse inconnue\r\nVeuillez sélectionner un autre serveur
 [Error %s %s\r\nTry to specify more detailed]
 Erreur %s %s\r\nVeuillez indiquer plus de renseignement
 [Search error]
@@ -12143,15 +12168,15 @@ session chat fermée
 [Nick:]
 Pseudo :
 [Status:]
-État:
+État :
 [Enter password for %s]
 Entrez le mot de passe pour %s
 [Error: Not enough memory]
-Erreur: Mémoire insuffisante
+Erreur : Mémoire insuffisante
 [Error: Cannot connect to the server]
-Erreur: Connexion impossible au Serveur
+Erreur : Connexion impossible au Serveur
 [Error: Connection lost]
-Erreur: Connexion perdue
+Erreur : Connexion perdue
 [Sending registration information...]
 Envoi des infos d'enregistrement...
 [<not specified>]
@@ -12504,7 +12529,7 @@ OK
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]
-Commande:
+Commande :
 [Other]
 Autre
 [ms]
@@ -12554,9 +12579,9 @@ Protocole
 [%s login error, cancel reconnecting]
 Erreur d'indentification, annulation de la reconnexion
 [Resetting status... (last try (%d))%s]
-RAZ de l'état... (dernière tentative (%d))%s]
+RAZ de l'état... (dernière tentative (%d))%s
 [No internet connection seems available... (last try (%d))]
-Pas de connexion Internet... (dernière tentative (%d))]
+Pas de connexion Internet... (dernière tentative (%d))
 [Status was set ok]
 L'état est réglé
 [Giving up]
@@ -12699,7 +12724,7 @@ Autres événements
 [Use custom theme]
 Thème personnalisé
 [The following events are being ignored:]
-Les évènements suivants sont ignorés:
+Les évènements suivants sont ignorés :
 [Ignore messages]
 Ignorer les messages
 [Ignore URLs]
@@ -12805,7 +12830,7 @@ Autres
 [You also have to enable it per protocol in the main menu]
 Vous devez également l'activer par protocole dans le menu principal
 [For protocols that don't support listening to but support XStatus:]
-Pour les protocoles qui ne supportent pas "En écoute", mais XStatus:
+Pour les protocoles qui ne supportent pas "En écoute", mais XStatus :
 [Set XStatus to Music and show listening info]
 Changer le XStatus en "Écoute de la musique" et afficher "En écoute"
 [If other XStatus is not set, set XStatus to Music and show listening info]
@@ -12819,11 +12844,11 @@ Appliquer le modèle sur les contacts (écrase le modèle des contacts)
 [Get info from WATrack plugin]
 Recevoir les informations du plugin WATrack
 [Get info from these players:]
-Recevoir les informations de ces lecteurs:
+Recevoir les informations de ces lecteurs :
 [Other players]
 Autres lecteurs
 [Ask for new info every]
-Actualiser toutes les:
+Actualiser toutes les :
 [seconds]
 secondes
 [Allow auto-loading plugins into players (affect players with *)]
@@ -12831,9 +12856,9 @@ secondes
 [Listening to]
 Écoute
 [Template:]
-Modèle:
+Modèle :
 [When variable not found, use:]
-Si la variable est vide, utiliser:
+Si la variable est vide, utiliser :
 [Title:]
 Titre :
 [Message:]
@@ -12841,7 +12866,7 @@ Message :
 [%listening% - Listening to info (as set above)]
 %listening% - (comme configuré ci-dessus)
 [When nothing is playing, replace %listening% with:]
-Si rien n'est en lecture, remplacer %listening% par:
+Si rien n'est en lecture, remplacer %listening% par :
 [Send to %s]
 Envoyer à %s
 [Send to all protocols]
@@ -12876,9 +12901,9 @@ Arrière-plan
 [Text]
 Texte
 [Database:]
-Base de données:
+Base de données :
 [Password:]
-Passe:
+Passe :
 [Status]
 État
 [Plugins]
@@ -12936,9 +12961,9 @@ Polices
 [Sample]
 Simple
 [Contact list:]
-Liste de contacts:
+Liste de contacts :
 [Notifications:]
-Notifications:
+Notifications :
 [Notifications]
 Notifications
 [events]
@@ -13384,7 +13409,9 @@ Général
 [(Unknown Contact)]
 (Contact inconnu)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Échec du renommage/déplacement du fichier\n\nde:\t%s\n en:\t%s\n\nErreur: %s
+Échec du renommage/déplacement du fichier\n\nde :\t%s\nen :\t%s\n\nErreur : %s
+[\nError: ]
+\nErreur :\s
 [Failed to open or create file :\n]
 Échec d'ouverture ou de création du fichier :\n
 [Failed to move to the end of the file :\n]
@@ -13420,7 +13447,7 @@ Description :\s
 [Failed to write URL/File to the file :\n]
 Échec d'écriture du lien/fichier dans le fichier :\n
 [Nick      :]
-Pseudo   :
+Pseudo    :
 [FirstName :]
 Prénom    :
 [LastName  :]
@@ -13430,11 +13457,11 @@ Motif     :
 [Invalid Database event received. Type %d, size %d]
 Évènement de base de données reçu invalide. Type %d, taille %d
 [The following user made an authorization request:]
-Le contact suivant vous fait une demande d'autorisation:
+Le contact suivant vous fait une demande d'autorisation :
 [The following user added you to their contact list:]
-Le contact suivant vous a ajouté à sa liste:
+Le contact suivant vous a ajouté à sa liste :
 [EmailExpress from:]
-EmailExpress de:
+EmailExpress de :
 [Failed to write EmailExpress to the file :\n]
 Échec d'écriture de l'EmailExpress dans le fichier :\n
 [Failed to write SMS to the file :\n]
@@ -13449,9 +13476,9 @@ EmailExpress de:
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Password:]
-Passe:
+Passe :
 [Nickname:]
-Pseudo:
+Pseudo :
 [Expert]
 Expert
 [Send message font color/size info inside messages]
@@ -13463,9 +13490,9 @@ Gestion des groupes sur le serveur
 [Allow people on my contact list send messages to mobile device]
 Autoriser les contacts de ma liste à m'envoyer des messages sur mon portable
 [Run the following application when new Hotmail arrives]
-Lancer l'application suivante quand un Hotmail arrive:
+Lancer l'application suivante quand un Hotmail arrive :
 [Gateway:]
-Passage:
+Passage :
 [Reset]
 RAZ
 [Incoming file transfers]
@@ -13533,7 +13560,7 @@ Contact non connecté
 [%s protocol]
 %s protocole
 [Subject: %s]
-Sujet: %s
+Sujet : %s
 [Hotmail from %s (%S)]
 Hotmail de %s (%S)
 [Hotmail from %s]
@@ -13573,9 +13600,9 @@ Le contact a essayé de connecter à votre webcam (actuellement non supporté)
 [You cannot send message to yourself]
 Vous ne pouvez vous envoyer de message à vous-même
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Message trop long: les SMS sont limités à 133 caractères UTF-8
+Message trop long : les SMS sont limités à 133 caractères UTF-8
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Message trop long: MSN les limite à 1202 caractères en UTF8
+Message trop long : MSN les limite à 1202 caractères en UTF8
 [Chat session dropped due to inactivity]
 La session chat a été arrêté car vous êtes inactif.
 #muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
@@ -13595,7 +13622,7 @@ La session chat a été arrêté car vous êtes inactif.
 [Set My Nickname]
 Changer mon pseudo
 [Nickname:]
-Pseudo:
+Pseudo :
 [Cancel]
 Annuler
 [General]
@@ -13612,16 +13639,12 @@ Smileys dans la CList
 Remplacer les smileys
 [Resize Smileys]
 Retailler les smileys
-[Top:]
-Haut:
-[Bottom:]
-Bas:
-[Left:]
-Gauche:
-[Right:]
-Droite:
+[Account]
+Compte
+[seconds]
+secondes
 [Custom size:]
-Taille:
+Taille :
 [pixels]
 pixels
 [Allow it to grow]
@@ -13634,14 +13657,18 @@ Coins arrondis
 Personnaliser la taille des angles :
 [Use free space (under avatar) to other texts]
 Utiliser l'espace libre sous l'avatar pour d'autres textes
-[seconds]
-secondes
-[Account]
-Compte
+[Top:]
+Haut :
+[Bottom:]
+Bas :
+[Left:]
+Gauche :
+[Right:]
+Droite :
 [Set My Status Message for All Status]
 Changer le message pour tous les états
 [Status Message:]
-Message d'état:
+Message d'état :
 [&Offline]
 &Hors ligne
 [On&line]
@@ -13950,9 +13977,9 @@ Mot de passe
 [Visualization]
 Visualisation
 [Display news using the following format:]
-Afficher les nouveaux au format suivant:
+Afficher les nouveaux au format suivant :
 [All item's tags are valid. Put them between #. Example: #<author>#]
-Tous les tags sont valides. Mettez les entre #. Exemple: #<author>#
+Tous les tags sont valides. Mettez les entre #. Exemple : #<author>#
 [Reset]
 RAZ
 [Username]
@@ -14089,7 +14116,7 @@ Connexion...
 [playing]
 en lecture
 [%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s change en: %s (était: %s).\r\n]
+%s, %s. %s change en : %s (était : %s).\r\n
 [(M) is back online!]
 est connecté
 [(F) is back online!]
@@ -14097,7 +14124,7 @@ est connectée
 [(U) is back online!]
 est connecté(e)
 [User: Online]
-Contact: En ligne
+Contact : En ligne
 [(M) went offline! :(]
 s'est déconnecté
 [(F) went offline! :(]
@@ -14105,9 +14132,9 @@ s'est déconnectée
 [(U) went offline! :(]
 s'est déconnecté(e)
 [User: Offline]
-Contact: Hors ligne
+Contact : Hors ligne
 [User: Invisible]
-Contact: Invisible
+Contact : Invisible
 [(M) feels talkative!]
 est d'humeur bavarde !
 [(F) feels talkative!]
@@ -14115,7 +14142,7 @@ est d'humeur bavarde !
 [(U) feels talkative!]
 est d'humeur bavarde !
 [User: Free For Chat]
-Contact: OK pour un chat
+Contact : OK pour un chat
 [(M) went Away]
 est parti
 [(F) went Away]
@@ -14123,7 +14150,7 @@ est partie
 [(U) went Away]
 est parti(e)
 [User: Away]
-Contact: Absent
+Contact : Absent
 [(M) isn't there anymore!]
 n'est plus là.
 [(F) isn't there anymore!]
@@ -14131,7 +14158,7 @@ n'est plus là.
 [(U) isn't there anymore!]
 n'est plus là.
 [User: Not Available]
-Utilisateur: Pas disponible
+Contact : Pas disponible
 [(M) has something else to do.]
 a autre chose à faire
 [(F) has something else to do.]
@@ -14139,7 +14166,7 @@ a autre chose à faire
 [(U) has something else to do.]
 a autre chose à faire
 [User: Occupied]
-Contact: Occupé
+Contact : Occupé
 [(M) doesn't want to be disturbed!]
 ne veut plus être dérangé!
 [(F) doesn't want to be disturbed!]
@@ -14147,7 +14174,7 @@ ne veut plus être dérangée!
 [(U) doesn't want to be disturbed!]
 ne veut plus être dérangé!
 [User: Do Not Disturb]
-Contact: Ne Pas Déranger
+Contact : Ne Pas Déranger
 [(M) is eating something]
 est parti manger.
 [(F) is eating something]
@@ -14155,7 +14182,7 @@ est partie manger.
 [(U) is eating something]
 est parti manger.
 [User: Out To Lunch]
-Contact: Parti Manger
+Contact : Parti Manger
 [(M) had to answer the phone]
 est au téléphone
 [(F) had to answer the phone]
@@ -14163,7 +14190,7 @@ est au téléphone
 [(U) had to answer the phone]
 est au téléphone
 [User: On The Phone]
-Contact: Au Téléphone
+Contact : Au Téléphone
 [Status change]
 Changement d'état
 [All Files]
@@ -14186,13 +14213,13 @@ Historique récent
 ;  Authors: sss
 ;============================================================
 [Account:]
-Compte:
+Compte :
 [Change password]
 Changer le mot de passe
 [Continue]
 Continuer
 [Home directory:]
-Page web:
+Page web :
 [Ignore]
 Ignorer
 [Static]
@@ -14200,9 +14227,9 @@ Statique
 [Cancel]
 Annuler
 [Password:]
-Passe:
+Passe :
 [Current password:]
-Passe actuel:
+Passe actuel :
 [Name]
 Nom
 [Accounts]
@@ -14216,7 +14243,7 @@ Avertissement
 [Info]
 Info
 [Replace]
-Remplacer:
+Remplacer :
 [Accept]
 Accepter
 [Services]
@@ -14265,7 +14292,7 @@ Autres réglages
 [Link]
 Lien
 [Program parameters:]
-Paramètres:
+Paramètres :
 [O&pen File]
 Ouvrir &fichier
 [O&pen Folder]
@@ -14273,7 +14300,7 @@ Ouvrir &répertoire
 [Contact list settings]
 Options de la liste de contacts
 [Group:]
-Groupe:
+Groupe :
 [Status Icon]
 Icône d'état
 [Group\\Sub-Group]
@@ -14299,7 +14326,7 @@ Copier/Exporter le contact
 [Co&py Non-IM Contact]
 &Copier un Non-IM
 [EXAMPLE: %fn1,%fn2]
-EXEMPLE: %fn1,%fn2
+EXEMPLE : %fn1,%fn2
 [Select Folder]
 Sélectionnez un répertoire
 [New Non-IM Contact]
@@ -14371,7 +14398,7 @@ Options démarrage
 [Add Contact list menu items]
 Ajouter au menu de la liste de contacts
 [Send Reminders through E-mail/SMS:]
-Envoyer les Rappels par Courriel/SMS:
+Envoyer les Rappels par Courriel/SMS :
 [Add Reminder]
 Ajout d'un Rappel
 [Trigger On Time && Date:]
@@ -14486,9 +14513,9 @@ Sécurité
 [Play sounds]
 Jouer des sons
 [Port:]
-Port:
+Port :
 [Password:]
-Passe:
+Passe :
 [Error]
 Erreur
 [Services]
@@ -14566,7 +14593,7 @@ Tremblement des fenêtres
 ;  Authors: Robert Pösel
 ;============================================================
 [Server:]
-Serveur:
+Serveur :
 [Language:]
 Langage :
 [Server]
@@ -14838,13 +14865,13 @@ Jamais
 ;  Authors: Scott Ellis
 ;============================================================
 [Delay between pings (secs):]
-Délai entre chaque requêtes (secs):
+Délai entre chaque requêtes (secs) :
 [Timeout]
 Délai du popup
 [Ping timeout (secs):]
-Délai d'échec (secs):
+Délai d'échec (secs) :
 [Log Filename:]
-Sauver dans:
+Sauver dans :
 [Network]
 Réseau
 [Popups]
@@ -14858,9 +14885,9 @@ Ne pas changer d'icône pendant le test
 [Use the Customize/Fonts options to change text size and color.]
 Aller dans Apparence => Polices pour changer la taille et la couleur de la police de caractères.
 [Row height:]
-Hauteur de ligne:
+Hauteur de ligne :
 [Repeats for success/failure:]
-Répéter si succès/échec:
+Répéter si succès/échec :
 [Attach to contact list]
 Attacher à la liste de contacts
 [Use CSV format]
@@ -14878,25 +14905,25 @@ Bas
 [Cancel]
 Annuler
 [Address:]
-Adresse:
+Adresse :
 [TCP Connect]
 Connexion TCP
 [Port:]
-Port:
+Port :
 [Control Protocol:]
-Protocole:
+Protocole :
 [Set my status to:]
-Régler mon état en:
+Régler mon état en :
 [On success, if my status is:]
-Réussi, si mon état est:
+Réussi, si mon état est :
 [Execute the following command on double-click:]
-Exécuter les commandes suivantes suite à un double-clique:
+Exécuter les commandes suivantes suite à un double-clique :
 [Contact]
 Contact
 [Protocols]
 Protocoles
 [(Optional) Command Parameters:]
-Lignes de commandes (facultatif):
+Lignes de commandes (facultatif) :
 [Menu]
 Menu
 [Graph]
@@ -15145,15 +15172,15 @@ la fenêtre de Miranda
 [the active window]
 la fenêtre active
 [opacity:]
-opacité:
+opacité :
 [Opaque popups under cursor]
 Rendre opaques popups survolés
 [Effect:]
-Effet:
+Effet :
 [ms]
 ms
 [Limit window amount to:]
-Nombre maximum de popups:
+Nombre maximum de popups :
 [Skins]
 Skins
 [* - built-in skins]
@@ -15179,7 +15206,7 @@ Ces actions sont des petits boutons sous le texte des popups.
 [Common Actions]
 Actions communes
 [Please choose in what cases default actions should be added:]
-Dans quels cas doit-on avoir les actions par défaut:
+Dans quels cas doit-on avoir les actions par défaut :
 [Add info && menu for IM contacts only]
 Seulement pour les contacts IM
 [Add default actions for contacts only]
@@ -15189,7 +15216,7 @@ Ne pas fermer les popups
 [Use large icons]
 Utiliser de larges icônes
 [Popup actions will be displayed as:]
-Affichage des actions:
+Affichage des actions :
 [Icons and labels below text]
 Icônes et nom sous le texte
 [Icons on the left]
@@ -15197,7 +15224,7 @@ Icônes alignés à gauche
 [Icons aligned to the right]
 Icônes alignés à droite
 [Show Actions: (requires apply)]
-Actions: (appliquer avant aperçu)
+Actions : (appliquer avant aperçu)
 [Notifications]
 Notifications
 [General options]
@@ -15205,13 +15232,13 @@ Options générales
 [Enable this notification]
 Activer
 [Left click action:]
-Clic droit:
+Clic droit :
 [Right click action:]
-Clic gauche:
+Clic gauche :
 [Disable when global status is...]
-Désactiver si l'état général est:
+Désactiver si l'état général est :
 [Disable when relevant protocol's status is...]
-Désactiver si l'état du protocole est:
+Désactiver si l'état du protocole est :
 [Disable if message window is open]
 Désactiver si la fenêtre de message est ouverte
 [Sec]
@@ -15229,7 +15256,7 @@ Ne plus afficher
 [Infinite popup delay]
 Affichage permanent
 [Popup delay:]
-Délai des popups:
+Délai des popups :
 [seconds]
 secondes
 [Do not close hovered popups]
@@ -15241,13 +15268,13 @@ Largeur minimum
 [Maximum width]
 Largeur maximum
 [Position:]
-Position:
+Position :
 [Layout:]
 Disposition
 [Reorder Popups]
 Réordonner les popups
 [Disable when:]
-Désactivé quand:
+Désactivé quand :
 [Always (has priority)]
 Toujours (en priorité)
 [User details]
@@ -15435,7 +15462,7 @@ Horodateur
 [Module:]
 Module :
 [Setting:]
-Paramètre:
+Paramètre :
 [Service:]
 Service :
 [number value]
@@ -15461,7 +15488,7 @@ Nouvelle colonne
 [Save Item]
 Sauver
 [InfoType:]
-InfoType:
+InfoType :
 [New Column]
 Nouvelle colonne
 [Column Up]
@@ -15745,7 +15772,7 @@ minutes
 [Typing Notification Options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
-Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné:
+Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
 [Show typing notification switch in the status bar]
 Afficher le commutateur de notification de  frappe dans la barre d'état
 [Show typing notifications when a user is typing a message]
@@ -15761,9 +15788,9 @@ Afficher un popup
 [Send Error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
-Une erreur s'est produite. Le protocole a rapporté l'erreur suivante:
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 [while sending the following message:]
-tout en envoyant le message suivant:
+tout en envoyant le message suivant :
 [Try again]
 Réessayer
 [Cancel]
@@ -15801,7 +15828,7 @@ Non
 [&Background color]
 &Couleur de fond
 [Show these events only:]
-Voir ces évènements si:
+Voir ces évènements si :
 [Actions]
 Actions
 [Messages]
@@ -15829,7 +15856,7 @@ Paramètres
 [Other]
 Autre
 [Add new rooms to group:]
-Ajouter salons au groupe:
+Ajouter salons au groupe :
 [Nick list row height]
 Hauteur de ligne de la liste de contact
 [pixels]
@@ -15845,7 +15872,7 @@ Heure
 [Log timestamp]
 Format heure
 [Limit log text to (events):]
-Limite texte (évènements):
+Limite texte (évènements) :
 [Enable highlighting]
 Autoriser surlignage
 [Words to highlight (wildcards allowed)]
@@ -16065,7 +16092,7 @@ Citer
 [User Menu - %s]
 Menu Contact - %s
 [Sending in progress: %d message(s) left...]
-Envoi en cours: il reste %d message(s)...
+Envoi en cours : il reste %d message(s)...
 [%s is typing a message...]
 %s vous écrit un message...
 [Last message received on %s at %s.]
@@ -16247,13 +16274,13 @@ ID unique
 [Status]
 État
 [%s: Chat Room (%u user)]
-%s: Salon de chat (%u usager)
+%s : Salon de chat (%u usager)
 [%s: Chat Room (%u users)]
-%s: Salon de chat (%u usagers)
+%s : Salon de chat (%u usagers)
 [%s: Message Session]
-%s: Session de message
+%s : Session de message
 [%s: Message Session (%u users)]
-%s: Session de message (%u usagers)
+%s : Session de message (%u usagers)
 #muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
@@ -16276,11 +16303,11 @@ Désactiver le cryptage pour les jeux
 [Always secured if possible]
 Toujours activer si possible
 [Key Exchange Timeout:]
-Délai d'envoi des clef:
+Délai d'envoi des clefs :
 [sec]
 secondes
 [Offline Key Timeout:]
-Clef hors-ligne expir.:
+Clef hors-ligne expirée :
 [days]
 jours
 [Reset All]
@@ -16296,9 +16323,9 @@ Charger une clef privée
 [Basic]
 Basique
 [Executable:]
-Programme:
+Programme :
 [Home Directory:]
-Page web:
+Page web :
 [Back]
 Fond
 [Text]
@@ -16330,11 +16357,11 @@ Afficher un popup dés envoi sécurisé
 [Show a popup on each secure receive]
 Afficher un popup dés réception sécurisée
 [Please type in your password]
-VEuillez taper un mot de passe
+Veuillez taper un mot de passe
 [Username:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Cancel]
 Annuler
 [Status]
@@ -16494,9 +16521,9 @@ Envoyer la capture
 [Ti&med capture]
 Retardateur
 [Time (secs):]
-Temps (sec):
+Temps (sec) :
 [Send B&y:]
-Envoyer par:
+Envoyer par :
 [E&xplore]
 Explorer
 [&Fill description textbox.]
@@ -16514,9 +16541,9 @@ Crédits >
 [Edit]
 Éditer
 [Caption:]
-Légende:
+Légende :
 [Size (HxW):]
-Taille (HxW):
+Taille (HxW) :
 [C&lient Area]
 Zone du client
 [&Copy]
@@ -16623,7 +16650,7 @@ Retirer
 [Enable Auto Replier]
 Activer l'autoréponse
 [Reply Message Heading:]
-En-tête de la réponse:
+En-tête de la réponse :
 [Reply Message when]
 Réponse quand je suis
 [No-repeat Interval:]
@@ -16647,7 +16674,7 @@ Désactiver la réponse automatique
 [Enable Auto&reply]
 Activer la réponse automatique
 [Dear %user%, the owner left the following message:]
-Salut %user%, le message suivant vous a été laissé:
+Salut %user%, le message suivant vous a été laissé :
 [Message Sessions]
 Sessions de message
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
@@ -16668,7 +16695,7 @@ Co&pier dans le presse-papier
 [Retrieving status message for %s...]
 Récupération du message d'état de %s...
 [Max length:]
-Taille maxi:
+Taille maxi :
 [Status messages]
 Messages d'état
 [Use last message]
@@ -16682,15 +16709,15 @@ Disposition
 [Show status list]
 Afficher les états
 [Buttons:]
-Boutons:
+Boutons :
 [Other]
 Autre
 [miliseconds]
 millisecondes
 [Protocol:]
-Protocole:
+Protocole :
 [Status:]
-État:
+État :
 [Cut]
 Couper
 [Copy]
@@ -16791,7 +16818,7 @@ Nom complet :
 [Date of birth:]
 Anniversaire :
 [Gender:]
-Sexe:
+Sexe :
 [Homepage:]
 Page web :
 [Language:]
@@ -16886,27 +16913,29 @@ OK
 [Delete]
 Effacer
 [User name:]
-Votre nom:
+Votre nom :
 [Password:]
 Passe :
 [Number:]
-Numéro:
+Numéro :
 [Cancel]
 Annuler
 [Dialog]
 Dialogue
 [Host:]
-Hôte:
+Hôte :
 [Port:]
-Port:
+Port :
 [Name:]
-Nom:
+Nom :
+[Sex:]
+Sexe :
 [City:]
 Ville :
 [Country:]
 Pays :
 [Homepage:]
-Page web:
+Page web :
 [Save]
 Sauver
 [seconds]
@@ -16952,7 +16981,7 @@ Catégories de smileys
 [Specify smiley pack for each category]
 Spécifier un pack de smileys par catégorie
 [Name:]
-Nom:
+Nom :
 [Preview]
 Aperçu
 [Replace only smileys surrounded by spaces]
@@ -17019,23 +17048,23 @@ SMS reçu
 [Read Next]
 Suivant
 [From:]
-De:
+De :
 [Message received:]
-Message reçu:
+Message reçu :
 [Number:]
-Numéro:
+Numéro :
 [Send SMS]
 Envoyer SMS
 [To:]
-À:
+À :
 [Add number to list]
 Ajouter à la Liste
 [Save number]
 Enregistrer
 [Enter message:]
-Tapez un message:
+Tapez un message :
 [Chars:]
-Lettres:
+Lettres :
 [&Send]
 &Envoyer
 [SMS Message Didn't Send]
@@ -17053,15 +17082,15 @@ au début
 [End]
 à la fin
 [Put signature at the:]
-Où mettre la signature:
+Où mettre la signature :
 [SMS Message Sent]
 Envoi d'un message SMS
 [Message ID:]
-ID du message:
+ID du message :
 [Source:]
-Source:
+Source :
 [Network:]
-Réseau:
+Réseau :
 [Events]
 Évènements
 [SMS Message from %s]
@@ -17245,7 +17274,7 @@ OK
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]
-Commande:
+Commande :
 [Other]
 Autre
 [ms]
@@ -17435,7 +17464,7 @@ Terminé
 [Restore defaults]
 Restaurer les valeurs par défaut
 [Answer:]
-Réponse:
+Réponse :
 [Add contact permanently]
 Ajouter le contact
 [Info]
@@ -17808,7 +17837,7 @@ sortant
 [Bottom tabs vertical adjustment:]
 Ajustement vertical du bas de l'onglet :
 [NOTE: some settings will not affect open containers.]
-Note: certains paramètres n'affecteront pas les conteneurs ouverts.
+Note : certains paramètres n'affecteront pas les conteneurs ouverts.
 [About TabSRMM]
 À propos de TabSRMM
 [Load this skin on startup]
@@ -18904,9 +18933,9 @@ Yiddish
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
 [Username:]
-Identifiant:
+Identifiant :
 [Password:]
-Passe:
+Passe :
 [Save password]
 Enregistrer le mot de passe
 [Create new account]
@@ -18930,15 +18959,15 @@ Utiliser le plugin Nudge
 [Voice Chats]
 Chats vocaux
 [Recording device:]
-Enregistreur:
+Enregistreur :
 [Playback device:]
-Lecteur:
+Lecteur :
 [Expert Options]
 Options expert
 [Connection Host:]
-Connexion sur l'hôte:
+Connexion sur l'hôte :
 [Port:]
-Port:
+Port :
 [Keep connection alive]
 Garder la connection active
 [Enable encryption]
@@ -18950,9 +18979,9 @@ Connexions p2p
 [Use proxy for incoming connections]
 Utiliser un Proxy pour les connexions entrantes
 [Proxy type:]
-Type de proxy:
+Type de proxy :
 [Proxy server:]
-Serveur Proxy:
+Serveur Proxy :
 [Proxy requires authorization]
 Proxy demandant une identification
 [Enable incoming mail notification]
@@ -18970,25 +18999,25 @@ Aperçu
 [Cancel]
 Annuler
 [Nickname:]
-Pseudo:
+Pseudo :
 [First name:]
-Prénom:
+Prénom :
 [Last name:]
-Nom:
+Nom :
 [E-mail:]
-e-mail:
+e-mail :
 [Gender:]
-Sexe:
+Sexe :
 [Year of birth:]
-Année de naiss.:
+Année de naiss. :
 [City:]
-Ville:
+Ville :
 [School:]
-École:
+École :
 [Occupation:]
 Profession :
 [Looking for:]
-Recherche:
+Recherche :
 [Voice chats]
 Chats vocaux
 [Publicly visible status]
@@ -18998,17 +19027,17 @@ Sauver les modifs
 [Avatar Options]
 Avatar
 [Tlen login:]
-Login Tlen:
+Login Tlen :
 [Subscription:]
-Inscription:
+Inscription :
 [Software:]
-Client:
+Client :
 [System:]
-Système:
+Système :
 [Personal Information]
 Infos personnelles
 [Age:]
-Age:
+Age :
 [to]
 Vers
 [Extra Search Criterias]
@@ -19030,7 +19059,7 @@ Invitation à un chat vocal Tlen
 [&Accept]
 &Accepter
 [From:]
-De:
+De :
 [The following invitation to join a voice chat is received.]
 L'invitation suivante à un chat vocal, a été reçue.
 [Group chats]
@@ -19072,7 +19101,7 @@ Salon de Chat déjà créé.
 [Nickname '%s' is already registered.]
 Le pseudo '%s' est déjà utilisé.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-Ce pseudo est déjà utilisé, choisissez en un autre. Conseil: '%s' .
+Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' est libre.
 [You cannot register more than %s nicknames.]
 Vous ne pouvez enregistrer plus de %s pseudo.
 [You cannot create more than %s chat rooms.]
@@ -19082,7 +19111,7 @@ Vous ne pouvez rejoindre plus de %s salon.
 [Anonymous nicknames are not allowed in this chat room.]
 les pseudos anonymes ne sont pas permis dans ce salon.
 [Unknown error code: %d]
-Code erreur inconnu: %d
+Code erreur inconnu : %d
 [General]
 Général
 [Advanced]
@@ -19163,7 +19192,7 @@ Défaut
 [Choose contacts]
 Choix des contacts
 [Allow tooltip notifications for the following users:]
-Autoriser les bulle d'info pour les contacts suivants:
+Autoriser les bulle d'info pour les contacts suivants :
 [Cancel]
 Annuler
 [Notify upon the following events]
@@ -19179,7 +19208,7 @@ Les autres
 [Protocols]
 Protocoles
 [Suppress notifications upon connection for]
-Ne pas notifier à la connexion pendant:
+Ne pas notifier à la connexion pendant :
 [sec]
 secondes
 [Duration]
@@ -19236,13 +19265,13 @@ Ordre && Visibilité des Boutons
 [Button width]
 Largeur
 [Buttons order:]
-Ordre des boutons:
+Ordre des boutons :
 [Add Separator]
 Ajouter
 [Add Launch]
 Ajouter Fonction
 [Name:]
-Nom:
+Nom :
 [Set]
 OK
 [Default]
@@ -19267,7 +19296,7 @@ kilo-octets
 [minutes]
 minutes
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Reset to default]
 Paramètres par défaut
 [Popup timeout]
@@ -19337,11 +19366,11 @@ Effacer la valeur courante (maintenant)
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Server:]
-Serveur:
+Serveur :
 [Default group:]
-Groupes:
+Groupes :
 [Username:]
-Identifiant:
+Identifiant :
 [Cancel]
 Annuler
 [Miscellaneous options]
@@ -19392,63 +19421,63 @@ Annuler
 [Apply]
 Appliquer
 [Nick:]
-Pseudo:
+Pseudo :
 [Title:]
 Titre :
 [First name:]
-Prénom:
+Prénom :
 [Second name:]
-Second prénom:
+Second prénom :
 [Last name:]
-Nom:
+Nom :
 [Female]
 Femme
 [Male]
 Homme
 [Marital status:]
-Situation:
+Situation :
 [Partner:]
-Concubin:
+Concubin :
 [Language skills]
 Langues parlées
 [Street:]
-Rue:
+Rue :
 [Postal code:]
-Code postal:
+Code postal :
 [City:]
-Ville:
+Ville :
 [County/State:]
-Pays/État:
+Pays/État :
 [Country:]
-Pays:
+Pays :
 [Contact added to contact list:]
-Contact ajouté:
+Contact ajouté :
 [Your contact's local time is:]
-Heure locale de votre contact:
+Heure locale de votre contact :
 [Timezone:]
-Fuseau horaire:
+Fuseau horaire :
 [Company:]
-Entreprise:
+Entreprise :
 [Department:]
-Département:
+Département :
 [Office:]
-Bureau:
+Bureau :
 [Position:]
-Position:
+Position :
 [Occupation:]
 Profession :
 [Superior:]
-Supérieur:
+Supérieur :
 [Assistant:]
-Assistant:
+Assistant :
 [Add Phone Number]
 Ajouter le téléphone
 [Enter a category for this number:]
-Entrer une catégorie pour ce numéro:
+Entrer une catégorie pour ce numéro :
 [Enter country, area code and phone number:]
-Entrer le pays, le code de la zone et le numéro de téléphone:
+Entrer le pays, le code de la zone et le numéro de téléphone :
 [Or enter a full international number:]
-Ou entrer un numéro international entier:
+Ou entrer un numéro international entier :
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
 [Add E-Mail]
@@ -19506,7 +19535,7 @@ Ajouter un intérêt
 [Delete]
 Effacer
 [Enter a name for the anniversary here please:]
-veuillez indiquer un nom d'anniversaire:
+veuillez indiquer un nom d'anniversaire :
 [Anniversary list]
 Liste des anniv.
 [Statistics:]
@@ -19742,7 +19771,7 @@ Ajouter
 [Search]
 Recherche
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Attention: La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
+Attention : La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 [Main]
 Principales
 [User &details]
@@ -19962,11 +19991,11 @@ Aucun anniversaire pour
 [Birthday reminder]
 Rappel d'anniversaire
 [Birthday reminder: it's coming]
-Rappel d'anniversaire: c'est bientôt
+Rappel d'anniversaire : c'est bientôt
 [Anniversary Reminder]
 Rappel d'anniversaire
 [Settings: %S]
-Options: %S
+Options : %S
 [All Contacts]
 tous les contacts
 [Required modules]
@@ -19984,7 +20013,7 @@ Destination du fichier...
 [Import User Details from VCard]
 Importer les détails depuis un vCard
 [Contact: %s (%S)]
-Contact: %s (%S)
+Contact : %s (%S)
 [Complete]
 Terminé
 #muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
@@ -20039,13 +20068,13 @@ Boîte de dialogue
 [Clipboard]
 Presse-papiers
 [Select output:]
-Fichier de sortie:
+Fichier de sortie :
 [Upload to site]
 Stocker sur un serveur
 [Forum style formatting]
-Formatage du texte avec BBCodes:
+Formatage du texte avec BBCodes :
 [Additional options:]
-Options:
+Options :
 [Do it now]
 Générer
 [Show window in taskbar]
@@ -20083,7 +20112,7 @@ Fermer
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 Si vous compter utiliser ce rapport pour soumettre un bug, pensez à vérifier sur le site Web des questions ou aides que les réalisateurs pourraient avoir besoin.\r\nIf you don't check your bug report and give feedback, it will not be fixed !
 [Information successfully written to file: "%s".]
-Écriture réussie dans le fichier: "%s"
+Écriture réussie dans le fichier : "%s"
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Erreur à la création du fichier "%s".  Le disque peut être plein ou protégé.
 [The clipboard is not available, retry.]
@@ -20097,7 +20126,7 @@ Affichage de l'ID unique des Plugins!
 [Services]
 Services
 [Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Un truc est entré mal dans "%s". Faites un rapport avec ces valeurs:\nFacility: %X\nError code: %X\nLine number: %d
+Quelque chose est incorrect dans "%s". Faites un rapport avec ces valeurs :\nService : %X\nCode d'erreur : %X\nNuméro de ligne : %d
 #muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll
@@ -20251,7 +20280,7 @@ Classer dans le journal
 [Statistic log file]
 Fichier de sauvegarde des statistiques
 [Autosort period, days]
-Générer tout les (jours):
+Générer tout les (jours) :
 [Template file]
 Ficher modèle
 [Export default]
@@ -20259,7 +20288,7 @@ Export. défaut
 [by Length]
 par durée
 [Unicode to Ansi translation codepage:]
-Conversion de l'encodage Unicode vers Ansi:
+Conversion de l'encodage Unicode vers Ansi :
 [Insert in messages]
 Insérer dans les messages
 [Use status messages]
@@ -20293,7 +20322,7 @@ Pas de musique
 [Protocol list]
 Protocoles
 [Use Status:]
-Utiliser l'état:
+Utiliser l'état :
 [Text+Graph]
 Texte + graphique
 [Use external style]
@@ -20651,7 +20680,7 @@ Humidité
 [Weather Protocol INI Setup]
 Fichier INI de configuration pour Weather
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants:
+Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :
 [Click here to download a weather ini file from Miranda file listing]
 Cliquez ici pour télécharger ce fichier INI depuis le site de Miranda
 [Extract the weather ini file from archive to this directory]
@@ -20667,7 +20696,7 @@ Quantité de mémoire utilisée
 [Reload INI]
 Recharger l'INI
 [City:]
-Ville:
+Ville :
 [Menu]
 Menu
 [Open brief information]
@@ -20697,7 +20726,7 @@ Service invalide (12)
 [Weather service ini for this station is not found (20)]
 L'ini. du service Weather n'a pas été trouvé sur cet ordinateur (20)
 [Netlib error - check your internet connection (30)]
-Erreur Netlib: vérifiez votre connexion Internet (30)
+Erreur Netlib : vérifiez votre connexion Internet (30)
 [Empty data is retrieved (40)]
 Des données vides ont été trouvées (40)
 [Document not found (42)]
@@ -20707,49 +20736,51 @@ Document trop court pour contenir une donnée weather (43)
 [Unknown error (99)]
 Erreur inconnue (99)
 [HTTP Error: No content (204)]
-Erreur HTTP: contenu vide (204)
+Erreur HTTP : contenu vide (204)
 [HTTP Error: Data moved (301)]
-Erreur HTTP: données transférées (301)
+Erreur HTTP : données transférées (301)
 [HTTP Error: Use proxy (305)]
-Erreur HTTP: utiliser un proxy (305)
+Erreur HTTP : utiliser un proxy (305)
 [HTTP Error: Temporary redirect (307)]
-Erreur HTTP: redirection temporaire (307)
+Erreur HTTP : redirection temporaire (307)
 [HTTP Error: Bad request (400)]
-Erreur HTTP: requête non valide (400)
+Erreur HTTP : requête non valide (400)
 [HTTP Error: Unauthorized (401)]
-Erreur HTTP: non autorisé (401)
+Erreur HTTP : non autorisé (401)
 [HTTP Error: Payment required (402)]
-Erreur HTTP: paiement requis (402)
+Erreur HTTP : paiement requis (402)
 [HTTP Error: Forbidden (403)]
-Erreur HTTP: interdit (403)
+Erreur HTTP : interdit (403)
 [HTTP Error: Not found (404)]
-Erreur HTTP: rien trouvé (404)
+Erreur HTTP : rien trouvé (404)
 [HTTP Error: Method not allowed (405)]
-Erreur HTTP: méthode non autorisée (405)
+Erreur HTTP : méthode non autorisée (405)
 [HTTP Error: Proxy authentication required (407)]
-Erreur HTTP: authentification proxy nécessaire (407)
+Erreur HTTP : authentification proxy nécessaire (407)
 [HTTP Error: Gone (410)]
-Erreur HTTP: parti (410)
+Erreur HTTP : parti (410)
 [HTTP Error: Internal server error (500)]
-Erreur HTTP: erreur interne au serveur (500)
+Erreur HTTP : erreur interne au serveur (500)
 [HTTP Error: Bad gateway (502)]
-Erreur HTTP: mauvaise passerelle (502)
+Erreur HTTP : mauvaise passerelle (502)
 [HTTP Error: Service unavailable (503)]
-Erreur HTTP: service indisponible (503)
+Erreur HTTP : service indisponible (503)
 [HTTP Error: Gateway timeout (504)]
-Erreur HTTP: délai d'attente de la passerelle dépassé (504)
+Erreur HTTP : délai d'attente de la passerelle dépassé (504)
 [%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTempérature: %t\\nRessenti: %f\\nPression: %p\Vent: %i  %w\\nHumidité: %m\\nPoint de rosée: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
+%c\\nTempérature : %t\\nRessenti : %f\\nPression : %p\Vent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ressenti: %f\\nPression: %p\\nVent: %i  %w\\nHumidité: %m\\nDew Point: %e\\nVisibilité: %v\\n\\nLever de Soleil: %r\\nCoucher de Soleil: %y\\n\\nPrévisions sur 5 Jours:\\n%[Prévisions Jour 1]\\n%[Prévisions Jour 2]\\n%[Prévisions Jour 3]\\n%[Prévisions Jour 4]\\n%[Prévisions Jour 5]
+Ressenti : %f\\nPression : %p\\nVent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Conditions Météo de %n à %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
+%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n at %u:	%c, %t (Ressenti %f)	Vent: %i %w	Humidité: %m]
+%n at %u :	%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
 [%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nAujourd'hui:  maxi %h, mini %l]
+%c, %t\\nAujourd'hui :  maxi %h, mini %l
+[Temperature: %[Temperature]]
+Température : %[Temperature]
 [Current weather information for %s.]
 Information météo en cours pour %s.
 [%s is now the default weather station]
@@ -20793,7 +20824,7 @@ Erreur HTTP %i
 [<Enter city name here>]
 <Entrez la ville ici>
 [Error when obtaining data: %s]
-Erreur à l'obtention des données: %s
+Erreur à l'obtention des données : %s
 [Weather HTTP connections]
 Connexions HTTP de Weather
 [Name]
@@ -20803,29 +20834,29 @@ Objets
 [The corresponding INI file for "%s" is not found.]
 Le fichier INI correspondant à %s n'a pas été trouvé.
 [Weather INI information for "%s":]
-Information sur l'INI de Weather pour %s:
+Information sur l'INI de Weather pour %s :
 [Name:]
-Nom:
+Nom :
 [Internal Name:]
-Nom Interne:
+Nom Interne :
 [INI Version:]
-Version de l'ini:
+Version de l'ini :
 [File Name:]
-Nom de fichier:
+Nom de fichier :
 [Item Count:]
-Décompte d'article:
+Décompte d'article :
 [Memory Used:]
-Mémoire utilisée:
+Mémoire utilisée :
 [bytes]
 octets
 [Description:]
-Description:
+Description :
 [Here is a list of custom variables that are currently available]
-Voici la liste des variables actuellement disponibles:
+Voici la liste des variables actuellement disponibles :
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Aucun fichier de mise à jour trouvé. Vérifiez le dossier Plugins\\Weather.
 [Invalid ini format for: %s]
-Format ini invalide de: %s
+Format ini invalide de : %s
 [All update data has been reloaded.]
 Toutes les données ont bien été mise à jour.
 [Network]
@@ -20865,7 +20896,7 @@ Impossible de retrouver la météo de %s
 [Current condition for %n]
 Condition actuelles de %n
 [Last update on:   %u]
-Dernière mise à jour: %u
+Dernière mise à jour : %u
 [Information]
 Informations
 [Retrieving new data, please wait...]
@@ -20906,13 +20937,13 @@ minutes
 [seconds]
 secondes
 [Background color:]
-Couleur d'arrière-plan:
+Couleur d'arrière-plan :
 [Bold]
 Gras
 [Expert options]
 Options expert
 [URL:]
-Lien:
+Lien :
 [Cancel]
 Annuler
 [Apply]
@@ -20922,7 +20953,7 @@ Chercher
 [&Find next]
 &Suivant
 [Find what:]
-Chercher:
+Chercher :
 [Append data to file]
 Ajouter les données au fichier
 [Popup delay]
@@ -21012,7 +21043,7 @@ Afficher
 [Dialog]
 Dialogue
 [Timeout:]
-Délai:
+Délai :
 [seconds]
 secondes
 [In background]
@@ -21026,9 +21057,9 @@ Gestion des fêtes
 [Title:]
 Titre :
 [Description:]
-Description:
+Description :
 [Date:]
-Date:
+Date :
 [Save]
 Sauver
 [Delete]
@@ -21142,7 +21173,7 @@ Demande d'autorisation
 [Status messages]
 Messages d'état
 [The following events are being ignored:]
-Les évènements suivants sont ignorés:
+Les évènements suivants sont ignorés :
 [Messages]
 Messages
 [Online Notification]
@@ -21171,9 +21202,9 @@ Session message
 ;  Authors: dufte
 ;============================================================
 [Password:]
-Passe:
+Passe :
 [Nick:]
-Pseudo:
+Pseudo :
 [Options]
 Paramètres
 [More options]
@@ -21183,7 +21214,7 @@ Fichiers
 [Enable]
 Activer
 [Status message:]
-Message d'état:
+Message d'état :
 [Games]
 Jeux
 [Apply]
@@ -21193,13 +21224,13 @@ Retirer
 [Edit...]
 Éditer...
 [Username:]
-Identifiant:
+Identifiant :
 [Game]
 Jeu
 [Name:]
-Nom:
+Nom :
 [Port:]
-Port:
+Port :
 [User details]
 Détails du contact
 [Copy]
@@ -21213,7 +21244,7 @@ Annuler
 [Update]
 Mise à jour
 [Search:]
-Chercher:
+Chercher :
 [All Files]
 Tous les fichiers
 [Yep, I'm here.]
@@ -21339,7 +21370,7 @@ Re&joindre
 [Add]
 Ajouter
 [[miranda] Got conference invite to room: %s with msg: %s]
-{Miranda} Invitation à la conférence ici: %s message: %s
+{Miranda} Invitation à la conférence ici : %s message : %s
 [Others]
 Autres
 [&Invite user...]
@@ -21363,7 +21394,7 @@ Erreur Yahoo
 [The message send timed out.]
 Délai d'envoi du message expiré
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-Message trop grand: Les messages de Yahoo sont limités à 800 caractères de type UTF8
+Message trop grand : Les messages de Yahoo sont limités à 800 caractères de type UTF8
 [YAHOO Link Protocol]
 Raccourci du protocole Yahoo
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
@@ -21411,7 +21442,7 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 [[miranda] Got webcam invite. (not currently supported)]
 (miranda) réception d'une demande de webcam. (non actuellement supporté)
 [%s has rejected your request and sent the following message:]
-%s a rejeté votre requête et vous envoie le message suivant:
+%s a rejeté votre requête et vous envoie le message suivant :
 [You have %i unread msgs]
 Vous avez %i msg non lus
 [New Mail (%i msgs)]
@@ -21431,7 +21462,7 @@ Vous avez été déconnecté de Yahoo. Probablement à cause d'un double login.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Impossible de se connecter à Yahoo. Vérifier l'adresse, le port du serveur + param proxy
 [Could not log in, unknown reason: %d.]
-Pas de connexion à Yahoo, raison inconnue: %d
+Pas de connexion à Yahoo, raison inconnue : %d
 [Unknown error %s]
 Erreur inconnue %s
 [Custom error %s]
@@ -21601,9 +21632,9 @@ Vérif. des messages
 [Connect Fail]
 Échec de la connexion
 [YAMN: new mail message]
-YAMN: nouvel e-mail
+YAMN : nouvel e-mail
 [YAMN: connect failed]
-YAMN: échec connexion
+YAMN : échec connexion
 [Nick]
 Pseudo
 [No new mail message]
@@ -21729,7 +21760,7 @@ Popups
 [No account selected]
 Aucun compte sélectionné
 [Time left to next check [s]: %d]
-Prochaine vérification: [s]: %d
+Prochaine vérification [s] : %d
 [New Account]
 Nouveau compte
 [All Files]
@@ -21895,9 +21926,9 @@ Sauver les messages envoyés dans l'historique
 [split parts (0 = all)]
 morceaux (0 = tous)
 [Note: Max size - it's a size of %m parameter]
-NOTE: Taille maxi - c'est la taille du\n              paramètre %m
+NOTE : Taille maxi - c'est la taille du\n              paramètre %m
 [Note: messages from this contact will not be forwarded]
-NOTE: Les messages de ce contact ne pourront être envoyés
+NOTE : Les messages de ce contact ne pourront être envoyés
 [!EVERYONE!]
 UN SEUL CONTACT
 [!DON'T FORWARD!]
@@ -21912,11 +21943,11 @@ Sessions de message
 ;  Authors: bidyut, Maat
 ;============================================================
 [No sounds when:]
-Pas de sons si:
+Pas de sons si :
 [No CList blink when:]
-Pas de flash CList si:
+Pas de flash CList si :
 [No SysTray blink when:]
-Pas de flash systray si:
+Pas de flash systray si :
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Cacher le Menu "toggle sound" (nécessite le redémarrage de Miranda)
 [Disable &Sounds]

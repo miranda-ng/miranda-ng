@@ -9,13 +9,13 @@
 
 ;file \plugins\GmailNotifier\res\options.rc
 [Name:]
-
+Nom :
 [Password:]
-
+Passe :
 [Check Gmail Inbox every]
 
 [minutes]
-
+minutes
 [Notifier on:]
 
 [Duration:]
@@ -29,11 +29,11 @@
 [On DBClick:]
 
 [Add]
-
+Ajouter
 [Save]
-
+Sauver
 [Delete]
-
+Effacer
 [System Tray]
 
 [PopUp Plugin]
@@ -43,7 +43,7 @@
 [Login using Internet Explorer]
 
 [Run]
-
+Lancer
 [Use online contacts when no new mail]
 
 [Enable icon selection and icon in status bar (restart)]
@@ -55,7 +55,7 @@
 [Gmail Account]
 
 [Configuration]
-
+Configuration
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 
@@ -78,4 +78,4 @@
 [GmailMNotifier]
 
 [Network]
-
+Réseau
