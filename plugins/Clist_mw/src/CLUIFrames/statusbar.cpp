@@ -453,7 +453,7 @@ HANDLE CreateStatusBarFrame()
 	Frame.Flags = ( db_get_b(NULL,"CLUI","ShowSBar",1)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_TCHAR;
 	Frame.height = (h == 0) ? 20 : h;
 	Frame.tname = _T("Status");
-	Frame.TBtname = TranslateT("Status Bar");
+	Frame.TBtname = TranslateT("Status bar");
 	hFrameHelperStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 
 	return hFrameHelperStatusBar;

@@ -377,8 +377,8 @@ int CreateCLC(HWND parent)
 		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 			//LoadIcon(hInst,MAKEINTRESOURCE(IDI_MIRANDA));
 		Frame.Flags = F_VISIBLE|F_SHOWTB|F_SHOWTBTIP|F_TCHAR;
-		Frame.tname = _T("My Contacts");
-		Frame.TBtname = TranslateT("My Contacts");
+		Frame.tname = _T("My contacts");
+		Frame.TBtname = TranslateT("My contacts");
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 		//free(Frame.name);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrameContactTree),(LPARAM)TranslateT("My Contacts"));

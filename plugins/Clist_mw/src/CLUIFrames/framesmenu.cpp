@@ -10,7 +10,7 @@ typedef struct{
 	char *szServiceName;
 	int Frameid;
 	INT_PTR param1;
-}FrameMenuExecParam,*lpFrameMenuExecParam;
+} FrameMenuExecParam, *lpFrameMenuExecParam;
 
 INT_PTR FreeOwnerDataFrameMenu(WPARAM wParam, LPARAM lParam)
 {
@@ -24,10 +24,10 @@ INT_PTR FreeOwnerDataFrameMenu(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	CLISTMENUITEM *mi = (CLISTMENUITEM *)lParam;
 
 	TMO_MenuItem tmi;
-	if ( !pcli->pfnConvertMenu(mi, &tmi))
+	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
 	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;
@@ -84,13 +84,13 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)
 {
-	NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
+	NotifyEventHooks(hPreBuildFrameMenuEvent, wParam, lParam);
 	return 0;
 }
 
 static INT_PTR BuildContextFrameMenu(WPARAM wParam, LPARAM lParam)
 {
-	ListParam param = { 0 };
+	ListParam param = {0};
 	param.MenuObjectHandle = hFrameMenuObject;
 	param.wParam = wParam;
 	param.lParam = lParam;

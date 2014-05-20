@@ -37,7 +37,7 @@ typedef struct
 {
 	int order;
 	int realpos;
-}SortData;
+} SortData;
 
 
 
@@ -49,7 +49,7 @@ typedef struct
 #define CLUIFRAMESSETALIGNALCLIENT	"CLUIFramesSetAlignalClient"
 #define CLUIFRAMESSETALIGNALBOTTOM	"CLUIFramesSetAlignalBottom"
 
-#define CLUIFRAMESMOVEUPDOWN			"CLUIFramesMoveUpDown"
+#define CLUIFRAMESMOVEUPDOWN		"CLUIFramesMoveUpDown"
 
 struct FrameMenuHandles
 {
@@ -79,8 +79,8 @@ struct FrameTitleBar
 
 struct DockOpt
 {
-	HWND	hwndLeft;
-	HWND	hwndRight;
+	HWND hwndLeft;
+	HWND hwndRight;
 };
 
 struct FRAMEWND
@@ -114,7 +114,7 @@ struct FRAMEWND
 #define OFFSET_PROTOPOS 200
 #define OFFSET_VISIBLE 400
 
-#define CLUIFrameTitleBarClassName				_T("CLUIFrameTitleBar")
-#define CLUIFrameModule							"CLUIFrames"
+#define CLUIFrameTitleBarClassName		_T("CLUIFrameTitleBar")
+#define CLUIFrameModule					"CLUIFrames"
 
 #endif

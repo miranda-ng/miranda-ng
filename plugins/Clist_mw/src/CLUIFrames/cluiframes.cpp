@@ -621,7 +621,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGENMENU (*
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Floating Mode");
+	mi.pszName = LPGEN("&Floating mode");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = "Set_Floating";
 	mi.pszContactOwner = (char *)0;
@@ -1366,7 +1366,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.position = separator++;
 	mi.hParentMenu = MainMIRoot;
-	mi.pszName = LPGEN("Show All Frames");
+	mi.pszName = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
 
@@ -2139,8 +2139,8 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				AppendMenu(hmenu,MF_SEPARATOR,16,_T(""));
 
 				if (Frames[framepos].Locked)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_lock,TranslateT("Lock Frame"));}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_lock,TranslateT("Lock Frame"));}
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_lock,TranslateT("Lock frame"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_lock,TranslateT("Lock frame"));}
 
 				if (Frames[framepos].visible)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_visible,TranslateT("Visible"));}
