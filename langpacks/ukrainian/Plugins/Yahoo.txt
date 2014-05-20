@@ -118,7 +118,7 @@ Yahoo Японія
 [Yahoo Error]
 Помилка Yahoo
 [The message send timed out.]
-Таймаут відправлення повідомлення
+Час надсилання повідомлення вичерпано.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Повідомлення занадто довге: в Yahoo обмежено до 800 символів UTF8
 [YAHOO Link Protocol]

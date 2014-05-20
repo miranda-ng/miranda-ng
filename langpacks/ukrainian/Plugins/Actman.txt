@@ -130,7 +130,7 @@
 [Plugin]
 Плагін
 [Return]
-Повернуте
+Повертає
 [Effect]
 Ефект
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
@@ -470,7 +470,7 @@ UTF16+сигнатури
 [Info]
 Інформація
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовернуте:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
+Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовертає:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
 [Buttons]
 Кнопки
 [OK, Cancel]
@@ -510,9 +510,9 @@ UTF16+сигнатури
 [Break on non-zero result]
 Зупинити при ненульовому результаті
 [Send event on start time]
-Відсилати подію при старті завдання
+Надсилати подію при старті завдання
 [Send event just once]
-Відсилати тільки при першому запуску
+Надсилати тільки при першому запуску
 [Hooks]
 Хуки
 [Description]
@@ -530,7 +530,7 @@ UTF16+сигнатури
 [The context menu for a contact is about to be built]
 Побудова контекстного меню для контакту
 [New contact added to database]
-Новий контакт додано до бази
+Додавання нового контакту до бази
 [Contact deleting]
 Контакт видалено
 [Use Actions]
@@ -617,6 +617,8 @@ UTF16+сигнатури
 Аргументи
 [Number of arguments]
 Кількість аргументів
+[Argument]
+Аргумент
 [Result]
 Результат
 [DLL Handle Cache]
@@ -731,9 +733,21 @@ UTF16+сигнатури
 список контактів
 [database driver]
 драйвер бази
+[Main settings]
+Основні налаштування
+[Custom settings]
+Додаткові налаштування
+[Separated]
+Роздільник
+[Do not translate]
+Без перекладу
+[Param type]
+Тип параметра
 [Text Editor]
 Текстовий редактор
 [Script]
 Скрипт
 [Wrap Text]
 Перенос рядків
+[Structure size]
+Размір структури

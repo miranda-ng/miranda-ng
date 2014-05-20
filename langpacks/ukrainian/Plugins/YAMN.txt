@@ -225,6 +225,8 @@ YAMN: помилка підключення
 Видалити %d листів?
 [Delete confirmation]
 Підтвердження видалення
+[Translate header error]
+Помилка перекладу заголовка
 [Part]
 Частина
 [%s connection]
@@ -253,6 +255,8 @@ POP3 плагін - помилка запису в файл
 Авторизація...
 [Searching for new mail message]
 Пошук нової пошти
+[Reading body %s]
+Читання тіла %s
 [Reading new mail messages (%d%% done)]
 Зчитування нових повідомлень (%d%% готово)
 [Deleting requested mails]
@@ -260,7 +264,7 @@ POP3 плагін - помилка запису в файл
 [Deleting spam]
 Видалення спаму
 [Memory allocation error.]
-Помилка пам'яті.
+Помилка розподілу пам'яті.
 [Account is about to be stopped.]
 Обліковий запис скоро буде зупинено.
 [Cannot connect to POP3 server.]
@@ -268,17 +272,17 @@ POP3 плагін - помилка запису в файл
 [Cannot allocate memory for received data.]
 Неможливо виділити пам'ять для отримання даних.
 [Cannot login to POP3 server.]
-Не можу увійти на сервер POP3.
+Не можу ввійти на сервер POP3.
 [Bad user or password.]
-Неправильні логін або пароль
+Неправильне ім'я користувача або пароль.
 [Server does not support APOP authorization.]
-Сервер не підтримує APOP-аутентифікацію
+Сервер не підтримує APOP-аутентифікацію.
 [Error while executing POP3 command.]
-Помилка виконання команди POP3
+Помилка виконання команди POP3.
 [Cannot connect to server with NetLib.]
 Неможливо підключитися до сервера з NetLib.
 [Cannot send data.]
-Не можу відправити дані.
+Не можу надіслати дані.
 [Cannot receive data.]
 Не можу отримати дані.
 [OpenSSL not loaded.]
@@ -325,6 +329,8 @@ OpenSSL не завантажений.
 Всі файли
 [Select executable used for notification]
 Вибір програми для сповіщення
+[Dialog box error]
+Помилка діалогового вікна
 [Failed]
 Не вдалося
 [Do you really want to delete this account?]

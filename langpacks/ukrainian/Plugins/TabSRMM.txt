@@ -1234,7 +1234,7 @@ TabSRMM: Набирає
 [Delivery failure: %s]
 Доставка не вдалася: %s
 [The message send timed out]
-час відправлення минув
+Час надсилання повідомлення вичерпано.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
 [Contact is offline and this protocol does not support sending files to offline users.]

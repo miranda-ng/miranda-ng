@@ -18,11 +18,11 @@
 [Close after:]
 Тривалість:
 [sec (0 default, -1 disabled)]
-с (0 замовчання, -1 вимкнути)
+с (0 - замовчання, -1 - постійно)
 [Settings]
 Налаштування
 [try resolve addresses]
-намагатися визначити адреси
+визначати імена за IP-адресами
 [Version:]
 Версія:
 [Show notification if no filter defined]
@@ -48,7 +48,7 @@
 [Cancel]
 Скасувати
 [* and ? wildcard characters also available (for port enter number or *)]
-Дозволені символи підстановки ? і * (в полі "Порт" - цифри або *)
+Дозволені символи підстановки ? і * (у полі "Порт" - цифри або *)
 [Remote IP:Port]
 Віддалений IP:Порт
 [Show]

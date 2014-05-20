@@ -99,13 +99,13 @@
 Декілька значків
 [Only when statuses differ]
 при різних статусах
-[Contact List]
+[Contact list]
 Список контактів
 [System tray icon]
 Значок у треї
 [System tray icon when using multiple protocols]
 Значки протоколів у треї
-[Contact List Sorting]
+[Contact list sorting]
 Впорядкування списку
 [Don't move offline user to bottom]
 Не переміщати відключених вниз
@@ -169,7 +169,7 @@
 Виділяти навіть якщо вікно неактивне
 [Make selection highlight translucent]
 Напівпрозоре виділення
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 Сховати відключених - сховати:
 [Groups]
 Групи
@@ -203,19 +203,19 @@
 Сховати смугу прокрутки
 [Contact list background]
 Фон списку контактів
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Значки "Мета" для метаконтактів
 [Avoid doubleclick expand]
 Не розгортати за подв. клацанням
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Ховати додаткові значки для субконтактів
 [MetaContacts supporting]
 Підтримка метаконтактів
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right)]
 Ігнорувати порожні додаткові значки (праворуч)
-[Hide offline subcontacts.]
+[Hide offline subcontacts]
 Ховати відключені субконтакти
-[Status Bar]
+[Status bar]
 Панель статусу
 [Show status bar]
 Показувати панель статусу
@@ -235,7 +235,7 @@
 Індикатор зміни розміру
 [Show bevel effect on panels]
 Бордюр на панелях
-[Use connecting Icon]
+[Use connecting icon]
 Значок з'єднання
 [Use new drawer for status bar]
 Новий стиль панелі статусу
@@ -261,9 +261,9 @@
 &Готовий до чату\tCtrl+7
 [&Invisible\tCtrl+7]
 &Невидимий\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 &Телефоную\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
 [Tray]
 Трей
@@ -271,27 +271,27 @@
 С&ховати/Показати
 [Nowhere]
 Ніде
-[&New Group]
+[&New group]
 &Створити групу
-[&Hide Offline Users]
+[&Hide offline users]
 С&ховати відключених
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Сховати &відключених поза групою
-[Hide &Empty Groups]
+[Hide &empty groups]
 Сховати порожні групи
-[Disable &Groups]
+[Disable &groups]
 Вимкнути &групи
 [Hide Miranda]
 Сховати список контактів
 [Group]
 Група
-[&New Subgroup]
+[&New subgroup]
 С&творити підгрупу
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Сховати &відключених у групі
-[&Rename Group]
+[&Rename group]
 &Перейменувати групу
-[&Delete Group]
+[&Delete group]
 &Видалити групу
 [Customize]
 Тонке налаштування
@@ -319,19 +319,17 @@
 Контакти зі зміненою видимістю (відключені)
 [Status messages]
 Статусні повідомлення
-[Group Closed]
+[Group closed]
 Закрита група
-[Hover Contacts]
+[Hovered contacts]
 Контакти під вказівником
 [Background]
 Фон
-[Contact list]
-Список контактів
-[Selected Text]
+[Selected text]
 Виділений текст
-[Hottrack Text]
+[Hottrack text]
 Текст під курсором
-[Quicksearch Text]
+[Quicksearch text]
 Швидкий пошук
 [List]
 Список
@@ -367,20 +365,20 @@ _БезПротоколу_
 (Невідомий контакт)
 [Tray menu]
 Меню в треї
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Додати &контакти...
 [&Options...]
 &Налаштування...
 [&About]
 Про програму
+[My contacts]
+Мої контакти
 [My Contacts]
 Мої контакти
 [Group menu]
 Меню груп
 [Subgroup menu]
 Меню підгруп
-[&New SubGroup]
-С&творити підгрупу
 [Close Miranda]
 Закрити програму
 [Restore last status]
@@ -395,7 +393,7 @@ _БезПротоколу_
 &Закріпити
 [&Collapsed]
 Згорнуте
-[&Floating Mode]
+[&Floating mode]
 &Плаваючий режим
 [&Border]
 &Рамка
@@ -415,13 +413,13 @@ _БезПротоколу_
 В&низ
 [Frames]
 Фрейми
-[Show All Frames]
+[Show all frames]
 Показати всі фрейми
 [Show all title bars]
 Показати назви
 [Hide all title bars]
 Сховати назви
-[Lock Frame]
+[Lock frame]
 Закріпити фрейм
 [Visible]
 Видимий

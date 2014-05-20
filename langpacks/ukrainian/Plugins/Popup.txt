@@ -241,7 +241,7 @@ History++ для історії вікон
 Час
 [Text]
 Текст
-[Hovered Action]
+[Hovered action]
 Наведена дія
 [Background]
 Фон
@@ -251,7 +251,7 @@ History++ для історії вікон
 Врізка
 [Title underline]
 Підкреслення заголовка
-[Avatar Border]
+[Avatar border]
 Рамка аватару
 [Popup History is disabled]
 Історія спливаючих вікон вимкнена

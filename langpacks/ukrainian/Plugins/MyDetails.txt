@@ -15,32 +15,36 @@
 Скасувати
 [General]
 Загальні
-[...avatar]
-...аватар
 [Align text to right]
 Вирівняти праворуч
-[...nickname]
-...нік
 [Auto-resize frame]
 Вирівнювати фрейм
 [Use contact list smileys]
 Смайли у списку контактів
-[...status]
-...статус
 [Replace Smileys]
 Замінювати смайли
 [Resize Smileys]
 Змінювати розмір смайлів
+[Global On...]
+Глобальний...
+[...avatar]
+...аватар
+[...nickname]
+...нік
+[...status]
+...статус
 [...status message]
 ...повідомлення статусу
-[Top:]
-Верх:
-[Bottom:]
-Низ:
-[Left:]
-Ліво:
-[Right:]
-Право:
+[Account]
+Обліковий запис
+[Show account name]
+Показувати ім'я облікового запису
+[Show account cycle button]
+Кнопки зміни облікових записів
+[Cycle through accounts every:]
+Міняти облікові записи кожні:
+[seconds]
+секунд
 [Avatar]
 Аватар
 [Custom size:]
@@ -57,20 +61,16 @@
 Розмір кута:
 [Use free space (under avatar) to other texts]
 Викор. вільне місце (під аватарами) для тексту
-[Global On...]
-Глобальний...
 [Frame Options]
 Опції фрейму
-[Cycle through accounts every:]
-Міняти облікові записи кожні:
-[seconds]
-секунд
-[Account]
-Обліковий запис
-[Show account name]
-Показувати ім'я облікового запису
-[Show account cycle button]
-Кнопки зміни облікових записів
+[Top:]
+Верх:
+[Bottom:]
+Низ:
+[Left:]
+Ліво:
+[Right:]
+Право:
 [Set My Status Message for All Status]
 Статусне повідомлення для ycix статусів
 [Status Message:]

@@ -36,7 +36,7 @@
 [Copy download link to message log]
 Копіювати посилання в лог повідомлень
 [Autosend download link to contact]
-Надсилати URL автоматично
+Автоматично надсилати посилання
 [Menu items]
 Пункти у меню
 [Use submenu (restart required)]

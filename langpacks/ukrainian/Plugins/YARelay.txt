@@ -42,7 +42,7 @@
 [Split message (%m)]
 Розділяти повідомлення (%m)
 [Send only first]
-Відправити тільки перше
+Надсилати перші
 [Max size of split part (chars)]
 Максимальний розмір частини (знаків)
 [Mark received messages as 'read']
@@ -50,7 +50,7 @@
 [Save sent messages in recipient's history]
 Зберігати надіслані повідомлення в історії
 [split parts (0 = all)]
-Частин (0 = всі)
+частин (0 = всі)
 [Note: Max size - it's a size of %m parameter]
 Примітка: максимальний розмір - це значення параметру %m
 [Note: messages from this contact will not be forwarded]

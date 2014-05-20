@@ -518,7 +518,7 @@ WallOps від %s:\s
 [CTCP %s reply sent to %s]
 СТСР %s відповідь надіслана для %s
 [CTCP %s reply sent to %s: %s]
-СТСР %s відповідь послана для %s: %s
+СТСР %s відповідь надіслана для %s: %s
 [Notice to %s: ]
 Повідомлення для %s:\s
 [&Quick connect]

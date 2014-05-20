@@ -18,13 +18,13 @@
 [Notifier on:]
 Інформувати:
 [Duration:]
-Трив.:
+Тривалість:
 [Text|Background:]
-Текст|Фон
+Текст|Фон:
 [custom program]
 свій додаток
-[sec.]
-с
+[seconds]
+секунд
 [On double click:]
 Подв. клік:
 [Add]
@@ -50,7 +50,7 @@
 [This is a shared computer so disable auto login]
 Вимкнути автоперевірку
 [Log unread threads into database (enable history)]
-Записувати непрочитане в базу (ввімк. історію)
+Записувати непрочитане в базу (вмикає збереження історії)
 [Gmail account]
 Обліковий запис Gmail
 [Configuration]
@@ -72,6 +72,6 @@
 [&Check Gmail inbox]
 Перевірити скриньку Gmail
 [GmailMNotifier]
-Повідомлення про пошту Gmail
+Сповіщення про пошту Gmail
 [Network]
 Мережа

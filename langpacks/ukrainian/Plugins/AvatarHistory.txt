@@ -30,7 +30,7 @@
 [Protocols]
 Протоколи
 [Enable tracking for these protocols:]
-Ввімкнути відстеження для цих протоколів:
+Відстежувати протоколи:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Метаконтакти обробляються особливо: інформація завжди копіюється з субконтактів (сповіщення від метаконтактів ігноруються)
 [Show popup when a contact change his avatar]
@@ -56,9 +56,9 @@
 [Actions]
 Дії
 [On right click:]
-На правий клік:
+Правий клік:
 [On left click:]
-На лівий клік:
+Лівий клік:
 [Track]
 Стежити
 [Avatar change:]
@@ -106,25 +106,27 @@
 [Delete avatar?]
 Видалити аватар?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
-Ви впевнені, що хочете видалити цей збережений аватар?\nБуде видалено ярлик та файл зображення.\nУвага: Це може стосуватися кількох ярликів!
+Ви впевнені, що хочете видалити цей збережений аватар?\nБуде видалено ярлик та файл зображення.\nУВАГА: Це може стосуватися кількох ярликів!
 [Avatar History is empty!]
 Історія аватарів порожня!
 [avatar path is null.]
-шлях до аватару не дійсний.
+Не вказано шлях до аватарів.
 [View Avatar History]
 Показати історію аватарів
 [Save Avatar for %s]
 Зберегти аватар %s
 [Save Avatar]
 Зберегти аватар
+[AVH Debug]
+Налагодження AVH
 [Removed avatar, no avatar before... skipping]
-Видалений аватар, небуло раніше аватару... пропустити
+Аватар видалено, немає старіших аватарів... пропустити
 [Hashes are the same... skipping]
-Хеши ті ж самі...пропустити
+Хеші ті ж самі... пропустити
 [Avatar History: Unable to save avatar]
-Історія аватарів: Неможливо сберегти аватар
+Історія аватарів: неможливо зберегти аватар
 [AVH Debug: File copied successfully]
-AVH Debug: Копіювання файлу успішно
+Налагодження AVH: файл успішно скопіюваний
 [Avatars]
 Аватари
 [Contact changed avatar]
@@ -132,7 +134,7 @@ AVH Debug: Копіювання файлу успішно
 [Contact removed avatar]
 Контакт видалив аватар
 [removed his/her avatar]
-видалив свій аватар
+видалив(ла) свій аватар
 [changed his/her avatar]
 змінив(ла) свій аватар
 [History]
@@ -161,5 +163,9 @@ AVH Debug: Копіювання файлу успішно
 Невідомий номер
 [Unknown Protocol]
 Невідомий протокол
+[AVH Debug: GetOldStyleAvatarName]
+Налагодження AVH: GetOldStyleAvatarName
 [Avatar History: Unable to create shortcut]
-Історія аватарів: Неможливо створити ярлик
+Історія аватарів: неможливо створити ярлик
+[AVH Debug: Shortcut created successfully]
+Налагодження AVH: ярлик успішно створений

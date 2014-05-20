@@ -264,7 +264,7 @@
 [Sticky Note Caption]
 Заголовок
 [Sticky Note Background Color]
-Колір фону
+Фон
 [Sticky Note Body]
 Вікно
 [Executable Files\0*.exe\0All Files\0*.*\0\0]

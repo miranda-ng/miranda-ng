@@ -446,7 +446,7 @@ FTP-шлях не може містити <date> в задачі імпорту.
 [Cannot compress file(s).]
 Неможливо архівувати файл(и).
 [Cannot send FTP file(s).]
-Неможливо відіслати FTP файл(и).
+Неможливо надіслати FTP файл(и).
 [Task finished]
 Завдання завершено
 [Task '%s' execution failed]

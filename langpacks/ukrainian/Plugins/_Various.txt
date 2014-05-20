@@ -69,7 +69,7 @@
 [Messages received]
 Прийнято повідомлень
 [Messages sent]
-Відправлено повідомлень
+Надіслано повідомлень
 [Total messages: %sys:msg_count_all%]
 Всього повідомлень: %sys:msg_count_all%
 [Last message: (%sys:last_msg_reltime% along)]

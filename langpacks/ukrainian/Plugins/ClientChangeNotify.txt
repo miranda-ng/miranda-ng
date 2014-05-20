@@ -70,7 +70,7 @@
 [Always, even when client change notifications are disabled globally]
 Завжди, навіть коли сповіщення зміни клієнта відключені глобально
 [Use global settings (default)]
-Використовувати загальні параметри (за замовчанням)
+Глобальні налаштування (за замовчанням)
 [Disable c&lient change notification]
 Вимкнути сповіщення про зміну к&лієнта
 [Enable c&lient change notification]

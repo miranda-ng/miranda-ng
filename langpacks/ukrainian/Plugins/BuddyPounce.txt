@@ -52,9 +52,9 @@
 [These settings are also used when sending a "Simple" pounce]
 Ці параметри також використовуються для "простих" відкл. повідомлень
 [Send If My Status Is...]
-Посилати, якщо мій статус...
+Надсилати, якщо мій статус...
 [Send If They Change Status to...]
-Посилати, якщо статус контакту...
+Надсилати, якщо статус контакту...
 [Reuse Pounce]
 Повторити відкладене
 [Give Up delay]
@@ -62,7 +62,7 @@
 [Confirmation Window]
 Вікно підтвердження
 [Send If My Status Is]
-Посилати, якщо мій статус
+Надсилати, якщо мій статус
 [Any]
 будь-який
 [Online]
@@ -84,7 +84,7 @@
 [Out To Lunch]
 Обідаю
 [Send If Their Status changes]
-Посилати, якщо контакт змінює статус
+Надсилати, якщо контакт змінює статус
 [From Offline]
 -> З офлайну
 [To Online]

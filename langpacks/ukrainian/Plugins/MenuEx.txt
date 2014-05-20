@@ -92,7 +92,7 @@ C&касувати
 [Please authorize me to add you to my contact list.]
 Дозвольте, будь ласка, додати вас до списку.
 [Do you want to send authorization request\nto new contact?]
-Чи хочете ви надіслати запит авторизації\nновому контакту?
+Надіслати запит авторизації\nновому контакту?
 [MenuItemEx]
 Дод. пункти меню
 [Open ignore settings]

@@ -950,7 +950,7 @@ JID, що вказує на replyto
 [The roster group(s) allowed to subscribe and retrieve items]
 Групи ростеру, яким дозволяється підписатися і отримувати елементи
 [Whether to send items to new subscribers]
-Посилати елементи новим абонентам
+Надсилати елементи новим абонентам
 [Whether to allow subscriptions]
 Дозволити підписку
 [A friendly name for the node]

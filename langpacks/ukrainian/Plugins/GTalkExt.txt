@@ -26,7 +26,7 @@
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 Це працює тільки якщо пароль збережений в БД. Не впливає на посилання в журналі повідомлень псевдоконтакта.
 [Choose GMail view you use in web interface]
-Виберіть вигляд GMail, використовуваний у веб-інтерфейсі
+Виберіть вигляд Gmail, використовуваний у веб-інтерфейсі
 [I don't know]
 Я не знаю
 [Standard view]
@@ -54,7 +54,7 @@
 [Network]
 Мережа
 [GMail notifications]
-Сповіщення про пошту GMail
+Сповіщення про пошту Gmail
 [subject\n    %s\nfrom\n%s\n%s\n]
 тема\n    %s\nвід\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]

@@ -66,9 +66,9 @@
 [Never, ignore client changes for this contact]
 Никогда, игнорировать смену клиентов для этого контакта
 [Always except when client change notifications are disabled globally]
-Всегда, за исключением когда уведовления о смене клиентов отключены глобально
+Всегда, за исключением когда уведомления о смене клиентов отключены глобально
 [Always, even when client change notifications are disabled globally]
-Всегда, даже когда уведовления о смене клиентов отключены глобально
+Всегда, даже когда уведомления о смене клиентов отключены глобально
 [Use global settings (default)]
 Глобальные настройки (по умолчанию)
 [Disable c&lient change notification]
