@@ -737,8 +737,6 @@ UTF16+сигнатури
 Основні налаштування
 [Custom settings]
 Додаткові налаштування
-[Separated]
-Роздільник
 [Do not translate]
 Без перекладу
 [Param type]
