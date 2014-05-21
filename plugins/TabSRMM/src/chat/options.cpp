@@ -165,7 +165,7 @@ static branch_t branch2[] = {
 	{ LPGENT("Indent the second line of a message"), "LogIndentEnabled", 0, 1, NULL },
 	{ LPGENT("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, NULL },
 	{ LPGENT("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, NULL },
-	{ LPGENT("Start private conversation on doubleclick in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, NULL },
+	{ LPGENT("Start private conversation on double click in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, NULL },
 	{ LPGENT("Strip colors from messages in the log"), "StripFormatting", 0, 0, NULL },
 	{ LPGENT("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0, NULL },
 	{ LPGENT("Use IRC style status indicators in the log"), "LogClassicIndicators", 0, 0, NULL },

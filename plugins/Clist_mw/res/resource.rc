@@ -286,7 +286,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Use 'Meta' protocol icons for MetaContacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,13,233,10
-    CONTROL         "Avoid doubleclick expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,29,233,10
+    CONTROL         "Avoid double click expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,29,233,10
     CONTROL         "Hide all extra icons for subcontacts",IDC_METASUBEXTRA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,45,233,10
     GROUPBOX        "MetaContacts supporting",-1,2,2,252,90

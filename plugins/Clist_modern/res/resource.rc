@@ -515,7 +515,7 @@ BEGIN
     CONTROL         "Use 'Meta' protocol icons for Metacontacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,95,201,10
     CONTROL         "Expand metacontacts",IDC_METAEXPAND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,107,201,16
-    CONTROL         "Avoid doubleclick expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,124,196,10
+    CONTROL         "Avoid double click expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,124,196,10
     CONTROL         "Hide all 'Extra icons' for subcontacts",IDC_METASUBEXTRA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,137,196,10
     CONTROL         "Hide offline subcontacts.",IDC_METASUB_HIDEOFFLINE,

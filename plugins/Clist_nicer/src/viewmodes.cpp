@@ -695,7 +695,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (lstrlenA(szBuf) > 2) {
 					if (cfg::getDword(CLVM_MODULE, szBuf, -1) != -1)
-						MessageBox(0, TranslateT("A view mode with this name does alredy exist"), TranslateT("Duplicate name"), MB_OK);
+						MessageBox(0, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
 					else {
 						int iNewItem = SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
 						if (iNewItem != LB_ERR) {

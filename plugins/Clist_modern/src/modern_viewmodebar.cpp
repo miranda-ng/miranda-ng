@@ -823,7 +823,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					char *szUTF8Buf = mir_utf8encodeT(szBuf);
 
 					if (db_get_dw(NULL, CLVM_MODULE, szUTF8Buf, -1) != -1)
-						MessageBox(0, TranslateT("A view mode with this name does alredy exist"), TranslateT("Duplicate name"), MB_OK);
+						MessageBox(0, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
 					else {
 						int iNewItem = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
 						if (iNewItem != LB_ERR) {
