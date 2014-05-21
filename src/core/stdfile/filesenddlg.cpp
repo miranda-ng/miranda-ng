@@ -29,7 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 {
-	int fileCount = 0, dirCount = 0, totalSize = 0, i;
+	int fileCount = 0, dirCount = 0, i;
+	__int64 totalSize = 0;
 	struct _stat statbuf;
 	TCHAR str[64];
 
