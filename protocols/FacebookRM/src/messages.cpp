@@ -176,13 +176,11 @@ void FacebookProto::ReadMessageWorker(void *p)
 		return;
 
 	// mark message read (also send seen info)
-	ptrA mid( getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
-	if (mid == NULL)
+	ptrA tid( getStringA(hContact, FACEBOOK_KEY_TID));
+	if (tid == NULL)
 		return;
 
-	// TODO: for multi-chat messages we might need to mark as read threadID and not messageID, but I'm not sure about that now...
-
-	std::string data = "ids[" + utils::url::encode(std::string(mid)) + "]=true";
+	std::string data = "ids[" + utils::url::encode(std::string(tid)) + "]=true";
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
 	data += "&__user=" + facy.self_.user_id;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";

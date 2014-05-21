@@ -386,7 +386,6 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 				if (!hChatContact)
 					hChatContact = ChatIDToHContact(room->thread_id);
 
-				setTString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, room->thread_id.c_str());
 				ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
 
 				delete it->second;
