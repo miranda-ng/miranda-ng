@@ -159,12 +159,14 @@ typedef struct {
 
 // News Feed types
 static const ttype feed_types[] = {
-	{ LPGEN("Most Recent"), "lf_" }, //h_chr?
-	{ LPGEN("Wall Posts"), "app_2915120374" },
-	{ LPGEN("Top News"), "h_nor" }, //h
-	{ LPGEN("Photos"), "app_2305272732_2392950137" },
-	{ LPGEN("Links"), "app_2309869772" },
-	{ LPGEN("Apps and Games"), "appsandgames" },
+	{ LPGEN("Top News"), "h_nor" },
+	{ LPGEN("Most Recent"), "h_chr" },
+	{ LPGEN("Pages"), "pages" },
+	//{ LPGEN("Apps and Games"), "FEED_FILTER_KEY_APPS_AND_GAMES" },
+
+	//{ LPGEN("Wall Posts"), "app_2915120374" },	
+	//{ LPGEN("Photos"), "app_2305272732_2392950137" },
+	//{ LPGEN("Links"), "app_2309869772" },
 };
 
 // Server types

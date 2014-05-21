@@ -446,12 +446,12 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_FEEDS:
 	{
-		std::string action = "/ajax/intent.php?filter=";
-		action += get_newsfeed_type();
-		action += "&request_type=4&__a=1&newest=%s&ignore_self=true&load_newer=true&__user=%s";
-		std::string newest = utils::conversion::to_string((void*)&this->last_feeds_update_, UTILS_CONV_TIME_T);
+		std::string action = "/ajax/home/generic.php?" + get_newsfeed_type();
+		action += "&__user=" + self_.user_id + "&__a=1";
+
+		/*std::string newest = utils::conversion::to_string((void*)&this->last_feeds_update_, UTILS_CONV_TIME_T);
 		utils::text::replace_first(&action, "%s", newest);
-		utils::text::replace_first(&action, "%s", self_.user_id);
+		utils::text::replace_first(&action, "%s", self_.user_id);*/
 		return action;
 	}
 
@@ -604,8 +604,13 @@ std::string facebook_client::get_newsfeed_type()
 {
 	BYTE feed_type = parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
 	if (feed_type >= SIZEOF(feed_types))
-		feed_type = 0;	
-	return feed_types[feed_type].id;
+		feed_type = 0;
+
+	std::string ret = "sk=";
+	ret += feed_types[feed_type].id;
+	ret += "&key=";
+	ret += (feed_type < 2 ? "nf" : feed_types[feed_type].id);
+	return ret;
 }
 
 std::string facebook_client::get_server_type()

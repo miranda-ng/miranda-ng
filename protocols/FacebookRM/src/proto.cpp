@@ -523,6 +523,7 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
 		facy.client_notify(TranslateT("Loading newsfeeds..."));
+		facy.last_feeds_update_ = 0;
 		ForkThread(&FacebookProto::ProcessFeeds, NULL);
 	}
 	return 0;

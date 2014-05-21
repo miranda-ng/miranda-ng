@@ -748,7 +748,7 @@ void FacebookProto::ProcessFeeds(void* data)
 		return;
 	}
 
-	if (resp.data.empty() || resp.data.find("\"num_stories\":0") != std::string::npos)
+	if (resp.data.empty() /*|| resp.data.find("\"num_stories\":0") != std::string::npos*/)
 		return;
 
 	CODE_BLOCK_TRY
@@ -760,33 +760,71 @@ void FacebookProto::ProcessFeeds(void* data)
 	std::string::size_type pos = 0;
 	UINT limit = 0;
 
-	resp.data = utils::text::slashu_to_utf8(resp.data);	
-	resp.data = utils::text::source_get_value(&resp.data, 2, "\"html\":\"", ">\"");
+	DWORD new_time = facy.last_feeds_update_;
 
-	while ((pos = resp.data.find("<div class=\\\"mainWrapper\\\"", pos)) != std::string::npos && limit <= 25)
+	while ((pos = resp.data.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
 	{		
-		std::string::size_type pos2 = resp.data.find("<div class=\\\"mainWrapper\\\"", pos+5);
+		/*std::string::size_type pos2 = resp.data.find("<div class=\"userContentWrapper", pos+5);
 		if (pos2 == std::string::npos)
 			pos2 = resp.data.length();
 		
-		std::string post = resp.data.substr(pos, pos2 - pos);
+		std::string post = resp.data.substr(pos, pos2 - pos);*/
+		std::string post = resp.data.substr(pos, resp.data.find("</form>", pos) - pos);
 		pos += 5;
 
-		std::string post_header = utils::text::source_get_value(&post, 4, "<h5 class=", "uiStreamHeadline", ">", "<\\/h5>");
-		std::string post_message = utils::text::source_get_value(&post, 3, "<h5 class=\\\"uiStreamMessage userContentWrapper", ">", "<\\/h5>");
-		std::string post_link = utils::text::source_get_value(&post, 3, "<span class=\\\"uiStreamSource\\\"", ">", "<\\/span>");
-		std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
+		std::string post_header = utils::text::source_get_value(&post, 3, "<h5", ">", "</h5>");
+		std::string post_message = utils::text::source_get_value(&post, 3, " userContent\"", ">", "<form");
+		std::string post_link = utils::text::source_get_value(&post, 4, "</h5>", "<a", "href=\"", "\"");
+		//std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
 
-		//std::string post_time = utils::text::source_get_value(&post_link, 2, "data-utime=\\\"", "\\\"");
-		//std::string post_time_text = utils::text::source_get_value(&post_link, 3, "class=\\\"timestamp livetimestamp", ">", "<");
+		std::string post_time = utils::text::source_get_value(&post, 3, "</h5>", "<abbr", "</a>");
+
+		std::string time = utils::text::source_get_value(&post_time, 2, "data-utime=\"", "\"");
+		std::string time_text = utils::text::source_get_value(&post_time, 2, ">", "</abbr>");
+
+		DWORD ttime = utils::conversion::to_timestamp(time);
+		if (ttime > facy.last_feeds_update_)
+			new_time = ttime;
+		else
+			continue;
+
+		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
+
+		std::string premsg = "\n" + time_text;
+
+		post_place = utils::text::trim(
+			utils::text::remove_html(post_place));
+		if (!post_place.empty()) {
+			premsg += " - " + post_place;
+		}
+		premsg += "\n";
 
 		// in title keep only name, end of events like "X shared link" put into message
-		pos2 = post_header.find("<\\/a>") + 5;
-		post_message = post_header.substr(pos2, post_header.length() - pos2) + post_message;
-		post_header = post_header.substr(0, pos2);
+		std::string::size_type pos2 = post_header.find("‎");
+
+		if (pos2 != std::string::npos) {
+			utils::text::replace_first(&post_header, "‎", " → ");
+		} else {
+			pos2 = post_header.find("</a></");
+			if (pos2 != std::string::npos) {
+				pos2 += 4;
+				std::string a = utils::text::trim(utils::text::remove_html(post_header.substr(pos2, post_header.length() - pos2)));
+				if (a.length() > 2)
+					premsg += a;
+				post_header = post_header.substr(0, pos2);
+			}
+		}
+
+		// Strip "Translate" link
+		pos2 = post_message.find("role=\"button\">");
+		if (pos2 != std::string::npos) {
+			post_message = post_message.substr(0, pos2 + 14);
+		}
+
+		post_message = premsg + post_message;
 
 		// append attachement to message (if any)
-		post_message += utils::text::trim(post_attach);
+		//post_message += utils::text::trim(post_attach);
 
 		facebook_newsfeed* nf = new facebook_newsfeed;
 
@@ -796,15 +834,13 @@ void FacebookProto::ProcessFeeds(void* data)
 
 		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
 		
-		nf->link = utils::text::special_expressions_decode(
-				utils::text::source_get_value(&post_link, 2, "href=\\\"", "\\\">"));
+		nf->link = utils::text::special_expressions_decode(post_link);
+				//utils::text::source_get_value(&post_link, 2, "href=\\\"", "\\\">"));
 
 		nf->text = utils::text::trim(
 			utils::text::special_expressions_decode(
 				utils::text::remove_html(
-					utils::text::edit_html(post_message))));
-
-		//nf->text += "\n" + post_time_text;
+					utils::text::edit_html(post_message))));		
 
 		if (!nf->title.length() || !nf->text.length())
 		{
@@ -833,7 +869,8 @@ void FacebookProto::ProcessFeeds(void* data)
 	}
 	news.clear();
 
-	this->facy.last_feeds_update_ = ::time(NULL);
+	this->facy.last_feeds_update_ = new_time;
+	//this->facy.last_feeds_update_ = ::time(NULL);
 
 	debugLogA("***** Feeds processed");
 
