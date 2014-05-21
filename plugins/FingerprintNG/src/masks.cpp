@@ -560,8 +560,8 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_rss09x",           _T("*RSS*0.9*"),                                _T("RSS 0.9x"),                      IDI_RSS09,               RSS_CASE,           TRUE    },
 	{"client_rss2",             _T("*RSS*2.*"),                                 _T("RSS 2"),                         IDI_RSS2,                RSS_CASE,           TRUE    },
 	{"client_rss1",             _T("*RSS*1.*"),                                 _T("RSS 1"),                         IDI_RSS1,                RSS_CASE,           TRUE    },
-	{"client_atom3",            _T("*Atom*3.*"),                                _T("Atom 3"),                        IDI_ATOM3,               RSS_CASE,           TRUE    },
-	{"client_atom1",            _T("*Atom*1.*"),                                _T("Atom 1"),                        IDI_ATOM1,               RSS_CASE,           TRUE    },
+	{"client_atom3",            _T("*Atom*3*"),                                 _T("Atom 3"),                        IDI_ATOM3,               RSS_CASE,           TRUE    },
+	{"client_atom1",            _T("*Atom*1*"),                                 _T("Atom 1"),                        IDI_ATOM1,               RSS_CASE,           TRUE    },
 
 //#########################################################################################################################################################################
 //#################################    QQ   ###############################################################################################################################
