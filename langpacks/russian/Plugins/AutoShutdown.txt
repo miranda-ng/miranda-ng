@@ -45,7 +45,7 @@
 Переход Miranda NG в режим &ожидания
 [Configure]
 Настроить
-[Shutdown when &prozessor usage drops below:]
+[Shutdown when &processor usage drops below:]
 Выключить, если использование &процессора упадёт до:
 [(current: 0%)]
 (сейчас 0%)
@@ -171,7 +171,7 @@ Miranda NG автоматически закроется через %u секу�
 Закрыть все запущенные программы и завершить работу Windows, чтобы можно было отключить питание.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Сохранить текущее состояние Windows в памяти и перевести систему в режим ожидания.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
 Сохранить текущее состояние Windows на жёстком диске, так что питание можно выключить.
 [Locks the computer. To unlock the computer, you must log in.]
 Заблокировать компьютер. Для разблокировки необходимо войти в систему.
