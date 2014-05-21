@@ -208,15 +208,15 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void        MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* params);
 	int			MSN_HandleCommands(ThreadData* info, char* cmdString);
 	int			MSN_HandleErrors(ThreadData* info, char* cmdString);
-	void        sttProcessNotificationMessage(char* buf, unsigned len);
-	void        sttProcessStatusMessage(char* buf, unsigned len, const char* wlid);
-	void        sttProcessPage(char* buf, unsigned len);
-	void        sttProcessRemove(char* buf, size_t len);
-	void        sttProcessAdd(char* buf, size_t len);
-	void        sttProcessYFind(char* buf, size_t len);
-	void        sttCustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
-	void        sttInviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
-	void        sttSetMirVer(MCONTACT hContact, DWORD dwValue, bool always);
+	void        MSN_ProcessNotificationMessage(char* buf, unsigned len);
+	void        MSN_ProcessStatusMessage(char* buf, unsigned len, const char* wlid);
+	void        MSN_ProcessPage(char* buf, unsigned len);
+	void        MSN_ProcessRemove(char* buf, size_t len);
+	void        MSN_ProcessAdd(char* buf, size_t len);
+	void        MSN_ProcessYFind(char* buf, size_t len);
+	void        MSN_CustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
+	void        MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
+	void        MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always);
 
 	void        LoadOptions(void);
 

@@ -46,7 +46,7 @@ void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* ext
 	}
 }
 
-void CMsnProto::sttSetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
+void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 {
 	static const char* MirVerStr[] =
 	{
@@ -66,34 +66,37 @@ void CMsnProto::sttSetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 		"WLM Unknown",
 	};
 
+	LPCSTR szVersion;
+
 	if (dwValue == 0)
-		setString(hContact, "MirVer", "Windows Phone");
+		szVersion = "Windows Phone";
 	else if (dwValue & 0x1)
-		setString(hContact, "MirVer", "MSN Mobile");
+		szVersion = "MSN Mobile";
 	else if (dwValue & 0x200)
-		setString(hContact, "MirVer", "Webmessenger");
+		szVersion = "Webmessenger";
 	else if (dwValue == 0x800800)
-		setString(hContact, "MirVer", "Yahoo");
+		szVersion = "Yahoo";
 	else if (dwValue == 0x800)
-		setString(hContact, "MirVer", "LCS");
+		szVersion = "LCS";
 	else if (dwValue == 0x50000000)
-		setString(hContact, "MirVer", "Miranda IM 0.5.x (MSN v.0.5.x)");
+		szVersion = "Miranda IM 0.5.x (MSN v.0.5.x)";
 	else if (dwValue == 0x30000024)
-		setString(hContact, "MirVer", "Miranda IM 0.4.x (MSN v.0.4.x)");
+		szVersion = "Miranda IM 0.4.x (MSN v.0.4.x)";
 	else if (always || getByte(hContact, "StdMirVer", 0)) {
 		unsigned wlmId = min(dwValue >> 28 & 0xff, SIZEOF(MirVerStr) - 1);
-		setString(hContact, "MirVer", MirVerStr[wlmId]);
+		szVersion = MirVerStr[wlmId];
 	}
 	else
 		return;
 
+	setString(hContact, "MirVer", szVersion);
 	setByte(hContact, "StdMirVer", 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Processes various invitations
 
-void CMsnProto::sttInviteMessage(ThreadData* info, char* msgBody, char* email, char* nick)
+void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, char* nick)
 {
 	MimeHeaders tFileInfo;
 	tFileInfo.readFromBuffer(msgBody);
@@ -251,7 +254,7 @@ void CMsnProto::sttInviteMessage(ThreadData* info, char* msgBody, char* email, c
 /////////////////////////////////////////////////////////////////////////////////////////
 // Processes custom smiley messages
 
-void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType)
+void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
 
@@ -400,7 +403,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		info->firstMsgRecv = true;
 		MsnContact *cont = Lists_Get(email);
 		if (cont && cont->hContact != NULL)
-			sttSetMirVer(cont->hContact, cont->cap1, true);
+			MSN_SetMirVer(cont->hContact, cont->cap1, true);
 	}
 
 	if (!_strnicmp(tContentType, "text/plain", 10)) {
@@ -538,7 +541,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	else if (!_strnicmp(tContentType, "text/x-msmsgsoimnotification", 28))
 		sttNotificationMessage(msgBody, false);
 	else if (!_strnicmp(tContentType, "text/x-msmsgsinvite", 19))
-		sttInviteMessage(info, msgBody, email, nick);
+		MSN_InviteMessage(info, msgBody, email, nick);
 	else if (!_strnicmp(tContentType, "application/x-msnmsgrp2p", 24)) {
 		const char* dest = tHeader["P2P-Dest"];
 		if (dest) {
@@ -557,9 +560,9 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		}
 	}
 	else if (!_strnicmp(tContentType, "text/x-mms-emoticon", 19))
-		sttCustomSmiley(msgBody, email, nick, MSN_APPID_CUSTOMSMILEY);
+		MSN_CustomSmiley(msgBody, email, nick, MSN_APPID_CUSTOMSMILEY);
 	else if (!_strnicmp(tContentType, "text/x-mms-animemoticon", 23))
-		sttCustomSmiley(msgBody, email, nick, MSN_APPID_CUSTOMANIMATEDSMILEY);
+		MSN_CustomSmiley(msgBody, email, nick, MSN_APPID_CUSTOMANIMATEDSMILEY);
 
 	mir_free(newbody);
 }
@@ -567,7 +570,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 /////////////////////////////////////////////////////////////////////////////////////////
 // Process Yahoo Find
 
-void CMsnProto::sttProcessYFind(char* buf, size_t len)
+void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 {
 	if (buf == NULL) return;
 	ezxml_t xmli = ezxml_parse_str(buf, len);
@@ -619,7 +622,7 @@ void CMsnProto::sttProcessYFind(char* buf, size_t len)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Process user addition
 
-void CMsnProto::sttProcessAdd(char* buf, size_t len)
+void CMsnProto::MSN_ProcessAdd(char* buf, size_t len)
 {
 	if (buf == NULL) return;
 
@@ -670,7 +673,7 @@ void CMsnProto::sttProcessAdd(char* buf, size_t len)
 	ezxml_free(xmli);
 }
 
-void CMsnProto::sttProcessRemove(char* buf, size_t len)
+void CMsnProto::MSN_ProcessRemove(char* buf, size_t len)
 {
 	ezxml_t xmli = ezxml_parse_str(buf, len);
 	ezxml_t dom  = ezxml_child(xmli, "d");
@@ -704,7 +707,7 @@ void CMsnProto::sttProcessRemove(char* buf, size_t len)
 //	MSN_HandleCommands - process commands from the server
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wlid)
+void CMsnProto::MSN_ProcessStatusMessage(char* buf, unsigned len, const char* wlid)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(wlid);
 	if (hContact == NULL) return;
@@ -849,7 +852,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	ezxml_free(xmli);
 }
 
-void CMsnProto::sttProcessPage(char* buf, unsigned len)
+void CMsnProto::MSN_ProcessPage(char* buf, unsigned len)
 {
 	if (buf == NULL) return;
 	ezxml_t xmlnot = ezxml_parse_str(buf, len);
@@ -868,7 +871,7 @@ void CMsnProto::sttProcessPage(char* buf, unsigned len)
 	ezxml_free(xmlnot);
 }
 
-void CMsnProto::sttProcessNotificationMessage(char* buf, unsigned len)
+void CMsnProto::MSN_ProcessNotificationMessage(char* buf, unsigned len)
 {
 	if (buf == NULL) return;
 	ezxml_t xmlnot = ezxml_parse_str(buf, len);
@@ -1002,7 +1005,7 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 			debugLogA("Invalid %.3s command, ignoring", cmdString);
 		else {
 			size_t len = atol(tWords[0]);
-			sttProcessYFind((char*)HReadBuffer(info, 0).surelyRead(len), len);
+			MSN_ProcessYFind((char*)HReadBuffer(info, 0).surelyRead(len), len);
 		}
 		break;
 
@@ -1017,7 +1020,7 @@ LBL_InvalidCommand:
 
 			if (strcmp(tWords[0], "OK") != 0) {
 				size_t len = atol(tWords[0]);
-				sttProcessAdd((char*)HReadBuffer(info, 0).surelyRead(len), len);
+				MSN_ProcessAdd((char*)HReadBuffer(info, 0).surelyRead(len), len);
 			}
 		}
 		break;
@@ -1232,7 +1235,7 @@ LBL_InvalidCommand:
 					DBVARIANT dbv;
 					bool always = getString(hContact, "MirVer", &dbv) != 0;
 					if (!always) db_free(&dbv);
-					sttSetMirVer(hContact, cont->cap1, always);
+					MSN_SetMirVer(hContact, cont->cap1, always);
 				}
 
 				if (data.cmdstring[0] && strcmp(data.cmdstring, "0")) {
@@ -1439,11 +1442,11 @@ remove:
 		break;
 
 	case ' TON':   //********* NOT: notification message
-		sttProcessNotificationMessage((char*)HReadBuffer(info, 0).surelyRead(trid), trid);
+		MSN_ProcessNotificationMessage((char*)HReadBuffer(info, 0).surelyRead(trid), trid);
 		break;
 
 	case ' GPI':   //********* IPG: mobile page
-		sttProcessPage((char*)HReadBuffer(info, 0).surelyRead(trid), trid);
+		MSN_ProcessPage((char*)HReadBuffer(info, 0).surelyRead(trid), trid);
 		break;
 
 	case ' FCG':   //********* GCF:
@@ -1478,7 +1481,7 @@ remove:
 
 			if (strcmp(tWords[0], "OK") != 0) {
 				size_t len = atol(tWords[0]);
-				sttProcessRemove((char*)HReadBuffer(info, 0).surelyRead(len), len);
+				MSN_ProcessRemove((char*)HReadBuffer(info, 0).surelyRead(len), len);
 			}
 		}
 		break;
@@ -1534,7 +1537,7 @@ remove:
 			if (len < 0 || len > 4000)
 				goto LBL_InvalidCommand;
 
-			sttProcessStatusMessage((char*)HReadBuffer(info, 0).surelyRead(len), len, data.wlid);
+			MSN_ProcessStatusMessage((char*)HReadBuffer(info, 0).surelyRead(len), len, data.wlid);
 		}
 		break;
 
