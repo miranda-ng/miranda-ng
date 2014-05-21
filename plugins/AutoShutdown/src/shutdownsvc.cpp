@@ -466,7 +466,7 @@ const TCHAR *apszLong[] = {
 	LPGENT("Shuts down Windows and then restarts Windows."),
 	LPGENT("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
 	LPGENT("Saves the current Windows session in memory and sets the system to suspend mode."),
-	LPGENT("Saves the current Windows session on harddisc, so that the power can be turned off."),
+	LPGENT("Saves the current Windows session on hard drive, so that the power can be turned off."),
 	LPGENT("Locks the computer. To unlock the computer, you must log in."),
 	LPGENT("Sets all protocols to offline and closes all RAS connections.")
 };

@@ -100,7 +100,7 @@ BEGIN
     CONTROL         "Shutdown when Miranda NG becomes &idle",IDC_CHECK_IDLE,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,123,164,9
     CONTROL         "Configure",IDC_URL_IDLE,"Hyperlink",WS_TABSTOP,179,124,46,9
-    CONTROL         "Shutdown when &prozessor usage drops below:",IDC_CHECK_CPUUSAGE,
+    CONTROL         "Shutdown when &processor usage drops below:",IDC_CHECK_CPUUSAGE,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,139,159,22
     EDITTEXT        IDC_EDIT_CPUUSAGE,179,140,32,13,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN_CPUUSAGE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,205,140,11,14
