@@ -1,14 +1,13 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "../src/resource.h"
-#include "winres.h"
-
+#include <winres.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -16,77 +15,78 @@
 // Neutral (Sys. Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-#pragma code_page(936)
-#endif //_WIN32
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_OPT DIALOGEX 0, 0, 260, 227
-STYLE DS_CENTER | WS_CHILD
+IDD_OPT DIALOGEX 0, 0, 309, 227
+STYLE DS_SETFONT | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "Tahoma"
+FONT 8, "Tahoma", 0, 0, 0x1
 BEGIN
-    LTEXT           "Name:",IDC_STATIC,20,19,36,9,NOT WS_GROUP
-    LTEXT           "Password:",IDC_STATIC,20,35,36,9,NOT WS_GROUP
-    LTEXT           "Check Gmail inbox every",IDC_STATIC,20,78,81,9
-    LTEXT           "minutes",IDC_STATIC,127,78,46,9
-    LTEXT           "Notifier on:",IDC_STATIC,20,93,51,9
-    LTEXT           "<",IDC_STATIC_LESS,127,105,8,10,NOT WS_VISIBLE | NOT 
-                    WS_GROUP
-    LTEXT           "Duration:",IDC_STATIC_DURATION,134,100,50,9,NOT 
-                    WS_VISIBLE | NOT WS_GROUP
-    LTEXT           "Text|Background:",IDC_STATIC_COLOR,134,110,57,9,NOT WS_VISIBLE | 
-                    NOT WS_GROUP
-    LTEXT           "custom program",IDC_STATIC_CUSTOM,121,146,79,9,NOT 
-                    WS_GROUP
-    LTEXT           "seconds",IDC_STATIC_SEC,206,100,40,9,NOT WS_VISIBLE
-    LTEXT           "On double click:",IDC_STATIC,20,123,51,9
-    COMBOBOX        IDC_NAME,57,17,130,50,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
-                    WS_VSCROLL | WS_TABSTOP | 0x8000
-    EDITTEXT        IDC_PASS,57,33,130,11,ES_PASSWORD | ES_AUTOHSCROLL | NOT 
-                    WS_BORDER,WS_EX_STATICEDGE
-    PUSHBUTTON      "Add",IDC_BTNADD,197,13,43,11,0,WS_EX_STATICEDGE
-    PUSHBUTTON      "Save",IDC_BTNSAV,197,26,43,11,0,WS_EX_STATICEDGE
-    PUSHBUTTON      "Delete",IDC_BTNDEL,197,39,43,11,0,WS_EX_STATICEDGE
-    EDITTEXT        IDC_CIRCLE,105,77,18,10,NOT WS_BORDER,WS_EX_STATICEDGE
-    CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,72,93,56,10
-    CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,72,104,54,10
-    CONTROL         "Login using default browser",IDC_SYSDEF,"Button",
-                    BS_AUTORADIOBUTTON,72,123,145,10
-    CONTROL         "Login using Internet Explorer",IDC_USEIE,"Button",
-                    BS_AUTORADIOBUTTON,72,134,145,10
-    CONTROL         "Run",IDC_STARTPRG,"Button",BS_AUTORADIOBUTTON,72,145,47,
-                    10
-    EDITTEXT        IDC_PRG,121,145,107,10,ES_AUTOHSCROLL | NOT WS_VISIBLE | 
-                    NOT WS_BORDER,WS_EX_STATICEDGE
-    PUSHBUTTON      "...",IDC_PRGBROWSE,228,145,12,10,NOT WS_VISIBLE,
-                    WS_EX_STATICEDGE
-    CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,20,160,186,10
-    CONTROL         "Enable icon selection and icon in status bar (restart)",
-                    IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,
-                    172,186,10
-    CONTROL         "This is a shared computer so disable auto login",
-                    IDC_AUTOLOGIN,"Button",BS_AUTO3STATE | WS_TABSTOP,20,184,
-                    186,10
-    CONTROL         "Log unread threads into database (enable history)",
-                    IDC_LOGTHREADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,
-                    196,186,10
-    GROUPBOX        "Gmail account",IDC_GROUPMAIN,5,2,250,56
-    GROUPBOX        "Configuration",IDC_CONFIG,5,65,250,148
-    EDITTEXT        IDC_DURATION,188,100,14,8,NOT WS_VISIBLE | NOT WS_BORDER,
-                    WS_EX_STATICEDGE
-    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",NOT WS_VISIBLE | 
-                    WS_TABSTOP,194,110,9,9
-    CONTROL         "",IDC_BGCOLOR,"ColourPicker",NOT WS_VISIBLE | 
-                    WS_TABSTOP,204,110,9,9
+    GROUPBOX        "Gmail account",IDC_GROUPMAIN,4,2,291,56
+    LTEXT           "Name:",IDC_STATIC,8,19,68,9,NOT WS_GROUP,WS_EX_RIGHT
+    COMBOBOX        IDC_NAME,82,17,145,50,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP | 0x8000
+    LTEXT           "Password:",IDC_STATIC,8,35,68,9,NOT WS_GROUP,WS_EX_RIGHT
+    EDITTEXT        IDC_PASS,82,33,145,12,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    PUSHBUTTON      "Add",IDC_BTNADD,231,13,57,11,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Save",IDC_BTNSAV,231,26,57,11,0,WS_EX_STATICEDGE
+    PUSHBUTTON      "Delete",IDC_BTNDEL,231,39,57,11,0,WS_EX_STATICEDGE
+    GROUPBOX        "Configuration",IDC_CONFIG,4,65,291,157
+    LTEXT           "Check Gmail inbox every",IDC_STATIC,8,78,149,9,0,WS_EX_RIGHT
+    LTEXT           "minutes",IDC_STATIC,185,79,46,9
+    LTEXT           "Notify using:",IDC_STATIC,8,93,68,9,0,WS_EX_RIGHT
+    LTEXT           "Duration:",IDC_STATIC_DURATION,169,97,58,9,NOT WS_VISIBLE | NOT WS_GROUP,WS_EX_RIGHT
+    EDITTEXT        IDC_DURATION,231,96,14,12,NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "seconds",IDC_STATIC_SEC,251,97,37,9,NOT WS_VISIBLE
+    LTEXT           "Text|Background:",IDC_STATIC_COLOR,137,110,90,9,NOT WS_VISIBLE | NOT WS_GROUP,WS_EX_RIGHT
+    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",NOT WS_VISIBLE | WS_TABSTOP,231,111,21,9
+    CONTROL         "",IDC_BGCOLOR,"ColourPicker",NOT WS_VISIBLE | WS_TABSTOP,259,111,21,9
+    LTEXT           "On double click:",IDC_STATIC,8,123,68,9,0,WS_EX_RIGHT
+    EDITTEXT        IDC_CIRCLE,164,76,18,12,NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,93,56,10
+    CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,104,54,10
+    CONTROL         "Login using default browser",IDC_SYSDEF,"Button",BS_AUTORADIOBUTTON,82,123,206,10
+    CONTROL         "Login using Internet Explorer",IDC_USEIE,"Button",BS_AUTORADIOBUTTON,82,134,206,10
+    CONTROL         "Run custom program",IDC_STARTPRG,"Button",BS_AUTORADIOBUTTON,82,145,206,10
+    EDITTEXT        IDC_PRG,82,156,189,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
+    PUSHBUTTON      "...",IDC_PRGBROWSE,276,158,12,10,NOT WS_VISIBLE,WS_EX_STATICEDGE
+    CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,169,280,10
+    CONTROL         "Enable icon selection and icon in status bar (restart)",IDC_SHOWICON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
+    CONTROL         "This is a shared computer so disable auto login",IDC_AUTOLOGIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
+    CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,207,280,10
 END
 
 
@@ -97,29 +97,30 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICONNEW             ICON    DISCARDABLE     "iconnew.ico"
-IDI_ICONERR             ICON    DISCARDABLE     "error.ico"
-IDI_ICONEPT             ICON    DISCARDABLE     "empty.ico"
+IDI_ICONNEW             ICON                    "iconnew.ico"
+IDI_ICONERR             ICON                    "error.ico"
+IDI_ICONEPT             ICON                    "empty.ico"
 
-#ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
-// TEXTINCLUDE
+// DESIGNINFO
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
 BEGIN
-    "#include ""resource.h""\r\n"
-    "#include ""afxres.h""\r\n"
-    "\0"
+    IDD_OPT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 295
+        VERTGUIDE, 4
+        VERTGUIDE, 8
+        VERTGUIDE, 76
+        VERTGUIDE, 82
+        VERTGUIDE, 227
+        VERTGUIDE, 231
+        VERTGUIDE, 288
+    END
 END
-
-3 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
 #endif    // APSTUDIO_INVOKED
 
 #endif    // Neutral (Sys. Default) resources

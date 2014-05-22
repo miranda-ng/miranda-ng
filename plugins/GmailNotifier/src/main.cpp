@@ -61,12 +61,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	PluginMenuCommand(0, 0);
 }
 
-INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM lParam)
+INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
 {
 	if (!optionWindowIsOpen)
 		mir_forkthread(Check_ThreadFunc, GetAccountByContact(hContact));
@@ -74,7 +74,7 @@ INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnMirandaStart(WPARAM wParam, LPARAM lParam)
+static int OnMirandaStart(WPARAM, LPARAM)
 {
 	PluginMenuCommand(0, 0);
 	return 0;
@@ -87,7 +87,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	SkinAddNewSoundEx("Gmail", "Other", "Gmail: New Thread(s)");
+	SkinAddNewSoundEx("Gmail", LPGEN("Other"), LPGEN("Gmail: New Thread(s)"));
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };

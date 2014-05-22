@@ -21,7 +21,7 @@ int OpenBrowser(WPARAM hContact, LPARAM lParam)
 	return FALSE;
 }
 
-INT_PTR Notifying(WPARAM wParam, LPARAM lParam)
+INT_PTR Notifying(WPARAM, LPARAM lParam)
 {
 	OpenBrowser(((CLISTEVENT*)lParam)->hContact, 0);
 	return 0;
@@ -116,7 +116,7 @@ void NotifyUser(Account *curAcc)
 			ppd.PluginData = NULL;
 			ppd.iSeconds = opt.popupDuration;
 			PUDeletePopup(curAcc->popUpHwnd);
-			CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
+			PUAddPopup(&ppd);
 		}
 		if (newMails > 0)
 			SkinPlaySound("Gmail");
@@ -135,7 +135,7 @@ void DeleteResults(resultLink *prst)
 	}
 }
 
-void __cdecl Login_ThreadFunc(LPVOID lpParam)
+void __cdecl Login_ThreadFunc(void *lpParam)
 {
 	if (lpParam == NULL)
 		return;

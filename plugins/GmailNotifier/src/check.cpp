@@ -128,7 +128,7 @@ error_handle:
 	curAcc->IsChecking = FALSE;
 }
 
-void __cdecl Check_ThreadFunc(LPVOID lpParam)
+void __cdecl Check_ThreadFunc(void *lpParam)
 {
 	InternetSetCookieA("https://mail.google.com/mail/", "GX", "");
 	if (lpParam) {

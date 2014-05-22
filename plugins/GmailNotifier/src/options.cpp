@@ -22,7 +22,6 @@ LRESULT WINAPI FlatComboProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int i;
 	int ShowControl;
 	char str[MAX_PATH] = { 0 };
 	char *tail;
@@ -52,8 +51,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		// Perform the subclass
 		SetWindowLongPtr(hwndCombo, GWLP_WNDPROC, (LONG_PTR)FlatComboProc);
 
-		for (i = 0; i < acc_num; i++)
-			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)(LPSTR)acc[i].name);
+		for (int i = 0; i < acc_num; i++)
+			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)acc[i].name);
 		SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 		if (curIndex < acc_num)
 			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
@@ -110,13 +109,16 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		return TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_SYSDEF || LOWORD(wParam) == IDC_USEIE || LOWORD(wParam) == IDC_STARTPRG) {
+		switch (LOWORD(wParam)) {
+		case IDC_SYSDEF:
+		case IDC_USEIE:
+		case IDC_STARTPRG:
 			ShowControl = IsDlgButtonChecked(hwndDlg, IDC_STARTPRG) ? SW_SHOW : SW_HIDE;
 			ShowWindow(GetDlgItem(hwndDlg, IDC_PRG), ShowControl);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_PRGBROWSE), ShowControl);
-		}
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
 
-		switch (LOWORD(wParam)) {
 		case IDC_OPTPOP:
 			ShowControl = IsDlgButtonChecked(hwndDlg, IDC_OPTPOP) ? SW_SHOW : SW_HIDE;
 			ShowWindow(GetDlgItem(hwndDlg, IDC_DURATION), ShowControl);
@@ -126,6 +128,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_COLOR), ShowControl);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_LESS), ShowControl);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_SEC), ShowControl);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_PRGBROWSE:
@@ -140,35 +143,39 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				OpenFileName.lpstrFile = szName;
 				OpenFileName.nMaxFile = _MAX_PATH;
 				OpenFileName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
-				if (!GetOpenFileName((LPOPENFILENAME)&OpenFileName))
+				if (!GetOpenFileName(&OpenFileName))
 					return 0;
 				SetDlgItemText(hwndDlg, IDC_PRG, szName);
 			}
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_BTNADD:
 			acc_num++;
 			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
-			curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)(LPSTR)"");
+			curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)"");
 			memset(&acc[curIndex], 0, sizeof(Account));
 			SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 			SetDlgItemTextA(hwndDlg, IDC_PASS, "");
 			SetFocus(hwndCombo);
 			acc[curIndex].hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)acc[curIndex].hContact, (LPARAM)pluginName);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		
 		case IDC_BTNSAV:
-			GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, 64);
-			tail = strstr(acc[curIndex].name, "@");
-			if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
-				lstrcpyA(acc[curIndex].hosted, tail + 1);
-			SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
-			SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LONG)(LPSTR)acc[curIndex].name);
-			SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
-			db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
-			db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
-			GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, 64);
-			db_set_s(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
+			if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, 64)) {
+				tail = strstr(acc[curIndex].name, "@");
+				if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
+					lstrcpyA(acc[curIndex].hosted, tail + 1);
+				SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
+				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LONG_PTR)acc[curIndex].name);
+				SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
+				db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
+				db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
+				GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, 64);
+				db_set_s(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
 			break;
 
 		case IDC_BTNDEL:
@@ -176,22 +183,29 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessage(hwndCombo, CB_DELETESTRING, curIndex, 0);
 			DeleteResults(acc[curIndex].results.next);
 			acc[curIndex].results.next = NULL;
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)(HANDLE)acc[curIndex].hContact, 0);
-			for (i = curIndex; i < acc_num; i++)
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)acc[curIndex].hContact, 0);
+			for (int i = curIndex; i < acc_num; i++)
 				acc[i] = acc[i + 1];
 			curIndex = 0;
 			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
 			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[0].pass);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_NAME:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				curIndex = SendMessage(hwndCombo, CB_GETCURSEL, 0, 0);
 				SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
+			break;
+		case IDC_ONLINE:
+		case IDC_SHOWICON:
+		case IDC_AUTOLOGIN:
+		case IDC_LOGTHREADS:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -244,7 +258,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			db_set_dw(NULL, pluginName, "LogThreads", opt.LogThreads);
 
 			ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-			for (i = 0; i < acc_num; i++)
+			for (int i = 0; i < acc_num; i++)
 				db_set_w(acc[i].hContact, pluginName, "Status", ID_STATUS_NONEW);
 		}
 		return TRUE;
@@ -256,7 +270,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-int OptInit(WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp;
 
