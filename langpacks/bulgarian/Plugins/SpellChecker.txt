@@ -117,8 +117,6 @@ DLL файл със знамена
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Допуснали сте %d правописни грешки. Наистина ли желаете съобщението да бъде изпратено?
-[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-Прозорецът за съобщения не поддържа приставката SpellChecker.\nАко ползвате SRMM, TabSRMM или Scriver, моля актуализирайте приставката до последната налична версия.\nВ противен случай можете да помолите автора, на ползвания от вас прозорец за съобщения, да добави поддръжка за проверка на правописа.
 [Other...]
 Други:
 [Always replace with]

@@ -111,8 +111,6 @@
 Выключен
 [There are %d spelling errors. Are you sure you want to send this message?]
 Есть %d орфографических ошибок. Вы уверены, что хотите отправить это сообщение?
-[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-Ваше окно сообщений не поддерживает плагин SpellChecker.\nЕсли вы используете SRMM, TabSRMM или Scriver, пожалуйста, обновите их до последней версии,\nиначе попросите автора плагина вашего окна сообщений добавить поддержку плагина SpellChecker.
 [Other...]
 Другое...
 [Always replace with]

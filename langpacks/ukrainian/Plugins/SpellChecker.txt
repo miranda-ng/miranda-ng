@@ -111,8 +111,6 @@
 Вимкнено
 [There are %d spelling errors. Are you sure you want to send this message?]
 Є %d орфографічних помилок. Ви впевнені, що хочете відправити це повідомлення?
-[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-Ваш плагін вікна повідомлень не підтримує перевірку орфографії.\nЯкщо ви користуєтесь TabSRMM або Scriver, будь ласка, оновіть їх до найновішої версії.\nНапишіть автору плагіна вікна повідомлень і попросіть додати підтримку SpellChecker.
 [Other...]
 Інше...
 [Always replace with]

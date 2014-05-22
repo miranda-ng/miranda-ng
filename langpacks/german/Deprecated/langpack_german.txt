@@ -29222,8 +29222,6 @@ Korrekturen
 [Wrong words]
 Falsche Wörter
 
-[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-Ihr Nachrichtenfenster unterstützt keine Rechtschreibprüfung.\nWenn Sie SRMM, tabSRMM oder Scriver nutzen dann aktualisieren sie dieses bitte auf die neuste Version,\nanderenfalls fragen Sie den Autor Ihres Plugins nach Unterstützung für Rechtschreibprüfung.
 [There are %d spelling errors. Are you sure you want to send this message?]
 Es sind %d Rechtschreibfehler vorhanden. Möchten Sie dennoch die Nachricht senden?
 
