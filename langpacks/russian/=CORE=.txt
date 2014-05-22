@@ -161,7 +161,7 @@
 Функцию OutputDebugString()
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Запускать программу вместе с Miranda NG (например, tail -f, dbgview и т.д.):
 [Run now]
 Зап. сейчас
@@ -278,11 +278,11 @@
 [Profile]
 Профиль
 [e.g., Workplace]
-напр. "Рабочий"
+например, "Рабочий"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Выбор драйвера базы данных. Если вы не уверены, какой выбрать - используйте драйвер по умолчанию.
-[e.g., Miranda Database]
-напр. Miranda Database
+[e.g., dbx mmap]
+например, dbx mmap
 [Driver]
 Драйвер
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
