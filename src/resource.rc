@@ -246,7 +246,7 @@ BEGIN
     EDITTEXT        IDC_FILENAME,14,159,270,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_FILENAMEBROWSE,288,159,15,12
     LTEXT           "",IDC_PATH,14,174,294,10
-    GROUPBOX        "Run program when Miranda NG starts (eg tail -f, dbgview, etc.):",IDC_STATIC,6,188,302,32
+    GROUPBOX        "Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):",IDC_STATIC,6,188,302,32
     EDITTEXT        IDC_RUNATSTART,14,200,203,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_RUNATSTARTBROWSE,220,200,15,12
     PUSHBUTTON      "Run now",IDC_RUNNOW,241,200,60,12
@@ -405,7 +405,7 @@ BEGIN
     LTEXT           "Profile",IDC_STATIC,20,23,38,9
     LTEXT           "e.g., Workplace",IDC_STATIC,62,35,77,9
     LTEXT           "You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.",IDC_STATIC,4,46,207,24
-    LTEXT           "e.g., Miranda Database",IDC_STATIC,62,91,84,11
+    LTEXT           "e.g., dbx mmap",IDC_STATIC,62,91,84,11
     LTEXT           "Driver",IDC_STATIC,20,77,37,9
     LTEXT           "Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll",IDC_NODBDRIVERS,4,104,203,22,NOT WS_VISIBLE
 END
