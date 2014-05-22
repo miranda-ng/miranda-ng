@@ -69,7 +69,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateMiniDump(hDumpFile, exc_ptr);
 		else if (GetLastError() != ERROR_ALREADY_EXISTS)
-			MessageBox(NULL, TranslateT("Crash Report write location is inaccesible"),
+			MessageBox(NULL, TranslateT("Crash Report write location is not available"),
 			TEXT("Miranda Crash Dumper"), MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 
 	}

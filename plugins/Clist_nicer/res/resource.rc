@@ -310,7 +310,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,67,282,10
     CONTROL         "Use full row for selection and hottracking",IDC_FULLROWSELECT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,78,282,10
-    CONTROL         "Double click on avatar opens userinfo",IDC_DBLCLKAVATARS,
+    CONTROL         "Double click on avatar opens user info",IDC_DBLCLKAVATARS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,98,282,10
     GROUPBOX        "Visual",IDC_STATIC,0,111,303,113
     CONTROL         "Scroll list smoothly",IDC_NOTNOSMOOTHSCROLLING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,123,282,10
