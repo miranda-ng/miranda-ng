@@ -18,4 +18,1698 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\multi-protocol\1&amp;1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\zsIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\AccuWeather.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Adium.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\AgileMobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\AIM_6.x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\AIM_7.x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\AIM_Mac.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\AIM_Mobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\AIM_Triton.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Akeni.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Ambrosia XMPP Server.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\AmIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\aMSN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\aMule.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Android.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Anothr Rss Bot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Appolo IM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Aqq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Asia.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rss\Atom 1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rss\Atom 3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Ayttm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Babbel.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\BarnOwl.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\BayanICQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\beejive.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Beem.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\BellSouth.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\BersIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Bimoid.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\BitlBee.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\BitWise.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\BlackBerry.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Bombus NG.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Bombus QD.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Bombus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\BombusMod.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Bowline.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Buddycloud.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\BuddySpace.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Candy.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Carrier.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Causerie.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\cbirc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\CenterIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\chat bots.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Chatopus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\ChatSecure.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\ChatZilla.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Chikka.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\ChitChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\CitronIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\CJC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Claros Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\climm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Coccinella.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Colibry.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Colloquy.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\CommuniGate Pro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Conversation.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\CRoom.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Crosstalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Cudumar.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Cyclops Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\D[i]Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Desyr.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Digsby.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\dIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\dziObber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\EasyMessage.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\eBuddy Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Eggdrop.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Eggdrop_RacBot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\ejabberd.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\EKG2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\elmer bot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\eM Client.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Emacs.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\emesene.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\emess.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\emite.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Empathy.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\eMule.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\eMule_MorphXT.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\eMule_Neo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\eMule_Plus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\eMule_Xtreme.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\eQo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Exodus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Eyeball Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\others\Facebook.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Facebook\facebook_app.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Facebook\facebook_messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Facebook\facebook_mobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Facebook\facebook_other.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Facebook\facebook_web.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\FamaIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\FChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Fire.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Fring.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gabble.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\GG\Gadu-Gadu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\GAIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gajim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Galaxium.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GCN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\GDP Web Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gibberbot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\gismeteo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\glu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GMail.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gmail_Conference_Bot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\GMX MultiMessenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gnome.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\GnomeICU.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\GNU_Gadu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GOIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\others\Google+ Hangouts.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\GoPowerTools.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gossip.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GoTalkMobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GreenThumb.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GTalk Gadget.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\GTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Gush.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\gYaber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\HydraIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\iCall.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\IceChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\iChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\jabber\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\ICQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\Icy Juice.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\iGoogle.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\iJab.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\IM Friendly!.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\IM+.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\IM2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\IMadering.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\IMCom.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\iMeem.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Imified.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\imoim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\iMov.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Importal.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\IMVU.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Inlux Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Instan-t.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Instantbird.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\intelli.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Interaction.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\IRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\ircle.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\IRCXPro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\iroffer-dinoex.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\iroffer.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\irssi.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\iruka.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\J2J Transport.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jabba.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Jabbear.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jabber client.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jabber-Net.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jabber_BeOS.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JabberApplet.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\jabberDisk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JabberFoX.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JabberMessenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JabberNaut.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JabberWocky.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JabberZilla.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\jabbim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Jabbin.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jabbroid.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jabiru.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JAJC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jamm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\jappix.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\JasmineIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\JBother.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\JBuddy Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JClaim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jeti.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Jimm Aspro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\Jimm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\JimmyIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\jircii.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Jitsi.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JMC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\jmIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Joost.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\jrudevels.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\jTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\jTalkmod.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\juick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JWChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\JWGC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\kadu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\kf.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Klient.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\KMess.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Konnekt.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Konversation.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\KoolIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Kopete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\ksirc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\KVIrc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Laffer.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Lamp IM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Lampiro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Landell.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Leaf Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\LeechCraft.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\LibICQ2000.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\libyahoo2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\Licq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\LinQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\LLuna.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\locid.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\m8jabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Mail.Ru\Mail.Ru_Mobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Mail.Ru\Mail.Ru_official.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Mail.Ru\Mail.Ru_unknown.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Mail.Ru\Mail.Ru_WebAgent.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Mango.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\MCabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\mChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\MDC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Meebo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Meetro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\meinvz.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Mercury_Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\meteogid.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\meteonovosti.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\MGTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\miniaim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\Miranda_unknown.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_010xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_04xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_05xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_06xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_07xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_08xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_09xx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaIM_old.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaNG.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\MirandaNG_Stable.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\MIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\mJabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\mobber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\Mobile QQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\moJab.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Monal.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\MozillaChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\mp3script.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\mqutIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\MSN Mac.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\MSN v4.5-v5.x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\MSN v6.x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\MSN v7.x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\MSN v8.x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\MUCkl.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\myJabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\naim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\NeoRa Trion.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Neos.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Nettalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Nimbuzz.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Nitro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\noaa.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\NoNameScript.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Nostromo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\OctroTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\OM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\OneTeam.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Openfire.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Opera.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\orkut.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\GG\overlay_GG_v10.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\GG\overlay_GG_v11.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\GG\overlay_GG_v8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\GG\overlay_GG_v9.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\overlay_ICQ_v3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\overlay_ICQ_v4.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\overlay_ICQ_v5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\overlay_ICQ_v6.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\overlay_ICQ_v7.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\overlay_ICQ_v8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v10.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v4.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v6.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v7.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_im_v9.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_ng_v1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_ng_v2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_ng_v3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_ng_v4.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_ng_v5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Miranda\overlay_miranda_ng_v6.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_666.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_a0x.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_AF.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_alfamar.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_amatory.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_bri.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Cappuccino.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_dar_veter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Dmikos.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_e33.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_FaithPack.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_FinalPack.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_freize.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_ghost.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_hieros.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_induction.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_KDL.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Kolich.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Kuzzman.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_LeninPack.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Lestat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_LexSys.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_mataes.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_md.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Miranda_FR.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Miranda_ME.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_native.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_New_Style.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_pilot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_razunter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_RobyerPack.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Se7ven.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_SSS.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Stalker.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Tweety.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Umedon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_ValeraVi.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_watcher.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_xSpellhowleRx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_Yaol.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\packs\overlay_pack_zeleboba.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_Amiga.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_Android.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_Flash.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_iMac.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_iOS.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_Java.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_linux.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_Symbian.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_Windows.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_x32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_platform_x64.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_AIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_Gmail.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_ICQJ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_ICQJ_Plus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_IRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_Jabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_JGTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_MRA.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_MSN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_QQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_Tlen.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_proto_Yahoo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2000.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2001.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2002.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2003.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2004.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2005.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2006.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2007.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2008.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2009.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2010.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2011.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\overlay_QQ_2012.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_resource_debug.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_resource_home.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_resource_mobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_resource_notebook.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_resource_office.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_resource_work.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_security_MirOTR.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_security_NewGPG.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_security_SecureIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Tlen\overlay_Tlen_v5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Tlen\overlay_Tlen_v6.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Tlen\overlay_Tlen_v7.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Tlen\overlay_Tlen_v8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlays\overlay_Unicode.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\overlay_Yahoo_v10.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\overlay_Yahoo_v11.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\overlay_Yahoo_v9.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Palringo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\paltalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Pandion.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Papla.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Pidgin.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Pigeon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Piorun.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\pIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Pirch.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\pjc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\pjIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\PlayXpert.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Pocket IRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Poezio.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Prelude.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\ProChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Prosody.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Proteus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\PSI+.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\PSI.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Psto.net.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\PsyBNC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Psyc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Pygeon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Python.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP 2010.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP 2012.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP Infium.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP Mobile Android.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP Mobile iOS.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP Mobile Java.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP Mobile PDA.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\QIP Mobile Symbian.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\QIP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Qnext.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\QQ Concept.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\QQ CRM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\QQ International.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\QQ Silverlight.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\QQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\QTJim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\QuteCom.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\qutIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\R&amp;Q.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\realmeteo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\RenRen.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rss\RSS 0.9.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rss\RSS 1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rss\RSS 2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\saje.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Salut a Toi.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\SamePlace.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\SAPO Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\savIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\SBot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\schuelervz.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Shaim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\SieJC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\SIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\SIM_old.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Sky Messager.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\others\Skype.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Slick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Smack.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\SmartICQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\SmartIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\smtp_transport.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Snak.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\SoapBox.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\spam.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Spark.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Speakall.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Speeqe.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Spik.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\SrevIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\StrICQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\studivz.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Swift.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\SworIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Synapse.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\SysReset.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Talkdroid.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Talkonaut.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Tapioca.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Teabot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Telepathy.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AIM\TerraIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\The Bee.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Thunderbird.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ICQ\TICQClient.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Tigase.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\TipicIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Tkabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\tkchat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Tlen\Tlen.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\TM 2008.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\TM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\TransactIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Translate component.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Trillian Android.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Trillian Astra.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Trillian Pro.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Trillian.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\TripleSoftwareIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Tuukle Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\others\Twitter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\uIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\uKeeper.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\underground.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\uTalk.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\V&amp;V Messenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Vacuum.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Vayusphere.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\vBuzzer.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\VircaIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Virtus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\VisionIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\VisualIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\VK.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\VortecIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Vysper.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\WannaChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\weather.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\weather_cn.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\weatherxml.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\WebEx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\WebMessenger.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\WebQQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\WeeChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\wetter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\others\WhatsApp.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\WhisperIM.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\WhoisBot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\wija.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Wildfire.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Windows Phone.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\WinJab.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Wippien.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\wlIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\WLM10-11.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MSN\wlm9.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\wmIRC.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\WTW.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\X-Chat Aqua.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\xabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\xBitch.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\xChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\xeus 2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Xeus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\others\xFire.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Xiffian.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\Xirc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\XIRCON.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\XMPP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\Yahoo Go Mobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\Yahoo PingBox.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\Yahoo Web.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yahoo\Yahoo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QQ\Yam QQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\Yambi.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Yamigo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\yaonline.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Jabber\yaxim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Yeigo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\multi-protocol\Yoono.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Weather\yweather.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IRC\znc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

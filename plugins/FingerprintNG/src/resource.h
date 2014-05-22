@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by c:\Temp\MirandaNG\plugins\FingerprintNG\res\resource.rc
+// Used by ..\iconpacks\fp_icons.rc
 //
 #define __MAJOR_VERSION                 0
 #define __RELEASE_NUM                   0
@@ -572,6 +572,11 @@
 #define IDI_YEIGO                       1089
 #define IDI_YOONO                       1090
 #define IDI_GNUGADU                     1091
+#define IDI_FACEBOOK_APP                2002
+#define IDI_FACEBOOK_MESSENGER          2003
+#define IDI_FACEBOOK_MOBILE             2004
+#define IDI_FACEBOOK_OTHER              2005
+#define IDI_FACEBOOK_WEB                2006
 #define IDC_CHECK1                      7001
 #define IDC_STATUSBAR                   7001
 #define IDI_FACEBOOK                    9001
@@ -610,7 +615,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        2000
+#define _APS_NEXT_RESOURCE_VALUE        2007
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         7002
 #define _APS_NEXT_SYMED_VALUE           7000

@@ -592,6 +592,11 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################################################
 	{"client_Android",          _T("*Android*"),                                _T("Android"),                       IDI_ANDROID,             MULTI_CASE,         TRUE    },
 
+	{"client_Facebook_web",     _T("*Facebook*website*"),                       _T("Facebook (website)"),            IDI_FACEBOOK_WEB,        OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Facebook_mobile",  _T("*Facebook*mobile*"),                        _T("Facebook (mobile)"),             IDI_FACEBOOK_MOBILE,     OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Facebook_other",   _T("*Facebook*other*"),                         _T("Facebook (other)"),              IDI_FACEBOOK_OTHER,      OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Facebook_app",     _T("*Facebook*App*"),                           _T("Facebook App"),                  IDI_FACEBOOK_APP,        OTHER_PROTOS_CASE,  TRUE    },
+	{"client_Facebook_mess",    _T("*Facebook*Messenger*"),                     _T("Facebook Messenger"),            IDI_FACEBOOK_MESSENGER,  OTHER_PROTOS_CASE,  TRUE    },
 	{"client_Facebook",         _T("*Facebook*"),                               _T("Facebook"),                      IDI_FACEBOOK,            OTHER_PROTOS_CASE,  TRUE    },
 
 	{"client_Pidgin",           _T("|*Pidgin*|*libpurple*|Purple*"),            _T("Pidgin (libpurple)"),            IDI_PIDGIN,              MULTI_CASE                  },
