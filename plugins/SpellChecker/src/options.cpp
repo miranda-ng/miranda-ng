@@ -197,7 +197,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_GETMORE)
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM) "http://wiki.services.openoffice.org/wiki/Dictionaries");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.services.openoffice.org/wiki/Dictionaries");
 
 		if (LOWORD(wParam) == IDC_DEF_LANG && (HIWORD(wParam) == CBN_SELCHANGE && (HWND)lParam == GetFocus())) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

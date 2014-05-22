@@ -40,38 +40,32 @@ AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
 void AutoReplaceMap::loadAutoReplaceMap()
 {
 	FILE *file = _tfopen(filename, _T("rb"));
-	if (file == NULL) 
+	if (file == NULL)
 		return;
 
 	char tmp[1024];
 	char c;
 	int pos = 0;
-	while((c = fgetc(file)) != EOF) 
-	{
-		if (c == '\n' || c == '\r' || pos >= SIZEOF(tmp) - 1) 
-		{
-			if (pos > 0)
-			{
+	while ((c = fgetc(file)) != EOF) {
+		if (c == '\n' || c == '\r' || pos >= SIZEOF(tmp) - 1) {
+			if (pos > 0) {
 				tmp[pos] = '\0';
 
 				// Get from
 				BOOL useVars;
 				char *p;
-				if ((p = strstr(tmp, "->")) != NULL)
-				{
+				if ((p = strstr(tmp, "->")) != NULL) {
 					*p = '\0';
 					p += 2;
 					useVars = FALSE;
 				}
-				else if ((p = strstr(tmp, "-V>")) != NULL)
-				{
+				else if ((p = strstr(tmp, "-V>")) != NULL) {
 					*p = '\0';
 					p += 3;
 					useVars = TRUE;
 				}
 
-				if (p != NULL)
-				{
+				if (p != NULL) {
 					Utf8ToTchar find(tmp);
 					Utf8ToTchar replace(p);
 
@@ -85,10 +79,9 @@ void AutoReplaceMap::loadAutoReplaceMap()
 
 			pos = 0;
 		}
-		else
-		{
+		else {
 			tmp[pos] = c;
-			pos ++;
+			pos++;
 		}
 	}
 	fclose(file);
@@ -98,8 +91,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 {
 	// Create path
 	TCHAR *p = _tcsrchr(filename, _T('\\'));
-	if (p != NULL)
-	{
+	if (p != NULL) {
 		*p = 0;
 		CreateDirectoryTreeT(filename);
 		*p = _T('\\');
@@ -107,11 +99,9 @@ void AutoReplaceMap::writeAutoReplaceMap()
 
 	// Write it
 	FILE *file = _tfopen(filename, _T("wb"));
-	if (file != NULL) 
-	{
-		map<tstring,AutoReplacement>::iterator it = replacements.begin();
-		for (; it != replacements.end(); it++)
-		{
+	if (file != NULL) {
+		map<tstring, AutoReplacement>::iterator it = replacements.begin();
+		for (; it != replacements.end(); it++) {
 			AutoReplacement &ar = it->second;
 
 			TcharToUtf8 find(it->first.c_str());
@@ -139,7 +129,7 @@ BOOL AutoReplaceMap::isWordChar(TCHAR c)
 }
 
 
-TCHAR * AutoReplaceMap::autoReplace(const TCHAR * word)
+TCHAR* AutoReplaceMap::autoReplace(const TCHAR * word)
 {
 	scoped_free<TCHAR> from = _tcslwr(_tcsdup(word));
 
@@ -150,7 +140,7 @@ TCHAR * AutoReplaceMap::autoReplace(const TCHAR * word)
 
 	TCHAR *to;
 	if (ar.useVariables)
-		to = variables_parsedup((TCHAR *) ar.replace.c_str(), (TCHAR *) word, NULL);
+		to = variables_parsedup((TCHAR *)ar.replace.c_str(), (TCHAR *)word, NULL);
 	else
 		to = _tcsdup(ar.replace.c_str());
 
@@ -161,34 +151,27 @@ TCHAR * AutoReplaceMap::autoReplace(const TCHAR * word)
 		if (IsCharLower(word[i]))
 			break;
 
-	if (i <= 0)
-	{
-		// All lower
+	if (i <= 0) // All lower
 		return to;
-	}
-	else if (i >= len)
-	{
-		// All upper
+
+	if (i >= len)  // All upper
 		return CharUpper(to);
-	}
-	else
-	{
-		// First upper
-		TCHAR tmp[2];
-		tmp[0] = to[0];
-		tmp[1] = _T('\0');
-		CharUpper(tmp);
-		to[0] = tmp[0];
-		return to;
-	}
+
+	// First upper
+	TCHAR tmp[2];
+	tmp[0] = to[0];
+	tmp[1] = _T('\0');
+	CharUpper(tmp);
+	to[0] = tmp[0];
+	return to;
 }
 
-TCHAR * AutoReplaceMap::filterText(const TCHAR *find)
+TCHAR* AutoReplaceMap::filterText(const TCHAR *find)
 {
 	TCHAR *ret = _tcsdup(find);
 	int len = lstrlen(ret);
 	int pos = 0;
-	for(int i = 0; i < len; i++)
+	for (int i = 0; i < len; i++)
 		if (isWordChar(find[i]))
 			ret[pos++] = ret[i];
 	ret[pos] = 0;
@@ -214,14 +197,10 @@ void AutoReplaceMap::setMap(const map<tstring, AutoReplacement> &replacements)
 	this->replacements.clear();
 
 	map<tstring, AutoReplacement>::const_iterator it = replacements.begin();
-	for (; it != replacements.end(); it++)
-	{
+	for (; it != replacements.end(); it++) {
 		scoped_free<TCHAR> from = filterText(it->first.c_str());
 		this->replacements[from.get()] = it->second;
 	}
 
 	writeAutoReplaceMap();
 }
-
-
-
