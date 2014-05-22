@@ -292,11 +292,11 @@
 [Show popups for inactive tabs in active containers]
 Включить для неактивных вкладок активного контейнера
 [Hide the status bar]
-Скрыть панель статуса
+Скрыть строку состояния
 [Hide the menu bar]
 Скрыть меню
 [User ID in status bar]
-ID пользователя в панели статуса
+ID пользователя в строке состояния
 [Hide the toolbar]
 Скрыть панель кнопок
 [Place the toolbar at the bottom (*)]
@@ -868,7 +868,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Show Menu Bar]
 Показывать меню
 [Show Status Bar]
-Показывать строку статуса
+Показывать строку состояния
 [Info Panel...]
 Инфо-панель...
 [Toolbar]
@@ -1440,7 +1440,7 @@ TabSRMM: Набирает
 [Static container icon]
 Статический значок контейнера
 [Sounds (status bar)]
-Звуки (панель статусов)
+Звуки (строка состояния)
 [Pulldown Arrow]
 Стрелка вниз
 [Left Arrow]
@@ -1953,7 +1953,7 @@ IRC-стиль (текстовый) индикаторов ролей участ
 Ограничить имена в журнале 20-ю символами
 [Add a colon (:) to auto-completed user names]
 Добавлять ":" к именам пользователей
-[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
+[Start private conversation on double click in nick list (insert nick if unchecked)]
 Приват при двойном щелчке в списке ников (иначе вставлять ник)
 [Strip colors from messages in the log]
 Запретить цвета в журнале

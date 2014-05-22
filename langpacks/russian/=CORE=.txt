@@ -908,9 +908,9 @@ UIN, E-mail и т.д.
 [Use Windows colors]
 Цвета Windows
 [Status bar]
-Панель статуса
+Панель статусов
 [Show status bar]
-Показывать панель статуса
+Показывать панель статусов
 [Show icons]
 Показывать значки
 [Show protocol names]

@@ -16,6 +16,6 @@ ID пользователя
 [Cancel]
 Отмена
 [GnuPG Plugin - Select public key]
-Плагин GnuPG - Выбрать открытый ключ
+Плагин GnuPG - Выберите открытый ключ
 [Refresh]
 Обновить

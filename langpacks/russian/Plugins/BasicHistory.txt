@@ -216,7 +216,7 @@
 [Binary]
 Двоичный файл
 [Dat (mContacts)]
-Dat (мКонтакты)
+Dat (плагин mContacts)
 [Save window position as default]
 Сохранить положение окна
 [Save window position for all contacts]
@@ -296,9 +296,9 @@ Dat (мКонтакты)
 [Import From Binary]
 Импорт из двоичного файла
 [Export To Dat (mContacts)]
-Экспорт в Dat (мКонтакты)
+Экспорт в Dat (плагин mContacts)
 [Import From Dat (mContacts)]
-Импорт из Dat (мКонтакты)
+Импорт из Dat (плагин mContacts)
 [Invalid event number]
 Недопустимый номер события
 [Incoming events]

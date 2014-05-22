@@ -60,7 +60,7 @@
 [Unsaved data in open applications except Miranda NG might get lost.]
 Все несохрарённые данные в других приложениях могут быть утеряны.
 [Please click "Cancel" if you would like to abort the process.]
-Нажмите "Отмена" если хотите прервать процесс
+Если хотите прервать процесс, нажмите "Отмена".
 [&Now!]
 &Сейчас!
 [Shutdown at:]

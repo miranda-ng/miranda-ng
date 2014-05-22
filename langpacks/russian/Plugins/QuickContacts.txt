@@ -45,7 +45,7 @@
 Передать файл
 [Send URL]
 Отправить URL
-[Open userinfo]
+[Open user info]
 Открыть информацию о пользователе
 [Open history]
 История

@@ -243,7 +243,7 @@
 Полупрозрачное выделение
 [Use full row for selection and hottracking]
 Использовать выделение всей строки
-[Double click on avatar opens userinfo]
+[Double click on avatar opens user info]
 Двойной клик по аватару открывает информацию о контакте
 [Visual]
 Визуальные настройки
@@ -282,9 +282,9 @@
 [If you enable this, the background settings will affect the entire contact list frame.]
 При включении настройки фона будут использованы для всего фрейма списка контактов
 [Status Bar]
-Панель статуса
+Панель статусов
 [Show status bar]
-Показывать панель статуса
+Показывать панель статусов
 [Show icons]
 Показывать значки
 [Show protocol names]
@@ -765,7 +765,7 @@
 Удаление режима просмотра
 [No view mode]
 Нет режима просмотра
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Режим отображения с таким именем уже присутствует
 [Duplicate name]
 Совпадающее имя

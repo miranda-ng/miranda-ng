@@ -205,7 +205,7 @@ Cлужба:
 Фон списка
 [Use 'Meta' protocol icons for Metacontacts]
 'Мета' значки для метаконтактов
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Не разворачивать по двойному клику
 [Hide all 'Extra icons' for subcontacts]
 Скрыть дополнительные значки для субконтактов
@@ -216,9 +216,9 @@ Cлужба:
 [Hide offline subcontacts.]
 Прятать субконтакты не в сети
 [Status Bar]
-Панель статуса
+Панель статусов
 [Show status bar]
-Показывать панель статуса
+Показывать панель статусов
 [Show icons]
 Показывать значки
 [Show protocol names]
@@ -238,7 +238,7 @@ Cлужба:
 [Use connecting Icon]
 Значок соединения
 [Use new drawer for status bar]
-Новый стиль панели статуса
+Новый стиль панели статусов
 [&Main menu]
 &Главное меню
 [E&xit]
@@ -298,7 +298,7 @@ Cлужба:
 [Backgrounds]
 Фоны
 [Status bar background]
-Фон панели статуса
+Фон панели статусов
 [List background]
 Фон списка
 [Frames title bar background]

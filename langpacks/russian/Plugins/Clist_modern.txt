@@ -14,7 +14,7 @@
 [List sorting:]
 Сортировка списка:
 [Status bar:]
-Панель статуса:
+Панель статусов:
 [List content:]
 Содержание списка:
 [Show counts of number of contacts in a group]
@@ -166,9 +166,9 @@
 [Last message]
 Последнее сообщение
 [Status Bar]
-Панель статуса
+Панель статусов
 [Show status bar]
-Показывать панель статуса
+Показывать панель статусов
 [Make sections equal width]
 Разделы равной ширины
 [Space between]
@@ -178,11 +178,11 @@
 [Horizontal Align]
 По горизонтали
 [Multiline status bar:]
-Многострочная панель статуса:
+Многострочная панель статусов:
 [Accounts per line]
 Уч. записей в строке
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Изменение высоты строки статуса: "Главное меню->Фреймы->Панель статуса->Плавающий режим" и растяните панель.
+* Изменение высоты строки статусов: "Главное меню->Фреймы->Панель статусов->Плавающий режим" и растяните панель.
 [Hold [Shift] to inverse [Right Click] behavior]
 Shift+Правый клик - Главное меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
@@ -377,7 +377,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 'Мета' значки для метаконтактов
 [Expand metacontacts]
 Разворачивать метаконтакты
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Не разворачивать по двойному клику
 [Hide all 'Extra icons' for subcontacts]
 Скрыть дополнительные значки для субконтактов
@@ -598,7 +598,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Move down]
 Ниже
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-ЭТА СТРАНИЦА ТОЛЬКО РАЗРАБАТЫВАЕТСЯ. Пожалуйста, НЕ СООБЩАЙТЕ об ошибках. Принимаются только комментарии к дизайну.
+ЭТА СТРАНИЦА ТОЛЬКО РАЗРАБАТЫВАЕТСЯ. Пожалуйста, НЕ СООБЩАЙТЕ об ошибках. Принимаются только замечания к дизайну.
 [&Main menu]
 &Главное меню
 [E&xit]
@@ -668,7 +668,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Menu background]
 Фон меню
 [Status bar background]
-Фон панели статуса
+Фон панели статусов
 [Frames title bar background]
 Фон заголовка фреймов
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
@@ -742,7 +742,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Third line]
 Третья строка
 [Status bar text]
-Строка статуса
+Текст панели статусов
 [Event area text]
 Текст области событий
 [Current view mode text]
@@ -1033,7 +1033,7 @@ Angeli-Ka (графика), FYR (шаблон)
 Действительно удалить режим? Отмена не возможна!
 [Delete a view mode]
 Удаление режима просмотра
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Режим отображения с таким именем уже присутствует
 [Duplicate name]
 Совпадающее имя

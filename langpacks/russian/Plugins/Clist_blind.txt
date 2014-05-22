@@ -146,9 +146,9 @@ URL:
 [Info:]
 Инфо:
 [Status Bar]
-Панель статуса
+Панель статусов
 [Show status bar]
-Показывать панель статуса
+Показывать панель статусов
 [Show icons]
 Показывать значки
 [Show protocol names]

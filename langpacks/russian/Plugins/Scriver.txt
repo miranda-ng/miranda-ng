@@ -60,7 +60,7 @@
 [Show title bar]
 Показать название
 [Show status bar]
-Показывать панель статуса
+Показывать строку состояния
 [Show toolbar]
 Показывать панель кнопок
 [Show info bar]
@@ -128,7 +128,7 @@
 [Send typing notifications to the following users when you are typing a message to them:]
 Оповещать отмеченных пользователей о том, что вы набираете сообщение:
 [Show typing notification switch in the status bar]
-Переключатель "Уведомление о наборе" в панели статуса
+Переключатель "Уведомление о наборе" в строке состояния
 [Show typing notifications when a user is typing a message]
 Показывать уведомления о наборе текста
 [Update message window icons when a user is typing]
@@ -448,7 +448,7 @@ Yahoo
 [Navigate: Tab %d]
 Навигация: Вкладка %d
 [Window: Toggle status bar]
-Окно: Вкл./выкл. панель статуса
+Окно: Вкл./выкл. строку состояния
 [Window: Toggle title bar]
 Окно: Вкл./выкл. заголовок
 [Window: Toggle toolbar]

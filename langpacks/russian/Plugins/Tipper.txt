@@ -52,7 +52,7 @@
 [Show title]
 Заголовок
 [Status bar tips]
-Подсказки в панели статуса
+Подсказки в панели статусов
 [Avatar border]
 Рамка аватара
 [Round corners (avatar)]
@@ -126,9 +126,9 @@
 [Retrieve XStatus details if auto-retrieve is disabled]
 Запрашивать подробный xСтатус, если автозапрос выключен
 [Status bar and tray tooltip]
-Панель статуса и подсказка в трее
+Панель статусов и подсказка в трее
 [Limit status messages in status bar and tray tooltips to:]
-Ограничить сообщение в панели статуса и в подсказке трея до:
+Ограничить сообщение в панели статусов и в подсказке трея до:
 [characters]
 символов
 [Skins]
