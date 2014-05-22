@@ -4,7 +4,6 @@
 //
 #define IDD_OPT_WWI                     101
 #define IDI_BIRTHDAYS                   102
-#define IDI_BIRTHDAYS_DLG               102
 #define IDD_BIRTHDAYS                   104
 #define IDI_CHECK                       106
 #define IDI_DTB0                        107
