@@ -15,14 +15,12 @@
 Проверять каждые
 [minutes]
 минут
-[Notifier on:]
+[Notify using:]
 Уведомлять:
 [Duration:]
 Длительность:
 [Text|Background:]
 Текст|Фон:
-[custom program]
-своё приложение
 [seconds]
 секунд(ы)
 [On double click:]
@@ -36,13 +34,13 @@
 [System tray]
 Трей
 [Popup plugin]
-Вспл. окна
+Всплывающие окна
 [Login using default browser]
 Запустить браузер по умолчанию
 [Login using Internet Explorer]
 Запустить Internet Explorer
-[Run]
-Запустить
+[Run custom program]
+Запустить указанное приложение
 [Use online contacts when no new mail]
 Показывать контакты, когда нет новой почты
 [Enable icon selection and icon in status bar (restart)]
