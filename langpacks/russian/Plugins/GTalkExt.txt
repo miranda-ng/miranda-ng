@@ -12,7 +12,7 @@
 [Notify in fullscreen mode too]
 Также уведомлять и в полноэкранном режиме
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-Используйте это если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберет у вас фокус ввода
+Используйте это в том случае, если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберет у вас фокус ввода
 [Notify in contact list]
 Уведомлять в списке контактов
 [Clear pseudocontact history before adding new events]
@@ -24,7 +24,7 @@
 [Try to login before open mailbox]
 Пытаться залогиниться перед переходом в почтовый ящик
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
-Это работает только если пароль сохранён в БД. Не влияет на ссылки в журнале сообщений псевдоконтакта
+Это работает, только если пароль сохранён в БД. Не влияет на ссылки в журнале сообщений псевдоконтакта
 [Choose GMail view you use in web interface]
 Выберите вид GMail, используемый в веб-интерфейсе
 [I don't know]

@@ -38,7 +38,7 @@
 [Show people when I type to them]
 Показывать уведомление о моём наборе текста
 [Show nicknames when available]
-Показывать ники если доступно
+Показывать ники, если доступно
 [Show friends of my friends]
 Показывать друзей моих друзей
 [Options]

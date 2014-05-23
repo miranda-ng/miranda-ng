@@ -90,7 +90,7 @@
 [Show number of contacts in a group]
 Показать число контактов в группе
 [Hide numbers when all offline]
-Прятать счётчик когда все отключены
+Прятать счётчик, когда все отключены
 [Sort groups alphabetically]
 Сортировать группы по алфавиту
 [Quicksearch in open groups only]
@@ -152,7 +152,7 @@
 [Second text line]
 Вторая строка текста
 [Display status message when available]
-Показать сообщение статуса когда возможно
+Показать сообщение статуса, когда возможно
 [Show second text line:]
 Показывать вторую строку:
 [Show contacts local time]
@@ -164,7 +164,7 @@
 [Show status icons]
 Значки статуса
 [Centered when possible]
-Центрировать(если возм.)
+Центрировать, если возм.
 [When possible, draw status icons in avatar space]
 Когда возможно, рисовать значки статуса в аватаре
 [Use metacontact protocol icons instead of subcontacts]
@@ -650,7 +650,7 @@
 [Default (global setting)]
 По умолчанию (глобально)
 [Show always when available]
-Всегда когда доступно
+Всегда, когда доступно
 [Hide always]
 Всегда прятать
 [When space is available]

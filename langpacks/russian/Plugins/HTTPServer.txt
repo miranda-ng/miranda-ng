@@ -52,7 +52,7 @@ IP адрес 2
 [Transfer limit (Kb/s)]
 Лимит скорости (Кб/с)
 [No control when Away/NA]
-Откл. если недоступен/занят
+Откл., если недоступен/занят
 [Connection control]
 Контроль соединений
 [Index creation]

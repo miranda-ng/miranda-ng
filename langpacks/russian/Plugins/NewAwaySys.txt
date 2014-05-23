@@ -288,7 +288,7 @@
 [Don't send status message when you are %s]
 Не отправлять сообщение статуса когда вы %s
 [Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик.\r\n"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" если включено, эта настройка будет для каждого контакта и для каждого статуса своя.
+Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик.\r\nЕсли включено "Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно", эта настройка будет для каждого контакта и для каждого статуса своя.
 [Ignore status message requests from this contact and don't send an autoreply]
 Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик
 [Stranger]

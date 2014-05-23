@@ -48,9 +48,9 @@
 [Environment variables]
 Переменные окружения
 [The plugin can also expand environment variables; the variables are specified like in any other]
-Также плагин позволяет использовать переменные окружения. Они задаются так же, как в любой
+Также плагин позволяет использовать переменные окружения, например %<env variable>%.
 [program that can use environment variables, i.e., %<env variable>%.]
-программе, которая может их использовать. Например %<env variable>%.
+Они задаются так же, как в любой программе, которая может их использовать.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Примечание: Переменные окружения обрабатываются перед любыми переменными Miranda NG. Если у вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]

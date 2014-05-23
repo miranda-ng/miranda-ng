@@ -996,7 +996,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Globally on]
 Показывать всегда
 [On, if present]
-Показывать только если есть
+Показывать, только если есть
 [Globally OFF]
 Не показывать
 [On, if present, always in bottom display]
