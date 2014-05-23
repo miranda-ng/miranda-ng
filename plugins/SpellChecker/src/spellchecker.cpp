@@ -154,11 +154,9 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			mir_snprintf(lang, SIZEOF(lang), "spell_lang_%d", i);
 			sid.pszName = lang;
 
-			HICON hFlag;
+			HICON hFlag = NULL, hFlagIcoLib = NULL;
 			if (hFlagsDll != NULL)
 				hFlag = (HICON)LoadImage(hFlagsDll, p->language, IMAGE_ICON, 16, 16, 0);
-			else
-				hFlag = NULL;
 
 			if (hFlag != NULL) {
 				sid.hDefaultIcon = hFlag;
@@ -166,9 +164,10 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				sid.iDefaultIndex = 0;
 			}
 			else {
-				sid.hDefaultIcon = NULL;
-				sid.ptszDefaultFile = path;
-				sid.iDefaultIndex = -IDI_UNKNOWN_FLAG;
+				hFlagIcoLib = Skin_GetIcon("spellchecker_unknown");
+				sid.hDefaultIcon = hFlagIcoLib;
+				sid.ptszDefaultFile = NULL;
+				sid.iDefaultIndex = 0;
 			}
 
 			// Oki, lets add to IcoLib, then
@@ -176,6 +175,8 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			
 			if (hFlag != NULL)
 				DestroyIcon(hFlag);
+			else
+				Skin_ReleaseIcon(hFlagIcoLib);
 		}
 		FreeLibrary(hFlagsDll);
 	}
@@ -234,7 +235,8 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 static IconItem iconList[] =
 {
 	{ LPGEN("Enabled"),  "spellchecker_enabled",  IDI_CHECK    },
-	{ LPGEN("Disabled"), "spellchecker_disabled", IDI_NO_CHECK }
+	{ LPGEN("Disabled"), "spellchecker_disabled", IDI_NO_CHECK },
+	{ LPGEN("Unknown"), "spellchecker_unknown", IDI_UNKNOWN_FLAG }
 };
 
 extern "C" int __declspec(dllexport) Load(void) 
