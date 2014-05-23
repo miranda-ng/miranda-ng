@@ -71,7 +71,7 @@
 Проверить все ящики Gmail
 [&Check Gmail inbox]
 Проверить ящик Gmail
-[GmailMNotifier]
+[GmailNotifier]
 Уведомление о почте Gmail
 [Network]
 Сеть

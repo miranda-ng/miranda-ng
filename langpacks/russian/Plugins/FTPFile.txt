@@ -88,7 +88,7 @@
 [Open in Browser]
 Открыть в браузере
 [FTP File Manager]
-FTP файл менеджер
+Управление файлами FTP
 [Select All]
 Выделить всё
 [Deselect All]

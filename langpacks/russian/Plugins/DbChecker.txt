@@ -136,6 +136,6 @@
 [Elapsed time: %d sec]
 Затрачено времени: %d сек.
 [All tasks completed but with errors (%d)]
-Все задачи завершены, но с ошибками (%d шт)
+Все задачи завершены, но с ошибками (%d шт.)
 [All tasks completed successfully]
 Все задачи завершены

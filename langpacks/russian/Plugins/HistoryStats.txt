@@ -469,8 +469,8 @@ PNG (частично)
 Ничего (колонка будет пропущена)
 [HTML as fallback]
 HTML как откат
-[PNG, ignoring some sttings]
-PNG, пропуск некоторых строк
+[PNG, ignoring some settings]
+PNG, с игнорирование некоторых настроек
 [HistoryStats - Error]
 HistoryStats - Ошибка
 [HTML output unsupported.]
@@ -620,7 +620,7 @@ HistoryStats поддерживает некоторые плагины. Наж�
 [Repeat header every n contacts (0=don't repeat)]
 Повторять заголовок каждые n контактов (0=не повторять)
 [Make column titles more verbose]
-Сделать название колонок более многословными
+Сделать названия колонок более многословными
 [Show tooltips with detailed information in column titles]
 Показать подсказку с информацией в заголовке колонки
 [Only show if a custom title was entered or if titles are not verbose]

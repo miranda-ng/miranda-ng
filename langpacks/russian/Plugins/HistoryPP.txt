@@ -614,7 +614,7 @@ HTML файл
 [Save All as &XML...]
 Сохранить всё как &XML...
 [Select search mode:]
-Выберете режим поиска:
+Выберите режим поиска:
 [Selected file and contact file folder not found]
 Выбранный файл и папка контакта не найдены
 [SMS Sample]

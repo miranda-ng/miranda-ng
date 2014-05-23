@@ -54,7 +54,7 @@
 [Receiving...]
 Получение...
 [Sent successfully]
-Послано успешно
+Отправлено успешно
 [Unknown command for "File As Message" was received]
 Принята неизвестная команда для "file As Message"
 [Incoming file request. Do you want to proceed?]

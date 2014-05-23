@@ -19,7 +19,7 @@
 пикселей
 [Hide all contacts]
 Прятать все контакты
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 Прятать когда приложение развернуто
 [Show tooltips*]
 Всплывающие подсказки*
