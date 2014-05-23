@@ -69,7 +69,7 @@
 #define MW_MAILME_MESSAGE "\n" \
  "  Greetings! It seems that you've run across protocol data that the\n" \
  "Meanwhile library does not yet know about. As such, there may be\n"    \
- "some unexpected behaviour in this session. If you'd like to help\n"    \
+ "some unexpected behavior in this session. If you'd like to help\n"     \
  "resolve this issue, please copy and paste the following block into\n"  \
  "an email to the address listed below with a brief explanation of\n"    \
  "what you were doing at the time of this message. Thanks a lot!"

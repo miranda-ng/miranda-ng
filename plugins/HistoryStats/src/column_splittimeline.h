@@ -78,7 +78,7 @@ public:
 protected:
 	virtual const TCHAR* impl_getUID() const { return con::ColSplitTimeline; }
 	virtual const TCHAR* impl_getTitle() const { return TranslateT("\"Split\" timeline"); }
-	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available."); }
+	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig | cfAcquiresData; }
 	virtual void impl_configRead(const SettingsTree& settings);
