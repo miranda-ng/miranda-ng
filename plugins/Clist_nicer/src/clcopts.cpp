@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_extraicons.h>
 
-#define DBFONTF_BOLD       1
-#define DBFONTF_ITALIC     2
-#define DBFONTF_UNDERLINE  4
+#define DBFONTF_BOLD		1
+#define DBFONTF_ITALIC		2
+#define DBFONTF_UNDERLINE	4
 
 static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -41,54 +41,41 @@ extern INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 extern INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 struct CheckBoxToStyleEx_t {
-    int id;
-    DWORD flag;
-    int not_t;
+	int id;
+	DWORD flag;
+	int not_t;
 } static const checkBoxToStyleEx[] = {
-    {IDC_DISABLEDRAGDROP,CLS_EX_DISABLEDRAGDROP,0}, {IDC_NOTEDITLABELS,CLS_EX_EDITLABELS,1},
-    {IDC_SHOWSELALWAYS,CLS_EX_SHOWSELALWAYS,0}, {IDC_TRACKSELECT,CLS_EX_TRACKSELECT,0},
-    {IDC_DIVIDERONOFF,CLS_EX_DIVIDERONOFF,0}, {IDC_NOTNOTRANSLUCENTSEL,CLS_EX_NOTRANSLUCENTSEL,1},
-    {IDC_NOTNOSMOOTHSCROLLING,CLS_EX_NOSMOOTHSCROLLING,1}
+	{IDC_DISABLEDRAGDROP,CLS_EX_DISABLEDRAGDROP,0}, {IDC_NOTEDITLABELS,CLS_EX_EDITLABELS,1},
+	{IDC_SHOWSELALWAYS,CLS_EX_SHOWSELALWAYS,0}, {IDC_TRACKSELECT,CLS_EX_TRACKSELECT,0},
+	{IDC_DIVIDERONOFF,CLS_EX_DIVIDERONOFF,0}, {IDC_NOTNOTRANSLUCENTSEL,CLS_EX_NOTRANSLUCENTSEL,1},
+	{IDC_NOTNOSMOOTHSCROLLING,CLS_EX_NOSMOOTHSCROLLING,1}
 };
 
 struct CheckBoxToGroupStyleEx_t {
-    int id;
-    DWORD flag;
-    int not_t;
+	int id;
+	DWORD flag;
+	int not_t;
 } static const checkBoxToGroupStyleEx[] = {
-    {IDC_SHOWGROUPCOUNTS,CLS_EX_SHOWGROUPCOUNTS,0}, {IDC_HIDECOUNTSWHENEMPTY,CLS_EX_HIDECOUNTSWHENEMPTY,0},
-    {IDC_LINEWITHGROUPS,CLS_EX_LINEWITHGROUPS,0}, {IDC_QUICKSEARCHVISONLY,CLS_EX_QUICKSEARCHVISONLY,0},
-    {IDC_SORTGROUPSALPHA,CLS_EX_SORTGROUPSALPHA,0}
+	{IDC_SHOWGROUPCOUNTS,CLS_EX_SHOWGROUPCOUNTS,0}, {IDC_HIDECOUNTSWHENEMPTY,CLS_EX_HIDECOUNTSWHENEMPTY,0},
+	{IDC_LINEWITHGROUPS,CLS_EX_LINEWITHGROUPS,0}, {IDC_QUICKSEARCHVISONLY,CLS_EX_QUICKSEARCHVISONLY,0},
+	{IDC_SORTGROUPSALPHA,CLS_EX_SORTGROUPSALPHA,0}
 };
 
 struct CheckBoxValues_t {
-    DWORD style;
-    TCHAR *szDescr;
+	DWORD style;
+	TCHAR *szDescr;
 };
 
 static const struct CheckBoxValues_t greyoutValues[] = {
-    {GREYF_UNFOCUS,LPGENT("Not focused")}, {MODEF_OFFLINE,LPGENT("Offline")}, {PF2_ONLINE,LPGENT("Online")}, {PF2_SHORTAWAY,LPGENT("Away")}, {PF2_LONGAWAY,LPGENT("NA")}, {PF2_LIGHTDND,LPGENT("Occupied")}, {PF2_HEAVYDND,LPGENT("DND")}, {PF2_FREECHAT,LPGENT("Free for chat")}, {PF2_INVISIBLE,LPGENT("Invisible")}, {PF2_OUTTOLUNCH,LPGENT("Out to lunch")}, {PF2_ONTHEPHONE,LPGENT("On the phone")}
+	{GREYF_UNFOCUS,LPGENT("Not focused")}, {MODEF_OFFLINE,LPGENT("Offline")}, {PF2_ONLINE,LPGENT("Online")}, {PF2_SHORTAWAY,LPGENT("Away")},
+	{PF2_LONGAWAY,LPGENT("NA")}, {PF2_LIGHTDND,LPGENT("Occupied")}, {PF2_HEAVYDND,LPGENT("DND")}, {PF2_FREECHAT,LPGENT("Free for chat")},
+	{PF2_INVISIBLE,LPGENT("Invisible")}, {PF2_OUTTOLUNCH,LPGENT("Out to lunch")}, {PF2_ONTHEPHONE,LPGENT("On the phone")}
 };
 static const struct CheckBoxValues_t offlineValues[] = {
-    {MODEF_OFFLINE,LPGENT("Offline")}, {PF2_ONLINE,LPGENT("Online")}, {PF2_SHORTAWAY,LPGENT("Away")}, {PF2_LONGAWAY,LPGENT("NA")}, {PF2_LIGHTDND,LPGENT("Occupied")}, {PF2_HEAVYDND,LPGENT("DND")}, {PF2_FREECHAT,LPGENT("Free for chat")}, {PF2_INVISIBLE,LPGENT("Invisible")}, {PF2_OUTTOLUNCH,LPGENT("Out to lunch")}, {PF2_ONTHEPHONE,LPGENT("On the phone")}
+	{MODEF_OFFLINE,LPGENT("Offline")}, {PF2_ONLINE,LPGENT("Online")}, {PF2_SHORTAWAY,LPGENT("Away")}, {PF2_LONGAWAY,LPGENT("NA")},
+	{PF2_LIGHTDND,LPGENT("Occupied")}, {PF2_HEAVYDND,LPGENT("DND")}, {PF2_FREECHAT,LPGENT("Free for chat")}, {PF2_INVISIBLE,LPGENT("Invisible")},
+	{PF2_OUTTOLUNCH,LPGENT("Out to lunch")}, {PF2_ONTHEPHONE,LPGENT("On the phone")}
 };
-
-static HIMAGELIST himlCheckBoxes = 0;
-
-static void CreateStateImageList()
-{
-	HICON hIconNoTick = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_NOTICK), IMAGE_ICON, 16, 16, 0));
-	HICON hIconTick = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_TICK), IMAGE_ICON, 16, 16, 0));
-
-	himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-	ImageList_AddIcon(himlCheckBoxes, hIconNoTick);
-	ImageList_AddIcon(himlCheckBoxes, hIconTick);
-	ImageList_AddIcon(himlCheckBoxes, hIconNoTick);
-
-	DestroyIcon(hIconTick);
-	DestroyIcon(hIconNoTick);
-}
-
 
 static UINT sortCtrlIDs[] = {IDC_SORTPRIMARY, IDC_SORTTHEN, IDC_SORTFINALLY, 0};
 
@@ -104,7 +91,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 1 : 2);
+		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);
 	}
 }
@@ -118,7 +105,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
-		if ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 1)
+		if ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2)
 			flags |= tvi.lParam;
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 	}
@@ -164,8 +151,8 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always Left"));
-			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always Right"));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always left"));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always right"));
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Automatic (RTL)"));
 
 			DWORD exStyle = cfg::getDword("CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
@@ -253,11 +240,7 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			if (himlCheckBoxes == 0)
-				CreateStateImageList();
-
-			HIMAGELIST himlOld = TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), himlCheckBoxes, TVSIL_STATE);
-			ImageList_Destroy(himlOld);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
 			for (int i = 0; sortCtrlIDs[i] != 0; i++) {
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_INSERTSTRING, -1, (LPARAM)TranslateT("Nothing"));
@@ -272,7 +255,7 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("For RTL only"));
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("RTL TEXT only"));
 
-			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, SIZEOF(offlineValues), cfg::getDword("CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
+			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, sizeof(offlineValues) / sizeof(offlineValues[0]), cfg::getDword("CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
 			CheckDlgButton(hwndDlg, IDC_EVENTSONTOP, (cfg::dat.dwFlags & CLUI_STICKYEVENTS) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, cfg::dat.bDontSeparateOffline);
 			for (int i = 0; sortCtrlIDs[i] != 0; i++)
@@ -334,6 +317,7 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			break;
 		}
+		break;
 	}
 	return FALSE;
 }
@@ -353,10 +337,10 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When space allows it"));
 		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed"));
 
-		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With Nickname - left"));
+		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With nickname - left"));
 		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far left"));
 		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far right"));
-		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With Nickname - right"));
+		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With nickname - right"));
 		{
 			int i = 0;
 			if (cfg::dat.bAvatarServiceAvail) {
@@ -559,7 +543,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Status Bar");
+	odp.pszTab = LPGEN("Status bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
 	Options_AddPage(wParam, &odp);
@@ -569,7 +553,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 
 	odp.position = 0;
 	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTitle = LPGEN("Contact rows");
+	odp.pszTitle = LPGEN("Row items");
 	odp.pszTab = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcDspItems;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPITEMS);
@@ -708,10 +692,6 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				return TRUE;
 			}
 		}
-		break;
-
-	case WM_DESTROY:
-		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), TVSIL_STATE));
 		break;
 	}
 	return FALSE;

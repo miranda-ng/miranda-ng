@@ -14,11 +14,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,7 +27,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 IDD_EXCEPTION DIALOGEX 0, 0, 370, 131
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "CList Nicer exception"
+CAPTION "Clist Nicer exception"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EXCEPTION_DETAILS,7,18,356,60,ES_MULTILINE | ES_READONLY
@@ -82,7 +82,7 @@ IDD_OPT_CLIST DIALOGEX 0, 0, 305, 226
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Contact List",IDC_STCLISTGROUP,1,0,163,91
+    GROUPBOX        "Contact list",IDC_STCLISTGROUP,1,0,163,91
     CONTROL         "Hide offline users",IDC_HIDEOFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,12,147,10
     CONTROL         "Hide empty groups",IDC_HIDEEMPTYGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,147,10
     CONTROL         "Disable groups",IDC_DISABLEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,38,147,10
@@ -155,7 +155,7 @@ BEGIN
     LTEXT           "Indent groups by:",IDC_STATIC,11,175,233,8
     EDITTEXT        IDC_GROUPINDENT,249,172,45,12,ES_RIGHT | ES_NUMBER
     CONTROL         "Spin1",IDC_GROUPINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,284,173,11,14
-    LTEXT           "Inner Row vertical padding",IDC_STATIC,11,189,233,8
+    LTEXT           "Inner row vertical padding",IDC_STATIC,11,189,233,8
     EDITTEXT        IDC_AVATARPADDING,249,186,45,12,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_AVATARPADDINGSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,284,187,11,14
     GROUPBOX        "Margins and spacing",IDC_STATIC,1,109,299,95
@@ -165,7 +165,7 @@ IDD_OPT_DSPITEMS DIALOGEX 0, 0, 305, 167
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Contact List Sorting",IDC_STATIC,1,0,142,145,WS_GROUP
+    GROUPBOX        "Contact list sorting",IDC_STATIC,1,0,142,145,WS_GROUP
     LTEXT           "First by",IDC_STATIC,5,15,57,9
     COMBOBOX        IDC_SORTPRIMARY,65,12,73,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Then by",IDC_STATIC,5,29,57,9
@@ -177,7 +177,7 @@ BEGIN
     CONTROL         "Do not separate offline contacts",IDC_DONTSEPARATE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,80,132,10
     LTEXT           "Hide as offline",IDC_STATIC,151,1,73,8
-    CONTROL         "Tree1",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_HASBUTTONS | TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_CHECKBOXES | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,147,11,152,134
+    CONTROL         "Tree Hide Offline",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,147,11,152,134
     LTEXT           "Right align contacts",IDC_STATIC,5,150,130,10
     COMBOBOX        IDC_CLISTALIGN,147,148,77,56,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
@@ -224,7 +224,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,40,277,10
     CONTROL         "Use metacontact protocol icons instead of subcontacts",IDC_SHOWMETA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,52,277,10
-    CONTROL         "Use Overlay icons on avatars",IDC_OVERLAYICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,64,277,10
+    CONTROL         "Use overlay icons on avatars",IDC_OVERLAYICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,64,277,10
     CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,76,277,10
     CONTROL         "Replace status icons with xStatus",IDC_XSTATUSASSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,88,277,10
@@ -260,7 +260,7 @@ BEGIN
     CONTROL         "Size upwards",IDC_AUTOSIZEUPWARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,59,149,10
     CONTROL         "If window is partially covered, bring to front instead of hiding",IDC_BRINGTOFRONT,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,139,76,160,16
-    CONTROL         "Always Hide On Taskbar",IDC_ALWAYSHIDEONTASKBAR,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,139,94,158,10
+    CONTROL         "Always hide on taskbar",IDC_ALWAYSHIDEONTASKBAR,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,139,94,158,10
     LTEXT           "Client margins",IDC_STATIC,11,144,50,10
     EDITTEXT        IDC_CLEFT,64,142,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_CLEFTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,84,139,10,14
@@ -320,7 +320,7 @@ BEGIN
     LTEXT           "milliseconds",IDC_STATIC12,114,137,73,8,SS_CENTERIMAGE
     CONTROL         "Hide vertical scroll bar",IDC_NOSCROLLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,152,282,10
     CONTROL         "Gray out entire list when:",IDC_GREYOUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,168,282,10
-    CONTROL         "Tree1",IDC_GREYOUTOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,11,181,182,39
+    CONTROL         "Tree Gray Out",IDC_GREYOUTOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,11,181,182,39
 END
 
 IDD_OPT_CLCBKG DIALOGEX 0, 0, 305, 226
@@ -328,7 +328,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Contact List Background",IDC_STATIC,1,4,302,177
+    GROUPBOX        "Contact list background",IDC_STATIC,1,4,302,177
     CONTROL         "Use Windows colors",IDC_WINCOLOUR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,282,10
     CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,22,34,22,10
     LTEXT           "Background color",IDC_STATIC,48,35,246,8,NOT WS_GROUP
@@ -350,7 +350,7 @@ IDD_OPT_SBAR DIALOGEX 0, 0, 303, 226
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Status Bar",IDC_STATIC,3,4,297,214
+    GROUPBOX        "Status bar",IDC_STATIC,3,4,297,214
     CONTROL         "Show status bar",IDC_SHOWSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,17,275,10
     CONTROL         "Show icons",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,33,265,10
     CONTROL         "Show protocol names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,48,265,10
@@ -485,7 +485,7 @@ BEGIN
     LTEXT           "To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.",IDC_STATIC,18,146,182,34
     GROUPBOX        "Display options",IDC_STATIC,209,3,143,218
     CONTROL         "Show contact with priority",IDC_IGN_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,219,13,127,11
-    LTEXT           "Show Avatar:",IDC_STATIC,225,28,94,11
+    LTEXT           "Show avatar:",IDC_STATIC,225,28,94,11
     COMBOBOX        IDC_AVATARDISPMODE,219,38,127,56,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Show 2nd line:",IDC_STATIC,225,54,94,11
     COMBOBOX        IDC_SECONDLINEMODE,219,64,127,56,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
@@ -512,7 +512,8 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
-    "#include <statusmodes.h>\r\0"
+    "#include <statusmodes.h>\r\n"
+    "\0"
 END
 
 3 TEXTINCLUDE 
@@ -591,8 +592,8 @@ BEGIN
         MENUITEM "&DND\tCtrl+5",                ID_STATUS_DND
         MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
         MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
-        MENUITEM "On the &Phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
-        MENUITEM "Out to &Lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
+        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
     END
 END
 
@@ -606,33 +607,33 @@ BEGIN
     END
     POPUP "Nowhere"
     BEGIN
-        MENUITEM "&New Group",                  POPUP_NEWGROUP
+        MENUITEM "&New group",                  POPUP_NEWGROUP
         MENUITEM SEPARATOR
-        MENUITEM "&Hide Offline Users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &Offline Users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &Empty Groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &Groups",             POPUP_DISABLEGROUPS
+        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
+        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
+        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
+        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
         MENUITEM SEPARATOR
         MENUITEM SEPARATOR
         MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
     END
     POPUP "Group"
     BEGIN
-        MENUITEM "&New Subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide Offline Users in here", POPUP_GROUPHIDEOFFLINE
+        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
+        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Rename Group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete Group",               POPUP_DELETEGROUP
+        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
+        MENUITEM "&Delete group",               POPUP_DELETEGROUP
         MENUITEM SEPARATOR
-        MENUITEM "Move marked Contacts to this Group", POPUP_MOVEMARKEDHERE, GRAYED
+        MENUITEM "Move marked contacts to this group", POPUP_MOVEMARKEDHERE, GRAYED
     END
     POPUP "Appearance"
     BEGIN
-        MENUITEM "Show Status Icons",           POPUP_SHOWSTATUSICONS
-        MENUITEM "Show Metacontact proto Icons", POPUP_SHOWMETAICONS
+        MENUITEM "Show status icons",           POPUP_SHOWSTATUSICONS
+        MENUITEM "Show MetaContact proto icons", POPUP_SHOWMETAICONS
         MENUITEM SEPARATOR
-        MENUITEM "Show additional Buttons",     POPUP_BUTTONS
-        MENUITEM "Draw sunken Frame",           POPUP_FRAME
+        MENUITEM "Show additional buttons",     POPUP_BUTTONS
+        MENUITEM "Draw sunken frame",           POPUP_FRAME
     END
 END
 
@@ -645,7 +646,35 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_EXCEPTION, DIALOG
+    BEGIN
+    END
+
     IDD_CLNABOUT, DIALOG
+    BEGIN
+    END
+
+    IDD_DELETECONTACT, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONSDIALOG, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_CLIST, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_DSPGROUPS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_DSPITEMS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_DSPADVANCED, DIALOG
     BEGIN
     END
 
@@ -662,10 +691,38 @@ BEGIN
     BEGIN
         HORZGUIDE, 127
     END
+
+    IDD_OPT_CLC, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_CLCBKG, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_SBAR, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_VIEWMODES, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_SKIN, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT, DIALOG
+    BEGIN
+    END
+
+    IDD_QUICKIGNORE, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -54,7 +54,7 @@ extern HINSTANCE g_hInst;
 #define frame_menu_visible			2
 #define frame_menu_showtitlebar		3
 #define frame_menu_floating			4
-#define frame_menu_skinned          5
+#define frame_menu_skinned			5
 
 static int UpdateTBToolTip(int framepos);
 INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam);
@@ -75,7 +75,7 @@ static int sortfunc(const void *a, const void *b)
 	sd1 = (SortData *)a;
 	sd2 = (SortData *)b;
 	if (sd1->order > sd2->order)
-		return(1);
+		return 1;
 	if (sd1->order < sd2->order)
 		return -1;
 	return 0;
@@ -97,7 +97,7 @@ static HANDLE contMIVisible, contMITitle, contMITBVisible, contMILock, contMICol
 static HANDLE contMIAlignRoot;
 static HANDLE contMIAlignTop, contMIAlignClient, contMIAlignBottom;
 static HANDLE contMIBorder, contMISkinned;
-static HGENMENU MainMIRoot = (HGENMENU) - 1;
+static HGENMENU MainMIRoot = (HGENMENU)-1;
 
 // others
 static int ContactListHeight;
@@ -114,7 +114,7 @@ static int GapBetweenFrames = 1;
 
 static int RemoveItemFromList(int pos, FRAMEWND **lpFrames, int *FrameItemCount)
 {
-	memcpy(&((*lpFrames)[pos]), &((*lpFrames)[pos+1]), sizeof(FRAMEWND)*(*FrameItemCount - pos - 1));
+	memcpy(&((*lpFrames)[pos]), &((*lpFrames)[pos + 1]), sizeof(FRAMEWND) * (*FrameItemCount - pos - 1));
 	(*FrameItemCount)--;
 	return 0;
 }
@@ -126,16 +126,16 @@ static int id2pos(int id)
 	if (FramesSysNotStarted)
 		return -1;
 
-	for (i = 0;i < nFramescount;i++) {
+	for (i = 0; i < nFramescount; i++) {
 		if (Frames[i].id == id)
-			return(i);
+			return i;
 	}
 	return -1;
 }
 
 int __forceinline btoint(BOOLEAN b)
 {
-	return(b ? 1 : 0);
+	return (b ? 1 : 0);
 }
 
 void __forceinline lockfrm()
@@ -149,30 +149,28 @@ void __forceinline ulockfrm()
 	LeaveCriticalSection(&csFrameHook);
 }
 
-static FRAMEWND* FindFrameByWnd(HWND hwnd)
+static FRAMEWND *FindFrameByWnd(HWND hwnd)
 {
-	BOOL        bFound  = FALSE;
+	BOOL bFound = FALSE;
 	int i;
 
 	if (hwnd == NULL)
-		return(NULL);
+		return (NULL);
 
-	for (i = 0;i < nFramescount;i++) {
+	for (i = 0; i < nFramescount; i++) {
 		if ((Frames[i].floating) && (Frames[i].ContainerWnd == hwnd))
-			return(&Frames[i]);
+			return (&Frames[i]);
 	}
 	return(NULL);
 }
 
-
 static void DockThumbs(FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveLeft)
 {
 	if ((pThumbRight->dockOpt.hwndLeft == NULL) && (pThumbLeft->dockOpt.hwndRight == NULL)) {
-		pThumbRight->dockOpt.hwndLeft   = pThumbLeft->ContainerWnd;
-		pThumbLeft->dockOpt.hwndRight   = pThumbRight->ContainerWnd;
+		pThumbRight->dockOpt.hwndLeft = pThumbLeft->ContainerWnd;
+		pThumbLeft->dockOpt.hwndRight = pThumbRight->ContainerWnd;
 	}
 }
-
 
 static void UndockThumbs(FRAMEWND *pThumb1, FRAMEWND *pThumb2)
 {
@@ -196,21 +194,21 @@ BOOLEAN bMoveTogether;
 
 static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 {
-	FRAMEWND    *pCurThumb  = &Frames[0];
-	FRAMEWND    *pDockThumb = pThumb;
-	FRAMEWND    fakeMainWindow;
-	FRAMEWND    fakeTaskBarWindow;
-	RECT        rc;
-	RECT        rcThumb;
-	RECT        rcOld;
-	SIZE        sizeScreen;
-	int         nOffs       = 10;
-	POINT       pt;
-	RECT        rcLeft;
-	RECT        rcTop;
-	RECT        rcRight;
-	RECT        rcBottom;
-	int         frmidx = 0;
+	FRAMEWND *pCurThumb = &Frames[0];
+	FRAMEWND *pDockThumb = pThumb;
+	FRAMEWND fakeMainWindow;
+	FRAMEWND fakeTaskBarWindow;
+	RECT rc;
+	RECT rcThumb;
+	RECT rcOld;
+	SIZE sizeScreen;
+	int nOffs = 10;
+	POINT pt;
+	RECT rcLeft;
+	RECT rcTop;
+	RECT rcRight;
+	RECT rcBottom;
+	int frmidx = 0;
 
 	if (pThumb == NULL)
 		return;
@@ -220,7 +218,7 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 
 	// Get thumb dimnsions
 	GetWindowRect(pThumb->ContainerWnd, &rcThumb);
-	int nWidth  = rcThumb.right - rcThumb.left;
+	int nWidth = rcThumb.right - rcThumb.left;
 	int nHeight = rcThumb.bottom - rcThumb.top;
 
 	// Docking to the edges of the screen
@@ -232,7 +230,7 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 	bool bLeading = pThumb->dockOpt.hwndRight != NULL;
 
 	if (bMoveTogether) {
-		UndockThumbs(pThumb,  FindFrameByWnd(pThumb->dockOpt.hwndLeft));
+		UndockThumbs(pThumb, FindFrameByWnd(pThumb->dockOpt.hwndLeft));
 		GetWindowRect(pThumb->ContainerWnd, &rcOld);
 	}
 
@@ -253,34 +251,34 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 
 				GetWindowRect(pCurThumb->ContainerWnd, &rc);
 
-				rcLeft.left     = rc.left - nOffs;
-				rcLeft.top      = rc.top - nOffs;
-				rcLeft.right    = rc.left + nOffs;
-				rcLeft.bottom   = rc.bottom + nOffs;
+				rcLeft.left = rc.left - nOffs;
+				rcLeft.top = rc.top - nOffs;
+				rcLeft.right = rc.left + nOffs;
+				rcLeft.bottom = rc.bottom + nOffs;
 
-				rcTop.left      = rc.left - nOffs;
-				rcTop.top       = rc.top - nOffs;
-				rcTop.right     = rc.right + nOffs;
-				rcTop.bottom    = rc.top + nOffs;
+				rcTop.left = rc.left - nOffs;
+				rcTop.top = rc.top - nOffs;
+				rcTop.right = rc.right + nOffs;
+				rcTop.bottom = rc.top + nOffs;
 
-				rcRight.left    = rc.right - nOffs;
-				rcRight.top     = rc.top - nOffs;
-				rcRight.right   = rc.right + nOffs;
-				rcRight.bottom  = rc.bottom + nOffs;
+				rcRight.left = rc.right - nOffs;
+				rcRight.top = rc.top - nOffs;
+				rcRight.right = rc.right + nOffs;
+				rcRight.bottom = rc.bottom + nOffs;
 
-				rcBottom.left   = rc.left - nOffs;
-				rcBottom.top    = rc.bottom - nOffs;
-				rcBottom.right  = rc.right + nOffs;
+				rcBottom.left = rc.left - nOffs;
+				rcBottom.top = rc.bottom - nOffs;
+				rcBottom.right = rc.right + nOffs;
 				rcBottom.bottom = rc.bottom + nOffs;
 
 				bool bDockedLeft = false, bDockedRight = false, bDocked = false;
 
 				// Upper-left
-				pt.x    = rcThumb.left;
-				pt.y    = rcThumb.top;
+				pt.x = rcThumb.left;
+				pt.y = rcThumb.top;
 
 				if (PtInRect(&rcRight, pt)) {
-					nNewX   = rc.right;
+					nNewX = rc.right;
 					bDocked = true;
 				}
 
@@ -291,18 +289,18 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 				}
 
 				if (PtInRect(&rcTop, pt)) {
-					nNewY       = rc.top;
+					nNewY = rc.top;
 					bDockedLeft = bDocked;
 				}
 
 				// Upper-right
-				pt.x    = rcThumb.right;
-				pt.y    = rcThumb.top;
+				pt.x = rcThumb.right;
+				pt.y = rcThumb.top;
 				bDocked = false;
 
-				if ( !bLeading && PtInRect(&rcLeft, pt)) {
-					if ( !bDockedLeft) {
-						nNewX   = rc.left - nWidth;
+				if (!bLeading && PtInRect(&rcLeft, pt)) {
+					if (!bDockedLeft) {
+						nNewX = rc.left - nWidth;
 						bDocked = true;
 					}
 					else if (rc.right == rcThumb.left)
@@ -316,9 +314,9 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 						nNewX = rc.right - nWidth;
 				}
 
-				if ( !bLeading && PtInRect(&rcTop, pt)) {
-					nNewY           = rc.top;
-					bDockedRight    = bDocked;
+				if (!bLeading && PtInRect(&rcTop, pt)) {
+					nNewY = rc.top;
+					bDockedRight = bDocked;
 				}
 
 				if (bMoveTogether) {
@@ -348,10 +346,10 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 				pt.x = rcThumb.right;
 				pt.y = rcThumb.bottom;
 
-				if ( !bLeading && PtInRect(&rcLeft, pt))
+				if (!bLeading && PtInRect(&rcLeft, pt))
 					nNewX = rc.left - nWidth;
 
-				if ( !bLeading && PtInRect(&rcTop, pt)) {
+				if (!bLeading && PtInRect(&rcTop, pt)) {
 					nNewY = rc.top - nHeight;
 
 					if (PtInRect(&rcRight, pt))
@@ -432,26 +430,26 @@ int DBLoadFrameSettingsAtPos(int pos, int Frameid)
 
 	_itoa(pos, sadd, 10);
 
-	Frames[Frameid].collapsed = 			  cfg::getByte(CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
+	Frames[Frameid].collapsed				= cfg::getByte(CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
 
-	Frames[Frameid].Locked                  = cfg::getByte(CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
-	Frames[Frameid].visible                 = cfg::getByte(CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
-	Frames[Frameid].TitleBar.ShowTitleBar   = cfg::getByte(CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
+	Frames[Frameid].Locked					= cfg::getByte(CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
+	Frames[Frameid].visible					= cfg::getByte(CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
+	Frames[Frameid].TitleBar.ShowTitleBar	= cfg::getByte(CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
 
-	Frames[Frameid].height                  = cfg::getWord(CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
-	Frames[Frameid].HeightWhenCollapsed     = cfg::getWord(CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
-	Frames[Frameid].align                   = cfg::getWord(CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
+	Frames[Frameid].height					= cfg::getWord(CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
+	Frames[Frameid].HeightWhenCollapsed		= cfg::getWord(CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
+	Frames[Frameid].align					= cfg::getWord(CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
 
-	Frames[Frameid].FloatingPos.x       = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingPos.y       = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingSize.x      = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingSize.y      = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingPos.x		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingPos.y		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingSize.x		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingSize.y		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 1024);
 
-	Frames[Frameid].floating            = cfg::getByte(CLUIFrameModule, AS(buf, "Floating", sadd), 0);
-	Frames[Frameid].order               = cfg::getWord(CLUIFrameModule, AS(buf, "Order", sadd), 0);
+	Frames[Frameid].floating			= cfg::getByte(CLUIFrameModule, AS(buf, "Floating", sadd), 0);
+	Frames[Frameid].order				= cfg::getWord(CLUIFrameModule, AS(buf, "Order", sadd), 0);
 
-	Frames[Frameid].UseBorder           = cfg::getByte(CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
-	Frames[Frameid].Skinned             = cfg::getByte(CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
+	Frames[Frameid].UseBorder			= cfg::getByte(CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
+	Frames[Frameid].Skinned				= cfg::getByte(CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
 	return 0;
 }
 
@@ -490,10 +488,10 @@ int LocateStorePosition(int Frameid, int maxstored)
 {
 	if (Frames[Frameid].name == NULL) return -1;
 
-	for (int i = 0;i < maxstored;i++) {
+	for (int i = 0; i < maxstored; i++) {
 		char settingname[255];
 		mir_snprintf(settingname, sizeof(settingname), "Name%d", i);
-		ptrT frmname( db_get_tsa(0, CLUIFrameModule, settingname));
+		ptrT frmname(db_get_tsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
 		if (lstrcmpi(frmname, Frames[Frameid].name) == 0)
 			return i;
@@ -663,7 +661,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Floating Mode");
+	mi.pszName = LPGEN("&Floating mode");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = "Set_Floating";
 	mi.pszContactOwner = 0;
@@ -1201,7 +1199,7 @@ INT_PTR CLUIFramesShowHideFrame(WPARAM wParam, LPARAM lParam)
 
 	lockfrm();
 	pos = id2pos((INT_PTR)wParam);
-	if (pos >= 0 && !lstrcmp(Frames[pos].name, _T("My Contacts")))
+	if (pos >= 0 && !lstrcmp(Frames[pos].name, _T("My contacts")))
 		Frames[pos].visible = 1;
 	else {
 		if (pos >= 0 && (int)pos < nFramescount)
@@ -1582,7 +1580,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = separator++;
 	mi.hParentMenu = MainMIRoot;
-	mi.pszName = LPGEN("Show All Frames");
+	mi.pszName = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
 
@@ -2598,9 +2596,9 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				AppendMenu(hmenu, MF_SEPARATOR, 16, _T(""));
 
 				if (Frames[framepos].Locked)
-					AppendMenu(hmenu, MF_STRING | MF_CHECKED, frame_menu_lock, TranslateT("Lock Frame"));
+					AppendMenu(hmenu, MF_STRING | MF_CHECKED, frame_menu_lock, TranslateT("Lock frame"));
 				else
-					AppendMenu(hmenu, MF_STRING, frame_menu_lock, TranslateT("Lock Frame"));
+					AppendMenu(hmenu, MF_STRING, frame_menu_lock, TranslateT("Lock frame"));
 
 				if (Frames[framepos].visible)
 					AppendMenu(hmenu, MF_STRING | MF_CHECKED, frame_menu_visible, TranslateT("Visible"));

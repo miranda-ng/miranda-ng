@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется d:\MNG_orig\plugins\Clist_nicer\res\resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\resource.rc
 //
 #define IDD_OPT_VIEWMODES               1
 #define IDD_OPT_SKIN                    4

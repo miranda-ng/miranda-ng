@@ -31,28 +31,28 @@ static int timer_set = 0, tooltip_active = 0;
 extern HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
 extern HBRUSH g_CLUISkinnedBkColor;
 
-extern HANDLE   (WINAPI *MyOpenThemeData)(HWND, LPCWSTR);
-extern HRESULT  (WINAPI *MyCloseThemeData)(HANDLE);
-extern HRESULT  (WINAPI *MyDrawThemeBackground)(HANDLE, HDC, int, int, const RECT *, const RECT *);
+extern HANDLE (WINAPI *MyOpenThemeData)(HWND, LPCWSTR);
+extern HRESULT (WINAPI *MyCloseThemeData)(HANDLE);
+extern HRESULT (WINAPI *MyDrawThemeBackground)(HANDLE, HDC, int, int, const RECT *, const RECT *);
 
 #define TIMERID_HOVER 1000
 
 LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_SETCURSOR:
 		{
 			POINT pt;
 			GetCursorPos(&pt);
 
-			SendMessage(GetParent(hwnd),msg,wParam,lParam);
+			SendMessage(GetParent(hwnd), msg, wParam, lParam);
 			if (pt.x == ptMouse.x && pt.y == ptMouse.y)
 				return 1;//return(TestCursorOnBorders());
 
 			ptMouse = pt;
 			if (tooltip_active){
 				KillTimer(hwnd, TIMERID_HOVER);
-				if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
+				if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 					CallService("mToolTip/HideTip", 0, 0);
 				tooltip_active = FALSE;
 			}
@@ -78,7 +78,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER);
-		if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
+		if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 			CallService("mToolTip/HideTip", 0, 0);
 		tooltip_active = FALSE;
 		break;
@@ -109,7 +109,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HFONT hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT)));
 			BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 			StatusItems_t *item = arStatusItems[ID_EXTBKSTATUSBAR - ID_STATUS_OFFLINE];
-			if ( !item->IGNORED) {
+			if (!item->IGNORED) {
 				RECT rc = rcClient;
 				rc.left += item->MARGIN_LEFT;
 				rc.right -= item->MARGIN_RIGHT;
@@ -119,7 +119,8 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					item->CORNER, item->BORDERSTYLE, item->imageItem);
 				SetTextColor(hdcMem, item->TEXTCOLOR);
 			}
-			else SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
+			else
+				SetTextColor(hdcMem, GetSysColor(COLOR_BTNTEXT));
 
 			dis.hwndItem = hwnd;
 			dis.hDC = hdcMem;
@@ -154,7 +155,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				for (int i = 0; i < nParts; i++) {
 					RECT rc;
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
-					if ( PtInRect(&rc,pt)) {
+					if (PtInRect(&rc,pt)) {
 						ProtocolData *PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
 						if (PD == NULL)
 							continue;

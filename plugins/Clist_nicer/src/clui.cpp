@@ -182,7 +182,7 @@ static int CreateCLC(HWND parent)
 		CLISTFrame frame = {0};
 		frame.cbSize = sizeof(frame);
 		frame.tname = _T("EventArea");
-		frame.TBtname = TranslateT("Event Area");
+		frame.TBtname = TranslateT("Event area");
 		frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 		frame.height = 20;
 		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
@@ -203,12 +203,12 @@ static int CreateCLC(HWND parent)
 		Frame.align = alClient;
 		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
-		Frame.tname = _T("My Contacts");
-		Frame.TBtname = TranslateT("My Contacts");
+		Frame.tname = _T("My contacts");
+		Frame.TBtname = TranslateT("My contacts");
 		Frame.height = 200;
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM) & Frame, 0);
 		//free(Frame.name);
-		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My Contacts"));
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My contacts"));
 
 		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
 		DWORD flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
@@ -253,13 +253,13 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_Register(g_hInst, LPGEN("CList - Nicer/Default"), myIcons, SIZEOF(myIcons));
+	Icon_Register(g_hInst, LPGEN("Contact list/Default"), myIcons, SIZEOF(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, sizeof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), GSMDF_TCHAR), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENT("CList - Nicer/Overlay Icons"), &icon, 1);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list/Overlay icons"), &icon, 1);
 	}
 
 	PROTOACCOUNT **accs = NULL;
@@ -270,9 +270,9 @@ static void InitIcoLib()
 			continue;
 
 		TCHAR szDescr[128];
-		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s Connecting"), accs[k]->tszAccountName);
+		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENT("CList - Nicer/Connecting Icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list/Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 
@@ -1544,7 +1544,7 @@ buttons_done:
 			case POPUP_HIDEEMPTYGROUPS:
 				{
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-					cfg::writeByte("CList", "HideEmptyGroups", (BYTE) newVal);
+					cfg::writeByte("CList", "HideEmptyGroups", (BYTE)newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 				}
 				break;
@@ -1553,7 +1553,7 @@ buttons_done:
 			case POPUP_DISABLEGROUPS:
 				{
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-					cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
+					cfg::writeByte("CList", "UseGroups", (BYTE)newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
 				}
@@ -2079,19 +2079,19 @@ void FS_RegisterFonts()
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Selected Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Selected text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Hottrack Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Hottrack text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Quicksearch Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
 	ColourRegisterT(&colourid);

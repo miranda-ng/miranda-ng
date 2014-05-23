@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadCLUIFramesModule(void);
 int UnLoadCLUIFramesModule(void);
 int CLUIFramesGetMinHeight();
-int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam);
+int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam);
 int SizeFramesByWindowRect(RECT *r);
 int CLUIFramesResizeFrames(RECT *rc);
 
@@ -39,7 +39,7 @@ typedef struct
 {
 	int order;
 	int realpos;
-}SortData;
+} SortData;
 
 
 
@@ -81,8 +81,8 @@ struct FrameTitleBar
 
 struct DockOpt
 {
-	HWND	hwndLeft;
-	HWND	hwndRight;
+	HWND hwndLeft;
+	HWND hwndRight;
 };
 
 struct FRAMEWND
@@ -120,7 +120,7 @@ struct FRAMEWND
 #define OFFSET_PROTOPOS 200
 #define OFFSET_VISIBLE 400
 
-#define CLUIFrameTitleBarClassName				_T("CLUIFrameTitleBar")
-#define CLUIFrameModule							"CLUIFrames"
+#define CLUIFrameTitleBarClassName		_T("CLUIFrameTitleBar")
+#define CLUIFrameModule					"CLUIFrames"
 
 #endif

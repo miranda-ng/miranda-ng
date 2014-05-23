@@ -816,8 +816,8 @@ void BuildViewModeMenu()
 	if (GetMenuItemCount(hViewModeMenu) > 0)
 		AppendMenu(hViewModeMenu, MF_SEPARATOR, 0, NULL);
 
-	AppendMenu(hViewModeMenu, MF_STRING, 10001, TranslateT("Setup View Modes..."));
-	AppendMenu(hViewModeMenu, MF_STRING, 10002, TranslateT("Clear current View Mode"));
+	AppendMenu(hViewModeMenu, MF_STRING, 10001, TranslateT("Setup view modes..."));
+	AppendMenu(hViewModeMenu, MF_STRING, 10002, TranslateT("Clear current view mode"));
 }
 
 struct
@@ -1028,7 +1028,7 @@ void CreateViewModeFrame()
 	ZeroMemory(&frame, sizeof(frame));
 	frame.cbSize = sizeof(frame);
 	frame.tname = _T("View modes");
-	frame.TBtname = TranslateT("View Modes");
+	frame.TBtname = TranslateT("View modes");
 	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	frame.height = 22;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
