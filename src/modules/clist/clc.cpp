@@ -1148,8 +1148,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						TCHAR szNewName[120];
-						TCHAR* szGroup = cli.pfnGetGroupName(contactn->groupId, NULL);
-						mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szGroup, contacto->szText);
+						mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), cli.pfnGetGroupName(contactn->groupId, NULL), contacto->szText);
 						cli.pfnRenameGroup(contacto->groupId, szNewName);
 					}
 				}
@@ -1165,8 +1164,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					else {
 						if (destcontact->type == CLCIT_GROUP)
 							destgroup = destcontact->group;
-						else
-							destgroup = destgroup;
 						CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, destgroup->groupId);
 					}
 				}
@@ -1174,7 +1171,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			case DROPTARGET_OUTSIDE:
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
 				{
-
 					NMCLISTCONTROL nm;
 					nm.hdr.code = CLN_DROPPED;
 					nm.hdr.hwndFrom = hwnd;
@@ -1211,7 +1207,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 
-		dat->selection = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, NULL, &hitFlags);
+		dat->selection = cli.pfnHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, NULL, &hitFlags);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		if (dat->selection != -1)
 			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
@@ -1309,8 +1305,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		case POPUP_GROUPHIDEOFFLINE:
 			if (contact->type != CLCIT_GROUP)
 				break;
-			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
-				MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
+			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
 			break;
 		}
 		break;
