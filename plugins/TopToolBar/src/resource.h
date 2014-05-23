@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by main.rc
+// Used by ..\res\main.rc
 //
 #define IDB_SEP                         118
 #define IDI_SHOWONLINEUP                125
@@ -55,7 +55,7 @@
 #define IDC_BUTTONORDERTREE             1591
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        139

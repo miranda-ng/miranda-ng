@@ -4,7 +4,7 @@
 HINSTANCE hInst;
 int hLangpack;
 
-PLUGININFOEX pluginInfo  =
+PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,

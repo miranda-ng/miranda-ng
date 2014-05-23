@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -25,11 +25,11 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 
 IDD_OPT_BUTORDER DIALOGEX 0, 0, 300, 231
-STYLE DS_SETFONT | WS_CHILD
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Buttons Order && Visibility",IDC_STATIC,10,0,150,229
+    GROUPBOX        "Buttons order and visibility",IDC_STATIC,10,0,150,229
     CONTROL         "Tree1",IDC_BUTTONORDERTREE,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,18,25,134,197
     LTEXT           "Button height",IDC_STATIC,169,134,100,8
     EDITTEXT        IDC_BUTTHEIGHT,272,132,27,12,ES_NUMBER
@@ -44,9 +44,9 @@ BEGIN
     CONTROL         "Auto resize",IDC_AUTORESIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,197,130,10
     CONTROL         "Single line",IDC_SINGLELINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,167,209,130,10
     LTEXT           "Buttons order:",IDC_STATIC,18,15,132,8
-    PUSHBUTTON      "Add Separator",IDC_ADDSEP,165,5,130,14
-    PUSHBUTTON      "Add Launch",IDC_ADDLBUTTON,165,25,130,14
-    PUSHBUTTON      "Del Sep/Launch Button",IDC_REMOVEBUTTON,165,109,130,14
+    PUSHBUTTON      "Add separator",IDC_ADDSEP,165,5,130,14
+    PUSHBUTTON      "Add launch",IDC_ADDLBUTTON,165,25,130,14
+    PUSHBUTTON      "Delete separator/launch button",IDC_REMOVEBUTTON,165,109,130,14
     EDITTEXT        IDC_ENAME,200,45,95,14,ES_AUTOHSCROLL
     LTEXT           "Name:",IDC_LBUTTONNAME,165,45,30,14,SS_CENTERIMAGE
     EDITTEXT        IDC_EPATH,165,72,112,14,ES_AUTOHSCROLL
@@ -94,18 +94,18 @@ IDB_SEP                 BITMAP                  "sep.bmp"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -146,3 +146,4 @@ IDI_MIRANDAUP           ICON                    "Show Main Menu_UP.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

@@ -608,7 +608,7 @@ static int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 
 	if ( HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "%s/%s", LPGEN("TopToolBar Background"), TTB_OPTDIR);
+		mir_snprintf(buf, SIZEOF(buf), "%s/%s", LPGEN("TopToolBar background"), TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
 	}
 	return 0;
