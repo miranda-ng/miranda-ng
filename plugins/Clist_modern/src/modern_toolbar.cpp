@@ -46,7 +46,7 @@ static BTNS[] =
 	{ "ShowHideOffline",LPGEN("Show/Hide offline contacts"), MS_CLIST_TOGGLEHIDEOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "FindUser",LPGEN("Find user"), "FindAdd/FindAddCommand", LPGEN("Find user"), NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "Options","Options", "Options/OptionsCommand", "Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "UseGroups",LPGEN("Use/Disable groups"), MS_CLIST_TOGGLEGROUPS, LPGEN("Use groups"), LPGEN("Disable Groups"), 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
+	{ "UseGroups",LPGEN("Use/Disable groups"), MS_CLIST_TOGGLEGROUPS, LPGEN("Use groups"), LPGEN("Disable groups"), 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
 	{ "EnableSounds",LPGEN("Enable/Disable sounds"), MS_CLIST_TOGGLESOUNDS, LPGEN("Enable sounds"), LPGEN("Disable sounds"), 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
 	{ "Minimize",LPGEN("Minimize"), "CList/ShowHide", LPGEN("Minimize"), NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };

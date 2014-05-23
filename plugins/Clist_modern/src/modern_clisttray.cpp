@@ -531,7 +531,7 @@ void InitTrayMenus(void)
 	mi.position = 200000;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
-	mi.pszName = LPGEN("&Find/Add Contacts...");
+	mi.pszName = LPGEN("&Find/Add contacts...");
 	AddTrayMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300000;

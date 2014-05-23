@@ -933,8 +933,8 @@ static row_opt_items[] =
 	{ LPGEN("Icon"), IDD_OPT_ITEM_ICON, DlgProcItemIconOpts },
 	{ LPGEN("Contact time"), IDD_OPT_ITEM_CONTACT_TIME, DlgProcItemContactTimeOpts },
 	{ LPGEN("Text"), IDD_OPT_ITEM_TEXT, DlgProcItemTextOpts },
-	{ LPGEN("Second Line"), IDD_OPT_ITEM_SECOND_LINE, DlgProcItemSecondLineOpts },
-	{ LPGEN("Third Line"), IDD_OPT_ITEM_THIRD_LINE, DlgProcItemThirdLineOpts },
+	{ LPGEN("Second line"), IDD_OPT_ITEM_SECOND_LINE, DlgProcItemSecondLineOpts },
+	{ LPGEN("Third line"), IDD_OPT_ITEM_THIRD_LINE, DlgProcItemThirdLineOpts },
 };
 
 int CListOptInit(WPARAM wParam, LPARAM lParam)

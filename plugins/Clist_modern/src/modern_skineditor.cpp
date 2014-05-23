@@ -162,7 +162,7 @@ int FillObjectTree(HWND hwndDlg, int ObjectTreeID, char * wildmask)
 	return 0;
 }
 TCHAR *TYPES[] = {LPGENT("- Empty - (do not draw this object)"),LPGENT("Solid fill object"),LPGENT("Image (draw image)"),LPGENT("Fragment (draw portion of image)")};
-TCHAR *FITMODES[] = {LPGENT("Stretch Both directions"),LPGENT("Stretch Vertical, Tile Horizontal"),LPGENT("Tile Vertical, Stretch Horizontal"),LPGENT("Tile Both directions")};
+TCHAR *FITMODES[] = {LPGENT("Stretch both directions"),LPGENT("Stretch vertical, tile horizontal"),LPGENT("Tile vertical, stretch horizontal"),LPGENT("Tile both directions")};
 
 void SetAppropriateGroups(HWND hwndDlg, int Type)
 //str contains default values

@@ -941,8 +941,8 @@ HWND StatusBar_Create(HWND parent)
 	if (db_get_b(NULL, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
 		Frame.Flags |= F_VISIBLE;
 	Frame.height = h;
-	Frame.tname = _T("Status Bar");
-	Frame.TBtname = TranslateT("Status Bar");
+	Frame.tname = _T("Status bar");
+	Frame.TBtname = TranslateT("Status bar");
 	hFramehModernStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 

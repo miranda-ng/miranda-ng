@@ -873,7 +873,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGEN
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Floating Mode");
+	mi.pszName = LPGEN("&Floating mode");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = "Set_Floating";
 	mi.pszContactOwner = (char *)0;
@@ -1742,7 +1742,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = separator++;
 	mi.hParentMenu = _hmiRoot;
-	mi.pszName = LPGEN("Show All Frames");
+	mi.pszName = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
 

@@ -952,7 +952,7 @@ void BuildViewModeMenu()
 	menuCounter = 100;
 	hViewModeMenu = CreatePopupMenu();
 
-	AppendMenu(hViewModeMenu, MFT_STRING, 10002, TranslateT("All Contacts"));
+	AppendMenu(hViewModeMenu, MFT_STRING, 10002, TranslateT("All contacts"));
 
 	AppendMenu(hViewModeMenu, MF_SEPARATOR, 0, NULL);
 
@@ -960,7 +960,7 @@ void BuildViewModeMenu()
 
 	if (GetMenuItemCount(hViewModeMenu) > 2)
 		AppendMenu(hViewModeMenu, MF_SEPARATOR, 0, NULL);
-	AppendMenu(hViewModeMenu, MFT_STRING, 10001, TranslateT("Setup View Modes..."));
+	AppendMenu(hViewModeMenu, MFT_STRING, 10001, TranslateT("Setup view modes..."));
 }
 
 LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1229,7 +1229,7 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 void CreateViewModeFrame()
 {
-	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("View Mode Background")"/ViewMode"),0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)(LPGEN("View mode background")"/ViewMode"),0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhViewModeBackgroundSettingsChanged);
 	ehhViewModeBackgroundSettingsChanged(0, 0);
 
@@ -1250,7 +1250,7 @@ void CreateViewModeFrame()
 	frame.tname = _T("View modes");
 	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
-	frame.TBtname = TranslateT("View Modes");
+	frame.TBtname = TranslateT("View modes");
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, _T("CLVMFrameWindow"), _T(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);

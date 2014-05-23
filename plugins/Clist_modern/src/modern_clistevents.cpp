@@ -421,7 +421,7 @@ int EventArea_Create(HWND hCluiWnd)
 	Frame.Flags = ( db_get_b(NULL,"CLUI","ShowEventArea",SETTING_SHOWEVENTAREAFRAME_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
 	Frame.height = h;
 	Frame.tname = _T("EventArea"); //do not translate
-	Frame.TBtname = TranslateT("Event Area");
+	Frame.TBtname = TranslateT("Event area");
 	hNotifyFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)Frame.hWnd,(LPARAM)EventArea_PaintCallbackProc); //$$$$$ register sub for frame
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME,-1,0);

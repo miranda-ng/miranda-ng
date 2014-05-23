@@ -224,7 +224,7 @@ static int OnBuildGroupMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static IconItem iconItem = { "New Group", "NewGroup", IDI_NEWGROUP2 };
+static IconItem iconItem = { "New group", "NewGroup", IDI_NEWGROUP2 };
 
 int static OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -291,7 +291,7 @@ void GroupMenus_Init(void)
 	mi.position = 200000;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
-	mi.pszName = LPGEN("&Find/Add Contacts...");
+	mi.pszName = LPGEN("&Find/Add contacts...");
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300000;
@@ -322,30 +322,30 @@ void GroupMenus_Init(void)
 	mi.position = 100000;
 	mi.hIcon = ske_ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
 	mi.pszService = "CLISTMENUSGroup/CreateGroupHelper";
-	mi.pszName = LPGEN("&New Group");
+	mi.pszName = LPGEN("&New group");
 	hNewGroupMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	mi.position = 100001;
 	mi.hIcon = NULL;
 	mi.pszService = MS_CLIST_SETHIDEOFFLINE;
-	mi.pszName = LPGEN("&Hide Offline Users");
+	mi.pszName = LPGEN("&Hide offline users");
 	gmp.lParam = 0;gmp.wParam = -1;
 	hHideOfflineUsersMenuItem = (HGENMENU)AddGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 
 	mi.position = 100002;
 	mi.pszService = "CLISTMENUSGroup/HideOfflineRootHelper";
-	mi.pszName = LPGEN("Hide &Offline Users out here");
+	mi.pszName = LPGEN("Hide &offline users out here");
 	hHideOfflineUsersOutHereMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 100003;
 	mi.pszService = "CLISTMENUSGroup/HideGroupsHelper";
-	mi.pszName = LPGEN("Hide &Empty Groups");
+	mi.pszName = LPGEN("Hide &empty groups");
 	hHideEmptyGroupsMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 100004;
 	mi.pszService = "CLISTMENUSGroup/UseGroupsHelper";
-	mi.pszName = LPGEN("Disable &Groups");
+	mi.pszName = LPGEN("Disable &groups");
 	hDisableGroupsMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibIconChanged);
@@ -546,7 +546,7 @@ void InitSubGroupMenus(void)
 	mi.position = 1000;
 	mi.hIcon = ske_ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&New SubGroup");
+	mi.pszName = LPGEN("&New subgroup");
 	gmp.lParam = 0;gmp.wParam = POPUP_NEWSUBGROUP;
 	hNewSubGroupMenuItem = (HGENMENU)AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
@@ -554,7 +554,7 @@ void InitSubGroupMenus(void)
 	mi.position = 1001;
 	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Hide Offline Users in here");
+	mi.pszName = LPGEN("&Hide offline users in here");
 	gmp.lParam = 0;
 	gmp.wParam = POPUP_GROUPHIDEOFFLINE;
 	hHideOfflineUsersHereMenuItem = (HGENMENU)AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
@@ -562,7 +562,7 @@ void InitSubGroupMenus(void)
 	mi.position = 1002;
 	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Show Offline Users in here");
+	mi.pszName = LPGEN("&Show offline users in here");
 	gmp.lParam = 0;
 	gmp.wParam = POPUP_GROUPSHOWOFFLINE;
 	hShowOfflineUsersHereMenuItem = (HGENMENU)AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
@@ -572,7 +572,7 @@ void InitSubGroupMenus(void)
 	mi.position = 900001;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_RENAME);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Rename Group");
+	mi.pszName = LPGEN("&Rename group");
 	gmp.lParam = 0;gmp.wParam = POPUP_RENAMEGROUP;
 	AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
@@ -580,7 +580,7 @@ void InitSubGroupMenus(void)
 	mi.position = 900002;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Delete Group");
+	mi.pszName = LPGEN("&Delete group");
 	gmp.lParam = 0;gmp.wParam = POPUP_DELETEGROUP;
 	AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
