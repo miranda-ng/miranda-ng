@@ -743,12 +743,12 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOptionsProtos;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Contact Avatars");
+	odp.pszTab = LPGEN("Contact avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
 	odp.pfnDlgProc = DlgProcOptionsAvatars;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Own Avatars");
+	odp.pszTab = LPGEN("Own avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
 	odp.pfnDlgProc = DlgProcOptionsOwn;
 	Options_AddPage(wParam, &odp);

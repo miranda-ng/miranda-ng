@@ -36,7 +36,7 @@ BEGIN
     PUSHBUTTON      "Delete default picture",IDC_REMOVEPROTOPIC,176,99,106,14
     CONTROL         "",IDC_PROTOPIC,"Button",BS_OWNERDRAW,197,118,56,50
     EDITTEXT        IDC_PROTOAVATARNAME,18,176,264,30,ES_MULTILINE | ES_READONLY,WS_EX_CLIENTEDGE
-    CTEXT           "CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars",IDC_STATIC,0,53,294,18
+    CTEXT           "CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.",IDC_STATIC,0,53,294,18
 END
 
 IDD_OPTIONS_AVATARS DIALOGEX 0, 0, 302, 189
@@ -65,7 +65,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,17,281,11
     CONTROL         "Try to draw own avatar background transparent (for images without transparency)",IDC_MAKE_MY_AVATARS_TRANSP,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,30,289,16
-    LTEXT           "This uses the same additional options as in ""Contact Avatars"" tab",IDC_STATIC,17,50,257,13
+    LTEXT           "This uses the same additional options as in ""Contact avatars"" tab",IDC_STATIC,17,50,257,13
 END
 
 IDD_OPENSUBCLASS DIALOGEX 0, 0, 246, 18
