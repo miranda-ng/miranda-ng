@@ -33,27 +33,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-#define FONTF_NORMAL 0
-#define FONTF_BOLD   1
-#define FONTF_ITALIC 2
-#define FONTF_UNDERLINE  4
+#define FONTF_NORMAL	0
+#define FONTF_BOLD		1
+#define FONTF_ITALIC	2
+#define FONTF_UNDERLINE	4
 
-struct FontOptionsList
-{
-	DWORD      dwFlags;
-	int        fontID;
-	TCHAR     *szGroup;
-	TCHAR     *szDescr;
-	COLORREF   defColour;
-	TCHAR     *szDefFace;
-	BYTE       defCharset, defStyle;
-	char       defSize;
+struct FontOptionsList {
+	DWORD dwFlags;
+	int fontID;
+	TCHAR *szGroup;
+	TCHAR *szDescr;
+	COLORREF defColour;
+	TCHAR *szDefFace;
+	BYTE defCharset, defStyle;
+	char defSize;
 	FONTEFFECT defeffect;
 
-	COLORREF   colour;
-	TCHAR      szFace[LF_FACESIZE];
-	BYTE       charset, style;
-	char       size;
+	COLORREF colour;
+	TCHAR szFace[LF_FACESIZE];
+	BYTE charset, style;
+	char size;
 };
 
 #define CLCGROUP			LPGENT("Contact list")_T("/")LPGENT("Contact names")
@@ -100,17 +99,15 @@ static struct FontOptionsList fontOptionsList[] = {
 	{ FIDF_CLASSGENERAL, FONTID_VIEMODES,              CLCFRAMESGROUP, LPGENT("Current view mode text"),                                      DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
 };
 
-struct ColourOptionsList
-{
-	char* chGroup;
-	char* chName;
-	TCHAR* szGroup;
-	TCHAR* szDescr;
+struct ColourOptionsList {
+	char *chGroup;
+	char *chName;
+	TCHAR *szGroup;
+	TCHAR *szDescr;
 	COLORREF defColour;
 };
 
-static struct ColourOptionsList colourOptionsList[] =
-{
+static struct ColourOptionsList colourOptionsList[] = {
 	{ "CLC",            "BkColour",          CLCGROUP,         LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
 	{ "CLC",            "Rows_BkColour",     CLCLINESGROUP,    LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
 	{ "CLC",            "Frames_BkColour",   CLCFRAMESGROUP,   LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
@@ -193,9 +190,9 @@ DWORD GetDefaultExStyle(void)
 {
 	BOOL param;
 	DWORD ret = CLCDEFAULT_EXSTYLE;
-	if (SystemParametersInfo(SPI_GETLISTBOXSMOOTHSCROLLING, 0, &param,FALSE) && !param)
+	if (SystemParametersInfo(SPI_GETLISTBOXSMOOTHSCROLLING, 0, &param, FALSE) && !param)
 		ret |= CLS_EX_NOSMOOTHSCROLLING;
-	if (SystemParametersInfo(SPI_GETHOTTRACKING, 0, &param,FALSE) && !param)
+	if (SystemParametersInfo(SPI_GETHOTTRACKING, 0, &param, FALSE) && !param)
 		ret &= ~CLS_EX_TRACKSELECT;
 	return ret;
 }
@@ -233,8 +230,7 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF
 	}
 }
 
-struct CheckBoxToStyleEx_t
-{
+struct CheckBoxToStyleEx_t {
 	int id;
 	DWORD flag;
 	int neg;
@@ -259,6 +255,7 @@ struct CheckBoxValues_t {
 	DWORD style;
 	TCHAR *szDescr;
 };
+
 static const struct CheckBoxValues_t greyoutValues[] = {
 	{ GREYF_UNFOCUS, LPGENT("Not focused") },
 	{ MODEF_OFFLINE, LPGENT("Offline") },
@@ -273,8 +270,7 @@ static const struct CheckBoxValues_t greyoutValues[] = {
 	{ PF2_ONTHEPHONE, LPGENT("On the phone") }
 };
 
-static const struct CheckBoxValues_t offlineValues[] =
-{
+static const struct CheckBoxValues_t offlineValues[] = {
 	{ MODEF_OFFLINE, LPGENT("Offline") },
 	{ PF2_ONLINE, LPGENT("Online") },
 	{ PF2_SHORTAWAY, LPGENT("Away") },
@@ -292,13 +288,12 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE;
+	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK((style&tvis.item.lParam) != 0 ? 2 : 1);
-		tvis.item.iImage = tvis.item.iSelectedImage = (style & tvis.item.lParam) != 0 ? 1 : 0;
+		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);
 	}
 }
@@ -307,11 +302,11 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 {
 	DWORD flags = 0;
 	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
+	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
-		if (tvi.iImage)
+		if ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2)
 			flags |= tvi.lParam;
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 	}
@@ -355,7 +350,8 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 		if (LOWORD(wParam) == IDC_METAEXPAND)
 			CheckButtons(hwndDlg);
 
-		if ((LOWORD(wParam) == IDC_SUBINDENT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+		if ((LOWORD(wParam) == IDC_SUBINDENT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+			return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		return TRUE;
 
@@ -393,15 +389,9 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			HIMAGELIST himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_TICK));
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), himlCheckBoxes, TVSIL_NORMAL);
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), himlCheckBoxes, TVSIL_NORMAL);
-
 			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", GetDefaultExStyle());
 			for (int i = 0; i < SIZEOF(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id, (exStyle&checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag*checkBoxToStyleEx[i].neg) ? BST_CHECKED : BST_UNCHECKED);
@@ -485,10 +475,6 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				return TRUE;
 			}
 		}
-		break;
-
-	case WM_DESTROY:
-		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), TVSIL_NORMAL));
 		break;
 	}
 	return FALSE;
