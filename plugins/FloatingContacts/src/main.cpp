@@ -663,7 +663,7 @@ void RegHotkey(MCONTACT hContact, HWND hwnd)
 }
 
 ///////////////////////////////////////////////////////
-// Contact sttings
+// Contact settings
 
 void SaveContactsPos()
 {

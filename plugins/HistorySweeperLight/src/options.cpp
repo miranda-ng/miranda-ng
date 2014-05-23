@@ -121,7 +121,7 @@ void LoadSettings(HWND hwndDlg)
 	cii.cbSize = sizeof(cii);
 	cii.flags = CLCIIF_GROUPFONT;
 
-	cii.pszText = TranslateT("*** Defaut Action ***");
+	cii.pszText = TranslateT("*** Default Action ***");
 	hAllContacts = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 
 	cii.pszText = TranslateT("*** System History ***");

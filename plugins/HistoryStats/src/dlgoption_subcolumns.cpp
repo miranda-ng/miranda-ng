@@ -460,7 +460,7 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR dwData)
 		else if (nPNGMode != Settings::pmPreferHTML) // && bPNGOutput
 		{
 			if (restrictions == (Column::crHTMLFull | Column::crPNGPartial))
-				msg += (nPNGMode == Settings::pmHTMLFallBack) ? TranslateT("HTML as fallback") : TranslateT("PNG, ignoring some sttings");
+				msg += (nPNGMode == Settings::pmHTMLFallBack) ? TranslateT("HTML as fallback") : TranslateT("PNG, ignoring some settings");
 			else // !(html-full | png-partial)
 				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? TranslateT("PNG") : TranslateT("HTML");
 		}
