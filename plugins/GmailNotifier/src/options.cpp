@@ -279,7 +279,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.pszTitle = LPGEN("GmailMNotifier");
+	odp.pszTitle = LPGEN("GmailNotifier");
 	odp.pszGroup = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
