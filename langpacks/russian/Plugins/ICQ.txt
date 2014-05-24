@@ -112,7 +112,7 @@
 [Auto-retrieve Custom status details]
 Автозагрузка xСтатусов
 [Block known Spam Bots]
-Блок. известные спамботы
+Блок. известных спамботов
 [Enable AIM contacts support]
 Включить поддержку контактов AIM
 [Direct connections]
@@ -382,7 +382,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** Это сообщение было заблокировано сервером ICQ ** Нехороший вы человек.
 [** Unknown missed message event.]
-** Неизвестное пропущеное событие.
+** Неизвестное пропущенное событие.
 [Error uploading avatar to server, server temporarily unavailable.]
 Ошибка загрузки аватара на сервер. Сервер временно недоступен.
 [Error uploading avatar to server, server refused to accept the image.]
@@ -1788,7 +1788,7 @@ xСтатус %s
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
 Пароль не совпадает с паролем, введённым ранее. Проверьте Caps Lock и попробуйте снова.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Сервер ICQ не поддерживает пароли длиной более 8 символов. Используйте пароль по короче.
+Сервер ICQ не поддерживает пароли длиной более 8 символов. Используйте пароль покороче.
 [<unremovable once applied>]
 <нельзя удалить после ввода>
 [<empty>]

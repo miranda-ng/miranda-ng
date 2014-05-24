@@ -74,7 +74,7 @@
 [Incoming File Transfer]
 Входящий файл
 [URL sent]
-Посылка URL'a
+Отправлен URL
 [URL received]
 Получен URL
 [(Unknown Contact)]
@@ -124,6 +124,6 @@
 [Yesterday]
 Вчера
 [File sent]
-Посылка файла
+Отправка файла
 [File received]
 Файл получен

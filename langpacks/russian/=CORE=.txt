@@ -1808,7 +1808,7 @@ UIN, E-mail и т.д.
 [%s is typing a message...]
 %s набирает текст...
 [File sent]
-Посылка файла
+Отправка файла
 [Outgoing messages]
 Исходящие сообщения
 [Incoming messages]

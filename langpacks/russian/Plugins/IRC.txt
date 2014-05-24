@@ -310,7 +310,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [Done: %u channels]
 Готово: %u комнат чата
 [(probably truncated by server)]
-(возможно ограничено сервером)
+(возможно, ограничено сервером)
 [Change nickname]
 Сменить ник
 [IRC error]
@@ -338,9 +338,9 @@ Jerk
 [The buddy check function is disabled]
 Функция проверки приятелей выключена
 [Ignore system is enabled]
-Система игнорирования вкл
+Система игнорирования вкл.
 [Ignore system is disabled]
-Система игнорирования выкл
+Система игнорирования выкл.
 [%s on %s is now ignored (+%s)]
 %s на %s игнорируется (+%s)
 [%s is not ignored now]
@@ -634,9 +634,9 @@ WallOps от %s:\s
 [List your channels]
 Список ваших комнат чата
 [Kill unauthorized: off]
-Убить запрещённых: выкл
+Убить запрещённых: выкл.
 [Kill unauthorized: on]
-Убить запрещённых: вкл
+Убить запрещённых: вкл.
 [Kill unauthorized: quick]
 Убить запрещённых: быстро
 [Hide nick from list]
