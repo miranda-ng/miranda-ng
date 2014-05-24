@@ -6,7 +6,7 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
-
+Support du protocole Twitter pour Miranda NG.
 ;file \protocols\Twitter\res\twitter.rc
 [Server:]
 Serveur :

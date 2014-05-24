@@ -6,7 +6,7 @@
 ;  Authors: dufte
 ;============================================================
 [Xfire protocol support for Miranda NG.]
-
+Support du protocole XFire pour Miranda NG.
 ;file \protocols\Xfire\res\resource.rc
 [Password:]
 Passe :

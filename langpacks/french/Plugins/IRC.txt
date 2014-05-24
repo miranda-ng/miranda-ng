@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-
+Support du protocole Internet Relay Chat (IRC) pour Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
 [Default network]
 Réseau par défaut

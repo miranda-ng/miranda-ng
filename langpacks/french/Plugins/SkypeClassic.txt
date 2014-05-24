@@ -6,7 +6,7 @@
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
-
+Support du protocole Skype pour Miranda NG. Une implémentation classique nécessitant d'exécuter le client Skype originel.
 ;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 OK

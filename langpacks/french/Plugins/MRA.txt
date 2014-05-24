@@ -6,7 +6,7 @@
 ;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
-
+Support du protocole Mail.ru Agent (MRA) pour Miranda NG.
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 Courriel :

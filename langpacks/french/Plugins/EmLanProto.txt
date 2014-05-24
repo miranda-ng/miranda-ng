@@ -6,7 +6,7 @@
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
-
+Support du protocole E-mage LAN pour Miranda NG.
 ;file \protocols\EmLanProto\res\amdproto.rc
 [Select your IP address]
 

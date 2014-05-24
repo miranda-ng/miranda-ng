@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
-
+Support du protocole Lotus Sametime pour Miranda NG.
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
 

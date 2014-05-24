@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
-
+Support du protocole VKontakte pour Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
 [E-mail or phone number:]
 

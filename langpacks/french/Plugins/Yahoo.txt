@@ -6,7 +6,7 @@
 ;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
-
+Support du protocole Yahoo pour Miranda NG.
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
 Yahoo

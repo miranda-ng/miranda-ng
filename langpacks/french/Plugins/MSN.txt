@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-
+Support du protocole Microsoft Network (MSN) pour Miranda NG.
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 

@@ -6,7 +6,7 @@
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
-
+Support du protocole ICQ pour Miranda NG.
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 Identifiant :
