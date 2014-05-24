@@ -587,12 +587,12 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		}
 		if(supported_proto && !cap_found)
 		{
-			if(MessageBox(0, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
+			if(MessageBox(0, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return CallService(MS_PROTO_CHAINSEND, w, l);
 		}
 		if(!supported_proto)
 		{
-			if(MessageBox(0, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
+			if(MessageBox(0, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return CallService(MS_PROTO_CHAINSEND, w, l);
 		}
 		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));

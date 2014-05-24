@@ -169,7 +169,7 @@ void DlgFilterWords::onSetDel()
 
 		if (pFilter->getRef() > 0) {
 			if (IDYES != MessageBox(m_hWnd,
-				TranslateT("The selected set is in use by at least one other column. If you remove it it won't be available to all other columns that use it. Are you sure you want to remove the set?"),
+				TranslateT("The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?"),
 				TranslateT("HistoryStats - Warning"), MB_ICONWARNING | MB_YESNO)) {
 				return;
 			}
