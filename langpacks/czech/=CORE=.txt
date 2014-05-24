@@ -2365,7 +2365,7 @@ interní
 Jazyky
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
-Chystáte se smazat metakontakt, což kromě této položky smaže\ni všechny kontakty asociované s daným metakontaktem.\nUrčitě chcete pokračovat a smazat metakontakt?
+Chystáte se smazat všechny kontakty přiřazené k tomuto metakontaktu.\nTo způsobí i smazání samotného metakontaktu.\n\nUrčitě chcete pokračovat?
 ;file \src\modules\metacontacts\meta_addto.cpp
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
 Buď v databázi není definovaný ani jeden metakontakt,\nnebo žádný z existujících ten vybraný neakceptuje.\n\nChcete zkonvertovat vybraný kontakt na metakontakt?
