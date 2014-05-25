@@ -844,7 +844,7 @@ Haut
 Afficher l'évènement si hors-ligne
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
-
+Avatar
 [Icon]
 
 [Text]

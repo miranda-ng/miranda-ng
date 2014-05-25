@@ -127,7 +127,7 @@ Chats vocaux
 [Save changes]
 Sauver les modifs
 [Avatar]
-
+Avatar
 [Avatar Options]
 Avatar
 [Public avatar]

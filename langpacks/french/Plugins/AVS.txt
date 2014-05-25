@@ -118,7 +118,7 @@ Protocoles
 [Global Avatar]
 Avatar général
 [Avatar]
-
+Avatar
 ;file \plugins\AVS\src\services.cpp
 [All Files]
 Tous les fichiers

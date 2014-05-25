@@ -1,5 +1,4 @@
-﻿[Skype protocol support for Miranda NG.]
-[Invite contacts to conference]
+﻿[Invite contacts to conference]
 [Topic:]
 [Guideline:]
 [Enable joining]

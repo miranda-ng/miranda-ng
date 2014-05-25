@@ -1,5 +1,4 @@
-﻿[Gadu-Gadu protocol support for Miranda NG.]
-[Show links from unknown contacts]
+﻿[Show links from unknown contacts]
 [Enable avatars]
 [Automatically reconnect after unintentional disconnection]
 [Send messages slower, but with full acknowledgement]

@@ -1,5 +1,4 @@
-﻿[E-mage LAN protocol support for Miranda NG.]
-[Select your IP address]
+﻿[Select your IP address]
 [LAN Settings]
 [Use computer name]
 [Select your name]

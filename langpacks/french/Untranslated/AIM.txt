@@ -1,5 +1,4 @@
-﻿[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-[Screen Name:]
+﻿[Screen Name:]
 [Display Name:]
 [Login Server:]
 [AIM Options]

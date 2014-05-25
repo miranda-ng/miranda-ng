@@ -3272,6 +3272,8 @@ Fermeture dans %d
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
+[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
+Support du protocole AOL Instant Messenger (AIM) pour Miranda NG.
 [AIM User Details]
 AIM
 [Password:]
@@ -3831,7 +3833,7 @@ Principales
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [Save As...]
-Sauver sous...
+Enregistrer sous...
 [Delete this entry]
 Effacer cette entrée
 [Delete this entry and the bitmap file]
@@ -3887,9 +3889,9 @@ Avatar History : Méthode d'enregistrement des avatars.
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Veuillez choisir comment l'historique des avatars sera stocker. Ce choix NE POURRAS PAS être modifier, sauf si vous voulez perdre tous les historiques.
 [Store history in Miranda history and all history avatars in same folder]
-Stocker dans l'historique de Miranda-IM et tous les avatars dans un répertoire unique.
+Stocker dans l'historique de Miranda NG et tous les avatars dans un répertoire unique.
 [Store history in Miranda history and history avatars in per protocol folders]
-Stocker dans l'historique de Miranda-IM en rangeant les avatars avec un répertoire par protocole.
+Stocker dans l'historique de Miranda NG en rangeant les avatars avec un répertoire par protocole.
 [Store history in Miranda history and history avatars in per contact folders using shortcuts]
 Stocker dans l'historique, les avatars dans un répertoire par contact et avec ajout d'un raccourci.
 [Store history avatars in per contact folders using shortcuts]
@@ -3905,9 +3907,11 @@ Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<A
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> et un raccourci par avatar dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
-Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historique de Miranda-IM.
+Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historique de Miranda NG.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (le même avatar peut être stocker plusieurs fois).
+[Avatar History for %s]
+Historique des avatars pour %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Êtes-vous sùr de vouloir effacer cette ligne de l'historique ?\nSeule cette ligne sera effacée, l'avatar sera conservé !
 [Delete avatar log?]
@@ -3920,10 +3924,22 @@ Effacer le journal des avatars ?
 Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'un raccourci !
+[Avatar History is empty!]
+L'historique des avatars est vide !
 [View Avatar History]
 Historique des avatars...
+[Save Avatar for %s]
+Enregistrer l'avatar pour %s
+[Save Avatar]
+Enregistrer l'avatar
+[Avatar History: Unable to save avatar]
+Historique des avatars : Impossible d'enregistrer l'avatar
 [Avatars]
 Avatars
+[Contact changed avatar]
+Le contact a changé d'avatar
+[Contact removed avatar]
+Le contact a retiré l'avatar
 [removed his/her avatar]
 a effacé son avatar
 [changed his/her avatar]
@@ -3938,6 +3954,8 @@ Afficher l'historique du contact
 Test : Contact
 [Test description]
 Test : Description
+[Avatar]
+Avatar
 [Popups]
 Popups
 [Avatar Change]
@@ -4039,6 +4057,8 @@ Protocoles
 Êtes-vous sûr de vouloir effacer cet avatar ?
 [Global Avatar]
 Avatar général
+[Avatar]
+Avatar
 [All Files]
 Tous les fichiers
 [Windows Bitmaps]
@@ -5547,6 +5567,8 @@ Moyen
 Haut
 [Show even if offline]
 Afficher l'évènement si hors-ligne
+[Avatar]
+Avatar
 [Text]
 Texte
 [Extra icons]
@@ -7634,6 +7656,8 @@ Protocoles
 ;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
+[E-mage LAN protocol support for Miranda NG.]
+Support du protocole E-mage LAN pour Miranda NG.
 [Your name]
 Votre nom
 [Network]
@@ -8332,6 +8356,8 @@ Avancé
 ;  Version: 0.11.0.3
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Support du protocole Gadu-Gadu pour Miranda NG.
 [Gadu-Gadu User Details]
 Identifiants Gadu-Gadu
 [Gadu-Gadu Number:]
@@ -9255,6 +9281,8 @@ Activer HTTP server
 ;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+Support du protocole ICQ pour Miranda NG.
 [ICQ Number:]
 Identifiant :
 [Password:]
@@ -10676,6 +10704,8 @@ Tous les fichiers (*.*)
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+Support du protocole Internet Relay Chat (IRC) pour Miranda NG.
 [Default network]
 Réseau par défaut
 [Enable]
@@ -13105,6 +13135,8 @@ Ignorer
 ;  Version: 2.1.0.8
 ;  Authors: Rozhuk Ivan
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
+Support du protocole Mail.ru Agent (MRA) pour Miranda NG.
 [E-mail:]
 Courriel :
 [Password:]
@@ -13475,6 +13507,8 @@ EmailExpress de :
 ;  Version: 0.11.0.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Support du protocole Microsoft Network (MSN) pour Miranda NG.
 [Password:]
 Passe :
 [Nickname:]
@@ -13643,6 +13677,8 @@ Retailler les smileys
 Compte
 [seconds]
 secondes
+[Avatar]
+Avatar
 [Custom size:]
 Taille :
 [pixels]
@@ -14592,6 +14628,8 @@ Tremblement des fenêtres
 ;  Version: 0.1.2.1
 ;  Authors: Robert Pösel
 ;============================================================
+[Omegle protocol support for Miranda NG.]
+Support du protocole Omegle pour Miranda NG.
 [Server:]
 Serveur :
 [Language:]
@@ -15618,6 +15656,8 @@ Ignorer ce contact
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
+[Implementation of instant messaging for the Lotus Sametime protocol.]
+Support du protocole Lotus Sametime pour Miranda NG.
 [ID:]
 ID :
 [Password:]
@@ -16787,6 +16827,8 @@ Occupééééé
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
+[Skype protocol support for Miranda NG.]
+Support du protocole Skype pour Miranda NG.
 [Skype name:]
 Pseudo :
 [&Invite]
@@ -16908,6 +16950,8 @@ Pseudo
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
+Support du protocole Skype pour Miranda NG. Une implémentation classique nécessitant d'exécuter le client Skype originel.
 [Set]
 OK
 [Delete]
@@ -16956,6 +17000,8 @@ Inconnu
 &Inviter l'utilisateur...
 [User &details]
 &Détails du contact
+[Avatar]
+Avatar
 [MALE]
 Homme
 [FEMALE]
@@ -18932,6 +18978,8 @@ Yiddish
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
+[Tlen protocol support for Miranda NG.]
+Support du protocole Tlen pour Miranda NG.
 [Username:]
 Identifiant :
 [Password:]
@@ -19024,6 +19072,8 @@ Chats vocaux
 État visible par tout le monde
 [Save changes]
 Sauver les modifs
+[Avatar]
+Avatar
 [Avatar Options]
 Avatar
 [Tlen login:]
@@ -19365,6 +19415,8 @@ Effacer la valeur courante (maintenant)
 ;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
+[Twitter protocol support for Miranda NG.]
+Support du protocole Twitter pour Miranda NG.
 [Server:]
 Serveur :
 [Default group:]
@@ -20134,6 +20186,8 @@ Quelque chose est incorrect dans "%s". Faites un rapport avec ces valeurs :\nSer
 ;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
+[VKontakte protocol support for Miranda NG.]
+Support du protocole VKontakte pour Miranda NG.
 [Password:]
 Passe :
 [Advanced]
@@ -20997,6 +21051,8 @@ En ligne
 ;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Support du protocole WhatsApp pour Miranda NG.
 [Nickname]
 Pseudo
 [Password]
@@ -21201,6 +21257,8 @@ Session message
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
+[Xfire protocol support for Miranda NG.]
+Support du protocole XFire pour Miranda NG.
 [Password:]
 Passe :
 [Nick:]
@@ -21319,6 +21377,8 @@ Sons
 ;  Version: 0.11.0.1
 ;  Authors: Gennady Feldman
 ;============================================================
+[Yahoo protocol support for Miranda NG.]
+Support du protocole Yahoo pour Miranda NG.
 [Yahoo]
 Yahoo
 [ID:]

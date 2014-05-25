@@ -1,5 +1,4 @@
-﻿[Miranda Mail.ru Agent protocol plugin.]
-[Create a new Mail.ru account]
+﻿[Create a new Mail.ru account]
 [Login Server:]
 [Automatically request authorization on logon]
 [Automatically add contacts to server list on logon]

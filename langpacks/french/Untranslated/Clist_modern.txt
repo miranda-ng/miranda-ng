@@ -40,7 +40,6 @@
 [Contact rate Low]
 [Contact rate Medium]
 [Contact rate High]
-[Avatar]
 [Icon]
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 [Row design]

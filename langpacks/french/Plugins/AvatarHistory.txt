@@ -11,7 +11,7 @@
 [Avatar List Popup]
 
 [Save As...]
-Sauver sous...
+Enregistrer sous...
 [Delete this entry]
 Effacer cette entrée
 [Delete this entry and the bitmap file]
@@ -73,9 +73,9 @@ Avatar History : Méthode d'enregistrement des avatars.
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Veuillez choisir comment l'historique des avatars sera stocker. Ce choix NE POURRAS PAS être modifier, sauf si vous voulez perdre tous les historiques.
 [Store history in Miranda history and all history avatars in same folder]
-Stocker dans l'historique de Miranda-IM et tous les avatars dans un répertoire unique.
+Stocker dans l'historique de Miranda NG et tous les avatars dans un répertoire unique.
 [Store history in Miranda history and history avatars in per protocol folders]
-Stocker dans l'historique de Miranda-IM en rangeant les avatars avec un répertoire par protocole.
+Stocker dans l'historique de Miranda NG en rangeant les avatars avec un répertoire par protocole.
 [Store history in Miranda history and history avatars in per contact folders using shortcuts]
 Stocker dans l'historique, les avatars dans un répertoire par contact et avec ajout d'un raccourci.
 [Store history avatars in per contact folders using shortcuts]
@@ -91,12 +91,12 @@ Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<A
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> et un raccourci par avatar dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
-Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historique de Miranda-IM.
+Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historique de Miranda NG.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (le même avatar peut être stocker plusieurs fois).
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
-
+Historique des avatars pour %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Êtes-vous sùr de vouloir effacer cette ligne de l'historique ?\nSeule cette ligne sera effacée, l'avatar sera conservé !
 [Delete avatar log?]
@@ -110,15 +110,15 @@ Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'un raccourci !
 [Avatar History is empty!]
-
+L'historique des avatars est vide !
 [avatar path is null.]
 
 [View Avatar History]
 Historique des avatars...
 [Save Avatar for %s]
-
+Enregistrer l'avatar pour %s
 [Save Avatar]
-
+Enregistrer l'avatar
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
 
@@ -127,15 +127,15 @@ Historique des avatars...
 [Hashes are the same... skipping]
 
 [Avatar History: Unable to save avatar]
-
+Historique des avatars : Impossible d'enregistrer l'avatar
 [AVH Debug: File copied successfully]
 
 [Avatars]
 Avatars
 [Contact changed avatar]
-
+Le contact a changé d'avatar
 [Contact removed avatar]
-
+Le contact a retiré l'avatar
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 a effacé son avatar
@@ -160,7 +160,7 @@ Test : Contact
 [Test description]
 Test : Description
 [Avatar]
-
+Avatar
 [Popups]
 Popups
 [Avatar Change]

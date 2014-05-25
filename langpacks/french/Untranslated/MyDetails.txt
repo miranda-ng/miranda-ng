@@ -7,7 +7,6 @@
 [Show account name]
 [Show account cycle button]
 [Cycle through accounts every:]
-[Avatar]
 [Frame Options]
 [&Invisible]
 [Show next account]

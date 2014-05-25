@@ -1,5 +1,4 @@
-﻿[WhatsApp protocol support for Miranda NG.]
-[Phone-Number]
+﻿[Phone-Number]
 [Including country code, without '+' or '00']
 [Request Code]
 [Register Code]

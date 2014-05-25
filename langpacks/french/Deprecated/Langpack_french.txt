@@ -3397,7 +3397,7 @@ File du serveur pleine.
 [%s server connection]
 %s serveur connexion
 [[Auto-Response]:]
-{Auto-Response}:
+{Auto-Response} :
 [No information has been provided by the server.]
 Aucune information n'a été fournie par le serveur.
 [Item you want to delete not found in list.]
@@ -5294,7 +5294,7 @@ Pseudo
 [XStatus has priority]
 Préférer XStatus
 [Use 'XStatus: XMessage']
-Utiliser 'XStatus: XMessage'
+Utiliser 'XStatus : XMessage'
 [(Variables will be replaced)]
 (Utilisé des variables)
 [Show third line]
@@ -7527,7 +7527,7 @@ Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvell
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
 Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Réglages changés dans la base de données : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (UTF8) "%s"
+Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (UTF8) "%s"
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -16303,11 +16303,11 @@ Désactiver le cryptage pour les jeux
 [Always secured if possible]
 Toujours activer si possible
 [Key Exchange Timeout:]
-Délai d'envoi des clef :
+Délai d'envoi des clefs :
 [sec]
 secondes
 [Offline Key Timeout:]
-Clef hors-ligne expir.:
+Clef hors-ligne expirée :
 [days]
 jours
 [Reset All]
@@ -19101,7 +19101,7 @@ Salon de Chat déjà créé.
 [Nickname '%s' is already registered.]
 Le pseudo '%s' est déjà utilisé.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' .
+Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' est libre.
 [You cannot register more than %s nicknames.]
 Vous ne pouvez enregistrer plus de %s pseudo.
 [You cannot create more than %s chat rooms.]
@@ -20126,7 +20126,7 @@ Affichage de l'ID unique des Plugins!
 [Services]
 Services
 [Something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Un truc est entré mal dans "%s". Faites un rapport avec ces valeurs :\nFacility : %X\nError code : %X\nLine number : %d
+Quelque chose est incorrect dans "%s". Faites un rapport avec ces valeurs :\nService : %X\nCode d'erreur : %X\nNuméro de ligne : %d
 #muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll

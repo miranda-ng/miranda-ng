@@ -49,7 +49,7 @@ Compte
 [seconds]
 secondes
 [Avatar]
-
+Avatar
 [Custom size:]
 Taille :
 [pixels]

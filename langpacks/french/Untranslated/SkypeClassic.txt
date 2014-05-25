@@ -1,5 +1,4 @@
-﻿[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
-[Start Skype with Miranda NG if not running using the following command line options:]
+﻿[Start Skype with Miranda NG if not running using the following command line options:]
 [/NOSPLASH - Don't show splash screen on startup]
 [/MINIMIZED - Start Skype minimized]
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
@@ -68,6 +67,5 @@
 [Skype default]
 [Skype advanced]
 [Skype proxy]
-[Avatar]
 [Details]
 [Skype ID]

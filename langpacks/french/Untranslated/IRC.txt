@@ -1,5 +1,4 @@
-﻿[Internet Relay Chat (IRC) protocol support for Miranda NG.]
-[Auth]
+﻿[Auth]
 [Alias]
 [On]
 [Auto]

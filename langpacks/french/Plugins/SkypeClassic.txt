@@ -199,7 +199,7 @@ Inconnu
 [Skype proxy]
 
 [Avatar]
-
+Avatar
 [Details]
 
 [MALE]

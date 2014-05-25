@@ -1,5 +1,4 @@
-﻿[Microsoft Network (MSN) protocol support for Miranda NG.]
-[MSN]
+﻿[MSN]
 [Live ID:]
 [Create a new Windows Live account]
 [Connection settings]

@@ -1,5 +1,4 @@
-﻿[Omegle protocol support for Miranda NG.]
-[Visible name:]
+﻿[Visible name:]
 [Meet strangers with common interests (separated by commas):]
 [Automatically send this message to stranger after connection:]
 [This text will be sent when you use "/asl" message:]

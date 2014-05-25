@@ -9,5 +9,4 @@
 [Contact Avatars]
 [Own Avatars]
 [No avatar]
-[Avatar]
 [Grow avatar to fit max allowed protocol size]
