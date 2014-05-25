@@ -370,7 +370,7 @@ HTTP авторизация\nПринять или отклонить входя
 [Request method is:]
 Метод запроса:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
-Нажмите "авторизировать" чтобы принять запрос или нажмите "запретить" для отклонения.
+Нажмите "авторизовать" чтобы принять запрос или нажмите "запретить" для отклонения.
 [Authorize]
 Авторизовать
 [Deny]
@@ -562,7 +562,7 @@ xHTML формат чат сообщений
 [because room is now members-only]
 потому что комната только для постоянных участников
 [user banned]
-забаненый
+забаненный
 [Change &nickname]
 Изменить &ник
 [&Invite a user]
@@ -834,17 +834,17 @@ Jabber ошибка
 [Allow Messages]
 Разрешить сообщения
 [Allow Presences (in)]
-Разрешить присутствие (вх)
+Разрешить присутствие (вх.)
 [Allow Presences (out)]
-Разрешить присутствие (исх)
+Разрешить присутствие (исх.)
 [Allow Queries]
 Разрешить запросы
 [Deny Messages]
 Запретить сообщения
 [Deny Presences (in)]
-Запретить присутствие (вх)
+Запретить присутствие (вх.)
 [Deny Presences (out)]
-Запретить присутствие (исх)
+Запретить присутствие (исх.)
 [Deny Queries]
 Запретить запросы
 [Protocols]
@@ -1350,7 +1350,7 @@ Jabber ошибка
 [Confirm password]
 Введите пароль
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
-Эта операция удалит вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
+Эта операция удалит вашу учётную запись, ростер и всю информацию, хранимую на сервере. Вы действительно хотите удалить учётную запись?
 [Account removal warning]
 Удаление учётной записи
 [You can change your password only when you are online]
@@ -1538,9 +1538,9 @@ XML для MS Excel (кодировка UTF-8)
 [Message]
 Сообщение
 [Presence (in)]
-Присутствие (вх)
+Присутствие (вх.)
 [Presence (out)]
-Присутствие (исх)
+Присутствие (исх.)
 [Query]
 Запрос
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1672,7 +1672,7 @@ XML для MS Excel (кодировка UTF-8)
 [Error %s %s\r\nPlease select other server]
 Ошибка %s %s\r\nПожалуйста, выберите другой сервер
 [Error: unknown reply received\r\nPlease select other server]
-Ошибка: принят неизвестный ответ\r\nПожалуйта выберите другой сервер
+Ошибка: принят неизвестный ответ\r\nПожалуйста, выберите другой сервер
 [Error %s %s\r\nTry to specify more detailed]
 Ошибка %s %s\r\nПопытайтесь указать больше деталей
 [Search error]
