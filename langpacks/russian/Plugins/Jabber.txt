@@ -316,7 +316,7 @@ JID / URL:
 [Outgoing presence]
 Nсход. присутствие
 [New privacy list name:]
-Hовое имя списка приватности:
+Новое имя списка приватности:
 [Enter the name of the new list:]
 Введите имя нового списка:
 [Service Discovery]
@@ -1820,7 +1820,7 @@ XML для MS Excel (кодировка UTF-8)
 [Remote server error]
 Ошибка удалённого сервера
 [Service unavailable]
-Cлужба недоступна
+Служба недоступна
 [Remote server timeout]
 Таймаут удалённого сервера
 [Unknown error]
@@ -1882,7 +1882,7 @@ Jabber vCard: редактирование телефона
 [Confident]
 Уверенный
 [Confused]
-Cмущённый
+Смущённый
 [Contemplative]
 Задумчивый
 [Contented]
