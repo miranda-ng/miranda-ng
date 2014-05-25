@@ -1,4 +1,7 @@
 ﻿[X400]
+[BBS]
+[ISDN]
+[PCS]
 [Create or Join group chat]
 [JID:]
 [Fatal error, image services not found. Jabber Protocol will be disabled.]
