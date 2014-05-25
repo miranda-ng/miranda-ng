@@ -77,13 +77,12 @@ void FacebookProto::ProcessBuddyList(void*)
 
 		if (!fbu->deleted)
 		{
-			MCONTACT hContact = fbu->handle;
-			if (!hContact)
-				hContact = AddToContactList(fbu, CONTACT_FRIEND);
+			if (!fbu->handle) // just been added
+				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
 			
-			ptrT client( getTStringA(hContact, "MirVer"));
+			ptrT client( getTStringA(fbu->handle, "MirVer"));
 			if (!client || _tcscmp(client, fbu->getMirVer()))
-				setTString(hContact, "MirVer", fbu->getMirVer());
+				setTString(fbu->handle, "MirVer", fbu->getMirVer());
 
 			if (getDword(fbu->handle, "IdleTS", 0) != fbu->last_active) {
 				if ((fbu->idle || fbu->status_id == ID_STATUS_OFFLINE) && fbu->last_active > 0)
@@ -126,7 +125,7 @@ void FacebookProto::ProcessBuddyList(void*)
 			if (getDword(fbu->handle, FACEBOOK_KEY_DELETED, 0)) {
 				delSetting(fbu->handle, FACEBOOK_KEY_DELETED);
 
-				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
+				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
 
 				ptrT szTitle( mir_utf8decodeT(fbu->real_name.c_str()));
 				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, &url);
