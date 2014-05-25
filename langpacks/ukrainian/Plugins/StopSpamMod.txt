@@ -76,7 +76,7 @@
 [Remove Temporary Contacts]
 Видалити тимчасові контакти
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-Немає більше спаму! Роботи відпочивають!\r\n\r\nЦей плагін працює просто:\r\nУ той час як повідомлення від користувачів у Вашому списку приходять без перевірки на спам, повідомлення від невідомих користувачів вам не доставляються. Але вони не ігноруються, плагін відповідає простим питанням, і якщо користувач дає правильну відповідь, плагін додає його в список, для того щоб він міг зв'язатися з Вами.
+Немає більше спаму! Роботи відпочивають!\r\n\r\nЦей плагін працює просто:\r\nПовідомлення від користувачів у вашому списку приходять без перевірки на спам, а повідомлення від невідомих користувачів вам не доставляються. Але вони не ігноруються: плагін відповідає простим питанням і, якщо користувач дає правильну відповідь, додає його до списку, щоб він міг зв'язатися з вами.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Доброго дня! Ви говорите з антиспам-ботом. Будь ласка, напишіть слово "nospam" без лапок, щоб пройти перевірку на спам.
 [StopSpam: send a message and reply to an anti-spam bot question.]

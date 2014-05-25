@@ -125,6 +125,18 @@ URL (усі)
 Блоків на тиждень
 [Units per month (30 days)]
 Блоків на місяць
+[Messages (incoming)]
+Повідомлення (вхідні)
+[Messages (outgoing)]
+Повідомлення (вихідні)
+[Messages (all)]
+Повідомлення (всі)
+[Chats (incoming)]
+Чати (вхідні)
+[Chats (outgoing)]
+Чати (вихідні)
+[Chats (all)]
+Чати (всі)
 [Messages]
 Повідомлення
 [Chats]
@@ -135,6 +147,8 @@ URL (усі)
 тиждень
 [month]
 місяць
+[In/out]
+Вхідні/Вихідні
 [Outgoing]
 Вихідні
 [Incoming]
@@ -147,6 +161,12 @@ URL (усі)
 Разом
 [Protocol]
 Протокол
+[Hours]
+Годин
+[Days]
+Днів
+[Weeks]
+Тижнів
 [wday3:Mon]
 wday3:Пнд
 [wday3:Tue]
@@ -161,6 +181,12 @@ wday3:Птн
 wday3:Сбт
 [wday3:Sun]
 wday3:Ндл
+[PNG, ignoring some settings]
+PNG, з ігноруванням деяких налаштувань
+[Criteria]
+Критерії
+[Make column titles more verbose]
+Розширені назви колонок
 [month3:Jan]
 month3:Січ
 [monthF:January]

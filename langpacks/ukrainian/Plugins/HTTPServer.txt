@@ -56,7 +56,7 @@ IP-адреса 2
 [Transfer limit (Kb/s)]
 Ліміт швидкості (Кб/с)
 [No control when Away/NA]
-Вимк. якщо Недоступний/Зайнятий
+Вимк., якщо Недоступний/Зайнятий
 [Connection control]
 Контроль з'єднань
 [Index creation]

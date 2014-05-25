@@ -13,7 +13,7 @@
 Встановити стандартне
 [Delete default picture]
 Видалити стандартне
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
 УВАГА: Ці зображення НЕ ВАШІ аватари. Свій аватар ви можете встановити через "Головне меню -> Особисті дані -> Аватари".
 [Try to draw avatar background transparent (for images without transparency)]
 Виводити фон аватара прозорим (для аватарів без прозорості)
@@ -31,7 +31,7 @@
 Робити аватари квадратними при встановленні
 [Try to draw own avatar background transparent (for images without transparency)]
 Виводити фон аватара прозорим (для аватарів без прозорості)
-[This uses the same additional options as in "Contact Avatars" tab]
+[This uses the same additional options as in "Contact avatars" tab]
 Додаткові параметри на вкладці "Аватари контактів"
 [Protect the picture and prevent automatic avatars from overwriting it]
 Захистити зображення і не дозволяти аватарам його замінювати
@@ -103,9 +103,9 @@
 Контакти
 [Protocols]
 Протоколи
-[Contact Avatars]
+[Contact avatars]
 Аватари контактів
-[Own Avatars]
+[Own avatars]
 Свої аватари
 [No avatar]
 Без аватару

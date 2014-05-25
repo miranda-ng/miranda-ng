@@ -174,7 +174,7 @@ ID ключа:
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG підтримується. Мовні файли знайдені.\nGPG Повинен працювати нормально.\nНатисніть ОК.
 [Please choose GPG binary location]
-Виберіть директорію c GnuPG
+Виберіть директорію з GnuPG
 [Please set keyring's home directory]
 Виберіть директорію з ключами GnuPG
 [There is existing key for contact, would you like to replace it with new key?]

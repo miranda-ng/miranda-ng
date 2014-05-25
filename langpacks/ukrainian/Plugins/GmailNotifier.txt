@@ -7,54 +7,52 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Перевірка вхідної пошти Gmail.
+[Gmail account]
+Обліковий запис Gmail
 [Name:]
 Ім'я:
 [Password:]
 Пароль:
-[Check Gmail inbox every]
-Переверяти кожні
-[minutes]
-хвилин
-[Notifier on:]
-Інформувати:
-[Duration:]
-Тривалість:
-[Text|Background:]
-Текст|Фон:
-[custom program]
-свій додаток
-[seconds]
-секунд
-[On double click:]
-Подв. клік:
 [Add]
 Додати
 [Save]
 Зберегти
 [Delete]
 Видалити
+[Configuration]
+Конфігурація
+[Check Gmail inbox every]
+Переверяти кожні
+[minutes]
+хвилин
+[Notify using:]
+Інформувати:
+[Duration:]
+Тривалість:
+[seconds]
+секунд
+[Text|Background:]
+Текст|Фон:
+[On double click:]
+Подв. клік:
 [System tray]
 Трей
 [Popup plugin]
-Сплив. вікна
+Спливаючі вікна
 [Login using default browser]
 Запустити браузер за замовчанням
 [Login using Internet Explorer]
 Запустити Internet Explorer
-[Run]
-Запустити
+[Run custom program]
+Запустити вказану програму
 [Use online contacts when no new mail]
 Показувати контакти, коли немає нової пошти
 [Enable icon selection and icon in status bar (restart)]
-Значки протоколу в панелі статусу (перезавантажити)
+Значки протоколу в панелі статусів (перезавантажити)
 [This is a shared computer so disable auto login]
-Вимкнути автоперевірку
+Вимкнути автоперевірку пошти
 [Log unread threads into database (enable history)]
 Записувати непрочитане в базу (вмикає збереження історії)
-[Gmail account]
-Обліковий запис Gmail
-[Configuration]
-Конфігурація
 [Checking...]
 Перевірка...
 [Can't open Internet!]
@@ -71,7 +69,7 @@
 Перевірити всі скриньки Gmail
 [&Check Gmail inbox]
 Перевірити скриньку Gmail
-[GmailMNotifier]
+[GmailNotifier]
 Сповіщення про пошту Gmail
 [Network]
 Мережа

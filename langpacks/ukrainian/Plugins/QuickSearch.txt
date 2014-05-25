@@ -6,7 +6,7 @@
 ;  Authors: Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Плагін дозволяє вам швидко знайти нік, ім'я, прізвище, E-mail, UIN у вашому списку контактів. Тепер ви можете додати будь-які налаштування для відображення. Наприклад, версії Miranda, групи або міста.
+Дозволяє швидко знайти нік, ім'я, прізвище, E-mail, UIN у вашому списку контактів. Можна додати будь-які налаштування для відображення (наприклад, версії Miranda, групи або міста).
 [Quick Search]
 Пошук у списку
 [Title]

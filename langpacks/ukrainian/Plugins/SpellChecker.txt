@@ -109,6 +109,8 @@
 Ввімкнено
 [Disabled]
 Вимкнено
+[Unknown]
+Невідомо
 [There are %d spelling errors. Are you sure you want to send this message?]
 Є %d орфографічних помилок. Ви впевнені, що хочете відправити це повідомлення?
 [Other...]

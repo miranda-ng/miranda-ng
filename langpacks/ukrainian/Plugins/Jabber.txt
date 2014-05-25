@@ -181,14 +181,8 @@ Jabber vCard: додавання телефону
 Мобільний
 [Video]
 Відео
-[BBS]
-ББС
 [Modem]
 Модем
-[ISDN]
-Номер
-[PCS]
-шт
 [Load]
 Завантажити
 [Save]
@@ -1126,17 +1120,17 @@ JID видавців
 [Allow Messages]
 Дозволити повідомлення
 [Allow Presences (in)]
-Дозволити присутність (вх)
+Дозволити присутність (вх.)
 [Allow Presences (out)]
-Дозволити присутність (вих)
+Дозволити присутність (вих.)
 [Allow Queries]
 Дозволити запити
 [Deny Messages]
 Заборонити повідомлення
 [Deny Presences (in)]
-Заборонити присутність (вх)
+Заборонити присутність (вх.)
 [Deny Presences (out)]
-Заборонити присутність (вих)
+Заборонити присутність (вих.)
 [Deny Queries]
 Заборонити запити
 [Protocols]
@@ -1838,9 +1832,9 @@ Google Hangouts
 [Message]
 Повідомлення
 [Presence (in)]
-Присутність (вх)
+Присутність (вх.)
 [Presence (out)]
-Присутність (вих)
+Присутність (вих.)
 [Query]
 Запит
 [List has no rules, empty lists will be deleted then changes applied]
@@ -2250,7 +2244,7 @@ Jabber vCard: редагування телефону
 [Jealous]
 Ревнивий
 [Lonely]
-Cамотній
+Самотній
 [Lost]
 Загублений
 [Lucky]

@@ -19,7 +19,7 @@
 пікс.
 [Hide all contacts]
 Сховати всі контакти
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 Сховати коли розгорнуто програму
 [Show tooltips*]
 Показувати підказки*

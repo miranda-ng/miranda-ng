@@ -294,7 +294,7 @@
 [Don't send status message when you are %s]
 Не надсилати статусне повідомлення, коли %s
 [Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач.\r\n"Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу" ввімкнено, тому ця опція діє для контакту і для статусу.
+Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач.\r\n"Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу" ввімкнено, тому ця опція буде своя для кожного контакту і статусу.
 [Ignore status message requests from this contact and don't send an autoreply]
 Ігнорувати запити статусних повідомлень від цього контакту і вимкнути автовідповідач
 [Away since time in default format; ?nas_awaysince_time(x) in format x]

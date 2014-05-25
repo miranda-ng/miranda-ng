@@ -159,7 +159,7 @@
 Писати в
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Запустити програму при запуску Miranda (напр., tail -f, dbgview):
 [Run now]
 Запустити
@@ -279,8 +279,8 @@
 наприклад, "Робочий"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Виберіть драйвер бази даних. Інший драйвер може мати більше функцій та можливостей. Якщо не впевнені, користуйтеся стандартним драйвером.
-[e.g., Miranda Database]
-напр., Miranda Database
+[e.g., dbx mmap]
+наприклад, dbx_mmap
 [Driver]
 Драйвер
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
@@ -906,9 +906,9 @@ UIN, E-mail тощо
 [Use Windows colors]
 Кольори Windows
 [Status bar]
-Панель статусу
+Панель статусів
 [Show status bar]
-Показувати панель статусу
+Показувати панель статусів
 [Show icons]
 Показувати значки
 [Show protocol names]
@@ -1176,11 +1176,11 @@ UIN, E-mail тощо
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
 [Show typing notifications when a user is typing a message]
-Cповіщати, коли співрозмовник друкує повідомлення
+Сповіщати, коли співрозмовник друкує повідомлення
 [Update inactive message window icons when a user is typing]
 Оновлювати значок неактивного вікна, коли користувач друкує
 [Show typing notification when no message dialog is open]
-Cповіщати про друк, коли вікно повідомлень закрите
+Сповіщати про друк, коли вікно повідомлень закрите
 [Flash in the system tray and in the contact list]
 Блиманням у треї та списку контактів
 [Show balloon popup]
@@ -1662,7 +1662,7 @@ Cповіщати про друк, коли вікно повідомлень з
 [Quicksearch text]
 Швидкий пошук
 [Not focused]
-Cписок неактивний
+Список неактивний
 [Offline]
 Не в мережі
 [Online]

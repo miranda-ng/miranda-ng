@@ -70,7 +70,7 @@ OTR: Створення приватного ключа
 [&Yes]
 &Так
 [OTR status]
-Cтатус OTR
+Статус OTR
 [&Start OTR session]
 &Запустити сесію OTR
 [&Refresh OTR session]

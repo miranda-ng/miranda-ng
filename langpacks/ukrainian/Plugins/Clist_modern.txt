@@ -14,7 +14,7 @@
 [List sorting:]
 Впорядкування списку:
 [Status bar:]
-Панель статусу:
+Панель статусів:
 [List content:]
 Вміст списку:
 [Show counts of number of contacts in a group]
@@ -41,9 +41,9 @@
 Вікно неактивне:
 [Active opacity:]
 Вікно активне:
-[Show Avatars]
+[Show avatars]
 Показувати аватари
-[Animate Avatars]
+[Animate avatars]
 Анімація аватарів
 [Show contact time in list]
 Показувати час контакту
@@ -75,7 +75,7 @@
 Розтягнути
 [Tile vertically according to row height]
 Розтягнути вертикально по висоті
-[Use Windows Colors]
+[Use Windows colors]
 Кольори Windows
 [Available skins]
 Доступні скіни
@@ -87,7 +87,7 @@
 Інфо
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nВиберіть скін.\n\nНатисніть "Огляд" для пошуку інших.
-[Skin Preview]
+[Skin preview]
 Перегляд скіна
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 УВАГА: \tСкіни можуть змінювати ваш профіль. Відкат неможливий. \n\t\tБудь ласка, зробіть РЕЗЕРВНУ КОПІЮ профілю.
@@ -159,27 +159,27 @@
 Налаштування режиму перегляду
 [Last message]
 Останнє повідомлення
-[Status Bar]
-Панель статусу
+[Status bar]
+Панель статусів
 [Show status bar]
-Показувати панель статусу
+Показувати панель статусів
 [Make sections equal width]
 Розділи однакової ширини
 [Space between]
 Проміжок
-[Vertical Align]
+[Vertical align]
 По вертикалі
-[Horizontal Align]
+[Horizontal align]
 По горизонталі
 [Multiline status bar:]
-Багаторядкова панель статусу:
+Багаторядкова панель статусів:
 [Accounts per line]
 Обл. записів у рядку
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Зміна висоти рядка статусу: Головне меню -> Фрейми -> Панель статусу -> Плаваючий режим (перетягніть панель)
-[Hold [Shift] to inverse [Right Click] behavior]
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+* Зміна висоти рядка статусів: Головне меню -> Фрейми -> Панель статусів -> Плаваючий режим (перетягніть панель)
+[Hold [Shift] to inverse [Right Click] behavior.]
 Shift+правий клік - Головне меню
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
 Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по порожньому місцю - вимк.
 [Set options per account]
 Пооблікові налаштування
@@ -209,11 +209,11 @@ Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по 
 Правий клік - меню статусу
 [Right click opens Miranda menu]
 Правий клік - головне меню
-[Space on Left]
+[Space on left]
 Відступ ліворуч
 [Space on right]
 Відступ праворуч
-[Delete Contact]
+[Delete contact]
 Видалити контакт
 [No]
 Ні
@@ -253,7 +253,7 @@ Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по 
 Тільки над текстом
 [No selection]
 Не виділяти
-[Selection Mode]
+[Selection mode]
 Тип виділення
 [Bring to front if covered]
 Перемістити на передній план
@@ -271,7 +271,7 @@ Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по 
 Заборонити зміну розміру
 [Drag to]
 Перетягування
-[Easy Scroll]
+[Easy scroll]
 Просте прокручування
 [Easy move]
 Просте переміщення
@@ -295,7 +295,7 @@ x100 мс
 Вимкнути
 [Show automaticaly]
 Автоматично
-[Always Visible]
+[Always visible]
 Показувати завжди
 [Dock to sides]
 Дозволити парковку вікна
@@ -317,7 +317,7 @@ x100 мс
 Напівпрозоре виділення
 [Dim idle contacts]
 Затемняти неактивних користувачів
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 Сховати відключ. - сховати:
 [Groups]
 Групи
@@ -365,17 +365,17 @@ x100 мс
 Поведінка значка в системному треї
 [Use xStatus icon]
 Значок хСтатусу
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right).]
 Ігнорувати порожні додаткові значки (праворуч)
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Значки "Мета" для метаконтактів
-[Expand metacontacts]
+[Expand MetaContacts]
 Розгортати метаконтакти
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Не розгортати за подв. клацанням
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Ховати додаткові значки для субконтактів
-[Hide offline subcontacts.]
+[Hide offline subcontacts]
 Ховати відключені субконтакти
 [MetaContacts stuff]
 Метаконтакти
@@ -427,13 +427,13 @@ x100 мс
 Після заголовка:
 [Gaps]
 Інтервали
-[Use Non-Layered mode]
+[Use non-layered mode]
 Режим без скіна
 [Round corners]
 Заокруглені кути
 [Non-layered mode]
 Режим без скінів
-[Disable Skin Engine]
+[Disable skin engine]
 Вимкнути скіни
 [Enable Aero Glass (Vista+)]
 Стиль Аеро (Vista і вище)
@@ -495,7 +495,7 @@ x100 мс
 Значок хСтатусу замість протоколу
 [Draw normal status as overlay]
 Звичайний статус оверлеєм
-[Right-To-Left reading mode (mirror template)]
+[Right-to-left reading mode (mirror template)]
 Режим справа наліво (дзеркальний шаблон)
 [Replace smileys in contact list]
 Замінювати смайли в списку
@@ -523,7 +523,7 @@ x100 мс
 Статус
 [Nickname]
 Нік
-[Status Message]
+[Status message]
 Статусне повідомлення
 [Listening to]
 Слухаю
@@ -590,7 +590,7 @@ x100 мс
 [Move down]
 Нижче
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-Ця сторінка розробляється. Будь ласка, НЕ ПОВІДОМЛЯЙТЕ про помилки. Приймаються пропозіції щодо дизайну.
+Ця сторінка розробляється. Будь ласка, НЕ ПОВІДОМЛЯЙТЕ про помилки. Приймаються лише зауваження щодо дизайну.
 [&Main menu]
 &Головне меню
 [E&xit]
@@ -613,9 +613,9 @@ x100 мс
 &Готовий до чату\tCtrl+6
 [&Invisible\tCtrl+7]
 &Невидимий\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 &Телефоную\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
 [Tray]
 Трей
@@ -623,42 +623,42 @@ x100 мс
 С&ховати/Показати
 [Nowhere]
 Ніде
-[&New Group]
+[&New group]
 &Створити групу
-[&Hide Offline Users]
+[&Hide offline users]
 Сховати &відключених у групі
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Сховати &відключених поза групою
-[Hide &Empty Groups]
+[Hide &empty groups]
 Сховати порожні групи
-[Disable &Groups]
+[Disable &groups]
 Вимкнути &групи
 [Hide Miranda]
 Сховати список контактів
-[&New Subgroup]
+[&New subgroup]
 С&творити підгрупу
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Сховати &відключених у групі
-[&Show Offline Users in here]
+[&Show offline users in here]
 Показати відключених в групі
-[&Rename Group]
+[&Rename group]
 &Перейменувати групу
-[&Delete Group]
+[&Delete group]
 &Видалити групу
 [Skins]
 Скіни
 [Modern contact list]
 Список контактів Modern
-[Avatar Overlay]
+[Avatar overlay]
 Оверлей аватару
-[Status Overlay]
+[Status overlay]
 Оверлей статусу
 [List background]
 Фон списку
 [Menu background]
 Фон меню
 [Status bar background]
-Фон панелі статусу
+Фон панелі статусів
 [Frames title bar background]
 Фон заголовку фреймів
 [Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
@@ -732,7 +732,7 @@ x100 мс
 [Third line]
 Третій рядок
 [Status bar text]
-Панель статусу
+Панель статусів
 [Event area text]
 Текст області подій
 [Current view mode text]
@@ -754,7 +754,7 @@ x100 мс
 [3rd party frames transparent back color]
 Фон прозорості сторонніх фреймів
 [Not focused]
-Cписок неактивний
+Список неактивний
 [Offline]
 Не в мережі
 [Online]
@@ -781,7 +781,7 @@ Cписок неактивний
 Ім'я (включаючи локалізацію)
 [Last message time]
 Останнє повідомлення
-[Account Name]
+[Account name]
 Ім'я облікового запису
 [Rate]
 Рейтинг
@@ -805,7 +805,7 @@ Cписок неактивний
 Немає подій
 [Event area background]
 Фон області подій
-[Event Area]
+[Event area]
 Область подій
 [&Contact rate]
 Рейтинг &контакту
@@ -817,13 +817,13 @@ Cписок неактивний
 Середній
 [High]
 Високий
-[Contact rate None]
+[Contact rate none]
 Рейтинг контакту Немає
-[Contact rate Low]
+[Contact rate low]
 Рейтинг контакту Низький
-[Contact rate Medium]
+[Contact rate medium]
 Рейтинг контакту Середній
-[Contact rate High]
+[Contact rate high]
 Рейтинг контакту Високий
 [Show even if offline]
 Показувати навіть якщо не в мережі
@@ -845,24 +845,22 @@ Cписок неактивний
 Імена груп праворуч
 [Row]
 Рядок
-[Second Line]
-Другий рядок
-[Third Line]
-Третій рядок
 [(Unknown Contact)]
 (Невідомий контакт)
 [Tray menu]
 Меню в треї
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Додати &контакти...
 [&Options...]
 &Налаштування...
 [&About]
 Про &програму
-[Show Contact &Avatar]
+[Show contact &avatar]
 Показати аватар
-[Hide Contact &Avatar]
+[Hide contact &avatar]
 Сховати аватар
+[My contacts]
+Мої контакти
 [My Contacts]
 Мої контакти
 [Close Miranda]
@@ -881,13 +879,13 @@ Cписок неактивний
 Зображення
 [Fragment (draw portion of image)]
 Фрагмент зображення
-[Stretch Both directions]
+[Stretch both directions]
 Розтягнути в усі боки
-[Stretch Vertical, Tile Horizontal]
+[Stretch vertical, tile horizontal]
 Розтягнути верт., замостити гориз.
-[Tile Vertical, Stretch Horizontal]
+[Tile vertical, stretch horizontal]
 Замостити верт., розтягнути гориз.
-[Tile Both directions]
+[Tile both directions]
 Замостити в усі боки
 [Image size is]
 Розмір
@@ -941,6 +939,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 У центрі
 [Right]
 Праворуч
+[Bottom]
+Внизу
 [Main menu]
 Головне меню
 [Status menu]
@@ -961,8 +961,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Ввімк./Вимк. групи
 [Use groups]
 Ввімкнути сортування по групах
-[Disable Groups]
-Вимкнути сортування по групах
 [Enable/Disable sounds]
 Ввімк./Вимк. звуки
 [Enable sounds]
@@ -1007,13 +1005,11 @@ Angeli-Ka (графіка), FYR (шаблон)
 Справді видалити режим? Результат цієї дії є незворотним!
 [Delete a view mode]
 Видалення режиму перегляду
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Режим перегляду з таким ім'ям уже існує
 [Duplicate name]
 Таке ім'я вже є
-[All Contacts]
-Усі контакти
-[Setup View Modes...]
+[Setup view modes...]
 Налаштувати режими перегляду...
 [Select a view mode]
 Вибір режиму перегляду
@@ -1023,9 +1019,9 @@ Angeli-Ka (графіка), FYR (шаблон)
 Скинути режим і перейти до режиму за замовчанням
 [Reset view mode]
 Скинути режим
-[View Mode Background]
+[View mode background]
 Фон режимів перегляду
-[View Modes]
+[View modes]
 Режими перегляду
 [&Visible]
 &Показувати
@@ -1035,7 +1031,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 &Закріпити
 [&Expanded]
 &Розширений
-[&Floating Mode]
+[&Floating mode]
 &Плаваючий режим
 [&Border]
 &Рамка
@@ -1053,7 +1049,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 &Вгору
 [&Down]
 В&низ
-[Show All Frames]
+[Show all frames]
 Показати всі фрейми
 [Show all title bars]
 Показати назви
@@ -1067,5 +1063,3 @@ Angeli-Ka (графіка), FYR (шаблон)
 Меню груп
 [Subgroup menu]
 Меню підгруп
-[&New SubGroup]
-&Створити підгрупу

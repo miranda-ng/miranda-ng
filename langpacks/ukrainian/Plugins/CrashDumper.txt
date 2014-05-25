@@ -75,7 +75,7 @@
 Показати версії
 [Crash Dumper]
 Звіт про помилки
-[Crash Report write location is inaccesible]
+[Crash Report write location is not available]
 Шлях для запису звіту про помилку недоступний
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda NG була завершена аварійно. Звіт збережено у \n %s\n\n Зберегти його в буфер обміну?

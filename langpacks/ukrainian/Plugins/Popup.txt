@@ -59,7 +59,7 @@ History++ для історії вікон
 непрозорість:
 [Opaque popups under cursor]
 Непрозоро під курсором
-[Slide Popup]
+[Slide popup]
 Ковзання
 [Effect:]
 Ефект:
@@ -85,7 +85,7 @@ History++ для історії вікон
 Історія сплив. вікон
 [Desktop]
 Робочий стіл
-[Popup Area]
+[Popup area]
 Зона
 [pixel(s)]
 пікс.
@@ -99,9 +99,9 @@ History++ для історії вікон
 Загальне
 [Enable popup actions]
 Ввімкнути дії
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 Дії - це маленькі кнопки під текстом вікна.
-[Common Actions]
+[Common actions]
 Спільні дії
 [Please choose in what cases default actions should be added:]
 Виберіть, у яких випадках додавати загальні дії:
@@ -111,6 +111,8 @@ History++ для історії вікон
 Заг. дії тільки у контактів
 [Don't close popups on default actions]
 Не закривати вікна загальних дій
+[Size and position]
+Розмір і позиція
 [Use large icons]
 Великі значки
 [Popup actions will be displayed as:]
@@ -121,15 +123,15 @@ History++ для історії вікон
 Значки ліворуч
 [Icons aligned to the right]
 Значки праворуч
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 Дії (вимагає "Застосувати"):
-[Mouse Actions Overwrite]
+[Mouse actions overwrite]
 Дії за натисканням мишки
-[Left Button]
+[Left button]
 Ліва кнопка
-[Middle Button]
+[Middle button]
 Середня кнопка
-[Right Button]
+[Right button]
 Права кнопка
 [Notifications]
 Сповіщення
@@ -147,7 +149,7 @@ History++ для історії вікон
 Вимкнути, коли глобальний статус...
 [Disable when relevant protocol's status is...]
 Вимкнути, коли статус відп. протоколу...
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
+[Colors can be configured in\r\nCustomize > Fonts and colors]
 Кольори налаштовуються в\r\nТонке налаштування -> Шрифти і кольори
 [More...]
 Ще...
@@ -169,7 +171,7 @@ History++ для історії вікон
 Ніколи
 [Show default]
 За замовчанням
-[Default Timeout]
+[Default timeout]
 Тривалість за замовчанням
 [Infinite popup delay]
 Не закривати вікна
@@ -189,7 +191,7 @@ History++ для історії вікон
 Позиція:
 [Layout:]
 Порядок:
-[Reorder Popups]
+[Reorder popups]
 Упорядковувати (зсувати) вікна
 [Disable when:]
 Вимкнути, коли
@@ -199,8 +201,8 @@ History++ для історії вікон
 Повний екран
 [Debug]
 Налагодження
-[no overwrite]
-немає дії
+[No overwrite]
+Немає дії
 [Send message]
 Надіслати
 [Quick reply]
@@ -267,29 +269,21 @@ History++ для історії вікон
 З накладенням "Повний екран"
 [Refresh skin list]
 Оновити список
-[Popup Placement]
+[Popup placement]
 Положення
 [Cancel]
 Скасувати
-[Popup Group]
+[Popup group]
 Група вікон
-[Favorite Contact]
+[Favorite contact]
 Обраний контакт
-[Show in Fullscreen]
+[Show in fullscreen]
 Показати на повний екран
-[Blocked Contact]
+[Blocked contact]
 Заблокований контакт
-[Quick Reply]
-Швидка відповідь
-[Pin Popup]
-Закріпити
-[Pinned Popup]
+[Pinned popup]
 Закріплене
-[Send Message]
-Надіслати
-[Contact Menu]
-Меню контакту
-[Add Contact Permanently]
+[Add contact permanently]
 Додати контакт постійно
 [Dismiss Popup]
 Закрити вікно
@@ -341,25 +335,25 @@ History++ для історії вікон
 Телефоную
 [Width]
 Ширина
-[upper left corner]
-вгорі ліворуч
-[lower left corner]
-внизу ліворуч
-[lower right corner]
-внизу праворуч
-[upper right corner]
-вгорі праворуч
-[horizontal]
-горизонталь
-[vertical]
-вертикаль
+[Upper left corner]
+Вгорі ліворуч
+[Lower left corner]
+Внизу ліворуч
+[Lower right corner]
+Внизу праворуч
+[Upper right corner]
+Вгорі праворуч
+[Horizontal]
+Горизонталь
+[Vertical]
+Вертикаль
 [Global Status]
 Загальний статус
 [Protocol Status]
 Статус протоколу
 [You cannot specify a value lower than %d and higher than %d.]
 Значення менше %d або більше %d не допускається.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nВвімкнути впорядкування (зсув) вікон?\r\n
 [Popup Plus Warning]
 Попередження Popup Plus

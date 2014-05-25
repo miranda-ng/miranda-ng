@@ -12,7 +12,7 @@
 [&Send]
 &Надіслати
 [&Cancel]
-C&касувати
+С&касувати
 [Shown menu items]
 Відображені пункти меню
 [Visibility]

@@ -205,7 +205,7 @@
 Фон списку контактів
 [Use 'Meta' protocol icons for MetaContacts]
 Значки "Мета" для метаконтактів
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Не розгортати за подв. клацанням
 [Hide all extra icons for subcontacts]
 Ховати додаткові значки для субконтактів
@@ -216,9 +216,9 @@
 [Hide offline subcontacts]
 Ховати відключені субконтакти
 [Status bar]
-Панель статусу
+Панель статусів
 [Show status bar]
-Показувати панель статусу
+Показувати панель статусів
 [Show icons]
 Показувати значки
 [Show protocol names]
@@ -238,7 +238,7 @@
 [Use connecting icon]
 Значок з'єднання
 [Use new drawer for status bar]
-Новий стиль панелі статусу
+Новий стиль панелі статусів
 [&Main menu]
 Головне меню
 [E&xit]
@@ -298,7 +298,7 @@
 [Backgrounds]
 Фон
 [Status bar background]
-Фон панелі статусу
+Фон панелі статусів
 [List background]
 Фон списку
 [Frames title bar background]
@@ -336,7 +336,7 @@
 [List MetaContacts]
 Список метаконтактів
 [Not focused]
-Cписок неактивний
+Список неактивний
 [Offline]
 Не в мережі
 [Online]

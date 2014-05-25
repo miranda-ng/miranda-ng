@@ -130,11 +130,11 @@
 [Show typing notification switch in the status bar]
 Перемикач "Сповіщення про друк" у панелі статусу
 [Show typing notifications when a user is typing a message]
-Cповіщати, коли співрозмовник друкує повідомлення
+Сповіщати, коли співрозмовник друкує повідомлення
 [Update message window icons when a user is typing]
 Оновлювати значок неактивного вікна, коли користувач друкує
 [Show typing notification when no message dialog is open]
-Cповіщати про друк, коли вікно повідомлень закрите
+Сповіщати про друк, коли вікно повідомлень закрите
 [Flash in the system tray and in the contact list]
 Блиманням у треї та списку контактів
 [Show balloon popup]

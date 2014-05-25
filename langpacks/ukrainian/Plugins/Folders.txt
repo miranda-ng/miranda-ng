@@ -48,9 +48,9 @@
 [Environment variables]
 Змінні оточення
 [The plugin can also expand environment variables; the variables are specified like in any other]
-Також плагін дозволяє використовувати змінні оточення. Вони задаються так само, як і в будь-якій
+Також плагін дозволяє використовувати змінні оточення, наприклад %<env variable>%.
 [program that can use environment variables, i.e., %<env variable>%.]
-програмі, яка може їх використовувати. Наприклад %<env variable>%.
+Вони задаються так само, як і в будь-якій програмі, яка може їх використовувати.
 [Note: Environment variables are expanded before any Miranda variables. So if you have, for]
 Примітка. Змінні оточення обробляються перед будь-якими змінними Miranda NG. Якщо у вас,
 [example, %profile_path% defined as a system variable then it will be expanded to that value]

@@ -239,7 +239,7 @@ Wildcard пошук по мережі
 Увімкнено (*)
 [Ignore channel messages by default]
 Ігнорувати повідомлення чат-кімнати за замовч.
-[Ignore filetransfer requests]
+[Ignore file transfer requests]
 Ігнорувати передачі файлів
 [Ignore DCC Chat requests]
 Ігнорувати запити DCC-чатів
@@ -310,7 +310,7 @@ DCC: Запит на продовження закачування файлу в
 [Done: %u channels]
 Готово: %u чат-кімнат
 [(probably truncated by server)]
-(можливо обмежена сервером)
+(можливо, обмежено сервером)
 [Change nickname]
 Змінити нік
 [IRC error]
@@ -375,7 +375,7 @@ DCC: Запит на продовження закачування файлу в
 Введіть відповідь
 [Failed to connect to]
 Не вдалося підключитися до
-[DCC ERROR: Unable to bind local port for passive filetransfer]
+[DCC ERROR: Unable to bind local port for passive file transfer]
 Помилка DCC: Неможливо відкрити локальний порт для пасивної передачі файлів
 [%s server connection]
 Підключення до сервера %s
@@ -618,7 +618,7 @@ WallOps від %s:\s
 [Set info]
 Встановити інфо
 [Hide e-mail from info]
-Cховати E-mail
+Сховати E-mail
 [Show e-mail in info]
 Показати E-mail
 [Set security for nick]
@@ -640,7 +640,7 @@ Cховати E-mail
 [Kill unauthorized: quick]
 Вбити заборонених: швидко
 [Hide nick from list]
-Cховати нік у списку
+Сховати нік у списку
 [Show nick to list]
 Показати у списку
 [Show the server &window]
