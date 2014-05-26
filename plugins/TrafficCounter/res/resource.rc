@@ -20,10 +20,6 @@
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1251)
 
-#ifdef __GNUC__
-#include "version.rc"
-#endif
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
