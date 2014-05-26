@@ -188,8 +188,6 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * obje
 }
 
 
-//Paint  ObjectID
-int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID);
 
 //Register object with predefined style
 int __inline CreateGlyphedObjectDefStyle(char * ObjID,BYTE defStyle);
@@ -252,6 +250,8 @@ static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
 //    prm.szObjectID=ObjID;
 //    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
 //}
+
+//Paint  ObjectID
 static int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID)
 {
 	SKINDRAWREQUEST rq;
