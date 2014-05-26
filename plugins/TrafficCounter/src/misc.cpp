@@ -189,7 +189,8 @@ WORD GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Size)
 		*Res; // Промежуточный результат.
 
 	Res = (TCHAR*)malloc(sizeof(TCHAR)); // Выделяем чуть-чуть памяти под результат, но это только начало.
-	SecureZeroMemory(Res, sizeof(TCHAR));
+	//SecureZeroMemory(Res, sizeof(TCHAR));
+	Res[0] = 0;
 
 	for (FormatIndex = 0; Format[FormatIndex];)
 	{

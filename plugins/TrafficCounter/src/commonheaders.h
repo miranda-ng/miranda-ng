@@ -22,11 +22,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#ifndef _WIN32_IE
+#define _WIN32_IE 0x0500
+#endif
+
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
 
 #include <win2k.h>
+#include <m_system.h>
+
 #include <newpluginapi.h>
 #include <m_netlib.h>
 #include <m_langpack.h>

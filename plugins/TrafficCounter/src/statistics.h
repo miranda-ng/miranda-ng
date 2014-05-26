@@ -42,4 +42,4 @@ DWORD Stat_GetItemValue(WORD SelectedAccs, BYTE Interval, DWORD ItemNum, BYTE Su
 DWORD Stat_GetRecordsNumber(BYTE AccNum, BYTE Interval);
 BYTE Stat_GetEldestAcc(WORD SelectedAccs);
 
-#endif _statistics_h
+#endif // _statistics_h

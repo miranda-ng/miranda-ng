@@ -84,4 +84,4 @@ int PaintTrafficCounterWindow(HWND, HDC);
 INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM);
 void Traffic_AddMainMenuItem(void);
 
-#endif;
+#endif

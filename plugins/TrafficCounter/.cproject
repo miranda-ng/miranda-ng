@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="org.eclipse.cdt.msvc.dll.debug.887237590">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="org.eclipse.cdt.msvc.dll.debug.887237590" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -7,7 +9,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/TrafficCounter"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/TrafficCounter/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="TrafficCounter"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="TrafficCounter" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -32,6 +34,7 @@
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.441685381" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;..\..\..\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;..\..\ExternalAPI&quot;"/>
+									<listOptionValue builtIn="false" value="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Include"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.macros.1240665997" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -41,6 +44,9 @@
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1397372383" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.471866324" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
+								<option id="org.eclipse.cdt.msvc.rc.option.includes.392868353" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.rc.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;..\..\..\Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.rc.inputType.1657877978" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.link.dll.debug.533490912" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.dll.debug">
@@ -76,7 +82,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/TrafficCounter"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/TrafficCounter/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="TrafficCounter"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="TrafficCounter" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -101,6 +107,7 @@
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.2040009850" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;..\..\..\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;..\..\ExternalAPI&quot;"/>
+									<listOptionValue builtIn="false" value="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Include"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.macros.865983604" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NDEBUG"/>
@@ -110,6 +117,9 @@
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1870081348" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.release.426267774" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.release">
+								<option id="org.eclipse.cdt.msvc.rc.option.includes.686044655" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.rc.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;..\..\..\Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.rc.inputType.210914062" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.link.dll.release.1456328195" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.dll.release">
@@ -153,4 +163,5 @@
 	</storageModule>
 	<storageModule moduleId="refreshScope"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>
