@@ -40,10 +40,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #ifndef _MSC_VER
-	#ifndef FORCEINLINE
-		#define FORCEINLINE __inline
-	#endif
-	#define __forceinline static FORCEINLINE
+//	#ifndef FORCEINLINE
+//		#define FORCEINLINE __inline
+//	#endif
+//	#define __forceinline static FORCEINLINE
+	#define __forceinline inline __attribute__ ((always_inline))
 #else
 	#pragma warning(disable:4244 4245)
 #endif

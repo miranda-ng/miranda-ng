@@ -182,7 +182,7 @@ template<class T> struct OBJLIST : public LIST<T>
 
 	__inline OBJLIST(const OBJLIST& x) :
 		LIST<T>(x.increment, x.sortFunc)
-		{	items = NULL;
+		{	this->items = NULL;
 			List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 		}
 
