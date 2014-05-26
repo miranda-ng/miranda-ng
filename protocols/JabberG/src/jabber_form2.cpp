@@ -98,7 +98,7 @@ namespace NSJabberRegistry
 		{ _T("muc#roomconfig_enablelogging"),			JDFT_BOOLEAN,		LPGENT("Whether to enable logging of room conversations") },
 		{ _T("muc#roomconfig_lang"),					JDFT_TEXT_SINGLE,	LPGENT("Natural language for room discussions") },
 		{ _T("muc#roomconfig_maxusers"),				JDFT_LIST_SINGLE,	LPGENT("Maximum number of room occupants") },
-		{ _T("muc#roomconfig_membersonly"),				JDFT_BOOLEAN,		LPGENT("Whether an make room members-only") },
+		{ _T("muc#roomconfig_membersonly"),				JDFT_BOOLEAN,		LPGENT("Whether to make room members-only") },
 		{ _T("muc#roomconfig_moderatedroom"),			JDFT_BOOLEAN,		LPGENT("Whether to make room moderated") },
 		{ _T("muc#roomconfig_passwordprotectedroom"),	JDFT_BOOLEAN,		LPGENT("Whether a password is required to enter") },
 		{ _T("muc#roomconfig_persistentroom"),			JDFT_BOOLEAN,		LPGENT("Whether to make room persistent") },
