@@ -551,12 +551,16 @@
 Вытравленный
 [Show menu]
 Меню
+[Hide offline contacts]
+Скрыть отключённых
 [Find and add contacts]
 Найти и добавить контакты
 [Accounts]
 Учётные записи
 [Open preferences]
 Открыть настройки
+[Disable sounds]
+Выключить звуки
 [Minimize contact list]
 Скрыть список контактов
 [Status menu]
@@ -627,6 +631,8 @@
 Расположение списка
 [Background]
 Фон
+[Row items]
+Элементы строк
 [Contacts]
 Контакты
 [Groups and layout]

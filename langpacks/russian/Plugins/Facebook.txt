@@ -123,6 +123,8 @@ URL:
 Популярные новости
 [Most Recent]
 Недавние обновления
+[Pages]
+Страницы
 [Classic website]
 Классический сайт
 [Mobile website]

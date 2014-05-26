@@ -239,6 +239,8 @@ Wildcard поиск по сети
 Включено (*)
 [Ignore channel messages by default]
 Игнорировать сообщения комнаты чата по умолч.
+[Ignore file transfer requests]
+Игнорировать передачи файлов
 [Ignore DCC Chat requests]
 Игнорировать запросы DCC чатов
 [Ignore DCC Chat requests from unknown contacts]
@@ -373,6 +375,8 @@ Jerk
 Введите ответ
 [Failed to connect to]
 Не удалось подключиться к
+[DCC ERROR: Unable to bind local port for passive file transfer]
+Ошибка DCC: Невозможно открыть локальный порт для пассивной передачи файлов
 [%s server connection]
 %s подключение к серверу
 [%s client-to-client connections]

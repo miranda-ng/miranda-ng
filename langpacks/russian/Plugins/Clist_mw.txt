@@ -207,8 +207,14 @@ Cлужба:
 'Мета' значки для метаконтактов
 [Avoid double click expand]
 Не разворачивать по двойному клику
+[Hide all extra icons for subcontacts]
+Скрыть дополнительные значки для субконтактов
 [MetaContacts supporting]
 Поддержка метаконтактов
+[Ignore empty extra icons places (arrange to right)]
+Игнорировать пустые дополнительные значки (справа)
+[Hide offline subcontacts]
+Прятать субконтакты не в сети
 [Status bar]
 Панель статусов
 [Show status bar]
@@ -315,6 +321,8 @@ Cлужба:
 Статусные сообщения
 [Group closed]
 Закрытая группа
+[Hovered contacts]
+Контакты под курсором
 [Background]
 Фон
 [Selected text]

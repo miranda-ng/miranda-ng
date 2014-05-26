@@ -7,6 +7,8 @@
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 Плагин добавляет панель кнопок для быстрого доступа к функциям Miranda и вашим программам.
+[Buttons order and visibility]
+Порядок и видимость кнопок
 [Button height]
 Высота кнопки
 [Button width]
@@ -25,6 +27,8 @@
 Добавить разделитель
 [Add launch]
 Добавить кнопку
+[Delete separator/launch button]
+Удалить разделитель/кнопку
 [Name:]
 Имя:
 [Path:]

@@ -1,5 +1,0 @@
-﻿[Hold [Shift] to inverse [Right Click] behavior.]
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
-[Hide all extra icons for subcontacts]
-[Hide offline subcontacts]
-[Bottom]

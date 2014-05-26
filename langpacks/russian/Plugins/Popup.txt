@@ -147,6 +147,8 @@ History++ для истории окон
 Отключить, когда глобальный статус...
 [Disable when relevant protocol's status is...]
 Отключить, когда статус соотв. протокола...
+[Colors can be configured in\r\nCustomize > Fonts and colors]
+Цвета настраиваются в\r\nТонкая настройка > Шрифты и цвета
 [More...]
 Ещё...
 [Disable if message window is open]
@@ -347,6 +349,8 @@ History++ для истории окон
 Статус протокола
 [You cannot specify a value lower than %d and higher than %d.]
 Значение меньшее %d или большее %d не допускается.
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Настройка 'Упорядочивать (сдвигать) окна' отключена.\r\nЭто может привести к перекосу при использовании с\r\nаватарами и заменой текста (с плагином NewXstatusNotify).\r\n\r\nВключить упорядочивание (сдвигание) окон?\r\n
 [Popup Plus Warning]
 Предупреждение Popup Plus
 [Failed to register %s class.]

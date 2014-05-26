@@ -67,6 +67,8 @@
 Неправильное имя или пароль!
 [Other]
 Другое
+[Gmail: New thread(s)]
+Gmail: Новая почта
 [&Check all Gmail inboxes]
 Проверить все ящики Gmail
 [&Check Gmail inbox]

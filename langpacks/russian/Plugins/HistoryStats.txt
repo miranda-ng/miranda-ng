@@ -325,10 +325,14 @@ wday3:Вос
 вх/исх соотношение сообщений
 [in/out ratio of chats]
 вх/исх соотношение чатов
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
+Колонка содержит графическое представление чата (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего. Информация располагается по оси X- и Y-, и значения окрашиваются в цвета. Доступно разное измерение статистики чатов.
 [Timeline for #{data}]
 Шкала времени для #{data}
 [Timeline]
 График времени
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
+Колонка содержит графическое представление чата (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего на основании дней. Дни могут быть сгруппированы. Доступно разное измерение статистики чатов.
 [Word count type]
 Тип подсчёта слов
 [Total words]
@@ -401,6 +405,8 @@ HistoryStats - Предупреждение
 Фильтровать сообщения с началом
 [Filter messages ending with]
 Фильтровать сообщения с окончанием
+[The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+Выбранный набор уже используется хотя бы одной колонкой. Если вы удалите его, он будет недоступен всем другим колонкам. вы уверены, что хотите удалить набор?
 [Global]
 Глобальные
 [Global settings]

@@ -183,6 +183,10 @@
 Уч. записей в строке
 [* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Изменение высоты строки статусов: "Главное меню->Фреймы->Панель статусов->Плавающий режим" и растяните панель.
+[Hold [Shift] to inverse [Right Click] behavior.]
+Shift+Правый клик - Главное меню
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
+Ctrl+Левый клик вкл. фильтр по протоколу, клик по пустому месту - откл.
 [Set options per account]
 Поаккаунтная настройка
 [Enable custom account settings]
@@ -375,6 +379,10 @@
 Разворачивать метаконтакты
 [Avoid double click expand]
 Не разворачивать по двойному клику
+[Hide all 'extra icons' for subcontacts]
+Скрыть дополнительные значки для субконтактов
+[Hide offline subcontacts]
+Прятать субконтакты не в сети
 [MetaContacts stuff]
 Метаконтакты
 [Additional stuff]
@@ -820,13 +828,13 @@
 [High]
 Высокий
 [Contact rate none]
-Рейтинг контакта Нет
+Контакт без рейтинга
 [Contact rate low]
-Рейтинг контакта Низкий
+Низкий рейтинг контакта
 [Contact rate medium]
-Рейтинг контакта Средний
+Средний рейтинг контакта
 [Contact rate high]
-Рейтинг контакта Высокий
+Высокий рейтинг контакта
 [Show even if offline]
 Показывать, даже если не в сети
 [Avatar]
@@ -957,6 +965,8 @@ Angeli-Ka (графика), FYR (шаблон)
 В центре
 [Right]
 Справа
+[Bottom]
+Снизу
 [Main menu]
 Главное меню
 [Status menu]
