@@ -87,5 +87,8 @@
     <Image Include="res\menu.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="res\PlgList.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>

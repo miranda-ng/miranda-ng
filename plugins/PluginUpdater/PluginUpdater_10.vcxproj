@@ -205,7 +205,6 @@
   <ItemGroup>
     <None Include="res\btnClose.ico" />
     <None Include="res\btnOk.ico" />
-    <None Include="res\delete.ico" />
     <None Include="res\info.ico" />
     <None Include="res\menu.ico" />
     <None Include="res\PlgList.ico" />

@@ -48,6 +48,8 @@
 #define IDC_TRUNK                       1044
 #define IDC_TRUNK_SYMBOLS               1045
 #define IDC_CUSTOM                      1046
+#define IDC_SILENTMODE                  1047
+#define IDC_NEEDRESTARTLABEL            1048
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073
@@ -67,7 +69,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1044
+#define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

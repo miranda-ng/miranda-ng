@@ -123,6 +123,7 @@ void LoadOptions()
 	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
 	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
 	opts.bForceRedownload = db_get_b(NULL, MODNAME, "ForceRedownload", 0);
+	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
 }
 
 ULONG crc32_table[256];
@@ -411,13 +412,13 @@ void InitTimer(int type)
 	}
 }
 
-void strdel(TCHAR *parBuffer, int len )
+void strdel(TCHAR *parBuffer, int len)
 {
 	TCHAR* p;
-	for (p = parBuffer+len; *p != 0; p++)
-		p[ -len ] = *p;
+	for (p = parBuffer + len; *p != 0; p++)
+		p[-len] = *p;
 
-	p[ -len ] = '\0';
+	p[-len] = '\0';
 }
 
 #if MIRANDA_VER < 0x0A00

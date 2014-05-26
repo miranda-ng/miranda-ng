@@ -169,6 +169,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		TranslateDialogDefault(hDlg);
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("check_update"));
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon("check_update", 1));
 		{
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
@@ -333,9 +334,105 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
+static void DlgUpdateSilent(void *lParam)
+{
+	OBJLIST<FILEINFO> &UpdateFiles = *(OBJLIST<FILEINFO> *)lParam;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// if we need to escalate priviledges, launch a atub
+
+	if (!PrepareEscalation()) {
+		return;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// ok, let's unpack all zips
+
+	AutoHandle pipe(hPipe);
+	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+
+	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
+	SafeCreateDirectory(tszFileBack);
+
+	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	SafeCreateDirectory(tszFileTemp);
+
+	bool error = false;
+	HANDLE nlc = NULL;
+	for (int i = 0; i < UpdateFiles.getCount(); i++) {
+		if (!db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(UpdateFiles[i].tszOldName)), true)) {
+			continue;
+		}
+		if (UpdateFiles[i].bDeleteOnly) {
+			continue;
+		}
+
+		// download update
+		FILEURL *pFileUrl = &UpdateFiles[i].File;
+		if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
+			// interrupt update as we require all components to be updated
+			error = true;
+			break;
+		}
+	}
+	Netlib_CloseHandle(nlc);
+
+	if (error) {
+		return;
+	}
+	if (UpdateFiles.getCount() > 0) {
+		TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+
+		for (int i = 0; i < UpdateFiles.getCount(); i++) {
+			if (!db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(UpdateFiles[i].tszOldName)), true))
+				continue;
+
+			TCHAR tszBackFile[MAX_PATH];
+			FILEINFO& p = UpdateFiles[i];
+			if (p.bDeleteOnly) { // we need only to backup the old file
+				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
+				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				BackupFile(p.tszNewName, tszBackFile);
+				continue;
+			}
+
+			// if file name differs, we also need to backup the old file here
+			// otherwise it would be replaced by unzip
+			if (_tcsicmp(p.tszOldName, p.tszNewName)) {
+				TCHAR tszSrcPath[MAX_PATH];
+				mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+				BackupFile(tszSrcPath, tszBackFile);
+			}
+
+			if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+				SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
+		}
+
+		// Change title of clist
+#if MIRANDA_VER < 0x0A00
+		ptrT title = db_get_tsa(NULL, "CList", "TitleText");
+		if (!_tcsicmp(title, _T("Miranda IM")))
+			db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
+#endif
+
+		opts.bForceRedownload = false;
+		db_unset(NULL, MODNAME, "ForceRedownload");
+
+		db_set_b(NULL, MODNAME, "RestartCount", 5);
+		db_set_b(NULL, MODNAME, "NeedRestart", 1);
+
+		if (!opts.bSilent)
+			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("You need restart your Miranda to apply installed updates"), 2, 0, 1);
+	}
+}
+
 static void __stdcall LaunchDialog(void *param)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
+	if (opts.bSilentMode)
+		DlgUpdateSilent(param);
+	else
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

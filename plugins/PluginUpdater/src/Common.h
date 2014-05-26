@@ -93,7 +93,7 @@ struct PopupDataText
 
 struct PlugOptions
 {
-	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload;
+	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode;
 	BOOL bSilent, bDlgDld;
 
 	BYTE bPeriodMeasure;

@@ -89,6 +89,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	ServiceInit();
 #endif
+
+	db_set_b(NULL, MODNAME, "NeedRestart", 0);
+
 	hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER);
 	if (hPluginUpdaterFolder)
 		OnFoldersChanged(0, 0);
