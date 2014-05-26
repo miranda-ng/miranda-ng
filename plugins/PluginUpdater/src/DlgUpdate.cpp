@@ -430,7 +430,7 @@ static void DlgUpdateSilent(void *lParam)
 static void __stdcall LaunchDialog(void *param)
 {
 	if (opts.bSilentMode)
-		DlgUpdateSilent(param);
+		mir_forkthread(DlgUpdateSilent, param);
 	else
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
 }
