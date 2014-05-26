@@ -65,6 +65,10 @@
 Не можу прочитати стрічку RSS!
 [Wrong name or password!]
 Неправильне ім'я користувача або пароль!
+[Other]
+Інше
+[Gmail: New thread(s)]
+Gmail: нова пошта
 [&Check all Gmail inboxes]
 Перевірити всі скриньки Gmail
 [&Check Gmail inbox]

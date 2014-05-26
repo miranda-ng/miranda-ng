@@ -853,7 +853,7 @@ JID користувачів онлайн
 Мова спілкування у чат-кімнаті
 [Maximum number of room occupants]
 Максимальна кількість учасників чат-кімнати
-[Whether an make room members-only]
+[Whether to make room members-only]
 Тільки для учасників
 [Whether to make room moderated]
 Модерувати чат-кімнату
