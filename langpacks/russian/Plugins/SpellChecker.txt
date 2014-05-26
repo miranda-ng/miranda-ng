@@ -109,6 +109,8 @@
 Включён
 [Disabled]
 Выключен
+[Unknown]
+Неизвестно
 [There are %d spelling errors. Are you sure you want to send this message?]
 Есть %d орфографических ошибок. Вы уверены, что хотите отправить это сообщение?
 [Other...]

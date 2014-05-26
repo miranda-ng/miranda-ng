@@ -1,0 +1,4 @@
+﻿[Hide all extra icons for subcontacts]
+[Ignore empty extra icons places (arrange to right)]
+[Hide offline subcontacts]
+[Hovered contacts]

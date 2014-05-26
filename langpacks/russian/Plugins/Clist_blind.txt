@@ -69,13 +69,13 @@ URL:
 Несколько значков
 [Only when statuses differ]
 При разных статусах
-[Contact List]
+[Contact list]
 Список контактов
 [System tray icon]
 Значок в трее
 [System tray icon when using multiple protocols]
 Значки протоколов в системном лотке
-[Contact List Sorting]
+[Contact list sorting]
 Сортировка списка контактов
 [Window]
 Окно
@@ -123,7 +123,7 @@ URL:
 Прикрепить к столу
 [Items]
 Элементы
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Скрыть отключённых' - скрыть:
 [Groups]
 Группы
@@ -145,7 +145,7 @@ URL:
 Разделитель:
 [Info:]
 Инфо:
-[Status Bar]
+[Status bar]
 Панель статусов
 [Show status bar]
 Показывать панель статусов
@@ -187,9 +187,9 @@ URL:
 &Готов болтать\tCtrl+6
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На &телефоне\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
 [Tray]
 Трей
@@ -197,27 +197,27 @@ URL:
 С&крыть/Показать
 [Nowhere]
 Нигде
-[&New Group]
-&Новая группа
-[&Hide Offline Users]
+[&New group]
+Со&здать группу
+[&Hide offline users]
 &Скрыть отключённых
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скрыть &отключённых вне группы
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скрыть &пустые группы
-[Disable &Groups]
+[Disable &groups]
 Отключить &группы
 [Hide Miranda]
 Скрыть список контактов
 [Group]
 Группа
-[&New Subgroup]
+[&New subgroup]
 &Создать подгруппу
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 &Скрыть отключённых в группе
-[&Rename Group]
+[&Rename group]
 &Переименовать группу
-[&Delete Group]
+[&Delete group]
 &Удалить группу
 [Not focused]
 Не в фокусе
@@ -247,8 +247,6 @@ URL:
 Разделитель: %s
 [Info: %s]
 Инфо: %s
-[Contact list]
-Список контактов
 [List]
 Список
 [Global]

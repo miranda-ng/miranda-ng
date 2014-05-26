@@ -7,8 +7,6 @@
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 Плагин добавляет панель кнопок для быстрого доступа к функциям Miranda и вашим программам.
-[Buttons Order && Visibility]
-Порядок и видимость кнопок
 [Button height]
 Высота кнопки
 [Button width]
@@ -23,12 +21,10 @@
 Панель в одну строку
 [Buttons order:]
 Показывать кнопки:
-[Add Separator]
+[Add separator]
 Добавить разделитель
-[Add Launch]
+[Add launch]
 Добавить кнопку
-[Del Sep/Launch Button]
-Удалить разделитель/кнопку
 [Name:]
 Имя:
 [Path:]
@@ -37,7 +33,7 @@
 Выбрать
 [Default]
 По умолчанию
-[TopToolBar Background]
+[TopToolBar background]
 Фон панели кнопок
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
 Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можете скачать их на http://miranda-ng.org/

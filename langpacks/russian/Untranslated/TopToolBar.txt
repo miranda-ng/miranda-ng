@@ -1,0 +1,2 @@
+﻿[Buttons order and visibility]
+[Delete separator/launch button]

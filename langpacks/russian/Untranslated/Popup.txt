@@ -1,0 +1,3 @@
+﻿[Size and position]
+[Colors can be configured in\r\nCustomize > Fonts and colors]
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]

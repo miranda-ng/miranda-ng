@@ -1759,8 +1759,6 @@ TabSRMM: %s
 Недостающий компонент|Набор значков не найден. Пожалуйста, установите его в директорию значков по умолчанию.\n\nНа данный момент значки недоступны
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Предупреждение Aero peek|Вы включили использование особенностей Aero Peek и используете скин окна диалогов\n\nЭто может привести к незначительным визуальным искажениям в быстром просмотре.
-[Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
-Проблема передачи файла|Неудачная пересылка изображения.\n\nВозможные причины: передача файлов не поддерживается, контакт не в сети, вы находитесь в стаусе "Невидимый" и контакт, которому отсылается файл не в списке видимых.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Проблема с настройками|Опция \\b1 История->Имитировать API IEView\\b0  активна и плагин History++ активен. Это может вызвать проблемы при использовании IEView в качестве журнала сообщений.\n\nСкорректировать настройки (необходим перезапуск)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]

@@ -7,10 +7,20 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Проверка входящей почты Gmail
+[Gmail account]
+Учётная запись Gmail
 [Name:]
 Имя:
 [Password:]
 Пароль:
+[Add]
+Добавить
+[Save]
+Сохранить
+[Delete]
+Удалить
+[Configuration]
+Конфигурация
 [Check Gmail inbox every]
 Проверять каждые
 [minutes]
@@ -19,18 +29,12 @@
 Уведомлять:
 [Duration:]
 Длительность:
-[Text|Background:]
-Текст|Фон:
 [seconds]
 секунд(ы)
+[Text|Background:]
+Текст|Фон:
 [On double click:]
 Двойной клик:
-[Add]
-Добавить
-[Save]
-Сохранить
-[Delete]
-Удалить
 [System tray]
 Трей
 [Popup plugin]
@@ -49,10 +53,6 @@
 Отключить автоматическую проверку почты
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (включает сохранение истории)
-[Gmail account]
-Учётная запись Gmail
-[Configuration]
-Конфигурация
 [Checking...]
 Проверка...
 [Can't open Internet!]
@@ -65,6 +65,8 @@
 Не могу прочитать RSS-ленту!
 [Wrong name or password!]
 Неправильное имя или пароль!
+[Other]
+Другое
 [&Check all Gmail inboxes]
 Проверить все ящики Gmail
 [&Check Gmail inbox]

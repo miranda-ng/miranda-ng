@@ -13,8 +13,6 @@
 Установить стандартное
 [Delete default picture]
 Удалить стандартное
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
-ПРЕДУПРЕЖДЕНИЕ: Эти изображения НЕ ВАШИ аватары. Установить свой аватар вы можете через "Главное меню -> Личные данные -> Аватары".
 [Try to draw avatar background transparent (for images without transparency)]
 Выводить фон аватара прозрачным (для аватаров без прозрачности)
 [Number of points to define background:]
@@ -31,7 +29,7 @@
 Делать аватары квадратными при установке
 [Try to draw own avatar background transparent (for images without transparency)]
 Выводить фон своего аватара прозрачным (для аватаров без прозрачности)
-[This uses the same additional options as in "Contact Avatars" tab]
+[This uses the same additional options as in "Contact avatars" tab]
 Дополнительные настройки во вкладке "Аватары контактов"
 [Protect the picture and prevent automatic avatars from overwriting it]
 Защитить изображение и не позволять аватарам его заменять
@@ -103,9 +101,9 @@
 Контакты
 [Protocols]
 Протоколы
-[Contact Avatars]
+[Contact avatars]
 Аватары контактов
-[Own Avatars]
+[Own avatars]
 Свои аватары
 [No avatar]
 Без аватара

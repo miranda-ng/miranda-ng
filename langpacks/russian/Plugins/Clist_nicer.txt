@@ -33,7 +33,7 @@
 Удалить %s из списка?
 [This will erase all history and settings for this contact!]
 Будет удалена вся история и все настройки для данного контакта!
-[Contact List]
+[Contact list]
 Список контактов
 [Hide offline users]
 Скрыть отключённых
@@ -111,11 +111,11 @@
 Мин. высота группы
 [Indent groups by:]
 Отступ для групп:
-[Inner Row vertical padding]
+[Inner row vertical padding]
 Вертикальный отступ между рядами
 [Margins and spacing]
 Поля и отступы
-[Contact List Sorting]
+[Contact list sorting]
 Сортировка списка контактов
 [First by]
 Сначала
@@ -169,7 +169,7 @@
 Когда возможно, рисовать значки статуса в аватаре
 [Use metacontact protocol icons instead of subcontacts]
 Значок протокола метаконтакта вместо субконтакта
-[Use Overlay icons on avatars]
+[Use overlay icons on avatars]
 Использовать наложение значков на аватары
 [Dim idle contacts]
 Затемнить неактивных пользователей
@@ -257,7 +257,7 @@
 Скрыть полосу прокрутки
 [Gray out entire list when:]
 Сделать серым, если:
-[Contact List Background]
+[Contact list background]
 Фон списка
 [Use Windows colors]
 Цвета Windows
@@ -281,7 +281,7 @@
 Использовать данные настройки для всего фона
 [If you enable this, the background settings will affect the entire contact list frame.]
 При включении настройки фона будут использованы для всего фрейма списка контактов
-[Status Bar]
+[Status bar]
 Панель статусов
 [Show status bar]
 Показывать панель статусов
@@ -419,7 +419,7 @@
 Опции отображения
 [Show contact with priority]
 Контакт с приоритетом
-[Show Avatar:]
+[Show avatar:]
 Аватар:
 [Show 2nd line:]
 Вторая строка:
@@ -449,9 +449,9 @@
 &Готов болтать\tCtrl+7
 [&Invisible\tCtrl+7]
 &Невидимый\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На &телефоне\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
 [Tray]
 Трей
@@ -459,37 +459,35 @@
 С&крыть/Показать
 [Nowhere]
 Нигде
-[&New Group]
-&Новая группа
-[&Hide Offline Users]
+[&New group]
+Со&здать группу
+[&Hide offline users]
 &Скрыть отключённых
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скрыть &отключённых вне группы
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скрыть &пустые группы
-[Disable &Groups]
+[Disable &groups]
 Отключить &группы
 [Hide Miranda]
 Скрыть список контактов
-[&New Subgroup]
+[&New subgroup]
 &Создать подгруппу
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 &Скрыть отключённых в группе
-[&Rename Group]
+[&Rename group]
 &Переименовать группу
-[&Delete Group]
+[&Delete group]
 &Удалить группу
-[Move marked Contacts to this Group]
+[Move marked contacts to this group]
 Переместить отмеченные контакты в эту группу
 [Appearance]
 Внешний вид
-[Show Status Icons]
-Значки статуса
-[Show Metacontact proto Icons]
+[Show MetaContact proto icons]
 Показывать значки метаконтактов
-[Show additional Buttons]
+[Show additional buttons]
 Показывать дополнительные кнопки
-[Draw sunken Frame]
+[Draw sunken frame]
 Утопленный фрейм
 [Skin items]
 Элементы скина
@@ -591,9 +589,9 @@
 Обедаю
 [On the phone]
 На телефоне
-[Always Left]
+[Always left]
 Всегда слева
-[Always Right]
+[Always right]
 Всегда справа
 [Automatic (RTL)]
 Автоматически (RTL)
@@ -617,22 +615,18 @@
 Когда позволяет размер
 [When needed]
 Когда необходимо
-[With Nickname - left]
+[With nickname - left]
 Слева от ника
 [Far left]
 По левому краю
 [Far right]
 По правому краю
-[With Nickname - right]
+[With nickname - right]
 Справа от ника
-[Contact list]
-Список контактов
 [List layout]
 Расположение списка
 [Background]
 Фон
-[Contact rows]
-Строки контактов
 [Contacts]
 Контакты
 [Groups and layout]
@@ -683,9 +677,7 @@
 Настройка режимов вида
 [Setup accounts]
 Учётные записи
-[Event Area]
-Область событий
-[My Contacts]
+[My contacts]
 Мои контакты
 [Menu]
 Меню
@@ -717,11 +709,11 @@
 Заголовки фреймов
 [Contact list local time]
 Локальное время контакта
-[Selected Text]
+[Selected text]
 Выделенный текст
-[Hottrack Text]
+[Hottrack text]
 Под курсором
-[Quicksearch Text]
+[Quicksearch text]
 Быстрый поиск
 [Title bar]
 Заголовок
@@ -769,15 +761,15 @@
 Режим отображения с таким именем уже присутствует
 [Duplicate name]
 Совпадающее имя
-[Setup View Modes...]
+[Setup view modes...]
 Настроить режимы вида...
-[Clear current View Mode]
+[Clear current view mode]
 Очистить текущий режим вида
 [Select a view mode]
 Выбор режима просмотра
 [Clear view mode and return to default display]
 Сбросить режим и перейти в режим по умолчанию
-[View Modes]
+[View modes]
 Режимы вида
 [&FrameTitle]
 &Заголовок фрейма
@@ -789,7 +781,7 @@
 &Закрепить
 [&Collapsed]
 &Свёрнутое
-[&Floating Mode]
+[&Floating mode]
 &Плавающий режим
 [&Border]
 &Рамка
@@ -811,13 +803,13 @@
 В&низ
 [Frames]
 Фреймы
-[Show All Frames]
+[Show all frames]
 Показать все фреймы
 [Show all title bars]
 Показывать названия
 [Hide all title bars]
 Скрыть названия
-[Lock Frame]
+[Lock frame]
 Закрепить фрейм
 [Visible]
 Видимо
@@ -831,7 +823,7 @@
 Меню фреймов
 [Group menu]
 Меню групп
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Добавить &контакты...
 [&Options...]
 &Настройки...
@@ -839,5 +831,3 @@
 О &списке контактов...
 [Subgroup menu]
 Меню подгрупп
-[&New SubGroup]
-&Создать подгруппу

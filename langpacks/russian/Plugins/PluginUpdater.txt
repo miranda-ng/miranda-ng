@@ -33,6 +33,8 @@
 (но только 1 раз в день)
 [Every]
 Каждые
+[Silent mode]
+Тихое обновление
 [Files source]
 Источник обновления
 [Stable version]
@@ -43,6 +45,8 @@
 Версия в разработке c отладочными символами
 [Custom version]
 Заданная пользователем версия
+[You need restart your Miranda to apply installed updates]
+Применение обновлений произойдёт после перезапуска программы.
 [Notifications]
 Уведомления
 [Message boxes (*)]
