@@ -97,10 +97,11 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_INITDIALOG:
 		{
-			TranslateDialogDefault( hwndDlg );
-			HTREEITEM it = FillAvailableSkinList( hwndDlg );
-			HWND wnd = GetDlgItem( hwndDlg, IDC_TREE1 );
-			TreeView_SelectItem( wnd, it );
+			TranslateDialogDefault(hwndDlg);
+			SetWindowText(GetDlgItem(hwndDlg, IDC_SKINFOLDERLABEL), SkinsFolder);
+			HTREEITEM it = FillAvailableSkinList(hwndDlg);
+			HWND wnd = GetDlgItem(hwndDlg, IDC_TREE1);
+			TreeView_SelectItem(wnd, it);
 		}
 		return 0;
 	case WM_COMMAND:

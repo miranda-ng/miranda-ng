@@ -144,22 +144,23 @@ BEGIN
     CONTROL         "Use Windows colors",IDC_USEWINCOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,33,213,10
 END
 
-IDD_OPT_SKIN DIALOGEX 0, 0, 303, 220
+IDD_OPT_SKIN DIALOGEX 0, 0, 303, 243
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Available skins",IDC_STATIC,0,5,173,182,WS_DISABLED
-    PUSHBUTTON      "Rescan",IDC_BUTTON_RESCAN,5,170,48,12
-    PUSHBUTTON      "Apply",IDC_BUTTON_APPLY_SKIN,61,170,48,12,WS_DISABLED
-    PUSHBUTTON      "Info",IDC_BUTTON_INFO,118,170,48,12,WS_DISABLED
-    CTEXT           "\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.",IDC_STATIC_INFO,180,30,108,150
-    CONTROL         "",IDC_PREVIEW,"Static",SS_OWNERDRAW | SS_CENTERIMAGE | SS_REALSIZEIMAGE,180,16,113,167
-    GROUPBOX        "Skin preview",IDC_STATIC,175,5,123,182,WS_DISABLED
-    LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,188,300,17
-    LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,210,300,8
-    COMBOBOX        IDC_COMBO1,177,189,123,76,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_HSCROLL | WS_TABSTOP,5,15,161,148
+    GROUPBOX        "Available skins",IDC_STATIC,0,25,173,182,WS_DISABLED
+    PUSHBUTTON      "Rescan",IDC_BUTTON_RESCAN,5,190,48,12
+    PUSHBUTTON      "Apply",IDC_BUTTON_APPLY_SKIN,61,190,48,12,WS_DISABLED
+    PUSHBUTTON      "Info",IDC_BUTTON_INFO,118,190,48,12,WS_DISABLED
+    CTEXT           "\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.",IDC_STATIC_INFO,180,50,108,150
+    CONTROL         "",IDC_PREVIEW,"Static",SS_OWNERDRAW | SS_CENTERIMAGE | SS_REALSIZEIMAGE,180,36,113,167
+    GROUPBOX        "Skin preview",IDC_STATIC,175,25,123,182,WS_DISABLED
+    LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,208,300,17
+    LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,230,300,8
+    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_HSCROLL | WS_TABSTOP,5,35,161,148
+    GROUPBOX        "Skin folder",IDC_STATIC,0,0,298,24
+    LTEXT           "",IDC_SKINFOLDERLABEL,6,10,290,9
 END
 
 IDD_OPT_SKINEDITOR DIALOGEX 0, 0, 305, 222
@@ -693,7 +694,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Right-to-left reading mode (mirror template)",IDC_RTL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,42,246,8
-    CONTROL         "Replace smileys in contact list",IDC_REPLACE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,81,246,8
+    CONTROL         "Replace smileys in contact list",IDC_REPLACE_SMILEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,81,246,8
     CONTROL         "Use protocol smileys",IDC_USE_PROTOCOL_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,94,232,8
     CONTROL         "Draw smileys on first line",IDC_DRAW_SMILEYS_ON_FIRST_LINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,119,246,8
@@ -835,236 +837,108 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_SKIN, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_SKINEDITOR, DIALOG
     BEGIN
-        TOPMARGIN, 1
-        BOTTOMMARGIN, 219
-        HORZGUIDE, 22
-        HORZGUIDE, 35
-        HORZGUIDE, 55
-        HORZGUIDE, 76
-        HORZGUIDE, 172
-        HORZGUIDE, 201
-        HORZGUIDE, 207
+        , 50
     END
 
-    IDD_SKIN_TAB, DIALOG
+    "IDD_SKIN_TAB", DIALOG
     BEGIN
-        RIGHTMARGIN, 298
+        , 50
     END
 
-    IDD_TAB, DIALOG
+    "IDD_TAB", DIALOG
     BEGIN
-        RIGHTMARGIN, 298
+        , 50
     END
 
     IDD_OPT_SBAR, DIALOG
     BEGIN
-        RIGHTMARGIN, 297
-        VERTGUIDE, 17
-        VERTGUIDE, 27
-        VERTGUIDE, 88
-        VERTGUIDE, 93
-        VERTGUIDE, 150
-        VERTGUIDE, 160
-        VERTGUIDE, 170
-        VERTGUIDE, 178
-        VERTGUIDE, 294
-        BOTTOMMARGIN, 228
-        HORZGUIDE, 19
+        , 50
     END
 
-    IDD_DELETECONTACT, DIALOG
+    "IDD_DELETECONTACT", DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 277
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 85
+        , 50
     END
 
     IDD_OPT_CLIST, DIALOG
     BEGIN
-        LEFTMARGIN, 2
-        RIGHTMARGIN, 300
-        VERTGUIDE, 10
-        VERTGUIDE, 107
-        VERTGUIDE, 136
-        VERTGUIDE, 146
-        VERTGUIDE, 171
-        VERTGUIDE, 294
-        VERTGUIDE, 300
-        TOPMARGIN, 2
-        BOTTOMMARGIN, 199
-        HORZGUIDE, 86
-        HORZGUIDE, 93
+        , 50
     END
 
     IDD_OPT_CLUI_2, DIALOG
     BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 263
-        VERTGUIDE, 13
-        VERTGUIDE, 23
-        VERTGUIDE, 75
-        VERTGUIDE, 124
-        VERTGUIDE, 128
-        VERTGUIDE, 136
-        VERTGUIDE, 142
-        VERTGUIDE, 156
-        VERTGUIDE, 164
-        VERTGUIDE, 252
-        VERTGUIDE, 258
-        TOPMARGIN, 4
-        HORZGUIDE, 14
-        HORZGUIDE, 36
-        HORZGUIDE, 141
-        HORZGUIDE, 148
-        HORZGUIDE, 194
+        , 50
     END
 
     IDD_OPT_CLC, DIALOG
     BEGIN
-        LEFTMARGIN, 2
-        RIGHTMARGIN, 301
-        VERTGUIDE, 11
-        VERTGUIDE, 164
-        VERTGUIDE, 186
-        VERTGUIDE, 216
-        VERTGUIDE, 295
-        VERTGUIDE, 300
-        TOPMARGIN, 2
-        BOTTOMMARGIN, 221
-        HORZGUIDE, 145
-        HORZGUIDE, 163
+        , 50
     END
 
     IDD_OPT_TRAY, DIALOG
     BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 291
-        BOTTOMMARGIN, 149
+        , 50
     END
 
     IDD_OPT_META_CLC, DIALOG
     BEGIN
-        LEFTMARGIN, 2
-        RIGHTMARGIN, 220
-        VERTGUIDE, 11
-        VERTGUIDE, 16
-        VERTGUIDE, 212
-        TOPMARGIN, 2
-        BOTTOMMARGIN, 181
+        , 50
     END
 
     IDD_OPT_ITEM_CONTACT_TIME, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 236
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 35
+        , 50
     END
 
     IDD_OPT_CLUI, DIALOG
     BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 304
-        VERTGUIDE, 13
-        VERTGUIDE, 23
-        VERTGUIDE, 75
-        VERTGUIDE, 115
-        VERTGUIDE, 119
-        VERTGUIDE, 136
-        VERTGUIDE, 142
-        VERTGUIDE, 164
-        VERTGUIDE, 230
-        VERTGUIDE, 234
-        VERTGUIDE, 296
-        VERTGUIDE, 303
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 203
-        HORZGUIDE, 10
-        HORZGUIDE, 36
+        , 50
     END
 
     IDD_OPT_ITEM_ROW, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 225
-        VERTGUIDE, 108
-        VERTGUIDE, 217
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 211
+        , 50
     END
 
     IDD_OPT_ITEM_AVATAR, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 253
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 184
+        , 50
     END
 
     IDD_OPT_ITEM_ICON, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 253
-        VERTGUIDE, 243
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 133
+        , 50
     END
 
     IDD_OPT_ITEM_TEXT, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 253
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 151
+        , 50
     END
 
     IDD_OPT_ITEM_SECOND_LINE, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 249
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 224
+        , 50
     END
 
     IDD_OPT_ITEM_THIRD_LINE, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 249
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 205
+        , 50
     END
 
-    IDD_OPT_EXTFRAMES, DIALOG
+    "IDD_OPT_EXTFRAMES", DIALOG
     BEGIN
-        LEFTMARGIN, 2
-        RIGHTMARGIN, 302
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 217
+        , 50
     END
 
     IDD_OPT_ROWTMPL, DIALOG
     BEGIN
-        VERTGUIDE, 14
-        VERTGUIDE, 77
-        VERTGUIDE, 82
-        VERTGUIDE, 145
-        VERTGUIDE, 151
-        VERTGUIDE, 158
-        VERTGUIDE, 211
-        VERTGUIDE, 282
-        TOPMARGIN, 1
-        BOTTOMMARGIN, 201
-        HORZGUIDE, 7
-        HORZGUIDE, 17
-        HORZGUIDE, 81
-        HORZGUIDE, 157
-        HORZGUIDE, 161
-        HORZGUIDE, 175
-        HORZGUIDE, 179
-        HORZGUIDE, 194
+        , 50
     END
 END
 #endif    // APSTUDIO_INVOKED

@@ -288,6 +288,51 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\1.ico" />
+    <Image Include="res\2.ico" />
+    <Image Include="res\3.ico" />
+    <Image Include="res\4.ico" />
+    <Image Include="res\5.ico" />
+    <Image Include="res\6.ico" />
+    <Image Include="res\7.ico" />
+    <Image Include="res\8.ico" />
+    <Image Include="res\addgoupp.ico" />
+    <Image Include="res\Away.ico" />
+    <Image Include="res\Back.tga" />
+    <Image Include="res\chat.ico" />
+    <Image Include="res\DND.ico" />
+    <Image Include="res\hide_avatar.ico" />
+    <Image Include="res\invisible.ico" />
+    <Image Include="res\listening_to.ico" />
+    <Image Include="res\lunch.ico" />
+    <Image Include="res\MicroAway.ico" />
+    <Image Include="res\Microchat.ico" />
+    <Image Include="res\MicroDND.ico" />
+    <Image Include="res\Microinvisible.ico" />
+    <Image Include="res\Microlunch.ico" />
+    <Image Include="res\MicroNA.ico" />
+    <Image Include="res\Microoccupied.ico" />
+    <Image Include="res\Microoffline.ico" />
+    <Image Include="res\Microphone.ico" />
+    <Image Include="res\NA.ico" />
+    <Image Include="res\occupied.ico" />
+    <Image Include="res\offline.ico" />
+    <Image Include="res\phone.ico" />
+    <Image Include="res\rate_high.ico" />
+    <Image Include="res\rate_low.ico" />
+    <Image Include="res\rate_med.ico" />
+    <Image Include="res\rate_none.ico" />
+    <Image Include="res\reset_view.ico" />
+    <Image Include="res\set_view.ico" />
+    <Image Include="res\show_avatar.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\neo_meta_create.cur" />
+    <None Include="res\neo_meta_default.cur" />
+    <None Include="res\neo_meta_move.cur" />
+    <None Include="res\skin.msf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
