@@ -422,8 +422,7 @@ static void DlgUpdateSilent(void *lParam)
 		db_set_b(NULL, MODNAME, "RestartCount", 5);
 		db_set_b(NULL, MODNAME, "NeedRestart", 1);
 
-		if (!opts.bSilent)
-			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("You need restart your Miranda to apply installed updates"), 2, 0, 1);
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("You need restart your Miranda to apply installed updates"), 2, 0, 1);
 	}
 }
 
