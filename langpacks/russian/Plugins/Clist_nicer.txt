@@ -685,6 +685,8 @@
 Учётные записи
 [My contacts]
 Мои контакты
+[Default]
+По умолчанию
 [Menu]
 Меню
 [Open main menu]

@@ -331,8 +331,6 @@ wday3:Вос
 Шкала времени для #{data}
 [Timeline]
 График времени
-[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
-Колонка содержит графическое представление чата (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего на основании дней. Дни могут быть сгруппированы. Доступно разное измерение статистики чатов.
 [Word count type]
 Тип подсчёта слов
 [Total words]

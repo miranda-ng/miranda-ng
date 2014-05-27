@@ -93,6 +93,8 @@
 ВНИМАНИЕ: \tСкины могут изменять Ваш профиль. Откат невозможен. \n\t\tПожалуйста, сделайте РЕЗЕРВНУЮ КОПИЮ профиля.
 [* Restart may be required for all changes to take effect]
 * Необходим рестарт для вступления изменений в силу
+[Skin folder]
+Папка скинов
 [Available objects]
 Доступные объекты
 [Copy]
@@ -379,8 +381,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Разворачивать метаконтакты
 [Avoid double click expand]
 Не разворачивать по двойному клику
-[Hide all 'extra icons' for subcontacts]
-Скрыть дополнительные значки для субконтактов
 [Hide offline subcontacts]
 Прятать субконтакты не в сети
 [MetaContacts stuff]
