@@ -14,8 +14,8 @@ Ustawione tutaj obrazki są wyświetlane jako domyślne awatary\ndla kontaktów 
 Wybierz domyślny obrazek
 [Delete default picture]
 Usuń domyślny obrazek
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
-Uwaga: To NIE są twoje własne awatary.\nAby ustawić własny awatar wchodzimy w Menu -> Pokaż/Zmień moje dane -> Awatar
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
+Uwaga: te obrazy nie są twoimi awatarami.\nAby ustawić swojego awatara, przejdź do menu głównego | Pokaż zmień moje dane | Awatary\n
 [Try to draw avatar background transparent (for images without transparency)]
 Próbuj rysować przezroczyste tło awataru (dla obrazku bez przezroczystości)
 [Number of points to define background:]
@@ -32,8 +32,8 @@ Pokaż komunikaty ostrzegawcze
 Kiedy ustawiasz awatary, zawsze zmieniaj je w kwadraty
 [Try to draw own avatar background transparent (for images without transparency)]
 Rysuj przezroczyste tło przy swoim awatarze (dla obrazku bez przezroczystości)
-[This uses the same additional options as in "Contact Avatars" tab]
-Ten sposób wykorzystuje te same opcje, jak w zakładce "Awatar kontaktu"
+[This uses the same additional options as in "Contact avatars" tab]
+To korzysta z tych samych opcji dodatkowych, jakie znajdują się w zakładce awatary kontaktu
 [Protect the picture and prevent automatic avatars from overwriting it]
 Chroń obraz i zapobiegaj przed automatycznym zastąpieniem awataru
 [Make the avatar square]
@@ -107,10 +107,10 @@ Kontakt nie ma awataru
 Kontakty
 [Protocols]
 Protokoły
-[Contact Avatars]
+[Contact avatars]
 Awatary kontaktu
-[Own Avatars]
-Własne awatary
+[Own avatars]
+Twoje awatary
 [No avatar]
 Brak awatara
 [Are you sure you want to remove your avatar?]

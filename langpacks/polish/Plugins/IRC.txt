@@ -242,8 +242,8 @@ Wysyłaj powiadomienie
 Włącz (*)
 [Ignore channel messages by default]
 Domyślnie ignoruj wiadomości z kanałów
-[Ignore filetransfer requests]
-Ignoruj żądania transferu plików
+[Ignore file transfer requests]
+Ignoruj żądania transferu pliku
 [Ignore DCC Chat requests]
 Ignoruj żądania rozmów DCC
 [Ignore DCC Chat requests from unknown contacts]
@@ -388,8 +388,8 @@ Proszę wprowadzić odpowiedź
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 Nie udało się połączyć z
-[DCC ERROR: Unable to bind local port for passive filetransfer]
-BŁĄD DCC: Nie można przypisać lokalnego portu dla pasywnego transferu plików
+[DCC ERROR: Unable to bind local port for passive file transfer]
+Błąd DCC: nie udało się podpiąć portu lokalnego dla pasywnego transferu pliku
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
 Połączenie %s

@@ -34,6 +34,8 @@ Przy starcie
 (ale tylko raz dziennie)
 [Every]
 Co
+[Silent mode]
+Tryb cichy
 [Files source]
 Źródło plików
 [Stable version]
@@ -44,6 +46,8 @@ Wersja rozwojowa (mniej stabilna)
 Wersja rozwojowa z symbolami debugowania
 [Custom version]
 Niestandardowa wersja
+[You need restart your Miranda to apply installed updates]
+Musisz zrestartować Mirandę, aby wprowadzić zainstalowane aktualizacje
 [Notifications]
 Powiadomienia
 [Message boxes (*)]

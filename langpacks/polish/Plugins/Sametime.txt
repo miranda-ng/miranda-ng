@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
-
+Implementacja wiadomośći błyskawicznych dla protokołu Lotus Sametime
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
 Połączenie
@@ -49,11 +49,11 @@ Szyfrowanie
 [None]
 Brak
 [Meanwhile lib ver: 1.0.2]
-
+Wersja biblioteki Meanwhile: 1.0.2
 [Disconnected]
 Rozłączony
 [Send announcement]
-
+Wyślij ogłoszenie
 [Cancel]
 Anuluj
 [Message text:]
@@ -64,17 +64,17 @@ Zaznacz wszystko
 Odwróć\nzaznaczone
 ;file \protocols\Sametime\src\conference.cpp
 [I'm outa here.]
-
+Nie ma mnie tu.
 [Invitation rejected - already present.]
 Zaproszenie odrzucone - już istnieje.
 [Your invitation has been rejected.]
 Twoje zaproszenie zostąło odrzucone.
 [Please join this meeting.]
-
+Proszę dołączyć do tego spotkania.
 [Normal]
 Normalne
 [%s's conference]
-
+Konferencja %s
 [Leave conference]
 Opuść konferencję
 [Start conference]
@@ -108,18 +108,18 @@ Połączenie %s
 ID
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
-
+Wiadomość od administratora Sametime
 [Session announcement - from '%s']
-
+Ogłoszenie o sesji - od "%s"
 [Unknown user status: %d]
 Nieznany status użytkownika: %d
 [No server connection!]
 Brak połączenia!
 [Send announcement...]
-
+Wyślij ogłoszenie...
 ;file \protocols\Sametime\src\session_announce_win.cpp
 [Recipients]
-
+Odbiorcy
 ;file \protocols\Sametime\src\userlist.cpp
 [Failed to upload contacts - storage service unavailable.]
 Błąd wysyłania kontaktów - usługa przechowywania jest niedostępna.
@@ -128,7 +128,7 @@ Nazwa
 [Description]
 Opis
 [Group?]
-
+Grupa?
 [True]
 Prawda
 [False]

@@ -8,54 +8,52 @@
 [Check your Gmail inboxes locally.]
 Lokalnie sprawdź swoje skrzynki Gmail
 ;file \plugins\GmailNotifier\res\options.rc
+[Gmail account]
+Konto Gmail
 [Name:]
 Nazwa użytkownika:
 [Password:]
 Hasło:
-[Check Gmail Inbox every]
-Sprawdzaj skrzynkę Gmail co
-[minutes]
-minut
-[Notifier on:]
-Powiadomienia podczas:
-[Duration:]
-Czas trwania:
-[TXT|BG:]
-Tło tekstu:
-[custom program]
-Własny program
-[sec.]
-sek.
-[On DBClick:]
-Po podwójnym kliknięciu:
 [Add]
 Dodaj
 [Save]
 Zapisz
 [Delete]
 Usuń
-[System Tray]
+[Configuration]
+Konfiguracja
+[Check Gmail inbox every]
+Sprawdzaj skrzynkę Gmail co
+[minutes]
+minut
+[Notify using:]
+Powiadamiaj przy użyciu:
+[Duration:]
+Czas trwania:
+[seconds]
+sekund
+[Text|Background:]
+Tekst|Tło:
+[On double click:]
+Po podwójnym kliknięciu:
+[System tray]
 Zasobnik systemowy
-[PopUp Plugin]
-Wtyczka PopUp
+[Popup plugin]
+Wtyczka Popup
 [Login using default browser]
 Zaloguj używając domyślnej przeglądarki
 [Login using Internet Explorer]
 Zaloguj używając Internet Explorera
-[Run]
-Uruchom
+[Run custom program]
+Uruchom własny program
 [Use online contacts when no new mail]
 Używaj dostępnych kontaktów przy braku nowych wiadomości
 [Enable icon selection and icon in status bar (restart)]
 Używaj wyboru ikon oraz ikon w pasku stanu (restart)
-[This is a shared computer so disable Auto Login]
+[This is a shared computer so disable auto login]
 To jest komputer współdzielony, więc wyłącz automatyczne logowanie
 [Log unread threads into database (enable history)]
 Zapisuj nieczytane wątki w bazie daych(włącz historię)
-[Gmail Account]
-Konto Gmail
-[Configuration]
-Konfiguracja
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Sprawdzanie...
@@ -65,17 +63,21 @@ Nie udało się otworzyć przeglądarki!
 Nie udało się połączyć z serwerem!
 [Can't send account data!]
 Nie udało się wysłać danych konta!
-[Can't get rss feed!]
-Nie udało się pobrać kanału RSS!
+[Can't get RSS feed!]
+Nie można pobrać kanału RSS!
 [Wrong name or password!]
 Błędna nazwa użytkownika lub hasło!
 ;file \plugins\GmailNotifier\src\main.cpp
-[&Check All Gmail Inboxes]
+[Other]
+Inne
+[Gmail: New thread(s)]
+Gmail: Nowy wątek(ki)
+[&Check all Gmail inboxes]
 Sprawdź wszystkie skrzynki Gmail
-[&Check Gmail Inbox]
+[&Check Gmail inbox]
 Sprawdź skrzynkę Gmail
 ;file \plugins\GmailNotifier\src\options.cpp
-[GmailMNotifier]
-GmailMNotifier
+[GmailNotifier]
+GmailNotifier
 [Network]
 Sieć

@@ -14,8 +14,8 @@ Opcje
 Element w menu
 [Show icon]
 Pokaż ikonę
-[Userinfo tab]
-Karta danych kontaktu
+[User info tab]
+Zakładka danych kontaktu
 [Log to file]
 Zapisuj w pliku
 [Log to history]

@@ -79,8 +79,8 @@ Pokaż Informacje o wersji
 [Crash Dumper]
 Raporty błędów
 ;file \plugins\CrashDumper\src\exhndlr.cpp
-[Crash Report write location is inaccesible]
-Nie można zapisać raportu o błędach
+[Crash Report write location is not available]
+Ścieżka zapisu raportów błędów jest niedostępna
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Wystąpił błąd Mirandy. Raport błędów zachowany w folderze:\n %s\n\n Czy zapisać raport?
 ;file \plugins\CrashDumper\src\ui.cpp

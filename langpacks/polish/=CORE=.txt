@@ -157,8 +157,8 @@ Zapisz do
 OutputDebugString()
 [File]
 Plik
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
-Uruchom program podczas uruchamiania Mirandy NG (np tail -f, dbgview, itp.):
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Uruchom program podczas uruchamiania Mirandy NG (np., tail -f, dbgview, itp.):
 [Run now]
 Uruchom teraz
 [Show this dialog box when Miranda NG starts]
@@ -277,8 +277,8 @@ Profil
 np. Praca
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Możesz użyć innego sterownika profilu, oferującego więcej funkcji lub możliwości. Jeśli nie wiesz co wybrać, użyj domyślnego.
-[e.g., Miranda Database]
-np. Profil Mirandy
+[e.g., dbx mmap]
+np. dbx mmap
 [Driver]
 Sterownik
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]

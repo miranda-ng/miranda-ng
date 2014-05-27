@@ -46,8 +46,8 @@ Wyłącz kiedy otrzymasz &wiadomość zawierającą poniższy tekst:
 Wyłącz kiedy Miranda NG stanie się &bezczynna
 [Configure]
 Konfiguruj
-[Shutdown when &prozessor usage drops below:]
-Wyłącz kiedy użycie &procesora spadnie poniżej:
+[Shutdown when &processor usage drops below:]
+Zamknij, gdy zużycie procesora spadnie poniżej:
 [(current: 0%)]
 (aktualnie: 0%)
 [Shutdown when all contacts are &offline]
@@ -177,8 +177,8 @@ Uruchamia ponownie komputer.
 Wyłącza wszystkie uruchomione programy i wyłącza komputer.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Zapisuje aktualną sesję Windows w pamięci i ustawia system w tryb uśpienia.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
-Zapisuje aktualną sesję Windows na dysku twardym, dzięki czemu komputer może zostać wyłączony.
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
+Zapisuje obecną sesję Windows na dysku, tak by zasilanie mogło zostać wyłączone
 [Locks the computer. To unlock the computer, you must log in.]
 Blokuje komputer. Aby go odblokować, należy się zalogować.
 [Sets all protocols to offline and closes all RAS connections.]

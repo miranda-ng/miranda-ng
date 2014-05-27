@@ -114,6 +114,8 @@ Włącz/Wyłącz sprawdzanie pisowni
 Włączony
 [Disabled]
 Wyłączone
+[Unknown]
+Nieznane
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Znaleziono %d błędów. Czy na pewno chcesz wysłać tę wiadomość?

@@ -369,7 +369,7 @@ Czy chcesz przełączyć szyfrowanie dla wszystkich subkontaktów?
 Plik docelowy istnieje, czy chcesz go zamienić?
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
 Nie znaleziono możliwości odszyfrowania pliku po drugiej stronie.\nOdbiorca może nie być w stanie odszyfrować pliku(ków).\nCzy mimo to chcesz zaszyfrować plik(i)?
-[Filetransfer warning]
+[File transfer warning]
 Ostrzeżenie o transferze pliku
 [Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
 Nie udało się sprawdzić wsparcia dla odszyfrowania po drugiej stronie.\nOdbiorca może nie być w stanie odszyfrować pliku(ków).\nObecnie możliwość sprawdzana jest dla protokołów ICQ oraz Jabber.\nZadziała to także w innych protokołach, jeśli po drugiej stronie używana jest Miranda z new_gpg.\nCzy mimo to chcesz zaszyfrować plik(i)?

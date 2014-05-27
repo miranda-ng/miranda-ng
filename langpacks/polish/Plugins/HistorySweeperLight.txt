@@ -60,8 +60,8 @@ Trzymaj 50 ostatnich zdarzeń
 Domyślna akcja
 [Delete All]
 Usuń wszystko
-[*** Defaut Action ***]
-*** Domyślna akcja ***
+[*** Default Action ***]
+*** \nAkcja domyślna
 [*** System History ***]
 *** Historia systemowa ***
 [History]

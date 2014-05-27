@@ -48,8 +48,8 @@ Nowa rozmowa głosowa
 Wyślij plik
 [Send URL]
 Wyślij link
-[Open userinfo]
-Otwórz dane użytkownika
+[Open user info]
+Otwórz dane kontaktu
 [Open history]
 Otwórz historię
 [Open contact menu]

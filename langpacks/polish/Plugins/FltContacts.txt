@@ -20,8 +20,8 @@ Stała szerokość
 px
 [Hide all contacts]
 Ukryj wszystkie
-[Hide when a fulscreen app is active]
-Ukryj kiedy jest aktywna aplikacja pełnoekranowa
+[Hide when a fullscreen app is active]
+Ukryj, gdy aplikacja pełnoekranowa jest aktywna
 [Show tooltips*]
 Pokaż podpowiedzi*
 [ms]

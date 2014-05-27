@@ -60,8 +60,8 @@ Przezroczystość
 Widoczność:
 [Opaque popups under cursor]
 Wyłącz pod kursorem
-[Slide Popup]
-Wysuwany Popup
+[Slide popup]
+Przeciągnij popup
 [Effect:]
 Efekt:
 [Time (in):]
@@ -86,8 +86,8 @@ Pobierz więcej skórek
 Historia popupów
 [Desktop]
 Pulpit
-[Popup Area]
-Obszar
+[Popup area]
+Obszar popupu
 [pixel(s)]
 px
 [Distance between popups]
@@ -100,10 +100,10 @@ Zamknij
 Ogólne
 [Enable popup actions]
 Włącz akcje popupów
-[Popup Actions are those tiny buttons below notification text.]
-Akcje popupów to małe przyciski pod tekstem powiadomienia.
-[Common Actions]
-Wspólne akcje
+[Popup actions are those tiny buttons below notification text.]
+Akcje popupu to te małe przyciski pod tekstem powiadomienia
+[Common actions]
+Popularne akcje
 [Please choose in what cases default actions should be added:]
 Wybierz w jakich przypadkach powinny zostać dodane wspólne akcje:
 [Add info && menu for IM contacts only]
@@ -112,6 +112,8 @@ Dodaj info i menu tylko dla kontaktów
 Domyślne akcje tylko dla kontaktów
 [Don't close popups on default actions]
 Nie zamykaj popupów przy akcjach
+[Size and position]
+Rozmiar i położenie
 [Use large icons]
 Użyj dużych ikon
 [Popup actions will be displayed as:]
@@ -122,16 +124,16 @@ Ikony i etykiety pod tekstem
 Ikony po lewej
 [Icons aligned to the right]
 Ikony przesunięte w prawo
-[Show Actions: (requires apply)]
-Pokaż akcje (wymaga zaakceptowania):
-[Mouse Actions Overwrite]
-Akcje myszy
-[Left Button]
-Lewy
-[Middle Button]
-Środkowy
-[Right Button]
-Prawy
+[Show actions: (requires apply)]
+Pokaż akcje: (wymaga zastosowania)
+[Mouse actions overwrite]
+Nadpisywanie akcji myszy
+[Left button]
+Lewy przycisk
+[Middle button]
+Środkowy przycisk
+[Right button]
+Prawy przycisk
 [Notifications]
 Powiadomienia
 [General options]
@@ -148,8 +150,8 @@ Akcja PPM:
 Wyłącz, kiedy globalny status to...
 [Disable when relevant protocol's status is...]
 Wyłącz, jeśli stosowany status protokołu to...
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
-Kolory można ustawić w\r\nPersonalizacja -> Czcionki
+[Colors can be configured in\r\nCustomize > Fonts and colors]
+Kolory mogą zostać skonfigurowane w\r\nPersonalizacja > Czcionki i kolory
 [More...]
 Więcej...
 [Disable if message window is open]
@@ -170,8 +172,8 @@ Ignoruj peł. ekran
 Nie pokazuj
 [Show default]
 Pokaż domyślnie
-[Default Timeout]
-Czas oczekiwania
+[Default timeout]
+Domyślny czas oczekiwania
 [Infinite popup delay]
 Nie chowaj popupów
 [Popup delay:]
@@ -190,8 +192,8 @@ Maks. szerokość
 Pozycja:
 [Layout:]
 Ułożenie:
-[Reorder Popups]
-Reorganizuj popupy
+[Reorder popups]
+Zmień kolejność popupów
 [Disable when:]
 Wyłącz, kiedy:
 [Always (has priority)]
@@ -201,8 +203,8 @@ Funkcja pełnoekranowa
 [Debug]
 Analizuj
 ;file \plugins\Popup\src\actions.cpp
-[no overwrite]
-Nic nie rób
+[No overwrite]
+Bez nadpisywania
 [Send message]
 Wyślij wiadomość
 [Quick reply]
@@ -246,8 +248,8 @@ Tytuł
 Zegar
 [Text]
 Tekst
-[Hovered Action]
-Akcje po najechaniu
+[Hovered action]
+Akcja po najechaniu
 [Background]
 Tło
 [Border]
@@ -256,8 +258,8 @@ Obramowanie
 Boczny pasek
 [Title underline]
 Podkreślony tytuł
-[Avatar Border]
-Obramowanie awatara
+[Avatar border]
+Granica awatara
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Historia popupów jest wyłączona
@@ -274,32 +276,22 @@ Nakładka "ulubione"
 Nakładka w "trybie pełnoekranowym"
 [Refresh skin list]
 Odśwież listę skórek
-[Popup Placement]
-Rozmieszczenie
+[Popup placement]
+Położenie popupu
 [Cancel]
 Anuluj
-[Popup Group]
-Grupa popupów
-[Favorite Contact]
-Ulubione kontakty
-[Show in Fullscreen]
-Pokaż w trybie pełnoekranowym
-[Blocked Contact]
-Kontakt zablokowany
-[Quick Reply]
-Szybka odpowiedź
-[Pin Popup]
-Przypnij popup
-[Pinned Popup]
+[Popup group]
+Grupa popupu
+[Favorite contact]
+Ulubiony kontakt
+[Show in fullscreen]
+Pokaż na pełnym ekranie
+[Blocked contact]
+Zablokowany kontakt
+[Pinned popup]
 Przypięty popup
-[Send Message]
-Wyślij wiadomość
-[Contact Menu]
-Menu kontaktu
-[Add Contact Permanently]
-Dodaj kontakt permanentnie
-[Dismiss Popup]
-Odrzuć popup
+[Add contact permanently]
+Dodaj kontakt na stałe
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Klasy
@@ -352,26 +344,26 @@ Na obiedzie
 Pod telefonem
 [Width]
 Szerokość
-[upper left corner]
-lewy górny róg
-[lower left corner]
-lewy dolny róg
-[lower right corner]
-prawy dolny róg
-[upper right corner]
-prawy górny róg
-[horizontal]
-poziome
-[vertical]
-pionowe
+[Upper left corner]
+Lewy górny róg
+[Lower left corner]
+Lewy dolny róg
+[Lower right corner]
+Prawy dolny róg
+[Upper right corner]
+Prawy górny róg
+[Horizontal]
+Poziomo
+[Vertical]
+Pionowo
 [Global Status]
 Globalny status
 [Protocol Status]
 Status protokołu
 [You cannot specify a value lower than %d and higher than %d.]
 Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Opcja zmiany kolejności popupów jest obecnie wyłączona.\r\nMoże to spowodować źle ułożone popupy w połączeniu z\r\nawatarami i zamianami tekstu (głównie NewXstatusNotify)\r\n\r\nCzy chcesz włączyć zmianę kolejności popupów teraz?\r
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Opcja "Zmień kolejność popupów" jest obecnie wyłączona.\r\nTo może spowodować nieprawidłowo wyrównane Popupy w połączeniu z\r\nawatarami and zamianą tekstu\ngłównie NewXstatusNotify).\r\n\r\nCzy chcesz teraz włączyć zmianę kolejności popupów?\r\n
 [Popup Plus Warning]
 Ostrzeżenie Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp

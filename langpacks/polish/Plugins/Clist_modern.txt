@@ -42,9 +42,9 @@ Przezroczysta lista kontaktów
 Nieaktywne okno:
 [Active opacity:]
 Aktywne okno:
-[Show Avatars]
+[Show avatars]
 Pokaż awatary
-[Animate Avatars]
+[Animate avatars]
 Animowane awatary
 [Show contact time in list]
 Pokaż czas kontaktu na liście
@@ -76,8 +76,8 @@ Przewijaj z tekstem
 Rozciągnij proporcjonalnie
 [Tile vertically according to row height]
 Układaj pionowo zależnie od wysokości wiersza
-[Use Windows Colors]
-Użyj kolorów Windows
+[Use Windows colors]
+Używaj kolorów Windows
 [Available skins]
 Dostępne skórki
 [Rescan]
@@ -88,7 +88,7 @@ Zastosuj
 Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nWybierz jedną z dostępnych skórek. \n\nMożesz też ręcznie wskazać jej lokalizację.
-[Skin Preview]
+[Skin preview]
 Podgląd skórki
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest możliwe. \n\t\tWykonaj kopię profilu przed ustawieniem nowej skórki.
@@ -166,28 +166,28 @@ Opcje trybu widoku
 Edytowanie trybu widoku
 [Last message]
 Ostatnia wiadomość
-[Status Bar]
-Pasek statusu
+[Status bar]
+Pasek stanu
 [Show status bar]
 Pokaż pasek statusu
 [Make sections equal width]
 Sekcje tej samej szerokości
 [Space between]
 Odstęp pomiędzy
-[Vertical Align]
-Pionowe wyrówn.
-[Horizontal Align]
-Poziome wyrówn.
+[Vertical align]
+Pionowe wyrównanie
+[Horizontal align]
+Poziome wyrównanie
 [Multiline status bar:]
 Wielolinijkowy pasek statusu:
 [Accounts per line]
 Protokołów w linii
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Aby zwiększyć wysokość paska statusu - ustaw w głównym menu: Ramki -> Pasek statusu -> Pokaż pasek tytułu i wtedy pociągnij widoczny pasek w górę lub dół.
-[Hold [Shift] to inverse [Right Click] behavior]
-SHIFT+PPM wywołuje menu główne.
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
-Ctrl+LPM filtruje protokoły. Kliknięcie w pustą przestrzeń pokazuje wszystkie.
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+* Aby zwiększyć wysokość paska stanu:\nW menu głównym ustaw: ramki->Pasek Stanu->Pokaż tytuł, a następnie przeciągnij tytuł paska, który się pojawi w górę lub w dół.
+[Hold [Shift] to inverse [Right Click] behavior.]
+Przytrzymaj Shift, aby odwrócić zahowanie przy kliknięciu prawym przyciskiem myszy
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
+[Ctrl]+[kliknięcie lewym przyciskiem myszy], aby filtrować tylko protokół, kliknij w puste pole, aby pokazać wszystko
 [Set options per account]
 Ustaw opcje dla każdego konta
 [Enable custom account settings]
@@ -216,11 +216,11 @@ Pokaż nieprzeczytane maile (jeśli obsługiwane)
 PPM otwiera menu statusu
 [Right click opens Miranda menu]
 PPM otwiera menu Mirandy NG
-[Space on Left]
-Odstęp z lewej
+[Space on left]
+Pole po lewej
 [Space on right]
 Odstęp z prawej
-[Delete Contact]
+[Delete contact]
 Usuń kontakt
 [No]
 Nie
@@ -260,8 +260,8 @@ Pełne zaznaczenie
 Częściowe zaznaczenie
 [No selection]
 Brak zaznaczenia
-[Selection Mode]
-Tryb zaznaczenia
+[Selection mode]
+Tryb wyboru
 [Bring to front if covered]
 Przesuń na wierzch, jeśli zakryty
 [Automatically resize window to height of list]
@@ -278,8 +278,8 @@ Zachowanie
 Zablokuj ręczną zmianę rozmiaru
 [Drag to]
 Przeciągnij do
-[Easy Scroll]
-Łatwe przewijanie
+[Easy scroll]
+Łatw przewijanie
 [Easy move]
 Łatwe przesuwanie
 [x100 ms]
@@ -302,7 +302,7 @@ Obszar powiadomień
 Wyłączone
 [Show automaticaly]
 Pokaż automatycznie
-[Always Visible]
+[Always visible]
 Zawsze widoczny
 [Dock to sides]
 Dokuj do krawędzi
@@ -324,8 +324,8 @@ Pokazuj zaznaczenie na nieaktywnej liście
 Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
-['Hide Offline' means to hide:]
-Ukryj jako rozłączone:
+['Hide offline' means to hide:]
+"Ukryj rozłączonych" oznacza ukrycie:
 [Groups]
 Grupy
 [Draw a line alongside group names]
@@ -372,18 +372,18 @@ Ikona w zasobniku
 Tryb ikony w zasobniku systemowym
 [Use xStatus icon]
 Użyj ikony xStatusu
-[Ignore Empty Extra icons places (arrange to right).]
-Ignoruj puste miejsca na ikony (przesuń do prawej).
-[Use 'Meta' protocol icons for Metacontacts]
-Użyj ikony "Meta" dla metakontaktów
-[Expand metacontacts]
-Rozwiń metakontakty
-[Avoid doubleclick expand]
-Unikaj rozwijania podwójnym kliknięciem
-[Hide all 'Extra icons' for subcontacts]
-Ukryj wszystkie "dodatkowe ikony" dla subkontaktów
-[Hide offline subcontacts.]
-Ukryj rozłączone subkontakty.
+[Ignore empty extra icons places (arrange to right).]
+Ignoruj puste miejsca na dodatkowe ikony (rozmieść w prawo)
+[Use 'Meta' protocol icons for MetaContacts]
+Używaj ikon protokołu "Meta" dla metakontaktów
+[Expand MetaContacts]
+Rozwijaj metakontakty
+[Avoid double click expand]
+Unikaj rozwijania przez podwójne kliknięcie
+[Hide all extra icons for subcontacts]
+Ukryj wszystkie dodatkowe ikony podkontaktów
+[Hide offline subcontacts]
+Ukryj rozłączone podkontakty
 [MetaContacts stuff]
 Elementy metakontaktów
 [Additional stuff]
@@ -434,14 +434,14 @@ Pomiędzy ramkami:
 Po napisach:
 [Gaps]
 Przerwy
-[Use Non-Layered mode]
-Wyłącz skórkowanie
+[Use non-layered mode]
+Używaj trybu bezwarstwowego
 [Round corners]
 Zaokrąglone rogi
 [Non-layered mode]
 Tryb Non-layered
-[Disable Skin Engine]
-Wyłącz silnik skórek
+[Disable skin engine]
+Wyłącz silnik skórkowania
 [Enable Aero Glass (Vista+)]
 Włącz Aero Glass (Vista+)
 [Order of items:]
@@ -502,8 +502,8 @@ Pokazuj ikonę "zawsze widoczny"
 Użyj dodatkowej ikony statusu zamiast protokołu
 [Draw normal status as overlay]
 Rysuj normalny status jako nakładkę
-[Right-To-Left reading mode (mirror template)]
-Czytanie od prawej do lewej (odwróć szablon)
+[Right-to-left reading mode (mirror template)]
+Tryb czytania od prawej do lewej (szablon lustra)
 [Replace smileys in contact list]
 Zamień uśmieszki na liście kontaktów
 [Use protocol smileys]
@@ -530,7 +530,7 @@ Tekst:
 Status
 [Nickname]
 Nick
-[Status Message]
+[Status message]
 Opis
 [Listening to]
 Teraz odtwarzane
@@ -622,47 +622,47 @@ Za&jęty
 &Chętny do rozmowy\tCtrl+6
 [&Invisible\tCtrl+7]
 N&iewidoczny\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Przy &telefonie\tCtrl+8
-[Out to &Lunch\tCtrl+9]
-Poszedłem na &obiad\tCtrl+9
+[Out to &lunch\tCtrl+9]
+Na &obiedzie\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
 &Pokaż/Ukryj
 [Nowhere]
 Nigdzie
-[&New Group]
+[&New group]
 &Nowa grupa
-[&Hide Offline Users]
+[&Hide offline users]
 &Ukryj rozłączonych
-[Hide &Offline Users out here]
-Ukryj &rozłączonych tutaj
-[Hide &Empty Groups]
+[Hide &offline users out here]
+Ukryj &rozłączonych poza tą grupą
+[Hide &empty groups]
 Ukryj &puste grupy
-[Disable &Groups]
+[Disable &groups]
 Wyłącz &grupy
 [Hide Miranda]
 Ukryj Mirandę
-[&New Subgroup]
+[&New subgroup]
 &Nowa podgrupa
-[&Hide Offline Users in here]
-&Ukryj tu rozłączonych
-[&Show Offline Users in here]
-&Pokaż tu rozłączonych
-[&Rename Group]
+[&Hide offline users in here]
+&Ukryj rozłączonych tutaj
+[&Show offline users in here]
+&Pokaż rozłączonych tutaj
+[&Rename group]
 &Zmień nazwę grupy
-[&Delete Group]
+[&Delete group]
 &Usuń grupę
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Skórki
 [Modern contact list]
 Modern contact list
-[Avatar Overlay]
-Nakładka awatara
-[Status Overlay]
-Nakładka statusu
+[Avatar overlay]
+Otoczka awatara
+[Status overlay]
+Otoczka statusu
 [Contact list smileys]
 Emotikony listy kontaktów
 [List background]
@@ -794,7 +794,7 @@ Nazwa
 Nazwa (użyj lokalnych ustawień)
 [Last message time]
 Czas ostatniej wiadomości
-[Account Name]
+[Account name]
 Nazwa konta
 [Rate]
 Ocena
@@ -819,7 +819,7 @@ Okno
 Brak zdarzeń
 [Event area background]
 Tło obszaru zdarzeń
-[Event Area]
+[Event area]
 Obszar zdarzeń
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
@@ -832,13 +832,13 @@ Niska
 Średnia
 [High]
 Wysoka
-[Contact rate None]
+[Contact rate none]
 Brak oceny kontaktu
-[Contact rate Low]
+[Contact rate low]
 Niska ocena kontaktu
-[Contact rate Medium]
+[Contact rate medium]
 Średnia ocena kontaktu
-[Contact rate High]
+[Contact rate high]
 Wysoka ocena kontaktu
 [Show even if offline]
 Pokaż nawet, jeśli rozłączony
@@ -863,27 +863,25 @@ Wyrównaj nazwy grup do prawej
 Wiersz
 [Row design]
 Ułożenie wiersza
-[Second Line]
-Druga linia
-[Third Line]
-Trzecia linia
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 Menu zasobnika
-[&Find/Add Contacts...]
-&Szukaj/Dodaj kontakty...
+[&Find/Add contacts...]
+&Szukaj/dodaj kontakty...
 [&Options...]
 &Opcje...
 [&About]
 &Informacje
 ;file \plugins\Clist_modern\src\modern_clui.cpp
-[Show Contact &Avatar]
+[Show contact &avatar]
 Pokaż &awatar kontaktu
-[Hide Contact &Avatar]
+[Hide contact &avatar]
 Ukryj &awatar kontaktu
+[My contacts]
+Moje kontakty
 [My Contacts]
 Moje kontakty
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
@@ -919,14 +917,14 @@ Stałe wypełnienie obiektu
 Obraz (rysuj obraz)
 [Fragment (draw portion of image)]
 Fragment (rysuj fragment obrazu)
-[Stretch Both directions]
+[Stretch both directions]
 Rozciągnij w obydwie strony
-[Stretch Vertical, Tile Horizontal]
-Rozciągnij w pionie, kafelkuj w poziomie
-[Tile Vertical, Stretch Horizontal]
-Kafelkuj w pionie, rozciągnij w poziomie
-[Tile Both directions]
-Kafelkuj w obydwu kierunkach
+[Stretch vertical, tile horizontal]
+Rozciągnij w pionie, zwęź w poziomie
+[Tile vertical, stretch horizontal]
+Zwęź w pionie, rozciągnij w poziomie
+[Tile both directions]
+Zwęź w obydwie strony
 [Image size is]
 Rozmiar obrazu to
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
@@ -983,6 +981,8 @@ Domyślna skórka
 Środek
 [Right]
 Prawa
+[Bottom]
+Dół
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Menu główne
@@ -1004,8 +1004,6 @@ Szukaj kontaktu
 Włącz/Wyłącz grupy
 [Use groups]
 Pokaż grupy
-[Disable Groups]
-Wyłącz grupy
 [Enable/Disable sounds]
 Włącz/Wyłącz dźwięki
 [Enable sounds]
@@ -1051,13 +1049,11 @@ Ustaw tryb widoku
 Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
 [Delete a view mode]
 Usuwanie trybu widoku
-[A view mode with this name does alredy exist]
-Tryb widoku o takiej nazwie już istnieje
+[A view mode with this name does already exist]
+Tryb widoku o podanej nazwie już istnieje
 [Duplicate name]
 Zduplikowana nazwa
-[All Contacts]
-Wszystkie kontakty
-[Setup View Modes...]
+[Setup view modes...]
 Ustaw tryby widoku...
 [Select a view mode]
 Wybierz tryb widoku
@@ -1067,9 +1063,9 @@ Ustaw tryby widoku
 Wyczyść tryb widoku i przywróć domyślne wyświetlanie
 [Reset view mode]
 Resetuj tryb widoku
-[View Mode Background]
-Tło Trybu Widoku
-[View Modes]
+[View mode background]
+Tło trybu widoku
+[View modes]
 Tryby widoku
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
@@ -1080,8 +1076,8 @@ Tryby widoku
 &Zablokowany
 [&Expanded]
 &Rozszerzony
-[&Floating Mode]
-&Pływające okno
+[&Floating mode]
+Tryb &pływający
 [&Border]
 &Obramowanie
 [&Align]
@@ -1098,7 +1094,7 @@ Tryby widoku
 &Góra
 [&Down]
 &Dół
-[Show All Frames]
+[Show all frames]
 Pokaż wszystkie ramki
 [Show all title bars]
 Pokaż wszystkie paski tytułów
@@ -1114,5 +1110,3 @@ Menu ramki
 Menu grupy
 [Subgroup menu]
 Menu podgrupy
-[&New SubGroup]
-&Nowa podgrupa
