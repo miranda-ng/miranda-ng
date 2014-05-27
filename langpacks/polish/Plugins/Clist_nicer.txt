@@ -710,14 +710,14 @@ Ustaw tryb widoku
 Konta
 [My contacts]
 Moje kontakty
-[Contact list/Default]
-Lista kontaktów/Domyślnie
-[Contact list/Overlay icons]
-Ikony otaczające listę kontaktów
+[Default]
+Domyślne
+[Overlay icons]
+Otaczające ikony
 [%s connecting]
 %s łączenie
-[Contact list/Connecting icons]
-Lista kontaktów/Ikony łączenia
+[Connecting icons]
+Ikony łączenia
 [Menu]
 Menu
 [Open main menu]

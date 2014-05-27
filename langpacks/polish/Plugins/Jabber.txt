@@ -879,8 +879,8 @@ Włączyć logowanie rozmów
 Naturalny język dyskusji w pokoju
 [Maximum number of room occupants]
 Maksymalna liczba użytkowników w pokoju
-[Whether an make room members-only]
-Sprawić, by pokój był tylko dla członków
+[Whether to make room members-only]
+Czy uczynić pokój dostępnym tylko dla zaproszonych członków
 [Whether to make room moderated]
 Sprawić, by pokój był moderowany
 [Whether a password is required to enter]

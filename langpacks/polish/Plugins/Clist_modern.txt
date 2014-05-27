@@ -94,6 +94,8 @@ Podgląd skórki
 UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest możliwe. \n\t\tWykonaj kopię profilu przed ustawieniem nowej skórki.
 [* Restart may be required for all changes to take effect]
 * Miranda NG musi zostać zrestartowana aby zmiany przyniosły efekt
+[Skin folder]
+Folder skórek
 [Available objects]
 Dostępne obiekty
 [Copy]
@@ -186,8 +188,6 @@ Protokołów w linii
 * Aby zwiększyć wysokość paska stanu:\nW menu głównym ustaw: ramki->Pasek Stanu->Pokaż tytuł, a następnie przeciągnij tytuł paska, który się pojawi w górę lub w dół.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Przytrzymaj Shift, aby odwrócić zahowanie przy kliknięciu prawym przyciskiem myszy
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
-[Ctrl]+[kliknięcie lewym przyciskiem myszy], aby filtrować tylko protokół, kliknij w puste pole, aby pokazać wszystko
 [Set options per account]
 Ustaw opcje dla każdego konta
 [Enable custom account settings]
