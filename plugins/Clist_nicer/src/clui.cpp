@@ -220,7 +220,7 @@ static int CreateCLC(HWND parent)
 	return 0;
 }
 
-static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int CluiModulesLoaded(WPARAM, LPARAM)
 {
 	FS_RegisterFonts();
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
@@ -253,13 +253,13 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_Register(g_hInst, LPGEN("Contact list/Default"), myIcons, SIZEOF(myIcons));
+	Icon_Register(g_hInst, LPGEN("Contact list")"/"LPGEN("Default"), myIcons, SIZEOF(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, sizeof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), GSMDF_TCHAR), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list/Overlay icons"), &icon, 1);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Overlay icons"), &icon, 1);
 	}
 
 	PROTOACCOUNT **accs = NULL;
@@ -272,11 +272,11 @@ static void InitIcoLib()
 		TCHAR szDescr[128];
 		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list/Connecting icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 
-static int IcoLibChanged(WPARAM wParam, LPARAM lParam)
+static int IcoLibChanged(WPARAM, LPARAM)
 {
 	IcoLibReloadIcons();
 	return 0;
@@ -289,14 +289,14 @@ void CreateButtonBar(HWND hWnd)
 	SetWindowText(hTbMenu, TranslateT("Menu"));
 	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MAINMENU));
 	SendMessage(hTbMenu, BUTTONSETSENDONDOWN, TRUE, 0);
-	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open main menu"), BATF_TCHAR);
+	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Open main menu"), 0);
 
 	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_hInst, NULL);
 	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
 	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
 	SendMessage(hTbGlobalStatus, BUTTONSETSENDONDOWN, TRUE, 0);
-	SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Set status modes"), BATF_TCHAR);
+	SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Set status modes"), 0);
 }
 
 // if mode != 0 we do first time init, otherwise only reload the extra icon stuff
@@ -479,7 +479,6 @@ void BlitWallpaper(HDC hdc, RECT *rc, RECT *rcPaint, struct ClcData *dat)
 	int maxx, maxy;
 	int destw, desth, height, width;
 	BITMAP *bmp = &cfg::dat.bminfoBg;
-	HRGN my_rgn = 0;
 	LONG clip = cfg::dat.bClipBorder;
 
 	if (dat == 0)
@@ -496,7 +495,7 @@ void BlitWallpaper(HDC hdc, RECT *rc, RECT *rcPaint, struct ClcData *dat)
 
 	width = rc->right - rc->left;
 	height = rc->bottom - rc->top;
-	my_rgn = CreateRectRgn(rc->left, rc->top, rc->right, rc->bottom);
+	HRGN my_rgn = CreateRectRgn(rc->left, rc->top, rc->right, rc->bottom);
 	SelectClipRgn(hdc, my_rgn);
 	maxx = dat->backgroundBmpUse & CLBF_TILEH ? rc->right : rc->left + 1;
 	maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rc->bottom : y + 1;
@@ -778,7 +777,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 {
 	switch (msg) {
 	case WM_CREATE:
-		int i;
 		{
 			int flags = WS_CHILD | CCS_BOTTOM;
 			flags |= cfg::getByte("CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
@@ -801,7 +799,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		ConfigureCLUIGeometry(0);
 		CluiProtocolStatusChanged(0, 0);
 
-		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 			statusNames[i-ID_STATUS_OFFLINE] = pcli->pfnGetStatusModeDescription(i, 0);
 
 		//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)

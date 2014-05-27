@@ -333,43 +333,51 @@ void LoadExtBkSettingsFromDB()
 }
 
 // writes whole struct to the database
-static void SaveCompleteStructToDB(void)
-{
-	char buffer[255];
-
+static void SaveCompleteStructToDB() {
 	for (int n = 0; n < arStatusItems.getCount(); n++) {
 		StatusItems_t *p = arStatusItems[n];
-		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
-		if (p->statusID == ID_EXTBKSEPARATOR)
-			continue;
-
-		strcpy(pszEnd, "IGNORE"); cfg::writeByte("CLCExt", buffer, p->IGNORED);
-		strcpy(pszEnd, "GRADIENT"); cfg::writeDword("CLCExt", buffer, p->GRADIENT);
-		strcpy(pszEnd, "CORNER"); cfg::writeDword("CLCExt", buffer, p->CORNER);
-		strcpy(pszEnd, "COLOR"); cfg::writeDword("CLCExt", buffer, p->COLOR);
-		strcpy(pszEnd, "COLOR2"); cfg::writeDword("CLCExt", buffer, p->COLOR2);
-		strcpy(pszEnd, "COLOR2_TRANSPARENT"); cfg::writeByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
-		strcpy(pszEnd, "TEXTCOLOR"); cfg::writeDword("CLCExt", buffer, p->TEXTCOLOR);
-		strcpy(pszEnd, "ALPHA"); cfg::writeByte("CLCExt", buffer, (BYTE)p->ALPHA);
-		strcpy(pszEnd, "MRGN_LEFT"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
-		strcpy(pszEnd, "MRGN_TOP"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_TOP);
-		strcpy(pszEnd, "MRGN_RIGHT"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
-		strcpy(pszEnd, "MRGN_BOTTOM"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
-		strcpy(pszEnd, "BDRSTYLE"); cfg::writeDword("CLCExt", buffer, p->BORDERSTYLE);
+		if (p->statusID != ID_EXTBKSEPARATOR) {
+			char buffer[255];
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_IGNORE", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, p->IGNORED);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_GRADIENT", p->szDBname);
+			cfg::writeDword("CLCExt", buffer, p->GRADIENT);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_CORNER", p->szDBname);
+			cfg::writeDword("CLCExt", buffer, p->CORNER);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR", p->szDBname);
+			cfg::writeDword("CLCExt", buffer, p->COLOR);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2", p->szDBname);
+			cfg::writeDword("CLCExt", buffer, p->COLOR2);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2_TRANSPARENT", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_TEXTCOLOR", p->szDBname);
+			cfg::writeDword("CLCExt", buffer, p->TEXTCOLOR);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_ALPHA", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, (BYTE)p->ALPHA);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_LEFT", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_TOP", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_TOP);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_RIGHT", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_BOTTOM", p->szDBname);
+			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s_BDRSTYLE", p->szDBname);
+			cfg::writeDword("CLCExt", buffer, p->BORDERSTYLE);
+		}
 	}
 }
 
 void SetButtonToSkinned()
 {
 	bool bSkinned = (cfg::dat.bSkinnedButtonMode = cfg::getByte("CLCExt", "bskinned", 0)) != 0;
-	bool bFlat = bSkinned ? true : cfg::getByte("TopToolBar", "UseFlatButton", 0);
+	bool bFlat = bSkinned || (cfg::getByte("TopToolBar", "UseFlatButton", 0) != 0);
 
 	for (int i = 0; ; i++) {
 		if (BTNS[i].pszButtonID == NULL)
 			break;
-		if (BTNS[i].hwndButton == 0 || BTNS[i].ctrlid == IDC_TBGLOBALSTATUS || BTNS[i].ctrlid == IDC_TBMENU)
-			continue;
-		CustomizeButton(BTNS[i].hwndButton, bSkinned, !bSkinned, bFlat, true);
+		if (BTNS[i].hwndButton != 0 && BTNS[i].ctrlid != IDC_TBGLOBALSTATUS && BTNS[i].ctrlid != IDC_TBMENU)
+			CustomizeButton(BTNS[i].hwndButton, bSkinned, !bSkinned, bFlat, true);
 	}
 
 	CustomizeButton(GetDlgItem(pcli->hwndContactList, IDC_TBMENU), bSkinned, !bSkinned, bSkinned);
