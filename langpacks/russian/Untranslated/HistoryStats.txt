@@ -23,7 +23,6 @@
 [[#{date}] #{amount}]
 [[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
 [[#{date}] #{out_amount} (out) / #{in_amount} (in)]
-[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 [#{words} total]
 [Columns]
 [Create]

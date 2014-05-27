@@ -381,6 +381,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Разворачивать метаконтакты
 [Avoid double click expand]
 Не разворачивать по двойному клику
+[Hide all extra icons for subcontacts]
+Скрыть дополнительные значки для субконтактов
 [Hide offline subcontacts]
 Прятать субконтакты не в сети
 [MetaContacts stuff]
@@ -966,7 +968,7 @@ Angeli-Ka (графика), FYR (шаблон)
 [Right]
 Справа
 [Bottom]
-Снизу
+Внизу
 [Main menu]
 Главное меню
 [Status menu]
