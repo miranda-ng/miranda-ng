@@ -223,13 +223,13 @@ void CQuotesProviderDukasCopy::RefreshQuotes(TContracts& anContacts)
 // 	LogIt(Info,sURL);
 	if(true == http.OpenURL(sURL))
 	{
-		if(true == IsOnline())
+// 		if(true == IsOnline())
 		{
 			tstring sHTML;
 			if(true == http.ReadResponce(sHTML))
 			{
 // 				LogIt(Info,sHTML);
-				if(true == IsOnline())
+// 				if(true == IsOnline())
 				{
 					TEconomicRates aRates;
 					if(true == parse_HTML(sHTML,aRates)

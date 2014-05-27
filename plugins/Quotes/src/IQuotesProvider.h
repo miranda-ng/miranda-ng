@@ -26,9 +26,10 @@ public:
 	virtual void DeleteContact(MCONTACT hContact) = 0;
 
 	virtual void ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp) = 0;
-	virtual void RefreshAll() = 0;
+	virtual void RefreshAllContacts() = 0;
+	virtual void RefreshSettings() = 0;
  	virtual void RefreshContact(MCONTACT hContact) = 0;
-	virtual void SetContactExtraIcon(MCONTACT hContact)const = 0;
+// 	virtual void SetContactExtraIcon(MCONTACT hContact)const = 0;
 
 	virtual void Run() = 0;
 

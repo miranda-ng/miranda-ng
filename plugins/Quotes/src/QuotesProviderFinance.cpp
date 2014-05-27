@@ -278,7 +278,7 @@ namespace
 
 							});
 
-						pProvider->RefreshAll();
+						pProvider->RefreshSettings();
 					}
 
 					return (TRUE);

@@ -69,9 +69,10 @@ public:
 	virtual void DeleteContact(MCONTACT hContact);
 	virtual void Run();
 	virtual void Accept(CQuotesProviderVisitor& visitor)const;
-	virtual void RefreshAll();
+	virtual void RefreshAllContacts();
+	virtual void RefreshSettings();
 	virtual void RefreshContact(MCONTACT hContact);
-	virtual void SetContactExtraIcon(MCONTACT hContact)const;
+// 	virtual void SetContactExtraIcon(MCONTACT hContact)const;
 
 protected:
 	const tstring& GetURL()const;

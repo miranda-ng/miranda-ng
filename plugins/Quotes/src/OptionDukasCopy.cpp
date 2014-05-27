@@ -344,7 +344,7 @@ namespace
 						if(pDukasProvider)
 						{
 							recursive_save_selection(::GetDlgItem(hdlg,IDC_TREE_ECONOMIC_RATES),pDukasProvider);
-							pDukasProvider->RefreshAll();
+							pDukasProvider->RefreshSettings();
 						}
 					}
 					break;

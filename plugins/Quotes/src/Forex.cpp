@@ -66,55 +66,71 @@ namespace
 	}
 
 
-	INT_PTR QuoteProtoFunc_SetStatus(WPARAM wp,LPARAM /*lp*/)
-	{
-		if ((ID_STATUS_ONLINE == wp) || (ID_STATUS_OFFLINE == wp))
-		{
-			bool bAutoUpdate = (ID_STATUS_ONLINE == wp);
-			bool bOldFlag = g_bAutoUpdate;
-
-			if(bAutoUpdate != g_bAutoUpdate)
-			{
-				g_bAutoUpdate = bAutoUpdate;
-				db_set_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,g_bAutoUpdate);
-				if (bOldFlag && !g_bAutoUpdate)
-				{
-					BOOL b = ::SetEvent(g_hEventWorkThreadStop);
-					assert(b);
-				}
-				else if (g_bAutoUpdate && !bOldFlag)
-				{
-					BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
-					assert(b && "Failed to reset event");
-
-					const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
-					const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
-					for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
-					{
-						const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
-						g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
-					}
-				}
-
-				UpdateMenu(g_bAutoUpdate);
-				//ProtoBroadcastAck(QUOTES_PROTOCOL_NAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,reinterpret_cast<HANDLE>(nOldStatus),g_nStatus);
-			}
-
-		}
-
-		return 0;
-	}
+// 	INT_PTR QuoteProtoFunc_SetStatus(WPARAM wp,LPARAM /*lp*/)
+// 	{
+// 		if ((ID_STATUS_ONLINE == wp) || (ID_STATUS_OFFLINE == wp))
+// 		{
+// 			bool bAutoUpdate = (ID_STATUS_ONLINE == wp);
+// 			bool bOldFlag = g_bAutoUpdate;
+// 
+// 			if(bAutoUpdate != g_bAutoUpdate)
+// 			{
+// 				g_bAutoUpdate = bAutoUpdate;
+// 				db_set_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,g_bAutoUpdate);
+// 				if (bOldFlag && !g_bAutoUpdate)
+// 				{
+// 					BOOL b = ::SetEvent(g_hEventWorkThreadStop);
+// 					assert(b);
+// 				}
+// 				else if (g_bAutoUpdate && !bOldFlag)
+// 				{
+// 					BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
+// 					assert(b && "Failed to reset event");
+// 
+// 					const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+// 					const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
+// 					for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
+// 					{
+// 						const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
+// 						g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
+// 					}
+// 				}
+// 
+// 				UpdateMenu(g_bAutoUpdate);
+// 				//ProtoBroadcastAck(QUOTES_PROTOCOL_NAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,reinterpret_cast<HANDLE>(nOldStatus),g_nStatus);
+// 			}
+// 
+// 		}
+// 
+// 		return 0;
+// 	}
 
 	INT_PTR QuotesMenu_RefreshAll(WPARAM wp,LPARAM lp)
 	{
 		const CQuotesProviders::TQuotesProviders& apProviders = CModuleInfo::GetQuoteProvidersPtr()->GetProviders();
-		std::for_each(apProviders.begin(),apProviders.end(),boost::bind(&IQuotesProvider::RefreshAll,_1));
+		std::for_each(apProviders.begin(),apProviders.end(),boost::bind(&IQuotesProvider::RefreshAllContacts,_1));
 		return 0;
 	}
 
 	INT_PTR QuotesMenu_EnableDisable(WPARAM wp,LPARAM lp)
 	{
-		QuoteProtoFunc_SetStatus(g_bAutoUpdate ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE,0L);
+		//QuoteProtoFunc_SetStatus(g_bAutoUpdate ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE,0L);
+
+		g_bAutoUpdate = (g_bAutoUpdate) ? false : true;
+		db_set_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,g_bAutoUpdate);
+
+		const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+		const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
+		std::for_each(std::begin(rapProviders),std::end(rapProviders),[](const CQuotesProviders::TQuotesProviderPtr& pProvider)
+		{
+			pProvider->RefreshSettings();
+			if(g_bAutoUpdate)
+			{
+				pProvider->RefreshAllContacts();
+			}
+		});
+		UpdateMenu(g_bAutoUpdate);
+
 		return 0;
 	}
 
@@ -285,11 +301,11 @@ namespace
 	{
 		CHTTPSession::Init();
 
-		HANDLE h = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
-		g_ahEvents.push_back(h);
+// 		HANDLE h = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
+// 		g_ahEvents.push_back(h);
 
 		g_hEventWorkThreadStop = ::CreateEvent(NULL,TRUE,FALSE,NULL);
-		h = (ME_USERINFO_INITIALISE,QuotesEventFunc_OnUserInfoInit);
+		auto h = HookEvent(ME_USERINFO_INITIALISE,QuotesEventFunc_OnUserInfoInit);
 		g_ahEvents.push_back(h);
 
 		h = HookEvent(ME_CLIST_DOUBLECLICKED,Quotes_OnContactDoubleClick);
@@ -298,7 +314,20 @@ namespace
 		h = HookEvent(ME_TTB_MODULELOADED, Quotes_OnToolbarLoaded);
 		g_ahEvents.push_back(h);
 
+		g_bAutoUpdate = 1 == db_get_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,1);
+
 		InitMenu();
+
+		BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
+		assert(b && "Failed to reset event");
+
+		const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+		const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
+		for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
+		{
+			const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
+			g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
+		}
 
 		return 0;
 	}
@@ -317,10 +346,10 @@ namespace
 		return 0;
 	}
 
-	INT_PTR QuoteProtoFunc_GetStatus(WPARAM/* wp*/,LPARAM/* lp*/)
-	{
-		return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-	}
+// 	INT_PTR QuoteProtoFunc_GetStatus(WPARAM/* wp*/,LPARAM/* lp*/)
+// 	{
+// 		return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
+// 	}
 
 	void WaitForWorkingThreads()
 	{
@@ -335,54 +364,56 @@ namespace
 
 	int QuotesEventFunc_PreShutdown(WPARAM wParam, LPARAM lParam)
 	{
-		QuoteProtoFunc_SetStatus(ID_STATUS_OFFLINE,0);
+		//QuoteProtoFunc_SetStatus(ID_STATUS_OFFLINE,0);
+		BOOL b = ::SetEvent(g_hEventWorkThreadStop);
+
 		CModuleInfo::GetInstance().OnMirandaShutdown();
 		return 0;
 	}
 
-	INT_PTR QuoteProtoFunc_GetName(WPARAM wParam, LPARAM lParam)
-	{
-		if(lParam)
-		{
-			lstrcpynA(reinterpret_cast<char*>(lParam),QUOTES_PROTOCOL_NAME,wParam);
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
-	}
-
-	INT_PTR QuoteProtoFunc_GetCaps(WPARAM wp,LPARAM lp)
-	{
-		int ret = 0;
-		switch(wp)
-		{
-		case PFLAGNUM_1:
-			ret = PF1_PEER2PEER;
-			break;
-		case PFLAGNUM_3:
-		case PFLAGNUM_2:
-			ret = PF2_ONLINE|PF2_LONGAWAY;
-			if(CModuleInfo::GetInstance().GetExtendedStatusFlag())
-			{
-				ret |= PF2_LIGHTDND;
-			}
-			break;
-		}
-
-		return ret;
-	}
-
-	INT_PTR QuoteProtoFunc_LoadIcon(WPARAM wp,LPARAM /*lp*/)
-	{
-		if ((wp & 0xffff) == PLI_PROTOCOL)
-		{
-			return reinterpret_cast<int>(::CopyIcon(Quotes_LoadIconEx(ICON_STR_MAIN)));
-		}
-
-		return 0;
-	}
+// 	INT_PTR QuoteProtoFunc_GetName(WPARAM wParam, LPARAM lParam)
+// 	{
+// 		if(lParam)
+// 		{
+// 			lstrcpynA(reinterpret_cast<char*>(lParam),QUOTES_PROTOCOL_NAME,wParam);
+// 			return 0;
+// 		}
+// 		else
+// 		{
+// 			return 1;
+// 		}
+// 	}
+// 
+// 	INT_PTR QuoteProtoFunc_GetCaps(WPARAM wp,LPARAM lp)
+// 	{
+// 		int ret = 0;
+// 		switch(wp)
+// 		{
+// 		case PFLAGNUM_1:
+// 			ret = PF1_PEER2PEER;
+// 			break;
+// 		case PFLAGNUM_3:
+// 		case PFLAGNUM_2:
+// 			ret = PF2_ONLINE|PF2_LONGAWAY;
+// 			if(CModuleInfo::GetInstance().GetExtendedStatusFlag())
+// 			{
+// 				ret |= PF2_LIGHTDND;
+// 			}
+// 			break;
+// 		}
+// 
+// 		return ret;
+// 	}
+// 
+// 	INT_PTR QuoteProtoFunc_LoadIcon(WPARAM wp,LPARAM /*lp*/)
+// 	{
+// 		if ((wp & 0xffff) == PLI_PROTOCOL)
+// 		{
+// 			return reinterpret_cast<int>(::CopyIcon(Quotes_LoadIconEx(ICON_STR_MAIN)));
+// 		}
+// 
+// 		return 0;
+// 	}
 
 	int QuotesEventFunc_OptInitialise(WPARAM wp,LPARAM/* lp*/)
 	{
@@ -447,18 +478,18 @@ extern "C"
 		pd.type = PROTOTYPE_VIRTUAL;
 		CallService(MS_PROTO_REGISTERMODULE, 0, ( LPARAM )&pd );
 
-		HANDLE h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
-		g_ahServices.push_back(h);
-		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
-		g_ahServices.push_back(h);
-		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_SETSTATUS, QuoteProtoFunc_SetStatus);
-		g_ahServices.push_back(h);
-		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
-		g_ahServices.push_back(h);
-		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_LOADICON, QuoteProtoFunc_LoadIcon);
-		g_ahServices.push_back(h);
+// 		HANDLE h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
+// 		g_ahServices.push_back(h);
+// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
+// 		g_ahServices.push_back(h);
+// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_SETSTATUS, QuoteProtoFunc_SetStatus);
+// 		g_ahServices.push_back(h);
+// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
+// 		g_ahServices.push_back(h);
+// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_LOADICON, QuoteProtoFunc_LoadIcon);
+// 		g_ahServices.push_back(h);
 
-		h = HookEvent(ME_SYSTEM_MODULESLOADED,QuotesEventFunc_OnModulesLoaded);
+		auto h = HookEvent(ME_SYSTEM_MODULESLOADED,QuotesEventFunc_OnModulesLoaded);
 		g_ahEvents.push_back(h);
 		h = HookEvent(ME_DB_CONTACT_DELETED,QuotesEventFunc_OnContactDeleted);
 		g_ahEvents.push_back(h);
@@ -472,7 +503,7 @@ extern "C"
 		h = CreateServiceFunction(MS_QUOTES_IMPORT, Quotes_Import);
 		g_ahServices.push_back(h);
 
-		g_bAutoUpdate = 1 == db_get_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,1);
+
 		return 0;
 	}
 

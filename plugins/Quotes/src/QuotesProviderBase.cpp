@@ -235,7 +235,7 @@ const tstring& CQuotesProviderBase::GetURL()const
 
 bool CQuotesProviderBase::IsOnline()
 {
-	return g_bAutoUpdate;
+	return /*g_bAutoUpdate*/true;
 }
 
 void CQuotesProviderBase::AddContact(MCONTACT hContact)
@@ -819,7 +819,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact,double dRate,const 
 	}
 
 
-	if((true == IsOnline()))
+// 	if((true == IsOnline()))
 	{
 		SetContactStatus(hContact,ID_STATUS_ONLINE);
 	}
@@ -851,6 +851,11 @@ namespace
 {
 	DWORD get_refresh_timeout_miliseconds(const CQuotesProviderVisitorDbSettings& visitor)
 	{
+		if(!g_bAutoUpdate)
+		{
+			return INFINITE;
+		}
+
 		assert(visitor.m_pszDbRefreshRateType);
 		assert(visitor.m_pszDbRefreshRateValue);
 
@@ -934,14 +939,14 @@ void CQuotesProviderBase::Run()
 
 	bool bGoToBed = false;
 
+	if(g_bAutoUpdate)
+	{
+		CBoolGuard bg(m_bRefreshInProgress);		
+		RefreshQuotes(anContacts);
+	}
+
 	while(false == bGoToBed)
 	{		
-		{
-			CBoolGuard bg(m_bRefreshInProgress);
-// 			LogIt(Info,_T("Begin contacts refreshing"));
-			RefreshQuotes(anContacts);
-// 			LogIt(Info,_T("End contacts refreshing"));
-		}
 		anContacts.clear();
 
 		DWORD dwBegin = ::GetTickCount();
@@ -973,12 +978,21 @@ void CQuotesProviderBase::Run()
 		case WAIT_OBJECT_0+REFRESH_CONTACT:
 			{
 				DWORD dwTimeRest = ::GetTickCount()-dwBegin;
-				if(dwTimeRest < nTimeout)
+				if(INFINITE != nTimeout && dwTimeRest < nTimeout)
+				{
 					nTimeout -= dwTimeRest;
+				}
 
-				CGuard<CLightMutex> cs(m_cs);
-				anContacts = m_aRefreshingContacts;
-				m_aRefreshingContacts.clear();
+				{
+					CGuard<CLightMutex> cs(m_cs);
+					anContacts = m_aRefreshingContacts;
+					m_aRefreshingContacts.clear();
+				}
+
+				{
+					CBoolGuard bg(m_bRefreshInProgress);
+					RefreshQuotes(anContacts);
+				}
 			}
 			break;
 		case WAIT_TIMEOUT:
@@ -986,6 +1000,10 @@ void CQuotesProviderBase::Run()
 			{
 				CGuard<CLightMutex> cs(m_cs);
 				anContacts = m_aContacts;
+			}
+			{
+				CBoolGuard bg(m_bRefreshInProgress);
+				RefreshQuotes(anContacts);
 			}
 			break;
 		default:
@@ -1014,9 +1032,21 @@ void CQuotesProviderBase::Accept(CQuotesProviderVisitor& visitor)const
 	visitor.Visit(*this);
 }
 
-void CQuotesProviderBase::RefreshAll()
+void CQuotesProviderBase::RefreshSettings()
 {
 	BOOL b = ::SetEvent(m_hEventSettingsChanged);
+	assert(b && "Failed to set event");
+}
+
+void CQuotesProviderBase::RefreshAllContacts()
+{
+	{// for CCritSection
+		CGuard<CLightMutex> cs(m_cs);
+		m_aRefreshingContacts.clear();
+		std::for_each(std::begin(m_aContacts),std::end(m_aContacts),[&](MCONTACT hContact){m_aRefreshingContacts.push_back(hContact);});
+	}
+
+	BOOL b = ::SetEvent(m_hEventRefreshContact);
 	assert(b && "Failed to set event");
 }
 
@@ -1031,31 +1061,31 @@ void CQuotesProviderBase::RefreshContact(MCONTACT hContact)
 	assert(b && "Failed to set event");
 }
 
-void CQuotesProviderBase::SetContactExtraIcon(MCONTACT hContact)const
-{
-// 	tstring s = DBGetStringT(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME);
-// 	tostringstream o;
-// 	o << "Request on " << s << " refreshing\nIs online " << IsOnline() << ", is in progress " << m_bRefreshInProgress << "\n";
-
-	bool bResult = false;
-	if(true == IsOnline() && (false == m_bRefreshInProgress))
-	{
-		CTendency tendency;
-		if(tendency.Parse(this,m_sTendencyFormat,hContact) && (false == m_bRefreshInProgress))
-		{
-			bResult = do_set_contact_extra_icon(hContact,tendency);
-		}
-// 		double dCurrRate = 0.0;
-// 		double dPrevRate = 0.0;
-// 		if((true == Quotes_DBReadDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_CURR_VALUE,dCurrRate))
-// 			&& (true == Quotes_DBReadDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_PREV_VALUE,dPrevRate))
-// 			&& (false == m_bRefreshInProgress))
+// void CQuotesProviderBase::SetContactExtraIcon(MCONTACT hContact)const
+// {
+// // 	tstring s = DBGetStringT(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME);
+// // 	tostringstream o;
+// // 	o << "Request on " << s << " refreshing\nIs online " << IsOnline() << ", is in progress " << m_bRefreshInProgress << "\n";
+// 
+// 	bool bResult = false;
+// 	if(/*true == IsOnline() && */(false == m_bRefreshInProgress))
+// 	{
+// 		CTendency tendency;
+// 		if(tendency.Parse(this,m_sTendencyFormat,hContact) && (false == m_bRefreshInProgress))
 // 		{
-// // 			o << "Curr rate = " << dCurrRate << ", prev rate " << dPrevRate << "\n";
-// 			bResult = do_set_contact_extra_icon(hContact,dCurrRate,dPrevRate);
+// 			bResult = do_set_contact_extra_icon(hContact,tendency);
 // 		}
-	}
-
-// 	o << "Result is " << bResult;
-// 	LogIt(Info,o.str());
-}
+// // 		double dCurrRate = 0.0;
+// // 		double dPrevRate = 0.0;
+// // 		if((true == Quotes_DBReadDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_CURR_VALUE,dCurrRate))
+// // 			&& (true == Quotes_DBReadDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_PREV_VALUE,dPrevRate))
+// // 			&& (false == m_bRefreshInProgress))
+// // 		{
+// // // 			o << "Curr rate = " << dCurrRate << ", prev rate " << dPrevRate << "\n";
+// // 			bResult = do_set_contact_extra_icon(hContact,dCurrRate,dPrevRate);
+// // 		}
+// 	}
+// 
+// // 	o << "Result is " << bResult;
+// // 	LogIt(Info,o.str());
+// }

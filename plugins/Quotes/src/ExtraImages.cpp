@@ -45,14 +45,14 @@ bool CExtraImages::SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)con
 	return ExtraIcon_SetIcon(m_hExtraIcons, hContact, hIcolib) == 0;
 }
 
-int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp)
-{
-	MCONTACT hContact = MCONTACT(wp);
-
-	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
-	CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
-	if(pProvider)
-		pProvider->SetContactExtraIcon(hContact);
-
-	return 0;
-}
+// int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp)
+// {
+// 	MCONTACT hContact = MCONTACT(wp);
+// 
+// 	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+// 	CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
+// 	if(pProvider)
+// 		pProvider->SetContactExtraIcon(hContact);
+// 
+// 	return 0;
+// }

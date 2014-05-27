@@ -303,7 +303,7 @@ namespace
 							std::for_each(aRemove.begin(),aRemove.end(),boost::bind(&CQuotesProviderGoogle::WatchForRate,pProvider,_1,false));
 							std::for_each(aTemp.begin(),aTemp.end(),boost::bind(&CQuotesProviderGoogle::WatchForRate,pProvider,_1,true));
 
-							pProvider->RefreshAll();
+							pProvider->RefreshSettings();
 						}
 					}
 					break;
