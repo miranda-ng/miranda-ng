@@ -36,6 +36,7 @@
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043
 #define IDC_CLIENT_ENABLE               1044
+#define IDC_FILTER_ADS                  1045
 #define IDC_SYSTRAY_NOTIFY              1098
 #define IDC_PREVIEW                     1099
 #define IDC_SET_STATUS                  1126

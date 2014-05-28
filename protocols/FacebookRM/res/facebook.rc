@@ -127,10 +127,11 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,106
     CONTROL         "Notifications",IDC_NOTIFICATIONS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,23,272,8
-    CONTROL         "News feeds",IDC_FEEDS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,43,272,8
-    RTEXT           "News Feed types to notify:",IDC_STATIC,16,59,121,8
-    COMBOBOX        IDC_FEED_TYPE,151,57,137,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,75,272,8
+    CONTROL         "News feeds",IDC_FEEDS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,39,272,8
+    RTEXT           "News feed types to notify:",IDC_STATIC,26,51,117,8
+    COMBOBOX        IDC_FEED_TYPE,150,49,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,67,138,8
+    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,272,8
     CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,272,8
     PUSHBUTTON      "Preview",IDC_PREVIEW,117,137,68,14
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
@@ -217,6 +218,7 @@ BEGIN
         LEFTMARGIN, 6
         RIGHTMARGIN, 298
         VERTGUIDE, 16
+        VERTGUIDE, 150
         VERTGUIDE, 288
         TOPMARGIN, 7
         BOTTOMMARGIN, 158

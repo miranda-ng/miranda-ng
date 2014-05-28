@@ -744,13 +744,10 @@ void FacebookProto::ProcessFeeds(void* data)
 	// Get feeds
 	http::response resp = facy.flap(REQUEST_FEEDS);
 
-	if (resp.code != HTTP_CODE_OK) {
+	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("feeds");
 		return;
 	}
-
-	if (resp.data.empty() /*|| resp.data.find("\"num_stories\":0") != std::string::npos*/)
-		return;
 
 	CODE_BLOCK_TRY
 
@@ -762,6 +759,7 @@ void FacebookProto::ProcessFeeds(void* data)
 	UINT limit = 0;
 
 	DWORD new_time = facy.last_feeds_update_;
+	bool filterAds = getBool(FACEBOOK_KEY_FILTER_ADS, DEFAULT_FILTER_ADS);
 
 	while ((pos = resp.data.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
 	{		
@@ -836,15 +834,16 @@ void FacebookProto::ProcessFeeds(void* data)
 		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
 		
 		nf->link = utils::text::special_expressions_decode(post_link);
-				//utils::text::source_get_value(&post_link, 2, "href=\\\"", "\\\">"));
+		
+		// Check if we don't want to show ads posts
+		bool filtered = filterAds && nf->link.find("/about/ads") != std::string::npos;
 
 		nf->text = utils::text::trim(
 			utils::text::special_expressions_decode(
 				utils::text::remove_html(
 					utils::text::edit_html(post_message))));		
 
-		if (!nf->title.length() || !nf->text.length())
-		{
+		if (filtered || !nf->title.length() || !nf->text.length()) {
 			delete nf;
 			continue;
 		}
