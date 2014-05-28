@@ -19,8 +19,6 @@
 
 #include "variables.h"
 
-static BOOL bWarningShown = FALSE; // unicode on ansi warning
-
 /* some handles */
 static HANDLE
 	hFormatStringService,

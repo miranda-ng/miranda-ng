@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern HANDLE hTTButton;
-extern HGENMENU hMenuRoot, hMenuItem, hMenuItemHistory;
+extern HGENMENU hMenuRoot, hMenuItem;
 static HANDLE hEventNotify;
 
 void StripBBCodesInPlace(wchar_t *text)
