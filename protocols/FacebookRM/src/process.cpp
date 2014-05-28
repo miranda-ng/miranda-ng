@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
+#define MAX_NEWSFEED_LEN 500
+
 void FacebookProto::ProcessBuddyList(void*)
 {
 	ScopedLock s(facy.buddies_lock_);
@@ -847,12 +849,6 @@ void FacebookProto::ProcessFeeds(void* data)
 			continue;
 		}
 
-		if (nf->text.length() > 500)
-		{
-			nf->text = nf->text.substr(0, 500);
-			nf->text += "...";
-		}
-
 		news.push_back(nf);
 		pos++;
 		limit++;
@@ -861,9 +857,18 @@ void FacebookProto::ProcessFeeds(void* data)
 	for(std::vector<facebook_newsfeed*>::size_type i=0; i<news.size(); i++)
 	{
 		debugLogA("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
-		ptrT szTitle( mir_utf8decodeT(news[i]->title.c_str()));
-		ptrT szText( mir_utf8decodeT(news[i]->text.c_str()));
-		NotifyEvent(szTitle,szText,this->ContactIDToHContact(news[i]->user_id),FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
+		ptrT tszTitle( mir_utf8decodeT(news[i]->title.c_str()));
+		ptrT tszText( mir_utf8decodeT(news[i]->text.c_str()));
+
+		// Truncate text of newsfeed when it's too long
+		if (_tcslen(tszText) > MAX_NEWSFEED_LEN) {
+			TCHAR buf[MAX_NEWSFEED_LEN + 3 + 1] = { 0 };
+			_tcsncpy(buf, tszText, MAX_NEWSFEED_LEN);
+			_tcsncpy(&buf[MAX_NEWSFEED_LEN], _T("..."), 3);
+			tszText = buf;
+		}
+
+		NotifyEvent(tszTitle, tszText, this->ContactIDToHContact(news[i]->user_id), FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
 		delete news[i];
 	}
 	news.clear();

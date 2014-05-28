@@ -24,6 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id)
 {
+	if (title == NULL || info == NULL)
+		return NULL;
+
 	char name[256];
 
 	switch (flags)
