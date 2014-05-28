@@ -129,7 +129,7 @@ namespace SteamWebApi
 			root = json_as_array(node);
 			if (root != NULL)
 			{
-				for (int i = 0;; i++)
+				for (size_t i = 0; i < json_size(root); i++)
 				{
 					child = json_at(root, i);
 					if (child == NULL)

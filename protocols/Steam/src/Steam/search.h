@@ -53,7 +53,7 @@ namespace SteamWebApi
 			if ((searchResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 				return;
 
-			JSONNODE *root = json_parse(response->pData), *node, *child;;
+			JSONNODE *root = json_parse(response->pData), *node, *child;
 
 			node = json_get(root, "success");
 			searchResult->success = json_as_bool(node) > 0;
@@ -73,7 +73,7 @@ namespace SteamWebApi
 			root = json_as_array(node);
 			if (root != NULL)
 			{
-				for (int i = 0;; i++)
+				for (size_t i = 0; i < json_size(root); i++)
 				{
 					child = json_at(root, i);
 					if (child == NULL)
