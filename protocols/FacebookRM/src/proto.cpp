@@ -513,7 +513,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 
 int FacebookProto::OnDbEventRead(WPARAM contactID, LPARAM dbei)
 {
-	if (!isOffline()) {
+	if ((IsMyContact(contactID, true)) && !isOffline()) {
 		ForkThread(&FacebookProto::ReadMessageWorker, (void*)contactID);
 	}
 	return 0;

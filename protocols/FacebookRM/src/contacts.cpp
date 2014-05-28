@@ -92,7 +92,7 @@ MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (!IsMyContact(hContact))
+		if (isChatRoom(hContact))
 			continue;
 
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
