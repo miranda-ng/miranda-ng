@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "proto.h"
 //#include "tc2.h"
 #include "twitter.h"
+#include <sstream>
 
 void CALLBACK TwitterProto::APC_callback(ULONG_PTR p)
 {
@@ -516,7 +517,39 @@ void TwitterProto::UpdateFriends()
 
 }
 
-void TwitterProto::ShowContactPopup(MCONTACT hContact,const std::string &text)
+
+LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_COMMAND:
+	{
+		// Get the plugin data (we need the Popup service to do it)
+		std::string *url = (std::string *)PUGetPluginData(hwnd);
+		if (url != NULL) {
+			//std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
+			CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>(url->c_str()));
+		}
+
+		// After a click, destroy popup
+		PUDeletePopup(hwnd);
+	} break;
+
+	case UM_FREEPLUGINDATA:
+	{
+		// After close, free
+		std::string *url = (std::string *)PUGetPluginData(hwnd);
+		delete url;
+	} return FALSE;
+
+	default:
+		break;
+	}
+
+	return DefWindowProc(hwnd, message, wParam, lParam);
+};
+
+void TwitterProto::ShowContactPopup(MCONTACT hContact,const std::string &text,const std::string *url)
 {
 	if(!ServiceExists(MS_POPUP_ADDPOPUPT) || db_get_b(0,m_szModuleName,TWITTER_KEY_POPUP_SHOW,0) == 0)
 	{
@@ -539,6 +572,11 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact,const std::string &text)
 	{
 		_tcsncpy(popup.lptzContactName,dbv.ptszVal,MAX_CONTACTNAME);
 		db_free(&dbv);
+	}
+
+	if (url != NULL) {
+		popup.PluginWindowProc = PopupWindowProc;
+		popup.PluginData = (void *)url;
 	}
 
 	mbcs_to_tcs(CP_UTF8,text.c_str(),popup.lptzText,MAX_SECONDLINE);
@@ -582,8 +620,11 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 
 			db_set_utf(hContact,"CList","StatusMsg",i->status.text.c_str());
 
-			if(!pre_read && popups)
-				ShowContactPopup(hContact,i->status.text);
+			if (!pre_read && popups) {
+				std::stringstream url;
+				url << std::string("https://twitter.com/") << i->username << std::string("/status/") << i->status.id;
+				ShowContactPopup(hContact, i->status.text, new std::string(url.str()));
+			}
 		}
 
 		db_pod_set(0,m_szModuleName,TWITTER_KEY_SINCEID,since_id_);

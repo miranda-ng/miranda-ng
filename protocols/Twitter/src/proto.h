@@ -126,7 +126,7 @@ private:
 	int ShowPinDialog();
 	void ShowPopup(const wchar_t *, int Error = 0);
 	void ShowPopup(const char *, int Error = 0);
-	void ShowContactPopup(MCONTACT, const std::string &);
+	void ShowContactPopup(MCONTACT, const std::string &, const std::string *);
 
 	bool IsMyContact(MCONTACT, bool include_chat = false);
 	MCONTACT UsernameToHContact(const char *);
