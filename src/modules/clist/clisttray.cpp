@@ -836,7 +836,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 		nid.szInfoTitle[ SIZEOF(nid.szInfoTitle)-1 ] = 0;
 		nid.uTimeout = msn->uTimeout;
 		nid.dwInfoFlags = (msn->dwInfoFlags & ~NIIF_INTERN_UNICODE);
-		return Shell_NotifyIconW(NIM_MODIFY, &nid) ? 0 : -1;
+		return Shell_NotifyIconW(NIM_MODIFY, &nid) == 0;
 	}
 	else {
 		NOTIFYICONDATAA nid = { 0 };
@@ -848,7 +848,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 		lstrcpynA(nid.szInfoTitle, msn->szInfoTitle, sizeof(nid.szInfoTitle));
 		nid.uTimeout = msn->uTimeout;
 		nid.dwInfoFlags = msn->dwInfoFlags;
-		return Shell_NotifyIconA(NIM_MODIFY, &nid) ? 0 : -1;
+		return Shell_NotifyIconA(NIM_MODIFY, &nid) == 0;
 	}
 }
 
