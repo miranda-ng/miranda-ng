@@ -819,14 +819,14 @@ x100 мс
 Середній
 [High]
 Високий
-[Contact rate none]
-Рейтинг контакту Немає
-[Contact rate low]
-Рейтинг контакту Низький
-[Contact rate medium]
-Рейтинг контакту Середній
-[Contact rate high]
-Рейтинг контакту Високий
+[Contact rate: none]
+Рейтинг контакту: Немає
+[Contact rate: low]
+Рейтинг контакту: Низький
+[Contact rate: medium]
+Рейтинг контакту: Середній
+[Contact rate: high]
+Рейтинг контакту: Високий
 [Show even if offline]
 Показувати навіть якщо не в мережі
 [Avatar]

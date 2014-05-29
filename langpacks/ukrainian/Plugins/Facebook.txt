@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.1
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -44,13 +44,15 @@
 [Use bigger avatars]
 Великі аватари
 [Event notifications]
-Сповіщення
+Сповіщення про події
 [Notifications]
 Сповіщення
 [News feeds]
 Новини
-[News Feed types to notify:]
+[News feed types to notify:]
 Сповіщати про типи новин:
+[Don't show advertising posts]
+Не показувати рекламні публікації
 [Other events]
 Інші події
 [Client notifications]
@@ -76,7 +78,7 @@
 [Use this server for opening links:]
 Тип сайту для відкриття посилань:
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Підтримка користувальницьких смайлів (Експериментально!)
+Підтримка користувальницьких смайлів (експериментально!)
 [Use local time for received messages]
 Локальний час для прийнятих повідомлень
 [Message sessions]
@@ -85,6 +87,10 @@
 Не позначати повідомлення на сервері як прочитані
 [Receive messages from "inbox" folder only]
 Приймати повідомлення тільки з папки "Вхідні"
+[Load last messages on opening message window (EXPERIMENTAL)]
+Показувати історію при відкритті вікна (експериментально)
+[Number of messages to load:]
+Кількість останніх повідомлень:
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]

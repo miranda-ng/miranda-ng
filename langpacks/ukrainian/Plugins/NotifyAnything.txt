@@ -6,7 +6,7 @@
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
-Відображає спливаючі вікна для подій, викликаних UDP пакетами.
+Сповіщає у спливаючих вікнах про різні події, викликані UDP-пакетами.
 [Property Page]
 Властивості
 [Security]
@@ -56,7 +56,7 @@
 [Failed to open log file.]
 Не вдалося відкрити файл журналу.
 [N/A: Failed to format error message]
-N/A: Поимлка у форматі повідомлення з помилкою
+N/A: Помилка у форматі повідомлення з помилкою
 [N/A: FormatMessage failed, error code was 0x]
 N/A: Помилка формату повідомлення, код помилки: 0x
 [Error]

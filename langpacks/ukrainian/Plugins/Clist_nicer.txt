@@ -683,6 +683,12 @@
 Облікові записи
 [My contacts]
 Мої контакти
+[Default]
+Стандартні
+[Overlay icons]
+Оверлеї
+[Connecting icons]
+З'єднання
 [Menu]
 Меню
 [Open main menu]
@@ -837,5 +843,3 @@
 Про список контактів...
 [Subgroup menu]
 Меню підгруп
-[&New SubGroup]
-&Створити підгрупу
