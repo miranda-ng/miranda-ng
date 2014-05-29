@@ -49,7 +49,7 @@ URL:
 Уведомления
 [News feeds]
 Новости
-[News Feed types to notify:]
+[News feed types to notify:]
 Уведомлять о типах новостей:
 [Other events]
 Другие события
@@ -269,3 +269,5 @@ URL:
 Проверить запросы дружбы
 [Check Newsfeeds]
 Проверить новости
+[Don't show advertising posts]
+Не показывать рекламные публикации
