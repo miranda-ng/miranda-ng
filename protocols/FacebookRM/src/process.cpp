@@ -639,12 +639,9 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			ParseSmileys(messages[i]->message_text, hContact);
 
-			if (messages[i]->isIncoming) {
+			if (messages[i]->isIncoming && messages[i]->isUnread) {
 				PROTORECVEVENT recv = { 0 };
-				recv.flags = PREF_UTF | PREF_CREATEREAD;
-				if (!messages[i]->isUnread)
-					recv.flags |= PREF_CREATEREAD;
-
+				recv.flags = PREF_UTF;
 				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
 				recv.timestamp = timestamp;
 				ProtoChainRecvMsg(hContact, &recv);
@@ -652,8 +649,12 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				DBEVENTINFO dbei = { 0 };
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.flags = DBEF_SENT | DBEF_UTF;
-				//if (!messages[i]->isUnread) // sent messages are always read
+				dbei.flags = DBEF_UTF;
+
+				if (!messages[i]->isIncoming)
+					dbei.flags |= DBEF_SENT | DBEF_READ; // sent messages are always read
+
+				if (!messages[i]->isUnread)
 					dbei.flags |= DBEF_READ;
 
 				dbei.szModule = m_szModuleName;
