@@ -326,6 +326,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 		hwndDialog = NULL;
+		opts.bSilent = true;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 		break;
@@ -471,7 +472,7 @@ static void DlgUpdateSilent(void *lParam)
 
 static void __stdcall LaunchDialog(void *param)
 {
-	if (opts.bSilentMode)
+	if (opts.bSilentMode && opts.bSilent)
 		mir_forkthread(DlgUpdateSilent, param);
 	else
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)param);
@@ -694,8 +695,11 @@ static void CheckUpdates(void *)
 			if (!opts.bSilent)
 				ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 			delete UpdateFiles;
+			opts.bSilent = true;
 		}
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
+	} else {
+		opts.bSilent = true;
 	}
 	InitTimer(success ? 0 : 2);	
 	
