@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-#define SETTING_ENABLESKINEDITOR_DEFAULT        0 //"ModernData", "EnableSkinEditor"
 #define SETTING_TOOLWINDOW_DEFAULT              1 //"CList","ToolWindow"
 #define SETTING_ONTOP_DEFAULT                   0 //"CList","OnTop"
 #define SETTING_MIN2TRAY_DEFAULT                1 //"CList","Min2Tray"

@@ -53,19 +53,17 @@ int SkinOptInit(WPARAM wParam, LPARAM lParam)
 		odp.position = -200000000;
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;
-		odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKIN );
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 		odp.ptszGroup = LPGENT("Skins");
 		odp.ptszTitle = LPGENT("Contact list");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		odp.ptszTab = LPGENT("Load/Save");
 		Options_AddPage(wParam, &odp);
 
-		if ( db_get_b( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
-			odp.pfnDlgProc = DlgSkinEditorOpts;
-			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
-			odp.ptszTab = LPGENT("Object editor");
-			Options_AddPage(wParam, &odp);
-		}
+		odp.pfnDlgProc = DlgSkinEditorOpts;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKINEDITOR);
+		odp.ptszTab = LPGENT("Object editor");
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }
