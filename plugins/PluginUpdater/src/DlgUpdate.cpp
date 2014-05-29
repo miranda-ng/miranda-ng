@@ -334,6 +334,27 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
+static LRESULT CALLBACK PopupDlgProcRestart(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_COMMAND:
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hDlg);
+
+		if (uMsg == WM_COMMAND) {
+			TCHAR tszText[200];
+			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+
+			if (MessageBox(hDlg, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION) == IDYES)
+				CallFunctionAsync(RestartMe, 0);
+		}
+
+		return TRUE;
+	}
+
+	return DefWindowProc(hDlg, uMsg, wParam, lParam);
+}
+
 static void DlgUpdateSilent(void *lParam)
 {
 	OBJLIST<FILEINFO> &UpdateFiles = *(OBJLIST<FILEINFO> *)lParam;
@@ -422,7 +443,29 @@ static void DlgUpdateSilent(void *lParam)
 		db_set_b(NULL, MODNAME, "RestartCount", 5);
 		db_set_b(NULL, MODNAME, "NeedRestart", 1);
 
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("You need restart your Miranda to apply installed updates"), 2, 0, 1);
+		TCHAR tszTitle[100];
+		mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), UpdateFiles.getCount());
+		
+		if (!ServiceExists(MS_POPUP_ADDPOPUPT) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
+			TCHAR tszText[200];
+			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+
+			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
+				CallFunctionAsync(RestartMe, 0);
+		} else {
+			POPUPDATAT_V2 pd = { 0 };
+			pd.cbSize = sizeof(pd);
+			pd.lchContact = NULL;
+			pd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+			pd.colorBack = pd.colorText = 0;
+			pd.iSeconds = -1;
+			pd.PluginWindowProc = PopupDlgProcRestart;
+
+			lstrcpyn(pd.lptzText, TranslateT("You need to restart your Miranda to apply installed updates."), MAX_SECONDLINE);
+			lstrcpyn(pd.lptzContactName, tszTitle, MAX_CONTACTNAME);
+
+			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_NEWDATA);
+		}
 	}
 }
 

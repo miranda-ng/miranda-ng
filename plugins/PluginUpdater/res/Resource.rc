@@ -81,7 +81,7 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,135,247,10
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,150,247,10
     EDITTEXT        IDC_CUSTOMURL,11,164,234,16,ES_AUTOHSCROLL | WS_DISABLED
-    LTEXT           "You need restart your Miranda to apply installed updates",IDC_NEEDRESTARTLABEL,11,192,253,22,NOT WS_VISIBLE
+    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,193,247,15,NOT WS_VISIBLE
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 182
@@ -191,7 +191,7 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 258
         VERTGUIDE, 264
-        BOTTOMMARGIN, 207
+        BOTTOMMARGIN, 214
     END
 
     IDD_LIST, DIALOG
