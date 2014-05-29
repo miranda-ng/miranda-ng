@@ -451,8 +451,21 @@ static void DlgUpdateSilent(void *lParam)
 			TCHAR tszText[200];
 			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
-			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
-				CallFunctionAsync(RestartMe, 0);
+			if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
+				MIRANDASYSTRAYNOTIFY err;
+				err.szProto = MODULEA;
+				err.cbSize = sizeof(err);
+				err.dwInfoFlags = NIIF_INTERN_UNICODE | NIIF_INFO;
+				err.tszInfoTitle = tszTitle;
+				err.tszInfo = tszText;
+				err.uTimeout = 60000;
+
+				if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err) != 0) {
+					// Error, let's try to show MessageBox as last way to inform user about successful update
+					if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
+						CallFunctionAsync(RestartMe, 0);
+				}
+			}
 		} else {
 			POPUPDATAT_V2 pd = { 0 };
 			pd.cbSize = sizeof(pd);
