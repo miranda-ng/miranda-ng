@@ -55,6 +55,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_KEEP_UNREAD			"KeepUnread"	// (byte) 1 = don't mark messages as read on server (works globally or per contact)
 #define FACEBOOK_KEY_INBOX_ONLY				"InboxOnly"
 #define FACEBOOK_KEY_FILTER_ADS				"FilterAds"
+#define FACEBOOK_KEY_MESSAGES_ON_OPEN		"MessagesOnOpen"
+#define FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT	"MessagesOnOpenCount"
 
 #define FACEBOOK_KEY_POLL_RATE				"PollRate"		// [HIDDEN]
 #define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit"	// [HIDDEN]

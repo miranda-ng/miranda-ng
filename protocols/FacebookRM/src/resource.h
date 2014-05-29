@@ -32,6 +32,8 @@
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
 #define IDC_INBOX_ONLY                  1038
+#define IDC_INBOX_ONLY2                 1039
+#define IDC_MESSAGES_ON_OPEN            1039
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043
@@ -48,14 +50,16 @@
 #define IDC_URL                         1206
 #define IDC_CCLIST                      1207
 #define IDC_CCLIST_LABEL                1208
+#define IDC_MESSAGES_COUNT              1209
+#define IDC_MESSAGES_COUNT_SPIN         1210
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
+#define _APS_NEXT_RESOURCE_VALUE        132
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1209
-#define _APS_NEXT_SYMED_VALUE           131
+#define _APS_NEXT_CONTROL_VALUE         1211
+#define _APS_NEXT_SYMED_VALUE           132
 #endif
 #endif

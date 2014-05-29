@@ -535,6 +535,10 @@ int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+		// Check if we have enabled loading messages on open window
+		if (!getBool(FACEBOOK_KEY_MESSAGES_ON_OPEN, DEFAULT_MESSAGES_ON_OPEN))
+			return 0;
+
 		// Load last messages for this contact
 		ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(event->hContact));
 	}

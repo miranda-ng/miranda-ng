@@ -441,12 +441,14 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	std::string id = utils::url::encode(std::string(item_id));
 	std::string type = isChat ? "thread_ids" : "user_ids";
+	int count = getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, DEFAULT_MESSAGES_ON_OPEN_COUNT);
+	count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
 
 	// request messages from thread
 	data += "&messages[" + type + "][" + id;
 	data += "][offset]=0";
 	data += "&messages[" + type + "][" + id;
-	data += "][limit]=30";
+	data += "][limit]=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER);
 
 	// request info about thread
 	data += "&threads[" + type + "][0]=" + id;

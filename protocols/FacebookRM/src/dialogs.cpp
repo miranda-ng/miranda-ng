@@ -456,6 +456,14 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 		LoadDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES);
 		LoadDBCheckState(proto, hwnd, IDC_INBOX_ONLY, FACEBOOK_KEY_INBOX_ONLY, DEFAULT_INBOX_ONLY);
 		LoadDBCheckState(proto, hwnd, IDC_KEEP_UNREAD, FACEBOOK_KEY_KEEP_UNREAD, DEFAULT_KEEP_UNREAD);
+		LoadDBCheckState(proto, hwnd, IDC_MESSAGES_ON_OPEN, FACEBOOK_KEY_MESSAGES_ON_OPEN, DEFAULT_MESSAGES_ON_OPEN);
+
+		int count = proto->getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, 10);
+		count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
+		SetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, count, TRUE);
+		
+		SendDlgItemMessage(hwnd, IDC_MESSAGES_COUNT, EM_LIMITTEXT, 2, 0);
+		SendDlgItemMessage(hwnd, IDC_MESSAGES_COUNT_SPIN, UDM_SETRANGE32, 1, 99);
 
 		EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
 
@@ -489,6 +497,11 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 			StoreDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES);
 			StoreDBCheckState(proto, hwnd, IDC_INBOX_ONLY, FACEBOOK_KEY_INBOX_ONLY);
 			StoreDBCheckState(proto, hwnd, IDC_KEEP_UNREAD, FACEBOOK_KEY_KEEP_UNREAD);
+			StoreDBCheckState(proto, hwnd, IDC_MESSAGES_ON_OPEN, FACEBOOK_KEY_MESSAGES_ON_OPEN);
+
+			int count = GetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, NULL, TRUE);
+			count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
+			proto->setByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, count);
 
 			BOOL setStatus = IsDlgButtonChecked(hwnd, IDC_SET_STATUS);
 			BOOL setStatusOld = proto->getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);

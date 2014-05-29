@@ -138,7 +138,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,272,8
 END
 
-IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 203
+IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 227
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -154,17 +154,22 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,71,267,10
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,84,267,10
-    LTEXT           "Use this server for opening links:",IDC_STATIC,17,100,135,8
+    RTEXT           "Use this server for opening links:",IDC_STATIC,17,100,135,8
     COMBOBOX        IDC_URL_SERVER,156,97,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,136,267,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,150,267,10
-    GROUPBOX        "Message sessions",IDC_STATIC,7,121,291,72
+    GROUPBOX        "Message sessions",IDC_STATIC,7,121,291,98
     CONTROL         "Keep messages as unread on server (don't send ""seen"" info)",IDC_KEEP_UNREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,164,267,10
     CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,178,267,10
+    CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,192,267,10
+    RTEXT           "Number of messages to load:",IDC_STATIC,17,206,135,8
+    EDITTEXT        IDC_MESSAGES_COUNT,156,203,34,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,190,203,11,14
 END
 
 
@@ -234,7 +239,7 @@ BEGIN
         VERTGUIDE, 156
         VERTGUIDE, 284
         TOPMARGIN, 7
-        BOTTOMMARGIN, 196
+        BOTTOMMARGIN, 220
     END
 END
 #endif    // APSTUDIO_INVOKED
