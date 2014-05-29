@@ -344,7 +344,8 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 			nlc = NULL;
 		}
 	}
-	Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed, giving up"),pFileURL->tszDownloadURL);
+	if(!ret)
+		Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed, giving up"),pFileURL->tszDownloadURL);
 
 	mir_free(szUrl);
 	mir_free(nlhr.headers);
