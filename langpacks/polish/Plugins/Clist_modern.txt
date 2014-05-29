@@ -356,22 +356,20 @@ Zawsze pokazuj status w podpowiedzi
 Wyłącz miganie ikony
 [ms, delay between icon blinking]
 ms, przerwa między mignięciami ikony
-[Show]
-Pokaż
-[Cycle icons every]
-Zmieniaj ikony co
-[seconds, when statuses differ]
-sekund(y), jeśli statusy się różnią
-[Show multiple icons]
-Pokaż ikony osobno
-[only when statuses differ]
-tylko, jeśli statusy się różnią
 [System tray icon]
 Ikona w zasobniku
-[System tray icon mode]
-Tryb ikony w zasobniku systemowym
 [Use xStatus icon]
 Użyj ikony xStatusu
+[Icon mode]
+Tryb ikon
+[Global status]
+Globalny status
+[Single account]
+Pojedyncze konto
+[Cycle icons every]
+Zmieniaj ikony co
+[All accounts]
+Wszystkie konta
 [Ignore empty extra icons places (arrange to right).]
 Ignoruj puste miejsca na dodatkowe ikony (rozmieść w prawo)
 [Use 'Meta' protocol icons for MetaContacts]
@@ -800,8 +798,6 @@ Nazwa konta
 Ocena
 [-Nothing-]
 -Nic-
-[Global]
-Globalne
 [Hide to tray]
 Schowaj do zasobnika
 [Behind left edge]
@@ -832,14 +828,14 @@ Niska
 Średnia
 [High]
 Wysoka
-[Contact rate none]
-Brak oceny kontaktu
-[Contact rate low]
-Niska ocena kontaktu
-[Contact rate medium]
-Średnia ocena kontaktu
-[Contact rate high]
-Wysoka ocena kontaktu
+[Contact rate: none]
+Ocena kontaktu: brak
+[Contact rate: low]
+Ocena kontaktu: niska
+[Contact rate: medium]
+Ocena kontaktu: średnia
+[Contact rate: high]
+Ocena kontaktu: wysoka
 [Show even if offline]
 Pokaż nawet, jeśli rozłączony
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp

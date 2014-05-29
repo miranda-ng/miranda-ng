@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.1
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,8 +50,10 @@ Zdarzenia
 Powiadomienia
 [News feeds]
 Aktualności
-[News Feed types to notify:]
-Typy aktualności, o których chcesz być informowany
+[News feed types to notify:]
+Powiadamiaj o następujących typach aktualności:
+[Don't show advertising posts]
+Nie pokazuj proponowanych postów
 [Other events]
 Inne zdarzenia
 [Client notifications]
@@ -86,6 +88,10 @@ Sesje rozmowy
 Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
 [Receive messages from "inbox" folder only]
 Odbieraj wiadomości tylko z folderu "Odebrane"
+[Load last messages on opening message window (EXPERIMENTAL)]
+Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
+[Number of messages to load:]
+Liczba wiadomości do załadowania:
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Zaproś użytkownika
