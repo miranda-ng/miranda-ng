@@ -426,6 +426,9 @@ void FacebookProto::LoadLastMessages(void *p)
 	MCONTACT hContact = *(MCONTACT*)p;
 	delete (MCONTACT*)p;
 
+	if (!isOnline())
+		return;
+
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
