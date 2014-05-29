@@ -83,6 +83,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_protosvc.h>
+#include <m_protoint.h>
 #include <m_clistint.h>
 #include <m_skin.h>
 #include <m_contacts.h>
@@ -367,5 +368,10 @@ public:
 		{	return ( first < second ); }
 	};
 };
+
+#define TRAY_ICON_MODE_GLOBAL		1
+#define TRAY_ICON_MODE_ACC			2
+#define TRAY_ICON_MODE_CYCLE		4
+#define	TRAY_ICON_MODE_ALL			8
 
 #endif // commonheaders_h__

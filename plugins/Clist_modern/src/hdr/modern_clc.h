@@ -32,10 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_defsettings.h"
 #include "modern_clist.h"
 
-#define SETTING_TRAYICON_SINGLE   0
-#define SETTING_TRAYICON_CYCLE    1
-#define SETTING_TRAYICON_MULTI    2
-
 #define NIIF_INTERN_UNICODE 0x00000100
 
 #define SETTING_STATE_HIDDEN      0

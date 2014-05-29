@@ -729,86 +729,71 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+
+		CheckDlgButton(hwndDlg, IDC_NOOFFLINEMOVE, db_get_b(NULL, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONECLK, db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		{
-			CheckDlgButton(hwndDlg, IDC_NOOFFLINEMOVE, db_get_b(NULL, "CList", "NoOfflineBottom", SETTING_NOOFFLINEBOTTOM_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ONECLK, db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			{
-				BYTE trayOption = db_get_b(NULL, "CLUI", "XStatusTray", SETTING_TRAYOPTION_DEFAULT);
-				CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, (trayOption & 3) ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_SHOWNORMAL, (trayOption & 2) ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_TRANSPARENTOVERLAY, (trayOption & 4) ? BST_CHECKED : BST_UNCHECKED);
+			BYTE trayOption = db_get_b(NULL, "CLUI", "XStatusTray", SETTING_TRAYOPTION_DEFAULT);
+			CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, (trayOption & 3) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWNORMAL, (trayOption & 2) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TRANSPARENTOVERLAY, (trayOption & 4) ? BST_CHECKED : BST_UNCHECKED);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS));
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
-			}
-			CheckDlgButton(hwndDlg, IDC_ALWAYSSTATUS, db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_ALWAYSPRIMARY, !db_get_b(NULL, "CList", "AlwaysPrimary", SETTING_ALWAYSPRIMARY_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_ALWAYSMULTI, !db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DONTCYCLE, db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CYCLE, db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_CYCLE ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_MULTITRAY, db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DISABLEBLINK, db_get_b(NULL, "CList", "DisableTrayFlash", SETTING_DISABLETRAYFLASH_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) == 1 ? BST_CHECKED : BST_UNCHECKED);
-
-			if (IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSMULTI), FALSE);
-			}
-			if (IsDlgButtonChecked(hwndDlg, IDC_CYCLE)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSMULTI), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSPRIMARY), FALSE);
-			}
-			if (IsDlgButtonChecked(hwndDlg, IDC_MULTITRAY)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSPRIMARY), FALSE);
-			}
-			SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
-			SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
-			{
-				int i, count, item;
-				PROTOACCOUNT **accs;
-				DBVARIANT dbv = { DBVT_DELETED };
-				db_get(NULL, "CList", "PrimaryStatus", &dbv);
-				ProtoEnumAccounts(&count, &accs);
-				item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Global"));
-				SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, 0);
-				for (i = 0; i < count; i++) {
-					if (!IsAccountEnabled(accs[i]) || CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
-						continue;
-
-					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
-					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)accs[i]);
-					if ((dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && !strcmp(dbv.pszVal, accs[i]->szModuleName))
-						SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, item, 0);
-				}
-				db_free(&dbv);
-			}
-			if (-1 == (int)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0))
-				SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BLINKTIME), 0);		// set buddy
-			SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
-			SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CList", "IconFlashTime", SETTING_ICONFLASHTIME_DEFAULT), 0));
-
-			int i = _GetNetVisibleProtoCount();
-			if (i < 2) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSPRIMARY), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSPRIMARY), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_MULTITRAY), FALSE);
-				CheckDlgButton(hwndDlg, IDC_DONTCYCLE, TRUE);
-			}
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
 		}
+		CheckDlgButton(hwndDlg, IDC_ALWAYSSTATUS, db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_DISABLEBLINK, db_get_b(NULL, "CList", "DisableTrayFlash", SETTING_DISABLETRAYFLASH_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BLINKTIME), 0);		// set buddy
+		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
+		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CList", "IconFlashTime", SETTING_ICONFLASHTIME_DEFAULT), 0));
+
+		// == Tray icon mode ==
+		// Готовим список аккаунтов.
+		{
+			int AccNum, i, si, item;
+			PROTOACCOUNT **acc;
+
+			ProtoEnumAccounts(&AccNum, &acc);
+
+			for (si = -1, i = 0; i < AccNum; i++)
+			{
+				if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && acc[i]->ppro)
+				{
+					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
+					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)acc[i]);
+
+					if (!strcmp(acc[i]->szModuleName, db_get_sa(NULL, "CList", "PrimaryStatus")))
+						si = item;
+				}
+			}
+			if (si < 0) si = 0; // Пустой элемент в качестве выбранного оставлять нельзя.
+			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, si, 0);
+		}
+		// Какой период смены иконок?
+		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
+		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
+		// Какой режим иконок?
+		switch (db_get_b(NULL, "CList", "TrayIcon", TRAY_ICON_MODE_GLOBAL))
+		{
+			case TRAY_ICON_MODE_GLOBAL:
+				CheckDlgButton(hwndDlg, IDC_ICON_GLOBAL, 1);
+				break;
+			case TRAY_ICON_MODE_ACC:
+				CheckDlgButton(hwndDlg, IDC_ICON_ACC, 1);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), TRUE);
+				break;
+			case TRAY_ICON_MODE_CYCLE:
+				CheckDlgButton(hwndDlg, IDC_ICON_CYCLE, 1);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), TRUE);
+				break;
+			case TRAY_ICON_MODE_ALL:
+				CheckDlgButton(hwndDlg, IDC_ICON_ALL, 1);
+				break;
+		}
+
 		return TRUE;
 
 	case WM_COMMAND:
@@ -816,13 +801,17 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
 		}
-		if (LOWORD(wParam) == IDC_DONTCYCLE || LOWORD(wParam) == IDC_CYCLE || LOWORD(wParam) == IDC_MULTITRAY) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), IsDlgButtonChecked(hwndDlg, IDC_CYCLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), IsDlgButtonChecked(hwndDlg, IDC_CYCLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSMULTI), IsDlgButtonChecked(hwndDlg, IDC_MULTITRAY));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSPRIMARY), IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE));
+
+		if (   LOWORD(wParam) == IDC_ICON_GLOBAL
+			|| LOWORD(wParam) == IDC_ICON_ACC
+			|| LOWORD(wParam) == IDC_ICON_CYCLE
+			|| LOWORD(wParam) == IDC_ICON_ALL)
+		{
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), IsDlgButtonChecked(hwndDlg, IDC_ICON_ACC));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), IsDlgButtonChecked(hwndDlg, IDC_ICON_CYCLE));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), IsDlgButtonChecked(hwndDlg, IDC_ICON_CYCLE));
 		}
+
 		if (LOWORD(wParam) == IDC_PRIMARYSTATUS && HIWORD(wParam) != CBN_SELCHANGE)
 			return 0;
 		if ((LOWORD(wParam) == IDC_BLINKTIME || LOWORD(wParam) == IDC_CYCLETIME) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
@@ -838,15 +827,8 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				db_set_b(NULL, "CList", "Tray1Click", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONECLK));
 				db_set_b(NULL, "CList", "AlwaysStatus", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYSSTATUS));
 
-				db_set_b(NULL, "CList", "AlwaysMulti", (BYTE)!IsDlgButtonChecked(hwndDlg, IDC_ALWAYSMULTI));
-				db_set_b(NULL, "CList", "AlwaysPrimary", (BYTE)!IsDlgButtonChecked(hwndDlg, IDC_ALWAYSPRIMARY));
-
-				db_set_w(NULL, "CList", "CycleTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
 				db_set_w(NULL, "CList", "IconFlashTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(NULL, "CList", "DisableTrayFlash", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-
-				if (_GetNetVisibleProtoCount() > 1)
-					db_set_b(NULL, "CList", "TrayIcon", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE) ? SETTING_TRAYICON_SINGLE : (IsDlgButtonChecked(hwndDlg, IDC_CYCLE) ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
 
 				BYTE xOptions = 0;
 				xOptions = IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) ? 1 : 0;
@@ -854,12 +836,22 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				xOptions |= (xOptions && IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENTOVERLAY)) ? 4 : 0;
 				db_set_b(NULL, "CLUI", "XStatusTray", xOptions);
 
-				int cursel = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
-				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cursel, 0);
-				if (!pa)
-					db_unset(NULL, "CList", "PrimaryStatus");
-				else
+				// == Tray icon mode ==
+				// Имя выбранного аккаунта.
+				{
+					PROTOACCOUNT *pa;
+					pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETITEMDATA,
+							SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0), 0);
 					db_set_s(NULL, "CList", "PrimaryStatus", pa->szModuleName);
+				}
+				// Период смены иконок.
+				db_set_w(NULL, "CList", "CycleTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+				// Режим иконок.
+				db_set_b(NULL, "CList", "TrayIcon",
+					  IsDlgButtonChecked(hwndDlg, IDC_ICON_GLOBAL) << 0
+					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ACC) << 1
+					| IsDlgButtonChecked(hwndDlg, IDC_ICON_CYCLE) << 2
+					| IsDlgButtonChecked(hwndDlg, IDC_ICON_ALL) << 3);
 
 				pcli->pfnTrayIconIconsChanged();
 				pcli->pfnLoadContactTree(); /* this won't do job properly since it only really works when changes happen */
