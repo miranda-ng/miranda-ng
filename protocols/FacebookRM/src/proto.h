@@ -150,6 +150,7 @@ public:
 	int  __cdecl OnGCEvent(WPARAM,LPARAM);
 	int  __cdecl OnGCMenuHook(WPARAM,LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
+	int  __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 
 	// Loops
 	bool    NegotiateConnection();
@@ -169,6 +170,7 @@ public:
 	void __cdecl SearchAckThread(void*);
 	void __cdecl SearchIdAckThread(void*);
 	void __cdecl ProcessPages(void*);
+	void __cdecl LoadLastMessages(void*);
 
 	// Worker threads
 	void __cdecl SignOn(void*);

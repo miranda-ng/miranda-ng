@@ -416,6 +416,110 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	}
 }
 
+void FacebookProto::LoadLastMessages(void *p)
+{
+	if (p == NULL)
+		return;
+
+	facy.handle_entry("LoadLastMessages");
+
+	MCONTACT hContact = *(MCONTACT*)p;
+	delete (MCONTACT*)p;
+
+	std::string data = "client=mercury";
+	data += "&__user=" + facy.self_.user_id;
+	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&__a=1&__dyn=&__req=&ttstamp=0";
+
+	bool isChat = isChatRoom(hContact);
+
+	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
+	if (item_id == NULL) {
+		debugLogA("!!!!! LoadLastMessages: Contact has no TID/ID");
+		return;
+	}
+
+	std::string id = utils::url::encode(std::string(item_id));
+	std::string type = isChat ? "thread_ids" : "user_ids";
+
+	// request messages from thread
+	data += "&messages[" + type + "][" + id;
+	data += "][offset]=0";
+	data += "&messages[" + type + "][" + id;
+	data += "][limit]=30";
+
+	// request info about thread
+	data += "&threads[" + type + "][0]=" + id;
+
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
+
+	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
+		facy.handle_error("LoadLastMessages");
+		return;
+	}
+
+	// Temporarily disable marking messages as read for this contact
+	facy.ignore_read.insert(std::make_pair(hContact, true));
+
+CODE_BLOCK_TRY
+
+	std::vector<facebook_message*> messages;
+	std::map<std::string, facebook_chatroom*> chatrooms;
+
+	facebook_json_parser* p = new facebook_json_parser(this);
+	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, false, 20);
+	delete p;
+
+	for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
+
+		facebook_chatroom *room = it->second;
+		MCONTACT hChatContact = NULL;
+		if (GetChatUsers(room->thread_id.c_str()) == NULL) {
+			AddChat(room->thread_id.c_str(), room->chat_name.c_str());
+			hChatContact = ChatIDToHContact(room->thread_id);
+			// Set thread id (TID) for later
+			setTString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+
+			for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end();) {
+				AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+				++jt;
+			}
+		}
+
+		if (!hChatContact)
+			hChatContact = ChatIDToHContact(room->thread_id);
+
+		ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
+
+		delete it->second;
+		it = chatrooms.erase(it);
+	}
+	chatrooms.clear();
+
+	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
+	ReceiveMessages(messages, local_timestamp, true);
+
+	debugLogA("***** Thread messages processed");
+
+CODE_BLOCK_CATCH
+
+	debugLogA("***** Error processing thread messages: %s", e.what());
+
+CODE_BLOCK_END
+
+	facy.handle_success("LoadLastMessages");
+
+	// Enable marking messages as read for this contact
+	std::map<MCONTACT, bool>::iterator it = facy.ignore_read.find(hContact);
+	if (it != facy.ignore_read.end()) {
+		it->second = false;
+	}
+	
+	// And force mark read
+	OnDbEventRead(hContact, NULL);
+}
+
+
 void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates)
 {
 	bool naseemsSpamMode = getBool(FACEBOOK_KEY_NASEEMS_SPAM_MODE, false);
@@ -535,7 +639,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			if (messages[i]->isIncoming) {
 				PROTORECVEVENT recv = { 0 };
-				recv.flags = PREF_UTF;
+				recv.flags = PREF_UTF | PREF_CREATEREAD;
+				if (!messages[i]->isUnread)
+					recv.flags |= PREF_CREATEREAD;
+
 				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
 				recv.timestamp = timestamp;
 				ProtoChainRecvMsg(hContact, &recv);
@@ -544,6 +651,9 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
+				//if (!messages[i]->isUnread) // sent messages are always read
+					dbei.flags |= DBEF_READ;
+
 				dbei.szModule = m_szModuleName;
 				dbei.timestamp = timestamp;
 				dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;

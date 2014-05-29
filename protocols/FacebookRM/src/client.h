@@ -104,6 +104,8 @@ public:
 	std::string get_server_type();
 	std::string get_privacy_type();
 
+	std::map<MCONTACT, bool> ignore_read;
+
 	char*   load_cookies();
 	void    store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);
 	void    clear_cookies();

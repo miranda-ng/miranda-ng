@@ -54,6 +54,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	HookProtoEvent(ME_GC_EVENT,					&FacebookProto::OnGCEvent);
 	HookProtoEvent(ME_GC_BUILDMENU,				&FacebookProto::OnGCMenuHook);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ,		&FacebookProto::OnDbEventRead);
+	HookProtoEvent(ME_MSG_WINDOWEVENT,			&FacebookProto::OnProcessSrmmEvent);
 
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
@@ -513,9 +514,31 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 
 int FacebookProto::OnDbEventRead(WPARAM contactID, LPARAM dbei)
 {
+	std::map<MCONTACT, bool>::iterator it = facy.ignore_read.find(contactID);
+	if (it != facy.ignore_read.end()) {
+		if (it->second) // it's TRUE, so we ignore this
+			return 0;
+		else // it's FALSE, so we just remove it from list
+			facy.ignore_read.erase(it);
+	}
+
 	if ((IsMyContact(contactID, true)) && !isOffline()) {
 		ForkThread(&FacebookProto::ReadMessageWorker, (void*)contactID);
 	}
+
+	return 0;
+}
+
+
+int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
+{
+	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+
+	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+		// Load last messages for this contact
+		ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(event->hContact));
+	}
+
 	return 0;
 }
 
