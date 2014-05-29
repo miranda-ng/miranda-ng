@@ -357,20 +357,22 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выключить мигание
 [ms, delay between icon blinking]
 мс, между миганиями значка
-[System tray icon]
-Значок в трее
-[Use xStatus icon]
-Значок xСтатуса
-[Icon mode]
-Режим показа значка в трее
-[Global status]
-Глобальный статус
-[Single account]
-Одна учётная запись
+[Show]
+Показать
 [Cycle icons every]
 Менять каждые
-[All accounts]
-Все учётные записи
+[seconds, when statuses differ]
+секунд, при разных статусах
+[Show multiple icons]
+Несколько значков
+[only when statuses differ]
+при разных статусах
+[System tray icon]
+Значок в трее
+[System tray icon mode]
+Поведение значка в системном трее
+[Use xStatus icon]
+Значок xСтатуса
 [Ignore empty extra icons places (arrange to right).]
 Игнорировать пустые дополнительные значки (справа)
 [Use 'Meta' protocol icons for MetaContacts]
@@ -797,6 +799,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рейтинг
 [-Nothing-]
 -Ничего-
+[Global]
+Глобальные
 [Hide to tray]
 В трей
 [Behind left edge]
@@ -825,13 +829,13 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Средний
 [High]
 Высокий
-[Contact rate: none]
+[Contact rate none]
 Контакт без рейтинга
-[Contact rate: low]
+[Contact rate low]
 Низкий рейтинг контакта
-[Contact rate: medium]
+[Contact rate medium]
 Средний рейтинг контакта
-[Contact rate: high]
+[Contact rate high]
 Высокий рейтинг контакта
 [Show even if offline]
 Показывать, даже если не в сети
