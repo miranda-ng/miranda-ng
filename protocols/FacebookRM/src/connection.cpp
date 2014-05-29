@@ -178,11 +178,12 @@ void FacebookProto::UpdateLoop(void *)
 
 	for (int i = -1; !isOffline(); i = ++i % 50)
 	{
-		if (i != -1)
+		if (i != -1) {
 			ProcessBuddyList(NULL);
 
-		if (i == 2 && getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
-			ProcessFeeds(NULL);
+			if (getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
+				ProcessFeeds(NULL);
+		}
 
 		if (i == 49)
 			ProcessFriendRequests(NULL);
