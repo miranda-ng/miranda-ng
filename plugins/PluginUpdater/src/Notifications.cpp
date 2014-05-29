@@ -114,10 +114,47 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType, bool NoMessageBox)
 {	
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) ) {
-		if(NoMessageBox){
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && (db_get_b(NULL, "Popup", "ModuleIsEnabled", 0) || db_get_b(NULL, "YAPP", "Enabled", 0))) {
+		LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
+		if (!pmpd)
 			return;
+
+		POPUPDATAT_V2 pd = { 0 };
+		pd.cbSize = sizeof(pd);
+		pd.lchContact = NULL; //(HANDLE)wParam;
+		pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
+		pd.PluginWindowProc = (Number == 0 && ActType != 0) ? PopupDlgProc : PopupDlgProc2;
+		pd.PluginData = pmpd;
+		pd.iSeconds = (Number == 0) ? -1 : PopupOptions.Timeout;
+		pd.hNotification = NULL;
+		pd.lpActions = pmpd->pa;
+
+		lstrcpyn(pd.lptzText, TranslateTS(ptszText), MAX_SECONDLINE);
+		lstrcpyn(pd.lptzContactName, TranslateTS(ptszTitle), MAX_CONTACTNAME);
+
+		switch (PopupOptions.DefColors) {
+		case byCOLOR_WINDOWS:
+			pd.colorBack = GetSysColor(COLOR_BTNFACE);
+			pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+			break;
+		case byCOLOR_OWN:
+			pd.colorBack = PopupsList[Number].colorBack;
+			pd.colorText = PopupsList[Number].colorText;
+			break;
+		case byCOLOR_POPUP:
+			pd.colorBack = pd.colorText = 0;
+			break;
 		}
+
+		pmpd->hDialog = hDlg;
+		
+		if (ActType == 1) {
+			MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+			MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+		}
+
+		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_NEWDATA);
+	} else if (!NoMessageBox) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
 		if (db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
@@ -131,56 +168,7 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 			}
 			MessageBox(hDlg, TranslateTS(ptszText), TranslateTS(ptszTitle), iMsgType);
 		}
-		return;
 	}
-
-	LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
-	if (!pmpd)
-		return;
-
-	POPUPDATAT_V2 pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.lchContact = NULL; //(HANDLE)wParam;
-	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
-	lstrcpyn(pd.lptzText, TranslateTS(ptszText), MAX_SECONDLINE);
-	lstrcpyn(pd.lptzContactName, TranslateTS(ptszTitle), MAX_CONTACTNAME);
-	switch (PopupOptions.DefColors) {
-	case byCOLOR_WINDOWS:
-		pd.colorBack = GetSysColor(COLOR_BTNFACE);
-		pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-		break;
-	case byCOLOR_OWN:
-		pd.colorBack = PopupsList[Number].colorBack;
-		pd.colorText = PopupsList[Number].colorText;
-		break;
-	case byCOLOR_POPUP:
-		pd.colorBack = pd.colorText = 0;
-		break;
-	}
-	if (Number == 0 && ActType != 0)
-		pd.PluginWindowProc = PopupDlgProc;
-	else
-		pd.PluginWindowProc = PopupDlgProc2;
-	pd.PluginData = pmpd;
-	if (Number == 0)
-		pd.iSeconds = -1;
-	else
-		pd.iSeconds = PopupOptions.Timeout;
-	pd.hNotification = NULL;
-	pd.lpActions = pmpd->pa;
-
-	pmpd->hDialog = hDlg;
-	switch (ActType) {
-	case 0:
-		break;
-
-	case 1:
-		MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-		MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-		break;
-	}
-
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_NEWDATA);
 }
 
 INT_PTR CALLBACK DlgDownload(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)

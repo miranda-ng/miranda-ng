@@ -445,28 +445,9 @@ static void DlgUpdateSilent(void *lParam)
 		db_set_b(NULL, MODNAME, "NeedRestart", 1);
 
 		TCHAR tszTitle[100];
-		mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), UpdateFiles.getCount());
-		
-		if (!ServiceExists(MS_POPUP_ADDPOPUPT) || !db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
-			TCHAR tszText[200];
-			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+		mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), UpdateFiles.getCount());		
 
-			if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-				MIRANDASYSTRAYNOTIFY err;
-				err.szProto = MODULEA;
-				err.cbSize = sizeof(err);
-				err.dwInfoFlags = NIIF_INTERN_UNICODE | NIIF_INFO;
-				err.tszInfoTitle = tszTitle;
-				err.tszInfo = tszText;
-				err.uTimeout = 60000;
-
-				if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err) != 0) {
-					// Error, let's try to show MessageBox as last way to inform user about successful update
-					if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
-						CallFunctionAsync(RestartMe, 0);
-				}
-			}
-		} else {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && (db_get_b(NULL, "Popup", "ModuleIsEnabled", 0) || db_get_b(NULL, "YAPP", "Enabled", 0))) {
 			POPUPDATAT_V2 pd = { 0 };
 			pd.cbSize = sizeof(pd);
 			pd.lchContact = NULL;
@@ -479,6 +460,29 @@ static void DlgUpdateSilent(void *lParam)
 			lstrcpyn(pd.lptzContactName, tszTitle, MAX_CONTACTNAME);
 
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_NEWDATA);
+		} else {
+			bool notified = false;
+
+			if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
+				MIRANDASYSTRAYNOTIFY err;
+				err.szProto = MODULEA;
+				err.cbSize = sizeof(err);
+				err.dwInfoFlags = NIIF_INTERN_UNICODE | NIIF_INFO;
+				err.tszInfoTitle = tszTitle;
+				err.tszInfo = TranslateT("You need to restart your Miranda to apply installed updates.");
+				err.uTimeout = 30000;
+
+				notified = !CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err);
+			}
+			
+			if (!notified) {
+				// Error, let's try to show MessageBox as last way to inform user about successful update
+				TCHAR tszText[200];
+				mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+
+				if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
+					CallFunctionAsync(RestartMe, 0);
+			}
 		}
 	}
 }
