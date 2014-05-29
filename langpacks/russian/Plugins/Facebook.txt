@@ -88,9 +88,9 @@ URL:
 [Receive messages from "inbox" folder only]
 Принимать сообщения только из папки "входящие"
 [Load last messages on opening message window (EXPERIMENTAL)]
-Загружать последние сообщения при открытии окна (Экспериментально)
+Подгружать последние сообщения при открытии окна (Экспериментально)
 [Number of messages to load:]
-Количество загружаемых сообщений:
+Количество подгружаемых сообщений:
 [&Invite user...]
 &Пригласить пользователя...
 [&Leave chat session]
