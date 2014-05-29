@@ -362,7 +362,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Use xStatus icon]
 Значок xСтатуса
 [Icon mode]
-Режим значка в трее
+Режим показа значка в трее
 [Global status]
 Глобальный статус
 [Single account]
@@ -370,7 +370,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Cycle icons every]
 Менять каждые
 [All accounts]
-Все учёиные записи
+Все учётные записи
 [Ignore empty extra icons places (arrange to right).]
 Игнорировать пустые дополнительные значки (справа)
 [Use 'Meta' protocol icons for MetaContacts]
