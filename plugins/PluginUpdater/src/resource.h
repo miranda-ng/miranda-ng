@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Development\Miranda NG\plugins\PluginUpdater\res\Resource.rc
+// Used by ..\res\Resource.rc
 //
 #define IDD_UPDATE                      101
 #define IDD_OPT_UPDATENOTIFY            102

@@ -83,7 +83,7 @@ static void ApplyUpdates(void *param)
 		SetStringText(hwndList, i, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
+		if (!DownloadFile(pFileUrl, nlc)) {
 			SetStringText(hwndList, i, TranslateT("Failed!"));
 
 			// interrupt update as we require all components to be updated
@@ -369,7 +369,7 @@ static void DlgUpdateSilent(void *lParam)
 
 		// download update
 		FILEURL *pFileUrl = &UpdateFiles[i].File;
-		if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
+		if (!DownloadFile(pFileUrl, nlc)) {
 			// interrupt update as we require all components to be updated
 			error = true;
 			break;

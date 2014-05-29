@@ -193,7 +193,7 @@ bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 TCHAR* GetDefaultUrl();
-BOOL   DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc);
+BOOL   DownloadFile(FILEURL *pFileURL, HANDLE &nlc);
 
 void  ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType, bool NoMessageBox = false);
 void  __stdcall RestartMe(void*);

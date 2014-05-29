@@ -51,7 +51,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
+INT_PTR MenuCommand(WPARAM,LPARAM)
 {
 	opts.bSilent = false;
 	DoCheck(true);
@@ -59,7 +59,7 @@ INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 }
 
 #if MIRANDA_VER >= 0x0A00
-INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam)
+INT_PTR ShowListCommand(WPARAM,LPARAM)
 {
 	opts.bSilent = false;
 	DoGetList(true);
@@ -67,7 +67,7 @@ INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam)
 }
 #endif
 
-INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
+INT_PTR EmptyFolder(WPARAM,LPARAM lParam)
 {
 	SHFILEOPSTRUCT file_op = {
 		NULL,
@@ -85,7 +85,7 @@ INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnPreShutdown(WPARAM, LPARAM)
 {
 	CancelWaitableTimer(Timer);
 	CloseHandle(Timer);

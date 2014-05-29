@@ -116,15 +116,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 
-	#if MIRANDA_VER >= 0x0A00
-		CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
+#if MIRANDA_VER >= 0x0A00
+	CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
 
-		mi.position++;
-		mi.icolibItem = Skin_GetIconHandle("plg_list");
-		mi.pszName = LPGEN("Available components list");
-		mi.pszService = MODNAME"/ShowList";
-		Menu_AddMainMenuItem(&mi);
-	#endif
+	mi.position++;
+	mi.icolibItem = Skin_GetIconHandle("plg_list");
+	mi.pszName = LPGEN("Available components list");
+	mi.pszService = MODNAME"/ShowList";
+	Menu_AddMainMenuItem(&mi);
+#endif
 
 	// Add hotkey
 	HOTKEYDESC hkd = { sizeof(hkd) };

@@ -217,9 +217,10 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
 	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
+	pFileUrl.CRCsum = 0;
 
 	HANDLE nlc;
-	BOOL ret = DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0, nlc);
+	BOOL ret = DownloadFile(&pFileUrl, nlc);
 	Netlib_CloseHandle(nlc);
 
 	if (!ret && !opts.bSilent) {
@@ -262,22 +263,22 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 }
 
 
-BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
+bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 {
 	DWORD dwBytes;
 
 	NETLIBHTTPREQUEST nlhr = {0};
-	#if MIRANDA_VER < 0x0A00
-		nlhr.cbSize = NETLIBHTTPREQUEST_V1_SIZE;
-	#else
-		nlhr.cbSize = sizeof(nlhr);
-	#endif
+#if MIRANDA_VER < 0x0A00
+	nlhr.cbSize = NETLIBHTTPREQUEST_V1_SIZE;
+#else
+	nlhr.cbSize = sizeof(nlhr);
+#endif
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	if (g_mirandaVersion >= PLUGIN_MAKE_VERSION(0, 9, 0, 0))
 		nlhr.flags |= NLHRF_PERSISTENT;
 	nlhr.nlc = nlc;
-	char *szUrl = mir_t2a(tszURL);
+	char *szUrl = mir_t2a(pFileURL->tszDownloadURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
 	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
@@ -292,20 +293,23 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
 
 	bool ret = false;
 	for (int i = 0; !ret && i < MAX_RETRIES; i++) {
+		Netlib_LogfT(hNetlibUser,_T("Downloading file %s to %s (attempt %d)"),pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
 		NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 		if (pReply) {
 			nlc = pReply->nlc;
 			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				HANDLE hFile = CreateFile(pFileURL->tszDiskPath, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFile != INVALID_HANDLE_VALUE) {
 					// write the downloaded file directly
 					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 					CloseHandle(hFile);
-					if (CRCsum) {
+					if (pFileURL->CRCsum) {
 						InitCrcTable();
 						int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
-						if (crc == CRCsum)
+						if (crc == pFileURL->CRCsum)
 							ret = true;
+						else
+							Netlib_LogfT(hNetlibUser,_T("crc check failed for %s"),pFileURL->tszDownloadURL);
 					}
 					else
 						ret = true;
@@ -318,24 +322,29 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
 					if (hFile != INVALID_HANDLE_VALUE) {
 						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 						CloseHandle(hFile);
-						SafeMoveFile(tszTempFile, tszLocal);
-						if (CRCsum) {
+						SafeMoveFile(tszTempFile, pFileURL->tszDiskPath);
+						if (pFileURL->CRCsum) {
 							InitCrcTable();
 							int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
-							if (crc == CRCsum)
+							if (crc == pFileURL->CRCsum)
 								ret = true;
+							else
+								Netlib_LogfT(hNetlibUser,_T("crc check failed for %s"),pFileURL->tszDownloadURL);
 						}
 						else
 							ret = true;
 					}
 				}
 			}
+			else
+				Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed with error %d"),pFileURL->tszDownloadURL,pReply->resultCode);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 		}
 		else {
 			nlc = NULL;
 		}
 	}
+	Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed, giving up"),pFileURL->tszDownloadURL);
 
 	mir_free(szUrl);
 	mir_free(nlhr.headers);

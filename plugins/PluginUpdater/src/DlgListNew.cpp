@@ -70,7 +70,7 @@ static void ApplyDownloads(void *param)
 		ListView_SetItemText(hwndList, i, 2, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum, nlc)) {
+		if (!DownloadFile(pFileUrl, nlc)) {
 			ListView_SetItemText(hwndList, i, 2, TranslateT("Failed!"));
 		}
 		else
