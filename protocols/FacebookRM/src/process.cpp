@@ -652,7 +652,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				dbei.flags = DBEF_UTF;
 
 				if (!messages[i]->isIncoming)
-					dbei.flags |= DBEF_SENT | DBEF_READ; // sent messages are always read
+					dbei.flags |= DBEF_SENT;
 
 				if (!messages[i]->isUnread)
 					dbei.flags |= DBEF_READ;

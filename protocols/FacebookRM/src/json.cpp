@@ -501,39 +501,25 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (message_text.empty())
 					continue;
 
+				facebook_message* message = new facebook_message();
+				message->isUnread = true;
+				message->isIncoming = (id != proto->facy.self_.user_id);
+				message->message_text = message_text;
+				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+				message->user_id = id;
+				message->message_id = message_id;
+				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))); // TODO: or if not incomming use my own name from facy.self_ ?
+				message->thread_id = json_as_pstring(tid); // TODO: or if not incomming use my own id from facy.self_ ?
+
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
-				if (gthreadinfo != NULL) {
-					// Multi-user message
-					facebook_message* message = new facebook_message();
+				message->isChat = (gthreadinfo != NULL);
 
-					message->isChat = true;
-					message->isUnread = true;
-					message->isIncoming = (id != proto->facy.self_.user_id);
-					message->message_text = message_text;
-					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))); // TODO: or if not incomming use my own name from facy.self_ ?
-					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
-					message->thread_id = json_as_pstring(tid); // TODO: or if not incomming use my own id from facy.self_ ?
-					message->user_id = id;
-					message->message_id = message_id;
-
-					messages->push_back(message);
+				if (!message->isChat && !message->isIncoming) {
+					message->sender_name = "";
+					message->user_id = proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
 				}
-				else {
-					// Standard message
-					facebook_message* message = new facebook_message();
 
-					message->isChat = false;
-					message->isUnread = true;
-					message->isIncoming = (id != proto->facy.self_.user_id);
-					message->message_text = message_text;
-					message->sender_name = message->isIncoming ? utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))) : "";
-					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
-					message->thread_id = json_as_pstring(tid);
-					message->user_id = message->isIncoming ? id : proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
-					message->message_id = message_id;
-
-					messages->push_back(message);
-				}
+				messages->push_back(message);
 			}
 		} else if (t == "notification_json") {
 			// event notification
@@ -844,6 +830,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *timestamp = json_get(it, "timestamp");
 		JSONNODE *filtered = json_get(it, "is_filtered_content");
 		JSONNODE *folder = json_get(it, "folder");
+		JSONNODE *is_unread = json_get(it, "is_unread");
 
 		if (author == NULL || body == NULL || mid == NULL || tid == NULL || timestamp == NULL)
 			continue;
@@ -877,6 +864,11 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		message->thread_id = thread_id;
 		message->message_id = message_id;
 		message->isIncoming = (author_id != proto->facy.self_.user_id);
+		message->isUnread = (is_unread != NULL && json_as_bool(is_unread));
+
+		// Ignore read messages if we want only unread messages
+		if (unreadOnly && !message->isUnread)
+			continue;
 
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(thread_id);
 		if (iter != chatrooms->end()) {
@@ -885,12 +877,6 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			message->user_id = author_id;
 		} else {
 			// this is standard message
-
-			// Ignore read messages if we want only unread messages
-			JSONNODE *is_unread = json_get(it, "is_unread");
-			if (unreadOnly && (is_unread == NULL || !json_as_bool(is_unread)))
-				continue;
-
 			message->isChat = false;
 			std::map<std::string, std::string>::iterator iter = thread_ids.find(thread_id);
 			if (iter != thread_ids.end()) {
