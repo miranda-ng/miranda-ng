@@ -153,10 +153,7 @@ int DisablePopup(WPARAM wParam, LPARAM lParam)
 
 void EnablePopupModule()
 {
-	if (ServiceExists(POPUPONOFFPP) && db_get_b(NULL,"Popup", "ModuleIsEnabled", 0) == 0) {
-		CallService(POPUPONOFFPP, NULL, NULL);
-	}
-	if (ServiceExists(POPUPONOFF) && db_get_b(NULL, "YAPP", "Enabled", 0) == 0) {
+	if (ServiceExists(POPUPONOFF) && db_get_b(NULL,"Popup", "ModuleIsEnabled", 0) == 0) {
 		CallService(POPUPONOFF, NULL, NULL);
 	}
 }
@@ -422,7 +419,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_DELAY2:
-			if (!(ServiceExists(POPUPONOFF) || ServiceExists(POPUPONOFFPP))) {
+			if (!ServiceExists(POPUPONOFF)) {
 				MessageBox(0, NEEDPOPUP, NOTICE, MB_OK);
 				CheckDlgButton(hwndDlg, IDC_DELAY2, BST_UNCHECKED);
 				PopUp = (BYTE)db_set_b(NULL, MODULE_NAME, PopUpComp, 0);

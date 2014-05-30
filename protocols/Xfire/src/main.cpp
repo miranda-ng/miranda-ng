@@ -2380,10 +2380,6 @@ void gamedetectiont(LPVOID lparam)
 								{
 									CallService("Popup/EnableDisableMenuCommand",NULL,NULL);
 								}
-								else if (ServiceExists("Popup/ToggleEnabled"))
-								{
-									CallService("Popup/ToggleEnabled",NULL,NULL);
-								}
 								disabledpopups=FALSE;
 							}
 						//sound wieder aktivieren, nur wenn es vorher abgestellt wurde
@@ -2520,11 +2516,6 @@ void gamedetectiont(LPVOID lparam)
 											{
 												disabledpopups=TRUE;
 												CallService("Popup/EnableDisableMenuCommand",NULL,NULL);
-											}
-											else if (ServiceExists("Popup/ToggleEnabled")&&db_get_b(NULL,"YAPP","Enabled",0)==1)
-											{
-												disabledpopups=TRUE;
-												CallService("Popup/ToggleEnabled",NULL,NULL);
 											}
 										}
 										//sound abschalten

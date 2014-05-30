@@ -44,8 +44,7 @@ INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam);
 //lParam = 0 - not in use
 #define SS_SILENCE_CONNECTION "StartupSilence/SilenceConnection"
 
-#define POPUPONOFF "Popup/ToggleEnabled"
-#define POPUPONOFFPP "Popup/EnableDisableMenuCommand"
+#define POPUPONOFF "Popup/EnableDisableMenuCommand"
 
 #define MENU_NAME			LPGEN("Silence at startup")
 #define DISABLE_SILENCE		LPGEN("Toggle Silence OFF")

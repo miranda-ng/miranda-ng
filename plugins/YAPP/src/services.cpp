@@ -433,7 +433,7 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGE"W", ShowMessageW);
 
 	CreateServiceFunction(MS_POPUP_SHOWHISTORY, Popup_ShowHistory);
-	CreateServiceFunction("Popup/ToggleEnabled", TogglePopups);
+	CreateServiceFunction("Popup/EnableDisableMenuCommand", TogglePopups);
 }
 
 void DeinitServices()

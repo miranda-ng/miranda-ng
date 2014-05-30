@@ -718,8 +718,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		if (db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) == 0)
 			db_set_b(NULL, "Popup", "ModuleIsEnabled", 1);
-		if (db_get_b(NULL, "YAPP", "Enabled", 1) == 0)
-			db_set_b(NULL, "YAPP", "Enabled", 1);
 	}
 	if (g_wMaskAdv & OPT_HIDEONSTART && db_get_b(NULL, "Popup", "ModuleIsEnabled", 0)) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
 	{

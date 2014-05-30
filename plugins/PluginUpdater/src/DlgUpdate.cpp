@@ -447,7 +447,7 @@ static void DlgUpdateSilent(void *lParam)
 		TCHAR tszTitle[100];
 		mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), UpdateFiles.getCount());		
 
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, "YAPP", "Enabled", 1)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 			POPUPDATAT_V2 pd = { 0 };
 			pd.cbSize = sizeof(pd);
 			pd.lchContact = NULL;
