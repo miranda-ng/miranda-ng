@@ -530,20 +530,21 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 			//std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
 			CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>(url->c_str()));
 		}
-
+		// Intentionally no break here
+	}
+	case WM_CONTEXTMENU:
+	{
 		// After a click, destroy popup
 		PUDeletePopup(hwnd);
-	} break;
-
+		return TRUE;
+	}
 	case UM_FREEPLUGINDATA:
 	{
 		// After close, free
 		std::string *url = (std::string *)PUGetPluginData(hwnd);
 		delete url;
-	} return FALSE;
-
-	default:
-		break;
+		return FALSE;
+	}
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
