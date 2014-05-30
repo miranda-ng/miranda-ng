@@ -829,13 +829,13 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Средний
 [High]
 Высокий
-[Contact rate none]
+[Contact rate: none]
 Контакт без рейтинга
-[Contact rate low]
+[Contact rate: low]
 Низкий рейтинг контакта
-[Contact rate medium]
+[Contact rate: medium]
 Средний рейтинг контакта
-[Contact rate high]
+[Contact rate: high]
 Высокий рейтинг контакта
 [Show even if offline]
 Показывать, даже если не в сети

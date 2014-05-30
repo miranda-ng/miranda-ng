@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.9
+;  Version: 0.1.2.0
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -26,7 +26,7 @@
 [Development version (less stable)]
 [Development version with debug symbols]
 [Custom version]
-[You need restart your Miranda to apply installed updates]
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Notifications]
 [Message boxes (*)]
 [Errors]
@@ -74,6 +74,9 @@
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 [<< Details]
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+[You need to restart your Miranda to apply installed updates.]
+[Would you like to restart it now?]
+[%d component(s) was updated]
 [No updates found.]
 [Update checking already started!]
 ;file \plugins\PluginUpdater\src\Options.cpp
