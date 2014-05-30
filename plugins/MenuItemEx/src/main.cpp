@@ -268,11 +268,6 @@ BOOL isMetaContact(MCONTACT hContact)
 	return FALSE;
 }
 
-MCONTACT getMostOnline(MCONTACT hContact)
-{
-	return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
-}
-
 void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID)
 {
 	DBVARIANT dbv_uniqueid;
@@ -336,19 +331,12 @@ BOOL IPExists(MCONTACT hContact)
 
 BOOL MirVerExists(MCONTACT hContact)
 {
-	LPSTR szProto, msg;
-	BOOL ret = 0;
+	LPSTR szProto = GetContactProto(hContact);
+	if (!szProto)
+		return 0;
 
-	szProto = GetContactProto(hContact);
-	if (!szProto) return 0;
-
-	msg = db_get_sa(hContact,szProto,"MirVer");
-	if (msg) {
-		if (strlen(msg))	ret = 1;
-		mir_free(msg);
-	}
-
-	return ret;
+	ptrT msg(db_get_tsa(hContact, szProto, "MirVer"));
+	return lstrlen(msg) != 0;
 }
 
 void getIP(MCONTACT hContact,LPSTR szProto,LPSTR szIP)
@@ -506,7 +494,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
 
 	if (isMetaContact(hContact)) {
-		MCONTACT hC = getMostOnline(hContact);
+		MCONTACT hC = db_mc_getMostOnline(hContact);
 		if (!hContact) hC = db_mc_getDefault(hContact);
 		hContact = hC;
 	}
@@ -605,7 +593,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 
 	MCONTACT hContact = (MCONTACT)wparam;
 	if (isMetaContact(hContact)) {
-		MCONTACT hC = getMostOnline(hContact);
+		MCONTACT hC = db_mc_getMostOnline(hContact);
 		if (!hContact)
 			hC = db_mc_getDefault(hContact);
 		hContact = hC;

@@ -86,7 +86,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 		return TRUE;
 
 	MCONTACT hContact = (MCONTACT)pcpp->wParam, hSub;
-	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 	
 	TrustLevel level = ( TrustLevel )otr_context_get_trust(otrl_context_find_miranda(otr_user_state, hContact));

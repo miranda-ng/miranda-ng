@@ -67,7 +67,8 @@ int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM)
 int __cdecl onRebuildContactMenu(WPARAM hContact,LPARAM lParam)
 {
 	BOOL bMC = isProtoMetaContacts(hContact);
-	if (bMC ) hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
+	if (bMC)
+		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	pUinKey ptr = getUinKey(hContact);
 	int i;
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -152,6 +153,5 @@ int __cdecl onRebuildContactMenu(WPARAM hContact,LPARAM lParam)
 
 	return 0;
 }
-
 
 // EOF

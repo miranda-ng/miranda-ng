@@ -50,7 +50,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact)
 		MCONTACT hActContact = hContact;
 		if (!db_get_b(NULL, "CLC", "Meta", 0) && !strcmp(szActProto, META_PROTO)) {
 			// substitute params by mostonline contact datas
-			MCONTACT hMostOnlineContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hActContact, 0);
+			MCONTACT hMostOnlineContact = db_mc_getMostOnline(hActContact);
 			if (hMostOnlineContact && hMostOnlineContact != (MCONTACT)CALLSERVICE_NOTFOUND) {
 				ClcCacheEntry *cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->szProto) {
@@ -74,19 +74,6 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact)
 
 int ExtIconFromStatusMode(MCONTACT hContact, const char *szProto,int status)
 {
-/*	if ( db_get_b( NULL, "CLC", "Meta", 0 ) == 1 )
-		return pcli->pfnIconFromStatusMode(szProto,status,hContact);
-
-	if ( szProto != NULL ) {
-		if (strcmp(szProto,"MetaContacts") == 0 ) {
-			hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
-			if ( hContact != 0 ) {
-				szProto = GetContactProto((UINT)hContact,0);
-				status = db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
-			}
-		}
-	}*/
-
 	return pcli->pfnIconFromStatusMode(szProto,status,hContact);
 }
 

@@ -597,7 +597,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, META_PROTO)) {
-			MCONTACT hSubconttact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+			MCONTACT hSubconttact = db_mc_getMostOnline(hContact);
 			szProto = GetContactProto(hSubconttact);
 		}
 		if (szProto) {

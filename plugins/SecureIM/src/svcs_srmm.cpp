@@ -12,7 +12,7 @@ int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
 int __cdecl onIconPressed(WPARAM hContact, LPARAM lParam)
 {
 	if (isProtoMetaContacts(hContact))
-		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
+		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (strcmp(sicd->szModule, MODULENAME) != 0 || !isSecureProtocol(hContact))

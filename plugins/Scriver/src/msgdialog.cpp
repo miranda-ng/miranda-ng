@@ -258,7 +258,7 @@ void SetStatusIcon(SrmmWindowData *dat)
 	MCONTACT hContact = dat->windowData.hContact;
 
 	if (!strcmp(dat->szProto, META_PROTO) && db_get_b(NULL,"CLC","Meta",0) == 0) {
-		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, dat->windowData.hContact, 0);
+		hContact = db_mc_getMostOnline(dat->windowData.hContact);
 		if (hContact != NULL)
 			szProto = GetContactProto(hContact);
 		else
@@ -1760,7 +1760,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				smaddInfo.targetWParam = TRUE;
 				smaddInfo.Protocolname = dat->szProto;
 				if (dat->szProto != NULL && strcmp(dat->szProto, META_PROTO) == 0) {
-					MCONTACT hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->windowData.hContact, 0);
+					MCONTACT hContact = db_mc_getMostOnline(dat->windowData.hContact);
 					if (hContact != NULL) {
 						smaddInfo.Protocolname = GetContactProto(hContact);
 					}

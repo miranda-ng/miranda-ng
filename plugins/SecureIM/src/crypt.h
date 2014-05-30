@@ -146,7 +146,6 @@ void showPopupRM(MCONTACT);
 // crypt_meta.cpp
 BOOL isProtoMetaContacts(MCONTACT);
 BOOL isDefaultSubContact(MCONTACT);
-MCONTACT getMostOnline(MCONTACT);
 void DeinitMetaContact(MCONTACT);
 
 // crypt_dll.cpp

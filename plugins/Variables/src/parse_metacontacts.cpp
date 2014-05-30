@@ -137,7 +137,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+	hContact = db_mc_getMostOnline(hContact);
 	if (hContact == NULL)
 		return NULL;
 

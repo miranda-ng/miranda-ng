@@ -784,7 +784,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus,WORD newStatus)
 	}
 
 	if (!strcmp(szProto, META_PROTO)) { //this contact is Meta
-		MCONTACT hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		char *szSubProto = GetContactProto(hSubContact);
 		if (szSubProto == NULL)
 			return 0;

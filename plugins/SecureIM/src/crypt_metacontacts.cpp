@@ -13,11 +13,6 @@ BOOL isDefaultSubContact(MCONTACT hContact)
 	return db_mc_getDefault(db_mc_getMeta(hContact)) == hContact;
 }
 
-MCONTACT getMostOnline(MCONTACT hContact)
-{
-	return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
-}
-
 // remove all secureim connections on subcontacts
 void DeinitMetaContact(MCONTACT hContact)
 {

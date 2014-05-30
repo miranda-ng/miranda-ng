@@ -26,7 +26,7 @@ int StartOTR(MCONTACT hContact) {
 INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
@@ -46,7 +46,7 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
@@ -69,7 +69,7 @@ INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 int otr_disconnect_contact(MCONTACT hContact)
 {
 	MCONTACT hSub;
-	if(ServiceExists(MS_MC_GETMOSTONLINECONTACT) && (hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 	
 	const char *proto = contact_get_proto(hContact);
@@ -100,7 +100,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
-	if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
@@ -166,7 +166,7 @@ hide_all:
 	
 	if(proto && strcmp(proto, META_PROTO) == 0) {
 		// make menu act as per most online subcontact
-		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact)
 			goto hide_all;
 		proto = contact_get_proto(hContact);

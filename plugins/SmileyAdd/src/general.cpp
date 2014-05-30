@@ -213,8 +213,10 @@ void DestroyGdiPlus(void)
 
 MCONTACT DecodeMetaContact(MCONTACT hContact)
 {
-	if (hContact == NULL) return NULL;
-	MCONTACT hReal = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+	if (hContact == NULL)
+		return NULL;
+	
+	MCONTACT hReal = db_mc_getMostOnline(hContact);
 	if (hReal == NULL || hReal == (MCONTACT)CALLSERVICE_NOTFOUND)
 		hReal = hContact;
 

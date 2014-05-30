@@ -385,7 +385,7 @@ LBL_Def:
 			break;
 
 		if (contact->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
-			contact->hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)contact->hContact, 0);
+			contact->hSubContact = db_mc_getMostOnline(contact->hContact);
 			contact->metaProto = GetContactProto(contact->hSubContact);
 			contact->iImage = pcli->pfnGetContactIcon(contact->hSubContact);
 			if (contact->pExtra) {

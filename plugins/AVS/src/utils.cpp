@@ -514,7 +514,7 @@ MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked)
 				locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 			if (!locked)
-				hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+				hContact = db_mc_getMostOnline(hContact);
 		}
 	}
 	return hContact;

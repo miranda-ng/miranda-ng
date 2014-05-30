@@ -24,7 +24,7 @@ BYTE isContactSecured(MCONTACT hContact)
 	if (!arClist.getCount()) return 0;
 
 	if (isProtoMetaContacts(hContact))
-		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
+		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting)

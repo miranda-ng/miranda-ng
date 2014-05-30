@@ -62,7 +62,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 		return 0;
 	
 	if(strcmp(proto, META_PROTO) == 0) {
-		hContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
+		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact) return 0;
 		proto = contact_get_proto(hContact);
 		if (!proto )	return 0;
@@ -196,7 +196,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if (!db_event_get((HANDLE)lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
 			MCONTACT hSub;
-			if((hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+			if((hSub = db_mc_getMostOnline(hContact)) != 0)
 				hContact = hSub;
 
 			ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
@@ -252,7 +252,7 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 	if(mwd->uType != MSG_WINDOW_EVT_OPEN) return 0;
 
 	MCONTACT hContact = mwd->hContact, hTemp;
-	if((hTemp = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0)) != 0)
+	if((hTemp = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hTemp;
 
 	if (!CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME))

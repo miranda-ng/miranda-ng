@@ -455,12 +455,9 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 	else
 	{
 		// Is a meta?
-		if (ServiceExists(MS_MC_GETMOSTONLINECONTACT)) 
-		{
-			MCONTACT hSub = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
-			if (hSub != NULL)
-				hContact = hSub;
-		}
+		MCONTACT hSub = db_mc_getMostOnline(hContact);
+		if (hSub != NULL)
+			hContact = hSub;
 
 		// Get caps
 		INT_PTR caps = 0;

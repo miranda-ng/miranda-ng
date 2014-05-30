@@ -352,26 +352,6 @@ void ShowMessage(const MCONTACT hContact, const TCHAR *msg) {
 		ShowPopup(TranslateT(LANG_OTR_INFO), msg, 0, hContact);
 }
 
-
-/*
-bool GetEncryptionStatus(MCONTACT hContact) {
-	char *proto = GetContactProto(hContact);
-	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
-
-	if (!chat_room) {
-		if (options.bHaveMetaContacts) {
-			HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, hContact, 0);
-			if(hMeta && hContact == (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0)) {
-				//strcat(dbg_msg, "\nrecursing for meta");
-				return GetEncryptionStatus(hMeta);
-			}
-			return 0!=db_get_b(hContact, MODULENAME, "Encrypted", 0 );
-		}
-	}
-	return 0;
-}
-*/
-
 const TCHAR *policy_to_string(OtrlPolicy policy) {
 	switch (policy) {
 		case OTRL_POLICY_NEVER:

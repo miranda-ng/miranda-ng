@@ -247,7 +247,7 @@ BOOL metaCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 	MCONTACT hSubContact=NULL;
 
 	if (bMetaProtoEnabled && szProto && !strcmp(META_PROTO, szProto))
-		if (hSubContact = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0))
+		if (hSubContact = db_mc_getMostOnline(hContact))
 			szProto = GetContactProto(hSubContact);
 
 	return checkProtocol(szProto) && checkIgnore(hSubContact?hSubContact:hContact, eventType);

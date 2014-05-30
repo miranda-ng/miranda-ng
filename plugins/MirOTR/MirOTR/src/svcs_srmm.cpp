@@ -71,7 +71,7 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 	if (!chat_room) {
 		MCONTACT hMeta = db_mc_getMeta(hContact);
-		MCONTACT hMostOnline = (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0);
+		MCONTACT hMostOnline = db_mc_getMostOnline(hMeta);
 		if(hMeta && hContact == hMostOnline)
 			SetEncryptionStatus(hMeta, level);
 		else if(hMeta) {

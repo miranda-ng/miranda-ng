@@ -33,6 +33,6 @@ bool metaIsDefaultSubContact(MCONTACT hContact)
 MCONTACT metaGetMostOnline(MCONTACT hContact) 
 {
 	if(metaIsProtoMetaContacts(hContact))
-		return (MCONTACT)CallService(MS_MC_GETMOSTONLINECONTACT,hContact,0);
+		return db_mc_getMostOnline(hContact);
 	return NULL;
 }
