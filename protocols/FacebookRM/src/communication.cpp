@@ -1079,7 +1079,7 @@ bool facebook_client::channel()
 	}
 }
 
-bool facebook_client::send_message(std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method)
+bool facebook_client::send_message(MCONTACT hContact, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method)
 {
 	ScopedLock s(send_message_lock_);
 
@@ -1182,6 +1182,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 	{
 		// Remember this message id
 		std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
+		parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
 		messages_ignore.insert(std::make_pair(mid, false));
 	} break;
 

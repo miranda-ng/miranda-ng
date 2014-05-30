@@ -365,7 +365,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 			std::map<std::string, facebook_chatroom*> chatrooms;
 
 			facebook_json_parser* p = new facebook_json_parser(this);
-			p->parse_thread_messages(&resp.data, &messages, &chatrooms, true, inboxOnly, limit);
+			p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, inboxOnly, limit);
 			delete p;	
 
 			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end(); ) {
