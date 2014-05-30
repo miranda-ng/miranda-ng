@@ -121,7 +121,7 @@ void LoadOption_General()
 	PopupOptions.ReorderPopupsWarning = db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE);
 
 	//disable When
-	PopupOptions.ModuleIsEnabled = db_get_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
+	PopupOptions.ModuleIsEnabled = db_get_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
 	PopupOptions.DisableWhenFullscreen = db_get_b(NULL, MODULNAME, "DisableWhenFullscreen", TRUE);
 }
 

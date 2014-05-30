@@ -164,7 +164,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		//The module is enabled.
 		//The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = FALSE;
-		db_set_b(NULL, MODULNAME, "ModuleIsEnabled", FALSE);
+		db_set_b(NULL, "Popup", "ModuleIsEnabled", FALSE);
 		mi.ptszName = LPGENT("Enable Popups");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
 	}
@@ -172,7 +172,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		//The module is disabled.
 		//The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = TRUE;
-		db_set_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
+		db_set_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
 		mi.ptszName = LPGENT("Disable Popups");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
 	}

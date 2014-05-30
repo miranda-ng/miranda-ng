@@ -75,7 +75,7 @@ int IconsChanged(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	
-	mi.hIcon = IcoLib_GetIcon(db_get_b(0, MODULE, "Enabled", 1) ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.hIcon = IcoLib_GetIcon(db_get_b(0, "Popup", "ModuleIsEnabled", 1) ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	mi.flags = CMIM_ICON;
 	Menu_ModifyItem(hMenuItem, &mi);
 	Menu_ModifyItem(hMenuRoot, &mi);
@@ -93,7 +93,7 @@ int TTBLoaded(WPARAM, LPARAM)
 	ttb.pszService = "Popup/ToggleEnabled";
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
-	if (db_get_b(0, MODULE, "Enabled", 1))
+	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
 	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
@@ -180,7 +180,7 @@ static void InitFonts()
 
 void InitMenuItems(void)
 {
-	bool isEnabled = db_get_b(0, MODULE, "Enabled", 1) == 1;
+	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags		= CMIF_ROOTHANDLE|CMIF_TCHAR;
