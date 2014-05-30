@@ -751,6 +751,17 @@ MCONTACT FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
+void FacebookProto::OpenUrlThread(void *p) {
+	if (p == NULL)
+		return;
+
+	open_url *data = static_cast<open_url*>(p);
+	
+	ShellExecute(NULL, _T("open"), data->browser, data->url, NULL, SW_SHOWDEFAULT);
+
+	delete data;
+}
+
 void FacebookProto::OpenUrl(std::string url)
 {
 	std::string::size_type pos = url.find(FACEBOOK_SERVER_DOMAIN);
@@ -775,7 +786,15 @@ void FacebookProto::OpenUrl(std::string url)
 	}
 
 	ptrT data( mir_utf8decodeT(url.c_str()));
-	CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)data);
+
+	// Check if there is user defined browser for opening links
+	ptrT browser(getTStringA(FACEBOOK_KEY_OPEN_URL_BROWSER));
+	if (browser != NULL)
+		// If so, use it to open this link
+		ForkThread(&FacebookProto::OpenUrlThread, new open_url(browser, data));
+	else
+		// Or use Miranda's service
+		CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)data);
 }
 
 void FacebookProto::ReadNotificationWorker(void *p)

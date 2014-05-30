@@ -230,3 +230,10 @@ struct post_status_data {
 	FacebookProto *proto;
 	std::vector<wall_data*> walls;
 };
+
+struct open_url
+{
+	open_url(TCHAR *browser, TCHAR *url) : browser(browser), url(url) {}
+	TCHAR *browser;
+	TCHAR *url;	
+};

@@ -218,9 +218,10 @@ public:
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
 	void CheckAvatarChange(MCONTACT hContact, std::string image_url);
 	void ToggleStatusMenuItems(BOOL bEnable);
-	void ParseSmileys(std::string message, MCONTACT hContact);
+	void ParseSmileys(std::string message, MCONTACT hContact);	
+	void SaveName(MCONTACT hContact, const facebook_user *fbu);	
 	void OpenUrl(std::string url);
-	void SaveName(MCONTACT hContact, const facebook_user *fbu);
+	void __cdecl OpenUrlThread(void*);
 
 	// Handles, Locks
 	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;
