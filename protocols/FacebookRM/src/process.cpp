@@ -900,7 +900,7 @@ void FacebookProto::ProcessFeeds(void* data)
 		DWORD ttime = utils::conversion::to_timestamp(time);
 		if (ttime > new_time)
 			new_time = ttime; // remember newest time from all these posts
-		else if (ttime < facy.last_feeds_update_)
+		else if (ttime <= facy.last_feeds_update_)
 			continue; // ignore posts older than newest post of previous check
 
 		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
