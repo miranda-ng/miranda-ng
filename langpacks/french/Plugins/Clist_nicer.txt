@@ -8,7 +8,7 @@
 [Displays contacts, event notifications, protocol status.]
 Affiche les contacts, les notifications d'événements, les états des protocoles.
 ;file \plugins\Clist_nicer\res\resource.rc
-[CList Nicer exception]
+[Clist Nicer exception]
 Exception de CList Nicer
 [Copy to clipboard]
 Copier dans le Presse-Papiers
@@ -42,7 +42,7 @@ Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 Voulez-vous vraiment supprimer %s?
 [This will erase all history and settings for this contact!]
 Ceci effacera tout l'historique et réglages de ce contact!
-[Contact List]
+[Contact list]
 Liste de contacts
 [Hide offline users]
 Cacher les contacts hors ligne
@@ -120,11 +120,11 @@ Hauteur mini lignes :
 Largeur du groupe
 [Indent groups by:]
 Décaler les contacts de :
-[Inner Row vertical padding]
+[Inner row vertical padding]
 
 [Margins and spacing]
 Marges et espaces
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [First by]
 D'abord par
@@ -138,6 +138,8 @@ Déplacer les évènements au début de la liste/groupe
 Ne pas séparer les contacts hors ligne
 [Hide as offline]
 Considérer hors ligne
+[Tree Hide Offline]
+
 [Right align contacts]
 Contacts sur la droite
 [Avatars]
@@ -178,7 +180,7 @@ Centrer si possible
 Si possible, afficher l'icône d'état à la place de l'avatar
 [Use metacontact protocol icons instead of subcontacts]
 Utiliser les icônes d'état de MetaContact plutôt que ceux des sous-contacts
-[Use Overlay icons on avatars]
+[Use overlay icons on avatars]
 Utiliser les icônes de sur-couche sur les avatars
 [Dim idle contacts]
 Estomper les contacts inactifs
@@ -216,7 +218,7 @@ maximum
 Agrandir vers le haut
 [If window is partially covered, bring to front instead of hiding]
 Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de cacher
-[Always Hide On Taskbar]
+[Always hide on taskbar]
 Toujours cacher dans la barre des taches
 [Client margins]
 
@@ -254,7 +256,7 @@ Afficher la sélection même si la liste n'est pas visible
 Activer la sélection translucide
 [Use full row for selection and hottracking]
 Utiliser toute la rangée pour sélection et coloriage
-[Double click on avatar opens userinfo]
+[Double click on avatar opens user info]
 Double-clique sur l'avatar ouvre les informations contacts
 [Visual]
 Visuel
@@ -268,7 +270,9 @@ millisecondes
 Cacher l'ascenseur vertical
 [Gray out entire list when:]
 Griser toute la liste quand :
-[Contact List Background]
+[Tree Gray Out]
+
+[Contact list background]
 Arrière-plan de la liste
 [Use Windows colors]
 Utiliser les couleurs Windows
@@ -292,7 +296,7 @@ Défiler avec le texte
 Utiliser ces options pour skinner entièrement le fond
 [If you enable this, the background settings will affect the entire contact list frame.]
 Si vous activer ceci, les réglages de fond affecteront l'image entière de liste de contact.
-[Status Bar]
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -430,7 +434,7 @@ Pour afficher un contact bloqué, aller dans Paramètres->Évènements->Ignorer 
 Options d'affichage
 [Show contact with priority]
 Afficher le contact avec sa priorité
-[Show Avatar:]
+[Show avatar:]
 Afficher l'avatar :
 [Show 2nd line:]
 Afficher une seconde ligne :
@@ -460,9 +464,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -470,37 +474,35 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
+[&New group]
 &Nouveau groupe
-[&Hide Offline Users]
+[&Hide offline users]
 &Cacher les contacts hors ligne
-[Hide &Offline Users out here]
-Cacher les &Hors ligne hors de ce groupe
-[Hide &Empty Groups]
+[Hide &offline users out here]
+Cacher les &Hors ligne de ce groupe
+[Hide &empty groups]
 Cacher les groupes &vides
-[Disable &Groups]
+[Disable &groups]
 Désactiver les &groupes
 [Hide Miranda]
 Cacher Miranda
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 &Cacher les Hors ligne de ce groupe
-[&Rename Group]
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
+[&Delete group]
 &Effacer le groupe
-[Move marked Contacts to this Group]
+[Move marked contacts to this group]
 Déplacer les contacts marqués de ce groupe
 [Appearance]
 Apparence
-[Show Status Icons]
-Voir l'icône d'état
-[Show Metacontact proto Icons]
+[Show MetaContact proto icons]
 Voir l'icône du MetaContact
-[Show additional Buttons]
+[Show additional buttons]
 Voir boutons supplémentaires
-[Draw sunken Frame]
+[Draw sunken frame]
 
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
@@ -612,9 +614,9 @@ Invisible
 Parti manger
 [On the phone]
 Au téléphone
-[Always Left]
+[Always left]
 Toujours à gauche
-[Always Right]
+[Always right]
 Toujours à droite
 [Automatic (RTL)]
 Automatique (GàD)
@@ -638,22 +640,20 @@ Texte GàA uniquement
 Quand l'espace le permet
 [When needed]
 Quand nécessaire
-[With Nickname - left]
+[With nickname - left]
 Avec le pseudo - gauche
 [Far left]
 Complètement à gauche
 [Far right]
 Complètement à droite
-[With Nickname - right]
+[With nickname - right]
 Avec le pseudo - droite
-[Contact list]
-Liste de contacts
 [List layout]
 Arrangement de la liste
 [Background]
 Arrière-plan
-[Contact rows]
-
+[Row items]
+Détail des lignes
 [Contacts]
 Contacts
 [Groups and layout]
@@ -708,12 +708,16 @@ Réinitialiser le mode d'affichage
 Configurer les modes d'affichages
 [Setup accounts]
 
-[Event Area]
-Zone d'évenement
-[My Contacts]
+[My contacts]
 Mes Contacts
-[%s Connecting]
+[Default]
+Défaut
+[Overlay icons]
+
+[%s connecting]
 %s Connexion
+[Connecting icons]
+
 [Menu]
 Menu
 [Open main menu]
@@ -750,11 +754,11 @@ Contacts Hors ligne pour lesquels vous avez une visibilité différente
 Titres des cadres
 [Contact list local time]
 
-[Selected Text]
+[Selected text]
 Texte sélectionné
-[Hottrack Text]
+[Hottrack text]
 Texte sous souris
-[Quicksearch Text]
+[Quicksearch text]
 Texte en recherche rapide
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
@@ -802,19 +806,19 @@ Effacer ce mode d'affichage? Ne pourra pas être récupérer
 Effacer un mode d'affichage
 [No view mode]
 Aucun mode d'affichage
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Un mode d'affichage existe déjà avec ce nom
 [Duplicate name]
 Nom en double
-[Setup View Modes...]
+[Setup view modes...]
 Configurer les modes d'affichages
-[Clear current View Mode]
+[Clear current view mode]
 Réinitialiser le mode d'affichage
 [Select a view mode]
 Sélectionner un mode d'affichage
 [Clear view mode and return to default display]
 Réinitialiser le mode d'affichage et retourner à l'affichage par défaut
-[View Modes]
+[View modes]
 Modes d'affichages
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
@@ -827,7 +831,7 @@ Modes d'affichages
 &Verrouillé
 [&Collapsed]
 
-[&Floating Mode]
+[&Floating mode]
 &Mode détaché
 [&Border]
 &Bordure
@@ -849,13 +853,13 @@ Image skinnée
 &Vers le Bas
 [Frames]
 Cadres
-[Show All Frames]
+[Show all frames]
 Montrer tous les cadres
 [Show all title bars]
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[Lock Frame]
+[Lock frame]
 Cadre vérouillé
 [Visible]
 Visible
@@ -871,7 +875,7 @@ Flottant
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...
@@ -879,5 +883,3 @@ Flottant
 À propos de l&a liste de contact...
 [Subgroup menu]
 
-[&New SubGroup]
-&Nouveau sous-groupe

@@ -157,7 +157,7 @@ Inscription dans...
 OutputDebugString()
 [File]
 Fichier
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
 [Run now]
 Exécuter maintenant
@@ -277,8 +277,8 @@ Profil
 ex : Lieu de travail
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
-[e.g., Miranda Database]
-ex : Miranda Database
+[e.g., dbx mmap]
+ex : dbx mmap
 [Driver]
 Pilote
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]

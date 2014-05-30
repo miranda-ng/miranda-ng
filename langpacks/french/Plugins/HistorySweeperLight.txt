@@ -60,7 +60,7 @@
 
 [Delete All]
 
-[*** Defaut Action ***]
+[*** Default Action ***]
 
 [*** System History ***]
 

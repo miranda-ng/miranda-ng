@@ -60,7 +60,7 @@ la fenêtre active
 opacité :
 [Opaque popups under cursor]
 Rendre opaques popups survolés
-[Slide Popup]
+[Slide popup]
 
 [Effect:]
 Effet :
@@ -86,7 +86,7 @@ Aperçu
 Historique des popups
 [Desktop]
 
-[Popup Area]
+[Popup area]
 Aspect
 [pixel(s)]
 
@@ -100,9 +100,9 @@ Fermer
 Général
 [Enable popup actions]
 Activer les actions sur popups
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 Ces actions sont des petits boutons sous le texte des popups.
-[Common Actions]
+[Common actions]
 Actions communes
 [Please choose in what cases default actions should be added:]
 Dans quels cas doit-on avoir les actions par défaut :
@@ -112,6 +112,8 @@ Seulement pour les contacts IM
 Seulement pour les contacts IM
 [Don't close popups on default actions]
 Ne pas fermer les popups
+[Size and position]
+
 [Use large icons]
 Utiliser de larges icônes
 [Popup actions will be displayed as:]
@@ -122,15 +124,15 @@ Icônes et nom sous le texte
 Icônes alignés à gauche
 [Icons aligned to the right]
 Icônes alignés à droite
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 Actions : (appliquer avant aperçu)
-[Mouse Actions Overwrite]
+[Mouse actions overwrite]
 
-[Left Button]
+[Left button]
 
-[Middle Button]
+[Middle button]
 
-[Right Button]
+[Right button]
 
 [Notifications]
 Notifications
@@ -148,7 +150,7 @@ Clic gauche :
 Désactiver si l'état général est :
 [Disable when relevant protocol's status is...]
 Désactiver si l'état du protocole est :
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
+[Colors can be configured in\r\nCustomize > Fonts and colors]
 
 [More...]
 
@@ -170,7 +172,7 @@ Ignorer si en plein-écran
 Ne plus afficher
 [Show default]
 
-[Default Timeout]
+[Default timeout]
 
 [Infinite popup delay]
 Affichage permanent
@@ -190,7 +192,7 @@ Largeur maximum
 Position :
 [Layout:]
 Disposition
-[Reorder Popups]
+[Reorder popups]
 Réordonner les popups
 [Disable when:]
 Désactivé quand :
@@ -201,7 +203,7 @@ Toujours (en priorité)
 [Debug]
 
 ;file \plugins\Popup\src\actions.cpp
-[no overwrite]
+[No overwrite]
 
 [Send message]
 
@@ -246,7 +248,7 @@ Popups
 
 [Text]
 Texte
-[Hovered Action]
+[Hovered action]
 
 [Background]
 Arrière-plan
@@ -256,7 +258,7 @@ Bordures
 
 [Title underline]
 
-[Avatar Border]
+[Avatar border]
 
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
@@ -274,32 +276,22 @@ Bordures
 
 [Refresh skin list]
 Rafraîchir la liste des skins
-[Popup Placement]
+[Popup placement]
 Emplacement
 [Cancel]
 Annuler
-[Popup Group]
+[Popup group]
 
-[Favorite Contact]
+[Favorite contact]
 
-[Show in Fullscreen]
+[Show in fullscreen]
 
-[Blocked Contact]
+[Blocked contact]
 Contact bloqué
-[Quick Reply]
-
-[Pin Popup]
-Verrouiller le popup
-[Pinned Popup]
+[Pinned popup]
 Popup verrouillé
-[Send Message]
-
-[Contact Menu]
-Menu Contact
-[Add Contact Permanently]
+[Add contact permanently]
 Ajouter le contact
-[Dismiss Popup]
-
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 
@@ -352,17 +344,17 @@ Parti manger
 Au téléphone
 [Width]
 Largeur
-[upper left corner]
+[Upper left corner]
 Angle haut gauche
-[lower left corner]
+[Lower left corner]
 Angle bas gauche
-[lower right corner]
+[Lower right corner]
 Angle bas droit
-[upper right corner]
+[Upper right corner]
 Angle haut droit
-[horizontal]
+[Horizontal]
 
-[vertical]
+[Vertical]
 
 [Global Status]
 
@@ -370,7 +362,7 @@ Angle haut droit
 
 [You cannot specify a value lower than %d and higher than %d.]
 
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 
 [Popup Plus Warning]
 Avertissement de Popup Plus

@@ -163,8 +163,6 @@ Inscription dans...
 OutputDebugString()
 [File]
 Fichier
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
-Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
 [Run now]
 Exécuter maintenant
 [Show this dialog box when Miranda NG starts]
@@ -281,8 +279,6 @@ Profil
 ex : Lieu de travail
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
-[e.g., Miranda Database]
-ex : Miranda Database
 [Driver]
 Pilote
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
@@ -3272,6 +3268,8 @@ Fermeture dans %d
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
+[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
+Support du protocole AOL Instant Messenger (AIM) pour Miranda NG.
 [AIM User Details]
 AIM
 [Password:]
@@ -3689,8 +3687,6 @@ Extinction dans :
 Quand Miranda NG devient inactif
 [Configure]
 Configurer
-[Shutdown when &prozessor usage drops below:]
-Extinction si la charge processeur descend à :
 [(current: 0%)]
 (actuel : 0%)
 [Shutdown when all contacts are &offline]
@@ -3809,8 +3805,6 @@ Ferme Windows et redémarre l'ordinateur.
 Clôture tous les programmes en cours et arrête Windows à un point auquel il est sûr d'éteindre l'ordinateur.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Sauvegarde la session actuelle de Windows en mémoire et met le système en veille.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
-Sauvegarde la session actuelle de Windows sur le disque dur, de sorte que le courant puisse être coupé (Veille Prolongée).
 [Locks the computer. To unlock the computer, you must log in.]
 Verrouille l'ordinateur (ou plutôt Windows).  Pour le déverrouiller, vous devrez vous identifier (login et mot de passe Windows).
 [Sets all protocols to offline and closes all RAS connections.]
@@ -3831,7 +3825,7 @@ Principales
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [Save As...]
-Sauver sous...
+Enregistrer sous...
 [Delete this entry]
 Effacer cette entrée
 [Delete this entry and the bitmap file]
@@ -3887,9 +3881,9 @@ Avatar History : Méthode d'enregistrement des avatars.
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Veuillez choisir comment l'historique des avatars sera stocker. Ce choix NE POURRAS PAS être modifier, sauf si vous voulez perdre tous les historiques.
 [Store history in Miranda history and all history avatars in same folder]
-Stocker dans l'historique de Miranda-IM et tous les avatars dans un répertoire unique.
+Stocker dans l'historique de Miranda NG et tous les avatars dans un répertoire unique.
 [Store history in Miranda history and history avatars in per protocol folders]
-Stocker dans l'historique de Miranda-IM en rangeant les avatars avec un répertoire par protocole.
+Stocker dans l'historique de Miranda NG en rangeant les avatars avec un répertoire par protocole.
 [Store history in Miranda history and history avatars in per contact folders using shortcuts]
 Stocker dans l'historique, les avatars dans un répertoire par contact et avec ajout d'un raccourci.
 [Store history avatars in per contact folders using shortcuts]
@@ -3905,9 +3899,11 @@ Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<A
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> et un raccourci par avatar dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
-Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historique de Miranda-IM.
+Les avatars ne seront que sur le disque, mais avec un raccourci dans l'historique de Miranda NG.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Tous les avatars seront stockés dans <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (le même avatar peut être stocker plusieurs fois).
+[Avatar History for %s]
+Historique des avatars pour %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Êtes-vous sùr de vouloir effacer cette ligne de l'historique ?\nSeule cette ligne sera effacée, l'avatar sera conservé !
 [Delete avatar log?]
@@ -3920,10 +3916,22 @@ Effacer le journal des avatars ?
 Effacer l'avatar ?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Êtes-vous sùr de vouloir effacer l'avatar archivé ?\nCeci effacera le raccourci et l'avatar qui lui est associé.\nATTENTION : Ceci peut affecter plus d'un raccourci !
+[Avatar History is empty!]
+L'historique des avatars est vide !
 [View Avatar History]
 Historique des avatars...
+[Save Avatar for %s]
+Enregistrer l'avatar pour %s
+[Save Avatar]
+Enregistrer l'avatar
+[Avatar History: Unable to save avatar]
+Historique des avatars : Impossible d'enregistrer l'avatar
 [Avatars]
 Avatars
+[Contact changed avatar]
+Le contact a changé d'avatar
+[Contact removed avatar]
+Le contact a retiré l'avatar
 [removed his/her avatar]
 a effacé son avatar
 [changed his/her avatar]
@@ -3938,6 +3946,8 @@ Afficher l'historique du contact
 Test : Contact
 [Test description]
 Test : Description
+[Avatar]
+Avatar
 [Popups]
 Popups
 [Avatar Change]
@@ -4039,6 +4049,8 @@ Protocoles
 Êtes-vous sûr de vouloir effacer cet avatar ?
 [Global Avatar]
 Avatar général
+[Avatar]
+Avatar
 [All Files]
 Tous les fichiers
 [Windows Bitmaps]
@@ -4606,13 +4618,13 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[Contact List]
+[Contact list]
 Liste de contacts
 [System tray icon]
 Icône de la barre des tâches
 [System tray icon when using multiple protocols]
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [Window]
 Fenêtre
@@ -4660,7 +4672,7 @@ Afficher l'ombre (redémarr. nécessaire)
 Épingler au bureau
 [Items]
 Objets
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
 [Groups]
 Groupes
@@ -4680,7 +4692,7 @@ Contact :
 Groupe :
 [Info:]
 Info :
-[Status Bar]
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -4722,9 +4734,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -4732,27 +4744,27 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
+[&New group]
 Nouveau groupe
-[&Hide Offline Users]
+[&Hide offline users]
 Cacher les contacts hors ligne
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Cacher les &Hors ligne de ce groupe
-[Hide &Empty Groups]
+[Hide &empty groups]
 Cacher les groupes vides
-[Disable &Groups]
+[Disable &groups]
 Désactiver les groupes
 [Hide Miranda]
 Cacher Miranda
 [Group]
 Groupe
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Cacher les Hors ligne de ce groupe
-[&Rename Group]
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
+[&Delete group]
 Effacer le groupe
 [Not focused]
 Fenêtre inactive
@@ -4780,8 +4792,6 @@ Au téléphone
 Groupe : %name% %count% [%mode%]
 [Info: %s]
 Info : %s
-[Contact list]
-Liste de contacts
 [List]
 Liste
 [Global]
@@ -4835,9 +4845,9 @@ Liste de contact transparente
 Opacité si inactive :
 [Active opacity:]
 Opacité si active :
-[Show Avatars]
+[Show avatars]
 Montrer les avatars
-[Animate Avatars]
+[Animate avatars]
 Avatars animés
 [Show contact time in list]
 Afficher l'heure du contact dans la liste
@@ -4867,8 +4877,8 @@ Paver verticalement
 Défiler avec le texte
 [Stretch proportionally]
 Étirer proportionnellement
-[Use Windows Colors]
-Couleurs de Windows
+[Use Windows colors]
+Utiliser les couleurs Windows
 [Available skins]
 Skins disponibles
 [Apply]
@@ -4877,8 +4887,8 @@ Appliquer
 Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nVeuillez sélectionner un des skins disponibles. \n\nOu cliquez sur 'Localiser'
-[Skin Preview]
-Aperçu du skin
+[Skin preview]
+Aperçu du Skin
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 ATTENTION => \tDes skins peuvent modifier votre profil. Un retour ne sera pas possible. \n\t\tVeuillez sauvegarder votre base de données avant de changer de skin.
 [* Restart may be required for all changes to take effect]
@@ -4947,7 +4957,7 @@ Revenir au mode d'affichage par défaut après
 Paramètres des modes d'affichages
 [Last message]
 Dernier message
-[Status Bar]
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -4955,18 +4965,16 @@ Afficher la barre d'état
 Faire des sections de taille égale
 [Space between]
 Espace entre boutons
-[Vertical Align]
+[Vertical align]
 Verticalement
-[Horizontal Align]
+[Horizontal align]
 Horizontalement
 [Multiline status bar:]
 Barre des états
 [Accounts per line]
 Comptes par ligne
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 Pour réduire la barre des états :\nMenu Principal => Cadres => Barre d'état => Afficher la barre de titre. Puis tirez dessus.
-[Hold [Shift] to inverse [Right Click] behavior]
-Maintenez la touche [Maj] pour inverser le comportement [clic droit]
 [Set options per account]
 Options par comptes
 [Enable custom account settings]
@@ -4991,11 +4999,11 @@ Voir les courriels non lus (si supporté)
 Le clic droit ouvre le menu "État"
 [Right click opens Miranda menu]
 Le clic droit ouvre le menu Miranda
-[Space on Left]
+[Space on left]
 Espace à gauche
 [Space on right]
 Espace à droite
-[Delete Contact]
+[Delete contact]
 Supprimer un contact
 [No]
 Non
@@ -5035,7 +5043,7 @@ Plus de choix
 Moins de choix
 [No selection]
 Aucun choix
-[Selection Mode]
+[Selection mode]
 Méthode de sélection
 [Bring to front if covered]
 Réafficher si elle est cachée
@@ -5053,7 +5061,7 @@ Comportement
 Verrouiller le redimensionnement manuel
 [Drag to]
 Le "Drag && Drop"
-[Easy Scroll]
+[Easy scroll]
 Défilement fluide
 [Easy move]
 Déplacement facile
@@ -5077,7 +5085,7 @@ Zone de notification
 Désactivé
 [Show automaticaly]
 Afficher automatiquement
-[Always Visible]
+[Always visible]
 Toujours visible
 [Dock to sides]
 Ancrer sur les côtés
@@ -5099,7 +5107,7 @@ Afficher la sélection même si la liste n'est pas visible
 Activer la sélection translucide
 [Dim idle contacts]
 Estomper les contacts inactifs
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
 [Groups]
 Groupes
@@ -5131,28 +5139,16 @@ Afficher l'état dans la bulle
 Sans clignotement
 [ms, delay between icon blinking]
 ms, délai entre les clignotement des icônes
-[Show]
-Afficher
-[Cycle icons every]
-Faire un cycle de
-[seconds, when statuses differ]
-secondes si les états diffèrent
-[Show multiple icons]
-Afficher plusieurs icônes
-[only when statuses differ]
-seulement si les états diffèrent
 [System tray icon]
 Icône de la barre des tâches
 [Use xStatus icon]
 Utiliser l'icône xStatus
-[Use 'Meta' protocol icons for Metacontacts]
+[Cycle icons every]
+Faire un cycle de
+[Use 'Meta' protocol icons for MetaContacts]
 Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
-[Expand metacontacts]
+[Expand MetaContacts]
 Développer les MetaContacts
-[Hide all 'Extra icons' for subcontacts]
-Cachez tous les 'icônes supplémentaires' pour les sous contacts
-[Hide offline subcontacts.]
-Cachez les sous contacts hors ligne.
 [MetaContacts stuff]
 Paramètres pour les MetaContacts
 [Additional stuff]
@@ -5199,13 +5195,13 @@ Entre les cadres :
 Après les légendes :
 [Gaps]
 transparence
-[Use Non-Layered mode]
+[Use non-layered mode]
 Désactiver la surcouche
 [Round corners]
 Coins arrondis
 [Non-layered mode]
 Mode sans surcouche
-[Disable Skin Engine]
+[Disable skin engine]
 Désactiver les skins
 [Enable Aero Glass (Vista+)]
 Activer Aero Glass (Vista+)
@@ -5265,7 +5261,7 @@ Montrer l'icône "Toujours visible"
 Utiliser l'icône Xstatus à la place du protocole
 [Draw normal status as overlay]
 État normal en surcouche
-[Right-To-Left reading mode (mirror template)]
+[Right-to-left reading mode (mirror template)]
 Lecture inversée (effet mirroir = DàG)
 [Replace smileys in contact list]
 Afficher des smileys dans la CList
@@ -5367,9 +5363,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -5377,27 +5373,27 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
+[&New group]
 Nouveau groupe
-[&Hide Offline Users]
+[&Hide offline users]
 Cacher les contacts hors ligne
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Cacher les &Hors ligne de ce groupe
-[Hide &Empty Groups]
+[Hide &empty groups]
 Cacher les groupes vides
-[Disable &Groups]
+[Disable &groups]
 Désactiver les groupes
 [Hide Miranda]
 Cacher Miranda
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Cacher les Hors ligne de ce groupe
-[&Show Offline Users in here]
+[&Show offline users in here]
 Afficher les contacts hors ligne de ce groupe
-[&Rename Group]
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
+[&Delete group]
 Effacer le groupe
 [Skins]
 Skins
@@ -5511,14 +5507,12 @@ Nom
 Nom (utilise les options locales)
 [Last message time]
 Heure du dernier message
-[Account Name]
+[Account name]
 Nom de compte
 [Rate]
 Note
 [-Nothing-]
 -Aucun-
-[Global]
-Général
 [Hide to tray]
 dans le tray
 [Behind left edge]
@@ -5533,8 +5527,8 @@ Liste
 Fenêtre
 [No Events]
 Pas d'évènement
-[Event Area]
-Zone d'évenement
+[Event area]
+Zone d'évènements
 [&Contact rate]
 Note du &contact
 [None]
@@ -5547,6 +5541,8 @@ Moyen
 Haut
 [Show even if offline]
 Afficher l'évènement si hors-ligne
+[Avatar]
+Avatar
 [Text]
 Texte
 [Extra icons]
@@ -5559,20 +5555,18 @@ Centre les groupes
 Aligner les groupes sur la droite
 [Row]
 Ligne
-[Second Line]
-Seconde ligne
-[Third Line]
-Troisième ligne
 [(Unknown Contact)]
 (Contact inconnu)
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...
-[Show Contact &Avatar]
+[Show contact &avatar]
 Afficher l'avatar du contact
-[Hide Contact &Avatar]
+[Hide contact &avatar]
 Cacher l'avatar du contact
+[My contacts]
+Mes Contacts
 [My Contacts]
 Mes Contacts
 [Close Miranda]
@@ -5599,7 +5593,7 @@ Objet immuable
 Image (déformable)
 [Fragment (draw portion of image)]
 Fragment (modifiable
-[Stretch Both directions]
+[Stretch both directions]
 Étirer dans les 2 directions
 [Image size is]
 Taille de l'image
@@ -5641,6 +5635,8 @@ Skin par défaut
 Centre
 [Right]
 Droite
+[Bottom]
+Bas
 [Main menu]
 Menu principal
 [Status menu]
@@ -5657,8 +5653,6 @@ Montrer les contacts hors ligne
 Chercher un contact
 [Use/Disable groups]
 Activer/désactiver les groupes
-[Disable Groups]
-Désactiver les groupes
 [Enable/Disable sounds]
 Activer/désactiver les sons
 [Disable sounds]
@@ -5695,13 +5689,9 @@ Configurer les modes d'affichages
 Effacer ce mode d'affichage? Ne pourra pas être récupérer
 [Delete a view mode]
 Effacer un mode d'affichage
-[A view mode with this name does alredy exist]
-Un mode d'affichage existe déjà avec ce nom
 [Duplicate name]
 Nom en double
-[All Contacts]
-tous les contacts
-[Setup View Modes...]
+[Setup view modes...]
 Configurer les modes d'affichages
 [Select a view mode]
 Sélectionner un mode d'affichage
@@ -5711,13 +5701,13 @@ Configurer les modes d'affichages
 Réinitialiser le mode d'affichage et retourner à l'affichage par défaut
 [Reset view mode]
 Réinitialiser le mode d'affichage
-[View Modes]
+[View modes]
 Modes d'affichages
 [&Visible]
 &Visible
 [&Locked]
 &Verrouillé
-[&Floating Mode]
+[&Floating mode]
 &Mode détaché
 [&Border]
 &Bordure
@@ -5735,7 +5725,7 @@ Modes d'affichages
 &Vers le Haut
 [&Down]
 &Vers le Bas
-[Show All Frames]
+[Show all frames]
 Montrer tous les cadres
 [Show all title bars]
 Montrer toutes les barres de titres
@@ -5743,8 +5733,6 @@ Montrer toutes les barres de titres
 Cacher toutes les barres de titres
 [Lock Frame]
 Cadre vérouillé
-[&New SubGroup]
-&Nouveau sous-groupe
 #muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;============================================================
 ;  File: Clist_mw.dll
@@ -5842,13 +5830,13 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[Contact List]
+[Contact list]
 Liste de contacts
 [System tray icon]
 Icône de la barre des tâches
 [System tray icon when using multiple protocols]
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [Don't move offline user to bottom]
 Ne pas déplacez les utilisateur déconnecté en bas
@@ -5912,7 +5900,7 @@ Ne pas renommer les objets par double-clic
 Afficher la sélection même si la liste n'est pas visible
 [Make selection highlight translucent]
 Activer la sélection translucide
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
 [Groups]
 Groupes
@@ -5946,15 +5934,11 @@ Estomper les contacts inactifs
 Masquer la barre de défilement vertical
 [Contact list background]
 Arrière-plan de la liste
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
-[Hide all 'Extra icons' for subcontacts]
-Cachez tous les 'icônes supplémentaires' pour les sous contacts
 [MetaContacts supporting]
 Options pour les MetaContacts
-[Hide offline subcontacts.]
-Cachez les sous contacts hors ligne.
-[Status Bar]
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -5974,7 +5958,7 @@ Faire des sections de taille égale
 Voir la poignée "Redimensionner"
 [Show bevel effect on panels]
 Voir les effets 3D
-[Use connecting Icon]
+[Use connecting icon]
 Icônes de connexion
 [Use new drawer for status bar]
 Utiliser un nouveau "tiroir" pour StatusBar
@@ -6000,9 +5984,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -6010,27 +5994,27 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
+[&New group]
 Nouveau groupe
-[&Hide Offline Users]
+[&Hide offline users]
 Cacher les contacts hors ligne
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Cacher les &Hors ligne de ce groupe
-[Hide &Empty Groups]
+[Hide &empty groups]
 Cacher les groupes vides
-[Disable &Groups]
+[Disable &groups]
 Désactiver les groupes
 [Hide Miranda]
 Cacher Miranda
 [Group]
 Groupe
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Cacher les Hors ligne de ce groupe
-[&Rename Group]
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
+[&Delete group]
 Effacer le groupe
 [Customize]
 Apparence
@@ -6056,19 +6040,15 @@ Séparateurs
 Contacts Hors ligne pour lesquels vous avez une visibilité différente
 [Status messages]
 Messages d'état
-[Group Closed]
+[Group closed]
 Groupe fermé
-[Hover Contacts]
-Contacts survolés
 [Background]
 Arrière-plan
-[Contact list]
-Liste de contacts
-[Selected Text]
+[Selected text]
 Texte sélectionné
-[Hottrack Text]
+[Hottrack text]
 Texte sous souris
-[Quicksearch Text]
+[Quicksearch text]
 Texte en recherche rapide
 [List]
 Liste
@@ -6102,14 +6082,14 @@ Général
 Pas de contacts ou protocoles
 [(Unknown Contact)]
 (Contact inconnu)
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...
+[My contacts]
+Mes Contacts
 [My Contacts]
 Mes Contacts
-[&New SubGroup]
-&Nouveau sous-groupe
 [Close Miranda]
 Fermer Miranda
 [&FrameTitle]
@@ -6120,7 +6100,7 @@ Fermer Miranda
 &Afficher la barre de titre
 [&Locked]
 &Verrouillé
-[&Floating Mode]
+[&Floating mode]
 &Mode détaché
 [&Border]
 &Bordure
@@ -6140,13 +6120,13 @@ Fermer Miranda
 &Vers le Bas
 [Frames]
 Cadres
-[Show All Frames]
+[Show all frames]
 Montrer tous les cadres
 [Show all title bars]
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[Lock Frame]
+[Lock frame]
 Cadre vérouillé
 [Visible]
 Visible
@@ -6161,7 +6141,7 @@ Flottant
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
 Affiche les contacts, les notifications d'événements, les états des protocoles.
-[CList Nicer exception]
+[Clist Nicer exception]
 Exception de CList Nicer
 [Copy to clipboard]
 Copier dans le Presse-Papiers
@@ -6193,7 +6173,7 @@ Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 Voulez-vous vraiment supprimer %s?
 [This will erase all history and settings for this contact!]
 Ceci effacera tout l'historique et réglages de ce contact!
-[Contact List]
+[Contact list]
 Liste de contacts
 [Hide offline users]
 Cacher les contacts hors ligne
@@ -6271,7 +6251,7 @@ Largeur du groupe
 Décaler les contacts de :
 [Margins and spacing]
 Marges et espaces
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [First by]
 D'abord par
@@ -6325,7 +6305,7 @@ Centrer si possible
 Si possible, afficher l'icône d'état à la place de l'avatar
 [Use metacontact protocol icons instead of subcontacts]
 Utiliser les icônes d'état de MetaContact plutôt que ceux des sous-contacts
-[Use Overlay icons on avatars]
+[Use overlay icons on avatars]
 Utiliser les icônes de sur-couche sur les avatars
 [Dim idle contacts]
 Estomper les contacts inactifs
@@ -6363,7 +6343,7 @@ maximum
 Agrandir vers le haut
 [If window is partially covered, bring to front instead of hiding]
 Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de cacher
-[Always Hide On Taskbar]
+[Always hide on taskbar]
 Toujours cacher dans la barre des taches
 [Embedded frames border]
 Bordure cadres fusionnés
@@ -6399,8 +6379,6 @@ Afficher la sélection même si la liste n'est pas visible
 Activer la sélection translucide
 [Use full row for selection and hottracking]
 Utiliser toute la rangée pour sélection et coloriage
-[Double click on avatar opens userinfo]
-Double-clique sur l'avatar ouvre les informations contacts
 [Visual]
 Visuel
 [Scroll list smoothly]
@@ -6413,7 +6391,7 @@ millisecondes
 Cacher l'ascenseur vertical
 [Gray out entire list when:]
 Griser toute la liste quand :
-[Contact List Background]
+[Contact list background]
 Arrière-plan de la liste
 [Use Windows colors]
 Utiliser les couleurs Windows
@@ -6437,7 +6415,7 @@ Défiler avec le texte
 Utiliser ces options pour skinner entièrement le fond
 [If you enable this, the background settings will affect the entire contact list frame.]
 Si vous activer ceci, les réglages de fond affecteront l'image entière de liste de contact.
-[Status Bar]
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -6571,7 +6549,7 @@ Pour afficher un contact bloqué, aller dans Paramètres->Évènements->Ignorer 
 Options d'affichage
 [Show contact with priority]
 Afficher le contact avec sa priorité
-[Show Avatar:]
+[Show avatar:]
 Afficher l'avatar :
 [Show 2nd line:]
 Afficher une seconde ligne :
@@ -6601,9 +6579,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -6611,35 +6589,33 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
-&Nouveau groupe
-[&Hide Offline Users]
-&Cacher les contacts hors ligne
-[Hide &Offline Users out here]
-Cacher les &Hors ligne hors de ce groupe
-[Hide &Empty Groups]
-Cacher les groupes &vides
-[Disable &Groups]
-Désactiver les &groupes
+[&New group]
+Nouveau groupe
+[&Hide offline users]
+Cacher les contacts hors ligne
+[Hide &offline users out here]
+Cacher les &Hors ligne de ce groupe
+[Hide &empty groups]
+Cacher les groupes vides
+[Disable &groups]
+Désactiver les groupes
 [Hide Miranda]
 Cacher Miranda
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
-&Cacher les Hors ligne de ce groupe
-[&Rename Group]
+[&Hide offline users in here]
+Cacher les Hors ligne de ce groupe
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
-&Effacer le groupe
-[Move marked Contacts to this Group]
+[&Delete group]
+Effacer le groupe
+[Move marked contacts to this group]
 Déplacer les contacts marqués de ce groupe
 [Appearance]
 Apparence
-[Show Status Icons]
-Voir l'icône d'état
-[Show Metacontact proto Icons]
+[Show MetaContact proto icons]
 Voir l'icône du MetaContact
-[Show additional Buttons]
+[Show additional buttons]
 Voir boutons supplémentaires
 [Skin items]
 Éléments du skin
@@ -6737,9 +6713,9 @@ Invisible
 Parti manger
 [On the phone]
 Au téléphone
-[Always Left]
+[Always left]
 Toujours à gauche
-[Always Right]
+[Always right]
 Toujours à droite
 [Automatic (RTL)]
 Automatique (GàD)
@@ -6763,20 +6739,20 @@ Texte GàA uniquement
 Quand l'espace le permet
 [When needed]
 Quand nécessaire
-[With Nickname - left]
+[With nickname - left]
 Avec le pseudo - gauche
 [Far left]
 Complètement à gauche
 [Far right]
 Complètement à droite
-[With Nickname - right]
+[With nickname - right]
 Avec le pseudo - droite
-[Contact list]
-Liste de contacts
 [List layout]
 Arrangement de la liste
 [Background]
 Arrière-plan
+[Row items]
+Détail des lignes
 [Contacts]
 Contacts
 [Groups and layout]
@@ -6825,11 +6801,11 @@ Sons désactivés
 Réinitialiser le mode d'affichage
 [Configure view modes]
 Configurer les modes d'affichages
-[Event Area]
-Zone d'évenement
-[My Contacts]
+[My contacts]
 Mes Contacts
-[%s Connecting]
+[Default]
+Défaut
+[%s connecting]
 %s Connexion
 [Menu]
 Menu
@@ -6857,11 +6833,11 @@ Séparateurs
 Contacts Hors ligne pour lesquels vous avez une visibilité différente
 [Frame titles]
 Titres des cadres
-[Selected Text]
+[Selected text]
 Texte sélectionné
-[Hottrack Text]
+[Hottrack text]
 Texte sous souris
-[Quicksearch Text]
+[Quicksearch text]
 Texte en recherche rapide
 [Title bar]
 Barre de titre
@@ -6903,19 +6879,17 @@ Effacer ce mode d'affichage? Ne pourra pas être récupérer
 Effacer un mode d'affichage
 [No view mode]
 Aucun mode d'affichage
-[A view mode with this name does alredy exist]
-Un mode d'affichage existe déjà avec ce nom
 [Duplicate name]
 Nom en double
-[Setup View Modes...]
+[Setup view modes...]
 Configurer les modes d'affichages
-[Clear current View Mode]
+[Clear current view mode]
 Réinitialiser le mode d'affichage
 [Select a view mode]
 Sélectionner un mode d'affichage
 [Clear view mode and return to default display]
 Réinitialiser le mode d'affichage et retourner à l'affichage par défaut
-[View Modes]
+[View modes]
 Modes d'affichages
 [&FrameTitle]
 &Titre du Cadre
@@ -6925,7 +6899,7 @@ Modes d'affichages
 &Afficher la barre de titre
 [&Locked]
 &Verrouillé
-[&Floating Mode]
+[&Floating mode]
 &Mode détaché
 [&Border]
 &Bordure
@@ -6947,13 +6921,13 @@ Image skinnée
 &Vers le Bas
 [Frames]
 Cadres
-[Show All Frames]
+[Show all frames]
 Montrer tous les cadres
 [Show all title bars]
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[Lock Frame]
+[Lock frame]
 Cadre vérouillé
 [Visible]
 Visible
@@ -6963,14 +6937,12 @@ Afficher la barre de titre
 Image skinée
 [Floating]
 Flottant
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...
 [&About the contact list...]
 À propos de l&a liste de contact...
-[&New SubGroup]
-&Nouveau sous-groupe
 #muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;============================================================
 ;  File: Cln_skinedit.dll
@@ -7634,6 +7606,8 @@ Protocoles
 ;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
+[E-mage LAN protocol support for Miranda NG.]
+Support du protocole E-mage LAN pour Miranda NG.
 [Your name]
 Votre nom
 [Network]
@@ -7671,7 +7645,7 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.0
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -7742,12 +7716,6 @@ Mise à jour du statut avec succès.
 Veuillez entrer un nom d'utilisateur.
 [Please enter a password.]
 S'il vous plaît entrer un mot de passe.
-[Photos]
-Photos
-[Links]
-Liens
-[Apps and Games]
-Applications et Jeux
 [Classic website]
 Site internet classique
 [Mobile website]
@@ -7971,8 +7939,6 @@ Fixer la largeur
 pixels
 [Hide all contacts]
 Cacher les contacts
-[Hide when a fulscreen app is active]
-Cachez si une application est en plein écran
 [Show tooltips*]
 Afficher les Info-Bulles*
 [ms]
@@ -8332,6 +8298,8 @@ Avancé
 ;  Version: 0.11.0.3
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Support du protocole Gadu-Gadu pour Miranda NG.
 [Gadu-Gadu User Details]
 Identifiants Gadu-Gadu
 [Gadu-Gadu Number:]
@@ -8637,18 +8605,20 @@ Votre e-mail a bien été changé.
 Nom :
 [Password:]
 Passe :
-[minutes]
-minutes
 [Add]
 Ajouter
 [Save]
 Sauver
 [Delete]
 Effacer
-[Run]
-Lancer
 [Configuration]
 Configuration
+[minutes]
+minutes
+[seconds]
+secondes
+[Other]
+Autre
 [Network]
 Réseau
 #muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
@@ -9255,6 +9225,8 @@ Activer HTTP server
 ;  Version: 0.11.2.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+Support du protocole ICQ pour Miranda NG.
 [ICQ Number:]
 Identifiant :
 [Password:]
@@ -10676,6 +10648,8 @@ Tous les fichiers (*.*)
 ;  Version: 0.11.0.2
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+Support du protocole Internet Relay Chat (IRC) pour Miranda NG.
 [Default network]
 Réseau par défaut
 [Enable]
@@ -10898,8 +10872,6 @@ Requêtes CTCP
 Activer (*)
 [Ignore channel messages by default]
 Ignorer les messages du canal par défaut
-[Ignore filetransfer requests]
-Ignorer les requêtes de transferts de fichiers
 [Ignore DCC Chat requests]
 Ignorer les requêtes de DCC Chat
 [Ignore DCC Chat requests from unknown contacts]
@@ -13105,6 +13077,8 @@ Ignorer
 ;  Version: 2.1.0.8
 ;  Authors: Rozhuk Ivan
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
+Support du protocole Mail.ru Agent (MRA) pour Miranda NG.
 [E-mail:]
 Courriel :
 [Password:]
@@ -13475,6 +13449,8 @@ EmailExpress de :
 ;  Version: 0.11.0.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Support du protocole Microsoft Network (MSN) pour Miranda NG.
 [Password:]
 Passe :
 [Nickname:]
@@ -13643,6 +13619,8 @@ Retailler les smileys
 Compte
 [seconds]
 secondes
+[Avatar]
+Avatar
 [Custom size:]
 Taille :
 [pixels]
@@ -14592,6 +14570,8 @@ Tremblement des fenêtres
 ;  Version: 0.1.2.1
 ;  Authors: Robert Pösel
 ;============================================================
+[Omegle protocol support for Miranda NG.]
+Support du protocole Omegle pour Miranda NG.
 [Server:]
 Serveur :
 [Language:]
@@ -15191,7 +15171,7 @@ Paramètre du skin
 Aperçu
 [Popup History]
 Historique des popups
-[Popup Area]
+[Popup area]
 Aspect
 [Configure popup area]
 Configuration du popup
@@ -15201,9 +15181,9 @@ Fermer
 Général
 [Enable popup actions]
 Activer les actions sur popups
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 Ces actions sont des petits boutons sous le texte des popups.
-[Common Actions]
+[Common actions]
 Actions communes
 [Please choose in what cases default actions should be added:]
 Dans quels cas doit-on avoir les actions par défaut :
@@ -15223,7 +15203,7 @@ Icônes et nom sous le texte
 Icônes alignés à gauche
 [Icons aligned to the right]
 Icônes alignés à droite
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 Actions : (appliquer avant aperçu)
 [Notifications]
 Notifications
@@ -15271,7 +15251,7 @@ Largeur maximum
 Position :
 [Layout:]
 Disposition
-[Reorder Popups]
+[Reorder popups]
 Réordonner les popups
 [Disable when:]
 Désactivé quand :
@@ -15303,19 +15283,15 @@ Arrière-plan
 Bordures
 [Refresh skin list]
 Rafraîchir la liste des skins
-[Popup Placement]
+[Popup placement]
 Emplacement
 [Cancel]
 Annuler
-[Blocked Contact]
+[Blocked contact]
 Contact bloqué
-[Pin Popup]
-Verrouiller le popup
-[Pinned Popup]
+[Pinned popup]
 Popup verrouillé
-[Contact Menu]
-Menu Contact
-[Add Contact Permanently]
+[Add contact permanently]
 Ajouter le contact
 [Actions]
 Actions
@@ -15345,13 +15321,13 @@ Parti manger
 Au téléphone
 [Width]
 Largeur
-[upper left corner]
+[Upper left corner]
 Angle haut gauche
-[lower left corner]
+[Lower left corner]
 Angle bas gauche
-[lower right corner]
+[Lower right corner]
 Angle bas droit
-[upper right corner]
+[Upper right corner]
 Angle haut droit
 [Popup Plus Warning]
 Avertissement de Popup Plus
@@ -15530,7 +15506,7 @@ Toujours visible
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
-;  Version: 0.0.25.0
+;  Version: 0.0.26.0
 ;  Authors: Dioksin
 ;============================================================
 [Variable List]
@@ -15618,6 +15594,8 @@ Ignorer ce contact
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
+[Implementation of instant messaging for the Lotus Sametime protocol.]
+Support du protocole Lotus Sametime pour Miranda NG.
 [ID:]
 ID :
 [Password:]
@@ -16787,6 +16765,8 @@ Occupééééé
 ;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
+[Skype protocol support for Miranda NG.]
+Support du protocole Skype pour Miranda NG.
 [Skype name:]
 Pseudo :
 [&Invite]
@@ -16908,6 +16888,8 @@ Pseudo
 ;  Version: 0.0.0.54
 ;  Authors: leecher, tweety, jls17
 ;============================================================
+[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
+Support du protocole Skype pour Miranda NG. Une implémentation classique nécessitant d'exécuter le client Skype originel.
 [Set]
 OK
 [Delete]
@@ -16956,6 +16938,8 @@ Inconnu
 &Inviter l'utilisateur...
 [User &details]
 &Détails du contact
+[Avatar]
+Avatar
 [MALE]
 Homme
 [FEMALE]
@@ -17181,6 +17165,8 @@ Ligne
 Épaisse
 [Disabled]
 Désactivé
+[Unknown]
+Inconnu
 [Ignore all]
 Ignorer tout
 [Language]
@@ -18564,8 +18550,6 @@ Date/heure de la même couleur que l'évènement
 Mettre la deuxième ligne d'un message en retrait
 [Limit user names in the message log to 20 characters]
 Limiter les noms à 20 caractères dans la fenêtre de discussion
-[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
-Démarrer une conversation sur double-clic dans la liste des noms (insère le nom si décoché)
 [Strip colors from messages in the log]
 Retirer la couleur des messages dans le journal
 [Scale down icons to 10x10 pixels in the chat log]
@@ -18932,6 +18916,8 @@ Yiddish
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
+[Tlen protocol support for Miranda NG.]
+Support du protocole Tlen pour Miranda NG.
 [Username:]
 Identifiant :
 [Password:]
@@ -19024,6 +19010,8 @@ Chats vocaux
 État visible par tout le monde
 [Save changes]
 Sauver les modifs
+[Avatar]
+Avatar
 [Avatar Options]
 Avatar
 [Tlen login:]
@@ -19260,15 +19248,13 @@ est
 ;  Version: 0.8.0.3
 ;  Authors: Bethoven
 ;============================================================
-[Buttons Order && Visibility]
-Ordre && Visibilité des Boutons
 [Button width]
 Largeur
 [Buttons order:]
 Ordre des boutons :
-[Add Separator]
+[Add separator]
 Ajouter
-[Add Launch]
+[Add launch]
 Ajouter Fonction
 [Name:]
 Nom :
@@ -19362,9 +19348,11 @@ Effacer la valeur courante (maintenant)
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.1.0.1
+;  Version: 1.1.0.2
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
+[Twitter protocol support for Miranda NG.]
+Support du protocole Twitter pour Miranda NG.
 [Server:]
 Serveur :
 [Default group:]
@@ -20134,6 +20122,8 @@ Quelque chose est incorrect dans "%s". Faites un rapport avec ces valeurs :\nSer
 ;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
+[VKontakte protocol support for Miranda NG.]
+Support du protocole VKontakte pour Miranda NG.
 [Password:]
 Passe :
 [Advanced]
@@ -20997,6 +20987,8 @@ En ligne
 ;  Version: 0.0.2.1
 ;  Authors: Uli Hecht
 ;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Support du protocole WhatsApp pour Miranda NG.
 [Nickname]
 Pseudo
 [Password]
@@ -21201,6 +21193,8 @@ Session message
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
+[Xfire protocol support for Miranda NG.]
+Support du protocole XFire pour Miranda NG.
 [Password:]
 Passe :
 [Nick:]
@@ -21319,6 +21313,8 @@ Sons
 ;  Version: 0.11.0.1
 ;  Authors: Gennady Feldman
 ;============================================================
+[Yahoo protocol support for Miranda NG.]
+Support du protocole Yahoo pour Miranda NG.
 [Yahoo]
 Yahoo
 [ID:]

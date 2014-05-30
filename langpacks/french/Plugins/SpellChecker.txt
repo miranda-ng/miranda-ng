@@ -114,6 +114,8 @@ Ligne
 
 [Disabled]
 Désactivé
+[Unknown]
+Inconnu
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 

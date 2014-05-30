@@ -20,7 +20,7 @@ Fixer la largeur
 pixels
 [Hide all contacts]
 Cacher les contacts
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 Cachez si une application est en plein écran
 [Show tooltips*]
 Afficher les Info-Bulles*

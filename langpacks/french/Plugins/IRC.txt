@@ -242,7 +242,7 @@ Requêtes CTCP
 Activer (*)
 [Ignore channel messages by default]
 Ignorer les messages du canal par défaut
-[Ignore filetransfer requests]
+[Ignore file transfer requests]
 Ignorer les requêtes de transferts de fichiers
 [Ignore DCC Chat requests]
 Ignorer les requêtes de DCC Chat
@@ -388,7 +388,7 @@ Veuillez saisir la réponse
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 N'a pas pu se connecter à
-[DCC ERROR: Unable to bind local port for passive filetransfer]
+[DCC ERROR: Unable to bind local port for passive file transfer]
 
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]

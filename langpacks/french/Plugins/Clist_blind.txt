@@ -70,13 +70,13 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[Contact List]
+[Contact list]
 Liste de contacts
 [System tray icon]
 Icône de la barre des tâches
 [System tray icon when using multiple protocols]
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [Window]
 Fenêtre
@@ -124,7 +124,7 @@ Afficher l'ombre (redémarr. nécessaire)
 Épingler au bureau
 [Items]
 Objets
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
 [Groups]
 Groupes
@@ -146,7 +146,7 @@ Groupe :
 
 [Info:]
 Info :
-[Status Bar]
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -188,9 +188,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -198,28 +198,28 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
-Nouveau groupe
-[&Hide Offline Users]
-Cacher les contacts hors ligne
-[Hide &Offline Users out here]
+[&New group]
+&Nouveau groupe
+[&Hide offline users]
+&Cacher les contacts hors ligne
+[Hide &offline users out here]
 Cacher les &Hors ligne de ce groupe
-[Hide &Empty Groups]
-Cacher les groupes vides
-[Disable &Groups]
-Désactiver les groupes
+[Hide &empty groups]
+Cacher les groupes &vides
+[Disable &groups]
+Désactiver les &groupes
 [Hide Miranda]
 Cacher Miranda
 [Group]
 Groupe
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
-Cacher les Hors ligne de ce groupe
-[&Rename Group]
+[&Hide offline users in here]
+&Cacher les Hors ligne de ce groupe
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
-Effacer le groupe
+[&Delete group]
+&Effacer le groupe
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Fenêtre inactive
@@ -249,8 +249,6 @@ Groupe : %name% %count% [%mode%]
 
 [Info: %s]
 Info : %s
-[Contact list]
-Liste de contacts
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp

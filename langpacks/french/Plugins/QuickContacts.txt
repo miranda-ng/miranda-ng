@@ -48,7 +48,7 @@ Contacts
 Envoyer un fichier
 [Send URL]
 
-[Open userinfo]
+[Open user info]
 
 [Open history]
 Ouvrir historique

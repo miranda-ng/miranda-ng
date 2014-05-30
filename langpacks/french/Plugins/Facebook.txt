@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.0
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,7 +50,9 @@ Utiliser des grands avatars
 Notifications
 [News feeds]
 Fil d'actualité
-[News Feed types to notify:]
+[News feed types to notify:]
+
+[Don't show advertising posts]
 
 [Other events]
 Autres événements
@@ -86,6 +88,10 @@ Sessions de message
 Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 [Receive messages from "inbox" folder only]
 Recevoir uniquement les messages de la boîte de réception
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
+
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Inviter l'utilisateur...
@@ -124,18 +130,12 @@ Veuillez entrer un nom d'utilisateur.
 [Please enter a password.]
 S'il vous plaît entrer un mot de passe.
 ;file \protocols\FacebookRM\src\constants.h
-[Most Recent]
-
-[Wall Posts]
-
 [Top News]
 
-[Photos]
-Photos
-[Links]
-Liens
-[Apps and Games]
-Applications et Jeux
+[Most Recent]
+
+[Pages]
+
 [Classic website]
 Site internet classique
 [Mobile website]

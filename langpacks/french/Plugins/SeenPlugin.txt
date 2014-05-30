@@ -14,7 +14,7 @@
 
 [Show icon]
 Afficher l'icône
-[Userinfo tab]
+[User info tab]
 
 [Log to file]
 

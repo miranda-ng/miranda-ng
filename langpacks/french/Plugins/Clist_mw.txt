@@ -100,13 +100,13 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[Contact List]
+[Contact list]
 Liste de contacts
 [System tray icon]
 Icône de la barre des tâches
 [System tray icon when using multiple protocols]
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
-[Contact List Sorting]
+[Contact list sorting]
 Tri des contacts dans la liste
 [Don't move offline user to bottom]
 Ne pas déplacez les utilisateur déconnecté en bas
@@ -170,7 +170,7 @@ Ne pas renommer les objets par double-clic
 Afficher la sélection même si la liste n'est pas visible
 [Make selection highlight translucent]
 Activer la sélection translucide
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
 [Groups]
 Groupes
@@ -204,19 +204,19 @@ Estomper les contacts inactifs
 Masquer la barre de défilement vertical
 [Contact list background]
 Arrière-plan de la liste
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
-[Avoid doubleclick expand]
+[Avoid double click expand]
 
-[Hide all 'Extra icons' for subcontacts]
-Cachez tous les 'icônes supplémentaires' pour les sous contacts
+[Hide all extra icons for subcontacts]
+Cachez tous les icônes supplémentaires pour les sous contacts
 [MetaContacts supporting]
 Options pour les MetaContacts
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right)]
 
-[Hide offline subcontacts.]
-Cachez les sous contacts hors ligne.
-[Status Bar]
+[Hide offline subcontacts]
+Cachez les sous contacts hors ligne
+[Status bar]
 Barre d'état
 [Show status bar]
 Afficher la barre d'état
@@ -236,7 +236,7 @@ Faire des sections de taille égale
 Voir la poignée "Redimensionner"
 [Show bevel effect on panels]
 Voir les effets 3D
-[Use connecting Icon]
+[Use connecting icon]
 Icônes de connexion
 [Use new drawer for status bar]
 Utiliser un nouveau "tiroir" pour StatusBar
@@ -262,9 +262,9 @@ Occ&upé\tCtrl+4
 Ok pour un &chat\tCtrl+6
 [&Invisible\tCtrl+7]
 &Invisible\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Au &téléphone\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
 [Tray]
 Tray
@@ -272,28 +272,28 @@ Tray
 &Afficher/Cacher
 [Nowhere]
 Autre
-[&New Group]
-Nouveau groupe
-[&Hide Offline Users]
-Cacher les contacts hors ligne
-[Hide &Offline Users out here]
+[&New group]
+&Nouveau groupe
+[&Hide offline users]
+&Cacher les contacts hors ligne
+[Hide &offline users out here]
 Cacher les &Hors ligne de ce groupe
-[Hide &Empty Groups]
-Cacher les groupes vides
-[Disable &Groups]
-Désactiver les groupes
+[Hide &empty groups]
+Cacher les groupes &vides
+[Disable &groups]
+Désactiver les &groupes
 [Hide Miranda]
 Cacher Miranda
 [Group]
 Groupe
-[&New Subgroup]
+[&New subgroup]
 &Nouveau sous-groupe
-[&Hide Offline Users in here]
-Cacher les Hors ligne de ce groupe
-[&Rename Group]
+[&Hide offline users in here]
+&Cacher les Hors ligne de ce groupe
+[&Rename group]
 &Renommer le groupe
-[&Delete Group]
-Effacer le groupe
+[&Delete group]
+&Effacer le groupe
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Apparence
@@ -323,19 +323,17 @@ Séparateurs
 Contacts Hors ligne pour lesquels vous avez une visibilité différente
 [Status messages]
 Messages d'état
-[Group Closed]
+[Group closed]
 Groupe fermé
-[Hover Contacts]
+[Hovered contacts]
 Contacts survolés
 [Background]
 Arrière-plan
-[Contact list]
-Liste de contacts
-[Selected Text]
+[Selected text]
 Texte sélectionné
-[Hottrack Text]
+[Hottrack text]
 Texte sous souris
-[Quicksearch Text]
+[Quicksearch text]
 Texte en recherche rapide
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
@@ -375,13 +373,15 @@ Pas de contacts ou protocoles
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
 
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...
 [&About]
 
 ;file \plugins\Clist_mw\src\clui.cpp
+[My contacts]
+Mes Contacts
 [My Contacts]
 Mes Contacts
 ;file \plugins\Clist_mw\src\cluiopts.cpp
@@ -390,8 +390,6 @@ Mes Contacts
 
 [Subgroup menu]
 
-[&New SubGroup]
-&Nouveau sous-groupe
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 Fermer Miranda
@@ -408,7 +406,7 @@ Fermer Miranda
 &Verrouillé
 [&Collapsed]
 
-[&Floating Mode]
+[&Floating mode]
 &Mode détaché
 [&Border]
 &Bordure
@@ -428,13 +426,13 @@ Fermer Miranda
 &Vers le Bas
 [Frames]
 Cadres
-[Show All Frames]
+[Show all frames]
 Montrer tous les cadres
 [Show all title bars]
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[Lock Frame]
+[Lock frame]
 Cadre vérouillé
 [Visible]
 Visible

@@ -16,7 +16,7 @@
 [Open dialog]
 [Make a voice call]
 [Send URL]
-[Open userinfo]
+[Open user info]
 [Open contact menu]
 [Show all contacts]
 [Quick Contacts...]

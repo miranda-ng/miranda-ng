@@ -879,7 +879,7 @@ Courriel
 
 [Maximum number of room occupants]
 
-[Whether an make room members-only]
+[Whether to make room members-only]
 
 [Whether to make room moderated]
 

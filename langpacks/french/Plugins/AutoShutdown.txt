@@ -46,8 +46,8 @@ Extinction dans :
 Quand Miranda NG devient inactif
 [Configure]
 Configurer
-[Shutdown when &prozessor usage drops below:]
-Extinction si la charge processeur descend à :
+[Shutdown when &processor usage drops below:]
+Extinction si la charge du &processeur descend sous :
 [(current: 0%)]
 (actuel : 0%)
 [Shutdown when all contacts are &offline]
@@ -177,7 +177,7 @@ Ferme Windows et redémarre l'ordinateur.
 Clôture tous les programmes en cours et arrête Windows à un point auquel il est sûr d'éteindre l'ordinateur.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Sauvegarde la session actuelle de Windows en mémoire et met le système en veille.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
 Sauvegarde la session actuelle de Windows sur le disque dur, de sorte que le courant puisse être coupé (Veille Prolongée).
 [Locks the computer. To unlock the computer, you must log in.]
 Verrouille l'ordinateur (ou plutôt Windows).  Pour le déverrouiller, vous devrez vous identifier (login et mot de passe Windows).

@@ -1,4 +1,6 @@
-﻿[Message boxes (*)]
+﻿[Silent mode]
+[You need restart your Miranda to apply installed updates]
+[Message boxes (*)]
 [Info messages]
 [Progress dialogs]
 [Not sets for "Message boxes"]
