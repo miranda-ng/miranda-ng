@@ -57,12 +57,6 @@ int SkinOptInit(WPARAM wParam, LPARAM lParam)
 		odp.ptszGroup = LPGENT("Skins");
 		odp.ptszTitle = LPGENT("Contact list");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-		odp.ptszTab = LPGENT("Load/Save");
-		Options_AddPage(wParam, &odp);
-
-		odp.pfnDlgProc = DlgSkinEditorOpts;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKINEDITOR);
-		odp.ptszTab = LPGENT("Object editor");
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
@@ -163,18 +157,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						sd = ( SkinListData* )( tvi.lParam);
 					}
 					if (!sd ) return 0;
-					if ( glSkinWasModified>0 )
-					{
-						int res = 0;
-						if ( glSkinWasModified == 1 )
-							res = MessageBox( hwndDlg, TranslateT("Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?"), TranslateT("Warning!"), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
-						else
-							res = MessageBox( hwndDlg, TranslateT("Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?"), TranslateT("Warning!"), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
-						if ( res != IDOK ) return 0;
-					}
 					ske_LoadSkinFromIniFile( sd->File, FALSE );
 					ske_LoadSkinFromDB();
-					glOtherSkinWasLoaded = TRUE;
 					pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0 );
 					Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
 					ske_RedrawCompleteWindow( );
@@ -517,7 +501,6 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 {
 	ske_LoadSkinFromIniFile((TCHAR *)lParam, FALSE);
 	ske_LoadSkinFromDB( );
-	glOtherSkinWasLoaded = TRUE;
 	pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0 );
 	Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
 	ske_RedrawCompleteWindow( );

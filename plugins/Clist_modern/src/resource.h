@@ -93,7 +93,6 @@
 #define IDD_OPT_ITEM_TEXT               389
 #define IDD_OPT_ITEM_SECOND_LINE        390
 #define IDD_OPT_ITEM_THIRD_LINE         391
-#define IDD_OPT_SKINEDITOR              398
 #define IDI_STATUS_OVERLAY_NA           400
 #define IDI_STATUS_OVERLAY_OCCUPIED     401
 #define IDI_STATUS_OVERLAY_OFFLINE      402

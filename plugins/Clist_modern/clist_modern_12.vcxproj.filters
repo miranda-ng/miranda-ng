@@ -123,9 +123,6 @@
     <ClCompile Include="src\modern_skinbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\modern_skineditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\modern_skinengine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -57,8 +57,6 @@ extern BOOL g_flag_bFullRepaint;
 extern BOOL g_bMultiConnectionMode;
 extern BYTE g_bCalledFromShowHide;
 extern HICON g_hListeningToIcon;
-extern BOOL glOtherSkinWasLoaded;
-extern BYTE glSkinWasModified;
 extern HWND g_hCLUIOptionsWnd;
 extern BOOL g_bTransparentFlag;
 extern HINSTANCE g_hInst;
@@ -202,7 +200,6 @@ int     Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 void    DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, DWORD backgroundBmpUse );
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
-INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //SkinEditor.c
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //RowTemplate.c
 BOOL    FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);   //GenMenu.c
 BOOL    MatchMask(char *name, char *mask);                                    //mod_skin_selector.c
