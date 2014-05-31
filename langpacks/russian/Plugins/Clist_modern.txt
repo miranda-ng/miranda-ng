@@ -95,44 +95,6 @@
 * Необходим рестарт для вступления изменений в силу
 [Skin folder]
 Папка скинов
-[Available objects]
-Доступные объекты
-[Copy]
-Копировать
-[Paste]
-Вставить
-[Object properties]
-Свойства объекта
-[Type]
-Тип
-[Color]
-Цвет
-[Alpha]
-Альфа
-[Image file and fitting mode]
-Изображение и тип заполнения
-[File]
-Файл
-[Borders]
-Границы
-[Fit mode]
-Заливка
-[Fragment location]
-Место фрагмента
-[Position:]
-Должность:
-[Left]
-Слева
-[Top]
-Верх
-[Size:]
-Размер:
-[Width]
-Ширина
-[Height]
-Высота
-[W x H: 0 x 0 pixels]
-Ш х В: 0 х 0 пикс.
 [Available view modes]
 Доступные режимы вида
 [Include protocols]
@@ -175,6 +137,8 @@
 Разделы равной ширины
 [Space between]
 Промежуток
+[Borders]
+Границы
 [Vertical align]
 По вертикали
 [Horizontal align]
@@ -471,6 +435,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рамки на аватарах
 [Draw overlay icons]
 Значки на аватарах
+[Size:]
+Размер:
 [Round corners of avatars]
 Закруглённые аватары
 [Ignore size for row height calcs]
@@ -899,32 +865,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 %s, содержит %s
 [ layered]
  слои
-[- Empty - (do not draw this object)]
- - НЕТ - (не рисовать этот объект)
-[Solid fill object]
-Сплошная заливка
-[Image (draw image)]
-Изображение
-[Fragment (draw portion of image)]
-Фрагмент изображения
-[Stretch both directions]
-Растянуть во все стороны
-[Stretch vertical, tile horizontal]
-Растянуть вер., замостить гориз.
-[Tile vertical, stretch horizontal]
-Замостить вер., растянуть гориз.
-[Tile both directions]
-Замостить оба направления
-[Image size is]
-Размер
 [You need an image services plugin to process PNG images.]
 Для поддержки PNG вам нужен плагин службы изображений.
 [Error]
 Ошибка
-[Load/Save]
-Загрузить/Сохранить
-[Object editor]
-Редактор объектов
 [( unknown )]
 ( неизвестно )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -941,12 +885,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Внутри библиотеки
 [Skin Information]
 Информация о скине
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Есть несохранённые изменения.\n\nВсе изменения будут потеряны\n\nПродолжить загрузку?
-[Warning!]
-Внимание!
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Текущий скин не сохранен.\n\nВсе изменения будут потеряны.\n\nПродолжить загрузку нового скина?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Предпросмотр не доступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -963,10 +901,14 @@ Angeli-Ka (графика), FYR (шаблон)
 %Стандартный скин%
 [<<Global>>]
 <<Общее>>
+[Left]
+Слева
 [Center]
 В центре
 [Right]
 Справа
+[Top]
+Верх
 [Bottom]
 Внизу
 [Main menu]
