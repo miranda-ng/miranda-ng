@@ -30,9 +30,9 @@ void RefreshFrameAndCalcRects();
 
 void SetCycleTime();
 
-INT_PTR PluginCommand_ShowNextProtocol(WPARAM wParam,LPARAM lParam);
-INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM wParam,LPARAM lParam);
-INT_PTR PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam);
+INT_PTR PluginCommand_ShowNextProtocol(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_ShowProtocol(WPARAM wParam, LPARAM lParam);
 
 
 #endif // __FRAME_H__

@@ -100,8 +100,8 @@ void SetStatusMessageRefreshTime(HWND hwnd);
 int SettingsChangedHook(WPARAM wParam, LPARAM lParam);
 int AvatarChangedHook(WPARAM wParam, LPARAM lParam);
 int ProtoAckHook(WPARAM wParam, LPARAM lParam);
-int SmileyAddOptionsChangedHook(WPARAM wParam,LPARAM lParam);
-int ListeningtoEnableStateChangedHook(WPARAM wParam,LPARAM lParam);
+int SmileyAddOptionsChangedHook(WPARAM wParam, LPARAM lParam);
+int ListeningtoEnableStateChangedHook(WPARAM wParam, LPARAM lParam);
 
 
 #define OUTSIDE_BORDER 6
@@ -181,7 +181,7 @@ void DeInitFrames()
 	if (g_bFramesExist && frame_id != -1)
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
 
-	for (int i = 0 ; i < NUM_FONTS ; i++)
+	for (int i = 0; i < NUM_FONTS; i++)
 		if (hFont[i] != 0)
 			DeleteObject(hFont[i]);
 
@@ -193,7 +193,7 @@ void DeInitFrames()
 
 int ReloadFont(WPARAM wParam, LPARAM lParam)
 {
-	for (int i = 0 ; i < NUM_FONTS ; i++) {
+	for (int i = 0; i < NUM_FONTS; i++) {
 		if (hFont[i] != 0)
 			DeleteObject(hFont[i]);
 
@@ -230,7 +230,7 @@ int CreateFrame()
 	ReloadColour(0, 0);
 	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
 
-	for (int i = 0 ; i < NUM_FONTS ; i++) {
+	for (int i = 0; i < NUM_FONTS; i++) {
 		ZeroMemory(&font_id[i], sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontIDT);
@@ -359,7 +359,7 @@ bool FrameIsFloating()
 
 LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_SHOWWINDOW:
 		if ((BOOL)wParam)
 			Utils_RestoreWindowPosition(hwnd, 0, MODULE_NAME, WINDOW_NAME_PREFIX);
@@ -524,19 +524,8 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
 		return NULL;
 
 	/* CREATE A TOOLTIP WINDOW */
-	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
-		TOOLTIPS_CLASS,
-		NULL,
-		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		hwnd,
-		NULL,
-		hInst,
-		NULL
-		);                 // handle to the ToolTip control
+	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, NULL, hInst, NULL);                 // handle to the ToolTip control
 
 	/* INITIALIZE MEMBERS OF THE TOOLINFO STRUCTURE */
 	TOOLINFO ti;
@@ -1041,9 +1030,11 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 	// Only first line
 	TCHAR *tmp2 = _tcsdup(tmp);
 	TCHAR *pos = _tcsrchr(tmp2, '\r');
-	if (pos != NULL) pos[0] = '\0';
+	if (pos != NULL)
+		pos[0] = '\0';
 	pos = _tcschr(tmp2, '\n');
-	if (pos != NULL) pos[0] = '\0';
+	if (pos != NULL)
+		pos[0] = '\0';
 
 
 	RECT r = rc;
@@ -1395,7 +1386,7 @@ void MakeHover(HWND hwnd, bool draw, bool *hover, POINT *p, RECT *r)
 
 void ShowGlobalStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
 {
-	HMENU submenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS,0,0);
+	HMENU submenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 
 	p.x = (opts.draw_text_align_right ? data->status_rect.right : data->status_rect.left);
 	p.y = data->status_rect.bottom + 1;
@@ -1520,7 +1511,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 		| (opts.draw_text_align_right ? TPM_RIGHTALIGN : TPM_LEFTALIGN), p.x, p.y, 0, hwnd, NULL);
 	DestroyMenu(menu);
 
-	switch(ret) {
+	switch (ret) {
 	case 1:
 		CallService(MS_LISTENINGTO_ENABLE, (LPARAM)proto->name, !proto->ListeningToEnabled());
 		break;
@@ -1536,7 +1527,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	Protocol *proto;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_CREATE:
 		{
 			data = new MyDetailsFrameData();
@@ -1751,7 +1742,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, p.x, p.y, 0, hwnd, NULL);
 				DestroyMenu(menu);
 
-				switch(ret) {
+				switch (ret) {
 				case 1:
 					CallService(MS_MYDETAILS_SETMYAVATARUI, 0, (LPARAM)proto->name);
 					break;
@@ -1791,7 +1782,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, p.x, p.y, 0, hwnd, NULL);
 				DestroyMenu(menu);
 
-				switch(ret) {
+				switch (ret) {
 				case 1:
 					CallService(MS_MYDETAILS_SETMYNICKNAMEUI, 0, (LPARAM)proto->name);
 					break;
@@ -1859,7 +1850,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, p.x, p.y, 0, hwnd, NULL);
 				DestroyMenu(menu);
 
-				switch(ret) {
+				switch (ret) {
 				case 1:
 					CallService(MS_MYDETAILS_SETMYSTATUSMESSAGEUI, 0, (LPARAM)proto->name);
 					break;

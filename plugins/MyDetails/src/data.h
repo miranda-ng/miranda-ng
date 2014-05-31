@@ -74,7 +74,7 @@ public:
 	//void SetAvatar(const char *file_name, HBITMAP hBmp);
 
 	bool CanGetNick();
-	TCHAR * GetNick();			// Copy to cache and return a copy
+	TCHAR *GetNick();			// Copy to cache and return a copy
 	int GetNickMaxLength();
 	bool CanSetNick();
 	void SetNick(const TCHAR *nick);
@@ -82,11 +82,11 @@ public:
 	bool CanGetListeningTo();
 	bool CanSetListeningTo();
 	bool ListeningToEnabled();
-	TCHAR * GetListeningTo();	// Copy to cache and return a copy
+	TCHAR *GetListeningTo();	// Copy to cache and return a copy
 
 	bool CanGetStatusMsg();
 	bool CanGetStatusMsg(int aStatus);
-	TCHAR * GetStatusMsg();	// Copy to cache and return a copy
+	TCHAR *GetStatusMsg();	// Copy to cache and return a copy
 	void GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size);
 	bool CanSetStatusMsg();
 	bool CanSetStatusMsg(int aStatus);
@@ -116,8 +116,8 @@ public:
 	int GetSize();
 
 	void Add(Protocol *p);
-	Protocol* Get(int i);
-	Protocol* Get(const char *name);
+	Protocol *Get(int i);
+	Protocol *Get(const char *name);
 
 	void GetAvatars();
 	bool CanSetAvatars();
@@ -138,8 +138,8 @@ public:
 
 	void GetDefaultNick();	// Copy to cache
 	void GetDefaultAvatar();	// Copy to cache
-	TCHAR* GetDefaultStatusMsg();	// Copy to cache
-	TCHAR* GetDefaultStatusMsg(int status);
+	TCHAR *GetDefaultStatusMsg();	// Copy to cache
+	TCHAR *GetDefaultStatusMsg(int status);
 
 	bool CanSetListeningTo();
 	bool ListeningToEnabled();
