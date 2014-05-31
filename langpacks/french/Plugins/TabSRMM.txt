@@ -1993,7 +1993,7 @@ Limiter les noms à 20 caractères dans la fenêtre de discussion
 [Add a colon (:) to auto-completed user names]
 
 [Start private conversation on double click in nick list (insert nick if unchecked)]
-Démarrer une conversation sur double clic dans la liste des noms (insère le nom si décoché)
+Démarrer une conversation sur double-clic dans la liste des noms (insère le nom si décoché)
 [Strip colors from messages in the log]
 Retirer la couleur des messages dans le journal
 [Enable the 'event filter' for new rooms]

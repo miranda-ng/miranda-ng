@@ -27,7 +27,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Add separator]
 Добавяне на разделител
 [Add launch]
-Добавпне на стартиращ бутон
+Добавяне на стартиращ бутон
 [Delete separator/launch button]
 Изтиване на бутона
 [Name:]

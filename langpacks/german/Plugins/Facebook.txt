@@ -135,7 +135,7 @@ Aktuelle Nachrichten
 [Most Recent]
 Jüngste Nachrichten
 [Pages]
-
+Seiten
 [Classic website]
 Klassische Webseite
 [Mobile website]

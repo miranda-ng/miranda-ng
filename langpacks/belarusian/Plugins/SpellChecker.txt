@@ -104,6 +104,8 @@
 Уключаны
 [Disabled]
 Выключаны
+[Unknown]
+Невядома
 ;file \plugins\SpellChecker\src\utils.cpp
 [Other...]
 Іншае...

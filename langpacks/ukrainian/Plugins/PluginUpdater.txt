@@ -46,7 +46,7 @@
 [Custom version]
 Задана користувачем версія
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Оновлення будуть застосовані після перезапуску програми.
+Оновлено деякі компоненти.\nОновлення будуть застосовані після перезапуску програми.
 [Notifications]
 Сповіщення
 [Message boxes (*)]
@@ -137,6 +137,12 @@
 << Деталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Помилка оновлення! Архів одного з компонентів пошкоджений. Спробуйте ще раз пізніше.
+[You need to restart your Miranda to apply installed updates.]
+Оновлення будуть застосовані після перезапуску програми.
+[Would you like to restart it now?]
+Перезапустити зараз?
+[%d component(s) was updated]
+%d компонентів оновлено.
 [No updates found.]
 Оновлень немає.
 [Update checking already started!]

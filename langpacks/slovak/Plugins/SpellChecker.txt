@@ -13,5 +13,7 @@ Jazyk:
 Storno
 [Advanced]
 Podrobne
+[Unknown]
+Neznáme
 [Ignore all]
 Všetko ignorovať

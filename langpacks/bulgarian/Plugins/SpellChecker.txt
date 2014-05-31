@@ -115,7 +115,7 @@ DLL файл със знамена
 [Disabled]
 Изключено
 [Unknown]
-
+Неизвестно
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Допуснали сте %d правописни грешки. Наистина ли желаете съобщението да бъде изпратено?

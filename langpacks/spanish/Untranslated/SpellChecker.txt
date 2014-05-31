@@ -44,7 +44,6 @@
 [Flags DLL]
 [Enable/disable spell checker]
 [Enabled]
-[Unknown]
 [There are %d spelling errors. Are you sure you want to send this message?]
 [Other...]
 [Always replace with]
