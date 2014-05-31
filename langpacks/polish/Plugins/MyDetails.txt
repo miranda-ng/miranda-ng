@@ -146,9 +146,9 @@ Ustaw opis dla %s...
 Ukryj moje dane
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
-
+Poprzednie konto
 [Next account]
-
+Następne konto
 [Set my nickname for %s]
 Ustaw mój nick dla %s
 [Set my status message for %s]
