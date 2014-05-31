@@ -14,7 +14,7 @@
 Елемент в менюто
 [Show icon]
 Показване на икона
-[Userinfo tab]
+[User info tab]
 Таб в Userinfo
 [Log to file]
 Запис във файл

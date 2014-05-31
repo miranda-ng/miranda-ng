@@ -79,7 +79,7 @@
 [Crash Dumper]
 Справаздача пра памылкі
 ;file \plugins\CrashDumper\src\exhndlr.cpp
-[Crash Report write location is inaccesible]
+[Crash Report write location is not available]
 Шлях для запісу справаздачы пра памылку недасяжны
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda  NG была завершана аварыйна. Справаздача захавана ў \n %s\n\nЦі жадаеце вы захаваць яе ў буфер абмену?

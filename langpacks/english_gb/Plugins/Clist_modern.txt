@@ -11,12 +11,12 @@ Window behaviour:
 Background colour:
 [Selection color:]
 Selection colour:
-[Use Windows Colors]
-Use Windows Colours
+[Use Windows colors]
+Use Windows colours
 [Color]
 Colour
-[Hold [Shift] to inverse [Right Click] behavior]
-Hold [Shift] to inverse [Right Click] behaviour
+[Hold [Shift] to inverse [Right Click] behavior.]
+Hold [Shift] to inverse [Right Click] behaviour.
 [Behavior]
 Behaviour
 [Minimize to tray]

@@ -14,7 +14,7 @@
 
 [Show icon]
 
-[Userinfo tab]
+[User info tab]
 
 [Log to file]
 

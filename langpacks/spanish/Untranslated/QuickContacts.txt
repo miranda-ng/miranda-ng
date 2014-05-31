@@ -17,7 +17,7 @@
 [Make a voice call]
 [Send file]
 [Send URL]
-[Open userinfo]
+[Open user info]
 [Open history]
 [Open contact menu]
 [Show all contacts]

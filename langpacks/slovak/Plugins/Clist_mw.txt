@@ -61,7 +61,7 @@ sekund, ked su stavy rozdielne
 Zobraziť mnohonásobné ikony
 [Only when statuses differ]
 Iba pri rozdielnych stavoch
-[Contact List]
+[Contact list]
 Zoznam kontaktov
 [System tray icon]
 Ikona v oznamovacej oblasti
@@ -119,7 +119,7 @@ Nepremenovávať položky pomocou dvoch klikov
 Zvýrazňovať výber i keď je zoznam neaktívny
 [Make selection highlight translucent]
 Použiť priehladné označenie výberu
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skryť nepripojených' = skryť týchto:
 [Groups]
 Skupiny
@@ -149,7 +149,7 @@ milisekúnd
 Potlačiť intenzitu u týchto položiek:
 [Contact list background]
 Pozadie zoznamu kontaktov
-[Status Bar]
+[Status bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
@@ -185,29 +185,29 @@ Nerušiť
 Prístupný k rozhovoru
 [&Invisible\tCtrl+7]
 Neviditelný
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Telefonujem
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Na obede
 [&Hide/Show]
 Skryť/Zobraziť
-[&New Group]
+[&New group]
 Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 Skryť nepripojených užívatelov
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 Skryť prázdne skupiny
-[Disable &Groups]
+[Disable &groups]
 Skryť názvy skupín
-[&New Subgroup]
+[&New subgroup]
 Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skryť nepripojených užívatelov v tejto skupine
-[&Rename Group]
+[&Rename group]
 Premenovať skupinu
-[&Delete Group]
+[&Delete group]
 Zmazať skupinu
 [List background]
 Pozadie zoznamu
@@ -227,8 +227,6 @@ Oddelovače
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Background]
 Pozadie
-[Contact list]
-Zoznam kontaktov
 [List]
 Zoznam
 [Not focused]
@@ -255,9 +253,7 @@ Na obede
 Telefonuje
 [(Unknown Contact)]
 (neznámý kontakt)
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
 Nastavenia...
-[&New SubGroup]
-Nová podskupina

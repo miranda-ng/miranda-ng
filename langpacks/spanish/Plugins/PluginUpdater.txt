@@ -34,6 +34,8 @@ Al inicio
 (pero sólo una vez al día)
 [Every]
 Cada
+[Silent mode]
+
 [Files source]
 Archivos fuente
 [Stable version]
@@ -44,6 +46,8 @@ Versión en desarrollo (menos estable)
 Versión en desarrollo con símbolos de depuración
 [Custom version]
 Versión personalizada
+[You need restart your Miranda to apply installed updates]
+
 [Notifications]
 Notificaciones
 [Message boxes (*)]

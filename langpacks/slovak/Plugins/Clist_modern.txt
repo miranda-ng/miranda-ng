@@ -61,7 +61,7 @@ Veľkosť:
 Storno
 [Clear all]
 Všetko vyčistiť
-[Status Bar]
+[Status bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
@@ -71,7 +71,7 @@ Rovnaká šírka oddielov
 Pravé tlačítko myši otvára stavové menu
 [Right click opens Miranda menu]
 Pravé tlačítko myši otvára hlavné menu
-[Delete Contact]
+[Delete contact]
 Zmazať kontakt
 [No]
 Nie
@@ -115,7 +115,7 @@ Nepremenovávať položky pomocou dvoch klikov
 Zvýrazňovať výber i keď je zoznam neaktívny
 [Make selection highlight translucent]
 Použiť priehladné označenie výberu
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skryť nepripojených' = skryť týchto:
 [Groups]
 Skupiny
@@ -185,29 +185,29 @@ Nerušiť
 Prístupný k rozhovoru
 [&Invisible\tCtrl+7]
 Neviditelný
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Telefonujem
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Na obede
 [&Hide/Show]
 Skryť/Zobraziť
-[&New Group]
+[&New group]
 Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 Skryť nepripojených užívatelov
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 Skryť prázdne skupiny
-[Disable &Groups]
+[Disable &groups]
 Skryť názvy skupín
-[&New Subgroup]
+[&New subgroup]
 Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skryť nepripojených užívatelov v tejto skupine
-[&Rename Group]
+[&Rename group]
 Premenovať skupinu
-[&Delete Group]
+[&Delete group]
 Zmazať skupinu
 [List background]
 Pozadie zoznamu
@@ -259,7 +259,7 @@ Meno
 Text
 [(Unknown Contact)]
 (neznámý kontakt)
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
 Nastavenia...
@@ -267,7 +267,3 @@ Nastavenia...
 Chyba
 [Status menu]
 Menu stavov
-[Disable Groups]
-Skryť skupiny
-[&New SubGroup]
-Nová podskupina

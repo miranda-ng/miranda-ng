@@ -157,7 +157,7 @@ SSL трафик
 OutputDebugString()
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 
 [Run now]
 Стартиране
@@ -277,7 +277,7 @@ URL адреси
 напр. raboten
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Можете да изберете драйвер за профила, който да предлага повече функции. Ако имате съмнения използвайте стандартния.
-[e.g., Miranda Database]
+[e.g., dbx mmap]
 напр. db3x mmap driver
 [Driver]
 Драйвер

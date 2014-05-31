@@ -8,7 +8,7 @@
 [ToptoolBar adds buttons in top frame for fast access.]
 ToptoolBar agrega botones en la parte superior del marco para acceso rápido.
 ;file \plugins\TopToolBar\res\main.rc
-[Buttons Order && Visibility]
+[Buttons order and visibility]
 Botones orden y visibilidad
 [Button height]
 Alto de botón
@@ -24,11 +24,11 @@ Cambio de tamaño automático
 Una sola línea
 [Buttons order:]
 Orden de botones:
-[Add Separator]
+[Add separator]
 Añadir separador
-[Add Launch]
+[Add launch]
 Añadir lanzador
-[Del Sep/Launch Button]
+[Delete separator/launch button]
 Eliminar botón Separador/Lanzador
 [Name:]
 Nombre:
@@ -39,7 +39,7 @@ Establecer
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Por defecto
-[TopToolBar Background]
+[TopToolBar background]
 
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
 No se ha encontrado el servicio Marcos, por lo que el plugin se desactivará.\nPara ejecutarlo es necesario instalar y/o activar el plugin de lista de contactos que lo soporte:\n- Lista de contactos Moderna\n- MultiWindow (MW)\n- Nicer+\nUsted puede obtenerlo en http://miranda-ng.org/

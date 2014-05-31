@@ -2,10 +2,12 @@
 Send authorisation request
 [Authorization request]
 Authorisation request
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Run program when Miranda NG starts (e.g. tail -f, dbgview, etc.):
 [e.g., Workplace]
 e.g. Workplace
-[e.g., Miranda Database]
-e.g. Miranda Database
+[e.g., dbx mmap]
+e.g. dbx mmap driver
 [Fonts and colors]
 Fonts and colours
 [Color/background]

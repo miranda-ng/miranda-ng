@@ -11,6 +11,8 @@ Centre groupnames horizontally
 Centred when possible
 [Gray out entire list when:]
 Grey out entire list when:
+[Tree Gray Out]
+Tree Grey Out
 [Use Windows colors]
 Use Windows colours
 [Background color]

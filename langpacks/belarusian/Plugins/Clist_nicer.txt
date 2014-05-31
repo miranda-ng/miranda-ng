@@ -8,8 +8,8 @@
 [Displays contacts, event notifications, protocol status.]
 Паказвае кантакты, з'явы, статусы протоколаў.
 ;file \plugins\Clist_nicer\res\resource.rc
-[CList Nicer exception]
-Выключэнні CList Nicer
+[Clist Nicer exception]
+Выключэнні Clist Nicer
 [Copy to clipboard]
 Капіяваць у буфер абмену
 [Continue]
@@ -38,7 +38,7 @@
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
 Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
-[Contact List]
+[Contact list]
 Спіс кантактаў
 [Hide offline users]
 Схаваць адключаных
@@ -116,11 +116,11 @@
 Мін. вышыня гурта
 [Indent groups by:]
 Водступ для гуртоў:
-[Inner Row vertical padding]
+[Inner row vertical padding]
 Вертыкальны водступ паміж шэрагамі
 [Margins and spacing]
 Палі і водступы
-[Contact List Sorting]
+[Contact list sorting]
 Сартаванне спісу кантактаў
 [First by]
 Спачатку
@@ -174,7 +174,7 @@
 Калі магчыма, маляваць значкі статусу ў аватары
 [Use metacontact protocol icons instead of subcontacts]
 Абразок конта метакантакта замест субкантакту
-[Use Overlay icons on avatars]
+[Use overlay icons on avatars]
 Выкарыстоўваць накладанне значкоў на аватары
 [Dim idle contacts]
 Прыцьміць неактыўных
@@ -212,7 +212,7 @@
 Расцягваць угару
 [If window is partially covered, bring to front instead of hiding]
 Змясціць вакно на пярэдні план, калі яно прычынена іншымі вокнамі
-[Always Hide On Taskbar]
+[Always hide on taskbar]
 Заўсёды хаваць у трэі.
 [Client margins]
 Палі спісу
@@ -250,7 +250,7 @@
 Напаўпразрыстае вылучэнне
 [Use full row for selection and hottracking]
 Выкарыстоўваць вылучэнне ўсяго радка
-[Double click on avatar opens userinfo]
+[Double click on avatar opens user info]
 Падвойны клік па аватары адкрывае інфармацыю пра кантакт
 [Visual]
 Візуальныя налады
@@ -264,7 +264,7 @@
 Схаваць паласу прагорткі
 [Gray out entire list when:]
 Зрабіць шэрым, калі:
-[Contact List Background]
+[Contact list background]
 Фон спісу
 [Use Windows colors]
 Колеры Windows
@@ -288,7 +288,7 @@
 Выкарыстоўваць дадзеныя налады для ўсяго фону
 [If you enable this, the background settings will affect the entire contact list frame.]
 Пры ўключэнні налады фону будуць скарыстаны для ўсяго фрэйма спісу кантактаў
-[Status Bar]
+[Status bar]
 Панэль статусу
 [Show status bar]
 Паказваць панэль статусу
@@ -426,7 +426,7 @@
 Опцыі адлюстравання
 [Show contact with priority]
 Кантакт з прыярытэтам
-[Show Avatar:]
+[Show avatar:]
 Аватар:
 [Show 2nd line:]
 Другі радок:
@@ -456,9 +456,9 @@
 Вольны
 [&Invisible\tCtrl+7]
 Нябачны
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Тэлефон
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 За ежай
 [Tray]
 Трэй
@@ -466,37 +466,35 @@
 С&хаваць/паказаць
 [Nowhere]
 Нідзе
-[&New Group]
+[&New group]
 Стварыць гурт
-[&Hide Offline Users]
+[&Hide offline users]
 Схаваць адключаных
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Схаваць адключаных па-за гуртом
-[Hide &Empty Groups]
+[Hide &empty groups]
 Схаваць пустыя гурты
-[Disable &Groups]
+[Disable &groups]
 Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
-[&New Subgroup]
+[&New subgroup]
 Стварыць падгурт
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Схаваць адключаных у гурце
-[&Rename Group]
+[&Rename group]
 Пераназваць гурт
-[&Delete Group]
+[&Delete group]
 Выдаліць гурт
-[Move marked Contacts to this Group]
+[Move marked contacts to this group]
 Перамясціць адзначаныя кантакты ў гэты гурт
 [Appearance]
 Знешні выгляд
-[Show Status Icons]
-Значкі статусу
-[Show Metacontact proto Icons]
+[Show MetaContact proto icons]
 Паказваць значкі метакантактаў
-[Show additional Buttons]
+[Show additional buttons]
 Паказваць дадатковыя кнопкі
-[Draw sunken Frame]
+[Draw sunken frame]
 Патоплены фрэйм
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
@@ -608,9 +606,9 @@
 Абедаю
 [On the phone]
 На тэлефоне
-[Always Left]
+[Always left]
 Заўсёды злева
-[Always Right]
+[Always right]
 Заўсёды справа
 [Automatic (RTL)]
 Аўтаматычна (RTL)
@@ -634,21 +632,19 @@
 Калі дазваляе памер
 [When needed]
 Калі неабходна
-[With Nickname - left]
+[With nickname - left]
 Злева ад мянушкі
 [Far left]
 Па левым краі
 [Far right]
 Па правым краі
-[With Nickname - right]
+[With nickname - right]
 Справа ад мянушкі
-[Contact list]
-Спіс кантактаў
 [List layout]
 Размяшчэнне спісу
 [Background]
 Фон
-[Contact rows]
+[Row items]
 Радкі кантактаў
 [Contacts]
 Кантакты
@@ -704,11 +700,9 @@
 Налада рэжымаў выгляду
 [Setup accounts]
 Конты
-[Event Area]
-Вобласць падзей
-[My Contacts]
+[My contacts]
 Мае кантакты
-[%s Connecting]
+[%s connecting]
 %s Далучэнне
 [Menu]
 Меню
@@ -746,11 +740,11 @@
 Загалоўкі фрэймаў
 [Contact list local time]
 Лакальны час кантакту
-[Selected Text]
+[Selected text]
 Вылучаны тэкст
-[Hottrack Text]
+[Hottrack text]
 Пад курсорам
-[Quicksearch Text]
+[Quicksearch text]
 Хуткі пошук
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
@@ -798,19 +792,19 @@
 Выдаленне рэжыму прагляду
 [No view mode]
 Няма рэжыму прагляду
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Рэжым адлюстравання з такім імем ужо прысутнічае
 [Duplicate name]
 Супадальнае імя
-[Setup View Modes...]
+[Setup view modes...]
 Наладзіць рэжымы выгляду...
-[Clear current View Mode]
+[Clear current view mode]
 Сцерці бягучы рэжым выгляду
 [Select a view mode]
 Выбар рэжыму прагляду
 [Clear view mode and return to default display]
 Скінуць рэжым і перайсці ў рэжым па змаўчанні
-[View Modes]
+[View modes]
 Рэжымы выгляду
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
@@ -823,7 +817,7 @@
 Замацаваць
 [&Collapsed]
 Згорнутае
-[&Floating Mode]
+[&Floating mode]
 Плывучы рэжым
 [&Border]
 &Рамка
@@ -845,13 +839,13 @@
 У&ніз
 [Frames]
 Фрэймы
-[Show All Frames]
+[Show all frames]
 Паказаць усе фрэймы
 [Show all title bars]
 Паказваць назвы
 [Hide all title bars]
 Схаваць назвы
-[Lock Frame]
+[Lock frame]
 Замацаваць фрэйм
 [Visible]
 Мабыць
@@ -867,7 +861,7 @@
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Меню гуртоў
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Дадаць &кантакты
 [&Options...]
 &Налады
@@ -875,5 +869,3 @@
 Пра спіс кантактаў...
 [Subgroup menu]
 Меню падгуртоў
-[&New SubGroup]
-Стварыць падгурт

@@ -70,13 +70,13 @@ Sekunden, wenn Status unterschiedlich
 Mehrere Icons anzeigen
 [Only when statuses differ]
 Nur, wenn Status untersch.
-[Contact List]
+[Contact list]
 Kontaktliste
 [System tray icon]
 Systemtray-Icon
 [System tray icon when using multiple protocols]
 Systemtray-Icon bei Benutzung mehrerer Protokolle
-[Contact List Sorting]
+[Contact list sorting]
 Sortierung der Kontaktliste
 [Window]
 Fenster
@@ -124,7 +124,7 @@ Schatten werfen (erfordert Neustart)
 An den Desktop anheften
 [Items]
 Objekte
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Groups]
 Gruppen
@@ -146,7 +146,7 @@ Gruppe:
 Trennung:
 [Info:]
 Info:
-[Status Bar]
+[Status bar]
 Statusleiste
 [Show status bar]
 Statusleiste anzeigen
@@ -188,9 +188,9 @@ Bitte nicht st&ören\tStrg+5
 &Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Am Telefon\tStrg+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
 [Tray]
 Tray
@@ -198,27 +198,27 @@ Tray
 Zeigen/Ausblenden
 [Nowhere]
 Nirgends
-[&New Group]
+[&New group]
 &Neue Gruppe
-[&Hide Offline Users]
+[&Hide offline users]
 Offline-Kontakte ausblenden
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 &Offline-Kontakte außerhalb ausblenden
-[Hide &Empty Groups]
+[Hide &empty groups]
 L&eere Gruppen ausblenden
-[Disable &Groups]
+[Disable &groups]
 &Gruppenfunktion ausschalten
 [Hide Miranda]
 Miranda NG ausblenden
 [Group]
 Gruppe
-[&New Subgroup]
+[&New subgroup]
 &Neue Untergruppe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Offline-Kontakte &hier ausblenden
-[&Rename Group]
+[&Rename group]
 G&ruppe umbenennen
-[&Delete Group]
+[&Delete group]
 Gruppe löschen
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
@@ -249,8 +249,6 @@ Gruppe: %name% %count% [%mode%]
 Trennlinie: %s
 [Info: %s]
 Info: %s
-[Contact list]
-Kontaktliste
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp

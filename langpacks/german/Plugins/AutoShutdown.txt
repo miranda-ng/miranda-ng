@@ -46,7 +46,7 @@ Beenden, wenn eine &Nachricht eingeht, die den folgenden Text enthält:
 Beenden, wenn Miranda NG untätig w&ird
 [Configure]
 Einstellungen
-[Shutdown when &prozessor usage drops below:]
+[Shutdown when &processor usage drops below:]
 Herunterfahren bei &Prozessorauslastung unter:
 [(current: 0%)]
 (aktuell: 0%)
@@ -177,7 +177,7 @@ Beendet die Windowssitzung und Windows und startet dann Windows erneut.
 Beendet die Windowssitzung und fährt den Computer herunter. Der Computer wird ausgeschaltet.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Behält die Windowssitzung bei, speichert die Daten im Arbeitsspeicher und schaltet den Computer in den Energiesparmodus.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
 Speichert die Windowssitzung auf der Festplatte, so dass der Computer ausgeschaltet werden kann.
 [Locks the computer. To unlock the computer, you must log in.]
 Sperrt den Computer. Um den Computer wieder zu entsperren müssen Sie sich erneut anmelden.

@@ -100,13 +100,13 @@ Cлужба:
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
-[Contact List]
+[Contact list]
 Спіс кантактаў
 [System tray icon]
 Абразок у трэі
 [System tray icon when using multiple protocols]
 Абразкі пратаколаў у сістэмным лапку
-[Contact List Sorting]
+[Contact list sorting]
 Сартаванне спісу кантактаў
 [Don't move offline user to bottom]
 Не перасоўваць адключаных уніз
@@ -170,7 +170,7 @@ Cлужба:
 Вылучэнне, нават калі вакно неактыўнае
 [Make selection highlight translucent]
 Напаўпразрыстае вылучэнне
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
 гурты
@@ -204,19 +204,19 @@ Cлужба:
 Схаваць паласу прагорткі
 [Contact list background]
 Фон спісу
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 'Мета' значкі для метакантактаў
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Не разгортваць па падвойным кліку
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Схаваць дадатковыя значкі для субкантактаў
 [MetaContacts supporting]
 Падтрымка метакантактаў
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right)]
 Ігнараваць пустыя дадатковыя значкі (справа)
-[Hide offline subcontacts.]
+[Hide offline subcontacts]
 Хаваць адключаныя субкантакты
-[Status Bar]
+[Status bar]
 Панэль статусу
 [Show status bar]
 Паказваць панэль статусу
@@ -236,7 +236,7 @@ Cлужба:
 Індыкатар змены памеру
 [Show bevel effect on panels]
 Эфект бардзюра на панэлях
-[Use connecting Icon]
+[Use connecting icon]
 Абразок далучэння
 [Use new drawer for status bar]
 Новы стыль панэлі статусу
@@ -262,9 +262,9 @@ Cлужба:
 Вольны
 [&Invisible\tCtrl+7]
 Нябачны
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Тэлефон
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 За ежай
 [Tray]
 Трэй
@@ -272,27 +272,27 @@ Cлужба:
 С&хаваць/паказаць
 [Nowhere]
 Нідзе
-[&New Group]
+[&New group]
 Стварыць гурт
-[&Hide Offline Users]
+[&Hide offline users]
 Схаваць адключаных
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Схаваць адключаных па-за гуртом
-[Hide &Empty Groups]
+[Hide &empty groups]
 Схаваць пустыя гурты
-[Disable &Groups]
+[Disable &groups]
 Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
 [Group]
 Гурт
-[&New Subgroup]
+[&New subgroup]
 Стварыць падгурт
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Схаваць адключаных у гурце
-[&Rename Group]
+[&Rename group]
 Пераназваць гурт
-[&Delete Group]
+[&Delete group]
 Выдаліць гурт
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
@@ -323,19 +323,17 @@ Cлужба:
 Са змененай бачнасцю (адключаныя)
 [Status messages]
 Статусныя паведамленні
-[Group Closed]
+[Group closed]
 Зачынены гурт
-[Hover Contacts]
+[Hover contacts]
 Кантакты пад паказальнікам
 [Background]
 Фон
-[Contact list]
-Спіс кантактаў
-[Selected Text]
+[Selected text]
 Вылучаны тэкст
-[Hottrack Text]
+[Hottrack text]
 Пад курсорам
-[Quicksearch Text]
+[Quicksearch text]
 Хуткі пошук
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
@@ -375,13 +373,15 @@ _Безпротокола_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
 Меню ў трэі
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Дадаць &кантакты
 [&Options...]
 &Налады
 [&About]
 Пра праграму
 ;file \plugins\Clist_mw\src\clui.cpp
+[My contacts]
+Мае кантакты
 [My Contacts]
 Мае кантакты
 ;file \plugins\Clist_mw\src\cluiopts.cpp
@@ -390,8 +390,6 @@ _Безпротокола_
 Меню гуртоў
 [Subgroup menu]
 Меню падгуртоў
-[&New SubGroup]
-Стварыць падгурт
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 Зачыніць праграму
@@ -408,7 +406,7 @@ _Безпротокола_
 Замацаваць
 [&Collapsed]
 Згорнутае
-[&Floating Mode]
+[&Floating mode]
 Плывучы рэжым
 [&Border]
 &Рамка
@@ -428,13 +426,13 @@ _Безпротокола_
 У&ніз
 [Frames]
 Фрэймы
-[Show All Frames]
+[Show all frames]
 Паказаць усе фрэймы
 [Show all title bars]
 Паказваць назвы
 [Hide all title bars]
 Схаваць назвы
-[Lock Frame]
+[Lock frame]
 Замацаваць фрэйм
 [Visible]
 Мабыць

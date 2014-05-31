@@ -1,7 +1,7 @@
 ﻿[Last seen options]
 [Last seen menuitem]
 [Show icon]
-[Userinfo tab]
+[User info tab]
 [Log to file]
 [Log to history]
 [Maximum size]

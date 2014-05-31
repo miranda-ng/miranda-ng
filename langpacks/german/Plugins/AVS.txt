@@ -14,7 +14,7 @@ Die hier eingestellten Bilder werden als Standard-Avatare für Kontakte genutzt,
 Standardbild setzen
 [Delete default picture]
 Standardbild löschen
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
 ACHTUNG: Bei diesen Bildern handelt es sich NICHT um die eigenen Avatare!\nDiese werden über das Hauptmenü unter 'Mein Profil ändern -> Avatar' festgelegt.
 [Try to draw avatar background transparent (for images without transparency)]
 Versuche Avatarhintergr. transparent darzust. (für Bilder ohne Transparenz)
@@ -32,7 +32,7 @@ Warnmeldungen anzeigen
 Avatare beim Setzen immer quadratisch machen
 [Try to draw own avatar background transparent (for images without transparency)]
 Versuche Avatarhintergrund transparent darzustellen (für Bilder ohne Transparenz)
-[This uses the same additional options as in "Contact Avatars" tab]
+[This uses the same additional options as in "Contact avatars" tab]
 Diese Einstellung wird durch die Einstellungen im Tab "Kontaktavatare" ergänzt!
 [Protect the picture and prevent automatic avatars from overwriting it]
 Bild vor dem Überschreiben durch automatische Avatare schützen.
@@ -107,9 +107,9 @@ Kontakt hat kein Avatar
 Kontakte
 [Protocols]
 Protokolle
-[Contact Avatars]
+[Contact avatars]
 Kontaktavatare
-[Own Avatars]
+[Own avatars]
 Eigene Avatare
 [No avatar]
 Kein Avatar

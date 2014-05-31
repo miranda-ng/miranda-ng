@@ -369,7 +369,7 @@ Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
 Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
 Kapazitäten zur Entschlüsselung der Datei auf der anderen Seite nicht gefunden.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
-[Filetransfer warning]
+[File transfer warning]
 Dateiübertragungswarnung
 [Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
 Kann Kapazitäten zur Verschlüsselung auf der anderen Seite nicht überprüfen.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nKapazitätenprüfung unterstützt aktuell nur das ICQ- und das Jabber-Protokoll.\nEs funktioniert mit jedem anderen Protokoll wenn Miranda mit New_GPG auf der anderen Seite verwendet werden.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?

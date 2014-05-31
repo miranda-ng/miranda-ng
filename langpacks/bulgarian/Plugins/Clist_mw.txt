@@ -100,13 +100,13 @@ ms между две мигания
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact List]
+[Contact list]
 Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
 Режим на иконата в трея, когато се използват няколко протокола
-[Contact List Sorting]
+[Contact list sorting]
 Сортиране на списъка с контакти по:
 [Don't move offline user to bottom]
 
@@ -170,7 +170,7 @@ ms между две мигания
 Показване на маркираното при дефокусиран списък
 [Make selection highlight translucent]
 Полупрозрачност на отличения текст
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 Скриване като извън линия:
 [Groups]
 Групи
@@ -204,19 +204,19 @@ ms между две мигания
 Без вертикална лента за придвижване
 [Contact list background]
 Фон на списъка с контакти
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Ползване на метаикони за метаконтактите
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Без разгръщане при двукратно натискане
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Без "Допълнителни икони" за подконтактите
 [MetaContacts supporting]
 Метаконтакти
-[Ignore Empty Extra icons places (arrange to right).]
-Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
-[Hide offline subcontacts.]
+[Ignore empty extra icons places (arrange to right)]
+Заемане мястото на липсващи допълнителни икони (подреждане вдясно)
+[Hide offline subcontacts]
 Скриване на подконтактите, които са "Извън линия"
-[Status Bar]
+[Status bar]
 Лента за състояние
 [Show status bar]
 Показване на лента за състояние
@@ -236,7 +236,7 @@ ms между две мигания
 Индикатор за ръчна промяна на размера
 [Show bevel effect on panels]
 
-[Use connecting Icon]
+[Use connecting icon]
 Ползване на икона за свързване
 [Use new drawer for status bar]
 
@@ -260,9 +260,9 @@ ms между две мигания
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На телефона\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
 [Tray]
 Трей
@@ -270,27 +270,27 @@ ms между две мигания
 Показване/Скриване
 [Nowhere]
 Никъде
-[&New Group]
+[&New group]
 Нова група
-[&Hide Offline Users]
+[&Hide offline users]
 Скриване на контактите "Извън линия"
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скриване на контактите "Извън линия" тук
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скриване на празните групи
-[Disable &Groups]
+[Disable &groups]
 Без групи
 [Hide Miranda]
 Скриване на Miranda
 [Group]
 Група
-[&New Subgroup]
+[&New subgroup]
 Нова подгрупа
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скриване на контактите "Извън линия" тук
-[&Rename Group]
+[&Rename group]
 Преименуване на групата
-[&Delete Group]
+[&Delete group]
 Изтриване на групата
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
@@ -321,19 +321,17 @@ ms между две мигания
 Контакти "Извън линия", към които имате различна видимост
 [Status messages]
 Текст за състояние
-[Group Closed]
+[Group closed]
 Затворена група
-[Hover Contacts]
+[Hover contacts]
 Контакт под курсора
 [Background]
 Фон
-[Contact list]
-Списък с контакти
-[Selected Text]
+[Selected text]
 Маркиран текст
-[Hottrack Text]
+[Hottrack text]
 Посочен текст
-[Quicksearch Text]
+[Quicksearch text]
 Бързо търсен текст
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
@@ -373,7 +371,7 @@ _НямаПротокол_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
 
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
 Главно меню
@@ -382,6 +380,8 @@ _НямаПротокол_
 [&About]
 Относно
 ;file \plugins\Clist_mw\src\clui.cpp
+[My contacts]
+Моите контакти
 [My Contacts]
 Моите контакти
 ;file \plugins\Clist_mw\src\cluiopts.cpp
@@ -390,8 +390,6 @@ _НямаПротокол_
 
 [Subgroup menu]
 
-[&New SubGroup]
-Нова подгрупа
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 Затваряне на Miranda
@@ -408,7 +406,7 @@ _НямаПротокол_
 Заключена
 [&Collapsed]
 Сгъната
-[&Floating Mode]
+[&Floating mode]
 Плаващ режим
 [&Border]
 Рамка
@@ -428,13 +426,13 @@ _НямаПротокол_
 Надолу
 [Frames]
 Рамки
-[Show All Frames]
+[Show all frames]
 Показване на всички рамки
 [Show all titlebars]
 Показване на всички заглавни ленти
 [Hide all titlebars]
 Скриване на всички заглавни ленти
-[Lock Frame]
+[Lock frame]
 Заключване на рамката
 [Visible]
 Видима

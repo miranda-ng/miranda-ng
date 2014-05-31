@@ -70,13 +70,13 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[Contact List]
+[Contact list]
 Lista de contactos
 [System tray icon]
 Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
-[Contact List Sorting]
+[Contact list sorting]
 Clasificación de la lista de contacto
 [Window]
 Ventana
@@ -124,7 +124,7 @@ Mostrar sombra (requiere un reinicio)
 Pin de escritorio
 [Items]
 Elementos
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Ocultar fuera de línea' es:
 [Groups]
 Grupos
@@ -146,7 +146,7 @@ Grupo:
 Divisor:
 [Info:]
 Info:
-[Status Bar]
+[Status bar]
 Barra de estado
 [Show status bar]
 Mostrar barra de estado
@@ -188,9 +188,9 @@ No molestar
 &Libre para el chat
 [&Invisible\tCtrl+7]
 &Invisible
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 En el &teléfono
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Salí a comer
 [Tray]
 Bandeja
@@ -198,28 +198,28 @@ Bandeja
 &Mostrar/Ocultar
 [Nowhere]
 En ninguna parte
-[&New Group]
+[&New group]
 &Nuevo Grupo
-[&Hide Offline Users]
-&Ocultar usuarios Fuera de línea
-[Hide &Offline Users out here]
+[&Hide offline users]
+&Ocultar usuarios fuera de línea
+[Hide &offline users out here]
 Ocultar usuarios fuera de línea fuera de aquí
-[Hide &Empty Groups]
+[Hide &empty groups]
 Ocu&ltar grupos vacíos
-[Disable &Groups]
-Desactivar Grupos
+[Disable &groups]
+Desactivar grupos
 [Hide Miranda]
 Ocultar Miranda
 [Group]
 Grupo
-[&New Subgroup]
+[&New subgroup]
 &Nuevo subgrupo
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Ocul&tar usuarios fuera de línea aquí
-[&Rename Group]
+[&Rename group]
 &Renombrar grupo
-[&Delete Group]
-El&iminar Grupo
+[&Delete group]
+El&iminar grupo
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 No enfocado
@@ -249,8 +249,6 @@ Grupo: %name% %count% [%mode%]
 Divisor: %s
 [Info: %s]
 Info: %s
-[Contact list]
-Lista de contactos
 [List]
 Lista
 ;file \plugins\Clist_blind\src\clistopts.cpp

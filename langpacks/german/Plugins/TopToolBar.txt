@@ -8,7 +8,7 @@
 [ToptoolBar adds buttons in top frame for fast access.]
 Fügt eine Toolbar der Kontaktliste hinzu.
 ;file \plugins\TopToolBar\res\main.rc
-[Buttons Order && Visibility]
+[Buttons order and visibility]
 Buttonreihenfolge && Sichtbarkeit
 [Button height]
 Buttonhöhe
@@ -24,11 +24,11 @@ Automatische Größenanpassung
 Einzeilig
 [Buttons order:]
 Button-Reihenfolge:
-[Add Separator]
+[Add separator]
 Platzhalter hinzufügen
-[Add Launch]
+[Add launch]
 Ausführung hinzufügen
-[Del Sep/Launch Button]
+[Delete separator/launch button]
 Platzhalter/Ausführung Löschen
 [Name:]
 Name:
@@ -39,7 +39,7 @@ Setzen
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Standard
-[TopToolBar Background]
+[TopToolBar background]
 TopToolBar Hintergrund
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
 Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - MultiWindow (MW)\n - Nicer+\mSie bekommen diese unter http://miranda-ng.org/

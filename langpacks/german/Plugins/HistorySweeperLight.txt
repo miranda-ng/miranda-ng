@@ -60,7 +60,7 @@ Alle Ereignisse löschen
 Standard-Aktion
 [Delete All]
 Alles löschen
-[*** Defaut Action ***]
+[*** Default Action ***]
 *** Standard-Aktion ***
 [*** System History ***]
 *** Systemverlauf ***

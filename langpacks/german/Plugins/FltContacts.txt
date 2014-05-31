@@ -20,7 +20,7 @@ Feste Breite
 Pixel
 [Hide all contacts]
 Alle Kontakte ausblenden
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 Bei Vollbild-Anwendung ausblenden
 [Show tooltips*]
 Tooltips zeigen*

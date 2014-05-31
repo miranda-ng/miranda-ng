@@ -285,8 +285,6 @@ History++ для історії вікон
 Закріплене
 [Add contact permanently]
 Додати контакт постійно
-[Dismiss Popup]
-Закрити вікно
 [Classes]
 Класи
 [Actions]

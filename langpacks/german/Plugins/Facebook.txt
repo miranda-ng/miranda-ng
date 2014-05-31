@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.4.1
+;  Version: 0.2.5.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -124,18 +124,12 @@ Bitte geben Sie einen Benutzernamen ein.
 [Please enter a password.]
 Bitte geben Sie das Kennwort ein.
 ;file \protocols\FacebookRM\src\constants.h
-[Most Recent]
-Jüngste Nachrichten
-[Wall Posts]
-Pinnwand-Einträge
 [Top News]
 Aktuelle Nachrichten
-[Photos]
-Fotos
-[Links]
-Links
-[Apps and Games]
-Apps und Spiele
+[Most Recent]
+Jüngste Nachrichten
+[Pages]
+
 [Classic website]
 Klassische Webseite
 [Mobile website]

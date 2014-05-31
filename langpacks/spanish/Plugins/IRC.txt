@@ -242,7 +242,7 @@ Normal
 
 [Ignore channel messages by default]
 
-[Ignore filetransfer requests]
+[Ignore file transfer requests]
 
 [Ignore DCC Chat requests]
 
@@ -388,7 +388,7 @@ Ignorar
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 
-[DCC ERROR: Unable to bind local port for passive filetransfer]
+[DCC ERROR: Unable to bind local port for passive file transfer]
 
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]

@@ -1,0 +1,2 @@
+﻿[Silent mode]
+[You need restart your Miranda to apply installed updates]

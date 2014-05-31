@@ -1,6 +1,7 @@
 ﻿[Message sessions]
 [Keep messages as unread on server (don't send "seen" info)]
 [Receive messages from "inbox" folder only]
+[Pages]
 [User sent you an unsupported attachment. Open your browser to see it.]
 [%s is typing a message...]
 [Conversation]

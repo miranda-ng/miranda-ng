@@ -60,7 +60,7 @@ History++ для гісторыі вокнаў
 непразрыстасць:
 [Opaque popups under cursor]
 Непразрыста пад курсорам
-[Slide Popup]
+[Slide popup]
 Слізгаценне
 [Effect:]
 Эфект:
@@ -86,7 +86,7 @@ History++ для гісторыі вокнаў
 Гісторыя успл.вокнаў
 [Desktop]
 Працоўны стол
-[Popup Area]
+[Popup area]
 Зона
 [pixel(s)]
 пікс.
@@ -100,9 +100,9 @@ History++ для гісторыі вокнаў
 Агульнае
 [Enable popup actions]
 Уключыць дзеянні
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 Дзеянні - гэта маленькія кнопкі пад тэкстам вакна.
-[Common Actions]
+[Common actions]
 Агульныя дзеянні
 [Please choose in what cases default actions should be added:]
 Абярыце, у якіх выпадках дадаваць агульныя дзеянні:
@@ -122,15 +122,15 @@ History++ для гісторыі вокнаў
 Значкі злева
 [Icons aligned to the right]
 Значкі справа
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 Дзеянні: (патрабуе "Ўжыць")
-[Mouse Actions Overwrite]
+[Mouse actions overwrite]
 Дзеянні па націску мышкі
-[Left Button]
+[Left button]
 Левая кнопка
-[Middle Button]
+[Middle button]
 Сярэдняя кнопка
-[Right Button]
+[Right button]
 Правая кнопка
 [Notifications]
 Абвесткі
@@ -148,7 +148,7 @@ History++ для гісторыі вокнаў
 Адключыць, калі глабальны статус...
 [Disable when relevant protocol's status is...]
 Адключыць, калі статус адпавядае пратаколу...
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
+[Colors can be configured in\r\nCustomize > Fonts and colors]
 Настроіць колеры ў\r\nТонкая налада > Шрыфты і колеры
 [More...]
 Яшчэ...
@@ -170,7 +170,7 @@ History++ для гісторыі вокнаў
 Ніколі
 [Show default]
 Па змаўчанні
-[Default Timeout]
+[Default timeout]
 Працягласць па змаўчанні
 [Infinite popup delay]
 Не зачыняць вокны
@@ -190,7 +190,7 @@ History++ для гісторыі вокнаў
 Пасада:
 [Layout:]
 Парадак:
-[Reorder Popups]
+[Reorder popups]
 Парадкаваць (зрушваць) вокны
 [Disable when:]
 Выключыць, калі
@@ -201,7 +201,7 @@ History++ для гісторыі вокнаў
 [Debug]
 Адладка
 ;file \plugins\Popup\src\actions.cpp
-[no overwrite]
+[No overwrite]
 няма дзеяння
 [Send message]
 Адправіць
@@ -242,7 +242,7 @@ History++ для гісторыі вокнаў
 Час
 [Text]
 Тэкст
-[Hovered Action]
+[Hovered action]
 Наведзенае дзеянне
 [Background]
 Фон
@@ -262,32 +262,22 @@ History++ для гісторыі вокнаў
 З накладаннем "Поўны экран"
 [Refresh skin list]
 Абнавіць спіс
-[Popup Placement]
+[Popup placement]
 Становішча
 [Cancel]
 Скасаваць
-[Popup Group]
+[Popup group]
 Гурт вокнаў
-[Favorite Contact]
+[Favorite contact]
 Абраны кантакт
-[Show in Fullscreen]
+[Show in fullscreen]
 Паказаць у поўны экран
-[Blocked Contact]
+[Blocked contact]
 Заблакаваны кантакт
-[Quick Reply]
-Хуткі адказ
-[Pin Popup]
-Замацаваць
-[Pinned Popup]
+[Pinned popup]
 Замацаванае
-[Send Message]
-Адправіць
-[Contact Menu]
-Меню кантакту
-[Add Contact Permanently]
+[Add contact permanently]
 Дадаць кантакт заўсёды
-[Dismiss Popup]
-Убраць вакно
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Класы
@@ -336,17 +326,17 @@ History++ для гісторыі вокнаў
 На тэлефоне
 [Width]
 Шырыня
-[upper left corner]
+[Upper left corner]
 злева зверху
-[lower left corner]
+[Lower left corner]
 злева знізу
-[lower right corner]
+[Lower right corner]
 справа знізу
-[upper right corner]
+[Upper right corner]
 справа зверху
-[horizontal]
+[Horizontal]
 гарызанталь
-[vertical]
+[Vertical]
 вертыкаль
 [Global Status]
 Агульны статус

@@ -27,7 +27,7 @@
 [Copy Version Info to clipboard]
 [Show Version Info]
 [Crash Dumper]
-[Crash Report write location is inaccesible]
+[Crash Report write location is not available]
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 [View Version Information (with DLLs)]
 [VersionInfo upload successful,\n %d old plugins]

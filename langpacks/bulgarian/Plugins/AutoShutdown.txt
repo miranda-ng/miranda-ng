@@ -46,7 +46,7 @@
 
 [Configure]
 Настройване
-[Shutdown when &prozessor usage drops below:]
+[Shutdown when &processor usage drops below:]
 
 [(current: 0%)]
 
@@ -177,7 +177,7 @@
 
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
 
 [Locks the computer. To unlock the computer, you must log in.]
 

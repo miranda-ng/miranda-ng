@@ -14,7 +14,7 @@ Einstellungen
 Erzeuge Menüeintrag
 [Show icon]
 Icon anzeigen
-[Userinfo tab]
+[User info tab]
 In Kontaktprofil anzeigen
 [Log to file]
 In Datei speichern

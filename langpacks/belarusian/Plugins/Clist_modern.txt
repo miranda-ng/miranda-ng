@@ -42,9 +42,9 @@
 Акно неактыўнае:
 [Active opacity:]
 Вакно актыўнае:
-[Show Avatars]
+[Show avatars]
 Паказваць аватары
-[Animate Avatars]
+[Animate avatars]
 Анімацыя аватараў
 [Show contact time in list]
 Паказваць час кантакту
@@ -76,7 +76,7 @@
 Расцягнуць
 [Tile vertically according to row height]
 Расцягваць вертыкальна па вышыні
-[Use Windows Colors]
+[Use Windows colors]
 Колеры Windows
 [Available skins]
 Даступныя скіны
@@ -88,7 +88,7 @@
 Інфа
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nВыбярыце скін. \n\nНажміце "Агляд" для пошуку іншых.
-[Skin Preview]
+[Skin preview]
 Прагляд скіна
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 УВАГА: \tСкіны могуць змяняць Ваш профіль. Адкат немагчымы. \n\t\tКалі ласка, зрабіце РЭЗЕРВОВУЮ КОПІЮ профіля.
@@ -166,7 +166,7 @@
 Рэжым прагляду па змаўчанні
 [Last message]
 Апошняе паведамленне
-[Status Bar]
+[Status bar]
 Панэль статусу
 [Show status bar]
 Паказваць панэль статусу
@@ -174,19 +174,19 @@
 Часткі роўнай шырыні
 [Space between]
 Прамежак
-[Vertical Align]
+[Vertical align]
 Па вертыкалі
-[Horizontal Align]
+[Horizontal align]
 Па гарызанталі
 [Multiline status bar:]
 Шматрадковая панэль статусу:
 [Accounts per line]
 Контаў у радку
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
-[Hold [Shift] to inverse [Right Click] behavior]
+[Hold [Shift] to inverse [Right Click] behavior.]
 Shift + Правы клік - Галоўнае меню
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
 Ctrl + Левы клік укл. фільтр па пратаколу, клік па пустым месцы адкл.
 [Set options per account]
 Паконтная налада
@@ -216,11 +216,11 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Правая пстрычка - меню статусу
 [Right click opens Miranda menu]
 Правая пстрычка - галоўнае меню
-[Space on Left]
+[Space on left]
 Водступ злева
 [Space on right]
 Водступ справа
-[Delete Contact]
+[Delete contact]
 Выдаліць кантакт
 [No]
 Не
@@ -260,7 +260,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Толькі над тэкстам
 [No selection]
 Не вылучаць
-[Selection Mode]
+[Selection mode]
 Тып вылучэння
 [Bring to front if covered]
 Перасоўваць на пярэдні план
@@ -278,7 +278,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Забараніць змену памеру
 [Drag to]
 Перацягванне
-[Easy Scroll]
+[Easy scroll]
 Простая прагортка
 [Easy move]
 Простае перасоўванне
@@ -302,7 +302,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Выключаны
 [Show automaticaly]
 Аўтаматычна
-[Always Visible]
+[Always visible]
 Заўсёды бачны
 [Dock to sides]
 Паркаваць
@@ -324,7 +324,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Напаўпразрыстае вылучэнне
 [Dim idle contacts]
 Прыцьміць неактыўныя
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
 Гурты
@@ -372,17 +372,17 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Паводзіны значка ў сістэмным трэі
 [Use xStatus icon]
 Абразок xСтатуса
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right).]
 Ігнараваць пустыя дадатковыя значкі (справа)
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 'Мета' значкі для метакантактаў
-[Expand metacontacts]
+[Expand MetaContacts]
 Разгортваць метакантакты
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Не разгортваць па падвойным кліку
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Схаваць дадатковыя значкі для субкантактаў
-[Hide offline subcontacts.]
+[Hide offline subcontacts]
 Хаваць адключаныя субкантакты
 [MetaContacts stuff]
 Метакантакты
@@ -434,13 +434,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Пасля загалоўка
 [Gaps]
 Падзельнікі
-[Use Non-Layered mode]
+[Use non-layered mode]
 Рэжым без скіна
 [Round corners]
 Закругленыя куты
 [Non-layered mode]
 Рэжым без скінаў
-[Disable Skin Engine]
+[Disable skin engine]
 Выключыць скіны
 [Enable Aero Glass (Vista+)]
 Стыль Аэро (Vista+)
@@ -502,7 +502,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Абразок хстатуса замест конту
 [Draw normal status as overlay]
 Звычайны статус адбіткам
-[Right-To-Left reading mode (mirror template)]
+[Right-to-left reading mode (mirror template)]
 Рэжым справа налева (люстраны шаблон)
 [Replace smileys in contact list]
 Замяняць смайлікі ў спісе
@@ -530,7 +530,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Статус
 [Nickname]
 Мянушка
-[Status Message]
+[Status message]
 Статуснае паведамленне
 [Listening to]
 Слухаю
@@ -622,9 +622,9 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Вольны
 [&Invisible\tCtrl+7]
 Нябачны
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Тэлефон
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 За ежай
 [Tray]
 Трэй
@@ -632,36 +632,36 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 С&хаваць/паказаць
 [Nowhere]
 Нідзе
-[&New Group]
+[&New group]
 Стварыць гурт
-[&Hide Offline Users]
+[&Hide offline users]
 Схаваць адключаных
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Схаваць адключаных па-за гуртом
-[Hide &Empty Groups]
+[Hide &empty groups]
 Схаваць пустыя гурты
-[Disable &Groups]
+[Disable &groups]
 Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
-[&New Subgroup]
+[&New subgroup]
 Стварыць падгурт
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Схаваць адключаных у гурце
-[&Show Offline Users in here]
+[&Show offline users in here]
 Паказаць адключаных у гурце
-[&Rename Group]
+[&Rename group]
 Пераназваць гурт
-[&Delete Group]
+[&Delete group]
 Выдаліць гурт
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Скіны
 [Modern contact list]
 Прадвінуты спіс кантактаў
-[Avatar Overlay]
+[Avatar overlay]
 Адбітак аватара
-[Status Overlay]
+[Status overlay]
 Адбітак статусу
 [Contact list smileys]
 Смайлы спісу кантактаў
@@ -794,7 +794,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Імя (уключаючы лакалізацыю)
 [Last message time]
 Апошняе паведамленне
-[Account Name]
+[Account name]
 Імя ўліковага запісу
 [Rate]
 Рэйтынг
@@ -819,7 +819,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Падзей няма
 [Event area background]
 Фон вобласці падзей
-[Event Area]
+[Event area]
 Вобласць падзей
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
@@ -832,13 +832,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Сярэдні
 [High]
 Высокі
-[Contact rate None]
+[Contact rate none]
 Рэйтынг кантакту Няма
-[Contact rate Low]
+[Contact rate low]
 Рэйтынг кантакту Нізкі
-[Contact rate Medium]
+[Contact rate medium]
 Рэйтынг кантакту Сярэдні
-[Contact rate High]
+[Contact rate high]
 Рэйтынг кантакту Высокі
 [Show even if offline]
 Паказваць адключаных
@@ -863,27 +863,25 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Радок
 [Row design]
 Дызайн радка
-[Second Line]
-Другі радок
-[Third Line]
-Трэці радок
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 Меню ў трэі
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Дадаць &кантакты
 [&Options...]
 &Налады
 [&About]
 Пра праграму
 ;file \plugins\Clist_modern\src\modern_clui.cpp
-[Show Contact &Avatar]
+[Show contact &avatar]
 Паказаць аватар
-[Hide Contact &Avatar]
+[Hide contact &avatar]
 Схаваць аватар
+[My contacts]
+Мае кантакты
 [My Contacts]
 Мае кантакты
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
@@ -919,13 +917,13 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Выява
 [Fragment (draw portion of image)]
 Фрагмент (частка выявы)
-[Stretch Both directions]
+[Stretch both directions]
 Расцянць ва ўсе бакі
-[Stretch Vertical, Tile Horizontal]
+[Stretch vertical, tile horizontal]
 Расцягнуць гарызантальна, плітка вертыкальна
-[Tile Vertical, Stretch Horizontal]
+[Tile vertical, stretch horizontal]
 Плітка вертыкальна, расцягнуць гарызантальна
-[Tile Both directions]
+[Tile both directions]
 Плітка ў абодвух напрамках
 [Image size is]
 Памер выявы
@@ -1004,8 +1002,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Уключыць/Выключыць гурты
 [Use groups]
 Уключыць гурты
-[Disable Groups]
-Выключыць гурты
 [Enable/Disable sounds]
 Уключыць/Выключыць гукі
 [Enable sounds]
@@ -1051,13 +1047,11 @@ Angeli-Ka (графіка), FYR (шаблон)
 Сапраўды выдаліць рэжым? Адмена не магчымая!
 [Delete a view mode]
 Выдаленне рэжыму прагляду
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Рэжым адлюстравання з такім імем ужо прысутнічае
 [Duplicate name]
 Супадальнае імя
-[All Contacts]
-Усе кантакты
-[Setup View Modes...]
+[Setup view modes...]
 Наладзіць рэжымы выгляду...
 [Select a view mode]
 Выбар рэжыму прагляду
@@ -1067,9 +1061,9 @@ Angeli-Ka (графіка), FYR (шаблон)
 Скінуць рэжым і перайсці ў рэжым па змаўчанні
 [Reset view mode]
 Скінуць рэжым
-[View Mode Background]
+[View mode background]
 Фон рэжымаў выгляду
-[View Modes]
+[View modes]
 Рэжымы выгляду
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
@@ -1080,7 +1074,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Замацаваць
 [&Expanded]
 &Пашыраны
-[&Floating Mode]
+[&Floating mode]
 Плывучы рэжым
 [&Border]
 &Рамка
@@ -1098,7 +1092,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 &Уверх
 [&Down]
 У&ніз
-[Show All Frames]
+[Show all frames]
 Паказаць усе
 [Show all title bars]
 Паказваць назвы
@@ -1114,5 +1108,3 @@ Angeli-Ka (графіка), FYR (шаблон)
 Меню гуртоў
 [Subgroup menu]
 Меню падгуртоў
-[&New SubGroup]
-Стварыць падгурт

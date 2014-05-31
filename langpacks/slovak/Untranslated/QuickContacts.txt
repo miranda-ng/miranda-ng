@@ -15,7 +15,7 @@
 [Open dialog]
 [Make a voice call]
 [Send file]
-[Open userinfo]
+[Open user info]
 [Open contact menu]
 [Show all contacts]
 [Quick Contacts...]

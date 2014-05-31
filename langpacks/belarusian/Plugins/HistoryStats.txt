@@ -305,7 +305,7 @@ URL (усё)
 [in/out ratio of chats]
 вх/исх суадносіны чатаў
 ;file \plugins\HistoryStats\src\column_splittimeline.h
-[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.]
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
 Калонка ўтрымоўвае графічнае ўяўленне чата (выходныя, якія ўваходзяць, усяго, суадносіны ўваходных да выходных) ад першага дня гісторыі да апошняга. Інфармацыя размяшчаецца па восі X- і Y-, і значэнні афарбоўваюцца ў колеры. Рознае вымярэнне статыстыкі чатаў даступна.
 ;file \plugins\HistoryStats\src\column_timeline.cpp
 [Timeline for #{data}]
@@ -313,7 +313,7 @@ URL (усё)
 [Timeline]
 Графік часу
 ;file \plugins\HistoryStats\src\column_timeline.h
-[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.]
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Калонка ўтрымоўвае графічнае ўяўленне чата (выходныя, якія ўваходзяць, усяго, суадносіны ўваходных да выходных) ад першага дня гісторыі да апошняга на падставе дзён. Дні могуць быць згрупаваны. Рознае вымярэнне статыстыкі чатаў даступна.
 ;file \plugins\HistoryStats\src\column_wordcount.cpp
 [Word count type]
@@ -396,7 +396,7 @@ HistoryStats - Папярэджанне
 Фільтраваць паведамленні з пачаткам
 [Filter messages ending with]
 Фільтраваць паведамленні з канчаткам
-[The selected set is in use by at least one other column. If you remove it it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+[The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
 Абраны набор ужо выкарыстоўваецца хоць бы адной калонкай. Калі вы выдаліце яго, ён будзе недаступны ўсім іншым калонкам. вы ўпэўнены, што жадаеце выдаліць набор
 ;file \plugins\HistoryStats\src\dlgoption.cpp
 [Global settings]
@@ -456,8 +456,6 @@ PNG (часткова)
 Нічога (калонка будзе прапушчана)
 [HTML as fallback]
 HTML як адкат
-[PNG, ignoring some sttings]
-PNG, пропуск некаторых радкоў
 [HistoryStats - Error]
 HistoryStats - Памылка
 [HTML output unsupported.]

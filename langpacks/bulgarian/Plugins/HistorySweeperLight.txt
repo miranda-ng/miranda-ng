@@ -60,7 +60,7 @@ History Sweeper Light
 Стандартно действие
 [Delete All]
 Изтриване на всичко
-[*** Defaut Action ***]
+[*** Default Action ***]
 *** Стандартно действие ***
 [*** System History ***]
 *** История на системата ***

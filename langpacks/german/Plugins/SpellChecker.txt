@@ -114,6 +114,8 @@ Spell Checker (de)aktivieren
 Aktiviert
 [Disabled]
 Deaktiviert
+[Unknown]
+
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Es sind %d Rechtschreibfehler vorhanden. Möchten Sie dennoch die Nachricht senden?

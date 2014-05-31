@@ -60,7 +60,7 @@ píxeles
 opacidad:
 [Opaque popups under cursor]
 
-[Slide Popup]
+[Slide popup]
 
 [Effect:]
 Efecto:
@@ -86,7 +86,7 @@ Previsualizar
 
 [Desktop]
 
-[Popup Area]
+[Popup area]
 
 [pixel(s)]
 
@@ -100,9 +100,9 @@ Cerrar
 General
 [Enable popup actions]
 
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 
-[Common Actions]
+[Common actions]
 
 [Please choose in what cases default actions should be added:]
 
@@ -111,6 +111,8 @@ General
 [Add default actions for contacts only]
 
 [Don't close popups on default actions]
+
+[Size and position]
 
 [Use large icons]
 
@@ -122,15 +124,15 @@ General
 
 [Icons aligned to the right]
 
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 
-[Mouse Actions Overwrite]
+[Mouse actions overwrite]
 
-[Left Button]
+[Left button]
 
-[Middle Button]
+[Middle button]
 
-[Right Button]
+[Right button]
 
 [Notifications]
 Notificaciones
@@ -148,7 +150,7 @@ Notificaciones
 
 [Disable when relevant protocol's status is...]
 
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
+[Colors can be configured in\r\nCustomize > Fonts and colors]
 
 [More...]
 
@@ -170,7 +172,7 @@ Seg
 
 [Show default]
 
-[Default Timeout]
+[Default timeout]
 
 [Infinite popup delay]
 
@@ -190,7 +192,7 @@ segundos
 Posición:
 [Layout:]
 
-[Reorder Popups]
+[Reorder popups]
 
 [Disable when:]
 
@@ -201,7 +203,7 @@ Posición:
 [Debug]
 
 ;file \plugins\Popup\src\actions.cpp
-[no overwrite]
+[No overwrite]
 
 [Send message]
 
@@ -246,7 +248,7 @@ Copiar al portapapeles
 
 [Text]
 
-[Hovered Action]
+[Hovered action]
 
 [Background]
 
@@ -256,7 +258,7 @@ Copiar al portapapeles
 
 [Title underline]
 
-[Avatar Border]
+[Avatar border]
 
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
@@ -274,31 +276,21 @@ Copiar al portapapeles
 
 [Refresh skin list]
 
-[Popup Placement]
+[Popup placement]
 
 [Cancel]
 Cancelar
-[Popup Group]
+[Popup group]
 
-[Favorite Contact]
+[Favorite contact]
 
-[Show in Fullscreen]
+[Show in fullscreen]
 
-[Blocked Contact]
+[Blocked contact]
 
-[Quick Reply]
+[Pinned popup]
 
-[Pin Popup]
-
-[Pinned Popup]
-
-[Send Message]
-Enviar mensaje
-[Contact Menu]
-
-[Add Contact Permanently]
-
-[Dismiss Popup]
+[Add contact permanently]
 
 ;file \plugins\Popup\src\main.cpp
 [Classes]
@@ -352,17 +344,17 @@ Salí a comer
 En el teléfono
 [Width]
 Ancho
-[upper left corner]
+[Upper left corner]
 
-[lower left corner]
+[Lower left corner]
 
-[lower right corner]
+[Lower right corner]
 
-[upper right corner]
+[Upper right corner]
 
-[horizontal]
+[Horizontal]
 
-[vertical]
+[Vertical]
 
 [Global Status]
 
@@ -370,7 +362,7 @@ Ancho
 
 [You cannot specify a value lower than %d and higher than %d.]
 
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 
 [Popup Plus Warning]
 

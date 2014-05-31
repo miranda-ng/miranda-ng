@@ -79,7 +79,7 @@ Subir
 [Crash Dumper]
 
 ;file \plugins\CrashDumper\src\exhndlr.cpp
-[Crash Report write location is inaccesible]
+[Crash Report write location is not available]
 
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 

@@ -157,7 +157,7 @@
 Выснова адладкавых радкоў
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Выканаць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
 [Run now]
 Вык. зараз
@@ -277,7 +277,7 @@
 напр. "Працоўны"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Вы можаце абраць  іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
-[e.g., Miranda Database]
+[e.g., dbx mmap]
 напрыклад, dbx_mmap
 [Driver]
 Драйвер

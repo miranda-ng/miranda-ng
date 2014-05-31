@@ -8,25 +8,11 @@
 [Check your Gmail inboxes locally.]
 
 ;file \plugins\GmailNotifier\res\options.rc
+[Gmail account]
+
 [Name:]
 
 [Password:]
-
-[Check Gmail Inbox every]
-
-[minutes]
-
-[Notifier on:]
-
-[Duration:]
-
-[TXT|BG:]
-
-[custom program]
-
-[sec.]
-
-[On DBClick:]
 
 [Add]
 
@@ -34,27 +20,39 @@
 
 [Delete]
 
-[System Tray]
+[Configuration]
 
-[PopUp Plugin]
+[Check Gmail inbox every]
+
+[minutes]
+
+[Notify using:]
+
+[Duration:]
+
+[seconds]
+
+[Text|Background:]
+
+[On double click:]
+
+[System tray]
+
+[Popup plugin]
 
 [Login using default browser]
 
 [Login using Internet Explorer]
 
-[Run]
+[Run custom program]
 
 [Use online contacts when no new mail]
 
 [Enable icon selection and icon in status bar (restart)]
 
-[This is a shared computer so disable Auto Login]
+[This is a shared computer so disable auto login]
 
 [Log unread threads into database (enable history)]
-
-[Gmail Account]
-
-[Configuration]
 
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
@@ -65,17 +63,21 @@
 
 [Can't send account data!]
 
-[Can't get rss feed!]
+[Can't get RSS feed!]
 
 [Wrong name or password!]
 
 ;file \plugins\GmailNotifier\src\main.cpp
-[&Check All Gmail Inboxes]
+[Other]
 
-[&Check Gmail Inbox]
+[Gmail: New thread(s)]
+
+[&Check all Gmail inboxes]
+
+[&Check Gmail inbox]
 
 ;file \plugins\GmailNotifier\src\options.cpp
-[GmailMNotifier]
+[GmailNotifier]
 
 [Network]
 

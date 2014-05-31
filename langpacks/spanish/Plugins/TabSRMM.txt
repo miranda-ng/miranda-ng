@@ -1795,7 +1795,7 @@ El contacto dejó de escribir
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 
-[Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
 
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 
@@ -1994,7 +1994,7 @@ Sangría de la segunda línea de un mensaje
 Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
 [Add a colon (:) to auto-completed user names]
 
-[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
+[Start private conversation on double click in nick list (insert nick if unchecked)]
 
 [Strip colors from messages in the log]
 Quitar los colores de los mensajes en el registro

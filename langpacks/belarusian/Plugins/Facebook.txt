@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.4.1
+;  Version: 0.2.5.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -124,18 +124,10 @@ URL:
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
 ;file \protocols\FacebookRM\src\constants.h
-[Most Recent]
-Апошнія абнаўленні
-[Wall Posts]
-Паведамленні са сцяны
 [Top News]
 Папулярныя навіны
-[Photos]
-Фатаграфіі
-[Links]
-Спасылкі
-[Apps and Games]
-Прыкладанні і гульні
+[Most Recent]
+Апошнія абнаўленні
 [Classic website]
 Класічны сайт
 [Mobile website]

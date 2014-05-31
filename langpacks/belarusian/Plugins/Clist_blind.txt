@@ -70,13 +70,13 @@
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
-[Contact List]
+[Contact list]
 Спіс кантактаў
 [System tray icon]
 Абразок у трэі
 [System tray icon when using multiple protocols]
 Абразкі пратаколаў у сістэмным лапку
-[Contact List Sorting]
+[Contact list sorting]
 Сартаванне спісу кантактаў
 [Window]
 Вакно
@@ -124,7 +124,7 @@
 Прымацаваць ды стала
 [Items]
 Элементы
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Groups]
 Гурты
@@ -146,7 +146,7 @@
 Падзельнік:
 [Info:]
 Інфо:
-[Status Bar]
+[Status bar]
 Панэль статусу
 [Show status bar]
 Паказваць панэль статусу
@@ -188,9 +188,9 @@
 Вольны
 [&Invisible\tCtrl+7]
 Нябачны
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Тэлефон
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 За ежай
 [Tray]
 Трэй
@@ -198,27 +198,27 @@
 С&хаваць/паказаць
 [Nowhere]
 Нідзе
-[&New Group]
+[&New group]
 Стварыць гурт
-[&Hide Offline Users]
+[&Hide offline users]
 Схаваць адключаных
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Схаваць адключаных па-за гуртом
-[Hide &Empty Groups]
+[Hide &empty groups]
 Схаваць пустыя гурты
-[Disable &Groups]
+[Disable &groups]
 Адключыць гурты
 [Hide Miranda]
 Схаваць спіс кантактаў
 [Group]
 Гурт
-[&New Subgroup]
+[&New subgroup]
 Стварыць падгурт
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Схаваць адключаных у гурце
-[&Rename Group]
+[&Rename group]
 Пераназваць гурт
-[&Delete Group]
+[&Delete group]
 Выдаліць гурт
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
@@ -249,8 +249,6 @@
 Драйвер: %s
 [Info: %s]
 Інфо: %s
-[Contact list]
-Спіс кантактаў
 [List]
 Спіс
 ;file \plugins\Clist_blind\src\clistopts.cpp

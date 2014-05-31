@@ -20,7 +20,7 @@
 пиксела
 [Hide all contacts]
 
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 
 [Show tooltips*]
 

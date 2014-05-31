@@ -42,9 +42,9 @@
 Неактивен прозорец:
 [Active opacity:]
 Активен прозорец:
-[Show Avatars]
+[Show avatars]
 Показване на аватари
-[Animate Avatars]
+[Animate avatars]
 Анимирани аватари
 [Show contact time in list]
 Час на контакта в списъка
@@ -76,7 +76,7 @@
 Пропорционално разтягане
 [Tile vertically according to row height]
 
-[Use Windows Colors]
+[Use Windows colors]
 Цветове от Windows
 [Available skins]
 Налични облици
@@ -88,7 +88,7 @@
 Информация
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nИзберете някой от наличните облици. \n\nИли разгледайте за други облици, които не са в списъка.
-[Skin Preview]
+[Skin preview]
 Образец
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 ВНИМАНИЕ: \tВъзможно е облика да промени текущия профил. Промените са необратими. \n\t\tМоля, направете резервно копие на базата от данни преди прилагането на облика.
@@ -166,7 +166,7 @@
 Редактиране на режима за преглед
 [Last message]
 Последно съобщение
-[Status Bar]
+[Status bar]
 Лента за състояние
 [Show status bar]
 Показване на лента за състояние
@@ -174,20 +174,20 @@
 Еднакво широки панели
 [Space between]
 Разстояние помежду им
-[Vertical Align]
+[Vertical align]
 Вертикално подреждане
-[Horizontal Align]
+[Horizontal align]
 Хоризонтално подреждане
 [Multiline status bar:]
 Лента за състояние на няколко реда:
 [Accounts per line]
 Акаунти на ред
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * За увеличаване височината на лентата: Главно меню>Рамки >Лента за състояние>Показване на името, след което влачете появилото се име нагоре/надолу.
-[Hold [Shift] to inverse [Right Click] behavior]
+[Hold [Shift] to inverse [Right Click] behavior.]
 "Shift"+"Десен бутон" = Главно меню
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
-"Ctrl"+"Ляв бутон" филтрира протоkола. За отмяна натиснете в/у празно място
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
+"Ctrl"+"Ляв бутон" филтрира протоkола. За отмяна натиснете в/у празно място.
 [Set options per account]
 Отделни настройки на акаунтите
 [Enable custom account settings]
@@ -216,11 +216,11 @@
 Десен бутон = меню на състоянието
 [Right click opens Miranda menu]
 Десен бутон отваря главното меню
-[Space on Left]
+[Space on left]
 Отстъп отляво
 [Space on right]
 Отстъп отдясно
-[Delete Contact]
+[Delete contact]
 Изтриване на контакта
 [No]
 Не
@@ -260,7 +260,7 @@
 Частично маркиране
 [No selection]
 Без маркиране
-[Selection Mode]
+[Selection mode]
 Режим на маркиране
 [Bring to front if covered]
 Извеждане отпред, ако е покрит
@@ -278,7 +278,7 @@
 Без ръчно оразмеряване
 [Drag to]
 При влачене
-[Easy Scroll]
+[Easy scroll]
 Лесно придвижване
 [Easy move]
 Лесно местене
@@ -302,7 +302,7 @@ x100 ms
 Изключено
 [Show automaticaly]
 Автоматично показване
-[Always Visible]
+[Always visible]
 Винаги видима
 [Dock to sides]
 Загнездване отстрани
@@ -324,7 +324,7 @@ x100 ms
 Полупрозрачност на отличения текст
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 Скриване като извън линия:
 [Groups]
 Групи
@@ -372,17 +372,17 @@ ms между две мигания
 Режим на иконата в трея
 [Use xStatus icon]
 Ползване на икона за хСъстояние
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right).]
 Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Ползване на метаикони за метаконтактите
-[Expand metacontacts]
+[Expand MetaContacts]
 Разгръщане на метаконтактите
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Без разгръщане при двукратно натискане
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Без "Допълнителни икони" за подконтактите
-[Hide offline subcontacts.]
+[Hide offline subcontacts]
 Скриване на подконтактите, които са "Извън линия"
 [MetaContacts stuff]
 MetaContacts - настройки
@@ -434,13 +434,13 @@ MetaContacts - настройки
 
 [Gaps]
 Пролуки
-[Use Non-Layered mode]
+[Use non-layered mode]
 Режим без слоеве
 [Round corners]
 Закръглени ъгли
 [Non-layered mode]
 Режим без слоеве
-[Disable Skin Engine]
+[Disable skin engine]
 Изключване на машината за облици
 [Enable Aero Glass (Vista+)]
 
@@ -502,7 +502,7 @@ MetaContacts - настройки
 Икона допълнителното състояние вместо тази на протокола
 [Draw normal status as overlay]
 Състоянието като насложена икона
-[Right-To-Left reading mode (mirror template)]
+[Right-to-left reading mode (mirror template)]
 Режим на четене отдясно наляво (огледален шаблон)
 [Replace smileys in contact list]
 Замяна на усмивките в списъка с контакти
@@ -530,7 +530,7 @@ MetaContacts - настройки
 Състояние
 [Nickname]
 Прякор
-[Status Message]
+[Status message]
 Текст за състояние
 [Listening to]
 Слуша..
@@ -620,9 +620,9 @@ MetaContacts - настройки
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На телефона\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
 [Tray]
 Трей
@@ -630,36 +630,36 @@ MetaContacts - настройки
 Показване/Скриване
 [Nowhere]
 Никъде
-[&New Group]
+[&New group]
 Нова група
-[&Hide Offline Users]
+[&Hide offline users]
 Скриване на контактите "Извън линия"
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скриване на контактите "Извън линия" тук
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скриване на празните групи
-[Disable &Groups]
+[Disable &groups]
 Без групи
 [Hide Miranda]
 Скриване на Miranda
-[&New Subgroup]
+[&New subgroup]
 Нова подгрупа
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скриване на контактите "Извън линия" тук
-[&Show Offline Users in here]
+[&Show offline users in here]
 Показване на контактите "Извън линия" тук
-[&Rename Group]
+[&Rename group]
 Преименуване на групата
-[&Delete Group]
+[&Delete group]
 Изтриване на групата
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Облици
 [Modern contact list]
 Modern contact list
-[Avatar Overlay]
+[Avatar overlay]
 Насложени над аватара икони
-[Status Overlay]
+[Status overlay]
 Насложени над състоянието икони
 [Contact list smileys]
 Усмивки в списъка с контакти
@@ -790,7 +790,7 @@ Modern contact list
 Име (използват се местните настройки)
 [Last message time]
 Час на посл. съобщение
-[Account Name]
+[Account name]
 Име на акаунта
 [Rate]
 Оценка
@@ -815,7 +815,7 @@ Modern contact list
 Няма събития
 [Event area background]
 
-[Event Area]
+[Event area]
 Зона за събития
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
@@ -828,13 +828,13 @@ Modern contact list
 Средна
 [High]
 Висока
-[Contact rate None]
+[Contact rate none]
 Оценка на контакта - няма
-[Contact rate Low]
+[Contact rate low]
 Оценка на контакта - ниска
-[Contact rate Medium]
+[Contact rate medium]
 Оценка на контакта - средна
-[Contact rate High]
+[Contact rate high]
 Оценка на контакта - висока
 [Show even if offline]
 Показване и когато е извън линия
@@ -859,17 +859,13 @@ Modern contact list
 Ред
 [Row design]
 
-[Second Line]
-Втори ред
-[Third Line]
-Трети ред
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
 Главно меню
@@ -878,10 +874,12 @@ Modern contact list
 [&About]
 Относно
 ;file \plugins\Clist_modern\src\modern_clui.cpp
-[Show Contact &Avatar]
+[Show contact &avatar]
 Показване на аватара
-[Hide Contact &Avatar]
+[Hide contact &avatar]
 Скриване на аватара
+[My contacts]
+Моите контакти
 [My Contacts]
 Моите контакти
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
@@ -917,13 +915,13 @@ Modern contact list
 
 [Fragment (draw portion of image)]
 
-[Stretch Both directions]
+[Stretch both directions]
 
-[Stretch Vertical, Tile Horizontal]
+[Stretch vertical, tile horizontal]
 
-[Tile Vertical, Stretch Horizontal]
+[Tile vertical, stretch horizontal]
 
-[Tile Both directions]
+[Tile both directions]
 
 [Image size is]
 Размера на изображението е
@@ -981,6 +979,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Централно
 [Right]
 Дясно
+[Bottom]
+
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Главно меню
@@ -1002,8 +1002,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Ползване на групи / Без групи
 [Use groups]
 Ползване на групи
-[Disable Groups]
-Без групи
 [Enable/Disable sounds]
 Включване/Изключване на звука
 [Enable sounds]
@@ -1049,13 +1047,11 @@ Angeli-Ka (изображения), FYR (шаблон)
 Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
 [Delete a view mode]
 Изтриване на режим за преглед
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Вече съществува режим за преглед с въведеното име
 [Duplicate name]
 Повтарящо се име
-[All Contacts]
-Всички контакти
-[Setup View Modes...]
+[Setup view modes...]
 Настройване на режимите за преглед...
 [Select a view mode]
 Изберете режим за преглед
@@ -1065,9 +1061,9 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изчистване на режима за преглед и връщане към стандартния
 [Reset view mode]
 Анулиране на режима за преглед
-[View Mode Background]
+[View mode background]
 
-[View Modes]
+[View modes]
 Режими за преглед
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
@@ -1078,7 +1074,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Заключена
 [&Expanded]
 Разгърнато
-[&Floating Mode]
+[&Floating mode]
 Плаващ режим
 [&Border]
 Рамка
@@ -1096,7 +1092,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Нагоре
 [&Down]
 Надолу
-[Show All Frames]
+[Show all frames]
 Показване на всички рамки
 [Show all title bars]
 Показване на всички заглавни ленти
@@ -1112,5 +1108,3 @@ Angeli-Ka (изображения), FYR (шаблон)
 Меню на групите
 [Subgroup menu]
 Меню на подгрупите
-[&New SubGroup]
-Нова подгрупа

@@ -48,7 +48,7 @@ Sprachanruf durchführen
 Datei senden
 [Send URL]
 URL senden
-[Open userinfo]
+[Open user info]
 Benutzerprofil öffnen
 [Open history]
 Verlauf öffnen

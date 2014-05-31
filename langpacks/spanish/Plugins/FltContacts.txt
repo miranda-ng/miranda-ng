@@ -20,7 +20,7 @@ Usar anchura fija
 píxeles
 [Hide all contacts]
 Ocultar todos los contactos
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 Ocultar cuando una aplicación está activa en patalla completa
 [Show tooltips*]
 Mostrar sugerencias*

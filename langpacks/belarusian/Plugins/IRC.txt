@@ -242,7 +242,7 @@ Wildcard пошук па сетцы
 Актываваць (*)
 [Ignore channel messages by default]
 Ігнараваць паведамленні чата па змаўчанні
-[Ignore filetransfer requests]
+[Ignore file transfer requests]
 Ігнараваць перадачы файлаў
 [Ignore DCC Chat requests]
 Ігнараваць запыты DCC чатаў
@@ -384,7 +384,7 @@ CTCP %s запыт пасланы для %s
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 Не атрымалася далучыцца да
-[DCC ERROR: Unable to bind local port for passive filetransfer]
+[DCC ERROR: Unable to bind local port for passive file transfer]
 Памылка DCC: Немагчыма адкрыць лакальны порт для пасіўнай перадачы файлаў
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]

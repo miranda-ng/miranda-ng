@@ -48,7 +48,7 @@
 Перадаць файл
 [Send URL]
 Адправіць спасылку
-[Open userinfo]
+[Open user info]
 Інфармацыя
 [Open history]
 Гісторыя

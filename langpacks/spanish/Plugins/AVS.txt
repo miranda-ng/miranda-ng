@@ -14,7 +14,7 @@
 
 [Delete default picture]
 
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
 
 [Try to draw avatar background transparent (for images without transparency)]
 
@@ -32,7 +32,7 @@
 
 [Try to draw own avatar background transparent (for images without transparency)]
 
-[This uses the same additional options as in "Contact Avatars" tab]
+[This uses the same additional options as in "Contact avatars" tab]
 
 [Protect the picture and prevent automatic avatars from overwriting it]
 
@@ -107,9 +107,9 @@ Avatares
 Contactos
 [Protocols]
 Protocolos
-[Contact Avatars]
+[Contact avatars]
 
-[Own Avatars]
+[Own avatars]
 
 [No avatar]
 

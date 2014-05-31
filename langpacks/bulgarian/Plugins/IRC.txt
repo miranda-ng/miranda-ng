@@ -242,7 +242,7 @@ CTCP чат заявка
 Включване*
 [Ignore channel messages by default]
 Игнорирай съобщенията за канала
-[Ignore filetransfer requests]
+[Ignore file transfer requests]
 Игнориране на заявки за прехвърляне на файлове
 [Ignore DCC Chat requests]
 Игнориране на чат заявките от DCC (директна възка клиен-склиент)
@@ -388,7 +388,7 @@ IRC предупреждение
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 
-[DCC ERROR: Unable to bind local port for passive filetransfer]
+[DCC ERROR: Unable to bind local port for passive file transfer]
 
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]

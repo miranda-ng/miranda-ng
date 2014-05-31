@@ -46,7 +46,7 @@
 Пераход Miranda NG у рэжым чакання
 [Configure]
 Наладзіць
-[Shutdown when &prozessor usage drops below:]
+[Shutdown when &processor usage drops below:]
 Выключыць, калі карыстанне працэсара падзе да:
 [(current: 0%)]
 (зараз 0%)
@@ -177,7 +177,7 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Зачыніць усе запушчаныя праграмы і завяршыць працу Windows, каб можна было адключыць сілкаванне.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Захаваць бягучы стан  Windows ў памяці і перавесці сістэму ў рэжым чакання.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
 Захаваць бягучы стан Windows на цвёрдым дыску, так што сілкаванне можна выключыць.
 [Locks the computer. To unlock the computer, you must log in.]
 Заблакаваць кампутар. Для разблакоўкі неабходна ўвайсці ў сістэму.

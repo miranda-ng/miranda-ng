@@ -70,13 +70,13 @@ ms времетраене
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact List]
+[Contact list]
 Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
 Режим на иконата в трея, когато се използват няколко протокола
-[Contact List Sorting]
+[Contact list sorting]
 Сортиране на списъка с контакти по:
 [Window]
 Прозорец
@@ -124,7 +124,7 @@ ms времетраене
 Прилепване към работния плот
 [Items]
 Елементи
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 Скриване като извън линия:
 [Groups]
 Групи
@@ -146,7 +146,7 @@ ms времетраене
 Разделител:
 [Info:]
 Информация:
-[Status Bar]
+[Status bar]
 Лента за състояние
 [Show status bar]
 Показване на лента за състояние
@@ -186,9 +186,9 @@ ms времетраене
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На телефона\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
 [Tray]
 Трей
@@ -196,27 +196,27 @@ ms времетраене
 Показване/Скриване
 [Nowhere]
 Никъде
-[&New Group]
+[&New group]
 Нова група
-[&Hide Offline Users]
+[&Hide offline users]
 Скриване на контактите "Извън линия"
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скриване на контактите "Извън линия" тук
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скриване на празните групи
-[Disable &Groups]
+[Disable &groups]
 Без групи
 [Hide Miranda]
 Скриване на Miranda
 [Group]
 Група
-[&New Subgroup]
+[&New subgroup]
 Нова подгрупа
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скриване на контактите "Извън линия" тук
-[&Rename Group]
+[&Rename group]
 Преименуване на групата
-[&Delete Group]
+[&Delete group]
 Изтриване на групата
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
@@ -247,8 +247,6 @@ ms времетраене
 Разделител: %s
 [Info: %s]
 Информация: %s
-[Contact list]
-Списък с контакти
 [List]
 Списък
 ;file \plugins\Clist_blind\src\clistopts.cpp

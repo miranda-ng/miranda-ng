@@ -60,7 +60,7 @@
 плътност:
 [Opaque popups under cursor]
 Уплътняване при посочване
-[Slide Popup]
+[Slide popup]
 Плъзгане на popup-овете
 [Effect:]
 Ефект:
@@ -86,7 +86,7 @@ ms
 Popup история
 [Desktop]
 Работен плот
-[Popup Area]
+[Popup area]
 Площ на Popup-а
 [pixel(s)]
 пиксел(а)
@@ -100,9 +100,9 @@ Popup история
 Основни
 [Enable popup actions]
 Включване на popup действията
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 Popup действията са малките бутони под текста.
-[Common Actions]
+[Common actions]
 Общи действия
 [Please choose in what cases default actions should be added:]
 Изберете кога да бъдат добавяни стандартни действия:
@@ -112,6 +112,8 @@ Popup действията са малките бутони под текста.
 Стандартни д-я само за контакти
 [Don't close popups on default actions]
 Без затваряне на popup-a след д-е
+[Size and position]
+
 [Use large icons]
 Ползване на големи икони
 [Popup actions will be displayed as:]
@@ -122,15 +124,15 @@ Popup действията са малките бутони под текста.
 Икони вляво
 [Icons aligned to the right]
 Икони вдясно
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 Действия:(натиснете "Прилагане")
-[Mouse Actions Overwrite]
+[Mouse actions overwrite]
 
-[Left Button]
+[Left button]
 Ляв бутон
-[Middle Button]
+[Middle button]
 Среден бутон
-[Right Button]
+[Right button]
 Десен бутон
 [Notifications]
 Уведомявания
@@ -148,7 +150,7 @@ Popup действията са малките бутони под текста.
 Изключване, когато общото състояние е...
 [Disable when relevant protocol's status is...]
 
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
+[Colors can be configured in\r\nCustomize > Fonts and colors]
 Цветовете се настройват от Персонализиране>\r\nШрифтове и цветове
 [More...]
 Още...
@@ -170,7 +172,7 @@ Popup действията са малките бутони под текста.
 Никога
 [Show default]
 Стандартно
-[Default Timeout]
+[Default timeout]
 Стандартно времетраене
 [Infinite popup delay]
 Безкрайна продължителност
@@ -190,7 +192,7 @@ Popup действията са малките бутони под текста.
 Позиция:
 [Layout:]
 Изглед:
-[Reorder Popups]
+[Reorder popups]
 Пренареждане на Popups
 [Disable when:]
 Без Popups, когато:
@@ -201,7 +203,7 @@ Popup действията са малките бутони под текста.
 [Debug]
 
 ;file \plugins\Popup\src\actions.cpp
-[no overwrite]
+[No overwrite]
 
 [Send message]
 Изпращане на съобщение
@@ -246,7 +248,7 @@ file \plugins\Popup\src\font.h
 Час
 [Text]
 
-[Hovered Action]
+[Hovered action]
 Посочено действие
 
 [Background]
@@ -257,7 +259,7 @@ file \plugins\Popup\src\font.h
 
 [Title underline]
 
-[Avatar Border]
+[Avatar border]
 
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
@@ -275,32 +277,22 @@ Popups са изключени
 
 [Refresh skin list]
 Обновяване на списъка с облици
-[Popup Placement]
+[Popup placement]
 Popup позиция
 [Cancel]
 Отказ
-[Popup Group]
+[Popup group]
 Popup група
-[Favorite Contact]
+[Favorite contact]
 Любим контакт
-[Show in Fullscreen]
+[Show in fullscreen]
 
-[Blocked Contact]
+[Blocked contact]
 Блокиран контакт
-[Quick Reply]
-Бърз отговор
-[Pin Popup]
-Прилепване на popup-а
-[Pinned Popup]
+[Pinned popup]
 Прилепен popup
-[Send Message]
-Изпращане на съобщение
-[Contact Menu]
-Меню на контакта
-[Add Contact Permanently]
+[Add contact permanently]
 Добавяне на контакта за постоянно
-[Dismiss Popup]
-Затваряне на Popup
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Класове
@@ -353,17 +345,17 @@ Popup група
 На телефона
 [Width]
 Ширина
-[upper left corner]
+[Upper left corner]
 горен ляв ъгъл
-[lower left corner]
+[Lower left corner]
 долен ляв ъгъл
-[lower right corner]
+[Lower right corner]
 долен десен ъгъл
-[upper right corner]
+[Upper right corner]
 горен десен ъгъл
-[horizontal]
+[Horizontal]
 хоризонтално
-[vertical]
+[Vertical]
 вертикално
 [Global Status]
 Общи състояния
@@ -371,7 +363,7 @@ Popup група
 Състояния на протоколите
 [You cannot specify a value lower than %d and higher than %d.]
 Не е възможно задаването на стойност по-малка от %d и по-голяма от %d.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 
 [Popup Plus Warning]
 Popup Plus Предупреждение

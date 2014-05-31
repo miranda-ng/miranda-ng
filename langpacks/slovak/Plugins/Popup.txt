@@ -27,14 +27,12 @@ sek
 sekúnd
 [Position:]
 Pozícia:
-[Reorder Popups]
+[Reorder popups]
 Preradiť popups
 [Send message]
 Odoslať správu
 [Cancel]
 Storno
-[Send Message]
-Odoslať správu
 [Contacts]
 Kontakty
 [Advanced]

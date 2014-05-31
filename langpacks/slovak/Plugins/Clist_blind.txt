@@ -43,7 +43,7 @@ sekund, ked su stavy rozdielne
 Zobraziť mnohonásobné ikony
 [Only when statuses differ]
 Iba pri rozdielnych stavoch
-[Contact List]
+[Contact list]
 Zoznam kontaktov
 [System tray icon]
 Ikona v oznamovacej oblasti
@@ -87,7 +87,7 @@ Jednoduchý presun
 Zobraziť nadpis
 [Items]
 Položky
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skryť nepripojených' = skryť týchto:
 [Groups]
 Skupiny
@@ -99,7 +99,7 @@ Skryť počet kontaktov v skupine ak sú všetci odpojený
 Triediť skupiny podľa abecedy
 [Quicksearch in open groups only]
 Rýchle hľadanie iba v otvorených skupinách
-[Status Bar]
+[Status bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
@@ -133,29 +133,29 @@ Nerušiť
 Prístupný k rozhovoru
 [&Invisible\tCtrl+7]
 Neviditelný
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Telefonujem
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Na obede
 [&Hide/Show]
 Skryť/Zobraziť
-[&New Group]
+[&New group]
 Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 Skryť nepripojených užívatelov
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 Skryť prázdne skupiny
-[Disable &Groups]
+[Disable &groups]
 Skryť názvy skupín
-[&New Subgroup]
+[&New subgroup]
 Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skryť nepripojených užívatelov v tejto skupine
-[&Rename Group]
+[&Rename group]
 Premenovať skupinu
-[&Delete Group]
+[&Delete group]
 Zmazať skupinu
 [Not focused]
 Neoznačené

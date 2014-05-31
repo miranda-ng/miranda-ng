@@ -34,6 +34,8 @@
 (но по веднъж на ден)
 [Every]
 Всеки
+[Silent mode]
+
 [Files source]
 Кая версия да се сваля
 [Stable version]
@@ -44,6 +46,8 @@
 Развойна версия с debug символи
 [Custom version]
 Персонализирана версия
+[You need restart your Miranda to apply installed updates]
+
 [Notifications]
 Уведомявания
 [Message boxes (*)]

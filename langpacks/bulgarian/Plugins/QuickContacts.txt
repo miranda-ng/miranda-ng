@@ -48,7 +48,7 @@
 Изпращане на файл
 [Send URL]
 
-[Open userinfo]
+[Open user info]
 
 [Open history]
 Отваря историята

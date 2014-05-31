@@ -8,8 +8,8 @@
 [Displays contacts, event notifications, protocol status.]
 Zeigt Kontakte, Ereignisse und Protokollstatus an.
 ;file \plugins\Clist_nicer\res\resource.rc
-[CList Nicer exception]
-CList-Nicer-Ausnahme
+[Clist Nicer exception]
+Clist-Nicer-Ausnahme
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
@@ -42,7 +42,7 @@ Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
 Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
-[Contact List]
+[Contact list]
 Kontaktliste
 [Hide offline users]
 Offline-Kontakte ausblenden
@@ -120,11 +120,11 @@ Minimale Zeilenhöhe:
 Gruppen-Zeilenhöhe
 [Indent groups by:]
 Gruppen einrücken:
-[Inner Row vertical padding]
+[Inner row vertical padding]
 Innerer vertikaler Zeilenabstand
 [Margins and spacing]
 Abstände und Ränder
-[Contact List Sorting]
+[Contact list sorting]
 Sortierung der Kontaktliste
 [First by]
 Zuerst nach
@@ -138,6 +138,8 @@ Ereignisse in Liste oder Gruppe\nnach oben schieben
 Offlinekontakte nicht trennen
 [Hide as offline]
 Als 'offline' verstecken
+[Tree Hide Offline]
+
 [Right align contacts]
 Kontakte rechtsbündig
 [Avatars]
@@ -178,7 +180,7 @@ Zentriert, falls möglich
 Nach Möglichkeit die Statusicons im Avatarplatz anzeigen
 [Use metacontact protocol icons instead of subcontacts]
 Metakontakticons anstelle der Icons der Unterkontakte verwenden
-[Use Overlay icons on avatars]
+[Use overlay icons on avatars]
 Überlagerungsicons über Avatare zeichnen
 [Dim idle contacts]
 Inaktive Kontakte abblenden
@@ -216,7 +218,7 @@ Maximal
 Größenanpassung nach oben
 [If window is partially covered, bring to front instead of hiding]
 Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
-[Always Hide On Taskbar]
+[Always hide on taskbar]
 Taskleiste immer verstecken
 [Client margins]
 CL-Begrenzung
@@ -254,7 +256,7 @@ Markierung immer anzeigen
 Transparente Markierung
 [Use full row for selection and hottracking]
 Volle Breite für Markierungen und Hervorhebungen
-[Double click on avatar opens userinfo]
+[Double click on avatar opens user info]
 Doppelklick auf Avatar öffnet Kontaktprofil
 [Visual]
 Ansicht
@@ -268,7 +270,9 @@ Millisekunden
 Vertikale Bildlaufleiste ausblenden
 [Gray out entire list when:]
 Liste grau färben, wenn:
-[Contact List Background]
+[Tree Gray Out]
+
+[Contact list background]
 Hintergrund der Kontaktliste
 [Use Windows colors]
 Windowsfarben verwenden
@@ -292,7 +296,7 @@ Proportional strecken
 Diese Einstellungen auf den gesamten Hintergrund anwenden
 [If you enable this, the background settings will affect the entire contact list frame.]
 Diese Option wendet diese Hintergrundeinstellungen auf die ganze Kontaktliste an.
-[Status Bar]
+[Status bar]
 Statusleiste
 [Show status bar]
 Statusleiste anzeigen
@@ -430,7 +434,7 @@ Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen-> 
 Anzeigeoptionen
 [Show contact with priority]
 Kontakt hat Priorität
-[Show Avatar:]
+[Show avatar:]
 Avatar zeigen
 [Show 2nd line:]
 2. Textzeile anzeigen:
@@ -460,9 +464,9 @@ Bitte nicht st&ören\tStrg+5
 &Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Am Telefon\tStrg+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
 [Tray]
 Tray
@@ -470,37 +474,35 @@ Tray
 Zeigen/Ausblenden
 [Nowhere]
 Nirgends
-[&New Group]
+[&New group]
 &Neue Gruppe
-[&Hide Offline Users]
+[&Hide offline users]
 Offline-Kontakte &ausblenden
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 &Offline-Kontakte außerhalb ausblenden
-[Hide &Empty Groups]
+[Hide &empty groups]
 L&eere Gruppen ausblenden
-[Disable &Groups]
+[Disable &groups]
 &Gruppen deaktivieren
 [Hide Miranda]
 Miranda ausblenden
-[&New Subgroup]
+[&New subgroup]
 &Neue Untergruppe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Offlinekontakte &hier ausblenden
-[&Rename Group]
+[&Rename group]
 G&ruppe umbenennen
-[&Delete Group]
+[&Delete group]
 Gruppe löschen
-[Move marked Contacts to this Group]
+[Move marked contacts to this group]
 Markierte Kontakte in diese Gruppe verschieben
 [Appearance]
 Erscheinungsbild
-[Show Status Icons]
-Statusicons zeigen
-[Show Metacontact proto Icons]
+[Show MetaContact proto icons]
 Metakontaktprotokollicons zeigen
-[Show additional Buttons]
+[Show additional buttons]
 Zusätzliche Buttons anzeigen
-[Draw sunken Frame]
+[Draw sunken frame]
 Eingefallene Ecken benutzen
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
@@ -612,9 +614,9 @@ Unsichtbar
 Zum Essen
 [On the phone]
 Am Telefon
-[Always Left]
+[Always left]
 Immer links
-[Always Right]
+[Always right]
 Immer rechts
 [Automatic (RTL)]
 Automatisch (RTL)
@@ -638,21 +640,19 @@ Nur RTL-Text
 Falls Abstand verfügbar ist
 [When needed]
 Bei Bedarf
-[With Nickname - left]
+[With nickname - left]
 Mit Nickname links
 [Far left]
 Ganz links
 [Far right]
 Ganz rechts
-[With Nickname - right]
+[With nickname - right]
 Mit Nickname rechts
-[Contact list]
-Kontaktliste
 [List layout]
 Kontaktlistenaussehen
 [Background]
 Hintergrund
-[Contact rows]
+[Row items]
 Kontaktzeilen
 [Contacts]
 Kontakte
@@ -708,12 +708,16 @@ Kontaktfilter aufheben
 Kontaktfilter einrichten
 [Setup accounts]
 Konten
-[Event Area]
-Ereignisbereich
-[My Contacts]
+[My contacts]
 Meine Kontakte
-[%s Connecting]
+[Contact list/Default]
+
+[Contact list/Overlay icons]
+
+[%s connecting]
 %s Verbindung
+[Contact list/Connecting icons]
+
 [Menu]
 Menü
 [Open main menu]
@@ -750,11 +754,11 @@ Offline-Kontakte mit anderer Sichtbarkeit
 Frame Titel
 [Contact list local time]
 Lokale Kontaktzeit
-[Selected Text]
+[Selected text]
 Markierter Text
-[Hottrack Text]
+[Hottrack text]
 Hottracktext
-[Quicksearch Text]
+[Quicksearch text]
 Schnellsuche-Text
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
@@ -802,19 +806,19 @@ Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht wer
 Kontaktfilter löschen
 [No view mode]
 Kein Kontaktfilter
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
 Doppelter Name
-[Setup View Modes...]
+[Setup view modes...]
 Kontaktfilter einstellen
-[Clear current View Mode]
+[Clear current view mode]
 Aktuellen Kontaktfilter aufheben
 [Select a view mode]
 Kontaktfilter auswählen
 [Clear view mode and return to default display]
 Lösche Ansicht und kehre zu Ausgangsanzeige zurück
-[View Modes]
+[View modes]
 Kontaktfilter
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
@@ -827,7 +831,7 @@ Titellei&ste anzeigen
 Gesperrt
 [&Collapsed]
 Zugeklappt
-[&Floating Mode]
+[&Floating mode]
 &Frei beweglicher Modus
 [&Border]
 Rand
@@ -849,13 +853,13 @@ A&uf
 Ab
 [Frames]
 Frames
-[Show All Frames]
+[Show all frames]
 Alle Frames anzeigen
 [Show all title bars]
 Alle Titelleisten anzeigen
 [Hide all title bars]
 Alle Titelleisten verstecken
-[Lock Frame]
+[Lock frame]
 Keine Größenänderung
 [Visible]
 Sichtbar
@@ -871,7 +875,7 @@ Framemenü
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Gruppenmenü
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
 Einstellungen...
@@ -879,5 +883,3 @@ Einstellungen...
 Über die Kont&aktliste...
 [Subgroup menu]
 Untergruppenmenü
-[&New SubGroup]
-&Neue Untergruppe

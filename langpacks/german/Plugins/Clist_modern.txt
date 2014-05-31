@@ -42,9 +42,9 @@ Transparente Kontaktliste
 Deckkraft inaktiv:
 [Active opacity:]
 Deckkraft aktiv:
-[Show Avatars]
+[Show avatars]
 Avatare anzeigen
-[Animate Avatars]
+[Animate avatars]
 Avatare animieren
 [Show contact time in list]
 Kontaktzeit anzeigen
@@ -76,7 +76,7 @@ Mit Text scrollen
 Proportional strecken
 [Tile vertically according to row height]
 Titel vertikal nach Zeilenhöhe anpassen
-[Use Windows Colors]
+[Use Windows colors]
 Windowsfarben verwenden
 [Available skins]
 Verfügbare Skins
@@ -88,7 +88,7 @@ Neu scannen
 Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nBitte eines der verfügbaren Skins auswählen. \n\nOder nach Skins außerhalb der Liste suchen.
-[Skin Preview]
+[Skin preview]
 Skinvorschau
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Datenbank vor dem Übernehmen des Skins!
@@ -166,7 +166,7 @@ Kontaktfiltereinstellungen
 Kontaktfilter bearbeiten
 [Last message]
 Letzte Nachricht
-[Status Bar]
+[Status bar]
 Statusleiste
 [Show status bar]
 Statusleiste anzeigen
@@ -174,19 +174,19 @@ Statusleiste anzeigen
 Alle Spalten gleiche Breite
 [Space between]
 Abstand
-[Vertical Align]
+[Vertical align]
 Vertikale Ausr.
-[Horizontal Align]
+[Horizontal align]
 Horizontale Ausr.
 [Multiline status bar:]
 Mehrzeilige Statusleiste
 [Accounts per line]
 Konten pro Zeile
-[* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
 * Änderung der Statusleistenhöhe:\nHauptmenü->Frames->Statusl.->Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
-[Hold [Shift] to inverse [Right Click] behavior]
-Umschalt gedrückt halten, um Rechtsklick-Verhalten umzukehren
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
+[Hold [Shift] to inverse [Right Click] behavior.]
+Umschalt gedrückt halten, um Rechtsklick-Verhalten umzukehren.
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
 Strg+Linksklick filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
 [Set options per account]
 Einstellungen je Account setzen
@@ -216,11 +216,11 @@ Ungelesene E-Mails anzeigen (falls unterstützt)
 Rechtsklick öffnet Statusmenü
 [Right click opens Miranda menu]
 Rechtsklick öffnet Miranda-Hauptmenü
-[Space on Left]
+[Space on left]
 Abstand links
 [Space on right]
 Abstand rechts
-[Delete Contact]
+[Delete contact]
 Kontakt löschen
 [No]
 Nein
@@ -260,7 +260,7 @@ Ganze Zeile
 Teilweise Auswahl
 [No selection]
 Keine Auswahl
-[Selection Mode]
+[Selection mode]
 Auswahlmodus
 [Bring to front if covered]
 Nach vorne bringen, wenn verdeckt
@@ -278,7 +278,7 @@ Verhalten
 Manuelle Größenänderung deaktivieren
 [Drag to]
 Mausziehen bewirkt:
-[Easy Scroll]
+[Easy scroll]
 Einfaches Scrollen
 [Easy move]
 Einfaches Bewegen
@@ -302,7 +302,7 @@ Ereignisbenachrichtigungsfeld
 Deaktiviert
 [Show automaticaly]
 Automatisch zeigen
-[Always Visible]
+[Always visible]
 Immer sichtbar
 [Dock to sides]
 An Rand einrasten (Dock)
@@ -324,7 +324,7 @@ Markierung immer anzeigen
 Transparente Markierung
 [Dim idle contacts]
 Inaktive Kontakte abblenden
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Groups]
 Gruppen
@@ -372,17 +372,17 @@ Systemtray-Icon
 Trayicon-Modus
 [Use xStatus icon]
 XStatus-Icon verwenden
-[Ignore Empty Extra icons places (arrange to right).]
+[Ignore empty extra icons places (arrange to right).]
 Leere Extraicons ignorieren (rechts anordnen)
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Eigene Icons für Metakontakte verwenden
-[Expand metacontacts]
+[Expand MetaContacts]
 Metakontakte aufklappen
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Bei Doppelklick nicht aufklappen
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Keine Extraicons für Unterkontakte
-[Hide offline subcontacts.]
+[Hide offline subcontacts]
 Offlineunterkontakte ausblenden
 [MetaContacts stuff]
 Einstellungen für Metakontakte
@@ -434,13 +434,13 @@ Zwischen Frames:
 Nach Titelzeilen:
 [Gaps]
 Abstände
-[Use Non-Layered mode]
+[Use non-layered mode]
 Layerengine deaktivieren
 [Round corners]
 Runde Ecken
 [Non-layered mode]
 Nichtlayermodus
-[Disable Skin Engine]
+[Disable skin engine]
 Skinengine deaktivieren
 [Enable Aero Glass (Vista+)]
 Aero Glass aktivieren (ab Windows Vista)
@@ -502,7 +502,7 @@ Dauerhaftes "Immer-sichtbar"-Icon
 Nutze extra Statusicon anstatt Protokoll
 [Draw normal status as overlay]
 Normalen Status als Overlay
-[Right-To-Left reading mode (mirror template)]
+[Right-to-left reading mode (mirror template)]
 Rechts-nach-Links-Lesemodus
 [Replace smileys in contact list]
 Textsmileys durch Grafik ersetzen
@@ -530,7 +530,7 @@ Text:
 Status
 [Nickname]
 Nick
-[Status Message]
+[Status message]
 Statusnachricht
 [Listening to]
 Höre gerade
@@ -622,9 +622,9 @@ Bitte nicht st&ören\tStrg+5
 &Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Am Telefon\tStrg+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
 [Tray]
 Tray
@@ -632,36 +632,36 @@ Tray
 Zeigen/&Ausblenden
 [Nowhere]
 Nirgends
-[&New Group]
+[&New group]
 &Neue Gruppe
-[&Hide Offline Users]
+[&Hide offline users]
 Offline-Kontakte &ausblenden
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 &Offline-Kontakte außerhalb ausblenden
-[Hide &Empty Groups]
+[Hide &empty groups]
 L&eere Gruppen ausblenden
-[Disable &Groups]
+[Disable &groups]
 &Gruppen deaktivieren
 [Hide Miranda]
 Miranda ausblenden
-[&New Subgroup]
+[&New subgroup]
 &Neue Untergruppe
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Offline-Kontakte &hier ausblenden
-[&Show Offline Users in here]
+[&Show offline users in here]
 Offline-Kontakte hier an&zeigen
-[&Rename Group]
+[&Rename group]
 G&ruppe umbenennen
-[&Delete Group]
+[&Delete group]
 Gruppe &löschen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Skins
 [Modern contact list]
 Modern contact list
-[Avatar Overlay]
+[Avatar overlay]
 Avatar-Overlay
-[Status Overlay]
+[Status overlay]
 Status-Overlay
 [Contact list smileys]
 Smileys in Kontaktliste
@@ -794,7 +794,7 @@ Name
 Name (lokale Spracheinstellungen)
 [Last message time]
 Zeitpunkt der letzten Nachricht
-[Account Name]
+[Account name]
 Kontoname
 [Rate]
 Priorität
@@ -819,7 +819,7 @@ Fenster
 Keine Ereignisse
 [Event area background]
 Ereignisbereich Hintergrund
-[Event Area]
+[Event area]
 Ereignisbereich
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
@@ -832,13 +832,13 @@ Gering
 Mittel
 [High]
 Hoch
-[Contact rate None]
+[Contact rate none]
 Kontaktpriorität: Keine
-[Contact rate Low]
+[Contact rate low]
 Kontaktpriorität: Gering
-[Contact rate Medium]
+[Contact rate medium]
 Kontaktpriorität: Mittel
-[Contact rate High]
+[Contact rate high]
 Kontaktpriorität: Hoch
 [Show even if offline]
 Zeige Kontakt auch, wenn offline
@@ -863,27 +863,25 @@ Gruppennamen rechts anordnen
 Zeile
 [Row design]
 Zeilengestaltung
-[Second Line]
-Zweite Zeile
-[Third Line]
-Dritte Zeile
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 Traymenü
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
 &Einstellungen...
 [&About]
 &Über
 ;file \plugins\Clist_modern\src\modern_clui.cpp
-[Show Contact &Avatar]
+[Show contact &avatar]
 Kontakt&avatar anzeigen
-[Hide Contact &Avatar]
+[Hide contact &avatar]
 Kontakt&avatar verstecken
+[My contacts]
+Meine Kontakte
 [My Contacts]
 Meine Kontakte
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
@@ -919,13 +917,13 @@ Objekt mit Farbe füllen
 Bild (Bild zeichnen)
 [Fragment (draw portion of image)]
 Fragment (Teil des Bildes zeichnen)
-[Stretch Both directions]
+[Stretch both directions]
 Beide Richtungen strecken
-[Stretch Vertical, Tile Horizontal]
+[Stretch vertical, tile horizontal]
 Vertikal strecken, horizontal kacheln
-[Tile Vertical, Stretch Horizontal]
+[Tile vertical, stretch horizontal]
 Vertikal kacheln, horizontal strecken
-[Tile Both directions]
+[Tile both directions]
 Beide Richtungen kacheln
 [Image size is]
 Bildgröße ist
@@ -983,6 +981,8 @@ Standardskin
 Mitte
 [Right]
 Rechts
+[Bottom]
+
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Hauptmenü
@@ -1004,8 +1004,6 @@ Benutzer finden
 Gruppen verwenden/deaktivieren
 [Use groups]
 Gruppen verwenden
-[Disable Groups]
-Gruppen deaktivieren
 [Enable/Disable sounds]
 Klänge aktivieren/deaktivieren
 [Enable sounds]
@@ -1051,13 +1049,11 @@ Kontaktfilter einrichten
 Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
 [Delete a view mode]
 Kontaktfilter löschen
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
 Doppelter Name
-[All Contacts]
-Alle Kontakte
-[Setup View Modes...]
+[Setup view modes...]
 Kontaktfilter einstellen
 [Select a view mode]
 Kontaktfilter auswählen
@@ -1067,9 +1063,9 @@ Kontaktfilter einstellen
 Lösche Ansicht und kehre zu Ausgangsanzeige zurück
 [Reset view mode]
 Kontaktfilter aufheben
-[View Mode Background]
+[View mode background]
 Kontaktfilter Hintergrund
-[View Modes]
+[View modes]
 Kontaktfilter
 ;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
@@ -1080,7 +1076,7 @@ Titel anzeigen
 &Gesperrt
 [&Expanded]
 &Ausgeklappt
-[&Floating Mode]
+[&Floating mode]
 &Frei beweglicher Modus
 [&Border]
 &Rand
@@ -1098,7 +1094,7 @@ Mitte, &Kontakte
 A&uf
 [&Down]
 &Ab
-[Show All Frames]
+[Show all frames]
 Alle Frames anzeigen
 [Show all title bars]
 Alle Titelleisten anzeigen
@@ -1114,5 +1110,3 @@ Framemenü
 Gruppenmenü
 [Subgroup menu]
 Untergruppenmenü
-[&New SubGroup]
-&Neue Untergruppe

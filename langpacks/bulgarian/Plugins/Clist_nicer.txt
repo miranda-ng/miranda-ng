@@ -8,7 +8,7 @@
 [Displays contacts, event notifications, protocol status.]
 Изобразява контакти, уведомявания за събития, състояние на протоколите.
 ;file \plugins\Clist_nicer\res\resource.rc
-[CList Nicer exception]
+[Clist Nicer exception]
 
 [Copy to clipboard]
 Копиране в клипборда
@@ -42,7 +42,7 @@ Clist Nicer+
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
-[Contact List]
+[Contact list]
 Списък с контакти
 [Hide offline users]
 Скриване на контактите "Извън линия"
@@ -120,11 +120,11 @@ ms
 Височина на реда на групите
 [Indent groups by:]
 Отстъп на групите:
-[Inner Row vertical padding]
+[Inner row vertical padding]
 
 [Margins and spacing]
 Ръбове и разстояние
-[Contact List Sorting]
+[Contact list sorting]
 Сортиране на списъка с контакти по:
 [First by]
 Първо по
@@ -137,6 +137,8 @@ ms
 [Do not separate offline contacts]
 Без отделяне на контактите "Извън линия"
 [Hide as offline]
+
+[Tree Hide Offline]
 
 [Right align contacts]
 Подреждане на контактите отдясно
@@ -178,7 +180,7 @@ ms
 Насложено състояние върху аватара, ако е възможно
 [Use metacontact protocol icons instead of subcontacts]
 Замяна иконите на подконтакти с тези на метапротокола
-[Use Overlay icons on avatars]
+[Use overlay icons on avatars]
 Наслагване на икони върху аватара
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
@@ -216,7 +218,7 @@ ms
 Оразмеряване нагоре
 [If window is partially covered, bring to front instead of hiding]
 Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
-[Always Hide On Taskbar]
+[Always hide on taskbar]
 Скриване от лентата със задачи
 [Client margins]
 
@@ -254,7 +256,7 @@ ms
 Полупрозрачност на отличения текст
 [Use full row for selection and hottracking]
 Цялостно маркиране на ред и изтъкване
-[Double click on avatar opens userinfo]
+[Double click on avatar opens user info]
 Двукратно натискане върху аватар отваря подробностите за потребителя
 [Visual]
 Визуално
@@ -268,7 +270,9 @@ ms
 Без вертикална лента за придвижване
 [Gray out entire list when:]
 Посивяване на списъка с контакти, при състояние:
-[Contact List Background]
+[Tree Gray Out]
+
+[Contact list background]
 Фон на списъка с контакти
 [Use Windows colors]
 Цветове от Windows
@@ -292,7 +296,7 @@ ms
 Ползване на настройките за целия фон
 [If you enable this, the background settings will affect the entire contact list frame.]
 Ако включите опцията, ще бъдат засегнати настройките за фон и цялата рамка на списъка с контакти.
-[Status Bar]
+[Status bar]
 Лента за състояние
 [Show status bar]
 Показване на лента за състояние
@@ -430,7 +434,7 @@ URL събития
 Настройки за изобразяване
 [Show contact with priority]
 Показвай контакта с предимство
-[Show Avatar:]
+[Show avatar:]
 Показване на аватар:
 [Show 2nd line:]
 Показване на 2ри ред:
@@ -458,9 +462,9 @@ URL събития
 Готов за чат\tCtrl+6
 [&Invisible\tCtrl+7]
 Невидим\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 На телефона\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
 [Tray]
 Трей
@@ -468,37 +472,35 @@ URL събития
 Показване/Скриване
 [Nowhere]
 Никъде
-[&New Group]
+[&New group]
 Нова група
-[&Hide Offline Users]
+[&Hide offline users]
 Скриване на контактите "Извън линия"
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Скриване на контактите "Извън линия" тук
-[Hide &Empty Groups]
+[Hide &empty groups]
 Скриване на празните групи
-[Disable &Groups]
+[Disable &groups]
 Без групи
 [Hide Miranda]
 Скриване на Miranda
-[&New Subgroup]
+[&New subgroup]
 Нова подгрупа
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Скриване на контактите "Извън линия" тук
-[&Rename Group]
+[&Rename group]
 Преименуване на групата
-[&Delete Group]
+[&Delete group]
 Изтриване на групата
-[Move marked Contacts to this Group]
+[Move marked contacts to this group]
 Преместване на маркираните контакти в групата
 [Appearance]
 Външен вид
-[Show Status Icons]
-Показване на икони за състояние
-[Show Metacontact proto Icons]
+[Show MetaContact proto icons]
 
-[Show additional Buttons]
+[Show additional buttons]
 Показване на допълнителни бутони
-[Draw sunken Frame]
+[Draw sunken frame]
 Вградена рамка
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
@@ -610,9 +612,9 @@ URL събития
 На обяд
 [On the phone]
 На телефона
-[Always Left]
+[Always left]
 Винаги отляво
-[Always Right]
+[Always right]
 Винаги отдясно
 [Automatic (RTL)]
 Автоматично Л<Д
@@ -636,21 +638,19 @@ URL събития
 Когато мястото позволява
 [When needed]
 Ако е необходимо
-[With Nickname - left]
+[With nickname - left]
 С прякора вляво
 [Far left]
 Далеч вляво
 [Far right]
 Далеч вдясно
-[With Nickname - right]
+[With nickname - right]
 С прякора вдясно
-[Contact list]
-Списък с контакти
 [List layout]
 Изглед на списъка
 [Background]
 Фон
-[Contact rows]
+[Row items]
 Редове на контакти
 [Contacts]
 Контакти
@@ -706,12 +706,16 @@ URL събития
 Настройване на режимите за преглед
 [Setup accounts]
 Настройване на акаунтите
-[Event Area]
-Зона за събития
-[My Contacts]
+[My contacts]
 Моите контакти
-[%s Connecting]
+[Contact list/Default]
+
+[Contact list/Overlay icons]
+
+[%s connecting]
 %s свързване
+[Contact list/Connecting icons]
+
 [Menu]
 Меню
 [Open main menu]
@@ -748,11 +752,11 @@ URL събития
 Заглавие на рамките
 [Contact list local time]
 Местно време в списъка с контакти
-[Selected Text]
+[Selected text]
 Маркиран текст
-[Hottrack Text]
+[Hottrack text]
 Посочен текст
-[Quicksearch Text]
+[Quicksearch text]
 Бързо търсен текст
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
@@ -800,19 +804,19 @@ URL събития
 Изтриване на режим за преглед
 [No view mode]
 Няма зададен режим за преглед
-[A view mode with this name does alredy exist]
+[A view mode with this name does already exist]
 Вече съществува режим за преглед с въведеното име
 [Duplicate name]
 Повтарящо се име
-[Setup View Modes...]
+[Setup view modes...]
 Настройване на режимите за преглед...
-[Clear current View Mode]
+[Clear current view mode]
 Изчистване на текущия режим за преглед
 [Select a view mode]
 Изберете режим за преглед
 [Clear view mode and return to default display]
 Изчистване на режима за преглед и връщане към стандартния
-[View Modes]
+[View modes]
 Режими за преглед
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
@@ -825,7 +829,7 @@ URL събития
 Заключена
 [&Collapsed]
 Сгъната
-[&Floating Mode]
+[&Floating mode]
 Плаващ режим
 [&Border]
 Рамка
@@ -847,13 +851,13 @@ URL събития
 Надолу
 [Frames]
 Рамки
-[Show All Frames]
+[Show all frames]
 Показване на всички рамки
 [Show all title bars]
 Показване на всички заглавни ленти
 [Hide all title bars]
 Скриване на всички заглавни ленти
-[Lock Frame]
+[Lock frame]
 Заключване на рамката
 [Visible]
 Видима
@@ -869,7 +873,7 @@ URL събития
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
 Главно меню
@@ -879,5 +883,3 @@ URL събития
 Относно списъка с контакти...
 [Subgroup menu]
 
-[&New SubGroup]
-Нова подгрупа

@@ -13,7 +13,7 @@ Zmazať kontakt
 Nie
 [Yes]
 Áno
-[Contact List]
+[Contact list]
 Zoznam kontaktov
 [Hide offline users]
 Skryť nepripojených užívateľov
@@ -103,7 +103,7 @@ Plynule posúvať zoznam
 milisekúnd
 [Gray out entire list when:]
 Potlačiť intenzitu u týchto položiek:
-[Contact List Background]
+[Contact list background]
 Pozadie zoznamu kontaktov
 [Background color]
 Farba pozadia
@@ -119,7 +119,7 @@ Nad sebou
 Posúvať s textom
 [Stretch proportionally]
 Roztiahnúť veľkosť
-[Status Bar]
+[Status bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
@@ -165,29 +165,29 @@ Nerušiť
 Prístupný k rozhovoru
 [&Invisible\tCtrl+7]
 Neviditelný
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Telefonujem
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Na obede
 [&Hide/Show]
 Skryť/Zobraziť
-[&New Group]
+[&New group]
 Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 Skryť nepripojených užívatelov
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 Skryť prázdne skupiny
-[Disable &Groups]
+[Disable &groups]
 Skryť názvy skupín
-[&New Subgroup]
+[&New subgroup]
 Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skryť nepripojených užívatelov v tejto skupine
-[&Rename Group]
+[&Rename group]
 Premenovať skupinu
-[&Delete Group]
+[&Delete group]
 Zmazať skupinu
 [Text color]
 Fraba textu
@@ -223,8 +223,6 @@ Meno
 Stav
 [Never]
 nikdy
-[Contact list]
-Zoznam kontaktov
 [Background]
 Pozadie
 [Contacts]
@@ -247,9 +245,7 @@ Počet členov skupiny
 Oddelovače
 [Offline contacts to whom you have a different visibility]
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
 Nastavenia...
-[&New SubGroup]
-Nová podskupina
