@@ -869,39 +869,39 @@ Tipo
 
 [FAQ Entry]
 
-[Whether to Allow Occupants to Invite Others]
+[Whether to allow occupants to invite others]
 
-[Whether to Allow Occupants to Change Subject]
+[Whether to allow occupants to change subject]
 
-[Whether to Enable Logging of Room Conversations]
+[Whether to enable logging of room conversations]
 
-[Natural Language for Room Discussions]
+[Natural language for room discussions]
 
-[Maximum Number of Room Occupants]
+[Maximum number of room occupants]
 
-[Whether an Make Room Members-Only]
+[Whether to make room members-only]
 
-[Whether to Make Room Moderated]
+[Whether to make room moderated]
 
-[Whether a Password is Required to Enter]
+[Whether a password is required to enter]
 
-[Whether to Make Room Persistent]
+[Whether to make room persistent]
 
-[Roles for which Presence is Broadcast]
+[Roles for which presence is broadcast]
 
-[Whether to Allow Public Searching for Room]
+[Whether to allow public searching for room]
 
-[Full List of Room Admins]
+[Full list of room admins]
 
-[Short Description of Room]
+[Short description of room]
 
-[Natural-Language Room Name]
+[Natural-language room name]
 
-[Full List of Room Owners]
+[Full list of room owners]
 
-[The Room Password]
+[The room password]
 
-[Affiliations that May Discover Real JIDs of Occupants]
+[Affiliations that may discover real JIDs of occupants]
 
 [Precondition: node configuration with the specified access model]
 

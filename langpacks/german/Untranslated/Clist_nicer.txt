@@ -1,5 +1,5 @@
 ﻿[Tree Hide Offline]
 [Tree Gray Out]
-[Contact list/Default]
-[Contact list/Overlay icons]
-[Contact list/Connecting icons]
+[Default]
+[Overlay icons]
+[Connecting icons]

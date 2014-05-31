@@ -1,4 +1,5 @@
-﻿[System tray icon mode]
+﻿[Skin folder]
+[System tray icon mode]
 [Use xStatus icon]
 [Ignore empty extra icons places (arrange to right).]
 [Use 'Meta' protocol icons for MetaContacts]

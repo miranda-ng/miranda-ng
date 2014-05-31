@@ -708,13 +708,13 @@ URL събития
 Настройване на акаунтите
 [My contacts]
 Моите контакти
-[Contact list/Default]
+[Default]
 
-[Contact list/Overlay icons]
+[Overlay icons]
 
 [%s connecting]
 %s свързване
-[Contact list/Connecting icons]
+[Connecting icons]
 
 [Menu]
 Меню

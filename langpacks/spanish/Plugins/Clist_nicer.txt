@@ -710,13 +710,13 @@ Configurar modos de vista
 
 [My contacts]
 
-[Contact list/Default]
+[Default]
 
-[Contact list/Overlay icons]
+[Overlay icons]
 
 [%s connecting]
 
-[Contact list/Connecting icons]
+[Connecting icons]
 
 [Menu]
 

@@ -94,6 +94,8 @@ Skinvorschau
 WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Datenbank vor dem Übernehmen des Skins!
 [* Restart may be required for all changes to take effect]
 * Evtl. Neustart erforderlich um alle Änderungen zu übernehmen
+[Skin folder]
+
 [Available objects]
 Verfügbare Objekte
 [Copy]

@@ -94,6 +94,8 @@ Vista previa de la piel
 ADVERTENCIA: \tLas pieles pueden modificar su perfil actual. Rollback no es posible. \n\t\tPor favor RESPALDE su base de datos antes de aplicar la piel.
 [* Restart may be required for all changes to take effect]
 Reiniciar puede ser necesario para que todos los cambios surtan efecto
+[Skin folder]
+
 [Available objects]
 Objetos disponibles
 [Copy]

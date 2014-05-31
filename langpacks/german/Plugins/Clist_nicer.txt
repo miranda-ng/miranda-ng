@@ -710,13 +710,13 @@ Kontaktfilter einrichten
 Konten
 [My contacts]
 Meine Kontakte
-[Contact list/Default]
+[Default]
 
-[Contact list/Overlay icons]
+[Overlay icons]
 
 [%s connecting]
 %s Verbindung
-[Contact list/Connecting icons]
+[Connecting icons]
 
 [Menu]
 Menü
