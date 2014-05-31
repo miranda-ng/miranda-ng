@@ -240,9 +240,9 @@
 [int hMenu handle]
 целочисленный хендл hMenu
 [Show All Users]
-Показывать всех пользователей
+Показывает всех пользователей
 [Show only Online Users]
-Скрыть отключённых
+Скрывает отключённых
 [Change 'hide offline contacts' option value]
 Меняет значение настройки "Скрыть отключённых"
 [Set global status]
@@ -267,6 +267,12 @@
 Показывает окно для установки/изменения пароля профиля
 [int 0]
 целочисленный 0
+[Show "About..." window]
+Показывает окно "О программе"
+[Open bug report page]
+Открывает страницу для создания сообщения об ошибке
+[Open support (originaly - Miranda wiki) page]
+Открывает страницу поддержки (вики)
 [System]
 Система
 [All protocols]

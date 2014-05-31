@@ -97,12 +97,20 @@
 Удалить из списка
 [Delete from FTP]
 Удалить с FTP
+[Enter file name]
+Введите имя файла
 [Cancel]
 Отмена
+[File exists]
+Файл существует
 [Rename]
 Переименовать
 [Overwrite]
 Перезаписать
+[File with the same name already exists on the server.]
+На сервере уже существует файл с таким именем.
+[Copy URL]
+Копировать ссылку
 [Close dialog after upload finishes]
 Закрыть окно после окончания загрузки
 [Automatically delete file after...]
@@ -165,6 +173,12 @@ FTP файл менеджер
 Все файлы (*.*)
 [FTP File - Select files]
 Файл на FTP - Выбор файла
+[FTP File - Select a folder]
+Файл на FTP - Выбор папки
+[Folder not found!]
+Папка не найдена!
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+Выбранная папка не содержит файлов.\nРабота возможна лишь с файлами, находящимися в выбранной папке, а не во вложенных.
 [CANCELED]
 Отмена
 [COMPLETED]

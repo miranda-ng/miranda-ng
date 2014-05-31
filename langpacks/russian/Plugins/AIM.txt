@@ -147,6 +147,12 @@ E-mail
 Неправильное имя AIM или пароль.
 [Unknown error occurred when attempting to connect.]
 Неизвестная ошибка при соединении.
+[Check your Screen Name.]
+Проверьте свой псевдоним.
+[Check your Password.]
+Проверьте свой пароль.
+[Check your Email Address.]
+Проверьте свой адрес электронной почты.
 [Service temporarily unavailable.]
 Сервис временно недоступен.
 [An Error has occurred.]

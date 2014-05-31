@@ -393,10 +393,36 @@ Dat (плагин mContacts)
 Путь к файлу
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 Для создания сессии, откройте WinSCP, нажмите "Новая сессия", введите дату и сохраните под определённым именем. Помните, если FTP сервер использует пароль, то вы должны сохранить его в WinSCP.
+[Path to file]
+Путь к файлу
 [FTP path must contain '/' instead '\\' and start with '/'.]
 FTP путь должен содержать '/' вместо '\\' и начинаться с '/'.
 [Unknown error]
 Неизвестная ошибка
+[FTP path cannot contain <date> in import task.]
+FTP путь не должен содержать <date> в имени задачи для импорта.
+[Cannot get FTP file(s).]
+Не удаётся получить файл(ы) с FTP.
+[Cannot unzip file(s).]
+Не удаётся распаковать файл(ы).
+[Incorrect file format: %s.]
+Неправильный формат файла: %s.
+[Unknown contact in file: %s.]
+Неизвестный контакт в файле: %s.
+[Cannot export history for contact: %s.]
+Не удаётся экспортировать историю контакта: %s.
+[Cannot compress file(s).]
+Не удаётся сжать файл(ы).
+[Cannot send FTP file(s).]
+Не удаётся загрузить файл(ы) на FTP.
+[Task finished]
+Задача завершена
+[Task '%s' execution failed]
+Выполнение задачи '%s' прервано из-за ошибки
+[Task '%s' finished successfully]
+Задача '%s' завершена успешно
+[Task '%s' execution failed:]
+Выполнение задачи '%s' прервано из-за ошибки:
 ["%s" not found]
 "%s" не найдено
 [Search]
