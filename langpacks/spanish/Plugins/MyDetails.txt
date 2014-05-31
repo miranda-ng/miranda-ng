@@ -8,7 +8,7 @@
 [Shows and allows you to edit your details for all protocols.]
 
 ;file \plugins\MyDetails\res\resource.rc
-[Set My Nickname]
+[Set my nickname]
 
 [Nickname:]
 Apodo:
@@ -16,33 +16,39 @@ Apodo:
 Cancelar
 [General]
 General
-[...avatar]
 
 [RTL]
 
 [Align text to right]
 
-[...nickname]
-
 [Auto-resize frame]
 
 [Use contact list smileys]
 
+[Replace smileys]
+
+[Resize smileys]
+
+[Global on...]
+
+[...avatar]
+
+[...nickname]
+
 [...status]
-
-[Replace Smileys]
-
-[Resize Smileys]
 
 [...status message]
 
-[Top:]
+[Account]
+Cuenta
+[Show account name]
 
-[Bottom:]
+[Show account cycle button]
 
-[Left:]
+[Cycle through accounts every:]
 
-[Right:]
+[seconds]
+segundos
 
 [Avatar]
 
@@ -60,23 +66,19 @@ píxeles
 
 [Use free space (under avatar) to other texts]
 
-[Global On...]
+[Frame options]
 
-[Frame Options]
+[Top:]
 
-[Cycle through accounts every:]
+[Bottom:]
 
-[seconds]
-segundos
-[Account]
-Cuenta
-[Show account name]
+[Left:]
 
-[Show account cycle button]
+[Right:]
 
-[Set My Status Message for All Status]
+[Set my status message for all status]
 
-[Status Message:]
+[Status message:]
 
 [&Offline]
 
@@ -94,17 +96,17 @@ Cuenta
 
 [&Invisible]
 
-[On the &Phone]
+[On the &phone]
 
-[Out to &Lunch]
+[Out to &lunch]
 
-[Set My Avatar...]
+[Set my avatar...]
 
-[Set My Nickname...]
+[Set my nickname...]
 
-[Set My Status Message...]
+[Set my status message...]
 
-[Enable Listening To]
+[Enable listening to]
 
 [Show next account]
 
@@ -122,38 +124,36 @@ Cuenta
 Apodo
 [Status]
 Estado
-[Status Message]
+[Status message]
 
-[Listening To]
+[Listening to]
 
-[My Details]
+[My details]
 
 [Background]
 Fondo
-[Avatar Border]
+[Avatar border]
 
-[Show My Details]
+[Show my details]
 
-[Enable Listening To for %s]
+[Enable listening to for %s]
 
-[Set My Avatar for %s...]
+[Set my avatar for %s...]
 
-[Set My Nickname for %s...]
+[Set my nickname for %s...]
 
-[Set My Status Message for %s...]
+[Set my Status message for %s...]
 
-[Hide My Details]
+[Hide my details]
 
 ;file \plugins\MyDetails\src\mydetails.cpp
-[Listening to]
+[Previous account]
 
-[Previous protocol]
+[Next account]
 
-[Next protocol]
+[Set my nickname for %s]
 
-[Set My Nickname for %s]
-
-[Set My Status Message for %s]
+[Set my status message for %s]
 
 [Contact list]
 Lista de contactos

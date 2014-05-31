@@ -96,44 +96,6 @@ UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest 
 * Miranda NG musi zostać zrestartowana aby zmiany przyniosły efekt
 [Skin folder]
 Folder skórek
-[Available objects]
-Dostępne obiekty
-[Copy]
-Kopiuj
-[Paste]
-Wklej
-[Object properties]
-Właściwości obiektu
-[Type]
-Typ
-[Color]
-Kolor
-[Alpha]
-Alpha
-[Image file and fitting mode]
-Plik obrazka i tryb dopasowania
-[File]
-Plik
-[Borders]
-Obramowanie
-[Fit mode]
-Tryb dopasowania
-[Fragment location]
-Lokacja fragmentu
-[Position:]
-Pozycja:
-[Left]
-Lewa
-[Top]
-Góra
-[Size:]
-Rozmiar:
-[Width]
-Szerokość
-[Height]
-Wysokość
-[W x H: 0 x 0 pixels]
-S x W: 0 x 0 px
 [Available view modes]
 Dostępne tryby widoku
 [Include protocols]
@@ -176,6 +138,8 @@ Pokaż pasek statusu
 Sekcje tej samej szerokości
 [Space between]
 Odstęp pomiędzy
+[Borders]
+Obramowanie
 [Vertical align]
 Pionowe wyrównanie
 [Horizontal align]
@@ -470,6 +434,8 @@ Tryb kompaktowy\n(Pokaż awatary i dodatkowy tekst tylko przy zaznaczonych konta
 Rysuj obramowanie awatara
 [Draw overlay icons]
 Rysuj nakładki ikon
+[Size:]
+Rozmiar:
 [Round corners of avatars]
 Zaokrąglone rogi awatarów
 [Ignore size for row height calcs]
@@ -908,35 +874,12 @@ linie
 %s, zawiera %s
 [ layered]
  skórkowane
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
-- pusty - (nie rysuj tego obiektu)
-[Solid fill object]
-Stałe wypełnienie obiektu
-[Image (draw image)]
-Obraz (rysuj obraz)
-[Fragment (draw portion of image)]
-Fragment (rysuj fragment obrazu)
-[Stretch both directions]
-Rozciągnij w obydwie strony
-[Stretch vertical, tile horizontal]
-Rozciągnij w pionie, zwęź w poziomie
-[Tile vertical, stretch horizontal]
-Zwęź w pionie, rozciągnij w poziomie
-[Tile both directions]
-Zwęź w obydwie strony
-[Image size is]
-Rozmiar obrazu to
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Potrzebujesz wtyczki do przetworzenia obrazu .PNG.
 [Error]
 Błąd
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Load/Save]
-Wczytaj/Zapisz
-[Object editor]
-Edytor obiektów
 [( unknown )]
 ( nieznany )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -953,12 +896,6 @@ Angeli-Ka (grafika), FYR (szablon)
 W bibliotece
 [Skin Information]
 Informacje o skórce
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Edytor skórek zawiera niezachowane zmiany.\n\nWszystkie zmiany zostaną utracone.\n\n Kontynuować wczytywanie skórki?
-[Warning!]
-Uwaga!
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Obecna skórka nie została zapisana do pliku.\n\nWszystkie zmiany zostaną utracone.\n\n Kontynuować wczytywanie nowej skórki?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Podgląd jest niedostępny\n\n%s\n----------------------\n\n%s\n\nAutor(zy):\n%s\n\nKontakt:\n%s\n\nStrona domowa:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -977,10 +914,14 @@ Domyślna skórka
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Globalnie>>
+[Left]
+Lewa
 [Center]
 Środek
 [Right]
 Prawa
+[Top]
+Góra
 [Bottom]
 Dół
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp

@@ -13,8 +13,6 @@ Background colour:
 Selection colour:
 [Use Windows colors]
 Use Windows colours
-[Color]
-Colour
 [Hold [Shift] to inverse [Right Click] behavior.]
 Hold [Shift] to inverse [Right Click] behaviour.
 [Behavior]

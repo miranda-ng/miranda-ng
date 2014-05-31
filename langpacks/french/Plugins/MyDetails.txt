@@ -8,7 +8,7 @@
 [Shows and allows you to edit your details for all protocols.]
 
 ;file \plugins\MyDetails\res\resource.rc
-[Set My Nickname]
+[Set my nickname]
 Changer mon pseudo
 [Nickname:]
 Pseudo :
@@ -24,11 +24,11 @@ Aligner à droite
 Cadre dynamique
 [Use contact list smileys]
 Smileys dans la CList
-[Replace Smileys]
+[Replace smileys]
 Remplacer les smileys
-[Resize Smileys]
+[Resize smileys]
 Retailler les smileys
-[Global On...]
+[Global on...]
 
 [...avatar]
 
@@ -64,7 +64,7 @@ Coins arrondis
 Personnaliser la taille des angles :
 [Use free space (under avatar) to other texts]
 Utiliser l'espace libre sous l'avatar pour d'autres textes
-[Frame Options]
+[Frame options]
 
 [Top:]
 Haut :
@@ -74,9 +74,9 @@ Bas :
 Gauche :
 [Right:]
 Droite :
-[Set My Status Message for All Status]
+[Set my status message for all status]
 Changer le message pour tous les états
-[Status Message:]
+[Status message:]
 Message d'état :
 [&Offline]
 &Hors ligne
@@ -94,17 +94,17 @@ Message d'état :
 &OK pour un chat
 [&Invisible]
 
-[On the &Phone]
+[On the &phone]
 &Au téléphone
-[Out to &Lunch]
+[Out to &lunch]
 &Parti manger
-[Set My Avatar...]
+[Set my avatar...]
 Changer mon avatar...
-[Set My Nickname...]
+[Set my nickname...]
 Changer mon pseudo...
-[Set My Status Message...]
+[Set my status message...]
 Changer mon message d'état...
-[Enable Listening To]
+[Enable listening to]
 Afficher ce que l'autre écoute
 [Show next account]
 
@@ -122,38 +122,36 @@ Afficher ce que l'autre écoute
 Pseudo
 [Status]
 État
-[Status Message]
+[Status message]
 
-[Listening To]
+[Listening to]
 Écoute
-[My Details]
+[My details]
 Mes détails
 [Background]
 Arrière-plan
-[Avatar Border]
+[Avatar border]
 
-[Show My Details]
+[Show my details]
 Afficher mes détails
-[Enable Listening To for %s]
+[Enable listening to for %s]
 Afficher ce que %s écoute
-[Set My Avatar for %s...]
+[Set my avatar for %s...]
 Changer mon avatar pour %s...
-[Set My Nickname for %s...]
+[Set my nickname for %s...]
 Changer mon pseudo pour %s...
-[Set My Status Message for %s...]
+[Set my status message for %s...]
 Changer mon message d'état pour %s...
-[Hide My Details]
+[Hide my details]
 Cacher mes détails
 ;file \plugins\MyDetails\src\mydetails.cpp
-[Listening to]
-Écoute
-[Previous protocol]
+[Previous account]
 
-[Next protocol]
+[Next account]
 
-[Set My Nickname for %s]
+[Set my nickname for %s]
 Changer mon pseudo pour %s
-[Set My Status Message for %s]
+[Set my status message for %s]
 Changer mon message d'état pour %s
 [Contact list]
 Liste de contacts

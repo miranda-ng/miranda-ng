@@ -96,44 +96,6 @@
 *Изисква рестарт за осъществяването на някои промени
 [Skin folder]
 
-[Available objects]
-Налични обекти
-[Copy]
-Копиране
-[Paste]
-Поставяне
-[Object properties]
-Информация за обекта
-[Type]
-Тип
-[Color]
-Цвят
-[Alpha]
-Алфа
-[Image file and fitting mode]
-
-[File]
-Файл
-[Borders]
-Рамки
-[Fit mode]
-
-[Fragment location]
-
-[Position:]
-Позиция:
-[Left]
-Ляво
-[Top]
-Горе
-[Size:]
-Размер:
-[Width]
-Ширина
-[Height]
-Височина
-[W x H: 0 x 0 pixels]
-Шир х Вис: 0х0 пиксела
 [Available view modes]
 Налични режими за преглед
 [Include protocols]
@@ -176,6 +138,8 @@
 Еднакво широки панели
 [Space between]
 Разстояние помежду им
+[Borders]
+Рамки
 [Vertical align]
 Вертикално подреждане
 [Horizontal align]
@@ -472,6 +436,8 @@ MetaContacts - настройки
 Рамка на аватара
 [Draw overlay icons]
 Наслагване на икони
+[Size:]
+Размер:
 [Round corners of avatars]
 Закръглени ъгли на аватарите
 [Ignore size for row height calcs]
@@ -908,35 +874,12 @@ Modern contact list
 
 [ layered]
 
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
-
-[Solid fill object]
-
-[Image (draw image)]
-
-[Fragment (draw portion of image)]
-
-[Stretch both directions]
-
-[Stretch vertical, tile horizontal]
-
-[Tile vertical, stretch horizontal]
-
-[Tile both directions]
-
-[Image size is]
-Размера на изображението е
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Необходима е услуга за изображенията за обработка на PNG изображения.
 [Error]
 Грешка
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Load/Save]
-Зареждане/Запис
-[Object editor]
-Редактор на обекти
 [( unknown )]
 (неизвестно)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -953,12 +896,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 
 [Skin Information]
 Информация за облика
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Редакторът на облици съдържа несъхранени промени.\n\nВсички промени ще бъдат загубени.\n\n Желаете новият облик да бъде зареден?
-[Warning!]
-Внимание!
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Текущият облик не бе запаметен като файл.\n\Всички промени ще бъдат загубени.\n\n Желаете новият облик да бъде зареден?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Няма наличен образец\n\n%s\n----------------------\n\n%s\n\nАвтор(и):\n%s\n\nЗа контакти:\n%s\n\nДомашна страница:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -977,10 +914,14 @@ Angeli-Ka (изображения), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Общо>>
+[Left]
+Ляво
 [Center]
 Централно
 [Right]
 Дясно
+[Top]
+Горе
 [Bottom]
 
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp

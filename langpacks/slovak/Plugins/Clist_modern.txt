@@ -47,16 +47,6 @@ Posúvať s textom
 Roztiahnúť veľkosť
 [Apply]
 Aplikovať
-[Type]
-typ
-[Color]
-Farba
-[File]
-Súbor
-[Position:]
-Pozícia:
-[Size:]
-Veľkosť:
 [Cancel]
 Storno
 [Clear all]
@@ -161,6 +151,8 @@ Okno v štýle palety nástrojov
 Minimalizovať do oznamovacej oblasti
 [Left margin:]
 јavý okraj
+[Size:]
+Veľkosť:
 [Status]
 Stav
 [Nickname]

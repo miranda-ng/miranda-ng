@@ -95,40 +95,6 @@
 * Необхідний рестарт для вступу змін у силу
 [Skin folder]
 Папка скінів
-[Available objects]
-Доступні об'єкти
-[Copy]
-Копіювати
-[Paste]
-Вставити
-[Object properties]
-Властивості об'єкта
-[Type]
-Тип
-[Color]
-Колір
-[Alpha]
-Альфа
-[File]
-Файл
-[Borders]
-Кордони
-[Fit mode]
-Заливка
-[Fragment location]
-Місце фрагменту
-[Left]
-Ліворуч
-[Top]
-Верх
-[Size:]
-Розмір:
-[Width]
-Ширина
-[Height]
-Висота
-[W x H: 0 x 0 pixels]
-Ш х В: 0 х 0 пікс.
 [Available view modes]
 Доступні режими перегляду
 [Include protocols]
@@ -169,6 +135,8 @@
 Розділи однакової ширини
 [Space between]
 Проміжок
+[Borders]
+Кордони
 [Vertical align]
 По вертикалі
 [Horizontal align]
@@ -465,6 +433,8 @@ x100 мс
 Рамки на аватарах
 [Draw overlay icons]
 Значки на аватарах
+[Size:]
+Розмір:
 [Round corners of avatars]
 Заокруглені кути аватарів
 [Ignore size for row height calcs]
@@ -875,30 +845,10 @@ x100 мс
 Показати/сховати відключених
 [%s, contain %s]
 %s, містить %s
-[- Empty - (do not draw this object)]
- - НЕМАЄ - (не малювати цей об'єкт)
-[Image (draw image)]
-Зображення
-[Fragment (draw portion of image)]
-Фрагмент зображення
-[Stretch both directions]
-Розтягнути в усі боки
-[Stretch vertical, tile horizontal]
-Розтягнути верт., замостити гориз.
-[Tile vertical, stretch horizontal]
-Замостити верт., розтягнути гориз.
-[Tile both directions]
-Замостити в усі боки
-[Image size is]
-Розмір
 [You need an image services plugin to process PNG images.]
 Для обробки зображень PNG вам потрібен модуль служби зображень.
 [Error]
 Помилка
-[Load/Save]
-Завантажити/Зберегти
-[Object editor]
-Редактор об'єктів
 [( unknown )]
 (невідомо)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -915,12 +865,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Вбудований
 [Skin Information]
 Інформація про скін
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Є незбережені зміни.\n\nУсі зміни будуть втрачені.\n\nПродовжити завантаження?
-[Warning!]
-Увага!
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Поточний скін не збережений.\n\nУсі зміни будуть втрачені.\n\nПродовжити завантаження нового скіна?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Попередній перегляд недоступний\n\n%s\n----------------------\n\n%s\n\nАвтор(и):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -937,10 +881,14 @@ Angeli-Ka (графіка), FYR (шаблон)
 %Стандартний скін%
 [<<Global>>]
 <<Спільне>>
+[Left]
+Ліворуч
 [Center]
 У центрі
 [Right]
 Праворуч
+[Top]
+Верх
 [Bottom]
 Внизу
 [Main menu]

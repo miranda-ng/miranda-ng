@@ -1,6 +1,4 @@
-﻿[Image file and fitting mode]
-[Position:]
-[Editing view mode]
+﻿[Editing view mode]
 [Layered]
 [Contact list smileys]
 [Row design]
@@ -10,4 +8,3 @@
 [columns]
 [lines]
 [ layered]
-[Solid fill object]

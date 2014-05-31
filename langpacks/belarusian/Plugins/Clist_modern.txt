@@ -94,44 +94,6 @@
 УВАГА: \tСкіны могуць змяняць Ваш профіль. Адкат немагчымы. \n\t\tКалі ласка, зрабіце РЭЗЕРВОВУЮ КОПІЮ профіля.
 [* Restart may be required for all changes to take effect]
 * Для змяненняў патрэбны перазапуск
-[Available objects]
-Даступныя аб'екты
-[Copy]
-Капіяваць
-[Paste]
-Уставіць
-[Object properties]
-Уласцівасці аб'екта
-[Type]
-Тып
-[Color]
-Колер
-[Alpha]
-Альфа
-[Image file and fitting mode]
-Файл выявы i рэжым налады
-[File]
-Файл
-[Borders]
-Межы
-[Fit mode]
-Рэжым налады
-[Fragment location]
-Пазiцыя фрагмента
-[Position:]
-Пасада:
-[Left]
-Злева
-[Top]
-Угару
-[Size:]
-Памер:
-[Width]
-Шырыня
-[Height]
-Вышыня
-[W x H: 0 x 0 pixels]
-Ш x В: 0 x 0 пiкс.
 [Available view modes]
 Даступныя рэжымы выгляду
 [Include protocols]
@@ -174,6 +136,8 @@
 Часткі роўнай шырыні
 [Space between]
 Прамежак
+[Borders]
+Межы
 [Vertical align]
 Па вертыкалі
 [Horizontal align]
@@ -470,6 +434,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рамкі на выявах
 [Draw overlay icons]
 Абразкі на аватарах
+[Size:]
+Памер:
 [Round corners of avatars]
 Закругленыя аватары
 [Ignore size for row height calcs]
@@ -908,35 +874,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 %s, утрымлівае %s
 [ layered]
 слаіста
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
-- Пуста - (не маляваць гэта)
-[Solid fill object]
-Суцэльна для аб'екта
-[Image (draw image)]
-Выява
-[Fragment (draw portion of image)]
-Фрагмент (частка выявы)
-[Stretch both directions]
-Расцянць ва ўсе бакі
-[Stretch vertical, tile horizontal]
-Расцягнуць гарызантальна, плітка вертыкальна
-[Tile vertical, stretch horizontal]
-Плітка вертыкальна, расцягнуць гарызантальна
-[Tile both directions]
-Плітка ў абодвух напрамках
-[Image size is]
-Памер выявы
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Вам патрэбны плагін службы малюнкаў для падтрымкі PNG.
 [Error]
 Памылка
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Load/Save]
-Загрузіць/Захаваць
-[Object editor]
-Рэдактар аб'ектаў
 [( unknown )]
 ( невядома )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -953,12 +896,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Устроены
 [Skin Information]
 Інфармацыя
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Рэдактар утрымоўвае незахаваныя змяненні.\n\nУсе змяненні будуць згубленыя.\n\nПрацягнуць загрузку новага скіна?
-[Warning!]
-Увага!
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Сучасны выгляд не захаваны.\n\nУсе змены будуць страчаны.\n\n Current skin was not saved to file.\n\nAll changes will be lost.\n\n Працягнуць загрузку?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Прадпрагляд не даступны\n\n%s\n----------------------\n\n%s\n\nАўтар(ы):\n%s\n\nКантакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -977,10 +914,14 @@ Angeli-Ka (графіка), FYR (шаблон)
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Агульнае>>
+[Left]
+Злева
 [Center]
 У цэнтры
 [Right]
 Справа
+[Top]
+Угару
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Галоўнае меню

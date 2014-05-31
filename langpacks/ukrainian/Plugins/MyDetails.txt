@@ -7,7 +7,7 @@
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
 Плагін дозволяє показувати і редагувати ваші деталі для всіх протоколів.
-[Set My Nickname]
+[Set my nickname]
 Мій нік
 [Nickname:]
 Нік:
@@ -21,11 +21,11 @@
 Вирівнювати фрейм
 [Use contact list smileys]
 Смайли у списку контактів
-[Replace Smileys]
+[Replace smileys]
 Замінювати смайли
-[Resize Smileys]
+[Resize smileys]
 Змінювати розмір смайлів
-[Global On...]
+[Global on...]
 Глобальний...
 [...avatar]
 ...аватар
@@ -61,7 +61,7 @@
 Розмір кута:
 [Use free space (under avatar) to other texts]
 Викор. вільне місце (під аватарами) для тексту
-[Frame Options]
+[Frame options]
 Опції фрейму
 [Top:]
 Верх:
@@ -71,9 +71,9 @@
 Ліво:
 [Right:]
 Право:
-[Set My Status Message for All Status]
+[Set my status message for all status]
 Статусне повідомлення для yсix статусів
-[Status Message:]
+[Status message:]
 Повідомлення статусу:
 [&Offline]
 Не в &мережі
@@ -91,17 +91,17 @@
 &Готовий до чату
 [&Invisible]
 &Невидимий
-[On the &Phone]
+[On the &phone]
 &Телефоную
-[Out to &Lunch]
+[Out to &lunch]
 &Обідаю
-[Set My Avatar...]
+[Set my avatar...]
 Змінити мій аватар...
-[Set My Nickname...]
+[Set my nickname...]
 Змінити мій нік...
-[Set My Status Message...]
+[Set my status message...]
 Змінити статусне повідомлення...
-[Enable Listening To]
+[Enable listening to]
 Ввімкнути "Слухаю"
 [Show next account]
 Наступний обліковий запис
@@ -117,37 +117,35 @@
 Нік
 [Status]
 Статус
-[Status Message]
+[Status message]
 Статусне повідомлення
-[Listening To]
+[Listening to]
 Слухаю
-[My Details]
+[My details]
 Мої деталі
 [Background]
 Фон
-[Avatar Border]
+[Avatar border]
 Рамка аватару
-[Show My Details]
+[Show my details]
 Показати мої деталі
-[Enable Listening To for %s]
+[Enable listening to for %s]
 Ввімкнути "Слухаю" для %s
-[Set My Avatar for %s...]
+[Set my avatar for %s...]
 Змінити мій аватар для %s...
-[Set My Nickname for %s...]
+[Set my nickname for %s...]
 Змінити мій нік для %s...
-[Set My Status Message for %s...]
+[Set my status message for %s...]
 Змінити статусне повідомлення для %s...
-[Hide My Details]
+[Hide my details]
 Сховати мої деталі
-[Listening to]
-Слухаю
-[Previous protocol]
+[Previous account]
 Попередній протокол
-[Next protocol]
+[Next account]
 Наступний протокол
-[Set My Nickname for %s]
+[Set my nickname for %s]
 Змінити мій нік для %s
-[Set My Status Message for %s]
+[Set my status message for %s]
 Встановити статус для %s
 [Contact list]
 Список контактів

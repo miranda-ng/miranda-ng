@@ -96,44 +96,6 @@ ATTENTION => \tDes skins peuvent modifier votre profil. Un retour ne sera pas po
 * Relancer Miranda pour valider tous les changements
 [Skin folder]
 
-[Available objects]
-Objets disponibles
-[Copy]
-Copier
-[Paste]
-Coller
-[Object properties]
-Propriété de l'objet
-[Type]
-
-[Color]
-Couleur
-[Alpha]
-
-[Image file and fitting mode]
-Image et étirements
-[File]
-Fichier
-[Borders]
-Bordures
-[Fit mode]
-Position
-[Fragment location]
-Position
-[Position:]
-Position :
-[Left]
-Gauche
-[Top]
-Haut
-[Size:]
-Taille :
-[Width]
-Largeur
-[Height]
-hauteur
-[W x H: 0 x 0 pixels]
-L x H: 0 x 0 pixels
 [Available view modes]
 Mode d'affichages disponibles
 [Include protocols]
@@ -176,6 +138,8 @@ Afficher la barre d'état
 Faire des sections de taille égale
 [Space between]
 Espace entre boutons
+[Borders]
+Bordures
 [Vertical align]
 Verticalement
 [Horizontal align]
@@ -470,6 +434,8 @@ Mode compact\n(Voir les avatars et texte complémentaire sur les contacts sélec
 Cadre sur les avatars
 [Draw overlay icons]
 Superposer l'icône d'état
+[Size:]
+Taille :
 [Round corners of avatars]
 Arrondir les coins des avatars
 [Ignore size for row height calcs]
@@ -906,35 +872,12 @@ lignes
 /s, contient /s
 [ layered]
 
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
-- Vide - (ne pas modifier ce skin)
-[Solid fill object]
-Objet immuable
-[Image (draw image)]
-Image (déformable)
-[Fragment (draw portion of image)]
-Fragment (modifiable
-[Stretch both directions]
-Étirer dans les 2 directions
-[Stretch vertical, tile horizontal]
-
-[Tile vertical, stretch horizontal]
-
-[Tile both directions]
-
-[Image size is]
-Taille de l'image
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
 [Error]
 Erreur
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Load/Save]
-Charger/Sauver
-[Object editor]
-Éditeur de skin
 [( unknown )]
 
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -951,12 +894,6 @@ Voici le second skin Aero Vista pour Modern CList
 Librairie interne
 [Skin Information]
 
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Les changement dans l'éditeur de skin n'ont pas été sauvegardés.\n\nTous ces changements vont être perdus.\n\n Voulez-vous quand même charger un autre skin ?
-[Warning!]
-Attention !
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Le skin actuel n'a pas été sauvegardé.\n\nTous les changements vont être perdus.\n\n Voulez-vous quand même charger un autre skin ?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S) :\n%s\n\nCONTACT :\n%s\n\nPAGE WEB :\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -975,10 +912,14 @@ Skin par défaut
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Général>>
+[Left]
+Gauche
 [Center]
 Centre
 [Right]
 Droite
+[Top]
+Haut
 [Bottom]
 Bas
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp

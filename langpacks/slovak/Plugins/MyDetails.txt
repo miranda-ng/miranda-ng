@@ -11,10 +11,10 @@ Zobrazuje a povoľuje upravovanie detailov Vášho profilu pre všetky protokoly
 Prezívka:
 [Cancel]
 Storno
-[pixels]
-pixelov
 [seconds]
 sekúnd
+[pixels]
+pixelov
 [Nickname]
 Prezívka
 [Status]

@@ -8,7 +8,7 @@
 [Shows and allows you to edit your details for all protocols.]
 
 ;file \plugins\MyDetails\res\resource.rc
-[Set My Nickname]
+[Set my nickname]
 Задаване на прякор
 [Nickname:]
 Прякор:
@@ -16,34 +16,38 @@
 Отказ
 [General]
 Основни
-[...avatar]
-
 [RTL]
 Л<Д
 [Align text to right]
 Текста вдясно
-[...nickname]
-
 [Auto-resize frame]
 Авторазмер на рамката
 [Use contact list smileys]
 Ползване на усмивки в списъка с контакти
+[Replace smileys]
+Замяна на усмивките
+[Resize smileys]
+Оразмеряване на усмивките
+[Global on...]
+
+[...avatar]
+
+[...nickname]
+
 [...status]
 
-[Replace Smileys]
-Замяна на усмивките
-[Resize Smileys]
-Оразмеряване на усмивките
 [...status message]
 
-[Top:]
-Горе:
-[Bottom:]
-Долу:
-[Left:]
-Ляво:
-[Right:]
-Дясно:
+[Account]
+Акаунт
+[Show account name]
+
+[Show account cycle button]
+
+[Cycle through accounts every:]
+
+[seconds]
+секунди
 [Avatar]
 Аватар
 [Custom size:]
@@ -60,23 +64,19 @@
 Размер на ъгъла:
 [Use free space (under avatar) to other texts]
 Ползване на мястото под аватара за друг текст
-[Global On...]
+[Frame options]
 
-[Frame Options]
-
-[Cycle through accounts every:]
-
-[seconds]
-секунди
-[Account]
-Акаунт
-[Show account name]
-
-[Show account cycle button]
-
-[Set My Status Message for All Status]
+[Top:]
+Горе:
+[Bottom:]
+Долу:
+[Left:]
+Ляво:
+[Right:]
+Дясно:
+[Set my status message for all status]
 Текст за състояние за всички състояния
-[Status Message:]
+[Status message:]
 Текст за състояние:
 [&Offline]
 Извън линия
@@ -94,17 +94,17 @@
 Готов за чат
 [&Invisible]
 Невидим
-[On the &Phone]
+[On the &phone]
 На телефона
-[Out to &Lunch]
+[Out to &lunch]
 На обяд
-[Set My Avatar...]
+[Set my avatar...]
 Задаване на аватар...
-[Set My Nickname...]
+[Set my nickname...]
 Задаване на прякор...
-[Set My Status Message...]
+[Set my status message...]
 Задаване на текст за състояние...
-[Enable Listening To]
+[Enable listening to]
 Включване на "Слуша"
 [Show next account]
 
@@ -122,38 +122,36 @@
 Прякор
 [Status]
 Състояние
-[Status Message]
+[Status message]
 Текст за състояние
-[Listening To]
+[Listening to]
 Слуша...
-[My Details]
+[My details]
 Моите детайли
 [Background]
 Фон
-[Avatar Border]
+[Avatar border]
 
-[Show My Details]
+[Show my details]
 Показване на моите детайли
-[Enable Listening To for %s]
+[Enable listening to for %s]
 Включване на "Слуша" за %s
-[Set My Avatar for %s...]
+[Set my avatar for %s...]
 Задаване на аватар за %s...
-[Set My Nickname for %s...]
+[Set my nickname for %s...]
 Задаване на прякор за %s...
-[Set My Status Message for %s...]
+[Set my Mtatus message for %s...]
 Задаване на текст за състояние "%s"...
-[Hide My Details]
+[Hide my details]
 Скриване на моите детайли
 ;file \plugins\MyDetails\src\mydetails.cpp
-[Listening to]
-Слуша..
-[Previous protocol]
-Предишен протокол
-[Next protocol]
-Следващ протокол
-[Set My Nickname for %s]
+[Previous account]
+Предишен акаунт
+[Next account]
+Следващ акаунт
+[Set my nickname for %s]
 Задаване на прякор за %s
-[Set My Status Message for %s]
+[Set my status message for %s]
 Текст за състояние "%s"
 [Contact list]
 Списък с контакти

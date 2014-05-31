@@ -8,7 +8,7 @@
 [Shows and allows you to edit your details for all protocols.]
 Дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
 ;file \plugins\MyDetails\res\resource.rc
-[Set My Nickname]
+[Set my nickname]
 Мая мянушка
 [Nickname:]
 Мянушка:
@@ -16,34 +16,38 @@
 Скасаваць
 [General]
 Агульнае
-[...avatar]
-...аватар
 [RTL]
 RTL
 [Align text to right]
 Выраўнаваць справа
-[...nickname]
-...імя
 [Auto-resize frame]
 Выраўноўваць фрэйм
 [Use contact list smileys]
 Смайлікі спісу кантактаў
+[Replace smileys]
+Замяняць смайлы
+[Resize smileys]
+Змяняць памер смайлаў
+[Global on...]
+Глабальна для...
+[...avatar]
+...аватар
+[...nickname]
+...імя
 [...status]
 ...статус
-[Replace Smileys]
-Замяняць смайлы
-[Resize Smileys]
-Змяняць памер смайлаў
 [...status message]
 ...паведамленне статуса
-[Top:]
-Верх:
-[Bottom:]
-Ніз:
-[Left:]
-Лева:
-[Right:]
-Права:
+[Account]
+Конт
+[Show account name]
+Імя конта
+[Show account cycle button]
+Кнопка змены контаў
+[Cycle through accounts every:]
+Змяняць конты кожныя:
+[seconds]
+секунд(ы)
 [Avatar]
 Аватар
 [Custom size:]
@@ -60,26 +64,20 @@ RTL
 Памер кута:
 [Use free space (under avatar) to other texts]
 Ужыв. вольнае месца (пад аватарамі) для тэксту
-[Global On...]
-Глабальна для...
-[Frame Options]
+[Frame options]
 Налады вакна
-[Cycle through accounts every:]
-Змяняць конты кожныя:
-[seconds]
-секунд(ы)
-[Account]
-Конт
-[Show account name]
-Імя конта
-[Show account cycle button]
-Кнопка змены контаў
-[Set My Status Message for All Status]
+[Top:]
+Верх:
+[Bottom:]
+Ніз:
+[Left:]
+Лева:
+[Right:]
+Права:
+[Set my status message for all status]
 Статуснае паведамленне для ўсіх статусаў
-[Status Message:]
+[Status message:]
 Паведамленне статусу:
-[Status popup]
-Статус
 [&Offline]
 Адключаны
 [On&line]
@@ -96,19 +94,17 @@ RTL
 &Свабодны
 [&Invisible]
 &Нябачны
-[On the &Phone]
+[On the &phone]
 Тэлефаную
-[Out to &Lunch]
+[Out to &lunch]
 Абедаю
-[Context popup]
-Кантэкст
-[Set My Avatar...]
+[Set my avatar...]
 Змяніць мой аватар...
-[Set My Nickname...]
+[Set my nickname...]
 Змяніць мянушку...
-[Set My Status Message...]
+[Set my status message...]
 Змяніць статуснае паведамленне...
-[Enable Listening To]
+[Enable listening to]
 Уключыць Зараз слухаю
 [Show next account]
 Наступны конт
@@ -118,12 +114,6 @@ RTL
 Змяняць конты
 [Don't cycle through accounts]
 Не змяняць конты
-[Nick popup]
-Мянушка
-[Status message popup]
-Статуснае паведамленне
-[Avatar popup]
-Аватар
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <няма імя статусу>
@@ -132,38 +122,36 @@ RTL
 Мянушка
 [Status]
 Статус
-[Status Message]
+[Status message]
 Статуснае паведамленне
-[Listening To]
+[Listening to]
 Слухаю
-[My Details]
+[My details]
 Мае дэталі
 [Background]
 Фон
-[Avatar Border]
+[Avatar border]
 Мяжа аватара
-[Show My Details]
+[Show my details]
 Паказаць мае дэталі
-[Enable Listening To for %s]
+[Enable listening to for %s]
 Уключыць Зараз слухаю для %s
-[Set My Avatar for %s...]
+[Set my avatar for %s...]
 Змяніць мой аватар для %s...
-[Set My Nickname for %s...]
+[Set my nickname for %s...]
 Змяніць мянушку для %s...
-[Set My Status Message for %s...]
+[Set my status message for %s...]
 Змяніць статуснае паведамленне для %s...
-[Hide My Details]
+[Hide my details]
 Схаваць мае дэталі
 ;file \plugins\MyDetails\src\mydetails.cpp
-[Listening to]
-Слухаю
-[Previous protocol]
+[Previous account]
 Папярэдні конт
-[Next protocol]
+[Next account]
 Наступны конт
-[Set My Nickname for %s]
+[Set my nickname for %s]
 Змяніць мянушку для %s
-[Set My Status Message for %s]
+[Set my status message for %s]
 Усталяваць статус для %s
 [Contact list]
 Спіс кантактаў

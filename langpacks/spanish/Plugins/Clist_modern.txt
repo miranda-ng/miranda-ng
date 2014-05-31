@@ -96,44 +96,6 @@ ADVERTENCIA: \tLas pieles pueden modificar su perfil actual. Rollback no es posi
 Reiniciar puede ser necesario para que todos los cambios surtan efecto
 [Skin folder]
 
-[Available objects]
-Objetos disponibles
-[Copy]
-Copiar
-[Paste]
-Pegar
-[Object properties]
-Propiedades del objeto
-[Type]
-Tipo
-[Color]
-Color
-[Alpha]
-Alfa
-[Image file and fitting mode]
-Archivo de imagen y modo de ajuste
-[File]
-Archivo
-[Borders]
-Bordes
-[Fit mode]
-Modo de ajuste
-[Fragment location]
-Ubicación de fragmento
-[Position:]
-Posición:
-[Left]
-Izquierda
-[Top]
-Superior
-[Size:]
-Tamaño:
-[Width]
-Ancho
-[Height]
-Alto
-[W x H: 0 x 0 pixels]
-Ancho x Alto: 0 x 0 píxeles
 [Available view modes]
 Modos de visualización disponibles
 [Include protocols]
@@ -176,6 +138,8 @@ Mostrar barra de estado
 Igualar anchura de secciones
 [Space between]
 Espacio entre
+[Borders]
+Bordes
 [Vertical align]
 Alineación vertical
 [Horizontal align]
@@ -472,6 +436,8 @@ Margen izquierdo:
 
 [Draw overlay icons]
 
+[Size:]
+Tamaño:
 [Round corners of avatars]
 
 [Ignore size for row height calcs]
@@ -910,35 +876,12 @@ Principal
 
 [ layered]
 
-;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
-
-[Solid fill object]
-
-[Image (draw image)]
-
-[Fragment (draw portion of image)]
-
-[Stretch both directions]
-
-[Stretch vertical, tile horizontal]
-
-[Tile vertical, stretch horizontal]
-
-[Tile both directions]
-
-[Image size is]
-
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Usted necesita un plugin de servicios de imagen para procesar imágenes PNG.
 [Error]
 Error
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Load/Save]
-
-[Object editor]
-
 [( unknown )]
 
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -955,12 +898,6 @@ Angeli-Ka (gráficos), FYR (plantilla)
 Dentro de la biblioteca
 [Skin Information]
 Información de piel
-[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Editor de piel contiene cambios no guardados.\n\nSe perderán todos los cambios.\n\n ¿Continuar para cargar la nueva piel?
-[Warning!]
-¡Advertencia!
-[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-Piel actual no se guarda en el archivo.\n\nSe perderán todos los cambios.\n\n ¿Continuar para cargar la nueva piel?
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Vista previa no disponible\n\n%s\n----------------------\n\n%s\n\nAUTOR(ES):\n%s\n\nCONTACTO:\n%s\n\PÁGINA PRINCIPAL:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -979,10 +916,14 @@ Piel por defecto
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Global>>
+[Left]
+Izquierda
 [Center]
 Centro
 [Right]
 Right
+[Top]
+Superior
 [Bottom]
 
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
