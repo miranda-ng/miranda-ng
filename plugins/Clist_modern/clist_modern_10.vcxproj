@@ -236,7 +236,6 @@
     <ClCompile Include="src\modern_rowheight_funcs.cpp" />
     <ClCompile Include="src\modern_rowtemplateopt.cpp" />
     <ClCompile Include="src\modern_skinbutton.cpp" />
-    <ClCompile Include="src\modern_skineditor.cpp" />
     <ClCompile Include="src\modern_skinengine.cpp" />
     <ClCompile Include="src\modern_skinopt.cpp" />
     <ClCompile Include="src\modern_skinselector.cpp" />
