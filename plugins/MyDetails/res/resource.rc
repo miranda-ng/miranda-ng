@@ -27,7 +27,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDD_SETNICKNAME DIALOG 0, 0, 283, 65
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Set My Nickname"
+CAPTION "Set my nickname"
 FONT 8, "MS Shell Dlg"
 BEGIN
     RTEXT           "Nickname:",IDC_STATIC,7,8,51,12
@@ -43,13 +43,13 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "General",IDC_STATIC,7,2,307,68
     CONTROL         "RTL",IDC_TEXT_RTL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,11,86,14
-    CONTROL         "Align text to right",IDC_TEXT_ALIGN_RIGHT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,11,99,14
-    CONTROL         "Auto-resize frame",IDC_RESIZE_FRAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,32,86,14
+    CONTROL         "Align text to right",IDC_TEXT_ALIGN_RIGHT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,32,86,14
+    CONTROL         "Auto-resize frame",IDC_RESIZE_FRAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,57,86,8
     CONTROL         "Use contact list smileys",IDC_USE_CONTACT_LIST_SMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,32,108,14
-    CONTROL         "Replace Smileys",IDC_REPLACE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,57,86,8
-    CONTROL         "Resize Smileys",IDC_RESIZE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,57,107,8
-    LTEXT           "Global On...",IDC_STATIC,210,14,93,8
+    CONTROL         "Replace smileys",IDC_REPLACE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,11,99,14
+    CONTROL         "Resize smileys",IDC_RESIZE_SMILEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,57,107,8
+    LTEXT           "Global on...",IDC_STATIC,210,14,93,8
     CONTROL         "...avatar",IDC_GLOBAL_ON_AVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,215,25,96,8
     CONTROL         "...nickname",IDC_GLOBAL_ON_NICKNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,215,35,96,8
     CONTROL         "...status",IDC_GLOBAL_ON_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,215,46,96,8
@@ -78,7 +78,7 @@ BEGIN
     LTEXT           "pixels",IDC_STATIC,258,153,46,11
     CONTROL         "Use free space (under avatar) to other texts",IDC_AVATAR_USE_FREE_SPACE,
                     "Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,12,169,288,11
-    GROUPBOX        "Frame Options",IDC_STATIC,7,183,307,44
+    GROUPBOX        "Frame options",IDC_STATIC,7,183,307,44
     RTEXT           "Top:",IDC_STATIC,108,194,41,11
     EDITTEXT        IDC_BORDER_TOP,154,194,35,12,ES_NUMBER
     CONTROL         "",IDC_BORDER_TOP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,181,194,11,12
@@ -95,10 +95,10 @@ END
 
 IDD_SETSTATUSMESSAGE DIALOG 0, 0, 283, 68
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Set My Status Message for All Status"
+CAPTION "Set my status message for all status"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    RTEXT           "Status Message:",IDC_STATIC,7,8,69,12
+    RTEXT           "Status message:",IDC_STATIC,7,8,69,12
     EDITTEXT        IDC_STATUSMESSAGE,81,7,195,35,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
     DEFPUSHBUTTON   "OK",IDOK,87,47,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,146,47,50,14
@@ -198,16 +198,16 @@ BEGIN
         MENUITEM "&DND",                        ID_STATUS_DND
         MENUITEM "&Free for chat",              ID_STATUS_FREECHAT
         MENUITEM "&Invisible",                  ID_STATUS_INVISIBLE
-        MENUITEM "On the &Phone",               ID_STATUS_ONTHEPHONE
-        MENUITEM "Out to &Lunch",               ID_STATUS_OUTTOLUNCH
+        MENUITEM "On the &phone",               ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch",               ID_STATUS_OUTTOLUNCH
     END
     POPUP "Context popup"
     BEGIN
         MENUITEM SEPARATOR
-        MENUITEM "Set My Avatar...",            ID_AVATARPOPUP_SETMYAVATAR
-        MENUITEM "Set My Nickname...",          ID_NICKPOPUP_SETMYNICKNAME
-        MENUITEM "Set My Status Message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
-        MENUITEM "Enable Listening To",         ID_CONTEXTPOPUP_ENABLELISTENINGTO
+        MENUITEM "Set my avatar...",            ID_AVATARPOPUP_SETMYAVATAR
+        MENUITEM "Set my nickname...",          ID_NICKPOPUP_SETMYNICKNAME
+        MENUITEM "Set my status message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
+        MENUITEM "Enable listening to",         ID_CONTEXTPOPUP_ENABLELISTENINGTO
         MENUITEM SEPARATOR
         MENUITEM "Show next account",          ID_SHOW_NEXT_PROTO
         MENUITEM "Show previous account",      ID_SHOW_PREV_PROTO
@@ -218,22 +218,22 @@ BEGIN
     POPUP "Nick popup"
     BEGIN
         MENUITEM SEPARATOR
-        MENUITEM "Set My Nickname...",          ID_NICKPOPUP_SETMYNICKNAME
+        MENUITEM "Set my nickname...",          ID_NICKPOPUP_SETMYNICKNAME
     END
     POPUP "Status message popup"
     BEGIN
         MENUITEM SEPARATOR
-        MENUITEM "Set My Status Message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
+        MENUITEM "Set my status message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
     END
     POPUP "Avatar popup"
     BEGIN
         MENUITEM SEPARATOR
-        MENUITEM "Set My Avatar...",            ID_AVATARPOPUP_SETMYAVATAR
+        MENUITEM "Set my avatar...",            ID_AVATARPOPUP_SETMYAVATAR
     END
     POPUP "ListeningTo popup"
     BEGIN
         MENUITEM SEPARATOR
-        MENUITEM "Enable Listening To",         ID_LISTENINGTOPOPUP_SENDLISTENINGTO
+        MENUITEM "Enable listening to",         ID_LISTENINGTOPOPUP_SENDLISTENINGTO
     END
 END
 
