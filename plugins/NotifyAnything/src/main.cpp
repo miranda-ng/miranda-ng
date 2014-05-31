@@ -259,7 +259,7 @@ HICON getIcon(const std::string &name)
 		info.found = false;
 		info.nr = _ttoi(rname.c_str());
 		if (info.nr <= 0) {
-			dbg_msg(Translate("Icon indices start at 1."), SM_WARNING);
+			dbg_msg("Icon indices start at 1.", SM_WARNING);
 			return deficon;
 		}
 		
