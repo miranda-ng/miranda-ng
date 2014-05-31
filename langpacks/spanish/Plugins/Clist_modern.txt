@@ -834,13 +834,13 @@ Ninguno
 
 [High]
 
-[Contact rate none]
+[Contact rate: none]
 
-[Contact rate low]
+[Contact rate: low]
 
-[Contact rate medium]
+[Contact rate: medium]
 
-[Contact rate high]
+[Contact rate: high]
 
 [Show even if offline]
 

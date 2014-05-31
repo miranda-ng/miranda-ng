@@ -834,13 +834,13 @@ Gering
 Mittel
 [High]
 Hoch
-[Contact rate none]
+[Contact rate: none]
 Kontaktpriorität: Keine
-[Contact rate low]
+[Contact rate: low]
 Kontaktpriorität: Gering
-[Contact rate medium]
+[Contact rate: medium]
 Kontaktpriorität: Mittel
-[Contact rate high]
+[Contact rate: high]
 Kontaktpriorität: Hoch
 [Show even if offline]
 Zeige Kontakt auch, wenn offline

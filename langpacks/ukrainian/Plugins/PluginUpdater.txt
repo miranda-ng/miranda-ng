@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.9
+;  Version: 0.1.2.0
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -45,7 +45,7 @@
 Версія в розробці з символами налагодження
 [Custom version]
 Задана користувачем версія
-[You need restart your Miranda to apply installed updates]
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Оновлення будуть застосовані після перезапуску програми.
 [Notifications]
 Сповіщення

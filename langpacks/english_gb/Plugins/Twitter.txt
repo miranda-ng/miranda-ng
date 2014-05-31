@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.1.0.1
+;  Version: 1.1.0.2
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Colors]

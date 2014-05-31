@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.1
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,7 +50,7 @@ URL:
 Абвесткі
 [News feeds]
 Навіны
-[News Feed types to notify:]
+[News feed types to notify:]
 Абвяшчаць пра тыпы навін:
 [Other events]
 Іншыя падзеі

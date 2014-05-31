@@ -1,5 +1,5 @@
 ﻿[Silent mode]
-[You need restart your Miranda to apply installed updates]
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Message boxes (*)]
 [Info messages]
 [Progress dialogs]
@@ -10,3 +10,6 @@
 [Plugin Updater]
 [List loading already started!]
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
+[You need to restart your Miranda to apply installed updates.]
+[Would you like to restart it now?]
+[%d component(s) was updated]

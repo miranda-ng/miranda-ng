@@ -832,14 +832,14 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Сярэдні
 [High]
 Высокі
-[Contact rate none]
-Рэйтынг кантакту Няма
-[Contact rate low]
-Рэйтынг кантакту Нізкі
-[Contact rate medium]
-Рэйтынг кантакту Сярэдні
-[Contact rate high]
-Рэйтынг кантакту Высокі
+[Contact rate: none]
+Рэйтынг кантакту: няма
+[Contact rate: low]
+Рэйтынг кантакту: нізкі
+[Contact rate: medium]
+Рэйтынг кантакту: сярэдні
+[Contact rate: high]
+Рэйтынг кантакту: высокі
 [Show even if offline]
 Паказваць адключаных
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp

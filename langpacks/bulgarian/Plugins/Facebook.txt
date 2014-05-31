@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.1
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,8 +50,10 @@ URL:
 Уведомявания
 [News feeds]
 Новини
-[News Feed types to notify:]
+[News feed types to notify:]
 Уведомяване за следните новини:
+[Don't show advertising posts]
+
 [Other events]
 Други събития
 [Client notifications]
@@ -85,6 +87,10 @@ URL:
 [Keep messages as unread on server (don't send "seen" info)]
 
 [Receive messages from "inbox" folder only]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
 
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]

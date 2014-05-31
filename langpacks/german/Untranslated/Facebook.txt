@@ -1,1 +1,4 @@
-﻿[Pages]
+﻿[Don't show advertising posts]
+[Load last messages on opening message window (EXPERIMENTAL)]
+[Number of messages to load:]
+[Pages]

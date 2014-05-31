@@ -830,14 +830,14 @@ Modern contact list
 Средна
 [High]
 Висока
-[Contact rate none]
-Оценка на контакта - няма
-[Contact rate low]
-Оценка на контакта - ниска
-[Contact rate medium]
-Оценка на контакта - средна
-[Contact rate high]
-Оценка на контакта - висока
+[Contact rate: none]
+Оценка на контакта: няма
+[Contact rate: low]
+Оценка на контакта: ниска
+[Contact rate: medium]
+Оценка на контакта: средна
+[Contact rate: high]
+Оценка на контакта: висока
 [Show even if offline]
 Показване и когато е извън линия
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
