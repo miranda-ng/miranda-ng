@@ -901,7 +901,7 @@ void FacebookProto::ProcessFeeds(void* data)
 
 		if (time.empty()) {
 			// alternative parsing (probably page like or advertisement)
-			time = utils::text::source_get_value(&post_time, 2, "content_timestamp&quot;:&quot;", "&quot;");
+			time = utils::text::source_get_value(&post, 2, "content_timestamp&quot;:&quot;", "&quot;");
 		}
 
 		DWORD ttime;
