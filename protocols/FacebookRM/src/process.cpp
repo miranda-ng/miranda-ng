@@ -877,6 +877,8 @@ void FacebookProto::ProcessFeeds(void* data)
 	DWORD new_time = facy.last_feeds_update_;
 	bool filterAds = getBool(FACEBOOK_KEY_FILTER_ADS, DEFAULT_FILTER_ADS);
 
+	debugLogA("      Last feeds update (old): %d", facy.last_feeds_update_);
+
 	while ((pos = resp.data.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
 	{		
 		/*std::string::size_type pos2 = resp.data.find("<div class=\"userContentWrapper", pos+5);
@@ -897,11 +899,28 @@ void FacebookProto::ProcessFeeds(void* data)
 		std::string time = utils::text::source_get_value(&post_time, 2, "data-utime=\"", "\"");
 		std::string time_text = utils::text::source_get_value(&post_time, 2, ">", "</abbr>");
 
-		DWORD ttime = utils::conversion::to_timestamp(time);
-		if (ttime > new_time)
+		if (time.empty()) {
+			// alternative parsing (probably page like or advertisement)
+			time = utils::text::source_get_value(&post_time, 2, "content_timestamp&quot;:&quot;", "&quot;");
+		}
+
+		DWORD ttime;
+		if (!utils::conversion::from_string<DWORD>(ttime, time, std::dec)) {
+			debugLogA("! ! ! - Newsfeed with wrong/empty time (probably wrong parsing)\n%s", post.c_str());
+			continue;
+		}
+
+		if (ttime > new_time) {
 			new_time = ttime; // remember newest time from all these posts
-		else if (ttime <= facy.last_feeds_update_)
+			debugLogA("      - Newsfeed time: %d (new)", ttime);
+		} 
+		else if (ttime <= facy.last_feeds_update_) {
+			debugLogA("      - Newsfeed time: %d (ignored)", ttime);
 			continue; // ignore posts older than newest post of previous check
+		}
+		else {
+			debugLogA("      - Newsfeed time: %d (normal)", ttime);
+		}
 
 		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
 
@@ -952,7 +971,9 @@ void FacebookProto::ProcessFeeds(void* data)
 		nf->link = utils::text::special_expressions_decode(post_link);
 		
 		// Check if we don't want to show ads posts
-		bool filtered = filterAds && nf->link.find("/about/ads") != std::string::npos;
+		bool filtered = filterAds && (nf->link.find("/about/ads") != std::string::npos
+			|| post.find("class=\"uiStreamSponsoredLink\"") != std::string::npos
+			|| post.find("href=\"/about/ads\"") != std::string::npos);
 
 		nf->text = utils::text::trim(
 			utils::text::special_expressions_decode(
@@ -960,8 +981,12 @@ void FacebookProto::ProcessFeeds(void* data)
 					utils::text::edit_html(post_message))));		
 
 		if (filtered || !nf->title.length() || !nf->text.length()) {
+			debugLogA("      \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
 			delete nf;
 			continue;
+		}
+		else {
+			debugLogA("      Got newsfeed (time: %d): %s %s", ttime, nf->title.c_str(), nf->text.c_str());
 		}
 
 		news.push_back(nf);
@@ -969,9 +994,10 @@ void FacebookProto::ProcessFeeds(void* data)
 		limit++;
 	}
 
+	debugLogA("      Last feeds update (new): %d", new_time);
+
 	for(std::vector<facebook_newsfeed*>::size_type i=0; i<news.size(); i++)
 	{
-		debugLogA("      Got newsfeed: %s %s", news[i]->title.c_str(), news[i]->text.c_str());
 		ptrT tszTitle( mir_utf8decodeT(news[i]->title.c_str()));
 		ptrT tszText( mir_utf8decodeT(news[i]->text.c_str()));
 
