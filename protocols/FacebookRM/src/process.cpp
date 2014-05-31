@@ -284,7 +284,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		data += "&folders[1]=other";
 	data += "&client=mercury";
 	data += "__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
@@ -338,7 +338,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	while (!threads.empty()) {
 		std::string data = "client=mercury";
 		data += "&__user=" + facy.self_.user_id;
-		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+		data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
 		data += "&__a=1&__dyn=&__req=&ttstamp=0";
 	
 		for (std::vector<std::string>::size_type i = 0; i < threads.size(); i++) {
@@ -431,7 +431,7 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
 	bool isChat = isChatRoom(hContact);
@@ -799,7 +799,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 		fbu->real_name = utils::text::source_get_value(&req, 2, "class=\"actor\">", "</");
 		fbu->user_id = utils::text::source_get_value(&get, 2, "id=", "&");
 
-		if (fbu->user_id.length() && fbu->real_name.length())
+		if (!fbu->user_id.empty() && !fbu->real_name.empty())
 		{
 			MCONTACT hContact = AddToContactList(fbu, CONTACT_APPROVE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
@@ -980,7 +980,7 @@ void FacebookProto::ProcessFeeds(void* data)
 				utils::text::remove_html(
 					utils::text::edit_html(post_message))));		
 
-		if (filtered || !nf->title.length() || !nf->text.length()) {
+		if (filtered || nf->title.empty() || nf->text.empty()) {
 			debugLogA("      \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
 			delete nf;
 			continue;
