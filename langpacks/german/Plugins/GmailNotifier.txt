@@ -6,78 +6,78 @@
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
-
+Prüft Ihren GMail-Posteingang.
 ;file \plugins\GmailNotifier\res\options.rc
 [Gmail account]
-
+GMail-Account
 [Name:]
-
+Name:
 [Password:]
-
+Passwort:
 [Add]
-
+Hinzufügen
 [Save]
-
+Speichern
 [Delete]
-
+Löschen
 [Configuration]
-
+Konfiguration
 [Check Gmail inbox every]
-
+Prüfe Posteingang alle
 [minutes]
-
+Minuten
 [Notify using:]
-
+Benachrichtige mit:
 [Duration:]
-
+Dauer:
 [seconds]
-
+Sekunden
 [Text|Background:]
-
+Text|Hintergrund:
 [On double click:]
-
+Bei Doppelklick:
 [System tray]
-
+Systemtray
 [Popup plugin]
-
+Popup-Plugin
 [Login using default browser]
-
+Mit Standard-Browser anmelden
 [Login using Internet Explorer]
-
+Mit Internet Explorer anmelden
 [Run custom program]
-
+Eigenes Programm ausführen
 [Use online contacts when no new mail]
-
+Online Kontakte bei keiner neuen Nachricht verwenden
 [Enable icon selection and icon in status bar (restart)]
-
+Iconauswahl und Icon in Statusleiste aktivieren (Neustart)
 [This is a shared computer so disable auto login]
-
+Automatische Anmeldung deaktivieren (für geteilte Computer)
 [Log unread threads into database (enable history)]
-
+Ungelesene Nachrichten protokollieren
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
-
+Prüfen...
 [Can't open Internet!]
-
+Keine Internetverbindung!
 [Can't reach server!]
-
+Kann Server nicht erreichen!
 [Can't send account data!]
-
+Kann Kontodaten nicht senden!
 [Can't get RSS feed!]
-
+Kann RSS Feed nicht empfangen!
 [Wrong name or password!]
-
+Falscher Nutzername oder Passwort!
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
-
+Sonstige
 [Gmail: New thread(s)]
-
+Gmail: Neue Themen
 [&Check all Gmail inboxes]
-
+Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
-
+&GMail-Posteingang prüfen
 ;file \plugins\GmailNotifier\src\options.cpp
 [GmailNotifier]
-
+GmailNotifier
 [Network]
-
+Netzwerk

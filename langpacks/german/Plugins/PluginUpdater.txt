@@ -35,7 +35,7 @@ Beim Start
 [Every]
 Alle
 [Silent mode]
-
+Stiller Modus
 [Files source]
 Quelle der Dateien
 [Stable version]
@@ -47,7 +47,7 @@ Entwicklungsversion mit Debugsymbolen
 [Custom version]
 Eigene Version
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-
+Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
 [Notifications]
 Benachrichtigungen
 [Message boxes (*)]
@@ -141,11 +141,11 @@ Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Aktualisierung fehlgeschlagen! Eine der Komponenten wurde nicht richtig heruntergeladen. Versuchen Sie es später noch einmal.
 [You need to restart your Miranda to apply installed updates.]
-
+Sie müssen Miranda NG neu starten um die installierten Aktualisierungen anzuwenden.
 [Would you like to restart it now?]
-
+Möchten Sie es jetzt neu starten?
 [%d component(s) was updated]
-
+%d Komponente(n) wurde(n) aktualisiert.
 [No updates found.]
 Keine Aktualisierungen gefunden.
 [Update checking already started!]

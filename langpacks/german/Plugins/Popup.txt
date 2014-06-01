@@ -37,7 +37,7 @@ Rahmen um Avatare zeichnen
 [Draw borders for semitransparent avatars too]
 Rahmen auch um semi-transparente Avatare
 [Round corners by]
-Runde Ecken um
+Ecken abrunden um
 [pixels]
 Pixel
 [Avatar size:]
@@ -113,7 +113,7 @@ Standardaktionen nur für Kontakte
 [Don't close popups on default actions]
 Nicht bei Standardaktionen schließen
 [Size and position]
-
+Größe und Position
 [Use large icons]
 Große Icons verwenden
 [Popup actions will be displayed as:]
@@ -204,7 +204,7 @@ Vollbildschirm-Modus
 Debug
 ;file \plugins\Popup\src\actions.cpp
 [No overwrite]
-Nicht Überschreiben
+Nicht überschreiben
 [Send message]
 Nachricht senden
 [Quick reply]
@@ -291,7 +291,7 @@ Blockierter Kontakt
 [Pinned popup]
 Angeheftetes Popup
 [Add contact permanently]
-Kontakt hinzufügen
+Kontakt dauerhaft hinzufügen
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Kategorien

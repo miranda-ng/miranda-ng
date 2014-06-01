@@ -590,7 +590,7 @@ Infoleiste Hintergrund
 [Info bar status message]
 Infoleiste Statusnachricht
 [Line between messages]
-
+Linie zwischen Nachrichten
 [Offline]
 Offline
 [Online]

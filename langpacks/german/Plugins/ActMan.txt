@@ -757,7 +757,7 @@ Argumente
 [Number of arguments]
 Anzahl Argumente
 [Argument]
-
+Argument
 [Result]
 Ergebnis
 [DLL Handle Cache]
@@ -873,14 +873,14 @@ Kontaktliste
 [database driver]
 Datenbanktreiber
 [Main settings]
-
+Haupteinstellungen
 [Custom settings]
-
+Eigene Einstellungen
 [Do not translate]
-
+Nicht übersetzen
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Param type]
-
+Parametertyp
 [Text Editor]
 Texteditor
 [Script]
@@ -888,4 +888,4 @@ Skript
 [Wrap Text]
 Text umbrechen
 [Structure size]
-
+Strukturgröße

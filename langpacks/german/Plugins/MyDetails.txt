@@ -39,13 +39,13 @@ Global bei...
 [...status message]
 ...Statusnachricht
 [Account]
-Account
+Konto
 [Show account name]
-Accountnamen anzeigen
+Kontennamen anzeigen
 [Show account cycle button]
-Accountwechselbuttons anzeigen
+Kontenwechselbuttons anzeigen
 [Cycle through accounts every:]
-Accounts wechseln alle
+Konten wechseln alle
 [seconds]
 Sekunden
 [Avatar]
@@ -99,21 +99,21 @@ Am Telefon
 [Out to &lunch]
 Zum Essen
 [Set my avatar...]
-Mein Avatar setzen
+Meinen Avatar setzen...
 [Set my nickname...]
-Mein Nicknamen setzen
+Meinen Nicknamen setzen...
 [Set my status message...]
-Meine Statusnachicht setzen
+Meine Statusnachicht setzen...
 [Enable listening to]
-Listening To aktivieren
+'Höre gerade' aktivieren
 [Show next account]
-Nächsten Account anzeigen
+Nächstes Konto anzeigen
 [Show previous account]
-Vorherigen Account anzeigen
+Vorheriges Konto anzeigen
 [Cycle through accounts]
-Wechsel der Accounts
+Wechsel der Konten
 [Don't cycle through accounts]
-Kein Wechsel der Accounts
+Kein Wechsel der Konten
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <kein Statusname>
@@ -125,7 +125,7 @@ Status
 [Status message]
 Statusnachricht
 [Listening to]
-Hört gerade
+Höre gerade
 [My details]
 Meine Details
 [Background]
@@ -135,24 +135,24 @@ Avatar-Rahmen
 [Show my details]
 Meine Details anzeigen
 [Enable listening to for %s]
-Musikinformationen für %s senden
+'Höre gerade' für %s aktivieren
 [Set my avatar for %s...]
-Avatar für %s setzen
+Avatar für %s setzen...
 [Set my nickname for %s...]
-Nickname für %s setzen
+Nickname für %s setzen...
 [Set my status message for %s...]
-Statusnachricht für %s setzen
+Statusnachricht für %s setzen...
 [Hide my details]
 Meine Details verstecken
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
-
+Vorheriges Konto
 [Next account]
-
+Nächstes Konto
 [Set my nickname for %s]
-Nickname für %s setzen
+Meinen Nicknamen für %s setzen
 [Set my status message for %s]
-Statusnachricht für %s setzen
+Meine Statusnachricht für %s setzen
 [Contact list]
 Kontaktliste
 ;file \plugins\MyDetails\src\options.cpp

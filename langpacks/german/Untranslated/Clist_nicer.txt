@@ -1,5 +1,0 @@
-﻿[Tree Hide Offline]
-[Tree Gray Out]
-[Default]
-[Overlay icons]
-[Connecting icons]

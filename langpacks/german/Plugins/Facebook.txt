@@ -53,7 +53,7 @@ News-Feeds
 [News feed types to notify:]
 Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
-
+Werbebeiträge nicht anzeigen
 [Other events]
 Sonstige Ereignisse
 [Client notifications]
@@ -89,9 +89,9 @@ Nachrichten auf dem Server als ungelesen belassen ("Gesehen"-Info nicht senden)
 [Receive messages from "inbox" folder only]
 Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
 [Load last messages on opening message window (EXPERIMENTAL)]
-
+Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
-
+Lade Anzahl Nachrichten:
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 Kontakt e&inladen

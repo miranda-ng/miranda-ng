@@ -1,6 +1,0 @@
-﻿[Argument]
-[Main settings]
-[Custom settings]
-[Do not translate]
-[Param type]
-[Structure size]

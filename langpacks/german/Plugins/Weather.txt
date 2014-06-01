@@ -322,7 +322,7 @@ HTTP-Fehler: Dienst nicht verfügbar (503)
 HTTP-Fehler: Gateway-Zeitüberschreitung (504)
 [%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
 %c\\nTemperatur: %t\\ngefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
 gefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nVisibility: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Wetterlage für %n von %u
@@ -331,7 +331,7 @@ Wetterlage für %n von %u
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n um %u:	%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
 [%n   (%u)]
-
+%n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nHeute:  max. %h, min. %l
 [Temperature: %[Temperature]]

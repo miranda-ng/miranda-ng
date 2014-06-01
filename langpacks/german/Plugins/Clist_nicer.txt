@@ -9,7 +9,7 @@
 Zeigt Kontakte, Ereignisse und Protokollstatus an.
 ;file \plugins\Clist_nicer\res\resource.rc
 [Clist Nicer exception]
-Clist-Nicer-Ausnahme
+CList-Nicer-Ausnahme
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
@@ -139,7 +139,7 @@ Offlinekontakte nicht trennen
 [Hide as offline]
 Als 'offline' verstecken
 [Tree Hide Offline]
-
+Auswahl 'Offline verstecken'
 [Right align contacts]
 Kontakte rechtsbündig
 [Avatars]
@@ -271,7 +271,7 @@ Vertikale Bildlaufleiste ausblenden
 [Gray out entire list when:]
 Liste grau färben, wenn:
 [Tree Gray Out]
-
+Auswahl 'Ausgrauen'
 [Contact list background]
 Hintergrund der Kontaktliste
 [Use Windows colors]
@@ -489,11 +489,11 @@ Miranda ausblenden
 [&New subgroup]
 &Neue Untergruppe
 [&Hide offline users in here]
-Offlinekontakte &hier ausblenden
+Offline-Kontakte &hier ausblenden
 [&Rename group]
 G&ruppe umbenennen
 [&Delete group]
-Gruppe löschen
+Gruppe &löschen
 [Move marked contacts to this group]
 Markierte Kontakte in diese Gruppe verschieben
 [Appearance]
@@ -711,13 +711,13 @@ Konten
 [My contacts]
 Meine Kontakte
 [Default]
-
+Standard
 [Overlay icons]
-
+Overlay-Icons
 [%s connecting]
 %s Verbindung
 [Connecting icons]
-
+Verbindungs-Icons
 [Menu]
 Menü
 [Open main menu]
@@ -807,7 +807,7 @@ Kontaktfilter löschen
 [No view mode]
 Kein Kontaktfilter
 [A view mode with this name does already exist]
-Ein Kontaktfilter dieses Namens existiert bereits
+Ein Kontaktfilter dieses Namens existiert bereits.
 [Duplicate name]
 Doppelter Name
 [Setup view modes...]

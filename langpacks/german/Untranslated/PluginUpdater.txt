@@ -1,5 +1,0 @@
-﻿[Silent mode]
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-[You need to restart your Miranda to apply installed updates.]
-[Would you like to restart it now?]
-[%d component(s) was updated]

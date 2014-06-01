@@ -95,7 +95,7 @@ WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich,
 [* Restart may be required for all changes to take effect]
 * Evtl. Neustart erforderlich um alle Änderungen zu übernehmen
 [Skin folder]
-
+Skinverzeichnis
 [Available view modes]
 Verfügbare Kontaktfilter
 [Include protocols]
@@ -925,7 +925,7 @@ Rechts
 [Top]
 Oben
 [Bottom]
-
+Unten
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Hauptmenü
