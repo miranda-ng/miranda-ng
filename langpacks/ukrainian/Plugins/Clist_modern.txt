@@ -858,7 +858,7 @@ x100 мс
 [reVista for Modern v0.5]
 reVista для Modern v0.5
 [This is second default Modern Contact list skin in Vista Aero style]
-Це другий стандартний скін списку контактів в стилі Vista Aero
+Це другий стандартний скін списку контактів у стилі Vista Aero
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (графіка), FYR (шаблон)
 [Inside library]
@@ -888,7 +888,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Right]
 Праворуч
 [Top]
-Верх
+Вгорі
 [Bottom]
 Внизу
 [Main menu]

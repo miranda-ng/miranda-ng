@@ -35,8 +35,6 @@
 Пароль:
 [No resource name given.]
 Не вказане ім'я ресурсу.
-[Icon indices start at 1.]
-Значок індекси починаються з 1.
 [Could not find the requested icon.]
 Не вдалося знайти потрібний значок.
 [Application launching is disabled.]

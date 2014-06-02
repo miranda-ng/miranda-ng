@@ -238,9 +238,9 @@
 [Display XStatus detail]
 Показує докладний хСтатус
 [Show All Users]
-Показувати всіх користувачів
+Показує всіх користувачів
 [Show only Online Users]
-Сховати відключених
+Ховає відключених
 [Change 'hide offline contacts' option value]
 Змінює значення "Сховати відключених"
 [Set global status]
@@ -265,6 +265,12 @@
 Видаляє всі налаштування вказаного модуля
 [Show window for new/changed profile password]
 Показує вікно для установки/зміни пароля профілю
+[Show "About..." window]
+Показує вікно "Про Miranda NG"
+[Open bug report page]
+Відкриває сторінку для створення повідомлення про помилку
+[Open support (originaly - Miranda wiki) page]
+Відкриває сторінку підтримки (вікі)
 [System]
 Система
 [Ignore all]

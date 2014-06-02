@@ -16,7 +16,7 @@
 [Exit Miranda]
 Выход из Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-Несмотря на то, что программа продолжает работать, её нужно перезапустить, как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьезные проблемы.
+Несмотря на то, что программа продолжает работать, её нужно перезапустить как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьезные проблемы.
 [About CList Nicer+]
 О плагине Nicer+
 [Version]

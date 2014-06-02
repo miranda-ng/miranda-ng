@@ -28,13 +28,13 @@
 [Global on...]
 Глобальний...
 [...avatar]
-...аватар
+аватар
 [...nickname]
-...нік
+нік
 [...status]
-...статус
+статус
 [...status message]
-...повідомлення статусу
+повідомлення статусу
 [Account]
 Обліковий запис
 [Show account name]
@@ -60,7 +60,7 @@
 [Custom corner size:]
 Розмір кута:
 [Use free space (under avatar) to other texts]
-Викор. вільне місце (під аватарами) для тексту
+Викор. вільне місце (під аватаром) для тексту
 [Frame options]
 Опції фрейму
 [Top:]
@@ -140,9 +140,9 @@
 [Hide my details]
 Сховати мої деталі
 [Previous account]
-Попередній протокол
+Попередній обліковий запис
 [Next account]
-Наступний протокол
+Наступний обліковий запис
 [Set my nickname for %s]
 Змінити мій нік для %s
 [Set my status message for %s]

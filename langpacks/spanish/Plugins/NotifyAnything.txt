@@ -40,8 +40,6 @@ Contraseña:
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 
-[Icon indices start at 1.]
-
 [Could not find the requested icon.]
 
 [Application launching is disabled.]

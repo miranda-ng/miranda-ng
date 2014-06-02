@@ -15,6 +15,8 @@
 Користувач
 [Password]
 Пароль
+[URL]
+Посилання
 [Directory on server]
 Папка на сервері
 [Port]
@@ -108,9 +110,9 @@
 [Overwrite]
 Замінити
 [File with the same name already exists on the server.]
-Файл з таким ім'ям вже є на сервері.
+На севері вже є файл з таким ім'ям.
 [Copy URL]
-Копіювати URL
+Копіювати посилання
 [Close dialog after upload finishes]
 Закрити вікно після закінчення завантаження
 [Automatically delete file after...]

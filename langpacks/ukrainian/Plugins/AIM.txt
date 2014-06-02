@@ -111,6 +111,8 @@ AIM Встановити Instant Idle
 *Паролі не збігаються.
 [Screen Name]
 Ім'я AIM
+[E-mail]
+Пошта
 [Confirm Account]
 Підтвердити
 [*Applied upon reconnect]
@@ -129,6 +131,8 @@ AIM Встановити Instant Idle
 &Відхилити
 [Message]
 Повідомлення
+[Room]
+Кімната чату
 [Me]
 Я
 [Others]
@@ -153,6 +157,12 @@ AIM Встановити Instant Idle
 Не підтримується клієнтом
 [User temporarily unavailable.]
 Користувач тимчасово недоступний.
+[Check your Screen Name.]
+Перевірте своє ім'я AIM.
+[Check your Password.]
+Перевірте свій пароль.
+[Check your Email Address.]
+Перевірте свою адресу електронної пошти.
 [Service temporarily unavailable.]
 Сервіс тимчасово недоступний.
 [Unsupported Type.]
@@ -247,6 +257,8 @@ AIM Встановити Instant Idle
 Додати в список на сервері
 [Network]
 Мережа
+[Privacy]
+Приватність
 [Please, enter a username in the options dialog.]
 Будь ласка, введіть ім'я користувача в налаштуваннях.
 [Please, enter a password in the options dialog.]

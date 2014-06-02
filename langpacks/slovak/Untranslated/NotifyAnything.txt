@@ -11,7 +11,6 @@
 [Allow actions to execute programs]
 [NotifyAnything]
 [No resource name given.]
-[Icon indices start at 1.]
 [Could not find the requested icon.]
 [Application launching is disabled.]
 [Unterminated option.]

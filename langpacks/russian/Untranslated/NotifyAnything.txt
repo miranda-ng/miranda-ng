@@ -1,5 +1,4 @@
 ﻿[NotifyAnything]
-[Icon indices start at 1.]
 [Unterminated option.]
 [Empty message ignored.]
 [LogService]

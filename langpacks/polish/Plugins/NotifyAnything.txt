@@ -40,8 +40,6 @@ Powiadamiaj o wszystkim
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 Nie podano nazwy zasobu.
-[Icon indices start at 1.]
-Indeks ikon zaczyna się od 1.
 [Could not find the requested icon.]
 Nie można znaleźć żądanej ikony.
 [Application launching is disabled.]

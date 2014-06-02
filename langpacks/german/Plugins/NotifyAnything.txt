@@ -40,8 +40,6 @@ NotifyAnything
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 Kein Ressourcenname angegeben.
-[Icon indices start at 1.]
-Symbolindizes beginnen bei 1.
 [Could not find the requested icon.]
 Konnte das angefragte Symbol nicht finden.
 [Application launching is disabled.]

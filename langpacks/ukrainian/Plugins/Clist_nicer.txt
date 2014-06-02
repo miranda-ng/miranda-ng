@@ -8,15 +8,17 @@
 [Displays contacts, event notifications, protocol status.]
 Показує контакти, події, статуси протоколів.
 [Clist Nicer exception]
-Помилка CList Nicer
+Виняток у Clist Nicer
 [Copy to clipboard]
 Копіювати в буфер обміну
 [Continue]
 Продовжити
 [Exit Miranda]
 Закрити програму
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+Незважаючи на те, що програма продовжує працювати, потрібно перезапустити її якомога швидше. Виняток може пошкодити внутрішні структури даних і спричинити серйозні проблеми.
 [About CList Nicer+]
-Про CList Nicer+
+Про Clist Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 © 2004-2010 Проект Miranda IM, 2012-2013 Проект Miranda NG. Детальна інформація про авторські права знаходиться у файлі Readme.
 [Version]

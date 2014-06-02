@@ -1,5 +1,4 @@
-﻿[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-[Clist Nicer+]
+﻿[Clist Nicer+]
 [Tree Hide Offline]
 [Always hide on taskbar]
 [Tree Gray Out]
