@@ -46,7 +46,7 @@ Ukončit po přijetí zprávy obsahující &následující text:
 Ukončit po přechodu do neč&innosti
 [Configure]
 Nastavit...
-[Shutdown when &prozessor usage drops below:]
+[Shutdown when &processor usage drops below:]
 Ukončit pokud vytížení &procesoru klesne pod:
 [(current: 0%)]
 (aktuálně: 0 %)
@@ -177,7 +177,7 @@ Ukončí systém Windows a restartuje počítač.
 Ukončí všechny spuštěné programy a následně systém Windows.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Uloží rozdělanou práci do paměti a přepne počítač do úsporného režimu.
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
+[Saves the current Windows session on hard drive, so that the power can be turned off.]
 Uloží rozdělanou práci na pevný disk, což umožní vypnout počítač.
 [Locks the computer. To unlock the computer, you must log in.]
 Zamkne počítač. Odemknete ho pouze tak, že se znovu přihlásíte.

@@ -6,12 +6,12 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
-
+Kontrola pravopisu pro komunikační okna. Využívá Hunspell.
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
-
+Nahrazení
 [Enable auto-replacements]
-
+Zapnout automatické nahrazení
 [Language:]
 Jazyk:
 [Add...]
@@ -82,7 +82,7 @@ Němčina (Německo)
 [Message Sessions]
 Komunikace
 [Auto-replacements]
-
+Automatické nahrazení
 [Line]
 Řádek
 [Dotted]
@@ -98,9 +98,9 @@ Vlnka
 [Thick]
 Tučně
 [Wrong word]
-
+Chybné slovo
 [Correction]
-
+Oprava
 ;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Slovníky
@@ -109,14 +109,16 @@ Vlastní slovníky
 [Flags DLL]
 Knihovna vlajek
 [Enable/disable spell checker]
-
+Zapnout/vypnout kontrolu pravopisu
 [Enabled]
 Zapnuto
 [Disabled]
 Vypnuto
+[Unknown]
+Neznámý
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
-
+Je zde %d pravopisných chyb. Opravdu si přejete odeslat tuto zprávu?
 [Other...]
 Jiné...
 [Always replace with]

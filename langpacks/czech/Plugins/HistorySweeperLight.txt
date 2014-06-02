@@ -60,7 +60,7 @@ Ponechat 50 posledních událostí
 Výchozí akce
 [Delete All]
 Smazat vše
-[*** Defaut Action ***]
+[*** Default Action ***]
 *** výchozí akce ***
 [*** System History ***]
 *** historie systému ***

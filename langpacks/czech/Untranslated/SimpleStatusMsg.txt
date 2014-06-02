@@ -1,4 +1,0 @@
-﻿[Fortune]
-[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-[get the date (Simple Status Message compatible)]
-[Simple Status Message]

@@ -60,7 +60,7 @@ Průhlednost
 průhlednost:
 [Opaque popups under cursor]
 Zvýraznit oznámení pod kurzorem
-[Slide Popup]
+[Slide popup]
 Posouvat oznámení
 [Effect:]
 Efekt:
@@ -86,7 +86,7 @@ Stáhnout další skiny
 Historie oznámení
 [Desktop]
 Plocha
-[Popup Area]
+[Popup area]
 Oblast oznámení
 [pixel(s)]
 pix.
@@ -100,9 +100,9 @@ Zavřít
 Obecné
 [Enable popup actions]
 Povolit akce při oznámení
-[Popup Actions are those tiny buttons below notification text.]
+[Popup actions are those tiny buttons below notification text.]
 Akce při oznámení jsou ona malá tlačítka pod textem oznámení.
-[Common Actions]
+[Common actions]
 Obecné akce
 [Please choose in what cases default actions should be added:]
 Prosím vyberte, ve kterých případech mají být přidány výchozí akce:
@@ -112,6 +112,8 @@ Přidat jen info a nabídku po kontakty
 Přidat jen výchozí ikony pro kontakty
 [Don't close popups on default actions]
 Nezavírat oznámení při výchozí akci
+[Size and position]
+Velikost a pozice
 [Use large icons]
 Zobrazit velké ikony
 [Popup actions will be displayed as:]
@@ -122,15 +124,15 @@ Ikony a popisky pod textem
 Ikony vlevo
 [Icons aligned to the right]
 Ikony vpravo
-[Show Actions: (requires apply)]
+[Show actions: (requires apply)]
 Zobrazit akce: (vyžaduje tlačítko Použít)
-[Mouse Actions Overwrite]
+[Mouse actions overwrite]
 Vlastní nastavení myši
-[Left Button]
+[Left button]
 Levé tlačítko
-[Middle Button]
+[Middle button]
 Prostřední tlačítko
-[Right Button]
+[Right button]
 Pravé tlačítko
 [Notifications]
 Upozornění
@@ -148,8 +150,8 @@ Pravým tlačítkem:
 Zakázat, je-li globální stav 
 [Disable when relevant protocol's status is...]
 Zakázat, je-li příslušný protokol ve stavu 
-[Colors can be configured in\r\nCustomize > Fonts && Colors]
-Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy.
+[Colors can be configured in\r\nCustomize > Fonts and colors]
+Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy
 [More...]
 Více...
 [Disable if message window is open]
@@ -170,8 +172,8 @@ Ignor. celoobraz.
 Nezobrazit
 [Show default]
 Výchozí stav
-[Default Timeout]
-Doba zobrazení
+[Default timeout]
+Výchozí doba zobrazení
 [Infinite popup delay]
 Zobrazit trvale
 [Popup delay:]
@@ -190,7 +192,7 @@ Maximální šířka
 Postavení:
 [Layout:]
 Rozložení:
-[Reorder Popups]
+[Reorder popups]
 Obrátit pořadí
 [Disable when:]
 Neaktivní ve stavu
@@ -201,7 +203,7 @@ Celoobrazovkový režim
 [Debug]
 Debug
 ;file \plugins\Popup\src\actions.cpp
-[no overwrite]
+[No overwrite]
 ---
 [Send message]
 Poslat zprávu
@@ -274,32 +276,22 @@ Překrytí pro oblíbené
 Překrytí pro celoobraz. režim
 [Refresh skin list]
 Obnovit seznam skinů
-[Popup Placement]
+[Popup placement]
 Umístění oznámení
 [Cancel]
 Zrušit
-[Popup Group]
+[Popup group]
 Skupina oznámení
-[Favorite Contact]
+[Favorite contact]
 Oblíbený kontakt
-[Show in Fullscreen]
+[Show in fullscreen]
 Celoobraz. režim
-[Blocked Contact]
-Blokovaný kontakt
-[Quick Reply]
-Rychlá odpověď
-[Pin Popup]
-Připíchnout oznámení
-[Pinned Popup]
+[Blocked contact]
+Zablokovaný kontakt
+[Pinned popup]
 Připíchnuté oznámení
-[Send Message]
-Odeslat zprávu
-[Contact Menu]
-Menu kontaktu
-[Add Contact Permanently]
+[Add contact permanently]
 Přidat kontakt natrvalo
-[Dismiss Popup]
-Zavřít oznámení
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Třídy
@@ -352,25 +344,25 @@ Jsem na obědě
 Mám telefon
 [Width]
 Šířka
-[upper left corner]
+[Upper left corner]
 Levý horní roh
-[lower left corner]
+[Lower left corner]
 Levý dolní roh
-[lower right corner]
+[Lower right corner]
 Pravý dolní roh
-[upper right corner]
+[Upper right corner]
 Pravý horní roh
-[horizontal]
-vodorovné
-[vertical]
-svislé
+[Horizontal]
+Vodorovně
+[Vertical]
+Svisle
 [Global Status]
 Globální stav
 [Protocol Status]
 Stav protokolu
 [You cannot specify a value lower than %d and higher than %d.]
 Nelze zadat hodnotu nižší než %d a vyšší než %d.
-['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Upozorňujeme, že volba 'Obrátit pořadí' není zapnutá.\r\nTento fakt může způsobit nekorektní zarovnávání oznámení,\r\nkteré obsahují avatary zároveň s doplňkem NewXStatusNotify.\r\nNechcete zapnout uvedenou funkci pro obrácení pořadí?\r\n
 [Popup Plus Warning]
 Varování doplňku Oznámení plus

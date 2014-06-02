@@ -34,7 +34,7 @@ Standardní
 Kompletní
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoidal users]
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
 Všechny řetězce a události v historii jsou šifrovány. To v důsledku způsobí pomalejší běh Mirandy a riziko ztráty veškerých dat v profilu při zapomenutí hesla. Doporučeno pouze pro paranoidní uživatele.
 [Set password]
 Nastavit heslo

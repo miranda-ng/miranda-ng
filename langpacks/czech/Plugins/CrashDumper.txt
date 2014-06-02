@@ -79,7 +79,7 @@ Zobrazit informace o verzi
 [Crash Dumper]
 Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
-[Crash Report write location is inaccesible]
+[Crash Report write location is not available]
 Crash report: nedostupná lokace zápisu
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit i do schránky?

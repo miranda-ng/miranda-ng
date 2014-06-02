@@ -1,5 +1,0 @@
-﻿[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-[Go to email domain]
-[%s has added you to his or her Friend List]
-[Steam menu chooser]
-[Join to game]

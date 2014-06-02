@@ -8,7 +8,7 @@
 [ToptoolBar adds buttons in top frame for fast access.]
 Tlačítková lišta přidává tlačítka do horního rámečku pro rychlý přístup.
 ;file \plugins\TopToolBar\res\main.rc
-[Buttons Order && Visibility]
+[Buttons order and visibility]
 Pořadí tlačítek a jejich viditelnost
 [Button height]
 Výška tlačítka
@@ -24,11 +24,11 @@ Automatická velikost
 Pouze jeden řádek
 [Buttons order:]
 Pořadí tlačítek:
-[Add Separator]
-+ oddělovač
-[Add Launch]
+[Add separator]
+Přidat oddělovač
+[Add launch]
 + tlačítko spuštění
-[Del Sep/Launch Button]
+[Delete separator/launch button]
 Smazat oddělovač/tlačítko
 [Name:]
 Název:
@@ -39,7 +39,7 @@ Nastavit
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Výchozí
-[TopToolBar Background]
+[TopToolBar background]
 Pozadí horní lišty
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
 Služba pro rámečky nebyla nalezena, doplněk bude deaktivován.\nPro použití musíte nainstalovat a nebo povolit podporovaný doplněk pro seznam kontaktů:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nMůžete je stáhnout z http://miranda-ng.org

@@ -100,13 +100,13 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[Contact List]
+[Contact list]
 Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
-[Contact List Sorting]
+[Contact list sorting]
 Řazení seznamu kontaktů
 [Don't move offline user to bottom]
 Kontakty offline nepřesouvat na konec
@@ -170,7 +170,7 @@ Zakázat přejmenování položek dvojím kliknutím
 Zobrazit výběr i tehdy, není-li seznam aktivní
 [Make selection highlight translucent]
 Zobrazit vybrané položky průhledně
-['Hide Offline' means to hide:]
+['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
@@ -204,19 +204,19 @@ Zešednout neaktivní kontakty
 Skrýt svislý posuvník
 [Contact list background]
 Pozadí seznamu kontaktů
-[Use 'Meta' protocol icons for Metacontacts]
+[Use 'Meta' protocol icons for MetaContacts]
 Použít ikony protokolu 'Meta' pro metakontakty
-[Avoid doubleclick expand]
+[Avoid double click expand]
 Nerozbalovat dvojím kliknutím
-[Hide all 'Extra icons' for subcontacts]
+[Hide all extra icons for subcontacts]
 Skrýt všechny 'Extra ikony' pro podkontakty
 [MetaContacts supporting]
 Podpora doplňku Metakontakty
-[Ignore Empty Extra icons places (arrange to right).]
-Ignorovat prázdná místa po extra ikonách (posunout >>)
-[Hide offline subcontacts.]
+[Ignore empty extra icons places (arrange to right)]
+Ignorovat prázdná místa po extra ikonách (posunout >>).
+[Hide offline subcontacts]
 Skrýt podkontakty offline
-[Status Bar]
+[Status bar]
 Stavová lišta
 [Show status bar]
 Zobrazit stavovou lištu
@@ -236,7 +236,7 @@ Shodná šířka všech položek
 Zobrazit oddělovač
 [Show bevel effect on panels]
 Zobrazit efekt zkosení panelů
-[Use connecting Icon]
+[Use connecting icon]
 Zobrazit průběh připojování
 [Use new drawer for status bar]
 Použít nový systém stav. lišty
@@ -262,9 +262,9 @@ Ner&ušit!\tCtrl+5
 &Mám volno\tCtrl+6
 [&Invisible\tCtrl+7]
 Nev&iditelný\tCtrl+7
-[On the &Phone\tCtrl+8]
+[On the &phone\tCtrl+8]
 Mám tele&fon\tCtrl+8
-[Out to &Lunch\tCtrl+9]
+[Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
 [Tray]
 Oznámení
@@ -272,27 +272,27 @@ Oznámení
 Skrýt/Zo&brazit
 [Nowhere]
 Nikde
-[&New Group]
+[&New group]
 &Nová skupina
-[&Hide Offline Users]
+[&Hide offline users]
 &Skrýt uživatele offline
-[Hide &Offline Users out here]
+[Hide &offline users out here]
 Skrýt uživatele &offline mimo skupiny
-[Hide &Empty Groups]
+[Hide &empty groups]
 S&krýt prázdné skupiny
-[Disable &Groups]
+[Disable &groups]
 Vypnout zobrazení s&kupin
 [Hide Miranda]
 Skrýt Mirandu
 [Group]
 Skupina
-[&New Subgroup]
+[&New subgroup]
 &Nová podskupina
-[&Hide Offline Users in here]
+[&Hide offline users in here]
 Skrýt uživatele o&ffline
-[&Rename Group]
+[&Rename group]
 Př&ejmenovat skupinu
-[&Delete Group]
+[&Delete group]
 &Smazat skupinu
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
@@ -323,19 +323,17 @@ Oddělovače
 Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 [Status messages]
 Stavové zprávy
-[Group Closed]
+[Group closed]
 Zavřená skupina
-[Hover Contacts]
+[Hovered contacts]
 Kontakty po najetí myši
 [Background]
 Pozadí
-[Contact list]
-Seznam kontaktů
-[Selected Text]
+[Selected text]
 Vybraný text
-[Hottrack Text]
+[Hottrack text]
 Zvýrazněný text
-[Quicksearch Text]
+[Quicksearch text]
 Hledaný text
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
@@ -375,13 +373,15 @@ _žádný-protokol_
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
 Nabídka ikony
-[&Find/Add Contacts...]
+[&Find/Add contacts...]
 &Vyhledat kontakty...
 [&Options...]
 M&ožnosti...
 [&About]
 O progr&amu
 ;file \plugins\Clist_mw\src\clui.cpp
+[My contacts]
+Seznam kontaktů
 [My Contacts]
 Seznam kontaktů
 ;file \plugins\Clist_mw\src\cluiopts.cpp
@@ -390,8 +390,6 @@ Seznam kontaktů
 Nabídka skupiny
 [Subgroup menu]
 Nabídka podskupiny
-[&New SubGroup]
-&Nová podskupina
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 Ukončit program Miranda
@@ -408,7 +406,7 @@ Zo&brazit záhlaví
 Zamkn&utý
 [&Collapsed]
 &Sbalený
-[&Floating Mode]
+[&Floating mode]
 &Plovoucí
 [&Border]
 O&kraj
@@ -428,13 +426,13 @@ Nahor&u
 &Dolů
 [Frames]
 Rámečky
-[Show All Frames]
+[Show all frames]
 Zobrazit všechny rámečky
 [Show all title bars]
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-[Lock Frame]
+[Lock frame]
 Zamknout rámeček
 [Visible]
 Viditelné

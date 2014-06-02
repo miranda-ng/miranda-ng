@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.5.0
+;  Version: 0.2.6.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,8 +50,10 @@ Oznámení události
 Upozornění
 [News feeds]
 Novinky
-[News Feed types to notify:]
+[News feed types to notify:]
 Upozorňovat na tyto novinky:
+[Don't show advertising posts]
+Nezobrazovat reklamní příspěvky
 [Other events]
 Jiné události
 [Client notifications]
@@ -86,6 +88,10 @@ Komunikace
 Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
 [Receive messages from "inbox" folder only]
 Přijímat pouze zprávy ze složky "příchozí"
+[Load last messages on opening message window (EXPERIMENTAL)]
+Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
+[Number of messages to load:]
+Počet zpráv pro načtení:
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 Pozvat k d&iskusi...
@@ -124,18 +130,12 @@ Zadejte uživatelské jméno.
 [Please enter a password.]
 Zadejte heslo.
 ;file \protocols\FacebookRM\src\constants.h
-[Most Recent]
-Nejnovější
-[Wall Posts]
-Příspěvky ze zdi
 [Top News]
 Hlavní zprávy
-[Photos]
-Fotografie
-[Links]
-Odkazy
-[Apps and Games]
-Aplikace a hry
+[Most Recent]
+Nejnovější
+[Pages]
+Stránky
 [Classic website]
 Klasické stránky
 [Mobile website]

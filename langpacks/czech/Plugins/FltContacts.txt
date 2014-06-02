@@ -20,7 +20,7 @@ Použít pevnou šířku
 pixelů
 [Hide all contacts]
 Skrýt všechny kontakty
-[Hide when a fulscreen app is active]
+[Hide when a fullscreen app is active]
 Skrýt v režimu na celou obrazovku
 [Show tooltips*]
 Zobrazovat tipy*

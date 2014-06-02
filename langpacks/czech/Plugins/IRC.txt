@@ -242,7 +242,7 @@ O&dmítnout
 Aktivovat (*)
 [Ignore channel messages by default]
 Ignorovat zprávy kanálu
-[Ignore filetransfer requests]
+[Ignore file transfer requests]
 Ignorovat žádosti o přenos souborů
 [Ignore DCC Chat requests]
 Ignorovat žádosti o privátní diskusi
@@ -388,7 +388,7 @@ Zadejte prosím odpověď
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
 
-[DCC ERROR: Unable to bind local port for passive filetransfer]
+[DCC ERROR: Unable to bind local port for passive file transfer]
 
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]

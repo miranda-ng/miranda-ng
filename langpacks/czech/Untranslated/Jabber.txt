@@ -60,7 +60,7 @@
 [Whether to enable logging of room conversations]
 [Natural language for room discussions]
 [Maximum number of room occupants]
-[Whether an make room members-only]
+[Whether to make room members-only]
 [Whether to make room moderated]
 [Whether a password is required to enter]
 [Whether to make room persistent]

@@ -48,7 +48,7 @@ Zavolat
 Poslat soubor
 [Send URL]
 Poslat odkaz
-[Open userinfo]
+[Open user info]
 Otevřít informace o kontaktu
 [Open history]
 Otevřít historii

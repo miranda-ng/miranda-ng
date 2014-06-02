@@ -14,8 +14,8 @@ Nastavení
 Položky menu
 [Show icon]
 Zobrazit ikonu
-[Userinfo tab]
-Záložka s informacemi o uživateli
+[User info tab]
+Záložka s informacemi o kontaktu
 [Log to file]
 Záznam do souboru
 [Log to history]

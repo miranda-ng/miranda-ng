@@ -157,7 +157,7 @@ Soubor
 Funkce OutputDebugString()
 [File]
 Soubor
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
 [Run now]
 Spustit
@@ -277,8 +277,8 @@ Profil
 např. Práce
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
-[e.g., Miranda Database]
-pro databázi Mirandy
+[e.g., dbx mmap]
+např. dbx mmap
 [Driver]
 Ovladač
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]

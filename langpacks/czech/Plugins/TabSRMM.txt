@@ -1793,7 +1793,7 @@ Editovat poznámky k uživateli|Editujete poznámky k uživateli. Klikněte na t
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Aero náhled - varování|Máte povolen Aero náhled a nahrán vlastní styl kontejneru\n\nTo může vést k vedlejším vizuálním anomáliím.
-[Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
 
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Problém v nastavení|Možnost \\b1 History->Imitate IEView API\\b0 je povolena a plugin History++ je aktivní. To může vést k problémům při použití IEView jako prohlížeče záznamu komunikace.\n\nMohu napravit nastavení (vyžaduje restart)?
@@ -1992,7 +1992,7 @@ Odsadit druhý řádek dlouhé zprávy
 Omezit délku jmen v záznamu na 20 znaků
 [Add a colon (:) to auto-completed user names]
 Přidat dvojtečku za automaticky doplněné jméno
-[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
+[Start private conversation on double click in nick list (insert nick if unchecked)]
 Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit přezdívku)
 [Strip colors from messages in the log]
 Záznam ukládat bez kódů definující barvy

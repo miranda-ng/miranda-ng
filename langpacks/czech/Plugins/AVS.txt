@@ -14,7 +14,7 @@ Definuje obrázky pro kontakty bez avataru. Zaškrtnutím zobrazení\nvýchozíh
 Nastavit výchozí obrázek
 [Delete default picture]
 Odstranit výchozí obrázek
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
 Upozornění: Váš vlastní avatar určíte pomocí funkce Nastavit\navatar ze sekce Informace o sobě v hlavní nabídce.
 [Try to draw avatar background transparent (for images without transparency)]
 Pokusit se zprůhlednit pozadí avataru (platí pro obrázky bez transparence)
@@ -32,7 +32,7 @@ Zobrazit chybová hlášení
 Při nastavení avataru vždy změnit na čtvercový tvar
 [Try to draw own avatar background transparent (for images without transparency)]
 Pokusit se zprůhlednit pozadí avataru (platí pro obrázky bez transparence)
-[This uses the same additional options as in "Contact Avatars" tab]
+[This uses the same additional options as in "Contact avatars" tab]
 Toto využívá stejné rozšířené volby jako v záložce "Pro kontakty"
 [Protect the picture and prevent automatic avatars from overwriting it]
 Zamknout obrázek a zabránit tak automatickému přepisování
@@ -107,10 +107,10 @@ Resetovat obrázek kontaktu
 Kontakty
 [Protocols]
 Protokoly
-[Contact Avatars]
-Pro kontakty
-[Own Avatars]
-Pro sebe
+[Contact avatars]
+Avatary kontaktů
+[Own avatars]
+Vlastní avatary
 [No avatar]
 Bez avataru
 [Are you sure you want to remove your avatar?]

@@ -756,6 +756,8 @@ odloučený/á
 
 [Number of arguments]
 
+[Argument]
+
 [Result]
 VÝSLEDEK
 [DLL Handle Cache]
@@ -870,10 +872,20 @@ Jméno
 Seznam kontaktů
 [database driver]
 
+[Main settings]
+
+[Custom settings]
+
+[Do not translate]
+
 ; these lines are not present in the sources, but they are present in compiled plugin
+[Param type]
+
 [Text Editor]
 Úprava textu
 [Script]
 Skript
 [Wrap Text]
 Zalamovat text
+[Structure size]
+

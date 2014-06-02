@@ -8,32 +8,34 @@
 [Check your Gmail inboxes locally.]
 Lokálně kontroluje vaše schránky na Gmailu.
 ;file \plugins\GmailNotifier\res\options.rc
+[Gmail account]
+Účet na Gmailu
 [Name:]
 Název:
 [Password:]
 Heslo:
-[Check Gmail inbox every]
-Zkontrolovat každých
-[minutes]
-min.
-[Notifier on:]
-Oznámení:
-[Duration:]
-Doba:
-[Text|Background:]
-Text|Pozadí:
-[custom program]
-libov. program
-[sec.]
-sek.
-[On double click:]
-Při dvojím kliknutí:
 [Add]
 Přidat
 [Save]
 Uložit
 [Delete]
 Smazat
+[Configuration]
+Nastavení
+[Check Gmail inbox every]
+Zkontrolovat každých
+[minutes]
+min.
+[Notify using:]
+Oznámení:
+[Duration:]
+Doba:
+[seconds]
+sek.
+[Text|Background:]
+Text|Pozadí:
+[On double click:]
+Při dvojím kliknutí:
 [System tray]
 Oznam. obl.
 [Popup plugin]
@@ -42,8 +44,8 @@ Dopl. PopUp
 Přihlásit (výchozí prohlížeč)
 [Login using Internet Explorer]
 Přihlásit (Internet Explorer)
-[Run]
-Spustit
+[Run custom program]
+Spustit vlastní program
 [Use online contacts when no new mail]
 Použít online kontakty, když nemáte nový mail
 [Enable icon selection and icon in status bar (restart)]
@@ -52,10 +54,6 @@ Zobrazit ikonu ve stavové liště (restart)
 Nepřihlašovat automaticky (veřejný počítač)
 [Log unread threads into database (enable history)]
 Zapsat nepřečtené zprávy do databáze (historie)
-[Gmail account]
-Účet na Gmailu
-[Configuration]
-Nastavení
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Kontrolování...
@@ -70,12 +68,16 @@ Nelze přečíst kanál RSS!
 [Wrong name or password!]
 Neplatné jméno nebo heslo!
 ;file \plugins\GmailNotifier\src\main.cpp
+[Other]
+Ostatní
+[Gmail: New thread(s)]
+Gmail: Nové vlákno/a
 [&Check all Gmail inboxes]
 &Zkontrolovat všechny účty (Gmail)
 [&Check Gmail inbox]
 &Zkontrolovat účet (Gmail)
 ;file \plugins\GmailNotifier\src\options.cpp
-[GmailMNotifier]
-GmailMNotifier
+[GmailNotifier]
+GmailNotifier
 [Network]
 Sítě
