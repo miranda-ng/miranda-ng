@@ -271,9 +271,6 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
 {
-	TNewWindowData newData = { 0 };
-	int isSplit = 1;
-
 	// make sure that only the main UI thread will handle window creation
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
 		if (pszMsg) {
