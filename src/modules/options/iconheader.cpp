@@ -504,7 +504,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 	}
 
 	case ITCM_SETSEL:
-		if (wParam >= 0 && (int)wParam < itc->pList.getCount()) {
+		if ((int)wParam >= 0 && (int)wParam < itc->pList.getCount()) {
 			itc->nSelectedIdx = wParam;
 			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);

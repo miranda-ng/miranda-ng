@@ -38,7 +38,7 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 	int i = 0;
 	int j = 0;
 
-	if (pszWord == 0 || lstrlen(pszWord) == 0)
+	if (pszWord == 0 || pszWord[0] == 0)
 		return NULL;
 
 	while (j < 9999 && i <= lstrlen(pszWord)) {
@@ -170,7 +170,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 {
 	static TCHAR szBuf[4 * 1024];
 
-	if (!fmt || lstrlen(fmt) == 0 || lstrlen(fmt) > 2000)
+	if (!fmt || fmt[0] == 0 || lstrlen(fmt) > 2000)
 		return 0;
 
 	va_list marker;
