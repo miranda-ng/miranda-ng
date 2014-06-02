@@ -53,7 +53,6 @@ void IcoLibInit()
 
 	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_PATH_TCHAR;
-	sid.cx = sid.cy = 16;
 	sid.ptszDefaultFile = destfile;
 	sid.pszSection = MODULEA;
 
