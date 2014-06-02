@@ -69,7 +69,7 @@ Wymuś szyfrowane połączenie (HTTPS)
 [Post Miranda statuses to Wall]
 Pokazuj statusy Mirandy jako posty na Tablicy
 [Use secure connection also for channel requests]
-Również dla kanału próśb o dodanie do znajomych
+Używaj bezpiecznego połączenia również dla kanału próśb o dodanie do znajomych
 [Also disconnect chat when going to offline]
 Rozłączaj również "Czat" przechodząc w status rozłączony
 [Map non-standard statuses to Invisible (instead of Online)]
