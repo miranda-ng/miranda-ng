@@ -29,9 +29,6 @@ Boston, MA 02111-1307, USA.
 #define MODULE_NAME_LEN		512
 #define SETTING_NAME_LEN	512
 
-// chekcbox icons
-#define IDI_NOTICK          205
-#define IDI_TICK            206
 #define IDPRESETITEM		1000
 
 #define MS_TOOLTIP_SHOWTIP	"mToolTip/ShowTip"
@@ -54,14 +51,14 @@ typedef struct {
 // display item types
 static struct {
 	DisplayItemType type;
-	TCHAR* title;
+	TCHAR *title;
 } displayItemTypes[] = {
 	{ DIT_ALL, LPGENT("Show for all contact types") },
 	{ DIT_CONTACTS, LPGENT("Show only for contacts") },
 	{ DIT_CHATS, LPGENT("Show only for chatrooms") }
 };
 
-typedef enum {DVT_DB = 0, DVT_PROTODB = 1} DisplaySubstType;
+typedef enum { DVT_DB = 0, DVT_PROTODB = 1 } DisplaySubstType;
 typedef struct {
 	TCHAR swzName[LABEL_LEN];
 	DisplaySubstType type;
@@ -88,13 +85,12 @@ typedef struct {
 } MARGINS;
 
 // tray tooltip items
-static TCHAR* trayTipItems[TRAYTIP_ITEMS_COUNT] = 
-{
+static TCHAR *trayTipItems[TRAYTIP_ITEMS_COUNT] = {
 	LPGENT("Number of contacts"),
 	LPGENT("Protocol lock status"),
 	LPGENT("Logon time"),
 	LPGENT("Unread emails"),
-	LPGENT("Status"), 
+	LPGENT("Status"),
 	LPGENT("Status message"),
 	LPGENT("Extra status"),
 	LPGENT("Listening to"),
@@ -104,11 +100,10 @@ static TCHAR* trayTipItems[TRAYTIP_ITEMS_COUNT] =
 };
 
 // extra icons
-static TCHAR* extraIconName[6] = 
-{
+static TCHAR *extraIconName[6] = {
 	LPGENT("Status"),
-	LPGENT("Extra status"), 
-	LPGENT("Jabber activity"), 
+	LPGENT("Extra status"),
+	LPGENT("Jabber activity"),
 	LPGENT("Gender"),
 	LPGENT("Country flag"),
 	LPGENT("Client")
@@ -124,10 +119,10 @@ typedef struct {
 	BYTE vis;
 } ICONSTATE;
 
-typedef enum {PAV_NONE=0, PAV_LEFT=1, PAV_RIGHT=2} PopupAvLayout;
-typedef enum {PTL_NOICON=0, PTL_LEFTICON=1, PTL_RIGHTICON=2} PopupIconTitleLayout;
-typedef enum {PP_BOTTOMRIGHT=0, PP_BOTTOMLEFT=1, PP_TOPRIGHT=2, PP_TOPLEFT=3} PopupPosition;
-typedef enum {PSE_NONE=0, PSE_ANIMATE=1, PSE_FADE=2} PopupShowEffect;
+typedef enum { PAV_NONE = 0, PAV_LEFT = 1, PAV_RIGHT = 2 } PopupAvLayout;
+typedef enum { PTL_NOICON = 0, PTL_LEFTICON = 1, PTL_RIGHTICON = 2 } PopupIconTitleLayout;
+typedef enum { PP_BOTTOMRIGHT = 0, PP_BOTTOMLEFT = 1, PP_TOPRIGHT = 2, PP_TOPLEFT = 3 } PopupPosition;
+typedef enum { PSE_NONE = 0, PSE_ANIMATE = 1, PSE_FADE = 2 } PopupShowEffect;
 
 typedef struct {
 	int iWinWidth, iWinMaxHeight, iAvatarSize; //tweety
@@ -190,7 +185,7 @@ typedef struct {
 	int iLimitCharCount;
 	int iSmileyAddFlags;
 	BYTE exIconsOrder[EXICONS_COUNT];
-	BYTE exIconsVis[EXICONS_COUNT];	
+	BYTE exIconsVis[EXICONS_COUNT];
 } OPTIONS;
 
 

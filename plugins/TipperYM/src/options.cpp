@@ -110,7 +110,8 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 		_tcsncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
 		ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
 		db_free(&dbv);
-	} else
+	}
+	else
 		return false;
 
 	mir_snprintf(setting, SIZEOF(setting), "Type%d", index);
@@ -378,9 +379,7 @@ void LoadOptions()
 			real_count++;
 		}
 		else
-		{
 			mir_free(ds_node);
-		}
 	}
 	opt.iDsCount = real_count;
 
@@ -402,9 +401,7 @@ void LoadOptions()
 				opt.bWaitForStatusMsg = true;
 		}
 		else
-		{
 			mir_free(di_node);
-		}
 	}
 	opt.iDiCount = real_count;
 
@@ -427,7 +424,7 @@ void LoadOptions()
 
 		// find end of list
 		di_node = opt.diList;
-		while(di_node && di_node->next)
+		while (di_node && di_node->next)
 			di_node = di_node->next;
 
 		// last message item
@@ -455,7 +452,7 @@ void LoadOptions()
 
 		// find end of list
 		di_node = opt.diList;
-		while(di_node && di_node->next)
+		while (di_node && di_node->next)
 			di_node = di_node->next;
 
 		// status message item
@@ -505,7 +502,7 @@ void LoadOptions()
 
 	DBVARIANT dbv;
 	// Load the icons order
-	for(i = 0; i < EXICONS_COUNT; i++)
+	for (i = 0; i < EXICONS_COUNT; i++)
 	{
 		opt.exIconsOrder[i]=i;
 		opt.exIconsVis[i]=1;
@@ -523,7 +520,7 @@ void LoadOptions()
 		db_free(&dbv);
 	}
 
-	for(i = 0; i < EXICONS_COUNT; i++)
+	for (i = 0; i < EXICONS_COUNT; i++)
 	{
 		exIcons[i].order = opt.exIconsOrder[i];
 		exIcons[i].vis = opt.exIconsVis[i];
@@ -647,9 +644,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							}
 						}
 						else
-						{
 							EndDialog(hwndDlg, IDOK);
-						}
 
 						return TRUE;
 					}
@@ -710,7 +705,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			SetDlgItemText(hwndDlg, IDC_ED_LABEL, ds->swzName);
 
-			switch(ds->type)
+			switch (ds->type)
 			{
 				case DVT_PROTODB:
 					CheckDlgButton(hwndDlg, IDC_CHK_PROTOMOD, TRUE);
@@ -753,7 +748,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		{
 			if (HIWORD(wParam) == BN_CLICKED)
 			{
-				switch(LOWORD(wParam))
+				switch (LOWORD(wParam))
 				{
 					case IDC_CHK_PROTOMOD:
 					{
@@ -770,9 +765,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						}
 
 						if (IsDlgButtonChecked(hwndDlg, IDC_CHK_PROTOMOD))
-						{
 							ds->type = DVT_PROTODB;
-						}
 						else
 						{
 							ds->type = DVT_DB;
@@ -795,9 +788,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
 			}
 			else if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
 				return TRUE;
-			}
 
 			break;
 		}
@@ -816,13 +807,10 @@ static void SetTreeItemText(DIListNode *node, TCHAR **pszText)
 			*pszText = TranslateT("<No Label>");
 	}
 	else
-	{
 		*pszText = node->di.swzLabel;
-	}
 }
 
-static OPTBUTTON btns[9] = 
-{
+static OPTBUTTON btns[9] = {
 	IDC_BTN_ADD,		SKINICON_OTHER_ADDCONTACT,	0,				LPGENT("Add item"),
 	IDC_BTN_SEPARATOR,	0,							IDI_SEPARATOR,	LPGENT("Add separator"),
 	IDC_BTN_EDIT,		SKINICON_OTHER_RENAME,		0,				LPGENT("Edit"),
@@ -847,9 +835,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SendDlgItemMessage(hwndDlg, btns[i].id, BUTTONSETASFLATBTN, TRUE, 0);
 				SendDlgItemMessage(hwndDlg, btns[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(btns[i].swzTooltip), BATF_TCHAR);
 				if (btns[i].uintCoreIconId)
-				{
 					SendDlgItemMessage(hwndDlg, btns[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(btns[i].uintCoreIconId));
-				}
 				else
 				{
 					HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(btns[i].uintResIconId));
@@ -858,11 +844,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 
-			HIMAGELIST himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 0);
-			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_TICK));
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), himlStates, TVSIL_STATE);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_CHECKBOXES);
 
 			TVINSERTSTRUCT tvi = {0};
 			tvi.hInsertAfter = TVI_LAST;
@@ -932,17 +914,11 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case WM_COMMAND:
 		{
 			if (HIWORD(wParam) == LBN_SELCHANGE && LOWORD(wParam) == IDC_LST_SUBST)
-			{
 				SendMessage(hwndDlg, WMU_ENABLE_LIST_BUTTONS, 0, 0);
-			}
 			else if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
 			else if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-			{
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
 			else if (HIWORD(wParam) == LBN_DBLCLK && LOWORD(wParam) == IDC_LST_SUBST)
 			{
 				int sel = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETCURSEL, 0, 0);
@@ -964,7 +940,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			else if (HIWORD(wParam) == BN_CLICKED)
 			{
-				switch(LOWORD(wParam))
+				switch (LOWORD(wParam))
 				{
 					case IDC_BTN_ADD:
 					{
@@ -983,14 +959,17 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							SetTreeItemText(di_value, &tvi.item.pszText);
 
 							HTREEITEM hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
-							if (hItem) tvi.hInsertAfter = hItem;
-							else tvi.hInsertAfter = TVI_LAST;
+							if (hItem)
+								tvi.hInsertAfter = hItem;
+							else
+								tvi.hInsertAfter = TVI_LAST;
 							TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi);
 
 							if (hItem)
 							{
 								HTREEITEM hNewItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem);
-								if (hNewItem) TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hNewItem);
+								if (hNewItem)
+									TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hNewItem);
 							}
 
 							if (result >= IDPRESETITEM)
@@ -999,7 +978,8 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								{
 
 									PRESETSUBST *subst = GetPresetSubstByName(presetItems[result - IDPRESETITEM].szNeededSubst[i]);
-									if (subst == NULL) break;
+									if (subst == NULL)
+										break;
 									if (SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_FINDSTRING, -1, (LPARAM)subst->swzName) == LB_ERR)
 									{
 										DSListNode *ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
@@ -1044,8 +1024,10 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						tvi.item.pszText = _T("---------------------------------");
 
 						HTREEITEM hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
-						if (hItem) tvi.hInsertAfter = hItem;
-						else tvi.hInsertAfter = TVI_LAST;
+						if (hItem)
+							tvi.hInsertAfter = hItem;
+						else
+							tvi.hInsertAfter = TVI_LAST;
 						TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi);
 
 						SendMessage(hwndDlg, WMU_ENABLE_LIST_BUTTONS, 0, 0);
@@ -1297,15 +1279,9 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 
 							if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 1)
-							{
-								item.state = INDEXTOSTATEIMAGEMASK(2);
 								((DIListNode *)item.lParam)->di.bIsVisible = true;
-							}
 							else
-							{
-								item.state = INDEXTOSTATEIMAGEMASK(1);
 								((DIListNode *)item.lParam)->di.bIsVisible = false;
-							}
 
 							TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 							SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
@@ -1348,7 +1324,6 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				mir_free(ds_value);
 			}
 
-			ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), TVSIL_STATE));
 			break;
 		}
 	}
@@ -1537,27 +1512,27 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				opt.bShowNoFocus = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOFOCUS) ? true : false;
 				opt.bStatusBarTips = IsDlgButtonChecked(hwndDlg, IDC_CHK_SBAR) ? true : false;
 
-				switch(SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_GETCURSEL, 0, 0))
+				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_GETCURSEL, 0, 0))
 				{
 					case 0: opt.iLabelValign = DT_TOP; break;
 					case 1: opt.iLabelValign = DT_VCENTER; break;
 					case 2: opt.iLabelValign = DT_BOTTOM; break;
 				}
 
-				switch(SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_GETCURSEL, 0, 0))
+				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_GETCURSEL, 0, 0))
 				{
 					case 0: opt.iValueValign = DT_TOP; break;
 					case 1: opt.iValueValign = DT_VCENTER; break;
 					case 2: opt.iValueValign = DT_BOTTOM; break;
 				}
 
-				switch(SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_GETCURSEL, 0, 0))
+				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_GETCURSEL, 0, 0))
 				{
 					case 0: opt.iLabelHalign = DT_LEFT; break;
 					case 1: opt.iLabelHalign = DT_RIGHT; break;
 				}
 
-				switch(SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_GETCURSEL, 0, 0))
+				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_GETCURSEL, 0, 0))
 				{
 					case 0: opt.iValueHalign = DT_LEFT; break;
 					case 1: opt.iValueHalign = DT_RIGHT; break;
@@ -1604,12 +1579,6 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, opt.iLimitCharCount, FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_CHARCOUNT), opt.bLimitMsg);
 
-			HIMAGELIST himlStates = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_TICK));
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), himlStates, TVSIL_STATE);
-
 			for (int i = 0; i < EXICONS_COUNT; i++)
 			{
 				exIcons[i].order = opt.exIconsOrder[i];
@@ -1619,16 +1588,16 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			dat = (EXTRAICONDATA *)mir_alloc(sizeof(EXTRAICONDATA));
 			dat->bDragging = false;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE) | TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
 			TVINSERTSTRUCT tvi = {0};
 			tvi.hParent = 0;
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 			tvi.item.stateMask = TVIS_STATEIMAGEMASK;
-			for (int i = 0; i < SIZEOF(extraIconName); i++ )
+			for (int i = 0; i < SIZEOF(extraIconName); i++)
 			{
-				tvi.item.lParam = (LPARAM)(&exIcons[i]);
+				tvi.item.lParam = (LPARAM)&exIcons[i];
 				tvi.item.pszText = TranslateTS(extraIconName[exIcons[i].order]);
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(exIcons[i].vis ? 2 : 1);
 				TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvi);
@@ -1638,12 +1607,11 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 		case WM_COMMAND:
 		{
-			switch(LOWORD(wParam))
+			switch (LOWORD(wParam))
 			{
 				case IDC_CHK_ENABLESMILEYS:
 				{
-					BOOL bEnable;
-					bEnable = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS);
+					BOOL bEnable = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_RESIZESMILEYS), bEnable);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEPROTOSMILEYS), bEnable);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ONLYISOLATED), bEnable);
@@ -1683,27 +1651,19 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						{
 							item.mask = TVIF_HANDLE | TVIF_PARAM;
 							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
-							opt.exIconsOrder[i++] = ((ICONSTATE *)item.lParam)->order;
-							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg,IDC_TREE_EXTRAICONS), item.hItem);
+							opt.exIconsOrder[i] = ((ICONSTATE *)item.lParam)->order;
+							opt.exIconsVis[i] = ((ICONSTATE *)item.lParam)->vis;
+							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), item.hItem);
+							i++;
 						}
 						db_set_blob(NULL, MODULE, "IconOrder", opt.exIconsOrder, SIZEOF(opt.exIconsOrder));
-
-						i = 0;
-						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_EXTRAICONS));
-						while (item.hItem != NULL)
-						{
-							item.mask = TVIF_HANDLE | TVIF_PARAM;
-							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
-							opt.exIconsVis[i++] = ((ICONSTATE *)item.lParam)->vis;
-							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), item.hItem);
-						}
 						db_set_blob(NULL, MODULE, "icons_vis", opt.exIconsVis, SIZEOF(opt.exIconsVis));
 
 						opt.iSmileyAddFlags = 0;
-						opt.iSmileyAddFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS)   ? SMILEYADD_ENABLE : 0) | 
-											   (IsDlgButtonChecked(hwndDlg, IDC_CHK_USEPROTOSMILEYS) ? SMILEYADD_USEPROTO : 0) |											
-											   (IsDlgButtonChecked(hwndDlg, IDC_CHK_ONLYISOLATED)    ? SMILEYADD_ONLYISOLATED : 0) |
-											   (IsDlgButtonChecked(hwndDlg, IDC_CHK_RESIZESMILEYS)   ? SMILEYADD_RESIZE : 0);
+						opt.iSmileyAddFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS) ? SMILEYADD_ENABLE : 0)
+							| (IsDlgButtonChecked(hwndDlg, IDC_CHK_USEPROTOSMILEYS) ? SMILEYADD_USEPROTO : 0)
+							| (IsDlgButtonChecked(hwndDlg, IDC_CHK_ONLYISOLATED) ? SMILEYADD_ONLYISOLATED : 0)
+							| (IsDlgButtonChecked(hwndDlg, IDC_CHK_RESIZESMILEYS) ? SMILEYADD_RESIZE : 0);
 
 						opt.bWaitForContent = IsDlgButtonChecked(hwndDlg, IDC_CHK_WAITFORCONTENT) ? true : false;
 						opt.bGetNewStatusMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG) ? true : false;
@@ -1748,20 +1708,14 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 								if (hti.flags & TVHT_ONITEMSTATEICON)
 								{
 									TVITEMA item;
-									item.mask = TVIF_HANDLE | TVIF_STATE;
+									item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 									item.stateMask = TVIS_STATEIMAGEMASK;
 									item.hItem = hti.hItem;
 									TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 									if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 1)
-									{
-										item.state = INDEXTOSTATEIMAGEMASK(2);
 										((ICONSTATE *)item.lParam)->vis = 1;
-									}
 									else
-									{
-										item.state = INDEXTOSTATEIMAGEMASK(1);
 										((ICONSTATE *)item.lParam)->vis = 0;
-									}
 
 									TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 									SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
@@ -1855,7 +1809,6 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 		case WM_DESTROY:
 		{
-			ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), TVSIL_STATE));
 			mir_free(dat);
 			break;
 		}
@@ -1876,18 +1829,18 @@ void EnableControls(HWND hwndDlg, bool bEnableSkin)
 	if(!bEnableSkin)
 	{
 		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING),FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), FALSE);
 	}
 	else if (opt.iEnableColoring == -1)
 	{
 		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING),FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), FALSE);
 	}
 	else
 	{
 		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? 1 : 0);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), TRUE);
-	}						
+	}
 }
 
 int iLastSel;
@@ -2096,16 +2049,16 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 
 		if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM)FALSE, 0);
 		else
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM)TRUE, 0);
 
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
 		{
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 				if (hItem && db_get_b(hContact, MODULE, "FavouriteContact", 0))
 					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 			}
@@ -2122,18 +2075,19 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				int count = 0;
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
 						isChecked = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 						db_set_b(hContact, MODULE, "FavouriteContact", isChecked);
-						if (isChecked) count++;
+						if (isChecked)
+							count++;
 					}
 				}
 				db_set_dw(0, MODULE, "FavouriteContactsCount", count);
 
 				opt.iFavoriteContFlags = 0;
-				opt.iFavoriteContFlags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0 | 
-					IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
+				opt.iFavoriteContFlags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0
+					| IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
 
 				db_set_dw(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
 			} // fall through
@@ -2167,21 +2121,10 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, opt.iExpandTime, FALSE);
 			SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_CHK_ENABLETRAYTIP, 0), 0);
 
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE) | TVS_NOHSCROLL);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE) | TVS_NOHSCROLL);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_NOHSCROLL);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE) | TVS_NOHSCROLL);
-
-			HIMAGELIST himlCheckBoxes;
-			himlCheckBoxes = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 0);
-			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_TICK));
-
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), himlCheckBoxes, TVSIL_STATE);
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), himlCheckBoxes, TVSIL_STATE);
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), himlCheckBoxes, TVSIL_STATE);
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), himlCheckBoxes, TVSIL_STATE);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
 			TVINSERTSTRUCT tvi = {0};
 			tvi.hParent = 0;
@@ -2218,7 +2161,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		case WM_COMMAND:
 		{
-			switch(LOWORD(wParam))
+			switch (LOWORD(wParam))
 			{
 				UINT state;
 				case IDC_CHK_ENABLETRAYTIP:
@@ -2228,8 +2171,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				} // fall through
 				case IDC_CHK_HANDLEBYTIPPER:
 				{
-					state = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER) & 
-							IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP);
+					state = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER) & IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP);
 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_HIDEOFFLINE), state);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), state);
@@ -2239,9 +2181,9 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				} // fall through
 				case IDC_CHK_EXPAND:
 				{
-					state = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER) & 
-							IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP) & 
-							IsDlgButtonChecked(hwndDlg, IDC_CHK_EXPAND);
+					state = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER)
+						& IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLETRAYTIP)
+						& IsDlgButtonChecked(hwndDlg, IDC_CHK_EXPAND);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), state);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), state);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ED_EXPANDTIME), state);
@@ -2271,15 +2213,15 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						TCHAR swzProtos[1024] = {0};
 
 						TVITEM item;
-						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_FIRST_PROTOS));
+						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS));
 						item.pszText = buff;
 						item.cchTextMax = 256;
 						item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 						item.stateMask = TVIS_STATEIMAGEMASK;
 						while (item.hItem != NULL)
 						{
-							TreeView_GetItem(GetDlgItem(hwndDlg,IDC_TREE_FIRST_PROTOS), &item);
-							if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) 
+							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), &item);
+							if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2)
 							{
 								_tcscat(swzProtos, buff);
 								_tcscat(swzProtos, _T(" "));
@@ -2291,11 +2233,11 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						db_set_ts(0, MODULE, "TrayProtocols", swzProtos);
 
 						swzProtos[0] = 0;
-						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_SECOND_PROTOS));
+						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS));
 						item.pszText = buff;
 						while (item.hItem != NULL)
 						{
-							TreeView_GetItem(GetDlgItem(hwndDlg,IDC_TREE_SECOND_PROTOS), &item);
+							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), &item);
 							if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2)
 							{
 								_tcscat(swzProtos, buff);
@@ -2309,12 +2251,12 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 						int count = 0;
 						opt.iFirstItems = 0;
-						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_FIRST_ITEMS));
+						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
 						item.mask = TVIF_HANDLE | TVIF_STATE;
 						item.stateMask = TVIS_STATEIMAGEMASK;
 						while (item.hItem != NULL)
 						{
-							TreeView_GetItem(GetDlgItem(hwndDlg,IDC_TREE_FIRST_ITEMS), &item);
+							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item);
 							if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2)
 								opt.iFirstItems |= (1 << count);
 
@@ -2324,10 +2266,10 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 						count = 0;
 						opt.iSecondItems = 0;
-						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_SECOND_ITEMS));
+						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS));
 						while (item.hItem != NULL)
 						{
-							TreeView_GetItem(GetDlgItem(hwndDlg,IDC_TREE_SECOND_ITEMS), &item);
+							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), &item);
 							if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2)
 								opt.iSecondItems |= (1 << count);
 
@@ -2364,33 +2306,12 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						hti.pt.y = (short)HIWORD(GetMessagePos());
 						ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 						if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
-						{
 							if (hti.flags & TVHT_ONITEMSTATEICON)
-							{
-								TVITEMA item = {0};
-								item.hItem = hti.hItem;
-								item.mask = TVIF_HANDLE | TVIF_STATE;
-								item.stateMask = TVIS_STATEIMAGEMASK;
-								TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
-
-								if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 1)
-									item.state = INDEXTOSTATEIMAGEMASK(2);
-								else
-									item.state = INDEXTOSTATEIMAGEMASK(1);
-
-								TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 								SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-							}
-						}
 					}
 					break;
 				}
 			}
-			break;
-		}
-		case WM_DESTROY:
-		{
-			ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), TVSIL_STATE));
 			break;
 		}
 	}
@@ -2453,7 +2374,7 @@ void DeinitOptions()
 	UnhookEvent(hEventOptInit);
 
 	DIListNode *di_node = opt.diList;
-	while(opt.diList)
+	while (opt.diList)
 	{
 		di_node = opt.diList;
 		opt.diList = opt.diList->next;
@@ -2461,7 +2382,7 @@ void DeinitOptions()
 	}
 
 	DSListNode *ds_node = opt.dsList;
-	while(opt.dsList)
+	while (opt.dsList)
 	{
 		ds_node = opt.dsList;
 		opt.dsList = opt.dsList->next;

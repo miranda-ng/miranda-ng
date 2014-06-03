@@ -13,10 +13,10 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Czech (Czech Republic) resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CSY)
-LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,8 @@ BEGIN
     CONTROL         "Status bar tips",IDC_CHK_SBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,166,125,11
     CONTROL         "Avatar border",IDC_CHK_AVBORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,179,125,11
     CONTROL         "Round corners (avatar)",IDC_CHK_ROUNDCORNERSAV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,192,125,11
-    CONTROL         "Keep original avatar size",IDC_CHK_ORIGINALAVSIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,204,125,11
+    CONTROL         "Keep original avatar size",IDC_CHK_ORIGINALAVSIZE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,166,204,125,11
 END
 
 IDD_SUBST DIALOGEX 0, 0, 225, 196
@@ -195,13 +196,13 @@ BEGIN
     CONTROL         "",IDC_PIC_PREVIEW,"Static",SS_OWNERDRAW,119,24,159,92
     CTEXT           "No preview",IDC_ST_PREVIEW,172,63,56,8
     GROUPBOX        "Effects",IDC_STATIC,7,133,140,91
-    COMBOBOX        IDC_CMB_EFFECT,16,145,122,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP,WS_EX_RIGHT
+    COMBOBOX        IDC_CMB_EFFECT,16,145,122,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "Animation speed:",IDC_STATIC,11,164,90,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_ED_SPEED,105,162,33,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SPEED,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,128,162,11,12
-    CONTROL         "Shadow",IDC_CHK_SHADOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,181,126,9,WS_EX_RIGHT
-    CONTROL         "Border",IDC_CHK_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,194,126,9,WS_EX_RIGHT
-    CONTROL         "Round corners (window)",IDC_CHK_ROUNDCORNERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,207,126,9,WS_EX_RIGHT
+    CONTROL         "Shadow",IDC_CHK_SHADOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,181,126,9
+    CONTROL         "Border",IDC_CHK_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,194,126,9
+    CONTROL         "Round corners (window)",IDC_CHK_ROUNDCORNERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,207,126,9
     GROUPBOX        "Skin option",IDC_STATIC,152,133,142,49
     CONTROL         "Enable skin coloring",IDC_CHK_ENABLECOLORING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,144,130,10
     CONTROL         "Load tooltip proportions",IDC_CHK_LOADPROPORTIONS,
@@ -229,11 +230,11 @@ BEGIN
     CONTROL         "",IDC_SPIN_EXPANDTIME,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,198,28,11,12
     LTEXT           "ms",IDC_STATIC,214,31,53,8
     GROUPBOX        "First level tooltip",IDC_STATIC,7,52,140,161
-    CONTROL         "",IDC_TREE_FIRST_PROTOS,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,17,66,120,60
-    CONTROL         "",IDC_TREE_FIRST_ITEMS,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,17,133,120,72
+    CONTROL         "",IDC_TREE_FIRST_PROTOS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,17,66,120,60
+    CONTROL         "",IDC_TREE_FIRST_ITEMS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,17,133,120,72
     GROUPBOX        "Second level tooltip",IDC_STATIC,152,52,140,161
-    CONTROL         "",IDC_TREE_SECOND_ITEMS,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,161,133,120,72
-    CONTROL         "",IDC_TREE_SECOND_PROTOS,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,161,66,120,60
+    CONTROL         "",IDC_TREE_SECOND_ITEMS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,161,133,120,72
+    CONTROL         "",IDC_TREE_SECOND_PROTOS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,161,66,120,60
     PUSHBUTTON      "Favorite contacts",IDC_BTN_FAVCONTACTS,93,218,113,12
 END
 
@@ -339,7 +340,16 @@ IDI_DOWN                ICON                    "arrow_down.ico"
 IDI_SEPARATOR           ICON                    "separator.ico"
 IDI_RELOAD              ICON                    "reload.ico"
 IDI_APPLY               ICON                    "apply.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
 
+
+/////////////////////////////////////////////////////////////////////////////
+// Czech (Czech Republic) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CSY)
+LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
+#pragma code_page(1250)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
