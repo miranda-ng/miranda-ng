@@ -28,7 +28,6 @@ extern HANDLE hExtraImageApplying;
 extern SIZE g_oldSize;
 extern POINT g_oldPos;
 extern COLORREF g_CLUISkinnedBkColorRGB;
-extern HPEN g_hPenCLUIFrames;
 
 static int opt_clui_changed = 0;
 
@@ -67,8 +66,6 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendDlgItemMessage(hwndDlg, IDC_CRIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
 			SendDlgItemMessage(hwndDlg, IDC_CTOPSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
 			SendDlgItemMessage(hwndDlg, IDC_CBOTTOMSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
-
-			SendDlgItemMessage(hwndDlg, IDC_CLUIFRAMESBDR, CPM_SETCOLOUR, 0, cfg::getDword("CLUI", "clr_frameborder", RGB(40, 40, 40)));
 
 			SendDlgItemMessage(hwndDlg, IDC_CLEFTSPIN, UDM_SETPOS, 0, cfg::dat.bCLeft - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0));
 			SendDlgItemMessage(hwndDlg, IDC_CRIGHTSPIN, UDM_SETPOS, 0, cfg::dat.bCRight - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0));
@@ -171,7 +168,6 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			BOOL translated;
 			BYTE oldFading;
 			BYTE windowStyle = (BYTE)SendDlgItemMessage(hwndDlg, IDC_BORDERSTYLE, CB_GETCURSEL, 0, 0);
-			COLORREF clr_cluiframes;
 
 			if (!opt_clui_changed)
 				return TRUE;
@@ -235,13 +231,6 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			cfg::writeByte("CLUI", "ShowMainMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
 			cfg::writeByte("CLUI", "ClientAreaDrag", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG));
-
-			clr_cluiframes = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_CLUIFRAMESBDR, CPM_GETCOLOUR, 0, 0);
-
-			if (g_hPenCLUIFrames)
-				DeleteObject(g_hPenCLUIFrames);
-			g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, clr_cluiframes);
-			cfg::writeDword("CLUI", "clr_frameborder", clr_cluiframes);
 
 			ApplyCLUIBorderStyle(pcli->hwndContactList);
 

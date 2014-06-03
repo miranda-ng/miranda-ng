@@ -56,6 +56,7 @@ extern HWND g_hwndSFL;
 extern ButtonItem *g_ButtonItems;
 extern COLORREF g_CLUISkinnedBkColorRGB;
 extern FRAMEWND *wndFrameCLC;
+extern HPEN g_hPenCLUIFrames;
 
 static BYTE old_cliststate, show_on_first_autosize = FALSE;
 
@@ -149,6 +150,12 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 
 static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
 {
+	COLORREF clr_cluiframes = cfg::getDword("CLUI", "clr_frameborder", RGB(40, 40, 40));
+
+	if (g_hPenCLUIFrames)
+		DeleteObject(g_hPenCLUIFrames);
+	g_hPenCLUIFrames = CreatePen(PS_SOLID, 1, clr_cluiframes);
+
 	pcli->pfnClcOptionsChanged();
 	RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 	return 0;
@@ -2092,5 +2099,12 @@ void FS_RegisterFonts()
 	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
+	ColourRegisterT(&colourid);
+
+	strncpy(colourid.dbSettingsGroup, "CLUI", sizeof(colourid.dbSettingsGroup));
+	strncpy(colourid.setting, "clr_frameborder", sizeof(colourid.setting));
+	_tcsncpy(colourid.name, LPGENT("Embedded frames border"), SIZEOF(colourid.name));
+	colourid.order = 1;
+	colourid.defcolour = RGB(40, 40, 40);
 	ColourRegisterT(&colourid);
 }

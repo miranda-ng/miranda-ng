@@ -707,11 +707,8 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_BITMAP, cfg::getByte("CLC", "UseBitmap", CLCDEFAULT_USEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, WM_USER + 10, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, CLCDEFAULT_BKCOLOUR);
-		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, cfg::getDword("CLC", "BkColour", CLCDEFAULT_BKCOLOUR));
 		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, cfg::getByte("CLC", "UseWinColours", 0));
 		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode);
-		SendMessage(hwndDlg, WM_USER + 11, 0, 0);
 		{
 			DBVARIANT dbv;
 			if (!cfg::getTString(NULL, "CLC", "BkBitmap", &dbv)) {
@@ -744,12 +741,6 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		Utils::enableDlgControl(hwndDlg, IDC_SCROLL, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 		Utils::enableDlgControl(hwndDlg, IDC_PROPORTIONAL, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 		break;
-	case WM_USER + 11:
-		{
-			BOOL b = IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR);
-			Utils::enableDlgControl(hwndDlg, IDC_BKGCOLOUR, !b);
-			break;
-		}
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
 			char str[MAX_PATH];
@@ -793,15 +784,9 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!opt_clc_bkg_changed)
 					return TRUE;
 
-				cfg::writeByte("CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP)); {
-					COLORREF col;
-					col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
-					if (col == CLCDEFAULT_BKCOLOUR)
-						db_unset(NULL, "CLC", "BkColour");
-					else
-						cfg::writeDword("CLC", "BkColour", col);
-					cfg::writeByte("CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR));
-				} {
+				cfg::writeByte("CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
+				cfg::writeByte("CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR));
+				{
 					char str[MAX_PATH], strrel[MAX_PATH];
 
 					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, sizeof(str));
