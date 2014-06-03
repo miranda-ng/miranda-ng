@@ -37,7 +37,7 @@ namespace SteamWebApi
 
 		public:
 			size_t GetItemCount() const { return items.size(); }
-			const FriendListItem * GetAt(int idx) const { return items.at(idx); }
+			const FriendListItem * GetAt(size_t idx) const { return items.at(idx); }
 		};
 
 		static void Load(HANDLE hConnection, const char *token, const char *steamId, FriendList *friendList)

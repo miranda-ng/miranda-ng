@@ -62,7 +62,7 @@ namespace SteamWebApi
 
 		public:
 			size_t GetItemCount() const { return items.size(); }
-			const Summary *GetAt(int idx) const { return items.at(idx); }
+			const Summary *GetAt(size_t idx) const { return items.at(idx); }
 		};
 
 		static void LoadSummaries(HANDLE hConnection, const char *token, const char *steamIds, Summaries *summaries)

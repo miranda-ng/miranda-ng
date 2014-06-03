@@ -80,7 +80,7 @@ namespace SteamWebApi
 			UINT32 GetMessageId() const { return messageId; }
 			bool IsNeedRelogin() const { return need_relogin; }
 			size_t GetItemCount() const { return items.size(); }
-			const PoolItem *GetAt(int idx) const { return items.at(idx); }
+			const PoolItem *GetAt(size_t idx) const { return items.at(idx); }
 		};
 
 		static void Poll(HANDLE hConnection, const char *token, const char *umqId, UINT32 messageId, PollResult *pollResult)
