@@ -219,15 +219,18 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	pFileUrl.CRCsum = 0;
 
 	HANDLE nlc;
-	BOOL ret = DownloadFile(&pFileUrl, nlc);
+	bool ret = DownloadFile(&pFileUrl, nlc);
 	Netlib_CloseHandle(nlc);
 
-	if (!ret && !opts.bSilent) {
-		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occurred while checking new updates."), 1, 0);
+	if (!ret) {
+		if(!opts.bSilent)
+			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occurred while checking new updates."), 1, 0);
 		return false;
 	}
 
-	unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true);
+	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true))
+		return false;
+	
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
