@@ -39,7 +39,25 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 
-	int status = response->resultCode == HTTP_STATUS_OK ? ACKRESULT_SUCCESS : ACKRESULT_FAILED;
+	bool result = false;
+
+	ptrA steamId((char*)arg);
+
+	if (response != NULL && response->resultCode == HTTP_STATUS_OK)
+	{
+		JSONNODE *root = json_parse(response->pData), *node;
+
+		node = json_get(root, "error");
+		ptrA error(mir_utf8encodeW(json_as_string(node)));
+		if (lstrcmpiA(error, "OK") == 0)
+			result = true;
+		else
+			debugLogA("CSteamProto::OnMessageSent: failed to send message for %s (%s)", steamId, error);
+	}
+	else
+		debugLogA("CSteamProto::OnMessageSent: failed to send message for %s", steamId);
+
+	int status = result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED;
 
 	ProtoBroadcastAck(
 		param->hContact,

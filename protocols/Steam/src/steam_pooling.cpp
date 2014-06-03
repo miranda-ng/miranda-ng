@@ -198,16 +198,18 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 					m_iStatus = m_iDesiredStatus = status;
 					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 				}
-			}
-			else if(!FindContact(steamId))
-			{
-				MCONTACT hContact = AddContact(steamId);
 
-				setWord(hContact, "Status", status);
-
-				node = json_get(item, "persona_name");
-				setWString(hContact, "Nick", json_as_string(node));
+				continue;
 			}
+			
+			MCONTACT hContact = FindContact(steamId);
+			if (hContact == NULL)
+				hContact = AddContact(steamId);
+
+			setWord(hContact, "Status", status);
+
+			node = json_get(item, "persona_name");
+			setWString(hContact, "Nick", json_as_string(node));
 
 			// todo: find difference between state changing and info changing
 		}
@@ -288,7 +290,6 @@ void CSteamProto::PollingThread(void*)
 
 		if (!lstrcmpi(error, L"OK"))
 		{
-
 			node = json_get(root, "messagelast");
 			messageId = json_as_int(node);
 

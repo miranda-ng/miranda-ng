@@ -473,13 +473,17 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 
 		char *nickName = getStringA(hContact, "Nick");
 		char *firstName = getStringA(hContact, "FirstName");
+		if (firstName == NULL)
+			firstName = mir_strdup("");
 		char *lastName = getStringA(hContact, "LastName");
+		if (lastName == NULL)
+			lastName = mir_strdup("");
 
 		char reason[MAX_PATH];
 		mir_snprintf(reason, SIZEOF(reason), Translate("%s has added you to his or her Friend List"), nickName);
 
 		// blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)
-		DWORD cbBlob = (DWORD)(sizeof(DWORD)* 2 + strlen(nickName) + strlen(firstName) + strlen(lastName) + strlen(steamId) + strlen(reason) + 5);
+		DWORD cbBlob = (DWORD)(sizeof(DWORD)* 2 + lstrlenA(nickName) + lstrlenA(firstName) + lstrlenA(lastName) + lstrlenA(steamId) + lstrlenA(reason) + 5);
 
 		PBYTE pBlob, pCurBlob;
 		pCurBlob = pBlob = (PBYTE)mir_alloc(cbBlob);
@@ -489,13 +493,13 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		*((PDWORD)pCurBlob) = (DWORD)hContact;
 		pCurBlob += sizeof(DWORD);
 		strcpy((char*)pCurBlob, nickName);
-		pCurBlob += strlen(nickName) + 1;
+		pCurBlob += lstrlenA(nickName) + 1;
 		strcpy((char*)pCurBlob, firstName);
-		pCurBlob += strlen(firstName) + 1;
+		pCurBlob += lstrlenA(firstName) + 1;
 		strcpy((char*)pCurBlob, lastName);
-		pCurBlob += strlen(lastName) + 1;
+		pCurBlob += lstrlenA(lastName) + 1;
 		strcpy((char*)pCurBlob, steamId);
-		pCurBlob += strlen(steamId) + 1;
+		pCurBlob += lstrlenA(steamId) + 1;
 		strcpy((char*)pCurBlob, mir_strdup(reason));
 
 		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
@@ -504,17 +508,35 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
 		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s", ptrA((char*)arg));
+	}
+
+	JSONNODE *root = json_parse(response->pData), *node;
+
+	node = json_get(root, "success");
+	if (json_as_int(node) == 0)
+	{
+		node = json_get(root, "error_text");
+		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(json_as_string(node))));
 	}
 }
 
 void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
-		debugLogA("CSteamProto::OnPendingIgnoreded: failed to ignore pending from %s", ptrA((char*)arg));
+		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s", ptrA((char*)arg));
+	}
+
+	JSONNODE *root = json_parse(response->pData), *node;
+
+	node = json_get(root, "success");
+	if (json_as_int(node) == 0)
+	{
+		node = json_get(root, "error_text");
+		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(json_as_string(node))));
 	}
 }
 

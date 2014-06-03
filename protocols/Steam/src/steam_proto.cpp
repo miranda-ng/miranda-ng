@@ -299,7 +299,7 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
-	ptrA steamId(getStringA(hContact, "SteamId"));
+	ptrA steamId(getStringA(hContact, "SteamID"));
 
 	PushRequest(
 		new SteamWebApi::SendMessageRequest(token, umqid, steamId, ptrA(mir_utf8encode(msg))),
