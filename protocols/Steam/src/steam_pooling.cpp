@@ -132,6 +132,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 {
 	JSONNODE *node, *item = NULL;
 
+	std::string steamIds;
 	for (size_t i = 0; i < json_size(data); i++)
 	{
 		item = json_at(data, i);
@@ -171,12 +172,6 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 				if (hContact)
 					AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, lstrlen(text), (BYTE*)mir_utf8encodeW(text));
 			}
-
-			/*node = json_get(item, "text");
-			if (node != NULL) message->text = json_as_string(node);
-
-			node = json_get(item, "utc_timestamp");
-			message->timestamp = atol(ptrA(mir_u2a(json_as_string(node))));*/
 		}
 		/*else if (!lstrcmpi(type, L"typing"))
 		{
@@ -212,6 +207,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			setWString(hContact, "Nick", json_as_string(node));
 
 			// todo: find difference between state changing and info changing
+			steamIds.append(steamId).append(",");
 		}
 		else if (!lstrcmpi(type, L"personarelationship"))
 		{
@@ -221,11 +217,26 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			switch (state)
 			{
 			case 0:
-				// removed
+				{// removed
+					MCONTACT hContact = FindContact(steamId);
+					if (hContact)
+					{
+						setByte(hContact, "Auth", 1);
+
+						wchar_t message[MAX_PATH];
+						mir_sntprintf(
+							message, MAX_PATH,
+							TranslateT("%s has been removed from your contact list"),
+							ptrW(mir_a2u(steamId)));
+
+						ShowNotification(L"Steam", message);
+					}
+				}
 				break;
 
 			case 1:
 				// ignored
+				// todo
 				break;
 
 			case 2:
@@ -247,6 +258,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 
 			case 3:
 				// add to list
+				// todo
 				break;
 
 			default: continue;
@@ -259,6 +271,16 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 		{
 			continue;
 		}
+	}
+
+	if (!steamIds.empty())
+	{
+		steamIds.pop_back();
+		ptrA token(getStringA("TokenSecret"));
+
+		PushRequest(
+			new SteamWebApi::GetUserSummariesRequest(token, steamIds.c_str()),
+			&CSteamProto::OnGotUserSummaries);
 	}
 }
 

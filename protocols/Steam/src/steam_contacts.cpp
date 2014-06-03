@@ -255,6 +255,9 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	//	}
 	//}
 
+	/*node = json_get(data, "timecreated");
+	time_t created = json_as_int(node);*/
+
 	// set country
 	node = json_get(data, "loccountrycode");
 	if (node != NULL)
@@ -295,10 +298,6 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 			delSetting(hContact, "GameID");
 		}
 	}
-
-
-	/*node = json_get(data, "timecreated");
-	time_t created = json_as_int(node);*/
 }
 
 MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
@@ -423,7 +422,7 @@ void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam*)arg;
 
-	if (response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 	{
 		ptrA steamId(getStringA(param->hContact, "SteamID"));
 		debugLogA("CSteamProto::OnFriendAdded: failed to add friend %s", steamId);
@@ -442,7 +441,7 @@ void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 	{
 		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", ptrA((char*)arg));
 	}
@@ -545,6 +544,7 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
+		debugLogA("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s", ptrA((char*)arg));
 		return;
 	}
 
