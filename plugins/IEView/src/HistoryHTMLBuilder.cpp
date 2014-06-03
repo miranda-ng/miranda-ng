@@ -73,8 +73,9 @@ bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
+	default:
+		return Utils::DbEventIsForHistory(dbei);
 	}
-	return 1;
 }
 
 char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check) {

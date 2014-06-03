@@ -185,3 +185,15 @@ void Utils::appendIcon(char **str, int *sizeAlloced, const char *iconFile)
 {
 	Utils::appendText(str, sizeAlloced, "<img class=\"img\" src=\"file://%s/plugins/ieview/%s\"/> ", workingDirUtf8, iconFile);
 }
+
+bool Utils::DbEventIsForMsgWindow(DBEVENTINFO *dbei)
+{
+	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	return et && (et->flags & DETF_MSGWINDOW);
+}
+
+bool Utils::DbEventIsForHistory(DBEVENTINFO *dbei)
+{
+	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	return et && (et->flags & DETF_HISTORY);
+}

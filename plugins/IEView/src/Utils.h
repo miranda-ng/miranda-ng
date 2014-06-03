@@ -42,6 +42,8 @@ public:
 	static void convertPath(wchar_t *path);
 	static char *escapeString(const char *a);
 	static int   detectURL(const wchar_t *text);
+	static bool DbEventIsForMsgWindow(DBEVENTINFO *dbei);
+	static bool DbEventIsForHistory(DBEVENTINFO *dbei);
 };
 
 #endif

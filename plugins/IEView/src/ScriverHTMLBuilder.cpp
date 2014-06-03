@@ -76,8 +76,9 @@ bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 		return 1;
 	case EVENTTYPE_FILE:
 		return 1;
+	default:
+		return Utils::DbEventIsForMsgWindow(dbei);
 	}
-	return 0;
 }
 
 void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour) {

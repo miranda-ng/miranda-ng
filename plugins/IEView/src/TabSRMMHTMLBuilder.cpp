@@ -100,6 +100,8 @@ bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
 	case EVENTTYPE_ADDED:
 	case EVENTTYPE_AUTHREQUEST:
 		return 0;
+	default:
+		return Utils::DbEventIsForMsgWindow(dbei);
 	}
 	return 1;
 }
