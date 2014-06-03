@@ -14,7 +14,7 @@
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Please correctly specify your registration code received by SMS]
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
-[Did not unpack registration utility WART-1.5.4.0.exe.]
+[Did not unpack registration utility WART-1.6.8.0.exe.]
 [Unable to get Netlib connection for WhatsApp]
 [Network-connection error.]
 [WhatsApp Icon]

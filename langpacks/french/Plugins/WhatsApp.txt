@@ -49,7 +49,7 @@ S'il vous plaît entrer un mot de passe.
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
 
 ;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack registration utility WART-1.5.4.0.exe.]
+[Did not unpack registration utility WART-1.6.8.0.exe.]
 
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]

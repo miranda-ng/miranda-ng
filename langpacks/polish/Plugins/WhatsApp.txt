@@ -49,8 +49,8 @@ Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
 Twoje hasło zostało ustawione automatycznie.\nJeśli zmienisz je ręcznie, możesz je stracić i będziesz musiał zażądać nowego kodu weryfikacyjnego.
 ;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack registration utility WART-1.5.4.0.exe.]
-Nie wypakowano narzędzia rejestracji WART-1.5.4.0.exe.
+[Did not unpack registration utility WART-1.6.8.0.exe.]
+Nie wypakowano narzędzia rejestracji WART-1.6.8.0.exe.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Połączenie %s
